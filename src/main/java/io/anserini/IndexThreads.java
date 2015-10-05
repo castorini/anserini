@@ -1,4 +1,4 @@
-package luceneingester;
+package io.anserini;
 
 /**
  * Licensed to the Apache Software Foundation (ASF) under one or more
@@ -117,7 +117,7 @@ class IndexThreads {
       this.count = count;
       this.failed = failed;
     }
-    
+
     private Document getDocumentFromDocData(DocData dd) {
       Document doc = new Document();
       doc.add(new StringField("docname", dd.getName(), Store.YES));
@@ -145,7 +145,7 @@ class IndexThreads {
 
         while (true) {
           DocData dd = new DocData();
-          
+
           try {
             dd = tcs.getNextDocData(dd);
           } catch (IOException ex) {

@@ -1,4 +1,4 @@
-package luceneingester;
+package io.anserini;
 
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
@@ -45,7 +45,7 @@ public class TrecDriver extends QueryDriver {
       System.err.println("\texample: TD (query on Title + Description). The default is T (title only)");
       System.exit(1);
     }
-    
+
     Path topicsFile = Paths.get(args[0]);
     Path qrelsFile = Paths.get(args[1]);
     Path submissionFile = Paths.get(args[2]);
@@ -75,7 +75,7 @@ public class TrecDriver extends QueryDriver {
     if (fieldSpec.indexOf('T') >= 0) fieldSet.add("title");
     if (fieldSpec.indexOf('D') >= 0) fieldSet.add("description");
     if (fieldSpec.indexOf('N') >= 0) fieldSet.add("narrative");
-    
+
     // set the parsing of quality queries into Lucene queries.
     QualityQueryParser qqParser = new EnglishQQParser(fieldSet.toArray(new String[0]), "body");
 
@@ -101,7 +101,7 @@ class EnglishQQParser implements QualityQueryParser {
   /**
    * Constructor of a simple qq parser.
    * @param qqNames name-value pairs of quality query to use for creating the query
-   * @param indexField corresponding index field  
+   * @param indexField corresponding index field
    */
   public EnglishQQParser(String qqNames[], String indexField) {
     this.qqNames = qqNames;
@@ -111,7 +111,7 @@ class EnglishQQParser implements QualityQueryParser {
   /**
    * Constructor of a simple qq parser.
    * @param qqName name-value pair of quality query to use for creating the query
-   * @param indexField corresponding index field  
+   * @param indexField corresponding index field
    */
   public EnglishQQParser(String qqName, String indexField) {
     this(new String[] { qqName }, indexField);
@@ -130,7 +130,7 @@ class EnglishQQParser implements QualityQueryParser {
     BooleanQuery bq = new BooleanQuery();
     for (int i = 0; i < qqNames.length; i++)
       bq.add(qp.parse(QueryParserBase.escape(qq.getValue(qqNames[i]))), BooleanClause.Occur.SHOULD);
-    
+
     return bq;
   }
 
