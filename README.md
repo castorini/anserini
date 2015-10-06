@@ -16,3 +16,9 @@ sh target/appassembler/bin/IndexGov2 -dataDir /path/to/gov2/ \
 
 The directory `/path/to/gov2/` should be the root directory of Gov2 collection, i.e., `ls /path/to/gov2/` should bring up a bunch of subdirectories, `GX000` to `GX272`.
 
+After indexing is done, you should be able to peform a retrieval run:
+
+```
+sh target/appassembler/bin/RunGov2 src/resources/topics-and-qrels/topics.701-750.txt \
+ src/resources/topics-and-qrels/qrels.701-750.txt run.701-750.txt lucene-index.gov2.cnt/index
+```

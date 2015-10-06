@@ -26,6 +26,10 @@
               <mainClass>io.anserini.TrecIngester</mainClass>
               <name>IndexGov2</name>
             </program>
+            <program>
+              <mainClass>io.anserini.TrecDriver</mainClass>
+              <name>RunGov2</name>
+            </program>
           </programs>
         </configuration>
       </plugin>
