@@ -1,0 +1,977 @@
+<top>
+<num> Number: 801
+
+<title> Kudzu Pueraria lobata
+
+<desc> Description:
+Describe the origin, nature, extent of spread and means of controlling
+kudzu.
+
+<narr> Narrative:
+Identification of kudzu as an invasive species with description of how
+it spreads and grows is relevant.  A document which is simply a list
+headed "invasive species" or "noxious weeds" including kudzu is not
+relevant.  A statement that kudzu is present in a specific location is
+not relevant unless it relates to its spread.  Features of kudzu such
+as its use as a treatment for alcoholism or its function as a haven
+for plant pathogens describe its nature and are relevant.
+
+</top>
+
+
+<top> 
+<num> Number: 802
+
+<title> Volcano eruptions global temperature
+
+<desc> Description:
+What is the impact of volcano eruptions on global temperature?
+
+<narr> Narrative:
+Relevant documents discuss the scientific bases for volcanic
+eruptions' causing warming or cooling, and may give examples of
+volcanoes that did.  Documents which show photos or videos of volcanic
+eruptions without tying the volcano to global temperature, or make the
+connection only in a causal way are not relevant.
+
+</top>
+
+
+<top>
+<num> Number: 803
+
+<title> May Day
+
+<desc> Description:
+Give the history of this holiday and the various ways of celebrating 
+May Day.
+
+<narr> Narrative:
+The document should have either a discussion of the history of this
+holiday or a discussion of various ways of celebrating the holiday
+(for example, a discussion of the Maypole).  A page which states that
+Mayday is the International Worker's Day, or that Mayday is May 1, or
+discusses some unrelated event that takes place around this time will
+not be considered relevant (e.g. Louisiana Wetlands May Day).
+
+</top>
+
+
+
+<top>
+<num> Number: 804
+
+<title> ban on human cloning 
+
+<desc> Description:
+Describe resolutions proposed and legislation passed to ban the
+cloning of humans and the rationale for the bans.
+
+<narr> Narrative:
+Relevant documents will describe the resolutions and legislation
+enacted to ban human cloning. Also relevant are the rationales for the
+bans.  Documents citing arguments for or against banning of human
+cloning that are not in the context of a resolution or legislation are
+not relevant. Documents containing references to a ban on human
+cloning without additional information are not relevant.
+
+</top>
+
+
+<top>
+<num> Number: 805
+
+<title> Identity Theft Passport
+
+<desc> Description:
+Describe the Identify Theft Passport issued to identity theft victims to show
+to creditors and law enforcement officers questioning their credit worthiness 
+or innocence.
+
+<narr> Narrative:
+Relevant documents will describe the efforts to establish an Identity Theft
+Passport, the uses of the Passport, and how it helps theft identify victims.
+Documents with references to identity theft outside the context of the identity
+theft passport are not relevant.
+
+</top>
+
+
+<top>
+<num> Number: 806
+
+<title> Doctors Without Borders
+
+<desc> Description:
+What is Doctors Without Borders/Medecins Sans Frontieres and what do
+they do?
+
+<narr> Narrative:
+Documents must contain a reference to some fact about Doctors Without
+Borders, for example, that it is a charitable organization or that it
+brings relief to crisis areas.  A discussion of an event or operation
+which assumes prior familiarization with DWB is not acceptable.  There
+is no assumption that the requester knows that the name "Medecins Sans
+Frontieres" is the same organization.  If the two terms appear
+conjoined in such a way that it is clear they are synonymous, then any
+further reference to MSF can be assessed for relevance to the
+requested information.  The organization name on a list of
+"humanitarian organizations" qualifies because at least the
+terminology tells us that it is an organization and that it does do
+humanitarian works.  The name listed solely under the heading "charity"
+does not qualify.
+
+</top>
+
+
+<top>
+<num> Number: 807
+
+<title> Sugar tariff-rate quotas
+
+<desc> Description:
+Describe the nature and history of sugar tariff-rate quotas in the
+United States.
+
+<narr> Narrative:
+Documents describing the system, its history and how it works are
+relevant.  Proposed changes to the system or new agreements explaining
+how it works are relevant.  Listings of current allocations are not
+relevant.
+
+</top>
+
+
+<top>
+<num> Number: 808
+
+<title> North Korean Counterfeiting
+
+<desc> Description:
+What information is available on the involvement of the North Korean
+Government in counterfeiting of US currency.
+
+<narr> Narrative:
+A document should provide information on the counterfeiting or the
+distribution of counterfeit US currency by the North Korean
+Government.  A page which provides evidence for, or quotes government
+officials claims that this is happening will be considered relevant.
+However, a page that simply states this, with no supporting evidence,
+will not be considered relevant.
+
+</top>
+
+
+<top>
+<num> Number: 809
+
+<title> wetlands wastewater treatment 
+
+<desc> Description:
+Identify wastewater treatment projects that involve constructed or
+natural wetlands.
+
+<narr> Narrative:
+Wetlands wastewater treatment projects purposely integrate wetlands to
+act as final filters for wastewater.  The project must be named or
+geographically located, more precisely than simply the state in which
+it resides.
+
+</top>
+
+
+<top>
+<num> Number: 810
+
+<title> timeshare resales
+
+<desc> Description:
+Provide information regarding timeshare resales.
+
+<narr> Narrative:
+Relevant documents will include those describing the prospects of
+reselling a timeshare and the pitfalls one should be aware of when
+selling a timeshare.  Real estate legislature regarding the resale of
+timeshares is not relevant.
+
+</top>
+
+
+<top>
+<num> Number: 811
+
+<title> handwriting recognition
+
+<desc> Description:
+What is the state of recognizing handwritten inputs to computers?
+
+<narr> Narrative:
+Relevant documents describe the methodology in carrying out
+handwriting recognition.  Patent descriptions may be relevant if they
+describe the methodology used in recognizing handwritten input, such
+as pen-driven analysis to identify individual characters.  Also
+relevant are documents which discuss techniques which are not
+character based.  Relevant also is discussion of any databases being
+collected to study the problem of handwriting recognition as a means
+to inputting handwriting documents into a computer in digitized form.
+
+</top>
+
+
+<top>
+<num> Number: 812
+
+<title> total knee replacement surgery
+
+<desc> Description:
+What conditions lead doctors to recommend total knee replacement
+surgery and what complications can result from such surgery?
+
+<narr> Narrative:
+Documents simply describing the surgery are not relevant.  Documents
+concerning court cases in which doctors testify as to the need for
+total knee replacement or claimants charge complications from such
+surgery are relevant.
+
+</top>
+
+
+<top>
+<num> Number: 813
+
+<title> Atlantic Intracoastal Waterway
+
+<desc> Description:
+What is the Atlantic Intracoastal Waterway?
+
+<narr> Narrative:
+Relevant documents describe the Atlantic Intracoastal Waterway in any
+of the States on the Atlantic seaboard.  Relevant documents may discuss
+the extent to which the AIWW is used for economic and/or recreational
+purposes.  They also may discuss the extent to which the AIWW is being
+maintained by federal and State governments.  Documents reporting
+draw bridge schedules and waterway closures in emergency events such
+as hurricanes are not relevant.
+
+</top>
+
+
+<top>
+<num> Number: 814
+
+<title> Johnstown flood
+
+<desc> Description:
+Provide information about the Johnstown Flood in Johnstown,
+Pennsylvania.
+
+<narr> Narrative:
+Documents must include any factual information about the Johnstown
+Flood, such as number of lives lost, high water statistics, route,
+towns affected, causes, etc.  Tourist information sites are acceptable
+if they provide historical facts.  Blurbs about library books are
+acceptable provided they contain some fact(s) about the flood and are
+not listed as fictional accounts.  Information about the year alone
+(for example, "The Johnstown Flood of 1889") is not enough.
+
+</top>
+
+
+<top>
+<num> Number: 815
+
+<title> Coast Guard rescues
+
+<desc> Description:
+Find accounts of actual Coast Guard rescues.
+
+<narr> Narrative:
+Detailed descriptions of rescues are relevant, as well as headlines,
+article titles or picture captions if they give sufficient detail to
+know what happened.  Rescues involving deaths of the rescuees are
+relevant.  Medical evacuations are relevant.  Simulated rescues are
+NOT relevant.  Searches without rescues are NOT relevant.  Mere
+statistics on numbers of rescues are NOT relevant.
+
+</top>
+
+
+<top>
+<num> Number: 816
+
+<title> USAID assistance to Galapagos
+
+<desc> Description:
+Describe efforts made by USAID to protect the biodiversity in the
+Galapagos Islands in Ecuador.
+
+<narr> Narrative:
+Relevant documents will include activities undertaken by USAID as well
+as USAID planned activities.  Activities undertaken and funded by
+USAID as well as activities undertaken by USAID and funded by another
+organization are relevant.  Documents that reference USAID assistance
+to the Galapagos but provide no additional information are not
+relevant.
+
+</top>
+
+
+<top>
+<num> Number: 817
+
+<title> sports stadium naming rights
+
+<desc> Description:
+How are naming rights to sports stadiums acquired?
+
+<narr> Narrative:
+Documents stating how naming rights to any sports stadium were
+acquired are relevant.  Text of any plans, laws or agreements stating
+how naming rights are to be acquired are also relevant.
+
+</top>
+
+
+<top>
+<num> Number: 818
+
+<title> Chaco Culture National Park
+
+<desc> Description:
+What is known about the culture and history of the Chaco people from
+features of the Chaco Culture National Historic Park?
+
+<narr> Narrative:
+Documents containing description and explanation of the major
+archaeological findings in the park are relevant.  Vague references to
+"wanderers" and "ruins" without specifics about the people's culture
+or type of ruins are not relevant.  Photographs of artifacts
+identified simply as "Chaco" or "Chaco Anasazi" with no other
+elaboration are not relevant.
+
+</top>
+
+
+<top>
+<num> Number: 819
+
+<title> 1890 Census
+
+<desc> Description:
+What is known about the 1890 U.S. Census?
+
+<narr> Narrative:
+Relevant documents include information from the 1890 U.S. Census,
+including generalized data like population totals for any locales, as
+well as any information about the conduct of the census
+itself. Relevant documents also may include information about the
+present status of the original documents of the 1890 U.S. Census.
+
+</top>
+
+
+<top>
+<num> Number: 820
+
+<title> imported fire ants
+
+<desc> Description:
+What are imported fire ants, and how can they be controlled?
+
+<narr> Narrative:
+Relevant documents describe what imported fire ants are and where they
+came from. Relevant documents describe the impact of imported fire
+ants on the inhabitants and economy of the areas they infest. Relevant
+documents discuss possible methods of controlling imported fire ants,
+as well as the effectiveness of such methods.
+
+</top>
+
+
+<top>
+<num> Number: 821
+
+<title> Internet work-at-home scams
+
+<desc> Description:
+Describe the work-at-home scams that are promoted over the Internet.
+
+<narr> Narrative:
+Relevant documents will include those that describe work-at-home scams
+and the extent of the scam problem.  Documents that describe what is
+being done to identify and punish the fraud promoters of work-at-home
+scams are not relevant.
+
+</top>
+
+
+<top>
+<num> Number: 822
+
+<title> Custer's Last Stand
+
+<desc> Description:
+Give the history of the Battle of the Little Big Horn, June 25 and 26,
+1876, also referred to as Custer's Last Stand.
+
+<narr> Narrative:
+The documentation should contain information about the events leading
+up to the battle, discussion of the actual battle, including Reno's
+and Benteen's battalions, or discussion of the events immediately
+after the battle, including the escape of Sitting Bull to Canada, or
+the evacuation of Reno's wounded to Bismark.  Pages discussing the
+monument, the burial or reburial of Custer's troops, or the battle of
+Washita are not relevant.  Also, documents which just give the date of
+the battle, just give one simple fact about the battle (e.g. number
+killed), or are a biography of Custer which only touches on the battle
+are not relevant.
+
+</top>
+
+ 
+
+
+<top>
+<num> Number: 823
+
+<title> Continuing care retirement communities
+
+<desc> Description:
+What features and services are provided by continuing care retirement
+communities (CCRC's)?
+
+<narr> Narrative:
+Documents describing facilities and services provided by CCRC's are
+relevant.  Documents concerning licensing and requirements for
+operating a CCRC are not relevant.
+
+</top>
+
+
+<top>
+<num> Number: 824
+
+<title> Civil Air Patrol
+
+<desc> Description:
+What is the current role of the Civil Air Patrol and what training do
+participants receive?
+
+<narr> Narrative:
+Civil Air Patrol (CAP) mission statements are relevant.  CAP
+involvement in emergency services, communications, and aerospace
+education is relevant.
+
+</top>
+
+
+<top>
+<num> Number: 825
+
+<title> National Guard Involvement in Iraq
+
+<desc> Description:
+Describe the deployment of National Guard units to Iraq.
+
+<narr> Narrative:
+Relevant documents will include those describing the deployment of
+specific National Guard units to Iraq.  Documents describing the role
+of the National Guard in Iraq in general terms, such as "playing a
+vital role," and describing the deployment of National Guard troops to
+Iraq in general are not relevant.
+
+</top>
+
+
+<top>
+<num> Number: 826
+
+<title> Florida Seminole Indians
+
+<desc> Description:
+What is the relationship between the U.S. and the Seminole Indians of
+Florida?
+
+<narr> Narrative:
+Relevant documents describe the history of the Seminole Indian tribes
+which are now now located in Florida, and their interaction with the
+United States.  Relevant documents also describe the current
+relationship between the U.S. and those tribes.
+
+</top>
+
+
+<top>
+<num> Number: 827
+
+<title> Hidden Markov Modeling HMM
+
+<desc> Description:
+Give a definition of and/or a description of an application for 
+the Hidden Markov Modeling algorithm.
+
+<narr> Narrative:
+The documentation should either have a definition or explanation of
+Hidden Markov Models, or have a detailed description of an application
+of Hidden Markov Models to a specific problem.  A discussion of the
+Baum-Welch algorithm, and how it relates to HMM would be acceptable.
+However, a document with only a statement of the form, "this software
+package is based on a generalized HMM.", or a title of a document
+(even if the title gives an application), or nothing more than a state
+transition diagram will not be considered relevant.
+
+</top>
+
+
+<top>
+<num> Number: 828
+
+<title> secret shoppers
+
+<desc> Description:
+What companies or organizations use secret or mystery shoppers?
+
+<narr> Narrative:
+"Secret shoppers" or "mystery shoppers" are people who pose as
+customers and report on the service they received. The same function
+under a different name is relevant. A relevant document must clearly
+identify the user/employer of the secret shopper.
+
+</top>
+
+
+<top>
+<num> Number: 829
+
+<title> Spanish Civil War support
+
+<desc> Description:
+Provide information on all kinds of material international support
+provided to either side in the Spanish Civil War.
+
+<narr> Narrative:
+Given that the requester knows the terminology for the various Spanish
+factions on each side in the Spanish Civil War, provide information on
+international support for either side, in the form of anything
+concrete, e.g. arms, aircraft, money, medicine, volunteers (such as
+fighters or medical personnel), etc.  The recipient of such aid (i.e.,
+which Spanish faction) should be specified.  Library blurbs are
+acceptable as long as they mention a foreign involvement and the side
+taken.  Verbal expressions of support from foreign leaders are not
+acceptable.  Artistic support does not count - unless the artist
+actually went to Spain!
+
+</top>
+
+
+<top>
+<num> Number: 830
+
+<title> model railroads
+
+<desc> Description:
+Locate past or present model railroad layouts.
+
+<narr> Narrative:
+Model trains in any scale and in any country are relevant.  A simple
+exhibit of miniature train cars is not relevant; a layout with track
+for the trains to run on must be present.
+
+</top>
+
+
+<top>
+<num> Number: 831
+
+<title> Dulles Airport security
+
+<desc> Description:
+Describe the security measures at Dulles International Airport in
+Virginia.
+
+<narr> Narrative:
+Relevant documents contain information on security measures at Dulles
+International Airport in Virginia and the problems with security
+measures that have been taken.  Documents that pose questions about
+Dulles airport security without providing answers are not relevant.
+
+</top>
+
+
+<top>
+<num> Number: 832
+
+<title> labor union activity
+
+<desc> Description:
+What activity involving U.S. labor unions has taken place since 1980?
+
+<narr> Narrative:
+Labor union membership figures are relevant.  Strikes, recruiting,
+lobbying, negotiating, and support for members are all relevant.
+Actions taken concerning unions are relevant.  Union manuals or
+theoretical descriptions of procedures are not relevant.
+
+</top>
+
+
+<top>
+<num> Number: 833
+
+<title> Iceland government
+
+<desc> Description:
+Provide information about the government of Iceland.
+
+<narr> Narrative:
+Provide any information about the form of national government in
+Iceland.  This may include any reference to the type or composition of
+the government or its historical development.  Documents containing
+information on local governments alone are not acceptable.  References
+to the activities, action, or position of the government (to include
+any ministries or governmental agencies) on any given topic are not
+adequate.
+
+</top>
+
+
+<top>
+<num> Number: 834
+
+<title> Global positioning system earthquakes
+
+<desc> Description:
+How is the global positioning system (GPS) used for research and
+monitoring of earthquakes?
+
+<narr> Narrative:
+All documents referring to earthquake monitoring or research making
+use of a global positioning system are relevant.  Documents referring
+to such monitoring and/or research without specific mention of the
+role of GPS are not relevant.
+
+</top>
+
+
+
+<top>
+<num> Number: 835
+
+<title> Big Dig pork
+
+<desc> Description:
+Why is Boston's Central Artery project, also known as "The Big Dig",
+characterized as "pork"?
+
+<narr> Narrative:
+Relevant documents discuss the Big Dig project, Boston's Central
+Artery Highway project, as being a big rip-off to American taxpayers
+or refer to the project as "pork".  Not relevant are documents which
+report fraudulent acts by individual contractors.  Also not relevant
+are reports of cost-overruns on their own.
+
+</top>
+
+
+<top>
+<num> Number: 836
+
+<title> illegal immigrant wages
+
+<desc> Description:
+What level of wages are paid to illegal immigrants?
+
+<narr> Narrative:
+The simple statement that illegals depress wages is not relevant.
+"Sub minimum wage" is relevant because it implies less than the
+legally established minimum wage.  A dollar amount per hour, day,
+week, month, or year is an ideal answer.  A percent comparison of
+wages paid to documented workers is relevant.  Wage levels of illegal
+immigrants in any country are relevant.
+
+</top>
+
+
+<top>
+<num> Number: 837
+
+<title> Eskimo History
+
+<desc> Description:
+Provide information on the pre-1500 history of the Eskimo (Inuit)
+people.
+ 
+<narr> Narrative:
+The document should have information on the history and culture of the
+Inuit people, previous to 1500.  Pages discussing when and from where
+they migrated to North America are acceptable.  Pages discussing the
+Inuit people outside of North America are acceptable, as are pages
+about the distribution of the Inuit people when first contacted by
+Europeans (as this reflects the distribution 300 years earlier).
+However, a statement that some aspect of Inuit culture dates dates
+back more than 4,000 years, does not by itself make a page relevant.
+
+</top>
+
+
+<top>
+<num> Number: 838
+
+<title> urban suburban coyotes
+
+<desc> Description:
+How have humans responded and how should they respond to the
+appearance of coyotes in urban and suburban areas?
+
+<narr> Narrative:
+Documents reporting the appearance of coyotes in urban and suburban
+areas are relevant as are those describing human reactions or
+prescribing how to deal with the situation.
+
+</top>
+
+
+<top>
+<num> Number: 839
+
+<title> textile dyeing techniques
+
+<desc> Description:
+Explain various techniques used in dyeing textiles and identify their
+advantages or disadvantages.
+
+<narr> Narrative:
+Abstracts describing techniques are relevant.  Processes directly
+related to dyeing (for example, pre-treatment of material to be dyed,
+wastewater treatment) are relevant.  Lists of techniques without
+explanation are not relevant.
+
+</top>
+
+
+<top>
+<num> Number: 840
+
+<title> Geysers
+
+<desc> Description:
+Give the definition, locations, or characteristics of geysers.
+
+<narr> Narrative:
+The document should contain what makes a geyser a geyser, where
+geysers are found, or the names, location, and characteristics of a
+specific geyser.  A page discussing man made geysers, just photos of
+geysers, geysers on other planets, or list of geysers even if
+associated with a particular basin will not be considered relevant.
+
+</top>
+
+
+
+<top>
+<num> Number: 841
+
+<title> camel North America
+
+<desc> Description:
+Provide information on camels in North America in both prehistoric and
+modern times.
+
+<narr> Narrative:
+Documents may include mention and/or photos of fossils, bones,
+etc.  Documents with photos alone, as long as they are labeled, are
+relevant.  A casual mention of a camel presence in Late Miocene
+trackways is not relevant.  Modern-day importation and use of camels
+such as that by the US military/cavalry for western desert transport
+is acceptable.  Non-relevant documents include ones which are limited
+to discussions of camel-hair (imported vice domestic, with regard to
+NAFTA) or camel pox.  Documents containing laws governing the
+importation of camels into the US are not relevant unless they also
+contain reference to specific camels being brought in.  Articles
+referring to camels in the entertainment field such as zoos or cinema
+are acceptable.  Fictional camels such as Joe Camel are not acceptable.
+
+</top>
+
+
+<top>
+<num> Number: 842
+
+<title> David McCullough
+
+<desc> Description:
+Give information about David McCullough, author, his life, works,
+and/or awards.
+
+<narr> Narrative:
+The documentation should provide some information about David
+McCullough, the author of "Harry S. Truman".  Pages on some other
+David McCullough (even if an author) will not be considered relevant.
+A quote from one of his books, or a complete citation of one of his
+books, including publisher will be considered relevant.  However, the
+observation that someone talked with historian and writer David
+McCullough about history does not make the page relevant.
+
+</top>
+
+
+
+<top>
+<num> Number: 843
+
+<title> Pol Pot
+
+<desc> Description:
+Who was Pol Pot and what did he do?
+
+<narr> Narrative:
+Documents must include the role of Pol Pot.  It should be indicated
+that he was the leader of the Khmer Rouge, a Cambodian leader,
+responsible for mass killings, etc.  Any discussion of the Khmer Rouge
+that alludes only to the "Pol Pot regime" or the "days of Pol Pot" is
+not acceptable.  Bibliographies or library listings are not
+acceptable.
+
+</top>
+
+
+<top>
+<num> Number: 844
+
+<title> segmental duplications
+
+<desc> Description:
+Give information about segmental duplications in genomes.
+
+<narr> Narrative:
+The documentation should either give an explanation of what is a
+segmental duplication, how much of the human genome is involved in
+segmental duplications, or what are some of the consequences of
+(diseases caused by or desirable effects of) miscopying a segmental
+duplication.  Pages which contain the title of a document with this
+term, or the term with no indication of its meaning will not be
+considered relevant.
+
+</top>
+
+
+<top>
+<num> Number: 845
+
+<title> New Jersey tomato
+
+<desc> Description:
+Provide information about tomato farming and production in New Jersey.
+
+<narr> Narrative:
+Any discussion of New Jersey tomato production, volume, percentage of
+US tomato production, percentage of farmland devoted to tomatoes,
+etc., is relevant.  Articles about specific tomato farms are relevant
+as long as the farms are significant for something such as size or
+production method or volume.  Agriculture Department rulings or
+guidelines are acceptable as long as they specifically include the NJ
+tomato crop.  If NJ is included with other states in production
+figures the article is relevant even if the NJ share of the production
+volume is indeterminate.  (For example, "New Jersey, Maryland, and
+California together produce 75% of the world's tomatoes.")  Price
+tables alone are not relevant.  A picture of a NJ tomato or tomato
+farm is not relevant unless there is some associated significant data.
+Bibliographies are not acceptable.
+
+</top>
+
+
+<top>
+<num> Number: 846
+
+<title> heredity and obesity
+
+<desc> Description:
+Describe evidence that heredity does or does not play a role in obesity.
+
+<narr> Narrative:
+Relevant documents will include those that provide evidence for or
+against the position that heredity plays a role in obesity.  Documents
+citing planned research regarding a link between obesity and heredity
+are not relevant.
+
+</top>
+
+
+<top>
+<num> Number: 847
+
+<title> Portugal World War II
+
+<desc> Description:
+What was the role of Portugal in World War II?
+
+<narr> Narrative:
+Give evidence of the role or importance of Portugal on either side (or
+not at all) in World War II.  Documents can include any reference to
+gold being stored by or for Portugal, use of Portuguese ports as
+escape routes from Nazi Europe, Portuguese provision of arms materials
+to Axis countries, any reference to Portuguese status as a neutral
+nation, etc.
+
+</top>
+
+
+<top>
+<num> Number: 848
+
+<title> radio station call letters
+
+<desc> Description:
+Identify radio stations by their call letters and location or ownership.
+
+<narr> Narrative:
+Call letters must be present for a document to be relevant.  Either
+geographic location or personal or organizational ownership is
+relevant.  Stations no longer in existence are relevant.  Explanations
+of call letter allocation systems are not relevant unless they include
+actual stations with identifying information.
+
+</top>
+
+
+<top>
+<num> Number: 849
+
+<title> Scalable Vector Graphics
+
+<desc> Description:
+What is "scalable vector graphics"?
+
+<narr> Narrative:
+Relevant documents describe the concept "scalable vector graphics",
+what it is used for, and what special advantages the technique has,
+especially with respect to portability and zooming features.
+Documents which merely mention the term in a list of, e.g., system
+requirements are not relevant.
+
+</top>
+
+
+<top>
+<num> Number: 850
+
+<title> Mississippi River flood
+
+<desc> Description:
+How frequently does the Mississippi River flood its banks? 
+
+<narr> Narrative:
+Flooding is a relative term which implies water overflowing its
+container and causing damage to the surrounding ares.  Documents are
+relevant if they describe Mississippi River events which are commonly
+considered to be floods.  Relevant documents may also show how such
+events have led to the introduction of controls to lessen the
+frequency of damaging floods of this river.  Relevant documents
+include different levels of flooding, not only the major ones.
+Documents are not relevant if they are essentially forecasts or
+routine reports of water levels.  They are also not relevant if they
+are purely bibliographies or lists of sources for relevant documents.
+Photos and videos of floods alone are not relevant.
+
+</top>

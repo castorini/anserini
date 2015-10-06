@@ -1,0 +1,780 @@
+<?xml version="1.0"?>
+<!DOCTYPE webtrack2013 [
+  <!ELEMENT webtrack2013 (topic)*>
+  <!ELEMENT topic (query, description, subtopic*)>
+    <!ATTLIST topic 
+              number CDATA #REQUIRED
+              type (ambiguous|faceted|single|other) "ambiguous">
+   <!ELEMENT query (#PCDATA)>
+  <!ELEMENT description (#PCDATA)>
+  <!ELEMENT subtopic (#PCDATA)>
+    <!ATTLIST subtopic 
+              number CDATA #REQUIRED
+              type (nav|inf) "inf">
+]>
+<webtrack2013>
+
+<!-- Please note that topic and subtopic types (faceted/ambiguous,
+     inf/nav are meant as a general indicator and should not be taken
+     as definitive aspects of the query intent. -->
+
+<!-- Note that the first subtopic is always identical to the description
+     sentence.  This is to ensure that adhoc-task results are also relevant
+     to the subtopic task. -->
+
+<topic number="201" type="faceted">
+  <query>raspberry pi</query>
+  <description>
+    What is a raspberry pi?
+  </description>
+  <subtopic number="1" type="inf">
+    What is a raspberry pi?
+  </subtopic>
+  <subtopic number="2" type="inf">
+    What software does a raspberry pi use?
+  </subtopic>
+  <subtopic number="3" type="inf">
+    What are hardware options for a raspberry pi?
+  </subtopic>
+  <subtopic number="4" type="nav">
+    How much does a basic raspberry pi cost?
+  </subtopic>
+  <subtopic number="5" type="inf">
+    Find info about the raspberry pi foundation.
+  </subtopic>
+  <subtopic number="6" type="nav">
+    Find a picture of a raspberry pi.
+  </subtopic>
+</topic>
+
+<topic number="202" type="faceted">
+  <query>uss carl vinson</query>
+  <description>
+     Find the home page of the USS Carl Vinson (CVN70) carrier.
+  </description>
+  <subtopic number="1" type="nav">
+     Find the home page of the USS Carl Vinson (CVN70) carrier.
+  </subtopic>
+  <subtopic number="2" type="inf">
+     Find lists of shipmates on the USS Carl Vinson.
+  </subtopic>
+  <subtopic number="3" type="nav">
+     What is the mailing address for the USS Carl Vinson?
+  </subtopic>
+  <subtopic number="4" type="nav">
+    Where can I get a cruise book for the USS Carl Vinson?
+  </subtopic>
+  <subtopic number="5" type="nav">
+    What is the home port for the USS Carl Vinson?
+  </subtopic>
+  <subtopic number="6" type="nav">
+    Find the home page of the USS Carl Vinson ombudsman.
+  </subtopic>
+</topic>
+
+<topic number="203" type="single">
+  <query>reviews of les miserables</query>
+  <description>
+    Find movie reviews of the film "Les Miserables".
+  </description>
+</topic>
+
+<topic number="204" type="single">
+  <query>rules of golf</query>
+  <description>
+    What are the official PGA rules for golf?
+  </description>
+</topic>
+
+<topic number="205" type="single">
+  <query>average charitable donation</query>
+  <description>
+    What is the average annual charitable donation by individuals in the USA?
+  </description>
+</topic>
+
+<topic number="206" type="faceted">
+  <query>wind power</query>
+  <description>
+    What are the pros and cons of using wind power.
+  </description>
+  <subtopic number="1" type="inf">
+    What are the pros and cons of using wind power.
+  </subtopic>
+  <subtopic number="2" type="inf">
+    Find information on wind power in the USA.
+  </subtopic>
+  <subtopic number="3" type="inf">
+    Find information on wind power companies.
+  </subtopic>
+  <subtopic number="4" type="inf">
+    Find information on residential (home) wind power.
+  </subtopic>
+  <subtopic number="5" type="inf">
+    Find information on how wind turbines work.
+  </subtopic>
+  <subtopic number="6" type="inf">
+    Find pictures of wind turbines used for wind power.
+  </subtopic>
+  <subtopic number="7" type="inf">
+    Find pictures of a wind farm.
+  </subtopic>
+</topic>
+
+<topic number="207" type="faceted">
+  <query>bph treatment</query>
+  <description>
+    What are the treatment options for BPH (benign prostatic hyperplasia)?
+  </description>
+  <subtopic number="1" type="inf">
+    What are the treatment options for BPH (benign prostatic hyperplasia)?
+  </subtopic>
+  <subtopic number="2" type="inf">
+    Which medications are used for BPH?
+  </subtopic>
+  <subtopic number="3" type="inf">
+    What surgical options are used to treat BPH?
+  </subtopic>
+  <subtopic number="4" type="inf">
+    What are some lifestyle measures for managing BPH?
+  </subtopic>
+  <subtopic number="5" type="inf">
+    What are the symptoms of BPH?
+  </subtopic>
+  <subtopic number="6" type="inf">
+    What are the causes of BPH?
+  </subtopic>
+  <subtopic number="7" type="inf">
+    What are the side effects of BPH treatments?
+  </subtopic>
+</topic>
+
+<topic number="208" type="faceted">
+  <query>doctor zhivago</query>
+  <description>
+    What went into writing/publishing the book Doctor Zhivago?
+  </description>
+  <subtopic number="1" type="inf">
+    What went into writing/publishing the book Doctor Zhivago?
+  </subtopic>
+  <subtopic number="2" type="nav">
+    Find a synopsis of Doctor Zhivago.
+  </subtopic>
+  <subtopic number="3" type="nav">
+    Who got an Academy Award nomination for Doctor Zhivago?
+  </subtopic>
+  <subtopic number="4" type="nav">
+    Who's in the cast of the Doctor Zhivago movie?
+  </subtopic>
+  <subtopic number="5" type="inf">
+    Who was Boris Pasternak and how did his life affect his book?
+  </subtopic>
+  <subtopic number="6" type="inf">
+    What DVD versions of the Doctor Zhivago movie are available?
+  </subtopic>
+</topic>
+
+<topic number="209" type="faceted">
+  <query>land surveyor</query>
+  <description>
+    Find job openings for land surveyors.
+  </description>
+  <subtopic number="1" type="inf">
+    Find job openings for land surveyors.
+  </subtopic>
+  <subtopic number="2" type="inf">
+    What equipment and tools does a land surveyor use in his job?
+  </subtopic>
+  <subtopic number="3" type="inf">
+    What education does one need to become a land surveyor?
+  </subtopic>
+  <subtopic number="4" type="inf">
+    Which schools provide training to become a land surveyor?
+  </subtopic>
+  <subtopic number="5" type="nav">
+    What salary range does a land surveyor receive?
+  </subtopic>
+</topic>
+
+<topic number="210" type="faceted">
+  <query>golf gps</query>
+  <description>
+    What is the best golf gps device?
+  </description>
+  <subtopic number="1" type="inf">
+    What is the best golf gps device?
+  </subtopic>
+  <subtopic number="2" type="inf">
+    Compare Bushnell, Callaway and Garmin golf gps systems.
+  </subtopic>
+  <subtopic number="3" type="nav">
+    Is there a golf gps app for the Iphone?
+  </subtopic>
+  <subtopic number="4" type="inf">
+    Find information on handheld golf gps devices.
+  </subtopic>
+  <subtopic number="5" type="nav">
+    Is there a golf gps system that can be used world wide?
+  </subtopic>
+  <subtopic number="6" type="inf">
+    Where can I get a used golf gps device?
+  </subtopic>
+</topic>
+
+<topic number="211" type="single">
+  <query>what is madagascar known for</query>
+  <description>
+    What is Madagascar known for?
+  </description>
+</topic>
+
+<topic number="212" type="faceted">
+  <query>home theater systems</query>
+  <description>
+    Find information on home theater room design.
+  </description>
+  <subtopic number="1" type="inf">
+    Find information on home theater room design.
+  </subtopic>
+  <subtopic number="2" type="nav">
+    What home theater systems does Bose offer?
+  </subtopic>
+  <subtopic number="3" type="inf">
+     Find information about home theater receivers.
+  </subtopic>
+  <subtopic number="4" type="inf">
+     Find information about wireless home theater systems.
+  </subtopic>
+  <subtopic number="5" type="inf">
+     Find reviews of home theater systems.
+  </subtopic>
+</topic>
+
+<topic number="213" type="faceted">
+  <query>carpal tunnel syndrome</query>
+  <description>
+    What are the symptoms of carpal tunnel syndrome (CTS)?
+  </description>
+  <subtopic number="1" type="inf">
+    What are the symptoms of carpal tunnel syndrome (CTS)?
+  </subtopic>
+  <subtopic number="2" type="inf">
+    How is CTS treated?
+  </subtopic>
+  <subtopic number="3" type="inf">
+    How is CTS diagnosed?
+  </subtopic>
+  <subtopic number="4" type="inf">
+    Find the causes of CTS.
+  </subtopic>
+  <subtopic number="5" type="inf">
+    Which exercises can bring relief from CTS?
+  </subtopic>
+  <subtopic number="6" type="inf">
+    Which activities are prevalent among CTS sufferers?
+  </subtopic>
+  <subtopic number="7" type="inf">
+    What are the options for surgically correcting CTS?
+  </subtopic>
+  <subtopic number="8" type="inf">
+    What are the recovery prospects for CTS surgical patients?
+  </subtopic>
+</topic>
+
+<topic number="214" type="single">
+  <query>capital gains tax rate</query>
+  <description>
+     What does the US capital tax rate consist of and how is it broken down? 
+  </description>
+</topic>
+
+<topic number="215" type="faceted">
+  <query>maryland department of natural resources</query>
+  <description>
+    Find the phone numbers for units within the Maryland Department of Natural Resources.
+  </description>
+  <subtopic number="1" type="nav">
+    Find the phone numbers for units within the Maryland Department of Natural Resources.
+  </subtopic>
+  <subtopic number="2" type="nav">
+    How do you get a Maryland fishing license?
+  </subtopic>
+  <subtopic number="3" type="inf">
+    What information is available about Maryland parks and recreation?
+  </subtopic>
+  <subtopic number="4" type="nav">
+    What are the dates for Maryland hunting season?
+  </subtopic>
+  <subtopic number="5" type="inf">
+    Find information about the Maryland Department of Natural Resources police.
+  </subtopic>
+  <subtopic number="6" type="inf">
+   Find Maryland DNR fishing reports.
+  </subtopic>
+</topic>
+
+<topic number="216" type="faceted">
+  <query>nicolas cage movies</query>
+  <description>
+    What movies has Nicolas Cage appeared in?
+  </description>
+  <subtopic number="1" type="nav">
+    What movies has Nicolas Cage appeared in?
+  </subtopic>
+  <subtopic number="2" type="inf">
+    What Nicolas Cage movies can be obtained from Netflix?
+  </subtopic>
+  <subtopic number="3" type="inf">
+    What is the next movie Nicolas Cage will appear in?
+  </subtopic>
+  <subtopic number="4" type="nav">
+    What was the movie Nicolas Cage appeared in that was released in 2011?
+  </subtopic>
+</topic>
+
+<topic number="217" type="single">
+  <query>kids earth day activities</query>
+  <description>
+     What are fun activities kids can do to celebrate Earth Day?
+  </description>
+</topic>
+
+<topic number="218" type="faceted">
+  <query>solar water fountains</query>
+  <description>
+     What solar water fountains are available for gardens.
+  </description>
+  <subtopic number="1" type="inf">
+     What solar water fountains are available for gardens.
+  </subtopic>
+  <subtopic number="2" type="inf">
+     What solar water fountains are available for bird baths.
+  </subtopic>
+  <subtopic number="3" type="inf">
+     What type of pumps are used for solar water fountains?
+  </subtopic>
+  <subtopic number="4" type="inf">
+     Find solar water fountains for sale.
+  </subtopic>
+</topic>
+
+<topic number="219" type="single">
+  <query>what was the name of elvis presley's home</query>
+  <description>
+    What was the name of Elvis Presley's home?
+  </description>
+</topic>
+
+<topic number="220" type="faceted">
+  <query>nba records</query>
+  <description>
+     Who are the NBA all-time record holders?
+  </description>
+  <subtopic number="1" type="inf">
+     Who are the NBA all-time record holders?
+  </subtopic>
+  <subtopic number="2" type="inf">
+     Get details on NBA single game records.
+  </subtopic>
+  <subtopic number="3" type="nav">
+    Who holds the NBA record for most assists?
+  </subtopic>
+  <subtopic number="4" type="nav">
+    Who holds the NBA career scoring record?
+  </subtopic>
+  <subtopic number="5" type="inf">
+    What NBA records does Michael Jordan hold?
+  </subtopic>
+</topic>
+
+<topic number="221" type="single">
+  <query>electoral college 2008 results</query>
+  <description>
+    What were the results of the electoral college for the 2008 US presidential race?
+  </description>
+</topic>
+
+<topic number="222" type="faceted">
+  <query>male menopause</query>
+  <description>
+    What are the symptoms and signs of male menopause?
+  </description>
+  <subtopic number="1" type="inf">
+    What are the symptoms and signs of male menopause?
+  </subtopic>
+  <subtopic number="2" type="inf">
+    Find information on male menopause medication.
+  </subtopic>
+  <subtopic number="3" type="nav">
+     What is the definition of male menopause?
+  </subtopic>
+  <subtopic number="4" type="nav">
+     What is the medical term for male menopause?
+  </subtopic>
+  <subtopic number="5" type="inf">
+     Find information on male menopause supplements.
+  </subtopic>
+</topic>
+
+
+<topic number="223" type="single">
+  <query>usda food pyramid</query>
+  <description>
+    Find a description of the USDA food pyramid.
+  </description>
+</topic>
+
+<topic number="224" type="single">
+  <query>making chicken soup from scratch</query>
+  <description>
+    Find recipes for making chicken soup.   
+  </description>
+</topic>
+
+<topic number="225" type="ambiguous">
+  <query>black and gold</query>
+  <description>
+    Find a picture of an Air Jordan Black and Gold.
+  </description>
+  <subtopic number="1" type="inf">
+    Find a picture of an Air Jordan Black and Gold.
+  </subtopic>
+  <subtopic number="2" type="inf">
+    Find Pittsburgh Steelers merchandise for sale.
+  </subtopic>
+  <subtopic number="3" type="inf">
+    Find information about Purdue University sports program.
+  </subtopic>
+  <subtopic number="4" type="inf">
+    Find information on Black Hills gold jewelry.
+  </subtopic>
+  <subtopic number="5" type="inf">
+    Find information on Black Gold dog food.
+  </subtopic>
+</topic>
+
+<topic number="226" type="faceted">
+  <query>traverse city</query>
+  <description>
+    What attractions are there in Traverse City, Michigan?
+  </description>
+  <subtopic number="1" type="inf">
+    What attractions are there in Traverse City, Michigan?
+  </subtopic>
+  <subtopic number="2" type="inf">
+    Get information about Traverse City, Michigan real estate.
+  </subtopic>
+  <subtopic number="3" type="inf">
+    Find information about hotels in Traverse City, Michigan.
+  </subtopic>
+  <subtopic number="4" type="inf">
+    Find information about the Traverse City Cherry Festival.
+  </subtopic>
+  <subtopic number="5" type="nav">
+    What is the zip code for Traverse City, Michigan?
+  </subtopic>
+  <subtopic number="6" type="inf">
+    Find information about the Traverse City Record-Eagle.
+  </subtopic>
+</topic>
+
+<topic number="227" type="single">
+  <query>i will survive lyrics</query>
+  <description>
+    Find the lyrics to the song "I Will Survive".
+  </description>
+</topic>
+
+<topic number="228" type="single">
+  <query>hawaiian volcano observatories</query>
+  <description>
+    I am looking for the history of and a summary of the work performed at the Hawaiian Volcano Observatories.
+  </description>
+</topic>
+
+<topic number="229" type="single">
+  <query>beef stroganoff recipe</query>
+  <description>
+    Find complete (not partial) recipes for beef stroganoff.
+  </description>
+</topic>
+
+<topic number="230" type="single">
+  <query>world's biggest dog</query>
+  <description>
+    What is the world's biggest dog?   
+  </description>
+</topic>
+
+<topic number="231" type="single">
+  <query>what are the seven deadly sins</query>
+  <description>
+    Find a list of the seven deadly sins.
+  </description>
+</topic>
+
+
+<topic number="232" type="single">
+  <query>hurricane Irene flooding in manville nj</query>
+  <description>
+     How has the flooding that resulted from hurricane Irene affected Manville, NJ?   
+  </description>
+</topic>
+
+<topic number="233" type="faceted">
+  <query>hair dye</query>
+  <description>
+    What commercial hair dyes are available?
+  </description>
+  <subtopic number="1" type="inf">
+    What commercial hair dyes are available?
+  </subtopic>
+  <subtopic number="2" type="inf">
+    Find information on making homemade hair dye products.
+  </subtopic>
+  <subtopic number="3" type="nav">
+    Where can I find organic or chemical free hair dye products?
+  </subtopic>
+  <subtopic number="4" type="inf">
+    What hair dye options should be considered during pregnancy?
+  </subtopic>
+  <subtopic number="5" type="inf">
+    Find reviews of hair dye removers.
+  </subtopic>
+</topic>
+
+<topic number="234" type="single">
+  <query>dark chocolate health benefits</query>
+  <description>
+     What are the health benefits associated with eating dark chocolate? 
+  </description>
+</topic>
+
+<topic number="235" type="faceted">
+  <query>ham radio</query>
+  <description>
+    How do you get a ham radio license?
+  </description>
+  <subtopic number="1" type="inf">
+    How do you get a ham radio license?
+  </subtopic>
+  <subtopic number="2" type="nav">
+    What are the ham radio license classes?
+  </subtopic>
+  <subtopic number="3" type="inf">
+    How do you build a ham radio station?
+  </subtopic>
+  <subtopic number="4" type="inf">
+    Find information on ham radio antennas.
+  </subtopic>
+  <subtopic number="5" type="nav">
+    What are the ham radio call signs?
+  </subtopic>
+  <subtopic number="6" type="nav">
+    Find the web site of Ham Radio Outlet.
+  </subtopic>
+</topic>
+
+<topic number="236" type="single">
+  <query>symptoms of mad cow disease in humans</query>
+  <description>
+    Find information about mad cow disease symptoms in humans.
+  </description>
+</topic>
+
+<topic number="237" type="faceted">
+  <query>lump in throat</query>
+  <description>
+    Find information about a lump in the throat caused by the thyroid.
+  </description>
+  <subtopic number="1" type="nav">
+    Find information about a lump in the throat caused by the thyroid.
+  </subtopic>
+  <subtopic number="2" type="inf">
+    What are some of the causes for a lump in the throat?
+  </subtopic>
+  <subtopic number="3" type="inf">
+    What are some remedies for a lump in the throat?
+  </subtopic>
+  <subtopic number="4" type="inf">
+    How does anxiety cause the feeling of a lump in the throat?
+  </subtopic>
+  <subtopic number="5" type="inf">
+    Find information about difficulty in swallowing caused by a lump in the throat.
+  </subtopic>
+</topic>
+
+<topic number="238" type="single">
+  <query>george bush sr bio</query>
+  <description>
+    Find biographies of US President George H.W. Bush.
+  </description>
+</topic>
+
+<topic number="239" type="single">
+  <query>frank lloyd wright biography</query>
+  <description>
+ Find biographical information for Frank Lloyd Wright.   
+  </description>
+</topic>
+
+<topic number="240" type="single">
+  <query>presidential middle names</query>
+  <description>
+    Find a list of the full names of US presidents.
+  </description>
+</topic>
+
+
+<topic number="241" type="single">
+  <query>what is a wiki</query>
+  <description>
+     Find information about what a wiki is.    
+  </description>
+</topic>
+
+<topic number="242" type="faceted">
+  <query>cannellini beans</query>
+  <description>
+  Which beans can be substituted for cannellini beans?
+  </description>
+  <subtopic number="1" type="inf">
+  Which beans can be substituted for cannellini beans?
+  </subtopic> 
+  <subtopic number="2" type="inf">
+  How do you cook dried cannellini beans?
+  </subtopic>
+  <subtopic number="3" type="inf">
+  Find recipes using cannellini beans.
+  </subtopic>
+  <subtopic number="4" type="nav">
+  What are the nutritional facts for cannellini beans?
+  </subtopic>
+</topic>
+
+<topic number="243" type="faceted">
+  <query>afghanistan flag</query>
+  <description>
+     Find pictures of the Afghanistan flag.
+  </description>
+  <subtopic number="1" type="inf">
+     Find pictures of the Afghanistan flag.
+  </subtopic>
+  <subtopic number="2" type="inf">
+     What does the Afghanistan flag's national emblem represent?
+  </subtopic>
+  <subtopic number="3" type="inf">
+     What does the Afghanistan flag's Arabic inscription mean?
+  </subtopic>
+  <subtopic number="4" type="nav">
+     How can I purchase an Afghanistan flag?
+  </subtopic>
+</topic>
+
+<topic number="244" type="faceted">
+  <query>old town scottsdale</query>
+  <description>
+    Find restaurants in Old Town Scottsdale, AZ.
+  </description>
+  <subtopic number="1" type="inf">
+    Find restaurants in Old Town Scottsdale, AZ.
+  </subtopic> 
+  <subtopic number="2" type="inf">
+    What is the history of Old Town Scottsdale, AZ?
+  </subtopic>
+  <subtopic number="3" type="nav">
+    Find a map of Old Town Scottsdale, AZ.
+  </subtopic>
+  <subtopic number="4" type="nav">
+    Where is Fashion Square in Scottsdale?
+  </subtopic>
+</topic>
+
+<topic number="245" type="faceted">
+  <query>roosevelt island</query>
+  <description>
+    What restaurants are on Roosevelt Island (NY)?
+  </description>
+  <subtopic number="1" type="inf">
+    What restaurants are on Roosevelt Island (NY)?
+  </subtopic>
+  <subtopic number="2" type="nav">
+    Find the Roosevelt Island tram schedule.
+  </subtopic>
+  <subtopic number="3" type="inf">
+    What is the history of the Roosevelt Island tram?
+  </subtopic>
+  <subtopic number="4" type="nav">
+    Find a map of Roosevelt Island (NY).
+  </subtopic>
+  <subtopic number="5" type="inf">
+    Find real estate listings for Roosevelt Island (NY).
+  </subtopic>
+</topic>
+
+<topic number="246" type="single">
+  <query>civil war battles in South Carolina</query>
+  <description>
+    Which civil war battles were fought in South Carolina?
+  </description>
+</topic>
+
+ <topic number="247" type="ambiguous">
+  <query>rain man</query>
+  <description>
+    Where can I watch the full "Rain Main" movie online?
+  </description>
+  <subtopic number="1" type="nav">
+    Where can I watch the full "Rain Main" movie online?
+  </subtopic>
+  <subtopic number="2" type="inf">
+    Find information about the real person on which the Rain Man movie is based.
+  </subtopic>
+  <subtopic number="3" type="inf">
+     Find movie reviews of "Rain Man".
+  </subtopic>
+  <subtopic number="4" type="inf">
+     Find quotes from the "Rain Man" movie.
+  </subtopic>
+  <subtopic number="5" type="nav">
+     Find the lyrics to Eminem's "Rain Man".
+  </subtopic>
+</topic>
+
+<topic number="248" type="single">
+  <query>eggs shelf life</query>
+  <description>
+     What is the shelf life of a chicken egg---that is, how old can it be and still be safe to eat?
+  </description>
+</topic>
+
+<topic number="249" type="faceted">
+  <query>occupational therapist</query>
+  <description>
+     What is an occupational therapist?
+  </description>
+  <subtopic number="1" type="inf"> 
+     What is an occupational therapist?
+  </subtopic>
+  <subtopic number="2" type="inf">
+     Find job openings for occupational therapists.
+  </subtopic>
+  <subtopic number="3" type="inf">
+     What are typical salaries for occupational therapists?
+  </subtopic>
+  <subtopic number="4" type="inf">
+     Find information about occupational therapy for a child.
+  </subtopic>
+  <subtopic number="5" type="nav">
+     What are the requirements to become an occupational therapist?
+  </subtopic>
+</topic>
+
+<topic number="250" type="single">
+  <query>ford edge problems</query>
+  <description>
+    What problems have afflicted the Ford Edge car model?
+  </description> 
+</topic>
+
+</webtrack2013>

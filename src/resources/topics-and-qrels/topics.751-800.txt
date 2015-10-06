@@ -1,0 +1,886 @@
+<top>
+<num> Number: 751
+
+<title> Scrabble Players
+
+<desc> Description:
+Give information on Scrabble players, when and where Scrabble is
+played, and how popular it has been.
+
+<narr> Narrative:
+Give information on the social aspects of the game Scrabble. Scrabble
+players may be named or described as a group.  Both real and fictional
+players are relevant. Mention of a scheduled Scrabble game is
+relevant. Scrabble's popularity is relevant.  An account of a
+particular game is relevant.  Descriptions of variants on the Scrabble
+game are not relevant. Use of Scrabble tiles for other purposes are
+not relevant. Scrabble software is not relevant unless there is
+mention of its users.  Titles of Scrabble-related books (dictionaries,
+glossaries, rulebooks) are not relevant.
+
+
+</top>
+
+<top>
+<num> Number: 752
+
+<title> Dam removal
+
+<desc> Description:
+Where have dams been removed and what has been the environmental
+impact?
+
+<narr> Narrative:
+Discussions of dam removal in general are relevant. Identification of
+specific places where dams have been removed is relevant, as is
+discussion of the environmental impact of removal. Applications for
+removal are not relevant unless reasons are given.
+
+</top>
+
+<top>
+<num> Number: 753
+
+<title> bullying prevention programs
+
+<desc> Description:
+What programs have been used in schools to prevent bullying of
+students?
+
+<narr> Narrative:
+Relevant documents must have details about actual programs developed
+for and implemented in a school or schools with the goal of preventing
+bullying.  This would include details such as classes, assemblies,
+discipline, mediation or projects for students and staff.  Advice on
+how to develop such a program is not relevant.  Listings or titles of
+programs without details as to how they are implemented are not
+relevant.
+
+</top>
+
+<top>
+<num> Number: 754
+
+<title> domestic adoption laws
+
+<desc> Description:
+Provide any legal information about domestic human adoption.
+
+<narr> Narrative:
+Relevant documents must describe any laws covering adoption of minor
+children within the United States, to include laws of any specific
+states. Description of a law without specific name or identification
+of that law is acceptable.  Reference to a law and its impact are
+acceptable. A reference to a law without any textual description of
+that law is not acceptable .(e.g. "Joe Bloggs was responsible for
+passage of adoption law Nr#####.") Documents containing only
+tax-related legalities, such as tax allowances, are not acceptable.
+
+</top>
+
+<top>
+<num> Number: 755
+
+<title> Scottish Highland Games
+
+<desc> Description:
+What is the history and location of Scottish highland games in the
+United States.
+
+<narr> Narrative:
+Description of Scottish and Highland Games performed in the United
+States, their history and their geographic location are relevant. Mere
+mention of the games, time and place without description is considered
+not relevant.
+
+</top>
+
+<top>
+<num> Number: 756
+
+<title> Volcanic Activity
+
+<desc> Description:
+Locations of volcanic activity which occurred within the present day
+boundaries of the U.S. and its territories.
+
+<narr> Narrative:
+Relevant information would include when volcanic activity took place,
+even millions of years ago, or, on the contrary, if it is a possible
+future event.
+
+</top>
+
+<top>
+<num> Number: 757
+
+<title> Murals
+
+<desc> Description:
+Show examples of murals.
+
+<narr> Narrative:
+A picture of a mural must be present. Murals from any time period,
+works in progress, and portions of murals are relevant.  Rothko's
+mural paintings are relevant. Friezes (bands of wall decoration) are
+relevant.
+
+</top>
+ 
+<top>
+<num> Number: 758
+
+<title> Embryonic stem cells
+
+<desc> Description:
+What are embryonic stem cells, and what restrictions are placed on
+their use in research?
+
+<narr> Narrative:
+Explanation of the nature of embryonic stem cells is relevant. Their
+usefulness in research is relevant. Sources for them and restrictions
+on them also are relevant.
+
+</top>
+
+<top>
+<num> Number: 759
+
+<title> civil war battle reenactments
+
+<desc> Description:
+When and where are Civil War battle reenactments held?
+
+<narr> Narrative:
+Reenactments of actual Civil War battles which are scheduled to be or
+have previously been performed are relevant.  Regularly scheduled, or
+annual events are relevant.  General reenactments of a soldier's life,
+dress, encampments, and demonstrations not connected to a specific
+battle are not relevant.
+
+</top>
+
+<top>
+<num> Number: 760
+
+<title> american muslim mosques schools
+
+<desc> Description:
+Statistics regarding American Muslims, mosques, and schools.
+
+<narr> Narrative:
+Relevant documents should provide some count or proportion of mosques,
+Muslim-affiliated schools, or population. With regard to population,
+specific age groupings, sexes, or other categorizations are
+acceptable. The statistics can be pertinent to a specific geographic
+area, such as Fulton County, the state of California, or the
+Northeast.  There is no restriction as to time period (for example
+2005 versus 1987).
+
+</top>
+
+<top>
+<num> Number: 761
+
+<title> Problems of Hmong Immigrants
+
+<desc> Description:
+Describe the problems faced by Hmong immigrants to the United States
+
+<narr> Narrative:
+Problems faced by Hmong immigrants and programs or legislation to
+assist with these problems are relevant. Legislation to grant
+citizenship to Hmong with an inadequate knowledge of English is judged
+relevant. Listings of materials and services available in the Hmong
+language are not relevant.
+
+</top>
+
+<top>
+<num> Number: 762
+
+<title> History of Physicians in America
+
+<desc> Description:
+Who have been considered "doctors" since the first European settlement
+in America?
+
+<narr> Narrative:
+The history of physicians in America is relevant.  Native American
+practitioners would not be relevant.  Women who knew herbs and
+practiced midwifery would be relevant. Mention of "doctor" would be
+relevant if he/she is considered to be a doctor by other people.
+
+</top>
+
+<top>
+<num> Number: 763
+
+<title> Hunting deaths
+
+<desc> Description:
+Give information on human deaths associated with hunting for game.
+
+<narr> Narrative:
+Accidental deaths, murders, and suicides are relevant. Deaths can be
+from any cause. Fatalities of people not in the hunting party are
+relevant, but the deaths must be connected with hunting. Relevant
+hunting must be for live prey.  Deaths related to submarine hunting
+are not relevant.
+
+</top>
+
+<top>
+<num> Number: 764
+
+<title> Increase mass transit use
+
+<desc> Description:
+What is being done to increase mass transit use?
+
+<narr> Narrative:
+Relevant documents should describe measures taken in municipalities to
+increase mass transit use.  Actions taken by city officials or transit
+managers to increase rider ship of mass transit are relevant. Factors
+preventing use of mass transit are relevant. General statements of the
+value of mass transit are not relevant.
+
+</top>
+
+<top>
+<num> Number: 765
+
+<title> ephedra ma huang deaths
+
+<desc> Description:
+How many deaths have been attributed to the drug ephedra, also known
+as the herbal ingredient ma huang?
+
+<narr> Narrative:
+Information of specific individuals' deaths or numbers of deaths
+actually attributed to the use of ephedra or ma huang is relevant.
+Mixed statistics which conflate injuries and deaths are not relevant.
+General statements referring to death as a side effect of the drug's
+use are not relevant.
+
+</top>
+
+<top>
+<num> Number: 766
+
+<title> diamond smuggling
+
+<desc> Description:
+Illicit activity involving diamonds, to include diamond smuggling.
+
+<narr> Narrative:
+Relevant documents should include information about any illicit
+diamond activity. Smuggling of diamonds may be stated literally but
+other activities where illegal export (smuggling) is implied are
+acceptable. Such terms as "conflict diamonds" and "blood diamonds" are
+pertinent. The diamond terminology without text (such as a
+bibliography or document-less table of contents) is not
+acceptable. Any geographic area or relatively current (post 1950)
+timeframe is relevant.
+
+</top>
+
+<top>
+<num> Number: 767
+
+<title> Pharmacist License requirements
+
+<desc> Description:
+What are the requirements for a pharmacist's license in the U.S.?
+
+
+<narr> Narrative:
+Laws governing time issuance or renewal of a pharmacist's license in
+the various states are relevant. Requirements to qualify for a license
+and to perform under the license are relevant. Listings of pharmacies,
+pharmacists or agencies regulating or concerned with pharmacy are not
+relevant.
+
+</top>
+
+<top>
+<num> Number: 768
+
+<title> Women in state legislatures
+
+<desc> Description:
+What is the number of women legislators or what percentage of the
+total legislators in any given state are women?
+
+<narr> Narrative:
+A relevant document gives the exact number or the percentage of the
+total number of legislators that are women in any given state of the
+50 states or gives a total for the entire United States. A document
+talking about only one woman legislator is not relevant.
+
+</top>
+
+<top>
+<num> Number: 769
+
+<title> Kroll Associates Employees
+
+<desc> Description:
+Identify employees of Kroll Associates.
+
+<narr> Narrative:
+Employees must be named. Past and present Kroll employees are
+relevant. Kroll Associates is an international investigative and
+security firm whose regional branches are known as Kroll Associates
+Inc. or Kroll Associates Ltd. CK Kroll & Associates is an unrelated
+company and not relevant.
+
+</top>
+
+<top>
+<num> Number: 770
+
+<title> Kyrgyzstan-United States relations
+
+<desc> Description:
+What is the state of Kyrgyzstan-United States relations?
+
+<narr> Narrative:
+Relevant documents should discuss interactions between Kyrgyzstan and
+the United States. Teaching guides for U.S. schools and other
+documents on Kyrgyzstan are not relevant unless they include
+information on relations between the two nations.
+
+</top>
+
+<top>
+<num> Number: 771
+
+<title> deformed leopard frogs
+
+<desc> Description:
+What deformities have been found in leopard frogs?
+
+<narr> Narrative:
+Relevant documents must contain information pertaining to deformities
+specifically in leopard frogs.  Details such as where these deformed
+frogs have been found and the types and/or causes of their deformities
+are relevant.
+
+</top>
+
+<top>
+<num> Number: 772
+
+<title> flag display rules
+
+<desc> Description:
+What are the rules or guidelines for display of the United States
+flag?
+
+<narr> Narrative:
+Relevant documents must provide any regulations or guidelines for
+display of the U.S. flag. Not acceptable are bibliographies, tables of
+contents, or links to websites containing such information. Documents
+limited to flag abuse or desecration are not acceptable.
+
+</top>
+
+<top>
+<num> Number: 773
+
+<title> Pennsylvania slot machine gambling
+
+<desc> Description:
+What is the legal status of slot machine gambling in Pennsylvania?
+
+<narr> Narrative:
+Legislation dealing with slot machine gambling in Pennsylvania is
+relevant as are count reports of cases prosecuted under existing
+law. Proposals to change existing laws in Pennsylvania relating to
+slot machine gambling outside of Pennsylvania are not relevant.
+
+</top>
+
+<top>
+<num> Number: 774
+
+<title> Causes of Homelessness
+
+<desc> Description:
+What are some of the causes of homelessness?
+
+<narr> Narrative:
+Relevant causes do not have to be the actions of the homeless person/s
+themselves. Causes can come from outside the homeless person/s, such
+as being a veteran, or lack of available, lost-cost housing. Relevant
+causes can also be the actions of the homeless person/s such as
+alcoholism or drug addictions.  Other relevant reasons are a persons
+desire to be "free" or mental illness.
+
+</top>
+
+<top>
+<num> Number: 775
+
+<title> Commercial candy makers
+
+<desc> Description:
+Identify commercial candy makers and give information concerning them.
+
+<narr> Narrative:
+A candy manufacturer or brand must be named. Information on the
+company and its products, methods, markets, history, problems,
+successes, and popularity are relevant. Lawsuits and regulatory
+actions are relevant if a candy company or brand is named in the
+discussion.
+
+</top>
+
+<top>
+<num> Number: 776
+
+<title> Magnet schools success
+
+<desc> Description:
+Are magnet schools considered successful in districts where they have
+been created?
+
+<narr> Narrative:
+Documents which describe the way magnet schools operate in general or
+in specific locations are relevant if they relate whether or not they
+are thought to be successful. Success can be judged in terms of
+reduced racial segregation or improved academic achievement or
+both. Documents which only state plans or aims are not relevant.
+
+</top>
+
+<top>
+<num> Number: 777
+
+<title> hybrid alternative fuel cars
+
+<desc> Description:
+What hybrid or alternative fuel passenger cars are auto manufacturers
+now marketing or developing for future sales?
+
+<narr> Narrative:
+Relevant documents must contain some detail as to the manufacturer and
+model or type of car.  Lists of manufactures and car models are
+relevant. SUV's and mini vans for private, not commercial, use are
+relevant.  Commercial vehicles, such as buses or trucks are not
+relevant.
+
+</top>
+
+<top>
+<num> Number: 778
+
+<title> golden ratio
+
+<desc> Description:
+Golden ratio formula, description, or examples.
+
+<narr> Narrative:
+Documents must contain the Golden Ratio formula or a description of
+its development. References to works of art, design, or architecture
+are acceptable. Examples of the Golden Ratio appearing in nature are
+acceptable.  Other terms, such as "Golden Mean" or "Golden
+Proportion", are acceptable and can be substituted for Golden
+Ratio. References to Fibonacci without specifying the Golden Ratio or
+its formula are not acceptable. Documents limited to web links,
+bibliographies, or tables of contents (without accompanying documents)
+are not acceptable.
+
+</top>
+
+<top>
+<num> Number: 779
+
+<title> Javelinas range and description
+
+<desc> Description:
+Describe the Javelina or collared peccary and its geographic range.
+
+
+<narr> Narrative:
+Physical description, habits, habitat, and range are all
+relevant. Photographs identified as "javelina" or "peccary" are
+relevant.  Biographical listings or listings of 200 exhibits including
+the species' name are not considered relevant.
+
+</top>
+
+<top>
+<num> Number: 780
+
+<title> Arable land
+
+<desc> Description:
+How much of planet Earth is arable at present?  Area must have plenty
+of water, sun and soil to support plant life.
+
+<narr> Narrative:
+The mention of the percentage of land in any given state or country
+that will support plant life is relevant. The land does not have to be
+presently used for crops to be relevant.
+
+</top>
+
+<top>
+<num> Number: 781
+
+<title> Squirrel control and protections
+
+<desc> Description:
+Give information on steps to manage, control, or protect squirrels.
+
+<narr> Narrative:
+Real or abstract measures are relevant. Petitions and decisions
+concerning squirrels are relevant. Dangers to squirrels and threats to
+their survival are relevant. Mentions of squirrel hunting are
+relevant. Measures to protect from damage by squirrels are
+relevant. Simple descriptions of squirrels are not relevant.
+
+</top>
+
+<top>
+<num> Number: 782
+
+<title> Orange varieties seasons
+
+<desc> Description:
+What are the varieties of oranges and when is each in season?
+
+<narr> Narrative:
+Descriptions of orange varieties and the seasons in which they ripen
+are relevant. Lists are relevant if they name varieties of
+oranges. General information about oranges is not relevant.
+
+</top>
+
+<top>
+<num> Number: 783
+
+<title> school mercury poisoning
+
+<desc> Description:
+How have mercury poisonings of children occurred in schools and what
+measures are being taken to prevent such incidents?
+
+<narr> Narrative:
+Relevant documents must have information on the ways mercury
+poisonings have actually occurred in schools and/or concrete measures
+that have been taken to prevent or reduce mercury exposure in
+schools. Relevant preventative measures would include specific
+regulations or policies enacted or the establishment of mercury-free
+zones. General information of how a poisoning might occur or advice on
+precautions in handling mercury is not relevant.
+
+</top>
+
+<top>
+<num> Number: 784
+
+<title> mersenne primes
+
+<desc> Description:
+Give a definition or description of Mersenne prime numbers.
+
+<narr> Narrative:
+The document should have the formula for Mersenne primes. However, the
+exact formula may be omitted if there is a narrative description
+sufficiently clear for the reader to render it into the desired
+equation. A discussion of Mersenne numbers without reference to
+Mersenne primes is not acceptable! If the equation appears to be
+incorrect it will be acceptable anyway.
+
+</top>
+
+<top>
+<num> Number: 785
+
+<title> Ivory-billed woodpecker
+
+<desc> Description:
+What is the history and present status of the Ivory-billed Woodpecker?
+
+<narr> Narrative:
+References to places where the Ivory-billed woodpecker was previously
+reported are relevant whether or not its present status has been
+determined.  Statements that its status is "extirpated" or "extinct"
+are relevant descriptions of programs to locate, preserve, encourage
+or reintroduce this species are relevant. Reports of sightings and
+last sightings are relevant.
+
+</top>
+
+<top>
+<num> Number: 786
+
+<title> Yew trees
+
+<desc> Description:
+Where do yew trees grow anywhere on the globe?
+
+<narr> Narrative:
+To be relevant the document must mention a place where the yew tree
+grows. The name of a forest or park or river is sufficient. The
+country's name does not have to be listed for it to be relevant.
+
+</top>
+
+<top>
+<num> Number: 787
+
+<title> Sunflower Cultivation
+
+<desc> Description:
+Give information on the cultivation of sunflowers.
+
+<narr> Narrative:
+Problems in growing sunflowers and tips for success are
+relevant. Descriptions of how sunflowers grow are
+relevant. Identifications of places where sunflowers are cultivated
+are relevant.  Information on the Ox-eye Sunflower and plants in the
+sunflower family are relevant.
+
+
+</top>
+
+<top>
+<num> Number: 788
+
+<title> Reverse mortgages
+
+<desc> Description:
+What are reverse mortgages and how do they work?
+
+<narr> Narrative:
+Relevant documents will define reverse mortgages, describe
+requirements for qualifying, and explain how homeowners make use of
+them. Discussions on their advantages and disadvantages are
+relevant. Listings of links are relevant if they give information
+about reverse mortgages other than the name.
+
+</top>
+
+<top>
+<num> Number: 789
+
+<title> abandoned mine reclamation
+
+<desc> Description:
+Find information on abandoned mine reclamation projects.
+
+<narr> Narrative:
+Relevant documents must have information regarding specific mine
+reclamation projects planned, underway, or completed.  General
+information or generalized statistics about mine reclamation are not
+relevant.  Also not relevant are remining projects or mining refuse
+reclamation.
+
+</top>
+
+<top>
+<num> Number: 790
+
+<title> women's rights in Saudi Arabia
+
+<desc> Description:
+Provide any description of laws or restrictions affecting Saudi
+Arabian women's rights.
+
+<narr> Narrative:
+Acceptable documents must provide a narrative description of Saudi
+laws or restrictions affecting Saudi women.  Relevance to women must
+be specifically mentioned; general laws affecting women only as a
+subset of the whole Population is not acceptable. Documents that
+allude to women's rights and restrictions are not acceptable unless
+they give an example, however vague.  References to changes in the
+laws, improvements, etc. are all acceptable. The time period should be
+relatively current (past 50 years).
+
+</top>
+
+<top>
+<num> Number: 791
+
+<title> Gullah geechee language culture
+
+<desc> Description:
+Describe the historical background and present status of
+Gullah-Geechee language and culture
+
+<narr> Narrative:
+Information on the origin and development of the Gullah-Geechee
+people, language and culture is relevant. Statements on relationships
+to other groups, languages and cultures are relevant.  Present
+geographical limits and geographical origins are relevant. Simple
+identification of an individual as Gullah-Geechee is not considered
+relevant.
+
+
+</top>
+
+<top>
+<num> Number: 792
+
+<title> Social Security means test
+
+<desc> Description:
+Does Social Security use a means test?
+
+<narr> Narrative:
+Relevant documents will define "means test" and describe how it is
+used in figuring Social Security benefits. Discussions on the way in
+which means tests have changed over the years are also relevant.
+
+</top>
+
+<top>
+<num> Number: 793
+
+<title> Bagpipe Bands
+
+<desc> Description:
+Give information on, and examples of, bagpipe bands.
+
+<narr> Narrative:
+References to, or descriptions of, actual or fictional bagpipe bands
+are relevant.  Abstract discussions of bagpipe bands are
+relevant. Bands don't have to be named.  Bagpipes must make up a major
+part of the band to be relevant.  Bagpipe-and-drum bands and
+bagpipe-and-accordion bands are relevant. Bands that include a nominal
+bagpipe or two are not relevant. A single bagpiper playing alone is
+not relevant, but two or more bagpipers playing together are relevant.
+
+</top>
+
+<top>
+<num> Number: 794
+
+<title> pet therapy
+
+<desc> Description:
+How are pets or animals used in therapy for humans and what are the
+benefits?
+
+<narr> Narrative:
+Relevant documents must include details of how pet- or animal-assisted
+therapy is or has been used.  Relevant details include information
+about pet therapy programs, descriptions of the circumstances in which
+pet therapy is used, the benefits of this type of therapy, the degree
+of success of this therapy, and any laws or regulations governing it.
+
+</top>
+
+<top>
+<num> Number: 795
+
+<title> notable cocker spaniels
+
+<desc> Description:
+Provide any reference to notable cockers or other spaniels.
+
+<narr> Narrative:
+Relevant documents must identify a spaniel that is notable by fame
+(Lady), association with a famous person (Checkers), or newsworthy
+activity (bomb-sniffing airport security duty). Although cocker
+spaniels are preferred, other spaniels (such as water, Brittany,
+clumber, etc.) are accepted. A spaniel mentioned as a pet on someone's
+Web biography will be acceptable as long as the owner has some degree
+of notoriety.  For example, the dog of a state governor is relevant;
+some company website's middle manager's dog is not. A newsworthy
+activity can include any special talent, trick, or service.  Lists of
+books about dogs are not acceptable unless there is some
+identification of the dog.
+
+</top>
+
+<top>
+<num> Number: 796
+
+<title> Blue Grass Music Festival history
+
+<desc> Description:
+Describe the history of bluegrass music and give location of bluegrass
+festivals.
+
+<narr> Narrative:
+Any facts relating to the history of bluegrass music are
+relevant. Music festivals including bluegrass are relevant whether
+titled "bluegrass" blue grass or not.  Geographical location of
+festivals is relevant while date or time of year is optional.
+
+
+</top>
+
+<top>
+<num> Number: 797
+
+<title> reintroduction of gray wolves
+
+<desc> Description:
+Where in the US have gray wolves been reintroduced in the wild?
+
+<narr> Narrative:
+Relevant documents must have information about planned or accomplished
+reintroductions of gray wolves and include some detail as to number or
+location.  Reintroductions of any type of gray wolf are relevant.  Any
+other wolf species is not relevant.  Proposals for, or discussions and
+debates about gray wolf reintroduction is not relevant.
+
+</top>
+
+<top>
+<num> Number: 798
+
+<title> Massachusetts textile mills
+
+<desc> Description:
+History, development, and locations of textile mills in Massachusetts
+
+<narr> Narrative:
+Relevant documents must provide narrative information about the
+Massachusetts textile mills. Descriptions of preserved mill-related
+sites open to the public are acceptable if they contain historical
+information. Sites included only as part of a tour itinerary are not
+acceptable. Lesson plans with activities relating to mills are not
+acceptable. Mill references appearing only as Web links,
+bibliographies, or tables of contents are not acceptable.
+
+</top>
+
+<top>
+<num> Number: 799
+
+<title> Animals in Alzheimer's research
+
+<desc> Description:
+What animals have been used in Alzheimer's research?
+
+<narr> Narrative:
+Animals that are or were effectively used in Alzheimer's research are
+relevant.  Animals that were tried and found not effective in
+Alzheimer's research are also relevant.
+
+</top>
+
+<top>
+<num> Number: 800
+
+<title> Ovarian Cancer Treatment
+
+<desc> Description:
+The remedies and treatments given to lesson or stop effects of ovarian
+cancer.
+
+<narr> Narrative:
+Relevant documents must include names of chemicals or medicines used
+to fight ovarian cancer. Studies of new treatments that are being
+tried are valid, even if they have not reached a conclusion as to
+effectiveness.
+
+</top>
+

@@ -1,0 +1,774 @@
+<?xml version="1.0"?>
+<!DOCTYPE webtrack2014 [
+  <!ELEMENT webtrack2014 (topic)*>
+  <!ELEMENT topic (query, description, subtopic*)>
+    <!ATTLIST topic 
+              number CDATA #REQUIRED
+              type (ambiguous|faceted|single|other) "ambiguous">
+   <!ELEMENT query (#PCDATA)>
+  <!ELEMENT description (#PCDATA)>
+  <!ELEMENT subtopic (#PCDATA)>
+    <!ATTLIST subtopic 
+              number CDATA #REQUIRED
+              type (nav|inf) "inf">
+]>
+<webtrack2014>
+
+<!-- Please note that topic and subtopic types (faceted/ambiguous,
+     inf/nav are meant as a general indicator and should not be taken
+     as definitive aspects of the query intent. -->
+
+<!-- Note that the first subtopic is always identical to the description
+     sentence.  This is to ensure that adhoc-task results are also relevant
+     to the subtopic task. -->
+
+<topic number="251" type="single">
+  <query>identifying spider bites</query>
+  <description>
+  	Find data on how to identify spider bites.
+  </description>
+</topic>
+
+<topic number="252" type="single">
+  <query>history of orcas island</query>
+  <description>
+  	Looking for any historical information related to Orcas Island: geographical, buildings, people, infrastructure, etc.
+  </description>
+</topic>
+
+<topic number="253" type="faceted">
+  <query>tooth abscess</query>
+  <description>
+ 	What treatments are available for a tooth abscess?
+  </description>
+  <subtopic number="1" type="inf">
+ 	What treatments are available for a tooth abscess?
+  </subtopic>
+  <subtopic number="2" type="inf">
+  	What are the dangers/complications of leaving a tooth abscess untreated?
+  </subtopic>
+  <subtopic number="3" type="inf">
+  	What are the concerns with extracting an abscessed tooth?
+  </subtopic>
+  <subtopic number="4" type="inf">
+  	Which antibiotics are used to treat a tooth abscess.
+  </subtopic>
+</topic>
+
+<topic number="254" type="faceted">
+  <query>barrett's esophagus</query>
+  <description>
+  	Find the causes and risk factors of Barrett's Esophagus.
+  </description>
+  <subtopic number="1" type="inf">
+  	Find the causes and risk factors of Barrett's Esophagus.
+  </subtopic>
+  <subtopic number="2" type="inf">
+  	What treatments are available for Barrett's Esophagus?
+  </subtopic>
+  <subtopic number="3" type="inf">
+  	What is the recommended diet for Barrett's Esophagus?
+  </subtopic>
+  <subtopic number="4" type="inf">
+  	Is there a link between Barrett's Esophagus and cancer?
+  </subtopic>
+  <subtopic number="5" type="inf">
+  	Find symptoms of Barrett's Esophagus.
+  </subtopic>
+  <subtopic number="6" type="inf">
+  	Find pictures of Barrett's Esophagus.
+  </subtopic>
+  <subtopic number="7" type="inf">
+  	Find Barret's Esophagus studies performed at the Mayo Clinic.
+  </subtopic>
+</topic>
+
+<topic number="255" type="faceted">
+  <query>teddy bears</query>
+  <description>
+  	Find information about teddy bear picnics.
+  </description>
+  <subtopic number="1" type="inf">
+  	Find information about teddy bear picnics.
+  </subtopic>
+  <subtopic number="2" type="inf">
+  	Show me teddy bears made by Gund.
+  </subtopic>
+  <subtopic number="3" type="inf">
+  	Find giant teddy bears.
+  </subtopic>
+  <subtopic number="4" type="inf">
+  	Locate information about teddy bears by Steiff.
+  </subtopic>
+  <subtopic number="5" type="inf">
+  	Where can I buy teddy bears wholesale?
+  </subtopic>
+</topic>
+
+<topic number="256" type="single">
+  <query>patron saint of mental illness</query>
+  <description>
+  	Who is the patron saint of mental illness?
+  </description>
+</topic>
+
+<topic number="257" type="faceted">
+  <query>holes by louis sachar</query>
+  <description>
+  	Find summaries of "Holes" by Louis Sachar.
+  </description>
+  <subtopic number="1" type="inf">
+  	Find summaries of "Holes" by Louis Sachar.
+  </subtopic>
+  <subtopic number="2" type="inf">
+  	Find lesson plans or classroom activities related to "Holes" by Louis Sachar.
+  </subtopic>
+  <subtopic number="3" type="inf">
+  	Find reviews of the movie "Holes".
+  </subtopic>
+  <subtopic number="4" type="inf">
+  	Who are the characters in the book "Holes" by Louis Sachar?
+  </subtopic>
+</topic>
+
+<topic number="258" type="faceted">
+  <query>hip roof</query>
+  <description>
+  	Find pictures of a hip roof.
+  </description>
+  <subtopic number="1" type="inf">
+  	Find pictures of a hip roof.
+  </subtopic>
+  <subtopic number="2" type="inf">
+  	Find information on hip roof trusses.
+  </subtopic>
+  <subtopic number="3" type="inf">
+  	I'm looking for engineering drawings of a hip roof.
+  </subtopic>
+  <subtopic number="4" type="inf">
+  	What are the advantages and disadvantages of a hip roof over other roof types?
+  </subtopic>
+</topic>
+
+<topic number="259" type="faceted">
+  <query>carpenter bee</query>
+  <description>
+  	How do you identify carpenter bees and how are they different from other bees?
+  </description>
+  <subtopic number="1" type="inf">
+  	How do you identify carpenter bees and how are they different from other bees?
+  </subtopic>
+  <subtopic number="2" type="inf">
+  	How and where do carpenter bees make their nests?
+  </subtopic>
+  <subtopic number="3" type="inf">
+  	How does one get rid of carpenter bees?
+  </subtopic>
+  <subtopic number="4" type="inf">
+  	What damage can a carpenter bee do to a home or structure?
+  </subtopic>
+  <subtopic number="5" type="inf">
+  	Find a picture of a carpenter bee.
+  </subtopic>
+  <subtopic number="6" type="inf">
+  	Do carpenter bees sting?
+  </subtopic>
+</topic>
+
+<topic number="260" type="faceted">
+  <query>the american revolutionary</query>
+  <description>
+  	Find a list of the major battles of the American Revolution.
+  </description>
+  <subtopic number="1" type="nav">
+  	Find a list of the major battles of the American Revolution.
+  </subtopic>
+  <subtopic number="2" type="nav">
+  	Find a time line of the American Revolution.
+  </subtopic>
+  <subtopic number="3" type="inf">
+  	Find images of the American Revolution.
+  </subtopic>
+  <subtopic number="4" type="inf">
+  	What were the causes of the American revolutionary war?
+  </subtopic>
+  <subtopic number="5" type="inf">
+  	What is the history of the American revolutionary war?
+  </subtopic>
+</topic>
+
+<topic number="261" type="single">
+  <query>folk remedies sore throat</query>
+  <description>
+  	What folk remedies are there for soothing a sore throat?
+  </description>
+</topic>
+
+<topic number="262" type="single">
+  <query>balding cure</query>
+  <description>
+  	Find cures for baldness (other than hair replacement, hair transplants, or wigs).
+  </description>
+</topic>
+
+<topic number="263" type="single">
+  <query>evidence for evolution</query>
+  <description>
+  	What are the current scientific theories of and data on evolution?
+  </description>
+</topic>
+
+<topic number="264" type="single">
+  <query>tribe formerly living in alabama</query>
+  <description>
+  	Find information about Indian tribes that lived in the area that is now Alabama.
+  </description>
+</topic>
+
+<topic number="265" type="faceted">
+  <query>F5 tornado</query>
+  <description>
+  	What were the ten worst tornadoes in the USA?
+  </description>
+  <subtopic number="1" type="inf">
+  	What were the ten worst tornadoes in the USA?
+  </subtopic>
+  <subtopic number="2" type="inf">
+  	Where is tornado alley?
+  </subtopic>
+  <subtopic number="3" type="inf">
+  	What damage can an F5 tornado do?
+  </subtopic>
+  <subtopic number="4" type="inf">
+  	Find information on tornado shelters.
+  </subtopic>
+  <subtopic number="5" type="nav">
+  	What wind speed defines an F5 tornado?
+  </subtopic>
+</topic>
+
+<topic number="266" type="single">
+  <query>symptoms of heart attack</query>
+  <description>
+  	What are the symptoms of a heart attack in both men and women?
+  </description>
+</topic>
+
+<topic number="267" type="single">
+  <query>feliz navidad lyrics</query>
+  <description>
+  	What are the lyrics to the song Feliz Navidad?
+  </description>
+</topic>
+
+<topic number="268" type="single">
+  <query>benefits of running</query>
+  <description>
+  	How is running beneficial to the health of the human body?
+  </description>
+</topic>
+
+<topic number="269" type="ambiguous">
+  <query>marshall county schools</query>
+  <description>
+  	
+  </description>
+  <subtopic number="1" type="inf">
+  	Find information about Marshall County Schools in West Virginia.
+  </subtopic>
+  <subtopic number="2" type="nav">
+  	Find the Marshall County Schools in Kentucky school calendar
+  </subtopic>
+</topic>
+
+<topic number="270" type="faceted">
+  <query>sun tzu</query>
+  <description>
+  	Find quotes from Sun Tzu.
+  </description>
+  <subtopic number="1" type="inf">
+  	Find quotes from Sun Tzu.
+  </subtopic>
+  <subtopic number="2" type="inf">
+  	Find commentary on Sun Tzu's "The Art of War".
+  </subtopic>
+  <subtopic number="3" type="inf">
+  	How does Sun Tzu's "The Art of War" apply to business?
+  </subtopic>
+  <subtopic number="4" type="inf">
+  	Find comparisons of Sun Tzu and Machiavelli.
+  </subtopic>
+  <subtopic number="5" type="inf">
+  	What are examples of the philosophy of Sun Tzu?
+  </subtopic>
+</topic>
+
+<topic number="271" type="single">
+  <query>halloween activities for middle school</query>
+  <description>
+  	What activities are good for middle-school-aged children to celebrate Halloween?
+  </description>
+</topic>
+
+<topic number="272" type="faceted">
+  <query>dreams interpretation</query>
+  <description>
+  	Find data on how to generally interpret dreams.
+  </description>
+  <subtopic number="1" type="inf">
+  	Find data on how to generally interpret dreams.
+  </subtopic>
+  <subtopic number="2" type="inf">
+  	What do dreams about flying mean?
+  </subtopic>
+  <subtopic number="3" type="inf">
+  	What do dreams about water mean?
+  </subtopic>
+  <subtopic number="4" type="inf">
+  	What do dreams about teeth mean?
+  </subtopic>
+  <subtopic number="5" type="inf">
+  	What do dreams about spiders mean?
+  </subtopic>
+  <subtopic number="6" type="inf">
+  	What do dreams about being chased mean?
+  </subtopic>
+  <subtopic number="7" type="inf">
+  	What do dreams about death mean?
+  </subtopic>
+</topic>
+
+
+<topic number="273" type="faceted">
+  <query>wilson's disease</query>
+  <description>
+  	Find Wilson (Wilson's) Disease Association web site.
+  </description>
+  <subtopic number="1" type="nav">
+  	Find Wilson (Wilson's) Disease Association web site.
+  </subtopic>
+  <subtopic number="2" type="inf">
+  	What are the symptoms of Wilson's disease?
+  </subtopic>
+  <subtopic number="3" type="inf">
+  	What is the relationship between Wilson's disease and zinc?
+  </subtopic>
+  <subtopic number="4" type="inf">
+  	What diet should a person with Wilson's disease follow?
+  </subtopic>
+  <subtopic number="5" type="inf">
+  	Find pictures of the Kayser-Fleischer ring that is a sign of Wilson's disease.
+  </subtopic>
+  <subtopic number="6" type="inf">
+  	Is there a genetic basis to Wilson's disease?
+  </subtopic>
+</topic>
+
+<topic number="274" type="faceted">
+  <query>golf instruction</query>
+  <description>
+  	Find information about golf schools.
+  </description>
+  <subtopic number="1" type="inf">
+  	Find information about golf schools.
+  </subtopic>
+  <subtopic number="2" type="inf">
+  	Find vacation packages that include golf instruction.
+  </subtopic>
+  <subtopic number="3" type="inf">
+  	What golf instructional videos (DVDs) are available?
+  </subtopic>
+  <subtopic number="4" type="inf">
+  	Find online instructions/tips for putting.
+  </subtopic>
+  <subtopic number="5" type="inf">
+  	Find lessons on the basics of setup and grip for golf.
+  </subtopic>
+</topic>
+
+<topic number="275" type="faceted">
+  <query>uss cole</query>
+  <description>
+  	Find details regarding the casualties of the USS Cole bombing 
+  </description>
+  <subtopic number="1" type="inf">
+  	Find details regarding the casualties of the USS Cole bombing 
+  </subtopic>
+  <subtopic number="2" type="inf">
+  	Get details on the bombing of the USS Cole.
+  </subtopic>
+  <subtopic number="3" type="inf">
+  	What were the results of the investigation of the USS Cole bombing?
+  </subtopic>
+  <subtopic number="4" type="inf">
+  	Find the names of the victims of the USS Cole bombing.
+  </subtopic>
+  <subtopic number="5" type="inf">
+  	What methods were used for the recovery of the USS Cole?
+  </subtopic>
+</topic>
+
+<topic number="276" type="single">
+  <query>how has african american music influence history</query>
+  <description>
+  	How has African American music influenced history, including cultural history?
+  </description>
+</topic>
+
+<topic number="277" type="ambiguous">
+  <query>bewitched cast</query>
+  <description>
+  	What are the names of the cast members of the television show "Bewitched"?
+  </description>
+  <subtopic number="1" type="inf">
+  	What are the names of the cast members of the television show "Bewitched"?
+  </subtopic>
+  <subtopic number="2" type="inf">
+  	What are the names of the cast members of the movie "Bewitched"?
+  </subtopic>
+</topic>
+
+<topic number="278" type="faceted">
+  <query>mister rogers</query>
+  <description>
+  	What are the lyrics to the theme song for "Mister Rogers' Neighborhood"?
+  </description>
+  <subtopic number="1" type="nav">
+  	What are the lyrics to the theme song for "Mister Rogers' Neighborhood"?
+  </subtopic>
+  <subtopic number="2" type="inf">
+  	Find biographical information for Fred Rogers.
+  </subtopic>
+  <subtopic number="3" type="inf">
+  	What characters inhabited Mister Rogers' Neighborhood?
+  </subtopic>
+  <subtopic number="4" type="inf">
+  	Find quotes from Mister Rogers.
+  </subtopic>
+  <subtopic number="5" type="inf">
+  	Find Mister Rogers videos.
+  </subtopic>
+  <subtopic number="6" type="inf">
+  	What songs were sung on "Mister Rogers' Neighborhood"?
+  </subtopic>
+  <subtopic number="7" type="inf">
+  	Find information about Mister Rogers' Purple Panda.
+  </subtopic>
+</topic>
+
+<topic number="279" type="faceted">
+  <query>game theory</query>
+  <description>
+  	Find books on game theory.
+  </description>
+  <subtopic number="1" type="inf">
+  	Find books on game theory.
+  </subtopic>
+  <subtopic number="2" type="inf">
+  	How did John Nash contribute to game theory?
+  </subtopic>
+  <subtopic number="3" type="inf">
+  	What's the timeline for the evolution of game theory?
+  </subtopic>
+  <subtopic number="4" type="inf">
+  	How is game theory defined?
+  </subtopic>
+  <subtopic number="5" type="inf">
+  	Find seminars, symposia, workshops, and/or courses on game theory.
+  </subtopic>
+  <subtopic number="6" type="inf">
+  	What are examples of problems game theory can be used to solve?
+  </subtopic>
+</topic>
+
+<topic number="280" type="single">
+  <query>view my internet history</query>
+  <description>
+  	How can I find my internet browsing history, i.e., the web sites I have previously visited?
+  </description>
+</topic>
+
+<topic number="281" type="faceted">
+  <query>ketogenic diet</query>
+  <description>
+  	What is a ketogenic diet?
+  </description>
+  <subtopic number="1" type="inf">
+  	What is a ketogenic diet?
+  </subtopic>
+  <subtopic number="2" type="inf">
+  	Find recipes for a ketogenic diet
+  </subtopic>
+  <subtopic number="3" type="inf">
+  	What are the side effects of a ketogenic diet?
+  </subtopic>
+  <subtopic number="4" type="inf">
+  	How does a ketogenic diet help with epilepsy?
+  </subtopic>
+  <subtopic number="5" type="inf">
+  	How does a ketogenic diet help with weight loss?
+  </subtopic>
+  <subtopic number="6" type="inf">
+  	Find a ketogenic diet food list.
+  </subtopic>
+</topic>
+
+
+<topic number="282" type="single">
+  <query>nasa interplanetary missions</query>
+  <description>
+  	What interplanetary missions has NASA implemented or has planned?
+  </description>
+</topic>
+
+<topic number="283" type="single">
+  <query>hayrides in pa</query>
+  <description>
+     Where can I go on a hay ride in Pennsylvania?
+  </description>
+</topic>
+
+<topic number="284" type="single">
+  <query>where to find morel mushrooms</query>
+  <description>
+  	What are the best places to find morel mushrooms growing?
+  </description>
+</topic>
+
+<topic number="285" type="faceted">
+  <query>magnesium rich foods</query>
+  <description>
+  	Which foods are rich in magnesium?
+  </description>
+  <subtopic number="1" type="inf">
+  	Which foods are rich in magnesium?
+  </subtopic>
+  <subtopic number="2" type="inf">
+  	What are the symptoms of a magnesium deficiency?
+  </subtopic>
+  <subtopic number="3" type="inf">
+  	What are the effects of too much magnesium?
+  </subtopic>
+</topic>
+
+<topic number="286" type="single">
+  <query>common schizophrenia drugs</query>
+  <description>
+  	Which drugs are commonly used to treat the different stages of schizophrenia?
+  </description>
+</topic>
+
+<topic number="287" type="single">
+  <query>carotid cavernous fistula treatment</query>
+  <description>
+  	What treatments are available for CCFT, carotid cavernous fistula?
+  </description>
+</topic>
+
+<topic number="288" type="faceted">
+  <query>fidel castro</query>
+  <description>
+  	Find quotes from Fidel Castro.
+  </description>
+  <subtopic number="1" type="inf">
+  	Find quotes from Fidel Castro.
+  </subtopic> 
+  <subtopic number="2" type="inf">
+  	Find biographical information about Fidel Castro.
+  </subtopic> 
+  <subtopic number="3" type="inf">
+  	What is the relationship between Ozzie Guillen and Fidel Castro?
+  </subtopic>
+  <subtopic number="4" type="inf">
+  	Find information on the health of Fidel Castro.
+  </subtopic>
+  <subtopic number="5" type="inf">
+  	Who are Fidel Castro's family members?
+  </subtopic>
+</topic>
+
+<topic number="289" type="faceted">
+  <query>benefits of yoga</query>
+  <description>
+  	What are the benefits of yoga for kids?
+  </description>
+  <subtopic number="1" type="inf">
+  	What are the benefits of yoga for kids?
+  </subtopic>
+  <subtopic number="2" type="inf">
+	Find information on yoga for seniors.
+  </subtopic>
+  <subtopic number="3" type="inf">
+  	Does yoga help with weight loss?
+  </subtopic>
+  <subtopic number="4" type="inf">
+  	What are the benefits of various yoga poses?
+  </subtopic>
+  <subtopic number="5" type="inf">
+  	What are the benefits of yoga during pregnancy?
+  </subtopic>
+  <subtopic number="6" type="inf">
+  	How does yoga benefit runners?
+  </subtopic>
+  <subtopic number="7" type="inf">
+  	Find the benefits of yoga nidra.
+  </subtopic>
+</topic>
+
+<topic number="290" type="faceted">
+  <query>norway spruce</query>
+  <description>
+  	How do you identify a Norway Spruce?
+  </description>
+  <subtopic number="1" type="inf">
+  	How do you identify a Norway Spruce?
+  </subtopic>
+  <subtopic number="2" type="inf">
+  	What are the diseases of the Norway Spruce?
+  </subtopic>
+  <subtopic number="3" type="inf">
+  	Find information on planting and growing Norway Spruce trees.
+  </subtopic>
+  <subtopic number="4" type="inf">
+  	Find pictures of Norway Spruce trees.
+  </subtopic>
+</topic>
+
+
+<topic number="291" type="faceted">
+  <query>sangre de cristo mountains</query>
+  <description>
+  	What are some cities/destinations within the Sangre de Cristo mountains region? 
+  </description>
+  <subtopic number="1" type="inf">
+  	What are some cities/destinations within the Sangre de Cristo mountains region? 
+  </subtopic>
+  <subtopic number="2" type="inf">
+  	What are recreational activities available within the Sangre de Cristo mountains region? 
+  </subtopic>
+  <subtopic number="3" type="inf">
+  	Find photos of the Sangre de Cristo mountains.
+  </subtopic>
+  <subtopic number="4" type="inf">
+  	What are the skiing possibilities in the Sangre de Cristo mountains? 
+  </subtopic>
+  <subtopic number="5" type="inf">
+  	Is there a pass within the Sangre de Cristo mountain range?
+  </subtopic>
+  <subtopic number="6" type="inf">
+  	Find ranches for sale in the Sangre de Cristo mountains area.  
+  </subtopic>
+  <subtopic number="7" type="inf">
+  	What hiking is available in the Sangre de Cristo mountains?
+  </subtopic>
+</topic>
+
+<topic number="292" type="single">
+  <query>history of the electronic medical record</query>
+  <description>
+  	Find information on how the electronic medical record (or electronic health record) has evolved through the years.
+  </description>
+</topic>
+
+<topic number="293" type="single">
+  <query>educational advantages of social networking sites</query>
+  <description>
+  	What are the educational benefits of social networking sites?
+  </description>
+</topic>
+
+<topic number="294" type="faceted">
+  <query>flowering plants</query>
+  <description>
+  	What are the names of some flowering plants?
+  </description>
+  <subtopic number="1" type="inf">
+  	What are the names of some flowering plants?
+  </subtopic> 
+  <subtopic number="2" type="inf">
+  	What is the definition of a flowering plant?
+  </subtopic>
+  <subtopic number="3" type="inf">
+  	Which flowering plants do well in the shade?
+  </subtopic>
+  <subtopic number="4" type="inf">
+  	When did flowering plants first appear?
+  </subtopic>
+  <subtopic number="5" type="inf">
+  	Find pictures of flowering plants.
+  </subtopic>
+</topic>
+
+<topic number="295" type="single">
+  <query>how to tie a windsor knot</query>
+  <description>
+     How do you tie a Windsor knot?
+  </description>
+</topic>
+
+<topic number="296" type="single">
+  <query>recycling lead acid batteries</query>
+  	Where can I recycle lead acid batteries?
+  <description>
+  </description>
+</topic>
+
+ <topic number="297" type="faceted">
+  <query>altitude sickness</query>
+  <description>
+  	How can one prevent altitude sickness?
+  </description>
+  <subtopic number="1" type="inf">
+  	How can one prevent altitude sickness?
+  </subtopic>
+  <subtopic number="2" type="inf">
+  	What is altitude sickness?
+  </subtopic>
+  <subtopic number="3" type="inf">
+  	What are the treatments for altitude sickness?
+  </subtopic>
+  <subtopic number="4" type="inf">
+  	In which cities is high altitude sickness more likely to occur?
+  </subtopic>
+</topic>
+
+<topic number="298" type="single">
+  <query>medical care and jehovah's witnesses</query>
+  <description>
+  	What are the medical or health care practices followed by members of the Jehovah's Witnesses religion?
+  </description>
+</topic>
+
+<topic number="299" type="faceted">
+  <query>pink slime in ground beef</query>
+  <description>
+  	What is pink slime?
+  </description>
+  <subtopic number="1" type="inf"> 
+  	What is pink slime?
+  </subtopic>
+  <subtopic number="2" type="inf">
+  	Who sells ground beef with pink slime in it?
+  </subtopic>
+  <subtopic number="3" type="inf">
+  	What restaurants use pink slime?
+  </subtopic>
+  <subtopic number="4" type="inf">
+  	Find pictures of pink slime.
+  </subtopic>
+  <subtopic number="5" type="inf">
+  	What is ammonia used for in pink slime?
+  </subtopic>
+  <subtopic number="6" type="inf">
+  	Is pink slime used in school lunches?
+  </subtopic>
+</topic>
+
+<topic number="300" type="single">
+  <query>how to find the mean</query>
+  <description>
+  	Find a page that explains how to compute the mean of a set of numbers.
+  </description> 
+</topic>
+
+</webtrack2014>
