@@ -22,3 +22,9 @@ After indexing is done, you should be able to peform a retrieval run:
 sh target/appassembler/bin/RunGov2 src/resources/topics-and-qrels/topics.701-750.txt \
  src/resources/topics-and-qrels/qrels.701-750.txt run.701-750.txt lucene-index.gov2.cnt/index
 ```
+
+A copy of `trec_eval` is included in `eval/`. Unpack and compile it. Then you can evaluate the runs:
+
+```
+eval/trec_eval.9.0/trec_eval src/resources/topics-and-qrels/qrels.701-750.txt run.701-750.txt
+```
