@@ -30,6 +30,14 @@
               <mainClass>io.anserini.TrecDriver</mainClass>
               <name>RunGov2</name>
             </program>
+            <program>
+              <mainClass>io.anserini.IndexerCW09B</mainClass>
+              <name>IndexCW09B</name>
+            </program>
+            <program>
+              <mainClass>io.anserini.SearcherCW09B</mainClass>
+              <name>RunCW09B</name>
+            </program>
           </programs>
         </configuration>
       </plugin>
@@ -49,7 +57,7 @@
       </plugin>
     </plugins>
   </build>
-  
+
   <dependencies>
     <dependency>
       <groupId>org.apache.lucene</groupId>
@@ -76,7 +84,7 @@
 	  <artifactId>lucene-core</artifactId>
 	  <version>5.2.1</version>
     </dependency>
-    
+
     <dependency>
       <groupId>org.apache.solr</groupId>
       <artifactId>solr-solrj</artifactId>
@@ -87,6 +95,22 @@
       <artifactId>commons-logging</artifactId>
       <version>1.2</version>
     </dependency>
-    
+
+    <dependency>
+      <groupId>org.jsoup</groupId>
+      <artifactId>jsoup</artifactId>
+      <version>1.8.3</version>
+      <type>jar</type>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+      <version>3.4</version>
+      <type>jar</type>
+      <scope>compile</scope>
+    </dependency>
+
   </dependencies>
 </project>
