@@ -22,6 +22,8 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.lucene.benchmark.byTask.feeds.DocData;
 import org.apache.lucene.benchmark.byTask.feeds.NoMoreDataException;
 import org.apache.lucene.benchmark.byTask.feeds.TrecContentSource;
@@ -32,6 +34,7 @@ import org.apache.lucene.document.Field.Store;
 import org.apache.lucene.index.IndexWriter;
 
 class Gov2IndexThreads {
+  private static final Logger LOG = LogManager.getLogger(Gov2IndexThreads.class);
 
   final IngestRatePrinter printer;
   final CountDownLatch startLatch = new CountDownLatch(1);
@@ -150,15 +153,15 @@ class Gov2IndexThreads {
             dd = tcs.getNextDocData(dd);
           } catch (IOException ex) {
             // The HTML parser used with this trec parser doesn't support HTML pages with framesets.
-            if(!(ex.getCause()!=null && ex.getCause().getMessage().contains("HTML framesets") )) {
-              System.err.println("Failed: "+ex.getMessage());
+            if (!(ex.getCause() != null && ex.getCause().getMessage().contains("HTML framesets"))) {
+              LOG.error("getNextDocData exception: " + ex.getMessage());
             }
             continue;
           } catch (Exception e) {
-            if(e instanceof NoMoreDataException) {
+            if (e instanceof NoMoreDataException) {
               break;
             } else {
-              System.err.println("Failed: "+e.getMessage());
+              LOG.error("getNextDocData exception: " + e.getMessage());
               continue;
             }
           }
@@ -172,7 +175,7 @@ class Gov2IndexThreads {
             break;
           }
           if ((docCount % 100000) == 0) {
-            System.out.println("Indexer: " + docCount + " docs... (" + (System.currentTimeMillis() - tStart)/1000.0 + " sec)");
+            LOG.info("Indexer: " + docCount + " docs... (" + (System.currentTimeMillis() - tStart)/1000.0 + " sec)");
           }
           w.addDocument(doc);
         }
