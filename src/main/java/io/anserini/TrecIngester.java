@@ -23,15 +23,23 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.GnuParser;
+import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.OptionBuilder;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.benchmark.byTask.feeds.TrecContentSource;
 import org.apache.lucene.benchmark.byTask.utils.Config;
-import org.apache.lucene.document.TextField;
-import org.apache.lucene.index.*;
-import org.apache.lucene.search.similarities.BM25Similarity;
-import org.apache.lucene.store.*;
-import org.apache.lucene.util.*;
+import org.apache.lucene.index.IndexWriter;
+import org.apache.lucene.index.IndexWriterConfig;
+import org.apache.lucene.store.Directory;
+import org.apache.lucene.store.FSDirectory;
+import org.apache.lucene.util.InfoStream;
+import org.apache.lucene.util.PrintStreamInfoStream;
 
 public final class TrecIngester {
   private static TrecContentSource createTrecSource(String dataDir) {
@@ -52,18 +60,58 @@ public final class TrecIngester {
     return tcs;
   }
 
-  public static void main(String[] clArgs) throws Exception {
-    Args args = new Args(clArgs);
-    final String dirPath = args.getString("-indexPath") + "/index";
-    final String dataDir = args.getString("-dataDir");
-    final int docCountLimit = args.getInt("-docCountLimit"); // -1 means all docs from the source:
-    final int numThreads = args.getInt("-threadCount");
-    final boolean verbose = args.getFlag("-verbose");
-    final boolean printDPS = args.getFlag("-printDPS");
-    final boolean doUpdate = args.getFlag("-update");
-    final boolean positions = args.getFlag("-positions");
+  private static final String INPUT_OPTION = "input";
+  private static final String INDEX_OPTION = "index";
+  private static final String DOCLIMIT_OPTION = "doclimit";
+  private static final String THREADS_OPTION = "threads";
+  private static final String VERBOSE_OPTION = "verbose";
+  private static final String DPS_OPTION = "dps";
+  private static final String UPDATE_OPTION = "update";
+  private static final String POSITIONS_OPTION = "positions";
 
-    args.check();
+  @SuppressWarnings("static-access")
+  public static void main(String[] args) throws Exception {
+    Options options = new Options();
+    options.addOption(OptionBuilder.withArgName("path")
+        .hasArg().withDescription("input data path").create(INPUT_OPTION));
+    options.addOption(OptionBuilder.withArgName("path").hasArg()
+        .withDescription("output index path").create(INDEX_OPTION));
+    options.addOption(OptionBuilder.withArgName("num").hasArg()
+        .withDescription("number of indexer threads").create(THREADS_OPTION));
+    options.addOption(OptionBuilder.withArgName("num").hasArg()
+        .withDescription("max number of documents to index (-1 to index everything)")
+        .create(DOCLIMIT_OPTION));
+
+    options.addOption(VERBOSE_OPTION, false, "verbose");
+    options.addOption(DPS_OPTION, false, "print dps");
+    options.addOption(POSITIONS_OPTION, false, "index positions");
+
+    CommandLine cmdline = null;
+    CommandLineParser parser = new GnuParser();
+    try {
+      cmdline = parser.parse(options, args);
+    } catch (ParseException exp) {
+      System.err.println("Error parsing command line: " + exp.getMessage());
+      System.exit(-1);
+    }
+
+    if (!cmdline.hasOption(INPUT_OPTION) || !cmdline.hasOption(INDEX_OPTION)
+        || !cmdline.hasOption(THREADS_OPTION)) {
+      HelpFormatter formatter = new HelpFormatter();
+      formatter.setWidth(100);
+      formatter.printHelp(TrecIngester.class.getCanonicalName(), options);
+      System.exit(-1);
+    }
+
+    final String dirPath = cmdline.getOptionValue(INDEX_OPTION);
+    final String dataDir = cmdline.getOptionValue(INPUT_OPTION);
+    final int docCountLimit = cmdline.hasOption(DOCLIMIT_OPTION) ? Integer.parseInt(cmdline.getOptionValue(DOCLIMIT_OPTION)) : -1;
+    final int numThreads = Integer.parseInt(cmdline.getOptionValue(THREADS_OPTION));
+
+    final boolean verbose = cmdline.hasOption(VERBOSE_OPTION);
+    final boolean printDPS = cmdline.hasOption(DPS_OPTION);
+    final boolean doUpdate = cmdline.hasOption(UPDATE_OPTION);
+    final boolean positions = cmdline.hasOption(POSITIONS_OPTION);
 
     final Analyzer a = new EnglishAnalyzer();
     final TrecContentSource trecSource = createTrecSource(dataDir);
