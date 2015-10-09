@@ -48,7 +48,7 @@ public class SearchTimeUtil {
                 String submissionFile = File.createTempFile(topicFile + "_" + i, ".tmp").getAbsolutePath();
                 searcher.search("src/resources/topics-and-qrels/" + topicFile, submissionFile, QueryParser.Operator.AND);
                 final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
-                System.out.println(topicFile + "_" + i + " search completed in " + DurationFormatUtils.formatDuration(durationMillis, "mm:ss:SS"));
+                System.out.println(topicFile + "_" + i + " search completed in " + DurationFormatUtils.formatDuration(durationMillis, "mm:ss:SSS"));
             }
 
         searcher.close();
