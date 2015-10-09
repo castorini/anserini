@@ -5,6 +5,10 @@
   <version>0.0.1-SNAPSHOT</version>
   <name>Lucene/Solr Benchmarks</name>
 
+  <properties>
+    <LUCENE_VERSION>5.3.1</LUCENE_VERSION>
+  </properties>
+
   <build>
     <plugins>
       <plugin>
@@ -38,6 +42,10 @@
               <mainClass>io.anserini.SearcherCW09B</mainClass>
               <name>RunCW09B</name>
             </program>
+            <program>
+              <mainClass>io.anserini.SearchTimeUtil</mainClass>
+              <name>Time</name>
+            </program>
           </programs>
         </configuration>
       </plugin>
@@ -62,33 +70,33 @@
     <dependency>
       <groupId>org.apache.lucene</groupId>
       <artifactId>lucene-benchmark</artifactId>
-	<version>5.2.1</version>
+	<version>${LUCENE_VERSION}</version>
 	</dependency>
 	<dependency>
 	  <groupId>org.apache.lucene</groupId>
 	  <artifactId>lucene-backward-codecs</artifactId>
-	  <version>5.2.1</version>
+	  <version>${LUCENE_VERSION}</version>
     </dependency>
 	<dependency>
 	  <groupId>org.apache.lucene</groupId>
 	  <artifactId>lucene-queryparser</artifactId>
-	  <version>5.2.1</version>
+	  <version>${LUCENE_VERSION}</version>
     </dependency>
     <dependency>
 	  <groupId>org.apache.lucene</groupId>
 	  <artifactId>lucene-analyzers-common</artifactId>
-	  <version>5.2.1</version>
+	  <version>${LUCENE_VERSION}</version>
     </dependency>
     <dependency>
 	  <groupId>org.apache.lucene</groupId>
 	  <artifactId>lucene-core</artifactId>
-	  <version>5.2.1</version>
+	  <version>${LUCENE_VERSION}</version>
     </dependency>
 
     <dependency>
       <groupId>org.apache.solr</groupId>
       <artifactId>solr-solrj</artifactId>
-      <version>5.2.1</version>
+      <version>${LUCENE_VERSION}</version>
     </dependency>
     <dependency>
       <groupId>commons-logging</groupId>

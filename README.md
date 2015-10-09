@@ -43,11 +43,16 @@ After indexing is done, you should be able to perform a retrieval run:
 
 ``` bash
 sh target/appassembler/bin/RunCW09B src/resources/topics-and-qrels/topics.web.151-200.txt \
-lucene-index.cw09b.cnt/index > run.web.151-200.txt
+run.web.151-200.txt lucene-index.cw09b.cnt/index 
 ```
 
 Then you can evaluate the runs:
 
 ``` bash
 trec_eval -M1000 src/resources/topics-and-qrels/qrels.web.151-200.txt run.web.151-200.txt
+```
+
+To record search/running times :
+``` bash
+sh target/appassembler/bin/Time lucene-index.cw09b.cnt/index
 ```

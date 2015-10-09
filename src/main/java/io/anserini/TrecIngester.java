@@ -122,7 +122,8 @@ public final class TrecIngester {
     final long t3 = System.currentTimeMillis();
     System.out.println("\nIndexer: commit multi (took " + (t3-t2)/1000.0 + " sec)");
 
-    System.out.println("\nIndexer: at close: " + w.segString());
+    //TODO does not compile with Lucene 5.3.1
+    //System.out.println("\nIndexer: at close: " + w.segString());
     final long tCloseStart = System.currentTimeMillis();
     w.close();
     System.out.println("\nIndexer: close took " + (System.currentTimeMillis() - tCloseStart)/1000.0 + " sec");

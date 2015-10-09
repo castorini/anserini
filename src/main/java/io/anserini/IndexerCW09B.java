@@ -40,7 +40,6 @@ import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -243,9 +242,10 @@ public final class IndexerCW09B {
 
         clArgs.check();
 
-        Date start = new Date();
+        final long start = System.nanoTime();
         IndexerCW09B indexer = new IndexerCW09B(dataDir, indexPath);
         int numIndexed = indexer.indexWithThreads(numThreads);
-        System.out.println("Total " + numIndexed + " documents indexed in " + DurationFormatUtils.formatDuration(new Date().getTime() - start.getTime(), "HH:mm:ss"));
+        final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
+        System.out.println("Total " + numIndexed + " documents indexed in " + DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss"));
     }
 }
