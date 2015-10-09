@@ -36,15 +36,14 @@ import org.apache.lucene.index.IndexWriter;
 class Gov2IndexThreads {
   private static final Logger LOG = LogManager.getLogger(Gov2IndexThreads.class);
 
-  final IngestRatePrinter printer;
   final CountDownLatch startLatch = new CountDownLatch(1);
   final AtomicBoolean stop;
   final AtomicBoolean failed;
   final TrecContentSource tcs;
   final Thread[] threads;
 
-  public Gov2IndexThreads(IndexWriter w, boolean positions,
-      TrecContentSource tcs, int numThreads, int docCountLimit, boolean printDPS) throws IOException, InterruptedException {
+  public Gov2IndexThreads(IndexWriter w, boolean positions, TrecContentSource tcs, int numThreads, int docCountLimit)
+      throws IOException, InterruptedException {
 
     this.tcs = tcs;
     threads = new Thread[numThreads];
@@ -60,13 +59,6 @@ class Gov2IndexThreads {
     }
 
     Thread.sleep(10);
-
-    if (printDPS) {
-      printer = new IngestRatePrinter(count, stop);
-      printer.start();
-    } else {
-      printer = null;
-    }
   }
 
   public void start() {
@@ -81,9 +73,6 @@ class Gov2IndexThreads {
     stop.getAndSet(true);
     for(Thread t : threads) {
       t.join();
-    }
-    if (printer != null) {
-      printer.join();
     }
     tcs.close();
   }
@@ -123,7 +112,7 @@ class Gov2IndexThreads {
 
     private Document getDocumentFromDocData(DocData dd) {
       Document doc = new Document();
-      doc.add(new StringField("docname", dd.getName(), Store.YES));
+      doc.add(new StringField("docid", dd.getName(), Store.YES));
       if(positions) {
         doc.add(new TextField("body", dd.getTitle(), Store.NO));
         doc.add(new TextField("body", dd.getBody(), Store.NO));
@@ -185,38 +174,6 @@ class Gov2IndexThreads {
         throw new RuntimeException(e);
       } finally {
         stopLatch.countDown();
-      }
-    }
-  }
-
-  private static class IngestRatePrinter extends Thread {
-
-    private final AtomicInteger count;
-    private final AtomicBoolean stop;
-    public IngestRatePrinter(AtomicInteger count, AtomicBoolean stop){
-      this.count = count;
-      this.stop = stop;
-    }
-
-    @Override
-    public void run() {
-      long time = System.currentTimeMillis();
-      System.out.println("startIngest: " + time);
-      final long start = time;
-      int lastCount = count.get();
-      while(!stop.get()) {
-        try {
-          Thread.sleep(200);
-        } catch(Exception ex) {
-        }
-        int numDocs = count.get();
-
-        double current = numDocs - lastCount;
-        long now = System.currentTimeMillis();
-        double seconds = (now-time) / 1000.0d;
-        System.out.println("ingest: " + (current / seconds) + " " + (now - start));
-        time = now;
-        lastCount = numDocs;
       }
     }
   }

@@ -40,8 +40,6 @@ import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
-import org.apache.lucene.util.InfoStream;
-import org.apache.lucene.util.PrintStreamInfoStream;
 
 public final class IndexGov2 {
   private static final Logger LOG = LogManager.getLogger(IndexGov2.class);
@@ -68,8 +66,6 @@ public final class IndexGov2 {
   private static final String INDEX_OPTION = "index";
   private static final String DOCLIMIT_OPTION = "doclimit";
   private static final String THREADS_OPTION = "threads";
-  private static final String VERBOSE_OPTION = "verbose";
-  private static final String DPS_OPTION = "dps";
   private static final String UPDATE_OPTION = "update";
   private static final String POSITIONS_OPTION = "positions";
   private static final String OPTIMIZE_OPTION = "optimize";
@@ -87,8 +83,6 @@ public final class IndexGov2 {
         .withDescription("max number of documents to index (-1 to index everything)")
         .create(DOCLIMIT_OPTION));
 
-    options.addOption(VERBOSE_OPTION, false, "verbose");
-    options.addOption(DPS_OPTION, false, "print dps");
     options.addOption(POSITIONS_OPTION, false, "index positions");
     options.addOption(OPTIMIZE_OPTION, false, "merge all index segments");
 
@@ -114,8 +108,6 @@ public final class IndexGov2 {
     final int docCountLimit = cmdline.hasOption(DOCLIMIT_OPTION) ? Integer.parseInt(cmdline.getOptionValue(DOCLIMIT_OPTION)) : -1;
     final int numThreads = Integer.parseInt(cmdline.getOptionValue(THREADS_OPTION));
 
-    final boolean verbose = cmdline.hasOption(VERBOSE_OPTION);
-    final boolean printDPS = cmdline.hasOption(DPS_OPTION);
     final boolean doUpdate = cmdline.hasOption(UPDATE_OPTION);
     final boolean positions = cmdline.hasOption(POSITIONS_OPTION);
     final boolean optimize = cmdline.hasOption(OPTIMIZE_OPTION);
@@ -127,13 +119,8 @@ public final class IndexGov2 {
     LOG.info("Index path: " + dirPath);
     LOG.info("Doc limit: " + (docCountLimit == -1 ? "all docs" : ""+docCountLimit));
     LOG.info("Threads: " + numThreads);
-    LOG.info("Verbose: " + verbose);
     LOG.info("Positions: " + positions);
     LOG.info("Optimize (merge segments): " + optimize);
-
-    if (verbose) {
-      InfoStream.setDefault(new PrintStreamInfoStream(System.out));
-    }
 
     final IndexWriterConfig config = new IndexWriterConfig(a);
 
@@ -144,7 +131,7 @@ public final class IndexGov2 {
     }
 
     final IndexWriter writer = new IndexWriter(dir, config);
-    Gov2IndexThreads threads = new Gov2IndexThreads(writer, positions, trecSource, numThreads, docCountLimit, printDPS);
+    Gov2IndexThreads threads = new Gov2IndexThreads(writer, positions, trecSource, numThreads, docCountLimit);
     LOG.info("Indexer: start");
 
     final long t0 = System.currentTimeMillis();
