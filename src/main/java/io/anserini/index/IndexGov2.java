@@ -30,6 +30,8 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.benchmark.byTask.feeds.TrecContentSource;
@@ -42,7 +44,9 @@ import org.apache.lucene.util.InfoStream;
 import org.apache.lucene.util.PrintStreamInfoStream;
 
 public final class IndexGov2 {
-  private static TrecContentSource createTrecSource(String dataDir) {
+  private static final Logger LOG = LogManager.getLogger(IndexGov2.class);
+
+  private static TrecContentSource createGov2Source(String dataDir) {
     TrecContentSource tcs = new TrecContentSource();
     Properties props = new Properties();
     props.setProperty("print.props", "false");
@@ -68,6 +72,7 @@ public final class IndexGov2 {
   private static final String DPS_OPTION = "dps";
   private static final String UPDATE_OPTION = "update";
   private static final String POSITIONS_OPTION = "positions";
+  private static final String OPTIMIZE_OPTION = "optimize";
 
   @SuppressWarnings("static-access")
   public static void main(String[] args) throws Exception {
@@ -85,6 +90,7 @@ public final class IndexGov2 {
     options.addOption(VERBOSE_OPTION, false, "verbose");
     options.addOption(DPS_OPTION, false, "print dps");
     options.addOption(POSITIONS_OPTION, false, "index positions");
+    options.addOption(OPTIMIZE_OPTION, false, "merge all index segments");
 
     CommandLine cmdline = null;
     CommandLineParser parser = new GnuParser();
@@ -112,34 +118,34 @@ public final class IndexGov2 {
     final boolean printDPS = cmdline.hasOption(DPS_OPTION);
     final boolean doUpdate = cmdline.hasOption(UPDATE_OPTION);
     final boolean positions = cmdline.hasOption(POSITIONS_OPTION);
+    final boolean optimize = cmdline.hasOption(OPTIMIZE_OPTION);
 
     final Analyzer a = new EnglishAnalyzer();
-    final TrecContentSource trecSource = createTrecSource(dataDir);
+    final TrecContentSource trecSource = createGov2Source(dataDir);
     final Directory dir = FSDirectory.open(Paths.get(dirPath));
 
-    System.out.println("Index path: " + dirPath);
-    System.out.println("Doc count limit: " + (docCountLimit == -1 ? "all docs" : ""+docCountLimit));
-    System.out.println("Threads: " + numThreads);
-    System.out.println("Verbose: " + (verbose ? "yes" : "no"));
-    System.out.println("Positions: " + (positions ? "yes" : "no"));
+    LOG.info("Index path: " + dirPath);
+    LOG.info("Doc limit: " + (docCountLimit == -1 ? "all docs" : ""+docCountLimit));
+    LOG.info("Threads: " + numThreads);
+    LOG.info("Verbose: " + verbose);
+    LOG.info("Positions: " + positions);
+    LOG.info("Optimize (merge segments): " + optimize);
 
     if (verbose) {
       InfoStream.setDefault(new PrintStreamInfoStream(System.out));
     }
 
-    final IndexWriterConfig iwc = new IndexWriterConfig(a);
+    final IndexWriterConfig config = new IndexWriterConfig(a);
 
     if (doUpdate) {
-      iwc.setOpenMode(IndexWriterConfig.OpenMode.APPEND);
+      config.setOpenMode(IndexWriterConfig.OpenMode.APPEND);
     } else {
-      iwc.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
+      config.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
     }
 
-    System.out.println("IW config=" + iwc);
-
-    final IndexWriter w = new IndexWriter(dir, iwc);
-    Gov2IndexThreads threads = new Gov2IndexThreads(w, positions, trecSource, numThreads, docCountLimit, printDPS);
-    System.out.println("\nIndexer: start");
+    final IndexWriter writer = new IndexWriter(dir, config);
+    Gov2IndexThreads threads = new Gov2IndexThreads(writer, positions, trecSource, numThreads, docCountLimit, printDPS);
+    LOG.info("Indexer: start");
 
     final long t0 = System.currentTimeMillis();
 
@@ -151,9 +157,9 @@ public final class IndexGov2 {
     threads.stop();
 
     final long t1 = System.currentTimeMillis();
-    System.out.println("\nIndexer: indexing done (" + (t1-t0)/1000.0 + " sec); total " + w.maxDoc() + " docs");
-    if (!doUpdate && docCountLimit != -1 && w.maxDoc() != docCountLimit) {
-      throw new RuntimeException("w.maxDoc()=" + w.maxDoc() + " but expected " + docCountLimit);
+    LOG.info("Indexer: indexing done (" + (t1-t0)/1000.0 + " sec); total " + writer.maxDoc() + " docs");
+    if (!doUpdate && docCountLimit != -1 && writer.maxDoc() != docCountLimit) {
+      throw new RuntimeException("w.maxDoc()=" + writer.maxDoc() + " but expected " + docCountLimit);
     }
     if (threads.failed.get()) {
       throw new RuntimeException("exceptions during indexing");
@@ -165,19 +171,26 @@ public final class IndexGov2 {
 
     final Map<String,String> commitData = new HashMap<String,String>();
     commitData.put("userData", "multi");
-    w.setCommitData(commitData);
-    w.commit();
+    writer.setCommitData(commitData);
+    writer.commit();
     final long t3 = System.currentTimeMillis();
-    System.out.println("\nIndexer: commit multi (took " + (t3-t2)/1000.0 + " sec)");
+    LOG.info("Indexer: commit multi (took " + (t3-t2)/1000.0 + " sec)");
 
-    System.out.println("\nIndexer: at close: " + w.segString());
+    if (optimize) {
+      LOG.info("Indexer: merging all segments");
+      writer.forceMerge(1);
+      final long t4 = System.currentTimeMillis();
+      LOG.info("Indexer: segments merged (took " + (t4 - t3) / 1000.0 + " sec)");
+    }
+
+    LOG.info("Indexer: at close: " + writer.segString());
     final long tCloseStart = System.currentTimeMillis();
-    w.close();
-    System.out.println("\nIndexer: close took " + (System.currentTimeMillis() - tCloseStart)/1000.0 + " sec");
+    writer.close();
+    LOG.info("Indexer: close took " + (System.currentTimeMillis() - tCloseStart)/1000.0 + " sec");
     dir.close();
     final long tFinal = System.currentTimeMillis();
-    System.out.println("\nIndexer: finished (" + (tFinal-t0)/1000.0 + " sec)");
-    System.out.println("\nIndexer: net bytes indexed " + threads.getBytesIndexed());
-    System.out.println("\nIndexer: " + (threads.getBytesIndexed()/1024./1024./1024./((tFinal-t0)/3600000.)) + " GB/hour plain text");
+    LOG.info("Indexer: finished (" + (tFinal-t0)/1000.0 + " sec)");
+    LOG.info("Indexer: net bytes indexed " + threads.getBytesIndexed());
+    LOG.info("Indexer: " + (threads.getBytesIndexed()/1024./1024./1024./((tFinal-t0)/3600000.)) + " GB/hour plain text");
   }
 }
