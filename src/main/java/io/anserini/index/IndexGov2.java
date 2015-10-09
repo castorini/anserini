@@ -1,4 +1,4 @@
-package io.anserini;
+package io.anserini.index;
 
 /**
  * Licensed to the Apache Software Foundation (ASF) under one or more
@@ -41,7 +41,7 @@ import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.InfoStream;
 import org.apache.lucene.util.PrintStreamInfoStream;
 
-public final class TrecIngester {
+public final class IndexGov2 {
   private static TrecContentSource createTrecSource(String dataDir) {
     TrecContentSource tcs = new TrecContentSource();
     Properties props = new Properties();
@@ -99,7 +99,7 @@ public final class TrecIngester {
         || !cmdline.hasOption(THREADS_OPTION)) {
       HelpFormatter formatter = new HelpFormatter();
       formatter.setWidth(100);
-      formatter.printHelp(TrecIngester.class.getCanonicalName(), options);
+      formatter.printHelp(IndexGov2.class.getCanonicalName(), options);
       System.exit(-1);
     }
 
@@ -138,7 +138,7 @@ public final class TrecIngester {
     System.out.println("IW config=" + iwc);
 
     final IndexWriter w = new IndexWriter(dir, iwc);
-    IndexThreads threads = new IndexThreads(w, positions, trecSource, numThreads, docCountLimit, printDPS);
+    Gov2IndexThreads threads = new Gov2IndexThreads(w, positions, trecSource, numThreads, docCountLimit, printDPS);
     System.out.println("\nIndexer: start");
 
     final long t0 = System.currentTimeMillis();

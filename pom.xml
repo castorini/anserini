@@ -23,7 +23,7 @@
           <extraJvmArguments>-Xms512M -Xmx24576M</extraJvmArguments>
           <programs>
             <program>
-              <mainClass>io.anserini.TrecIngester</mainClass>
+              <mainClass>io.anserini.index.IndexGov2</mainClass>
               <name>IndexGov2</name>
             </program>
             <program>

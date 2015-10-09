@@ -1,4 +1,4 @@
-package io.anserini;
+package io.anserini.index;
 
 /**
  * Licensed to the Apache Software Foundation (ASF) under one or more
@@ -31,7 +31,7 @@ import org.apache.lucene.document.TextField;
 import org.apache.lucene.document.Field.Store;
 import org.apache.lucene.index.IndexWriter;
 
-class IndexThreads {
+class Gov2IndexThreads {
 
   final IngestRatePrinter printer;
   final CountDownLatch startLatch = new CountDownLatch(1);
@@ -40,7 +40,7 @@ class IndexThreads {
   final TrecContentSource tcs;
   final Thread[] threads;
 
-  public IndexThreads(IndexWriter w, boolean positions,
+  public Gov2IndexThreads(IndexWriter w, boolean positions,
       TrecContentSource tcs, int numThreads, int docCountLimit, boolean printDPS) throws IOException, InterruptedException {
 
     this.tcs = tcs;
