@@ -170,7 +170,8 @@ public final class IndexGov2 {
       LOG.info("Indexer: segments merged (took " + (t4 - t3) / 1000.0 + " sec)");
     }
 
-    LOG.info("Indexer: at close: " + writer.segString());
+    // TODO: Doesn't compile for 5.3.1 - do we actually need this?
+    //LOG.info("Indexer: at close: " + writer.segString());
     final long tCloseStart = System.currentTimeMillis();
     writer.close();
     LOG.info("Indexer: close took " + (System.currentTimeMillis() - tCloseStart)/1000.0 + " sec");
