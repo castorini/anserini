@@ -1,4 +1,4 @@
-package io.anserini;
+package io.anserini.util;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
@@ -21,6 +21,8 @@ import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.queryparser.classic.QueryParser;
 
+import io.anserini.search.SearchClueWeb09b;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -40,7 +42,7 @@ public class SearchTimeUtil {
 
         String[] topics = {"topics.web.1-50.txt", "topics.web.51-100.txt", "topics.web.101-150.txt", "topics.web.151-200.txt"};
 
-        SearcherCW09B searcher = new SearcherCW09B(args[0]);
+        SearchClueWeb09b searcher = new SearchClueWeb09b(args[0]);
 
         for (String topicFile : topics)
             for (int i = 1; i <= 3; i++) {

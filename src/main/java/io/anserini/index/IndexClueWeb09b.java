@@ -1,4 +1,4 @@
-package io.anserini;
+package io.anserini.index;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
@@ -34,6 +34,9 @@ import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.jsoup.Jsoup;
 
+import io.anserini.Args;
+import io.anserini.document.ClueWeb09WarcRecord;
+
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.IOException;
@@ -49,10 +52,10 @@ import java.util.zip.GZIPInputStream;
 /**
  * Indexer for ClueWeb09 Category B Corpus.
  */
-public final class IndexerCW09B {
+public final class IndexClueWeb09b {
 
-    static final String FIELD_BODY = "contents";
-    static final String FIELD_ID = "id";
+    public static final String FIELD_BODY = "contents";
+    public static final String FIELD_ID = "id";
     private static final String RESPONSE = "response";
 
     private final class IndexerThread extends Thread {
@@ -125,7 +128,7 @@ public final class IndexerCW09B {
     private final Path docDir;
 
 
-    public IndexerCW09B(String docsPath, String indexPath) throws IOException {
+    public IndexClueWeb09b(String docsPath, String indexPath) throws IOException {
 
         this.indexPath = Paths.get(indexPath);
         if (!Files.exists(this.indexPath))
@@ -172,7 +175,7 @@ public final class IndexerCW09B {
      * @return KStemAnalyzer
      * @throws IOException
      */
-    static Analyzer analyzer() throws IOException {
+    public static Analyzer analyzer() throws IOException {
         return CustomAnalyzer.builder()
                 .withTokenizer("classic")
                 .addTokenFilter("classic")
@@ -243,7 +246,7 @@ public final class IndexerCW09B {
         clArgs.check();
 
         final long start = System.nanoTime();
-        IndexerCW09B indexer = new IndexerCW09B(dataDir, indexPath);
+        IndexClueWeb09b indexer = new IndexClueWeb09b(dataDir, indexPath);
         int numIndexed = indexer.indexWithThreads(numThreads);
         final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
         System.out.println("Total " + numIndexed + " documents indexed in " + DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss"));

@@ -1,4 +1,4 @@
-package io.anserini;
+package io.anserini.search;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
@@ -40,17 +40,17 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import static io.anserini.IndexerCW09B.*;
+import static io.anserini.index.IndexClueWeb09b.*;
 
 /**
  * Searcher for ClueWeb09 Category B Corpus.
  * 200 Topics from TREC 2009-1012 Web Track.
  */
-public final class SearcherCW09B implements Closeable {
+public final class SearchClueWeb09b implements Closeable {
 
     private final IndexReader reader;
 
-    public SearcherCW09B(String indexDir) throws IOException {
+    public SearchClueWeb09b(String indexDir) throws IOException {
 
         Path indexPath = Paths.get(indexDir);
 
@@ -195,7 +195,7 @@ public final class SearcherCW09B implements Closeable {
         String submissionFile = args[1];
         String indexDir = args[2];
 
-        SearcherCW09B searcher = new SearcherCW09B(indexDir);
+        SearchClueWeb09b searcher = new SearchClueWeb09b(indexDir);
         searcher.search(topicsFile, submissionFile, QueryParser.Operator.OR);
         searcher.close();
     }
