@@ -27,8 +27,8 @@
               <name>IndexGov2</name>
             </program>
             <program>
-              <mainClass>io.anserini.TrecDriver</mainClass>
-              <name>RunGov2</name>
+              <mainClass>io.anserini.search.SearchGov2</mainClass>
+              <name>SearchGov2</name>
             </program>
             <program>
               <mainClass>io.anserini.IndexerCW09B</mainClass>
