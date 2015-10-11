@@ -38,6 +38,10 @@
               <mainClass>io.anserini.SearcherCW09B</mainClass>
               <name>RunCW09B</name>
             </program>
+	    <program>
+              <mainClass>io.anserini.IndexCounter</mainClass>
+              <name>IndexCounter</name>
+            </program>
           </programs>
         </configuration>
       </plugin>
