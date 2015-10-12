@@ -17,7 +17,10 @@ package io.anserini.index;
  * limitations under the License.
  */
 
+import io.anserini.document.ClueWeb09WarcRecord;
 import org.apache.commons.lang3.time.DurationFormatUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.custom.CustomAnalyzer;
 import org.apache.lucene.analysis.standard.ClassicTokenizer;
@@ -33,9 +36,10 @@ import org.apache.lucene.search.similarities.BM25Similarity;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.jsoup.Jsoup;
-
-import io.anserini.Args;
-import io.anserini.document.ClueWeb09WarcRecord;
+import org.kohsuke.args4j.CmdLineException;
+import org.kohsuke.args4j.CmdLineParser;
+import org.kohsuke.args4j.OptionHandlerFilter;
+import org.kohsuke.args4j.ParserProperties;
 
 import java.io.DataInputStream;
 import java.io.File;
@@ -53,6 +57,8 @@ import java.util.zip.GZIPInputStream;
  * Indexer for ClueWeb09 Category B Corpus.
  */
 public final class IndexClueWeb09b {
+
+    private static final Logger LOG = LogManager.getLogger(IndexClueWeb09b.class);
 
     public static final String FIELD_BODY = "contents";
     public static final String FIELD_ID = "id";
@@ -237,18 +243,31 @@ public final class IndexClueWeb09b {
 
     public static void main(String[] args) throws IOException, InterruptedException {
 
-        Args clArgs = new Args(args);
+        IndexArgs indexArgs = new IndexArgs();
 
-        final String dataDir = clArgs.getString("-dataDir");
-        final String indexPath = clArgs.getString("-indexPath");
-        final int numThreads = clArgs.getInt("-threadCount");
+        CmdLineParser parser = new CmdLineParser(indexArgs, ParserProperties.defaults().withUsageWidth(90));
 
-        clArgs.check();
+        try {
+            parser.parseArgument(args);
+        } catch (CmdLineException e) {
+            System.err.println(e.getMessage());
+            parser.printUsage(System.err);
+            System.err.println("Example: Evaluator" + parser.printExample(OptionHandlerFilter.ALL));
+            return;
+        }
 
         final long start = System.nanoTime();
-        IndexClueWeb09b indexer = new IndexClueWeb09b(dataDir, indexPath);
-        int numIndexed = indexer.indexWithThreads(numThreads);
+        IndexClueWeb09b indexer = new IndexClueWeb09b(indexArgs.input, indexArgs.index);
+
+        LOG.info("Index path: " + indexArgs.index);
+        LOG.info("Threads: " + indexArgs.threads);
+        LOG.info("Positions: true");
+        LOG.info("Optimize (merge segments): false");
+
+        LOG.info("Indexer: start");
+
+        int numIndexed = indexer.indexWithThreads(indexArgs.threads);
         final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
-        System.out.println("Total " + numIndexed + " documents indexed in " + DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss"));
+        LOG.info("Total " + numIndexed + " documents indexed in " + DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss"));
     }
 }
