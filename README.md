@@ -52,9 +52,9 @@ Then you can evaluate the runs:
 trec_eval -M1000 src/resources/topics-and-qrels/qrels.web.151-200.txt run.web.151-200.txt
 ```
 
-### Twitter Real-Time Search Time
+### Twitter (Near) Real-Time Search
 
-In order to run the Twitter real-time search demo, you must save your Twitter API OAuth credentials in a file named `twitter4j.properties` in your current working directory. See [this page](http://twitter4j.org/en/configuration.html) for more information about Twitter4j configurations. The file should contain the following (replace the `**********` instances with your information):
+In order to run the Twitter (near) real-time search demo, you must save your Twitter API OAuth credentials in a file named `twitter4j.properties` in your current working directory. See [this page](http://twitter4j.org/en/configuration.html) for more information about Twitter4j configurations. The file should contain the following (replace the `**********` instances with your information):
 
 ```
 oauth.consumerKey=**********
