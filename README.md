@@ -66,7 +66,7 @@ oauth.accessTokenSecret=**********
 Once you've done that, fire up the demo with:
 
 ```
-sh target/appassembler/bin/TweetSearcher -dir twitter-index
+sh target/appassembler/bin/TweetSearcher -index twitter-index
 ```
 
 The demo starts up an HTTP server on port `8080`, but this can be changed with the `-port` option. Query via a web browser at `http://localhost:8080/search?query=query`. Try `birthday`, as there are always birthdays being celebrated.
