@@ -19,7 +19,8 @@ package cc.twittertools.corpus.data;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -28,7 +29,7 @@ import com.google.gson.JsonParser;
  * Object representing a status.
  */
 public class Status {
-  private static final Logger LOG = Logger.getLogger(Status.class);
+  private static final Logger LOG = LogManager.getLogger(Status.class);
 
   private static final JsonParser JSON_PARSER = new JsonParser();
   private static final String DATE_FORMAT = "EEE MMM d k:m:s ZZZZZ yyyy"; //"Fri Mar 29 11:03:41 +0000 2013"; 
