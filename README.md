@@ -51,3 +51,10 @@ Then you can evaluate the runs:
 ``` bash
 trec_eval -M1000 src/resources/topics-and-qrels/qrels.web.151-200.txt run.web.151-200.txt
 ```
+
+### IndexCounter:
+
+```sh
+sh target/appassembler/bin/IndexCounter -indexPath /path/to/index \
+-docIdPath /path/to/save/docIds
+```
