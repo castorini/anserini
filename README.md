@@ -7,7 +7,7 @@ Build using Maven:
 mvn clean package appassembler:assemble
 ```
 
-### Index Gov2 (count index):
+### Experiments on Gov2
 
 ```
 sh target/appassembler/bin/IndexGov2 -input /path/to/gov2/ \
@@ -30,26 +30,32 @@ eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.701-750.t
 ```
 
 
-### ClueWeb09 Category B (CW09B):
+### Experiments on ClueWeb09 (Category B)
 
-``` sh
-sh target/appassembler/bin/IndexCW09B -dataDir /path/to/cw09b/ \
--indexPath lucene-index.cw09b.cnt/index -threadCount 15
+```
+sh target/appassembler/bin/IndexClueWeb09b -input /path/to/cw09b/ \
+  -index lucene-index.cw09b.cnt -threads 32 -optimize
 ```
 
 The directory `/path/to/cw09b/` should be the root directory of ClueWeb09B collection, i.e., `ls /path/to/cw09b/` should bring up a bunch of subdirectories, `en0000` to `enwp03`.
 
 After indexing is done, you should be able to perform a retrieval run:
 
-``` bash
-sh target/appassembler/bin/RunCW09B src/resources/topics-and-qrels/topics.web.151-200.txt \
-lucene-index.cw09b.cnt/index > run.web.151-200.txt
+```
+sh target/appassembler/bin/SearchClueWeb09b src/main/resources/topics-and-qrels/topics.web.151-200.txt \
+  run.web.151-200.txt lucene-index.cw09b.cnt
 ```
 
 Then you can evaluate the runs:
 
-``` bash
-trec_eval -M1000 src/resources/topics-and-qrels/qrels.web.151-200.txt run.web.151-200.txt
+```
+trec_eval src/main/resources/topics-and-qrels/qrels.web.151-200.txt run.web.151-200.txt
+```
+
+To record search/running times:
+
+```
+sh target/appassembler/bin/Time lucene-index.cw09b.cnt
 ```
 
 ### Twitter (Near) Real-Time Search

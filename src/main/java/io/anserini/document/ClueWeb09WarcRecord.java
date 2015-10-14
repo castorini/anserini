@@ -1,4 +1,4 @@
-package io.anserini;
+package io.anserini.document;
 
 /*
  * Container for a generic Warc Record

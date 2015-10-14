@@ -1,4 +1,4 @@
-package io.anserini;
+package io.anserini.search;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
@@ -30,7 +30,7 @@ import org.apache.lucene.store.FSDirectory;
 
 import java.io.Closeable;
 import java.io.IOException;
-import java.io.PrintStream;
+import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -40,17 +40,17 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import static io.anserini.IndexerCW09B.*;
+import static io.anserini.index.IndexClueWeb09b.*;
 
 /**
  * Searcher for ClueWeb09 Category B Corpus.
  * 200 Topics from TREC 2009-1012 Web Track.
  */
-public final class SearcherCW09B implements Closeable {
+public final class SearchClueWeb09b implements Closeable {
 
     private final IndexReader reader;
 
-    public SearcherCW09B(String indexDir) throws IOException {
+    public SearchClueWeb09b(String indexDir) throws IOException {
 
         Path indexPath = Paths.get(indexDir);
 
@@ -120,7 +120,7 @@ public final class SearcherCW09B implements Closeable {
      * @throws ParseException
      */
 
-    public void search(String topicsFile, QueryParser.Operator operator) throws IOException, ParseException {
+    public void search(String topicsFile, String submissionFile, QueryParser.Operator operator) throws IOException, ParseException {
 
         Path topicsPath = Paths.get(topicsFile);
 
@@ -134,9 +134,7 @@ public final class SearcherCW09B implements Closeable {
 
         final String runTag = "BM25_Krovetz_" + FIELD_BODY + "_" + operator.toString();
 
-        // PrintWriter out = new PrintWriter(Files.newBufferedWriter(path.resolve(runTag + ".txt"), StandardCharsets.US_ASCII));
-
-        PrintStream out = System.out;
+        PrintWriter out = new PrintWriter(Files.newBufferedWriter(Paths.get(submissionFile), StandardCharsets.US_ASCII));
 
 
         QueryParser queryParser = new QueryParser(FIELD_BODY, analyzer());
@@ -179,27 +177,26 @@ public final class SearcherCW09B implements Closeable {
                 out.println();
             }
         }
-        // out.flush();
-        // out.close();
+        out.flush();
+        out.close();
     }
 
     public static void main(String[] args) throws IOException, ParseException {
 
-        if (args.length != 2) {
-            System.err.println("Usage: SearcherCW09B <topicsFile> <indexDir> > <submissionFile>");
+        if (args.length != 3) {
+            System.err.println("Usage: SearcherCW09B <topicsFile> <submissionFile> <indexDir>");
             System.err.println("topicsFile: input file containing queries. One of: topics.web.1-50.txt topics.web.51-100.txt topics.web.101-150.txt topics.web.151-200.txt");
-            System.err.println("submissionFile: redirect stdout to capture the submission file for trec_eval");
+            System.err.println("submissionFile: redirect stdout to capture the submission file for trec_eval or gdeval.pl");
             System.err.println("indexDir: index directory");
             System.exit(1);
         }
 
         String topicsFile = args[0];
-        String indexDir = args[1];
+        String submissionFile = args[1];
+        String indexDir = args[2];
 
-        // Date start = new Date();
-        SearcherCW09B searcher = new SearcherCW09B(indexDir);
-        searcher.search(topicsFile, QueryParser.Operator.AND);
+        SearchClueWeb09b searcher = new SearchClueWeb09b(indexDir);
+        searcher.search(topicsFile, submissionFile, QueryParser.Operator.OR);
         searcher.close();
-        // System.out.println("Search completed in " + DurationFormatUtils.formatDuration(new Date().getTime() - start.getTime(), "HH:mm:ss"));
     }
 }

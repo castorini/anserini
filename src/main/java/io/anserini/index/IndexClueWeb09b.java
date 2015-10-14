@@ -1,4 +1,4 @@
-package io.anserini;
+package io.anserini.index;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
@@ -17,7 +17,10 @@ package io.anserini;
  * limitations under the License.
  */
 
+import io.anserini.document.ClueWeb09WarcRecord;
 import org.apache.commons.lang3.time.DurationFormatUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.custom.CustomAnalyzer;
 import org.apache.lucene.analysis.standard.ClassicTokenizer;
@@ -28,11 +31,14 @@ import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.ConcurrentMergeScheduler;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
-import org.apache.lucene.index.NoDeletionPolicy;
 import org.apache.lucene.search.similarities.BM25Similarity;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.jsoup.Jsoup;
+import org.kohsuke.args4j.CmdLineException;
+import org.kohsuke.args4j.CmdLineParser;
+import org.kohsuke.args4j.OptionHandlerFilter;
+import org.kohsuke.args4j.ParserProperties;
 
 import java.io.DataInputStream;
 import java.io.File;
@@ -40,7 +46,6 @@ import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -50,10 +55,12 @@ import java.util.zip.GZIPInputStream;
 /**
  * Indexer for ClueWeb09 Category B Corpus.
  */
-public final class IndexerCW09B {
+public final class IndexClueWeb09b {
 
-    static final String FIELD_BODY = "contents";
-    static final String FIELD_ID = "id";
+    private static final Logger LOG = LogManager.getLogger(IndexClueWeb09b.class);
+
+    public static final String FIELD_BODY = "contents";
+    public static final String FIELD_ID = "id";
     private static final String RESPONSE = "response";
 
     private final class IndexerThread extends Thread {
@@ -100,7 +107,10 @@ public final class IndexerCW09B {
                         document.add(new StringField(FIELD_ID, id, Field.Store.YES));
 
                         // entire document
-                        document.add(new TextField(FIELD_BODY, contents, Field.Store.NO));
+                        if (positions)
+                            document.add(new TextField(FIELD_BODY, contents, Field.Store.NO));
+                        else
+                            document.add(new NoPositionsTextField(FIELD_BODY, contents));
 
                         writer.addDocument(document);
                         i++;
@@ -125,8 +135,25 @@ public final class IndexerCW09B {
     private final Path indexPath;
     private final Path docDir;
 
+    private boolean positions = false;
 
-    public IndexerCW09B(String docsPath, String indexPath) throws IOException {
+    public void setPositions(boolean positions) {
+        this.positions = positions;
+    }
+
+    private boolean optimize = false;
+
+    public void setOptimize(boolean optimize) {
+        this.optimize = optimize;
+    }
+
+    private int doclimit = -1;
+
+    public void setDocLimit(int doclimit) {
+        this.doclimit = doclimit;
+    }
+
+    public IndexClueWeb09b(String docsPath, String indexPath) throws IOException {
 
         this.indexPath = Paths.get(indexPath);
         if (!Files.exists(this.indexPath))
@@ -173,7 +200,7 @@ public final class IndexerCW09B {
      * @return KStemAnalyzer
      * @throws IOException
      */
-    static Analyzer analyzer() throws IOException {
+    public static Analyzer analyzer() throws IOException {
         return CustomAnalyzer.builder()
                 .withTokenizer("classic")
                 .addTokenFilter("classic")
@@ -191,7 +218,6 @@ public final class IndexerCW09B {
         final IndexWriterConfig iwc = new IndexWriterConfig(analyzer());
 
         iwc.setSimilarity(new BM25Similarity());
-        iwc.setIndexDeletionPolicy(NoDeletionPolicy.INSTANCE);
         iwc.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
         iwc.setRAMBufferSizeMB(256.0);
         iwc.setUseCompoundFile(false);
@@ -201,10 +227,12 @@ public final class IndexerCW09B {
 
         final ExecutorService executor = Executors.newFixedThreadPool(numThreads);
 
+        List<Path> warcFiles = discoverWarcFiles(docDir);
+        if (doclimit > 0 && warcFiles.size() < doclimit)
+            warcFiles = warcFiles.subList(0, doclimit);
 
-        for (Path f : discoverWarcFiles(docDir))
+        for (Path f : warcFiles)
             executor.execute(new IndexerThread(writer, f));
-
 
         //add some delay to let some threads spawn by scheduler
         Thread.sleep(30000);
@@ -226,6 +254,8 @@ public final class IndexerCW09B {
 
         try {
             writer.commit();
+            if (optimize)
+                writer.forceMerge(1);
         } finally {
             writer.close();
         }
@@ -235,17 +265,36 @@ public final class IndexerCW09B {
 
     public static void main(String[] args) throws IOException, InterruptedException {
 
-        Args clArgs = new Args(args);
+        IndexArgs indexArgs = new IndexArgs();
 
-        final String dataDir = clArgs.getString("-dataDir");
-        final String indexPath = clArgs.getString("-indexPath");
-        final int numThreads = clArgs.getInt("-threadCount");
+        CmdLineParser parser = new CmdLineParser(indexArgs, ParserProperties.defaults().withUsageWidth(90));
 
-        clArgs.check();
+        try {
+            parser.parseArgument(args);
+        } catch (CmdLineException e) {
+            System.err.println(e.getMessage());
+            parser.printUsage(System.err);
+            System.err.println("Example: IndexClueWeb09b" + parser.printExample(OptionHandlerFilter.REQUIRED));
+            return;
+        }
 
-        Date start = new Date();
-        IndexerCW09B indexer = new IndexerCW09B(dataDir, indexPath);
-        int numIndexed = indexer.indexWithThreads(numThreads);
-        System.out.println("Total " + numIndexed + " documents indexed in " + DurationFormatUtils.formatDuration(new Date().getTime() - start.getTime(), "HH:mm:ss"));
+        final long start = System.nanoTime();
+        IndexClueWeb09b indexer = new IndexClueWeb09b(indexArgs.input, indexArgs.index);
+
+        indexer.setPositions(indexArgs.positions);
+        indexer.setOptimize(indexArgs.optimize);
+        indexer.setDocLimit(indexArgs.doclimit);
+
+        LOG.info("Index path: " + indexArgs.index);
+        LOG.info("Threads: " + indexArgs.threads);
+        LOG.info("Positions: " + indexArgs.positions);
+        LOG.info("Optimize (merge segments): " + indexArgs.optimize);
+        LOG.info("Doc limit: " + (indexArgs.doclimit == -1 ? "all docs" : "" + indexArgs.doclimit));
+
+        LOG.info("Indexer: start");
+
+        int numIndexed = indexer.indexWithThreads(indexArgs.threads);
+        final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
+        LOG.info("Total " + numIndexed + " documents indexed in " + DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss"));
     }
 }
