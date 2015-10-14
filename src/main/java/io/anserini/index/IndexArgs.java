@@ -37,10 +37,10 @@ public class IndexArgs {
 
     // optional arguments
 
-    @Option(name = "-positions", metaVar = "[true|false]", required = false, usage = "Index positions")
-    boolean positions = true;
+    @Option(name = "-positions", usage = "Boolean switch to index positions")
+    boolean positions = false;
 
-    @Option(name = "-optimize", metaVar = "[true|false]", required = false, usage = "Optimize index (force merge)")
+    @Option(name = "-optimize", usage = "Boolean switch to optimize index (force merge)")
     boolean optimize = false;
 
     @Option(name = "-doclimit", metaVar = "[Number]", required = false, usage = "Maximum number of *.warc documents to index (-1 to index everything)")

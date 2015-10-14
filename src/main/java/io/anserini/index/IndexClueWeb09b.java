@@ -135,7 +135,7 @@ public final class IndexClueWeb09b {
     private final Path indexPath;
     private final Path docDir;
 
-    private boolean positions = true;
+    private boolean positions = false;
 
     public void setPositions(boolean positions) {
         this.positions = positions;
