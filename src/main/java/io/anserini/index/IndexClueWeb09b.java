@@ -31,7 +31,6 @@ import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.ConcurrentMergeScheduler;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
-import org.apache.lucene.index.NoDeletionPolicy;
 import org.apache.lucene.search.similarities.BM25Similarity;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
@@ -108,7 +107,10 @@ public final class IndexClueWeb09b {
                         document.add(new StringField(FIELD_ID, id, Field.Store.YES));
 
                         // entire document
-                        document.add(new TextField(FIELD_BODY, contents, Field.Store.NO));
+                        if (positions)
+                            document.add(new TextField(FIELD_BODY, contents, Field.Store.NO));
+                        else
+                            document.add(new NoPositionsTextField(FIELD_BODY, contents));
 
                         writer.addDocument(document);
                         i++;
@@ -133,6 +135,23 @@ public final class IndexClueWeb09b {
     private final Path indexPath;
     private final Path docDir;
 
+    private boolean positions = true;
+
+    public void setPositions(boolean positions) {
+        this.positions = positions;
+    }
+
+    private boolean optimize = false;
+
+    public void setOptimize(boolean optimize) {
+        this.optimize = optimize;
+    }
+
+    private int doclimit = -1;
+
+    public void setDocLimit(int doclimit) {
+        this.doclimit = doclimit;
+    }
 
     public IndexClueWeb09b(String docsPath, String indexPath) throws IOException {
 
@@ -199,7 +218,6 @@ public final class IndexClueWeb09b {
         final IndexWriterConfig iwc = new IndexWriterConfig(analyzer());
 
         iwc.setSimilarity(new BM25Similarity());
-        iwc.setIndexDeletionPolicy(NoDeletionPolicy.INSTANCE);
         iwc.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
         iwc.setRAMBufferSizeMB(256.0);
         iwc.setUseCompoundFile(false);
@@ -209,10 +227,12 @@ public final class IndexClueWeb09b {
 
         final ExecutorService executor = Executors.newFixedThreadPool(numThreads);
 
+        List<Path> warcFiles = discoverWarcFiles(docDir);
+        if (doclimit > 0 && warcFiles.size() < doclimit)
+            warcFiles = warcFiles.subList(0, doclimit);
 
-        for (Path f : discoverWarcFiles(docDir))
+        for (Path f : warcFiles)
             executor.execute(new IndexerThread(writer, f));
-
 
         //add some delay to let some threads spawn by scheduler
         Thread.sleep(30000);
@@ -236,6 +256,8 @@ public final class IndexClueWeb09b {
             writer.commit();
         } finally {
             writer.close();
+            if (optimize)
+                writer.forceMerge(1);
         }
 
         return numIndexed;
@@ -259,10 +281,15 @@ public final class IndexClueWeb09b {
         final long start = System.nanoTime();
         IndexClueWeb09b indexer = new IndexClueWeb09b(indexArgs.input, indexArgs.index);
 
+        indexer.setPositions(indexArgs.positions);
+        indexer.setOptimize(indexArgs.optimize);
+        indexer.setDocLimit(indexArgs.doclimit);
+
         LOG.info("Index path: " + indexArgs.index);
         LOG.info("Threads: " + indexArgs.threads);
-        LOG.info("Positions: true");
-        LOG.info("Optimize (merge segments): false");
+        LOG.info("Positions: " + indexArgs.positions);
+        LOG.info("Optimize (merge segments): " + indexArgs.optimize);
+        LOG.info("Doc limit: " + (indexArgs.doclimit == -1 ? "all docs" : "" + indexArgs.doclimit));
 
         LOG.info("Indexer: start");
 

@@ -24,6 +24,8 @@ import org.kohsuke.args4j.Option;
  */
 public class IndexArgs {
 
+    // required arguments
+
     @Option(name = "-input", metaVar = "[Path]", required = true, usage = "Collection Directory")
     String input;
 
@@ -32,4 +34,15 @@ public class IndexArgs {
 
     @Option(name = "-threads", metaVar = "[Number]", required = true, usage = "Number of Threads")
     int threads;
+
+    // optional arguments
+
+    @Option(name = "-positions", metaVar = "[true|false]", required = false, usage = "Index positions")
+    boolean positions = true;
+
+    @Option(name = "-optimize", metaVar = "[true|false]", required = false, usage = "Optimize index (force merge)")
+    boolean optimize = false;
+
+    @Option(name = "-doclimit", metaVar = "[Number]", required = false, usage = "Maximum number of *.warc documents to index (-1 to index everything)")
+    int doclimit = -1;
 }
