@@ -35,12 +35,12 @@
               <name>SearchGov2</name>
             </program>
             <program>
-              <mainClass>io.anserini.IndexerCW09B</mainClass>
-              <name>IndexCW09B</name>
+              <mainClass>io.anserini.index.IndexClueWeb09b</mainClass>
+              <name>IndexClueWeb09b</name>
             </program>
             <program>
-              <mainClass>io.anserini.SearcherCW09B</mainClass>
-              <name>RunCW09B</name>
+              <mainClass>io.anserini.search.SearchClueWeb09b</mainClass>
+              <name>SearchClueWeb09b</name>
             </program>
             <program>
               <mainClass>io.anserini.SearchTimeUtil</mainClass>
