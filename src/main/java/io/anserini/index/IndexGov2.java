@@ -23,13 +23,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.GnuParser;
-import org.apache.commons.cli.HelpFormatter;
-import org.apache.commons.cli.OptionBuilder;
-import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
@@ -40,6 +33,10 @@ import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
+import org.kohsuke.args4j.CmdLineException;
+import org.kohsuke.args4j.CmdLineParser;
+import org.kohsuke.args4j.OptionHandlerFilter;
+import org.kohsuke.args4j.ParserProperties;
 
 public final class IndexGov2 {
   private static final Logger LOG = LogManager.getLogger(IndexGov2.class);
@@ -62,55 +59,30 @@ public final class IndexGov2 {
     return tcs;
   }
 
-  private static final String INPUT_OPTION = "input";
-  private static final String INDEX_OPTION = "index";
-  private static final String DOCLIMIT_OPTION = "doclimit";
-  private static final String THREADS_OPTION = "threads";
-  private static final String UPDATE_OPTION = "update";
-  private static final String POSITIONS_OPTION = "positions";
-  private static final String OPTIMIZE_OPTION = "optimize";
 
   @SuppressWarnings("static-access")
   public static void main(String[] args) throws Exception {
-    Options options = new Options();
-    options.addOption(OptionBuilder.withArgName("path")
-        .hasArg().withDescription("input data path").create(INPUT_OPTION));
-    options.addOption(OptionBuilder.withArgName("path").hasArg()
-        .withDescription("output index path").create(INDEX_OPTION));
-    options.addOption(OptionBuilder.withArgName("num").hasArg()
-        .withDescription("number of indexer threads").create(THREADS_OPTION));
-    options.addOption(OptionBuilder.withArgName("num").hasArg()
-        .withDescription("max number of documents to index (-1 to index everything)")
-        .create(DOCLIMIT_OPTION));
 
-    options.addOption(POSITIONS_OPTION, false, "index positions");
-    options.addOption(OPTIMIZE_OPTION, false, "merge all index segments");
+    IndexArgs indexArgs = new IndexArgs();
 
-    CommandLine cmdline = null;
-    CommandLineParser parser = new GnuParser();
+    CmdLineParser parser = new CmdLineParser(indexArgs, ParserProperties.defaults().withUsageWidth(90));
+
     try {
-      cmdline = parser.parse(options, args);
-    } catch (ParseException exp) {
-      System.err.println("Error parsing command line: " + exp.getMessage());
-      System.exit(-1);
+      parser.parseArgument(args);
+    } catch (CmdLineException e) {
+      System.err.println(e.getMessage());
+      parser.printUsage(System.err);
+      System.err.println("Example: IndexGov2" + parser.printExample(OptionHandlerFilter.REQUIRED));
+      return;
     }
 
-    if (!cmdline.hasOption(INPUT_OPTION) || !cmdline.hasOption(INDEX_OPTION)
-        || !cmdline.hasOption(THREADS_OPTION)) {
-      HelpFormatter formatter = new HelpFormatter();
-      formatter.setWidth(100);
-      formatter.printHelp(IndexGov2.class.getCanonicalName(), options);
-      System.exit(-1);
-    }
+    final String dirPath = indexArgs.index;
+    final String dataDir = indexArgs.input;
+    final int docCountLimit = indexArgs.doclimit;
+    final int numThreads = indexArgs.threads;
 
-    final String dirPath = cmdline.getOptionValue(INDEX_OPTION);
-    final String dataDir = cmdline.getOptionValue(INPUT_OPTION);
-    final int docCountLimit = cmdline.hasOption(DOCLIMIT_OPTION) ? Integer.parseInt(cmdline.getOptionValue(DOCLIMIT_OPTION)) : -1;
-    final int numThreads = Integer.parseInt(cmdline.getOptionValue(THREADS_OPTION));
-
-    final boolean doUpdate = cmdline.hasOption(UPDATE_OPTION);
-    final boolean positions = cmdline.hasOption(POSITIONS_OPTION);
-    final boolean optimize = cmdline.hasOption(OPTIMIZE_OPTION);
+    final boolean positions = indexArgs.positions;
+    final boolean optimize = indexArgs.optimize;
 
     final Analyzer a = new EnglishAnalyzer();
     final TrecContentSource trecSource = createGov2Source(dataDir);
@@ -124,11 +96,7 @@ public final class IndexGov2 {
 
     final IndexWriterConfig config = new IndexWriterConfig(a);
 
-    if (doUpdate) {
-      config.setOpenMode(IndexWriterConfig.OpenMode.APPEND);
-    } else {
-      config.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
-    }
+    config.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
 
     final IndexWriter writer = new IndexWriter(dir, config);
     Gov2IndexThreads threads = new Gov2IndexThreads(writer, positions, trecSource, numThreads, docCountLimit);
@@ -145,7 +113,7 @@ public final class IndexGov2 {
 
     final long t1 = System.currentTimeMillis();
     LOG.info("Indexer: indexing done (" + (t1-t0)/1000.0 + " sec); total " + writer.maxDoc() + " docs");
-    if (!doUpdate && docCountLimit != -1 && writer.maxDoc() != docCountLimit) {
+    if (docCountLimit != -1 && writer.maxDoc() != docCountLimit) {
       throw new RuntimeException("w.maxDoc()=" + writer.maxDoc() + " but expected " + docCountLimit);
     }
     if (threads.failed.get()) {
