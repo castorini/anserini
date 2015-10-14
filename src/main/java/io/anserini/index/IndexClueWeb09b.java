@@ -274,7 +274,7 @@ public final class IndexClueWeb09b {
         } catch (CmdLineException e) {
             System.err.println(e.getMessage());
             parser.printUsage(System.err);
-            System.err.println("Example: Evaluator" + parser.printExample(OptionHandlerFilter.ALL));
+            System.err.println("Example: IndexClueWeb09b" + parser.printExample(OptionHandlerFilter.REQUIRED));
             return;
         }
 
