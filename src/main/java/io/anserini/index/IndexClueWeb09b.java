@@ -254,10 +254,10 @@ public final class IndexClueWeb09b {
 
         try {
             writer.commit();
-        } finally {
-            writer.close();
             if (optimize)
                 writer.forceMerge(1);
+        } finally {
+            writer.close();
         }
 
         return numIndexed;
