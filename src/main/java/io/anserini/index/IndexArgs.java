@@ -24,25 +24,25 @@ import org.kohsuke.args4j.Option;
  */
 public class IndexArgs {
 
-    // required arguments
+  // required arguments
 
-    @Option(name = "-input", metaVar = "[Path]", required = true, usage = "Collection Directory")
-    String input;
+  @Option(name = "-input", metaVar = "[Path]", required = true, usage = "Collection Directory")
+  String input;
 
-    @Option(name = "-index", metaVar = "[Path]", required = true, usage = "Lucene index")
-    String index;
+  @Option(name = "-index", metaVar = "[Path]", required = true, usage = "Lucene index")
+  String index;
 
-    @Option(name = "-threads", metaVar = "[Number]", required = true, usage = "Number of Threads")
-    int threads;
+  @Option(name = "-threads", metaVar = "[Number]", required = true, usage = "Number of Threads")
+  int threads;
 
-    // optional arguments
+  // optional arguments
 
-    @Option(name = "-positions", usage = "Boolean switch to index positions")
-    boolean positions = false;
+  @Option(name = "-positions", usage = "Boolean switch to index positions")
+  boolean positions = false;
 
-    @Option(name = "-optimize", usage = "Boolean switch to optimize index (force merge)")
-    boolean optimize = false;
+  @Option(name = "-optimize", usage = "Boolean switch to optimize index (force merge)")
+  boolean optimize = false;
 
-    @Option(name = "-doclimit", metaVar = "[Number]", required = false, usage = "Maximum number of *.warc documents to index (-1 to index everything)")
-    int doclimit = -1;
+  @Option(name = "-doclimit", metaVar = "[Number]", required = false, usage = "Maximum number of *.warc documents to index (-1 to index everything)")
+  int doclimit = -1;
 }
