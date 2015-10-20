@@ -73,23 +73,20 @@ public class TweetSearcher {
 
     // http://localhost:port/search?query=happy
     LOG.info("Starting HTTP server on port " + port);
-    
-    
+
     Server server = new Server(port);
     ServletHandler handler = new ServletHandler();
     server.setHandler(handler);
     handler.addServletWithMapping(TweetServlet.class, "/*");
     try {
-		server.start();
-		LOG.info("Accepting connections on port " + port);
-	} catch (Exception e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}
+      server.start();
+      LOG.info("Accepting connections on port " + port);
+    } catch (Exception e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
     server.join();
-    
     itsThread.join();
-
     nrtsearch.close();
   }
 }

@@ -8,6 +8,7 @@
 
   <properties>
     <LUCENE_VERSION>5.3.1</LUCENE_VERSION>
+    <JETTY_VERSION>9.3.5.v20151012</JETTY_VERSION>
   </properties>
 
   <build>
@@ -164,15 +165,15 @@
     </dependency>
     
     <dependency>
-  		<groupId>org.eclipse.jetty</groupId>
-  		<artifactId>jetty-server</artifactId>
-  		<version>9.3.5.v20151012</version>
+  	  <groupId>org.eclipse.jetty</groupId>
+  	  <artifactId>jetty-server</artifactId>
+  	  <version>${JETTY_VERSION}</version>
   	</dependency>
   	
   	<dependency>
-  		<groupId>org.eclipse.jetty</groupId>
-  		<artifactId>jetty-servlet</artifactId>
-  		<version>9.3.5.v20151012</version>
+  	  <groupId>org.eclipse.jetty</groupId>
+  	  <artifactId>jetty-servlet</artifactId>
+  	  <version>${JETTY_VERSION}</version>
   	</dependency>
 
   </dependencies>
