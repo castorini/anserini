@@ -8,7 +8,8 @@
 
   <properties>
     <LUCENE_VERSION>5.3.1</LUCENE_VERSION>
-    <JETTY_VERSION>9.3.5.v20151012</JETTY_VERSION>
+    <JETTY_VERSION>8.1.17.v20150415</JETTY_VERSION>
+    <!-- see http://download.eclipse.org/jetty/ Jetty9 forces Java 1.8, which causes all sorts of headaches -->
   </properties>
 
   <build>
