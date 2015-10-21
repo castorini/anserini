@@ -28,9 +28,9 @@ import org.apache.lucene.benchmark.byTask.feeds.DocData;
 import org.apache.lucene.benchmark.byTask.feeds.NoMoreDataException;
 import org.apache.lucene.benchmark.byTask.feeds.TrecContentSource;
 import org.apache.lucene.document.Document;
+import org.apache.lucene.document.Field.Store;
 import org.apache.lucene.document.StringField;
 import org.apache.lucene.document.TextField;
-import org.apache.lucene.document.Field.Store;
 import org.apache.lucene.index.IndexWriter;
 
 class Gov2IndexThreads {
