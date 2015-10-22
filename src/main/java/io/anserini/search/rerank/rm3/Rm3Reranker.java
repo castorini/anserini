@@ -6,7 +6,11 @@ import io.anserini.search.rerank.RerankerContext;
 import io.anserini.search.rerank.ScoredDocuments;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 
 import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.index.IndexReader;
@@ -17,7 +21,11 @@ import org.apache.lucene.search.Query;
 import org.apache.lucene.search.TopDocs;
 
 public class Rm3Reranker implements Reranker {
-  private Stopper stopper = new Stopper("");
+  private int fbTerms = 20;
+  private int fbDocs = 50;
+  private float originalQueryWeight = 0.5f;
+
+  private RmStopper stopper = new RmStopper("");
 
   @Override
   public ScoredDocuments rerank(ScoredDocuments docs, RerankerContext context) {
@@ -34,16 +42,13 @@ public class Rm3Reranker implements Reranker {
     qfv.normalizeToOne();
     System.err.println(qfv);
 
-    int fbTerms = 20;
-    FeedbackRelevanceModel fb = new FeedbackRelevanceModel();
-    //fb.setOriginalQuery(query);
-    //fb.setRes(results);
-    fb.build(docs, stopper, reader);
+//    FeedbackRelevanceModel fb = new FeedbackRelevanceModel();
+//    //fb.setOriginalQuery(query);
+//    //fb.setRes(results);
+//    fb.build(docs, stopper, reader);
 
-    FeatureVector fbVector = fb.asFeatureVector();
-    fbVector.pruneToSize(fbTerms);
-    fbVector.normalizeToOne();
-    fbVector = FeatureVector.interpolate(qfv, fbVector, 0.5);
+    FeatureVector fbVector = estimateRelevanceModel(docs, reader);
+    fbVector = FeatureVector.interpolate(qfv, fbVector, originalQueryWeight);
 
     //System.out.println(fbVector);
 
@@ -101,5 +106,53 @@ public class Rm3Reranker implements Reranker {
 //    }
 
     //return docs;
+  }
+
+  public FeatureVector estimateRelevanceModel(ScoredDocuments docs, IndexReader reader) {
+    FeatureVector f = new FeatureVector();
+
+    try {
+      Set<String> vocab = new HashSet<String>();
+      List<FeatureVector> fbDocVectors = new LinkedList<FeatureVector>();
+
+      int numdocs = docs.documents.length < fbDocs ? docs.documents.length : fbDocs;
+      double[] rsvs = new double[numdocs];
+      for (int k = 0; k < numdocs; k++) {
+        rsvs[k] = docs.scores[k];
+      }
+
+      for (int k = 0; k < numdocs; k++) {
+        FeatureVector docVector = new FeatureVector(reader.getTermVector(docs.ids[k], StatusField.TEXT.name), stopper);
+        vocab.addAll(docVector.getFeatures());
+        fbDocVectors.add(docVector);
+      }
+
+      Iterator<String> it = vocab.iterator();
+      while (it.hasNext()) {
+        String term = it.next();
+        double fbWeight = 0.0;
+
+        Iterator<FeatureVector> docIT = fbDocVectors.iterator();
+        int k = 0;
+        while (docIT.hasNext()) {
+          FeatureVector docVector = docIT.next();
+          double docProb = docVector.getFeaturetWeight(term) / docVector.getLength();
+          docProb *= rsvs[k++];
+
+          fbWeight += docProb;
+        }
+
+        fbWeight /= (double) fbDocVectors.size();
+        f.addTerm(term, fbWeight);
+      }
+
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+
+    f.pruneToSize(fbTerms);
+    f.normalizeToOne();
+
+    return f;
   }
 }

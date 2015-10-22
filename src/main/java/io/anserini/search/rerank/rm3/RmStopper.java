@@ -9,16 +9,16 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.io.IOUtils;
 
-public class Stopper {
+public class RmStopper {
 	public static final Pattern SPACE_PATTERN = Pattern.compile(" ", Pattern.DOTALL);
 	private Set<String> stopwords;
 
 
-	public Stopper() {
+	public RmStopper() {
 		stopwords = new HashSet<String>();
 	}
 	
-	public Stopper(String pathToStoplist) {
+	public RmStopper(String pathToStoplist) {
 		try {
 			stopwords = new HashSet<String>();
 			

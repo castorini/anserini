@@ -6,6 +6,7 @@ import java.io.StringReader;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -17,27 +18,19 @@ import java.util.Set;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
-import org.apache.lucene.analysis.util.CharArraySet;
 import org.apache.lucene.index.Terms;
 import org.apache.lucene.index.TermsEnum;
 import org.apache.lucene.util.BytesRef;
-import org.apache.lucene.util.Version;
 
-/**
- * Simple container mapping term->count pairs grabbed from an input text.
- * 
- * @author Miles Efron
- *
- */
 public class FeatureVector  {
 	private static StandardAnalyzer analyzer;	
-	private Map<String, Double> features = new HashMap<String, Double>();
-	private Stopper stopper;
+	private Map<String, Float> features = new HashMap<String, Float>();
+	private RmStopper stopper;
 	private double length = 0.0;
 
 	// CONSTRUCTORS  
 	public FeatureVector() {}
-	public FeatureVector(Terms terms, Stopper stopper) {
+	public FeatureVector(Terms terms, RmStopper stopper) {
 		this.stopper = stopper;
 
 
@@ -52,7 +45,7 @@ public class FeatureVector  {
         if (!term.matches("[a-z0-9#@]+")) continue;
         int freq = (int) termsEnum.totalTermFreq();
         length += freq;
-        features.put(term, (double) freq);
+        features.put(term, (float) freq);
       }
     } catch (Exception e) {
 
@@ -111,12 +104,12 @@ public class FeatureVector  {
 		if(stopper != null && stopper.isStopWord(term))
 			return;
 
-		Double freq = ((Double)features.get(term));
+		Float freq = ((Float)features.get(term));
 		if(freq == null) {
-			features.put(term, new Double(1.0));
+			features.put(term, new Float(1.0));
 		} else {
 			double f = freq.doubleValue();
-			features.put(term, new Double(f+1.0));
+			features.put(term, new Float(f+1.0));
 		}
 		length += 1.0;
 	}
@@ -128,12 +121,12 @@ public class FeatureVector  {
 	 * @param weight
 	 */
 	public void addTerm(String term, double weight) {
-		Double w = ((Double)features.get(term));
+		Float w = ((Float)features.get(term));
 		if(w == null) {
-			features.put(term, new Double(weight));
+			features.put(term, new Float(weight));
 		} else {
 			double f = w.doubleValue();
-			features.put(term, new Double(f+weight));
+			features.put(term, new Float(f+weight));
 		}
 		length += weight;
 	}
@@ -151,27 +144,27 @@ public class FeatureVector  {
 
 		Iterator<KeyValuePair> it = kvpList.iterator();
 
-		Map<String,Double> newMap = new HashMap<String,Double>(k);
+		Map<String,Float> newMap = new HashMap<String,Float>(k);
 		int i=0;
 		while(it.hasNext()) {
 			KeyValuePair kvp = it.next();
-			newMap.put((String)kvp.getKey(), kvp.getScore());
+			newMap.put((String)kvp.getKey(), kvp.getValue());
 			if(i++ > k)
 				break;
 		}
 
-		features = (HashMap<String, Double>) newMap;
+		features = (HashMap<String, Float>) newMap;
 
 	}
 
 	public void normalizeToOne() {
-		Map<String,Double> f = new HashMap<String,Double>(features.size());
+		Map<String,Float> f = new HashMap<String,Float>(features.size());
 
 		Iterator<String> it = features.keySet().iterator();
 		while(it.hasNext()) {
 			String feature = it.next();
-			double obs = features.get(feature);
-			f.put(feature, obs/length);
+			float obs = features.get(feature);
+			f.put(feature, (float) (obs/length));
 		}
 
 		features = f;
@@ -192,9 +185,9 @@ public class FeatureVector  {
 		return features.size();
 	}
 
-	public double getFeaturetWeight(String feature) {
-		Double w = (Double)features.get(feature);
-		return (w==null) ? 0.0 : w.doubleValue();
+	public float getFeaturetWeight(String feature) {
+		Float w = (Float)features.get(feature);
+		return (w==null) ? 0.0f : w.floatValue();
 	}
 
 	public Iterator<String> iterator() {
@@ -228,12 +221,19 @@ public class FeatureVector  {
 		Iterator<String> featureIterator = features.keySet().iterator();
 		while(featureIterator.hasNext()) {
 			String feature = featureIterator.next();
-			double value   = features.get(feature);
+			float value   = features.get(feature);
 			KeyValuePair keyValuePair = new KeyValuePair(feature, value);
 			kvpList.add(keyValuePair);
 		}
-		ScorableComparator comparator = new ScorableComparator(true);
-		Collections.sort(kvpList, comparator);
+
+		Collections.sort(kvpList, new Comparator<KeyValuePair>() {
+      public int compare(KeyValuePair x, KeyValuePair y) {
+        double xVal = x.getValue();
+        double yVal = y.getValue();
+
+        return (xVal > yVal ? -1 : (xVal == yVal ? 0 : 1));
+      }
+    });
 
 		return kvpList;
 	}
@@ -246,7 +246,7 @@ public class FeatureVector  {
 		int i=0;
 		while(it.hasNext() && i++ < k) {
 			KeyValuePair pair = it.next();
-			b.append(format.format(pair.getScore()) + " " + pair.getKey() + "\n");
+			b.append(format.format(pair.getValue()) + " " + pair.getKey() + "\n");
 		}
 		return b.toString();
 
@@ -290,7 +290,7 @@ public class FeatureVector  {
 	public static void main(String[] args) {
 		String text = "This. This is NOT a test, nor is it better than 666!";
 
-		Stopper stopper = new Stopper();
+		RmStopper stopper = new RmStopper();
 		stopper.addStopword("this");
 		stopper.addStopword("is");
 		stopper.addStopword("better");
@@ -303,5 +303,29 @@ public class FeatureVector  {
 		}
 	}
 
+	
+	private class KeyValuePair {
+	  private String key;
+	  private float value;
+	  
+	  public KeyValuePair(String key, float value)  {
+	    this.key = key;
+	    this.value = value;
+	  }
+
+	  public String getKey() {
+	    return key;
+	  }
+	  
+	  @Override
+	  public String toString() {
+	    StringBuilder b = new StringBuilder(value + "\t" + key);
+	    return b.toString();
+	  }
+
+	  public float getValue() {
+	    return value;
+	  }
+	}
 
 }
