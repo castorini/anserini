@@ -11,33 +11,21 @@ import java.util.TreeSet;
 import org.apache.lucene.document.Document;
 
 public class RemoveRetweetsTemporalTiebreakReranker implements Reranker {
-
-  public static class Result {
-    public float rsv;
-    public long id;
+  // Sort by score, break ties by higher docid first (i.e., more temporally recent first)
+  public static class Result implements Comparable<Result> {
+    public float score;
+    public long docid;
     public Document document;
-  }
 
-  public static class ResultComparable implements Comparable<ResultComparable> {
-    private Result tresult;
-
-    public ResultComparable(Result tresult) {
-      this.tresult = tresult;
-    }
-
-    public Result getTResult() {
-      return tresult;
-    }
-
-    public int compareTo(ResultComparable other) {
-      if (tresult.rsv > other.tresult.rsv) {
+    public int compareTo(Result other) {
+      if (this.score > other.score) {
         return -1;
-      } else if (tresult.rsv < other.tresult.rsv) {
+      } else if (this.score < other.score) {
         return 1;
       } else {
-        if (tresult.id > other.tresult.id) {
+        if (this.docid > other.docid) {
           return -1;
-        } else if (tresult.id < other.tresult.id) {
+        } else if (this.docid < other.docid) {
           return 1;
         } else {
           return 0;
@@ -52,52 +40,50 @@ public class RemoveRetweetsTemporalTiebreakReranker implements Reranker {
         return false;
       }
 
-      return ((ResultComparable) other).tresult.id == this.tresult.id;
+      return ((Result) other).docid == this.docid;
     }
   }
 
   @Override
   public ScoredDocuments rerank(ScoredDocuments docs, RerankerContext context) {
-    
-    SortedSet<ResultComparable> sortedResults = new TreeSet<ResultComparable>();
+    // Resort results based on score, breaking ties by larger docid first (i.e., recent first).
+    SortedSet<Result> sortedResults = new TreeSet<Result>();
     for (int i=0; i<docs.documents.length; i++ ) {
       Result result = new Result();
       result.document = docs.documents[i];
-      result.rsv = docs.scores[i];
-      result.id = (long) docs.documents[i].getField(StatusField.ID.name).numericValue();
+      result.score = docs.scores[i];
+      result.docid = (long) docs.documents[i].getField(StatusField.ID.name).numericValue();
 
       // Throw away retweets.
       if (docs.documents[i].getField(StatusField.RETWEETED_STATUS_ID.name) == null) {
-        sortedResults.add(new ResultComparable(result));
+        sortedResults.add(result);
       }
     }
 
     int numResults = sortedResults.size();
-
     ScoredDocuments rerankedDocs = new ScoredDocuments();
     rerankedDocs.documents = new Document[numResults];
     rerankedDocs.scores = new float[numResults];
 
     int i = 0;
-    int dupliCount = 0;
-    double rsvPrev = 0;
-    for (ResultComparable sortedResult : sortedResults) {
-      Result result = sortedResult.getTResult();
-      double rsvCurr = result.rsv;
-      if (Math.abs(rsvCurr - rsvPrev) > 0.001) {
-        dupliCount = 0;
+    int dup = 0;
+    float prevScore = 0;
+    for (Result result : sortedResults) {
+      float curScore = result.score;
+      // If we encounter ties, we want to perturb the final score a bit.
+      if (Math.abs(curScore - prevScore) > 0.001f) {
+        dup = 0;
       } else {
-        dupliCount ++;
-        rsvCurr = rsvCurr - 0.000001 * dupliCount;
+        dup ++;
+        curScore = curScore - 0.000001f * dup;
       }
 
-      rerankedDocs.documents[i] = sortedResult.getTResult().document;
-      rerankedDocs.scores[i] = (float) rsvCurr;
-      rsvPrev = result.rsv;
+      rerankedDocs.documents[i] = result.document;
+      rerankedDocs.scores[i] = (float) curScore;
+      prevScore = result.score;
       i++;
     }
 
     return rerankedDocs;
   }
-
 }
