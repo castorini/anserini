@@ -34,6 +34,10 @@
               <name>IndexTweets</name>
             </program>
             <program>
+              <mainClass>io.anserini.search.SearchTweets</mainClass>
+              <name>SearchTweets</name>
+            </program>
+            <program>
               <mainClass>io.anserini.index.IndexGov2</mainClass>
               <name>IndexGov2</name>
             </program>
