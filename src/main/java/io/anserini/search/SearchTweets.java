@@ -21,6 +21,7 @@ import io.anserini.index.IndexTweets.StatusField;
 import io.anserini.search.rerank.Reranker;
 import io.anserini.search.rerank.RerankerContext;
 import io.anserini.search.rerank.ScoredDocuments;
+import io.anserini.search.rerank.rm3.Rm3Reranker;
 import io.anserini.search.rerank.twitter.RemoveRetweetsTemporalTiebreakReranker;
 
 import java.io.File;
@@ -139,9 +140,13 @@ public class SearchTweets {
 
       TopDocs rs = searcher.search(query, filter, numResults);
 
-      RerankerContext context = new RerankerContext(searcher);
+      RerankerContext context = new RerankerContext(searcher, query, filter);
       Reranker reranker = new RemoveRetweetsTemporalTiebreakReranker();
-      ScoredDocuments docs = reranker.rerank(ScoredDocuments.fromTopDocs(rs, searcher), context);
+      Reranker rm3 = new Rm3Reranker();
+      //ScoredDocuments docs = reranker.rerank(ScoredDocuments.fromTopDocs(rs, searcher), context);
+      //ScoredDocuments docs = rm3.rerank(ScoredDocuments.fromTopDocs(rs, searcher), context);
+
+      ScoredDocuments docs = reranker.rerank(rm3.rerank(ScoredDocuments.fromTopDocs(rs, searcher), context), context);
 
       for (int i=0; i<docs.documents.length; i++) {
         String qid = topic.getId().replaceFirst("^MB0*", "");
