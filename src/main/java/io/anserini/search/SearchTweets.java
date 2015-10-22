@@ -18,6 +18,10 @@ package io.anserini.search;
 
 import io.anserini.index.IndexTweets;
 import io.anserini.index.IndexTweets.StatusField;
+import io.anserini.search.rerank.Reranker;
+import io.anserini.search.rerank.RerankerContext;
+import io.anserini.search.rerank.ScoredDocuments;
+import io.anserini.search.rerank.twitter.RemoveRetweetsTemporalTiebreakReranker;
 
 import java.io.File;
 import java.io.PrintStream;
@@ -31,7 +35,6 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
-import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.queryparser.classic.QueryParser;
@@ -39,7 +42,6 @@ import org.apache.lucene.search.Filter;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.NumericRangeFilter;
 import org.apache.lucene.search.Query;
-import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.search.similarities.BM25Similarity;
 import org.apache.lucene.search.similarities.LMDirichletSimilarity;
@@ -137,16 +139,14 @@ public class SearchTweets {
 
       TopDocs rs = searcher.search(query, filter, numResults);
 
-      int i = 1;
-      for (ScoreDoc scoreDoc : rs.scoreDocs) {
-        Document hit = searcher.doc(scoreDoc.doc);
+      RerankerContext context = new RerankerContext(searcher);
+      Reranker reranker = new RemoveRetweetsTemporalTiebreakReranker();
+      ScoredDocuments docs = reranker.rerank(ScoredDocuments.fromTopDocs(rs, searcher), context);
+
+      for (int i=0; i<docs.documents.length; i++) {
         String qid = topic.getId().replaceFirst("^MB0*", "");
         out.println(String.format("%s Q0 %s %d %f %s", qid,
-            hit.getField(StatusField.ID.name).numericValue(), i, scoreDoc.score, runtag));
-        if ( verbose) {
-          out.println("# " + hit.toString().replaceAll("[\\n\\r]+", " "));
-        }
-        i++;
+            docs.documents[i].getField(StatusField.ID.name).numericValue(), (i+1), docs.scores[i], runtag));
       }
     }
     reader.close();
