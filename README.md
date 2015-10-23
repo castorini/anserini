@@ -53,12 +53,7 @@ Then you can evaluate the runs:
 trec_eval -M1000 src/resources/topics-and-qrels/qrels.web.151-200.txt run.web.151-200.txt
 ```
 
-### IndexCounter:
 
-```sh
-sh target/appassembler/bin/IndexCounter -indexPath /path/to/index \
--docIdPath /path/to/save/docIds
-```
 =======
 ```
 trec_eval src/main/resources/topics-and-qrels/qrels.web.151-200.txt run.web.151-200.txt
@@ -91,3 +86,12 @@ sh target/appassembler/bin/TweetSearcher -index twitter-index
 
 The demo starts up an HTTP server on port `8080`, but this can be changed with the `-port` option. Query via a web browser at `http://localhost:8080/search?query=query`. Try `birthday`, as there are always birthdays being celebrated.
 >>>>>>> 84fcb6bc2a30faad25812e07ab31267903723cbf
+
+### IndexCounter:
+
+Output all document IDs in a Lucene index. 
+
+```sh
+sh target/appassembler/bin/IndexCounter -indexPath /path/to/index \
+-docIdPath /path/to/save/docIds
+```
