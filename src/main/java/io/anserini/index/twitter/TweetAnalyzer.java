@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package cc.twittertools.index;
+package io.anserini.index.twitter;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
@@ -23,25 +23,25 @@ import org.apache.lucene.analysis.core.WhitespaceTokenizer;
 import org.apache.lucene.analysis.en.PorterStemFilter;
 
 public final class TweetAnalyzer extends Analyzer {
-    private final boolean stemming;
+  private final boolean stemming;
 
-    public TweetAnalyzer(boolean stemming) {
-	this.stemming = stemming;
-    }
+  public TweetAnalyzer(boolean stemming) {
+    this.stemming = stemming;
+  }
 
-    public TweetAnalyzer() {
-	this(true);
-    }
+  public TweetAnalyzer() {
+    this(true);
+  }
 
-    @Override
-    protected TokenStreamComponents createComponents(String fieldName) {
-	Tokenizer source = new WhitespaceTokenizer();
-	TokenStream filter = new LowerCaseEntityPreservingFilter(source);
-	if (stemming) {
-	    // Porter stemmer ignores words which are marked as keywords
-	    filter = new PorterStemFilter(filter);
-	}
-	return new TokenStreamComponents(source, filter);
+  @Override
+  protected TokenStreamComponents createComponents(String fieldName) {
+    Tokenizer source = new WhitespaceTokenizer();
+    TokenStream filter = new LowerCaseEntityPreservingFilter(source);
+    if (stemming) {
+      // Porter stemmer ignores words which are marked as keywords
+      filter = new PorterStemFilter(filter);
     }
+    return new TokenStreamComponents(source, filter);
+  }
 
 }

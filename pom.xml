@@ -8,7 +8,8 @@
 
   <properties>
     <LUCENE_VERSION>5.3.1</LUCENE_VERSION>
-    <JETTY_VERSION>9.3.5.v20151012</JETTY_VERSION>
+    <JETTY_VERSION>8.1.17.v20150415</JETTY_VERSION>
+    <!-- see http://download.eclipse.org/jetty/ Jetty9 forces Java 1.8, which causes all sorts of headaches -->
   </properties>
 
   <build>
@@ -28,6 +29,14 @@
         <configuration>
           <extraJvmArguments>-Xms512M -Xmx24576M</extraJvmArguments>
           <programs>
+            <program>
+              <mainClass>io.anserini.index.IndexTweets</mainClass>
+              <name>IndexTweets</name>
+            </program>
+            <program>
+              <mainClass>io.anserini.search.SearchTweets</mainClass>
+              <name>SearchTweets</name>
+            </program>
             <program>
               <mainClass>io.anserini.index.IndexGov2</mainClass>
               <name>IndexGov2</name>
@@ -101,6 +110,11 @@
       <artifactId>commons-cli</artifactId>
       <version>1.2</version>
     </dependency>
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>2.4</version>
+    </dependency>
 
     <dependency>
       <groupId>org.apache.httpcomponents</groupId>
@@ -166,6 +180,19 @@
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
       <version>19.0-rc2</version>
+    </dependency>
+
+    <dependency>
+      <groupId>it.unimi.dsi</groupId>
+      <artifactId>fastutil</artifactId>
+      <version>6.5.6</version>
+    </dependency>
+
+    <dependency>
+      <!-- needed for CBZip2InputStream -->
+      <groupId>org.apache.ant</groupId>
+      <artifactId>ant</artifactId>
+      <version>1.9.1</version>
     </dependency>
     
     <dependency>

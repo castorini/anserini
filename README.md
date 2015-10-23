@@ -9,6 +9,8 @@ mvn clean package appassembler:assemble
 
 ### Experiments on Gov2
 
+Indexing:
+
 ```
 sh target/appassembler/bin/IndexGov2 -input /path/to/gov2/ \
  -index lucene-index.gov2.cnt -threads 32 -optimize
@@ -31,6 +33,8 @@ eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.701-750.t
 
 
 ### Experiments on ClueWeb09 (Category B)
+
+Indexing:
 
 ```
 sh target/appassembler/bin/IndexClueWeb09b -input /path/to/cw09b/ \
@@ -68,6 +72,34 @@ To record search/running times:
 
 ```
 sh target/appassembler/bin/Time lucene-index.cw09b.cnt
+```
+
+### Experiments on Tweets2011
+
+Indexing:
+
+```
+sh target/appassembler/bin/IndexTweets -collection /path/to/tweets2011-collection/ \
+  -index tweets2011-index -optimize -store
+```
+
+Running topics from TREC 2011 and 2012:
+
+```
+sh target/appassembler/bin/SearchTweets -index tweets2011-index/ -num_results 1000 \
+ -queries src/main/resources/topics-and-qrels/topics.microblog2011.txt > run.ql.2011.txt
+
+sh target/appassembler/bin/SearchTweets -index tweets2011-index/ -num_results 1000 \
+ -queries src/main/resources/topics-and-qrels/topics.microblog2012.txt > run.ql.2012.txt
+```
+
+Add `-rm3` option for query expansion with relevance models (RM3).
+
+For evaluation:
+
+```
+eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.microblog2011.txt run.ql.2011.txt
+eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.microblog2012.txt run.ql.2012.txt
 ```
 
 ### Twitter (Near) Real-Time Search

@@ -1,5 +1,7 @@
 package io.anserini.nrts;
 
+import io.anserini.nrts.TweetStreamIndexer.StatusField;
+
 import java.io.IOException;
 
 import javax.servlet.ServletException;
@@ -16,8 +18,6 @@ import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopScoreDocCollector;
-
-import io.anserini.nrts.TweetStreamIndexer.StatusField;
 
 public class TweetServlet extends HttpServlet {
 
