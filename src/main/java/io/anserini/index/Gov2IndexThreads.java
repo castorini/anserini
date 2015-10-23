@@ -1,4 +1,4 @@
-package io.anserini;
+package io.anserini.index;
 
 /**
  * Licensed to the Apache Software Foundation (ASF) under one or more
@@ -22,6 +22,8 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.lucene.benchmark.byTask.feeds.DocData;
 import org.apache.lucene.benchmark.byTask.feeds.NoMoreDataException;
 import org.apache.lucene.benchmark.byTask.feeds.TrecContentSource;
@@ -31,17 +33,17 @@ import org.apache.lucene.document.TextField;
 import org.apache.lucene.document.Field.Store;
 import org.apache.lucene.index.IndexWriter;
 
-class IndexThreads {
+class Gov2IndexThreads {
+  private static final Logger LOG = LogManager.getLogger(Gov2IndexThreads.class);
 
-  final IngestRatePrinter printer;
   final CountDownLatch startLatch = new CountDownLatch(1);
   final AtomicBoolean stop;
   final AtomicBoolean failed;
   final TrecContentSource tcs;
   final Thread[] threads;
 
-  public IndexThreads(IndexWriter w, boolean positions,
-      TrecContentSource tcs, int numThreads, int docCountLimit, boolean printDPS) throws IOException, InterruptedException {
+  public Gov2IndexThreads(IndexWriter w, boolean positions, TrecContentSource tcs, int numThreads, int docCountLimit)
+      throws IOException, InterruptedException {
 
     this.tcs = tcs;
     threads = new Thread[numThreads];
@@ -57,13 +59,6 @@ class IndexThreads {
     }
 
     Thread.sleep(10);
-
-    if (printDPS) {
-      printer = new IngestRatePrinter(count, stop);
-      printer.start();
-    } else {
-      printer = null;
-    }
   }
 
   public void start() {
@@ -78,9 +73,6 @@ class IndexThreads {
     stop.getAndSet(true);
     for(Thread t : threads) {
       t.join();
-    }
-    if (printer != null) {
-      printer.join();
     }
     tcs.close();
   }
@@ -120,7 +112,7 @@ class IndexThreads {
 
     private Document getDocumentFromDocData(DocData dd) {
       Document doc = new Document();
-      doc.add(new StringField("docname", dd.getName(), Store.YES));
+      doc.add(new StringField("docid", dd.getName(), Store.YES));
       if(positions) {
         doc.add(new TextField("body", dd.getTitle(), Store.NO));
         doc.add(new TextField("body", dd.getBody(), Store.NO));
@@ -150,15 +142,15 @@ class IndexThreads {
             dd = tcs.getNextDocData(dd);
           } catch (IOException ex) {
             // The HTML parser used with this trec parser doesn't support HTML pages with framesets.
-            if(!(ex.getCause()!=null && ex.getCause().getMessage().contains("HTML framesets") )) {
-              System.err.println("Failed: "+ex.getMessage());
+            if (!(ex.getCause() != null && ex.getCause().getMessage().contains("HTML framesets"))) {
+              LOG.error("getNextDocData exception: " + ex.getMessage());
             }
             continue;
           } catch (Exception e) {
-            if(e instanceof NoMoreDataException) {
+            if (e instanceof NoMoreDataException) {
               break;
             } else {
-              System.err.println("Failed: "+e.getMessage());
+              LOG.error("getNextDocData exception: " + e.getMessage());
               continue;
             }
           }
@@ -172,7 +164,7 @@ class IndexThreads {
             break;
           }
           if ((docCount % 100000) == 0) {
-            System.out.println("Indexer: " + docCount + " docs... (" + (System.currentTimeMillis() - tStart)/1000.0 + " sec)");
+            LOG.info("Indexer: " + docCount + " docs... (" + (System.currentTimeMillis() - tStart)/1000.0 + " sec)");
           }
           w.addDocument(doc);
         }
@@ -182,38 +174,6 @@ class IndexThreads {
         throw new RuntimeException(e);
       } finally {
         stopLatch.countDown();
-      }
-    }
-  }
-
-  private static class IngestRatePrinter extends Thread {
-
-    private final AtomicInteger count;
-    private final AtomicBoolean stop;
-    public IngestRatePrinter(AtomicInteger count, AtomicBoolean stop){
-      this.count = count;
-      this.stop = stop;
-    }
-
-    @Override
-    public void run() {
-      long time = System.currentTimeMillis();
-      System.out.println("startIngest: " + time);
-      final long start = time;
-      int lastCount = count.get();
-      while(!stop.get()) {
-        try {
-          Thread.sleep(200);
-        } catch(Exception ex) {
-        }
-        int numDocs = count.get();
-
-        double current = numDocs - lastCount;
-        long now = System.currentTimeMillis();
-        double seconds = (now-time) / 1000.0d;
-        System.out.println("ingest: " + (current / seconds) + " " + (now - start));
-        time = now;
-        lastCount = numDocs;
       }
     }
   }

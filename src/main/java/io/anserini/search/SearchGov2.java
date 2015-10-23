@@ -1,4 +1,4 @@
-package io.anserini;
+package io.anserini.search;
 
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
@@ -32,7 +32,7 @@ import org.apache.lucene.search.Query;
 import org.apache.lucene.search.similarities.BM25Similarity;
 import org.apache.lucene.store.FSDirectory;
 
-public class TrecDriver extends QueryDriver {
+public class SearchGov2 extends QueryDriver {
   public static void main(String[] args) throws Exception {
 
     if (args.length < 4 || args.length > 5) {
@@ -57,7 +57,7 @@ public class TrecDriver extends QueryDriver {
     searcher.setSimilarity(new BM25Similarity(0.9f, 0.4f));
 
     int maxResults = 1000;
-    String docNameField = "docname";
+    String docNameField = "docid";
 
     PrintWriter logger = new PrintWriter(new OutputStreamWriter(System.out, Charset.defaultCharset()), true);
 

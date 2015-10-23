@@ -1,4 +1,4 @@
-package io.anserini;
+package io.anserini.index;
 
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.FieldType;
