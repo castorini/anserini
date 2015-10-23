@@ -62,7 +62,7 @@
               <name>TweetSearcher</name>
             </program>
 	    <program>
-              <mainClass>io.anserini.util.IndexCounter</mainClass>
+              <mainClass>io.anserini.IndexCounter</mainClass>
               <name>IndexCounter</name>
             </program>
           </programs>
