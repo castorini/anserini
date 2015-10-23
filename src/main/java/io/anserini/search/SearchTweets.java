@@ -23,6 +23,7 @@ import io.anserini.search.rerank.RerankerContext;
 import io.anserini.search.rerank.ScoredDocuments;
 import io.anserini.search.rerank.rm3.Rm3Reranker;
 import io.anserini.search.rerank.twitter.RemoveRetweetsTemporalTiebreakReranker;
+import io.anserini.util.AnalyzerUtils;
 
 import java.io.File;
 import java.io.PrintStream;
@@ -57,12 +58,15 @@ public class SearchTweets {
   private static final String SIMILARITY_OPTION = "similarity";
   private static final String RUNTAG_OPTION = "runtag";
   private static final String VERBOSE_OPTION = "verbose";
+  private static final String RM3_OPTION = "rm3";
 
   private SearchTweets() {}
 
   @SuppressWarnings("static-access")
   public static void main(String[] args) throws Exception {
     Options options = new Options();
+
+    options.addOption(new Option(RM3_OPTION, "apply relevance feedback with rm3"));
 
     options.addOption(OptionBuilder.withArgName("path").hasArg()
         .withDescription("index location").create(INDEX_OPTION));
@@ -134,19 +138,21 @@ public class SearchTweets {
 
     MicroblogTopicSet topics = MicroblogTopicSet.fromFile(new File(topicsFile));
     for ( MicroblogTopic topic : topics ) {
-      Query query = p.parse(topic.getQuery());
-      Filter filter = NumericRangeFilter.newLongRange(StatusField.ID.name, 0L,
-          topic.getQueryTweetTime(), true, true);
+      Filter filter = NumericRangeFilter.newLongRange(StatusField.ID.name, 0L, topic.getQueryTweetTime(), true, true);
+      Query query = AnalyzerUtils.buildBagOfWordsQuery(StatusField.TEXT.name, IndexTweets.ANALYZER, topic.getQuery());
 
       TopDocs rs = searcher.search(query, filter, numResults);
 
-      RerankerContext context = new RerankerContext(searcher, query, filter);
-      Reranker reranker = new RemoveRetweetsTemporalTiebreakReranker();
-      Reranker rm3 = new Rm3Reranker();
-      //ScoredDocuments docs = reranker.rerank(ScoredDocuments.fromTopDocs(rs, searcher), context);
-      //ScoredDocuments docs = rm3.rerank(ScoredDocuments.fromTopDocs(rs, searcher), context);
+      RerankerContext context = new RerankerContext(searcher, query, topic.getQuery(), filter);
+      Reranker cleanup = new RemoveRetweetsTemporalTiebreakReranker();
 
-      ScoredDocuments docs = reranker.rerank(rm3.rerank(ScoredDocuments.fromTopDocs(rs, searcher), context), context);
+      ScoredDocuments docs = null;
+      if (cmdline.hasOption(RM3_OPTION)) {
+        Reranker rm3 = new Rm3Reranker();
+        docs = cleanup.rerank(rm3.rerank(ScoredDocuments.fromTopDocs(rs, searcher), context), context);
+      } else {
+        docs = cleanup.rerank(ScoredDocuments.fromTopDocs(rs, searcher), context);
+      }
 
       for (int i=0; i<docs.documents.length; i++) {
         String qid = topic.getId().replaceFirst("^MB0*", "");

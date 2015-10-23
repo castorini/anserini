@@ -15,6 +15,7 @@ public class RemoveRetweetsTemporalTiebreakReranker implements Reranker {
   public static class Result implements Comparable<Result> {
     public float score;
     public long docid;
+    public int id;
     public Document document;
 
     public int compareTo(Result other) {
@@ -52,6 +53,7 @@ public class RemoveRetweetsTemporalTiebreakReranker implements Reranker {
       Result result = new Result();
       result.document = docs.documents[i];
       result.score = docs.scores[i];
+      result.id = docs.ids[i];
       result.docid = (long) docs.documents[i].getField(StatusField.ID.name).numericValue();
 
       // Throw away retweets.
@@ -63,6 +65,7 @@ public class RemoveRetweetsTemporalTiebreakReranker implements Reranker {
     int numResults = sortedResults.size();
     ScoredDocuments rerankedDocs = new ScoredDocuments();
     rerankedDocs.documents = new Document[numResults];
+    rerankedDocs.ids = new int[numResults];
     rerankedDocs.scores = new float[numResults];
 
     int i = 0;
@@ -79,6 +82,7 @@ public class RemoveRetweetsTemporalTiebreakReranker implements Reranker {
       }
 
       rerankedDocs.documents[i] = result.document;
+      rerankedDocs.ids[i] = result.id;
       rerankedDocs.scores[i] = (float) curScore;
       prevScore = result.score;
       i++;

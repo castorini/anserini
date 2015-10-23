@@ -7,17 +7,13 @@ import org.apache.lucene.search.Query;
 public class RerankerContext {
   private final IndexSearcher searcher;
   private final Query query;
+  private final String queryText;
   private final Filter filter;
  
-  public RerankerContext(IndexSearcher searcher) {
-    this.searcher = searcher;
-    this.filter = null;
-    this.query = null;
-  }
-
-  public RerankerContext(IndexSearcher searcher, Query query, Filter filter) {
+  public RerankerContext(IndexSearcher searcher, Query query, String queryText, Filter filter) {
     this.searcher = searcher;
     this.query = query;
+    this.queryText = queryText;
     this.filter = filter;
   }
 
@@ -31,5 +27,9 @@ public class RerankerContext {
 
   public Query getQuery() {
     return query;
+  }
+
+  public String getQueryText() {
+    return queryText;
   }
 }

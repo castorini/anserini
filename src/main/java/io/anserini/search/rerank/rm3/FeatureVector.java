@@ -40,7 +40,7 @@ public class FeatureVector  {
       BytesRef text = null;
       while ((text = termsEnum.next()) != null) {
         String term = text.utf8ToString();
-        if (term.length() == 0) continue;
+        if (term.length() < 2) continue;
         if (stopper.isStopWord(term)) continue;
         if (!term.matches("[a-z0-9#@]+")) continue;
         int freq = (int) termsEnum.totalTermFreq();
