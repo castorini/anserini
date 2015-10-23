@@ -1,4 +1,4 @@
-package io.anserini.search.rerank;
+package io.anserini.rerank;
 
 import org.apache.lucene.search.Filter;
 import org.apache.lucene.search.IndexSearcher;

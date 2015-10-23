@@ -1,10 +1,10 @@
-package io.anserini.search.rerank.rm3;
+package io.anserini.rerank.rm3;
 
 import io.anserini.index.IndexTweets;
 import io.anserini.index.IndexTweets.StatusField;
-import io.anserini.search.rerank.Reranker;
-import io.anserini.search.rerank.RerankerContext;
-import io.anserini.search.rerank.ScoredDocuments;
+import io.anserini.rerank.Reranker;
+import io.anserini.rerank.RerankerContext;
+import io.anserini.rerank.ScoredDocuments;
 import io.anserini.util.AnalyzerUtils;
 
 import java.io.IOException;

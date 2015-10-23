@@ -1,4 +1,4 @@
-package io.anserini.search.rerank;
+package io.anserini.rerank;
 
 import java.io.IOException;
 

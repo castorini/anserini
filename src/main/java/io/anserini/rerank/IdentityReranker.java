@@ -1,4 +1,4 @@
-package io.anserini.search.rerank;
+package io.anserini.rerank;
 
 public class IdentityReranker implements Reranker {
   @Override

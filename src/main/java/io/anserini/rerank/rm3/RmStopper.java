@@ -1,4 +1,4 @@
-package io.anserini.search.rerank.rm3;
+package io.anserini.rerank.rm3;
 
 import java.io.FileInputStream;
 import java.util.HashSet;
@@ -23,7 +23,7 @@ public class RmStopper {
 			stopwords = new HashSet<String>();
 			
 			// assume our stoplist has one stopword per line
-			List<String> lines = IOUtils.readLines(new FileInputStream("src/main/resources/io/anserini/search/rerank/rm3/rm3-stoplist.twitter.txt"));
+			List<String> lines = IOUtils.readLines(new FileInputStream("src/main/resources/io/anserini/rerank/rm3/rm3-stoplist.twitter.txt"));
 			Iterator<String> it = lines.iterator();
 			while(it.hasNext()) {
 				stopwords.add(it.next());

@@ -18,11 +18,11 @@ package io.anserini.search;
 
 import io.anserini.index.IndexTweets;
 import io.anserini.index.IndexTweets.StatusField;
-import io.anserini.search.rerank.Reranker;
-import io.anserini.search.rerank.RerankerContext;
-import io.anserini.search.rerank.ScoredDocuments;
-import io.anserini.search.rerank.rm3.Rm3Reranker;
-import io.anserini.search.rerank.twitter.RemoveRetweetsTemporalTiebreakReranker;
+import io.anserini.rerank.Reranker;
+import io.anserini.rerank.RerankerContext;
+import io.anserini.rerank.ScoredDocuments;
+import io.anserini.rerank.rm3.Rm3Reranker;
+import io.anserini.rerank.twitter.RemoveRetweetsTemporalTiebreakReranker;
 import io.anserini.util.AnalyzerUtils;
 
 import java.io.File;

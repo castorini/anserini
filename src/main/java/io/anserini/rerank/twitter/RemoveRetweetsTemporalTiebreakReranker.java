@@ -1,9 +1,9 @@
-package io.anserini.search.rerank.twitter;
+package io.anserini.rerank.twitter;
 
 import io.anserini.index.IndexTweets.StatusField;
-import io.anserini.search.rerank.Reranker;
-import io.anserini.search.rerank.RerankerContext;
-import io.anserini.search.rerank.ScoredDocuments;
+import io.anserini.rerank.Reranker;
+import io.anserini.rerank.RerankerContext;
+import io.anserini.rerank.ScoredDocuments;
 
 import java.util.SortedSet;
 import java.util.TreeSet;
