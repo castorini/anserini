@@ -61,6 +61,10 @@
               <mainClass>io.anserini.nrts.TweetSearcher</mainClass>
               <name>TweetSearcher</name>
             </program>
+	    <program>
+              <mainClass>io.anserini.util.IndexCounter</mainClass>
+              <name>IndexCounter</name>
+            </program>
           </programs>
         </configuration>
       </plugin>
