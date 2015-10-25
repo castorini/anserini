@@ -61,9 +61,9 @@
               <mainClass>io.anserini.nrts.TweetSearcher</mainClass>
               <name>TweetSearcher</name>
             </program>
-	    <program>
-              <mainClass>io.anserini.util.IndexCounter</mainClass>
-              <name>IndexCounter</name>
+            <program>
+              <mainClass>io.anserini.util.DumpDocids</mainClass>
+              <name>DumpDocids</name>
             </program>
           </programs>
         </configuration>
@@ -98,7 +98,11 @@
       <artifactId>lucene-core</artifactId>
       <version>${LUCENE_VERSION}</version>
     </dependency>
-
+	<dependency>
+      <groupId>org.apache.lucene</groupId>
+      <artifactId>lucene-backward-codecs</artifactId>
+      <version>${LUCENE_VERSION}</version>
+    </dependency>
     <dependency>
       <groupId>commons-logging</groupId>
       <artifactId>commons-logging</artifactId>
