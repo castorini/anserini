@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package cc.twittertools.corpus.data;
+package io.anserini.document.twitter;
 
 import java.io.File;
 import java.io.FileFilter;

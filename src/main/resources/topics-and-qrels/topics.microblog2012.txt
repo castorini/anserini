@@ -1,0 +1,420 @@
+<top>
+<num> Number: MB051 </num>
+<query> British Government cuts </query>
+<querytime> Tue Feb 08 23:56:46 +0000 2011 </querytime>
+<querytweettime> 35124912364457984 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB052 </num>
+<query> Bedbug epidemic </query>
+<querytime> Thu Feb 03 16:24:58 +0000 2011 </querytime>
+<querytweettime> 33199275462627328 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB053 </num>
+<query> river boat cruises </query>
+<querytime> Tue Feb 08 23:51:47 +0000 2011 </querytime>
+<querytweettime> 35123660406657024 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB054 </num>
+<query> The Daily </query>
+<querytime> Tue Feb 08 04:49:44 +0000 2011 </querytime>
+<querytweettime> 34836253874593792 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB055 </num>
+<query> berries and weight loss  </query>
+<querytime> Tue Feb 08 01:14:11 +0000 2011 </querytime>
+<querytweettime> 34782005925249024 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB056 </num>
+<query> Hugo Chavez </query>
+<querytime> Fri Feb 04 04:05:08 +0000 2011 </querytime>
+<querytweettime> 33375478505013248 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB057 </num>
+<query> Chicago blizzard </query>
+<querytime> Wed Feb 02 21:53:06 +0000 2011 </querytime>
+<querytweettime> 32919462151720960 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB058 </num>
+<query> FDA approval of drugs </query>
+<querytime> Tue Feb 08 18:31:56 +0000 2011 </querytime>
+<querytweettime> 35043166813949952 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB059 </num>
+<query> Glen Beck </query>
+<querytime> Tue Feb 08 16:31:32 +0000 2011 </querytime>
+<querytweettime> 35012866822119424 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB060 </num>
+<query> fishing guidebooks </query>
+<querytime> Mon Feb 07 02:22:19 +0000 2011 </querytime>
+<querytweettime> 34436767029399552 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB061 </num>
+<query> Hu Jintao visit to the United States </query>
+<querytime> Mon Feb 07 19:29:22 +0000 2011 </querytime>
+<querytweettime> 34695232985645056 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB062 </num>
+<query> Starbucks Trenta cup </query>
+<querytime> Tue Feb 08 23:02:21 +0000 2011 </querytime>
+<querytweettime> 35111217613766657 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB063 </num>
+<query> Bieber and Stewart trading places </query>
+<querytime> Sat Feb 05 20:34:21 +0000 2011 </querytime>
+<querytweettime> 33986811273420800 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB064 </num>
+<query> red light cameras </query>
+<querytime> Tue Feb 08 15:50:43 +0000 2011 </querytime>
+<querytweettime> 35002593419726848 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB065 </num>
+<query> Michelle Obama's obesity campaign </query>
+<querytime> Mon Feb 07 02:30:59 +0000 2011 </querytime>
+<querytweettime> 34438945404092416 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB066 </num>
+<query> Journalists' treatment in Egypt </query>
+<querytime> Sat Feb 05 00:32:03 +0000 2011 </querytime>
+<querytweettime> 33684239400566784 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB067 </num>
+<query> Boston Celtics championship </query>
+<querytime> Mon Feb 07 00:52:58 +0000 2011 </querytime>
+<querytweettime> 34414281218859008 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB068 </num>
+<query> Charlie Sheen rehab </query>
+<querytime> Tue Feb 01 20:14:53 +0000 2011 </querytime>
+<querytweettime> 32532358276063232 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB069 </num>
+<query> high taxes  </query>
+<querytime> Tue Feb 08 20:34:23 +0000 2011 </querytime>
+<querytweettime> 35073980729802752 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB070 </num>
+<query> farmers markets opinions </query>
+<querytime> Mon Feb 07 21:44:55 +0000 2011 </querytime>
+<querytweettime> 34729342210678784 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB071 </num>
+<query> Australian Open Djokovic vs. Murray </query>
+<querytime> Sun Jan 30 12:36:20 +0000 2011 </querytime>
+<querytweettime> 31692185296441344 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB072 </num>
+<query> Kardashians opinions </query>
+<querytime> Mon Jan 31 21:22:35 +0000 2011 </querytime>
+<querytweettime> 32187009527193600 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB073 </num>
+<query> Iran nuclear program </query>
+<querytime> Fri Feb 04 12:41:50 +0000 2011 </querytime>
+<querytweettime> 33505508052701184 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB074 </num>
+<query> credit card debt </query>
+<querytime> Mon Feb 07 07:09:46 +0000 2011 </querytime>
+<querytweettime> 34509105032859648 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB075 </num>
+<query> Aguilera super bowl fail </query>
+<querytime> Tue Feb 08 21:56:22 +0000 2011 </querytime>
+<querytweettime> 35094611483426816 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB076 </num>
+<query> Celebrity DUI violations </query>
+<querytime> Tue Feb 08 10:34:12 +0000 20 </querytime>
+<querytweettime> 34922941233762304 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB077 </num>
+<query> NCIS </query>
+<querytime> Mon Feb 07 11:53:05 +0000 2011 </querytime>
+<querytweettime> 34580405671698432 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB078 </num>
+<query> McDonalds food  </query>
+<querytime> Tue Feb 08 20:06:32 +0000 2011 </querytime>
+<querytweettime> 35066972253192192 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB079 </num>
+<query> Saleh Yemen overthrow </query>
+<querytime> Fri Feb 04 20:03:25 +0000 2011 </querytime>
+<querytweettime> 33616636950880256 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB080 </num>
+<query> Chipotle raid </query>
+<querytime> Tue Feb 08 20:07:01 +0000 2011 </querytime>
+<querytweettime> 35067092726185984 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB081 </num>
+<query> smartphone success </query>
+<querytime> Tue Feb 08 05:29:10 +0000 2011 </querytime>
+<querytweettime> 34846177434275840 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB082 </num>
+<query> illegal immigrant laws </query>
+<querytime> Thu Feb 03 15:49:51 +0000 2011 </querytime>
+<querytweettime> 33190436147306496 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB083 </num>
+<query> Stuxnet Worm effects </query>
+<querytime> Tue Feb 08 09:57:04 +0000 2011 </querytime>
+<querytweettime> 34913594311311361 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB084 </num>
+<query> Athlete concussions </query>
+<querytime> Tue Feb 08 19:39:44 +0000 2011 </querytime>
+<querytweettime> 35060229741744128 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB085 </num>
+<query> Best Buy improve sales </query>
+<querytime> Tue Feb 08 00:05:56 +0000 2011 </querytime>
+<querytweettime> 34764832553041920 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB086 </num>
+<query> Joanna Yeates murder </query>
+<querytime> Mon Jan 31 14:01:16 +0000 2011 </querytime>
+<querytweettime> 32075949373652992 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB087 </num>
+<query> chicken recipes  </query>
+<querytime> Tue Feb 08 23:16:17 +0000 2011 </querytime>
+<querytweettime> 35114725998215168 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB088 </num>
+<query> Kings' Speech awards </query>
+<querytime> Tue Feb 08 00:48:24 +0000 2011 </querytime>
+<querytweettime> 34775520600129536 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB089 </num>
+<query> Supreme Court cases </query>
+<querytime> Thu Feb 03 02:25:14 +0000 2011 </querytime>
+<querytweettime> 32987948139941888 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB090 </num>
+<query> anti-bullying  </query>
+<querytime> Tue Feb 08 10:27:39 +0000 2011 </querytime>
+<querytweettime> 34921291089711104 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB091 </num>
+<query> Michelle Obama fashion </query>
+<querytime> Sat Jan 29 23:21:02 +0000 2011 </querytime>
+<querytweettime> 31492039682039808 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB092 </num>
+<query> stock market tutorial </query>
+<querytime> Tue Feb 08 01:09:14 +0000 2011 </querytime>
+<querytweettime> 34780760116305920 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB093 </num>
+<query> fashion week in NYC </query>
+<querytime> Tue Feb 08 11:26:12 +0000 2011 </querytime>
+<querytweettime> 34936026753404928 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB094 </num>
+<query> horse race betting </query>
+<querytime> Tue Feb 08 13:46:36 +0000 2011 </querytime>
+<querytweettime> 34971360627261440 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB095 </num>
+<query> Facebook privacy </query>
+<querytime> Tue Feb 08 21:49:25 +0000 2011 </querytime>
+<querytweettime> 35092866069962752 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB096 </num>
+<query> Sundance attendees </query>
+<querytime> Sat Jan 29 00:29:48 +0000 2011 </querytime>
+<querytweettime> 31146959217631232 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB097 </num>
+<query> college student aid </query>
+<querytime> Tue Feb 08 22:18:57 +0000 2011 </querytime>
+<querytweettime> 35100296694861824 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB098 </num>
+<query> Australian floods </query>
+<querytime> Tue Feb 08 06:08:54 +0000 2011 </querytime>
+<querytweettime> 34856175732264960 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB099 </num>
+<query> Superbowl commercials </query>
+<querytime> Tue Feb 08 22:41:35 +0000 2011 </querytime>
+<querytweettime> 35105993557807104 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB100 </num>
+<query> Republican National Committee </query>
+<querytime> Mon Feb 07 22:18:19 +0000 2011 </querytime>
+<querytweettime> 34737748464115712 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB101 </num>
+<query> Natalie Portman in "Black Swan" </query>
+<querytime> Tue Feb 08 16:49:16 +0000 2011 </querytime>
+<querytweettime> 35017330933108736 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB102 </num>
+<query> school lunches </query>
+<querytime> Tue Feb 08 19:06:48 +0000 2011 </querytime>
+<querytweettime> 35051942250020864 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB103 </num>
+<query> Tea Party caucus </query>
+<querytime> Mon Feb 07 23:58:56 +0000 2011 </querytime>
+<querytweettime> 34763068797886464 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB104 </num>
+<query> texting and driving </query>
+<querytime> Mon Feb 07 15:40:10 +0000 2011 </querytime>
+<querytweettime> 34637550534529026 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB105 </num>
+<query> The Avengers </query>
+<querytime> Tue Feb 08 02:39:28 +0000 2011 </querytime>
+<querytweettime> 34803471081275392 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB106 </num>
+<query> Steve Jobs' health </query>
+<querytime> Tue Feb 08 10:05:10 +0000 2011 </querytime>
+<querytweettime> 34915635595059201 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB107 </num>
+<query> Somalian piracy </query>
+<querytime> Tue Feb 08 11:48:46 +0000 2011 </querytime>
+<querytweettime> 34941706969288704 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB108 </num>
+<query> identity theft protection </query>
+<querytime> Sat Feb 05 09:46:43 +0000 2011 </querytime>
+<querytweettime> 33823828090036224 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB109 </num>
+<query> Gasland </query>
+<querytime> Sun Feb 06 23:16:42 +0000 2011 </querytime>
+<querytweettime> 34390055866859520 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB110 </num>
+<query> economic trade sanctions </query>
+<querytime> Tue Feb 08 04:58:53 +0000 2011 </querytime>
+<querytweettime> 34838554811043840 </querytweettime>
+</top>
+

@@ -1,27 +1,28 @@
 package io.anserini.nrts;
 
+import io.anserini.document.twitter.Status;
+
 import java.io.IOException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
+import org.apache.lucene.document.Field.Store;
 import org.apache.lucene.document.FieldType;
 import org.apache.lucene.document.IntField;
 import org.apache.lucene.document.LongField;
 import org.apache.lucene.document.TextField;
-import org.apache.lucene.document.Field.Store;
 import org.apache.lucene.index.IndexOptions;
 import org.apache.lucene.search.NumericRangeQuery;
 import org.apache.lucene.search.Query;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
-import cc.twittertools.corpus.data.Status;
 import twitter4j.RawStreamListener;
 import twitter4j.TwitterStream;
 import twitter4j.TwitterStreamFactory;
+
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 public class TweetStreamIndexer implements Runnable {
   private static final Logger LOG = LogManager.getLogger(TweetStreamIndexer.class);

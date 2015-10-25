@@ -14,14 +14,31 @@
  * limitations under the License.
  */
 
-package cc.twittertools.corpus.data;
+package io.anserini.search;
 
-import java.io.IOException;
+import com.google.common.base.Preconditions;
 
-/**
- * Abstraction for a stream of statuses. Ordering of the statuses is left to the implementation.
- */
-public interface StatusStream {
-  public Status next() throws IOException;
-  public void close() throws IOException;
+public class MicroblogTopic {
+  private String query;
+  private String id;
+  private long time;
+
+  public MicroblogTopic(String id, String query, long time) {
+    this.id = Preconditions.checkNotNull(id);
+    this.query = Preconditions.checkNotNull(query);
+    Preconditions.checkArgument(time > 0);
+    this.time = time;
+  }
+
+  public String getId() {
+    return id;
+  }
+
+  public String getQuery() {
+    return query;
+  }
+
+  public long getQueryTweetTime() {
+    return time;
+  }
 }

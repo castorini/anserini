@@ -17,15 +17,15 @@ package io.anserini.util;
  * limitations under the License.
  */
 
-import org.apache.commons.lang3.time.DurationFormatUtils;
-import org.apache.lucene.queryparser.classic.ParseException;
-import org.apache.lucene.queryparser.classic.QueryParser;
-
 import io.anserini.search.SearchClueWeb09b;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
+
+import org.apache.commons.lang3.time.DurationFormatUtils;
+import org.apache.lucene.queryparser.classic.ParseException;
+import org.apache.lucene.queryparser.classic.QueryParser;
 
 /**
  * Utility to capture Search/Execution Times.
