@@ -8,8 +8,10 @@
 
   <properties>
     <LUCENE_VERSION>5.3.1</LUCENE_VERSION>
+    <!-- see http://download.eclipse.org/jetty/ Jetty9 forces Java 1.8, which causes all sorts of headaches 
+    For display special characters such as emoji expression, please set JETTY_VERSION to 9.3.5.v20151012 -->
     <JETTY_VERSION>8.1.17.v20150415</JETTY_VERSION>
-    <!-- see http://download.eclipse.org/jetty/ Jetty9 forces Java 1.8, which causes all sorts of headaches -->
+    <MUSTACHE_VERSION>0.8.18</MUSTACHE_VERSION>
   </properties>
 
   <build>
@@ -210,6 +212,12 @@
   	  <artifactId>jetty-servlet</artifactId>
   	  <version>${JETTY_VERSION}</version>
   	</dependency>
+
+    <dependency>
+      <groupId>com.github.spullara.mustache.java</groupId>
+      <artifactId>compiler</artifactId>
+      <version>${MUSTACHE_VERSION}</version>
+    </dependency>
 
   </dependencies>
 </project>
