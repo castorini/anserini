@@ -1,7 +1,7 @@
 package io.anserini.nrts;
 
-import io.anserini.nrts.TweetStreamIndexer.StatusField;
-
+import java.util.ArrayList;
+import java.util.List;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
@@ -19,17 +19,51 @@ import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopScoreDocCollector;
 
+import com.github.mustachejava.DefaultMustacheFactory;
+import com.github.mustachejava.Mustache;
+import com.github.mustachejava.MustacheFactory;
+
+import io.anserini.nrts.TweetStreamIndexer.StatusField;
+
 public class TweetServlet extends HttpServlet {
 
   // TODO Auto-generated serialVersionUID
   private static final long serialVersionUID = 1L;
+  String MustacheTemplatePath="src/main/java/io/anserini/nrts/ServletResponseTemplate.mustache";
   private IndexReader reader;
+  
+  static class TweetHits {
+    
+    TweetHits(String query, int hitLength){
+      this.query=query;
+      this.hitLength=hitLength;      
+    }
+       
+    String query;
+    int hitLength;   
+    List<Hit> hits=new ArrayList<Hit>();
+    
+    static class Hit{
+      int hitIndex;
+      String tweetInfo;
+      Hit(int hitIndex, String tweetInfo) {
+        this.hitIndex = hitIndex;
+        this.tweetInfo = tweetInfo;
+      } 
+    }
+    
+    public void addHit(int hitIndex, String tweetInfo) {
+      hits.add(new Hit(hitIndex,tweetInfo));
+    }
+    
+  }
 
   @Override
   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     if (request.getRequestURI().equals("/search")) {
       response.setStatus(HttpServletResponse.SC_OK);
       response.setContentType("text/html");
+      request.setCharacterEncoding("UTF-8");
       Query q;
       try {
         q = new QueryParser(StatusField.TEXT.name, TweetSearcher.ANALYZER).parse(request.getParameter("query"));
@@ -56,20 +90,17 @@ public class TweetServlet extends HttpServlet {
         }
         TopScoreDocCollector collector = TopScoreDocCollector.create(topN);
         searcher.search(q, collector);
-        ScoreDoc[] hits = collector.topDocs().scoreDocs;
-        response.getWriter().println("<HTML>");
-        response.getWriter().println("<HEAD><TITLE>Query</TITLE></HEAD>");
-        response.getWriter().println("<BODY>");
-        response.getWriter()
-            .println("<H1>Query = \"" + request.getParameter("query") + "\". Found " + hits.length + " hits.</H1>");
-        response.getWriter().println("<OL>");
+        ScoreDoc[] hits = collector.topDocs().scoreDocs;        
+        TweetHits tweetHits=new TweetHits(request.getParameter("query"),hits.length);
+        
         for (int i = 0; i < hits.length; ++i) {
           int docId = hits[i].doc;
-          Document d = searcher.doc(docId);
-          response.getWriter().println("<LI>" + d.get(StatusField.TEXT.name) + "</LI>");
+          Document d = searcher.doc(docId);         
+          tweetHits.addHit(i,d.get(StatusField.TEXT.name));          
         }
-        response.getWriter().println("</OL>");
-        response.getWriter().println("</BODY></HTML>");
+        MustacheFactory mf = new DefaultMustacheFactory();
+        Mustache mustache = mf.compile(MustacheTemplatePath);
+        mustache.execute(response.getWriter(), tweetHits).flush();
       } catch (ParseException e) {
         // TODO Auto-generated catch block
         e.printStackTrace();
