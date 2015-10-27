@@ -19,6 +19,7 @@ package io.anserini.search;
 import io.anserini.index.IndexTweets;
 import io.anserini.index.IndexTweets.StatusField;
 import io.anserini.rerank.Reranker;
+import io.anserini.rerank.RerankerCascade;
 import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.ScoredDocuments;
 import io.anserini.rerank.rm3.Rm3Reranker;
@@ -134,8 +135,6 @@ public class SearchTweets {
       searcher.setSimilarity(new LMDirichletSimilarity(2500.0f));
     }
 
-    QueryParser p = new QueryParser(StatusField.TEXT.name, IndexTweets.ANALYZER);
-
     MicroblogTopicSet topics = MicroblogTopicSet.fromFile(new File(topicsFile));
     for ( MicroblogTopic topic : topics ) {
       Filter filter = NumericRangeFilter.newLongRange(StatusField.ID.name, 0L, topic.getQueryTweetTime(), true, true);
@@ -144,15 +143,15 @@ public class SearchTweets {
       TopDocs rs = searcher.search(query, filter, numResults);
 
       RerankerContext context = new RerankerContext(searcher, query, topic.getQuery(), filter);
-      Reranker cleanup = new RemoveRetweetsTemporalTiebreakReranker();
+      RerankerCascade cascade = new RerankerCascade(context);
 
-      ScoredDocuments docs = null;
       if (cmdline.hasOption(RM3_OPTION)) {
-        Reranker rm3 = new Rm3Reranker();
-        docs = cleanup.rerank(rm3.rerank(ScoredDocuments.fromTopDocs(rs, searcher), context), context);
+        cascade.add(new Rm3Reranker()).add(new RemoveRetweetsTemporalTiebreakReranker());
       } else {
-        docs = cleanup.rerank(ScoredDocuments.fromTopDocs(rs, searcher), context);
+        cascade.add(new RemoveRetweetsTemporalTiebreakReranker());
       }
+
+      ScoredDocuments docs = cascade.run(ScoredDocuments.fromTopDocs(rs, searcher));
 
       for (int i=0; i<docs.documents.length; i++) {
         String qid = topic.getId().replaceFirst("^MB0*", "");
