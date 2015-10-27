@@ -1,7 +1,5 @@
 package io.anserini.nrts;
 
-import io.anserini.index.twitter.TweetAnalyzer;
-
 import java.io.IOException;
 import java.nio.file.Paths;
 
@@ -18,8 +16,11 @@ import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.MMapDirectory;
+
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletHandler;
+import io.anserini.nrts.TweetServlet;
+import io.anserini.index.twitter.TweetAnalyzer;
 
 public class TweetSearcher {
   private static final Logger LOG = LogManager.getLogger(TweetSearcher.class);

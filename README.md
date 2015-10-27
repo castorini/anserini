@@ -109,14 +109,16 @@ Once you've done that, fire up the demo with:
 sh target/appassembler/bin/TweetSearcher -index twitter-index
 ```
 
-The demo starts up an HTTP server on port `8080`, but this can be changed with the `-port` option. Query via a web browser at `http://localhost:8080/search?query=query`. Try `birthday`, as there are always birthdays being celebrated.
+The demo starts up an HTTP server on port `8080`, but this can be changed with the `-port` option. Query via a web browser at `http://localhost:8080/search?query=query`. Try `birthday`, as there are always birthdays being celebrated. 
 
-### IndexCounter:
+User could change the maximum number of hits returned at 'http://localhost:8080/search?query=birthday&top=15'. The default number of hits is 20. 
+
+### DumpDocids:
 
 Output all the document IDs in a Lucene Index.
 
 ```sh
-sh target/appassembler/bin/IndexCounter -indexPath /path/to/index \
--docIdPath /path/to/save/docIds
+sh target/appassembler/bin/DumpDocids -indexPath /path/to/index \
+-docIdPath /path/to/save/docIds -docIdName "name of docID field"
 ```
 =======
