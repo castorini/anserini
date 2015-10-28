@@ -19,6 +19,8 @@ import org.apache.lucene.store.MMapDirectory;
 
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletHandler;
+import org.eclipse.jetty.server.handler.ResourceHandler;
+import org.eclipse.jetty.server.handler.HandlerList;
 import io.anserini.nrts.TweetServlet;
 import io.anserini.index.twitter.TweetAnalyzer;
 
@@ -72,10 +74,18 @@ public class TweetSearcher {
     // http://localhost:port/search?query=happy
     LOG.info("Starting HTTP server on port " + port);
 
+    HandlerList mainHandler = new HandlerList();
+
     Server server = new Server(port);
+    ResourceHandler resource_handler = new ResourceHandler();
+    resource_handler.setResourceBase("src/main/java/io/anserini/nrts/public");
+
     ServletHandler handler = new ServletHandler();
-    server.setHandler(handler);
-    handler.addServletWithMapping(TweetServlet.class, "/*");
+    handler.addServletWithMapping(TweetServlet.class, "/search");
+
+    mainHandler.addHandler(resource_handler);
+    mainHandler.addHandler(handler);
+    server.setHandler(mainHandler);
     try {
       server.start();
       LOG.info("Accepting connections on port " + port);

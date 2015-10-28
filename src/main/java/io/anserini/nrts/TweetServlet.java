@@ -96,7 +96,7 @@ public class TweetServlet extends HttpServlet {
         for (int i = 0; i < hits.length; ++i) {
           int docId = hits[i].doc;
           Document d = searcher.doc(docId);         
-          tweetHits.addHit(i,d.get(StatusField.TEXT.name));          
+          tweetHits.addHit(i,String.valueOf(d.get(StatusField.ID.name)));          
         }
         MustacheFactory mf = new DefaultMustacheFactory();
         Mustache mustache = mf.compile(MustacheTemplatePath);
