@@ -119,6 +119,6 @@ Output all the document IDs in a Lucene Index.
 
 ```sh
 sh target/appassembler/bin/DumpDocids -indexPath /path/to/index \
--docIdPath /path/to/save/docIds
+-docIdPath /path/to/save/docIds -docIdName "name of docID field"
 ```
 =======
