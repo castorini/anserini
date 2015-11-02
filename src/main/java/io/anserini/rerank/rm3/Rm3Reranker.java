@@ -1,7 +1,5 @@
 package io.anserini.rerank.rm3;
 
-import io.anserini.index.IndexTweets;
-import io.anserini.index.IndexTweets.StatusField;
 import io.anserini.rerank.Reranker;
 import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.ScoredDocuments;
@@ -12,6 +10,7 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.Set;
 
+import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.queryparser.classic.ParseException;
@@ -24,11 +23,19 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.Sets;
 
 public class Rm3Reranker implements Reranker {
+  private final Analyzer analyzer;
+  private final String field;
+
   private int fbTerms = 20;
   private int fbDocs = 50;
   private float originalQueryWeight = 0.5f;
 
   private Rm3Stopper stopper = new Rm3Stopper("");
+
+  public Rm3Reranker(Analyzer analyzer, String field) {
+    this.analyzer = analyzer;
+    this.field = field;
+  }
 
   @Override
   public ScoredDocuments rerank(ScoredDocuments docs, RerankerContext context) {
@@ -38,7 +45,7 @@ public class Rm3Reranker implements Reranker {
     IndexReader reader = searcher.getIndexReader();
 
     FeatureVector qfv = FeatureVector.fromTerms(
-        AnalyzerUtils.tokenize(IndexTweets.ANALYZER, context.getQueryText())).normalize();
+        AnalyzerUtils.tokenize(analyzer, context.getQueryText())).normalize();
 
     FeatureVector rm = estimateRelevanceModel(docs, reader);
     rm = FeatureVector.interpolate(qfv, rm, originalQueryWeight);
@@ -52,7 +59,7 @@ public class Rm3Reranker implements Reranker {
     }
     String queryText = builder.toString().trim();
 
-    QueryParser p = new QueryParser(StatusField.TEXT.name, new WhitespaceAnalyzer());
+    QueryParser p = new QueryParser(field, new WhitespaceAnalyzer());
     Query nq = null;
     try {
       nq = p.parse(queryText);
@@ -82,7 +89,7 @@ public class Rm3Reranker implements Reranker {
     for (int i = 0; i < numdocs; i++) {
       try {
         FeatureVector docVector = FeatureVector.fromLuceneTermVector(
-            reader.getTermVector(docs.ids[i], StatusField.TEXT.name), stopper);
+            reader.getTermVector(docs.ids[i], field), stopper);
         vocab.addAll(docVector.getFeatures());
         docvectors[i] = docVector;
       } catch (IOException e) {
