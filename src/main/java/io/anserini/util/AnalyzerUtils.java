@@ -16,32 +16,30 @@ import org.apache.lucene.search.TermQuery;
 import com.google.common.collect.Lists;
 
 public class AnalyzerUtils {
-  static public List<String> tokenize(Analyzer analyzer, String keywords) throws IOException {
+  static public List<String> tokenize(Analyzer analyzer, String s) {
     List<String> list = Lists.newArrayList();
 
-    TokenStream tokenStream = analyzer.tokenStream(null, new StringReader(keywords));
-    CharTermAttribute cattr = tokenStream.addAttribute(CharTermAttribute.class);
-    tokenStream.reset();
-    while (tokenStream.incrementToken()) {
-      if (cattr.toString().length() == 0) {
-        continue;
+    try {
+      TokenStream tokenStream = analyzer.tokenStream(null, new StringReader(s));
+      CharTermAttribute cattr = tokenStream.addAttribute(CharTermAttribute.class);
+      tokenStream.reset();
+      while (tokenStream.incrementToken()) {
+        if (cattr.toString().length() == 0) {
+          continue;
+        }
+        list.add(cattr.toString());
       }
-      list.add(cattr.toString());
+      tokenStream.end();
+      tokenStream.close();
+    } catch (IOException e) {
+      e.printStackTrace();
     }
-    tokenStream.end();
-    tokenStream.close();
 
     return list;
   }
 
   static public Query buildBagOfWordsQuery(String field, Analyzer analyzer, String queryText) {
-    List<String> tokens;
-    try {
-      tokens = tokenize(analyzer, queryText);
-    } catch (IOException e) {
-      e.printStackTrace();
-      return null;
-    }
+    List<String> tokens = tokenize(analyzer, queryText);
 
     BooleanQuery.Builder builder = new BooleanQuery.Builder();
     for (String t : tokens) {

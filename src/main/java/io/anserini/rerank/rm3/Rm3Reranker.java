@@ -9,8 +9,6 @@ import io.anserini.util.AnalyzerUtils;
 
 import java.io.IOException;
 import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Set;
 
 import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
@@ -38,32 +36,17 @@ public class Rm3Reranker implements Reranker {
     IndexSearcher searcher = context.getIndexSearcher();
     IndexReader reader = searcher.getIndexReader();
 
-    FeatureVector qfv = new FeatureVector();
-    try {
-      for (String t : AnalyzerUtils.tokenize(IndexTweets.ANALYZER, context.getQueryText())) {
-        qfv.addTerm(t);
-      }
-    } catch (IOException e) {
-      e.printStackTrace();
-      return docs;
-    }
+    FeatureVector qfv = FeatureVector.fromTerms(
+        AnalyzerUtils.tokenize(IndexTweets.ANALYZER, context.getQueryText())).normalizeToOne();
 
-    qfv.normalizeToOne();
-
-    FeatureVector fbVector;
-    try {
-      fbVector = estimateRelevanceModel(docs, reader);
-    } catch (IOException e) {
-      e.printStackTrace();
-      return docs;
-    }
-    fbVector = FeatureVector.interpolate(qfv, fbVector, originalQueryWeight);
+    FeatureVector rm = estimateRelevanceModel(docs, reader);
+    rm = FeatureVector.interpolate(qfv, rm, originalQueryWeight);
 
     StringBuilder builder = new StringBuilder();
-    Iterator<String> terms = fbVector.iterator();
+    Iterator<String> terms = rm.iterator();
     while (terms.hasNext()) {
       String term = terms.next();
-      double prob = fbVector.getFeaturetWeight(term);
+      double prob = rm.getFeaturetWeight(term);
       builder.append(term + "^" + prob + " ");
     }
     String queryText = builder.toString().trim();
@@ -86,67 +69,39 @@ public class Rm3Reranker implements Reranker {
     }
 
     return ScoredDocuments.fromTopDocs(rs, searcher);
-    // for (int i = 0; i < docs.documents.length; i++) {
-    // try {
-    // System.out.println("###" + docs.ids[i]);
-    // Terms terms = reader.getTermVector(docs.ids[i], StatusField.TEXT.name);
-    // System.out.println(docs.ids[i] + ": " + terms.hasFreqs());
-    // TermsEnum termsEnum = terms.iterator();
-    //
-    // BytesRef text = null;
-    // while ((text = termsEnum.next()) != null) {
-    // String term = text.utf8ToString();
-    // int freq = (int) termsEnum.totalTermFreq();
-    // System.out.println(term + ": " + freq);
-    // }
-    //
-    // System.out.println("-----");
-    // } catch (IOException e) {
-    // // TODO Auto-generated catch block
-    // e.printStackTrace();
-    // }
-    // }
-
-    // return docs;
   }
 
-  public FeatureVector estimateRelevanceModel(ScoredDocuments docs, IndexReader reader) throws IOException {
+  public FeatureVector estimateRelevanceModel(ScoredDocuments docs, IndexReader reader) {
     FeatureVector f = new FeatureVector();
 
     Set<String> vocab = Sets.newHashSet();
-    List<FeatureVector> fbDocVectors = new LinkedList<FeatureVector>();
-
     int numdocs = docs.documents.length < fbDocs ? docs.documents.length : fbDocs;
-    for (int k = 0; k < numdocs; k++) {
-      FeatureVector docVector =
-          new FeatureVector(reader.getTermVector(docs.ids[k], StatusField.TEXT.name), stopper);
-      vocab.addAll(docVector.getFeatures());
-      fbDocVectors.add(docVector);
+    FeatureVector[] docvectors = new FeatureVector[numdocs];
+
+    for (int i = 0; i < numdocs; i++) {
+      try {
+        FeatureVector docVector = FeatureVector.fromLuceneTermVector(
+            reader.getTermVector(docs.ids[i], StatusField.TEXT.name), stopper);
+        vocab.addAll(docVector.getFeatures());
+        docvectors[i] = docVector;
+      } catch (IOException e) {
+        e.printStackTrace();
+        // Just return empty feature vector.
+        return f;
+      }
     }
 
-    Iterator<String> it = vocab.iterator();
-    while (it.hasNext()) {
-      String term = it.next();
+    for (String term : vocab) {
       double fbWeight = 0.0;
-
-      Iterator<FeatureVector> docIT = fbDocVectors.iterator();
-      int k = 0;
-      while (docIT.hasNext()) {
-        FeatureVector docVector = docIT.next();
-        double docProb = docVector.getFeaturetWeight(term) / docVector.getVectorNorm();
-        docProb *= docs.scores[k++];
-
-        fbWeight += docProb;
+      for (int i = 0; i < docvectors.length; i++) {
+        FeatureVector doc = docvectors[i];
+        fbWeight += (doc.getFeaturetWeight(term) / doc.getVectorNorm()) * docs.scores[i];
       }
-
-      //fbWeight /= (double) fbDocVectors.size();
       f.addTerm(term, fbWeight);
     }
 
     f.pruneToSize(fbTerms);
-    System.err.println(f.getVectorNorm() + "\n" + f);
     f.normalizeToOne();
-    System.err.println(f.getVectorNorm() + "\n" + f);
 
     return f;
   }

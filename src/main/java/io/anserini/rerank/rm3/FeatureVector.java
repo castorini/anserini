@@ -19,23 +19,6 @@ public class FeatureVector  {
 	private Map<String, Float> features = new HashMap<String, Float>();
 
 	public FeatureVector() {}
-	public FeatureVector(Terms terms, RmStopper stopper) {
-    try {
-      TermsEnum termsEnum = terms.iterator();
-
-      BytesRef text = null;
-      while ((text = termsEnum.next()) != null) {
-        String term = text.utf8ToString();
-        if (term.length() < 2) continue;
-        if (stopper.isStopWord(term)) continue;
-        if (!term.matches("[a-z0-9#@]+")) continue;
-        int freq = (int) termsEnum.totalTermFreq();
-        features.put(term, (float) freq);
-      }
-    } catch (Exception e) {
-
-    }
-	}
 
 	/**
 	 * Add a term to this vector.  if it's already here, increment its count.
@@ -84,12 +67,14 @@ public class FeatureVector  {
 
 	}
 
-  public void normalizeToOne() {
+  public FeatureVector normalizeToOne() {
     double norm = getVectorNorm();
 
     for (String f : features.keySet()) {
       features.put(f, (float) (features.get(f) / norm));
     }
+
+    return this;
   }
 
 	// ACCESSORS
@@ -124,7 +109,37 @@ public class FeatureVector  {
 		return Math.sqrt(norm);
 	}
 
+  public static FeatureVector fromTerms(List<String> terms) {
+    FeatureVector f = new FeatureVector();
+    for (String t : terms) {
+      f.addTerm(t);
+    }
+    return f;
+  }
 
+  public static FeatureVector fromLuceneTermVector(Terms terms, RmStopper stopper) {
+    FeatureVector f = new FeatureVector();
+
+    try {
+      TermsEnum termsEnum = terms.iterator();
+
+      BytesRef text = null;
+      while ((text = termsEnum.next()) != null) {
+        String term = text.utf8ToString();
+        if (term.length() < 2) continue;
+        if (stopper.isStopWord(term)) continue;
+        if (!term.matches("[a-z0-9#@]+")) continue;
+        int freq = (int) termsEnum.totalTermFreq();
+        f.addTerm(term, (float) freq);
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+      // Return empty feature vector
+      return f;
+    }
+
+    return f;
+  }
 
 	// VIEWING
 
@@ -206,5 +221,4 @@ public class FeatureVector  {
 	    return value;
 	  }
 	}
-
 }
