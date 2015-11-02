@@ -133,18 +133,20 @@ public class Rm3Reranker implements Reranker {
       int k = 0;
       while (docIT.hasNext()) {
         FeatureVector docVector = docIT.next();
-        double docProb = docVector.getFeaturetWeight(term) / docVector.getLength();
+        double docProb = docVector.getFeaturetWeight(term) / docVector.getVectorNorm();
         docProb *= docs.scores[k++];
 
         fbWeight += docProb;
       }
 
-      fbWeight /= (double) fbDocVectors.size();
+      //fbWeight /= (double) fbDocVectors.size();
       f.addTerm(term, fbWeight);
     }
 
     f.pruneToSize(fbTerms);
+    System.err.println(f.getVectorNorm() + "\n" + f);
     f.normalizeToOne();
+    System.err.println(f.getVectorNorm() + "\n" + f);
 
     return f;
   }

@@ -1,8 +1,5 @@
 package io.anserini.rerank.rm3;
 
-
-import java.io.IOException;
-import java.io.StringReader;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -10,30 +7,19 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.lucene.analysis.TokenStream;
-import org.apache.lucene.analysis.standard.StandardAnalyzer;
-import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.apache.lucene.index.Terms;
 import org.apache.lucene.index.TermsEnum;
 import org.apache.lucene.util.BytesRef;
 
 public class FeatureVector  {
-	private static StandardAnalyzer analyzer;	
 	private Map<String, Float> features = new HashMap<String, Float>();
-	private RmStopper stopper;
-	private double length = 0.0;
 
-	// CONSTRUCTORS  
 	public FeatureVector() {}
 	public FeatureVector(Terms terms, RmStopper stopper) {
-		this.stopper = stopper;
-
-
     try {
       TermsEnum termsEnum = terms.iterator();
 
@@ -44,56 +30,11 @@ public class FeatureVector  {
         if (stopper.isStopWord(term)) continue;
         if (!term.matches("[a-z0-9#@]+")) continue;
         int freq = (int) termsEnum.totalTermFreq();
-        length += freq;
         features.put(term, (float) freq);
       }
     } catch (Exception e) {
 
     }
-    //		List<String> terms = this.analyze(text);
-//		Iterator<String> termsIt = terms.iterator();
-//		while(termsIt.hasNext()) {
-//			String term = termsIt.next();
-//			length += 1.0;
-//			Double val = (Double)features.get(term);
-//			if(val == null) {
-//				features.put(term, new Double(1.0));
-//			} else {
-//				double v = val.doubleValue() + 1.0;
-//				features.put(term, new Double(v));
-//			}
-//		}
-	}
-
-//	public FeatureVector(Stopper stopper) {
-//		this.stopper = stopper;
-//		if(stopper==null || stopper.asSet().size()==0) {
-//			analyzer = new StandardAnalyzer(Version.LUCENE_41, CharArraySet.EMPTY_SET);
-//		} else {
-//			CharArraySet charArraySet = new CharArraySet(Version.LUCENE_41, stopper.asSet(), true);
-//			analyzer = new StandardAnalyzer(Version.LUCENE_41, charArraySet);
-//		}
-//		features = new HashMap<String,Double>();
-//	}
-
-
-
-
-
-
-	// MUTATORS
-
-	/**
-	 * Add all the terms in a string to this vector
-	 * @param text a space-delimited string where we want to add each word.
-	 */
-	public void addText(String text) {
-		List<String> terms = this.analyze(text);
-		Iterator<String> termsIt = terms.iterator();
-		while(termsIt.hasNext()) {
-			String term = termsIt.next();		
-			addTerm(term);
-		}
 	}
 
 	/**
@@ -101,9 +42,6 @@ public class FeatureVector  {
 	 * @param term
 	 */
 	public void addTerm(String term) {
-		if(stopper != null && stopper.isStopWord(term))
-			return;
-
 		Float freq = ((Float)features.get(term));
 		if(freq == null) {
 			features.put(term, new Float(1.0));
@@ -111,9 +49,7 @@ public class FeatureVector  {
 			double f = freq.doubleValue();
 			features.put(term, new Float(f+1.0));
 		}
-		length += 1.0;
 	}
-
 
 	/**
 	 * Add a term to this vector with this weight.  if it's already here, supplement its weight.
@@ -128,15 +64,6 @@ public class FeatureVector  {
 			double f = w.doubleValue();
 			features.put(term, new Float(f+weight));
 		}
-		length += weight;
-	}
-
-	/**
-	 * in case we want to override the derived length.
-	 * @param length
-	 */
-	public void setLength(double length) {
-		this.length = length;
 	}
 
 	public void pruneToSize(int k) {
@@ -157,28 +84,18 @@ public class FeatureVector  {
 
 	}
 
-	public void normalizeToOne() {
-		Map<String,Float> f = new HashMap<String,Float>(features.size());
+  public void normalizeToOne() {
+    double norm = getVectorNorm();
 
-		Iterator<String> it = features.keySet().iterator();
-		while(it.hasNext()) {
-			String feature = it.next();
-			float obs = features.get(feature);
-			f.put(feature, (float) (obs/length));
-		}
-
-		features = f;
-	}
-
+    for (String f : features.keySet()) {
+      features.put(f, (float) (features.get(f) / norm));
+    }
+  }
 
 	// ACCESSORS
 
 	public Set<String> getFeatures() {
 		return features.keySet();
-	}
-
-	public double getLength() {
-		return length;
 	}
 
 	public int getDimensions() {
@@ -252,26 +169,6 @@ public class FeatureVector  {
 
 	}
 
-
-	// UTILS
-	public List<String> analyze(String text) {
-		List<String> result = new LinkedList<String>();
-		try {
-			TokenStream stream = null;
-			stream = analyzer.tokenStream("text", new StringReader(text));
-
-			CharTermAttribute charTermAttribute = stream.addAttribute(CharTermAttribute.class);
-			stream.reset();
-			while(stream.incrementToken()) {
-				String term = charTermAttribute.toString();
-				result.add(term);
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return result;
-	}
-
 	public static FeatureVector interpolate(FeatureVector x, FeatureVector y, double xWeight) {
 		FeatureVector z = new FeatureVector();
 		Set<String> vocab = new HashSet<String>();
@@ -286,24 +183,6 @@ public class FeatureVector  {
 		return z;
 	}
 
-
-	public static void main(String[] args) {
-		String text = "This. This is NOT a test, nor is it better than 666!";
-
-		RmStopper stopper = new RmStopper();
-		stopper.addStopword("this");
-		stopper.addStopword("is");
-		stopper.addStopword("better");
-		
-		FeatureVector featureVector = new FeatureVector();
-		List<String> terms = featureVector.analyze(text);
-		Iterator<String> termIterator = terms.iterator();
-		while(termIterator.hasNext()) {
-			System.out.println(termIterator.next());
-		}
-	}
-
-	
 	private class KeyValuePair {
 	  private String key;
 	  private float value;
