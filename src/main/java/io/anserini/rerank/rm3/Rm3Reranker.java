@@ -6,6 +6,7 @@ import io.anserini.rerank.Reranker;
 import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.ScoredDocuments;
 import io.anserini.util.AnalyzerUtils;
+import io.anserini.util.FeatureVector;
 
 import java.io.IOException;
 import java.util.Iterator;
@@ -27,7 +28,7 @@ public class Rm3Reranker implements Reranker {
   private int fbDocs = 50;
   private float originalQueryWeight = 0.5f;
 
-  private RmStopper stopper = new RmStopper("");
+  private Rm3Stopper stopper = new Rm3Stopper("");
 
   @Override
   public ScoredDocuments rerank(ScoredDocuments docs, RerankerContext context) {
@@ -37,7 +38,7 @@ public class Rm3Reranker implements Reranker {
     IndexReader reader = searcher.getIndexReader();
 
     FeatureVector qfv = FeatureVector.fromTerms(
-        AnalyzerUtils.tokenize(IndexTweets.ANALYZER, context.getQueryText())).normalizeToOne();
+        AnalyzerUtils.tokenize(IndexTweets.ANALYZER, context.getQueryText())).normalize();
 
     FeatureVector rm = estimateRelevanceModel(docs, reader);
     rm = FeatureVector.interpolate(qfv, rm, originalQueryWeight);
@@ -46,7 +47,7 @@ public class Rm3Reranker implements Reranker {
     Iterator<String> terms = rm.iterator();
     while (terms.hasNext()) {
       String term = terms.next();
-      double prob = rm.getFeaturetWeight(term);
+      double prob = rm.getFeatureWeight(term);
       builder.append(term + "^" + prob + " ");
     }
     String queryText = builder.toString().trim();
@@ -92,16 +93,16 @@ public class Rm3Reranker implements Reranker {
     }
 
     for (String term : vocab) {
-      double fbWeight = 0.0;
+      float fbWeight = 0.0f;
       for (int i = 0; i < docvectors.length; i++) {
         FeatureVector doc = docvectors[i];
-        fbWeight += (doc.getFeaturetWeight(term) / doc.getVectorNorm()) * docs.scores[i];
+        fbWeight += (doc.getFeatureWeight(term) / doc.computeL2Norm()) * docs.scores[i];
       }
-      f.addTerm(term, fbWeight);
+      f.addFeatureWeight(term, fbWeight);
     }
 
     f.pruneToSize(fbTerms);
-    f.normalizeToOne();
+    f.normalize();
 
     return f;
   }
