@@ -32,6 +32,10 @@
           <extraJvmArguments>-Xms512M -Xmx24576M</extraJvmArguments>
           <programs>
             <program>
+              <mainClass>io.anserini.ltr.DumpTweetsLtrData</mainClass>
+              <name>DumpTweetsLtrData</name>
+            </program>
+            <program>
               <mainClass>io.anserini.index.IndexTweets</mainClass>
               <name>IndexTweets</name>
             </program>
