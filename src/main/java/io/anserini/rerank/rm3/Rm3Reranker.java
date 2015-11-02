@@ -1,18 +1,16 @@
 package io.anserini.rerank.rm3;
 
-import io.anserini.index.IndexTweets;
-import io.anserini.index.IndexTweets.StatusField;
 import io.anserini.rerank.Reranker;
 import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.ScoredDocuments;
 import io.anserini.util.AnalyzerUtils;
+import io.anserini.util.FeatureVector;
 
 import java.io.IOException;
 import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Set;
 
+import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.queryparser.classic.ParseException;
@@ -25,11 +23,19 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.Sets;
 
 public class Rm3Reranker implements Reranker {
+  private final Analyzer analyzer;
+  private final String field;
+
   private int fbTerms = 20;
   private int fbDocs = 50;
   private float originalQueryWeight = 0.5f;
 
-  private RmStopper stopper = new RmStopper("");
+  private Rm3Stopper stopper = new Rm3Stopper("");
+
+  public Rm3Reranker(Analyzer analyzer, String field) {
+    this.analyzer = analyzer;
+    this.field = field;
+  }
 
   @Override
   public ScoredDocuments rerank(ScoredDocuments docs, RerankerContext context) {
@@ -38,37 +44,22 @@ public class Rm3Reranker implements Reranker {
     IndexSearcher searcher = context.getIndexSearcher();
     IndexReader reader = searcher.getIndexReader();
 
-    FeatureVector qfv = new FeatureVector();
-    try {
-      for (String t : AnalyzerUtils.tokenize(IndexTweets.ANALYZER, context.getQueryText())) {
-        qfv.addTerm(t);
-      }
-    } catch (IOException e) {
-      e.printStackTrace();
-      return docs;
-    }
+    FeatureVector qfv = FeatureVector.fromTerms(
+        AnalyzerUtils.tokenize(analyzer, context.getQueryText())).normalize();
 
-    qfv.normalizeToOne();
-
-    FeatureVector fbVector;
-    try {
-      fbVector = estimateRelevanceModel(docs, reader);
-    } catch (IOException e) {
-      e.printStackTrace();
-      return docs;
-    }
-    fbVector = FeatureVector.interpolate(qfv, fbVector, originalQueryWeight);
+    FeatureVector rm = estimateRelevanceModel(docs, reader);
+    rm = FeatureVector.interpolate(qfv, rm, originalQueryWeight);
 
     StringBuilder builder = new StringBuilder();
-    Iterator<String> terms = fbVector.iterator();
+    Iterator<String> terms = rm.iterator();
     while (terms.hasNext()) {
       String term = terms.next();
-      double prob = fbVector.getFeaturetWeight(term);
+      double prob = rm.getFeatureWeight(term);
       builder.append(term + "^" + prob + " ");
     }
     String queryText = builder.toString().trim();
 
-    QueryParser p = new QueryParser(StatusField.TEXT.name, new WhitespaceAnalyzer());
+    QueryParser p = new QueryParser(field, new WhitespaceAnalyzer());
     Query nq = null;
     try {
       nq = p.parse(queryText);
@@ -86,65 +77,39 @@ public class Rm3Reranker implements Reranker {
     }
 
     return ScoredDocuments.fromTopDocs(rs, searcher);
-    // for (int i = 0; i < docs.documents.length; i++) {
-    // try {
-    // System.out.println("###" + docs.ids[i]);
-    // Terms terms = reader.getTermVector(docs.ids[i], StatusField.TEXT.name);
-    // System.out.println(docs.ids[i] + ": " + terms.hasFreqs());
-    // TermsEnum termsEnum = terms.iterator();
-    //
-    // BytesRef text = null;
-    // while ((text = termsEnum.next()) != null) {
-    // String term = text.utf8ToString();
-    // int freq = (int) termsEnum.totalTermFreq();
-    // System.out.println(term + ": " + freq);
-    // }
-    //
-    // System.out.println("-----");
-    // } catch (IOException e) {
-    // // TODO Auto-generated catch block
-    // e.printStackTrace();
-    // }
-    // }
-
-    // return docs;
   }
 
-  public FeatureVector estimateRelevanceModel(ScoredDocuments docs, IndexReader reader) throws IOException {
+  public FeatureVector estimateRelevanceModel(ScoredDocuments docs, IndexReader reader) {
     FeatureVector f = new FeatureVector();
 
     Set<String> vocab = Sets.newHashSet();
-    List<FeatureVector> fbDocVectors = new LinkedList<FeatureVector>();
-
     int numdocs = docs.documents.length < fbDocs ? docs.documents.length : fbDocs;
-    for (int k = 0; k < numdocs; k++) {
-      FeatureVector docVector =
-          new FeatureVector(reader.getTermVector(docs.ids[k], StatusField.TEXT.name), stopper);
-      vocab.addAll(docVector.getFeatures());
-      fbDocVectors.add(docVector);
+    FeatureVector[] docvectors = new FeatureVector[numdocs];
+
+    for (int i = 0; i < numdocs; i++) {
+      try {
+        FeatureVector docVector = FeatureVector.fromLuceneTermVector(
+            reader.getTermVector(docs.ids[i], field), stopper);
+        vocab.addAll(docVector.getFeatures());
+        docvectors[i] = docVector;
+      } catch (IOException e) {
+        e.printStackTrace();
+        // Just return empty feature vector.
+        return f;
+      }
     }
 
-    Iterator<String> it = vocab.iterator();
-    while (it.hasNext()) {
-      String term = it.next();
-      double fbWeight = 0.0;
-
-      Iterator<FeatureVector> docIT = fbDocVectors.iterator();
-      int k = 0;
-      while (docIT.hasNext()) {
-        FeatureVector docVector = docIT.next();
-        double docProb = docVector.getFeaturetWeight(term) / docVector.getLength();
-        docProb *= docs.scores[k++];
-
-        fbWeight += docProb;
+    for (String term : vocab) {
+      float fbWeight = 0.0f;
+      for (int i = 0; i < docvectors.length; i++) {
+        FeatureVector doc = docvectors[i];
+        fbWeight += (doc.getFeatureWeight(term) / doc.computeL2Norm()) * docs.scores[i];
       }
-
-      fbWeight /= (double) fbDocVectors.size();
-      f.addTerm(term, fbWeight);
+      f.addFeatureWeight(term, fbWeight);
     }
 
     f.pruneToSize(fbTerms);
-    f.normalizeToOne();
+    f.normalize();
 
     return f;
   }

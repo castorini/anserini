@@ -18,7 +18,6 @@ package io.anserini.search;
 
 import io.anserini.index.IndexTweets;
 import io.anserini.index.IndexTweets.StatusField;
-import io.anserini.rerank.Reranker;
 import io.anserini.rerank.RerankerCascade;
 import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.ScoredDocuments;
@@ -40,7 +39,6 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.Filter;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.NumericRangeFilter;
@@ -58,7 +56,6 @@ public class SearchTweets {
   private static final String NUM_RESULTS_OPTION = "num_results";
   private static final String SIMILARITY_OPTION = "similarity";
   private static final String RUNTAG_OPTION = "runtag";
-  private static final String VERBOSE_OPTION = "verbose";
   private static final String RM3_OPTION = "rm3";
 
   private SearchTweets() {}
@@ -79,7 +76,6 @@ public class SearchTweets {
         .withDescription("similarity to use (BM25, LM)").create(SIMILARITY_OPTION));
     options.addOption(OptionBuilder.withArgName("string").hasArg()
         .withDescription("runtag").create(RUNTAG_OPTION));
-    options.addOption(new Option(VERBOSE_OPTION, "print out complete document"));
 
     CommandLine cmdline = null;
     CommandLineParser parser = new GnuParser();
@@ -122,8 +118,6 @@ public class SearchTweets {
       similarity = cmdline.getOptionValue(SIMILARITY_OPTION);
     }
 
-    boolean verbose = cmdline.hasOption(VERBOSE_OPTION);
-
     PrintStream out = new PrintStream(System.out, true, "UTF-8");
 
     IndexReader reader = DirectoryReader.open(FSDirectory.open(Paths.get(indexLocation.getAbsolutePath())));
@@ -146,7 +140,8 @@ public class SearchTweets {
       RerankerCascade cascade = new RerankerCascade(context);
 
       if (cmdline.hasOption(RM3_OPTION)) {
-        cascade.add(new Rm3Reranker()).add(new RemoveRetweetsTemporalTiebreakReranker());
+        cascade.add(new Rm3Reranker(IndexTweets.ANALYZER, StatusField.TEXT.name));
+        cascade.add(new RemoveRetweetsTemporalTiebreakReranker());
       } else {
         cascade.add(new RemoveRetweetsTemporalTiebreakReranker());
       }
