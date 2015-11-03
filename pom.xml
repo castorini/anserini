@@ -13,6 +13,7 @@
     <JETTY_VERSION>8.1.17.v20150415</JETTY_VERSION>
     <MUSTACHE_VERSION>0.8.18</MUSTACHE_VERSION>
     <JERSEY_VERSION>2.7</JERSEY_VERSION>
+    <JACKSON_VERSION>2.4.4</JACKSON_VERSION>
   </properties>
 
   <build>
@@ -257,6 +258,20 @@
       <artifactId>jersey-media-jaxb</artifactId>
       <version>2.22.1</version>
     </dependency>
+    
+    <dependency>
+      <groupId>org.glassfish.jersey.core</groupId>
+      <artifactId>jersey-client</artifactId>
+      <version>${JERSEY_VERSION}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>${JACKSON_VERSION}</version>
+    </dependency>
+    
+    
 
   </dependencies>
 </project>

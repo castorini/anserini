@@ -14,6 +14,7 @@ import org.apache.lucene.document.IntField;
 import org.apache.lucene.document.LongField;
 import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.IndexOptions;
+import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.search.NumericRangeQuery;
 import org.apache.lucene.search.Query;
 
@@ -26,8 +27,16 @@ import com.google.gson.JsonParser;
 
 public class TweetStreamIndexer implements Runnable {
   private static final Logger LOG = LogManager.getLogger(TweetStreamIndexer.class);
+  public IndexWriter indexWriter=TweetSearcher.indexWriter;
 
   private static final JsonParser JSON_PARSER = new JsonParser();
+  
+  TweetStreamIndexer(){
+    
+  }
+  TweetStreamIndexer(IndexWriter indexWriter){
+    this.indexWriter=indexWriter;
+  }
 
   public static enum StatusField {
     ID("id"),
@@ -76,7 +85,7 @@ public class TweetStreamIndexer implements Runnable {
               long id = obj.getAsJsonObject("delete").getAsJsonObject("status").get("id")
                   .getAsLong();
               Query q = NumericRangeQuery.newLongRange(StatusField.ID.name, id, id, true, true);
-              TweetSearcher.indexWriter.deleteDocuments(q);
+              indexWriter.deleteDocuments(q);
             }
           } catch (Exception e) {
             // TODO Auto-generated catch block
@@ -122,7 +131,7 @@ public class TweetStreamIndexer implements Runnable {
         }
 
         try {
-          TweetSearcher.indexWriter.addDocument(doc);
+          indexWriter.addDocument(doc);
           tweetCount++;
           if (tweetCount % 1000 == 0) {
             LOG.info(tweetCount + " statuses indexed");
