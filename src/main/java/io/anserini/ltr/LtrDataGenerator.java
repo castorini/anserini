@@ -4,6 +4,7 @@ import io.anserini.index.IndexTweets.StatusField;
 import io.anserini.ltr.feature.IntFeatureExtractors;
 import io.anserini.ltr.feature.MatchingTermCount;
 import io.anserini.ltr.feature.SumMatchingTf;
+import io.anserini.ltr.feature.QueryFeatures;
 import io.anserini.rerank.Reranker;
 import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.ScoredDocuments;
@@ -22,6 +23,7 @@ public class LtrDataGenerator implements Reranker {
     IndexReader reader = context.getIndexSearcher().getIndexReader();
     IntFeatureExtractors intFeatureExtractors = new IntFeatureExtractors();
     intFeatureExtractors.add(new MatchingTermCount()).add(new SumMatchingTf());
+    intFeatureExtractors.add(new QueryFeatures());
 
     for (int i = 0; i < docs.documents.length; i++) {
       Terms terms = null;
