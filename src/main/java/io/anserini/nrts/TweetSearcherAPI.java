@@ -9,7 +9,6 @@ import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopScoreDocCollector;
 
-import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -72,7 +71,6 @@ public class TweetSearcherAPI {
   @Path("search")
   @Produces(MediaType.APPLICATION_JSON)
   public List<SearchResult> search(SearchAPIQuery query){
-    System.out.println(query.getQuery());
     try {
       Query q = new QueryParser(TweetStreamIndexer.StatusField.TEXT.name, TweetSearcher.ANALYZER).parse(query.getQuery());
       try {

@@ -75,22 +75,22 @@ public class TweetSearcher {
     Thread itsThread = new Thread(its);
     itsThread.start();
 
-    // http://localhost:port/search?query=happy
     LOG.info("Starting HTTP server on port " + port);
 
     HandlerList mainHandler = new HandlerList();
 
     Server server = new Server(port);
+
     ResourceHandler resource_handler = new ResourceHandler();
-    resource_handler.setWelcomeFiles(new String[]{"src/main/java/io/anserini/nrts/public/index.html"});
+    resource_handler.setWelcomeFiles(new String[]{"index.html"});
     resource_handler.setResourceBase("src/main/java/io/anserini/nrts/public");
-//    ServletHandler handler = new ServletHandler();
+
     ServletContextHandler handler = new ServletContextHandler(ServletContextHandler.SESSIONS);
     handler.setContextPath("/");
     ServletHolder jerseyServlet = new ServletHolder(ServletContainer.class);
     jerseyServlet.setInitParameter("jersey.config.server.provider.classnames",TweetSearcherAPI.class.getCanonicalName());
-    //handler.addServletWithMapping(jerseyServlet, "/search");
     handler.addServlet(jerseyServlet,"/*");
+
     mainHandler.addHandler(resource_handler);
     mainHandler.addHandler(handler);
     server.setHandler(mainHandler);
