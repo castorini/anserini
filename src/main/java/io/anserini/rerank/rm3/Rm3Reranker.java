@@ -50,7 +50,6 @@ public class Rm3Reranker implements Reranker {
     FeatureVector rm = estimateRelevanceModel(docs, reader);
     rm = FeatureVector.interpolate(qfv, rm, originalQueryWeight);
 
-    System.err.println(rm);
     StringBuilder builder = new StringBuilder();
     Iterator<String> terms = rm.iterator();
     while (terms.hasNext()) {
@@ -75,7 +74,7 @@ public class Rm3Reranker implements Reranker {
         rs = searcher.search(nq, 1000);
       } else {
         rs = searcher.search(nq, context.getFilter(), 1000);
-        }
+      }
     } catch (IOException e) {
       e.printStackTrace();
       return docs;
