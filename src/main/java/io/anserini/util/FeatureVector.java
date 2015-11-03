@@ -45,7 +45,7 @@ public class FeatureVector {
     return this;
   }
 
-  public FeatureVector normalize() {
+  public FeatureVector scaleToUnitL2Norm() {
     double norm = computeL2Norm();
     for (String f : features.keySet()) {
       features.put(f, (float) (features.get(f) / norm));
