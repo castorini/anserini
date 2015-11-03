@@ -40,6 +40,9 @@ public class IndexArgs {
   @Option(name = "-positions", usage = "Boolean switch to index positions")
   boolean positions = false;
 
+  @Option(name = "-docvectors", usage = "Boolean switch to store document vectors")
+  boolean docvectors = false;
+
   @Option(name = "-optimize", usage = "Boolean switch to optimize index (force merge)")
   boolean optimize = false;
 
