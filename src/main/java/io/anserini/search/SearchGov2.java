@@ -1,6 +1,13 @@
 package io.anserini.search;
 
+import io.anserini.rerank.RerankerCascade;
+import io.anserini.rerank.RerankerContext;
+import io.anserini.rerank.ScoredDocuments;
+import io.anserini.rerank.rm3.Rm3Reranker;
+import io.anserini.util.AnalyzerUtils;
+
 import java.io.OutputStreamWriter;
+import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -11,13 +18,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.apache.lucene.analysis.en.EnglishAnalyzer;
-import org.apache.lucene.benchmark.quality.Judge;
-import org.apache.lucene.benchmark.quality.QualityBenchmark;
 import org.apache.lucene.benchmark.quality.QualityQuery;
 import org.apache.lucene.benchmark.quality.QualityQueryParser;
-import org.apache.lucene.benchmark.quality.QualityStats;
 import org.apache.lucene.benchmark.quality.trec.QueryDriver;
-import org.apache.lucene.benchmark.quality.trec.TrecJudge;
 import org.apache.lucene.benchmark.quality.trec.TrecTopicsReader;
 import org.apache.lucene.benchmark.quality.utils.SubmissionReport;
 import org.apache.lucene.index.DirectoryReader;
@@ -29,8 +32,10 @@ import org.apache.lucene.search.BooleanClause;
 import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
+import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.search.similarities.BM25Similarity;
 import org.apache.lucene.store.FSDirectory;
+import org.apache.lucene.store.MMapDirectory;
 
 public class SearchGov2 extends QueryDriver {
   public static void main(String[] args) throws Exception {
@@ -50,11 +55,14 @@ public class SearchGov2 extends QueryDriver {
     Path qrelsFile = Paths.get(args[1]);
     Path submissionFile = Paths.get(args[2]);
     SubmissionReport submitLog = new SubmissionReport(new PrintWriter(Files.newBufferedWriter(submissionFile, StandardCharsets.UTF_8)), "lucene");
-    FSDirectory dir = FSDirectory.open(Paths.get(args[3]));
+    MMapDirectory dir = new MMapDirectory(Paths.get(args[3]));
+    dir.setPreload(true);
     String fieldSpec = args.length == 5 ? args[4] : "T"; // default to Title-only if not specified.
     IndexReader reader = DirectoryReader.open(dir);
     IndexSearcher searcher = new IndexSearcher(reader);
+
     searcher.setSimilarity(new BM25Similarity(0.9f, 0.4f));
+    //searcher.setSimilarity(new LMDirichletSimilarity(2500.0f));
 
     int maxResults = 1000;
     String docNameField = "docid";
@@ -66,10 +74,10 @@ public class SearchGov2 extends QueryDriver {
     QualityQuery qqs[] = qReader.readQueries(Files.newBufferedReader(topicsFile, StandardCharsets.UTF_8));
 
     // prepare judge, with trec utilities that read from a QRels file
-    Judge judge = new TrecJudge(Files.newBufferedReader(qrelsFile, StandardCharsets.UTF_8));
+    //Judge judge = new TrecJudge(Files.newBufferedReader(qrelsFile, StandardCharsets.UTF_8));
 
     // validate topics & judgments match each other
-    judge.validateData(qqs, logger);
+    //judge.validateData(qqs, logger);
 
     Set<String> fieldSet = new HashSet<>();
     if (fieldSpec.indexOf('T') >= 0) fieldSet.add("title");
@@ -79,16 +87,41 @@ public class SearchGov2 extends QueryDriver {
     // set the parsing of quality queries into Lucene queries.
     QualityQueryParser qqParser = new EnglishQQParser(fieldSet.toArray(new String[0]), "body");
 
-    // run the benchmark
-    QualityBenchmark qrun = new QualityBenchmark(qqs, qqParser, searcher, docNameField);
-    qrun.setMaxResults(maxResults);
-    QualityStats stats[] = qrun.execute(judge, submitLog, logger);
+    PrintStream out = new PrintStream(System.out, true, "UTF-8");
 
-    // print an avarage sum of the results
-    QualityStats avg = QualityStats.average(stats);
-    avg.log("SUMMARY", 2, logger, "  ");
+    for (QualityQuery qq : qqs) {
+      //System.out.println(qq.getValue("title"));
+      
+      Query query = AnalyzerUtils.buildBagOfWordsQuery("body", new EnglishAnalyzer(), qq.getValue("title"));
+      //System.out.println(query);
+      TopDocs rs = searcher.search(query, maxResults);
+
+      RerankerContext context = new RerankerContext(searcher, query, qq.getValue("title"), null);
+      RerankerCascade cascade = new RerankerCascade(context);
+
+      cascade.add(new Rm3Reranker(new EnglishAnalyzer(), "body"));
+
+      ScoredDocuments docs = cascade.run(ScoredDocuments.fromTopDocs(rs, searcher));
+
+      for (int i=0; i<docs.documents.length; i++) {
+        String qid = qq.getQueryID();
+        out.println(String.format("%s Q0 %s %d %f %s", qid,
+            docs.documents[i].getField("docid").stringValue(), (i+1), docs.scores[i], "Lucene"));
+      }
+    }
+
+//    // run the benchmark
+//    QualityBenchmark qrun = new QualityBenchmark(qqs, qqParser, searcher, docNameField);
+//    qrun.setMaxResults(maxResults);
+//    QualityStats stats[] = qrun.execute(judge, submitLog, logger);
+//
+//    // print an avarage sum of the results
+//    QualityStats avg = QualityStats.average(stats);
+//    avg.log("SUMMARY", 2, logger, "  ");
+    
     reader.close();
     dir.close();
+    out.close();
   }
 }
 
