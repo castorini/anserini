@@ -68,7 +68,6 @@ public class SearchTweets {
       return;
     }
 
-
     LOG.info("Reading index at " + searchArgs.index);
     Directory dir;
     if (searchArgs.inmem) {
@@ -117,7 +116,7 @@ public class SearchTweets {
       RerankerCascade cascade = new RerankerCascade(context);
 
       if (searchArgs.rm3) {
-        cascade.add(new Rm3Reranker(IndexTweets.ANALYZER, StatusField.TEXT.name));
+        cascade.add(new Rm3Reranker(IndexTweets.ANALYZER, StatusField.TEXT.name, "src/main/resources/io/anserini/rerank/rm3/rm3-stoplist.twitter.txt"));
         cascade.add(new RemoveRetweetsTemporalTiebreakReranker());
       } else {
         cascade.add(new RemoveRetweetsTemporalTiebreakReranker());

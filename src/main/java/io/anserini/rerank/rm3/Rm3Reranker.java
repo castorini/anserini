@@ -34,11 +34,12 @@ public class Rm3Reranker implements Reranker {
   private int fbDocs = 50;
   private float originalQueryWeight = 0.6f;
 
-  private Rm3Stopper stopper = new Rm3Stopper("");
+  private Rm3Stopper stopper;
 
-  public Rm3Reranker(Analyzer analyzer, String field) {
+  public Rm3Reranker(Analyzer analyzer, String field, String stoplist) {
     this.analyzer = analyzer;
     this.field = field;
+    this.stopper = new Rm3Stopper(stoplist);
   }
 
   @Override

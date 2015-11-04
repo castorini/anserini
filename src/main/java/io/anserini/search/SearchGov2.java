@@ -98,7 +98,7 @@ public class SearchGov2 {
       RerankerCascade cascade = new RerankerCascade(context);
 
       if (searchArgs.rm3) {
-        cascade.add(new Rm3Reranker(new EnglishAnalyzer(), "body"));
+        cascade.add(new Rm3Reranker(new EnglishAnalyzer(), "body", "src/main/resources/io/anserini/rerank/rm3/rm3-stoplist.gov2.txt"));
       } else {
         cascade.add(new IdentityReranker());
       }
