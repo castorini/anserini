@@ -18,11 +18,15 @@ import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.MMapDirectory;
 
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHandler;
 import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.server.handler.HandlerList;
 import io.anserini.nrts.TweetServlet;
 import io.anserini.index.twitter.TweetAnalyzer;
+import io.anserini.nrts.TweetSearcherAPI;
+import org.eclipse.jetty.servlet.ServletHolder;
+import org.glassfish.jersey.servlet.ServletContainer;
 
 public class TweetSearcher {
   private static final Logger LOG = LogManager.getLogger(TweetSearcher.class);
@@ -71,17 +75,21 @@ public class TweetSearcher {
     Thread itsThread = new Thread(its);
     itsThread.start();
 
-    // http://localhost:port/search?query=happy
     LOG.info("Starting HTTP server on port " + port);
 
     HandlerList mainHandler = new HandlerList();
 
     Server server = new Server(port);
+
     ResourceHandler resource_handler = new ResourceHandler();
+    resource_handler.setWelcomeFiles(new String[]{"index.html"});
     resource_handler.setResourceBase("src/main/java/io/anserini/nrts/public");
 
-    ServletHandler handler = new ServletHandler();
-    handler.addServletWithMapping(TweetServlet.class, "/search");
+    ServletContextHandler handler = new ServletContextHandler(ServletContextHandler.SESSIONS);
+    handler.setContextPath("/");
+    ServletHolder jerseyServlet = new ServletHolder(ServletContainer.class);
+    jerseyServlet.setInitParameter("jersey.config.server.provider.classnames",TweetSearcherAPI.class.getCanonicalName());
+    handler.addServlet(jerseyServlet,"/*");
 
     mainHandler.addHandler(resource_handler);
     mainHandler.addHandler(handler);

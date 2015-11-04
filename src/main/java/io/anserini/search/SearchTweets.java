@@ -49,6 +49,8 @@ import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.OptionHandlerFilter;
 import org.kohsuke.args4j.ParserProperties;
 
+import com.google.common.collect.Sets;
+
 public class SearchTweets {
   private static final Logger LOG = LogManager.getLogger(SearchTweets.class);
 
@@ -112,7 +114,8 @@ public class SearchTweets {
 
       TopDocs rs = searcher.search(query, filter, numResults);
 
-      RerankerContext context = new RerankerContext(searcher, query, topic.getQuery(), filter);
+      RerankerContext context = new RerankerContext(searcher, query, topic.getId(), topic.getQuery(),
+          Sets.newHashSet(AnalyzerUtils.tokenize(IndexTweets.ANALYZER, topic.getQuery())), filter);
       RerankerCascade cascade = new RerankerCascade(context);
 
       if (searchArgs.rm3) {
