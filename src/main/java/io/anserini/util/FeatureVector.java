@@ -54,6 +54,15 @@ public class FeatureVector {
     return this;
   }
 
+  public FeatureVector scaleToUnitL1Norm() {
+    double norm = computeL1Norm();
+    for (String f : features.keySet()) {
+      features.put(f, (float) (features.get(f) / norm));
+    }
+
+    return this;
+  }
+
   public Set<String> getFeatures() {
     return features.keySet();
   }
@@ -76,6 +85,14 @@ public class FeatureVector {
       norm += Math.pow(features.get(term), 2.0);
     }
     return Math.sqrt(norm);
+  }
+
+  public double computeL1Norm() {
+    double norm = 0.0;
+    for (String term : features.keySet()) {
+      norm += Math.abs(features.get(term));
+    }
+    return norm;
   }
 
   public static FeatureVector fromTerms(List<String> terms) {

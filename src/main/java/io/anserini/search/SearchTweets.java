@@ -30,14 +30,6 @@ import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.nio.file.Paths;
 
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.GnuParser;
-import org.apache.commons.cli.HelpFormatter;
-import org.apache.commons.cli.Option;
-import org.apache.commons.cli.OptionBuilder;
-import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.index.DirectoryReader;
@@ -62,7 +54,6 @@ public class SearchTweets {
 
   private SearchTweets() {}
 
-  @SuppressWarnings("static-access")
   public static void main(String[] args) throws Exception {
     long curTime = System.nanoTime();
     SearchArgs searchArgs = new SearchArgs();
@@ -94,13 +85,10 @@ public class SearchTweets {
 
     if (searchArgs.ql) {
       LOG.info("Using QL scoring model");
-      searcher.setSimilarity(new LMDirichletSimilarity(2500.0f));
-    } else if (searchArgs.rm3) {
-      LOG.info("Using RM3 query expansion");
-      searcher.setSimilarity(new LMDirichletSimilarity(2500.0f));
+      searcher.setSimilarity(new LMDirichletSimilarity(searchArgs.mu));
     } else if (searchArgs.bm25) {
       LOG.info("Using BM25 scoring model");
-      searcher.setSimilarity(new BM25Similarity(0.9f, 0.4f));
+      searcher.setSimilarity(new BM25Similarity(searchArgs.k1, searchArgs.b));
     } else {
       LOG.error("Error: Must specify scoring model!");
       System.exit(-1);

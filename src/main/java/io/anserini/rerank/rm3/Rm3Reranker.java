@@ -32,7 +32,7 @@ public class Rm3Reranker implements Reranker {
 
   private int fbTerms = 20;
   private int fbDocs = 50;
-  private float originalQueryWeight = 0.5f;
+  private float originalQueryWeight = 0.6f;
 
   private Rm3Stopper stopper = new Rm3Stopper("");
 
@@ -49,7 +49,7 @@ public class Rm3Reranker implements Reranker {
     IndexReader reader = searcher.getIndexReader();
 
     FeatureVector qfv = FeatureVector.fromTerms(
-        AnalyzerUtils.tokenize(analyzer, context.getQueryText())).scaleToUnitL2Norm();
+        AnalyzerUtils.tokenize(analyzer, context.getQueryText())).scaleToUnitL1Norm();
 
     FeatureVector rm = estimateRelevanceModel(docs, reader);
     LOG.info("Relevance model estimated.");
@@ -116,7 +116,7 @@ public class Rm3Reranker implements Reranker {
     // Precompute the norms once and cache results.
     float[] norms = new float[docvectors.length];
     for (int i = 0; i < docvectors.length; i++) {
-      norms[i] = (float) docvectors[i].computeL2Norm();
+      norms[i] = (float) docvectors[i].computeL1Norm();
     }
 
     for (String term : vocab) {
@@ -128,7 +128,7 @@ public class Rm3Reranker implements Reranker {
     }
 
     f.pruneToSize(fbTerms);
-    f.scaleToUnitL2Norm();
+    f.scaleToUnitL1Norm();
 
     return f;
   }

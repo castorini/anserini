@@ -70,13 +70,10 @@ public class SearchGov2 {
 
     if (searchArgs.ql) {
       LOG.info("Using QL scoring model");
-      searcher.setSimilarity(new LMDirichletSimilarity(2500.0f));
-    } else if (searchArgs.rm3) {
-      LOG.info("Using RM3 query expansion");
-      searcher.setSimilarity(new BM25Similarity(0.9f, 0.4f));
+      searcher.setSimilarity(new LMDirichletSimilarity(searchArgs.mu));
     } else if (searchArgs.bm25) {
       LOG.info("Using BM25 scoring model");
-      searcher.setSimilarity(new BM25Similarity(0.9f, 0.4f));
+      searcher.setSimilarity(new BM25Similarity(searchArgs.k1, searchArgs.b));
     } else {
       LOG.error("Error: Must specify scoring model!");
       System.exit(-1);
