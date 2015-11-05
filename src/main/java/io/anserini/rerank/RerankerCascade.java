@@ -8,12 +8,7 @@ import com.google.common.collect.Lists;
  * Representation of a cascade of rerankers, applied in sequence.
  */
 public class RerankerCascade {
-  final RerankerContext context;
   final List<Reranker> rerankers = Lists.newArrayList();
-
-  public RerankerCascade(RerankerContext context) {
-    this.context = context;
-  }
 
   /**
    * Adds a reranker to this cascade.
@@ -33,7 +28,7 @@ public class RerankerCascade {
    * @param docs input documents
    * @return reranked results
    */
-  public ScoredDocuments run(ScoredDocuments docs) {
+  public ScoredDocuments run(ScoredDocuments docs, RerankerContext context) {
     ScoredDocuments results = docs;
 
     for (Reranker reranker : rerankers) {

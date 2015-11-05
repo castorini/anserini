@@ -81,46 +81,43 @@ public class SearchGov2 {
       System.exit(-1);
     }
 
-    int maxResults = 1000;
+    RerankerCascade cascade = new RerankerCascade();
+    if (searchArgs.rm3) {
+      cascade.add(new Rm3Reranker(new EnglishAnalyzer(), "body", "src/main/resources/io/anserini/rerank/rm3/rm3-stoplist.gov2.txt"));
+    } else {
+      cascade.add(new IdentityReranker());
+    }
 
     TrecTopicsReader qReader = new TrecTopicsReader();
-    QualityQuery qqs[] = qReader.readQueries(Files.newBufferedReader(topicsFile, StandardCharsets.UTF_8));
+    QualityQuery topics[] = qReader.readQueries(Files.newBufferedReader(topicsFile, StandardCharsets.UTF_8));
 
     PrintStream out = new PrintStream(new FileOutputStream(new File(searchArgs.output)));
     LOG.info("Writing output to " + searchArgs.output);
 
     LOG.info("Initialized complete! (elapsed time = " + (System.nanoTime()-curTime)/1000000 + "ms)");
     long totalTime = 0;
-    for (QualityQuery qq : qqs) {
+    for (QualityQuery topic : topics) {
       long curQueryTime = System.nanoTime();
-      Query query = AnalyzerUtils.buildBagOfWordsQuery("body", new EnglishAnalyzer(), qq.getValue("title"));
-      TopDocs rs = searcher.search(query, maxResults);
+      Query query = AnalyzerUtils.buildBagOfWordsQuery("body", new EnglishAnalyzer(), topic.getValue("title"));
+      TopDocs rs = searcher.search(query, searchArgs.hits);
 
-      RerankerContext context = new RerankerContext(searcher, query, qq.getQueryID(), qq.getValue("title"),
-          Sets.newHashSet(AnalyzerUtils.tokenize(new EnglishAnalyzer(), qq.getValue("title"))), null);
-      RerankerCascade cascade = new RerankerCascade(context);
-
-      if (searchArgs.rm3) {
-        cascade.add(new Rm3Reranker(new EnglishAnalyzer(), "body", "src/main/resources/io/anserini/rerank/rm3/rm3-stoplist.gov2.txt"));
-      } else {
-        cascade.add(new IdentityReranker());
-      }
-
-      ScoredDocuments docs = cascade.run(ScoredDocuments.fromTopDocs(rs, searcher));
+      RerankerContext context = new RerankerContext(searcher, query, topic.getQueryID(), topic.getValue("title"),
+          Sets.newHashSet(AnalyzerUtils.tokenize(new EnglishAnalyzer(), topic.getValue("title"))), null);
+      ScoredDocuments docs = cascade.run(ScoredDocuments.fromTopDocs(rs, searcher), context);
 
       for (int i=0; i<docs.documents.length; i++) {
-        String qid = qq.getQueryID();
+        String qid = topic.getQueryID();
         out.println(String.format("%s Q0 %s %d %f %s", qid,
-            docs.documents[i].getField("docid").stringValue(), (i+1), docs.scores[i], "Lucene"));
+            docs.documents[i].getField("docid").stringValue(), (i+1), docs.scores[i], searchArgs.runtag));
       }
       long qtime = (System.nanoTime()-curQueryTime)/1000000;
-      LOG.info("Query " + qq.getQueryID() + " (elapsed time = " + qtime + "ms)");
+      LOG.info("Query " + topic.getQueryID() + " (elapsed time = " + qtime + "ms)");
       totalTime += qtime;
     }
 
     LOG.info("All queries completed!");
     LOG.info("Total elapsed time = " + totalTime + "ms");
-    LOG.info("Average query latency = " + (totalTime/qqs.length) + "ms");
+    LOG.info("Average query latency = " + (totalTime/topics.length) + "ms");
 
     reader.close();
     dir.close();

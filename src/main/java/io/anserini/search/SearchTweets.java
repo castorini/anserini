@@ -51,6 +51,7 @@ import org.kohsuke.args4j.ParserProperties;
 
 import com.google.common.collect.Sets;
 
+@SuppressWarnings("deprecation")
 public class SearchTweets {
   private static final Logger LOG = LogManager.getLogger(SearchTweets.class);
 
@@ -95,8 +96,13 @@ public class SearchTweets {
       System.exit(-1);
     }
 
-    String runtag = "Lucene";
-    int numResults = 1000;
+    RerankerCascade cascade = new RerankerCascade();
+    if (searchArgs.rm3) {
+      cascade.add(new Rm3Reranker(IndexTweets.ANALYZER, StatusField.TEXT.name, "src/main/resources/io/anserini/rerank/rm3/rm3-stoplist.twitter.txt"));
+      cascade.add(new RemoveRetweetsTemporalTiebreakReranker());
+    } else {
+      cascade.add(new RemoveRetweetsTemporalTiebreakReranker());
+    }
 
     MicroblogTopicSet topics = MicroblogTopicSet.fromFile(new File(searchArgs.topics));
 
@@ -112,25 +118,16 @@ public class SearchTweets {
       Filter filter = NumericRangeFilter.newLongRange(StatusField.ID.name, 0L, topic.getQueryTweetTime(), true, true);
       Query query = AnalyzerUtils.buildBagOfWordsQuery(StatusField.TEXT.name, IndexTweets.ANALYZER, topic.getQuery());
 
-      TopDocs rs = searcher.search(query, filter, numResults);
+      TopDocs rs = searcher.search(query, filter, searchArgs.hits);
 
       RerankerContext context = new RerankerContext(searcher, query, topic.getId(), topic.getQuery(),
           Sets.newHashSet(AnalyzerUtils.tokenize(IndexTweets.ANALYZER, topic.getQuery())), filter);
-      RerankerCascade cascade = new RerankerCascade(context);
-
-      if (searchArgs.rm3) {
-        cascade.add(new Rm3Reranker(IndexTweets.ANALYZER, StatusField.TEXT.name, "src/main/resources/io/anserini/rerank/rm3/rm3-stoplist.twitter.txt"));
-        cascade.add(new RemoveRetweetsTemporalTiebreakReranker());
-      } else {
-        cascade.add(new RemoveRetweetsTemporalTiebreakReranker());
-      }
-
-      ScoredDocuments docs = cascade.run(ScoredDocuments.fromTopDocs(rs, searcher));
+      ScoredDocuments docs = cascade.run(ScoredDocuments.fromTopDocs(rs, searcher), context);
 
       for (int i=0; i<docs.documents.length; i++) {
         String qid = topic.getId().replaceFirst("^MB0*", "");
         out.println(String.format("%s Q0 %s %d %f %s", qid,
-            docs.documents[i].getField(StatusField.ID.name).numericValue(), (i+1), docs.scores[i], runtag));
+            docs.documents[i].getField(StatusField.ID.name).numericValue(), (i+1), docs.scores[i], searchArgs.runtag));
       }
       long qtime = (System.nanoTime()-curQueryTime)/1000000;
       LOG.info("Query " + topic.getId() + " (elapsed time = " + qtime + "ms)");
