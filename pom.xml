@@ -8,8 +8,6 @@
 
   <properties>
     <LUCENE_VERSION>5.3.1</LUCENE_VERSION>
-    <!-- see http://download.eclipse.org/jetty/ Jetty9 forces Java 1.8, which causes all sorts of headaches
-    For display special characters such as emoji expression, please set JETTY_VERSION to 9.3.5.v20151012 -->
     <JETTY_VERSION>8.1.17.v20150415</JETTY_VERSION>
     <MUSTACHE_VERSION>0.8.18</MUSTACHE_VERSION>
     <JERSEY_VERSION>2.7</JERSEY_VERSION>
@@ -76,6 +74,10 @@
             <program>
               <mainClass>io.anserini.util.ExtractRm3Stopwords</mainClass>
               <name>ExtractRm3Stopwords</name>
+            </program>
+            <program>
+              <mainClass>io.anserini.nrts.TweetClientAPI</mainClass>
+              <name>TweetClientAPI</name>
             </program>
           </programs>
         </configuration>

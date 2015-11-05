@@ -2,6 +2,9 @@ package io.anserini.nrts;
 import java.io.IOException;
 import java.io.StringReader;
 import java.nio.file.Paths;
+import java.util.Calendar;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -51,10 +54,21 @@ public class TweetClientAPI {
   private static final String HOST_OPTION = "host";
   private static final String INDEX_OPTION = "index";
   private static final String PORT_OPTION = "port";
+  private static final String INTERVAL_OPTION = "interval";
+  static float interval;
+  
+  int dailyLimit=10;
+  
+  int topN=5;
+  boolean shutdown=false;
+  
   static String api_base;
   static String resourcePath = "src/main/java/io/anserini/nrts/public/";
   static String MustacheTemplatePath = resourcePath + "servletResponseTemplate.mustache";
   static IndexWriter indexWriter;
+  
+  Set pushedTweets=new HashSet();
+  boolean shutDown=false;
 
   private IndexReader reader;
   
@@ -116,9 +130,8 @@ public class TweetClientAPI {
       System.out.println("Running TweetPusher Thread");
       try {
         while(true){
-          System.out.println("Wake up and query...");
           for (int i = 0; i < topics.length; i++) {
-            System.out.print("Quering:"+topics[i].query+", "); // test 
+             // test 
             try {
               Query q = new QueryParser(TweetStreamIndexer.StatusField.TEXT.name, TweetSearcher.ANALYZER)
                   .parse(topics[i].query);
@@ -135,28 +148,55 @@ public class TweetClientAPI {
               }
               IndexSearcher searcher = new IndexSearcher(reader);
 
-              int topN = 5;
+              
               TopScoreDocCollector collector = TopScoreDocCollector.create(topN);
               searcher.search(q, collector);
               ScoreDoc[] hits = collector.topDocs().scoreDocs;
-              System.out.println("Found "+hits.length+" hits");
+              if (0!=hits.length) {
+                System.out.println("_______________________________________________");
+                System.out.println("Quering:"+topics[i].query+", Found "+hits.length+" hits (including old, only push new)");
+              }
 
               for (int j = 0; j < hits.length && j < topN; ++j) {
                 int docId = hits[j].doc;
                 Document d = searcher.doc(docId);
-                System.out.println("Tweet ID:" + String.valueOf(d.get(TweetStreamIndexer.StatusField.ID.name)) + " Tweet text:" + d.get(StatusField.TEXT.name));
-                String targetURL=api_base + "tweet/"+topics[i].topid+"/"+String.valueOf(d.get(TweetStreamIndexer.StatusField.ID.name))+"/"+clientid;
-                System.out.println(targetURL);
-                WebTarget webTarget = client.target(targetURL);
-                Response postResponse = webTarget.request(MediaType.APPLICATION_JSON)
-                    .post(Entity.entity(new String("{\"topid\":\""+topics[i].topid+"\",\"status.id\":\""+String.valueOf(d.get(TweetStreamIndexer.StatusField.ID.name))+"\",\"clientid\":\""+clientid+"\"}"), MediaType.APPLICATION_JSON));
-                System.out.println("Push tweets status:"+postResponse.getStatus());
+                if (pushedTweets.size()<dailyLimit&&!pushedTweets.contains(d.get(TweetStreamIndexer.StatusField.ID.name))){
+                  
+                  String targetURL=api_base + "tweet/"+topics[i].topid+"/"+String.valueOf(d.get(TweetStreamIndexer.StatusField.ID.name))+"/"+clientid;
+                  WebTarget webTarget = client.target(targetURL);
+                  Response postResponse = webTarget.request(MediaType.APPLICATION_JSON)
+                      .post(Entity.entity(new String("{\"topid\":\""+topics[i].topid+"\",\"status.id\":\""+String.valueOf(d.get(TweetStreamIndexer.StatusField.ID.name))+"\",\"clientid\":\""+clientid+"\"}"), MediaType.APPLICATION_JSON));
+                  System.out.println("Tweet ID:" + String.valueOf(d.get(TweetStreamIndexer.StatusField.ID.name)) + " Tweet text:" + d.get(StatusField.TEXT.name));
+                  
+                  System.out.println("Push to "+targetURL+":"+postResponse.getStatus());
+                  
+                  pushedTweets.add(d.get(TweetStreamIndexer.StatusField.ID.name));
+                  
+                }
+                else if (pushedTweets.size()>=dailyLimit){
+                  shutDown=true; 
+                  break;
+                                    
+                }
+               
               }
             } catch (Exception e) {
               e.printStackTrace();
             }// Client push tweetid, topic id to broker
+            if (shutDown) break;
           }
-          Thread.sleep(4000);// Let the thread sleep for a while.
+          if (!shutDown) Thread.sleep((long)(60000*interval));// Let the thread sleep for a while.
+          if (shutDown) {
+            Calendar now = Calendar.getInstance();
+            Calendar tomorrow = Calendar.getInstance();    
+            tomorrow.set(Calendar.HOUR,12);
+            tomorrow.set(Calendar.MINUTE,0x0);
+            tomorrow.set(Calendar.SECOND, 0);        
+            System.out.println("Reached dailyLimit, sleep for the rest of the day"); 
+            Thread.sleep((long)tomorrow.getTimeInMillis()-now.getTimeInMillis()); //reached dailyLimit, sleep for the rest of the day
+            shutDown=false;
+                       
+          }
         }
       } catch (InterruptedException e) {
         System.out.println("Thread interrupted.");
@@ -170,6 +210,7 @@ public class TweetClientAPI {
     options.addOption(HOST_OPTION, true, "hostname");
     options.addOption(INDEX_OPTION, true, "index path");
     options.addOption(PORT_OPTION, true, "port");
+    options.addOption(INTERVAL_OPTION,true,"interval");
 
     CommandLine cmdline = null;
     CommandLineParser parser = new GnuParser();
@@ -192,10 +233,11 @@ public class TweetClientAPI {
     }
 
     int port = cmdline.hasOption(PORT_OPTION) ? Integer.parseInt(cmdline.getOptionValue(PORT_OPTION)) : 8080;
+    interval=cmdline.hasOption(INTERVAL_OPTION) ? Float.parseFloat(cmdline.getOptionValue(INTERVAL_OPTION)) : 1; 
     String host = cmdline.getOptionValue(HOST_OPTION);
     String dir=cmdline.getOptionValue(INDEX_OPTION);
     api_base = new String("http://" + host + ":" + port + "/");
-
+    
     Directory index = new MMapDirectory(Paths.get(dir));
     IndexWriterConfig config = new IndexWriterConfig(new TweetAnalyzer());
     indexWriter = new IndexWriter(index, config);
