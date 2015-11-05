@@ -45,8 +45,17 @@ public class FeatureVector {
     return this;
   }
 
-  public FeatureVector normalize() {
+  public FeatureVector scaleToUnitL2Norm() {
     double norm = computeL2Norm();
+    for (String f : features.keySet()) {
+      features.put(f, (float) (features.get(f) / norm));
+    }
+
+    return this;
+  }
+
+  public FeatureVector scaleToUnitL1Norm() {
+    double norm = computeL1Norm();
     for (String f : features.keySet()) {
       features.put(f, (float) (features.get(f) / norm));
     }
@@ -78,6 +87,14 @@ public class FeatureVector {
     return Math.sqrt(norm);
   }
 
+  public double computeL1Norm() {
+    double norm = 0.0;
+    for (String term : features.keySet()) {
+      norm += Math.abs(features.get(term));
+    }
+    return norm;
+  }
+
   public static FeatureVector fromTerms(List<String> terms) {
     FeatureVector f = new FeatureVector();
     for (String t : terms) {
@@ -95,12 +112,11 @@ public class FeatureVector {
       BytesRef text = null;
       while ((text = termsEnum.next()) != null) {
         String term = text.utf8ToString();
-        if (term.length() < 2)
-          continue;
-        if (stopper.isStopWord(term))
-          continue;
-        if (!term.matches("[a-z0-9#@]+"))
-          continue;
+
+        if (term.length() < 2) continue;
+        if (stopper.isStopWord(term)) continue;
+        if (!term.matches("[a-z0-9]+")) continue;
+
         int freq = (int) termsEnum.totalTermFreq();
         f.addFeatureWeight(term, (float) freq);
       }

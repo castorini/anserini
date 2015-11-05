@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.Set;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.index.IndexReader;
@@ -23,18 +25,21 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.Sets;
 
 public class Rm3Reranker implements Reranker {
+  private static final Logger LOG = LogManager.getLogger(Rm3Reranker.class);
+
   private final Analyzer analyzer;
   private final String field;
 
   private int fbTerms = 20;
   private int fbDocs = 50;
-  private float originalQueryWeight = 0.5f;
+  private float originalQueryWeight = 0.6f;
 
-  private Rm3Stopper stopper = new Rm3Stopper("");
+  private Rm3Stopper stopper;
 
-  public Rm3Reranker(Analyzer analyzer, String field) {
+  public Rm3Reranker(Analyzer analyzer, String field, String stoplist) {
     this.analyzer = analyzer;
     this.field = field;
+    this.stopper = new Rm3Stopper(stoplist);
   }
 
   @Override
@@ -45,9 +50,11 @@ public class Rm3Reranker implements Reranker {
     IndexReader reader = searcher.getIndexReader();
 
     FeatureVector qfv = FeatureVector.fromTerms(
-        AnalyzerUtils.tokenize(analyzer, context.getQueryText())).normalize();
+        AnalyzerUtils.tokenize(analyzer, context.getQueryText())).scaleToUnitL1Norm();
 
     FeatureVector rm = estimateRelevanceModel(docs, reader);
+    LOG.info("Relevance model estimated.");
+
     rm = FeatureVector.interpolate(qfv, rm, originalQueryWeight);
 
     StringBuilder builder = new StringBuilder();
@@ -68,9 +75,15 @@ public class Rm3Reranker implements Reranker {
       return docs;
     }
 
+    LOG.info("Running new query: " + nq);
+
     TopDocs rs = null;
     try {
-      rs = searcher.search(nq, context.getFilter(), 1000);
+      if (context.getFilter() == null) {
+        rs = searcher.search(nq, 1000);
+      } else {
+        rs = searcher.search(nq, context.getFilter(), 1000);
+      }
     } catch (IOException e) {
       e.printStackTrace();
       return docs;
@@ -90,6 +103,8 @@ public class Rm3Reranker implements Reranker {
       try {
         FeatureVector docVector = FeatureVector.fromLuceneTermVector(
             reader.getTermVector(docs.ids[i], field), stopper);
+        docVector.pruneToSize(fbTerms);
+
         vocab.addAll(docVector.getFeatures());
         docvectors[i] = docVector;
       } catch (IOException e) {
@@ -99,17 +114,22 @@ public class Rm3Reranker implements Reranker {
       }
     }
 
+    // Precompute the norms once and cache results.
+    float[] norms = new float[docvectors.length];
+    for (int i = 0; i < docvectors.length; i++) {
+      norms[i] = (float) docvectors[i].computeL1Norm();
+    }
+
     for (String term : vocab) {
       float fbWeight = 0.0f;
       for (int i = 0; i < docvectors.length; i++) {
-        FeatureVector doc = docvectors[i];
-        fbWeight += (doc.getFeatureWeight(term) / doc.computeL2Norm()) * docs.scores[i];
+        fbWeight += (docvectors[i].getFeatureWeight(term) / norms[i]) * docs.scores[i];
       }
       f.addFeatureWeight(term, fbWeight);
     }
 
     f.pruneToSize(fbTerms);
-    f.normalize();
+    f.scaleToUnitL1Norm();
 
     return f;
   }

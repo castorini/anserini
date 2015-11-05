@@ -59,12 +59,8 @@ public final class IndexGov2 {
     return tcs;
   }
 
-
-  @SuppressWarnings("static-access")
   public static void main(String[] args) throws Exception {
-
     IndexArgs indexArgs = new IndexArgs();
-
     CmdLineParser parser = new CmdLineParser(indexArgs, ParserProperties.defaults().withUsageWidth(90));
 
     try {
@@ -83,6 +79,7 @@ public final class IndexGov2 {
 
     final boolean positions = indexArgs.positions;
     final boolean optimize = indexArgs.optimize;
+    final boolean docvectors = indexArgs.docvectors;
 
     final Analyzer a = new EnglishAnalyzer();
     final TrecContentSource trecSource = createGov2Source(dataDir);
@@ -92,6 +89,7 @@ public final class IndexGov2 {
     LOG.info("Doc limit: " + (docCountLimit == -1 ? "all docs" : ""+docCountLimit));
     LOG.info("Threads: " + numThreads);
     LOG.info("Positions: " + positions);
+    LOG.info("Store docvectors: " + docvectors);
     LOG.info("Optimize (merge segments): " + optimize);
 
     final IndexWriterConfig config = new IndexWriterConfig(a);
@@ -99,7 +97,7 @@ public final class IndexGov2 {
     config.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
 
     final IndexWriter writer = new IndexWriter(dir, config);
-    Gov2IndexThreads threads = new Gov2IndexThreads(writer, positions, trecSource, numThreads, docCountLimit);
+    Gov2IndexThreads threads = new Gov2IndexThreads(writer, positions, docvectors, trecSource, numThreads, docCountLimit);
     LOG.info("Indexer: start");
 
     final long t0 = System.currentTimeMillis();

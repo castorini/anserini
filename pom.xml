@@ -72,6 +72,10 @@
               <mainClass>io.anserini.util.DumpDocids</mainClass>
               <name>DumpDocids</name>
             </program>
+            <program>
+              <mainClass>io.anserini.util.ExtractRm3Stopwords</mainClass>
+              <name>ExtractRm3Stopwords</name>
+            </program>
           </programs>
         </configuration>
       </plugin>
