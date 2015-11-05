@@ -35,6 +35,8 @@ import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.OptionHandlerFilter;
 import org.kohsuke.args4j.ParserProperties;
 
+import com.google.common.collect.Sets;
+
 public class SearchGov2 {
   private static final Logger LOG = LogManager.getLogger(SearchGov2.class);
 
@@ -94,7 +96,8 @@ public class SearchGov2 {
       Query query = AnalyzerUtils.buildBagOfWordsQuery("body", new EnglishAnalyzer(), qq.getValue("title"));
       TopDocs rs = searcher.search(query, maxResults);
 
-      RerankerContext context = new RerankerContext(searcher, query, qq.getValue("title"), null);
+      RerankerContext context = new RerankerContext(searcher, query, qq.getQueryID(), qq.getValue("title"),
+          Sets.newHashSet(AnalyzerUtils.tokenize(new EnglishAnalyzer(), qq.getValue("title"))), null);
       RerankerCascade cascade = new RerankerCascade(context);
 
       if (searchArgs.rm3) {
