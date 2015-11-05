@@ -14,10 +14,10 @@ import org.apache.lucene.util.BytesRef;
  * terms and the first occurs twice in the document and the second occurs once in the document, the
  * sum of the matching term frequencies is three.
  */
-public class SumMatchingTf implements IntFeatureExtractor {
+public class SumMatchingTf implements FeatureExtractor {
 
   @Override
-  public int extract(Terms terms, RerankerContext context) {
+  public float extract(Terms terms, RerankerContext context) {
     try {
       Set<String> queryTokens = context.getQueryTokens();
       TermsEnum termsEnum = terms.iterator();

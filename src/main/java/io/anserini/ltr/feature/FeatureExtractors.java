@@ -9,20 +9,20 @@ import org.apache.lucene.index.Terms;
 import com.google.common.collect.Lists;
 
 /**
- * A collection of {@link IntFeatureExtractor}s.
+ * A collection of {@link FeatureExtractor}s.
  */
-public class IntFeatureExtractors {
-  public List<IntFeatureExtractor> extractors = Lists.newArrayList();
+public class FeatureExtractors {
+  public List<FeatureExtractor> extractors = Lists.newArrayList();
 
-  public IntFeatureExtractors() {}
+  public FeatureExtractors() {}
 
-  public IntFeatureExtractors add(IntFeatureExtractor extractor) {
+  public FeatureExtractors add(FeatureExtractor extractor) {
     extractors.add(extractor);
     return this;
   }
 
-  public int[] extractAll(Terms terms, RerankerContext context) {
-    int[] features = new int[extractors.size()];
+  public float[] extractAll(Terms terms, RerankerContext context) {
+    float[] features = new float[extractors.size()];
 
     for (int i=0; i<extractors.size(); i++) {
       features[i] = extractors.get(i).extract(terms, context);

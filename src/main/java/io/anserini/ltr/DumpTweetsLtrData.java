@@ -8,20 +8,16 @@ import io.anserini.rerank.ScoredDocuments;
 import io.anserini.rerank.twitter.RemoveRetweetsTemporalTiebreakReranker;
 import io.anserini.search.MicroblogTopic;
 import io.anserini.search.MicroblogTopicSet;
-import io.anserini.search.SearchTweets;
+import io.anserini.search.SearchArgs;
 import io.anserini.util.AnalyzerUtils;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.nio.file.Paths;
 
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.GnuParser;
-import org.apache.commons.cli.HelpFormatter;
-import org.apache.commons.cli.OptionBuilder;
-import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.search.Filter;
@@ -29,83 +25,94 @@ import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.NumericRangeFilter;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.TopDocs;
+import org.apache.lucene.search.similarities.BM25Similarity;
 import org.apache.lucene.search.similarities.LMDirichletSimilarity;
+import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
+import org.apache.lucene.store.MMapDirectory;
+import org.kohsuke.args4j.CmdLineException;
+import org.kohsuke.args4j.CmdLineParser;
+import org.kohsuke.args4j.OptionHandlerFilter;
+import org.kohsuke.args4j.ParserProperties;
 
 import com.google.common.collect.Sets;
 
+@SuppressWarnings("deprecation")
 public class DumpTweetsLtrData {
-  private static final String INDEX_OPTION = "index";
-  private static final String QUERIES_OPTION = "queries";
-  private static final String NUM_RESULTS_OPTION = "num_results";
+  private static final Logger LOG = LogManager.getLogger(DumpTweetsLtrData.class);
 
   private DumpTweetsLtrData() {}
 
-  @SuppressWarnings("static-access")
   public static void main(String[] args) throws Exception {
-    Options options = new Options();
+    long curTime = System.nanoTime();
+    SearchArgs searchArgs = new SearchArgs();
+    CmdLineParser parser = new CmdLineParser(searchArgs, ParserProperties.defaults().withUsageWidth(90));
 
-    options.addOption(OptionBuilder.withArgName("path").hasArg()
-        .withDescription("index location").create(INDEX_OPTION));
-    options.addOption(OptionBuilder.withArgName("num").hasArg()
-        .withDescription("number of results to return").create(NUM_RESULTS_OPTION));
-    options.addOption(OptionBuilder.withArgName("file").hasArg()
-        .withDescription("file containing topics in TREC format").create(QUERIES_OPTION));
-
-    CommandLine cmdline = null;
-    CommandLineParser parser = new GnuParser();
     try {
-      cmdline = parser.parse(options, args);
-    } catch (ParseException exp) {
-      System.err.println("Error parsing command line: " + exp.getMessage());
-      System.exit(-1);
+      parser.parseArgument(args);
+    } catch (CmdLineException e) {
+      System.err.println(e.getMessage());
+      parser.printUsage(System.err);
+      System.err.println("Example: SearchTweets" + parser.printExample(OptionHandlerFilter.REQUIRED));
+      return;
     }
 
-    if (!cmdline.hasOption(QUERIES_OPTION) || !cmdline.hasOption(INDEX_OPTION)) {
-      HelpFormatter formatter = new HelpFormatter();
-      formatter.printHelp(SearchTweets.class.getName(), options);
-      System.exit(-1);
+    LOG.info("Reading index at " + searchArgs.index);
+    Directory dir;
+    if (searchArgs.inmem) {
+      LOG.info("Using MMapDirectory with preload");
+      dir = new MMapDirectory(Paths.get(searchArgs.index));
+      ((MMapDirectory) dir).setPreload(true);
+    } else {
+      LOG.info("Using default FSDirectory");
+      dir = FSDirectory.open(Paths.get(searchArgs.index));
     }
 
-    File indexLocation = new File(cmdline.getOptionValue(INDEX_OPTION));
-    if (!indexLocation.exists()) {
-      System.err.println("Error: " + indexLocation + " does not exist!");
-      System.exit(-1);
-    }
-
-    String topicsFile = cmdline.getOptionValue(QUERIES_OPTION);
-
-    int numResults = 1000;
-    try {
-      if (cmdline.hasOption(NUM_RESULTS_OPTION)) {
-        numResults = Integer.parseInt(cmdline.getOptionValue(NUM_RESULTS_OPTION));
-      }
-    } catch (NumberFormatException e) {
-      System.err.println("Invalid " + NUM_RESULTS_OPTION + ": " + cmdline.getOptionValue(NUM_RESULTS_OPTION));
-      System.exit(-1);
-    }
-
-    PrintStream out = new PrintStream(System.out, true, "UTF-8");
-
-    IndexReader reader = DirectoryReader.open(FSDirectory.open(Paths.get(indexLocation.getAbsolutePath())));
+    IndexReader reader = DirectoryReader.open(dir);
     IndexSearcher searcher = new IndexSearcher(reader);
-    searcher.setSimilarity(new LMDirichletSimilarity(2500.0f));
 
-    MicroblogTopicSet topics = MicroblogTopicSet.fromFile(new File(topicsFile));
+    if (searchArgs.ql) {
+      LOG.info("Using QL scoring model");
+      searcher.setSimilarity(new LMDirichletSimilarity(searchArgs.mu));
+    } else if (searchArgs.bm25) {
+      LOG.info("Using BM25 scoring model");
+      searcher.setSimilarity(new BM25Similarity(searchArgs.k1, searchArgs.b));
+    } else {
+      LOG.error("Error: Must specify scoring model!");
+      System.exit(-1);
+    }
+
+    PrintStream out = new PrintStream(new FileOutputStream(new File(searchArgs.output)));
+    RerankerCascade cascade = new RerankerCascade();
+    cascade.add(new RemoveRetweetsTemporalTiebreakReranker()).add(new TweetsLtrDataGenerator(out));
+
+    MicroblogTopicSet topics = MicroblogTopicSet.fromFile(new File(searchArgs.topics));
+
+    LOG.info("Initialized complete! (elapsed time = " + (System.nanoTime()-curTime)/1000000 + "ms)");
+    long totalTime = 0;
+    int cnt = 0;
     for ( MicroblogTopic topic : topics ) {
+      long curQueryTime = System.nanoTime();
+
       Filter filter = NumericRangeFilter.newLongRange(StatusField.ID.name, 0L, topic.getQueryTweetTime(), true, true);
       Query query = AnalyzerUtils.buildBagOfWordsQuery(StatusField.TEXT.name, IndexTweets.ANALYZER, topic.getQuery());
 
-      TopDocs rs = searcher.search(query, filter, numResults);
+      TopDocs rs = searcher.search(query, filter, searchArgs.hits);
 
       RerankerContext context = new RerankerContext(searcher, query, topic.getId(), topic.getQuery(),
           Sets.newHashSet(AnalyzerUtils.tokenize(IndexTweets.ANALYZER, topic.getQuery())), filter);
-      RerankerCascade cascade = new RerankerCascade(context);
 
-      cascade.add(new RemoveRetweetsTemporalTiebreakReranker()).add(new LtrDataGenerator());
-
-      cascade.run(ScoredDocuments.fromTopDocs(rs, searcher));
+      cascade.run(ScoredDocuments.fromTopDocs(rs, searcher), context);
+      long qtime = (System.nanoTime()-curQueryTime)/1000000;
+      LOG.info("Query " + topic.getId() + " (elapsed time = " + qtime + "ms)");
+      totalTime += qtime;
+      cnt++;
     }
+
+    LOG.info("All queries completed!");
+    LOG.info("Total elapsed time = " + totalTime + "ms");
+    LOG.info("Average query latency = " + (totalTime/cnt) + "ms");
+
     reader.close();
     out.close();
   }
