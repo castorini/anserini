@@ -10,6 +10,7 @@ import io.anserini.search.MicroblogTopic;
 import io.anserini.search.MicroblogTopicSet;
 import io.anserini.search.SearchArgs;
 import io.anserini.util.AnalyzerUtils;
+import io.anserini.util.Qrels;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -82,9 +83,12 @@ public class DumpTweetsLtrData {
       System.exit(-1);
     }
 
+    Qrels qrels = new Qrels("src/main/resources/topics-and-qrels/qrels.microblog2011.txt");
+
     PrintStream out = new PrintStream(new FileOutputStream(new File(searchArgs.output)));
     RerankerCascade cascade = new RerankerCascade();
-    cascade.add(new RemoveRetweetsTemporalTiebreakReranker()).add(new TweetsLtrDataGenerator(out));
+    cascade.add(new RemoveRetweetsTemporalTiebreakReranker());
+    cascade.add(new TweetsLtrDataGenerator(out, qrels));
 
     MicroblogTopicSet topics = MicroblogTopicSet.fromFile(new File(searchArgs.topics));
 

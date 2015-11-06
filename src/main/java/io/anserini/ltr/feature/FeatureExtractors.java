@@ -4,6 +4,7 @@ import io.anserini.rerank.RerankerContext;
 
 import java.util.List;
 
+import org.apache.lucene.document.Document;
 import org.apache.lucene.index.Terms;
 
 import com.google.common.collect.Lists;
@@ -21,11 +22,11 @@ public class FeatureExtractors {
     return this;
   }
 
-  public float[] extractAll(Terms terms, RerankerContext context) {
+  public float[] extractAll(Document doc, Terms terms, RerankerContext context) {
     float[] features = new float[extractors.size()];
 
     for (int i=0; i<extractors.size(); i++) {
-      features[i] = extractors.get(i).extract(terms, context);
+      features[i] = extractors.get(i).extract(doc, terms, context);
     }
 
     return features;
