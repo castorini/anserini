@@ -30,9 +30,9 @@ import org.apache.lucene.search.similarities.BM25Similarity;
 import org.apache.lucene.search.similarities.LMDirichletSimilarity;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
-import org.apache.lucene.store.MMapDirectory;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
+import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.OptionHandlerFilter;
 import org.kohsuke.args4j.ParserProperties;
 
@@ -44,53 +44,49 @@ public class DumpTweetsLtrData {
 
   private DumpTweetsLtrData() {}
 
-  public static void main(String[] args) throws Exception {
+  private static class LtrArgs extends SearchArgs {
+    @Option(name = "-qrels", metaVar = "[file]", required = true, usage = "qrels file")
+    public String qrels;
+  }
+
+  public static void main(String[] argv) throws Exception {
     long curTime = System.nanoTime();
-    SearchArgs searchArgs = new SearchArgs();
-    CmdLineParser parser = new CmdLineParser(searchArgs, ParserProperties.defaults().withUsageWidth(90));
+    LtrArgs args = new LtrArgs();
+    CmdLineParser parser = new CmdLineParser(args, ParserProperties.defaults().withUsageWidth(90));
 
     try {
-      parser.parseArgument(args);
+      parser.parseArgument(argv);
     } catch (CmdLineException e) {
       System.err.println(e.getMessage());
       parser.printUsage(System.err);
-      System.err.println("Example: SearchTweets" + parser.printExample(OptionHandlerFilter.REQUIRED));
+      System.err.println("Example: DumpTweetsLtrData" + parser.printExample(OptionHandlerFilter.REQUIRED));
       return;
     }
 
-    LOG.info("Reading index at " + searchArgs.index);
-    Directory dir;
-    if (searchArgs.inmem) {
-      LOG.info("Using MMapDirectory with preload");
-      dir = new MMapDirectory(Paths.get(searchArgs.index));
-      ((MMapDirectory) dir).setPreload(true);
-    } else {
-      LOG.info("Using default FSDirectory");
-      dir = FSDirectory.open(Paths.get(searchArgs.index));
-    }
-
+    LOG.info("Reading index at " + args.index);
+    Directory dir = FSDirectory.open(Paths.get(args.index));
     IndexReader reader = DirectoryReader.open(dir);
     IndexSearcher searcher = new IndexSearcher(reader);
 
-    if (searchArgs.ql) {
+    if (args.ql) {
       LOG.info("Using QL scoring model");
-      searcher.setSimilarity(new LMDirichletSimilarity(searchArgs.mu));
-    } else if (searchArgs.bm25) {
+      searcher.setSimilarity(new LMDirichletSimilarity(args.mu));
+    } else if (args.bm25) {
       LOG.info("Using BM25 scoring model");
-      searcher.setSimilarity(new BM25Similarity(searchArgs.k1, searchArgs.b));
+      searcher.setSimilarity(new BM25Similarity(args.k1, args.b));
     } else {
       LOG.error("Error: Must specify scoring model!");
       System.exit(-1);
     }
 
-    Qrels qrels = new Qrels("src/main/resources/topics-and-qrels/qrels.microblog2011.txt");
+    Qrels qrels = new Qrels(args.qrels);
 
-    PrintStream out = new PrintStream(new FileOutputStream(new File(searchArgs.output)));
+    PrintStream out = new PrintStream(new FileOutputStream(new File(args.output)));
     RerankerCascade cascade = new RerankerCascade();
     cascade.add(new RemoveRetweetsTemporalTiebreakReranker());
     cascade.add(new TweetsLtrDataGenerator(out, qrels));
 
-    MicroblogTopicSet topics = MicroblogTopicSet.fromFile(new File(searchArgs.topics));
+    MicroblogTopicSet topics = MicroblogTopicSet.fromFile(new File(args.topics));
 
     LOG.info("Initialized complete! (elapsed time = " + (System.nanoTime()-curTime)/1000000 + "ms)");
     long totalTime = 0;
@@ -101,7 +97,7 @@ public class DumpTweetsLtrData {
       Filter filter = NumericRangeFilter.newLongRange(StatusField.ID.name, 0L, topic.getQueryTweetTime(), true, true);
       Query query = AnalyzerUtils.buildBagOfWordsQuery(StatusField.TEXT.name, IndexTweets.ANALYZER, topic.getQuery());
 
-      TopDocs rs = searcher.search(query, filter, searchArgs.hits);
+      TopDocs rs = searcher.search(query, filter, args.hits);
 
       RerankerContext context = new RerankerContext(searcher, query, topic.getId(), topic.getQuery(),
           Sets.newHashSet(AnalyzerUtils.tokenize(IndexTweets.ANALYZER, topic.getQuery())), filter);
