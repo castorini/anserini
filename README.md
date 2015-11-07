@@ -12,23 +12,23 @@ mvn clean package appassembler:assemble
 Indexing:
 
 ```
-sh target/appassembler/bin/IndexGov2 -input /path/to/gov2/ \
- -index lucene-index.gov2.cnt -threads 32 -optimize
+nohup sh target/appassembler/bin/IndexGov2 -input /path/to/gov2/ \
+ -index lucene-index.gov2 -threads 32 -positions -optimize >& log.gov2.txt &
 ```
 
-The directory `/path/to/gov2/` should be the root directory of Gov2 collection, i.e., `ls /path/to/gov2/` should bring up a bunch of subdirectories, `GX000` to `GX272`.
+The directory `/path/to/gov2/` should be the root directory of Gov2 collection, i.e., `ls /path/to/gov2/` should bring up a bunch of subdirectories, `GX000` to `GX272`. The command above builds a standard positional index (`-positions`) that's optimized into a single segment (`-optimize`). If you also want to store document vectors (e.g., for query expansion), add the `-docvectors` option.
 
 After indexing is done, you should be able to peform a retrieval run:
 
 ```
-sh target/appassembler/bin/SearchGov2 src/main/resources/topics-and-qrels/topics.701-750.txt \
- src/main/resources/topics-and-qrels/qrels.701-750.txt run.701-750.txt lucene-index.gov2.cnt/
+sh target/appassembler/bin/SearchGov2 -index lucene-index.gov2.vec \
+  -topics src/main/resources/topics-and-qrels/topics.701-750.txt -output run.gov2.701-750.bm25.txt -bm25
 ```
 
 A copy of `trec_eval` is included in `eval/`. Unpack and compile it. Then you can evaluate the runs:
 
 ```
-eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.701-750.txt run.701-750.txt
+eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.701-750.txt run.gov2.701-750.bm25.txt
 ```
 
 
@@ -74,21 +74,16 @@ sh target/appassembler/bin/IndexTweets -collection /path/to/tweets2011-collectio
 Running topics from TREC 2011 and 2012:
 
 ```
-sh target/appassembler/bin/SearchTweets -index tweets2011-index/ -num_results 1000 \
- -queries src/main/resources/topics-and-qrels/topics.microblog2011.txt > run.ql.2011.txt
-
-sh target/appassembler/bin/SearchTweets -index tweets2011-index/ -num_results 1000 \
- -queries src/main/resources/topics-and-qrels/topics.microblog2012.txt > run.ql.2012.txt
+sh target/appassembler/bin/SearchTweets -index tweets2011-index/ \
+ -topics src/main/resources/topics-and-qrels/topics.microblog2011.txt -output run.mb2011.ql.txt -ql
 ```
-
-Add `-rm3` option for query expansion with relevance models (RM3).
 
 For evaluation:
 
 ```
-eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.microblog2011.txt run.ql.2011.txt
-eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.microblog2012.txt run.ql.2012.txt
+eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.microblog2011.txt run.mb2011.ql.txt
 ```
+
 
 ### Twitter (Near) Real-Time Search
 

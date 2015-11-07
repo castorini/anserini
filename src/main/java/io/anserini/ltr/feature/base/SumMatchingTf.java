@@ -1,5 +1,6 @@
-package io.anserini.ltr.feature;
+package io.anserini.ltr.feature.base;
 
+import io.anserini.ltr.feature.FeatureExtractor;
 import io.anserini.rerank.RerankerContext;
 
 import java.io.IOException;

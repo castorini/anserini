@@ -2,9 +2,9 @@ package io.anserini.ltr;
 
 import io.anserini.index.IndexTweets.StatusField;
 import io.anserini.ltr.feature.FeatureExtractors;
-import io.anserini.ltr.feature.MatchingTermCount;
-import io.anserini.ltr.feature.QueryFeatures;
-import io.anserini.ltr.feature.SumMatchingTf;
+import io.anserini.ltr.feature.base.MatchingTermCount;
+import io.anserini.ltr.feature.base.QueryLength;
+import io.anserini.ltr.feature.base.SumMatchingTf;
 import io.anserini.ltr.feature.twitter.HashtagCount;
 import io.anserini.ltr.feature.twitter.IsTweetReply;
 import io.anserini.ltr.feature.twitter.LinkCount;
@@ -37,7 +37,7 @@ public class TweetsLtrDataGenerator implements Reranker {
     FeatureExtractors extractors = new FeatureExtractors();
     extractors.add(new MatchingTermCount());
     extractors.add(new SumMatchingTf());
-    extractors.add(new QueryFeatures());
+    extractors.add(new QueryLength());
     extractors.add(new TwitterFollowerCount());
     extractors.add(new TwitterFriendCount());
     extractors.add(new IsTweetReply());
