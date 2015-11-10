@@ -1,4 +1,4 @@
-package io.anserini.nrts;
+package io.anserini.nrts.livedemo;
 import java.io.IOException;
 import java.io.StringReader;
 import java.nio.file.Paths;
@@ -18,6 +18,8 @@ import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.GnuParser;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
@@ -43,34 +45,30 @@ import com.fasterxml.jackson.databind.type.TypeFactory;
 
 import io.anserini.index.IndexTweets.StatusField;
 import io.anserini.index.twitter.TweetAnalyzer;
+import io.anserini.nrts.basicsearcher.TweetStreamIndexer;
 import twitter4j.JSONException;
+import twitter4j.JSONObject;
 
 public class TweetClientAPI {
 
   static Client client = ClientBuilder.newClient();
-  String clientid, groupid;
+  static String clientid;
+  static String groupid;
 
   static TweetTopic[] topics;
   private static final String HOST_OPTION = "host";
   private static final String INDEX_OPTION = "index";
   private static final String PORT_OPTION = "port";
   private static final String INTERVAL_OPTION = "interval";
-  static float interval;
+  private static final String GROUPID_OPTION="groupid";
+  private static final String DAILYLIMIT_OPTION="dailylimit";
   
-  int dailyLimit=10;
-  
-  int topN=5;
-  boolean shutdown=false;
   
   static String api_base;
-  static String resourcePath = "src/main/java/io/anserini/nrts/public/";
-  static String MustacheTemplatePath = resourcePath + "servletResponseTemplate.mustache";
   static IndexWriter indexWriter;
-  
-  Set pushedTweets=new HashSet();
   boolean shutDown=false;
-
-  private IndexReader reader;
+  
+  private static final Logger LOG = LogManager.getLogger(TweetClientAPI.class);
   
   @JsonIgnoreProperties(ignoreUnknown=true)
   static public class TweetTopic{
@@ -89,128 +87,74 @@ public class TweetClientAPI {
   TweetClientAPI(String groupID) {
     this.groupid = groupID;
   }
-
-  public void register() throws JsonProcessingException, IOException {
+  
+  class RegisterException extends Exception {
+    public RegisterException(String msg){
+       super(msg);
+    }
+ }
+  
+  /*First stage: client registers from broker and gets client id */
+  public void register() throws JsonProcessingException, IOException, JSONException {
     WebTarget webTarget = client.target(api_base + "register/system"); 
+    
+    /* formulate request bodies in JSON, worked out fine in TweetPusherRunnable, but failed here
+     * JSONObject groupidjson=new JSONObject();
+       groupidjson.put("groupid", String.valueOf("uwar"));
+       Response postResponse = webTarget.request(MediaType.APPLICATION_JSON)
+        .post(Entity.entity(groupidjson, MediaType.APPLICATION_JSON));
+     */    
+    
     Response postResponse = webTarget.request(MediaType.APPLICATION_JSON)
         .post(Entity.entity(new String("{\"groupid\":\""+groupid+"\"}") , MediaType.APPLICATION_JSON));
 
     if (postResponse.getStatus()==200){
-      System.out.print("Register success,");
+      LOG.info("Register success,");
       String jsonString = postResponse.readEntity(String.class);    
       JsonNode rootNode = new ObjectMapper().readTree(new StringReader(jsonString));
       clientid=rootNode.get("clientid").asText();
-      System.out.println(" clientid is " + clientid);      
-    }
-    
-    else System.out.print("Register failed");
+      LOG.info(" clientid is " + clientid);      
+    } else
+      try {
+        throw new RegisterException("Register failed to register with this groupid");
+      } catch (RegisterException e) {
+        System.out.println(postResponse.getStatus());
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
     
   }
-
+  
+  /*Second stage: client gets topics from broker */
   public void getTopic() throws JsonParseException, JsonMappingException, IOException, JSONException { 
-    //[{"topid":"test1","query":"birthday"},{"topid":"test2","query":"batman"},{"topid":"test3","query":"star wars"}]
+    /* topics Json format: [{"topid":"test1","query":"birthday"},{"topid":"test2","query":"batman"},{"topid":"test3","query":"star wars"}] */
     WebTarget webTarget = client.target(api_base + "topics/"+clientid); // target(String uri) version
 
     Response postResponse = webTarget.request(MediaType.APPLICATION_JSON).get();
 
     if (postResponse.getStatus()==200){
-      System.out.println("Retrieve topics success");
+      LOG.info("Retrieve topics success");
       String jsonString = postResponse.readEntity(String.class);
       ObjectMapper mapper = new ObjectMapper();
       topics = mapper.readValue(jsonString, TypeFactory.defaultInstance().constructArrayType(TweetTopic.class));
       for (int i=0;i<topics.length;i++){
-        System.out.println("Topic " + topics[i].topid + ": " + topics[i].query);
+        LOG.info("Topic " + topics[i].topid + ": " + topics[i].query);
       }
     }
     
   }
 
-  class TweetPusherRunnable implements Runnable {
-    public void run() {
-      System.out.println("Running TweetPusher Thread");
-      try {
-        while(true){
-          for (int i = 0; i < topics.length; i++) {
-             // test 
-            try {
-              Query q = new QueryParser(TweetStreamIndexer.StatusField.TEXT.name, TweetSearcher.ANALYZER)
-                  .parse(topics[i].query);
-              try {
-                reader = DirectoryReader.open(indexWriter, true);
-              } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-              }
-              IndexReader newReader = DirectoryReader.openIfChanged((DirectoryReader) reader, indexWriter, true);
-              if (newReader != null) {
-                reader.close();
-                reader = newReader;
-              }
-              IndexSearcher searcher = new IndexSearcher(reader);
-
-              
-              TopScoreDocCollector collector = TopScoreDocCollector.create(topN);
-              searcher.search(q, collector);
-              ScoreDoc[] hits = collector.topDocs().scoreDocs;
-              if (0!=hits.length) {
-                System.out.println("_______________________________________________");
-                System.out.println("Quering:"+topics[i].query+", Found "+hits.length+" hits (including old, only push new)");
-              }
-
-              for (int j = 0; j < hits.length && j < topN; ++j) {
-                int docId = hits[j].doc;
-                Document d = searcher.doc(docId);
-                if (pushedTweets.size()<dailyLimit&&!pushedTweets.contains(d.get(TweetStreamIndexer.StatusField.ID.name))){
-                  
-                  String targetURL=api_base + "tweet/"+topics[i].topid+"/"+String.valueOf(d.get(TweetStreamIndexer.StatusField.ID.name))+"/"+clientid;
-                  WebTarget webTarget = client.target(targetURL);
-                  Response postResponse = webTarget.request(MediaType.APPLICATION_JSON)
-                      .post(Entity.entity(new String("{\"topid\":\""+topics[i].topid+"\",\"status.id\":\""+String.valueOf(d.get(TweetStreamIndexer.StatusField.ID.name))+"\",\"clientid\":\""+clientid+"\"}"), MediaType.APPLICATION_JSON));
-                  System.out.println("Tweet ID:" + String.valueOf(d.get(TweetStreamIndexer.StatusField.ID.name)) + " Tweet text:" + d.get(StatusField.TEXT.name));
-                  
-                  System.out.println("Push to "+targetURL+":"+postResponse.getStatus());
-                  
-                  pushedTweets.add(d.get(TweetStreamIndexer.StatusField.ID.name));
-                  
-                }
-                else if (pushedTweets.size()>=dailyLimit){
-                  shutDown=true; 
-                  break;
-                                    
-                }
-               
-              }
-            } catch (Exception e) {
-              e.printStackTrace();
-            }// Client push tweetid, topic id to broker
-            if (shutDown) break;
-          }
-          if (!shutDown) Thread.sleep((long)(60000*interval));// Let the thread sleep for a while.
-          if (shutDown) {
-            Calendar now = Calendar.getInstance();
-            Calendar tomorrow = Calendar.getInstance();    
-            tomorrow.set(Calendar.HOUR,12);
-            tomorrow.set(Calendar.MINUTE,0x0);
-            tomorrow.set(Calendar.SECOND, 0);        
-            System.out.println("Reached dailyLimit, sleep for the rest of the day"); 
-            Thread.sleep((long)tomorrow.getTimeInMillis()-now.getTimeInMillis()); //reached dailyLimit, sleep for the rest of the day
-            shutDown=false;
-                       
-          }
-        }
-      } catch (InterruptedException e) {
-        System.out.println("Thread interrupted.");
-      }
-    }
-  }
-
   public static void main(final String[] args)
       throws JsonParseException, JsonMappingException, IOException, InterruptedException, JSONException {
+    /* options/arguments: -index twitter -host lab.roegiest.com -port 33334 -interval 0.1 -groupid uwar -dailylimit 6 */
+    
     Options options = new Options();
     options.addOption(HOST_OPTION, true, "hostname");
     options.addOption(INDEX_OPTION, true, "index path");
     options.addOption(PORT_OPTION, true, "port");
     options.addOption(INTERVAL_OPTION,true,"interval");
+    options.addOption(GROUPID_OPTION,true,"groupid");
+    options.addOption(DAILYLIMIT_OPTION,true,"dailylimit");
 
     CommandLine cmdline = null;
     CommandLineParser parser = new GnuParser();
@@ -222,18 +166,36 @@ public class TweetClientAPI {
     }
     if (!cmdline.hasOption(HOST_OPTION)) {
       HelpFormatter formatter = new HelpFormatter();
-      formatter.printHelp(TweetSearcher.class.getName(), options);
+      formatter.printHelp(TweetClientAPI.class.getName(), options);
       System.exit(-1);
     }
 
     if (!cmdline.hasOption(INDEX_OPTION)) {
       HelpFormatter formatter = new HelpFormatter();
-      formatter.printHelp(TweetSearcher.class.getName(), options);
+      formatter.printHelp(TweetClientAPI.class.getName(), options);
       System.exit(-1);
     }
+    if (!cmdline.hasOption(INTERVAL_OPTION)) {
+      HelpFormatter formatter = new HelpFormatter();
+      formatter.printHelp(TweetClientAPI.class.getName(), options);
+      System.exit(-1);
+    }
+    if (!cmdline.hasOption(GROUPID_OPTION)) {
+      HelpFormatter formatter = new HelpFormatter();
+      formatter.printHelp(TweetClientAPI.class.getName(), options);
+      System.exit(-1);
+    }
+    if (!cmdline.hasOption(DAILYLIMIT_OPTION)) {
+      HelpFormatter formatter = new HelpFormatter();
+      formatter.printHelp(TweetClientAPI.class.getName(), options);
+      System.exit(-1);
+    }
+    
 
     int port = cmdline.hasOption(PORT_OPTION) ? Integer.parseInt(cmdline.getOptionValue(PORT_OPTION)) : 8080;
-    interval=cmdline.hasOption(INTERVAL_OPTION) ? Float.parseFloat(cmdline.getOptionValue(INTERVAL_OPTION)) : 1; 
+    float interval = cmdline.hasOption(INTERVAL_OPTION) ? Float.parseFloat(cmdline.getOptionValue(INTERVAL_OPTION)) : 1; 
+    String groupid=cmdline.hasOption(GROUPID_OPTION)?cmdline.getOptionValue(GROUPID_OPTION):"uwar";
+    int dailylimit=cmdline.hasOption(DAILYLIMIT_OPTION)?Integer.parseInt(cmdline.getOptionValue(DAILYLIMIT_OPTION)):10;
     String host = cmdline.getOptionValue(HOST_OPTION);
     String dir=cmdline.getOptionValue(INDEX_OPTION);
     api_base = new String("http://" + host + ":" + port + "/");
@@ -241,22 +203,26 @@ public class TweetClientAPI {
     Directory index = new MMapDirectory(Paths.get(dir));
     IndexWriterConfig config = new IndexWriterConfig(new TweetAnalyzer());
     indexWriter = new IndexWriter(index, config);
-
+    
     TweetStreamIndexer tweetStreamIndexer = new TweetStreamIndexer(indexWriter);
     Thread tweetStreamIndexerThread = new Thread(tweetStreamIndexer);
     tweetStreamIndexerThread.start();
     
-    TweetClientAPI tweetClientAPI = new TweetClientAPI("uwar");
+    TweetClientAPI tweetClientAPI = new TweetClientAPI(groupid);
     tweetClientAPI.register();
     tweetClientAPI.getTopic();
-    Thread tweetPusherThread = new Thread(tweetClientAPI.new TweetPusherRunnable());
+    
+    /*Third stage: client pushes relevant tweets' tweetid & topid to broker, based on topics set, time interval, etc. information*/
+    Thread tweetPusherThread = new Thread(new TweetPusherRunnable(indexWriter,dailylimit,clientid,interval,api_base,topics));
     tweetPusherThread.start();
+    
+    tweetStreamIndexerThread.join();
+    tweetPusherThread.join();
     
     tweetStreamIndexerThread.join();
     tweetPusherThread.join();
     indexWriter.close();
     client.close();
-    
 
   }
 

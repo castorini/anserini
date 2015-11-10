@@ -1,4 +1,4 @@
-package io.anserini.nrts;
+package io.anserini.nrts.basicsearcher;
 
 import io.anserini.document.twitter.Status;
 
@@ -31,10 +31,9 @@ public class TweetStreamIndexer implements Runnable {
 
   private static final JsonParser JSON_PARSER = new JsonParser();
   
-  TweetStreamIndexer(){
-    
+  TweetStreamIndexer(){   
   }
-  TweetStreamIndexer(IndexWriter indexWriter){
+  public TweetStreamIndexer(IndexWriter indexWriter){
     this.indexWriter=indexWriter;
   }
 

@@ -1,4 +1,4 @@
-package io.anserini.nrts;
+package io.anserini.nrts.basicsearcher;
 
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;

@@ -1,4 +1,4 @@
-package io.anserini.nrts;
+package io.anserini.nrts.basicsearcher;
 
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -22,9 +22,11 @@ import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHandler;
 import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.server.handler.HandlerList;
-import io.anserini.nrts.TweetServlet;
+
 import io.anserini.index.twitter.TweetAnalyzer;
-import io.anserini.nrts.TweetSearcherAPI;
+import io.anserini.nrts.basicsearcher.TweetSearcherAPI;
+import io.anserini.nrts.basicsearcher.TweetServlet;
+
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.glassfish.jersey.servlet.ServletContainer;
 
@@ -82,8 +84,9 @@ public class TweetSearcher {
     Server server = new Server(port);
 
     ResourceHandler resource_handler = new ResourceHandler();
-    resource_handler.setWelcomeFiles(new String[]{"index.html"});
+    
     resource_handler.setResourceBase("src/main/java/io/anserini/nrts/public");
+    resource_handler.setWelcomeFiles(new String[]{"index.html"});
 
     ServletContextHandler handler = new ServletContextHandler(ServletContextHandler.SESSIONS);
     handler.setContextPath("/");

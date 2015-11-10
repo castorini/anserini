@@ -1,6 +1,4 @@
-package io.anserini.nrts;
-
-import io.anserini.nrts.TweetStreamIndexer.StatusField;
+package io.anserini.nrts.basicsearcher;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -30,6 +28,8 @@ import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopScoreDocCollector;
+
+import io.anserini.nrts.basicsearcher.TweetStreamIndexer.StatusField;
 
 public class TweetSearcherServer extends Thread {
   private static final Logger LOG = LogManager.getLogger(TweetSearcherServer.class);

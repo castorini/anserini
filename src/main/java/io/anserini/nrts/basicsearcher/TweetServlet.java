@@ -1,4 +1,4 @@
-package io.anserini.nrts;
+package io.anserini.nrts.basicsearcher;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +23,7 @@ import com.github.mustachejava.DefaultMustacheFactory;
 import com.github.mustachejava.Mustache;
 import com.github.mustachejava.MustacheFactory;
 
-import io.anserini.nrts.TweetStreamIndexer.StatusField;
+import io.anserini.nrts.basicsearcher.TweetStreamIndexer.StatusField;
 
 public class TweetServlet extends HttpServlet {
 
