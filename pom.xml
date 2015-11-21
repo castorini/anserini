@@ -79,6 +79,10 @@
               <mainClass>io.anserini.nrts.TweetClientAPI</mainClass>
               <name>TweetClientAPI</name>
             </program>
+            <program>
+              <mainClass>io.anserini.nrts.basicsearcher.JudgementAssessor</mainClass>
+              <name>JudgementAssessor</name>
+            </program>
           </programs>
         </configuration>
       </plugin>
