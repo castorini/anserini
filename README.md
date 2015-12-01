@@ -33,11 +33,11 @@ eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.701-750.t
 ### Experiments on ClueWeb09 (Category B)
 
 ```
-sh target/appassembler/bin/IndexClueWeb09b -input /path/to/cw09b/ \
-  -index lucene-index.cw09b.cnt -threads 32 -optimize
+sh target/appassembler/bin/IndexClueWeb09b -input /path/to/cw09/ClueWeb09_English_1 \
+  -collection CW09 -index lucene-index.cw09b.cnt -threads 32 -optimize 2> emptyDocIDs.txt 1> recordCounts.txt
 ```
 
-The directory `/path/to/cw09b/` should be the root directory of ClueWeb09B collection, i.e., `ls /path/to/cw09b/` should bring up a bunch of subdirectories, `en0000` to `enwp03`.
+The directory `/path/to/cw09/ClueWeb09_English_1` should be the root directory of ClueWeb09B collection, i.e., `/path/to/cw09/ClueWeb09_English_1` should bring up a bunch of subdirectories, `en0000` to `enwp03`.
 
 After indexing is done, you should be able to perform a retrieval run:
 
@@ -57,6 +57,30 @@ To record search/running times:
 ```
 sh target/appassembler/bin/Time lucene-index.cw09b.cnt
 ```
+
+### Experiments on ClueWeb09 (Category A)
+
+```
+sh target/appassembler/bin/IndexClueWeb09b -input /path/to/cw09/ \
+  -collection CW09 -index lucene-index.cw09a.cnt -threads 32 -optimize 2> emptyDocIDs.txt 1> recordCounts.txt
+```
+
+The directory `/path/to/cw09/ClueWeb09_English_1` should be the root directory of ClueWeb09B collection, i.e., `/path/to/cw09/` should bring up a bunch of subdirectories, `ClueWeb09_English_1` to `ClueWeb09_English_10`.
+
+After indexing is done, you should be able to compare record counts file with the one comes from the dataset.
+Empty docIDs file contains the documents that are not indexed. 
+If you count it with `wc -l` and add it the number that is reported from the indexer, you should obtain the total number of documents for the dataset.
+
+
+### Experiments on ClueWeb12 (Category B)
+
+```
+sh target/appassembler/bin/IndexClueWeb09b -input /path/to/cw12b/ \
+  -collection CW12 -index lucene-index.cw12b.cnt -threads 32 -optimize 2> emptyDocIDs.txt 1> recordCounts.txt
+```
+
+The directory `/path/to/cw12b/` should be the root directory of ClueWeb12-B13 collection, i.e., `/path/to/cw12b/` should bring up a bunch of subdirectories, `ClueWeb12_00` to `ClueWeb12_18`.
+
 
 ### Twitter (Near) Real-Time Search
 

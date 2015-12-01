@@ -18,6 +18,9 @@ package io.anserini.index;
  */
 
 import io.anserini.document.ClueWeb09WarcRecord;
+import io.anserini.document.ClueWeb12WarcRecord;
+import io.anserini.document.Collection;
+import io.anserini.document.WarcRecord;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -45,10 +48,10 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.ExecutorService;
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.zip.GZIPInputStream;
 
@@ -69,52 +72,75 @@ public final class IndexClueWeb09b {
 
     final private IndexWriter writer;
 
-    volatile int addCount;
-
     public IndexerThread(IndexWriter writer, Path inputWarcFile) throws IOException {
       this.writer = writer;
       this.inputWarcFile = inputWarcFile;
       setName(inputWarcFile.getFileName().toString());
     }
 
-    private int indexWarcFile() throws IOException {
+    private int indexWarcRecord(WarcRecord warcRecord) throws IOException {
+      // see if it's a response record
+      if (!RESPONSE.equals(warcRecord.type()))
+        return 0;
+
+      String id = warcRecord.id();
+
+      org.jsoup.nodes.Document jDoc;
+      try {
+        jDoc = Jsoup.parse(warcRecord.content());
+      } catch (java.lang.IllegalArgumentException iae) {
+        LOG.error("Parsing document with JSoup failed, skipping document : " + id, iae);
+        System.err.println(id);
+        return 1;
+      }
+
+      String contents = jDoc.text();
+      // don't index empty documents but count them
+      if (contents.trim().length() == 0) {
+        System.err.println(id);
+        return 1;
+      }
+
+      // make a new, empty document
+      Document document = new Document();
+
+      // document ID
+      document.add(new StringField(FIELD_ID, id, Field.Store.YES));
+
+      // entire document
+      if (positions)
+        document.add(new TextField(FIELD_BODY, contents, Field.Store.NO));
+      else
+        document.add(new NoPositionsTextField(FIELD_BODY, contents));
+
+      writer.addDocument(document);
+      return 1;
+
+    }
+
+    private int indexClueWeb12WarcFile() throws IOException {
 
       int i = 0;
 
       try (DataInputStream inStream = new DataInputStream(new GZIPInputStream(Files.newInputStream(inputWarcFile, StandardOpenOption.READ)))) {
+        // iterate through our stream
+        ClueWeb12WarcRecord wDoc;
+        while ((wDoc = ClueWeb12WarcRecord.readNextWarcRecord(inStream)) != null) {
+          i += indexWarcRecord(wDoc);
+        }
+      }
+      return i;
+    }
 
+    private int indexClueWeb09WarcFile() throws IOException {
+
+      int i = 0;
+
+      try (DataInputStream inStream = new DataInputStream(new GZIPInputStream(Files.newInputStream(inputWarcFile, StandardOpenOption.READ)))) {
         // iterate through our stream
         ClueWeb09WarcRecord wDoc;
         while ((wDoc = ClueWeb09WarcRecord.readNextWarcRecord(inStream)) != null) {
-          // see if it's a response record
-          if (RESPONSE.equals(wDoc.getHeaderRecordType())) {
-
-            String id = wDoc.getDocid();
-
-            org.jsoup.nodes.Document jDoc = Jsoup.parse(wDoc.getContent());
-
-            String contents = jDoc.text();
-            // don't index empty documents
-            if (contents.trim().length() == 0) {
-              System.err.println(id);
-              continue;
-            }
-
-            // make a new, empty document
-            Document document = new Document();
-
-            // document ID
-            document.add(new StringField(FIELD_ID, id, Field.Store.YES));
-
-            // entire document
-            if (positions)
-              document.add(new TextField(FIELD_BODY, contents, Field.Store.NO));
-            else
-              document.add(new NoPositionsTextField(FIELD_BODY, contents));
-
-            writer.addDocument(document);
-            i++;
-          }
+          i += indexWarcRecord(wDoc);
         }
       }
       return i;
@@ -122,12 +148,20 @@ public final class IndexClueWeb09b {
 
     @Override
     public void run() {
-      try {
-        addCount = indexWarcFile();
-        System.out.println("*./" + inputWarcFile.getParent().getFileName().toString() + File.separator + inputWarcFile.getFileName().toString() + "  " + addCount);
-      } catch (IOException ioe) {
-        System.out.println(Thread.currentThread().getName() + ": ERROR: unexpected IOException:");
-        ioe.printStackTrace(System.out);
+      {
+        try {
+          int addCount;
+          if (Collection.CW09.equals(collection)) {
+            addCount = indexClueWeb09WarcFile();
+            System.out.println("*./" + inputWarcFile.getParent().getFileName().toString() + File.separator + inputWarcFile.getFileName().toString() + "  " + addCount);
+          } else if (Collection.CW12.equals(collection)) {
+            addCount = indexClueWeb12WarcFile();
+            System.out.println("./" + inputWarcFile.getParent().getFileName().toString() + File.separator + inputWarcFile.getFileName().toString() + "\t" + addCount);
+          }
+
+        } catch (IOException ioe) {
+          LOG.error(Thread.currentThread().getName() + ": ERROR: unexpected IOException:", ioe);
+        }
       }
     }
   }
@@ -153,7 +187,9 @@ public final class IndexClueWeb09b {
     this.doclimit = doclimit;
   }
 
-  public IndexClueWeb09b(String docsPath, String indexPath) throws IOException {
+  private final Collection collection;
+
+  public IndexClueWeb09b(String docsPath, String indexPath, Collection collection) throws IOException {
 
     this.indexPath = Paths.get(indexPath);
     if (!Files.exists(this.indexPath))
@@ -164,24 +200,42 @@ public final class IndexClueWeb09b {
       System.out.println("Document directory '" + docDir.toString() + "' does not exist or is not readable, please check the path");
       System.exit(1);
     }
+
+    this.collection = collection;
   }
 
 
   private final static PathMatcher matcher = FileSystems.getDefault().getPathMatcher("glob:*.warc.gz");
 
 
-  static List<Path> discoverWarcFiles(Path p) {
+  static Deque<Path> discoverWarcFiles(Path p) {
 
-    final List<Path> warcFiles = new ArrayList<>();
+    final Deque<Path> stack = new ArrayDeque<>();
 
     FileVisitor<Path> fv = new SimpleFileVisitor<Path>() {
+
       @Override
       public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
 
         Path name = file.getFileName();
         if (name != null && matcher.matches(name))
-          warcFiles.add(file);
+          stack.add(file);
         return FileVisitResult.CONTINUE;
+      }
+
+      @Override
+      public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) {
+        if ("OtherData".equals(dir.getFileName().toString())) {
+          LOG.info("Skipping %s\n", dir);
+          return FileVisitResult.SKIP_SUBTREE;
+        }
+        return FileVisitResult.CONTINUE;
+      }
+
+      @Override
+      public FileVisitResult visitFileFailed(Path file, IOException ioe) {
+        LOG.error("Visiting failed for " + file.toString(), ioe);
+        return FileVisitResult.SKIP_SUBTREE;
       }
     };
 
@@ -190,7 +244,7 @@ public final class IndexClueWeb09b {
     } catch (IOException e) {
       e.printStackTrace();
     }
-    return warcFiles;
+    return stack;
   }
 
   /**
@@ -211,7 +265,7 @@ public final class IndexClueWeb09b {
 
   public int indexWithThreads(int numThreads) throws IOException, InterruptedException {
 
-    System.out.println("Indexing with " + numThreads + " threads to directory '" + indexPath.toAbsolutePath() + "'...");
+    LOG.info("Indexing with " + numThreads + " threads to directory '" + indexPath.toAbsolutePath() + "'...");
 
     final Directory dir = FSDirectory.open(indexPath);
 
@@ -225,22 +279,54 @@ public final class IndexClueWeb09b {
 
     final IndexWriter writer = new IndexWriter(dir, iwc);
 
-    final ExecutorService executor = Executors.newFixedThreadPool(numThreads);
+    final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(numThreads);
+    final Deque<Path> warcFiles = discoverWarcFiles(docDir);
 
-    List<Path> warcFiles = discoverWarcFiles(docDir);
     if (doclimit > 0 && warcFiles.size() < doclimit)
-      warcFiles = warcFiles.subList(0, doclimit);
+      for (int i = doclimit; i < warcFiles.size(); i++)
+        warcFiles.removeFirst();
 
-    for (Path f : warcFiles)
-      executor.execute(new IndexerThread(writer, f));
+    long totalWarcFiles = warcFiles.size();
+    LOG.info(totalWarcFiles + " many warc files found under the docs path : " + docDir.toString());
 
+
+    for (int i = 0; i < 1000; i++) {
+      if (!warcFiles.isEmpty())
+        executor.execute(new IndexerThread(writer, warcFiles.removeFirst()));
+      else {
+        if (!executor.isShutdown()) {
+          Thread.sleep(30000);
+          executor.shutdown();
+        }
+        break;
+      }
+    }
+
+
+    long first = 0;
     //add some delay to let some threads spawn by scheduler
     Thread.sleep(30000);
-    executor.shutdown(); // Disable new tasks from being submitted
+
 
     try {
       // Wait for existing tasks to terminate
-      while (!executor.awaitTermination(5, TimeUnit.MINUTES)) {
+      while (!executor.awaitTermination(3, TimeUnit.MINUTES)) {
+
+        final long completedTaskCount = executor.getCompletedTaskCount();
+
+        LOG.info(String.format("%.2f percentage completed", (double) completedTaskCount / totalWarcFiles * 100.0d));
+
+        if (!warcFiles.isEmpty())
+          for (long i = first; i < completedTaskCount; i++) {
+            if (!warcFiles.isEmpty())
+              executor.execute(new IndexerThread(writer, warcFiles.removeFirst()));
+            else {
+              if (!executor.isShutdown())
+                executor.shutdown();
+            }
+          }
+
+        first = completedTaskCount;
         Thread.sleep(1000);
       }
     } catch (InterruptedException ie) {
@@ -249,6 +335,10 @@ public final class IndexClueWeb09b {
       // Preserve interrupt status
       Thread.currentThread().interrupt();
     }
+
+    if (totalWarcFiles != executor.getCompletedTaskCount())
+      throw new RuntimeException("totalWarcFiles = " + totalWarcFiles + " is not equal to completedTaskCount =  " + executor.getCompletedTaskCount());
+
 
     int numIndexed = writer.maxDoc();
 
@@ -279,7 +369,7 @@ public final class IndexClueWeb09b {
     }
 
     final long start = System.nanoTime();
-    IndexClueWeb09b indexer = new IndexClueWeb09b(indexArgs.input, indexArgs.index);
+    IndexClueWeb09b indexer = new IndexClueWeb09b(indexArgs.input, indexArgs.index, indexArgs.collection);
 
     indexer.setPositions(indexArgs.positions);
     indexer.setOptimize(indexArgs.optimize);
