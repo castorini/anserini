@@ -62,6 +62,29 @@ To record search/running times:
 sh target/appassembler/bin/Time lucene-index.cw09b.cnt
 ```
 
+### Experiments on ClueWeb09 (Category A)
+
+```
+sh target/appassembler/bin/IndexClueWeb09b -input /path/to/cw09/ \
+  -collection CW09 -index lucene-index.cw09a.cnt -threads 32 -optimize 2> emptyDocIDs.txt 1> recordCounts.txt
+```
+
+The directory `/path/to/cw09/` should be the root directory of ClueWeb09 collection, i.e., `/path/to/cw09/` should bring up a bunch of subdirectories, `ClueWeb09_English_1` to `ClueWeb09_English_10`.
+
+After indexing is done, you should be able to compare record counts file with the one comes from the dataset.
+`emptyDocIDs.txt` file contains the documents that are not indexed. JSoup produces empty string, probably they are not valid HTMLs.
+If you count it with `wc -l` and add it the number that is reported from the indexer, you should obtain the total number of documents for the dataset.
+
+### Experiments on ClueWeb12-B13
+
+```
+sh target/appassembler/bin/IndexClueWeb09b -input /path/to/cw12b/ \
+  -collection CW12 -index lucene-index.cw12b.cnt -threads 32 -optimize 2> emptyDocIDs.txt 1> recordCounts.txt
+```
+
+The directory `/path/to/cw12b/` should be the root directory of ClueWeb12-B13 collection, i.e., `/path/to/cw12b/` should bring up a bunch of subdirectories, `ClueWeb12_00` to `ClueWeb12_18`.
+
+
 ### Experiments on Tweets2011
 
 Indexing:
