@@ -17,10 +17,7 @@ package io.anserini.index;
  * limitations under the License.
  */
 
-import io.anserini.document.ClueWeb09WarcRecord;
-import io.anserini.document.ClueWeb12WarcRecord;
-import io.anserini.document.Collection;
-import io.anserini.document.WarcRecord;
+import io.anserini.document.*;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -43,9 +40,8 @@ import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.OptionHandlerFilter;
 import org.kohsuke.args4j.ParserProperties;
 
-import java.io.DataInputStream;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayDeque;
@@ -64,7 +60,7 @@ public final class IndexClueWeb09b {
 
   public static final String FIELD_BODY = "contents";
   public static final String FIELD_ID = "id";
-  private static final String RESPONSE = "response";
+  public static final String RESPONSE = "response";
 
   private final class IndexerThread extends Thread {
 
@@ -146,16 +142,58 @@ public final class IndexClueWeb09b {
       return i;
     }
 
+    private int indexGov2File() throws IOException {
+
+      int i = 0;
+
+      StringBuilder builder = new StringBuilder();
+
+      boolean found = false;
+
+      try (
+              InputStream stream = new GZIPInputStream(Files.newInputStream(inputWarcFile, StandardOpenOption.READ), Gov2Record.BUFFER_SIZE);
+              BufferedReader reader = new BufferedReader(new InputStreamReader(stream, StandardCharsets.UTF_8))) {
+
+
+        for (; ; ) {
+          String line = reader.readLine();
+          if (line == null)
+            break;
+
+          line = line.trim();
+
+          if (line.startsWith(Gov2Record.DOC)) {
+            found = true;
+            continue;
+          }
+
+          if (line.startsWith(Gov2Record.TERMINATING_DOC)) {
+            found = false;
+            WarcRecord gov2 = Gov2Record.parseGov2Record(builder);
+            i += indexWarcRecord(gov2);
+            builder.setLength(0);
+          }
+
+          if (found)
+            builder.append(line).append(" ");
+        }
+      }
+
+      return i;
+    }
+
     @Override
     public void run() {
       {
         try {
-          int addCount;
           if (Collection.CW09.equals(collection)) {
-            addCount = indexClueWeb09WarcFile();
+            int addCount = indexClueWeb09WarcFile();
             System.out.println("*./" + inputWarcFile.getParent().getFileName().toString() + File.separator + inputWarcFile.getFileName().toString() + "  " + addCount);
           } else if (Collection.CW12.equals(collection)) {
-            addCount = indexClueWeb12WarcFile();
+            int addCount = indexClueWeb12WarcFile();
+            System.out.println("./" + inputWarcFile.getParent().getFileName().toString() + File.separator + inputWarcFile.getFileName().toString() + "\t" + addCount);
+          } else if (Collection.GOV2.equals(collection)) {
+            int addCount = indexGov2File();
             System.out.println("./" + inputWarcFile.getParent().getFileName().toString() + File.separator + inputWarcFile.getFileName().toString() + "\t" + addCount);
           }
 
@@ -205,10 +243,7 @@ public final class IndexClueWeb09b {
   }
 
 
-  private final static PathMatcher matcher = FileSystems.getDefault().getPathMatcher("glob:*.warc.gz");
-
-
-  static Deque<Path> discoverWarcFiles(Path p) {
+  static Deque<Path> discoverWarcFiles(Path p, final String suffix) {
 
     final Deque<Path> stack = new ArrayDeque<>();
 
@@ -218,7 +253,7 @@ public final class IndexClueWeb09b {
       public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
 
         Path name = file.getFileName();
-        if (name != null && matcher.matches(name))
+        if (name != null && name.toString().endsWith(suffix))
           stack.add(file);
         return FileVisitResult.CONTINUE;
       }
@@ -280,17 +315,18 @@ public final class IndexClueWeb09b {
     final IndexWriter writer = new IndexWriter(dir, iwc);
 
     final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(numThreads);
-    final Deque<Path> warcFiles = discoverWarcFiles(docDir);
+    final String suffix = Collection.GOV2.equals(collection) ? ".gz" : ".warc.gz";
+    final Deque<Path> warcFiles = discoverWarcFiles(docDir, suffix);
 
     if (doclimit > 0 && warcFiles.size() < doclimit)
       for (int i = doclimit; i < warcFiles.size(); i++)
         warcFiles.removeFirst();
 
     long totalWarcFiles = warcFiles.size();
-    LOG.info(totalWarcFiles + " many warc files found under the docs path : " + docDir.toString());
+    LOG.info(totalWarcFiles + " many " + suffix + " files found under the docs path : " + docDir.toString());
 
 
-    for (int i = 0; i < 1000; i++) {
+    for (int i = 0; i < 2000; i++) {
       if (!warcFiles.isEmpty())
         executor.execute(new IndexerThread(writer, warcFiles.removeFirst()));
       else {
@@ -310,7 +346,7 @@ public final class IndexClueWeb09b {
 
     try {
       // Wait for existing tasks to terminate
-      while (!executor.awaitTermination(3, TimeUnit.MINUTES)) {
+      while (!executor.awaitTermination(2, TimeUnit.MINUTES)) {
 
         final long completedTaskCount = executor.getCompletedTaskCount();
 
