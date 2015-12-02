@@ -28,9 +28,11 @@ import org.apache.lucene.benchmark.byTask.feeds.DocData;
 import org.apache.lucene.benchmark.byTask.feeds.NoMoreDataException;
 import org.apache.lucene.benchmark.byTask.feeds.TrecContentSource;
 import org.apache.lucene.document.Document;
-import org.apache.lucene.document.StringField;
-import org.apache.lucene.document.TextField;
+import org.apache.lucene.document.Field;
 import org.apache.lucene.document.Field.Store;
+import org.apache.lucene.document.FieldType;
+import org.apache.lucene.document.StringField;
+import org.apache.lucene.index.IndexOptions;
 import org.apache.lucene.index.IndexWriter;
 
 class Gov2IndexThreads {
@@ -42,8 +44,8 @@ class Gov2IndexThreads {
   final TrecContentSource tcs;
   final Thread[] threads;
 
-  public Gov2IndexThreads(IndexWriter w, boolean positions, TrecContentSource tcs, int numThreads, int docCountLimit)
-      throws IOException, InterruptedException {
+  public Gov2IndexThreads(IndexWriter w, boolean positions, boolean docvectors, 
+      TrecContentSource tcs, int numThreads, int docCountLimit) throws IOException, InterruptedException {
 
     this.tcs = tcs;
     threads = new Thread[numThreads];
@@ -54,7 +56,7 @@ class Gov2IndexThreads {
     failed = new AtomicBoolean(false);
 
     for(int thread=0;thread<numThreads;thread++) {
-      threads[thread] = new IndexThread(startLatch, stopLatch, w, positions, tcs, docCountLimit, count, stop, failed);
+      threads[thread] = new IndexThread(startLatch, stopLatch, w, positions, docvectors, tcs, docCountLimit, count, stop, failed);
       threads[thread].start();
     }
 
@@ -97,8 +99,10 @@ class Gov2IndexThreads {
     private final AtomicBoolean failed;
     private final boolean positions;
 
+    private final FieldType textOptions;
+
     public IndexThread(CountDownLatch startLatch, CountDownLatch stopLatch, IndexWriter w, boolean positions,
-        TrecContentSource tcs, int numTotalDocs, AtomicInteger count,
+        boolean docvectors, TrecContentSource tcs, int numTotalDocs, AtomicInteger count,
         AtomicBoolean stop, AtomicBoolean failed) {
       this.startLatch = startLatch;
       this.stopLatch = stopLatch;
@@ -108,14 +112,21 @@ class Gov2IndexThreads {
       this.numTotalDocs = numTotalDocs;
       this.count = count;
       this.failed = failed;
+
+      textOptions = new FieldType();
+      textOptions.setIndexOptions(IndexOptions.DOCS_AND_FREQS_AND_POSITIONS);
+      textOptions.setTokenized(true);
+      if (docvectors) {
+        textOptions.setStoreTermVectors(true);
+      }
     }
 
     private Document getDocumentFromDocData(DocData dd) {
       Document doc = new Document();
       doc.add(new StringField("docid", dd.getName(), Store.YES));
-      if(positions) {
-        doc.add(new TextField("body", dd.getTitle(), Store.NO));
-        doc.add(new TextField("body", dd.getBody(), Store.NO));
+      if (positions) {
+        doc.add(new Field("body", dd.getTitle(), textOptions));
+        doc.add(new Field("body", dd.getBody(), textOptions));
       } else {
         doc.add(new NoPositionsTextField("body", dd.getTitle()));
         doc.add(new NoPositionsTextField("body", dd.getBody()));

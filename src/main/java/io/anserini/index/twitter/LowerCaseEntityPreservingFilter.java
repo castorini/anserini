@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package cc.twittertools.index;
+package io.anserini.index.twitter;
 
 import java.io.IOException;
 import java.util.Arrays;

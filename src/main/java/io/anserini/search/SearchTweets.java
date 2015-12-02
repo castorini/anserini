@@ -1,28 +1,42 @@
 package io.anserini.search;
 
-import io.anserini.rerank.IdentityReranker;
+/**
+ * Twitter Tools
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+import io.anserini.index.IndexTweets;
+import io.anserini.index.IndexTweets.StatusField;
 import io.anserini.rerank.RerankerCascade;
 import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.ScoredDocuments;
 import io.anserini.rerank.rm3.Rm3Reranker;
+import io.anserini.rerank.twitter.RemoveRetweetsTemporalTiebreakReranker;
 import io.anserini.util.AnalyzerUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.lucene.analysis.en.EnglishAnalyzer;
-import org.apache.lucene.benchmark.quality.QualityQuery;
-import org.apache.lucene.benchmark.quality.trec.TrecTopicsReader;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.search.Filter;
 import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.NumericRangeFilter;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.search.similarities.BM25Similarity;
@@ -37,8 +51,11 @@ import org.kohsuke.args4j.ParserProperties;
 
 import com.google.common.collect.Sets;
 
-public class SearchGov2 {
-  private static final Logger LOG = LogManager.getLogger(SearchGov2.class);
+@SuppressWarnings("deprecation")
+public class SearchTweets {
+  private static final Logger LOG = LogManager.getLogger(SearchTweets.class);
+
+  private SearchTweets() {}
 
   public static void main(String[] args) throws Exception {
     long curTime = System.nanoTime();
@@ -50,11 +67,9 @@ public class SearchGov2 {
     } catch (CmdLineException e) {
       System.err.println(e.getMessage());
       parser.printUsage(System.err);
-      System.err.println("Example: SearchGov2" + parser.printExample(OptionHandlerFilter.REQUIRED));
+      System.err.println("Example: SearchTweets" + parser.printExample(OptionHandlerFilter.REQUIRED));
       return;
     }
-
-    Path topicsFile = Paths.get(searchArgs.topics);
 
     LOG.info("Reading index at " + searchArgs.index);
     Directory dir;
@@ -83,44 +98,48 @@ public class SearchGov2 {
 
     RerankerCascade cascade = new RerankerCascade();
     if (searchArgs.rm3) {
-      cascade.add(new Rm3Reranker(new EnglishAnalyzer(), "body", "src/main/resources/io/anserini/rerank/rm3/rm3-stoplist.gov2.txt"));
+      cascade.add(new Rm3Reranker(IndexTweets.ANALYZER, StatusField.TEXT.name, "src/main/resources/io/anserini/rerank/rm3/rm3-stoplist.twitter.txt"));
+      cascade.add(new RemoveRetweetsTemporalTiebreakReranker());
     } else {
-      cascade.add(new IdentityReranker());
+      cascade.add(new RemoveRetweetsTemporalTiebreakReranker());
     }
 
-    TrecTopicsReader qReader = new TrecTopicsReader();
-    QualityQuery topics[] = qReader.readQueries(Files.newBufferedReader(topicsFile, StandardCharsets.UTF_8));
+    MicroblogTopicSet topics = MicroblogTopicSet.fromFile(new File(searchArgs.topics));
 
     PrintStream out = new PrintStream(new FileOutputStream(new File(searchArgs.output)));
     LOG.info("Writing output to " + searchArgs.output);
 
     LOG.info("Initialized complete! (elapsed time = " + (System.nanoTime()-curTime)/1000000 + "ms)");
     long totalTime = 0;
-    for (QualityQuery topic : topics) {
+    int cnt = 0;
+    for ( MicroblogTopic topic : topics ) {
       long curQueryTime = System.nanoTime();
-      Query query = AnalyzerUtils.buildBagOfWordsQuery("body", new EnglishAnalyzer(), topic.getValue("title"));
-      TopDocs rs = searcher.search(query, searchArgs.hits);
 
-      RerankerContext context = new RerankerContext(searcher, query, topic.getQueryID(), topic.getValue("title"),
-          Sets.newHashSet(AnalyzerUtils.tokenize(new EnglishAnalyzer(), topic.getValue("title"))), null);
+      Filter filter = NumericRangeFilter.newLongRange(StatusField.ID.name, 0L, topic.getQueryTweetTime(), true, true);
+      Query query = AnalyzerUtils.buildBagOfWordsQuery(StatusField.TEXT.name, IndexTweets.ANALYZER, topic.getQuery());
+
+      TopDocs rs = searcher.search(query, filter, searchArgs.hits);
+
+      RerankerContext context = new RerankerContext(searcher, query, topic.getId(), topic.getQuery(),
+          Sets.newHashSet(AnalyzerUtils.tokenize(IndexTweets.ANALYZER, topic.getQuery())), filter);
       ScoredDocuments docs = cascade.run(ScoredDocuments.fromTopDocs(rs, searcher), context);
 
       for (int i=0; i<docs.documents.length; i++) {
-        String qid = topic.getQueryID();
+        String qid = topic.getId().replaceFirst("^MB0*", "");
         out.println(String.format("%s Q0 %s %d %f %s", qid,
-            docs.documents[i].getField("docid").stringValue(), (i+1), docs.scores[i], searchArgs.runtag));
+            docs.documents[i].getField(StatusField.ID.name).numericValue(), (i+1), docs.scores[i], searchArgs.runtag));
       }
       long qtime = (System.nanoTime()-curQueryTime)/1000000;
-      LOG.info("Query " + topic.getQueryID() + " (elapsed time = " + qtime + "ms)");
+      LOG.info("Query " + topic.getId() + " (elapsed time = " + qtime + "ms)");
       totalTime += qtime;
+      cnt++;
     }
 
     LOG.info("All queries completed!");
     LOG.info("Total elapsed time = " + totalTime + "ms");
-    LOG.info("Average query latency = " + (totalTime/topics.length) + "ms");
+    LOG.info("Average query latency = " + (totalTime/cnt) + "ms");
 
     reader.close();
-    dir.close();
     out.close();
   }
 }
