@@ -38,10 +38,10 @@ Indexing:
 
 ```
 sh target/appassembler/bin/IndexClueWeb09b -input /path/to/cw09b/ \
-  -index lucene-index.cw09b.cnt -threads 32 -optimize
+  -collection CW09 -index lucene-index.cw09b.cnt -threads 32 -optimize
 ```
 
-The directory `/path/to/cw09b/` should be the root directory of ClueWeb09B collection, i.e., `ls /path/to/cw09b/` should bring up a bunch of subdirectories, `en0000` to `enwp03`.
+The directory `/path/to/cw09/ClueWeb09_English_1` should be the root directory of ClueWeb09B collection, i.e., `ls /path/to/cw09/ClueWeb09_English_1` should bring up a bunch of subdirectories, `en0000` to `enwp03`.
 
 After indexing is done, you should be able to perform a retrieval run:
 
