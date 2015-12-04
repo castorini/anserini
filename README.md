@@ -37,7 +37,7 @@ eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.701-750.t
 Indexing:
 
 ```
-sh target/appassembler/bin/IndexClueWeb09b -input /path/to/cw09b/ \
+sh target/appassembler/bin/IndexClueWeb09b -input /path/to/cw09/ClueWeb09_English_1/ \
   -collection CW09 -index lucene-index.cw09b.cnt -threads 32 -optimize
 ```
 
