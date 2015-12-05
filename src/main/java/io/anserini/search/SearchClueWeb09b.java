@@ -17,9 +17,30 @@ package io.anserini.search;
  * limitations under the License.
  */
 
-import static io.anserini.index.IndexClueWeb09b.FIELD_BODY;
-import static io.anserini.index.IndexClueWeb09b.FIELD_ID;
-import static io.anserini.index.IndexClueWeb09b.analyzer;
+import io.anserini.rerank.IdentityReranker;
+import io.anserini.rerank.RerankerCascade;
+import io.anserini.rerank.rm3.Rm3Reranker;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.lucene.analysis.en.EnglishAnalyzer;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.index.DirectoryReader;
+import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.queryparser.classic.ParseException;
+import org.apache.lucene.queryparser.classic.QueryParser;
+import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.Query;
+import org.apache.lucene.search.ScoreDoc;
+import org.apache.lucene.search.similarities.BM25Similarity;
+import org.apache.lucene.search.similarities.LMDirichletSimilarity;
+import org.apache.lucene.search.similarities.Similarity;
+import org.apache.lucene.store.Directory;
+import org.apache.lucene.store.FSDirectory;
+import org.apache.lucene.store.MMapDirectory;
+import org.kohsuke.args4j.CmdLineException;
+import org.kohsuke.args4j.CmdLineParser;
+import org.kohsuke.args4j.OptionHandlerFilter;
+import org.kohsuke.args4j.ParserProperties;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -33,22 +54,16 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import org.apache.lucene.document.Document;
-import org.apache.lucene.index.DirectoryReader;
-import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.queryparser.classic.ParseException;
-import org.apache.lucene.queryparser.classic.QueryParser;
-import org.apache.lucene.search.IndexSearcher;
-import org.apache.lucene.search.Query;
-import org.apache.lucene.search.ScoreDoc;
-import org.apache.lucene.search.similarities.BM25Similarity;
-import org.apache.lucene.store.FSDirectory;
+import static io.anserini.index.IndexClueWeb09b.*;
 
 /**
- * Searcher for ClueWeb09 Category B Corpus.
- * 200 Topics from TREC 2009-1012 Web Track.
+ * Searcher for Gov2, ClueWeb09, and ClueWeb12 datasets.
+ * TREC Web Tracks from 2009 to 2014
+ * TREC Terabyte Tracks from 2004 to 2006
  */
 public final class SearchClueWeb09b implements Closeable {
+
+  private static final Logger LOG = LogManager.getLogger(SearchClueWeb09b.class);
 
   private final IndexReader reader;
 
@@ -82,11 +97,13 @@ public final class SearchClueWeb09b implements Closeable {
   }
 
   /**
-   * @param topicsFile One of: topics.web.1-50.txt topics.web.51-100.txt topics.web.101-150.txt topics.web.151-200.txt
+   * Read topics of TREC Web Tracks from 2009 to 2014
+   *
+   * @param topicsFile One of: topics.web.1-50.txt topics.web.51-100.txt topics.web.101-150.txt topics.web.151-200.txt topics.web.201-250.txt topics.web.251-300.txt
    * @return SortedMap where keys are query/topic IDs and values are title portions of the topics
    * @throws IOException
    */
-  static SortedMap<Integer, String> readQueries(Path topicsFile) throws IOException {
+  public static SortedMap<Integer, String> readWebTrackQueries(Path topicsFile) throws IOException {
 
     SortedMap<Integer, String> map = new TreeMap<>();
     List<String> lines = Files.readAllLines(topicsFile, StandardCharsets.UTF_8);
@@ -114,36 +131,74 @@ public final class SearchClueWeb09b implements Closeable {
   }
 
   /**
+   * Read topics of TREC Terabyte Tracks from 2004 to 2006
+   *
+   * @param topicsFile One of: topics.701-750.txt topics.751-800.txt topics.801-850.txt
+   * @return SortedMap where keys are query/topic IDs and values are title portions of the topics
+   * @throws IOException
+   */
+  public static SortedMap<Integer, String> readTeraByteTackQueries(Path topicsFile) throws IOException {
+
+    SortedMap<Integer, String> map = new TreeMap<>();
+    List<String> lines = Files.readAllLines(topicsFile, StandardCharsets.UTF_8);
+
+    String number = "";
+    String query = "";
+
+    boolean found = false;
+    for (String line : lines) {
+
+      line = line.trim();
+
+      if (!found && "<top>".equals(line)) {
+        found = true;
+        continue;
+      }
+
+      if (found && line.startsWith("<title>"))
+        query = line.substring(7).trim();
+
+      if (found && line.startsWith("<num>")) {
+        int i = line.lastIndexOf(" ");
+        if (-1 == i) throw new RuntimeException("cannot find space in : " + line);
+        number = line.substring(i).trim();
+      }
+
+      if (found && "</top>".equals(line)) {
+        found = false;
+        int qID = Integer.parseInt(number);
+
+        map.put(qID, query);
+
+      }
+    }
+    lines.clear();
+    return map;
+  }
+
+  /**
    * Prints TREC submission file to the standard output stream.
    *
-   * @param topicsFile One of: topics.web.1-50.txt topics.web.51-100.txt topics.web.101-150.txt topics.web.151-200.txt
-   * @param operator   Default search operator: AND or OR
+   * @param topics     queries
+   * @param similarity similarity
    * @throws IOException
    * @throws ParseException
    */
 
-  public void search(String topicsFile, String submissionFile, QueryParser.Operator operator) throws IOException, ParseException {
+  public void search(SortedMap<Integer, String> topics, String submissionFile, Similarity similarity) throws IOException, ParseException {
 
-    Path topicsPath = Paths.get(topicsFile);
-
-    if (!Files.exists(topicsPath) || !Files.isRegularFile(topicsPath) || !Files.isReadable(topicsPath)) {
-      throw new IllegalArgumentException("Topics file : " + topicsFile + " does not exist or is not a (readable) file.");
-    }
 
     IndexSearcher searcher = new IndexSearcher(reader);
-    searcher.setSimilarity(new BM25Similarity());
+    searcher.setSimilarity(similarity);
 
 
-    final String runTag = "BM25_Krovetz_" + FIELD_BODY + "_" + operator.toString();
+    final String runTag = "BM25_Krovetz_" + FIELD_BODY + "_" + similarity.toString();
 
     PrintWriter out = new PrintWriter(Files.newBufferedWriter(Paths.get(submissionFile), StandardCharsets.US_ASCII));
 
 
     QueryParser queryParser = new QueryParser(FIELD_BODY, analyzer());
-    queryParser.setDefaultOperator(operator);
-
-
-    SortedMap<Integer, String> topics = readQueries(topicsPath);
+    queryParser.setDefaultOperator(QueryParser.Operator.OR);
 
     for (Map.Entry<Integer, String> entry : topics.entrySet()) {
 
@@ -154,7 +209,7 @@ public final class SearchClueWeb09b implements Closeable {
       /**
        * For Web Tracks 2010,2011,and 2012; an experimental run consists of the top 10,000 documents for each topic query.
        */
-      ScoreDoc[] hits = searcher.search(query, 1000).scoreDocs;
+      ScoreDoc[] hits = searcher.search(query, 10000).scoreDocs;
 
       /**
        * the first column is the topic number.
@@ -185,20 +240,60 @@ public final class SearchClueWeb09b implements Closeable {
 
   public static void main(String[] args) throws IOException, ParseException {
 
-    if (args.length != 3) {
-      System.err.println("Usage: SearcherCW09B <topicsFile> <submissionFile> <indexDir>");
-      System.err.println("topicsFile: input file containing queries. One of: topics.web.1-50.txt topics.web.51-100.txt topics.web.101-150.txt topics.web.151-200.txt");
-      System.err.println("submissionFile: redirect stdout to capture the submission file for trec_eval or gdeval.pl");
-      System.err.println("indexDir: index directory");
-      System.exit(1);
+    long curTime = System.nanoTime();
+    SearchArgs searchArgs = new SearchArgs();
+    CmdLineParser parser = new CmdLineParser(searchArgs, ParserProperties.defaults().withUsageWidth(90));
+
+    try {
+      parser.parseArgument(args);
+    } catch (CmdLineException e) {
+      System.err.println(e.getMessage());
+      parser.printUsage(System.err);
+      System.err.println("Example: SearchGov2" + parser.printExample(OptionHandlerFilter.REQUIRED));
+      return;
     }
 
-    String topicsFile = args[0];
-    String submissionFile = args[1];
-    String indexDir = args[2];
+    LOG.info("Reading index at " + searchArgs.index);
+    Directory dir;
+    if (searchArgs.inmem) {
+      LOG.info("Using MMapDirectory with preload");
+      dir = new MMapDirectory(Paths.get(searchArgs.index));
+      ((MMapDirectory) dir).setPreload(true);
+    } else {
+      LOG.info("Using default FSDirectory");
+      dir = FSDirectory.open(Paths.get(searchArgs.index));
+    }
 
-    SearchClueWeb09b searcher = new SearchClueWeb09b(indexDir);
-    searcher.search(topicsFile, submissionFile, QueryParser.Operator.OR);
+    Similarity similarity = null;
+
+    if (searchArgs.ql) {
+      LOG.info("Using QL scoring model");
+      similarity = new LMDirichletSimilarity(searchArgs.mu);
+    } else if (searchArgs.bm25) {
+      LOG.info("Using BM25 scoring model");
+      similarity = new BM25Similarity(searchArgs.k1, searchArgs.b);
+    } else {
+      LOG.error("Error: Must specify scoring model!");
+      System.exit(-1);
+    }
+
+    RerankerCascade cascade = new RerankerCascade();
+    if (searchArgs.rm3) {
+      cascade.add(new Rm3Reranker(new EnglishAnalyzer(), "body", "src/main/resources/io/anserini/rerank/rm3/rm3-stoplist.gov2.txt"));
+    } else {
+      cascade.add(new IdentityReranker());
+    }
+
+    Path topicsFile = Paths.get(searchArgs.topics);
+
+    if (!Files.exists(topicsFile) || !Files.isRegularFile(topicsFile) || !Files.isReadable(topicsFile)) {
+      throw new IllegalArgumentException("Topics file : " + topicsFile + " does not exist or is not a (readable) file.");
+    }
+
+    SortedMap<Integer, String> topics = io.anserini.document.Collection.GOV2.equals(searchArgs.collection) ? readTeraByteTackQueries(topicsFile) : readWebTrackQueries(topicsFile);
+
+    SearchClueWeb09b searcher = new SearchClueWeb09b(searchArgs.index);
+    searcher.search(topics, searchArgs.output, similarity);
     searcher.close();
   }
 }

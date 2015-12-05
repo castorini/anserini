@@ -308,7 +308,7 @@ public final class IndexClueWeb09b {
 
     iwc.setSimilarity(new BM25Similarity());
     iwc.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
-    iwc.setRAMBufferSizeMB(256.0);
+    iwc.setRAMBufferSizeMB(512);
     iwc.setUseCompoundFile(false);
     iwc.setMergeScheduler(new ConcurrentMergeScheduler());
 
@@ -346,7 +346,7 @@ public final class IndexClueWeb09b {
 
     try {
       // Wait for existing tasks to terminate
-      while (!executor.awaitTermination(2, TimeUnit.MINUTES)) {
+      while (!executor.awaitTermination(1, TimeUnit.MINUTES)) {
 
         final long completedTaskCount = executor.getCompletedTaskCount();
 
