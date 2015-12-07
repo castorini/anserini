@@ -277,7 +277,7 @@ public final class IndexClueWeb09b {
     try {
       Files.walkFileTree(p, fv);
     } catch (IOException e) {
-      e.printStackTrace();
+     LOG.error("IOException during file visiting", e);
     }
     return stack;
   }
