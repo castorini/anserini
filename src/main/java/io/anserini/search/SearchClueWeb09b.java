@@ -185,7 +185,7 @@ public final class SearchClueWeb09b implements Closeable {
    * @throws ParseException
    */
 
-  public void search(SortedMap<Integer, String> topics, String submissionFile, Similarity similarity) throws IOException, ParseException {
+  public void search(SortedMap<Integer, String> topics, String submissionFile, Similarity similarity, int numHits) throws IOException, ParseException {
 
 
     IndexSearcher searcher = new IndexSearcher(reader);
@@ -209,7 +209,7 @@ public final class SearchClueWeb09b implements Closeable {
       /**
        * For Web Tracks 2010,2011,and 2012; an experimental run consists of the top 10,000 documents for each topic query.
        */
-      ScoreDoc[] hits = searcher.search(query, 10000).scoreDocs;
+      ScoreDoc[] hits = searcher.search(query, numHits).scoreDocs;
 
       /**
        * the first column is the topic number.
@@ -293,7 +293,7 @@ public final class SearchClueWeb09b implements Closeable {
     SortedMap<Integer, String> topics = io.anserini.document.Collection.GOV2.equals(searchArgs.collection) ? readTeraByteTackQueries(topicsFile) : readWebTrackQueries(topicsFile);
 
     SearchClueWeb09b searcher = new SearchClueWeb09b(searchArgs.index);
-    searcher.search(topics, searchArgs.output, similarity);
+    searcher.search(topics, searchArgs.output, similarity, searchArgs.hits);
     searcher.close();
   }
 }
