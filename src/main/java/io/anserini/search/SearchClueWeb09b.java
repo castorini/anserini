@@ -226,7 +226,7 @@ public final class SearchClueWeb09b implements Closeable {
         out.print("\tQ0\t");
         out.print(doc.get(FIELD_ID));
         out.print("\t");
-        out.print(i);
+        out.print(i+1);
         out.print("\t");
         out.print(hits[i].score);
         out.print("\t");
