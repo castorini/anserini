@@ -1,24 +1,9 @@
-/**
- * Twitter Tools
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package io.anserini.document.twitter;
 
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
+import java.util.Iterator;
 
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
@@ -27,17 +12,13 @@ import org.kohsuke.args4j.ParserProperties;
 
 import com.google.common.base.Preconditions;
 
-/**
- * Abstraction for a corpus of statuses. A corpus is assumed to consist of a number of blocks, each
- * represented by a gzipped file within a root directory. This object will allow to caller to read
- * through all blocks, in sorted lexicographic order of the files.
- */
-public class JsonStatusCorpusReader implements StatusStream {
+public class JsonTweetsCollection implements Iterable<Status> {
+  private JsonTweetsBlock curBlock = null;
+  private Iterator<Status> curIter = null;
   private final File[] files;
   private int nextFile = 0;
-  private JsonStatusBlockReader currentBlock = null;
 
-  public JsonStatusCorpusReader(File file) throws IOException {
+  public JsonTweetsCollection(File file) throws IOException {
     Preconditions.checkNotNull(file);
 
     if (!file.isDirectory()) {
@@ -55,36 +36,59 @@ public class JsonStatusCorpusReader implements StatusStream {
     }
   }
 
-  /**
-   * Returns the next status, or <code>null</code> if no more statuses.
-   */
-  public Status next() throws IOException {
-    if (currentBlock == null) {
-      currentBlock = new JsonStatusBlockReader(files[nextFile]);
-      nextFile++;
-    }
+  @Override
+  public Iterator<Status> iterator() {
+    return new Iterator<Status>() {
+      @Override
+      public boolean hasNext() {
+        if (curBlock == null) {
+          try {
+            curBlock = new JsonTweetsBlock(files[nextFile]);
+            curIter = curBlock.iterator();
+            nextFile++;
+          } catch (IOException e) {
+            return false;
+          }
+        }
 
-    Status status = null;
-    while (true) {
-      status = currentBlock.next();
-      if (status != null) {
-        return status;
+        while (true) {
+          if (curIter.hasNext())
+            return true;
+
+          if (nextFile >= files.length) {
+            // We're out of files to read. Must be the end of the collection.
+            return false;
+          }
+
+          try {
+            curBlock.close();
+            // Move to next file.
+            curBlock = new JsonTweetsBlock(files[nextFile]);
+            curIter = curBlock.iterator();
+
+            nextFile++;
+          } catch (IOException e) {
+            return false;
+          }
+
+          return true;
+        }
       }
 
-      if (nextFile >= files.length) {
-        // We're out of files to read. Must be the end of the corpus.
-        return null;
+      @Override
+      public Status next() {
+        return curIter.next();
       }
 
-      currentBlock.close();
-      // Move to next file.
-      currentBlock = new JsonStatusBlockReader(files[nextFile]);
-      nextFile++;
-    }
+      @Override
+      public void remove() {
+        throw new UnsupportedOperationException();
+      }
+    };
   }
 
   public void close() throws IOException {
-    currentBlock.close();
+    curBlock.close();
   }
 
   public static class Args {
@@ -105,9 +109,8 @@ public class JsonStatusCorpusReader implements StatusStream {
     }
 
     long minId = Long.MAX_VALUE, maxId = Long.MIN_VALUE, cnt = 0;
-    JsonStatusCorpusReader tweets = new JsonStatusCorpusReader(new File(args.input));
-    Status tweet = null;
-    while ((tweet = tweets.next()) != null) {
+    JsonTweetsCollection tweets = new JsonTweetsCollection(new File(args.input));
+    for (Status tweet : tweets) {
       cnt++;
       long id = tweet.getId();
 

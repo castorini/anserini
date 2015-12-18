@@ -1,0 +1,420 @@
+<top>
+<num> Number: MB111 </num>
+<query> water shortages </query>
+<querytime> Fri Mar 29 18:56:02 +0000 2013 </querytime>
+<querytweettime> 317711766815653888 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB112 </num>
+<query> Florida Derby 2013 </query>
+<querytime> Sat Mar 30 16:21:29 +0000 2013 </querytime>
+<querytweettime> 318035260900265985 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB113 </num>
+<query> Kal Penn </query>
+<querytime> Sun Mar 31 07:29:13 +0000 2013 </querytime>
+<querytweettime> 318263699460747265 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB114 </num>
+<query> Detroit EFM Undemocratic </query>
+<querytime> Tue Mar 26 17:09:36 +0000 2013 </querytime>
+<querytweettime> 316597818372538369 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB115 </num>
+<query> memories of Mr. Rogers </query>
+<querytime> Sat Mar 30 05:30:01 +0000 2013 </querytime>
+<querytweettime> 317871313932935168 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB116 </num>
+<query> Chinese Computer Attacks </query>
+<querytime> Fri Mar 01 02:32:52 +0000 2013 </querytime>
+<querytweettime> 307317484577497090 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB117 </num>
+<query> marshmallow Peeps dioramas </query>
+<querytime> Thu Mar 28 07:19:35 +0000 2013 </querytime>
+<querytweettime> 317174111543648256 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB118 </num>
+<query> Israel and Turkey reconcile </query>
+<querytime> Mon Mar 25 19:46:28 +0000 2013 </querytime>
+<querytweettime> 316274907300392960 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB119 </num>
+<query> colony collapse disorder </query>
+<querytime> Fri Mar 29 23:02:02 +0000 2013 </querytime>
+<querytweettime> 317773674709131265 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB120 </num>
+<query> Argentina's Inflation </query>
+<querytime> Tue Mar 19 15:37:48 +0000 2013 </querytime>
+<querytweettime> 314038001112076290 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB121 </num>
+<query> Future of MOOCs </query>
+<querytime> Wed Mar 27 14:28:38 +0000 2013 </querytime>
+<querytweettime> 316919697658503169 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB122 </num>
+<query> unsuccessful kickstarter applicants </query>
+<querytime> Fri Mar 29 17:27:45 +0000 2013 </querytime>
+<querytweettime> 317689549570596865 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB123 </num>
+<query> solar flare </query>
+<querytime> Wed Mar 27 06:38:49 +0000 2013 </querytime>
+<querytweettime> 316801464427229185 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB124 </num>
+<query> celebrity DUI </query>
+<querytime> Sat Mar 30 06:45:51 +0000 2013 </querytime>
+<querytweettime> 317890398028701696 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB125 </num>
+<query> Oscars snub Affleck </query>
+<querytime> Mon Mar 04 07:56:12 +0000 2013 </querytime>
+<querytweettime> 308486017655136256 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB126 </num>
+<query> Pitbull rapper </query>
+<querytime> Thu Mar 21 10:20:57 +0000 2013 </querytime>
+<querytweettime> 314683038921523200 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB127 </num>
+<query> Hagel nomination filibustered </query>
+<querytime> Tue Mar 05 01:08:42 +0000 2013 </querytime>
+<querytweettime> 308745854808883200 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB128 </num>
+<query> Buying clothes online </query>
+<querytime> Sat Mar 30 22:25:57 +0000 2013 </querytime>
+<querytweettime> 318126981940121600 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB129 </num>
+<query> Angry Birds cartoon </query>
+<querytime> Sat Mar 30 03:44:13 +0000 2013 </querytime>
+<querytweettime> 317844688482754560 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB130 </num>
+<query> Lawyer jokes </query>
+<querytime> Fri Mar 22 21:09:32 +0000 2013 </querytime>
+<querytweettime> 315208648123101184 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB131 </num>
+<query> trash the dress </query>
+<querytime> Wed Mar 27 03:45:07 +0000 2013 </querytime>
+<querytweettime> 316757751386759168 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB132 </num>
+<query> asteroid hits Russia </query>
+<querytime> Wed Feb 20 01:27:20 +0000 2013 </querytime>
+<querytweettime> 304039501779574785 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB133 </num>
+<query> cruise ship safety </query>
+<querytime> Fri Mar 15 20:34:37 +0000 2013 </querytime>
+<querytweettime> 312663145997033474 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB134 </num>
+<query> The Middle TV show </query>
+<querytime> Thu Mar 28 00:16:30 +0000 2013 </querytime>
+<querytweettime> 317067639165964288 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB135 </num>
+<query> Big Dog terminator robot </query>
+<querytime> Sat Mar 30 00:18:14 +0000 2013 </querytime>
+<querytweettime> 317792851100590080 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB136 </num>
+<query> Gone Girl reviews </query>
+<querytime> Sun Mar 31 01:21:10 +0000 2013 </querytime>
+<querytweettime> 318171076645502976 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB137 </num>
+<query> cause of the Super Bowl blackout </query>
+<querytime> Tue Feb 05 16:45:38 +0000 2013 </querytime>
+<querytweettime> 298834781561581569 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB138 </num>
+<query> New York City soda ban blocked </query>
+<querytime> Thu Mar 14 10:20:18 +0000 2013 </querytime>
+<querytweettime> 312146160284471296 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB139 </num>
+<query> Artists Against Fracking </query>
+<querytime> Sun Mar 24 12:59:07 +0000 2013 </querytime>
+<querytweettime> 315810006450724866 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB140 </num>
+<query> Richard III burial dispute </query>
+<querytime> Wed Mar 27 14:20:43 +0000 2013 </querytime>
+<querytweettime> 316917705368293376 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB141 </num>
+<query> Mila Kunis in Oz movie </query>
+<querytime> Sat Mar 30 03:06:01 +0000 2013 </querytime>
+<querytweettime> 317835075158941697 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB142 </num>
+<query> Iranian weapons to Syria </query>
+<querytime> Sun Mar 24 20:47:00 +0000 2013 </querytime>
+<querytweettime> 315927753138511872 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB143 </num>
+<query> Maracana Stadium problems </query>
+<querytime> Sat Mar 30 15:18:56 +0000 2013 </querytime>
+<querytweettime> 318019519664758785 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB144 </num>
+<query> Downton Abbey actor turnover </query>
+<querytime> Wed Mar 06 22:13:23 +0000 2013 </querytime>
+<querytweettime> 309426510643748866 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB145 </num>
+<query> National Parks sequestered </query>
+<querytime> Thu Mar 21 21:47:48 +0000 2013 </querytime>
+<querytweettime> 314855890383687681 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB146 </num>
+<query> GMO labeling </query>
+<querytime> Mon Mar 25 03:55:49 +0000 2013 </querytime>
+<querytweettime> 316035668402909185 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB147 </num>
+<query> Victoria's Secret commercial </query>
+<querytime> Sun Mar 31 13:14:02 +0000 2013 </querytime>
+<querytweettime> 318350475424567296 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB148 </num>
+<query> Cyprus Bailout Protests </query>
+<querytime> Sun Mar 31 18:10:48 +0000 2013 </querytime>
+<querytweettime> 318425159210004480 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB149 </num>
+<query> making football safer </query>
+<querytime> Wed Mar 20 13:22:17 +0000 2013 </querytime>
+<querytweettime> 314366285070864385 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB150 </num>
+<query> UK wine industry </query>
+<querytime> Sun Mar 31 15:11:49 +0000 2013 </querytime>
+<querytweettime> 318380116566749184 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB151 </num>
+<query> gun advocates are corrupt </query>
+<querytime> Thu Feb 21 01:35:50 +0000 2013 </querytime>
+<querytweettime> 304404028731846657 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB152 </num>
+<query> Iceland FBI Wikileaks </query>
+<querytime> Thu Mar 07 09:00:21 +0000 2013 </querytime>
+<querytweettime> 309589325128028160 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB153 </num>
+<query> lighter bail for Pistorius </query>
+<querytime> Thu Mar 28 10:55:22 +0000 2013 </querytime>
+<querytweettime> 317228415197519872 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB154 </num>
+<query> anti-aging resveratrol </query>
+<querytime> Fri Mar 08 17:29:02 +0000 2013 </querytime>
+<querytweettime> 310079727366967297 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB155 </num>
+<query> Obama reaction to Syrian chemical weapons </query>
+<querytime> Wed Mar 20 21:23:44 +0000 2013 </querytime>
+<querytweettime> 314487445926334464 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB156 </num>
+<query> Bush's dog dies </query>
+<querytime> Fri Feb 08 01:20:05 +0000 2013 </querytime>
+<querytweettime> 299689022853365760 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB157 </num>
+<query> Kardashian maternity style </query>
+<querytime> Sun Mar 31 01:47:06 +0000 2013 </querytime>
+<querytweettime> 318177602995122176 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB158 </num>
+<query> hush puppies meal </query>
+<querytime> Sun Mar 24 01:11:49 +0000 2013 </querytime>
+<querytweettime> 315632008560775168 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB159 </num>
+<query> circular economy initiatives </query>
+<querytime> Sun Mar 24 09:55:56 +0000 2013 </querytime>
+<querytweettime> 315763906851250176 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB160 </num>
+<query> social media as educational tool </query>
+<querytime> Wed Mar 27 03:14:15 +0000 2013 </querytime>
+<querytweettime> 316749983514771457 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB161 </num>
+<query> 3D printing for science </query>
+<querytime> Tue Mar 12 18:38:32 +0000 2013 </querytime>
+<querytweettime> 311546769064464384 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB162 </num>
+<query> DPRK Nuclear Test </query>
+<querytime> Fri Mar 08 00:17:49 +0000 2013 </querytime>
+<querytweettime> 309820213183008768 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB163 </num>
+<query> virtual currencies regulation </query>
+<querytime> Sat Mar 30 00:46:06 +0000 2013 </querytime>
+<querytweettime> 317889374605950976 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB164 </num>
+<query> Lindsey Vonn sidelined </query>
+<querytime> Sat Mar 30 23:48:57 +0000 2013 </querytime>
+<querytweettime> 318147869565652992 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB165 </num>
+<query> ACPT Crossword Tournament </query>
+<querytime> Thu Mar 14 21:49:43 +0000 2013 </querytime>
+<querytweettime> 312319657644285952 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB166 </num>
+<query> Maryland casino table games </query>
+<querytime> Sun Mar 24 12:39:55 +0000 2013 </querytime>
+<querytweettime> 315805174633492481 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB167 </num>
+<query> sequestration opinions </query>
+<querytime> Mon Mar 25 16:48:51 +0000 2013 </querytime>
+<querytweettime> 316230208585871361 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB168 </num>
+<query> US behind Chaevez cancer </query>
+<querytime> Sun Mar 17 18:11:45 +0000 2013 </querytime>
+<querytweettime> 313351968166928385 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB169 </num>
+<query> Honey Boo Boo Girl Scout cookies </query>
+<querytime> Sun Mar 10 04:49:12 +0000 2013 </querytime>
+<querytweettime> 310613284749447168 </querytweettime>
+</top>
+
+<top>
+<num> Number: MB170 </num>
+<query> Tony Mendez </query>
+<querytime> Sun Mar 31 14:12:52 +0000 2013 </querytime>
+<querytweettime> 318365281321881600 </querytweettime>
+</top>
+
