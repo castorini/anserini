@@ -197,7 +197,7 @@ public final class SearchClueWeb09b implements Closeable {
     PrintWriter out = new PrintWriter(Files.newBufferedWriter(Paths.get(submissionFile), StandardCharsets.US_ASCII));
 
 
-    QueryParser queryParser = new QueryParser(FIELD_BODY, analyzer());
+    QueryParser queryParser = new QueryParser(FIELD_BODY, new EnglishAnalyzer());
     queryParser.setDefaultOperator(QueryParser.Operator.OR);
 
     for (Map.Entry<Integer, String> entry : topics.entrySet()) {
@@ -249,7 +249,7 @@ public final class SearchClueWeb09b implements Closeable {
     } catch (CmdLineException e) {
       System.err.println(e.getMessage());
       parser.printUsage(System.err);
-      System.err.println("Example: SearchGov2" + parser.printExample(OptionHandlerFilter.REQUIRED));
+      System.err.println("Example: SearchWebCollection" + parser.printExample(OptionHandlerFilter.REQUIRED));
       return;
     }
 

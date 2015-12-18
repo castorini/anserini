@@ -21,9 +21,7 @@ import io.anserini.document.*;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.custom.CustomAnalyzer;
-import org.apache.lucene.analysis.standard.ClassicTokenizer;
+import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.StringField;
@@ -277,26 +275,11 @@ public final class IndexClueWeb09b {
     try {
       Files.walkFileTree(p, fv);
     } catch (IOException e) {
-     LOG.error("IOException during file visiting", e);
+      LOG.error("IOException during file visiting", e);
     }
     return stack;
   }
 
-  /**
-   * KStemAnalyzer: Filters {@link ClassicTokenizer} with {@link org.apache.lucene.analysis.standard.ClassicFilter},
-   * {@link org.apache.lucene.analysis.core.LowerCaseFilter} and {@link org.apache.lucene.analysis.en.KStemFilter}.
-   *
-   * @return KStemAnalyzer
-   * @throws IOException
-   */
-  public static Analyzer analyzer() throws IOException {
-    return CustomAnalyzer.builder()
-            .withTokenizer("classic")
-            .addTokenFilter("classic")
-            .addTokenFilter("lowercase")
-            .addTokenFilter("kstem")
-            .build();
-  }
 
   public int indexWithThreads(int numThreads) throws IOException, InterruptedException {
 
@@ -304,7 +287,7 @@ public final class IndexClueWeb09b {
 
     final Directory dir = FSDirectory.open(indexPath);
 
-    final IndexWriterConfig iwc = new IndexWriterConfig(analyzer());
+    final IndexWriterConfig iwc = new IndexWriterConfig(new EnglishAnalyzer());
 
     iwc.setSimilarity(new BM25Similarity());
     iwc.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
