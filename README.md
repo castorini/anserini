@@ -47,7 +47,7 @@ After indexing is done, you should be able to perform a retrieval run:
 
 ```
 sh target/appassembler/bin/SearchWebCollection -collection CW09 -index lucene-index.cw09b.cnt
-  -topics src/main/resources/topics-and-qrels/topics.web.151-200.txt - out run.web.151-200.txt -bm25
+  -topics src/main/resources/topics-and-qrels/topics.web.151-200.txt -output run.web.151-200.txt -bm25
 ```
 
 Then you can evaluate the runs:
@@ -88,7 +88,7 @@ After indexing is done, you should be able to perform a retrieval run:
 
 ```
 sh target/appassembler/bin/SearchWebCollection -collection CW12 -index lucene-index.cw12b.cnt
-  -topics src/main/resources/topics-and-qrels/topics.web.251-300.txt - out run.web.251-300.txt -bm25
+  -topics src/main/resources/topics-and-qrels/topics.web.251-300.txt -output run.web.251-300.txt -bm25
 ```
 
 ### Experiments on Tweets2011
