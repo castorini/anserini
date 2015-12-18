@@ -12,16 +12,16 @@ mvn clean package appassembler:assemble
 Indexing:
 
 ```
-nohup sh target/appassembler/bin/IndexGov2 -input /path/to/gov2/ \
- -index lucene-index.gov2 -threads 32 -positions -optimize >& log.gov2.txt &
+nohup sh target/appassembler/bin/IndexWebCollection -collection GOV2 -input /path/to/gov2/ \
+ -index lucene-index.gov2 -threads 32 -positions -optimize 2> emptyDocIDs.txt 1> recordCounts.txt &
 ```
 
 The directory `/path/to/gov2/` should be the root directory of Gov2 collection, i.e., `ls /path/to/gov2/` should bring up a bunch of subdirectories, `GX000` to `GX272`. The command above builds a standard positional index (`-positions`) that's optimized into a single segment (`-optimize`). If you also want to store document vectors (e.g., for query expansion), add the `-docvectors` option.
 
-After indexing is done, you should be able to peform a retrieval run:
+After indexing is done, you should be able to perform a retrieval run:
 
 ```
-sh target/appassembler/bin/SearchGov2 -index lucene-index.gov2.vec \
+sh target/appassembler/bin/SearchWebCollection -collection GOV2 -index lucene-index.gov2.vec \
   -topics src/main/resources/topics-and-qrels/topics.701-750.txt -output run.gov2.701-750.bm25.txt -bm25
 ```
 
@@ -37,8 +37,8 @@ eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.701-750.t
 Indexing:
 
 ```
-sh target/appassembler/bin/IndexClueWeb09b -input /path/to/cw09/ClueWeb09_English_1/ \
-  -collection CW09 -index lucene-index.cw09b.cnt -threads 32 -optimize
+sh target/appassembler/bin/IndexWebCollection -collection CW09 -input /path/to/cw09/ClueWeb09_English_1/ \
+  -index lucene-index.cw09b.cnt -threads 32 -optimize
 ```
 
 The directory `/path/to/cw09/ClueWeb09_English_1` should be the root directory of ClueWeb09B collection, i.e., `ls /path/to/cw09/ClueWeb09_English_1` should bring up a bunch of subdirectories, `en0000` to `enwp03`.
@@ -46,8 +46,8 @@ The directory `/path/to/cw09/ClueWeb09_English_1` should be the root directory o
 After indexing is done, you should be able to perform a retrieval run:
 
 ```
-sh target/appassembler/bin/SearchClueWeb09b src/main/resources/topics-and-qrels/topics.web.151-200.txt \
-  run.web.151-200.txt lucene-index.cw09b.cnt
+sh target/appassembler/bin/SearchWebCollection -collection CW09 -index lucene-index.cw09b.cnt
+  -topics src/main/resources/topics-and-qrels/topics.web.151-200.txt - out run.web.151-200.txt -bm25
 ```
 
 Then you can evaluate the runs:
@@ -65,25 +65,31 @@ sh target/appassembler/bin/Time lucene-index.cw09b.cnt
 ### Experiments on ClueWeb09 (Category A)
 
 ```
-sh target/appassembler/bin/IndexClueWeb09b -input /path/to/cw09/ \
-  -collection CW09 -index lucene-index.cw09a.cnt -threads 32 -optimize 2> emptyDocIDs.txt 1> recordCounts.txt
+sh target/appassembler/bin/IndexWebCollection -collection CW09 -input /path/to/cw09/ \
+  -index lucene-index.cw09a.cnt -threads 32 -optimize 2> emptyDocIDs.txt 1> recordCounts.txt
 ```
 
 The directory `/path/to/cw09/` should be the root directory of ClueWeb09 collection, i.e., `/path/to/cw09/` should bring up a bunch of subdirectories, `ClueWeb09_English_1` to `ClueWeb09_English_10`.
 
 After indexing is done, you should be able to compare record counts file with the one comes from the dataset.
-`emptyDocIDs.txt` file contains the documents that are not indexed. JSoup produces empty string, probably they are not valid HTMLs.
+`emptyDocIDs.txt` file contains the documents that are not indexed. [JSoup](http://jsoup.org) produces empty string, probably they are not valid HTMLs.
 If you count it with `wc -l` and add it the number that is reported from the indexer, you should obtain the total number of documents for the dataset.
 
 ### Experiments on ClueWeb12-B13
 
 ```
-sh target/appassembler/bin/IndexClueWeb09b -input /path/to/cw12b/ \
-  -collection CW12 -index lucene-index.cw12b.cnt -threads 32 -optimize 2> emptyDocIDs.txt 1> recordCounts.txt
+sh target/appassembler/bin/IndexWebCollection -collection CW12 -input /path/to/cw12b/ \
+  -index lucene-index.cw12b.cnt -threads 32 -optimize 2> emptyDocIDs.txt 1> recordCounts.txt
 ```
 
 The directory `/path/to/cw12b/` should be the root directory of ClueWeb12-B13 collection, i.e., `/path/to/cw12b/` should bring up a bunch of subdirectories, `ClueWeb12_00` to `ClueWeb12_18`.
 
+After indexing is done, you should be able to perform a retrieval run:
+
+```
+sh target/appassembler/bin/SearchWebCollection -collection CW12 -index lucene-index.cw12b.cnt
+  -topics src/main/resources/topics-and-qrels/topics.web.251-300.txt - out run.web.251-300.txt -bm25
+```
 
 ### Experiments on Tweets2011
 

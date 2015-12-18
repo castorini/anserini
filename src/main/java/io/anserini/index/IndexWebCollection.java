@@ -50,11 +50,11 @@ import java.util.concurrent.TimeUnit;
 import java.util.zip.GZIPInputStream;
 
 /**
- * Indexer for ClueWeb09 Category B Corpus.
+ * Indexer for Gov2, ClueWeb09, and ClueWeb12 corpara.
  */
-public final class IndexClueWeb09b {
+public final class IndexWebCollection {
 
-  private static final Logger LOG = LogManager.getLogger(IndexClueWeb09b.class);
+  private static final Logger LOG = LogManager.getLogger(IndexWebCollection.class);
 
   public static final String FIELD_BODY = "contents";
   public static final String FIELD_ID = "id";
@@ -225,7 +225,7 @@ public final class IndexClueWeb09b {
 
   private final Collection collection;
 
-  public IndexClueWeb09b(String docsPath, String indexPath, Collection collection) throws IOException {
+  public IndexWebCollection(String docsPath, String indexPath, Collection collection) throws IOException {
 
     this.indexPath = Paths.get(indexPath);
     if (!Files.exists(this.indexPath))
@@ -383,12 +383,12 @@ public final class IndexClueWeb09b {
     } catch (CmdLineException e) {
       System.err.println(e.getMessage());
       parser.printUsage(System.err);
-      System.err.println("Example: IndexClueWeb09b" + parser.printExample(OptionHandlerFilter.REQUIRED));
+      System.err.println("Example: IndexWebCollection" + parser.printExample(OptionHandlerFilter.REQUIRED));
       return;
     }
 
     final long start = System.nanoTime();
-    IndexClueWeb09b indexer = new IndexClueWeb09b(indexArgs.input, indexArgs.index, indexArgs.collection);
+    IndexWebCollection indexer = new IndexWebCollection(indexArgs.input, indexArgs.index, indexArgs.collection);
 
     indexer.setPositions(indexArgs.positions);
     indexer.setOptimize(indexArgs.optimize);

@@ -54,20 +54,21 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import static io.anserini.index.IndexClueWeb09b.*;
+import static io.anserini.index.IndexWebCollection.FIELD_BODY;
+import static io.anserini.index.IndexWebCollection.FIELD_ID;
 
 /**
- * Searcher for Gov2, ClueWeb09, and ClueWeb12 datasets.
+ * Searcher for Gov2, ClueWeb09, and ClueWeb12 corpra.
  * TREC Web Tracks from 2009 to 2014
  * TREC Terabyte Tracks from 2004 to 2006
  */
-public final class SearchClueWeb09b implements Closeable {
+public final class SearchWebCollection implements Closeable {
 
-  private static final Logger LOG = LogManager.getLogger(SearchClueWeb09b.class);
+  private static final Logger LOG = LogManager.getLogger(SearchWebCollection.class);
 
   private final IndexReader reader;
 
-  public SearchClueWeb09b(String indexDir) throws IOException {
+  public SearchWebCollection(String indexDir) throws IOException {
 
     Path indexPath = Paths.get(indexDir);
 
@@ -192,7 +193,7 @@ public final class SearchClueWeb09b implements Closeable {
     searcher.setSimilarity(similarity);
 
 
-    final String runTag = "BM25_Krovetz_" + FIELD_BODY + "_" + similarity.toString();
+    final String runTag = "BM25_EnglishAnalyzer_" + FIELD_BODY + "_" + similarity.toString();
 
     PrintWriter out = new PrintWriter(Files.newBufferedWriter(Paths.get(submissionFile), StandardCharsets.US_ASCII));
 
@@ -226,7 +227,7 @@ public final class SearchClueWeb09b implements Closeable {
         out.print("\tQ0\t");
         out.print(doc.get(FIELD_ID));
         out.print("\t");
-        out.print(i+1);
+        out.print(i + 1);
         out.print("\t");
         out.print(hits[i].score);
         out.print("\t");
@@ -292,7 +293,7 @@ public final class SearchClueWeb09b implements Closeable {
 
     SortedMap<Integer, String> topics = io.anserini.document.Collection.GOV2.equals(searchArgs.collection) ? readTeraByteTackQueries(topicsFile) : readWebTrackQueries(topicsFile);
 
-    SearchClueWeb09b searcher = new SearchClueWeb09b(searchArgs.index);
+    SearchWebCollection searcher = new SearchWebCollection(searchArgs.index);
     searcher.search(topics, searchArgs.output, similarity, searchArgs.hits);
     searcher.close();
   }

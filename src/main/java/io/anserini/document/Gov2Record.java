@@ -17,7 +17,7 @@ package io.anserini.document;
  * limitations under the License.
  */
 
-import io.anserini.index.IndexClueWeb09b;
+import io.anserini.index.IndexWebCollection;
 
 public final class Gov2Record {
 
@@ -72,7 +72,7 @@ public final class Gov2Record {
 
       @Override
       public String type() {
-        return IndexClueWeb09b.RESPONSE;
+        return IndexWebCollection.RESPONSE;
       }
     };
   }
