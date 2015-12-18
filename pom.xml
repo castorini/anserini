@@ -53,12 +53,12 @@
               <name>SearchGov2</name>
             </program>
             <program>
-              <mainClass>io.anserini.index.IndexClueWeb09b</mainClass>
-              <name>IndexClueWeb09b</name>
+              <mainClass>io.anserini.index.IndexWebCollection</mainClass>
+              <name>IndexWebCollection</name>
             </program>
             <program>
-              <mainClass>io.anserini.search.SearchClueWeb09b</mainClass>
-              <name>SearchClueWeb09b</name>
+              <mainClass>io.anserini.search.SearchWebCollection</mainClass>
+              <name>SearchWebCollection</name>
             </program>
             <program>
               <mainClass>io.anserini.SearchTimeUtil</mainClass>
@@ -215,13 +215,13 @@
       <artifactId>ant</artifactId>
       <version>1.9.1</version>
     </dependency>
-    
+
     <dependency>
   	  <groupId>org.eclipse.jetty</groupId>
   	  <artifactId>jetty-server</artifactId>
   	  <version>${JETTY_VERSION}</version>
   	</dependency>
-  	
+
   	<dependency>
   	  <groupId>org.eclipse.jetty</groupId>
   	  <artifactId>jetty-servlet</artifactId>

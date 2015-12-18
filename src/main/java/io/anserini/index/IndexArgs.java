@@ -17,6 +17,7 @@ package io.anserini.index;
  * limitations under the License.
  */
 
+import io.anserini.document.Collection;
 import org.kohsuke.args4j.Option;
 
 /**
@@ -34,6 +35,9 @@ public class IndexArgs {
 
   @Option(name = "-threads", metaVar = "[Number]", required = true, usage = "Number of Threads")
   int threads;
+
+  @Option(name = "-collection", required = true, usage = "Collection")
+  protected Collection collection;
 
   // optional arguments
 
