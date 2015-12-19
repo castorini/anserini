@@ -31,6 +31,14 @@ A copy of `trec_eval` is included in `eval/`. Unpack and compile it. Then you ca
 eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.701-750.txt run.gov2.701-750.bm25.txt
 ```
 
+With the topics and qrels in `src/main/resources/topics-and-qrels/`, you should be able to replicate the following results:
+
+                                                                                        | MAP    |  P30
+----------------------------------------------------------------------------------------|--------|-------
+[TREC 2004 Terabyte Track: Topics 701-750](http://trec.nist.gov/data/terabyte04.html)   | 0.2673 | 0.4850
+[TREC 2005 Terabyte Track: Topics 751-800](http://trec.nist.gov/data/terabyte05.html)   | 0.3365 | 0.5520
+[TREC 2006 Terabyte Track: Topics 801-850](http://trec.nist.gov/data/terabyte06.html)   | 0.3053 | 0.4913
+
 
 ### Experiments on ClueWeb09 (Category B)
 
@@ -47,20 +55,17 @@ After indexing is done, you should be able to perform a retrieval run:
 
 ```
 sh target/appassembler/bin/SearchWebCollection -collection CW09 -index lucene-index.cw09b.cnt
-  -topics src/main/resources/topics-and-qrels/topics.web.151-200.txt -output run.web.151-200.txt -bm25
+  -topics src/main/resources/topics-and-qrels/topics.web.51-100.txt -output run.web.51-100.txt -bm25
 ```
 
-Then you can evaluate the runs:
+You should then be able to evaluate using `trec_eval`, as with Gov2 above. With the topics and qrels in `src/main/resources/topics-and-qrels/`, you should be able to replicate the following results:
 
-```
-trec_eval src/main/resources/topics-and-qrels/qrels.web.151-200.txt run.web.151-200.txt
-```
+                                                                              | MAP    |  P30
+------------------------------------------------------------------------------|--------|-------
+[TREC 2010 Web Track: Topics 51-100](http://trec.nist.gov/data/web10.html)    | 0.1091 | 0.2667
+[TREC 2011 Web Track: Topics 101-150](http://trec.nist.gov/data/web2011.html) | 0.1095 | 0.2540
+[TREC 2012 Web Track: Topics 151-200](http://trec.nist.gov/data/web2012.html) | 0.1072 | 0.2187
 
-To record search/running times:
-
-```
-sh target/appassembler/bin/Time lucene-index.cw09b.cnt
-```
 
 ### Experiments on ClueWeb09 (Category A)
 
@@ -88,8 +93,15 @@ After indexing is done, you should be able to perform a retrieval run:
 
 ```
 sh target/appassembler/bin/SearchWebCollection -collection CW12 -index lucene-index.cw12b.cnt
-  -topics src/main/resources/topics-and-qrels/topics.web.251-300.txt -output run.web.251-300.txt -bm25
+  -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt -output run.web.201-250.txt -bm25
 ```
+
+You should then be able to evaluate using `trec_eval`, as with Gov2 and ClueWeb09 above. With the topics and qrels in `src/main/resources/topics-and-qrels/`, you should be able to replicate the following results:
+
+                                                                               | MAP    |  P30
+-------------------------------------------------------------------------------|--------|-------
+[TREC 2013 Web Track: Topics 201-250](http://trec.nist.gov/data/web2013.html)  | 0.0458 | 0.2000
+[TREC 2014 Web Track: Topics 251-300](http://trec.nist.gov/data/web2014.html)  | 0.0220 | 0.1307
 
 ### Experiments on Tweets2011
 
