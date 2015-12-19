@@ -259,7 +259,7 @@ public final class IndexWebCollection {
       @Override
       public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) {
         if ("OtherData".equals(dir.getFileName().toString())) {
-          LOG.info("Skipping: ", dir);
+          LOG.info("Skipping: " + dir);
           return FileVisitResult.SKIP_SUBTREE;
         }
         return FileVisitResult.CONTINUE;
