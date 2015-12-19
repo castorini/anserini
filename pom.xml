@@ -23,6 +23,7 @@
         <configuration>
           <source>1.7</source>
           <target>1.7</target>
+          <encoding>utf-8</encoding>
         </configuration>
       </plugin>
       <plugin>

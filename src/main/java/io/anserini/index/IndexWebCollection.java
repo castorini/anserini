@@ -119,7 +119,7 @@ public final class IndexWebCollection {
       try (DataInputStream inStream = new DataInputStream(new GZIPInputStream(Files.newInputStream(inputWarcFile, StandardOpenOption.READ)))) {
         // iterate through our stream
         ClueWeb12WarcRecord wDoc;
-        while ((wDoc = ClueWeb12WarcRecord.readNextWarcRecord(inStream)) != null) {
+        while ((wDoc = ClueWeb12WarcRecord.readNextWarcRecord(inStream, ClueWeb12WarcRecord.WARC_VERSION)) != null) {
           i += indexWarcRecord(wDoc);
         }
       }
@@ -133,7 +133,7 @@ public final class IndexWebCollection {
       try (DataInputStream inStream = new DataInputStream(new GZIPInputStream(Files.newInputStream(inputWarcFile, StandardOpenOption.READ)))) {
         // iterate through our stream
         ClueWeb09WarcRecord wDoc;
-        while ((wDoc = ClueWeb09WarcRecord.readNextWarcRecord(inStream)) != null) {
+        while ((wDoc = ClueWeb09WarcRecord.readNextWarcRecord(inStream, ClueWeb09WarcRecord.WARC_VERSION)) != null) {
           i += indexWarcRecord(wDoc);
         }
       }
@@ -259,7 +259,7 @@ public final class IndexWebCollection {
       @Override
       public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) {
         if ("OtherData".equals(dir.getFileName().toString())) {
-          LOG.info("Skipping %s\n", dir);
+          LOG.info("Skipping: ", dir);
           return FileVisitResult.SKIP_SUBTREE;
         }
         return FileVisitResult.CONTINUE;

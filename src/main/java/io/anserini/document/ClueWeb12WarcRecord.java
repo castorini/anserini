@@ -75,9 +75,9 @@ public final class ClueWeb12WarcRecord implements WarcRecord {
    * @return a WARC record (or null if eof)
    * @throws java.io.IOException
    */
-  public static ClueWeb12WarcRecord readNextWarcRecord(DataInputStream in) throws IOException {
+  public static ClueWeb12WarcRecord readNextWarcRecord(DataInputStream in, String WARC_VERSION) throws IOException {
     StringBuilder recordHeader = new StringBuilder();
-    byte[] recordContent = ClueWeb09WarcRecord.readNextRecord(in, recordHeader);
+    byte[] recordContent = ClueWeb09WarcRecord.readNextRecord(in, recordHeader, WARC_VERSION);
     if (recordContent == null) {
       return null;
     }

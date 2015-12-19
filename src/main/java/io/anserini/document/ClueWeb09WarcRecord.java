@@ -171,7 +171,7 @@ public final class ClueWeb09WarcRecord implements WarcRecord {
    * @return the content byts (w/ the headerBuffer populated)
    * @throws java.io.IOException
    */
-  static byte[] readNextRecord(DataInputStream in, StringBuilder headerBuffer) throws IOException {
+  static byte[] readNextRecord(DataInputStream in, StringBuilder headerBuffer, String WARC_VERSION) throws IOException {
     if (in == null) {
       return null;
     }
@@ -261,9 +261,9 @@ public final class ClueWeb09WarcRecord implements WarcRecord {
    * @return a WARC record (or null if eof)
    * @throws java.io.IOException
    */
-  public static ClueWeb09WarcRecord readNextWarcRecord(DataInputStream in) throws IOException {
+  public static ClueWeb09WarcRecord readNextWarcRecord(DataInputStream in, String WARC_VERSION) throws IOException {
     StringBuilder recordHeader = new StringBuilder();
-    byte[] recordContent = readNextRecord(in, recordHeader);
+    byte[] recordContent = readNextRecord(in, recordHeader, WARC_VERSION);
     if (recordContent == null) {
       return null;
     }
