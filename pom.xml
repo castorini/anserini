@@ -101,20 +101,28 @@
 
     <dependency>
       <groupId>org.apache.lucene</groupId>
-      <artifactId>lucene-benchmark</artifactId>
+      <artifactId>lucene-core</artifactId>
       <version>${LUCENE_VERSION}</version>
+      <type>jar</type>
+      <scope>compile</scope>
     </dependency>
 
     <dependency>
       <groupId>org.apache.lucene</groupId>
-      <artifactId>lucene-core</artifactId>
+      <artifactId>lucene-analyzers-common</artifactId>
       <version>${LUCENE_VERSION}</version>
+      <type>jar</type>
+      <scope>compile</scope>
     </dependency>
-	<dependency>
+
+    <dependency>
       <groupId>org.apache.lucene</groupId>
-      <artifactId>lucene-backward-codecs</artifactId>
+      <artifactId>lucene-queryparser</artifactId>
       <version>${LUCENE_VERSION}</version>
+      <type>jar</type>
+      <scope>compile</scope>
     </dependency>
+
     <dependency>
       <groupId>commons-logging</groupId>
       <artifactId>commons-logging</artifactId>
@@ -218,16 +226,16 @@
     </dependency>
 
     <dependency>
-  	  <groupId>org.eclipse.jetty</groupId>
-  	  <artifactId>jetty-server</artifactId>
-  	  <version>${JETTY_VERSION}</version>
-  	</dependency>
+      <groupId>org.eclipse.jetty</groupId>
+      <artifactId>jetty-server</artifactId>
+      <version>${JETTY_VERSION}</version>
+    </dependency>
 
-  	<dependency>
-  	  <groupId>org.eclipse.jetty</groupId>
-  	  <artifactId>jetty-servlet</artifactId>
-  	  <version>${JETTY_VERSION}</version>
-  	</dependency>
+    <dependency>
+      <groupId>org.eclipse.jetty</groupId>
+      <artifactId>jetty-servlet</artifactId>
+      <version>${JETTY_VERSION}</version>
+    </dependency>
 
     <dependency>
       <groupId>com.github.spullara.mustache.java</groupId>
