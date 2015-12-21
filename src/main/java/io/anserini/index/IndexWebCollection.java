@@ -103,7 +103,10 @@ public final class IndexWebCollection {
 
       // entire document
       if (positions)
-        document.add(new TextField(FIELD_BODY, contents, Field.Store.NO));
+        if (docVectors)
+          document.add(new TermVectorsTextField(FIELD_BODY, contents));
+        else
+          document.add(new TextField(FIELD_BODY, contents, Field.Store.NO));
       else
         document.add(new NoPositionsTextField(FIELD_BODY, contents));
 
@@ -209,6 +212,12 @@ public final class IndexWebCollection {
 
   public void setPositions(boolean positions) {
     this.positions = positions;
+  }
+
+  private boolean docVectors = false;
+
+  public void setDocVectors(boolean docVectors) {
+    this.docVectors = docVectors;
   }
 
   private boolean optimize = false;
@@ -387,9 +396,14 @@ public final class IndexWebCollection {
       return;
     }
 
+    if (indexArgs.docvectors && !indexArgs.positions)
+      LOG.warn("to store docVectors you must store positions too. With this configuration, both positions and docVectors will not be stored!");
+
+
     final long start = System.nanoTime();
     IndexWebCollection indexer = new IndexWebCollection(indexArgs.input, indexArgs.index, indexArgs.collection);
 
+    indexer.setDocVectors(indexArgs.docvectors);
     indexer.setPositions(indexArgs.positions);
     indexer.setOptimize(indexArgs.optimize);
     indexer.setDocLimit(indexArgs.doclimit);
@@ -397,6 +411,7 @@ public final class IndexWebCollection {
     LOG.info("Index path: " + indexArgs.index);
     LOG.info("Threads: " + indexArgs.threads);
     LOG.info("Positions: " + indexArgs.positions);
+    LOG.info("Store docVectors: " + indexArgs.docvectors);
     LOG.info("Optimize (merge segments): " + indexArgs.optimize);
     LOG.info("Doc limit: " + (indexArgs.doclimit == -1 ? "all docs" : "" + indexArgs.doclimit));
 
