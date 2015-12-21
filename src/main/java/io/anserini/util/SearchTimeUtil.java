@@ -52,7 +52,7 @@ public class SearchTimeUtil {
       for (int i = 1; i <= 3; i++) {
         final long start = System.nanoTime();
         String submissionFile = File.createTempFile(topicFile + "_" + i, ".tmp").getAbsolutePath();
-        searcher.search(queries, submissionFile, new BM25Similarity(0.9f, 0.4f), 1000);
+        searcher.search(queries, submissionFile, new BM25Similarity(0.9f, 0.4f), 1000, "Lucene");
         final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
         System.out.println(topicFile + "_" + i + " search completed in " + DurationFormatUtils.formatDuration(durationMillis, "mm:ss:SSS"));
       }
