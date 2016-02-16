@@ -12,4 +12,9 @@ public class TwitterFriendCount implements FeatureExtractor {
   public float extract(Document doc, Terms terms, RerankerContext context) {
     return (float) (int) doc.getField(StatusField.FRIENDS_COUNT.name).numericValue();
   }
+
+    @Override
+    public String getName() {
+        return "TwitterFriendCount";
+    }
 }

@@ -17,13 +17,15 @@ package io.anserini.search;
  * limitations under the License.
  */
 
-import com.google.common.collect.Sets;
+import io.anserini.ltr.WebCollectionLtrDataGenerator;
+import io.anserini.ltr.feature.FeatureExtractors;
+import io.anserini.rerank.IdentityReranker;
 import io.anserini.rerank.RerankerCascade;
 import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.ScoredDocuments;
 import io.anserini.rerank.rm3.Rm3Reranker;
 import io.anserini.util.AnalyzerUtils;
-import org.apache.commons.lang3.time.DurationFormatUtils;
+import io.anserini.util.Qrels;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;
@@ -39,7 +41,9 @@ import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.search.similarities.BM25Similarity;
 import org.apache.lucene.search.similarities.LMDirichletSimilarity;
 import org.apache.lucene.search.similarities.Similarity;
+import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
+import org.apache.lucene.store.MMapDirectory;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.OptionHandlerFilter;
@@ -47,6 +51,7 @@ import org.kohsuke.args4j.ParserProperties;
 
 import java.io.Closeable;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -56,7 +61,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
-import java.util.concurrent.TimeUnit;
 
 import static io.anserini.index.IndexWebCollection.FIELD_BODY;
 import static io.anserini.index.IndexWebCollection.FIELD_ID;
@@ -182,22 +186,22 @@ public final class SearchWebCollection implements Closeable {
   }
 
   /**
-   * Searches queries and saves results to the supplied TREC submission file
+   * Prints TREC submission file to the standard output stream.
    *
-   * @param topics         queries
-   * @param submissionFile TREC submission file
-   * @param similarity     similarity
-   * @param numHits        number of documents to retrieve
-   * @param runTag         run tag to include in submission file
+   * @param topics     queries
+   * @param similarity similarity
    * @throws IOException
    * @throws ParseException
    */
 
-  public void search(SortedMap<Integer, String> topics, String submissionFile, Similarity similarity, int numHits, final String runTag) throws IOException, ParseException {
+  public void search(SortedMap<Integer, String> topics, String submissionFile, Similarity similarity, int numHits, RerankerCascade cascade) throws IOException, ParseException {
 
 
     IndexSearcher searcher = new IndexSearcher(reader);
     searcher.setSimilarity(similarity);
+
+
+    final String runTag = "BM25_EnglishAnalyzer_" + FIELD_BODY + "_" + similarity.toString();
 
     PrintWriter out = new PrintWriter(Files.newBufferedWriter(Paths.get(submissionFile), StandardCharsets.US_ASCII));
 
@@ -211,7 +215,15 @@ public final class SearchWebCollection implements Closeable {
       String queryString = entry.getValue();
       Query query = queryParser.parse(queryString);
 
-      ScoreDoc[] hits = searcher.search(query, numHits).scoreDocs;
+      /**
+       * For Web Tracks 2010,2011,and 2012; an experimental run consists of the top 10,000 documents for each topic query.
+       */
+      TopDocs rs = searcher.search(query, numHits);
+      ScoreDoc[] hits = rs.scoreDocs;
+      List<String> queryTokens = AnalyzerUtils.tokenize(new EnglishAnalyzer(), queryString);
+      RerankerContext context = new RerankerContext(searcher, query, String.valueOf(qID), queryString,
+              queryTokens, FIELD_BODY, null);
+      ScoredDocuments docs = cascade.run(ScoredDocuments.fromTopDocs(rs, searcher), context);
 
       /**
        * the first column is the topic number.
@@ -240,38 +252,9 @@ public final class SearchWebCollection implements Closeable {
     out.close();
   }
 
-  public void search(RerankerCascade cascade, SortedMap<Integer, String> topics, String submissionFile, Similarity similarity, int numHits, final String runTag) throws IOException {
+  public static void main(String[] args) throws Exception {
 
-    IndexSearcher searcher = new IndexSearcher(reader);
-    searcher.setSimilarity(similarity);
-
-    PrintWriter out = new PrintWriter(Files.newBufferedWriter(Paths.get(submissionFile), StandardCharsets.US_ASCII));
-
-    for (Map.Entry<Integer, String> entry : topics.entrySet()) {
-
-      int qID = entry.getKey();
-      String queryText = entry.getValue();
-
-
-      Query query = AnalyzerUtils.buildBagOfWordsQuery(FIELD_BODY, new EnglishAnalyzer(), queryText);
-      TopDocs rs = searcher.search(query, numHits);
-
-      RerankerContext context = new RerankerContext(searcher, query, Integer.toString(qID), queryText,
-              Sets.newHashSet(AnalyzerUtils.tokenize(new EnglishAnalyzer(), queryText)), null);
-      ScoredDocuments docs = cascade.run(ScoredDocuments.fromTopDocs(rs, searcher), context);
-
-      for (int i = 0; i < docs.documents.length; i++) {
-        out.println(String.format("%d Q0 %s %d %f %s", qID,
-                docs.documents[i].getField(FIELD_ID).stringValue(), (i + 1), docs.scores[i], runTag));
-      }
-    }
-    out.flush();
-    out.close();
-  }
-
-
-  public static void main(String[] args) throws IOException, ParseException {
-
+    long curTime = System.nanoTime();
     SearchArgs searchArgs = new SearchArgs();
     CmdLineParser parser = new CmdLineParser(searchArgs, ParserProperties.defaults().withUsageWidth(90));
 
@@ -284,17 +267,45 @@ public final class SearchWebCollection implements Closeable {
       return;
     }
 
+    LOG.info("Reading index at " + searchArgs.index);
+    Directory dir;
+    if (searchArgs.inmem) {
+      LOG.info("Using MMapDirectory with preload");
+      dir = new MMapDirectory(Paths.get(searchArgs.index));
+      ((MMapDirectory) dir).setPreload(true);
+    } else {
+      LOG.info("Using default FSDirectory");
+      dir = FSDirectory.open(Paths.get(searchArgs.index));
+    }
+
     Similarity similarity = null;
 
     if (searchArgs.ql) {
-      LOG.info("Using QL scoring model with mu=" + searchArgs.mu);
+      LOG.info("Using QL scoring model");
       similarity = new LMDirichletSimilarity(searchArgs.mu);
     } else if (searchArgs.bm25) {
-      LOG.info("Using BM25 scoring model with k1=" + searchArgs.k1 + " and b=" + searchArgs.b);
+      LOG.info("Using BM25 scoring model");
       similarity = new BM25Similarity(searchArgs.k1, searchArgs.b);
     } else {
       LOG.error("Error: Must specify scoring model!");
       System.exit(-1);
+    }
+
+    RerankerCascade cascade = new RerankerCascade();
+    if (searchArgs.rm3) {
+      cascade.add(new Rm3Reranker(new EnglishAnalyzer(), "body", "src/main/resources/io/anserini/rerank/rm3/rm3-stoplist.gov2.txt"));
+    } else {
+      cascade.add(new IdentityReranker());
+    }
+    FeatureExtractors extractors = null;
+    if (searchArgs.extractors != null) {
+      extractors = FeatureExtractors.loadExtractor(searchArgs.extractors);
+    }
+
+    if (searchArgs.dumpFeatures) {
+      PrintStream out = new PrintStream(searchArgs.featureFile);
+      Qrels qrels = new Qrels(searchArgs.qrels);
+      cascade.add(new WebCollectionLtrDataGenerator(out,  qrels, extractors));
     }
 
     Path topicsFile = Paths.get(searchArgs.topics);
@@ -303,20 +314,10 @@ public final class SearchWebCollection implements Closeable {
       throw new IllegalArgumentException("Topics file : " + topicsFile + " does not exist or is not a (readable) file.");
     }
 
-    final long start = System.nanoTime();
     SortedMap<Integer, String> topics = io.anserini.document.Collection.GOV2.equals(searchArgs.collection) ? readTeraByteTackQueries(topicsFile) : readWebTrackQueries(topicsFile);
 
-    try (SearchWebCollection searcher = new SearchWebCollection(searchArgs.index)) {
-
-      if (searchArgs.rm3) {
-        RerankerCascade cascade = new RerankerCascade();
-        cascade.add(new Rm3Reranker(new EnglishAnalyzer(), FIELD_BODY, "src/main/resources/io/anserini/rerank/rm3/rm3-stoplist.gov2.txt"));
-        searcher.search(cascade, topics, searchArgs.output, similarity, searchArgs.hits, searchArgs.runtag);
-      } else
-        searcher.search(topics, searchArgs.output, similarity, searchArgs.hits, searchArgs.runtag);
-    }
-
-    final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
-    LOG.info("Total " + topics.size() + " topics searched in " + DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss"));
+    SearchWebCollection searcher = new SearchWebCollection(searchArgs.index);
+    searcher.search(topics, searchArgs.output, similarity, searchArgs.hits, cascade);
+    searcher.close();
   }
 }

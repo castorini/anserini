@@ -1,0 +1,23 @@
+<parameters>
+
+     <index>index-cacm</index>
+
+     <!-- Dirichlet, full independence -->
+     <model id="cacm-dir-base" type="Feature" output="ranking.cacm-dir-base.txt" hits="1000">
+         <feature id="termWt" weight="1.0"
+                  cliqueSet="ivory.smrf.model.builder.TermCliqueSet"
+                  potential="ivory.smrf.model.potential.QueryPotential"
+                  generator="ivory.smrf.model.builder.TermExpressionGenerator"
+                  scoreFunction="ivory.smrf.model.score.DirichletScoringFunction" mu="1000.0" />
+     </model>
+
+     <!-- BM25, full independence -->
+     <model id="cacm-bm25-base" type="Feature" output="ranking.cacm-bm25-base.txt" hits="1000">
+         <feature id="term" weight="1.0"
+                  cliqueSet="ivory.smrf.model.builder.TermCliqueSet"
+                  potential="ivory.smrf.model.potential.QueryPotential"
+                  generator="ivory.smrf.model.builder.TermExpressionGenerator"
+                  scoreFunction="ivory.smrf.model.score.BM25ScoringFunction" k1="0.5" b="0.3" />
+     </model>
+
+</parameters>

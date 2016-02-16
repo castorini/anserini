@@ -18,6 +18,13 @@ package io.anserini.search;
 
 import io.anserini.index.IndexTweets;
 import io.anserini.index.IndexTweets.StatusField;
+import io.anserini.ltr.*;
+import io.anserini.ltr.feature.FeatureExtractors;
+import io.anserini.ltr.feature.base.MatchingTermCount;
+import io.anserini.ltr.feature.base.QueryLength;
+import io.anserini.ltr.feature.base.SumMatchingTf;
+import io.anserini.ltr.feature.twitter.*;
+import io.anserini.rerank.RankLibReranker;
 import io.anserini.rerank.RerankerCascade;
 import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.ScoredDocuments;
@@ -29,7 +36,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.nio.file.Paths;
+import java.util.List;
 
+import io.anserini.util.Qrels;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.index.DirectoryReader;
@@ -104,6 +113,22 @@ public class SearchTweets {
       cascade.add(new RemoveRetweetsTemporalTiebreakReranker());
     }
 
+    if (!searchArgs.model.isEmpty() && searchArgs.extractors != null) {
+      LOG.debug(String.format("Ranklib model used, modeled loaded from %s", searchArgs.model));
+      cascade.add(new RankLibReranker(searchArgs.model, StatusField.TEXT.name, searchArgs.extractors));
+    }
+
+    FeatureExtractors extractorChain = null;
+    if (searchArgs.extractors != null) {
+      extractorChain = FeatureExtractors.loadExtractor(searchArgs.extractors);
+    }
+
+    if (searchArgs.dumpFeatures) {
+      PrintStream out = new PrintStream(searchArgs.featureFile);
+      Qrels qrels = new Qrels(searchArgs.qrels);
+      cascade.add(new TweetsLtrDataGenerator(out, qrels, extractorChain));
+    }
+
     MicroblogTopicSet topics = MicroblogTopicSet.fromFile(new File(searchArgs.topics));
 
     PrintStream out = new PrintStream(new FileOutputStream(new File(searchArgs.output)));
@@ -119,9 +144,10 @@ public class SearchTweets {
       Query query = AnalyzerUtils.buildBagOfWordsQuery(StatusField.TEXT.name, IndexTweets.ANALYZER, topic.getQuery());
 
       TopDocs rs = searcher.search(query, filter, searchArgs.hits);
+      List<String> queryTokens = AnalyzerUtils.tokenize(IndexTweets.ANALYZER, topic.getQuery());
 
       RerankerContext context = new RerankerContext(searcher, query, topic.getId(), topic.getQuery(),
-          Sets.newHashSet(AnalyzerUtils.tokenize(IndexTweets.ANALYZER, topic.getQuery())), filter);
+         queryTokens, StatusField.TEXT.name, filter);
       ScoredDocuments docs = cascade.run(ScoredDocuments.fromTopDocs(rs, searcher), context);
 
       for (int i=0; i<docs.documents.length; i++) {
