@@ -10,4 +10,6 @@ import org.apache.lucene.index.Terms;
  */
 public interface FeatureExtractor {
   float extract(Document doc, Terms terms, RerankerContext context);
+
+  String getName();
 }

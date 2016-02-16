@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Map;
+import java.util.Set;
 
 import com.google.common.collect.Maps;
 
@@ -47,5 +48,9 @@ public class Qrels {
 
     if ( qrels.get(qid).get(docid) <= 0 ) return 0;
     return qrels.get(qid).get(docid);
+  }
+
+  public Set<String> getQids() {
+      return this.qrels.keySet();
   }
 }

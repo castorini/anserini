@@ -22,11 +22,9 @@ import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;
-import org.apache.lucene.document.Document;
-import org.apache.lucene.document.Field;
-import org.apache.lucene.document.StringField;
-import org.apache.lucene.document.TextField;
+import org.apache.lucene.document.*;
 import org.apache.lucene.index.ConcurrentMergeScheduler;
+import org.apache.lucene.index.IndexOptions;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.search.similarities.BM25Similarity;
@@ -101,12 +99,21 @@ public final class IndexWebCollection {
       // document ID
       document.add(new StringField(FIELD_ID, id, Field.Store.YES));
 
-      // entire document
-      if (positions)
-        document.add(new TextField(FIELD_BODY, contents, Field.Store.NO));
-      else
-        document.add(new NoPositionsTextField(FIELD_BODY, contents));
+      FieldType fieldType = new FieldType();
+      fieldType.setStored(true);
+      fieldType.setStoreTermVectors(true);
 
+        // entire document
+      if (positions) {
+          // Important, lucene 5 no longer has simple setIndexed option
+          // set through index options
+          fieldType.setIndexOptions(IndexOptions.DOCS_AND_FREQS_AND_POSITIONS);
+          fieldType.setStoreTermVectorPositions(true);
+          document.add(new Field(FIELD_BODY, contents, fieldType));
+      } else {
+          fieldType.setIndexOptions(IndexOptions.DOCS);
+          document.add(new Field(FIELD_BODY, contents, fieldType));
+      }
       writer.addDocument(document);
       return 1;
 
