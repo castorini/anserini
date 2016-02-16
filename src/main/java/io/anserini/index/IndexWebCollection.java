@@ -17,16 +17,21 @@ package io.anserini.index;
  * limitations under the License.
  */
 
-import io.anserini.document.*;
+import io.anserini.document.ClueWeb09WarcRecord;
+import io.anserini.document.ClueWeb12WarcRecord;
+import io.anserini.document.Collection;
+import io.anserini.document.Gov2Record;
+import io.anserini.document.WarcRecord;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
+import org.apache.lucene.document.FieldType;
 import org.apache.lucene.document.StringField;
-import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.ConcurrentMergeScheduler;
+import org.apache.lucene.index.IndexOptions;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.search.similarities.BM25Similarity;
@@ -38,9 +43,20 @@ import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.OptionHandlerFilter;
 import org.kohsuke.args4j.ParserProperties;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.*;
+import java.nio.file.FileVisitResult;
+import java.nio.file.FileVisitor;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.SimpleFileVisitor;
+import java.nio.file.StandardOpenOption;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -101,12 +117,21 @@ public final class IndexWebCollection {
       // document ID
       document.add(new StringField(FIELD_ID, id, Field.Store.YES));
 
-      // entire document
-      if (positions)
-        document.add(new TextField(FIELD_BODY, contents, Field.Store.NO));
-      else
-        document.add(new NoPositionsTextField(FIELD_BODY, contents));
+      FieldType fieldType = new FieldType();
+      fieldType.setStored(true);
+      fieldType.setStoreTermVectors(true);
 
+        // entire document
+      if (positions) {
+          // Important, lucene 5 no longer has simple setIndexed option
+          // set through index options
+          fieldType.setIndexOptions(IndexOptions.DOCS_AND_FREQS_AND_POSITIONS);
+          fieldType.setStoreTermVectorPositions(true);
+          document.add(new Field(FIELD_BODY, contents, fieldType));
+      } else {
+          fieldType.setIndexOptions(IndexOptions.DOCS_AND_FREQS);
+          document.add(new Field(FIELD_BODY, contents, fieldType));
+      }
       writer.addDocument(document);
       return 1;
 
