@@ -77,6 +77,10 @@
               <mainClass>io.anserini.util.ExtractRm3Stopwords</mainClass>
               <name>ExtractRm3Stopwords</name>
             </program>
+              <program>
+                  <mainClass>io.anserini.ltr.FeatureExtractorCli</mainClass>
+                  <name>FeatureExtractor</name>
+              </program>
           </programs>
         </configuration>
       </plugin>

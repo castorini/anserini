@@ -18,4 +18,9 @@ public class QueryLength implements FeatureExtractor {
       Set<String> queryTokens = context.getQueryTokens();
       return queryTokens.size();
   }
+
+    @Override
+    public String getName() {
+        return "QueryLength";
+    }
 }
