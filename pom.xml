@@ -17,16 +17,16 @@
 
   <repositories>
     <repository>
+      <id>public</id>
+      <url>https://maven.org/content/repositories/public/</url>
+    </repository>
+    <repository>
       <id>AnseriniMaven</id>
       <url>https://raw.github.com/dyshi/MavenAnserini/mvn-repo/</url>
       <snapshots>
         <enabled>true</enabled>
         <updatePolicy>always</updatePolicy>
       </snapshots>
-    </repository>
-    <repository>
-      <id>public</id>
-      <url>https://maven.org/content/repositories/public/</url>
     </repository>
   </repositories>
 
