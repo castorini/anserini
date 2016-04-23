@@ -4,6 +4,7 @@ import com.carrotsearch.ant.tasks.junit4.dependencies.com.google.common.collect.
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.GsonBuilder;
 import io.anserini.ltr.feature.base.*;
+import io.anserini.ltr.feature.twitter.*;
 import io.anserini.rerank.RerankerContext;
 
 import org.apache.lucene.analysis.TokenStream;
@@ -34,7 +35,12 @@ public interface FeatureExtractor {
           .put("TFIDF", TFIDFFeatureExtractor.class)
           .put("UniqueQueryTerms", UniqueTermCount.class)
           .put("UnorderedSequentialPairs", UnorderedSequentialPairsFeatureExtractor.class)
-          .put("OrderedSequentialPairs", OrderedSequentialPairsFeatureExtractor.class).build();
+          .put("OrderedSequentialPairs", OrderedSequentialPairsFeatureExtractor.class)
+          .put("TwitterHashtagCount", HashtagCount.class)
+          .put("IsTweetReply", IsTweetReply.class)
+          .put("TwitterLinkCount", LinkCount.class)
+          .put("TwitterFollowerCount", TwitterFollowerCount.class)
+          .put("TwitterFriendCount", TwitterFriendCount.class).build();
 
   GsonBuilder BUILDER = new GsonBuilder()
           .registerTypeAdapter(OrderedSequentialPairsFeatureExtractor.class, new OrderedSequentialPairsFeatureExtractor.Deserializer())
