@@ -6,9 +6,15 @@ import org.apache.lucene.document.Document;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.TopDocs;
 
+/**
+ * ScoredDocuments object that converts TopDocs from the searcher into an Anserini format
+ */
 public class ScoredDocuments {
+  // Array of document objects
   public Document[] documents;
+  // The docIds as used by the index reader
   public int[] ids;
+  // Scores returned from the searcher's similarity
   public float[] scores;
   
   public static ScoredDocuments fromTopDocs(TopDocs rs, IndexSearcher searcher) {

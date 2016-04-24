@@ -17,9 +17,15 @@ package io.anserini.search;
  * limitations under the License.
  */
 
+import io.anserini.ltr.WebCollectionLtrDataGenerator;
+import io.anserini.ltr.feature.FeatureExtractors;
 import io.anserini.rerank.IdentityReranker;
 import io.anserini.rerank.RerankerCascade;
+import io.anserini.rerank.RerankerContext;
+import io.anserini.rerank.ScoredDocuments;
 import io.anserini.rerank.rm3.Rm3Reranker;
+import io.anserini.util.AnalyzerUtils;
+import io.anserini.util.Qrels;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;
@@ -31,6 +37,7 @@ import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
+import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.search.similarities.BM25Similarity;
 import org.apache.lucene.search.similarities.LMDirichletSimilarity;
 import org.apache.lucene.search.similarities.Similarity;
@@ -44,6 +51,7 @@ import org.kohsuke.args4j.ParserProperties;
 
 import java.io.Closeable;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -186,7 +194,7 @@ public final class SearchWebCollection implements Closeable {
    * @throws ParseException
    */
 
-  public void search(SortedMap<Integer, String> topics, String submissionFile, Similarity similarity, int numHits) throws IOException, ParseException {
+  public void search(SortedMap<Integer, String> topics, String submissionFile, Similarity similarity, int numHits, RerankerCascade cascade) throws IOException, ParseException {
 
 
     IndexSearcher searcher = new IndexSearcher(reader);
@@ -210,7 +218,12 @@ public final class SearchWebCollection implements Closeable {
       /**
        * For Web Tracks 2010,2011,and 2012; an experimental run consists of the top 10,000 documents for each topic query.
        */
-      ScoreDoc[] hits = searcher.search(query, numHits).scoreDocs;
+      TopDocs rs = searcher.search(query, numHits);
+      ScoreDoc[] hits = rs.scoreDocs;
+      List<String> queryTokens = AnalyzerUtils.tokenize(new EnglishAnalyzer(), queryString);
+      RerankerContext context = new RerankerContext(searcher, query, String.valueOf(qID), queryString,
+              queryTokens, FIELD_BODY, null);
+      ScoredDocuments docs = cascade.run(ScoredDocuments.fromTopDocs(rs, searcher), context);
 
       /**
        * the first column is the topic number.
@@ -239,7 +252,7 @@ public final class SearchWebCollection implements Closeable {
     out.close();
   }
 
-  public static void main(String[] args) throws IOException, ParseException {
+  public static void main(String[] args) throws Exception {
 
     long curTime = System.nanoTime();
     SearchArgs searchArgs = new SearchArgs();
@@ -284,6 +297,16 @@ public final class SearchWebCollection implements Closeable {
     } else {
       cascade.add(new IdentityReranker());
     }
+    FeatureExtractors extractors = null;
+    if (searchArgs.extractors != null) {
+      extractors = FeatureExtractors.loadExtractor(searchArgs.extractors);
+    }
+
+    if (searchArgs.dumpFeatures) {
+      PrintStream out = new PrintStream(searchArgs.featureFile);
+      Qrels qrels = new Qrels(searchArgs.qrels);
+      cascade.add(new WebCollectionLtrDataGenerator(out,  qrels, extractors));
+    }
 
     Path topicsFile = Paths.get(searchArgs.topics);
 
@@ -294,7 +317,7 @@ public final class SearchWebCollection implements Closeable {
     SortedMap<Integer, String> topics = io.anserini.document.Collection.GOV2.equals(searchArgs.collection) ? readTeraByteTackQueries(topicsFile) : readWebTrackQueries(topicsFile);
 
     SearchWebCollection searcher = new SearchWebCollection(searchArgs.index);
-    searcher.search(topics, searchArgs.output, similarity, searchArgs.hits);
+    searcher.search(topics, searchArgs.output, similarity, searchArgs.hits, cascade);
     searcher.close();
   }
 }

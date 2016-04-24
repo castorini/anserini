@@ -2,14 +2,6 @@ package io.anserini.ltr;
 
 import io.anserini.index.IndexTweets.StatusField;
 import io.anserini.ltr.feature.FeatureExtractors;
-import io.anserini.ltr.feature.base.MatchingTermCount;
-import io.anserini.ltr.feature.base.QueryLength;
-import io.anserini.ltr.feature.base.SumMatchingTf;
-import io.anserini.ltr.feature.twitter.HashtagCount;
-import io.anserini.ltr.feature.twitter.IsTweetReply;
-import io.anserini.ltr.feature.twitter.LinkCount;
-import io.anserini.ltr.feature.twitter.TwitterFollowerCount;
-import io.anserini.ltr.feature.twitter.TwitterFriendCount;
 import io.anserini.rerank.Reranker;
 import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.ScoredDocuments;
@@ -25,24 +17,19 @@ import org.apache.lucene.index.Terms;
 public class TweetsLtrDataGenerator implements Reranker {
   private final PrintStream out;
   private final Qrels qrels;
+  private final FeatureExtractors extractorChain;
 
-  public TweetsLtrDataGenerator(PrintStream out, Qrels qrels) throws FileNotFoundException {
+
+  public TweetsLtrDataGenerator(PrintStream out, Qrels qrels, FeatureExtractors extractors) throws FileNotFoundException {
     this.out = out;
     this.qrels = qrels;
+    this.extractorChain = extractors == null ? WebFeatureExtractor.getDefaultExtractors() : extractors;
+
   }
 
   @Override
   public ScoredDocuments rerank(ScoredDocuments docs, RerankerContext context) {
     IndexReader reader = context.getIndexSearcher().getIndexReader();
-    FeatureExtractors extractors = new FeatureExtractors();
-    extractors.add(new MatchingTermCount());
-    extractors.add(new SumMatchingTf());
-    extractors.add(new QueryLength());
-    extractors.add(new TwitterFollowerCount());
-    extractors.add(new TwitterFriendCount());
-    extractors.add(new IsTweetReply());
-    extractors.add(new HashtagCount());
-    extractors.add(new LinkCount());
 
     for (int i = 0; i < docs.documents.length; i++) {
       Terms terms = null;
@@ -59,7 +46,7 @@ public class TweetsLtrDataGenerator implements Reranker {
       out.print(" qid:" + qid);
       out.print(" 1:" + docs.scores[i]);
 
-      float[] intFeatures = extractors.extractAll(docs.documents[i], terms, context);
+      float[] intFeatures = this.extractorChain.extractAll(docs.documents[i], terms, context);
 
       for (int j=0; j<intFeatures.length; j++ ) {
         out.print(" " + (j+2) + ":" + intFeatures[j]);

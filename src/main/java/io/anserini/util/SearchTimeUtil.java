@@ -17,6 +17,8 @@ package io.anserini.util;
  * limitations under the License.
  */
 
+import io.anserini.rerank.IdentityReranker;
+import io.anserini.rerank.RerankerCascade;
 import io.anserini.search.SearchWebCollection;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.apache.lucene.queryparser.classic.ParseException;
@@ -52,7 +54,9 @@ public class SearchTimeUtil {
       for (int i = 1; i <= 3; i++) {
         final long start = System.nanoTime();
         String submissionFile = File.createTempFile(topicFile + "_" + i, ".tmp").getAbsolutePath();
-        searcher.search(queries, submissionFile, new BM25Similarity(0.9f, 0.4f), 1000);
+        RerankerCascade cascade = new RerankerCascade();
+        cascade.add(new IdentityReranker());
+        searcher.search(queries, submissionFile, new BM25Similarity(0.9f, 0.4f), 1000, cascade);
         final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
         System.out.println(topicFile + "_" + i + " search completed in " + DurationFormatUtils.formatDuration(durationMillis, "mm:ss:SSS"));
       }

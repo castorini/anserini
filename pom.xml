@@ -15,6 +15,21 @@
     <JERSEY_VERSION>2.7</JERSEY_VERSION>
   </properties>
 
+  <repositories>
+    <repository>
+      <id>public</id>
+      <url>https://maven.org/content/repositories/public/</url>
+    </repository>
+    <repository>
+      <id>AnseriniMaven</id>
+      <url>https://raw.github.com/dyshi/MavenAnserini/mvn-repo/</url>
+      <snapshots>
+        <enabled>true</enabled>
+        <updatePolicy>always</updatePolicy>
+      </snapshots>
+    </repository>
+  </repositories>
+
   <build>
     <plugins>
       <plugin>
@@ -77,7 +92,40 @@
               <mainClass>io.anserini.util.ExtractRm3Stopwords</mainClass>
               <name>ExtractRm3Stopwords</name>
             </program>
+              <program>
+                  <mainClass>io.anserini.ltr.FeatureExtractorCli</mainClass>
+                  <name>FeatureExtractor</name>
+              </program>
+            <program>
+              <mainClass>io.anserini.index.IndexCacmRecords</mainClass>
+              <name>IndexCACM</name>
+            </program>
+            <program>
+              <mainClass>io.anserini.search.SearchCacmCollection</mainClass>
+              <name>SearchCACM</name>
+            </program>
+            <program>
+              <mainClass>io.anserini.ltr.RankLibScorer</mainClass>
+              <name>RankLibScore</name>
+            </program>
+            <program>
+              <mainClass>io.anserini.ltr.RBPEvaluator</mainClass>
+              <name>RBPEval</name>
+            </program>
+            <program>
+              <mainClass>io.anserini.util.DumpDocumentBody</mainClass>
+              <name>DumpDocument</name>
+            </program>
           </programs>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.7.2</version>
+        <configuration>
+          <workingDirectory>${basedir}/src/test</workingDirectory>
         </configuration>
       </plugin>
 
@@ -94,6 +142,7 @@
           </descriptorRefs>
         </configuration>
       </plugin>
+
     </plugins>
   </build>
 
@@ -110,7 +159,12 @@
       <artifactId>lucene-core</artifactId>
       <version>${LUCENE_VERSION}</version>
     </dependency>
-	<dependency>
+    <dependency>
+      <groupId>org.apache.lucene</groupId>
+      <artifactId>lucene-test-framework</artifactId>
+      <version>${LUCENE_VERSION}</version>
+    </dependency>
+    <dependency>
       <groupId>org.apache.lucene</groupId>
       <artifactId>lucene-backward-codecs</artifactId>
       <version>${LUCENE_VERSION}</version>
@@ -119,6 +173,18 @@
       <groupId>commons-logging</groupId>
       <artifactId>commons-logging</artifactId>
       <version>1.2</version>
+    </dependency>
+
+    <dependency>
+      <groupId> edu.umass.ciir </groupId>
+      <artifactId> RankLib </artifactId>
+      <version> 2.1 </version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.codehaus.jackson</groupId>
+      <artifactId>jackson-mapper-asl</artifactId>
+      <version>1.9.13</version>
     </dependency>
 
     <dependency>
@@ -218,16 +284,16 @@
     </dependency>
 
     <dependency>
-  	  <groupId>org.eclipse.jetty</groupId>
-  	  <artifactId>jetty-server</artifactId>
-  	  <version>${JETTY_VERSION}</version>
-  	</dependency>
+      <groupId>org.eclipse.jetty</groupId>
+      <artifactId>jetty-server</artifactId>
+      <version>${JETTY_VERSION}</version>
+    </dependency>
 
-  	<dependency>
-  	  <groupId>org.eclipse.jetty</groupId>
-  	  <artifactId>jetty-servlet</artifactId>
-  	  <version>${JETTY_VERSION}</version>
-  	</dependency>
+    <dependency>
+      <groupId>org.eclipse.jetty</groupId>
+      <artifactId>jetty-servlet</artifactId>
+      <version>${JETTY_VERSION}</version>
+    </dependency>
 
     <dependency>
       <groupId>com.github.spullara.mustache.java</groupId>
