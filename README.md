@@ -22,11 +22,11 @@ The directory `/path/to/gov2/` should be the root directory of Gov2 collection, 
 After indexing is done, you should be able to perform a retrieval run:
 
 ```
-sh target/appassembler/bin/SearchWebCollection -collection GOV2 -index lucene-index.gov2.pos \
-  -topics src/main/resources/topics-and-qrels/topics.701-750.txt -output run.gov2.701-750.bm25.txt -bm25
+sh target/appassembler/bin/SearchWebCollection -collection GOV2 -index lucene-index.gov2.pos -bm25 \
+  -topics src/main/resources/topics-and-qrels/topics.701-750.txt -output run.gov2.701-750.bm25.txt
 ```
 
-For the retrieval model: specify `-bm25` to use BM25, `-ql` to use query likelihood, and `-ql -rm3` to use the RM3 relevance feedback model.
+For the retrieval model: specify `-bm25` to use BM25, `-ql` to use query likelihood, and add `-rm3` to invoke the RM3 relevance feedback model (requires docvectors index).
 
 A copy of `trec_eval` is included in `eval/`. Unpack and compile it. Then you can evaluate the runs:
 
@@ -36,18 +36,19 @@ eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.701-750.t
 
 With the topics and qrels in `src/main/resources/topics-and-qrels/`, you should be able to replicate the following results:
 
-MAP                                                                                     | BM25   | QL     | RM3
-----------------------------------------------------------------------------------------|--------|--------|--------
-[TREC 2004 Terabyte Track: Topics 701-750](http://trec.nist.gov/data/terabyte04.html)   | 0.2673 | 0.2636 | 0.2800
-[TREC 2005 Terabyte Track: Topics 751-800](http://trec.nist.gov/data/terabyte05.html)   | 0.3364 | 0.3263 | 0.3628
-[TREC 2006 Terabyte Track: Topics 801-850](http://trec.nist.gov/data/terabyte06.html)   | 0.3053 | 0.2956 | 0.3198
+
+MAP                                                                                     | BM25   |BM25+RM3| QL     | QL+RM3
+----------------------------------------------------------------------------------------|--------|--------|--------|--------
+[TREC 2004 Terabyte Track: Topics 701-750](http://trec.nist.gov/data/terabyte04.html)   | 0.2673 | 0.2952 | 0.2636 | 0.2800
+[TREC 2005 Terabyte Track: Topics 751-800](http://trec.nist.gov/data/terabyte05.html)   | 0.3364 | 0.3839 | 0.3263 | 0.3628
+[TREC 2006 Terabyte Track: Topics 801-850](http://trec.nist.gov/data/terabyte06.html)   | 0.3053 | 0.3408 | 0.2956 | 0.3198
 
 
-P30                                                                                     | BM25   |  QL    | RM3
-----------------------------------------------------------------------------------------|--------|--------|--------
-[TREC 2004 Terabyte Track: Topics 701-750](http://trec.nist.gov/data/terabyte04.html)   | 0.4850 | 0.4673 | 0.4850
-[TREC 2005 Terabyte Track: Topics 751-800](http://trec.nist.gov/data/terabyte05.html)   | 0.5520 | 0.5167 | 0.5673
-[TREC 2006 Terabyte Track: Topics 801-850](http://trec.nist.gov/data/terabyte06.html)   | 0.4913 | 0.4760 | 0.4873
+P30                                                                                     | BM25   |BM25+RM3|  QL    | QL+RM3
+----------------------------------------------------------------------------------------|--------|--------|--------|--------
+[TREC 2004 Terabyte Track: Topics 701-750](http://trec.nist.gov/data/terabyte04.html)   | 0.4850 | 0.5306 | 0.4673 | 0.4850
+[TREC 2005 Terabyte Track: Topics 751-800](http://trec.nist.gov/data/terabyte05.html)   | 0.5520 | 0.5927 | 0.5167 | 0.5673
+[TREC 2006 Terabyte Track: Topics 801-850](http://trec.nist.gov/data/terabyte06.html)   | 0.4913 | 0.5253 | 0.4760 | 0.4873
 
 
 
@@ -56,63 +57,65 @@ P30                                                                             
 Indexing:
 
 ```
-sh target/appassembler/bin/IndexWebCollection -collection CW09 -input /path/to/cw09/ClueWeb09_English_1/ \
-  -index lucene-index.cw09b.cnt -threads 32 -optimize
+nohup sh target/appassembler/bin/IndexWebCollection -collection CW09 -input /path/to/cw09/ClueWeb09_English_1/ \
+ -index lucene-index.cw09b.pos -threads 32 -positions -optimize \
+ 2> log.cw09b.pos.emptyDocids.txt 1> log.cw09b.pos.recordCounts.txt &
 ```
 
 The directory `/path/to/cw09/ClueWeb09_English_1` should be the root directory of ClueWeb09B collection, i.e., `ls /path/to/cw09/ClueWeb09_English_1` should bring up a bunch of subdirectories, `en0000` to `enwp03`.
 
-After indexing is done, you should be able to perform a retrieval run:
+After indexing is done, you should be able to perform a retrieval run (the options are exactly the same as with Gov2 above):
 
 ```
-sh target/appassembler/bin/SearchWebCollection -collection CW09 -index lucene-index.cw09b.cnt
-  -topics src/main/resources/topics-and-qrels/topics.web.51-100.txt -output run.web.51-100.txt -bm25
+sh target/appassembler/bin/SearchWebCollection -collection CW09 -index lucene-index.cw09b.pos -bm25 \
+  -topics src/main/resources/topics-and-qrels/topics.web.51-100.txt -output run.web.51-100.bm25.txt
 ```
 
 You should then be able to evaluate using `trec_eval`, as with Gov2 above. With the topics and qrels in `src/main/resources/topics-and-qrels/`, you should be able to replicate the following results:
 
-                                                                              | MAP    |  P30
-------------------------------------------------------------------------------|--------|-------
-[TREC 2010 Web Track: Topics 51-100](http://trec.nist.gov/data/web10.html)    | 0.1091 | 0.2667
-[TREC 2011 Web Track: Topics 101-150](http://trec.nist.gov/data/web2011.html) | 0.1095 | 0.2540
-[TREC 2012 Web Track: Topics 151-200](http://trec.nist.gov/data/web2012.html) | 0.1072 | 0.2187
+MAP                                                                           | BM25   |BM25+RM3| QL     | QL+RM3
+------------------------------------------------------------------------------|--------|--------|--------|--------
+[TREC 2010 Web Track: Topics 51-100](http://trec.nist.gov/data/web10.html)    | 0.1091 | 0.1065 | 0.1026 | 0.1055
+[TREC 2011 Web Track: Topics 101-150](http://trec.nist.gov/data/web2011.html) | 0.1095 | 0.1140 | 0.0972 | 0.1021
+[TREC 2012 Web Track: Topics 151-200](http://trec.nist.gov/data/web2012.html) | 0.1072 | 0.1336 | 0.1035 | 0.1120
 
 
-### Experiments on ClueWeb09 (Category A)
+P30                                                                           | BM25   |BM25+RM3| QL     | QL+RM3
+------------------------------------------------------------------------------|--------|--------|--------|--------
+[TREC 2010 Web Track: Topics 51-100](http://trec.nist.gov/data/web10.html)    | 0.2667 | 0.2583 | 0.2403 | 0.2521
+[TREC 2011 Web Track: Topics 101-150](http://trec.nist.gov/data/web2011.html) | 0.2540 | 0.2627 | 0.2220 | 0.2267
+[TREC 2012 Web Track: Topics 151-200](http://trec.nist.gov/data/web2012.html) | 0.2187 | 0.2313 | 0.2027 | 0.2007
 
-```
-sh target/appassembler/bin/IndexWebCollection -collection CW09 -input /path/to/cw09/ \
-  -index lucene-index.cw09a.cnt -threads 32 -optimize 2> emptyDocIDs.txt 1> recordCounts.txt
-```
-
-The directory `/path/to/cw09/` should be the root directory of ClueWeb09 collection, i.e., `/path/to/cw09/` should bring up a bunch of subdirectories, `ClueWeb09_English_1` to `ClueWeb09_English_10`.
-
-After indexing is done, you should be able to compare record counts file with the one comes from the dataset.
-`emptyDocIDs.txt` file contains the documents that are not indexed. [JSoup](http://jsoup.org) produces empty string, probably they are not valid HTMLs.
-If you count it with `wc -l` and add it the number that is reported from the indexer, you should obtain the total number of documents for the dataset.
 
 ### Experiments on ClueWeb12-B13
 
 ```
-sh target/appassembler/bin/IndexWebCollection -collection CW12 -input /path/to/cw12b/ \
-  -index lucene-index.cw12b.cnt -threads 32 -optimize 2> emptyDocIDs.txt 1> recordCounts.txt
+nohup sh target/appassembler/bin/IndexWebCollection -collection CW12 -input /path/to/cw12-b13/ \
+ -index lucene-index.cw12b13.pos -threads 32 -positions -optimize \
+ 2> log.cw12b13.pos.emptyDocids.txt 1> log.cw12b13.pos.recordCounts.txt &
 ```
 
-The directory `/path/to/cw12b/` should be the root directory of ClueWeb12-B13 collection, i.e., `/path/to/cw12b/` should bring up a bunch of subdirectories, `ClueWeb12_00` to `ClueWeb12_18`.
+The directory `/path/to/cw12-b13/` should be the root directory of ClueWeb12-B13 collection, i.e., `/path/to/cw12-b13/` should bring up a bunch of subdirectories, `ClueWeb12_00` to `ClueWeb12_18`.
 
-After indexing is done, you should be able to perform a retrieval run:
+After indexing is done, you should be able to perform a retrieval run (the options are exactly the same as with Gov2 above):
 
 ```
-sh target/appassembler/bin/SearchWebCollection -collection CW12 -index lucene-index.cw12b.cnt
-  -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt -output run.web.201-250.txt -bm25
+sh target/appassembler/bin/SearchWebCollection -collection CW12 -index lucene-index.cw12b13.pos -bm25 \
+  -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt -output run.web.201-250.bm25.txt
 ```
 
 You should then be able to evaluate using `trec_eval`, as with Gov2 and ClueWeb09 above. With the topics and qrels in `src/main/resources/topics-and-qrels/`, you should be able to replicate the following results:
 
-                                                                               | MAP    |  P30
--------------------------------------------------------------------------------|--------|-------
-[TREC 2013 Web Track: Topics 201-250](http://trec.nist.gov/data/web2013.html)  | 0.0458 | 0.2000
-[TREC 2014 Web Track: Topics 251-300](http://trec.nist.gov/data/web2014.html)  | 0.0220 | 0.1307
+MAP                                                                            | BM25   |BM25+RM3| QL     | QL+RM3
+-------------------------------------------------------------------------------|--------|--------|--------|--------
+[TREC 2013 Web Track: Topics 201-250](http://trec.nist.gov/data/web2013.html)  | 0.0458 | 0.0428 | 0.0390 | 0.0321
+[TREC 2014 Web Track: Topics 251-300](http://trec.nist.gov/data/web2014.html)  | 0.0220 | 0.0189 | 0.0230 | 0.0202
+
+P30                                                                            | BM25   |BM25+RM3| QL     | QL+RM3
+-------------------------------------------------------------------------------|--------|--------|--------|--------
+[TREC 2013 Web Track: Topics 201-250](http://trec.nist.gov/data/web2013.html)  | 0.2000 | 0.1760 | 0.1720 | 0.1447
+[TREC 2014 Web Track: Topics 251-300](http://trec.nist.gov/data/web2014.html)  | 0.1307 | 0.1140 | 0.1327 | 0.1180
+
 
 ### Experiments on Tweets2011
 
