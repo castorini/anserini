@@ -4,4 +4,6 @@
 target/
 eval/trec_eval.9.0/
 *~
-/bin/
+bin/
+*.iml
+.idea
