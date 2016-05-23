@@ -119,25 +119,71 @@ P30                                                                            |
 
 ### Experiments on Tweets2011
 
-Indexing:
+Note that the Tweets2011 collection is distributed as a list of tweet ids that you have to download yourself, so the effectiveness results you'll get should be similar, but will likely not be identical to the scores reported here.
+
+Indexing the Tweets2011 collection:
 
 ```
-sh target/appassembler/bin/IndexTweets -collection /path/to/tweets2011-collection/ \
-  -index tweets2011-index -optimize -store
+nohup sh target/appassembler/bin/IndexTweets -collection /path/to/Tweets2011/ \
+  -index lucene-index.tweets2011.docvectors -optimize -store > log.tweets2011.txt &
 ```
 
-Running topics from TREC 2011 and 2012:
+Running topics from TREC 2011 (also look in `src/main/resources/topics-and-qrels/` for topics from TREC 2012):
 
 ```
-sh target/appassembler/bin/SearchTweets -index tweets2011-index/ \
- -topics src/main/resources/topics-and-qrels/topics.microblog2011.txt -output run.mb2011.ql.txt -ql
+sh target/appassembler/bin/SearchTweets -collection Twitter -index lucene-index.tweets2011.docvectors -bm25 \
+  -topics src/main/resources/topics-and-qrels/topics.microblog2011.txt -output run.mb11.bm25.txt
 ```
+
+Options for the retrieval model are similar to the web runs: specify `-bm25` to use BM25, `-ql` to use query likelihood, and add `-rm3` to invoke the RM3 relevance feedback model (requires docvectors index).
 
 For evaluation:
 
 ```
-eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.microblog2011.txt run.mb2011.ql.txt
+eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.microblog2011.txt run.mb11.bm25.txt
 ```
+
+You should be able to get effectiveness scores along the following lines:
+
+MAP                                                                        | BM25   |BM25+RM3| QL     | QL+RM3
+---------------------------------------------------------------------------|--------|--------|--------|--------
+[TREC 2011 Microblog Track](http://trec.nist.gov/data/microblog2011.html)  | 0.3388 | 0.3514 | 0.3631 | 0.4024
+[TREC 2012 Microblog Track](http://trec.nist.gov/data/microblog2012.html)  | 0.1923 | 0.2093 | 0.2084 | 0.2377
+
+P30                                                                        | BM25   |BM25+RM3| QL     | QL+RM3
+---------------------------------------------------------------------------|--------|--------|--------|--------
+[TREC 2011 Microblog Track](http://trec.nist.gov/data/microblog2011.html)  | 0.3871 | 0.4048 | 0.4109 | 0.4408
+[TREC 2012 Microblog Track](http://trec.nist.gov/data/microblog2012.html)  | 0.3345 | 0.3492 | 0.3316 | 0.3492
+
+
+### Experiments on Tweets2013
+
+Indexing the Tweets2013 collection:
+
+```
+nohup sh target/appassembler/bin/IndexTweets -collection /path/to/Tweets2013/ \
+  -index lucene-index.tweets2013.docvectors -optimize -store > log.tweets2013.txt &
+```
+
+Running topics from TREC 2013 (also look in `src/main/resources/topics-and-qrels/` for topics from TREC 2014):
+
+```
+sh target/appassembler/bin/SearchTweets -collection Twitter -index lucene-index.tweets2013.docvectors -bm25 \
+  -topics src/main/resources/topics-and-qrels/topics.microblog2013.txt -output run.mb13.bm25.txt
+```
+
+Retrieval model options are the same as above, as is running `trec_eval`. You should be able to get effectiveness scores along the following lines:
+
+MAP                                                                        | BM25   |BM25+RM3| QL     | QL+RM3
+---------------------------------------------------------------------------|--------|--------|--------|--------
+[TREC 2013 Microblog Track](http://trec.nist.gov/data/microblog2013.html)  | 0.2319 | 0.2409 | 0.2536 | 0.2747
+[TREC 2014 Microblog Track](http://trec.nist.gov/data/microblog2014.html)  | 0.3791 | 0.3971 | 0.3976 | 0.4393
+
+P30                                                                        | BM25   |BM25+RM3| QL     | QL+RM3
+---------------------------------------------------------------------------|--------|--------|--------|--------
+[TREC 2013 Microblog Track](http://trec.nist.gov/data/microblog2013.html)  | 0.4261 | 0.4211 | 0.4483 | 0.4639
+[TREC 2014 Microblog Track](http://trec.nist.gov/data/microblog2014.html)  | 0.6103 | 0.6024 | 0.6345 | 0.6267
+
 
 
 ### Twitter (Near) Real-Time Search
@@ -163,12 +209,3 @@ The demo starts up an HTTP server on port `8080`, but this can be changed with t
 
 User could change the maximum number of hits returned at 'http://localhost:8080/search?query=birthday&top=15'. The default number of hits is 20. 
 
-### DumpDocids:
-
-Output all the document IDs in a Lucene Index.
-
-```sh
-sh target/appassembler/bin/DumpDocids -indexPath /path/to/index \
--docIdPath /path/to/save/docIds -docIdName "name of docID field"
-```
-=======
