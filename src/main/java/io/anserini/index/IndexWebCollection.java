@@ -132,6 +132,8 @@ public final class IndexWebCollection {
         document.add(new NoPositionsTextField(FIELD_BODY, contents));
       } else if (positions && !docVectors) {
           document.add(new TextField(FIELD_BODY, contents,Field.Store.YES));
+      } else {
+          document.add(new TextField(FIELD_BODY, contents));
       }
       writer.addDocument(document);
       return 1;
