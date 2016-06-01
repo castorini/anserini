@@ -118,20 +118,21 @@ public final class IndexWebCollection {
       document.add(new StringField(FIELD_ID, id, Field.Store.YES));
 
       FieldType fieldType = new FieldType();
-      fieldType.setStored(true);
 
         // entire document
-      if (positions) {
+      if (positions && docVectors) {
           // Important, lucene 5 no longer has simple setIndexed option
           // set through index options
+          fieldType.setStored(true);
           fieldType.setStoreTermVectors(true);
           fieldType.setIndexOptions(IndexOptions.DOCS_AND_FREQS_AND_POSITIONS);
           fieldType.setStoreTermVectorPositions(true);
-      } else {
-          fieldType.setStoreTermVectors(true);
-          fieldType.setIndexOptions(IndexOptions.DOCS_AND_FREQS);
+          document.add(new Field(FIELD_BODY, contents, fieldType));
+      } else if (!positions && docVectors){
+        document.add(new NoPositionsTextField(FIELD_BODY, contents));
+      } else if (positions && !docVectors) {
+          document.add(new TextField(FIELD_BODY, contents,Field.Store.YES));
       }
-      document.add(new Field(FIELD_BODY, contents, fieldType));
       writer.addDocument(document);
       return 1;
 
@@ -234,6 +235,12 @@ public final class IndexWebCollection {
 
   public void setPositions(boolean positions) {
     this.positions = positions;
+  }
+
+  private boolean docVectors = false;
+
+  public void setDocVectors(boolean docVectors) {
+    this.docVectors = docVectors;
   }
 
   private boolean optimize = false;
@@ -415,6 +422,7 @@ public final class IndexWebCollection {
     final long start = System.nanoTime();
     IndexWebCollection indexer = new IndexWebCollection(indexArgs.input, indexArgs.index, indexArgs.collection);
 
+    indexer.setDocVectors(indexArgs.docvectors);
     indexer.setPositions(indexArgs.positions);
     indexer.setOptimize(indexArgs.optimize);
     indexer.setDocLimit(indexArgs.doclimit);
@@ -422,6 +430,7 @@ public final class IndexWebCollection {
     LOG.info("Index path: " + indexArgs.index);
     LOG.info("Threads: " + indexArgs.threads);
     LOG.info("Positions: " + indexArgs.positions);
+    LOG.info("Store docVectors: " + indexArgs.docvectors);
     LOG.info("Optimize (merge segments): " + indexArgs.optimize);
     LOG.info("Doc limit: " + (indexArgs.doclimit == -1 ? "all docs" : "" + indexArgs.doclimit));
 
