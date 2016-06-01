@@ -119,19 +119,19 @@ public final class IndexWebCollection {
 
       FieldType fieldType = new FieldType();
       fieldType.setStored(true);
-      fieldType.setStoreTermVectors(true);
 
         // entire document
       if (positions) {
           // Important, lucene 5 no longer has simple setIndexed option
           // set through index options
+          fieldType.setStoreTermVectors(true);
           fieldType.setIndexOptions(IndexOptions.DOCS_AND_FREQS_AND_POSITIONS);
           fieldType.setStoreTermVectorPositions(true);
-          document.add(new Field(FIELD_BODY, contents, fieldType));
       } else {
+          fieldType.setStoreTermVectors(true);
           fieldType.setIndexOptions(IndexOptions.DOCS_AND_FREQS);
-          document.add(new Field(FIELD_BODY, contents, fieldType));
       }
+      document.add(new Field(FIELD_BODY, contents, fieldType));
       writer.addDocument(document);
       return 1;
 
