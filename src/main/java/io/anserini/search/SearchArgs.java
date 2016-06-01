@@ -56,5 +56,20 @@ public class SearchArgs {
 
   @Option(name = "-rm3", usage = "use RM3 query expansion model (implies using query likelihood)")
   public boolean rm3 = false;
-  
+
+  @Option(name = "-model", metaVar = "[file]", required = false, usage = "ranklib model file")
+  public String model = "";
+
+  @Option(name = "-dump", required = false, usage = "dump out feature vectors")
+  public boolean dumpFeatures = false;
+
+  @Option(name = "-featureFile", metaVar = "[file]", required = false, usage = "output for the feature vector file")
+  public String featureFile = "";
+
+  @Option(name = "-qrels", metaVar = "[file]", required = false, usage = "patht to the qrels file, needed for feature vectors")
+  public String qrels= "";
+
+  @Option(name = "-extractors", metaVar = "[file]", required = false, usage = "Optional definition to feature extractors")
+  public String extractors = null;
+
 }

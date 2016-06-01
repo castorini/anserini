@@ -26,4 +26,9 @@ public class LinkCount implements FeatureExtractor {
 
     return (float) count;
   }
+
+    @Override
+    public String getName() {
+        return "TwitterLinkCount";
+    }
 }

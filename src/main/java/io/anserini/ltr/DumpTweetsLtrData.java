@@ -2,6 +2,7 @@ package io.anserini.ltr;
 
 import io.anserini.index.IndexTweets;
 import io.anserini.index.IndexTweets.StatusField;
+import io.anserini.ltr.feature.FeatureExtractors;
 import io.anserini.rerank.RerankerCascade;
 import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.ScoredDocuments;
@@ -16,6 +17,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.nio.file.Paths;
+import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -47,6 +49,9 @@ public class DumpTweetsLtrData {
   private static class LtrArgs extends SearchArgs {
     @Option(name = "-qrels", metaVar = "[file]", required = true, usage = "qrels file")
     public String qrels;
+
+    @Option(name = "-extractors", metaVar = "[file]", required = true, usage = "FeatureExtractors Definition File")
+    public String extractors = null;
   }
 
   public static void main(String[] argv) throws Exception {
@@ -81,10 +86,15 @@ public class DumpTweetsLtrData {
 
     Qrels qrels = new Qrels(args.qrels);
 
+    FeatureExtractors extractors = null;
+    if (args.extractors != null) {
+      extractors = FeatureExtractors.loadExtractor(args.extractors);
+    }
+
     PrintStream out = new PrintStream(new FileOutputStream(new File(args.output)));
     RerankerCascade cascade = new RerankerCascade();
     cascade.add(new RemoveRetweetsTemporalTiebreakReranker());
-    cascade.add(new TweetsLtrDataGenerator(out, qrels));
+    cascade.add(new TweetsLtrDataGenerator(out, qrels, extractors));
 
     MicroblogTopicSet topics = MicroblogTopicSet.fromFile(new File(args.topics));
 
@@ -98,9 +108,9 @@ public class DumpTweetsLtrData {
       Query query = AnalyzerUtils.buildBagOfWordsQuery(StatusField.TEXT.name, IndexTweets.ANALYZER, topic.getQuery());
 
       TopDocs rs = searcher.search(query, filter, args.hits);
-
+      List<String> queryTokens = AnalyzerUtils.tokenize(IndexTweets.ANALYZER, topic.getQuery());
       RerankerContext context = new RerankerContext(searcher, query, topic.getId(), topic.getQuery(),
-          Sets.newHashSet(AnalyzerUtils.tokenize(IndexTweets.ANALYZER, topic.getQuery())), filter);
+          queryTokens, StatusField.TEXT.name, filter);
 
       cascade.run(ScoredDocuments.fromTopDocs(rs, searcher), context);
       long qtime = (System.nanoTime()-curQueryTime)/1000000;
