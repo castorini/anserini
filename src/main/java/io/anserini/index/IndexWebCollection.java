@@ -30,6 +30,7 @@ import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.FieldType;
 import org.apache.lucene.document.StringField;
+import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.ConcurrentMergeScheduler;
 import org.apache.lucene.index.IndexOptions;
 import org.apache.lucene.index.IndexWriter;
@@ -119,21 +120,26 @@ public final class IndexWebCollection {
 
       FieldType fieldType = new FieldType();
 
-        // entire document
-      if (positions && docVectors) {
-          // Important, lucene 5 no longer has simple setIndexed option
-          // set through index options
-          fieldType.setStored(true);
-          fieldType.setStoreTermVectors(true);
-          fieldType.setIndexOptions(IndexOptions.DOCS_AND_FREQS_AND_POSITIONS);
-          fieldType.setStoreTermVectorPositions(true);
-          document.add(new Field(FIELD_BODY, contents, fieldType));
-      } else if (!positions && docVectors){
-        document.add(new NoPositionsTextField(FIELD_BODY, contents));
-      } else if (positions && !docVectors) {
-          document.add(new TextField(FIELD_BODY, contents,Field.Store.YES));
+      // entire document
+      if (positions) {
+          if (docVectors) {
+            // Important, lucene 5 no longer has simple setIndexed option
+            // set through index options
+            fieldType.setStored(true);
+            fieldType.setStoreTermVectors(true);
+            fieldType.setIndexOptions(IndexOptions.DOCS_AND_FREQS_AND_POSITIONS);
+            fieldType.setStoreTermVectorPositions(true);
+            document.add(new Field(FIELD_BODY, contents, fieldType));
+          } else {
+            document.add(new TextField(FIELD_BODY, contents, Field.Store.NO));
+          }
       } else {
-          document.add(new TextField(FIELD_BODY, contents));
+          if (docVectors) {
+            fieldType.setIndexOptions(IndexOptions.DOCS_AND_FREQS);
+            document.add(new Field(FIELD_BODY, contents, fieldType));
+          } else {
+            document.add(new NoPositionsTextField(FIELD_BODY, contents));
+          }
       }
       writer.addDocument(document);
       return 1;
