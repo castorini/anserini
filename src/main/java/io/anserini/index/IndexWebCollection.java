@@ -125,7 +125,6 @@ public final class IndexWebCollection {
           if (docVectors) {
             // Important, lucene 5 no longer has simple setIndexed option
             // set through index options
-            fieldType.setStored(true);
             fieldType.setStoreTermVectors(true);
             fieldType.setIndexOptions(IndexOptions.DOCS_AND_FREQS_AND_POSITIONS);
             fieldType.setStoreTermVectorPositions(true);
