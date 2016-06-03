@@ -25,8 +25,9 @@ import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.StringField;
-import org.apache.lucene.document.TextField;
+import org.apache.lucene.document.FieldType;
 import org.apache.lucene.index.ConcurrentMergeScheduler;
+import org.apache.lucene.index.IndexOptions;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.search.similarities.BM25Similarity;
@@ -98,17 +99,26 @@ public final class IndexWebCollection {
       // make a new, empty document
       Document document = new Document();
 
-      // document ID
+      // document id
       document.add(new StringField(FIELD_ID, id, Field.Store.YES));
 
-      // entire document
-      if (positions)
-        if (docVectors)
-          document.add(new TermVectorsTextField(FIELD_BODY, contents));
-        else
-          document.add(new TextField(FIELD_BODY, contents, Field.Store.NO));
-      else
-        document.add(new NoPositionsTextField(FIELD_BODY, contents));
+      FieldType fieldType = new FieldType();
+
+      // Are we storing document vectors?
+      if (docVectors) {
+        fieldType.setStored(false);
+        fieldType.setStoreTermVectors(true);
+        fieldType.setStoreTermVectorPositions(true);
+      }
+
+      // Are we building a "positional" or "count" index?
+      if (positions) {
+        fieldType.setIndexOptions(IndexOptions.DOCS_AND_FREQS_AND_POSITIONS);
+      } else {
+        fieldType.setIndexOptions(IndexOptions.DOCS_AND_FREQS);
+      }
+
+      document.add(new Field(FIELD_BODY, contents, fieldType));
 
       writer.addDocument(document);
       return 1;
