@@ -12,4 +12,9 @@ public class IsTweetReply implements FeatureExtractor {
   public float extract(Document doc, Terms terms, RerankerContext context) {
     return doc.getField(StatusField.IN_REPLY_TO_STATUS_ID.name) == null ? 0.0f : 1.0f;
   }
+
+    @Override
+    public String getName() {
+        return "IsTweetReply";
+    }
 }

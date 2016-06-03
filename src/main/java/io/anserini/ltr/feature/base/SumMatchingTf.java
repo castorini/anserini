@@ -4,7 +4,7 @@ import io.anserini.ltr.feature.FeatureExtractor;
 import io.anserini.rerank.RerankerContext;
 
 import java.io.IOException;
-import java.util.Set;
+import java.util.List;
 
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.Terms;
@@ -21,7 +21,7 @@ public class SumMatchingTf implements FeatureExtractor {
   @Override
   public float extract(Document doc, Terms terms, RerankerContext context) {
     try {
-      Set<String> queryTokens = context.getQueryTokens();
+      List<String> queryTokens = context.getQueryTokens();
       TermsEnum termsEnum = terms.iterator();
       int sum = 0;
 
@@ -38,4 +38,9 @@ public class SumMatchingTf implements FeatureExtractor {
       return 0;
     }
   }
+
+    @Override
+    public String getName() {
+        return "SumMatchingTf";
+    }
 }
