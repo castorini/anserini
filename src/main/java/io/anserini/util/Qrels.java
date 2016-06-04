@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Map;
+import java.util.Set;
 
 import com.google.common.collect.Maps;
 
@@ -36,6 +37,25 @@ public class Qrels {
     }
   }
 
+  /**
+   * Method will return whether this docId for this qid is judged or not
+   * Note that if qid is invalid this will always return false
+   * @param qid     qid
+   * @param docId   docId
+   * @return
+   */
+  public boolean isDocJudged(String qid, String docId) {
+    if (!qrels.containsKey(qid)) {
+      return false;
+    }
+
+    if (!qrels.get(qid).containsKey(docId)) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   public int getRelevanceGrade(String qid, String docid) {
     if (!qrels.containsKey(qid)) {
       return 0;
@@ -47,5 +67,17 @@ public class Qrels {
 
     if ( qrels.get(qid).get(docid) <= 0 ) return 0;
     return qrels.get(qid).get(docid);
+  }
+
+  public Set<String> getQids() {
+      return this.qrels.keySet();
+  }
+
+  public Map<String, Integer> getDocMap(String qid) {
+    if (this.qrels.containsKey(qid)) {
+      return this.qrels.get(qid);
+    } else {
+      return null;
+    }
   }
 }
