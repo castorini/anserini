@@ -1,13 +1,11 @@
 package io.anserini.ltr.feature;
 
-import com.carrotsearch.ant.tasks.junit4.dependencies.com.google.common.collect.ImmutableMap$Builder;
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.GsonBuilder;
 import io.anserini.ltr.feature.base.*;
 import io.anserini.ltr.feature.twitter.*;
 import io.anserini.rerank.RerankerContext;
 
-import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.Terms;
 

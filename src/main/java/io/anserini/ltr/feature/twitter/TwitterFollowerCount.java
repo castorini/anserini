@@ -13,8 +13,8 @@ public class TwitterFollowerCount implements FeatureExtractor {
     return (float) (int) doc.getField(StatusField.FOLLOWERS_COUNT.name).numericValue();
   }
 
-    @Override
-    public String getName() {
-        return "TwitterFollowerCount";
-    }
+  @Override
+  public String getName() {
+    return "TwitterFollowerCount";
+  }
 }

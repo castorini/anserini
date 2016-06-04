@@ -39,8 +39,8 @@ public class SumMatchingTf implements FeatureExtractor {
     }
   }
 
-    @Override
-    public String getName() {
-        return "SumMatchingTf";
-    }
+  @Override
+  public String getName() {
+    return "SumMatchingTf";
+  }
 }

@@ -38,8 +38,8 @@ public class MatchingTermCount implements FeatureExtractor {
     }
   }
 
-    @Override
-    public String getName() {
-        return "MatchingTermCount";
-    }
+  @Override
+  public String getName() {
+    return "MatchingTermCount";
+  }
 }

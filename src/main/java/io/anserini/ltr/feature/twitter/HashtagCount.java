@@ -28,8 +28,8 @@ public class HashtagCount implements FeatureExtractor {
     return (float) count;
   }
 
-    @Override
-    public String getName() {
-        return "TwitterHashtagCount";
-    }
+  @Override
+  public String getName() {
+    return "TwitterHashtagCount";
+  }
 }

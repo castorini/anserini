@@ -16,12 +16,12 @@ public class QueryLength implements FeatureExtractor {
 
   @Override
   public float extract(Document doc, Terms terms, RerankerContext context) {
-      List<String> queryTokens = context.getQueryTokens();
-      return queryTokens.size();
+    List<String> queryTokens = context.getQueryTokens();
+    return queryTokens.size();
   }
 
-    @Override
-    public String getName() {
-        return "QueryLength";
-    }
+  @Override
+  public String getName() {
+    return "QueryLength";
+  }
 }

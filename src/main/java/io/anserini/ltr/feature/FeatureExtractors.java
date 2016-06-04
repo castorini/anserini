@@ -28,8 +28,8 @@ public class FeatureExtractors {
   private static final String CONFIG_KEY = "params";
 
   public static FeatureExtractors loadExtractor(String filePath) throws Exception {
-      JsonObject extractorJson  = new JsonParser().parse(new FileReader(filePath)).getAsJsonObject();
-      return FeatureExtractors.fromJson(extractorJson);
+    JsonObject extractorJson  = new JsonParser().parse(new FileReader(filePath)).getAsJsonObject();
+    return FeatureExtractors.fromJson(extractorJson);
   }
 
   public static FeatureExtractors fromJson(JsonObject json) throws Exception {
@@ -47,11 +47,11 @@ public class FeatureExtractors {
       if (extractorJson.has(CONFIG_KEY)) {
         JsonObject config = extractorJson.get(CONFIG_KEY).getAsJsonObject();
         FeatureExtractor parsedExtractor = (FeatureExtractor) gson.fromJson(config,
-                FeatureExtractor.EXTRACTOR_MAP.get(extractorName));
+            FeatureExtractor.EXTRACTOR_MAP.get(extractorName));
         extractors.add(parsedExtractor);
       } else {
         FeatureExtractor parsedExtractor = (FeatureExtractor) FeatureExtractor.EXTRACTOR_MAP.get(extractorName)
-                .getConstructor().newInstance();
+          .getConstructor().newInstance();
         extractors.add(parsedExtractor);
       }
     }
