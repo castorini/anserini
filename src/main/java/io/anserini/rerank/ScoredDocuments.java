@@ -16,7 +16,7 @@ public class ScoredDocuments {
   public int[] ids;
   // Scores returned from the searcher's similarity
   public float[] scores;
-  
+
   public static ScoredDocuments fromTopDocs(TopDocs rs, IndexSearcher searcher) {
     ScoredDocuments scoredDocs = new ScoredDocuments();
     scoredDocs.documents = new Document[rs.scoreDocs.length];

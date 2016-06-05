@@ -147,13 +147,13 @@ public class SearchTweets {
       List<String> queryTokens = AnalyzerUtils.tokenize(IndexTweets.ANALYZER, topic.getQuery());
 
       RerankerContext context = new RerankerContext(searcher, query, topic.getId(), topic.getQuery(),
-         queryTokens, StatusField.TEXT.name, filter);
+              queryTokens, StatusField.TEXT.name, filter);
       ScoredDocuments docs = cascade.run(ScoredDocuments.fromTopDocs(rs, searcher), context);
 
       for (int i=0; i<docs.documents.length; i++) {
         String qid = topic.getId().replaceFirst("^MB0*", "");
         out.println(String.format("%s Q0 %s %d %f %s", qid,
-            docs.documents[i].getField(StatusField.ID.name).numericValue(), (i+1), docs.scores[i], searchArgs.runtag));
+                docs.documents[i].getField(StatusField.ID.name).numericValue(), (i+1), docs.scores[i], searchArgs.runtag));
       }
       long qtime = (System.nanoTime()-curQueryTime)/1000000;
       LOG.info("Query " + topic.getId() + " (elapsed time = " + qtime + "ms)");
