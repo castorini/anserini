@@ -193,15 +193,12 @@ public final class SearchWebCollection implements Closeable {
    * @throws IOException
    * @throws ParseException
    */
-
-  public void search(SortedMap<Integer, String> topics, String submissionFile, Similarity similarity, int numHits, RerankerCascade cascade) throws IOException, ParseException {
+  public void search(SortedMap<Integer, String> topics, String submissionFile, Similarity similarity,
+                     int numHits, RerankerCascade cascade, String runTag) throws IOException, ParseException {
 
 
     IndexSearcher searcher = new IndexSearcher(reader);
     searcher.setSimilarity(similarity);
-
-
-    final String runTag = "BM25_EnglishAnalyzer_" + FIELD_BODY + "_" + similarity.toString();
 
     PrintWriter out = new PrintWriter(Files.newBufferedWriter(Paths.get(submissionFile), StandardCharsets.US_ASCII));
 
@@ -252,6 +249,38 @@ public final class SearchWebCollection implements Closeable {
     out.close();
   }
 
+  /**
+   * Inovation without runTag specified
+   * @param topics
+   * @param submissionFile
+   * @param similarity
+   * @param numHits
+   * @param cascade
+   * @throws IOException
+   * @throws ParseException
+   */
+  public void search(SortedMap<Integer, String> topics, String submissionFile, Similarity similarity,
+                     int numHits, RerankerCascade cascade) throws IOException, ParseException {
+    final String runTag = "BM25_EnglishAnalyzer_" + FIELD_BODY + "_" + similarity.toString();
+    search(topics, submissionFile, similarity, numHits, cascade, runTag);
+  }
+
+  /**
+   * Run with an empty RerankerCascade
+   * @param topics
+   * @param submissionFile
+   * @param similarity
+   * @param numHits
+   * @param runTag
+   * @throws IOException
+   * @throws ParseException
+   */
+  public void search(SortedMap<Integer, String> topics, String submissionFile,
+                     Similarity similarity, int numHits, final String runTag) throws IOException, ParseException {
+    RerankerCascade cascade = new RerankerCascade();
+    search(topics, submissionFile, similarity,s numHits, cascade, runTag);
+  }
+
   public static void main(String[] args) throws Exception {
 
     long curTime = System.nanoTime();
@@ -281,7 +310,7 @@ public final class SearchWebCollection implements Closeable {
     Similarity similarity = null;
 
     if (searchArgs.ql) {
-      LOG.info("Using QL scoring model");
+      LOG.info("Using QL scoring model with mu=" + searchArgs.mu);
       similarity = new LMDirichletSimilarity(searchArgs.mu);
     } else if (searchArgs.bm25) {
       LOG.info("Using BM25 scoring model");

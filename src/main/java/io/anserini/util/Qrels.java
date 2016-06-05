@@ -70,7 +70,7 @@ public class Qrels {
   }
 
   public Set<String> getQids() {
-      return this.qrels.keySet();
+    return this.qrels.keySet();
   }
 
   public Map<String, Integer> getDocMap(String qid) {
