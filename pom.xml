@@ -109,10 +109,6 @@
               <name>RankLibScore</name>
             </program>
             <program>
-              <mainClass>io.anserini.ltr.RBPEvaluator</mainClass>
-              <name>RBPEval</name>
-            </program>
-            <program>
               <mainClass>io.anserini.util.DumpDocumentBody</mainClass>
               <name>DumpDocument</name>
             </program>
