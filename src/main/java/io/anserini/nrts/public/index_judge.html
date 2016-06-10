@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Twitter Near-Real Time Search Demo</title>
+  <link rel="stylesheet" type="text/css" href="bootstrap.min.css" />
+  <link rel="stylesheet" type="text/css" href="style.css" />
+  <script src="jquery-1.11.3.min.js"></script>
+  <script src="bootstrap.min.js"></script>
+<style>
+
+</style>
+  <script>
+    twttr = (function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0],
+          t = window.twttr || {};
+      if (d.getElementById(id)) return t;
+      js = d.createElement(s);
+      js.id = id;
+      js.src = "https://platform.twitter.com/widgets.js";
+      fjs.parentNode.insertBefore(js, fjs);
+      t._e = [];
+      t.ready = function(f) {
+         t._e.push(f);
+      };
+     return t;
+    }(document, "script", "twitter-wjs"));
+  </script>
+  <script>
+  function submitQuery(){
+    $("#resultsA").html("")
+    $("#resultsB").html("")
+    var topic = document.getElementById("topic").value;
+    var runtag1 = document.getElementById("runtag1").value;
+    var runtag2 = document.getElementById("runtag2").value;
+    $("#this_is_h1").text(topic)
+    var data = {}
+    data.topic = topic;
+    data.runtag1 = runtag1;
+    data.runtag2 = runtag2;
+    console.log(data);
+    $.ajax({
+      url:'http://localhost:8080/api/search',
+      dataType : 'json',
+      contentType : 'application/json;',
+      data : JSON.stringify(data),
+      type : 'POST'
+    }).done(function(data){
+      $.each(data,function(i,item){
+        if (item.system=="A") twttr.widgets.createTweet(item.docid,document.getElementById('resultsA'),{});
+        else if (item.system=="B") twttr.widgets.createTweet(item.docid,document.getElementById('resultsB'),{});
+      });
+    });
+  }
+
+  </script>
+</head>
+<body style="height:100%">
+<div class="container" style="height:100%">
+
+  <div class="page-header" style="height:8%">
+    <h4 id="this_is_h1"> </h4>
+      <!-- <input type="text" id="topic_display"></input> -->
+    <form class="form-inline" action="JavaScript:submitQuery()">
+    
+      <div class="form-group">
+        <label for="sel1">System A</label>
+        <select class="form-control selectpicker show-tick" name='runtag1' id="runtag1" >
+          <option value="CLIP-A-5.0-0.5">CLIP-A-5.0-0.5</option>
+          <option value="CLIP-A-5.0-0.6">CLIP-A-5.0-0.6</option>
+          <option value="CLIP-A-DYN-0.5">CLIP-A-DYN-0.5</option>
+          <option value="DALTRECAA1">DALTRECAA1</option>
+          <option value="DALTRECMA1">DALTRECMA1</option>
+          <option value="DALTRECMA2">DALTRECMA2</option>
+          <option value="ECNURUNA1">ECNURUNA1</option>
+          <option value="ECNURUNA2">ECNURUNA2</option>
+          <option value="ECNURUNA3">ECNURUNA3</option>
+          <option value="hpclab_pi_algA">hpclab_pi_algA</option>
+          <option value="IRIT-KLTFIDF">IRIT-KLTFIDF</option>
+          <option value="IRIT-RTNotif.33">IRIT-RTNotif.33</option>
+          <option value="IritSigSDA">IritSigSDA</option>
+          <option value="MPII_COMB_SORT">MPII_COMB_SORT</option>
+          <option value="MPII_HYBRID_PW">MPII_HYBRID_PW</option>
+          <option value="MPII_LUC_SORT">MPII_LUC_SORT</option>
+          <option value="PKUICSTRunA1">PKUICSTRunA1</option>
+          <option value="PKUICSTRunA2">PKUICSTRunA2</option>
+          <option value="PKUICSTRunA3">PKUICSTRunA3</option>
+          <option value="prnaTaskA1">prnaTaskA1</option>
+          <option value="prnaTaskA2">prnaTaskA2</option>
+          <option value="prnaTaskA3">prnaTaskA3</option>
+          <option value="QUBaseline">QUBaseline</option>
+          <option value="QUDyn">QUDyn</option>
+          <option value="QUDynExp">QUDynExp</option>
+          <option value="SNACS_LA">SNACS_LA</option>
+          <option value="SNACSA">SNACSA</option>
+          <option value="udelRun1A">udelRun1A</option>
+          <option value="udelRun2A">udelRun2A</option>
+          <option value="udelRun3A">udelRun3A</option>
+          <option value="umd_hcil_run01">umd_hcil_run01</option>
+          <option value="umd_hcil_run02">umd_hcil_run02</option>
+          <option value="UWaterlooATDK">UWaterlooATDK</option>
+          <option value="UWaterlooATEK">UWaterlooATEK</option>
+          <option value="UWaterlooATNDEK">UWaterlooATNDEK</option>
+          <option value="UWCMBP1">UWCMBP1</option>
+          <option value="UWCMBP2">UWCMBP2</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Topic</label>
+        <select class="form-control selectpicker show-tick" name='topic' id="topic" >
+          <option value="MB226 Hershey, PA quilt show">MB226</option>
+          <option value="MB227 Pradaxa side effects">MB227</option>
+          <option value="MB228 Coumadin dietary restrictions">MB228</option>
+          <option value="MB236 California drought agricultural effects">MB236</option>
+          <option value="MB242 Saudi bombing Yemen">MB242</option>
+          <option value="MB243 FIFA corruption investigation">MB243</option>
+          <option value="MB246 Greek international debt crisis">MB246</option>
+          <option value="MB248 Harlem 5K race">MB248</option>
+          <option value="MB249 Johns Hopkins Lyme disease study">MB249</option>
+          <option value="MB253 health insurance for disabled children">MB253</option>
+          <option value="MB254 cancer and depression">MB254</option>
+          <option value="MB255 medical insurance on cruises">MB255</option>
+          <option value="MB260 Society for Women and the Civil War Conference">MB260</option>
+          <option value="MB262 Stephen Colbert Late Show">MB262</option>
+          <option value="MB265 cruise ship mishaps">MB265</option>
+          <option value="MB267 fighting between Ukraine and pro-Russian rebels">MB267</option>
+          <option value="MB278 Mr. Holmes movie">MB278</option>
+          <option value="MB284 coping with identity theft">MB284</option>
+          <option value="MB287 The Vatican Tapes movie">MB287</option>
+          <option value="MB298 Gaza rockets hit Israel">MB298</option>
+          <option value="MB305 National Museum of American History">MB305</option>
+          <option value="MB324 Indian-Pacific train">MB324</option>
+          <option value="MB326 wheelchair accessibility">MB326</option>
+          <option value="MB331 Special Olympics 2015">MB331</option>
+          <option value="MB339 Chincoteague Pony Swim">MB339</option>
+          <option value="MB344 Iran nuclear agreement">MB344</option>
+          <option value="MB348 drones vs. commercial airliners">MB348</option>
+          <option value="MB353 summer Seasonal Affective Disorder (SAD)">MB353</option>
+          <option value="MB354 Go Set a Watchman">MB354</option>
+          <option value="MB357 prevalence of Ritalin use with no ADHD diagnosis">MB357</option>
+          <option value="MB359 Grey book">MB359</option>
+          <option value="MB362 Outback Steakhouse">MB362</option>
+          <option value="MB366 climbing Mount Everest">MB366</option>
+          <option value="MB371 self-driving cars">MB371</option>
+          <option value="MB377 animal attacks in safari parks">MB377</option>
+          <option value="MB379 morel mushrooms">MB379</option>
+          <option value="MB383 online dating for older women">MB383</option>
+          <option value="MB384 arson fires in inner cities">MB384</option>
+          <option value="MB389 Clinton Foundation">MB389</option>
+          <option value="MB391 polar icecap melting">MB391</option>
+          <option value="MB392 U.S. forest fires">MB392</option>
+          <option value="MB400 probiotics">MB400</option>
+          <option value="MB401 Knock Knock Live">MB401</option>
+          <option value="MB405 Rotterdam Unlimited">MB405</option>
+          <option value="MB409 airport TSA screenings">MB409</option>
+          <option value="MB416 Hepworth Exhibit at the Tate Britain">MB416</option>
+          <option value="MB419 King George Weekend Ascot">MB419</option>
+          <option value="MB432 Mount Rushmore">MB432</option>
+          <option value="MB434 2015 Summer PanAm Games">MB434</option>
+          <option value="MB439 Bolton Wanderers">MB439</option>
+          <option value="MB448 Bouchercon World Mystery Convention">MB448</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="sel1">System B</label>
+        <select class="form-control selectpicker show-tick" name='runtag2' id="runtag2" >
+          <option value="CLIP-A-5.0-0.5">CLIP-A-5.0-0.5</option>
+          <option value="CLIP-A-5.0-0.6">CLIP-A-5.0-0.6</option>
+          <option value="CLIP-A-DYN-0.5">CLIP-A-DYN-0.5</option>
+          <option value="DALTRECAA1">DALTRECAA1</option>
+          <option value="DALTRECMA1">DALTRECMA1</option>
+          <option value="DALTRECMA2">DALTRECMA2</option>
+          <option value="ECNURUNA1">ECNURUNA1</option>
+          <option value="ECNURUNA2">ECNURUNA2</option>
+          <option value="ECNURUNA3">ECNURUNA3</option>
+          <option value="hpclab_pi_algA">hpclab_pi_algA</option>
+          <option value="IRIT-KLTFIDF">IRIT-KLTFIDF</option>
+          <option value="IRIT-RTNotif.33">IRIT-RTNotif.33</option>
+          <option value="IritSigSDA">IritSigSDA</option>
+          <option value="MPII_COMB_SORT">MPII_COMB_SORT</option>
+          <option value="MPII_HYBRID_PW">MPII_HYBRID_PW</option>
+          <option value="MPII_LUC_SORT">MPII_LUC_SORT</option>
+          <option value="PKUICSTRunA1">PKUICSTRunA1</option>
+          <option value="PKUICSTRunA2">PKUICSTRunA2</option>
+          <option value="PKUICSTRunA3">PKUICSTRunA3</option>
+          <option value="prnaTaskA1">prnaTaskA1</option>
+          <option value="prnaTaskA2">prnaTaskA2</option>
+          <option value="prnaTaskA3">prnaTaskA3</option>
+          <option value="QUBaseline">QUBaseline</option>
+          <option value="QUDyn">QUDyn</option>
+          <option value="QUDynExp">QUDynExp</option>
+          <option value="SNACS_LA">SNACS_LA</option>
+          <option value="SNACSA">SNACSA</option>
+          <option value="udelRun1A">udelRun1A</option>
+          <option value="udelRun2A">udelRun2A</option>
+          <option value="udelRun3A">udelRun3A</option>
+          <option value="umd_hcil_run01">umd_hcil_run01</option>
+          <option value="umd_hcil_run02">umd_hcil_run02</option>
+          <option value="UWaterlooATDK">UWaterlooATDK</option>
+          <option value="UWaterlooATEK">UWaterlooATEK</option>
+          <option value="UWaterlooATNDEK">UWaterlooATNDEK</option>
+          <option value="UWCMBP1">UWCMBP1</option>
+          <option value="UWCMBP2">UWCMBP2</option>
+        </select>
+      </div>
+      
+      <input type="submit" class="btn btn-default" value="Run query" />
+    </form>
+  </div>
+ 
+
+ <div class="col-sm-6" id="left" style="overflow-y:scroll;width:50%;height:100%">
+      <div id="resultsA" ></div>
+  </div>   
+
+  <div class="col-sm-6" id="right" style="overflow-y:scroll;width:50%;height:100%">
+      <div id="resultsB" ></div>
+    </div>
+  </div>
+
+
+    
+</div> <!-- /container -->
+</body>
+</html>
