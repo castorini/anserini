@@ -62,7 +62,7 @@ import static io.anserini.index.IndexWebCollection.FIELD_BODY;
 import static io.anserini.index.IndexWebCollection.FIELD_ID;
 
 /**
- * Searcher for Gov2, ClueWeb09, and ClueWeb12 corpra.
+ * Searcher for Wt10g, Gov2, ClueWeb09, and ClueWeb12 corpra.
  * TREC Web Tracks from 2009 to 2014
  * TREC Terabyte Tracks from 2004 to 2006
  */
@@ -304,7 +304,7 @@ public final class SearchWebCollection implements Closeable {
     }
 
     final long start = System.nanoTime();
-    SortedMap<Integer, String> topics = io.anserini.document.Collection.GOV2.equals(searchArgs.collection) ? readTeraByteTackQueries(topicsFile) : readWebTrackQueries(topicsFile);
+    SortedMap<Integer, String> topics = (io.anserini.document.Collection.GOV2.equals(searchArgs.collection) || io.anserini.document.Collection.WT10G.equals(searchArgs.collection)) ? readTeraByteTackQueries(topicsFile) : readWebTrackQueries(topicsFile);
 
     try (SearchWebCollection searcher = new SearchWebCollection(searchArgs.index)) {
 

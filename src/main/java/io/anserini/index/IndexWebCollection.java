@@ -51,7 +51,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.zip.GZIPInputStream;
 
 /**
- * Indexer for Gov2, ClueWeb09, and ClueWeb12 corpara.
+ * Indexer for Wt10g, Gov2, ClueWeb09, and ClueWeb12 corpara.
  */
 public final class IndexWebCollection {
 
@@ -153,6 +153,46 @@ public final class IndexWebCollection {
       return i;
     }
 
+    //indexing for wt10g collection
+    private int indexWt10g() throws IOException{
+
+      int i = 0;
+
+      StringBuilder builder = new StringBuilder();
+
+      boolean found = false;
+
+      try (
+              InputStream stream = Files.newInputStream(inputWarcFile, StandardOpenOption.READ);
+              BufferedReader reader = new BufferedReader(new InputStreamReader(stream, StandardCharsets.UTF_8))) {
+
+        for ( ; ; ) {
+          String line = reader.readLine();
+          if (line == null)
+            break;
+
+          line = line.trim();
+
+          if (line.startsWith(Wt10gRecord.DOC)) {
+            found = true;
+            continue;
+          }
+
+          if (line.startsWith(Wt10gRecord.TERMINATING_DOC)) {
+            found = false;
+            WarcRecord wt10g = Wt10gRecord.parseWt10gRecord(builder);
+            i += indexWarcRecord(wt10g);
+            builder.setLength(0);
+          }
+
+          if (found)
+            builder.append(line).append(" ");
+        }
+      }
+
+      return i;
+    }
+
     private int indexGov2File() throws IOException {
 
       int i = 0;
@@ -205,6 +245,11 @@ public final class IndexWebCollection {
             System.out.println("./" + inputWarcFile.getParent().getFileName().toString() + File.separator + inputWarcFile.getFileName().toString() + "\t" + addCount);
           } else if (Collection.GOV2.equals(collection)) {
             int addCount = indexGov2File();
+            System.out.println("./" + inputWarcFile.getParent().getFileName().toString() + File.separator + inputWarcFile.getFileName().toString() + "\t" + addCount);
+          }
+          else if (Collection.WT10G.equals(collection)){
+            int addCount = indexWt10g();
+            LOG.info("./" + inputWarcFile.getParent().getFileName().toString() + File.separator + inputWarcFile.getFileName().toString() + "\t" + addCount);
             System.out.println("./" + inputWarcFile.getParent().getFileName().toString() + File.separator + inputWarcFile.getFileName().toString() + "\t" + addCount);
           }
 
@@ -317,7 +362,18 @@ public final class IndexWebCollection {
     final IndexWriter writer = new IndexWriter(dir, iwc);
 
     final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(numThreads);
-    final String suffix = Collection.GOV2.equals(collection) ? ".gz" : ".warc.gz";
+    
+    String suffix = null;
+    if(Collection.GOV2.equals(collection)) {
+      suffix = ".gz";
+    }
+    else if(Collection.CW09.equals(collection) || Collection.CW12.equals(collection)) {
+      suffix = ".warc.gz";
+    }
+    else if(Collection.WT10G.equals(collection)) {
+      suffix = "";
+    }
+
     final Deque<Path> warcFiles = discoverWarcFiles(docDir, suffix);
 
     if (doclimit > 0 && warcFiles.size() < doclimit)
