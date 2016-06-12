@@ -22,7 +22,7 @@
     </repository>
     <repository>
       <id>AnseriniMaven</id>
-      <url>https://raw.github.com/dyshi/AnseriniMaven/mvn-repo</url>
+      <url>https://raw.github.com/dyshi/AnseriniMaven/mvn-repo/</url>
       <snapshots>
         <enabled>true</enabled>
         <updatePolicy>always</updatePolicy>
