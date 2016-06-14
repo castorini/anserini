@@ -18,15 +18,11 @@
   <repositories>
     <repository>
       <id>public</id>
-      <url>https://maven.org/content/repositories/public/</url>
+      <url>https://repo1.maven.org/maven2</url>
     </repository>
     <repository>
       <id>AnseriniMaven</id>
-      <url>https://raw.github.com/dyshi/MavenAnserini/mvn-repo/</url>
-      <snapshots>
-        <enabled>true</enabled>
-        <updatePolicy>always</updatePolicy>
-      </snapshots>
+      <url>https://raw.githubusercontent.com/lintool/AnseriniMaven/master/mvn-repo/</url>
     </repository>
   </repositories>
 
