@@ -97,14 +97,6 @@
                   <name>FeatureExtractor</name>
               </program>
             <program>
-              <mainClass>io.anserini.index.IndexCacmRecords</mainClass>
-              <name>IndexCACM</name>
-            </program>
-            <program>
-              <mainClass>io.anserini.search.SearchCacmCollection</mainClass>
-              <name>SearchCACM</name>
-            </program>
-            <program>
               <mainClass>io.anserini.ltr.RankLibScorer</mainClass>
               <name>RankLibScore</name>
             </program>
