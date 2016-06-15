@@ -20,9 +20,11 @@ public final class Wt10gRecord {
   public static WarcRecord parseWt10gRecord(StringBuilder builder) {
 
     int i = builder.indexOf(DOCNO);
-    if (i == -1) throw new RuntimeException("cannot find start tag " + DOCNO);
+    if (i == -1) {
+      throw new RuntimeException("cannot find start tag " + DOCNO);
+    }
 
-    if (i != 0) throw new RuntimeException("should start with " + DOCNO);
+    if (i != 0) throw new RuntimeException("should start with " + DOCNO + "in" + builder);
 
     int j = builder.indexOf(TERMINATING_DOCNO);
     if (j == -1) throw new RuntimeException("cannot find end tag " + TERMINATING_DOCNO);
