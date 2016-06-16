@@ -26,6 +26,7 @@ import io.anserini.rerank.ScoredDocuments;
 import io.anserini.rerank.rm3.Rm3Reranker;
 import io.anserini.util.AnalyzerUtils;
 import io.anserini.util.Qrels;
+import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;
@@ -61,6 +62,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import java.util.concurrent.TimeUnit;
 
 import static io.anserini.index.IndexWebCollection.FIELD_BODY;
 import static io.anserini.index.IndexWebCollection.FIELD_ID;
@@ -254,7 +256,6 @@ public final class SearchWebCollection implements Closeable {
 
   public static void main(String[] args) throws Exception {
 
-    long curTime = System.nanoTime();
     SearchArgs searchArgs = new SearchArgs();
     CmdLineParser parser = new CmdLineParser(searchArgs, ParserProperties.defaults().withUsageWidth(90));
 
@@ -293,7 +294,7 @@ public final class SearchWebCollection implements Closeable {
 
     RerankerCascade cascade = new RerankerCascade();
     if (searchArgs.rm3) {
-      cascade.add(new Rm3Reranker(new EnglishAnalyzer(), "body", "src/main/resources/io/anserini/rerank/rm3/rm3-stoplist.gov2.txt"));
+      cascade.add(new Rm3Reranker(new EnglishAnalyzer(), FIELD_BODY, "src/main/resources/io/anserini/rerank/rm3/rm3-stoplist.gov2.txt"));
     } else {
       cascade.add(new IdentityReranker());
     }
@@ -316,8 +317,11 @@ public final class SearchWebCollection implements Closeable {
 
     SortedMap<Integer, String> topics = io.anserini.document.Collection.GOV2.equals(searchArgs.collection) ? readTeraByteTackQueries(topicsFile) : readWebTrackQueries(topicsFile);
 
+    final long start = System.nanoTime();
     SearchWebCollection searcher = new SearchWebCollection(searchArgs.index);
     searcher.search(topics, searchArgs.output, similarity, searchArgs.hits, cascade);
     searcher.close();
+    final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
+    LOG.info("Total " + topics.size() + " topics searched in " + DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss"));
   }
 }
