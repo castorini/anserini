@@ -196,7 +196,8 @@ public final class SearchWebCollection implements Closeable {
    * @throws ParseException
    */
 
-  public void search(SortedMap<Integer, String> topics, String submissionFile, Similarity similarity, int numHits, RerankerCascade cascade) throws IOException, ParseException {
+  public void search(SortedMap<Integer, String> topics, String submissionFile, Similarity similarity, int numHits, RerankerCascade cascade,
+                      boolean useQueryParser) throws IOException, ParseException {
 
 
     IndexSearcher searcher = new IndexSearcher(reader);
@@ -215,7 +216,8 @@ public final class SearchWebCollection implements Closeable {
 
       int qID = entry.getKey();
       String queryString = entry.getValue();
-      Query query = queryParser.parse(queryString);
+      Query query = useQueryParser? queryParser.parse(queryString) : 
+                    AnalyzerUtils.buildBagOfWordsQuery(FIELD_BODY, new EnglishAnalyzer(), queryString);
 
       /**
        * For Web Tracks 2010,2011,and 2012; an experimental run consists of the top 10,000 documents for each topic query.
@@ -235,23 +237,18 @@ public final class SearchWebCollection implements Closeable {
        * the fifth column shows the score (integer or floating point) that generated the ranking.
        * the sixth column is called the "run tag" and should be a unique identifier for your
        */
-      for (int i = 0; i < hits.length; i++) {
-        int docId = hits[i].doc;
-        Document doc = searcher.doc(docId);
-        out.print(qID);
-        out.print("\tQ0\t");
-        out.print(doc.get(FIELD_ID));
-        out.print("\t");
-        out.print(i + 1);
-        out.print("\t");
-        out.print(hits[i].score);
-        out.print("\t");
-        out.print(runTag);
-        out.println();
+      for (int i = 0; i < docs.documents.length; i++) {
+        out.println(String.format("%d Q0 %s %d %f %s", qID,
+                docs.documents[i].getField(FIELD_ID).stringValue(), (i + 1), docs.scores[i], runTag));
       }
     }
     out.flush();
     out.close();
+  }
+
+  public void search(SortedMap<Integer, String> topics, String submissionFile, Similarity similarity, int numHits, RerankerCascade cascade)
+                     throws IOException, ParseException {
+    search(topics, submissionFile, similarity, numHits, cascade, false);
   }
 
   public static void main(String[] args) throws Exception {
@@ -293,8 +290,10 @@ public final class SearchWebCollection implements Closeable {
     }
 
     RerankerCascade cascade = new RerankerCascade();
+    boolean useQueryParser = false;
     if (searchArgs.rm3) {
       cascade.add(new Rm3Reranker(new EnglishAnalyzer(), FIELD_BODY, "src/main/resources/io/anserini/rerank/rm3/rm3-stoplist.gov2.txt"));
+      useQueryParser = true;
     } else {
       cascade.add(new IdentityReranker());
     }
@@ -319,7 +318,7 @@ public final class SearchWebCollection implements Closeable {
 
     final long start = System.nanoTime();
     SearchWebCollection searcher = new SearchWebCollection(searchArgs.index);
-    searcher.search(topics, searchArgs.output, similarity, searchArgs.hits, cascade);
+    searcher.search(topics, searchArgs.output, similarity, searchArgs.hits, cascade, useQueryParser);
     searcher.close();
     final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
     LOG.info("Total " + topics.size() + " topics searched in " + DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss"));
