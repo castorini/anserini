@@ -249,7 +249,6 @@ public final class IndexWebCollection {
           }
           else if (Collection.WT10G.equals(collection)){
             int addCount = indexWt10g();
-            LOG.info("./" + inputWarcFile.getParent().getFileName().toString() + File.separator + inputWarcFile.getFileName().toString() + "\t" + addCount);
             System.out.println("./" + inputWarcFile.getParent().getFileName().toString() + File.separator + inputWarcFile.getFileName().toString() + "\t" + addCount);
           }
 

@@ -18,7 +18,6 @@ public final class Wt10gRecord {
 
 
   public static WarcRecord parseWt10gRecord(StringBuilder builder) {
-
     int i = builder.indexOf(DOCNO);
     if (i == -1) throw new RuntimeException("cannot find start tag " + DOCNO + " in " + builder);
 
@@ -26,14 +25,13 @@ public final class Wt10gRecord {
 
     int j = builder.indexOf(TERMINATING_DOCNO);
     if (j == -1) throw new RuntimeException("cannot find end tag " + TERMINATING_DOCNO);
+    final String docID = builder.substring(i + DOCNO.length(), j).trim();
 
     i = builder.indexOf(DOCOLDNO);
     if (i == -1) throw new RuntimeException("cannot find old tag " + DOCOLDNO);
 
     j = builder.indexOf(TERMINATING_DOCOLDNO);
     if (j == -1) throw new RuntimeException("cannot find end tag " + TERMINATING_DOCOLDNO);
-
-    final String docID = builder.substring(i + DOCNO.length(), j).trim();
 
     i = builder.indexOf(DOCHDR);
     if (i == -1) throw new RuntimeException("cannot find header tag " + DOCHDR);
