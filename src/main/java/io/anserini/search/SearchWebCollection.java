@@ -32,6 +32,7 @@ import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.queryparser.classic.QueryParser;
+import org.apache.lucene.queryparser.classic.QueryParserBase;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
@@ -95,7 +96,6 @@ public final class SearchWebCollection implements Closeable {
     if (i == -1) throw new IllegalArgumentException("line does not contain the tag : " + tag);
 
     int j = line.indexOf("\"", i + tag.length() + 2);
-
     if (j == -1) throw new IllegalArgumentException("line does not contain quotation");
 
     return line.substring(i + tag.length() + 2, j);
@@ -151,9 +151,11 @@ public final class SearchWebCollection implements Closeable {
     String query = "";
 
     boolean found = false;
+    boolean badTitleFound = false;
+
     for (String line : lines) {
 
-      line = line.trim();
+      line = line.trim();	
 
       if (!found && "<top>".equals(line)) {
         found = true;
@@ -162,6 +164,16 @@ public final class SearchWebCollection implements Closeable {
 
       if (found && line.startsWith("<title>"))
         query = line.substring(7).trim();
+
+      if (badTitleFound) {
+	query = line.trim();
+	badTitleFound = false;
+      }
+
+      if (query.length() == 0) {
+	badTitleFound = true;
+	continue;
+      }
 
       if (found && line.startsWith("<num>")) {
         int i = line.lastIndexOf(" ");
@@ -208,7 +220,7 @@ public final class SearchWebCollection implements Closeable {
     for (Map.Entry<Integer, String> entry : topics.entrySet()) {
 
       int qID = entry.getKey();
-      String queryString = entry.getValue();
+      String queryString = entry.getValue().replaceAll("[^\\p{L}\\p{Z}]", "");
       Query query = queryParser.parse(queryString);
 
       ScoreDoc[] hits = searcher.search(query, numHits).scoreDocs;
@@ -282,7 +294,7 @@ public final class SearchWebCollection implements Closeable {
       parser.printUsage(System.err);
       System.err.println("Example: SearchWebCollection" + parser.printExample(OptionHandlerFilter.REQUIRED));
       return;
-    }
+  }
 
     Similarity similarity = null;
 
@@ -318,5 +330,5 @@ public final class SearchWebCollection implements Closeable {
 
     final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
     LOG.info("Total " + topics.size() + " topics searched in " + DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss"));
-  }
+  } 
 }
