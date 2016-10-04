@@ -30,7 +30,7 @@ import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;
-import org.apache.lucene.document.Document;
+import org.apache.lucene.analysis.util.CharArraySet;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.queryparser.classic.ParseException;
@@ -197,19 +197,19 @@ public final class SearchWebCollection implements Closeable {
    */
 
   public void search(SortedMap<Integer, String> topics, String submissionFile, Similarity similarity, int numHits, RerankerCascade cascade,
-                      boolean useQueryParser) throws IOException, ParseException {
+                      boolean useQueryParser, boolean keepstopwords) throws IOException, ParseException {
 
 
     IndexSearcher searcher = new IndexSearcher(reader);
     searcher.setSimilarity(similarity);
 
 
-    final String runTag = "BM25_EnglishAnalyzer_" + FIELD_BODY + "_" + similarity.toString();
+    final String runTag = "BM25_EnglishAnalyzer_" + (keepstopwords ? "KeepStopwords" : "") + FIELD_BODY + "_" + similarity.toString();
 
     PrintWriter out = new PrintWriter(Files.newBufferedWriter(Paths.get(submissionFile), StandardCharsets.US_ASCII));
 
-
-    QueryParser queryParser = new QueryParser(FIELD_BODY, new EnglishAnalyzer());
+    EnglishAnalyzer ea = keepstopwords ? new EnglishAnalyzer(CharArraySet.EMPTY_SET) : new EnglishAnalyzer();
+    QueryParser queryParser = new QueryParser(FIELD_BODY, ea);
     queryParser.setDefaultOperator(QueryParser.Operator.OR);
 
     for (Map.Entry<Integer, String> entry : topics.entrySet()) {
@@ -217,14 +217,14 @@ public final class SearchWebCollection implements Closeable {
       int qID = entry.getKey();
       String queryString = entry.getValue();
       Query query = useQueryParser? queryParser.parse(queryString) : 
-                    AnalyzerUtils.buildBagOfWordsQuery(FIELD_BODY, new EnglishAnalyzer(), queryString);
+                    AnalyzerUtils.buildBagOfWordsQuery(FIELD_BODY, ea, queryString);
 
       /**
        * For Web Tracks 2010,2011,and 2012; an experimental run consists of the top 10,000 documents for each topic query.
        */
       TopDocs rs = searcher.search(query, numHits);
       ScoreDoc[] hits = rs.scoreDocs;
-      List<String> queryTokens = AnalyzerUtils.tokenize(new EnglishAnalyzer(), queryString);
+      List<String> queryTokens = AnalyzerUtils.tokenize(ea, queryString);
       RerankerContext context = new RerankerContext(searcher, query, String.valueOf(qID), queryString,
               queryTokens, FIELD_BODY, null);
       ScoredDocuments docs = cascade.run(ScoredDocuments.fromTopDocs(rs, searcher), context);
@@ -248,7 +248,7 @@ public final class SearchWebCollection implements Closeable {
 
   public void search(SortedMap<Integer, String> topics, String submissionFile, Similarity similarity, int numHits, RerankerCascade cascade)
                      throws IOException, ParseException {
-    search(topics, submissionFile, similarity, numHits, cascade, false);
+    search(topics, submissionFile, similarity, numHits, cascade, false, false);
   }
 
   public static void main(String[] args) throws Exception {
@@ -318,7 +318,7 @@ public final class SearchWebCollection implements Closeable {
 
     final long start = System.nanoTime();
     SearchWebCollection searcher = new SearchWebCollection(searchArgs.index);
-    searcher.search(topics, searchArgs.output, similarity, searchArgs.hits, cascade, useQueryParser);
+    searcher.search(topics, searchArgs.output, similarity, searchArgs.hits, cascade, useQueryParser, searchArgs.keepstop);
     searcher.close();
     final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
     LOG.info("Total " + topics.size() + " topics searched in " + DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss"));
