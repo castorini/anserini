@@ -313,12 +313,8 @@ public final class IndexWebCollection {
 
     final Directory dir = FSDirectory.open(indexPath);
 
-    final IndexWriterConfig iwc;
-    if (this.keepstopwords) {
-      iwc = new IndexWriterConfig(new EnglishAnalyzer(CharArraySet.EMPTY_SET));
-    } else {
-      iwc = new IndexWriterConfig(new EnglishAnalyzer());
-    }
+    final EnglishAnalyzer ea = keepstopwords ? new EnglishAnalyzer(CharArraySet.EMPTY_SET) : new EnglishAnalyzer();
+    final IndexWriterConfig iwc = new IndexWriterConfig(ea);
 
     iwc.setSimilarity(new BM25Similarity());
     iwc.setOpenMode(IndexWriterConfig.OpenMode.CREATE);

@@ -204,7 +204,7 @@ public final class SearchWebCollection implements Closeable {
     searcher.setSimilarity(similarity);
 
 
-    final String runTag = "BM25_EnglishAnalyzer_" + (keepstopwords ? "KeepStopwords" : "") + FIELD_BODY + "_" + similarity.toString();
+    final String runTag = "BM25_EnglishAnalyzer_" + (keepstopwords ? "KeepStopwords_" : "") + FIELD_BODY + "_" + similarity.toString();
 
     PrintWriter out = new PrintWriter(Files.newBufferedWriter(Paths.get(submissionFile), StandardCharsets.US_ASCII));
 
