@@ -21,6 +21,7 @@ import io.anserini.document.*;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.lucene.analysis.util.CharArraySet;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
@@ -218,6 +219,12 @@ public final class IndexWebCollection {
   private final Path indexPath;
   private final Path docDir;
 
+  private boolean keepstopwords = false;
+
+  public void setKeepstopwords(boolean keepstopwords) {
+    this.keepstopwords = keepstopwords;
+  }
+
   private boolean positions = false;
 
   public void setPositions(boolean positions) {
@@ -306,7 +313,8 @@ public final class IndexWebCollection {
 
     final Directory dir = FSDirectory.open(indexPath);
 
-    final IndexWriterConfig iwc = new IndexWriterConfig(new EnglishAnalyzer());
+    final EnglishAnalyzer ea = keepstopwords ? new EnglishAnalyzer(CharArraySet.EMPTY_SET) : new EnglishAnalyzer();
+    final IndexWriterConfig iwc = new IndexWriterConfig(ea);
 
     iwc.setSimilarity(new BM25Similarity());
     iwc.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
@@ -413,6 +421,7 @@ public final class IndexWebCollection {
     final long start = System.nanoTime();
     IndexWebCollection indexer = new IndexWebCollection(indexArgs.input, indexArgs.index, indexArgs.collection);
 
+    indexer.setKeepstopwords(indexArgs.keepstop);
     indexer.setDocVectors(indexArgs.docvectors);
     indexer.setPositions(indexArgs.positions);
     indexer.setOptimize(indexArgs.optimize);
@@ -420,6 +429,7 @@ public final class IndexWebCollection {
 
     LOG.info("Index path: " + indexArgs.index);
     LOG.info("Threads: " + indexArgs.threads);
+    LOG.info("Keep Stopwords: " + indexArgs.keepstop);
     LOG.info("Positions: " + indexArgs.positions);
     LOG.info("Store docVectors: " + indexArgs.docvectors);
     LOG.info("Optimize (merge segments): " + indexArgs.optimize);

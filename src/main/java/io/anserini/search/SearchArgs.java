@@ -20,6 +20,9 @@ public class SearchArgs {
 
   // optional arguments
 
+  @Option(name = "-keepstopwords", usage = "Boolean switch to keep stopwords in the query topics")
+  boolean keepstop = false;
+
   @Option(name = "-hits", metaVar = "[number]", required = false, usage = "max number of hits to return")
   public int hits = 1000;
 

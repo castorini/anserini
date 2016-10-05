@@ -41,6 +41,9 @@ public class IndexArgs {
 
   // optional arguments
 
+  @Option(name = "-keepstopwords", usage = "Boolean switch to keep stopwords")
+  boolean keepstop = false;
+
   @Option(name = "-positions", usage = "Boolean switch to index positions")
   boolean positions = false;
 
