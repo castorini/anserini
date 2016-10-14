@@ -82,7 +82,7 @@
             </program>
             <program>
               <mainClass>io.anserini.util.DumpIndex</mainClass>
-              <name>dumpindex</name>
+              <name>DumpIndex</name>
             </program>
             <program>
               <mainClass>io.anserini.util.DumpDocids</mainClass>
