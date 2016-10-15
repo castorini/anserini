@@ -31,6 +31,8 @@ import org.apache.lucene.store.FSDirectory;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class DumpIndex {
@@ -88,17 +90,26 @@ public class DumpIndex {
   /*
   * print the internal id
   */
-  String print_document_id( DirectoryReader reader, String externalId ) throws IOException {
+  String print_document_id( DirectoryReader reader, ArrayList<String> externalIDs ) throws IOException {
     StringBuilder sb = new StringBuilder();
+    HashMap<String, Integer> mapping = new HashMap<>();
+    for (String s : externalIDs) {
+      mapping.put(s, 0);
+    }
+    int total = externalIDs.size();
     for (int i = 1; i < reader.maxDoc()+1; i++) {
       Document d = reader.document(i);
       IndexableField id = d.getField(IndexWebCollection.FIELD_ID);
-      if (externalId.equals(id.stringValue())) {
-        sb.append(i);
-        break;
+      String idStr = id.stringValue();
+      if (mapping.containsKey(idStr)) {
+        mapping.put(idStr, i);
+        total--;
+        if (total == 0) break;
       }
     }
-    sb.append("\n");
+    for (String s : externalIDs) {
+      sb.append(mapping.get(s)+"\n");
+    }
     return sb.toString();
   }
 
@@ -139,12 +150,11 @@ public class DumpIndex {
     return sb.toString();
   }
 
-  boolean argsEnough(int n, int required) {
+  void argsEnough(int required, int n) {
     if (n < required) {
       printUsage();
-      return false;
+      System.exit(1);
     }
-    return true;
   }
 
   void printUsage() {
@@ -153,11 +163,10 @@ public class DumpIndex {
       .append("These commands retrieve data from the repository: \n")
       .append("    Command              Argument       Description\n")
       .append("    term (t)             Term text      Print inverted list for a term\n")
-      .append("    dxcount (dx)         Expression     Print document count of occurrences of an Indri expression\n")
-      .append("    documentid (di)      Field, Value   Print the document IDs of documents having a metadata field matching this value\n")
-      .append("    documentname (dn)    Document ID    Print the text representation of a document ID\n")
-      .append("    documenttext (dt)    Document ID    Print the text of a document\n")
-      .append("    documentvector (dv)  Document ID    Print the document vector of a document\n")
+      .append("    documentid (di)      Original IDs   Print the internal document IDs of documents\n")
+      .append("    documentname (dn)    Internal Document ID    Print the text representation of a document ID\n")
+      .append("    documenttext (dt)    Internal Document ID    Print the text of a document\n")
+      .append("    documentvector (dv)  Internal Document ID    Print the document vector of a document\n")
       .append("    stats (s)                           Print statistics for the Repository\n");
     System.out.println(sb.toString());
   }
@@ -183,8 +192,11 @@ public class DumpIndex {
           dump = ic.print_term_counts(reader, termString);
         } else if (command.equals("di") || command.equals("documentid")) {
           ic.argsEnough(3, argc);
-          String externalId = clArgs[2];
-          dump = ic.print_document_id(reader, externalId);
+          ArrayList<String> externalIDs = new ArrayList<>();
+          for (int i = 2; i < clArgs.length; i++) {
+            externalIDs.add(clArgs[i]);
+          }
+          dump = ic.print_document_id(reader, externalIDs);
         } else if (command.equals("dn") || command.equals("documentname")) {
           ic.argsEnough(3, argc);
           int number = Integer.parseInt(clArgs[2]);
