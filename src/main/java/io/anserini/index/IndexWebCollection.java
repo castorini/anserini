@@ -210,10 +210,10 @@ public final class IndexWebCollection {
         BufferedInputStream in = new BufferedInputStream(fin);
         ZCompressorInputStream zIn = new ZCompressorInputStream(in);
         reader = new BufferedReader(new InputStreamReader(zIn, StandardCharsets.UTF_8));
-      } else if (fileName.endsWith(".gz")) {
+      } else if (fileName.endsWith(".gz")) { //.gz
         InputStream stream = new GZIPInputStream(Files.newInputStream(inputWarcFile, StandardOpenOption.READ), TrecTextRecord.BUFFER_SIZE);
         reader = new BufferedReader(new InputStreamReader(stream, StandardCharsets.UTF_8));
-      } else {
+      } else { // plain text file
         reader = new BufferedReader(new FileReader(fileName));
       }
 
@@ -396,7 +396,7 @@ public final class IndexWebCollection {
       @Override
       public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
         Path name = file.getFileName();
-        if (name != null && !name.startsWith("readme")) {
+        if (name != null && !name.toString().startsWith("readme")) {
           stack.add(file);
         }
         return FileVisitResult.CONTINUE;
