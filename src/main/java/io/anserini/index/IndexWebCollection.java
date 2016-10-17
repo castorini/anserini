@@ -205,7 +205,7 @@ public final class IndexWebCollection {
 
       BufferedReader reader = null;
       String fileName = inputWarcFile.toString();
-      if (fileName.endsWith(".z")) {
+      if (fileName.matches(".*?\\.\\d*z$")) { // .z .0z .1z .2z
         FileInputStream fin = new FileInputStream(fileName);
         BufferedInputStream in = new BufferedInputStream(fin);
         ZCompressorInputStream zIn = new ZCompressorInputStream(in);
