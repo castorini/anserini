@@ -210,6 +210,9 @@ public final class IndexWebCollection {
         BufferedInputStream in = new BufferedInputStream(fin);
         ZCompressorInputStream zIn = new ZCompressorInputStream(in);
         reader = new BufferedReader(new InputStreamReader(zIn, StandardCharsets.UTF_8));
+      } else if (fileName.endsWith(".gz")) {
+        InputStream stream = new GZIPInputStream(Files.newInputStream(inputWarcFile, StandardOpenOption.READ), TrecTextRecord.BUFFER_SIZE);
+        reader = new BufferedReader(new InputStreamReader(stream, StandardCharsets.UTF_8));
       } else {
         reader = new BufferedReader(new FileReader(fileName));
       }
