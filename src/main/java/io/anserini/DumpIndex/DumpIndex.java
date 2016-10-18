@@ -1,4 +1,4 @@
-package io.anserini.util;
+package io.anserini.dumpindex;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
@@ -23,17 +23,23 @@ import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.analysis.util.CharArraySet;
 import org.apache.lucene.document.Document;
-import org.apache.lucene.index.*;
+import org.apache.lucene.index.DirectoryReader;
+import org.apache.lucene.index.IndexableField;
+import org.apache.lucene.index.Terms;
+import org.apache.lucene.index.TermsEnum;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.store.FSDirectory;
+import org.kohsuke.args4j.CmdLineException;
+import org.kohsuke.args4j.CmdLineParser;
+import org.kohsuke.args4j.ParserProperties;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class DumpIndex {
   private static final Logger LOG = LogManager.getLogger(DumpIndex.class);
@@ -49,7 +55,7 @@ public class DumpIndex {
     }
   }
 
-  String print_repository_stats( DirectoryReader reader ) throws IOException {
+  String printRepositoryStats( DirectoryReader reader ) throws IOException {
     int docCount = reader.numDocs();
     int contentsCount = reader.getDocCount(IndexWebCollection.FIELD_BODY);
     long termCount = reader.getSumTotalTermFreq(IndexWebCollection.FIELD_BODY);
@@ -71,7 +77,7 @@ public class DumpIndex {
     return sb.toString();
   }
 
-  String print_term_counts( DirectoryReader reader, String termStr )
+  String printTermCounts( DirectoryReader reader, String termStr )
           throws IOException, ParseException {
     StringBuilder sb = new StringBuilder();
     EnglishAnalyzer ea = new EnglishAnalyzer(CharArraySet.EMPTY_SET);
@@ -90,9 +96,9 @@ public class DumpIndex {
   /*
   * print the internal id
   */
-  String print_document_id( DirectoryReader reader, ArrayList<String> externalIDs ) throws IOException {
+  String printDocumentIDs( DirectoryReader reader, List<String> externalIDs ) throws IOException {
     StringBuilder sb = new StringBuilder();
-    HashMap<String, Integer> mapping = new HashMap<>();
+    Map<String, Integer> mapping = new HashMap<>();
     for (String s : externalIDs) {
       mapping.put(s, 0);
     }
@@ -113,7 +119,7 @@ public class DumpIndex {
     return sb.toString();
   }
 
-  String print_document_name( DirectoryReader reader, int number ) throws IOException {
+  String printDocumentName( DirectoryReader reader, int number ) throws IOException {
     StringBuilder sb = new StringBuilder();
     Document d = reader.document(number);
     IndexableField id = d.getField(IndexWebCollection.FIELD_ID);
@@ -122,7 +128,7 @@ public class DumpIndex {
     return sb.toString();
   }
 
-  String print_document_text( DirectoryReader reader, int number ) throws IOException, RawDocNotStoredException {
+  String printDocumentText( DirectoryReader reader, int number ) throws IOException, RawDocNotStoredException {
     StringBuilder sb = new StringBuilder();
     Document d = reader.document(number);
     IndexableField id = d.getField(IndexWebCollection.FIELD_BODY);
@@ -134,7 +140,7 @@ public class DumpIndex {
     return sb.toString();
   }
 
-  String print_document_vector( DirectoryReader reader, int number ) throws IOException, DocVectorNotStoredException {
+  String printDocumentVector( DirectoryReader reader, int number ) throws IOException, DocVectorNotStoredException {
     StringBuilder sb = new StringBuilder();
     Terms terms = reader.getTermVector(number, IndexWebCollection.FIELD_BODY);
     if (terms == null) {
@@ -150,72 +156,41 @@ public class DumpIndex {
     return sb.toString();
   }
 
-  void argsEnough(int required, int n) {
-    if (n < required) {
-      printUsage();
-      System.exit(1);
-    }
-  }
-
-  void printUsage() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("DumpIndex <repository> <command> [ <argument> ]*\n")
-      .append("These commands retrieve data from the repository: \n")
-      .append("    Command              Argument       Description\n")
-      .append("    term (t)             Term text      Print inverted list for a term\n")
-      .append("    documentid (di)      Original IDs   Print the internal document IDs of documents\n")
-      .append("    documentname (dn)    Internal Document ID    Print the text representation of a document ID\n")
-      .append("    documenttext (dt)    Internal Document ID    Print the text of a document\n")
-      .append("    documentvector (dv)  Internal Document ID    Print the document vector of a document\n")
-      .append("    stats (s)                           Print statistics for the Repository\n");
-    System.out.println(sb.toString());
-  }
-
   public static void main(String[] clArgs) throws IOException{
-    int argc = clArgs.length;
-    final DumpIndex ic = new DumpIndex();
+    DumpIndexArgs dumpIndexArgs = new DumpIndexArgs();
+    CmdLineParser parser = new CmdLineParser(dumpIndexArgs, ParserProperties.defaults().withUsageWidth(90));
     try {
-      String indexPath = clArgs[0];
-      String command = clArgs[1];
+      parser.parseArgument(clArgs);
+    } catch (CmdLineException e) {
+      System.err.println(e.getMessage());
+      parser.printUsage(System.err);
+      return;
+    }
 
-      FSDirectory dir = FSDirectory.open(new File(indexPath).toPath());
-      DirectoryReader reader = DirectoryReader.open(dir);
+    final DumpIndex ic = new DumpIndex();
+    FSDirectory dir = FSDirectory.open(new File(dumpIndexArgs.index).toPath());
+    DirectoryReader reader = DirectoryReader.open(dir);
+    String dump = null;
 
-      String dump = null;
-      try {
-        if (command.equals("s") || command.equals("stats")) {
-          ic.argsEnough(2, argc);
-          dump = ic.print_repository_stats(reader);
-        } else if (command.equals("t") || command.equals("term")) {
-          ic.argsEnough(3, argc);
-          String termString = clArgs[2];
-          dump = ic.print_term_counts(reader, termString);
-        } else if (command.equals("di") || command.equals("documentid")) {
-          ic.argsEnough(3, argc);
-          ArrayList<String> externalIDs = new ArrayList<>();
-          for (int i = 2; i < clArgs.length; i++) {
-            externalIDs.add(clArgs[i]);
-          }
-          dump = ic.print_document_id(reader, externalIDs);
-        } else if (command.equals("dn") || command.equals("documentname")) {
-          ic.argsEnough(3, argc);
-          int number = Integer.parseInt(clArgs[2]);
-          dump = ic.print_document_name(reader, number);
-        } else if (command.equals("dt") || command.equals("documenttext")) {
-          ic.argsEnough(3, argc);
-          int number = Integer.parseInt(clArgs[2]);
-          dump = ic.print_document_text(reader, number);
-        } else if (command.equals("dv") || command.equals("documentvector")) {
-          ic.argsEnough(3, argc);
-          int number = Integer.parseInt(clArgs[2]);
-          dump = ic.print_document_vector(reader, number);
-        }
-        System.out.println(dump);
-      } catch (Exception e) {
-        LOG.error(e.getMessage());
+    try {
+      if (dumpIndexArgs.stats) {
+        dump = ic.printRepositoryStats(reader);
+      } else if (dumpIndexArgs.term != null) {
+        dump = ic.printTermCounts(reader, dumpIndexArgs.term);
+      } else if (dumpIndexArgs.di != null) {
+        dump = ic.printDocumentIDs(reader, dumpIndexArgs.di);
+      } else if (dumpIndexArgs.dn > 0) {
+        dump = ic.printDocumentName(reader, dumpIndexArgs.dn);
+      } else if (dumpIndexArgs.dt > 0) {
+        dump = ic.printDocumentText(reader, dumpIndexArgs.dt);
+      } else if (dumpIndexArgs.dv > 0) {
+        dump = ic.printDocumentVector(reader, dumpIndexArgs.dv);
+      } else {
+        dump = "";
       }
-    } catch (IndexOutOfBoundsException e) {
-      ic.printUsage();
+      System.out.println(dump);
+    } catch (Exception e) {
+      LOG.error(e.getMessage());
     }
   }
 }
