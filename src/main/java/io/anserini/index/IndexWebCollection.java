@@ -18,15 +18,16 @@ package io.anserini.index;
  */
 
 import io.anserini.document.*;
+import org.apache.commons.compress.compressors.z.ZCompressorInputStream;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.lucene.analysis.util.CharArraySet;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;
+import org.apache.lucene.analysis.util.CharArraySet;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
-import org.apache.lucene.document.StringField;
 import org.apache.lucene.document.FieldType;
+import org.apache.lucene.document.StringField;
 import org.apache.lucene.index.ConcurrentMergeScheduler;
 import org.apache.lucene.index.IndexOptions;
 import org.apache.lucene.index.IndexWriter;
@@ -45,7 +46,9 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayDeque;
+import java.util.Arrays;
 import java.util.Deque;
+import java.util.HashSet;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -194,6 +197,81 @@ public final class IndexWebCollection {
       return i;
     }
 
+    private int indexTrecTextFile() throws IOException {
+      int i = 0;
+      StringBuilder builder = new StringBuilder();
+      boolean found = false;
+      int inTag = -1;
+
+      BufferedReader reader = null;
+      String fileName = inputWarcFile.toString();
+      if (fileName.matches(".*?\\.\\d*z$")) { // .z .0z .1z .2z
+        FileInputStream fin = new FileInputStream(fileName);
+        BufferedInputStream in = new BufferedInputStream(fin);
+        ZCompressorInputStream zIn = new ZCompressorInputStream(in);
+        reader = new BufferedReader(new InputStreamReader(zIn, StandardCharsets.UTF_8));
+      } else if (fileName.endsWith(".gz")) { //.gz
+        InputStream stream = new GZIPInputStream(Files.newInputStream(inputWarcFile, StandardOpenOption.READ), TrecTextRecord.BUFFER_SIZE);
+        reader = new BufferedReader(new InputStreamReader(stream, StandardCharsets.UTF_8));
+      } else { // plain text file
+        reader = new BufferedReader(new FileReader(fileName));
+      }
+
+      for (; ; ) {
+        String line = reader.readLine();
+        if (line == null)
+          break;
+
+        line = line.trim();
+
+        if (line.startsWith(TrecTextRecord.DOC)) {
+          found = true;
+          // continue to read DOCNO
+          while ((line = reader.readLine()) != null) {
+            if (line.startsWith(TrecTextRecord.DOCNO)) {
+              builder.append(line).append('\n');
+              break;
+            }
+          }
+          while (builder.indexOf(TrecTextRecord.TERMINATING_DOCNO) == -1) {
+            line = reader.readLine();
+            if (line == null) break;
+            builder.append(line).append('\n');
+          }
+          continue;
+        }
+
+        if (line.startsWith(TrecTextRecord.TERMINATING_DOC)) {
+          found = false;
+          WarcRecord trecText = TrecTextRecord.parseTrecTextRecord(builder);
+          i += indexWarcRecord(trecText);
+          builder.setLength(0);
+        }
+
+        if (found) {
+          if (line.startsWith("<")) {
+            if (inTag >= 0 && line.startsWith(TrecTextRecord.endTags[inTag])) {
+              builder.append(line).append("\n");
+              inTag = -1;
+            } else if (inTag < 0) {
+              for (int k = 0; k < TrecTextRecord.startTags.length; k++) {
+                if (line.startsWith(TrecTextRecord.startTags[k])) {
+                  inTag = k;
+                  break;
+                }
+              }
+            }
+          }
+          if (inTag >= 0) {
+            builder.append(line).append("\n");
+          }
+        }
+      }
+
+
+      return i;
+    }
+
     @Override
     public void run() {
       {
@@ -206,6 +284,9 @@ public final class IndexWebCollection {
             System.out.println("./" + inputWarcFile.getParent().getFileName().toString() + File.separator + inputWarcFile.getFileName().toString() + "\t" + addCount);
           } else if (Collection.GOV2.equals(collection)) {
             int addCount = indexGov2File();
+            System.out.println("./" + inputWarcFile.getParent().getFileName().toString() + File.separator + inputWarcFile.getFileName().toString() + "\t" + addCount);
+          } else if (Collection.TrecText.equals(collection)) {
+            int addCount = indexTrecTextFile();
             System.out.println("./" + inputWarcFile.getParent().getFileName().toString() + File.separator + inputWarcFile.getFileName().toString() + "\t" + addCount);
           }
 
@@ -306,6 +387,45 @@ public final class IndexWebCollection {
     return stack;
   }
 
+  static Deque<Path> discoverTrecTextFiles(Path p) {
+
+    final Deque<Path> stack = new ArrayDeque<>();
+
+    FileVisitor<Path> fv = new SimpleFileVisitor<Path>() {
+
+      @Override
+      public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+        Path name = file.getFileName();
+        if (name != null && !name.toString().startsWith("readme")) {
+          stack.add(file);
+        }
+        return FileVisitResult.CONTINUE;
+      }
+
+      @Override
+      public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) {
+        HashSet<String> disallowedDirs = new HashSet<>(Arrays.asList("cr", "dtd", "dtds"));
+        if (disallowedDirs.contains(dir.getFileName().toString())) {
+          LOG.info("Skipping: " + dir);
+          return FileVisitResult.SKIP_SUBTREE;
+        }
+        return FileVisitResult.CONTINUE;
+      }
+
+      @Override
+      public FileVisitResult visitFileFailed(Path file, IOException ioe) {
+        LOG.error("Visiting failed for " + file.toString(), ioe);
+        return FileVisitResult.SKIP_SUBTREE;
+      }
+    };
+
+    try {
+      Files.walkFileTree(p, fv);
+    } catch (IOException e) {
+      LOG.error("IOException during file visiting", e);
+    }
+    return stack;
+  }
 
   public int indexWithThreads(int numThreads) throws IOException, InterruptedException {
 
@@ -325,8 +445,9 @@ public final class IndexWebCollection {
     final IndexWriter writer = new IndexWriter(dir, iwc);
 
     final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(numThreads);
-    final String suffix = Collection.GOV2.equals(collection) ? ".gz" : ".warc.gz";
-    final Deque<Path> warcFiles = discoverWarcFiles(docDir, suffix);
+    final String suffix = Collection.GOV2.equals(collection) ? ".gz" : Collection.TrecText.equals(collection) ? "" : ".warc.gz";
+    final Deque<Path> warcFiles = Collection.TrecText.equals(collection) ? discoverTrecTextFiles(docDir)
+            : discoverWarcFiles(docDir, suffix);
 
     if (doclimit > 0 && warcFiles.size() < doclimit)
       for (int i = doclimit; i < warcFiles.size(); i++)
