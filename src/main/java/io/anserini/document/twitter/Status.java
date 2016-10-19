@@ -32,9 +32,16 @@ public class Status {
   private static final Logger LOG = LogManager.getLogger(Status.class);
 
   private static final JsonParser JSON_PARSER = new JsonParser();
-  private static final String DATE_FORMAT = "EEE MMM d k:m:s ZZZZZ yyyy"; //"Fri Mar 29 11:03:41 +0000 2013"; 
+  private static final String DATE_FORMAT = "EEE MMM d k:m:s ZZZZZ yyyy"; // "Fri
+                                                                          // Mar
+                                                                          // 29
+                                                                          // 11:03:41
+                                                                          // +0000
+                                                                          // 2013";
   private long id;
   private String screenname;
+  private String name;
+  private String profile_image_url;
   private String createdAt;
   private long epoch;
   private String text;
@@ -51,8 +58,10 @@ public class Status {
   private long retweetStatusId;
   private long retweetUserId;
   private int retweetCount;
+  private String retweetStatusString;
 
-  protected Status() {}
+  protected Status() {
+  }
 
   public long getId() {
     return id;
@@ -62,6 +71,13 @@ public class Status {
     return screenname;
   }
 
+  public String getName() {
+    return name;
+  }
+
+  public String getProfileImageURL() {
+    return profile_image_url;
+  }
 
   public String getCreatedAt() {
     return createdAt;
@@ -127,6 +143,10 @@ public class Status {
     return retweetCount;
   }
 
+  public String getRetweetStatusString() {
+    return retweetStatusString;
+  }
+
   public static Status fromJson(String json) {
     JsonObject obj = null;
     try {
@@ -145,6 +165,8 @@ public class Status {
     status.text = obj.get("text").getAsString();
     status.id = obj.get("id").getAsLong();
     status.screenname = obj.get("user").getAsJsonObject().get("screen_name").getAsString();
+    status.name = obj.get("user").getAsJsonObject().get("name").getAsString();
+    status.profile_image_url = obj.get("user").getAsJsonObject().get("profile_image_url").getAsString();
     status.createdAt = obj.get("created_at").getAsString();
 
     try {
@@ -153,7 +175,8 @@ public class Status {
       status.epoch = -1L;
     }
 
-    // TODO: trying to fetch fields and then catching exceptions is bad practice, fix!
+    // TODO: trying to fetch fields and then catching exceptions is bad
+    // practice, fix!
     try {
       status.inReplyToStatusId = obj.get("in_reply_to_status_id").getAsLong();
     } catch (Exception e) {
@@ -167,8 +190,10 @@ public class Status {
     }
 
     try {
+      status.retweetStatusString = obj.get("retweeted_status").getAsString();
       status.retweetStatusId = obj.getAsJsonObject("retweeted_status").get("id").getAsLong();
-      status.retweetUserId = obj.getAsJsonObject("retweeted_status").get("user").getAsJsonObject().get("id").getAsLong();
+      status.retweetUserId = obj.getAsJsonObject("retweeted_status").get("user").getAsJsonObject().get("id")
+          .getAsLong();
       // retweet_count might say "100+"
       // TODO: This is ugly, come back and fix later.
       status.retweetCount = Integer.parseInt(obj.get("retweet_count").getAsString().replace("+", ""));
@@ -201,7 +226,6 @@ public class Status {
     status.followersCount = obj.get("user").getAsJsonObject().get("followers_count").getAsInt();
     status.friendsCount = obj.get("user").getAsJsonObject().get("friends_count").getAsInt();
     status.statusesCount = obj.get("user").getAsJsonObject().get("statuses_count").getAsInt();
-
 
     status.jsonObject = obj;
     status.jsonString = json;

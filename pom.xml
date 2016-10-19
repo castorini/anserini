@@ -112,6 +112,10 @@
               <mainClass>io.anserini.util.DumpDocumentBody</mainClass>
               <name>DumpDocument</name>
             </program>
+            <program>
+                <mainClass>io.anserini.rts.TRECSearcher</mainClass>
+                <name>TRECSearcher</name>
+            </program>
           </programs>
         </configuration>
       </plugin>
@@ -325,6 +329,29 @@
       <groupId>org.glassfish.jersey.media</groupId>
       <artifactId>jersey-media-jaxb</artifactId>
       <version>2.22.1</version>
+    </dependency>
+    <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-core</artifactId>
+        <version>2.7.2</version>
+    </dependency>
+    
+    <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-databind</artifactId>
+        <version>2.7.2</version>
+    </dependency>
+    
+    <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-annotations</artifactId>
+        <version>2.7.2</version>
+    </dependency>
+    
+    <dependency>
+        <groupId>commons-lang</groupId>
+        <artifactId>commons-lang</artifactId>
+        <version>2.6</version>
     </dependency>
 
   </dependencies>

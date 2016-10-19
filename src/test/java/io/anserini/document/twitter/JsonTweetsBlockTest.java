@@ -16,17 +16,15 @@ import com.google.common.base.Joiner;
 
 public class JsonTweetsBlockTest {
   private static final String createTweet(long id, String text) {
-    return "{\"id\":" + id + ",\"text\":\"" + text + "\",\"user\":{\"screen_name\":\"foo\",\"followers_count\":1,\"friends_count\":1,\"statuses_count\":1},\"created_at\":\"Fri Feb 01 00:00:00 +0000 2013\"}";
+    return "{\"id\":" + id + ",\"text\":\"" + text
+        + "\",\"user\":{\"screen_name\":\"foo\",\"name\":\"foo\",\"profile_image_url\":\"foo\",\"followers_count\":1,\"friends_count\":1,\"statuses_count\":1},\"created_at\":\"Fri Feb 01 00:00:00 +0000 2013\"}";
   }
 
-  @Test(expected=NoSuchElementException.class)
+  @Test(expected = NoSuchElementException.class)
   public void testNoSuchElementException() throws Exception {
-    String[] raw = {
-        createTweet(1, "a"),
-    };
+    String[] raw = { createTweet(1, "a"), };
 
-    JsonTweetsBlock tweets =
-        new JsonTweetsBlock(new ByteArrayInputStream(Joiner.on("\n").join(raw).getBytes()));
+    JsonTweetsBlock tweets = new JsonTweetsBlock(new ByteArrayInputStream(Joiner.on("\n").join(raw).getBytes()));
 
     Iterator<Status> iter = tweets.iterator();
     assertTrue(iter.next() != null);
@@ -35,15 +33,9 @@ public class JsonTweetsBlockTest {
 
   @Test
   public void test1() throws Exception {
-    String[] raw = {
-        createTweet(1, "a"),
-        createTweet(2, "b"),
-        createTweet(3, "c"),
-        createTweet(4, "d"),
-    };
+    String[] raw = { createTweet(1, "a"), createTweet(2, "b"), createTweet(3, "c"), createTweet(4, "d"), };
 
-    JsonTweetsBlock tweets =
-        new JsonTweetsBlock(new ByteArrayInputStream(Joiner.on("\n").join(raw).getBytes()));
+    JsonTweetsBlock tweets = new JsonTweetsBlock(new ByteArrayInputStream(Joiner.on("\n").join(raw).getBytes()));
 
     Status tweet = null;
     Iterator<Status> iter = tweets.iterator();
@@ -75,20 +67,10 @@ public class JsonTweetsBlockTest {
 
   @Test
   public void test2() throws Exception {
-    String[] raw = {
-        "{}",
-        createTweet(1, "a"),
-        "{}",
-        createTweet(2, "b"),
-        "{}",
-        createTweet(3, "c"),
-        createTweet(4, "d"),
-        "{}",
-        "{}",
-    };
+    String[] raw = { "{}", createTweet(1, "a"), "{}", createTweet(2, "b"), "{}", createTweet(3, "c"),
+        createTweet(4, "d"), "{}", "{}", };
 
-    JsonTweetsBlock tweets =
-        new JsonTweetsBlock(new ByteArrayInputStream(Joiner.on("\n").join(raw).getBytes()));
+    JsonTweetsBlock tweets = new JsonTweetsBlock(new ByteArrayInputStream(Joiner.on("\n").join(raw).getBytes()));
 
     Status tweet = null;
     Iterator<Status> iter = tweets.iterator();
