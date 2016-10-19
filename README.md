@@ -212,5 +212,4 @@ User could change the maximum number of hits returned at 'http://localhost:8080/
 
 ###YoGosling
 
-YoGosling is a branch from Anserini[https://github.com/lintool/Anserini] project. It serves as the Twitter Real-Time Search baseline system. For more details, please checkout the README file under the rts/ directory. 
-
+YoGosling is a branch from Anserini[https://github.com/lintool/Anserini] project. It serves as the Twitter Real-Time Search baseline system. For more details, please checkout documentation [here](https://github.com/YoGosling/Anserini/blob/new-rebase-branch/src/main/java/io/anserini/rts/README.md)
