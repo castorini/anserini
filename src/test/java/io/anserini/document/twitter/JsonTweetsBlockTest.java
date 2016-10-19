@@ -16,7 +16,7 @@ import com.google.common.base.Joiner;
 
 public class JsonTweetsBlockTest {
   private static final String createTweet(long id, String text) {
-    return "{\"id\":" + id + ",\"text\":\"" + text + "\",\"user\":{\"screen_name\":\"foo\",\"followers_count\":1,\"friends_count\":1,\"statuses_count\":1},\"created_at\":\"Fri Feb 01 00:00:00 +0000 2013\"}";
+    return "{\"id\":" + id + ",\"text\":\"" + text + "\",\"user\":{\"screen_name\":\"foo\",\"name\":\"foo\",\"profile_image_url\":\"foo\",\"followers_count\":1,\"friends_count\":1,\"statuses_count\":1},\"created_at\":\"Fri Feb 01 00:00:00 +0000 2013\"}";
   }
 
   @Test(expected=NoSuchElementException.class)

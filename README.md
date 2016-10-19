@@ -209,3 +209,8 @@ The demo starts up an HTTP server on port `8080`, but this can be changed with t
 
 User could change the maximum number of hits returned at 'http://localhost:8080/search?query=birthday&top=15'. The default number of hits is 20. 
 
+
+###YoGosling
+
+YoGosling is a branch from Anserini[https://github.com/lintool/Anserini] project. It serves as the Twitter Real-Time Search baseline system. For more details, please checkout the README file under the rts/ directory. 
+

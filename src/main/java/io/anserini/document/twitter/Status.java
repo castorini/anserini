@@ -29,205 +29,228 @@ import com.google.gson.JsonParser;
  * Object representing a status.
  */
 public class Status {
-  private static final Logger LOG = LogManager.getLogger(Status.class);
+	private static final Logger LOG = LogManager.getLogger(Status.class);
 
-  private static final JsonParser JSON_PARSER = new JsonParser();
-  private static final String DATE_FORMAT = "EEE MMM d k:m:s ZZZZZ yyyy"; //"Fri Mar 29 11:03:41 +0000 2013"; 
-  private long id;
-  private String screenname;
-  private String createdAt;
-  private long epoch;
-  private String text;
-  private JsonObject jsonObject;
-  private String jsonString;
-  private String lang;
-  private long inReplyToStatusId;
-  private long inReplyToUserId;
-  private int followersCount;
-  private int friendsCount;
-  private int statusesCount;
-  private double latitude;
-  private double longitude;
-  private long retweetStatusId;
-  private long retweetUserId;
-  private int retweetCount;
+	private static final JsonParser JSON_PARSER = new JsonParser();
+	private static final String DATE_FORMAT = "EEE MMM d k:m:s ZZZZZ yyyy"; // "Fri
+																			// Mar
+																			// 29
+																			// 11:03:41
+																			// +0000
+																			// 2013";
+	private long id;
+	private String screenname;
+	private String name;
+	private String profile_image_url;
+	private String createdAt;
+	private long epoch;
+	private String text;
+	private JsonObject jsonObject;
+	private String jsonString;
+	private String lang;
+	private long inReplyToStatusId;
+	private long inReplyToUserId;
+	private int followersCount;
+	private int friendsCount;
+	private int statusesCount;
+	private double latitude;
+	private double longitude;
+	private long retweetStatusId;
+	private long retweetUserId;
+	private int retweetCount;
+	private String retweetStatusString;
 
-  protected Status() {}
+	protected Status() {
+	}
 
-  public long getId() {
-    return id;
-  }
+	public long getId() {
+		return id;
+	}
 
-  public String getScreenname() {
-    return screenname;
-  }
+	public String getScreenname() {
+		return screenname;
+	}
 
+	public String getName() {
+		return name;
+	}
 
-  public String getCreatedAt() {
-    return createdAt;
-  }
+	public String getProfileImageURL() {
+		return profile_image_url;
+	}
 
-  public long getEpoch() {
-    return epoch;
-  }
+	public String getCreatedAt() {
+		return createdAt;
+	}
 
-  public String getText() {
-    return text;
-  }
+	public long getEpoch() {
+		return epoch;
+	}
 
-  public JsonObject getJsonObject() {
-    return jsonObject;
-  }
+	public String getText() {
+		return text;
+	}
 
-  public String getJsonString() {
-    return jsonString;
-  }
+	public JsonObject getJsonObject() {
+		return jsonObject;
+	}
 
-  public String getLang() {
-    return lang;
-  }
+	public String getJsonString() {
+		return jsonString;
+	}
 
-  public int getFollowersCount() {
-    return followersCount;
-  }
+	public String getLang() {
+		return lang;
+	}
 
-  public int getFriendsCount() {
-    return friendsCount;
-  }
+	public int getFollowersCount() {
+		return followersCount;
+	}
 
-  public int getStatusesCount() {
-    return statusesCount;
-  }
+	public int getFriendsCount() {
+		return friendsCount;
+	}
 
-  public long getInReplyToStatusId() {
-    return inReplyToStatusId;
-  }
+	public int getStatusesCount() {
+		return statusesCount;
+	}
 
-  public long getInReplyToUserId() {
-    return inReplyToUserId;
-  }
+	public long getInReplyToStatusId() {
+		return inReplyToStatusId;
+	}
 
-  public double getlatitude() {
-    return latitude;
-  }
+	public long getInReplyToUserId() {
+		return inReplyToUserId;
+	}
 
-  public double getLongitude() {
-    return longitude;
-  }
+	public double getlatitude() {
+		return latitude;
+	}
 
-  public long getRetweetedStatusId() {
-    return retweetStatusId;
-  }
+	public double getLongitude() {
+		return longitude;
+	}
 
-  public long getRetweetedUserId() {
-    return retweetUserId;
-  }
+	public long getRetweetedStatusId() {
+		return retweetStatusId;
+	}
 
-  public int getRetweetCount() {
-    return retweetCount;
-  }
+	public long getRetweetedUserId() {
+		return retweetUserId;
+	}
 
-  public static Status fromJson(String json) {
-    JsonObject obj = null;
-    try {
-      obj = (JsonObject) JSON_PARSER.parse(json);
-    } catch (Exception e) {
-      // Catch any malformed JSON.
-      LOG.error("Error parsing: " + json);
-      return null;
-    }
+	public int getRetweetCount() {
+		return retweetCount;
+	}
+	public String getRetweetStatusString(){
+		return retweetStatusString;
+	}
 
-    if (obj.get("text") == null) {
-      return null;
-    }
+	public static Status fromJson(String json) {
+		JsonObject obj = null;
+		try {
+			obj = (JsonObject) JSON_PARSER.parse(json);
+		} catch (Exception e) {
+			// Catch any malformed JSON.
+			LOG.error("Error parsing: " + json);
+			return null;
+		}
 
-    Status status = new Status();
-    status.text = obj.get("text").getAsString();
-    status.id = obj.get("id").getAsLong();
-    status.screenname = obj.get("user").getAsJsonObject().get("screen_name").getAsString();
-    status.createdAt = obj.get("created_at").getAsString();
+		if (obj.get("text") == null) {
+			return null;
+		}
 
-    try {
-      status.epoch = (new SimpleDateFormat(DATE_FORMAT)).parse(status.createdAt).getTime() / 1000;
-    } catch (ParseException e) {
-      status.epoch = -1L;
-    }
+		Status status = new Status();
+		status.text = obj.get("text").getAsString();
+		status.id = obj.get("id").getAsLong();
+		status.screenname = obj.get("user").getAsJsonObject().get("screen_name").getAsString();
+		status.name = obj.get("user").getAsJsonObject().get("name").getAsString();
+		status.profile_image_url = obj.get("user").getAsJsonObject().get("profile_image_url").getAsString();
+		status.createdAt = obj.get("created_at").getAsString();
 
-    // TODO: trying to fetch fields and then catching exceptions is bad practice, fix!
-    try {
-      status.inReplyToStatusId = obj.get("in_reply_to_status_id").getAsLong();
-    } catch (Exception e) {
-      status.inReplyToStatusId = -1L;
-    }
+		try {
+			status.epoch = (new SimpleDateFormat(DATE_FORMAT)).parse(status.createdAt).getTime() / 1000;
+		} catch (ParseException e) {
+			status.epoch = -1L;
+		}
 
-    try {
-      status.inReplyToUserId = obj.get("in_reply_to_user_id").getAsLong();
-    } catch (Exception e) {
-      status.inReplyToUserId = -1L;
-    }
+		// TODO: trying to fetch fields and then catching exceptions is bad
+		// practice, fix!
+		try {
+			status.inReplyToStatusId = obj.get("in_reply_to_status_id").getAsLong();
+		} catch (Exception e) {
+			status.inReplyToStatusId = -1L;
+		}
 
-    try {
-      status.retweetStatusId = obj.getAsJsonObject("retweeted_status").get("id").getAsLong();
-      status.retweetUserId = obj.getAsJsonObject("retweeted_status").get("user").getAsJsonObject().get("id").getAsLong();
-      // retweet_count might say "100+"
-      // TODO: This is ugly, come back and fix later.
-      status.retweetCount = Integer.parseInt(obj.get("retweet_count").getAsString().replace("+", ""));
-    } catch (Exception e) {
-      status.retweetStatusId = -1L;
-      status.retweetUserId = -1L;
-      status.retweetCount = -1;
-    }
+		try {
+			status.inReplyToUserId = obj.get("in_reply_to_user_id").getAsLong();
+		} catch (Exception e) {
+			status.inReplyToUserId = -1L;
+		}
 
-    try {
-      status.inReplyToUserId = obj.get("in_reply_to_user_id").getAsLong();
-    } catch (Exception e) {
-      status.inReplyToUserId = -1L;
-    }
+		try {
+			status.retweetStatusString=obj.get("retweeted_status").getAsString();
+			status.retweetStatusId = obj.getAsJsonObject("retweeted_status").get("id").getAsLong();
+			status.retweetUserId = obj.getAsJsonObject("retweeted_status").get("user").getAsJsonObject().get("id")
+					.getAsLong();
+			// retweet_count might say "100+"
+			// TODO: This is ugly, come back and fix later.
+			status.retweetCount = Integer.parseInt(obj.get("retweet_count").getAsString().replace("+", ""));
+		} catch (Exception e) {
+			status.retweetStatusId = -1L;
+			status.retweetUserId = -1L;
+			status.retweetCount = -1;
+		}
 
-    try {
-      status.latitude = obj.getAsJsonObject("coordinates").getAsJsonArray("coordinates").get(1).getAsDouble();
-      status.longitude = obj.getAsJsonObject("coordinates").getAsJsonArray("coordinates").get(0).getAsDouble();
-    } catch (Exception e) {
-      status.latitude = Double.NEGATIVE_INFINITY;
-      status.longitude = Double.NEGATIVE_INFINITY;
-    }
+		try {
+			status.inReplyToUserId = obj.get("in_reply_to_user_id").getAsLong();
+		} catch (Exception e) {
+			status.inReplyToUserId = -1L;
+		}
 
-    try {
-      status.lang = obj.get("lang").getAsString();
-    } catch (Exception e) {
-      status.lang = "unknown";
-    }
+		try {
+			status.latitude = obj.getAsJsonObject("coordinates").getAsJsonArray("coordinates").get(1).getAsDouble();
+			status.longitude = obj.getAsJsonObject("coordinates").getAsJsonArray("coordinates").get(0).getAsDouble();
+		} catch (Exception e) {
+			status.latitude = Double.NEGATIVE_INFINITY;
+			status.longitude = Double.NEGATIVE_INFINITY;
+		}
 
-    status.followersCount = obj.get("user").getAsJsonObject().get("followers_count").getAsInt();
-    status.friendsCount = obj.get("user").getAsJsonObject().get("friends_count").getAsInt();
-    status.statusesCount = obj.get("user").getAsJsonObject().get("statuses_count").getAsInt();
+		try {
+			status.lang = obj.get("lang").getAsString();
+		} catch (Exception e) {
+			status.lang = "unknown";
+		}
 
+		status.followersCount = obj.get("user").getAsJsonObject().get("followers_count").getAsInt();
+		status.friendsCount = obj.get("user").getAsJsonObject().get("friends_count").getAsInt();
+		status.statusesCount = obj.get("user").getAsJsonObject().get("statuses_count").getAsInt();
 
-    status.jsonObject = obj;
-    status.jsonString = json;
+		status.jsonObject = obj;
+		status.jsonString = json;
 
-    return status;
-  }
+		return status;
+	}
 
-  public static Status fromTSV(String tsv) {
-    String[] columns = tsv.split("\t");
+	public static Status fromTSV(String tsv) {
+		String[] columns = tsv.split("\t");
 
-    if (columns.length < 4) {
-      System.err.println("error parsing: " + tsv);
-      return null;
-    }
+		if (columns.length < 4) {
+			System.err.println("error parsing: " + tsv);
+			return null;
+		}
 
-    Status status = new Status();
-    status.id = Long.parseLong(columns[0]);
-    status.screenname = columns[1];
-    status.createdAt = columns[2];
+		Status status = new Status();
+		status.id = Long.parseLong(columns[0]);
+		status.screenname = columns[1];
+		status.createdAt = columns[2];
 
-    StringBuilder b = new StringBuilder();
-    for (int i = 3; i < columns.length; i++) {
-      b.append(columns[i] + " ");
-    }
-    status.text = b.toString().trim();
+		StringBuilder b = new StringBuilder();
+		for (int i = 3; i < columns.length; i++) {
+			b.append(columns[i] + " ");
+		}
+		status.text = b.toString().trim();
 
-    return status;
-  }
+		return status;
+	}
 }
