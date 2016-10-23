@@ -1,4 +1,4 @@
-package io.anserini.dumpindex;
+package io.anserini.index;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more

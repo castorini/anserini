@@ -1,4 +1,4 @@
-package io.anserini.dumpindex;
+package io.anserini.index;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
@@ -17,16 +17,12 @@ package io.anserini.dumpindex;
  * limitations under the License.
  */
 
-import io.anserini.index.IndexWebCollection;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.analysis.util.CharArraySet;
 import org.apache.lucene.document.Document;
-import org.apache.lucene.index.DirectoryReader;
-import org.apache.lucene.index.IndexableField;
-import org.apache.lucene.index.Terms;
-import org.apache.lucene.index.TermsEnum;
+import org.apache.lucene.index.*;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.TermQuery;
@@ -59,12 +55,14 @@ public class DumpIndex {
     int docCount = reader.numDocs();
     int contentsCount = reader.getDocCount(IndexWebCollection.FIELD_BODY);
     long termCount = reader.getSumTotalTermFreq(IndexWebCollection.FIELD_BODY);
+    Fields fds = MultiFields.getFields(reader);
+    Terms terms = fds.terms(IndexWebCollection.FIELD_BODY);
 
     StringBuilder sb = new StringBuilder();
     sb.append("Repository statistics:\n");
     sb.append("documents:\t" + docCount + "\n");
     sb.append("contentsCount(doc with contents):\t" + contentsCount + "\n");
-    //sb.append("unique terms:\t" + uniqueTermCount);
+    sb.append("unique terms:\t" + terms.getStats() + "\n");
     sb.append("total terms:\t" + termCount + "\n");
     sb.append("stored fields:\t\t");
 
