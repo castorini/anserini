@@ -17,9 +17,10 @@ package io.anserini.document;
  * limitations under the License.
  */
 
-import io.anserini.index.IndexWebCollection;
+import java.io.BufferedReader;
+import java.io.IOException;
 
-public final class TrecTextRecord {
+public class TrecRecordBase {
 
   public static final String DOCNO = "<DOCNO>";
   public static final String TERMINATING_DOCNO = "</DOCNO>";
@@ -27,16 +28,13 @@ public final class TrecTextRecord {
   public static final String DOC = "<DOC>";
   public static final String TERMINATING_DOC = "</DOC>";
 
-  public static final String[] startTags = {"<TEXT>", "<HEADLINE>", "<TITLE>", "<HL>", "<HEAD>",
-          "<TTL>", "<DD>", "<DATE>", "<LP>", "<LEADPARA>"
-  };
-  public static final String[] endTags = {"</TEXT>", "</HEADLINE>", "</TITLE>", "</HL>", "</HEAD>",
-          "</TTL>", "</DD>", "</DATE>", "</LP>", "</LEADPARA>"
-  };
-
   public static final int BUFFER_SIZE = 1 << 16; // 64K
 
-  public static WarcRecord parseTrecTextRecord(StringBuilder builder) {
+  public static ISimpleRecord readNextRecord(BufferedReader reader) throws IOException {
+    return null;
+  }
+
+  public static ISimpleRecord parseRecord(StringBuilder builder) {
     int i = builder.indexOf(DOCNO);
     if (i == -1) throw new RuntimeException("cannot find start tag " + DOCNO);
 
@@ -46,10 +44,9 @@ public final class TrecTextRecord {
     if (j == -1) throw new RuntimeException("cannot find end tag " + TERMINATING_DOCNO);
 
     final String docID = builder.substring(i + DOCNO.length(), j).trim();
-
     final String content = builder.substring(j + TERMINATING_DOCNO.length()).trim();
 
-    return new WarcRecord() {
+    return new ISimpleRecord() {
       @Override
       public String id() {
         return docID;
@@ -58,16 +55,6 @@ public final class TrecTextRecord {
       @Override
       public String content() {
         return content;
-      }
-
-      @Override
-      public String url() {
-        return null;
-      }
-
-      @Override
-      public String type() {
-        return IndexWebCollection.RESPONSE;
       }
     };
   }

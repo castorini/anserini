@@ -17,22 +17,47 @@ package io.anserini.document;
  * limitations under the License.
  */
 
-import io.anserini.index.IndexWebCollection;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.HashSet;
 
-public final class Gov2Record {
+public class Gov2Record extends TrecRecordBase{
 
-  private static final String DOCNO = "<DOCNO>";
-  private static final String TERMINATING_DOCNO = "</DOCNO>";
-
-  public static final String DOC = "<DOC>";
-  public static final String TERMINATING_DOC = "</DOC>";
+  public static HashSet<String> allowedFileSuffix = new HashSet<>(Arrays.asList(".gz"));
+  public static HashSet<String> skippedDirs = new HashSet<>(Arrays.asList("OtherData"));
 
   private static final String DOCHDR = "<DOCHDR>";
   private static final String TERMINATING_DOCHDR = "</DOCHDR>";
 
   public static final int BUFFER_SIZE = 1 << 16; // 64K
 
-  public static WarcRecord parseGov2Record(StringBuilder builder) {
+  public static ISimpleRecord readNextRecord(BufferedReader reader) throws IOException {
+    StringBuilder builder = new StringBuilder();
+    boolean found = false;
+
+    for (; ; ) {
+      String line = reader.readLine();
+      if (line == null)
+        return null;
+
+      line = line.trim();
+
+      if (line.startsWith(DOC)) {
+        found = true;
+        continue;
+      }
+
+      if (line.startsWith(TERMINATING_DOC)) {
+        return parseRecord(builder);
+      }
+
+      if (found)
+        builder.append(line).append("\n");
+    }
+  }
+
+  public static ISimpleRecord parseRecord(StringBuilder builder) {
 
     int i = builder.indexOf(DOCNO);
     if (i == -1) throw new RuntimeException("cannot find start tag " + DOCNO);
@@ -54,7 +79,7 @@ public final class Gov2Record {
 
     final String content = builder.substring(j + TERMINATING_DOCHDR.length()).trim();
 
-    return new WarcRecord() {
+    return new ISimpleRecord() {
       @Override
       public String id() {
         return docID;
@@ -63,16 +88,6 @@ public final class Gov2Record {
       @Override
       public String content() {
         return content;
-      }
-
-      @Override
-      public String url() {
-        return null;
-      }
-
-      @Override
-      public String type() {
-        return IndexWebCollection.RESPONSE;
       }
     };
   }

@@ -62,7 +62,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 
-public final class ClueWeb12WarcRecord implements WarcRecord {
+public final class ClueWeb12WarcRecord implements IWarcRecord {
 
   public static String WARC_VERSION = "WARC/1.0";
   public static String WARC_VERSION_LINE = "WARC/1.0\n";
