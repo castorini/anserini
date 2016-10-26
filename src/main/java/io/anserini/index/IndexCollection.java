@@ -52,7 +52,7 @@ public final class IndexCollection {
 
 
     final long start = System.nanoTime();
-    IndexThreads indexer = new IndexThreads(indexArgs.input, indexArgs.index, indexArgs.collection);
+    IndexThreads indexer = new IndexThreads(indexArgs.input, indexArgs.index, indexArgs.collectionClass);
 
     indexer.setKeepstopwords(indexArgs.keepstop);
     indexer.setDocVectors(indexArgs.docvectors);

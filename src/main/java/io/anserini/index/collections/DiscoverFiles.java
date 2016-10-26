@@ -1,4 +1,4 @@
-package io.anserini.index;
+package io.anserini.index.collections;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more

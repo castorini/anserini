@@ -19,24 +19,19 @@ package io.anserini.document;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashSet;
 
-public class Gov2Record extends TrecRecordBase{
+public class Gov2Record extends TrecRecord {
 
-  public static HashSet<String> allowedFileSuffix = new HashSet<>(Arrays.asList(".gz"));
-  public static HashSet<String> skippedDirs = new HashSet<>(Arrays.asList("OtherData"));
+  private final String DOCHDR = "<DOCHDR>";
+  private final String TERMINATING_DOCHDR = "</DOCHDR>";
 
-  private static final String DOCHDR = "<DOCHDR>";
-  private static final String TERMINATING_DOCHDR = "</DOCHDR>";
 
-  public static final int BUFFER_SIZE = 1 << 16; // 64K
-
-  public static ISimpleRecord readNextRecord(BufferedReader reader) throws IOException {
+  @Override
+  public Indexable readNextRecord(BufferedReader reader) throws IOException {
     StringBuilder builder = new StringBuilder();
     boolean found = false;
 
-    for (; ; ) {
+    while (true) {
       String line = reader.readLine();
       if (line == null)
         return null;
@@ -57,7 +52,8 @@ public class Gov2Record extends TrecRecordBase{
     }
   }
 
-  public static ISimpleRecord parseRecord(StringBuilder builder) {
+  @Override
+  public Indexable parseRecord(StringBuilder builder) {
 
     int i = builder.indexOf(DOCNO);
     if (i == -1) throw new RuntimeException("cannot find start tag " + DOCNO);
@@ -67,7 +63,7 @@ public class Gov2Record extends TrecRecordBase{
     int j = builder.indexOf(TERMINATING_DOCNO);
     if (j == -1) throw new RuntimeException("cannot find end tag " + TERMINATING_DOCNO);
 
-    final String docID = builder.substring(i + DOCNO.length(), j).trim();
+    _id = builder.substring(i + DOCNO.length(), j).trim();
 
     i = builder.indexOf(DOCHDR);
     if (i == -1) throw new RuntimeException("cannot find header tag " + DOCHDR);
@@ -77,18 +73,8 @@ public class Gov2Record extends TrecRecordBase{
 
     if (j < i) throw new RuntimeException(TERMINATING_DOCHDR + " comes before " + DOCHDR);
 
-    final String content = builder.substring(j + TERMINATING_DOCHDR.length()).trim();
+    _content = builder.substring(j + TERMINATING_DOCHDR.length()).trim();
 
-    return new ISimpleRecord() {
-      @Override
-      public String id() {
-        return docID;
-      }
-
-      @Override
-      public String content() {
-        return content;
-      }
-    };
+    return this;
   }
 }

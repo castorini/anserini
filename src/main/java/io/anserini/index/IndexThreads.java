@@ -17,8 +17,10 @@ package io.anserini.index;
  * limitations under the License.
  */
 
-import io.anserini.document.*;
-import org.apache.commons.compress.compressors.z.ZCompressorInputStream;
+import io.anserini.document.CollectionClass;
+import io.anserini.document.Indexable;
+import io.anserini.document.WarcRecord;
+import io.anserini.index.collections.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;
@@ -38,19 +40,16 @@ import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.jsoup.Jsoup;
 
-import java.io.*;
-import java.nio.charset.StandardCharsets;
+import java.io.File;
+import java.io.IOException;
+import java.io.StringReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
 import java.util.Deque;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-import java.util.zip.GZIPInputStream;
 
 
 public final class IndexThreads {
@@ -121,11 +120,11 @@ public final class IndexThreads {
             return contents;
         }
 
-        private int indexSimpleRecord(ISimpleRecord ISimpleRecord) throws IOException {
-            String id = ISimpleRecord.id();
+        private int indexSimpleRecord(Indexable Indexable) throws IOException {
+            String id = Indexable.id();
             String contents;
             try {
-                contents = extractTextFromHTML(ISimpleRecord.content(), false);
+                contents = extractTextFromHTML(Indexable.content(), false);
             } catch (IOException e) {
                 LOG.error("Parsing document with Lucene HTML parser failed, skipping document : " + id, e);
                 System.err.println(id);
@@ -139,95 +138,12 @@ public final class IndexThreads {
             return indexTextRecord(id, contents);
         }
 
-        private int indexWarcRecord(IWarcRecord warcRecord) throws IOException {
+        private int indexWarcRecord(WarcRecord warcRecord) throws IOException {
             // see if it's a response record
             if (!RESPONSE.equals(warcRecord.type()))
                 return 0;
 
-            String id = warcRecord.id();
-            String contents;
-            try {
-                contents = extractTextFromHTML(warcRecord.content(), false);
-            } catch (IOException e) {
-                LOG.error("Parsing document with Lucene HTML parser failed, skipping document : " + id, e);
-                System.err.println(id);
-                return 1;
-            } catch (java.lang.IllegalArgumentException iae) {
-                LOG.error("Parsing document with JSoup failed, skipping document : " + id, iae);
-                System.err.println(id);
-                return 1;
-            }
-
-            return indexTextRecord(id, contents);
-        }
-
-        private int indexClueWeb12WarcFile() throws IOException {
-            int i = 0;
-
-            try (DataInputStream inStream = new DataInputStream(new GZIPInputStream(Files.newInputStream(inputFile, StandardOpenOption.READ)))) {
-                // iterate through our stream
-                ClueWeb12WarcRecord wDoc;
-                while ((wDoc = ClueWeb12WarcRecord.readNextWarcRecord(inStream, ClueWeb12WarcRecord.WARC_VERSION)) != null) {
-                    i += indexWarcRecord(wDoc);
-                }
-            }
-            return i;
-        }
-
-        private int indexClueWeb09WarcFile() throws IOException {
-            int i = 0;
-
-            try (DataInputStream inStream = new DataInputStream(new GZIPInputStream(Files.newInputStream(inputFile, StandardOpenOption.READ)))) {
-                // iterate through our stream
-                ClueWeb09WarcRecord wDoc;
-                while ((wDoc = ClueWeb09WarcRecord.readNextWarcRecord(inStream, ClueWeb09WarcRecord.WARC_VERSION)) != null) {
-                    i += indexWarcRecord(wDoc);
-                }
-            }
-            return i;
-        }
-
-        private int indexGov2File() throws IOException {
-            int i = 0;
-
-            try (InputStream stream = new GZIPInputStream(Files.newInputStream(inputFile, StandardOpenOption.READ), Gov2Record.BUFFER_SIZE);
-            BufferedReader reader = new BufferedReader(new InputStreamReader(stream, StandardCharsets.UTF_8))) {
-                ISimpleRecord doc;
-                while ((doc = Gov2Record.readNextRecord(reader)) != null) {
-                    i += indexSimpleRecord(doc);
-                }
-            }
-            return i;
-        }
-
-        private int indexTrecFile() throws IOException {
-            int i = 0;
-
-            BufferedReader reader = null;
-            try {
-                String fileName = inputFile.toString();
-                if (fileName.matches(".*?\\.\\d*z$")) { // .z .0z .1z .2z
-                    FileInputStream fin = new FileInputStream(fileName);
-                    BufferedInputStream in = new BufferedInputStream(fin);
-                    ZCompressorInputStream zIn = new ZCompressorInputStream(in);
-                    reader = new BufferedReader(new InputStreamReader(zIn, StandardCharsets.UTF_8));
-                } else if (fileName.endsWith(".gz")) { //.gz
-                    InputStream stream = new GZIPInputStream(Files.newInputStream(inputFile, StandardOpenOption.READ), TrecRecord.BUFFER_SIZE);
-                    reader = new BufferedReader(new InputStreamReader(stream, StandardCharsets.UTF_8));
-                } else { // plain text file
-                    reader = new BufferedReader(new FileReader(fileName));
-                }
-
-                ISimpleRecord doc;
-                while ((doc = TrecRecord.readNextRecord(reader)) != null) {
-                    i += indexSimpleRecord(doc);
-                }
-            } finally {
-                if (reader != null)
-                    reader.close();
-            }
-
-            return i;
+            return indexSimpleRecord(warcRecord);
         }
 
         @Override
@@ -235,15 +151,31 @@ public final class IndexThreads {
             {
                 try {
                     int addCount = 0;
-                    if (Collection.CW09.equals(collection)) {
-                        addCount = indexClueWeb09WarcFile();
-                    } else if (Collection.CW12.equals(collection)) {
-                        addCount = indexClueWeb12WarcFile();
-                    } else if (Collection.GOV2.equals(collection)) {
-                        addCount = indexGov2File();
-                    } else if (Collection.TrecText.equals(collection)) {
-                        addCount = indexTrecFile();
+                    Collection curC = null;
+                    if (CollectionClass.TrecText.equals(collectionClass)) {
+                        curC = new TrecCollection((TrecCollection)c);
+                    } else if (CollectionClass.GOV2.equals(collectionClass)) {
+                        curC = new Gov2Collection((Gov2Collection)c);
+                    } else if (CollectionClass.CW09.equals(collectionClass)) {
+                        curC = new ClueWeb09Collection((ClueWeb09Collection)c);
+                    } else if (CollectionClass.CW12.equals(collectionClass)) {
+                        curC = new ClueWeb12Collection((ClueWeb12Collection)c);
                     }
+                    curC.prepareInput(inputFile);
+                    while (curC.hasNext()) {
+                        Indexable d = (Indexable)curC.next();
+                        if (d != null) {
+                            switch (collectionClass) {
+                                case CW09:
+                                case CW12:
+                                    addCount += indexWarcRecord((WarcRecord) d);
+                                    break;
+                                default:
+                                    addCount += indexSimpleRecord(d);
+                            }
+                        }
+                    }
+                    curC.finishInput();
                     System.out.println("./" + inputFile.getParent().getFileName().toString() + File.separator + inputFile.getFileName().toString() + "\t" + addCount);
                 } catch (IOException ioe) {
                     LOG.error(Thread.currentThread().getName() + ": ERROR: unexpected IOException:", ioe);
@@ -254,7 +186,8 @@ public final class IndexThreads {
 
     private final Path indexPath;
     private final Path docDir;
-    private final Collection collection;
+    private final CollectionClass collectionClass;
+    private Collection c;
 
     private boolean keepstopwords = false;
 
@@ -286,7 +219,7 @@ public final class IndexThreads {
         this.doclimit = doclimit;
     }
 
-    public IndexThreads(String docsPath, String indexPath, Collection collection) throws IOException {
+    public IndexThreads(String docsPath, String indexPath, CollectionClass collectionClass) throws IOException {
 
         this.indexPath = Paths.get(indexPath);
         if (!Files.exists(this.indexPath))
@@ -298,7 +231,16 @@ public final class IndexThreads {
             System.exit(1);
         }
 
-        this.collection = collection;
+        this.collectionClass = collectionClass;
+        if (CollectionClass.TrecText.equals(collectionClass)) {
+            c = new TrecCollection(this.docDir);
+        } else if (CollectionClass.GOV2.equals(collectionClass)) {
+            c = new Gov2Collection(this.docDir);
+        } else if (CollectionClass.CW09.equals(collectionClass)) {
+            c = new ClueWeb09Collection(this.docDir);
+        } else if (CollectionClass.CW12.equals(collectionClass)) {
+            c = new ClueWeb12Collection(this.docDir);
+        }
     }
 
     public int indexWithThreads(int numThreads) throws IOException, InterruptedException {
@@ -319,31 +261,13 @@ public final class IndexThreads {
         final IndexWriter writer = new IndexWriter(dir, iwc);
 
         final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(numThreads);
-        Set<String> skippedFilePrefix = new HashSet<>();
-        Set<String> allowedFilePrefix = new HashSet<>();
-        Set<String> skippedFileSuffix = new HashSet<>();
-        Set<String> allowedFileSuffix = new HashSet<>();
-        Set<String> skippedDirs = new HashSet<>();
-        if (Collection.TrecText.equals(collection)) {
-            skippedFilePrefix = TrecRecord.skippedFilePrefix;
-            skippedDirs = TrecRecord.skippedDirs;
-        } else if (Collection.GOV2.equals(collection)) {
-            allowedFileSuffix = Gov2Record.allowedFileSuffix;
-            skippedDirs = Gov2Record.skippedDirs;
-        } else if (Collection.CW09.equals(collection) || Collection.CW12.equals(collection)) {
-            allowedFileSuffix.add(".warc.gz");
-            skippedDirs = Gov2Record.skippedDirs;
-        }
-        final Deque<Path> indexFiles = DiscoverFiles.discover(docDir, skippedFilePrefix, allowedFilePrefix,
-                skippedFileSuffix, allowedFileSuffix, skippedDirs);
-
+        final Deque<Path> indexFiles = c.discoverFiles();
         if (doclimit > 0 && indexFiles.size() < doclimit)
             for (int i = doclimit; i < indexFiles.size(); i++)
                 indexFiles.removeFirst();
 
         long totalFiles = indexFiles.size();
         LOG.info(totalFiles + " many files found under the docs path : " + docDir.toString());
-
 
         for (int i = 0; i < 2000; i++) {
             if (!indexFiles.isEmpty())

@@ -62,11 +62,11 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 
-public final class ClueWeb12WarcRecord implements IWarcRecord {
+public final class ClueWeb12WarcRecord implements WarcRecord {
 
-  public static String WARC_VERSION = "WARC/1.0";
-  public static String WARC_VERSION_LINE = "WARC/1.0\n";
-  private static String NEWLINE = "\n";
+  public final static String WARC_VERSION = "WARC/1.0";
+  public final static String WARC_VERSION_LINE = "WARC/1.0\n";
+  private final static String NEWLINE = "\n";
 
   /**
    * Reads in a WARC record from a data input stream
@@ -75,9 +75,10 @@ public final class ClueWeb12WarcRecord implements IWarcRecord {
    * @return a WARC record (or null if eof)
    * @throws java.io.IOException
    */
-  public static ClueWeb12WarcRecord readNextWarcRecord(DataInputStream in, String WARC_VERSION) throws IOException {
+  public ClueWeb12WarcRecord readNextWarcRecord(DataInputStream in, String WARC_VERSION) throws IOException {
     StringBuilder recordHeader = new StringBuilder();
-    byte[] recordContent = ClueWeb09WarcRecord.readNextRecord(in, recordHeader, WARC_VERSION);
+    ClueWeb09WarcRecord r09 = new ClueWeb09WarcRecord();
+    byte[] recordContent = r09.readNextRecord(in, recordHeader, WARC_VERSION);
     if (recordContent == null) {
       return null;
     }

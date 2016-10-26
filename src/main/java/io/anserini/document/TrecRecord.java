@@ -19,27 +19,33 @@ package io.anserini.document;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashSet;
 
-public class TrecRecord extends TrecRecordBase {
+public class TrecRecord implements Indexable {
 
-  public static HashSet<String> skippedDirs = new HashSet<>(Arrays.asList("cr", "dtd", "dtds"));
-  public static HashSet<String> skippedFilePrefix = new HashSet<>(Arrays.asList("readme"));
+  protected final String DOCNO = "<DOCNO>";
+  protected final String TERMINATING_DOCNO = "</DOCNO>";
 
-  public static final String[] startTags = {"<TEXT>", "<HEADLINE>", "<TITLE>", "<HL>", "<HEAD>",
+  protected final String DOC = "<DOC>";
+  protected final String TERMINATING_DOC = "</DOC>";
+
+  protected final int BUFFER_SIZE = 1 << 16; // 64K
+
+  private final String[] startTags = {"<TEXT>", "<HEADLINE>", "<TITLE>", "<HL>", "<HEAD>",
           "<TTL>", "<DD>", "<DATE>", "<LP>", "<LEADPARA>"
   };
-  public static final String[] endTags = {"</TEXT>", "</HEADLINE>", "</TITLE>", "</HL>", "</HEAD>",
+  private final String[] endTags = {"</TEXT>", "</HEADLINE>", "</TITLE>", "</HL>", "</HEAD>",
           "</TTL>", "</DD>", "</DATE>", "</LP>", "</LEADPARA>"
   };
 
-  public static ISimpleRecord readNextRecord(BufferedReader reader) throws IOException {
+  protected String _id;
+  protected String _content;
+
+  public Indexable readNextRecord(BufferedReader reader) throws IOException {
     StringBuilder builder = new StringBuilder();
     boolean found = false;
     int inTag = -1;
 
-    for (; ; ) {
+    while (true) {
       String line = reader.readLine();
       if (line == null)
         return null;
@@ -86,5 +92,30 @@ public class TrecRecord extends TrecRecordBase {
         return parseRecord(builder);
       }
     }
+  }
+
+  public Indexable parseRecord(StringBuilder builder) {
+    int i = builder.indexOf(DOCNO);
+    if (i == -1) throw new RuntimeException("cannot find start tag " + DOCNO);
+
+    if (i != 0) throw new RuntimeException("should start with " + DOCNO);
+
+    int j = builder.indexOf(TERMINATING_DOCNO);
+    if (j == -1) throw new RuntimeException("cannot find end tag " + TERMINATING_DOCNO);
+
+    _id = builder.substring(i + DOCNO.length(), j).trim();
+    _content = builder.substring(j + TERMINATING_DOCNO.length()).trim();
+
+    return this;
+  }
+
+  @Override
+  public String id() {
+    return _id;
+  }
+
+  @Override
+  public String content() {
+    return _content;
   }
 }

@@ -1,6 +1,6 @@
 package io.anserini.search;
 
-import io.anserini.document.Collection;
+import io.anserini.document.CollectionClass;
 import org.kohsuke.args4j.Option;
 
 public class SearchArgs {
@@ -16,7 +16,7 @@ public class SearchArgs {
   public String output;
 
   @Option(name = "-collection", required = true, usage = "Collection")
-  protected Collection collection;
+  protected CollectionClass collectionClass;
 
   // optional arguments
 

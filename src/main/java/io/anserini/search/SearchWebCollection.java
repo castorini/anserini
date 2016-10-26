@@ -314,7 +314,7 @@ public final class SearchWebCollection implements Closeable {
       throw new IllegalArgumentException("Topics file : " + topicsFile + " does not exist or is not a (readable) file.");
     }
 
-    SortedMap<Integer, String> topics = io.anserini.document.Collection.GOV2.equals(searchArgs.collection) ? readTeraByteTackQueries(topicsFile) : readWebTrackQueries(topicsFile);
+    SortedMap<Integer, String> topics = io.anserini.document.CollectionClass.GOV2.equals(searchArgs.collectionClass) ? readTeraByteTackQueries(topicsFile) : readWebTrackQueries(topicsFile);
 
     final long start = System.nanoTime();
     SearchWebCollection searcher = new SearchWebCollection(searchArgs.index);

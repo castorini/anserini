@@ -18,15 +18,9 @@ package io.anserini.document;
  */
 
 /**
- * Common Interface for both ClueWeb09 and ClueWeb12 Warc Record Types
+ * Indexable Interface
  */
-public interface IWarcRecord {
-
+public interface Indexable {
   String id();
-
   String content();
-
-  String url();
-
-  String type();
 }

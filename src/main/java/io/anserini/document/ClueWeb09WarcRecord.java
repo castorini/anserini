@@ -48,18 +48,18 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 
-public final class ClueWeb09WarcRecord implements IWarcRecord {
+public final class ClueWeb09WarcRecord implements WarcRecord {
 
-  public static String WARC_VERSION = "WARC/0.18";
-  public static String WARC_VERSION_LINE = "WARC/0.18\n";
-  private static String NEWLINE = "\n";
+  public final static String WARC_VERSION = "WARC/0.18";
+  public final static String WARC_VERSION_LINE = "WARC/0.18\n";
+  private final static String NEWLINE = "\n";
 
-  private static byte MASK_THREE_BYTE_CHAR = (byte) (0xE0);
-  private static byte MASK_TWO_BYTE_CHAR = (byte) (0xC0);
-  private static byte MASK_TOPMOST_BIT = (byte) (0x80);
-  private static byte MASK_BOTTOM_SIX_BITS = (byte) (0x1F);
-  private static byte MASK_BOTTOM_FIVE_BITS = (byte) (0x3F);
-  private static byte MASK_BOTTOM_FOUR_BITS = (byte) (0x0F);
+  private byte MASK_THREE_BYTE_CHAR = (byte) (0xE0);
+  private byte MASK_TWO_BYTE_CHAR = (byte) (0xC0);
+  private byte MASK_TOPMOST_BIT = (byte) (0x80);
+  private byte MASK_BOTTOM_SIX_BITS = (byte) (0x1F);
+  private byte MASK_BOTTOM_FIVE_BITS = (byte) (0x3F);
+  private byte MASK_BOTTOM_FOUR_BITS = (byte) (0x0F);
   private WarcHeader warcHeader = new WarcHeader();
   private byte[] warcContent = null;
   private String warcFilePath = "";
@@ -89,7 +89,7 @@ public final class ClueWeb09WarcRecord implements IWarcRecord {
    * @return the read line (or null if eof)
    * @throws java.io.IOException
    */
-  public static String readLineFromInputStream(DataInputStream in) throws IOException {
+  public String readLineFromInputStream(DataInputStream in) throws IOException {
     StringBuilder retString = new StringBuilder();
 
     boolean keepReading = true;
@@ -171,7 +171,7 @@ public final class ClueWeb09WarcRecord implements IWarcRecord {
    * @return the content byts (w/ the headerBuffer populated)
    * @throws java.io.IOException
    */
-  static byte[] readNextRecord(DataInputStream in, StringBuilder headerBuffer, String WARC_VERSION) throws IOException {
+  byte[] readNextRecord(DataInputStream in, StringBuilder headerBuffer, String WARC_VERSION) throws IOException {
     if (in == null) {
       return null;
     }
@@ -261,7 +261,7 @@ public final class ClueWeb09WarcRecord implements IWarcRecord {
    * @return a WARC record (or null if eof)
    * @throws java.io.IOException
    */
-  public static ClueWeb09WarcRecord readNextWarcRecord(DataInputStream in, String WARC_VERSION) throws IOException {
+  public ClueWeb09WarcRecord readNextWarcRecord(DataInputStream in, String WARC_VERSION) throws IOException {
     StringBuilder recordHeader = new StringBuilder();
     byte[] recordContent = readNextRecord(in, recordHeader, WARC_VERSION);
     if (recordContent == null) {

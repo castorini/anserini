@@ -18,11 +18,9 @@ package io.anserini.document;
  */
 
 /**
- * Simple Record Interface
+ * Common Interface for both ClueWeb09 and ClueWeb12 Warc Record Types
  */
-public interface ISimpleRecord {
-
-  String id();
-
-  String content();
+public interface WarcRecord extends Indexable {
+  String url();
+  String type();
 }
