@@ -65,8 +65,8 @@
               <name>SearchGov2</name>
             </program>
             <program>
-              <mainClass>io.anserini.index.IndexWebCollection</mainClass>
-              <name>IndexWebCollection</name>
+              <mainClass>io.anserini.index.IndexCollection</mainClass>
+              <name>IndexCollection</name>
             </program>
             <program>
               <mainClass>io.anserini.search.SearchWebCollection</mainClass>

@@ -1,7 +1,7 @@
 package io.anserini.ltr;
 
 import com.google.common.collect.Sets;
-import io.anserini.index.IndexWebCollection;
+import io.anserini.index.IndexThreads;
 import io.anserini.ltr.feature.*;
 import io.anserini.ltr.feature.base.*;
 import io.anserini.util.Qrels;
@@ -77,12 +77,12 @@ public class WebFeatureExtractor extends BaseFeatureExtractor {
 
   @Override
   protected String getIdField() {
-    return IndexWebCollection.FIELD_ID;
+    return IndexThreads.FIELD_ID;
   }
 
   @Override
   protected String getTermVectorField() {
-    return IndexWebCollection.FIELD_BODY;
+    return IndexThreads.FIELD_BODY;
   }
 
   public static FeatureExtractors getDefaultExtractors() {

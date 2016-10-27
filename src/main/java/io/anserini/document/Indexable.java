@@ -18,14 +18,10 @@ package io.anserini.document;
  */
 
 /**
- * Common Interface for both ClueWeb09 and ClueWeb12 Warc Record Types
+ * Indexable Interface
  */
-public abstract class WarcRecord implements Indexable {
-  public abstract String url();
-  public abstract String type();
-
-  @Override
-  public boolean indexable() {
-    return "response".equals(this.type());
-  }
+public interface Indexable {
+  String id();
+  String content();
+  boolean indexable();
 }

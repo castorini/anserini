@@ -1,4 +1,4 @@
-package io.anserini.document;
+package io.anserini.index.collections;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
@@ -17,15 +17,28 @@ package io.anserini.document;
  * limitations under the License.
  */
 
-/**
- * Common Interface for both ClueWeb09 and ClueWeb12 Warc Record Types
- */
-public abstract class WarcRecord implements Indexable {
-  public abstract String url();
-  public abstract String type();
+import io.anserini.document.ClueWeb12WarcRecord;
+import io.anserini.document.Indexable;
+
+import java.io.IOException;
+
+public class CW12Collection<D extends ClueWeb12WarcRecord> extends WarcCollection {
+  public CW12Collection() throws IOException {
+    super();
+  }
 
   @Override
-  public boolean indexable() {
-    return "response".equals(this.type());
+  public Indexable next() {
+    ClueWeb12WarcRecord doc = new ClueWeb12WarcRecord();
+    try {
+      doc = (D)doc.readNextWarcRecord(inStream, ClueWeb12WarcRecord.WARC_VERSION);
+      if (doc == null) {
+        at_eof = true;
+        doc = null;
+      }
+    } catch (IOException e1) {
+      doc = null;
+    }
+    return doc;
   }
 }

@@ -53,16 +53,16 @@ public class DumpIndex {
 
   String printRepositoryStats( DirectoryReader reader ) throws IOException {
     int docCount = reader.numDocs();
-    int contentsCount = reader.getDocCount(IndexWebCollection.FIELD_BODY);
-    long termCount = reader.getSumTotalTermFreq(IndexWebCollection.FIELD_BODY);
+    int contentsCount = reader.getDocCount(IndexThreads.FIELD_BODY);
+    long termCount = reader.getSumTotalTermFreq(IndexThreads.FIELD_BODY);
     Fields fds = MultiFields.getFields(reader);
-    Terms terms = fds.terms(IndexWebCollection.FIELD_BODY);
+    Terms terms = fds.terms(IndexThreads.FIELD_BODY);
 
     StringBuilder sb = new StringBuilder();
     sb.append("Repository statistics:\n");
     sb.append("documents:\t" + docCount + "\n");
     sb.append("contentsCount(doc with contents):\t" + contentsCount + "\n");
-    sb.append("unique terms:\t" + terms.getStats() + "\n");
+    sb.append("unique terms:\t" + terms.size() + "\n");
     sb.append("total terms:\t" + termCount + "\n");
     sb.append("stored fields:\t\t");
 
@@ -79,12 +79,12 @@ public class DumpIndex {
           throws IOException, ParseException {
     StringBuilder sb = new StringBuilder();
     EnglishAnalyzer ea = new EnglishAnalyzer(CharArraySet.EMPTY_SET);
-    QueryParser qp = new QueryParser(IndexWebCollection.FIELD_BODY, ea);
+    QueryParser qp = new QueryParser(IndexThreads.FIELD_BODY, ea);
     TermQuery q = (TermQuery)qp.parse(termStr);
     long termFreq = reader.totalTermFreq(q.getTerm());
     long docCount = reader.docFreq(q.getTerm());
     sb.append(termStr+" ")
-      .append(q.toString(IndexWebCollection.FIELD_BODY)+" ")
+      .append(q.toString(IndexThreads.FIELD_BODY)+" ")
       .append(termFreq+" ")
       .append(docCount+" ")
       .append("\n");
@@ -103,7 +103,7 @@ public class DumpIndex {
     int total = externalIDs.size();
     for (int i = 1; i < reader.maxDoc()+1; i++) {
       Document d = reader.document(i);
-      IndexableField id = d.getField(IndexWebCollection.FIELD_ID);
+      IndexableField id = d.getField(IndexThreads.FIELD_ID);
       String idStr = id.stringValue();
       if (mapping.containsKey(idStr)) {
         mapping.put(idStr, i);
@@ -120,7 +120,7 @@ public class DumpIndex {
   String printDocumentName( DirectoryReader reader, int number ) throws IOException {
     StringBuilder sb = new StringBuilder();
     Document d = reader.document(number);
-    IndexableField id = d.getField(IndexWebCollection.FIELD_ID);
+    IndexableField id = d.getField(IndexThreads.FIELD_ID);
     sb.append(id.stringValue())
       .append("\n");
     return sb.toString();
@@ -129,7 +129,7 @@ public class DumpIndex {
   String printDocumentText( DirectoryReader reader, int number ) throws IOException, RawDocNotStoredException {
     StringBuilder sb = new StringBuilder();
     Document d = reader.document(number);
-    IndexableField id = d.getField(IndexWebCollection.FIELD_BODY);
+    IndexableField id = d.getField(IndexThreads.FIELD_BODY);
     if (id == null) {
       throw new RawDocNotStoredException("Raw Contents not Stored!");
     }
@@ -140,7 +140,7 @@ public class DumpIndex {
 
   String printDocumentVector( DirectoryReader reader, int number ) throws IOException, DocVectorNotStoredException {
     StringBuilder sb = new StringBuilder();
-    Terms terms = reader.getTermVector(number, IndexWebCollection.FIELD_BODY);
+    Terms terms = reader.getTermVector(number, IndexThreads.FIELD_BODY);
     if (terms == null) {
       throw new DocVectorNotStoredException("Doc Vector not Stored!");
     }

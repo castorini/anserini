@@ -17,6 +17,7 @@ package io.anserini.search;
  * limitations under the License.
  */
 
+import io.anserini.index.collections.CollectionClass;
 import io.anserini.ltr.WebCollectionLtrDataGenerator;
 import io.anserini.ltr.feature.FeatureExtractors;
 import io.anserini.rerank.IdentityReranker;
@@ -64,8 +65,8 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.concurrent.TimeUnit;
 
-import static io.anserini.index.IndexWebCollection.FIELD_BODY;
-import static io.anserini.index.IndexWebCollection.FIELD_ID;
+import static io.anserini.index.IndexThreads.FIELD_BODY;
+import static io.anserini.index.IndexThreads.FIELD_ID;
 
 /**
  * Searcher for Gov2, ClueWeb09, and ClueWeb12 corpra.
@@ -314,7 +315,7 @@ public final class SearchWebCollection implements Closeable {
       throw new IllegalArgumentException("Topics file : " + topicsFile + " does not exist or is not a (readable) file.");
     }
 
-    SortedMap<Integer, String> topics = io.anserini.document.Collection.GOV2.equals(searchArgs.collection) ? readTeraByteTackQueries(topicsFile) : readWebTrackQueries(topicsFile);
+    SortedMap<Integer, String> topics = CollectionClass.GOV2.equals(searchArgs.collectionClass) ? readTeraByteTackQueries(topicsFile) : readWebTrackQueries(topicsFile);
 
     final long start = System.nanoTime();
     SearchWebCollection searcher = new SearchWebCollection(searchArgs.index);
