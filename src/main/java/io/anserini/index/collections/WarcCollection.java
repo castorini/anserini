@@ -17,6 +17,7 @@ package io.anserini.index.collections;
  * limitations under the License.
  */
 
+import io.anserini.document.Indexable;
 import io.anserini.document.WarcRecord;
 
 import java.io.DataInputStream;
@@ -26,35 +27,34 @@ import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.Set;
 import java.util.zip.GZIPInputStream;
 
-public class WarcCollection<D extends WarcRecord> extends TrecCollection {
-    protected DataInputStream inStream;
+public class WarcCollection<D extends WarcRecord> extends Collection {
+  protected DataInputStream inStream;
 
-    protected Set<String> skippedFilePrefix = new HashSet<>();
-    protected Set<String> allowedFileSuffix = new HashSet<>(Arrays.asList(".warc.gz"));
-    protected Set<String> skippedDirs = new HashSet<>(Arrays.asList("OtherData"));
+  public WarcCollection() throws IOException {
+    super();
+    allowedFileSuffix = new HashSet<>(Arrays.asList(".warc.gz"));
+    skippedDirs = new HashSet<>(Arrays.asList("OtherData"));
+  }
 
-    public WarcCollection(Path inputDir) throws IOException {
-        super(inputDir);
-    }
+  @Override
+  public void prepareInput(Path curInputFile) throws IOException {
+    this.curInputFile = curInputFile;
+    this.inStream = new DataInputStream(
+            new GZIPInputStream(Files.newInputStream(curInputFile, StandardOpenOption.READ)));
+  }
 
-    public WarcCollection(WarcCollection<D> c) {
-        super(c);
-    }
+  @Override
+  public void finishInput() throws IOException {
+    at_eof = false;
+    if (inStream != null)
+      inStream.close();
+  }
 
-    @Override
-    public void prepareInput(Path curInputFile) throws IOException {
-        this.curInputFile = curInputFile;
-        this.inStream = new DataInputStream(
-                new GZIPInputStream(Files.newInputStream(curInputFile, StandardOpenOption.READ)));
-    }
-
-    @Override
-    public void finishInput() throws IOException {
-        at_eof = false;
-        if (inStream != null)
-            inStream.close();
-    }
+  @Override
+  public Indexable next() {
+    // should be implemented by subclass
+    return null;
+  }
 }

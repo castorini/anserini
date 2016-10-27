@@ -25,7 +25,6 @@ public class Gov2Record extends TrecRecord {
   private final String DOCHDR = "<DOCHDR>";
   private final String TERMINATING_DOCHDR = "</DOCHDR>";
 
-
   @Override
   public Indexable readNextRecord(BufferedReader reader) throws IOException {
     StringBuilder builder = new StringBuilder();
@@ -63,7 +62,7 @@ public class Gov2Record extends TrecRecord {
     int j = builder.indexOf(TERMINATING_DOCNO);
     if (j == -1) throw new RuntimeException("cannot find end tag " + TERMINATING_DOCNO);
 
-    _id = builder.substring(i + DOCNO.length(), j).trim();
+    id = builder.substring(i + DOCNO.length(), j).trim();
 
     i = builder.indexOf(DOCHDR);
     if (i == -1) throw new RuntimeException("cannot find header tag " + DOCHDR);
@@ -73,7 +72,7 @@ public class Gov2Record extends TrecRecord {
 
     if (j < i) throw new RuntimeException(TERMINATING_DOCHDR + " comes before " + DOCHDR);
 
-    _content = builder.substring(j + TERMINATING_DOCHDR.length()).trim();
+    content = builder.substring(j + TERMINATING_DOCHDR.length()).trim();
 
     return this;
   }

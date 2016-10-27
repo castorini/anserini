@@ -1,6 +1,6 @@
 package io.anserini.search;
 
-import io.anserini.document.CollectionClass;
+import io.anserini.index.collections.CollectionClass;
 import org.kohsuke.args4j.Option;
 
 public class SearchArgs {

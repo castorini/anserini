@@ -21,29 +21,24 @@ import io.anserini.document.ClueWeb12WarcRecord;
 import io.anserini.document.Indexable;
 
 import java.io.IOException;
-import java.nio.file.Path;
 
-public class ClueWeb12Collection<D extends ClueWeb12WarcRecord> extends WarcCollection {
-    public ClueWeb12Collection(Path inputDir) throws IOException {
-        super(inputDir);
-    }
+public class CW12Collection<D extends ClueWeb12WarcRecord> extends WarcCollection {
+  public CW12Collection() throws IOException {
+    super();
+  }
 
-    public ClueWeb12Collection(WarcCollection c) {
-        super(c);
+  @Override
+  public Indexable next() {
+    ClueWeb12WarcRecord doc = new ClueWeb12WarcRecord();
+    try {
+      doc = (D)doc.readNextWarcRecord(inStream, ClueWeb12WarcRecord.WARC_VERSION);
+      if (doc == null) {
+        at_eof = true;
+        doc = null;
+      }
+    } catch (IOException e1) {
+      doc = null;
     }
-
-    @Override
-    public Indexable next() {
-        ClueWeb12WarcRecord doc = new ClueWeb12WarcRecord();
-        try {
-            doc = (D)doc.readNextWarcRecord(inStream, ClueWeb12WarcRecord.WARC_VERSION);
-            if (doc == null) {
-                at_eof = true;
-                doc = null;
-            }
-        } catch (IOException e1) {
-            doc = null;
-        }
-        return doc;
-    }
+    return doc;
+  }
 }

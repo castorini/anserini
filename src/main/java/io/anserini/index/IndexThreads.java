@@ -17,10 +17,8 @@ package io.anserini.index;
  * limitations under the License.
  */
 
-import io.anserini.document.CollectionClass;
 import io.anserini.document.Indexable;
-import io.anserini.document.WarcRecord;
-import io.anserini.index.collections.*;
+import io.anserini.index.collections.Collection;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;
@@ -54,279 +52,258 @@ import java.util.concurrent.TimeUnit;
 
 public final class IndexThreads {
 
-    private static final Logger LOG = LogManager.getLogger(IndexThreads.class);
+  private static final Logger LOG = LogManager.getLogger(IndexThreads.class);
 
-    public static final String FIELD_BODY = "contents";
-    public static final String FIELD_ID = "id";
-    public static final String RESPONSE = "response";
+  public static final String FIELD_BODY = "contents";
+  public static final String FIELD_ID = "id";
+  public static final String RESPONSE = "response";
 
-    private final class IndexerThread extends Thread {
+  private final class IndexerThread extends Thread {
 
-        final private Path inputFile;
-        final private IndexWriter writer;
+    final private Path inputFile;
+    final private IndexWriter writer;
 
-        public IndexerThread(IndexWriter writer, Path inputFile) throws IOException {
-            this.writer = writer;
-            this.inputFile = inputFile;
-            setName(inputFile.getFileName().toString());
-        }
+    public IndexerThread(IndexWriter writer, Path inputFile) throws IOException {
+      this.writer = writer;
+      this.inputFile = inputFile;
+      setName(inputFile.getFileName().toString());
+    }
 
-        private int indexTextRecord(String id, String contents) throws IOException {
-            // don't index empty documents but count them
-            if (contents.trim().length() == 0) {
-                System.err.println(id);
-                return 1;
+    private int indexTextRecord(String id, String contents) throws IOException {
+      // don't index empty documents but count them
+      if (contents.trim().length() == 0) {
+        System.err.println(id);
+        return 1;
+      }
+
+      // make a new, empty document
+      Document document = new Document();
+
+      // document id
+      document.add(new StringField(FIELD_ID, id, Field.Store.YES));
+
+      FieldType fieldType = new FieldType();
+
+      // Are we storing document vectors?
+      if (docVectors) {
+        fieldType.setStored(false);
+        fieldType.setStoreTermVectors(true);
+        fieldType.setStoreTermVectorPositions(true);
+      }
+
+      // Are we building a "positional" or "count" index?
+      if (positions) {
+        fieldType.setIndexOptions(IndexOptions.DOCS_AND_FREQS_AND_POSITIONS);
+      } else {
+        fieldType.setIndexOptions(IndexOptions.DOCS_AND_FREQS);
+      }
+
+      document.add(new Field(FIELD_BODY, contents, fieldType));
+
+      writer.addDocument(document);
+      return 1;
+    }
+
+    private String extractTextFromHTML(String raw, boolean useLucene) throws IOException, java.lang.IllegalArgumentException {
+      String contents = "";
+      if (useLucene) {
+        DemoHTMLParser dhp = new DemoHTMLParser();
+        DocData dd = new DocData();
+        dd = dhp.parse(dd, "", null, new StringReader(raw), null);
+        contents = dd.getTitle() + "\n" + dd.getBody();
+      } else {
+        org.jsoup.nodes.Document jDoc = Jsoup.parse(raw);
+        contents = jDoc.text();
+      }
+      return contents;
+    }
+
+    private int indexRecord(Indexable record) throws IOException {
+      if (!record.indexable()) {
+        return 0;
+      }
+      String id = record.id();
+      String contents;
+      try {
+        contents = extractTextFromHTML(record.content(), false);
+      } catch (IOException e) {
+        LOG.error("Parsing document with Lucene HTML parser failed, skipping document : " + id, e);
+        System.err.println(id);
+        return 1;
+      } catch (java.lang.IllegalArgumentException iae) {
+        LOG.error("Parsing document with JSoup failed, skipping document : " + id, iae);
+        System.err.println(id);
+        return 1;
+      }
+
+      return indexTextRecord(id, contents);
+    }
+
+    @Override
+    public void run() {
+      {
+        try {
+          int addCount = 0;
+          Collection curC = (Collection)Class.forName("io.anserini.index.collections."+collectionClass+"Collection").newInstance();
+          curC.prepareInput(inputFile);
+          while (curC.hasNext()) {
+            Indexable d = (Indexable)curC.next();
+            if (d != null) {
+              addCount += indexRecord(d);
             }
-
-            // make a new, empty document
-            Document document = new Document();
-
-            // document id
-            document.add(new StringField(FIELD_ID, id, Field.Store.YES));
-
-            FieldType fieldType = new FieldType();
-
-            // Are we storing document vectors?
-            if (docVectors) {
-                fieldType.setStored(false);
-                fieldType.setStoreTermVectors(true);
-                fieldType.setStoreTermVectorPositions(true);
-            }
-
-            // Are we building a "positional" or "count" index?
-            if (positions) {
-                fieldType.setIndexOptions(IndexOptions.DOCS_AND_FREQS_AND_POSITIONS);
-            } else {
-                fieldType.setIndexOptions(IndexOptions.DOCS_AND_FREQS);
-            }
-
-            document.add(new Field(FIELD_BODY, contents, fieldType));
-
-            writer.addDocument(document);
-            return 1;
+          }
+          curC.finishInput();
+          System.out.println("./" + inputFile.getParent().getFileName().toString() + File.separator + inputFile.getFileName().toString() + "\t" + addCount);
+        } catch (IOException ioe) {
+          LOG.error(Thread.currentThread().getName() + ": ERROR: unexpected IOException:", ioe);
+        } catch (ClassNotFoundException cfe) {
+          LOG.error(Thread.currentThread().getName() + ": ERROR: unexpected ClassNotFoundException:", cfe);
+        } catch (IllegalAccessException iae) {
+          LOG.error(Thread.currentThread().getName() + ": ERROR: unexpected IllegalAccessException:", iae);
+        } catch (InstantiationException ie) {
+          LOG.error(Thread.currentThread().getName() + ": ERROR: unexpected InstantiationException:", ie);
         }
+      }
+    }
+  }
 
-        private String extractTextFromHTML(String raw, boolean useLucene) throws IOException, java.lang.IllegalArgumentException {
-            String contents = "";
-            if (useLucene) {
-                DemoHTMLParser dhp = new DemoHTMLParser();
-                DocData dd = new DocData();
-                dd = dhp.parse(dd, "", null, new StringReader(raw), null);
-                contents = dd.getTitle() + "\n" + dd.getBody();
-            } else {
-                org.jsoup.nodes.Document jDoc = Jsoup.parse(raw);
-                contents = jDoc.text();
-            }
-            return contents;
-        }
+  private final Path indexPath;
+  private final Path docDir;
+  private final String collectionClass;
+  private Collection c;
 
-        private int indexSimpleRecord(Indexable Indexable) throws IOException {
-            String id = Indexable.id();
-            String contents;
-            try {
-                contents = extractTextFromHTML(Indexable.content(), false);
-            } catch (IOException e) {
-                LOG.error("Parsing document with Lucene HTML parser failed, skipping document : " + id, e);
-                System.err.println(id);
-                return 1;
-            } catch (java.lang.IllegalArgumentException iae) {
-                LOG.error("Parsing document with JSoup failed, skipping document : " + id, iae);
-                System.err.println(id);
-                return 1;
-            }
+  private boolean keepstopwords = false;
 
-            return indexTextRecord(id, contents);
-        }
+  public void setKeepstopwords(boolean keepstopwords) {
+    this.keepstopwords = keepstopwords;
+  }
 
-        private int indexWarcRecord(WarcRecord warcRecord) throws IOException {
-            // see if it's a response record
-            if (!RESPONSE.equals(warcRecord.type()))
-                return 0;
+  private boolean positions = false;
 
-            return indexSimpleRecord(warcRecord);
-        }
+  public void setPositions(boolean positions) {
+    this.positions = positions;
+  }
 
-        @Override
-        public void run() {
-            {
-                try {
-                    int addCount = 0;
-                    Collection curC = null;
-                    if (CollectionClass.TrecText.equals(collectionClass)) {
-                        curC = new TrecCollection((TrecCollection)c);
-                    } else if (CollectionClass.GOV2.equals(collectionClass)) {
-                        curC = new Gov2Collection((Gov2Collection)c);
-                    } else if (CollectionClass.CW09.equals(collectionClass)) {
-                        curC = new ClueWeb09Collection((ClueWeb09Collection)c);
-                    } else if (CollectionClass.CW12.equals(collectionClass)) {
-                        curC = new ClueWeb12Collection((ClueWeb12Collection)c);
-                    }
-                    curC.prepareInput(inputFile);
-                    while (curC.hasNext()) {
-                        Indexable d = (Indexable)curC.next();
-                        if (d != null) {
-                            switch (collectionClass) {
-                                case CW09:
-                                case CW12:
-                                    addCount += indexWarcRecord((WarcRecord) d);
-                                    break;
-                                default:
-                                    addCount += indexSimpleRecord(d);
-                            }
-                        }
-                    }
-                    curC.finishInput();
-                    System.out.println("./" + inputFile.getParent().getFileName().toString() + File.separator + inputFile.getFileName().toString() + "\t" + addCount);
-                } catch (IOException ioe) {
-                    LOG.error(Thread.currentThread().getName() + ": ERROR: unexpected IOException:", ioe);
-                }
-            }
-        }
+  private boolean docVectors = false;
+
+  public void setDocVectors(boolean docVectors) {
+    this.docVectors = docVectors;
+  }
+
+  private boolean optimize = false;
+
+  public void setOptimize(boolean optimize) {
+    this.optimize = optimize;
+  }
+
+  private int doclimit = -1;
+
+  public void setDocLimit(int doclimit) {
+    this.doclimit = doclimit;
+  }
+
+  public IndexThreads(String docsPath, String indexPath, String collectionClass)
+          throws IOException, ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InstantiationException {
+
+    this.indexPath = Paths.get(indexPath);
+    if (!Files.exists(this.indexPath))
+      Files.createDirectories(this.indexPath);
+
+    docDir = Paths.get(docsPath);
+    if (!Files.exists(docDir) || !Files.isReadable(docDir) || !Files.isDirectory(docDir)) {
+      System.out.println("Document directory '" + docDir.toString() + "' does not exist or is not readable, please check the path");
+      System.exit(1);
     }
 
-    private final Path indexPath;
-    private final Path docDir;
-    private final CollectionClass collectionClass;
-    private Collection c;
+    this.collectionClass = collectionClass;
+    c = (Collection)Class.forName("io.anserini.index.collections."+collectionClass+"Collection").newInstance();
+    c.setInputDir(docDir);
+  }
 
-    private boolean keepstopwords = false;
+  public int indexWithThreads(int numThreads) throws IOException, InterruptedException {
 
-    public void setKeepstopwords(boolean keepstopwords) {
-        this.keepstopwords = keepstopwords;
-    }
+    LOG.info("Indexing with " + numThreads + " threads to directory '" + indexPath.toAbsolutePath() + "'...");
 
-    private boolean positions = false;
+    final Directory dir = FSDirectory.open(indexPath);
 
-    public void setPositions(boolean positions) {
-        this.positions = positions;
-    }
+    final EnglishAnalyzer ea = keepstopwords ? new EnglishAnalyzer(CharArraySet.EMPTY_SET) : new EnglishAnalyzer();
+    final IndexWriterConfig iwc = new IndexWriterConfig(ea);
 
-    private boolean docVectors = false;
+    iwc.setSimilarity(new BM25Similarity());
+    iwc.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
+    iwc.setRAMBufferSizeMB(512);
+    iwc.setUseCompoundFile(false);
+    iwc.setMergeScheduler(new ConcurrentMergeScheduler());
 
-    public void setDocVectors(boolean docVectors) {
-        this.docVectors = docVectors;
-    }
+    final IndexWriter writer = new IndexWriter(dir, iwc);
 
-    private boolean optimize = false;
+    final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(numThreads);
+    final Deque<Path> indexFiles = c.discoverFiles();
+    if (doclimit > 0 && indexFiles.size() < doclimit)
+      for (int i = doclimit; i < indexFiles.size(); i++)
+        indexFiles.removeFirst();
 
-    public void setOptimize(boolean optimize) {
-        this.optimize = optimize;
-    }
+    long totalFiles = indexFiles.size();
+    LOG.info(totalFiles + " many files found under the docs path : " + docDir.toString());
 
-    private int doclimit = -1;
-
-    public void setDocLimit(int doclimit) {
-        this.doclimit = doclimit;
-    }
-
-    public IndexThreads(String docsPath, String indexPath, CollectionClass collectionClass) throws IOException {
-
-        this.indexPath = Paths.get(indexPath);
-        if (!Files.exists(this.indexPath))
-            Files.createDirectories(this.indexPath);
-
-        docDir = Paths.get(docsPath);
-        if (!Files.exists(docDir) || !Files.isReadable(docDir) || !Files.isDirectory(docDir)) {
-            System.out.println("Document directory '" + docDir.toString() + "' does not exist or is not readable, please check the path");
-            System.exit(1);
+    for (int i = 0; i < 2000; i++) {
+      if (!indexFiles.isEmpty())
+        executor.execute(new IndexerThread(writer, indexFiles.removeFirst()));
+      else {
+        if (!executor.isShutdown()) {
+          Thread.sleep(30000);
+          executor.shutdown();
         }
-
-        this.collectionClass = collectionClass;
-        if (CollectionClass.TrecText.equals(collectionClass)) {
-            c = new TrecCollection(this.docDir);
-        } else if (CollectionClass.GOV2.equals(collectionClass)) {
-            c = new Gov2Collection(this.docDir);
-        } else if (CollectionClass.CW09.equals(collectionClass)) {
-            c = new ClueWeb09Collection(this.docDir);
-        } else if (CollectionClass.CW12.equals(collectionClass)) {
-            c = new ClueWeb12Collection(this.docDir);
-        }
+        break;
+      }
     }
 
-    public int indexWithThreads(int numThreads) throws IOException, InterruptedException {
+    long first = 0;
+    //add some delay to let some threads spawn by scheduler
+    Thread.sleep(30000);
 
-        LOG.info("Indexing with " + numThreads + " threads to directory '" + indexPath.toAbsolutePath() + "'...");
+    try {
+      // Wait for existing tasks to terminate
+      while (!executor.awaitTermination(1, TimeUnit.MINUTES)) {
 
-        final Directory dir = FSDirectory.open(indexPath);
+        final long completedTaskCount = executor.getCompletedTaskCount();
 
-        final EnglishAnalyzer ea = keepstopwords ? new EnglishAnalyzer(CharArraySet.EMPTY_SET) : new EnglishAnalyzer();
-        final IndexWriterConfig iwc = new IndexWriterConfig(ea);
+        LOG.info(String.format("%.2f percentage completed", (double) completedTaskCount / totalFiles * 100.0d));
 
-        iwc.setSimilarity(new BM25Similarity());
-        iwc.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
-        iwc.setRAMBufferSizeMB(512);
-        iwc.setUseCompoundFile(false);
-        iwc.setMergeScheduler(new ConcurrentMergeScheduler());
-
-        final IndexWriter writer = new IndexWriter(dir, iwc);
-
-        final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(numThreads);
-        final Deque<Path> indexFiles = c.discoverFiles();
-        if (doclimit > 0 && indexFiles.size() < doclimit)
-            for (int i = doclimit; i < indexFiles.size(); i++)
-                indexFiles.removeFirst();
-
-        long totalFiles = indexFiles.size();
-        LOG.info(totalFiles + " many files found under the docs path : " + docDir.toString());
-
-        for (int i = 0; i < 2000; i++) {
+        if (!indexFiles.isEmpty())
+          for (long i = first; i < completedTaskCount; i++) {
             if (!indexFiles.isEmpty())
-                executor.execute(new IndexerThread(writer, indexFiles.removeFirst()));
+              executor.execute(new IndexerThread(writer, indexFiles.removeFirst()));
             else {
-                if (!executor.isShutdown()) {
-                    Thread.sleep(30000);
-                    executor.shutdown();
-                }
-                break;
+              if (!executor.isShutdown())
+                executor.shutdown();
             }
-        }
+          }
 
-        long first = 0;
-        //add some delay to let some threads spawn by scheduler
-        Thread.sleep(30000);
-
-        try {
-            // Wait for existing tasks to terminate
-            while (!executor.awaitTermination(1, TimeUnit.MINUTES)) {
-
-                final long completedTaskCount = executor.getCompletedTaskCount();
-
-                LOG.info(String.format("%.2f percentage completed", (double) completedTaskCount / totalFiles * 100.0d));
-
-                if (!indexFiles.isEmpty())
-                    for (long i = first; i < completedTaskCount; i++) {
-                        if (!indexFiles.isEmpty())
-                            executor.execute(new IndexerThread(writer, indexFiles.removeFirst()));
-                        else {
-                            if (!executor.isShutdown())
-                                executor.shutdown();
-                        }
-                    }
-
-                first = completedTaskCount;
-                Thread.sleep(1000);
-            }
-        } catch (InterruptedException ie) {
-            // (Re-)Cancel if current thread also interrupted
-            executor.shutdownNow();
-            // Preserve interrupt status
-            Thread.currentThread().interrupt();
-        }
-
-        if (totalFiles != executor.getCompletedTaskCount())
-            throw new RuntimeException("totalFiles = " + totalFiles + " is not equal to completedTaskCount =  " + executor.getCompletedTaskCount());
-
-
-        int numIndexed = writer.maxDoc();
-
-        try {
-            writer.commit();
-            if (optimize)
-                writer.forceMerge(1);
-        } finally {
-            writer.close();
-        }
-
-        return numIndexed;
+        first = completedTaskCount;
+        Thread.sleep(1000);
+      }
+    } catch (InterruptedException ie) {
+      // (Re-)Cancel if current thread also interrupted
+      executor.shutdownNow();
+      // Preserve interrupt status
+      Thread.currentThread().interrupt();
     }
+
+    if (totalFiles != executor.getCompletedTaskCount())
+      throw new RuntimeException("totalFiles = " + totalFiles + " is not equal to completedTaskCount =  " + executor.getCompletedTaskCount());
+
+
+    int numIndexed = writer.maxDoc();
+
+    try {
+      writer.commit();
+      if (optimize)
+        writer.forceMerge(1);
+    } finally {
+      writer.close();
+    }
+
+    return numIndexed;
+  }
 }

@@ -23,4 +23,5 @@ package io.anserini.document;
 public interface Indexable {
   String id();
   String content();
+  boolean indexable();
 }

@@ -30,42 +30,36 @@ import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.Set;
 import java.util.zip.GZIPInputStream;
 
 public class Gov2Collection<D extends Gov2Record> extends TrecCollection {
-    protected Set<String> skippedFilePrefix = new HashSet<>();
-    protected Set<String> allowedFileSuffix = new HashSet<>(Arrays.asList(".gz"));
-    protected Set<String> skippedDirs = new HashSet<>(Arrays.asList("OtherData"));
+  public Gov2Collection() throws IOException {
+    super();
+    skippedFilePrefix = new HashSet<>();
+    allowedFileSuffix = new HashSet<>(Arrays.asList(".gz"));
+    skippedDirs = new HashSet<>(Arrays.asList("OtherData"));
+  }
 
-    public Gov2Collection(Path inputDir) throws IOException {
-        super(inputDir);
-    }
+  @Override
+  public void prepareInput(Path curInputFile) throws IOException {
+    this.curInputFile = curInputFile;
+    this.bRdr = null;
+    InputStream stream = new GZIPInputStream(Files.newInputStream(curInputFile, StandardOpenOption.READ), BUFFER_SIZE);
+    bRdr = new BufferedReader(new InputStreamReader(stream, StandardCharsets.UTF_8));
+  }
 
-    public Gov2Collection(Gov2Collection<D> c) {
-        super(c);
+  @Override
+  public Indexable next() {
+    Gov2Record doc = new Gov2Record();
+    try {
+      doc = (D) doc.readNextRecord(bRdr);
+      if (doc == null) {
+        at_eof = true;
+        doc = null;
+      }
+    } catch (IOException e1) {
+      doc = null;
     }
-
-    @Override
-    public void prepareInput(Path curInputFile) throws IOException {
-        this.curInputFile = curInputFile;
-        this.bRdr = null;
-        InputStream stream = new GZIPInputStream(Files.newInputStream(curInputFile, StandardOpenOption.READ), BUFFER_SIZE);
-        bRdr = new BufferedReader(new InputStreamReader(stream, StandardCharsets.UTF_8));
-    }
-
-    @Override
-    public Indexable next() {
-        Gov2Record doc = new Gov2Record();
-        try {
-            doc = (D) doc.readNextRecord(bRdr);
-            if (doc == null) {
-                at_eof = true;
-                doc = null;
-            }
-        } catch (IOException e1) {
-            doc = null;
-        }
-        return doc;
-    }
+    return doc;
+  }
 }

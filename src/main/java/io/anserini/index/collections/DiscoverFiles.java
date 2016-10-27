@@ -28,80 +28,80 @@ import java.util.*;
 
 public class DiscoverFiles {
 
-    private static final Logger LOG = LogManager.getLogger(DiscoverFiles.class);
+  private static final Logger LOG = LogManager.getLogger(DiscoverFiles.class);
 
-    public static Deque<Path> discover(Path p, final Set<String> skippedFilePrefix, final Set<String> allowedFilePrefix,
-                                   final Set<String> skippedFileSuffix, final Set<String> allowedFileSuffix,
-                                       final Set<String> skippedDir) {
-        final Deque<Path> stack = new ArrayDeque<>();
-        FileVisitor<Path> fv = new SimpleFileVisitor<Path>() {
-            @Override
-            public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+  public static Deque<Path> discover(Path p, final Set<String> skippedFilePrefix, final Set<String> allowedFilePrefix,
+                                     final Set<String> skippedFileSuffix, final Set<String> allowedFileSuffix,
+                                     final Set<String> skippedDir) {
+    final Deque<Path> stack = new ArrayDeque<>();
+    FileVisitor<Path> fv = new SimpleFileVisitor<Path>() {
+      @Override
+      public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
 
-                Path name = file.getFileName();
-                boolean shouldAdd = true;
-                if (name != null) {
-                    String fileName = name.toString();
-                    for (String s : skippedFileSuffix) {
-                        if (fileName.endsWith(s)) {
-                            shouldAdd = false;
-                            break;
-                        }
-                    }
-                    if (shouldAdd && !allowedFileSuffix.isEmpty()) {
-                        shouldAdd = false;
-                        for (String s : allowedFileSuffix) {
-                            if (fileName.endsWith(s)) {
-                                shouldAdd = true;
-                                break;
-                            }
-                        }
-                    }
-                    if (shouldAdd) {
-                        for (String s : skippedFilePrefix) {
-                            if (fileName.startsWith(s)) {
-                                shouldAdd = false;
-                                break;
-                            }
-                        }
-                    }
-                    if (shouldAdd && !allowedFilePrefix.isEmpty()) {
-                        shouldAdd = false;
-                        for (String s : allowedFilePrefix) {
-                            if (fileName.startsWith(s)) {
-                                shouldAdd = true;
-                                break;
-                            }
-                        }
-                    }
-                }
-                if (shouldAdd) {
-                    stack.add(file);
-                }
-                return FileVisitResult.CONTINUE;
+        Path name = file.getFileName();
+        boolean shouldAdd = true;
+        if (name != null) {
+          String fileName = name.toString();
+          for (String s : skippedFileSuffix) {
+            if (fileName.endsWith(s)) {
+              shouldAdd = false;
+              break;
             }
-
-            @Override
-            public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) {
-                if (skippedDir.contains(dir.getFileName().toString())) {
-                    LOG.info("Skipping: " + dir);
-                    return FileVisitResult.SKIP_SUBTREE;
-                }
-                return FileVisitResult.CONTINUE;
+          }
+          if (shouldAdd && !allowedFileSuffix.isEmpty()) {
+            shouldAdd = false;
+            for (String s : allowedFileSuffix) {
+              if (fileName.endsWith(s)) {
+                shouldAdd = true;
+                break;
+              }
             }
-
-            @Override
-            public FileVisitResult visitFileFailed(Path file, IOException ioe) {
-                LOG.error("Visiting failed for " + file.toString(), ioe);
-                return FileVisitResult.SKIP_SUBTREE;
+          }
+          if (shouldAdd) {
+            for (String s : skippedFilePrefix) {
+              if (fileName.startsWith(s)) {
+                shouldAdd = false;
+                break;
+              }
             }
-        };
-
-        try {
-            Files.walkFileTree(p, fv);
-        } catch (IOException e) {
-            LOG.error("IOException during file visiting", e);
+          }
+          if (shouldAdd && !allowedFilePrefix.isEmpty()) {
+            shouldAdd = false;
+            for (String s : allowedFilePrefix) {
+              if (fileName.startsWith(s)) {
+                shouldAdd = true;
+                break;
+              }
+            }
+          }
         }
-        return stack;
+        if (shouldAdd) {
+          stack.add(file);
+        }
+        return FileVisitResult.CONTINUE;
+      }
+
+      @Override
+      public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) {
+        if (skippedDir.contains(dir.getFileName().toString())) {
+          LOG.info("Skipping: " + dir);
+          return FileVisitResult.SKIP_SUBTREE;
+        }
+        return FileVisitResult.CONTINUE;
+      }
+
+      @Override
+      public FileVisitResult visitFileFailed(Path file, IOException ioe) {
+        LOG.error("Visiting failed for " + file.toString(), ioe);
+        return FileVisitResult.SKIP_SUBTREE;
+      }
+    };
+
+    try {
+      Files.walkFileTree(p, fv);
+    } catch (IOException e) {
+      LOG.error("IOException during file visiting", e);
     }
+    return stack;
+  }
 }

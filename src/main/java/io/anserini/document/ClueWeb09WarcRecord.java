@@ -48,7 +48,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 
-public final class ClueWeb09WarcRecord implements WarcRecord {
+public final class ClueWeb09WarcRecord extends WarcRecord {
 
   public final static String WARC_VERSION = "WARC/0.18";
   public final static String WARC_VERSION_LINE = "WARC/0.18\n";

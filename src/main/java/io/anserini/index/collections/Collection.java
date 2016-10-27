@@ -26,14 +26,40 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-public interface Collection<D extends Indexable> extends Iterator<Indexable> {
-    Set<String> skippedFilePrefix = new HashSet<>();
-    Set<String> allowedFilePrefix = new HashSet<>();
-    Set<String> skippedFileSuffix = new HashSet<>();
-    Set<String> allowedFileSuffix = new HashSet<>();
-    Set<String> skippedDirs = new HashSet<>();
+public abstract class Collection<D extends Indexable> implements Iterator<Indexable> {
+  protected Path inputDir;
+  protected Path curInputFile;
+  protected boolean at_eof = false;
 
-    public Deque<Path> discoverFiles();
-    void prepareInput(Path p) throws IOException;
-    void finishInput() throws IOException;
+  protected Set<String> skippedFilePrefix = new HashSet<>();
+  protected Set<String> allowedFilePrefix = new HashSet<>();
+  protected Set<String> skippedFileSuffix = new HashSet<>();
+  protected Set<String> allowedFileSuffix = new HashSet<>();
+  protected Set<String> skippedDirs = new HashSet<>();
+
+  public Deque<Path> discoverFiles() {
+    return DiscoverFiles.discover(inputDir, skippedFilePrefix, allowedFilePrefix,
+            skippedFileSuffix, allowedFileSuffix, skippedDirs);
+  }
+
+  public Collection() throws IOException {}
+
+  public void setInputDir(Path inputDir) {
+    this.inputDir = inputDir;
+  }
+
+  public final Path getInputDir() {
+    return inputDir;
+  }
+
+  @Override
+  public boolean hasNext() {
+    return !at_eof;
+  }
+
+  @Override
+  public void remove() {}
+
+  public abstract void prepareInput(Path p) throws IOException;
+  public abstract void finishInput() throws IOException;
 }

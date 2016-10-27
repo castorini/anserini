@@ -32,7 +32,8 @@ public final class IndexCollection {
 
   private static final Logger LOG = LogManager.getLogger(IndexCollection.class);
 
-  public static void main(String[] args) throws IOException, InterruptedException {
+  public static void main(String[] args) throws IOException, InterruptedException,
+          ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InstantiationException {
 
     IndexArgs indexArgs = new IndexArgs();
 

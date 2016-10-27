@@ -29,88 +29,64 @@ import java.nio.file.StandardOpenOption;
 import java.util.*;
 import java.util.zip.GZIPInputStream;
 
-public class TrecCollection<D extends TrecRecord> implements Collection {
+public class TrecCollection<D extends TrecRecord> extends Collection {
+  protected BufferedReader bRdr;
+  protected final int BUFFER_SIZE = 1 << 16; // 64K
 
-    //private static final Logger LOG = LogManager.getLogger(TrecCollection.class);
+  public TrecCollection() throws IOException {
+    super();
+    skippedFilePrefix = new HashSet<>(Arrays.asList("readme"));
+    skippedDirs = new HashSet<>(Arrays.asList("cr", "dtd", "dtds"));
+  }
 
-    protected Path inputDir;
-    protected Path curInputFile;
-    protected BufferedReader bRdr;
-    protected Set<String> skippedFilePrefix = new HashSet<>(Arrays.asList("readme"));
-    protected Set<String> skippedDirs = new HashSet<>(Arrays.asList("cr", "dtd", "dtds"));
-
-    protected final int BUFFER_SIZE = 1 << 16; // 64K
-
-    protected boolean at_eof = false;
-
-    public TrecCollection(Path inputDir) throws IOException {
-        this.inputDir = inputDir;
+  @Override
+  public void prepareInput(Path curInputFile) throws IOException {
+    this.curInputFile = curInputFile;
+    this.bRdr = null;
+    String fileName = curInputFile.toString();
+    if (fileName.matches(".*?\\.\\d*z$")) { // .z .0z .1z .2z
+      FileInputStream fin = new FileInputStream(fileName);
+      BufferedInputStream in = new BufferedInputStream(fin);
+      ZCompressorInputStream zIn = new ZCompressorInputStream(in);
+      bRdr = new BufferedReader(new InputStreamReader(zIn, StandardCharsets.UTF_8));
+    } else if (fileName.endsWith(".gz")) { //.gz
+      InputStream stream = new GZIPInputStream(
+              Files.newInputStream(curInputFile, StandardOpenOption.READ), BUFFER_SIZE);
+      bRdr = new BufferedReader(new InputStreamReader(stream, StandardCharsets.UTF_8));
+    } else { // plain text file
+      bRdr = new BufferedReader(new FileReader(fileName));
     }
+  }
 
-    public TrecCollection() {}
+  @Override
+  public void finishInput() throws IOException {
+    at_eof = false;
+    if (bRdr != null)
+      bRdr.close();
+  }
 
-    public TrecCollection(TrecCollection<D> c) {
-        this.inputDir = c.getInputDir();
+  @Override
+  public boolean hasNext() {
+    return !at_eof;
+  }
+
+  @Override
+  public Indexable next() {
+    TrecRecord doc = new TrecRecord();
+    try {
+      doc = (D)doc.readNextRecord(bRdr);
+      if (doc == null) {
+        at_eof = true;
+        doc = null;
+      }
+    } catch (IOException e1) {
+      doc = null;
     }
+    return doc;
+  }
 
-    public final Path getInputDir() {
-        return inputDir;
-    }
+  @Override
+  public void remove() {
 
-    @Override
-    public void prepareInput(Path curInputFile) throws IOException {
-        this.curInputFile = curInputFile;
-        this.bRdr = null;
-        String fileName = curInputFile.toString();
-        if (fileName.matches(".*?\\.\\d*z$")) { // .z .0z .1z .2z
-            FileInputStream fin = new FileInputStream(fileName);
-            BufferedInputStream in = new BufferedInputStream(fin);
-            ZCompressorInputStream zIn = new ZCompressorInputStream(in);
-            bRdr = new BufferedReader(new InputStreamReader(zIn, StandardCharsets.UTF_8));
-        } else if (fileName.endsWith(".gz")) { //.gz
-            InputStream stream = new GZIPInputStream(
-                    Files.newInputStream(curInputFile, StandardOpenOption.READ), BUFFER_SIZE);
-            bRdr = new BufferedReader(new InputStreamReader(stream, StandardCharsets.UTF_8));
-        } else { // plain text file
-            bRdr = new BufferedReader(new FileReader(fileName));
-        }
-    }
-
-    @Override
-    public void finishInput() throws IOException {
-        at_eof = false;
-        if (bRdr != null)
-            bRdr.close();
-    }
-
-    @Override
-    public Deque<Path> discoverFiles() {
-        return DiscoverFiles.discover(inputDir, skippedFilePrefix, allowedFilePrefix,
-                skippedFileSuffix, allowedFileSuffix, skippedDirs);
-    }
-
-    @Override
-    public boolean hasNext() {
-        return !at_eof;
-    }
-
-    @Override
-    public Indexable next() {
-        TrecRecord doc = new TrecRecord();
-        try {
-            doc = (D)doc.readNextRecord(bRdr);
-            if (doc == null) {
-                at_eof = true;
-                doc = null;
-            }
-        } catch (IOException e1) {
-            doc = null;
-        }
-        return doc;
-    }
-
-    @Override
-    public void remove() {
-
-    }
+  }
 }
