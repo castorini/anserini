@@ -1,0 +1,3197 @@
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number: 101
+
+
+<dom> Domain: Science and Technology 
+
+
+<title> Topic: Design of the "Star Wars" Anti-missile Defense System
+
+
+<desc> Description:
+
+Document will provide information on the proposed configuration, components, 
+and technology of the U.S.'s "star wars" anti-missile defense system. 
+
+
+<smry> Summary:
+
+Document will provide information on the proposed configuration, components, 
+and technology of the U.S.'s "star wars" anti-missile defense system. 
+
+
+<narr> Narrative:
+
+A relevant document will provide information which aids description of the 
+design and technology to be used in the anti-missile defense system advocated
+by the Reagan administration, the Strategic Defense Initiative (SDI), also 
+known as "star wars."  Any reported changes to original design, or any 
+research results which might lead to changes of constituent technologies, 
+are also relevant documents.  However, reports on political debate over the 
+SDI, or arms control negotiations which might encompass the SDI, are NOT 
+relevant to the science and technology focus of this topic, unless they 
+provide specific information on design and technology.   
+
+
+<con> Concept(s):
+
+1. Strategic Defense Initiative, SDI, star wars, peace shield
+
+2. kinetic energy weapon, kinetic kill, directed energy weapon, laser, 
+   particle beam, ERIS (exoatmospheric reentry-vehicle interceptor system), 
+   phased-array radar, microwave
+
+3. anti-satellite (ASAT) weapon, spaced-based technology, strategic defense 
+   technologies
+
+
+<fac> Factor(s):
+
+<nat> Nationality: U.S.
+
+</nat>
+
+
+<def> Definition(s):
+
+</top>
+
+
+
+
+
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number: 102
+
+
+<dom> Domain: Science and Technology 
+
+
+<title> Topic: Laser Research Applicable to the U.S.'s Strategic Defense 
+Initiative
+
+
+<desc> Description:
+
+Document will report on laser research related, or potentially related, to 
+the U.S.'s Strategic Defense Initiative.
+
+
+<smry> Summary:
+
+Document will report on laser research related, or potentially related, to 
+the U.S.'s Strategic Defense Initiative.
+
+
+<narr> Narrative:
+
+A relevant document will provide information on laser research which is 
+either explicitly linked to the U.S.'s Strategic Defense Initiative (SDI, 
+also known as "star wars") or which has potential applicability to the 
+development of SDI laser technology.  Potentially relevant research could be 
+referred to as research into directed energy weapons, or high energy lasers, 
+or, more generally, referred to as military laser research.  A relevant 
+document could take many forms -- award of contract, report of research 
+results, or abstract of a professional paper on lasers.  However, a document 
+clearly focused on use of low-power lasers in consumer products, surgical 
+instruments, or industrial cutting tools is NOT relevant.
+
+
+<con> Concept(s):
+
+1. Strategic Defense Initiative, SDI, star wars, peace shield
+
+2. laser, directed energy weapon, high energy weapon
+
+
+<fac> Factor(s):
+
+<nat> Nationality: U.S.
+
+</nat>
+
+
+<def> Definition(s):
+
+</top>
+
+
+
+
+
+
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number: 103
+
+
+<dom> Domain: Law and Government 
+
+
+<title> Topic: Welfare Reform
+
+
+<desc> Description:
+
+Document will report those proposed or enacted changes to U.S. federal, 
+state, or local welfare laws and regulations which are propounded as reforms.
+
+
+<smry> Summary:
+
+Document will report those proposed or enacted changes to U.S. federal, 
+state, or local welfare laws and regulations which are propounded as reforms.
+
+
+<narr> Narrative:
+
+A relevant document will reveal attempts by any U.S. jurisdiction to change 
+the legal or regulatory context of existing welfare programs, or to add new 
+programs, which are described or labeled as a reform.  For the purposes of 
+this topic, a welfare program must revolve around a transfer payment for 
+which the recipient had not previously made contributions, other than 
+through general tax payments. Examples include General Assistance, Aid for 
+Families with Dependent Children (AFDC), public housing, Medicaid, income 
+subsidies (rent and fuel subsidies, earned income tax credit, food stamps, 
+etc.), child care programs (day care subsidies, nutrition programs, Head 
+Start, etc.), and vocational training programs.  NOT relevant are those 
+programs which could be viewed as the payment of insurance benefits to those 
+who had previously made contributions (either directly or indirectly through 
+a family member or employer), such as Medicare, Social Security survivor's 
+benefits, and unemployment insurance.  Also NOT relevant are those documents
+which deal solely with the financing or administration of existing programs.
+
+
+<con> Concept(s):
+
+1. welfare recipient, public assistance, family assistance, welfare benefit, 
+relief
+
+2. welfare reform, welfare dependency, reform movement, workfare, homeless, 
+welfare culture
+
+3. General Assistance, Aid for Families with Dependent Children, AFDC, 
+Medicaid, earned income tax credit, food stamps, Head Start, job training, 
+public housing
+
+
+<fac> Factor(s):
+
+<nat> Nationality: U.S.
+
+</fac>
+
+
+<def> Definition(s):
+
+Welfare program: although the above distinction between a "pure" transfer 
+payment program and a putative insurance program is debatable, the 
+distinction is made to focus the data search on those programs which are 
+clearly in the welfare category, as opposed to the wide variety of social 
+programs supported by U.S. government entities.
+
+</top>
+
+
+
+
+
+
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number: 104
+
+
+<dom> Domain: Law and Government 
+
+
+<title> Topic: Catastrophic Health Insurance
+
+
+<desc> Description:
+
+Document will enumerate provisions of the U.S. Catastrophic Health Insurance 
+Act of l988, or the political/legal fallout from that legislation.
+
+
+<smry> Summary:
+
+Document will enumerate provisions of the U.S. Catastrophic Health Insurance 
+Act of l988, or the political/legal fallout from that legislation.
+
+
+<narr> Narrative:
+
+A relevant document will detail the content of the U.S. medicare act of l988 
+which extended catastrophic illness benefits to the elderly, with particular 
+attention to the financing scheme which led to a firestorm of protest and a 
+Congressional retreat, or a relevant document will detail the political/legal
+consequences of the catastrophic health insurance imbroglio and subsequent 
+efforts by Congress to provide similar coverages through a less-controversial
+mechanism. 
+
+
+<con> Concept(s):
+
+1. Catastrophic Coverage Act of l988, Medicare Part B, Health Care Financing 
+Administration
+
+2. catastrophic-health program, catastrophic illness, catastrophic care, 
+acute care, long-term nursing home care
+
+3. American Association of Retired Persons, AARP, senior citizen, National 
+Committee to Preserve Social Security and Medicare
+
+
+<fac> Factor(s):
+
+<nat> Nationality: U.S.
+
+</fac>
+
+
+<def> Definition(s):
+
+</top>
+
+
+
+
+
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number: 105
+
+
+<dom> Domain: Finance 
+
+
+<title> Topic: "Black Monday"
+
+
+<desc> Description:
+
+Document will state reasons why U.S. stock markets crashed on 19 October 1987
+("Black Monday"), or report on attempts to guard against another such crash.
+
+
+<smry> Summary:
+
+Document will state reasons why U.S. stock markets crashed on 19 October 1987
+("Black Monday"), or report on attempts to guard against another such crash.
+
+
+<narr> Narrative:
+
+A relevant document will contain at least one reason why U.S. stock markets 
+experienced a huge price drop on 19 October 1987, losses of equity so large 
+that markets were said to have crashed (the Dow, for example, lost 508 points
+on that one day alone); the date of the crash has become known as "Black 
+Monday."  A preferable document would contain a detailed analysis of the 
+crash. The best document would link analysis of events to actions taken or 
+recommendations made by federal authorities or the stock markets to prevent 
+future crashes.  NOT relevant are reports which simply reference, without 
+analysis, "Black Monday," such as anniversary stories generated by the press 
+around every October 19th.   
+
+
+<con> Concept(s):
+
+1. 19 October 1987, "Black Monday"
+
+2. New York Stock Exchange, Securities and Exchange Commission, SEC, 
+National Association of Securities Dealers
+
+3. Chicago Board of Trade, Chicago Mercantile Exchange, Commodity Futures 
+Trading Commission, CFTC
+
+4. program trading, index arbitrage, futures market, portfolio insurance, 
+specialists, margins, super DOT system
+
+5. Brady Commission, circuit breaker
+
+
+<fac> Factor(s):
+
+<nat> Nationality: U.S.
+
+<time> Time: any time after 19 October 1987 
+
+</fac>
+
+
+<def> Definition(s):
+
+</top>
+
+
+
+
+
+
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number: 106
+
+
+<dom> Domain: Law and Government 
+
+
+<title> Topic: U.S. Control of Insider Trading
+
+
+<desc> Description:
+
+Document will report proposed or enacted changes to U.S. laws and 
+regulations designed to prevent insider trading.
+
+
+<smry> Summary:
+
+Document will report proposed or enacted changes to U.S. laws and 
+regulations designed to prevent insider trading.
+
+
+<narr> Narrative:
+
+A relevant document will contain information on proposed or enacted changes 
+to U.S. laws and regulations, including state laws and stock market rules, 
+which are aimed at increasing penalties or closing loopholes in existing 
+institutional discouragements to insider trading.  NOT relevant are reports 
+on specific insider trading cases, such as the prosecutions and settlements 
+related to the Boesky - Milken - Drexel Burnham Lambert scandal, unless the 
+report also contains specific information on legal or regulatory change. 
+
+
+<con> Concept(s):
+
+1. insider trading
+
+2. securities law, bill, legislation, regulation, rule
+
+3. Insider Trading Sanctions Act, Insider Trading and Securities Fraud 
+Enforcement Act
+
+4. Securities and Exchange Commission, SEC, Commodity Futures Trading 
+Commission, CFTC, National Association of Securities Dealers, NASD
+
+
+<fac> Factor(s):
+
+<nat> Nationality: U.S.
+
+</fac>
+
+
+<def> Definition(s):
+
+</top>
+
+
+
+
+
+
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number: 107
+
+
+<dom> Domain: International Economics 
+
+
+<title> Topic: Japanese Regulation of Insider Trading
+
+
+<desc> Description:
+
+Document will inform on Japan's regulation of insider trading.
+
+
+<smry> Summary:
+
+Document will inform on Japan's regulation of insider trading.
+
+
+<narr> Narrative:
+
+A relevant document will provide data on Japanese laws, regulations, and/or 
+practices which help the foreigner understand how Japan controls, or does 
+not control, stock market practices which could be labeled as insider trading.
+
+
+<con> Concept(s):
+
+1. insider trading
+
+2. Japan
+
+3. Ministry of Finance, Securities and Exchange Council, Osaka Securities 
+Exchange, Tokyo Stock Exchange
+
+4. Securities and Exchange Law, Article 58, law, legislation, guidelines, 
+self-regulation
+
+5. Nikko Securities, Yamaichi Securities, Nomura Securities, Daiwa 
+Securities, Big Four brokerage firms
+
+
+<fac> Factor(s):
+
+<nat> Nationality: Japan
+
+</fac>
+
+
+<def> Definition(s):
+
+</top>
+
+
+
+
+
+
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number: 108
+
+
+<dom> Domain: International Economics 
+
+
+<title> Topic: Japanese Protectionist Measures
+
+
+<desc> Description:
+
+Document will report on Japanese policies or practices which help protect 
+Japan's domestic market from foreign competition.
+
+
+<smry> Summary:
+
+Document will report on Japanese policies or practices which help protect 
+Japan's domestic market from foreign competition.
+
+
+<narr> Narrative:
+
+A relevant document will identify a Japanese law or regulation, a 
+governmental policy or administrative procedure, a corporate custom, or a 
+business practice which discourages, or even prevents, entry into the 
+Japanese market by foreign goods and services.  A document which reports 
+generally on market penetration difficulties but which does not identify a 
+specific Japanese barrier to trade is NOT relevant. 
+
+
+<con> Concept(s):
+
+1. Japan
+
+2. Ministry of International Trade and Industry, MITI, Ministry of Foreign 
+Affairs
+
+3. protectionism, protect
+
+4. tariff, subsidy, quota, dumping, obstruction, retaliation
+
+5. structural impediment, product standard
+
+6. trade dispute, barrier, tension, imbalance, practice
+
+7. market access, free trade, liberalize, reciprocity
+
+8. Super 301, 301 clause
+
+
+<fac> Factor(s):
+
+<nat> Nationality: Japan
+
+</fac>
+
+
+<def> Definition(s):
+
+</top>
+
+
+
+
+
+
+
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number: 109
+
+
+<dom> Domain: Science and Technology
+
+
+<title> Topic: Find Innovative Companies
+
+
+<desc> Description:
+
+Document must refer to one of the following: OTC Ltd., Hi Tech Enterprises,
+Minnesota Mining and Manufacturing, Integrated Solutions Inc., MIPS Computer
+Systems Inc., or Ask Computer Systems Inc.
+
+
+<smry> Summary:
+
+Document must refer to one of the following: OTC Ltd., Hi Tech Enterprises,
+Minnesota Mining and Manufacturing, Integrated Solutions Inc., MIPS Computer
+Systems Inc., or Ask Computer Systems Inc.
+
+
+<narr> Narrative:
+
+To be relevant, a document must mention one of the following companies: 
+Overseas Telecommunications Commission (OTC) Ltd., Hi Tech Enterprises, 
+Minnesota Mining and Manufacturing, Integrated Solutions, MIPS Computer 
+Systems Inc., or Ask Computer Systems Inc.
+
+
+<con> Concept(s):
+
+1. Overseas Telecommunications Commission, OTC
+
+2. Hi Tech Enterprises
+
+3. Minnesota Mining and Manufacturing Co.
+
+4. Integrated Solutions Inc.
+
+5. MIPS Computer Systems Inc.
+
+6. ASK Computer Systems Inc.
+
+
+<fac> Factor(s):
+
+
+<def> Definition(s):
+
+</top>
+
+
+
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number: 110
+
+
+<dom> Domain: International Politics
+
+
+<title> Topic:	Black Resistance Against the South African Government
+
+
+<desc> Description:
+
+Document will discuss efforts by the black majority in South Africa to 
+overthrow domination by the white minority government.
+
+
+<smry> Summary:
+
+Document will discuss efforts by the black majority in South Africa to 
+overthrow domination by the white minority government.
+
+
+<narr> Narrative:
+
+A relevant document will discuss any effort by blacks to force political 
+change in South Africa.  The reported black challenge to apartheid may take 
+any form -- military, political, or economic -- but of greatest interest 
+would be information on reported activities by armed personnel linked to 
+the African National Congress (ANC), either in South Africa or in bordering 
+states.  
+
+
+<con> Concept(s):
+
+1.  African National Congress, ANC, Nelson Mandela, Oliver Tambo
+
+2.  Chief Buthelezi, Inkatha, Zulu
+
+3.  terrorist, detainee, subversive, communist
+
+4.  Limpopo River, Angola, Botswana, Mozambique, Zambia
+
+5.  apartheid, black township, homelands, group areas act, emergency 
+regulations
+
+
+<fac> Factor(s):
+
+
+<def> Definition(s):
+
+</top>
+
+
+
+
+
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number:  111
+
+
+<dom> Domain:  International Relations 
+
+
+<title> Topic:  Nuclear Proliferation
+
+
+<desc> Description:
+
+Document will discuss efforts by the United Nations or those nations currently
+possessing nuclear weapons to control the proliferation of nuclear weapons
+capabilities to the non-nuclear weapons states.
+
+
+<smry> Summary:
+
+Document will discuss efforts by the United Nations or those nations currently
+possessing nuclear weapons to control the proliferation of nuclear weapons
+capabilities to the non-nuclear weapons states.
+
+
+<narr> Narrative:
+
+A relevant document will report on efforts by the UN's International Atomic
+Energy Agency to monitor compliance with the Nuclear Non-proliferation Treaty,
+or, report on efforts by the United States, Britain, France, USSR, India, or
+China to control the transfer of technology, equipment, materials, or delivery
+systems to nations suspected of nuclear weapons development programs, or, 
+a relevant document will report any nuclear activities by Argentina, Brazil, 
+Iraq, Israel, North Korea, Pakistan, or South Africa (all suspected 
+proliferators). 
+
+
+<con> Concept(s):
+
+1.  International Atomic Energy Agency, IAEA, international safeguards, 
+Nuclear Non-proliferation Treaty
+
+2.  nuclear, atomic bomb, reprocessing, spent fuel, plutonium, enriched 
+uranium, heavy water
+
+3.  Department of Engery, Nuclear Regulatory Commission, Nuclear Control
+Institute
+
+4.  United States, Britain, France, USSR, India, China
+
+5.  Argentina, Brazil, Iraq, Israel, North Korea, Pakistan, South Africa
+
+
+<fac> Factor(s):
+
+
+<def> Definition(s):
+
+</top>
+
+
+
+
+
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number:  112
+
+
+<dom> Domain:  Finance
+
+
+<title> Topic:  Funding Biotechnology
+
+
+<desc> Description:
+
+Document will provide financial data relative to answering the question, how
+much money worldwide is being invested in the biotechnology arena?
+
+
+<smry> Summary:
+
+Document will provide financial data about worldwide investment
+in the biotechnology arena?
+
+
+<narr> Narrative:
+
+A relevant document will provide financial data which assists in quantifying
+worldwide investment in biotechnology.  Relevant data includes the following:
+funds provided to government, academic, or corporate laboratories for
+biotechnology research; data on the capitalization of start-up firms in the
+biotechnology arena, e.g. stock sales, venture capital investments, etc.; 
+profit and loss figures for biotechnology enterprises or the biotechnology 
+divisions of established corporations, etc.  
+
+
+<con> Concept(s):
+
+1. biotechnology
+
+2. biotechnology investment
+
+
+<fac> Factor(s):
+
+
+<def> Definition(s):
+
+</top>
+
+
+
+
+
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number: 113
+
+
+<dom> Domain: Science and Technology 
+
+
+<title> Topic: New Space Satellite Applications
+
+
+<desc> Description:
+
+Document will report on non-traditional applications of space satellite
+technology.
+
+
+<smry> Summary:
+
+Document will report on non-traditional (innovative) applications of
+space satellite technology.
+
+
+<narr> Narrative:
+
+A relevant document will discuss more recent or emerging applications of 
+space satellite technology.  NOT relevant are such "traditional" or early 
+satellite age usages as INTELSAT transmission of voice and data 
+communications for telephone companies or program feeds for established 
+television networks.  Also NOT relevant are such established uses of 
+satellites as military communications, earth mineral resource mapping, and 
+support of weather forecasting.  A few examples of newer applications are 
+the building of private satellite networks for transfer of business data, 
+facsimile transmission of newspapers to be printed in multiple locations, 
+and direct broadcasting of TV signals.  The underlying purpose of this topic 
+is to collect information on recent or emerging trends in the application of 
+space satellite technology.
+ 
+
+<con> Concept(s):
+
+1. satellite, technology, use of space
+
+2. satellite network, facsimile, direct broadcasting
+
+
+<fac> Factor(s):
+
+
+<def> Definition(s):
+
+INTELSAT: a 113-nation consortium with a near monopoly on international
+satellite communications.
+
+COMSAT:  the congressionally chartered U.S. satellite communications company
+which holds 25% of INTELSAT's stock.
+
+</top>
+
+
+
+
+
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number: 114
+
+
+<dom> Domain: International Politics 
+
+
+<title> Topic: Non-commercial Satellite Launches
+
+
+<desc> Description:
+
+Document will provide data on launches worldwide of non-commercial space
+satellites.
+
+
+<smry> Summary:
+
+Document will provide data on actual launches worldwide of
+non-commercial space satellites.
+
+
+<narr> Narrative:
+
+A relevant document will provide information which helps identify the 
+purpose and capabilities of satellites launched anywhere in the world which 
+might have non-commercial applications.  Accordingly, periodic launches of 
+INTELSAT communications satellites are clearly NOT relevant.  On the other 
+hand, data on launches of military communication or intelligence sensor 
+satellites are definitely relevant.  Potentially useful data on any given 
+launch would be press comment as to whether the satellite has a military, 
+scientific, or intelligence purpose, type of launch vehicle employed, 
+reported satellite configuration, launch trajectory and speed, projected 
+orbit, etc.
+
+
+<con> Concept(s):
+
+1. satellite launch, military communications, intelligence satellite
+
+2. launch vehicle, trajectory, orbit
+
+
+<fac> Factor(s):
+
+
+<def> Definition(s):
+
+INTELSAT:  a 113-nation consortium with a near monopoly on international
+satellite communications.
+
+COMSAT: the congressionally chartered U.S. satellite communications company
+which holds 25% of INTELSAT's stock.
+
+</top>
+
+
+
+
+
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number: 115
+
+
+<dom> Domain: Law & Government 
+
+
+<title> Topic: Impact of the 1986 Immigration Law
+
+
+<desc> Description:
+
+Document will report specific consequence(s) of the U.S.'s Immigration Reform
+and Control Act of 1986.
+
+
+<smry> Summary:
+
+Document will report concrete example(s) of the impact of the U.S.'s
+Immigration Reform and Control Act of 1986.
+
+
+<narr> Narrative:
+
+A relevant document will provide concrete example(s) of the impact of the 
+U.S.'s Immigration Reform and Control Act of 1986 (also known as the 
+Simpson-Mazzoli Act).  Relevant examples are a foreign government's official 
+complaints against the law, domestic legal and political attempts to delay 
+enforcement or modify provisions of the act, imposition of fines on 
+employers who hire illegal aliens, reports on undocumented workers taking 
+advantage of the legalization program, enforcement actions by the Immigration
+and Naturalization Service, etc.  NOT relevant are such general reports as 
+analyses of the law's potential impact, explication of the law's provisions, 
+continuing political discourse on immigration issues, as well as immigration 
+cases not related to the 1986 law. 
+
+
+<con> Concept(s):
+
+1.  Simpson-Mazzoli Act
+
+2.  immigration, Immigration and Naturalization Service, INS, Border Patrol
+
+3.  illegal alien (or immigrant), undocumented worker, deportation, amnesty,
+extended voluntary departure, EVD
+
+
+<fac> Factor(s):
+
+
+<def> Definition(s):
+
+</top>
+
+
+
+
+
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number: 116
+
+
+<dom> Domain: Medical & Biological
+
+
+<title> Topic: Generic Drug Substitutions
+
+
+<desc> Description:
+
+Document will identify a generic drug which can be substituted for a brand 
+name drug in the treatment of at least one medical condition.
+
+
+<smry> Summary:
+
+Document will identify a generic drug which can be substituted for a brand 
+name drug in the treatment of at least one medical condition.
+
+
+<narr> Narrative:
+
+A relevant document must have all four of the following pieces of information
+relative to potential generic drug substitutions: the name of a generic drug,
+the brand name (or chemical term) of the drug for which it is an equivalent, 
+the manufacturer or distributor of the generic, and the medical condition(s) 
+treated by both the generic and the brand name drug.  Reports which contain 
+multiple generic equivalencies are clearly relevant, since the purpose of 
+the search is to build a cross index of potentially cheaper generics.  General
+reports on the economics, legal actions, or politics of generic competitions 
+are NOT relevant, unless they contain the four elements of data specified.  
+
+
+<con> Concept(s):
+
+1.  generic drug, generic equivalent 
+
+
+<fac> Factor(s):
+
+
+<def> Definition(s):
+
+</top>
+
+
+
+
+
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number: 117
+
+
+<dom> Domain: U.S. Economics 
+
+
+<title> Topic: Capacity of the U.S. Cellular Telephone Network
+
+
+<desc> Description:
+
+Document will provide at least one datum which helps build a description,
+quantification, and evaluation of the capacity of the U.S. cellular telephone
+network.
+
+
+<smry> Summary:
+
+Document will provide at least one datum which helps build a description,
+quantification, and evaluation of the capacity of the U.S. cellular telephone
+network.
+
+
+<narr> Narrative:
+
+A relevant document will provide data which helps answer the question, what 
+is the capacity of the installed U.S. cellular telephone network?  Relevant
+information can be cumulative over time, but it must be specific regarding 
+such factors as area of operation for a given cellular company, number of 
+units serviced by that company, type of equipment used, technology employed, 
+and near-term plans for upgrades and expansions.  NOT relevant is such 
+information as investments and capitalization, management changes, 
+acquisitions and mergers (unless concrete data relative to capacity also is 
+reported), equipment manufacture, paging services, etc.    
+
+
+<con> Concept(s):
+
+1.  cellular, cellular telephone (or phone)
+
+
+<fac> Factor(s):
+
+<nat> Nationality: U.S.
+
+<time> Time: past, present, and near future
+
+</fac>
+
+
+<def> Definition(s):
+
+</top>
+
+
+
+
+
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number: 118
+
+
+<dom> Domain: International Politics 
+
+
+<title> Topic: International Terrorists
+
+
+<desc> Description:
+
+Document will provide background information on international terrorist groups
+or individuals, or detail the activities of such groups or individuals.
+
+
+<smry> Summary:
+
+Document will provide background information on international terrorist groups
+or individuals, or detail the activities of such groups or individuals.
+
+
+<narr> Narrative:
+
+A relevant document will report such information as the history, objectives, 
+structure, areas of operation, identities of members and supporters, or 
+activities of international terrorist groups and individuals.  Information 
+must be sufficient to place the document into the international terrorism 
+category, as defined below, so as to distinguish the report from those which 
+detail activities by rebel groups pejoratively labeled as "terrorist" by a 
+regime under attack.
+
+
+<con> Concept(s):
+
+1.  terrorist, terrorism, international terrorist (or terrorism)
+
+
+<fac> Factor(s):
+
+
+<def> Definition(s):
+
+International Terrorism: as defined in Title 22 of the U.S. Code, Section
+2656F(d), terrorism is premeditated, politically motivated violence 
+perpetrated against noncombatant targets by subnational or clandestine 
+agents, usually intended to influence an audience.  By extension, 
+international terrorism transcends national boundaries and involves the 
+citizens, property, or territory of more than one country.  
+
+</top>
+
+
+
+
+
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number: 119
+
+
+<dom> Domain: International Politics 
+
+
+<title> Topic: Actions Against International Terrorists
+
+
+<desc> Description:
+
+Document will report activities by established political authorities against
+international terrorists.
+
+
+<smry> Summary:
+
+Document will report activities by established government authorities against
+international terrorists and their sponsors.
+
+
+<narr> Narrative:
+
+A relevant document will report on military, political, economic, or legal 
+actions taken against international terrorists, or states accused of 
+sponsoring terrorism, by recognized governments worldwide.  The official 
+action must be against groups or individuals (or their sponsors) who fit the 
+international terrorist mold, as defined below, rather than be actions 
+against opponents of a government who are labeled as "terrorist" for 
+political or propaganda purposes.
+
+
+<con> Concept(s):
+
+1. terrorist, terrorism, international terrorist (or terrorism)
+
+
+<fac> Factor(s):
+
+
+<def> Definition(s):
+
+International Terrorism: as defined in Title 22 of the U.S. Code, Section
+2656F(d), terrorism is premeditated, politically motivated violence 
+perpetrated against noncombatant targets by subnational or clandestine 
+agents, usually intended to influence an audience.  By extension, 
+international terrorism transcends national boundaries and involves the 
+citizens, property, or territory of more than one country.
+
+</top>
+
+
+
+
+
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number: 120
+
+
+<dom> Domain: International Econonomics 
+
+
+<title> Topic: Economic Impact of International Terrorism
+
+
+<desc> Description:
+
+Document will report on actual or alleged private sector economic consequences
+of international terrorism.
+
+
+<smry> Summary:
+
+Document will report on actual or alleged private sector economic consequences
+of international terrorism.
+
+
+<narr> Narrative:
+
+A relevant document will address the issue of how to calculate the private
+sector economic consequences of the activities of international terrorists.
+Reported consequences may be such information as corporate claims that a 
+fall off in business resulted from customer fears over international 
+terrorism, actual destruction of private property through terrorist acts, 
+investments not made because of concerns over a  terrorist presence in an 
+area of potential investment, etc..   NOT relevant are costs attributable to 
+government actions.    
+
+
+<con> Concept(s):
+
+1. terrorist, terrorism, international terrorist (or terrorism)  
+
+
+<fac> Factor(s):
+
+
+<def> Definition(s):
+
+International Terrorism: as defined in Title 22 of the U.S. Code, Section
+2656F(d), terrorism is premeditated, politically motivated violence 
+perpetrated against noncombatant targets by subnational or clandestine 
+agents, usually intended to influence an audience.  By extension, 
+international terrorism transcends national boundaries and involves the 
+citizens, property, or territory of more than one country.
+
+</top>
+
+
+
+
+
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number: 121
+
+
+<dom> Domain: Medical & Biological 
+
+
+<title> Topic: Death from Cancer
+
+
+<desc> Description:
+
+Document will discuss the life and death of a prominent U.S. person from a
+specific form of cancer.
+
+
+<smry> Summary:
+
+Document will discuss the life and death of a prominent U.S. person from a
+specific form of cancer.
+
+
+<narr> Narrative:
+
+A relevant document will provide obituary information on a prominent U.S. 
+person who died of an identified type of cancer.  In addition to the 
+individual's name and cancer, the report must provide sufficient biographical
+information for a determination of why the life and contributions of the 
+individual were worthy of some comment upon death. In other words, a one or 
+two line obituary is NOT sufficient.
+
+
+<con> Concept(s):
+
+1. cancer
+
+2. death, obituary
+
+
+<fac> Factor(s):
+
+<nat> Nationality:  U.S.
+
+<time> Time: current
+
+
+</fac>
+
+
+<def> Definition(s):
+
+</top>
+
+
+
+
+
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number: 122
+
+
+<dom> Domain: Medical & Biological 
+
+
+<title> Topic: RDT&E of New Cancer Fighting Drugs 
+
+
+<desc> Description:
+
+Document will report on the research, development, testing, and evaluation
+(RDT&E) of a new anti-cancer drug developed anywhere in the world.
+
+
+<smry> Summary:
+
+Document will report on the research, development, testing, and evaluation
+(RDT&E) of a new anti-cancer drug developed anywhere in the world.
+
+
+<narr> Narrative:
+
+A relevant document will report on any phase in the worldwide process of
+bringing new cancer fighting drugs to market, from conceptualization to
+government marketing approval.  The laboratory or company responsible for the
+drug project, the specific type of cancer(s) which the drug is designed to
+counter, and the chemical/medical properties of the drug must be identified.
+
+
+<con> Concept(s):
+
+1. cancer, leukemia
+
+2. drug, chemotherapy
+
+
+<fac> Factor(s):
+
+
+<def> Definition(s):
+
+</top>
+
+
+
+
+
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number: 123
+
+
+<dom> Domain: Medical & Biological 
+
+
+<title> Topic: Research into & Control of Carcinogens
+
+
+<desc> Description:
+
+Document will report on studies into linkages between environmental factors or
+chemicals which might cause cancer, and/or it will report on governmental
+actions to identify, control, or limit exposure to those factors or chemicals
+which have been shown to be carcinogenic.
+
+
+<smry> Summary:
+
+Document will report on studies into linkages between environmental factors or
+chemicals which might cause cancer, and/or it will report on governmental
+actions to identify, control, or limit exposure to those factors or chemicals
+which have been shown to be carcinogenic.
+
+
+<narr> Narrative:
+
+A relevant document will report on research into linkages between cancer and
+environmental hazards and/or the efforts of governments to limit exposure of
+their people to carcinogens.  The governmental action may be of any category,
+e.g. entry into international agreements, enactment of domestic laws, issuance
+of administrative regulations, support of carcinogen research, air and soil
+sampling, launching of public education campaigns, etc.  
+
+
+<con> Concept(s):
+
+1. cancer, carcinogen
+
+2. treaty, agreement, law, regulation, study, research, education, Super Fund
+
+
+<fac> Factor(s):
+
+
+<def> Definition(s):
+
+</top>
+
+
+
+
+
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number: 124
+
+
+<dom> Domain: Medical & Biological 
+
+
+<title> Topic: Alternatives to Traditional Cancer Therapies
+
+
+<desc> Description:
+
+Document will report on innovative approaches to preventing or curing cancer.
+
+
+<smry> Summary:
+
+A relevant document will report on any attempt to experiment with or 
+demonstrate the efficacy of any non-chemical, non-surgical, or 
+non-radiological approach to preventing or curing cancer.
+
+
+<narr> Narrative:
+
+A relevant document will report on any attempt to experiment with or 
+demonstrate the efficacy of any non-chemical, non-surgical, or 
+non-radiological approach to preventing or curing cancer.
+
+
+<con> Concept(s):
+
+1. cancer, cancer prevention, cancer cure
+
+2. NOT chemotherapy, NOT surgery, NOT radiation
+
+
+<fac> Factor(s):
+
+
+<def> Definition(s):
+
+</top>
+
+
+
+
+
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number: 125
+
+
+<dom> Domain: Law & Government 
+
+
+<title> Topic: Anti-smoking Actions by Government
+
+
+<desc> Description:
+
+Document will describe actions by public authorities to limit the human use of
+tobacco.
+
+
+<smry> Summary:
+
+Document will describe actions by public authorities to limit the human use of
+tobacco.
+
+
+<narr> Narrative:
+
+A relevant document will provide at least one example of actions proposed 
+or taken by public authorities anywhere in the world to limit or discourage 
+the human use of tobacco.  Limits may take any regulatory or legal form 
+appropriate to that jurisdiction, to include sales controls, limits on 
+advertisement, mandatory warning labels, and establishment of no-smoking 
+zones.  Court findings against tobacco companies (if any), as well as 
+publicly financed anti-smoking campaigns and education programs, are to be 
+considered as relevant forms of discouragement.  In addition, public funding 
+of medical research into tobacco use is relevant information.  However, 
+private anti-smoking initiatives, such as creating no-smoking areas, are NOT 
+relevant unless traceable in origin to government action.  Also NOT relevant 
+are contradictory, pro-tobacco government actions, such as tobacco price 
+support programs and export encouragements.
+
+
+<con> Concept(s):
+
+1.  tobacco
+
+2.  smoking, anti-smoking
+
+
+<fac> Factor(s):
+
+
+<def> Definition(s):
+
+</top>
+
+
+
+
+
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number: 126
+
+
+<dom> Domain: Medical & Biological 
+
+
+<title> Topic: Medical Ethics and Modern Technology
+
+
+<desc> Description:
+
+Document will discuss ethical issues attendant to contemporary advances in 
+medical technology.
+
+
+<smry> Summary:
+
+Document will discuss ethical issues attendant to contemporary advances in 
+medical technology.
+
+
+<narr> Narrative:
+
+A relevant document will report on non-traditional medical ethics issues 
+which have been created by recent (post WWII) advances in medical science 
+and/or the efforts of the medical community to deal with such ethical issues.
+Relevant reports include those on such issues as the decision process for 
+selecting organ transplant recipients, whether to place or remove a patient 
+from a life-support machine ("when to pull the plug"), whether or not to 
+employ advanced techniques on defective newborns, and the use of fetal 
+tissue and human cells in biomedical research.  NOT relevant are reports on 
+such traditional issues as abortion, mercy killing, and assisted suicide.  
+Also NOT relevant are reports on the long-established legal/ethical issue of 
+the right to privacy, as it relates to such contemporary public health 
+problems as mandatory testing and contact tracing for AIDS.
+
+
+<con> Concept(s):
+
+1. medical ethics
+
+2. hospital ethicist, medical ethics counseling
+
+3. triage, terminally ill, abortion, assisted suicide
+
+4. fetal tissue, organ transplant, life support machine, artificial 
+insemination 
+
+
+<fac> Factor(s):
+
+
+<def> Definition(s):
+
+</top>
+
+
+
+
+
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number: 127
+
+
+<dom> Domain: International Relations 
+
+
+<title> Topic: U.S.-U.S.S.R. Arms Control Agreements
+
+
+<desc> Description:
+
+Document will report the terms of arms control agreements concluded, under 
+negotiation, or proposed between the United States and the Soviet Union.
+
+
+<smry> Summary:
+
+Document will report the terms of arms control agreements concluded, under 
+negotiation, or proposed between the United States and the Soviet Union.
+
+
+<narr> Narrative:
+
+A relevant document must provide specific information on U.S.-U.S.S.R. arms 
+control agreements, such as the weapons covered, size of reduction, 
+verification procedures, etc.  Debate in the U.S. Congress, or within Allied 
+Nations or multilateral fora, is NOT relevant, unless such debates 
+coincidentally provide new, concrete information on the terms of concluded, 
+pending, or proposed arms control agreements. 
+
+
+<con> Concept(s):
+
+1. strategic arms limitation treaty, SALT, SALT II, START
+
+2. intermediate range nuclear weapon, INF
+
+3. medium-range nuclear missile, short-range nuclear weapon, nuclear testing,
+ conventional arms
+
+4. arms control, arms reduction, arms agreement, verification
+
+5. Anti-ballistic Missile (ABM) Treaty of 1972
+
+6. Arms Control and Disarmament Agency
+
+
+<fac> Factor(s):
+
+<nat> Nationality: U.S.
+
+<nat> Nationality: U.S.S.R.
+
+</fac>
+
+
+<def> Definition(s):
+
+</top>
+
+
+
+
+
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number:  128
+
+
+<dom> Domain:  International Economics
+
+
+<title> Topic:  Privatization of State Assets 
+ 
+
+<desc> Description:  
+
+Document discusses a current or future sale to the private sector, by a 
+government or government entity, of a business, businesses, or shares of a 
+business owned by the state.
+
+
+<smry> Summary:
+
+Document discusses a current or future sale to the private sector, by a 
+government or government entity, of a business, businesses, or shares of a 
+business owned by the state.
+
+
+<narr> Narrative:  
+
+A relevant document will discuss a completed, ongoing, or  proposed sale to 
+the private sector (e.g., offer to the public, or to a selected investor), 
+by a government or government entity, of a business, businesses, or shares 
+of a business owned by that government or government entity.  The business 
+and the government or government entity must be identified.  A document 
+which discusses privatization in general, privatization plans or a 
+privatization program, but does not refer to a specific sale, is NOT relevant. 
+
+
+<con> Concept(s):
+
+1.  privatization effort, privatization plan, denationalization
+
+2.  private sector
+
+3.  sale, sell, offer
+
+4.  stake, shares, stock, company
+
+
+<fac> Factor(s):
+
+<time> Time:  Current
+
+<time> Time:  Future
+
+</fac>
+
+
+<def> Definition(s):
+
+</top>
+
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number: 129
+
+
+<dom> Domain: International Politics 
+
+
+<title> Topic: Soviet Spying on the U.S.
+
+
+<desc> Description:
+
+Document will report spying by the USSR within U.S. territory or against U.S. interests overseas.
+
+
+<smry> Summary:
+
+Document will report spying by the USSR within U.S. territory or against U.S. interests overseas.
+
+
+<narr> Narrative:
+
+A relevant document will discuss reported espionage by entities of the 
+Soviet government - KGB, GRU, etc. - conducted within the territory of the 
+United States of America, or against U.S. diplomatic or military facilities 
+overseas.  Reported entrapment or involvement of U.S. citizens, residents, 
+or employees in Soviet spying, be it overseas or within U.S. territory, is 
+also relevant.  However, espionage cases involving states linked to the 
+USSR - Czechoslovakia, Bulgaria, Cuba, etc. - are NOT relevant, unless 
+linkage to Soviet intelligence can be demonstrated.
+
+
+<con> Concept(s):
+
+1. USSR, U.S.S.R., Soviet, KGB, GRU, diplomat
+
+2. spy, agent, spying, espionage, intelligence
+
+3. snoop, bug, compromise, penetrate
+
+4. counterintelligence, FBI, CIA, Pentagon, State Department
+
+
+<fac> Factor(s):
+
+
+<def> Definition(s):
+
+</top>
+
+
+
+
+
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number: 130
+
+
+<dom> Domain: International Relations 
+
+
+<title> Topic: Jewish Emigration and U.S.-USSR Relations
+
+
+<desc> Description:
+
+Document will report on the issue of Jewish emigration from the Soviet Union 
+as it impacts on U.S.-Soviet relations.
+
+
+<smry> Summary:
+
+Document will report on the issue of Jewish emigration from the Soviet Union 
+as it impacts on U.S.-Soviet relations.
+
+
+<narr> Narrative:
+
+A relevant document will report on U.S. efforts to advance emigration 
+freedom for Soviet Jews, USSR resistance to the permanent move of Jews to 
+Israel or the U.S., and/or how the Jewish emigration issue affects 
+U.S.-U.S.S.R. bilateral relations, as well as the relative positions of the 
+two superpowers in the Middle East.
+
+
+<con> Concept(s):
+
+1. U.S., America, U.S.S.R., USSR, Soviet Union, Soviet, Israel, Middle East
+
+2. Jew, Jewish
+
+3. emigration, emigrate, emigre, refugee, exit visa
+
+4. Jackson-Vanik Amendment
+
+5. glasnost, refusenik
+
+6. diplomatic relations, economic relations  
+
+
+<fac> Factor(s):
+
+
+<def> Definition(s):
+
+</top>
+
+
+
+
+
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number: 131
+
+
+<dom> Domain: Military 
+
+
+<title> Topic: McDonnell Douglas Contracts for Military Aircraft
+
+
+<desc> Description:
+
+Document will identify and quantify a contract awarded to McDonnell Douglas 
+for production of military aircraft.
+
+
+<smry> Summary:
+
+Document will identify and quantify a contract awarded to McDonnell Douglas 
+or its subsidiary corporations
+for production of military aircraft.
+
+
+<narr> Narrative:
+
+A relevant document will provide specified data on contracts awarded to 
+McDonnell Douglas for the production of military aircraft for any nation, 
+any military service, or of any aircraft type (interceptor, fighter-bomber, 
+helicopter, etc.).  The contract must be for completed airframes, NOT 
+contracts for aircraft development, factory tooling, components, spare parts,
+services, etc.  To be relevant, the document also must specify the number of 
+aircraft to be delivered, the dollar size of the contract, and the aircraft 
+type sought.
+
+
+<con> Concept(s):
+
+1. McDonnell Douglas
+
+2. contract, award
+
+3. military, aircraft, fighter, interceptor, helicopter, transport
+
+4. FA-18, AV-8B, C-17, F-15, AH-64A, EF-18A
+
+
+<fac> Factor(s):
+
+
+<def> Definition(s):
+
+</top>
+
+
+
+
+
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number: 132
+
+
+<dom> Domain: Military 
+
+
+<title> Topic: "Stealth" Aircraft 
+
+
+<desc> Description:
+
+Document will provide cost, technical, and/or performance data on U.S. 
+"stealth" aircraft projects.
+
+
+<smry> Summary:
+
+Document will provide cost, technical, and/or performance data on U.S. 
+"stealth" aircraft projects.
+
+
+<narr> Narrative:
+
+A relevant document will contain specific information on the design, 
+assembly, and testing of "stealth" (radar-evading) fighters and bombers of 
+the United States Air Force, and/or provide data indicative of the costs, 
+characteristics, and performance of such aircraft.  Relevant information 
+includes, but is not limited to, expenditures associated with stealth 
+projects, technology reportedly used or to be used, locations associated 
+with assembly or testing of the aircraft, information on performance 
+(demonstrated or projected), and identification of contractors or 
+subcontractors on stealth projects (excepting reports simply identifying the 
+publicly known prime contractors for the stealth fighter and stealth bomber, 
+Lockheed and Northrop, respectively).  Reports on flight tests or combat use 
+of stealth aircraft are NOT relevant, unless technical or performance data 
+are explicitly provided.
+
+
+<con> Concept(s):
+
+1. stealth, stealth fighter, stealth bomber, advanced technology bomber
+
+2. radar evading, radar evasion
+
+3. skunk works, black program, F-19
+
+
+<fac> Factor(s):
+
+<nat> Nationality: U.S.
+
+</fac>
+
+
+<def> Definition(s):
+
+</top>
+
+
+
+
+
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number: 133
+
+
+<dom> Domain: Science and Technology 
+
+
+<title> Topic: Hubble Space Telescope
+
+
+<desc> Description:
+
+Document will describe some design feature of the Hubble Space Telescope.
+
+
+<smry> Summary:
+
+Document will describe some design feature or capability of the Hubble
+Space Telescope.
+
+
+<narr> Narrative:
+
+A relevant document will provide information on the instruments, components, 
+controls, capabilities, or other technical features of the Hubble Space 
+Telescope.  Reports on delays in launching, or the actual launch of the 
+Hubble, are NOT relevant.  In addition, only initial reports which 
+technically detail the telescope's flawed mirror, how the defect will impact 
+the telescope's effectiveness, or how the flaw will be corrected, are 
+relevant.  Further references to the defective mirror, particularly 
+political or non-scientific discussion of the mistake (or the project 
+generally), are NOT relevant.  Also, references to the Hubble Constant, or 
+the scientist for whom both the telescope and the astronomical term were 
+named, are NOT relevant.
+ 
+
+<con> Concept(s):
+
+1.  Hubble Space Telescope, HST, space telescope
+
+
+<fac> Factor(s):
+
+
+<def> Definition(s):
+
+</top>
+
+
+
+
+
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number: 134
+
+
+<dom> Domain: Medical & Biological 
+
+
+<title> Topic: The Human Genome Project
+
+
+<desc> Description:
+
+Document will report on the objectives, processes, and organization of the 
+human genome project.
+
+
+<smry> Summary:
+
+Document will report on the objectives, processes, and organization of the 
+human genome project.
+
+
+<narr> Narrative:
+
+A relevant document will report on the purposes, strategies, technologies, 
+funding, and/or management of the human genome project.  Although they may be
+scientifically pertinent, reports on general biomedical, genetic, and cell 
+chemistry research, as well as related technologies, are NOT relevant to 
+this topic unless they are explicitly linked to the human genome project.
+
+
+<con> Concept(s):
+
+1. human genome, human genome initiative, human gene mapping
+
+2. gene mapping, DNA sequencing
+
+3. genetic marker, DNA segments
+
+
+<fac> Factor(s):
+
+
+<def> Definition(s):
+
+Human Genome Project: a largely U.S. funded "big science" project whose 
+initial purpose is to map the nucleic acid sequences within the more than 
+50,000 genes carried on the 23 human chromosomes.  Described differently, 
+the project "is to produce a database listing the exact sequence of three 
+billion base pairs along a single strand of human genetic material."
+
+</top>
+
+
+
+
+
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number: 135
+
+
+<dom> Domain: Medical & Biological 
+
+
+<title> Topic: Possible Contributions of Gene Mapping to Medicine
+
+
+<desc> Description:
+
+Document will report on efforts to locate and describe genes linked to 
+inherited human diseases and/or report on the potential medical 
+contributions such information might yield.
+
+
+<smry> Summary:
+
+Document will report on efforts to locate and describe genes linked to 
+inherited human diseases and/or report on the potential medical 
+contributions such information might yield.
+
+
+<narr> Narrative:
+
+A relevant document will report on any of the following: gene mapping 
+research aimed at locating specific genes involved in those human diseases 
+where genetic cause or predisposition have been implicated, attempts to 
+describe the molecular structure and chemical defects of suspect genes (in 
+either single gene or polygenic diseases), the development of diagnostic 
+tests at the gene level, and research into possible treatments which might 
+result from locating and analyzing genes involved in inherited human diseases.
+Reports on laboratory techniques or research projects which may aid the 
+general fields of genetics and molecular biology, but which do not directly 
+link the procedure or project to the study or treatment of a human genetic 
+disease, are NOT relevant.
+
+
+<con> Concept(s):
+
+1. genetic disease, inherited disease, hereditary disease
+
+2. gene mapping, DNA sequencing
+
+3. gene therapy, gene test
+
+4. chromosome analysis, DNA technology, genetic marker
+
+
+<fac> Factor(s):
+
+
+<def> Definition(s):
+
+</top>
+
+
+
+
+
+
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number: 136
+
+
+<dom> Domain: U.S. Economics 
+
+
+<title> Topic: Diversification by Pacific Telesis
+
+
+<desc> Description:
+
+Document will report on attempts by Pacific Telesis to diversify beyond its 
+basic business of providing local telephone service.
+
+
+<smry> Summary:
+
+Document will report on attempts by Pacific Telesis to diversify beyond its 
+basic business of providing local telephone service.
+
+
+<narr> Narrative:
+
+A relevant document will give information on moves by Pacific Telesis to 
+expand and diversify into information services, cellular radio, and other 
+businesses outside its regulated activity of providing local telephone 
+service in California and Nevada.  NOT relevant to diversification moves by 
+Pacific Telesis is such information as developments in local telephone 
+service, financial issues (telephone rates, stock prices, and earnings 
+reports), legal actions, labor conflicts, etc.
+
+
+<con> Concept(s):
+
+1. Pacific Telesis
+
+2. diversification, diversify, new business, subsidiary, acquisition, 
+non-telephone operations, consortium
+
+3. NOT local telephone service; NOT upgrades to regional telephone system; 
+NOT telephone rates, stock prices, or earnings; NOT legal or regulatory 
+actions; NOT labor conflicts; NOT personnel actions.
+
+
+<fac> Factor(s):
+
+
+<def> Definition(s):
+
+Pacific Telesis: a San Francisco-based regional telephone operating company.
+Pacific Telesis is one of the seven "baby bells" formed from the break-up of 
+AT&T.  Along with Ameritech, Nynex, US West, Southwestern Bell Corp, Bell 
+Atlantic Group, and Bell South Group, Pacific Telesis was given responsibility
+for providing local telephone service in its assigned area, as well as 
+afforded the opportunity of diversifying into a wide-range of other 
+businesses, with some exceptions, such as the former Bell System's long 
+distance service which was retained by AT&T.
+
+</top>
+
+
+
+
+
+
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number: 137
+
+
+<dom> Domain: U.S. Economics 
+
+
+<title> Topic: Expansion in the U.S. Theme Park Industry
+
+
+<desc> Description:
+
+Document will report on the building of a new or on the expansion/upgrade of 
+an existing theme park by a U.S. corporation in the United States or overseas.
+
+
+<smry> Summary:
+
+Document will report on the building of a new or on the expansion/upgrade of 
+an existing theme park by a U.S. corporation in the United States or overseas.
+
+
+<narr> Narrative:
+
+A relevant document will report on plans by U.S. corporations to build a new 
+theme park, to enlarge an existing theme or amusement park, or to add a new 
+attraction to an existing park.  Reports on developments in overseas theme 
+parks in which U.S. interests have a substantial equity or management 
+position are also relevant.  However, reports on mergers and acquisitions 
+which do not add to plant or capacity in the theme park industry are NOT 
+relevant.
+
+
+<con> Concept(s):
+
+1. theme park, amusement park, entertainment facility
+
+2. build, construct, develop, enlarge, expand, upgrade
+
+3. Disney, Busch, Universal, Six Flags, MCA, Sea World
+
+4. NOT sale, purchase, merger, or acquisition
+
+
+<fac> Factor(s):
+
+<nat> Nationality: U.S.
+
+</fac>
+
+
+<def> Definition(s):
+
+</top>
+
+
+
+
+
+
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number: 138
+
+
+<dom> Domain: International Politics 
+
+
+<title> Topic: Iranian Support for Lebanese Hostage-takers
+
+
+<desc> Description:
+
+Document will give data linking Iran to groups in Lebanon which seize and 
+hold Western hostages.
+
+
+<smry> Summary:
+
+Document will give explicit information linking Iran to groups in
+Lebanon which seize and hold Western hostages.
+
+
+<narr> Narrative:
+
+A relevant document will provide explicit information which supports (or 
+counters) the allegation that elements in the Iranian government encourage, 
+influence, financially support, and/or direct the activities of such 
+Lebanese groups as Hezbollah in the taking and holding of U.S. and European 
+hostages.
+
+
+<con> Concept(s):
+
+1. Iran, Tehran, Iranian Interior Ministry, Revolutionary Guard Corps, 
+patron, sponsor, mentor
+
+2. Ayatollah Khomeini, Ali Akbar Mohtashemi (AKA Mohtashami-Pur), Abdollah 
+Nouri, Hashemi Rafsanjani, Mohsen Rafiq-Dust, Hosein Sheikholislam
+
+3. Lebanon, Syria, Bekaa Valley
+
+4. Hezbollah, Party of God, Special Security Apparatus, Revolutionary 
+Justice Organization, Organization for the Oppressed on Earth (AKA Oppressed 
+of the Earth), Amal
+
+5. Immad Mughniyeh (AKA Imad Mugniyah), Sheik Fadlallah, Sheik Obeid, Abed 
+Yunis, Mustafa Khorshid, Hussein Ghabris, Hussein Khalil, Hussein Mousawi, 
+Abbas Musawi, Hamadi
+
+6. hostage, captive, hostage-taker, terrorist
+
+7. kidnap, seize, hostage-taking
+
+8. negotiate, bargain, talk, ransom, release, threat, kill
+
+
+<fac> Factor(s):
+
+
+<def> Definition(s):
+
+</top>
+
+
+
+
+
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number: 139
+
+
+<dom> Domain: International Politics 
+
+
+<title> Topic: Iran's Islamic Revolution - Domestic and Foreign Social 
+Consequences
+
+
+<desc> Description:
+
+Document will report on the religious, legal, cultural, and social 
+consequences of Iran's Islamic Revolution within Iran and abroad.
+
+
+<smry> Summary:
+
+Document will report on the religious, legal, cultural, and social 
+consequences of Iran's Islamic Revolution within Iran and abroad.
+
+
+<narr> Narrative:
+
+A relevant document will provide information which facilitates analysis of 
+the non-political impact of Iran's Islamic Revolution on the people of Iran, 
+as well as Muslims and others outside Iran.  Relevant data on the religious, 
+legal, cultural, and social dimensions of the Islamic Revolution should help 
+describe how Ayatollah Khomeini's overthrow of the Shah impacted, and 
+continues to impact, the lives of people. NOT relevant are reports focused 
+on the human and economic losses associated with the Iran-Iraq War.
+
+
+<con> Concept(s):
+
+1. Iran, Tehran, Qom, Ayatollah Khomeini
+
+2. Islamic Revolution, Islamic Republic, Shiite, fundamentalism, Muslim, 
+Moslem
+
+3. women, chador, Islamic veil, headscarf
+
+4. beard, village, hamlet
+
+5. blasphemy, zealot, fanatic, repression, martyrdom, revolutionary guards
+
+6. Salman Rushdie, Nazia Hassan, writer, artist, singer, television
+
+7. NOT politics, NOT war, NOT elections, NOT international relations
+
+
+<fac> Factor(s):
+
+
+<def> Definition(s):
+
+</top>
+
+
+
+
+
+
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number: 140
+
+
+<dom> Domain: International Politics 
+
+
+<title> Topic: Political Impact of Islamic Fundamentalism
+
+
+<desc> Description:
+
+Document will report on the political impact of Islamic fundamentalism within any nation other than Iran.
+
+
+<smry> Summary:
+
+Document will report on the political impact of Islamic fundamentalism within any nation other than Iran.
+
+
+<narr> Narrative:
+
+A relevant document will provide information on the increase outside Iran of 
+Islamic fundamentalism, among both Sunni and Shiite adherents, and how the 
+strengthening of the Islamic fundamentalist movement has, or potentially can,
+effect the structures, politics, and policies of national governments.
+
+
+<con> Concept(s):
+
+1. Islamic fundamentalism, Islamization, shari'a (shariah)
+
+2. Muslim Brotherhood, Hamas, Islamic Salvation Front, Al-Nahdah, Muslim 
+Mujahedin, Jama'at-e Islami, Mujahedin-e Khalq, Hezbollah (AKA Hizbullah), 
+al-Takfir Wal-Hijrah, Moro Liberation Front
+
+3. Hassan el-Turabi (AKA Hassan Turabi), Gulbeddin Hekmatyar, Shah Massoud, 
+Mohammed Zia-ul-Haq (President Zia), Ayatollah Khoi, Safar Hawali, Muhammad 
+Husain Fadlullah (AKA Sheik Fadlallah), Abbas al-Madani
+
+4. Afghanistan, Pakistan, Syria, Iraq, Jordan, Lebanon, Saudi Arabia, Egypt, 
+Sudan, Tunisia, Algeria, Morocco, Philippines
+
+5. NOT-Iran
+
+
+<fac> Factor(s):
+
+
+<def> Definition(s):
+
+</top>
+
+
+
+
+
+
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number: 141
+
+
+<dom> Domain: International Economics 
+
+
+<title> Topic: Japan's Handling of its Trade Surplus with the U.S.
+
+
+<desc> Description:
+
+Document will report on Japanese efforts to deal with U.S. complaints 
+regarding Japan's surplus in bilateral trade.  
+
+
+<smry> Summary:
+
+Document will report on Japanese efforts to deal with U.S. complaints 
+regarding Japan's surplus in bilateral trade.  
+
+
+<narr> Narrative:
+
+A relevant document will reveal Japanese government or government-inspired 
+actions designed to reduce the gap or ameliorate frictions resulting from 
+Japan's continuing surplus in bilateral trade with the U.S.  The report must 
+identify concrete actions which are traceable to the Japanese government. 
+NOT relevant would be promises or proposals.  Similarly, analyses of the 
+U.S.-Japan trade relationship, trade negotiations, or political commentary 
+thereon, are NOT relevant.  Also, such economic data as foreign exchange and 
+interest rate movements, corporate initiatives, or stock and bond market 
+changes are NOT relevant, unless such information is explicitly linked to 
+Japanese government efforts to deal with the bilateral trade surplus.    
+
+
+<con> Concept(s):
+
+1. Japan, Japanese government, Ministry of International Trade and Industry, 
+MITI
+
+2. U.S., Department of Commerce, U.S. Trade Representative
+
+3. trade surplus, deficit, gap, imbalance, dispute
+
+4. free trade, managed trade, barriers to trade, structural impediments
+
+
+<fac> Factor(s):
+
+<nat> Nationality: Japan and U.S.
+
+</fac>
+
+
+<def> Definition(s):
+
+</top>
+
+
+
+
+
+
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number: 142
+
+
+<dom> Domain: International Relations 
+
+
+<title> Topic: Impact of Government Regulated Grain Farming on International 
+Relations
+
+
+<desc> Description:
+
+Document will show how and why national governments supervise and protect 
+their own growers of grain and/or how these policies impact a nation's 
+foreign trade and diplomatic relations.
+
+
+<smry> Summary:
+
+Document will show how or why national governments supervise and protect 
+their own growers of grain or how these policies impact a nation's 
+foreign trade and diplomatic relations.
+
+
+<narr> Narrative:
+
+A relevant document will demonstrate specifically how a government anywhere 
+in the world protects domestic production of grains (such as corn, rice, and 
+wheat), provide the rationale for such policies (if available), and/or 
+demonstrate the linkage between such domestic agricultural policies and a 
+nation`s foreign trade and diplomatic relations.
+
+
+<con> Concept(s):
+
+1. export subsidies, export restitution, import quotas, farm-trade barriers
+
+2. price supports, farm subsidies, agricultural supports
+
+3. self-sufficiency, embargo, import dependence, high quality food supply, 
+farm interests
+
+4. grain, animal feed, corn, rice, wheat
+
+5. foreign trade, trade negotiations, agricultural policy
+
+6. EC's Common Agricultural Policy, Japan's Ministry of Agriculture, 
+Forestry, and Fisheries, Zenchu, Liberal Democratic Party, LDP, U.S.'s 
+Export Enchancement Program, food importing countries
+
+
+<fac> Factor(s):
+
+
+<def> Definition(s):
+
+</top>
+
+
+
+
+
+
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number: 143
+
+
+<dom> Domain: U.S. Politics 
+
+
+<title> Topic: Why Protect U.S. Farmers?
+
+
+<desc> Description:
+
+Document will contribute to an analysis of how and why, and at what cost, 
+the U.S. federal government protects, supports, and controls U.S. farming.
+
+
+<smry> Summary:
+
+Document will contribute to an analysis of how or at what cost, 
+the U.S. federal government protects, supports, and controls U.S. farming.
+
+
+<narr> Narrative:
+
+A relevant document will describe actions taken by the U.S. government to 
+protect U.S. farmers; or, reveal how farm price supports, export subsidies, 
+import quotas, and other special farm policies impact the rural economy, as 
+well as consumer costs and the federal budget; or, indicate a rationale used 
+to justify farm support policies; or, show the relationship between 
+agricultural policies and Congressional politics; or, suggest how national 
+farm policies distort the "free" functioning of the agricultural sector of 
+the national economy.
+
+
+<con> Concept(s):
+
+1. farm policy, farm exports, price supports, farm subsidy, deficiency 
+payment, set-aside, supply controls, payment-in-kind, PIK, program crops, 
+export subsidies, import quotas, crop base, production controls
+
+2. Export Enhancement Program, EEP, Agriculture Adjustment Act, Targeted 
+Export Assistance, TEA
+
+3. rural districts, farm state, farming, farmers, agricultural sector
+
+4. U.S. Department of Agriculture, Agriculture Department, USDA, U.S. Congress
+
+
+<fac> Factor(s):
+
+<nat> Nationality: U.S.
+
+</fac>
+
+
+<def> Definition(s):
+
+</top>
+
+
+
+
+
+
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number: 144
+
+
+<dom> Domain: International Politics
+
+
+<title> Topic: Management Problems at the United Nations
+
+
+<desc> Description:
+
+Document will report on alleged corruption, incompetence, or inefficiency in 
+the management of the United Nation's staff, activities, or specialized 
+agencies.
+
+
+<smry> Summary:
+
+Document will report on alleged corruption, incompetence, or inefficiency in 
+the management of the United Nation's staff, activities, or specialized 
+agencies.
+
+
+<narr> Narrative:
+
+A relevant document will provide information on management effectiveness by 
+the United Nations, its specialized agencies, or in its running of such 
+activities as peace keeping and relief operations.  Allegations of management
+failings, as well as retorts to such charges, are relevant.  However, 
+charges of ideological bias or disputes over political and policy issues are 
+NOT relevant.  The focus is management effectiveness, or the lack thereof.
+
+
+<con> Concept(s):
+
+1. United Nations, UN, Secretary General, United Nations Educational, 
+Scientific, and Cultural Organization, UNESCO, Food and Agricultural 
+Organization, FAO, World Health Organization, WHO, United Nations High 
+Commissioner for Refugees, UNHCR, peace keeping
+
+2. mismanagement, corruption, incompetence, inefficiency, ineffectiveness, 
+overhead, extravagance, administrative costs
+
+3. secretariat, international civil servants, bureaucracy
+
+4. reform, budget controls, accounting, financial analysis, retrenchment
+
+
+<fac> Factor(s):
+
+
+<def> Definition(s):
+
+</top>
+
+
+
+
+
+
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number: 145
+
+
+<dom> Domain: U.S. Politics 
+
+
+<title> Topic: Influence of the "Pro-Israel Lobby"
+
+
+<desc> Description:
+
+Document will describe how, and how effectively, the so-called "pro-Israel 
+lobby" operates in the United States.
+
+
+<smry> Summary:
+
+Document will describe attempts by the so-called "pro-Israel 
+lobby" to influence United States policy.
+
+
+<narr> Narrative:
+
+A relevant document will identify and/or discuss the effectiveness of an 
+organization, individual, or mechanism employed by the so-called "pro-Israel 
+lobby" to advance the interests of the State of Israel within the United 
+States and its government.  Particularly useful would be a document which 
+shows the lobby's impact on a specific policy decision by the U.S. government.
+
+
+<con> Concept(s):
+
+1. zionism, American Jews, Jewish community, U.S. Jewish leaders
+
+2. aid to Israel, military assistance, campaign contribution
+
+3. U.S. arms sales to Egypt, Jordan, Saudi Arabia, or Kuwait
+
+4. U.S. supporters of Israel, pro-Israel congressman or senator, pro-Israel 
+lobbyist, Jewish lobby 
+
+5. American Jewish Congress, United Jewish Appeal, UJA, American Israel 
+Public Affairs Committee, AIPAC, New Israel Fund, Committee for Economic 
+Growth of Israel, Jewish Institute for National Security Affairs
+
+6. Mossad, CIA, Israeli intelligence
+
+7. dual loyalty, Jonathan Pollard, Pollard spy case, Rafael Eitan, Aviem 
+Sella 
+
+
+<fac> Factor(s):
+
+<nat> Nationality: U.S. and Israel
+
+</fac>
+
+
+<def> Definition(s):
+
+</top>
+
+
+
+
+
+
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number: 146
+
+
+<dom> Domain: International Relations 
+
+
+<title> Topic: Negotiating an End to the Nicaraguan Civil War
+
+
+<desc> Description:
+
+Document will report on the negotiating process leading to an end to the 
+Nicaraguan civil war.
+
+
+<smry> Summary:
+
+Document will report on the negotiating process leading to an end to the 
+Nicaraguan civil war.
+
+
+<narr> Narrative:
+
+A relevant document will provide information on proposals for peace, 
+negotiations on such proposals, terms of any agreements reached, problems in 
+implementing agreements, or successful implementation of any agreement 
+designed to facilitate an end to the civil war in Nicaragua.
+
+
+<con> Concept(s):
+
+1. Nicaragua, Costa Rica, El Salvador, Honduras, Guatemala 
+
+2. United States, Cuba, USSR, Soviet Union, Central America
+
+3. Sandinista, Contra, Managua
+
+4. peace talks, truce, cease-fire, elections, disarmament, nonlethal aid, 
+turbista, La Prensa
+
+5. Arias Plan, President Oscar Arias Sanchez, Oscar Arias
+
+6. Daniel Ortega, Adolfo Calero, Aristides Sanchez, Violeta Chamorro, 
+Cardinal Miguel Obando y Bravo, Cardinal Obando
+
+7. Fidel Castro, Jose Napolean Duarte, Alfredo Cristiani, Vinicio Cerezo, 
+Jose Azcona
+
+
+<fac> Factor(s):
+
+
+<def> Definition(s):
+
+</top>
+
+
+
+
+
+
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number: 147
+
+
+<dom> Domain: U.S. Economics 
+
+
+<title> Topic: Productivity Trends in the U.S. Economy
+
+
+<desc> Description:
+
+Document will provide productivity statistics on the U.S. economy.
+
+
+<smry> Summary:
+
+Document will provide productivity statistics on the U.S. economy.
+
+
+<narr> Narrative:
+
+A relevant document will contain some macroeconomic datum useful in charting 
+long-term productivity trends in the U.S. economy.  Because useful in 
+checking and calibrating aggregate figures, productivity statistics for 
+specific sectors of the U.S. economy could be useful.  However, statistics 
+for individual enterprises, because not available in sufficient numbers, are 
+NOT relevant.  Also NOT relevant, unless containing confirmable productivity 
+statistics, are reports on political discussions or press commentaries on 
+the state of the U.S. economy.
+
+
+<con> Concept(s):
+
+1. productivity plus United States
+
+2. productivity plus trend, data, statistics, ratios, reports
+
+3. productivity plus gains, growth, improvement, drop, decline, change
+
+4. gross national product, GNP, growth rate, standard of living
+
+5. recession, slump  
+
+
+<fac> Factor(s):
+
+<nat> Nationality: U.S.
+
+</fac>
+
+
+<def> Definition(s):
+
+</top>
+
+
+
+
+
+
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number: 148
+
+
+<dom> Domain: Military 
+
+
+<title> Topic: Conflict in the Horn of Africa
+
+
+<desc> Description:
+
+Document will report on the Ethiopia-Somalia War, civil wars within those 
+nations, and/or the movement of refugees fleeing armed conflicts between or 
+within Ethiopia and Somalia.
+
+
+<smry> Summary:
+
+Document will report on military and diplomatic development in the
+Ethiopia-Somalia War or on the civil wars in Ethiopia or Somialia.
+All refugee movements caused by these wars are also of interest.
+
+
+<narr> Narrative:
+
+A relevant document will provide information on the course of the 
+Ethiopia-Somalia War (military and diplomatic developments), rebellions 
+within Ethiopia, attempts to overthrow the Siad Barre regime in Somalia, 
+and/or population movements within Ethiopia and Somalia, as well as refugee 
+movements in and out of the neighboring states of Djibouti, Kenya, and Sudan.
+
+
+<con> Concept(s):
+
+1. war, conflict
+
+2. civil war, insurgency, coup, famine, guerrilla, refugee
+
+3. Horn of Africa, Ethiopia, Somalia
+
+4. Eritrea, Tigre (Tigray), Wollo (Wello), Addis Ababa
+
+5. Kenya, Sudan, Djibouti
+
+6. Eritrean People's Liberation Front, EPLF, Oromo Liberation Front
+
+7. Mengistu, Siad Barre
+
+
+<fac> Factor(s):
+
+
+<def> Definition(s):
+
+</top>
+
+
+
+
+
+
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number: 149
+
+
+<dom> Domain: Law and Government 
+
+
+<title> Topic: Industrial Espionage
+
+
+<desc> Description:
+
+Document will report on industrial espionage.
+
+
+<smry> Summary:
+
+Document will report on specific instances of industrial espionage,
+including insider trading, or the actions of governments to prevent
+the theft of economic secrets through legislation, regulation, or law
+enforcement.
+
+<narr> Narrative:
+
+A relevant document will provide information on alleged or demonstrated acts 
+of industrial espionage committed by agencies of any nation, by any 
+corporation seeking information on a competitor through apparently illegal 
+acts, or by private individuals seeking to collect and sell propietary 
+information. The espionage may be through any means -- electronic 
+surveillance, bribery of employees, theft of documents, etc. -- whose 
+purpose is to obtain technological or corporate secrets.  Also relevant are 
+the actions of governments to prevent the theft of economic secrets through 
+legislation, regulation, or law enforcement.  NOT relevant are such legally 
+permissable actions as market research, hiring of consultants, and analysis 
+of publicly available documents.  
+
+
+
+<con> Concept(s):
+
+1. industrial espionage, electronic surveillance, eavesdropping, electronic 
+theft, inside information, market intelligence, industrial intelligence 
+gathering, economic secrets, economic intelligence
+
+2. industrial spy, disgruntled employee, electronic thief 
+
+
+<fac> Factor(s):
+
+
+<def> Definition(s):
+
+</top>
+
+
+
+
+
+
+<top>
+
+<head> Tipster Topic Description
+
+
+<num> Number: 150
+
+
+<dom> Domain: U.S. Politics 
+
+
+<title> Topic: U.S. Political Campaign Financing
+
+
+<desc> Description:
+
+Document will report how U.S. politicians finance their election campaigns 
+and/or moves to "reform" campaign finance practices.
+
+
+<smry> Summary:
+
+Document will report how U.S. politicians finance their election
+campaigns (including honorariums) and/or moves to "reform" campaign
+finance practices.
+
+
+<narr> Narrative:
+
+A relevant document will show how U.S. politicians (federal, state, or 
+local --  individually or as a group) pay for their election campaigns, the 
+role played by "special interests" and contributors in the electoral process,
+allegations or evidence of campaign contributions buying political favors, 
+and/or proposals to limit the cost of campaigns or "reform" electoral 
+finance practices.
+
+
+<con> Concept(s):
+
+1. campaign finance, campaign contribution, fund raising, political 
+donation, honorarium, mother's milk of politics
+
+2. campaign finance reform, public financing, ethics law
+
+3. special interest, rich contributor, fat cat, lobbyist, political action 
+committee, PAC
+
+4. access-buying, political favor, electoral corruption
+
+
+<fac> Factor(s):
+
+<nat> Nationality: U.S.
+
+</fac>
+
+
+<def> Definition(s):
+
+</top>
+
+
+
+
+
+
