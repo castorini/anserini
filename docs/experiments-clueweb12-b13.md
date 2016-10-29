@@ -1,7 +1,7 @@
 # Anserini Experiments on ClueWeb12-B13
 
 ```
-nohup sh target/appassembler/bin/IndexWebCollection -collection CW12 -input /path/to/cw12-b13/ \
+nohup sh target/appassembler/bin/IndexCollection -collection CW12 -input /path/to/cw12-b13/ \
  -index lucene-index.cw12b13.pos -threads 32 -positions -optimize \
  2> log.cw12b13.pos.emptyDocids.txt 1> log.cw12b13.pos.recordCounts.txt &
 ```
@@ -11,7 +11,7 @@ The directory `/path/to/cw12-b13/` should be the root directory of ClueWeb12-B13
 After indexing is done, you should be able to perform a retrieval run (the options are exactly the same as with Gov2 above):
 
 ```
-sh target/appassembler/bin/SearchWebCollection -collection CW12 -index lucene-index.cw12b13.pos -bm25 \
+sh target/appassembler/bin/SearchWebCollection -topicreader Webxml -index lucene-index.cw12b13.pos -bm25 \
   -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt -output run.web.201-250.bm25.txt
 ```
 

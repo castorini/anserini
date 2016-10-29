@@ -4,15 +4,15 @@ See http://trec.nist.gov/data/test_coll.html
 
 MAP                                   | BM25   | QL     
 --------------------------------------|--------|--------
-TREC-1 Ad Hoc Track: Topics 51-100    | 0.1965 | 0.1866 
-TREC-2 Ad Hoc Track: Topics 101-150   | 0.1799 | 0.1740 
-TREC-3 Ad Hoc Track: Topics 151-200   | 0.2346 | 0.2275 
-Mean.                                 | 0.2037 | 0.1960 
+TREC-1 Ad Hoc Track: Topics 51-100    | 0.2224 | 0.2165 
+TREC-2 Ad Hoc Track: Topics 101-150   | 0.2008 | 0.2017 
+TREC-3 Ad Hoc Track: Topics 151-200   | 0.2570 | 0.2275 
+**Mean**.                             | **0.2267** | **0.2152** 
 
 
 P30                                   | BM25   | QL     
 --------------------------------------|--------|--------
-TREC-1 Ad Hoc Track: Topics 51-100    | 0.3700 | 0.3853 
-TREC-2 Ad Hoc Track: Topics 101-150   | 0.3840 | 0.3573 
-TREC-3 Ad Hoc Track: Topics 151-200   | 0.4247 | 0.4247 
-Mean.                                 | 0.3929 | 0.3891 
+TREC-1 Ad Hoc Track: Topics 51-100    | 0.4473 | 0.4447 
+TREC-2 Ad Hoc Track: Topics 101-150   | 0.4220 | 0.4180 
+TREC-3 Ad Hoc Track: Topics 151-200   | 0.4707 | 0.4247
+**Mean.**                                | **0.4467** | **0.4291** 

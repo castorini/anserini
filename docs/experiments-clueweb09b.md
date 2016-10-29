@@ -3,7 +3,7 @@
 Indexing:
 
 ```
-nohup sh target/appassembler/bin/IndexWebCollection -collection CW09 -input /path/to/cw09/ClueWeb09_English_1/ \
+nohup sh target/appassembler/bin/IndexCollection -collection CW09 -input /path/to/cw09/ClueWeb09_English_1/ \
  -index lucene-index.cw09b.pos -threads 32 -positions -optimize \
  2> log.cw09b.pos.emptyDocids.txt 1> log.cw09b.pos.recordCounts.txt &
 ```
@@ -13,7 +13,7 @@ The directory `/path/to/cw09/ClueWeb09_English_1` should be the root directory o
 After indexing is done, you should be able to perform a retrieval run (the options are exactly the same as with Gov2 above):
 
 ```
-sh target/appassembler/bin/SearchWebCollection -collection CW09 -index lucene-index.cw09b.pos -bm25 \
+sh target/appassembler/bin/SearchWebCollection -topicreader Webxml -index lucene-index.cw09b.pos -bm25 \
   -topics src/main/resources/topics-and-qrels/topics.web.51-100.txt -output run.web.51-100.bm25.txt
 ```
 
