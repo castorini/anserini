@@ -17,8 +17,6 @@ package io.anserini.search.query;
  * limitations under the License.
  */
 
-import org.apache.lucene.benchmark.quality.QualityQuery;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,7 +25,9 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
-import java.util.*;
+import java.util.HashMap;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 public class TrecTopicReader extends TopicReader{
 
@@ -36,62 +36,6 @@ public class TrecTopicReader extends TopicReader{
   }
 
   private final String newline = System.getProperty("line.separator");
-
-  /**
-   * Read quality queries from trec format topics file.
-   * @param reader where queries are read from.
-   * @return the result quality queries.
-   * @throws IOException if cannot read the queries.
-   */
-  public QualityQuery[] readQueries(BufferedReader reader) throws IOException {
-    ArrayList<QualityQuery> res = new ArrayList<>();
-    StringBuilder sb;
-    try {
-      while (null!=(sb=read(reader,"<top>",null,false,false))) {
-        HashMap<String,String> fields = new HashMap<>();
-        // id
-        sb = read(reader,"<num>",null,true,false);
-        int k = sb.indexOf(":");
-        String id = sb.substring(k+1).trim();
-        // title
-        sb = read(reader,"<title>",null,true,false);
-        k = sb.indexOf(">");
-        String title = sb.substring(k+1).trim();
-        // description
-        read(reader,"<desc>",null,false,false);
-        sb.setLength(0);
-        String line = null;
-        while ((line = reader.readLine()) != null) {
-          if (line.startsWith("<narr>"))
-            break;
-          if (sb.length() > 0) sb.append(' ');
-          sb.append(line);
-        }
-        String description = sb.toString().trim();
-        // narrative
-        sb.setLength(0);
-        while ((line = reader.readLine()) != null) {
-          if (line.startsWith("</top>"))
-            break;
-          if (sb.length() > 0) sb.append(' ');
-          sb.append(line);
-        }
-        String narrative = sb.toString().trim();
-        // we got a topic!
-        fields.put("title",title);
-        fields.put("description",description);
-        fields.put("narrative", narrative);
-        QualityQuery topic = new QualityQuery(id,fields);
-        res.add(topic);
-      }
-    } finally {
-      reader.close();
-    }
-    // sort result array (by ID)
-    QualityQuery qq[] = res.toArray(new QualityQuery[0]);
-    Arrays.sort(qq);
-    return qq;
-  }
 
   // read until finding a line that starts with the specified prefix
   protected StringBuilder read (BufferedReader reader, String prefix, StringBuilder sb,
@@ -164,7 +108,6 @@ public class TrecTopicReader extends TopicReader{
         fields.put("title",title);
         fields.put("description",description);
         fields.put("narrative", narrative);
-        QualityQuery topic = new QualityQuery(id,fields);
         map.put(Integer.parseInt(id), fields.get("title"));
       }
     } finally {
