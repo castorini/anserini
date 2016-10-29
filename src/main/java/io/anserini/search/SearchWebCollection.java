@@ -17,7 +17,6 @@ package io.anserini.search;
  * limitations under the License.
  */
 
-import io.anserini.index.collections.CollectionClass;
 import io.anserini.ltr.WebCollectionLtrDataGenerator;
 import io.anserini.ltr.feature.FeatureExtractors;
 import io.anserini.rerank.IdentityReranker;
@@ -25,6 +24,7 @@ import io.anserini.rerank.RerankerCascade;
 import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.ScoredDocuments;
 import io.anserini.rerank.rm3.Rm3Reranker;
+import io.anserini.search.query.TopicReader;
 import io.anserini.util.AnalyzerUtils;
 import io.anserini.util.Qrels;
 import org.apache.commons.lang3.time.DurationFormatUtils;
@@ -62,7 +62,6 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
-import java.util.TreeMap;
 import java.util.concurrent.TimeUnit;
 
 import static io.anserini.index.IndexThreads.FIELD_BODY;
@@ -93,99 +92,6 @@ public final class SearchWebCollection implements Closeable {
   @Override
   public void close() throws IOException {
     reader.close();
-  }
-
-  private static String extract(String line, String tag) {
-
-    int i = line.indexOf(tag);
-
-    if (i == -1) throw new IllegalArgumentException("line does not contain the tag : " + tag);
-
-    int j = line.indexOf("\"", i + tag.length() + 2);
-
-    if (j == -1) throw new IllegalArgumentException("line does not contain quotation");
-
-    return line.substring(i + tag.length() + 2, j);
-  }
-
-  /**
-   * Read topics of TREC Web Tracks from 2009 to 2014
-   *
-   * @param topicsFile One of: topics.web.1-50.txt topics.web.51-100.txt topics.web.101-150.txt topics.web.151-200.txt topics.web.201-250.txt topics.web.251-300.txt
-   * @return SortedMap where keys are query/topic IDs and values are title portions of the topics
-   * @throws IOException
-   */
-  public static SortedMap<Integer, String> readWebTrackQueries(Path topicsFile) throws IOException {
-
-    SortedMap<Integer, String> map = new TreeMap<>();
-    List<String> lines = Files.readAllLines(topicsFile, StandardCharsets.UTF_8);
-
-    String number = "";
-    String query = "";
-
-    for (String line : lines) {
-
-      line = line.trim();
-
-      if (line.startsWith("<topic"))
-        number = extract(line, "number");
-
-      if (line.startsWith("<query>") && line.endsWith("</query>"))
-        query = line.substring(7, line.length() - 8).trim();
-
-      if (line.startsWith("</topic>"))
-        map.put(Integer.parseInt(number), query);
-
-    }
-
-    lines.clear();
-    return map;
-  }
-
-  /**
-   * Read topics of TREC Terabyte Tracks from 2004 to 2006
-   *
-   * @param topicsFile One of: topics.701-750.txt topics.751-800.txt topics.801-850.txt
-   * @return SortedMap where keys are query/topic IDs and values are title portions of the topics
-   * @throws IOException
-   */
-  public static SortedMap<Integer, String> readTeraByteTackQueries(Path topicsFile) throws IOException {
-
-    SortedMap<Integer, String> map = new TreeMap<>();
-    List<String> lines = Files.readAllLines(topicsFile, StandardCharsets.UTF_8);
-
-    String number = "";
-    String query = "";
-
-    boolean found = false;
-    for (String line : lines) {
-
-      line = line.trim();
-
-      if (!found && "<top>".equals(line)) {
-        found = true;
-        continue;
-      }
-
-      if (found && line.startsWith("<title>"))
-        query = line.substring(7).trim();
-
-      if (found && line.startsWith("<num>")) {
-        int i = line.lastIndexOf(" ");
-        if (-1 == i) throw new RuntimeException("cannot find space in : " + line);
-        number = line.substring(i).trim();
-      }
-
-      if (found && "</top>".equals(line)) {
-        found = false;
-        int qID = Integer.parseInt(number);
-
-        map.put(qID, query);
-
-      }
-    }
-    lines.clear();
-    return map;
   }
 
   /**
@@ -315,7 +221,9 @@ public final class SearchWebCollection implements Closeable {
       throw new IllegalArgumentException("Topics file : " + topicsFile + " does not exist or is not a (readable) file.");
     }
 
-    SortedMap<Integer, String> topics = CollectionClass.GOV2.equals(searchArgs.collectionClass) ? readTeraByteTackQueries(topicsFile) : readWebTrackQueries(topicsFile);
+    TopicReader tr = (TopicReader)Class.forName("io.anserini.search.query."+searchArgs.topicReader+"TopicReader")
+            .getConstructor(Path.class).newInstance(topicsFile);
+    SortedMap<Integer, String> topics = tr.read();
 
     final long start = System.nanoTime();
     SearchWebCollection searcher = new SearchWebCollection(searchArgs.index);

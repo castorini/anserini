@@ -3,7 +3,7 @@
 Indexing:
 
 ```
-nohup sh target/appassembler/bin/IndexWebCollection -collection GOV2 -input /path/to/gov2/ \
+nohup sh target/appassembler/bin/IndexCollection -collection Gov2 -input /path/to/gov2/ \
  -index lucene-index.gov2.pos -threads 32 -positions -optimize \
  2> log.gov2.pos.emptyDocids.txt 1> log.gov2.pos.recordCounts.txt &
 ```
@@ -13,7 +13,7 @@ The directory `/path/to/gov2/` should be the root directory of Gov2 collection, 
 After indexing is done, you should be able to perform a retrieval run:
 
 ```
-sh target/appassembler/bin/SearchWebCollection -collection GOV2 -index lucene-index.gov2.pos -bm25 \
+sh target/appassembler/bin/SearchWebCollection -topicreader Trec -index lucene-index.gov2.pos -bm25 \
   -topics src/main/resources/topics-and-qrels/topics.701-750.txt -output run.gov2.701-750.bm25.txt
 ```
 

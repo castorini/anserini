@@ -1,6 +1,5 @@
 package io.anserini.search;
 
-import io.anserini.index.collections.CollectionClass;
 import org.kohsuke.args4j.Option;
 
 public class SearchArgs {
@@ -15,8 +14,8 @@ public class SearchArgs {
   @Option(name = "-output", metaVar = "[file]", required = true, usage = "output file")
   public String output;
 
-  @Option(name = "-collection", required = true, usage = "Collection")
-  protected CollectionClass collectionClass;
+  @Option(name = "-topicreader", required = true, usage = "define how to read the topic(query) file: one of [Trec|Webxml]")
+  protected String topicReader;
 
   // optional arguments
 
