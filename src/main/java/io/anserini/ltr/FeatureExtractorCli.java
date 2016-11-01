@@ -1,11 +1,8 @@
 package io.anserini.ltr;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.stream.JsonReader;
 import io.anserini.ltr.feature.FeatureExtractors;
 import io.anserini.search.MicroblogTopicSet;
-import io.anserini.search.SearchWebCollection;
+import io.anserini.search.query.TopicReader;
 import io.anserini.util.Qrels;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -18,7 +15,10 @@ import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.ParserProperties;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
@@ -79,11 +79,12 @@ public class FeatureExtractorCli {
 
     // Query parser needed to construct the query object for feature extraction in the loop
     PrintStream out = new PrintStream (new FileOutputStream(new File(parsedArgs.outputFile)));
-    if (parsedArgs.collection.equals("gov2") || parsedArgs.collection.equals("clueweb")) {
+    if (parsedArgs.collection.equals("Trec") || parsedArgs.collection.equals("Webxml")) {
       // Open the topics file and read it
-      SortedMap<Integer, String> topics = parsedArgs.collection.equals("gov2") ?
-              SearchWebCollection.readTeraByteTackQueries(Paths.get(parsedArgs.topicsFile)) :
-              SearchWebCollection.readWebTrackQueries(Paths.get(parsedArgs.topicsFile));
+      String className = parsedArgs.collection.equals("gov2") ? "Trec" : "Webxml";
+      TopicReader tr = (TopicReader)Class.forName("io.anserini.search.query."+className+"TopicReader")
+              .getConstructor(Path.class).newInstance(Paths.get(parsedArgs.topicsFile));
+      SortedMap<Integer, String> topics = tr.read();
       LOG.debug(String.format("%d topics found", topics.size()));
 
       WebFeatureExtractor extractor = new WebFeatureExtractor(reader, qrels, convertTopicsFormat(topics), extractors);
