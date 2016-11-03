@@ -27,7 +27,5 @@ public abstract class TopicReader {
   public TopicReader(Path topicFile) {
     this.topicFile = topicFile;
   }
-  public SortedMap<Integer, String> read() throws IOException {
-    return null;
-  }
+  abstract public SortedMap<Integer, String> read() throws IOException;
 }

@@ -1,0 +1,64 @@
+# IndexCollection
+
+`IndexCollection` builds the index from document records.
+Possible parameters are:
+
+```
+-collection (required)
+```
+
+Collection Class: indicates what type of the document is, should be one of [Trec|Gov2|CW09|CW12]
+
+```
+-input (required)
+```
+
+Path of the directory that holds the raw documents
+
+```
+-index (required)
+```
+
+Path of the directory that holds the output index. The directory will be replaced if already exists
+
+```
+-threads (required)
+```
+
+Using how many threads to build the index
+
+
+```
+-positions (optional)
+```
+
+Boolean switch to index positions (default: false)
+
+
+```
+-docvectors (optional)
+```
+
+Boolean switch to store document vectors (default: false).
+_NOTICE:_ `-positions` MUST also be `true` in order to switch `-docvectors` to `true`
+
+
+```
+-optimize (optional)
+```
+
+Boolean switch to optimize index (force merge) (default: false)
+
+
+```
+-doclimit (optional)
+```
+
+Maximum number of documents to index (-1 to index everything). This is useful especially for testing purpose (default: -1) 
+
+
+```
+-keepstopwords (optional)
+```
+
+Boolean switch to keep stopwords (default: false)
