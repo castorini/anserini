@@ -2,6 +2,7 @@
 
 This is basically add a new document parser so that the document can be recognized and indexed.
 Basically the collection class does two things:
+
 1. Walk through the input directory to find the files based on some rules, e.g. files that end with .gz
 2. Read the file in order to find and return documents
 
@@ -10,10 +11,7 @@ The detailed steps are:
 1. Add a new class under package `io.anserini.index.collections`. 
 This class should extends [Collection](https://github.com/lintool/Anserini/blob/master/src/main/java/io/anserini/index/collections/Collection.java) class.
 The name should be something like _MyOwnCollection_ where _MyOwn_ is the name of your collection class.
-The class will be instanced as 
-```java
-c = (Collection)Class.forName("io.anserini.index.collections."+collectionClass+"Collection").newInstance();
-```
+The class will be instanced as `c = (Collection)Class.forName("io.anserini.index.collections."+collectionClass+"Collection").newInstance();`
 2. In the constructor define your own `skippedFilePrefix`, `allowedFilePrefix`, `skippedFileSuffix`, `allowedFileSuffix`, `skippedDirs`.
 The [discoverFiles](https://github.com/lintool/Anserini/blob/master/src/main/java/io/anserini/index/collections/Collection.java#L40) relies on these sets to decide how to include/exclude files and folders.
 3. Override function `prepareInput` and `finishInput`. 
