@@ -1,14 +1,11 @@
-package io.anserini.index.collections;
-
-/*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+/**
+ * Anserini: An information retrieval toolkit built on Lucene
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,8 +14,10 @@ package io.anserini.index.collections;
  * limitations under the License.
  */
 
-import io.anserini.document.Indexable;
-import io.anserini.document.TrecRecord;
+package io.anserini.collection;
+
+import io.anserini.document.SourceDocument;
+import io.anserini.document.TrecDocument;
 import org.apache.commons.compress.compressors.z.ZCompressorInputStream;
 
 import java.io.*;
@@ -29,7 +28,7 @@ import java.nio.file.StandardOpenOption;
 import java.util.*;
 import java.util.zip.GZIPInputStream;
 
-public class TrecCollection<D extends TrecRecord> extends Collection {
+public class TrecCollection<D extends TrecDocument> extends Collection {
   protected BufferedReader bRdr;
   protected final int BUFFER_SIZE = 1 << 16; // 64K
 
@@ -71,8 +70,8 @@ public class TrecCollection<D extends TrecRecord> extends Collection {
   }
 
   @Override
-  public Indexable next() {
-    TrecRecord doc = new TrecRecord();
+  public SourceDocument next() {
+    TrecDocument doc = new TrecDocument();
     try {
       doc = (D)doc.readNextRecord(bRdr);
       if (doc == null) {

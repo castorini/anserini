@@ -14,17 +14,11 @@
  * limitations under the License.
  */
 
-package io.anserini.document;
+package io.anserini.collection;
 
 /**
- * Abstract base class for WARC records from ClueWeb09 and ClueWeb12.
+ * Information Retrieval Collections
  */
-public abstract class WarcRecord implements SourceDocument {
-  public abstract String url();
-  public abstract String type();
-
-  @Override
-  public boolean indexable() {
-    return "response".equals(this.type());
-  }
+public enum CollectionClass {
+  CW09, CW12, GOV2, Trec
 }
