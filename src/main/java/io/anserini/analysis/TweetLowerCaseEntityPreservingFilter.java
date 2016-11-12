@@ -14,19 +14,18 @@
  * limitations under the License.
  */
 
-package io.anserini.index.twitter;
+package io.anserini.analysis;
 
-import java.io.IOException;
-import java.util.Arrays;
-
+import com.twitter.Regex;
 import org.apache.lucene.analysis.TokenFilter;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.apache.lucene.analysis.tokenattributes.KeywordAttribute;
 
-import com.twitter.Regex;
+import java.io.IOException;
+import java.util.Arrays;
 
-public final class LowerCaseEntityPreservingFilter extends TokenFilter {
+public final class TweetLowerCaseEntityPreservingFilter extends TokenFilter {
 
   private static final int INVALID_ENTITY = 0;
   private static final int VALID_HASHTAG = 1;
@@ -38,7 +37,7 @@ public final class LowerCaseEntityPreservingFilter extends TokenFilter {
   private char[] tailBuffer = null;
   private char[] tailBufferSaved = null;
 
-  public LowerCaseEntityPreservingFilter(TokenStream in) {
+  public TweetLowerCaseEntityPreservingFilter(TokenStream in) {
     super(in);
   }
 

@@ -21,14 +21,14 @@ import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.Tokenizer;
 import org.apache.lucene.analysis.core.WhitespaceTokenizer;
 
-import io.anserini.index.twitter.LowerCaseEntityPreservingFilter;
+import io.anserini.analysis.TweetLowerCaseEntityPreservingFilter;
 
 public final class TRECAnalyzer extends Analyzer {
 
   @Override
   protected TokenStreamComponents createComponents(String fieldName) {
     Tokenizer source = new WhitespaceTokenizer();
-    TokenStream filter = new LowerCaseEntityPreservingFilter(source);
+    TokenStream filter = new TweetLowerCaseEntityPreservingFilter(source);
     return new TokenStreamComponents(source, filter);
   }
 }
