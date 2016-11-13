@@ -144,7 +144,7 @@ public final class IndexThreads {
       {
         try {
           int addCount = 0;
-          Collection curC = (Collection)Class.forName("io.anserini.index.collections."+collectionClass+"Collection").newInstance();
+          Collection curC = (Collection)Class.forName("io.anserini.collection."+collectionClass+"Collection").newInstance();
           curC.prepareInput(inputFile);
           while (curC.hasNext()) {
             SourceDocument d = (SourceDocument)curC.next();
@@ -216,7 +216,7 @@ public final class IndexThreads {
     }
 
     this.collectionClass = collectionClass;
-    c = (Collection)Class.forName("io.anserini.index.collections."+collectionClass+"Collection").newInstance();
+    c = (Collection)Class.forName("io.anserini.collection."+collectionClass+"Collection").newInstance();
     c.setInputDir(docDir);
   }
 
