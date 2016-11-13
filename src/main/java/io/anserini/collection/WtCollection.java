@@ -16,9 +16,16 @@
 
 package io.anserini.collection;
 
-/**
- * Information Retrieval Collections
- */
-public enum CollectionClass {
-  CW09, CW12, GOV2, Trec
+import io.anserini.document.TrecwebDocument;
+
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.HashSet;
+
+public class WtCollection<D extends TrecwebDocument> extends TrecwebCollection {
+  public WtCollection() throws IOException {
+    super();
+    skippedFilePrefix = new HashSet<>();
+    skippedDirs = new HashSet<>(Arrays.asList("info"));
+  }
 }
