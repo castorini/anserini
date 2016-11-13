@@ -35,7 +35,7 @@ public class IndexArgs {
   @Option(name = "-threads", metaVar = "[Number]", required = true, usage = "Number of Threads")
   int threads;
 
-  @Option(name = "-collection", required = true, usage = "Collection Class: indicates what type of the document is, should be one of [Trec|Gov2|CW09|CW12]")
+  @Option(name = "-collection", required = true, usage = "Collection Class: indicates what type of the document is, should be one of [Trec|Wt|Gov2|CW09|CW12]")
   String collectionClass;
 
   // optional arguments

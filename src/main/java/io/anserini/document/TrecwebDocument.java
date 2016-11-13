@@ -22,7 +22,7 @@ import java.io.IOException;
 /**
  * A document from the GOV2 collection.
  */
-public class Gov2Document extends TrecDocument {
+public class TrecwebDocument extends TrecDocument {
 
   private final String DOCHDR = "<DOCHDR>";
   private final String TERMINATING_DOCHDR = "</DOCHDR>";
@@ -44,7 +44,7 @@ public class Gov2Document extends TrecDocument {
         continue;
       }
 
-      if (line.startsWith(TERMINATING_DOC)) {
+      if (line.startsWith(TERMINATING_DOC) && builder.length() > 0) {
         return parseRecord(builder);
       }
 
