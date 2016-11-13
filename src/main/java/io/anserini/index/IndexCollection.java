@@ -69,7 +69,7 @@ public final class IndexCollection {
     LOG.info("Optimize (merge segments): " + indexArgs.optimize);
     LOG.info("Doc limit: " + (indexArgs.doclimit == -1 ? "all docs" : "" + indexArgs.doclimit));
 
-    LOG.info("Indexer: start");
+    LOG.info("Starting indexer...");
 
     int numIndexed = indexer.indexWithThreads(indexArgs.threads);
     final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
