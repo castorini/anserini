@@ -1,14 +1,11 @@
-package io.anserini.index.collections;
-
-/*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+/**
+ * Anserini: An information retrieval toolkit built on Lucene
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,7 +14,9 @@ package io.anserini.index.collections;
  * limitations under the License.
  */
 
-import io.anserini.document.Indexable;
+package io.anserini.collection;
+
+import io.anserini.document.SourceDocument;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -26,7 +25,12 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-public abstract class Collection<D extends Indexable> implements Iterator<Indexable> {
+/**
+ * An information retrieval collection, comprising a finite number of {@link SourceDocument}s.
+ *
+ * @param <D> type of the source document
+ */
+public abstract class Collection<D extends SourceDocument> implements Iterator<SourceDocument> {
   protected Path inputDir;
   protected Path curInputFile;
   protected boolean at_eof = false;

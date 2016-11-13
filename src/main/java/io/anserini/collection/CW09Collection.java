@@ -1,14 +1,11 @@
-package io.anserini.index.collections;
-
-/*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+/**
+ * Anserini: An information retrieval toolkit built on Lucene
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,8 +14,10 @@ package io.anserini.index.collections;
  * limitations under the License.
  */
 
+package io.anserini.collection;
+
 import io.anserini.document.ClueWeb09WarcRecord;
-import io.anserini.document.Indexable;
+import io.anserini.document.SourceDocument;
 
 import java.io.IOException;
 
@@ -28,7 +27,7 @@ public class CW09Collection<D extends ClueWeb09WarcRecord> extends WarcCollectio
   }
 
   @Override
-  public Indexable next() {
+  public SourceDocument next() {
     ClueWeb09WarcRecord doc = new ClueWeb09WarcRecord();
     try {
       doc = (D)doc.readNextWarcRecord(inStream, ClueWeb09WarcRecord.WARC_VERSION);

@@ -1,14 +1,11 @@
-package io.anserini.index.collections;
-
-/*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+/**
+ * Anserini: An information retrieval toolkit built on Lucene
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,7 +14,8 @@ package io.anserini.index.collections;
  * limitations under the License.
  */
 
-import io.anserini.document.Indexable;
+package io.anserini.collection;
+
 import io.anserini.document.WarcRecord;
 
 import java.io.DataInputStream;
@@ -29,7 +27,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.zip.GZIPInputStream;
 
-public class WarcCollection<D extends WarcRecord> extends Collection {
+public abstract class WarcCollection<D extends WarcRecord> extends Collection {
   protected DataInputStream inStream;
 
   public WarcCollection() throws IOException {
@@ -50,11 +48,5 @@ public class WarcCollection<D extends WarcRecord> extends Collection {
     at_eof = false;
     if (inStream != null)
       inStream.close();
-  }
-
-  @Override
-  public Indexable next() {
-    // should be implemented by subclass
-    return null;
   }
 }
