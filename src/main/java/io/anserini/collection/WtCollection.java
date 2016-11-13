@@ -14,17 +14,18 @@
  * limitations under the License.
  */
 
-package io.anserini.document;
+package io.anserini.collection;
 
-/**
- * Abstract base class for WARC records from ClueWeb09 and ClueWeb12.
- */
-public abstract class WarcRecord implements SourceDocument {
-  public abstract String url();
-  public abstract String type();
+import io.anserini.document.TrecwebDocument;
 
-  @Override
-  public boolean indexable() {
-    return "response".equals(this.type());
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.HashSet;
+
+public class WtCollection<D extends TrecwebDocument> extends TrecwebCollection {
+  public WtCollection() throws IOException {
+    super();
+    skippedFilePrefix = new HashSet<>();
+    skippedDirs = new HashSet<>(Arrays.asList("info"));
   }
 }

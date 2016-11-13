@@ -17,8 +17,8 @@ package io.anserini.index;
  * limitations under the License.
  */
 
-import io.anserini.document.Indexable;
-import io.anserini.index.collections.Collection;
+import io.anserini.document.SourceDocument;
+import io.anserini.collection.Collection;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;
@@ -118,7 +118,7 @@ public final class IndexThreads {
       return contents;
     }
 
-    private int indexRecord(Indexable record) throws IOException {
+    private int indexRecord(SourceDocument record) throws IOException {
       if (!record.indexable()) {
         return 0;
       }
@@ -144,10 +144,10 @@ public final class IndexThreads {
       {
         try {
           int addCount = 0;
-          Collection curC = (Collection)Class.forName("io.anserini.index.collections."+collectionClass+"Collection").newInstance();
+          Collection curC = (Collection)Class.forName("io.anserini.collection."+collectionClass+"Collection").newInstance();
           curC.prepareInput(inputFile);
           while (curC.hasNext()) {
-            Indexable d = (Indexable)curC.next();
+            SourceDocument d = (SourceDocument)curC.next();
             if (d != null) {
               addCount += indexRecord(d);
             }
@@ -216,7 +216,7 @@ public final class IndexThreads {
     }
 
     this.collectionClass = collectionClass;
-    c = (Collection)Class.forName("io.anserini.index.collections."+collectionClass+"Collection").newInstance();
+    c = (Collection)Class.forName("io.anserini.collection."+collectionClass+"Collection").newInstance();
     c.setInputDir(docDir);
   }
 
