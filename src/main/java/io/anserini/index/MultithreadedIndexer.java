@@ -17,7 +17,6 @@
 package io.anserini.index;
 
 import io.anserini.collection.Collection;
-import io.anserini.document.JsoupTransformer;
 import io.anserini.document.SourceDocument;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -45,9 +44,6 @@ import java.util.concurrent.atomic.AtomicLong;
 public final class MultithreadedIndexer {
   private static final Logger LOG = LogManager.getLogger(MultithreadedIndexer.class);
 
-  public static final String FIELD_BODY = "contents";
-  public static final String FIELD_ID = "id";
-
   public final class Counters {
     public AtomicLong indexedDocuments = new AtomicLong();
     public AtomicLong emptyDocuments = new AtomicLong();
@@ -66,13 +62,11 @@ public final class MultithreadedIndexer {
 
     @Override
     public void run() {
-      JsoupTransformer transformer = new JsoupTransformer();
-      transformer.setKeepStopwords(args.keepstop);
-      transformer.setStorePositions(args.positions);
-      transformer.setStoreDocVectors(args.docvectors);
-      transformer.setCounters(counters);
-
       try {
+        LuceneDocumentGenerator transformer = (LuceneDocumentGenerator) transformerClass.newInstance();
+        transformer.config(args);
+        transformer.setCounters(counters);
+
         int cnt = 0;
         Collection collection = (Collection) collectionClass.newInstance();
         collection.prepareInput(inputFile);
@@ -101,6 +95,7 @@ public final class MultithreadedIndexer {
   private final Path indexPath;
   private final Path collectionPath;
   private final Class collectionClass;
+  private final Class transformerClass;
   private final Collection collection;
   private final Counters counters;
 
@@ -117,6 +112,8 @@ public final class MultithreadedIndexer {
       throw new RuntimeException("Document directory " + collectionPath.toString() +
           " does not exist or is not readable, please check the path");
     }
+
+    this.transformerClass = Class.forName("io.anserini.index." + args.generatorClass);
 
     this.collectionClass = Class.forName("io.anserini.collection." + args.collectionClass);
     collection = (Collection) this.collectionClass.newInstance();

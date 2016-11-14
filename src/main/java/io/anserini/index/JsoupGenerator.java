@@ -1,6 +1,6 @@
-package io.anserini.document;
+package io.anserini.index;
 
-import io.anserini.index.MultithreadedIndexer;
+import io.anserini.document.SourceDocument;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.document.Document;
@@ -10,32 +10,8 @@ import org.apache.lucene.document.StringField;
 import org.apache.lucene.index.IndexOptions;
 import org.jsoup.Jsoup;
 
-public class JsoupTransformer implements SourceDocumentTransformer<SourceDocument> {
-  private static final Logger LOG = LogManager.getLogger(JsoupTransformer.class);
-
-  public static final String FIELD_BODY = "contents";
-  public static final String FIELD_ID = "id";
-
-  private boolean keepStopwords = false;
-  private boolean storePositions = false;
-  private boolean storeDocVectors = false;
-  private MultithreadedIndexer.Counters counters;
-
-  public void setKeepStopwords(boolean keepStopwords) {
-    this.keepStopwords = keepStopwords;
-  }
-
-  public void setStorePositions(boolean storePositions) {
-    this.storePositions = storePositions;
-  }
-
-  public void setStoreDocVectors(boolean storeDocVectors) {
-    this.storeDocVectors = storeDocVectors;
-  }
-
-  public void setCounters(MultithreadedIndexer.Counters counters) {
-    this.counters = counters;
-  }
+public class JsoupGenerator extends LuceneDocumentGenerator<SourceDocument> {
+  private static final Logger LOG = LogManager.getLogger(JsoupGenerator.class);
 
   @Override
   public Document transform(SourceDocument src) {
@@ -77,14 +53,14 @@ public class JsoupTransformer implements SourceDocumentTransformer<SourceDocumen
     FieldType fieldType = new FieldType();
 
     // Are we storing document vectors?
-    if (storeDocVectors) {
+    if (args.docvectors) {
       fieldType.setStored(false);
       fieldType.setStoreTermVectors(true);
       fieldType.setStoreTermVectorPositions(true);
     }
 
     // Are we building a "positional" or "count" index?
-    if (storePositions) {
+    if (args.positions) {
       fieldType.setIndexOptions(IndexOptions.DOCS_AND_FREQS_AND_POSITIONS);
     } else {
       fieldType.setIndexOptions(IndexOptions.DOCS_AND_FREQS);
