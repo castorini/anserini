@@ -41,14 +41,19 @@ import java.util.Deque;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-
+import java.util.concurrent.atomic.AtomicLong;
 
 public final class IndexThreads {
-
   private static final Logger LOG = LogManager.getLogger(IndexThreads.class);
 
   public static final String FIELD_BODY = "contents";
   public static final String FIELD_ID = "id";
+
+  public final class Counters {
+    public AtomicLong indexedDocuments = new AtomicLong();
+    public AtomicLong emptyDocuments = new AtomicLong();
+    public AtomicLong errors = new AtomicLong();
+  }
 
   private final class IndexerThread extends Thread {
     final private Path inputFile;
@@ -64,72 +69,60 @@ public final class IndexThreads {
     public void run() {
       JsoupTransformer transformer = new JsoupTransformer();
       transformer.setKeepStopwords(keepstopwords);
-      transformer.setPositions(positions);
-      transformer.setDocVectors(docVectors);
+      transformer.setStorePositions(positions);
+      transformer.setStoreDocVectors(docVectors);
+      transformer.setCounters(counters);
 
       try {
-        int addCount = 0;
-        Collection curC = (Collection)Class.forName("io.anserini.collection."+collectionClass).newInstance();
-        curC.prepareInput(inputFile);
-        while (curC.hasNext()) {
-          SourceDocument d = (SourceDocument) curC.next();
-          if (d == null || !d.indexable())
+        int cnt = 0;
+        Collection collection = (Collection) collectionClass.newInstance();
+        collection.prepareInput(inputFile);
+        while (collection.hasNext()) {
+          SourceDocument d = (SourceDocument) collection.next();
+          if (d == null || !d.indexable()) {
             continue;
+          }
           Document doc = transformer.transform(d);
-          if (doc!= null ) {
+          if (doc != null) {
             writer.addDocument(doc);
-            addCount++;
+            cnt++;
           }
         }
-        curC.finishInput();
-        LOG.info(inputFile.getParent().getFileName().toString() + File.separator + inputFile.getFileName().toString() +
-            ": " + addCount + " docs added.");
-      } catch (IOException ioe) {
-        LOG.error(Thread.currentThread().getName() + ": ERROR: unexpected IOException:", ioe);
-      } catch (ClassNotFoundException cfe) {
-        LOG.error(Thread.currentThread().getName() + ": ERROR: unexpected ClassNotFoundException:", cfe);
-      } catch (IllegalAccessException iae) {
-        LOG.error(Thread.currentThread().getName() + ": ERROR: unexpected IllegalAccessException:", iae);
-      } catch (InstantiationException ie) {
-        LOG.error(Thread.currentThread().getName() + ": ERROR: unexpected InstantiationException:", ie);
+        collection.finishInput();
+        LOG.info(inputFile.getParent().getFileName().toString() + File.separator +
+            inputFile.getFileName().toString() + ": " + cnt + " docs added.");
+        counters.indexedDocuments.addAndGet(cnt);
+      } catch (Exception e) {
+        LOG.error(Thread.currentThread().getName() + ": Unexpected Exception:", e);
       }
-
     }
   }
 
   private final Path indexPath;
   private final Path docDir;
-  private final String collectionClass;
-  private Collection c;
+  private final Class collectionClass;
+  private final Collection collection;
+  private final Counters counters;
 
   private boolean keepstopwords = false;
+  private boolean positions = false;
+  private boolean docVectors = false;
+  private boolean optimize = false;
 
   public void setKeepstopwords(boolean keepstopwords) {
     this.keepstopwords = keepstopwords;
   }
 
-  private boolean positions = false;
-
   public void setPositions(boolean positions) {
     this.positions = positions;
   }
-
-  private boolean docVectors = false;
 
   public void setDocVectors(boolean docVectors) {
     this.docVectors = docVectors;
   }
 
-  private boolean optimize = false;
-
   public void setOptimize(boolean optimize) {
     this.optimize = optimize;
-  }
-
-  private int doclimit = -1;
-
-  public void setDocLimit(int doclimit) {
-    this.doclimit = doclimit;
   }
 
   public IndexThreads(String docsPath, String indexPath, String collectionClass)
@@ -145,13 +138,14 @@ public final class IndexThreads {
       System.exit(1);
     }
 
-    this.collectionClass = collectionClass;
-    c = (Collection)Class.forName("io.anserini.collection."+collectionClass).newInstance();
-    c.setInputDir(docDir);
+    this.collectionClass = Class.forName("io.anserini.collection." + collectionClass);
+    collection = (Collection) this.collectionClass.newInstance();
+    collection.setInputDir(docDir);
+
+    this.counters = new Counters();
   }
 
   public int indexWithThreads(int numThreads) throws IOException, InterruptedException {
-
     LOG.info("Indexing with " + numThreads + " threads to directory " + indexPath.toAbsolutePath() + "...");
 
     final Directory dir = FSDirectory.open(indexPath);
@@ -168,50 +162,48 @@ public final class IndexThreads {
     final IndexWriter writer = new IndexWriter(dir, iwc);
 
     final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(numThreads);
-    final Deque<Path> indexFiles = c.discoverFiles();
-    if (doclimit > 0 && indexFiles.size() < doclimit)
-      for (int i = doclimit; i < indexFiles.size(); i++)
-        indexFiles.removeFirst();
+    final Deque<Path> indexFiles = collection.discoverFiles();
 
     long totalFiles = indexFiles.size();
     LOG.info(totalFiles + " files found at " + docDir.toString());
 
-    for (int i = 0; i < 2000; i++) {
-      if (!indexFiles.isEmpty())
+    for (int i = 0; i < totalFiles; i++) {
+      //if (!indexFiles.isEmpty())
         executor.execute(new IndexerThread(writer, indexFiles.removeFirst()));
-      else {
-        if (!executor.isShutdown()) {
-          Thread.sleep(30000);
-          executor.shutdown();
-        }
-        break;
-      }
+//      else {
+//        if (!executor.isShutdown()) {
+//          Thread.sleep(30000);
+//          executor.shutdown();
+//        }
+//        break;
+//      }
     }
 
-    long first = 0;
+    executor.shutdown();
+    //long first = 0;
     //add some delay to let some threads spawn by scheduler
-    Thread.sleep(30000);
+//    Thread.sleep(30000);
 
     try {
       // Wait for existing tasks to terminate
       while (!executor.awaitTermination(1, TimeUnit.MINUTES)) {
 
-        final long completedTaskCount = executor.getCompletedTaskCount();
+        long completedTaskCount = executor.getCompletedTaskCount();
 
         LOG.info(String.format("%.2f percent completed", (double) completedTaskCount / totalFiles * 100.0d));
 
-        if (!indexFiles.isEmpty())
-          for (long i = first; i < completedTaskCount; i++) {
-            if (!indexFiles.isEmpty())
-              executor.execute(new IndexerThread(writer, indexFiles.removeFirst()));
-            else {
-              if (!executor.isShutdown())
-                executor.shutdown();
-            }
-          }
+//        if (!indexFiles.isEmpty())
+//          for (long i = first; i < completedTaskCount; i++) {
+//            if (!indexFiles.isEmpty())
+//              executor.execute(new IndexerThread(writer, indexFiles.removeFirst()));
+//            else {
+//              if (!executor.isShutdown())
+//                executor.shutdown();
+//            }
+//          }
 
-        first = completedTaskCount;
-        Thread.sleep(1000);
+        //first = completedTaskCount;
+        //Thread.sleep(1000);
       }
     } catch (InterruptedException ie) {
       // (Re-)Cancel if current thread also interrupted
@@ -220,9 +212,10 @@ public final class IndexThreads {
       Thread.currentThread().interrupt();
     }
 
-    if (totalFiles != executor.getCompletedTaskCount())
-      throw new RuntimeException("totalFiles = " + totalFiles + " is not equal to completedTaskCount =  " + executor.getCompletedTaskCount());
-
+    if (totalFiles != executor.getCompletedTaskCount()) {
+      throw new RuntimeException("totalFiles = " + totalFiles +
+          " is not equal to completedTaskCount =  " + executor.getCompletedTaskCount());
+    }
 
     int numIndexed = writer.maxDoc();
 

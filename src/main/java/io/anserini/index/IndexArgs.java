@@ -51,7 +51,4 @@ public class IndexArgs {
 
   @Option(name = "-optimize", usage = "Boolean switch to optimize index (force merge)")
   boolean optimize = false;
-
-  @Option(name = "-doclimit", metaVar = "[Number]", required = false, usage = "Maximum number of *.warc documents to index (-1 to index everything)")
-  int doclimit = -1;
 }

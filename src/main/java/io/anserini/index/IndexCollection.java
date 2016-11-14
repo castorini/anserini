@@ -59,7 +59,6 @@ public final class IndexCollection {
     indexer.setDocVectors(indexArgs.docvectors);
     indexer.setPositions(indexArgs.positions);
     indexer.setOptimize(indexArgs.optimize);
-    indexer.setDocLimit(indexArgs.doclimit);
 
     LOG.info("Index path: " + indexArgs.index);
     LOG.info("Threads: " + indexArgs.threads);
@@ -67,7 +66,6 @@ public final class IndexCollection {
     LOG.info("Positions: " + indexArgs.positions);
     LOG.info("Store docVectors: " + indexArgs.docvectors);
     LOG.info("Optimize (merge segments): " + indexArgs.optimize);
-    LOG.info("Doc limit: " + (indexArgs.doclimit == -1 ? "all docs" : "" + indexArgs.doclimit));
 
     LOG.info("Starting indexer...");
 

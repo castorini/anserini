@@ -1,5 +1,6 @@
 package io.anserini.document;
 
+import io.anserini.index.IndexThreads;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.document.Document;
@@ -16,19 +17,24 @@ public class JsoupTransformer implements SourceDocumentTransformer<SourceDocumen
   public static final String FIELD_ID = "id";
 
   private boolean keepStopwords = false;
-  private boolean positions = false;
-  private boolean docVectors = false;
+  private boolean storePositions = false;
+  private boolean storeDocVectors = false;
+  private IndexThreads.Counters counters;
 
   public void setKeepStopwords(boolean keepStopwords) {
     this.keepStopwords = keepStopwords;
   }
 
-  public void setPositions(boolean positions) {
-    this.positions = positions;
+  public void setStorePositions(boolean storePositions) {
+    this.storePositions = storePositions;
   }
 
-  public void setDocVectors(boolean docVectors) {
-    this.docVectors = docVectors;
+  public void setStoreDocVectors(boolean storeDocVectors) {
+    this.storeDocVectors = storeDocVectors;
+  }
+
+  public void setCounters(IndexThreads.Counters counters) {
+    this.counters = counters;
   }
 
   @Override
@@ -52,11 +58,13 @@ public class JsoupTransformer implements SourceDocumentTransformer<SourceDocumen
       contents = jDoc.text();
     } catch (Exception e) {
       LOG.error("Parsing document with JSoup failed, skipping document: " + id, e);
+      counters.errors.incrementAndGet();
       return null;
     }
 
     if (contents.trim().length() == 0) {
       LOG.info("Empty document: " + id);
+      counters.emptyDocuments.incrementAndGet();
       return null;
     }
 
@@ -69,14 +77,14 @@ public class JsoupTransformer implements SourceDocumentTransformer<SourceDocumen
     FieldType fieldType = new FieldType();
 
     // Are we storing document vectors?
-    if (docVectors) {
+    if (storeDocVectors) {
       fieldType.setStored(false);
       fieldType.setStoreTermVectors(true);
       fieldType.setStoreTermVectorPositions(true);
     }
 
     // Are we building a "positional" or "count" index?
-    if (positions) {
+    if (storePositions) {
       fieldType.setIndexOptions(IndexOptions.DOCS_AND_FREQS_AND_POSITIONS);
     } else {
       fieldType.setIndexOptions(IndexOptions.DOCS_AND_FREQS);
