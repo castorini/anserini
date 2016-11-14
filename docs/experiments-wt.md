@@ -40,11 +40,10 @@ eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.451-550.t
 MAP                    | BM25   | QL     
 -----------------------|--------|--------
 WT2G: Topics 401-450   | 0.3015 | 0.2922 
-WT10G: Topics 451-550  | 0.1925 | 0.1980 
-
+WT10G: Topics 451-550  | 0.1981 | 0.2015 
 
 P30                    | BM25   | QL     
 -----------------------|--------|--------
 WT2G: Topics 401-450   | 0.3220 | 0.3233 
-WT10G: Topics 451-550  | 0.2115 | 0.2128 
+WT10G: Topics 451-550  | 0.2207 | 0.2184  
 
