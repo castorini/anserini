@@ -89,13 +89,13 @@ public class TrecTopicReader extends TopicReader{
         if (title.isEmpty()) {
           sb = read(bRdr,"",null,true,false);	
           k = sb.indexOf(":");
-                if (k == -1) {
-                  k = sb.indexOf(">");
-                }
-                title = sb.substring(k+1).trim();
+          if (k == -1) {
+            k = sb.indexOf(">");
+          }
+          title = sb.substring(k+1).trim();
         }
 
-	      // description
+	// description
         read(bRdr,"<desc>",null,false,false);
         sb.setLength(0);
         String line = null;
