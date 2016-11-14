@@ -1,14 +1,11 @@
-package io.anserini.index;
-
-/*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+/**
+ * Anserini: An information retrieval toolkit built on Lucene
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,9 +14,11 @@ package io.anserini.index;
  * limitations under the License.
  */
 
+package io.anserini.index;
+
 import io.anserini.collection.Collection;
-import io.anserini.document.SourceDocument;
 import io.anserini.document.JsoupTransformer;
+import io.anserini.document.SourceDocument;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;
@@ -43,8 +42,8 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 
-public final class IndexThreads {
-  private static final Logger LOG = LogManager.getLogger(IndexThreads.class);
+public final class MultithreadedIndexer {
+  private static final Logger LOG = LogManager.getLogger(MultithreadedIndexer.class);
 
   public static final String FIELD_BODY = "contents";
   public static final String FIELD_ID = "id";
@@ -68,9 +67,9 @@ public final class IndexThreads {
     @Override
     public void run() {
       JsoupTransformer transformer = new JsoupTransformer();
-      transformer.setKeepStopwords(keepstopwords);
-      transformer.setStorePositions(positions);
-      transformer.setStoreDocVectors(docVectors);
+      transformer.setKeepStopwords(args.keepstop);
+      transformer.setStorePositions(args.positions);
+      transformer.setStoreDocVectors(args.docvectors);
       transformer.setCounters(counters);
 
       try {
@@ -98,112 +97,65 @@ public final class IndexThreads {
     }
   }
 
+  private final IndexArgs args;
   private final Path indexPath;
-  private final Path docDir;
+  private final Path collectionPath;
   private final Class collectionClass;
   private final Collection collection;
   private final Counters counters;
 
-  private boolean keepstopwords = false;
-  private boolean positions = false;
-  private boolean docVectors = false;
-  private boolean optimize = false;
+  public MultithreadedIndexer(IndexArgs args) throws Exception {
+    this.args = args;
 
-  public void setKeepstopwords(boolean keepstopwords) {
-    this.keepstopwords = keepstopwords;
-  }
-
-  public void setPositions(boolean positions) {
-    this.positions = positions;
-  }
-
-  public void setDocVectors(boolean docVectors) {
-    this.docVectors = docVectors;
-  }
-
-  public void setOptimize(boolean optimize) {
-    this.optimize = optimize;
-  }
-
-  public IndexThreads(String docsPath, String indexPath, String collectionClass)
-          throws IOException, ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InstantiationException {
-
-    this.indexPath = Paths.get(indexPath);
-    if (!Files.exists(this.indexPath))
+    this.indexPath = Paths.get(args.index);
+    if (!Files.exists(this.indexPath)) {
       Files.createDirectories(this.indexPath);
-
-    docDir = Paths.get(docsPath);
-    if (!Files.exists(docDir) || !Files.isReadable(docDir) || !Files.isDirectory(docDir)) {
-      System.out.println("Document directory " + docDir.toString() + " does not exist or is not readable, please check the path");
-      System.exit(1);
     }
 
-    this.collectionClass = Class.forName("io.anserini.collection." + collectionClass);
+    collectionPath = Paths.get(args.input);
+    if (!Files.exists(collectionPath) || !Files.isReadable(collectionPath) || !Files.isDirectory(collectionPath)) {
+      throw new RuntimeException("Document directory " + collectionPath.toString() +
+          " does not exist or is not readable, please check the path");
+    }
+
+    this.collectionClass = Class.forName("io.anserini.collection." + args.collectionClass);
     collection = (Collection) this.collectionClass.newInstance();
-    collection.setInputDir(docDir);
+    collection.setInputDir(collectionPath);
 
     this.counters = new Counters();
   }
 
-  public int indexWithThreads(int numThreads) throws IOException, InterruptedException {
+  public int run() throws IOException, InterruptedException {
+    int numThreads = args.threads;
     LOG.info("Indexing with " + numThreads + " threads to directory " + indexPath.toAbsolutePath() + "...");
 
     final Directory dir = FSDirectory.open(indexPath);
+    final EnglishAnalyzer analyzer = args.keepstop ? new EnglishAnalyzer(CharArraySet.EMPTY_SET) : new EnglishAnalyzer();
+    final IndexWriterConfig config = new IndexWriterConfig(analyzer);
+    config.setSimilarity(new BM25Similarity());
+    config.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
+    config.setRAMBufferSizeMB(512);
+    config.setUseCompoundFile(false);
+    config.setMergeScheduler(new ConcurrentMergeScheduler());
 
-    final EnglishAnalyzer ea = keepstopwords ? new EnglishAnalyzer(CharArraySet.EMPTY_SET) : new EnglishAnalyzer();
-    final IndexWriterConfig iwc = new IndexWriterConfig(ea);
-
-    iwc.setSimilarity(new BM25Similarity());
-    iwc.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
-    iwc.setRAMBufferSizeMB(512);
-    iwc.setUseCompoundFile(false);
-    iwc.setMergeScheduler(new ConcurrentMergeScheduler());
-
-    final IndexWriter writer = new IndexWriter(dir, iwc);
+    final IndexWriter writer = new IndexWriter(dir, config);
 
     final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(numThreads);
     final Deque<Path> indexFiles = collection.discoverFiles();
 
     long totalFiles = indexFiles.size();
-    LOG.info(totalFiles + " files found at " + docDir.toString());
-
+    LOG.info(totalFiles + " files found at " + collectionPath.toString());
     for (int i = 0; i < totalFiles; i++) {
-      //if (!indexFiles.isEmpty())
-        executor.execute(new IndexerThread(writer, indexFiles.removeFirst()));
-//      else {
-//        if (!executor.isShutdown()) {
-//          Thread.sleep(30000);
-//          executor.shutdown();
-//        }
-//        break;
-//      }
+      executor.execute(new IndexerThread(writer, indexFiles.removeFirst()));
     }
 
     executor.shutdown();
-    //long first = 0;
-    //add some delay to let some threads spawn by scheduler
-//    Thread.sleep(30000);
 
     try {
       // Wait for existing tasks to terminate
       while (!executor.awaitTermination(1, TimeUnit.MINUTES)) {
-
-        long completedTaskCount = executor.getCompletedTaskCount();
-
-        LOG.info(String.format("%.2f percent completed", (double) completedTaskCount / totalFiles * 100.0d));
-
-//        if (!indexFiles.isEmpty())
-//          for (long i = first; i < completedTaskCount; i++) {
-//            if (!indexFiles.isEmpty())
-//              executor.execute(new IndexerThread(writer, indexFiles.removeFirst()));
-//            else {
-//              if (!executor.isShutdown())
-//                executor.shutdown();
-//            }
-//          }
-
-        //first = completedTaskCount;
-        //Thread.sleep(1000);
+       LOG.info(String.format("%.2f percent completed",
+           (double) executor.getCompletedTaskCount() / totalFiles * 100.0d));
       }
     } catch (InterruptedException ie) {
       // (Re-)Cancel if current thread also interrupted
@@ -221,11 +173,15 @@ public final class IndexThreads {
 
     try {
       writer.commit();
-      if (optimize)
+      if (args.optimize)
         writer.forceMerge(1);
     } finally {
       writer.close();
     }
+
+    LOG.info("Indexed documents: " + counters.indexedDocuments.get());
+    LOG.info("Empty documents: " + counters.emptyDocuments.get());
+    LOG.info("Errors: " + counters.errors.get());
 
     return numIndexed;
   }

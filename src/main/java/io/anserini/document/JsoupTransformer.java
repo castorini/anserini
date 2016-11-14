@@ -1,6 +1,6 @@
 package io.anserini.document;
 
-import io.anserini.index.IndexThreads;
+import io.anserini.index.MultithreadedIndexer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.document.Document;
@@ -19,7 +19,7 @@ public class JsoupTransformer implements SourceDocumentTransformer<SourceDocumen
   private boolean keepStopwords = false;
   private boolean storePositions = false;
   private boolean storeDocVectors = false;
-  private IndexThreads.Counters counters;
+  private MultithreadedIndexer.Counters counters;
 
   public void setKeepStopwords(boolean keepStopwords) {
     this.keepStopwords = keepStopwords;
@@ -33,7 +33,7 @@ public class JsoupTransformer implements SourceDocumentTransformer<SourceDocumen
     this.storeDocVectors = storeDocVectors;
   }
 
-  public void setCounters(IndexThreads.Counters counters) {
+  public void setCounters(MultithreadedIndexer.Counters counters) {
     this.counters = counters;
   }
 

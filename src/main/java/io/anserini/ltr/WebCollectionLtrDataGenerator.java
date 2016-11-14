@@ -1,6 +1,6 @@
 package io.anserini.ltr;
 
-import io.anserini.index.IndexThreads;
+import io.anserini.index.MultithreadedIndexer;
 import io.anserini.ltr.feature.FeatureExtractors;
 import io.anserini.rerank.Reranker;
 import io.anserini.rerank.RerankerContext;
@@ -44,9 +44,9 @@ public class WebCollectionLtrDataGenerator implements Reranker{
     LOG.info("Beginning rerank");
     for (int i =0; i < docs.documents.length; i++ ) {
       try {
-        Terms terms = reader.getTermVector(docs.ids[i], IndexThreads.FIELD_BODY);
+        Terms terms = reader.getTermVector(docs.ids[i], MultithreadedIndexer.FIELD_BODY);
         float[] features = this.extractorChain.extractAll(documents[i], terms, context);
-        String docId = documents[i].get(IndexThreads.FIELD_ID);
+        String docId = documents[i].get(MultithreadedIndexer.FIELD_ID);
         // QREL 0 in this case, will be assigned if needed later
         //qid
         BaseFeatureExtractor.writeFeatureVector(out,qid, this.qrels.getRelevanceGrade(qid, docId), docId,  features);
