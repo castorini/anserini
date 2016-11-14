@@ -17,13 +17,17 @@ package io.anserini.util;
  * limitations under the License.
  */
 
+import io.anserini.rerank.IdentityReranker;
+import io.anserini.rerank.RerankerCascade;
 import io.anserini.search.SearchWebCollection;
+import io.anserini.search.query.TopicReader;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.search.similarities.BM25Similarity;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.SortedMap;
@@ -34,7 +38,8 @@ import java.util.concurrent.TimeUnit;
  */
 public class SearchTimeUtil {
 
-  public static void main(String[] args) throws IOException, ParseException {
+  public static void main(String[] args) throws IOException, ParseException, ClassNotFoundException,
+          NoSuchMethodException, InvocationTargetException, IllegalAccessException, InstantiationException {
 
     if (args.length != 1) {
       System.err.println("Usage: SearchTimeUtil <indexDir>");
@@ -48,11 +53,15 @@ public class SearchTimeUtil {
 
     for (String topicFile : topics) {
       Path topicsFile = Paths.get("src/resources/topics-and-qrels/", topicFile);
-      SortedMap<Integer, String> queries = SearchWebCollection.readWebTrackQueries(topicsFile);
+      TopicReader tr = (TopicReader)Class.forName("io.anserini.search.query."+"Webxml"+"TopicReader")
+              .getConstructor(Path.class).newInstance(topicsFile);
+      SortedMap<Integer, String> queries = tr.read();
       for (int i = 1; i <= 3; i++) {
         final long start = System.nanoTime();
         String submissionFile = File.createTempFile(topicFile + "_" + i, ".tmp").getAbsolutePath();
-        searcher.search(queries, submissionFile, new BM25Similarity(0.9f, 0.4f), 1000, "Lucene");
+        RerankerCascade cascade = new RerankerCascade();
+        cascade.add(new IdentityReranker());
+        searcher.search(queries, submissionFile, new BM25Similarity(0.9f, 0.4f), 1000, cascade);
         final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
         System.out.println(topicFile + "_" + i + " search completed in " + DurationFormatUtils.formatDuration(durationMillis, "mm:ss:SSS"));
       }

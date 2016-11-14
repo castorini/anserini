@@ -17,7 +17,6 @@ package io.anserini.index;
  * limitations under the License.
  */
 
-import io.anserini.document.Collection;
 import org.kohsuke.args4j.Option;
 
 /**
@@ -36,10 +35,13 @@ public class IndexArgs {
   @Option(name = "-threads", metaVar = "[Number]", required = true, usage = "Number of Threads")
   int threads;
 
-  @Option(name = "-collection", required = true, usage = "Collection")
-  protected Collection collection;
+  @Option(name = "-collection", required = true, usage = "Collection Class: indicates what type of the document is, should be one of [Trec|Gov2|CW09|CW12|Wt10g]")
+  String collectionClass;
 
   // optional arguments
+
+  @Option(name = "-keepstopwords", usage = "Boolean switch to keep stopwords")
+  boolean keepstop = false;
 
   @Option(name = "-positions", usage = "Boolean switch to index positions")
   boolean positions = false;

@@ -17,22 +17,42 @@ package io.anserini.document;
  * limitations under the License.
  */
 
-import io.anserini.index.IndexWebCollection;
+import java.io.BufferedReader;
+import java.io.IOException;
 
-public final class Gov2Record {
+public class Gov2Record extends TrecRecord {
 
-  private static final String DOCNO = "<DOCNO>";
-  private static final String TERMINATING_DOCNO = "</DOCNO>";
+  private final String DOCHDR = "<DOCHDR>";
+  private final String TERMINATING_DOCHDR = "</DOCHDR>";
 
-  public static final String DOC = "<DOC>";
-  public static final String TERMINATING_DOC = "</DOC>";
+  @Override
+  public Indexable readNextRecord(BufferedReader reader) throws IOException {
+    StringBuilder builder = new StringBuilder();
+    boolean found = false;
 
-  private static final String DOCHDR = "<DOCHDR>";
-  private static final String TERMINATING_DOCHDR = "</DOCHDR>";
+    while (true) {
+      String line = reader.readLine();
+      if (line == null)
+        return null;
 
-  public static final int BUFFER_SIZE = 1 << 16; // 64K
+      line = line.trim();
 
-  public static WarcRecord parseGov2Record(StringBuilder builder) {
+      if (line.startsWith(DOC)) {
+        found = true;
+        continue;
+      }
+
+      if (line.startsWith(TERMINATING_DOC)) {
+        return parseRecord(builder);
+      }
+
+      if (found)
+        builder.append(line).append("\n");
+    }
+  }
+
+  @Override
+  public Indexable parseRecord(StringBuilder builder) {
 
     int i = builder.indexOf(DOCNO);
     if (i == -1) throw new RuntimeException("cannot find start tag " + DOCNO);
@@ -42,7 +62,7 @@ public final class Gov2Record {
     int j = builder.indexOf(TERMINATING_DOCNO);
     if (j == -1) throw new RuntimeException("cannot find end tag " + TERMINATING_DOCNO);
 
-    final String docID = builder.substring(i + DOCNO.length(), j).trim();
+    id = builder.substring(i + DOCNO.length(), j).trim();
 
     i = builder.indexOf(DOCHDR);
     if (i == -1) throw new RuntimeException("cannot find header tag " + DOCHDR);
@@ -52,28 +72,8 @@ public final class Gov2Record {
 
     if (j < i) throw new RuntimeException(TERMINATING_DOCHDR + " comes before " + DOCHDR);
 
-    final String content = builder.substring(j + TERMINATING_DOCHDR.length()).trim();
+    content = builder.substring(j + TERMINATING_DOCHDR.length()).trim();
 
-    return new WarcRecord() {
-      @Override
-      public String id() {
-        return docID;
-      }
-
-      @Override
-      public String content() {
-        return content;
-      }
-
-      @Override
-      public String url() {
-        return null;
-      }
-
-      @Override
-      public String type() {
-        return IndexWebCollection.RESPONSE;
-      }
-    };
+    return this;
   }
 }

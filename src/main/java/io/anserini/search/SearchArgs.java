@@ -1,6 +1,5 @@
 package io.anserini.search;
 
-import io.anserini.document.Collection;
 import org.kohsuke.args4j.Option;
 
 public class SearchArgs {
@@ -15,10 +14,13 @@ public class SearchArgs {
   @Option(name = "-output", metaVar = "[file]", required = true, usage = "output file")
   public String output;
 
-  @Option(name = "-collection", required = true, usage = "Collection")
-  protected Collection collection;
+  @Option(name = "-topicreader", required = true, usage = "define how to read the topic(query) file: one of [Trec|Webxml]")
+  protected String topicReader;
 
   // optional arguments
+
+  @Option(name = "-keepstopwords", usage = "Boolean switch to keep stopwords in the query topics")
+  boolean keepstop = false;
 
   @Option(name = "-hits", metaVar = "[number]", required = false, usage = "max number of hits to return")
   public int hits = 1000;
@@ -56,5 +58,20 @@ public class SearchArgs {
 
   @Option(name = "-rm3", usage = "use RM3 query expansion model (implies using query likelihood)")
   public boolean rm3 = false;
-  
+
+  @Option(name = "-model", metaVar = "[file]", required = false, usage = "ranklib model file")
+  public String model = "";
+
+  @Option(name = "-dump", required = false, usage = "dump out feature vectors")
+  public boolean dumpFeatures = false;
+
+  @Option(name = "-featureFile", metaVar = "[file]", required = false, usage = "output for the feature vector file")
+  public String featureFile = "";
+
+  @Option(name = "-qrels", metaVar = "[file]", required = false, usage = "patht to the qrels file, needed for feature vectors")
+  public String qrels= "";
+
+  @Option(name = "-extractors", metaVar = "[file]", required = false, usage = "Optional definition to feature extractors")
+  public String extractors = null;
+
 }

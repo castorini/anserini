@@ -18,8 +18,10 @@ package io.anserini.search;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -28,8 +30,12 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import com.google.common.io.Files;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class MicroblogTopicSet implements Iterable<MicroblogTopic>{
+  private static final Logger LOG = LogManager.getLogger(MicroblogTopicSet.class);
+
   private List<MicroblogTopic> queries = Lists.newArrayList();
 
   private MicroblogTopicSet() {}
@@ -92,5 +98,17 @@ public class MicroblogTopicSet implements Iterable<MicroblogTopic>{
       queries.add(new MicroblogTopic(id, text, time));
     }
     return queries;
+  }
+
+  public Map<String, String> toMap() {
+      HashMap<String, String> topicsMap = new HashMap<>(this.queries.size());
+
+      // The twitter topics are labeled with MBXX as the query id while the qrel files use integers to
+      // denote query ids, so we will conform to fomat here
+      for (MicroblogTopic topic : this.queries) {
+          topicsMap.put(topic.getId().replace("MB0", "").replace("MB",""), topic.getQuery());
+      }
+
+      return topicsMap;
   }
 }

@@ -1,0 +1,28 @@
+{
+ extractors: [
+  {
+    name:MatchingTermCount
+  },
+  {
+    name: QueryLength
+  },
+  {
+    name:QueryLength
+  },
+  {
+    name: TwitterHashtagCount
+  },
+  {
+    name: IsTweetReply
+  },
+  {
+    name: TwitterLinkCount
+  },
+  {
+    name : TwitterFollowerCount
+  },
+  {
+    name: TwitterFriendCount
+  }
+ ]
+}

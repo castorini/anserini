@@ -1,10 +1,18 @@
-Wt10g
-=====
+Disk12
+======
 
-+ topics.451-500.txt: [Topics 451-400 (TREC 9 Web Track)](http://trec.nist.gov/data/t9.web.html)
-+ topics.501-550.txt: [Topics 501-550 (TREC 2001 Web Track)](http://trec.nist.gov/data/t10.web.html)
-+ qrels.451-500.txt: [qrels for Topics 451-400 (TREC 9 Web Track)](http://trec.nist.gov/data/t9.web.html)
-+ qrels.501-550.txt: [qrels for Topics 501-550 (TREC 2001 Web Track)](http://trec.nist.gov/data/t10.web.html)
++ topics.51-100.txt: [Topics 51-100 (TREC-1 Ad Hoc Track)](http://trec.nist.gov/data/topics_eng/topics.51-100.gz)
++ topics.101-150.txt: [Topics 101-150 (TREC-2 Ad Hoc Track)](http://trec.nist.gov/data/topics_eng/topics.101-150.gz)
++ topics.151-200.txt: [Topics 151-200 (TREC-3 Ad Hoc Track)](http://trec.nist.gov/data/topics_eng/topics.151-200.gz)
++ qrels.51-100.txt: [qrels for Topics 51-100 (TREC-1 Ad Hoc Track)](http://trec.nist.gov/data/qrels_eng/qrels.51-100.disk1.disk2.parts1-5.tar.gz)
++ qrels.101-150.txt: [qrels for Topics 101-150 (TREC-2 Ad Hoc Track)](http://trec.nist.gov/data/qrels_eng/qrels.101-150.disk1.disk2.parts1-5.tar.gz)
++ qrels.151-200.txt: [qrels for Topics 151-200 (TREC-3 Ad Hoc Track)](http://trec.nist.gov/data/qrels_eng/qrels.151-200.201-250.disks1-3.all.tar.gz)
+
+Robust04
+========
+
++ topics.robust04.301-450.601-700.txt: [Topics 301-450&601-700 (TREC 2004 Robust Track)](http://trec.nist.gov/data/robust/04.testset.gz)
++ qrels.robust2004.txt: [qrels for Topics 301-450&601-700 (TREC 2004 Robust Track)](http://trec.nist.gov/data/robust/qrels.robust2004.txt)
 
 
 Gov2
