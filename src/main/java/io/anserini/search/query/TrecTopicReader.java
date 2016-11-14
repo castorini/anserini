@@ -84,7 +84,18 @@ public class TrecTopicReader extends TopicReader{
           k = sb.indexOf(">");
         }
         String title = sb.substring(k+1).trim();
-        // description
+	      
+        //malformed titles, read again
+        if (title.isEmpty()) {
+          sb = read(bRdr,"",null,true,false);	
+          k = sb.indexOf(":");
+                if (k == -1) {
+                  k = sb.indexOf(">");
+                }
+                title = sb.substring(k+1).trim();
+        }
+
+	      // description
         read(bRdr,"<desc>",null,false,false);
         sb.setLength(0);
         String line = null;
