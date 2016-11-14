@@ -1,5 +1,5 @@
 /**
- * Twitter Tools
+ * Anserini: An information retrieval toolkit built on Lucene
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.anserini.index.twitter;
+package io.anserini.analysis;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
@@ -36,7 +36,7 @@ public final class TweetAnalyzer extends Analyzer {
   @Override
   protected TokenStreamComponents createComponents(String fieldName) {
     Tokenizer source = new WhitespaceTokenizer();
-    TokenStream filter = new LowerCaseEntityPreservingFilter(source);
+    TokenStream filter = new TweetLowerCaseEntityPreservingFilter(source);
     if (stemming) {
       // Porter stemmer ignores words which are marked as keywords
       filter = new PorterStemFilter(filter);

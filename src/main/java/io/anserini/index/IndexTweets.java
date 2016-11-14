@@ -19,7 +19,7 @@ package io.anserini.index;
 import io.anserini.document.twitter.JsonStatusCorpusReader;
 import io.anserini.document.twitter.Status;
 import io.anserini.document.twitter.StatusStream;
-import io.anserini.index.twitter.TweetAnalyzer;
+import io.anserini.analysis.TweetAnalyzer;
 import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
 
 import java.io.BufferedReader;
