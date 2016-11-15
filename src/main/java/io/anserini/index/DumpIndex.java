@@ -25,6 +25,7 @@ import org.apache.lucene.document.Document;
 import org.apache.lucene.index.*;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.queryparser.classic.QueryParser;
+import org.apache.lucene.search.DocIdSetIterator;
 import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.store.FSDirectory;
 import org.kohsuke.args4j.CmdLineException;
@@ -52,6 +53,7 @@ public class DumpIndex {
   }
 
   String printRepositoryStats( DirectoryReader reader ) throws IOException {
+    LeafReader leafReader = reader.leaves().get(0).reader();
     int docCount = reader.numDocs();
     int contentsCount = reader.getDocCount(LuceneDocumentGenerator.FIELD_BODY);
     long termCount = reader.getSumTotalTermFreq(LuceneDocumentGenerator.FIELD_BODY);
@@ -66,12 +68,16 @@ public class DumpIndex {
     sb.append("total terms:\t" + termCount + "\n");
     sb.append("stored fields:\t\t");
 
-    Document d = reader.document(1);
-    List<IndexableField> fields = d.getFields();
-    for (IndexableField f : fields) {
-      sb.append(f.name()+" ");
+    FieldInfos fis = MultiFields.getMergedFieldInfos(reader);
+    for (String fd : fds) {
+      FieldInfo fi = fis.fieldInfo(fd);
+      sb.append("\n\t"+fd)
+        .append(" (")
+        .append("indexOption: "+fi.getIndexOptions())
+        .append(", hasVectors: "+fi.hasVectors())
+        .append(", hasPayloads: "+fi.hasPayloads())
+        .append(")");
     }
-    sb.append("\n");
     return sb.toString();
   }
 
@@ -81,13 +87,19 @@ public class DumpIndex {
     EnglishAnalyzer ea = new EnglishAnalyzer(CharArraySet.EMPTY_SET);
     QueryParser qp = new QueryParser(LuceneDocumentGenerator.FIELD_BODY, ea);
     TermQuery q = (TermQuery)qp.parse(termStr);
-    long termFreq = reader.totalTermFreq(q.getTerm());
-    long docCount = reader.docFreq(q.getTerm());
-    sb.append(termStr+" ")
-      .append(q.toString(LuceneDocumentGenerator.FIELD_BODY)+" ")
-      .append(termFreq+" ")
-      .append(docCount+" ")
-      .append("\n");
+    Term t = q.getTerm();
+    long termFreq = reader.totalTermFreq(t);
+    long docCount = reader.docFreq(t);
+    sb.append("raw: "+termStr+"\n")
+      .append("stemmed: "+q.toString(LuceneDocumentGenerator.FIELD_BODY)+"\n")
+      .append("total Frequency: "+termFreq+"\n")
+      .append("doc Count: "+docCount+"\n");
+
+    PostingsEnum postingsEnum = MultiFields.getTermDocsEnum(reader, LuceneDocumentGenerator.FIELD_BODY, t.bytes());
+    sb.append("posting:\n");
+    while (postingsEnum.nextDoc() != DocIdSetIterator.NO_MORE_DOCS) {
+      sb.append(String.format("\t%s, %s\n", postingsEnum.docID(), postingsEnum.freq()));
+    }
     return sb.toString();
   }
 
