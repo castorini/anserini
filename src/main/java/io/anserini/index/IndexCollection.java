@@ -1,14 +1,11 @@
-package io.anserini.index;
-
-/*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+/**
+ * Anserini: An information retrieval toolkit built on Lucene
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,6 +13,8 @@ package io.anserini.index;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+package io.anserini.index;
 
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.apache.logging.log4j.LogManager;
@@ -25,16 +24,12 @@ import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.OptionHandlerFilter;
 import org.kohsuke.args4j.ParserProperties;
 
-import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 public final class IndexCollection {
-
   private static final Logger LOG = LogManager.getLogger(IndexCollection.class);
 
-  public static void main(String[] args) throws IOException, InterruptedException,
-          ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InstantiationException {
-
+  public static void main(String[] args) throws Exception {
     IndexArgs indexArgs = new IndexArgs();
 
     CmdLineParser parser = new CmdLineParser(indexArgs, ParserProperties.defaults().withUsageWidth(90));
@@ -48,18 +43,12 @@ public final class IndexCollection {
       return;
     }
 
-    if (indexArgs.docvectors && !indexArgs.positions)
+    if (indexArgs.docvectors && !indexArgs.positions) {
       LOG.warn("to store docVectors you must store positions too. With this configuration, both positions and docVectors will not be stored!");
-
+    }
 
     final long start = System.nanoTime();
-    IndexThreads indexer = new IndexThreads(indexArgs.input, indexArgs.index, indexArgs.collectionClass);
-
-    indexer.setKeepstopwords(indexArgs.keepstop);
-    indexer.setDocVectors(indexArgs.docvectors);
-    indexer.setPositions(indexArgs.positions);
-    indexer.setOptimize(indexArgs.optimize);
-    indexer.setDocLimit(indexArgs.doclimit);
+    MultithreadedIndexer indexer = new MultithreadedIndexer(indexArgs);
 
     LOG.info("Index path: " + indexArgs.index);
     LOG.info("Threads: " + indexArgs.threads);
@@ -67,12 +56,12 @@ public final class IndexCollection {
     LOG.info("Positions: " + indexArgs.positions);
     LOG.info("Store docVectors: " + indexArgs.docvectors);
     LOG.info("Optimize (merge segments): " + indexArgs.optimize);
-    LOG.info("Doc limit: " + (indexArgs.doclimit == -1 ? "all docs" : "" + indexArgs.doclimit));
 
-    LOG.info("Indexer: start");
+    LOG.info("Starting indexer...");
 
-    int numIndexed = indexer.indexWithThreads(indexArgs.threads);
+    int numIndexed = indexer.run();
     final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
-    LOG.info("Total " + numIndexed + " documents indexed in " + DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss"));
+    LOG.info("Total " + numIndexed + " documents indexed in " +
+        DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss"));
   }
 }
