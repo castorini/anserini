@@ -1,7 +1,7 @@
 package io.anserini.ltr;
 
 import com.google.common.collect.Sets;
-import io.anserini.index.LuceneDocumentGenerator;
+import io.anserini.index.generator.LuceneDocumentGenerator;
 import io.anserini.ltr.feature.FeatureExtractors;
 import io.anserini.ltr.feature.OrderedSequentialPairsFeatureExtractor;
 import io.anserini.ltr.feature.UnigramFeatureExtractor;

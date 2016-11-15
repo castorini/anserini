@@ -1,4 +1,4 @@
-package io.anserini.index;
+package io.anserini.index.generator;
 
 import io.anserini.document.SourceDocument;
 import org.apache.logging.log4j.LogManager;

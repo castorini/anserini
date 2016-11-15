@@ -1,6 +1,8 @@
-package io.anserini.index;
+package io.anserini.index.generator;
 
 import io.anserini.document.SourceDocument;
+import io.anserini.index.IndexArgs;
+import io.anserini.index.MultithreadedIndexer;
 import org.apache.lucene.document.Document;
 
 public abstract class LuceneDocumentGenerator<T extends SourceDocument> {

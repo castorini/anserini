@@ -18,6 +18,7 @@ package io.anserini.index;
 
 import io.anserini.collection.Collection;
 import io.anserini.document.SourceDocument;
+import io.anserini.index.generator.LuceneDocumentGenerator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;
@@ -113,7 +114,7 @@ public final class MultithreadedIndexer {
           " does not exist or is not readable, please check the path");
     }
 
-    this.transformerClass = Class.forName("io.anserini.index." + args.generatorClass);
+    this.transformerClass = Class.forName("io.anserini.index.generator." + args.generatorClass);
 
     this.collectionClass = Class.forName("io.anserini.collection." + args.collectionClass);
     collection = (Collection) this.collectionClass.newInstance();

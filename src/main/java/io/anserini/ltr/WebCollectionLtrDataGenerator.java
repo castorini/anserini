@@ -1,6 +1,6 @@
 package io.anserini.ltr;
 
-import io.anserini.index.LuceneDocumentGenerator;
+import io.anserini.index.generator.LuceneDocumentGenerator;
 import io.anserini.ltr.feature.FeatureExtractors;
 import io.anserini.rerank.Reranker;
 import io.anserini.rerank.RerankerContext;
