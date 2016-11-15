@@ -1,14 +1,11 @@
-package io.anserini.index;
-
-/*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+/**
+ * Anserini: An information retrieval toolkit built on Lucene
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,6 +14,9 @@ package io.anserini.index;
  * limitations under the License.
  */
 
+package io.anserini.index;
+
+import io.anserini.index.generator.LuceneDocumentGenerator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;
@@ -53,10 +53,10 @@ public class DumpIndex {
 
   String printRepositoryStats( DirectoryReader reader ) throws IOException {
     int docCount = reader.numDocs();
-    int contentsCount = reader.getDocCount(IndexThreads.FIELD_BODY);
-    long termCount = reader.getSumTotalTermFreq(IndexThreads.FIELD_BODY);
+    int contentsCount = reader.getDocCount(LuceneDocumentGenerator.FIELD_BODY);
+    long termCount = reader.getSumTotalTermFreq(LuceneDocumentGenerator.FIELD_BODY);
     Fields fds = MultiFields.getFields(reader);
-    Terms terms = fds.terms(IndexThreads.FIELD_BODY);
+    Terms terms = fds.terms(LuceneDocumentGenerator.FIELD_BODY);
 
     StringBuilder sb = new StringBuilder();
     sb.append("Repository statistics:\n");
@@ -79,12 +79,12 @@ public class DumpIndex {
           throws IOException, ParseException {
     StringBuilder sb = new StringBuilder();
     EnglishAnalyzer ea = new EnglishAnalyzer(CharArraySet.EMPTY_SET);
-    QueryParser qp = new QueryParser(IndexThreads.FIELD_BODY, ea);
+    QueryParser qp = new QueryParser(LuceneDocumentGenerator.FIELD_BODY, ea);
     TermQuery q = (TermQuery)qp.parse(termStr);
     long termFreq = reader.totalTermFreq(q.getTerm());
     long docCount = reader.docFreq(q.getTerm());
     sb.append(termStr+" ")
-      .append(q.toString(IndexThreads.FIELD_BODY)+" ")
+      .append(q.toString(LuceneDocumentGenerator.FIELD_BODY)+" ")
       .append(termFreq+" ")
       .append(docCount+" ")
       .append("\n");
@@ -103,7 +103,7 @@ public class DumpIndex {
     int total = externalIDs.size();
     for (int i = 1; i < reader.maxDoc()+1; i++) {
       Document d = reader.document(i);
-      IndexableField id = d.getField(IndexThreads.FIELD_ID);
+      IndexableField id = d.getField(LuceneDocumentGenerator.FIELD_ID);
       String idStr = id.stringValue();
       if (mapping.containsKey(idStr)) {
         mapping.put(idStr, i);
@@ -120,7 +120,7 @@ public class DumpIndex {
   String printDocumentName( DirectoryReader reader, int number ) throws IOException {
     StringBuilder sb = new StringBuilder();
     Document d = reader.document(number);
-    IndexableField id = d.getField(IndexThreads.FIELD_ID);
+    IndexableField id = d.getField(LuceneDocumentGenerator.FIELD_ID);
     sb.append(id.stringValue())
       .append("\n");
     return sb.toString();
@@ -129,7 +129,7 @@ public class DumpIndex {
   String printDocumentText( DirectoryReader reader, int number ) throws IOException, RawDocNotStoredException {
     StringBuilder sb = new StringBuilder();
     Document d = reader.document(number);
-    IndexableField id = d.getField(IndexThreads.FIELD_BODY);
+    IndexableField id = d.getField(LuceneDocumentGenerator.FIELD_BODY);
     if (id == null) {
       throw new RawDocNotStoredException("Raw Contents not Stored!");
     }
@@ -140,7 +140,7 @@ public class DumpIndex {
 
   String printDocumentVector( DirectoryReader reader, int number ) throws IOException, DocVectorNotStoredException {
     StringBuilder sb = new StringBuilder();
-    Terms terms = reader.getTermVector(number, IndexThreads.FIELD_BODY);
+    Terms terms = reader.getTermVector(number, LuceneDocumentGenerator.FIELD_BODY);
     if (terms == null) {
       throw new DocVectorNotStoredException("Doc Vector not Stored!");
     }

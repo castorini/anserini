@@ -64,8 +64,8 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.concurrent.TimeUnit;
 
-import static io.anserini.index.IndexThreads.FIELD_BODY;
-import static io.anserini.index.IndexThreads.FIELD_ID;
+import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_BODY;
+import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_ID;
 
 /**
  * Searcher for Gov2, ClueWeb09, and ClueWeb12 corpra.

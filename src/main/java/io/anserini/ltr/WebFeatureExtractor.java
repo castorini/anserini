@@ -1,8 +1,11 @@
 package io.anserini.ltr;
 
 import com.google.common.collect.Sets;
-import io.anserini.index.IndexThreads;
-import io.anserini.ltr.feature.*;
+import io.anserini.index.generator.LuceneDocumentGenerator;
+import io.anserini.ltr.feature.FeatureExtractors;
+import io.anserini.ltr.feature.OrderedSequentialPairsFeatureExtractor;
+import io.anserini.ltr.feature.UnigramFeatureExtractor;
+import io.anserini.ltr.feature.UnorderedSequentialPairsFeatureExtractor;
 import io.anserini.ltr.feature.base.*;
 import io.anserini.util.Qrels;
 import org.apache.logging.log4j.LogManager;
@@ -77,12 +80,12 @@ public class WebFeatureExtractor extends BaseFeatureExtractor {
 
   @Override
   protected String getIdField() {
-    return IndexThreads.FIELD_ID;
+    return LuceneDocumentGenerator.FIELD_ID;
   }
 
   @Override
   protected String getTermVectorField() {
-    return IndexThreads.FIELD_BODY;
+    return LuceneDocumentGenerator.FIELD_BODY;
   }
 
   public static FeatureExtractors getDefaultExtractors() {
