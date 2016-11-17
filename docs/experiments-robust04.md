@@ -35,11 +35,7 @@ eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.robust200
 
 **Effectiveness Reference**:
 
-MAP                                               | BM25   | QL     
---------------------------------------------------|--------|--------
-TREC 2004 Robust Track: Topics 301-450&601-700    | 0.2415 | 0.2370 
-
-
-P30                                               | BM25   | QL     
---------------------------------------------------|--------|--------
-TREC 2004 Robust Track: Topics 301-450&601-700    | 0.3115 | 0.3053 
+Metric | BM25   | QL     
+-------|--------|--------
+MAP    | 0.2500 | 0.2465 
+P30    | 0.3120 | 0.3078 
