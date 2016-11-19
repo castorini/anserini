@@ -14,6 +14,12 @@ Robust04
 + topics.robust04.301-450.601-700.txt: [Topics 301-450&601-700 (TREC 2004 Robust Track)](http://trec.nist.gov/data/robust/04.testset.gz)
 + qrels.robust2004.txt: [qrels for Topics 301-450&601-700 (TREC 2004 Robust Track)](http://trec.nist.gov/data/robust/qrels.robust2004.txt)
 
+Robust05
+========
+
++ topics.robust05.txt: [Hard Topics of ROBUST04 (TREC 2005 Robust Track)](http://trec.nist.gov/data/robust/05/05.50.topics.txt)
++ qrels.robust2005.txt: [qrels (TREC 2005 Robust Track)](http://trec.nist.gov/data/robust/05/TREC2005.qrels.txt)
+
 
 Gov2
 ====
