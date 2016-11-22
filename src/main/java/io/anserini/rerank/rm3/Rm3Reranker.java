@@ -1,15 +1,12 @@
 package io.anserini.rerank.rm3;
 
+import com.google.common.base.Preconditions;
+import com.google.common.collect.Sets;
 import io.anserini.rerank.Reranker;
 import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.ScoredDocuments;
 import io.anserini.util.AnalyzerUtils;
 import io.anserini.util.FeatureVector;
-
-import java.io.IOException;
-import java.util.Iterator;
-import java.util.Set;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
@@ -17,12 +14,11 @@ import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.queryparser.classic.QueryParser;
-import org.apache.lucene.search.IndexSearcher;
-import org.apache.lucene.search.Query;
-import org.apache.lucene.search.TopDocs;
+import org.apache.lucene.search.*;
 
-import com.google.common.base.Preconditions;
-import com.google.common.collect.Sets;
+import java.io.IOException;
+import java.util.Iterator;
+import java.util.Set;
 
 public class Rm3Reranker implements Reranker {
   private static final Logger LOG = LogManager.getLogger(Rm3Reranker.class);
@@ -82,7 +78,11 @@ public class Rm3Reranker implements Reranker {
       if (context.getFilter() == null) {
         rs = searcher.search(nq, 1000);
       } else {
-        rs = searcher.search(nq, context.getFilter(), 1000);
+        BooleanQuery.Builder bqBuilder = new BooleanQuery.Builder();
+        bqBuilder.add(context.getFilter(), BooleanClause.Occur.FILTER);
+        bqBuilder.add(nq, BooleanClause.Occur.SHOULD);
+        Query q = bqBuilder.build();
+        rs = searcher.search(q, 1000);
       }
     } catch (IOException e) {
       e.printStackTrace();

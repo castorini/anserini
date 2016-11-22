@@ -1,22 +1,6 @@
 package io.anserini.nrts;
 
 import io.anserini.nrts.TweetStreamIndexer.StatusField;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintStream;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.StringTokenizer;
-
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.logging.log4j.LogManager;
@@ -30,6 +14,16 @@ import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopScoreDocCollector;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintStream;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.*;
 
 public class TweetSearcherServer extends Thread {
   private static final Logger LOG = LogManager.getLogger(TweetSearcherServer.class);
@@ -67,7 +61,7 @@ public class TweetSearcherServer extends Thread {
 
     public SearcherThread() {
       try {
-        reader = DirectoryReader.open(TweetSearcher.indexWriter, true);
+        reader = DirectoryReader.open(TweetSearcher.indexWriter, true, true);
       } catch (IOException e) {
         // TODO Auto-generated catch block
         e.printStackTrace();

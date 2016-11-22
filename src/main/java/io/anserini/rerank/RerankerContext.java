@@ -1,17 +1,10 @@
 package io.anserini.rerank;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.index.MultiFields;
-import org.apache.lucene.index.Terms;
-import org.apache.lucene.index.TermsEnum;
-import org.apache.lucene.search.Filter;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
+
+import java.io.IOException;
+import java.util.List;
 
 public class RerankerContext {
   private final IndexSearcher searcher;
@@ -19,11 +12,11 @@ public class RerankerContext {
   private final String queryId;
   private final String queryText;
   private final List<String> queryTokens;
-  private final Filter filter;
+  private final Query filter;
   private final String termVectorField;
 
   public RerankerContext(IndexSearcher searcher, Query query, String queryId, String queryText,
-                         List<String> queryTokens, String termVectorField, Filter filter) throws IOException {
+                         List<String> queryTokens, String termVectorField, Query filter) throws IOException {
     this.searcher = searcher;
     this.query = query;
     this.queryId = queryId;
@@ -37,7 +30,7 @@ public class RerankerContext {
     return searcher;
   }
 
-  public Filter getFilter() {
+  public Query getFilter() {
     return filter;
   }
 

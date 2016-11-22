@@ -11,14 +11,14 @@ import java.io.IOException;
 /**
  * Similarity that uses a Ranklib ranker to compute the score
  */
-public class RankLibSimilarity extends Similarity{
+public class RankLibSimilarity extends Similarity {
   @Override
   public long computeNorm(FieldInvertState fieldInvertState) {
     return 0;
   }
 
   @Override
-  public SimWeight computeWeight(float v, CollectionStatistics collectionStatistics, TermStatistics... termStatisticses) {
+  public SimWeight computeWeight(CollectionStatistics collectionStatistics, TermStatistics... termStatisticses) {
     return null;
   }
 

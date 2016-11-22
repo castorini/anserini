@@ -6,31 +6,15 @@ import io.anserini.ltr.feature.FeatureExtractors;
 import io.anserini.ltr.feature.OrderedSequentialPairsFeatureExtractor;
 import io.anserini.ltr.feature.UnigramFeatureExtractor;
 import io.anserini.ltr.feature.UnorderedSequentialPairsFeatureExtractor;
-import io.anserini.ltr.feature.base.AvgICTFFeatureExtractor;
-import io.anserini.ltr.feature.base.AvgIDFFeatureExtractor;
-import io.anserini.ltr.feature.base.BM25FeatureExtractor;
-import io.anserini.ltr.feature.base.DocSizeFeatureExtractor;
-import io.anserini.ltr.feature.base.MatchingTermCount;
-import io.anserini.ltr.feature.base.PMIFeatureExtractor;
-import io.anserini.ltr.feature.base.QueryLength;
-import io.anserini.ltr.feature.base.SCQFeatureExtractor;
-import io.anserini.ltr.feature.base.SimplifiedClarityFeatureExtractor;
-import io.anserini.ltr.feature.base.SumMatchingTf;
-import io.anserini.ltr.feature.base.TFIDFFeatureExtractor;
-import io.anserini.ltr.feature.base.TermFrequencyFeatureExtractor;
-import io.anserini.ltr.feature.base.UniqueTermCount;
-import io.anserini.ltr.feature.twitter.HashtagCount;
-import io.anserini.ltr.feature.twitter.IsTweetReply;
-import io.anserini.ltr.feature.twitter.LinkCount;
-import io.anserini.ltr.feature.twitter.TwitterFollowerCount;
-import io.anserini.ltr.feature.twitter.TwitterFriendCount;
+import io.anserini.ltr.feature.base.*;
+import io.anserini.ltr.feature.twitter.*;
 import io.anserini.util.AnalyzerUtils;
 import io.anserini.util.Qrels;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.document.LongPoint;
 import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.search.NumericRangeQuery;
 import org.apache.lucene.search.Query;
 
 import java.util.Map;
@@ -131,6 +115,6 @@ public class TwitterFeatureExtractor extends BaseFeatureExtractor{
   @Override
   protected Query docIdQuery(String docId) {
     long docIdLong = Long.parseLong(docId);
-    return NumericRangeQuery.newLongRange(getIdField(), docIdLong, docIdLong, true, true);
+    return LongPoint.newRangeQuery(getIdField(), docIdLong, docIdLong);
   }
 }

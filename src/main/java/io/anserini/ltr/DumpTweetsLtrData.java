@@ -12,33 +12,23 @@ import io.anserini.search.MicroblogTopicSet;
 import io.anserini.search.SearchArgs;
 import io.anserini.util.AnalyzerUtils;
 import io.anserini.util.Qrels;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.lucene.document.LongPoint;
+import org.apache.lucene.index.DirectoryReader;
+import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.search.*;
+import org.apache.lucene.search.similarities.BM25Similarity;
+import org.apache.lucene.search.similarities.LMDirichletSimilarity;
+import org.apache.lucene.store.Directory;
+import org.apache.lucene.store.FSDirectory;
+import org.kohsuke.args4j.*;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.nio.file.Paths;
 import java.util.List;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.apache.lucene.index.DirectoryReader;
-import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.search.Filter;
-import org.apache.lucene.search.IndexSearcher;
-import org.apache.lucene.search.NumericRangeFilter;
-import org.apache.lucene.search.Query;
-import org.apache.lucene.search.TopDocs;
-import org.apache.lucene.search.similarities.BM25Similarity;
-import org.apache.lucene.search.similarities.LMDirichletSimilarity;
-import org.apache.lucene.store.Directory;
-import org.apache.lucene.store.FSDirectory;
-import org.kohsuke.args4j.CmdLineException;
-import org.kohsuke.args4j.CmdLineParser;
-import org.kohsuke.args4j.Option;
-import org.kohsuke.args4j.OptionHandlerFilter;
-import org.kohsuke.args4j.ParserProperties;
-
-import com.google.common.collect.Sets;
 
 @SuppressWarnings("deprecation")
 public class DumpTweetsLtrData {
@@ -104,10 +94,14 @@ public class DumpTweetsLtrData {
     for ( MicroblogTopic topic : topics ) {
       long curQueryTime = System.nanoTime();
 
-      Filter filter = NumericRangeFilter.newLongRange(StatusField.ID.name, 0L, topic.getQueryTweetTime(), true, true);
+      Query filter = LongPoint.newRangeQuery(StatusField.ID.name, 0L, topic.getQueryTweetTime());
       Query query = AnalyzerUtils.buildBagOfWordsQuery(StatusField.TEXT.name, IndexTweets.ANALYZER, topic.getQuery());
+      BooleanQuery.Builder builder = new BooleanQuery.Builder();
+      builder.add(filter, BooleanClause.Occur.FILTER);
+      builder.add(query, BooleanClause.Occur.SHOULD);
+      Query q = builder.build();
 
-      TopDocs rs = searcher.search(query, filter, args.hits);
+      TopDocs rs = searcher.search(q, args.hits);
       List<String> queryTokens = AnalyzerUtils.tokenize(IndexTweets.ANALYZER, topic.getQuery());
       RerankerContext context = new RerankerContext(searcher, query, topic.getId(), topic.getQuery(),
           queryTokens, StatusField.TEXT.name, filter);

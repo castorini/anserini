@@ -18,12 +18,8 @@ package io.anserini.search;
 
 import io.anserini.index.IndexTweets;
 import io.anserini.index.IndexTweets.StatusField;
-import io.anserini.ltr.*;
+import io.anserini.ltr.TweetsLtrDataGenerator;
 import io.anserini.ltr.feature.FeatureExtractors;
-import io.anserini.ltr.feature.base.MatchingTermCount;
-import io.anserini.ltr.feature.base.QueryLength;
-import io.anserini.ltr.feature.base.SumMatchingTf;
-import io.anserini.ltr.feature.twitter.*;
 import io.anserini.rerank.RankLibReranker;
 import io.anserini.rerank.RerankerCascade;
 import io.anserini.rerank.RerankerContext;
@@ -31,23 +27,13 @@ import io.anserini.rerank.ScoredDocuments;
 import io.anserini.rerank.rm3.Rm3Reranker;
 import io.anserini.rerank.twitter.RemoveRetweetsTemporalTiebreakReranker;
 import io.anserini.util.AnalyzerUtils;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.PrintStream;
-import java.nio.file.Paths;
-import java.util.List;
-
 import io.anserini.util.Qrels;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.lucene.document.LongPoint;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.search.Filter;
-import org.apache.lucene.search.IndexSearcher;
-import org.apache.lucene.search.NumericRangeFilter;
-import org.apache.lucene.search.Query;
-import org.apache.lucene.search.TopDocs;
+import org.apache.lucene.search.*;
 import org.apache.lucene.search.similarities.BM25Similarity;
 import org.apache.lucene.search.similarities.LMDirichletSimilarity;
 import org.apache.lucene.store.Directory;
@@ -58,7 +44,11 @@ import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.OptionHandlerFilter;
 import org.kohsuke.args4j.ParserProperties;
 
-import com.google.common.collect.Sets;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
+import java.nio.file.Paths;
+import java.util.List;
 
 @SuppressWarnings("deprecation")
 public class SearchTweets {
@@ -140,10 +130,14 @@ public class SearchTweets {
     for ( MicroblogTopic topic : topics ) {
       long curQueryTime = System.nanoTime();
 
-      Filter filter = NumericRangeFilter.newLongRange(StatusField.ID.name, 0L, topic.getQueryTweetTime(), true, true);
+      Query filter = LongPoint.newRangeQuery(StatusField.ID.name, 0L, topic.getQueryTweetTime());
       Query query = AnalyzerUtils.buildBagOfWordsQuery(StatusField.TEXT.name, IndexTweets.ANALYZER, topic.getQuery());
+      BooleanQuery.Builder builder = new BooleanQuery.Builder();
+      builder.add(filter, BooleanClause.Occur.FILTER);
+      builder.add(query, BooleanClause.Occur.SHOULD);
+      Query q = builder.build();
 
-      TopDocs rs = searcher.search(query, filter, searchArgs.hits);
+      TopDocs rs = searcher.search(q, searchArgs.hits);
       List<String> queryTokens = AnalyzerUtils.tokenize(IndexTweets.ANALYZER, topic.getQuery());
 
       RerankerContext context = new RerankerContext(searcher, query, topic.getId(), topic.getQuery(),
