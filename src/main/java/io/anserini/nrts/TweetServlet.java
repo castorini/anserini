@@ -1,14 +1,9 @@
 package io.anserini.nrts;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.io.IOException;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.github.mustachejava.DefaultMustacheFactory;
+import com.github.mustachejava.Mustache;
+import com.github.mustachejava.MustacheFactory;
+import io.anserini.nrts.TweetStreamIndexer.StatusField;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
@@ -19,11 +14,13 @@ import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopScoreDocCollector;
 
-import com.github.mustachejava.DefaultMustacheFactory;
-import com.github.mustachejava.Mustache;
-import com.github.mustachejava.MustacheFactory;
-
-import io.anserini.nrts.TweetStreamIndexer.StatusField;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TweetServlet extends HttpServlet {
 
@@ -68,7 +65,7 @@ public class TweetServlet extends HttpServlet {
       try {
         q = new QueryParser(StatusField.TEXT.name, TweetSearcher.ANALYZER).parse(request.getParameter("query"));
         try {
-          reader = DirectoryReader.open(TweetSearcher.indexWriter, true);
+          reader = DirectoryReader.open(TweetSearcher.indexWriter, true, true);
         } catch (IOException e) {
           // TODO Auto-generated catch block
           e.printStackTrace();

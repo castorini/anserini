@@ -14,14 +14,14 @@ public class TFIDFFeatureExtractorTest extends BaseFeatureExtractorTest {
 
   @Test
   public void testTFIDFOnSingleDocSingleQuery() throws IOException {
-    float[] expected = {0.094158f};
+    float[] expected = {1f};
     assertFeatureValues(expected, "document", "single document test case",
             new TFIDFFeatureExtractor() );
   }
 
   @Test
   public void testTFIDFOnSingleDocMultiQuery() throws IOException {
-    float[] expected = {0.188316f};
+    float[] expected = {2f};
     assertFeatureValues(expected, "document test", "single document test case",
             new TFIDFFeatureExtractor() );
   }
@@ -30,7 +30,7 @@ public class TFIDFFeatureExtractorTest extends BaseFeatureExtractorTest {
   public void testTFIDFOnMultiDocSingleQuery() throws IOException {
     String queryText = "document";
 
-    float[] expected = {0.35345f};
+    float[] expected = {1f};
     assertFeatureValues(expected, queryText, Lists.newArrayList("single document test case",
             "another document test"),getChain(new TFIDFFeatureExtractor()), 0 );
   }
@@ -39,7 +39,7 @@ public class TFIDFFeatureExtractorTest extends BaseFeatureExtractorTest {
   public void testTFIDFOnMultiDocMultiQuery() throws IOException {
     String queryText = "document test";
 
-    float[] expected = {0.7069f};
+    float[] expected = {2f};
     assertFeatureValues(expected, queryText, Lists.newArrayList("single document test case",
             "another document test"),getChain(new TFIDFFeatureExtractor()), 0 );
   }
@@ -48,7 +48,7 @@ public class TFIDFFeatureExtractorTest extends BaseFeatureExtractorTest {
   public void testTFIDFOnMultiDocMultiQuery2() throws IOException {
     String queryText = "document test";
 
-    float[] expected = {1.35345f};
+    float[] expected = {2.9753323f};
     assertFeatureValues(expected, queryText, Lists.newArrayList("single document test case",
             "another document"),getChain(new TFIDFFeatureExtractor()), 0 );
 
@@ -58,7 +58,7 @@ public class TFIDFFeatureExtractorTest extends BaseFeatureExtractorTest {
   public void testTFIDFOnMultiDocMultiQuery3() throws IOException {
     String queryText = "document test";
 
-    float[] expected = {2.4827f};
+    float[] expected = {3.8667474f};
     assertFeatureValues(expected, queryText, Lists.newArrayList("single document test case",
             "new document", "another document"),getChain(new TFIDFFeatureExtractor()), 0 );
   }

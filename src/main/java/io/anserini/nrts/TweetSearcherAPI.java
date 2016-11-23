@@ -74,7 +74,7 @@ public class TweetSearcherAPI {
     try {
       Query q = new QueryParser(TweetStreamIndexer.StatusField.TEXT.name, TweetSearcher.ANALYZER).parse(query.getQuery());
       try {
-        reader = DirectoryReader.open(TweetSearcher.indexWriter, true);
+        reader = DirectoryReader.open(TweetSearcher.indexWriter, true, true);
       } catch (IOException e) {
         // TODO Auto-generated catch block
         e.printStackTrace();

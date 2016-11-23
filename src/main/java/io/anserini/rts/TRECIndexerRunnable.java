@@ -1,27 +1,19 @@
 package io.anserini.rts;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import io.anserini.document.twitter.Status;
-
-import java.io.IOException;
 import org.apache.logging.log4j.Logger;
-import org.apache.lucene.document.Document;
-import org.apache.lucene.document.Field;
+import org.apache.lucene.document.*;
 import org.apache.lucene.document.Field.Store;
-import org.apache.lucene.document.FieldType;
-import org.apache.lucene.document.IntField;
-import org.apache.lucene.document.LongField;
-import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.IndexOptions;
 import org.apache.lucene.index.IndexWriter;
-import org.apache.lucene.search.NumericRangeQuery;
 import org.apache.lucene.search.Query;
-
 import twitter4j.RawStreamListener;
 import twitter4j.TwitterStream;
 import twitter4j.TwitterStreamFactory;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import java.io.IOException;
 
 public class TRECIndexerRunnable implements Runnable {
   private static final Logger LOG = TRECSearcher.LOG;
@@ -79,7 +71,7 @@ public class TRECIndexerRunnable implements Runnable {
             // Tweet deletion update: delete from the existed index
             if (obj.has("delete")) {
               long id = obj.getAsJsonObject("delete").getAsJsonObject("status").get("id").getAsLong();
-              Query q = NumericRangeQuery.newLongRange(StatusField.ID.name, id, id, true, true);
+              Query q = LongPoint.newRangeQuery(StatusField.ID.name, id, id);
               indexWriter.deleteDocuments(q);
             }
           } catch (Exception e) {
@@ -116,8 +108,10 @@ public class TRECIndexerRunnable implements Runnable {
           return;
         }
         Document doc = new Document();
-        doc.add(new LongField(StatusField.ID.name, status.getId(), Field.Store.YES));
-        doc.add(new LongField(StatusField.EPOCH.name, status.getEpoch(), Field.Store.YES));
+        doc.add(new LongPoint(StatusField.ID.name, status.getId()));
+        doc.add(new StoredField(StatusField.ID.name, status.getId()));
+        doc.add(new LongPoint(StatusField.EPOCH.name, status.getEpoch()));
+        doc.add(new StoredField(StatusField.EPOCH.name, status.getEpoch()));
         doc.add(new TextField(StatusField.SCREEN_NAME.name, status.getScreenname(), Store.YES));
         doc.add(new TextField(StatusField.NAME.name, status.getName(), Store.YES));
         doc.add(new TextField(StatusField.PROFILE_IMAGE_URL.name, status.getProfileImageURL(), Store.YES));
@@ -125,7 +119,8 @@ public class TRECIndexerRunnable implements Runnable {
         doc.add(new TextField(StatusField.RAW_TEXT.name, status.getText(), Store.YES));
         long retweetStatusId = status.getRetweetedStatusId();
         if (retweetStatusId > 0) {
-          doc.add(new IntField(StatusField.RETWEET_COUNT.name, status.getRetweetCount(), Store.YES));
+          doc.add(new IntPoint(StatusField.RETWEET_COUNT.name, status.getRetweetCount()));
+          doc.add(new StoredField(StatusField.RETWEET_COUNT.name, status.getRetweetCount()));
           if (status.getRetweetCount() < 0 || status.getRetweetedStatusId() < 0) {
             System.err.println("Error parsing retweet fields of " + status.getId());
           }

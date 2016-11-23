@@ -1,25 +1,17 @@
 package io.anserini.rts;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.SimpleTimeZone;
-import java.util.TimeZone;
-import java.util.TimerTask;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import io.anserini.index.IndexTweets.StatusField;
+import org.apache.logging.log4j.Logger;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.document.LongPoint;
+import org.apache.lucene.index.DirectoryReader;
+import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.queryparser.classic.ParseException;
+import org.apache.lucene.queryparser.classic.QueryParser;
+import org.apache.lucene.search.*;
+import org.apache.lucene.store.FSDirectory;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -27,30 +19,12 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import org.apache.logging.log4j.Logger;
+import java.io.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
-import org.apache.lucene.document.Document;
-import org.apache.lucene.index.DirectoryReader;
-import org.apache.lucene.index.IndexReader;
-
-import org.apache.lucene.queryparser.classic.ParseException;
-import org.apache.lucene.queryparser.classic.QueryParser;
-import org.apache.lucene.search.BooleanClause;
-import org.apache.lucene.search.BooleanQuery;
-import org.apache.lucene.search.IndexSearcher;
-import org.apache.lucene.search.NumericRangeQuery;
-import org.apache.lucene.search.Query;
-import org.apache.lucene.search.ScoreDoc;
-import org.apache.lucene.search.TopScoreDocCollector;
-import org.apache.lucene.search.TotalHitCountCollector;
-
-import org.apache.lucene.store.FSDirectory;
-
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 //import com.ibm.icu.util.TimeZone;
-
-import io.anserini.index.IndexTweets.StatusField;
 
 public class TRECScenarioRunnable extends TimerTask {
   private static final JsonParser JSON_PARSER = new JsonParser();
@@ -263,31 +237,32 @@ public class TRECScenarioRunnable extends TimerTask {
         Query titleExpansionQuery = new QueryParser(TRECIndexerRunnable.StatusField.TEXT.name, Indexer.ANALYZER)
             .parse(thisInterestProfile.titleExpansionQueryString(titleBoostFactor, expansionBoostFactor));
 
-        BooleanQuery finalQuery = new BooleanQuery();
-        finalQuery.add(titleExpansionQuery, BooleanClause.Occur.MUST);
-        Query tweetTimeRangeQuery = NumericRangeQuery.newLongRange(StatusField.EPOCH.name,
+        BooleanQuery.Builder bqBuilder = new BooleanQuery.Builder();
+        bqBuilder.add(titleExpansionQuery, BooleanClause.Occur.MUST);
+        Query tweetTimeRangeQuery = LongPoint.newRangeQuery(StatusField.EPOCH.name,
             (long) (Calendar.getInstance().getTimeInMillis() - interval) / 1000,
-            (long) Calendar.getInstance().getTimeInMillis() / 1000, true, true);
+            (long) Calendar.getInstance().getTimeInMillis() / 1000);
 
         // must satisfy the time window, FILTER clause do not
         // participate in scoring
-        finalQuery.add(tweetTimeRangeQuery, BooleanClause.Occur.FILTER);
+        bqBuilder.add(tweetTimeRangeQuery, BooleanClause.Occur.FILTER);
+        Query q = bqBuilder.build();
 
         LOG.info("Parsed titleExpansionQuery " + titleExpansionQuery.getClass() + " looks like "
             + titleExpansionQuery.toString() + " " + titleExpansionQuery.getClass());
-        LOG.info("Parsed finalQuery " + finalQuery.getClass() + " looks like " + finalQuery.toString() + " "
-            + finalQuery.getClass());
+        LOG.info("Parsed finalQuery " + q.getClass() + " looks like " + q.toString() + " "
+            + q.getClass());
         searcher.setSimilarity(titleExpansionSimilarity);
 
         totalHitCollector = new TotalHitCountCollector();
         // Second search and scoring part:
         // titleExpansionSimilarity(q,d)= (We*Ne+Wt*Nt)
-        searcher.search(finalQuery, totalHitCollector);
+        searcher.search(q, totalHitCollector);
 
         if (totalHitCollector.getTotalHits() > 0) {
           TopScoreDocCollector finalQueryHitCollector = TopScoreDocCollector
               .create(Math.max(0, totalHitCollector.getTotalHits()));
-          searcher.search(finalQuery, finalQueryHitCollector);
+          searcher.search(q, finalQueryHitCollector);
           ScoreDoc[] hits = finalQueryHitCollector.topDocs().scoreDocs;
           LOG.info("Title expansion similarity has " + totalHitCollector.getTotalHits() + " hits");
 

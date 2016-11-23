@@ -16,42 +16,29 @@
 
 package io.anserini.index;
 
+import io.anserini.analysis.TweetAnalyzer;
 import io.anserini.document.twitter.JsonStatusCorpusReader;
 import io.anserini.document.twitter.Status;
 import io.anserini.document.twitter.StatusStream;
-import io.anserini.analysis.TweetAnalyzer;
 import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
-import java.nio.file.Paths;
-
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.GnuParser;
-import org.apache.commons.cli.HelpFormatter;
-import org.apache.commons.cli.Option;
-import org.apache.commons.cli.OptionBuilder;
-import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
+import org.apache.commons.cli.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.document.Document;
-import org.apache.lucene.document.Field;
+import org.apache.lucene.document.*;
 import org.apache.lucene.document.Field.Store;
-import org.apache.lucene.document.FieldType;
-import org.apache.lucene.document.IntField;
-import org.apache.lucene.document.LongField;
-import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.IndexOptions;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.tools.bzip2.CBZip2InputStream;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
+import java.nio.file.Paths;
 
 /**
  * Reference implementation for indexing statuses.
@@ -209,20 +196,27 @@ public class IndexTweets {
 
         cnt++;
         Document doc = new Document();
-        doc.add(new LongField(StatusField.ID.name, status.getId(), Field.Store.YES));
-        doc.add(new LongField(StatusField.EPOCH.name, status.getEpoch(), Field.Store.YES));
+        doc.add(new LongPoint(StatusField.ID.name, status.getId()));
+        doc.add(new StoredField(StatusField.ID.name, status.getId()));
+        doc.add(new LongPoint(StatusField.EPOCH.name, status.getEpoch()));
+        doc.add(new StoredField(StatusField.EPOCH.name, status.getEpoch()));
         doc.add(new TextField(StatusField.SCREEN_NAME.name, status.getScreenname(), Store.YES));
 
         doc.add(new Field(StatusField.TEXT.name, status.getText(), textOptions));
 
-        doc.add(new IntField(StatusField.FRIENDS_COUNT.name, status.getFollowersCount(), Store.YES));
-        doc.add(new IntField(StatusField.FOLLOWERS_COUNT.name, status.getFriendsCount(), Store.YES));
-        doc.add(new IntField(StatusField.STATUSES_COUNT.name, status.getStatusesCount(), Store.YES));
+        doc.add(new IntPoint(StatusField.FRIENDS_COUNT.name, status.getFollowersCount()));
+        doc.add(new StoredField(StatusField.FRIENDS_COUNT.name, status.getFollowersCount()));
+        doc.add(new IntPoint(StatusField.FOLLOWERS_COUNT.name, status.getFriendsCount()));
+        doc.add(new StoredField(StatusField.FOLLOWERS_COUNT.name, status.getFriendsCount()));
+        doc.add(new IntPoint(StatusField.STATUSES_COUNT.name, status.getStatusesCount()));
+        doc.add(new StoredField(StatusField.STATUSES_COUNT.name, status.getStatusesCount()));
 
         long inReplyToStatusId = status.getInReplyToStatusId();
         if (inReplyToStatusId > 0) {
-          doc.add(new LongField(StatusField.IN_REPLY_TO_STATUS_ID.name, inReplyToStatusId, Field.Store.YES));
-          doc.add(new LongField(StatusField.IN_REPLY_TO_USER_ID.name, status.getInReplyToUserId(), Field.Store.YES));
+          doc.add(new LongPoint(StatusField.IN_REPLY_TO_STATUS_ID.name, inReplyToStatusId));
+          doc.add(new StoredField(StatusField.IN_REPLY_TO_STATUS_ID.name, inReplyToStatusId));
+          doc.add(new LongPoint(StatusField.IN_REPLY_TO_USER_ID.name, status.getInReplyToUserId()));
+          doc.add(new StoredField(StatusField.IN_REPLY_TO_USER_ID.name, status.getInReplyToUserId()));
         }
         
         String lang = status.getLang();
@@ -232,9 +226,12 @@ public class IndexTweets {
         
         long retweetStatusId = status.getRetweetedStatusId();
         if (retweetStatusId > 0) {
-          doc.add(new LongField(StatusField.RETWEETED_STATUS_ID.name, retweetStatusId, Field.Store.YES));
-          doc.add(new LongField(StatusField.RETWEETED_USER_ID.name, status.getRetweetedUserId(), Field.Store.YES));
-          doc.add(new IntField(StatusField.RETWEET_COUNT.name, status.getRetweetCount(), Store.YES));
+          doc.add(new LongPoint(StatusField.RETWEETED_STATUS_ID.name, retweetStatusId));
+          doc.add(new StoredField(StatusField.RETWEETED_STATUS_ID.name, retweetStatusId));
+          doc.add(new LongPoint(StatusField.RETWEETED_USER_ID.name, status.getRetweetedUserId()));
+          doc.add(new StoredField(StatusField.RETWEETED_USER_ID.name, status.getRetweetedUserId()));
+          doc.add(new IntPoint(StatusField.RETWEET_COUNT.name, status.getRetweetCount()));
+          doc.add(new StoredField(StatusField.RETWEET_COUNT.name, status.getRetweetCount()));
           if ( status.getRetweetCount() < 0 || status.getRetweetedStatusId() < 0) {
             LOG.warn("Error parsing retweet fields of " + status.getId());
           }

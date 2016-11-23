@@ -1,9 +1,6 @@
 package io.anserini.util;
 
-import java.io.IOException;
-import java.io.StringReader;
-import java.util.List;
-
+import com.google.common.collect.Lists;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
@@ -13,7 +10,9 @@ import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.TermQuery;
 
-import com.google.common.collect.Lists;
+import java.io.IOException;
+import java.io.StringReader;
+import java.util.List;
 
 public class AnalyzerUtils {
   static public List<String> tokenize(Analyzer analyzer, String s) {
