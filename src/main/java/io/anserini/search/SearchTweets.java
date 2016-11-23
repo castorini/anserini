@@ -134,7 +134,7 @@ public class SearchTweets {
       Query query = AnalyzerUtils.buildBagOfWordsQuery(StatusField.TEXT.name, IndexTweets.ANALYZER, topic.getQuery());
       BooleanQuery.Builder builder = new BooleanQuery.Builder();
       builder.add(filter, BooleanClause.Occur.FILTER);
-      builder.add(query, BooleanClause.Occur.SHOULD);
+      builder.add(query, BooleanClause.Occur.MUST);
       Query q = builder.build();
 
       TopDocs rs = searcher.search(q, searchArgs.hits);

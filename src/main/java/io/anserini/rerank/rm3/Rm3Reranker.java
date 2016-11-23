@@ -80,7 +80,7 @@ public class Rm3Reranker implements Reranker {
       } else {
         BooleanQuery.Builder bqBuilder = new BooleanQuery.Builder();
         bqBuilder.add(context.getFilter(), BooleanClause.Occur.FILTER);
-        bqBuilder.add(nq, BooleanClause.Occur.SHOULD);
+        bqBuilder.add(nq, BooleanClause.Occur.MUST);
         Query q = bqBuilder.build();
         rs = searcher.search(q, 1000);
       }
