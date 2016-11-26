@@ -24,7 +24,7 @@ mvn clean package appassembler:assemble
     * [ClueWeb09b](docs/experiments-clueweb09b.md)
     * [ClueWeb12-B13](docs/experiments-clueweb12-b13.md)
 
-* [Reference to all Topics and Qrels](src/main/resources/topics-and-qrels/README.md)
+* [Reference to all Topics and Qrels](docs/topics-and-qrels.md)
 
 * Other features
 
