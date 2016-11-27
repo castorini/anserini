@@ -7,31 +7,34 @@ Build using Maven:
 mvn clean package appassembler:assemble
 ```
 
-* Tools
+## Standard IR Experiments
 
-    * [IndexCollection](docs/index-collection.md)
-    * [DumpIndex](docs/dumpindex.md)
-        * [DumpIndex Reference](docs/dumpindex-reference.md)
-    * [SearchCollection](docs/search-collection.md)
+Anserini is designed to support experiments on various standard TREC collections out of the box:
 
-* Anserini is designed to support experiments on various standard TREC collections out of the box:
++ [Disk12](docs/experiments-disk12.md)
++ [Robust04](docs/experiments-robust04.md)
++ [Robust05](docs/experiments-robust05.md)
++ [WT2G & WT10G](docs/experiments-wt.md)
++ [Gov2](docs/experiments-gov2.md)
++ [ClueWeb09b](docs/experiments-clueweb09b.md)
++ [ClueWeb12-B13](docs/experiments-clueweb12-b13.md)
++ [ClueWeb12](docs/experiments-clueweb12.md)
 
-    * [Disk12](docs/experiments-disk12.md)
-    * [Robust04](docs/experiments-robust04.md)
-    * [Robust05](docs/experiments-robust05.md)
-    * [WT2G & WT10G](docs/experiments-wt.md)
-    * [Gov2](docs/experiments-gov2.md)
-    * [ClueWeb09b](docs/experiments-clueweb09b.md)
-    * [ClueWeb12-B13](docs/experiments-clueweb12-b13.md)
+Other helpful links:
 
-* [Reference to all Topics and Qrels](docs/topics-and-qrels.md)
++ [Index statistics](docs/dumpindex-reference.md) for verification purposes
++ [Source of all topics and qrels](docs/topics-and-qrels.md)
 
-* Other features
+## Tools
 
-    * [Twitter (Near) Real-Time Search](docs/twitter-nrts.md)
-    * [YoGosling](docs/yogosling.md)
-    
-* How-To
++ [IndexCollection](docs/index-collection.md)
++ [DumpIndex](docs/dumpindex.md)
++ [SearchCollection](docs/search-collection.md)
 
-    * [Add a new collection class](docs/add-collection-class.md)
-    * [Add a new topic reader](docs/add-topic-reader.md)
+## Other Features
+
++ [Twitter (Near) Real-Time Search](docs/twitter-nrts.md)
++ [YoGosling](docs/yogosling.md)
++ How to [add a new collection class](docs/add-collection-class.md)
++ How to [add a new topic reader](docs/add-topic-reader.md)
+

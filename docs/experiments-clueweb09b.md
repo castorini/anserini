@@ -19,9 +19,9 @@ sh target/appassembler/bin/SearchWebCollection \
   -topics src/main/resources/topics-and-qrels/topics.web.51-100.txt -output run.web.51-100.bm25.txt
 ```
 
-You should then be able to evaluate using `trec_eval`, as with Gov2 above. With the topics and qrels in `src/main/resources/topics-and-qrels/`, you should be able to replicate the following results:
+Topics and qrels are stored in `src/main/resources/topics-and-qrels/`. With `trec_eval` for AP and P30, and with `gdeval` for NDCG@20, you should be able to replicate the following results:
 
-MAP                                                                           | BM25   |BM25+RM3| QL     | QL+RM3
+AP                                                                            | BM25   |BM25+RM3| QL     | QL+RM3
 :-----------------------------------------------------------------------------|--------|--------|--------|--------
 [TREC 2010 Web Track: Topics 51-100](http://trec.nist.gov/data/web10.html)    | 0.1091 | 0.1065 | 0.1026 | 0.1056
 [TREC 2011 Web Track: Topics 101-150](http://trec.nist.gov/data/web2011.html) | 0.1095 | 0.1140 | 0.0972 | 0.1021

@@ -19,9 +19,9 @@ sh target/appassembler/bin/SearchWebCollection \
   -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt -output run.web.201-250.bm25.txt
 ```
 
-You should then be able to evaluate using `trec_eval`, as with Gov2 and ClueWeb09 above. With the topics and qrels in `src/main/resources/topics-and-qrels/`, you should be able to replicate the following results:
+Topics and qrels are stored in `src/main/resources/topics-and-qrels/`. With `trec_eval` for AP and P30, and with `gdeval` for NDCG@20, you should be able to replicate the following results:
 
-MAP                                                                            | BM25   |BM25+RM3| QL     | QL+RM3
+AP                                                                             | BM25   |BM25+RM3| QL     | QL+RM3
 :------------------------------------------------------------------------------|--------|--------|--------|--------
 [TREC 2013 Web Track: Topics 201-250](http://trec.nist.gov/data/web2013.html)  | 0.0458 | 0.0428 | 0.0390 | 0.0321
 [TREC 2014 Web Track: Topics 251-300](http://trec.nist.gov/data/web2014.html)  | 0.0220 | 0.0189 | 0.0230 | 0.0202
