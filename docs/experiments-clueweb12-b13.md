@@ -14,7 +14,8 @@ The directory `/path/to/cw12-b13/` should be the root directory of ClueWeb12-B13
 After indexing is done, you should be able to perform a retrieval run:
 
 ```
-sh target/appassembler/bin/SearchWebCollection -topicreader Webxml -index lucene-index.cw12b13.pos+docvectors -bm25 \
+sh target/appassembler/bin/SearchWebCollection \
+  -topicreader Webxml -index lucene-index.cw12b13.pos+docvectors -bm25 \
   -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt -output run.web.201-250.bm25.txt
 ```
 

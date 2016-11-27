@@ -14,7 +14,8 @@ The directory `/path/to/cw09/ClueWeb09_English_1` should be the root directory o
 After indexing is done, you should be able to perform a retrieval as follows:
 
 ```
-sh target/appassembler/bin/SearchWebCollection -topicreader Webxml -index lucene-index.cw09b.pos+docvectors -bm25 \
+sh target/appassembler/bin/SearchWebCollection \
+  -topicreader Webxml -index lucene-index.cw09b.pos+docvectors -bm25 \
   -topics src/main/resources/topics-and-qrels/topics.web.51-100.txt -output run.web.51-100.bm25.txt
 ```
 
