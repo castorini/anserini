@@ -21,6 +21,18 @@ All topics and qrels are stored in `src/main/resources/topics-and-qrels/`. Here 
 + topics.robust05.txt: [Hard Topics of ROBUST04 (TREC 2005 Robust Track)](http://trec.nist.gov/data/robust/05/05.50.topics.txt)
 + qrels.robust2005.txt: [qrels (TREC 2005 Robust Track)](http://trec.nist.gov/data/robust/05/TREC2005.qrels.txt)
 
+## WT2G
+
++ topics.401-450.txt: [Topics 401-450 (TREC-8 Ad Hoc Track)](http://trec.nist.gov/data/topics_eng/topics.401-450.gz)
++ qrels.401-450.txt: [qrels (TREC-8 Ad Hoc Track small web qrels)](http://trec.nist.gov/data/qrels_eng/qrels.trec8.small_web.gz)
+
+## WT10G
+
++ topics.451-500.txt: [Topics 451-500 (TREC-9 Web Track)](http://trec.nist.gov/data/topics_eng/topics.451-500.gz)
++ topics.501-550.txt: [Topics 501-550 (TREC 2001 Web Track)](http://trec.nist.gov/data/topics_eng/topics.501-550.txt)
++ qrels.451-500.txt: [qrels (TREC-9 Web Track)](http://trec.nist.gov/data/qrels_eng/qrels.trec9.main_web.gz)
++ qrels.501-550.txt: [qrels (TREC 2001 Web Track)](http://trec.nist.gov/data/qrels_eng/adhoc_qrels.txt)
+
 ## Gov2
 
 + topics.701-750.txt: [Topics 701-750 (TREC 2004 Terabyte Track)](http://trec.nist.gov/data/terabyte/04/04topics.701-750.txt)
