@@ -44,6 +44,5 @@ P30                                                                            |
 
 NDCG@20                                                                        | BM25   | QL     |
 :------------------------------------------------------------------------------|--------|--------|
-[TREC 2013 Web Track: Topics 201-250](http://trec.nist.gov/data/web2013.html)  | 0.2464 | 0.2249 |
-[TREC 2014 Web Track: Topics 251-300](http://trec.nist.gov/data/web2014.html)  | 0.3277 | 0.2933 |
-
+[TREC 2013 Web Track: Topics 201-250](http://trec.nist.gov/data/web2013.html)  | 0.2067 | 0.1893 |
+[TREC 2014 Web Track: Topics 251-300](http://trec.nist.gov/data/web2014.html)  | 0.2644 | 0.2345 |
