@@ -3,7 +3,8 @@
 Indexing:
 
 ```
-nohup sh target/appassembler/bin/IndexCollection -collection Gov2 -input /path/to/gov2/ \
+nohup sh target/appassembler/bin/IndexCollection -collection Gov2Collection \
+ -generator JsoupGenerator -input /path/to/gov2/ \
  -index lucene-index.gov2.pos -threads 32 -positions -optimize \
  2> log.gov2.pos.emptyDocids.txt 1> log.gov2.pos.recordCounts.txt &
 ```
@@ -31,8 +32,9 @@ With the topics and qrels in `src/main/resources/topics-and-qrels/`, you should 
 MAP                                                                                     | BM25   |BM25+RM3| QL     | QL+RM3
 ----------------------------------------------------------------------------------------|--------|--------|--------|--------
 [TREC 2004 Terabyte Track: Topics 701-750](http://trec.nist.gov/data/terabyte04.html)   | 0.2673 | 0.2952 | 0.2636 | 0.2800
-[TREC 2005 Terabyte Track: Topics 751-800](http://trec.nist.gov/data/terabyte05.html)   | 0.3364 | 0.3839 | 0.3263 | 0.3628
+[TREC 2005 Terabyte Track: Topics 751-800](http://trec.nist.gov/data/terabyte05.html)   | 0.3365 | 0.3839 | 0.3263 | 0.3628
 [TREC 2006 Terabyte Track: Topics 801-850](http://trec.nist.gov/data/terabyte06.html)   | 0.3053 | 0.3408 | 0.2956 | 0.3198
+**Mean**                                                                                | **0.3030** | **0.3400** | **0.3052** | **0.3209**
 
 
 P30                                                                                     | BM25   |BM25+RM3|  QL    | QL+RM3
@@ -40,4 +42,5 @@ P30                                                                             
 [TREC 2004 Terabyte Track: Topics 701-750](http://trec.nist.gov/data/terabyte04.html)   | 0.4850 | 0.5306 | 0.4673 | 0.4850
 [TREC 2005 Terabyte Track: Topics 751-800](http://trec.nist.gov/data/terabyte05.html)   | 0.5520 | 0.5927 | 0.5167 | 0.5673
 [TREC 2006 Terabyte Track: Topics 801-850](http://trec.nist.gov/data/terabyte06.html)   | 0.4913 | 0.5253 | 0.4760 | 0.4873
+**Mean**                                                                                | **0.5094** | **0.5495** | **0.4867** | **0.5132**
 

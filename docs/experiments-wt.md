@@ -3,7 +3,8 @@
 **Indexing**:
 
 ```
-nohup sh target/appassembler/bin/IndexCollection -collection Wt -input /path/to/wt_collection/ \
+nohup sh target/appassembler/bin/IndexCollection -collection WtCollection -generator JsoupGenerator \
+ -input /path/to/wt_collection/ \
  -index lucene-index.wt.pos -threads 32 -positions -optimize \
  2> log.wt.pos.emptyDocids.txt 1> log.wt.pos.recordCounts.txt &
 ```
@@ -37,6 +38,8 @@ eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.451-550.t
 
 **Effectiveness Reference**:
 
+##### no stopwrods (default)
+
 MAP                    | BM25   | QL     
 -----------------------|--------|--------
 WT2G: Topics 401-450   | 0.3015 | 0.2922 
@@ -47,3 +50,14 @@ P30                    | BM25   | QL
 WT2G: Topics 401-450   | 0.3220 | 0.3233 
 WT10G: Topics 451-550  | 0.2207 | 0.2184  
 
+##### keep stopwrods (with `-keepstopwords` option in both `IndexCollection` and `SearchWebCollection`)
+
+MAP                    | BM25   | QL     
+-----------------------|--------|--------
+WT2G: Topics 401-450   | 0.3028 | 0.2849 
+WT10G: Topics 451-550  | 0.1934 | 0.1964 
+
+P30                    | BM25   | QL     
+-----------------------|--------|--------
+WT2G: Topics 401-450   | 0.3207 | 0.3160 
+WT10G: Topics 451-550  | 0.2255 | 0.2184  

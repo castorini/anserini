@@ -5,7 +5,8 @@ See http://trec.nist.gov/data/t14_robust.html
 **Indexing**:
 
 ```
-nohup sh target/appassembler/bin/IndexCollection -collection Trec -input /path/to/aquaint/ \
+nohup sh target/appassembler/bin/IndexCollection -collection TrecCollection -generator JsoupGenerator \
+ -input /path/to/aquaint/ \
  -index lucene-index.aquaint.pos -threads 32 -positions -optimize \
  2> log.aquaint.pos.emptyDocids.txt 1> log.aquaint.pos.recordCounts.txt &
 ```
@@ -35,7 +36,16 @@ eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.robust200
 
 **Effectiveness Reference**:
 
+##### no stopwrods (default)
+
 Metric | BM25   | QL     
 -------|--------|--------
 MAP    | 0.2004 | 0.2025 
 P30    | 0.3667 | 0.3707 
+
+##### keep stopwrods (with `-keepstopwords` option in both `IndexCollection` and `SearchWebCollection`)
+
+Metric | BM25   | QL     
+-------|--------|--------
+MAP    | 0.1998 | 0.2018 
+P30    | 0.3627 | 0.3653 
