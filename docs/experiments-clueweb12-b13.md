@@ -19,7 +19,16 @@ sh target/appassembler/bin/SearchWebCollection \
   -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt -output run.web.201-250.bm25.txt
 ```
 
-Topics and qrels are stored in `src/main/resources/topics-and-qrels/`. With `trec_eval` for AP and P30, and with `gdeval` for NDCG@20, you should be able to replicate the following results:
+For the retrieval model: specify `-bm25` to use BM25, `-ql` to use query likelihood, and add `-rm3` to invoke the RM3 relevance feedback model (requires docvectors index).
+
+Topics and qrels are stored in `src/main/resources/topics-and-qrels/`. Use `trec_eval` to compute AP and P30, and use `gdeval` to compute NDCG@20:
+
+```
+eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.web.201-250.txt run.web.201-250.bm25.txt
+eval/gdeval.pl src/main/resources/topics-and-qrels/qrels.web.201-250.txt run.web.201-250.bm25.txt
+```
+
+You should be able to replicate the following results:
 
 AP                                                                             | BM25   |BM25+RM3| QL     | QL+RM3
 :------------------------------------------------------------------------------|--------|--------|--------|--------
