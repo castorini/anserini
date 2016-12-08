@@ -3,10 +3,9 @@
 **Indexing**:
 
 ```
-nohup sh target/appassembler/bin/IndexCollection -collection WtCollection -generator JsoupGenerator \
- -input /path/to/wt_collection/ \
- -index lucene-index.wt.pos -threads 32 -positions -optimize \
- 2> log.wt.pos.emptyDocids.txt 1> log.wt.pos.recordCounts.txt &
+nohup sh target/appassembler/bin/IndexCollection -collection WtCollection \
+ -input /path/to/wt_collection/ -generator JsoupGenerator \
+ -index lucene-index.wt.pos -threads 32 -positions -optimize > log.wt.cnt+pos &
 ```
 
 The directory `/path/to/wt/` should be the root directory of WT collection, i.e., `ls /path/to/wt/` should bring up a bunch of subdirectories, `WTX001` to `WTX104` (for WT10G) or `Wt0.tar.gz` to `Wt2.tar.gz` (for WT2G). The command above builds a standard positional index (`-positions`) that's optimized into a single segment (`-optimize`). If you also want to store document vectors (e.g., for query expansion), add the `-docvectors` option.
@@ -38,7 +37,7 @@ eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.451-550.t
 
 **Effectiveness Reference**:
 
-##### no stopwrods (default)
+##### no stopwords (default)
 
 MAP                    | BM25   | QL     
 -----------------------|--------|--------
@@ -50,7 +49,7 @@ P30                    | BM25   | QL
 WT2G: Topics 401-450   | 0.3220 | 0.3233 
 WT10G: Topics 451-550  | 0.2207 | 0.2184  
 
-##### keep stopwrods (with `-keepstopwords` option in both `IndexCollection` and `SearchWebCollection`)
+##### keep stopwords (with `-keepstopwords` option in both `IndexCollection` and `SearchWebCollection`)
 
 MAP                    | BM25   | QL     
 -----------------------|--------|--------

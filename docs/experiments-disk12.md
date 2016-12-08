@@ -6,9 +6,8 @@ See http://trec.nist.gov/data/test_coll.html
 
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection TrecCollection \
- -generator JsoupGenerator  -input /path/to/disk12/ \
- -index lucene-index.disk12.pos -threads 32 -positions -optimize \
- 2> log.disk12.pos.emptyDocids.txt 1> log.disk12.pos.recordCounts.txt &
+ -input /path/to/disk12/ -generator JsoupGenerator \
+ -index lucene-index.disk12.pos -threads 32 -positions -optimize > log.disk12.cnt+pos &
 ```
 
 
@@ -35,7 +34,7 @@ eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.51-100.tx
 
 **Effectiveness Reference**:
 
-##### no stopwrods (default)
+##### no stopwords (default)
 
 MAP                                   | BM25   | QL     
 --------------------------------------|--------|--------
@@ -53,7 +52,7 @@ TREC-3 Ad Hoc Track: Topics 151-200   | 0.4707 | 0.4607
 **Mean.**                             | **0.4467** | **0.4411** 
 
 
-##### keep stopwrods (with `-keepstopwords` option in both `IndexCollection` and `SearchWebCollection`)
+##### keep stopwords (with `-keepstopwords` option in both `IndexCollection` and `SearchWebCollection`)
 
 MAP                                   | BM25   | QL     
 --------------------------------------|--------|--------

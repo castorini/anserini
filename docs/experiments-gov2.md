@@ -32,10 +32,10 @@ You should be able to replicate the following results:
 
 MAP                                                                                     | BM25   |BM25+RM3| QL     | QL+RM3
 ----------------------------------------------------------------------------------------|--------|--------|--------|--------
-[TREC 2004 Terabyte Track: Topics 701-750](http://trec.nist.gov/data/terabyte04.html)   | 0.2673 | 0.2953 | 0.2636 | 0.2800
+[TREC 2004 Terabyte Track: Topics 701-750](http://trec.nist.gov/data/terabyte04.html)   | 0.2673 | 0.2953 | 0.2635 | 0.2800
 [TREC 2005 Terabyte Track: Topics 751-800](http://trec.nist.gov/data/terabyte05.html)   | 0.3365 | 0.3837 | 0.3263 | 0.3627
-[TREC 2006 Terabyte Track: Topics 801-850](http://trec.nist.gov/data/terabyte06.html)   | 0.3053 | 0.3411 | 0.2956 | 0.3199
-**Mean**                                                                                | **0.3030** | **0.3400** | **0.2952** | **0.3209**
+[TREC 2006 Terabyte Track: Topics 801-850](http://trec.nist.gov/data/terabyte06.html)   | 0.3053 | 0.3411 | 0.2955 | 0.3199
+**Mean**                                                                                | **0.3030** | **0.3400** | **0.2951** | **0.3209**
 
 
 P30                                                                                     | BM25   |BM25+RM3|  QL    | QL+RM3
