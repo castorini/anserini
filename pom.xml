@@ -32,8 +32,8 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
-          <source>1.7</source>
-          <target>1.7</target>
+          <source>1.8</source>
+          <target>1.8</target>
           <encoding>utf-8</encoding>
         </configuration>
       </plugin>
@@ -116,6 +116,15 @@
                 <mainClass>io.anserini.rts.TRECSearcher</mainClass>
                 <name>TRECSearcher</name>
             </program>
+            <program>
+              <mainClass>io.anserini.embeddings.train.TrainW2V</mainClass>
+              <name>TrainW2V</name>
+            </program>
+            <program>
+              <mainClass>io.anserini.embeddings.search.SearchW2V</mainClass>
+              <name>LoadW2V</name>
+            </program>
+        
           </programs>
         </configuration>
       </plugin>
@@ -354,5 +363,22 @@
         <version>2.6</version>
     </dependency>
 
+    <dependency>
+        <groupId>org.deeplearning4j</groupId>
+        <artifactId>deeplearning4j-core</artifactId>
+        <version>0.6.0</version>
+    </dependency>
+
+    <dependency>
+        <groupId>org.deeplearning4j</groupId>
+        <artifactId>deeplearning4j-nlp</artifactId>
+        <version>0.6.0</version>
+    </dependency>
+
+    <dependency>
+        <groupId>org.nd4j</groupId>
+        <artifactId>nd4j-native</artifactId>
+        <version>0.6.0</version>
+    </dependency>
   </dependencies>
 </project>
