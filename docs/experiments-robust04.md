@@ -5,9 +5,9 @@ See http://trec.nist.gov/data/t13_robust.html
 **Indexing**:
 
 ```
-nohup sh target/appassembler/bin/IndexCollection -collection Trec -input /path/to/disk45/ \
- -index lucene-index.disk45.pos -threads 32 -positions -optimize \
- 2> log.disk45.pos.emptyDocids.txt 1> log.disk45.pos.recordCounts.txt &
+nohup sh target/appassembler/bin/IndexCollection -collection TrecCollection \
+ -input /path/to/disk45/ -generator JsoupGenerator \
+ -index lucene-index.disk45.pos -threads 32 -positions -optimize > log.disk45.cnt+pos &
 ```
 
 
@@ -35,7 +35,16 @@ eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.robust200
 
 **Effectiveness Reference**:
 
+##### no stopwords (default)
+
 Metric | BM25   | QL     
 -------|--------|--------
 MAP    | 0.2500 | 0.2465 
 P30    | 0.3120 | 0.3078 
+
+##### keep stopwords (with `-keepstopwords` option in both `IndexCollection` and `SearchWebCollection`)
+
+Metric | BM25   | QL     
+-------|--------|--------
+MAP    | 0.2513 | 0.2505 
+P30    | 0.3119 | 0.3092 
