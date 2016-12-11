@@ -15,7 +15,10 @@ public class EvalArgs {
 
   // optional arguments
   @Option(name = "-m", handler = StringArrayOptionHandler.class, usage = "The metric to be printed. Valid ones are: "
-          +"[num_ret|num_rel|num_rel_ret|map|p[.cutoff]|ndcg[.cutoff]]")
+          +"[num_ret|num_rel|num_rel_ret|map|p[.cutoff]|ndcg[.cutoff]]. "
+          +"Several metrics can be printed at once - use space to separate them. "
+          +"Use \".\" to indicate the cutoff parameter for p (precision), ndcg. "
+          +" For example, -m map p.30 ndcg.20")
   String[] reqMetrics;
 
   @Option(name = "-q", handler = BooleanOptionHandler.class, usage = "Print the internal document IDs of documents")
