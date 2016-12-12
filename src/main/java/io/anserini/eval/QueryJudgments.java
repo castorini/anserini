@@ -33,7 +33,7 @@ public class QueryJudgments {
   final private Map<String, Map<String, Integer>> qrels;
 
   public QueryJudgments(String filename) throws IOException {
-    qrels = readJudgmentsFile(filename, false, false);
+    qrels = readJudgmentsFile(filename, true, false);
   }
 
   public Map<String, Map<String, Integer>> getQrels() {

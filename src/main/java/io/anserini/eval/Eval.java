@@ -31,9 +31,7 @@ import java.util.Set;
 import java.util.TreeMap;
 
 /**
- * Searcher for Gov2, ClueWeb09, and ClueWeb12 corpra.
- * TREC Web Tracks from 2009 to 2014
- * TREC Terabyte Tracks from 2004 to 2006
+ * Eval App
  */
 public final class Eval {
 
@@ -42,6 +40,7 @@ public final class Eval {
   public static String[] defaultMetrics = new String[] {
     "num_ret", "num_rel", "num_rel_ret", "map",
     "p.5", "p.10", "p.20", "p.30",
+    "ndcg.10", "ndcg.20"
   };
 
   private static String[] allMetrics;

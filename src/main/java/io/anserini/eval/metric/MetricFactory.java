@@ -34,11 +34,15 @@ public class MetricFactory {
         return new AvgPrecision();
     }
 
-    if(lower.startsWith("p")) {
+    if(lower.startsWith("p") || lower.startsWith("ndcg") ) {
+      int cutoff = Integer.MAX_VALUE;
       if (lower.contains(".")) {
-        return new Precision(Integer.parseInt(lower.substring(2)));
-      } else {
-        return new Precision();
+        cutoff = Integer.parseInt(lower.split("\\.")[1]);
+      }
+      if (lower.startsWith("p")) {
+        return new Precision(cutoff);
+      } else if (lower.startsWith("ndcg")) {
+        return new NDCG(cutoff);
       }
     }
 

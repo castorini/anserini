@@ -18,6 +18,7 @@ package io.anserini.eval;
 
 
 import io.anserini.eval.metric.AvgPrecision;
+import io.anserini.eval.metric.NDCG;
 import io.anserini.eval.metric.Precision;
 import org.apache.lucene.util.LuceneTestCase;
 import org.junit.Before;
@@ -31,7 +32,7 @@ public class MetricsTest extends LuceneTestCase {
   protected Map<String, Integer> judgments1;
   protected Map<String, Integer> judgments2;
 
-  protected static final double DELTA = 1e-8;
+  protected static final double DELTA = 1e-6;
 
   /**
    * MUST call super
@@ -59,7 +60,7 @@ public class MetricsTest extends LuceneTestCase {
     // construct the judgments
     judgments1 = new TreeMap<>();
     judgments1.put("d2", 1);
-    judgments1.put("d4", 1);
+    judgments1.put("d4", 3);
 
     // this is empty judgments
     judgments2 = new TreeMap<>();
@@ -83,5 +84,16 @@ public class MetricsTest extends LuceneTestCase {
 
     assertEquals(0.41666666666666, ap1, DELTA);
     assertEquals(0.0, ap2, DELTA);
+  }
+
+  @Test
+  public void testNDCG() throws IOException {
+    double ndcg1 = new NDCG().evaluate(rankingList, judgments1);
+    double ndcg2 = new NDCG(3).evaluate(rankingList, judgments1);
+    double ndcg3 = new NDCG().evaluate(rankingList, judgments2);
+
+    assertEquals(0.46059078, ndcg1, DELTA);
+    assertEquals(0.0655228, ndcg2, DELTA);
+    assertEquals(0.0, ndcg3, DELTA);
   }
 }
