@@ -1,22 +1,22 @@
 package io.anserini.index.generator;
 
 import io.anserini.document.SourceDocument;
-import io.anserini.index.IndexArgs;
-import io.anserini.index.MultithreadedIndexer;
+import io.anserini.index.IndexCollection;
+import io.anserini.index.IndexCollectionArgs;
 import org.apache.lucene.document.Document;
 
 public abstract class LuceneDocumentGenerator<T extends SourceDocument> {
   public static final String FIELD_BODY = "contents";
   public static final String FIELD_ID = "id";
 
-  protected MultithreadedIndexer.Counters counters;
-  protected IndexArgs args;
+  protected IndexCollection.Counters counters;
+  protected IndexCollectionArgs args;
 
-  public void config(IndexArgs args) {
+  public void config(IndexCollectionArgs args) {
     this.args = args;
   }
 
-  public void setCounters(MultithreadedIndexer.Counters counters) {
+  public void setCounters(IndexCollection.Counters counters) {
     this.counters = counters;
   }
 
