@@ -21,6 +21,9 @@ import io.anserini.document.SourceDocument;
 
 import java.io.IOException;
 
+/**
+ * Class representing an instance of the ClueWeb09 collection.
+*/
 public class CW09Collection<D extends ClueWeb09WarcRecord> extends WarcCollection {
   public CW09Collection() throws IOException {
     super();
@@ -30,12 +33,12 @@ public class CW09Collection<D extends ClueWeb09WarcRecord> extends WarcCollectio
   public SourceDocument next() {
     ClueWeb09WarcRecord doc = new ClueWeb09WarcRecord();
     try {
-      doc = (D)doc.readNextWarcRecord(inStream, ClueWeb09WarcRecord.WARC_VERSION);
+      doc = (D) doc.readNextWarcRecord(inStream, ClueWeb09WarcRecord.WARC_VERSION);
       if (doc == null) {
-        at_eof = true;
+        atEOF = true;
         doc = null;
       }
-    } catch (IOException e1) {
+    } catch (IOException e) {
       doc = null;
     }
     return doc;

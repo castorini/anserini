@@ -33,7 +33,7 @@ import java.util.Set;
 public abstract class Collection<D extends SourceDocument> implements Iterator<SourceDocument> {
   protected Path inputDir;
   protected Path curInputFile;
-  protected boolean at_eof = false;
+  protected boolean atEOF = false;
 
   protected Set<String> skippedFilePrefix = new HashSet<>();
   protected Set<String> allowedFilePrefix = new HashSet<>();
@@ -58,11 +58,13 @@ public abstract class Collection<D extends SourceDocument> implements Iterator<S
 
   @Override
   public boolean hasNext() {
-    return !at_eof;
+    return !atEOF;
   }
 
   @Override
-  public void remove() {}
+  public void remove() {
+    throw new UnsupportedOperationException();
+  }
 
   public abstract void prepareInput(Path p) throws IOException;
   public abstract void finishInput() throws IOException;

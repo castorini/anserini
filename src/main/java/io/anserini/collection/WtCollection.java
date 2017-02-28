@@ -22,6 +22,9 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashSet;
 
+/**
+ * Class representing an instance of a Wt collection.
+ */
 public class WtCollection<D extends TrecwebDocument> extends TrecwebCollection {
   public WtCollection() throws IOException {
     super();
