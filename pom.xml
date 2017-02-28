@@ -73,6 +73,10 @@
               <name>SearchWebCollection</name>
             </program>
             <program>
+              <mainClass>io.anserini.eval.Eval</mainClass>
+              <name>Eval</name>
+            </program>
+            <program>
               <mainClass>io.anserini.SearchTimeUtil</mainClass>
               <name>Time</name>
             </program>
