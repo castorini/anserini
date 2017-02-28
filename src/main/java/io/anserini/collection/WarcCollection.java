@@ -27,6 +27,9 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.zip.GZIPInputStream;
 
+/**
+ * Abstract class representing an instance of a WARC collection.
+ */
 public abstract class WarcCollection<D extends WarcRecord> extends Collection {
   protected DataInputStream inStream;
 
@@ -45,7 +48,7 @@ public abstract class WarcCollection<D extends WarcRecord> extends Collection {
 
   @Override
   public void finishInput() throws IOException {
-    at_eof = false;
+    atEOF = false;
     if (inStream != null)
       inStream.close();
   }

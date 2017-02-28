@@ -28,8 +28,11 @@ import java.nio.file.StandardOpenOption;
 import java.util.*;
 import java.util.zip.GZIPInputStream;
 
+/**
+ * Class representing an instance of a TREC collection.
+ */
 public class TrecCollection<D extends TrecDocument> extends Collection {
-  protected BufferedReader bRdr;
+  protected BufferedReader bufferedReader;
   protected final int BUFFER_SIZE = 1 << 16; // 64K
 
   public TrecCollection() throws IOException {
@@ -41,51 +44,47 @@ public class TrecCollection<D extends TrecDocument> extends Collection {
   @Override
   public void prepareInput(Path curInputFile) throws IOException {
     this.curInputFile = curInputFile;
-    this.bRdr = null;
+    this.bufferedReader = null;
     String fileName = curInputFile.toString();
     if (fileName.matches(".*?\\.\\d*z$")) { // .z .0z .1z .2z
       FileInputStream fin = new FileInputStream(fileName);
       BufferedInputStream in = new BufferedInputStream(fin);
       ZCompressorInputStream zIn = new ZCompressorInputStream(in);
-      bRdr = new BufferedReader(new InputStreamReader(zIn, StandardCharsets.UTF_8));
+      bufferedReader = new BufferedReader(new InputStreamReader(zIn, StandardCharsets.UTF_8));
     } else if (fileName.endsWith(".gz")) { //.gz
       InputStream stream = new GZIPInputStream(
               Files.newInputStream(curInputFile, StandardOpenOption.READ), BUFFER_SIZE);
-      bRdr = new BufferedReader(new InputStreamReader(stream, StandardCharsets.UTF_8));
+      bufferedReader = new BufferedReader(new InputStreamReader(stream, StandardCharsets.UTF_8));
     } else { // plain text file
-      bRdr = new BufferedReader(new FileReader(fileName));
+      bufferedReader = new BufferedReader(new FileReader(fileName));
     }
   }
 
   @Override
   public void finishInput() throws IOException {
-    at_eof = false;
-    if (bRdr != null)
-      bRdr.close();
+    atEOF = false;
+    if (bufferedReader != null) {
+      bufferedReader.close();
+    }
   }
 
   @Override
   public boolean hasNext() {
-    return !at_eof;
+    return !atEOF;
   }
 
   @Override
   public SourceDocument next() {
     TrecDocument doc = new TrecDocument();
     try {
-      doc = (D)doc.readNextRecord(bRdr);
+      doc = (D) doc.readNextRecord(bufferedReader);
       if (doc == null) {
-        at_eof = true;
+        atEOF = true;
         doc = null;
       }
     } catch (IOException e1) {
       doc = null;
     }
     return doc;
-  }
-
-  @Override
-  public void remove() {
-
   }
 }
