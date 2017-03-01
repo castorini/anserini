@@ -52,9 +52,10 @@ public class JsoupGenerator extends LuceneDocumentGenerator<SourceDocument> {
 
     FieldType fieldType = new FieldType();
 
+    fieldType.setStored(args.storedocs);
+
     // Are we storing document vectors?
     if (args.docvectors) {
-      fieldType.setStored(false);
       fieldType.setStoreTermVectors(true);
       fieldType.setStoreTermVectorPositions(true);
     }

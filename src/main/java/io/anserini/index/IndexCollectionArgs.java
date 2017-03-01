@@ -51,6 +51,9 @@ public class IndexCollectionArgs {
   @Option(name = "-docvectors", usage = "boolean switch to store document vectors")
   public boolean docvectors = false;
 
+  @Option(name = "-storedocs", usage = "boolean switch to store raw documen text")
+  public boolean storedocs = false;
+
   @Option(name = "-optimize", usage = "boolean switch to optimize index (force merge)")
   public boolean optimize = false;
 }
