@@ -42,6 +42,9 @@ public class IndexCollectionArgs {
 
   // optional arguments
 
+  @Option(name = "-memorybuffer", usage = "memory buffer size")
+  public int memorybufferSize = 2048;
+
   @Option(name = "-keepstopwords", usage = "boolean switch to keep stopwords")
   public boolean keepstop = false;
 
