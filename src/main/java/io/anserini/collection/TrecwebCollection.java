@@ -26,6 +26,9 @@ import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.zip.GZIPInputStream;
 
+/**
+ * Class representing an instance of a TREC web collection.
+ */
 public abstract class TrecwebCollection<D extends TrecwebDocument> extends TrecCollection {
   public TrecwebCollection() throws IOException {
     super();
@@ -34,14 +37,14 @@ public abstract class TrecwebCollection<D extends TrecwebDocument> extends TrecC
   @Override
   public void prepareInput(Path curInputFile) throws IOException {
     this.curInputFile = curInputFile;
-    this.bRdr = null;
+    this.bufferedReader = null;
     String fileName = curInputFile.toString();
     if (fileName.endsWith(".gz")) { //.gz
       InputStream stream = new GZIPInputStream(
               Files.newInputStream(curInputFile, StandardOpenOption.READ), BUFFER_SIZE);
-      bRdr = new BufferedReader(new InputStreamReader(stream, StandardCharsets.UTF_8));
+      bufferedReader = new BufferedReader(new InputStreamReader(stream, StandardCharsets.UTF_8));
     } else { // in case user had already uncompressed the folder
-      bRdr = new BufferedReader(new FileReader(fileName));
+      bufferedReader = new BufferedReader(new FileReader(fileName));
     }
   }
 
@@ -49,9 +52,9 @@ public abstract class TrecwebCollection<D extends TrecwebDocument> extends TrecC
   public SourceDocument next() {
     TrecwebDocument doc = new TrecwebDocument();
     try {
-      doc = (D) doc.readNextRecord(bRdr);
+      doc = (D) doc.readNextRecord(bufferedReader);
       if (doc == null) {
-        at_eof = true;
+        atEOF = true;
         doc = null;
       }
     } catch (IOException e1) {

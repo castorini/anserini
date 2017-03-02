@@ -22,6 +22,9 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashSet;
 
+/**
+ * Class representing an instance of the Gov2 collection.
+ */
 public class Gov2Collection<D extends TrecwebDocument> extends TrecwebCollection {
   public Gov2Collection() throws IOException {
     super();
