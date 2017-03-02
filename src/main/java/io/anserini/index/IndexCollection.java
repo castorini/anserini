@@ -112,7 +112,8 @@ public final class IndexCollection {
     LOG.info("Threads: " + args.threads);
     LOG.info("Keep stopwords: " + args.keepstop);
     LOG.info("Positions: " + args.positions);
-    LOG.info("Store docVectors: " + args.docvectors);
+    LOG.info("Store docvectors: " + args.docvectors);
+    LOG.info("Store docs: " + args.storedocs);
     LOG.info("Optimize (merge segments): " + args.optimize);
 
     this.indexPath = Paths.get(args.index);
