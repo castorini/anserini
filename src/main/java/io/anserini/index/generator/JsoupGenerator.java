@@ -50,9 +50,13 @@ public class JsoupGenerator extends LuceneDocumentGenerator<SourceDocument> {
     // document id
     document.add(new StringField(FIELD_ID, id, Field.Store.YES));
 
+    if (args.storeRawDocs) {
+      document.add(new StringField(FIELD_RAW, src.content(), Field.Store.YES));
+    }
+
     FieldType fieldType = new FieldType();
 
-    fieldType.setStored(args.storedocs);
+    fieldType.setStored(args.storeTransformedDocs);
 
     // Are we storing document vectors?
     if (args.docvectors) {
