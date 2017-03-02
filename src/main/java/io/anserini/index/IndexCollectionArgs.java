@@ -21,36 +21,36 @@ import org.kohsuke.args4j.Option;
 /**
  * Common arguments (dataDir, indexPath, numThreads, etc) necessary for indexing.
  */
-public class IndexArgs {
+public class IndexCollectionArgs {
 
   // required arguments
 
-  @Option(name = "-input", metaVar = "[Path]", required = true, usage = "Collection Directory")
+  @Option(name = "-input", metaVar = "[Path]", required = true, usage = "collection path")
   public String input;
 
-  @Option(name = "-index", metaVar = "[Path]", required = true, usage = "Lucene index")
+  @Option(name = "-index", metaVar = "[Path]", required = true, usage = "index path")
   public String index;
 
   @Option(name = "-threads", metaVar = "[Number]", required = true, usage = "Number of Threads")
   public int threads;
 
-  @Option(name = "-collection", required = true, usage = "Collection Class: indicates what type of the document is, should be one of [Trec|Wt|Gov2|CW09|CW12]")
+  @Option(name = "-collection", required = true, usage = "collection class in io.anserini.collection")
   public String collectionClass;
 
-  @Option(name = "-generator", required = true, usage = "document generator class")
+  @Option(name = "-generator", required = true, usage = "document generator in io.anserini.index.generator")
   public String generatorClass;
 
   // optional arguments
 
-  @Option(name = "-keepstopwords", usage = "Boolean switch to keep stopwords")
+  @Option(name = "-keepstopwords", usage = "boolean switch to keep stopwords")
   public boolean keepstop = false;
 
-  @Option(name = "-positions", usage = "Boolean switch to index positions")
+  @Option(name = "-positions", usage = "boolean switch to index positions")
   public boolean positions = false;
 
-  @Option(name = "-docvectors", usage = "Boolean switch to store document vectors")
+  @Option(name = "-docvectors", usage = "boolean switch to store document vectors")
   public boolean docvectors = false;
 
-  @Option(name = "-optimize", usage = "Boolean switch to optimize index (force merge)")
+  @Option(name = "-optimize", usage = "boolean switch to optimize index (force merge)")
   public boolean optimize = false;
 }
