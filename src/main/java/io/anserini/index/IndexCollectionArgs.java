@@ -42,6 +42,9 @@ public class IndexCollectionArgs {
 
   // optional arguments
 
+  @Option(name = "-memorybuffer", usage = "memory buffer size")
+  public int memorybufferSize = 2048;
+
   @Option(name = "-keepstopwords", usage = "boolean switch to keep stopwords")
   public boolean keepstop = false;
 
@@ -50,6 +53,9 @@ public class IndexCollectionArgs {
 
   @Option(name = "-docvectors", usage = "boolean switch to store document vectors")
   public boolean docvectors = false;
+
+  @Option(name = "-storedocs", usage = "boolean switch to store raw documen text")
+  public boolean storedocs = false;
 
   @Option(name = "-optimize", usage = "boolean switch to optimize index (force merge)")
   public boolean optimize = false;
