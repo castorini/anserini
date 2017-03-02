@@ -148,11 +148,7 @@ public final class IndexCollection {
     final IndexWriterConfig config = new IndexWriterConfig(analyzer);
     config.setSimilarity(new BM25Similarity());
     config.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
-<<<<<<< HEAD
     config.setRAMBufferSizeMB(args.memorybufferSize);
-=======
-    config.setRAMBufferSizeMB(512);
->>>>>>> master
     config.setUseCompoundFile(false);
     config.setMergeScheduler(new ConcurrentMergeScheduler());
 
