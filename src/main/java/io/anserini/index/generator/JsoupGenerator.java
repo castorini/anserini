@@ -6,6 +6,7 @@ import org.apache.logging.log4j.Logger;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.FieldType;
+import org.apache.lucene.document.StoredField;
 import org.apache.lucene.document.StringField;
 import org.apache.lucene.index.IndexOptions;
 import org.jsoup.Jsoup;
@@ -50,9 +51,13 @@ public class JsoupGenerator extends LuceneDocumentGenerator<SourceDocument> {
     // document id
     document.add(new StringField(FIELD_ID, id, Field.Store.YES));
 
+    if (args.storeRawDocs) {
+      document.add(new StoredField(FIELD_RAW, src.content()));
+    }
+
     FieldType fieldType = new FieldType();
 
-    fieldType.setStored(args.storedocs);
+    fieldType.setStored(args.storeTransformedDocs);
 
     // Are we storing document vectors?
     if (args.docvectors) {

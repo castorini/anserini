@@ -6,6 +6,7 @@ import io.anserini.index.IndexCollectionArgs;
 import org.apache.lucene.document.Document;
 
 public abstract class LuceneDocumentGenerator<T extends SourceDocument> {
+  public static final String FIELD_RAW = "raw";
   public static final String FIELD_BODY = "contents";
   public static final String FIELD_ID = "id";
 
