@@ -85,8 +85,8 @@
               <name>TweetSearcher</name>
             </program>
             <program>
-              <mainClass>io.anserini.index.DumpIndex</mainClass>
-              <name>DumpIndex</name>
+              <mainClass>io.anserini.index.IndexUtils</mainClass>
+              <name>IndexUtils</name>
             </program>
             <program>
               <mainClass>io.anserini.util.DumpDocids</mainClass>
