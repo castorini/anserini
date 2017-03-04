@@ -2,7 +2,6 @@ package io.anserini.index.generator;
 
 import io.anserini.document.SourceDocument;
 import io.anserini.index.IndexCollection;
-import io.anserini.index.IndexCollectionArgs;
 import org.apache.lucene.document.Document;
 
 public abstract class LuceneDocumentGenerator<T extends SourceDocument> {
@@ -11,9 +10,9 @@ public abstract class LuceneDocumentGenerator<T extends SourceDocument> {
   public static final String FIELD_ID = "id";
 
   protected IndexCollection.Counters counters;
-  protected IndexCollectionArgs args;
+  protected IndexCollection.Args args;
 
-  public void config(IndexCollectionArgs args) {
+  public void config(IndexCollection.Args args) {
     this.args = args;
   }
 

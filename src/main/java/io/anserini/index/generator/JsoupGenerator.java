@@ -60,13 +60,13 @@ public class JsoupGenerator extends LuceneDocumentGenerator<SourceDocument> {
     fieldType.setStored(args.storeTransformedDocs);
 
     // Are we storing document vectors?
-    if (args.docvectors) {
+    if (args.storeDocvectors) {
       fieldType.setStoreTermVectors(true);
       fieldType.setStoreTermVectorPositions(true);
     }
 
     // Are we building a "positional" or "count" index?
-    if (args.positions) {
+    if (args.storePositions) {
       fieldType.setIndexOptions(IndexOptions.DOCS_AND_FREQS_AND_POSITIONS);
     } else {
       fieldType.setIndexOptions(IndexOptions.DOCS_AND_FREQS);
