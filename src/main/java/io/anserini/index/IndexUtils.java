@@ -31,8 +31,6 @@ import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.ParserProperties;
-import org.kohsuke.args4j.spi.BooleanOptionHandler;
-import org.kohsuke.args4j.spi.IntOptionHandler;
 
 import java.io.File;
 import java.io.IOException;
@@ -41,32 +39,29 @@ public class IndexUtils {
   private static final Logger LOG = LogManager.getLogger(IndexUtils.class);
 
   public static final class Args {
-
-    // required arguments
-
-    @Option(name = "-index", metaVar = "[Path]", required = true, usage = "Lucene index path")
+    @Option(name = "-index", metaVar = "[Path]", required = true, usage = "index path")
     String index;
 
-    @Option(name = "-s", forbids = {"-t","-di","-dn","-dt","-dv"}, handler=BooleanOptionHandler.class, usage = "Print statistics for the Repository")
+    @Option(name = "-stats", usage = "print index statistics")
     boolean stats;
 
-    @Option(name = "-t", forbids = {"-s","-di","-dn","-dt","-dv"}, usage = "Print term info: stemmed, total counts, doc counts")
+    @Option(name = "-printTermInfo", metaVar = "term", usage = "prints term info (stemmed, total counts, doc counts, etc.)")
     String term;
 
-    @Option(name = "-dv", forbids = {"-s","-t","-di","-dt","-dn"}, handler = IntOptionHandler.class, usage = "Print the document vector of a document")
-    int dv;
+    @Option(name = "-printDocvector", metaVar = "docid", usage = "prints the document vector of a document")
+    String docvectorDocid;
 
-    @Option(name = "-dumpRawDoc", usage = "dumps raw document (if stored in the index)")
-    int rawDoc;
+    @Option(name = "-dumpRawDoc", metaVar = "docid", usage = "dumps raw document (if stored in the index)")
+    String rawDoc;
 
-    @Option(name = "-dumpTransformedDoc", usage = "dumps transformed document (if stored in the index)")
-    int transformedDoc;
+    @Option(name = "-dumpTransformedDoc", metaVar = "docid", usage = "dumps transformed document (if stored in the index)")
+    String transformedDoc;
 
-    @Option(name = "-convertDocidToLuceneDocid", usage = "converts a collection docid to a Lucene internal docid")
-    String docid;
+    @Option(name = "-convertDocidToLuceneDocid", metaVar = "docid", usage = "converts a collection lookupDocid to a Lucene internal lookupDocid")
+    String lookupDocid;
 
-    @Option(name = "-convertLuceneDocidToDocid", usage = "converts to a Lucene internal docid to a collection docid ")
-    int ldocid;
+    @Option(name = "-convertLuceneDocidToDocid", metaVar = "docid", usage = "converts to a Lucene internal lookupDocid to a collection lookupDocid ")
+    int lookupLuceneDocid;
   }
 
   class NotStoredException extends Exception {
@@ -75,8 +70,8 @@ public class IndexUtils {
     }
   }
 
-  final FSDirectory directory;
-  final DirectoryReader reader;
+  private final FSDirectory directory;
+  private final DirectoryReader reader;
 
   public IndexUtils(String indexPath) throws IOException {
     this.directory = FSDirectory.open(new File(indexPath).toPath());
@@ -84,86 +79,73 @@ public class IndexUtils {
   }
 
   void printIndexStats() throws IOException {
-    int docCount = reader.numDocs();
-    int contentsCount = reader.getDocCount(LuceneDocumentGenerator.FIELD_BODY);
-    long termCount = reader.getSumTotalTermFreq(LuceneDocumentGenerator.FIELD_BODY);
-    Fields fds = MultiFields.getFields(reader);
-    Terms terms = fds.terms(LuceneDocumentGenerator.FIELD_BODY);
+    Fields fields = MultiFields.getFields(reader);
+    Terms terms = fields.terms(LuceneDocumentGenerator.FIELD_BODY);
 
-    StringBuilder sb = new StringBuilder();
-    sb.append("Repository statistics:\n");
-    sb.append("documents:\t" + docCount + "\n");
-    sb.append("contentsCount(doc with contents):\t" + contentsCount + "\n");
-    sb.append("unique terms:\t" + terms.size() + "\n");
-    sb.append("total terms:\t" + termCount + "\n");
-    sb.append("stored fields:\t\t");
+    System.out.println("Index statistics");
+    System.out.println("----------------");
+    System.out.println("documents:             " + reader.numDocs());
+    System.out.println("documents (non-empty): " + reader.getDocCount(LuceneDocumentGenerator.FIELD_BODY));
+    System.out.println("unique terms:          " + terms.size());
+    System.out.println("total terms:           " + reader.getSumTotalTermFreq(LuceneDocumentGenerator.FIELD_BODY));
 
-    FieldInfos fis = MultiFields.getMergedFieldInfos(reader);
-    for (String fd : fds) {
-      FieldInfo fi = fis.fieldInfo(fd);
-      sb.append("\n\t" + fd)
-          .append(" (")
-          .append("indexOption: " + fi.getIndexOptions())
-          .append(", hasVectors: " + fi.hasVectors())
-          .append(", hasPayloads: " + fi.hasPayloads())
-          .append(")");
+    System.out.println("stored fields:");
+
+    FieldInfos fieldInfos = MultiFields.getMergedFieldInfos(reader);
+    for (String fd : fields) {
+      FieldInfo fi = fieldInfos.fieldInfo(fd);
+      System.out.println("  " + fd + " (" + "indexOption: " + fi.getIndexOptions() +
+          ", hasVectors: " + fi.hasVectors() + ", hasPayloads: " + fi.hasPayloads() + ")");
     }
-
-    System.out.println(sb);
   }
 
-  String printTermCounts(String termStr )
-          throws IOException, ParseException {
-    StringBuilder sb = new StringBuilder();
+  public void printTermCounts(String termStr) throws IOException, ParseException {
     EnglishAnalyzer ea = new EnglishAnalyzer(CharArraySet.EMPTY_SET);
     QueryParser qp = new QueryParser(LuceneDocumentGenerator.FIELD_BODY, ea);
     TermQuery q = (TermQuery)qp.parse(termStr);
     Term t = q.getTerm();
-    long termFreq = reader.totalTermFreq(t);
-    long docCount = reader.docFreq(t);
-    sb.append("raw: "+termStr+"\n")
-      .append("stemmed: "+q.toString(LuceneDocumentGenerator.FIELD_BODY)+"\n")
-      .append("total Frequency: "+termFreq+"\n")
-      .append("doc Count: "+docCount+"\n");
+
+    System.out.println("raw term:             " + termStr);
+    System.out.println("stemmed term:         " + q.toString(LuceneDocumentGenerator.FIELD_BODY));
+    System.out.println("collection frequency: " + reader.totalTermFreq(t));
+    System.out.println("document frequency:   " + reader.docFreq(t));
 
     PostingsEnum postingsEnum = MultiFields.getTermDocsEnum(reader, LuceneDocumentGenerator.FIELD_BODY, t.bytes());
-    sb.append("posting:\n");
+    System.out.println("postings:\n");
     while (postingsEnum.nextDoc() != DocIdSetIterator.NO_MORE_DOCS) {
-      sb.append(String.format("\t%s, %s\n", postingsEnum.docID(), postingsEnum.freq()));
+      System.out.printf("\t%s, %s\n", postingsEnum.docID(), postingsEnum.freq());
     }
-    return sb.toString();
   }
 
-  String printDocumentVector(int number) throws IOException, NotStoredException {
-    StringBuilder sb = new StringBuilder();
-    Terms terms = reader.getTermVector(number, LuceneDocumentGenerator.FIELD_BODY);
+  public void printDocumentVector(String docid) throws IOException, NotStoredException {
+    Terms terms = reader.getTermVector(convertDocidToLuceneDocid(docid),
+        LuceneDocumentGenerator.FIELD_BODY);
     if (terms == null) {
-      throw new NotStoredException("Doc Vector not Stored!");
+      throw new NotStoredException("Document vector not stored!");
     }
     TermsEnum te = terms.iterator();
     if (te == null) {
-      throw new NotStoredException("Doc Vector not Stored!");
+      throw new NotStoredException("Document vector not stored!");
     }
-    while((te.next()) != null){
-      sb.append(te.term().utf8ToString()+" "+te.totalTermFreq()+"\n");
+    while ((te.next()) != null) {
+      System.out.println(te.term().utf8ToString() + " " + te.totalTermFreq());
     }
-    return sb.toString();
   }
 
-  public String getRawDocument(int number) throws IOException, NotStoredException {
-    Document d = reader.document(number);
+  public String getRawDocument(String docid) throws IOException, NotStoredException {
+    Document d = reader.document(convertDocidToLuceneDocid(docid));
     IndexableField doc = d.getField(LuceneDocumentGenerator.FIELD_RAW);
     if (doc == null) {
-      throw new NotStoredException("Raw document not stored!");
+      throw new NotStoredException("Raw documents not stored!");
     }
     return doc.stringValue();
   }
 
-  public String getTransformedDocument(int number) throws IOException, NotStoredException {
-    Document d = reader.document(number);
+  public String getTransformedDocument(String docid) throws IOException, NotStoredException {
+    Document d = reader.document(convertDocidToLuceneDocid(docid));
     IndexableField doc = d.getField(LuceneDocumentGenerator.FIELD_BODY);
     if (doc == null) {
-      throw new NotStoredException("Raw document not stored!");
+      throw new NotStoredException("Transformed documents not stored!");
     }
     return doc.stringValue();
   }
@@ -213,24 +195,24 @@ public class IndexUtils {
       util.printTermCounts(args.term);
     }
 
-    if (args.dv > 0) {
-      util.printDocumentVector(args.dv);
+    if (args.docvectorDocid != null) {
+      util.printDocumentVector(args.docvectorDocid);
     }
 
-    if (args.rawDoc > 0) {
+    if (args.rawDoc != null) {
       System.out.println(util.getRawDocument(args.rawDoc));
     }
 
-    if (args.transformedDoc > 0) {
+    if (args.transformedDoc != null) {
       System.out.println(util.getTransformedDocument(args.transformedDoc));
     }
 
-    if (args.docid != null) {
-      System.out.println(util.convertDocidToLuceneDocid(args.docid));
+    if (args.lookupDocid != null) {
+      System.out.println(util.convertDocidToLuceneDocid(args.lookupDocid));
     }
 
-    if (args.ldocid > 0) {
-      System.out.println(util.convertLuceneDocidToDocid(args.ldocid));
+    if (args.lookupLuceneDocid > 0) {
+      System.out.println(util.convertLuceneDocidToDocid(args.lookupLuceneDocid));
     }
   }
 }

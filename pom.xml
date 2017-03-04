@@ -86,7 +86,7 @@
             </program>
             <program>
               <mainClass>io.anserini.index.IndexUtils</mainClass>
-              <name>DumpIndex</name>
+              <name>IndexUtils</name>
             </program>
             <program>
               <mainClass>io.anserini.util.DumpDocids</mainClass>
