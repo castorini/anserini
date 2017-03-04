@@ -31,10 +31,7 @@ import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.search.similarities.BM25Similarity;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
-import org.kohsuke.args4j.CmdLineException;
-import org.kohsuke.args4j.CmdLineParser;
-import org.kohsuke.args4j.OptionHandlerFilter;
-import org.kohsuke.args4j.ParserProperties;
+import org.kohsuke.args4j.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -49,6 +46,49 @@ import java.util.concurrent.atomic.AtomicLong;
 
 public final class IndexCollection {
   private static final Logger LOG = LogManager.getLogger(IndexCollection.class);
+
+  public static final class Args {
+
+    // required arguments
+
+    @Option(name = "-input", metaVar = "[Path]", required = true, usage = "collection path")
+    public String input;
+
+    @Option(name = "-index", metaVar = "[Path]", required = true, usage = "index path")
+    public String index;
+
+    @Option(name = "-threads", metaVar = "[Number]", required = true, usage = "Number of Threads")
+    public int threads;
+
+    @Option(name = "-collection", required = true, usage = "collection class in io.anserini.collection")
+    public String collectionClass;
+
+    @Option(name = "-generator", required = true, usage = "document generator in io.anserini.index.generator")
+    public String generatorClass;
+
+    // optional arguments
+
+    @Option(name = "-memorybuffer", usage = "memory buffer size")
+    public int memorybufferSize = 2048;
+
+    @Option(name = "-keepstopwords", usage = "boolean switch to keep stopwords")
+    public boolean keepstop = false;
+
+    @Option(name = "-positions", usage = "boolean switch to index positions")
+    public boolean positions = false;
+
+    @Option(name = "-docvectors", usage = "boolean switch to store document vectors")
+    public boolean docvectors = false;
+
+    @Option(name = "-storeTransformedDocs", usage = "boolean switch to store transformed document text")
+    public boolean storeTransformedDocs = false;
+
+    @Option(name = "-storeRawDocs", usage = "boolean switch to store raw document text")
+    public boolean storeRawDocs = false;
+
+    @Option(name = "-optimize", usage = "boolean switch to optimize index (force merge)")
+    public boolean optimize = false;
+  }
 
   public final class Counters {
     public AtomicLong indexedDocuments = new AtomicLong();
@@ -81,7 +121,10 @@ public final class IndexCollection {
           if (d == null || !d.indexable()) {
             continue;
           }
+
+          @SuppressWarnings("unchecked") // Yes, we know what we're doing here.
           Document doc = transformer.transform(d);
+
           if (doc != null) {
             writer.addDocument(doc);
             cnt++;
@@ -97,7 +140,7 @@ public final class IndexCollection {
     }
   }
 
-  private final IndexCollectionArgs args;
+  private final IndexCollection.Args args;
   private final Path indexPath;
   private final Path collectionPath;
   private final Class collectionClass;
@@ -105,7 +148,7 @@ public final class IndexCollection {
   private final Collection collection;
   private final Counters counters;
 
-  public IndexCollection(IndexCollectionArgs args) throws Exception {
+  public IndexCollection(IndexCollection.Args args) throws Exception {
     this.args = args;
 
     LOG.info("Index path: " + args.index);
@@ -113,7 +156,8 @@ public final class IndexCollection {
     LOG.info("Keep stopwords: " + args.keepstop);
     LOG.info("Positions: " + args.positions);
     LOG.info("Store docvectors: " + args.docvectors);
-    LOG.info("Store docs: " + args.storeTransformedDocs);
+    LOG.info("Store docs: " + (args.storeTransformedDocs ? "transformed" :
+        (args.storeRawDocs ? "raw" : "none")));
     LOG.info("Optimize (merge segments): " + args.optimize);
 
     this.indexPath = Paths.get(args.index);
@@ -190,7 +234,13 @@ public final class IndexCollection {
       if (args.optimize)
         writer.forceMerge(1);
     } finally {
-      writer.close();
+      try {
+        writer.close();
+      } catch (IOException e) {
+        // It is possible that this happens... but nothing much we can do at this point,
+        // so just log the error and move on.
+        LOG.error(e);
+      }
     }
 
     LOG.info("Indexed documents: " + counters.indexedDocuments.get());
@@ -203,7 +253,7 @@ public final class IndexCollection {
   }
 
   public static void main(String[] args) throws Exception {
-    IndexCollectionArgs indexCollectionArgs = new IndexCollectionArgs();
+    IndexCollection.Args indexCollectionArgs = new IndexCollection.Args();
     CmdLineParser parser = new CmdLineParser(indexCollectionArgs, ParserProperties.defaults().withUsageWidth(90));
 
     try {
