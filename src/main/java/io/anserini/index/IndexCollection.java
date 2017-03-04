@@ -71,14 +71,14 @@ public final class IndexCollection {
     @Option(name = "-memorybuffer", usage = "memory buffer size")
     public int memorybufferSize = 2048;
 
-    @Option(name = "-keepstopwords", usage = "boolean switch to keep stopwords")
-    public boolean keepstop = false;
+    @Option(name = "-keepStopwords", usage = "boolean switch to keep stopwords")
+    public boolean keepStopwords = false;
 
-    @Option(name = "-positions", usage = "boolean switch to index positions")
-    public boolean positions = false;
+    @Option(name = "-storePositions", usage = "boolean switch to index storePositions")
+    public boolean storePositions = false;
 
-    @Option(name = "-docvectors", usage = "boolean switch to store document vectors")
-    public boolean docvectors = false;
+    @Option(name = "-storeDocvectors", usage = "boolean switch to store document vectors")
+    public boolean storeDocvectors = false;
 
     @Option(name = "-storeTransformedDocs", usage = "boolean switch to store transformed document text")
     public boolean storeTransformedDocs = false;
@@ -153,12 +153,12 @@ public final class IndexCollection {
 
     LOG.info("Index path: " + args.index);
     LOG.info("Threads: " + args.threads);
-    LOG.info("Keep stopwords: " + args.keepstop);
-    LOG.info("Positions: " + args.positions);
-    LOG.info("Store docvectors: " + args.docvectors);
-    LOG.info("Store docs: " + (args.storeTransformedDocs ? "transformed" :
-        (args.storeRawDocs ? "raw" : "none")));
-    LOG.info("Optimize (merge segments): " + args.optimize);
+    LOG.info("Keep stopwords? " + args.keepStopwords);
+    LOG.info("Store positions? " + args.storePositions);
+    LOG.info("Store docvectors? " + args.storeDocvectors);
+    LOG.info("Store transformed docs? " + args.storeTransformedDocs);
+    LOG.info("Store raw docs?" + args.storeRawDocs);
+    LOG.info("Optimize (merge segments)? " + args.optimize);
 
     this.indexPath = Paths.get(args.index);
     if (!Files.exists(this.indexPath)) {
@@ -188,7 +188,7 @@ public final class IndexCollection {
     LOG.info("Indexing with " + numThreads + " threads to directory " + indexPath.toAbsolutePath() + "...");
 
     final Directory dir = FSDirectory.open(indexPath);
-    final EnglishAnalyzer analyzer = args.keepstop ? new EnglishAnalyzer(CharArraySet.EMPTY_SET) : new EnglishAnalyzer();
+    final EnglishAnalyzer analyzer = args.keepStopwords ? new EnglishAnalyzer(CharArraySet.EMPTY_SET) : new EnglishAnalyzer();
     final IndexWriterConfig config = new IndexWriterConfig(analyzer);
     config.setSimilarity(new BM25Similarity());
     config.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
