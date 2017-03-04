@@ -25,8 +25,7 @@ import org.apache.lucene.document.Document;
 import org.apache.lucene.index.*;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.queryparser.classic.QueryParser;
-import org.apache.lucene.search.DocIdSetIterator;
-import org.apache.lucene.search.TermQuery;
+import org.apache.lucene.search.*;
 import org.apache.lucene.store.FSDirectory;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
@@ -40,6 +39,12 @@ import java.util.Map;
 
 public class DumpIndex {
   private static final Logger LOG = LogManager.getLogger(DumpIndex.class);
+
+  class NotStoredException extends Exception {
+    public NotStoredException(String message) {
+      super(message);
+    }
+  }
 
   class RawDocNotStoredException extends Exception {
     public RawDocNotStoredException(String message) {
@@ -138,10 +143,10 @@ public class DumpIndex {
     return sb.toString();
   }
 
-  String printDocumentText( DirectoryReader reader, int number ) throws IOException, RawDocNotStoredException {
+  String printDocumentText(DirectoryReader reader, int number) throws IOException, RawDocNotStoredException {
     StringBuilder sb = new StringBuilder();
     Document d = reader.document(number);
-    IndexableField id = d.getField(LuceneDocumentGenerator.FIELD_BODY);
+    IndexableField id = d.getField(LuceneDocumentGenerator.FIELD_RAW);
     if (id == null) {
       throw new RawDocNotStoredException("Raw Contents not Stored!");
     }
@@ -164,6 +169,48 @@ public class DumpIndex {
       sb.append(te.term().utf8ToString()+" "+te.totalTermFreq()+"\n");
     }
     return sb.toString();
+  }
+
+  void dumpRawDocument(DirectoryReader reader, int number) throws IOException, NotStoredException {
+    Document d = reader.document(number);
+    IndexableField doc = d.getField(LuceneDocumentGenerator.FIELD_RAW);
+    if (doc == null) {
+      throw new NotStoredException("Raw document not stored!");
+    }
+    System.out.println(doc.stringValue());
+  }
+
+  void dumpTransformedDocument(DirectoryReader reader, int number) throws IOException, NotStoredException {
+    Document d = reader.document(number);
+    IndexableField doc = d.getField(LuceneDocumentGenerator.FIELD_BODY);
+    if (doc == null) {
+      throw new NotStoredException("Raw document not stored!");
+    }
+    System.out.println(doc.stringValue());
+  }
+
+  int cDocid2iDocid(DirectoryReader reader, String docid) throws IOException, NotStoredException {
+    IndexSearcher searcher = new IndexSearcher(reader);
+
+    Query q = new TermQuery(new Term(LuceneDocumentGenerator.FIELD_ID, docid));
+    TopDocs rs = searcher.search(q, 1);
+    ScoreDoc[] hits = rs.scoreDocs;
+
+    if (hits == null) {
+      throw new RuntimeException("Docid not found!");
+    }
+
+    return hits[0].doc;
+  }
+
+  String iDocid2cDocid(DirectoryReader reader, int docid) throws IOException {
+    Document d = reader.document(docid);
+    IndexableField doc = d.getField(LuceneDocumentGenerator.FIELD_ID);
+    if (doc == null) {
+      // Really shouldn't happen!
+      throw new RuntimeException();
+    }
+    return doc.stringValue();
   }
 
   public static void main(String[] clArgs) throws IOException{
@@ -195,6 +242,14 @@ public class DumpIndex {
         dump = ic.printDocumentText(reader, dumpIndexArgs.dt);
       } else if (dumpIndexArgs.dv > 0) {
         dump = ic.printDocumentVector(reader, dumpIndexArgs.dv);
+      } else if (dumpIndexArgs.rawDoc > 0) {
+        ic.dumpRawDocument(reader, dumpIndexArgs.rawDoc);
+      } else if (dumpIndexArgs.transformedDoc > 0) {
+        ic.dumpTransformedDocument(reader, dumpIndexArgs.transformedDoc);
+      } else if (dumpIndexArgs.cDocid2iDocid != null) {
+        System.out.println(ic.cDocid2iDocid(reader, dumpIndexArgs.cDocid2iDocid));
+      } else if (dumpIndexArgs.iDocid2cDocid > 0) {
+        System.out.printf(ic.iDocid2cDocid(reader, dumpIndexArgs.iDocid2cDocid));
       } else {
         dump = "";
       }

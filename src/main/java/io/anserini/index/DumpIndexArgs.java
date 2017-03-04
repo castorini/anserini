@@ -50,4 +50,16 @@ public class DumpIndexArgs {
 
   @Option(name = "-dv", forbids = {"-s","-t","-di","-dt","-dn"}, handler = IntOptionHandler.class, usage = "Print the document vector of a document")
   int dv;
+
+  @Option(name = "-dumpRawDoc", usage = "dumps raw document (if stored in the index)")
+  int rawDoc;
+
+  @Option(name = "-dumpTransformedDoc", usage = "dumps transformed document (if stored in the index)")
+  int transformedDoc;
+
+  @Option(name = "-cDocid2iDocid", usage = "converts a collection docid to a Lucene internal docid")
+  String cDocid2iDocid;
+
+  @Option(name = "-iDocid2cDocid", usage = "converts to a Lucene internal docid to a collection docid ")
+  int iDocid2cDocid;
 }
