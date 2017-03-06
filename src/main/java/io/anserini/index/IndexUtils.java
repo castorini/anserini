@@ -68,7 +68,6 @@ public class IndexUtils {
 
     @Option(name = "-convertLuceneDocidToDocid", metaVar = "docid", usage = "converts to a Lucene internal lookupDocid to a collection lookupDocid ")
     int lookupLuceneDocid;
-
   }
 
   class NotStoredException extends Exception {
@@ -79,7 +78,6 @@ public class IndexUtils {
 
   private final FSDirectory directory;
   private final DirectoryReader reader;
-//  private final Class transformerClass;
 
   public IndexUtils(String indexPath) throws IOException {
     this.directory = FSDirectory.open(new File(indexPath).toPath());
