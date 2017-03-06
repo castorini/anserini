@@ -69,9 +69,6 @@ public class IndexUtils {
     @Option(name = "-convertLuceneDocidToDocid", metaVar = "docid", usage = "converts to a Lucene internal lookupDocid to a collection lookupDocid ")
     int lookupLuceneDocid;
 
-    //ToDo: Generalize to any transformer
-//    @Option(name = "-transformer", metaVar = "[JsoupGenerator|LuceneDocumentGenerator]", usage = "document transformer in io.anserini.index.generator")
-//    String generatorClass = "JsoupGenerator";
   }
 
   class NotStoredException extends Exception {
@@ -105,7 +102,8 @@ public class IndexUtils {
     FieldInfos fieldInfos = MultiFields.getMergedFieldInfos(reader);
     for (String fd : fields) {
       FieldInfo fi = fieldInfos.fieldInfo(fd);
-      System.out.println("  " + fd + " (" + "indexOption: " + fi.getIndexOptions() + ", hasVectors: " + fi.hasVectors() + ", hasPayloads: " + fi.hasPayloads() + ")");
+      System.out.println("  " + fd + " (" + "indexOption: " + fi.getIndexOptions() +
+          ", hasVectors: " + fi.hasVectors() + ", hasPayloads: " + fi.hasPayloads() + ")");
     }
   }
 
@@ -128,7 +126,8 @@ public class IndexUtils {
   }
 
   public void printDocumentVector(String docid) throws IOException, NotStoredException {
-    Terms terms = reader.getTermVector(convertDocidToLuceneDocid(docid), LuceneDocumentGenerator.FIELD_BODY);
+    Terms terms = reader.getTermVector(convertDocidToLuceneDocid(docid),
+        LuceneDocumentGenerator.FIELD_BODY);
     if (terms == null) {
       throw new NotStoredException("Document vector not stored!");
     }
