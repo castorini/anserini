@@ -31,7 +31,8 @@ import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.ParserProperties;
-import edu.stanford.nlp.simple.*;
+import edu.stanford.nlp.simple.Sentence;
+import org.jsoup.Jsoup;
 
 import java.util.List;
 import java.io.File;
@@ -67,6 +68,10 @@ public class IndexUtils {
 
     @Option(name = "-convertLuceneDocidToDocid", metaVar = "docid", usage = "converts to a Lucene internal lookupDocid to a collection lookupDocid ")
     int lookupLuceneDocid;
+
+    //ToDo: Generalize to any transformer
+//    @Option(name = "-transformer", metaVar = "[JsoupGenerator|LuceneDocumentGenerator]", usage = "document transformer in io.anserini.index.generator")
+//    String generatorClass = "JsoupGenerator";
   }
 
   class NotStoredException extends Exception {
@@ -77,6 +82,7 @@ public class IndexUtils {
 
   private final FSDirectory directory;
   private final DirectoryReader reader;
+//  private final Class transformerClass;
 
   public IndexUtils(String indexPath) throws IOException {
     this.directory = FSDirectory.open(new File(indexPath).toPath());
@@ -99,8 +105,7 @@ public class IndexUtils {
     FieldInfos fieldInfos = MultiFields.getMergedFieldInfos(reader);
     for (String fd : fields) {
       FieldInfo fi = fieldInfos.fieldInfo(fd);
-      System.out.println("  " + fd + " (" + "indexOption: " + fi.getIndexOptions() +
-              ", hasVectors: " + fi.hasVectors() + ", hasPayloads: " + fi.hasPayloads() + ")");
+      System.out.println("  " + fd + " (" + "indexOption: " + fi.getIndexOptions() + ", hasVectors: " + fi.hasVectors() + ", hasPayloads: " + fi.hasPayloads() + ")");
     }
   }
 
@@ -123,8 +128,7 @@ public class IndexUtils {
   }
 
   public void printDocumentVector(String docid) throws IOException, NotStoredException {
-    Terms terms = reader.getTermVector(convertDocidToLuceneDocid(docid),
-            LuceneDocumentGenerator.FIELD_BODY);
+    Terms terms = reader.getTermVector(convertDocidToLuceneDocid(docid), LuceneDocumentGenerator.FIELD_BODY);
     if (terms == null) {
       throw new NotStoredException("Document vector not stored!");
     }
@@ -156,8 +160,15 @@ public class IndexUtils {
   }
 
   public List<Sentence> getSentDocument(String docid) throws IOException, NotStoredException {
-    String sentence = getTransformedDocument(docid);
-    edu.stanford.nlp.simple.Document doc = new edu.stanford.nlp.simple.Document(sentence);
+    String toSplit;
+    try {
+      toSplit = getTransformedDocument(docid);
+    } catch (NotStoredException e) {
+      String rawDoc = getRawDocument(docid);
+      org.jsoup.nodes.Document jDoc = Jsoup.parse(rawDoc);
+      toSplit = jDoc.text();
+    }
+    edu.stanford.nlp.simple.Document doc = new edu.stanford.nlp.simple.Document(toSplit);
     return doc.sentences();
   }
 
