@@ -142,12 +142,14 @@ public final class SearchWebCollection implements Closeable {
        * the sixth column is called the "run tag" and should be a unique identifier for your
        */
       for (int i = 0; i < docs.documents.length; i++) {
+        // FIXME: should be a Submission object and not a String
         String submission = String.format("%d Q0 %s %d %f %s", qID,
                 docs.documents[i].getField(FIELD_ID).stringValue(), (i + 1), docs.scores[i], runTag);
         submissionsList.add(submission);
       }
     }
 
+    // FIXME: should return a list of Submission objects and not Strings
     return submissionsList;
   }
 
@@ -167,6 +169,7 @@ public final class SearchWebCollection implements Closeable {
     RerankerCascade cascade = new RerankerCascade();
     cascade.add(new IdentityReranker());
 
+    // FIXME: should just extract the docid from Submission objects
     List<String> submissionsList = search(topics, similarity, numHits, cascade, false, false);
     List<String> docids = new ArrayList<String>();
     for(String submission: submissionsList) {
@@ -191,6 +194,7 @@ public final class SearchWebCollection implements Closeable {
             cascade, useQueryParser, keepstopwords);
     PrintWriter out = new PrintWriter(Files.newBufferedWriter(Paths.get(submissionFile), StandardCharsets.US_ASCII));
 
+    // FIXME: should just write out the toString() from Submission objects
     for (String submission : submissionsList) {
       out.println(submission);
     }
