@@ -158,20 +158,7 @@ public final class SearchWebCollection implements Closeable {
     search(topics, submissionFile, similarity, numHits, cascade, false, false);
   }
 
-  public static void main(String[] args) throws Exception {
-
-    SearchArgs searchArgs = new SearchArgs();
-    CmdLineParser parser = new CmdLineParser(searchArgs, ParserProperties.defaults().withUsageWidth(90));
-
-    try {
-      parser.parseArgument(args);
-    } catch (CmdLineException e) {
-      System.err.println(e.getMessage());
-      parser.printUsage(System.err);
-      System.err.println("Example: SearchWebCollection" + parser.printExample(OptionHandlerFilter.REQUIRED));
-      return;
-    }
-
+  public static void runSearcher(SearchArgs searchArgs) throws Exception {
     LOG.info("Reading index at " + searchArgs.index);
     Directory dir;
     if (searchArgs.inmem) {
@@ -231,5 +218,22 @@ public final class SearchWebCollection implements Closeable {
     searcher.close();
     final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
     LOG.info("Total " + topics.size() + " topics searched in " + DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss"));
+  }
+
+  public static void main(String[] args) throws Exception {
+
+    SearchArgs searchArgs = new SearchArgs();
+    CmdLineParser parser = new CmdLineParser(searchArgs, ParserProperties.defaults().withUsageWidth(90));
+
+    try {
+      parser.parseArgument(args);
+    } catch (CmdLineException e) {
+      System.err.println(e.getMessage());
+      parser.printUsage(System.err);
+      System.err.println("Example: SearchWebCollection" + parser.printExample(OptionHandlerFilter.REQUIRED));
+      return;
+    }
+
+    runSearcher(searchArgs);
   }
 }
