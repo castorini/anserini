@@ -5,7 +5,7 @@
 - Start the GatewayEntryPoint from Java to open up a socket for communication.
 ```
 mvn clean package appassembler:assemble
-sh target/appassembler/bin/GatewayEntryPoint
+sh target/appassembler/bin/Pyserini
 ```
 - Make sure you have py4j installed for Python or else, issue this command: sudo pip install py4j
 - Python tries to connect to a JVM with a gateway (localhost on port 25333).

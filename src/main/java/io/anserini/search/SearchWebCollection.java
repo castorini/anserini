@@ -59,7 +59,9 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.SortedMap;
 import java.util.concurrent.TimeUnit;
 
 import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_BODY;
@@ -93,24 +95,25 @@ public final class SearchWebCollection implements Closeable {
   }
 
   /**
-   * Returns a list of TREC submissions
+   * Prints TREC submission file to the standard output stream.
    *
    * @param topics     queries
    * @param similarity similarity
-   * @return submissionsList
    * @throws IOException
    * @throws ParseException
    */
 
-  public List<String> search(SortedMap<Integer, String> topics, Similarity similarity, int numHits, RerankerCascade cascade,
-                             boolean useQueryParser, boolean keepstopwords) throws IOException, ParseException {
+  public void search(SortedMap<Integer, String> topics, String submissionFile, Similarity similarity, int numHits, RerankerCascade cascade,
+                     boolean useQueryParser, boolean keepstopwords) throws IOException, ParseException {
 
-    List<String> submissionsList = new ArrayList<String>();
+
     IndexSearcher searcher = new IndexSearcher(reader);
     searcher.setSimilarity(similarity);
 
 
     final String runTag = "BM25_EnglishAnalyzer_" + (keepstopwords ? "KeepStopwords_" : "") + FIELD_BODY + "_" + similarity.toString();
+
+    PrintWriter out = new PrintWriter(Files.newBufferedWriter(Paths.get(submissionFile), StandardCharsets.US_ASCII));
 
     EnglishAnalyzer ea = keepstopwords ? new EnglishAnalyzer(CharArraySet.EMPTY_SET) : new EnglishAnalyzer();
     QueryParser queryParser = new QueryParser(FIELD_BODY, ea);
@@ -120,7 +123,7 @@ public final class SearchWebCollection implements Closeable {
 
       int qID = entry.getKey();
       String queryString = entry.getValue();
-      Query query = useQueryParser ? queryParser.parse(queryString) :
+      Query query = useQueryParser? queryParser.parse(queryString) :
               AnalyzerUtils.buildBagOfWordsQuery(FIELD_BODY, ea, queryString);
 
       /**
@@ -142,70 +145,17 @@ public final class SearchWebCollection implements Closeable {
        * the sixth column is called the "run tag" and should be a unique identifier for your
        */
       for (int i = 0; i < docs.documents.length; i++) {
-        // FIXME: should be a Submission object and not a String
-        String submission = String.format("%d Q0 %s %d %f %s", qID,
-                docs.documents[i].getField(FIELD_ID).stringValue(), (i + 1), docs.scores[i], runTag);
-        submissionsList.add(submission);
+        out.println(String.format("%d Q0 %s %d %f %s", qID,
+                docs.documents[i].getField(FIELD_ID).stringValue(), (i + 1), docs.scores[i], runTag));
       }
     }
-
-    // FIXME: should return a list of Submission objects and not Strings
-    return submissionsList;
-  }
-
-  public List<String> search(String query, int numHits) throws IOException, ParseException {
-
-    // for now, using BM25 similarity  - not branching on args.bm25 or args.ql
-    float k1 = 0.9f;
-    float b = 0.4f;
-    Similarity similarity = new BM25Similarity(k1, b);
-
-    // for now, creating Topics map and appending query and setting id=1
-    SortedMap<Integer, String> topics = new TreeMap<>();
-    int id = 1;
-    topics.put(id, query);
-
-    // for now, using IdentityReranker  - not branching on args.rm3
-    RerankerCascade cascade = new RerankerCascade();
-    cascade.add(new IdentityReranker());
-
-    // FIXME: should just extract the docid from Submission objects
-    List<String> submissionsList = search(topics, similarity, numHits, cascade, false, false);
-    List<String> docids = new ArrayList<String>();
-    for(String submission: submissionsList) {
-      docids.add(submission.split(" ")[2]);
-    }
-    return docids;
-  }
-
-  /**
-   * Prints TREC submission file to the standard output stream.
-   *
-   * @param topics     queries
-   * @param similarity similarity
-   * @throws IOException
-   * @throws ParseException
-   */
-
-  public void searchAndWrite(SortedMap<Integer, String> topics, String submissionFile, Similarity similarity, int numHits, RerankerCascade cascade,
-                             boolean useQueryParser, boolean keepstopwords) throws IOException, ParseException {
-
-    List<String> submissionsList = search(topics, similarity, numHits,
-            cascade, useQueryParser, keepstopwords);
-    PrintWriter out = new PrintWriter(Files.newBufferedWriter(Paths.get(submissionFile), StandardCharsets.US_ASCII));
-
-    // FIXME: should just write out the toString() from Submission objects
-    for (String submission : submissionsList) {
-      out.println(submission);
-    }
-
     out.flush();
     out.close();
-}
+  }
 
-  public void searchAndWrite(SortedMap<Integer, String> topics, String submissionFile, Similarity similarity, int numHits, RerankerCascade cascade)
+  public void search(SortedMap<Integer, String> topics, String submissionFile, Similarity similarity, int numHits, RerankerCascade cascade)
           throws IOException, ParseException {
-    searchAndWrite(topics, submissionFile, similarity, numHits, cascade, false, false);
+    search(topics, submissionFile, similarity, numHits, cascade, false, false);
   }
 
   public static void main(String[] args) throws Exception {
@@ -262,7 +212,7 @@ public final class SearchWebCollection implements Closeable {
     if (searchArgs.dumpFeatures) {
       PrintStream out = new PrintStream(searchArgs.featureFile);
       Qrels qrels = new Qrels(searchArgs.qrels);
-      cascade.add(new WebCollectionLtrDataGenerator(out, qrels, extractors));
+      cascade.add(new WebCollectionLtrDataGenerator(out,  qrels, extractors));
     }
 
     Path topicsFile = Paths.get(searchArgs.topics);
@@ -271,13 +221,13 @@ public final class SearchWebCollection implements Closeable {
       throw new IllegalArgumentException("Topics file : " + topicsFile + " does not exist or is not a (readable) file.");
     }
 
-    TopicReader tr = (TopicReader) Class.forName("io.anserini.search.query." + searchArgs.topicReader + "TopicReader")
+    TopicReader tr = (TopicReader)Class.forName("io.anserini.search.query."+searchArgs.topicReader+"TopicReader")
             .getConstructor(Path.class).newInstance(topicsFile);
     SortedMap<Integer, String> topics = tr.read();
 
     final long start = System.nanoTime();
     SearchWebCollection searcher = new SearchWebCollection(searchArgs.index);
-    searcher.searchAndWrite(topics, searchArgs.output, similarity, searchArgs.hits, cascade, useQueryParser, searchArgs.keepstop);
+    searcher.search(topics, searchArgs.output, similarity, searchArgs.hits, cascade, useQueryParser, searchArgs.keepstop);
     searcher.close();
     final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
     LOG.info("Total " + topics.size() + " topics searched in " + DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss"));

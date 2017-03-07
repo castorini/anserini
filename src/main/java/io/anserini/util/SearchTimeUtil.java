@@ -61,7 +61,7 @@ public class SearchTimeUtil {
         String submissionFile = File.createTempFile(topicFile + "_" + i, ".tmp").getAbsolutePath();
         RerankerCascade cascade = new RerankerCascade();
         cascade.add(new IdentityReranker());
-        searcher.searchAndWrite(queries, submissionFile, new BM25Similarity(0.9f, 0.4f), 1000, cascade);
+        searcher.search(queries, submissionFile, new BM25Similarity(0.9f, 0.4f), 1000, cascade);
         final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
         System.out.println(topicFile + "_" + i + " search completed in " + DurationFormatUtils.formatDuration(durationMillis, "mm:ss:SSS"));
       }
