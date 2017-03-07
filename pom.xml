@@ -73,8 +73,8 @@
               <name>SearchWebCollection</name>
             </program>
             <program>
-              <mainClass>io.anserini.py4j.SearchWebCollectionEntryPoint</mainClass>
-              <name>SearchWebCollectionEntryPoint</name>
+              <mainClass>io.anserini.py4j.GatewayEntryPoint</mainClass>
+              <name>GatewayEntryPoint</name>
             </program>
             <program>
               <mainClass>io.anserini.eval.Eval</mainClass>
