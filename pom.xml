@@ -73,6 +73,10 @@
               <name>SearchWebCollection</name>
             </program>
             <program>
+              <mainClass>io.anserini.py4j.Pyserini</mainClass>
+              <name>Pyserini</name>
+            </program>
+            <program>
               <mainClass>io.anserini.eval.Eval</mainClass>
               <name>Eval</name>
             </program>
@@ -390,12 +394,17 @@
       <artifactId>stanford-corenlp</artifactId>
       <version>3.7.0</version>
     </dependency>
-
     <dependency>
       <groupId>edu.stanford.nlp</groupId>
       <artifactId>stanford-corenlp</artifactId>
       <version>3.7.0</version>
       <classifier>models</classifier>
+    </dependency>
+
+    <dependency>
+      <groupId>net.sf.py4j</groupId>
+      <artifactId>py4j</artifactId>
+      <version>0.10.4</version>
     </dependency>
   </dependencies>
 </project>
