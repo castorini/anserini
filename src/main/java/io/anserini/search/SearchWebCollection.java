@@ -104,7 +104,7 @@ public final class SearchWebCollection implements Closeable {
    */
 
   public void search(SortedMap<Integer, String> topics, String submissionFile, Similarity similarity, int numHits, RerankerCascade cascade,
-                      boolean useQueryParser, boolean keepstopwords) throws IOException, ParseException {
+                     boolean useQueryParser, boolean keepstopwords) throws IOException, ParseException {
 
 
     IndexSearcher searcher = new IndexSearcher(reader);
@@ -123,8 +123,8 @@ public final class SearchWebCollection implements Closeable {
 
       int qID = entry.getKey();
       String queryString = entry.getValue();
-      Query query = useQueryParser? queryParser.parse(queryString) : 
-                    AnalyzerUtils.buildBagOfWordsQuery(FIELD_BODY, ea, queryString);
+      Query query = useQueryParser? queryParser.parse(queryString) :
+              AnalyzerUtils.buildBagOfWordsQuery(FIELD_BODY, ea, queryString);
 
       /**
        * For Web Tracks 2010,2011,and 2012; an experimental run consists of the top 10,000 documents for each topic query.
@@ -154,7 +154,7 @@ public final class SearchWebCollection implements Closeable {
   }
 
   public void search(SortedMap<Integer, String> topics, String submissionFile, Similarity similarity, int numHits, RerankerCascade cascade)
-                     throws IOException, ParseException {
+          throws IOException, ParseException {
     search(topics, submissionFile, similarity, numHits, cascade, false, false);
   }
 
