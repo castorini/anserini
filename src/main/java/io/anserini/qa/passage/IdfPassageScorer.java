@@ -1,6 +1,5 @@
 package io.anserini.qa.passage;
 
-import edu.stanford.nlp.simple.Sentence;
 import io.anserini.index.IndexUtils;
 import io.anserini.index.generator.LuceneDocumentGenerator;
 import org.apache.lucene.analysis.CharArraySet;
@@ -17,8 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class TermMatchIdfPassageScorer implements PassageScorer{
-  public Map<String, Double> sentenceScore;
+public class IdfPassageScorer implements PassageScorer{
 
   @Override
   public void score(List<String> sentences, String index, String output, Context context) throws Exception {
@@ -44,6 +42,7 @@ public class TermMatchIdfPassageScorer implements PassageScorer{
           continue;
         }
       }
+      Map<String, Double> sentenceScore = new HashMap<>();
       sentenceScore.put(sent, idf/sent.length());
       context.setState(sentenceScore);
     }

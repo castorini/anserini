@@ -1,9 +1,10 @@
-package io.anserini.passage;
+package io.anserini.qa;
 
 import edu.stanford.nlp.simple.Sentence;
 import io.anserini.index.IndexUtils;
-import io.anserini.index.generator.LuceneDocumentGenerator;
 import io.anserini.ltr.feature.FeatureExtractors;
+import io.anserini.qa.passage.Context;
+import io.anserini.qa.passage.PassageScorer;
 import io.anserini.rerank.IdentityReranker;
 import io.anserini.rerank.RerankerCascade;
 import io.anserini.rerank.ScoredDocuments;
@@ -16,40 +17,34 @@ import org.apache.lucene.analysis.CharArraySet;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.index.Term;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.queryparser.classic.QueryParser;
-import org.apache.lucene.search.*;
+import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.Query;
+import org.apache.lucene.search.ScoreDoc;
+import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.search.similarities.BM25Similarity;
-import org.apache.lucene.search.similarities.ClassicSimilarity;
 import org.apache.lucene.search.similarities.Similarity;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.kohsuke.args4j.*;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.SortedMap;
-import java.util.TreeMap;
-import java.util.Map;
-import java.util.List;
-import java.util.HashMap;
 
 import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_BODY;
 import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_ID;
 
-public class RetrieveSentences implements PassageScorer {
-
-
-  @Override
-  public void score(List<String> sentences) {
-    
-  }
+public class RetrieveSentences {
 
   public static class QAargs {
     // required arguments
@@ -68,39 +63,47 @@ public class RetrieveSentences implements PassageScorer {
 
     @Option(name = "-hits", metaVar = "[number]", required = false, usage = "max number of hits to return")
     public int hits = 100;
+
+    //Todo: add more passage scorer
+    @Option(name = "-scorer", metaVar = "[Idf]", usage = "passage scores")
+    public String scorer;
   }
 
   private static final Logger LOG = LogManager.getLogger(SearchWebCollection.class);
   private final IndexReader reader;
+  private final Class passageClass;
+  private final PassageScorer scorer;
 
-  public RetrieveSentences(String indexDir) throws IOException {
-
-    Path indexPath = Paths.get(indexDir);
+  public RetrieveSentences(QAargs qAargs) throws Exception {
+    Path indexPath = Paths.get(qAargs.index);
 
     if (!Files.exists(indexPath) || !Files.isDirectory(indexPath) || !Files.isReadable(indexPath)) {
-      throw new IllegalArgumentException(indexDir + " does not exist or is not a directory.");
+      throw new IllegalArgumentException(qAargs.index + " does not exist or is not a directory.");
     }
 
     this.reader = DirectoryReader.open(FSDirectory.open(indexPath));
+    this.passageClass = Class.forName("io.anserini.qa.passage." + qAargs.scorer + "PassageScorer");
+    scorer = (PassageScorer) this.passageClass.newInstance();
   }
 
-  public void search(SortedMap<Integer, String> topics, String submissionFile, Similarity similarity, int numHits,
-                     boolean useQueryParser, boolean keepstopwords) throws IOException, ParseException {
-
+  public void search(SortedMap<Integer, String> topics, String submissionFile, int numHits)
+          throws IOException, ParseException {
     IndexSearcher searcher = new IndexSearcher(reader);
+
+    //using BM25 scoring model
+    Similarity similarity = new BM25Similarity(0.9f, 0.4f);
     searcher.setSimilarity(similarity);
 
     PrintWriter out = new PrintWriter(Files.newBufferedWriter(Paths.get(submissionFile), StandardCharsets.US_ASCII));
 
-    EnglishAnalyzer ea = keepstopwords ? new EnglishAnalyzer(CharArraySet.EMPTY_SET) : new EnglishAnalyzer();
+    EnglishAnalyzer ea = new EnglishAnalyzer();
     QueryParser queryParser = new QueryParser(FIELD_BODY, ea);
     queryParser.setDefaultOperator(QueryParser.Operator.OR);
 
     for (Map.Entry<Integer, String> entry : topics.entrySet()) {
       int qID = entry.getKey();
       String queryString = entry.getValue();
-      Query query = useQueryParser? queryParser.parse(queryString) :
-              AnalyzerUtils.buildBagOfWordsQuery(FIELD_BODY, ea, queryString);
+      Query query = AnalyzerUtils.buildBagOfWordsQuery(FIELD_BODY, ea, queryString);
 
       TopDocs rs = searcher.search(query, numHits);
       ScoreDoc[] hits = rs.scoreDocs;
@@ -115,46 +118,31 @@ public class RetrieveSentences implements PassageScorer {
     out.close();
   }
 
-  public void search(SortedMap<Integer, String> topics, String submissionFile, Similarity similarity, int numHits)
-          throws IOException, ParseException {
-    search(topics, submissionFile, similarity, numHits,false, false);
-  }
-
-  public Map<String, Double> computeIDF(QAargs qAargs) throws Exception {
-    IndexUtils util = new IndexUtils(qAargs.index);
-    FSDirectory directory = FSDirectory.open(new File(qAargs.index).toPath());
-    DirectoryReader reader = DirectoryReader.open(directory);
-
-    EnglishAnalyzer ea = new EnglishAnalyzer(CharArraySet.EMPTY_SET);
-    QueryParser qp = new QueryParser(LuceneDocumentGenerator.FIELD_BODY, ea);
-
-    Map<String, Double> sentenceIDF = new HashMap();
-    ClassicSimilarity similarity = new ClassicSimilarity();
-
-    //for each document in the ranked list, dump sentences
-    try (BufferedReader br = new BufferedReader(new FileReader(qAargs.output))) {
+  public void getRankedPassages(QAargs qaArgs) throws Exception {
+    IndexUtils util = new IndexUtils(qaArgs.index);
+    List<String> sentencesList = new ArrayList<>();
+    try (BufferedReader br = new BufferedReader(new FileReader(qaArgs.output))) {
       String line;
 
       while ((line = br.readLine()) != null) {
-        String docid = line.trim().split(" ")[2];
+        String docid = line.trim().split(" ")[1];
         List<Sentence> sentences = util.getSentDocument(docid);
-        for (Sentence sent: sentences) {
-          double idf = 0.0;
-          String[] terms = sent.text().split(" ");
-          for (String term: terms) {
-            try {
-              TermQuery q = (TermQuery) qp.parse(term);
-              Term t = q.getTerm();
-              idf += similarity.idf(reader.docFreq(t), reader.numDocs());
-            } catch (Exception e){
-              continue;
-            }
-          }
-          sentenceIDF.put(sent.text(), idf/sent.length());
+        for (Sentence sent : sentences) {
+          sentencesList.add(sent.text());
         }
       }
     }
-    return sentenceIDF;
+    Context c = new Context();
+    scorer.score(sentencesList, qaArgs.index, qaArgs.output, c);
+    Map<String, Double> sentences = c.getState();
+
+    Map.Entry<String, Double> maxEntry = null;
+    for (Map.Entry<String, Double> entry : sentences.entrySet()) {
+      if (maxEntry == null || entry.getValue().compareTo(maxEntry.getValue()) > 0) {
+        maxEntry = entry;
+      }
+    }
+    System.out.println("Answer: " + maxEntry.getKey());
   }
 
   public SortedMap<Integer, String> readTopicsFile(String topicsFile) throws IOException {
@@ -185,10 +173,6 @@ public class RetrieveSentences implements PassageScorer {
   public void retrieveDocuments(QAargs qaArgs) throws Exception {
     Directory dir = FSDirectory.open(Paths.get(qaArgs.index));
 
-    //using BM25 scoring model
-    Similarity similarity = null;
-    similarity = new BM25Similarity(0.9f, 0.4f);
-
     RerankerCascade cascade = new RerankerCascade();
     boolean useQueryParser = false;
     cascade.add(new IdentityReranker());
@@ -201,9 +185,7 @@ public class RetrieveSentences implements PassageScorer {
       topics.put(1, qaArgs.query);
     }
 
-    SearchWebCollection searcher = new SearchWebCollection(qaArgs.index);
-    searcher.search(topics, qaArgs.output, similarity, qaArgs.hits, cascade, false, false);
-    searcher.close();
+    search(topics, qaArgs.output, qaArgs.hits);
   }
 
   public static void main(String[] args) throws Exception {
@@ -224,19 +206,8 @@ public class RetrieveSentences implements PassageScorer {
       return;
     }
 
-    RetrieveSentences rs = new RetrieveSentences(qaArgs.index);
+    RetrieveSentences rs = new RetrieveSentences(qaArgs);
     rs.retrieveDocuments(qaArgs);
-    rs.computeIDF(qaArgs);
-
-    Map<String, Double> sentences = rs.computeIDF(qaArgs);
-
-    Map.Entry<String, Double> maxEntry = null;
-    for (Map.Entry<String, Double> entry : sentences.entrySet()) {
-      if (maxEntry == null || entry.getValue().compareTo(maxEntry.getValue()) > 0)
-      {
-        maxEntry = entry;
-      }
-    }
-    System.out.println("Answer: " + maxEntry.getKey());
+    rs.getRankedPassages(qaArgs);
   }
 }
