@@ -18,7 +18,6 @@ import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.search.similarities.BM25Similarity;
 import org.apache.lucene.search.similarities.Similarity;
-import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.kohsuke.args4j.*;
 
@@ -135,8 +134,6 @@ public class RetrieveSentences {
   }
 
   public void retrieveDocuments(RetrieveSentences.Args args) throws Exception {
-    Directory dir = FSDirectory.open(Paths.get(args.index));
-
     SortedMap<Integer, String> topics = new TreeMap<>();
     if (!args.topics.isEmpty()) {
       QaTopicReader tr = new QaTopicReader(Paths.get(args.topics));
