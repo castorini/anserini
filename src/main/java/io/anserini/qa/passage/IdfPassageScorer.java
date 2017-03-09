@@ -12,22 +12,30 @@ import org.apache.lucene.search.similarities.ClassicSimilarity;
 import org.apache.lucene.store.FSDirectory;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.IOException;
+import java.util.*;
 
-public class IdfPassageScorer implements PassageScorer{
+public class IdfPassageScorer implements PassageScorer {
+
+  private final IndexUtils util;
+  private final FSDirectory directory;
+  private final DirectoryReader reader;
+  private  final Queue<ScoredPassage> scoredPassageHeap;
+  private final int topPassages;
+
+  public IdfPassageScorer(String index, Integer k) throws IOException {
+    this.util = new IndexUtils(index);
+    this.directory = FSDirectory.open(new File(index).toPath());
+    this.reader = DirectoryReader.open(directory);
+    this.scoredPassageHeap = new PriorityQueue<ScoredPassage>();
+    this.topPassages = k;
+  }
 
   @Override
-  public void score(List<String> sentences, String index, String output, Context context) throws Exception {
-    IndexUtils util = new IndexUtils(index);
-    FSDirectory directory = FSDirectory.open(new File(index).toPath());
-    DirectoryReader reader = DirectoryReader.open(directory);
-
+  public void score(List<String> sentences, String output) throws Exception {
     EnglishAnalyzer ea = new EnglishAnalyzer(CharArraySet.EMPTY_SET);
     QueryParser qp = new QueryParser(LuceneDocumentGenerator.FIELD_BODY, ea);
 
-    Map<String, Double> sentenceIDF = new HashMap();
     ClassicSimilarity similarity = new ClassicSimilarity();
 
     for (String sent: sentences) {
@@ -38,13 +46,23 @@ public class IdfPassageScorer implements PassageScorer{
           TermQuery q = (TermQuery) qp.parse(term);
           Term t = q.getTerm();
           idf += similarity.idf(reader.docFreq(t), reader.numDocs());
-        } catch (Exception e){
+        } catch (Exception e) {
           continue;
         }
       }
-      Map<String, Double> sentenceScore = new HashMap<>();
-      sentenceScore.put(sent, idf/sent.length());
-      context.setState(sentenceScore);
+
+      ScoredPassage scoredPassage = new ScoredPassage(sent, idf/sent.length());
+      if (scoredPassageHeap.size() < topPassages || idf > scoredPassageHeap.element().getScore()) {
+        if (scoredPassageHeap.size() == topPassages) {
+          scoredPassageHeap.remove();
+        }
+        scoredPassageHeap.add(scoredPassage);
+      }
     }
+  }
+
+  @Override
+  public List<ScoredPassage> extractTopPassages() {
+      return new ArrayList<>(scoredPassageHeap);
   }
 }

@@ -2,18 +2,11 @@ package io.anserini.qa;
 
 import edu.stanford.nlp.simple.Sentence;
 import io.anserini.index.IndexUtils;
-import io.anserini.ltr.feature.FeatureExtractors;
-import io.anserini.qa.passage.Context;
 import io.anserini.qa.passage.PassageScorer;
-import io.anserini.rerank.IdentityReranker;
-import io.anserini.rerank.RerankerCascade;
+import io.anserini.qa.passage.ScoredPassage;
 import io.anserini.rerank.ScoredDocuments;
-import io.anserini.search.SearchWebCollection;
+import io.anserini.search.query.QaTopicReader;
 import io.anserini.util.AnalyzerUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.core.util.Integers;
-import org.apache.lucene.analysis.CharArraySet;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
@@ -33,20 +26,19 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.lang.reflect.Constructor;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_BODY;
 import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_ID;
 
 public class RetrieveSentences {
 
-  public static class QAargs {
+  public static class Args {
     // required arguments
     @Option(name = "-index", metaVar = "[path]", required = true, usage = "Lucene index")
     public String index;
@@ -61,29 +53,31 @@ public class RetrieveSentences {
     @Option(name = "-query", metaVar = "[string]", usage = "a single query")
     public String query = "";
 
-    @Option(name = "-hits", metaVar = "[number]", required = false, usage = "max number of hits to return")
+    @Option(name = "-hits", metaVar = "[number]", usage = "max number of hits to return")
     public int hits = 100;
 
     //Todo: add more passage scorer
     @Option(name = "-scorer", metaVar = "[Idf]", usage = "passage scores")
     public String scorer;
+
+    @Option(name = "-k", metaVar = "[number]", usage = "top-k passages to be retrieved")
+    public int k = 1;
   }
 
-  private static final Logger LOG = LogManager.getLogger(SearchWebCollection.class);
   private final IndexReader reader;
-  private final Class passageClass;
   private final PassageScorer scorer;
 
-  public RetrieveSentences(QAargs qAargs) throws Exception {
-    Path indexPath = Paths.get(qAargs.index);
+  public RetrieveSentences(RetrieveSentences.Args args) throws Exception {
+    Path indexPath = Paths.get(args.index);
 
     if (!Files.exists(indexPath) || !Files.isDirectory(indexPath) || !Files.isReadable(indexPath)) {
-      throw new IllegalArgumentException(qAargs.index + " does not exist or is not a directory.");
+      throw new IllegalArgumentException(args.index + " does not exist or is not a directory.");
     }
 
     this.reader = DirectoryReader.open(FSDirectory.open(indexPath));
-    this.passageClass = Class.forName("io.anserini.qa.passage." + qAargs.scorer + "PassageScorer");
-    scorer = (PassageScorer) this.passageClass.newInstance();
+    Constructor passageClass = Class.forName("io.anserini.qa.passage." + args.scorer + "PassageScorer")
+            .getConstructor(String.class, Integer.class);
+    scorer = (PassageScorer) passageClass.newInstance(args.index, args.k);
   }
 
   public void search(SortedMap<Integer, String> topics, String submissionFile, int numHits)
@@ -118,10 +112,10 @@ public class RetrieveSentences {
     out.close();
   }
 
-  public void getRankedPassages(QAargs qaArgs) throws Exception {
-    IndexUtils util = new IndexUtils(qaArgs.index);
+  public void getRankedPassages(Args args) throws Exception {
+    IndexUtils util = new IndexUtils(args.index);
     List<String> sentencesList = new ArrayList<>();
-    try (BufferedReader br = new BufferedReader(new FileReader(qaArgs.output))) {
+    try (BufferedReader br = new BufferedReader(new FileReader(args.output))) {
       String line;
 
       while ((line = br.readLine()) != null) {
@@ -132,64 +126,30 @@ public class RetrieveSentences {
         }
       }
     }
-    Context c = new Context();
-    scorer.score(sentencesList, qaArgs.index, qaArgs.output, c);
-    Map<String, Double> sentences = c.getState();
+    scorer.score(sentencesList, args.output);
 
-    Map.Entry<String, Double> maxEntry = null;
-    for (Map.Entry<String, Double> entry : sentences.entrySet()) {
-      if (maxEntry == null || entry.getValue().compareTo(maxEntry.getValue()) > 0) {
-        maxEntry = entry;
-      }
+    List<ScoredPassage> topPassages = scorer.extractTopPassages();
+    for (ScoredPassage s: topPassages) {
+      System.out.println(s.getSentence() + " " + s.getScore());
     }
-    System.out.println("Answer: " + maxEntry.getKey());
   }
 
-  public SortedMap<Integer, String> readTopicsFile(String topicsFile) throws IOException {
-    SortedMap<Integer, String> map = new TreeMap<>();
-    String pattern = "<QApairs id=\'(.*)\'>";
-    Pattern r = Pattern.compile(pattern);
-
-    try (BufferedReader br = new BufferedReader(new FileReader(topicsFile))) {
-      String line;
-      String prevLine = "";
-
-      while ((line = br.readLine()) != null) {
-        Matcher m = r.matcher(line);
-        String id = "";
-        if (m.find()) {
-          id = m.group(1);
-        }
-
-        if (prevLine != null && prevLine.startsWith("<question>")) {
-          map.put(Integers.parseInt(id), line);
-        }
-        prevLine = line;
-      }
-    }
-    return map;
-  }
-
-  public void retrieveDocuments(QAargs qaArgs) throws Exception {
-    Directory dir = FSDirectory.open(Paths.get(qaArgs.index));
-
-    RerankerCascade cascade = new RerankerCascade();
-    boolean useQueryParser = false;
-    cascade.add(new IdentityReranker());
-    FeatureExtractors extractors = null;
+  public void retrieveDocuments(RetrieveSentences.Args args) throws Exception {
+    Directory dir = FSDirectory.open(Paths.get(args.index));
 
     SortedMap<Integer, String> topics = new TreeMap<>();
-    if (!qaArgs.topics.isEmpty()) {
-      topics = readTopicsFile(qaArgs.topics);
+    if (!args.topics.isEmpty()) {
+      QaTopicReader tr = new QaTopicReader(Paths.get(args.topics));
+      topics = tr.read();
     } else {
-      topics.put(1, qaArgs.query);
+      topics.put(1, args.query);
     }
 
-    search(topics, qaArgs.output, qaArgs.hits);
+    search(topics, args.output, args.hits);
   }
 
   public static void main(String[] args) throws Exception {
-    QAargs qaArgs = new QAargs();
+    Args qaArgs = new Args();
     CmdLineParser parser = new CmdLineParser(qaArgs, ParserProperties.defaults().withUsageWidth(90));
 
     try {
