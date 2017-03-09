@@ -132,6 +132,10 @@
               <mainClass>io.anserini.embeddings.search.SearchW2V</mainClass>
               <name>LoadW2V</name>
             </program>
+            <program>
+              <mainClass>io.anserini.qa.RetrieveSentences</mainClass>
+              <name>RetrieveSentences</name>
+            </program>
         
           </programs>
         </configuration>
