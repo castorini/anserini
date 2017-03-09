@@ -10,11 +10,11 @@ public class ScoredPassage implements Comparable<ScoredPassage> {
   }
 
   public String getSentence() {
-    return  sentence;
+    return sentence;
   }
 
   public double getScore() {
-    return  score;
+    return score;
   }
 
   @Override
