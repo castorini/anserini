@@ -30,6 +30,7 @@ import scala.Tuple2;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.*;
 
 public class WmdPassageScorer implements PassageScorer {
@@ -99,9 +100,9 @@ public class WmdPassageScorer implements PassageScorer {
     String question = sentences.get(0);
     JavaRDD<String> lines = sc.parallelize(sentences);
 
-    JavaPairRDD<Long, Tuple2<Object, Object>> sentencePairs = lines.mapToPair(line -> new Tuple2(question, line))
+    JavaPairRDD<Tuple2<Object, Object>, Long> sentencePairs =
+            lines.mapToPair(line -> new Tuple2(question, line))
             .zipWithIndex()
-            .mapToPair(l -> l.swap())
             .persist(StorageLevel.MEMORY_AND_DISK());
 
     JavaPairRDD<String, String> w2vs = sc.textFile("GoogleNews-vectors-negative300.tsv")
@@ -111,16 +112,16 @@ public class WmdPassageScorer implements PassageScorer {
             });
 
     JavaRDD<Tuple2<Long, Tuple2<String, String>>> wordPairs = sentencePairs.flatMap(ssi ->
-            getWordPairs(ssi._1, ssi._2._1.toString(), ssi._2._2.toString()));
+            getWordPairs(ssi._2, ssi._1._1.toString(), ssi._1._2.toString()));
 
     JavaPairRDD<Tuple2<Long, String>, List<java.lang.Double>> wordVectors = wordPairs.mapToPair(l ->
             new Tuple2<>(l._2._2, new Tuple2<>(l._1, l._2._1))).join(w2vs)
     .mapToPair(l -> new Tuple2<>(l._2._1._2, new Tuple2<>(l._2._1._1, l._2._2))).join(w2vs)
-    .mapToPair(l -> new Tuple2<>( new Tuple2<>(l._2._1._1, l._1), new Tuple2<>(l._2._2, l._2._1._2)))
+    .mapToPair(l -> new Tuple2<>(new Tuple2<>(l._2._1._1, l._1), new Tuple2<>(l._2._2, l._2._1._2)))
     .mapToPair(l -> {
       List<java.lang.Double> dist = new ArrayList<>();
       dist.add(distance(l._2._1, l._2._2));
-      return new Tuple2<>( new Tuple2<>(l._1._1, l._1._2), dist);
+      return new Tuple2<>(new Tuple2<>(l._1._1, l._1._2), dist);
     })
     .persist(StorageLevel.MEMORY_AND_DISK());
 
@@ -136,7 +137,7 @@ public class WmdPassageScorer implements PassageScorer {
             .mapToPair(l -> new Tuple2<>(l._1._1, l._2))
             .reduceByKey(java.lang.Double::sum);
 
-    JavaRDD<Tuple2> results = sentencePairs.join(bestWMD)
+    JavaRDD<Tuple2> results = sentencePairs.mapToPair(l -> l.swap()).join(bestWMD)
             .map(l -> new Tuple2<>(l._2._1._2, l._2._2));
 
     SQLContext sqlContext = new org.apache.spark.sql.SQLContext(sc);
