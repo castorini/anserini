@@ -13,6 +13,7 @@
     <JETTY_VERSION>8.1.17.v20150415</JETTY_VERSION>
     <MUSTACHE_VERSION>0.8.18</MUSTACHE_VERSION>
     <JERSEY_VERSION>2.7</JERSEY_VERSION>
+    <spark.version>1.6.0</spark.version>
   </properties>
 
   <repositories>
@@ -409,6 +410,17 @@
       <groupId>net.sf.py4j</groupId>
       <artifactId>py4j</artifactId>
       <version>0.10.4</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.spark</groupId>
+      <artifactId>spark-core_2.10</artifactId>
+      <version>${spark.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.spark</groupId>
+      <artifactId>spark-mllib_2.10</artifactId>
+      <version>1.6.0</version>
     </dependency>
   </dependencies>
 </project>
