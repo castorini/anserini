@@ -1,6 +1,8 @@
 package io.anserini.py4j;
 
 import io.anserini.index.IndexUtils;
+import io.anserini.qa.passage.PassageScorer;
+import io.anserini.qa.passage.ScoredPassage;
 import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.ScoredDocuments;
 import io.anserini.util.AnalyzerUtils;
@@ -30,6 +32,7 @@ import java.util.Map;
 import java.util.SortedMap;
 import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_ID;
 import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_BODY;
+import io.anserini.qa.passage.IdfPassageScorer;
 
 import py4j.GatewayServer;
 
@@ -39,6 +42,7 @@ import py4j.GatewayServer;
  */
 public class Pyserini {
 
+  private String indexDir = null;
   private IndexReader reader = null;
   private IndexUtils indexUtils = null;
 
@@ -51,6 +55,7 @@ public class Pyserini {
       throw new IllegalArgumentException(indexDir + " does not exist or is not a directory.");
     }
 
+    this.indexDir = indexDir;
     this.reader = DirectoryReader.open(FSDirectory.open(indexPath));
     this.indexUtils = new IndexUtils(indexDir);
   }
@@ -119,6 +124,16 @@ public class Pyserini {
 
   public String getRawDocument(String docid) throws Exception {
     return indexUtils.getRawDocument(docid);
+  }
+
+  public List<String> getRankedPassages(int k) throws Exception {
+    List<String> sentences = new ArrayList<String>();
+    PassageScorer passageScorer = new IdfPassageScorer(indexDir, k);
+    List<ScoredPassage> topPassages = passageScorer.extractTopPassages();
+    for (ScoredPassage s: topPassages) {
+      sentences.add(s.getSentence());
+    }
+    return sentences;
   }
 
   public static void main(String[] argv) throws Exception {
