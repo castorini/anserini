@@ -73,8 +73,8 @@
               <name>SearchWebCollection</name>
             </program>
             <program>
-              <mainClass>io.anserini.py4j.Pyserini</mainClass>
-              <name>Pyserini</name>
+              <mainClass>io.anserini.py4j.PyseriniEntryPoint</mainClass>
+              <name>PyseriniEntryPoint</name>
             </program>
             <program>
               <mainClass>io.anserini.eval.Eval</mainClass>
