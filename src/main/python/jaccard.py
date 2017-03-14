@@ -19,11 +19,11 @@ class Jaccard():
         return (len(intersection) / float(len(union)))
 
     @staticmethod
-    def most_similar_passage(query, ranked_passages):
+    def most_similar_passage(query, candidate_passages):
         """Returns the passage with the highest Jaccard overlap with the query."""
         best_sim = -1
         best_passage = ""
-        for passage in ranked_passages:
+        for passage in candidate_passages:
             sim = Jaccard.jaccard_overlap(query, passage)
             if sim > best_sim:
                 best_sim = sim
