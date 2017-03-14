@@ -14,7 +14,7 @@ def get_answer():
         question = req["question"]
         print("Question: %s" % (question))
         # get the answer from the PyTorch model here
-        answer = "Albert Einstein (14 March 1879 – 18 April 1955) was a German-born theoretical physicist."
+        answer = "the answer will be here"
         answer_dict = {"answer": answer}
         return jsonify(answer_dict)
     except Exception as e:
