@@ -1,4 +1,7 @@
 import argparse
+# FIXME: separate this out to a classifier class where we can switch out the models
+from pyserini import Pyserini
+from jaccard import Jaccard
 
 from flask import Flask, jsonify, request
 # FIXME: separate this out to a classifier class where we can switch out the models
@@ -33,7 +36,6 @@ def get_answer(question):
     candidate_passages = pyserini.ranked_passages(query=question, hits=30, k=20)        
     answer = jaccard.most_similar_passage(question, candidate_passages)
     return answer
-
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Start the Flask API at the specified host, port')
