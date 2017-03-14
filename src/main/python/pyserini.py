@@ -92,12 +92,12 @@ if __name__ == "__main__":
     pyserini = Pyserini(index_path)
     # gateway.help(pyserini)
 
-    search_results = pyserini.search(query="Airline Subsidies", hits=30)
+    search_results = pyserini.search(query_string="Airline Subsidies", num_hits=30)
     print("Search Results:\n%s\n" % search_results)
 
     doc_text = pyserini.raw_doc(docid="FT943-5123")
     print("Document Text:\n%s\n" % doc_text)
 
-    passages = pyserini.ranked_passages(query="Airline Subsidies", hits=30, k=20)
+    passages = pyserini.ranked_passages(query_string="Airline Subsidies", num_hits=30, k=20)
     print("Ranked Passages:\n%s\n" % passages)
 

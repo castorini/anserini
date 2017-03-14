@@ -1,5 +1,8 @@
 from flask import Flask, jsonify, request
 import argparse
+# FIXME: separate this out to a classifier class where we can switch out the models
+from pyserini import Pyserini
+from jaccard import Jaccard
 
 app = Flask(__name__)
 
@@ -13,8 +16,13 @@ def get_answer():
         req = request.get_json(force=True)
         question = req["question"]
         print("Question: %s" % (question))
-        # get the answer from the PyTorch model here
-        answer = "Albert Einstein (14 March 1879 – 18 April 1955) was a German-born theoretical physicist."
+        # FIXME: get the answer from the PyTorch model here
+        index_path = "/home/s43moham/indexes/lucene-index.TrecQA.pos+docvectors+rawdocs"
+        pyserini = Pyserini(index_path)
+        jaccard = Jaccard()
+        candidate_passages = pyserini.ranked_passages(query_string=question, num_hits=30, k=20)       
+        answer = jaccard.most_similar_passage(question, candidate_passages)
+        # answer = "the answer will be here"
         answer_dict = {"answer": answer}
         return jsonify(answer_dict)
     except Exception as e:

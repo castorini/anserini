@@ -2,7 +2,7 @@
 
 #### Steps
 - Build the Maven package and assemble the app.
-- Start the GatewayEntryPoint from Java to open up a socket for communication.
+- Start the PyseriniEntryPoint (gateway) from Java to open up a socket for communication.
 ```
 mvn clean package appassembler:assemble
 sh target/appassembler/bin/PyseriniEntryPoint
