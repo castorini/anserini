@@ -1,25 +1,20 @@
 from flask import Flask, jsonify, request
+import argparse
 
 app = Flask(__name__)
 
-@app.route("/")
+@app.route("/", methods=['GET'])
 def hello():
-    return "Hello World!"
+    return "Hello! The server is working properly... :)"
 
-# REQUEST: 
-# Content-Type: application/json
-# text of body in raw format: 
-# {
-#     "question": "birthdate of Einstein?"
-# }
 @app.route('/answer', methods=['POST'])
 def get_answer():
     try:
         req = request.get_json(force=True)
         question = req["question"]
         print("Question: %s" % (question))
-        # get the answer here and respond with the answer
-        answer = "the answer string will be here, for e.g. Einstein was born in 1944 or sth."
+        # get the answer from the PyTorch model here
+        answer = "Albert Einstein (14 March 1879 – 18 April 1955) was a German-born theoretical physicist."
         answer_dict = {"answer": answer}
         return jsonify(answer_dict)
     except Exception as e:
@@ -27,4 +22,12 @@ def get_answer():
         return jsonify(error_dict)
 
 if __name__ == "__main__":
-    app.run(debug=True, host='0.0.0.0', port=5546)
+    parser = argparse.ArgumentParser(description='Start the Flask API at the specified host, port')
+    parser.add_argument('--host', help='host address', required=False, type=str, default='0.0.0.0')
+    parser.add_argument('--port', help='port', required=False, type=int, default=5546)
+    parser.add_argument("--debug", help="print debug info", action="store_true")
+    args = parser.parse_args()
+    print("Host: %s" % args.host)
+    print("Port: %s" % args.port)
+    print("Debug info: %r" % args.debug)
+    app.run(debug=args.debug, host=args.host, port=args.port)
