@@ -9,5 +9,9 @@
   },
   "dependencies": {
     "menubar": "^5.2.3"
+  },
+  "devDependencies": {
+    "electron-packager": "^8.5.2",
+    "electron": "^1.6.2"
   }
 }
