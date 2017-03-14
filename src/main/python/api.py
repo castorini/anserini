@@ -11,23 +11,26 @@ def hello():
     return "Hello! The server is working properly... :)"
 
 @app.route('/answer', methods=['POST'])
-def get_answer():
+def answer():
     try:
         req = request.get_json(force=True)
         question = req["question"]
         print("Question: %s" % (question))
-        # FIXME: get the answer from the PyTorch model here
-        index_path = "/home/s43moham/indexes/lucene-index.TrecQA.pos+docvectors+rawdocs"
-        pyserini = Pyserini(index_path)
-        jaccard = Jaccard()
-        candidate_passages = pyserini.ranked_passages(query_string=question, num_hits=30, k=20)       
-        answer = jaccard.most_similar_passage(question, candidate_passages)
-        # answer = "the answer will be here"
+        # FIXME: get the answer from the PyTorch model here      
+        answer = get_answer(question)
         answer_dict = {"answer": answer}
         return jsonify(answer_dict)
     except Exception as e:
         error_dict = {"error": "ERROR - could not parse the question or get answer."}
         return jsonify(error_dict)
+
+def get_answer(question):
+    index_path = "/home/s43moham/indexes/lucene-index.TrecQA.pos+docvectors+rawdocs"
+    pyserini = Pyserini(index_path)
+    jaccard = Jaccard()
+    candidate_passages = pyserini.ranked_passages(query_string=question, num_hits=30, k=20)       
+    answer = jaccard.most_similar_passage(question, candidate_passages)
+    return answer
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Start the Flask API at the specified host, port')
