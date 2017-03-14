@@ -12,7 +12,7 @@ class Pyserini:
         The entry point to the Java class PyseriniEntryPoint.
     """
 
-   def __init__(self, index_path):
+    def __init__(self, index_path):
         """
            Constructor for the Pyserini class.
 
@@ -22,9 +22,9 @@ class Pyserini:
                The directory path for the Lucene index.
         """
         self.gateway = JavaGateway()
-        self.index = gateway.jvm.java.lang.String(index_path)
-        self.pyserini = gateway.jvm.io.anserini.py4j.PyseriniEntryPoint()
-        self.pyserini.initializeWithIndex(index)
+        self.index = self.gateway.jvm.java.lang.String(index_path)
+        self.pyserini = self.gateway.jvm.io.anserini.py4j.PyseriniEntryPoint()
+        self.pyserini.initializeWithIndex(index_path)
 
     def search(self, query_string, num_hits=20):
         """
@@ -43,7 +43,7 @@ class Pyserini:
            :obj:`list` of :obj:`str`
                A list of document IDs that matched the query.
         """
-        docids = pyserini.search(query_string, num_hits)
+        docids = self.pyserini.search(query_string, num_hits)
         return docids
 
     def raw_doc(self, docid):
@@ -60,12 +60,12 @@ class Pyserini:
             str
                A list of document IDs that matched the query.
         """
-        doc_text = pyserini.getRawDocument(docid)
+        doc_text = self.pyserini.getRawDocument(docid)
         return doc_text
 
     def ranked_passages(self, query_string, num_hits=20, k=10):
         """
-           Returns the top k ranked passages from the index that matched 
+           Returns the top k ranked passages from the index that matched
            the query_string. First, documents are retrieved and then top
            sentences are retrieved from those documents.
 
@@ -76,18 +76,18 @@ class Pyserini:
             num_hits : int
                The number of document IDs to be returned by the document retriever.
             k : int
-               The number of passages to be returned. 
+               The number of passages to be returned.
 
            Returns
            -------
             :obj:`list` of :obj:`str`
                A list of top k passages that matched the query.
         """
-        passages = pyserini.getRankedPassages(query_string, num_hits, k)
+        passages = self.pyserini.getRankedPassages(query_string, num_hits, k)
         return passages
 
 if __name__ == "__main__":
-"""Test out the Pyserini class."""    
+    """Test out the Pyserini class."""
     index_path = "/home/s43moham/indexes/lucene-index.TrecQA.pos+docvectors+rawdocs"
     pyserini = Pyserini(index_path)
     # gateway.help(pyserini)
@@ -95,13 +95,13 @@ if __name__ == "__main__":
     query = "Airline Subsidies"
     hits = 30
     search_results = pyserini.search(query, hits)
-    print("Search Results:\n" + str(search_results))
+    print("Search Results:\n%s\n" % search_results)
 
     docid = "FT943-5123"
     doc_text = pyserini.raw_doc(docid)
-    print("Document Text:\n" + doc_text)
+    print("Document Text:\n%s\n" % doc_text)
 
     k = 20
     passages = pyserini.ranked_passages(query, hits, k)
-    print("Ranked Passages:\n" + str(passages))
+    print("Ranked Passages:\n%s\n" % passages)
 
