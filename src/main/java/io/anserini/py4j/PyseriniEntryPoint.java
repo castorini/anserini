@@ -141,7 +141,7 @@ public class PyseriniEntryPoint {
     passageScorer.score(sentencesList, "");
     List<String> topSentences = new ArrayList<>();
     List<ScoredPassage> topPassages = passageScorer.extractTopPassages();
-    for (ScoredPassage s: topPassages) {
+    for (ScoredPassage s : topPassages) {
       topSentences.add(s.getSentence());
     }
     return topSentences;
