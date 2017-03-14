@@ -1,22 +1,107 @@
 from py4j.java_gateway import JavaGateway
 
-gateway = JavaGateway()
-index = gateway.jvm.java.lang.String("/home/s43moham/indexes/lucene-index.TrecQA.pos+docvectors+rawdocs/")
-pyserini = gateway.jvm.io.anserini.py4j.PyseriniEntryPoint()
-pyserini.initializeWithIndex(index)
+class Pyserini:
+    """Common base class for all methods accessing Anserini (Java)
+    Attributes
+    ----------
+    gateway : :obj:`JavaGateway`
+        The Java Gatewat object.
+    index : str
+        The directory path to the index.
+    pyserini : :obj:`PyseriniEntryPoint`
+        The entry point to the Java class PyseriniEntryPoint.
+    """
 
-# query = "Airbus Subsidies"
-# hits = 30
-# gateway.help(pyserini)
-def search(query_string, num_hits):
-    docids = pyserini.search(query_string, num_hits)
-    return docids
+   def __init__(self, index_path):
+        """
+           Constructor for the Pyserini class.
 
-# docid = "FT943-5123"
-def raw_doc(docid):
-    doc_text = pyserini.getRawDocument(docid)
-    return doc_text
+           Parameters
+           ----------
+           index_path : str
+               The directory path for the Lucene index.
+        """
+        self.gateway = JavaGateway()
+        self.index = gateway.jvm.java.lang.String(index_path)
+        self.pyserini = gateway.jvm.io.anserini.py4j.PyseriniEntryPoint()
+        self.pyserini.initializeWithIndex(index)
 
-def ranked_passages(query_string, num_hits=20, k=10):
-    passages = pyserini.getRankedPassages(query_string, num_hits, k)
-    return passages
+    def search(self, query_string, num_hits=20):
+        """
+           Returns a list of document IDs of documents that matched
+           the query_string in the index.
+
+           Parameters
+           ----------
+            query_string : str
+               The query to be searched in the index.
+            num_hits : int
+               The number of document IDs to be returned in the list.
+
+           Returns
+           -------
+           :obj:`list` of :obj:`str`
+               A list of document IDs that matched the query.
+        """
+        docids = pyserini.search(query_string, num_hits)
+        return docids
+
+    def raw_doc(self, docid):
+        """
+           Returns the raw text from the document given by the docid.
+
+           Parameters
+           ----------
+            docid : str
+               Document ID.
+
+           Returns
+           -------
+            str
+               A list of document IDs that matched the query.
+        """
+        doc_text = pyserini.getRawDocument(docid)
+        return doc_text
+
+    def ranked_passages(self, query_string, num_hits=20, k=10):
+        """
+           Returns the top k ranked passages from the index that matched 
+           the query_string. First, documents are retrieved and then top
+           sentences are retrieved from those documents.
+
+           Parameters
+           ----------
+            query_string : str
+               The query to be searched in the index.
+            num_hits : int
+               The number of document IDs to be returned by the document retriever.
+            k : int
+               The number of passages to be returned. 
+
+           Returns
+           -------
+            :obj:`list` of :obj:`str`
+               A list of top k passages that matched the query.
+        """
+        passages = pyserini.getRankedPassages(query_string, num_hits, k)
+        return passages
+
+if __name__ == "__main__":
+"""Test out the Pyserini class."""    
+    index_path = "/home/s43moham/indexes/lucene-index.TrecQA.pos+docvectors+rawdocs"
+    pyserini = Pyserini(index_path)
+    # gateway.help(pyserini)
+
+    query = "Airline Subsidies"
+    hits = 30
+    search_results = pyserini.search(query, hits)
+    print("Search Results:\n" + str(search_results))
+
+    docid = "FT943-5123"
+    doc_text = pyserini.raw_doc(docid)
+    print("Document Text:\n" + doc_text)
+
+    k = 20
+    passages = pyserini.ranked_passages(query, hits, k)
+    print("Ranked Passages:\n" + str(passages))
+
