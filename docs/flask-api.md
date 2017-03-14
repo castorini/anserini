@@ -5,7 +5,7 @@
 - Make sure to start the PyseriniEntryPoint (gateway) from Java to open up a socket for communication for Pyserini.
 ```
 sh target/appassembler/bin/PyseriniEntryPoint
-python src/main/python/api.py --host [host] --port [port] [--debug]
+python src/main/python/api.py --index [index_path] --host [host] --port [port] [--debug]
 ```
 
 - This is the documentation for the API call to send a question to the model and get back the predicted answer.
