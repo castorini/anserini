@@ -21,14 +21,7 @@ class Jaccard():
     @staticmethod
     def most_similar_passage(query, candidate_passages):
         """Returns the passage with the highest Jaccard overlap with the query."""
-        best_sim = -1
-        best_passage = ""
-        for passage in candidate_passages:
-            sim = Jaccard.jaccard_overlap(query, passage)
-            if sim > best_sim:
-                best_sim = sim
-                best_passage = passage
-        return best_passage
+        return max(candidate_passages, key=lambda p: Jaccard.jaccard_overlap(query, p), default="")
 
 
 if __name__ == "__main__":

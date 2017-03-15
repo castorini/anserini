@@ -1,3 +1,5 @@
+import argparse
+
 from py4j.java_gateway import JavaGateway
 
 class Pyserini:
@@ -88,16 +90,18 @@ class Pyserini:
 
 if __name__ == "__main__":
     """Test out the Pyserini class."""
-    index_path = "/home/s43moham/indexes/lucene-index.TrecQA.pos+docvectors+rawdocs"
-    pyserini = Pyserini(index_path)
+    parser = argparse.ArgumentParser(description='Test Pyserini class.')
+    parser.add_argument('--index', help='directory path for index', required=True, type=str)
+    args = parser.parse_args()
+    pyserini = Pyserini(args.index)
     # gateway.help(pyserini)
 
     search_results = pyserini.search(query_string="Airline Subsidies", num_hits=30)
-    print("Search Results:\n%s\n" % search_results)
+    print("Search Results:\n{}\n".format(search_results))
 
     doc_text = pyserini.raw_doc(docid="FT943-5123")
-    print("Document Text:\n%s\n" % doc_text)
+    print("Document Text:\n{}\n".format(doc_text))
 
     passages = pyserini.ranked_passages(query_string="Airline Subsidies", num_hits=30, k=20)
-    print("Ranked Passages:\n%s\n" % passages)
+    print("Ranked Passages:\n{}\n".format(passages))
 

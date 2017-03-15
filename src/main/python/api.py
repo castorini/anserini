@@ -28,7 +28,7 @@ def answer():
 
 # FIXME: separate this out to a classifier class where we can switch out the models
 def get_answer(question):
-    pyserini = Pyserini(args.index)
+    pyserini = Pyserini(app.config.get('index'))
     jaccard = Jaccard()
     candidate_passages = pyserini.ranked_passages(query_string=question, num_hits=30, k=20)        
     answer = jaccard.most_similar_passage(question, candidate_passages)
@@ -45,4 +45,6 @@ if __name__ == "__main__":
     print("Host: {}".format(args.host))
     print("Port: {}".format(args.port))
     print("Debug info: {}".format(args.debug))
+
+    app.config['index'] = args.index
     app.run(debug=args.debug, host=args.host, port=args.port)
