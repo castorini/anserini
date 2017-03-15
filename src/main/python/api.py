@@ -9,7 +9,6 @@ app = Flask(__name__)
 
 @app.route("/", methods=['GET'])
 def hello():
-    print(args.index)
     return "Hello! The server is working properly... :)"
 
 @app.route('/answer', methods=['POST'])
@@ -18,7 +17,7 @@ def answer():
         req = request.get_json(force=True)
         question = req["question"]
         print("Question: {}".format(question))
-        # FIXME: get the answer from the PyTorch model here 
+        # FIXME: get the answer from the PyTorch model here
         answer = get_answer(question)
         answer_dict = {"answer": answer}
         return jsonify(answer_dict)
@@ -30,7 +29,7 @@ def answer():
 def get_answer(question):
     pyserini = Pyserini(app.config.get('index'))
     jaccard = Jaccard()
-    candidate_passages = pyserini.ranked_passages(query_string=question, num_hits=30, k=20)        
+    candidate_passages = pyserini.ranked_passages(query_string=question, num_hits=30, k=20)
     answer = jaccard.most_similar_passage(question, candidate_passages)
     return answer
 

@@ -10,7 +10,7 @@ class Jaccard():
     def jaccard_overlap(text1, text2):
         """
         Converts the text to character n-gram set and computes Jaccard overlap.
-        Calculates Jaccard overlap scores between two texts. 
+        Calculates Jaccard overlap scores between two texts.
         """
         set1 = set(Jaccard.text2ngrams(text1, n=3))
         set2 = set(Jaccard.text2ngrams(text2, n=3))
@@ -36,7 +36,7 @@ if __name__ == "__main__":
     t1 = "hello, how are you?"
     t2 = "hello, howe are you Brian?"
     t3 = "hi how have you been?"
-    print("Text 1: {}".format(t1)
+    print("Text 1: {}".format(t1))
     print("Text 2: {}".format(t2))
     print("Text 3: {}\n".format(t3))
 
