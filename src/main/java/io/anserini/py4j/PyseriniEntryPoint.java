@@ -1,6 +1,9 @@
 package io.anserini.py4j;
 
+import edu.stanford.nlp.simple.Sentence;
 import io.anserini.index.IndexUtils;
+import io.anserini.qa.passage.PassageScorer;
+import io.anserini.qa.passage.ScoredPassage;
 import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.ScoredDocuments;
 import io.anserini.util.AnalyzerUtils;
@@ -30,6 +33,7 @@ import java.util.Map;
 import java.util.SortedMap;
 import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_ID;
 import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_BODY;
+import io.anserini.qa.passage.IdfPassageScorer;
 
 import py4j.GatewayServer;
 
@@ -37,12 +41,13 @@ import py4j.GatewayServer;
  * @author s43moham on 06/03/17.
  * @project anserini
  */
-public class Pyserini {
+public class PyseriniEntryPoint {
 
+  private String indexDir = null;
   private IndexReader reader = null;
   private IndexUtils indexUtils = null;
 
-  public Pyserini() {}
+  public PyseriniEntryPoint() {}
 
   public void initializeWithIndex(String indexDir) throws Exception {
     Path indexPath = Paths.get(indexDir);
@@ -51,6 +56,7 @@ public class Pyserini {
       throw new IllegalArgumentException(indexDir + " does not exist or is not a directory.");
     }
 
+    this.indexDir = indexDir;
     this.reader = DirectoryReader.open(FSDirectory.open(indexPath));
     this.indexUtils = new IndexUtils(indexDir);
   }
@@ -121,9 +127,29 @@ public class Pyserini {
     return indexUtils.getRawDocument(docid);
   }
 
+  public List<String> getRankedPassages(String query, int numHits, int k) throws Exception {
+    List<String> docids = search(query, numHits);
+    List<String> sentencesList = new ArrayList<>();
+    for (String docid : docids) {
+      List<Sentence> sentences = indexUtils.getSentDocument(docid);
+      for (Sentence sent : sentences) {
+        sentencesList.add(sent.text());
+      }
+    }
+
+    PassageScorer passageScorer = new IdfPassageScorer(indexDir, k);
+    passageScorer.score(sentencesList, "");
+    List<String> topSentences = new ArrayList<>();
+    List<ScoredPassage> topPassages = passageScorer.extractTopPassages();
+    for (ScoredPassage s : topPassages) {
+      topSentences.add(s.getSentence());
+    }
+    return topSentences;
+  }
+
   public static void main(String[] argv) throws Exception {
     System.out.println("starting Gateway Server...");
-    GatewayServer gatewayServer = new GatewayServer(new Pyserini());
+    GatewayServer gatewayServer = new GatewayServer(new PyseriniEntryPoint());
     gatewayServer.start();
     System.out.println("started!");
   }
