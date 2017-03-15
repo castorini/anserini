@@ -38,7 +38,7 @@ function gotBuffers( buffers ) {
 }
 
 function doneEncoding( blob ) {
-  Recorder.setupDownload( blob, "/tmp/anserini-question.wav" );
+  Recorder.speechToText(blob);
   recIndex++;
 }
 
@@ -47,12 +47,14 @@ function toggleRecording( e ) {
     // stop recording
     audioRecorder.stop();
     e.classList.remove("recording");
+    $('#question').text("Trying to understand your query...");
     audioRecorder.getBuffers( gotBuffers );
   } else {
     // start recording
     if (!audioRecorder)
       return;
     e.classList.add("recording");
+    $('#question').text("Listening...");
     audioRecorder.clear();
     audioRecorder.record();
   }

@@ -105,26 +105,20 @@ function run() {
     this.node.connect(this.context.destination);   // if the script node is not connected to an output the "onaudioprocess" event is not triggered in chrome.
   };
 
-  Recorder.setupDownload = function(blob, filename){
-    var url = (window.URL || window.webkitURL).createObjectURL(blob);
-    var link = document.getElementById("save");
-    link.href = url;
-    link.download = filename || 'output.wav';
-
-    var fd = new FormData();
-    fd.append('fname', 'test.wav');
-    fd.append('data', blob);
+  Recorder.speechToText = function(blob){
     $.ajax({
       type: 'POST',
       url: 'https://api.wit.ai/speech?v=20170308',
-      data: fd,
+      data: blob,
       processData: false,
       contentType: 'audio/wav',
       headers: {
         Authorization: window.WITAI_API_SECRET
       }
     }).done(function(data) {
-      console.log(data);
+      $('#question').text(data._text);
+    }).fail(function(req, textStatus, e) {
+      $('#question').text(e);
     });
   };
 
