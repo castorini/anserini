@@ -21,7 +21,14 @@ class Jaccard():
     @staticmethod
     def most_similar_passage(query, candidate_passages):
         """Returns the passage with the highest Jaccard overlap with the query."""
-        return max(candidate_passages, key=lambda p: Jaccard.jaccard_overlap(query, p), default="")
+        best_sim = -1
+        best_passage = ""
+        for passage in candidate_passages:
+            sim = Jaccard.jaccard_overlap(query, passage)
+            if sim > best_sim:
+                best_sim = sim
+                best_passage = passage
+        return best_passage
 
 
 if __name__ == "__main__":
@@ -29,11 +36,11 @@ if __name__ == "__main__":
     t1 = "hello, how are you?"
     t2 = "hello, howe are you Brian?"
     t3 = "hi how have you been?"
-    print("Text 1: %s" % t1)
-    print("Text 2: %s" % t2)
-    print("Text 3: %s\n" % t3)
+    print("Text 1: {}".format(t1)
+    print("Text 2: {}".format(t2))
+    print("Text 3: {}\n".format(t3))
 
     jaccard = Jaccard()
-    print("Jaccard overlap between texts 1 and 2: %f" % jaccard.jaccard_overlap(t1, t2))
-    print("Jaccard overlap between texts 1 and 3: %f" % jaccard.jaccard_overlap(t1, t3))
-    print("Most similar passage to text 1 (query): %s" % jaccard.most_similar_passage(t1, [t2, t3]))
+    print("Jaccard overlap between texts 1 and 2: {}".format(jaccard.jaccard_overlap(t1, t2)))
+    print("Jaccard overlap between texts 1 and 3: {}".format(jaccard.jaccard_overlap(t1, t3)))
+    print("Most similar passage to text 1 (query): {}".format(jaccard.most_similar_passage(t1, [t2, t3])))
