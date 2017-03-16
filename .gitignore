@@ -8,3 +8,5 @@ bin/
 *.iml
 .idea
 *.pyc
+*node_modules/
+src/main/js/SpeechDemo-darwin-x64/
