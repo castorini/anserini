@@ -2,10 +2,10 @@
 
 #### Steps
 - Build the Maven package and assemble the app.
-- Start the GatewayEntryPoint from Java to open up a socket for communication.
+- Start the PyseriniEntryPoint (gateway) from Java to open up a socket for communication.
 ```
 mvn clean package appassembler:assemble
-sh target/appassembler/bin/Pyserini
+sh target/appassembler/bin/PyseriniEntryPoint
 ```
 - Make sure you have py4j installed for Python or else, issue this command: sudo pip install py4j
 - Python tries to connect to a JVM with a gateway (localhost on port 25333).

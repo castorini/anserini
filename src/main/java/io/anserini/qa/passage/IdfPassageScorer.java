@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /**
  * Anserini: An information retrieval toolkit built on Lucene
  *
@@ -14,6 +15,8 @@
  * limitations under the License.
  */
 
+=======
+>>>>>>> 0b9b484e9f5f9d8568abcb91aa6b305c3bb17b17
 package io.anserini.qa.passage;
 
 import io.anserini.index.IndexUtils;
@@ -67,7 +70,11 @@ public class IdfPassageScorer implements PassageScorer {
         }
       }
 
+<<<<<<< HEAD
       ScoredPassage scoredPassage = new ScoredPassage(sent, idf / sent.length());
+=======
+      ScoredPassage scoredPassage = new ScoredPassage(sent, idf/sent.length());
+>>>>>>> 0b9b484e9f5f9d8568abcb91aa6b305c3bb17b17
       if (scoredPassageHeap.size() < topPassages || idf > scoredPassageHeap.element().getScore()) {
         if (scoredPassageHeap.size() == topPassages) {
           scoredPassageHeap.remove();

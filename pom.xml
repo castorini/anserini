@@ -74,8 +74,8 @@
               <name>SearchWebCollection</name>
             </program>
             <program>
-              <mainClass>io.anserini.py4j.Pyserini</mainClass>
-              <name>Pyserini</name>
+              <mainClass>io.anserini.py4j.PyseriniEntryPoint</mainClass>
+              <name>PyseriniEntryPoint</name>
             </program>
             <program>
               <mainClass>io.anserini.eval.Eval</mainClass>
@@ -137,7 +137,11 @@
               <mainClass>io.anserini.qa.RetrieveSentences</mainClass>
               <name>RetrieveSentences</name>
             </program>
+<<<<<<< HEAD
         
+=======
+
+>>>>>>> 0b9b484e9f5f9d8568abcb91aa6b305c3bb17b17
           </programs>
         </configuration>
       </plugin>
@@ -357,19 +361,19 @@
         <artifactId>jackson-core</artifactId>
         <version>2.7.2</version>
     </dependency>
-    
+
     <dependency>
         <groupId>com.fasterxml.jackson.core</groupId>
         <artifactId>jackson-databind</artifactId>
         <version>2.7.2</version>
     </dependency>
-    
+
     <dependency>
         <groupId>com.fasterxml.jackson.core</groupId>
         <artifactId>jackson-annotations</artifactId>
         <version>2.7.2</version>
     </dependency>
-    
+
     <dependency>
         <groupId>commons-lang</groupId>
         <artifactId>commons-lang</artifactId>

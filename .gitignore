@@ -7,4 +7,6 @@ eval/trec_eval.9.0/
 bin/
 *.iml
 .idea
-resources/
+*.pyc
+*node_modules/
+src/main/js/SpeechDemo-darwin-x64/

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /**
  * Anserini: An information retrieval toolkit built on Lucene
  *
@@ -14,6 +15,8 @@
  * limitations under the License.
  */
 
+=======
+>>>>>>> 0b9b484e9f5f9d8568abcb91aa6b305c3bb17b17
 package io.anserini.qa.passage;
 
 public class ScoredPassage implements Comparable<ScoredPassage> {
