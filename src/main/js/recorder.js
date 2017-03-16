@@ -20,7 +20,7 @@
 function run() {
   var WORKER_PATH = 'recorderWorker.js';
 
-  var Recorder = function(source, cfg){
+  var Recorder = function(source, cfg) {
     var config = cfg || {};
     var bufferLen = config.bufferLen || 4096;
     this.context = source.context;
@@ -40,7 +40,7 @@ function run() {
     var recording = false,
       currCallback;
 
-    this.node.onaudioprocess = function(e){
+    this.node.onaudioprocess = function(e) {
       if (!recording) return;
       worker.postMessage({
         command: 'record',
@@ -51,23 +51,23 @@ function run() {
       });
     };
 
-    this.configure = function(cfg){
+    this.configure = function(cfg) {
       for (var prop in cfg){
-        if (cfg.hasOwnProperty(prop)){
+        if (cfg.hasOwnProperty(prop)) {
           config[prop] = cfg[prop];
         }
       }
     };
 
-    this.record = function(){
+    this.record = function() {
       recording = true;
     };
 
-    this.stop = function(){
+    this.stop = function() {
       recording = false;
     };
 
-    this.clear = function(){
+    this.clear = function() {
       worker.postMessage({ command: 'clear' });
     };
 
@@ -76,7 +76,7 @@ function run() {
       worker.postMessage({ command: 'getBuffers' })
     };
 
-    this.exportWAV = function(cb, type){
+    this.exportWAV = function(cb, type) {
       currCallback = cb || config.callback;
       type = type || config.type || 'audio/wav';
       if (!currCallback) throw new Error('Callback not set');
@@ -86,7 +86,7 @@ function run() {
       });
     };
 
-    this.exportMonoWAV = function(cb, type){
+    this.exportMonoWAV = function(cb, type) {
       currCallback = cb || config.callback;
       type = type || config.type || 'audio/wav';
       if (!currCallback) throw new Error('Callback not set');
@@ -96,7 +96,7 @@ function run() {
       });
     };
 
-    worker.onmessage = function(e){
+    worker.onmessage = function(e) {
       var blob = e.data;
       currCallback(blob);
     };
@@ -105,7 +105,7 @@ function run() {
     this.node.connect(this.context.destination);   // if the script node is not connected to an output the "onaudioprocess" event is not triggered in chrome.
   };
 
-  Recorder.speechToText = function(blob){
+  Recorder.speechToText = function(blob) {
     $.ajax({
       type: 'POST',
       url: 'https://api.wit.ai/speech?v=20170308',

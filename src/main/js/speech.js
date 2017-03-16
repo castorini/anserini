@@ -31,18 +31,17 @@ function saveAudio() {
    audioRecorder.exportMonoWAV( doneEncoding );
 }
 
-function gotBuffers( buffers ) {
-  // the ONLY time gotBuffers is called is right after a new recording is completed -
-  // so here's where we should set up the download.
+function gotBuffers(buffers) {
+  // the ONLY time gotBuffers is called is right after a new recording is completed.
   audioRecorder.exportMonoWAV( doneEncoding );
 }
 
-function doneEncoding( blob ) {
+function doneEncoding(blob) {
   Recorder.speechToText(blob);
   recIndex++;
 }
 
-function toggleRecording( e ) {
+function toggleRecording(e) {
   if (e.classList.contains("recording")) {
     // stop recording
     audioRecorder.stop();
@@ -60,18 +59,18 @@ function toggleRecording( e ) {
   }
 }
 
-function convertToMono( input ) {
+function convertToMono(input) {
   var splitter = audioContext.createChannelSplitter(2);
   var merger = audioContext.createChannelMerger(2);
 
-  input.connect( splitter );
-  splitter.connect( merger, 0, 0 );
-  splitter.connect( merger, 0, 1 );
+  input.connect(splitter);
+  splitter.connect(merger, 0, 0);
+  splitter.connect(merger, 0, 1);
   return merger;
 }
 
 function cancelAnalyserUpdates() {
-  window.cancelAnimationFrame( rafID );
+  window.cancelAnimationFrame(rafID);
   rafID = null;
 }
 
@@ -111,7 +110,7 @@ function updateAnalysers(time) {
     }
   }
 
-  rafID = window.requestAnimationFrame( updateAnalysers );
+  rafID = window.requestAnimationFrame(updateAnalysers);
 }
 
 function toggleMono() {
