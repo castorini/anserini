@@ -54,6 +54,7 @@ function toggleRecording(e) {
       return;
     e.classList.add("recording");
     $('#question').text("Listening...");
+    $('#answer').text("");
     audioRecorder.clear();
     audioRecorder.record();
   }
@@ -172,4 +173,4 @@ function initAudio() {
     });
 }
 
-window.addEventListener('load', initAudio );
+window.addEventListener('load', initAudio);

@@ -44,13 +44,22 @@
       align-items: center;
       flex-grow: 1;
     }
+    #question {
+      font-weight: bold;
+      font-size: larger;
+      margin: 5px 5px;
+    }
+    #answer {
+      margin: 5px 5px;
+    }
 
   </style>
 </head>
 <body>
   <div id="viz">
     <canvas id="analyser" width="1024" height="200"></canvas>
-    <p class="lead" id="question">How can I help?</p>
+    <p id="question" class="lead">What can I help you with?</p>
+    <p class="lead" id="answer"></p>
   </div>
   <div id="controls">
     <span id="record" class="fa-stack fa-lg fa-3x" onclick="toggleRecording(this);">

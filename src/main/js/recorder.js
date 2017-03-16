@@ -117,6 +117,19 @@ function run() {
       }
     }).done(function(data) {
       $('#question').text(data._text);
+      window.setTimeout(function () {
+        $('#answer').text('Asking Anserini for answer...');
+      }, 500);
+      $.ajax({
+        type: 'POST',
+        url: 'http://0.0.0.0:5546/answer',
+        data: JSON.stringify({question: data._text}),
+        contentType : 'application/json'
+      }).done(function(data) {
+        $('#answer').text(data.answer);
+      }).fail(function(req, textStatus, e) {
+        $('#answer').text(e);
+      });
     }).fail(function(req, textStatus, e) {
       $('#question').text(e);
     });
@@ -125,4 +138,4 @@ function run() {
   window.Recorder = Recorder;
 }
 
-window.addEventListener('load', run );
+window.addEventListener('load', run);
