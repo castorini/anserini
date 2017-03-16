@@ -1,5 +1,7 @@
 # Setting up Speech to Text Demo
 
+`cd` into `src/main/js`.
+
 ```sh
 npm install
 npm start
@@ -11,4 +13,4 @@ You should see a new icon in the toolbar. Click it and a small window will open.
 window.WITAI_API_SECRET = "Bearer XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
 ```
 
-Ask me for the API key.
+Ask for the API key or get a free one from wit.ai.
