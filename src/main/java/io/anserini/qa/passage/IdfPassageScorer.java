@@ -76,12 +76,9 @@ public class IdfPassageScorer implements PassageScorer {
         }
       }
 
-      int numWords = sent.split("\\s+").length;
       double normalizedScore = idf / sent.length();
-
       ScoredPassage scoredPassage = new ScoredPassage(sent, normalizedScore);
-      if ((scoredPassageHeap.size() < topPassages || normalizedScore > scoredPassageHeap.peekFirst().getScore()) &&
-       numWords > 4) {
+      if (scoredPassageHeap.size() < topPassages || normalizedScore > scoredPassageHeap.peekFirst().getScore()) {
         if (scoredPassageHeap.size() == topPassages) {
           scoredPassageHeap.pollLast();
         }
