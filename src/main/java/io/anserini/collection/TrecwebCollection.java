@@ -16,7 +16,6 @@
 
 package io.anserini.collection;
 
-import io.anserini.document.SourceDocument;
 import io.anserini.document.TrecwebDocument;
 
 import java.io.*;
@@ -30,36 +29,49 @@ import java.util.zip.GZIPInputStream;
  * Class representing an instance of a TREC web collection.
  */
 public abstract class TrecwebCollection<D extends TrecwebDocument> extends TrecCollection {
-  public TrecwebCollection() throws IOException {
-    super();
-  }
+  public class File extends CollectionFile {
+    protected BufferedReader bufferedReader;
+    protected final int BUFFER_SIZE = 1 << 16; // 64K
 
-  @Override
-  public void prepareInput(Path curInputFile) throws IOException {
-    this.curInputFile = curInputFile;
-    this.bufferedReader = null;
-    String fileName = curInputFile.toString();
-    if (fileName.endsWith(".gz")) { //.gz
-      InputStream stream = new GZIPInputStream(
-              Files.newInputStream(curInputFile, StandardOpenOption.READ), BUFFER_SIZE);
-      bufferedReader = new BufferedReader(new InputStreamReader(stream, StandardCharsets.UTF_8));
-    } else { // in case user had already uncompressed the folder
-      bufferedReader = new BufferedReader(new FileReader(fileName));
+    public File(Path curInputFile) throws IOException {
+      this.curInputFile = curInputFile;
+      this.bufferedReader = null;
+      String fileName = curInputFile.toString();
+      if (fileName.endsWith(".gz")) { //.gz
+        InputStream stream = new GZIPInputStream(
+            Files.newInputStream(curInputFile, StandardOpenOption.READ), BUFFER_SIZE);
+        bufferedReader = new BufferedReader(new InputStreamReader(stream, StandardCharsets.UTF_8));
+      } else { // in case user had already uncompressed the folder
+        bufferedReader = new BufferedReader(new FileReader(fileName));
+      }
     }
-  }
 
-  @Override
-  public SourceDocument next() {
-    TrecwebDocument doc = new TrecwebDocument();
-    try {
-      doc = (D) doc.readNextRecord(bufferedReader);
-      if (doc == null) {
-        atEOF = true;
+    @Override
+    public void close() throws IOException {
+      atEOF = false;
+      if (bufferedReader != null) {
+        bufferedReader.close();
+      }
+    }
+
+    @Override
+    public D next() {
+      TrecwebDocument doc = new TrecwebDocument();
+      try {
+        doc = (TrecwebDocument) doc.readNextRecord(bufferedReader);
+        if (doc == null) {
+          atEOF = true;
+          doc = null;
+        }
+      } catch (IOException e1) {
         doc = null;
       }
-    } catch (IOException e1) {
-      doc = null;
+      return (D) doc;
     }
-    return doc;
+
+  }
+
+  public TrecwebCollection() {
+    super();
   }
 }

@@ -99,9 +99,11 @@ public final class IndexCollection {
   private final class IndexerThread extends Thread {
     final private Path inputFile;
     final private IndexWriter writer;
+    final private Collection collection;
 
-    private IndexerThread(IndexWriter writer, Path inputFile) throws IOException {
+    private IndexerThread(IndexWriter writer, Collection collection, Path inputFile) throws IOException {
       this.writer = writer;
+      this.collection = collection;
       this.inputFile = inputFile;
       setName(inputFile.getFileName().toString());
     }
@@ -114,10 +116,9 @@ public final class IndexCollection {
         transformer.setCounters(counters);
 
         int cnt = 0;
-        Collection collection = (Collection) collectionClass.newInstance();
-        collection.prepareInput(inputFile);
-        while (collection.hasNext()) {
-          SourceDocument d = (SourceDocument) collection.next();
+        Collection.CollectionFile iter = collection.createCollectionFile(inputFile);
+        while (iter.hasNext()) {
+          SourceDocument d = (SourceDocument) iter.next();
           if (d == null || !d.indexable()) {
             continue;
           }
@@ -130,7 +131,7 @@ public final class IndexCollection {
             cnt++;
           }
         }
-        collection.finishInput();
+        iter.close();
         LOG.info(inputFile.getParent().getFileName().toString() + File.separator +
             inputFile.getFileName().toString() + ": " + cnt + " docs added.");
         counters.indexedDocuments.addAndGet(cnt);
@@ -157,7 +158,7 @@ public final class IndexCollection {
     LOG.info("Store positions? " + args.storePositions);
     LOG.info("Store docvectors? " + args.storeDocvectors);
     LOG.info("Store transformed docs? " + args.storeTransformedDocs);
-    LOG.info("Store raw docs?" + args.storeRawDocs);
+    LOG.info("Store raw docs? " + args.storeRawDocs);
     LOG.info("Optimize (merge segments)? " + args.optimize);
 
     this.indexPath = Paths.get(args.index);
@@ -175,7 +176,7 @@ public final class IndexCollection {
 
     this.collectionClass = Class.forName("io.anserini.collection." + args.collectionClass);
     collection = (Collection) this.collectionClass.newInstance();
-    collection.setInputDir(collectionPath);
+    collection.setPath(collectionPath);
 
     this.counters = new Counters();
   }
@@ -204,7 +205,7 @@ public final class IndexCollection {
     long totalFiles = indexFiles.size();
     LOG.info(totalFiles + " files found at " + collectionPath.toString());
     for (int i = 0; i < totalFiles; i++) {
-      executor.execute(new IndexerThread(writer, indexFiles.removeFirst()));
+      executor.execute(new IndexerThread(writer, collection, indexFiles.removeFirst()));
     }
 
     executor.shutdown();

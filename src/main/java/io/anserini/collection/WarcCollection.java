@@ -31,25 +31,26 @@ import java.util.zip.GZIPInputStream;
  * Abstract class representing an instance of a WARC collection.
  */
 public abstract class WarcCollection<D extends WarcRecord> extends Collection {
-  protected DataInputStream inStream;
+  public abstract class File extends CollectionFile {
+    protected DataInputStream inStream;
+
+    public File(Path curInputFile) throws IOException {
+      this.curInputFile = curInputFile;
+      this.inStream = new DataInputStream(
+          new GZIPInputStream(Files.newInputStream(curInputFile, StandardOpenOption.READ)));
+    }
+
+    @Override
+    public void close() throws IOException {
+      atEOF = false;
+      if (inStream != null)
+        inStream.close();
+    }
+
+  }
 
   public WarcCollection() throws IOException {
-    super();
     allowedFileSuffix = new HashSet<>(Arrays.asList(".warc.gz"));
     skippedDirs = new HashSet<>(Arrays.asList("OtherData"));
-  }
-
-  @Override
-  public void prepareInput(Path curInputFile) throws IOException {
-    this.curInputFile = curInputFile;
-    this.inStream = new DataInputStream(
-            new GZIPInputStream(Files.newInputStream(curInputFile, StandardOpenOption.READ)));
-  }
-
-  @Override
-  public void finishInput() throws IOException {
-    atEOF = false;
-    if (inStream != null)
-      inStream.close();
   }
 }

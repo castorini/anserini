@@ -18,6 +18,7 @@ package io.anserini.collection;
 
 import io.anserini.document.SourceDocument;
 
+import java.io.Closeable;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Deque;
@@ -30,10 +31,25 @@ import java.util.Set;
  *
  * @param <D> type of the source document
  */
-public abstract class Collection<D extends SourceDocument> implements Iterator<SourceDocument> {
-  protected Path inputDir;
-  protected Path curInputFile;
-  protected boolean atEOF = false;
+public abstract class Collection<D extends SourceDocument> {
+
+  public abstract class CollectionFile implements Iterator<D>, Closeable {
+    protected Path curInputFile;
+    protected boolean atEOF = false;
+
+    @Override
+    public boolean hasNext() {
+      return !atEOF;
+    }
+
+    @Override
+    public void remove() {
+      throw new UnsupportedOperationException();
+    }
+
+  }
+
+  protected Path path;
 
   protected Set<String> skippedFilePrefix = new HashSet<>();
   protected Set<String> allowedFilePrefix = new HashSet<>();
@@ -42,30 +58,17 @@ public abstract class Collection<D extends SourceDocument> implements Iterator<S
   protected Set<String> skippedDirs = new HashSet<>();
 
   public Deque<Path> discoverFiles() {
-    return DiscoverFiles.discover(inputDir, skippedFilePrefix, allowedFilePrefix,
+    return DiscoverFiles.discover(path, skippedFilePrefix, allowedFilePrefix,
             skippedFileSuffix, allowedFileSuffix, skippedDirs);
   }
 
-  public Collection() throws IOException {}
-
-  public void setInputDir(Path inputDir) {
-    this.inputDir = inputDir;
+  public final void setPath(Path inputDir) {
+    this.path = inputDir;
   }
 
-  public final Path getInputDir() {
-    return inputDir;
+  public final Path getPath() {
+    return path;
   }
 
-  @Override
-  public boolean hasNext() {
-    return !atEOF;
-  }
-
-  @Override
-  public void remove() {
-    throw new UnsupportedOperationException();
-  }
-
-  public abstract void prepareInput(Path p) throws IOException;
-  public abstract void finishInput() throws IOException;
+  public abstract CollectionFile createCollectionFile(Path p) throws IOException;
 }

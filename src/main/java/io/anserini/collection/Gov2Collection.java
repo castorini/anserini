@@ -19,17 +19,28 @@ package io.anserini.collection;
 import io.anserini.document.TrecwebDocument;
 
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.HashSet;
 
 /**
  * Class representing an instance of the Gov2 collection.
  */
-public class Gov2Collection<D extends TrecwebDocument> extends TrecwebCollection {
+public class Gov2Collection extends TrecwebCollection<TrecwebDocument> {
+  public class File extends TrecwebCollection.File {
+    public File(Path curInputFile) throws IOException {
+      super(curInputFile);
+    }
+  }
+
   public Gov2Collection() throws IOException {
-    super();
     skippedFilePrefix = new HashSet<>();
     allowedFileSuffix = new HashSet<>(Arrays.asList(".gz"));
     skippedDirs = new HashSet<>(Arrays.asList("OtherData"));
+  }
+
+  @Override
+  public CollectionFile createCollectionFile(Path p) throws IOException {
+    return new File(p);
   }
 }

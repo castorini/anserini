@@ -19,6 +19,7 @@ package io.anserini.collection;
 import io.anserini.document.TrecwebDocument;
 
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.HashSet;
 
@@ -26,9 +27,20 @@ import java.util.HashSet;
  * Class representing an instance of a Wt collection.
  */
 public class WtCollection<D extends TrecwebDocument> extends TrecwebCollection {
+  public class File<D> extends TrecwebCollection.File {
+    public File(Path curInputFile) throws IOException {
+      super(curInputFile);
+    }
+  }
+
   public WtCollection() throws IOException {
     super();
     skippedFilePrefix = new HashSet<>();
     skippedDirs = new HashSet<>(Arrays.asList("info"));
+  }
+
+  @Override
+  public CollectionFile createCollectionFile(Path p) throws IOException {
+    return new File(p);
   }
 }
