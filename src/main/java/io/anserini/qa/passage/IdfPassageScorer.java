@@ -29,10 +29,7 @@ import org.apache.lucene.store.FSDirectory;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class IdfPassageScorer implements PassageScorer {
 
@@ -57,7 +54,7 @@ public class IdfPassageScorer implements PassageScorer {
     ClassicSimilarity similarity = new ClassicSimilarity();
 
     Query question = qp.parse(sentences.remove(0));
-    List<String> questionTerms = Arrays.asList(question.toString().trim().split("\\s+"));
+    HashSet<String> questionTerms = new HashSet<>(Arrays.asList(question.toString().trim().split("\\s+")));
 
     for (String sent: sentences) {
       double idf = 0.0;
@@ -66,7 +63,7 @@ public class IdfPassageScorer implements PassageScorer {
         try {
           TermQuery q = (TermQuery) qp.parse(term);
           Term t = q.getTerm();
-          if (questionTerms.contains(t.toString().trim())) {
+          if (questionTerms.contains(t.toString())) {
             idf += similarity.idf(reader.docFreq(t), reader.numDocs());
           } else {
             idf += 0.0;
