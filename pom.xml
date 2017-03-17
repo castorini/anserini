@@ -136,7 +136,6 @@
               <mainClass>io.anserini.qa.RetrieveSentences</mainClass>
               <name>RetrieveSentences</name>
             </program>
-
           </programs>
         </configuration>
       </plugin>
