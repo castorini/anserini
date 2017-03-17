@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 /**
  * Anserini: An information retrieval toolkit built on Lucene
  *
@@ -14,70 +13,77 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-=======
->>>>>>> 0b9b484e9f5f9d8568abcb91aa6b305c3bb17b17
 package io.anserini.qa.passage;
 
+import com.google.common.collect.MinMaxPriorityQueue;
 import io.anserini.index.IndexUtils;
 import io.anserini.index.generator.LuceneDocumentGenerator;
-import org.apache.lucene.analysis.CharArraySet;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.queryparser.classic.QueryParser;
+import org.apache.lucene.search.Query;
 import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.similarities.ClassicSimilarity;
 import org.apache.lucene.store.FSDirectory;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class IdfPassageScorer implements PassageScorer {
 
   private final IndexUtils util;
   private final FSDirectory directory;
   private final DirectoryReader reader;
-  private  final Queue<ScoredPassage> scoredPassageHeap;
+  private final MinMaxPriorityQueue<ScoredPassage> scoredPassageHeap;
   private final int topPassages;
 
   public IdfPassageScorer(String index, Integer k) throws IOException {
     this.util = new IndexUtils(index);
     this.directory = FSDirectory.open(new File(index).toPath());
     this.reader = DirectoryReader.open(directory);
-    this.scoredPassageHeap = new PriorityQueue<ScoredPassage>();
     this.topPassages = k;
+    scoredPassageHeap = MinMaxPriorityQueue.maximumSize(topPassages).create();
   }
 
   @Override
   public void score(List<String> sentences, String output) throws Exception {
-    EnglishAnalyzer ea = new EnglishAnalyzer(CharArraySet.EMPTY_SET);
+    EnglishAnalyzer ea = new EnglishAnalyzer(EnglishAnalyzer.getDefaultStopSet());
     QueryParser qp = new QueryParser(LuceneDocumentGenerator.FIELD_BODY, ea);
-
     ClassicSimilarity similarity = new ClassicSimilarity();
+
+    Query question = qp.parse(sentences.remove(0));
+    List<String> questionTerms = Arrays.asList(question.toString().trim().split("\\s+"));
 
     for (String sent: sentences) {
       double idf = 0.0;
-      String[] terms = sent.split(" ");
+      String[] terms = sent.split("\\s+");
       for (String term: terms) {
         try {
           TermQuery q = (TermQuery) qp.parse(term);
           Term t = q.getTerm();
-          idf += similarity.idf(reader.docFreq(t), reader.numDocs());
+          if (questionTerms.contains(t.toString().trim())) {
+            idf += similarity.idf(reader.docFreq(t), reader.numDocs());
+          } else {
+            idf += 0.0;
+          }
         } catch (Exception e) {
           continue;
         }
       }
 
-<<<<<<< HEAD
-      ScoredPassage scoredPassage = new ScoredPassage(sent, idf / sent.length());
-=======
-      ScoredPassage scoredPassage = new ScoredPassage(sent, idf/sent.length());
->>>>>>> 0b9b484e9f5f9d8568abcb91aa6b305c3bb17b17
-      if (scoredPassageHeap.size() < topPassages || idf > scoredPassageHeap.element().getScore()) {
+      int numWords = sent.split("\\s+").length;
+      double normalizedScore = idf / sent.length();
+
+      ScoredPassage scoredPassage = new ScoredPassage(sent, normalizedScore);
+      if ((scoredPassageHeap.size() < topPassages || normalizedScore > scoredPassageHeap.peekFirst().getScore()) &&
+       numWords > 4) {
         if (scoredPassageHeap.size() == topPassages) {
-          scoredPassageHeap.remove();
+          scoredPassageHeap.pollLast();
         }
         scoredPassageHeap.add(scoredPassage);
       }
@@ -86,6 +92,8 @@ public class IdfPassageScorer implements PassageScorer {
 
   @Override
   public List<ScoredPassage> extractTopPassages() {
-      return new ArrayList<>(scoredPassageHeap);
+      List<ScoredPassage> scoredList = new ArrayList<>(scoredPassageHeap);
+      Collections.sort(scoredList);
+      return scoredList;
   }
 }

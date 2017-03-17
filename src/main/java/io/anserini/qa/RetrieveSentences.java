@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 /**
  * Anserini: An information retrieval toolkit built on Lucene
  *
@@ -14,8 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-=======
->>>>>>> 0b9b484e9f5f9d8568abcb91aa6b305c3bb17b17
 package io.anserini.qa;
 
 import edu.stanford.nlp.simple.Sentence;
@@ -73,12 +70,7 @@ public class RetrieveSentences {
     @Option(name = "-hits", metaVar = "[number]", usage = "max number of hits to return")
     public int hits = 100;
 
-    //Todo: add more passage scorer
-<<<<<<< HEAD
     @Option(name = "-scorer", metaVar = "[Idf|Wmd]", usage = "passage scores")
-=======
-    @Option(name = "-scorer", metaVar = "[Idf]", usage = "passage scores")
->>>>>>> 0b9b484e9f5f9d8568abcb91aa6b305c3bb17b17
     public String scorer;
 
     @Option(name = "-k", metaVar = "[number]", usage = "top-k passages to be retrieved")
@@ -136,12 +128,14 @@ public class RetrieveSentences {
   public void getRankedPassages(Args args) throws Exception {
     IndexUtils util = new IndexUtils(args.index);
     List<String> sentencesList = new ArrayList<>();
+    sentencesList.add(args.query);
     try (BufferedReader br = new BufferedReader(new FileReader(args.output))) {
       String line;
 
       while ((line = br.readLine()) != null) {
         String docid = line.trim().split(" ")[1];
         List<Sentence> sentences = util.getSentDocument(docid);
+
         for (Sentence sent : sentences) {
           sentencesList.add(sent.text());
         }

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 /**
  * Anserini: An information retrieval toolkit built on Lucene
  *
@@ -14,9 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-=======
->>>>>>> 0b9b484e9f5f9d8568abcb91aa6b305c3bb17b17
 package io.anserini.qa.passage;
 
 import java.util.List;
