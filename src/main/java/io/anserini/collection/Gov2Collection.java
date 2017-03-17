@@ -22,25 +22,31 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Class representing an instance of the Gov2 collection.
  */
 public class Gov2Collection extends TrecwebCollection<TrecwebDocument> {
-  public class File extends TrecwebCollection.File {
-    public File(Path curInputFile) throws IOException {
+
+  public class FileSegment extends TrecwebCollection.FileSegment {
+    protected FileSegment(Path curInputFile) throws IOException {
       super(curInputFile);
     }
   }
 
-  public Gov2Collection() throws IOException {
-    skippedFilePrefix = new HashSet<>();
-    allowedFileSuffix = new HashSet<>(Arrays.asList(".gz"));
-    skippedDirs = new HashSet<>(Arrays.asList("OtherData"));
+  @Override
+  public List<Path> getFileSegmentPaths() {
+    Set<String> allowedFileSuffix = new HashSet<>(Arrays.asList(".gz"));
+    Set<String> skippedDirs = new HashSet<>(Arrays.asList("OtherData"));
+
+    return discover(path, EMPTY_SET, EMPTY_SET, EMPTY_SET,
+        allowedFileSuffix, skippedDirs);
   }
 
   @Override
-  public CollectionFile createCollectionFile(Path p) throws IOException {
-    return new File(p);
+  public Collection.FileSegment createFileSegment(Path p) throws IOException {
+    return new FileSegment(p);
   }
 }

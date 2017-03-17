@@ -29,17 +29,18 @@ import java.util.zip.GZIPInputStream;
  * Class representing an instance of a TREC web collection.
  */
 public abstract class TrecwebCollection<D extends TrecwebDocument> extends TrecCollection {
-  public class File extends CollectionFile {
+
+  public class FileSegment extends TrecCollection.FileSegment {
     protected BufferedReader bufferedReader;
     protected final int BUFFER_SIZE = 1 << 16; // 64K
 
-    public File(Path curInputFile) throws IOException {
-      this.curInputFile = curInputFile;
+    protected FileSegment(Path path) throws IOException {
+      this.path = path;
       this.bufferedReader = null;
-      String fileName = curInputFile.toString();
+      String fileName = path.toString();
       if (fileName.endsWith(".gz")) { //.gz
         InputStream stream = new GZIPInputStream(
-            Files.newInputStream(curInputFile, StandardOpenOption.READ), BUFFER_SIZE);
+            Files.newInputStream(path, StandardOpenOption.READ), BUFFER_SIZE);
         bufferedReader = new BufferedReader(new InputStreamReader(stream, StandardCharsets.UTF_8));
       } else { // in case user had already uncompressed the folder
         bufferedReader = new BufferedReader(new FileReader(fileName));
@@ -68,10 +69,6 @@ public abstract class TrecwebCollection<D extends TrecwebDocument> extends TrecC
       }
       return (D) doc;
     }
-
   }
 
-  public TrecwebCollection() {
-    super();
-  }
 }

@@ -26,6 +26,8 @@ import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.zip.GZIPInputStream;
 
 /**
@@ -33,14 +35,16 @@ import java.util.zip.GZIPInputStream;
  */
 public class TrecCollection<D extends TrecDocument> extends Collection {
 
-  public class File extends CollectionFile {
+  public class FileSegment extends Collection.FileSegment {
     protected BufferedReader bufferedReader;
     protected final int BUFFER_SIZE = 1 << 16; // 64K
 
-    public File(Path curInputFile) throws IOException {
-      this.curInputFile = curInputFile;
+    protected FileSegment() {}
+
+    protected FileSegment(Path path) throws IOException {
+      this.path = path;
       this.bufferedReader = null;
-      String fileName = curInputFile.toString();
+      String fileName = path.toString();
       if (fileName.matches(".*?\\.\\d*z$")) { // .z .0z .1z .2z
         FileInputStream fin = new FileInputStream(fileName);
         BufferedInputStream in = new BufferedInputStream(fin);
@@ -48,7 +52,7 @@ public class TrecCollection<D extends TrecDocument> extends Collection {
         bufferedReader = new BufferedReader(new InputStreamReader(zIn, StandardCharsets.UTF_8));
       } else if (fileName.endsWith(".gz")) { //.gz
         InputStream stream = new GZIPInputStream(
-            Files.newInputStream(curInputFile, StandardOpenOption.READ), BUFFER_SIZE);
+            Files.newInputStream(path, StandardOpenOption.READ), BUFFER_SIZE);
         bufferedReader = new BufferedReader(new InputStreamReader(stream, StandardCharsets.UTF_8));
       } else { // plain text file
         bufferedReader = new BufferedReader(new FileReader(fileName));
@@ -84,13 +88,17 @@ public class TrecCollection<D extends TrecDocument> extends Collection {
     }
   }
 
-  public TrecCollection() {
-    skippedFilePrefix = new HashSet<>(Arrays.asList("readme"));
-    skippedDirs = new HashSet<>(Arrays.asList("cr", "dtd", "dtds"));
+  @Override
+  public List<Path> getFileSegmentPaths() {
+    Set<String> skippedFilePrefix = new HashSet<>(Arrays.asList("readme"));
+    Set<String> skippedDirs = new HashSet<>(Arrays.asList("cr", "dtd", "dtds"));
+
+    return discover(path, skippedFilePrefix, EMPTY_SET,
+        EMPTY_SET, EMPTY_SET, skippedDirs);
   }
 
   @Override
-  public CollectionFile createCollectionFile(Path p) throws IOException {
-    return new File(p);
+  public Collection.FileSegment createFileSegment(Path p) throws IOException {
+    return new FileSegment(p);
   }
 }

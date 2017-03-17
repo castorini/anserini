@@ -17,24 +17,30 @@
 package io.anserini.collection;
 
 import io.anserini.document.SourceDocument;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.Closeable;
 import java.io.IOException;
-import java.nio.file.Path;
-import java.util.Deque;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
+import java.nio.file.*;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.util.*;
 
 /**
- * An information retrieval collection, comprising a finite number of {@link SourceDocument}s.
+ * A static collection of documents, comprised of one or more {@code FileSegment}s.
+ * Each {@code FileSegment} contains one or more {@code SourceDocument}s.
  *
  * @param <D> type of the source document
  */
 public abstract class Collection<D extends SourceDocument> {
+  private static final Logger LOG = LogManager.getLogger(Collection.class);
 
-  public abstract class CollectionFile implements Iterator<D>, Closeable {
-    protected Path curInputFile;
+  /**
+   * A file containing one more source documents to be indexed. A collection is comprised of one or
+   * more {@code FileSegment}s.
+   */
+  public abstract class FileSegment implements Iterator<D>, Closeable {
+    protected Path path;
     protected boolean atEOF = false;
 
     @Override
@@ -46,29 +52,112 @@ public abstract class Collection<D extends SourceDocument> {
     public void remove() {
       throw new UnsupportedOperationException();
     }
-
   }
 
   protected Path path;
+  static protected final Set<String> EMPTY_SET = new HashSet<>();
 
-  protected Set<String> skippedFilePrefix = new HashSet<>();
-  protected Set<String> allowedFilePrefix = new HashSet<>();
-  protected Set<String> skippedFileSuffix = new HashSet<>();
-  protected Set<String> allowedFileSuffix = new HashSet<>();
-  protected Set<String> skippedDirs = new HashSet<>();
-
-  public Deque<Path> discoverFiles() {
-    return DiscoverFiles.discover(path, skippedFilePrefix, allowedFilePrefix,
-            skippedFileSuffix, allowedFileSuffix, skippedDirs);
+  /**
+   * Sets the path of the collection.
+   *
+   * @param path path of the collection
+   */
+  public final void setCollectionPath(Path path) {
+    this.path = path;
   }
 
-  public final void setPath(Path inputDir) {
-    this.path = inputDir;
-  }
-
-  public final Path getPath() {
+  /**
+   * Returns the path of the collection.
+   *
+   * @return path of the collection
+   */
+  public final Path getCollectionPath() {
     return path;
   }
 
-  public abstract CollectionFile createCollectionFile(Path p) throws IOException;
+  public abstract List<Path> getFileSegmentPaths();
+
+  /**
+   * Creates a {@code FileSegment} from a path.
+   *
+   * @param p path
+   * @return {@code FileSegment} with the specified path
+   * @throws IOException
+   */
+  public abstract FileSegment createFileSegment(Path p) throws IOException;
+
+  protected List<Path> discover(Path p, Set<String> skippedFilePrefix, Set<String> allowedFilePrefix,
+      Set<String> skippedFileSuffix, Set<String> allowedFileSuffix, Set<String> skippedDir) {
+    final List<Path> paths = new ArrayList<>();
+
+    FileVisitor<Path> fv = new SimpleFileVisitor<Path>() {
+      @Override
+      public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+        Path name = file.getFileName();
+        boolean shouldAdd = true;
+        if (name != null) {
+          String fileName = name.toString();
+          for (String s : skippedFileSuffix) {
+            if (fileName.endsWith(s)) {
+              shouldAdd = false;
+              break;
+            }
+          }
+          if (shouldAdd && !allowedFileSuffix.isEmpty()) {
+            shouldAdd = false;
+            for (String s : allowedFileSuffix) {
+              if (fileName.endsWith(s)) {
+                shouldAdd = true;
+                break;
+              }
+            }
+          }
+          if (shouldAdd) {
+            for (String s : skippedFilePrefix) {
+              if (fileName.startsWith(s)) {
+                shouldAdd = false;
+                break;
+              }
+            }
+          }
+          if (shouldAdd && !allowedFilePrefix.isEmpty()) {
+            shouldAdd = false;
+            for (String s : allowedFilePrefix) {
+              if (fileName.startsWith(s)) {
+                shouldAdd = true;
+                break;
+              }
+            }
+          }
+        }
+        if (shouldAdd) {
+          paths.add(file);
+        }
+        return FileVisitResult.CONTINUE;
+      }
+
+      @Override
+      public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) {
+        if (skippedDir.contains(dir.getFileName().toString())) {
+          LOG.info("Skipping: " + dir);
+          return FileVisitResult.SKIP_SUBTREE;
+        }
+        return FileVisitResult.CONTINUE;
+      }
+
+      @Override
+      public FileVisitResult visitFileFailed(Path file, IOException ioe) {
+        LOG.error("Visiting failed for " + file.toString(), ioe);
+        return FileVisitResult.SKIP_SUBTREE;
+      }
+    };
+
+    try {
+      Files.walkFileTree(p, fv);
+    } catch (IOException e) {
+      LOG.error("IOException during file visiting", e);
+    }
+
+    return paths;
+  }
 }

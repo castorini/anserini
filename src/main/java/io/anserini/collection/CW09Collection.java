@@ -25,16 +25,17 @@ import java.nio.file.Path;
  * Class representing an instance of the ClueWeb09 collection.
 */
 public class CW09Collection extends WarcCollection<ClueWeb09WarcRecord> {
-  public class File extends WarcCollection.File {
-    public File(Path curInputFile) throws IOException {
-      super(curInputFile);
+
+  public class FileSegment extends WarcCollection.FileSegment {
+    private FileSegment(Path path) throws IOException {
+      super(path);
     }
 
     @Override
     public ClueWeb09WarcRecord next() {
       ClueWeb09WarcRecord doc = new ClueWeb09WarcRecord();
       try {
-        doc = doc.readNextWarcRecord(inStream, ClueWeb09WarcRecord.WARC_VERSION);
+        doc = doc.readNextWarcRecord(stream, ClueWeb09WarcRecord.WARC_VERSION);
         if (doc == null) {
           atEOF = true;
           doc = null;
@@ -46,12 +47,8 @@ public class CW09Collection extends WarcCollection<ClueWeb09WarcRecord> {
     }
   }
 
-  public CW09Collection() throws IOException {
-    super();
-  }
-
   @Override
-  public CollectionFile createCollectionFile(Path p) throws IOException {
-    return new File(p);
+  public Collection.FileSegment createFileSegment(Path p) throws IOException {
+    return new FileSegment(p);
   }
 }
