@@ -31,14 +31,18 @@ import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.search.similarities.BM25Similarity;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
-import org.kohsuke.args4j.*;
+import org.kohsuke.args4j.CmdLineException;
+import org.kohsuke.args4j.CmdLineParser;
+import org.kohsuke.args4j.OptionHandlerFilter;
+import org.kohsuke.args4j.ParserProperties;
+import org.kohsuke.args4j.Option;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Deque;
+import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -99,9 +103,11 @@ public final class IndexCollection {
   private final class IndexerThread extends Thread {
     final private Path inputFile;
     final private IndexWriter writer;
+    final private Collection collection;
 
-    private IndexerThread(IndexWriter writer, Path inputFile) throws IOException {
+    private IndexerThread(IndexWriter writer, Collection collection, Path inputFile) throws IOException {
       this.writer = writer;
+      this.collection = collection;
       this.inputFile = inputFile;
       setName(inputFile.getFileName().toString());
     }
@@ -114,10 +120,9 @@ public final class IndexCollection {
         transformer.setCounters(counters);
 
         int cnt = 0;
-        Collection collection = (Collection) collectionClass.newInstance();
-        collection.prepareInput(inputFile);
-        while (collection.hasNext()) {
-          SourceDocument d = (SourceDocument) collection.next();
+        Collection.FileSegment iter = collection.createFileSegment(inputFile);
+        while (iter.hasNext()) {
+          SourceDocument d = (SourceDocument) iter.next();
           if (d == null || !d.indexable()) {
             continue;
           }
@@ -130,7 +135,7 @@ public final class IndexCollection {
             cnt++;
           }
         }
-        collection.finishInput();
+        iter.close();
         LOG.info(inputFile.getParent().getFileName().toString() + File.separator +
             inputFile.getFileName().toString() + ": " + cnt + " docs added.");
         counters.indexedDocuments.addAndGet(cnt);
@@ -151,13 +156,14 @@ public final class IndexCollection {
   public IndexCollection(IndexCollection.Args args) throws Exception {
     this.args = args;
 
+    LOG.info("Collection path: " + args.input);
     LOG.info("Index path: " + args.index);
     LOG.info("Threads: " + args.threads);
     LOG.info("Keep stopwords? " + args.keepStopwords);
     LOG.info("Store positions? " + args.storePositions);
     LOG.info("Store docvectors? " + args.storeDocvectors);
     LOG.info("Store transformed docs? " + args.storeTransformedDocs);
-    LOG.info("Store raw docs?" + args.storeRawDocs);
+    LOG.info("Store raw docs? " + args.storeRawDocs);
     LOG.info("Optimize (merge segments)? " + args.optimize);
 
     this.indexPath = Paths.get(args.index);
@@ -175,7 +181,7 @@ public final class IndexCollection {
 
     this.collectionClass = Class.forName("io.anserini.collection." + args.collectionClass);
     collection = (Collection) this.collectionClass.newInstance();
-    collection.setInputDir(collectionPath);
+    collection.setCollectionPath(collectionPath);
 
     this.counters = new Counters();
   }
@@ -185,7 +191,6 @@ public final class IndexCollection {
     LOG.info("Starting indexer...");
 
     int numThreads = args.threads;
-    LOG.info("Indexing with " + numThreads + " threads to directory " + indexPath.toAbsolutePath() + "...");
 
     final Directory dir = FSDirectory.open(indexPath);
     final EnglishAnalyzer analyzer = args.keepStopwords ? new EnglishAnalyzer(CharArraySet.EMPTY_SET) : new EnglishAnalyzer();
@@ -199,12 +204,12 @@ public final class IndexCollection {
     final IndexWriter writer = new IndexWriter(dir, config);
 
     final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(numThreads);
-    final Deque<Path> indexFiles = collection.discoverFiles();
+    final List<Path> segmentPaths = collection.getFileSegmentPaths();
 
-    long totalFiles = indexFiles.size();
-    LOG.info(totalFiles + " files found at " + collectionPath.toString());
-    for (int i = 0; i < totalFiles; i++) {
-      executor.execute(new IndexerThread(writer, indexFiles.removeFirst()));
+    final int segmentCnt = segmentPaths.size();
+    LOG.info(segmentCnt + " files found at " + collectionPath.toString());
+    for (int i = 0; i < segmentCnt; i++) {
+      executor.execute(new IndexerThread(writer, collection, segmentPaths.get(i)));
     }
 
     executor.shutdown();
@@ -213,7 +218,7 @@ public final class IndexCollection {
       // Wait for existing tasks to terminate
       while (!executor.awaitTermination(1, TimeUnit.MINUTES)) {
         LOG.info(String.format("%.2f percent completed",
-            (double) executor.getCompletedTaskCount() / totalFiles * 100.0d));
+            (double) executor.getCompletedTaskCount() / segmentCnt * 100.0d));
       }
     } catch (InterruptedException ie) {
       // (Re-)Cancel if current thread also interrupted
@@ -222,8 +227,8 @@ public final class IndexCollection {
       Thread.currentThread().interrupt();
     }
 
-    if (totalFiles != executor.getCompletedTaskCount()) {
-      throw new RuntimeException("totalFiles = " + totalFiles +
+    if (segmentCnt != executor.getCompletedTaskCount()) {
+      throw new RuntimeException("totalFiles = " + segmentCnt +
           " is not equal to completedTaskCount =  " + executor.getCompletedTaskCount());
     }
 

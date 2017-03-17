@@ -19,16 +19,33 @@ package io.anserini.collection;
 import io.anserini.document.TrecwebDocument;
 
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Class representing an instance of a Wt collection.
  */
 public class WtCollection<D extends TrecwebDocument> extends TrecwebCollection {
-  public WtCollection() throws IOException {
-    super();
-    skippedFilePrefix = new HashSet<>();
-    skippedDirs = new HashSet<>(Arrays.asList("info"));
+
+  public class FileSegment extends TrecwebCollection.FileSegment {
+    public FileSegment(Path path) throws IOException {
+      super(path);
+    }
+  }
+
+  @Override
+  public List<Path> getFileSegmentPaths() {
+    Set<String> skippedDirs = new HashSet<>(Arrays.asList("info"));
+
+    return discover(path, EMPTY_SET, EMPTY_SET,
+        EMPTY_SET, EMPTY_SET, skippedDirs);
+  }
+
+  @Override
+  public Collection.FileSegment createFileSegment(Path p) throws IOException {
+    return new FileSegment(p);
   }
 }

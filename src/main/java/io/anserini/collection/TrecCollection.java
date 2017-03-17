@@ -16,75 +16,95 @@
 
 package io.anserini.collection;
 
-import io.anserini.document.SourceDocument;
 import io.anserini.document.TrecDocument;
 import org.apache.commons.compress.compressors.z.ZCompressorInputStream;
 
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.zip.GZIPInputStream;
 
 /**
  * Class representing an instance of a TREC collection.
  */
 public class TrecCollection<D extends TrecDocument> extends Collection {
-  protected BufferedReader bufferedReader;
-  protected final int BUFFER_SIZE = 1 << 16; // 64K
 
-  public TrecCollection() throws IOException {
-    super();
-    skippedFilePrefix = new HashSet<>(Arrays.asList("readme"));
-    skippedDirs = new HashSet<>(Arrays.asList("cr", "dtd", "dtds"));
-  }
+  public class FileSegment extends Collection.FileSegment {
+    protected BufferedReader bufferedReader;
+    protected final int BUFFER_SIZE = 1 << 16; // 64K
 
-  @Override
-  public void prepareInput(Path curInputFile) throws IOException {
-    this.curInputFile = curInputFile;
-    this.bufferedReader = null;
-    String fileName = curInputFile.toString();
-    if (fileName.matches(".*?\\.\\d*z$")) { // .z .0z .1z .2z
-      FileInputStream fin = new FileInputStream(fileName);
-      BufferedInputStream in = new BufferedInputStream(fin);
-      ZCompressorInputStream zIn = new ZCompressorInputStream(in);
-      bufferedReader = new BufferedReader(new InputStreamReader(zIn, StandardCharsets.UTF_8));
-    } else if (fileName.endsWith(".gz")) { //.gz
-      InputStream stream = new GZIPInputStream(
-              Files.newInputStream(curInputFile, StandardOpenOption.READ), BUFFER_SIZE);
-      bufferedReader = new BufferedReader(new InputStreamReader(stream, StandardCharsets.UTF_8));
-    } else { // plain text file
-      bufferedReader = new BufferedReader(new FileReader(fileName));
+    protected FileSegment() {}
+
+    protected FileSegment(Path path) throws IOException {
+      this.path = path;
+      this.bufferedReader = null;
+      String fileName = path.toString();
+      if (fileName.matches(".*?\\.\\d*z$")) { // .z .0z .1z .2z
+        FileInputStream fin = new FileInputStream(fileName);
+        BufferedInputStream in = new BufferedInputStream(fin);
+        ZCompressorInputStream zIn = new ZCompressorInputStream(in);
+        bufferedReader = new BufferedReader(new InputStreamReader(zIn, StandardCharsets.UTF_8));
+      } else if (fileName.endsWith(".gz")) { //.gz
+        InputStream stream = new GZIPInputStream(
+            Files.newInputStream(path, StandardOpenOption.READ), BUFFER_SIZE);
+        bufferedReader = new BufferedReader(new InputStreamReader(stream, StandardCharsets.UTF_8));
+      } else { // plain text file
+        bufferedReader = new BufferedReader(new FileReader(fileName));
+      }
     }
-  }
 
-  @Override
-  public void finishInput() throws IOException {
-    atEOF = false;
-    if (bufferedReader != null) {
-      bufferedReader.close();
+    @Override
+    public void close() throws IOException {
+      atEOF = false;
+      if (bufferedReader != null) {
+        bufferedReader.close();
+      }
     }
-  }
 
-  @Override
-  public boolean hasNext() {
-    return !atEOF;
-  }
+    @Override
+    public boolean hasNext() {
+      return !atEOF;
+    }
 
-  @Override
-  public SourceDocument next() {
-    TrecDocument doc = new TrecDocument();
-    try {
-      doc = (D) doc.readNextRecord(bufferedReader);
-      if (doc == null) {
-        atEOF = true;
+    @Override
+    public D next() {
+      TrecDocument doc = new TrecDocument();
+      try {
+        doc = (TrecDocument) doc.readNextRecord(bufferedReader);
+        if (doc == null) {
+          atEOF = true;
+          doc = null;
+        }
+      } catch (IOException e1) {
         doc = null;
       }
-    } catch (IOException e1) {
-      doc = null;
+      return (D) doc;
     }
-    return doc;
+  }
+
+  @Override
+  public List<Path> getFileSegmentPaths() {
+    Set<String> skippedFilePrefix = new HashSet<>(Arrays.asList("readme"));
+    Set<String> skippedDirs = new HashSet<>(Arrays.asList("cr", "dtd", "dtds"));
+
+    return discover(path, skippedFilePrefix, EMPTY_SET,
+        EMPTY_SET, EMPTY_SET, skippedDirs);
+  }
+
+  @Override
+  public Collection.FileSegment createFileSegment(Path p) throws IOException {
+    return new FileSegment(p);
   }
 }

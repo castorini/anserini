@@ -17,30 +17,38 @@
 package io.anserini.collection;
 
 import io.anserini.document.ClueWeb09WarcRecord;
-import io.anserini.document.SourceDocument;
 
 import java.io.IOException;
+import java.nio.file.Path;
 
 /**
  * Class representing an instance of the ClueWeb09 collection.
 */
-public class CW09Collection<D extends ClueWeb09WarcRecord> extends WarcCollection {
-  public CW09Collection() throws IOException {
-    super();
+public class CW09Collection extends WarcCollection<ClueWeb09WarcRecord> {
+
+  public class FileSegment extends WarcCollection.FileSegment {
+    private FileSegment(Path path) throws IOException {
+      super(path);
+    }
+
+    @Override
+    public ClueWeb09WarcRecord next() {
+      ClueWeb09WarcRecord doc = new ClueWeb09WarcRecord();
+      try {
+        doc = doc.readNextWarcRecord(stream, ClueWeb09WarcRecord.WARC_VERSION);
+        if (doc == null) {
+          atEOF = true;
+          doc = null;
+        }
+      } catch (IOException e) {
+        doc = null;
+      }
+      return doc;
+    }
   }
 
   @Override
-  public SourceDocument next() {
-    ClueWeb09WarcRecord doc = new ClueWeb09WarcRecord();
-    try {
-      doc = (D) doc.readNextWarcRecord(inStream, ClueWeb09WarcRecord.WARC_VERSION);
-      if (doc == null) {
-        atEOF = true;
-        doc = null;
-      }
-    } catch (IOException e) {
-      doc = null;
-    }
-    return doc;
+  public Collection.FileSegment createFileSegment(Path p) throws IOException {
+    return new FileSegment(p);
   }
 }

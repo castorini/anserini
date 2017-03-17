@@ -25,31 +25,39 @@ import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.zip.GZIPInputStream;
 
 /**
  * Abstract class representing an instance of a WARC collection.
  */
 public abstract class WarcCollection<D extends WarcRecord> extends Collection {
-  protected DataInputStream inStream;
 
-  public WarcCollection() throws IOException {
-    super();
-    allowedFileSuffix = new HashSet<>(Arrays.asList(".warc.gz"));
-    skippedDirs = new HashSet<>(Arrays.asList("OtherData"));
+  public abstract class FileSegment extends Collection.FileSegment {
+    protected DataInputStream stream;
+
+    protected FileSegment(Path path) throws IOException {
+      this.path = path;
+      this.stream = new DataInputStream(
+          new GZIPInputStream(Files.newInputStream(path, StandardOpenOption.READ)));
+    }
+
+    @Override
+    public void close() throws IOException {
+      atEOF = false;
+      if (stream != null) {
+        stream.close();
+      }
+    }
   }
 
   @Override
-  public void prepareInput(Path curInputFile) throws IOException {
-    this.curInputFile = curInputFile;
-    this.inStream = new DataInputStream(
-            new GZIPInputStream(Files.newInputStream(curInputFile, StandardOpenOption.READ)));
-  }
+  public List<Path> getFileSegmentPaths() {
+    Set<String> allowedFileSuffix = new HashSet<>(Arrays.asList(".warc.gz"));
+    Set<String> skippedDirs = new HashSet<>(Arrays.asList("OtherData"));
 
-  @Override
-  public void finishInput() throws IOException {
-    atEOF = false;
-    if (inStream != null)
-      inStream.close();
+    return discover(path, EMPTY_SET, EMPTY_SET, EMPTY_SET,
+        allowedFileSuffix, skippedDirs);
   }
 }
