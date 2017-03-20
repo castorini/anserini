@@ -10,3 +10,4 @@ bin/
 *.pyc
 *node_modules/
 src/main/js/SpeechDemo-darwin-x64/
+src/main/python/config.cfg

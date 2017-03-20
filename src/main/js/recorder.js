@@ -105,6 +105,15 @@ function run() {
     this.node.connect(this.context.destination);   // if the script node is not connected to an output the "onaudioprocess" event is not triggered in chrome.
   };
 
+  $.ajax({
+    type: 'GET',
+    url: 'http://0.0.0.0:5546/wit_ai_config'
+  }).done(function(data) {
+    window.WITAI_API_SECRET = data.WITAI_API_SECRET;
+  }).fail(function(req, textStatus, e) {
+    console.log(e);
+  });
+
   Recorder.speechToText = function(blob) {
     $.ajax({
       type: 'POST',
@@ -113,7 +122,7 @@ function run() {
       processData: false,
       contentType: 'audio/wav',
       headers: {
-        Authorization: window.WITAI_API_SECRET
+        Authorization: 'Bearer ' + window.WITAI_API_SECRET
       }
     }).done(function(data) {
       $('#question').text(data._text);
