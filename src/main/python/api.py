@@ -41,21 +41,18 @@ def get_answer(question):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Start the Flask API at the specified host, port')
     parser.add_argument('--config', help='config to use', required=False, type=str, default='config.cfg')
-    # FIXME: Move index, host, port to config file
-    parser.add_argument('--index', help='directory path for index', required=True, type=str)
-    parser.add_argument('--host', help='host address', required=False, type=str, default='0.0.0.0')
-    parser.add_argument('--port', help='port', required=False, type=int, default=5546)
     parser.add_argument("--debug", help="print debug info", action="store_true")
     args = parser.parse_args()
-    print("Config: {}".format(args.config))
-    print("Index: {}".format(args.index))
-    print("Host: {}".format(args.host))
-    print("Port: {}".format(args.port))
-    print("Debug info: {}".format(args.debug))
 
-    app.config['index'] = args.index
     config = ConfigParser.ConfigParser()
     config.read(args.config)
     for name, value in config.items('Flask'):
         app.config[name] = value
-    app.run(debug=args.debug, host=args.host, port=args.port)
+
+    print("Config: {}".format(args.config))
+    print("Index: {}".format(app.config['index']))
+    print("Host: {}".format(app.config['host']))
+    print("Port: {}".format(app.config['port']))
+    print("Debug info: {}".format(args.debug))
+
+    app.run(debug=args.debug, host=app.config['host'], port=app.config['port'])

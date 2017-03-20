@@ -1,12 +1,12 @@
 ### Flask API
 
 - Install Flask with the command: pip install flask
-- Copy `src/main/python/config.cfg.example` to `src/main/python/config.cfg` and make necessary changes, such as using real API keys.
+- Copy `src/main/python/config.cfg.example` to `src/main/python/config.cfg` and make necessary changes, such as setting the index path and API keys.
 - The Flask API can be started with the following command. Default host is 0.0.0.0 and port is 5546 without debugging info.
 - Make sure to start the PyseriniEntryPoint (gateway) from Java to open up a socket for communication for Pyserini.
 ```
 sh target/appassembler/bin/PyseriniEntryPoint
-python src/main/python/api.py --index [index_path] --host [host] --port [port] [--debug]
+python src/main/python/api.py [--debug]
 ```
 
 - This is the documentation for the API call to send a question to the model and get back the predicted answer.
