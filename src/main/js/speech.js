@@ -1,4 +1,10 @@
-/* Copyright 2013 Chris Wilson
+/*
+Modifications Copyright 2017 Anserini
+
+The audio recording and analyzer visualization code was originally developed by Chris Wilson
+and modified for use in Anserini.
+
+Copyright 2013 Chris Wilson
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -54,7 +60,7 @@ function toggleRecording(e) {
       return;
     e.classList.add("recording");
     $('#question').text("Listening...");
-    $('#answer').text("");
+    $('#answer').html("");
     audioRecorder.clear();
     audioRecorder.record();
   }
