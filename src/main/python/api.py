@@ -57,4 +57,4 @@ if __name__ == "__main__":
     print("Port: {}".format(app.config['port']))
     print("Debug info: {}".format(args.debug))
 
-    app.run(debug=args.debug, host=app.config['host'], port=app.config['port'])
+    app.run(debug=args.debug, host=app.config['host'], port=int(app.config['port']))
