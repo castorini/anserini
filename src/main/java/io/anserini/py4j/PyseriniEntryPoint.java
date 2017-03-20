@@ -130,6 +130,7 @@ public class PyseriniEntryPoint {
   public List<String> getRankedPassages(String query, int numHits, int k) throws Exception {
     List<String> docids = search(query, numHits);
     List<String> sentencesList = new ArrayList<>();
+    sentencesList.add(query);
     for (String docid : docids) {
       List<Sentence> sentences = indexUtils.getSentDocument(docid);
       for (Sentence sent : sentences) {
