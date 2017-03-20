@@ -1,4 +1,5 @@
 import argparse
+import ConfigParser
 
 from flask import Flask, jsonify, request
 # FIXME: separate this out to a classifier class where we can switch out the models
@@ -27,6 +28,10 @@ def answer():
         error_dict = {"error": "ERROR - could not parse the question or get answer."}
         return jsonify(error_dict)
 
+@app.route('/wit_ai_config', methods=['GET'])
+def wit_ai_config():
+    return jsonify({'WITAI_API_SECRET': app.config['witai_api_secret']})
+
 # FIXME: separate this out to a classifier class where we can switch out the models
 def get_answers(question, num_hits, k):
     pyserini = Pyserini(app.config.get('index'))
@@ -37,15 +42,19 @@ def get_answers(question, num_hits, k):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Start the Flask API at the specified host, port')
-    parser.add_argument('--index', help='directory path for index', required=True, type=str)
-    parser.add_argument('--host', help='host address', required=False, type=str, default='0.0.0.0')
-    parser.add_argument('--port', help='port', required=False, type=int, default=5546)
+    parser.add_argument('--config', help='config to use', required=False, type=str, default='config.cfg')
     parser.add_argument("--debug", help="print debug info", action="store_true")
     args = parser.parse_args()
-    print("Index: {}".format(args.index))
-    print("Host: {}".format(args.host))
-    print("Port: {}".format(args.port))
+
+    config = ConfigParser.ConfigParser()
+    config.read(args.config)
+    for name, value in config.items('Flask'):
+        app.config[name] = value
+
+    print("Config: {}".format(args.config))
+    print("Index: {}".format(app.config['index']))
+    print("Host: {}".format(app.config['host']))
+    print("Port: {}".format(app.config['port']))
     print("Debug info: {}".format(args.debug))
 
-    app.config['index'] = args.index
-    app.run(debug=args.debug, host=args.host, port=args.port)
+    app.run(debug=args.debug, host=app.config['host'], port=app.config['port'])
