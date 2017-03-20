@@ -16,22 +16,24 @@ def answer():
     try:
         req = request.get_json(force=True)
         question = req["question"]
+        num_hits = req.get('num_hits', 30)
+        k = req.get('k', 20)
         print("Question: {}".format(question))
         # FIXME: get the answer from the PyTorch model here
-        answer = get_answer(question)
-        answer_dict = {"answer": answer}
+        answers = get_answers(question, num_hits, k)
+        answer_dict = {"answers": answers}
         return jsonify(answer_dict)
     except Exception as e:
         error_dict = {"error": "ERROR - could not parse the question or get answer."}
         return jsonify(error_dict)
 
 # FIXME: separate this out to a classifier class where we can switch out the models
-def get_answer(question):
+def get_answers(question, num_hits, k):
     pyserini = Pyserini(app.config.get('index'))
     jaccard = Jaccard()
-    candidate_passages = pyserini.ranked_passages(query_string=question, num_hits=30, k=20)
-    answer = jaccard.most_similar_passage(question, candidate_passages)
-    return answer
+    candidate_passages = pyserini.ranked_passages(question, num_hits, k)
+    answers = jaccard.score(question, candidate_passages)
+    return answers
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Start the Flask API at the specified host, port')
