@@ -123,10 +123,14 @@ function run() {
       $.ajax({
         type: 'POST',
         url: 'http://0.0.0.0:5546/answer',
-        data: JSON.stringify({question: data._text}),
+        data: JSON.stringify({question: data._text, k: 5}),
         contentType : 'application/json'
       }).done(function(data) {
-        $('#answer').text(data.answer);
+        var answers = data.answers.map(function(a) {
+            return '<li>' + a.passage + ' (' + Number((a.score).toFixed(4)) + ')</li>';
+        });
+        var formattedAnswers = '<ol>' + answers.join('\n') + '</ol>';
+        $('#answer').html(formattedAnswers);
       }).fail(function(req, textStatus, e) {
         $('#answer').text(e);
       });

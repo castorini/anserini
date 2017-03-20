@@ -30,6 +30,14 @@ class Jaccard():
                 best_passage = passage
         return best_passage
 
+    @staticmethod
+    def score(query, candidate_passages, sort_by_score=True):
+        """Score passages using Jaccard similarity."""
+        scored_passages = [{'passage': p, 'score': Jaccard.jaccard_overlap(query, p)} for p in candidate_passages]
+        if sort_by_score:
+            return sorted(scored_passages, key=lambda d: d['score'], reverse=True)
+        return scored_passages
+
 
 if __name__ == "__main__":
     """Test out the Jaccard class."""
