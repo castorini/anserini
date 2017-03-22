@@ -62,21 +62,19 @@ public final class WordEmbeddingDictionary {
   private final Path indexPath;
   private final FSDirectory directory;
   private final DirectoryReader reader;
+  private final IndexSearcher searcher;
+  private final WhitespaceAnalyzer analyzer;
 
-  public WordEmbeddingDictionary(String indexPath) throws Exception {
+  public WordEmbeddingDictionary(String indexPath) throws IOException {
     this.indexPath = Paths.get(indexPath);
-
-    if (!Files.exists(this.indexPath)) {
-      Files.createDirectories(this.indexPath);
-    }
-
     this.directory = FSDirectory.open(this.indexPath);
     this.reader = DirectoryReader.open(directory);
+    this.searcher = new IndexSearcher(reader);
+    this.analyzer = new WhitespaceAnalyzer();
   }
 
   public float[] getEmbeddingVector(String term) throws IOException {
-    IndexSearcher searcher = new IndexSearcher(reader);
-    Query query = AnalyzerUtils.buildBagOfWordsQuery(FIELD_ID, new WhitespaceAnalyzer(), term);
+    Query query = AnalyzerUtils.buildBagOfWordsQuery(FIELD_ID, analyzer, term);
     TopDocs rs = searcher.search(query, 1);
     ScoredDocuments docs = ScoredDocuments.fromTopDocs(rs, searcher);
 
