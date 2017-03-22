@@ -134,7 +134,7 @@
               <name>LoadW2V</name>
             </program>
             <program>
-              <mainClass>io.anserini.embeddings.search.IndexW2V</mainClass>
+              <mainClass>io.anserini.embeddings.WordEmbeddingDictionary</mainClass>
               <name>IndexW2V</name>
             </program>
             <program>
