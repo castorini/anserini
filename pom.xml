@@ -130,12 +130,12 @@
               <name>TrainW2V</name>
             </program>
             <program>
-              <mainClass>io.anserini.embeddings.search.SearchW2V</mainClass>
-              <name>LoadW2V</name>
+              <mainClass>io.anserini.embeddings.IndexW2V</mainClass>
+              <name>IndexW2V</name>
             </program>
             <program>
               <mainClass>io.anserini.embeddings.WordEmbeddingDictionary</mainClass>
-              <name>IndexW2V</name>
+              <name>SearchW2V</name>
             </program>
             <program>
               <mainClass>io.anserini.qa.RetrieveSentences</mainClass>
