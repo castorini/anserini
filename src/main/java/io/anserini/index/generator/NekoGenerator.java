@@ -17,10 +17,10 @@
 package io.anserini.index.generator;
 
 import io.anserini.document.SourceDocument;
-import io.anserini.index.transform.NekoTransform;
+import io.anserini.index.transform.NekoStringTransform;
 
 public class NekoGenerator extends LuceneDocumentGenerator<SourceDocument> {
   public NekoGenerator() {
-    super(new NekoTransform());
+    super(new NekoStringTransform());
   }
 }

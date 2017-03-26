@@ -25,7 +25,7 @@ import java.io.StringReader;
  * String transform that uses Lucene's Demo HTML Parser to extract plain text out of HTML
  * documents. According to the documentation, the parser is based on NekoHTML.
  */
-public class NekoTransform extends StringTransform {
+public class NekoStringTransform extends StringTransform {
   private final DemoHTMLParser dhp = new DemoHTMLParser();
 
   @Override
