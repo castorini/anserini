@@ -37,6 +37,8 @@ import java.util.Set;
 /**
  * A static collection of documents, comprised of one or more {@code FileSegment}s.
  * Each {@code FileSegment} contains one or more {@code SourceDocument}s.
+ * A collection is assumed to be a directory. In the case where the collection is
+ * a single file (e.g., a Wikipedia dump), place the file into an arbitrary directory.
  *
  * @param <D> type of the source document
  */

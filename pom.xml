@@ -413,5 +413,12 @@
       <artifactId>py4j</artifactId>
       <version>0.10.4</version>
     </dependency>
+
+    <dependency>
+      <groupId>org.wikiclean</groupId>
+      <artifactId>wikiclean</artifactId>
+      <version>0.5</version>
+    </dependency>
+
   </dependencies>
 </project>
