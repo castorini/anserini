@@ -128,7 +128,7 @@ public final class IndexCollection {
           }
 
           @SuppressWarnings("unchecked") // Yes, we know what we're doing here.
-          Document doc = transformer.transform(d);
+          Document doc = transformer.createDocument(d);
 
           if (doc != null) {
             writer.addDocument(doc);

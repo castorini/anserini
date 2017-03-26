@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package io.anserini.index.generator;
+package io.anserini.index.transform;
 
-import io.anserini.document.SourceDocument;
-import io.anserini.index.transform.JsoupStringTransform;
+import java.util.function.UnaryOperator;
 
-public class JsoupGenerator extends LuceneDocumentGenerator<SourceDocument> {
-  public JsoupGenerator() {
-    super(new JsoupStringTransform());
-  }
+/**
+ * Represents a string-to-string transformation. In the context of the indexing pipeline, this
+ * class is used to, for example, clean HTML documents into plain text documents.
+ */
+public abstract class StringTransform implements UnaryOperator<String> {
 }

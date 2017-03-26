@@ -14,13 +14,16 @@
  * limitations under the License.
  */
 
-package io.anserini.index.generator;
+package io.anserini.index.transform;
 
-import io.anserini.document.SourceDocument;
-import io.anserini.index.transform.JsoupStringTransform;
+import org.jsoup.Jsoup;
 
-public class JsoupGenerator extends LuceneDocumentGenerator<SourceDocument> {
-  public JsoupGenerator() {
-    super(new JsoupStringTransform());
+/**
+ * String transform that uses Jsoup to extract plain text out of HTML documents.
+ */
+public class JsoupStringTransform extends StringTransform {
+  @Override
+  public String apply(String s) {
+    return Jsoup.parse(s).text();
   }
 }
