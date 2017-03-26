@@ -39,5 +39,7 @@ public class WikipediaArticle implements SourceDocument {
   }
 
   @Override
-  public boolean indexable() { return true; }
+  public boolean indexable() {
+    return true;
+  }
 }
