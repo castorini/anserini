@@ -17,10 +17,10 @@
 package io.anserini.index.generator;
 
 import io.anserini.document.SourceDocument;
-import io.anserini.index.transform.JsoupStringTransform;
+import io.anserini.index.transform.NekoTransform;
 
-public class JsoupGenerator extends LuceneDocumentGenerator<SourceDocument> {
-  public JsoupGenerator() {
-    super(new JsoupStringTransform());
+public class NekoGenerator extends LuceneDocumentGenerator<SourceDocument> {
+  public NekoGenerator() {
+    super(new NekoTransform());
   }
 }

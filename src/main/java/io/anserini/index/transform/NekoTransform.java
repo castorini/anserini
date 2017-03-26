@@ -16,14 +16,26 @@
 
 package io.anserini.index.transform;
 
-import org.jsoup.Jsoup;
+import org.apache.lucene.benchmark.byTask.feeds.DemoHTMLParser;
+import org.apache.lucene.benchmark.byTask.feeds.DocData;
+
+import java.io.StringReader;
 
 /**
- * String transform that uses Jsoup to extract plain text out of HTML documents.
+ * String transform that uses Lucene's Demo HTML Parser to extract plain text out of HTML
+ * documents. According to the documentation, the parser is based on NekoHTML.
  */
-public class JsoupStringTransform extends StringTransform {
+public class NekoTransform extends StringTransform {
+  private final DemoHTMLParser dhp = new DemoHTMLParser();
+
   @Override
   public String apply(String s) {
-    return Jsoup.parse(s).text();
+    try {
+      DocData dd = new DocData();
+      dd = dhp.parse(dd, "", null, new StringReader(s), null);
+      return dd.getTitle() + "\n" + dd.getBody();
+    } catch (Exception e) {
+      return "";
+    }
   }
 }

@@ -1,8 +1,24 @@
+/**
+ * Anserini: An information retrieval toolkit built on Lucene
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package io.anserini.index.generator;
 
 import io.anserini.document.SourceDocument;
 import io.anserini.index.IndexCollection;
-import io.anserini.index.transform.StringTransformation;
+import io.anserini.index.transform.StringTransform;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.document.Document;
@@ -12,6 +28,13 @@ import org.apache.lucene.document.StoredField;
 import org.apache.lucene.document.StringField;
 import org.apache.lucene.index.IndexOptions;
 
+/**
+ * Converts a {@link SourceDocument} into a Lucene {@link Document}, ready to be indexed.
+ * Prior to the creation of the Lucene document, this class will apply an optional
+ * {@link StringTransform} to, for example, clean HTML document.
+ *
+ * @param <T> type of the source document
+ */
 public class LuceneDocumentGenerator<T extends SourceDocument> {
   private static final Logger LOG = LogManager.getLogger(LuceneDocumentGenerator.class);
 
@@ -19,16 +42,24 @@ public class LuceneDocumentGenerator<T extends SourceDocument> {
   public static final String FIELD_BODY = "contents";
   public static final String FIELD_ID = "id";
 
-  private final StringTransformation transform;
+  private final StringTransform transform;
 
   protected IndexCollection.Counters counters;
   protected IndexCollection.Args args;
 
+  /**
+   * Default constructor.
+   */
   public LuceneDocumentGenerator() {
     this.transform = null;
   }
 
-  public LuceneDocumentGenerator(StringTransformation transform) {
+  /**
+   * Constructor to specify optional {@link StringTransform}.
+   *
+   * @param transform string transform to apply
+   */
+  public LuceneDocumentGenerator(StringTransform transform) {
     this.transform = transform;
   }
 
@@ -45,6 +76,7 @@ public class LuceneDocumentGenerator<T extends SourceDocument> {
     String contents;
 
     try {
+      // If there's a transform, use it.
       contents = transform != null ? transform.apply(src.content()) : src.content();
     } catch (Exception e) {
       LOG.error("Error extracting document text, skipping document: " + id, e);
