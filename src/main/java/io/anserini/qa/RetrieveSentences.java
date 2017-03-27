@@ -72,9 +72,6 @@ public class RetrieveSentences {
 
     @Option(name = "-k", metaVar = "[number]", usage = "top-k passages to be retrieved")
     public int k = 1;
-
-    @Option(name = "-embeddings", metaVar = "[file]", usage = "path to w2v index")
-    public String embeddings = "";
   }
 
   private final IndexReader reader;
@@ -91,11 +88,7 @@ public class RetrieveSentences {
     Constructor passageClass = Class.forName("io.anserini.qa.passage." + args.scorer + "PassageScorer")
             .getConstructor(String.class, Integer.class);
 
-    if (args.scorer.equals("Idf")) {
-      scorer = (PassageScorer) passageClass.newInstance(args.index, args.k);
-    } else {
-      scorer = (PassageScorer) passageClass.newInstance(args.embeddings, args.k);
-    }
+    scorer = (PassageScorer) passageClass.newInstance(args.index, args.k);
   }
 
   public Map<String, Float> search(SortedMap<Integer, String> topics, int numHits)

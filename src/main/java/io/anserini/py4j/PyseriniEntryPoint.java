@@ -31,7 +31,7 @@ import java.util.*;
 
 import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_ID;
 import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_BODY;
-import io.anserini.qa.passage.WmdPassageScorer;
+import io.anserini.qa.passage.IdfPassageScorer;
 
 import py4j.GatewayServer;
 
@@ -135,7 +135,7 @@ public class PyseriniEntryPoint {
       }
     }
 
-    PassageScorer passageScorer = new WmdPassageScorer(indexDir, k);
+    PassageScorer passageScorer = new IdfPassageScorer(indexDir, k);
     passageScorer.score(query, sentencesMap);
     List<String> topSentences = new ArrayList<>();
     List<ScoredPassage> topPassages = passageScorer.extractTopPassages();
