@@ -128,7 +128,7 @@ public class PyseriniEntryPoint {
   public List<String> getRankedPassages(String query, int numHits, int k) throws Exception {
     Map<String, Float> docScore = search(query, numHits);
     Map<String, Float> sentencesMap = new LinkedHashMap<>();
-    for (Map.Entry<String, Float> sent : sentencesMap.entrySet()) {
+    for (Map.Entry<String, Float> sent : docScore.entrySet()) {
       List<Sentence> sentences = indexUtils.getSentDocument(sent.getKey());
       for (Sentence thisSent : sentences) {
         sentencesMap.put(thisSent.text(), sent.getValue());
