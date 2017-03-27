@@ -18,6 +18,8 @@ package io.anserini.qa.passage;
 import com.google.common.collect.MinMaxPriorityQueue;
 import io.anserini.index.IndexUtils;
 import io.anserini.index.generator.LuceneDocumentGenerator;
+import org.apache.commons.io.IOUtils;
+import org.apache.lucene.analysis.StopFilter;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.Term;
@@ -27,8 +29,8 @@ import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.similarities.ClassicSimilarity;
 import org.apache.lucene.store.FSDirectory;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.net.URL;
 import java.util.*;
 
 public class IdfPassageScorer implements PassageScorer {
@@ -38,6 +40,7 @@ public class IdfPassageScorer implements PassageScorer {
   private final DirectoryReader reader;
   private final MinMaxPriorityQueue<ScoredPassage> scoredPassageHeap;
   private final int topPassages;
+  private final List<String> stopWords;
 
   public IdfPassageScorer(String index, Integer k) throws IOException {
     this.util = new IndexUtils(index);
@@ -45,26 +48,45 @@ public class IdfPassageScorer implements PassageScorer {
     this.reader = DirectoryReader.open(directory);
     this.topPassages = k;
     scoredPassageHeap = MinMaxPriorityQueue.maximumSize(topPassages).create();
+    stopWords = new ArrayList<>();
+
+    //Get file from resources folder
+    InputStream is = getClass().getResourceAsStream("/io/anserini/qa/english-stoplist.txt");
+    BufferedReader bRdr = new BufferedReader(new InputStreamReader(is));
+    String line;
+    while ((line = bRdr.readLine()) != null) {
+      if (!line.contains("#")) {
+        stopWords.add(line);
+      }
+    }
+
   }
 
   @Override
-  public void score(List<String> sentences, String output) throws Exception {
-    EnglishAnalyzer ea = new EnglishAnalyzer(EnglishAnalyzer.getDefaultStopSet());
+  public void score(String query, Map<String, Float> sentences) throws Exception {
+    EnglishAnalyzer ea = new EnglishAnalyzer(StopFilter.makeStopSet(stopWords));
     QueryParser qp = new QueryParser(LuceneDocumentGenerator.FIELD_BODY, ea);
     ClassicSimilarity similarity = new ClassicSimilarity();
 
-    Query question = qp.parse(sentences.remove(0));
+    Query question = qp.parse(query);
     HashSet<String> questionTerms = new HashSet<>(Arrays.asList(question.toString().trim().split("\\s+")));
 
-    for (String sent: sentences) {
+    // avoid duplicate passages
+    HashSet<String> seenSentences = new HashSet<>();
+
+    for (Map.Entry<String, Float> sent: sentences.entrySet()) {
       double idf = 0.0;
-      String[] terms = sent.split("\\s+");
+      HashSet<String> seenTerms = new HashSet<>();
+
+      String[] terms = sent.getKey().split("\\s+");
       for (String term: terms) {
         try {
           TermQuery q = (TermQuery) qp.parse(term);
           Term t = q.getTerm();
-          if (questionTerms.contains(t.toString())) {
+
+          if (questionTerms.contains(t.toString()) && !seenTerms.contains(t.toString())) {
             idf += similarity.idf(reader.docFreq(t), reader.numDocs());
+            seenTerms.add(t.toString());
           } else {
             idf += 0.0;
           }
@@ -73,13 +95,16 @@ public class IdfPassageScorer implements PassageScorer {
         }
       }
 
-      double normalizedScore = idf / sent.length();
-      ScoredPassage scoredPassage = new ScoredPassage(sent, normalizedScore);
-      if (scoredPassageHeap.size() < topPassages || normalizedScore > scoredPassageHeap.peekFirst().getScore()) {
+      double weightedScore = idf + 0.0001 * sent.getValue();
+      ScoredPassage scoredPassage = new ScoredPassage(sent.getKey(), weightedScore, sent.getValue());
+      if ((scoredPassageHeap.size() < topPassages || weightedScore > scoredPassageHeap.peekLast().getScore()) &&
+              !seenSentences.contains(sent)) {
         if (scoredPassageHeap.size() == topPassages) {
-          scoredPassageHeap.pollLast();
+            scoredPassageHeap.pollLast();
         }
+
         scoredPassageHeap.add(scoredPassage);
+        seenSentences.add(sent.getKey());
       }
     }
   }

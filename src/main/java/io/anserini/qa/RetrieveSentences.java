@@ -57,9 +57,6 @@ public class RetrieveSentences {
     @Option(name = "-index", metaVar = "[path]", required = true, usage = "Lucene index")
     public String index;
 
-    @Option(name = "-output", metaVar = "[file]", required = true, usage = "output file")
-    public String output;
-
     // optional arguments
     @Option(name = "-topics", metaVar = "[file]", usage = "topics file")
     public String topics = "";
@@ -90,10 +87,11 @@ public class RetrieveSentences {
     this.reader = DirectoryReader.open(FSDirectory.open(indexPath));
     Constructor passageClass = Class.forName("io.anserini.qa.passage." + args.scorer + "PassageScorer")
             .getConstructor(String.class, Integer.class);
+
     scorer = (PassageScorer) passageClass.newInstance(args.index, args.k);
   }
 
-  public void search(SortedMap<Integer, String> topics, String submissionFile, int numHits)
+  public Map<String, Float> search(SortedMap<Integer, String> topics, int numHits)
           throws IOException, ParseException {
     IndexSearcher searcher = new IndexSearcher(reader);
 
@@ -101,11 +99,10 @@ public class RetrieveSentences {
     Similarity similarity = new BM25Similarity(0.9f, 0.4f);
     searcher.setSimilarity(similarity);
 
-    PrintWriter out = new PrintWriter(Files.newBufferedWriter(Paths.get(submissionFile), StandardCharsets.US_ASCII));
-
     EnglishAnalyzer ea = new EnglishAnalyzer();
     QueryParser queryParser = new QueryParser(FIELD_BODY, ea);
     queryParser.setDefaultOperator(QueryParser.Operator.OR);
+    Map<String, Float> scoredDocs = new LinkedHashMap<>();
 
     for (Map.Entry<Integer, String> entry : topics.entrySet()) {
       int qID = entry.getKey();
@@ -117,31 +114,27 @@ public class RetrieveSentences {
       ScoredDocuments docs = ScoredDocuments.fromTopDocs(rs, searcher);
 
       for (int i = 0; i < docs.documents.length; i++) {
-        out.println(String.format("%d %s %d %f", qID,
-                docs.documents[i].getField(FIELD_ID).stringValue(), (i + 1), docs.scores[i]));
+        scoredDocs.put(docs.documents[i].getField(FIELD_ID).stringValue(), docs.scores[i]);
       }
     }
-    out.flush();
-    out.close();
+    return scoredDocs;
   }
 
   public void getRankedPassages(Args args) throws Exception {
-    IndexUtils util = new IndexUtils(args.index);
-    List<String> sentencesList = new ArrayList<>();
-    sentencesList.add(args.query);
-    try (BufferedReader br = new BufferedReader(new FileReader(args.output))) {
-      String line;
+    Map<String, Float> scoredDocs  = retrieveDocuments(args);
+    Map<String, Float> sentencesMap = new LinkedHashMap<>();
 
-      while ((line = br.readLine()) != null) {
-        String docid = line.trim().split(" ")[1];
-        List<Sentence> sentences = util.getSentDocument(docid);
+    IndexUtils util = new IndexUtils(args.index);
+
+    for (Map.Entry<String, Float> doc : scoredDocs.entrySet()) {
+        List<Sentence> sentences = util.getSentDocument(doc.getKey());
 
         for (Sentence sent : sentences) {
-          sentencesList.add(sent.text());
+          sentencesMap.put(sent.text(), doc.getValue());
         }
-      }
     }
-    scorer.score(sentencesList, args.output);
+
+    scorer.score(args.query, sentencesMap);
 
     List<ScoredPassage> topPassages = scorer.extractTopPassages();
     for (ScoredPassage s: topPassages) {
@@ -149,7 +142,7 @@ public class RetrieveSentences {
     }
   }
 
-  public void retrieveDocuments(RetrieveSentences.Args args) throws Exception {
+  public Map<String, Float> retrieveDocuments(RetrieveSentences.Args args) throws Exception {
     SortedMap<Integer, String> topics = new TreeMap<>();
     if (!args.topics.isEmpty()) {
       QaTopicReader tr = new QaTopicReader(Paths.get(args.topics));
@@ -158,7 +151,8 @@ public class RetrieveSentences {
       topics.put(1, args.query);
     }
 
-    search(topics, args.output, args.hits);
+    Map<String, Float> scoredDocs = search(topics, args.hits);
+    return scoredDocs;
   }
 
   public static void main(String[] args) throws Exception {
@@ -180,7 +174,6 @@ public class RetrieveSentences {
     }
 
     RetrieveSentences rs = new RetrieveSentences(qaArgs);
-    rs.retrieveDocuments(qaArgs);
     rs.getRankedPassages(qaArgs);
   }
 }

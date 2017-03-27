@@ -16,10 +16,11 @@
 package io.anserini.qa.passage;
 
 import java.util.List;
+import java.util.Map;
 
 public interface PassageScorer {
 
-  void score(List<String> sentences, String output) throws Exception;
+  void score(String question, Map<String, Float> sentences) throws Exception;
 
   List<ScoredPassage> extractTopPassages();
 }
