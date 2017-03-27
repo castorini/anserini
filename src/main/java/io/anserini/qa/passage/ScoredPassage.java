@@ -19,10 +19,12 @@ package io.anserini.qa.passage;
 public class ScoredPassage implements Comparable<ScoredPassage> {
   String sentence;
   double score;
+  float docScore;
 
-  public ScoredPassage(String sentence, double score) {
+  public ScoredPassage(String sentence, double score, float docScore) {
     this.sentence = sentence;
     this.score = score;
+    this.docScore = docScore;
   }
 
   public String getSentence() {
@@ -33,6 +35,10 @@ public class ScoredPassage implements Comparable<ScoredPassage> {
     return score;
   }
 
+  public double getDocScore() {
+    return  docScore;
+  }
+
   @Override
   public int compareTo(ScoredPassage o) {
     if(score > o.score) {
@@ -40,7 +46,14 @@ public class ScoredPassage implements Comparable<ScoredPassage> {
     } else if(score < o.score) {
       return 1;
     } else {
-      return 0;
+      //if scores are equal, prefer shorter sentences
+      if (sentence.length() > o.sentence.length()) {
+        return 1;
+      } else if (sentence.length() > o.sentence.length()) {
+        return -1;
+      } else {
+        return 0;
+      }
     }
   }
 }

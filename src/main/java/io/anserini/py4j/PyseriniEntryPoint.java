@@ -26,14 +26,12 @@ import io.anserini.rerank.IdentityReranker;
 import io.anserini.rerank.RerankerCascade;
 import org.apache.lucene.search.similarities.BM25Similarity;
 import org.apache.lucene.search.similarities.Similarity;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.TreeMap;
-import java.util.Map;
-import java.util.SortedMap;
+
+import java.util.*;
+
 import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_ID;
 import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_BODY;
-import io.anserini.qa.passage.IdfPassageScorer;
+import io.anserini.qa.passage.WmdPassageScorer;
 
 import py4j.GatewayServer;
 
@@ -70,10 +68,10 @@ public class PyseriniEntryPoint {
    * @throws ParseException
    */
 
-  public List<String> search(SortedMap<Integer, String> topics, Similarity similarity, int numHits, RerankerCascade cascade,
+  public Map<String, Float> search(SortedMap<Integer, String> topics, Similarity similarity, int numHits, RerankerCascade cascade,
                              boolean useQueryParser, boolean keepstopwords) throws IOException, ParseException {
 
-    List<String> docids = new ArrayList<String>();
+    Map<String, Float> scoredDocs = new LinkedHashMap<>();
     IndexSearcher searcher = new IndexSearcher(reader);
     searcher.setSimilarity(similarity);
 
@@ -96,14 +94,15 @@ public class PyseriniEntryPoint {
       ScoredDocuments docs = cascade.run(ScoredDocuments.fromTopDocs(rs, searcher), context);
       for (int i = 0; i < docs.documents.length; i++) {
         String docid = docs.documents[i].getField(FIELD_ID).stringValue();
-        docids.add(docid);
+        float score = docs.scores[i];
+        scoredDocs.put(docid, score);
       }
     }
 
-    return docids;
+    return scoredDocs;
   }
 
-  public List<String> search(String query, int numHits) throws IOException, ParseException {
+  public Map<String, Float> search(String query, int numHits) throws IOException, ParseException {
 
     // for now, using BM25 similarity  - not branching on args.bm25 or args.ql
     float k1 = 0.9f;
@@ -118,9 +117,8 @@ public class PyseriniEntryPoint {
     // for now, using IdentityReranker  - not branching on args.rm3
     RerankerCascade cascade = new RerankerCascade();
     cascade.add(new IdentityReranker());
-
-    List<String> docids = search(topics, similarity, numHits, cascade, false, false);
-    return docids;
+    Map<String, Float> scoredDocs = search(topics, similarity, numHits, cascade, false, false);
+    return scoredDocs;
   }
 
   public String getRawDocument(String docid) throws Exception {
@@ -128,18 +126,17 @@ public class PyseriniEntryPoint {
   }
 
   public List<String> getRankedPassages(String query, int numHits, int k) throws Exception {
-    List<String> docids = search(query, numHits);
-    List<String> sentencesList = new ArrayList<>();
-    sentencesList.add(query);
-    for (String docid : docids) {
-      List<Sentence> sentences = indexUtils.getSentDocument(docid);
-      for (Sentence sent : sentences) {
-        sentencesList.add(sent.text());
+    Map<String, Float> docScore = search(query, numHits);
+    Map<String, Float> sentencesMap = new LinkedHashMap<>();
+    for (Map.Entry<String, Float> sent : sentencesMap.entrySet()) {
+      List<Sentence> sentences = indexUtils.getSentDocument(sent.getKey());
+      for (Sentence thisSent : sentences) {
+        sentencesMap.put(thisSent.text(), sent.getValue());
       }
     }
 
-    PassageScorer passageScorer = new IdfPassageScorer(indexDir, k);
-    passageScorer.score(sentencesList, "");
+    PassageScorer passageScorer = new WmdPassageScorer(indexDir, k);
+    passageScorer.score(query, sentencesMap);
     List<String> topSentences = new ArrayList<>();
     List<ScoredPassage> topPassages = passageScorer.extractTopPassages();
     for (ScoredPassage s : topPassages) {
