@@ -27,7 +27,12 @@ import io.anserini.rerank.RerankerCascade;
 import org.apache.lucene.search.similarities.BM25Similarity;
 import org.apache.lucene.search.similarities.Similarity;
 
-import java.util.*;
+import java.util.Map;
+import java.util.SortedMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.TreeMap;
+import java.util.ArrayList;
 
 import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_ID;
 import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_BODY;

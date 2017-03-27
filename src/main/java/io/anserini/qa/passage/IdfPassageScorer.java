@@ -29,9 +29,8 @@ import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.similarities.ClassicSimilarity;
 import org.apache.lucene.store.FSDirectory;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
+import java.net.URL;
 import java.util.*;
 
 public class IdfPassageScorer implements PassageScorer {
@@ -49,7 +48,18 @@ public class IdfPassageScorer implements PassageScorer {
     this.reader = DirectoryReader.open(directory);
     this.topPassages = k;
     scoredPassageHeap = MinMaxPriorityQueue.maximumSize(topPassages).create();
-    stopWords = IOUtils.readLines(new FileInputStream("src/main/resources/io/anserini/qa/english-stoplist.txt"));
+    stopWords = new ArrayList<>();
+
+    //Get file from resources folder
+    InputStream is = getClass().getResourceAsStream("/io/anserini/qa/english-stoplist.txt");
+    BufferedReader bRdr = new BufferedReader(new InputStreamReader(is));
+    String line;
+    while ((line = bRdr.readLine()) != null) {
+      if (!line.contains("#")) {
+        stopWords.add(line);
+      }
+    }
+
   }
 
   @Override

@@ -1,3 +1,6 @@
+# Stop words from NLTK
+# Source: https://gist.github.com/sebleier/554280
+#
 i
 me
 my
