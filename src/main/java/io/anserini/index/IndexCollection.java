@@ -55,7 +55,7 @@ public final class IndexCollection {
 
     // required arguments
 
-    @Option(name = "-input", metaVar = "[Path]", required = true, usage = "collection path")
+    @Option(name = "-input", metaVar = "[Directory]", required = true, usage = "collection directory")
     public String input;
 
     @Option(name = "-index", metaVar = "[Path]", required = true, usage = "index path")
@@ -128,7 +128,7 @@ public final class IndexCollection {
           }
 
           @SuppressWarnings("unchecked") // Yes, we know what we're doing here.
-          Document doc = transformer.transform(d);
+          Document doc = transformer.createDocument(d);
 
           if (doc != null) {
             writer.addDocument(doc);
@@ -207,7 +207,7 @@ public final class IndexCollection {
     final List<Path> segmentPaths = collection.getFileSegmentPaths();
 
     final int segmentCnt = segmentPaths.size();
-    LOG.info(segmentCnt + " files found at " + collectionPath.toString());
+    LOG.info(segmentCnt + " files found in " + collectionPath.toString());
     for (int i = 0; i < segmentCnt; i++) {
       executor.execute(new IndexerThread(writer, collection, segmentPaths.get(i)));
     }

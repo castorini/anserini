@@ -14,13 +14,32 @@
  * limitations under the License.
  */
 
-package io.anserini.index.generator;
+package io.anserini.document;
 
-import io.anserini.document.SourceDocument;
-import io.anserini.index.transform.JsoupStringTransform;
+/**
+ * A Wikipedia article. The article title serves as the id.
+ */
+public class WikipediaArticle implements SourceDocument {
+  private final String title;
+  private final String contents;
 
-public class JsoupGenerator extends LuceneDocumentGenerator<SourceDocument> {
-  public JsoupGenerator() {
-    super(new JsoupStringTransform());
+  public WikipediaArticle(String title, String contents) {
+    this.title = title;
+    this.contents = contents;
+  }
+
+  @Override
+  public String id() {
+    return title;
+  }
+
+  @Override
+  public String content() {
+    return contents;
+  }
+
+  @Override
+  public boolean indexable() {
+    return true;
   }
 }
