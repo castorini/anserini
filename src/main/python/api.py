@@ -25,7 +25,7 @@ def answer():
         answer_dict = {"answers": answers}
         return jsonify(answer_dict)
     except Exception as e:
-        error_dict = {"error": "ERROR - could not parse the question or get answer."}
+        error_dict = {"error": "ERROR - could not parse the question or get answer. "}
         return jsonify(error_dict)
 
 @app.route('/wit_ai_config', methods=['GET'])
@@ -35,9 +35,15 @@ def wit_ai_config():
 # FIXME: separate this out to a classifier class where we can switch out the models
 def get_answers(question, num_hits, k):
     pyserini = Pyserini(app.config.get('index'))
-    jaccard = Jaccard()
+    # jaccard = Jaccard()
     candidate_passages = pyserini.ranked_passages(question, num_hits, k)
-    answers = jaccard.score(question, candidate_passages)
+    # answers = jaccard.score(question, candidate_passages)
+
+    answers = []
+    for p in candidate_passages:
+        sentScore = p.split('\\t')
+        answers.append({'passage': sentScore[0], 'score': float(sentScore[1])})
+
     return answers
 
 if __name__ == "__main__":
