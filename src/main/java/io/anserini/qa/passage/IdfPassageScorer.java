@@ -30,7 +30,6 @@ import org.apache.lucene.search.similarities.ClassicSimilarity;
 import org.apache.lucene.store.FSDirectory;
 
 import java.io.*;
-import java.net.URL;
 import java.util.*;
 
 public class IdfPassageScorer implements PassageScorer {
