@@ -1,5 +1,6 @@
 import argparse
-import ConfigParser
+import configparser
+import os
 
 from flask import Flask, jsonify, request
 # FIXME: separate this out to a classifier class where we can switch out the models
@@ -41,7 +42,7 @@ def get_answers(question, num_hits, k):
 
     answers = []
     for p in candidate_passages:
-        sentScore = p.split('\\t')
+        sentScore = p.split('\t')
         answers.append({'passage': sentScore[0], 'score': float(sentScore[1])})
 
     return answers
@@ -52,7 +53,11 @@ if __name__ == "__main__":
     parser.add_argument("--debug", help="print debug info", action="store_true")
     args = parser.parse_args()
 
-    config = ConfigParser.ConfigParser()
+    if not os.path.isfile(args.config):
+        print("The configuration file ({}) does not exist!".format(args.config))
+        exit(1)
+
+    config = configparser.ConfigParser()
     config.read(args.config)
     for name, value in config.items('Flask'):
         app.config[name] = value
