@@ -1,6 +1,7 @@
 import argparse
 import configparser
 import os
+import sys 
 
 from flask import Flask, jsonify, request
 # FIXME: separate this out to a classifier class where we can switch out the models
@@ -55,7 +56,7 @@ if __name__ == "__main__":
 
     if not os.path.isfile(args.config):
         print("The configuration file ({}) does not exist!".format(args.config))
-        exit(1)
+        sys.exit(1)
 
     config = configparser.ConfigParser()
     config.read(args.config)
