@@ -25,9 +25,10 @@ public class QaTopicReader extends TopicReader {
     Pattern r = Pattern.compile(pattern);
 
     String prevLine = "";
+    String id = "";
     for (String line : lines) {
       Matcher m = r.matcher(line);
-      String id = "";
+
       if (m.find()) {
         id = m.group(1);
       }

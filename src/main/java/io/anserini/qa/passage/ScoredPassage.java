@@ -41,19 +41,6 @@ public class ScoredPassage implements Comparable<ScoredPassage> {
 
   @Override
   public int compareTo(ScoredPassage o) {
-    if(score > o.score) {
-      return -1;
-    } else if(score < o.score) {
-      return 1;
-    } else {
-      //if scores are equal, prefer shorter sentences
-      if (sentence.length() > o.sentence.length()) {
-        return 1;
-      } else if (sentence.length() > o.sentence.length()) {
-        return -1;
-      } else {
-        return 0;
-      }
-    }
+    return -1 * Double.compare(score, o.score);
   }
 }
