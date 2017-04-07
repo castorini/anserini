@@ -7,14 +7,8 @@ from flask import Flask, jsonify, request
 # FIXME: separate this out to a classifier class where we can switch out the models
 from pyserini import Pyserini
 from jaccard import Jaccard
-from castorini_smmodel_bridge import SMModelBridge
 
 app = Flask(__name__)
-path_to_castorini = "/Users/royalsequeira/Castorini"  # change this path
-model = SMModelBridge(path_to_castorini + '/models/sm_model/sm_model.TrecQA.TRAIN-ALL.2017-04-02.castor',
-                        path_to_castorini + '/data/word2vec/aquaint+wiki.txt.gz.ndim=50.cache',
-                        path_to_castorini + '/data/TrecQA/stopwords.txt',
-                        path_to_castorini + '/data/TrecQA/word2dfs.p')
 
 @app.route("/", methods=['GET'])
 def hello():
@@ -33,7 +27,6 @@ def answer():
         answer_dict = {"answers": answers}
         return jsonify(answer_dict)
     except Exception as e:
-        print(e)
         error_dict = {"error": "ERROR - could not parse the question or get answer. "}
         return jsonify(error_dict)
 
@@ -44,22 +37,14 @@ def wit_ai_config():
 # FIXME: separate this out to a classifier class where we can switch out the models
 def get_answers(question, num_hits, k):
     pyserini = Pyserini(app.config.get('index'))
-    candidate_passages_scores = pyserini.ranked_passages(question, num_hits, k)
-    candidate_passages = []
-    for ps in candidate_passages_scores:
-        ps_split = ps.split('\t')
-        candidate_passages.append(ps_split[0])
-
-    print(candidate_passages)
-
-    answers_list = model.rerank_candidate_answers(question, candidate_passages)
-
-    print("---------*******-------")
-    print(answers_list)
+    # jaccard = Jaccard()
+    candidate_passages = pyserini.ranked_passages(question, num_hits, k)
+    # answers = jaccard.score(question, candidate_passages)
 
     answers = []
-    for score, sent in answers_list:
-        answers.append({'passage': sent, 'score': score})
+    for p in candidate_passages:
+        sentScore = p.split('\t')
+        answers.append({'passage': sentScore[0], 'score': float(sentScore[1])})
 
     return answers
 
