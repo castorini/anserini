@@ -18,13 +18,10 @@ package io.anserini.qa.passage;
 import com.google.common.collect.MinMaxPriorityQueue;
 import io.anserini.index.IndexUtils;
 import io.anserini.index.generator.LuceneDocumentGenerator;
-import javafx.scene.SubScene;
-import org.apache.commons.io.IOUtils;
 import org.apache.lucene.analysis.StopFilter;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.Term;
-import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.TermQuery;
@@ -76,9 +73,7 @@ public class IdfPassageScorer implements PassageScorer {
     // avoid duplicate passages
     HashSet<String> seenSentences = new HashSet<>();
 
-    int count = 0;
     for (Map.Entry<String, Float> sent: sentences.entrySet()) {
-      count++;
       double idf = 0.0;
       HashSet<String> seenTerms = new HashSet<>();
 

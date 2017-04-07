@@ -120,7 +120,6 @@ def get_precision(actual, predicted, k):
   hits = 0.0
 
   for qid in predicted.keys():
-
     run_labels = predicted.copy()
 
     if len(predicted[qid]) > k:
