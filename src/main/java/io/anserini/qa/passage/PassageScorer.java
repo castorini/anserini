@@ -15,8 +15,6 @@
  */
 package io.anserini.qa.passage;
 
-import org.apache.lucene.queryparser.classic.ParseException;
-
 import java.util.List;
 import java.util.Map;
 
