@@ -1,14 +1,11 @@
 import argparse
-import configparser
-import os
 import re
 
 from nltk.tokenize import TreebankWordTokenizer
 from pyserini import Pyserini
 from castorini_smmodel_bridge import SMModelBridge
 
-
-path_to_castorini = "/Users/royalsequeira/Castorini"  # change this path
+path_to_castorini = "../../Castorini"
 model = SMModelBridge(path_to_castorini + '/models/sm_model/sm_model.no_ext_feats',
                         path_to_castorini + '/data/word2vec/aquaint+wiki.txt.gz.ndim=50.cache',
                         path_to_castorini + '/data/TrecQA/stopwords.txt',
@@ -17,7 +14,7 @@ model = SMModelBridge(path_to_castorini + '/models/sm_model/sm_model.no_ext_feat
 def get_answers(pyserini, question, num_hits, k, model_choice):
   candidate_passages_scores = pyserini.ranked_passages(question, num_hits, k)
   candidate_passages = []
-  answers = []
+  tokeninzed_answer = []
 
   if model_choice == 'sm':
     for ps in candidate_passages_scores:
@@ -25,9 +22,7 @@ def get_answers(pyserini, question, num_hits, k, model_choice):
       candidate_passages.append(ps_split[0])
 
     answers_list = model.rerank_candidate_answers(question, candidate_passages)
-
     sorted_answers = sorted(answers_list, key=lambda x: x[0], reverse=True)
-    tokeninzed_answer =[]
 
     for score, candidate in sorted_answers:
       tokens = TreebankWordTokenizer().tokenize(candidate.lower().split("\t")[0])
@@ -37,14 +32,13 @@ def get_answers(pyserini, question, num_hits, k, model_choice):
   elif model_choice == 'idf':
     for candidate in candidate_passages_scores:
       tokens = TreebankWordTokenizer().tokenize(candidate.lower().split("\t")[0])
-      answers.append(tokens)
-    return answers
+      tokeninzed_answer.append(tokens)
+    return tokeninzed_answer
 
 def jaccard(set1, set2):
   intersection = set1.intersection(set2)
   union = set1.union(set2)
-  return (len(intersection) / float(len(union)))
-
+  return len(intersection) / float(len(union))
 
 def score_candidates(candidates, answers):
   scored_candidates = {}
@@ -146,26 +140,29 @@ def get_precision(actual, predicted, k):
 
 if __name__ == "__main__":
   parser = argparse.ArgumentParser(description='Evaluate the QA system')
-  parser.add_argument('-input', help='path to the TrecQA question file', required=True)
-  parser.add_argument("-output", help="path to output file")
+  parser.add_argument('-input', help='path of a TrecQA file', required=True)
+  parser.add_argument("-output", help="path of output file")
   parser.add_argument("-hits", help="number of hits", default=20)
   parser.add_argument("-k", help="top-k passages", default=10)
   parser.add_argument("-model", help="[idf|sm]", default='idf')
-  parser.add_argument('-config', help="config to use", required=False, type=str, default='config.cfg')
+  parser.add_argument('-index', help="path of the index", required=True)
 
   args = parser.parse_args()
 
-  config = configparser.ConfigParser()
-  config.read(os.path.join(os.path.abspath(os.path.dirname(__file__)), args.config))
-
-  pyserini = Pyserini(config['Flask']['index'])
+  pyserini = Pyserini(args.index)
   questions, answers, labels_actual = load_data(args.input)
   threshold = 0.7
 
   create_ground_truth('qrels.txt', answers)
 
   labels_predicted = {}
-  with open('run.qa.{}.h{}.k{}.txt'.format(args.model, args.hits, args.k), 'w') as out:
+
+  if args.output:
+    output_file = args.output
+  else:
+    output_file = 'run.qa.{}.h{}.k{}.txt'.format(args.model, args.hits, args.k)
+
+  with open(output_file, 'w') as out:
     for qid, question in zip(answers.keys(), questions):
       candidates = get_answers(pyserini, question, int(args.hits), int(args.k), args.model)
       scored_candidates = score_candidates(candidates, answers[qid])
