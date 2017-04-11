@@ -13,7 +13,7 @@ if you need help setting up the gateway.
 Run the following command to evaluate the end2end system:
 
 ```
-python3 src/main/python/evaluate.py
+python3 src/main/python/run_trecqa.py
 ```
 
 Possible parameters are:
@@ -56,6 +56,11 @@ Model to re-rank the passages (default: idf)
 
 Path of the run file to be created
 
+```
+-qrel (optional: file path)
+```
+Path of the qrel file to be created
+
 
 The above command will create a run file in the `trec_eval` format and a qrel file
 called qrels.txt
@@ -64,7 +69,8 @@ called qrels.txt
 
 To calculate RBP for the above run file:
 
-- Download and install `rbp_eval` from [here](http://people.eng.unimelb.edu.au/ammoffat/abstracts/mz08acmtois.html)
+- Install `rbp_eval` from[here](https://github.com/castorini/Anserini/tree/master/eval)
+- Read more about RBP[here](http://people.eng.unimelb.edu.au/ammoffat/abstracts/mz08acmtois.html)
 - run the following command to get rbp values:
 
 `rbp_eval-0.2/rbp_eval/rbp_eval <qrel-file> <run-file>

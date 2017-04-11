@@ -142,6 +142,7 @@ if __name__ == "__main__":
   parser = argparse.ArgumentParser(description='Evaluate the QA system')
   parser.add_argument('-input', help='path of a TrecQA file', required=True)
   parser.add_argument("-output", help="path of output file")
+  parser.add_argument("-qrel", help="path of qrel file")
   parser.add_argument("-hits", help="number of hits", default=20)
   parser.add_argument("-k", help="top-k passages", default=10)
   parser.add_argument("-model", help="[idf|sm]", default='idf')
@@ -153,7 +154,12 @@ if __name__ == "__main__":
   questions, answers, labels_actual = load_data(args.input)
   threshold = 0.7
 
-  create_ground_truth('qrels.txt', answers)
+  if args.qrel:
+    qrel_file = args.qrel
+  else:
+    qrel_file = "qrels.txt"
+
+  create_ground_truth(qrel_file, answers)
 
   labels_predicted = {}
 
