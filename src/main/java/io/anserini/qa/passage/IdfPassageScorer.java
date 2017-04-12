@@ -18,7 +18,6 @@ package io.anserini.qa.passage;
 import com.google.common.collect.MinMaxPriorityQueue;
 import io.anserini.index.IndexUtils;
 import io.anserini.index.generator.LuceneDocumentGenerator;
-import org.apache.commons.io.IOUtils;
 import org.apache.lucene.analysis.StopFilter;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.index.DirectoryReader;
@@ -67,7 +66,8 @@ public class IdfPassageScorer implements PassageScorer {
     QueryParser qp = new QueryParser(LuceneDocumentGenerator.FIELD_BODY, ea);
     ClassicSimilarity similarity = new ClassicSimilarity();
 
-    Query question = qp.parse(query);
+    String escapedQuery = qp.escape(query);
+    Query question = qp.parse(escapedQuery);
     HashSet<String> questionTerms = new HashSet<>(Arrays.asList(question.toString().trim().split("\\s+")));
 
     // avoid duplicate passages
@@ -110,8 +110,8 @@ public class IdfPassageScorer implements PassageScorer {
 
   @Override
   public List<ScoredPassage> extractTopPassages() {
-      List<ScoredPassage> scoredList = new ArrayList<>(scoredPassageHeap);
-      Collections.sort(scoredList);
-      return scoredList;
+    List<ScoredPassage> scoredList = new ArrayList<>(scoredPassageHeap);
+    Collections.sort(scoredList);
+    return scoredList;
   }
 }
