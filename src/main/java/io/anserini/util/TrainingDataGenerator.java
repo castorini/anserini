@@ -4,12 +4,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.*;
-import org.apache.lucene.facet.FacetField;
 import org.apache.lucene.index.*;
+import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.*;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
-import org.apache.lucene.util.BytesRef;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.ParserProperties;
@@ -156,6 +155,18 @@ public class TrainingDataGenerator {
         return subjectDoc.getValues(predName);
     }
 
+
+    public Analyzer getIndexAnalyzer() throws Exception {
+        // Get the current default index analyzer or create it.
+        // Use the type specified by LUCENE_INDEX_ANALYZER_DEFAULT
+        // or use StandardAnalyzer as the default.
+        if (indexAnalyzer == null) {
+            String defaultAnalyzerName = "org.apache.lucene.analysis.standard.StandardAnalyzer";
+            indexAnalyzer = (Analyzer)Class.forName(defaultAnalyzerName).newInstance();
+        }
+        return indexAnalyzer;
+    }
+
     void lookup() throws IOException {
         LOG.info("Loading index...");
         getIndexReader();
@@ -187,7 +198,7 @@ public class TrainingDataGenerator {
         LOG.info("Lookup complete.");
     }
 
-    private void generateTrainingData() throws IOException {
+    private void generateTrainingData() throws Exception {
         switch (args.propertyName.toLowerCase()) {
             case "birthdate":
                 birthdate();
@@ -198,7 +209,7 @@ public class TrainingDataGenerator {
         }
     }
 
-    void birthdate() throws IOException {
+    void birthdate() throws Exception {
         String BIRTHDATE_FIELD = "http://rdf.freebase.com/ns/people.person.date_of_birth";
         Query q = new TermQuery(new Term(
 //                BIRTHDATE_FIELD,
@@ -207,16 +218,23 @@ public class TrainingDataGenerator {
             )
         );
 
-
         q = new FieldValueQuery(BIRTHDATE_FIELD);
 
-        q = new TermRangeQuery(
-                BIRTHDATE_FIELD,
-                new BytesRef("*".getBytes()),
-                new BytesRef("*".getBytes()),
-                true,
-                true
-        );
+
+        QueryParser queryParser = new QueryParser(
+                BIRTHDATE_FIELD
+                , getIndexAnalyzer());
+        queryParser.setAllowLeadingWildcard(true);
+
+
+        q = queryParser.parse("*");
+//        q = new TermRangeQuery(
+//                BIRTHDATE_FIELD,
+//                new BytesRef("*".getBytes()),
+//                new BytesRef("*".getBytes()),
+//                true,
+//                true
+//        );
 
         LOG.info("Query");
         LOG.info(q);
