@@ -235,7 +235,7 @@ public class TrainingDataGenerator {
 //                    LOG.info("    " + field.name() + ": " + field.stringValue());
                 LOG.info("   Subject: {}", doc.get(FIELD_NAME_SUBJECT));
                 LOG.info("   Birthdate: {}", doc.get(FIELD_NAME_BIRTHDATE));
-                LOG.info("   Label: {}", doc.get("http:////www.w3.org/2000/01/rdf-schema"));
+                LOG.info("   Label: {}", doc.get("http://www.w3.org/2000/01/rdf-schema#label"));
             }
         }
     }
