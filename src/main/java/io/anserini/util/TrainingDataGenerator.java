@@ -79,6 +79,9 @@ public class TrainingDataGenerator {
      */
     Analyzer indexAnalyzer;
 
+    // Properties
+    public static final String BIRTHDATE_FIELD = "http://rdf.freebase.com/ns/people.person.date_of_birth";
+
     public TrainingDataGenerator(Args args) throws Exception {
         this.args = args;
 
@@ -210,7 +213,7 @@ public class TrainingDataGenerator {
     }
 
     void birthdate() throws Exception {
-        String BIRTHDATE_FIELD = "http://rdf.freebase.com/ns/people.person.date_of_birth";
+
         Query q = new TermQuery(new Term(
 //                BIRTHDATE_FIELD,
                 FIELD_NAME_SUBJECT,
@@ -221,14 +224,14 @@ public class TrainingDataGenerator {
         q = new FieldValueQuery(BIRTHDATE_FIELD);
 
 
-        QueryParser queryParser = new QueryParser(
-                BIRTHDATE_FIELD
-//                FIELD_NAME_TEXT
-                , getIndexAnalyzer());
-        queryParser.setAllowLeadingWildcard(true);
-
-
-        q = queryParser.parse("*");
+//        QueryParser queryParser = new QueryParser(
+//                BIRTHDATE_FIELD
+////                FIELD_NAME_TEXT
+//                , getIndexAnalyzer());
+//        queryParser.setAllowLeadingWildcard(true);
+//
+//
+//        q = queryParser.parse("*");
 //        q = new TermRangeQuery(
 //                BIRTHDATE_FIELD,
 //                new BytesRef("*".getBytes()),
