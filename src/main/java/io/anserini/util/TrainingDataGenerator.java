@@ -2,14 +2,14 @@ package io.anserini.util;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexableField;
 import org.apache.lucene.index.Term;
-import org.apache.lucene.search.IndexSearcher;
-import org.apache.lucene.search.TermQuery;
-import org.apache.lucene.search.TopDocs;
+import org.apache.lucene.queryparser.classic.QueryParser;
+import org.apache.lucene.search.*;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.kohsuke.args4j.CmdLineException;
@@ -23,6 +23,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
+import java.util.Map;
 
 /**
  * Generate training data (positive examples) of a particular
@@ -41,9 +42,17 @@ public class TrainingDataGenerator {
     public static final String FIELD_NAME_SUBJECT = "subject";
     public static final String FIELD_NAME_TEXT    = "text";
 
+
     public static final class Args {
-        @Option(name = "-indexPath", metaVar = "[Path]", required = true, usage = "Directory contains index files")
+        @Option(name = "-indexPath", metaVar = "[Index path]", required = true, usage = "Directory contains index files")
         String indexPath;
+
+        @Option(name = "-outputFile", metaVar = "[Output file path]", required = true, usage = "Output file to write training data to")
+        String outputFilepath;
+
+        @Option(name = "-property", metaVar = "[Property name]", required = true, usage = "The property to generate training data for." +
+                "Currently support: (birthdate)")
+        String propertyName;
     }
 
 
@@ -67,6 +76,12 @@ public class TrainingDataGenerator {
      * Index searcher to search in the index
      */
     IndexSearcher indexSearcher = null;
+
+
+    /**
+     * Index analyzer to search
+     */
+    Analyzer indexAnalyzer;
 
     public TrainingDataGenerator(Args args) throws Exception {
         this.args = args;
@@ -102,6 +117,22 @@ public class TrainingDataGenerator {
 
         return indexSearcher;
     }
+
+    public Analyzer getIndexAnalyzer() throws Exception {
+        // Get the current index analyzer or create it.
+        if (indexAnalyzer == null) {
+            Map<String, Analyzer> analyzersMap = createFieldAnalyzersMap();
+            // if we use default indexing options, determine language indexing based on the configuration:
+            if ((supportedLanguages.size() > 0) && !(indexPredicatesOption || indexTextOption || indexLanguageOption))
+                indexLanguage = true;
+            if (indexLanguage)
+                indexAnalyzer = new PerFieldAnalyzerWrapper(getDefaultIndexAnalyzer(), analyzersMap);
+            else
+                indexAnalyzer = getDefaultIndexAnalyzer();
+        }
+        return indexAnalyzer;
+    }
+
 
     /**
      * Retrieve a document id given the subject URI
@@ -175,13 +206,44 @@ public class TrainingDataGenerator {
         LOG.info("Lookup complete.");
     }
 
+    private void generateTrainingData() throws IOException {
+        switch (args.propertyName.toLowerCase()) {
+            case "birthdate":
+                birthdate();
+                break;
+            default:
+                LOG.error("Cannot generate training data for property: {}", args.propertyName);
+                throw new IllegalArgumentException("Cannot generate training data for property: " + args.propertyName);
+        }
+    }
+
+    void birthdate() throws IOException {
+        String BIRTHDATE_FIELD = "http://rdf.freebase.com/ns/people.person.date_of_birth";
+        TermQuery q = new TermQuery(new Term(BIRTHDATE_FIELD));
+        Query query = q;
+
+        TopDocs result = indexSearcher.search(query, 20);
+        if (result.totalHits == 0)
+            LOG.error("No results found for the query: {}", q.toString());
+        else {
+            for (ScoreDoc scoreDoc : result.scoreDocs) {
+                int docid = scoreDoc.doc;
+                LOG.info("++ Matched doc #{}", docid);
+                Document doc = getIndexReader().document(docid);
+                for (IndexableField field : doc.getFields())
+                    LOG.info("    " + field.name() + ": " + field.stringValue());
+            }
+        }
+    }
+
     public static void main(String[] args) throws Exception {
         Args tdArgs = new Args();
-        CmdLineParser parser = new CmdLineParser(tdArgs,
+        CmdLineParser parser = new CmdLineParser(
+                tdArgs,
                 ParserProperties.defaults().withUsageWidth(90)
         );
         parser.parseArgument(args);
 
-        new TrainingDataGenerator(tdArgs).lookup();
+        new TrainingDataGenerator(tdArgs).generateTrainingData();
     }
 }
