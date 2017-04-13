@@ -3,11 +3,9 @@ package io.anserini.util;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.document.Document;
-import org.apache.lucene.index.DirectoryReader;
-import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.index.IndexableField;
-import org.apache.lucene.index.Term;
+import org.apache.lucene.document.*;
+import org.apache.lucene.facet.FacetField;
+import org.apache.lucene.index.*;
 import org.apache.lucene.search.*;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
@@ -208,7 +206,10 @@ public class TrainingDataGenerator {
             )
         );
 
-        q = new FieldValueQuery(BIRTHDATE_FIELD);
+
+
+
+        q = new FieldValueQuery(FIELD_NAME_SUBJECT);
 
         LOG.info("Query");
         LOG.info(q);
