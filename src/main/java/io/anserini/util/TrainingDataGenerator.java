@@ -224,6 +224,24 @@ public class TrainingDataGenerator {
         LOG.info(q);
 
         TopDocs result = getIndexSearcher().search(q, 20);
+
+        getIndexSearcher().search(q, new SimpleCollector() {
+            @Override
+            public void collect(int docid) throws IOException {
+                Document doc = getIndexReader().document(docid);
+//                for (IndexableField field : doc.getFields())
+//                    LOG.info("    " + field.name() + ": " + field.stringValue());
+                LOG.info("   Subject: {}", doc.get(FIELD_NAME_SUBJECT));
+                LOG.info("   Birthdate: {}", doc.get(FIELD_NAME_BIRTHDATE));
+                LOG.info("   Label: {}", doc.get("http://www.w3.org/2000/01/rdf-schema#label"));
+            }
+
+            @Override
+            public boolean needsScores() {
+                return false;
+            }
+        });
+        /*
         if (result.totalHits == 0)
             LOG.warn("No results found for the query");
         else {
@@ -238,6 +256,7 @@ public class TrainingDataGenerator {
                 LOG.info("   Label: {}", doc.get("http://www.w3.org/2000/01/rdf-schema#label"));
             }
         }
+        */
     }
 
     public static void main(String[] args) throws Exception {
