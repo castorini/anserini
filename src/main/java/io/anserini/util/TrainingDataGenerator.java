@@ -201,7 +201,7 @@ public class TrainingDataGenerator {
 
     void birthdate() throws IOException {
         String BIRTHDATE_FIELD = "http://rdf.freebase.com/ns/people.person.date_of_birth";
-        TermQuery q = new TermQuery(new Term(BIRTHDATE_FIELD));
+        TermQuery q = new TermQuery(new Term(BIRTHDATE_FIELD, "\"1814\"^^<http://www.w3.org/2001/XMLSchema#gYear>"));
         Query query = q;
 
         LOG.info("Query");
@@ -209,7 +209,7 @@ public class TrainingDataGenerator {
 
         TopDocs result = getIndexSearcher().search(query, 20);
         if (result.totalHits == 0)
-            LOG.error("No results found for the query: {}", q.toString());
+            LOG.warn("No results found for the query: {}", q.toString());
         else {
             for (ScoreDoc scoreDoc : result.scoreDocs) {
                 int docid = scoreDoc.doc;
