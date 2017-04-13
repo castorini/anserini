@@ -9,6 +9,7 @@ import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.*;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
+import org.apache.lucene.util.BitSetIterator;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.ParserProperties;
@@ -213,32 +214,13 @@ public class TrainingDataGenerator {
     }
 
     void birthdate() throws Exception {
-
-        Query q = new TermQuery(new Term(
+        QueryParser queryParser = new QueryParser(
                 BIRTHDATE_FIELD
-//                FIELD_NAME_SUBJECT,
-//                "http://rdf.freebase.com/ns/m.02mjmr"
-            )
-        );
+                , getIndexAnalyzer());
 
-//        q = new FieldValueQuery(BIRTHDATE_FIELD);
+        queryParser.setAllowLeadingWildcard(true);
 
-
-//        QueryParser queryParser = new QueryParser(
-//                BIRTHDATE_FIELD
-////                FIELD_NAME_TEXT
-//                , getIndexAnalyzer());
-//        queryParser.setAllowLeadingWildcard(true);
-//
-//
-//        q = queryParser.parse("*");
-//        q = new TermRangeQuery(
-//                BIRTHDATE_FIELD,
-//                new BytesRef("*".getBytes()),
-//                new BytesRef("*".getBytes()),
-//                true,
-//                true
-//        );
+        Query q = queryParser.parse("*");
 
         LOG.info("Query");
         LOG.info(q);
