@@ -9,6 +9,7 @@ import org.apache.lucene.index.*;
 import org.apache.lucene.search.*;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
+import org.apache.lucene.util.BytesRef;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.ParserProperties;
@@ -207,9 +208,15 @@ public class TrainingDataGenerator {
         );
 
 
-
-
         q = new FieldValueQuery(BIRTHDATE_FIELD);
+
+        q = new TermRangeQuery(
+                BIRTHDATE_FIELD,
+                new BytesRef("a".getBytes()),
+                new BytesRef("z".getBytes()),
+                true,
+                true
+        );
 
         LOG.info("Query");
         LOG.info(q);
