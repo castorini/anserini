@@ -212,8 +212,8 @@ public class TrainingDataGenerator {
 
         q = new TermRangeQuery(
                 BIRTHDATE_FIELD,
-                new BytesRef("a".getBytes()),
-                new BytesRef("z".getBytes()),
+                new BytesRef(" ".getBytes()),
+                new BytesRef("~".getBytes()),
                 true,
                 true
         );
