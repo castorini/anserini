@@ -215,13 +215,13 @@ public class TrainingDataGenerator {
     void birthdate() throws Exception {
 
         Query q = new TermQuery(new Term(
-//                BIRTHDATE_FIELD,
-                FIELD_NAME_SUBJECT,
-                "http://rdf.freebase.com/ns/m.02mjmr"
+                BIRTHDATE_FIELD
+//                FIELD_NAME_SUBJECT,
+//                "http://rdf.freebase.com/ns/m.02mjmr"
             )
         );
 
-        q = new FieldValueQuery(BIRTHDATE_FIELD);
+//        q = new FieldValueQuery(BIRTHDATE_FIELD);
 
 
 //        QueryParser queryParser = new QueryParser(
