@@ -8,11 +8,9 @@ import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexableField;
 import org.apache.lucene.index.Term;
-import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.*;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
-import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.ParserProperties;
@@ -47,7 +45,7 @@ public class TrainingDataGenerator {
         @Option(name = "-indexPath", metaVar = "[Index path]", required = true, usage = "Directory contains index files")
         String indexPath;
 
-        @Option(name = "-outputFile", metaVar = "[Output file path]", required = true, usage = "Output file to write training data to")
+        @Option(name = "-outputFile", metaVar = "[Output file path]", required = false, usage = "Output file to write training data to")
         String outputFilepath;
 
         @Option(name = "-property", metaVar = "[Property name]", required = true, usage = "The property to generate training data for." +
