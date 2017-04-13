@@ -210,7 +210,7 @@ public class TrainingDataGenerator {
     }
 
     void birthdate() throws Exception {
-        String BIRTHDATE_FIELD = "<http://rdf.freebase.com/ns/people.person.date_of_birth>";
+        String BIRTHDATE_FIELD = "http://rdf.freebase.com/ns/people.person.date_of_birth";
         Query q = new TermQuery(new Term(
 //                BIRTHDATE_FIELD,
                 FIELD_NAME_SUBJECT,
