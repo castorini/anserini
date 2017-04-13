@@ -204,6 +204,9 @@ public class TrainingDataGenerator {
         TermQuery q = new TermQuery(new Term(BIRTHDATE_FIELD));
         Query query = q;
 
+        LOG.info("Query");
+        LOG.info(query);
+
         TopDocs result = indexSearcher.search(query, 20);
         if (result.totalHits == 0)
             LOG.error("No results found for the query: {}", q.toString());
