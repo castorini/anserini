@@ -228,7 +228,7 @@ public class TrainingDataGenerator {
         queryParser.setAllowLeadingWildcard(true);
 
 
-        q = queryParser.parse("*");
+        q = queryParser.parse("http://rdf.freebase.com/ns/m.02mjm*");
 //        q = new TermRangeQuery(
 //                BIRTHDATE_FIELD,
 //                new BytesRef("*".getBytes()),
