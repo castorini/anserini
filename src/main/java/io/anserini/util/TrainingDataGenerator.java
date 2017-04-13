@@ -203,16 +203,15 @@ public class TrainingDataGenerator {
         String BIRTHDATE_FIELD = "http://rdf.freebase.com/ns/people.person.date_of_birth";
         TermQuery q = new TermQuery(new Term(
 //                BIRTHDATE_FIELD,
-                FIELD_NAME_TEXT,
-                "Barack"
+                FIELD_NAME_SUBJECT,
+                "http://rdf.freebase.com/ns/m.02mjmr"
             )
         );
-        Query query = q;
 
         LOG.info("Query");
-        LOG.info(query);
+        LOG.info(q);
 
-        TopDocs result = getIndexSearcher().search(query, 20);
+        TopDocs result = getIndexSearcher().search(q, 20);
         if (result.totalHits == 0)
             LOG.warn("No results found for the query: {}", q.toString());
         else {
