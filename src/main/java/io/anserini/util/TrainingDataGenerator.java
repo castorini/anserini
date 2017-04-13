@@ -9,7 +9,6 @@ import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.*;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
-import org.apache.lucene.util.BitSetIterator;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.ParserProperties;
@@ -20,7 +19,6 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
-import java.util.Map;
 
 /**
  * Generate training data (positive examples) of a particular
@@ -81,7 +79,7 @@ public class TrainingDataGenerator {
     Analyzer indexAnalyzer;
 
     // Properties
-    public static final String BIRTHDATE_FIELD = "http://rdf.freebase.com/ns/people.person.date_of_birth";
+    public static final String FIELD_NAME_BIRTHDATE = "http://rdf.freebase.com/ns/people.person.date_of_birth";
 
     public TrainingDataGenerator(Args args) throws Exception {
         this.args = args;
@@ -215,7 +213,7 @@ public class TrainingDataGenerator {
 
     void birthdate() throws Exception {
         QueryParser queryParser = new QueryParser(
-                BIRTHDATE_FIELD
+                FIELD_NAME_BIRTHDATE
                 , getIndexAnalyzer());
 
         queryParser.setAllowLeadingWildcard(true);
@@ -233,8 +231,11 @@ public class TrainingDataGenerator {
                 int docid = scoreDoc.doc;
                 LOG.info("++ Matched doc #{}", docid);
                 Document doc = getIndexReader().document(docid);
-                for (IndexableField field : doc.getFields())
-                    LOG.info("    " + field.name() + ": " + field.stringValue());
+//                for (IndexableField field : doc.getFields())
+//                    LOG.info("    " + field.name() + ": " + field.stringValue());
+                LOG.info("   Subject: {}", doc.get(FIELD_NAME_SUBJECT));
+                LOG.info("   Birthdate: {}", doc.get(FIELD_NAME_BIRTHDATE));
+                LOG.info("   Label: {}", doc.get("http:////www.w3.org/2000/01/rdf-schema");
             }
         }
     }
