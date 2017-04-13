@@ -207,7 +207,7 @@ public class TrainingDataGenerator {
         LOG.info("Query");
         LOG.info(query);
 
-        TopDocs result = indexSearcher.search(query, 20);
+        TopDocs result = getIndexSearcher().search(query, 20);
         if (result.totalHits == 0)
             LOG.error("No results found for the query: {}", q.toString());
         else {
