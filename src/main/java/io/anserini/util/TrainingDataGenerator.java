@@ -222,7 +222,8 @@ public class TrainingDataGenerator {
 
 
         QueryParser queryParser = new QueryParser(
-                BIRTHDATE_FIELD
+//                BIRTHDATE_FIELD
+                FIELD_NAME_SUBJECT
                 , getIndexAnalyzer());
         queryParser.setAllowLeadingWildcard(true);
 
@@ -241,7 +242,7 @@ public class TrainingDataGenerator {
 
         TopDocs result = getIndexSearcher().search(q, 20);
         if (result.totalHits == 0)
-            LOG.warn("No results found for the query: {}", q.toString());
+            LOG.warn("No results found for the query");
         else {
             for (ScoreDoc scoreDoc : result.scoreDocs) {
                 int docid = scoreDoc.doc;
