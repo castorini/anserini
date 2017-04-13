@@ -209,7 +209,7 @@ public class TrainingDataGenerator {
 
 
 
-        q = new FieldValueQuery(FIELD_NAME_SUBJECT);
+        q = new FieldValueQuery(BIRTHDATE_FIELD);
 
         LOG.info("Query");
         LOG.info(q);
