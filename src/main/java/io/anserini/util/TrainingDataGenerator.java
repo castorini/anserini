@@ -118,22 +118,6 @@ public class TrainingDataGenerator {
         return indexSearcher;
     }
 
-    public Analyzer getIndexAnalyzer() throws Exception {
-        // Get the current index analyzer or create it.
-        if (indexAnalyzer == null) {
-            Map<String, Analyzer> analyzersMap = createFieldAnalyzersMap();
-            // if we use default indexing options, determine language indexing based on the configuration:
-            if ((supportedLanguages.size() > 0) && !(indexPredicatesOption || indexTextOption || indexLanguageOption))
-                indexLanguage = true;
-            if (indexLanguage)
-                indexAnalyzer = new PerFieldAnalyzerWrapper(getDefaultIndexAnalyzer(), analyzersMap);
-            else
-                indexAnalyzer = getDefaultIndexAnalyzer();
-        }
-        return indexAnalyzer;
-    }
-
-
     /**
      * Retrieve a document id given the subject URI
      * @param subjectURI the URI of the subject to retrieve
