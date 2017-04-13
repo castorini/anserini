@@ -201,12 +201,14 @@ public class TrainingDataGenerator {
 
     void birthdate() throws IOException {
         String BIRTHDATE_FIELD = "http://rdf.freebase.com/ns/people.person.date_of_birth";
-        TermQuery q = new TermQuery(new Term(
+        Query q = new TermQuery(new Term(
 //                BIRTHDATE_FIELD,
                 FIELD_NAME_SUBJECT,
                 "http://rdf.freebase.com/ns/m.02mjmr"
             )
         );
+
+        q = new FieldValueQuery(BIRTHDATE_FIELD);
 
         LOG.info("Query");
         LOG.info(q);
