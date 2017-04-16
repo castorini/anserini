@@ -1,14 +1,24 @@
 # Steps to setup an end2end QA pipeline 
-Clone the models and data repo:
+Clone the Anserini, models, and data repo:
 ```
+git clone https://github.com/rosequ/Anserini.git
 git clone https://github.com/castorini/data.git
 git clone https://github.com/castorini/models.git
 ```
 
-Clone and build Anserini:
+
+You should have the following directory structure after cloning:
+```
+.
+├── Anserini
+├── data
+└── models
 
 ```
-git clone https://github.com/rosequ/Anserini.git && cd Anserini
+
+Build Anserini:
+```
+cd Anserini
 mvn clean package appassembler:assemble
 ```
 
@@ -40,3 +50,8 @@ Start the Gateway server, Flask API, and the javascript app:
 chmod +x run_ui.sh
 ./run_ui.sh
 ```
+
+
+__NB:__  The speech UI cannot be run in Ubuntu. To test the pipeline in Ubuntu, make the following changes: 
+- Comment out the JavaScript part and run the Bash script
+- Make a REST API query to the endpoint using Postman, Curl etc.
