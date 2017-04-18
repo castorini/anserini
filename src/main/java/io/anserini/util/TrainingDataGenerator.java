@@ -1,7 +1,18 @@
 package io.anserini.util;
 
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.Filter;
+import org.apache.logging.log4j.core.LoggerContext;
+import org.apache.logging.log4j.core.appender.ConsoleAppender;
+import org.apache.logging.log4j.core.appender.FileAppender;
+import org.apache.logging.log4j.core.config.AppenderRef;
+import org.apache.logging.log4j.core.config.Configuration;
+import org.apache.logging.log4j.core.config.LoggerConfig;
+import org.apache.logging.log4j.core.filter.BurstFilter;
+import org.apache.logging.log4j.core.layout.PatternLayout;
+import org.apache.logging.log4j.spi.ExtendedLogger;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.*;
 import org.apache.lucene.index.*;
@@ -13,10 +24,7 @@ import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.ParserProperties;
 
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
 
@@ -32,6 +40,8 @@ import java.nio.file.Paths;
 public class TrainingDataGenerator {
 
     private static final Logger LOG = LogManager.getLogger(TrainingDataGenerator.class);
+
+    private final Logger TRAINING_DATA_OUTPUT_FILE;
 
     // Index field names
     public static final String FIELD_NAME_SUBJECT = "subject";
@@ -84,8 +94,63 @@ public class TrainingDataGenerator {
     public TrainingDataGenerator(Args args) throws Exception {
         this.args = args;
 
-        LOG.info("Initializing index from path: {}", args.indexPath);
-        initializeIndex(args.indexPath);
+
+
+        final LoggerContext ctx = (LoggerContext) new org.apache.logging.log4j.core.LoggerContext("console" );
+        final Configuration config = ((org.apache.logging.log4j.core.LoggerContext) ctx).getConfiguration();
+
+        //ConsoleAppender console = ConsoleAppender.createAppender(PatternLayout.createDefaultLayout(), null, "SYSTEM_OUT", "console", null, null);
+        FileAppender console = FileAppender.createAppender(args.outputFilepath,
+                "true",
+                null,
+                "console",
+                "true",
+                null,
+                null,
+                null,
+                PatternLayout.createDefaultLayout(),
+                null,
+                null,
+                null,
+                config
+                );
+        console.start();
+
+
+        config.addAppender(console);
+        AppenderRef[] refs = new AppenderRef[] { AppenderRef.createAppenderRef(console.getName(), null, null) };
+        LoggerConfig loggerConfig = LoggerConfig.createLogger("false", Level.ALL, LogManager.ROOT_LOGGER_NAME, "true", refs, null, config, null);
+        loggerConfig.addAppender(console, null, null);
+        config.addLogger(LogManager.ROOT_LOGGER_NAME, loggerConfig);
+        ctx.updateLoggers();
+
+
+
+//        console.start();
+//        config.addAppender(console);
+//        AppenderRef ref = AppenderRef.createAppenderRef("console", null, null);
+//        AppenderRef[] refs = new AppenderRef[] {ref};
+//        LoggerConfig loggerConfig = LoggerConfig.createLogger("false", Level.ALL, "org.apache.logging.log4j",
+//                "true", refs, null, config, null );
+//        loggerConfig.addAppender(console, null, null);
+//        config.addLogger("org.apache.logging.log4j", loggerConfig);
+//        ((org.apache.logging.log4j.core.LoggerContext) ctx).updateLoggers();
+//        ExtendedLogger logger = (ExtendedLogger) ctx.getLogger("console");
+//        logger.error("abc");
+
+        Logger logger = LogManager.getLogger("console");
+        logger.trace("Hello Word!");
+
+
+        logger.exit();
+
+
+
+//        LOG.info("Initializing index from path: {}", args.indexPath);
+//        initializeIndex(args.indexPath);
+
+        TRAINING_DATA_OUTPUT_FILE = LogManager.getLogger("TrainingDataFile");
+
     }
 
     public void initializeIndex(String indexPath) throws IOException {
@@ -215,7 +280,6 @@ public class TrainingDataGenerator {
         QueryParser queryParser = new QueryParser(
                 FIELD_NAME_BIRTHDATE
                 , getIndexAnalyzer());
-
         queryParser.setAllowLeadingWildcard(true);
 
         Query q = queryParser.parse("*");
@@ -223,17 +287,18 @@ public class TrainingDataGenerator {
         LOG.info("Query");
         LOG.info(q);
 
-        TopDocs result = getIndexSearcher().search(q, 20);
-
         getIndexSearcher().search(q, new SimpleCollector() {
             @Override
             public void collect(int docid) throws IOException {
                 Document doc = getIndexReader().document(docid);
-//                for (IndexableField field : doc.getFields())
-//                    LOG.info("    " + field.name() + ": " + field.stringValue());
-                LOG.info("   Subject: {}", doc.get(FIELD_NAME_SUBJECT));
-                LOG.info("   Birthdate: {}", doc.get(FIELD_NAME_BIRTHDATE));
-                LOG.info("   Label: {}", doc.get("http://www.w3.org/2000/01/rdf-schema#label"));
+
+                String freebaseURI = doc.get(FIELD_NAME_SUBJECT);
+                String birthdate = doc.get(FIELD_NAME_BIRTHDATE);
+                String label = doc.get("http://www.w3.org/2000/01/rdf-schema#label");
+
+                LOG.info("   Subject: {}", freebaseURI);
+                LOG.info("   Birthdate: {}", birthdate);
+                LOG.info("   Label: {}", label);
             }
 
             @Override
@@ -241,22 +306,6 @@ public class TrainingDataGenerator {
                 return false;
             }
         });
-        /*
-        if (result.totalHits == 0)
-            LOG.warn("No results found for the query");
-        else {
-            for (ScoreDoc scoreDoc : result.scoreDocs) {
-                int docid = scoreDoc.doc;
-                LOG.info("++ Matched doc #{}", docid);
-                Document doc = getIndexReader().document(docid);
-//                for (IndexableField field : doc.getFields())
-//                    LOG.info("    " + field.name() + ": " + field.stringValue());
-                LOG.info("   Subject: {}", doc.get(FIELD_NAME_SUBJECT));
-                LOG.info("   Birthdate: {}", doc.get(FIELD_NAME_BIRTHDATE));
-                LOG.info("   Label: {}", doc.get("http://www.w3.org/2000/01/rdf-schema#label"));
-            }
-        }
-        */
     }
 
     public static void main(String[] args) throws Exception {
