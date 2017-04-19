@@ -307,11 +307,12 @@ public class TrainingDataGenerator {
                 String birthdate = doc.get(FIELD_NAME_BIRTHDATE);
                 String label = doc.get("http://www.w3.org/2000/01/rdf-schema#label");
 
+                // Basically make sure label is not null, for some entities in freebase
+                if (label == null || freebaseURI == null || birthdate == null)
+                    return;
+
                 String freebaseId = freebaseUriToFreebaseId(freebaseURI);
 
-                LOG.info("freebaseID: {}", freebaseId);
-                LOG.info("label: {}", label);
-                LOG.info("birthdate: {}", birthdate);
 
                 writeToTrainingFile(freebaseId, label, birthdate);
             }
