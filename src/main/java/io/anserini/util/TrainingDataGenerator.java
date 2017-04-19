@@ -260,6 +260,8 @@ public class TrainingDataGenerator {
     }
 
     private void generateTrainingData() throws Exception {
+        initializeIndex(args.indexPath);
+
         switch (args.propertyName.toLowerCase()) {
             case "birthdate":
                 birthdate();
