@@ -230,6 +230,10 @@ public class TrainingDataGenerator {
         return indexAnalyzer;
     }
 
+    /**
+     * Looks up a particular freebase URI
+     * @throws IOException
+     */
     void lookup() throws IOException {
         LOG.info("Loading index...");
         getIndexReader();
@@ -237,13 +241,11 @@ public class TrainingDataGenerator {
                 new OutputStreamWriter(System.out, StandardCharsets.UTF_8))
         );
 
-
         String[] querySubjectIds = new String[]{
                 "http://rdf.freebase.com/ns/m.02mjmr" // Barack Obama
                 ,
                 "http://rdf.freebase.com/ns/m.02_fj" // Frank Sinatra
         };
-
 
         for (String querySubjectId : querySubjectIds) {
             int docid = getSubjectDocID(querySubjectId);
@@ -259,19 +261,6 @@ public class TrainingDataGenerator {
         }
 
         LOG.info("Lookup complete.");
-    }
-
-    private void generateTrainingData() throws Exception {
-        initializeIndex(args.indexPath);
-
-        switch (args.propertyName.toLowerCase()) {
-            case "birthdate":
-                birthdate();
-                break;
-            default:
-                LOG.error("Cannot generate training data for property: {}", args.propertyName);
-                throw new IllegalArgumentException("Cannot generate training data for property: " + args.propertyName);
-        }
     }
 
     /**
@@ -299,6 +288,22 @@ public class TrainingDataGenerator {
         return literalString.substring(literalString.indexOf('\"') + 1, literalString.lastIndexOf("\""));
     }
 
+    /**
+     * Determine which property to retrieve
+     * @throws Exception
+     */
+    private void generateTrainingData() throws Exception {
+        initializeIndex(args.indexPath);
+
+        switch (args.propertyName.toLowerCase()) {
+            case "birthdate":
+                birthdate();
+                break;
+            default:
+                LOG.error("Cannot generate training data for property: {}", args.propertyName);
+                throw new IllegalArgumentException("Cannot generate training data for property: " + args.propertyName);
+        }
+    }
 
     /**
      * Generate training data for property Birthdate
@@ -314,6 +319,7 @@ public class TrainingDataGenerator {
         LOG.info("Query");
         LOG.info(q);
 
+        LOG.info("Searching...");
         getIndexSearcher().search(q, new SimpleCollector() {
             @Override
             public void collect(int docid) throws IOException {
