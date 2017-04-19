@@ -3,16 +3,14 @@ package io.anserini.util;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.core.Filter;
+import org.apache.logging.log4j.core.Appender;
+import org.apache.logging.log4j.core.Layout;
 import org.apache.logging.log4j.core.LoggerContext;
-import org.apache.logging.log4j.core.appender.ConsoleAppender;
 import org.apache.logging.log4j.core.appender.FileAppender;
 import org.apache.logging.log4j.core.config.AppenderRef;
 import org.apache.logging.log4j.core.config.Configuration;
 import org.apache.logging.log4j.core.config.LoggerConfig;
-import org.apache.logging.log4j.core.filter.BurstFilter;
 import org.apache.logging.log4j.core.layout.PatternLayout;
-import org.apache.logging.log4j.spi.ExtendedLogger;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.*;
 import org.apache.lucene.index.*;
@@ -60,7 +58,6 @@ public class TrainingDataGenerator {
         String propertyName;
     }
 
-
     /**
      * Args instance
      */
@@ -82,75 +79,72 @@ public class TrainingDataGenerator {
      */
     IndexSearcher indexSearcher = null;
 
-
     /**
      * Index analyzer to search
      */
     Analyzer indexAnalyzer;
 
-    // Properties
+    // Properties field names
     public static final String FIELD_NAME_BIRTHDATE = "http://rdf.freebase.com/ns/people.person.date_of_birth";
 
     public TrainingDataGenerator(Args args) throws Exception {
         this.args = args;
 
+        // Create a logger to write the training data
+        final LoggerContext ctx = (LoggerContext) LogManager.getContext(false);
+        final Configuration config = ctx.getConfiguration();
 
-
-        final LoggerContext ctx = (LoggerContext) new org.apache.logging.log4j.core.LoggerContext("console" );
-        final Configuration config = ((org.apache.logging.log4j.core.LoggerContext) ctx).getConfiguration();
-
-        //ConsoleAppender console = ConsoleAppender.createAppender(PatternLayout.createDefaultLayout(), null, "SYSTEM_OUT", "console", null, null);
-        FileAppender console = FileAppender.createAppender(args.outputFilepath,
-                "true",
-                null,
-                "console",
-                "true",
-                null,
-                null,
-                null,
-                PatternLayout.createDefaultLayout(),
-                null,
-                null,
-                null,
-                config
+        Layout layout = PatternLayout
+                .createLayout(PatternLayout.DEFAULT_CONVERSION_PATTERN,
+                        config,
+                        null,
+                        StandardCharsets.UTF_8,
+                        false,
+                        false,
+                        null,
+                        null
                 );
-        console.start();
 
+        Appender appender = FileAppender
+                .createAppender(args.outputFilepath,
+                        "false",
+                        "false",
+                        "prop",
+                        "true",
+                        "false",
+                        "false",
+                        "2000",
+                        layout,
+                        null,
+                        "false",
+                        null,
+                        config);
 
-        config.addAppender(console);
-        AppenderRef[] refs = new AppenderRef[] { AppenderRef.createAppenderRef(console.getName(), null, null) };
-        LoggerConfig loggerConfig = LoggerConfig.createLogger("false", Level.ALL, LogManager.ROOT_LOGGER_NAME, "true", refs, null, config, null);
-        loggerConfig.addAppender(console, null, null);
-        config.addLogger(LogManager.ROOT_LOGGER_NAME, loggerConfig);
+        appender.start();
+        config.addAppender(appender);
+
+        // Adding reference to the appender
+        AppenderRef ref = AppenderRef.createAppenderRef("prop", null, null);
+        AppenderRef[] refs = new AppenderRef[] {ref};
+        LoggerConfig loggerConfig = LoggerConfig.createLogger(
+                "false",
+                Level.INFO,
+                "prop",
+                "true",
+                refs, null,
+                config, null
+        );
+
+        // Adding appender to logger, and adding logger to context
+        loggerConfig.addAppender(
+                appender,
+                null,
+                null
+        );
+        config.addLogger("prop", loggerConfig);
         ctx.updateLoggers();
 
-
-
-//        console.start();
-//        config.addAppender(console);
-//        AppenderRef ref = AppenderRef.createAppenderRef("console", null, null);
-//        AppenderRef[] refs = new AppenderRef[] {ref};
-//        LoggerConfig loggerConfig = LoggerConfig.createLogger("false", Level.ALL, "org.apache.logging.log4j",
-//                "true", refs, null, config, null );
-//        loggerConfig.addAppender(console, null, null);
-//        config.addLogger("org.apache.logging.log4j", loggerConfig);
-//        ((org.apache.logging.log4j.core.LoggerContext) ctx).updateLoggers();
-//        ExtendedLogger logger = (ExtendedLogger) ctx.getLogger("console");
-//        logger.error("abc");
-
-        Logger logger = LogManager.getLogger("console");
-        logger.trace("Hello Word!");
-
-
-        logger.exit();
-
-
-
-//        LOG.info("Initializing index from path: {}", args.indexPath);
-//        initializeIndex(args.indexPath);
-
-        TRAINING_DATA_OUTPUT_FILE = LogManager.getLogger("TrainingDataFile");
-
+        TRAINING_DATA_OUTPUT_FILE = LogManager.getLogger("prop");
     }
 
     public void initializeIndex(String indexPath) throws IOException {
@@ -276,6 +270,19 @@ public class TrainingDataGenerator {
         }
     }
 
+    /**
+     * Convert freebase URI to freebase mention id
+     *
+     * @param freebaseUri freebase uri, similar to
+     * @return
+     */
+    public static String freebaseUriToFreebaseId(String freebaseUri) {
+        return freebaseUri.substring(freebaseUri.lastIndexOf('/')).replace('.', '/');
+    }
+
+    /**
+     * Generate training data for property Birthdate
+     */
     void birthdate() throws Exception {
         QueryParser queryParser = new QueryParser(
                 FIELD_NAME_BIRTHDATE
@@ -296,9 +303,9 @@ public class TrainingDataGenerator {
                 String birthdate = doc.get(FIELD_NAME_BIRTHDATE);
                 String label = doc.get("http://www.w3.org/2000/01/rdf-schema#label");
 
-                LOG.info("   Subject: {}", freebaseURI);
-                LOG.info("   Birthdate: {}", birthdate);
-                LOG.info("   Label: {}", label);
+                String freebaseId = freebaseUriToFreebaseId(freebaseURI);
+
+                writeToTrainingFile(freebaseId, label, birthdate);
             }
 
             @Override
@@ -306,6 +313,22 @@ public class TrainingDataGenerator {
                 return false;
             }
         });
+    }
+
+    private static final String TRAINING_DATA_SEPARATOR = "\t";
+    void writeToTrainingFile(String... data) {
+        String[] row = data.clone();
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < row.length; i++) {
+            if (i>0)
+                sb.append(TRAINING_DATA_SEPARATOR);
+
+            if (row[i].contains(TRAINING_DATA_SEPARATOR))
+                sb.append("\"").append(row[i]).append("\"");
+            else
+                sb.append(row[i]);
+        }
+        TRAINING_DATA_OUTPUT_FILE.info(sb.toString());
     }
 
     public static void main(String[] args) throws Exception {
