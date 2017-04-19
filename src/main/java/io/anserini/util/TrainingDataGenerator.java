@@ -309,6 +309,10 @@ public class TrainingDataGenerator {
 
                 String freebaseId = freebaseUriToFreebaseId(freebaseURI);
 
+                LOG.info("freebaseID: {}", freebaseId);
+                LOG.info("label: {}", label);
+                LOG.info("birthdate: {}", birthdate);
+
                 writeToTrainingFile(freebaseId, label, birthdate);
             }
 
@@ -326,16 +330,15 @@ public class TrainingDataGenerator {
      * @param data array of data
      */
     void writeToTrainingFile(String... data) {
-        String[] row = data.clone();
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < row.length; i++) {
+        for (int i = 0; i < data.length; i++) {
             if (i>0)
                 sb.append(TRAINING_DATA_SEPARATOR);
 
-            if (row[i].contains(TRAINING_DATA_SEPARATOR))
-                sb.append("\"").append(row[i]).append("\"");
+            if (data[i].contains(TRAINING_DATA_SEPARATOR))
+                sb.append("\"").append(data[i]).append("\"");
             else
-                sb.append(row[i]);
+                sb.append(data[i]);
         }
 
         TRAINING_DATA_OUTPUT_FILE.info(sb.toString());
