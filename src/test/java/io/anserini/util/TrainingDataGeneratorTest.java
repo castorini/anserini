@@ -17,4 +17,19 @@ public class TrainingDataGeneratorTest {
         assertEquals(correctId, barackObamaFreebaseID);
     }
 
+    @Test
+    public void extractValueFromTypedLiteralString() throws Exception {
+        String l1 = "\"1954-10-28\"^^<http://www.w3.org/2001/XMLSchema#date>";
+        String l2 = "\"Hanna Bieluszko\"@en";
+
+        String l1val = TrainingDataGenerator.extractValueFromTypedLiteralString(l1);
+        String l2val = TrainingDataGenerator.extractValueFromTypedLiteralString(l2);
+
+        String l1expectedVal = "1954-10-28";
+        String l2expectedVal = "Hanna Bieluszko";
+
+        assertEquals(l1expectedVal, l1val);
+        assertEquals(l2expectedVal, l2val);
+    }
+
 }

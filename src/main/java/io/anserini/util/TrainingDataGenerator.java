@@ -275,14 +275,30 @@ public class TrainingDataGenerator {
     }
 
     /**
-     * Convert freebase URI to freebase mention id
+     * Helper function.
+     *
+     * Converts freebase URI to freebase mention id
      *
      * @param freebaseUri freebase uri, similar to
-     * @return
+     * @return freebase mention id
      */
     public static String freebaseUriToFreebaseId(String freebaseUri) {
         return freebaseUri.substring(freebaseUri.lastIndexOf('/')).replace('.', '/');
     }
+
+    /**
+     * Helper function.
+     *
+     * Extracts value from literal that has a type (whether the type is
+     * a language for a string literal or a basic data type like date, int, etc.)
+     *
+     * @param literalString the string representation of the literal, including its type
+     * @return value of the literal
+     */
+    public static String extractValueFromTypedLiteralString(String literalString) {
+        return literalString.substring(literalString.indexOf('\"') + 1, literalString.lastIndexOf("\""));
+    }
+
 
     /**
      * Generate training data for property Birthdate
@@ -313,8 +329,10 @@ public class TrainingDataGenerator {
 
                 String freebaseId = freebaseUriToFreebaseId(freebaseURI);
 
+                String labelVal = extractValueFromTypedLiteralString(label);
+                String birthdateVal = extractValueFromTypedLiteralString(birthdate);
 
-                writeToTrainingFile(freebaseId, label, birthdate);
+                writeToTrainingFile(freebaseId, labelVal, birthdateVal);
             }
 
             @Override
