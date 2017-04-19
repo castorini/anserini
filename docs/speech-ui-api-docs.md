@@ -16,19 +16,10 @@ npm install
 npm start
 ```
 
-You should see a new icon in the toolbar. Click it and a small window will open. Use the keyboard shortcut for Chrome developer tools to open up the console. You'll need to type in the following command to enter the API key before using it:
-
-```javascript
-window.WITAI_API_SECRET = "Bearer XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
-```
-
-Ask for the API key or get a free one from wit.ai.
-
-
 # Flask API
 
 - Install Flask with the command: pip install flask
-- Copy `src/main/python/config.cfg.example` to `src/main/python/config.cfg` and make necessary changes, such as setting the index path and API keys.
+- Copy `config.cfg.example` to `config.cfg` and make necessary changes, such as setting the index path and API keys.
 - The Flask API can be started with the following command. Default host is 0.0.0.0 and port is 5546 without debugging info.
 - Make sure to start the PyseriniEntryPoint (gateway) from Java to open up a socket for communication for Pyserini.
 ```

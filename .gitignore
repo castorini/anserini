@@ -8,6 +8,7 @@ bin/
 *.iml
 .idea
 *.pyc
+src/test/test-index*
 *node_modules/
 src/main/js/SpeechDemo-darwin-x64/
-src/main/python/config.cfg
+config.cfg
