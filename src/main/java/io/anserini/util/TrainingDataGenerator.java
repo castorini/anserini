@@ -148,8 +148,10 @@ public class TrainingDataGenerator {
     }
 
     public void initializeIndex(String indexPath) throws IOException {
-        if (indexDirectory == null)
+        if (indexDirectory == null) {
+            LOG.info("Initializing index from directory: {}", indexPath);
             indexDirectory = FSDirectory.open(Paths.get(indexPath));
+        }
     }
 
     /**
@@ -318,6 +320,11 @@ public class TrainingDataGenerator {
     }
 
     private static final String TRAINING_DATA_SEPARATOR = "\t";
+
+    /**
+     * Writes an array as CSV line separated by TRAINING_DATA_SEPARATOR
+     * @param data array of data
+     */
     void writeToTrainingFile(String... data) {
         String[] row = data.clone();
         StringBuilder sb = new StringBuilder();
@@ -330,6 +337,7 @@ public class TrainingDataGenerator {
             else
                 sb.append(row[i]);
         }
+
         TRAINING_DATA_OUTPUT_FILE.info(sb.toString());
     }
 
