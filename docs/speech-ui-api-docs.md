@@ -1,41 +1,38 @@
-# Commands to get the UI and server running once configured
-```
-sh target/appassembler/bin/PyseriniEntryPoint
-python3 src/main/python/api.py
-
-cd src/main/js
-npm start
-```
-
-# Setting up Speech to Text Demo
+# Installing libraries for demo
 
 `cd` into `src/main/js`.
 
 ```sh
 npm install
-npm start
 ```
 
-You should see a new icon in the toolbar. Click it and a small window will open. Use the keyboard shortcut for Chrome developer tools to open up the console. You'll need to type in the following command to enter the API key before using it:
+# Installing py4j Gateway
 
-```javascript
-window.WITAI_API_SECRET = "Bearer XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
+- Build the Maven package and assemble the app from the root directory.
+```
+mvn clean package appassembler:assemble
 ```
 
-Ask for the API key or get a free one from wit.ai.
+# Flask
+
+- Flask is used as the server for the API
+- Copy `config.cfg.example` to `config.cfg` and make necessary changes, such as setting the index path and API keys.
 
 
-# Flask API
+# Run the Demo
 
-- Install Flask with the command: pip install flask
-- Copy `src/main/python/config.cfg.example` to `src/main/python/config.cfg` and make necessary changes, such as setting the index path and API keys.
-- The Flask API can be started with the following command. Default host is 0.0.0.0 and port is 5546 without debugging info.
-- Make sure to start the PyseriniEntryPoint (gateway) from Java to open up a socket for communication for Pyserini.
-```
-sh target/appassembler/bin/PyseriniEntryPoint
-python src/main/python/api.py [--debug]
+```sh
+./run_ui.sh
 ```
 
+How this works under the hood:
+- This script starts the PyseriniEntryPoint (gateway) from Java to open up a socket for communication and the Python API server.
+- Python program tries to connect to a JVM with a gateway (localhost on port 25333).
+- The Python program, search_web_collection, in src/main/python contains a search method that takes a
+query string, number of hits and returns a list of document IDs. This calls the Java function.
+
+
+# Additional Notes
 - This is the documentation for the API call to send a question to the model and get back the predicted answer.
 - The request body fields are: question(required )num_hits(optional) and k(optional).
 ```
@@ -63,21 +60,3 @@ text of body in raw format:
             ]
 }
 ```
-
-# How to use the py4j Gateway
-
-### Steps
-- Build the Maven package and assemble the app.
-- Start the PyseriniEntryPoint (gateway) from Java to open up a socket for communication.
-```
-mvn clean package appassembler:assemble
-sh target/appassembler/bin/PyseriniEntryPoint
-```
-- Make sure you have py4j installed for Python or else, issue this command: sudo pip install py4j
-- Python tries to connect to a JVM with a gateway (localhost on port 25333).
-- Python program can now initialize a Java Gateway object.
-- The Python program, search_web_collection, in src/main/python contains a search method that takes a
-query string, number of hits and returns a list of document IDs.
-
-
-

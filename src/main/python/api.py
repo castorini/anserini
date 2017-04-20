@@ -1,14 +1,14 @@
 import argparse
 import configparser
 import os
-import sys 
+import sys
 
 from flask import Flask, jsonify, request
 # FIXME: separate this out to a classifier class where we can switch out the models
 from pyserini import Pyserini
 from sm_model.bridge import SMModelBridge
 
-path_to_castorini = os.getcwd() + "/../../../.."
+path_to_castorini = os.getcwd() + "/.."
 model = SMModelBridge(path_to_castorini + '/models/sm_model/sm_model.TrecQA.TRAIN-ALL.2017-04-02.castor',
                         path_to_castorini + '/data/word2vec/aquaint+wiki.txt.gz.ndim=50.cache',
                         path_to_castorini + '/data/TrecQA/stopwords.txt',
@@ -38,11 +38,11 @@ def answer():
 
 @app.route('/wit_ai_config', methods=['GET'])
 def wit_ai_config():
-    return jsonify({'WITAI_API_SECRET': app.config['witai_api_secret']})
+    return jsonify({'WITAI_API_SECRET': app.config['Frontend']['witai_api_secret']})
 
 # FIXME: separate this out to a classifier class where we can switch out the models
 def get_answers(question, num_hits, k):
-    pyserini = Pyserini(app.config.get('index'))
+    pyserini = Pyserini(app.config['Flask']['index'])
     candidate_passages_scores = pyserini.ranked_passages(question, num_hits, k)
     candidate_passages = []
 
@@ -69,13 +69,19 @@ if __name__ == "__main__":
 
     config = configparser.ConfigParser()
     config.read(args.config)
-    for name, value in config.items('Flask'):
-        app.config[name] = value
+
+    for name, section in config.items():
+        if name == 'DEFAULT':
+            continue
+
+        app.config[name] = {}
+        for key, value in config.items(name):
+            app.config[name][key] = value
 
     print("Config: {}".format(args.config))
-    print("Index: {}".format(app.config['index']))
-    print("Host: {}".format(app.config['host']))
-    print("Port: {}".format(app.config['port']))
+    print("Index: {}".format(app.config['Flask']['index']))
+    print("Host: {}".format(app.config['Flask']['host']))
+    print("Port: {}".format(app.config['Flask']['port']))
     print("Debug info: {}".format(args.debug))
 
-    app.run(debug=args.debug, host=app.config['host'], port=int(app.config['port']))
+    app.run(debug=args.debug, host=app.config['Flask']['host'], port=int(app.config['Flask']['port']))

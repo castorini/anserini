@@ -104,4 +104,3 @@ if __name__ == "__main__":
 
     passages = pyserini.ranked_passages(query_string="Airline Subsidies", num_hits=30, k=20)
     print("Ranked Passages:\n{}\n".format(passages))
-
