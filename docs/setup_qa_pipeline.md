@@ -1,7 +1,7 @@
 # Steps to setup an end2end QA pipeline 
 Clone the Anserini, models, and data repo:
 ```
-git clone https://github.com/rosequ/Anserini.git
+git clone https://github.com/castorini/Anserini.git
 git clone https://github.com/castorini/data.git
 git clone https://github.com/castorini/models.git
 ```
@@ -22,6 +22,8 @@ cd Anserini
 mvn clean package appassembler:assemble
 ```
 
+We highly recommend the use of [virtualenv](https://virtualenv.pypa.io/en/stable/) as the dependencies 
+are subjected to frequent changes.
 
 Install the dependency packages:
 
