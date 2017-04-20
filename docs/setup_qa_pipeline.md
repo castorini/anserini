@@ -1,4 +1,4 @@
-# Steps to setup an end2end QA pipeline 
+# Steps to setup an end2end QA pipeline
 Clone the Anserini, models, and data repo:
 ```
 git clone https://github.com/rosequ/Anserini.git
@@ -26,7 +26,7 @@ mvn clean package appassembler:assemble
 Install the dependency packages:
 
 ```
-pip3 install -r requirements.txt 
+pip3 install -r requirements.txt
 ```
 
 Make sure that you have PyTorch installed. For more help, follow [these](https://github.com/castorini/Castor) steps.
@@ -41,17 +41,16 @@ in the appropriate locations:
 
 ### Starting up the end2end system:
 
-Make sure that you have correctly set your `config` file. For help, refer 
+Make sure that you have correctly set your `config` file. For help, refer
 [this](https://github.com/castorini/Anserini/blob/master/docs/speech-ui-api-docs.md).
 
 Start the Gateway server, Flask API, and the javascript app:
 
 ```
-chmod +x run_ui.sh
 ./run_ui.sh
 ```
 
 
-__NB:__  The speech UI cannot be run in Ubuntu. To test the pipeline in Ubuntu, make the following changes: 
+__NB:__  The speech UI cannot be run in Ubuntu. To test the pipeline in Ubuntu, make the following changes:
 - Comment out the JavaScript part and run the Bash script
 - Make a REST API query to the endpoint using Postman, Curl etc.

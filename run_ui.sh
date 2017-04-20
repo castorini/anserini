@@ -1,14 +1,12 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 echo "Start PyseriniEntryPoint..."
 sh target/appassembler/bin/PyseriniEntryPoint &
 PID_1=$!
 
 echo "Start the Flask server..."
-pushd src/main/python
-python3 api.py &
+python3 src/main/python/api.py &
 PID_2=$!
-popd
 
 echo "Start the JavaScript UI..."
 pushd src/main/js
