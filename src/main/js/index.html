@@ -14,30 +14,25 @@
       overflow: hidden;
     }
     body {
+      display: flex;
+      flex-direction: column;
       margin: 10px 0;
-      position: relative;
+      height: 100%;
     }
     #analyser {
       background: #f9f9f9;
-      width: 100%;
-      height: 20%;
-      padding: 0;
-      margin: auto;
-      display: block;
+      flex: 0 1 auto;
+      max-height: 70px;
     }
     #viz {
+      flex: 1 1 auto;
       display: flex;
       flex-direction: column;
       align-items: center;
-      max-height: 70%;
     }
     #controls {
-      position: absolute;
-      bottom: 0;
-      padding: 0;
-      height: 10%;
-      margin: 15px 0 10px 0;
-      width: 100%;
+      flex: 0 1 50px;
+      margin: 5px 5px 10px 5px;
     }
     #controls > span {
       display: table;
@@ -49,14 +44,14 @@
     #question {
       font-weight: bold;
       font-size: larger;
-      flex-grow: 1;
-      margin: 10px 5px 10px 5px;
+      flex: 1 0 auto;
+      margin: 5px;
       text-align: center;
     }
     #answer {
-      flex-grow: 5;
-      margin: 0 5px 10px 5px;
+      flex: 1 1 auto;
       overflow-y: auto;
+      margin: 5px;
     }
   </style>
 </head>
