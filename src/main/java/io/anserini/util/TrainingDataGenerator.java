@@ -23,6 +23,8 @@ import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.ParserProperties;
 import org.kohsuke.args4j.spi.StringArrayOptionHandler;
+import org.openrdf.model.ValueFactory;
+import org.openrdf.model.impl.SimpleValueFactory;
 import org.openrdf.rio.ntriples.NTriplesUtil;
 
 import java.io.*;
@@ -47,24 +49,37 @@ public class TrainingDataGenerator {
     // Index field names
     // Knowledge Base RDF index
     static final String FIELD_NAME_SUBJECT = "subject";
-    static final String FIELD_NAME_TEXT    = "text";
+    static final String FIELD_NAME_LABEL = "http://www.w3.org/2000/01/rdf-schema#label";
 
     // Properties field names
     static final String FIELD_NAME_BIRTHDATE = "http://rdf.freebase.com/ns/people.person.date_of_birth";
+    static final String FIELD_NAME_SPOUSE = "http://rdf.freebase.com/ns/people.person.spouse_s";
 
     // Entity mentions index
     static final String FIELD_NAME_ENTITY_ID = "entityId";
 
     // RDF object predicate types
-    public static final String VALUE_TYPE_URI    = "URI";
-    public static final String VALUE_TYPE_STRING = "STRING";
-    public static final String VALUE_TYPE_TEXT   = "TEXT";
-    public static final String VALUE_TYPE_OTHER  = "OTHER";
+    static final String VALUE_TYPE_URI    = "URI";
+    static final String VALUE_TYPE_STRING = "STRING";
+    static final String VALUE_TYPE_TEXT   = "TEXT";
+    static final String VALUE_TYPE_OTHER  = "OTHER";
+
+    /**
+     * List of commands that can be executed
+     */
+    static final String AVAILABLE_COMMANDS = "(index-kb, index-mentions, generate-training-data)";
 
     /**
      * The arguments that this program accepts
      */
     public static final class Args {
+
+        @Option(name = "-command",
+                metaVar = "[Command to execute]",
+                required = true,
+                usage = "The command that represents the task to perform. Options: " + AVAILABLE_COMMANDS)
+        String command;
+
         @Option(name = "-kbIndexPath",
                 metaVar = "[KB Index path]",
                 required = false,
@@ -115,7 +130,7 @@ public class TrainingDataGenerator {
                 metaVar = "[Maximum number of triples to index]",
                 required = false,
                 usage = "Integer representing the maximum number of triples to index, or -1 to index everything")
-        int maxNumTriplesToIndex = -1;
+        long maxNumTriplesToIndex = -1;
     }
 
     /**
@@ -173,6 +188,11 @@ public class TrainingDataGenerator {
      * Analyzer to search in mentions
      */
     Analyzer mentionsIndexAnalyzer = null;
+
+    /**
+     * Simple value factory to parse literals
+     */
+    static ValueFactory valueFactory = SimpleValueFactory.getInstance();
 
     public TrainingDataGenerator(Args args) throws Exception {
         this.args = args;
@@ -280,12 +300,12 @@ public class TrainingDataGenerator {
             IndexWriterConfig iwc = new IndexWriterConfig(getKbIndexAnalyzer());
 
             // Create a new index or append
-            iwc.setOpenMode(IndexWriterConfig.OpenMode.CREATE_OR_APPEND);
+            iwc.setOpenMode(IndexWriterConfig.OpenMode.CREATE); // We always overwrite KB index
 
-            kbIndexWriter = new IndexWriter(mentionsIndexDirectory, iwc);
+            kbIndexWriter = new IndexWriter(kbIndexDirectory, iwc);
         }
 
-        return mentionsIndexWriter;
+        return kbIndexWriter;
     }
 
     /**
@@ -493,7 +513,7 @@ public class TrainingDataGenerator {
      * @return value of the literal
      */
     static String extractValueFromTypedLiteralString(String literalString) {
-        return literalString.substring(literalString.indexOf('\"') + 1, literalString.lastIndexOf("\""));
+        return NTriplesUtil.parseLiteral(literalString, valueFactory).stringValue();
     }
 
     /**
@@ -502,6 +522,25 @@ public class TrainingDataGenerator {
      * @throws Exception on error
      */
     private void generateTrainingData() throws Exception {
+
+        if (args.kbIndexPath == null) {
+            Exception e = new IllegalArgumentException("Missing -kbIndexPath argument to specify the location of the KB index");
+            LOG.error(e);
+            throw e;
+        }
+
+        if (args.mentionsIndexPath == null) {
+            Exception e = new IllegalArgumentException("Missing -mentionsIndexPath argument to specify the location of the mentions index");
+            LOG.error(e);
+            throw e;
+        }
+
+        if (args.propertyName == null) {
+            Exception e = new IllegalArgumentException("Missing -property argument to specify which property to extract");
+            LOG.error(e);
+            throw e;
+        }
+
         initializeIndexes();
 
         switch (args.propertyName.toLowerCase()) {
@@ -536,11 +575,11 @@ public class TrainingDataGenerator {
 
                 String freebaseURI = doc.get(FIELD_NAME_SUBJECT);
                 String birthdate = doc.get(FIELD_NAME_BIRTHDATE);
-                String label = doc.get("http://www.w3.org/2000/01/rdf-schema#label");
+                String label = doc.get(FIELD_NAME_LABEL);
 
                 // Basically make sure label is not null, for some entities in freebase
                 if (label == null || freebaseURI == null || birthdate == null)
-                    return;
+                    return; // Ignore this search
 
                 String freebaseId = freebaseUriToFreebaseId(freebaseURI);
 
@@ -586,6 +625,23 @@ public class TrainingDataGenerator {
      * Check original Freebase-Tools for sample code.
      */
     void indexRdfDataset() throws Exception {
+        // Make sure we have all required parameters/arguments
+        if (args.dataPath == null) {
+            Exception e = new IllegalArgumentException("Missing -dataPath argument to specify which data to index");
+            LOG.error(e);
+            throw e;
+        }
+
+        if (args.kbIndexPath == null) {
+            Exception e = new IllegalArgumentException("Missing -kbIndexPath argument to specify where to create the index");
+            LOG.error(e);
+            throw e;
+        }
+
+        if (args.predicatesToIndex == null || args.predicatesToIndex.size() == 0) {
+            LOG.warn("No predicates to index, all predicates will be stored only");
+        }
+
         initializeIndexes();
         getKbIndexWriter();
         getKbIndexWriter().commit();
@@ -597,9 +653,21 @@ public class TrainingDataGenerator {
         String currentSubject = "";
 
         File dataPathDirectory = new File(args.dataPath);
-        Iterator<File> filesIterator = FileUtils.iterateFiles(dataPathDirectory, null, true);
+        Iterator<File> filesIterator = null;
+        // If the provided path was a directory, iterate over all of its files and sub-directories,
+        // otherwise, use the single file
+        if (dataPathDirectory.isDirectory()) {
+            filesIterator = FileUtils.iterateFiles(dataPathDirectory, null, true);
+        } else {
+            filesIterator = Arrays.asList(new File[]{dataPathDirectory}).iterator();
+        }
 
+        boolean limitReached = false;
         while (filesIterator.hasNext()) {
+
+            if (limitReached)
+                break;
+
             File triplesFile = filesIterator.next();
             InputStream is = null;
             Scanner triplesScanner = null;
@@ -618,15 +686,14 @@ public class TrainingDataGenerator {
                         LOG.info("Processed {} lines", count);
                     }
 
-                    // Check line limit
-                    if (args.maxNumTriplesToIndex > 0 && count >= args.maxNumTriplesToIndex) {
-                        LOG.info("Reached maximum limit of triples to index... Stopping the index process");
-                        break;
-                    }
-
-
                     if (line.startsWith("#")) // Ignore comments
                         continue;
+
+                    // Check line limit
+                    if (args.maxNumTriplesToIndex > 0 && count >= args.maxNumTriplesToIndex) {
+                        LOG.info("Reached maximum limit of triples to index... Writing current data and stopping the index process");
+                        limitReached = true;
+                    }
 
                     // Tokenize line pieces using tabs
                     String[] triple = line.split("\t");
@@ -635,10 +702,16 @@ public class TrainingDataGenerator {
                         continue;
                     }
 
-                    if (!triple[0].equals(currentSubject)) {
-                        if (!"".equals(currentSubject))
-                            // new subject, index the current subject and start a new one:
+                    if (!triple[0].equals(currentSubject) || limitReached) {
+                        if (!"".equals(currentSubject)) {
+                            // New subject found, index the previous subject and its value
                             indexSubjectValues(currentSubject, predValues);
+                        }
+
+                        if (limitReached)
+                            throw new RuntimeException("Processing limit reached, stopping");
+
+                        // Change the current subject to start processing its predicates and values
                         currentSubject = triple[0];
                         predValues.clear();
                     }
@@ -659,12 +732,15 @@ public class TrainingDataGenerator {
             } catch (Exception e) {
                 LOG.error("Error while processing triples file: {}", triplesFile.getAbsolutePath(), e);
             } finally {
+                // Always close streams
                 if (is != null) {
                     is.close();
                 }
+
                 if (triplesScanner != null) {
                     triplesScanner.close();
                 }
+
                 LOG.info("Indexing process completed.");
             }
         }
@@ -675,6 +751,8 @@ public class TrainingDataGenerator {
 
         // Index as a StringField to allow searching
         Field subjectField = new StringField(FIELD_NAME_SUBJECT, cleanUri(subject), Field.Store.YES);
+
+        doc.add(subjectField);
 
         for (Map.Entry<String, List<String>> entry : predicatesAndValues.entrySet()) {
             String predicate = cleanUri(entry.getKey());
@@ -753,7 +831,9 @@ public class TrainingDataGenerator {
 
     /**
      *
-     * Removes '<', '>' if they exist, lower case, replace ':' with '_'
+     * Removes '<', '>' if they exist, lower case
+     *
+     * TODO - replace ':' with '_' because query parser doesn't like it
      *
      * @param uri
      * @return
@@ -777,6 +857,19 @@ public class TrainingDataGenerator {
      * The file is expected to be a TSV file.
      */
     void indexEntityMentions() throws Exception {
+
+        if (args.dataPath == null) {
+            Exception e = new IllegalArgumentException("Missing -dataPath argument to specify which data to index");
+            LOG.error(e);
+            throw e;
+        }
+
+        if (args.mentionsIndexPath == null) {
+            Exception e = new IllegalArgumentException("Missing -mentionsIndexPath argument to specify where to create/append the index");
+            LOG.error(e);
+            throw e;
+        }
+
         initializeIndexes();
         getMentionsIndexWriter();
         getMentionsIndexWriter().commit(); // need to commit in case the index was just created
@@ -848,7 +941,7 @@ public class TrainingDataGenerator {
         // Create a document to add to the index as a new document or updating an older document
         Document newDoc = new Document();
 
-        // Document fields... entityId is StringField to be searchable
+        // Document fields. entityId is StringField to be searchable
         Field entityIdField = new StringField(FIELD_NAME_ENTITY_ID, entityId, Field.Store.YES);
 
         // The new entity label to be added
@@ -892,12 +985,32 @@ public class TrainingDataGenerator {
         // For testing
         if (args == null || args.length == 0)
             args = new String[] {
+                    "-command", "index-mentions",
                     "-mentionsIndexPath", "entity-mentions.index",
                     "-dataPath", "entity-mentions",
                     "-entityIdColNum", "7",
                     "-entityLabelColNum", "2",
                     "-docIdColNum", "0"
             };
+
+            /*
+            args = new String[] {
+                    "-command", "index-kb",
+                    "-kbIndexPath", "/tmp/tmp.index.1",
+                    "-dataPath", "/Users/mfathy/Downloads/freebase-rdf-latest.gz",
+                    "-predicatesToIndex", "http://rdf.freebase.com/ns/people.person.date_of_birth"
+                    ,"-maxNumTriplesToIndex", "20000000"
+            };
+            */
+
+            /*
+            args = new String[] {
+                    "-command", "generate-training-data",
+                    "-kbIndexPath", "/tmp/tmp.index.1",
+                    "-mentionsIndexPath", "entity-mentions.index",
+                    "-property", "http://rdf.freebase.com/ns/people.person.date_of_birth"
+            };
+            */
 
         Args tdArgs = new Args();
         CmdLineParser parser = new CmdLineParser(
@@ -906,6 +1019,25 @@ public class TrainingDataGenerator {
         );
         parser.parseArgument(args);
 
-        new TrainingDataGenerator(tdArgs).indexEntityMentions();
+        TrainingDataGenerator tdg = new TrainingDataGenerator(tdArgs);
+
+        // Select an action to perform according to the given command
+        switch (tdArgs.command.toLowerCase()) {
+            case "index-kb":
+                tdg.indexRdfDataset();
+                break;
+
+            case "index-mentions":
+                tdg.indexEntityMentions();
+                break;
+
+            case "generate-training-data":
+                tdg.generateTrainingData();
+                break;
+
+            default:
+                LOG.error("Invalid command: ({}). Available commands: {}", tdArgs.command, AVAILABLE_COMMANDS);
+                throw new IllegalArgumentException("Invalid command: (" + tdArgs.command + "). Available commands: " + AVAILABLE_COMMANDS);
+        }
     }
 }
