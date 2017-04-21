@@ -13,7 +13,6 @@ import org.apache.logging.log4j.core.config.Configuration;
 import org.apache.logging.log4j.core.config.LoggerConfig;
 import org.apache.logging.log4j.core.layout.PatternLayout;
 import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.codecs.lucene60.Lucene60Codec;
 import org.apache.lucene.document.*;
 import org.apache.lucene.index.*;
 import org.apache.lucene.queryparser.classic.QueryParser;
@@ -23,23 +22,21 @@ import org.apache.lucene.store.FSDirectory;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.ParserProperties;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+import org.kohsuke.args4j.spi.StringArrayOptionHandler;
+import org.openrdf.rio.ntriples.NTriplesUtil;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Scanner;
+import java.util.*;
+import java.util.zip.GZIPInputStream;
 
 /**
  * Generate training data (positive examples) of a particular
  * relationship from an indexed RDF dataset, e.g., Freebase.
  *
- * This class relies on an index that should be prebuilt
- * using
- *
- *
+ * The class also helps in indexing new KB RDF and entity mentions
+ * TSV files.
  */
 public class TrainingDataGenerator {
 
@@ -57,6 +54,12 @@ public class TrainingDataGenerator {
 
     // Entity mentions index
     static final String FIELD_NAME_ENTITY_ID = "entityId";
+
+    // RDF object predicate types
+    public static final String VALUE_TYPE_URI    = "URI";
+    public static final String VALUE_TYPE_STRING = "STRING";
+    public static final String VALUE_TYPE_TEXT   = "TEXT";
+    public static final String VALUE_TYPE_OTHER  = "OTHER";
 
     /**
      * The arguments that this program accepts
@@ -100,6 +103,19 @@ public class TrainingDataGenerator {
 
         @Option(name = "-docIdColNum", metaVar = "[Document ID Column Number]", required = false, usage = "The column number (zero-based) in the TSV file that contains the column id")
         int docIdColNum;
+
+        @Option(name = "-predicatesToIndex",
+                handler = StringArrayOptionHandler.class, // Allows for multiple args
+                metaVar = "[KB Predicates to Index, separated by Space]",
+                required = false,
+                usage = "List of KB predicates that will be indexed")
+        List<String> predicatesToIndex;
+
+        @Option(name = "-maxNumTriplesToIndex",
+                metaVar = "[Maximum number of triples to index]",
+                required = false,
+                usage = "Integer representing the maximum number of triples to index, or -1 to index everything")
+        int maxNumTriplesToIndex = -1;
     }
 
     /**
@@ -259,6 +275,19 @@ public class TrainingDataGenerator {
         return kbIndexSearcher;
     }
 
+    IndexWriter getKbIndexWriter() throws Exception {
+        if (kbIndexWriter == null || !kbIndexWriter.isOpen()) {
+            IndexWriterConfig iwc = new IndexWriterConfig(getKbIndexAnalyzer());
+
+            // Create a new index or append
+            iwc.setOpenMode(IndexWriterConfig.OpenMode.CREATE_OR_APPEND);
+
+            kbIndexWriter = new IndexWriter(mentionsIndexDirectory, iwc);
+        }
+
+        return mentionsIndexWriter;
+    }
+
     /**
      * Get the current default index analyzer or create it.
      * Use StandardAnalyzer as the default.
@@ -281,7 +310,15 @@ public class TrainingDataGenerator {
      */
     IndexReader getMentionsIndexReader() throws IOException {
         if (mentionsIndexReader == null) {
-            mentionsIndexReader = DirectoryReader.open(mentionsIndexDirectory);
+//            if (mentionsIndexWriter != null) {
+//                // If someone is writing to the index, we need to keep track
+//                // of the committed changes, so we set mentionsIndexReader to reference
+//                // the index writer, so that changes are reflected
+//                // See {@link https://lucene.apache.org/core/6_4_1/core/org/apache/lucene/index/IndexWriter.html#commit--}
+//                mentionsIndexReader = DirectoryReader.open(mentionsIndexWriter, true, true);
+//            } else {
+                mentionsIndexReader = DirectoryReader.open(mentionsIndexDirectory);
+//            }
         }
 
         return mentionsIndexReader;
@@ -293,6 +330,15 @@ public class TrainingDataGenerator {
      * @throws IOException on error
      */
     IndexSearcher getMentionsIndexSearcher() throws IOException {
+
+        // If we made some changes in the index, we need to re-open the index
+        if (mentionsIndexWriter != null && mentionsIndexWriter.hasUncommittedChanges()) {
+            mentionsIndexWriter.commit();
+            mentionsIndexWriter.flush();
+            mentionsIndexReader = DirectoryReader.open(mentionsIndexWriter);
+            mentionsIndexSearcher = new IndexSearcher(mentionsIndexReader);
+        }
+
         if (mentionsIndexSearcher == null) {
             mentionsIndexSearcher = new IndexSearcher(getMentionsIndexReader());
         }
@@ -315,20 +361,12 @@ public class TrainingDataGenerator {
      * @throws Exception on error
      */
     IndexWriter getMentionsIndexWriter() throws Exception {
-        if (mentionsIndexWriter == null) {
+        if (mentionsIndexWriter == null || !mentionsIndexWriter.isOpen()) {
             IndexWriterConfig iwc = new IndexWriterConfig(getMentionsIndexAnalyzer());
 
             // Create a new index or append
             iwc.setOpenMode(IndexWriterConfig.OpenMode.CREATE_OR_APPEND);
-//            iwc.setCodec(new Lucene60Codec());
 
-            mentionsIndexWriter = new IndexWriter(mentionsIndexDirectory, iwc);
-        } else if (!mentionsIndexWriter.isOpen()) {
-            IndexWriterConfig iwc = new IndexWriterConfig(getMentionsIndexAnalyzer());
-
-            // Create a new index or append
-            iwc.setOpenMode(IndexWriterConfig.OpenMode.CREATE_OR_APPEND);
-            iwc.setCodec(new Lucene60Codec());
             mentionsIndexWriter = new IndexWriter(mentionsIndexDirectory, iwc);
         }
 
@@ -488,8 +526,7 @@ public class TrainingDataGenerator {
 
         Query q = queryParser.parse("*");
 
-        LOG.info("Query");
-        LOG.info(q);
+        LOG.info("Query: {}", q.toString());
 
         LOG.info("Searching...");
         getKbIndexSearcher().search(q, new SimpleCollector() {
@@ -548,10 +585,188 @@ public class TrainingDataGenerator {
      *
      * Check original Freebase-Tools for sample code.
      */
-    void indexRdfDataset() {
-        throw new NotImplementedException();
+    void indexRdfDataset() throws Exception {
+        initializeIndexes();
+        getKbIndexWriter();
+        getKbIndexWriter().commit();
+        getKbIndexReader();
+
+        // Temp Map to hold the predicate values for a single subject
+        Map<String, List<String>> predValues = new TreeMap<String, List<String>>();
+        int count = 0;
+        String currentSubject = "";
+
+        File dataPathDirectory = new File(args.dataPath);
+        Iterator<File> filesIterator = FileUtils.iterateFiles(dataPathDirectory, null, true);
+
+        while (filesIterator.hasNext()) {
+            File triplesFile = filesIterator.next();
+            InputStream is = null;
+            Scanner triplesScanner = null;
+
+            try {
+                is = new FileInputStream(triplesFile);
+                if (triplesFile.getAbsolutePath().toLowerCase().endsWith(".gz"))
+                    is = new GZIPInputStream(is);
+                triplesScanner = new Scanner(is);
+                while (triplesScanner.hasNextLine()) {
+                    String line = triplesScanner.nextLine();
+                    count++;
+
+                    // Show progress
+                    if (count % 100000 == 0) {
+                        LOG.info("Processed {} lines", count);
+                    }
+
+                    // Check line limit
+                    if (args.maxNumTriplesToIndex > 0 && count >= args.maxNumTriplesToIndex) {
+                        LOG.info("Reached maximum limit of triples to index... Stopping the index process");
+                        break;
+                    }
+
+
+                    if (line.startsWith("#")) // Ignore comments
+                        continue;
+
+                    // Tokenize line pieces using tabs
+                    String[] triple = line.split("\t");
+                    if (triple.length != 4) {
+                        LOG.warn("Ignoring invalid NT triple line: {}", line);
+                        continue;
+                    }
+
+                    if (!triple[0].equals(currentSubject)) {
+                        if (!"".equals(currentSubject))
+                            // new subject, index the current subject and start a new one:
+                            indexSubjectValues(currentSubject, predValues);
+                        currentSubject = triple[0];
+                        predValues.clear();
+                    }
+
+                    // record this predicate and value for the current subject:
+                    String predicate = triple[1];
+                    String value = triple[2];
+
+                    List<String> values = predValues.get(predicate);
+                    if (values == null) {
+                        values = new ArrayList<String>(5);
+                        predValues.put(predicate, values);
+                    }
+
+                    values.add(value);
+                }
+
+            } catch (Exception e) {
+                LOG.error("Error while processing triples file: {}", triplesFile.getAbsolutePath(), e);
+            } finally {
+                if (is != null) {
+                    is.close();
+                }
+                if (triplesScanner != null) {
+                    triplesScanner.close();
+                }
+                LOG.info("Indexing process completed.");
+            }
+        }
     }
 
+    void indexSubjectValues(String subject, Map<String, List<String>> predicatesAndValues) throws Exception {
+        Document doc = new Document();
+
+        // Index as a StringField to allow searching
+        Field subjectField = new StringField(FIELD_NAME_SUBJECT, cleanUri(subject), Field.Store.YES);
+
+        for (Map.Entry<String, List<String>> entry : predicatesAndValues.entrySet()) {
+            String predicate = cleanUri(entry.getKey());
+            List<String> values = entry.getValue();
+
+            for (String value : values) {
+                String valueType = getValueType(value);
+                value = normalizeValue(value);
+                if (isIndexedPredicate(predicate)) {
+                    if (valueType.equals(VALUE_TYPE_URI))
+                        // Always index URIs
+                        doc.add(new StringField(predicate, value, Field.Store.YES));
+                    else
+                        doc.add(new TextField(predicate, value, Field.Store.YES));
+                }
+                else {
+                    // Just add the predicate as a stored field, no index on it
+                    doc.add(new StoredField(predicate, value));
+                }
+            }
+        }
+
+        getKbIndexWriter().addDocument(doc);
+    }
+
+    /**
+     * Check if the predicate should be indexed
+     * @param predicate the predicate to check
+     * @return true if the user specified it to be indexed, false otherwise.
+     */
+    boolean isIndexedPredicate(String predicate) {
+        return args.predicatesToIndex != null && args.predicatesToIndex.contains(predicate);
+    }
+
+    String getValueType(String value) {
+        // Determine the type of this N-Triples `value'.
+        char first = value.charAt(0);
+        switch (first) {
+            case '<': return VALUE_TYPE_URI;
+            case '"':
+                if (value.charAt(value.length() - 1) == '"')
+                    return VALUE_TYPE_STRING;
+                else
+                    return VALUE_TYPE_TEXT;
+            default:
+                return VALUE_TYPE_OTHER;
+        }
+    }
+
+    /**
+     * Do nothing for strings
+     */
+    public String normalizeStringValue(String value) {
+        return value;
+    }
+
+    /**
+     * Unescape strings
+     */
+    public String normalizeTextValue(String value) {
+        return NTriplesUtil.unescapeString(value);
+    }
+
+    public String normalizeValue(String value) {
+        // Normalize a `value' depending on its type.
+        String type = getValueType(value);
+        if (type == VALUE_TYPE_URI)
+            return cleanUri(value);
+        else if (type == VALUE_TYPE_STRING)
+            return normalizeStringValue(value);
+        else if (type == VALUE_TYPE_TEXT)
+            return normalizeTextValue(value);
+        else
+            return value;
+    }
+
+    /**
+     *
+     * Removes '<', '>' if they exist, lower case, replace ':' with '_'
+     *
+     * @param uri
+     * @return
+     */
+    public String cleanUri(String uri) {
+        // We want lower-case namespace IDs and no `:'s, since those make the query field parser unhappy.
+        // That way we can freely mix text queries with exact field restrictions such as type names.
+        // This is now done mostly by the preprocessing steps, and we only have to strip off angle brackets.
+        if (uri.charAt(0) == '<')
+            return uri.substring(1, uri.length() - 1).toLowerCase();
+        else
+            return uri;
+    }
 
     /**
      * This function indexes entity mentions file.
@@ -564,7 +779,7 @@ public class TrainingDataGenerator {
     void indexEntityMentions() throws Exception {
         initializeIndexes();
         getMentionsIndexWriter();
-        getMentionsIndexWriter().commit();
+        getMentionsIndexWriter().commit(); // need to commit in case the index was just created
         getMentionsIndexReader();
 
         // Get the files in the directory that contains the mentions files
@@ -578,6 +793,10 @@ public class TrainingDataGenerator {
                 while (mentionsScanner.hasNextLine()) {
                     // Split line into pieces
                     String line = mentionsScanner.nextLine();
+
+                    if (line.startsWith("#"))
+                        continue;
+
                     String[] linePieces = line.split("\t");
 
                     // Extract different information from
@@ -586,7 +805,7 @@ public class TrainingDataGenerator {
                     String entityLabel = args.entityLabelColNum == -1? null : linePieces[args.entityLabelColNum];
 
                     try {
-                        indexEntityMention(entityId, entityLabel, docId);
+                        indexEntityMentionRecord(entityId, entityLabel, docId);
                     } catch (Exception e) {
                         LOG.error("Error indexing entity mention for entity: ({}) in document: ({})",
                                 entityId,
@@ -598,6 +817,8 @@ public class TrainingDataGenerator {
                 LOG.error("Error reading mentions file: {}", mentionsFile, e);
             }
         }
+
+        cleanup();
     }
 
     /**
@@ -616,49 +837,67 @@ public class TrainingDataGenerator {
      * @param entityLabel the label of the entity, how it appears in THIS document
      * @param docId the id of the text document (e.g., ClueWeb) in which it appears
      */
-    void indexEntityMention(String entityId, String entityLabel, String docId) throws Exception {
+    void indexEntityMentionRecord(String entityId, String entityLabel, String docId) throws Exception {
         Document indexedDocument = getEntityMentionByEntityId(entityId);
 
-        String labelValue = (entityLabel == null?  "null" : entityLabel);
-        Field entityDocAndLabelField = new StringField(docId, labelValue, Field.Store.YES);
+        String newLabelValue = (entityLabel == null?  "null" : entityLabel);
+        boolean shouldAddLabel = (indexedDocument == null || Arrays.asList(indexedDocument.getValues(docId)).indexOf(newLabelValue) == -1);
+        if (!shouldAddLabel)
+            return;
 
+        // Create a document to add to the index as a new document or updating an older document
+        Document newDoc = new Document();
+
+        // Document fields... entityId is StringField to be searchable
+        Field entityIdField = new StringField(FIELD_NAME_ENTITY_ID, entityId, Field.Store.YES);
+
+        // The new entity label to be added
+        Field entityDocAndLabelField = new StoredField(docId, newLabelValue);
+
+        newDoc.add(entityIdField);
+        newDoc.add(entityDocAndLabelField);
+
+        // Add a new document or update the existing one
         if (indexedDocument == null) {
-            // Create a new document to add to the index
-            Document doc = new Document();
-
-            Field entityIdField = new StringField(FIELD_NAME_ENTITY_ID, entityId, Field.Store.YES);
-
-            doc.add(entityIdField);
-            doc.add(entityDocAndLabelField);
-
-            getMentionsIndexWriter().addDocument(doc);
+            getMentionsIndexWriter().addDocument(newDoc);
         } else {
-            String labelForDoc = indexedDocument.get(docId);
-            if (labelForDoc == null) {
-                // First time this entity appears in this docId
-                getMentionsIndexWriter().updateDocValues(new Term(FIELD_NAME_ENTITY_ID, entityId), entityDocAndLabelField);
-            } else if (entityLabel != null && !labelForDoc.equals(labelValue)) {
-                // Entity already indexed with the same document but with a different label, we still add it
-                getMentionsIndexWriter().updateDocValues(new Term(FIELD_NAME_ENTITY_ID, entityId), entityDocAndLabelField);
-            } else if (labelForDoc.equals("null") && entityLabel == null) {
-                // Entity already recorded to appear in the document with no label information
-                // Do nothing.
+
+            // Add fields from the other indexed document (the fields correspond to other mentions)
+            for (IndexableField indexableField : indexedDocument.getFields()) {
+                // Ignore entity Id field
+                if (indexableField.name().equals(FIELD_NAME_ENTITY_ID))
+                    continue;
+
+                newDoc.add(indexableField);
             }
+
+            // Update the document
+            getMentionsIndexWriter().updateDocument(new Term(FIELD_NAME_ENTITY_ID, entityId), newDoc);
+        }
+    }
+
+    void cleanup() throws Exception {
+        if (mentionsIndexWriter != null && mentionsIndexWriter.isOpen()) {
+            mentionsIndexWriter.close();
+            mentionsIndexWriter = null;
         }
 
-        // Order of operations matters, probably
-        getMentionsIndexWriter().flush();
-        getMentionsIndexWriter().commit();
+        if (kbIndexWriter != null && kbIndexWriter.isOpen()) {
+            kbIndexWriter.close();
+            kbIndexWriter = null;
+        }
     }
 
     public static void main(String[] args) throws Exception {
-        args = new String[] {
-                "-mentionsIndexPath", "entity-mentions.index",
-                "-dataPath", "entity-mentions",
-                "-entityIdColNum", "7",
-                "-entityLabelColNum", "2",
-                "-docIdColNum", "0"
-        };
+        // For testing
+        if (args == null || args.length == 0)
+            args = new String[] {
+                    "-mentionsIndexPath", "entity-mentions.index",
+                    "-dataPath", "entity-mentions",
+                    "-entityIdColNum", "7",
+                    "-entityLabelColNum", "2",
+                    "-docIdColNum", "0"
+            };
 
         Args tdArgs = new Args();
         CmdLineParser parser = new CmdLineParser(
