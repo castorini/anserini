@@ -473,11 +473,15 @@ public class TrainingDataGenerator {
         // Search query
         TermQuery query = new TermQuery(new Term(FIELD_NAME_ENTITY_ID, entityId));
 
-        // Search and collect results
-        getMentionsIndexSearcher().search(query, new SimpleCollector() {
-            @Override
-            public void collect(int docId) throws IOException {
-                Document doc = getMentionsIndexReader().document(docId);
+        // Collect all matching documents in a set of matching doc ids
+        Set<Integer> matchingDocIds = new HashSet<>(5);
+        getMentionsIndexSearcher().search(query, new CheckHits.SetCollector(matchingDocIds));
+
+        // Retrieve fields stored in each document, the fields represent the doc corpus id
+        // and the label that the entity appears as
+        matchingDocIds.forEach(docId -> {
+            try {
+                Document doc = getMentionsIndexReader().document(docId.intValue());
 
                 String docEntityId = doc.get(FIELD_NAME_ENTITY_ID);
                 if (docEntityId.equals(entityId)) {
@@ -485,11 +489,8 @@ public class TrainingDataGenerator {
                     String corpusDocId = doc.get(FIELD_CORPUS_DOCUMENT_ID);
                     ret.add(corpusDocId, entityLabel);
                 }
-            }
-
-            @Override
-            public boolean needsScores() {
-                return false;
+            } catch (IOException e) {
+                LOG.warn("Error reading document with id: {}", docId);
             }
         });
 
@@ -576,52 +577,65 @@ public class TrainingDataGenerator {
         LOG.info("Query: {}", q.toString());
 
         LOG.info("Searching...");
-        getKbIndexSearcher().search(q, new SimpleCollector() {
-            @Override
-            public void collect(int docid) throws IOException {
-                Document doc = getKbIndexReader().document(docid);
 
-                String freebaseURI = doc.get(FIELD_NAME_SUBJECT);
-                String[] birthdates = doc.getValues(FIELD_NAME_BIRTHDATE);
-                String label = doc.get(FIELD_NAME_LABEL);
+        // Collect all matching documents in a set of matching doc ids
+        Set<Integer> matchingDocIds = new HashSet<>(5);
+        getKbIndexSearcher().search(q, new CheckHits.SetCollector(matchingDocIds));
 
-                // Basically make sure label is not null, for some entities in freebase
-                if (label == null || freebaseURI == null || birthdates == null || birthdates.length == 0)
-                    return; // Ignore this search
+        // Process the retrieved documents
+        matchingDocIds.forEach((Integer docId) -> {
 
-                String freebaseId = freebaseUriToFreebaseId(freebaseURI);
-
-                String labelVal = extractValueFromTypedLiteralString(label);
-
-                for (String birthdate : birthdates) {
-                    // Get string value
-                    String birthdateVal = extractValueFromTypedLiteralString(birthdate);
-
-                    // Write property value as training data
-                    writeToTrainingFiles(TRAINING_DATA_OUTPUT_FILE_EXAMPLES,
-                            freebaseId,
-                            labelVal,
-                            birthdateVal);
-                }
-
-                // Get the mentions of this freebase entity and write them in the mentions file
-                MultivaluedHashMap<String, String> documentsAndLabels = getEntityDocumentsAndLabels(freebaseId);
-                for (String docId : documentsAndLabels.keySet()) {
-                    List<String> labels = documentsAndLabels.get(docId);
-                    for (String labelInDoc : labels) {
-                        writeToTrainingFiles(TRAINING_DATA_OUTPUT_FILE_MENTIONS,
-                                freebaseId,
-                                docId,
-                                labelInDoc);
-                    }
-                }
+            Document doc = null;
+            try {
+                doc = getKbIndexReader().document(docId);
+            } catch (IOException e) {
+                LOG.warn("Error reading document with id: {}", docId);
+                return;
             }
 
-            @Override
-            public boolean needsScores() {
-                return false;
+            String freebaseURI = doc.get(FIELD_NAME_SUBJECT);
+            String[] birthdates = doc.getValues(FIELD_NAME_BIRTHDATE);
+            String label = doc.get(FIELD_NAME_LABEL);
+
+            // Basically make sure label is not null, for some entities in freebase
+            if (label == null || freebaseURI == null || birthdates == null || birthdates.length == 0)
+                return; // Ignore this search
+
+            String freebaseId = freebaseUriToFreebaseId(freebaseURI);
+
+            String labelVal = extractValueFromTypedLiteralString(label);
+
+            for (String birthdate : birthdates) {
+                // Get string value
+                String birthdateVal = extractValueFromTypedLiteralString(birthdate);
+
+                // Write property value as training data
+                writeToTrainingFiles(TRAINING_DATA_OUTPUT_FILE_EXAMPLES,
+                        freebaseId,
+                        labelVal,
+                        birthdateVal);
+            }
+
+            // Get the mentions of this freebase entity and write them in the mentions file
+            MultivaluedHashMap<String, String> documentsAndLabels = null;
+            try {
+                documentsAndLabels = getEntityDocumentsAndLabels(freebaseId);
+            } catch (IOException e) {
+                LOG.warn("Error retrieving mentions for freebase entity id: {}", freebaseId);
+                return;
+            }
+
+            for (String corpusDocId : documentsAndLabels.keySet()) {
+                List<String> labels = documentsAndLabels.get(corpusDocId);
+                for (String labelInDoc : labels) {
+                    writeToTrainingFiles(TRAINING_DATA_OUTPUT_FILE_MENTIONS,
+                            freebaseId,
+                            corpusDocId,
+                            labelInDoc);
+                }
             }
         });
+
         LOG.info("Training data retrieved.");
     }
 
@@ -1261,8 +1275,8 @@ public class TrainingDataGenerator {
 
         String[] argsQueryMentions = new String[]{
                 "-command", "query-mentions",
-                "-mentionsIndexPath", "entity-mentions.index",
-                "-query", "/m/051lf4"
+                "-mentionsIndexPath", "/tmp/entity-mentions.index.3",
+                "-query", "/m/011_3d"
         };
 
         String[] argsQueryKB = new String[]{
@@ -1282,7 +1296,8 @@ public class TrainingDataGenerator {
 
         if (args == null || args.length == 0)
 //            args = argsIndexKB;
-            args = argsQueryKB;
+//            args = argsQueryKB;
+            args = argsQueryMentions;
 
         // Create args
         Args tdArgs = new Args();
