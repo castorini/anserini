@@ -15,6 +15,10 @@
  */
 package io.anserini.qa;
 
+import edu.stanford.nlp.ling.CoreLabel;
+import edu.stanford.nlp.process.CoreLabelTokenFactory;
+import edu.stanford.nlp.process.PTBTokenizer;
+import edu.stanford.nlp.process.TokenizerFactory;
 import edu.stanford.nlp.simple.Sentence;
 import io.anserini.index.IndexUtils;
 import io.anserini.qa.passage.PassageScorer;
@@ -36,16 +40,14 @@ import org.apache.lucene.search.similarities.Similarity;
 import org.apache.lucene.store.FSDirectory;
 import org.kohsuke.args4j.*;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.StringReader;
 import java.lang.reflect.Constructor;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_BODY;
 import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_ID;
@@ -126,15 +128,26 @@ public class RetrieveSentences {
 
     IndexUtils util = new IndexUtils(args.index);
 
+    TokenizerFactory<CoreLabel> tokenizerFactory =
+            PTBTokenizer.factory(new CoreLabelTokenFactory(), "");
+
+
     for (Map.Entry<String, Float> doc : scoredDocs.entrySet()) {
         List<Sentence> sentences = util.getSentDocument(doc.getKey());
 
         for (Sentence sent : sentences) {
-          sentencesMap.put(sent.text(), doc.getValue());
+          List<CoreLabel> tokens = tokenizerFactory.getTokenizer(new StringReader(sent.text())).tokenize();
+          String answerTokens = tokens.stream()
+                  .map(CoreLabel::toString)
+                  .collect(Collectors.joining(" "));
+          sentencesMap.put(answerTokens, doc.getValue());
         }
     }
 
-    scorer.score(args.query, sentencesMap);
+    String queryTokens = tokenizerFactory.getTokenizer(new StringReader(args.query)).tokenize().stream()
+            .map(CoreLabel::toString)
+            .collect(Collectors.joining(" "));
+    scorer.score(queryTokens, sentencesMap);
 
     List<ScoredPassage> topPassages = scorer.extractTopPassages();
     for (ScoredPassage s: topPassages) {

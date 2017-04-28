@@ -27,6 +27,7 @@ import org.apache.lucene.search.Query;
 import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.similarities.ClassicSimilarity;
 import org.apache.lucene.store.FSDirectory;
+import org.json.JSONObject;
 
 import java.io.*;
 import java.util.*;
@@ -39,6 +40,7 @@ public class IdfPassageScorer implements PassageScorer {
   private final MinMaxPriorityQueue<ScoredPassage> scoredPassageHeap;
   private final int topPassages;
   private final List<String> stopWords;
+  private final Map<String, String> termIdfMap;
 
   public IdfPassageScorer(String index, Integer k) throws IOException {
     this.util = new IndexUtils(index);
@@ -58,6 +60,7 @@ public class IdfPassageScorer implements PassageScorer {
       }
     }
 
+    termIdfMap = new HashMap<>();
   }
 
   @Override
@@ -68,23 +71,39 @@ public class IdfPassageScorer implements PassageScorer {
 
     String escapedQuery = qp.escape(query);
     Query question = qp.parse(escapedQuery);
-    HashSet<String> questionTerms = new HashSet<>(Arrays.asList(question.toString().trim().split("\\s+")));
+    HashSet<String> questionTerms = new HashSet<>(Arrays.asList(question.toString()
+            .trim().toLowerCase().split("\\s+")));
+
+    // add the question terms to the termIDF Map
+    for (String questionTerm : questionTerms) {
+      try {
+        TermQuery q = (TermQuery) qp.parse(questionTerm);
+        Term t = q.getTerm();
+
+        double termIDF = similarity.idf(reader.docFreq(t), reader.numDocs());
+        termIdfMap.put(questionTerm, String.valueOf(termIDF));
+      } catch (Exception e) {
+        continue;
+      }
+    }
 
     // avoid duplicate passages
     HashSet<String> seenSentences = new HashSet<>();
 
-    for (Map.Entry<String, Float> sent: sentences.entrySet()) {
+    for (Map.Entry<String, Float> sent : sentences.entrySet()) {
       double idf = 0.0;
       HashSet<String> seenTerms = new HashSet<>();
 
-      String[] terms = sent.getKey().split("\\s+");
+      String[] terms = sent.getKey().toLowerCase().split("\\s+");
       for (String term: terms) {
         try {
           TermQuery q = (TermQuery) qp.parse(term);
           Term t = q.getTerm();
+          double termIDF = similarity.idf(reader.docFreq(t), reader.numDocs());
+          termIdfMap.put(term, String.valueOf(termIDF));
 
           if (questionTerms.contains(t.toString()) && !seenTerms.contains(t.toString())) {
-            idf += similarity.idf(reader.docFreq(t), reader.numDocs());
+            idf += termIDF;
             seenTerms.add(t.toString());
           } else {
             idf += 0.0;
@@ -101,7 +120,6 @@ public class IdfPassageScorer implements PassageScorer {
         if (scoredPassageHeap.size() == topPassages) {
             scoredPassageHeap.pollLast();
         }
-
         scoredPassageHeap.add(scoredPassage);
         seenSentences.add(sent.getKey());
       }
@@ -113,5 +131,10 @@ public class IdfPassageScorer implements PassageScorer {
     List<ScoredPassage> scoredList = new ArrayList<>(scoredPassageHeap);
     Collections.sort(scoredList);
     return scoredList;
+  }
+
+  @Override
+  public JSONObject getTermIdfJSON() {
+    return new JSONObject(termIdfMap);
   }
 }

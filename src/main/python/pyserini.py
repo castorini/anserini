@@ -88,6 +88,11 @@ class Pyserini:
         passages = self.pyserini.getRankedPassages(query_string, num_hits, k)
         return passages
 
+
+    def get_term_idf_json(self):
+        json_object = self.pyserini.getTermIdfJSON()
+        return json_object
+
 if __name__ == "__main__":
     """Test out the Pyserini class."""
     parser = argparse.ArgumentParser(description='Test Pyserini class.')
