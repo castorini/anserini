@@ -420,5 +420,12 @@
       <version>0.5</version>
     </dependency>
 
+    <!--Sesame for parsing triples-->
+    <dependency>
+        <groupId>org.openrdf.sesame</groupId>
+        <artifactId>sesame-rio-ntriples</artifactId>
+        <version>4.1.2</version>
+    </dependency>
+
   </dependencies>
 </project>
