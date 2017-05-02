@@ -21,7 +21,7 @@ def get_answers(pyserini, question, num_hits, k, model_choice, index_path):
 
     for ps in candidate_passages_scores:
       ps_split = ps.split('\t')
-      candidate_passages.append(ps_split[0])
+      candidate_passages.append(ps_split[0].replace(" ","\t"))
 
     answers_list = model.rerank_candidate_answers(question, candidate_passages, idf_json)
     sorted_answers = sorted(answers_list, key=lambda x: x[0], reverse=True)

@@ -168,6 +168,11 @@ public class PyseriniEntryPoint {
     return passageScorer.getTermIdfJSON().toString();
   }
 
+  public String getTermIdfJSONs(List<String> sentList) throws Exception {
+    passageScorer = new IdfPassageScorer(indexDir, 10);
+    return passageScorer.getTermIdfJSON(sentList).toString();
+  }
+
   public static void main(String[] argv) throws Exception {
     System.out.println("starting Gateway Server...");
     GatewayServer gatewayServer = new GatewayServer(new PyseriniEntryPoint());
