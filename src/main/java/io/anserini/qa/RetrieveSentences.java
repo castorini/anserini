@@ -131,7 +131,6 @@ public class RetrieveSentences {
     TokenizerFactory<CoreLabel> tokenizerFactory =
             PTBTokenizer.factory(new CoreLabelTokenFactory(), "");
 
-
     for (Map.Entry<String, Float> doc : scoredDocs.entrySet()) {
         List<Sentence> sentences = util.getSentDocument(doc.getKey());
 
