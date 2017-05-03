@@ -18,7 +18,7 @@ package io.anserini.qa.passage;
 import com.google.common.collect.MinMaxPriorityQueue;
 import io.anserini.index.IndexUtils;
 import io.anserini.index.generator.LuceneDocumentGenerator;
-import org.apache.lucene.analysis.StopFilter;
+import org.apache.lucene.analysis.CharArraySet;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.Term;
@@ -65,7 +65,8 @@ public class IdfPassageScorer implements PassageScorer {
 
   @Override
   public void score(String query, Map<String, Float> sentences) throws Exception {
-    EnglishAnalyzer ea = new EnglishAnalyzer(StopFilter.makeStopSet(stopWords));
+//    EnglishAnalyzer ea = new EnglishAnalyzer(StopFilter.makeStopSet(stopWords));
+    EnglishAnalyzer ea = new EnglishAnalyzer(CharArraySet.EMPTY_SET);
     QueryParser qp = new QueryParser(LuceneDocumentGenerator.FIELD_BODY, ea);
     ClassicSimilarity similarity = new ClassicSimilarity();
 
@@ -137,4 +138,30 @@ public class IdfPassageScorer implements PassageScorer {
   public JSONObject getTermIdfJSON() {
     return new JSONObject(termIdfMap);
   }
+
+  @Override
+  public JSONObject getTermIdfJSON(List<String> sentList) {
+    //    EnglishAnalyzer ea = new EnglishAnalyzer(StopFilter.makeStopSet(stopWords));
+    EnglishAnalyzer ea = new EnglishAnalyzer(CharArraySet.EMPTY_SET);
+    QueryParser qp = new QueryParser(LuceneDocumentGenerator.FIELD_BODY, ea);
+    ClassicSimilarity similarity = new ClassicSimilarity();
+
+    for(String sent : sentList) {
+      String[] thisSentence  = sent.trim().split("\\s+");
+
+      for (String term : thisSentence) {
+        try {
+          TermQuery q = (TermQuery) qp.parse(term);
+          Term t = q.getTerm();
+
+          double termIDF = similarity.idf(reader.docFreq(t), reader.numDocs());
+          termIdfMap.put(term, String.valueOf(termIDF));
+        } catch (Exception e) {
+          continue;
+        }
+      }
+    }
+    return new JSONObject(termIdfMap);
+  }
+
 }

@@ -21,7 +21,7 @@ def get_answers(pyserini, question, num_hits, k, model_choice, index_path):
 
     for ps in candidate_passages_scores:
       ps_split = ps.split('\t')
-      candidate_passages.append(ps_split[0].replace(" ","\t"))
+      candidate_passages.append(ps_split[0])
 
     answers_list = model.rerank_candidate_answers(question, candidate_passages, idf_json)
     sorted_answers = sorted(answers_list, key=lambda x: x[0], reverse=True)
@@ -155,9 +155,9 @@ if __name__ == "__main__":
 
   pyserini = Pyserini(args.index)
   questions, answers, labels_actual = load_data(args.input)
-  # TODO: check questions, answers with a.toks, b.toks
-  threshold = 0.75
+  threshold = 0.7
   # TODO: what is this ^^ magic number
+
 
   if args.qrel:
     qrel_file = args.qrel
@@ -173,6 +173,7 @@ if __name__ == "__main__":
   else:
     output_file = 'run.qa.{}.h{}.k{}.txt'.format(args.model, args.hits, args.k)
 
+  seen_docs = []
   with open(output_file, 'w') as out:
     for qid, question in zip(answers.keys(), questions):
       candidates = get_answers(pyserini, question, int(args.hits), int(args.k), args.model, args.index)
@@ -185,13 +186,16 @@ if __name__ == "__main__":
       unjudged_count = 0
 
       for key, value in scored_candidates.items():
-        this_similarity = value[1]
+        jaccard_similarity = value[1]
         i += 1
 
-        if this_similarity > threshold:
+        # check if the answer already exists in the ranked-list
+        if jaccard_similarity >= threshold:
           doc_id = value[0][0]
-          out.write('{} Q0 {} {} {} TRECQA\n'.format(qid, doc_id, i, value[2]))
-          labels_predicted[qid].append(doc_id)
+          if doc_id not in seen_docs:
+            out.write('{} Q0 {} {} {} TRECQA\n'.format(qid, doc_id, i, value[2]))
+            labels_predicted[qid].append(doc_id)
+            seen_docs.append(doc_id)
         else:
           unjudged_count += 1
           doc_id = 'unjudged{}'.format(unjudged_count)

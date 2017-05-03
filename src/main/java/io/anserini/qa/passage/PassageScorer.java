@@ -27,4 +27,6 @@ public interface PassageScorer {
   List<ScoredPassage> extractTopPassages();
 
   JSONObject getTermIdfJSON();
+
+  JSONObject getTermIdfJSON(List<String> sentList);
 }
