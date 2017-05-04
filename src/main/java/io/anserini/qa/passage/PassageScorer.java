@@ -15,6 +15,8 @@
  */
 package io.anserini.qa.passage;
 
+import org.json.JSONObject;
+
 import java.util.List;
 import java.util.Map;
 
@@ -23,4 +25,8 @@ public interface PassageScorer {
   void score(String question, Map<String, Float> sentences) throws Exception;
 
   List<ScoredPassage> extractTopPassages();
+
+  JSONObject getTermIdfJSON();
+
+  JSONObject getTermIdfJSON(List<String> sentList);
 }

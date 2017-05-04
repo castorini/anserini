@@ -1,9 +1,16 @@
 package io.anserini.py4j;
 
+import edu.stanford.nlp.ling.CoreLabel;
+import edu.stanford.nlp.process.CoreLabelTokenFactory;
+import edu.stanford.nlp.process.PTBTokenizer;
+import edu.stanford.nlp.process.TokenizerFactory;
 import edu.stanford.nlp.simple.Sentence;
 import io.anserini.index.IndexUtils;
+import io.anserini.qa.passage.IdfPassageScorer;
 import io.anserini.qa.passage.PassageScorer;
 import io.anserini.qa.passage.ScoredPassage;
+import io.anserini.rerank.IdentityReranker;
+import io.anserini.rerank.RerankerCascade;
 import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.ScoredDocuments;
 import io.anserini.util.AnalyzerUtils;
@@ -11,34 +18,27 @@ import org.apache.lucene.analysis.CharArraySet;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
+import org.apache.lucene.search.similarities.BM25Similarity;
+import org.apache.lucene.search.similarities.Similarity;
 import org.apache.lucene.store.FSDirectory;
+import py4j.GatewayServer;
+
 import java.io.IOException;
+import java.io.StringReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import org.apache.lucene.queryparser.classic.ParseException;
-import io.anserini.rerank.IdentityReranker;
-import io.anserini.rerank.RerankerCascade;
-import org.apache.lucene.search.similarities.BM25Similarity;
-import org.apache.lucene.search.similarities.Similarity;
+import java.util.*;
+import java.util.stream.Collectors;
 
-import java.util.Map;
-import java.util.SortedMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.TreeMap;
-import java.util.ArrayList;
-
-import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_ID;
 import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_BODY;
-import io.anserini.qa.passage.IdfPassageScorer;
-
-import py4j.GatewayServer;
+import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_ID;
 
 /**
  * @author s43moham on 06/03/17.
@@ -49,6 +49,7 @@ public class PyseriniEntryPoint {
   private String indexDir = null;
   private IndexReader reader = null;
   private IndexUtils indexUtils = null;
+  private PassageScorer passageScorer = null;
 
   public PyseriniEntryPoint() {}
 
@@ -133,15 +134,26 @@ public class PyseriniEntryPoint {
   public List<String> getRankedPassages(String query, int numHits, int k) throws Exception {
     Map<String, Float> docScore = search(query, numHits);
     Map<String, Float> sentencesMap = new LinkedHashMap<>();
-    for (Map.Entry<String, Float> sent : docScore.entrySet()) {
-      List<Sentence> sentences = indexUtils.getSentDocument(sent.getKey());
+    TokenizerFactory<CoreLabel> tokenizerFactory = PTBTokenizer.factory(new CoreLabelTokenFactory(), "");
+
+    for (Map.Entry<String, Float> doc : docScore.entrySet()) {
+      List<Sentence> sentences = indexUtils.getSentDocument(doc.getKey());
+
       for (Sentence thisSent : sentences) {
-        sentencesMap.put(thisSent.text(), sent.getValue());
+        List<CoreLabel> tokens = tokenizerFactory.getTokenizer(new StringReader(thisSent.text())).tokenize();
+        String answerTokens = tokens.stream()
+                .map(CoreLabel::toString)
+                .collect(Collectors.joining(" "));
+        sentencesMap.put(answerTokens, doc.getValue());
       }
     }
 
-    PassageScorer passageScorer = new IdfPassageScorer(indexDir, k);
+    passageScorer = new IdfPassageScorer(indexDir, k);
+    String queryTokens = tokenizerFactory.getTokenizer(new StringReader(query)).tokenize().stream()
+            .map(CoreLabel::toString)
+            .collect(Collectors.joining(" "));
     passageScorer.score(query, sentencesMap);
+
     List<String> topSentences = new ArrayList<>();
     List<ScoredPassage> topPassages = passageScorer.extractTopPassages();
 
@@ -150,6 +162,15 @@ public class PyseriniEntryPoint {
     }
 
     return topSentences;
+  }
+
+  public String getTermIdfJSON(){
+    return passageScorer.getTermIdfJSON().toString();
+  }
+
+  public String getTermIdfJSONs(List<String> sentList) throws Exception {
+    passageScorer = new IdfPassageScorer(indexDir, 10);
+    return passageScorer.getTermIdfJSON(sentList).toString();
   }
 
   public static void main(String[] argv) throws Exception {

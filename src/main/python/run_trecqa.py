@@ -1,38 +1,41 @@
 import argparse
+import os
 import re
 
 from nltk.tokenize import TreebankWordTokenizer
 from pyserini import Pyserini
-from castorini_smmodel_bridge import SMModelBridge
+from sm_cnn.bridge import SMModelBridge
 
-path_to_castorini = "../../Castorini"
-model = SMModelBridge(path_to_castorini + '/models/sm_model/sm_model.no_ext_feats',
-                        path_to_castorini + '/data/word2vec/aquaint+wiki.txt.gz.ndim=50.cache',
-                        path_to_castorini + '/data/TrecQA/stopwords.txt',
-                        path_to_castorini + '/data/TrecQA/word2dfs.p')
 
-def get_answers(pyserini, question, num_hits, k, model_choice):
+def get_answers(pyserini, question, num_hits, k, model_choice, index_path):
   candidate_passages_scores = pyserini.ranked_passages(question, num_hits, k)
+  idf_json = pyserini.get_term_idf_json()
   candidate_passages = []
   tokeninzed_answer = []
 
   if model_choice == 'sm':
+    path = os.getcwd() + '/..'
+
+    model = SMModelBridge( path +'/models/sm_model/sm_model.fixed_ext_feats_paper.puncts_stay',
+                          path + '/data/word2vec/aquaint+wiki.txt.gz.ndim=50.cache',index_path)
+
     for ps in candidate_passages_scores:
       ps_split = ps.split('\t')
       candidate_passages.append(ps_split[0])
 
-    answers_list = model.rerank_candidate_answers(question, candidate_passages)
+    answers_list = model.rerank_candidate_answers(question, candidate_passages, idf_json)
     sorted_answers = sorted(answers_list, key=lambda x: x[0], reverse=True)
 
     for score, candidate in sorted_answers:
       tokens = TreebankWordTokenizer().tokenize(candidate.lower().split("\t")[0])
-      tokeninzed_answer.append(tokens)
+      tokeninzed_answer.append((tokens, score))
     return tokeninzed_answer
 
   elif model_choice == 'idf':
     for candidate in candidate_passages_scores:
-      tokens = TreebankWordTokenizer().tokenize(candidate.lower().split("\t")[0])
-      tokeninzed_answer.append(tokens)
+      candidate_sent, score = candidate.lower().split("\t")
+      tokens = TreebankWordTokenizer().tokenize(candidate_sent.lower())
+      tokeninzed_answer.append((tokens, score))
     return tokeninzed_answer
 
 def jaccard(set1, set2):
@@ -44,19 +47,19 @@ def score_candidates(candidates, answers):
   scored_candidates = {}
 
   for candidate in candidates:
-    this_candidate = " ".join(candidate)
+    this_candidate = " ".join(candidate[0])
 
     # xml file doesn't contain answers
     if not answers:
-      scored_candidates[this_candidate] = ("empty answer", 0.0)
+      scored_candidates[this_candidate] = ("empty answer", 0.0, candidate[1])
 
     for answer in answers:
-      similarity = jaccard(set(candidate), set(answer[1]))
+      similarity = jaccard(set(candidate[0]), set(answer[1]))
 
       if this_candidate not in scored_candidates:
-        scored_candidates[this_candidate] = (answer, similarity)
+        scored_candidates[this_candidate] = (answer, similarity, candidate[1])
       elif similarity > scored_candidates[this_candidate][1]:
-        scored_candidates[this_candidate] = (answer, similarity)
+        scored_candidates[this_candidate] = (answer, similarity, candidate[1])
 
   return scored_candidates
 
@@ -91,7 +94,7 @@ def load_data(fname):
       if label:
         label = label.group(1)
         label = 1 if label == 'positive' else 0
-        answer = line.lower().split('\t')
+        answer = line.split('\t')
         answer_count += 1
 
         answer_id = 'Q{}-A{}'.format(qid, answer_count)
@@ -153,6 +156,8 @@ if __name__ == "__main__":
   pyserini = Pyserini(args.index)
   questions, answers, labels_actual = load_data(args.input)
   threshold = 0.7
+  # TODO: what is this ^^ magic number
+
 
   if args.qrel:
     qrel_file = args.qrel
@@ -168,9 +173,10 @@ if __name__ == "__main__":
   else:
     output_file = 'run.qa.{}.h{}.k{}.txt'.format(args.model, args.hits, args.k)
 
+  seen_docs = []
   with open(output_file, 'w') as out:
     for qid, question in zip(answers.keys(), questions):
-      candidates = get_answers(pyserini, question, int(args.hits), int(args.k), args.model)
+      candidates = get_answers(pyserini, question, int(args.hits), int(args.k), args.model, args.index)
       scored_candidates = score_candidates(candidates, answers[qid])
 
       if qid not in labels_predicted:
@@ -180,17 +186,20 @@ if __name__ == "__main__":
       unjudged_count = 0
 
       for key, value in scored_candidates.items():
-        this_similarity = value[1]
+        jaccard_similarity = value[1]
         i += 1
 
-        if this_similarity > threshold:
+        # check if the answer already exists in the ranked-list
+        if jaccard_similarity >= threshold:
           doc_id = value[0][0]
-          out.write('{} Q0 {} {} {} TRECQA\n'.format(qid, doc_id, i, value[1]))
-          labels_predicted[qid].append(doc_id)
+          if doc_id not in seen_docs:
+            out.write('{} Q0 {} {} {} TRECQA\n'.format(qid, doc_id, i, value[2]))
+            labels_predicted[qid].append(doc_id)
+            seen_docs.append(doc_id)
         else:
           unjudged_count += 1
           doc_id = 'unjudged{}'.format(unjudged_count)
-          out.write('{} Q0 {} {} {} TRECQA\n'.format(qid, doc_id, i, value[1]))
+          out.write('{} Q0 {} {} {} TRECQA\n'.format(qid, doc_id, i, value[2]))
           labels_predicted[qid].append(doc_id)
 
   depth_range = [5, 10, 15, 20, 50, 100]
