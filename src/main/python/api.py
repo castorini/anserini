@@ -64,7 +64,6 @@ def get_answers(question, num_hits, k):
     print("in idf:{}".format(sorted_answers))
     answers = []
     for score, sent in sorted_answers:
-        print(sent)
         answers.append({'passage': sent, 'score': score})
 
     return answers
