@@ -385,15 +385,9 @@
     </dependency>
 
     <dependency>
-        <groupId>org.deeplearning4j</groupId>
-        <artifactId>deeplearning4j-nlp</artifactId>
-        <version>0.6.0</version>
-    </dependency>
-
-    <dependency>
-        <groupId>org.nd4j</groupId>
-        <artifactId>nd4j-native</artifactId>
-        <version>0.6.0</version>
+      <groupId>org.json</groupId>
+      <artifactId>json</artifactId>
+      <version>20160810</version>
     </dependency>
 
     <dependency>
