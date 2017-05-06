@@ -8,6 +8,10 @@ import org.apache.logging.log4j.Logger;
 import org.apache.lucene.document.*;
 import org.openrdf.rio.ntriples.NTriplesUtil;
 
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 /**
  * Converts a {@link io.anserini.document.RDFDocument} into
  * a Lucene {@link org.apache.lucene.document.Document}.
@@ -16,14 +20,12 @@ public class LuceneRDFDocumentGenerator {
   private static final Logger LOG = LogManager.getLogger(LuceneRDFDocumentGenerator.class);
 
   public static final String FIELD_SUBJECT = "subject";
-  public static final String FIELD_LABEL = "http://www.w3.org/2000/01/rdf-schema#label";
 
   // RDF object predicate types
   static final String VALUE_TYPE_URI = "URI";
   static final String VALUE_TYPE_STRING = "STRING";
   static final String VALUE_TYPE_TEXT = "TEXT";
   static final String VALUE_TYPE_OTHER = "OTHER";
-
 
   protected IndexRDFCollection.Counters counters;
   protected IndexRDFCollection.Args args;
@@ -46,30 +48,36 @@ public class LuceneRDFDocumentGenerator {
     // Convert the triple doc to lucene doc
     Document doc = new Document();
 
-    // Extract and clean pieces of the triple
-    String subject = cleanUri(tripleDoc.getSubject());
-    String predicate = cleanUri(tripleDoc.getPredicate());
-    String objectValueType = getObjectType(tripleDoc.getObject());
-    String objectValue = normalizeObjectValue(tripleDoc.getObject());
-
     // Index subject as a StringField to allow searching
-    Field subjectField = new StringField(FIELD_SUBJECT, cleanUri(subject), Field.Store.YES);
-
+    Field subjectField = new StringField(FIELD_SUBJECT,
+            cleanUri(tripleDoc.getSubject()),
+            Field.Store.YES);
     doc.add(subjectField);
 
-    if (isIndexedPredicate(predicate)) {
-      if (objectValueType.equals(VALUE_TYPE_URI)) {
-        // Always index URIs using StringField
-        doc.add(new StringField(predicate, objectValue, Field.Store.YES));
-      } else {
-        // Just store the predicate in a stored field, no index
-        doc.add(new TextField(predicate, objectValue, Field.Store.YES));
+    // Iterate over predicates and object values
+    for (Map.Entry<String, List<String>> entry : tripleDoc.getPredicateValues().entrySet()) {
+      String predicate = cleanUri(entry.getKey());
+      List<String> values = entry.getValue();
+
+      for (String value : values) {
+        String valueType = getObjectType(value);
+        value = normalizeObjectValue(value);
+        if (isIndexedPredicate(predicate)) {
+          if (valueType.equals(VALUE_TYPE_URI)) {
+            // Always index URIs using StringField
+            doc.add(new StringField(predicate, value, Field.Store.YES));
+          } else {
+            // Just store the predicate in a stored field, no index
+            doc.add(new TextField(predicate, value, Field.Store.YES));
+          }
+        } else {
+          // Just add the predicate as a stored field, no index on it
+          doc.add(new StoredField(predicate, value));
+        }
       }
-    } else {
-      // Just add the predicate as a stored field, no index on it
-      doc.add(new StoredField(predicate, objectValue));
     }
 
+    tripleDoc.clear();
     return doc;
   }
 
@@ -94,7 +102,7 @@ public class LuceneRDFDocumentGenerator {
    * @param objectValue object value
    * @return uri, string, text, or other
    */
-  String getObjectType(String objectValue) {
+  static String getObjectType(String objectValue) {
     // Determine the type of this N-Triples `value'.
     char first = objectValue.charAt(0);
     switch (first) {
@@ -123,14 +131,14 @@ public class LuceneRDFDocumentGenerator {
   /**
    * Do nothing for strings
    */
-  public String normalizeStringValue(String value) {
+  public static String normalizeStringValue(String value) {
     return value;
   }
 
   /**
    * Un-escape strings
    */
-  public String normalizeTextValue(String value) {
+  public static String normalizeTextValue(String value) {
     return NTriplesUtil.unescapeString(value);
   }
 
@@ -140,7 +148,7 @@ public class LuceneRDFDocumentGenerator {
    * @param objectValue
    * @return
    */
-  public String normalizeObjectValue(String objectValue) {
+  public static String normalizeObjectValue(String objectValue) {
     // Normalize a `objectValue' depending on its type.
     String type = getObjectType(objectValue);
     if (type.equals(VALUE_TYPE_URI))

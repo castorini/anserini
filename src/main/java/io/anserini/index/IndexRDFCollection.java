@@ -99,7 +99,6 @@ public class IndexRDFCollection {
     new IndexRDFCollection(indexRDFCollectionArgs).run();
   }
 
-
   private final Path indexPath;
   private final Path collectionPath;
   private final Class collectionClass;
@@ -201,6 +200,7 @@ public class IndexRDFCollection {
     transformer.config(args);
     transformer.setCounters(counters);
 
+    int maxDocNumFields = 0;
     int cnt = 0;
     Collection.FileSegment iter = collection.createFileSegment(inputFile);
     while (iter.hasNext()) {
@@ -215,7 +215,21 @@ public class IndexRDFCollection {
       if (doc != null) {
         writer.addDocument(doc);
         cnt++;
+
+        int docNumFields = doc.getFields().size();
+        if (docNumFields > maxDocNumFields) {
+          maxDocNumFields = docNumFields;
+          LOG.info("--  New max num fields = {}, subject = {}", maxDocNumFields, doc.getField("subject").stringValue());
+        }
       }
+
+      // Display progress
+      if (cnt % 10000 == 0) {
+        LOG.debug("Number of indexed entity document: {}", cnt);
+      }
+
+      d = null;
+      doc = null;
     }
 
     iter.close();

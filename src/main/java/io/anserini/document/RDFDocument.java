@@ -1,54 +1,57 @@
 package io.anserini.document;
 
+import java.util.*;
+
 /**
  * A document that represent an RDF Triple.
  */
 public class RDFDocument implements SourceDocument {
+
   /**
    * Splitter that describes how s,p,o are split in a triple line
    */
-  private final String TRIPLE_SPLITTER = "\t";
+  public static final String TRIPLE_SPLITTER = "\t";
 
   /**
-   * Id of the triple is just its line index in the dataset
-   */
-  private String id;
-
-  /**
-   * Subject of the triple
+   * Subject of the triples doc, also the RDFDocument id
    */
   private String subject;
 
   /**
-   * The predicate of the triple
+   * The predicates and values of the subject entity
    */
-  private String predicate;
-
-  /**
-   * The object of the triple
-   */
-  private String object;
+  private Map<String, List<String>> predicateValues = new TreeMap<>();;
 
   /**
    * Constructor for an NT triples (NTriples).
    *
-   * @param id id of the triple
    * @param s subject
    * @param p predicate
    * @param o object
    */
-  public RDFDocument(String id, String s, String p, String o) {
-    init(id, s, p, o);
+  public RDFDocument(String s, String p, String o) {
+    init(s, p, o);
+  }
+
+  /**
+   * Clone from another document
+   * @param other
+   */
+  public RDFDocument(RDFDocument other) {
+    this.subject = other.subject;
+    other.predicateValues.forEach((predicate, values) -> {
+      this.predicateValues.put(predicate, new ArrayList<>(values));
+    });
   }
 
   /**
    * Constructor from a line
    * @param line line that contains triple information
    */
-  public RDFDocument(String id, String line) throws IllegalArgumentException {
+  public RDFDocument(String line) throws IllegalArgumentException {
     String[] pieces = line.split(TRIPLE_SPLITTER);
     if (pieces.length == 4) {
-      init(id, pieces[0], pieces[1], pieces[2]);
+      init(pieces[0], pieces[1], pieces[2]);
     } else {
       throw new IllegalArgumentException("Cannot parse triple from line: " + line);
     }
@@ -56,21 +59,35 @@ public class RDFDocument implements SourceDocument {
 
   /**
    * Assign values
-   * @param id id of the triple
    * @param s subject
    * @param p predicate
    * @param o object
    */
-  private void init(String id, String s, String p, String o) {
-    this.id = id;
+  private void init(String s, String p, String o) {
     this.subject = s;
-    this.predicate = p;
-    this.object = o;
+    // Add the predicate and object as the first element in the list
+    addPredicateAndValue(p, o);
+  }
+
+  /**
+   * Add the predicate and its value in the predicateValues map
+   * @param p predicate
+   * @param o object value
+   */
+  public void addPredicateAndValue(String p, String o) {
+    List<String> values = predicateValues.get(p);
+
+    if (values == null) {
+      values = new ArrayList<>();
+      predicateValues.put(p, values);
+    }
+
+    values.add(o);
   }
 
   @Override
   public String id() {
-    return id;
+    return subject;
   }
 
   @Override
@@ -89,20 +106,28 @@ public class RDFDocument implements SourceDocument {
 
   @Override
   public String toString() {
-    return subject + TRIPLE_SPLITTER +
-            predicate + TRIPLE_SPLITTER+
-            object + TRIPLE_SPLITTER + ".";
+    StringBuilder sb = new StringBuilder();
+    predicateValues.forEach((predicate, values) -> {
+      for (String value : values) {
+        sb.append(subject).append(TRIPLE_SPLITTER)
+                .append(predicate).append(TRIPLE_SPLITTER)
+                .append(value).append(TRIPLE_SPLITTER).append(".\n");
+      }
+    });
+    return sb.toString();
   }
 
   public String getSubject() {
     return subject;
   }
 
-  public String getPredicate() {
-    return predicate;
+  public Map<String, List<String>> getPredicateValues() {
+    return predicateValues;
   }
 
-  public String getObject() {
-    return object;
+  public void clear() {
+    predicateValues.clear();
+    subject = null;
+    predicateValues = null;
   }
 }
