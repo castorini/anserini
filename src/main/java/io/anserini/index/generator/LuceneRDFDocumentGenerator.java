@@ -102,7 +102,7 @@ public class LuceneRDFDocumentGenerator {
    * @param objectValue object value
    * @return uri, string, text, or other
    */
-  static String getObjectType(String objectValue) {
+  public static String getObjectType(String objectValue) {
     // Determine the type of this N-Triples `value'.
     char first = objectValue.charAt(0);
     switch (first) {

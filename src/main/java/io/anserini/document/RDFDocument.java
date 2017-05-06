@@ -3,7 +3,8 @@ package io.anserini.document;
 import java.util.*;
 
 /**
- * A document that represent an RDF Triple.
+ * A document that represent an entity with multiple
+ * RDF triples for the same entity subject URI.
  */
 public class RDFDocument implements SourceDocument {
 
@@ -125,6 +126,9 @@ public class RDFDocument implements SourceDocument {
     return predicateValues;
   }
 
+  /**
+   * Clears resources
+   */
   public void clear() {
     predicateValues.clear();
     subject = null;
