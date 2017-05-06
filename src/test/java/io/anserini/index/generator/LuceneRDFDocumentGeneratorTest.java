@@ -40,17 +40,4 @@ public class LuceneRDFDocumentGeneratorTest {
     assertEquals(o3Type, o3TypeExpected);
     assertEquals(o4Type, o4TypeExpected);
   }
-
-  @Test
-  public void normalizeStringValue() throws Exception {
-  }
-
-  @Test
-  public void normalizeTextValue() throws Exception {
-  }
-
-  @Test
-  public void normalizeObjectValue() throws Exception {
-  }
-
 }
