@@ -73,15 +73,6 @@ public class IndexRDFCollection {
   Args args;
 
   public static void main(String[] args) throws Exception {
-    if (args.length == 0)
-      args = new String[]{ // for testing only
-              "-input", "/Users/mfathy/Downloads/freebase-rdf-latest.gz",
-              "-index", "/tmp/freebase.index.5",
-              "-collection", "RDFCollection",
-              "-generator", "LuceneRDFDocumentGenerator",
-              "-predicates", "http://rdf.freebase.com/ns/people.person.date_of_birth"
-      };
-
     Args indexRDFCollectionArgs = new Args();
     CmdLineParser parser = new CmdLineParser(indexRDFCollectionArgs,
             ParserProperties.defaults().withUsageWidth(90));
@@ -200,7 +191,6 @@ public class IndexRDFCollection {
     transformer.config(args);
     transformer.setCounters(counters);
 
-    int maxDocNumFields = 0;
     int cnt = 0;
     Collection.FileSegment iter = collection.createFileSegment(inputFile);
     while (iter.hasNext()) {
@@ -215,12 +205,6 @@ public class IndexRDFCollection {
       if (doc != null) {
         writer.addDocument(doc);
         cnt++;
-
-        int docNumFields = doc.getFields().size();
-        if (docNumFields > maxDocNumFields) {
-          maxDocNumFields = docNumFields;
-          LOG.info("--  New max num fields = {}, subject = {}", maxDocNumFields, doc.getField("subject").stringValue());
-        }
       }
 
       // Display progress
