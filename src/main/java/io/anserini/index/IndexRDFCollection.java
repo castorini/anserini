@@ -115,7 +115,7 @@ public class IndexRDFCollection {
     // Log parameters
     LOG.info("Collection path: " + args.input);
     LOG.info("Index path: " + args.index);
-    if (args.predicatesToIndex.size() > 0) {
+    if (args.predicatesToIndex != null && args.predicatesToIndex.size() > 0) {
       LOG.info("Predicates to index: " + String.join(",", args.predicatesToIndex));
     } else {
       LOG.info("Predicates to index: None");

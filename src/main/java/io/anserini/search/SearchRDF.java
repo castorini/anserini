@@ -71,7 +71,6 @@ public class SearchRDF implements Closeable {
   }
 
   public static void main(String[] args) throws Exception {
-
     Args searchArgs = new Args();
 
     // Parse args
@@ -104,9 +103,6 @@ public class SearchRDF implements Closeable {
     // Initialize index searcher
     IndexSearcher searcher = new IndexSearcher(reader);
 
-    // Output to System.out
-    PrintWriter out = new PrintWriter(System.out);
-
     // Search for exact subject URI
     TermQuery query = new TermQuery(new Term(LuceneRDFDocumentGenerator.FIELD_SUBJECT, subject));
 
@@ -117,7 +113,6 @@ public class SearchRDF implements Closeable {
     if (matchingDocIds.size() == 0) { // We couldn't find any matching documents
       String msg = "Cannot find subject: " + query;
       LOG.warn(msg);
-      out.println(msg);
     } else {
       // Retrieve and print documents
       matchingDocIds.forEach(luceneDocId -> {
@@ -127,7 +122,6 @@ public class SearchRDF implements Closeable {
             if (property == null || field.name().equals(property)) {
               String fieldMessage = field.name() + "\t:\t " + field.stringValue();
               LOG.info(fieldMessage);
-              out.println(fieldMessage);
             }
           });
         } catch (IOException e) {
