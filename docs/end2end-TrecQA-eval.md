@@ -61,6 +61,12 @@ Path of the run file to be created
 ```
 Path of the qrel file to be created
 
+```
+  --qa-model-file QA_MODEL_FILE
+                        the path to the model file
+```
+Optional argument to choose a specific version of QA deep learning model to run ``run_trecqa.py`` with.
+
 
 The above command will create a run file in the `trec_eval` format and a qrel file
 called qrels.txt

@@ -11,11 +11,10 @@ class QAModel:
   def __init__(self, model_choice, index_path, qa_model_file=None):
     if not QAModel.instance:
        path = os.getcwd() + '/..'
-       if model_choice == "sm":
-         model_file = path + '/models/sm_model/sm_model.fixed_ext_feats_paper.puncts_stay'
-         if qa_model_file:
-           model_file = qa_model_file
-         QAModel.instance = SMModelBridge(model_file, 
+       if model_choice == "sm":         
+         if not qa_model_file:
+           qa_model_file = path + '/models/sm_model/sm_model.fixed_ext_feats_paper.puncts_stay'
+         QAModel.instance = SMModelBridge(qa_model_file, 
                              path + '/data/word2vec/aquaint+wiki.txt.gz.ndim=50.cache',
                              index_path)
 
