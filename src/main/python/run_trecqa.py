@@ -8,18 +8,16 @@ from sm_cnn.bridge import SMModelBridge
 
 class QAModel:
   instance = None
-  def __init__(self, model_choice, index_path, qa_model_file=None):
+  def __init__(self, model_choice, index_path, qa_model_file):
     if not QAModel.instance:
        path = os.getcwd() + '/..'
        if model_choice == "sm":         
-         if not qa_model_file:
-           qa_model_file = path + '/models/sm_model/sm_model.fixed_ext_feats_paper.puncts_stay'
          QAModel.instance = SMModelBridge(qa_model_file, 
                              path + '/data/word2vec/aquaint+wiki.txt.gz.ndim=50.cache',
                              index_path)
 
 
-def get_answers(pyserini, question, num_hits, k, model_choice, index_path, qa_model_file=None):
+def get_answers(pyserini, question, num_hits, k, model_choice, index_path, qa_model_file):
   candidate_passages_scores = pyserini.ranked_passages(question, num_hits, k)
   idf_json = pyserini.get_term_idf_json()
   candidate_passages = []
@@ -160,7 +158,7 @@ if __name__ == "__main__":
   parser.add_argument("-k", help="top-k passages", default=10)
   parser.add_argument("-model", help="[idf|sm]", default='idf')
   parser.add_argument('-index', help="path of the index", required=True)
-  parser.add_argument('--qa-model-file', help="the path to the model file")
+  parser.add_argument('-qa-model-file', help="the path to the model file", required=True)
 
   args = parser.parse_args()
 
