@@ -81,6 +81,10 @@
               <name>SearchRDF</name>
             </program>
             <program>
+              <mainClass>io.anserini.util.TrainingDataGenerator</mainClass>
+              <name>TrainingDataGenerator</name>
+            </program>
+            <program>
               <mainClass>io.anserini.py4j.PyseriniEntryPoint</mainClass>
               <name>PyseriniEntryPoint</name>
             </program>
