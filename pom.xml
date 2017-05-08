@@ -73,6 +73,14 @@
               <name>SearchWebCollection</name>
             </program>
             <program>
+              <mainClass>io.anserini.index.IndexRDFCollection</mainClass>
+              <name>IndexRDF</name>
+            </program>
+            <program>
+              <mainClass>io.anserini.search.SearchRDF</mainClass>
+              <name>SearchRDF</name>
+            </program>
+            <program>
               <mainClass>io.anserini.py4j.PyseriniEntryPoint</mainClass>
               <name>PyseriniEntryPoint</name>
             </program>
@@ -412,6 +420,13 @@
       <groupId>org.wikiclean</groupId>
       <artifactId>wikiclean</artifactId>
       <version>0.5</version>
+    </dependency>
+
+    <!--Sesame for parsing triples-->
+    <dependency>
+        <groupId>org.openrdf.sesame</groupId>
+        <artifactId>sesame-rio-ntriples</artifactId>
+        <version>4.1.2</version>
     </dependency>
 
   </dependencies>
