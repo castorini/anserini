@@ -1,6 +1,9 @@
 package io.anserini.document;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * A document that represent an entity with multiple
@@ -21,7 +24,7 @@ public class RDFDocument implements SourceDocument {
   /**
    * The predicates and values of the subject entity
    */
-  private Map<String, List<String>> predicateValues = new TreeMap<>();;
+  private Map<String, List<String>> predicateValues = new TreeMap<>();
 
   /**
    * Constructor for an NT triples (NTriples).

@@ -3,22 +3,21 @@ package io.anserini.index.generator;
 import io.anserini.document.RDFDocument;
 import io.anserini.document.SourceDocument;
 import io.anserini.index.IndexRDFCollection;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.apache.lucene.document.*;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.document.Field;
+import org.apache.lucene.document.StoredField;
+import org.apache.lucene.document.StringField;
+import org.apache.lucene.document.TextField;
 import org.openrdf.rio.ntriples.NTriplesUtil;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Converts a {@link io.anserini.document.RDFDocument} into
  * a Lucene {@link org.apache.lucene.document.Document}.
  */
 public class LuceneRDFDocumentGenerator {
-  private static final Logger LOG = LogManager.getLogger(LuceneRDFDocumentGenerator.class);
-
   public static final String FIELD_SUBJECT = "subject";
 
   // RDF object predicate types

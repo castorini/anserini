@@ -6,7 +6,6 @@ import io.anserini.index.generator.LuceneRDFDocumentGenerator;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.codecs.lucene50.Lucene50StoredFieldsFormat;
 import org.apache.lucene.codecs.lucene62.Lucene62Codec;
@@ -15,8 +14,12 @@ import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
-import org.kohsuke.args4j.*;
+import org.kohsuke.args4j.CmdLineException;
+import org.kohsuke.args4j.CmdLineParser;
+import org.kohsuke.args4j.Option;
+import org.kohsuke.args4j.ParserProperties;
 import org.kohsuke.args4j.spi.StringArrayOptionHandler;
+import org.kohsuke.args4j.OptionHandlerFilter;
 
 import java.io.File;
 import java.io.IOException;
@@ -49,9 +52,6 @@ public class IndexRDFCollection {
     @Option(name = "-collection", required = true, usage = "collection class in io.anserini.collection")
     public String collectionClass;
 
-    @Option(name = "-generator", required = true, usage = "document generator in io.anserini.index.generator, usually LuceneRDFDocumentGenerator")
-    public String generatorClass;
-
     // Optional arguments
 
     @Option(name = "-predicates", handler = StringArrayOptionHandler.class, usage = "predicates to index")
@@ -63,37 +63,13 @@ public class IndexRDFCollection {
   }
 
   /**
-   * Default index analyzer (uses StandardAnalyzer)
-   */
-  public final Analyzer ANALYZER;
-
-  /**
    * Program arguments to hold parameters and properties.
    */
-  Args args;
-
-  public static void main(String[] args) throws Exception {
-    Args indexRDFCollectionArgs = new Args();
-    CmdLineParser parser = new CmdLineParser(indexRDFCollectionArgs,
-            ParserProperties.defaults().withUsageWidth(90));
-
-    try {
-      parser.parseArgument(args);
-    } catch (CmdLineException e) {
-      System.err.println(e.getMessage());
-      parser.printUsage(System.err);
-      System.err.println("Example command: "+ IndexRDFCollection.class.getSimpleName() +
-              parser.printExample(OptionHandlerFilter.REQUIRED));
-      return;
-    }
-
-    new IndexRDFCollection(indexRDFCollectionArgs).run();
-  }
+  private Args args;
 
   private final Path indexPath;
   private final Path collectionPath;
   private final Class collectionClass;
-  private final Class transformerClass;
   private final Collection collection;
   private final Counters counters;
 
@@ -107,10 +83,6 @@ public class IndexRDFCollection {
 
     // Copy arguments
     this.args = args;
-
-    // Initialize analyzer
-    String defaultAnalyzerName = "org.apache.lucene.analysis.standard.StandardAnalyzer";
-    ANALYZER = (Analyzer) Class.forName(defaultAnalyzerName).newInstance();
 
     // Log parameters
     LOG.info("Collection path: " + args.input);
@@ -133,7 +105,6 @@ public class IndexRDFCollection {
               " does not exist or is not readable, please check the path");
     }
 
-    this.transformerClass = Class.forName("io.anserini.index.generator." + args.generatorClass);
     this.collectionClass = Class.forName("io.anserini.collection." + args.collectionClass);
     collection = (Collection) this.collectionClass.newInstance();
     collection.setCollectionPath(collectionPath);
@@ -155,7 +126,6 @@ public class IndexRDFCollection {
     final IndexWriter writer = new IndexWriter(dir, config);
     final List<Path> segmentPaths = collection.getFileSegmentPaths();
 
-    // TODO - use multiple threads
     for (Path inputFile : segmentPaths) {
       LOG.info("Indexing segment: {}", inputFile.toAbsolutePath());
       index(writer, collection, inputFile);
@@ -208,7 +178,7 @@ public class IndexRDFCollection {
       }
 
       // Display progress
-      if (cnt % 10000 == 0) {
+      if (cnt % 100000 == 0) {
         LOG.debug("Number of indexed entity document: {}", cnt);
       }
 
@@ -220,5 +190,23 @@ public class IndexRDFCollection {
     LOG.info(inputFile.getParent().getFileName().toString() + File.separator +
             inputFile.getFileName().toString() + ": " + cnt + " docs added.");
     counters.indexedDocuments.addAndGet(cnt);
+  }
+
+  public static void main(String[] args) throws Exception {
+    Args indexRDFCollectionArgs = new Args();
+    CmdLineParser parser = new CmdLineParser(indexRDFCollectionArgs,
+            ParserProperties.defaults().withUsageWidth(90));
+
+    try {
+      parser.parseArgument(args);
+    } catch (CmdLineException e) {
+      System.err.println(e.getMessage());
+      parser.printUsage(System.err);
+      System.err.println("Example command: "+ IndexRDFCollection.class.getSimpleName() +
+              parser.printExample(OptionHandlerFilter.REQUIRED));
+      return;
+    }
+
+    new IndexRDFCollection(indexRDFCollectionArgs).run();
   }
 }

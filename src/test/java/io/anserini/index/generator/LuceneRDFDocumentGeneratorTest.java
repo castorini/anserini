@@ -2,7 +2,7 @@ package io.anserini.index.generator;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by mfathy on 2017-05-05.

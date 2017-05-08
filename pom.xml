@@ -73,6 +73,14 @@
               <name>SearchWebCollection</name>
             </program>
             <program>
+              <mainClass>io.anserini.index.IndexRDFCollection</mainClass>
+              <name>IndexRDF</name>
+            </program>
+            <program>
+              <mainClass>io.anserini.search.SearchRDF</mainClass>
+              <name>SearchRDF</name>
+            </program>
+            <program>
               <mainClass>io.anserini.py4j.PyseriniEntryPoint</mainClass>
               <name>PyseriniEntryPoint</name>
             </program>

@@ -3,7 +3,6 @@ package io.anserini.search;
 import io.anserini.index.generator.LuceneRDFDocumentGenerator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
@@ -11,13 +10,15 @@ import org.apache.lucene.index.Term;
 import org.apache.lucene.search.CheckHits;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.TermQuery;
-import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.FSDirectory;
-import org.kohsuke.args4j.*;
+import org.kohsuke.args4j.CmdLineException;
+import org.kohsuke.args4j.CmdLineParser;
+import org.kohsuke.args4j.Option;
+import org.kohsuke.args4j.ParserProperties;
+import org.kohsuke.args4j.OptionHandlerFilter;
 
 import java.io.Closeable;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -46,13 +47,11 @@ public class SearchRDF implements Closeable {
 
     // Optional arguments
 
-    @Option(name = "-property",
-            metaVar = "[Property name]",
-            usage = "property name to search")
-    String property;
+    @Option(name = "-predicate", metaVar = "[Predicate name]", usage = "predicate name to return")
+    String predicate;
   }
 
-  public SearchRDF(String indexDir) throws IOException {
+  private SearchRDF(String indexDir) throws IOException {
     // Initialize index reader
     LOG.info("Reading index from " + indexDir);
 
@@ -70,34 +69,14 @@ public class SearchRDF implements Closeable {
     reader.close();
   }
 
-  public static void main(String[] args) throws Exception {
-    Args searchArgs = new Args();
-
-    // Parse args
-    CmdLineParser parser = new CmdLineParser(searchArgs,
-            ParserProperties.defaults().withUsageWidth(90));
-
-    try {
-      parser.parseArgument(args);
-    } catch (CmdLineException e) {
-      System.err.println(e.getMessage());
-      parser.printUsage(System.err);
-      System.err.println("Example command: "+ SearchRDF.class.getSimpleName() +
-              parser.printExample(OptionHandlerFilter.REQUIRED));
-      return;
-    }
-
-    new SearchRDF(searchArgs.index).search(searchArgs.subject, searchArgs.property);
-  }
-
   /**
    * Prints query results to the standard output stream.
    *
    * @param subject the subject to search
-   * @param property the property to search, or null to print all properties
+   * @param predicate the predicate to search, or null to print all properties
    * @throws Exception on error
    */
-  public void search(String subject, String property) throws Exception {
+  public void search(String subject, String predicate) throws Exception {
     LOG.info("Querying started...");
 
     // Initialize index searcher
@@ -119,7 +98,7 @@ public class SearchRDF implements Closeable {
         try {
           Document doc = reader.document(luceneDocId);
           doc.iterator().forEachRemaining(field -> {
-            if (property == null || field.name().equals(property)) {
+            if (predicate == null || field.name().equals(predicate)) {
               String fieldMessage = field.name() + "\t:\t " + field.stringValue();
               LOG.info(fieldMessage);
             }
@@ -131,5 +110,25 @@ public class SearchRDF implements Closeable {
     }
 
     LOG.info("Querying completed.");
+  }
+
+  public static void main(String[] args) throws Exception {
+    Args searchArgs = new Args();
+
+    // Parse args
+    CmdLineParser parser = new CmdLineParser(searchArgs,
+            ParserProperties.defaults().withUsageWidth(90));
+
+    try {
+      parser.parseArgument(args);
+    } catch (CmdLineException e) {
+      System.err.println(e.getMessage());
+      parser.printUsage(System.err);
+      System.err.println("Example command: "+ SearchRDF.class.getSimpleName() +
+              parser.printExample(OptionHandlerFilter.REQUIRED));
+      return;
+    }
+
+    new SearchRDF(searchArgs.index).search(searchArgs.subject, searchArgs.predicate);
   }
 }
