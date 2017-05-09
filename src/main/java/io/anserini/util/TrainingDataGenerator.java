@@ -13,27 +13,27 @@ import org.apache.logging.log4j.core.config.Configuration;
 import org.apache.logging.log4j.core.config.LoggerConfig;
 import org.apache.logging.log4j.core.layout.PatternLayout;
 import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.analysis.CharArraySet;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.CheckHits;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
-import org.kohsuke.args4j.CmdLineException;
-import org.kohsuke.args4j.CmdLineParser;
-import org.kohsuke.args4j.Option;
-import org.kohsuke.args4j.OptionHandlerFilter;
-import org.kohsuke.args4j.ParserProperties;
+import org.kohsuke.args4j.*;
 import org.openrdf.model.Literal;
 import org.openrdf.model.ValueFactory;
 import org.openrdf.model.impl.SimpleValueFactory;
 import org.openrdf.rio.ntriples.NTriplesUtil;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
 import java.util.HashSet;
@@ -48,7 +48,7 @@ public class TrainingDataGenerator {
   private static final Logger LOG = LogManager.getLogger(TrainingDataGenerator.class);
   private final Logger TRAINING_DATA_OUTPUT_FILE_EXAMPLES;
 
-  private static final String[] supportedProperties = new String[]{
+  private static final String[] supportedProperties = new String[] {
           "birthdate"
   };
 
@@ -78,33 +78,33 @@ public class TrainingDataGenerator {
   /**
    * Args instance
    */
-  Args args;
+  private Args args;
 
   /**
    * The directory in which the RDF dataset index is stored
    */
-  Directory kbIndexDirectory = null;
+  private Directory kbIndexDirectory;
 
   /**
-   * Indexed knowledge base/RDF dataset to retreive
+   * Indexed knowledge base/RDF dataset to retrieve
    * the training examples from
    */
-  IndexReader kbIndexReader = null;
+  private IndexReader kbIndexReader;
 
   /**
    * Index searcher to search in the index
    */
-  IndexSearcher kbIndexSearcher = null;
+  private IndexSearcher kbIndexSearcher;
 
   /**
    * Index analyzer to search
    */
-  Analyzer kbIndexAnalyzer;
+  private Analyzer kbIndexAnalyzer;
 
   /**
    * Simple value factory to parse literals using Sesame library.
    */
-  static ValueFactory valueFactory = SimpleValueFactory.getInstance();
+  private ValueFactory valueFactory;
 
   /**
    * How to separate records in the training data files
@@ -117,11 +117,17 @@ public class TrainingDataGenerator {
    *
    * @param loggerName     the name of the logger to create
    * @param outputFilePath the file path to write logs to
-   * @param patternLayout  layout for the logger, if null just display the message using DEFAULT_CONVERSION_PATTERN
+   * @param patternLayout  layout for the logger, if null just display
+   *                       the message using DEFAULT_CONVERSION_PATTERN
    */
   private static void createNewLoggerConfig(String loggerName,
                                             String outputFilePath,
                                             String patternLayout) {
+
+    // Ignore null output files
+    if (outputFilePath == null)
+      return;
+
     // Create a logger to write the training data
     final LoggerContext ctx = (LoggerContext) LogManager.getContext(false);
     final Configuration config = ctx.getConfiguration();
@@ -191,11 +197,10 @@ public class TrainingDataGenerator {
    * Use EnglishAnalyzer as the default.
    *
    * @return kb index analyzer
-   * @throws Exception
    */
-  Analyzer getKbIndexAnalyzer() throws Exception {
+  Analyzer getKbIndexAnalyzer() {
     if (kbIndexAnalyzer == null) {
-      kbIndexAnalyzer = new EnglishAnalyzer();
+      kbIndexAnalyzer = new EnglishAnalyzer(CharArraySet.EMPTY_SET);
     }
 
     return kbIndexAnalyzer;
@@ -209,7 +214,7 @@ public class TrainingDataGenerator {
    * @param literalString the string representation of the literal, including its type
    * @return value of the literal
    */
-  static String extractValueFromTypedLiteralString(String literalString) {
+  String extractValueFromTypedLiteralString(String literalString) {
     return NTriplesUtil.parseLiteral(literalString, valueFactory).stringValue();
   }
 
@@ -229,7 +234,7 @@ public class TrainingDataGenerator {
    * @param l    the logger to write to (the training data file)
    * @param data array of data
    */
-  void writeToTrainingFiles(Logger l, String... data) {
+  private void writeToTrainingFile(Logger l, String... data) {
     StringBuilder sb = new StringBuilder();
     for (int i = 0; i < data.length; i++) {
       if (i > 0)
@@ -249,15 +254,20 @@ public class TrainingDataGenerator {
    *
    * @throws Exception on error
    */
-  private void generateTrainingData() throws Exception {
-    switch (args.property.toLowerCase()) {
-      case "birthdate":
-        birthdate();
-        break;
-
-      default:
-        LOG.error("Cannot generate training data for property: {}", args.property);
-        throw new IllegalArgumentException("Cannot generate training data for property: " + args.property + ". Supported properties are: " + supportedPropertiesStr);
+  private void generateTrainingData() throws IOException, ParseException, NoSuchMethodException {
+    Method propertyFunction = null;
+    try {
+      propertyFunction = this.getClass().getDeclaredMethod(args.property);
+      propertyFunction.invoke(this);
+    } catch (NoSuchMethodException e) {
+      String msg = "Cannot generate training data for property: " + args.property
+              + ". Supported properties are: " + supportedPropertiesStr;
+      LOG.error(msg);
+      throw new IllegalArgumentException(msg);
+    } catch (IllegalAccessException | InvocationTargetException e) {
+      String msg = "Unable to call method: " + propertyFunction.getName();
+      LOG.error(msg, e);
+      throw new IllegalArgumentException(msg);
     }
   }
 
@@ -266,7 +276,7 @@ public class TrainingDataGenerator {
    * <p>
    * Note: this function might need some refactoring when we add more properties
    */
-  void birthdate() throws Exception {
+  void birthdate() throws ParseException, IOException {
     QueryParser queryParser = new QueryParser(FIELD_BIRTHDATE, getKbIndexAnalyzer());
     queryParser.setAllowLeadingWildcard(true);
 
@@ -275,7 +285,7 @@ public class TrainingDataGenerator {
     LOG.info("Starting the search using query: {}", q.toString());
 
     // Collect all matching documents in a set of matching doc ids
-    Set<Integer> matchingDocIds = new HashSet<>(5);
+    Set<Integer> matchingDocIds = new HashSet<>();
     getKbIndexSearcher().search(q, new CheckHits.SetCollector(matchingDocIds));
 
     LOG.info("Found {} matching documents, retrieving...", matchingDocIds.size());
@@ -320,10 +330,11 @@ public class TrainingDataGenerator {
         String birthdateVal = extractValueFromTypedLiteralString(birthdate);
 
         // Write property value as training data
-        writeToTrainingFiles(TRAINING_DATA_OUTPUT_FILE_EXAMPLES, freebaseId, englishLabel, birthdateVal);
+        writeToTrainingFile(TRAINING_DATA_OUTPUT_FILE_EXAMPLES, freebaseId, englishLabel, birthdateVal);
       }
 
-      // TODO - After building an index for the mentions of Freebase entities in ClueWeb, we need to get the ClueWeb mentions of this freebase entity and write them to a separate file
+      // TODO - After building an index for the mentions of Freebase entities in ClueWeb,
+      // we need to get the ClueWeb mentions of this freebase entity and write them to a separate file
     });
 
   }
@@ -334,6 +345,8 @@ public class TrainingDataGenerator {
     // Create logger to write training data to
     createNewLoggerConfig("prop", this.args.output, null);
     TRAINING_DATA_OUTPUT_FILE_EXAMPLES = LogManager.getLogger("prop");
+
+    valueFactory = SimpleValueFactory.getInstance();
   }
 
   public static void main(String[] args) throws Exception {
