@@ -1,6 +1,10 @@
-# Train a Word2Vec model
+# Building a Lucene index for a Word2Vec model
 
-With `TrainW2V` you can train a word2vec model from raw text
+Since the pre-trained word2vec models are often in `.bin` format, first convert the existing model into 
+.tsv format. You can do this using one of the existing tools such as [this](https://github.com/marekrei/convertvec.git).
+
+With `IndexW2v` you can build a Lucene index for a word2vec model from raw text.
+
 Possible parameters are:
 
 ```
@@ -10,85 +14,37 @@ Possible parameters are:
 Path of the raw file
 
 ```
--output (required)
+-index (required)
 ```
 
-Path of the output model
+Path of the index file
+
+Example command:
 
 ```
--dimension (optional: positive integer)
+sh target/appassembler/bin/IndexW2V -input GoogleNews-vectors-negative300.txt -index lucene.GoogleNews.index 
 ```
 
-Desired dimension of the vectors (default: 100)
+# Search the index for embeddings
 
-```
--iter (optional: positive integer)
-```
+With `SearchW2V` you can search for the word embeddings.
 
-Number of iterations (default: 1)
-
-```
--minfreq (optional: positive integer)
-```
-
-Minimum term frequency (default: 5).
-
-_NOTICE:_ any term with lower frequency than the specified frequency will not be considered while training
-
-
-```
--seed (optional: positive integer)
-```
-
-Seed size (default: 42)
-
-
-```
--window (optional: positive integer)
-```
-
-Window size (default: 5)
-
-
-# Search a Word2Vec model
-
-With `SearchW2V` you can train a word2vec model from raw text
 Possible parameters are:
 
 ```
--model
+-index (required)
 ```
 
-Path of the word2vec model
+Path of the index file
 
 ```
--gmodel
+-term (required)
 ```
 
-Specify if the model was trained with Google format.
+Get the embeddings corresponding to the term
 
-
-```
--input (optional)
-```
-
-Path to the input file. Note that the file should have a word/line format.
+Example command:
 
 ```
--term (optional)
+sh target/appassembler/bin/SearchW2V -index lucene.GoogleNews.index -term "hello"
 ```
-
-Input a word to find its word embedding.
-_NOTICE:_ both term and input file can't be empty
-
-```
--output (optional)
-```
-
-Path of the output file.
-
-```
--nearest (optional: positive integer)
-```
-
-Number of nearest word embedding (default: 10)

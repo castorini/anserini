@@ -5,12 +5,16 @@ Indexing:
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection Gov2Collection \
  -input /path/to/gov2/ -generator JsoupGenerator \
- -index lucene-index.gov2.pos+docvectors -threads 16 -positions -docvectors -optimize \
+ -index lucene-index.gov2.pos+docvectors -threads 16 -storePositions -storeDocvectors -optimize \
  > log.gov2.pos+docvectors &
 
 ```
 
-The directory `/path/to/gov2/` should be the root directory of Gov2 collection, i.e., `ls /path/to/gov2/` should bring up a bunch of subdirectories, `GX000` to `GX272`. The command above builds a standard positional index (`-positions`) that's optimized into a single segment (`-optimize`). If you also want to store document vectors (e.g., for query expansion), add the `-docvectors` option.  The above command builds an index that stores term positions (`-positions`) as well as doc vectors for relevance feedback (`-docvectors`), and `-optimize` force merges all index segment into one.
+The directory `/path/to/gov2/` should be the root directory of Gov2 collection, i.e., `ls /path/to/gov2/` should bring 
+up a bunch of subdirectories, `GX000` to `GX272`. The command above builds a standard positional index (`-storePositions`) 
+that's optimized into a single segment (`-optimize`). If you also want to store document vectors (e.g., for query 
+expansion), add the `-docvectors` option.  The above command builds an index that stores term positions (`-storePositions`) 
+as well as doc vectors for relevance feedback (`-storeDocvectors`), and `-optimize` force merges all index segment into one.
 
 After indexing is done, you should be able to perform a retrieval as follows:
 
@@ -20,7 +24,8 @@ sh target/appassembler/bin/SearchWebCollection \
   -topics src/main/resources/topics-and-qrels/topics.701-750.txt -output run.gov2.701-750.bm25.txt
 ```
 
-For the retrieval model: specify `-bm25` to use BM25, `-ql` to use query likelihood, and add `-rm3` to invoke the RM3 relevance feedback model (requires docvectors index).
+For the retrieval model: specify `-bm25` to use BM25, `-ql` to use query likelihood, and add `-rm3` to invoke the RM3 
+relevance feedback model (requires docvectors index).
 
 Topics and qrels are stored in `src/main/resources/topics-and-qrels/`. Use `trec_eval` to compute AP and P30:
 

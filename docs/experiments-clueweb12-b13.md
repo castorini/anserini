@@ -5,11 +5,14 @@ Indexing:
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection CW12Collection \
  -input /path/to/cw12-b13/ -generator JsoupGenerator \
- -index lucene-index.cw12b13.pos+docvectors -threads 32 -positions -docvectors -optimize \
+ -index lucene-index.cw12b13.pos+docvectors -threads 32 -storePositions -storeDocvectors -optimize \
  > log.cw12b13.pos+docvectors &
 ```
 
-The directory `/path/to/cw12-b13/` should be the root directory of ClueWeb12-B13 collection, i.e., `/path/to/cw12-b13/` should bring up a bunch of subdirectories, `ClueWeb12_00` to `ClueWeb12_18`.  The above command builds an index that stores term positions (`-positions`) as well as doc vectors for relevance feedback (`-docvectors`), and `-optimize` force merges all index segment into one.
+The directory `/path/to/cw12-b13/` should be the root directory of ClueWeb12-B13 collection, i.e., `/path/to/cw12-b13/` 
+should bring up a bunch of subdirectories, `ClueWeb12_00` to `ClueWeb12_18`.  The above command builds an index that 
+stores term positions (`-storePositions`) as well as doc vectors for relevance feedback (`-storeDocvectors`), and 
+`-optimize` force merges all index segment into one.
 
 After indexing is done, you should be able to perform a retrieval run:
 
@@ -19,9 +22,11 @@ sh target/appassembler/bin/SearchWebCollection \
   -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt -output run.web.201-250.bm25.txt
 ```
 
-For the retrieval model: specify `-bm25` to use BM25, `-ql` to use query likelihood, and add `-rm3` to invoke the RM3 relevance feedback model (requires docvectors index).
+For the retrieval model: specify `-bm25` to use BM25, `-ql` to use query likelihood, and add `-rm3` to invoke the RM3 
+relevance feedback model (requires docvectors index).
 
-Topics and qrels are stored in `src/main/resources/topics-and-qrels/`. Use `trec_eval` to compute AP and P30, and use `gdeval` to compute NDCG@20:
+Topics and qrels are stored in `src/main/resources/topics-and-qrels/`. Use `trec_eval` to compute AP and P30, and use 
+`gdeval` to compute NDCG@20:
 
 ```
 eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.web.201-250.txt run.web.201-250.bm25.txt
