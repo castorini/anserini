@@ -31,7 +31,12 @@ def get_answers(pyserini, question, num_hits, k, model_choice, index_path, w2v_c
       ps_split = ps.split('\t')
       candidate_passages.append(ps_split[0])
 
-    answers_list = qa_DL_model.rerank_candidate_answers(question, candidate_passages, idf_json)
+    # TODO: for processing input data
+    flags = {
+      "punctuation": "", #  ignoring for now
+      "dash_words": "" # ignoring for now
+    }
+    answers_list = qa_DL_model.rerank_candidate_answers(question, candidate_passages, idf_json, flags)
     sorted_answers = sorted(answers_list, key=lambda x: x[0], reverse=True)
 
     for score, candidate in sorted_answers:
