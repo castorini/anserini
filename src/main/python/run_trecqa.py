@@ -8,16 +8,16 @@ from sm_cnn.bridge import SMModelBridge
 
 class QAModel:
   instance = None
-  def __init__(self, model_choice, index_path, qa_model_file):
+  def __init__(self, model_choice, index_path, w2v_cache, qa_model_file):
     if not QAModel.instance:
        path = os.getcwd() + '/..'
        if model_choice == "sm":         
-         QAModel.instance = SMModelBridge(qa_model_file, 
-                             path + '/data/word2vec/aquaint+wiki.txt.gz.ndim=50.cache',
+         QAModel.instance = SMModelBridge(qa_model_file,
+                             w2v_cache,
                              index_path)
 
 
-def get_answers(pyserini, question, num_hits, k, model_choice, index_path, qa_model_file):
+def get_answers(pyserini, question, num_hits, k, model_choice, index_path, w2v_cache, qa_model_file):
   candidate_passages_scores = pyserini.ranked_passages(question, num_hits, k)
   idf_json = pyserini.get_term_idf_json()
   candidate_passages = []
@@ -25,7 +25,7 @@ def get_answers(pyserini, question, num_hits, k, model_choice, index_path, qa_mo
 
   if model_choice == 'sm':
 
-    qa_DL_model = QAModel(model_choice, index_path, qa_model_file).instance
+    qa_DL_model = QAModel(model_choice, index_path, w2v_cache, qa_model_file).instance
 
     for ps in candidate_passages_scores:
       ps_split = ps.split('\t')
@@ -158,8 +158,9 @@ if __name__ == "__main__":
   parser.add_argument("-k", help="top-k passages", default=10)
   parser.add_argument("-model", help="[idf|sm]", default='idf')
   parser.add_argument('-index', help="path of the index", required=True)
+  parser.add_argument('-w2v-cache', help="word embeddings cache file", required=True)
   parser.add_argument('-qa-model-file', help="the path to the model file", required=True)
-
+  
   args = parser.parse_args()
 
   pyserini = Pyserini(args.index)
@@ -185,7 +186,7 @@ if __name__ == "__main__":
   seen_docs = []
   with open(output_file, 'w') as out:
     for qid, question in zip(answers.keys(), questions):
-      candidates = get_answers(pyserini, question, int(args.hits), int(args.k), args.model, args.index, args.qa_model_file)
+      candidates = get_answers(pyserini, question, int(args.hits), int(args.k), args.model, args.index, arg.w2v_cache, args.qa_model_file)
       scored_candidates = score_candidates(candidates, answers[qid])
 
       if qid not in labels_predicted:
