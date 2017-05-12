@@ -191,7 +191,7 @@ if __name__ == "__main__":
   seen_docs = []
   with open(output_file, 'w') as out:
     for qid, question in zip(answers.keys(), questions):
-      candidates = get_answers(pyserini, question, int(args.hits), int(args.k), args.model, args.index, arg.w2v_cache, args.qa_model_file)
+      candidates = get_answers(pyserini, question, int(args.hits), int(args.k), args.model, args.index, args.w2v_cache, args.qa_model_file)
       scored_candidates = score_candidates(candidates, answers[qid])
 
       if qid not in labels_predicted:

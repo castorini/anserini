@@ -33,8 +33,8 @@ class Experiments(object):
         self.model_file = model_file
         self.cmd_root = "python src/main/python/run_trecqa.py -input {} -output e2e.run -qrel {} -index {} -w2v-cache {} -qa-model-file {}".\
             format(self.qa_data_xml, self.qrel, self.index_path, self.w2v_cache, self.model_file)
-        self.eval_cmd_root = "../../Anserini/eval/trec_eval.9.0/trec_eval -m map -m recip_rank -m bpref"
-        self.rbp_cmd_root = "rbp_eval"
+        self.eval_cmd_root = "./eval/trec_eval.9.0/trec_eval -m map -m recip_rank -m bpref {}".format(self.qrel)
+        self.rbp_cmd_root = "rbp_eval {}".format(self.qrel)
 
     def add_setting(self, setting):
         self.settings[setting.label] = setting
@@ -57,11 +57,10 @@ class Experiments(object):
         pout, perr = p.communicate()
         return pout, perr
     
-    def _run_eval(self):
+    def _run_eval(self, params):
     
-        cmd = '{} {} e2e.run'.format(self.eval_cmd_root, split)
+        cmd = '{} e2e.run'.format(self.eval_cmd_root)
         out, err = self._run_cmd(cmd)
-        print(split, '------' )
         # trec_eval scores
         metrics = []
         scores = []
@@ -72,15 +71,15 @@ class Experiments(object):
             scores.append(fields[-1])
         
         # rbp_eval scores 
-        cmd = '{} {} e2e.run'.format(self.rbp_cmd_root, split)
+        cmd = '{} e2e.run'.format(self.rbp_cmd_root)
         out, err = self._run_cmd(cmd)
         for line in str(out).split('\n'):
             if not line.startswith('p= 0.50'): continue
             metrics.append('rbp_p0.5')
             scores.append(' '.join(line.strip().split()[-2:]))
-        
-        print('\t'.join(metrics))
-        print('\t'.join(scores))
+        param, setting = zip(*params)
+        print('{}\t{}'.format('\t'.join(param), '\t'.join(metrics)))
+        print('{}\t{}'.format('\t'.join(setting), '\t'.join(scores)))
 
 
     def run(self, indices):
@@ -90,26 +89,31 @@ class Experiments(object):
         for ci in indices:
             combo = self.combinations[ci]
             print(combo)
+            params = []
             cmd_args = []
             for setting_choice in combo:
                 setting, choice = setting_choice.split(':')
                 cmd_args.append(self.settings[setting].choice_flags[choice])
+                params.append((setting, choice))
+            
             cmd = '{} {}'.format(self.cmd_root, ' '.join(cmd_args))
             print(cmd)
-            # out, err = self._run_cmd(cmd)
-            # with open(model_name + '.log', 'w') as lf:
-            #     print('---------- OUT ------------', file=lf)
-            #     print(out, file=lf)
-            #     print('---------- ERR ------------', file=lf)
-            #     print(err, file=lf)
-            # self._run_eval()
+            out, err = self._run_cmd(cmd)
+            with open('e2e.log', 'a') as lf:
+                print('combination {}'.format(ci), file=lf)
+                print('---------- OUT ------------', file=lf)
+                print(out, file=lf)
+                print('---------- ERR ------------', file=lf)
+                print(err, file=lf)
+            self._run_eval(params)
 
+      
     def run_all(self):
         """
         runs all experiments
         """
-        
-        pass
+        self.run([ci for ci in range(len(self.combinations))])
+            
     
     def list_settings(self):
         """
@@ -125,7 +129,8 @@ if __name__ == "__main__":
     ap.add_argument("--list", help="lists all available experimental settings combinations",
                     action="store_true")
     ap.add_argument("--run", help='runs experimenal setting combination NUMBER(s)',
-                    nargs="+", type=int)    
+                    nargs="+", type=int)
+    ap.add_argument("--run-all", action="store_true")
     ap.add_argument('qa_data_xml', help="path to the QA dataset XML file")
     ap.add_argument('qrel_file', help="the qrel file e.g. ../data/TrecQA/raw-dev.qrel")
     ap.add_argument("index_path", help="required for some combination of experiments")
@@ -177,5 +182,8 @@ if __name__ == "__main__":
 
     if args.run:
         experiments.run(args.run)
+
+    if args.run_all:
+        experiments.run_all()
 
 
