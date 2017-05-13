@@ -60,6 +60,9 @@ public class RetrieveSentences {
     public String index;
 
     // optional arguments
+    @Option(name = "-embeddings", metaVar = "[path]", usage = "Path of the word2vec index")
+    public String embeddings = "";
+
     @Option(name = "-topics", metaVar = "[file]", usage = "topics file")
     public String topics = "";
 
@@ -70,7 +73,7 @@ public class RetrieveSentences {
     public int hits = 100;
 
     @Option(name = "-scorer", metaVar = "[Idf|Wmd]", usage = "passage scores")
-    public String scorer;
+    public String scorer = "Idf";
 
     @Option(name = "-k", metaVar = "[number]", usage = "top-k passages to be retrieved")
     public int k = 1;
@@ -90,7 +93,12 @@ public class RetrieveSentences {
     Constructor passageClass = Class.forName("io.anserini.qa.passage." + args.scorer + "PassageScorer")
             .getConstructor(String.class, Integer.class);
 
-    scorer = (PassageScorer) passageClass.newInstance(args.index, args.k);
+    if (args.scorer.equals("Idf")) {
+      scorer = (PassageScorer) passageClass.newInstance(args.index, args.k);
+    } else {
+      scorer = (PassageScorer) passageClass.newInstance(args.embeddings, args.k);
+    }
+
   }
 
   public Map<String, Float> search(SortedMap<Integer, String> topics, int numHits)
@@ -182,6 +190,12 @@ public class RetrieveSentences {
 
     if (qaArgs.topics.isEmpty() && qaArgs.query.isEmpty()){
       System.err.println("Pass either a query or a topic. Both can't be empty.");
+      return;
+    }
+
+    if (qaArgs.scorer.equalsIgnoreCase("Wmd") && qaArgs.embeddings.isEmpty()) {
+      System.err.println("Wmd passage scorer requires word2vec index");
+      parser.printUsage(System.err);
       return;
     }
 
