@@ -15,7 +15,6 @@
  */
 package io.anserini.qa;
 
-import com.ibm.icu.impl.IllegalIcuArgumentException;
 import edu.stanford.nlp.ling.CoreLabel;
 import edu.stanford.nlp.process.CoreLabelTokenFactory;
 import edu.stanford.nlp.process.PTBTokenizer;
@@ -99,7 +98,7 @@ public class RetrieveSentences {
     } else if (args.scorer.equals("Wmd")) {
       scorer = (PassageScorer) passageClass.newInstance(args.embeddings, args.k);
     } else {
-      throw new IllegalIcuArgumentException("Scorer should either be Idf or Wmd");
+      throw new IllegalArgumentException("Scorer should either be Idf or Wmd");
     }
 
   }
