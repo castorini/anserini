@@ -34,7 +34,6 @@ public class WmdPassageScorer implements PassageScorer {
 
   public WmdPassageScorer(String index, Integer k) throws IOException {
     this.wmdDictionary = new WordEmbeddingDictionary(index);
-    wmdDictionary.getEmbeddingVector("newton");
     this.topPassages = k;
     scoredPassageHeap = MinMaxPriorityQueue.maximumSize(topPassages).create();
     stopWords = new ArrayList<>();
@@ -44,7 +43,7 @@ public class WmdPassageScorer implements PassageScorer {
     BufferedReader bRdr = new BufferedReader(new InputStreamReader(is));
     String line;
     while ((line = bRdr.readLine()) != null) {
-      if (!line.contains("#")) {
+      if (!line.startsWith("#")) {
         stopWords.add(line);
       }
     }
@@ -100,10 +99,12 @@ public class WmdPassageScorer implements PassageScorer {
             // term is OOV
           }
         }
-        if (minWMD != Double.MAX_VALUE)
+        if (minWMD != Double.MAX_VALUE) {
           wmd += minWMD;
+        }
       }
 
+      // based on observation, ignore any sentences that have less than 4 tokens
       if (candidateTerms.size() <= 4) {
         continue;
       }
