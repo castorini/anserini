@@ -31,7 +31,7 @@ class Experiments(object):
         self.w2v_cache = word_embeddings_file
         self.index_path = index_path
         self.model_file = model_file
-        self.cmd_root = "python src/main/python/run_trecqa.py -input {} -output e2e.run -qrel {} -index {} -w2v-cache {} -qa-model-file {}".\
+        self.cmd_root = "python src/main/python/run_trecqa.py -input {} -output e2e.run -qrel {} -index {} -w2v-cache {} -qa-model-file {} -model sm".\
             format(self.qa_data_xml, self.qrel, self.index_path, self.w2v_cache, self.model_file)
         self.eval_cmd_root = "./eval/trec_eval.9.0/trec_eval -m map -m recip_rank -m bpref {}".format(self.qrel)
         self.rbp_cmd_root = "rbp_eval {}".format(self.qrel)
