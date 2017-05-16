@@ -31,10 +31,11 @@ def get_answers(pyserini, question, num_hits, k, model_choice, index_path, w2v_c
       ps_split = ps.split('\t')
       candidate_passages.append(ps_split[0])
 
-    # TODO: for processing input data
+    # TODO: for processing input data. Ideally these settings need to come in as program arguments
+    # NOTE: the best model for TrecQA keeps punctuation and keeps dash-words
     flags = {
-      "punctuation": "", #  ignoring for now
-      "dash_words": "" # ignoring for now
+      "punctuation": "", # ignoring for now  you can {keep|remove} punctuation
+      "dash_words": "" # ignoring for now. you can {keep|split} words-with-hyphens
     }
     answers_list = qa_DL_model.rerank_candidate_answers(question, candidate_passages, idf_json, flags)
     sorted_answers = sorted(answers_list, key=lambda x: x[0], reverse=True)
