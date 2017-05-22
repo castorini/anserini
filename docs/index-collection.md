@@ -29,18 +29,18 @@ Using how many threads to build the index
 
 
 ```
--positions (optional)
+-storePositions (optional)
 ```
 
-Boolean switch to index positions (default: false)
+Boolean switch to index -storePositions (default: false)
 
 
 ```
--docvectors (optional)
+-storeDocvectors (optional)
 ```
 
 Boolean switch to store document vectors (default: false).
-_NOTICE:_ `-positions` MUST also be `true` in order to switch `-docvectors` to `true`
+_NOTICE:_ `-storePositions` MUST also be `true` in order to switch `-storeDocvectors` to `true`
 
 
 ```

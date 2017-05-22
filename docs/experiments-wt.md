@@ -5,10 +5,13 @@
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection WtCollection \
  -input /path/to/wt_collection/ -generator JsoupGenerator \
- -index lucene-index.wt.pos -threads 32 -positions -optimize > log.wt.cnt+pos &
+ -index lucene-index.wt.pos -threads 32 -storePositions -optimize > log.wt.cnt+pos &
 ```
 
-The directory `/path/to/wt/` should be the root directory of WT collection, i.e., `ls /path/to/wt/` should bring up a bunch of subdirectories, `WTX001` to `WTX104` (for WT10G) or `Wt0.tar.gz` to `Wt2.tar.gz` (for WT2G). The command above builds a standard positional index (`-positions`) that's optimized into a single segment (`-optimize`). If you also want to store document vectors (e.g., for query expansion), add the `-docvectors` option.
+The directory `/path/to/wt/` should be the root directory of WT collection, i.e., `ls /path/to/wt/` should bring up a 
+bunch of subdirectories, `WTX001` to `WTX104` (for WT10G) or `Wt0.tar.gz` to `Wt2.tar.gz` (for WT2G). The command above 
+builds a standard positional index (`-storePositions`) that's optimized into a single segment (`-optimize`). If you 
+also want to store document vectors (e.g., for query expansion), add the `-docvectors` option.
 
 **Search**:
 

@@ -13,7 +13,10 @@ YoGosling
 mvn clean package appassembler:assemble
 ```
 
-YoGosling is a branch from Anserini[https://github.com/lintool/Anserini] project. Like Anserini, To run YoGosling, you must save your Twitter API OAuth credentials in a file named `twitter4j.properties` in your current working YoGosling root directory. See [this page](http://twitter4j.org/en/configuration.html) for more information about Twitter4j configurations. The file should contain the following (replace the ********** instances with your information):
+YoGosling is a branch from Anserini[https://github.com/lintool/Anserini] project. Like Anserini, To run YoGosling, you 
+must save your Twitter API OAuth credentials in a file named `twitter4j.properties` in your current working YoGosling 
+root directory. See [this page](http://twitter4j.org/en/configuration.html) for more information about Twitter4j configurations. 
+The file should contain the following (replace the ********** instances with your information):
 
 	oauth.consumerKey=**********
 	oauth.consumerSecret=**********
@@ -26,7 +29,9 @@ YoGosling is a branch from Anserini[https://github.com/lintool/Anserini] project
 sh target/appassembler/bin/TRECSearcher -groupid <groupid> -index <index_name>  -host <host> -port <port> 
 ```
 
-`-host, -port` options are the url and port of the open RTS valuation broker. `-groupid` option is the groupid obtained from RTS orgnizers. Details for getting groupids and conneting to RTS broker can be found at one of the discussions in the [mailing list](https://groups.google.com/forum/#!topic/trec-rts/aGbZNFhibcg). 
+`-host, -port` options are the url and port of the open RTS valuation broker. `-groupid` option is the groupid obtained 
+from RTS orgnizers. Details for getting groupids and conneting to RTS broker can be found at one of the discussions in the 
+[mailing list](https://groups.google.com/forum/#!topic/trec-rts/aGbZNFhibcg). 
 
 
 ###Connect [evaluation broker REST(ful) API](https://github.com/trecrts/trecrts-eval/tree/master/trecrts-server)
@@ -42,7 +47,8 @@ POST /tweet/:topid/:tweetid/:clientid
 
 [https://github.com/YoGosling/Anserini/blob/master/src/main/java/io/anserini/rts/TRECScenarioRunnable.java#L168](https://github.com/YoGosling/Anserini/blob/master/src/main/java/io/anserini/rts/TRECScenarioRunnable.java#L168)
 
-To get rid of the whelming log info, there is a separate log to check whether YoGosling did the right thing: push seemingly "relevant" tweets! Under the root directory, 
+To get rid of the whelming log info, there is a separate log to check whether YoGosling did the right thing: push seemingly 
+"relevant" tweets! Under the root directory, 
 
 
 	cd src/main/java/io/anserini/rts/scenarioLog
@@ -62,11 +68,13 @@ Also for scenario B,
 
 ###Algorithm
 
-YoGosling is a modified version of the best performing automatic system in TREC 2015. For algorithm details, please refer to the paper, [Simple Dynamic Emission Strategies for Microblog Filtering](https://cs.uwaterloo.ca/~jimmylin/publications/Tan_etal_SIGIR2016b.pdf)
+YoGosling is a modified version of the best performing automatic system in TREC 2015. For algorithm details, please refer 
+to the paper, [Simple Dynamic Emission Strategies for Microblog Filtering](https://cs.uwaterloo.ca/~jimmylin/publications/Tan_etal_SIGIR2016b.pdf)
 
 ####Relevance Scoring Example: Star Wars 
 
-Document #298: { coins } ll 2016 Niue $2 1 oz. Proof Silver Star Wars Classics Series - Han Solo | GEM Proof (Original Mint ... [link](https://t.co/6pQTdwW9Iw) 
+Document #298: { coins } ll 2016 Niue $2 1 oz. Proof Silver Star Wars Classics Series - Han Solo | GEM Proof (Original Mint
+ ... [link](https://t.co/6pQTdwW9Iw) 
 
 Interest Profile: Star Wars
 

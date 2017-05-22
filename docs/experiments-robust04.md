@@ -7,14 +7,18 @@ See http://trec.nist.gov/data/t13_robust.html
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection TrecCollection \
  -input /path/to/disk45/ -generator JsoupGenerator \
- -index lucene-index.disk45.pos -threads 32 -positions -optimize > log.disk45.cnt+pos &
+ -index lucene-index.disk45.pos -threads 32 -storePositions -optimize > log.disk45.cnt+pos &
 ```
 
 
-The directory `/path/to/disk45/` should be the root directory of Disk4 and Disk5 collection, i.e., `ls /path/to/disk4/` should bring up subdirectories like `ft`, `fr94`. The command above builds a standard positional index (`-positions`) that's optimized into a single segment (`-optimize`). If you also want to store document vectors (e.g., for query expansion), add the `-docvectors` option.
+The directory `/path/to/disk45/` should be the root directory of Disk4 and Disk5 collection, i.e., `ls /path/to/disk4/` 
+should bring up subdirectories like `ft`, `fr94`. The command above builds a standard positional index (`-storePositions`) 
+that's optimized into a single segment (`-optimize`). If you also want to store document vectors (e.g., for query 
+expansion), add the `-storeDocvectors` option.
 
 _Hint:_ Anserini ignores the `cr` folder when indexing the disk45. But you can remove `cr` folder by your own too.
-_Hint:_ You can use the `DumpIndex` utility to print out the statistics of the index. Please refer to [DumpIndex References](dumpindex-reference.md) for the statistics of the index
+_Hint:_ You can use the `DumpIndex` utility to print out the statistics of the index. Please refer to 
+[DumpIndex References](dumpindex-reference.md) for the statistics of the index
 
 
 **Search**:
