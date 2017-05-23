@@ -77,13 +77,23 @@ public class FreebaseEntityDocument implements SourceDocument {
 
     if (p.startsWith(WIKI_EN_URI)) {
       if (p.startsWith(WIKI_EN_TILE_URI)) {
-        this.title = o;
+        this.title = removeQuotes(o);
       }
       else {
         // concatenate other variants with a space
-        this.text += o + " ";
+        this.text += removeQuotes(o) + " ";
       }
     }
+  }
+
+  /**
+   * Removes quotes from the literal value in object field
+   */
+  private String removeQuotes(String literal) {
+    if (literal.charAt(0) == '\"' && literal.charAt(literal.length()-1) == '\"')
+      return literal.substring(1, literal.length()-1);
+    else
+      return literal;
   }
 
   @Override
