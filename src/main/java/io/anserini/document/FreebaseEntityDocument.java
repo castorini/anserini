@@ -17,7 +17,7 @@ public class FreebaseEntityDocument implements SourceDocument {
    * text - all the values separated by space of the (entityId, http://rdf.freebase.com/key/wikipedia.en)
    */
   private String entityId;
-  private String title;
+  private String title = "";
   private String text = "";
 
   /**

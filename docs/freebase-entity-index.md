@@ -2,7 +2,7 @@
 
 ### Test on Sample Data
 - paste this to a file and gzip it
-- try indexing on this sample freebase file:
+- try indexing on this sample freebase file (make sure file is tab-delimited):
 ```
 http://rdf.freebase.com/ns/m.02mjmr http://rdf.freebase.com/key/wikipedia.en_title  "Barack_Obama"  .
 http://rdf.freebase.com/ns/m.02mjmr http://rdf.freebase.com/key/wikipedia.en    "Barack_Hussein_Obama_II"   .
@@ -12,6 +12,7 @@ http://rdf.freebase.com/ns/m.02mjmr http://rdf.freebase.com/key/wikipedia.en    
 http://rdf.freebase.com/ns/m.72kgt2 http://rdf.freebase.com/key/wikipedia.en_title  "Random Person"    .
 http://rdf.freebase.com/ns/m.72kgt2 http://rdf.freebase.com/key/wikipedia.en    "Random Alias" .
 http://rdf.freebase.com/ns/m.72kgt2 http://rdf.freebase.com/key/fsfasasdfd.gh   "fasfasdaa"    .
+http://rdf.freebase.com/ns/m.9z9z9z http://rdf.freebase.com/key/zzzzdsdzzz.zz   "zzzzzzzzzz"    .
 ```
 
 ### Indexing Freebase Entities
