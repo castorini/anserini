@@ -39,22 +39,18 @@ public class LuceneFreebaseEntityDocumentGenerator {
     Document doc = new Document();
 
     // Index subject as a StringField to allow searching
-    Field entityField = new StringField(FIELD_ENTITY,
-            cleanUri(tripleDoc.getEntityId()),
-            Field.Store.YES);
+    Field entityField = new StringField(FIELD_ENTITY, cleanUri(tripleDoc.getEntityId()), Field.Store.YES);
     doc.add(entityField);
 
     FieldType fieldType = new FieldType();
+    fieldType.setStored(true);
+    fieldType.setStoreTermVectors(true);
     fieldType.setIndexOptions(IndexOptions.DOCS_AND_FREQS);
 
-    Field titleField = new Field(FIELD_TITLE,
-            tripleDoc.getTitle(),
-            fieldType);
+    Field titleField = new Field(FIELD_TITLE, tripleDoc.getTitle(), fieldType);
     doc.add(titleField);
 
-    Field textField = new Field(FIELD_TEXT,
-            tripleDoc.getText(),
-            fieldType);
+    Field textField = new Field(FIELD_TEXT, tripleDoc.getText(), fieldType);
     doc.add(textField);
 
     tripleDoc.clear();
