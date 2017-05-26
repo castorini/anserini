@@ -5,6 +5,7 @@ import io.anserini.document.RDFDocument;
 import io.anserini.document.SourceDocument;
 import io.anserini.index.IndexFreebaseEntityCollection;
 import org.apache.lucene.document.*;
+import org.apache.lucene.index.IndexOptions;
 
 /**
  * Converts a {@link RDFDocument} into
@@ -43,14 +44,17 @@ public class LuceneFreebaseEntityDocumentGenerator {
             Field.Store.YES);
     doc.add(entityField);
 
-    Field titleField = new StringField(FIELD_TITLE,
+    FieldType fieldType = new FieldType();
+    fieldType.setIndexOptions(IndexOptions.DOCS_AND_FREQS);
+
+    Field titleField = new Field(FIELD_TITLE,
             tripleDoc.getTitle(),
-            Field.Store.YES);
+            fieldType);
     doc.add(titleField);
 
-    Field textField = new StringField(FIELD_TEXT,
+    Field textField = new Field(FIELD_TEXT,
             tripleDoc.getText(),
-            Field.Store.YES);
+            fieldType);
     doc.add(textField);
 
     tripleDoc.clear();
