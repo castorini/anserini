@@ -6,7 +6,7 @@ import io.anserini.index.generator.LuceneFreebaseEntityDocumentGenerator;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.lucene.analysis.en.EnglishAnalyzer;
+import org.apache.lucene.analysis.core.SimpleAnalyzer;
 import org.apache.lucene.codecs.lucene50.Lucene50StoredFieldsFormat;
 import org.apache.lucene.codecs.lucene62.Lucene62Codec;
 import org.apache.lucene.document.Document;
@@ -101,7 +101,7 @@ public class IndexFreebaseEntityCollection {
     LOG.info("Starting indexer...");
 
     final Directory dir = FSDirectory.open(indexPath);
-    final EnglishAnalyzer analyzer = new EnglishAnalyzer();
+    final SimpleAnalyzer analyzer = new SimpleAnalyzer();
     final IndexWriterConfig config = new IndexWriterConfig(analyzer);
     config.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
     config.setCodec(new Lucene62Codec(Lucene50StoredFieldsFormat.Mode.BEST_SPEED));
