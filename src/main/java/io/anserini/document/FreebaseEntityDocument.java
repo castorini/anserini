@@ -72,8 +72,8 @@ public class FreebaseEntityDocument implements SourceDocument {
    * @param o object value
    */
   public void addPredicateAndValue(String p, String o) {
-    String WIKI_EN_URI = "http://rdf.freebase.com/key/wikipedia.en";
-    String WIKI_EN_TILE_URI = "http://rdf.freebase.com/key/wikipedia.en_title";
+    String WIKI_EN_URI = "<http://rdf.freebase.com/key/wikipedia.en";
+    String WIKI_EN_TILE_URI = "<http://rdf.freebase.com/key/wikipedia.en_title>";
 
     if (p.startsWith(WIKI_EN_URI)) {
       if (p.startsWith(WIKI_EN_TILE_URI)) {

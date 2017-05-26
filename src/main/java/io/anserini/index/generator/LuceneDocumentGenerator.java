@@ -114,7 +114,7 @@ public class LuceneDocumentGenerator<T extends SourceDocument> {
     if (args.storePositions) {
       fieldType.setIndexOptions(IndexOptions.DOCS_AND_FREQS_AND_POSITIONS);
     } else {
-      fieldType.setIndexOptions(IndexOptions.DOCS_AND_FREQS);
+      fieldType.setIndexOptions(IndexOptions.DOCS_AND_FREQS); // !!!!!!!!!
     }
 
     document.add(new Field(FIELD_BODY, contents, fieldType));
