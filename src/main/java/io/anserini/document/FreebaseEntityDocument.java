@@ -72,8 +72,9 @@ public class FreebaseEntityDocument implements SourceDocument {
    * @param o object value
    */
   public void addPredicateAndValue(String p, String o) {
-    String WIKI_EN_URI = "<http://rdf.freebase.com/key/wikipedia.en";
-    String WIKI_EN_TILE_URI = "<http://rdf.freebase.com/key/wikipedia.en_title>";
+    p = cleanUri(p);
+    String WIKI_EN_URI = "http://rdf.freebase.com/key/wikipedia.en";
+    String WIKI_EN_TILE_URI = "http://rdf.freebase.com/key/wikipedia.en_title";
 
     if (p.startsWith(WIKI_EN_URI)) {
       if (p.startsWith(WIKI_EN_TILE_URI)) {
@@ -84,6 +85,16 @@ public class FreebaseEntityDocument implements SourceDocument {
         this.text += removeQuotes(o) + " ";
       }
     }
+  }
+
+  /**
+   * Removes '<', '>' if they exist, lower case
+   */
+  private static String cleanUri(String uri) {
+    if (uri.charAt(0) == '<')
+      return uri.substring(1, uri.length() - 1).toLowerCase();
+    else
+      return uri;
   }
 
   /**
