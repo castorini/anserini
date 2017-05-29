@@ -1,6 +1,7 @@
 # Anserini Experiments on Tweets2011
 
-Note that the Tweets2011 collection is distributed as a list of tweet ids that you have to download yourself, so the effectiveness results you'll get should be similar, but will likely not be identical to the scores reported here.
+Note that the Tweets2011 collection is distributed as a list of tweet ids that you have to download yourself, so the 
+effectiveness results you'll get should be similar, but will likely not be identical to the scores reported here.
 
 Indexing the Tweets2011 collection:
 
@@ -16,7 +17,8 @@ sh target/appassembler/bin/SearchTweets -collection Twitter -index lucene-index.
   -topics src/main/resources/topics-and-qrels/topics.microblog2011.txt -output run.mb11.bm25.txt
 ```
 
-Options for the retrieval model are similar to the web runs: specify `-bm25` to use BM25, `-ql` to use query likelihood, and add `-rm3` to invoke the RM3 relevance feedback model (requires docvectors index).
+Options for the retrieval model are similar to the web runs: specify `-bm25` to use BM25, `-ql` to use query likelihood,
+ and add `-rm3` to invoke the RM3 relevance feedback model (requires docvectors index).
 
 For evaluation:
 

@@ -87,6 +87,8 @@
             <program>
               <mainClass>io.anserini.search.SearchFreebaseEntity</mainClass>
               <name>SearchFreebaseEntity</name>
+              <mainClass>io.anserini.util.TrainingDataGenerator</mainClass>
+              <name>TrainingDataGenerator</name>
             </program>
             <program>
               <mainClass>io.anserini.py4j.PyseriniEntryPoint</mainClass>

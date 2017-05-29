@@ -9,9 +9,13 @@ nohup sh target/appassembler/bin/IndexCollection -collection CW12Collection \
 
 ```
 
-The directory `/path/to/cw12/` should be the root directory of ClueWeb12 collection, i.e., `/path/to/cw12/` should contain `Disk1`, `Disk2`, `Disk3`, `Disk4`. The above command builds an index that stores term frequencies only and `-optimize` force merges all index segment into one.
+The directory `/path/to/cw12/` should be the root directory of ClueWeb12 collection, i.e., `/path/to/cw12/` should contain 
+`Disk1`, `Disk2`, `Disk3`, `Disk4`. The above command builds an index that stores term frequencies only and `-optimize` 
+force merges all index segment into one.
 
-On our streeling machine, which is 2 x Intel Xeon E5-2680 v3 2.5GHz (12 cores) with 768 GB RAM, indexing takes around 26 hours, 7 of which is consumed by the index merge. The index size is 356 GB. Note there's nothing to prevent building positional indexes and storing document vectors (for relevance feedback), other than space and time.
+On our streeling machine, which is 2 x Intel Xeon E5-2680 v3 2.5GHz (12 cores) with 768 GB RAM, indexing takes around 26 
+hours, 7 of which is consumed by the index merge. The index size is 356 GB. Note there's nothing to prevent building 
+positional indexes and storing document vectors (for relevance feedback), other than space and time.
 
 After indexing is done, you should be able to perform a retrieval run:
 
@@ -21,9 +25,11 @@ sh target/appassembler/bin/SearchWebCollection \
   -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt -output run.web.201-250.bm25.txt
 ```
 
-For the retrieval model: specify `-bm25` to use BM25, `-ql` to use query likelihood, and add `-rm3` to invoke the RM3 relevance feedback model (requires docvectors index).
+For the retrieval model: specify `-bm25` to use BM25, `-ql` to use query likelihood, and add `-rm3` to invoke the RM3 
+relevance feedback model (requires docvectors index).
 
-Topics and qrels are stored in `src/main/resources/topics-and-qrels/`. Use `trec_eval` to compute AP and P30, and use `gdeval` to compute NDCG@20:
+Topics and qrels are stored in `src/main/resources/topics-and-qrels/`. Use `trec_eval` to compute AP and P30, and use 
+`gdeval` to compute NDCG@20:
 
 ```
 eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.web.201-250.txt run.web.201-250.bm25.txt
