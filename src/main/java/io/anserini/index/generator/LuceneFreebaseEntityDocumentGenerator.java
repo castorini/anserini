@@ -47,10 +47,10 @@ public class LuceneFreebaseEntityDocumentGenerator {
     fieldType.setStoreTermVectors(true);
     fieldType.setIndexOptions(IndexOptions.DOCS_AND_FREQS);
 
-    Field titleField = new Field(FIELD_TITLE, tripleDoc.getTitle(), fieldType);
+    Field titleField = new TextField(FIELD_TITLE, tripleDoc.getTitle(), Field.Store.YES);
     doc.add(titleField);
 
-    Field textField = new Field(FIELD_TEXT, tripleDoc.getText(), fieldType);
+    Field textField = new TextField(FIELD_TEXT, tripleDoc.getText(), Field.Store.YES);
     doc.add(textField);
 
     tripleDoc.clear();
