@@ -1,8 +1,9 @@
 package io.anserini.collection;
 
-import io.anserini.document.FreebaseEntityDocument;
+import io.anserini.document.FreebaseTopicDocument;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -16,9 +17,9 @@ import java.util.zip.GZIPInputStream;
  * RDF datasets can represent knowledge bases such as Freebase.
  * They often come in a single .gz file.
  */
-public class FreebaseEntityCollection extends Collection<FreebaseEntityDocument> {
+public class FreebaseTopicCollection extends Collection<FreebaseTopicDocument> {
 
-  private static final Logger LOG = LogManager.getLogger(FreebaseEntityCollection.class);
+  private static final Logger LOG = LogManager.getLogger(FreebaseTopicCollection.class);
 
   public class CompressedFileSegment extends FileSegment {
     protected BufferedReader bufferedReader;
@@ -28,7 +29,7 @@ public class FreebaseEntityCollection extends Collection<FreebaseEntityDocument>
      * Keep track of the current subject document
      * that is being processed to detect new entities.
      */
-    private FreebaseEntityDocument currentDoc = null;
+    private FreebaseTopicDocument currentDoc = null;
 
     protected CompressedFileSegment(Path path) throws IOException {
       this.path = path;
@@ -52,8 +53,8 @@ public class FreebaseEntityCollection extends Collection<FreebaseEntityDocument>
     }
 
     @Override
-    public FreebaseEntityDocument next() {
-      FreebaseEntityDocument doc = null;
+    public FreebaseTopicDocument next() {
+      FreebaseTopicDocument doc = null;
 
       while (true) { // Keep reading file
         try {
@@ -74,7 +75,7 @@ public class FreebaseEntityCollection extends Collection<FreebaseEntityDocument>
             continue;
           } else {
             // Process the line
-            String[] triple = line.split(FreebaseEntityDocument.TRIPLE_SPLITTER);
+            String[] triple = line.split(FreebaseTopicDocument.TRIPLE_SPLITTER);
 
             if (triple.length != 4) {
               // Ignore invalid lines
@@ -84,11 +85,11 @@ public class FreebaseEntityCollection extends Collection<FreebaseEntityDocument>
 
             if (currentDoc == null) {
               // First line with a valid triple, create a new doc
-              currentDoc = new FreebaseEntityDocument(triple[0], triple[1], triple[2]);
+              currentDoc = new FreebaseTopicDocument(triple[0], triple[1], triple[2]);
               continue;
             }
 
-            if (triple[0].equals(currentDoc.getEntityId())) {
+            if (triple[0].equals(currentDoc.getTopicMid())) {
               // Still processing the same entity subject
               currentDoc.addPredicateAndValue(triple[1], triple[2]);
             } else {
@@ -97,7 +98,7 @@ public class FreebaseEntityCollection extends Collection<FreebaseEntityDocument>
               doc = currentDoc;
 
               // Set the current document to a new document with the new subject
-              currentDoc = new FreebaseEntityDocument(triple[0], triple[1], triple[2]);
+              currentDoc = new FreebaseTopicDocument(triple[0], triple[1], triple[2]);
 
               // Break from loop to return doc
               break;
