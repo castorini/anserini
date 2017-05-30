@@ -1,11 +1,8 @@
 package io.anserini.search;
 
-import io.anserini.index.generator.LuceneFreebaseEntityDocumentGenerator;
+import io.anserini.index.generator.LuceneFreebaseTopicDocumentGenerator;
 import io.anserini.rerank.IdentityReranker;
-import io.anserini.rerank.RerankerCascade;
-import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.ScoredDocuments;
-import io.anserini.util.AnalyzerUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.core.SimpleAnalyzer;
@@ -74,7 +71,6 @@ public class SearchFreebaseEntity implements Closeable {
     LOG.info("Querying started...");
 
     // Initialize index searcher
-    Map<String, Float> scoredDocs = new LinkedHashMap<>();
     IndexSearcher searcher = new IndexSearcher(reader);
     float k1 = 1.5f;
     float b = 0.75f;
@@ -82,26 +78,20 @@ public class SearchFreebaseEntity implements Closeable {
     searcher.setSimilarity(similarity);
     SimpleAnalyzer analyzer = new SimpleAnalyzer();
     MultiFieldQueryParser queryParser = new MultiFieldQueryParser(
-                    new String[]{ LuceneFreebaseEntityDocumentGenerator.FIELD_TITLE,
-                          LuceneFreebaseEntityDocumentGenerator.FIELD_LABEL,
-                          LuceneFreebaseEntityDocumentGenerator.FIELD_TEXT },
+                    new String[]{ LuceneFreebaseTopicDocumentGenerator.FIELD_TITLE,
+                            LuceneFreebaseTopicDocumentGenerator.FIELD_LABEL,
+                            LuceneFreebaseTopicDocumentGenerator.FIELD_TEXT },
                     analyzer);
     queryParser.setDefaultOperator(QueryParser.Operator.OR);
     Query query = queryParser.parse(queryName);
-    RerankerCascade cascade = new RerankerCascade();
-    cascade.add(new IdentityReranker());
 
     int numHits = 20;
     TopDocs rs = searcher.search(query, numHits);
-    ScoreDoc[] hits = rs.scoreDocs;
-    List<String> queryTokens = AnalyzerUtils.tokenize(analyzer, queryName);
-    RerankerContext context = new RerankerContext(searcher, query, String.valueOf(1), queryName,
-            queryTokens, LuceneFreebaseEntityDocumentGenerator.FIELD_LABEL, null);
-    ScoredDocuments docs = cascade.run(ScoredDocuments.fromTopDocs(rs, searcher), context);
+    ScoredDocuments docs = ScoredDocuments.fromTopDocs(rs, searcher);
 
     for (int i = 0; i < docs.documents.length; i++) {
       System.out.println(String.format("%d: %s %f", (i + 1),
-              docs.documents[i].getField(LuceneFreebaseEntityDocumentGenerator.FIELD_ENTITY).stringValue(),
+              docs.documents[i].getField(LuceneFreebaseTopicDocumentGenerator.FIELD_TOPIC_MID).stringValue(),
               docs.scores[i]));
     }
 
