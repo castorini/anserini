@@ -9,10 +9,8 @@ import io.anserini.util.AnalyzerUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.core.SimpleAnalyzer;
-import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.index.Term;
 import org.apache.lucene.queryparser.classic.MultiFieldQueryParser;
 import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.*;
@@ -27,9 +25,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
-
-import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_BODY;
-import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_ID;
 
 /**
  * Search an indexed FreebaseEntity collection.

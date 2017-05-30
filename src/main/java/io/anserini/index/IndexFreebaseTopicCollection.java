@@ -2,7 +2,7 @@ package io.anserini.index;
 
 import io.anserini.collection.Collection;
 import io.anserini.document.SourceDocument;
-import io.anserini.index.generator.LuceneFreebaseEntityDocumentGenerator;
+import io.anserini.index.generator.LuceneFreebaseTopicDocumentGenerator;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -14,6 +14,8 @@ import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
+import org.kohsuke.args4j.*;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -22,17 +24,16 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
-import org.kohsuke.args4j.*;
 
 /**
  * Index an RDF Collection, such as Freebase.
  */
-public class IndexFreebaseEntityCollection {
+public class IndexFreebaseTopicCollection {
 
   /**
    * Logger
    */
-  private static final Logger LOG = LogManager.getLogger(IndexFreebaseEntityCollection.class);
+  private static final Logger LOG = LogManager.getLogger(IndexFreebaseTopicCollection.class);
 
   public static final class Args {
     // Required arguments
@@ -68,7 +69,7 @@ public class IndexFreebaseEntityCollection {
    * @param args program arguments
    * @throws Exception
    */
-  public IndexFreebaseEntityCollection(Args args) throws Exception {
+  public IndexFreebaseTopicCollection(Args args) throws Exception {
 
     // Copy arguments
     this.args = args;
@@ -141,7 +142,7 @@ public class IndexFreebaseEntityCollection {
    * @throws IOException on error
    */
   private void index(IndexWriter writer, Collection collection, Path inputFile) throws IOException {
-    LuceneFreebaseEntityDocumentGenerator transformer = new LuceneFreebaseEntityDocumentGenerator();
+    LuceneFreebaseTopicDocumentGenerator transformer = new LuceneFreebaseTopicDocumentGenerator();
     transformer.config(args);
     transformer.setCounters(counters);
 
@@ -163,7 +164,7 @@ public class IndexFreebaseEntityCollection {
 
       // Display progress
       if (cnt % 100000 == 0) {
-        LOG.debug("Number of indexed entity document: {}", cnt);
+        LOG.debug("Number of indexed topic document: {}", cnt);
       }
 
       d = null;
@@ -186,11 +187,11 @@ public class IndexFreebaseEntityCollection {
     } catch (CmdLineException e) {
       System.err.println(e.getMessage());
       parser.printUsage(System.err);
-      System.err.println("Example command: "+ IndexFreebaseEntityCollection.class.getSimpleName() +
+      System.err.println("Example command: "+ IndexFreebaseTopicCollection.class.getSimpleName() +
               parser.printExample(OptionHandlerFilter.REQUIRED));
       return;
     }
 
-    new IndexFreebaseEntityCollection(indexRDFCollectionArgs).run();
+    new IndexFreebaseTopicCollection(indexRDFCollectionArgs).run();
   }
 }

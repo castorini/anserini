@@ -6,27 +6,35 @@ import org.openrdf.model.impl.SimpleValueFactory;
 import org.openrdf.rio.ntriples.NTriplesUtil;
 
 /**
- * A document that represent an freebase entity
+ * A document that represent an freebase topic
  */
-public class FreebaseEntityDocument implements SourceDocument {
+public class FreebaseTopicDocument implements SourceDocument {
 
   /**
    * Splitter that describes how s,p,o are split in a triple line
    */
   public static final String TRIPLE_SPLITTER = "\t";
+
+  /**
+   * Predicates for which the literals should be stored
+   */
+  public static final String WIKI_EN_URI = "http://rdf.freebase.com/key/wikipedia.en";
+  public static final String WIKI_EN_TILE_URI = "http://rdf.freebase.com/key/wikipedia.en_title";
+  public static final String W3_LABEL_URI = "http://www.w3.org/2000/01/rdf-schema#label";
+
   /**
    * Simple value factory to parse literals using Sesame library.
    */
   private ValueFactory valueFactory = SimpleValueFactory.getInstance();
 
   /**
-   * FreebaseEntityDocument has three fields:
-   * entityId - the MID of the entity
-   * title - the object value of the (entityId, http://rdf.freebase.com/key/wikipedia.en_title)
-   * label - title - the object value of the (entityId, http://www.w3.org/2000/01/rdf-schema#label)
-   * text - all the values separated by space of the (entityId, http://rdf.freebase.com/key/wikipedia.en)
+   * FreebaseTopicDocument has four fields:
+   * topicMid - the MID of the topic
+   * title - the object value of the (topicMid, http://rdf.freebase.com/key/wikipedia.en_title)
+   * label - title - the object value of the (topicMid, http://www.w3.org/2000/01/rdf-schema#label)
+   * text - all the values separated by space of the (topicMid, http://rdf.freebase.com/key/wikipedia.en)
    */
-  private String entityId;
+  private String topicMid;
   private String title = "";
   private String label = "";
   private String text = "";
@@ -34,20 +42,20 @@ public class FreebaseEntityDocument implements SourceDocument {
   /**
    * Constructor for an NT triples (NTriples).
    *
-   * @param docid subject
-   * @param title predicate
-   * @param text object
+   * @param s subject
+   * @param p predicate
+   * @param o object
    */
-  public FreebaseEntityDocument(String docid, String title, String text) {
-    init(docid, title, text);
+  public FreebaseTopicDocument(String s, String p, String o) {
+    init(s, p, o);
   }
 
   /**
    * Clone from another document
    * @param other
    */
-  public FreebaseEntityDocument(FreebaseEntityDocument other) {
-    this.entityId = other.entityId;
+  public FreebaseTopicDocument(FreebaseTopicDocument other) {
+    this.topicMid = other.topicMid;
     this.label = other.label;
     this.title = other.title;
     this.text = other.text;
@@ -57,7 +65,7 @@ public class FreebaseEntityDocument implements SourceDocument {
    * Constructor from a line
    * @param line line that contains triple information
    */
-  public FreebaseEntityDocument(String line) throws IllegalArgumentException {
+  public FreebaseTopicDocument(String line) throws IllegalArgumentException {
     String[] pieces = line.split(TRIPLE_SPLITTER);
     if (pieces.length == 4) {
       init(pieces[0], pieces[1], pieces[2]);
@@ -73,7 +81,7 @@ public class FreebaseEntityDocument implements SourceDocument {
    * @param o object
    */
   private void init(String s, String p, String o) {
-    this.entityId = s;
+    this.topicMid = s;
     // Add the predicate and object as the first element in the list
     addPredicateAndValue(p, o);
   }
@@ -85,9 +93,6 @@ public class FreebaseEntityDocument implements SourceDocument {
    */
   public void addPredicateAndValue(String p, String o) {
     p = cleanUri(p);
-    String WIKI_EN_URI = "http://rdf.freebase.com/key/wikipedia.en";
-    String WIKI_EN_TILE_URI = "http://rdf.freebase.com/key/wikipedia.en_title";
-    String W3_LABEL_URI = "http://www.w3.org/2000/01/rdf-schema#label";
 
     if (p.startsWith(WIKI_EN_URI)) {
       if (p.startsWith(WIKI_EN_TILE_URI)) {
@@ -128,7 +133,7 @@ public class FreebaseEntityDocument implements SourceDocument {
 
   @Override
   public String id() {
-    return entityId;
+    return topicMid;
   }
 
   @Override
@@ -148,15 +153,15 @@ public class FreebaseEntityDocument implements SourceDocument {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("Entity ID: " + entityId + "\n");
+    sb.append("Topic MID: " + topicMid + "\n");
     sb.append("Title: " + title + "\n");
     sb.append("Label: " + label + "\n");
     sb.append("Text:\n" + text + "\n\n");
     return sb.toString();
   }
 
-  public String getEntityId() {
-    return entityId;
+  public String getTopicMid() {
+    return topicMid;
   }
 
   public String getTitle() {
@@ -176,7 +181,7 @@ public class FreebaseEntityDocument implements SourceDocument {
    * Clears resources
    */
   public void clear() {
-    entityId = null;
+    topicMid = null;
     title = null;
     label = null;
     text = null;
