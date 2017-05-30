@@ -77,16 +77,16 @@
               <name>IndexRDF</name>
             </program>
             <program>
-              <mainClass>io.anserini.index.IndexFreebaseEntityCollection</mainClass>
-              <name>IndexFreebaseEntity</name>
+              <mainClass>io.anserini.index.IndexFreebaseTopicCollection</mainClass>
+              <name>IndexFreebaseTopic</name>
             </program>
             <program>
               <mainClass>io.anserini.search.SearchRDF</mainClass>
               <name>SearchRDF</name>
             </program>
             <program>
-              <mainClass>io.anserini.search.SearchFreebaseEntity</mainClass>
-              <name>SearchFreebaseEntity</name>
+              <mainClass>io.anserini.search.SearchFreebaseTopic</mainClass>
+              <name>SearchFreebaseTopic</name>
             </program>
             <program>
               <mainClass>io.anserini.util.TrainingDataGenerator</mainClass>

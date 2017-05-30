@@ -1,7 +1,6 @@
 package io.anserini.search;
 
 import io.anserini.index.generator.LuceneFreebaseTopicDocumentGenerator;
-import io.anserini.rerank.IdentityReranker;
 import io.anserini.rerank.ScoredDocuments;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -10,7 +9,9 @@ import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.queryparser.classic.MultiFieldQueryParser;
 import org.apache.lucene.queryparser.classic.QueryParser;
-import org.apache.lucene.search.*;
+import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.Query;
+import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.search.similarities.BM25Similarity;
 import org.apache.lucene.search.similarities.Similarity;
 import org.apache.lucene.store.FSDirectory;
@@ -21,14 +22,13 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
 
 /**
  * Search an indexed FreebaseEntity collection.
  *
  */
-public class SearchFreebaseEntity implements Closeable {
-  private static final Logger LOG = LogManager.getLogger(SearchFreebaseEntity.class);
+public class SearchFreebaseTopic implements Closeable {
+  private static final Logger LOG = LogManager.getLogger(SearchFreebaseTopic.class);
 
   private final IndexReader reader;
 
@@ -43,7 +43,7 @@ public class SearchFreebaseEntity implements Closeable {
     public String query; // entity name to search for
   }
 
-  private SearchFreebaseEntity(String indexDir) throws IOException {
+  private SearchFreebaseTopic(String indexDir) throws IOException {
     // Initialize index reader
     LOG.info("Reading index from " + indexDir);
 
@@ -110,11 +110,11 @@ public class SearchFreebaseEntity implements Closeable {
     } catch (CmdLineException e) {
       System.err.println(e.getMessage());
       parser.printUsage(System.err);
-      System.err.println("Example command: "+ SearchFreebaseEntity.class.getSimpleName() +
+      System.err.println("Example command: "+ SearchFreebaseTopic.class.getSimpleName() +
               parser.printExample(OptionHandlerFilter.REQUIRED));
       return;
     }
 
-    new SearchFreebaseEntity(searchArgs.index).search(searchArgs.query);
+    new SearchFreebaseTopic(searchArgs.index).search(searchArgs.query);
   }
 }
