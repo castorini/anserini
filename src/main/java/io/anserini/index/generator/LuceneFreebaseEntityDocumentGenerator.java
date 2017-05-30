@@ -14,6 +14,7 @@ import org.apache.lucene.index.IndexOptions;
 public class LuceneFreebaseEntityDocumentGenerator {
   public static final String FIELD_ENTITY = "entity";
   public static final String FIELD_TITLE = "title";
+  public static final String FIELD_LABEL = "label";
   public static final String FIELD_TEXT = "text";
 
 
@@ -49,6 +50,9 @@ public class LuceneFreebaseEntityDocumentGenerator {
 
     Field titleField = new TextField(FIELD_TITLE, tripleDoc.getTitle(), Field.Store.YES);
     doc.add(titleField);
+
+    Field labelField = new TextField(FIELD_LABEL, tripleDoc.getLabel(), Field.Store.YES);
+    doc.add(labelField);
 
     Field textField = new TextField(FIELD_TEXT, tripleDoc.getText(), Field.Store.YES);
     doc.add(textField);

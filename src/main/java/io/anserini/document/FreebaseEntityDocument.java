@@ -1,5 +1,10 @@
 package io.anserini.document;
 
+import org.openrdf.model.Literal;
+import org.openrdf.model.ValueFactory;
+import org.openrdf.model.impl.SimpleValueFactory;
+import org.openrdf.rio.ntriples.NTriplesUtil;
+
 /**
  * A document that represent an freebase entity
  */
@@ -9,6 +14,10 @@ public class FreebaseEntityDocument implements SourceDocument {
    * Splitter that describes how s,p,o are split in a triple line
    */
   public static final String TRIPLE_SPLITTER = "\t";
+  /**
+   * Simple value factory to parse literals using Sesame library.
+   */
+  private ValueFactory valueFactory = SimpleValueFactory.getInstance();
 
   /**
    * FreebaseEntityDocument has three fields:
@@ -18,6 +27,7 @@ public class FreebaseEntityDocument implements SourceDocument {
    */
   private String entityId;
   private String title = "";
+  private String label = "";
   private String text = "";
 
   /**
@@ -37,6 +47,7 @@ public class FreebaseEntityDocument implements SourceDocument {
    */
   public FreebaseEntityDocument(FreebaseEntityDocument other) {
     this.entityId = other.entityId;
+    this.label = other.label;
     this.title = other.title;
     this.text = other.text;
   }
@@ -75,6 +86,7 @@ public class FreebaseEntityDocument implements SourceDocument {
     p = cleanUri(p);
     String WIKI_EN_URI = "http://rdf.freebase.com/key/wikipedia.en";
     String WIKI_EN_TILE_URI = "http://rdf.freebase.com/key/wikipedia.en_title";
+    String W3_LABEL_URI = "http://www.w3.org/2000/01/rdf-schema#label";
 
     if (p.startsWith(WIKI_EN_URI)) {
       if (p.startsWith(WIKI_EN_TILE_URI)) {
@@ -83,6 +95,12 @@ public class FreebaseEntityDocument implements SourceDocument {
       else {
         // concatenate other variants with a space
         this.text += removeQuotes(o) + " ";
+      }
+    }
+    else if (p.startsWith(W3_LABEL_URI)) {
+      Literal parsedLiteral = NTriplesUtil.parseLiteral(o, valueFactory);
+      if (parsedLiteral.getLanguage().toString().equals("Optional[en]")) {
+        this.label = parsedLiteral.stringValue();
       }
     }
   }
@@ -131,6 +149,7 @@ public class FreebaseEntityDocument implements SourceDocument {
     StringBuilder sb = new StringBuilder();
     sb.append("Entity ID: " + entityId + "\n");
     sb.append("Title: " + title + "\n");
+    sb.append("Label: " + label + "\n");
     sb.append("Text:\n" + text + "\n\n");
     return sb.toString();
   }
@@ -141,6 +160,10 @@ public class FreebaseEntityDocument implements SourceDocument {
 
   public String getTitle() {
     return title;
+  }
+
+  public String getLabel() {
+    return label;
   }
 
   public String getText() {
@@ -154,6 +177,7 @@ public class FreebaseEntityDocument implements SourceDocument {
   public void clear() {
     entityId = null;
     title = null;
+    label = null;
     text = null;
   }
 }
