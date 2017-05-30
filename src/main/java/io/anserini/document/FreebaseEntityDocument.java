@@ -23,6 +23,7 @@ public class FreebaseEntityDocument implements SourceDocument {
    * FreebaseEntityDocument has three fields:
    * entityId - the MID of the entity
    * title - the object value of the (entityId, http://rdf.freebase.com/key/wikipedia.en_title)
+   * label - title - the object value of the (entityId, http://www.w3.org/2000/01/rdf-schema#label)
    * text - all the values separated by space of the (entityId, http://rdf.freebase.com/key/wikipedia.en)
    */
   private String entityId;

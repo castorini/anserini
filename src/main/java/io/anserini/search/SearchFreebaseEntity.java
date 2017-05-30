@@ -1,15 +1,23 @@
 package io.anserini.search;
 
 import io.anserini.index.generator.LuceneFreebaseEntityDocumentGenerator;
+import io.anserini.rerank.IdentityReranker;
+import io.anserini.rerank.RerankerCascade;
+import io.anserini.rerank.RerankerContext;
+import io.anserini.rerank.ScoredDocuments;
+import io.anserini.util.AnalyzerUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.lucene.analysis.core.SimpleAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.Term;
-import org.apache.lucene.search.CheckHits;
-import org.apache.lucene.search.IndexSearcher;
-import org.apache.lucene.search.TermQuery;
+import org.apache.lucene.queryparser.classic.MultiFieldQueryParser;
+import org.apache.lucene.queryparser.classic.QueryParser;
+import org.apache.lucene.search.*;
+import org.apache.lucene.search.similarities.BM25Similarity;
+import org.apache.lucene.search.similarities.Similarity;
 import org.apache.lucene.store.FSDirectory;
 import org.kohsuke.args4j.*;
 
@@ -18,8 +26,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
+
+import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_BODY;
+import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_ID;
 
 /**
  * Search an indexed FreebaseEntity collection.
@@ -36,16 +46,9 @@ public class SearchFreebaseEntity implements Closeable {
     @Option(name = "-index", metaVar = "[Path]", required = true, usage = "index path")
     public String index;
 
-    @Option(name = "-entity", metaVar = "[Entity URI]", required =  true, usage = "entity subject URI")
-    public String entity;
 
-    // Optional arguments
-
-    @Option(name = "-title", metaVar = "[title name]", usage = "title to search")
-    String title;
-
-    @Option(name = "-text", metaVar = "[text name]", usage = "text to search")
-    String text;
+    @Option(name = "-query", metaVar = "[Query]", required =  true, usage = "entity name to query for")
+    public String query; // entity name to search for
   }
 
   private SearchFreebaseEntity(String indexDir) throws IOException {
@@ -69,40 +72,42 @@ public class SearchFreebaseEntity implements Closeable {
   /**
    * Prints query results to the standard output stream.
    *
-   * @param entity the entity ID to search
-   * @param title the title to search
-   * @param text the text field to search
+   * @param queryName the entity name to search
    * @throws Exception on error
    */
-  public void search(String entity, String title, String text) throws Exception {
+  public void search(String queryName) throws Exception {
     LOG.info("Querying started...");
 
     // Initialize index searcher
+    Map<String, Float> scoredDocs = new LinkedHashMap<>();
     IndexSearcher searcher = new IndexSearcher(reader);
+    float k1 = 1.5f;
+    float b = 0.75f;
+    Similarity similarity = new BM25Similarity(k1, b);
+    searcher.setSimilarity(similarity);
+    SimpleAnalyzer analyzer = new SimpleAnalyzer();
+    MultiFieldQueryParser queryParser = new MultiFieldQueryParser(
+                    new String[]{ LuceneFreebaseEntityDocumentGenerator.FIELD_TITLE,
+                          LuceneFreebaseEntityDocumentGenerator.FIELD_LABEL,
+                          LuceneFreebaseEntityDocumentGenerator.FIELD_TEXT },
+                    analyzer);
+    queryParser.setDefaultOperator(QueryParser.Operator.OR);
+    Query query = queryParser.parse(queryName);
+    RerankerCascade cascade = new RerankerCascade();
+    cascade.add(new IdentityReranker());
 
-    // Search for exact subject URI
-    TermQuery query = new TermQuery(new Term(LuceneFreebaseEntityDocumentGenerator.FIELD_ENTITY, entity));
+    int numHits = 20;
+    TopDocs rs = searcher.search(query, numHits);
+    ScoreDoc[] hits = rs.scoreDocs;
+    List<String> queryTokens = AnalyzerUtils.tokenize(analyzer, queryName);
+    RerankerContext context = new RerankerContext(searcher, query, String.valueOf(1), queryName,
+            queryTokens, LuceneFreebaseEntityDocumentGenerator.FIELD_LABEL, null);
+    ScoredDocuments docs = cascade.run(ScoredDocuments.fromTopDocs(rs, searcher), context);
 
-    // Collect all matching lucene document ids
-    Set<Integer> matchingDocIds = new HashSet<>(5);
-    searcher.search(query, new CheckHits.SetCollector(matchingDocIds));
-
-    if (matchingDocIds.size() == 0) { // We couldn't find any matching documents
-      String msg = "Cannot find subject: " + query;
-      LOG.warn(msg);
-    } else {
-      // Retrieve and print documents
-      matchingDocIds.forEach(luceneDocId -> {
-        try {
-          Document doc = reader.document(luceneDocId);
-          doc.iterator().forEachRemaining(field -> {
-            String fieldMessage = field.name() + "\t:\t " + field.stringValue();
-            LOG.info(fieldMessage);
-          });
-        } catch (IOException e) {
-          LOG.error("Error retrieving lucene document: {}", luceneDocId, e);
-        }
-      });
+    for (int i = 0; i < docs.documents.length; i++) {
+      System.out.println(String.format("%d: %s %f", (i + 1),
+              docs.documents[i].getField(LuceneFreebaseEntityDocumentGenerator.FIELD_ENTITY).stringValue(),
+              docs.scores[i]));
     }
 
     LOG.info("Querying completed.");
@@ -125,6 +130,6 @@ public class SearchFreebaseEntity implements Closeable {
       return;
     }
 
-    new SearchFreebaseEntity(searchArgs.index).search(searchArgs.entity, searchArgs.title, searchArgs.text);
+    new SearchFreebaseEntity(searchArgs.index).search(searchArgs.query);
   }
 }
