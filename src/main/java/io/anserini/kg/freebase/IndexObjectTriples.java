@@ -1,8 +1,5 @@
-package io.anserini.index;
+package io.anserini.kg.freebase;
 
-import io.anserini.collection.Collection;
-import io.anserini.document.SourceDocument;
-import io.anserini.index.generator.LuceneRDFDocumentGenerator;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -17,9 +14,9 @@ import org.apache.lucene.store.FSDirectory;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
+import org.kohsuke.args4j.OptionHandlerFilter;
 import org.kohsuke.args4j.ParserProperties;
 import org.kohsuke.args4j.spi.StringArrayOptionHandler;
-import org.kohsuke.args4j.OptionHandlerFilter;
 
 import java.io.File;
 import java.io.IOException;
@@ -33,12 +30,12 @@ import java.util.concurrent.atomic.AtomicLong;
 /**
  * Index an RDF Collection, such as Freebase.
  */
-public class IndexRDFCollection {
+public class IndexObjectTriples {
 
   /**
    * Logger
    */
-  private static final Logger LOG = LogManager.getLogger(IndexRDFCollection.class);
+  private static final Logger LOG = LogManager.getLogger(IndexObjectTriples.class);
 
   public static final class Args {
     // Required arguments
@@ -48,9 +45,6 @@ public class IndexRDFCollection {
 
     @Option(name = "-index", metaVar = "[Path]", required = true, usage = "index path")
     public String index;
-
-    @Option(name = "-collection", required = true, usage = "collection class in io.anserini.collection")
-    public String collectionClass;
 
     // Optional arguments
 
@@ -69,8 +63,6 @@ public class IndexRDFCollection {
 
   private final Path indexPath;
   private final Path collectionPath;
-  private final Class collectionClass;
-  private final Collection collection;
   private final Counters counters;
 
   /**
@@ -79,7 +71,7 @@ public class IndexRDFCollection {
    * @param args program arguments
    * @throws Exception
    */
-  public IndexRDFCollection(Args args) throws Exception {
+  public IndexObjectTriples(Args args) throws Exception {
 
     // Copy arguments
     this.args = args;
@@ -105,10 +97,6 @@ public class IndexRDFCollection {
               " does not exist or is not readable, please check the path");
     }
 
-    this.collectionClass = Class.forName("io.anserini.collection." + args.collectionClass);
-    collection = (Collection) this.collectionClass.newInstance();
-    collection.setCollectionPath(collectionPath);
-
     this.counters = new Counters();
   }
 
@@ -124,12 +112,7 @@ public class IndexRDFCollection {
     config.setUseCompoundFile(false);
 
     final IndexWriter writer = new IndexWriter(dir, config);
-    final List<Path> segmentPaths = collection.getFileSegmentPaths();
-
-    for (Path inputFile : segmentPaths) {
-      LOG.info("Indexing segment: {}", inputFile.toAbsolutePath());
-      index(writer, collection, inputFile);
-    }
+    index(writer, collectionPath);
 
     int numIndexed = writer.maxDoc();
     try {
@@ -152,24 +135,18 @@ public class IndexRDFCollection {
    * Run the indexing process.
    *
    * @param writer index writer
-   * @param collection collection to index
    * @param inputFile which file to index from the collection
    * @throws IOException on error
    */
-  private void index(IndexWriter writer, Collection collection, Path inputFile) throws IOException {
-    LuceneRDFDocumentGenerator transformer = new LuceneRDFDocumentGenerator();
+  private void index(IndexWriter writer, Path inputFile) throws IOException {
+    ObjectTriplesLuceneDocumentGenerator transformer = new ObjectTriplesLuceneDocumentGenerator();
     transformer.config(args);
     transformer.setCounters(counters);
 
     int cnt = 0;
-    Collection.FileSegment iter = collection.createFileSegment(inputFile);
+    ObjectTriplesIterator iter = new ObjectTriplesIterator(inputFile);
     while (iter.hasNext()) {
-      // Get the next source document (next triple)
-      SourceDocument d = (SourceDocument) iter.next();
-      if (d == null || !d.indexable()) {
-        continue;
-      }
-
+      ObjectTriples d = iter.next();
       Document doc = transformer.createDocument(d);
 
       if (doc != null) {
@@ -202,11 +179,11 @@ public class IndexRDFCollection {
     } catch (CmdLineException e) {
       System.err.println(e.getMessage());
       parser.printUsage(System.err);
-      System.err.println("Example command: "+ IndexRDFCollection.class.getSimpleName() +
+      System.err.println("Example command: "+ IndexObjectTriples.class.getSimpleName() +
               parser.printExample(OptionHandlerFilter.REQUIRED));
       return;
     }
 
-    new IndexRDFCollection(indexRDFCollectionArgs).run();
+    new IndexObjectTriples(indexRDFCollectionArgs).run();
   }
 }

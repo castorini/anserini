@@ -1,6 +1,5 @@
-package io.anserini.search;
+package io.anserini.kg.freebase;
 
-import io.anserini.index.generator.LuceneRDFDocumentGenerator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.document.Document;
@@ -14,8 +13,8 @@ import org.apache.lucene.store.FSDirectory;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
-import org.kohsuke.args4j.ParserProperties;
 import org.kohsuke.args4j.OptionHandlerFilter;
+import org.kohsuke.args4j.ParserProperties;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -31,8 +30,8 @@ import java.util.Set;
  * This should simulate some conjunctive queries that
  * can be expressed using SPARQL.
  */
-public class SearchRDF implements Closeable {
-  private static final Logger LOG = LogManager.getLogger(SearchRDF.class);
+public class LookupObjectTriples implements Closeable {
+  private static final Logger LOG = LogManager.getLogger(LookupObjectTriples.class);
 
   private final IndexReader reader;
 
@@ -51,7 +50,7 @@ public class SearchRDF implements Closeable {
     String predicate;
   }
 
-  private SearchRDF(String indexDir) throws IOException {
+  private LookupObjectTriples(String indexDir) throws IOException {
     // Initialize index reader
     LOG.info("Reading index from " + indexDir);
 
@@ -83,7 +82,7 @@ public class SearchRDF implements Closeable {
     IndexSearcher searcher = new IndexSearcher(reader);
 
     // Search for exact subject URI
-    TermQuery query = new TermQuery(new Term(LuceneRDFDocumentGenerator.FIELD_SUBJECT, subject));
+    TermQuery query = new TermQuery(new Term(ObjectTriplesLuceneDocumentGenerator.FIELD_SUBJECT, subject));
 
     // Collect all matching lucene document ids
     Set<Integer> matchingDocIds = new HashSet<>(5);
@@ -124,11 +123,11 @@ public class SearchRDF implements Closeable {
     } catch (CmdLineException e) {
       System.err.println(e.getMessage());
       parser.printUsage(System.err);
-      System.err.println("Example command: "+ SearchRDF.class.getSimpleName() +
+      System.err.println("Example command: "+ LookupObjectTriples.class.getSimpleName() +
               parser.printExample(OptionHandlerFilter.REQUIRED));
       return;
     }
 
-    new SearchRDF(searchArgs.index).search(searchArgs.subject, searchArgs.predicate);
+    new LookupObjectTriples(searchArgs.index).search(searchArgs.subject, searchArgs.predicate);
   }
 }
