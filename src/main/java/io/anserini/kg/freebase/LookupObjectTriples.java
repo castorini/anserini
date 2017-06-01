@@ -25,10 +25,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Search an indexed RDF collection.
- *
- * This should simulate some conjunctive queries that
- * can be expressed using SPARQL.
+ * Lookups a Freebase mid and returns all properties associated with it.
  */
 public class LookupObjectTriples implements Closeable {
   private static final Logger LOG = LogManager.getLogger(LookupObjectTriples.class);
@@ -41,12 +38,12 @@ public class LookupObjectTriples implements Closeable {
     @Option(name = "-index", metaVar = "[Path]", required = true, usage = "index path")
     public String index;
 
-    @Option(name = "-subject", metaVar = "[Subject URI]", required =  true, usage = "entity subject URI")
+    @Option(name = "-mid", metaVar = "[mid]", required =  true, usage = "Freebase machine id")
     public String subject;
 
     // Optional arguments
 
-    @Option(name = "-predicate", metaVar = "[Predicate name]", usage = "predicate name to return")
+    @Option(name = "-property", metaVar = "[name]", usage = "property")
     String predicate;
   }
 

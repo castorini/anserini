@@ -74,11 +74,11 @@
             </program>
             <program>
               <mainClass>io.anserini.kg.freebase.IndexObjectTriples</mainClass>
-              <name>IndexRDF</name>
+              <name>IndexFreebaseObjectTriples</name>
             </program>
             <program>
               <mainClass>io.anserini.kg.freebase.LookupObjectTriples</mainClass>
-              <name>SearchRDF</name>
+              <name>LookupFreebaseObjectTriples</name>
             </program>
             <program>
               <mainClass>io.anserini.kg.freebase.TrainingDataGenerator</mainClass>

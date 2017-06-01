@@ -28,22 +28,21 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
- * Index an RDF Collection, such as Freebase.
+ * Builds a triples lookup index from a Freebase dump in N-Triples RDF format. Each
+ * {@link ObjectTriples} object, which represents a group of triples that share the same subject,
+ * is treated as a Lucene "document". This class builds an index primarily for lookup by
+ * <code>mid</code>.
  */
 public class IndexObjectTriples {
-
-  /**
-   * Logger
-   */
   private static final Logger LOG = LogManager.getLogger(IndexObjectTriples.class);
 
   public static final class Args {
     // Required arguments
 
-    @Option(name = "-input", metaVar = "[Directory]", required = true, usage = "collection directory")
+    @Option(name = "-input", metaVar = "[directory]", required = true, usage = "collection directory")
     public String input;
 
-    @Option(name = "-index", metaVar = "[Path]", required = true, usage = "index path")
+    @Option(name = "-index", metaVar = "[path]", required = true, usage = "index path")
     public String index;
 
     // Optional arguments

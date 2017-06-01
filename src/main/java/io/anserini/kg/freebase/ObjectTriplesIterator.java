@@ -17,9 +17,8 @@ import java.util.Iterator;
 import java.util.zip.GZIPInputStream;
 
 /**
- * Class representing an instance of an RDF collection.
- * RDF datasets can represent knowledge bases such as Freebase.
- * They often come in a single .gz file.
+ * Class for reading the Freebase dump in N-Triples RDF format. Provides an iterator over
+ * {@link ObjectTriples} objects.
  */
 public class ObjectTriplesIterator implements Iterator<ObjectTriples>, Closeable {
   private static final Logger LOG = LogManager.getLogger(ObjectTriplesIterator.class);

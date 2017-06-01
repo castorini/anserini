@@ -1,17 +1,14 @@
 package io.anserini.kg.freebase;
 
-import io.anserini.document.SourceDocument;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
 /**
- * A document that represent an entity with multiple
- * RDF triples for the same entity subject URI.
+ * An object representing a group of triples that shares the same subject.
  */
-public class ObjectTriples implements SourceDocument {
+public class ObjectTriples {
 
   /**
    * Splitter that describes how s,p,o are split in a triple line
@@ -91,23 +88,12 @@ public class ObjectTriples implements SourceDocument {
     values.add(o);
   }
 
-  @Override
   public String id() {
     return subject;
   }
 
-  @Override
   public String content() {
     return this.toString();
-  }
-
-  /**
-   * Always index all triples
-   * @return true
-   */
-  @Override
-  public boolean indexable() {
-    return true;
   }
 
   @Override
