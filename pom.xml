@@ -73,15 +73,15 @@
               <name>SearchWebCollection</name>
             </program>
             <program>
-              <mainClass>io.anserini.index.IndexRDFCollection</mainClass>
-              <name>IndexRDF</name>
+              <mainClass>io.anserini.kg.freebase.IndexObjectTriples</mainClass>
+              <name>IndexFreebaseObjectTriples</name>
             </program>
             <program>
-              <mainClass>io.anserini.search.SearchRDF</mainClass>
-              <name>SearchRDF</name>
+              <mainClass>io.anserini.kg.freebase.LookupObjectTriples</mainClass>
+              <name>LookupFreebaseObjectTriples</name>
             </program>
             <program>
-              <mainClass>io.anserini.util.TrainingDataGenerator</mainClass>
+              <mainClass>io.anserini.kg.freebase.TrainingDataGenerator</mainClass>
               <name>TrainingDataGenerator</name>
             </program>
             <program>

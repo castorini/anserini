@@ -1,8 +1,5 @@
-package io.anserini.index.generator;
+package io.anserini.kg.freebase;
 
-import io.anserini.document.RDFDocument;
-import io.anserini.document.SourceDocument;
-import io.anserini.index.IndexRDFCollection;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.StoredField;
@@ -14,10 +11,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Converts a {@link io.anserini.document.RDFDocument} into
- * a Lucene {@link org.apache.lucene.document.Document}.
+ * Class that converts an {@link ObjectTriples} object into a Lucene document for indexing.
  */
-public class LuceneRDFDocumentGenerator {
+public class ObjectTriplesLuceneDocumentGenerator {
   public static final String FIELD_SUBJECT = "subject";
 
   // RDF object predicate types
@@ -26,35 +22,29 @@ public class LuceneRDFDocumentGenerator {
   static final String VALUE_TYPE_TEXT = "TEXT";
   static final String VALUE_TYPE_OTHER = "OTHER";
 
-  protected IndexRDFCollection.Counters counters;
-  protected IndexRDFCollection.Args args;
+  protected IndexObjectTriples.Counters counters;
+  protected IndexObjectTriples.Args args;
 
-  public void config(IndexRDFCollection.Args args) {
+  public void config(IndexObjectTriples.Args args) {
     this.args = args;
   }
 
-  public void setCounters(IndexRDFCollection.Counters counters) {
+  public void setCounters(IndexObjectTriples.Counters counters) {
     this.counters = counters;
   }
 
-  public Document createDocument(SourceDocument src) {
-    if (!(src instanceof RDFDocument)) {
-      throw new IllegalArgumentException("Cannot create RDF document from source document of type: " + src.getClass().getSimpleName());
-    }
-
-    RDFDocument tripleDoc = (RDFDocument) src;
-
+  public Document createDocument(ObjectTriples src) {
     // Convert the triple doc to lucene doc
     Document doc = new Document();
 
     // Index subject as a StringField to allow searching
     Field subjectField = new StringField(FIELD_SUBJECT,
-            cleanUri(tripleDoc.getSubject()),
-            Field.Store.YES);
+        cleanUri(src.getSubject()),
+        Field.Store.YES);
     doc.add(subjectField);
 
     // Iterate over predicates and object values
-    for (Map.Entry<String, List<String>> entry : tripleDoc.getPredicateValues().entrySet()) {
+    for (Map.Entry<String, List<String>> entry : src.getPredicateValues().entrySet()) {
       String predicate = cleanUri(entry.getKey());
       List<String> values = entry.getValue();
 
@@ -76,7 +66,7 @@ public class LuceneRDFDocumentGenerator {
       }
     }
 
-    tripleDoc.clear();
+    src.clear();
     return doc;
   }
 

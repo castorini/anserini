@@ -1,4 +1,4 @@
-package io.anserini.document;
+package io.anserini.kg.freebase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,10 +6,9 @@ import java.util.Map;
 import java.util.TreeMap;
 
 /**
- * A document that represent an entity with multiple
- * RDF triples for the same entity subject URI.
+ * An object representing a group of triples that shares the same subject.
  */
-public class RDFDocument implements SourceDocument {
+public class ObjectTriples {
 
   /**
    * Splitter that describes how s,p,o are split in a triple line
@@ -17,7 +16,7 @@ public class RDFDocument implements SourceDocument {
   public static final String TRIPLE_SPLITTER = "\t";
 
   /**
-   * Subject of the triples doc, also the RDFDocument id
+   * Subject of the triples doc, also the ObjectTriples id
    */
   private String subject;
 
@@ -33,7 +32,7 @@ public class RDFDocument implements SourceDocument {
    * @param p predicate
    * @param o object
    */
-  public RDFDocument(String s, String p, String o) {
+  public ObjectTriples(String s, String p, String o) {
     init(s, p, o);
   }
 
@@ -41,7 +40,7 @@ public class RDFDocument implements SourceDocument {
    * Clone from another document
    * @param other
    */
-  public RDFDocument(RDFDocument other) {
+  public ObjectTriples(ObjectTriples other) {
     this.subject = other.subject;
     other.predicateValues.forEach((predicate, values) -> {
       this.predicateValues.put(predicate, new ArrayList<>(values));
@@ -52,7 +51,7 @@ public class RDFDocument implements SourceDocument {
    * Constructor from a line
    * @param line line that contains triple information
    */
-  public RDFDocument(String line) throws IllegalArgumentException {
+  public ObjectTriples(String line) throws IllegalArgumentException {
     String[] pieces = line.split(TRIPLE_SPLITTER);
     if (pieces.length == 4) {
       init(pieces[0], pieces[1], pieces[2]);
@@ -89,23 +88,12 @@ public class RDFDocument implements SourceDocument {
     values.add(o);
   }
 
-  @Override
   public String id() {
     return subject;
   }
 
-  @Override
   public String content() {
     return this.toString();
-  }
-
-  /**
-   * Always index all triples
-   * @return true
-   */
-  @Override
-  public boolean indexable() {
-    return true;
   }
 
   @Override

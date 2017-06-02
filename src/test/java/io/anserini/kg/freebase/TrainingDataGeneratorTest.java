@@ -1,5 +1,6 @@
-package io.anserini.util;
+package io.anserini.kg.freebase;
 
+import io.anserini.kg.freebase.TrainingDataGenerator;
 import org.junit.Before;
 import org.junit.Test;
 
