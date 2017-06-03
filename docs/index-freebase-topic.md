@@ -3,7 +3,10 @@
 ### Indexing Freebase Entities
   
 ```
-sh target/appassembler/bin/IndexFreebaseTopic -input ./freebase-sample.gz -index freebase.sample.index
+nohup sh target/appassembler/bin/IndexFreebaseTopic \ 
+    -input ../freebase/freebase-rdf-latest.gz \
+    -index freebase.topics.index \ 
+    > log.freebase &
 ```
   
 ### Search
