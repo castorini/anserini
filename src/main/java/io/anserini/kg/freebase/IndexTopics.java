@@ -29,8 +29,8 @@ import java.util.concurrent.atomic.AtomicLong;
  * is treated as a Lucene "document". This class builds an index primarily for lookup by
  * <code>mid</code>.
  */
-public class IndexTopic {
-  private static final Logger LOG = LogManager.getLogger(IndexTopic.class);
+public class IndexTopics {
+  private static final Logger LOG = LogManager.getLogger(IndexTopics.class);
 
   public static final class Args {
     // Required arguments
@@ -174,11 +174,11 @@ public class IndexTopic {
     } catch (CmdLineException e) {
       System.err.println(e.getMessage());
       parser.printUsage(System.err);
-      System.err.println("Example command: "+ IndexTopic.class.getSimpleName() +
+      System.err.println("Example command: "+ IndexTopics.class.getSimpleName() +
               parser.printExample(OptionHandlerFilter.REQUIRED));
       return;
     }
 
-    new IndexTopic(indexRDFCollectionArgs).run();
+    new IndexTopics(indexRDFCollectionArgs).run();
   }
 }

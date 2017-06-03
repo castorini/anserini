@@ -4,6 +4,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.index.Term;
+import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.similarities.BM25Similarity;
 import org.apache.lucene.search.similarities.Similarity;
 import org.apache.lucene.search.IndexSearcher;
@@ -69,11 +71,61 @@ public class LookupTopic implements Closeable {
 
     // Initialize index searcher
     IndexSearcher searcher = new IndexSearcher(reader);
+    SimpleAnalyzer analyzer = new SimpleAnalyzer();
+    int numHits = 20;
+
+    // find exact title
+    QueryParser titleParser = new QueryParser(TopicLuceneDocumentGenerator.FIELD_TITLE, analyzer);
+    Query titleQuery = titleParser.parse(queryName);
+    TopDocs rs = searcher.search(titleQuery, numHits);
+    ScoredDocuments docs = ScoredDocuments.fromTopDocs(rs, searcher);
+
+    for (int i = 0; i < docs.documents.length; i++) {
+      String resultDoc = String.format("%d - SCORE: %f\nTOPIC_MID: %s\nWIKI_TITLE: %s\nW3_LABEL: %s\n\n",
+              (i + 1),
+              docs.scores[i],
+              docs.documents[i].getField(TopicLuceneDocumentGenerator.FIELD_TOPIC_MID).stringValue(),
+              docs.documents[i].getField(TopicLuceneDocumentGenerator.FIELD_TITLE).stringValue(),
+              docs.documents[i].getField(TopicLuceneDocumentGenerator.FIELD_LABEL).stringValue());
+      System.out.println(resultDoc);
+    }
+
+    if (docs.documents.length != 0) {
+      System.out.println("Exact WIKI_TITLE found! Ending search.");
+      return;
+    } else {
+      System.out.println("Exact WIKI_TITLE not found. Searching for the label...");
+    }
+    System.out.println();
+
+    // find exact label
+    QueryParser labelParser = new QueryParser(TopicLuceneDocumentGenerator.FIELD_LABEL, analyzer);
+    Query labelQuery = labelParser.parse(queryName);
+    rs = searcher.search(labelQuery, numHits);
+    docs = ScoredDocuments.fromTopDocs(rs, searcher);
+
+    for (int i = 0; i < docs.documents.length; i++) {
+      String resultDoc = String.format("%d - SCORE: %f\nTOPIC_MID: %s\nWIKI_TITLE: %s\nW3_LABEL: %s\n\n",
+              (i + 1),
+              docs.scores[i],
+              docs.documents[i].getField(TopicLuceneDocumentGenerator.FIELD_TOPIC_MID).stringValue(),
+              docs.documents[i].getField(TopicLuceneDocumentGenerator.FIELD_TITLE).stringValue(),
+              docs.documents[i].getField(TopicLuceneDocumentGenerator.FIELD_LABEL).stringValue());
+      System.out.println(resultDoc);
+    }
+
+    if (docs.documents.length != 0) {
+      System.out.println("Exact W3_LABEL found! Ending search.");
+      return;
+    } else {
+      System.out.println("Exact W3_LABEL not found. Ranking the topics using BM25 according the text/title/label...");
+    }
+    System.out.println();
+
     float k1 = 1.5f;
     float b = 0.75f;
     Similarity similarity = new BM25Similarity(k1, b);
     searcher.setSimilarity(similarity);
-    SimpleAnalyzer analyzer = new SimpleAnalyzer();
     MultiFieldQueryParser queryParser = new MultiFieldQueryParser(
             new String[]{ TopicLuceneDocumentGenerator.FIELD_TITLE,
                     TopicLuceneDocumentGenerator.FIELD_LABEL,
@@ -82,14 +134,17 @@ public class LookupTopic implements Closeable {
     queryParser.setDefaultOperator(QueryParser.Operator.OR);
     Query query = queryParser.parse(queryName);
 
-    int numHits = 20;
-    TopDocs rs = searcher.search(query, numHits);
-    ScoredDocuments docs = ScoredDocuments.fromTopDocs(rs, searcher);
+    rs = searcher.search(query, numHits);
+    docs = ScoredDocuments.fromTopDocs(rs, searcher);
 
     for (int i = 0; i < docs.documents.length; i++) {
-      System.out.println(String.format("%d: %s %f", (i + 1),
+      String resultDoc = String.format("%d - SCORE: %f\nTOPIC_MID: %s\nWIKI_TITLE: %s\nW3_LABEL: %s\n",
+              (i + 1),
+              docs.scores[i],
               docs.documents[i].getField(TopicLuceneDocumentGenerator.FIELD_TOPIC_MID).stringValue(),
-              docs.scores[i]));
+              docs.documents[i].getField(TopicLuceneDocumentGenerator.FIELD_TITLE).stringValue(),
+              docs.documents[i].getField(TopicLuceneDocumentGenerator.FIELD_LABEL).stringValue() );
+      System.out.println(resultDoc);
     }
 
     LOG.info("Querying completed.");
