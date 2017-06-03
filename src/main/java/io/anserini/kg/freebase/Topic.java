@@ -19,7 +19,7 @@ public class Topic {
    * Predicates for which the literals should be stored
    */
   public static final String WIKI_EN_URI = "http://rdf.freebase.com/key/wikipedia.en";
-  public static final String WIKI_EN_TILE_URI = "http://rdf.freebase.com/key/wikipedia.en_title";
+  public static final String WIKI_EN_TILE_URI = WIKI_EN_URI + "_title";
   public static final String W3_LABEL_URI = "http://www.w3.org/2000/01/rdf-schema#label";
 
   /**
@@ -88,13 +88,11 @@ public class Topic {
     if (p.startsWith(WIKI_EN_URI)) {
       if (p.startsWith(WIKI_EN_TILE_URI)) {
         this.title = removeQuotes(o);
-      }
-      else {
+      } else {
         // concatenate other variants with a space
         this.text += removeQuotes(o) + " ";
       }
-    }
-    else if (p.startsWith(W3_LABEL_URI)) {
+    } else if (p.startsWith(W3_LABEL_URI)) {
       Literal parsedLiteral = NTriplesUtil.parseLiteral(o, valueFactory);
       if (parsedLiteral.getLanguage().toString().equals("Optional[en]")) {
         this.label = parsedLiteral.stringValue();
@@ -116,10 +114,10 @@ public class Topic {
    * Removes quotes from the literal value in object field
    */
   private String removeQuotes(String literal) {
-    if (literal.charAt(0) == '\"' && literal.charAt(literal.length()-1) == '\"')
-      return literal.substring(1, literal.length()-1);
-    else
-      return literal;
+    if (literal.charAt(0) == '\"' && literal.charAt(literal.length()-1) == '\"') {
+      return literal.substring(1, literal.length() - 1);
+    }
+    return literal;
   }
 
   public String id() {

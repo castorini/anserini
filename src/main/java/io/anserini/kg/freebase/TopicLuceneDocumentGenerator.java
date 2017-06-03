@@ -39,11 +39,6 @@ public class TopicLuceneDocumentGenerator {
     Field topicMidField = new StringField(FIELD_TOPIC_MID, cleanUri(src.getTopicMid()), Field.Store.YES);
     doc.add(topicMidField);
 
-    FieldType fieldType = new FieldType();
-    fieldType.setStored(true);
-    fieldType.setStoreTermVectors(true);
-    fieldType.setIndexOptions(IndexOptions.DOCS_AND_FREQS);
-
     Field titleField = new TextField(FIELD_TITLE, src.getTitle(), Field.Store.YES);
     doc.add(titleField);
 
