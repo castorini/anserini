@@ -2,6 +2,10 @@ package io.anserini.kg.freebase;
 
 import org.apache.lucene.document.*;
 import org.apache.lucene.index.IndexOptions;
+import org.openrdf.model.Literal;
+import org.openrdf.model.ValueFactory;
+import org.openrdf.model.impl.SimpleValueFactory;
+import org.openrdf.rio.ntriples.NTriplesUtil;
 
 import java.util.List;
 import java.util.Map;
@@ -22,6 +26,17 @@ public class TopicLuceneDocumentGenerator {
   public static final String FIELD_LABEL = "label";
   public static final String FIELD_TEXT = "text";
 
+  /**
+   * Predicates for which the literals should be stored
+   */
+  public static final String WIKI_EN_URI = "http://rdf.freebase.com/key/wikipedia.en";
+  public static final String WIKI_EN_TILE_URI = WIKI_EN_URI + "_title";
+  public static final String W3_LABEL_URI = "http://www.w3.org/2000/01/rdf-schema#label";
+
+  /**
+   * Simple value factory to parse literals using Sesame library.
+   */
+  private ValueFactory valueFactory = SimpleValueFactory.getInstance();
 
   protected IndexTopics.Counters counters;
   protected IndexTopics.Args args;
@@ -36,30 +51,46 @@ public class TopicLuceneDocumentGenerator {
 
   public Document createDocument(ObjectTriples src) {
     // make a Topic from the ObjectTriples
-    String subject = src.getSubject();
-    Topic topic = new Topic(subject);
+    String topicMid = src.getSubject();
+    String title = "";
+    String label = "";
+    String text = "";
     Map<String, List<String>> predicateValues = src.getPredicateValues();
     for(Map.Entry<String, List<String>> entry: predicateValues.entrySet()) {
       String predicate = entry.getKey();
       List<String> objects = entry.getValue();
-      for (String object : objects)
-        topic.addPredicateAndValue(predicate, object);
+      for (String object : objects) {
+        predicate = cleanUri(predicate);
+        if (predicate.startsWith(WIKI_EN_URI)) {
+          if (predicate.startsWith(WIKI_EN_TILE_URI)) {
+            title = removeQuotes(object);
+          } else {
+            // concatenate other variants with a space
+            text += removeQuotes(object) + " ";
+          }
+        } else if (predicate.startsWith(W3_LABEL_URI)) {
+          Literal parsedLiteral = NTriplesUtil.parseLiteral(object, valueFactory);
+          if (parsedLiteral.getLanguage().toString().equals("Optional[en]")) {
+            label = parsedLiteral.stringValue();
+          }
+        }
+      }
     }
 
     // Convert the triple doc to lucene doc
     Document doc = new Document();
 
     // Index subject as a StringField to allow searching
-    Field topicMidField = new StringField(FIELD_TOPIC_MID, cleanUri(topic.getTopicMid()), Field.Store.YES);
+    Field topicMidField = new StringField(FIELD_TOPIC_MID, cleanUri(topicMid), Field.Store.YES);
     doc.add(topicMidField);
 
-    Field titleField = new TextField(FIELD_TITLE, topic.getTitle(), Field.Store.YES);
+    Field titleField = new TextField(FIELD_TITLE, title, Field.Store.YES);
     doc.add(titleField);
 
-    Field labelField = new TextField(FIELD_LABEL, topic.getLabel(), Field.Store.YES);
+    Field labelField = new TextField(FIELD_LABEL, label, Field.Store.YES);
     doc.add(labelField);
 
-    Field textField = new TextField(FIELD_TEXT, topic.getText(), Field.Store.YES);
+    Field textField = new TextField(FIELD_TEXT, text, Field.Store.YES);
     doc.add(textField);
 
     src.clear();
@@ -81,4 +112,13 @@ public class TopicLuceneDocumentGenerator {
       return uri;
   }
 
+  /**
+   * Removes quotes from the literal value in object field
+   */
+  private String removeQuotes(String literal) {
+    if (literal.charAt(0) == '\"' && literal.charAt(literal.length()-1) == '\"') {
+      return literal.substring(1, literal.length() - 1);
+    }
+    return literal;
+  }
 }
