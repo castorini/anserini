@@ -20,14 +20,14 @@ public class TopicLuceneDocumentGenerator {
   public static final String FIELD_TEXT = "text";
 
 
-  protected IndexTopic.Counters counters;
-  protected IndexTopic.Args args;
+  protected IndexTopics.Counters counters;
+  protected IndexTopics.Args args;
 
-  public void config(IndexTopic.Args args) {
+  public void config(IndexTopics.Args args) {
     this.args = args;
   }
 
-  public void setCounters(IndexTopic.Counters counters) {
+  public void setCounters(IndexTopics.Counters counters) {
     this.counters = counters;
   }
 

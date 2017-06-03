@@ -61,7 +61,7 @@ public class IndexTopics {
    * @param args program arguments
    * @throws Exception
    */
-  public IndexTopic(Args args) throws Exception {
+  public IndexTopics(Args args) throws Exception {
 
     // Copy arguments
     this.args = args;
