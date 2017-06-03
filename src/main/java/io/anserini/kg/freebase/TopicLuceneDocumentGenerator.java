@@ -1,7 +1,6 @@
 package io.anserini.kg.freebase;
 
 import org.apache.lucene.document.*;
-import org.apache.lucene.index.IndexOptions;
 import org.openrdf.model.Literal;
 import org.openrdf.model.ValueFactory;
 import org.openrdf.model.impl.SimpleValueFactory;
