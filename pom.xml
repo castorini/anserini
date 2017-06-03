@@ -81,6 +81,14 @@
               <name>LookupFreebaseObjectTriples</name>
             </program>
             <program>
+              <mainClass>io.anserini.kg.freebase.IndexTopic</mainClass>
+              <name>IndexFreebaseTopic</name>
+            </program>
+            <program>
+              <mainClass>io.anserini.kg.freebase.LookupTopic</mainClass>
+              <name>LookupFreebaseTopic</name>
+            </program>
+            <program>
               <mainClass>io.anserini.kg.freebase.TrainingDataGenerator</mainClass>
               <name>TrainingDataGenerator</name>
             </program>
