@@ -3,6 +3,9 @@ package io.anserini.kg.freebase;
 import org.apache.lucene.document.*;
 import org.apache.lucene.index.IndexOptions;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * Class that converts an {@link ObjectTriples} object into a Lucene document for indexing.
  */
@@ -31,21 +34,32 @@ public class TopicLuceneDocumentGenerator {
     this.counters = counters;
   }
 
-  public Document createDocument(Topic src) {
+  public Document createDocument(ObjectTriples src) {
+    // make a Topic from the ObjectTriples
+    String subject = src.getSubject();
+    Topic topic = new Topic(subject);
+    Map<String, List<String>> predicateValues = src.getPredicateValues();
+    for(Map.Entry<String, List<String>> entry: predicateValues.entrySet()) {
+      String predicate = entry.getKey();
+      List<String> objects = entry.getValue();
+      for (String object : objects)
+        topic.addPredicateAndValue(predicate, object);
+    }
+
     // Convert the triple doc to lucene doc
     Document doc = new Document();
 
     // Index subject as a StringField to allow searching
-    Field topicMidField = new StringField(FIELD_TOPIC_MID, cleanUri(src.getTopicMid()), Field.Store.YES);
+    Field topicMidField = new StringField(FIELD_TOPIC_MID, cleanUri(topic.getTopicMid()), Field.Store.YES);
     doc.add(topicMidField);
 
-    Field titleField = new TextField(FIELD_TITLE, src.getTitle(), Field.Store.YES);
+    Field titleField = new TextField(FIELD_TITLE, topic.getTitle(), Field.Store.YES);
     doc.add(titleField);
 
-    Field labelField = new TextField(FIELD_LABEL, src.getLabel(), Field.Store.YES);
+    Field labelField = new TextField(FIELD_LABEL, topic.getLabel(), Field.Store.YES);
     doc.add(labelField);
 
-    Field textField = new TextField(FIELD_TEXT, src.getText(), Field.Store.YES);
+    Field textField = new TextField(FIELD_TEXT, topic.getText(), Field.Store.YES);
     doc.add(textField);
 
     src.clear();

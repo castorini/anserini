@@ -132,19 +132,8 @@ public class IndexTopics {
     ObjectTriplesIterator iter = new ObjectTriplesIterator(inputFile);
     while (iter.hasNext()) {
       ObjectTriples d = iter.next();
-      // make a Topic from the ObjectTriples
-      String subject = d.getSubject();
-      Topic topic = new Topic(subject);
-      Map<String, List<String>> predicateValues = d.getPredicateValues();
-      for(Map.Entry<String, List<String>> entry: predicateValues.entrySet()) {
-        String predicate = entry.getKey();
-        List<String> objects = entry.getValue();
-        for (String object : objects)
-          topic.addPredicateAndValue(predicate, object);
-      }
+      Document doc = transformer.createDocument(d);
 
-      // write the Topic document to the index
-      Document doc = transformer.createDocument(topic);
       if (doc != null) {
         writer.addDocument(doc);
         cnt++;
@@ -154,8 +143,9 @@ public class IndexTopics {
       if (cnt % 100000 == 0) {
         LOG.debug("Number of indexed entity document: {}", cnt);
       }
-      doc = null;
+
       d = null;
+      doc = null;
     }
 
     iter.close();
