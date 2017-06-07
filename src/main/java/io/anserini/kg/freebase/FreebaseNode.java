@@ -6,9 +6,9 @@ import java.util.Map;
 import java.util.TreeMap;
 
 /**
- * An object representing a group of triples that shares the same subject.
+ * An object representing a node in the Freebase knowledge graph.
  */
-public class ObjectTriples {
+public class FreebaseNode {
 
   /**
    * Splitter that describes how s,p,o are split in a triple line
@@ -16,7 +16,7 @@ public class ObjectTriples {
   public static final String TRIPLE_SPLITTER = "\t";
 
   /**
-   * Subject of the triples doc, also the ObjectTriples id
+   * Subject of the triples doc, also the FreebaseNode id
    */
   private String subject;
 
@@ -32,7 +32,7 @@ public class ObjectTriples {
    * @param p predicate
    * @param o object
    */
-  public ObjectTriples(String s, String p, String o) {
+  public FreebaseNode(String s, String p, String o) {
     init(s, p, o);
   }
 
@@ -40,7 +40,7 @@ public class ObjectTriples {
    * Clone from another document
    * @param other
    */
-  public ObjectTriples(ObjectTriples other) {
+  public FreebaseNode(FreebaseNode other) {
     this.subject = other.subject;
     other.predicateValues.forEach((predicate, values) -> {
       this.predicateValues.put(predicate, new ArrayList<>(values));
@@ -51,7 +51,7 @@ public class ObjectTriples {
    * Constructor from a line
    * @param line line that contains triple information
    */
-  public ObjectTriples(String line) throws IllegalArgumentException {
+  public FreebaseNode(String line) throws IllegalArgumentException {
     String[] pieces = line.split(TRIPLE_SPLITTER);
     if (pieces.length == 4) {
       init(pieces[0], pieces[1], pieces[2]);
