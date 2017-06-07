@@ -74,11 +74,11 @@
             </program>
             <program>
               <mainClass>io.anserini.kg.freebase.IndexNodes</mainClass>
-              <name>IndexFreebaseObjectTriples</name>
+              <name>IndexFreebaseNodes</name>
             </program>
             <program>
               <mainClass>io.anserini.kg.freebase.LookupNode</mainClass>
-              <name>LookupFreebaseObjectTriples</name>
+              <name>LookupFreebaseNode</name>
             </program>
             <program>
               <mainClass>io.anserini.kg.freebase.IndexTopics</mainClass>
