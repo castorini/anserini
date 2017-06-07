@@ -73,12 +73,12 @@
               <name>SearchWebCollection</name>
             </program>
             <program>
-              <mainClass>io.anserini.kg.freebase.IndexObjectTriples</mainClass>
-              <name>IndexFreebaseObjectTriples</name>
+              <mainClass>io.anserini.kg.freebase.IndexNodes</mainClass>
+              <name>IndexFreebaseNodes</name>
             </program>
             <program>
-              <mainClass>io.anserini.kg.freebase.LookupObjectTriples</mainClass>
-              <name>LookupFreebaseObjectTriples</name>
+              <mainClass>io.anserini.kg.freebase.LookupNode</mainClass>
+              <name>LookupFreebaseNode</name>
             </program>
             <program>
               <mainClass>io.anserini.kg.freebase.IndexTopics</mainClass>

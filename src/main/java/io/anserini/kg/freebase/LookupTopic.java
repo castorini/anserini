@@ -1,5 +1,7 @@
 package io.anserini.kg.freebase;
 
+import io.anserini.kg.freebase.IndexTopics.TopicLuceneDocumentGenerator;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.index.DirectoryReader;
@@ -14,7 +16,11 @@ import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.TopDocs;
 import io.anserini.rerank.ScoredDocuments;
-import org.kohsuke.args4j.*;
+import org.kohsuke.args4j.CmdLineException;
+import org.kohsuke.args4j.CmdLineParser;
+import org.kohsuke.args4j.Option;
+import org.kohsuke.args4j.OptionHandlerFilter;
+import org.kohsuke.args4j.ParserProperties;
 
 import java.io.Closeable;
 import java.io.IOException;
