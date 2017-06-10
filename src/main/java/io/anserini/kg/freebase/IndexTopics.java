@@ -190,6 +190,7 @@ public class IndexTopics {
     public static final String FIELD_TOPIC_MID = "topicMid";
     public static final String FIELD_TITLE = "title";
     public static final String FIELD_LABEL = "label";
+    public static final String FIELD_NAME = "name";
     public static final String FIELD_TEXT = "text";
 
     /**
@@ -198,6 +199,7 @@ public class IndexTopics {
     public static final String WIKI_EN_URI = "http://rdf.freebase.com/key/wikipedia.en";
     public static final String WIKI_EN_TILE_URI = WIKI_EN_URI + "_title";
     public static final String W3_LABEL_URI = "http://www.w3.org/2000/01/rdf-schema#label";
+    public static final String FB_OBJECT_NAME = "http://rdf.freebase.com/ns/type.object.name";
 
     /**
      * Simple value factory to parse literals using Sesame library.
@@ -220,6 +222,7 @@ public class IndexTopics {
       String topicMid = src.getSubject();
       String title = "";
       String label = "";
+      String name = "";
       String text = "";
       Map<String, List<String>> predicateValues = src.getPredicateValues();
       for(Map.Entry<String, List<String>> entry: predicateValues.entrySet()) {
@@ -239,6 +242,11 @@ public class IndexTopics {
             if (parsedLiteral.getLanguage().toString().equals("Optional[en]")) {
               label = parsedLiteral.stringValue();
             }
+          } else if (predicate.startsWith(FB_OBJECT_NAME)) {
+            Literal parsedLiteral = NTriplesUtil.parseLiteral(object, valueFactory);
+            if (parsedLiteral.getLanguage().toString().equals("Optional[en]")) {
+              name = parsedLiteral.stringValue();
+            }
           }
         }
       }
@@ -252,6 +260,9 @@ public class IndexTopics {
 
       Field titleField = new TextField(FIELD_TITLE, title, Field.Store.YES);
       doc.add(titleField);
+
+      Field nameField = new TextField(FIELD_NAME, name, Field.Store.YES);
+      doc.add(nameField);
 
       Field labelField = new TextField(FIELD_LABEL, label, Field.Store.YES);
       doc.add(labelField);
