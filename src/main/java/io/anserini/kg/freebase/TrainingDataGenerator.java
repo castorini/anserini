@@ -1,5 +1,7 @@
 package io.anserini.kg.freebase;
 
+import io.anserini.kg.freebase.IndexNodes.NodeLuceneDocumentGenerator;
+
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -305,7 +307,7 @@ public class TrainingDataGenerator {
         return;
       }
 
-      String freebaseURI = doc.get(ObjectTriplesLuceneDocumentGenerator.FIELD_SUBJECT);
+      String freebaseURI = doc.get(NodeLuceneDocumentGenerator.FIELD_SUBJECT);
 
       // We might have multiple values for the field
       String[] birthdates = doc.getValues(FIELD_BIRTHDATE);

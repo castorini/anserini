@@ -1,5 +1,7 @@
 package io.anserini.kg.freebase;
 
+import io.anserini.kg.freebase.IndexNodes.NodeLuceneDocumentGenerator;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.document.Document;
@@ -27,8 +29,8 @@ import java.util.Set;
 /**
  * Lookups a Freebase mid and returns all properties associated with it.
  */
-public class LookupObjectTriples implements Closeable {
-  private static final Logger LOG = LogManager.getLogger(LookupObjectTriples.class);
+public class LookupNode implements Closeable {
+  private static final Logger LOG = LogManager.getLogger(LookupNode.class);
 
   private final IndexReader reader;
 
@@ -47,7 +49,7 @@ public class LookupObjectTriples implements Closeable {
     String predicate;
   }
 
-  private LookupObjectTriples(String indexDir) throws IOException {
+  private LookupNode(String indexDir) throws IOException {
     // Initialize index reader
     LOG.info("Reading index from " + indexDir);
 
@@ -79,7 +81,7 @@ public class LookupObjectTriples implements Closeable {
     IndexSearcher searcher = new IndexSearcher(reader);
 
     // Search for exact subject URI
-    TermQuery query = new TermQuery(new Term(ObjectTriplesLuceneDocumentGenerator.FIELD_SUBJECT, subject));
+    TermQuery query = new TermQuery(new Term(NodeLuceneDocumentGenerator.FIELD_SUBJECT, subject));
 
     // Collect all matching lucene document ids
     Set<Integer> matchingDocIds = new HashSet<>(5);
@@ -120,11 +122,11 @@ public class LookupObjectTriples implements Closeable {
     } catch (CmdLineException e) {
       System.err.println(e.getMessage());
       parser.printUsage(System.err);
-      System.err.println("Example command: "+ LookupObjectTriples.class.getSimpleName() +
+      System.err.println("Example command: "+ LookupNode.class.getSimpleName() +
               parser.printExample(OptionHandlerFilter.REQUIRED));
       return;
     }
 
-    new LookupObjectTriples(searchArgs.index).search(searchArgs.subject, searchArgs.predicate);
+    new LookupNode(searchArgs.index).search(searchArgs.subject, searchArgs.predicate);
   }
 }
