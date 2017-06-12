@@ -184,7 +184,8 @@ public class IndexTopics {
      * FreebaseTopicDocument has four fields:
      * topicMid - the MID of the topic
      * title - the object value of the (topicMid, http://rdf.freebase.com/key/wikipedia.en_title)
-     * label - title - the object value of the (topicMid, http://www.w3.org/2000/01/rdf-schema#label)
+     * label - the object value of the (topicMid, http://www.w3.org/2000/01/rdf-schema#label)
+     * name - the object value of the (topicMid, http://rdf.freebase.com/ns/type.object.name)
      * text - all the values separated by space of the (topicMid, http://rdf.freebase.com/key/wikipedia.en)
      */
     public static final String FIELD_TOPIC_MID = "topicMid";
