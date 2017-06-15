@@ -1,7 +1,5 @@
 package io.anserini.kg.freebase;
 
-import io.anserini.kg.freebase.IndexNodes.NodeLuceneDocumentGenerator;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.document.Document;
@@ -81,7 +79,7 @@ public class LookupNode implements Closeable {
     IndexSearcher searcher = new IndexSearcher(reader);
 
     // Search for exact subject URI
-    TermQuery query = new TermQuery(new Term(NodeLuceneDocumentGenerator.FIELD_SUBJECT, subject));
+    TermQuery query = new TermQuery(new Term(IndexNodes.FIELD_MID, subject));
 
     // Collect all matching lucene document ids
     Set<Integer> matchingDocIds = new HashSet<>(5);

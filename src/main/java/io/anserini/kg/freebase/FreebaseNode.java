@@ -25,6 +25,10 @@ public class FreebaseNode {
    */
   private Map<String, List<String>> predicateValues = new TreeMap<>();
 
+  public enum RdfObjectType {
+    URI, STRING, TEXT, OTHER
+  }
+
   /**
    * Constructor for an NT triples (NTriples).
    *
@@ -124,5 +128,31 @@ public class FreebaseNode {
     predicateValues.clear();
     subject = null;
     predicateValues = null;
+  }
+
+  public static String cleanUri(String uri) {
+    if (uri.charAt(0) == '<')
+      return uri.substring(1, uri.length() - 1).toLowerCase();
+    else
+      return uri;
+  }
+
+  public static RdfObjectType getObjectType(String objectValue) {
+    // Determine the type of this N-Triples 'value'.
+    switch (objectValue.charAt(0)) {
+      case '<':
+        // e.g., <http://rdf.freebase.com/ns/m.02mjmr>
+        return RdfObjectType.URI;
+      case '"':
+        if (objectValue.charAt(objectValue.length() - 1) == '"') {
+          // e.g., "Hanna Bieluszko"@en";
+          return RdfObjectType.STRING;
+        } else {
+          // e.g., "Hanna Bieluszko"
+          return RdfObjectType.TEXT;
+        }
+      default:
+        return RdfObjectType.OTHER;
+    }
   }
 }

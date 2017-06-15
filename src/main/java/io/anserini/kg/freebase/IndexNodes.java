@@ -24,7 +24,6 @@ import org.openrdf.rio.ntriples.NTriplesUtil;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -33,60 +32,40 @@ import java.util.function.Function;
 
 /**
  * Builds a triples lookup index from a Freebase dump in N-Triples RDF format. Each
- * {@link FreebaseNode} object, which represents a group of triples that share the same subject,
- * is treated as a Lucene "document". This class builds an index primarily for lookup by
- * <code>mid</code>.
+ * {@link FreebaseNode} object, which represents a group of triples that share the same subject
+ * ({@code mid}), is treated as a Lucene "document". This class builds an index for lookup based
+ * on {@code mid}.
  */
 public class IndexNodes {
   private static final Logger LOG = LogManager.getLogger(IndexNodes.class);
 
   public static final class Args {
-    // Required arguments
-
-    @Option(name = "-input", metaVar = "[directory]", required = true, usage = "collection directory")
-    public String input;
+    @Option(name = "-input", metaVar = "[file]", required = true, usage = "Freebase dump file")
+    public Path input;
 
     @Option(name = "-index", metaVar = "[path]", required = true, usage = "index path")
-    public String index;
+    public Path index;
   }
 
-  /**
-   * Program arguments to hold parameters and properties.
-   */
-  private Args args;
+  public static final String FIELD_MID = "mid";
 
   private final Path indexPath;
-  private final Path collectionPath;
+  private final Path inputPath;
 
-  /**
-   * Constructor
-   *
-   * @param args program arguments
-   * @throws Exception
-   */
-  public IndexNodes(Args args) throws Exception {
+  public IndexNodes(Path inputPath, Path indexPath) throws Exception {
+    this.inputPath = inputPath;
+    this.indexPath = indexPath;
 
-    // Copy arguments
-    this.args = args;
+    LOG.info("Input path: " + this.inputPath);
+    LOG.info("Index path: " + this.indexPath);
 
-    // Log parameters
-    LOG.info("Collection path: " + args.input);
-    LOG.info("Index path: " + args.index);
-
-    // Initialize variables
-    this.indexPath = Paths.get(args.index);
-    if (!Files.exists(this.indexPath)) {
-      Files.createDirectories(this.indexPath);
-    }
-
-    collectionPath = Paths.get(args.input);
-    if (!Files.exists(collectionPath) || !Files.isReadable(collectionPath)) {
-      throw new IllegalArgumentException("Document file/directory " + collectionPath.toString() +
-              " does not exist or is not readable, please check the path");
+    if (!Files.exists(inputPath) || !Files.isReadable(inputPath)) {
+      throw new IllegalArgumentException("Input " + inputPath.toString() +
+              " does not exist or is not readable.");
     }
   }
 
-  private void run() throws IOException, InterruptedException {
+  public void run() throws IOException, InterruptedException {
     final long start = System.nanoTime();
     LOG.info("Starting indexer...");
 
@@ -100,13 +79,13 @@ public class IndexNodes {
     final IndexWriter writer = new IndexWriter(dir, config);
 
     final AtomicInteger cnt = new AtomicInteger();
-    new Freebase(collectionPath).stream().map(new NodeLuceneDocumentGenerator())
+    new Freebase(inputPath).stream().map(new NodeLuceneDocumentGenerator())
         .forEach(doc -> {
           try {
             writer.addDocument(doc);
             int cur = cnt.incrementAndGet();
-            if (cur % 1000000 == 0) {
-              LOG.debug("Number of indexed entity document: {}", cnt);
+            if (cur % 10000000 == 0) {
+              LOG.info("Number of indexed entity document: {}", cnt);
             }
           } catch (IOException e) {
             LOG.error(e);
@@ -114,6 +93,8 @@ public class IndexNodes {
         });
 
     LOG.info(cnt.get() + " nodes added.");
+    int numIndexed = writer.maxDoc();
+
     try {
       writer.commit();
     } finally {
@@ -124,58 +105,45 @@ public class IndexNodes {
       }
     }
 
-    int numIndexed = writer.maxDoc();
-    final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
+    long duration = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
     LOG.info("Total " + numIndexed + " documents indexed in " +
-            DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss"));
+            DurationFormatUtils.formatDuration(duration, "HH:mm:ss"));
   }
 
   public static void main(String[] args) throws Exception {
-    Args indexRDFCollectionArgs = new Args();
-    CmdLineParser parser = new CmdLineParser(indexRDFCollectionArgs,
-            ParserProperties.defaults().withUsageWidth(90));
+    Args indexArgs = new Args();
+    CmdLineParser parser = new CmdLineParser(indexArgs, ParserProperties.defaults().withUsageWidth(90));
 
     try {
       parser.parseArgument(args);
     } catch (CmdLineException e) {
       System.err.println(e.getMessage());
       parser.printUsage(System.err);
-      System.err.println("Example command: "+ IndexNodes.class.getSimpleName() +
-              parser.printExample(OptionHandlerFilter.REQUIRED));
+      System.err.println("Example: "+ IndexNodes.class.getSimpleName() +
+          parser.printExample(OptionHandlerFilter.REQUIRED));
       return;
     }
 
-    new IndexNodes(indexRDFCollectionArgs).run();
+    new IndexNodes(indexArgs.input, indexArgs.index).run();
   }
 
-  public static class NodeLuceneDocumentGenerator implements Function<FreebaseNode, Document> {
-    public static final String FIELD_SUBJECT = "subject";
-
-    // RDF object predicate types
-    static final String VALUE_TYPE_URI = "URI";
-    static final String VALUE_TYPE_STRING = "STRING";
-    static final String VALUE_TYPE_TEXT = "TEXT";
-    static final String VALUE_TYPE_OTHER = "OTHER";
-
+  private static class NodeLuceneDocumentGenerator implements Function<FreebaseNode, Document> {
     public Document apply(FreebaseNode src) {
       // Convert the triple doc to lucene doc
       Document doc = new Document();
 
       // Index subject as a StringField to allow searching
-      Field subjectField = new StringField(FIELD_SUBJECT,
-          cleanUri(src.getSubject()),
+      Field subjectField = new StringField(FIELD_MID, FreebaseNode.cleanUri(src.getSubject()),
           Field.Store.YES);
       doc.add(subjectField);
 
       // Iterate over predicates and object values
       for (Map.Entry<String, List<String>> entry : src.getPredicateValues().entrySet()) {
-        String predicate = cleanUri(entry.getKey());
+        String predicate = FreebaseNode.cleanUri(entry.getKey());
         List<String> values = entry.getValue();
 
         for (String value : values) {
-          String valueType = getObjectType(value);
           value = normalizeObjectValue(value);
-          // Just add the predicate as a stored field, no index on it
           doc.add(new StoredField(predicate, value));
         }
       }
@@ -184,74 +152,17 @@ public class IndexNodes {
       return doc;
     }
 
-    /**
-     * Removes '<', '>' if they exist, lower case
-     * <p>
-     * TODO - replace ':' with '_' because query parser doesn't like it
-     *
-     * @param uri
-     * @return
-     */
-    public static String cleanUri(String uri) {
-      if (uri.charAt(0) == '<')
-        return uri.substring(1, uri.length() - 1).toLowerCase();
-      else
-        return uri;
-    }
-
-    /**
-     * Figures out the type of the value of an object in a triple
-     *
-     * @param objectValue object value
-     * @return uri, string, text, or other
-     */
-    public static String getObjectType(String objectValue) {
-      // Determine the type of this N-Triples `value'.
-      char first = objectValue.charAt(0);
-      switch (first) {
-        case '<':
-          return VALUE_TYPE_URI;
-        case '"':
-          if (objectValue.charAt(objectValue.length() - 1) == '"')
-            return VALUE_TYPE_STRING;
-          else
-            return VALUE_TYPE_TEXT;
-        default:
-          return VALUE_TYPE_OTHER;
-      }
-    }
-
-    /**
-     * Do nothing for strings
-     */
-    public static String normalizeStringValue(String value) {
-      return value;
-    }
-
-    /**
-     * Un-escape strings
-     */
-    public static String normalizeTextValue(String value) {
-      return NTriplesUtil.unescapeString(value);
-    }
-
-    /**
-     * Normalize Object object value
-     *
-     * @param objectValue
-     * @return
-     */
-    public static String normalizeObjectValue(String objectValue) {
-      // Normalize a `objectValue' depending on its type.
-      String type = getObjectType(objectValue);
-      if (type.equals(VALUE_TYPE_URI))
-        return cleanUri(objectValue);
-      else if (type.equals(VALUE_TYPE_STRING))
-        return normalizeStringValue(objectValue);
-      else if (type.equals(VALUE_TYPE_TEXT))
-        return normalizeTextValue(objectValue);
-      else
+    private String normalizeObjectValue(String objectValue) {
+      FreebaseNode.RdfObjectType type = FreebaseNode.getObjectType(objectValue);
+      if (type.equals(FreebaseNode.RdfObjectType.URI)) {
+        return FreebaseNode.cleanUri(objectValue);
+      } else if (type.equals(FreebaseNode.RdfObjectType.STRING)) {
         return objectValue;
+      } else if (type.equals(FreebaseNode.RdfObjectType.TEXT)) {
+        return NTriplesUtil.unescapeString(objectValue);
+      } else {
+        return objectValue;
+      }
     }
   }
 }
