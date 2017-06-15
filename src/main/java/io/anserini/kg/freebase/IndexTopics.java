@@ -220,7 +220,7 @@ public class IndexTopics {
 
     public Document createDocument(FreebaseNode src) {
       // make a Topic from the FreebaseNode
-      String topicMid = src.getSubject();
+      String topicMid = src.mid();
       String title = "";
       String label = "";
       String name = "";

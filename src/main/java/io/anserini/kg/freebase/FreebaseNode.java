@@ -17,14 +17,7 @@ public class FreebaseNode {
    */
   public static final String TRIPLE_SPLITTER = "\t";
 
-  /**
-   * Subject of the triples doc, also the FreebaseNode id
-   */
-  private String subject;
-
-  /**
-   * The predicates and values of the subject entity
-   */
+  private String mid;
   private Map<String, List<String>> predicateValues = new TreeMap<>();
 
   public enum RdfObjectType {
@@ -34,7 +27,7 @@ public class FreebaseNode {
   /**
    * Constructor for an NT triples (NTriples).
    *
-   * @param s subject
+   * @param s mid
    * @param p predicate
    * @param o object
    */
@@ -47,7 +40,7 @@ public class FreebaseNode {
    * @param other
    */
   public FreebaseNode(FreebaseNode other) {
-    this.subject = other.subject;
+    this.mid = other.mid;
     other.predicateValues.forEach((predicate, values) -> {
       this.predicateValues.put(predicate, new ArrayList<>(values));
     });
@@ -68,12 +61,12 @@ public class FreebaseNode {
 
   /**
    * Assign values
-   * @param s subject
+   * @param s mid
    * @param p predicate
    * @param o object
    */
   private void init(String s, String p, String o) {
-    this.subject = s;
+    this.mid = s;
     // Add the predicate and object as the first element in the list
     addPredicateAndValue(p, o);
   }
@@ -94,20 +87,12 @@ public class FreebaseNode {
     values.add(o);
   }
 
-  public String id() {
-    return subject;
-  }
-
-  public String content() {
-    return this.toString();
-  }
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     predicateValues.forEach((predicate, values) -> {
       for (String value : values) {
-        sb.append(subject).append(TRIPLE_SPLITTER)
+        sb.append(mid).append(TRIPLE_SPLITTER)
                 .append(predicate).append(TRIPLE_SPLITTER)
                 .append(value).append(TRIPLE_SPLITTER).append(".\n");
       }
@@ -115,8 +100,8 @@ public class FreebaseNode {
     return sb.toString();
   }
 
-  public String getSubject() {
-    return subject;
+  public String mid() {
+    return mid;
   }
 
   public Map<String, List<String>> getPredicateValues() {
@@ -128,7 +113,7 @@ public class FreebaseNode {
    */
   public void clear() {
     predicateValues.clear();
-    subject = null;
+    mid = null;
     predicateValues = null;
   }
 

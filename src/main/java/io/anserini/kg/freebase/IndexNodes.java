@@ -132,13 +132,13 @@ public class IndexNodes {
       Document doc = new Document();
 
       // Index subject as a StringField to allow searching
-      Field subjectField = new StringField(FIELD_MID, FreebaseNode.cleanUri(src.getSubject()),
-          Field.Store.YES);
+      Field subjectField = new StringField(FIELD_MID,
+          FreebaseNode.shortenUri(src.mid()), Field.Store.YES);
       doc.add(subjectField);
 
       // Iterate over predicates and object values
       for (Map.Entry<String, List<String>> entry : src.getPredicateValues().entrySet()) {
-        String predicate = FreebaseNode.cleanUri(entry.getKey());
+        String predicate = FreebaseNode.shortenUri(entry.getKey());
         List<String> values = entry.getValue();
 
         for (String value : values) {
