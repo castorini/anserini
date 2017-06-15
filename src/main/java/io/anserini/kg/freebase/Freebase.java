@@ -14,6 +14,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.Iterator;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 import java.util.zip.GZIPInputStream;
 
 /**
@@ -120,5 +122,9 @@ public class Freebase implements Iterable<FreebaseNode>, Closeable {
     if (bufferedReader != null) {
       bufferedReader.close();
     }
+  }
+
+  public Stream<FreebaseNode> stream() {
+    return StreamSupport.stream(this.spliterator(), false);
   }
 }
