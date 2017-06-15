@@ -1,5 +1,7 @@
 package io.anserini.kg.freebase;
 
+import org.openrdf.rio.ntriples.NTriplesUtil;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -135,6 +137,86 @@ public class FreebaseNode {
       return uri.substring(1, uri.length() - 1).toLowerCase();
     else
       return uri;
+  }
+
+  public static String shortenUri(String uri) {
+    if (uri.charAt(0) == '<') {
+      uri = uri.substring(1, uri.length() - 1).toLowerCase();
+    }
+
+    // Remove the prefix for mids, e.g., http://rdf.freebase.com/ns/m.02mjmr = Barack Obama
+    uri = uri.replaceAll("^http://rdf.freebase.com/ns/m.", "");
+
+    // These were standard namespace abbreviations used in the Freebase dumps prior to the
+    // N-Triples format:
+    //
+    // @prefix ns: <http://rdf.freebase.com/ns/>.
+    // @prefix key: <http://rdf.freebase.com/key/>.
+    // @prefix owl: <http://www.w3.org/2002/07/owl#>.
+    // @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+    // @prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+    //
+    // See thread at: https://groups.google.com/forum/#!topic/freebase-discuss/AG5sl7K5KBE
+    // Let's recover these namespace abbreviations to save space.
+    uri = uri.replaceAll("^http://rdf.freebase.com/ns/", "ns:");
+    uri = uri.replaceAll("^http://rdf.freebase.com/key/", "key:");
+    uri = uri.replaceAll("^http://www.w3.org/2002/07/owl#", "owl:");
+    uri = uri.replaceAll("^http://www.w3.org/2000/01/rdf-schema#", "rdfs:");
+    uri = uri.replaceAll("^http://www.w3.org/2001/XMLSchema#", "xsd:");
+
+    return uri;
+  }
+
+  public static String normalizeObjectValue(String objectValue) {
+    FreebaseNode.RdfObjectType type = FreebaseNode.getObjectType(objectValue);
+    if (type.equals(FreebaseNode.RdfObjectType.URI)) {
+      return FreebaseNode.cleanUri(objectValue);
+    } else if (type.equals(FreebaseNode.RdfObjectType.STRING)) {
+      // If the object is a string, remove enclosing quote.
+      if (objectValue.contains("$")) {
+        // See comment below about MQL key escaping
+        return removeEnclosingQuote(undoMqlKeyEscape(objectValue));
+      } else {
+        return removeEnclosingQuote(objectValue);
+      }
+    } else if (type.equals(FreebaseNode.RdfObjectType.TEXT)) {
+      return NTriplesUtil.unescapeString(objectValue);
+    } else {
+      return objectValue;
+    }
+  }
+
+  private static String removeEnclosingQuote(String s) {
+    if (s.charAt(0) == '"')
+      return s.substring(1, s.length() - 1);
+    else
+      return s;
+  }
+
+  // As an example, for "Barack Obama", one of the facts is:
+  //   http://rdf.freebase.com/key/wikipedia.en: "Barack_Hussein_Obama$002C_Jr$002E"
+  //
+  // The $xxxx encoding is something called MQL key escape.
+  //
+  // Live version of page no longer exists, but see:
+  //  http://web.archive.org/web/20160726102723/http://wiki.freebase.com/wiki/MQL_key_escaping
+  //
+  // Fortunately, I found a snippet of code on the web for handling this:
+  //  https://github.com/hackreduce/Hackathon/blob/master/src/main/java/org/hackreduce/models/FreebaseQuadRecord.java
+  private static String undoMqlKeyEscape(String s) {
+    String[] part = s.split("\\$");
+    StringBuffer sb = new StringBuffer(part[0]);
+    for (int i = 1; i<part.length; i++) {
+      try {
+        int code = Integer.parseInt(part[i].substring(0, 4), 16);
+        sb.appendCodePoint(code).append(part[i].substring(4));
+      } catch (IndexOutOfBoundsException e) {
+        sb.append(part[i]);
+      } catch (NumberFormatException e) {
+        sb.append(part[i]);
+      }
+    }
+    return sb.toString();
   }
 
   public static RdfObjectType getObjectType(String objectValue) {

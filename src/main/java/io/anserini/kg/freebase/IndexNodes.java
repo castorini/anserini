@@ -19,7 +19,6 @@ import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.OptionHandlerFilter;
 import org.kohsuke.args4j.ParserProperties;
-import org.openrdf.rio.ntriples.NTriplesUtil;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -79,13 +78,13 @@ public class IndexNodes {
     final IndexWriter writer = new IndexWriter(dir, config);
 
     final AtomicInteger cnt = new AtomicInteger();
-    new Freebase(inputPath).stream().map(new NodeLuceneDocumentGenerator())
+    new Freebase(inputPath).stream().map(new LuceneDocumentGenerator())
         .forEach(doc -> {
           try {
             writer.addDocument(doc);
             int cur = cnt.incrementAndGet();
             if (cur % 10000000 == 0) {
-              LOG.info("Number of indexed entity document: {}", cnt);
+              LOG.info(cnt + " nodes added.");
             }
           } catch (IOException e) {
             LOG.error(e);
@@ -127,7 +126,7 @@ public class IndexNodes {
     new IndexNodes(indexArgs.input, indexArgs.index).run();
   }
 
-  private static class NodeLuceneDocumentGenerator implements Function<FreebaseNode, Document> {
+  private static class LuceneDocumentGenerator implements Function<FreebaseNode, Document> {
     public Document apply(FreebaseNode src) {
       // Convert the triple doc to lucene doc
       Document doc = new Document();
@@ -143,26 +142,13 @@ public class IndexNodes {
         List<String> values = entry.getValue();
 
         for (String value : values) {
-          value = normalizeObjectValue(value);
+          value = FreebaseNode.normalizeObjectValue(value);
           doc.add(new StoredField(predicate, value));
         }
       }
 
       src.clear();
       return doc;
-    }
-
-    private String normalizeObjectValue(String objectValue) {
-      FreebaseNode.RdfObjectType type = FreebaseNode.getObjectType(objectValue);
-      if (type.equals(FreebaseNode.RdfObjectType.URI)) {
-        return FreebaseNode.cleanUri(objectValue);
-      } else if (type.equals(FreebaseNode.RdfObjectType.STRING)) {
-        return objectValue;
-      } else if (type.equals(FreebaseNode.RdfObjectType.TEXT)) {
-        return NTriplesUtil.unescapeString(objectValue);
-      } else {
-        return objectValue;
-      }
     }
   }
 }
