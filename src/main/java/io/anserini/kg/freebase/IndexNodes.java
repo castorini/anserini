@@ -10,7 +10,6 @@ import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.StoredField;
 import org.apache.lucene.document.StringField;
-import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.store.Directory;
@@ -20,7 +19,6 @@ import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.OptionHandlerFilter;
 import org.kohsuke.args4j.ParserProperties;
-import org.kohsuke.args4j.spi.StringArrayOptionHandler;
 import org.openrdf.rio.ntriples.NTriplesUtil;
 
 import java.io.IOException;
@@ -30,7 +28,8 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Function;
 
 /**
  * Builds a triples lookup index from a Freebase dump in N-Triples RDF format. Each
@@ -49,15 +48,6 @@ public class IndexNodes {
 
     @Option(name = "-index", metaVar = "[path]", required = true, usage = "index path")
     public String index;
-
-    // Optional arguments
-
-    @Option(name = "-predicates", handler = StringArrayOptionHandler.class, usage = "predicates to index")
-    public List<String> predicatesToIndex;
-  }
-
-  public final class Counters {
-    public AtomicLong indexedDocuments = new AtomicLong();
   }
 
   /**
@@ -67,7 +57,6 @@ public class IndexNodes {
 
   private final Path indexPath;
   private final Path collectionPath;
-  private final Counters counters;
 
   /**
    * Constructor
@@ -83,11 +72,6 @@ public class IndexNodes {
     // Log parameters
     LOG.info("Collection path: " + args.input);
     LOG.info("Index path: " + args.index);
-    if (args.predicatesToIndex != null && args.predicatesToIndex.size() > 0) {
-      LOG.info("Predicates to index: " + String.join(",", args.predicatesToIndex));
-    } else {
-      LOG.info("Predicates to index: None");
-    }
 
     // Initialize variables
     this.indexPath = Paths.get(args.index);
@@ -100,8 +84,6 @@ public class IndexNodes {
       throw new IllegalArgumentException("Document file/directory " + collectionPath.toString() +
               " does not exist or is not readable, please check the path");
     }
-
-    this.counters = new Counters();
   }
 
   private void run() throws IOException, InterruptedException {
@@ -116,9 +98,22 @@ public class IndexNodes {
     config.setUseCompoundFile(false);
 
     final IndexWriter writer = new IndexWriter(dir, config);
-    index(writer, collectionPath);
 
-    int numIndexed = writer.maxDoc();
+    final AtomicInteger cnt = new AtomicInteger();
+    new Freebase(collectionPath).stream().map(new NodeLuceneDocumentGenerator())
+        .forEach(doc -> {
+          try {
+            writer.addDocument(doc);
+            int cur = cnt.incrementAndGet();
+            if (cur % 1000000 == 0) {
+              LOG.debug("Number of indexed entity document: {}", cnt);
+            }
+          } catch (IOException e) {
+            LOG.error(e);
+          }
+        });
+
+    LOG.info(cnt.get() + " nodes added.");
     try {
       writer.commit();
     } finally {
@@ -129,42 +124,10 @@ public class IndexNodes {
       }
     }
 
-    LOG.info("Indexed documents: " + counters.indexedDocuments.get());
+    int numIndexed = writer.maxDoc();
     final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
     LOG.info("Total " + numIndexed + " documents indexed in " +
             DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss"));
-  }
-
-  /**
-   * Run the indexing process.
-   *
-   * @param writer index writer
-   * @param inputFile which file to index from the collection
-   * @throws IOException on error
-   */
-  private void index(IndexWriter writer, Path inputFile) throws IOException {
-    NodeLuceneDocumentGenerator transformer = new NodeLuceneDocumentGenerator();
-    transformer.config(args);
-    transformer.setCounters(counters);
-
-    int cnt = 0;
-    Freebase freebase = new Freebase(inputFile);
-    for (FreebaseNode d : freebase) {
-      Document doc = transformer.createDocument(d);
-
-      if (doc != null) {
-        writer.addDocument(doc);
-        cnt++;
-      }
-
-      // Display progress
-      if (cnt % 100000 == 0) {
-        LOG.debug("Number of indexed entity document: {}", cnt);
-      }
-    }
-
-    LOG.info(inputFile.getFileName().toString() + ": " + cnt + " docs added.");
-    counters.indexedDocuments.addAndGet(cnt);
   }
 
   public static void main(String[] args) throws Exception {
@@ -185,7 +148,7 @@ public class IndexNodes {
     new IndexNodes(indexRDFCollectionArgs).run();
   }
 
-  public static class NodeLuceneDocumentGenerator {
+  public static class NodeLuceneDocumentGenerator implements Function<FreebaseNode, Document> {
     public static final String FIELD_SUBJECT = "subject";
 
     // RDF object predicate types
@@ -194,18 +157,7 @@ public class IndexNodes {
     static final String VALUE_TYPE_TEXT = "TEXT";
     static final String VALUE_TYPE_OTHER = "OTHER";
 
-    protected IndexNodes.Counters counters;
-    protected IndexNodes.Args args;
-
-    public void config(IndexNodes.Args args) {
-      this.args = args;
-    }
-
-    public void setCounters(IndexNodes.Counters counters) {
-      this.counters = counters;
-    }
-
-    public Document createDocument(FreebaseNode src) {
+    public Document apply(FreebaseNode src) {
       // Convert the triple doc to lucene doc
       Document doc = new Document();
 
@@ -223,18 +175,8 @@ public class IndexNodes {
         for (String value : values) {
           String valueType = getObjectType(value);
           value = normalizeObjectValue(value);
-          if (isIndexedPredicate(predicate)) {
-            if (valueType.equals(VALUE_TYPE_URI)) {
-              // Always index URIs using StringField
-              doc.add(new StringField(predicate, value, Field.Store.YES));
-            } else {
-              // Just store the predicate in a stored field, no index
-              doc.add(new TextField(predicate, value, Field.Store.YES));
-            }
-          } else {
-            // Just add the predicate as a stored field, no index on it
-            doc.add(new StoredField(predicate, value));
-          }
+          // Just add the predicate as a stored field, no index on it
+          doc.add(new StoredField(predicate, value));
         }
       }
 
@@ -277,16 +219,6 @@ public class IndexNodes {
         default:
           return VALUE_TYPE_OTHER;
       }
-    }
-
-    /**
-     * Check if the predicate should be indexed
-     *
-     * @param predicate the predicate to check
-     * @return true if the user specified it to be indexed, false otherwise.
-     */
-    boolean isIndexedPredicate(String predicate) {
-      return args.predicatesToIndex != null && args.predicatesToIndex.contains(predicate);
     }
 
     /**
