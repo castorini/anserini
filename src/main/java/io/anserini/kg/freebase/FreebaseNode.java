@@ -145,10 +145,10 @@ public class FreebaseNode {
         return RdfObjectType.URI;
       case '"':
         if (objectValue.charAt(objectValue.length() - 1) == '"') {
-          // e.g., "Hanna Bieluszko"@en";
+          // e.g., "Hanna Bieluszko"
           return RdfObjectType.STRING;
         } else {
-          // e.g., "Hanna Bieluszko"
+          // e.g., "Hanna Bieluszko"@en";
           return RdfObjectType.TEXT;
         }
       default:
