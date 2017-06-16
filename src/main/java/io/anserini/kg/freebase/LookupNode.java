@@ -95,7 +95,7 @@ public class LookupNode implements Closeable {
           Document doc = reader.document(luceneDocId);
           doc.iterator().forEachRemaining(field -> {
             if (predicate == null || field.name().equals(predicate)) {
-              System.out.println(field.name() + " : " + field.stringValue());
+              System.out.println(field.name() + " = " + field.stringValue());
             }
           });
         } catch (IOException e) {

@@ -124,34 +124,6 @@ public class FreebaseNode {
       return uri;
   }
 
-  public static String shortenUri(String uri) {
-    if (uri.charAt(0) == '<') {
-      uri = uri.substring(1, uri.length() - 1).toLowerCase();
-    }
-
-    // Remove the prefix for mids, e.g., http://rdf.freebase.com/ns/m.02mjmr = Barack Obama
-    uri = uri.replaceAll("^http://rdf.freebase.com/ns/m.", "");
-
-    // These were standard namespace abbreviations used in the Freebase dumps prior to the
-    // N-Triples format:
-    //
-    // @prefix ns: <http://rdf.freebase.com/ns/>.
-    // @prefix key: <http://rdf.freebase.com/key/>.
-    // @prefix owl: <http://www.w3.org/2002/07/owl#>.
-    // @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
-    // @prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
-    //
-    // See thread at: https://groups.google.com/forum/#!topic/freebase-discuss/AG5sl7K5KBE
-    // Let's recover these namespace abbreviations to save space.
-    uri = uri.replaceAll("^http://rdf.freebase.com/ns/", "ns:");
-    uri = uri.replaceAll("^http://rdf.freebase.com/key/", "key:");
-    uri = uri.replaceAll("^http://www.w3.org/2002/07/owl#", "owl:");
-    uri = uri.replaceAll("^http://www.w3.org/2000/01/rdf-schema#", "rdfs:");
-    uri = uri.replaceAll("^http://www.w3.org/2001/XMLSchema#", "xsd:");
-
-    return uri;
-  }
-
   public static String normalizeObjectValue(String objectValue) {
     FreebaseNode.RdfObjectType type = FreebaseNode.getObjectType(objectValue);
     if (type.equals(FreebaseNode.RdfObjectType.URI)) {

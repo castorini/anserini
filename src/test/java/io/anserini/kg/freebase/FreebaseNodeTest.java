@@ -13,20 +13,6 @@ public class FreebaseNodeTest {
   }
 
   @Test
-  public void shortenUri() throws Exception {
-    assertEquals("02mjmr", FreebaseNode.shortenUri("<http://rdf.freebase.com/ns/m.02mjmr>"));
-    assertEquals("02mjmr", FreebaseNode.shortenUri("http://rdf.freebase.com/ns/m.02mjmr"));
-
-    assertEquals("ns:people.person.date_of_birth",
-        FreebaseNode.shortenUri("<http://rdf.freebase.com/ns/people.person.date_of_birth>"));
-    assertEquals("key:wikipedia.en",
-        FreebaseNode.shortenUri("http://rdf.freebase.com/key/wikipedia.en"));
-    assertEquals("rdfs:label",
-        FreebaseNode.shortenUri("http://www.w3.org/2000/01/rdf-schema#label"));
-
-  }
-
-  @Test
   public void normalizeObject() throws Exception {
     // FYI - to demonstrate behavior of NTriplesUtil.unescapeString
     assertEquals("\"Hanna Bieluszko\"@en",
