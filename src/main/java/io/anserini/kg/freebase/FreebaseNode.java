@@ -8,7 +8,9 @@ import java.util.Map;
 import java.util.TreeMap;
 
 /**
- * An object representing a node in the Freebase knowledge graph.
+ * An object representing a node in the Freebase knowledge graph. Each node is uniquely identified
+ * by its URI and can represent a topic, a compound value type (CVT), or other metadata such as a
+ * type.
  */
 public class FreebaseNode {
   private final String uri;
@@ -27,9 +29,10 @@ public class FreebaseNode {
   }
 
   /**
-   * Add the predicate and its value in the predicateValues map
-   * @param p predicate
+   * Adds a predicate and a value to this node.
+   * @param p predicate value
    * @param o object value
+   * @return the node itself
    */
   public FreebaseNode addPredicateValue(String p, String o) {
     List<String> values = predicateValues.get(p);
@@ -48,9 +51,8 @@ public class FreebaseNode {
     StringBuilder sb = new StringBuilder();
     predicateValues.forEach((predicate, values) -> {
       for (String value : values) {
-        sb.append(uri).append("\t")
-                .append(predicate).append("\t")
-                .append(value).append("\t").append(".\n");
+        sb.append(uri).append("\t").append(predicate).append("\t")
+            .append(value).append("\t").append(".\n");
       }
     });
     return sb.toString();
@@ -65,10 +67,11 @@ public class FreebaseNode {
   }
 
   public static String cleanUri(String uri) {
-    if (uri.charAt(0) == '<')
+    if (uri.charAt(0) == '<') {
       return uri.substring(1, uri.length() - 1).toLowerCase();
-    else
+    } else {
       return uri;
+    }
   }
 
   public static String normalizeObjectValue(String objectValue) {
