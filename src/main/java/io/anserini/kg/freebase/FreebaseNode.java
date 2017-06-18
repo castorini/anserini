@@ -11,64 +11,19 @@ import java.util.TreeMap;
  * An object representing a node in the Freebase knowledge graph.
  */
 public class FreebaseNode {
-
-  /**
-   * Splitter that describes how s,p,o are split in a triple line
-   */
-  public static final String TRIPLE_SPLITTER = "\t";
-
-  private String mid;
-  private Map<String, List<String>> predicateValues = new TreeMap<>();
+  private final String uri;
+  private final Map<String, List<String>> predicateValues = new TreeMap<>();
 
   public enum RdfObjectType {
     URI, STRING, TEXT, OTHER
   }
 
   /**
-   * Constructor for an NT triples (NTriples).
-   *
-   * @param s mid
-   * @param p predicate
-   * @param o object
+   * Constructor.
+   * @param uri URI of node
    */
-  public FreebaseNode(String s, String p, String o) {
-    init(s, p, o);
-  }
-
-  /**
-   * Clone from another document
-   * @param other
-   */
-  public FreebaseNode(FreebaseNode other) {
-    this.mid = other.mid;
-    other.predicateValues.forEach((predicate, values) -> {
-      this.predicateValues.put(predicate, new ArrayList<>(values));
-    });
-  }
-
-  /**
-   * Constructor from a line
-   * @param line line that contains triple information
-   */
-  public FreebaseNode(String line) throws IllegalArgumentException {
-    String[] pieces = line.split(TRIPLE_SPLITTER);
-    if (pieces.length == 4) {
-      init(pieces[0], pieces[1], pieces[2]);
-    } else {
-      throw new IllegalArgumentException("Cannot parse triple from line: " + line);
-    }
-  }
-
-  /**
-   * Assign values
-   * @param s mid
-   * @param p predicate
-   * @param o object
-   */
-  private void init(String s, String p, String o) {
-    this.mid = s;
-    // Add the predicate and object as the first element in the list
-    addPredicateAndValue(p, o);
+  public FreebaseNode(String uri) {
+    this.uri = uri;
   }
 
   /**
@@ -76,7 +31,7 @@ public class FreebaseNode {
    * @param p predicate
    * @param o object value
    */
-  public void addPredicateAndValue(String p, String o) {
+  public FreebaseNode addPredicateValue(String p, String o) {
     List<String> values = predicateValues.get(p);
 
     if (values == null) {
@@ -85,6 +40,7 @@ public class FreebaseNode {
     }
 
     values.add(o);
+    return this;
   }
 
   @Override
@@ -92,29 +48,20 @@ public class FreebaseNode {
     StringBuilder sb = new StringBuilder();
     predicateValues.forEach((predicate, values) -> {
       for (String value : values) {
-        sb.append(mid).append(TRIPLE_SPLITTER)
-                .append(predicate).append(TRIPLE_SPLITTER)
-                .append(value).append(TRIPLE_SPLITTER).append(".\n");
+        sb.append(uri).append("\t")
+                .append(predicate).append("\t")
+                .append(value).append("\t").append(".\n");
       }
     });
     return sb.toString();
   }
 
-  public String mid() {
-    return mid;
+  public String uri() {
+    return uri;
   }
 
   public Map<String, List<String>> getPredicateValues() {
     return predicateValues;
-  }
-
-  /**
-   * Clears resources
-   */
-  public void clear() {
-    predicateValues.clear();
-    mid = null;
-    predicateValues = null;
   }
 
   public static String cleanUri(String uri) {

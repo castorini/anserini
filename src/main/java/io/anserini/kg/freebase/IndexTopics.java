@@ -220,7 +220,7 @@ public class IndexTopics {
 
     public Document createDocument(FreebaseNode src) {
       // make a Topic from the FreebaseNode
-      String topicMid = src.mid();
+      String topicMid = src.uri();
       String title = "";
       String label = "";
       String name = "";
@@ -271,7 +271,6 @@ public class IndexTopics {
       Field textField = new TextField(FIELD_TEXT, text, Field.Store.YES);
       doc.add(textField);
 
-      src.clear();
       return doc;
     }
 
