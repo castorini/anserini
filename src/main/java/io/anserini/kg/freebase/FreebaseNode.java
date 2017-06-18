@@ -68,10 +68,13 @@ public class FreebaseNode {
 
   public static String cleanUri(String uri) {
     if (uri.charAt(0) == '<') {
-      return uri.substring(1, uri.length() - 1).toLowerCase();
-    } else {
-      return uri;
+      uri = uri.substring(1, uri.length() - 1).toLowerCase();
     }
+
+    uri = uri.replaceAll("^http://rdf.freebase.com/ns/", "fb:");
+    uri = uri.replaceAll("^http://rdf.freebase.com/key/", "fbkey:");
+
+    return uri;
   }
 
   public static String normalizeObjectValue(String objectValue) {
@@ -94,10 +97,11 @@ public class FreebaseNode {
   }
 
   private static String removeEnclosingQuote(String s) {
-    if (s.charAt(0) == '"')
+    if (s.charAt(0) == '"') {
       return s.substring(1, s.length() - 1);
-    else
+    } else {
       return s;
+    }
   }
 
   // As an example, for "Barack Obama", one of the facts is:

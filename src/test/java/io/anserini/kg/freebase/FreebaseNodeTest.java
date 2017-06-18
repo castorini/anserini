@@ -8,7 +8,7 @@ import static org.junit.Assert.assertEquals;
 public class FreebaseNodeTest {
   @Test
   public void cleanUri() throws Exception {
-    assertEquals("http://rdf.freebase.com/ns/m.02mjmr",
+    assertEquals("fb:m.02mjmr",
         FreebaseNode.cleanUri("<http://rdf.freebase.com/ns/m.02mjmr>"));
   }
 
