@@ -46,7 +46,7 @@ public class IndexNodes {
     public Path index;
   }
 
-  public static final String FIELD_MID = "mid";
+  public static final String FIELD_ID = "id";
 
   private final Path indexPath;
   private final Path inputPath;
@@ -128,26 +128,15 @@ public class IndexNodes {
 
   private static class LuceneDocumentGenerator implements Function<FreebaseNode, Document> {
     public Document apply(FreebaseNode src) {
-      // Convert the triple doc to lucene doc
       Document doc = new Document();
-
-      // Index subject as a StringField to allow searching
-      Field subjectField = new StringField(FIELD_MID,
-          FreebaseNode.cleanUri(src.mid()), Field.Store.YES);
-      doc.add(subjectField);
+      doc.add(new StringField(FIELD_ID, FreebaseNode.cleanUri(src.uri()), Field.Store.YES));
 
       // Iterate over predicates and object values
       for (Map.Entry<String, List<String>> entry : src.getPredicateValues().entrySet()) {
-        String predicate = FreebaseNode.cleanUri(entry.getKey());
-        List<String> values = entry.getValue();
-
-        for (String value : values) {
-          value = FreebaseNode.normalizeObjectValue(value);
-          doc.add(new StoredField(predicate, value));
-        }
+        final String predicate = FreebaseNode.cleanUri(entry.getKey());
+        entry.getValue().forEach(value ->
+            doc.add(new StoredField(predicate, FreebaseNode.normalizeObjectValue(value))));
       }
-
-      src.clear();
       return doc;
     }
   }

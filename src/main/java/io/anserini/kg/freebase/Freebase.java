@@ -14,6 +14,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 import java.util.zip.GZIPInputStream;
@@ -24,6 +25,7 @@ import java.util.zip.GZIPInputStream;
  */
 public class Freebase implements Iterable<FreebaseNode>, Closeable {
   private static final Logger LOG = LogManager.getLogger(Freebase.class);
+  private static final String TRIPLE_SPLITTER = "\t";
   private static final int BUFFER_SIZE = 1 << 16; //64K
 
   private final BufferedReader bufferedReader;
@@ -43,66 +45,63 @@ public class Freebase implements Iterable<FreebaseNode>, Closeable {
   public Iterator<FreebaseNode> iterator() {
     return new Iterator<FreebaseNode>() {
       private boolean atEOF = false;
-      private FreebaseNode currentDoc = null;
+      private FreebaseNode currentNode = null;
 
       @Override
       public FreebaseNode next() {
-        FreebaseNode doc = null;
+        if (atEOF) {
+          throw new NoSuchElementException();
+        }
 
+        FreebaseNode node;
         while (true) { // Keep reading file
           try {
             String line = bufferedReader.readLine();
 
             if (line == null) {
-              // End of file, we set doc to the current doc.
-              // If the file was empty, currentDoc would be null,
-              // and if we were processing a subject document, it will
-              // be returned correctly
-              doc = currentDoc;
-
-              // Finish processing
+              // We've reached the end of file, set node to the current node.
+              // If the file was empty, currentNode would be null, and if we were processing a
+              // current node, it will be returned correctly.
+              node = currentNode;
               atEOF = true;
               break;
-            } else if (line.startsWith("#") || line.equals("")) {
-              // Ignore comments and empty lines
-              continue;
-            } else {
-              // Process the line
-              String[] triple = line.split(FreebaseNode.TRIPLE_SPLITTER);
+            } else if (!line.startsWith("#") && !line.equals("")) {
+              // Ignore comments and empty lines.
+              String[] triple = line.split(TRIPLE_SPLITTER);
 
               if (triple.length != 4) {
-                // Ignore invalid lines
+                // Ignore invalid lines.
                 LOG.warn("Ignoring invalid NT triple line: {}", line);
                 continue;
               }
 
-              if (currentDoc == null) {
-                // First line with a valid triple, create a new doc
-                currentDoc = new FreebaseNode(triple[0], triple[1], triple[2]);
+              if (currentNode == null) {
+                // First line with a valid triple, create a new node.
+                currentNode = new FreebaseNode(triple[0]).addPredicateValue(triple[1], triple[2]);
                 continue;
               }
 
-              if (triple[0].equals(currentDoc.mid())) {
-                // Still processing the same entity subject
-                currentDoc.addPredicateAndValue(triple[1], triple[2]);
+              if (triple[0].equals(currentNode.uri())) {
+                // Same URI, still processing the same node.
+                currentNode.addPredicateValue(triple[1], triple[2]);
               } else {
-                // Encountered a new subject. We set doc to return to
-                // the current doc, which is the previous entity that was being processed.
-                doc = currentDoc;
+                // Encountered a new URI. We set node to return the current node, which is the
+                // previous URI that was being processed.
+                node = currentNode;
 
-                // Set the current document to a new document with the new subject
-                currentDoc = new FreebaseNode(triple[0], triple[1], triple[2]);
+                // Set the current node to a new node with the new URI.
+                currentNode = new FreebaseNode(triple[0]).addPredicateValue(triple[1], triple[2]);
 
-                // Break from loop to return doc
+                // Break from loop to return node.
                 break;
               }
             }
           } catch (IOException e) {
-            LOG.error("Cannot read next line from reader");
+            LOG.error("Cannot read next line from reader!");
           }
         }
 
-        return doc;
+        return node;
       }
 
       @Override

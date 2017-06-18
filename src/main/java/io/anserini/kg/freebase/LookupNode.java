@@ -59,7 +59,7 @@ public class LookupNode implements Closeable {
     IndexSearcher searcher = new IndexSearcher(reader);
 
     // Search for exact subject URI
-    TermQuery query = new TermQuery(new Term(IndexNodes.FIELD_MID, mid));
+    TermQuery query = new TermQuery(new Term(IndexNodes.FIELD_ID, mid));
 
     TopDocs topDocs = searcher.search(query, 1);
     if (topDocs.totalHits == 0) {

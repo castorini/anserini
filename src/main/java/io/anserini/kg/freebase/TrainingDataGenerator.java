@@ -305,7 +305,7 @@ public class TrainingDataGenerator {
         return;
       }
 
-      String freebaseURI = doc.get(IndexNodes.FIELD_MID);
+      String freebaseURI = doc.get(IndexNodes.FIELD_ID);
 
       // We might have multiple values for the field
       String[] birthdates = doc.getValues(FIELD_BIRTHDATE);

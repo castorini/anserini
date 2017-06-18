@@ -1,6 +1,5 @@
 package io.anserini.ltr;
 
-import com.google.gson.JsonObject;
 import io.anserini.ltr.feature.FeatureExtractors;
 import org.junit.Test;
 
@@ -11,7 +10,7 @@ public class LoadFeatureExtractorFromFileTest extends BaseFeatureExtractorTest{
 
   @Test
   public void testMultipleExtractorNoParam() throws Exception {
-    String jsonFile = "./resources/MixedFeatureExtractor.txt";
+    String jsonFile = "src/test/resources/MixedFeatureExtractor.txt";
     String docText = "document missing token";
     String queryText = "document test";
     float[] expected = {0.836985f, 1f};
