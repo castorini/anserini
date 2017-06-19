@@ -23,6 +23,10 @@ public class FreebaseTest {
     node = iter.next();
     assertEquals("<http://rdf.freebase.com/ns/american_football.football_player.footballdb_id>", node.uri());
     assertEquals(9, node.getPredicateValues().size());
+    assertEquals("fb:american_football.football_player.footballdb_id",
+        FreebaseNode.cleanUri("fb:american_football.football_player.footballdb_id"));
+    assertEquals("fb:type.object.name",
+        FreebaseNode.cleanUri(node.getPredicateValues().keySet().iterator().next()));
 
     assertTrue(iter.hasNext());
     node = iter.next();

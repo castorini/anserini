@@ -66,12 +66,22 @@ public class FreebaseNode {
     return predicateValues;
   }
 
+  public static final String FREEBASE_NS_LONG = "^http://rdf.freebase.com/ns/";
+  public static final String FREEBASE_NS_SHORT = "fb:";
+  public static final String FREEBASE_KEY_LONG = "^http://rdf.freebase.com/key/";
+  public static final String FREEBASE_KEY_SHORT = "fbkey:";
+
   public static String cleanUri(String uri) {
     if (uri.charAt(0) == '<') {
-      return uri.substring(1, uri.length() - 1).toLowerCase();
-    } else {
-      return uri;
+      uri = uri.substring(1, uri.length() - 1).toLowerCase();
     }
+
+    // Manually shorten URIs. If there are more mappings, we might want to consider a more
+    // general solution (e.g., using a Map).
+    uri = uri.replaceAll(FREEBASE_NS_LONG, FREEBASE_NS_SHORT);
+    uri = uri.replaceAll(FREEBASE_KEY_LONG, FREEBASE_KEY_SHORT);
+
+    return uri;
   }
 
   public static String normalizeObjectValue(String objectValue) {
@@ -94,10 +104,11 @@ public class FreebaseNode {
   }
 
   private static String removeEnclosingQuote(String s) {
-    if (s.charAt(0) == '"')
+    if (s.charAt(0) == '"') {
       return s.substring(1, s.length() - 1);
-    else
+    } else {
       return s;
+    }
   }
 
   // As an example, for "Barack Obama", one of the facts is:
