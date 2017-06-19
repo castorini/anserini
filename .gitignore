@@ -12,3 +12,5 @@ src/test/test-index*
 *node_modules/
 src/main/js/SpeechDemo-darwin-x64/
 config.cfg
+log*
+tmp-files
