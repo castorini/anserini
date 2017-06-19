@@ -34,7 +34,7 @@ import java.util.function.Function;
  * on {@code mid}.
  */
 public class IndexTopics {
-  private static final Logger LOG = LogManager.getLogger(IndexNodes.class);
+  private static final Logger LOG = LogManager.getLogger(IndexTopics.class);
 
   public static final class Args {
     @Option(name = "-input", metaVar = "[file]", required = true, usage = "Freebase dump file")
@@ -142,7 +142,7 @@ public class IndexTopics {
       return;
     }
 
-    new IndexNodes(indexArgs.input, indexArgs.index).run();
+    new IndexTopics(indexArgs.input, indexArgs.index).run();
   }
 
   private static class TopicLuceneDocumentGenerator implements Function<FreebaseNode, Document> {
@@ -167,10 +167,8 @@ public class IndexTopics {
             }
           } else if (predicate.startsWith(W3_LABEL_URI)) {
             label = FreebaseNode.normalizeObjectValue(object);
-            LOG.info(String.format("label: %s", label));
           } else if (predicate.startsWith(FB_OBJECT_NAME)) {
             name = FreebaseNode.normalizeObjectValue(object);
-            LOG.info(String.format("name: %s", name));
           }
         }
       }
