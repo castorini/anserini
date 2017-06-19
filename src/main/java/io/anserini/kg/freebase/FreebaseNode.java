@@ -66,13 +66,20 @@ public class FreebaseNode {
     return predicateValues;
   }
 
+  public static final String FREEBASE_NS_LONG = "^http://rdf.freebase.com/ns/";
+  public static final String FREEBASE_NS_SHORT = "fb:";
+  public static final String FREEBASE_KEY_LONG = "^http://rdf.freebase.com/key/";
+  public static final String FREEBASE_KEY_SHORT = "fbkey:";
+
   public static String cleanUri(String uri) {
     if (uri.charAt(0) == '<') {
       uri = uri.substring(1, uri.length() - 1).toLowerCase();
     }
 
-    uri = uri.replaceAll("^http://rdf.freebase.com/ns/", "fb:");
-    uri = uri.replaceAll("^http://rdf.freebase.com/key/", "fbkey:");
+    // Manually shorten URIs. If there are more mappings, we might want to consider a more
+    // general solution (e.g., using a Map).
+    uri = uri.replaceAll(FREEBASE_NS_LONG, FREEBASE_NS_SHORT);
+    uri = uri.replaceAll(FREEBASE_KEY_LONG, FREEBASE_KEY_SHORT);
 
     return uri;
   }
