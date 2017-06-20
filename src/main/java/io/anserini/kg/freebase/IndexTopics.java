@@ -98,17 +98,17 @@ public class IndexTopics {
 
     final AtomicInteger cnt = new AtomicInteger();
     new Freebase(inputPath).stream().map(new TopicLuceneDocumentGenerator())
-            .forEach(doc -> {
-              try {
-                writer.addDocument(doc);
-                int cur = cnt.incrementAndGet();
-                if (cur % 10000000 == 0) {
-                  LOG.info(cnt + " nodes added.");
-                }
-              } catch (IOException e) {
-                LOG.error(e);
-              }
-            });
+        .forEach(doc -> {
+          try {
+            writer.addDocument(doc);
+            int cur = cnt.incrementAndGet();
+            if (cur % 10000000 == 0) {
+              LOG.info(cnt + " nodes added.");
+            }
+          } catch (IOException e) {
+            LOG.error(e);
+          }
+        });
 
     LOG.info(cnt.get() + " nodes added.");
     int numIndexed = writer.maxDoc();
@@ -137,7 +137,7 @@ public class IndexTopics {
     } catch (CmdLineException e) {
       System.err.println(e.getMessage());
       parser.printUsage(System.err);
-      System.err.println("Example: "+ IndexNodes.class.getSimpleName() +
+      System.err.println("Example: "+ IndexTopics.class.getSimpleName() +
               parser.printExample(OptionHandlerFilter.REQUIRED));
       return;
     }
@@ -147,7 +147,7 @@ public class IndexTopics {
 
   private static class TopicLuceneDocumentGenerator implements Function<FreebaseNode, Document> {
     public Document apply(FreebaseNode src) {
-      String topicMid = FreebaseNode.cleanUri( src.uri() );
+      String topicMid = FreebaseNode.cleanUri(src.uri());
       String title = "";
       String label = "";
       String name = "";
