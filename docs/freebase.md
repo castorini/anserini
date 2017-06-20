@@ -13,7 +13,7 @@ This then allows lookup of facts for a particular `mid`:
 
 ```
 sh target/appassembler/bin/LookupFreebaseNode -index lucene-index.freebase.nodes \
-  -mid http://rdf.freebase.com/ns/m.02mjmr
+  -mid fb:m.02mjmr
 ```
 
 ## Topic Search
