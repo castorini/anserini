@@ -61,10 +61,10 @@ public class IndexTopics {
   /**
    * Predicates for which the literals should be stored
    */
-  private static final String WIKI_EN_URI = "http://rdf.freebase.com/key/wikipedia.en";
+  private static final String WIKI_EN_URI = FreebaseNode.FREEBASE_KEY_SHORT + "wikipedia.en";
   private static final String WIKI_EN_TILE_URI = WIKI_EN_URI + "_title";
   private static final String W3_LABEL_URI = "http://www.w3.org/2000/01/rdf-schema#label";
-  private static final String FB_OBJECT_NAME = "http://rdf.freebase.com/ns/type.object.name";
+  private static final String FB_OBJECT_NAME = FreebaseNode.FREEBASE_NS_SHORT + "type.object.name";
 
 
   private final Path indexPath;
@@ -147,7 +147,7 @@ public class IndexTopics {
 
   private static class TopicLuceneDocumentGenerator implements Function<FreebaseNode, Document> {
     public Document apply(FreebaseNode src) {
-      String topicMid = src.uri();
+      String topicMid = FreebaseNode.cleanUri( src.uri() );
       String title = "";
       String label = "";
       String name = "";
@@ -166,9 +166,9 @@ public class IndexTopics {
               text += FreebaseNode.normalizeObjectValue((object)) + " ";
             }
           } else if (predicate.startsWith(W3_LABEL_URI)) {
-            label = FreebaseNode.normalizeObjectValue(object);
+            label += FreebaseNode.normalizeObjectValue(object) + " ";
           } else if (predicate.startsWith(FB_OBJECT_NAME)) {
-            name = FreebaseNode.normalizeObjectValue(object);
+            name += FreebaseNode.normalizeObjectValue(object) + " ";
           }
         }
       }
@@ -177,7 +177,7 @@ public class IndexTopics {
       Document doc = new Document();
 
       // Index subject as a StringField to allow searching
-      Field topicMidField = new StringField(FIELD_TOPIC_MID, FreebaseNode.cleanUri(topicMid), Field.Store.YES);
+      Field topicMidField = new StringField(FIELD_TOPIC_MID, topicMid, Field.Store.YES);
       doc.add(topicMidField);
 
       Field titleField = new TextField(FIELD_TITLE, title, Field.Store.YES);
