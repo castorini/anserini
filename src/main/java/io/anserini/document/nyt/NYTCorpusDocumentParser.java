@@ -38,6 +38,9 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import io.anserini.index.IndexCollection;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -261,6 +264,8 @@ public class NYTCorpusDocumentParser {
 	/** NITF Constant */
 	private static final String GENERAL_DESCRIPTOR_ATTRIBUTE = "general_descriptor";
 
+
+	private static final Logger LOG = LogManager.getLogger(IndexCollection.class);
 	/**
 	 * Parse an New York Times Document from a file.
 	 * 
@@ -476,8 +481,8 @@ public class NYTCorpusDocumentParser {
 				Date date = format.parse(publicationDateString);
 				ldcDocument.setPublicationDate(date);
 			} catch (ParseException e) {
-				e.printStackTrace();
-				System.out.println("Error parsing date from string "
+				//e.printStackTrace();
+				LOG.error("Error parsing date from string "
 						+ publicationDateString + " in file "
 						+ ldcDocument.getSourceFile() + ".");
 			}
@@ -490,8 +495,8 @@ public class NYTCorpusDocumentParser {
 				URL url = new URL(urlString);
 				ldcDocument.setUrl(url);
 			} catch (MalformedURLException e) {
-				e.printStackTrace();
-				System.out.println("Error parsing url from string " + urlString
+				//e.printStackTrace();
+				LOG.error("Error parsing url from string " + urlString
 						+ " in file " + ldcDocument.getSourceFile() + ".");
 			}
 		}
@@ -502,8 +507,8 @@ public class NYTCorpusDocumentParser {
 				Integer wordCount = Integer.parseInt(wordCountString);
 				ldcDocument.setWordCount(wordCount);
 			} catch (NumberFormatException e) {
-				e.printStackTrace();
-				System.out.println("Error parsing integer from string "
+				//e.printStackTrace();
+				LOG.error("Error parsing integer from string "
 						+ wordCountString + " in file "
 						+ ldcDocument.getSourceFile() + ".");
 			}
@@ -584,8 +589,8 @@ public class NYTCorpusDocumentParser {
 			try {
 				ldcDocument.setGuid(Integer.parseInt(docIdString));
 			} catch (NumberFormatException e) {
-				e.printStackTrace();
-				System.out.println("Error parsing long from string "
+				//e.printStackTrace();
+				LOG.error("Error parsing long from string "
 						+ docIdString + " in file "
 						+ ldcDocument.getSourceFile() + ".");
 			}
@@ -639,18 +644,17 @@ public class NYTCorpusDocumentParser {
 			}
 
 		} catch (MalformedURLException e) {
-			e.printStackTrace();
-			System.out.println("Error parsing url from string " + content
+			//e.printStackTrace();
+			LOG.error("Error parsing url from string " + content
 					+ " in file " + ldcDocument.getSourceFile() + ".");
 		} catch (NumberFormatException e) {
-			e.printStackTrace();
-			System.out
-					.println("Error parsing integer" + " from string "
+			//e.printStackTrace();
+			LOG.error("Error parsing integer" + " from string "
 							+ content + " in file "
 							+ ldcDocument.getSourceFile() + ".");
 		} catch (ParseException e) {
-			e.printStackTrace();
-			System.out.println("Error parsing date" + " from string " + content
+			//e.printStackTrace();
+			LOG.error("Error parsing date" + " from string " + content
 					+ " in file " + ldcDocument.getSourceFile() + ".");
 		}
 	}
@@ -680,16 +684,17 @@ public class NYTCorpusDocumentParser {
 					+ "SYSTEM \"http://www.nitf.org/"
 					+ "IPTC/NITF/3.3/specification/dtd/nitf-3-3.dtd\">", "");
 			document = parseStringToDOM(xmlData, "UTF-8", file);
+			in.close();
 			return document;
 		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-			System.out.println("Error loading file " + file + ".");
+			//e.printStackTrace();
+			LOG.error("Error loading file " + file + ".");
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-			System.out.println("Error loading file " + file + ".");
+			//e.printStackTrace();
+			LOG.error("Error loading file " + file + ".");
 		} catch (IOException e) {
-			e.printStackTrace();
-			System.out.println("Error loading file " + file + ".");
+			//e.printStackTrace();
+			LOG.error("Error loading file " + file + ".");
 		}
 		return null;
 	}
@@ -705,16 +710,16 @@ public class NYTCorpusDocumentParser {
 		try {
 			return getDOMObject(file.getAbsolutePath(), true);
 		} catch (SAXException e) {
-			e.printStackTrace();
-			System.out.println("Error parsing digital document from nitf file "
+			//e.printStackTrace();
+			LOG.error("Error parsing digital document from nitf file "
 					+ file + ".");
 		} catch (IOException e) {
-			e.printStackTrace();
-			System.out.println("Error parsing digital document from nitf file "
+			//e.printStackTrace();
+			LOG.error("Error parsing digital document from nitf file "
 					+ file + ".");
 		} catch (ParserConfigurationException e) {
-			e.printStackTrace();
-			System.out.println("Error parsing digital document from nitf file "
+			//e.printStackTrace();
+			LOG.error("Error parsing digital document from nitf file "
 					+ file + ".");
 		}
 		return null;
@@ -735,16 +740,17 @@ public class NYTCorpusDocumentParser {
 			factory.setValidating(false);
 			InputStream is = new ByteArrayInputStream(s.getBytes(encoding));
 			Document doc = factory.newDocumentBuilder().parse(is);
+			is.close();
 			return doc;
 		} catch (SAXException e) {
-			e.printStackTrace();
-			System.out.println("Exception processing file " + file + ".");
+			//e.printStackTrace();
+			LOG.error("Exception processing file " + file + ".");
 		} catch (ParserConfigurationException e) {
-			e.printStackTrace();
-			System.out.println("Exception processing file " + file + ".");
+			//e.printStackTrace();
+			LOG.error("Exception processing file " + file + ".");
 		} catch (IOException e) {
-			e.printStackTrace();
-			System.out.println("Exception processing file " + file + ".");
+			//e.printStackTrace();
+			LOG.error("Exception processing file " + file + ".");
 		}
 		return null;
 	}
