@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Created by royalsequeira on 2017-06-22.
+ * Class representing an instance of a TREC Core collection.
  */
 public class TrecCoreCollection extends Collection<TrecCoreDocument> {
   public class FileSegment extends Collection.FileSegment {
@@ -20,7 +20,6 @@ public class TrecCoreCollection extends Collection<TrecCoreDocument> {
     protected FileSegment(Path path) throws IOException {
       this.path = path;
       this.fileName = path.toString();
-
     }
 
     @Override

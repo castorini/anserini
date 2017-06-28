@@ -7,7 +7,7 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- * Created by royalsequeira on 2017-06-22.
+ * A TREC Core document.
  */
 public class TrecCoreDocument implements  SourceDocument{
   private String id;
