@@ -131,6 +131,27 @@ public class PyseriniEntryPoint {
     return indexUtils.getRawDocument(docid);
   }
 
+  public List<String> getAllSentences(String query, int numHits) throws Exception {
+    Map<String, Float> docScore = search(query, numHits);
+    Map<String, Float> sentencesMap = new LinkedHashMap<>();
+    TokenizerFactory<CoreLabel> tokenizerFactory = PTBTokenizer.factory(new CoreLabelTokenFactory(), "");
+    List<String> allSentences = new ArrayList<String>();
+
+    for (Map.Entry<String, Float> doc : docScore.entrySet()) {
+      List<Sentence> sentences = indexUtils.getSentDocument(doc.getKey());
+      for (Sentence thisSent : sentences) {
+        List<CoreLabel> tokens = tokenizerFactory.getTokenizer(new StringReader(thisSent.text())).tokenize();
+        String tokenizedAnswer = tokens.stream()
+                .map(CoreLabel::toString)
+                .collect(Collectors.joining(" "));
+
+        allSentences.add(tokenizedAnswer);
+      }
+    }
+
+    return allSentences;
+  }
+
   public List<String> getRankedPassages(String query, int numHits, int k) throws Exception {
     Map<String, Float> docScore = search(query, numHits);
     Map<String, Float> sentencesMap = new LinkedHashMap<>();

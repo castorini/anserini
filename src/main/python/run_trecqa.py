@@ -5,6 +5,7 @@ import re
 from nltk.tokenize import TreebankWordTokenizer
 from pyserini import Pyserini
 from sm_cnn.bridge import SMModelBridge
+import hashlib
 
 class QAModel:
   instance = None
@@ -17,8 +18,8 @@ class QAModel:
                              index_path)
 
 
-def get_answers(pyserini, question, num_hits, k, model_choice, index_path, w2v_cache, qa_model_file):
-  candidate_passages_scores = pyserini.ranked_passages(question, num_hits, k)
+def get_answers(pyserini, question, h0, h1, model_choice, index_path, w2v_cache="", qa_model_file=""):
+  candidate_passages_scores = pyserini.ranked_passages(question, h0, h1)
   idf_json = pyserini.get_term_idf_json()
   candidate_passages = []
   tokeninzed_answer = []
@@ -108,7 +109,7 @@ def load_data(fname):
       if label:
         label = label.group(1)
         label = 1 if label == 'positive' else 0
-        answer = line.split('\t')
+        answer = line.lower().split('\t')
         answer_count += 1
 
         answer_id = 'Q{}-A{}'.format(qid, answer_count)
@@ -119,105 +120,184 @@ def load_data(fname):
   return questions, answers, labels
 
 
-def create_ground_truth(fname, answers):
+def create_qrel_jaccard(fname, answers):
   with open(fname, 'w') as f:
     for qid in answers.keys():
       for answer in answers[qid]:
         f.write('{} 0 {} {}\n'.format(qid, answer[0], answer[2]))
 
+# evaluate by TREC QA patterns
+def eval_by_pattern(qid, candidates, pattern, out):
+  seen = set([])
 
-def get_precision(actual, predicted, k):
-  total_count = 0.0
-  hits = 0.0
+  for i, cand in enumerate(candidates):
+    this_candidate = " ".join(cand[0])
 
-  for qid in predicted.keys():
-    run_labels = predicted.copy()
+    hash_value = hashlib.md5(this_candidate.encode()).hexdigest()
+    answer_id = "QA{}.{}".format(qid, hash_value)
 
-    if len(predicted[qid]) > k:
-      run_labels = run_labels[qid][:k]
-    else:
-      run_labels = run_labels[qid]
-
-    for p in run_labels:
-      total_count += 1
-
-      if not actual[qid]:
+    if answer_id in seen:
         continue
+    seen.add(answer_id)
 
-      if "unjudged" in p:
-        hits += 0
-      else:
-        hits += actual[qid][p]
+    out.write('{} Q0 {} {} {} TrecQA-pattern\n'.format(qid, answer_id, i+1, 1.0/(i + 1)))
 
-  if total_count > 0:
-    return hits / total_count
-  else:
-    return 0
+# evaluate the run file at different depths
+def evaluate_at_k(fname, eval_depth):
+    for k in eval_depth:
+        with open(fname) as f,  open("{}.k{}.txt".format(fname, k), 'w') as output_file:
+            for line in f:
+                det = line.strip().split()
+                rank = int(det[3])
 
+                if rank <= int(k):
+                    output_file.write(line)
+
+
+def create_qrel_pattern(all_sentences, pattern, qrels, qid):
+    seen = set([])
+    for i, cand in enumerate(all_sentences):
+        this_candidate = cand.lower().split("\t")[0]
+        result = re.findall(r'{}'.format(pattern.lower()), this_candidate)
+        hash_value = hashlib.md5(this_candidate.encode()).hexdigest()
+        answer_id = "QA{}.{}".format(qid, hash_value)
+        if answer_id in seen:
+            continue
+        seen.add(answer_id)
+
+        if result:
+            qrels.write('{} 0 {} {}\n'.format(qid, answer_id, 1))
+        else:
+            qrels.write('{} 0 {} {}\n'.format(qid, answer_id, 0))
+
+# sentences with at least one nonstop question words
+def clean_sentences(question, all_sentences, stop_words):
+    question_words = set(question.strip().split())
+    non_stop_question_words = question_words - stop_words
+    cleaned_sentences = []
+
+    for sent in all_sentences:
+        this_candidate = sent.lower().split("\t")[0]
+        this_candidate_tokens = set(this_candidate.split())
+
+        word_overlap = this_candidate_tokens.intersection(non_stop_question_words)
+
+        if len(word_overlap) > 0:
+            cleaned_sentences.append(sent)
+
+    return cleaned_sentences
+
+# load the stopwords from the resource file
+def get_stopwords():
+    stopwords = set([])
+    with open("src/main/resources/io/anserini/qa/english-stoplist.txt") as stop:
+        for line in stop:
+            if "#" not in line:
+                stopwords.add(line.strip())
+    return stopwords
 
 if __name__ == "__main__":
   parser = argparse.ArgumentParser(description='Evaluate the QA system')
   parser.add_argument('-input', help='path of a TrecQA file', required=True)
-  parser.add_argument("-output", help="path of output file")
+  parser.add_argument("-output", help="path of output file", default=".")
   parser.add_argument("-qrel", help="path of qrel file")
-  parser.add_argument("-hits", help="number of hits", default=20)
-  parser.add_argument("-k", help="top-k passages", default=10)
+  parser.add_argument("-h0", help="number of hits", default=1000)
+  parser.add_argument("-h1", help="h1 passages to be reranked", default=100)
+  parser.add_argument("-k", help="evaluate at depth k", default="5")
   parser.add_argument("-model", help="[idf|sm]", default='idf')
   parser.add_argument('-index', help="path of the index", required=True)
-  parser.add_argument('-w2v-cache', help="word embeddings cache file", required=True)
-  parser.add_argument('-qa-model-file', help="the path to the model file", required=True)
-  
+  parser.add_argument('-w2v-cache', help="word embeddings cache file")
+  parser.add_argument('-qa-model-file', help="the path to the model file")
+  parser.add_argument('-eval', help="[pattern|jaccard]", default='pattern')
+  parser.add_argument('-pattern', help='path to the pattern file')
+
   args = parser.parse_args()
+
+  if (args.model == "sm" and not args.w2v_cache and not args.qa_model_file):
+    print("Pass the word embeddings cache file and the model file")
+    parser.print_help()
+    exit()
+
+  pattern_dict = {}
+  if args.eval == 'pattern':
+      if not args.pattern:
+          print("Path to the pattern file should be included if the method of evaluation is pattern based")
+          parser.print_help()
+          exit()
+      else:
+          with open(args.pattern, 'r') as pattern_file:
+            for line in pattern_file:
+              det = line.strip().split(' ', 1)
+
+              if det[0] not in pattern_dict:
+                pattern_dict[det[0]] = det[1]
 
   pyserini = Pyserini(args.index)
   questions, answers, labels_actual = load_data(args.input)
   threshold = 0.7
   # TODO: what is this ^^ magic number
 
+  qrel_file = ""
 
   if args.qrel:
     qrel_file = args.qrel
-  else:
-    qrel_file = "qrels.txt"
+  elif args.eval == 'jaccard':
+    qrel_file = '{}/qrel.jaccard.txt'.format(args.output)
+    create_qrel_jaccard(qrel_file, answers)
+  elif args.eval == 'pattern':
+    qrel_file = '{}/qrel.pattern.txt'.format(args.output)
+    stopwords = get_stopwords()
 
-  create_ground_truth(qrel_file, answers)
+    with open(qrel_file, 'w') as qrel:
+        for qid, question in zip(answers.keys(), questions):
+            # retrieve all sentences corresponding to h0 hits
+            all_sentences = pyserini.get_all_sentences(question, args.h0)
+            cleaned_sentences = clean_sentences(question, all_sentences, stopwords)
+            try:
+                create_qrel_pattern(cleaned_sentences, pattern_dict[qid], qrel, qid)
+            except KeyError as e:
+                print(e)
+                print("pattern not found")
 
-  labels_predicted = {}
-
-  if args.output:
-    output_file = args.output
-  else:
-    output_file = 'run.qa.{}.h{}.k{}.txt'.format(args.model, args.hits, args.k)
-
+  output_file = '{}/run.qa.{}.{}.h0_{}.h1_{}'.format(args.output, args.model,  args.eval, args.h0, args.h1)
   seen_docs = []
+
   with open(output_file, 'w') as out:
     for qid, question in zip(answers.keys(), questions):
-      candidates = get_answers(pyserini, question, int(args.hits), int(args.k), args.model, args.index, args.w2v_cache, args.qa_model_file)
-      scored_candidates = score_candidates(candidates, answers[qid])
 
-      if qid not in labels_predicted:
-        labels_predicted[qid] = []
+      # sentence re-ranking after ad-hoc retrieval
+      candidates = get_answers(pyserini, question, int(args.h0), int(args.h1), args.model, args.index, args.w2v_cache,
+                               args.qa_model_file)
 
-      i = 0
-      unjudged_count = 0
+      if args.eval == 'jaccard':
+        scored_candidates = score_candidates(candidates, answers[qid])
+        i, unjudged_count = 0, 0
 
-      for key, value in scored_candidates.items():
-        jaccard_similarity = value[1]
-        i += 1
+        for key, value in scored_candidates.items():
+          jaccard_similarity = value[1]
+          i += 1
 
-        # check if the answer already exists in the ranked-list
-        if jaccard_similarity >= threshold:
-          doc_id = value[0][0]
-          if doc_id not in seen_docs:
+          # check if the answer already exists in the TrecQA test set
+          if jaccard_similarity >= threshold:
+            doc_id = value[0][0]
+            if doc_id not in seen_docs:
+              out.write('{} Q0 {} {} {} TRECQA\n'.format(qid, doc_id, i, value[2]))
+              seen_docs.append(doc_id)
+          else:
+            unjudged_count += 1
+            doc_id = 'unjudged{}'.format(unjudged_count)
             out.write('{} Q0 {} {} {} TRECQA\n'.format(qid, doc_id, i, value[2]))
-            labels_predicted[qid].append(doc_id)
-            seen_docs.append(doc_id)
-        else:
-          unjudged_count += 1
-          doc_id = 'unjudged{}'.format(unjudged_count)
-          out.write('{} Q0 {} {} {} TRECQA\n'.format(qid, doc_id, i, value[2]))
-          labels_predicted[qid].append(doc_id)
 
-  depth_range = [5, 10, 15, 20, 50, 100]
-  for k in depth_range:
-    print('P@{}: {}'.format(k, get_precision(labels_actual, labels_predicted, k)))
+      elif args.eval == 'pattern':
+        if not args.pattern:
+          print("Path to the pattern file should be included if the method of evaluation is pattern based")
+          args.print_help()
+          exit()
+        try:
+            eval_by_pattern(qid, candidates, pattern_dict[qid], out)
+        except KeyError as e:
+            print("Pattern not found for question: {}".format(e))
+
+    eval_depth = [int(i) for i in args.k.strip().split()]
+    evaluate_at_k(output_file, eval_depth)
+
