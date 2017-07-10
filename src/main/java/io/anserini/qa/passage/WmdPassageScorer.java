@@ -16,7 +16,9 @@
 package io.anserini.qa.passage;
 
 import com.google.common.collect.MinMaxPriorityQueue;
+import io.anserini.embeddings.TermNotFoundException;
 import io.anserini.embeddings.WordEmbeddingDictionary;
+import org.apache.lucene.analysis.StopFilter;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
@@ -60,16 +62,16 @@ public class WmdPassageScorer implements PassageScorer {
 
   @Override
   public void score(String query, Map<String, Float> sentences) throws Exception {
-    StandardAnalyzer sa = new StandardAnalyzer();
+    StandardAnalyzer sa = new StandardAnalyzer(StopFilter.makeStopSet(stopWords));
     TokenStream tokenStream = sa.tokenStream("contents", new StringReader(query));
     CharTermAttribute charTermAttribute = tokenStream.addAttribute(CharTermAttribute.class);
     tokenStream.reset();
 
-    HashSet<String> questionTerms = new HashSet<>();
-    HashSet<String> candidateTerms = new HashSet<>();
+    Set<String> questionTerms = new HashSet<>();
+    Set<String> candidateTerms = new HashSet<>();
 
     // avoid duplicate passages
-    HashSet<String> seenSentences = new HashSet<>();
+    Set<String> seenSentences = new HashSet<>();
 
     while (tokenStream.incrementToken()) {
       questionTerms.add(charTermAttribute.toString());
@@ -78,8 +80,8 @@ public class WmdPassageScorer implements PassageScorer {
     for (Map.Entry<String, Float> sent : sentences.entrySet()) {
       double wmd = 0.0;
       candidateTerms.clear();
-      StandardAnalyzer sa2 = new StandardAnalyzer();
-      TokenStream candTokenStream = sa2.tokenStream("contents", new StringReader(sent.getKey()));
+      sa = new StandardAnalyzer(StopFilter.makeStopSet(stopWords));
+      TokenStream candTokenStream = sa.tokenStream("contents", new StringReader(sent.getKey()));
       charTermAttribute = candTokenStream.addAttribute(CharTermAttribute.class);
       candTokenStream.reset();
 
@@ -95,19 +97,41 @@ public class WmdPassageScorer implements PassageScorer {
             if (minWMD > thisWMD) {
               minWMD = thisWMD;
             }
-          } catch (ArrayIndexOutOfBoundsException e) {
-            // term is OOV
+          } catch (TermNotFoundException e) {
+            String missingTerm = e.getMessage();
+
+            //if the question term and the answer term both do not exist in the
+            //dictionary and question term equals to the answer term
+            if (qTerm.equals(missingTerm)) {
+              if (qTerm.equals(candTerm)) {
+                minWMD = 0.0;
+              } else {
+                try {
+                  //if the
+                  double thisWMD = distance(wmdDictionary.getEmbeddingVector("unk"), wmdDictionary.getEmbeddingVector(candTerm));
+                  if (minWMD > thisWMD) {
+                    minWMD = thisWMD;
+                  }
+                } catch (TermNotFoundException e1) {
+                  //"unk" is OOV
+                }
+              }
+            } else {
+              continue;
+            }
+          } catch (IOException e) {
           }
         }
+
         if (minWMD != Double.MAX_VALUE) {
           wmd += minWMD;
         }
       }
 
-      // based on observation, ignore any sentences that have less than 4 tokens
-      if (candidateTerms.size() <= 4) {
-        continue;
-      }
+//      // based on observation, ignore any sentences that have less than 4 tokens
+//      if (candidateTerms.size() <= 4) {
+//        continue;
+//      }
 
       double weightedScore  = -1 * (wmd + 0.0001 * sent.getValue());
       ScoredPassage scoredPassage = new ScoredPassage(sent.getKey(), weightedScore, sent.getValue());

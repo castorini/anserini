@@ -92,7 +92,6 @@ public class RetrieveSentences {
     this.reader = DirectoryReader.open(FSDirectory.open(indexPath));
     Constructor passageClass = Class.forName("io.anserini.qa.passage." + args.scorer + "PassageScorer")
             .getConstructor(String.class, Integer.class);
-
     if (args.scorer.equals("Idf")) {
       scorer = (PassageScorer) passageClass.newInstance(args.index, args.k);
     } else if (args.scorer.equals("Wmd")) {
@@ -100,7 +99,6 @@ public class RetrieveSentences {
     } else {
       throw new IllegalArgumentException("Scorer should either be Idf or Wmd");
     }
-
   }
 
   public Map<String, Float> search(SortedMap<Integer, String> topics, int numHits)
@@ -197,6 +195,12 @@ public class RetrieveSentences {
 
     if (qaArgs.scorer.equalsIgnoreCase("Wmd") && qaArgs.embeddings.isEmpty()) {
       System.err.println("Wmd passage scorer requires word2vec index");
+      parser.printUsage(System.err);
+      return;
+    }
+
+    if (!qaArgs.scorer.equals("Idf") && !qaArgs.scorer.equals("Wmd")) {
+      System.err.println("Scorer should either be Idf or Wmd");
       parser.printUsage(System.err);
       return;
     }
