@@ -40,7 +40,7 @@ public class WmdPassageScorer implements PassageScorer {
     scoredPassageHeap = MinMaxPriorityQueue.maximumSize(topPassages).create();
     stopWords = new ArrayList<>();
 
-    //Get file from resources folder
+    // Get file from resources folder
     InputStream is = getClass().getResourceAsStream("/io/anserini/qa/english-stoplist.txt");
     BufferedReader bRdr = new BufferedReader(new InputStreamReader(is));
     String line;
@@ -57,7 +57,7 @@ public class WmdPassageScorer implements PassageScorer {
     for (int i = 0; i < leftVector.length; i++) {
       sum += Math.pow(leftVector[i] - rightVector[i], 2);
     }
-    return  Math.sqrt(sum);
+    return Math.sqrt(sum);
   }
 
   @Override
@@ -89,7 +89,7 @@ public class WmdPassageScorer implements PassageScorer {
         candidateTerms.add(charTermAttribute.toString());
       }
 
-      for(String qTerm : questionTerms) {
+      for (String qTerm : questionTerms) {
         double minWMD = Double.MAX_VALUE;
         for (String candTerm : candidateTerms) {
           try {
@@ -100,26 +100,29 @@ public class WmdPassageScorer implements PassageScorer {
           } catch (TermNotFoundException e) {
             String missingTerm = e.getMessage();
 
-            //if the question term and the answer term both do not exist in the
-            //dictionary and question term equals to the answer term
-            if (qTerm.equals(missingTerm)) {
-              if (qTerm.equals(candTerm)) {
-                minWMD = 0.0;
-              } else {
-                try {
-                  //if the
-                  double thisWMD = distance(wmdDictionary.getEmbeddingVector("unk"), wmdDictionary.getEmbeddingVector(candTerm));
-                  if (minWMD > thisWMD) {
-                    minWMD = thisWMD;
-                  }
-                } catch (TermNotFoundException e1) {
-                  //"unk" is OOV
-                }
-              }
-            } else {
+            // if the question term and the answer term both do not exist in the
+            // dictionary and question term equals to the answer term, then word
+            // mover's distance is 0
+            if (!qTerm.equals(missingTerm)) {
               continue;
             }
+
+            if (qTerm.equals(candTerm)) {
+              minWMD = 0.0;
+            } else {
+              try {
+                // if the embedding for the question term doesn't exist, consider
+                // it to be an unknown term
+                double thisWMD = distance(wmdDictionary.getEmbeddingVector("unk"), wmdDictionary.getEmbeddingVector(candTerm));
+                if (minWMD > thisWMD) {
+                  minWMD = thisWMD;
+                }
+              } catch (TermNotFoundException e1) {
+                // "unk" is OOV
+              }
+            }
           } catch (IOException e) {
+            // thrown if the search fails
           }
         }
 
@@ -127,11 +130,6 @@ public class WmdPassageScorer implements PassageScorer {
           wmd += minWMD;
         }
       }
-
-//      // based on observation, ignore any sentences that have less than 4 tokens
-//      if (candidateTerms.size() <= 4) {
-//        continue;
-//      }
 
       double weightedScore  = -1 * (wmd + 0.0001 * sent.getValue());
       ScoredPassage scoredPassage = new ScoredPassage(sent.getKey(), weightedScore, sent.getValue());
