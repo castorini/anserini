@@ -227,6 +227,8 @@ public class EntityLinking implements Closeable {
 
     LOG.info("Found: " + found);
     LOG.info("Not Found: " + notfound);
+    double percent = (found * 100.0) / (found + notfound);
+    LOG.info("Found/Total %: " + percent);
     LOG.info("Querying completed.");
   }
 
