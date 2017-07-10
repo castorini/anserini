@@ -145,7 +145,7 @@ public class IndexTopics {
     new IndexTopics(indexArgs.input, indexArgs.index).run();
   }
 
-  private static class TopicLuceneDocumentGenerator implements Function<FreebaseNode, Document> {
+  public static class TopicLuceneDocumentGenerator implements Function<FreebaseNode, Document> {
     public Document apply(FreebaseNode src) {
       String topicMid = FreebaseNode.cleanUri(src.uri());
       String title = "";

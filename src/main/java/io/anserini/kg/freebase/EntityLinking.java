@@ -2,7 +2,6 @@ package io.anserini.kg.freebase;
 
 import com.google.common.collect.MinMaxPriorityQueue;
 import io.anserini.kg.freebase.IndexTopics.TopicLuceneDocumentGenerator;
-import io.anserini.qa.passage.ScoredPassage;
 import io.anserini.rerank.ScoredDocuments;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -233,8 +232,8 @@ public class EntityLinking implements Closeable {
     searcher.setSimilarity(similarity);
 
     MultiFieldQueryParser queryParser = new MultiFieldQueryParser(
-            new String[]{ TopicLuceneDocumentGenerator.FIELD_NAME,
-                    TopicLuceneDocumentGenerator.FIELD_LABEL },
+            new String[]{ IndexTopics.FIELD_NAME,
+                    IndexTopics.FIELD_LABEL },
             new SimpleAnalyzer());
     queryParser.setDefaultOperator(QueryParser.Operator.AND);
     Query query = queryParser.parse(queryName);
@@ -245,10 +244,10 @@ public class EntityLinking implements Closeable {
 
     for (int i = 0; i < docs.documents.length; i++) {
       float score = docs.scores[i];
-      String mid = docs.documents[i].getField(TopicLuceneDocumentGenerator.FIELD_TOPIC_MID).stringValue();
+      String mid = docs.documents[i].getField(IndexTopics.FIELD_TOPIC_MID).stringValue();
       String shortMid = getShortMid(mid);
-      String name = docs.documents[i].getField(TopicLuceneDocumentGenerator.FIELD_NAME).stringValue();
-      String label = docs.documents[i].getField(TopicLuceneDocumentGenerator.FIELD_LABEL).stringValue();
+      String name = docs.documents[i].getField(IndexTopics.FIELD_NAME).stringValue();
+      String label = docs.documents[i].getField(IndexTopics.FIELD_LABEL).stringValue();
       rankedEntities.add( new RankedEntity(shortMid, score, name, label) );
     }
 
