@@ -182,8 +182,8 @@ public class EntityLinking implements Closeable {
 //      LOG.info("line: " + strLine);
       String[] lineItems = strLine.split(" %%%% ");
       String shortMid = getShortMid( cleanUri(lineItems[0].trim()) );
-      if (lineItems.length < 4) {
-        LOG.info(String.format("SHORT LINE < 4 items! line: %s", strLine));
+      if (lineItems.length < 5) {
+        LOG.info(String.format("SHORT LINE < 5 items! line: %s", strLine));
         continue;
       }
       String[] queries = lineItems[4].trim().split(" &&&& ");
