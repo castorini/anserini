@@ -89,6 +89,10 @@
               <name>LookupFreebaseTopic</name>
             </program>
             <program>
+              <mainClass>io.anserini.kg.freebase.EntityLinking</mainClass>
+              <name>EntityLinking</name>
+            </program>
+            <program>
               <mainClass>io.anserini.kg.freebase.TrainingDataGenerator</mainClass>
               <name>TrainingDataGenerator</name>
             </program>
