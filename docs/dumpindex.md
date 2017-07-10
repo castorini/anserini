@@ -26,7 +26,8 @@ Print term info: stemmed string, total counts in the collection, document counts
 -di (optional: could be a list of strings)
 ```
 
-Print the internal document IDs of documents. This is useful for the rest of the options below since they all take the interal document ID as the input
+Print the internal document IDs of documents. This is useful for the rest of the options below since they all take the 
+interal document ID as the input
 
 
 ```

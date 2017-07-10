@@ -19,6 +19,7 @@ Anserini is designed to support experiments on various standard TREC collections
 + [ClueWeb09b](docs/experiments-clueweb09b.md)
 + [ClueWeb12-B13](docs/experiments-clueweb12-b13.md)
 + [ClueWeb12](docs/experiments-clueweb12.md)
++ [TrecCore](docs/experiments-core17.md)
 
 The `eval/` directory contains evaluation tools and scripts, including `trec_eval`. Before using `trec_eval`, you have to unpack and compile it. Other helpful links:
 

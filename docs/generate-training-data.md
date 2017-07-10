@@ -33,7 +33,7 @@ nohup sh target/appassembler/bin/IndexRDF -collection RDFCollection \
 ```
 
 
-#### Search
+### Search Freebase
 
 After indexing is done, you should be able to search for documents.
 The simplest search is retrieving all predicate values of a particular
@@ -54,7 +54,47 @@ sh target/appassembler/bin/SearchRDF \
   -predicate http://rdf.freebase.com/ns/people.person.date_of_birth
 ```
 
-### Notes
+#### Notes
 
 * We index only using a single thread because the Freebase RDF dump sequentially lists all predicates of a single entity.
   We scan all predicates and objects of a particular subject before indexing it as a separate document.
+
+---
+
+### Generate training data
+
+The following command generates positive training examples from a knowledge base, e.g., Freebase:
+
+```
+nohup sh target/appassembler/bin/TrainingDataGenerator \
+ -index /path/to/freebase_index \
+ -property birthdate \
+ -output output_file.tsv \
+ > log.examples &
+```
+
+The `-index` parameter is the path to the Freebase index folder.
+The `-property` argument determines which property to generate training data for.
+The training data is written to `-output` parameter in a TSV format.
+The output file is in the following format:
+```
+/m/entity_1    entity_1_label    val1
+/m/entity_2    entity_2_label    val2_a
+/m/entity_2    entity_2_label    val2_b
+/m/entity_3    entity_3_label    val3
+```
+Where `entity_i` is the freebase id (not URI) of the entity, usually in the format `/m/abcdef`.
+The second column has the Freebase English label for this entity.
+The value is the property value for the entity.
+For some properties that represent relationships, e.g., `spouse` relationship,
+the value in the third column can be an entity URI,
+and a fourth column would have the label of the second entity.
+
+#### Supported properties
+
+You can choose which property to generate training data for using the `-property` argument.
+Currently, only `birthdate` is supported.
+
+##### Adding more properties
+In order to add more properties, the code in `TrainingDataGenerator` class needs to be modified
+to retrieve the values from the Freebase index.

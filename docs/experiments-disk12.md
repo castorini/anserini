@@ -7,13 +7,17 @@ See http://trec.nist.gov/data/test_coll.html
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection TrecCollection \
  -input /path/to/disk12/ -generator JsoupGenerator \
- -index lucene-index.disk12.pos -threads 32 -positions -optimize > log.disk12.cnt+pos &
+ -index lucene-index.disk12.pos -threads 32 -storePositions -optimize > log.disk12.cnt+pos &
 ```
 
 
-The directory `/path/to/disk12/` should be the root directory of Disk1 and Disk2 collection, i.e., `ls /path/to/disk1/` should bring up subdirectories like `doe`, `wsj`. The command above builds a standard positional index (`-positions`) that's optimized into a single segment (`-optimize`). If you also want to store document vectors (e.g., for query expansion), add the `-docvectors` option.
+The directory `/path/to/disk12/` should be the root directory of Disk1 and Disk2 collection, i.e., `ls /path/to/disk1/` 
+should bring up subdirectories like `doe`, `wsj`. The command above builds a standard positional index 
+(`-storePositions`) that's optimized into a single segment (`-optimize`). If you also want to store document vectors 
+(e.g., for query expansion), add the `-storeDocvectors` option.
 
-_Hint:_ You can use the `DumpIndex` utility to print out the statistics of the index. Please refer to [DumpIndex References](dumpindex-reference.md) for the statistics of the index
+_Hint:_ You can use the `DumpIndex` utility to print out the statistics of the index. Please refer to 
+[DumpIndex References](dumpindex-reference.md) for the statistics of the index
 
 
 **Search**:

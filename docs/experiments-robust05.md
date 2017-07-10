@@ -7,14 +7,18 @@ See http://trec.nist.gov/data/t14_robust.html
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection TrecCollection \
  -input /path/to/aquaint/ -generator JsoupGenerator \
- -index lucene-index.aquaint.pos -threads 32 -positions -optimize > log.aquaint.cnt+pos &
+ -index lucene-index.aquaint.pos -threads 32 -storePositions -optimize > log.aquaint.cnt+pos &
 ```
 
 
-The directory `/path/to/aquaint/` should be the root directory of AQUAINT collection, i.e., `ls /path/to/aquaint/disk1/` should bring up subdirectory `NYT` and `ls /path/to/aquaint/disk1/` should bring up subdirectory `APW` and `XIE`. The command above builds a standard positional index (`-positions`) that's optimized into a single segment (`-optimize`). If you also want to store document vectors (e.g., for query expansion), add the `-docvectors` option.
+The directory `/path/to/aquaint/` should be the root directory of AQUAINT collection, i.e., `ls /path/to/aquaint/disk1/`
+ should bring up subdirectory `NYT` and `ls /path/to/aquaint/disk1/` should bring up subdirectory `APW` and `XIE`. The 
+ command above builds a standard positional index (`-storePositions`) that's optimized into a single segment 
+ (`-optimize`). If you also want to store document vectors (e.g., for query expansion), add the `-storeDocvectors` option.
 
 _Hint:_ Anserini ignores the `cr` folder when indexing the disk45. But you can remove `cr` folder by your own too.
-_Hint:_ You can use the `DumpIndex` utility to print out the statistics of the index. Please refer to [DumpIndex References](dumpindex-reference.md) for the statistics of the index
+_Hint:_ You can use the `DumpIndex` utility to print out the statistics of the index. Please refer to 
+[DumpIndex References](dumpindex-reference.md) for the statistics of the index
 
 
 **Search**:
