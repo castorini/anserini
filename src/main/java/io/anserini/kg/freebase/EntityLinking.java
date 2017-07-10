@@ -178,35 +178,43 @@ public class EntityLinking implements Closeable {
     //Read File Line By Line
     int found = 0, notfound = 0;
     List<RankedEntity> rankedEntities;
-    int index = -1;
     while ((strLine = br.readLine()) != null)   {
 //      LOG.info("line: " + strLine);
-      String[] lineItems = strLine.split("\t");
+      String[] lineItems = strLine.split(" %%%% ");
       String shortMid = getShortMid( cleanUri(lineItems[0].trim()) );
-      String query = removeQuotes( lineItems[2].trim().toLowerCase() );
-      try {
-        rankedEntities = search(query);
-      } catch (Exception e) {
-        // only keep the alphabets in the query
-        String queryStripped = query.replaceAll("[^a-zA-Z\\s]", "").replaceAll("\\s+", " ");
-        if (queryStripped.trim().length() > 0) {
-          rankedEntities = search(queryStripped);
-        }
-        else {
-          LOG.info(String.format("WEIRD! query: %s", query, index));
-          continue;
-        }
-      }
+      String[] queries = lineItems[4].trim().split(" &&&& ");
+      boolean isFound = false;
+      int index = -1;
+      for (String query: queries) {
+        if (!isFound) {
+          query = removeQuotes(query.trim().toLowerCase());
+          try {
+            rankedEntities = search(query);
+          } catch (Exception e) {
+            // only keep the alphabets in the query
+            String queryStripped = query.replaceAll("[^a-zA-Z\\s]", "").replaceAll("\\s+", " ");
+            if (queryStripped.trim().length() > 0) {
+              rankedEntities = search(queryStripped);
+            } else {
+              LOG.info(String.format("WEIRD! query: %s", query, index));
+              continue;
+            }
+          }
 
-      RankedEntity entityMidToCompare = new RankedEntity(shortMid, 0.0f, "", "");
-      if (rankedEntities.contains(entityMidToCompare)) {
-        found += 1;
-        index = rankedEntities.indexOf(entityMidToCompare);
-        LOG.info(String.format("query: %s,\tfound at index: %d", query, index));
+          RankedEntity entityMidToCompare = new RankedEntity(shortMid, 0.0f, "", "");
+          if (rankedEntities.contains(entityMidToCompare)) {
+            isFound = true;
+            index = rankedEntities.indexOf(entityMidToCompare);
+            break;
+          }
+        }
       }
-      else {
+      if (isFound) {
+        found += 1;
+        LOG.info(String.format("queries: %s,\tfound at index: %d", Arrays.asList(queries), index));
+      } else {
         notfound += 1;
-        LOG.info(String.format("query: %s,\tNOT found", query, index));
+        LOG.info(String.format("queries: %s,\tNOT found", Arrays.asList(queries), index));
       }
     }
 
