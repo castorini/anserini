@@ -15,13 +15,24 @@ import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.search.similarities.ClassicSimilarity;
 import org.apache.lucene.search.similarities.Similarity;
 import org.apache.lucene.store.FSDirectory;
-import org.kohsuke.args4j.*;
-
-import java.io.*;
+import org.kohsuke.args4j.CmdLineParser;
+import org.kohsuke.args4j.Option;
+import org.kohsuke.args4j.ParserProperties;
+import org.kohsuke.args4j.CmdLineException;
+import org.kohsuke.args4j.OptionHandlerFilter;
+import java.io.FileInputStream;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.IOException;
+import java.io.Closeable;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
+
 
 /**
  * Lookups a Freebase mid and returns all properties associated with it.
@@ -75,7 +86,7 @@ public class EntityLinking implements Closeable {
 
     @Override
     public int compareTo(RankedEntity o) {
-      return new Float(this.score).compareTo(new Float(o.score));
+      return Float.compare(score, o.score);
     }
 
     @Override
@@ -146,10 +157,9 @@ public class EntityLinking implements Closeable {
       RankedEntity entityMidToCompare = new RankedEntity(shortMid, 0.0f, "", "");
       if (rankScoresHeap.contains(entityMidToCompare)) {
         found += 1;
-        index = Arrays.asList( rankScoresHeap.toArray() ).indexOf(entityMidToCompare);
+        index = Arrays.asList(rankScoresHeap.toArray()).indexOf(entityMidToCompare);
         LOG.info("found at index: " + index);
-      }
-      else {
+      } else {
         notfound += 1;
       }
     }
@@ -257,7 +267,7 @@ public class EntityLinking implements Closeable {
       String shortMid = getShortMid(mid);
       String name = docs.documents[i].getField(IndexTopics.FIELD_NAME).stringValue();
       String label = docs.documents[i].getField(IndexTopics.FIELD_LABEL).stringValue();
-      rankedEntities.add( new RankedEntity(shortMid, score, name, label) );
+      rankedEntities.add(new RankedEntity(shortMid, score, name, label));
     }
 
     return rankedEntities;
@@ -347,9 +357,11 @@ public class EntityLinking implements Closeable {
       EntityLinking.numHits = searchArgs.hits;
 
     LOG.info("searching gold data: " + searchArgs.goldData);
-    if (searchArgs.goldData)
+    if (searchArgs.goldData) {
       new EntityLinking(searchArgs.index).searchGoldFile(searchArgs.data);
-    else
+    }
+    else {
       new EntityLinking(searchArgs.index).searchFile(searchArgs.data);
+    }
   }
 }
