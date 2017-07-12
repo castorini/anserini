@@ -17,6 +17,7 @@ import org.apache.lucene.search.similarities.ClassicSimilarity;
 import org.apache.lucene.search.similarities.Similarity;
 import org.apache.lucene.store.FSDirectory;
 import org.kohsuke.args4j.*;
+import org.openrdf.model.vocabulary.RDF;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -33,6 +34,12 @@ public class EntityLinking implements Closeable {
   private final IndexReader reader;
 
   private static int numHits = 200;
+  private static int found = 0;
+  private static int notfound = 0;
+
+  private static final String FREEBASE_URI = "www.freebase.com/";
+  private static final String RDF_FREEBASE_URI = "http://rdf.freebase.com/ns/";
+  private static final String FREEBASE_SHORT_URI = "fb:";
 
   static final class Args {
     // Required arguments
@@ -43,7 +50,7 @@ public class EntityLinking implements Closeable {
     @Option(name = "-data", metaVar = "[file]", required =  true, usage = "dataset file")
     public String data;
 
-    @Option(name = "-goldData", usage = "supplying with the ground truth dataset")
+    @Option(name = "-goldData", metaVar = "goldData", usage = "boolean flag - supplying with the ground truth dataset")
     boolean goldData;
 
     @Option(name = "-hits", metaVar = "hits", usage = "setting number of hits to be retrieved per query")
@@ -112,10 +119,8 @@ public class EntityLinking implements Closeable {
     String strLine;
 
     //Read File Line By Line
-    int found = 0, notfound = 0;
     int index = -1;
     while ((strLine = br.readLine()) != null)   {
-//      LOG.info("line: " + strLine);
       MinMaxPriorityQueue<RankedEntity> rankScoresHeap = MinMaxPriorityQueue.orderedBy(
               new Comparator<RankedEntity>() {
                 @Override
@@ -130,8 +135,6 @@ public class EntityLinking implements Closeable {
       String question = lineItems[3].trim().toLowerCase();
       List<String> queries = getSearchQueries(question);
       for(String query : queries) {
-//        LOG.info("query: " + query);
-//        query = query.replaceAll("\\p{Punct}+$", ""); // remove punctuation at the end of word
         try {
           List<RankedEntity> rankScores = search(query);
           rankScoresHeap.addAll(rankScores);
@@ -141,10 +144,6 @@ public class EntityLinking implements Closeable {
           continue;
         }
       }
-
-//      LOG.info("mid to compare: " + shortMid);
-//      LOG.info("heap: " + rankScoresHeap);
-
 
       RankedEntity entityMidToCompare = new RankedEntity(shortMid, 0.0f, "", "");
       if (rankScoresHeap.contains(entityMidToCompare)) {
@@ -176,10 +175,8 @@ public class EntityLinking implements Closeable {
     String strLine;
 
     //Read File Line By Line
-    int found = 0, notfound = 0;
     List<RankedEntity> rankedEntities;
     while ((strLine = br.readLine()) != null)   {
-//      LOG.info("line: " + strLine);
       String[] lineItems = strLine.split(" %%%% ");
       String shortMid = getShortMid( cleanUri(lineItems[0].trim()) );
       if (lineItems.length < 5) {
@@ -237,11 +234,11 @@ public class EntityLinking implements Closeable {
    *
    * @param queryName the entity name to search
    * @throws Exception on error
+   * @return a list of top ranked entities
    */
   public List<RankedEntity> search(String queryName) throws Exception {
     // Initialize index searcher
     IndexSearcher searcher = new IndexSearcher(reader);
-
     Similarity similarity = new ClassicSimilarity();
     searcher.setSimilarity(similarity);
 
@@ -309,14 +306,14 @@ public class EntityLinking implements Closeable {
 
   // get short Mid from the long URL - needed for comparison
   private static String getShortMid(String text) {
-    if(text.startsWith("www.freebase.com/")) {
-      return text.substring(17).replaceAll("/", ".");
+    if(text.startsWith(FREEBASE_URI)) {
+      return text.substring(FREEBASE_URI.length()).replaceAll("/", ".");
     }
-    else if(text.startsWith("http://rdf.freebase.com/ns/")) {
-      return text.substring(27);
+    else if(text.startsWith(RDF_FREEBASE_URI)) {
+      return text.substring(RDF_FREEBASE_URI.length());
     }
-    else if(text.startsWith("fb:")) {
-      return text.substring(3);
+    else if(text.startsWith(FREEBASE_SHORT_URI)) {
+      return text.substring(FREEBASE_SHORT_URI.length());
     }
     return text;
   }
