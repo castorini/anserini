@@ -7,7 +7,9 @@ python augment_freebase_subset.py -f path/to/freebase -s path/to/freebase-subset
 ```
 - After augmenting the freebase-subset, gzip the file.
 - Use Anserini to index the augmented gzipped freebase-subset.
-
+```
+gzip path/to/augmented-freebase-subset
+```
 
 ### Create the entity linking dataset
 - Download the names file from [here](https://www.dropbox.com/s/yqbesl07hsw297w/FB5M.name.txt)
