@@ -73,10 +73,14 @@ public final class WordEmbeddingDictionary {
     this.analyzer = new WhitespaceAnalyzer();
   }
 
-  public float[] getEmbeddingVector(String term) throws IOException {
+  public float[] getEmbeddingVector(String term) throws IOException, TermNotFoundException {
     Query query = AnalyzerUtils.buildBagOfWordsQuery(FIELD_ID, analyzer, term);
     TopDocs rs = searcher.search(query, 1);
     ScoredDocuments docs = ScoredDocuments.fromTopDocs(rs, searcher);
+
+    if (rs.totalHits == 0) {
+      throw new TermNotFoundException(term);
+    }
 
     byte[] val = docs.documents[0].getField(FIELD_BODY).binaryValue().bytes;
     FloatBuffer floatBuffer = ByteBuffer.wrap(val).asFloatBuffer();
