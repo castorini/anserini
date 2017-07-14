@@ -76,26 +76,26 @@ public class IdfPassageScorer implements PassageScorer {
 
   @Override
   public void score(String query, Map<String, Float> sentences) throws Exception {
-    EnglishAnalyzer ea = new EnglishAnalyzer(StopFilter.makeStopSet(stopWords));
-    QueryParser qp = new QueryParser(LuceneDocumentGenerator.FIELD_BODY, ea);
+    EnglishAnalyzer englishAnalyzer = new EnglishAnalyzer(StopFilter.makeStopSet(stopWords));
+    QueryParser queryParser = new QueryParser(LuceneDocumentGenerator.FIELD_BODY, englishAnalyzer);
     ClassicSimilarity similarity = new ClassicSimilarity();
 
-    String escapedQuery = qp.escape(query);
-    Query question = qp.parse(escapedQuery);
+    String escapedQuery = queryParser.escape(query);
+    Query question = queryParser.parse(escapedQuery);
     HashSet<String> questionTerms = new HashSet<>(Arrays.asList(question.toString()
             .trim().toLowerCase().split("\\s+")));
 
 
-    EnglishAnalyzer ea2 = new EnglishAnalyzer(CharArraySet.EMPTY_SET);
-    QueryParser qp2 = new QueryParser(LuceneDocumentGenerator.FIELD_BODY, ea2);
-    Query questionWithStopWords = qp2.parse(escapedQuery);
+    EnglishAnalyzer englishAnalyzerWithStop = new EnglishAnalyzer(CharArraySet.EMPTY_SET);
+    QueryParser queryParserWithStop = new QueryParser(LuceneDocumentGenerator.FIELD_BODY, englishAnalyzerWithStop);
+    Query questionWithStopWords = queryParserWithStop.parse(escapedQuery);
     HashSet<String> questionTermsIDF = new HashSet<>(Arrays.asList(questionWithStopWords.toString()
             .trim().toLowerCase().split("\\s+")));
 
     // add the question terms to the termIDF Map
     for (String questionTerm : questionTermsIDF) {
       try {
-        TermQuery q = (TermQuery) qp2.parse(questionTerm);
+        TermQuery q = (TermQuery) queryParserWithStop.parse(questionTerm);
         Term t = q.getTerm();
 
         double termIDF = similarity.idf(reader.docFreq(t), reader.numDocs());
@@ -115,18 +115,16 @@ public class IdfPassageScorer implements PassageScorer {
       String[] terms = sent.getKey().toLowerCase().split("\\s+");
       for (String term: terms) {
         try {
-          TermQuery q = (TermQuery) qp.parse(term);
+          TermQuery q = (TermQuery) queryParser.parse(term);
           Term t = q.getTerm();
           double termIDF = similarity.idf(reader.docFreq(t), reader.numDocs());
 
           if (questionTerms.contains(t.toString()) && !seenTerms.contains(t.toString())) {
             idf += termIDF;
             seenTerms.add(t.toString());
-          } else {
-            idf += 0.0;
           }
 
-          TermQuery q2 = (TermQuery) qp2.parse(term);
+          TermQuery q2 = (TermQuery) queryParserWithStop.parse(term);
           Term t2 = q2.getTerm();
           double termIDFwithStop = similarity.idf(reader.docFreq(t2), reader.numDocs());
 

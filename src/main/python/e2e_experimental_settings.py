@@ -18,9 +18,7 @@ class Setting(object):
         return self.choice_flags[setting]
 
     def get_options(self):
-        options = []
-        for key in self.choice_flags.keys():
-            options.append("{}:{}".format(self.label, key))
+        options = [options.append("{}:{}".format(self.label, key)) for key in self.choice_flags.keys()]
         return options
 
 
@@ -43,13 +41,8 @@ class Experiments(object):
         self._setup_combinations()
 
     def _setup_combinations(self):
-        all_settings = []
-        for setting in self.settings.values():
-            all_settings.append(setting.get_options())
-
-        self.combinations = []
-        for c in itertools.product(*all_settings):
-            self.combinations.append(c)
+        all_settings = [setting.get_options() for setting in self.settings.values()]
+        self.combinations = itertools.product(*all_settings)
 
     def _run_cmd(self, cmd):
         pargs = shlex.split(cmd)
@@ -59,7 +52,6 @@ class Experiments(object):
         return pout, perr
 
     def _run_eval(self, params):
-
         cmd = '{} e2e.run'.format(self.eval_cmd_root)
         out, err = self._run_cmd(cmd)
         # trec_eval scores
@@ -133,30 +125,30 @@ class Experiments(object):
         ap.add_argument("index_path", help="required for some combination of experiments")
         ap.add_argument('word_embeddings_file', help="the word embeddings file")
         ap.add_argument('model_file', help="the model to be used for QA similarity")
-        # ap.add_argument("--idf-source", choices=["qa-data", "corpus-index"], default="corpus-index")
-        # ap.add_argument("--punctuation", choices=["keep", "remove"], default="keep")
-        # ap.add_argument("--dash-words", choices=["keep", "split"], default="keep")
-        # ap.add_argument("models_root", help="path to folder containing models")
+        ap.add_argument("--idf-source", choices=["qa-data", "corpus-index"], default="corpus-index")
+        ap.add_argument("--punctuation", choices=["keep", "remove"], default="keep")
+        ap.add_argument("--dash-words", choices=["keep", "split"], default="keep")
+        ap.add_argument("models_root", help="path to folder containing models")
 
         args = ap.parse_args()
 
         experiments = Experiments(args.qa_data_xml, args.qrel_file, args.word_embeddings_file,
                                   args.index_path, args.model_file)
 
-        # experiments.add_setting(Setting('idf_source', {
-        #     'qa-data': '--idf-source qa-data',
-        #     'corpus-index': '--idf-source corpus-index'
-        # }))
+        experiments.add_setting(Setting('idf_source', {
+            'qa-data': '--idf-source qa-data',
+            'corpus-index': '--idf-source corpus-index'
+        }))
 
-        # experiments.add_setting(Setting('punctuation', {
-        #     'keep': '--punctuation keep',
-        #     'remove': '--punctuation remove'
-        # }))
+        experiments.add_setting(Setting('punctuation', {
+            'keep': '--punctuation keep',
+            'remove': '--punctuation remove'
+        }))
 
-        # experiments.add_setting(Setting('dash_words', {
-        #     'keep': '--dash-words keep',
-        #     'split': '--dash-words split'
-        # }))
+        experiments.add_setting(Setting('dash_words', {
+            'keep': '--dash-words keep',
+            'split': '--dash-words split'
+        }))
 
         experiments.add_setting(Setting('num_hits', {
             '100': '-hits 100',
