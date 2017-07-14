@@ -161,6 +161,7 @@ public class PyseriniEntryPoint {
       List<Sentence> sentences = indexUtils.getSentDocument(doc.getKey());
 
       for (Sentence thisSent : sentences) {
+        // tokenize the sentences          
         List<CoreLabel> tokens = tokenizerFactory.getTokenizer(new StringReader(thisSent.text())).tokenize();
         String answerTokens = tokens.stream()
                 .map(CoreLabel::toString)

@@ -59,7 +59,7 @@ def score_candidates(candidates, answers):
         this_candidate = Candidate(retrieved_set=set(candidate[0]), retrieved_str=" ".join(candidate[0]),
                                    retrieved_score=candidate[1], in_dataset=set(answer[1]))
 
-        # xml file doesn"t contain answers
+        # xml file doesn't contain answers
         if not answers:
             scored_candidates[this_candidate] = ("empty answer", 0.0, this_candidate.retrieved_score)
 
@@ -128,6 +128,7 @@ def eval_by_pattern(qid, candidates, pattern, out):
     for i, cand in enumerate(candidates):
         this_candidate = " ".join(cand[0])
 
+        # use the hash of the candidates as the docid since the sentences do not have docids
         hash_value = md5(this_candidate.encode()).hexdigest()
         answer_id = "QA{}.{}".format(qid, hash_value)
 
@@ -145,7 +146,7 @@ def evaluate_at_k(fname, eval_depth):
                 det = line.strip().split()
                 rank = int(det[3])
 
-                if rank <= int(k):
+                if rank <= k:
                     output_file.write(line)
 
 
@@ -155,7 +156,7 @@ def create_qrel_pattern(all_sentences, pattern, qrels, qid):
         this_candidate = cand.lower().split("\t")[0]
         result = re.findall(r"{}".format(pattern.lower()), this_candidate)
 
-        # use the hash of the candidates as the docid
+        # use the hash of the candidates as the docid since the sentences do not have docids
         hash_value = md5(this_candidate.encode()).hexdigest()
         answer_id = "QA{}.{}".format(qid, hash_value)
         if answer_id in seen:
@@ -195,7 +196,7 @@ if __name__ == "__main__":
     parser.add_argument("-input", help="path of a TrecQA file", required=True)
     parser.add_argument("-output", help="path of output directory", default=".")
     parser.add_argument("-qrel", help="path of qrel file")
-    parser.add_argument("-h0", help="number of hits", default=1000)
+    parser.add_argument("-h0", help="Number of documets to be retrieved (hits)", default=1000)
     parser.add_argument("-h1", help="h1 passages to be reranked", default=100)
     parser.add_argument("-k", help="evaluate at depth k", default="5")
     parser.add_argument("-model", help="[idf|sm]", default="idf")
@@ -207,7 +208,7 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    if (args.model == "sm" and not args.w2v_cache and not args.qa_model_file):
+    if args.model == "sm" and not args.w2v_cache and not args.qa_model_file:
         print("Pass the word embeddings cache file and the model file")
         parser.print_help()
         exit()
@@ -228,8 +229,9 @@ if __name__ == "__main__":
 
     pyserini = Pyserini(args.index)
     questions, answers, labels_actual = load_data(args.input)
+
+    # based on observation, fix the threshold for Jaccard similarity to be 0.7
     threshold = 0.7
-    # TODO: what is this ^^ magic number
 
     qrel_file = ""
 

@@ -59,7 +59,7 @@ Model to re-rank the passages (default: idf)
 -output (optional: file path)
 ```
 
-Path of the run file, qrel file to be created (default:.)
+Path of the output folder where the run file, qrel file will be created (default:.)
 
 ```
 -qrel (optional: file path)
@@ -88,7 +88,7 @@ The path of the cache file is a required argument if the SM model is used as an 
 python src/main/python/run_trecqa.py -index  lucene-index.TrecQA.pos+docvectors+rawdocs -input \
 jacana-qa-naacl2013-data-results/test-less-than-40.manual-edit.xml  -w2v-cache \
 ../data/word2vec/aquaint+wiki.txt.gz.ndim=50.cache -qa-model-file sm_cnn.idf_source-corpus-index.punctuation-keep.dash_words-keep.model \ 
--h0 1000 -h1 100 -k 5 -model sm -eval pattern -pattern Trec13/patterns/trec13factpats.txt &
+-h0 1000 -h1 100 -k 5 -model sm -eval pattern -pattern Trec13/patterns/trec13factpats.txt 
 ```
 The above command is to evaluate an end-to-end pipeline system by using the TREC13 QA patterns and it uses the SM model to 
 rerank the answers.
@@ -98,7 +98,7 @@ called qrel.jaccard.txt.
 ```bash
 python src/main/python/run_trecqa.py -index lucene-index.TrecQA.pos+docvectors+rawdocs -input \ 
 jacana-qa-naacl2013-data-results/test-less-than-40.manual-edit.xml\
--h0 1000 -h1 100 -k 5 -model idf -eval jaccard &
+-h0 1000 -h1 100 -k 5 -model idf -eval jaccard 
 ```
 The above command is to evaluate an end-to-end pipeline system by using IDF based passage scorer and Jaccard similarity 
 as tge evaluation method. 
