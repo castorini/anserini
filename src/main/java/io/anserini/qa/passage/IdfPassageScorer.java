@@ -19,6 +19,7 @@ import com.google.common.collect.MinMaxPriorityQueue;
 import io.anserini.index.IndexUtils;
 import io.anserini.index.generator.LuceneDocumentGenerator;
 import org.apache.lucene.analysis.CharArraySet;
+import org.apache.lucene.analysis.StopFilter;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.Term;
@@ -29,8 +30,18 @@ import org.apache.lucene.search.similarities.ClassicSimilarity;
 import org.apache.lucene.store.FSDirectory;
 import org.json.JSONObject;
 
-import java.io.*;
-import java.util.*;
+import java.io.IOException;
+import java.io.File;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.BufferedReader;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Arrays;
 
 public class IdfPassageScorer implements PassageScorer {
 
@@ -65,20 +76,26 @@ public class IdfPassageScorer implements PassageScorer {
 
   @Override
   public void score(String query, Map<String, Float> sentences) throws Exception {
-//    EnglishAnalyzer ea = new EnglishAnalyzer(StopFilter.makeStopSet(stopWords));
-    EnglishAnalyzer ea = new EnglishAnalyzer(CharArraySet.EMPTY_SET);
-    QueryParser qp = new QueryParser(LuceneDocumentGenerator.FIELD_BODY, ea);
+    EnglishAnalyzer englishAnalyzer = new EnglishAnalyzer(StopFilter.makeStopSet(stopWords));
+    QueryParser queryParser = new QueryParser(LuceneDocumentGenerator.FIELD_BODY, englishAnalyzer);
     ClassicSimilarity similarity = new ClassicSimilarity();
 
-    String escapedQuery = qp.escape(query);
-    Query question = qp.parse(escapedQuery);
+    String escapedQuery = queryParser.escape(query);
+    Query question = queryParser.parse(escapedQuery);
     HashSet<String> questionTerms = new HashSet<>(Arrays.asList(question.toString()
             .trim().toLowerCase().split("\\s+")));
 
+
+    EnglishAnalyzer englishAnalyzerWithStop = new EnglishAnalyzer(CharArraySet.EMPTY_SET);
+    QueryParser queryParserWithStop = new QueryParser(LuceneDocumentGenerator.FIELD_BODY, englishAnalyzerWithStop);
+    Query questionWithStopWords = queryParserWithStop.parse(escapedQuery);
+    HashSet<String> questionTermsIDF = new HashSet<>(Arrays.asList(questionWithStopWords.toString()
+            .trim().toLowerCase().split("\\s+")));
+
     // add the question terms to the termIDF Map
-    for (String questionTerm : questionTerms) {
+    for (String questionTerm : questionTermsIDF) {
       try {
-        TermQuery q = (TermQuery) qp.parse(questionTerm);
+        TermQuery q = (TermQuery) queryParserWithStop.parse(questionTerm);
         Term t = q.getTerm();
 
         double termIDF = similarity.idf(reader.docFreq(t), reader.numDocs());
@@ -98,17 +115,20 @@ public class IdfPassageScorer implements PassageScorer {
       String[] terms = sent.getKey().toLowerCase().split("\\s+");
       for (String term: terms) {
         try {
-          TermQuery q = (TermQuery) qp.parse(term);
+          TermQuery q = (TermQuery) queryParser.parse(term);
           Term t = q.getTerm();
           double termIDF = similarity.idf(reader.docFreq(t), reader.numDocs());
-          termIdfMap.put(term, String.valueOf(termIDF));
 
           if (questionTerms.contains(t.toString()) && !seenTerms.contains(t.toString())) {
             idf += termIDF;
             seenTerms.add(t.toString());
-          } else {
-            idf += 0.0;
           }
+
+          TermQuery q2 = (TermQuery) queryParserWithStop.parse(term);
+          Term t2 = q2.getTerm();
+          double termIDFwithStop = similarity.idf(reader.docFreq(t2), reader.numDocs());
+
+          termIdfMap.put(term, String.valueOf(termIDFwithStop));
         } catch (Exception e) {
           continue;
         }
@@ -141,7 +161,6 @@ public class IdfPassageScorer implements PassageScorer {
 
   @Override
   public JSONObject getTermIdfJSON(List<String> sentList) {
-    //    EnglishAnalyzer ea = new EnglishAnalyzer(StopFilter.makeStopSet(stopWords));
     EnglishAnalyzer ea = new EnglishAnalyzer(CharArraySet.EMPTY_SET);
     QueryParser qp = new QueryParser(LuceneDocumentGenerator.FIELD_BODY, ea);
     ClassicSimilarity similarity = new ClassicSimilarity();
