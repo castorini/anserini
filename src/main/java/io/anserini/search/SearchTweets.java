@@ -58,7 +58,7 @@ public class SearchTweets {
   private SearchTweets() {}
 
   public static void main(String[] args) throws Exception {
-    long startQueryTime = System.currentTimeMillis();
+    long initializationTime = System.currentTimeMillis();
     SearchArgs searchArgs = new SearchArgs();
     CmdLineParser parser = new CmdLineParser(searchArgs, ParserProperties.defaults().withUsageWidth(90));
 
@@ -127,12 +127,15 @@ public class SearchTweets {
     PrintStream out = new PrintStream(new FileOutputStream(new File(searchArgs.output)));
     LOG.info("Writing output to " + searchArgs.output);
 
-    LOG.info("Initialized complete! (elapsed time = " + (System.currentTimeMillis()- startQueryTime) + "ms)");
+    LOG.info("Initialized complete! (elapsed time = " + (System.currentTimeMillis()- initializationTime) + "ms)");
     long totalTime = 0;
     int cnt = 0;
     for ( MicroblogTopic topic : topics ) {
-      long curQueryTime = System.nanoTime();
+      long curQueryTime = System.currentTimeMillis();
 
+      // do not cosider the tweets with tweet ids that are beyond the queryTweetTime
+      // <querytweettime> tag contains the timestamp of the query in terms of the
+      // chronologically nearest tweet id within the corpus
       Query filter = TermRangeQuery.newStringRange(FIELD_ID, "0", String.valueOf(topic.getQueryTweetTime()), true, true);
       Query query = AnalyzerUtils.buildBagOfWordsQuery(FIELD_BODY, englishAnalyzer, topic.getQuery());
       BooleanQuery.Builder builder = new BooleanQuery.Builder();
@@ -146,7 +149,7 @@ public class SearchTweets {
       RerankerContext context = new RerankerContext(searcher, query, topic.getId(), topic.getQuery(),
          queryTokens, FIELD_BODY, filter);
       ScoredDocuments docs = cascade.run(ScoredDocuments.fromTopDocs(rs, searcher), context);
-      long qtime = (System.currentTimeMillis() - startQueryTime);
+      long queryTime = (System.currentTimeMillis() - curQueryTime);
 
       for (int i=0; i<docs.documents.length; i++) {
         String qid = topic.getId().replaceFirst("^MB0*", "");
@@ -154,8 +157,8 @@ public class SearchTweets {
             docs.documents[i].getField(FIELD_ID).stringValue(), (i+1), docs.scores[i], searchArgs.runtag));
       }
 
-      LOG.info("Query " + topic.getId() + " (elapsed time = " + qtime + "ms)");
-      totalTime += qtime;
+      LOG.info("Query " + topic.getId() + " (elapsed time = " + queryTime + "ms)");
+      totalTime += queryTime;
       cnt++;
     }
 
