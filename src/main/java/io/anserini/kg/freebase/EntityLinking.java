@@ -284,7 +284,8 @@ public class EntityLinking implements Closeable {
     Similarity similarity = new ClassicSimilarity();
     searcher.setSimilarity(similarity);
     QueryParser queryParser = new MultiFieldQueryParser(
-            new String[]{IndexTopics.FIELD_NAME,
+            new String[]{IndexTopics.FIELD_EXACT_NAME,
+                         IndexTopics.FIELD_NAME,
                          IndexTopics.FIELD_LABEL},
             new SimpleAnalyzer());
     queryParser.setDefaultOperator(QueryParser.Operator.AND);
