@@ -13,5 +13,7 @@ src/test/test-index*
 src/main/js/SpeechDemo-darwin-x64/
 config.cfg
 log*
+out.*
+*.swp
 tmp-files
 lucene-index*
