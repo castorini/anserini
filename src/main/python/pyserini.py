@@ -89,6 +89,10 @@ class Pyserini:
         return passages
 
 
+    def get_all_sentences(self, query_string, num_hits):
+        sentences = self.pyserini.getAllSentences(query_string, int(num_hits))
+        return sentences
+
     def get_term_idf_json(self):
         json_object = self.pyserini.getTermIdfJSON()
         return json_object
