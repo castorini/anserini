@@ -20,11 +20,10 @@ import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.ParserProperties;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.OptionHandlerFilter;
-import java.io.FileInputStream;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.IOException;
-import java.io.Closeable;
+import org.openrdf.model.ValueFactory;
+import org.openrdf.model.impl.SimpleValueFactory;
+
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -49,6 +48,12 @@ public class EntityLinking implements Closeable {
   private static final String RDF_FREEBASE_URI = "http://rdf.freebase.com/ns/";
   private static final String FREEBASE_SHORT_URI = "fb:";
 
+
+  /**
+   * Simple value factory to parse literals using Sesame library.
+   */
+  private ValueFactory valueFactory = SimpleValueFactory.getInstance();
+
   static final class Args {
     // Required arguments
 
@@ -58,11 +63,14 @@ public class EntityLinking implements Closeable {
     @Option(name = "-data", metaVar = "[file]", required =  true, usage = "dataset file")
     public String data;
 
+    @Option(name = "-output", metaVar = "[file]", required =  true, usage = "output file")
+    public String output;
+
     @Option(name = "-goldData", metaVar = "goldData", usage = "boolean flag - supplying with the ground truth dataset")
     boolean goldData;
 
     @Option(name = "-hits", metaVar = "hits", usage = "setting number of hits to be retrieved per query")
-    int hits = 200;
+    int hits = 5;
   }
 
   class RankedEntity implements Comparable<RankedEntity> {
@@ -169,13 +177,14 @@ public class EntityLinking implements Closeable {
     LOG.info("Querying completed.");
   }
 
-  public void searchGoldFile(String fileName, int numHits) throws Exception {
+  public void searchGoldFile(String fileName, int numHits, String outName) throws Exception {
     LOG.info("fileName: " + fileName);
     LOG.info("numHits: " + numHits);
 
-    // Open the file
-    FileInputStream fstream = new FileInputStream(fileName);
-    try (BufferedReader br = new BufferedReader(new InputStreamReader(fstream))) {
+    // Open the file for writing
+    BufferedWriter bw = new BufferedWriter(new FileWriter(outName));
+
+    try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(fileName)))) {
       String strLine;
 
       // Read file line by line
@@ -183,14 +192,20 @@ public class EntityLinking implements Closeable {
       while ((strLine = br.readLine()) != null) {
         // Please refer to the entity linking dataset creation script - the fields are separated by this delimiter
         String[] lineItems = strLine.split(" %%%% ");
-        String shortMid = getShortMid(cleanUri(lineItems[0].trim()));
-        if (lineItems.length < 5) {
-          LOG.info(String.format("SHORT LINE < 5 items! line: %s", strLine));
+        if (lineItems.length < 6) {
+          LOG.info(String.format("numbered SHORT LINE < 6 items! line: %s", strLine));
           continue;
         }
+        String lineId = lineItems[0].trim();
+        String subject = lineItems[1].trim();
+        String shortMid = getShortMid(cleanUri(subject));
+        String relation = lineItems[2].trim();
+        String object = lineItems[3].trim();
+        String questionText = lineItems[4].trim();
         // Please refer to the entity linking dataset creation script - the query field is separated by this delimiter
-        String[] queries = lineItems[4].trim().split(" &&&& ");
+        String[] queries = lineItems[5].trim().split(" &&&& ");
         boolean isFound = false;
+        String queryFound = "";
         int index = -1;
         for (String query : queries) {
           if (!isFound) {
@@ -212,13 +227,19 @@ public class EntityLinking implements Closeable {
             if (rankedEntities.contains(entityMidToCompare)) {
               isFound = true;
               index = rankedEntities.indexOf(entityMidToCompare);
+              queryFound = query;
+              // write to file
+              for (RankedEntity re : rankedEntities) {
+                bw.write(String.format("%s %%%% %s %%%% %s %%%% %.5f %%%% %s %%%% %s %%%% %s\n",
+                                lineId, re.mid, re.name, re.score, relation, object, questionText));
+              }
               break;
             }
           }
         }
         if (isFound) {
           found += 1;
-          LOG.info(String.format("queries: %s,\tfound at index: %d", Arrays.asList(queries), index));
+          LOG.info(String.format("query found: %s,\tfound at index: %d", queryFound, index));
         } else {
           notfound += 1;
           LOG.info(String.format("queries: %s,\tNOT found", Arrays.asList(queries), index));
@@ -241,21 +262,43 @@ public class EntityLinking implements Closeable {
    * @return a list of top ranked entities
    */
   public List<RankedEntity> search(String queryName, int numHits) throws Exception {
+    List<RankedEntity> rankedEntities = new ArrayList<>();
+
     // Initialize index searcher
     IndexSearcher searcher = new IndexSearcher(reader);
+
+    // do exact search on query name
+    QueryParser nameParser = new QueryParser(IndexTopics.FIELD_NAME, new SimpleAnalyzer());
+    Query titleQuery = nameParser.parse(queryName);
+    TopDocs rs = searcher.search(titleQuery, numHits);
+    ScoredDocuments docs = ScoredDocuments.fromTopDocs(rs, searcher);
+
+    for (int i = 0; i < docs.documents.length; i++) {
+      float score = docs.scores[i];
+      String mid = docs.documents[i].getField(IndexTopics.FIELD_TOPIC_MID).stringValue();
+      String shortMid = getShortMid(mid);
+      String name = docs.documents[i].getField(IndexTopics.FIELD_NAME).stringValue();
+      String label = docs.documents[i].getField(IndexTopics.FIELD_LABEL).stringValue();
+      rankedEntities.add(new RankedEntity(shortMid, score, name, label));
+    }
+
+    if (docs.documents.length != 0) {
+      return rankedEntities;
+    }
+
+    // do TFIDF search
+    rankedEntities = new ArrayList<>(numHits);
     Similarity similarity = new ClassicSimilarity();
     searcher.setSimilarity(similarity);
-
-    MultiFieldQueryParser queryParser = new MultiFieldQueryParser(
+    QueryParser queryParser = new MultiFieldQueryParser(
             new String[]{IndexTopics.FIELD_NAME,
                          IndexTopics.FIELD_LABEL},
             new SimpleAnalyzer());
     queryParser.setDefaultOperator(QueryParser.Operator.AND);
     Query query = queryParser.parse(queryName);
 
-    TopDocs rs = searcher.search(query, numHits);
-    ScoredDocuments docs = ScoredDocuments.fromTopDocs(rs, searcher);
-    List<RankedEntity> rankedEntities = new ArrayList<>(numHits);
+    rs = searcher.search(query, numHits);
+    docs = ScoredDocuments.fromTopDocs(rs, searcher);
 
     for (int i = 0; i < docs.documents.length; i++) {
       float score = docs.scores[i];
@@ -348,7 +391,7 @@ public class EntityLinking implements Closeable {
 
     LOG.info("searching gold data: " + searchArgs.goldData);
     if (searchArgs.goldData) {
-      new EntityLinking(searchArgs.index).searchGoldFile(searchArgs.data, searchArgs.hits);
+      new EntityLinking(searchArgs.index).searchGoldFile(searchArgs.data, searchArgs.hits, searchArgs.output);
     } else {
       new EntityLinking(searchArgs.index).searchFile(searchArgs.data, searchArgs.hits);
     }
