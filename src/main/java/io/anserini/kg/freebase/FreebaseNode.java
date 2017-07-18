@@ -112,7 +112,7 @@ public class FreebaseNode {
       if (parsedLiteral.getLanguage().toString().equals(LANG_EN)) {
         return parsedLiteral.stringValue();
       }
-      return NTriplesUtil.unescapeString(objectValue);
+      return "";
     } else {
       return objectValue;
     }

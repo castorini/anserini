@@ -154,11 +154,11 @@ public class IndexTopics {
         List<String> objects = entry.getValue();
         for (String object : objects) {
           if (predicate.startsWith(W3_LABEL_URI)) {
-            label += FreebaseNode.normalizeObjectValue(object) + " ";
+            label = label.trim() + FreebaseNode.normalizeObjectValue(object) + " ";
           } else if (predicate.startsWith(FB_OBJECT_NAME)) {
-            name += FreebaseNode.normalizeObjectValue(object) + " ";
+            name = name.trim() + FreebaseNode.normalizeObjectValue(object) + " ";
           } else if (predicate.startsWith(FB_COMMON_TOPIC_ALIAS)) {
-            alias += FreebaseNode.normalizeObjectValue(object) + " ";
+            alias = alias.trim() + FreebaseNode.normalizeObjectValue(object) + " ";
           }
         }
       }
