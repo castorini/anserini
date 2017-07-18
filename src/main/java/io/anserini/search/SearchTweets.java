@@ -16,7 +16,6 @@ package io.anserini.search;
  * limitations under the License.
  */
 
-import io.anserini.index.IndexTweets;
 import io.anserini.ltr.TweetsLtrDataGenerator;
 import io.anserini.ltr.feature.FeatureExtractors;
 import io.anserini.rerank.RankLibReranker;
@@ -29,7 +28,7 @@ import io.anserini.util.AnalyzerUtils;
 import io.anserini.util.Qrels;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.lucene.document.LongPoint;
+import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.search.*;
@@ -98,8 +97,9 @@ public class SearchTweets {
     }
 
     RerankerCascade cascade = new RerankerCascade();
+    EnglishAnalyzer englishAnalyzer = new EnglishAnalyzer();
     if (searchArgs.rm3) {
-      cascade.add(new Rm3Reranker(IndexTweets.ANALYZER, FIELD_BODY, "src/main/resources/io/anserini/rerank/rm3/rm3-stoplist.twitter.txt"));
+      cascade.add(new Rm3Reranker(englishAnalyzer, FIELD_BODY, "src/main/resources/io/anserini/rerank/rm3/rm3-stoplist.twitter.txt"));
       cascade.add(new RemoveRetweetsTemporalTiebreakReranker());
     } else {
       cascade.add(new RemoveRetweetsTemporalTiebreakReranker());
@@ -132,16 +132,15 @@ public class SearchTweets {
     for ( MicroblogTopic topic : topics ) {
       long curQueryTime = System.nanoTime();
 
-      Query filter = LongPoint.newRangeQuery(FIELD_ID, 0L, topic.getQueryTweetTime());
-      Query query = AnalyzerUtils.buildBagOfWordsQuery(FIELD_BODY, IndexTweets.ANALYZER, topic.getQuery());
+      Query filter = TermRangeQuery.newStringRange(FIELD_ID, "0", String.valueOf(topic.getQueryTweetTime()), true, true);
+      Query query = AnalyzerUtils.buildBagOfWordsQuery(FIELD_BODY, englishAnalyzer, topic.getQuery());
       BooleanQuery.Builder builder = new BooleanQuery.Builder();
       builder.add(filter, BooleanClause.Occur.FILTER);
       builder.add(query, BooleanClause.Occur.MUST);
       Query q = builder.build();
-      System.out.println(q.toString());
 
       TopDocs rs = searcher.search(q, searchArgs.hits);
-      List<String> queryTokens = AnalyzerUtils.tokenize(IndexTweets.ANALYZER, topic.getQuery());
+      List<String> queryTokens = AnalyzerUtils.tokenize(englishAnalyzer, topic.getQuery());
 
       RerankerContext context = new RerankerContext(searcher, query, topic.getId(), topic.getQuery(),
          queryTokens, FIELD_BODY, filter);
