@@ -274,12 +274,13 @@ public class EntityLinking implements Closeable {
       rankedEntities.add(new RankedEntity(shortMid, score, name, label));
     }
 
-    if (docs.documents.length != 0) {
+    if (docs.documents.length >= numHits) {
       return rankedEntities;
     }
 
+    int numHitsLeft = numHits - docs.documents.length;
+
     // do TFIDF search
-    rankedEntities = new ArrayList<>(numHits);
     Similarity similarity = new ClassicSimilarity();
     searcher.setSimilarity(similarity);
     QueryParser queryParser = new MultiFieldQueryParser(
@@ -289,7 +290,7 @@ public class EntityLinking implements Closeable {
     queryParser.setDefaultOperator(QueryParser.Operator.AND);
     Query query = queryParser.parse(queryName);
 
-    rs = searcher.search(query, numHits);
+    rs = searcher.search(query, numHitsLeft);
     docs = ScoredDocuments.fromTopDocs(rs, searcher);
 
     for (int i = 0; i < docs.documents.length; i++) {
