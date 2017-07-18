@@ -17,7 +17,6 @@ package io.anserini.search;
  */
 
 import io.anserini.index.IndexTweets;
-import io.anserini.index.IndexTweets.StatusField;
 import io.anserini.ltr.TweetsLtrDataGenerator;
 import io.anserini.ltr.feature.FeatureExtractors;
 import io.anserini.rerank.RankLibReranker;
@@ -49,6 +48,9 @@ import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.nio.file.Paths;
 import java.util.List;
+
+import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_BODY;
+import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_ID;
 
 @SuppressWarnings("deprecation")
 public class SearchTweets {
@@ -97,7 +99,7 @@ public class SearchTweets {
 
     RerankerCascade cascade = new RerankerCascade();
     if (searchArgs.rm3) {
-      cascade.add(new Rm3Reranker(IndexTweets.ANALYZER, StatusField.TEXT.name, "src/main/resources/io/anserini/rerank/rm3/rm3-stoplist.twitter.txt"));
+      cascade.add(new Rm3Reranker(IndexTweets.ANALYZER, FIELD_BODY, "src/main/resources/io/anserini/rerank/rm3/rm3-stoplist.twitter.txt"));
       cascade.add(new RemoveRetweetsTemporalTiebreakReranker());
     } else {
       cascade.add(new RemoveRetweetsTemporalTiebreakReranker());
@@ -105,7 +107,7 @@ public class SearchTweets {
 
     if (!searchArgs.model.isEmpty() && searchArgs.extractors != null) {
       LOG.debug(String.format("Ranklib model used, modeled loaded from %s", searchArgs.model));
-      cascade.add(new RankLibReranker(searchArgs.model, StatusField.TEXT.name, searchArgs.extractors));
+      cascade.add(new RankLibReranker(searchArgs.model, FIELD_BODY, searchArgs.extractors));
     }
 
     FeatureExtractors extractorChain = null;
@@ -130,24 +132,25 @@ public class SearchTweets {
     for ( MicroblogTopic topic : topics ) {
       long curQueryTime = System.nanoTime();
 
-      Query filter = LongPoint.newRangeQuery(StatusField.ID.name, 0L, topic.getQueryTweetTime());
-      Query query = AnalyzerUtils.buildBagOfWordsQuery(StatusField.TEXT.name, IndexTweets.ANALYZER, topic.getQuery());
+      Query filter = LongPoint.newRangeQuery(FIELD_ID, 0L, topic.getQueryTweetTime());
+      Query query = AnalyzerUtils.buildBagOfWordsQuery(FIELD_BODY, IndexTweets.ANALYZER, topic.getQuery());
       BooleanQuery.Builder builder = new BooleanQuery.Builder();
       builder.add(filter, BooleanClause.Occur.FILTER);
       builder.add(query, BooleanClause.Occur.MUST);
       Query q = builder.build();
+      System.out.println(q.toString());
 
       TopDocs rs = searcher.search(q, searchArgs.hits);
       List<String> queryTokens = AnalyzerUtils.tokenize(IndexTweets.ANALYZER, topic.getQuery());
 
       RerankerContext context = new RerankerContext(searcher, query, topic.getId(), topic.getQuery(),
-         queryTokens, StatusField.TEXT.name, filter);
+         queryTokens, FIELD_BODY, filter);
       ScoredDocuments docs = cascade.run(ScoredDocuments.fromTopDocs(rs, searcher), context);
 
       for (int i=0; i<docs.documents.length; i++) {
         String qid = topic.getId().replaceFirst("^MB0*", "");
         out.println(String.format("%s Q0 %s %d %f %s", qid,
-            docs.documents[i].getField(StatusField.ID.name).numericValue(), (i+1), docs.scores[i], searchArgs.runtag));
+            docs.documents[i].getField(FIELD_ID).stringValue(), (i+1), docs.scores[i], searchArgs.runtag));
       }
       long qtime = (System.nanoTime()-curQueryTime)/1000000;
       LOG.info("Query " + topic.getId() + " (elapsed time = " + qtime + "ms)");

@@ -1,14 +1,14 @@
 package io.anserini.rerank.twitter;
 
-import io.anserini.index.IndexTweets.StatusField;
 import io.anserini.rerank.Reranker;
 import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.ScoredDocuments;
+import org.apache.lucene.document.Document;
 
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import org.apache.lucene.document.Document;
+import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_ID;
 
 public class RemoveRetweetsTemporalTiebreakReranker implements Reranker {
   // Sort by score, break ties by higher docid first (i.e., more temporally recent first)
@@ -54,12 +54,9 @@ public class RemoveRetweetsTemporalTiebreakReranker implements Reranker {
       result.document = docs.documents[i];
       result.score = docs.scores[i];
       result.id = docs.ids[i];
-      result.docid = (long) docs.documents[i].getField(StatusField.ID.name).numericValue();
+      result.docid = Long.parseLong(docs.documents[i].getField(FIELD_ID).stringValue());
 
-      // Throw away retweets.
-      if (docs.documents[i].getField(StatusField.RETWEETED_STATUS_ID.name) == null) {
-        sortedResults.add(result);
-      }
+      sortedResults.add(result);
     }
 
     int numResults = sortedResults.size();
