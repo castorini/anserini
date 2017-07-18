@@ -58,7 +58,7 @@ public class SearchTweets {
   private SearchTweets() {}
 
   public static void main(String[] args) throws Exception {
-    long curTime = System.nanoTime();
+    long startQueryTime = System.currentTimeMillis();
     SearchArgs searchArgs = new SearchArgs();
     CmdLineParser parser = new CmdLineParser(searchArgs, ParserProperties.defaults().withUsageWidth(90));
 
@@ -99,7 +99,8 @@ public class SearchTweets {
     RerankerCascade cascade = new RerankerCascade();
     EnglishAnalyzer englishAnalyzer = new EnglishAnalyzer();
     if (searchArgs.rm3) {
-      cascade.add(new Rm3Reranker(englishAnalyzer, FIELD_BODY, "src/main/resources/io/anserini/rerank/rm3/rm3-stoplist.twitter.txt"));
+      cascade.add(new Rm3Reranker(englishAnalyzer, FIELD_BODY,
+              "src/main/resources/io/anserini/rerank/rm3/rm3-stoplist.twitter.txt"));
       cascade.add(new RemoveRetweetsTemporalTiebreakReranker());
     } else {
       cascade.add(new RemoveRetweetsTemporalTiebreakReranker());
@@ -126,7 +127,7 @@ public class SearchTweets {
     PrintStream out = new PrintStream(new FileOutputStream(new File(searchArgs.output)));
     LOG.info("Writing output to " + searchArgs.output);
 
-    LOG.info("Initialized complete! (elapsed time = " + (System.nanoTime()-curTime)/1000000 + "ms)");
+    LOG.info("Initialized complete! (elapsed time = " + (System.currentTimeMillis()- startQueryTime) + "ms)");
     long totalTime = 0;
     int cnt = 0;
     for ( MicroblogTopic topic : topics ) {
@@ -145,13 +146,14 @@ public class SearchTweets {
       RerankerContext context = new RerankerContext(searcher, query, topic.getId(), topic.getQuery(),
          queryTokens, FIELD_BODY, filter);
       ScoredDocuments docs = cascade.run(ScoredDocuments.fromTopDocs(rs, searcher), context);
+      long qtime = (System.currentTimeMillis() - startQueryTime);
 
       for (int i=0; i<docs.documents.length; i++) {
         String qid = topic.getId().replaceFirst("^MB0*", "");
         out.println(String.format("%s Q0 %s %d %f %s", qid,
             docs.documents[i].getField(FIELD_ID).stringValue(), (i+1), docs.scores[i], searchArgs.runtag));
       }
-      long qtime = (System.nanoTime()-curQueryTime)/1000000;
+
       LOG.info("Query " + topic.getId() + " (elapsed time = " + qtime + "ms)");
       totalTime += qtime;
       cnt++;

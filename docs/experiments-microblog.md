@@ -13,6 +13,7 @@ nohup sh target/appassembler/bin/IndexCollection -collection TwitterCollection  
 /path/to/Tweets2011/ -generator JsoupGenerator  -index lucene-index.Tweets2011.pos+docvectors -threads 32 \
 -storePositions -storeDocvectors -optimize > log.Tweets2011.txt &
 ```
+__NB:__ The process is backgrounded 
 
 Running topics from TREC 2011 (also look in `src/main/resources/topics-and-qrels/` for topics from TREC 2012):
 
@@ -37,8 +38,37 @@ MAP                                                                        | BM2
 [TREC 2011 Microblog Track](http://trec.nist.gov/data/microblog2011.html)  | 0.3448 | 0.3719 | 0.3632 | 0.4112
 [TREC 2012 Microblog Track](http://trec.nist.gov/data/microblog2012.html)  | 0.2064 | 0.2230 | 0.2203 | 0.2541
 
-P30                                                                        | BM25   |BM25+RM3| QL     | QL+RM3
+P@30                                                                        | BM25   |BM25+RM3| QL     | QL+RM3
 ---------------------------------------------------------------------------|--------|--------|--------|--------
 [TREC 2011 Microblog Track](http://trec.nist.gov/data/microblog2011.html)  | 0.3741 | 0.4034 | 0.3905 | 0.4306
 [TREC 2012 Microblog Track](http://trec.nist.gov/data/microblog2012.html)  | 0.3237 | 0.3305 | 0.3249 | 0.3475
+
+### Tweets2013 collection
+Indexing the Tweets2013 collection:
+
+```
+nohup sh target/appassembler/bin/IndexCollection -collection TwitterCollection  -input \
+/path/to/Tweets2013/ -generator JsoupGenerator  -index lucene-index.Tweets2013.pos+docvectors -threads 32 \
+-storePositions -storeDocvectors -optimize > log.Tweets2013.txt &
+```
+
+Running topics from TREC 2013 (also look in `src/main/resources/topics-and-qrels/` for topics from TREC 2014):
+
+```
+sh target/appassembler/bin/SearchTweets -collection Twitter -index lucene-index.Tweets2013.pos+docvectors -bm25 \
+-hits 1000 -topics src/main/resources/topics-and-qrels/topics.microblog2011.txt -output run.mb13.bm25.txt
+```
+
+Retrieval model options are the same as above, as is running `trec_eval`. You should be able to get effectiveness scores 
+along the following lines:
+
+MAP                                                                        | BM25   |BM25+RM3| QL     | QL+RM3
+---------------------------------------------------------------------------|--------|--------|--------|--------
+[TREC 2013 Microblog Track](http://trec.nist.gov/data/microblog2013.html)  | 0.2438 | 0.2563 |0.2632  | 0.2890
+[TREC 2014 Microblog Track](http://trec.nist.gov/data/microblog2014.html)  | 0.3868 | 0.3990 |0.4122  | 0.4706
+
+P@30                                                                        | BM25   |BM25+RM3| QL     | QL+RM3
+---------------------------------------------------------------------------|--------|--------|--------|--------
+[TREC 2013 Microblog Track](http://trec.nist.gov/data/microblog2013.html)  | 0.4450 | 0.4328 |0.4533  | 0.4689
+[TREC 2014 Microblog Track](http://trec.nist.gov/data/microblog2014.html)  | 0.6085 | 0.5867 |0.6327  | 0.6533
 

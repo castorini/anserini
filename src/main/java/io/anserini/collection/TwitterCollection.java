@@ -14,7 +14,7 @@ import java.util.Set;
 import java.util.zip.GZIPInputStream;
 
 /**
- * Class representing an instance of a TREC Microblog collection.
+ * Class representing an instance of a Twitter collection.
  */
 public class TwitterCollection extends Collection<TwitterDocument> {
   public class FileSegment extends Collection.FileSegment {
@@ -35,7 +35,6 @@ public class TwitterCollection extends Collection<TwitterDocument> {
       }
     }
 
-
     @Override
     public void close() throws IOException {
       atEOF = false;
@@ -51,7 +50,6 @@ public class TwitterCollection extends Collection<TwitterDocument> {
 
     @Override
     public TwitterDocument next() {
-
       TwitterDocument doc = new TwitterDocument();
       String raw = null;
 
@@ -59,9 +57,9 @@ public class TwitterCollection extends Collection<TwitterDocument> {
         raw = bufferedReader.readLine();
       } catch (IOException e) {
         e.printStackTrace();
+        doc = null;
       }
 
-      // check to see if we've reached end of file.
       if (raw == null) {
         atEOF = true;
         return null;
@@ -75,6 +73,7 @@ public class TwitterCollection extends Collection<TwitterDocument> {
         }
       } catch (IOException e) {
         e.printStackTrace();
+        doc = null;
       }
       return  doc;
     }
@@ -84,8 +83,7 @@ public class TwitterCollection extends Collection<TwitterDocument> {
   public List<Path> getFileSegmentPaths() {
     Set<String> allowedFileSuffix = new HashSet<>(Arrays.asList(".gz"));
 
-    return discover(path, EMPTY_SET, EMPTY_SET, EMPTY_SET,
-            allowedFileSuffix, EMPTY_SET);
+    return discover(path, EMPTY_SET, EMPTY_SET, EMPTY_SET, allowedFileSuffix, EMPTY_SET);
   }
 
   @Override

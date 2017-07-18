@@ -11,13 +11,11 @@ import java.io.IOException;
  * A Twitter document (status).
  */
 public class TwitterDocument implements SourceDocument {
-  private static final Logger LOG = LogManager.getLogger(io.anserini.document.twitter.Status.class);
-
   private String id;
   private String contents;
 
+  private static final Logger LOG = LogManager.getLogger(io.anserini.document.twitter.Status.class);
   private static final JsonParser JSON_PARSER = new JsonParser();
-
 
   public SourceDocument readNextRecord(String json) throws IOException {
     JsonObject obj = null;
@@ -38,7 +36,7 @@ public class TwitterDocument implements SourceDocument {
       long retweetStatusID = obj.getAsJsonObject("retweeted_status").get("id").getAsLong();
       return null;
     } catch (Exception e) {
-      // Do nothing if the retweet doesn't exist
+      // retweeted_status key doesn't exist and therefore not a retweet
     }
 
     contents = obj.get("text").getAsString();
