@@ -20,8 +20,6 @@ import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.ParserProperties;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.OptionHandlerFilter;
-import org.openrdf.model.ValueFactory;
-import org.openrdf.model.impl.SimpleValueFactory;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -47,12 +45,6 @@ public class EntityLinking implements Closeable {
   private static final String FREEBASE_URI = "www.freebase.com/";
   private static final String RDF_FREEBASE_URI = "http://rdf.freebase.com/ns/";
   private static final String FREEBASE_SHORT_URI = "fb:";
-
-
-  /**
-   * Simple value factory to parse literals using Sesame library.
-   */
-  private ValueFactory valueFactory = SimpleValueFactory.getInstance();
 
   static final class Args {
     // Required arguments
