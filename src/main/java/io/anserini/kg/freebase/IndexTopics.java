@@ -53,7 +53,6 @@ public class IndexTopics {
   public static final String FIELD_TOPIC_MID = "topicMid";
   public static final String FIELD_LABEL = "label";
   public static final String FIELD_NAME = "name";
-  public static final String FIELD_EXACT_NAME = "exactName";
   public static final String FIELD_ALIAS = "alias";
 
   /**
@@ -176,9 +175,6 @@ public class IndexTopics {
 
       Field nameField = new TextField(FIELD_NAME, name, Field.Store.YES);
       doc.add(nameField);
-
-      Field exactNameField = new StringField(FIELD_EXACT_NAME, name, Field.Store.YES);
-      doc.add(exactNameField);
 
       Field labelField = new TextField(FIELD_LABEL, label, Field.Store.YES);
       doc.add(labelField);

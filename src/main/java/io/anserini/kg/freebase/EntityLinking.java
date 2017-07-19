@@ -7,10 +7,12 @@ import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.core.SimpleAnalyzer;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.index.Term;
 import org.apache.lucene.queryparser.classic.MultiFieldQueryParser;
 import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
+import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.search.similarities.ClassicSimilarity;
 import org.apache.lucene.search.similarities.Similarity;
@@ -146,7 +148,7 @@ public class EntityLinking implements Closeable {
         String lineId = lineItems[0].trim();
         String subject = lineItems[1].trim();
         String shortMid = getShortMid(cleanUri(subject));
-        String questionText = lineItems[4].trim();
+        String questionText = lineItems[4].trim().toLowerCase();
         List<String> queries = getSearchQueries(questionText);
         for(String query : queries) {
           try {
@@ -165,8 +167,8 @@ public class EntityLinking implements Closeable {
           index = Arrays.asList(rankScoresHeap.toArray()).indexOf(entityMidToCompare);
           LOG.info("found at index: " + index);
         } else {
-          LOG.info(String.format("NOT found,\tline: %s", strLine));
           notfound += 1;
+          LOG.info(String.format("NOT found,\tline: %s", strLine));
         }
       }
     }
@@ -269,9 +271,12 @@ public class EntityLinking implements Closeable {
     IndexSearcher searcher = new IndexSearcher(reader);
 
     // do exact search on query name
-    QueryParser nameParser = new QueryParser(IndexTopics.FIELD_EXACT_NAME, new SimpleAnalyzer());
-    Query titleQuery = nameParser.parse(queryName);
-    TopDocs rs = searcher.search(titleQuery, numHits);
+    QueryParser queryParser = new QueryParser(IndexTopics.FIELD_NAME, new SimpleAnalyzer());
+    queryParser.setAutoGeneratePhraseQueries(true);
+    queryParser.setPhraseSlop(3);
+    queryName = "\"" + queryName + "\"";
+    Query query = queryParser.parse(queryName);
+    TopDocs rs = searcher.search(query, numHits);
     ScoredDocuments docs = ScoredDocuments.fromTopDocs(rs, searcher);
 
     for (int i = 0; i < docs.documents.length; i++) {
@@ -300,9 +305,12 @@ public class EntityLinking implements Closeable {
     IndexSearcher searcher = new IndexSearcher(reader);
 
     // do exact search on query name
-    QueryParser nameParser = new QueryParser(IndexTopics.FIELD_EXACT_NAME, new SimpleAnalyzer());
-    Query titleQuery = nameParser.parse(queryName);
-    TopDocs rs = searcher.search(titleQuery, numHits);
+    QueryParser queryParser = new QueryParser(IndexTopics.FIELD_NAME, new SimpleAnalyzer());
+    queryParser.setAutoGeneratePhraseQueries(true);
+    queryParser.setPhraseSlop(3);
+    queryName = "\"" + queryName + "\"";
+    Query query = queryParser.parse(queryName);
+    TopDocs rs = searcher.search(query, numHits);
     ScoredDocuments docs = ScoredDocuments.fromTopDocs(rs, searcher);
 
     for (int i = 0; i < docs.documents.length; i++) {
@@ -323,13 +331,12 @@ public class EntityLinking implements Closeable {
     // do TFIDF search
     Similarity similarity = new ClassicSimilarity();
     searcher.setSimilarity(similarity);
-    QueryParser queryParser = new MultiFieldQueryParser(
-            new String[]{IndexTopics.FIELD_EXACT_NAME,
-                         IndexTopics.FIELD_NAME,
+    queryParser = new MultiFieldQueryParser(
+            new String[]{IndexTopics.FIELD_NAME,
                          IndexTopics.FIELD_LABEL},
             new SimpleAnalyzer());
     queryParser.setDefaultOperator(QueryParser.Operator.AND);
-    Query query = queryParser.parse(queryName);
+    query = queryParser.parse(queryName);
 
     rs = searcher.search(query, numHitsLeft);
     docs = ScoredDocuments.fromTopDocs(rs, searcher);
