@@ -117,7 +117,7 @@ public class EntityLinking implements Closeable {
     reader.close();
   }
 
-  public void searchFile(String fileName, int numHits) throws Exception {
+  public void bruteSearchFile(String fileName, int numHits, String outName) throws Exception {
     LOG.info("fileName: " + fileName);
 
     // Open the file
@@ -139,16 +139,18 @@ public class EntityLinking implements Closeable {
                 .maximumSize(numHits)
                 .create();
         String[] lineItems = strLine.split("\t");
-        String shortMid = getShortMid(lineItems[0].trim());
-        String question = lineItems[3].trim().toLowerCase();
-        List<String> queries = getSearchQueries(question);
+        String lineId = lineItems[0].trim();
+        String subject = lineItems[1].trim();
+        String shortMid = getShortMid(cleanUri(subject));
+        String questionText = lineItems[4].trim();
+        List<String> queries = getSearchQueries(questionText);
         for(String query : queries) {
           try {
-            List<RankedEntity> rankScores = search(query, numHits);
+            List<RankedEntity> rankScores = exactQuerySearch(query, numHits);
             rankScoresHeap.addAll(rankScores);
           } catch (Exception e) {
-            LOG.info("line: " + query);
-            LOG.info("query: " + query);
+            LOG.info(String.format("query: %s,\tlineId: %s,\tline: %s", query, lineId, strLine));
+            notfound += 1;
             continue;
           }
         }
@@ -159,6 +161,7 @@ public class EntityLinking implements Closeable {
           index = Arrays.asList(rankScoresHeap.toArray()).indexOf(entityMidToCompare);
           LOG.info("found at index: " + index);
         } else {
+          LOG.info(String.format("NOT found,\tline: %s", strLine));
           notfound += 1;
         }
       }
@@ -166,6 +169,8 @@ public class EntityLinking implements Closeable {
 
     LOG.info("Found: " + found);
     LOG.info("Not Found: " + notfound);
+    double percent = (found * 100.0) / (found + notfound);
+    LOG.info("Found/Total %: " + percent);
     LOG.info("Querying completed.");
   }
 
@@ -247,7 +252,38 @@ public class EntityLinking implements Closeable {
   }
 
   /**
-   * Prints query results to the standard output stream.
+   * Returns a list of query results.
+   *
+   * @param queryName the entity name to search
+   * @throws Exception on error
+   * @return a list of top ranked entities
+   */
+  public List<RankedEntity> exactQuerySearch(String queryName, int numHits) throws Exception {
+    List<RankedEntity> rankedEntities = new ArrayList<>();
+
+    // Initialize index searcher
+    IndexSearcher searcher = new IndexSearcher(reader);
+
+    // do exact search on query name
+    QueryParser nameParser = new QueryParser(IndexTopics.FIELD_NAME, new SimpleAnalyzer());
+    Query titleQuery = nameParser.parse(queryName);
+    TopDocs rs = searcher.search(titleQuery, numHits);
+    ScoredDocuments docs = ScoredDocuments.fromTopDocs(rs, searcher);
+
+    for (int i = 0; i < docs.documents.length; i++) {
+      float score = docs.scores[i];
+      String mid = docs.documents[i].getField(IndexTopics.FIELD_TOPIC_MID).stringValue();
+      String shortMid = getShortMid(mid);
+      String name = docs.documents[i].getField(IndexTopics.FIELD_NAME).stringValue();
+      String label = docs.documents[i].getField(IndexTopics.FIELD_LABEL).stringValue();
+      rankedEntities.add(new RankedEntity(shortMid, score, name, label));
+    }
+
+    return rankedEntities;
+  }
+
+  /**
+   * Returns a list of query results.
    *
    * @param queryName the entity name to search
    * @throws Exception on error
@@ -387,7 +423,7 @@ public class EntityLinking implements Closeable {
     if (searchArgs.goldData) {
       new EntityLinking(searchArgs.index).searchGoldFile(searchArgs.data, searchArgs.hits, searchArgs.output);
     } else {
-      new EntityLinking(searchArgs.index).searchFile(searchArgs.data, searchArgs.hits);
+      new EntityLinking(searchArgs.index).bruteSearchFile(searchArgs.data, searchArgs.hits, searchArgs.output);
     }
   }
 }
