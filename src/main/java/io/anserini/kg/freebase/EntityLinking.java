@@ -265,7 +265,7 @@ public class EntityLinking implements Closeable {
     IndexSearcher searcher = new IndexSearcher(reader);
 
     // do exact search on query name
-    QueryParser nameParser = new QueryParser(IndexTopics.FIELD_NAME, new SimpleAnalyzer());
+    QueryParser nameParser = new QueryParser(IndexTopics.FIELD_EXACT_NAME, new SimpleAnalyzer());
     Query titleQuery = nameParser.parse(queryName);
     TopDocs rs = searcher.search(titleQuery, numHits);
     ScoredDocuments docs = ScoredDocuments.fromTopDocs(rs, searcher);
@@ -296,7 +296,7 @@ public class EntityLinking implements Closeable {
     IndexSearcher searcher = new IndexSearcher(reader);
 
     // do exact search on query name
-    QueryParser nameParser = new QueryParser(IndexTopics.FIELD_NAME, new SimpleAnalyzer());
+    QueryParser nameParser = new QueryParser(IndexTopics.FIELD_EXACT_NAME, new SimpleAnalyzer());
     Query titleQuery = nameParser.parse(queryName);
     TopDocs rs = searcher.search(titleQuery, numHits);
     ScoredDocuments docs = ScoredDocuments.fromTopDocs(rs, searcher);
