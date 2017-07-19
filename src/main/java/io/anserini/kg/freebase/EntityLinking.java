@@ -138,7 +138,11 @@ public class EntityLinking implements Closeable {
                 })
                 .maximumSize(numHits)
                 .create();
-        String[] lineItems = strLine.split("\t");
+        String[] lineItems = strLine.split(" %%%% ");
+        if (lineItems.length < 6) {
+          LOG.info(String.format("numbered SHORT LINE < 6 items! line: %s", strLine));
+          continue;
+        }
         String lineId = lineItems[0].trim();
         String subject = lineItems[1].trim();
         String shortMid = getShortMid(cleanUri(subject));
