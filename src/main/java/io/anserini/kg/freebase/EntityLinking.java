@@ -165,6 +165,10 @@ public class EntityLinking implements Closeable {
         }
 
         bw.write(String.format("%s %%%% %s %%%% %s\n", lineId, questionText, shortMid));
+        for (RankedEntity re : rankScoresHeap) {
+          bw.write(String.format("%s %%%% %s %%%% %.5f\n", re.mid, re.name, re.score));
+        }
+
         RankedEntity entityMidToCompare = new RankedEntity(shortMid, 0.0f, "", "");
         if (rankScoresHeap.contains(entityMidToCompare)) {
           found += 1;
@@ -175,10 +179,6 @@ public class EntityLinking implements Closeable {
           notfound += 1;
           LOG.info(String.format("NOT found,\tline: %s", strLine));
           bw.write(String.format("NOT found\n"));
-        }
-
-        for (RankedEntity re : rankScoresHeap) {
-          bw.write(String.format("%s %%%% %s %%%% %.5f\n", re.mid, re.name, re.score));
         }
         bw.write("------------------------------------------------------------------------------------\n");
       }
