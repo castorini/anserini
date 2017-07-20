@@ -190,16 +190,20 @@ public class EntityLinking implements Closeable {
 
   private int getIndexFromHeap(BufferedWriter bw, MinMaxPriorityQueue<RankedEntity> rankScoresHeap, String mid) throws IOException {
     boolean found = false;
+    int foundAt = 0;
     int index = 0;
     while(!rankScoresHeap.isEmpty()) {
       RankedEntity re = rankScoresHeap.poll();
       if(re.mid.equals(mid)) {
         found = true;
+        foundAt = index;
       }
       bw.write(String.format("%s %%%% %s %%%% %.5f\n", re.mid, re.name, re.score));
       index++;
     }
-    return index;
+
+    if (found) return foundAt;
+    return -1;
   }
 
   public void searchGoldFile(String fileName, int numHits, String outName) throws Exception {
