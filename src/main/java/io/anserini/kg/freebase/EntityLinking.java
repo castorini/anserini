@@ -193,7 +193,7 @@ public class EntityLinking implements Closeable {
     int index = 0;
     while(!rankScoresHeap.isEmpty()) {
       RankedEntity re = rankScoresHeap.poll();
-      if(re.mid == mid) {
+      if(re.mid.equals(mid)) {
         found = true;
       }
       bw.write(String.format("%s %%%% %s %%%% %.5f\n", re.mid, re.name, re.score));
