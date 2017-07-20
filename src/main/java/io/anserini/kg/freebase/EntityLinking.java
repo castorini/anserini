@@ -165,14 +165,9 @@ public class EntityLinking implements Closeable {
         }
 
         bw.write(String.format("%s %%%% %s %%%% %s\n", lineId, questionText, shortMid));
-        for (RankedEntity re : rankScoresHeap) {
-          bw.write(String.format("%s %%%% %s %%%% %.5f\n", re.mid, re.name, re.score));
-        }
-
-        RankedEntity entityMidToCompare = new RankedEntity(shortMid, 0.0f, "", "");
-        if (rankScoresHeap.contains(entityMidToCompare)) {
+        index = getIndexFromHeap(bw, rankScoresHeap, shortMid);
+        if (index >= 0) {
           found += 1;
-          index = getIndexFromHeap(rankScoresHeap, shortMid);
           LOG.info("found at index: " + index);
           bw.write(String.format("FOUND at index: %d\n", index));
         } else {
@@ -193,11 +188,15 @@ public class EntityLinking implements Closeable {
     LOG.info("Querying completed.");
   }
 
-  private int getIndexFromHeap(MinMaxPriorityQueue<RankedEntity> rankScoresHeap, String mid) {
+  private int getIndexFromHeap(BufferedWriter bw, MinMaxPriorityQueue<RankedEntity> rankScoresHeap, String mid) throws IOException {
+    boolean found = false;
     int index = 0;
     while(!rankScoresHeap.isEmpty()) {
-      String maxMid = rankScoresHeap.poll().mid;
-      if(maxMid == mid) break;
+      RankedEntity re = rankScoresHeap.poll();
+      if(re.mid == mid) {
+        found = true;
+      }
+      bw.write(String.format("%s %%%% %s %%%% %.5f\n", re.mid, re.name, re.score));
       index++;
     }
     return index;
