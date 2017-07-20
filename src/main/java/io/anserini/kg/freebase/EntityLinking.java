@@ -138,7 +138,7 @@ public class EntityLinking implements Closeable {
                 new Comparator<RankedEntity>() {
                   @Override
                   public int compare(RankedEntity e1, RankedEntity e2) {
-                    return (e1.score > e2.score) ? -1 : (e1.score < e2.score) ? 1 : 0;
+                    return -Float.compare(e1.score, e2.score);
                   }
                 })
                 .maximumSize(numHits)
@@ -168,7 +168,7 @@ public class EntityLinking implements Closeable {
         RankedEntity entityMidToCompare = new RankedEntity(shortMid, 0.0f, "", "");
         if (rankScoresHeap.contains(entityMidToCompare)) {
           found += 1;
-          index = Arrays.asList(rankScoresHeap.toArray()).indexOf(entityMidToCompare);
+          index = getIndexFromHeap(rankScoresHeap, shortMid);
           LOG.info("found at index: " + index);
           bw.write(String.format("FOUND at index: %d\n", index));
         } else {
@@ -191,6 +191,16 @@ public class EntityLinking implements Closeable {
     double percent = (found * 100.0) / (found + notfound);
     LOG.info("Found/Total %: " + percent);
     LOG.info("Querying completed.");
+  }
+
+  private int getIndexFromHeap(MinMaxPriorityQueue<RankedEntity> rankScoresHeap, String mid) {
+    int index = 0;
+    while(!rankScoresHeap.isEmpty()) {
+      String maxMid = rankScoresHeap.poll().mid;
+      if(maxMid == mid) break;
+      index++;
+    }
+    return index;
   }
 
   public void searchGoldFile(String fileName, int numHits, String outName) throws Exception {
