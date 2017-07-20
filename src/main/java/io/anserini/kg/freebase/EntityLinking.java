@@ -125,6 +125,9 @@ public class EntityLinking implements Closeable {
     // Open the file
     FileInputStream fstream = new FileInputStream(fileName);
 
+    // Open the file for writing
+    BufferedWriter bw = new BufferedWriter(new FileWriter(outName));
+
     try (BufferedReader br = new BufferedReader(new InputStreamReader(fstream))) {
       String strLine;
 
@@ -161,16 +164,26 @@ public class EntityLinking implements Closeable {
           }
         }
 
+        bw.write(String.format("%s %%%% %s %%%% %s\n", lineId, questionText, shortMid));
         RankedEntity entityMidToCompare = new RankedEntity(shortMid, 0.0f, "", "");
         if (rankScoresHeap.contains(entityMidToCompare)) {
           found += 1;
           index = Arrays.asList(rankScoresHeap.toArray()).indexOf(entityMidToCompare);
           LOG.info("found at index: " + index);
+          bw.write(String.format("FOUND at index: %d\n", index));
         } else {
           notfound += 1;
           LOG.info(String.format("NOT found,\tline: %s", strLine));
+          bw.write(String.format("NOT found\n"));
         }
+
+        for (RankedEntity re : rankScoresHeap) {
+          bw.write(String.format("%s %%%% %s %%%% %.5f\n", re.mid, re.name, re.score));
+        }
+        bw.write("------------------------------------------------------------------------------------\n");
       }
+
+      bw.close();
     }
 
     LOG.info("Found: " + found);
