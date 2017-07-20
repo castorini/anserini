@@ -17,7 +17,7 @@ public class TwitterDocument implements SourceDocument {
   private static final Logger LOG = LogManager.getLogger(io.anserini.document.twitter.Status.class);
   private static final JsonParser JSON_PARSER = new JsonParser();
 
-  public SourceDocument readNextRecord(String json) throws IOException {
+  public SourceDocument readNextRecord(String json, boolean keepRetweets) throws IOException {
     JsonObject obj = null;
     try {
       obj = (JsonObject) JSON_PARSER.parse(json);
@@ -32,11 +32,13 @@ public class TwitterDocument implements SourceDocument {
     }
 
     // Do not index retweets
-    try {
-      long retweetStatusID = obj.getAsJsonObject("retweeted_status").get("id").getAsLong();
-      return null;
-    } catch (Exception e) {
-      // retweeted_status key doesn't exist and therefore not a retweet
+    if (!keepRetweets) {
+      try {
+        long retweetStatusID = obj.getAsJsonObject("retweeted_status").get("id").getAsLong();
+        return null;
+      } catch (Exception e) {
+        // retweeted_status key doesn't exist and therefore not a retweet
+      }
     }
 
     contents = obj.get("text").getAsString();

@@ -17,6 +17,12 @@ import java.util.zip.GZIPInputStream;
  * Class representing an instance of a Twitter collection.
  */
 public class TwitterCollection extends Collection<TwitterDocument> {
+  private boolean keepRetweets = false;
+
+  public TwitterCollection(Boolean keepRetweets) {
+    this.keepRetweets = keepRetweets;
+  }
+
   public class FileSegment extends Collection.FileSegment {
     protected BufferedReader bufferedReader;
     protected final int BUFFER_SIZE = 1 << 16; // 64K
@@ -66,7 +72,7 @@ public class TwitterCollection extends Collection<TwitterDocument> {
       }
 
       try {
-        doc = (TwitterDocument) doc.readNextRecord(raw);
+        doc = (TwitterDocument) doc.readNextRecord(raw, keepRetweets);
 
         if (doc == null) {
           return null;
