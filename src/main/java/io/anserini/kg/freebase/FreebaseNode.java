@@ -79,7 +79,6 @@ public class FreebaseNode {
   public static final String FREEBASE_NS_SHORT = "fb:";
   public static final String FREEBASE_KEY_LONG = "^http://rdf.freebase.com/key/";
   public static final String FREEBASE_KEY_SHORT = "fbkey:";
-
   public static final String LANG_EN = "Optional[en]";
 
   public static String cleanUri(String uri) {

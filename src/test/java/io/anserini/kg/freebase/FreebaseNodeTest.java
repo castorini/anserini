@@ -9,7 +9,6 @@ import org.openrdf.model.impl.SimpleValueFactory;
 import static org.junit.Assert.assertEquals;
 
 public class FreebaseNodeTest {
-
   /**
    * Simple value factory to parse literals using Sesame library.
    */

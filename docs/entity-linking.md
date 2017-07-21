@@ -7,10 +7,11 @@ python augment_freebase_subset.py -f path/to/freebase \
 -s path/to/freebase-subset -o path/to/output
 ```
 - After augmenting the freebase-subset, gzip the file.
-- Use Anserini to index the augmented gzipped freebase-subset.
 ```
 gzip path/to/augmented-freebase-subset-gzipped
-
+```
+- Use Anserini to index the augmented gzipped freebase-subset.
+```
 nohup sh target/appassembler/bin/IndexFreebaseTopics \
  -input path/to/augmented-freebase-subset-gzipped \
  -index lucene-index.freebase.augmented >& log.freebase.augmented.txt &

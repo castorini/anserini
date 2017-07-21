@@ -81,7 +81,7 @@ public class LookupTopic implements Closeable {
               docs.documents[i].getField(IndexTopics.FIELD_TOPIC_MID).stringValue(),
               docs.documents[i].getField(IndexTopics.FIELD_NAME).stringValue(),
               docs.documents[i].getField(IndexTopics.FIELD_ALIAS).stringValue(),
-              docs.documents[i].getField(IndexTopics.FIELD_LABEL).stringValue() );
+              docs.documents[i].getField(IndexTopics.FIELD_LABEL).stringValue());
       System.out.println(resultDoc);
     }
   }
