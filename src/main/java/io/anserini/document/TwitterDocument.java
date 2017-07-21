@@ -31,7 +31,6 @@ public class TwitterDocument implements SourceDocument {
       return null;
     }
 
-    // Do not index retweets
     if (!keepRetweets) {
       try {
         long retweetStatusID = obj.getAsJsonObject("retweeted_status").get("id").getAsLong();

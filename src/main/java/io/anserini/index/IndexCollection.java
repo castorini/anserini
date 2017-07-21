@@ -79,7 +79,7 @@ public final class IndexCollection {
     @Option(name = "-keepStopwords", usage = "boolean switch to keep stopwords")
     public boolean keepStopwords = false;
 
-    @Option(name = "-keepRetweets", usage = "Boolean switch to keep retweets while indexing")
+    @Option(name = "-keepRetweets", usage = "boolean switch to keep retweets while indexing")
     boolean keepRetweets = false;
 
     @Option(name = "-storePositions", usage = "boolean switch to index storePositions")
