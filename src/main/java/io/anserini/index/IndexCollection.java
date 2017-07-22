@@ -39,6 +39,7 @@ import org.kohsuke.args4j.Option;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Constructor;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -77,6 +78,9 @@ public final class IndexCollection {
 
     @Option(name = "-keepStopwords", usage = "boolean switch to keep stopwords")
     public boolean keepStopwords = false;
+
+    @Option(name = "-keepRetweets", usage = "boolean switch to keep retweets while indexing")
+    boolean keepRetweets = false;
 
     @Option(name = "-storePositions", usage = "boolean switch to index storePositions")
     public boolean storePositions = false;
@@ -178,9 +182,15 @@ public final class IndexCollection {
     }
 
     this.transformerClass = Class.forName("io.anserini.index.generator." + args.generatorClass);
-
     this.collectionClass = Class.forName("io.anserini.collection." + args.collectionClass);
-    collection = (Collection) this.collectionClass.newInstance();
+
+    if (args.collectionClass.equals("TwitterCollection")) {
+      Constructor collectionConstructor = this.collectionClass.getConstructor(Boolean.class);
+      collection = (Collection) collectionConstructor.newInstance(args.keepRetweets);
+    } else {
+      collection = (Collection) this.collectionClass.newInstance();
+    }
+
     collection.setCollectionPath(collectionPath);
 
     this.counters = new Counters();
