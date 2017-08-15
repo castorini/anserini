@@ -1,5 +1,8 @@
 package io.anserini.kg.freebase;
 
+import org.openrdf.model.Literal;
+import org.openrdf.model.ValueFactory;
+import org.openrdf.model.impl.SimpleValueFactory;
 import org.openrdf.rio.ntriples.NTriplesUtil;
 
 import java.util.ArrayList;
@@ -19,6 +22,12 @@ public class FreebaseNode {
   public enum RdfObjectType {
     URI, STRING, TEXT, OTHER
   }
+
+  /**
+   * Simple value factory to parse literals using Sesame library.
+   */
+  private static ValueFactory valueFactory = SimpleValueFactory.getInstance();
+
 
   /**
    * Constructor.
@@ -70,6 +79,7 @@ public class FreebaseNode {
   public static final String FREEBASE_NS_SHORT = "fb:";
   public static final String FREEBASE_KEY_LONG = "^http://rdf.freebase.com/key/";
   public static final String FREEBASE_KEY_SHORT = "fbkey:";
+  public static final String LANG_EN = "Optional[en]";
 
   public static String cleanUri(String uri) {
     if (uri.charAt(0) == '<') {
@@ -97,7 +107,11 @@ public class FreebaseNode {
         return removeEnclosingQuote(objectValue);
       }
     } else if (type.equals(FreebaseNode.RdfObjectType.TEXT)) {
-      return NTriplesUtil.unescapeString(objectValue);
+      Literal parsedLiteral = NTriplesUtil.parseLiteral(objectValue, valueFactory);
+      if (parsedLiteral.getLanguage().toString().equals(LANG_EN)) {
+        return parsedLiteral.stringValue();
+      }
+      return "";
     } else {
       return objectValue;
     }

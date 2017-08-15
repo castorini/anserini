@@ -2,10 +2,18 @@ package io.anserini.kg.freebase;
 
 import org.junit.Test;
 import org.openrdf.rio.ntriples.NTriplesUtil;
+import org.openrdf.model.Literal;
+import org.openrdf.model.ValueFactory;
+import org.openrdf.model.impl.SimpleValueFactory;
 
 import static org.junit.Assert.assertEquals;
 
 public class FreebaseNodeTest {
+  /**
+   * Simple value factory to parse literals using Sesame library.
+   */
+  private static ValueFactory valueFactory = SimpleValueFactory.getInstance();
+
   @Test
   public void cleanUri() throws Exception {
     assertEquals("fb:m.02mjmr",
@@ -17,6 +25,10 @@ public class FreebaseNodeTest {
     // FYI - to demonstrate behavior of NTriplesUtil.unescapeString
     assertEquals("\"Hanna Bieluszko\"@en",
         NTriplesUtil.unescapeString("\"Hanna Bieluszko\"@en"));
+
+    Literal parsedLiteral = NTriplesUtil.parseLiteral("\"Hanna Bieluszko\"@en", valueFactory);
+    assertEquals(parsedLiteral.getLanguage().toString(), "Optional[en]");
+    assertEquals(parsedLiteral.stringValue(), "Hanna Bieluszko");
 
     // See: https://dvcs.w3.org/hg/rdf/raw-file/default/rdf-turtle/n-triples.html
     assertEquals("This is a multi-line\nliteral with many quotes (\"\"\"\"\")\nand two apostrophes ('').",

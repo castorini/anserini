@@ -47,24 +47,20 @@ public class IndexTopics {
   /**
    * Four fields:
    * topicMid - the MID of the topic
-   * title - the object value of the (topicMid, http://rdf.freebase.com/key/wikipedia.en_title)
    * label - the object value of the (topicMid, http://www.w3.org/2000/01/rdf-schema#label)
    * name - the object value of the (topicMid, http://rdf.freebase.com/ns/type.object.name)
-   * text - all the values separated by space of the (topicMid, http://rdf.freebase.com/key/wikipedia.en)
    */
   public static final String FIELD_TOPIC_MID = "topicMid";
-  public static final String FIELD_TITLE = "title";
   public static final String FIELD_LABEL = "label";
   public static final String FIELD_NAME = "name";
-  public static final String FIELD_TEXT = "text";
+  public static final String FIELD_ALIAS = "alias";
 
   /**
    * Predicates for which the literals should be stored
    */
-  private static final String WIKI_EN_URI = FreebaseNode.FREEBASE_KEY_SHORT + "wikipedia.en";
-  private static final String WIKI_EN_TILE_URI = WIKI_EN_URI + "_title";
   private static final String W3_LABEL_URI = "http://www.w3.org/2000/01/rdf-schema#label";
   private static final String FB_OBJECT_NAME = FreebaseNode.FREEBASE_NS_SHORT + "type.object.name";
+  private static final String FB_COMMON_TOPIC_ALIAS = FreebaseNode.FREEBASE_NS_SHORT + "common.topic.alias";
 
 
   private final Path indexPath;
@@ -145,30 +141,24 @@ public class IndexTopics {
     new IndexTopics(indexArgs.input, indexArgs.index).run();
   }
 
-  private static class TopicLuceneDocumentGenerator implements Function<FreebaseNode, Document> {
+  public static class TopicLuceneDocumentGenerator implements Function<FreebaseNode, Document> {
     public Document apply(FreebaseNode src) {
       String topicMid = FreebaseNode.cleanUri(src.uri());
-      String title = "";
-      String label = "";
       String name = "";
-      String text = "";
+      String alias = "";
+      String label = "";
       Map<String, List<String>> predicateValues = src.getPredicateValues();
       // Iterate over predicates and object values
       for(Map.Entry<String, List<String>> entry: predicateValues.entrySet()) {
         String predicate = FreebaseNode.cleanUri( entry.getKey() );
         List<String> objects = entry.getValue();
         for (String object : objects) {
-          if (predicate.startsWith(WIKI_EN_URI)) {
-            if (predicate.startsWith(WIKI_EN_TILE_URI)) {
-              title = FreebaseNode.normalizeObjectValue(object);
-            } else {
-              // concatenate other variants with a space
-              text += FreebaseNode.normalizeObjectValue((object)) + " ";
-            }
-          } else if (predicate.startsWith(W3_LABEL_URI)) {
-            label += FreebaseNode.normalizeObjectValue(object) + " ";
+          if (predicate.startsWith(W3_LABEL_URI)) {
+            label = label.trim() + FreebaseNode.normalizeObjectValue(object) + " ";
           } else if (predicate.startsWith(FB_OBJECT_NAME)) {
-            name += FreebaseNode.normalizeObjectValue(object) + " ";
+            name = name.trim() + FreebaseNode.normalizeObjectValue(object) + " ";
+          } else if (predicate.startsWith(FB_COMMON_TOPIC_ALIAS)) {
+            alias = alias.trim() + FreebaseNode.normalizeObjectValue(object) + " ";
           }
         }
       }
@@ -180,17 +170,14 @@ public class IndexTopics {
       Field topicMidField = new StringField(FIELD_TOPIC_MID, topicMid, Field.Store.YES);
       doc.add(topicMidField);
 
-      Field titleField = new TextField(FIELD_TITLE, title, Field.Store.YES);
-      doc.add(titleField);
+      Field aliasField = new TextField(FIELD_ALIAS, alias, Field.Store.YES);
+      doc.add(aliasField);
 
       Field nameField = new TextField(FIELD_NAME, name, Field.Store.YES);
       doc.add(nameField);
 
       Field labelField = new TextField(FIELD_LABEL, label, Field.Store.YES);
       doc.add(labelField);
-
-      Field textField = new TextField(FIELD_TEXT, text, Field.Store.YES);
-      doc.add(textField);
 
       return doc;
     }

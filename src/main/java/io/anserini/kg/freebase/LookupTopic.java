@@ -66,7 +66,7 @@ public class LookupTopic implements Closeable {
 
     // search for query in multiple fields
     MultiFieldQueryParser queryParser = new MultiFieldQueryParser(
-            new String[]{ IndexTopics.FIELD_TITLE, IndexTopics.FIELD_LABEL, IndexTopics.FIELD_NAME },
+            new String[]{ IndexTopics.FIELD_NAME, IndexTopics.FIELD_LABEL, IndexTopics.FIELD_ALIAS },
             new SimpleAnalyzer());
     queryParser.setDefaultOperator(QueryParser.Operator.OR);
     Query query = queryParser.parse(queryName);
@@ -80,8 +80,8 @@ public class LookupTopic implements Closeable {
               docs.scores[i],
               docs.documents[i].getField(IndexTopics.FIELD_TOPIC_MID).stringValue(),
               docs.documents[i].getField(IndexTopics.FIELD_NAME).stringValue(),
-              docs.documents[i].getField(IndexTopics.FIELD_TITLE).stringValue(),
-              docs.documents[i].getField(IndexTopics.FIELD_LABEL).stringValue() );
+              docs.documents[i].getField(IndexTopics.FIELD_ALIAS).stringValue(),
+              docs.documents[i].getField(IndexTopics.FIELD_LABEL).stringValue());
       System.out.println(resultDoc);
     }
   }
