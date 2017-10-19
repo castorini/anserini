@@ -82,50 +82,6 @@ public class RetrieveSentences {
   private final IndexReader reader;
   private final PassageScorer scorer;
 
-  private static Args defaultArgs(){
-    Args args = new Args();
-    args.index = "./lucene-index.TrecQA.pos+docvectors+rawdocs";
-    args.query = "Who is Sir Isaac Newton?";
-    args.hits = 10;
-    args.scorer = "Idf";
-    args.k = 5;
-
-    return args;
-  }
-
-  public RetrieveSentences() throws Exception{
-    Args args = new Args();
-    args.index = "./lucene-index.TrecQA.pos+docvectors+rawdocs";
-    args.query = "Who is Sir Isaac Newton?";
-    args.hits = 10;
-    args.scorer = "Idf";
-    args.k = 5;
-
-    Path indexPath = Paths.get(args.index);
-
-    if (!Files.exists(indexPath) || !Files.isDirectory(indexPath) || !Files.isReadable(indexPath)) {
-      throw new IllegalArgumentException(args.index + " does not exist or is not a directory.");
-    }
-
-    this.reader = DirectoryReader.open(FSDirectory.open(indexPath));
-    Constructor passageClass = Class.forName("io.anserini.qa.passage." + args.scorer + "PassageScorer")
-            .getConstructor(String.class, Integer.class);
-    if (args.scorer.equals("Idf")) {
-      scorer = (PassageScorer) passageClass.newInstance(args.index, args.k);
-    } else if (args.scorer.equals("Wmd")) {
-      scorer = (PassageScorer) passageClass.newInstance(args.embeddings, args.k);
-    } else {
-      throw new IllegalArgumentException("Scorer should either be Idf or Wmd");
-    }
-
-  }
-
-  public RetrieveSentences(int test){
-    reader = null;
-    scorer = null;
-    System.out.println("test passed");
-  }
-
   public RetrieveSentences(RetrieveSentences.Args args) throws Exception {
     Path indexPath = Paths.get(args.index);
 
@@ -144,8 +100,6 @@ public class RetrieveSentences {
       throw new IllegalArgumentException("Scorer should either be Idf or Wmd");
     }
   }
-
-
 
   public Map<String, Float> search(SortedMap<Integer, String> topics, int numHits)
           throws IOException, ParseException {
@@ -208,16 +162,6 @@ public class RetrieveSentences {
     }
   }
 
-  public void getRankedPassages() throws Exception{
-    getRankedPassages(defaultArgs());
-  }
-
-  public static void test() throws Exception{
-    RetrieveSentences rs = new RetrieveSentences();
-    rs.getRankedPassages();
-  }
-
-
   public Map<String, Float> retrieveDocuments(RetrieveSentences.Args args) throws Exception {
     SortedMap<Integer, String> topics = new TreeMap<>();
     if (!args.topics.isEmpty()) {
@@ -261,10 +205,7 @@ public class RetrieveSentences {
       return;
     }
 
-//    RetrieveSentences rs = new RetrieveSentences(qaArgs);
-//    rs.getRankedPassages(qaArgs);
-    RetrieveSentences rs = new RetrieveSentences();
-    rs.getRankedPassages();
-
+    RetrieveSentences rs = new RetrieveSentences(qaArgs);
+    rs.getRankedPassages(qaArgs);
   }
 }
