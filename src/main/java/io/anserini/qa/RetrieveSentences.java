@@ -130,7 +130,7 @@ public class RetrieveSentences {
     return scoredDocs;
   }
 
-  public void getRankedPassages(Args args) throws Exception {
+  public List<String> getRankedPassages(Args args) throws Exception {
     Map<String, Float> scoredDocs  = retrieveDocuments(args);
     Map<String, Float> sentencesMap = new LinkedHashMap<>();
 
@@ -140,15 +140,15 @@ public class RetrieveSentences {
             PTBTokenizer.factory(new CoreLabelTokenFactory(), "");
 
     for (Map.Entry<String, Float> doc : scoredDocs.entrySet()) {
-        List<Sentence> sentences = util.getSentDocument(doc.getKey());
+      List<Sentence> sentences = util.getSentDocument(doc.getKey());
 
-        for (Sentence sent : sentences) {
-          List<CoreLabel> tokens = tokenizerFactory.getTokenizer(new StringReader(sent.text())).tokenize();
-          String answerTokens = tokens.stream()
-                  .map(CoreLabel::toString)
-                  .collect(Collectors.joining(" "));
-          sentencesMap.put(answerTokens, doc.getValue());
-        }
+      for (Sentence sent : sentences) {
+        List<CoreLabel> tokens = tokenizerFactory.getTokenizer(new StringReader(sent.text())).tokenize();
+        String answerTokens = tokens.stream()
+                .map(CoreLabel::toString)
+                .collect(Collectors.joining(" "));
+        sentencesMap.put(answerTokens, doc.getValue());
+      }
     }
 
     String queryTokens = tokenizerFactory.getTokenizer(new StringReader(args.query)).tokenize().stream()
@@ -156,10 +156,15 @@ public class RetrieveSentences {
             .collect(Collectors.joining(" "));
     scorer.score(queryTokens, sentencesMap);
 
+    List<String> topSentences = new ArrayList<>();
     List<ScoredPassage> topPassages = scorer.extractTopPassages();
+
     for (ScoredPassage s: topPassages) {
+      topSentences.add(s.getSentence() + "\t" + s.getScore());
       System.out.println(s.getSentence() + " " + s.getScore());
     }
+
+    return topSentences;
   }
 
   public Map<String, Float> retrieveDocuments(RetrieveSentences.Args args) throws Exception {
@@ -173,6 +178,10 @@ public class RetrieveSentences {
 
     Map<String, Float> scoredDocs = search(topics, args.hits);
     return scoredDocs;
+  }
+
+  public String getTermIdfJSON(){
+    return scorer.getTermIdfJSON().toString();
   }
 
   public static void main(String[] args) throws Exception {
