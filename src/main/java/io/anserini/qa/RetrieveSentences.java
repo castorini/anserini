@@ -130,8 +130,8 @@ public class RetrieveSentences {
     return scoredDocs;
   }
 
-  public List<String> getRankedPassages(Args args) throws Exception {
-    Map<String, Float> scoredDocs  = retrieveDocuments(args);
+  public void getRankedPassages(Args args) throws Exception {
+    Map<String, Float> scoredDocs  = retrieveDocuments(args.query, 100);
     Map<String, Float> sentencesMap = new LinkedHashMap<>();
 
     IndexUtils util = new IndexUtils(args.index);
@@ -140,15 +140,15 @@ public class RetrieveSentences {
             PTBTokenizer.factory(new CoreLabelTokenFactory(), "");
 
     for (Map.Entry<String, Float> doc : scoredDocs.entrySet()) {
-      List<Sentence> sentences = util.getSentDocument(doc.getKey());
+        List<Sentence> sentences = util.getSentDocument(doc.getKey());
 
-      for (Sentence sent : sentences) {
-        List<CoreLabel> tokens = tokenizerFactory.getTokenizer(new StringReader(sent.text())).tokenize();
-        String answerTokens = tokens.stream()
-                .map(CoreLabel::toString)
-                .collect(Collectors.joining(" "));
-        sentencesMap.put(answerTokens, doc.getValue());
-      }
+        for (Sentence sent : sentences) {
+          List<CoreLabel> tokens = tokenizerFactory.getTokenizer(new StringReader(sent.text())).tokenize();
+          String answerTokens = tokens.stream()
+                  .map(CoreLabel::toString)
+                  .collect(Collectors.joining(" "));
+          sentencesMap.put(answerTokens, doc.getValue());
+        }
     }
 
     String queryTokens = tokenizerFactory.getTokenizer(new StringReader(args.query)).tokenize().stream()
@@ -156,32 +156,52 @@ public class RetrieveSentences {
             .collect(Collectors.joining(" "));
     scorer.score(queryTokens, sentencesMap);
 
-    List<String> topSentences = new ArrayList<>();
     List<ScoredPassage> topPassages = scorer.extractTopPassages();
-
     for (ScoredPassage s: topPassages) {
-      topSentences.add(s.getSentence() + "\t" + s.getScore());
       System.out.println(s.getSentence() + " " + s.getScore());
     }
-
-    return topSentences;
   }
 
-  public Map<String, Float> retrieveDocuments(RetrieveSentences.Args args) throws Exception {
-    SortedMap<Integer, String> topics = new TreeMap<>();
-    if (!args.topics.isEmpty()) {
-      QaTopicReader tr = new QaTopicReader(Paths.get(args.topics));
-      topics = tr.read();
-    } else {
-      topics.put(1, args.query);
+
+  public void getRankedPassagesList(String query, String index) throws Exception {
+    Map<String, Float> scoredDocs  = retrieveDocuments(query, 100);
+    Map<String, Float> sentencesMap = new LinkedHashMap<>();
+
+    IndexUtils util = new IndexUtils(index);
+
+    TokenizerFactory<CoreLabel> tokenizerFactory =
+            PTBTokenizer.factory(new CoreLabelTokenFactory(), "");
+
+    for (Map.Entry<String, Float> doc : scoredDocs.entrySet()) {
+        List<Sentence> sentences = util.getSentDocument(doc.getKey());
+
+        for (Sentence sent : sentences) {
+          List<CoreLabel> tokens = tokenizerFactory.getTokenizer(new StringReader(sent.text())).tokenize();
+          String answerTokens = tokens.stream()
+                  .map(CoreLabel::toString)
+                  .collect(Collectors.joining(" "));
+          sentencesMap.put(answerTokens, doc.getValue());
+        }
     }
 
-    Map<String, Float> scoredDocs = search(topics, args.hits);
-    return scoredDocs;
+    String queryTokens = tokenizerFactory.getTokenizer(new StringReader(query)).tokenize().stream()
+            .map(CoreLabel::toString)
+            .collect(Collectors.joining(" "));
+    scorer.score(queryTokens, sentencesMap);
+
+    List<ScoredPassage> topPassages = scorer.extractTopPassages();
+    for (ScoredPassage s: topPassages) {
+      System.out.println(s.getSentence() + " " + s.getScore());
+    }
   }
 
-  public String getTermIdfJSON(){
-    return scorer.getTermIdfJSON().toString();
+
+  public Map<String, Float> retrieveDocuments(String query, int hits) throws Exception {
+    SortedMap<Integer, String> topics = new TreeMap<>();
+    topics.put(1, query);
+
+    Map<String, Float> scoredDocs = search(topics, hits);
+    return scoredDocs;
   }
 
   public static void main(String[] args) throws Exception {
@@ -218,3 +238,5 @@ public class RetrieveSentences {
     rs.getRankedPassages(qaArgs);
   }
 }
+
+
