@@ -21,6 +21,7 @@ import edu.stanford.nlp.process.PTBTokenizer;
 import edu.stanford.nlp.process.TokenizerFactory;
 import edu.stanford.nlp.simple.Sentence;
 import io.anserini.index.IndexUtils;
+import io.anserini.qa.passage.IdfPassageScorer;
 import io.anserini.qa.passage.PassageScorer;
 import io.anserini.qa.passage.ScoredPassage;
 import io.anserini.rerank.ScoredDocuments;
@@ -79,8 +80,8 @@ public class RetrieveSentences {
     public int k = 1;
   }
 
-  private final IndexReader reader;
-  private final PassageScorer scorer;
+  private IndexReader reader;
+  private PassageScorer scorer;
 
   public RetrieveSentences(RetrieveSentences.Args args) throws Exception {
     Path indexPath = Paths.get(args.index);
@@ -162,8 +163,44 @@ public class RetrieveSentences {
     }
   }
 
+  public List<String> getRankedPassagesList(String query, String index, int hits, int k) throws Exception {
+    Map<String, Float> scoredDocs  = retrieveDocuments(query, hits);
+    Map<String, Float> sentencesMap = new LinkedHashMap<>();
 
-  public void getRankedPassagesList(String query, String index) throws Exception {
+    IndexUtils util = new IndexUtils(index);
+
+    TokenizerFactory<CoreLabel> tokenizerFactory =
+            PTBTokenizer.factory(new CoreLabelTokenFactory(), "");
+
+    for (Map.Entry<String, Float> doc : scoredDocs.entrySet()) {
+      List<Sentence> sentences = util.getSentDocument(doc.getKey());
+
+      for (Sentence sent : sentences) {
+        List<CoreLabel> tokens = tokenizerFactory.getTokenizer(new StringReader(sent.text())).tokenize();
+        String answerTokens = tokens.stream()
+                .map(CoreLabel::toString)
+                .collect(Collectors.joining(" "));
+        sentencesMap.put(answerTokens, doc.getValue());
+      }
+    }
+
+    scorer = new IdfPassageScorer(index, k);
+    String queryTokens = tokenizerFactory.getTokenizer(new StringReader(query)).tokenize().stream()
+            .map(CoreLabel::toString)
+            .collect(Collectors.joining(" "));
+    scorer.score(queryTokens, sentencesMap);
+
+    List<String> topSentences = new ArrayList<>();
+    List<ScoredPassage> topPassages = scorer.extractTopPassages();
+    for (ScoredPassage s: topPassages) {
+      topSentences.add(s.getSentence() + "\t" + s.getScore());
+      System.out.println(s.getSentence() + " " + s.getScore());
+    }
+
+    return topSentences;
+  }
+
+  public List<String> getRankedPassagesList(String query, String index) throws Exception {
     Map<String, Float> scoredDocs  = retrieveDocuments(query, 100);
     Map<String, Float> sentencesMap = new LinkedHashMap<>();
 
@@ -173,15 +210,15 @@ public class RetrieveSentences {
             PTBTokenizer.factory(new CoreLabelTokenFactory(), "");
 
     for (Map.Entry<String, Float> doc : scoredDocs.entrySet()) {
-        List<Sentence> sentences = util.getSentDocument(doc.getKey());
+      List<Sentence> sentences = util.getSentDocument(doc.getKey());
 
-        for (Sentence sent : sentences) {
-          List<CoreLabel> tokens = tokenizerFactory.getTokenizer(new StringReader(sent.text())).tokenize();
-          String answerTokens = tokens.stream()
-                  .map(CoreLabel::toString)
-                  .collect(Collectors.joining(" "));
-          sentencesMap.put(answerTokens, doc.getValue());
-        }
+      for (Sentence sent : sentences) {
+        List<CoreLabel> tokens = tokenizerFactory.getTokenizer(new StringReader(sent.text())).tokenize();
+        String answerTokens = tokens.stream()
+                .map(CoreLabel::toString)
+                .collect(Collectors.joining(" "));
+        sentencesMap.put(answerTokens, doc.getValue());
+      }
     }
 
     String queryTokens = tokenizerFactory.getTokenizer(new StringReader(query)).tokenize().stream()
@@ -189,12 +226,19 @@ public class RetrieveSentences {
             .collect(Collectors.joining(" "));
     scorer.score(queryTokens, sentencesMap);
 
+    List<String> topSentences = new ArrayList<>();
     List<ScoredPassage> topPassages = scorer.extractTopPassages();
     for (ScoredPassage s: topPassages) {
+      topSentences.add(s.getSentence() + "\t" + s.getScore());
       System.out.println(s.getSentence() + " " + s.getScore());
     }
+
+    return topSentences;
   }
 
+  public String getTermIdfJSON() {
+    return scorer.getTermIdfJSON().toString();
+  }
 
   public Map<String, Float> retrieveDocuments(String query, int hits) throws Exception {
     SortedMap<Integer, String> topics = new TreeMap<>();
