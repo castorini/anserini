@@ -21,6 +21,7 @@ import edu.stanford.nlp.process.PTBTokenizer;
 import edu.stanford.nlp.process.TokenizerFactory;
 import edu.stanford.nlp.simple.Sentence;
 import io.anserini.index.IndexUtils;
+import io.anserini.qa.passage.IdfPassageScorer;
 import io.anserini.qa.passage.PassageScorer;
 import io.anserini.qa.passage.ScoredPassage;
 import io.anserini.rerank.ScoredDocuments;
@@ -80,7 +81,7 @@ public class RetrieveSentences {
   }
 
   private final IndexReader reader;
-  private final PassageScorer scorer;
+  private PassageScorer scorer;
 
   public RetrieveSentences(RetrieveSentences.Args args) throws Exception {
     Path indexPath = Paths.get(args.index);
@@ -131,7 +132,7 @@ public class RetrieveSentences {
   }
 
   public void getRankedPassages(Args args) throws Exception {
-    Map<String, Float> scoredDocs  = retrieveDocuments(args);
+    Map<String, Float> scoredDocs  = retrieveDocuments(args.query, args.hits);
     Map<String, Float> sentencesMap = new LinkedHashMap<>();
 
     IndexUtils util = new IndexUtils(args.index);
@@ -162,16 +163,52 @@ public class RetrieveSentences {
     }
   }
 
-  public Map<String, Float> retrieveDocuments(RetrieveSentences.Args args) throws Exception {
-    SortedMap<Integer, String> topics = new TreeMap<>();
-    if (!args.topics.isEmpty()) {
-      QaTopicReader tr = new QaTopicReader(Paths.get(args.topics));
-      topics = tr.read();
-    } else {
-      topics.put(1, args.query);
+  public List<String> getRankedPassagesList(String query, String index, int hits, int k) throws Exception {
+    Map<String, Float> scoredDocs  = retrieveDocuments(query, hits);
+    Map<String, Float> sentencesMap = new LinkedHashMap<>();
+
+    IndexUtils util = new IndexUtils(index);
+
+    TokenizerFactory<CoreLabel> tokenizerFactory =
+            PTBTokenizer.factory(new CoreLabelTokenFactory(), "");
+
+    for (Map.Entry<String, Float> doc : scoredDocs.entrySet()) {
+      List<Sentence> sentences = util.getSentDocument(doc.getKey());
+
+      for (Sentence sent : sentences) {
+        List<CoreLabel> tokens = tokenizerFactory.getTokenizer(new StringReader(sent.text())).tokenize();
+        String answerTokens = tokens.stream()
+                .map(CoreLabel::toString)
+                .collect(Collectors.joining(" "));
+        sentencesMap.put(answerTokens, doc.getValue());
+      }
     }
 
-    Map<String, Float> scoredDocs = search(topics, args.hits);
+    scorer = new IdfPassageScorer(index, k);
+    String queryTokens = tokenizerFactory.getTokenizer(new StringReader(query)).tokenize().stream()
+            .map(CoreLabel::toString)
+            .collect(Collectors.joining(" "));
+    scorer.score(queryTokens, sentencesMap);
+
+    List<String> topSentences = new ArrayList<>();
+    List<ScoredPassage> topPassages = scorer.extractTopPassages();
+    for (ScoredPassage s: topPassages) {
+      topSentences.add(s.getSentence() + "\t" + s.getScore());
+      System.out.println(s.getSentence() + " " + s.getScore());
+    }
+
+    return topSentences;
+  }
+
+  public String getTermIdfJSON() {
+    return scorer.getTermIdfJSON().toString();
+  }
+
+  public Map<String, Float> retrieveDocuments(String query, int hits) throws Exception {
+    SortedMap<Integer, String> topics = new TreeMap<>();
+    topics.put(1, query);
+
+    Map<String, Float> scoredDocs = search(topics, hits);
     return scoredDocs;
   }
 
@@ -209,3 +246,5 @@ public class RetrieveSentences {
     rs.getRankedPassages(qaArgs);
   }
 }
+
+
