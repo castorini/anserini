@@ -80,7 +80,7 @@ public class RetrieveSentences {
     public int k = 1;
   }
 
-  private IndexReader reader;
+  private final IndexReader reader;
   private PassageScorer scorer;
 
   public RetrieveSentences(RetrieveSentences.Args args) throws Exception {
@@ -185,42 +185,6 @@ public class RetrieveSentences {
     }
 
     scorer = new IdfPassageScorer(index, k);
-    String queryTokens = tokenizerFactory.getTokenizer(new StringReader(query)).tokenize().stream()
-            .map(CoreLabel::toString)
-            .collect(Collectors.joining(" "));
-    scorer.score(queryTokens, sentencesMap);
-
-    List<String> topSentences = new ArrayList<>();
-    List<ScoredPassage> topPassages = scorer.extractTopPassages();
-    for (ScoredPassage s: topPassages) {
-      topSentences.add(s.getSentence() + "\t" + s.getScore());
-      System.out.println(s.getSentence() + " " + s.getScore());
-    }
-
-    return topSentences;
-  }
-
-  public List<String> getRankedPassagesList(String query, String index) throws Exception {
-    Map<String, Float> scoredDocs  = retrieveDocuments(query, 100);
-    Map<String, Float> sentencesMap = new LinkedHashMap<>();
-
-    IndexUtils util = new IndexUtils(index);
-
-    TokenizerFactory<CoreLabel> tokenizerFactory =
-            PTBTokenizer.factory(new CoreLabelTokenFactory(), "");
-
-    for (Map.Entry<String, Float> doc : scoredDocs.entrySet()) {
-      List<Sentence> sentences = util.getSentDocument(doc.getKey());
-
-      for (Sentence sent : sentences) {
-        List<CoreLabel> tokens = tokenizerFactory.getTokenizer(new StringReader(sent.text())).tokenize();
-        String answerTokens = tokens.stream()
-                .map(CoreLabel::toString)
-                .collect(Collectors.joining(" "));
-        sentencesMap.put(answerTokens, doc.getValue());
-      }
-    }
-
     String queryTokens = tokenizerFactory.getTokenizer(new StringReader(query)).tokenize().stream()
             .map(CoreLabel::toString)
             .collect(Collectors.joining(" "));
