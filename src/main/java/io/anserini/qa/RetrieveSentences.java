@@ -132,7 +132,7 @@ public class RetrieveSentences {
   }
 
   public void getRankedPassages(Args args) throws Exception {
-    Map<String, Float> scoredDocs  = retrieveDocuments(args.query, 100);
+    Map<String, Float> scoredDocs  = retrieveDocuments(args.query, args.hits);
     Map<String, Float> sentencesMap = new LinkedHashMap<>();
 
     IndexUtils util = new IndexUtils(args.index);
