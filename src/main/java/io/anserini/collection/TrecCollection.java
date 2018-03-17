@@ -51,7 +51,7 @@ public class TrecCollection<D extends TrecDocument> extends Collection {
       this.path = path;
       this.bufferedReader = null;
       String fileName = path.toString();
-      if (fileName.matches(".*?\\.\\d*z$")) { // .z .0z .1z .2z
+      if (fileName.matches("(?i:.*?\\.\\d*z$)")) { // .z .0z .1z .2z
         FileInputStream fin = new FileInputStream(fileName);
         BufferedInputStream in = new BufferedInputStream(fin);
         ZCompressorInputStream zIn = new ZCompressorInputStream(in);
