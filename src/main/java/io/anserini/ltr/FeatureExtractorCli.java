@@ -79,7 +79,8 @@ public class FeatureExtractorCli {
 
     // Query parser needed to construct the query object for feature extraction in the loop
     PrintStream out = new PrintStream (new FileOutputStream(new File(parsedArgs.outputFile)));
-    if (parsedArgs.collection.equals("Trec") || parsedArgs.collection.equals("Webxml")) {
+
+    if (parsedArgs.collection.equals("gov2") || parsedArgs.collection.equals("webxml")) {
       // Open the topics file and read it
       String className = parsedArgs.collection.equals("gov2") ? "Trec" : "Webxml";
       TopicReader tr = (TopicReader)Class.forName("io.anserini.search.query."+className+"TopicReader")
