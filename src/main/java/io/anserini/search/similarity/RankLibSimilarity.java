@@ -18,7 +18,7 @@ public class RankLibSimilarity extends Similarity {
   }
 
   @Override
-  public SimWeight computeWeight(CollectionStatistics collectionStatistics, TermStatistics... termStatisticses) {
+  public SimWeight computeWeight(float weight, CollectionStatistics collectionStatistics, TermStatistics... termStatisticses) {
     return null;
   }
 
