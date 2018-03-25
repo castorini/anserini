@@ -13,22 +13,27 @@ import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.Accountable;
 import org.apache.lucene.util.BytesRef;
+import org.apache.lucene.util.LuceneTestCase;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.Iterator;
 
 import static org.junit.Assert.assertEquals;
 
-public class IndexerTest {
-  private static final String INDEX_PATH1 = "test-index1";
-  private static final String INDEX_PATH2 = "test-index2";
+public class IndexerTest extends LuceneTestCase {
+
+  private static Path tempDir1;
+  private static Path tempDir2;
 
   // A very simple example of how to build an index.
   private void buildTestIndex() throws IOException {
-    Directory dir = FSDirectory.open(Paths.get(INDEX_PATH1));
+    Directory dir = FSDirectory.open(tempDir1);
 
     Analyzer analyzer = new EnglishAnalyzer();
     IndexWriterConfig config = new IndexWriterConfig(analyzer);
@@ -61,6 +66,23 @@ public class IndexerTest {
     writer.close();
   }
 
+  @Before
+  @Override
+  public void setUp() throws Exception {
+    super.setUp();
+
+    tempDir1 = createTempDir();
+    tempDir2 = createTempDir();
+    buildTestIndex();
+  }
+
+  @After
+  @Override
+  public void tearDown() throws Exception {
+    super.tearDown();
+  }
+
+
   // A very simple example of how to iterate through terms in an index and dump out postings.
   private void dumpPostings(IndexReader reader) throws IOException {
     // This is how you iterate through terms in the postings list.
@@ -85,9 +107,7 @@ public class IndexerTest {
 
   @Test
   public void testReadingPostings() throws Exception {
-    buildTestIndex();
-
-    Directory dir = FSDirectory.open(Paths.get(INDEX_PATH1));
+    Directory dir = FSDirectory.open(tempDir1);
     IndexReader reader = DirectoryReader.open(dir);
     assertEquals(3, reader.numDocs());
     assertEquals(1, reader.leaves().size());
@@ -107,13 +127,11 @@ public class IndexerTest {
 
   @Test
   public void testCloneIndex() throws Exception {
-    buildTestIndex();
-
     System.out.println("Cloning index:");
-    Directory dir1 = FSDirectory.open(Paths.get(INDEX_PATH1));
+    Directory dir1 = FSDirectory.open(tempDir1);
     IndexReader reader = DirectoryReader.open(dir1);
 
-    Directory dir2 = FSDirectory.open(Paths.get(INDEX_PATH2));
+    Directory dir2 = FSDirectory.open(tempDir2);
     IndexWriterConfig config = new IndexWriterConfig(new EnglishAnalyzer());
     config.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
     IndexWriter writer = new IndexWriter(dir2, config);
