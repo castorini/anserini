@@ -16,6 +16,9 @@
 
 package io.anserini.document;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+
 /**
  * A Wikipedia article. The article title serves as the id.
  */
@@ -26,6 +29,12 @@ public class WikipediaArticle implements SourceDocument {
   public WikipediaArticle(String title, String contents) {
     this.title = title;
     this.contents = contents;
+
+  }
+
+  @Override
+  public SourceDocument readNextRecord(BufferedReader bRdr) throws IOException {
+    return null;
   }
 
   @Override

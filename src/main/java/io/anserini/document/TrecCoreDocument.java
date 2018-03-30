@@ -3,15 +3,27 @@ package io.anserini.document;
 import io.anserini.document.nyt.NYTCorpusDocument;
 import io.anserini.document.nyt.NYTCorpusDocumentParser;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.nio.Buffer;
 
 /**
  * A TREC Core document.
  */
-public class TrecCoreDocument implements  SourceDocument{
-  private String id;
-  private String contents;
+public class TrecCoreDocument implements SourceDocument {
+  protected String id;
+  protected String contents;
+  protected File file;
+
+  public TrecCoreDocument(File file) {
+    this.file = file;
+  }
+
+  @Override
+  public SourceDocument readNextRecord(BufferedReader bRdr) throws IOException {
+    return readNextRecord(file);
+  }
 
   public SourceDocument readNextRecord(File fileName) throws IOException {
     NYTCorpusDocumentParser nytParser = new NYTCorpusDocumentParser();

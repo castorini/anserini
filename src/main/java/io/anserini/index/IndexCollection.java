@@ -127,7 +127,7 @@ public final class IndexCollection {
         Collection.FileSegment iter = collection.createFileSegment(inputFile);
         while (iter.hasNext()) {
           SourceDocument d = (SourceDocument) iter.next();
-          if (d == null || !d.indexable()) {
+          if (d == null) {
             continue;
           }
 

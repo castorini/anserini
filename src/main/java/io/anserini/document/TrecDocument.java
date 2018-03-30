@@ -42,6 +42,7 @@ public class TrecDocument implements SourceDocument {
   protected String id;
   protected String content;
 
+  @Override
   public SourceDocument readNextRecord(BufferedReader reader) throws IOException {
     StringBuilder builder = new StringBuilder();
     boolean found = false;
@@ -86,7 +87,12 @@ public class TrecDocument implements SourceDocument {
           }
         }
         if (inTag >= 0) {
-          builder.append(line).append("\n");
+          if (line.endsWith(endTags[inTag])) {
+            builder.append(line).append("\n");
+            inTag = -1;
+          } else {
+            builder.append(line).append("\n");
+          }
         }
       }
 
@@ -122,5 +128,7 @@ public class TrecDocument implements SourceDocument {
   }
 
   @Override
-  public boolean indexable() { return true; }
+  public boolean indexable() {
+    return true;
+  }
 }

@@ -16,6 +16,7 @@
 
 package io.anserini.collection;
 
+import io.anserini.document.SourceDocument;
 import io.anserini.document.TrecDocument;
 import org.apache.commons.compress.compressors.z.ZCompressorInputStream;
 
@@ -42,12 +43,10 @@ import java.util.zip.GZIPInputStream;
 public class TrecCollection<D extends TrecDocument> extends Collection {
 
   public class FileSegment extends Collection.FileSegment {
-    protected BufferedReader bufferedReader;
-    protected final int BUFFER_SIZE = 1 << 16; // 64K
 
-    protected FileSegment() {}
+    public FileSegment(Path path) throws IOException {
+      dType = new TrecDocument();
 
-    protected FileSegment(Path path) throws IOException {
       this.path = path;
       this.bufferedReader = null;
       String fileName = path.toString();
@@ -63,34 +62,6 @@ public class TrecCollection<D extends TrecDocument> extends Collection {
       } else { // plain text file
         bufferedReader = new BufferedReader(new FileReader(fileName));
       }
-    }
-
-    @Override
-    public void close() throws IOException {
-      atEOF = false;
-      if (bufferedReader != null) {
-        bufferedReader.close();
-      }
-    }
-
-    @Override
-    public boolean hasNext() {
-      return !atEOF;
-    }
-
-    @Override
-    public D next() {
-      TrecDocument doc = new TrecDocument();
-      try {
-        doc = (TrecDocument) doc.readNextRecord(bufferedReader);
-        if (doc == null) {
-          atEOF = true;
-          doc = null;
-        }
-      } catch (IOException e1) {
-        doc = null;
-      }
-      return (D) doc;
     }
   }
 

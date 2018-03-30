@@ -34,10 +34,10 @@ public class TrecCoreCollection extends Collection<TrecCoreDocument> {
 
     @Override
     public TrecCoreDocument next() {
-      TrecCoreDocument doc = new TrecCoreDocument();
+      TrecCoreDocument doc = new TrecCoreDocument(new File(fileName));
       atEOF = true;
       try {
-        doc = (TrecCoreDocument) doc.readNextRecord(new File(fileName));
+        doc = (TrecCoreDocument) doc.readNextRecord(bufferedReader);
       } catch (IOException e) {
         doc = null;
       }

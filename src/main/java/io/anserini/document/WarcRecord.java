@@ -16,12 +16,20 @@
 
 package io.anserini.document;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+
 /**
  * Abstract base class for WARC records from ClueWeb09 and ClueWeb12.
  */
 public abstract class WarcRecord implements SourceDocument {
   public abstract String url();
   public abstract String type();
+
+  @Override
+  public SourceDocument readNextRecord(BufferedReader bRdr) throws IOException {
+    return null;
+  }
 
   @Override
   public boolean indexable() {

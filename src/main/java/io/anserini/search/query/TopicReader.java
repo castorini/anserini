@@ -17,15 +17,38 @@ package io.anserini.search.query;
  * limitations under the License.
  */
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.StringReader;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.util.SortedMap;
 
 public abstract class TopicReader {
   protected Path topicFile;
 
+  public TopicReader() {
+
+  }
+
   public TopicReader(Path topicFile) {
     this.topicFile = topicFile;
   }
-  abstract public SortedMap<Integer, String> read() throws IOException;
+
+  public SortedMap<Integer, String> read() throws IOException {
+    InputStream topics = Files.newInputStream(topicFile, StandardOpenOption.READ);
+    BufferedReader bRdr = new BufferedReader(new InputStreamReader(topics, StandardCharsets.UTF_8));
+    return read(bRdr);
+  }
+
+  public SortedMap<Integer, String> read(String str) throws IOException {
+    BufferedReader bRdr = new BufferedReader(new StringReader(str));
+    return read(bRdr);
+  }
+
+  abstract public SortedMap<Integer, String> read(BufferedReader bRdr) throws IOException;
 }
