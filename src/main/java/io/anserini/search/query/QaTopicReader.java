@@ -1,5 +1,6 @@
 package io.anserini.search.query;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -17,16 +18,18 @@ public class QaTopicReader extends TopicReader {
   }
 
   @Override
-  public SortedMap<Integer, String> read() throws IOException {
+  public SortedMap<Integer, String> read(BufferedReader bRdr) throws IOException {
     SortedMap<Integer, String> map = new TreeMap<>();
-    List<String> lines = Files.readAllLines(topicFile, StandardCharsets.UTF_8);
+
 
     String pattern = "<QApairs id=\'(.*)\'>";
     Pattern r = Pattern.compile(pattern);
 
     String prevLine = "";
     String id = "";
-    for (String line : lines) {
+
+    String line;
+    while ((line = bRdr.readLine()) != null) {
       Matcher m = r.matcher(line);
 
       if (m.find()) {

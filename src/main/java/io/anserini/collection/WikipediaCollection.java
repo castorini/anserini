@@ -34,7 +34,7 @@ import java.util.Set;
  * as a single bz2 file. Since a collection is assumed to be in a directory, place the bz2 file in
  * a directory prior to indexing.
  */
-public class WikipediaCollection extends Collection<WikipediaArticle> {
+public class WikipediaCollection<D extends WikipediaArticle> extends Collection {
 
   public class FileSegment extends Collection.FileSegment {
     private final WikipediaBz2DumpInputStream stream;
@@ -47,16 +47,6 @@ public class WikipediaCollection extends Collection<WikipediaArticle> {
       cleaner = new WikiCleanBuilder()
           .withLanguage(WikiLanguage.EN).withTitle(false)
           .withFooter(false).build();
-    }
-
-    @Override
-    public void close() throws IOException {
-      atEOF = false;
-    }
-
-    @Override
-    public boolean hasNext() {
-      return !atEOF;
     }
 
     @Override

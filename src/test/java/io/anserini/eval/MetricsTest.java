@@ -36,7 +36,7 @@ public class MetricsTest extends LuceneTestCase {
 
   /**
    * MUST call super
-   * constructs the necessary rerankers and extractorchains
+   * constructs the necessary ranking list and judgements
    * @throws Exception
    */
   @Override

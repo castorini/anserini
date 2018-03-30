@@ -20,6 +20,7 @@ import io.anserini.document.SourceDocument;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.BufferedReader;
 import java.io.Closeable;
 import java.io.IOException;
 import java.nio.file.FileVisitResult;
@@ -51,7 +52,10 @@ public abstract class Collection<D extends SourceDocument> {
    */
   public abstract class FileSegment implements Iterator<D>, Closeable {
     protected Path path;
+    protected BufferedReader bufferedReader;
     protected boolean atEOF = false;
+    protected final int BUFFER_SIZE = 1 << 16; // 64K
+    protected D dType;
 
     @Override
     public boolean hasNext() {
@@ -59,8 +63,31 @@ public abstract class Collection<D extends SourceDocument> {
     }
 
     @Override
+    public D next() {
+      SourceDocument d;
+      try {
+        d = dType.readNextRecord(bufferedReader);
+        if (d == null) {
+          atEOF = true;
+          d = null;
+        }
+      } catch (IOException e) {
+        d = null;
+      }
+      return (D)d;
+    }
+
+    @Override
     public void remove() {
       throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void close() throws IOException {
+      atEOF = false;
+      if (bufferedReader != null) {
+        bufferedReader.close();
+      }
     }
   }
 
