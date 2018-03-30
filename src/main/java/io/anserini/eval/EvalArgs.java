@@ -21,6 +21,8 @@ public class EvalArgs {
           +" For example, -m map p.30 ndcg.20")
   String[] reqMetrics;
 
-  @Option(name = "-q", handler = BooleanOptionHandler.class, usage = "Print the internal document IDs of documents")
+  @Option(name = "-q", handler = BooleanOptionHandler.class,
+      usage = "In additional to print the average performance over all query topics, also " +
+          "print the per query performance")
   boolean printPerQuery;
 }

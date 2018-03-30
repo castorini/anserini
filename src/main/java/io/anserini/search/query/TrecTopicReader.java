@@ -21,6 +21,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.StringReader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -29,7 +30,7 @@ import java.util.HashMap;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-public class TrecTopicReader extends TopicReader{
+public class TrecTopicReader extends TopicReader {
 
   public TrecTopicReader(Path topicFile) {
     super(topicFile);
@@ -65,10 +66,20 @@ public class TrecTopicReader extends TopicReader{
 
   @Override
   public SortedMap<Integer, String> read() throws IOException {
-    SortedMap<Integer, String> map = new TreeMap<>();
-    // prepare topics
     InputStream topics = Files.newInputStream(topicFile, StandardOpenOption.READ);
     BufferedReader bRdr = new BufferedReader(new InputStreamReader(topics, StandardCharsets.UTF_8));
+    return read(bRdr);
+  }
+
+  @Override
+  public SortedMap<Integer, String> read(String str) throws IOException {
+    BufferedReader bRdr = new BufferedReader(new StringReader(str));
+    return read(bRdr);
+  }
+
+  @Override
+  public SortedMap<Integer, String> read(BufferedReader bRdr) throws IOException {
+    SortedMap<Integer, String> map = new TreeMap<>();
     StringBuilder sb;
     try {
       while (null!=(sb=read(bRdr,"<top>",null,false,false))) {
@@ -95,7 +106,7 @@ public class TrecTopicReader extends TopicReader{
           title = sb.substring(k+1).trim();
         }
 
-	// description
+	      // description
         read(bRdr,"<desc>",null,false,false);
         sb.setLength(0);
         String line = null;

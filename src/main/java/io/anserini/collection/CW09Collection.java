@@ -29,6 +29,7 @@ public class CW09Collection extends WarcCollection<ClueWeb09WarcRecord> {
   public class FileSegment extends WarcCollection.FileSegment {
     private FileSegment(Path path) throws IOException {
       super(path);
+      dType = new ClueWeb09WarcRecord();
     }
 
     @Override

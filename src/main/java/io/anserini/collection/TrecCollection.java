@@ -17,8 +17,6 @@
 package io.anserini.collection;
 
 import io.anserini.document.TrecDocument;
-import org.apache.commons.compress.compressors.z.ZCompressorInputStream;
-
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -35,6 +33,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.zip.GZIPInputStream;
+import org.apache.commons.compress.compressors.z.ZCompressorInputStream;
 
 /**
  * Class representing an instance of a TREC collection.
@@ -42,12 +41,10 @@ import java.util.zip.GZIPInputStream;
 public class TrecCollection<D extends TrecDocument> extends Collection {
 
   public class FileSegment extends Collection.FileSegment {
-    protected BufferedReader bufferedReader;
-    protected final int BUFFER_SIZE = 1 << 16; // 64K
 
-    protected FileSegment() {}
+    public FileSegment(Path path) throws IOException {
+      dType = new TrecDocument();
 
-    protected FileSegment(Path path) throws IOException {
       this.path = path;
       this.bufferedReader = null;
       String fileName = path.toString();
@@ -63,34 +60,6 @@ public class TrecCollection<D extends TrecDocument> extends Collection {
       } else { // plain text file
         bufferedReader = new BufferedReader(new FileReader(fileName));
       }
-    }
-
-    @Override
-    public void close() throws IOException {
-      atEOF = false;
-      if (bufferedReader != null) {
-        bufferedReader.close();
-      }
-    }
-
-    @Override
-    public boolean hasNext() {
-      return !atEOF;
-    }
-
-    @Override
-    public D next() {
-      TrecDocument doc = new TrecDocument();
-      try {
-        doc = (TrecDocument) doc.readNextRecord(bufferedReader);
-        if (doc == null) {
-          atEOF = true;
-          doc = null;
-        }
-      } catch (IOException e1) {
-        doc = null;
-      }
-      return (D) doc;
     }
   }
 

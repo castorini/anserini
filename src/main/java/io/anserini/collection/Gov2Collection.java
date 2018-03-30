@@ -31,8 +31,8 @@ import java.util.Set;
 public class Gov2Collection extends TrecwebCollection<TrecwebDocument> {
 
   public class FileSegment extends TrecwebCollection.FileSegment {
-    protected FileSegment(Path curInputFile) throws IOException {
-      super(curInputFile);
+    protected FileSegment(Path path) throws IOException {
+      super(path);
     }
   }
 

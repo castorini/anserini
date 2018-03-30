@@ -1,5 +1,6 @@
 package io.anserini.collection;
 
+import io.anserini.document.SourceDocument;
 import io.anserini.document.TwitterDocument;
 
 import java.io.*;
@@ -13,75 +14,38 @@ import java.util.List;
 import java.util.Set;
 import java.util.zip.GZIPInputStream;
 
+import org.apache.commons.compress.compressors.z.ZCompressorInputStream;
+
 /**
  * Class representing an instance of a Twitter collection.
  */
-public class TwitterCollection extends Collection<TwitterDocument> {
-  private boolean keepRetweets = false;
+public class TwitterCollection<D extends TwitterDocument> extends Collection {
+  protected boolean keepRetweets = false;
 
   public TwitterCollection(Boolean keepRetweets) {
     this.keepRetweets = keepRetweets;
   }
 
   public class FileSegment extends Collection.FileSegment {
-    protected BufferedReader bufferedReader;
-    protected final int BUFFER_SIZE = 1 << 16; // 64K
-
     protected FileSegment(Path path) throws IOException {
+      super();
+      dType = new TwitterDocument(keepRetweets);
+
       this.path = path;
       this.bufferedReader = null;
       String fileName = path.toString();
-      if (fileName.endsWith(".gz")) {
+      if (fileName.matches("(?i:.*?\\.\\d*z$)")) { // .z .0z .1z .2z
+        FileInputStream fin = new FileInputStream(fileName);
+        BufferedInputStream in = new BufferedInputStream(fin);
+        ZCompressorInputStream zIn = new ZCompressorInputStream(in);
+        bufferedReader = new BufferedReader(new InputStreamReader(zIn, StandardCharsets.UTF_8));
+      } else if (fileName.endsWith(".gz")) { //.gz
         InputStream stream = new GZIPInputStream(
-                Files.newInputStream(path, StandardOpenOption.READ), BUFFER_SIZE);
+            Files.newInputStream(path, StandardOpenOption.READ), BUFFER_SIZE);
         bufferedReader = new BufferedReader(new InputStreamReader(stream, StandardCharsets.UTF_8));
-      } else {
-        // in case user had already uncompressed the folder
+      } else { // plain text file
         bufferedReader = new BufferedReader(new FileReader(fileName));
       }
-    }
-
-    @Override
-    public void close() throws IOException {
-      atEOF = false;
-      if (bufferedReader != null) {
-        bufferedReader.close();
-      }
-    }
-
-    @Override
-    public boolean hasNext() {
-      return !atEOF;
-    }
-
-    @Override
-    public TwitterDocument next() {
-      TwitterDocument doc = new TwitterDocument();
-      String raw = null;
-
-      try {
-        raw = bufferedReader.readLine();
-      } catch (IOException e) {
-        e.printStackTrace();
-        doc = null;
-      }
-
-      if (raw == null) {
-        atEOF = true;
-        return null;
-      }
-
-      try {
-        doc = (TwitterDocument) doc.readNextRecord(raw, keepRetweets);
-
-        if (doc == null) {
-          return null;
-        }
-      } catch (IOException e) {
-        e.printStackTrace();
-        doc = null;
-      }
-      return  doc;
     }
   }
 

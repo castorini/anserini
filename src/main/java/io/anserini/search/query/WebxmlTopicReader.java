@@ -17,6 +17,7 @@ package io.anserini.search.query;
  * limitations under the License.
  */
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -26,10 +27,6 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 public class WebxmlTopicReader extends TopicReader{
-
-  public WebxmlTopicReader(Path topicFile) {
-    super(topicFile);
-  }
 
   private String extract(String line, String tag) {
     int i = line.indexOf(tag);
@@ -51,14 +48,15 @@ public class WebxmlTopicReader extends TopicReader{
    * @throws IOException
    */
   @Override
-  public SortedMap<Integer, String> read() throws IOException {
+  public SortedMap<Integer, String> read(BufferedReader bRdr) throws IOException {
     SortedMap<Integer, String> map = new TreeMap<>();
-    List<String> lines = Files.readAllLines(topicFile, StandardCharsets.UTF_8);
 
     String number = "";
     String query = "";
 
-    for (String line : lines) {
+    String line;
+
+    while ((line = bRdr.readLine()) != null) {
       line = line.trim();
       if (line.startsWith("<topic"))
         number = extract(line, "number");
@@ -68,7 +66,6 @@ public class WebxmlTopicReader extends TopicReader{
         map.put(Integer.parseInt(number), query);
     }
 
-    lines.clear();
     return map;
   }
 }
