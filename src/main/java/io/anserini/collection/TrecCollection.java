@@ -16,10 +16,7 @@
 
 package io.anserini.collection;
 
-import io.anserini.document.SourceDocument;
 import io.anserini.document.TrecDocument;
-import org.apache.commons.compress.compressors.z.ZCompressorInputStream;
-
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -36,6 +33,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.zip.GZIPInputStream;
+import org.apache.commons.compress.compressors.z.ZCompressorInputStream;
 
 /**
  * Class representing an instance of a TREC collection.
