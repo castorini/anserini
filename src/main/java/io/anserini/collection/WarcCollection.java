@@ -17,7 +17,6 @@
 package io.anserini.collection;
 
 import io.anserini.document.WarcRecord;
-
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -32,7 +31,7 @@ import java.util.zip.GZIPInputStream;
 /**
  * Abstract class representing an instance of a WARC collection.
  */
-public abstract class WarcCollection<D extends WarcRecord> extends Collection {
+public abstract class WarcCollection extends Collection<WarcRecord> {
 
   public abstract class FileSegment extends Collection.FileSegment {
     protected DataInputStream stream;
