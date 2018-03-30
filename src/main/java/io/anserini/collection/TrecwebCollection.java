@@ -32,4 +32,9 @@ public class TrecwebCollection extends TrecCollection  {
       dType = new TrecwebDocument();
     }
   }
+
+  @Override
+  public Collection.FileSegment createFileSegment(Path p) throws IOException {
+    return new FileSegment(p);
+  }
 }
