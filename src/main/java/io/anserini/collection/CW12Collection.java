@@ -17,14 +17,13 @@
 package io.anserini.collection;
 
 import io.anserini.document.ClueWeb12WarcRecord;
-
 import java.io.IOException;
 import java.nio.file.Path;
 
 /**
  * Class representing an instance of the ClueWeb12 collection.
  */
-public class CW12Collection extends WarcCollection<ClueWeb12WarcRecord> {
+public class CW12Collection extends WarcCollection {
 
   public class FileSegment extends WarcCollection.FileSegment {
     public FileSegment(Path path) throws IOException {

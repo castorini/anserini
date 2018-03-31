@@ -17,7 +17,6 @@
 package io.anserini.collection;
 
 import io.anserini.document.TrecwebDocument;
-
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Arrays;
@@ -28,7 +27,7 @@ import java.util.Set;
 /**
  * Class representing an instance of a Wt collection.
  */
-public class WtCollection<D extends TrecwebDocument> extends TrecwebCollection {
+public class WtCollection extends TrecwebCollection {
 
   public class FileSegment extends TrecwebCollection.FileSegment {
     public FileSegment(Path path) throws IOException {
@@ -42,10 +41,5 @@ public class WtCollection<D extends TrecwebDocument> extends TrecwebCollection {
 
     return discover(path, EMPTY_SET, EMPTY_SET,
         EMPTY_SET, EMPTY_SET, skippedDirs);
-  }
-
-  @Override
-  public Collection.FileSegment createFileSegment(Path p) throws IOException {
-    return new FileSegment(p);
   }
 }
