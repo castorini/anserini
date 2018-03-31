@@ -38,7 +38,7 @@ import org.apache.commons.compress.compressors.z.ZCompressorInputStream;
 /**
  * Class representing an instance of a TREC collection.
  */
-public class TrecCollection<D extends TrecDocument> extends Collection {
+public class TrecCollection extends Collection<TrecDocument> {
 
   public class FileSegment extends Collection.FileSegment {
 

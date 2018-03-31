@@ -17,22 +17,13 @@
 package io.anserini.collection;
 
 import io.anserini.document.TrecwebDocument;
-
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.StandardOpenOption;
-import java.util.zip.GZIPInputStream;
 
 /**
  * Class representing an instance of a TREC web collection.
  */
-public class TrecwebCollection<D extends TrecwebDocument> extends TrecCollection {
+public class TrecwebCollection extends TrecCollection  {
 
   public class FileSegment extends TrecCollection.FileSegment {
 
@@ -40,5 +31,10 @@ public class TrecwebCollection<D extends TrecwebDocument> extends TrecCollection
       super(path);
       dType = new TrecwebDocument();
     }
+  }
+
+  @Override
+  public Collection.FileSegment createFileSegment(Path p) throws IOException {
+    return new FileSegment(p);
   }
 }

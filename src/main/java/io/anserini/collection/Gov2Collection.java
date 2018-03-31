@@ -28,7 +28,7 @@ import java.util.Set;
 /**
  * Class representing an instance of the Gov2 collection.
  */
-public class Gov2Collection extends TrecwebCollection<TrecwebDocument> {
+public class Gov2Collection extends TrecwebCollection {
 
   public class FileSegment extends TrecwebCollection.FileSegment {
     protected FileSegment(Path path) throws IOException {
@@ -43,10 +43,5 @@ public class Gov2Collection extends TrecwebCollection<TrecwebDocument> {
 
     return discover(path, EMPTY_SET, EMPTY_SET, EMPTY_SET,
         allowedFileSuffix, skippedDirs);
-  }
-
-  @Override
-  public Collection.FileSegment createFileSegment(Path p) throws IOException {
-    return new FileSegment(p);
   }
 }
