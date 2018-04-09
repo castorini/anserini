@@ -95,31 +95,25 @@ public class TweetStreamIndexer implements Runnable {
         doc.add(new IntPoint(StatusField.STATUSES_COUNT.name, status.getStatusesCount()));
         doc.add(new StoredField(StatusField.STATUSES_COUNT.name, status.getStatusesCount()));
 
-        long inReplyToStatusId = status.getInReplyToStatusId();
-        if (inReplyToStatusId > 0) {
-          doc.add(new LongPoint(StatusField.IN_REPLY_TO_STATUS_ID.name, inReplyToStatusId));
-          doc.add(new StoredField(StatusField.IN_REPLY_TO_STATUS_ID.name, inReplyToStatusId));
-          doc.add(new LongPoint(StatusField.IN_REPLY_TO_USER_ID.name, status.getInReplyToUserId()));
-          doc.add(new StoredField(StatusField.IN_REPLY_TO_USER_ID.name, status.getInReplyToUserId()));
-        }
+        status.getInReplyToStatusId().ifPresent(rid -> {
+          doc.add(new LongPoint(StatusField.IN_REPLY_TO_STATUS_ID.name, rid));
+          doc.add(new StoredField(StatusField.IN_REPLY_TO_STATUS_ID.name, rid));
+          doc.add(new LongPoint(StatusField.IN_REPLY_TO_USER_ID.name, status.getInReplyToUserId().getAsLong()));
+          doc.add(new StoredField(StatusField.IN_REPLY_TO_USER_ID.name, status.getInReplyToUserId().getAsLong()));
+        });
 
-        String lang = status.getLang();
-        if (!lang.equals("unknown")) {
-          doc.add(new TextField(StatusField.LANG.name, status.getLang(), Store.YES));
-        }
+        status.getLang().ifPresent( lang ->
+          doc.add(new TextField(StatusField.LANG.name, lang, Store.YES))
+        );
 
-        long retweetStatusId = status.getRetweetedStatusId();
-        if (retweetStatusId > 0) {
-          doc.add(new LongPoint(StatusField.RETWEETED_STATUS_ID.name, retweetStatusId));
-          doc.add(new StoredField(StatusField.RETWEETED_STATUS_ID.name, retweetStatusId));
-          doc.add(new LongPoint(StatusField.RETWEETED_USER_ID.name, status.getRetweetedUserId()));
-          doc.add(new StoredField(StatusField.RETWEETED_USER_ID.name, status.getRetweetedUserId()));
-          doc.add(new IntPoint(StatusField.RETWEET_COUNT.name, status.getRetweetCount()));
-          doc.add(new StoredField(StatusField.RETWEET_COUNT.name, status.getRetweetCount()));
-          if (status.getRetweetCount() < 0 || status.getRetweetedStatusId() < 0) {
-            System.err.println("Error parsing retweet fields of " + status.id());
-          }
-        }
+        status.getRetweetedStatusId().ifPresent( rid -> {
+          doc.add(new LongPoint(StatusField.RETWEETED_STATUS_ID.name, rid));
+          doc.add(new StoredField(StatusField.RETWEETED_STATUS_ID.name, rid));
+          doc.add(new LongPoint(StatusField.RETWEETED_USER_ID.name, status.getRetweetedUserId().getAsLong()));
+          doc.add(new StoredField(StatusField.RETWEETED_USER_ID.name, status.getRetweetedUserId().getAsLong()));
+          doc.add(new LongPoint(StatusField.RETWEET_COUNT.name, status.getRetweetCount().getAsLong()));
+          doc.add(new StoredField(StatusField.RETWEET_COUNT.name, status.getRetweetCount().getAsLong()));
+        });
 
         try {
           TweetSearcher.indexWriter.addDocument(doc);

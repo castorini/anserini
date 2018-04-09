@@ -18,6 +18,7 @@ package io.anserini.document;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.Optional;
 
 /**
  * This is a wrapper of parsing the source document.
@@ -32,34 +33,24 @@ public class SourceDocumentResultWrapper<T extends SourceDocument> {
     IOError
   };
 
-  private T document;
-  private Boolean status;
+  private Optional<T> document;
   private FailureReason reason;
 
-  public SourceDocumentResultWrapper(T document, Boolean status, FailureReason reason) {
-    this.document = document;
-    this.status = status;
+  public SourceDocumentResultWrapper(T document, FailureReason reason) {
+    this.document = Optional.ofNullable(document);
     this.reason = reason;
   }
 
   public void setDocument(T document) {
-    this.document = document;
-  }
-
-  public void setStatus(Boolean status) {
-    this.status = status;
+    this.document = Optional.ofNullable(document);
   }
 
   public void setReason(FailureReason reason) {
     this.reason = reason;
   }
 
-  public T getDocument() {
+  public Optional<T> getDocument() {
     return document;
-  }
-
-  public Boolean getStatus() {
-    return status;
   }
 
   public FailureReason getReason() {

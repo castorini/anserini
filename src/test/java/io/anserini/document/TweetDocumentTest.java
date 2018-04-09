@@ -49,10 +49,11 @@ public class TweetDocumentTest extends DocumentTest<TweetDocument> {
   public void test() throws IOException {
     for (int i = 0; i < rawDocs.size(); i++) {
       SourceDocumentResultWrapper<TweetDocument> parsed = parse(rawDocs.get(i));
-      if (parsed.getStatus()) {
-        assertEquals(parsed.getDocument().id(), expected.get(i).get("id"));
-        assertEquals(parsed.getDocument().content(), expected.get(i).get("content"));
-        assertEquals(parsed.getDocument().getTimestampMs(), expected.get(i).get("timestamp_ms"));
+      if (parsed.getDocument().isPresent()) {
+        TweetDocument doc = parsed.getDocument().get();
+        assertEquals(doc.id(), expected.get(i).get("id"));
+        assertEquals(doc.content(), expected.get(i).get("content"));
+        assertEquals(doc.getTimestampMs(), expected.get(i).get("timestamp_ms"));
       }
     }
   }

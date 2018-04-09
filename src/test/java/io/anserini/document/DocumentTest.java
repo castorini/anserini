@@ -48,9 +48,10 @@ public class DocumentTest<D extends SourceDocument> extends LuceneTestCase {
   public void test() throws IOException {
     for (int i = 0; i < rawDocs.size(); i++) {
       SourceDocumentResultWrapper<D> parsed = parse(rawDocs.get(i));
-      if (parsed.getStatus()) {
-        assertEquals(parsed.getDocument().id(), expected.get(i).get("id"));
-        assertEquals(parsed.getDocument().content(), expected.get(i).get("content"));
+      if (parsed.getDocument().isPresent()) {
+        SourceDocument doc = parsed.getDocument().get();
+        assertEquals(doc.id(), expected.get(i).get("id"));
+        assertEquals(doc.content(), expected.get(i).get("content"));
       }
     }
   }

@@ -40,14 +40,14 @@ public class CW09Collection extends WarcCollection {
       SourceDocumentResultWrapper<ClueWeb09WarcRecord> drw;
       try {
         drw = doc.readNextWarcRecord(stream, ClueWeb09WarcRecord.WARC_VERSION);
-        if (!drw.getStatus()) {
+        if (!drw.getDocument().isPresent()) {
           if (drw.getReason() == SourceDocumentResultWrapper.FailureReason.EOF) {
             atEOF = true;
           }
         }
       } catch (IOException e) {
         drw = new SourceDocumentResultWrapper<ClueWeb09WarcRecord>(
-            null, false, SourceDocumentResultWrapper.FailureReason.IOError);
+            null, SourceDocumentResultWrapper.FailureReason.IOError);
       }
       return drw;
     }

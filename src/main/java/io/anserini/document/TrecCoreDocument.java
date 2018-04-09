@@ -32,7 +32,7 @@ public class TrecCoreDocument implements SourceDocument {
     id = String.valueOf(nytDoc.getGuid());
     contents = nytDoc.getBody();
 
-    return new SourceDocumentResultWrapper<TrecCoreDocument>(this, true, null);
+    return new SourceDocumentResultWrapper<TrecCoreDocument>(this, null);
   }
 
   @Override

@@ -16,12 +16,18 @@
 
 package io.anserini.index.generator;
 
+import io.anserini.document.SourceDocument;
+import io.anserini.document.TweetDocument;
+import io.anserini.index.IndexCollection;
+import io.anserini.index.transform.StringTransform;
+import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-
+import java.util.Optional;
+import java.util.OptionalLong;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.document.Document;
@@ -35,11 +41,6 @@ import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.IndexOptions;
 import org.apache.tools.bzip2.CBZip2InputStream;
 
-import io.anserini.document.SourceDocument;
-import io.anserini.document.TweetDocument;
-import io.anserini.index.IndexCollection;
-import io.anserini.index.transform.StringTransform;
-import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
 
 /**
  * Converts a {@link TweetDocument} into a Lucene {@link Document}, ready to be indexed.
@@ -125,7 +126,7 @@ public class TweetGenerator extends LuceneDocumentGenerator<TweetDocument> {
       return null;
     }
 
-    if (!args.tweetKeepRetweets && tweetDoc.getRetweetedStatusId() != -1L) {
+    if (!args.tweetKeepRetweets && tweetDoc.getRetweetedStatusId().isPresent()) {
       return null;
     }
 
@@ -161,26 +162,20 @@ public class TweetGenerator extends LuceneDocumentGenerator<TweetDocument> {
     doc.add(new IntPoint(StatusField.FOLLOWERS_COUNT.name, tweetDoc.getFriendsCount()));
     doc.add(new IntPoint(StatusField.STATUSES_COUNT.name, tweetDoc.getStatusesCount()));
 
-    long inReplyToStatusId = tweetDoc.getInReplyToStatusId();
-    if (inReplyToStatusId > 0) {
-      doc.add(new LongPoint(StatusField.IN_REPLY_TO_STATUS_ID.name, inReplyToStatusId));
-      doc.add(new LongPoint(StatusField.IN_REPLY_TO_USER_ID.name, tweetDoc.getInReplyToUserId()));
-    }
+    tweetDoc.getInReplyToStatusId().ifPresent( rid -> {
+      doc.add(new LongPoint(StatusField.IN_REPLY_TO_STATUS_ID.name, rid));
+      doc.add(new LongPoint(StatusField.IN_REPLY_TO_USER_ID.name, tweetDoc.getInReplyToUserId().getAsLong()));
+    });
 
-    String lang = tweetDoc.getLang();
-    if (!lang.equals("unknown")) {
-      doc.add(new TextField(StatusField.LANG.name, tweetDoc.getLang(), Field.Store.NO));
-    }
+    tweetDoc.getRetweetedStatusId().ifPresent( rid -> {
+      doc.add(new LongPoint(StatusField.RETWEETED_STATUS_ID.name, rid));
+      doc.add(new LongPoint(StatusField.RETWEETED_USER_ID.name, tweetDoc.getRetweetedUserId().getAsLong()));
+      doc.add(new LongPoint(StatusField.RETWEET_COUNT.name, tweetDoc.getRetweetCount().getAsLong()));
+    });
 
-    long retweetStatusId = tweetDoc.getRetweetedStatusId();
-    if (retweetStatusId > 0) {
-      doc.add(new LongPoint(StatusField.RETWEETED_STATUS_ID.name, retweetStatusId));
-      doc.add(new LongPoint(StatusField.RETWEETED_USER_ID.name, tweetDoc.getRetweetedUserId()));
-      doc.add(new IntPoint(StatusField.RETWEET_COUNT.name, tweetDoc.getRetweetCount()));
-      if ( tweetDoc.getRetweetCount() < 0 || tweetDoc.getRetweetedStatusId() < 0) {
-        LOG.warn("Error parsing retweet fields of " + id);
-      }
-    }
+    tweetDoc.getLang().ifPresent( lang ->
+      doc.add(new TextField(StatusField.LANG.name, lang, Field.Store.NO))
+    );
 
     return doc;
   }

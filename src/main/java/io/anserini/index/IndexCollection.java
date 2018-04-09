@@ -139,17 +139,17 @@ public final class IndexCollection {
         Collection.FileSegment iter = collection.createFileSegment(inputFile);
         while (iter.hasNext()) {
           SourceDocumentResultWrapper<SourceDocument> drw = iter.next();
-          if (!drw.getStatus()) {
+          if (!drw.getDocument().isPresent()) {
             counters.errors.incrementAndGet();
             continue;
           }
-          if (!drw.getDocument().indexable()) {
+          if (!drw.getDocument().get().indexable()) {
             counters.unindexableDocuments.incrementAndGet();
             continue;
           }
 
           @SuppressWarnings("unchecked") // Yes, we know what we're doing here.
-          Document doc = transformer.createDocument(drw.getDocument());
+          Document doc = transformer.createDocument(drw.getDocument().get());
 
           if (doc != null) {
             writer.addDocument(doc);

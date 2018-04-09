@@ -35,7 +35,7 @@ public class TrecwebDocument extends TrecDocument {
     while (true) {
       String line = reader.readLine();
       if (line == null)
-        return new SourceDocumentResultWrapper(null, false, SourceDocumentResultWrapper.FailureReason.EOF);
+        return new SourceDocumentResultWrapper(null, SourceDocumentResultWrapper.FailureReason.EOF);
 
       line = line.trim();
 
@@ -45,7 +45,7 @@ public class TrecwebDocument extends TrecDocument {
       }
 
       if (line.startsWith(TERMINATING_DOC) && builder.length() > 0) {
-        return new SourceDocumentResultWrapper<TrecDocument>(parseRecord(builder), true, null);
+        return new SourceDocumentResultWrapper<TrecDocument>(parseRecord(builder), null);
       }
 
       if (found)

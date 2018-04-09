@@ -99,7 +99,7 @@ public class WikipediaArticleTest extends DocumentTest {
     WikipediaCollection wc = new WikipediaCollection();
     Collection.FileSegment iter = wc.createFileSegment(tmpPath);
     SourceDocumentResultWrapper<WikipediaArticle> parsed = iter.next();
-    assertEquals(parsed.getDocument().id(), "Wiktionary:Welcome, newcomers");
-    assertEquals(parsed.getDocument().content(), "Wiktionary:Welcome, newcomers.\nthis is the   real content");
+    assertEquals(parsed.getDocument().get().id(), "Wiktionary:Welcome, newcomers");
+    assertEquals(parsed.getDocument().get().content(), "Wiktionary:Welcome, newcomers.\nthis is the   real content");
   }
 }

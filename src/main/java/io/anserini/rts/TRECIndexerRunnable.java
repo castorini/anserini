@@ -116,13 +116,9 @@ public class TRECIndexerRunnable implements Runnable {
         doc.add(new TextField(StatusField.PROFILE_IMAGE_URL.name, status.getProfileImageURL(), Store.YES));
         doc.add(new Field(StatusField.TEXT.name, whiteSpaceTokenizedText, textOptions));
         doc.add(new TextField(StatusField.RAW_TEXT.name, status.getText(), Store.YES));
-        long retweetStatusId = status.getRetweetedStatusId();
-        if (retweetStatusId > 0) {
-          doc.add(new IntPoint(StatusField.RETWEET_COUNT.name, status.getRetweetCount()));
-          doc.add(new StoredField(StatusField.RETWEET_COUNT.name, status.getRetweetCount()));
-          if (status.getRetweetCount() < 0 || status.getRetweetedStatusId() < 0) {
-            System.err.println("Error parsing retweet fields of " + status.id());
-          }
+        if (status.getRetweetedStatusId().isPresent()) {
+          doc.add(new LongPoint(StatusField.RETWEET_COUNT.name, status.getRetweetCount().getAsLong()));
+          doc.add(new StoredField(StatusField.RETWEET_COUNT.name, status.getRetweetCount().getAsLong()));
         }
         try {
           indexWriter.addDocument(doc);

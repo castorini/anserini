@@ -71,7 +71,7 @@ public class WikipediaCollection extends Collection<WikipediaArticle> {
           // If we've gotten here, it means that we've advanced to the next "valid" article.
           String title = cleaner.getTitle(page).replaceAll("\\n+", " ");
           return new SourceDocumentResultWrapper<WikipediaArticle>(
-              new WikipediaArticle(title, title + ".\n" + s), true, null);
+              new WikipediaArticle(title, title + ".\n" + s), null);
         }
 
       } catch (IOException e) {
@@ -82,7 +82,7 @@ public class WikipediaCollection extends Collection<WikipediaArticle> {
       // of the underlying stream.
       atEOF = true;
       return new SourceDocumentResultWrapper<WikipediaArticle>(
-          null, false, SourceDocumentResultWrapper.FailureReason.EOF);
+          null, SourceDocumentResultWrapper.FailureReason.EOF);
     }
   }
 

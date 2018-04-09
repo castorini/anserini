@@ -81,7 +81,7 @@ public final class ClueWeb12WarcRecord extends WarcRecord {
     byte[] recordContent = r09.readNextRecord(in, recordHeader, WARC_VERSION);
     if (recordContent == null) {
       return new SourceDocumentResultWrapper<ClueWeb12WarcRecord>(
-          null, false, SourceDocumentResultWrapper.FailureReason.EOF);
+          null, SourceDocumentResultWrapper.FailureReason.EOF);
     }
 
     // extract out our header information
@@ -105,7 +105,7 @@ public final class ClueWeb12WarcRecord extends WarcRecord {
     // set the content
     retRecord.setContent(recordContent);
 
-    return new SourceDocumentResultWrapper<ClueWeb12WarcRecord>(retRecord, true, null);
+    return new SourceDocumentResultWrapper<ClueWeb12WarcRecord>(retRecord, null);
   }
 
   @Override

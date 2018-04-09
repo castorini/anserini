@@ -52,7 +52,7 @@ public class TrecDocument implements SourceDocument {
       String line = reader.readLine();
       if (line == null)
         return new SourceDocumentResultWrapper<TrecDocument>(
-            null, false, SourceDocumentResultWrapper.FailureReason.EOF);
+            null, SourceDocumentResultWrapper.FailureReason.EOF);
 
       line = line.trim();
 
@@ -98,7 +98,7 @@ public class TrecDocument implements SourceDocument {
       }
 
       if (line.startsWith(TERMINATING_DOC)) {
-        return new SourceDocumentResultWrapper<TrecDocument>(parseRecord(builder), true, null);
+        return new SourceDocumentResultWrapper<TrecDocument>(parseRecord(builder), null);
       }
     }
   }

@@ -56,14 +56,14 @@ public class TrecCoreCollection extends Collection<TrecCoreDocument> {
       atEOF = true;
       try {
         drw = doc.readNextRecord(bufferedReader);
-        if (!drw.getStatus()) {
+        if (!drw.getDocument().isPresent()) {
           if (drw.getReason() == SourceDocumentResultWrapper.FailureReason.EOF) {
             atEOF = true;
           }
         }
       } catch (IOException e) {
         drw = new SourceDocumentResultWrapper<TrecCoreDocument>(
-            null, false, SourceDocumentResultWrapper.FailureReason.IOError);
+            null, SourceDocumentResultWrapper.FailureReason.IOError);
       }
       return drw;
     }

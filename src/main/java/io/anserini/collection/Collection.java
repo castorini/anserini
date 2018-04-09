@@ -68,14 +68,14 @@ public abstract class Collection<T extends SourceDocument> {
       SourceDocumentResultWrapper<T> drw;
       try {
         drw = dType.readNextRecord(bufferedReader);
-        if (!drw.getStatus()) {
+        if (!drw.getDocument().isPresent()) {
           if (drw.getReason() == SourceDocumentResultWrapper.FailureReason.EOF) {
             atEOF = true;
           }
         }
       } catch (IOException e) {
         drw = new SourceDocumentResultWrapper<T>(
-            null, false, SourceDocumentResultWrapper.FailureReason.IOError);
+            null, SourceDocumentResultWrapper.FailureReason.IOError);
       }
       return drw;
     }
