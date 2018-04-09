@@ -5,8 +5,12 @@ import org.kohsuke.args4j.Option;
 public class SearchArgs {
 
   // required arguments
-  @Option(name = "-index", metaVar = "[path]", required = true, usage = "Lucene index")
+  @Option(name = "-index", metaVar = "[path]", required = true, usage = "Path to Lucene index")
   public String index;
+
+  @Option(name = "-searchtweets", required = true, usage = "Whether the search is against a tweet " +
+      "index created by IndexCollection -collection TweetCollection")
+  public Boolean searchtweets = false;
 
   @Option(name = "-topics", metaVar = "[file]", required = true, usage = "topics file")
   public String topics;
@@ -15,9 +19,12 @@ public class SearchArgs {
   public String output;
 
   @Option(name = "-topicreader", required = true, usage = "define how to read the topic(query) file: one of [Trec|Webxml]")
-  protected String topicReader;
+  public String topicReader;
 
   // optional arguments
+  @Option(name = "-querypart", usage = "Which part of the query should be used, default \"title\"." +
+      " For TREC Adhoc topics, descripion or narrative can be used.")
+  public String querypart = "title";
 
   @Option(name = "-keepstopwords", usage = "Boolean switch to keep stopwords in the query topics")
   boolean keepstop = false;

@@ -38,19 +38,20 @@ public class DocumentTest<D extends SourceDocument> extends LuceneTestCase {
     expected = new ArrayList<Map<String, String>>();
   }
 
-  protected SourceDocument parse(String raw) throws IOException {
+  protected SourceDocumentResultWrapper<D> parse(String raw) throws IOException {
     BufferedReader bufferedReader = new BufferedReader(new StringReader(raw));
-    SourceDocument d;
-    d = dType.readNextRecord(bufferedReader);
-    return (D)d;
+    SourceDocumentResultWrapper<D> drw = dType.readNextRecord(bufferedReader);
+    return drw;
   }
 
   @Test
   public void test() throws IOException {
     for (int i = 0; i < rawDocs.size(); i++) {
-      SourceDocument parsed = parse(rawDocs.get(i));
-      assertEquals(parsed.id(), expected.get(i).get("id"));
-      assertEquals(parsed.content(), expected.get(i).get("content"));
+      SourceDocumentResultWrapper<D> parsed = parse(rawDocs.get(i));
+      if (parsed.getStatus()) {
+        assertEquals(parsed.getDocument().id(), expected.get(i).get("id"));
+        assertEquals(parsed.getDocument().content(), expected.get(i).get("content"));
+      }
     }
   }
 }

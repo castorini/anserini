@@ -2,7 +2,7 @@ package io.anserini.nrts;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import io.anserini.document.twitter.Status;
+import io.anserini.document.TweetDocument;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.document.*;
@@ -58,7 +58,7 @@ public class TweetStreamIndexer implements Runnable {
 
       @Override
       public void onMessage(String rawString) {
-        Status status = Status.fromJson(rawString);
+        TweetDocument status = new TweetDocument().fromJson(rawString);
 
         if (status == null) {
           try {
@@ -81,8 +81,7 @@ public class TweetStreamIndexer implements Runnable {
         }
 
         Document doc = new Document();
-        doc.add(new LongPoint(StatusField.ID.name, status.getId()));
-        doc.add(new StoredField(StatusField.ID.name, status.getId()));
+        doc.add(new StringField(StatusField.ID.name, status.id(), Store.YES));
         doc.add(new LongPoint(StatusField.EPOCH.name, status.getEpoch()));
         doc.add(new StoredField(StatusField.EPOCH.name, status.getEpoch()));
         doc.add(new TextField(StatusField.SCREEN_NAME.name, status.getScreenname(), Store.YES));
@@ -118,7 +117,7 @@ public class TweetStreamIndexer implements Runnable {
           doc.add(new IntPoint(StatusField.RETWEET_COUNT.name, status.getRetweetCount()));
           doc.add(new StoredField(StatusField.RETWEET_COUNT.name, status.getRetweetCount()));
           if (status.getRetweetCount() < 0 || status.getRetweetedStatusId() < 0) {
-            System.err.println("Error parsing retweet fields of " + status.getId());
+            System.err.println("Error parsing retweet fields of " + status.id());
           }
         }
 

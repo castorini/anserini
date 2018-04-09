@@ -5,7 +5,9 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
@@ -18,9 +20,9 @@ public class QaTopicReader extends TopicReader {
   }
 
   @Override
-  public SortedMap<Integer, String> read(BufferedReader bRdr) throws IOException {
-    SortedMap<Integer, String> map = new TreeMap<>();
-
+  public SortedMap<Integer, Map<String, String>> read(BufferedReader bRdr) throws IOException {
+    SortedMap<Integer, Map<String, String>> map = new TreeMap<>();
+    Map<String,String> fields = new HashMap<>();
 
     String pattern = "<QApairs id=\'(.*)\'>";
     Pattern r = Pattern.compile(pattern);
@@ -37,7 +39,8 @@ public class QaTopicReader extends TopicReader {
       }
 
       if (prevLine != null && prevLine.startsWith("<question>")) {
-        map.put(Integer.parseInt(id), line);
+        fields.put("title", line);
+        map.put(Integer.parseInt(id), fields);
       }
       prevLine = line;
     }

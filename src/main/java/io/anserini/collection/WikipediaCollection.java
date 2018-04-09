@@ -16,6 +16,7 @@
 
 package io.anserini.collection;
 
+import io.anserini.document.SourceDocumentResultWrapper;
 import io.anserini.document.WikipediaArticle;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -49,7 +50,7 @@ public class WikipediaCollection extends Collection<WikipediaArticle> {
     }
 
     @Override
-    public WikipediaArticle next() {
+    public SourceDocumentResultWrapper<WikipediaArticle> next() {
       try {
         String page;
         String s;
@@ -69,7 +70,8 @@ public class WikipediaCollection extends Collection<WikipediaArticle> {
 
           // If we've gotten here, it means that we've advanced to the next "valid" article.
           String title = cleaner.getTitle(page).replaceAll("\\n+", " ");
-          return new WikipediaArticle(title, title + ".\n" + s);
+          return new SourceDocumentResultWrapper<WikipediaArticle>(
+              new WikipediaArticle(title, title + ".\n" + s), true, null);
         }
 
       } catch (IOException e) {
@@ -79,7 +81,8 @@ public class WikipediaCollection extends Collection<WikipediaArticle> {
       // If we've fall through here, we've either encountered an exception or we've reached the end
       // of the underlying stream.
       atEOF = true;
-      return null;
+      return new SourceDocumentResultWrapper<WikipediaArticle>(
+          null, false, SourceDocumentResultWrapper.FailureReason.EOF);
     }
   }
 

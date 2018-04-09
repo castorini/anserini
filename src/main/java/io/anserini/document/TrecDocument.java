@@ -43,7 +43,7 @@ public class TrecDocument implements SourceDocument {
   protected String content;
 
   @Override
-  public SourceDocument readNextRecord(BufferedReader reader) throws IOException {
+  public SourceDocumentResultWrapper<TrecDocument> readNextRecord(BufferedReader reader) throws IOException {
     StringBuilder builder = new StringBuilder();
     boolean found = false;
     int inTag = -1;
@@ -51,7 +51,8 @@ public class TrecDocument implements SourceDocument {
     while (true) {
       String line = reader.readLine();
       if (line == null)
-        return null;
+        return new SourceDocumentResultWrapper<TrecDocument>(
+            null, false, SourceDocumentResultWrapper.FailureReason.EOF);
 
       line = line.trim();
 
@@ -97,12 +98,12 @@ public class TrecDocument implements SourceDocument {
       }
 
       if (line.startsWith(TERMINATING_DOC)) {
-        return parseRecord(builder);
+        return new SourceDocumentResultWrapper<TrecDocument>(parseRecord(builder), true, null);
       }
     }
   }
 
-  public SourceDocument parseRecord(StringBuilder builder) {
+  public TrecDocument parseRecord(StringBuilder builder) {
     int i = builder.indexOf(DOCNO);
     if (i == -1) throw new RuntimeException("cannot find start tag " + DOCNO);
 

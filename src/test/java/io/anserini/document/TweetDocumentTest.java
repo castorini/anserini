@@ -16,34 +16,44 @@
 
 package io.anserini.document;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.StringReader;
 import java.util.HashMap;
 
 import org.junit.Before;
-
-import io.anserini.document.DocumentTest;
-import io.anserini.document.SourceDocument;
-import io.anserini.document.TrecDocument;
+import org.junit.Test;
 
 
-public class TwitterDocumentTest extends DocumentTest {
+public class TweetDocumentTest extends DocumentTest<TweetDocument> {
 
   @Before
   public void setUP() throws Exception {
     super.setUp();
-    dType = new TwitterDocument(false);
+    dType = new TweetDocument();
 
     rawDocs.add("{\"id\":" + 123456789 + ",\"text\":\"" + "this is the tweet contents."
         + "\",\"user\":{\"screen_name\":\"foo\",\"name\":\"foo\"," +
         "\"profile_image_url\":\"foo\",\"followers_count\":1,\"friends_count\":1," +
-        "\"statuses_count\":1},\"created_at\":\"Fri Feb 01 00:00:00 +0000 2013\"}"
+        "\"statuses_count\":1},\"created_at\":\"Fri Feb 01 10:56:07 +0000 2018\"}"
     );
 
     HashMap doc1 = new HashMap<String, String>();
     doc1.put("id", "123456789");
     doc1.put("content", "this is the tweet contents.");
+    doc1.put("timestamp_ms", 1517482567000L);
+
+
     expected.add(doc1);
+  }
+
+  @Test
+  public void test() throws IOException {
+    for (int i = 0; i < rawDocs.size(); i++) {
+      SourceDocumentResultWrapper<TweetDocument> parsed = parse(rawDocs.get(i));
+      if (parsed.getStatus()) {
+        assertEquals(parsed.getDocument().id(), expected.get(i).get("id"));
+        assertEquals(parsed.getDocument().content(), expected.get(i).get("content"));
+        assertEquals(parsed.getDocument().getTimestampMs(), expected.get(i).get("timestamp_ms"));
+      }
+    }
   }
 }

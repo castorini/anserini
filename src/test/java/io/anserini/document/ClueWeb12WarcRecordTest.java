@@ -91,10 +91,11 @@ public class ClueWeb12WarcRecordTest extends DocumentTest {
     expected.add(doc2);
   }
 
-  protected SourceDocument parse(String raw) throws IOException {
+  protected SourceDocumentResultWrapper<ClueWeb12WarcRecord> parse(String raw) throws IOException {
     DataInputStream stream = new DataInputStream(new StringInputStream(raw));
     ClueWeb12WarcRecord doc = new ClueWeb12WarcRecord();
-    doc = doc.readNextWarcRecord(stream, ClueWeb12WarcRecord.WARC_VERSION);
-    return doc;
+    SourceDocumentResultWrapper<ClueWeb12WarcRecord> drw
+        = doc.readNextWarcRecord(stream, ClueWeb12WarcRecord.WARC_VERSION);
+    return drw;
   }
 }

@@ -17,6 +17,8 @@ package io.anserini.search;
  * limitations under the License.
  */
 
+import io.anserini.analysis.TweetAnalyzer;
+import io.anserini.ltr.TweetsLtrDataGenerator;
 import io.anserini.ltr.WebCollectionLtrDataGenerator;
 import io.anserini.ltr.feature.FeatureExtractors;
 import io.anserini.rerank.IdentityReranker;
@@ -24,21 +26,26 @@ import io.anserini.rerank.RerankerCascade;
 import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.ScoredDocuments;
 import io.anserini.rerank.rm3.Rm3Reranker;
+import io.anserini.rerank.twitter.RemoveRetweetsTemporalTiebreakReranker;
 import io.anserini.search.query.TopicReader;
 import io.anserini.util.AnalyzerUtils;
 import io.anserini.util.Qrels;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.analysis.CharArraySet;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.queryparser.classic.QueryParser;
+import org.apache.lucene.search.BooleanClause;
+import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
+import org.apache.lucene.search.TermRangeQuery;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.search.similarities.BM25Similarity;
 import org.apache.lucene.search.similarities.LMDirichletSimilarity;
@@ -72,13 +79,13 @@ import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_ID;
  * TREC Web Tracks from 2009 to 2014
  * TREC Terabyte Tracks from 2004 to 2006
  */
-public final class SearchWebCollection implements Closeable {
+public final class SearchCollection implements Closeable {
 
-  private static final Logger LOG = LogManager.getLogger(SearchWebCollection.class);
+  private static final Logger LOG = LogManager.getLogger(SearchCollection.class);
 
   private final IndexReader reader;
 
-  public SearchWebCollection(String indexDir) throws IOException {
+  public SearchCollection(String indexDir) throws IOException {
 
     Path indexPath = Paths.get(indexDir);
 
@@ -103,35 +110,55 @@ public final class SearchWebCollection implements Closeable {
    * @throws ParseException
    */
 
-  public void search(SortedMap<Integer, String> topics, String submissionFile, Similarity similarity, int numHits, RerankerCascade cascade,
-                     boolean useQueryParser, boolean keepstopwords) throws IOException, ParseException {
+  public void search(SortedMap<Integer, Map<String, String>> topics, String querypart,
+                     String submissionFile, Similarity similarity, int numHits,
+                     RerankerCascade cascade, boolean useQueryParser,
+                     boolean keepstopwords, boolean searchtweets) throws IOException, ParseException {
 
 
     IndexSearcher searcher = new IndexSearcher(reader);
     searcher.setSimilarity(similarity);
 
 
-    final String runTag = "BM25_EnglishAnalyzer_" + (keepstopwords ? "KeepStopwords_" : "") + FIELD_BODY + "_" + similarity.toString();
+    final String runTag = "BM25_EnglishAnalyzer_" + (keepstopwords ? "KeepStopwords_" : "")
+        + FIELD_BODY + "_" + similarity.toString();
 
     PrintWriter out = new PrintWriter(Files.newBufferedWriter(Paths.get(submissionFile), StandardCharsets.US_ASCII));
 
-    EnglishAnalyzer ea = keepstopwords ? new EnglishAnalyzer(CharArraySet.EMPTY_SET) : new EnglishAnalyzer();
-    QueryParser queryParser = new QueryParser(FIELD_BODY, ea);
+    Analyzer analyzer;
+    if (searchtweets) {
+      analyzer = new TweetAnalyzer();
+    } else {
+      analyzer = keepstopwords ? new EnglishAnalyzer(CharArraySet.EMPTY_SET) : new EnglishAnalyzer();
+    }
+    QueryParser queryParser = new QueryParser(FIELD_BODY, analyzer);
     queryParser.setDefaultOperator(QueryParser.Operator.OR);
 
-    for (Map.Entry<Integer, String> entry : topics.entrySet()) {
-
+    for (Map.Entry<Integer, Map<String, String>> entry : topics.entrySet()) {
       int qID = entry.getKey();
-      String queryString = entry.getValue();
-      Query query = useQueryParser? queryParser.parse(queryString) :
-              AnalyzerUtils.buildBagOfWordsQuery(FIELD_BODY, ea, queryString);
+      String queryString = entry.getValue().get(querypart);
+      Query query = useQueryParser ? queryParser.parse(queryString) :
+              AnalyzerUtils.buildBagOfWordsQuery(FIELD_BODY, analyzer, queryString);
+      if (searchtweets) {
+        long curQueryTime = System.currentTimeMillis();
+        String queryTweetTime = entry.getValue().get("time");
+        // do not cosider the tweets with tweet ids that are beyond the queryTweetTime
+        // <querytweettime> tag contains the timestamp of the query in terms of the
+        // chronologically nearest tweet id within the corpus
+        Query filter = TermRangeQuery.newStringRange(FIELD_ID, "0", queryTweetTime, true, true);
+        BooleanQuery.Builder builder = new BooleanQuery.Builder();
+        builder.add(filter, BooleanClause.Occur.FILTER);
+        builder.add(query, BooleanClause.Occur.MUST);
+        Query q = builder.build();
+        query = q;
+      }
 
       /**
        * For Web Tracks 2010,2011,and 2012; an experimental run consists of the top 10,000 documents for each topic query.
        */
       TopDocs rs = searcher.search(query, numHits);
       ScoreDoc[] hits = rs.scoreDocs;
-      List<String> queryTokens = AnalyzerUtils.tokenize(ea, queryString);
+      List<String> queryTokens = AnalyzerUtils.tokenize(analyzer, queryString);
       RerankerContext context = new RerankerContext(searcher, query, String.valueOf(qID), queryString,
               queryTokens, FIELD_BODY, null);
       ScoredDocuments docs = cascade.run(ScoredDocuments.fromTopDocs(rs, searcher), context);
@@ -153,9 +180,10 @@ public final class SearchWebCollection implements Closeable {
     out.close();
   }
 
-  public void search(SortedMap<Integer, String> topics, String submissionFile, Similarity similarity, int numHits, RerankerCascade cascade)
+  public void search(SortedMap<Integer, Map<String, String>> topics, String querypart,
+                     String submissionFile, Similarity similarity, int numHits, RerankerCascade cascade)
           throws IOException, ParseException {
-    search(topics, submissionFile, similarity, numHits, cascade, false, false);
+    search(topics, querypart, submissionFile, similarity, numHits, cascade, false, false, false);
   }
 
   public static void main(String[] args) throws Exception {
@@ -168,7 +196,7 @@ public final class SearchWebCollection implements Closeable {
     } catch (CmdLineException e) {
       System.err.println(e.getMessage());
       parser.printUsage(System.err);
-      System.err.println("Example: SearchWebCollection" + parser.printExample(OptionHandlerFilter.REQUIRED));
+      System.err.println("Example: SearchCollection" + parser.printExample(OptionHandlerFilter.REQUIRED));
       return;
     }
 
@@ -196,13 +224,30 @@ public final class SearchWebCollection implements Closeable {
       System.exit(-1);
     }
 
+    Analyzer analyzer;
+    if (searchArgs.searchtweets) {
+      analyzer = new TweetAnalyzer();
+    } else {
+      analyzer = new EnglishAnalyzer();
+    }
+
     RerankerCascade cascade = new RerankerCascade();
     boolean useQueryParser = false;
     if (searchArgs.rm3) {
-      cascade.add(new Rm3Reranker(new EnglishAnalyzer(), FIELD_BODY, "src/main/resources/io/anserini/rerank/rm3/rm3-stoplist.gov2.txt"));
+      if (searchArgs.searchtweets) {
+        cascade.add(new Rm3Reranker(new TweetAnalyzer(), FIELD_BODY,
+            "src/main/resources/io/anserini/rerank/rm3/rm3-stoplist.twitter.txt"));
+        cascade.add(new RemoveRetweetsTemporalTiebreakReranker());
+      } else {
+        cascade.add(new Rm3Reranker(new EnglishAnalyzer(), FIELD_BODY,
+          "src/main/resources/io/anserini/rerank/rm3/rm3-stoplist.gov2.txt"));
+      }
       useQueryParser = true;
     } else {
       cascade.add(new IdentityReranker());
+      if (searchArgs.searchtweets) {
+        cascade.add(new RemoveRetweetsTemporalTiebreakReranker());
+      }
     }
     FeatureExtractors extractors = null;
     if (searchArgs.extractors != null) {
@@ -212,7 +257,11 @@ public final class SearchWebCollection implements Closeable {
     if (searchArgs.dumpFeatures) {
       PrintStream out = new PrintStream(searchArgs.featureFile);
       Qrels qrels = new Qrels(searchArgs.qrels);
-      cascade.add(new WebCollectionLtrDataGenerator(out,  qrels, extractors));
+      if (searchArgs.searchtweets) {
+        cascade.add(new TweetsLtrDataGenerator(out, qrels, extractors));
+      } else {
+        cascade.add(new WebCollectionLtrDataGenerator(out,  qrels, extractors));
+      }
     }
 
     Path topicsFile = Paths.get(searchArgs.topics);
@@ -223,13 +272,16 @@ public final class SearchWebCollection implements Closeable {
 
     TopicReader tr = (TopicReader)Class.forName("io.anserini.search.query."+searchArgs.topicReader+"TopicReader")
             .getConstructor(Path.class).newInstance(topicsFile);
-    SortedMap<Integer, String> topics = tr.read();
+    SortedMap<Integer, Map<String, String>> topics = tr.read();
 
     final long start = System.nanoTime();
-    SearchWebCollection searcher = new SearchWebCollection(searchArgs.index);
-    searcher.search(topics, searchArgs.output, similarity, searchArgs.hits, cascade, useQueryParser, searchArgs.keepstop);
+    SearchCollection searcher = new SearchCollection(searchArgs.index);
+    searcher.search(topics, searchArgs.querypart, searchArgs.output, similarity, searchArgs.hits,
+        cascade, useQueryParser, searchArgs.keepstop, searchArgs.searchtweets);
     searcher.close();
-    final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
-    LOG.info("Total " + topics.size() + " topics searched in " + DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss"));
+    final long durationMillis =
+        TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
+    LOG.info("Total " + topics.size() + " topics searched in "
+        + DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss"));
   }
 }

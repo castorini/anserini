@@ -98,8 +98,8 @@ public class WikipediaArticleTest extends DocumentTest {
   public void test() throws IOException {
     WikipediaCollection wc = new WikipediaCollection();
     Collection.FileSegment iter = wc.createFileSegment(tmpPath);
-    SourceDocument parsed = iter.next();
-    assertEquals(parsed.id(), "Wiktionary:Welcome, newcomers");
-    assertEquals(parsed.content(), "Wiktionary:Welcome, newcomers.\nthis is the   real content");
+    SourceDocumentResultWrapper<WikipediaArticle> parsed = iter.next();
+    assertEquals(parsed.getDocument().id(), "Wiktionary:Welcome, newcomers");
+    assertEquals(parsed.getDocument().content(), "Wiktionary:Welcome, newcomers.\nthis is the   real content");
   }
 }
