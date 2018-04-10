@@ -89,8 +89,9 @@ public class MicroblogTopicReader extends TopicReader {
         }
         fields.put("time", m.group(1));
       }
-      if (line.startsWith("</topic>")) {
+      if (line.startsWith("</top>")) {
         map.put(Integer.parseInt(number), fields);
+        fields = new HashMap<>();
       }
     }
 

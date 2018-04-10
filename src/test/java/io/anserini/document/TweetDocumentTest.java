@@ -41,7 +41,6 @@ public class TweetDocumentTest extends DocumentTest<TweetDocument> {
     doc1.put("content", "this is the tweet contents.");
     doc1.put("timestamp_ms", 1517482567000L);
 
-
     expected.add(doc1);
   }
 

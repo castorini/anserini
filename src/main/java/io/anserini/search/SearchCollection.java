@@ -30,6 +30,18 @@ import io.anserini.rerank.twitter.RemoveRetweetsTemporalTiebreakReranker;
 import io.anserini.search.query.TopicReader;
 import io.anserini.util.AnalyzerUtils;
 import io.anserini.util.Qrels;
+import java.io.Closeable;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
+import java.util.Map;
+import java.util.SortedMap;
+import java.util.concurrent.TimeUnit;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -58,18 +70,6 @@ import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.OptionHandlerFilter;
 import org.kohsuke.args4j.ParserProperties;
 
-import java.io.Closeable;
-import java.io.IOException;
-import java.io.PrintStream;
-import java.io.PrintWriter;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.List;
-import java.util.Map;
-import java.util.SortedMap;
-import java.util.concurrent.TimeUnit;
 
 import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_BODY;
 import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_ID;
@@ -110,7 +110,7 @@ public final class SearchCollection implements Closeable {
    * @throws ParseException
    */
 
-  public void search(SortedMap<Integer, Map<String, String>> topics, String querypart,
+  public void search(SortedMap<Integer, Map<String, String>> topics, String topicfield,
                      String submissionFile, Similarity similarity, int numHits,
                      RerankerCascade cascade, boolean useQueryParser,
                      boolean keepstopwords, boolean searchtweets) throws IOException, ParseException {
@@ -120,8 +120,8 @@ public final class SearchCollection implements Closeable {
     searcher.setSimilarity(similarity);
 
 
-    final String runTag = "BM25_EnglishAnalyzer_" + (keepstopwords ? "KeepStopwords_" : "")
-        + FIELD_BODY + "_" + similarity.toString();
+    final String runTag = "Anserini_" + topicfield+"_"+(keepstopwords ? "KeepStopwords_" : "")
+        + FIELD_BODY + "_" + (searchtweets ? "SearchTweets" : "") + "_" + similarity.toString();
 
     PrintWriter out = new PrintWriter(Files.newBufferedWriter(Paths.get(submissionFile), StandardCharsets.US_ASCII));
 
@@ -136,7 +136,7 @@ public final class SearchCollection implements Closeable {
 
     for (Map.Entry<Integer, Map<String, String>> entry : topics.entrySet()) {
       int qID = entry.getKey();
-      String queryString = entry.getValue().get(querypart);
+      String queryString = entry.getValue().get(topicfield);
       Query query = useQueryParser ? queryParser.parse(queryString) :
               AnalyzerUtils.buildBagOfWordsQuery(FIELD_BODY, analyzer, queryString);
       if (searchtweets) {
@@ -173,17 +173,18 @@ public final class SearchCollection implements Closeable {
        */
       for (int i = 0; i < docs.documents.length; i++) {
         out.println(String.format("%d Q0 %s %d %f %s", qID,
-                docs.documents[i].getField(FIELD_ID).stringValue(), (i + 1), docs.scores[i], runTag));
+            docs.documents[i].getField(FIELD_ID).stringValue(), (i + 1), docs.scores[i],
+            i == 0 ? runTag : "See_Line1"));
       }
     }
     out.flush();
     out.close();
   }
 
-  public void search(SortedMap<Integer, Map<String, String>> topics, String querypart,
+  public void search(SortedMap<Integer, Map<String, String>> topics, String topicfield,
                      String submissionFile, Similarity similarity, int numHits, RerankerCascade cascade)
           throws IOException, ParseException {
-    search(topics, querypart, submissionFile, similarity, numHits, cascade, false, false, false);
+    search(topics, topicfield, submissionFile, similarity, numHits, cascade, false, false, false);
   }
 
   public static void main(String[] args) throws Exception {
@@ -276,7 +277,7 @@ public final class SearchCollection implements Closeable {
 
     final long start = System.nanoTime();
     SearchCollection searcher = new SearchCollection(searchArgs.index);
-    searcher.search(topics, searchArgs.querypart, searchArgs.output, similarity, searchArgs.hits,
+    searcher.search(topics, searchArgs.topicfield, searchArgs.output, similarity, searchArgs.hits,
         cascade, useQueryParser, searchArgs.keepstop, searchArgs.searchtweets);
     searcher.close();
     final long durationMillis =

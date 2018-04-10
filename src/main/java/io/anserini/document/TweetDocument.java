@@ -101,13 +101,13 @@ public class TweetDocument implements SourceDocument {
       epoch = -1L;
     }
 
-    inReplyToStatusId = (obj.get("in_reply_to_status_id") == null || obj.get("in_reply_to_status_id").isJsonNull()) ?
+    inReplyToStatusId = (!obj.has("in_reply_to_status_id") || obj.get("in_reply_to_status_id").isJsonNull()) ?
         OptionalLong.empty() : OptionalLong.of(obj.get("in_reply_to_status_id").getAsLong());
 
-    inReplyToUserId = (obj.get("in_reply_to_user_id").isJsonNull() || obj.get("in_reply_to_user_id").isJsonNull()) ?
+    inReplyToUserId = (!obj.has("in_reply_to_user_id") || obj.get("in_reply_to_user_id").isJsonNull()) ?
         OptionalLong.empty() : OptionalLong.of(obj.get("in_reply_to_user_id").getAsLong());
 
-    if (obj.get("retweeted_status") == null || obj.get("retweeted_status").isJsonNull()) {
+    if (!obj.has("retweeted_status") || obj.get("retweeted_status").isJsonNull()) {
       retweetStatusId = OptionalLong.empty();
       retweetUserId = OptionalLong.empty();
       retweetCount = OptionalLong.empty();
@@ -121,7 +121,7 @@ public class TweetDocument implements SourceDocument {
           .getAsString().replace("+", "")));
     }
 
-    if (obj.get("coordinates") == null || obj.get("coordinates").isJsonNull()) {
+    if (!obj.has("coordinates") || obj.get("coordinates").isJsonNull()) {
       latitude = OptionalDouble.empty();
       longitude = OptionalDouble.empty();
     } else {

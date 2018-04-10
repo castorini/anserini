@@ -8,10 +8,6 @@ public class SearchArgs {
   @Option(name = "-index", metaVar = "[path]", required = true, usage = "Path to Lucene index")
   public String index;
 
-  @Option(name = "-searchtweets", required = true, usage = "Whether the search is against a tweet " +
-      "index created by IndexCollection -collection TweetCollection")
-  public Boolean searchtweets = false;
-
   @Option(name = "-topics", metaVar = "[file]", required = true, usage = "topics file")
   public String topics;
 
@@ -22,23 +18,27 @@ public class SearchArgs {
   public String topicReader;
 
   // optional arguments
-  @Option(name = "-querypart", usage = "Which part of the query should be used, default \"title\"." +
+  @Option(name = "-topicfield", usage = "Which field of the query should be used, default \"title\"." +
       " For TREC Adhoc topics, descripion or narrative can be used.")
-  public String querypart = "title";
+  public String topicfield = "title";
 
-  @Option(name = "-keepstopwords", usage = "Boolean switch to keep stopwords in the query topics")
+  @Option(name = "-searchtweets", required = false, usage = "Whether the search is against a tweet " +
+      "index created by IndexCollection -collection TweetCollection")
+  public Boolean searchtweets = false;
+
+  @Option(name = "-keepstopwords", required = false, usage = "Boolean switch to keep stopwords in the query topics")
   boolean keepstop = false;
 
   @Option(name = "-hits", metaVar = "[number]", required = false, usage = "max number of hits to return")
   public int hits = 1000;
 
   @Option(name = "-runtag", metaVar = "[tag]", required = false, usage = "runtag")
-  public String runtag = "Lucene";
+  public String runtag = "Anserini";
 
-  @Option(name = "-inmem", usage = "load index completely in memory")
+  @Option(name = "-inmem", required = false, usage = "load index completely in memory")
   public boolean inmem = false;
 
-  @Option(name = "-ql", usage = "use query likelihood scoring model")
+  @Option(name = "-ql", required = false, usage = "use query likelihood scoring model")
   public boolean ql = false;
 
   @Option(name = "-mu", metaVar = "[value]", required = false, usage = "Dirichlet smoothing parameter")

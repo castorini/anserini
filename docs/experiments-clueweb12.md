@@ -20,7 +20,7 @@ positional indexes and storing document vectors (for relevance feedback), other 
 After indexing is done, you should be able to perform a retrieval run:
 
 ```
-sh target/appassembler/bin/SearchWebCollection \
+sh target/appassembler/bin/SearchCollection \
   -topicreader Webxml -index lucene-index.cw12.cnt -bm25 \
   -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt -output run.web.201-250.bm25.txt
 ```

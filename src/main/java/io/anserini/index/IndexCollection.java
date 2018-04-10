@@ -101,7 +101,7 @@ public final class IndexCollection {
     @Option(name = "-tweet.stemming", usage = "boolean switch to apply Porter stemming while indexing tweets")
     public boolean tweetStemming = false;
     @Option(name = "-tweet.maxId", usage = "the max tweet Id for indexing. Tweet Ids that are larger " +
-        " (when being parsed to Long type) than this value will not be indexed")
+        " (when being parsed to Long type) than this value will NOT be indexed")
     public long tweetMaxId = Long.MAX_VALUE;
     @Option(name = "-tweet.deletedIdsFile", metaVar = "[Path]",
         usage = "a file that contains deleted tweetIds, one per line. these tweeets won't be indexed")
