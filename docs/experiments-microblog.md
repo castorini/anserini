@@ -17,6 +17,7 @@ __NB:__ The process is backgrounded
 
 More available indexing options:
 * `-tweet.keepRetweets`: boolean switch to keep retweets while indexing, default `false`
+* `-tweet.removeUrls`: boolean switch to remove URLs in the tweet, default `false`
 * `-tweet.stemming`: boolean switch to apply Porter stemming while indexing tweets, default `false`
 * `-tweet.maxId`: the max tweet Id for indexing. Tweet Ids that are larger (when being parsed to Long type) than this value will NOT be indexed, default `LONG.MAX_VALUE`
 * `-tweet.deletedIdsFile`: a file that contains deleted tweetIds, one per line. these tweeets won't be indexed
