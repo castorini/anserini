@@ -26,6 +26,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.List;
 import java.util.Optional;
 import java.util.OptionalLong;
 import org.apache.logging.log4j.LogManager;
@@ -40,6 +41,10 @@ import org.apache.lucene.document.StringField;
 import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.IndexOptions;
 import org.apache.tools.bzip2.CBZip2InputStream;
+
+import com.twitter.twittertext.Extractor;
+import com.twitter.twittertext.TwitterTextParseResults;
+import com.twitter.twittertext.TwitterTextParser;
 
 
 /**
@@ -109,8 +114,28 @@ public class TweetGenerator extends LuceneDocumentGenerator<TweetDocument> {
   public Document createDocument(TweetDocument tweetDoc) {
     String id = tweetDoc.id();
 
-    if (tweetDoc.content().trim().length() == 0) {
+    if (tweetDoc.content().trim().isEmpty()) {
       LOG.info("Empty document: " + id);
+      counters.emptyDocuments.incrementAndGet();
+      return null;
+    }
+    final TwitterTextParseResults result = TwitterTextParser.parseTweet(tweetDoc.content().trim());
+    if (!result.isValid) {
+      counters.unindexableDocuments.incrementAndGet();
+      return null;
+    }
+    String text = tweetDoc.content().trim().substring(result.validTextRange.start, result.validTextRange.end);
+
+    if (args.tweetRemoveUrls) {
+      final Extractor extractor = new Extractor();
+      final List<String> urls = extractor.extractURLs(text);
+      for (String url : urls) {
+        text = text.replaceAll(url, "");
+      }
+    }
+    text = text.trim();
+    if (text.isEmpty()) {
+      LOG.info("Empty document after removing URLs: " + id);
       counters.emptyDocuments.incrementAndGet();
       return null;
     }
@@ -122,7 +147,7 @@ public class TweetGenerator extends LuceneDocumentGenerator<TweetDocument> {
 
     if (Long.parseLong(id) > args.tweetMaxId) {
       LOG.info("Document Id larger than maxId: " + id);
-      counters.errors.incrementAndGet();
+      counters.unindexableDocuments.incrementAndGet();
       return null;
     }
 
@@ -132,6 +157,27 @@ public class TweetGenerator extends LuceneDocumentGenerator<TweetDocument> {
 
     Document doc = new Document();
     doc.add(new StringField(FIELD_ID, id, Field.Store.YES));
+
+    doc.add(new LongPoint(StatusField.EPOCH.name, tweetDoc.getEpoch()));
+    doc.add(new StringField(StatusField.SCREEN_NAME.name, tweetDoc.getScreenname(), Field.Store.NO));
+    doc.add(new IntPoint(StatusField.FRIENDS_COUNT.name, tweetDoc.getFollowersCount()));
+    doc.add(new IntPoint(StatusField.FOLLOWERS_COUNT.name, tweetDoc.getFriendsCount()));
+    doc.add(new IntPoint(StatusField.STATUSES_COUNT.name, tweetDoc.getStatusesCount()));
+
+    tweetDoc.getInReplyToStatusId().ifPresent( rid -> {
+      doc.add(new LongPoint(StatusField.IN_REPLY_TO_STATUS_ID.name, rid));
+      doc.add(new LongPoint(StatusField.IN_REPLY_TO_USER_ID.name, tweetDoc.getInReplyToUserId().getAsLong()));
+    });
+
+    tweetDoc.getRetweetedStatusId().ifPresent( rid -> {
+      doc.add(new LongPoint(StatusField.RETWEETED_STATUS_ID.name, rid));
+      doc.add(new LongPoint(StatusField.RETWEETED_USER_ID.name, tweetDoc.getRetweetedUserId().getAsLong()));
+      doc.add(new LongPoint(StatusField.RETWEET_COUNT.name, tweetDoc.getRetweetCount().getAsLong()));
+    });
+
+    tweetDoc.getLang().ifPresent( lang ->
+      doc.add(new StringField(StatusField.LANG.name, lang, Field.Store.NO))
+    );
 
     if (args.storeRawDocs) { // store the raw json string as one single field
       doc.add(new StoredField(FIELD_RAW, tweetDoc.getJsonString()));
@@ -154,28 +200,7 @@ public class TweetGenerator extends LuceneDocumentGenerator<TweetDocument> {
       fieldType.setIndexOptions(IndexOptions.DOCS_AND_FREQS);
     }
 
-    doc.add(new Field(FIELD_BODY, tweetDoc.getText(), fieldType));
-
-    doc.add(new LongPoint(StatusField.EPOCH.name, tweetDoc.getEpoch()));
-    doc.add(new TextField(StatusField.SCREEN_NAME.name, tweetDoc.getScreenname(), Field.Store.NO));
-    doc.add(new IntPoint(StatusField.FRIENDS_COUNT.name, tweetDoc.getFollowersCount()));
-    doc.add(new IntPoint(StatusField.FOLLOWERS_COUNT.name, tweetDoc.getFriendsCount()));
-    doc.add(new IntPoint(StatusField.STATUSES_COUNT.name, tweetDoc.getStatusesCount()));
-
-    tweetDoc.getInReplyToStatusId().ifPresent( rid -> {
-      doc.add(new LongPoint(StatusField.IN_REPLY_TO_STATUS_ID.name, rid));
-      doc.add(new LongPoint(StatusField.IN_REPLY_TO_USER_ID.name, tweetDoc.getInReplyToUserId().getAsLong()));
-    });
-
-    tweetDoc.getRetweetedStatusId().ifPresent( rid -> {
-      doc.add(new LongPoint(StatusField.RETWEETED_STATUS_ID.name, rid));
-      doc.add(new LongPoint(StatusField.RETWEETED_USER_ID.name, tweetDoc.getRetweetedUserId().getAsLong()));
-      doc.add(new LongPoint(StatusField.RETWEET_COUNT.name, tweetDoc.getRetweetCount().getAsLong()));
-    });
-
-    tweetDoc.getLang().ifPresent( lang ->
-      doc.add(new TextField(StatusField.LANG.name, lang, Field.Store.NO))
-    );
+    doc.add(new Field(FIELD_BODY, text, fieldType));
 
     return doc;
   }

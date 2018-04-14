@@ -98,6 +98,8 @@ public final class IndexCollection {
 
     @Option(name = "-tweet.keepRetweets", usage = "boolean switch to keep retweets while indexing")
     public boolean tweetKeepRetweets = false;
+    @Option(name = "-tweet.removeUrls", usage = "boolean switch to remove URLs while indexing tweets")
+    public boolean tweetRemoveUrls = false;
     @Option(name = "-tweet.stemming", usage = "boolean switch to apply Porter stemming while indexing tweets")
     public boolean tweetStemming = false;
     @Option(name = "-tweet.maxId", usage = "the max tweet Id for indexing. Tweet Ids that are larger " +
@@ -140,8 +142,12 @@ public final class IndexCollection {
         while (iter.hasNext()) {
           SourceDocumentResultWrapper<SourceDocument> drw = iter.next();
           if (!drw.getDocument().isPresent()) {
-            counters.errors.incrementAndGet();
-            continue;
+            if (drw.getReason() != SourceDocumentResultWrapper.FailureReason.EOF) {
+              counters.errors.incrementAndGet();
+              continue;
+            } else {
+              break;
+            }
           }
           if (!drw.getDocument().get().indexable()) {
             counters.unindexableDocuments.incrementAndGet();
@@ -179,6 +185,8 @@ public final class IndexCollection {
 
     LOG.info("Collection path: " + args.input);
     LOG.info("Index path: " + args.index);
+    LOG.info("CollectionClass: " + args.collectionClass);
+    LOG.info("Generator: " + args.generatorClass);
     LOG.info("Threads: " + args.threads);
     LOG.info("Keep stopwords? " + args.keepStopwords);
     LOG.info("Store positions? " + args.storePositions);
@@ -218,7 +226,7 @@ public final class IndexCollection {
         new EnglishAnalyzer(CharArraySet.EMPTY_SET) : new EnglishAnalyzer();
     final TweetAnalyzer tweetAnalyzer = args.tweetStemming ?
         new TweetAnalyzer(true): new TweetAnalyzer(false);
-    final IndexWriterConfig config = args.collectionClass == "tweetCollection" ?
+    final IndexWriterConfig config = args.collectionClass.equals("TweetCollection") ?
         new IndexWriterConfig(tweetAnalyzer) : new IndexWriterConfig(englishAnalyzer);
     config.setSimilarity(new BM25Similarity());
     config.setOpenMode(IndexWriterConfig.OpenMode.CREATE);

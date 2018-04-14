@@ -13,7 +13,13 @@ nohup sh target/appassembler/bin/IndexCollection -collection TweetCollection -in
 /path/to/Tweets2011/ -generator TweetGenerator  -index lucene-index.Tweets2011.pos+docvectors -threads 32 \
 -storePositions -storeDocvectors -optimize > log.Tweets2011.txt &
 ```
-__NB:__ The process is backgrounded 
+__NB:__ The process is backgrounded
+
+More available indexing options:
+* `-tweet.keepRetweets`: boolean switch to keep retweets while indexing, default `false`
+* `-tweet.stemming`: boolean switch to apply Porter stemming while indexing tweets, default `false`
+* `-tweet.maxId`: the max tweet Id for indexing. Tweet Ids that are larger (when being parsed to Long type) than this value will NOT be indexed, default `LONG.MAX_VALUE`
+* `-tweet.deletedIdsFile`: a file that contains deleted tweetIds, one per line. these tweeets won't be indexed
 
 Running topics from TREC 2011 (also look in `src/main/resources/topics-and-qrels/` for topics from TREC 2012):
 

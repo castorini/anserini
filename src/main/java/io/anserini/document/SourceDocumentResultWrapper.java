@@ -29,6 +29,7 @@ import java.util.Optional;
 public class SourceDocumentResultWrapper<T extends SourceDocument> {
   public enum FailureReason {
     EOF,
+    EMPTY,
     ParsingError,
     IOError
   };

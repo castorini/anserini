@@ -39,6 +39,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.concurrent.TimeUnit;
@@ -121,7 +122,7 @@ public final class SearchCollection implements Closeable {
 
 
     final String runTag = "Anserini_" + topicfield+"_"+(keepstopwords ? "KeepStopwords_" : "")
-        + FIELD_BODY + "_" + (searchtweets ? "SearchTweets" : "") + "_" + similarity.toString();
+        + FIELD_BODY + "_" + (searchtweets ? "SearchTweets_" : "") + similarity.toString();
 
     PrintWriter out = new PrintWriter(Files.newBufferedWriter(Paths.get(submissionFile), StandardCharsets.US_ASCII));
 
@@ -172,9 +173,9 @@ public final class SearchCollection implements Closeable {
        * the sixth column is called the "run tag" and should be a unique identifier for your
        */
       for (int i = 0; i < docs.documents.length; i++) {
-        out.println(String.format("%d Q0 %s %d %f %s", qID,
+        out.println(String.format(Locale.US, "%d Q0 %s %d %f %s", qID,
             docs.documents[i].getField(FIELD_ID).stringValue(), (i + 1), docs.scores[i],
-            i == 0 ? runTag : "See_Line1"));
+            (i == 0 ? runTag : "See_Line1")));
       }
     }
     out.flush();

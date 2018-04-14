@@ -10,7 +10,7 @@ public class EvalArgs {
   @Option(name = "-run", metaVar = "[path]", required = true, usage = "The TREC formatted result file")
   public String runPath;
 
-  @Option(name = "-qrels", metaVar = "[file]", required = true, usage = "Path to the qrels file")
+  @Option(name = "-qrels", metaVar = "[path]", required = true, usage = "Path to the qrels file")
   public String qrelPath;
 
   // optional arguments
@@ -19,10 +19,14 @@ public class EvalArgs {
           +"Several metrics can be printed at once - use space to separate them. "
           +"Use \".\" to indicate the cutoff parameter for p (precision), ndcg. "
           +" For example, -m map p.30 ndcg.20")
-  String[] reqMetrics;
+  public String[] reqMetrics = new String[] {
+      "num_ret", "num_rel", "num_rel_ret", "map",
+      "p.5", "p.10", "p.20", "p.30",
+      "ndcg.10", "ndcg.20"
+  };
 
   @Option(name = "-q", handler = BooleanOptionHandler.class,
       usage = "In additional to print the average performance over all query topics, also " +
           "print the per query performance")
-  boolean printPerQuery;
+  public boolean printPerQuery = false;
 }
