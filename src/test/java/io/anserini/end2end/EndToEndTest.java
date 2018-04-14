@@ -87,8 +87,8 @@ public abstract class EndToEndTest extends LuceneTestCase {
   @After
   @Override
   public void tearDown() throws Exception {
-    //FileUtils.deleteDirectory(new File(this.indexOutputPrefix+this.collectionClass));
-    //new File(this.searchOutputPrefix+this.topicReader).delete();
+    FileUtils.deleteDirectory(new File(this.indexOutputPrefix+this.collectionClass));
+    new File(this.searchOutputPrefix+this.topicReader).delete();
     super.tearDown();
   }
 
