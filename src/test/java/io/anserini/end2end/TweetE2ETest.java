@@ -42,7 +42,6 @@ public class TweetE2ETest extends EndToEndTest {
   @Override
   protected void setIndexingArgs() {
     super.setIndexingArgs();
-    indexCollectionArgs.tweetRemoveUrls = true;
     indexCollectionArgs.tweetMaxId = 9L;
   }
 

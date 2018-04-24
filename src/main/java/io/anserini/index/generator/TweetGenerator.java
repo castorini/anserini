@@ -126,7 +126,7 @@ public class TweetGenerator extends LuceneDocumentGenerator<TweetDocument> {
     }
     String text = tweetDoc.content().trim().substring(result.validTextRange.start, result.validTextRange.end);
 
-    if (args.tweetRemoveUrls) {
+    if (!args.tweetKeepUrls) {
       final Extractor extractor = new Extractor();
       final List<String> urls = extractor.extractURLs(text);
       for (String url : urls) {

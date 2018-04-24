@@ -98,8 +98,8 @@ public final class IndexCollection {
 
     @Option(name = "-tweet.keepRetweets", usage = "boolean switch to keep retweets while indexing")
     public boolean tweetKeepRetweets = false;
-    @Option(name = "-tweet.removeUrls", usage = "boolean switch to remove URLs while indexing tweets")
-    public boolean tweetRemoveUrls = false;
+    @Option(name = "-tweet.keepUrls", usage = "boolean switch to keep URLs while indexing tweets")
+    public boolean tweetKeepUrls = false;
     @Option(name = "-tweet.stemming", usage = "boolean switch to apply Porter stemming while indexing tweets")
     public boolean tweetStemming = false;
     @Option(name = "-tweet.maxId", usage = "the max tweet Id for indexing. Tweet Ids that are larger " +
@@ -224,8 +224,7 @@ public final class IndexCollection {
     final Directory dir = FSDirectory.open(indexPath);
     final EnglishAnalyzer englishAnalyzer= args.keepStopwords ?
         new EnglishAnalyzer(CharArraySet.EMPTY_SET) : new EnglishAnalyzer();
-    final TweetAnalyzer tweetAnalyzer = args.tweetStemming ?
-        new TweetAnalyzer(true): new TweetAnalyzer(false);
+    final TweetAnalyzer tweetAnalyzer = new TweetAnalyzer(args.tweetStemming);
     final IndexWriterConfig config = args.collectionClass.equals("TweetCollection") ?
         new IndexWriterConfig(tweetAnalyzer) : new IndexWriterConfig(englishAnalyzer);
     config.setSimilarity(new BM25Similarity());
