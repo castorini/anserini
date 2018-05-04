@@ -16,15 +16,15 @@
 
 package io.anserini.eval;
 
-import org.junit.Test;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import org.apache.lucene.util.LuceneTestCase;
+import org.junit.Test;
 import static org.junit.Assert.*;
 
-public class RankingResultsTest {
+public class RankingResultsTest extends LuceneTestCase {
   @Test
   public void testSorting() throws IOException {
     // d2 and d3 ties with score
@@ -53,9 +53,9 @@ public class RankingResultsTest {
   public void testSortingWithOptions() throws IOException {
     // d2 and d3 ties with score
     ResultDoc d1 = new ResultDoc("1", 1.0001, true, true);
-    ResultDoc d2 = new ResultDoc("2", 1.0001, true, true);
-    ResultDoc d3 = new ResultDoc("3", 1.0001, true, true);
-    ResultDoc d4 = new ResultDoc("4", 1.0001, true, true);
+    ResultDoc d2 = new ResultDoc("010", 1.0001, true, true);
+    ResultDoc d3 = new ResultDoc("1000", 1.0001, true, true);
+    ResultDoc d4 = new ResultDoc("00100", 1.0001, true, true);
 
     List<ResultDoc> l = new ArrayList<>();
     l.add(d1);
@@ -68,7 +68,7 @@ public class RankingResultsTest {
       sorted[i] = l.get(i).getDocid();
     }
 
-    String[] expected = {"4", "3", "2", "1"};
+    String[] expected = {"1000", "00100", "010", "1"};
 
     assertArrayEquals(expected, sorted);
   }

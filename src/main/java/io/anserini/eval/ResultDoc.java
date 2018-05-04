@@ -52,7 +52,13 @@ public class ResultDoc implements Comparable<ResultDoc> {
     // first compare the score then compare the docid
     // We sort it REVERSELLY!!!
     if (thisScore.equals(otherScore)) {
-      return r.getDocid().compareTo(this.docid);
+      if (long_docids) {
+        Long id1 = Long.parseLong(r.getDocid());
+        Long id2 = Long.parseLong(this.docid);
+        return docid_desc ? Long.compare(id1, id2) : Long.compare(id2, id1);
+      } else {
+        return r.getDocid().compareTo(this.docid);
+      }
     }
     return otherScore.compareTo(thisScore);
   }
