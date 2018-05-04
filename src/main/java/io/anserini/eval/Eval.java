@@ -82,8 +82,9 @@ public final class Eval {
     }
   }
 
-  public static void eval(String runFile, String qrelFile) throws IOException {
-    RankingResults rr = new RankingResults(runFile);
+  public static void eval(String runFile, String qrelFile, boolean long_docids,
+                          boolean docid_desc) throws IOException {
+    RankingResults rr = new RankingResults(runFile, long_docids, docid_desc);
     QueryJudgments qj = new QueryJudgments(qrelFile);
     allEvals = new TreeMap<>();
     for (String metric : allMetrics) {
@@ -114,7 +115,7 @@ public final class Eval {
       System.err.println("No metric provided...exit");
       return;
     }
-    eval(evalArgs.runPath, evalArgs.qrelPath);
+    eval(evalArgs.runPath, evalArgs.qrelPath, evalArgs.longDocids, evalArgs.docidDesc);
     print(evalArgs.printPerQuery, System.out);
   }
 }

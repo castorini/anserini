@@ -72,6 +72,7 @@ public abstract class EndToEndTest extends LuceneTestCase {
   protected int storedFieldStatusTotalDocCounts;
   protected int storedFieldStatusTotFields;
 
+  // Eval
   protected float evalMetricValue;
 
   // init the class variables here
@@ -205,13 +206,15 @@ public abstract class EndToEndTest extends LuceneTestCase {
     // required
     evalArgs.runPath = this.searchOutputPrefix+this.topicReader;
     evalArgs.qrelPath = this.qrelsDirPrefix+this.topicReader;
+    evalArgs.longDocids = false;
+    evalArgs.docidDesc = false;
   }
 
   protected void testEval() throws Exception {
     setEvalArgs();
     try {
       Eval.setAllMetrics(this.evalMetrics);
-      Eval.eval(evalArgs.runPath, evalArgs.qrelPath);
+      Eval.eval(evalArgs.runPath, evalArgs.qrelPath, evalArgs.longDocids, evalArgs.docidDesc);
       assertEquals(Eval.getAllEvals().get(this.evalMetrics[0]).aggregated,
           this.evalMetricValue, 0.001);
     } catch (Exception e) {

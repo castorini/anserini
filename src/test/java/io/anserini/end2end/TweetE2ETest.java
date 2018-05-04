@@ -50,4 +50,11 @@ public class TweetE2ETest extends EndToEndTest {
     super.setSearchArgs();
     searchArgs.searchtweets = true;
   }
+
+  @Override
+  protected void setEvalArgs() {
+    super.setEvalArgs();
+    evalArgs.longDocids = true;
+    evalArgs.docidDesc = true;
+  }
 }

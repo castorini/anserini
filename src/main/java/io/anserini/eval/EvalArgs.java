@@ -29,4 +29,15 @@ public class EvalArgs {
       usage = "In additional to print the average performance over all query topics, also " +
           "print the per query performance")
   public boolean printPerQuery = false;
+
+  @Option(name = "-longdocids", handler = BooleanOptionHandler.class,
+      usage = "Boolean switch to trun on the option that parses docids into Long type. " +
+          "This is useful for Tweets since we can order the docs by their Long docids (which are " +
+          "essentially timestamps)")
+  public boolean longDocids = false;
+
+  @Option(name = "-docidsdesc", handler = BooleanOptionHandler.class,
+      usage = "Boolean switch to order docid in descending order when there are scores tie. " +
+          "Default is ascending order")
+  public boolean docidDesc = false;
 }
