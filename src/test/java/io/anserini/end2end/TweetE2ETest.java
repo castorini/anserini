@@ -55,6 +55,5 @@ public class TweetE2ETest extends EndToEndTest {
   protected void setEvalArgs() {
     super.setEvalArgs();
     evalArgs.longDocids = true;
-    evalArgs.docidDesc = true;
   }
 }

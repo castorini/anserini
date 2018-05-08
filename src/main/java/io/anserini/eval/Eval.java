@@ -115,7 +115,7 @@ public final class Eval {
       System.err.println("No metric provided...exit");
       return;
     }
-    eval(evalArgs.runPath, evalArgs.qrelPath, evalArgs.longDocids, evalArgs.docidDesc);
+    eval(evalArgs.runPath, evalArgs.qrelPath, evalArgs.longDocids, evalArgs.asc);
     print(evalArgs.printPerQuery, System.out);
   }
 }

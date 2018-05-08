@@ -27,7 +27,7 @@ import static org.junit.Assert.*;
 public class RankingResultsTest extends LuceneTestCase {
   @Test
   public void testSorting() throws IOException {
-    // d2 and d3 ties with score
+    // d2 and d3 ties with score, the default order will be string docid in descending order
     ResultDoc d1 = new ResultDoc("d1", 2.02, false, false);
     ResultDoc d2 = new ResultDoc("d2", 1.9998, false, false);
     ResultDoc d3 = new ResultDoc("d3", 1.9998, false, false);
@@ -50,12 +50,36 @@ public class RankingResultsTest extends LuceneTestCase {
   }
 
   @Test
-  public void testSortingWithOptions() throws IOException {
+  public void testSortingWithOptions1() throws IOException {
     // d2 and d3 ties with score
     ResultDoc d1 = new ResultDoc("1", 1.0001, true, true);
     ResultDoc d2 = new ResultDoc("010", 1.0001, true, true);
     ResultDoc d3 = new ResultDoc("1000", 1.0001, true, true);
     ResultDoc d4 = new ResultDoc("00100", 1.0001, true, true);
+
+    List<ResultDoc> l = new ArrayList<>();
+    l.add(d1);
+    l.add(d2);
+    l.add(d3);
+    l.add(d4);
+    Collections.sort(l);
+    String[] sorted = new String[4];
+    for (int i = 0; i < l.size(); i++) {
+      sorted[i] = l.get(i).getDocid();
+    }
+
+    String[] expected = {"1", "010", "00100", "1000"};
+
+    assertArrayEquals(expected, sorted);
+  }
+
+  @Test
+  public void testSortingWithOptions2() throws IOException {
+    // d2 and d3 ties with score
+    ResultDoc d1 = new ResultDoc("1", 1.0001, true, false);
+    ResultDoc d2 = new ResultDoc("010", 1.0001, true, false);
+    ResultDoc d3 = new ResultDoc("1000", 1.0001, true, false);
+    ResultDoc d4 = new ResultDoc("00100", 1.0001, true, false);
 
     List<ResultDoc> l = new ArrayList<>();
     l.add(d1);

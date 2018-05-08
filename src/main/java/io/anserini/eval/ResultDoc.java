@@ -23,17 +23,17 @@ public class ResultDoc implements Comparable<ResultDoc> {
   protected double score;
   protected String docid;
   protected boolean long_docids;
-  protected boolean docid_desc; // ranking by docid in descending order when there is score tie
+  protected boolean asc; // ranking by docid in descending order when there is score tie
 
-  public ResultDoc(String docid, double score, boolean long_docids, boolean docid_desc) {
+  public ResultDoc(String docid, double score, boolean long_docids, boolean asc) {
     this.docid = docid;
     this.score = score;
     this.long_docids = long_docids;
-    this.docid_desc = docid_desc;
+    this.asc = asc;
   }
 
-  public ResultDoc(ResultDoc resultDoc, boolean long_docids, boolean docid_desc) {
-    this(resultDoc.getDocid(), resultDoc.getScore(), long_docids, docid_desc);
+  public ResultDoc(ResultDoc resultDoc, boolean long_docids, boolean asc) {
+    this(resultDoc.getDocid(), resultDoc.getScore(), long_docids, asc);
   }
 
   public double getScore() {
@@ -55,7 +55,7 @@ public class ResultDoc implements Comparable<ResultDoc> {
       if (long_docids) {
         Long id1 = Long.parseLong(r.getDocid());
         Long id2 = Long.parseLong(this.docid);
-        return docid_desc ? Long.compare(id1, id2) : Long.compare(id2, id1);
+        return asc ? Long.compare(id2, id1) : Long.compare(id1, id2);
       } else {
         return r.getDocid().compareTo(this.docid);
       }

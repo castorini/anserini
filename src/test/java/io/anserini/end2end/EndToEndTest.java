@@ -207,14 +207,14 @@ public abstract class EndToEndTest extends LuceneTestCase {
     evalArgs.runPath = this.searchOutputPrefix+this.topicReader;
     evalArgs.qrelPath = this.qrelsDirPrefix+this.topicReader;
     evalArgs.longDocids = false;
-    evalArgs.docidDesc = false;
+    evalArgs.asc = false;
   }
 
   protected void testEval() throws Exception {
     setEvalArgs();
     try {
       Eval.setAllMetrics(this.evalMetrics);
-      Eval.eval(evalArgs.runPath, evalArgs.qrelPath, evalArgs.longDocids, evalArgs.docidDesc);
+      Eval.eval(evalArgs.runPath, evalArgs.qrelPath, evalArgs.longDocids, evalArgs.asc);
       assertEquals(Eval.getAllEvals().get(this.evalMetrics[0]).aggregated,
           this.evalMetricValue, 0.001);
     } catch (Exception e) {

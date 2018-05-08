@@ -36,8 +36,8 @@ public class EvalArgs {
           "essentially timestamps)")
   public boolean longDocids = false;
 
-  @Option(name = "-docidsdesc", handler = BooleanOptionHandler.class,
-      usage = "Boolean switch to order docid in descending order when there are scores tie. " +
-          "Default is ascending order")
-  public boolean docidDesc = false;
+  @Option(name = "-asc", handler = BooleanOptionHandler.class,
+      usage = "Boolean switch to order docid in ascending order when there are scores tie. " +
+          "Default is descending order")
+  public boolean asc = false;
 }
