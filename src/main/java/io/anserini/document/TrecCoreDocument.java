@@ -21,18 +21,18 @@ public class TrecCoreDocument implements SourceDocument {
   }
 
   @Override
-  public SourceDocumentResultWrapper<TrecCoreDocument> readNextRecord(BufferedReader bRdr) throws IOException {
+  public TrecCoreDocument readNextRecord(BufferedReader bRdr) throws Exception {
     return readNextRecord(file);
   }
 
-  public SourceDocumentResultWrapper<TrecCoreDocument> readNextRecord(File fileName) throws IOException {
+  public TrecCoreDocument readNextRecord(File fileName) throws IOException {
     NYTCorpusDocumentParser nytParser = new NYTCorpusDocumentParser();
     NYTCorpusDocument nytDoc = nytParser.parseNYTCorpusDocumentFromFile(fileName, false);
 
     id = String.valueOf(nytDoc.getGuid());
     contents = nytDoc.getBody();
 
-    return new SourceDocumentResultWrapper<TrecCoreDocument>(this, null);
+    return this;
   }
 
   @Override

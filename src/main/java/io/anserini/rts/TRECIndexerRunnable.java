@@ -60,74 +60,79 @@ public class TRECIndexerRunnable implements Runnable {
 
       @Override
       public void onMessage(String rawString) {
-        TweetDocument status = new TweetDocument().fromJson(rawString);
-        // TREC 2016 rule: Treatment of retweets.
-        if (status.getRetweetStatusString() != null) {
-          status = new TweetDocument().fromJson(status.getRetweetStatusString());
-        }
-        if (status == null) {
-          try {
-            JsonObject obj = (JsonObject) JSON_PARSER.parse(rawString);
-            // Tweet deletion update: delete from the existed index
-            if (obj.has("delete")) {
-              long id = obj.getAsJsonObject("delete").getAsJsonObject("status").get("id").getAsLong();
-              Query q = LongPoint.newRangeQuery(StatusField.ID.name, id, id);
-              indexWriter.deleteDocuments(q);
+        try {
+          TweetDocument status = new TweetDocument().fromJson(rawString);
+          // TREC 2016 rule: Treatment of retweets.
+          if (status.getRetweetStatusString() != null) {
+            status = new TweetDocument().fromJson(status.getRetweetStatusString());
+          }
+          if (status == null) {
+            try {
+              JsonObject obj = (JsonObject) JSON_PARSER.parse(rawString);
+              // Tweet deletion update: delete from the existed index
+              if (obj.has("delete")) {
+                long id = obj.getAsJsonObject("delete").getAsJsonObject("status").get("id").getAsLong();
+                Query q = LongPoint.newRangeQuery(StatusField.ID.name, id, id);
+                indexWriter.deleteDocuments(q);
+              }
+            } catch (Exception e) {
+              // TODO Auto-generated catch block
+              e.printStackTrace();
             }
-          } catch (Exception e) {
+            return;
+          }
+
+          if (status.getText() == null) {
+            return;
+          }
+
+          // filter out retweets
+          if (status.getText().substring(0, 4).equals("RT @")) {
+            return;
+          }
+
+          // UWaterlooMDS design: pre-process raw tweet text
+          // 1. filter out non-english tweets (including those with only
+          // non-ASCII characters)
+          // 2. Tokenize raw tweet text with TRECTwokenizer and
+          // concatenate with whitespace
+          if (!status.getLang().equals("en")) {
+            return;
+          }
+          String rawText = status.getText();
+          String processedRawText = rawText.replaceAll("[^\\x00-\\x7F]", "");
+          if (processedRawText == null) {
+            return;
+          }
+          String whiteSpaceTokenizedText = TRECTwokenizer.trecTokenizeText(processedRawText);
+          if (whiteSpaceTokenizedText == "") {
+            return;
+          }
+          Document doc = new Document();
+          doc.add(new StringField(StatusField.ID.name, status.id(), Store.YES));
+          doc.add(new LongPoint(StatusField.EPOCH.name, status.getEpoch()));
+          doc.add(new StoredField(StatusField.EPOCH.name, status.getEpoch()));
+          doc.add(new TextField(StatusField.SCREEN_NAME.name, status.getScreenname(), Store.YES));
+          doc.add(new TextField(StatusField.NAME.name, status.getName(), Store.YES));
+          doc.add(new TextField(StatusField.PROFILE_IMAGE_URL.name, status.getProfileImageURL(), Store.YES));
+          doc.add(new Field(StatusField.TEXT.name, whiteSpaceTokenizedText, textOptions));
+          doc.add(new TextField(StatusField.RAW_TEXT.name, status.getText(), Store.YES));
+          if (status.getRetweetedStatusId().isPresent()) {
+            doc.add(new LongPoint(StatusField.RETWEET_COUNT.name, status.getRetweetCount().getAsLong()));
+            doc.add(new StoredField(StatusField.RETWEET_COUNT.name, status.getRetweetCount().getAsLong()));
+          }
+          try {
+            indexWriter.addDocument(doc);
+            indexWriter.commit();
+            tweetCount++;
+            if (tweetCount % 1000 == 0) {
+              LOG.info(tweetCount + " statuses indexed");
+            }
+          } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
           }
-          return;
-        }
-
-        if (status.getText() == null) {
-          return;
-        }
-
-        // filter out retweets
-        if (status.getText().substring(0, 4).equals("RT @")) {
-          return;
-        }
-
-        // UWaterlooMDS design: pre-process raw tweet text
-        // 1. filter out non-english tweets (including those with only
-        // non-ASCII characters)
-        // 2. Tokenize raw tweet text with TRECTwokenizer and
-        // concatenate with whitespace
-        if (!status.getLang().equals("en")) {
-          return;
-        }
-        String rawText = status.getText();
-        String processedRawText = rawText.replaceAll("[^\\x00-\\x7F]", "");
-        if (processedRawText == null) {
-          return;
-        }
-        String whiteSpaceTokenizedText = TRECTwokenizer.trecTokenizeText(processedRawText);
-        if (whiteSpaceTokenizedText == "") {
-          return;
-        }
-        Document doc = new Document();
-        doc.add(new StringField(StatusField.ID.name, status.id(), Store.YES));
-        doc.add(new LongPoint(StatusField.EPOCH.name, status.getEpoch()));
-        doc.add(new StoredField(StatusField.EPOCH.name, status.getEpoch()));
-        doc.add(new TextField(StatusField.SCREEN_NAME.name, status.getScreenname(), Store.YES));
-        doc.add(new TextField(StatusField.NAME.name, status.getName(), Store.YES));
-        doc.add(new TextField(StatusField.PROFILE_IMAGE_URL.name, status.getProfileImageURL(), Store.YES));
-        doc.add(new Field(StatusField.TEXT.name, whiteSpaceTokenizedText, textOptions));
-        doc.add(new TextField(StatusField.RAW_TEXT.name, status.getText(), Store.YES));
-        if (status.getRetweetedStatusId().isPresent()) {
-          doc.add(new LongPoint(StatusField.RETWEET_COUNT.name, status.getRetweetCount().getAsLong()));
-          doc.add(new StoredField(StatusField.RETWEET_COUNT.name, status.getRetweetCount().getAsLong()));
-        }
-        try {
-          indexWriter.addDocument(doc);
-          indexWriter.commit();
-          tweetCount++;
-          if (tweetCount % 1000 == 0) {
-            LOG.info(tweetCount + " statuses indexed");
-          }
-        } catch (IOException e) {
+        } catch (Exception e) {
           // TODO Auto-generated catch block
           e.printStackTrace();
         }

@@ -27,7 +27,7 @@ public abstract class WarcRecord implements SourceDocument {
   public abstract String type();
 
   @Override
-  public SourceDocumentResultWrapper<WarcRecord> readNextRecord(BufferedReader bRdr) throws IOException {
+  public WarcRecord readNextRecord(BufferedReader bRdr) throws IOException {
     return null;
   }
 

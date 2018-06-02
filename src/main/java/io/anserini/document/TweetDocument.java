@@ -53,38 +53,17 @@ public class TweetDocument implements SourceDocument {
   }
 
   @Override
-  public SourceDocumentResultWrapper<TweetDocument> readNextRecord(BufferedReader reader) throws IOException {
-    while (true) {
-      String line = reader.readLine();
-      if (line == null) {
-        return new SourceDocumentResultWrapper<TweetDocument>(
-            null, SourceDocumentResultWrapper.FailureReason.EOF);
-      }
-      TweetDocument parsed = fromJson(line);
-      if (parsed == null) {
-        return new SourceDocumentResultWrapper<TweetDocument>(
-            null, SourceDocumentResultWrapper.FailureReason.ParsingError);
-      } else {
-        return new SourceDocumentResultWrapper<TweetDocument>(parsed, null);
-      }
+  public TweetDocument readNextRecord(BufferedReader reader) throws Exception {
+    String line;
+    while ((line = reader.readLine()) != null) {
+      return fromJson(line);
     }
+    return null;
   }
 
-  public TweetDocument fromJson(String json) {
+  public TweetDocument fromJson(String json) throws Exception {
     JsonObject obj = null;
-    try {
-      obj = (JsonObject) JSON_PARSER.parse(json);
-    } catch (Exception e) {
-      // Catch any malformed JSON.
-      LOG.debug("Error parsing: " + json);
-      return null;
-    }
-
-    if (obj.get("text") == null) {
-      LOG.debug("Skip Tweet with empty text: " + json);
-      return null;
-    }
-
+    obj = (JsonObject) JSON_PARSER.parse(json);
     id = obj.get("id").getAsString();
     text = obj.get("text").getAsString();
     screenname = obj.get("user").getAsJsonObject().get("screen_name").getAsString();

@@ -55,5 +55,5 @@ public interface SourceDocument {
    *
    * @return the next record
    */
-  SourceDocumentResultWrapper readNextRecord(BufferedReader reader) throws IOException;
+  SourceDocument readNextRecord(BufferedReader reader) throws Exception;
 }

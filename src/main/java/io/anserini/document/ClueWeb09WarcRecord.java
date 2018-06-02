@@ -261,13 +261,11 @@ public final class ClueWeb09WarcRecord extends WarcRecord {
    * @return a WARC record (or null if eof)
    * @throws java.io.IOException
    */
-  public SourceDocumentResultWrapper<ClueWeb09WarcRecord>
-        readNextWarcRecord(DataInputStream in, String WARC_VERSION) throws IOException {
+  public ClueWeb09WarcRecord readNextWarcRecord(DataInputStream in, String WARC_VERSION) throws IOException {
     StringBuilder recordHeader = new StringBuilder();
     byte[] recordContent = readNextRecord(in, recordHeader, WARC_VERSION);
     if (recordContent == null) {
-      return new SourceDocumentResultWrapper<ClueWeb09WarcRecord>(
-          null, SourceDocumentResultWrapper.FailureReason.EOF);
+      return null;
     }
 
     // extract out our header information
@@ -301,7 +299,7 @@ public final class ClueWeb09WarcRecord extends WarcRecord {
     // set the content
     retRecord.setContent(recordContent);
 
-    return new SourceDocumentResultWrapper<ClueWeb09WarcRecord>(retRecord, null);
+    return retRecord;
   }
 
   /**

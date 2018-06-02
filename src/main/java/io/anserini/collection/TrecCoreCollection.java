@@ -50,22 +50,18 @@ public class TrecCoreCollection extends Collection<TrecCoreDocument> {
     }
 
     @Override
-    public SourceDocumentResultWrapper<TrecCoreDocument> next() {
+    public TrecCoreDocument next() {
       TrecCoreDocument doc = new TrecCoreDocument(new File(fileName));
-      SourceDocumentResultWrapper<TrecCoreDocument> drw;
       atEOF = true;
       try {
-        drw = doc.readNextRecord(bufferedReader);
-        if (!drw.getDocument().isPresent()) {
-          if (drw.getReason() == SourceDocumentResultWrapper.FailureReason.EOF) {
-            atEOF = true;
-          }
+        doc = doc.readNextRecord(bufferedReader);
+        if (doc == null) {
+          atEOF = true;
         }
-      } catch (IOException e) {
-        drw = new SourceDocumentResultWrapper<TrecCoreDocument>(
-            null, SourceDocumentResultWrapper.FailureReason.IOError);
+      } catch (Exception e) {
+        doc = null;
       }
-      return drw;
+      return doc;
     }
   }
 

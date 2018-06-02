@@ -43,19 +43,14 @@ public class TrecDocument implements SourceDocument {
   protected String content;
 
   @Override
-  public SourceDocumentResultWrapper<TrecDocument> readNextRecord(BufferedReader reader) throws IOException {
+  public TrecDocument readNextRecord(BufferedReader reader) throws IOException {
     StringBuilder builder = new StringBuilder();
     boolean found = false;
     int inTag = -1;
 
-    while (true) {
-      String line = reader.readLine();
-      if (line == null)
-        return new SourceDocumentResultWrapper<TrecDocument>(
-            null, SourceDocumentResultWrapper.FailureReason.EOF);
-
+    String line;
+    while ((line=reader.readLine()) != null) {
       line = line.trim();
-
       if (line.startsWith(DOC)) {
         found = true;
         // continue to read DOCNO
@@ -98,9 +93,11 @@ public class TrecDocument implements SourceDocument {
       }
 
       if (line.startsWith(TERMINATING_DOC)) {
-        return new SourceDocumentResultWrapper<TrecDocument>(parseRecord(builder), null);
+        return parseRecord(builder);
       }
     }
+
+    return null;
   }
 
   public TrecDocument parseRecord(StringBuilder builder) {

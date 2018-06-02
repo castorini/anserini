@@ -28,15 +28,12 @@ public class TrecwebDocument extends TrecDocument {
   private final String TERMINATING_DOCHDR = "</DOCHDR>";
 
   @Override
-  public SourceDocumentResultWrapper<TrecDocument> readNextRecord(BufferedReader reader) throws IOException {
+  public TrecwebDocument readNextRecord(BufferedReader reader) throws IOException {
     StringBuilder builder = new StringBuilder();
     boolean found = false;
 
-    while (true) {
-      String line = reader.readLine();
-      if (line == null)
-        return new SourceDocumentResultWrapper(null, SourceDocumentResultWrapper.FailureReason.EOF);
-
+    String line;
+    while ((line=reader.readLine()) != null) {
       line = line.trim();
 
       if (line.startsWith(DOC)) {
@@ -45,16 +42,17 @@ public class TrecwebDocument extends TrecDocument {
       }
 
       if (line.startsWith(TERMINATING_DOC) && builder.length() > 0) {
-        return new SourceDocumentResultWrapper<TrecDocument>(parseRecord(builder), null);
+        return parseRecord(builder);
       }
 
       if (found)
         builder.append(line).append("\n");
     }
+    return null;
   }
 
   @Override
-  public TrecDocument parseRecord(StringBuilder builder) {
+  public TrecwebDocument parseRecord(StringBuilder builder) {
 
     int i = builder.indexOf(DOCNO);
     if (i == -1) throw new RuntimeException("cannot find start tag " + DOCNO);

@@ -50,7 +50,7 @@ public class WikipediaCollection extends Collection<WikipediaArticle> {
     }
 
     @Override
-    public SourceDocumentResultWrapper<WikipediaArticle> next() {
+    public WikipediaArticle next() {
       try {
         String page;
         String s;
@@ -70,8 +70,7 @@ public class WikipediaCollection extends Collection<WikipediaArticle> {
 
           // If we've gotten here, it means that we've advanced to the next "valid" article.
           String title = cleaner.getTitle(page).replaceAll("\\n+", " ");
-          return new SourceDocumentResultWrapper<WikipediaArticle>(
-              new WikipediaArticle(title, title + ".\n" + s), null);
+          return new WikipediaArticle(title, title + ".\n" + s);
         }
 
       } catch (IOException e) {
@@ -81,8 +80,7 @@ public class WikipediaCollection extends Collection<WikipediaArticle> {
       // If we've fall through here, we've either encountered an exception or we've reached the end
       // of the underlying stream.
       atEOF = true;
-      return new SourceDocumentResultWrapper<WikipediaArticle>(
-          null, SourceDocumentResultWrapper.FailureReason.EOF);
+      return null;
     }
   }
 

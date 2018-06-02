@@ -51,7 +51,7 @@ public abstract class Collection<T extends SourceDocument> {
    * A file containing one more source documents to be indexed. A collection is comprised of one or
    * more {@code FileSegment}s.
    */
-  public abstract class FileSegment implements Iterator<SourceDocumentResultWrapper<T>>, Closeable {
+  public abstract class FileSegment implements Iterator<T>, Closeable {
     protected Path path;
     protected BufferedReader bufferedReader;
     protected boolean atEOF = false;
@@ -64,20 +64,17 @@ public abstract class Collection<T extends SourceDocument> {
     }
 
     @Override
-    public SourceDocumentResultWrapper<T> next() {
-      SourceDocumentResultWrapper<T> drw;
+    public T next() {
+      T d;
       try {
-        drw = dType.readNextRecord(bufferedReader);
-        if (!drw.getDocument().isPresent()) {
-          if (drw.getReason() == SourceDocumentResultWrapper.FailureReason.EOF) {
-            atEOF = true;
-          }
+        d = (T)dType.readNextRecord(bufferedReader);
+        if (d == null) {
+          atEOF = true;
         }
-      } catch (IOException e) {
-        drw = new SourceDocumentResultWrapper<T>(
-            null, SourceDocumentResultWrapper.FailureReason.IOError);
+      } catch (Exception e) {
+        d = null;
       }
-      return drw;
+      return d;
     }
 
     @Override
