@@ -193,7 +193,7 @@ public abstract class EndToEndTest extends LuceneTestCase {
       searcher.close();
       checkRankingResults();
     } catch (Exception e) {
-      System.out.println("Test Searching failed");
+      System.out.println("Test Searching failed: " + e);
       fail();
     }
   }

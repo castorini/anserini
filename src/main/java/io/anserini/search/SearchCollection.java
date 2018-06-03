@@ -140,7 +140,8 @@ public final class SearchCollection implements Closeable {
     for (Map.Entry<Integer, Map<String, String>> entry : topics.entrySet()) {
       int qID = entry.getKey();
       String queryString = entry.getValue().get(topicfield);
-      Query query = null;
+      Query query = useQueryParser ? queryParser.parse(queryString) :
+          AnalyzerUtils.buildBagOfWordsQuery(FIELD_BODY, analyzer, queryString);
       if (searchtweets) {
         long curQueryTime = System.currentTimeMillis();
         long queryTweetTime = Long.parseLong(entry.getValue().get("time"));
@@ -152,9 +153,6 @@ public final class SearchCollection implements Closeable {
         builder.add(filter, BooleanClause.Occur.FILTER);
         builder.add(query, BooleanClause.Occur.MUST);
         query = builder.build();
-      } else {
-        query = useQueryParser ? queryParser.parse(queryString) :
-            AnalyzerUtils.buildBagOfWordsQuery(FIELD_BODY, analyzer, queryString);
       }
 
       TopDocs rs = searcher.search(query, numHits);
