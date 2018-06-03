@@ -32,10 +32,10 @@ public class Rm3Reranker implements Reranker {
 
   private Rm3Stopper stopper;
 
-  public Rm3Reranker(Analyzer analyzer, String field, String stoplist) {
+  public Rm3Reranker(Analyzer analyzer, String field, String stoplist, Boolean fromResource) {
     this.analyzer = analyzer;
     this.field = field;
-    this.stopper = new Rm3Stopper(stoplist);
+    this.stopper = new Rm3Stopper(stoplist, fromResource);
   }
 
   @Override

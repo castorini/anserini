@@ -10,14 +10,14 @@ Indexing the Tweets2011 collection:
 
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection TweetCollection -input \
-/path/to/Tweets2011/ -generator TweetGenerator  -index lucene-index.Tweets2011.pos+docvectors -threads 32 \
--storePositions -storeDocvectors -optimize > log.Tweets2011.txt &
+/path/to/Tweets2011/ -generator TweetGenerator  -index lucene-index.Tweets2011.pos+docvectors.keepUrls.stemming \
+-threads 32 -storePositions -storeDocvectors -optimize -tweet.keepUrls -tweet.stemming > log.Tweets2011.keepUrls.stemming.txt &
 ```
 __NB:__ The process is backgrounded
 
 More available indexing options:
 * `-tweet.keepRetweets`: boolean switch to keep retweets while indexing, default `false`
-* `-tweet.removeUrls`: boolean switch to remove URLs in the tweet, default `false`
+* `-tweet.keepUrls`: boolean switch to keep URLs in the tweet, default `false`
 * `-tweet.stemming`: boolean switch to apply Porter stemming while indexing tweets, default `false`
 * `-tweet.maxId`: the max tweet Id for indexing. Tweet Ids that are larger (when being parsed to Long type) than this value will NOT be indexed, default `LONG.MAX_VALUE`
 * `-tweet.deletedIdsFile`: a file that contains deleted tweetIds, one per line. these tweeets won't be indexed
@@ -25,8 +25,8 @@ More available indexing options:
 Running topics from TREC 2011 (also look in `src/main/resources/topics-and-qrels/` for topics from TREC 2012):
 
 ```
-sh target/appassembler/bin/SearchCollection -searchtweets -topicreader Microblog -index lucene-index.Tweets2011.pos+docvectors -bm25 \
--hits 1000 -topics src/main/resources/topics-and-qrels/topics.microblog2011.txt -output run.mb11.bm25.txt
+sh target/appassembler/bin/SearchCollection -searchtweets -topicreader Microblog -index lucene-index.Tweets2011.pos+docvectors.keepUrls.stemming -bm25 \
+-hits 1000 -topics src/main/resources/topics-and-qrels/topics.microblog2011.txt -output run.mb11.keepUrls.stemming.bm25.txt
 ```
 
 Options for the retrieval model are similar to the web runs: specify `-bm25` to use BM25, `-ql` to use query likelihood,

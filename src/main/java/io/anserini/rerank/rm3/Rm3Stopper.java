@@ -13,21 +13,23 @@ public class Rm3Stopper {
 	public static final Pattern SPACE_PATTERN = Pattern.compile(" ", Pattern.DOTALL);
 	private Set<String> stopwords;
 
-
 	public Rm3Stopper() {
 		stopwords = new HashSet<String>();
 	}
 	
-	public Rm3Stopper(String pathToStoplist) {
+	public Rm3Stopper(String pathToStoplist, Boolean fromResource) {
 		try {
 			stopwords = new HashSet<String>();
-			
-			// assume our stoplist has one stopword per line
-			List<String> lines = IOUtils.readLines(new FileInputStream(pathToStoplist));
-			Iterator<String> it = lines.iterator();
-			while(it.hasNext()) {
-				stopwords.add(it.next());
+			List<String> lines;
+			if (fromResource) {
+				ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+				lines = IOUtils.readLines(classloader.getResourceAsStream(pathToStoplist));
+			} else {
+				// assume our stoplist has one stopword per line
+				lines = IOUtils.readLines(new FileInputStream(pathToStoplist));
+				Iterator<String> it = lines.iterator();
 			}
+			stopwords = new HashSet<String>(lines);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
