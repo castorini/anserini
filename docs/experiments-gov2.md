@@ -19,7 +19,7 @@ as well as doc vectors for relevance feedback (`-storeDocvectors`), and `-optimi
 After indexing is done, you should be able to perform a retrieval as follows:
 
 ```
-sh target/appassembler/bin/SearchWebCollection \
+sh target/appassembler/bin/SearchCollection \
   -topicreader Trec -index lucene-index.gov2.pos+docvectors -bm25 \
   -topics src/main/resources/topics-and-qrels/topics.701-750.txt -output run.gov2.701-750.bm25.txt
 ```

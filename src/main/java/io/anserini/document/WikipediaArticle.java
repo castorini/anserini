@@ -33,7 +33,7 @@ public class WikipediaArticle implements SourceDocument {
   }
 
   @Override
-  public SourceDocument readNextRecord(BufferedReader bRdr) throws IOException {
+  public WikipediaArticle readNextRecord(BufferedReader bRdr) throws IOException {
     return null;
   }
 

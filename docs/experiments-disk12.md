@@ -25,7 +25,7 @@ _Hint:_ You can use the `DumpIndex` utility to print out the statistics of the i
 After indexing is done, you should be able to perform a retrieval run:
 
 ```
-sh target/appassembler/bin/SearchWebCollection -topicreader Trec -index lucene-index.disk12.pos -bm25 \
+sh target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos -bm25 \
   -topics src/main/resources/topics-and-qrels/topics.51-100.txt -output run.disk12.51-100.bm25.txt
 ```
 
@@ -56,7 +56,7 @@ TREC-3 Ad Hoc Track: Topics 151-200   | 0.4707 | 0.4607
 **Mean.**                             | **0.4467** | **0.4411** 
 
 
-##### keep stopwords (with `-keepstopwords` option in both `IndexCollection` and `SearchWebCollection`)
+##### keep stopwords (with `-keepstopwords` option in both `IndexCollection` and `SearchCollection`)
 
 MAP                                   | BM25   | QL     
 --------------------------------------|--------|--------

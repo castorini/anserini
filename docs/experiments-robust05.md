@@ -26,7 +26,7 @@ _Hint:_ You can use the `DumpIndex` utility to print out the statistics of the i
 After indexing is done, you should be able to perform a retrieval run:
 
 ```
-sh target/appassembler/bin/SearchWebCollection -topicreader Trec -index lucene-index.aquaint.pos -bm25 \
+sh target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.aquaint.pos -bm25 \
   -topics src/main/resources/topics-and-qrels/topics.robust05.txt -output run.aquaint.robust05.bm25.txt
 ```
 
@@ -46,7 +46,7 @@ Metric | BM25   | QL
 MAP    | 0.2004 | 0.2025 
 P30    | 0.3667 | 0.3707 
 
-##### keep stopwords (with `-keepstopwords` option in both `IndexCollection` and `SearchWebCollection`)
+##### keep stopwords (with `-keepstopwords` option in both `IndexCollection` and `SearchCollection`)
 
 Metric | BM25   | QL     
 -------|--------|--------

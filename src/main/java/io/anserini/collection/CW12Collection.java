@@ -17,6 +17,8 @@
 package io.anserini.collection;
 
 import io.anserini.document.ClueWeb12WarcRecord;
+import io.anserini.document.SourceDocumentResultWrapper;
+
 import java.io.IOException;
 import java.nio.file.Path;
 
@@ -38,7 +40,6 @@ public class CW12Collection extends WarcCollection {
         doc = doc.readNextWarcRecord(stream, ClueWeb12WarcRecord.WARC_VERSION);
         if (doc == null) {
           atEOF = true;
-          doc = null;
         }
       } catch (IOException e) {
         doc = null;

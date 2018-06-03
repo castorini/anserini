@@ -20,7 +20,7 @@ index segment into one.
 After indexing is done, you should be able to perform a retrieval as follows:
 
 ```
-sh target/appassembler/bin/SearchWebCollection \
+sh target/appassembler/bin/SearchCollection \
   -topicreader Trec -index lucene-index.core.pos+docvectors -bm25 \
   -topics src/main/resources/topics-and-qrels/topics.701-750.txt -output run.core.300-450.600-700.bm25.txt
 ```

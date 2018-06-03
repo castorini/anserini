@@ -21,11 +21,11 @@ public class TrecCoreDocument implements SourceDocument {
   }
 
   @Override
-  public SourceDocument readNextRecord(BufferedReader bRdr) throws IOException {
+  public TrecCoreDocument readNextRecord(BufferedReader bRdr) throws Exception {
     return readNextRecord(file);
   }
 
-  public SourceDocument readNextRecord(File fileName) throws IOException {
+  public TrecCoreDocument readNextRecord(File fileName) throws IOException {
     NYTCorpusDocumentParser nytParser = new NYTCorpusDocumentParser();
     NYTCorpusDocument nytDoc = nytParser.parseNYTCorpusDocumentFromFile(fileName, false);
 

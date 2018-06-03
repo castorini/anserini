@@ -26,6 +26,7 @@ import org.kohsuke.args4j.ParserProperties;
 
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
@@ -37,16 +38,10 @@ public final class Eval {
 
   private static final Logger LOG = LogManager.getLogger(Eval.class);
 
-  public static String[] defaultMetrics = new String[] {
-    "num_ret", "num_rel", "num_rel_ret", "map",
-    "p.5", "p.10", "p.20", "p.30",
-    "ndcg.10", "ndcg.20"
-  };
-
   private static String[] allMetrics;
   private static String[] allQueries;
 
-  static class EvalBundle {
+  public static class EvalBundle {
     public String format;
     public Map<String, Double> evals;
     public double aggregated;
@@ -60,6 +55,14 @@ public final class Eval {
 
   private static Map<String, EvalBundle> allEvals;
 
+  public static void setAllMetrics(String[] metrics) {
+    allMetrics = metrics;
+  }
+
+  public static Map<String, EvalBundle> getAllEvals() {
+    return allEvals;
+  }
+
   public static void print(boolean printPerQuery, PrintStream output) {
     String format = "%1$-22s\t%2$s\t%3$";
     if (printPerQuery) {
@@ -69,18 +72,19 @@ public final class Eval {
       for (String query : queries) {
         for (String metric : allMetrics) {
           String formattedOutput = format + allEvals.get(metric).format + "\n";
-          output.format(formattedOutput, metric, query, allEvals.get(metric).evals.get(query));
+          output.format(Locale.US, formattedOutput, metric, query, allEvals.get(metric).evals.get(query));
         }
       }
     }
     for (String metric : allMetrics) {
       String formattedOutput = format + allEvals.get(metric).format + "\n";
-      output.format(formattedOutput, metric, "all", allEvals.get(metric).aggregated);
+      output.format(Locale.US, formattedOutput, metric, "all", allEvals.get(metric).aggregated);
     }
   }
 
-  public static void eval(String runFile, String qrelFile) throws IOException {
-    RankingResults rr = new RankingResults(runFile);
+  public static void eval(String runFile, String qrelFile, boolean long_docids,
+                          boolean docid_desc) throws IOException {
+    RankingResults rr = new RankingResults(runFile, long_docids, docid_desc);
     QueryJudgments qj = new QueryJudgments(qrelFile);
     allEvals = new TreeMap<>();
     for (String metric : allMetrics) {
@@ -106,12 +110,12 @@ public final class Eval {
       return;
     }
 
-    allMetrics = evalArgs.reqMetrics == null ? defaultMetrics : evalArgs.reqMetrics;
+    allMetrics = evalArgs.reqMetrics;
     if (allMetrics.length == 0) {
       System.err.println("No metric provided...exit");
       return;
     }
-    eval(evalArgs.runPath, evalArgs.qrelPath);
+    eval(evalArgs.runPath, evalArgs.qrelPath, evalArgs.longDocids, evalArgs.asc);
     print(evalArgs.printPerQuery, System.out);
   }
 }

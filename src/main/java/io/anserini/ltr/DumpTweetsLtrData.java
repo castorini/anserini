@@ -1,17 +1,27 @@
 package io.anserini.ltr;
 
-import io.anserini.index.IndexTweets;
-import io.anserini.index.IndexTweets.StatusField;
+import io.anserini.analysis.TweetAnalyzer;
+import io.anserini.index.generator.TweetGenerator;
 import io.anserini.ltr.feature.FeatureExtractors;
 import io.anserini.rerank.RerankerCascade;
 import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.ScoredDocuments;
 import io.anserini.rerank.twitter.RemoveRetweetsTemporalTiebreakReranker;
-import io.anserini.search.MicroblogTopic;
-import io.anserini.search.MicroblogTopicSet;
 import io.anserini.search.SearchArgs;
+import io.anserini.search.query.MicroblogTopicReader;
+import io.anserini.search.query.TopicReader;
 import io.anserini.util.AnalyzerUtils;
 import io.anserini.util.Qrels;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
+import java.util.Map;
+import java.util.SortedMap;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.document.LongPoint;
@@ -24,11 +34,8 @@ import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.kohsuke.args4j.*;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.PrintStream;
-import java.nio.file.Paths;
-import java.util.List;
+import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_BODY;
+
 
 @SuppressWarnings("deprecation")
 public class DumpTweetsLtrData {
@@ -86,29 +93,38 @@ public class DumpTweetsLtrData {
     cascade.add(new RemoveRetweetsTemporalTiebreakReranker());
     cascade.add(new TweetsLtrDataGenerator(out, qrels, extractors));
 
-    MicroblogTopicSet topics = MicroblogTopicSet.fromFile(new File(args.topics));
+    Path topicsFile = Paths.get(args.topics);
+    TopicReader tr = new MicroblogTopicReader(topicsFile);
+    SortedMap<Integer, Map<String, String>> topics = tr.read();
+
+    if (!Files.exists(topicsFile) || !Files.isRegularFile(topicsFile) || !Files.isReadable(topicsFile)) {
+      throw new IllegalArgumentException("Topics file : " + topicsFile + " does not exist or is not a (readable) file.");
+    }
 
     LOG.info("Initialized complete! (elapsed time = " + (System.nanoTime()-curTime)/1000000 + "ms)");
     long totalTime = 0;
     int cnt = 0;
-    for ( MicroblogTopic topic : topics ) {
+    for (Map.Entry<Integer, Map<String, String>> entry : topics.entrySet()) {
       long curQueryTime = System.nanoTime();
-
-      Query filter = LongPoint.newRangeQuery(StatusField.ID.name, 0L, topic.getQueryTweetTime());
-      Query query = AnalyzerUtils.buildBagOfWordsQuery(StatusField.TEXT.name, IndexTweets.ANALYZER, topic.getQuery());
+      int qID = entry.getKey();
+      String queryString = entry.getValue().get("title");
+      Long queryTime = Long.parseLong(entry.getValue().get("time"));
+      Query filter = LongPoint.newRangeQuery(TweetGenerator.FIELD_ID, 0L, queryTime);
+      Query query = AnalyzerUtils.buildBagOfWordsQuery(TweetGenerator.FIELD_ID,
+          new TweetAnalyzer(), queryString);
       BooleanQuery.Builder builder = new BooleanQuery.Builder();
       builder.add(filter, BooleanClause.Occur.FILTER);
       builder.add(query, BooleanClause.Occur.MUST);
       Query q = builder.build();
 
       TopDocs rs = searcher.search(q, args.hits);
-      List<String> queryTokens = AnalyzerUtils.tokenize(IndexTweets.ANALYZER, topic.getQuery());
-      RerankerContext context = new RerankerContext(searcher, query, topic.getId(), topic.getQuery(),
-          queryTokens, StatusField.TEXT.name, filter);
+      List<String> queryTokens = AnalyzerUtils.tokenize(new TweetAnalyzer(), queryString);
+      RerankerContext context = new RerankerContext(searcher, query, queryString.toString(), queryString,
+          queryTokens, TweetGenerator.FIELD_BODY, filter);
 
       cascade.run(ScoredDocuments.fromTopDocs(rs, searcher), context);
       long qtime = (System.nanoTime()-curQueryTime)/1000000;
-      LOG.info("Query " + topic.getId() + " (elapsed time = " + qtime + "ms)");
+      LOG.info("Query " + qID + " (elapsed time = " + qtime + "ms)");
       totalTime += qtime;
       cnt++;
     }

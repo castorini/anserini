@@ -45,10 +45,10 @@ public class MetricsTest extends LuceneTestCase {
     super.setUp();
     // construct ranking list
     // d2 and d3 ties with score
-    ResultDoc d1 = new ResultDoc("d1", 2.02);
-    ResultDoc d2 = new ResultDoc("d2", 1.9998);
-    ResultDoc d3 = new ResultDoc("d3", 1.9998);
-    ResultDoc d4 = new ResultDoc("d4", 1.576);
+    ResultDoc d1 = new ResultDoc("d1", 2.02, false, false);
+    ResultDoc d2 = new ResultDoc("d2", 1.9998, false, false);
+    ResultDoc d3 = new ResultDoc("d3", 1.9998, false, false);
+    ResultDoc d4 = new ResultDoc("d4", 1.576, false, false);
 
     rankingList = new ArrayList<>();
     rankingList.add(d1);

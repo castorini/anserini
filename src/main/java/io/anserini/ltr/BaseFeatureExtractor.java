@@ -28,7 +28,7 @@ abstract public class BaseFeatureExtractor {
     private static final Logger LOG = LogManager.getLogger(BaseFeatureExtractor.class);
     private IndexReader reader;
     private Qrels qrels;
-    private Map<String, String> topics;
+    private Map<Integer, Map<String, String>> topics;
     private Analyzer queryAnalyzer;
     private final FeatureExtractors customFeatureExtractors;
 
@@ -87,7 +87,7 @@ abstract public class BaseFeatureExtractor {
    * @return
    */
     static BaseFeatureExtractor parseExtractorsFromFile(IndexReader reader, Qrels qrels,
-                                                        Map<String, String> topics, String definitionFile) {
+                                Map<Integer, Map<String, String>> topics, String definitionFile) {
 
       return null;
     }
@@ -98,7 +98,7 @@ abstract public class BaseFeatureExtractor {
      * @param qrels
      * @param topics
      */
-    public BaseFeatureExtractor(IndexReader reader, Qrels qrels, Map<String,String> topics,
+    public BaseFeatureExtractor(IndexReader reader, Qrels qrels, Map<Integer, Map<String,String>> topics,
                                 FeatureExtractors extractors) {
         this.reader = reader;
         this.qrels = qrels;
@@ -115,7 +115,7 @@ abstract public class BaseFeatureExtractor {
         for (String qid : qrels.getQids()) {
             // Construct the reranker context
             LOG.debug(String.format("Constructing context for QID: %s", qid));
-            String queryText = topics.get(qid);
+            String queryText = topics.get(qid).get("title");
             Query q = null;
 
             // We will not be checking for nulls here because the input should be correct,
