@@ -1,6 +1,6 @@
 package io.anserini.ltr.feature.twitter;
 
-import io.anserini.index.IndexTweets.StatusField;
+import io.anserini.index.generator.TweetGenerator.StatusField;
 import io.anserini.ltr.feature.FeatureExtractor;
 import io.anserini.rerank.RerankerContext;
 

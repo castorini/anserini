@@ -101,7 +101,7 @@ public class IndexUtils {
     for (String fd : fields) {
       FieldInfo fi = fieldInfos.fieldInfo(fd);
       System.out.println("  " + fd + " (" + "indexOption: " + fi.getIndexOptions() +
-          ", hasVectors: " + fi.hasVectors() + ", hasPayloads: " + fi.hasPayloads() + ")");
+          ", hasVectors: " + fi.hasVectors() + ")");
     }
   }
 

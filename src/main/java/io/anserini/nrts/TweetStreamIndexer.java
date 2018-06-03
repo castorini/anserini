@@ -2,7 +2,7 @@ package io.anserini.nrts;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import io.anserini.document.twitter.Status;
+import io.anserini.document.TweetDocument;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.document.*;
@@ -58,81 +58,77 @@ public class TweetStreamIndexer implements Runnable {
 
       @Override
       public void onMessage(String rawString) {
-        Status status = Status.fromJson(rawString);
-
-        if (status == null) {
-          try {
-            JsonObject obj = (JsonObject) JSON_PARSER.parse(rawString);
-            if (obj.has("delete")) {
-              long id = obj.getAsJsonObject("delete").getAsJsonObject("status").get("id")
-                  .getAsLong();
-              Query q = LongPoint.newRangeQuery(StatusField.ID.name, id, id);
-              TweetSearcher.indexWriter.deleteDocuments(q);
+        try {
+          TweetDocument status = new TweetDocument().fromJson(rawString);
+          if (status == null) {
+            try {
+              JsonObject obj = (JsonObject) JSON_PARSER.parse(rawString);
+              if (obj.has("delete")) {
+                long id = obj.getAsJsonObject("delete").getAsJsonObject("status").get("id")
+                    .getAsLong();
+                Query q = LongPoint.newRangeQuery(StatusField.ID.name, id, id);
+                TweetSearcher.indexWriter.deleteDocuments(q);
+              }
+            } catch (Exception e) {
+              // TODO Auto-generated catch block
+              e.printStackTrace();
             }
-          } catch (Exception e) {
+            return;
+          }
+
+          if (status.getText() == null) {
+            return;
+          }
+
+          Document doc = new Document();
+          doc.add(new StringField(StatusField.ID.name, status.id(), Store.YES));
+          doc.add(new LongPoint(StatusField.EPOCH.name, status.getEpoch()));
+          doc.add(new StoredField(StatusField.EPOCH.name, status.getEpoch()));
+          doc.add(new TextField(StatusField.SCREEN_NAME.name, status.getScreenname(), Store.YES));
+
+          doc.add(new Field(StatusField.TEXT.name, status.getText(), textOptions));
+
+          doc.add(new IntPoint(StatusField.FRIENDS_COUNT.name, status.getFollowersCount()));
+          doc.add(new StoredField(StatusField.FRIENDS_COUNT.name, status.getFollowersCount()));
+          doc.add(new IntPoint(StatusField.FOLLOWERS_COUNT.name, status.getFriendsCount()));
+          doc.add(new StoredField(StatusField.FOLLOWERS_COUNT.name, status.getFriendsCount()));
+          doc.add(new IntPoint(StatusField.STATUSES_COUNT.name, status.getStatusesCount()));
+          doc.add(new StoredField(StatusField.STATUSES_COUNT.name, status.getStatusesCount()));
+
+          status.getInReplyToStatusId().ifPresent(rid -> {
+            doc.add(new LongPoint(StatusField.IN_REPLY_TO_STATUS_ID.name, rid));
+            doc.add(new StoredField(StatusField.IN_REPLY_TO_STATUS_ID.name, rid));
+            doc.add(new LongPoint(StatusField.IN_REPLY_TO_USER_ID.name, status.getInReplyToUserId().getAsLong()));
+            doc.add(new StoredField(StatusField.IN_REPLY_TO_USER_ID.name, status.getInReplyToUserId().getAsLong()));
+          });
+
+          status.getLang().ifPresent( lang ->
+            doc.add(new TextField(StatusField.LANG.name, lang, Store.YES))
+          );
+
+          status.getRetweetedStatusId().ifPresent( rid -> {
+            doc.add(new LongPoint(StatusField.RETWEETED_STATUS_ID.name, rid));
+            doc.add(new StoredField(StatusField.RETWEETED_STATUS_ID.name, rid));
+            doc.add(new LongPoint(StatusField.RETWEETED_USER_ID.name, status.getRetweetedUserId().getAsLong()));
+            doc.add(new StoredField(StatusField.RETWEETED_USER_ID.name, status.getRetweetedUserId().getAsLong()));
+            doc.add(new LongPoint(StatusField.RETWEET_COUNT.name, status.getRetweetCount().getAsLong()));
+            doc.add(new StoredField(StatusField.RETWEET_COUNT.name, status.getRetweetCount().getAsLong()));
+          });
+
+          try {
+            TweetSearcher.indexWriter.addDocument(doc);
+            tweetCount++;
+            if (tweetCount % 1000 == 0) {
+              LOG.info(tweetCount + " statuses indexed");
+            }
+          } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
           }
-          return;
-        }
-
-        if (status.getText() == null) {
-          return;
-        }
-
-        Document doc = new Document();
-        doc.add(new LongPoint(StatusField.ID.name, status.getId()));
-        doc.add(new StoredField(StatusField.ID.name, status.getId()));
-        doc.add(new LongPoint(StatusField.EPOCH.name, status.getEpoch()));
-        doc.add(new StoredField(StatusField.EPOCH.name, status.getEpoch()));
-        doc.add(new TextField(StatusField.SCREEN_NAME.name, status.getScreenname(), Store.YES));
-
-        doc.add(new Field(StatusField.TEXT.name, status.getText(), textOptions));
-
-        doc.add(new IntPoint(StatusField.FRIENDS_COUNT.name, status.getFollowersCount()));
-        doc.add(new StoredField(StatusField.FRIENDS_COUNT.name, status.getFollowersCount()));
-        doc.add(new IntPoint(StatusField.FOLLOWERS_COUNT.name, status.getFriendsCount()));
-        doc.add(new StoredField(StatusField.FOLLOWERS_COUNT.name, status.getFriendsCount()));
-        doc.add(new IntPoint(StatusField.STATUSES_COUNT.name, status.getStatusesCount()));
-        doc.add(new StoredField(StatusField.STATUSES_COUNT.name, status.getStatusesCount()));
-
-        long inReplyToStatusId = status.getInReplyToStatusId();
-        if (inReplyToStatusId > 0) {
-          doc.add(new LongPoint(StatusField.IN_REPLY_TO_STATUS_ID.name, inReplyToStatusId));
-          doc.add(new StoredField(StatusField.IN_REPLY_TO_STATUS_ID.name, inReplyToStatusId));
-          doc.add(new LongPoint(StatusField.IN_REPLY_TO_USER_ID.name, status.getInReplyToUserId()));
-          doc.add(new StoredField(StatusField.IN_REPLY_TO_USER_ID.name, status.getInReplyToUserId()));
-        }
-
-        String lang = status.getLang();
-        if (!lang.equals("unknown")) {
-          doc.add(new TextField(StatusField.LANG.name, status.getLang(), Store.YES));
-        }
-
-        long retweetStatusId = status.getRetweetedStatusId();
-        if (retweetStatusId > 0) {
-          doc.add(new LongPoint(StatusField.RETWEETED_STATUS_ID.name, retweetStatusId));
-          doc.add(new StoredField(StatusField.RETWEETED_STATUS_ID.name, retweetStatusId));
-          doc.add(new LongPoint(StatusField.RETWEETED_USER_ID.name, status.getRetweetedUserId()));
-          doc.add(new StoredField(StatusField.RETWEETED_USER_ID.name, status.getRetweetedUserId()));
-          doc.add(new IntPoint(StatusField.RETWEET_COUNT.name, status.getRetweetCount()));
-          doc.add(new StoredField(StatusField.RETWEET_COUNT.name, status.getRetweetCount()));
-          if (status.getRetweetCount() < 0 || status.getRetweetedStatusId() < 0) {
-            System.err.println("Error parsing retweet fields of " + status.getId());
-          }
-        }
-
-        try {
-          TweetSearcher.indexWriter.addDocument(doc);
-          tweetCount++;
-          if (tweetCount % 1000 == 0) {
-            LOG.info(tweetCount + " statuses indexed");
-          }
-        } catch (IOException e) {
+        } catch (Exception e) {
           // TODO Auto-generated catch block
           e.printStackTrace();
         }
-
       }
 
       @Override

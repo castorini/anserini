@@ -18,12 +18,12 @@ also want to store document vectors (e.g., for query expansion), add the `-docve
 After indexing is done, you should be able to perform a retrieval run:
 
 ```
-sh target/appassembler/bin/SearchWebCollection -topicreader Trec -index lucene-index.wt2g.pos -bm25 \
+sh target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.wt2g.pos -bm25 \
   -topics src/main/resources/topics-and-qrels/topics.401-450.txt -output run.wt2g.401-450.bm25.txt
 ```
 or 
 ```
-sh target/appassembler/bin/SearchWebCollection -topicreader Trec -index lucene-index.wt10g.pos -bm25 \
+sh target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.wt10g.pos -bm25 \
   -topics src/main/resources/topics-and-qrels/topics.451-550.txt -output run.wt10g.451-550.bm25.txt
 ```
 
@@ -52,7 +52,7 @@ P30                    | BM25   | QL
 WT2G: Topics 401-450   | 0.3220 | 0.3233 
 WT10G: Topics 451-550  | 0.2207 | 0.2184  
 
-##### keep stopwords (with `-keepstopwords` option in both `IndexCollection` and `SearchWebCollection`)
+##### keep stopwords (with `-keepstopwords` option in both `IndexCollection` and `SearchCollection`)
 
 MAP                    | BM25   | QL     
 -----------------------|--------|--------
