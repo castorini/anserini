@@ -41,6 +41,7 @@ public class TweetDocument implements SourceDocument {
   protected String retweetStatusString;
 
   //private boolean keepRetweets;
+  protected long idLong;
   protected String id;
   protected String text;
 
@@ -65,6 +66,7 @@ public class TweetDocument implements SourceDocument {
     JsonObject obj = null;
     obj = (JsonObject) JSON_PARSER.parse(json);
     id = obj.get("id").getAsString();
+    idLong = Long.parseLong(id);
     text = obj.get("text").getAsString();
     screenname = obj.get("user").getAsJsonObject().get("screen_name").getAsString();
     name = obj.get("user").getAsJsonObject().get("name").getAsString();
@@ -133,6 +135,7 @@ public class TweetDocument implements SourceDocument {
     }
 
     id = columns[0];
+    idLong = Long.parseLong(columns[0]);
     screenname = columns[1];
     createdAt = columns[2];
 
@@ -160,6 +163,7 @@ public class TweetDocument implements SourceDocument {
     return true;
   }
 
+  public long getIdLong() { return idLong; }
   public String getScreenname() {
     return screenname;
   }

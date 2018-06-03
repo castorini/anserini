@@ -18,6 +18,7 @@ package io.anserini.search;
  */
 
 import io.anserini.analysis.TweetAnalyzer;
+import io.anserini.index.generator.TweetGenerator;
 import io.anserini.ltr.TweetsLtrDataGenerator;
 import io.anserini.ltr.WebCollectionLtrDataGenerator;
 import io.anserini.ltr.feature.FeatureExtractors;
@@ -49,6 +50,7 @@ import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.analysis.CharArraySet;
+import org.apache.lucene.document.LongPoint;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.queryparser.classic.ParseException;
@@ -134,34 +136,36 @@ public final class SearchCollection implements Closeable {
     }
     QueryParser queryParser = new QueryParser(FIELD_BODY, analyzer);
     queryParser.setDefaultOperator(QueryParser.Operator.OR);
-
+    Query filter = null;
     for (Map.Entry<Integer, Map<String, String>> entry : topics.entrySet()) {
       int qID = entry.getKey();
       String queryString = entry.getValue().get(topicfield);
-      Query query = useQueryParser ? queryParser.parse(queryString) :
-              AnalyzerUtils.buildBagOfWordsQuery(FIELD_BODY, analyzer, queryString);
+      Query query = null;
       if (searchtweets) {
         long curQueryTime = System.currentTimeMillis();
-        String queryTweetTime = entry.getValue().get("time");
+        long queryTweetTime = Long.parseLong(entry.getValue().get("time"));
         // do not cosider the tweets with tweet ids that are beyond the queryTweetTime
         // <querytweettime> tag contains the timestamp of the query in terms of the
         // chronologically nearest tweet id within the corpus
-        Query filter = TermRangeQuery.newStringRange(FIELD_ID, "0", queryTweetTime, true, true);
+        filter = LongPoint.newRangeQuery(TweetGenerator.StatusField.ID_LONG.name, 0L, queryTweetTime);
         BooleanQuery.Builder builder = new BooleanQuery.Builder();
         builder.add(filter, BooleanClause.Occur.FILTER);
         builder.add(query, BooleanClause.Occur.MUST);
-        Query q = builder.build();
-        query = q;
+        query = builder.build();
+      } else {
+        query = useQueryParser ? queryParser.parse(queryString) :
+            AnalyzerUtils.buildBagOfWordsQuery(FIELD_BODY, analyzer, queryString);
       }
 
-      /**
-       * For Web Tracks 2010,2011,and 2012; an experimental run consists of the top 10,000 documents for each topic query.
-       */
       TopDocs rs = searcher.search(query, numHits);
       ScoreDoc[] hits = rs.scoreDocs;
       List<String> queryTokens = AnalyzerUtils.tokenize(analyzer, queryString);
+      if (searchtweets) { // This is ugly, but we have to reform the tweet query here for reranking
+        query = useQueryParser ? queryParser.parse(queryString) :
+            AnalyzerUtils.buildBagOfWordsQuery(FIELD_BODY, analyzer, queryString);
+      }
       RerankerContext context = new RerankerContext(searcher, query, String.valueOf(qID), queryString,
-              queryTokens, FIELD_BODY, null);
+              queryTokens, FIELD_BODY, filter);
       ScoredDocuments docs = cascade.run(ScoredDocuments.fromTopDocs(rs, searcher), context);
 
       /**

@@ -59,6 +59,7 @@ public class TweetGenerator extends LuceneDocumentGenerator<TweetDocument> {
   private LongOpenHashSet deletes = null;
 
   public enum StatusField {
+    ID_LONG("id_long"),
     SCREEN_NAME("screen_name"),
     EPOCH("epoch"),
     LANG("lang"),
@@ -145,7 +146,7 @@ public class TweetGenerator extends LuceneDocumentGenerator<TweetDocument> {
       return null;
     }
 
-    if (Long.parseLong(id) > args.tweetMaxId) {
+    if (tweetDoc.getIdLong() > args.tweetMaxId) {
       LOG.info("Document Id larger than maxId: " + id);
       counters.unindexableDocuments.incrementAndGet();
       return null;
@@ -158,6 +159,7 @@ public class TweetGenerator extends LuceneDocumentGenerator<TweetDocument> {
     Document doc = new Document();
     doc.add(new StringField(FIELD_ID, id, Field.Store.YES));
 
+    doc.add(new LongPoint(StatusField.ID_LONG.name, tweetDoc.getIdLong()));
     doc.add(new LongPoint(StatusField.EPOCH.name, tweetDoc.getEpoch()));
     doc.add(new StringField(StatusField.SCREEN_NAME.name, tweetDoc.getScreenname(), Field.Store.NO));
     doc.add(new IntPoint(StatusField.FRIENDS_COUNT.name, tweetDoc.getFollowersCount()));
