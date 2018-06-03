@@ -2,6 +2,7 @@
 
 Anserini
 ========
+[![Build Status](https://travis-ci.org/castorini/Anserini.svg?branch=master)](https://travis-ci.org/castorini/Anserini)
 
 Build using Maven:
 
