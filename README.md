@@ -1,5 +1,3 @@
-[![Build Status](https://travis-ci.org/Peilin-Yang/Anserini.svg?branch=master)](https://travis-ci.org/Peilin-Yang/Anserini)
-
 Anserini
 ========
 [![Build Status](https://travis-ci.org/castorini/Anserini.svg?branch=master)](https://travis-ci.org/castorini/Anserini)
