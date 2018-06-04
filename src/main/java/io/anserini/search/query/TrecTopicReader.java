@@ -27,6 +27,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
@@ -65,25 +66,12 @@ public class TrecTopicReader extends TopicReader {
   }
 
   @Override
-  public SortedMap<Integer, String> read() throws IOException {
-    InputStream topics = Files.newInputStream(topicFile, StandardOpenOption.READ);
-    BufferedReader bRdr = new BufferedReader(new InputStreamReader(topics, StandardCharsets.UTF_8));
-    return read(bRdr);
-  }
-
-  @Override
-  public SortedMap<Integer, String> read(String str) throws IOException {
-    BufferedReader bRdr = new BufferedReader(new StringReader(str));
-    return read(bRdr);
-  }
-
-  @Override
-  public SortedMap<Integer, String> read(BufferedReader bRdr) throws IOException {
-    SortedMap<Integer, String> map = new TreeMap<>();
+  public SortedMap<Integer, Map<String, String>> read(BufferedReader bRdr) throws IOException {
+    SortedMap<Integer, Map<String, String>> map = new TreeMap<>();
     StringBuilder sb;
     try {
       while (null!=(sb=read(bRdr,"<top>",null,false,false))) {
-        HashMap<String,String> fields = new HashMap<>();
+        Map<String,String> fields = new HashMap<>();
         // id
         sb = read(bRdr,"<num>",null,true,false);
         int k = sb.indexOf(":");
@@ -130,7 +118,7 @@ public class TrecTopicReader extends TopicReader {
         fields.put("title",title);
         fields.put("description",description);
         fields.put("narrative", narrative);
-        map.put(Integer.parseInt(id), fields.get("title"));
+        map.put(Integer.parseInt(id), fields);
       }
     } finally {
       bRdr.close();

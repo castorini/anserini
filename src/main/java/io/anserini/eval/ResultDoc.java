@@ -22,14 +22,18 @@ package io.anserini.eval;
 public class ResultDoc implements Comparable<ResultDoc> {
   protected double score;
   protected String docid;
+  protected boolean long_docids;
+  protected boolean asc; // ranking by docid in descending order when there is score tie
 
-  public ResultDoc(String docid, double score) {
+  public ResultDoc(String docid, double score, boolean long_docids, boolean asc) {
     this.docid = docid;
     this.score = score;
+    this.long_docids = long_docids;
+    this.asc = asc;
   }
 
-  public ResultDoc(ResultDoc resultDoc) {
-    this(resultDoc.getDocid(), resultDoc.getScore());
+  public ResultDoc(ResultDoc resultDoc, boolean long_docids, boolean asc) {
+    this(resultDoc.getDocid(), resultDoc.getScore(), long_docids, asc);
   }
 
   public double getScore() {
@@ -48,7 +52,13 @@ public class ResultDoc implements Comparable<ResultDoc> {
     // first compare the score then compare the docid
     // We sort it REVERSELLY!!!
     if (thisScore.equals(otherScore)) {
-      return r.getDocid().compareTo(this.docid);
+      if (long_docids) {
+        Long id1 = Long.parseLong(r.getDocid());
+        Long id2 = Long.parseLong(this.docid);
+        return asc ? Long.compare(id2, id1) : Long.compare(id1, id2);
+      } else {
+        return r.getDocid().compareTo(this.docid);
+      }
     }
     return otherScore.compareTo(thisScore);
   }

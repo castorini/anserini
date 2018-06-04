@@ -21,8 +21,9 @@ public class RankingResults {
 
   }
 
-  public RankingResults(String filename) throws IOException {
-    rankingList = readResultsFile(filename);
+  public RankingResults(String filename, boolean long_docids, boolean docid_desc)
+      throws IOException {
+    rankingList = readResultsFile(filename, long_docids, docid_desc);
   }
 
   public Map<String, List<ResultDoc>> getRankingList() {
@@ -37,7 +38,8 @@ public class RankingResults {
    * 1 Q0 doc2 2 7.465 run_tag_2
    *
    */
-  public Map<String, List<ResultDoc>> readResultsFile(String fileName) throws IOException {
+  public Map<String, List<ResultDoc>> readResultsFile(String fileName, boolean long_docids,
+                                                      boolean docid_desc) throws IOException {
     TreeMap<String, List<ResultDoc>> ranking = new TreeMap<>();
     InputStream stream;
     if (fileName.endsWith(".gz")) { //.gz
@@ -65,7 +67,7 @@ public class RankingResults {
         //String rank = arr[3];
         String score = arr[4];
 
-        ResultDoc document = new ResultDoc(docno, Double.parseDouble(score));
+        ResultDoc document = new ResultDoc(docno, Double.parseDouble(score), long_docids, docid_desc);
         if (!ranking.containsKey(qid)) {
           ranking.put(qid, new ArrayList<ResultDoc>());
         }

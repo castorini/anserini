@@ -19,19 +19,20 @@ package io.anserini.util;
 
 import io.anserini.rerank.IdentityReranker;
 import io.anserini.rerank.RerankerCascade;
-import io.anserini.search.SearchWebCollection;
+import io.anserini.search.SearchCollection;
 import io.anserini.search.query.TopicReader;
-import org.apache.commons.lang3.time.DurationFormatUtils;
-import org.apache.lucene.queryparser.classic.ParseException;
-import org.apache.lucene.search.similarities.BM25Similarity;
-
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Map;
 import java.util.SortedMap;
 import java.util.concurrent.TimeUnit;
+import org.apache.commons.lang3.time.DurationFormatUtils;
+import org.apache.lucene.queryparser.classic.ParseException;
+import org.apache.lucene.search.similarities.BM25Similarity;
+
 
 /**
  * Utility to capture Search/Execution Times.
@@ -49,19 +50,19 @@ public class SearchTimeUtil {
 
     String[] topics = {"topics.web.1-50.txt", "topics.web.51-100.txt", "topics.web.101-150.txt", "topics.web.151-200.txt", "topics.web.201-250.txt", "topics.web.251-300.txt"};
 
-    SearchWebCollection searcher = new SearchWebCollection(args[0]);
+    SearchCollection searcher = new SearchCollection(args[0]);
 
     for (String topicFile : topics) {
       Path topicsFile = Paths.get("src/resources/topics-and-qrels/", topicFile);
       TopicReader tr = (TopicReader)Class.forName("io.anserini.search.query."+"Webxml"+"TopicReader")
               .getConstructor(Path.class).newInstance(topicsFile);
-      SortedMap<Integer, String> queries = tr.read();
+      SortedMap<Integer, Map<String, String>> queries = tr.read();
       for (int i = 1; i <= 3; i++) {
         final long start = System.nanoTime();
         String submissionFile = File.createTempFile(topicFile + "_" + i, ".tmp").getAbsolutePath();
         RerankerCascade cascade = new RerankerCascade();
         cascade.add(new IdentityReranker());
-        searcher.search(queries, submissionFile, new BM25Similarity(0.9f, 0.4f), 1000, cascade);
+        searcher.search(queries, "title", submissionFile, new BM25Similarity(0.9f, 0.4f), 1000, cascade);
         final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
         System.out.println(topicFile + "_" + i + " search completed in " + DurationFormatUtils.formatDuration(durationMillis, "mm:ss:SSS"));
       }

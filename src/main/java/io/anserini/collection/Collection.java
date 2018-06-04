@@ -17,6 +17,8 @@
 package io.anserini.collection;
 
 import io.anserini.document.SourceDocument;
+import io.anserini.document.SourceDocumentResultWrapper;
+
 import java.io.BufferedReader;
 import java.io.Closeable;
 import java.io.IOException;
@@ -40,21 +42,21 @@ import org.apache.logging.log4j.Logger;
  * A collection is assumed to be a directory. In the case where the collection is
  * a single file (e.g., a Wikipedia dump), place the file into an arbitrary directory.
  *
- * @param <D> type of the source document
+ * @param <T> type of the source document
  */
-public abstract class Collection<D extends SourceDocument> {
+public abstract class Collection<T extends SourceDocument> {
   private static final Logger LOG = LogManager.getLogger(Collection.class);
 
   /**
    * A file containing one more source documents to be indexed. A collection is comprised of one or
    * more {@code FileSegment}s.
    */
-  public abstract class FileSegment implements Iterator<D>, Closeable {
+  public abstract class FileSegment implements Iterator<T>, Closeable {
     protected Path path;
     protected BufferedReader bufferedReader;
     protected boolean atEOF = false;
     protected final int BUFFER_SIZE = 1 << 16; // 64K
-    protected D dType;
+    protected T dType;
 
     @Override
     public boolean hasNext() {
@@ -62,18 +64,17 @@ public abstract class Collection<D extends SourceDocument> {
     }
 
     @Override
-    public D next() {
-      SourceDocument d;
+    public T next() {
+      T d;
       try {
-        d = dType.readNextRecord(bufferedReader);
+        d = (T)dType.readNextRecord(bufferedReader);
         if (d == null) {
           atEOF = true;
-          d = null;
         }
-      } catch (IOException e) {
+      } catch (Exception e) {
         d = null;
       }
-      return (D)d;
+      return d;
     }
 
     @Override

@@ -17,7 +17,7 @@ command builds an index that stores term positions (`-storePositions`) as well a
 After indexing is done, you should be able to perform a retrieval as follows:
 
 ```
-sh target/appassembler/bin/SearchWebCollection \
+sh target/appassembler/bin/SearchCollection \
   -topicreader Webxml -index lucene-index.cw09b.pos+docvectors -bm25 \
   -topics src/main/resources/topics-and-qrels/topics.web.51-100.txt -output run.web.51-100.bm25.txt
 ```

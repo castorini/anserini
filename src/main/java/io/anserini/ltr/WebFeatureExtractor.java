@@ -58,7 +58,7 @@ public class WebFeatureExtractor extends BaseFeatureExtractor {
 
   private QueryParser parser;
 
-  public WebFeatureExtractor(IndexReader reader, Qrels qrels, Map<String, String> topics) {
+  public WebFeatureExtractor(IndexReader reader, Qrels qrels, Map<Integer, Map<String, String>> topics) {
     this(reader, qrels, topics, getDefaultExtractors());
     LOG.debug("Web Feature extractor initialized.");
   }
@@ -71,7 +71,7 @@ public class WebFeatureExtractor extends BaseFeatureExtractor {
    * @param topics
    * @param customExtractors
    */
-  public WebFeatureExtractor(IndexReader reader, Qrels qrels, Map<String, String> topics,
+  public WebFeatureExtractor(IndexReader reader, Qrels qrels, Map<Integer, Map<String, String>> topics,
                              FeatureExtractors customExtractors) {
     super(reader, qrels, topics, customExtractors == null ? getDefaultExtractors() : customExtractors);
     this.parser = new QueryParser(getTermVectorField(), getAnalyzer());

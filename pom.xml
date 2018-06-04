@@ -85,14 +85,6 @@
               <name>DumpTweetsLtrData</name>
             </program>
             <program>
-              <mainClass>io.anserini.index.IndexTweets</mainClass>
-              <name>IndexTweets</name>
-            </program>
-            <program>
-              <mainClass>io.anserini.search.SearchTweets</mainClass>
-              <name>SearchTweets</name>
-            </program>
-            <program>
               <mainClass>io.anserini.index.IndexGov2</mainClass>
               <name>IndexGov2</name>
             </program>
@@ -105,8 +97,8 @@
               <name>IndexCollection</name>
             </program>
             <program>
-              <mainClass>io.anserini.search.SearchWebCollection</mainClass>
-              <name>SearchWebCollection</name>
+              <mainClass>io.anserini.search.SearchCollection</mainClass>
+              <name>SearchCollection</name>
             </program>
             <program>
               <mainClass>io.anserini.kg.freebase.IndexNodes</mainClass>
@@ -468,6 +460,12 @@
         <groupId>org.openrdf.sesame</groupId>
         <artifactId>sesame-rio-ntriples</artifactId>
         <version>4.1.2</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.twitter.twittertext</groupId>
+      <artifactId>twitter-text</artifactId>
+      <version>2.0.10</version> <!-- or whatever the latest version is -->
     </dependency>
 
   </dependencies>

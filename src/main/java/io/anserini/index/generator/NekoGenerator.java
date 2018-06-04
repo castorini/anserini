@@ -16,11 +16,14 @@
 
 package io.anserini.index.generator;
 
-import io.anserini.document.SourceDocument;
+import io.anserini.index.IndexCollection;
 import io.anserini.index.transform.NekoStringTransform;
 
-public class NekoGenerator extends LuceneDocumentGenerator<SourceDocument> {
+public class NekoGenerator extends LuceneDocumentGenerator {
   public NekoGenerator() {
     super(new NekoStringTransform());
+  }
+  public NekoGenerator(IndexCollection.Args args, IndexCollection.Counters counters) {
+    super(new NekoStringTransform(), args, counters);
   }
 }
