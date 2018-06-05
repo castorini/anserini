@@ -8,22 +8,13 @@ Basically the collection class does two things:
 
 The detailed steps are:
 
-1. Add a new class under package `io.anserini.index.collections`. 
-This class should extends [Collection](https://github.com/lintool/Anserini/blob/master/src/main/java/io/anserini/index/collections/Collection.java) class.
-The name should be something like _MyOwnCollection_ where _MyOwn_ is the name of your collection class.
-The class will be instanced as `c = (Collection)Class.forName("io.anserini.index.collections."+collectionClass+"Collection").newInstance();`
-2. In the constructor define your own `skippedFilePrefix`, `allowedFilePrefix`, `skippedFileSuffix`, `allowedFileSuffix`, `skippedDirs`.
-The [discoverFiles](https://github.com/lintool/Anserini/blob/master/src/main/java/io/anserini/index/collections/Collection.java#L40)
-relies on these sets to decide how to include/exclude files and folders.
-3. Override function `prepareInput` and `finishInput`. 
-`prepareInput` takes a file path as the argument and you can initialize the `BufferReader` (or something like that) there.
-`finishInput` is called after the file is processed and you can close the `BufferReader` (or something like that) here.
-4. Add a new record reader under package `io.anserini.document`. 
-This class should extends [Indexable](https://github.com/lintool/Anserini/blob/master/src/main/java/io/anserini/document/Indexable.java) class.
-Typically the function `next` in `Collection` (since `Collection` implements `Iterator`) can call the function in the 
-record reader to read one document at a time.
-
-Please take a look at [TrecCollection](https://github.com/lintool/Anserini/blob/master/src/main/java/io/anserini/index/collections/TrecCollection.java) 
-and [TrecRecord](https://github.com/lintool/Anserini/blob/master/src/main/java/io/anserini/document/TrecRecord.java) for full example.
+1. Add a new Collection class under package `io.anserini.collection`. 
+This class should extends [Collection](https://github.com/lintool/Anserini/blob/master/src/main/java/io/anserini/collection/Collection.java) class.
+2. Implement class `FileSegment` and function `getFileSegmentPaths`, `createFileSegment`. 
+Take the [TrecCollection](https://github.com/castorini/Anserini/blob/master/src/main/java/io/anserini/collection/TrecCollection.java) as an example.
+3. Add a new Document reader under package `io.anserini.document`. 
+This class should extends [SourceDocument](https://github.com/lintool/Anserini/blob/master/src/main/java/io/anserini/document/SourceDocument.java) class.
+4. Implement function `readNextRecord` and `parseRecord`. 
+Take the [TrecDocument](https://github.com/castorini/Anserini/blob/master/src/main/java/io/anserini/document/TrecDocument.java) as an example.
  
 

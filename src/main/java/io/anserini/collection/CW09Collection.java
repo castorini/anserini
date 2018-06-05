@@ -17,7 +17,6 @@
 package io.anserini.collection;
 
 import io.anserini.document.ClueWeb09WarcRecord;
-import io.anserini.document.SourceDocumentResultWrapper;
 
 import java.io.IOException;
 import java.nio.file.Path;

@@ -113,7 +113,7 @@ public final class SearchCollection implements Closeable {
    * @throws ParseException
    */
 
-  public void search(SortedMap<Integer, Map<String, String>> topics, String topicfield,
+  public void search(SortedMap<String, Map<String, String>> topics, String topicfield,
                      String submissionFile, Similarity similarity, int numHits,
                      RerankerCascade cascade, boolean useQueryParser,
                      boolean keepstopwords, boolean searchtweets) throws IOException, ParseException {
@@ -137,8 +137,8 @@ public final class SearchCollection implements Closeable {
     QueryParser queryParser = new QueryParser(FIELD_BODY, analyzer);
     queryParser.setDefaultOperator(QueryParser.Operator.OR);
     Query filter = null;
-    for (Map.Entry<Integer, Map<String, String>> entry : topics.entrySet()) {
-      int qID = entry.getKey();
+    for (Map.Entry<String, Map<String, String>> entry : topics.entrySet()) {
+      String qID = entry.getKey();
       String queryString = entry.getValue().get(topicfield);
       Query query = useQueryParser ? queryParser.parse(queryString) :
           AnalyzerUtils.buildBagOfWordsQuery(FIELD_BODY, analyzer, queryString);
@@ -175,7 +175,7 @@ public final class SearchCollection implements Closeable {
        * the sixth column is called the "run tag" and should be a unique identifier for your
        */
       for (int i = 0; i < docs.documents.length; i++) {
-        out.println(String.format(Locale.US, "%d Q0 %s %d %f %s", qID,
+        out.println(String.format(Locale.US, "%s Q0 %s %d %f %s", qID,
             docs.documents[i].getField(FIELD_ID).stringValue(), (i + 1), docs.scores[i],
             ((i == 0 || i == docs.documents.length) ? runTag : "See_Line1")));
       }
@@ -184,7 +184,7 @@ public final class SearchCollection implements Closeable {
     out.close();
   }
 
-  public void search(SortedMap<Integer, Map<String, String>> topics, String topicfield,
+  public void search(SortedMap<String, Map<String, String>> topics, String topicfield,
                      String submissionFile, Similarity similarity, int numHits, RerankerCascade cascade)
           throws IOException, ParseException {
     search(topics, topicfield, submissionFile, similarity, numHits, cascade, false, false, false);
@@ -276,7 +276,7 @@ public final class SearchCollection implements Closeable {
 
     TopicReader tr = (TopicReader)Class.forName("io.anserini.search.query."+searchArgs.topicReader+"TopicReader")
             .getConstructor(Path.class).newInstance(topicsFile);
-    SortedMap<Integer, Map<String, String>> topics = tr.read();
+    SortedMap<String, Map<String, String>> topics = tr.read();
 
     final long start = System.nanoTime();
     SearchCollection searcher = new SearchCollection(searchArgs.index);

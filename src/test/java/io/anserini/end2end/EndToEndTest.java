@@ -182,7 +182,7 @@ public abstract class EndToEndTest extends LuceneTestCase {
       Path topicsFile = Paths.get(searchArgs.topics);
       TopicReader tr = (TopicReader)Class.forName("io.anserini.search.query."+searchArgs.topicReader+"TopicReader")
           .getConstructor(Path.class).newInstance(topicsFile);
-      SortedMap<Integer, Map<String, String>> topics = tr.read();
+      SortedMap<String, Map<String, String>> topics = tr.read();
 
       Similarity similarity = new BM25Similarity(0.9f, 0.4f);
       RerankerCascade cascade = new RerankerCascade();
