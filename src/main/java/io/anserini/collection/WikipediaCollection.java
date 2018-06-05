@@ -16,7 +16,6 @@
 
 package io.anserini.collection;
 
-import io.anserini.document.SourceDocumentResultWrapper;
 import io.anserini.document.WikipediaArticle;
 import java.io.IOException;
 import java.nio.file.Path;

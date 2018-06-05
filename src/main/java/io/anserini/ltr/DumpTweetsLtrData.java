@@ -95,7 +95,7 @@ public class DumpTweetsLtrData {
 
     Path topicsFile = Paths.get(args.topics);
     TopicReader tr = new MicroblogTopicReader(topicsFile);
-    SortedMap<Integer, Map<String, String>> topics = tr.read();
+    SortedMap<String, Map<String, String>> topics = tr.read();
 
     if (!Files.exists(topicsFile) || !Files.isRegularFile(topicsFile) || !Files.isReadable(topicsFile)) {
       throw new IllegalArgumentException("Topics file : " + topicsFile + " does not exist or is not a (readable) file.");
@@ -104,9 +104,9 @@ public class DumpTweetsLtrData {
     LOG.info("Initialized complete! (elapsed time = " + (System.nanoTime()-curTime)/1000000 + "ms)");
     long totalTime = 0;
     int cnt = 0;
-    for (Map.Entry<Integer, Map<String, String>> entry : topics.entrySet()) {
+    for (Map.Entry<String, Map<String, String>> entry : topics.entrySet()) {
       long curQueryTime = System.nanoTime();
-      int qID = entry.getKey();
+      String qID = entry.getKey();
       String queryString = entry.getValue().get("title");
       Long queryTime = Long.parseLong(entry.getValue().get("time"));
       Query filter = LongPoint.newRangeQuery(TweetGenerator.FIELD_ID, 0L, queryTime);
