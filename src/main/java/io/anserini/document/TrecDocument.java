@@ -43,18 +43,14 @@ public class TrecDocument implements SourceDocument {
   protected String content;
 
   @Override
-  public SourceDocument readNextRecord(BufferedReader reader) throws IOException {
+  public TrecDocument readNextRecord(BufferedReader reader) throws IOException {
     StringBuilder builder = new StringBuilder();
     boolean found = false;
     int inTag = -1;
 
-    while (true) {
-      String line = reader.readLine();
-      if (line == null)
-        return null;
-
+    String line;
+    while ((line=reader.readLine()) != null) {
       line = line.trim();
-
       if (line.startsWith(DOC)) {
         found = true;
         // continue to read DOCNO
@@ -100,9 +96,11 @@ public class TrecDocument implements SourceDocument {
         return parseRecord(builder);
       }
     }
+
+    return null;
   }
 
-  public SourceDocument parseRecord(StringBuilder builder) {
+  public TrecDocument parseRecord(StringBuilder builder) {
     int i = builder.indexOf(DOCNO);
     if (i == -1) throw new RuntimeException("cannot find start tag " + DOCNO);
 

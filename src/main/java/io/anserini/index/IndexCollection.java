@@ -16,8 +16,10 @@
 
 package io.anserini.index;
 
+import io.anserini.analysis.TweetAnalyzer;
 import io.anserini.collection.Collection;
 import io.anserini.document.SourceDocument;
+import io.anserini.document.SourceDocumentResultWrapper;
 import io.anserini.index.generator.LuceneDocumentGenerator;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.apache.logging.log4j.LogManager;
@@ -79,9 +81,6 @@ public final class IndexCollection {
     @Option(name = "-keepStopwords", usage = "boolean switch to keep stopwords")
     public boolean keepStopwords = false;
 
-    @Option(name = "-keepRetweets", usage = "boolean switch to keep retweets while indexing")
-    boolean keepRetweets = false;
-
     @Option(name = "-storePositions", usage = "boolean switch to index storePositions")
     public boolean storePositions = false;
 
@@ -96,11 +95,25 @@ public final class IndexCollection {
 
     @Option(name = "-optimize", usage = "boolean switch to optimize index (force merge)")
     public boolean optimize = false;
+
+    @Option(name = "-tweet.keepRetweets", usage = "boolean switch to keep retweets while indexing")
+    public boolean tweetKeepRetweets = false;
+    @Option(name = "-tweet.keepUrls", usage = "boolean switch to keep URLs while indexing tweets")
+    public boolean tweetKeepUrls = false;
+    @Option(name = "-tweet.stemming", usage = "boolean switch to apply Porter stemming while indexing tweets")
+    public boolean tweetStemming = false;
+    @Option(name = "-tweet.maxId", usage = "the max tweet Id for indexing. Tweet Ids that are larger " +
+        " (when being parsed to Long type) than this value will NOT be indexed")
+    public long tweetMaxId = Long.MAX_VALUE;
+    @Option(name = "-tweet.deletedIdsFile", metaVar = "[Path]",
+        usage = "a file that contains deleted tweetIds, one per line. these tweeets won't be indexed")
+    public String tweetDeletedIdsFile = "";
   }
 
   public final class Counters {
     public AtomicLong indexedDocuments = new AtomicLong();
     public AtomicLong emptyDocuments = new AtomicLong();
+    public AtomicLong unindexableDocuments = new AtomicLong();
     public AtomicLong errors = new AtomicLong();
   }
 
@@ -119,15 +132,21 @@ public final class IndexCollection {
     @Override
     public void run() {
       try {
-        LuceneDocumentGenerator transformer = (LuceneDocumentGenerator) transformerClass.newInstance();
-        transformer.config(args);
-        transformer.setCounters(counters);
+        LuceneDocumentGenerator transformer =
+            (LuceneDocumentGenerator) transformerClass
+                .getDeclaredConstructor(Args.class, Counters.class)
+                .newInstance(args, counters);
 
         int cnt = 0;
         Collection.FileSegment iter = collection.createFileSegment(inputFile);
         while (iter.hasNext()) {
-          SourceDocument d = (SourceDocument) iter.next();
-          if (d == null || !d.indexable()) {
+          SourceDocument d = iter.next();
+          if (d == null) {
+            counters.errors.incrementAndGet();
+            continue;
+          }
+          if (!d.indexable()) {
+            counters.unindexableDocuments.incrementAndGet();
             continue;
           }
 
@@ -162,6 +181,8 @@ public final class IndexCollection {
 
     LOG.info("Collection path: " + args.input);
     LOG.info("Index path: " + args.index);
+    LOG.info("CollectionClass: " + args.collectionClass);
+    LOG.info("Generator: " + args.generatorClass);
     LOG.info("Threads: " + args.threads);
     LOG.info("Keep stopwords? " + args.keepStopwords);
     LOG.info("Store positions? " + args.storePositions);
@@ -184,13 +205,7 @@ public final class IndexCollection {
     this.transformerClass = Class.forName("io.anserini.index.generator." + args.generatorClass);
     this.collectionClass = Class.forName("io.anserini.collection." + args.collectionClass);
 
-    if (args.collectionClass.equals("TwitterCollection")) {
-      Constructor collectionConstructor = this.collectionClass.getConstructor(Boolean.class);
-      collection = (Collection) collectionConstructor.newInstance(args.keepRetweets);
-    } else {
-      collection = (Collection) this.collectionClass.newInstance();
-    }
-
+    collection = (Collection) this.collectionClass.newInstance();
     collection.setCollectionPath(collectionPath);
 
     this.counters = new Counters();
@@ -203,8 +218,11 @@ public final class IndexCollection {
     int numThreads = args.threads;
 
     final Directory dir = FSDirectory.open(indexPath);
-    final EnglishAnalyzer analyzer = args.keepStopwords ? new EnglishAnalyzer(CharArraySet.EMPTY_SET) : new EnglishAnalyzer();
-    final IndexWriterConfig config = new IndexWriterConfig(analyzer);
+    final EnglishAnalyzer englishAnalyzer= args.keepStopwords ?
+        new EnglishAnalyzer(CharArraySet.EMPTY_SET) : new EnglishAnalyzer();
+    final TweetAnalyzer tweetAnalyzer = new TweetAnalyzer(args.tweetStemming);
+    final IndexWriterConfig config = args.collectionClass.equals("TweetCollection") ?
+        new IndexWriterConfig(tweetAnalyzer) : new IndexWriterConfig(englishAnalyzer);
     config.setSimilarity(new BM25Similarity());
     config.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
     config.setRAMBufferSizeMB(args.memorybufferSize);

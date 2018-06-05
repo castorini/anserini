@@ -16,6 +16,8 @@
 
 package io.anserini.collection;
 
+import io.anserini.document.SourceDocument;
+import io.anserini.document.SourceDocumentResultWrapper;
 import io.anserini.document.TrecCoreDocument;
 import java.io.File;
 import java.io.IOException;
@@ -52,8 +54,11 @@ public class TrecCoreCollection extends Collection<TrecCoreDocument> {
       TrecCoreDocument doc = new TrecCoreDocument(new File(fileName));
       atEOF = true;
       try {
-        doc = (TrecCoreDocument) doc.readNextRecord(bufferedReader);
-      } catch (IOException e) {
+        doc = doc.readNextRecord(bufferedReader);
+        if (doc == null) {
+          atEOF = true;
+        }
+      } catch (Exception e) {
         doc = null;
       }
       return doc;

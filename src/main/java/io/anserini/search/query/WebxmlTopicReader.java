@@ -22,11 +22,16 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-public class WebxmlTopicReader extends TopicReader{
+public class WebxmlTopicReader extends TopicReader {
+  public WebxmlTopicReader(Path topicFile) {
+    super(topicFile);
+  }
 
   private String extract(String line, String tag) {
     int i = line.indexOf(tag);
@@ -48,8 +53,9 @@ public class WebxmlTopicReader extends TopicReader{
    * @throws IOException
    */
   @Override
-  public SortedMap<Integer, String> read(BufferedReader bRdr) throws IOException {
-    SortedMap<Integer, String> map = new TreeMap<>();
+  public SortedMap<Integer, Map<String, String>> read(BufferedReader bRdr) throws IOException {
+    SortedMap<Integer, Map<String, String>> map = new TreeMap<>();
+    Map<String,String> fields = new HashMap<>();
 
     String number = "";
     String query = "";
@@ -58,12 +64,16 @@ public class WebxmlTopicReader extends TopicReader{
 
     while ((line = bRdr.readLine()) != null) {
       line = line.trim();
-      if (line.startsWith("<topic"))
+      if (line.startsWith("<topic")) {
         number = extract(line, "number");
-      if (line.startsWith("<query>") && line.endsWith("</query>"))
+      }
+      if (line.startsWith("<query>") && line.endsWith("</query>")) {
         query = line.substring(7, line.length() - 8).trim();
-      if (line.startsWith("</topic>"))
-        map.put(Integer.parseInt(number), query);
+        fields.put("title", query);
+      }
+      if (line.startsWith("</topic>")) {
+        map.put(Integer.parseInt(number), fields);
+      }
     }
 
     return map;

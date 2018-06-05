@@ -1,7 +1,6 @@
 package io.anserini.ltr;
 
 import io.anserini.ltr.feature.FeatureExtractors;
-import io.anserini.search.MicroblogTopicSet;
 import io.anserini.search.query.TopicReader;
 import io.anserini.util.Qrels;
 import org.apache.logging.log4j.LogManager;
@@ -85,13 +84,16 @@ public class FeatureExtractorCli {
       String className = parsedArgs.collection.equals("gov2") ? "Trec" : "Webxml";
       TopicReader tr = (TopicReader)Class.forName("io.anserini.search.query."+className+"TopicReader")
               .getConstructor(Path.class).newInstance(Paths.get(parsedArgs.topicsFile));
-      SortedMap<Integer, String> topics = tr.read();
+      SortedMap<Integer, Map<String, String>> topics = tr.read();
       LOG.debug(String.format("%d topics found", topics.size()));
 
-      WebFeatureExtractor extractor = new WebFeatureExtractor(reader, qrels, convertTopicsFormat(topics), extractors);
+      WebFeatureExtractor extractor = new WebFeatureExtractor(reader, qrels, topics, extractors);
       extractor.printFeatures(out);
     } else if (parsedArgs.collection.equals("twitter")) {
-      Map<String,String> topics = MicroblogTopicSet.fromFile(new File(parsedArgs.topicsFile)).toMap();
+      String className = parsedArgs.collection.equals("gov2") ? "Trec" : "Webxml";
+      TopicReader tr = (TopicReader)Class.forName("io.anserini.search.query.MicroblogTopicReader")
+          .getConstructor(Path.class).newInstance(Paths.get(parsedArgs.topicsFile));
+      SortedMap<Integer, Map<String, String>> topics = tr.read();
       LOG.debug(String.format("%d topics found", topics.size()));
       TwitterFeatureExtractor extractor = new TwitterFeatureExtractor(reader, qrels, topics, extractors);
       extractor.printFeatures(out);
@@ -100,11 +102,11 @@ public class FeatureExtractorCli {
     }
   }
 
-  private static Map<String,String> convertTopicsFormat(Map<Integer,String> topics) {
+  private static Map<String,String> convertTopicsFormat(Map<Integer, Map<String, String>> topics) {
     HashMap<String, String> convertedTopics = new HashMap<>(topics.size());
 
-    for (Map.Entry<Integer,String> entry : topics.entrySet()) {
-      convertedTopics.put(String.valueOf(entry.getKey()), entry.getValue());
+    for (Map.Entry<Integer, Map<String, String>> entry : topics.entrySet()) {
+      convertedTopics.put(String.valueOf(entry.getKey()), entry.getValue().get("title"));
     }
     return convertedTopics;
   }

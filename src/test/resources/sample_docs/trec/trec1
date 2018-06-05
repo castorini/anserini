@@ -1,0 +1,27 @@
+<DOC>
+<DOCNO> TREC_DOC_1 </DOCNO>
+<FILEID>FILEID1</FILEID>
+<FIRST> not sure what is this </FIRST>
+<SECOND> not sure </SECOND>
+<HEAD>This is head</HEAD>
+<DATELINE>TOKYO (AP) </DATELINE>
+<TEXT>
+   very simple
+   text
+</TEXT>
+</DOC>
+<DOC>
+<DOCNO> DOC222 </DOCNO>
+<FILEID>FILEID2</FILEID>
+<FIRST> again, not sure</FIRST>
+<SECOND> umh?</SECOND>
+<HEAD>HEAD</HEAD>
+<DATELINE>MEXICO CITY (AP) </DATELINE>
+<TEXT>
+   simple
+   enough
+   text
+   text
+   text
+</TEXT>
+</DOC>

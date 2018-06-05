@@ -9,17 +9,24 @@ effectiveness results you'll get should be similar, but will likely not be ident
 Indexing the Tweets2011 collection:
 
 ```
-nohup sh target/appassembler/bin/IndexCollection -collection TwitterCollection  -input \
-/path/to/Tweets2011/ -generator JsoupGenerator  -index lucene-index.Tweets2011.pos+docvectors -threads 32 \
--storePositions -storeDocvectors -optimize > log.Tweets2011.txt &
+nohup sh target/appassembler/bin/IndexCollection -collection TweetCollection -input \
+/path/to/Tweets2011/ -generator TweetGenerator  -index lucene-index.Tweets2011.pos+docvectors.keepUrls.stemming \
+-threads 32 -storePositions -storeDocvectors -optimize -tweet.keepUrls -tweet.stemming > log.Tweets2011.keepUrls.stemming.txt &
 ```
-__NB:__ The process is backgrounded 
+__NB:__ The process is backgrounded
+
+More available indexing options:
+* `-tweet.keepRetweets`: boolean switch to keep retweets while indexing, default `false`
+* `-tweet.keepUrls`: boolean switch to keep URLs in the tweet, default `false`
+* `-tweet.stemming`: boolean switch to apply Porter stemming while indexing tweets, default `false`
+* `-tweet.maxId`: the max tweet Id for indexing. Tweet Ids that are larger (when being parsed to Long type) than this value will NOT be indexed, default `LONG.MAX_VALUE`
+* `-tweet.deletedIdsFile`: a file that contains deleted tweetIds, one per line. these tweeets won't be indexed
 
 Running topics from TREC 2011 (also look in `src/main/resources/topics-and-qrels/` for topics from TREC 2012):
 
 ```
-sh target/appassembler/bin/SearchTweets -topicreader Twitter -index lucene-index.Tweets2011.pos+docvectors -bm25 \
--hits 1000 -topics src/main/resources/topics-and-qrels/topics.microblog2011.txt -output run.mb11.bm25.txt
+sh target/appassembler/bin/SearchCollection -searchtweets -topicreader Microblog -index lucene-index.Tweets2011.pos+docvectors.keepUrls.stemming -bm25 \
+-hits 1000 -topics src/main/resources/topics-and-qrels/topics.microblog2011.txt -output run.mb11.keepUrls.stemming.bm25.txt
 ```
 
 Options for the retrieval model are similar to the web runs: specify `-bm25` to use BM25, `-ql` to use query likelihood,
@@ -33,56 +40,16 @@ eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.microblog
 
 You should be able to get effectiveness scores along the following lines:
 
-MAP                                                                        | BM25   |BM25+RM3| QL     | QL+RM3
----------------------------------------------------------------------------|--------|--------|--------|--------
-[TREC 2011 Microblog Track](http://trec.nist.gov/data/microblog2011.html)  | 0.3448 | 0.3719 | 0.3632 | 0.4112
-[TREC 2012 Microblog Track](http://trec.nist.gov/data/microblog2012.html)  | 0.2064 | 0.2230 | 0.2203 | 0.2541
+MAP                                                                        | BM25   |BM25+RM3| QL     | QL+RM3 |
+---------------------------------------------------------------------------|-------:|-------:|-------:|-------:|
+[TREC 2011 Microblog Track](http://trec.nist.gov/data/microblog2011.html)  | 0.3352 | 0.3436 | 0.3614 | 0.4013
+[TREC 2012 Microblog Track](http://trec.nist.gov/data/microblog2012.html)  | 0.1910 | 0.2056 | 0.2098 | 0.2405
+[TREC 2013 Microblog Track](http://trec.nist.gov/data/microblog2013.html)  | 0.2306 | 0.2363 | 0.2601 | 0.2836
+[TREC 2014 Microblog Track](http://trec.nist.gov/data/microblog2014.html)  | 0.3835 | 0.4008 | 0.4185 | 0.4743
 
-P@30                                                                       | BM25   |BM25+RM3| QL     | QL+RM3
----------------------------------------------------------------------------|--------|--------|--------|--------
-[TREC 2011 Microblog Track](http://trec.nist.gov/data/microblog2011.html)  | 0.3741 | 0.4034 | 0.3905 | 0.4306
-[TREC 2012 Microblog Track](http://trec.nist.gov/data/microblog2012.html)  | 0.3237 | 0.3305 | 0.3249 | 0.3475
-
-
-Effectiveness scores after retaining the retweets while indexing with `-keepRetweets` option:
-
-MAP                                                                        | BM25   |BM25+RM3| QL     | QL+RM3
----------------------------------------------------------------------------|--------|--------|--------|--------
-[TREC 2011 Microblog Track](http://trec.nist.gov/data/microblog2011.html)  | 0.2947 | 0.3157 | 0.3054 | 0.3269
-[TREC 2012 Microblog Track](http://trec.nist.gov/data/microblog2012.html)  | 0.1786 | 0.1917 | 0.1896 | 0.2133
-
-P@30                                                                       | BM25   |BM25+RM3| QL     | QL+RM3
----------------------------------------------------------------------------|--------|--------|--------|--------
-[TREC 2011 Microblog Track](http://trec.nist.gov/data/microblog2011.html)  | 0.3252 | 0.3537 | 0.3327 | 0.3476
-[TREC 2012 Microblog Track](http://trec.nist.gov/data/microblog2012.html)  | 0.2938 | 0.3000 | 0.2921 | 0.3062
-
-### Tweets2013 collection
-The Tweets 2013 collection can be indexed and searched using the commands same commands as above.
-
-Running topics from TREC 2013 and from TREC 2014 (look in `src/main/resources/topics-and-qrels/` ):
-
-Retrieval model options are the same as above, as is running `trec_eval`. You should be able to get effectiveness scores 
-along the following lines:
-
-MAP                                                                        | BM25   |BM25+RM3| QL     | QL+RM3
----------------------------------------------------------------------------|--------|--------|--------|--------
-[TREC 2013 Microblog Track](http://trec.nist.gov/data/microblog2013.html)  | 0.2438 | 0.2563 |0.2632  | 0.2890
-[TREC 2014 Microblog Track](http://trec.nist.gov/data/microblog2014.html)  | 0.3868 | 0.3990 |0.4122  | 0.4706
-
-P@30                                                                       | BM25   |BM25+RM3| QL     | QL+RM3
----------------------------------------------------------------------------|--------|--------|--------|--------
-[TREC 2013 Microblog Track](http://trec.nist.gov/data/microblog2013.html)  | 0.4450 | 0.4328 |0.4533  | 0.4689
-[TREC 2014 Microblog Track](http://trec.nist.gov/data/microblog2014.html)  | 0.6085 | 0.5867 |0.6327  | 0.6533
-
-
-Effectiveness scores after retaining the retweets while indexing with `-keepRetweets` option:
-
-MAP                                                                        | BM25   |BM25+RM3| QL     | QL+RM3
----------------------------------------------------------------------------|--------|--------|--------|--------
-[TREC 2013 Microblog Track](http://trec.nist.gov/data/microblog2013.html)  | 0.1925 | 0.2027 |0.2027  | 0.2117
-[TREC 2014 Microblog Track](http://trec.nist.gov/data/microblog2014.html)  | 0.2961 | 0.3208 |0.3027  | 0.3205
-
-P@30                                                                       | BM25   |BM25+RM3| QL     | QL+RM3
----------------------------------------------------------------------------|--------|--------|--------|--------
-[TREC 2013 Microblog Track](http://trec.nist.gov/data/microblog2013.html)  | 0.3722 | 0.3639 |0.3722  | 0.3722
-[TREC 2014 Microblog Track](http://trec.nist.gov/data/microblog2014.html)  | 0.5085 | 0.5097 |0.5055  | 0.4752
+P30                                                                        | BM25   |BM25+RM3| QL     | QL+RM3 |
+---------------------------------------------------------------------------|-------:|-------:|-------:|-------:|
+[TREC 2011 Microblog Track](http://trec.nist.gov/data/microblog2011.html)  | 0.3837 | 0.4129 | 0.4095 | 0.4483
+[TREC 2012 Microblog Track](http://trec.nist.gov/data/microblog2012.html)  | 0.3328 | 0.3441 | 0.3322 | 0.3542
+[TREC 2013 Microblog Track](http://trec.nist.gov/data/microblog2013.html)  | 0.4222 | 0.4083 | 0.4517 | 0.4733
+[TREC 2014 Microblog Track](http://trec.nist.gov/data/microblog2014.html)  | 0.6176 | 0.5958 | 0.6424 | 0.6564
