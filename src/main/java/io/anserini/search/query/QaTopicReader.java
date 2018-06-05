@@ -20,8 +20,8 @@ public class QaTopicReader extends TopicReader {
   }
 
   @Override
-  public SortedMap<Integer, Map<String, String>> read(BufferedReader bRdr) throws IOException {
-    SortedMap<Integer, Map<String, String>> map = new TreeMap<>();
+  public SortedMap<String, Map<String, String>> read(BufferedReader bRdr) throws IOException {
+    SortedMap<String, Map<String, String>> map = new TreeMap<>();
     Map<String,String> fields = new HashMap<>();
 
     String pattern = "<QApairs id=\'(.*)\'>";
@@ -40,7 +40,7 @@ public class QaTopicReader extends TopicReader {
 
       if (prevLine != null && prevLine.startsWith("<question>")) {
         fields.put("title", line);
-        map.put(Integer.parseInt(id), fields);
+        map.put(String.valueOf(Integer.valueOf(id)), fields);
       }
       prevLine = line;
     }
