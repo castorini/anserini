@@ -24,6 +24,10 @@
       <id>AnseriniMaven</id>
       <url>https://raw.githubusercontent.com/lintool/AnseriniMaven/master/mvn-repo/</url>
     </repository>
+    <repository>
+      <id>jitpack.io</id>
+      <url>https://jitpack.io</url>
+    </repository>
   </repositories>
 
   <build>
@@ -466,6 +470,12 @@
       <groupId>com.twitter.twittertext</groupId>
       <artifactId>twitter-text</artifactId>
       <version>2.0.10</version> <!-- or whatever the latest version is -->
+    </dependency>
+
+    <dependency>
+      <groupId>com.github.TREMA-UNH</groupId>
+      <artifactId>trec-car-tools-java</artifactId>
+      <version>2.0</version>
     </dependency>
 
   </dependencies>
