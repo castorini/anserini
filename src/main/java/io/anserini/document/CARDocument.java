@@ -20,20 +20,21 @@ import java.io.BufferedReader;
 import java.io.IOException;
 
 /**
- * A CAR dataset paragraph. The para_id serves as the id.
+ * A paragraph object in the CAR dataset ver2.0. The paraID serves as the id.
+ * Reference: http://trec-car.cs.unh.edu/datareleases/
  */
-public class CAR18Document implements SourceDocument {
+public class CARDocument implements SourceDocument {
   private final String paraID;
   private final String paragraph;
 
-  public CAR18Document(String paraID, String paragraph) {
+  public CARDocument(String paraID, String paragraph) {
     this.paraID = paraID;
     this.paragraph = paragraph;
 
   }
 
   @Override
-  public CAR18Document readNextRecord(BufferedReader bRdr) throws IOException {
+  public CARDocument readNextRecord(BufferedReader bRdr) throws IOException {
     return null;
   }
 

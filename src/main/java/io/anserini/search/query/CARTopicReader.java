@@ -17,7 +17,6 @@ package io.anserini.search.query;
  * limitations under the License.
  */
 
-import io.anserini.collection.CAR18Collection;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -25,15 +24,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
-public class CAR18TopicReader extends TopicReader {
-  private static final Logger LOG = LogManager.getLogger(CAR18Collection.class);
+public class CARTopicReader extends TopicReader {
 
-  public CAR18TopicReader(Path topicFile) {
+  public CARTopicReader(Path topicFile) {
     super(topicFile);
   }
 

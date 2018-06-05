@@ -18,8 +18,7 @@ package io.anserini.collection;
 
 import edu.unh.cs.treccar_v2.Data;
 import edu.unh.cs.treccar_v2.read_data.DeserializeData;
-import io.anserini.document.CAR18Document;
-import io.anserini.index.IndexCollection;
+import io.anserini.document.CARDocument;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -29,15 +28,14 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 /**
- * Class representing an instance of a Wikipedia collection. Note that Wikipedia dumps often come
- * as a single bz2 file. Since a collection is assumed to be in a directory, place the bz2 file in
+ * Class representing an instance of a CAR paragraph collection. Note that it is in .cbor format
+ * and we can read it through the tool: https://github.com/TREMA-UNH/trec-car-tools.
+ * Since a collection is assumed to be in a directory, place the cbor file in
  * a directory prior to indexing.
  */
-public class CAR18Collection extends Collection<CAR18Document> {
+public class CARCollection extends Collection<CARDocument> {
 
   @Override
   public List<Path> getFileSegmentPaths() {
@@ -53,16 +51,15 @@ public class CAR18Collection extends Collection<CAR18Document> {
 
     protected FileSegment(Path path) throws IOException {
       this.path = path;
-      LOG.info("Reading file: " + path.toString());
       stream = new FileInputStream(new File(path.toString()));
       iter = DeserializeData.iterableParagraphs(stream).iterator();
     }
 
     @Override
-    public CAR18Document next() {
+    public CARDocument next() {
       System.setProperty("file.encoding", "UTF-8");
       Data.Paragraph p = iter.next();
-      CAR18Document doc = new CAR18Document(p.getParaId(), p.getTextOnly());
+      CARDocument doc = new CARDocument(p.getParaId(), p.getTextOnly());
 
       // If we've fall through here, we've either encountered an exception or we've reached the end
       // of the underlying stream.
