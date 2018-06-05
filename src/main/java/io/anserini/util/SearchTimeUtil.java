@@ -56,7 +56,7 @@ public class SearchTimeUtil {
       Path topicsFile = Paths.get("src/resources/topics-and-qrels/", topicFile);
       TopicReader tr = (TopicReader)Class.forName("io.anserini.search.query."+"Webxml"+"TopicReader")
               .getConstructor(Path.class).newInstance(topicsFile);
-      SortedMap<Integer, Map<String, String>> queries = tr.read();
+      SortedMap<String, Map<String, String>> queries = tr.read();
       for (int i = 1; i <= 3; i++) {
         final long start = System.nanoTime();
         String submissionFile = File.createTempFile(topicFile + "_" + i, ".tmp").getAbsolutePath();

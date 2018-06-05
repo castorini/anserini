@@ -61,7 +61,7 @@ public class TwitterFeatureExtractor extends BaseFeatureExtractor{
    * @param qrels
    * @param topics
    */
-  public TwitterFeatureExtractor(IndexReader reader, Qrels qrels, Map<Integer, Map<String, String>> topics) {
+  public TwitterFeatureExtractor(IndexReader reader, Qrels qrels, Map<String, Map<String, String>> topics) {
     super(reader, qrels, topics, getDefaultExtractors());
     LOG.debug("Twitter Feature Extractor initialized.");
   }
@@ -74,7 +74,7 @@ public class TwitterFeatureExtractor extends BaseFeatureExtractor{
    * @param topics
    */
   public TwitterFeatureExtractor(IndexReader reader, Qrels qrels,
-                 Map<Integer, Map<String, String>> topics, FeatureExtractors featureExtractors) {
+                 Map<String, Map<String, String>> topics, FeatureExtractors featureExtractors) {
     super(reader, qrels, topics, featureExtractors == null ? getDefaultExtractors() : featureExtractors);
     LOG.debug("Twitter Feature Extractor initialized with custom feature extractors.");
   }

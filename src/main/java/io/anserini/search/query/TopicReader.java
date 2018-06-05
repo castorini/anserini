@@ -40,16 +40,16 @@ public abstract class TopicReader {
     this.topicFile = topicFile;
   }
 
-  public SortedMap<Integer, Map<String, String>> read() throws IOException {
+  public SortedMap<String, Map<String, String>> read() throws IOException {
     InputStream topics = Files.newInputStream(topicFile, StandardOpenOption.READ);
     BufferedReader bRdr = new BufferedReader(new InputStreamReader(topics, StandardCharsets.UTF_8));
     return read(bRdr);
   }
 
-  public SortedMap<Integer, Map<String, String>> read(String str) throws IOException {
+  public SortedMap<String, Map<String, String>> read(String str) throws IOException {
     BufferedReader bRdr = new BufferedReader(new StringReader(str));
     return read(bRdr);
   }
 
-  abstract public SortedMap<Integer, Map<String, String>> read(BufferedReader bRdr) throws IOException;
+  abstract public SortedMap<String, Map<String, String>> read(BufferedReader bRdr) throws IOException;
 }
