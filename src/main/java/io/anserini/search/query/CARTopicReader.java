@@ -48,7 +48,7 @@ public class CARTopicReader extends TopicReader {
       if (line.startsWith("enwiki:")) {
         id = line;
 //        String title = String.join(" ", line.substring(7).split("\\/|(%20)")); //
-        String title = java.net.URLDecoder.decode(line.substring(7), "utf-8");
+        String title = java.net.URLDecoder.decode(line.substring(7).replace("\\/", " "), "utf-8");
         fields.put("title", title);
         map.put(id, fields);
       }
