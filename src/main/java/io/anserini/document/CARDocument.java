@@ -32,6 +32,12 @@ public class CARDocument implements SourceDocument {
     this.paragraph = paragraph;
   }
 
+  /**
+   *
+   * @param bRdr
+   * @return
+   * @throws IOException
+   */
   @Override
   public CARDocument readNextRecord(BufferedReader bRdr) throws IOException {
     return null;
