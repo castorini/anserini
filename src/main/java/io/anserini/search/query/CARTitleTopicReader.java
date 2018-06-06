@@ -48,7 +48,7 @@ public class CARTitleTopicReader extends TopicReader {
       line = line.trim();
       if (line.length() != 0) {
         String title = line;
-        String id = escapeHtml4(line);
+        String id = "enwiki:" + escapeHtml4(line);
         fields.put("title", title);
         map.put(id, fields);
       }
