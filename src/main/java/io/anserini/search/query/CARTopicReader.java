@@ -17,8 +17,6 @@ package io.anserini.search.query;
  * limitations under the License.
  */
 
-import static org.apache.commons.lang3.StringEscapeUtils.unescapeHtml4;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -34,7 +32,7 @@ public class CARTopicReader extends TopicReader {
   }
 
   /**
-   * Read topics of TREC CAR Track 2018
+   * Read topics in the topic file of TREC CAR Track 2018
    * @return SortedMap where keys are query/topic IDs and values are title portions of the topics
    * @throws IOException
    */
@@ -50,7 +48,7 @@ public class CARTopicReader extends TopicReader {
       if (line.startsWith("enwiki:")) {
         id = line;
 //        String title = String.join(" ", line.substring(7).split("\\/|(%20)")); //
-        String title = unescapeHtml4(line.substring(7));
+        String title = java.net.URLDecoder.decode(line.substring(7), "utf-8");
         fields.put("title", title);
         map.put(id, fields);
       }
