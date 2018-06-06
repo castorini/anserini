@@ -17,7 +17,7 @@ package io.anserini.search.query;
  * limitations under the License.
  */
 
-import static org.apache.commons.lang3.StringEscapeUtils.unescapeHtml4;
+import static org.apache.commons.lang3.StringEscapeUtils.escapeHtml4;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -27,9 +27,9 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-public class CARTopicReader extends TopicReader {
+public class CARTitleTopicReader extends TopicReader {
 
-  public CARTopicReader(Path topicFile) {
+  public CARTitleTopicReader(Path topicFile) {
     super(topicFile);
   }
 
@@ -45,12 +45,10 @@ public class CARTopicReader extends TopicReader {
     String line;
     while ((line = bRdr.readLine()) != null) {
       Map<String,String> fields = new HashMap<>();
-      String id;
       line = line.trim();
-      if (line.startsWith("enwiki:")) {
-        id = line;
-//        String title = String.join(" ", line.substring(7).split("\\/|(%20)")); //
-        String title = unescapeHtml4(line.substring(7));
+      if (line.length() != 0) {
+        String title = line;
+        String id = escapeHtml4(line);
         fields.put("title", title);
         map.put(id, fields);
       }

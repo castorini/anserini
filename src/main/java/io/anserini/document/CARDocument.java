@@ -30,7 +30,6 @@ public class CARDocument implements SourceDocument {
   public CARDocument(String paraID, String paragraph) {
     this.paraID = paraID;
     this.paragraph = paragraph;
-
   }
 
   @Override
