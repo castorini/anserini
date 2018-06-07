@@ -78,4 +78,4 @@ P30                                                                             
 [TREC 2005 Terabyte Track: Topics 751-800](http://trec.nist.gov/data/terabyte05.html)   | 0.5520 | 0.5913 | 0.5167 | 0.5660
 [TREC 2006 Terabyte Track: Topics 801-850](http://trec.nist.gov/data/terabyte06.html)   | 0.4913 | 0.5260 | 0.4760 | 0.4873
 
-There is a small amount of non-determinism, particularly with RM3, so tiny differences in the four decimal place might be observed.
+There is a small amount of non-determinism, particularly with RM3, so tiny differences in the fourth decimal place might be observed.
