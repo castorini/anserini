@@ -1,54 +1,51 @@
-# Anserini Experiments of Robust05
+# Anserini: Experiments on Robust05
 
-See http://trec.nist.gov/data/t14_robust.html
+## Indexing
 
-**Indexing**:
+Typical indexing command:
 
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection TrecCollection \
- -input /path/to/aquaint/ -generator JsoupGenerator \
- -index lucene-index.aquaint.pos -threads 32 -storePositions -optimize > log.aquaint.cnt+pos &
+ -input /path/to/AQUAINT/ -generator JsoupGenerator \
+ -index lucene-index.aquaint.pos+docvectors+rawdocs -threads 16 \
+ -storePositions -storeDocvectors -storeRawDocs -optimize >& log.aquaint.pos+docvectors+rawdocs &
 ```
 
+The directory `/path/to/aquaint/` should be the root directory of AQUAINT collection; under subdirectory `disk1/` there should be `NYT/` and under subdirectory `disk2/` there should be `APW/` and `XIE/`.
 
-The directory `/path/to/aquaint/` should be the root directory of AQUAINT collection, i.e., `ls /path/to/aquaint/disk1/`
- should bring up subdirectory `NYT` and `ls /path/to/aquaint/disk1/` should bring up subdirectory `APW` and `XIE`. The 
- command above builds a standard positional index (`-storePositions`) that's optimized into a single segment 
- (`-optimize`). If you also want to store document vectors (e.g., for query expansion), add the `-storeDocvectors` option.
+For additional details, see explanation of [common indexing options](common-indexing-options.md).
 
-_Hint:_ Anserini ignores the `cr` folder when indexing the disk45. But you can remove `cr` folder by your own too.
-_Hint:_ You can use the `DumpIndex` utility to print out the statistics of the index. Please refer to 
-[DumpIndex References](dumpindex-reference.md) for the statistics of the index
+## Retrieval
 
-
-**Search**:
-
-After indexing is done, you should be able to perform a retrieval run:
+Topics and qrels are stored in `src/main/resources/topics-and-qrels/`.
+After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-sh target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.aquaint.pos -bm25 \
-  -topics src/main/resources/topics-and-qrels/topics.robust05.txt -output run.aquaint.robust05.bm25.txt
+nohup sh target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.aquaint.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.robust05.txt -output run.aquaint.robust05.bm25.txt -bm25 &
+nohup sh target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.aquaint.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.robust05.txt -output run.aquaint.robust05.bm25+rm3.txt -bm25 -rm3 &
+nohup sh target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.aquaint.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.robust05.txt -output run.aquaint.robust05.ql.txt -ql &
+nohup sh target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.aquaint.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.robust05.txt -output run.aquaint.robust05.ql+rm3.txt -ql -rm3 &
 ```
 
-**Evaluate**:
+Evaluation can be performed using `trec_eval`:
 
-Evaluation can be done using `trec_eval`:
 ```
-eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.robust2005.txt run.aquaint.robust05.bm25.txt
+eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.robust2005.txt run.aquaint.robust05.bm25.txt     | egrep "^(map|P_30)"
+eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.robust2005.txt run.aquaint.robust05.bm25+rm3.txt | egrep "^(map|P_30)"
+eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.robust2005.txt run.aquaint.robust05.ql.txt       | egrep "^(map|P_30)"
+eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.robust2005.txt run.aquaint.robust05.ql+rm3.txt   | egrep "^(map|P_30)"
 ```
 
-**Effectiveness Reference**:
+## Effectiveness
 
-##### no stopwords (default)
+With the above commands, you should be able to replicate the following results:
 
-Metric | BM25   | QL     
--------|--------|--------
-MAP    | 0.2004 | 0.2025 
-P30    | 0.3667 | 0.3707 
+MAP                                                                        | BM25   | BM25+RM3 | QL     | QL+RM3
+:--------------------------------------------------------------------------|--------|----------|--------|--------
+[TREC 2005 Robust Track Topics](http://trec.nist.gov/data/t14_robust.html) | 0.2003 | 0.2445   | 0.2022 | 0.2418
 
-##### keep stopwords (with `-keepstopwords` option in both `IndexCollection` and `SearchCollection`)
 
-Metric | BM25   | QL     
--------|--------|--------
-MAP    | 0.1998 | 0.2018 
-P30    | 0.3627 | 0.3653 
+P30                                                                        | BM25   | BM25+RM3 | QL     | QL+RM3
+:--------------------------------------------------------------------------|--------|----------|--------|--------
+[TREC 2005 Robust Track Topics](http://trec.nist.gov/data/t14_robust.html) | 0.3667 | 0.3913   | 0.3700 | 0.3913
+
