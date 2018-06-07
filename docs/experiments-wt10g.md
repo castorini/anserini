@@ -1,65 +1,49 @@
-## Anserini Experiments on WT collections (WT2G & WT10G)
+# Anserini: Experiments on Wt10g
 
-**Indexing**:
+## Indexing
+
+Typical indexing command:
 
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection WtCollection \
- -input /path/to/wt_collection/ -generator JsoupGenerator \
- -index lucene-index.wt.pos -threads 32 -storePositions -optimize > log.wt.cnt+pos &
+ -input /path/to/wt10g/ -generator JsoupGenerator \
+ -index lucene-index.wt10g.pos+docvectors -threads 16 \
+ -storePositions -storeDocvectors -optimize >& log.wt10g.pos+docvectors &
 ```
 
-The directory `/path/to/wt/` should be the root directory of WT collection, i.e., `ls /path/to/wt/` should bring up a 
-bunch of subdirectories, `WTX001` to `WTX104` (for WT10G) or `Wt0.tar.gz` to `Wt2.tar.gz` (for WT2G). The command above 
-builds a standard positional index (`-storePositions`) that's optimized into a single segment (`-optimize`). If you 
-also want to store document vectors (e.g., for query expansion), add the `-docvectors` option.
+The directory `/path/to/wt10g/` should be the root directory of Wt10g collection, containing a bunch of subdirectories, `WTX001` to `WTX104`.
 
-**Search**:
+For additional details, see explanation of [common indexing options](common-indexing-options.md).
 
-After indexing is done, you should be able to perform a retrieval run:
+## Retrieval
+
+Topics and qrels are stored in `src/main/resources/topics-and-qrels/`.
+After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-sh target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.wt2g.pos -bm25 \
-  -topics src/main/resources/topics-and-qrels/topics.401-450.txt -output run.wt2g.401-450.bm25.txt
-```
-or 
-```
-sh target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.wt10g.pos -bm25 \
-  -topics src/main/resources/topics-and-qrels/topics.451-550.txt -output run.wt10g.451-550.bm25.txt
+nohup sh target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.wt10g.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.451-550.txt -output run.wt10g.451-550.bm25.txt -bm25 &
+nohup sh target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.wt10g.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.451-550.txt -output run.wt10g.451-550.bm25+rm3.txt -bm25 -rm3 &
+nohup sh target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.wt10g.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.451-550.txt -output run.wt10g.451-550.ql.txt -ql &
+nohup sh target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.wt10g.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.451-550.txt -output run.wt10g.451-550.ql+rm3.txt -ql -rm3 &
 ```
 
-**Evaluate**:
+Evaluation can be performed using `trec_eval`:
 
-Evaluation can be done using `trec_eval`:
 ```
-eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.401-450.txt run.wt2g.401-450.bm25.txt
-```
-or
-```
-eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.451-550.txt run.wt10g.451-550.bm25.txt
+eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.451-550.txt run.wt10g.451-550.bm25.txt     | egrep "^(map|P_30)"
+eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.451-550.txt run.wt10g.451-550.bm25+rm3.txt | egrep "^(map|P_30)"
+eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.451-550.txt run.wt10g.451-550.ql.txt       | egrep "^(map|P_30)"
+eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.451-550.txt run.wt10g.451-550.ql+rm3.txt   | egrep "^(map|P_30)"
 ```
 
-**Effectiveness Reference**:
+## Effectiveness
 
-##### no stopwords (default)
+With the above commands, you should be able to replicate the following results:
 
 MAP                    | BM25   | QL     
------------------------|--------|--------
-WT2G: Topics 401-450   | 0.3015 | 0.2922 
-WT10G: Topics 451-550  | 0.1981 | 0.2015 
+:----------------------|--------|--------
+Wt10g: Topics 451-550  | 0.1981 | 0.2015 
 
 P30                    | BM25   | QL     
------------------------|--------|--------
-WT2G: Topics 401-450   | 0.3220 | 0.3233 
-WT10G: Topics 451-550  | 0.2207 | 0.2184  
-
-##### keep stopwords (with `-keepstopwords` option in both `IndexCollection` and `SearchCollection`)
-
-MAP                    | BM25   | QL     
------------------------|--------|--------
-WT2G: Topics 401-450   | 0.3028 | 0.2849 
-WT10G: Topics 451-550  | 0.1934 | 0.1964 
-
-P30                    | BM25   | QL     
------------------------|--------|--------
-WT2G: Topics 401-450   | 0.3207 | 0.3160 
-WT10G: Topics 451-550  | 0.2255 | 0.2184  
+:----------------------|--------|--------
+WT10g: Topics 451-550  | 0.2207 | 0.2184  
