@@ -30,10 +30,10 @@ nohup sh target/appassembler/bin/SearchCollection -topicreader Trec -index lucen
 Evaluation can be performed using `trec_eval`:
 
 ```
-eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.robust2005.txt run.aquaint.robust05.bm25.txt     | egrep "^(map|P_30)"
-eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.robust2005.txt run.aquaint.robust05.bm25+rm3.txt | egrep "^(map|P_30)"
-eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.robust2005.txt run.aquaint.robust05.ql.txt       | egrep "^(map|P_30)"
-eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.robust2005.txt run.aquaint.robust05.ql+rm3.txt   | egrep "^(map|P_30)"
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust2005.txt run.aquaint.robust05.bm25.txt
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust2005.txt run.aquaint.robust05.bm25+rm3.txt
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust2005.txt run.aquaint.robust05.ql.txt
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust2005.txt run.aquaint.robust05.ql+rm3.txt
 ```
 
 ## Effectiveness

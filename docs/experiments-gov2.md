@@ -44,21 +44,21 @@ relevance feedback model (requires docvectors index).
 Use `trec_eval` to compute AP and P30:
 
 ```
-eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.701-750.txt run.gov2.701-750.bm25.txt | egrep "^(map|P_30)"
-eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.751-800.txt run.gov2.751-800.bm25.txt | egrep "^(map|P_30)"
-eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.801-850.txt run.gov2.801-850.bm25.txt | egrep "^(map|P_30)"
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.701-750.txt run.gov2.701-750.bm25.txt
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.751-800.txt run.gov2.751-800.bm25.txt
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.801-850.txt run.gov2.801-850.bm25.txt
 
-eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.701-750.txt run.gov2.701-750.bm25+rm3.txt | egrep "^(map|P_30)"
-eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.751-800.txt run.gov2.751-800.bm25+rm3.txt | egrep "^(map|P_30)"
-eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.801-850.txt run.gov2.801-850.bm25+rm3.txt | egrep "^(map|P_30)"
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.701-750.txt run.gov2.701-750.bm25+rm3.txt
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.751-800.txt run.gov2.751-800.bm25+rm3.txt
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.801-850.txt run.gov2.801-850.bm25+rm3.txt
 
-eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.701-750.txt run.gov2.701-750.ql.txt | egrep "^(map|P_30)"
-eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.751-800.txt run.gov2.751-800.ql.txt | egrep "^(map|P_30)"
-eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.801-850.txt run.gov2.801-850.ql.txt | egrep "^(map|P_30)"
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.701-750.txt run.gov2.701-750.ql.txt
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.751-800.txt run.gov2.751-800.ql.txt
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.801-850.txt run.gov2.801-850.ql.txt
 
-eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.701-750.txt run.gov2.701-750.ql+rm3.txt | egrep "^(map|P_30)"
-eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.751-800.txt run.gov2.751-800.ql+rm3.txt | egrep "^(map|P_30)"
-eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.801-850.txt run.gov2.801-850.ql+rm3.txt | egrep "^(map|P_30)"
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.701-750.txt run.gov2.701-750.ql+rm3.txt
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.751-800.txt run.gov2.751-800.ql+rm3.txt
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.801-850.txt run.gov2.801-850.ql+rm3.txt
 ```
 
 ## Effectiveness

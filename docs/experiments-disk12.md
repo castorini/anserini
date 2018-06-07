@@ -33,13 +33,13 @@ nohup sh target/appassembler/bin/SearchCollection -topicreader Trec -index lucen
 Evaluation can be performed using `trec_eval`:
 
 ```
-eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.51-100.txt  run.disk12.51-100.bm25.txt       | egrep "^(map|P_30)"
-eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.101-150.txt run.disk12.101-150.bm25.txt      | egrep "^(map|P_30)"
-eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.151-200.txt run.disk12.151-200.bm25.txt      | egrep "^(map|P_30)"
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.51-100.txt run.disk12.51-100.bm25.txt
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.101-150.txt run.disk12.101-150.bm25.txt
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.151-200.txt run.disk12.151-200.bm25.txt
 
-eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.51-100.txt  run.disk12.51-100.ql.txt         | egrep "^(map|P_30)"
-eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.101-150.txt run.disk12.101-150.ql.txt        | egrep "^(map|P_30)"
-eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.151-200.txt run.disk12.151-200.ql.txt        | egrep "^(map|P_30)"
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.51-100.txt run.disk12.51-100.ql.txt
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.101-150.txt run.disk12.101-150.ql.txt
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.151-200.txt run.disk12.151-200.ql.txt
 ```
 
 ## Effectiveness
