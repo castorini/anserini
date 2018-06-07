@@ -11,7 +11,7 @@ nohup sh target/appassembler/bin/IndexCollection -collection TrecCollection \
  -storePositions -storeDocvectors -storeRawDocs -optimize >& log.disk12.pos+docvectors+rawdocs &
 ```
 
-The directory `/path/to/disk12/` should be the root directory of Disk1 and Disk2 collection, i.e., `ls /path/to/disk1/` should bring up subdirectories like `doe`, `wsj`.
+The directory `/path/to/disk12/` should be the root directory of the Disk12 collection, i.e., `ls /path/to/disk12/` should bring up subdirectories like `doe`, `wsj`.
 
 For additional details, see explanation of [common indexing options](common-indexing-options.md).
 
@@ -19,11 +19,6 @@ For additional details, see explanation of [common indexing options](common-inde
 
 Topics and qrels are stored in `src/main/resources/topics-and-qrels/`.
 After indexing has completed, you should be able to perform retrieval as follows:
-
-```
-sh target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos -bm25 \
-  -topics src/main/resources/topics-and-qrels/topics.51-100.txt -output run.disk12.51-100.bm25.txt
-```
 
 ```
 nohup sh target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.51-100.txt  -output run.disk12.51-100.bm25.txt  -bm25 &
@@ -38,11 +33,11 @@ nohup sh target/appassembler/bin/SearchCollection -topicreader Trec -index lucen
 Evaluation can be performed using `trec_eval`:
 
 ```
-eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.51-100.txt run.disk12.51-100.bm25.txt        | egrep "^(map|P_30)"
+eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.51-100.txt  run.disk12.51-100.bm25.txt       | egrep "^(map|P_30)"
 eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.101-150.txt run.disk12.101-150.bm25.txt      | egrep "^(map|P_30)"
 eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.151-200.txt run.disk12.151-200.bm25.txt      | egrep "^(map|P_30)"
 
-eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.51-100.txt run.disk12.51-100.ql.txt          | egrep "^(map|P_30)"
+eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.51-100.txt  run.disk12.51-100.ql.txt         | egrep "^(map|P_30)"
 eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.101-150.txt run.disk12.101-150.ql.txt        | egrep "^(map|P_30)"
 eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.151-200.txt run.disk12.151-200.ql.txt        | egrep "^(map|P_30)"
 ```
