@@ -6,7 +6,7 @@ Typical indexing command:
 
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection CW12Collection \
- -input /tuna1/collections/web/ClueWeb12-B13/DiskB/ -generator JsoupGenerator \
+ -input /path/to/ClueWeb12-B13/DiskB/ -generator JsoupGenerator \
  -index lucene-index.cw12b13.pos+docvectors -threads 32 \
  -storePositions -storeDocvectors \
  >& log.cw12b13.pos+docvectors &
