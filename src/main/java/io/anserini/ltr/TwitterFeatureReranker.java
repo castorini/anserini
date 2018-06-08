@@ -15,7 +15,7 @@ import org.apache.lucene.index.Terms;
  * Used to rerank according to features
  *
  */
-public class TwitterFeatureReranker implements Reranker{
+public class TwitterFeatureReranker implements Reranker {
   private final PrintStream out;
   private final Qrels qrels;
   private final FeatureExtractors extractors;
@@ -26,7 +26,7 @@ public class TwitterFeatureReranker implements Reranker{
     this.extractors = extractors == null ? TwitterFeatureExtractor.getDefaultExtractors() : extractors;
   }
   @Override
-  public ScoredDocuments rerank(ScoredDocuments docs, RerankerContext context) {
+  public<K> ScoredDocuments rerank(ScoredDocuments docs, RerankerContext context) {
     IndexReader reader = context.getIndexSearcher().getIndexReader();
 
     for (int i = 0; i < docs.documents.length; i++) {
@@ -37,7 +37,7 @@ public class TwitterFeatureReranker implements Reranker{
         continue;
       }
 
-      String qid = context.getQueryId().replaceFirst("^MB0*", "");
+      String qid = ((String)context.getQueryId()).replaceFirst("^MB0*", "");
       String docid = docs.documents[i].getField( TweetGenerator.FIELD_ID).stringValue();
 
       out.print(qrels.getRelevanceGrade(qid, docid));

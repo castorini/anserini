@@ -56,7 +56,7 @@ public class Qrels {
     }
   }
 
-  public int getRelevanceGrade(String qid, String docid) {
+  public<K> int getRelevanceGrade(K qid, String docid) {
     if (!qrels.containsKey(qid)) {
       return 0;
     }
