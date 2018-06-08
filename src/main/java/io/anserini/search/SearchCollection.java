@@ -177,7 +177,7 @@ public final class SearchCollection implements Closeable {
       for (int i = 0; i < docs.documents.length; i++) {
         out.println(String.format(Locale.US, "%s Q0 %s %d %f %s", qID,
             docs.documents[i].getField(FIELD_ID).stringValue(), (i + 1), docs.scores[i],
-            ((i == 0 || i == docs.documents.length) ? runTag : "See_Line1")));
+            ((i == 0 || i == docs.documents.length-1) ? runTag : "See_Line1")));
       }
     }
     out.flush();

@@ -29,7 +29,7 @@ import java.nio.file.StandardOpenOption;
 import java.util.Map;
 import java.util.SortedMap;
 
-public abstract class TopicReader {
+public abstract class TopicReader<K> {
   protected Path topicFile;
 
   public TopicReader() {
@@ -40,16 +40,16 @@ public abstract class TopicReader {
     this.topicFile = topicFile;
   }
 
-  public<K, V> SortedMap<K, Map<String, String>> read() throws IOException {
+  public SortedMap<K, Map<String, String>> read() throws IOException {
     InputStream topics = Files.newInputStream(topicFile, StandardOpenOption.READ);
     BufferedReader bRdr = new BufferedReader(new InputStreamReader(topics, StandardCharsets.UTF_8));
     return read(bRdr);
   }
 
-  public<K, V> SortedMap<K, Map<String, String>> read(String str) throws IOException {
+  public SortedMap<K, Map<String, String>> read(String str) throws IOException {
     BufferedReader bRdr = new BufferedReader(new StringReader(str));
     return read(bRdr);
   }
 
-  abstract public<K, V> SortedMap<K, Map<String, String>> read(BufferedReader bRdr) throws IOException;
+  abstract public SortedMap<K, Map<String, String>> read(BufferedReader bRdr) throws IOException;
 }
