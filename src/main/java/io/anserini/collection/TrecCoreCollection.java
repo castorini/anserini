@@ -16,8 +16,6 @@
 
 package io.anserini.collection;
 
-import io.anserini.document.SourceDocument;
-import io.anserini.document.SourceDocumentResultWrapper;
 import io.anserini.document.TrecCoreDocument;
 import java.io.File;
 import java.io.IOException;

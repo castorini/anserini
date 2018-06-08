@@ -66,8 +66,8 @@ public class TrecTopicReader extends TopicReader {
   }
 
   @Override
-  public SortedMap<Integer, Map<String, String>> read(BufferedReader bRdr) throws IOException {
-    SortedMap<Integer, Map<String, String>> map = new TreeMap<>();
+  public SortedMap<String, Map<String, String>> read(BufferedReader bRdr) throws IOException {
+    SortedMap<String, Map<String, String>> map = new TreeMap<>();
     StringBuilder sb;
     try {
       while (null!=(sb=read(bRdr,"<top>",null,false,false))) {
@@ -118,7 +118,7 @@ public class TrecTopicReader extends TopicReader {
         fields.put("title",title);
         fields.put("description",description);
         fields.put("narrative", narrative);
-        map.put(Integer.parseInt(id), fields);
+        map.put(String.valueOf(Integer.valueOf(id)), fields);
       }
     } finally {
       bRdr.close();

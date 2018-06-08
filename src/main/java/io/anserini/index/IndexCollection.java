@@ -19,7 +19,6 @@ package io.anserini.index;
 import io.anserini.analysis.TweetAnalyzer;
 import io.anserini.collection.Collection;
 import io.anserini.document.SourceDocument;
-import io.anserini.document.SourceDocumentResultWrapper;
 import io.anserini.index.generator.LuceneDocumentGenerator;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.apache.logging.log4j.LogManager;
@@ -41,7 +40,6 @@ import org.kohsuke.args4j.Option;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Constructor;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;

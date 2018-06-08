@@ -17,7 +17,6 @@
 package io.anserini.collection;
 
 import io.anserini.document.SourceDocument;
-import io.anserini.document.SourceDocumentResultWrapper;
 
 import java.io.BufferedReader;
 import java.io.Closeable;

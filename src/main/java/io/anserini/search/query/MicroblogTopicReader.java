@@ -55,8 +55,8 @@ public class MicroblogTopicReader extends TopicReader {
    * @throws IOException
    */
   @Override
-  public SortedMap<Integer, Map<String, String>> read(BufferedReader bRdr) throws IOException {
-    SortedMap<Integer, Map<String, String>> map = new TreeMap<>();
+  public SortedMap<String, Map<String, String>> read(BufferedReader bRdr) throws IOException {
+    SortedMap<String, Map<String, String>> map = new TreeMap<>();
     Map<String,String> fields = new HashMap<>();
 
     String number = "";
@@ -90,7 +90,7 @@ public class MicroblogTopicReader extends TopicReader {
         fields.put("time", m.group(1));
       }
       if (line.startsWith("</top>")) {
-        map.put(Integer.parseInt(number), fields);
+        map.put(String.valueOf(Integer.valueOf(number)), fields);
         fields = new HashMap<>();
       }
     }
