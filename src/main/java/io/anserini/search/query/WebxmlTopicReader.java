@@ -73,6 +73,7 @@ public class WebxmlTopicReader extends TopicReader {
       }
       if (line.startsWith("</topic>")) {
         map.put(String.valueOf(Integer.valueOf(number)), fields);
+        fields = new HashMap<>();
       }
     }
 
