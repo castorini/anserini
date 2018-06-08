@@ -39,7 +39,7 @@ import org.apache.lucene.search.similarities.BM25Similarity;
  */
 public class SearchTimeUtil {
 
-  public static void main(String[] args) throws IOException, ParseException, ClassNotFoundException,
+  public static<K> void main(String[] args) throws IOException, ParseException, ClassNotFoundException,
           NoSuchMethodException, InvocationTargetException, IllegalAccessException, InstantiationException {
 
     if (args.length != 1) {
@@ -56,7 +56,7 @@ public class SearchTimeUtil {
       Path topicsFile = Paths.get("src/resources/topics-and-qrels/", topicFile);
       TopicReader tr = (TopicReader)Class.forName("io.anserini.search.query."+"Webxml"+"TopicReader")
               .getConstructor(Path.class).newInstance(topicsFile);
-      SortedMap<String, Map<String, String>> queries = tr.read();
+      SortedMap<K, Map<String, String>> queries = tr.read();
       for (int i = 1; i <= 3; i++) {
         final long start = System.nanoTime();
         String submissionFile = File.createTempFile(topicFile + "_" + i, ".tmp").getAbsolutePath();

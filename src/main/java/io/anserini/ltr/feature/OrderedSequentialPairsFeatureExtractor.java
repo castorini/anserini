@@ -98,7 +98,7 @@ public class OrderedSequentialPairsFeatureExtractor implements FeatureExtractor{
 
     // Only compute the score once for all window sizes on the same document
     if (!context.getQueryId().equals(lastProcessedId) || lastProcessedDoc != doc) {
-      resetCounters(context.getQueryId(), doc);
+      resetCounters((String)context.getQueryId(), doc);
 
       List<String> queryTokens = context.getQueryTokens();
       populateQueryPairMap(queryTokens);

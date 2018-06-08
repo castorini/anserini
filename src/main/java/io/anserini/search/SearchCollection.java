@@ -113,7 +113,7 @@ public final class SearchCollection implements Closeable {
    * @throws ParseException
    */
 
-  public void search(SortedMap<String, Map<String, String>> topics, String topicfield,
+  public<K> void search(SortedMap<K, Map<String, String>> topics, String topicfield,
                      String submissionFile, Similarity similarity, int numHits,
                      RerankerCascade cascade, boolean useQueryParser,
                      boolean keepstopwords, boolean searchtweets) throws IOException, ParseException {
@@ -137,8 +137,8 @@ public final class SearchCollection implements Closeable {
     QueryParser queryParser = new QueryParser(FIELD_BODY, analyzer);
     queryParser.setDefaultOperator(QueryParser.Operator.OR);
     Query filter = null;
-    for (Map.Entry<String, Map<String, String>> entry : topics.entrySet()) {
-      String qID = entry.getKey();
+    for (Map.Entry<K, Map<String, String>> entry : topics.entrySet()) {
+      K qID = entry.getKey();
       String queryString = entry.getValue().get(topicfield);
       Query query = useQueryParser ? queryParser.parse(queryString) :
           AnalyzerUtils.buildBagOfWordsQuery(FIELD_BODY, analyzer, queryString);
@@ -184,7 +184,7 @@ public final class SearchCollection implements Closeable {
     out.close();
   }
 
-  public void search(SortedMap<String, Map<String, String>> topics, String topicfield,
+  public<K> void search(SortedMap<K, Map<String, String>> topics, String topicfield,
                      String submissionFile, Similarity similarity, int numHits, RerankerCascade cascade)
           throws IOException, ParseException {
     search(topics, topicfield, submissionFile, similarity, numHits, cascade, false, false, false);
