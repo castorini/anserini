@@ -53,8 +53,8 @@ public class WebxmlTopicReader extends TopicReader {
    * @throws IOException
    */
   @Override
-  public SortedMap<String, Map<String, String>> read(BufferedReader bRdr) throws IOException {
-    SortedMap<String, Map<String, String>> map = new TreeMap<>();
+  public SortedMap<Integer, Map<String, String>> read(BufferedReader bRdr) throws IOException {
+    SortedMap<Integer, Map<String, String>> map = new TreeMap<>();
     Map<String,String> fields = new HashMap<>();
 
     String number = "";
@@ -72,7 +72,7 @@ public class WebxmlTopicReader extends TopicReader {
         fields.put("title", query);
       }
       if (line.startsWith("</topic>")) {
-        map.put(String.valueOf(Integer.valueOf(number)), fields);
+        map.put(Integer.valueOf(number), fields);
         fields = new HashMap<>();
       }
     }

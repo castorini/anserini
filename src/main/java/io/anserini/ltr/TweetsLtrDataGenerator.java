@@ -37,7 +37,7 @@ public class TweetsLtrDataGenerator implements Reranker {
         continue;
       }
 
-      String qid = context.getQueryId().replaceFirst("^MB0*", "");
+      String qid = ((String)context.getQueryId()).replaceFirst("^MB0*", "");
       String docid = docs.documents[i].getField(TweetGenerator.FIELD_ID).stringValue();
 
       out.print(qrels.getRelevanceGrade(qid, docid));

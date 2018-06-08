@@ -88,7 +88,7 @@ public class UnorderedQueryPairsFeatureExtractor implements FeatureExtractor {
   protected float computeUnorderedFrequencyScore(Document doc, Terms terms, RerankerContext context) throws IOException {
 
     if (!context.getQueryId().equals(lastProcessedId) || doc != lastProcessedDoc) {
-      resetCounters(context.getQueryId(), doc);
+      resetCounters((String)context.getQueryId(), doc);
       List<String> queryTokens = context.getQueryTokens();
 
       populateQueryMaps(queryTokens);

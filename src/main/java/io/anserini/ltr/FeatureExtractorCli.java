@@ -53,7 +53,7 @@ public class FeatureExtractorCli {
    * requires the user to supply the index directory and also the directory containing the qrels and topics
    * @param args  indexDir, qrelFile, topicFile, outputFile
    */
-  public static void main(String args[]) throws Exception {
+  public static<K> void main(String args[]) throws Exception {
 
     long curTime = System.nanoTime();
     FeatureExtractionArgs parsedArgs = new FeatureExtractionArgs();
@@ -84,7 +84,7 @@ public class FeatureExtractorCli {
       String className = parsedArgs.collection.equals("gov2") ? "Trec" : "Webxml";
       TopicReader tr = (TopicReader)Class.forName("io.anserini.search.query."+className+"TopicReader")
               .getConstructor(Path.class).newInstance(Paths.get(parsedArgs.topicsFile));
-      SortedMap<String, Map<String, String>> topics = tr.read();
+      SortedMap<K, Map<String, String>> topics = tr.read();
       LOG.debug(String.format("%d topics found", topics.size()));
 
       WebFeatureExtractor extractor = new WebFeatureExtractor(reader, qrels, topics, extractors);
