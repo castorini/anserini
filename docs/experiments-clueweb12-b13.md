@@ -1,39 +1,75 @@
-# Anserini Experiments on ClueWeb12-B13
+# Anserini: Experiments on ClueWeb12-B13
 
-Indexing:
+## Indexing
+
+Typical indexing command:
 
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection CW12Collection \
- -input /path/to/cw12-b13/ -generator JsoupGenerator \
- -index lucene-index.cw12b13.pos+docvectors -threads 32 -storePositions -storeDocvectors -optimize \
- > log.cw12b13.pos+docvectors &
+ -input /tuna1/collections/web/ClueWeb12-B13/DiskB/ -generator JsoupGenerator \
+ -index lucene-index.cw12b13.pos+docvectors -threads 32 \
+ -storePositions -storeDocvectors \
+ >& log.cw12b13.pos+docvectors &
 ```
 
-The directory `/path/to/cw12-b13/` should be the root directory of ClueWeb12-B13 collection, i.e., `/path/to/cw12-b13/` 
-should bring up a bunch of subdirectories, `ClueWeb12_00` to `ClueWeb12_18`.  The above command builds an index that 
-stores term positions (`-storePositions`) as well as doc vectors for relevance feedback (`-storeDocvectors`), and 
-`-optimize` force merges all index segment into one.
+The directory `/path/to/cw12-b13/` should be the root directory of ClueWeb12-B13 collection, i.e., `/path/to/cw12-b13/` should bring up a bunch of subdirectories, `ClueWeb12_00` to `ClueWeb12_18`.
 
-After indexing is done, you should be able to perform a retrieval run:
+For additional details, see explanation of [common indexing options](common-indexing-options.md).
 
-```
-sh target/appassembler/bin/SearchCollection \
-  -topicreader Webxml -index lucene-index.cw12b13.pos+docvectors -bm25 \
-  -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt -output run.web.201-250.bm25.txt
-```
+## Retrieval
 
-For the retrieval model: specify `-bm25` to use BM25, `-ql` to use query likelihood, and add `-rm3` to invoke the RM3 
-relevance feedback model (requires docvectors index).
-
-Topics and qrels are stored in `src/main/resources/topics-and-qrels/`. Use `trec_eval` to compute AP and P30, and use 
-`gdeval` to compute NDCG@20:
+Topics and qrels are stored in `src/main/resources/topics-and-qrels/`.
+After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.web.201-250.txt run.web.201-250.bm25.txt
-eval/gdeval.pl src/main/resources/topics-and-qrels/qrels.web.201-250.txt run.web.201-250.bm25.txt
+sh target/appassembler/bin/SearchCollection -topicreader Webxml -index lucene-index.cw12b13.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt -output run.web.201-250.bm25.txt -bm25 &
+sh target/appassembler/bin/SearchCollection -topicreader Webxml -index lucene-index.cw12b13.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.web.251-300.txt -output run.web.251-300.bm25.txt -bm25 &
+
+sh target/appassembler/bin/SearchCollection -topicreader Webxml -index lucene-index.cw12b13.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt -output run.web.201-250.bm25+rm3.txt -bm25 -rm3 &
+sh target/appassembler/bin/SearchCollection -topicreader Webxml -index lucene-index.cw12b13.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.web.251-300.txt -output run.web.251-300.bm25+rm3.txt -bm25 -rm3 &
+
+sh target/appassembler/bin/SearchCollection -topicreader Webxml -index lucene-index.cw12b13.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt -output run.web.201-250.ql.txt -ql &
+sh target/appassembler/bin/SearchCollection -topicreader Webxml -index lucene-index.cw12b13.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.web.251-300.txt -output run.web.251-300.ql.txt -ql &
+
+sh target/appassembler/bin/SearchCollection -topicreader Webxml -index lucene-index.cw12b13.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt -output run.web.201-250.ql+rm3.txt -ql -rm3 &
+sh target/appassembler/bin/SearchCollection -topicreader Webxml -index lucene-index.cw12b13.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.web.251-300.txt -output run.web.251-300.ql+rm3.txt -ql -rm3 &
 ```
 
-You should be able to replicate the following results:
+Evaluation can be performed using `trec_eval`:
+
+```
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.web.201-250.txt run.web.201-250.bm25.txt
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.web.251-300.txt run.web.251-300.bm25.txt
+
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.web.201-250.txt run.web.201-250.bm25+rm3.txt
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.web.251-300.txt run.web.251-300.bm25+rm3.txt
+
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.web.201-250.txt run.web.201-250.ql.txt
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.web.251-300.txt run.web.251-300.ql.txt
+
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.web.201-250.txt run.web.201-250.ql+rm3.txt
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.web.251-300.txt run.web.251-300.ql+rm3.txt
+```
+
+And to compute NDCG:
+
+```
+eval/gdeval.pl src/main/resources/topics-and-qrels/qrels.web.201-250.txt run.web.201-250.bm25.txt | grep 'amean'
+eval/gdeval.pl src/main/resources/topics-and-qrels/qrels.web.251-300.txt run.web.251-300.bm25.txt | grep 'amean'
+
+eval/gdeval.pl src/main/resources/topics-and-qrels/qrels.web.201-250.txt run.web.201-250.bm25+rm3.txt | grep 'amean'
+eval/gdeval.pl src/main/resources/topics-and-qrels/qrels.web.251-300.txt run.web.251-300.bm25+rm3.txt | grep 'amean'
+
+eval/gdeval.pl src/main/resources/topics-and-qrels/qrels.web.201-250.txt run.web.201-250.ql.txt | grep 'amean'
+eval/gdeval.pl src/main/resources/topics-and-qrels/qrels.web.251-300.txt run.web.251-300.ql.txt | grep 'amean'
+
+eval/gdeval.pl src/main/resources/topics-and-qrels/qrels.web.201-250.txt run.web.201-250.ql+rm3.txt | grep 'amean'
+eval/gdeval.pl src/main/resources/topics-and-qrels/qrels.web.251-300.txt run.web.251-300.ql+rm3.txt | grep 'amean'
+```
+
+## Effectiveness
+
+With the above commands, you should be able to replicate the following results:
 
 AP                                                                             | BM25   |BM25+RM3| QL     | QL+RM3
 :------------------------------------------------------------------------------|--------|--------|--------|--------
