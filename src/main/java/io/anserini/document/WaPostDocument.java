@@ -48,9 +48,9 @@ public class WaPostDocument implements SourceDocument {
         JSONObject recordObj = new JSONObject(record);
 
         if (!recordObj.has(ID_TAG) || !recordObj.has(DATE_TAG)) {
-            // For current dataset, we can make sure all record has unique id
-            //  published date. So we just simple log a warning and return null
-            //  here
+            // For current dataset, we can make sure all record has unique id and
+            //  published date. So we just simply log a warning and return null
+            //  here in case future data may bring up this issue
             LOG.warn("No unique ID or published date for this record, ignored...");
             return null;
         }
