@@ -1,10 +1,10 @@
 # Anserini Experiments on Washington Post Collection
 
-Indexing:
+**Indexing**:
 
-```bash
+```
 nohup sh target/appassembler/bin/IndexCollection \
--collection WaPostCollection -input /path/to/wapo_data \
+-collection WashPostCollection -input /path/to/wapo_data \
 -generator LuceneDocumentGenerator \
 -index lucene-index.wapo.pos+docvectors -threads 12 \
 -storePositions -storeDocvectors \
@@ -17,9 +17,11 @@ The directory `/path/to/wapo_data` should be the directory that contains a colle
 (`-storePositions`) as well as doc vectors for relevance feedback (`-storeDocvectors`), and `-optimize` force merges all 
 index segment into one.
 
-After indexing is done, you should be able to perform a retrieval as follows:
+**Search**:
 
-```bash
+After indexing is done, you should be able to perform a retrieval run:
+
+```
 sh target/appassembler/bin/SearchCollection \
 -topicreader Trec -index lucene-index.wapo.pos+docvectors \
 -bm25 -topics src/main/resources/topics-and-qrels/topics.web.251-300.txt  \

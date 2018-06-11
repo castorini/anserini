@@ -19,7 +19,7 @@ index segment into one.
 
 After indexing is done, you should be able to perform a retrieval as follows:
 
-```bash
+```
 sh target/appassembler/bin/SearchCollection \
   -topicreader Trec -index lucene-index.core.pos+docvectors -bm25 \
   -topics src/main/resources/topics-and-qrels/topics.core17.nist.txt -output run.core17.nist.bm25.txt
@@ -34,8 +34,9 @@ relevance feedback model (requires docvectors index).
 
 Evaluation can be done using `trec_eval`:
 
-```bash
-eval/trec_eval.9.0/trec_eval -m map -m P.30 \ src/main/resources/topics-and-qrels/qrels.core17.nist.txt run.core17.nist.bm25.txt
+```
+eval/trec_eval.9.0/trec_eval -m map -m P.30 \ 
+src/main/resources/topics-and-qrels/qrels.core17.nist.txt run.core17.nist.bm25.txt
 ```
 
 **Effectiveness Reference**:
