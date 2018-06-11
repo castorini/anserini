@@ -16,10 +16,9 @@
 
 package io.anserini.collection;
 
-import io.anserini.document.WaPostDocument;
+import io.anserini.document.WashPostDocument;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -28,13 +27,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class WaPostCollection extends Collection<WaPostDocument> {
+public class WashPostCollection extends Collection<WashPostDocument> {
 
     public class FileSegment extends Collection.FileSegment {
         private String fileName;
 
         public FileSegment(Path path) throws IOException {
-            dType = new WaPostDocument();
+            dType = new WashPostDocument();
 
             this.path = path;
             this.fileName = path.toString();
@@ -51,7 +50,7 @@ public class WaPostCollection extends Collection<WaPostDocument> {
     }
 
     @Override
-    public WaPostCollection.FileSegment createFileSegment(Path p) throws IOException {
-        return new WaPostCollection.FileSegment(p);
+    public WashPostCollection.FileSegment createFileSegment(Path p) throws IOException {
+        return new WashPostCollection.FileSegment(p);
     }
 }
