@@ -15,8 +15,8 @@ import org.json.JSONObject;
 /**
  * A Washington Post document.
  */
-public class WaPostDocument implements SourceDocument {
-    private static final Logger LOG = LogManager.getLogger(WaPostDocument.class);
+public class WashPostDocument implements SourceDocument {
+    private static final Logger LOG = LogManager.getLogger(WashPostDocument.class);
     private static final String PATTERN = "<\\/?\\w+>";
 
     private final String ID_TAG = "id";
@@ -65,11 +65,12 @@ public class WaPostDocument implements SourceDocument {
                     try {
                         builder.append(removeTags(contentObj.getString(PARAGRAPH_TAG).trim())).append("\n");
                     } catch (JSONException e) {
-                        continue;
+                        LOG.error("Error caught while retrieving JSON string.");
+                        e.printStackTrace();
                     }
                 }
             } else {
-                // LOG.warn("No type or content tag defined in Article " + id + ", ignored...");
+                LOG.warn("No type or content tag defined in Article " + id + ", ignored this file.");
             }
         }
         content = builder.toString();
