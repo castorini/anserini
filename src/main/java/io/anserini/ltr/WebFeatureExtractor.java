@@ -71,7 +71,7 @@ public class WebFeatureExtractor extends BaseFeatureExtractor {
    * @param topics
    * @param customExtractors
    */
-  public WebFeatureExtractor(IndexReader reader, Qrels qrels, Map<String, Map<String, String>> topics,
+  public<K> WebFeatureExtractor(IndexReader reader, Qrels qrels, Map<K, Map<String, String>> topics,
                              FeatureExtractors customExtractors) {
     super(reader, qrels, topics, customExtractors == null ? getDefaultExtractors() : customExtractors);
     this.parser = new QueryParser(getTermVectorField(), getAnalyzer());

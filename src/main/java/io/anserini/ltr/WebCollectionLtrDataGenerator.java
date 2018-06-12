@@ -40,7 +40,7 @@ public class WebCollectionLtrDataGenerator implements Reranker{
   public ScoredDocuments rerank(ScoredDocuments docs, RerankerContext context) {
     Document[] documents = docs.documents;
     IndexReader reader = context.getIndexSearcher().getIndexReader();
-    String qid = context.getQueryId();
+    int qid = (int)context.getQueryId();
     LOG.info("Beginning rerank");
     for (int i =0; i < docs.documents.length; i++ ) {
       try {
@@ -49,7 +49,7 @@ public class WebCollectionLtrDataGenerator implements Reranker{
         String docId = documents[i].get(LuceneDocumentGenerator.FIELD_ID);
         // QREL 0 in this case, will be assigned if needed later
         //qid
-        BaseFeatureExtractor.writeFeatureVector(out,qid, this.qrels.getRelevanceGrade(qid, docId), docId,  features);
+        BaseFeatureExtractor.writeFeatureVector(out, qid, this.qrels.getRelevanceGrade(qid, docId), docId,  features);
         LOG.info("Finished writing vectors");
       } catch (IOException e) {
         LOG.error(String.format("IOExecption trying to retrieve feature vector for %d doc", docs.ids[i]));
