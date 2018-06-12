@@ -25,9 +25,9 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-public class CARTopicReader extends TopicReader {
+public class CarTopicReader extends TopicReader {
 
-  public CARTopicReader(Path topicFile) {
+  public CarTopicReader(Path topicFile) {
     super(topicFile);
   }
 
@@ -43,11 +43,19 @@ public class CARTopicReader extends TopicReader {
     String line;
     while ((line = bRdr.readLine()) != null) {
       Map<String,String> fields = new HashMap<>();
-      String id;
       line = line.trim();
       if (line.startsWith("enwiki:")) {
-        id = line;
+        String id = line;
         String title = java.net.URLDecoder.decode(line.substring(7).replace("/", " "), "utf-8");
+        fields.put("title", title);
+        map.put(id, fields);
+      }
+      else if (line.length() != 0) {
+        String title = line;
+        String id = "enwiki:" + java.net.URLEncoder.encode(line, "utf-8")
+            .replace("+", "%20").replace("%28", "(")
+            .replace("%29", ")").replace("%27", "'")
+            .replace("%2C", ",");
         fields.put("title", title);
         map.put(id, fields);
       }

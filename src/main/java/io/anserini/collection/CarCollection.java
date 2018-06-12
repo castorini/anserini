@@ -18,7 +18,7 @@ package io.anserini.collection;
 
 import edu.unh.cs.treccar_v2.Data;
 import edu.unh.cs.treccar_v2.read_data.DeserializeData;
-import io.anserini.document.CARDocument;
+import io.anserini.document.CarDocument;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -35,7 +35,7 @@ import java.util.Set;
  * Since a collection is assumed to be in a directory, place the cbor file in
  * a directory prior to indexing.
  */
-public class CARCollection extends Collection<CARDocument> {
+public class CarCollection extends Collection<CarDocument> {
 
   @Override
   public List<Path> getFileSegmentPaths() {
@@ -56,10 +56,10 @@ public class CARCollection extends Collection<CARDocument> {
     }
 
     @Override
-    public CARDocument next() {
+    public CarDocument next() {
       System.setProperty("file.encoding", "UTF-8");
       Data.Paragraph p = iter.next();
-      CARDocument doc = new CARDocument(p.getParaId(), p.getTextOnly());
+      CarDocument doc = new CarDocument(p.getParaId(), p.getTextOnly());
 
       // If we've fall through here, we've either encountered an exception or we've reached the end
       // of the underlying stream.
