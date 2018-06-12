@@ -6,16 +6,16 @@ import org.apache.lucene.search.Query;
 import java.io.IOException;
 import java.util.List;
 
-public class RerankerContext {
+public class RerankerContext<K> {
   private final IndexSearcher searcher;
   private final Query query;
-  private final String queryId;
+  private final K queryId;
   private final String queryText;
   private final List<String> queryTokens;
   private final Query filter;
   private final String termVectorField;
 
-  public RerankerContext(IndexSearcher searcher, Query query, String queryId, String queryText,
+  public RerankerContext(IndexSearcher searcher, Query query, K queryId, String queryText,
                          List<String> queryTokens, String termVectorField, Query filter) throws IOException {
     this.searcher = searcher;
     this.query = query;
@@ -38,7 +38,7 @@ public class RerankerContext {
     return query;
   }
 
-  public String getQueryId() {
+  public K getQueryId() {
     return queryId;
   }
 
