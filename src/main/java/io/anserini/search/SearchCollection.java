@@ -31,6 +31,33 @@ import io.anserini.rerank.twitter.RemoveRetweetsTemporalTiebreakReranker;
 import io.anserini.search.query.TopicReader;
 import io.anserini.util.AnalyzerUtils;
 import io.anserini.util.Qrels;
+import org.apache.commons.lang3.time.DurationFormatUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.analysis.CharArraySet;
+import org.apache.lucene.analysis.en.EnglishAnalyzer;
+import org.apache.lucene.document.LongPoint;
+import org.apache.lucene.index.DirectoryReader;
+import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.queryparser.classic.QueryParser;
+import org.apache.lucene.search.BooleanClause;
+import org.apache.lucene.search.BooleanQuery;
+import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.Query;
+import org.apache.lucene.search.ScoreDoc;
+import org.apache.lucene.search.TopDocs;
+import org.apache.lucene.search.similarities.BM25Similarity;
+import org.apache.lucene.search.similarities.LMDirichletSimilarity;
+import org.apache.lucene.search.similarities.Similarity;
+import org.apache.lucene.store.Directory;
+import org.apache.lucene.store.FSDirectory;
+import org.apache.lucene.store.MMapDirectory;
+import org.kohsuke.args4j.CmdLineException;
+import org.kohsuke.args4j.CmdLineParser;
+import org.kohsuke.args4j.OptionHandlerFilter;
+import org.kohsuke.args4j.ParserProperties;
+
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -44,35 +71,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.concurrent.TimeUnit;
-import org.apache.commons.lang3.time.DurationFormatUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.en.EnglishAnalyzer;
-import org.apache.lucene.analysis.CharArraySet;
-import org.apache.lucene.document.LongPoint;
-import org.apache.lucene.index.DirectoryReader;
-import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.queryparser.classic.ParseException;
-import org.apache.lucene.queryparser.classic.QueryParser;
-import org.apache.lucene.search.BooleanClause;
-import org.apache.lucene.search.BooleanQuery;
-import org.apache.lucene.search.IndexSearcher;
-import org.apache.lucene.search.Query;
-import org.apache.lucene.search.ScoreDoc;
-import org.apache.lucene.search.TermRangeQuery;
-import org.apache.lucene.search.TopDocs;
-import org.apache.lucene.search.similarities.BM25Similarity;
-import org.apache.lucene.search.similarities.LMDirichletSimilarity;
-import org.apache.lucene.search.similarities.Similarity;
-import org.apache.lucene.store.Directory;
-import org.apache.lucene.store.FSDirectory;
-import org.apache.lucene.store.MMapDirectory;
-import org.kohsuke.args4j.CmdLineException;
-import org.kohsuke.args4j.CmdLineParser;
-import org.kohsuke.args4j.OptionHandlerFilter;
-import org.kohsuke.args4j.ParserProperties;
-
 
 import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_BODY;
 import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_ID;
@@ -83,13 +81,10 @@ import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_ID;
  * TREC Terabyte Tracks from 2004 to 2006
  */
 public final class SearchCollection implements Closeable {
-
   private static final Logger LOG = LogManager.getLogger(SearchCollection.class);
-
   private final IndexReader reader;
 
   public SearchCollection(String indexDir) throws IOException {
-
     Path indexPath = Paths.get(indexDir);
 
     if (!Files.exists(indexPath) || !Files.isDirectory(indexPath) || !Files.isReadable(indexPath)) {
@@ -110,18 +105,14 @@ public final class SearchCollection implements Closeable {
    * @param topics     queries
    * @param similarity similarity
    * @throws IOException
-   * @throws ParseException
    */
 
   public<K> void search(SortedMap<K, Map<String, String>> topics, String topicfield,
                      String submissionFile, Similarity similarity, int numHits,
-                     RerankerCascade cascade, boolean useQueryParser,
-                     boolean keepstopwords, boolean searchtweets) throws IOException, ParseException {
-
-
+                     RerankerCascade cascade,
+                     boolean keepstopwords, boolean searchtweets) throws IOException {
     IndexSearcher searcher = new IndexSearcher(reader);
     searcher.setSimilarity(similarity);
-
 
     final String runTag = "Anserini_" + topicfield+"_"+(keepstopwords ? "KeepStopwords_" : "")
         + FIELD_BODY + "_" + (searchtweets ? "SearchTweets_" : "") + similarity.toString();
@@ -140,8 +131,8 @@ public final class SearchCollection implements Closeable {
     for (Map.Entry<K, Map<String, String>> entry : topics.entrySet()) {
       K qID = entry.getKey();
       String queryString = entry.getValue().get(topicfield);
-      Query query = useQueryParser ? queryParser.parse(queryString) :
-          AnalyzerUtils.buildBagOfWordsQuery(FIELD_BODY, analyzer, queryString);
+      Query query = AnalyzerUtils.buildBagOfWordsQuery(FIELD_BODY, analyzer, queryString);
+
       if (searchtweets) {
         long curQueryTime = System.currentTimeMillis();
         long queryTweetTime = Long.parseLong(entry.getValue().get("time"));
@@ -159,8 +150,7 @@ public final class SearchCollection implements Closeable {
       ScoreDoc[] hits = rs.scoreDocs;
       List<String> queryTokens = AnalyzerUtils.tokenize(analyzer, queryString);
       if (searchtweets) { // This is ugly, but we have to reform the tweet query here for reranking
-        query = useQueryParser ? queryParser.parse(queryString) :
-            AnalyzerUtils.buildBagOfWordsQuery(FIELD_BODY, analyzer, queryString);
+        query = AnalyzerUtils.buildBagOfWordsQuery(FIELD_BODY, analyzer, queryString);
       }
       RerankerContext context = new RerankerContext(searcher, query, String.valueOf(qID), queryString,
               queryTokens, FIELD_BODY, filter);
@@ -186,12 +176,11 @@ public final class SearchCollection implements Closeable {
 
   public<K> void search(SortedMap<K, Map<String, String>> topics, String topicfield,
                      String submissionFile, Similarity similarity, int numHits, RerankerCascade cascade)
-          throws IOException, ParseException {
-    search(topics, topicfield, submissionFile, similarity, numHits, cascade, false, false, false);
+          throws IOException {
+    search(topics, topicfield, submissionFile, similarity, numHits, cascade, false, false);
   }
 
   public static void main(String[] args) throws Exception {
-
     SearchArgs searchArgs = new SearchArgs();
     CmdLineParser parser = new CmdLineParser(searchArgs, ParserProperties.defaults().withUsageWidth(90));
 
@@ -236,7 +225,6 @@ public final class SearchCollection implements Closeable {
     }
 
     RerankerCascade cascade = new RerankerCascade();
-    boolean useQueryParser = false;
     if (searchArgs.rm3) {
       if (searchArgs.searchtweets) {
         cascade.add(new Rm3Reranker(analyzer, FIELD_BODY,
@@ -246,7 +234,6 @@ public final class SearchCollection implements Closeable {
         cascade.add(new Rm3Reranker(analyzer, FIELD_BODY,
             "io/anserini/rerank/rm3/rm3-stoplist.gov2.txt", true));
       }
-      useQueryParser = true;
     } else {
       cascade.add(new IdentityReranker());
       if (searchArgs.searchtweets) {
@@ -281,7 +268,7 @@ public final class SearchCollection implements Closeable {
     final long start = System.nanoTime();
     SearchCollection searcher = new SearchCollection(searchArgs.index);
     searcher.search(topics, searchArgs.topicfield, searchArgs.output, similarity, searchArgs.hits,
-        cascade, useQueryParser, searchArgs.keepstop, searchArgs.searchtweets);
+        cascade, searchArgs.keepstop, searchArgs.searchtweets);
     searcher.close();
     final long durationMillis =
         TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);

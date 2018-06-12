@@ -24,17 +24,6 @@ import io.anserini.rerank.RerankerCascade;
 import io.anserini.search.SearchArgs;
 import io.anserini.search.SearchCollection;
 import io.anserini.search.query.TopicReader;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.SortedMap;
 import org.apache.commons.io.FileUtils;
 import org.apache.lucene.index.CheckIndex;
 import org.apache.lucene.search.similarities.BM25Similarity;
@@ -46,6 +35,17 @@ import org.apache.lucene.util.LuceneTestCase;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.SortedMap;
 
 public abstract class EndToEndTest extends LuceneTestCase {
   protected IndexCollection.Args indexCollectionArgs = new IndexCollection.Args();
@@ -189,7 +189,7 @@ public abstract class EndToEndTest extends LuceneTestCase {
       cascade.add(new IdentityReranker());
       SearchCollection searcher = new SearchCollection(searchArgs.index);
       searcher.search(topics, searchArgs.topicfield, searchArgs.output, similarity, searchArgs.hits,
-          cascade, false, searchArgs.keepstop, searchArgs.searchtweets);
+          cascade, searchArgs.keepstop, searchArgs.searchtweets);
       searcher.close();
       checkRankingResults();
     } catch (Exception e) {

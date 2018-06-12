@@ -40,10 +40,10 @@ eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/
 
 With the above commands, you should be able to replicate the following results:
 
-MAP                    | BM25   | QL     
-:----------------------|--------|--------
-Wt10g: Topics 451-550  | 0.1981 | 0.2015 
+MAP                    | BM25   | BM25+RM3 | QL     | QL+RM3 |
+:----------------------|--------|----------|--------|--------|
+Wt10g: Topics 451-550  | 0.1981 | 0.2188   | 0.2015 | 0.2177 |
 
-P30                    | BM25   | QL     
-:----------------------|--------|--------
-WT10g: Topics 451-550  | 0.2207 | 0.2184  
+P30                    | BM25   | BM25+RM3 | QL     | QL+RM3 |
+:----------------------|--------|----------|--------|--------|
+WT10g: Topics 451-550  | 0.2207 | 0.2459   | 0.2184 | 0.2316 |

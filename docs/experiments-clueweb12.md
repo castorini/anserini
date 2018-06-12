@@ -77,16 +77,16 @@ With the above commands, you should be able to replicate the following results:
 AP                                                                             | BM25   | BM25+RM3 | QL     | QL+RM3 |
 :------------------------------------------------------------------------------|--------|----------|--------|--------|
 [TREC 2013 Web Track: Topics 201-250](http://trec.nist.gov/data/web2013.html)  | 0.1674 | 0.1503   | 0.1439 | 0.1205 |
-[TREC 2014 Web Track: Topics 251-300](http://trec.nist.gov/data/web2014.html)  | 0.2434 | 0.2367   | 0.2408 | 0.2327 |
+[TREC 2014 Web Track: Topics 251-300](http://trec.nist.gov/data/web2014.html)  | 0.2434 | 0.2431   | 0.2408 | 0.2327 |
 
 P30                                                                            | BM25   | BM25+RM3 | QL     | QL+RM3 |
 :------------------------------------------------------------------------------|--------|----------|--------|--------|
 [TREC 2013 Web Track: Topics 201-250](http://trec.nist.gov/data/web2013.html)  | 0.2833 | 0.2367   | 0.2533 | 0.2047 |
-[TREC 2014 Web Track: Topics 251-300](http://trec.nist.gov/data/web2014.html)  | 0.4500 | 0.4120   | 0.4387 | 0.3980 |
+[TREC 2014 Web Track: Topics 251-300](http://trec.nist.gov/data/web2014.html)  | 0.4500 | 0.4087   | 0.4387 | 0.3980 |
 
 NDCG@20                                                                        | BM25   | BM25+RM3 | QL     | QL+RM3 |
 :------------------------------------------------------------------------------|--------|----------|--------|--------|
 [TREC 2013 Web Track: Topics 201-250](http://trec.nist.gov/data/web2013.html)  | 0.2067 | 0.1694   | 0.1893 | 0.1504 |
-[TREC 2014 Web Track: Topics 251-300](http://trec.nist.gov/data/web2014.html)  | 0.2644 | 0.2401   | 0.2345 | 0.2234 |
+[TREC 2014 Web Track: Topics 251-300](http://trec.nist.gov/data/web2014.html)  | 0.2644 | 0.2388   | 0.2345 | 0.2234 |
 
 Note that RM3 effectiveness is low because there are large number of unjudged documents.

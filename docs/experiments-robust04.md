@@ -23,25 +23,29 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```
 nohup sh target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.robust04.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.robust04.301-450.601-700.txt -output run.disk45.301-450.601-700.bm25.txt -bm25 &
+nohup sh target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.robust04.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.robust04.301-450.601-700.txt -output run.disk45.301-450.601-700.bm25+rm3.txt -bm25 -rm3 &
 nohup sh target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.robust04.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.robust04.301-450.601-700.txt -output run.disk45.301-450.601-700.ql.txt -ql &
+nohup sh target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.robust04.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.robust04.301-450.601-700.txt -output run.disk45.301-450.601-700.ql+rm3.txt -ql -rm3 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```
 eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust2004.txt run.disk45.301-450.601-700.bm25.txt
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust2004.txt run.disk45.301-450.601-700.bm25+rm3.txt
 eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust2004.txt run.disk45.301-450.601-700.ql.txt
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust2004.txt run.disk45.301-450.601-700.ql+rm3.txt
 ```
 
 ## Effectiveness
 
 With the above commands, you should be able to replicate the following results:
 
-MAP        | BM25   | QL     
-:----------|--------|--------
-All Topics | 0.2500 | 0.2465 
+MAP        | BM25   | BM25+RM3 | QL     | QL+RM3 |
+:----------|--------|----------|--------|--------|
+All Topics | 0.2500 | 0.2729   | 0.2465 | 0.2615 |
 
 
-P30        | BM25   | QL     
-:----------|--------|--------
-All Topics | 0.3120 | 0.3078 
+P30        | BM25   | BM25+RM3 | QL     | QL+RM3 |
+:----------|--------|----------|--------|--------|
+All Topics | 0.3120 | 0.3236   | 0.3078 | 0.3157 |
