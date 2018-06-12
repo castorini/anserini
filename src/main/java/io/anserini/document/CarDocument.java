@@ -21,6 +21,7 @@ import java.io.IOException;
 
 /**
  * A paragraph object in the CAR dataset ver2.0. The paraID serves as the id.
+ * readNextRecord() is not used because CarCollection will load the .cbor file directly from the disk
  * Reference: http://trec-car.cs.unh.edu/datareleases/
  */
 public class CarDocument implements SourceDocument {

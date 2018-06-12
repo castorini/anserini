@@ -5,7 +5,7 @@ Indexing:
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection CarCollection -input /path/to/car_corpus/ \
   -generator LuceneDocumentGenerator -index lucene-index-all.car18 -threads 80 -storePositions \
-  -optimize > log_all.car18
+  -optimize >& log_all.car18 &
 ```
 
 The directory `/path/to/car_corpus/` should be the root directory of TREC CAR paragraph collection, 
