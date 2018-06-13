@@ -141,11 +141,6 @@
       <version>2.4</version>
     </dependency>
     <dependency>
-      <groupId>org.twitter4j</groupId>
-      <artifactId>twitter4j-stream</artifactId>
-      <version>4.0.4</version>
-    </dependency>
-    <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
       <version>19.0-rc2</version>
@@ -163,103 +158,12 @@
       <version>1.9.1</version>
     </dependency>
 
-    <!-- needed for io.anserini.nrts (might want to rewrite to kill this dependency -->
-    <dependency>
-      <groupId>org.apache.httpcomponents</groupId>
-      <artifactId>httpclient</artifactId>
-      <version>4.5.1</version>
-    </dependency>
-    <dependency>
-      <groupId>commons-cli</groupId>
-      <artifactId>commons-cli</artifactId>
-      <version>1.2</version>
-    </dependency>
-    <dependency>
-      <groupId>commons-lang</groupId>
-      <artifactId>commons-lang</artifactId>
-      <version>2.6</version>
-    </dependency>
-    <dependency>
-      <groupId>org.eclipse.jetty</groupId>
-      <artifactId>jetty-server</artifactId>
-      <version>${JETTY_VERSION}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.eclipse.jetty</groupId>
-      <artifactId>jetty-servlet</artifactId>
-      <version>${JETTY_VERSION}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.github.spullara.mustache.java</groupId>
-      <artifactId>compiler</artifactId>
-      <version>${MUSTACHE_VERSION}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.glassfish.jersey.core</groupId>
-      <artifactId>jersey-server</artifactId>
-      <version>${JERSEY_VERSION}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.glassfish.jersey.containers</groupId>
-      <artifactId>jersey-container-servlet-core</artifactId>
-      <version>${JERSEY_VERSION}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.glassfish.jersey.containers</groupId>
-      <artifactId>jersey-container-jetty-http</artifactId>
-      <version>${JERSEY_VERSION}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.glassfish.jersey.media</groupId>
-      <artifactId>jersey-media-moxy</artifactId>
-      <version>${JERSEY_VERSION}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.glassfish.jersey.media</groupId>
-      <artifactId>jersey-media-jaxb</artifactId>
-      <version>2.22.1</version>
-    </dependency>
-
-    <!--dependency>
-        <groupId>com.fasterxml.jackson.core</groupId>
-        <artifactId>jackson-core</artifactId>
-        <version>2.7.2</version>
-    </dependency>
-    <dependency>
-        <groupId>com.fasterxml.jackson.core</groupId>
-        <artifactId>jackson-databind</artifactId>
-        <version>2.7.2</version>
-    </dependency>
-    <dependency>
-        <groupId>com.fasterxml.jackson.core</groupId>
-        <artifactId>jackson-annotations</artifactId>
-        <version>2.7.2</version>
-    </dependency-->
-
-    <!--dependency>
-        <groupId>org.deeplearning4j</groupId>
-        <artifactId>deeplearning4j-core</artifactId>
-        <version>0.6.0</version>
-    </dependency-->
-
     <!-- needed for io.anserini.qa.passage.PassageScorer -->
     <dependency>
       <groupId>org.json</groupId>
       <artifactId>json</artifactId>
       <version>20160810</version>
     </dependency>
-
-    <!--dependency>
-      <groupId>edu.stanford.nlp</groupId>
-      <artifactId>stanford-corenlp</artifactId>
-      <version>3.7.0</version>
-    </dependency>
-    <dependency>
-      <groupId>edu.stanford.nlp</groupId>
-      <artifactId>stanford-corenlp</artifactId>
-      <version>3.7.0</version>
-      <classifier>models</classifier>
-    </dependency-->
 
     <dependency>
       <groupId>net.sf.py4j</groupId>
@@ -282,12 +186,7 @@
     <dependency>
       <groupId>com.twitter.twittertext</groupId>
       <artifactId>twitter-text</artifactId>
-      <version>2.0.10</version> <!-- or whatever the latest version is -->
-    </dependency>
-    <dependency>
-      <groupId>com.twitter</groupId>
-      <artifactId>twitter-text</artifactId>
-      <version>1.13.0</version>
+      <version>2.0.10</version>
     </dependency>
 
     <dependency>
