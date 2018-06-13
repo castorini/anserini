@@ -7,18 +7,6 @@ import org.apache.lucene.util.BytesRef;
 public class TitleCoordSimilarity extends TFIDFSimilarity {
 
   @Override
-  public float coord(int overlap, int maxOverlap) {
-    // TODO Auto-generated method stub
-    return 1.0f / maxOverlap;
-  }
-
-  @Override
-  public float queryNorm(float sumOfSquaredWeights) {
-    // TODO Auto-generated method stub
-    return 1.0f;
-  }
-
-  @Override
   public float tf(float freq) {
     // TODO Auto-generated method stub
     if (freq > 0)
@@ -34,22 +22,10 @@ public class TitleCoordSimilarity extends TFIDFSimilarity {
   }
 
   @Override
-  public float lengthNorm(FieldInvertState state) {
+  public float lengthNorm(int var) {
     // TODO Auto-generated method stub
     // return state.getLength();
     return 1.0f;
-  }
-
-  @Override
-  public float decodeNormValue(long norm) {
-    // TODO Auto-generated method stub
-    return 1.0f;
-  }
-
-  @Override
-  public long encodeNormValue(float f) {
-    // TODO Auto-generated method stub
-    return (long) f;
   }
 
   @Override

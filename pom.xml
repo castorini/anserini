@@ -7,7 +7,7 @@
   <name>Anserini retrieval platform</name>
 
   <properties>
-    <LUCENE_VERSION>6.3.0</LUCENE_VERSION>
+    <LUCENE_VERSION>7.2.0</LUCENE_VERSION>
     <!-- see http://download.eclipse.org/jetty/ Jetty9 forces Java 1.8, which causes all sorts of headaches
     For display special characters such as emoji expression, please set JETTY_VERSION to 9.3.5.v20151012 -->
     <JETTY_VERSION>8.1.17.v20150415</JETTY_VERSION>

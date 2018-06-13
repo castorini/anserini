@@ -55,7 +55,7 @@ public class TFIDFFeatureExtractor implements FeatureExtractor{
 
     // number of query tokens found
     // how many of our query tokens were found
-    float coord = similarity.coord(countMap.size(), context.getQueryTokens().size());
+    float coord = countMap.size() / context.getQueryTokens().size();
 
     for (Object token : context.getQueryTokens()) {
       long termFreq = countMap.containsKey(token) ? countMap.get(token) : 0;
