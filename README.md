@@ -34,8 +34,3 @@ The `eval/` directory contains evaluation tools and scripts, including `trec_eva
 + [IndexCollection](docs/index-collection.md)
 + [DumpIndex](docs/dumpindex.md)
 + [SearchCollection](docs/search-collection.md)
-+ [Word embedding](docs/embeddings.md) for Anserini 
-
-## Other Features
-
-+ Create `trec_eval` style run file from TrecQA set and [evaluation](docs/end2end-TrecQa-eval.md)  
