@@ -38,8 +38,6 @@ The `eval/` directory contains evaluation tools and scripts, including `trec_eva
 
 ## Other Features
 
-+ [Twitter (Near) Real-Time Search](docs/twitter-nrts.md)
-+ [YoGosling](docs/yogosling.md)
 + How to [add a new collection class](docs/add-collection-class.md)
 + How to [add a new topic reader](docs/add-topic-reader.md)
 + Create `trec_eval` style run file from TrecQA set and [evaluation](docs/end2end-TrecQa-eval.md)  
