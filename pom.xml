@@ -160,7 +160,7 @@
       <artifactId>ant</artifactId>
       <version>1.9.1</version>
     </dependency>
-    <dependency> <!-- needed for io.anserini.qa.passage.PassageScorer -->
+    <dependency> <!-- needed for io.anserini.document.WashPostDocument -->
       <groupId>org.json</groupId>
       <artifactId>json</artifactId>
       <version>20160810</version>
