@@ -8,11 +8,6 @@
 
   <properties>
     <LUCENE_VERSION>6.3.0</LUCENE_VERSION>
-    <!-- see http://download.eclipse.org/jetty/ Jetty9 forces Java 1.8, which causes all sorts of headaches
-    For display special characters such as emoji expression, please set JETTY_VERSION to 9.3.5.v20151012 -->
-    <JETTY_VERSION>8.1.17.v20150415</JETTY_VERSION>
-    <MUSTACHE_VERSION>0.8.18</MUSTACHE_VERSION>
-    <JERSEY_VERSION>2.7</JERSEY_VERSION>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
@@ -141,11 +136,6 @@
       <version>2.4</version>
     </dependency>
     <dependency>
-      <groupId>org.twitter4j</groupId>
-      <artifactId>twitter4j-stream</artifactId>
-      <version>4.0.4</version>
-    </dependency>
-    <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
       <version>19.0-rc2</version>
@@ -155,78 +145,6 @@
       <artifactId>fastutil</artifactId>
       <version>6.5.6</version>
     </dependency>
-
-    <!-- needed for CBZip2InputStream -->
-    <dependency>
-      <groupId>org.apache.ant</groupId>
-      <artifactId>ant</artifactId>
-      <version>1.9.1</version>
-    </dependency>
-
-    <!-- needed for io.anserini.nrts (might want to rewrite to kill this dependency -->
-    <dependency>
-      <groupId>org.apache.httpcomponents</groupId>
-      <artifactId>httpclient</artifactId>
-      <version>4.5.1</version>
-    </dependency>
-    <dependency>
-      <groupId>commons-cli</groupId>
-      <artifactId>commons-cli</artifactId>
-      <version>1.2</version>
-    </dependency>
-    <dependency>
-      <groupId>commons-lang</groupId>
-      <artifactId>commons-lang</artifactId>
-      <version>2.6</version>
-    </dependency>
-    <dependency>
-      <groupId>org.eclipse.jetty</groupId>
-      <artifactId>jetty-server</artifactId>
-      <version>${JETTY_VERSION}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.eclipse.jetty</groupId>
-      <artifactId>jetty-servlet</artifactId>
-      <version>${JETTY_VERSION}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.github.spullara.mustache.java</groupId>
-      <artifactId>compiler</artifactId>
-      <version>${MUSTACHE_VERSION}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.glassfish.jersey.core</groupId>
-      <artifactId>jersey-server</artifactId>
-      <version>${JERSEY_VERSION}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.glassfish.jersey.containers</groupId>
-      <artifactId>jersey-container-servlet-core</artifactId>
-      <version>${JERSEY_VERSION}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.glassfish.jersey.containers</groupId>
-      <artifactId>jersey-container-jetty-http</artifactId>
-      <version>${JERSEY_VERSION}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.glassfish.jersey.media</groupId>
-      <artifactId>jersey-media-moxy</artifactId>
-      <version>${JERSEY_VERSION}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.glassfish.jersey.media</groupId>
-      <artifactId>jersey-media-jaxb</artifactId>
-      <version>2.22.1</version>
-    </dependency>
-
-    <!-- needed for io.anserini.qa.passage.PassageScorer -->
-    <dependency>
-      <groupId>org.json</groupId>
-      <artifactId>json</artifactId>
-      <version>20160810</version>
-    </dependency>
-
     <dependency>
       <groupId>net.sf.py4j</groupId>
       <artifactId>py4j</artifactId>
@@ -237,30 +155,30 @@
       <artifactId>wikiclean</artifactId>
       <version>0.5</version>
     </dependency>
-
-    <!--Sesame for parsing triples-->
+    <dependency> <!-- needed for CBZip2InputStream -->
+      <groupId>org.apache.ant</groupId>
+      <artifactId>ant</artifactId>
+      <version>1.9.1</version>
+    </dependency>
+    <dependency> <!-- needed for io.anserini.qa.passage.PassageScorer -->
+      <groupId>org.json</groupId>
+      <artifactId>json</artifactId>
+      <version>20160810</version>
+    </dependency>
     <dependency>
       <groupId>org.openrdf.sesame</groupId>
       <artifactId>sesame-rio-ntriples</artifactId>
       <version>4.1.2</version>
     </dependency>
-
     <dependency>
       <groupId>com.twitter.twittertext</groupId>
       <artifactId>twitter-text</artifactId>
-      <version>2.0.10</version> <!-- or whatever the latest version is -->
+      <version>2.0.10</version>
     </dependency>
-    <dependency>
-      <groupId>com.twitter</groupId>
-      <artifactId>twitter-text</artifactId>
-      <version>1.13.0</version>
-    </dependency>
-
     <dependency>
       <groupId>com.github.TREMA-UNH</groupId>
       <artifactId>trec-car-tools-java</artifactId>
       <version>2.0</version>
     </dependency>
-
   </dependencies>
 </project>
