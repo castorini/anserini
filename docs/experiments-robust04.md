@@ -1,4 +1,4 @@
-# Anserini: Experiments on Robust04
+# Anserini: Robust04 Experiments on Disks 4 &amp; 5
 
 ## Indexing
 
@@ -18,7 +18,11 @@ For additional details, see explanation of [common indexing options](common-inde
 
 ## Retrieval
 
-Topics and qrels are stored in `src/main/resources/topics-and-qrels/`.
+Topics and qrels are stored in `src/main/resources/topics-and-qrels/`, downloaded from NIST:
+
++ `topics.robust04.301-450.601-700.txt`: [Topics 301-450 &amp; 601-700 (TREC 2004 Robust Track)](http://trec.nist.gov/data/robust/04.testset.gz)
++ `qrels.robust2004.txt`: [qrels for Topics 301-450 &amp; 601-700 (TREC 2004 Robust Track)](http://trec.nist.gov/data/robust/qrels.robust2004.txt)
+
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
