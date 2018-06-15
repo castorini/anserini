@@ -17,17 +17,14 @@ Anserini is designed to support experiments on various standard TREC collections
 + [_ad hoc_ retrieval: TREC Robust05 topics on the AQUAINT collection](docs/experiments-robust05.md)
 + [_ad hoc_ retrieval: TREC CORE17 on the New York Times collection](docs/experiments-core17.md)
 + [_ad hoc_ retrieval: TREC CORE18 on the Washington Post collection](docs/experiments-wapo.md)
++ [_ad hoc_ tweet retrieval: TREC Microblog topics](docs/experiments-microblog.md)
 + [web search: Wt10g collection](docs/experiments-wt10g.md)
 + [web search: Gov2 collection](docs/experiments-gov2.md)
 + [web search: ClueWeb09b collection](docs/experiments-clueweb09b.md)
 + [web search: ClueWeb12-B13 collection](docs/experiments-clueweb12-b13.md)
 + [web search: ClueWeb12 collection](docs/experiments-clueweb12.md)
-+ [tweet _ad hoc_ retrieval: TREC Microblog topics](docs/experiments-microblog.md)
 
-The `eval/` directory contains evaluation tools and scripts, including `trec_eval`. Before using `trec_eval`, you have to unpack and compile it. Other helpful links:
-
-+ [Index statistics](docs/dumpindex-reference.md) for verification purposes
-+ [Source of all topics and qrels](docs/topics-and-qrels.md)
+The `eval/` directory contains evaluation tools and scripts, including `trec_eval`. Before using `trec_eval`, you have to unpack and compile it.
 
 ## Tools
 
