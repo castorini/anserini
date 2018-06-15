@@ -2,13 +2,17 @@ Anserini
 ========
 [![Build Status](https://travis-ci.org/castorini/Anserini.svg?branch=master)](https://travis-ci.org/castorini/Anserini)
 
+## Getting Started
+
 Build using Maven:
 
 ```
 mvn clean package appassembler:assemble
 ```
 
-## Standard IR Experiments
+The `eval/` directory contains evaluation tools and scripts, including `trec_eval`. Before using `trec_eval`, unpack and compile it.
+
+## Running Standard IR Experiments
 
 Anserini is designed to support experiments on various standard TREC collections out of the box:
 
@@ -23,8 +27,6 @@ Anserini is designed to support experiments on various standard TREC collections
 + [web search: ClueWeb09b collection](docs/experiments-clueweb09b.md)
 + [web search: ClueWeb12-B13 collection](docs/experiments-clueweb12-b13.md)
 + [web search: ClueWeb12 collection](docs/experiments-clueweb12.md)
-
-The `eval/` directory contains evaluation tools and scripts, including `trec_eval`. Before using `trec_eval`, you have to unpack and compile it.
 
 ## Tools
 
