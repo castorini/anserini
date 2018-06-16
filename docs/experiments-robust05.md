@@ -1,4 +1,4 @@
-# Anserini: Experiments on Robust05
+# Anserini: Robust05 Experiments on AQUAINT
 
 ## Indexing
 
@@ -17,7 +17,11 @@ For additional details, see explanation of [common indexing options](common-inde
 
 ## Retrieval
 
-Topics and qrels are stored in `src/main/resources/topics-and-qrels/`.
+Topics and qrels are stored in `src/main/resources/topics-and-qrels/`, downloaded from NIST:
+
++ `topics.robust05.txt`: [Hard Topics of ROBUST04 (TREC 2005 Robust Track)](http://trec.nist.gov/data/robust/05/05.50.topics.txt)
++ `qrels.robust2005.txt`: [qrels (TREC 2005 Robust Track)](http://trec.nist.gov/data/robust/05/TREC2005.qrels.txt)
+
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
