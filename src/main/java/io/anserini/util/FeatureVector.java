@@ -2,7 +2,6 @@ package io.anserini.util;
 
 import io.anserini.rerank.rm3.Rm3Stopper;
 import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
-
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -11,7 +10,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-
 import org.apache.lucene.index.Terms;
 import org.apache.lucene.index.TermsEnum;
 import org.apache.lucene.util.BytesRef;
@@ -174,7 +172,7 @@ public class FeatureVector {
 
   public static FeatureVector interpolate(FeatureVector x, FeatureVector y, float xWeight) {
     FeatureVector z = new FeatureVector();
-    Set<String> vocab = new HashSet<String>();
+    Set<String> vocab = new HashSet<>();
     vocab.addAll(x.getFeatures());
     vocab.addAll(y.getFeatures());
     Iterator<String> features = vocab.iterator();

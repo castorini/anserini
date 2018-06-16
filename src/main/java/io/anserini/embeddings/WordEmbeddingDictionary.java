@@ -82,7 +82,7 @@ public final class WordEmbeddingDictionary {
       throw new TermNotFoundException(term);
     }
 
-    byte[] val = docs.documents[0].getField(FIELD_BODY).binaryValue().bytes;
+    byte[] val = docs.documents.get(0).getField(FIELD_BODY).binaryValue().bytes;
     FloatBuffer floatBuffer = ByteBuffer.wrap(val).asFloatBuffer();
     float[] floatArray = new float[floatBuffer.limit()];
     floatBuffer.get(floatArray);

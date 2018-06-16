@@ -56,10 +56,10 @@ public class RankLibReranker implements Reranker {
   public ScoredDocuments rerank(ScoredDocuments docs, RerankerContext context) {
     // Used to hold our rescored docs
     ScoredDocuments rerankedDocs = new ScoredDocuments();
-    int numResults = docs.documents.length;
-    rerankedDocs.documents = new Document[numResults];
-    rerankedDocs.ids = new int[numResults];
-    rerankedDocs.scores = new float[numResults];
+    int numResults = docs.documents.size();
+    rerankedDocs.documents = new ArrayList<>(numResults);
+    rerankedDocs.ids = new ArrayList<>(numResults);
+    rerankedDocs.scores = new ArrayList<>(numResults);
 
     SortedSet<Result> results = new TreeSet<>();
 
@@ -67,16 +67,16 @@ public class RankLibReranker implements Reranker {
     // So we need to construct each feature vector in string representation then
     // parse it...
     for (int i = 0; i < numResults; i++) {
-      DataPoint dp = convertToDataPoint(docs.documents[i], context);
+      DataPoint dp = convertToDataPoint(docs.documents.get(i), context);
       float score = (float) this.ranker.eval(dp);
-      results.add(new Result(docs.documents[i], i, score, docs.ids[i]));
+      results.add(new Result(docs.documents.get(i), i, score, docs.ids.get(i)));
     }
 
     int index = 0;
     for (Result result : results) {
-      rerankedDocs.documents[index] = result.document;
-      rerankedDocs.ids[index] = result.id;
-      rerankedDocs.scores[index] = result.score;
+      rerankedDocs.documents.set(index, result.document);
+      rerankedDocs.ids.set(index, result.id);
+      rerankedDocs.scores.set(index, result.score);
       index++;
     }
 

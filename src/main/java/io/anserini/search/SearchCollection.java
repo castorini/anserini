@@ -22,6 +22,7 @@ import io.anserini.index.generator.TweetGenerator;
 import io.anserini.ltr.TweetsLtrDataGenerator;
 import io.anserini.ltr.WebCollectionLtrDataGenerator;
 import io.anserini.ltr.feature.FeatureExtractors;
+import io.anserini.rerank.AxiomReranker;
 import io.anserini.rerank.IdentityReranker;
 import io.anserini.rerank.RerankerCascade;
 import io.anserini.rerank.RerankerContext;
@@ -60,7 +61,6 @@ import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
-import org.apache.lucene.search.TermRangeQuery;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.search.similarities.BM25Similarity;
 import org.apache.lucene.search.similarities.LMDirichletSimilarity;
@@ -174,10 +174,10 @@ public final class SearchCollection implements Closeable {
        * the fifth column shows the score (integer or floating point) that generated the ranking.
        * the sixth column is called the "run tag" and should be a unique identifier for your
        */
-      for (int i = 0; i < docs.documents.length; i++) {
+      for (int i = 0; i < docs.documents.size(); i++) {
         out.println(String.format(Locale.US, "%s Q0 %s %d %f %s", qID,
-            docs.documents[i].getField(FIELD_ID).stringValue(), (i + 1), docs.scores[i],
-            ((i == 0 || i == docs.documents.length-1) ? runTag : "See_Line1")));
+            docs.documents.get(i).getField(FIELD_ID).stringValue(), (i + 1), docs.scores.get(i),
+            ((i == 0 || i == docs.documents.size()-1) ? runTag : "See_Line1")));
       }
     }
     out.flush();
@@ -247,6 +247,9 @@ public final class SearchCollection implements Closeable {
             "io/anserini/rerank/rm3/rm3-stoplist.gov2.txt", true));
       }
       useQueryParser = true;
+    } else if (searchArgs.axiom) {
+      cascade.add(new AxiomReranker(analyzer, FIELD_BODY,
+          "io/anserini/rerank/rm3/rm3-stoplist.gov2.txt", true, searchArgs.beta));
     } else {
       cascade.add(new IdentityReranker());
       if (searchArgs.searchtweets) {

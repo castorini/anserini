@@ -124,8 +124,8 @@ public class RetrieveSentences {
       ScoreDoc[] hits = rs.scoreDocs;
       ScoredDocuments docs = ScoredDocuments.fromTopDocs(rs, searcher);
 
-      for (int i = 0; i < docs.documents.length; i++) {
-        scoredDocs.put(docs.documents[i].getField(FIELD_ID).stringValue(), docs.scores[i]);
+      for (int i = 0; i < docs.documents.size(); i++) {
+        scoredDocs.put(docs.documents.get(i).getField(FIELD_ID).stringValue(), docs.scores.get(i));
       }
     }
     return scoredDocs;

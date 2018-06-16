@@ -98,9 +98,9 @@ public class PyseriniEntryPoint {
       RerankerContext context = new RerankerContext(searcher, query, String.valueOf(qID), queryString,
               queryTokens, FIELD_BODY, null);
       ScoredDocuments docs = cascade.run(ScoredDocuments.fromTopDocs(rs, searcher), context);
-      for (int i = 0; i < docs.documents.length; i++) {
-        String docid = docs.documents[i].getField(FIELD_ID).stringValue();
-        float score = docs.scores[i];
+      for (int i = 0; i < docs.documents.size(); i++) {
+        String docid = docs.documents.get(i).getField(FIELD_ID).stringValue();
+        float score = docs.scores.get(i);
         scoredDocs.put(docid, score);
       }
     }

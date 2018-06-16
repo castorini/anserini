@@ -29,22 +29,22 @@ public class TweetsLtrDataGenerator implements Reranker {
   public ScoredDocuments rerank(ScoredDocuments docs, RerankerContext context) {
     IndexReader reader = context.getIndexSearcher().getIndexReader();
 
-    for (int i = 0; i < docs.documents.length; i++) {
+    for (int i = 0; i < docs.documents.size(); i++) {
       Terms terms = null;
       try {
-        terms = reader.getTermVector(docs.ids[i], TweetGenerator.FIELD_BODY);
+        terms = reader.getTermVector(docs.ids.get(i), TweetGenerator.FIELD_BODY);
       } catch (IOException e) {
         continue;
       }
 
       String qid = ((String)context.getQueryId()).replaceFirst("^MB0*", "");
-      String docid = docs.documents[i].getField(TweetGenerator.FIELD_ID).stringValue();
+      String docid = docs.documents.get(i).getField(TweetGenerator.FIELD_ID).stringValue();
 
       out.print(qrels.getRelevanceGrade(qid, docid));
       out.print(" qid:" + qid);
-      out.print(" 1:" + docs.scores[i]);
+      out.print(" 1:" + docs.scores.get(i));
 
-      float[] intFeatures = this.extractorChain.extractAll(docs.documents[i], terms, context);
+      float[] intFeatures = this.extractorChain.extractAll(docs.documents.get(i), terms, context);
 
       for (int j=0; j<intFeatures.length; j++ ) {
         out.print(" " + (j+2) + ":" + intFeatures[j]);
