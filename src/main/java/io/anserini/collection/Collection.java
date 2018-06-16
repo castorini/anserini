@@ -41,6 +41,25 @@ import org.apache.logging.log4j.Logger;
  * A collection is assumed to be a directory. In the case where the collection is
  * a single file (e.g., a Wikipedia dump), place the file into an arbitrary directory.
  *
+ * Basically the collection class does two things:
+ *
+ * 1. Discover the files with qualified names in the input directory
+ * 2. Extract documents from each file
+ *
+ * The detailed steps of adding a new collection class are:
+ *
+ * 1. Create a subclass for {@link Collection}
+ * 2. Implement class {@link FileSegment} and function
+ * {@link Collection#getFileSegmentPaths}, {@link Collection#createFileSegment}.
+ * Take {@link TrecCollection} as an example.
+ * 3. Create a subclass for {@link io.anserini.document.SourceDocument} and Implement function
+ * {@link io.anserini.document.SourceDocument#readNextRecord}. `readNextRecord` will return
+ * a single `SourceDocument`. Take the {@link io.anserini.document.TrecDocument} as an example.
+ * 4. [Optional] Create a new {@link io.anserini.index.generator}. Function
+ * {@link io.anserini.index.generator.LuceneDocumentGenerator#createDocument} takes a `SourceDocument`
+ * as the input and return a native Lucene {@link org.apache.lucene.document.Document}.
+ * 5. Add unit test at src/test/java/io.anserini.document.
+ *
  * @param <T> type of the source document
  */
 public abstract class Collection<T extends SourceDocument> {

@@ -17,7 +17,15 @@ For additional details, see explanation of [common indexing options](common-inde
 
 ## Retrieval
 
-Topics and qrels are stored in `src/main/resources/topics-and-qrels/`.
+Topics and qrels are stored in `src/main/resources/topics-and-qrels/`, downloaded from NIST:
+
++ `topics.701-750.txt`: [Topics 701-750 (TREC 2004 Terabyte Track)](http://trec.nist.gov/data/terabyte/04/04topics.701-750.txt)
++ `topics.751-800.txt`: [Topics 751-800 (TREC 2005 Terabyte Track)](http://trec.nist.gov/data/terabyte/05/05.topics.751-800.txt)
++ `topics.801-850.txt`: [Topics 801-850 (TREC 2006 Terabyte Track)](http://trec.nist.gov/data/terabyte/06/06.topics.801-850.txt)
++ `qrels.701-750.txt`: [qrels for Topics 701-750 (TREC 2004 Terabyte Track)](http://trec.nist.gov/data/terabyte/04/04.qrels.12-Nov-04)
++ `qrels.751-800.txt`: [qrels for Topics 751-800 (TREC 2005 Terabyte Track)](http://trec.nist.gov/data/terabyte/05/05.adhoc_qrels)
++ `qrels.801-850.txt`: [qrels for Topics 801-850 (TREC 2006 Terabyte Track)](http://trec.nist.gov/data/terabyte/06/qrels.tb06.top50)
+ 
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
@@ -67,15 +75,15 @@ With the above commands, you should be able to replicate the following results:
 
 MAP                                                                                     | BM25   |BM25+RM3| QL     | QL+RM3
 :---------------------------------------------------------------------------------------|--------|--------|--------|--------
-[TREC 2004 Terabyte Track: Topics 701-750](http://trec.nist.gov/data/terabyte04.html)   | 0.2673 | 0.2953 | 0.2635 | 0.2800
-[TREC 2005 Terabyte Track: Topics 751-800](http://trec.nist.gov/data/terabyte05.html)   | 0.3365 | 0.3837 | 0.3263 | 0.3627
-[TREC 2006 Terabyte Track: Topics 801-850](http://trec.nist.gov/data/terabyte06.html)   | 0.3053 | 0.3411 | 0.2955 | 0.3199
+[TREC 2004 Terabyte Track: Topics 701-750](http://trec.nist.gov/data/terabyte04.html)   | 0.2673 | 0.2952 | 0.2635 | 0.2800
+[TREC 2005 Terabyte Track: Topics 751-800](http://trec.nist.gov/data/terabyte05.html)   | 0.3365 | 0.3835 | 0.3263 | 0.3628
+[TREC 2006 Terabyte Track: Topics 801-850](http://trec.nist.gov/data/terabyte06.html)   | 0.3053 | 0.3409 | 0.2955 | 0.3198
 
 
 P30                                                                                     | BM25   |BM25+RM3|  QL    | QL+RM3
 :---------------------------------------------------------------------------------------|--------|--------|--------|--------
 [TREC 2004 Terabyte Track: Topics 701-750](http://trec.nist.gov/data/terabyte04.html)   | 0.4850 | 0.5306 | 0.4673 | 0.4850
 [TREC 2005 Terabyte Track: Topics 751-800](http://trec.nist.gov/data/terabyte05.html)   | 0.5520 | 0.5913 | 0.5167 | 0.5660
-[TREC 2006 Terabyte Track: Topics 801-850](http://trec.nist.gov/data/terabyte06.html)   | 0.4913 | 0.5260 | 0.4760 | 0.4873
+[TREC 2006 Terabyte Track: Topics 801-850](http://trec.nist.gov/data/terabyte06.html)   | 0.4913 | 0.5253 | 0.4760 | 0.4873
 
 There is a small amount of non-determinism, particularly with RM3, so tiny differences in the fourth decimal place might be observed.
