@@ -21,7 +21,13 @@ For additional details, see explanation of [common indexing options](common-inde
 
 ## Retrieval
 
-Topics and qrels are stored in `src/main/resources/topics-and-qrels/`.
+Topics and qrels are stored in `src/main/resources/topics-and-qrels/`, downloaded from NIST:
+
++ `topics.web.201-250.txt`: [Topics 201-250 (TREC 2013 Web Track)](http://trec.nist.gov/data/web/2013/trec2013-topics.xml)
++ `topics.web.251-300.txt`: [Topics 251-300 (TREC 2014 Web Track)](http://trec.nist.gov/data/web/2014/trec2014-topics.xml)
++ `qrels.web.201-250.txt`: [one aspect per topic qrels for Topics 201-250 (TREC 2013 Web Track)](http://trec.nist.gov/data/web/2013/qrels.adhoc.txt)
++ `qrels.web.251-300.txt`: [one aspect per topic qrels for Topics 251-300 (TREC 2014 Web Track)](http://trec.nist.gov/data/web/2014/qrels.adhoc.txt)
+
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
@@ -77,16 +83,16 @@ With the above commands, you should be able to replicate the following results:
 AP                                                                             | BM25   | BM25+RM3 | QL     | QL+RM3 |
 :------------------------------------------------------------------------------|--------|----------|--------|--------|
 [TREC 2013 Web Track: Topics 201-250](http://trec.nist.gov/data/web2013.html)  | 0.1674 | 0.1503   | 0.1439 | 0.1205 |
-[TREC 2014 Web Track: Topics 251-300](http://trec.nist.gov/data/web2014.html)  | 0.2434 | 0.2367   | 0.2408 | 0.2327 |
+[TREC 2014 Web Track: Topics 251-300](http://trec.nist.gov/data/web2014.html)  | 0.2434 | 0.2431   | 0.2408 | 0.2327 |
 
 P30                                                                            | BM25   | BM25+RM3 | QL     | QL+RM3 |
 :------------------------------------------------------------------------------|--------|----------|--------|--------|
 [TREC 2013 Web Track: Topics 201-250](http://trec.nist.gov/data/web2013.html)  | 0.2833 | 0.2367   | 0.2533 | 0.2047 |
-[TREC 2014 Web Track: Topics 251-300](http://trec.nist.gov/data/web2014.html)  | 0.4500 | 0.4120   | 0.4387 | 0.3980 |
+[TREC 2014 Web Track: Topics 251-300](http://trec.nist.gov/data/web2014.html)  | 0.4500 | 0.4087   | 0.4387 | 0.3980 |
 
 NDCG@20                                                                        | BM25   | BM25+RM3 | QL     | QL+RM3 |
 :------------------------------------------------------------------------------|--------|----------|--------|--------|
 [TREC 2013 Web Track: Topics 201-250](http://trec.nist.gov/data/web2013.html)  | 0.2067 | 0.1694   | 0.1893 | 0.1504 |
-[TREC 2014 Web Track: Topics 251-300](http://trec.nist.gov/data/web2014.html)  | 0.2644 | 0.2401   | 0.2345 | 0.2234 |
+[TREC 2014 Web Track: Topics 251-300](http://trec.nist.gov/data/web2014.html)  | 0.2644 | 0.2388   | 0.2345 | 0.2234 |
 
 Note that RM3 effectiveness is low because there are large number of unjudged documents.
