@@ -165,10 +165,10 @@ public final class SearchCollection implements Closeable {
        * the fifth column shows the score (integer or floating point) that generated the ranking.
        * the sixth column is called the "run tag" and should be a unique identifier for your
        */
-      for (int i = 0; i < docs.documents.size(); i++) {
+      for (int i = 0; i < docs.documents.length; i++) {
         out.println(String.format(Locale.US, "%s Q0 %s %d %f %s", qID,
-            docs.documents.get(i).getField(FIELD_ID).stringValue(), (i + 1), docs.scores.get(i),
-            ((i == 0 || i == docs.documents.size()-1) ? runTag : "See_Line1")));
+            docs.documents[i].getField(FIELD_ID).stringValue(), (i + 1), docs.scores[i],
+            ((i == 0 || i == docs.documents.length-1) ? runTag : "See_Line1")));
       }
     }
     out.flush();
@@ -237,7 +237,7 @@ public final class SearchCollection implements Closeable {
       }
     } else if (searchArgs.axiom) {
       cascade.add(new AxiomReranker(analyzer, FIELD_BODY,
-          "io/anserini/rerank/rm3/rm3-stoplist.gov2.txt", true, searchArgs.beta));
+          "io/anserini/rerank/rm3/rm3-stoplist.gov2.txt", true, searchArgs.axiom_beta));
     } else {
       cascade.add(new IdentityReranker());
       if (searchArgs.searchtweets) {

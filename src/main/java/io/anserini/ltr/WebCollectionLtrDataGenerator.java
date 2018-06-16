@@ -38,20 +38,21 @@ public class WebCollectionLtrDataGenerator implements Reranker{
 
   @Override
   public ScoredDocuments rerank(ScoredDocuments docs, RerankerContext context) {
+    Document[] documents = docs.documents;
     IndexReader reader = context.getIndexSearcher().getIndexReader();
     int qid = (int)context.getQueryId();
     LOG.info("Beginning rerank");
-    for (int i =0; i < docs.documents.size(); i++ ) {
+    for (int i =0; i < docs.documents.length; i++ ) {
       try {
-        Terms terms = reader.getTermVector(docs.ids.get(i), LuceneDocumentGenerator.FIELD_BODY);
-        float[] features = this.extractorChain.extractAll(docs.documents.get(i), terms, context);
-        String docId = docs.documents.get(i).get(LuceneDocumentGenerator.FIELD_ID);
+        Terms terms = reader.getTermVector(docs.ids[i], LuceneDocumentGenerator.FIELD_BODY);
+        float[] features = this.extractorChain.extractAll(documents[i], terms, context);
+        String docId = documents[i].get(LuceneDocumentGenerator.FIELD_ID);
         // QREL 0 in this case, will be assigned if needed later
         //qid
         BaseFeatureExtractor.writeFeatureVector(out, qid, this.qrels.getRelevanceGrade(qid, docId), docId,  features);
         LOG.info("Finished writing vectors");
       } catch (IOException e) {
-        LOG.error(String.format("IOExecption trying to retrieve feature vector for %d doc", docs.ids.get(i)));
+        LOG.error(String.format("IOExecption trying to retrieve feature vector for %d doc", docs.ids[i]));
         continue;
       }
     }

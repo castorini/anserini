@@ -40,7 +40,7 @@ public class Rm3Reranker implements Reranker {
 
   @Override
   public ScoredDocuments rerank(ScoredDocuments docs, RerankerContext context) {
-    Preconditions.checkState(docs.documents.size() == docs.scores.size());
+    Preconditions.checkState(docs.documents.length == docs.scores.length);
 
     IndexSearcher searcher = context.getIndexSearcher();
     IndexReader reader = searcher.getIndexReader();
@@ -96,13 +96,13 @@ public class Rm3Reranker implements Reranker {
     FeatureVector f = new FeatureVector();
 
     Set<String> vocab = Sets.newHashSet();
-    int numdocs = docs.documents.size() < fbDocs ? docs.documents.size() : fbDocs;
+    int numdocs = docs.documents.length < fbDocs ? docs.documents.length : fbDocs;
     FeatureVector[] docvectors = new FeatureVector[numdocs];
 
     for (int i = 0; i < numdocs; i++) {
       try {
         FeatureVector docVector = FeatureVector.fromLuceneTermVector(
-            reader.getTermVector(docs.ids.get(i), field), stopper);
+            reader.getTermVector(docs.ids[i], field), stopper);
         docVector.pruneToSize(fbTerms);
 
         vocab.addAll(docVector.getFeatures());
@@ -123,7 +123,7 @@ public class Rm3Reranker implements Reranker {
     for (String term : vocab) {
       float fbWeight = 0.0f;
       for (int i = 0; i < docvectors.length; i++) {
-        fbWeight += (docvectors[i].getFeatureWeight(term) / norms[i]) * docs.scores.get(i);
+        fbWeight += (docvectors[i].getFeatureWeight(term) / norms[i]) * docs.scores[i];
       }
       f.addFeatureWeight(term, fbWeight);
     }

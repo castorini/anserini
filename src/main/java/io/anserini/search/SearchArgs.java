@@ -69,8 +69,8 @@ public class SearchArgs {
   @Option(name = "-axiom", usage = "use Axiomatic query expansion model for the reranking")
   public boolean axiom = false;
 
-  @Option(name = "-beta", usage = "use Axiomatic query expansion model for the reranking")
-  public float beta = 0.4f;
+  @Option(name = "-axiom.beta", usage = "Parameter beta for Axiomatic query expansion model")
+  public float axiom_beta = 0.4f;
 
   @Option(name = "-model", metaVar = "[file]", required = false, usage = "ranklib model file")
   public String model = "";

@@ -29,21 +29,21 @@ public class TwitterFeatureReranker implements Reranker {
   public<K> ScoredDocuments rerank(ScoredDocuments docs, RerankerContext context) {
     IndexReader reader = context.getIndexSearcher().getIndexReader();
 
-    for (int i = 0; i < docs.documents.size(); i++) {
+    for (int i = 0; i < docs.documents.length; i++) {
       Terms terms = null;
       try {
-        terms = reader.getTermVector(docs.ids.get(i), TweetGenerator.FIELD_BODY);
+        terms = reader.getTermVector(docs.ids[i], TweetGenerator.FIELD_BODY);
       } catch (IOException e) {
         continue;
       }
 
       String qid = ((String)context.getQueryId()).replaceFirst("^MB0*", "");
-      String docid = docs.documents.get(i).getField( TweetGenerator.FIELD_ID).stringValue();
+      String docid = docs.documents[i].getField( TweetGenerator.FIELD_ID).stringValue();
 
       out.print(qrels.getRelevanceGrade(qid, docid));
       out.print(" qid:" + qid);
 
-      float[] intFeatures = this.extractors.extractAll(docs.documents.get(i), terms, context);
+      float[] intFeatures = this.extractors.extractAll(docs.documents[i], terms, context);
 
       // TODO use model to rerank
     }

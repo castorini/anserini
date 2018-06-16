@@ -305,12 +305,12 @@ public class EntityLinking implements Closeable {
     TopDocs rs = searcher.search(query, numHits);
     ScoredDocuments docs = ScoredDocuments.fromTopDocs(rs, searcher);
 
-    for (int i = 0; i < docs.documents.size(); i++) {
-      float score = docs.scores.get(i);
-      String mid = docs.documents.get(i).getField(IndexTopics.FIELD_TOPIC_MID).stringValue();
+    for (int i = 0; i < docs.documents.length; i++) {
+      float score = docs.scores[i];
+      String mid = docs.documents[i].getField(IndexTopics.FIELD_TOPIC_MID).stringValue();
       String shortMid = getShortMid(mid);
-      String name = docs.documents.get(i).getField(IndexTopics.FIELD_NAME).stringValue();
-      String label = docs.documents.get(i).getField(IndexTopics.FIELD_LABEL).stringValue();
+      String name = docs.documents[i].getField(IndexTopics.FIELD_NAME).stringValue();
+      String label = docs.documents[i].getField(IndexTopics.FIELD_LABEL).stringValue();
       rankedEntities.add(new RankedEntity(shortMid, score, name, label));
     }
 
@@ -339,20 +339,20 @@ public class EntityLinking implements Closeable {
     TopDocs rs = searcher.search(query, numHits);
     ScoredDocuments docs = ScoredDocuments.fromTopDocs(rs, searcher);
 
-    for (int i = 0; i < docs.documents.size(); i++) {
-      float score = docs.scores.get(i);
-      String mid = docs.documents.get(i).getField(IndexTopics.FIELD_TOPIC_MID).stringValue();
+    for (int i = 0; i < docs.documents.length; i++) {
+      float score = docs.scores[i];
+      String mid = docs.documents[i].getField(IndexTopics.FIELD_TOPIC_MID).stringValue();
       String shortMid = getShortMid(mid);
-      String name = docs.documents.get(i).getField(IndexTopics.FIELD_NAME).stringValue();
-      String label = docs.documents.get(i).getField(IndexTopics.FIELD_LABEL).stringValue();
+      String name = docs.documents[i].getField(IndexTopics.FIELD_NAME).stringValue();
+      String label = docs.documents[i].getField(IndexTopics.FIELD_LABEL).stringValue();
       rankedEntities.add(new RankedEntity(shortMid, score, name, label));
     }
 
-    if (docs.documents.size() >= numHits) {
+    if (docs.documents.length >= numHits) {
       return rankedEntities;
     }
 
-    int numHitsLeft = numHits - docs.documents.size();
+    int numHitsLeft = numHits - docs.documents.length;
 
     // do TFIDF search
     Similarity similarity = new ClassicSimilarity();
@@ -367,12 +367,12 @@ public class EntityLinking implements Closeable {
     rs = searcher.search(query, numHitsLeft);
     docs = ScoredDocuments.fromTopDocs(rs, searcher);
 
-    for (int i = 0; i < docs.documents.size(); i++) {
-      float score = docs.scores.get(i);
-      String mid = docs.documents.get(i).getField(IndexTopics.FIELD_TOPIC_MID).stringValue();
+    for (int i = 0; i < docs.documents.length; i++) {
+      float score = docs.scores[i];
+      String mid = docs.documents[i].getField(IndexTopics.FIELD_TOPIC_MID).stringValue();
       String shortMid = getShortMid(mid);
-      String name = docs.documents.get(i).getField(IndexTopics.FIELD_NAME).stringValue();
-      String label = docs.documents.get(i).getField(IndexTopics.FIELD_LABEL).stringValue();
+      String name = docs.documents[i].getField(IndexTopics.FIELD_NAME).stringValue();
+      String label = docs.documents[i].getField(IndexTopics.FIELD_LABEL).stringValue();
       rankedEntities.add(new RankedEntity(shortMid, score, name, label));
     }
 

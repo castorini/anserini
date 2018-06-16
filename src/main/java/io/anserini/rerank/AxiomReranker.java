@@ -4,6 +4,7 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Preconditions;
 import io.anserini.index.generator.LuceneDocumentGenerator;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -20,6 +21,7 @@ import org.apache.lucene.search.TopDocs;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -50,7 +52,7 @@ public class AxiomReranker implements Reranker {
 
   @Override
   public ScoredDocuments rerank(ScoredDocuments docs, RerankerContext context) {
-    Preconditions.checkState(docs.documents.size() == docs.scores.size());
+    Preconditions.checkState(docs.documents.length == docs.scores.length);
 
     try {
       // Select R*M docs from the original ranking list as the reranking pool
@@ -110,7 +112,8 @@ public class AxiomReranker implements Reranker {
   @VisibleForTesting
   private Set<Integer> selectDocs(ScoredDocuments docs, RerankerContext context)
       throws IOException {
-    Set<Integer> docidSet = new HashSet<>(docs.ids.subList(0, Math.min(this.M, docs.ids.size())));
+    Set<Integer> docidSet = new HashSet<>(Arrays.asList(ArrayUtils.toObject(
+        Arrays.copyOfRange(docs.ids, 0, Math.min(this.M, docs.ids.length)))));
     long targetSize = this.R * this.M;
 
     if (docidSet.size() < targetSize) {

@@ -5,7 +5,6 @@ import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.ScoredDocuments;
 import org.apache.lucene.document.Document;
 
-import java.util.ArrayList;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -50,21 +49,21 @@ public class RemoveRetweetsTemporalTiebreakReranker implements Reranker {
   public ScoredDocuments rerank(ScoredDocuments docs, RerankerContext context) {
     // Resort results based on score, breaking ties by larger docid first (i.e., recent first).
     SortedSet<Result> sortedResults = new TreeSet<Result>();
-    for (int i=0; i<docs.documents.size(); i++ ) {
+    for (int i=0; i<docs.documents.length; i++ ) {
       Result result = new Result();
-      result.document = docs.documents.get(i);
-      result.score = docs.scores.get(i);
-      result.id = docs.ids.get(i);
-      result.docid = Long.parseLong(docs.documents.get(i).getField(FIELD_ID).stringValue());
+      result.document = docs.documents[i];
+      result.score = docs.scores[i];
+      result.id = docs.ids[i];
+      result.docid = Long.parseLong(docs.documents[i].getField(FIELD_ID).stringValue());
 
       sortedResults.add(result);
     }
 
     int numResults = sortedResults.size();
     ScoredDocuments rerankedDocs = new ScoredDocuments();
-    rerankedDocs.documents = new ArrayList<>(numResults);
-    rerankedDocs.ids = new ArrayList<>(numResults);
-    rerankedDocs.scores = new ArrayList<>(numResults);
+    rerankedDocs.documents = new Document[numResults];
+    rerankedDocs.ids = new int[numResults];
+    rerankedDocs.scores = new float[numResults];
 
     int i = 0;
     int dup = 0;
@@ -79,9 +78,9 @@ public class RemoveRetweetsTemporalTiebreakReranker implements Reranker {
         curScore = curScore - 0.000001f * dup;
       }
 
-      rerankedDocs.documents.set(i, result.document);
-      rerankedDocs.ids.set(i, result.id);
-      rerankedDocs.scores.set(i, (float) curScore);
+      rerankedDocs.documents[i] = result.document;
+      rerankedDocs.ids[i] = result.id;
+      rerankedDocs.scores[i] = (float) curScore;
       prevScore = result.score;
       i++;
     }

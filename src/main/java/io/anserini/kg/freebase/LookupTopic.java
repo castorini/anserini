@@ -74,14 +74,14 @@ public class LookupTopic implements Closeable {
     TopDocs rs = searcher.search(query, numHits);
     ScoredDocuments docs = ScoredDocuments.fromTopDocs(rs, searcher);
 
-    for (int i = 0; i < docs.documents.size(); i++) {
+    for (int i = 0; i < docs.documents.length; i++) {
       String resultDoc = String.format("%d - SCORE: %f\nTOPIC_MID: %s\nOBJECT_NAME: %s\nWIKI_TITLE: %s\nW3_LABEL: %s\n",
               (i + 1),
-              docs.scores.get(i),
-              docs.documents.get(i).getField(IndexTopics.FIELD_TOPIC_MID).stringValue(),
-              docs.documents.get(i).getField(IndexTopics.FIELD_NAME).stringValue(),
-              docs.documents.get(i).getField(IndexTopics.FIELD_ALIAS).stringValue(),
-              docs.documents.get(i).getField(IndexTopics.FIELD_LABEL).stringValue());
+              docs.scores[i],
+              docs.documents[i].getField(IndexTopics.FIELD_TOPIC_MID).stringValue(),
+              docs.documents[i].getField(IndexTopics.FIELD_NAME).stringValue(),
+              docs.documents[i].getField(IndexTopics.FIELD_ALIAS).stringValue(),
+              docs.documents[i].getField(IndexTopics.FIELD_LABEL).stringValue());
       System.out.println(resultDoc);
     }
   }
