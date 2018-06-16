@@ -78,7 +78,7 @@ public class SimpleSearcher implements Closeable {
       Document doc = searcher.doc(hits[i].doc);
       String docid = doc.getField(LuceneDocumentGenerator.FIELD_ID).stringValue();
       IndexableField field = doc.getField(LuceneDocumentGenerator.FIELD_RAW);
-      String content = doc == null ? null : field.stringValue();
+      String content = field == null ? null : field.stringValue();
       results[i] = new Result(docid, hits[i].doc, hits[i].score, content);
     }
 
