@@ -32,3 +32,31 @@ Anserini is designed to support experiments on various standard TREC collections
 
 + [IndexCollection](docs/index-collection.md)
 + [DumpIndex](docs/dumpindex.md)
+
+## Interfacing with Python
+
+Anserini was designed with Python integration in mind, for connecting with popular deep learning toolkits such as PyTorch. This is accomplished via [pyjnius](https://github.com/kivy/pyjnius). The `SimpleSearcher` class provides a simple Python/Java bridge, shown below:
+
+```
+import jnius_config
+jnius_config.set_classpath("target/anserini-0.0.1-SNAPSHOT-fatjar.jar")
+
+from jnius import autoclass
+JString = autoclass('java.lang.String')
+JSearcher = autoclass('io.anserini.search.SimpleSearcher')
+
+searcher = JSearcher(JString('lucene-index.robust04.pos+docvectors+rawdocs'))
+hits = searcher.search(JString('hubble space telescope'))
+
+# the docid of the 1st hit
+hits[0].docid
+
+# the internal Lucene docid of the 1st hit
+hits[0].ldocid
+
+# the score of the 1st hit
+hits[0].score
+
+# the full document of the 1st hit
+hits[0].content
+```
