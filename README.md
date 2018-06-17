@@ -33,7 +33,7 @@ Anserini is designed to support experiments on various standard TREC collections
 + [IndexCollection](docs/index-collection.md)
 + [DumpIndex](docs/dumpindex.md)
 
-## Interfacing with Python
+## Python Interface
 
 Anserini was designed with Python integration in mind, for connecting with popular deep learning toolkits such as PyTorch. This is accomplished via [pyjnius](https://github.com/kivy/pyjnius). The `SimpleSearcher` class provides a simple Python/Java bridge, shown below:
 
