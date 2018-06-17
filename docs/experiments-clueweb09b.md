@@ -6,13 +6,13 @@ Typical indexing command:
 
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection CW09Collection \
- -input /path/to/ClueWeb09b/ClueWeb09_English_1/ -generator JsoupGenerator \
+ -input /path/to/ClueWeb09b/ -generator JsoupGenerator \
  -index lucene-index.cw09b.pos+docvectors -threads 32 \
  -storePositions -storeDocvectors \
  >& log.cw09b.pos+docvectors &
 ```
 
-The directory `/path/to/cw09/ClueWeb09_English_1` should be the root directory of ClueWeb09B collection, i.e., `ls /path/to/cw09/ClueWeb09_English_1` should bring up a bunch of subdirectories, `en0000` to `enwp03`.
+The directory `/path/to/ClueWeb09b` should be the root directory of ClueWeb09B collection, i.e., `ls /path/to/ClueWeb09b` should bring up a bunch of subdirectories, `en0000` to `enwp03`.
 
 For additional details, see explanation of [common indexing options](common-indexing-options.md).
 
