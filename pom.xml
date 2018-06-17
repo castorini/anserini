@@ -72,18 +72,62 @@
           </descriptorRefs>
         </configuration>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>3.1.0</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+            <configuration>
+              <!-- This fixes the issue "An SPI class of type org.apache.lucene.codecs.Codec with name ... does not exist."
+                   cf. https://stackoverflow.com/questions/38361533/an-spi-class-of-type-org-apache-lucene-codecs-codec-with-name-lucene54-does-no/38382096 -->
+              <transformers>
+                <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                  <resource>META-INF/services/org.apache.lucene.codecs.Codec</resource>
+                  <resource>META-INF/services/org.apache.lucene.codecs.PostingsFormat</resource>
+                </transformer>
+              </transformers>
+              <!-- This fixes the issue "Invalid signature file digest for Manifest main attributes"
+                   cf. http://zhentao-li.blogspot.com/2012/06/maven-shade-plugin-invalid-signature.html -->
+              <filters>
+                <filter>
+                  <artifact>*:*</artifact>
+                  <excludes>
+                    <exclude>META-INF/*.SF</exclude>
+                    <exclude>META-INF/*.DSA</exclude>
+                    <exclude>META-INF/*.RSA</exclude>
+                  </excludes>
+                </filter>
+              </filters>
+              <!-- this will create both a normal thin jar and also a fatjar -->
+              <shadedArtifactAttached>true</shadedArtifactAttached>
+              <shadedClassifierName>fatjar</shadedClassifierName>
+              <!--artifactSet>
+                <excludes>
+                  <exclude>org.apache.hadoop:*</exclude>
+                  <exclude>org.apache.spark:*</exclude>
+                </excludes>
+              </artifactSet-->
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
 
   <dependencies>
     <dependency>
       <groupId>org.apache.lucene</groupId>
-      <artifactId>lucene-benchmark</artifactId>
+      <artifactId>lucene-core</artifactId>
       <version>${LUCENE_VERSION}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.lucene</groupId>
-      <artifactId>lucene-core</artifactId>
+      <artifactId>lucene-benchmark</artifactId>
       <version>${LUCENE_VERSION}</version>
     </dependency>
     <dependency>
