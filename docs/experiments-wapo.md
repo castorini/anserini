@@ -3,12 +3,11 @@
 **Indexing**:
 
 ```
-nohup sh target/appassembler/bin/IndexCollection \
--collection WashPostCollection -input /path/to/wapo_data \
--generator LuceneDocumentGenerator \
--index lucene-index.wapo.pos+docvectors -threads 12 \
--storePositions -storeDocvectors \
--optimize > log.wapo.pos+docvectors &
+nohup sh target/appassembler/bin/IndexCollection -collection WashPostCollection \
+ -input /path/to/wapo_data -generator LuceneDocumentGenerator \
+ -index lucene-index.wapo.pos+docvectors -threads 16 \
+ -storePositions -storeDocvectors -storeRawDocs -optimize \
+ >& log.wapo.pos+docvectors+rawdocs &
 ```
 
 The directory `/path/to/wapo_data` should be the directory that contains a collection of Washington post corpus files, i.e., ` ls /path/to/wapo_data` should bring up all corpus files, e.g ` TREC_article_2012.txt`. The command above builds a standard positional index 

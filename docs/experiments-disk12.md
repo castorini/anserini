@@ -8,7 +8,8 @@ Typical indexing command:
 nohup sh target/appassembler/bin/IndexCollection -collection TrecCollection \
  -input /path/to/disk12/ -generator JsoupGenerator \
  -index lucene-index.disk12.pos+docvectors+rawdocs -threads 16 \
- -storePositions -storeDocvectors -storeRawDocs -optimize >& log.disk12.pos+docvectors+rawdocs &
+ -storePositions -storeDocvectors -storeRawDocs -optimize \
+ >& log.disk12.pos+docvectors+rawdocs &
 ```
 
 The directory `/path/to/disk12/` should be the root directory of the Disk12 collection, i.e., `ls /path/to/disk12/` should bring up subdirectories like `doe`, `wsj`.
