@@ -58,7 +58,9 @@ public class TiebreakerReranker implements Reranker {
         float curScore = result.score;
 
         // If we encounter ties, we want to perturb the final score a bit.
-        if (curScore != prevScore) {
+        // Note that we can't use equality comparison directly, because in the case of multiple
+        // ties, we would have perturbed the scores.
+        if ( prevScore - curScore > 1e4f ) {
           dup = 0;
         } else {
           dup++;
