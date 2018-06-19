@@ -53,14 +53,14 @@ public class TiebreakerReranker implements Reranker {
 
       int i = 0;
       int dup = 0;
-      float prevScore = 0;
+      float prevScore = 0.0f;
       for (Result result : sortedResults) {
         float curScore = result.score;
 
         // If we encounter ties, we want to perturb the final score a bit.
         // Note that we can't use equality comparison directly, because in the case of multiple
-        // ties, we would have perturbed the scores.
-        if ( prevScore - curScore > 1e4f ) {
+        // ties, we would have perturbed the scores, leading the scores to being not equal.
+        if ( prevScore == 0.0f || prevScore - curScore > 1e-4f ) {
           dup = 0;
         } else {
           dup++;
