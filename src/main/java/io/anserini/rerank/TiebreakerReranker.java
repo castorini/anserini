@@ -32,17 +32,7 @@ public class TiebreakerReranker implements Reranker {
           return 1;
         }
 
-        return this.docid.compareTo(docid);
-      }
-
-      public boolean equals(Object other) {
-        if (other == null) {
-          return false;
-        } if (other.getClass() != this.getClass()) {
-          return false;
-        }
-
-        return ((Result) other).docid == this.docid;
+        return this.docid.compareTo(other.docid);
       }
     }
 
@@ -50,7 +40,8 @@ public class TiebreakerReranker implements Reranker {
     public ScoredDocuments rerank(ScoredDocuments docs, RerankerContext context) {
       SortedSet<Result> sortedResults = new TreeSet<>();
       for (int i=0; i<docs.documents.length; i++ ) {
-        sortedResults.add(new Result(docs.scores[i], docs.ids[i],
+        float rounded = Math.round(docs.scores[i] * 1e4f) / 1e4f;
+        sortedResults.add(new Result(rounded, docs.ids[i],
             docs.documents[i].getField(FIELD_ID).stringValue(), docs.documents[i]));
       }
 
@@ -65,18 +56,19 @@ public class TiebreakerReranker implements Reranker {
       float prevScore = 0;
       for (Result result : sortedResults) {
         float curScore = result.score;
+
         // If we encounter ties, we want to perturb the final score a bit.
-        if (Math.abs(curScore - prevScore) > 0.001f) {
+        if (curScore != prevScore) {
           dup = 0;
         } else {
-          dup ++;
-          curScore = curScore - 0.000001f * dup;
+          dup++;
+          curScore = curScore - 1e-6f * dup;
         }
 
         rerankedDocs.documents[i] = result.doc;
         rerankedDocs.ids[i] = result.ldocid;
         rerankedDocs.scores[i] = curScore;
-        prevScore = result.score;
+        prevScore = curScore;
         i++;
       }
 
