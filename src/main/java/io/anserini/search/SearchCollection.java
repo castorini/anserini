@@ -25,7 +25,7 @@ import io.anserini.ltr.feature.FeatureExtractors;
 import io.anserini.rerank.RerankerCascade;
 import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.ScoredDocuments;
-import io.anserini.rerank.TiebreakerReranker;
+import io.anserini.rerank.lib.TiebreakerReranker;
 import io.anserini.rerank.rm3.Rm3Reranker;
 import io.anserini.rerank.twitter.RemoveRetweetsTemporalTiebreakReranker;
 import io.anserini.search.query.TopicReader;
