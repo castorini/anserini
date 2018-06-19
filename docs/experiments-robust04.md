@@ -8,7 +8,8 @@ Typical indexing command:
 nohup sh target/appassembler/bin/IndexCollection -collection TrecCollection \
  -input /path/to/disk45/ -generator JsoupGenerator \
  -index lucene-index.robust04.pos+docvectors+rawdocs -threads 16 \
- -storePositions -storeDocvectors -storeRawDocs -optimize >& log.robust04.pos+docvectors+rawdocs &
+ -storePositions -storeDocvectors -storeRawDocs -optimize \
+ >& log.robust04.pos+docvectors+rawdocs &
 ```
 
 The directory `/path/to/disk45/` should be the root directory of Disk4 and Disk5 collection; inside each there should be subdirectories like `ft`, `fr94`.
