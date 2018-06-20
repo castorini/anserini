@@ -16,7 +16,6 @@
 
 package io.anserini.collection;
 
-import io.anserini.document.TrecwebDocument;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Arrays;

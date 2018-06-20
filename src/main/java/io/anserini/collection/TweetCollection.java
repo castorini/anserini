@@ -17,7 +17,12 @@
 package io.anserini.collection;
 
 import io.anserini.document.TweetDocument;
-import java.io.*;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -27,12 +32,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.zip.GZIPInputStream;
-import org.apache.commons.compress.compressors.z.ZCompressorInputStream;
 
 /**
  * Class representing an instance of a Twitter collection.
  */
 public class TweetCollection extends Collection<TweetDocument> {
+
   public class FileSegment extends Collection.FileSegment {
     protected FileSegment(Path path) throws IOException {
       dType = new TweetDocument();
