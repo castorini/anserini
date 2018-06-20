@@ -35,7 +35,7 @@ Anserini is designed to support experiments on various standard TREC collections
 
 ## Python Interface
 
-Anserini was designed with Python integration in mind, for connecting with popular deep learning toolkits such as PyTorch. This is accomplished via [pyjnius](https://github.com/kivy/pyjnius). To make this work, tell Maven to explicitly build the fat jar.
+Anserini was designed with Python integration in mind, for connecting with popular deep learning toolkits such as PyTorch. This is accomplished via [pyjnius](https://github.com/kivy/pyjnius). To make this work, tell Maven to explicitly build the fat jar, as follows:
 
 ```
 mvn clean package shade:shade
