@@ -45,32 +45,48 @@
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>appassembler-maven-plugin</artifactId>
         <version>2.0.0</version>
-        <configuration>
-          <extraJvmArguments>-Xms512M -Xmx24576M</extraJvmArguments>
-          <programs>
-            <program>
-              <mainClass>io.anserini.index.IndexCollection</mainClass>
-              <name>IndexCollection</name>
-            </program>
-            <program>
-              <mainClass>io.anserini.search.SearchCollection</mainClass>
-              <name>SearchCollection</name>
-            </program>
-          </programs>
-        </configuration>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>assemble</goal>
+	    </goals>
+            <configuration>
+              <extraJvmArguments>-Xms512M -Xmx24576M</extraJvmArguments>
+              <programs>
+                <program>
+                  <mainClass>io.anserini.index.IndexCollection</mainClass>
+                  <id>IndexCollection</id>
+                </program>
+                <program>
+                  <mainClass>io.anserini.search.SearchCollection</mainClass>
+                  <id>SearchCollection</id>
+                </program>
+                <program>
+                  <mainClass>io.anserini.eval.Eval</mainClass>
+                  <id>Eval</id>
+                </program>
+                <program>
+                  <mainClass>io.anserini.index.IndexUtils</mainClass>
+                  <id>IndexUtils</id>
+                </program>
+              </programs>
+            </configuration>
+	  </execution>
+	</executions>
       </plugin>
       <plugin>
-        <artifactId>maven-assembly-plugin</artifactId>
-        <configuration>
-          <archive>
-            <manifest>
-              <mainClass>fully.qualified.MainClass</mainClass>
-            </manifest>
-          </archive>
-          <descriptorRefs>
-            <descriptorRef>jar-with-dependencies</descriptorRef>
-          </descriptorRefs>
-        </configuration>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>3.0.1</version>
+        <executions>
+          <execution>
+            <id>attach-javadocs</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -78,7 +94,9 @@
         <version>3.1.0</version>
         <executions>
           <execution>
-            <phase>package</phase>
+            <!-- default is to bind to package phase: we override and not create fatjar unless explicitly
+                 specified on command line - this speeds up the build greatly -->
+            <phase>none</phase>
             <goals>
               <goal>shade</goal>
             </goals>
@@ -106,12 +124,6 @@
               <!-- this will create both a normal thin jar and also a fatjar -->
               <shadedArtifactAttached>true</shadedArtifactAttached>
               <shadedClassifierName>fatjar</shadedClassifierName>
-              <!--artifactSet>
-                <excludes>
-                  <exclude>org.apache.hadoop:*</exclude>
-                  <exclude>org.apache.spark:*</exclude>
-                </excludes>
-              </artifactSet-->
             </configuration>
           </execution>
         </executions>

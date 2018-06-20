@@ -25,9 +25,9 @@ import java.util.zip.GZIPInputStream;
 /**
  * The judgments for a specific query.
  * Relevance is represented by an integer:
- * rel > 0  graded relevance
+ * rel &gt; 0  graded relevance
  * rel == 0 non-relevant
- * rel < 0  not judged (possibly categorized as non-relevant)
+ * rel &lt; 0  not judged (possibly categorized as non-relevant)
  */
 public class QueryJudgments {
   final private Map<String, Map<String, Integer>> qrels;
