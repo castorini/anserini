@@ -62,10 +62,31 @@
                   <mainClass>io.anserini.search.SearchCollection</mainClass>
                   <id>SearchCollection</id>
                 </program>
+                <program>
+                  <mainClass>io.anserini.eval.Eval</mainClass>
+                  <id>Eval</id>
+                </program>
+                <program>
+                  <mainClass>io.anserini.index.IndexUtils</mainClass>
+                  <id>IndexUtils</id>
+                </program>
               </programs>
             </configuration>
 	  </execution>
 	</executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>3.0.1</version>
+        <executions>
+          <execution>
+            <id>attach-javadocs</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -103,12 +124,6 @@
               <!-- this will create both a normal thin jar and also a fatjar -->
               <shadedArtifactAttached>true</shadedArtifactAttached>
               <shadedClassifierName>fatjar</shadedClassifierName>
-              <!--artifactSet>
-                <excludes>
-                  <exclude>org.apache.hadoop:*</exclude>
-                  <exclude>org.apache.spark:*</exclude>
-                </excludes>
-              </artifactSet-->
             </configuration>
           </execution>
         </executions>
