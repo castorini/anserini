@@ -16,8 +16,6 @@
 
 package io.anserini.index.generator;
 
-import javax.xml.transform.Source;
-
 import io.anserini.document.SourceDocument;
 import io.anserini.index.IndexCollection;
 import io.anserini.index.transform.StringTransform;

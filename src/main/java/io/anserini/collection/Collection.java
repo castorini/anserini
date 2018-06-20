@@ -17,6 +17,8 @@
 package io.anserini.collection;
 
 import io.anserini.document.SourceDocument;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.BufferedReader;
 import java.io.Closeable;
@@ -32,33 +34,39 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 /**
- * A static collection of documents, comprised of one or more {@code FileSegment}s.
+ * <p>A static collection of documents, comprised of one or more {@code FileSegment}s.
  * Each {@code FileSegment} contains one or more {@code SourceDocument}s.
  * A collection is assumed to be a directory. In the case where the collection is
- * a single file (e.g., a Wikipedia dump), place the file into an arbitrary directory.
+ * a single file (e.g., a Wikipedia dump), place the file into an arbitrary directory.</p>
  *
- * Basically the collection class does two things:
+ * <p>The collection class has two responsibilities:</p>
  *
- * 1. Discover the files with qualified names in the input directory
- * 2. Extract documents from each file
+ * <ol>
+ * <li>Discover the files with qualified names in the input directory.</li>
+ * <li>Extract documents from each file.</li>
+ * </ol>
  *
- * The detailed steps of adding a new collection class are:
+ * <p>The detailed steps of adding a new collection class are:</p>
  *
- * 1. Create a subclass for {@link Collection}
- * 2. Implement class {@link FileSegment} and function
- * {@link Collection#getFileSegmentPaths}, {@link Collection#createFileSegment}.
- * Take {@link TrecCollection} as an example.
- * 3. Create a subclass for {@link io.anserini.document.SourceDocument} and Implement function
- * {@link io.anserini.document.SourceDocument#readNextRecord}. `readNextRecord` will return
- * a single `SourceDocument`. Take the {@link io.anserini.document.TrecDocument} as an example.
- * 4. [Optional] Create a new {@link io.anserini.index.generator}. Function
- * {@link io.anserini.index.generator.LuceneDocumentGenerator#createDocument} takes a `SourceDocument`
- * as the input and return a native Lucene {@link org.apache.lucene.document.Document}.
- * 5. Add unit test at src/test/java/io.anserini.document.
+ * <ol>
+ *
+ * <li>Create a subclass for {@link Collection}.</li>
+ *
+ * <li>Implement class {@link FileSegment} and function {@link Collection#getFileSegmentPaths},
+ * {@link Collection#createFileSegment}. Take {@link TrecCollection} as an example.</li>
+ *
+ * <li>Create a subclass for {@link SourceDocument} and implement function {@link SourceDocument#readNextRecord},
+ * which returns a single {@code SourceDocument}. Take {@link io.anserini.document.TrecDocument} as an example.</li>
+ *
+ * <li>[Optional] Create a new {@link io.anserini.index.generator}. Function
+ * {@link io.anserini.index.generator.LuceneDocumentGenerator#createDocument} takes a {@code SourceDocument}
+ * as the input and return a native Lucene {@link org.apache.lucene.document.Document}.</li>
+ *
+ * <li>Add unit test at {@code src/test/java/io/anserini/document}.</li>
+ *
+ * </ol>
  *
  * @param <T> type of the source document
  */
