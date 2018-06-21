@@ -24,9 +24,11 @@ import org.apache.logging.log4j.Logger;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.FieldType;
+import org.apache.lucene.document.SortedDocValuesField;
 import org.apache.lucene.document.StoredField;
 import org.apache.lucene.document.StringField;
 import org.apache.lucene.index.IndexOptions;
+import org.apache.lucene.util.BytesRef;
 
 /**
  * Converts a {@link SourceDocument} into a Lucene {@link Document}, ready to be indexed.
@@ -121,6 +123,7 @@ public class LuceneDocumentGenerator<T extends SourceDocument> {
 
     // document id
     document.add(new StringField(FIELD_ID, id, Field.Store.YES));
+    document.add(new SortedDocValuesField(FIELD_ID, new BytesRef(id)));
 
     if (args.storeRawDocs) {
       document.add(new StoredField(FIELD_RAW, src.content()));

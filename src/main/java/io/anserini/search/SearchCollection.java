@@ -22,7 +22,6 @@ import io.anserini.index.generator.TweetGenerator;
 import io.anserini.ltr.TweetsLtrDataGenerator;
 import io.anserini.ltr.WebCollectionLtrDataGenerator;
 import io.anserini.ltr.feature.FeatureExtractors;
-import io.anserini.rerank.IdentityReranker;
 import io.anserini.rerank.RerankerCascade;
 import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.ScoredDocuments;
@@ -48,6 +47,8 @@ import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
+import org.apache.lucene.search.Sort;
+import org.apache.lucene.search.SortField;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.search.similarities.BM25Similarity;
 import org.apache.lucene.search.similarities.LMDirichletSimilarity;
@@ -152,7 +153,8 @@ public final class SearchCollection implements Closeable {
         query = builder.build();
       }
 
-      TopDocs rs = searcher.search(query, numHits);
+      TopDocs rs = searchtweets ? searcher.search(query, numHits) :
+          searcher.search(query, numHits, new Sort(new SortField(FIELD_ID, SortField.Type.STRING_VAL))) ;
       ScoreDoc[] hits = rs.scoreDocs;
       List<String> queryTokens = AnalyzerUtils.tokenize(analyzer, queryString);
       if (searchtweets) { // This is ugly, but we have to reform the tweet query here for reranking
@@ -247,7 +249,7 @@ public final class SearchCollection implements Closeable {
     } else {
       //cascade.add(new IdentityReranker());
       cascade.add(new TiebreakerReranker());
-      cascade.add(new TruncateHitsReranker(searchArgs.hits));
+      //cascade.add(new TruncateHitsReranker(searchArgs.hits));
 
       if (searchArgs.searchtweets) {
         cascade.add(new RemoveRetweetsTemporalTiebreakReranker());
