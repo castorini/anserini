@@ -14,13 +14,17 @@ import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.queryparser.classic.QueryParser;
-import org.apache.lucene.search.*;
+import org.apache.lucene.search.BooleanClause;
+import org.apache.lucene.search.BooleanQuery;
+import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.Query;
+import org.apache.lucene.search.TopDocs;
 
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.Set;
 
-import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_ID;
+import static io.anserini.search.SearchCollection.BREAK_SCORE_TIES_BY_DOCID;
 
 public class Rm3Reranker implements Reranker {
   private static final Logger LOG = LogManager.getLogger(Rm3Reranker.class);
@@ -65,7 +69,7 @@ public class Rm3Reranker implements Reranker {
     String queryText = builder.toString().trim();
 
     QueryParser p = new QueryParser(field, new WhitespaceAnalyzer());
-    Query nq = null;
+    Query nq;
     try {
       nq = p.parse(queryText);
     } catch (ParseException e) {
@@ -75,20 +79,33 @@ public class Rm3Reranker implements Reranker {
 
     LOG.info("Running new query: " + nq);
 
-    TopDocs rs = null;
+    TopDocs rs;
     try {
       if (context.getFilter() == null) {
-	// Make sure we break ties by collection docid.
-        rs = searcher.search(nq, 1000,
-                new Sort(SortField.FIELD_SCORE, new SortField(FIELD_ID, SortField.Type.STRING_VAL)), true, true);
+        // Figure out how to break the scoring ties.
+        if (context.getSearchArgs().arbitraryScoreTieBreak) {
+          rs = searcher.search(nq, 1000);
+        } else if (context.getSearchArgs().searchtweets) {
+          // TODO: we need to build the proper tie-breaking code path for tweets.
+          rs = searcher.search(nq, 1000);
+        } else {
+          rs = searcher.search(nq, 1000, BREAK_SCORE_TIES_BY_DOCID, true, true);
+        }
       } else {
         BooleanQuery.Builder bqBuilder = new BooleanQuery.Builder();
         bqBuilder.add(context.getFilter(), BooleanClause.Occur.FILTER);
         bqBuilder.add(nq, BooleanClause.Occur.MUST);
         Query q = bqBuilder.build();
-	// Make sure we break ties by collection docid.	
-        rs = searcher.search(q, 1000,
-                new Sort(SortField.FIELD_SCORE, new SortField(FIELD_ID, SortField.Type.STRING_VAL)), true, true);
+
+        // Figure out how to break the scoring ties.
+        if (context.getSearchArgs().arbitraryScoreTieBreak) {
+          rs = searcher.search(q, 1000);
+        } else if (context.getSearchArgs().searchtweets) {
+          // TODO: we need to build the proper tie-breaking code path for tweets.
+          rs = searcher.search(q, 1000);
+        } else {
+          rs = searcher.search(q, 1000, BREAK_SCORE_TIES_BY_DOCID, true, true);
+        }
       }
     } catch (IOException e) {
       e.printStackTrace();

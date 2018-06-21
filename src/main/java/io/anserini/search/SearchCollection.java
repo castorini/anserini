@@ -44,7 +44,6 @@ import org.apache.lucene.search.BooleanClause;
 import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
-import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.Sort;
 import org.apache.lucene.search.SortField;
 import org.apache.lucene.search.TopDocs;
@@ -82,6 +81,9 @@ import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_ID;
  * TREC Terabyte Tracks from 2004 to 2006
  */
 public final class SearchCollection implements Closeable {
+  public static final Sort BREAK_SCORE_TIES_BY_DOCID =
+      new Sort(SortField.FIELD_SCORE, new SortField(FIELD_ID, SortField.Type.STRING_VAL));
+
   private static final Logger LOG = LogManager.getLogger(SearchCollection.class);
   private final IndexReader reader;
 
@@ -107,34 +109,30 @@ public final class SearchCollection implements Closeable {
    * @param similarity similarity
    * @throws IOException
    */
-
-  public<K> void search(SortedMap<K, Map<String, String>> topics, String topicfield,
-                     String submissionFile, Similarity similarity, int numHits,
-                     RerankerCascade cascade,
-                     boolean keepstopwords, boolean searchtweets) throws IOException {
-
+  public<K> void search(SortedMap<K, Map<String, String>> topics, Similarity similarity, RerankerCascade cascade,
+      SearchArgs searchArgs) throws IOException {
     IndexSearcher searcher = new IndexSearcher(reader);
     searcher.setSimilarity(similarity);
 
-    final String runTag = "Anserini_" + topicfield+"_"+(keepstopwords ? "KeepStopwords_" : "")
-        + FIELD_BODY + "_" + (searchtweets ? "SearchTweets_" : "") + similarity.toString();
+    final String runTag = "Anserini_" + searchArgs.topicfield + "_" + (searchArgs.keepstop ? "KeepStopwords_" : "")
+        + FIELD_BODY + "_" + (searchArgs.searchtweets ? "SearchTweets_" : "") + similarity.toString();
 
-    PrintWriter out = new PrintWriter(Files.newBufferedWriter(Paths.get(submissionFile), StandardCharsets.US_ASCII));
+    PrintWriter out = new PrintWriter(Files.newBufferedWriter(Paths.get(searchArgs.output), StandardCharsets.US_ASCII));
 
     Analyzer analyzer;
-    if (searchtweets) {
+    if (searchArgs.searchtweets) {
       analyzer = new TweetAnalyzer();
     } else {
-      analyzer = keepstopwords ? new EnglishAnalyzer(CharArraySet.EMPTY_SET) : new EnglishAnalyzer();
+      analyzer = searchArgs.keepstop ? new EnglishAnalyzer(CharArraySet.EMPTY_SET) : new EnglishAnalyzer();
     }
 
     Query filter = null;
     for (Map.Entry<K, Map<String, String>> entry : topics.entrySet()) {
       K qID = entry.getKey();
-      String queryString = entry.getValue().get(topicfield);
+      String queryString = entry.getValue().get(searchArgs.topicfield);
       Query query = AnalyzerUtils.buildBagOfWordsQuery(FIELD_BODY, analyzer, queryString);
 
-      if (searchtweets) {
+      if (searchArgs.searchtweets) {
         long queryTweetTime = Long.parseLong(entry.getValue().get("time"));
         // do not cosider the tweets with tweet ids that are beyond the queryTweetTime
         // <querytweettime> tag contains the timestamp of the query in terms of the
@@ -146,19 +144,24 @@ public final class SearchCollection implements Closeable {
         query = builder.build();
       }
 
-      // We define a new sort that sorts by relevance and break ties by the collection docid.
-      // TODO: we need to do the same tie-breaking with tweets.
-      TopDocs rs = searchtweets ? searcher.search(query, numHits) :
-          searcher.search(query, numHits,
-              new Sort(SortField.FIELD_SCORE, new SortField(FIELD_ID, SortField.Type.STRING_VAL)), true, true);
+      // Figure out how to break the scoring ties.
+      TopDocs rs;
+      if (searchArgs.arbitraryScoreTieBreak) {
+        rs = searcher.search(query, searchArgs.hits);
+      } else if (searchArgs.searchtweets) {
+        // TODO: we need to build the proper tie-breaking code path for tweets.
+        rs = searcher.search(query, searchArgs.hits);
+      } else {
+        rs = searcher.search(query, searchArgs.hits, BREAK_SCORE_TIES_BY_DOCID, true, true);
+      }
 
-      ScoreDoc[] hits = rs.scoreDocs;
       List<String> queryTokens = AnalyzerUtils.tokenize(analyzer, queryString);
-      if (searchtweets) { // This is ugly, but we have to reform the tweet query here for reranking
+      if (searchArgs.searchtweets) { // This is ugly, but we have to reform the tweet query here for reranking
         query = AnalyzerUtils.buildBagOfWordsQuery(FIELD_BODY, analyzer, queryString);
       }
+
       RerankerContext context = new RerankerContext(searcher, query, String.valueOf(qID), queryString,
-              queryTokens, FIELD_BODY, filter);
+              queryTokens, FIELD_BODY, filter, searchArgs);
       ScoredDocuments docs = cascade.run(ScoredDocuments.fromTopDocs(rs, searcher), context);
 
       /**
@@ -177,12 +180,6 @@ public final class SearchCollection implements Closeable {
     }
     out.flush();
     out.close();
-  }
-
-  public<K> void search(SortedMap<K, Map<String, String>> topics, String topicfield,
-                     String submissionFile, Similarity similarity, int numHits, RerankerCascade cascade)
-          throws IOException {
-    search(topics, topicfield, submissionFile, similarity, numHits, cascade, false, false);
   }
 
   public static void main(String[] args) throws Exception {
@@ -274,8 +271,7 @@ public final class SearchCollection implements Closeable {
 
     final long start = System.nanoTime();
     SearchCollection searcher = new SearchCollection(searchArgs.index);
-    searcher.search(topics, searchArgs.topicfield, searchArgs.output, similarity, searchArgs.hits,
-        cascade, searchArgs.keepstop, searchArgs.searchtweets);
+    searcher.search(topics, similarity, cascade, searchArgs);
     searcher.close();
     final long durationMillis =
         TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
