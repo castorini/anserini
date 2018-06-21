@@ -46,6 +46,8 @@ import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
+import org.apache.lucene.search.Sort;
+import org.apache.lucene.search.SortField;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.search.similarities.BM25Similarity;
 import org.apache.lucene.search.similarities.LMDirichletSimilarity;
@@ -149,7 +151,11 @@ public final class SearchCollection implements Closeable {
         query = builder.build();
       }
 
-      TopDocs rs = searcher.search(query, numHits);
+      //TopDocs rs = searcher.search(query, numHits);
+      TopDocs rs = searchtweets ? searcher.search(query, numHits) :
+          searcher.search(query, numHits,
+              new Sort(SortField.FIELD_SCORE, new SortField(FIELD_ID, SortField.Type.STRING_VAL)), true, true);
+
       ScoreDoc[] hits = rs.scoreDocs;
       List<String> queryTokens = AnalyzerUtils.tokenize(analyzer, queryString);
       if (searchtweets) { // This is ugly, but we have to reform the tweet query here for reranking
