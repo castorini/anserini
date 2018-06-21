@@ -16,6 +16,18 @@
  */
 package io.anserini.document.nyt;
 
+import io.anserini.index.IndexCollection;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.w3c.dom.Document;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -33,19 +45,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
-import io.anserini.index.IndexCollection;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.w3c.dom.Document;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
 /**
  * NYTCorpusDocumentParser <BR>
@@ -271,7 +270,7 @@ public class NYTCorpusDocumentParser {
 	 * 
 	 * @param file
 	 *            The file from which to parse the document.
-	 * @param disableValidation
+	 * @param validating
 	 *            True if the file is to be validated against the nitf DTD and
 	 *            false if it is not. It is recommended that validation be
 	 *            disabled, as all documents in the corpus have previously been

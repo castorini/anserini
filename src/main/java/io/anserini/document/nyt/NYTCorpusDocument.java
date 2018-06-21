@@ -362,7 +362,7 @@ public class NYTCorpusDocument {
 	 * <ol>
 	 * <li>Matchstick Men (Movie)
 	 * <li>Blades of Glory (Movie)
-	 * <li>Bridge & Tunnel (Play)
+	 * <li>Bridge &amp; Tunnel (Play)
 	 * </ol>
 	 */
 	protected List<String> onlineTitles = new ArrayList<String>();
@@ -480,7 +480,7 @@ public class NYTCorpusDocument {
 	 * Examples Include:
 	 * <ol>
 	 * <li>Greystoke: The Legend of Tarzan, Lord of the Apes (Movie)
-	 * <li>Law & Order (TV Program)
+	 * <li>Law &amp; Order (TV Program)
 	 * <li>BATTLEFIELD EARTH (BOOK)
 	 * </ol>
 	 */
