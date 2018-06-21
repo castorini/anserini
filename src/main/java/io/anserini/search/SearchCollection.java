@@ -22,12 +22,10 @@ import io.anserini.index.generator.TweetGenerator;
 import io.anserini.ltr.TweetsLtrDataGenerator;
 import io.anserini.ltr.WebCollectionLtrDataGenerator;
 import io.anserini.ltr.feature.FeatureExtractors;
-import io.anserini.rerank.IdentityReranker;
 import io.anserini.rerank.RerankerCascade;
 import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.ScoredDocuments;
 import io.anserini.rerank.lib.TiebreakerReranker;
-import io.anserini.rerank.lib.TruncateHitsReranker;
 import io.anserini.rerank.rm3.Rm3Reranker;
 import io.anserini.rerank.twitter.RemoveRetweetsTemporalTiebreakReranker;
 import io.anserini.search.query.TopicReader;
@@ -243,9 +241,7 @@ public final class SearchCollection implements Closeable {
         cascade.add(new TiebreakerReranker());
       }
     } else {
-        //cascade.add(new IdentityReranker());
-	cascade.add(new TiebreakerReranker());
-	//cascade.add(new TruncateHitsReranker(searchArgs.hits));
+      cascade.add(new TiebreakerReranker());
 
       if (searchArgs.searchtweets) {
         cascade.add(new RemoveRetweetsTemporalTiebreakReranker());

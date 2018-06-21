@@ -118,11 +118,12 @@ public class LuceneDocumentGenerator<T extends SourceDocument> {
       return null;
     }
 
-    // make a new, empty document
+    // Make a new, empty document.
     Document document = new Document();
 
-    // document id
+    // Store the collection docid.
     document.add(new StringField(FIELD_ID, id, Field.Store.YES));
+    // This is needed to break score ties by docid.
     document.add(new SortedDocValuesField(FIELD_ID, new BytesRef(id)));
 
     if (args.storeRawDocs) {
@@ -130,7 +131,6 @@ public class LuceneDocumentGenerator<T extends SourceDocument> {
     }
 
     FieldType fieldType = new FieldType();
-
     fieldType.setStored(args.storeTransformedDocs);
 
     // Are we storing document vectors?
