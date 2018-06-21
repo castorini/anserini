@@ -6,9 +6,10 @@ Typical indexing command:
 
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection Gov2Collection \
- -input /tuna1/collections/web/gov2/gov2-corpus/ -generator JsoupGenerator \
+ -input /path/to/gov2/ -generator JsoupGenerator \
  -index lucene-index.gov2.pos+docvectors -threads 16 \
- -storePositions -storeDocvectors -optimize >& log.gov2.pos+docvectors &
+ -storePositions -storeDocvectors \
+ >& log.gov2.pos+docvectors &
 ```
 
 The directory `/path/to/gov2/` should be the root directory of Gov2 collection, i.e., `ls /path/to/gov2/` should bring up a bunch of subdirectories, `GX000` to `GX272`.

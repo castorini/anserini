@@ -8,7 +8,8 @@ Typical indexing command:
 nohup sh target/appassembler/bin/IndexCollection -collection WtCollection \
  -input /path/to/wt10g/ -generator JsoupGenerator \
  -index lucene-index.wt10g.pos+docvectors -threads 16 \
- -storePositions -storeDocvectors -optimize >& log.wt10g.pos+docvectors &
+ -storePositions -storeDocvectors -optimize \
+ >& log.wt10g.pos+docvectors &
 ```
 
 The directory `/path/to/wt10g/` should be the root directory of Wt10g collection, containing a bunch of subdirectories, `WTX001` to `WTX104`.
@@ -52,4 +53,4 @@ Wt10g: Topics 451-550  | 0.1981 | 0.2188   | 0.2015 | 0.2177 |
 
 P30                    | BM25   | BM25+RM3 | QL     | QL+RM3 |
 :----------------------|--------|----------|--------|--------|
-WT10g: Topics 451-550  | 0.2207 | 0.2459   | 0.2184 | 0.2316 |
+Wt10g: Topics 451-550  | 0.2207 | 0.2459   | 0.2184 | 0.2316 |

@@ -5,9 +5,9 @@
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection TrecCoreCollection \
  -input /path/to/nyt_corpus/ -generator JsoupGenerator \
- -index lucene-index.core.pos+docvectors -threads 16 -storePositions -storeDocvectors -optimize \
- > log.core.pos+docvectors &
-
+ -index lucene-index.core.pos+docvectors -threads 16 \
+ -storePositions -storeDocvectors -optimize \
+ >& log.core.pos+docvectors &
 ```
 
 The directory `/path/to/nyt_corpus/` should be the root directory of TREC Core collection, i.e., `ls /path/to/nyt_corpus/` 
