@@ -65,6 +65,9 @@ public class LuceneDocumentGenerator<T extends SourceDocument> {
 
   /**
    * Constructor with config and counters
+   *
+   * @param args configuration arguments
+   * @param counters counters
    */
   public LuceneDocumentGenerator(IndexCollection.Args args, IndexCollection.Counters counters) {
     this.transform = null;
@@ -74,9 +77,13 @@ public class LuceneDocumentGenerator<T extends SourceDocument> {
 
   /**
    * Constructor with config and counters
+   *
+   * @param transform string transform to apply
+   * @param args configuration arguments
+   * @param counters counters
    */
-  public LuceneDocumentGenerator(StringTransform transform,
-                                 IndexCollection.Args args, IndexCollection.Counters counters) {
+  public LuceneDocumentGenerator(StringTransform transform, IndexCollection.Args args,
+      IndexCollection.Counters counters) {
     this.transform = transform;
     config(args);
     setCounters(counters);
