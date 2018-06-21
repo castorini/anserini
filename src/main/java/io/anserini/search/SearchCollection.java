@@ -113,7 +113,7 @@ public final class SearchCollection implements Closeable {
                      boolean keepstopwords, boolean searchtweets) throws IOException {
     // We retrieve more than we need in the case of scoring ties, and then truncate back to the actual number of hits
     // we want.
-    numHits *= 1.5;
+    numHits *= 2;
 
     IndexSearcher searcher = new IndexSearcher(reader);
     searcher.setSimilarity(similarity);
