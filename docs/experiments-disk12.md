@@ -73,7 +73,7 @@ With the above commands, you should be able to replicate the following results:
 
 MAP                                   | BM25   | BM25+RM3 | QL     | QL+RM3 |
 :-------------------------------------|--------|----------|--------|--------|
-TREC-1 Ad Hoc Track: Topics 51-100    | 0.2254 | 0.2582   | 0.2187 | 0.2470 |
+TREC-1 Ad Hoc Track: Topics 51-100    | 0.2254 | 0.2582   | 0.2188 | 0.2475 |
 TREC-2 Ad Hoc Track: Topics 101-150   | 0.2003 | 0.2537   | 0.2013 | 0.2437 |
 TREC-3 Ad Hoc Track: Topics 151-200   | 0.2571 | 0.3136   | 0.2530 | 0.2940 |
 

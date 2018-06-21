@@ -21,24 +21,11 @@ import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.ScoredDocuments;
 
 public class ScoreTiesAdjusterReranker implements Reranker {
-  // Value to round score to: default is 1e-4, which is the fourth digit after decimal point.
-  private float round = 1e-4f;
-  // Value to perturb scores in case of a scoring tie. By default, can handle 100 ties.
-  private float delta = 1e-6f;
-
-  public ScoreTiesAdjusterReranker() {}
-
-  public ScoreTiesAdjusterReranker(float round, float delta) {
-    this.round = round;
-    this.delta = delta;
-  }
-
   @Override
   public ScoredDocuments rerank(ScoredDocuments docs, RerankerContext context) {
     int dup = 0;
-    float prevScore = 0.0f;
     for (int i=0; i<docs.documents.length; i++) {
-      float curScore = Math.round(docs.scores[i] * 1e4f) / 1e4f;
+      docs.scores[i] = Math.round(docs.scores[i] * 1e4f) / 1e4f;
 
       // If we encounter ties, we want to perturb the final score a tiny bit.
       // Here's the basic approach, by example. Let's say our starting ranked list was:
@@ -65,16 +52,12 @@ public class ScoreTiesAdjusterReranker implements Reranker {
       // Why 1e-4 and 1e-6? If we make the former larger, than we lose score resolution in the original score. If we
       // make 1e-4 smaller we have to make 1e-6 smaller, in which case we start bumping into floating point precision
       // issues during subtraction.
-      if ( prevScore == 0.0f || prevScore - curScore > 1e-4f ) {
+      if ( i == 0 || docs.scores[i-1] - docs.scores[i] > 1e-4f ) {
         dup = 0;
       } else {
         dup++;
-        curScore = curScore - 1e-6f * dup;
+        docs.scores[i] -= 1e-6f * dup;
       }
-
-      docs.scores[i] = curScore;
-      prevScore = curScore;
-      i++;
     }
 
     return docs;

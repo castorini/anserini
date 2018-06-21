@@ -20,6 +20,8 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.Set;
 
+import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_ID;
+
 public class Rm3Reranker implements Reranker {
   private static final Logger LOG = LogManager.getLogger(Rm3Reranker.class);
 
@@ -76,13 +78,17 @@ public class Rm3Reranker implements Reranker {
     TopDocs rs = null;
     try {
       if (context.getFilter() == null) {
-        rs = searcher.search(nq, 1000);
+	// Make sure we break ties by collection docid.
+        rs = searcher.search(nq, 1000,
+                new Sort(SortField.FIELD_SCORE, new SortField(FIELD_ID, SortField.Type.STRING_VAL)), true, true);
       } else {
         BooleanQuery.Builder bqBuilder = new BooleanQuery.Builder();
         bqBuilder.add(context.getFilter(), BooleanClause.Occur.FILTER);
         bqBuilder.add(nq, BooleanClause.Occur.MUST);
         Query q = bqBuilder.build();
-        rs = searcher.search(q, 1000);
+	// Make sure we break ties by collection docid.	
+        rs = searcher.search(q, 1000,
+                new Sort(SortField.FIELD_SCORE, new SortField(FIELD_ID, SortField.Type.STRING_VAL)), true, true);
       }
     } catch (IOException e) {
       e.printStackTrace();
