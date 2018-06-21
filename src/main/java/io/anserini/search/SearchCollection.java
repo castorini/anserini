@@ -41,14 +41,11 @@ import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.document.LongPoint;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.BooleanClause;
 import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
-import org.apache.lucene.search.Sort;
-import org.apache.lucene.search.SortField;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.search.similarities.BM25Similarity;
 import org.apache.lucene.search.similarities.LMDirichletSimilarity;
@@ -132,8 +129,7 @@ public final class SearchCollection implements Closeable {
     } else {
       analyzer = keepstopwords ? new EnglishAnalyzer(CharArraySet.EMPTY_SET) : new EnglishAnalyzer();
     }
-    QueryParser queryParser = new QueryParser(FIELD_BODY, analyzer);
-    queryParser.setDefaultOperator(QueryParser.Operator.OR);
+
     Query filter = null;
     for (Map.Entry<K, Map<String, String>> entry : topics.entrySet()) {
       K qID = entry.getKey();
@@ -153,8 +149,7 @@ public final class SearchCollection implements Closeable {
         query = builder.build();
       }
 
-      TopDocs rs = searchtweets ? searcher.search(query, numHits) :
-          searcher.search(query, numHits, new Sort(new SortField(FIELD_ID, SortField.Type.STRING_VAL))) ;
+      TopDocs rs = searcher.search(query, numHits);
       ScoreDoc[] hits = rs.scoreDocs;
       List<String> queryTokens = AnalyzerUtils.tokenize(analyzer, queryString);
       if (searchtweets) { // This is ugly, but we have to reform the tweet query here for reranking
@@ -247,9 +242,8 @@ public final class SearchCollection implements Closeable {
         cascade.add(new TruncateHitsReranker(searchArgs.hits));
       }
     } else {
-      //cascade.add(new IdentityReranker());
       cascade.add(new TiebreakerReranker());
-      //cascade.add(new TruncateHitsReranker(searchArgs.hits));
+      cascade.add(new TruncateHitsReranker(searchArgs.hits));
 
       if (searchArgs.searchtweets) {
         cascade.add(new RemoveRetweetsTemporalTiebreakReranker());
