@@ -26,6 +26,7 @@ import io.anserini.rerank.RerankerCascade;
 import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.ScoredDocuments;
 import io.anserini.rerank.lib.TiebreakerReranker;
+import io.anserini.rerank.lib.TruncateHitsReranker;
 import io.anserini.rerank.rm3.Rm3Reranker;
 import io.anserini.rerank.twitter.RemoveRetweetsTemporalTiebreakReranker;
 import io.anserini.search.query.TopicReader;
@@ -111,6 +112,10 @@ public final class SearchCollection implements Closeable {
                      String submissionFile, Similarity similarity, int numHits,
                      RerankerCascade cascade,
                      boolean keepstopwords, boolean searchtweets) throws IOException {
+    // We retrieve more than we need in the case of scoring ties, and then truncate back to the actual number of hits
+    // we want.
+    numHits += 100;
+
     IndexSearcher searcher = new IndexSearcher(reader);
     searcher.setSimilarity(similarity);
 
@@ -230,16 +235,21 @@ public final class SearchCollection implements Closeable {
         cascade.add(new Rm3Reranker(analyzer, FIELD_BODY,
             "io/anserini/rerank/rm3/rm3-stoplist.twitter.txt", true));
         cascade.add(new RemoveRetweetsTemporalTiebreakReranker());
+        cascade.add(new TruncateHitsReranker(searchArgs.hits));
       } else {
         cascade.add(new TiebreakerReranker());
         cascade.add(new Rm3Reranker(analyzer, FIELD_BODY,
             "io/anserini/rerank/rm3/rm3-stoplist.gov2.txt", true));
         cascade.add(new TiebreakerReranker());
+        cascade.add(new TruncateHitsReranker(searchArgs.hits));
       }
     } else {
       cascade.add(new TiebreakerReranker());
+      cascade.add(new TruncateHitsReranker(searchArgs.hits));
+
       if (searchArgs.searchtweets) {
         cascade.add(new RemoveRetweetsTemporalTiebreakReranker());
+        cascade.add(new TruncateHitsReranker(searchArgs.hits));
       }
     }
     FeatureExtractors extractors = null;
