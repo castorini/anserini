@@ -76,15 +76,15 @@ With the above commands, you should be able to replicate the following results:
 
 MAP                                                                                     | BM25   |BM25+RM3| QL     | QL+RM3
 :---------------------------------------------------------------------------------------|--------|--------|--------|--------
-[TREC 2004 Terabyte Track: Topics 701-750](http://trec.nist.gov/data/terabyte04.html)   | 0.2673 | 0.2952 | 0.2635 | 0.2800
-[TREC 2005 Terabyte Track: Topics 751-800](http://trec.nist.gov/data/terabyte05.html)   | 0.3365 | 0.3835 | 0.3263 | 0.3628
-[TREC 2006 Terabyte Track: Topics 801-850](http://trec.nist.gov/data/terabyte06.html)   | 0.3053 | 0.3409 | 0.2955 | 0.3198
+[TREC 2004 Terabyte Track: Topics 701-750](http://trec.nist.gov/data/terabyte04.html)   | 0.2673 | 0.2952 | 0.2636 | 0.2799
+[TREC 2005 Terabyte Track: Topics 751-800](http://trec.nist.gov/data/terabyte05.html)   | 0.3365 | 0.3840 | 0.3263 | 0.3628
+[TREC 2006 Terabyte Track: Topics 801-850](http://trec.nist.gov/data/terabyte06.html)   | 0.3054 | 0.3410 | 0.2957 | 0.3199
 
 
 P30                                                                                     | BM25   |BM25+RM3|  QL    | QL+RM3
 :---------------------------------------------------------------------------------------|--------|--------|--------|--------
-[TREC 2004 Terabyte Track: Topics 701-750](http://trec.nist.gov/data/terabyte04.html)   | 0.4850 | 0.5306 | 0.4673 | 0.4850
-[TREC 2005 Terabyte Track: Topics 751-800](http://trec.nist.gov/data/terabyte05.html)   | 0.5520 | 0.5913 | 0.5167 | 0.5660
-[TREC 2006 Terabyte Track: Topics 801-850](http://trec.nist.gov/data/terabyte06.html)   | 0.4913 | 0.5253 | 0.4760 | 0.4873
+[TREC 2004 Terabyte Track: Topics 701-750](http://trec.nist.gov/data/terabyte04.html)   | 0.4837 | 0.5299 | 0.4667 | 0.4850
+[TREC 2005 Terabyte Track: Topics 751-800](http://trec.nist.gov/data/terabyte05.html)   | 0.5520 | 0.5940 | 0.5160 | 0.5673
+[TREC 2006 Terabyte Track: Topics 801-850](http://trec.nist.gov/data/terabyte06.html)   | 0.4900 | 0.5260 | 0.4753 | 0.4880
 
 There is a small amount of non-determinism, particularly with RM3, so tiny differences in the fourth decimal place might be observed.
