@@ -22,6 +22,7 @@ import io.anserini.index.generator.TweetGenerator;
 import io.anserini.ltr.TweetsLtrDataGenerator;
 import io.anserini.ltr.WebCollectionLtrDataGenerator;
 import io.anserini.ltr.feature.FeatureExtractors;
+import io.anserini.rerank.IdentityReranker;
 import io.anserini.rerank.RerankerCascade;
 import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.ScoredDocuments;
@@ -114,7 +115,7 @@ public final class SearchCollection implements Closeable {
                      boolean keepstopwords, boolean searchtweets) throws IOException {
     // We retrieve more than we need in the case of scoring ties, and then truncate back to the actual number of hits
     // we want.
-    numHits += 100;
+    numHits *= 1.5;
 
     IndexSearcher searcher = new IndexSearcher(reader);
     searcher.setSimilarity(similarity);
@@ -244,6 +245,7 @@ public final class SearchCollection implements Closeable {
         cascade.add(new TruncateHitsReranker(searchArgs.hits));
       }
     } else {
+      //cascade.add(new IdentityReranker());
       cascade.add(new TiebreakerReranker());
       cascade.add(new TruncateHitsReranker(searchArgs.hits));
 
