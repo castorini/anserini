@@ -136,7 +136,7 @@ public class TweetGenerator extends LuceneDocumentGenerator<TweetDocument> {
     }
     text = text.trim();
     if (text.isEmpty()) {
-      LOG.info("Empty document after removing URLs: " + id);
+      LOG.info("Empty document: " + id);
       counters.emptyDocuments.incrementAndGet();
       return null;
     }
