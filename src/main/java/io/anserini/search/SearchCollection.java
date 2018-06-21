@@ -22,6 +22,7 @@ import io.anserini.index.generator.TweetGenerator;
 import io.anserini.ltr.TweetsLtrDataGenerator;
 import io.anserini.ltr.WebCollectionLtrDataGenerator;
 import io.anserini.ltr.feature.FeatureExtractors;
+import io.anserini.rerank.IdentityReranker;
 import io.anserini.rerank.RerankerCascade;
 import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.ScoredDocuments;
@@ -113,9 +114,6 @@ public final class SearchCollection implements Closeable {
                      String submissionFile, Similarity similarity, int numHits,
                      RerankerCascade cascade,
                      boolean keepstopwords, boolean searchtweets) throws IOException {
-    // We retrieve more than we need in the case of scoring ties, and then truncate back to the actual number of hits
-    // we want.
-    numHits *= 2;
 
     IndexSearcher searcher = new IndexSearcher(reader);
     searcher.setSimilarity(similarity);
@@ -151,7 +149,7 @@ public final class SearchCollection implements Closeable {
         query = builder.build();
       }
 
-      //TopDocs rs = searcher.search(query, numHits);
+      // We define a new sort that sorts by relevance and break ties by the collection docid.
       TopDocs rs = searchtweets ? searcher.search(query, numHits) :
           searcher.search(query, numHits,
               new Sort(SortField.FIELD_SCORE, new SortField(FIELD_ID, SortField.Type.STRING_VAL)), true, true);
@@ -239,21 +237,18 @@ public final class SearchCollection implements Closeable {
         cascade.add(new Rm3Reranker(analyzer, FIELD_BODY,
             "io/anserini/rerank/rm3/rm3-stoplist.twitter.txt", true));
         cascade.add(new RemoveRetweetsTemporalTiebreakReranker());
-        cascade.add(new TruncateHitsReranker(searchArgs.hits));
       } else {
-        cascade.add(new TiebreakerReranker());
         cascade.add(new Rm3Reranker(analyzer, FIELD_BODY,
             "io/anserini/rerank/rm3/rm3-stoplist.gov2.txt", true));
         cascade.add(new TiebreakerReranker());
-        cascade.add(new TruncateHitsReranker(searchArgs.hits));
       }
     } else {
-      cascade.add(new TiebreakerReranker());
-      cascade.add(new TruncateHitsReranker(searchArgs.hits));
+        //cascade.add(new IdentityReranker());
+	cascade.add(new TiebreakerReranker());
+	//cascade.add(new TruncateHitsReranker(searchArgs.hits));
 
       if (searchArgs.searchtweets) {
         cascade.add(new RemoveRetweetsTemporalTiebreakReranker());
-        cascade.add(new TruncateHitsReranker(searchArgs.hits));
       }
     }
     FeatureExtractors extractors = null;
