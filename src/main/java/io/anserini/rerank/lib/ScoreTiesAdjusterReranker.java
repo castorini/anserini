@@ -21,6 +21,17 @@ import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.ScoredDocuments;
 
 public class ScoreTiesAdjusterReranker implements Reranker {
+  // Value to round score to: default is 1e-4, which is the fourth digit after decimal point.
+  private float round = 1e-4f;
+  // Value to perturb scores in case of a scoring tie. By default, can handle 100 ties.
+  private float delta = 1e-6f;
+
+  public ScoreTiesAdjusterReranker() {}
+
+  public ScoreTiesAdjusterReranker(float round, float delta) {
+    this.round = round;
+    this.delta = delta;
+  }
 
   @Override
   public ScoredDocuments rerank(ScoredDocuments docs, RerankerContext context) {

@@ -135,7 +135,6 @@ public final class SearchCollection implements Closeable {
       Query query = AnalyzerUtils.buildBagOfWordsQuery(FIELD_BODY, analyzer, queryString);
 
       if (searchtweets) {
-        long curQueryTime = System.currentTimeMillis();
         long queryTweetTime = Long.parseLong(entry.getValue().get("time"));
         // do not cosider the tweets with tweet ids that are beyond the queryTweetTime
         // <querytweettime> tag contains the timestamp of the query in terms of the
@@ -148,6 +147,7 @@ public final class SearchCollection implements Closeable {
       }
 
       // We define a new sort that sorts by relevance and break ties by the collection docid.
+      // TODO: we need to do the same tie-breaking with tweets.
       TopDocs rs = searchtweets ? searcher.search(query, numHits) :
           searcher.search(query, numHits,
               new Sort(SortField.FIELD_SCORE, new SortField(FIELD_ID, SortField.Type.STRING_VAL)), true, true);
