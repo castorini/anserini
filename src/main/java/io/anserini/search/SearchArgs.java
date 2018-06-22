@@ -29,6 +29,9 @@ public class SearchArgs {
   @Option(name = "-keepstopwords", required = false, usage = "Boolean switch to keep stopwords in the query topics")
   public boolean keepstop = false;
 
+  @Option(name = "-arbitraryScoreTieBreak", usage = "Break score ties arbitrarily (not recommended)")
+  public boolean arbitraryScoreTieBreak = false;
+
   @Option(name = "-hits", metaVar = "[number]", required = false, usage = "max number of hits to return")
   public int hits = 1000;
 

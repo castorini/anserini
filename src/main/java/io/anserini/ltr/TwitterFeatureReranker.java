@@ -6,10 +6,11 @@ import io.anserini.rerank.Reranker;
 import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.ScoredDocuments;
 import io.anserini.util.Qrels;
-import java.io.IOException;
-import java.io.PrintStream;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.Terms;
+
+import java.io.IOException;
+import java.io.PrintStream;
 
 /**
  * Used to rerank according to features
@@ -25,8 +26,9 @@ public class TwitterFeatureReranker implements Reranker {
     this.qrels = qrels;
     this.extractors = extractors == null ? TwitterFeatureExtractor.getDefaultExtractors() : extractors;
   }
+
   @Override
-  public<K> ScoredDocuments rerank(ScoredDocuments docs, RerankerContext context) {
+  public ScoredDocuments rerank(ScoredDocuments docs, RerankerContext context) {
     IndexReader reader = context.getIndexSearcher().getIndexReader();
 
     for (int i = 0; i < docs.documents.length; i++) {

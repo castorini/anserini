@@ -45,32 +45,91 @@
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>appassembler-maven-plugin</artifactId>
         <version>2.0.0</version>
-        <configuration>
-          <extraJvmArguments>-Xms512M -Xmx24576M</extraJvmArguments>
-          <programs>
-            <program>
-              <mainClass>io.anserini.index.IndexCollection</mainClass>
-              <name>IndexCollection</name>
-            </program>
-            <program>
-              <mainClass>io.anserini.search.SearchCollection</mainClass>
-              <name>SearchCollection</name>
-            </program>
-          </programs>
-        </configuration>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>assemble</goal>
+	    </goals>
+            <configuration>
+              <extraJvmArguments>-Xms512M -Xmx24576M</extraJvmArguments>
+              <programs>
+                <program>
+                  <mainClass>io.anserini.index.IndexCollection</mainClass>
+                  <id>IndexCollection</id>
+                </program>
+                <program>
+                  <mainClass>io.anserini.search.SearchCollection</mainClass>
+                  <id>SearchCollection</id>
+                </program>
+                <program>
+                  <mainClass>io.anserini.eval.Eval</mainClass>
+                  <id>Eval</id>
+                </program>
+                <program>
+                  <mainClass>io.anserini.index.IndexUtils</mainClass>
+                  <id>IndexUtils</id>
+                </program>
+              </programs>
+            </configuration>
+	  </execution>
+	</executions>
       </plugin>
       <plugin>
-        <artifactId>maven-assembly-plugin</artifactId>
-        <configuration>
-          <archive>
-            <manifest>
-              <mainClass>fully.qualified.MainClass</mainClass>
-            </manifest>
-          </archive>
-          <descriptorRefs>
-            <descriptorRef>jar-with-dependencies</descriptorRef>
-          </descriptorRefs>
-        </configuration>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>3.0.1</version>
+        <executions>
+          <execution>
+            <id>attach-javadocs</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+            <configuration>
+              <excludePackageNames>io.anserini.kg:io.anserini.ltr</excludePackageNames>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>3.1.0</version>
+        <executions>
+          <execution>
+            <!-- default is to bind to package phase: we override and not create fatjar unless explicitly
+                 specified on command line - this speeds up the build greatly -->
+            <phase>none</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+            <configuration>
+              <!-- This fixes the issue "An SPI class of type org.apache.lucene.codecs.Codec with name ... does not exist."
+                   cf. https://stackoverflow.com/questions/38361533/an-spi-class-of-type-org-apache-lucene-codecs-codec-with-name-lucene54-does-no/38382096 -->
+              <transformers>
+                <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                  <resource>META-INF/services/org.apache.lucene.codecs.Codec</resource>
+                  <resource>META-INF/services/org.apache.lucene.codecs.PostingsFormat</resource>
+                </transformer>
+              </transformers>
+              <!-- This fixes the issue "Invalid signature file digest for Manifest main attributes"
+                   cf. http://zhentao-li.blogspot.com/2012/06/maven-shade-plugin-invalid-signature.html -->
+              <filters>
+                <filter>
+                  <artifact>*:*</artifact>
+                  <excludes>
+                    <exclude>META-INF/*.SF</exclude>
+                    <exclude>META-INF/*.DSA</exclude>
+                    <exclude>META-INF/*.RSA</exclude>
+                  </excludes>
+                </filter>
+              </filters>
+              <!-- this will create both a normal thin jar and also a fatjar -->
+              <shadedArtifactAttached>true</shadedArtifactAttached>
+              <shadedClassifierName>fatjar</shadedClassifierName>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
@@ -78,12 +137,12 @@
   <dependencies>
     <dependency>
       <groupId>org.apache.lucene</groupId>
-      <artifactId>lucene-benchmark</artifactId>
+      <artifactId>lucene-core</artifactId>
       <version>${LUCENE_VERSION}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.lucene</groupId>
-      <artifactId>lucene-core</artifactId>
+      <artifactId>lucene-benchmark</artifactId>
       <version>${LUCENE_VERSION}</version>
     </dependency>
     <dependency>

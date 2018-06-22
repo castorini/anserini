@@ -8,7 +8,8 @@ Typical indexing command:
 nohup sh target/appassembler/bin/IndexCollection -collection TrecCollection \
  -input /path/to/AQUAINT/ -generator JsoupGenerator \
  -index lucene-index.aquaint.pos+docvectors+rawdocs -threads 16 \
- -storePositions -storeDocvectors -storeRawDocs -optimize >& log.aquaint.pos+docvectors+rawdocs &
+ -storePositions -storeDocvectors -storeRawDocs -optimize \
+ >& log.aquaint.pos+docvectors+rawdocs &
 ```
 
 The directory `/path/to/aquaint/` should be the root directory of AQUAINT collection; under subdirectory `disk1/` there should be `NYT/` and under subdirectory `disk2/` there should be `APW/` and `XIE/`.
@@ -46,10 +47,10 @@ With the above commands, you should be able to replicate the following results:
 
 MAP                                                                        | BM25   | BM25+RM3 | QL     | QL+RM3
 :--------------------------------------------------------------------------|--------|----------|--------|--------
-[TREC 2005 Robust Track Topics](http://trec.nist.gov/data/t14_robust.html) | 0.2003 | 0.2445   | 0.2022 | 0.2418
+[TREC 2005 Robust Track Topics](http://trec.nist.gov/data/t14_robust.html) | 0.2003 | 0.2448   | 0.2026 | 0.2422
 
 
 P30                                                                        | BM25   | BM25+RM3 | QL     | QL+RM3
 :--------------------------------------------------------------------------|--------|----------|--------|--------
-[TREC 2005 Robust Track Topics](http://trec.nist.gov/data/t14_robust.html) | 0.3667 | 0.3913   | 0.3700 | 0.3913
+[TREC 2005 Robust Track Topics](http://trec.nist.gov/data/t14_robust.html) | 0.3660 | 0.3913   | 0.3713 | 0.3933
 

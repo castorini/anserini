@@ -16,8 +16,6 @@
 
 package io.anserini.index.generator;
 
-import javax.xml.transform.Source;
-
 import io.anserini.document.SourceDocument;
 import io.anserini.index.IndexCollection;
 import io.anserini.index.transform.StringTransform;
@@ -26,9 +24,11 @@ import org.apache.logging.log4j.Logger;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.FieldType;
+import org.apache.lucene.document.SortedDocValuesField;
 import org.apache.lucene.document.StoredField;
 import org.apache.lucene.document.StringField;
 import org.apache.lucene.index.IndexOptions;
+import org.apache.lucene.util.BytesRef;
 
 /**
  * Converts a {@link SourceDocument} into a Lucene {@link Document}, ready to be indexed.
@@ -67,6 +67,9 @@ public class LuceneDocumentGenerator<T extends SourceDocument> {
 
   /**
    * Constructor with config and counters
+   *
+   * @param args configuration arguments
+   * @param counters counters
    */
   public LuceneDocumentGenerator(IndexCollection.Args args, IndexCollection.Counters counters) {
     this.transform = null;
@@ -76,9 +79,13 @@ public class LuceneDocumentGenerator<T extends SourceDocument> {
 
   /**
    * Constructor with config and counters
+   *
+   * @param transform string transform to apply
+   * @param args configuration arguments
+   * @param counters counters
    */
-  public LuceneDocumentGenerator(StringTransform transform,
-                                 IndexCollection.Args args, IndexCollection.Counters counters) {
+  public LuceneDocumentGenerator(StringTransform transform, IndexCollection.Args args,
+      IndexCollection.Counters counters) {
     this.transform = transform;
     config(args);
     setCounters(counters);
@@ -111,18 +118,19 @@ public class LuceneDocumentGenerator<T extends SourceDocument> {
       return null;
     }
 
-    // make a new, empty document
+    // Make a new, empty document.
     Document document = new Document();
 
-    // document id
+    // Store the collection docid.
     document.add(new StringField(FIELD_ID, id, Field.Store.YES));
+    // This is needed to break score ties by docid.
+    document.add(new SortedDocValuesField(FIELD_ID, new BytesRef(id)));
 
     if (args.storeRawDocs) {
       document.add(new StoredField(FIELD_RAW, src.content()));
     }
 
     FieldType fieldType = new FieldType();
-
     fieldType.setStored(args.storeTransformedDocs);
 
     // Are we storing document vectors?

@@ -7,10 +7,14 @@ Anserini
 Build using Maven:
 
 ```
-mvn clean package appassembler:assemble
+mvn clean package
 ```
 
-The `eval/` directory contains evaluation tools and scripts, including `trec_eval`. Before using `trec_eval`, unpack and compile it.
+The `eval/` directory contains evaluation tools and scripts, including `trec_eval`. Before using `trec_eval`, unpack and compile it, as follows:
+
+```d
+tar xvfz trec_eval.9.0.tar.gz && cd trec_eval.9.0 && make
+```
 
 ## Running Standard IR Experiments
 
@@ -33,3 +37,38 @@ Anserini is designed to support experiments on various standard TREC collections
 + [IndexCollection](docs/index-collection.md)
 + [DumpIndex](docs/dumpindex.md)
 + [Axiomatic Reranking](docs/axiom-reranking.md)
+=======
+
+## Python Interface
+
+Anserini was designed with Python integration in mind, for connecting with popular deep learning toolkits such as PyTorch. This is accomplished via [pyjnius](https://github.com/kivy/pyjnius). To make this work, tell Maven to explicitly build the fat jar, as follows:
+
+```
+mvn clean package shade:shade
+```
+
+The `SimpleSearcher` class provides a simple Python/Java bridge, shown below:
+
+```
+import jnius_config
+jnius_config.set_classpath("target/anserini-0.0.1-SNAPSHOT-fatjar.jar")
+
+from jnius import autoclass
+JString = autoclass('java.lang.String')
+JSearcher = autoclass('io.anserini.search.SimpleSearcher')
+
+searcher = JSearcher(JString('lucene-index.robust04.pos+docvectors+rawdocs'))
+hits = searcher.search(JString('hubble space telescope'))
+
+# the docid of the 1st hit
+hits[0].docid
+
+# the internal Lucene docid of the 1st hit
+hits[0].ldocid
+
+# the score of the 1st hit
+hits[0].score
+
+# the full document of the 1st hit
+hits[0].content
+```

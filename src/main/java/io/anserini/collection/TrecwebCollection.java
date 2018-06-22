@@ -26,7 +26,6 @@ import java.nio.file.Path;
 public class TrecwebCollection extends TrecCollection  {
 
   public class FileSegment extends TrecCollection.FileSegment {
-
     public FileSegment(Path path) throws IOException {
       super(path);
       dType = new TrecwebDocument();

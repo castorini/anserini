@@ -16,19 +16,12 @@
 
 package io.anserini.index.generator;
 
-import io.anserini.document.SourceDocument;
+import com.twitter.twittertext.Extractor;
+import com.twitter.twittertext.TwitterTextParseResults;
+import com.twitter.twittertext.TwitterTextParser;
 import io.anserini.document.TweetDocument;
 import io.anserini.index.IndexCollection;
-import io.anserini.index.transform.StringTransform;
 import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.List;
-import java.util.Optional;
-import java.util.OptionalLong;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.document.Document;
@@ -38,14 +31,15 @@ import org.apache.lucene.document.IntPoint;
 import org.apache.lucene.document.LongPoint;
 import org.apache.lucene.document.StoredField;
 import org.apache.lucene.document.StringField;
-import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.IndexOptions;
 import org.apache.tools.bzip2.CBZip2InputStream;
 
-import com.twitter.twittertext.Extractor;
-import com.twitter.twittertext.TwitterTextParseResults;
-import com.twitter.twittertext.TwitterTextParser;
-
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.List;
 
 /**
  * Converts a {@link TweetDocument} into a Lucene {@link Document}, ready to be indexed.
