@@ -75,6 +75,8 @@ import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_ID;
 public final class SearchCollection implements Closeable {
   public static final Sort BREAK_SCORE_TIES_BY_DOCID =
       new Sort(SortField.FIELD_SCORE, new SortField(FIELD_ID, SortField.Type.STRING_VAL));
+  public static final Sort BREAK_SCORE_TIES_BY_TWEETID =
+      new Sort(SortField.FIELD_SCORE, new SortField(FIELD_ID, SortField.Type.LONG));
 
   private static final Logger LOG = LogManager.getLogger(SearchCollection.class);
 
@@ -227,8 +229,7 @@ public final class SearchCollection implements Closeable {
     if (args.arbitraryScoreTieBreak) {
       rs = searcher.search(query, args.hits);
     } else {
-      // TODO: we need to build the proper tie-breaking code path for tweets.
-      rs = searcher.search(query, args.hits);
+      rs = searcher.search(query, args.hits, BREAK_SCORE_TIES_BY_TWEETID, true, true);
     }
 
     List<String> queryTokens = AnalyzerUtils.tokenize(analyzer, queryString);

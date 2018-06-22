@@ -29,9 +29,11 @@ import org.apache.lucene.document.Field;
 import org.apache.lucene.document.FieldType;
 import org.apache.lucene.document.IntPoint;
 import org.apache.lucene.document.LongPoint;
+import org.apache.lucene.document.SortedDocValuesField;
 import org.apache.lucene.document.StoredField;
 import org.apache.lucene.document.StringField;
 import org.apache.lucene.index.IndexOptions;
+import org.apache.lucene.util.BytesRef;
 import org.apache.tools.bzip2.CBZip2InputStream;
 
 import java.io.BufferedReader;
@@ -152,6 +154,8 @@ public class TweetGenerator extends LuceneDocumentGenerator<TweetDocument> {
 
     Document doc = new Document();
     doc.add(new StringField(FIELD_ID, id, Field.Store.YES));
+    // This is needed to break score ties by docid.
+    doc.add(new SortedDocValuesField(FIELD_ID, new BytesRef(id)));
 
     doc.add(new LongPoint(StatusField.ID_LONG.name, tweetDoc.getIdLong()));
     doc.add(new LongPoint(StatusField.EPOCH.name, tweetDoc.getEpoch()));
