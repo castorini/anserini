@@ -72,8 +72,11 @@ public class SearchArgs {
   @Option(name = "-axiom", usage = "use Axiomatic query expansion model for the reranking")
   public boolean axiom = false;
 
-  @Option(name = "-axiom.beta", usage = "Parameter beta for Axiomatic query expansion model")
+  @Option(name = "-axiom.beta", usage = "parameter beta for Axiomatic query expansion model")
   public float axiom_beta = 0.4f;
+
+  @Option(name = "-axiom.index", usage = "path to the external index for generating the reranking doucments pool")
+  public String axiom_external_index = "";
 
   @Option(name = "-model", metaVar = "[file]", required = false, usage = "ranklib model file")
   public String model = "";

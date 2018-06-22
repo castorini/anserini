@@ -10,6 +10,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.Terms;
 import org.apache.lucene.index.TermsEnum;
@@ -19,8 +20,12 @@ import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.TopDocs;
+import org.apache.lucene.store.FSDirectory;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -38,8 +43,11 @@ import static io.anserini.search.SearchCollection.BREAK_SCORE_TIES_BY_DOCID;
 public class AxiomReranker implements Reranker {
   private static final Logger LOG = LogManager.getLogger(AxiomReranker.class);
 
-  private final Analyzer analyzer;
-  private final String field;
+  private final String field; // from which field we look for the expansion terms, e.g. "body"
+  private final String externalIndexPath; // Axiomatic reranking can opt to use
+                                                       // external sources for searching the expansion
+                                                       // terms. Typically, we build another index
+                                                       // separately and include its information here.
 
   private int R = 30; // factor that used in extracting random documents, we will extract R*M randomly select documents
   private int M = 20; // number of top documents in initial results
@@ -47,10 +55,10 @@ public class AxiomReranker implements Reranker {
   private int K = 20; // number of expansion terms
   private float beta; // scaling parameter
 
-  public AxiomReranker(Analyzer analyzer, String field, String stoplist, Boolean fromResource, float beta) {
-    this.analyzer = analyzer;
+  public AxiomReranker(String field, float beta, String externalIndexPath) {
     this.field = field;
     this.beta = beta;
+    this.externalIndexPath = externalIndexPath.trim();
   }
 
   @Override
@@ -58,6 +66,8 @@ public class AxiomReranker implements Reranker {
     Preconditions.checkState(docs.documents.length == docs.scores.length);
 
     try {
+      // First to search against external index if it is not null
+      docs = processExternalContext(docs, context);
       // Select R*M docs from the original ranking list as the reranking pool
       Set<Integer> usedDocs = selectDocs(docs, context);
       // Extract an inverted list from the reranking pool
@@ -83,39 +93,74 @@ public class AxiomReranker implements Reranker {
       LOG.info("Original Query: " + context.getQueryTokens());
       LOG.info("Running new query: " + nq);
 
-      TopDocs rs = null;
-      IndexSearcher searcher = context.getIndexSearcher();
-      if (context.getFilter() == null) {
-        // Figure out how to break the scoring ties.
-        if (context.getSearchArgs().arbitraryScoreTieBreak) {
-          rs = searcher.search(nq, context.getSearchArgs().hits);
-        } else if (context.getSearchArgs().searchtweets) {
-          // TODO: we need to build the proper tie-breaking code path for tweets.
-          rs = searcher.search(nq, context.getSearchArgs().hits);
-        } else {
-          rs = searcher.search(nq, context.getSearchArgs().hits, BREAK_SCORE_TIES_BY_DOCID,
-            true, true);
-        }
-      } else {
-        BooleanQuery.Builder bqBuilder = new BooleanQuery.Builder();
-        bqBuilder.add(context.getFilter(), BooleanClause.Occur.FILTER);
-        bqBuilder.add(nq, BooleanClause.Occur.MUST);
-        Query q = bqBuilder.build();
-
-        // Figure out how to break the scoring ties.
-        if (context.getSearchArgs().arbitraryScoreTieBreak) {
-          rs = searcher.search(q, context.getSearchArgs().hits);
-        } else if (context.getSearchArgs().searchtweets) {
-          // TODO: we need to build the proper tie-breaking code path for tweets.
-          rs = searcher.search(q, context.getSearchArgs().hits);
-        } else {
-          rs = searcher.search(q, context.getSearchArgs().hits, BREAK_SCORE_TIES_BY_DOCID,
-            true, true);
-        }
-      }
-      return ScoredDocuments.fromTopDocs(rs, searcher);
+      return searchTopDocs(nq, context);
     } catch (Exception e) {
       e.printStackTrace();
+      return docs;
+    }
+  }
+
+  private ScoredDocuments searchTopDocs(Query query, RerankerContext context) throws IOException {
+    TopDocs rs = null;
+    IndexSearcher searcher = context.getIndexSearcher();
+    if (query == null) {
+      query = context.getQuery();
+    }
+    if (context.getFilter() == null) {
+      // Figure out how to break the scoring ties.
+      if (context.getSearchArgs().arbitraryScoreTieBreak) {
+        rs = searcher.search(query, context.getSearchArgs().hits);
+      } else if (context.getSearchArgs().searchtweets) {
+        // TODO: we need to build the proper tie-breaking code path for tweets.
+        rs = searcher.search(query, context.getSearchArgs().hits);
+      } else {
+        rs = searcher.search(query, context.getSearchArgs().hits, BREAK_SCORE_TIES_BY_DOCID,
+          true, true);
+      }
+    } else {
+      BooleanQuery.Builder bqBuilder = new BooleanQuery.Builder();
+      bqBuilder.add(context.getFilter(), BooleanClause.Occur.FILTER);
+      bqBuilder.add(query, BooleanClause.Occur.MUST);
+      Query q = bqBuilder.build();
+
+      // Figure out how to break the scoring ties.
+      if (context.getSearchArgs().arbitraryScoreTieBreak) {
+        rs = searcher.search(q, context.getSearchArgs().hits);
+      } else if (context.getSearchArgs().searchtweets) {
+        // TODO: we need to build the proper tie-breaking code path for tweets.
+        rs = searcher.search(q, context.getSearchArgs().hits);
+      } else {
+        rs = searcher.search(q, context.getSearchArgs().hits, BREAK_SCORE_TIES_BY_DOCID,
+          true, true);
+      }
+    }
+    return ScoredDocuments.fromTopDocs(rs, searcher);
+  }
+
+  /**
+   * If the external reranking context is not null we will first search against the external
+   * index and return the top ranked documents.
+   *
+   * @param docs The initial ranking results against target index. We will return them if external
+   *             index is null.
+   *
+   * @return Top ranked ScoredDocuments from searching external index
+   */
+  private ScoredDocuments processExternalContext(ScoredDocuments docs, RerankerContext context) throws IOException {
+    if (!this.externalIndexPath.isEmpty()) {
+      Path indexPath = Paths.get(this.externalIndexPath);
+      if (!Files.exists(indexPath) || !Files.isDirectory(indexPath) || !Files.isReadable(indexPath)) {
+        throw new IllegalArgumentException(this.externalIndexPath + " does not exist or is not a directory.");
+      }
+      IndexReader reader = DirectoryReader.open(FSDirectory.open(indexPath));
+      IndexSearcher searcher = new IndexSearcher(reader);
+      searcher.setSimilarity(context.getIndexSearcher().getSimilarity(true));
+
+      RerankerContext externalContext = new RerankerContext(searcher, context.getQuery(),
+        context.getQueryId(), context.getQueryText(), context.getQueryTokens(), context.getField(),
+        context.getFilter(), context.getSearchArgs());
+      return searchTopDocs(null, externalContext);
+    } else {
       return docs;
     }
   }
