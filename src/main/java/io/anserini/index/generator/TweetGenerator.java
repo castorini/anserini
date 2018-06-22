@@ -29,7 +29,7 @@ import org.apache.lucene.document.Field;
 import org.apache.lucene.document.FieldType;
 import org.apache.lucene.document.IntPoint;
 import org.apache.lucene.document.LongPoint;
-import org.apache.lucene.document.SortedNumericDocValuesField;
+import org.apache.lucene.document.NumericDocValuesField;
 import org.apache.lucene.document.StoredField;
 import org.apache.lucene.document.StringField;
 import org.apache.lucene.index.IndexOptions;
@@ -131,7 +131,6 @@ public class TweetGenerator extends LuceneDocumentGenerator<TweetDocument> {
     }
     text = text.trim();
     if (text.isEmpty()) {
-      LOG.info("Empty document after removing URLs: " + id);
       counters.emptyDocuments.incrementAndGet();
       return null;
     }
@@ -142,7 +141,6 @@ public class TweetGenerator extends LuceneDocumentGenerator<TweetDocument> {
     }
 
     if (tweetDoc.getIdLong() > args.tweetMaxId) {
-      LOG.info("Document Id larger than maxId: " + id);
       counters.unindexableDocuments.incrementAndGet();
       return null;
     }
@@ -156,8 +154,8 @@ public class TweetGenerator extends LuceneDocumentGenerator<TweetDocument> {
 
     // We need this to break scoring ties.
     doc.add(new LongPoint(StatusField.ID_LONG.name, tweetDoc.getIdLong()));
-    doc.add(new SortedNumericDocValuesField(StatusField.ID_LONG.name, tweetDoc.getIdLong()));
-    doc.add(new StoredField(StatusField.ID_LONG.name, tweetDoc.getIdLong()));
+    doc.add(new NumericDocValuesField(StatusField.ID_LONG.name, tweetDoc.getIdLong()));
+    //doc.add(new StoredField(StatusField.ID_LONG.name, tweetDoc.getIdLong()));
 
     doc.add(new LongPoint(StatusField.EPOCH.name, tweetDoc.getEpoch()));
     doc.add(new StringField(StatusField.SCREEN_NAME.name, tweetDoc.getScreenname(), Field.Store.NO));
