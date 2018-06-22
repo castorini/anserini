@@ -19,15 +19,10 @@ package io.anserini.end2end;
 import io.anserini.eval.Eval;
 import io.anserini.eval.EvalArgs;
 import io.anserini.index.IndexCollection;
-import io.anserini.rerank.IdentityReranker;
-import io.anserini.rerank.RerankerCascade;
 import io.anserini.search.SearchArgs;
 import io.anserini.search.SearchCollection;
-import io.anserini.search.query.TopicReader;
 import org.apache.commons.io.FileUtils;
 import org.apache.lucene.index.CheckIndex;
-import org.apache.lucene.search.similarities.BM25Similarity;
-import org.apache.lucene.search.similarities.Similarity;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.IOUtils;
@@ -40,12 +35,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.SortedMap;
 
 public abstract class EndToEndTest extends LuceneTestCase {
   protected IndexCollection.Args indexCollectionArgs = new IndexCollection.Args();
@@ -167,28 +159,20 @@ public abstract class EndToEndTest extends LuceneTestCase {
     searchArgs.topics = this.topicDirPrefix+this.topicReader;
     searchArgs.output = this.searchOutputPrefix+this.topicReader;
     searchArgs.topicReader = this.topicReader;
+    searchArgs.bm25 = true;
 
     //optional
     searchArgs.topicfield = "title";
     searchArgs.searchtweets = false;
     searchArgs.hits = 1000;
     searchArgs.keepstop = false;
-    searchArgs.inmem = true;
   }
 
   protected<K> void testSearching() {
     setSearchArgs();
     try {
-      Path topicsFile = Paths.get(searchArgs.topics);
-      TopicReader tr = (TopicReader)Class.forName("io.anserini.search.query."+searchArgs.topicReader+"TopicReader")
-          .getConstructor(Path.class).newInstance(topicsFile);
-      SortedMap<K, Map<String, String>> topics = tr.read();
-
-      Similarity similarity = new BM25Similarity(0.9f, 0.4f);
-      RerankerCascade cascade = new RerankerCascade();
-      cascade.add(new IdentityReranker());
-      SearchCollection searcher = new SearchCollection(searchArgs.index);
-      searcher.search(topics, similarity, cascade, searchArgs);
+      SearchCollection searcher = new SearchCollection(searchArgs);
+      searcher.runTopics();
       searcher.close();
       checkRankingResults();
     } catch (Exception e) {

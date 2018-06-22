@@ -1,9 +1,24 @@
+/**
+ * Anserini: An information retrieval toolkit built on Lucene
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package io.anserini.search;
 
 import org.kohsuke.args4j.Option;
 
 public class SearchArgs {
-
   // required arguments
   @Option(name = "-index", metaVar = "[path]", required = true, usage = "Path to Lucene index")
   public String index;
@@ -19,14 +34,14 @@ public class SearchArgs {
 
   // optional arguments
   @Option(name = "-topicfield", usage = "Which field of the query should be used, default \"title\"." +
-      " For TREC Adhoc topics, descripion or narrative can be used.")
+      " For TREC ad hoc topics, description or narrative can be used.")
   public String topicfield = "title";
 
-  @Option(name = "-searchtweets", required = false, usage = "Whether the search is against a tweet " +
+  @Option(name = "-searchtweets", usage = "Whether the search is against a tweet " +
       "index created by IndexCollection -collection TweetCollection")
   public Boolean searchtweets = false;
 
-  @Option(name = "-keepstopwords", required = false, usage = "Boolean switch to keep stopwords in the query topics")
+  @Option(name = "-keepstopwords", usage = "Boolean switch to keep stopwords in the query topics")
   public boolean keepstop = false;
 
   @Option(name = "-arbitraryScoreTieBreak", usage = "Break score ties arbitrarily (not recommended)")
@@ -38,13 +53,10 @@ public class SearchArgs {
   @Option(name = "-runtag", metaVar = "[tag]", required = false, usage = "runtag")
   public String runtag = "Anserini";
 
-  @Option(name = "-inmem", required = false, usage = "load index completely in memory")
-  public boolean inmem = false;
-
-  @Option(name = "-ql", required = false, usage = "use query likelihood scoring model")
+  @Option(name = "-ql", usage = "use query likelihood scoring model")
   public boolean ql = false;
 
-  @Option(name = "-mu", metaVar = "[value]", required = false, usage = "Dirichlet smoothing parameter")
+  @Option(name = "-mu", metaVar = "[value]", usage = "Dirichlet smoothing parameter")
   public float mu = 1000.0f;
   /*
    * Why this value? We want to pick a value that corresponds to what the community generally
@@ -80,17 +92,4 @@ public class SearchArgs {
 
   @Option(name = "-model", metaVar = "[file]", required = false, usage = "ranklib model file")
   public String model = "";
-
-  @Option(name = "-dump", required = false, usage = "dump out feature vectors")
-  public boolean dumpFeatures = false;
-
-  @Option(name = "-featureFile", metaVar = "[file]", required = false, usage = "output for the feature vector file")
-  public String featureFile = "";
-
-  @Option(name = "-qrels", metaVar = "[file]", required = false, usage = "patht to the qrels file, needed for feature vectors")
-  public String qrels= "";
-
-  @Option(name = "-extractors", metaVar = "[file]", required = false, usage = "Optional definition to feature extractors")
-  public String extractors = null;
-
 }

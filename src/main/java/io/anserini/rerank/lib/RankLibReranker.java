@@ -14,13 +14,17 @@
  * limitations under the License.
  */
 
-package io.anserini.rerank;
+package io.anserini.rerank.lib;
 
 import ciir.umass.edu.learning.DataPoint;
 import ciir.umass.edu.learning.Ranker;
 import ciir.umass.edu.learning.RankerFactory;
 import io.anserini.ltr.BaseFeatureExtractor;
 import io.anserini.ltr.feature.FeatureExtractors;
+import io.anserini.rerank.Reranker;
+import io.anserini.rerank.RerankerContext;
+import io.anserini.rerank.Result;
+import io.anserini.rerank.ScoredDocuments;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.document.Document;
