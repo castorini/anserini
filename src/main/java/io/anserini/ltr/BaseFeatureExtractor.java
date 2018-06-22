@@ -127,7 +127,7 @@ abstract public class BaseFeatureExtractor<K> {
                     qid, queryText,
                     queryTokens,
                     getTermVectorField(),
-                    null);
+                    null, null);
 
             queryContextMap.put(qid, context);
 
