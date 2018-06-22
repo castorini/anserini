@@ -21,7 +21,6 @@ import io.anserini.index.generator.TweetGenerator;
 import io.anserini.rerank.RerankerCascade;
 import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.ScoredDocuments;
-import io.anserini.rerank.lib.RemoveRetweetsTemporalTiebreakReranker;
 import io.anserini.rerank.lib.Rm3Reranker;
 import io.anserini.rerank.lib.ScoreTiesAdjusterReranker;
 import io.anserini.search.query.TopicReader;
@@ -76,7 +75,8 @@ public final class SearchCollection implements Closeable {
   public static final Sort BREAK_SCORE_TIES_BY_DOCID =
       new Sort(SortField.FIELD_SCORE, new SortField(FIELD_ID, SortField.Type.STRING_VAL));
   public static final Sort BREAK_SCORE_TIES_BY_TWEETID =
-      new Sort(SortField.FIELD_SCORE, new SortField(FIELD_ID, SortField.Type.LONG));
+      new Sort(SortField.FIELD_SCORE,
+          new SortField(TweetGenerator.StatusField.ID_LONG.name, SortField.Type.LONG, true));
 
   private static final Logger LOG = LogManager.getLogger(SearchCollection.class);
 
@@ -120,14 +120,14 @@ public final class SearchCollection implements Closeable {
     if (args.rm3) {
       if (args.searchtweets) {
         cascade.add(new Rm3Reranker(analyzer, FIELD_BODY, "io/anserini/rerank/rm3/rm3-stoplist.twitter.txt", true));
-        cascade.add(new RemoveRetweetsTemporalTiebreakReranker());
+        cascade.add(new ScoreTiesAdjusterReranker());
       } else {
         cascade.add(new Rm3Reranker(analyzer, FIELD_BODY, "io/anserini/rerank/rm3/rm3-stoplist.gov2.txt", true));
         cascade.add(new ScoreTiesAdjusterReranker());
       }
     } else {
       if (args.searchtweets) {
-        cascade.add(new RemoveRetweetsTemporalTiebreakReranker());
+        cascade.add(new ScoreTiesAdjusterReranker());
       } else {
         cascade.add(new ScoreTiesAdjusterReranker());
       }
