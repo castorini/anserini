@@ -29,6 +29,7 @@ import org.apache.lucene.document.Document;
 import org.apache.lucene.index.ConcurrentMergeScheduler;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
+import org.apache.lucene.index.Term;
 import org.apache.lucene.search.similarities.BM25Similarity;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
@@ -72,6 +73,11 @@ public final class IndexCollection {
     public String generatorClass;
 
     // optional arguments
+
+    @Option(name = "-uniqueDocId", usage = "remove duplicated documents with the same doc id when indexing. " +
+      "please note that this option may slow the indexing a lot and if you are sure there is no " +
+      "duplicated document ids in the corpus you shouldn't use this option.")
+    public boolean uniqueDocId = false;
 
     @Option(name = "-memorybuffer", usage = "memory buffer size")
     public int memorybufferSize = 2048;
@@ -152,7 +158,11 @@ public final class IndexCollection {
           Document doc = transformer.createDocument(d);
 
           if (doc != null) {
-            writer.addDocument(doc);
+            if (args.uniqueDocId) {
+              writer.updateDocument(new Term("id", d.id()), doc);
+            } else {
+              writer.addDocument(doc);
+            }
             cnt++;
           }
         }
