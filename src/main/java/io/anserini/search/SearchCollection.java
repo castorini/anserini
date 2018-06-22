@@ -18,10 +18,10 @@ package io.anserini.search;
 
 import io.anserini.analysis.TweetAnalyzer;
 import io.anserini.index.generator.TweetGenerator;
-import io.anserini.rerank.AxiomReranker;
 import io.anserini.rerank.RerankerCascade;
 import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.ScoredDocuments;
+import io.anserini.rerank.lib.AxiomReranker;
 import io.anserini.rerank.lib.RemoveRetweetsTemporalTiebreakReranker;
 import io.anserini.rerank.lib.Rm3Reranker;
 import io.anserini.rerank.lib.ScoreTiesAdjusterReranker;
@@ -242,7 +242,6 @@ public final class SearchCollection implements Closeable {
     List<String> queryTokens = AnalyzerUtils.tokenize(analyzer, queryString);
     // This is ugly, but we have to reform the tweet query here for reranking
     query = AnalyzerUtils.buildBagOfWordsQuery(FIELD_BODY, analyzer, queryString);
-
 
     RerankerContext context = new RerankerContext(searcher, query, String.valueOf(qid), queryString,
         queryTokens, FIELD_BODY, filter, args);
