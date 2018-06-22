@@ -14,7 +14,11 @@
  * limitations under the License.
  */
 
-package io.anserini.rerank;
+package io.anserini.rerank.lib;
+
+import io.anserini.rerank.Reranker;
+import io.anserini.rerank.RerankerContext;
+import io.anserini.rerank.ScoredDocuments;
 
 public class IdentityReranker implements Reranker {
   @Override
