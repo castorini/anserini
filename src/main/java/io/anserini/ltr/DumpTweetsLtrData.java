@@ -6,7 +6,7 @@ import io.anserini.ltr.feature.FeatureExtractors;
 import io.anserini.rerank.RerankerCascade;
 import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.ScoredDocuments;
-import io.anserini.rerank.twitter.RemoveRetweetsTemporalTiebreakReranker;
+import io.anserini.rerank.lib.RemoveRetweetsTemporalTiebreakReranker;
 import io.anserini.search.SearchArgs;
 import io.anserini.search.query.MicroblogTopicReader;
 import io.anserini.search.query.TopicReader;

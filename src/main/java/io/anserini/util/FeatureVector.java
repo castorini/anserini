@@ -1,7 +1,10 @@
 package io.anserini.util;
 
-import io.anserini.rerank.rm3.Rm3Stopper;
+import io.anserini.rerank.lib.Rm3Reranker;
 import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
+import org.apache.lucene.index.Terms;
+import org.apache.lucene.index.TermsEnum;
+import org.apache.lucene.util.BytesRef;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -11,10 +14,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-
-import org.apache.lucene.index.Terms;
-import org.apache.lucene.index.TermsEnum;
-import org.apache.lucene.util.BytesRef;
 
 public class FeatureVector {
   private Object2FloatOpenHashMap<String> features = new Object2FloatOpenHashMap<String>();
@@ -103,7 +102,7 @@ public class FeatureVector {
     return f;
   }
 
-  public static FeatureVector fromLuceneTermVector(Terms terms, Rm3Stopper stopper) {
+  public static FeatureVector fromLuceneTermVector(Terms terms, Rm3Reranker.Stopper stopper) {
     FeatureVector f = new FeatureVector();
 
     try {
