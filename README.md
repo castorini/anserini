@@ -12,7 +12,7 @@ mvn clean package
 
 The `eval/` directory contains evaluation tools and scripts, including `trec_eval`. Before using `trec_eval`, unpack and compile it, as follows:
 
-```d
+```
 tar xvfz trec_eval.9.0.tar.gz && cd trec_eval.9.0 && make
 ```
 

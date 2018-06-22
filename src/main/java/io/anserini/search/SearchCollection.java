@@ -239,8 +239,15 @@ public final class SearchCollection implements Closeable {
         cascade.add(new ScoreTiesAdjusterReranker());
       }
     } else if (searchArgs.axiom) {
-      cascade.add(new AxiomReranker(analyzer, FIELD_BODY,
-          "io/anserini/rerank/rm3/rm3-stoplist.gov2.txt", true, searchArgs.axiom_beta));
+      if (searchArgs.searchtweets) {
+        cascade.add(new AxiomReranker(analyzer, FIELD_BODY,
+          null, false, searchArgs.axiom_beta));
+        cascade.add(new RemoveRetweetsTemporalTiebreakReranker());
+      } else {
+        cascade.add(new AxiomReranker(analyzer, FIELD_BODY,
+          null, false, searchArgs.axiom_beta));
+        cascade.add(new ScoreTiesAdjusterReranker());
+      }
     } else {
       cascade.add(new ScoreTiesAdjusterReranker());
 

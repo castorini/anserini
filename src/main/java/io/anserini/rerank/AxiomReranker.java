@@ -33,6 +33,8 @@ import java.util.Random;
 import java.util.Set;
 import java.util.regex.Pattern;
 
+import static io.anserini.search.SearchCollection.BREAK_SCORE_TIES_BY_DOCID;
+
 public class AxiomReranker implements Reranker {
   private static final Logger LOG = LogManager.getLogger(AxiomReranker.class);
 
@@ -84,20 +86,38 @@ public class AxiomReranker implements Reranker {
       TopDocs rs = null;
       IndexSearcher searcher = context.getIndexSearcher();
       if (context.getFilter() == null) {
-        rs = searcher.search(nq, 1000);
+        // Figure out how to break the scoring ties.
+        if (context.getSearchArgs().arbitraryScoreTieBreak) {
+          rs = searcher.search(nq, context.getSearchArgs().hits);
+        } else if (context.getSearchArgs().searchtweets) {
+          // TODO: we need to build the proper tie-breaking code path for tweets.
+          rs = searcher.search(nq, context.getSearchArgs().hits);
+        } else {
+          rs = searcher.search(nq, context.getSearchArgs().hits, BREAK_SCORE_TIES_BY_DOCID,
+            true, true);
+        }
       } else {
         BooleanQuery.Builder bqBuilder = new BooleanQuery.Builder();
         bqBuilder.add(context.getFilter(), BooleanClause.Occur.FILTER);
         bqBuilder.add(nq, BooleanClause.Occur.MUST);
         Query q = bqBuilder.build();
-        rs = searcher.search(q, 1000);
-      }
 
+        // Figure out how to break the scoring ties.
+        if (context.getSearchArgs().arbitraryScoreTieBreak) {
+          rs = searcher.search(q, context.getSearchArgs().hits);
+        } else if (context.getSearchArgs().searchtweets) {
+          // TODO: we need to build the proper tie-breaking code path for tweets.
+          rs = searcher.search(q, context.getSearchArgs().hits);
+        } else {
+          rs = searcher.search(q, context.getSearchArgs().hits, BREAK_SCORE_TIES_BY_DOCID,
+            true, true);
+        }
+      }
       return ScoredDocuments.fromTopDocs(rs, searcher);
     } catch (Exception e) {
-      System.out.println(e);
+      e.printStackTrace();
+      return docs;
     }
-    return null;
   }
 
   /**
