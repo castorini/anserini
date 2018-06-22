@@ -11,7 +11,8 @@ Indexing the Tweets2011 collection:
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection TweetCollection -input \
 /path/to/Tweets2011/ -generator TweetGenerator  -index lucene-index.Tweets2011.pos+docvectors.keepUrls.stemming \
--threads 32 -storePositions -storeDocvectors -optimize -tweet.keepUrls -tweet.stemming > log.Tweets2011.keepUrls.stemming.txt &
+-threads 32 -storePositions -storeDocvectors -optimize -uniqueDocid -tweet.keepUrls -tweet.stemming \
+>& log.Tweets2011.keepUrls.stemming.txt &
 ```
 __NB:__ The process is backgrounded
 
