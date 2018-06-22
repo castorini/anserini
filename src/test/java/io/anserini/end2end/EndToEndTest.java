@@ -188,8 +188,7 @@ public abstract class EndToEndTest extends LuceneTestCase {
       RerankerCascade cascade = new RerankerCascade();
       cascade.add(new IdentityReranker());
       SearchCollection searcher = new SearchCollection(searchArgs.index);
-      searcher.search(topics, searchArgs.topicfield, searchArgs.output, similarity, searchArgs.hits,
-          cascade, searchArgs.keepstop, searchArgs.searchtweets);
+      searcher.search(topics, similarity, cascade, searchArgs);
       searcher.close();
       checkRankingResults();
     } catch (Exception e) {
