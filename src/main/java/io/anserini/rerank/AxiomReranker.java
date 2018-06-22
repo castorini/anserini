@@ -4,6 +4,7 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Preconditions;
 
 import io.anserini.index.generator.LuceneDocumentGenerator;
+import io.anserini.search.SearchArgs;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.tuple.Pair;
@@ -155,10 +156,12 @@ public class AxiomReranker implements Reranker {
       IndexReader reader = DirectoryReader.open(FSDirectory.open(indexPath));
       IndexSearcher searcher = new IndexSearcher(reader);
       searcher.setSimilarity(context.getIndexSearcher().getSimilarity(true));
+      SearchArgs args = context.getSearchArgs();
+      args.arbitraryScoreTieBreak = true;
 
       RerankerContext externalContext = new RerankerContext(searcher, context.getQuery(),
         context.getQueryId(), context.getQueryText(), context.getQueryTokens(), context.getField(),
-        context.getFilter(), context.getSearchArgs());
+        context.getFilter(), args);
       return searchTopDocs(null, externalContext);
     } else {
       return docs;
