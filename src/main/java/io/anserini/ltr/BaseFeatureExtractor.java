@@ -126,7 +126,6 @@ abstract public class BaseFeatureExtractor<K> {
             RerankerContext context = new RerankerContext(searcher, q,
                     qid, queryText,
                     queryTokens,
-                    getTermVectorField(),
                     null, null);
 
             queryContextMap.put(qid, context);

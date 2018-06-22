@@ -1,5 +1,6 @@
 package io.anserini.ltr.feature.base;
 
+import io.anserini.index.generator.LuceneDocumentGenerator;
 import io.anserini.ltr.feature.FeatureExtractor;
 import io.anserini.rerank.RerankerContext;
 import org.apache.lucene.document.Document;
@@ -72,7 +73,7 @@ public class PMIFeatureExtractor implements FeatureExtractor{
       try {
 
         for (String token : querySet) {
-          docFreqs.put(token, reader.docFreq(new Term(context.getField(), token)));
+          docFreqs.put(token, reader.docFreq(new Term(LuceneDocumentGenerator.FIELD_BODY, token)));
         }
 
         float sumPMI = 0.0f;
@@ -83,8 +84,8 @@ public class PMIFeatureExtractor implements FeatureExtractor{
           for (int j = i +1; j < queryTokens.size(); j++) {
             pairsComputed ++;
             String secondToken = queryTokens.get(j);
-            PostingsEnum firstEnum = MultiFields.getTermDocsEnum(reader,context.getField(), new BytesRef(firstToken));
-            PostingsEnum secondEnum = MultiFields.getTermDocsEnum(reader,context.getField(), new BytesRef(secondToken));
+            PostingsEnum firstEnum = MultiFields.getTermDocsEnum(reader,LuceneDocumentGenerator.FIELD_BODY, new BytesRef(firstToken));
+            PostingsEnum secondEnum = MultiFields.getTermDocsEnum(reader,LuceneDocumentGenerator.FIELD_BODY, new BytesRef(secondToken));
             int intersect;
             if (firstEnum == null || secondEnum == null) {
               intersect = 0;

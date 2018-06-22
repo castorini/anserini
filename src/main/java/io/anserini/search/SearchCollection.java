@@ -208,7 +208,7 @@ public final class SearchCollection implements Closeable {
     List<String> queryTokens = AnalyzerUtils.tokenize(analyzer, queryString);
 
     RerankerContext context = new RerankerContext(searcher, query, String.valueOf(qid), queryString,
-        queryTokens, FIELD_BODY, null, args);
+        queryTokens, null, args);
     return cascade.run(ScoredDocuments.fromTopDocs(rs, searcher), context);
   }
 
@@ -237,7 +237,7 @@ public final class SearchCollection implements Closeable {
     query = AnalyzerUtils.buildBagOfWordsQuery(FIELD_BODY, analyzer, queryString);
 
     RerankerContext context = new RerankerContext(searcher, query, String.valueOf(qid), queryString,
-        queryTokens, FIELD_BODY, filter, args);
+        queryTokens, filter, args);
     return cascade.run(ScoredDocuments.fromTopDocs(rs, searcher), context);
   }
 
