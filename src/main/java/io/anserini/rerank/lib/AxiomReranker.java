@@ -188,8 +188,17 @@ public class AxiomReranker implements Reranker {
     long targetSize = this.R * this.M;
 
     if (docidSet.size() < targetSize) {
-      IndexSearcher searcher = context.getIndexSearcher();
-      IndexReader reader = searcher.getIndexReader();
+      IndexReader reader;
+      if (!this.externalIndexPath.isEmpty()) {
+        Path indexPath = Paths.get(this.externalIndexPath);
+        if (!Files.exists(indexPath) || !Files.isDirectory(indexPath) || !Files.isReadable(indexPath)) {
+          throw new IllegalArgumentException(this.externalIndexPath + " does not exist or is not a directory.");
+        }
+        reader = DirectoryReader.open(FSDirectory.open(indexPath));
+      } else {
+        IndexSearcher searcher = context.getIndexSearcher();
+        reader = searcher.getIndexReader();
+      }
       int availableDocsCnt = reader.getDocCount(this.field);
       Random random = new Random();
       while (docidSet.size() < targetSize) {
@@ -211,8 +220,17 @@ public class AxiomReranker implements Reranker {
   @VisibleForTesting
   private Map<String, Set<Integer>> extractTerms(Set<Integer> docIds, RerankerContext context,
                                                  Pattern filterPattern) throws Exception, IOException {
-    IndexSearcher searcher = context.getIndexSearcher();
-    IndexReader reader = searcher.getIndexReader();
+    IndexReader reader;
+    if (!this.externalIndexPath.isEmpty()) {
+      Path indexPath = Paths.get(this.externalIndexPath);
+      if (!Files.exists(indexPath) || !Files.isDirectory(indexPath) || !Files.isReadable(indexPath)) {
+        throw new IllegalArgumentException(this.externalIndexPath + " does not exist or is not a directory.");
+      }
+      reader = DirectoryReader.open(FSDirectory.open(indexPath));
+    } else {
+      IndexSearcher searcher = context.getIndexSearcher();
+      reader = searcher.getIndexReader();
+    }
     Map<String, Set<Integer>> termDocidSets = new HashMap<>();
     for (int docid : docIds) {
       Terms terms = reader.getTermVector(docid, LuceneDocumentGenerator.FIELD_BODY);
