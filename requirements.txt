@@ -1,4 +1,0 @@
-gensim==1.0.1
-numpy==1.12.1
-pandas==0.19.2
-nltk==3.2.2
