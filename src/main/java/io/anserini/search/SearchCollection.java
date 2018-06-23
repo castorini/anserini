@@ -118,20 +118,12 @@ public final class SearchCollection implements Closeable {
     // Set up the ranking cascade.
     cascade = new RerankerCascade();
     if (args.rm3) {
-      if (args.searchtweets) {
-        cascade.add(new Rm3Reranker(analyzer, FIELD_BODY, "io/anserini/rerank/rm3/rm3-stoplist.twitter.txt", true));
-        cascade.add(new ScoreTiesAdjusterReranker());
-      } else {
-        cascade.add(new Rm3Reranker(analyzer, FIELD_BODY, "io/anserini/rerank/rm3/rm3-stoplist.gov2.txt", true));
-        cascade.add(new ScoreTiesAdjusterReranker());
-      }
-    } else {
-      if (args.searchtweets) {
-        cascade.add(new ScoreTiesAdjusterReranker());
-      } else {
-        cascade.add(new ScoreTiesAdjusterReranker());
-      }
+      String stopwords = "io/anserini/rerank/rm3/" +
+          (args.searchtweets ? "rm3-stoplist.twitter.txt" : "rm3-stoplist.gov2.txt");
+      cascade.add(new Rm3Reranker(analyzer, FIELD_BODY, stopwords));
     }
+
+    cascade.add(new ScoreTiesAdjusterReranker());
   }
 
   @Override
