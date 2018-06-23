@@ -29,7 +29,7 @@ def trec_eval_metric(metric, qrels, run):
     return float(os.popen("eval/trec_eval.9.0/trec_eval -m {} {} {}".format(metric, qrels, run)).read().split("\t")[2].strip())
 
 if __name__ == "__main__":
-    call(index_cmd, shell=True)
+    #call(index_cmd, shell=True)
     for cmd in run_cmds:
         call(cmd, shell=True)
 

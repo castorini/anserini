@@ -82,7 +82,7 @@ abstract public class BaseFeatureExtractorTest extends LuceneTestCase {
    */
   protected RerankerContext makeTestContext(String queryText) {
     try {
-      RerankerContext context = new RerankerContext(new IndexSearcher(DirectoryReader.open(DIRECTORY)), TEST_PARSER.parse(queryText), DEFAULT_QID,
+	RerankerContext context = new RerankerContext(new IndexSearcher(DirectoryReader.open(DIRECTORY)), DEFAULT_QID, TEST_PARSER.parse(queryText),
               queryText, AnalyzerUtils.tokenize(TEST_ANALYZER, queryText), null, null);
       return context;
     } catch (ParseException e) {

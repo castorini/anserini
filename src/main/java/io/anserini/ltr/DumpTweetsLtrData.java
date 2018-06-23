@@ -123,7 +123,7 @@ public class DumpTweetsLtrData {
 
       TopDocs rs = searcher.search(q, args.hits);
       List<String> queryTokens = AnalyzerUtils.tokenize(new TweetAnalyzer(), queryString);
-      RerankerContext context = new RerankerContext(searcher, query, queryString.toString(), queryString,
+      RerankerContext context = new RerankerContext(searcher, queryString.toString(), query, queryString,
           queryTokens, filter, null);
 
       cascade.run(ScoredDocuments.fromTopDocs(rs, searcher), context);
