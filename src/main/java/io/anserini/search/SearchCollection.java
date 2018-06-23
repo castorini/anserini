@@ -170,7 +170,7 @@ public final class SearchCollection implements Closeable {
 
       ScoredDocuments docs;
       if (args.searchtweets) {
-        docs = search(searcher, qid, queryString, Long.parseLong(entry.getValue().get("time")));
+        docs = searchTweets(searcher, qid, queryString, Long.parseLong(entry.getValue().get("time")));
       } else{
         docs = search(searcher, qid, queryString);
       }
@@ -197,7 +197,8 @@ public final class SearchCollection implements Closeable {
 
   public<K> ScoredDocuments search(IndexSearcher searcher, K qid, String queryString) throws IOException {
     Query query = AnalyzerUtils.buildBagOfWordsQuery(FIELD_BODY, analyzer, queryString);
-    // Figure out how to break the scoring ties.
+    List<String> queryTokens = AnalyzerUtils.tokenize(analyzer, queryString);
+
     TopDocs rs;
     if (args.arbitraryScoreTieBreak) {
       rs = searcher.search(query, args.hits);
@@ -205,15 +206,13 @@ public final class SearchCollection implements Closeable {
       rs = searcher.search(query, args.hits, BREAK_SCORE_TIES_BY_DOCID, true, true);
     }
 
-    List<String> queryTokens = AnalyzerUtils.tokenize(analyzer, queryString);
-
-    RerankerContext context = new RerankerContext(searcher, query, String.valueOf(qid), queryString,
-        queryTokens, null, args);
+    RerankerContext context = new RerankerContext(searcher, qid, query, queryString, queryTokens, null, args);
     return cascade.run(ScoredDocuments.fromTopDocs(rs, searcher), context);
   }
 
-  public<K> ScoredDocuments search(IndexSearcher searcher, K qid, String queryString, long t) throws IOException {
-    Query query = AnalyzerUtils.buildBagOfWordsQuery(FIELD_BODY, analyzer, queryString);
+  public<K> ScoredDocuments searchTweets(IndexSearcher searcher, K qid, String queryString, long t) throws IOException {
+    Query keywordQuery = AnalyzerUtils.buildBagOfWordsQuery(FIELD_BODY, analyzer, queryString);
+    List<String> queryTokens = AnalyzerUtils.tokenize(analyzer, queryString);
 
     // Do not consider the tweets with tweet ids that are beyond the queryTweetTime
     // <querytweettime> tag contains the timestamp of the query in terms of the
@@ -221,23 +220,18 @@ public final class SearchCollection implements Closeable {
     Query filter = LongPoint.newRangeQuery(TweetGenerator.StatusField.ID_LONG.name, 0L, t);
     BooleanQuery.Builder builder = new BooleanQuery.Builder();
     builder.add(filter, BooleanClause.Occur.FILTER);
-    builder.add(query, BooleanClause.Occur.MUST);
-    query = builder.build();
+    builder.add(keywordQuery, BooleanClause.Occur.MUST);
+    Query compositeQuery = builder.build();
 
     // Figure out how to break the scoring ties.
     TopDocs rs;
     if (args.arbitraryScoreTieBreak) {
-      rs = searcher.search(query, args.hits);
+      rs = searcher.search(compositeQuery, args.hits);
     } else {
-      rs = searcher.search(query, args.hits, BREAK_SCORE_TIES_BY_TWEETID, true, true);
+      rs = searcher.search(compositeQuery, args.hits, BREAK_SCORE_TIES_BY_TWEETID, true, true);
     }
 
-    List<String> queryTokens = AnalyzerUtils.tokenize(analyzer, queryString);
-    // This is ugly, but we have to reform the tweet query here for reranking
-    query = AnalyzerUtils.buildBagOfWordsQuery(FIELD_BODY, analyzer, queryString);
-
-    RerankerContext context = new RerankerContext(searcher, query, String.valueOf(qid), queryString,
-        queryTokens, filter, args);
+    RerankerContext context = new RerankerContext(searcher, qid, keywordQuery, queryString, queryTokens, filter, args);
     return cascade.run(ScoredDocuments.fromTopDocs(rs, searcher), context);
   }
 

@@ -32,7 +32,7 @@ public class RerankerContext<K> {
   private final Query filter;
   private final SearchArgs searchArgs;
 
-  public RerankerContext(IndexSearcher searcher, Query query, K queryId, String queryText,
+  public RerankerContext(IndexSearcher searcher, K queryId, Query query, String queryText,
       List<String> queryTokens, Query filter, SearchArgs searchArgs) throws IOException {
     this.searcher = searcher;
     this.query = query;

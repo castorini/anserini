@@ -46,6 +46,7 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 import static io.anserini.search.SearchCollection.BREAK_SCORE_TIES_BY_DOCID;
+import static io.anserini.search.SearchCollection.BREAK_SCORE_TIES_BY_TWEETID;
 
 public class Rm3Reranker implements Reranker {
   private static final Logger LOG = LogManager.getLogger(Rm3Reranker.class);
@@ -137,43 +138,35 @@ public class Rm3Reranker implements Reranker {
     String queryText = builder.toString().trim();
 
     QueryParser p = new QueryParser(field, new WhitespaceAnalyzer());
-    Query nq;
+    Query feedbackQuery;
     try {
-      nq = p.parse(queryText);
+      feedbackQuery = p.parse(queryText);
     } catch (ParseException e) {
       e.printStackTrace();
       return docs;
     }
 
-    LOG.info("Running new query: " + nq);
+    LOG.info("Running new query: " + feedbackQuery);
 
     TopDocs rs;
     try {
-      if (context.getFilter() == null) {
-        // Figure out how to break the scoring ties.
-        if (context.getSearchArgs().arbitraryScoreTieBreak) {
-          rs = searcher.search(nq, 1000);
-        } else if (context.getSearchArgs().searchtweets) {
-          // TODO: we need to build the proper tie-breaking code path for tweets.
-          rs = searcher.search(nq, 1000);
-        } else {
-          rs = searcher.search(nq, 1000, BREAK_SCORE_TIES_BY_DOCID, true, true);
-        }
-      } else {
+      Query finalQuery = feedbackQuery;
+      // If there's a filter condition, we need to add in the constraint.
+      // Otherwise, just use the feedback query.
+      if (context.getFilter() != null) {
         BooleanQuery.Builder bqBuilder = new BooleanQuery.Builder();
         bqBuilder.add(context.getFilter(), BooleanClause.Occur.FILTER);
-        bqBuilder.add(nq, BooleanClause.Occur.MUST);
-        Query q = bqBuilder.build();
+        bqBuilder.add(feedbackQuery, BooleanClause.Occur.MUST);
+        finalQuery = bqBuilder.build();
+      }
 
-        // Figure out how to break the scoring ties.
-        if (context.getSearchArgs().arbitraryScoreTieBreak) {
-          rs = searcher.search(q, 1000);
-        } else if (context.getSearchArgs().searchtweets) {
-          // TODO: we need to build the proper tie-breaking code path for tweets.
-          rs = searcher.search(q, 1000);
-        } else {
-          rs = searcher.search(q, 1000, BREAK_SCORE_TIES_BY_DOCID, true, true);
-        }
+      // Figure out how to break the scoring ties.
+      if (context.getSearchArgs().arbitraryScoreTieBreak) {
+        rs = searcher.search(finalQuery, 1000);
+      } else if (context.getSearchArgs().searchtweets) {
+        rs = searcher.search(finalQuery, 1000, BREAK_SCORE_TIES_BY_TWEETID, true, true);
+      } else {
+        rs = searcher.search(finalQuery, 1000, BREAK_SCORE_TIES_BY_DOCID, true, true);
       }
     } catch (IOException e) {
       e.printStackTrace();
