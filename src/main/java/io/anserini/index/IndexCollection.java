@@ -103,9 +103,8 @@ public final class IndexCollection {
     @Option(name = "-memorybuffer", usage = "memory buffer size")
     public int memorybufferSize = 2048;
 
-    @Option(name = "-whitelistFile", usage = "when specified only the docids contained in the " +
-      "file will be included in the index, one docid per line.")
-    public String whitelistFile = null;
+    @Option(name = "-whitelist", usage = "file containing docids, one per line; only specified docids will be indexed.")
+    public String whitelist = null;
 
     @Option(name = "-tweet.keepRetweets", usage = "boolean switch to keep retweets while indexing")
     public boolean tweetKeepRetweets = false;
@@ -206,7 +205,7 @@ public final class IndexCollection {
     LOG.info("Store transformed docs? " + args.storeTransformedDocs);
     LOG.info("Store raw docs? " + args.storeRawDocs);
     LOG.info("Optimize (merge segments)? " + args.optimize);
-    LOG.info("Whitelist File: " + args.whitelistFile);
+    LOG.info("Whitelist: " + args.whitelist);
 
     this.indexPath = Paths.get(args.index);
     if (!Files.exists(this.indexPath)) {
@@ -225,8 +224,8 @@ public final class IndexCollection {
     collection = (Collection) this.collectionClass.newInstance();
     collection.setCollectionPath(collectionPath);
 
-    if (args.whitelistFile != null) {
-      List<String> lines = FileUtils.readLines(new File(args.whitelistFile), "utf-8");
+    if (args.whitelist != null) {
+      List<String> lines = FileUtils.readLines(new File(args.whitelist), "utf-8");
       this.whitelistDocids = new HashSet(lines);
     } else {
       this.whitelistDocids = null;
