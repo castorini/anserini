@@ -27,6 +27,7 @@ import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.IOUtils;
 import org.apache.lucene.util.LuceneTestCase;
+import org.apache.lucene.util.TestRuleLimitSysouts;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -39,6 +40,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+@TestRuleLimitSysouts.Limit(bytes=20000)
 public abstract class EndToEndTest extends LuceneTestCase {
   protected IndexCollection.Args indexCollectionArgs = new IndexCollection.Args();
   protected SearchArgs searchArgs = new SearchArgs();
