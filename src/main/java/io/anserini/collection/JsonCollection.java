@@ -18,6 +18,8 @@ package io.anserini.collection;
 
 import io.anserini.document.JsonDocument;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Arrays;
@@ -36,6 +38,7 @@ public class JsonCollection extends Collection<JsonDocument> {
   public class FileSegment extends Collection.FileSegment {
     protected FileSegment(Path path) throws IOException {
       dType = new JsonDocument(path.toString());
+      bufferedReader = new BufferedReader(new FileReader(path.toString()));
     }
   }
 

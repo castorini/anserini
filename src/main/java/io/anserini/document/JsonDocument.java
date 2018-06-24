@@ -19,6 +19,8 @@ package io.anserini.document;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
+
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -28,11 +30,14 @@ import com.google.gson.JsonParser;
  * Json adaptor
  * Inside each file is either a JSON Object (one document) or a JSON Array (multiple documents)
  * Example of JSON Object:
+ * <pre>
  * {
  *   "id": "doc1",
  *   "contents": "this is the contents."
  * }
+ * </pre>
  * Example of JSON Array:
+ * <pre>
  * [
  *   {
  *     "id": "doc1",
@@ -43,7 +48,7 @@ import com.google.gson.JsonParser;
  *     "contents": "this is the contents 2."
  *   }
  * ]
- *
+ * </pre>
  */
 public class JsonDocument implements SourceDocument {
   protected String id;
@@ -66,7 +71,7 @@ public class JsonDocument implements SourceDocument {
   }
 
   @Override
-  public JsonDocument readNextRecord(BufferedReader bRdr) {
+  public JsonDocument readNextRecord(BufferedReader bRdr) throws IOException {
     if (raw.isJsonArray() && i < raw.getAsJsonArray().size()) {
       JsonObject o = raw.getAsJsonArray().get(i).getAsJsonObject();
       id = o.get("id").getAsString();
@@ -77,6 +82,16 @@ public class JsonDocument implements SourceDocument {
       id = raw.getAsJsonObject().get("id").getAsString();
       contents = raw.getAsJsonObject().get("contents").getAsString();
       return this;
+    } else {
+      // try to read one JSON Object per line
+      String line;
+      JsonParser parser = new JsonParser();
+      while ((line = bRdr.readLine()) != null) {
+        JsonObject o = parser.parse(line).getAsJsonObject();
+        id = o.get("id").getAsString();
+        contents = o.get("contents").getAsString();
+        return this;
+      }
     }
     return null;
   }

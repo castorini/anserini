@@ -27,8 +27,8 @@ import org.junit.After;
 import org.junit.Before;
 
 
-public class JsonDocumentObjectTest extends DocumentTest {
-  private String sampleFile = "sampleJsonObject.json";
+public class JsonLineObjectTest extends DocumentTest {
+  private String sampleFile = "sampleJsonLineObject.json";
 
   @Before
   public void setUp() throws Exception {
@@ -36,8 +36,12 @@ public class JsonDocumentObjectTest extends DocumentTest {
 
     String sampleDoc = "[\n" +
       "{\n " +
-      "  \"id\": \"doc\",\n" +
-      "  \"contents\": \"this is the contents.\"\n" +
+      "  \"id\": \"doc1\",\n" +
+      "  \"contents\": \"this is the contents 1.\"\n" +
+      "}\n" +
+      "{\n " +
+      "  \"id\": \"doc2\",\n" +
+      "  \"contents\": \"this is the contents 2.\"\n" +
       "}";
     Writer writer = new BufferedWriter(new OutputStreamWriter(
       new FileOutputStream(sampleFile), "utf-8"));
@@ -45,10 +49,14 @@ public class JsonDocumentObjectTest extends DocumentTest {
 
     dType = new JsonDocument(sampleFile);
 
-    HashMap doc = new HashMap<String, String>();
-    doc.put("id", "doc");
-    doc.put("content", "this is the contents.");
-    expected.add(doc);
+    HashMap doc1 = new HashMap<String, String>();
+    doc1.put("id", "doc1");
+    doc1.put("content", "this is the contents 1.");
+    expected.add(doc1);
+    HashMap doc2 = new HashMap<String, String>();
+    doc2.put("id", "doc2");
+    doc2.put("content", "this is the contents 2.");
+    expected.add(doc2);
   }
 
   @After

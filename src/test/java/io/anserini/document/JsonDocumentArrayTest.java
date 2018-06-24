@@ -31,7 +31,7 @@ public class JsonDocumentArrayTest extends DocumentTest {
   private String sampleFile = "sampleJsonArray.json";
 
   @Before
-  public void setUP() throws Exception {
+  public void setUp() throws Exception {
     super.setUp();
 
     String sampleDoc = "[\n" +
