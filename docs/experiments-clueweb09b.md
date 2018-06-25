@@ -108,6 +108,6 @@ P30                                                                           | 
 
 NDCG@20                                                                       | BM25   |BM25+RM3| QL     | QL+RM3
 :-----------------------------------------------------------------------------|--------|--------|--------|--------
-[TREC 2010 Web Track: Topics 51-100](http://trec.nist.gov/data/web10.html)    | 0.1320 | 0.1443 | 0.1131 | 0.1307
-[TREC 2011 Web Track: Topics 101-150](http://trec.nist.gov/data/web2011.html) | 0.1915 | 0.1920 | 0.1633 | 0.1670
-[TREC 2012 Web Track: Topics 151-200](http://trec.nist.gov/data/web2012.html) | 0.0977 | 0.1309 | 0.0862 | 0.1027
+[TREC 2010 Web Track: Topics 51-100](http://trec.nist.gov/data/web10.html)    | 0.1328 | 0.1439 | 0.1132 | 0.1305
+[TREC 2011 Web Track: Topics 101-150](http://trec.nist.gov/data/web2011.html) | 0.1914 | 0.1921 | 0.1635 | 0.1670
+[TREC 2012 Web Track: Topics 151-200](http://trec.nist.gov/data/web2012.html) | 0.0976 | 0.1309 | 0.0862 | 0.1027

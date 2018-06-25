@@ -92,7 +92,7 @@ P30                                                                            |
 
 NDCG@20                                                                        | BM25   | BM25+RM3 | QL     | QL+RM3 |
 :------------------------------------------------------------------------------|--------|----------|--------|--------|
-[TREC 2013 Web Track: Topics 201-250](http://trec.nist.gov/data/web2013.html)  | 0.2067 | 0.1694   | 0.1893 | 0.1504 |
-[TREC 2014 Web Track: Topics 251-300](http://trec.nist.gov/data/web2014.html)  | 0.2644 | 0.2388   | 0.2345 | 0.2234 |
+[TREC 2013 Web Track: Topics 201-250](http://trec.nist.gov/data/web2013.html)  | 0.2066 | 0.1693   | 0.1905 | 0.1503 |
+[TREC 2014 Web Track: Topics 251-300](http://trec.nist.gov/data/web2014.html)  | 0.2646 | 0.2412   | 0.2327 | 0.2183 |
 
 Note that RM3 effectiveness is low because there are large number of unjudged documents.
