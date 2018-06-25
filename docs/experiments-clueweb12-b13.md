@@ -73,13 +73,13 @@ With the above commands, you should be able to replicate the following results:
 
 AP                                                                             | BM25   |BM25+RM3| QL     | QL+RM3
 :------------------------------------------------------------------------------|--------|--------|--------|--------
-[TREC 2013 Web Track: Topics 201-250](http://trec.nist.gov/data/web2013.html)  | 0.0458 | 0.0428 | 0.0390 | 0.0321
-[TREC 2014 Web Track: Topics 251-300](http://trec.nist.gov/data/web2014.html)  | 0.0220 | 0.0189 | 0.0230 | 0.0202
+[TREC 2013 Web Track: Topics 201-250](http://trec.nist.gov/data/web2013.html)  | 0.0457 | 0.0426 | 0.0389 | 0.0320
+[TREC 2014 Web Track: Topics 251-300](http://trec.nist.gov/data/web2014.html)  | 0.0219 | 0.0188 | 0.0228 | 0.0201
 
 P30                                                                            | BM25   |BM25+RM3| QL     | QL+RM3
 :------------------------------------------------------------------------------|--------|--------|--------|--------
 [TREC 2013 Web Track: Topics 201-250](http://trec.nist.gov/data/web2013.html)  | 0.2000 | 0.1753 | 0.1720 | 0.1447
-[TREC 2014 Web Track: Topics 251-300](http://trec.nist.gov/data/web2014.html)  | 0.1307 | 0.1140 | 0.1327 | 0.1180
+[TREC 2014 Web Track: Topics 251-300](http://trec.nist.gov/data/web2014.html)  | 0.1293 | 0.1133 | 0.1313 | 0.1173
 
 NDCG@20                                                                        | BM25   |BM25+RM3| QL     | QL+RM3
 :------------------------------------------------------------------------------|--------|--------|--------|--------
