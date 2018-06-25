@@ -131,11 +131,11 @@ public class Rm3Reranker implements Reranker {
 
       // Figure out how to break the scoring ties.
       if (context.getSearchArgs().arbitraryScoreTieBreak) {
-        rs = searcher.search(finalQuery, 1000);
+        rs = searcher.search(finalQuery, context.getSearchArgs().hits);
       } else if (context.getSearchArgs().searchtweets) {
-        rs = searcher.search(finalQuery, 1000, BREAK_SCORE_TIES_BY_TWEETID, true, true);
+        rs = searcher.search(finalQuery, context.getSearchArgs().hits, BREAK_SCORE_TIES_BY_TWEETID, true, true);
       } else {
-        rs = searcher.search(finalQuery, 1000, BREAK_SCORE_TIES_BY_DOCID, true, true);
+        rs = searcher.search(finalQuery, context.getSearchArgs().hits, BREAK_SCORE_TIES_BY_DOCID, true, true);
       }
     } catch (IOException e) {
       e.printStackTrace();
