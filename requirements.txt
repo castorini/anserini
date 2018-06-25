@@ -1,7 +1,0 @@
-gensim==1.0.1
-numpy==1.12.1
-pandas==0.19.2
-Flask==0.12.1
-nltk==3.2.2
-py4j==0.10.4
--e git+https://github.com/castorini/Castor.git#egg=sm-cnn-1.0.0

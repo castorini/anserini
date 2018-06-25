@@ -20,6 +20,8 @@ import io.anserini.analysis.TweetAnalyzer;
 import io.anserini.collection.Collection;
 import io.anserini.document.SourceDocument;
 import io.anserini.index.generator.LuceneDocumentGenerator;
+
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -29,6 +31,7 @@ import org.apache.lucene.document.Document;
 import org.apache.lucene.index.ConcurrentMergeScheduler;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
+import org.apache.lucene.index.Term;
 import org.apache.lucene.search.similarities.BM25Similarity;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
@@ -43,7 +46,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -72,13 +77,6 @@ public final class IndexCollection {
     public String generatorClass;
 
     // optional arguments
-
-    @Option(name = "-memorybuffer", usage = "memory buffer size")
-    public int memorybufferSize = 2048;
-
-    @Option(name = "-keepStopwords", usage = "boolean switch to keep stopwords")
-    public boolean keepStopwords = false;
-
     @Option(name = "-storePositions", usage = "boolean switch to index storePositions")
     public boolean storePositions = false;
 
@@ -93,6 +91,20 @@ public final class IndexCollection {
 
     @Option(name = "-optimize", usage = "boolean switch to optimize index (force merge)")
     public boolean optimize = false;
+
+    @Option(name = "-keepStopwords", usage = "boolean switch to keep stopwords")
+    public boolean keepStopwords = false;
+
+    @Option(name = "-uniqueDocid", usage = "remove duplicated documents with the same doc id when indexing. " +
+      "please note that this option may slow the indexing a lot and if you are sure there is no " +
+      "duplicated document ids in the corpus you shouldn't use this option.")
+    public boolean uniqueDocid = false;
+
+    @Option(name = "-memorybuffer", usage = "memory buffer size")
+    public int memorybufferSize = 2048;
+
+    @Option(name = "-whitelist", usage = "file containing docids, one per line; only specified docids will be indexed.")
+    public String whitelist = null;
 
     @Option(name = "-tweet.keepRetweets", usage = "boolean switch to keep retweets while indexing")
     public boolean tweetKeepRetweets = false;
@@ -140,10 +152,11 @@ public final class IndexCollection {
         while (iter.hasNext()) {
           SourceDocument d = iter.next();
           if (d == null) {
-            counters.errors.incrementAndGet();
+            LOG.info("Null document encountered");
             continue;
           }
           if (!d.indexable()) {
+            LOG.info("Document is not indexable");
             counters.unindexableDocuments.incrementAndGet();
             continue;
           }
@@ -151,8 +164,12 @@ public final class IndexCollection {
           @SuppressWarnings("unchecked") // Yes, we know what we're doing here.
           Document doc = transformer.createDocument(d);
 
-          if (doc != null) {
-            writer.addDocument(doc);
+          if (doc != null && (whitelistDocids == null || whitelistDocids.contains(d.id()))) {
+            if (args.uniqueDocid) {
+              writer.updateDocument(new Term("id", d.id()), doc);
+            } else {
+              writer.addDocument(doc);
+            }
             cnt++;
           }
         }
@@ -169,6 +186,7 @@ public final class IndexCollection {
   private final IndexCollection.Args args;
   private final Path indexPath;
   private final Path collectionPath;
+  private final Set whitelistDocids;
   private final Class collectionClass;
   private final Class transformerClass;
   private final Collection collection;
@@ -188,6 +206,7 @@ public final class IndexCollection {
     LOG.info("Store transformed docs? " + args.storeTransformedDocs);
     LOG.info("Store raw docs? " + args.storeRawDocs);
     LOG.info("Optimize (merge segments)? " + args.optimize);
+    LOG.info("Whitelist: " + args.whitelist);
 
     this.indexPath = Paths.get(args.index);
     if (!Files.exists(this.indexPath)) {
@@ -205,6 +224,13 @@ public final class IndexCollection {
 
     collection = (Collection) this.collectionClass.newInstance();
     collection.setCollectionPath(collectionPath);
+
+    if (args.whitelist != null) {
+      List<String> lines = FileUtils.readLines(new File(args.whitelist), "utf-8");
+      this.whitelistDocids = new HashSet(lines);
+    } else {
+      this.whitelistDocids = null;
+    }
 
     this.counters = new Counters();
   }
