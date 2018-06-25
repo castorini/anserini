@@ -333,20 +333,14 @@ public class AxiomReranker implements Reranker {
     }
     PriorityQueue<Pair<String, Double>> termScoresPQ = new PriorityQueue<>(new ScoreComparator());
     for (Map.Entry<String, Double> termScore : aggTermScores.entrySet()) {
-      termScoresPQ.add(Pair.of(termScore.getKey(), termScore.getValue()));
+      termScoresPQ.add(Pair.of(termScore.getKey(), termScore.getValue() / queryTerms.size()));
     }
     Map<String, Double> resultTermScores = new HashMap<>();
-    double sumScore = 0.0;
     for (int i = 0; i < Math.min(termScoresPQ.size(), this.K); i++) {
       Pair<String, Double> termScore = termScoresPQ.poll();
       String term = termScore.getKey();
       double score = termScore.getValue();
       resultTermScores.put(term, score);
-      sumScore += score;
-    }
-
-    for (Map.Entry<String, Double> termScore : resultTermScores.entrySet()) {
-      termScore.setValue(termScore.getValue() / sumScore); // weighted
     }
 
     return resultTermScores;
