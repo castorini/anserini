@@ -152,12 +152,13 @@ public class Rm3Reranker implements Reranker {
       if (context.getFilter() == null) {
         // Figure out how to break the scoring ties.
         if (context.getSearchArgs().arbitraryScoreTieBreak) {
-          rs = searcher.search(nq, 1000);
+          rs = searcher.search(nq, context.getSearchArgs().hits);
         } else if (context.getSearchArgs().searchtweets) {
           // TODO: we need to build the proper tie-breaking code path for tweets.
-          rs = searcher.search(nq, 1000);
+          rs = searcher.search(nq, context.getSearchArgs().hits);
         } else {
-          rs = searcher.search(nq, 1000, BREAK_SCORE_TIES_BY_DOCID, true, true);
+          rs = searcher.search(nq, context.getSearchArgs().hits, BREAK_SCORE_TIES_BY_DOCID,
+            true, true);
         }
       } else {
         BooleanQuery.Builder bqBuilder = new BooleanQuery.Builder();
@@ -167,12 +168,13 @@ public class Rm3Reranker implements Reranker {
 
         // Figure out how to break the scoring ties.
         if (context.getSearchArgs().arbitraryScoreTieBreak) {
-          rs = searcher.search(q, 1000);
+          rs = searcher.search(q, context.getSearchArgs().hits);
         } else if (context.getSearchArgs().searchtweets) {
           // TODO: we need to build the proper tie-breaking code path for tweets.
-          rs = searcher.search(q, 1000);
+          rs = searcher.search(q, context.getSearchArgs().hits);
         } else {
-          rs = searcher.search(q, 1000, BREAK_SCORE_TIES_BY_DOCID, true, true);
+          rs = searcher.search(q, context.getSearchArgs().hits, BREAK_SCORE_TIES_BY_DOCID,
+            true, true);
         }
       }
     } catch (IOException e) {

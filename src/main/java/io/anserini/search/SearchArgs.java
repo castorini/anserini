@@ -81,6 +81,15 @@ public class SearchArgs {
   @Option(name = "-rm3", usage = "use RM3 query expansion model (implies using query likelihood)")
   public boolean rm3 = false;
 
+  @Option(name = "-axiom", usage = "use Axiomatic query expansion model for the reranking")
+  public boolean axiom = false;
+
+  @Option(name = "-axiom.beta", usage = "parameter beta for Axiomatic query expansion model")
+  public float axiom_beta = 0.4f;
+
+  @Option(name = "-axiom.index", usage = "path to the external index for generating the reranking doucments pool")
+  public String axiom_external_index = "";
+
   @Option(name = "-model", metaVar = "[file]", required = false, usage = "ranklib model file")
   public String model = "";
 }
