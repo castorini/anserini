@@ -21,6 +21,7 @@ import io.anserini.index.generator.TweetGenerator;
 import io.anserini.rerank.RerankerCascade;
 import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.ScoredDocuments;
+import io.anserini.rerank.lib.AxiomReranker;
 import io.anserini.rerank.lib.RemoveRetweetsTemporalTiebreakReranker;
 import io.anserini.rerank.lib.Rm3Reranker;
 import io.anserini.rerank.lib.ScoreTiesAdjusterReranker;
@@ -121,6 +122,14 @@ public final class SearchCollection implements Closeable {
         cascade.add(new RemoveRetweetsTemporalTiebreakReranker());
       } else {
         cascade.add(new Rm3Reranker(analyzer, FIELD_BODY, "io/anserini/rerank/rm3/rm3-stoplist.gov2.txt", true));
+        cascade.add(new ScoreTiesAdjusterReranker());
+      }
+    } else if (args.axiom) {
+      if (args.searchtweets) {
+        cascade.add(new AxiomReranker(FIELD_BODY, args.axiom_beta, args.axiom_external_index));
+        cascade.add(new RemoveRetweetsTemporalTiebreakReranker());
+      } else {
+        cascade.add(new AxiomReranker(FIELD_BODY, args.axiom_beta, args.axiom_external_index));
         cascade.add(new ScoreTiesAdjusterReranker());
       }
     } else {
@@ -230,7 +239,6 @@ public final class SearchCollection implements Closeable {
       // TODO: we need to build the proper tie-breaking code path for tweets.
       rs = searcher.search(query, args.hits);
     }
-
     List<String> queryTokens = AnalyzerUtils.tokenize(analyzer, queryString);
     // This is ugly, but we have to reform the tweet query here for reranking
     query = AnalyzerUtils.buildBagOfWordsQuery(FIELD_BODY, analyzer, queryString);
