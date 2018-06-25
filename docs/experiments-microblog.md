@@ -43,7 +43,7 @@ You should be able to get effectiveness scores along the following lines:
 
 MAP                                                                        | BM25   |BM25+RM3| QL     | QL+RM3 |
 ---------------------------------------------------------------------------|-------:|-------:|-------:|-------:|
-[TREC 2011 Microblog Track](http://trec.nist.gov/data/microblog2011.html)  | 0.3351 | 0.3467 | 0.3614 | 0.4012 |
+[TREC 2011 Microblog Track](http://trec.nist.gov/data/microblog2011.html)  | 0.3351 | 0.3467 | 0.3614 | 0.4102 |
 [TREC 2012 Microblog Track](http://trec.nist.gov/data/microblog2012.html)  | 0.1912 | 0.2057 | 0.2100 | 0.2413 |
 [TREC 2013 Microblog Track](http://trec.nist.gov/data/microblog2013.html)  | 0.2306 | 0.2359 | 0.2599 | 0.2803 |
 [TREC 2014 Microblog Track](http://trec.nist.gov/data/microblog2014.html)  | 0.3836 | 0.3964 | 0.4184 | 0.4660 |
