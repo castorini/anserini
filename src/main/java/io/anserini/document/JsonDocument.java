@@ -27,8 +27,8 @@ import com.google.gson.JsonParser;
 
 /**
  *
- * Json adaptor
- * Inside each file is either a JSON Object (one document) or a JSON Array (multiple documents)
+ * Inside each file is either a JSON Object (one document) or a JSON Array (multiple documents) or
+ * a JSON Document on each line (not actually valid Json String)
  * Example of JSON Object:
  * <pre>
  * {
@@ -48,6 +48,11 @@ import com.google.gson.JsonParser;
  *     "contents": "this is the contents 2."
  *   }
  * ]
+ * </pre>
+ * Example of JSON objects, each per line (not actually valid Json String):
+ * <pre>
+ * {"id": "doc1", "contents": "this is the contents 1."}
+ * {"id": "doc2", "contents": "this is the contents 2."}
  * </pre>
  */
 public class JsonDocument implements SourceDocument {

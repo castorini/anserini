@@ -29,8 +29,7 @@ import java.util.Set;
 
 /**
  *
- * Json adaptor
- * Inside each file is either a JSON Object (one document) or a Json Array (multiple documents)
+ * Class representing a document collection in JSON.
  *
  */
 public class JsonCollection extends Collection<JsonDocument> {
