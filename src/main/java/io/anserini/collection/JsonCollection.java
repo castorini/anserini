@@ -31,6 +31,35 @@ import java.util.Set;
  *
  * Class representing a document collection in JSON.
  *
+ * This class reads "*.json" files in the input directory.
+ * Inside each file is either a JSON Object (one document) or a JSON Array (multiple documents) or
+ * a JSON Document on each line (not actually valid Json String)
+ * Example of JSON Object:
+ * <pre>
+ * {
+ *   "id": "doc1",
+ *   "contents": "this is the contents."
+ * }
+ * </pre>
+ * Example of JSON Array:
+ * <pre>
+ * [
+ *   {
+ *     "id": "doc1",
+ *     "contents": "this is the contents 1."
+ *   },
+ *   {
+ *     "id": "doc2",
+ *     "contents": "this is the contents 2."
+ *   }
+ * ]
+ * </pre>
+ * Example of JSON objects, each per line (not actually valid Json String):
+ * <pre>
+ * {"id": "doc1", "contents": "this is the contents 1."}
+ * {"id": "doc2", "contents": "this is the contents 2."}
+ * </pre>
+ *
  */
 public class JsonCollection extends Collection<JsonDocument> {
 
