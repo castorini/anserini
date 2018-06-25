@@ -152,10 +152,11 @@ public final class IndexCollection {
         while (iter.hasNext()) {
           SourceDocument d = iter.next();
           if (d == null) {
-            counters.errors.incrementAndGet();
+            LOG.info("Null document encountered");
             continue;
           }
           if (!d.indexable()) {
+            LOG.info("Document is not indexable");
             counters.unindexableDocuments.incrementAndGet();
             continue;
           }
