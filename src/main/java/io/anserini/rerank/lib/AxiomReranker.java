@@ -42,6 +42,7 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 import static io.anserini.search.SearchCollection.BREAK_SCORE_TIES_BY_DOCID;
+import static io.anserini.search.SearchCollection.BREAK_SCORE_TIES_BY_TWEETID;
 
 public class AxiomReranker implements Reranker {
   private static final Logger LOG = LogManager.getLogger(AxiomReranker.class);
@@ -104,39 +105,31 @@ public class AxiomReranker implements Reranker {
   }
 
   private ScoredDocuments searchTopDocs(Query query, RerankerContext context) throws IOException {
-    TopDocs rs = null;
     IndexSearcher searcher = context.getIndexSearcher();
     if (query == null) {
       query = context.getQuery();
     }
-    if (context.getFilter() == null) {
-      // Figure out how to break the scoring ties.
-      if (context.getSearchArgs().arbitraryScoreTieBreak) {
-        rs = searcher.search(query, context.getSearchArgs().hits);
-      } else if (context.getSearchArgs().searchtweets) {
-        // TODO: we need to build the proper tie-breaking code path for tweets.
-        rs = searcher.search(query, context.getSearchArgs().hits);
-      } else {
-        rs = searcher.search(query, context.getSearchArgs().hits, BREAK_SCORE_TIES_BY_DOCID,
-          true, true);
-      }
-    } else {
+
+    Query finalQuery = query;
+    // If there's a filter condition, we need to add in the constraint.
+    // Otherwise, just use the original query.
+    if (context.getFilter() != null) {
       BooleanQuery.Builder bqBuilder = new BooleanQuery.Builder();
       bqBuilder.add(context.getFilter(), BooleanClause.Occur.FILTER);
       bqBuilder.add(query, BooleanClause.Occur.MUST);
-      Query q = bqBuilder.build();
-
-      // Figure out how to break the scoring ties.
-      if (context.getSearchArgs().arbitraryScoreTieBreak) {
-        rs = searcher.search(q, context.getSearchArgs().hits);
-      } else if (context.getSearchArgs().searchtweets) {
-        // TODO: we need to build the proper tie-breaking code path for tweets.
-        rs = searcher.search(q, context.getSearchArgs().hits);
-      } else {
-        rs = searcher.search(q, context.getSearchArgs().hits, BREAK_SCORE_TIES_BY_DOCID,
-          true, true);
-      }
+      finalQuery = bqBuilder.build();
     }
+
+    TopDocs rs;
+    // Figure out how to break the scoring ties.
+    if (context.getSearchArgs().arbitraryScoreTieBreak) {
+      rs = searcher.search(finalQuery, context.getSearchArgs().hits);
+    } else if (context.getSearchArgs().searchtweets) {
+      rs = searcher.search(finalQuery, context.getSearchArgs().hits, BREAK_SCORE_TIES_BY_TWEETID, true, true);
+    } else {
+      rs = searcher.search(finalQuery, context.getSearchArgs().hits, BREAK_SCORE_TIES_BY_DOCID, true, true);
+    }
+
     return ScoredDocuments.fromTopDocs(rs, searcher);
   }
 
