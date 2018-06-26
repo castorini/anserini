@@ -98,7 +98,7 @@ public abstract class Collection<T extends SourceDocument> {
           atEOF = true;
         }
       } catch (Exception e) {
-        LOG.warn("Exception when parsing document");
+        LOG.warn("Exception when parsing document:" + e.getMessage());
         d = null;
       }
       return d;

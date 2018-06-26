@@ -1,3 +1,19 @@
+/**
+ * Anserini: An information retrieval toolkit built on Lucene
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package io.anserini.rerank.lib;
 
 import com.google.common.annotations.VisibleForTesting;
@@ -44,6 +60,16 @@ import java.util.regex.Pattern;
 import static io.anserini.search.SearchCollection.BREAK_SCORE_TIES_BY_DOCID;
 import static io.anserini.search.SearchCollection.BREAK_SCORE_TIES_BY_TWEETID;
 
+/*
+ * Axiomatic reranking or Axiomatic semantic relevance feedback model.
+ *
+ * NOTE: This model supports finding expansion terms using another index. But please make sure
+ * that both indexes have the same stemming rules. Otherwise, the model won't work properly.
+ * For example, we may stem tweets differently from newswire corpus (TweetsAnalyzer vs. EnglishAnalyzer).
+ * Then it is better NOT to using a newswire index for expansion terms and feed them to the original
+ * tweets index.
+ *
+ */
 public class AxiomReranker implements Reranker {
   private static final Logger LOG = LogManager.getLogger(AxiomReranker.class);
 
@@ -104,20 +130,23 @@ public class AxiomReranker implements Reranker {
     }
   }
 
+  /**
+   * Please note that the query in the context is always the keywordQuery w/o filter!
+   */
   private ScoredDocuments searchTopDocs(Query query, RerankerContext context) throws IOException {
     IndexSearcher searcher = context.getIndexSearcher();
-    if (query == null) {
-      query = context.getQuery();
-    }
-
-    Query finalQuery = query;
-    // If there's a filter condition, we need to add in the constraint.
-    // Otherwise, just use the original query.
-    if (context.getFilter() != null) {
-      BooleanQuery.Builder bqBuilder = new BooleanQuery.Builder();
-      bqBuilder.add(context.getFilter(), BooleanClause.Occur.FILTER);
-      bqBuilder.add(query, BooleanClause.Occur.MUST);
-      finalQuery = bqBuilder.build();
+    Query finalQuery = null;
+    if (query == null) { // we are dealing with the external index and we DONOT apply filter to it.
+      finalQuery = context.getQuery();
+    } else {
+      if (context.getFilter() != null) {
+        // If there's a filter condition, we need to add in the constraint.
+        // Otherwise, just use the original query.
+        BooleanQuery.Builder bqBuilder = new BooleanQuery.Builder();
+        bqBuilder.add(context.getFilter(), BooleanClause.Occur.FILTER);
+        bqBuilder.add(query, BooleanClause.Occur.MUST);
+        finalQuery = bqBuilder.build();
+      }
     }
 
     TopDocs rs;
@@ -152,7 +181,11 @@ public class AxiomReranker implements Reranker {
       IndexSearcher searcher = new IndexSearcher(reader);
       searcher.setSimilarity(context.getIndexSearcher().getSimilarity(true));
       SearchArgs args = context.getSearchArgs();
-      args.arbitraryScoreTieBreak = true;
+      args.arbitraryScoreTieBreak = true; // Why arbitrary tie break here? Axiomatic reranking
+                                          // can leverage a different index for expansion terms searching.
+                                          // If we are searching against tweets index but search for
+                                          // expansion terms from a non-tweets index then the tie
+                                          // breaking will be super messy here.
 
       RerankerContext externalContext = new RerankerContext(searcher, context.getQueryId(), context.getQuery(),
         context.getQueryText(), context.getQueryTokens(), context.getFilter(), args);
