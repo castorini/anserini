@@ -156,6 +156,7 @@ public class AxiomReranker implements Reranker {
 
       RerankerContext externalContext = new RerankerContext(searcher, context.getQueryId(), context.getQuery(),
         context.getQueryText(), context.getQueryTokens(), context.getFilter(), args);
+
       return searchTopDocs(null, externalContext);
     } else {
       return docs;
