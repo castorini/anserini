@@ -111,7 +111,6 @@ public class TweetGenerator extends LuceneDocumentGenerator<TweetDocument> {
     String id = tweetDoc.id();
 
     if (tweetDoc.content().trim().isEmpty()) {
-      LOG.info("Empty document: " + id);
       counters.emptyDocuments.incrementAndGet();
       return null;
     }
@@ -155,7 +154,6 @@ public class TweetGenerator extends LuceneDocumentGenerator<TweetDocument> {
     // We need this to break scoring ties.
     doc.add(new LongPoint(StatusField.ID_LONG.name, tweetDoc.getIdLong()));
     doc.add(new NumericDocValuesField(StatusField.ID_LONG.name, tweetDoc.getIdLong()));
-    //doc.add(new StoredField(StatusField.ID_LONG.name, tweetDoc.getIdLong()));
 
     doc.add(new LongPoint(StatusField.EPOCH.name, tweetDoc.getEpoch()));
     doc.add(new StringField(StatusField.SCREEN_NAME.name, tweetDoc.getScreenname(), Field.Store.NO));
