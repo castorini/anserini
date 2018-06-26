@@ -64,7 +64,8 @@ import static io.anserini.search.SearchCollection.BREAK_SCORE_TIES_BY_TWEETID;
  * Axiomatic reranking or Axiomatic semantic relevance feedback model.
  *
  * NOTE: This model supports finding expansion terms using another index. But please make sure
- * that both indexes have the same stemming rules. Otherwise, the model won't work properly.
+ * that both indexes have the same stemming rules and were built using the same Generator
+ * (see {@link io.anserini.index.generator.LuceneDocumentGenerator}) or the model won't work properly.
  * For example, we may stem tweets differently from newswire corpus (TweetsAnalyzer vs. EnglishAnalyzer).
  * Then it is better NOT to using a newswire index for expansion terms and feed them to the original
  * tweets index.
@@ -181,11 +182,7 @@ public class AxiomReranker implements Reranker {
       IndexSearcher searcher = new IndexSearcher(reader);
       searcher.setSimilarity(context.getIndexSearcher().getSimilarity(true));
       SearchArgs args = context.getSearchArgs();
-      args.arbitraryScoreTieBreak = true; // Why arbitrary tie break here? Axiomatic reranking
-                                          // can leverage a different index for expansion terms searching.
-                                          // If we are searching against tweets index but search for
-                                          // expansion terms from a non-tweets index then the tie
-                                          // breaking will be super messy here.
+      args.hits = this.M;
 
       RerankerContext externalContext = new RerankerContext(searcher, context.getQueryId(), context.getQuery(),
         context.getQueryText(), context.getQueryTokens(), context.getFilter(), args);
