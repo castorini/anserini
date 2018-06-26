@@ -158,8 +158,9 @@ public class AxiomReranker implements Reranker {
       IndexReader reader = DirectoryReader.open(FSDirectory.open(indexPath));
       IndexSearcher searcher = new IndexSearcher(reader);
       searcher.setSimilarity(context.getIndexSearcher().getSimilarity(true));
-      SearchArgs args = context.getSearchArgs();
-      args.arbitraryScoreTieBreak = true;
+      SearchArgs args = new SearchArgs();
+      args.hits = this.M;
+      args.searchtweets = context.getSearchArgs().searchtweets;
 
       RerankerContext externalContext = new RerankerContext(searcher, context.getQuery(),
         context.getQueryId(), context.getQueryText(), context.getQueryTokens(), context.getField(),

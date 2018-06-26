@@ -40,6 +40,7 @@ import org.apache.lucene.search.BooleanClause;
 import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
+import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.Sort;
 import org.apache.lucene.search.SortField;
 import org.apache.lucene.search.TopDocs;
@@ -68,11 +69,6 @@ import java.util.concurrent.TimeUnit;
 import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_BODY;
 import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_ID;
 
-/**
- * Searcher for Gov2, ClueWeb09, and ClueWeb12 corpra.
- * TREC Web Tracks from 2009 to 2014
- * TREC Terabyte Tracks from 2004 to 2006
- */
 public final class SearchCollection implements Closeable {
   public static final Sort BREAK_SCORE_TIES_BY_DOCID =
       new Sort(SortField.FIELD_SCORE, new SortField(FIELD_ID, SortField.Type.STRING_VAL));
@@ -83,6 +79,7 @@ public final class SearchCollection implements Closeable {
   private final IndexReader reader;
   private final Similarity similarity;
   private final Analyzer analyzer;
+  private final boolean isRerank;
   private final RerankerCascade cascade;
 
   public SearchCollection(SearchArgs args) throws IOException {
@@ -113,6 +110,8 @@ public final class SearchCollection implements Closeable {
     } else {
       analyzer = args.keepstop ? new EnglishAnalyzer(CharArraySet.EMPTY_SET) : new EnglishAnalyzer();
     }
+
+    isRerank = args.rm3 || args.axiom;
 
     // Set up the ranking cascade.
     cascade = new RerankerCascade();
@@ -205,11 +204,13 @@ public final class SearchCollection implements Closeable {
   public<K> ScoredDocuments search(IndexSearcher searcher, K qid, String queryString) throws IOException {
     Query query = AnalyzerUtils.buildBagOfWordsQuery(FIELD_BODY, analyzer, queryString);
     // Figure out how to break the scoring ties.
-    TopDocs rs;
-    if (args.arbitraryScoreTieBreak) {
-      rs = searcher.search(query, args.hits);
-    } else {
-      rs = searcher.search(query, args.hits, BREAK_SCORE_TIES_BY_DOCID, true, true);
+    TopDocs rs = new TopDocs(0, new ScoreDoc[]{}, Float.NaN);
+    if (!(isRerank && args.rerankcutoff <= 0)) {
+      if (args.arbitraryScoreTieBreak) {
+        rs = searcher.search(query, isRerank ? args.rerankcutoff : args.hits);
+      } else {
+        rs = searcher.search(query, isRerank ? args.rerankcutoff : args.hits, BREAK_SCORE_TIES_BY_DOCID, true, true);
+      }
     }
 
     List<String> queryTokens = AnalyzerUtils.tokenize(analyzer, queryString);
@@ -232,12 +233,14 @@ public final class SearchCollection implements Closeable {
     query = builder.build();
 
     // Figure out how to break the scoring ties.
-    TopDocs rs;
-    if (args.arbitraryScoreTieBreak) {
-      rs = searcher.search(query, args.hits);
-    } else {
-      // TODO: we need to build the proper tie-breaking code path for tweets.
-      rs = searcher.search(query, args.hits);
+    TopDocs rs = new TopDocs(0, new ScoreDoc[]{}, Float.NaN);
+    if (!(isRerank && args.rerankcutoff <= 0)) {
+      if (args.arbitraryScoreTieBreak) {
+        rs = searcher.search(query, isRerank ? args.rerankcutoff : args.hits);
+      } else {
+        // TODO: we need to build the proper tie-breaking code path for tweets.
+        rs = searcher.search(query, isRerank ? args.rerankcutoff : args.hits);
+      }
     }
     List<String> queryTokens = AnalyzerUtils.tokenize(analyzer, queryString);
     // This is ugly, but we have to reform the tweet query here for reranking

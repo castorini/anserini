@@ -50,6 +50,11 @@ public class SearchArgs {
   @Option(name = "-hits", metaVar = "[number]", required = false, usage = "max number of hits to return")
   public int hits = 1000;
 
+  @Option(name = "-rerankcutoff", metaVar = "[number]", required = false, usage = "max number of hits " +
+    "for the initial round ranking. this is efficient since lots of reranking model only looks at " +
+    "the top documents from the initial round ranking.")
+  public int rerankcutoff = 50;
+
   @Option(name = "-runtag", metaVar = "[tag]", required = false, usage = "runtag")
   public String runtag = "Anserini";
 
