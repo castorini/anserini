@@ -39,6 +39,7 @@ import org.apache.lucene.search.TopDocs;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -73,10 +74,10 @@ public class Rm3Reranker implements Reranker {
         List<String> lines;
         if (fromResource) {
           ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-          lines = IOUtils.readLines(classloader.getResourceAsStream(pathToStoplist));
+          lines = IOUtils.readLines(classloader.getResourceAsStream(pathToStoplist), Charset.defaultCharset());
         } else {
           // assume our stoplist has one stopword per line
-          lines = IOUtils.readLines(new FileInputStream(pathToStoplist));
+          lines = IOUtils.readLines(new FileInputStream(pathToStoplist), Charset.defaultCharset());
           Iterator<String> it = lines.iterator();
         }
         stopwords = new HashSet<>(lines);
