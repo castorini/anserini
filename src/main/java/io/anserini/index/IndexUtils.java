@@ -70,7 +70,7 @@ public class IndexUtils {
     int lookupLuceneDocid;
   }
 
-  class NotStoredException extends Exception {
+  public class NotStoredException extends Exception {
     public NotStoredException(String message) {
       super(message);
     }
