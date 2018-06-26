@@ -143,9 +143,10 @@ public final class IndexCollection {
     public void run() {
       try {
         LuceneDocumentGenerator transformer =
-          (LuceneDocumentGenerator) transformerClass
-          .getDeclaredConstructor(Args.class, Counters.class)
-          .newInstance(args, counters);
+            (LuceneDocumentGenerator) transformerClass
+                .getDeclaredConstructor(Args.class, Counters.class)
+                .newInstance(args, counters);
+
         int cnt = 0;
         Collection.FileSegment iter = collection.createFileSegment(inputFile);
         while (iter.hasNext()) {
