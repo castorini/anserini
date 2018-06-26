@@ -16,7 +16,7 @@ import java.io.PrintStream;
  * Used to rerank according to features
  *
  */
-public class TwitterFeatureReranker implements Reranker {
+public class TwitterFeatureReranker implements Reranker<String> {
   private final PrintStream out;
   private final Qrels qrels;
   private final FeatureExtractors extractors;
@@ -28,7 +28,7 @@ public class TwitterFeatureReranker implements Reranker {
   }
 
   @Override
-  public ScoredDocuments rerank(ScoredDocuments docs, RerankerContext context) {
+  public ScoredDocuments rerank(ScoredDocuments docs, RerankerContext<String> context) {
     IndexReader reader = context.getIndexSearcher().getIndexReader();
 
     for (int i = 0; i < docs.documents.length; i++) {
@@ -39,7 +39,7 @@ public class TwitterFeatureReranker implements Reranker {
         continue;
       }
 
-      String qid = ((String)context.getQueryId()).replaceFirst("^MB0*", "");
+      String qid = (context.getQueryId()).replaceFirst("^MB0*", "");
       String docid = docs.documents[i].getField( TweetGenerator.FIELD_ID).stringValue();
 
       out.print(qrels.getRelevanceGrade(qid, docid));

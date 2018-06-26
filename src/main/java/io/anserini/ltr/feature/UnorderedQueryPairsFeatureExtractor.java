@@ -21,7 +21,7 @@ import java.util.Set;
 /**
  * Counts all unordered pairs of query tokens
  */
-public class UnorderedQueryPairsFeatureExtractor implements FeatureExtractor {
+public class UnorderedQueryPairsFeatureExtractor implements FeatureExtractor<String> {
   protected static ArrayList<Integer> gapSizes = new ArrayList<>();
   protected static Map<Integer, CountBigramPairs.PhraseCounter> counters = new HashMap<>();
 
@@ -85,10 +85,10 @@ public class UnorderedQueryPairsFeatureExtractor implements FeatureExtractor {
     singleCountMap.put(queryTokens.get(queryTokens.size() - 1), 0);
 
   }
-  protected float computeUnorderedFrequencyScore(Document doc, Terms terms, RerankerContext context) throws IOException {
+  protected float computeUnorderedFrequencyScore(Document doc, Terms terms, RerankerContext<String> context) throws IOException {
 
     if (!context.getQueryId().equals(lastProcessedId) || doc != lastProcessedDoc) {
-      resetCounters((String)context.getQueryId(), doc);
+      resetCounters(context.getQueryId(), doc);
       List<String> queryTokens = context.getQueryTokens();
 
       populateQueryMaps(queryTokens);
@@ -100,16 +100,16 @@ public class UnorderedQueryPairsFeatureExtractor implements FeatureExtractor {
     Map<String, Integer> phraseCountMap = counters.get(gapSize).phraseCountMap;
     // Smoothing count of 1
     for (String queryToken : queryPairMap.keySet()) {
-      float countToUse = phraseCountMap.containsKey(queryToken) ? phraseCountMap.get(queryToken) : 0;
+      float countToUse = phraseCountMap.getOrDefault(queryToken, 0);
       score += countToUse;
     }
 
     return score;
   }
   @Override
-  public float extract(Document doc, Terms terms, RerankerContext context) {
+  public float extract(Document doc, Terms terms, RerankerContext<String> context) {
     try {
-      return computeUnorderedFrequencyScore(doc,terms,context);
+      return computeUnorderedFrequencyScore(doc, terms, context);
     } catch (IOException e) {
       e.printStackTrace();
       return 0.0f;

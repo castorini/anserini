@@ -24,7 +24,7 @@ import java.util.Set;
  * This feature extractor will return the number of phrases
  * in a specified gap size
  */
-public class OrderedSequentialPairsFeatureExtractor implements FeatureExtractor{
+public class OrderedSequentialPairsFeatureExtractor implements FeatureExtractor<String> {
   private static final Logger LOG = LogManager.getLogger(OrderedSequentialPairsFeatureExtractor.class);
 
   protected static ArrayList<Integer> gapSizes = new ArrayList<>();
@@ -68,7 +68,7 @@ public class OrderedSequentialPairsFeatureExtractor implements FeatureExtractor{
   }
 
   @Override
-  public float extract(Document doc, Terms terms, RerankerContext context) {
+  public float extract(Document doc, Terms terms, RerankerContext<String> context) {
     try {
       return computeOrderedFrequencyScore(doc, terms, context);
     } catch (IOException e) {
@@ -94,11 +94,11 @@ public class OrderedSequentialPairsFeatureExtractor implements FeatureExtractor{
     }
   }
 
-  protected float computeOrderedFrequencyScore(Document doc, Terms terms, RerankerContext context) throws IOException {
+  protected float computeOrderedFrequencyScore(Document doc, Terms terms, RerankerContext<String> context) throws IOException {
 
     // Only compute the score once for all window sizes on the same document
     if (!context.getQueryId().equals(lastProcessedId) || lastProcessedDoc != doc) {
-      resetCounters((String)context.getQueryId(), doc);
+      resetCounters(context.getQueryId(), doc);
 
       List<String> queryTokens = context.getQueryTokens();
       populateQueryPairMap(queryTokens);
@@ -111,7 +111,7 @@ public class OrderedSequentialPairsFeatureExtractor implements FeatureExtractor{
     // Smoothing count of 1
     Map<String, Integer> phraseCountMap = counters.get(this.gapSize).phraseCountMap;
     for (String queryToken : queryPairMap.keySet()) {
-      float countToUse = phraseCountMap.containsKey(queryToken) ? phraseCountMap.get(queryToken) : 0;
+      float countToUse = phraseCountMap.getOrDefault(queryToken, 0);
       score += countToUse;
     }
 

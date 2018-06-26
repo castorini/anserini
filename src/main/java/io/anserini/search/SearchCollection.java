@@ -147,10 +147,10 @@ public final class SearchCollection implements Closeable {
       throw new IllegalArgumentException("Topics file : " + topicsFile + " does not exist or is not a (readable) file.");
     }
 
-    TopicReader tr;
+    TopicReader<K> tr;
     SortedMap<K, Map<String, String>> topics;
     try {
-      tr = (TopicReader) Class.forName("io.anserini.search.query." + args.topicReader + "TopicReader")
+      tr = (TopicReader<K>) Class.forName("io.anserini.search.query." + args.topicReader + "TopicReader")
           .getConstructor(Path.class).newInstance(topicsFile);
       topics = tr.read();
     } catch (Exception e) {
@@ -205,7 +205,7 @@ public final class SearchCollection implements Closeable {
 
     List<String> queryTokens = AnalyzerUtils.tokenize(analyzer, queryString);
 
-    RerankerContext context = new RerankerContext(searcher, query, String.valueOf(qid), queryString,
+    RerankerContext context = new RerankerContext<>(searcher, query, String.valueOf(qid), queryString,
         queryTokens, FIELD_BODY, null, args);
     return cascade.run(ScoredDocuments.fromTopDocs(rs, searcher), context);
   }
@@ -235,7 +235,7 @@ public final class SearchCollection implements Closeable {
     // This is ugly, but we have to reform the tweet query here for reranking
     query = AnalyzerUtils.buildBagOfWordsQuery(FIELD_BODY, analyzer, queryString);
 
-    RerankerContext context = new RerankerContext(searcher, query, String.valueOf(qid), queryString,
+    RerankerContext context = new RerankerContext<>(searcher, query, String.valueOf(qid), queryString,
         queryTokens, FIELD_BODY, filter, args);
     return cascade.run(ScoredDocuments.fromTopDocs(rs, searcher), context);
   }

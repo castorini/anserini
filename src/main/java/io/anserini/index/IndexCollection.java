@@ -143,10 +143,9 @@ public final class IndexCollection {
     public void run() {
       try {
         LuceneDocumentGenerator transformer =
-            (LuceneDocumentGenerator) transformerClass
-                .getDeclaredConstructor(Args.class, Counters.class)
-                .newInstance(args, counters);
-
+          (LuceneDocumentGenerator) transformerClass
+          .getDeclaredConstructor(Args.class, Counters.class)
+          .newInstance(args, counters);
         int cnt = 0;
         Collection.FileSegment iter = collection.createFileSegment(inputFile);
         while (iter.hasNext()) {
@@ -227,7 +226,7 @@ public final class IndexCollection {
 
     if (args.whitelist != null) {
       List<String> lines = FileUtils.readLines(new File(args.whitelist), "utf-8");
-      this.whitelistDocids = new HashSet(lines);
+      this.whitelistDocids = new HashSet<>(lines);
     } else {
       this.whitelistDocids = null;
     }
@@ -256,12 +255,12 @@ public final class IndexCollection {
     final IndexWriter writer = new IndexWriter(dir, config);
 
     final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(numThreads);
-    final List<Path> segmentPaths = collection.getFileSegmentPaths();
+    final List segmentPaths = collection.getFileSegmentPaths();
 
     final int segmentCnt = segmentPaths.size();
     LOG.info(segmentCnt + " files found in " + collectionPath.toString());
     for (int i = 0; i < segmentCnt; i++) {
-      executor.execute(new IndexerThread(writer, collection, segmentPaths.get(i)));
+      executor.execute(new IndexerThread(writer, collection, (Path) segmentPaths.get(i)));
     }
 
     executor.shutdown();

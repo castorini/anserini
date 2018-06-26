@@ -36,7 +36,7 @@ import io.anserini.collection.Collection;
 import io.anserini.collection.WikipediaCollection;
 
 
-public class WikipediaArticleTest extends DocumentTest {
+public class WikipediaArticleTest extends DocumentTest<TrecwebDocument> {
   protected static Path tmpPath;
 
   @Before

@@ -14,7 +14,7 @@ import java.util.Map;
 /**
  * A feature extractor.
  */
-public interface FeatureExtractor {
+public interface FeatureExtractor<T> {
   //********************************************************
   // TODO normalize names
   Map<String, Class<?>> EXTRACTOR_MAP = new ImmutableMap.Builder<String, Class<?>>()
@@ -46,7 +46,7 @@ public interface FeatureExtractor {
           .registerTypeAdapter(UnorderedQueryPairsFeatureExtractor.class, new UnorderedQueryPairsFeatureExtractor.Deserializer())
           .registerTypeAdapter(UnorderedSequentialPairsFeatureExtractor.class, new UnorderedSequentialPairsFeatureExtractor.Deserializer());
 
-  float extract(Document doc, Terms terms, RerankerContext context);
+  float extract(Document doc, Terms terms, RerankerContext<T> context);
 
   String getName();
 

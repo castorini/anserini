@@ -17,11 +17,11 @@ import java.util.Set;
 /**
  * Computes the sum of termfrequencies for each query token
  */
-public class TermFrequencyFeatureExtractor implements FeatureExtractor{
+public class TermFrequencyFeatureExtractor implements FeatureExtractor<String> {
   private static final Logger LOG = LogManager.getLogger(TermFrequencyFeatureExtractor.class);
 
   @Override
-  public float extract(Document doc, Terms terms, RerankerContext context) {
+  public float extract(Document doc, Terms terms, RerankerContext<String> context) {
 
     TermsEnum termsEnum = null;
     try {

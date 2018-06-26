@@ -25,7 +25,7 @@ import org.apache.lucene.search.Query;
 /**
  * Feature extractor for the twitter collections. Does not require performing searches
  */
-public class TwitterFeatureExtractor extends BaseFeatureExtractor{
+public class TwitterFeatureExtractor extends BaseFeatureExtractor<String> {
   private static final Logger LOG = LogManager.getLogger(TwitterFeatureExtractor.class);
   private static final FeatureExtractors DEFAULT_EXTRACTOR_CHAIN = FeatureExtractors.
           createFeatureExtractorChain(new UnigramFeatureExtractor(),

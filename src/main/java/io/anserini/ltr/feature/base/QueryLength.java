@@ -12,10 +12,10 @@ import org.apache.lucene.index.Terms;
  * QueryCount
  * Compute the query length (number of terms in the query).
  */
-public class QueryLength implements FeatureExtractor {
+public class QueryLength implements FeatureExtractor<String> {
 
   @Override
-  public float extract(Document doc, Terms terms, RerankerContext context) {
+  public float extract(Document doc, Terms terms, RerankerContext<String> context) {
     List<String> queryTokens = context.getQueryTokens();
     return queryTokens.size();
   }

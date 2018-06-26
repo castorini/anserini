@@ -24,7 +24,7 @@ import java.util.Set;
  * where pr are the MLE
  * described on page 22 of Carmel, Yom-Tov 2010
  */
-public class PMIFeatureExtractor implements FeatureExtractor{
+public class PMIFeatureExtractor implements FeatureExtractor<String> {
 
   private String lastQueryProcessed = "";
   private float lastComputedValue = 0f;
@@ -57,7 +57,7 @@ public class PMIFeatureExtractor implements FeatureExtractor{
   }
 
   @Override
-  public float extract(Document doc, Terms terms, RerankerContext context) {
+  public float extract(Document doc, Terms terms, RerankerContext<String> context) {
     // We need docfreqs of each token
     // and also doc freqs of each pair
     if (!this.lastQueryProcessed.equals(context.getQueryText())) {
@@ -95,8 +95,8 @@ public class PMIFeatureExtractor implements FeatureExtractor{
             if (intersect == 0) continue;
             // We should never reach this point and have doc freq =0 because then there would
             // be no intersect between docIds
-            int firstDocFreq = docFreqs.containsKey(firstToken) ? docFreqs.get(firstToken) : 1;
-            int secondDocFreq = docFreqs.containsKey(secondToken) ? docFreqs.get(secondToken) :1;
+            int firstDocFreq = docFreqs.getOrDefault(firstToken, 1);
+            int secondDocFreq = docFreqs.getOrDefault(secondToken, 1);
             float fraction = (intersect / (float) (firstDocFreq * secondDocFreq));
             if (fraction <= 0) {
               continue;

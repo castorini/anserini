@@ -100,8 +100,8 @@ public class DumpTweetsLtrData {
     cascade.add(new TweetsLtrDataGenerator(out, qrels, extractors));
 
     Path topicsFile = Paths.get(args.topics);
-    TopicReader tr = new MicroblogTopicReader(topicsFile);
-    SortedMap<K, Map<String, String>> topics = tr.read();
+    TopicReader<Integer> tr = new MicroblogTopicReader(topicsFile);
+    SortedMap<Integer, Map<String, String>> topics = tr.read();
 
     if (!Files.exists(topicsFile) || !Files.isRegularFile(topicsFile) || !Files.isReadable(topicsFile)) {
       throw new IllegalArgumentException("Topics file : " + topicsFile + " does not exist or is not a (readable) file.");
@@ -110,9 +110,9 @@ public class DumpTweetsLtrData {
     LOG.info("Initialized complete! (elapsed time = " + (System.nanoTime()-curTime)/1000000 + "ms)");
     long totalTime = 0;
     int cnt = 0;
-    for (Map.Entry<K, Map<String, String>> entry : topics.entrySet()) {
+    for (Map.Entry<Integer, Map<String, String>> entry : topics.entrySet()) {
       long curQueryTime = System.nanoTime();
-      K qID = entry.getKey();
+      Integer qID = entry.getKey();
       String queryString = entry.getValue().get("title");
       Long queryTime = Long.parseLong(entry.getValue().get("time"));
       Query filter = LongPoint.newRangeQuery(TweetGenerator.FIELD_ID, 0L, queryTime);
@@ -125,7 +125,7 @@ public class DumpTweetsLtrData {
 
       TopDocs rs = searcher.search(q, args.hits);
       List<String> queryTokens = AnalyzerUtils.tokenize(new TweetAnalyzer(), queryString);
-      RerankerContext context = new RerankerContext(searcher, query, queryString.toString(), queryString,
+      RerankerContext<String> context = new RerankerContext<>(searcher, query, queryString, queryString,
           queryTokens, TweetGenerator.FIELD_BODY, filter, null);
 
       cascade.run(ScoredDocuments.fromTopDocs(rs, searcher), context);

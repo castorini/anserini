@@ -16,7 +16,7 @@
 
 package io.anserini.rerank;
 
-public interface Reranker {
+public interface Reranker<T> {
 
-  ScoredDocuments rerank(ScoredDocuments docs, RerankerContext context);
+  ScoredDocuments rerank(ScoredDocuments docs, RerankerContext<T> context);
 }

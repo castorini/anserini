@@ -123,7 +123,7 @@ abstract public class BaseFeatureExtractor<K> {
             q = parseQuery(queryText);
             List<String> queryTokens = AnalyzerUtils.tokenize(queryAnalyzer, queryText);
             // Construct the reranker context
-            RerankerContext context = new RerankerContext(searcher, q,
+            RerankerContext<String> context = new RerankerContext<>(searcher, q,
                     qid, queryText,
                     queryTokens,
                     getTermVectorField(),

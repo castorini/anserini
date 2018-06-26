@@ -17,7 +17,7 @@ import java.util.List;
  * Carmel, Yom-Tov Estimating query difficulty for Information Retrieval
  * log(|D| / tf)
  */
-public class AvgICTFFeatureExtractor implements FeatureExtractor{
+public class AvgICTFFeatureExtractor implements FeatureExtractor<String> {
   private static final Logger LOG = LogManager.getLogger(AvgICTFFeatureExtractor.class);
 
   // Calculate term frequencies, if error returns an empty map, couting all tf = 0
@@ -45,7 +45,7 @@ public class AvgICTFFeatureExtractor implements FeatureExtractor{
     return sumICTF;
   }
   @Override
-  public float extract(Document doc, Terms terms, RerankerContext context) {
+  public float extract(Document doc, Terms terms, RerankerContext<String> context) {
     // We need docSize, and tf for each term
     float sumIctf = getSumICTF(terms, context.getQueryTokens());
     // Compute the average by dividing
