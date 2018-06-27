@@ -155,7 +155,7 @@ public class Rm3Reranker implements Reranker {
     for (int i = 0; i < numdocs; i++) {
       try {
         FeatureVector docVector = FeatureVector.fromLuceneTermVector(
-            reader.getTermVector(docs.ids[i], field), stopper);
+            reader.getTermVector(docs.ids[i], field), stopper, reader);
         docVector.pruneToSize(fbTerms);
 
         vocab.addAll(docVector.getFeatures());

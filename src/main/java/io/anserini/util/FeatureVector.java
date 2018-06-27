@@ -2,6 +2,8 @@ package io.anserini.util;
 
 import io.anserini.rerank.lib.Rm3Reranker;
 import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
+import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.index.Term;
 import org.apache.lucene.index.Terms;
 import org.apache.lucene.index.TermsEnum;
 import org.apache.lucene.util.BytesRef;
@@ -14,6 +16,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+
+import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_BODY;
 
 public class FeatureVector {
   private Object2FloatOpenHashMap<String> features = new Object2FloatOpenHashMap<String>();
@@ -102,19 +106,33 @@ public class FeatureVector {
     return f;
   }
 
-  public static FeatureVector fromLuceneTermVector(Terms terms, Rm3Reranker.Stopper stopper) {
+  public static FeatureVector fromLuceneTermVector(Terms terms, Rm3Reranker.Stopper stopper, IndexReader reader) {
     FeatureVector f = new FeatureVector();
 
     try {
+      int numDocs = reader.numDocs();
       TermsEnum termsEnum = terms.iterator();
 
       BytesRef text = null;
       while ((text = termsEnum.next()) != null) {
         String term = text.utf8ToString();
 
-        if (term.length() < 2) continue;
-        if (stopper.isStopWord(term)) continue;
+        if (term.length() < 2 || term.length() > 20) continue;
+        if (term.matches("[0-9]+")) continue;
         if (!term.matches("[a-z0-9]+")) continue;
+
+        int df = reader.docFreq(new Term(FIELD_BODY, term));
+        float ratio = ((float) df/numDocs);
+        if (ratio > 0.1f) continue;
+
+//        if ( ratio > 0.1f ) {
+//          System.out.println(term + " " + df + " " + numDocs + " " + ((float) df/numDocs));
+//          continue;
+//        }
+
+        //if (term.length() < 2) continue;
+        //if (stopper.isStopWord(term)) continue;
+        //if (!term.matches("[a-z0-9]+")) continue;
 
         int freq = (int) termsEnum.totalTermFreq();
         f.addFeatureWeight(term, (float) freq);
