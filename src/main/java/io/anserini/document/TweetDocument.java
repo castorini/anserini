@@ -16,10 +16,10 @@
 
 package io.anserini.document;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.JsonSyntaxException;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.text.ParseException;
@@ -70,17 +70,24 @@ public class TweetDocument implements SourceDocument {
   }
 
   @Override
-  public TweetDocument readNextRecord(BufferedReader reader) throws Exception {
+  public TweetDocument readNextRecord(BufferedReader reader) throws IOException {
     String line;
     while ((line = reader.readLine()) != null) {
-      return fromJson(line);
+      if(fromJson(line)) return this;
     }
     return null;
   }
 
-  public TweetDocument fromJson(String json) throws Exception {
+  public boolean fromJson(String json) {
     JsonObject obj = null;
-    obj = (JsonObject) JSON_PARSER.parse(json);
+    try {
+      obj = (JsonObject) JSON_PARSER.parse(json);
+    } catch (JsonSyntaxException e) {
+      return false;
+    }
+    if (obj.has("delete")) {
+      return false;
+    }
     id = obj.get("id").getAsString();
     idLong = Long.parseLong(id);
     text = obj.get("text").getAsString();
@@ -139,7 +146,7 @@ public class TweetDocument implements SourceDocument {
     jsonObject = obj;
     jsonString = json;
 
-    return this;
+    return true;
   }
 
   public TweetDocument fromTSV(String tsv) {
