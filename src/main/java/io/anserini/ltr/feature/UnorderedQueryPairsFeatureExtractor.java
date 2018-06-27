@@ -21,7 +21,7 @@ import java.util.Set;
 /**
  * Counts all unordered pairs of query tokens
  */
-public class UnorderedQueryPairsFeatureExtractor implements FeatureExtractor<String> {
+public class UnorderedQueryPairsFeatureExtractor<T> implements FeatureExtractor<T> {
   protected static ArrayList<Integer> gapSizes = new ArrayList<>();
   protected static Map<Integer, CountBigramPairs.PhraseCounter> counters = new HashMap<>();
 
@@ -85,10 +85,10 @@ public class UnorderedQueryPairsFeatureExtractor implements FeatureExtractor<Str
     singleCountMap.put(queryTokens.get(queryTokens.size() - 1), 0);
 
   }
-  protected float computeUnorderedFrequencyScore(Document doc, Terms terms, RerankerContext<String> context) throws IOException {
+  protected float computeUnorderedFrequencyScore(Document doc, Terms terms, RerankerContext<T> context) throws IOException {
 
     if (!context.getQueryId().equals(lastProcessedId) || doc != lastProcessedDoc) {
-      resetCounters(context.getQueryId(), doc);
+      resetCounters(context.getQueryId().toString(), doc);
       List<String> queryTokens = context.getQueryTokens();
 
       populateQueryMaps(queryTokens);
@@ -107,7 +107,7 @@ public class UnorderedQueryPairsFeatureExtractor implements FeatureExtractor<Str
     return score;
   }
   @Override
-  public float extract(Document doc, Terms terms, RerankerContext<String> context) {
+  public float extract(Document doc, Terms terms, RerankerContext<T> context) {
     try {
       return computeUnorderedFrequencyScore(doc, terms, context);
     } catch (IOException e) {

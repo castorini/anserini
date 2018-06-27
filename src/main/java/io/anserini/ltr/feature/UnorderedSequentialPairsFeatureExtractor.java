@@ -22,7 +22,7 @@ import java.util.Set;
  * This is a feature extractor that will calculate the
  * unordered count of phrases in the window specified
  */
-public class UnorderedSequentialPairsFeatureExtractor implements FeatureExtractor<String> {
+public class UnorderedSequentialPairsFeatureExtractor<T> implements FeatureExtractor<T> {
 
   protected static ArrayList<Integer> gapSizes = new ArrayList<>();
   protected static Map<Integer, CountBigramPairs.PhraseCounter> counters = new HashMap<>();
@@ -92,10 +92,10 @@ public class UnorderedSequentialPairsFeatureExtractor implements FeatureExtracto
     singleCountMap.put(queryTokens.get(queryTokens.size() -1), 0);
   }
 
-  protected float computeUnorderedFrequencyScore(Document doc, Terms terms, RerankerContext<String> context) throws IOException {
+  protected float computeUnorderedFrequencyScore(Document doc, Terms terms, RerankerContext<T> context) throws IOException {
 
     if (!context.getQueryId().equals(lastProcessedId) || doc != lastProcessedDoc) {
-      resetCounters(context.getQueryId(), doc);
+      resetCounters(context.getQueryId().toString(), doc);
       List<String> queryTokens = context.getQueryTokens();
 
       populateQueryMaps(queryTokens);
@@ -115,7 +115,7 @@ public class UnorderedSequentialPairsFeatureExtractor implements FeatureExtracto
   }
 
   @Override
-  public float extract(Document doc, Terms terms, RerankerContext<String> context) {
+  public float extract(Document doc, Terms terms, RerankerContext<T> context) {
     try {
       return computeUnorderedFrequencyScore(doc, terms, context);
     } catch (IOException e) {

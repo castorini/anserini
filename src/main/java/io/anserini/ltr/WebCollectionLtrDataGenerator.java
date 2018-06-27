@@ -19,7 +19,7 @@ import java.io.PrintStream;
  * A reranker that will be used to dump feature vectors
  * for documents retrieved from a search
  */
-public class WebCollectionLtrDataGenerator implements Reranker<String> {
+public class WebCollectionLtrDataGenerator implements Reranker<Integer> {
   private static final Logger LOG = LogManager.getLogger(WebCollectionLtrDataGenerator.class);
 
   private PrintStream out;
@@ -37,10 +37,10 @@ public class WebCollectionLtrDataGenerator implements Reranker<String> {
   }
 
   @Override
-  public ScoredDocuments rerank(ScoredDocuments docs, RerankerContext<String> context) {
+  public ScoredDocuments rerank(ScoredDocuments docs, RerankerContext<Integer> context) {
     Document[] documents = docs.documents;
     IndexReader reader = context.getIndexSearcher().getIndexReader();
-    int qid = Integer.parseInt(context.getQueryId());
+    int qid = context.getQueryId();
     LOG.info("Beginning rerank");
     for (int i =0; i < docs.documents.length; i++ ) {
       try {

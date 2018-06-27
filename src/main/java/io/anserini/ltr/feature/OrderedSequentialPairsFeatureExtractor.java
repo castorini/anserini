@@ -24,7 +24,7 @@ import java.util.Set;
  * This feature extractor will return the number of phrases
  * in a specified gap size
  */
-public class OrderedSequentialPairsFeatureExtractor implements FeatureExtractor<String> {
+public class OrderedSequentialPairsFeatureExtractor<T> implements FeatureExtractor<T> {
   private static final Logger LOG = LogManager.getLogger(OrderedSequentialPairsFeatureExtractor.class);
 
   protected static ArrayList<Integer> gapSizes = new ArrayList<>();
@@ -68,7 +68,7 @@ public class OrderedSequentialPairsFeatureExtractor implements FeatureExtractor<
   }
 
   @Override
-  public float extract(Document doc, Terms terms, RerankerContext<String> context) {
+  public float extract(Document doc, Terms terms, RerankerContext<T> context) {
     try {
       return computeOrderedFrequencyScore(doc, terms, context);
     } catch (IOException e) {
@@ -94,11 +94,11 @@ public class OrderedSequentialPairsFeatureExtractor implements FeatureExtractor<
     }
   }
 
-  protected float computeOrderedFrequencyScore(Document doc, Terms terms, RerankerContext<String> context) throws IOException {
+  protected float computeOrderedFrequencyScore(Document doc, Terms terms, RerankerContext<T> context) throws IOException {
 
     // Only compute the score once for all window sizes on the same document
     if (!context.getQueryId().equals(lastProcessedId) || lastProcessedDoc != doc) {
-      resetCounters(context.getQueryId(), doc);
+      resetCounters(context.getQueryId().toString(), doc);
 
       List<String> queryTokens = context.getQueryTokens();
       populateQueryPairMap(queryTokens);

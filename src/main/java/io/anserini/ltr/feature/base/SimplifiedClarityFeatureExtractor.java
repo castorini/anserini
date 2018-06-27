@@ -62,7 +62,6 @@ public class SimplifiedClarityFeatureExtractor implements FeatureExtractor<Strin
         this.lastComputedScore = sumSC(context.getIndexSearcher().getIndexReader(),
                 queryCountMap, context.getQueryTokens().size(),
                 LuceneDocumentGenerator.FIELD_BODY);
-        this.lastComputedScore = score;
       } catch (IOException e) {
         this.lastComputedScore = 0.0f;
       }

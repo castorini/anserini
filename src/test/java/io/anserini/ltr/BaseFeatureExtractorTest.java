@@ -52,10 +52,10 @@ abstract public class BaseFeatureExtractorTest extends LuceneTestCase {
    * @param extractors  The extractors
    * @return
    */
-  @SafeVarargs
-  protected static FeatureExtractors getChain(FeatureExtractor<String>... extractors ) {
+//  @SafeVarargs
+  protected static FeatureExtractors getChain(FeatureExtractor... extractors ) {
     FeatureExtractors chain = new FeatureExtractors();
-    for (FeatureExtractor<String> extractor : extractors) {
+    for (FeatureExtractor extractor : extractors) {
       chain.add(extractor);
     }
     return chain;
@@ -130,8 +130,8 @@ abstract public class BaseFeatureExtractorTest extends LuceneTestCase {
   }
 
   // just add a signature for single extractor
-  protected void assertFeatureValues(float[] expected, String queryText, String docText,
-                                     FeatureExtractor<String> extractor) throws IOException {
+  protected <T> void assertFeatureValues(float[] expected, String queryText, String docText,
+                                     FeatureExtractor<T> extractor) throws IOException {
     assertFeatureValues(expected, queryText, Lists.newArrayList(docText), getChain(extractor),0);
   }
 

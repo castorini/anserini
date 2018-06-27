@@ -23,7 +23,7 @@ import java.util.Set;
 /**
  * Counts occurrences of all pairs of query tokens
  */
-public class OrderedQueryPairsFeatureExtractor implements FeatureExtractor<String> {
+public class OrderedQueryPairsFeatureExtractor<T> implements FeatureExtractor<T> {
   private static final Logger LOG = LogManager.getLogger(OrderedQueryPairsFeatureExtractor.class);
 
   protected static ArrayList<Integer> gapSizes = new ArrayList<>();
@@ -77,7 +77,7 @@ public class OrderedQueryPairsFeatureExtractor implements FeatureExtractor<Strin
     }
   }
 
-  protected float computeOrderedFrequencyScore(Document doc, Terms terms, RerankerContext<String> context) throws IOException {
+  protected float computeOrderedFrequencyScore(Document doc, Terms terms, RerankerContext<T> context) throws IOException {
 
     // Only compute the score once for all window sizes on the same document
     if (!context.getQueryId().equals(lastProcessedId) || lastProcessedDoc != doc) {
@@ -102,7 +102,7 @@ public class OrderedQueryPairsFeatureExtractor implements FeatureExtractor<Strin
   }
 
   @Override
-  public float extract(Document doc, Terms terms, RerankerContext<String> context) {
+  public float extract(Document doc, Terms terms, RerankerContext<T> context) {
     try {
       return computeOrderedFrequencyScore(doc, terms, context);
     } catch (IOException e) {
