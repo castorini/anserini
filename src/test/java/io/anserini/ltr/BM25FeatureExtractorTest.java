@@ -12,9 +12,9 @@ import java.io.IOException;
  */
 public class BM25FeatureExtractorTest extends BaseFeatureExtractorTest {
   // Test the BM25 extractor with 2 settings of k and b
-  private static final FeatureExtractor<String> EXTRACTOR = new BM25FeatureExtractor(0.9,0.4);
+  private static final FeatureExtractor EXTRACTOR = new BM25FeatureExtractor(0.9,0.4);
   // 1.25,0.75
-  private static final FeatureExtractor<String> EXTRACTOR2 = new BM25FeatureExtractor();
+  private static final FeatureExtractor EXTRACTOR2 = new BM25FeatureExtractor();
 
   @Test
   public void testSingleDocSingleQuery() throws IOException {

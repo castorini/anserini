@@ -71,7 +71,7 @@ import static io.anserini.search.SearchCollection.BREAK_SCORE_TIES_BY_TWEETID;
  * tweets index.
  *
  */
-public class AxiomReranker implements Reranker {
+public class AxiomReranker<T> implements Reranker<T> {
   private static final Logger LOG = LogManager.getLogger(AxiomReranker.class);
 
   private final String field; // from which field we look for the expansion terms, e.g. "body"
@@ -93,7 +93,7 @@ public class AxiomReranker implements Reranker {
   }
 
   @Override
-  public ScoredDocuments rerank(ScoredDocuments docs, RerankerContext context) {
+  public ScoredDocuments rerank(ScoredDocuments docs, RerankerContext<T> context) {
     Preconditions.checkState(docs.documents.length == docs.scores.length);
 
     try {
@@ -134,7 +134,7 @@ public class AxiomReranker implements Reranker {
   /**
    * Please note that the query in the context is always the keywordQuery w/o filter!
    */
-  private ScoredDocuments searchTopDocs(Query query, RerankerContext context) throws IOException {
+  private ScoredDocuments searchTopDocs(Query query, RerankerContext<T> context) throws IOException {
     IndexSearcher searcher = context.getIndexSearcher();
     Query finalQuery = null;
     if (query == null) { // we are dealing with the external index and we DONOT apply filter to it.
@@ -172,7 +172,7 @@ public class AxiomReranker implements Reranker {
    *
    * @return Top ranked ScoredDocuments from searching external index
    */
-  private ScoredDocuments processExternalContext(ScoredDocuments docs, RerankerContext context) throws IOException {
+  private ScoredDocuments processExternalContext(ScoredDocuments docs, RerankerContext<T> context) throws IOException {
     if (!this.externalIndexPath.isEmpty()) {
       Path indexPath = Paths.get(this.externalIndexPath);
       if (!Files.exists(indexPath) || !Files.isDirectory(indexPath) || !Files.isReadable(indexPath)) {
@@ -184,7 +184,7 @@ public class AxiomReranker implements Reranker {
       SearchArgs args = context.getSearchArgs();
       args.hits = this.M;
 
-      RerankerContext externalContext = new RerankerContext(searcher, context.getQueryId(), context.getQuery(),
+      RerankerContext<T> externalContext = new RerankerContext<>(searcher, context.getQueryId(), context.getQuery(),
         context.getQueryText(), context.getQueryTokens(), context.getFilter(), args);
 
       return searchTopDocs(null, externalContext);
@@ -204,7 +204,7 @@ public class AxiomReranker implements Reranker {
    * @return a Set of R*M document Ids
    */
   @VisibleForTesting
-  private Set<Integer> selectDocs(ScoredDocuments docs, RerankerContext context)
+  private Set<Integer> selectDocs(ScoredDocuments docs, RerankerContext<T> context)
     throws IOException {
     Set<Integer> docidSet = new HashSet<>(Arrays.asList(ArrayUtils.toObject(
       Arrays.copyOfRange(docs.ids, 0, Math.min(this.M, docs.ids.length)))));
@@ -241,7 +241,7 @@ public class AxiomReranker implements Reranker {
    * @return A Map of <term -> Set<docId>> kind of a small inverted list where the Set of docIds is where the term occurs
    */
   @VisibleForTesting
-  private Map<String, Set<Integer>> extractTerms(Set<Integer> docIds, RerankerContext context,
+  private Map<String, Set<Integer>> extractTerms(Set<Integer> docIds, RerankerContext<T> context,
                                                  Pattern filterPattern) throws Exception, IOException {
     IndexReader reader;
     if (!this.externalIndexPath.isEmpty()) {
@@ -300,7 +300,7 @@ public class AxiomReranker implements Reranker {
    */
   @VisibleForTesting
   private Map<String, Double> calTermScore(
-    Map<String, Set<Integer>> termInvertedList, RerankerContext context) {
+    Map<String, Set<Integer>> termInvertedList, RerankerContext<T> context) {
     class ScoreComparator implements Comparator<Pair<String, Double>> {
       public int compare(Pair<String, Double> a, Pair<String, Double> b) {
         return Double.compare(b.getRight(), a.getRight());

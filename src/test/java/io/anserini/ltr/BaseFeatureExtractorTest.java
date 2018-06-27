@@ -130,8 +130,8 @@ abstract public class BaseFeatureExtractorTest extends LuceneTestCase {
   }
 
   // just add a signature for single extractor
-  protected <T> void assertFeatureValues(float[] expected, String queryText, String docText,
-                                     FeatureExtractor<T> extractor) throws IOException {
+  protected void assertFeatureValues(float[] expected, String queryText, String docText,
+                                     FeatureExtractor extractor) throws IOException {
     assertFeatureValues(expected, queryText, Lists.newArrayList(docText), getChain(extractor),0);
   }
 
