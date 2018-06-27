@@ -37,16 +37,15 @@ import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.TopDocs;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import java.util.regex.Pattern;
 
 import static io.anserini.search.SearchCollection.BREAK_SCORE_TIES_BY_DOCID;
+import static io.anserini.search.SearchCollection.BREAK_SCORE_TIES_BY_TWEETID;
 
 public class Rm3Reranker implements Reranker {
   private static final Logger LOG = LogManager.getLogger(Rm3Reranker.class);
@@ -61,56 +60,27 @@ public class Rm3Reranker implements Reranker {
   private Stopper stopper;
 
   public static class Stopper {
-    public static final Pattern SPACE_PATTERN = Pattern.compile(" ", Pattern.DOTALL);
     private Set<String> stopwords;
 
-    public Stopper() {
-      stopwords = new HashSet<>();
-    }
-
-    public Stopper(String pathToStoplist, Boolean fromResource) {
+    public Stopper(String pathToStoplist) {
       try {
-        stopwords = new HashSet<>();
-        List<String> lines;
-        if (fromResource) {
-          ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-          lines = IOUtils.readLines(classloader.getResourceAsStream(pathToStoplist), Charset.defaultCharset());
-        } else {
-          // assume our stoplist has one stopword per line
-          lines = IOUtils.readLines(new FileInputStream(pathToStoplist), Charset.defaultCharset());
-          Iterator<String> it = lines.iterator();
-        }
+        ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+        List<String> lines = IOUtils.readLines(classloader.getResourceAsStream(pathToStoplist), Charset.defaultCharset());
         stopwords = new HashSet<>(lines);
       } catch (Exception e) {
         e.printStackTrace();
       }
     }
 
-    public String apply(String text) {
-      StringBuilder b = new StringBuilder();
-      String[] toks = SPACE_PATTERN.split(text);
-      for(String tok : toks) {
-        if(! isStopWord(tok))
-          b.append(tok + " ");
-      }
-      return b.toString().trim();
-    }
-    public void addStopword(String term) {
-      stopwords.add(term);
-    }
     public boolean isStopWord(String term) {
       return (stopwords.contains(term)) ? true : false;
     }
-
-    public Set<String> asSet() {
-      return stopwords;
-    }
   }
 
-  public Rm3Reranker(Analyzer analyzer, String field, String stoplist, Boolean fromResource) {
+  public Rm3Reranker(Analyzer analyzer, String field, String stoplist) {
     this.analyzer = analyzer;
     this.field = field;
-    this.stopper = new Stopper(stoplist, fromResource);
+    this.stopper = new Stopper(stoplist);
   }
 
   @Override
@@ -138,45 +108,35 @@ public class Rm3Reranker implements Reranker {
     String queryText = builder.toString().trim();
 
     QueryParser p = new QueryParser(field, new WhitespaceAnalyzer());
-    Query nq;
+    Query feedbackQuery;
     try {
-      nq = p.parse(queryText);
+      feedbackQuery = p.parse(queryText);
     } catch (ParseException e) {
       e.printStackTrace();
       return docs;
     }
 
-    LOG.info("Running new query: " + nq);
+    LOG.info("Running new query: " + feedbackQuery);
 
     TopDocs rs;
     try {
-      if (context.getFilter() == null) {
-        // Figure out how to break the scoring ties.
-        if (context.getSearchArgs().arbitraryScoreTieBreak) {
-          rs = searcher.search(nq, context.getSearchArgs().hits);
-        } else if (context.getSearchArgs().searchtweets) {
-          // TODO: we need to build the proper tie-breaking code path for tweets.
-          rs = searcher.search(nq, context.getSearchArgs().hits);
-        } else {
-          rs = searcher.search(nq, context.getSearchArgs().hits, BREAK_SCORE_TIES_BY_DOCID,
-            true, true);
-        }
-      } else {
+      Query finalQuery = feedbackQuery;
+      // If there's a filter condition, we need to add in the constraint.
+      // Otherwise, just use the feedback query.
+      if (context.getFilter() != null) {
         BooleanQuery.Builder bqBuilder = new BooleanQuery.Builder();
         bqBuilder.add(context.getFilter(), BooleanClause.Occur.FILTER);
-        bqBuilder.add(nq, BooleanClause.Occur.MUST);
-        Query q = bqBuilder.build();
+        bqBuilder.add(feedbackQuery, BooleanClause.Occur.MUST);
+        finalQuery = bqBuilder.build();
+      }
 
-        // Figure out how to break the scoring ties.
-        if (context.getSearchArgs().arbitraryScoreTieBreak) {
-          rs = searcher.search(q, context.getSearchArgs().hits);
-        } else if (context.getSearchArgs().searchtweets) {
-          // TODO: we need to build the proper tie-breaking code path for tweets.
-          rs = searcher.search(q, context.getSearchArgs().hits);
-        } else {
-          rs = searcher.search(q, context.getSearchArgs().hits, BREAK_SCORE_TIES_BY_DOCID,
-            true, true);
-        }
+      // Figure out how to break the scoring ties.
+      if (context.getSearchArgs().arbitraryScoreTieBreak) {
+        rs = searcher.search(finalQuery, context.getSearchArgs().hits);
+      } else if (context.getSearchArgs().searchtweets) {
+        rs = searcher.search(finalQuery, context.getSearchArgs().hits, BREAK_SCORE_TIES_BY_TWEETID, true, true);
+      } else {
+        rs = searcher.search(finalQuery, context.getSearchArgs().hits, BREAK_SCORE_TIES_BY_DOCID, true, true);
       }
     } catch (IOException e) {
       e.printStackTrace();

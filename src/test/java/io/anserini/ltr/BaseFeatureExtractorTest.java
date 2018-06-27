@@ -1,6 +1,7 @@
 package io.anserini.ltr;
 
 import com.google.common.collect.Lists;
+import io.anserini.index.generator.LuceneDocumentGenerator;
 import io.anserini.ltr.feature.FeatureExtractor;
 import io.anserini.ltr.feature.FeatureExtractors;
 import io.anserini.rerank.RerankerContext;
@@ -35,7 +36,7 @@ import java.util.Random;
  * This class will contain setup and teardown code for testing feature extractors
  */
 abstract public class BaseFeatureExtractorTest extends LuceneTestCase {
-  protected static final String TEST_FIELD_NAME = "text";
+  protected static final String TEST_FIELD_NAME = LuceneDocumentGenerator.FIELD_BODY;
   protected static final Analyzer TEST_ANALYZER = new EnglishAnalyzer();
   protected static final QueryParser TEST_PARSER = new QueryParser(TEST_FIELD_NAME, TEST_ANALYZER);
   protected static final String DEFAULT_QID = "1";
@@ -82,8 +83,8 @@ abstract public class BaseFeatureExtractorTest extends LuceneTestCase {
    */
   protected RerankerContext<String> makeTestContext(String queryText) {
     try {
-      RerankerContext<String> context = new RerankerContext<>(new IndexSearcher(DirectoryReader.open(DIRECTORY)), TEST_PARSER.parse(queryText), DEFAULT_QID,
-              queryText, AnalyzerUtils.tokenize(TEST_ANALYZER, queryText), TEST_FIELD_NAME, null, null);
+	  RerankerContext<String> context = new RerankerContext<>(new IndexSearcher(DirectoryReader.open(DIRECTORY)), DEFAULT_QID, TEST_PARSER.parse(queryText),
+              queryText, AnalyzerUtils.tokenize(TEST_ANALYZER, queryText), null, null);
       return context;
     } catch (ParseException e) {
       return null;

@@ -6,7 +6,6 @@ import io.anserini.ltr.feature.FeatureExtractors;
 import io.anserini.rerank.RerankerCascade;
 import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.ScoredDocuments;
-import io.anserini.rerank.lib.RemoveRetweetsTemporalTiebreakReranker;
 import io.anserini.search.SearchArgs;
 import io.anserini.search.query.MicroblogTopicReader;
 import io.anserini.search.query.TopicReader;
@@ -96,7 +95,6 @@ public class DumpTweetsLtrData {
 
     PrintStream out = new PrintStream(new FileOutputStream(new File(args.output)));
     RerankerCascade cascade = new RerankerCascade();
-    cascade.add(new RemoveRetweetsTemporalTiebreakReranker());
     cascade.add(new TweetsLtrDataGenerator(out, qrels, extractors));
 
     Path topicsFile = Paths.get(args.topics);
@@ -125,8 +123,9 @@ public class DumpTweetsLtrData {
 
       TopDocs rs = searcher.search(q, args.hits);
       List<String> queryTokens = AnalyzerUtils.tokenize(new TweetAnalyzer(), queryString);
-      RerankerContext<String> context = new RerankerContext<>(searcher, query, queryString, queryString,
-          queryTokens, TweetGenerator.FIELD_BODY, filter, null);
+
+      RerankerContext context = new RerankerContext<>(searcher, queryString.toString(), query, queryString,
+          queryTokens, filter, null);
 
       cascade.run(ScoredDocuments.fromTopDocs(rs, searcher), context);
       long qtime = (System.nanoTime()-curQueryTime)/1000000;
