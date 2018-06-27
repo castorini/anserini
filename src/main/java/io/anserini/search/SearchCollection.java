@@ -124,7 +124,7 @@ public final class SearchCollection implements Closeable {
           (args.searchtweets ? "rm3-stoplist.twitter.txt" : "rm3-stoplist.gov2.txt");
       cascade.add(new Rm3Reranker(analyzer, FIELD_BODY, stopwords));
     } else if (args.axiom) {
-      cascade.add(new AxiomReranker(FIELD_BODY, args.axiom_beta, args.axiom_external_index));
+      cascade.add(new AxiomReranker(FIELD_BODY, args));
     }
 
     cascade.add(new ScoreTiesAdjusterReranker());
