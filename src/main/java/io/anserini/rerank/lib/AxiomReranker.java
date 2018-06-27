@@ -21,6 +21,7 @@ import org.apache.lucene.queryparser.flexible.standard.StandardQueryParser;
 import org.apache.lucene.search.BooleanClause;
 import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.MatchAllDocsQuery;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.FSDirectory;
@@ -46,29 +47,31 @@ import static io.anserini.search.SearchCollection.BREAK_SCORE_TIES_BY_DOCID;
 public class AxiomReranker implements Reranker {
   private static final Logger LOG = LogManager.getLogger(AxiomReranker.class);
 
-  private final String field; // from which field we look for the expansion terms, e.g. "body"
-  private final boolean fixSeed;
-  private final String externalIndexPath;  // Axiomatic reranking can opt to use
+  private String field; // from which field we look for the expansion terms, e.g. "body"
+  private boolean decisive;  // whether the expansion terms are decisively picked
+  private String externalIndexPath;  // Axiomatic reranking can opt to use
                                            // external sources for searching the expansion
                                            // terms. Typically, we build another index
                                            // separately and include its information here.
 
-  private int R = 30; // factor that used in extracting random documents, we will extract R*M randomly select documents
-  private int M = 20; // number of top documents in initial results
+  private int R; // factor that used in extracting random documents, we will extract R*M randomly select documents
+  private int M; // number of top documents in initial results
   private int L = 1000; // top similar terms
   private int K = 20; // number of expansion terms
   private float beta; // scaling parameter
 
-  public AxiomReranker(String field, boolean fixSeed, float beta, String externalIndexPath) {
-    this.field = field;
-    this.fixSeed = fixSeed;
-    this.beta = beta;
-    this.externalIndexPath = externalIndexPath.trim();
-  }
+  public AxiomReranker() {}
 
   @Override
   public ScoredDocuments rerank(ScoredDocuments docs, RerankerContext context) {
     Preconditions.checkState(docs.documents.length == docs.scores.length);
+
+    this.field = context.getField();
+    this.decisive = context.getSearchArgs().axiom_decisive;
+    this.R = context.getSearchArgs().axiom_r;
+    this.M = context.getSearchArgs().axiom_m;
+    this.beta = context.getSearchArgs().axiom_beta;
+    this.externalIndexPath = context.getSearchArgs().axiom_external_index.trim();
 
     try {
       // First to search against external index if it is not null
@@ -160,8 +163,9 @@ public class AxiomReranker implements Reranker {
       IndexReader reader = DirectoryReader.open(FSDirectory.open(indexPath));
       IndexSearcher searcher = new IndexSearcher(reader);
       searcher.setSimilarity(context.getIndexSearcher().getSimilarity(true));
-      SearchArgs args = context.getSearchArgs();
-      args.arbitraryScoreTieBreak = true;
+      SearchArgs args = new SearchArgs();
+      args.hits = this.M;
+      args.searchtweets = context.getSearchArgs().searchtweets;
 
       RerankerContext externalContext = new RerankerContext(searcher, context.getQuery(),
         context.getQueryId(), context.getQueryText(), context.getQueryTokens(), context.getField(),
@@ -202,9 +206,20 @@ public class AxiomReranker implements Reranker {
         reader = searcher.getIndexReader();
       }
       int availableDocsCnt = reader.getDocCount(this.field);
-      Random random = fixSeed ? new Random(42) : new Random();
-      while (docidSet.size() < targetSize) {
-        docidSet.add(random.nextInt(availableDocsCnt));
+      if (this.decisive) { // internal docid cannot be relied due to multi-threads indexing,
+                     // we have to rely on external docid here
+        IndexSearcher searcher = new IndexSearcher(reader);
+        TopDocs rs = searcher.search(new MatchAllDocsQuery(), reader.maxDoc(), BREAK_SCORE_TIES_BY_DOCID,
+          true, true);
+        Random random = new Random(42);
+        while (docidSet.size() < targetSize) {
+          docidSet.add(rs.scoreDocs[random.nextInt(rs.scoreDocs.length)].doc);
+        }
+      } else {
+        Random random = new Random();
+        while (docidSet.size() < targetSize) {
+          docidSet.add(random.nextInt(availableDocsCnt));
+        }
       }
     }
 
