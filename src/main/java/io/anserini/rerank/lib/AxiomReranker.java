@@ -76,11 +76,12 @@ public class AxiomReranker implements Reranker {
   private static final Logger LOG = LogManager.getLogger(AxiomReranker.class);
 
   private String field; // from which field we look for the expansion terms, e.g. "body"
-  private boolean decisive;  // whether the expansion terms are decisively picked
+  private boolean deterministic;  // whether the expansion terms are deterministically picked
+  private long seed;
   private String externalIndexPath;  // Axiomatic reranking can opt to use
-                                           // external sources for searching the expansion
-                                           // terms. Typically, we build another index
-                                           // separately and include its information here.
+                                     // external sources for searching the expansion
+                                     // terms. Typically, we build another index
+                                     // separately and include its information here.
 
   private int R; // factor that used in extracting random documents, we will extract R*M randomly select documents
   private int M; // number of top documents in initial results
@@ -90,7 +91,8 @@ public class AxiomReranker implements Reranker {
 
   public AxiomReranker(String field, SearchArgs args) {
     this.field = field;
-    this.decisive = args.axiom_decisive;
+    this.deterministic = args.axiom_decisive;
+    this.seed = args.axiom_seed;
     this.R = args.axiom_r;
     this.M = args.axiom_m;
     this.beta = args.axiom_beta;
@@ -231,12 +233,12 @@ public class AxiomReranker implements Reranker {
         reader = searcher.getIndexReader();
       }
       int availableDocsCnt = reader.getDocCount(this.field);
-      if (this.decisive) { // internal docid cannot be relied due to multi-threads indexing,
-                     // we have to rely on external docid here
+      if (this.deterministic) { // internal docid cannot be relied due to multi-threads indexing,
+                                // we have to rely on external docid here
         IndexSearcher searcher = new IndexSearcher(reader);
         TopDocs rs = searcher.search(new MatchAllDocsQuery(), reader.maxDoc(), BREAK_SCORE_TIES_BY_DOCID,
           true, true);
-        Random random = new Random(42);
+        Random random = new Random(this.seed);
         while (docidSet.size() < targetSize) {
           docidSet.add(rs.scoreDocs[random.nextInt(rs.scoreDocs.length)].doc);
         }

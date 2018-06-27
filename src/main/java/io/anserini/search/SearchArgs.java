@@ -84,8 +84,11 @@ public class SearchArgs {
   @Option(name = "-axiom", usage = "use Axiomatic query expansion model for the reranking")
   public boolean axiom = false;
 
-  @Option(name = "-axiom.decisive", usage = "decisive the expansion terms axiomatic reranking")
+  @Option(name = "-axiom.deterministic", usage = "make the expansion terms axiomatic reranking results deterministic")
   public boolean axiom_decisive = false;
+
+  @Option(name = "-axiom.seed", metaVar = "[number]", usage = "seed for the random generator in axiomatic reranking")
+  public long axiom_seed = 42L;
 
   @Option(name = "-axiom.m", usage = "parameter M in axiomatic reranking")
   public int axiom_m = 20;
