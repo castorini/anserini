@@ -30,18 +30,16 @@ public class RerankerContext<K> {
   private final String queryText;
   private final List<String> queryTokens;
   private final Query filter;
-  private final String termVectorField;
   private final SearchArgs searchArgs;
 
-  public RerankerContext(IndexSearcher searcher, Query query, K queryId, String queryText,
-      List<String> queryTokens, String termVectorField, Query filter, SearchArgs searchArgs) throws IOException {
+  public RerankerContext(IndexSearcher searcher, K queryId, Query query, String queryText,
+      List<String> queryTokens, Query filter, SearchArgs searchArgs) throws IOException {
     this.searcher = searcher;
     this.query = query;
     this.queryId = queryId;
     this.queryText = queryText;
     this.queryTokens = queryTokens;
     this.filter = filter;
-    this.termVectorField = termVectorField;
     this.searchArgs = searchArgs;
   }
 
@@ -68,8 +66,6 @@ public class RerankerContext<K> {
   public List<String> getQueryTokens() {
     return queryTokens;
   }
-
-  public String getField() {return termVectorField; }
 
   public SearchArgs getSearchArgs() {
     return searchArgs;
