@@ -47,10 +47,11 @@ public class AxiomReranker implements Reranker {
   private static final Logger LOG = LogManager.getLogger(AxiomReranker.class);
 
   private final String field; // from which field we look for the expansion terms, e.g. "body"
-  private final String externalIndexPath; // Axiomatic reranking can opt to use
-                                                       // external sources for searching the expansion
-                                                       // terms. Typically, we build another index
-                                                       // separately and include its information here.
+  private final boolean fixSeed;
+  private final String externalIndexPath;  // Axiomatic reranking can opt to use
+                                           // external sources for searching the expansion
+                                           // terms. Typically, we build another index
+                                           // separately and include its information here.
 
   private int R = 30; // factor that used in extracting random documents, we will extract R*M randomly select documents
   private int M = 20; // number of top documents in initial results
@@ -58,8 +59,9 @@ public class AxiomReranker implements Reranker {
   private int K = 20; // number of expansion terms
   private float beta; // scaling parameter
 
-  public AxiomReranker(String field, float beta, String externalIndexPath) {
+  public AxiomReranker(String field, boolean fixSeed, float beta, String externalIndexPath) {
     this.field = field;
+    this.fixSeed = fixSeed;
     this.beta = beta;
     this.externalIndexPath = externalIndexPath.trim();
   }
@@ -200,7 +202,7 @@ public class AxiomReranker implements Reranker {
         reader = searcher.getIndexReader();
       }
       int availableDocsCnt = reader.getDocCount(this.field);
-      Random random = new Random();
+      Random random = fixSeed ? new Random(42) : new Random();
       while (docidSet.size() < targetSize) {
         docidSet.add(random.nextInt(availableDocsCnt));
       }

@@ -126,10 +126,10 @@ public final class SearchCollection implements Closeable {
       }
     } else if (args.axiom) {
       if (args.searchtweets) {
-        cascade.add(new AxiomReranker(FIELD_BODY, args.axiom_beta, args.axiom_external_index));
+        cascade.add(new AxiomReranker(FIELD_BODY, args.axiom_fixseed, args.axiom_beta, args.axiom_external_index));
         cascade.add(new RemoveRetweetsTemporalTiebreakReranker());
       } else {
-        cascade.add(new AxiomReranker(FIELD_BODY, args.axiom_beta, args.axiom_external_index));
+        cascade.add(new AxiomReranker(FIELD_BODY, args.axiom_fixseed, args.axiom_beta, args.axiom_external_index));
         cascade.add(new ScoreTiesAdjusterReranker());
       }
     } else {

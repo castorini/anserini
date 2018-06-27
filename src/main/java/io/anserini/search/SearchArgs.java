@@ -84,6 +84,9 @@ public class SearchArgs {
   @Option(name = "-axiom", usage = "use Axiomatic query expansion model for the reranking")
   public boolean axiom = false;
 
+  @Option(name = "-axiom.fixseed", usage = "fix the seed for random docid generator in axiomatic reranking")
+  public boolean axiom_fixseed = false;
+
   @Option(name = "-axiom.beta", usage = "parameter beta for Axiomatic query expansion model")
   public float axiom_beta = 0.4f;
 
