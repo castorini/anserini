@@ -121,9 +121,32 @@ public final class IndexCollection {
   }
 
   public final class Counters {
+    /**
+     * Counter for successfully indexed documents.
+     */
     public AtomicLong indexedDocuments = new AtomicLong();
+
+    /**
+     * Counter for empty documents that are not indexed. Empty documents are not necessary errors;
+     * it could be the case, for example, that a document is comprised solely of stopwords.
+     */
     public AtomicLong emptyDocuments = new AtomicLong();
+
+    /**
+     * Counter for unindexed documents. These are cases where the {@link SourceDocument} returned
+     * by {@link Collection.FileSegment} is {@code null}.
+     */
+    public AtomicLong unindexedDocuments = new AtomicLong();
+
+    /**
+     * Counter for unindexable documents. These are cases where {@link SourceDocument#indexable()}
+     * returns false.
+     */
     public AtomicLong unindexableDocuments = new AtomicLong();
+
+    /**
+     * Counter for unexpected errors.
+     */
     public AtomicLong errors = new AtomicLong();
   }
 
@@ -152,18 +175,16 @@ public final class IndexCollection {
         while (iter.hasNext()) {
           SourceDocument d = iter.next();
           if (d == null) {
-            LOG.info("Null document encountered");
+            counters.unindexedDocuments.incrementAndGet();
             continue;
           }
           if (!d.indexable()) {
-            LOG.info("Document is not indexable");
             counters.unindexableDocuments.incrementAndGet();
             continue;
           }
 
           @SuppressWarnings("unchecked") // Yes, we know what we're doing here.
           Document doc = transformer.createDocument(d);
-
           if (doc != null && (whitelistDocids == null || whitelistDocids.contains(d.id()))) {
             if (args.uniqueDocid) {
               writer.updateDocument(new Term("id", d.id()), doc);
@@ -300,9 +321,15 @@ public final class IndexCollection {
       }
     }
 
-    LOG.info("Indexed documents: " + counters.indexedDocuments.get());
-    LOG.info("Empty documents: " + counters.emptyDocuments.get());
-    LOG.info("Errors: " + counters.errors.get());
+    if (numIndexed != counters.indexedDocuments.get()) {
+      throw new RuntimeException("Error: unexpected difference in number of indexed documents!");
+    }
+
+    LOG.info("Indexed documents:     " + String.format("%$,12d", counters.indexedDocuments.get()));
+    LOG.info("Empty documents:       " + counters.emptyDocuments.get());
+    LOG.info("Unindexed documents:   " + counters.unindexedDocuments.get());
+    LOG.info("Unindexable documents: " + counters.unindexableDocuments.get());
+    LOG.info("Errors:                " + counters.errors.get());
 
     final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
     LOG.info("Total " + numIndexed + " documents indexed in " +
