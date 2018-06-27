@@ -50,7 +50,7 @@ public class SearchArgs {
   @Option(name = "-hits", metaVar = "[number]", required = false, usage = "max number of hits to return")
   public int hits = 1000;
 
-  @Option(name = "-rerankcutoff", metaVar = "[number]", required = false, usage = "max number of hits " +
+  @Option(name = "-rerankCutoff", metaVar = "[number]", required = false, usage = "max number of hits " +
     "for the initial round ranking. this is efficient since lots of reranking model only looks at " +
     "the top documents from the initial round ranking.")
   public int rerankcutoff = 50;
@@ -85,6 +85,15 @@ public class SearchArgs {
 
   @Option(name = "-rm3", usage = "use RM3 query expansion model (implies using query likelihood)")
   public boolean rm3 = false;
+
+  @Option(name = "-rm3.fbTerms", usage = "parameter to decide how many expansion terms to be picked")
+  public int rm3_fbTerms = 20;
+
+  @Option(name = "-rm3.fbDocs", usage = "parameter to decide how many documents to be used to find expansion terms")
+  public int rm3_fbDocs = 50;
+
+  @Option(name = "-rm3.originalQueryWeight", usage = "parameter to decide how many documents to be used to find expansion terms")
+  public float rm3_originalQueryWeight = 0.6f;
 
   @Option(name = "-axiom", usage = "use Axiomatic query expansion model for the reranking")
   public boolean axiom = false;
