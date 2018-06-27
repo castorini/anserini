@@ -325,15 +325,15 @@ public final class IndexCollection {
       throw new RuntimeException("Error: unexpected difference in number of indexed documents!");
     }
 
-    LOG.info("Indexed documents:     " + String.format("%$,12d", counters.indexedDocuments.get()));
-    LOG.info("Empty documents:       " + counters.emptyDocuments.get());
-    LOG.info("Unindexed documents:   " + counters.unindexedDocuments.get());
-    LOG.info("Unindexable documents: " + counters.unindexableDocuments.get());
-    LOG.info("Errors:                " + counters.errors.get());
+    LOG.info(String.format("Indexed documents:     %,9d", counters.indexedDocuments.get()));
+    LOG.info(String.format("Empty documents:       %,9d",counters.emptyDocuments.get()));
+    LOG.info(String.format("Unindexed documents:   %,9d",counters.unindexedDocuments.get()));
+    LOG.info(String.format("Unindexable documents: %,9d",counters.unindexableDocuments.get()));
+    LOG.info(String.format("Errors:                %,9d",counters.errors.get()));
 
     final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
-    LOG.info("Total " + numIndexed + " documents indexed in " +
-        DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss"));
+    LOG.info(String.format("Total %,d documents indexed in %s", numIndexed,
+        DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss")));
   }
 
   public static void main(String[] args) throws Exception {
