@@ -21,8 +21,8 @@ import io.anserini.index.generator.TweetGenerator;
 import io.anserini.rerank.RerankerCascade;
 import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.ScoredDocuments;
+
 import io.anserini.rerank.lib.AxiomReranker;
-import io.anserini.rerank.lib.RemoveRetweetsTemporalTiebreakReranker;
 import io.anserini.rerank.lib.Rm3Reranker;
 import io.anserini.rerank.lib.ScoreTiesAdjusterReranker;
 import io.anserini.search.query.TopicReader;
@@ -72,6 +72,9 @@ import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_ID;
 public final class SearchCollection implements Closeable {
   public static final Sort BREAK_SCORE_TIES_BY_DOCID =
       new Sort(SortField.FIELD_SCORE, new SortField(FIELD_ID, SortField.Type.STRING_VAL));
+  public static final Sort BREAK_SCORE_TIES_BY_TWEETID =
+      new Sort(SortField.FIELD_SCORE,
+          new SortField(TweetGenerator.StatusField.ID_LONG.name, SortField.Type.LONG, true));
 
   private static final Logger LOG = LogManager.getLogger(SearchCollection.class);
 
@@ -116,28 +119,14 @@ public final class SearchCollection implements Closeable {
     // Set up the ranking cascade.
     cascade = new RerankerCascade();
     if (args.rm3) {
-      if (args.searchtweets) {
-        cascade.add(new Rm3Reranker(analyzer, FIELD_BODY, "io/anserini/rerank/rm3/rm3-stoplist.twitter.txt", true));
-        cascade.add(new RemoveRetweetsTemporalTiebreakReranker());
-      } else {
-        cascade.add(new Rm3Reranker(analyzer, FIELD_BODY, "io/anserini/rerank/rm3/rm3-stoplist.gov2.txt", true));
-        cascade.add(new ScoreTiesAdjusterReranker());
-      }
+      String stopwords = "io/anserini/rerank/rm3/" +
+          (args.searchtweets ? "rm3-stoplist.twitter.txt" : "rm3-stoplist.gov2.txt");
+      cascade.add(new Rm3Reranker(analyzer, FIELD_BODY, stopwords));
     } else if (args.axiom) {
-      if (args.searchtweets) {
-        cascade.add(new AxiomReranker(FIELD_BODY, args.axiom_beta, args.axiom_external_index));
-        cascade.add(new RemoveRetweetsTemporalTiebreakReranker());
-      } else {
-        cascade.add(new AxiomReranker(FIELD_BODY, args.axiom_beta, args.axiom_external_index));
-        cascade.add(new ScoreTiesAdjusterReranker());
-      }
-    } else {
-      if (args.searchtweets) {
-        cascade.add(new RemoveRetweetsTemporalTiebreakReranker());
-      } else {
-        cascade.add(new ScoreTiesAdjusterReranker());
-      }
+      cascade.add(new AxiomReranker(FIELD_BODY, args));
     }
+
+    cascade.add(new ScoreTiesAdjusterReranker());
   }
 
   @Override
@@ -176,7 +165,7 @@ public final class SearchCollection implements Closeable {
 
       ScoredDocuments docs;
       if (args.searchtweets) {
-        docs = search(searcher, qid, queryString, Long.parseLong(entry.getValue().get("time")));
+        docs = searchTweets(searcher, qid, queryString, Long.parseLong(entry.getValue().get("time")));
       } else{
         docs = search(searcher, qid, queryString);
       }
@@ -203,10 +192,10 @@ public final class SearchCollection implements Closeable {
 
   public<K> ScoredDocuments search(IndexSearcher searcher, K qid, String queryString) throws IOException {
     Query query = AnalyzerUtils.buildBagOfWordsQuery(FIELD_BODY, analyzer, queryString);
-    // Figure out how to break the scoring ties.
+
     TopDocs rs = new TopDocs(0, new ScoreDoc[]{}, Float.NaN);
     if (!(isRerank && args.rerankcutoff <= 0)) {
-      if (args.arbitraryScoreTieBreak) {
+      if (args.arbitraryScoreTieBreak) {// Figure out how to break the scoring ties.
         rs = searcher.search(query, isRerank ? args.rerankcutoff : args.hits);
       } else {
         rs = searcher.search(query, isRerank ? args.rerankcutoff : args.hits, BREAK_SCORE_TIES_BY_DOCID, true, true);
@@ -214,14 +203,13 @@ public final class SearchCollection implements Closeable {
     }
 
     List<String> queryTokens = AnalyzerUtils.tokenize(analyzer, queryString);
-
-    RerankerContext context = new RerankerContext(searcher, query, String.valueOf(qid), queryString,
-        queryTokens, FIELD_BODY, null, args);
+    RerankerContext context = new RerankerContext(searcher, qid, query, queryString, queryTokens, null, args);
     return cascade.run(ScoredDocuments.fromTopDocs(rs, searcher), context);
   }
 
-  public<K> ScoredDocuments search(IndexSearcher searcher, K qid, String queryString, long t) throws IOException {
-    Query query = AnalyzerUtils.buildBagOfWordsQuery(FIELD_BODY, analyzer, queryString);
+  public<K> ScoredDocuments searchTweets(IndexSearcher searcher, K qid, String queryString, long t) throws IOException {
+    Query keywordQuery = AnalyzerUtils.buildBagOfWordsQuery(FIELD_BODY, analyzer, queryString);
+    List<String> queryTokens = AnalyzerUtils.tokenize(analyzer, queryString);
 
     // Do not consider the tweets with tweet ids that are beyond the queryTweetTime
     // <querytweettime> tag contains the timestamp of the query in terms of the
@@ -229,25 +217,20 @@ public final class SearchCollection implements Closeable {
     Query filter = LongPoint.newRangeQuery(TweetGenerator.StatusField.ID_LONG.name, 0L, t);
     BooleanQuery.Builder builder = new BooleanQuery.Builder();
     builder.add(filter, BooleanClause.Occur.FILTER);
-    builder.add(query, BooleanClause.Occur.MUST);
-    query = builder.build();
+    builder.add(keywordQuery, BooleanClause.Occur.MUST);
+    Query compositeQuery = builder.build();
 
-    // Figure out how to break the scoring ties.
+
     TopDocs rs = new TopDocs(0, new ScoreDoc[]{}, Float.NaN);
     if (!(isRerank && args.rerankcutoff <= 0)) {
-      if (args.arbitraryScoreTieBreak) {
-        rs = searcher.search(query, isRerank ? args.rerankcutoff : args.hits);
+      if (args.arbitraryScoreTieBreak) {// Figure out how to break the scoring ties.
+        rs = searcher.search(compositeQuery, isRerank ? args.rerankcutoff : args.hits);
       } else {
-        // TODO: we need to build the proper tie-breaking code path for tweets.
-        rs = searcher.search(query, isRerank ? args.rerankcutoff : args.hits);
+        rs = searcher.search(compositeQuery, isRerank ? args.rerankcutoff : args.hits, BREAK_SCORE_TIES_BY_TWEETID, true, true);
       }
     }
-    List<String> queryTokens = AnalyzerUtils.tokenize(analyzer, queryString);
-    // This is ugly, but we have to reform the tweet query here for reranking
-    query = AnalyzerUtils.buildBagOfWordsQuery(FIELD_BODY, analyzer, queryString);
 
-    RerankerContext context = new RerankerContext(searcher, query, String.valueOf(qid), queryString,
-        queryTokens, FIELD_BODY, filter, args);
+    RerankerContext context = new RerankerContext(searcher, qid, keywordQuery, queryString, queryTokens, filter, args);
     return cascade.run(ScoredDocuments.fromTopDocs(rs, searcher), context);
   }
 

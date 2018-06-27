@@ -1,3 +1,19 @@
+/**
+ * Anserini: An information retrieval toolkit built on Lucene
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package io.anserini.rerank.lib;
 
 import com.google.common.annotations.VisibleForTesting;
@@ -21,6 +37,7 @@ import org.apache.lucene.queryparser.flexible.standard.StandardQueryParser;
 import org.apache.lucene.search.BooleanClause;
 import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.MatchAllDocsQuery;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.FSDirectory;
@@ -42,26 +59,44 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 import static io.anserini.search.SearchCollection.BREAK_SCORE_TIES_BY_DOCID;
+import static io.anserini.search.SearchCollection.BREAK_SCORE_TIES_BY_TWEETID;
 
+/*
+ * Axiomatic reranking or Axiomatic semantic relevance feedback model.
+ *
+ * NOTE: This model supports finding expansion terms using another index. But please make sure
+ * that both indexes have the same stemming rules and were built using the same Generator
+ * (see {@link io.anserini.index.generator.LuceneDocumentGenerator}) or the model won't work properly.
+ * For example, we may stem tweets differently from newswire corpus (TweetsAnalyzer vs. EnglishAnalyzer).
+ * Then it is better NOT to using a newswire index for expansion terms and feed them to the original
+ * tweets index.
+ *
+ */
 public class AxiomReranker implements Reranker {
   private static final Logger LOG = LogManager.getLogger(AxiomReranker.class);
 
-  private final String field; // from which field we look for the expansion terms, e.g. "body"
-  private final String externalIndexPath; // Axiomatic reranking can opt to use
-                                                       // external sources for searching the expansion
-                                                       // terms. Typically, we build another index
-                                                       // separately and include its information here.
+  private String field; // from which field we look for the expansion terms, e.g. "body"
+  private boolean deterministic;  // whether the expansion terms are deterministically picked
+  private long seed;
+  private String externalIndexPath;  // Axiomatic reranking can opt to use
+                                     // external sources for searching the expansion
+                                     // terms. Typically, we build another index
+                                     // separately and include its information here.
 
-  private int R = 30; // factor that used in extracting random documents, we will extract R*M randomly select documents
-  private int M = 20; // number of top documents in initial results
+  private int R; // factor that used in extracting random documents, we will extract R*M randomly select documents
+  private int M; // number of top documents in initial results
   private int L = 1000; // top similar terms
   private int K = 20; // number of expansion terms
   private float beta; // scaling parameter
 
-  public AxiomReranker(String field, float beta, String externalIndexPath) {
+  public AxiomReranker(String field, SearchArgs args) {
     this.field = field;
-    this.beta = beta;
-    this.externalIndexPath = externalIndexPath.trim();
+    this.deterministic = args.axiom_decisive;
+    this.seed = args.axiom_seed;
+    this.R = args.axiom_r;
+    this.M = args.axiom_m;
+    this.beta = args.axiom_beta;
+    this.externalIndexPath = args.axiom_external_index.trim();
   }
 
   @Override
@@ -103,40 +138,35 @@ public class AxiomReranker implements Reranker {
     }
   }
 
+  /**
+   * Please note that the query in the context is always the keywordQuery w/o filter!
+   */
   private ScoredDocuments searchTopDocs(Query query, RerankerContext context) throws IOException {
-    TopDocs rs = null;
     IndexSearcher searcher = context.getIndexSearcher();
-    if (query == null) {
-      query = context.getQuery();
-    }
-    if (context.getFilter() == null) {
-      // Figure out how to break the scoring ties.
-      if (context.getSearchArgs().arbitraryScoreTieBreak) {
-        rs = searcher.search(query, context.getSearchArgs().hits);
-      } else if (context.getSearchArgs().searchtweets) {
-        // TODO: we need to build the proper tie-breaking code path for tweets.
-        rs = searcher.search(query, context.getSearchArgs().hits);
-      } else {
-        rs = searcher.search(query, context.getSearchArgs().hits, BREAK_SCORE_TIES_BY_DOCID,
-          true, true);
-      }
+    Query finalQuery = null;
+    if (query == null) { // we are dealing with the external index and we DONOT apply filter to it.
+      finalQuery = context.getQuery();
     } else {
-      BooleanQuery.Builder bqBuilder = new BooleanQuery.Builder();
-      bqBuilder.add(context.getFilter(), BooleanClause.Occur.FILTER);
-      bqBuilder.add(query, BooleanClause.Occur.MUST);
-      Query q = bqBuilder.build();
-
-      // Figure out how to break the scoring ties.
-      if (context.getSearchArgs().arbitraryScoreTieBreak) {
-        rs = searcher.search(q, context.getSearchArgs().hits);
-      } else if (context.getSearchArgs().searchtweets) {
-        // TODO: we need to build the proper tie-breaking code path for tweets.
-        rs = searcher.search(q, context.getSearchArgs().hits);
-      } else {
-        rs = searcher.search(q, context.getSearchArgs().hits, BREAK_SCORE_TIES_BY_DOCID,
-          true, true);
+      if (context.getFilter() != null) {
+        // If there's a filter condition, we need to add in the constraint.
+        // Otherwise, just use the original query.
+        BooleanQuery.Builder bqBuilder = new BooleanQuery.Builder();
+        bqBuilder.add(context.getFilter(), BooleanClause.Occur.FILTER);
+        bqBuilder.add(query, BooleanClause.Occur.MUST);
+        finalQuery = bqBuilder.build();
       }
     }
+
+    TopDocs rs;
+    // Figure out how to break the scoring ties.
+    if (context.getSearchArgs().arbitraryScoreTieBreak) {
+      rs = searcher.search(finalQuery, context.getSearchArgs().hits);
+    } else if (context.getSearchArgs().searchtweets) {
+      rs = searcher.search(finalQuery, context.getSearchArgs().hits, BREAK_SCORE_TIES_BY_TWEETID, true, true);
+    } else {
+      rs = searcher.search(finalQuery, context.getSearchArgs().hits, BREAK_SCORE_TIES_BY_DOCID, true, true);
+    }
+
     return ScoredDocuments.fromTopDocs(rs, searcher);
   }
 
@@ -158,13 +188,15 @@ public class AxiomReranker implements Reranker {
       IndexReader reader = DirectoryReader.open(FSDirectory.open(indexPath));
       IndexSearcher searcher = new IndexSearcher(reader);
       searcher.setSimilarity(context.getIndexSearcher().getSimilarity(true));
+
       SearchArgs args = new SearchArgs();
       args.hits = this.M;
+      args.arbitraryScoreTieBreak = context.getSearchArgs().arbitraryScoreTieBreak;
       args.searchtweets = context.getSearchArgs().searchtweets;
 
-      RerankerContext externalContext = new RerankerContext(searcher, context.getQuery(),
-        context.getQueryId(), context.getQueryText(), context.getQueryTokens(), context.getField(),
-        context.getFilter(), args);
+      RerankerContext externalContext = new RerankerContext(searcher, context.getQueryId(), context.getQuery(),
+        context.getQueryText(), context.getQueryTokens(), context.getFilter(), args);
+
       return searchTopDocs(null, externalContext);
     } else {
       return docs;
@@ -201,9 +233,20 @@ public class AxiomReranker implements Reranker {
         reader = searcher.getIndexReader();
       }
       int availableDocsCnt = reader.getDocCount(this.field);
-      Random random = new Random();
-      while (docidSet.size() < targetSize) {
-        docidSet.add(random.nextInt(availableDocsCnt));
+      if (this.deterministic) { // internal docid cannot be relied due to multi-threads indexing,
+                                // we have to rely on external docid here
+        IndexSearcher searcher = new IndexSearcher(reader);
+        TopDocs rs = searcher.search(new MatchAllDocsQuery(), reader.maxDoc(), BREAK_SCORE_TIES_BY_DOCID,
+          true, true);
+        Random random = new Random(this.seed);
+        while (docidSet.size() < targetSize) {
+          docidSet.add(rs.scoreDocs[random.nextInt(rs.scoreDocs.length)].doc);
+        }
+      } else {
+        Random random = new Random();
+        while (docidSet.size() < targetSize) {
+          docidSet.add(random.nextInt(availableDocsCnt));
+        }
       }
     }
 
