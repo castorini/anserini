@@ -63,7 +63,7 @@ import java.util.Set;
  */
 public class JsonCollection extends Collection<JsonDocument> {
 
-  public class FileSegment extends Collection.FileSegment {
+  public class FileSegment extends Collection<JsonDocument>.FileSegment {
     protected FileSegment(Path path) throws IOException {
       dType = new JsonDocument(path.toString());
       bufferedReader = new BufferedReader(new FileReader(path.toString()));

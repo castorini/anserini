@@ -145,10 +145,10 @@ public final class SearchCollection implements Closeable {
       throw new IllegalArgumentException("Topics file : " + topicsFile + " does not exist or is not a (readable) file.");
     }
 
-    TopicReader tr;
+    TopicReader<K> tr;
     SortedMap<K, Map<String, String>> topics;
     try {
-      tr = (TopicReader) Class.forName("io.anserini.search.query." + args.topicReader + "TopicReader")
+      tr = (TopicReader<K>) Class.forName("io.anserini.search.query." + args.topicReader + "TopicReader")
           .getConstructor(Path.class).newInstance(topicsFile);
       topics = tr.read();
     } catch (Exception e) {
@@ -202,7 +202,8 @@ public final class SearchCollection implements Closeable {
       rs = searcher.search(query, args.hits, BREAK_SCORE_TIES_BY_DOCID, true, true);
     }
 
-    RerankerContext context = new RerankerContext(searcher, qid, query, queryString, queryTokens, null, args);
+    RerankerContext context = new RerankerContext<>(searcher, qid, query, queryString, queryTokens, null, args);
+
     return cascade.run(ScoredDocuments.fromTopDocs(rs, searcher), context);
   }
 
@@ -227,7 +228,8 @@ public final class SearchCollection implements Closeable {
       rs = searcher.search(compositeQuery, args.hits, BREAK_SCORE_TIES_BY_TWEETID, true, true);
     }
 
-    RerankerContext context = new RerankerContext(searcher, qid, keywordQuery, queryString, queryTokens, filter, args);
+    RerankerContext context = new RerankerContext<>(searcher, qid, keywordQuery, queryString, queryTokens, filter, args);
+
     return cascade.run(ScoredDocuments.fromTopDocs(rs, searcher), context);
   }
 

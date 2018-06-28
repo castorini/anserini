@@ -26,7 +26,7 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class MicroblogTopicReader extends TopicReader {
+public class MicroblogTopicReader extends TopicReader<Integer> {
   public MicroblogTopicReader(Path topicFile) {
     super(topicFile);
   }

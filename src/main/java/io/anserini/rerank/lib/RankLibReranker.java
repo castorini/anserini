@@ -38,7 +38,7 @@ import java.util.*;
  * This reranker class will load in a RankLib model and then score and rerank the documents
  * using that
  */
-public class RankLibReranker implements Reranker {
+public class RankLibReranker<T> implements Reranker<T> {
   private static final Logger LOG = LogManager.getLogger(RankLibReranker.class);
 
   private static final RankerFactory FACTORY = new RankerFactory();
@@ -46,7 +46,7 @@ public class RankLibReranker implements Reranker {
   private final FeatureExtractors extractors;
   private final String termsField;
 
-  private DataPoint convertToDataPoint(Document doc, RerankerContext context) {
+  private DataPoint convertToDataPoint(Document doc, RerankerContext<T> context) {
     Terms terms = null;
     try {
       terms = MultiFields.getTerms(context.getIndexSearcher().getIndexReader(), this.termsField);
@@ -73,7 +73,7 @@ public class RankLibReranker implements Reranker {
   }
 
   @Override
-  public ScoredDocuments rerank(ScoredDocuments docs, RerankerContext context) {
+  public ScoredDocuments rerank(ScoredDocuments docs, RerankerContext<T> context) {
     // Used to hold our rescored docs
     ScoredDocuments rerankedDocs = new ScoredDocuments();
     int numResults = docs.documents.length;

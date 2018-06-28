@@ -25,7 +25,7 @@ import org.apache.lucene.search.Query;
 /**
  * Feature extractor for the twitter collections. Does not require performing searches
  */
-public class TwitterFeatureExtractor extends BaseFeatureExtractor{
+public class TwitterFeatureExtractor extends BaseFeatureExtractor<Integer> {
   private static final Logger LOG = LogManager.getLogger(TwitterFeatureExtractor.class);
   private static final FeatureExtractors DEFAULT_EXTRACTOR_CHAIN = FeatureExtractors.
           createFeatureExtractorChain(new UnigramFeatureExtractor(),
@@ -61,7 +61,7 @@ public class TwitterFeatureExtractor extends BaseFeatureExtractor{
    * @param qrels
    * @param topics
    */
-  public TwitterFeatureExtractor(IndexReader reader, Qrels qrels, Map<String, Map<String, String>> topics) {
+  public TwitterFeatureExtractor(IndexReader reader, Qrels qrels, Map<Integer, Map<String, String>> topics) {
     super(reader, qrels, topics, getDefaultExtractors());
     LOG.debug("Twitter Feature Extractor initialized.");
   }
@@ -74,7 +74,7 @@ public class TwitterFeatureExtractor extends BaseFeatureExtractor{
    * @param topics
    */
   public TwitterFeatureExtractor(IndexReader reader, Qrels qrels,
-                 Map<String, Map<String, String>> topics, FeatureExtractors featureExtractors) {
+                 Map<Integer, Map<String, String>> topics, FeatureExtractors featureExtractors) {
     super(reader, qrels, topics, featureExtractors == null ? getDefaultExtractors() : featureExtractors);
     LOG.debug("Twitter Feature Extractor initialized with custom feature extractors.");
   }
