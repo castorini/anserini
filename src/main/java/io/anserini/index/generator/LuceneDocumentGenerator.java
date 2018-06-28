@@ -114,7 +114,7 @@ public class LuceneDocumentGenerator<T extends SourceDocument> {
 
     if (contents.trim().length() == 0) {
       // Log and move on, otherwise output can be very noisy.
-      counters.emptyDocuments.incrementAndGet();
+      counters.empty.incrementAndGet();
       return null;
     }
 
