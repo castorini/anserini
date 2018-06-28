@@ -11,9 +11,9 @@ import java.util.Set;
 /**
  * Count of unique query terms
  */
-public class UniqueTermCount implements FeatureExtractor<String> {
+public class UniqueTermCount<T> implements FeatureExtractor<T> {
   @Override
-  public float extract(Document doc, Terms terms, RerankerContext<String> context) {
+  public float extract(Document doc, Terms terms, RerankerContext<T> context) {
     Set<String> queryTokens = new HashSet<>(context.getQueryTokens());
     return queryTokens.size();
   }

@@ -21,11 +21,11 @@ import java.util.Map;
  * Computes the TFIDF feature according to Lucene's formula,
  * Not the same because we don't compute length norm or query norm, with boost 1
  */
-public class TFIDFFeatureExtractor implements FeatureExtractor<String> {
+public class TFIDFFeatureExtractor<T> implements FeatureExtractor<T> {
   private static final Logger LOG = LogManager.getLogger(TFIDFFeatureExtractor.class);
 
   @Override
-  public float extract(Document doc, Terms terms, RerankerContext<String> context) {
+  public float extract(Document doc, Terms terms, RerankerContext<T> context) {
     float score = 0.0f;
     Map<String, Long> countMap = new HashMap<>();
     Map<String, Integer> docFreqs = new HashMap<>();

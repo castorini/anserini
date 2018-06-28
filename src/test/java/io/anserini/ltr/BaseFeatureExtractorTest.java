@@ -35,7 +35,7 @@ import java.util.Random;
 /**
  * This class will contain setup and teardown code for testing feature extractors
  */
-abstract public class BaseFeatureExtractorTest extends LuceneTestCase {
+abstract public class BaseFeatureExtractorTest<T> extends LuceneTestCase {
   protected static final String TEST_FIELD_NAME = LuceneDocumentGenerator.FIELD_BODY;
   protected static final Analyzer TEST_ANALYZER = new EnglishAnalyzer();
   protected static final QueryParser TEST_PARSER = new QueryParser(TEST_FIELD_NAME, TEST_ANALYZER);
@@ -52,7 +52,6 @@ abstract public class BaseFeatureExtractorTest extends LuceneTestCase {
    * @param extractors  The extractors
    * @return
    */
-//  @SafeVarargs
   protected static FeatureExtractors getChain(FeatureExtractor... extractors ) {
     FeatureExtractors chain = new FeatureExtractors();
     for (FeatureExtractor extractor : extractors) {
@@ -81,10 +80,15 @@ abstract public class BaseFeatureExtractorTest extends LuceneTestCase {
    * and the query we want with dummy query ids and null filter
    * @return
    */
-  protected RerankerContext<String> makeTestContext(String queryText) {
+  protected RerankerContext<T> makeTestContext(String queryText) {
     try {
-	  RerankerContext<String> context = new RerankerContext<>(new IndexSearcher(DirectoryReader.open(DIRECTORY)), DEFAULT_QID, TEST_PARSER.parse(queryText),
-              queryText, AnalyzerUtils.tokenize(TEST_ANALYZER, queryText), null, null);
+	  RerankerContext<T> context = new RerankerContext<T>(
+	    new IndexSearcher(DirectoryReader.open(DIRECTORY)),
+        (T) DEFAULT_QID,
+        TEST_PARSER.parse(queryText),
+        queryText,
+        AnalyzerUtils.tokenize(TEST_ANALYZER, queryText),
+        null, null);
       return context;
     } catch (ParseException e) {
       return null;
@@ -153,7 +157,7 @@ abstract public class BaseFeatureExtractorTest extends LuceneTestCase {
     testWriter.forceMerge(1);
 
     Document testDoc = addedDocs.get(docToExtract);
-    RerankerContext<String> context = makeTestContext(queryText);
+    RerankerContext<T> context = makeTestContext(queryText);
     IndexReader reader = context.getIndexSearcher().getIndexReader();
     Terms terms = reader.getTermVector(docToExtract, TEST_FIELD_NAME);
     float[] extractedFeatureValues = extractors.extractAll(testDoc, terms, context);

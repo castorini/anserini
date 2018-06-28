@@ -25,7 +25,7 @@ import java.util.Set;
  * Lucene uses the norm value encoded in the index, we are calculating it as is
  * also we do not have any boosting, the field norm is also not available
  */
-public class BM25FeatureExtractor implements FeatureExtractor<String> {
+public class BM25FeatureExtractor<T> implements FeatureExtractor<T> {
   private static final Logger LOG = LogManager.getLogger(BM25FeatureExtractor.class);
 
   public static Map<String, Integer> getDocFreqs(IndexReader reader, List<String> queryTokens, String field) throws IOException {
@@ -88,7 +88,7 @@ public class BM25FeatureExtractor implements FeatureExtractor<String> {
    * @return
    */
   @Override
-  public float extract(Document doc, Terms terms, RerankerContext<String> context) {
+  public float extract(Document doc, Terms terms, RerankerContext<T> context) {
     Set<String> queryTokens = new HashSet<>(context.getQueryTokens());
 
     TermsEnum termsEnum = null;
