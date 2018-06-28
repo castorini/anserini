@@ -1,5 +1,7 @@
 import sys
 import os
+import argparse
+
 from subprocess import call
 
 index_cmd = """
@@ -9,14 +11,14 @@ nohup sh target/appassembler/bin/IndexCollection -collection TweetCollection \
  -storePositions -storeDocvectors -storeRawDocs -uniqueDocid -tweet.keepUrls -tweet.stemming"""
 
 run_cmds = [ \
-    "sh target/appassembler/bin/SearchCollection -searchtweets -topicreader Microblog -index lucene-index.tweets2013.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.microblog2013.txt -output run.mb13.bm25.txt -bm25 -hits 1000",
-    "sh target/appassembler/bin/SearchCollection -searchtweets -topicreader Microblog -index lucene-index.tweets2013.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.microblog2014.txt -output run.mb14.bm25.txt -bm25 -hits 1000",
-    "sh target/appassembler/bin/SearchCollection -searchtweets -topicreader Microblog -index lucene-index.tweets2013.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.microblog2013.txt -output run.mb13.bm25+rm3.txt -bm25 -rm3 -hits 1000",
-    "sh target/appassembler/bin/SearchCollection -searchtweets -topicreader Microblog -index lucene-index.tweets2013.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.microblog2014.txt -output run.mb14.bm25+rm3.txt -bm25 -rm3 -hits 1000",
-    "sh target/appassembler/bin/SearchCollection -searchtweets -topicreader Microblog -index lucene-index.tweets2013.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.microblog2013.txt -output run.mb13.ql.txt -ql -hits 1000",
-    "sh target/appassembler/bin/SearchCollection -searchtweets -topicreader Microblog -index lucene-index.tweets2013.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.microblog2014.txt -output run.mb14.ql.txt -ql -hits 1000",
-    "sh target/appassembler/bin/SearchCollection -searchtweets -topicreader Microblog -index lucene-index.tweets2013.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.microblog2013.txt -output run.mb13.ql+rm3.txt -ql -rm3 -hits 1000",
-    "sh target/appassembler/bin/SearchCollection -searchtweets -topicreader Microblog -index lucene-index.tweets2013.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.microblog2014.txt -output run.mb14.ql+rm3.txt -ql -rm3 -hits 1000"
+    "sh target/appassembler/bin/SearchCollection -searchtweets -topicreader Microblog -index {} -topics src/main/resources/topics-and-qrels/topics.microblog2013.txt -output run.mb13.bm25.txt -bm25 -hits 1000",
+    "sh target/appassembler/bin/SearchCollection -searchtweets -topicreader Microblog -index {} -topics src/main/resources/topics-and-qrels/topics.microblog2014.txt -output run.mb14.bm25.txt -bm25 -hits 1000",
+    "sh target/appassembler/bin/SearchCollection -searchtweets -topicreader Microblog -index {} -topics src/main/resources/topics-and-qrels/topics.microblog2013.txt -output run.mb13.bm25+rm3.txt -bm25 -rm3 -hits 1000",
+    "sh target/appassembler/bin/SearchCollection -searchtweets -topicreader Microblog -index {} -topics src/main/resources/topics-and-qrels/topics.microblog2014.txt -output run.mb14.bm25+rm3.txt -bm25 -rm3 -hits 1000",
+    "sh target/appassembler/bin/SearchCollection -searchtweets -topicreader Microblog -index {} -topics src/main/resources/topics-and-qrels/topics.microblog2013.txt -output run.mb13.ql.txt -ql -hits 1000",
+    "sh target/appassembler/bin/SearchCollection -searchtweets -topicreader Microblog -index {} -topics src/main/resources/topics-and-qrels/topics.microblog2014.txt -output run.mb14.ql.txt -ql -hits 1000",
+    "sh target/appassembler/bin/SearchCollection -searchtweets -topicreader Microblog -index {} -topics src/main/resources/topics-and-qrels/topics.microblog2013.txt -output run.mb13.ql+rm3.txt -ql -rm3 -hits 1000",
+    "sh target/appassembler/bin/SearchCollection -searchtweets -topicreader Microblog -index {} -topics src/main/resources/topics-and-qrels/topics.microblog2014.txt -output run.mb14.ql+rm3.txt -ql -rm3 -hits 1000"
 ]
 
 t1_qrels = "src/main/resources/topics-and-qrels/qrels.microblog2013.txt"
@@ -29,9 +31,23 @@ def trec_eval_metric(metric, qrels, run):
     return float(os.popen("eval/trec_eval.9.0/trec_eval -m {} {} {}".format(metric, qrels, run)).read().split("\t")[2].strip())
 
 if __name__ == "__main__":
-    call(index_cmd, shell=True)
+    parser = argparse.ArgumentParser(description='Run regression tests on Tweets2013.')
+    parser.add_argument('--index', dest='index', action='store_true', help='rebuild index from scratch')
+    parser.set_defaults(index=False)
+
+    args = parser.parse_args()
+
+    # Decide if we're going to index from scratch. If not, use pre-stored index at known location.
+    if args.index == True:
+        call(index_cmd, shell=True)
+        index_path = 'lucene-index.tweets2013.pos+docvectors+rawdocs'
+        print(args.index)
+    else:
+        index_path = '/tuna1/indexes/lucene-index.tweets2013.pos+docvectors+rawdocs'
+
+    # Use the correct index path.
     for cmd in run_cmds:
-        call(cmd, shell=True)
+        call(cmd.format(index_path), shell=True)
 
     expected_t1_map = extract_value_from_doc("TREC 2013 Microblog Track", 1, 1)
     expected_t2_map = extract_value_from_doc("TREC 2014 Microblog Track", 1, 1)

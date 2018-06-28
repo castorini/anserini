@@ -1,5 +1,7 @@
 import sys
 import os
+import argparse
+
 from subprocess import call
 
 index_cmd = """
@@ -9,10 +11,10 @@ nohup sh target/appassembler/bin/IndexCollection -collection WtCollection \
  -storePositions -storeDocvectors"""
 
 run_cmds = [ \
-    "nohup sh target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.wt10g.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.451-550.txt -output run.wt10g.451-550.bm25.txt -bm25",
-    "nohup sh target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.wt10g.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.451-550.txt -output run.wt10g.451-550.bm25+rm3.txt -bm25 -rm3",
-    "nohup sh target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.wt10g.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.451-550.txt -output run.wt10g.451-550.ql.txt -ql",
-    "nohup sh target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.wt10g.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.451-550.txt -output run.wt10g.451-550.ql+rm3.txt -ql -rm3"]
+    "nohup sh target/appassembler/bin/SearchCollection -topicreader Trec -index {} -topics src/main/resources/topics-and-qrels/topics.451-550.txt -output run.wt10g.451-550.bm25.txt -bm25",
+    "nohup sh target/appassembler/bin/SearchCollection -topicreader Trec -index {} -topics src/main/resources/topics-and-qrels/topics.451-550.txt -output run.wt10g.451-550.bm25+rm3.txt -bm25 -rm3",
+    "nohup sh target/appassembler/bin/SearchCollection -topicreader Trec -index {} -topics src/main/resources/topics-and-qrels/topics.451-550.txt -output run.wt10g.451-550.ql.txt -ql",
+    "nohup sh target/appassembler/bin/SearchCollection -topicreader Trec -index {} -topics src/main/resources/topics-and-qrels/topics.451-550.txt -output run.wt10g.451-550.ql+rm3.txt -ql -rm3"]
 
 qrels = "src/main/resources/topics-and-qrels/qrels.451-550.txt"
 
@@ -23,9 +25,23 @@ def trec_eval_metric(metric, qrels, run):
     return float(os.popen("eval/trec_eval.9.0/trec_eval -m {} {} {}".format(metric, qrels, run)).read().split("\t")[2].strip())
 
 if __name__ == "__main__":
-    call(index_cmd, shell=True)
+    parser = argparse.ArgumentParser(description='Run regression tests on Wt10g.')
+    parser.add_argument('--index', dest='index', action='store_true', help='rebuild index from scratch')
+    parser.set_defaults(index=False)
+
+    args = parser.parse_args()
+
+    # Decide if we're going to index from scratch. If not, use pre-stored index at known location.
+    if args.index == True:
+        call(index_cmd, shell=True)
+        index_path = 'lucene-index.wt10g.pos+docvectors'
+        print(args.index)
+    else:
+        index_path = '/tuna1/indexes/lucene-index.wt10g.pos+docvectors'
+
+    # Use the correct index path.
     for cmd in run_cmds:
-        call(cmd, shell=True)
+        call(cmd.format(index_path), shell=True)
 
     expected_map = extract_value_from_doc("Wt10g: Topics 451-550", 1, 1)
     actual_map = trec_eval_metric("map", qrels, "run.wt10g.451-550.bm25.txt")

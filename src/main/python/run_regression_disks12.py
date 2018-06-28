@@ -10,20 +10,6 @@ target/appassembler/bin/IndexCollection -collection TrecCollection \
  -index lucene-index.disk12.pos+docvectors+rawdocs -threads 16 \
  -storePositions -storeDocvectors -storeRawDocs -optimize"""
 
-run_cmds1 = [ \
-    "sh target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.51-100.txt -output run.disk12.51-100.bm25.txt -bm25",
-    "sh target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.101-150.txt -output run.disk12.101-150.bm25.txt -bm25",
-    "sh target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.151-200.txt -output run.disk12.151-200.bm25.txt -bm25",
-    "sh target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.51-100.txt -output run.disk12.51-100.bm25+rm3.txt -bm25 -rm3",
-    "sh target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.101-150.txt -output run.disk12.101-150.bm25+rm3.txt -bm25 -rm3",
-    "sh target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.151-200.txt -output run.disk12.151-200.bm25+rm3.txt -bm25 -rm3",
-    "sh target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.51-100.txt -output run.disk12.51-100.ql.txt -ql",
-    "sh target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.101-150.txt -output run.disk12.101-150.ql.txt -ql",
-    "sh target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.151-200.txt -output run.disk12.151-200.ql.txt -ql",
-    "sh target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.51-100.txt -output run.disk12.51-100.ql+rm3.txt -ql -rm3",
-    "sh target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.101-150.txt -output run.disk12.101-150.ql+rm3.txt -ql -rm3",
-    "sh target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.151-200.txt -output run.disk12.151-200.ql+rm3.txt -ql -rm3"]
-
 run_cmds = [ \
     "sh target/appassembler/bin/SearchCollection -topicreader Trec -index {} -topics src/main/resources/topics-and-qrels/topics.51-100.txt -output run.disk12.51-100.bm25.txt -bm25",
     "sh target/appassembler/bin/SearchCollection -topicreader Trec -index {} -topics src/main/resources/topics-and-qrels/topics.101-150.txt -output run.disk12.101-150.bm25.txt -bm25",
@@ -50,7 +36,7 @@ def trec_eval_metric(metric, qrels, run):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Run regression tests on Disks 1 and 2.')
-    parser.add_argument('--index', dest='index', action='store_true')
+    parser.add_argument('--index', dest='index', action='store_true', help='rebuild index from scratch')
     parser.set_defaults(index=False)
 
     args = parser.parse_args()
@@ -62,7 +48,6 @@ if __name__ == "__main__":
         print(args.index)
     else:
         index_path = '/tuna1/indexes/lucene-index.disk12.pos+docvectors+rawdocs'
-        print("Don't index")
 
     # Use the correct index path.
     for cmd in run_cmds:
