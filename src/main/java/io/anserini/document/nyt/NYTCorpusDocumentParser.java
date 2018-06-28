@@ -65,7 +65,7 @@ public class NYTCorpusDocumentParser {
 	private static final String SERIES_NAME_TAG = "series.name";
 
 	/** NITF Constant */
-	private static final DateFormat format = new SimpleDateFormat(
+	private DateFormat format = new SimpleDateFormat(
 			"yyyyMMdd'T'HHmmss");
 
 	/** NITF Constant */
