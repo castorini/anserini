@@ -116,7 +116,7 @@ public class TweetGenerator extends LuceneDocumentGenerator<TweetDocument> {
     }
     final TwitterTextParseResults result = TwitterTextParser.parseTweet(tweetDoc.content().trim());
     if (!result.isValid) {
-      counters.unindexableDocuments.incrementAndGet();
+      counters.errors.incrementAndGet();
       return null;
     }
     String text = tweetDoc.content().trim().substring(result.validTextRange.start, result.validTextRange.end);
@@ -136,15 +136,17 @@ public class TweetGenerator extends LuceneDocumentGenerator<TweetDocument> {
 
     // Skip deletes tweetids.
     if (deletes != null && deletes.contains(id)) {
+      counters.skippedDocuments.incrementAndGet();
       return null;
     }
 
     if (tweetDoc.getIdLong() > args.tweetMaxId) {
-      counters.unindexableDocuments.incrementAndGet();
+      counters.skippedDocuments.incrementAndGet();
       return null;
     }
 
     if (!args.tweetKeepRetweets && tweetDoc.getRetweetedStatusId().isPresent()) {
+      counters.skippedDocuments.incrementAndGet();
       return null;
     }
 

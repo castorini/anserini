@@ -134,7 +134,8 @@ public final class IndexCollection {
 
     /**
      * Counter for unindexed documents. These are cases where the {@link SourceDocument} returned
-     * by {@link Collection.FileSegment} is {@code null}.
+     * by {@link Collection.FileSegment} is {@code null} or the {@link LuceneDocumentGenerator}
+     * returned {@code null}.
      */
     public AtomicLong unindexedDocuments = new AtomicLong();
 
@@ -143,6 +144,12 @@ public final class IndexCollection {
      * returns false.
      */
     public AtomicLong unindexableDocuments = new AtomicLong();
+
+    /**
+     * Counter for skipped documents. These are cases documents are skipped as part of normal
+     * processing logic, e.g., using a whitelist, not indexing retweets or deleted tweets.
+     */
+    public AtomicLong skippedDocuments = new AtomicLong();
 
     /**
      * Counter for unexpected errors.
@@ -165,8 +172,8 @@ public final class IndexCollection {
     @Override
     public void run() {
       try {
-        LuceneDocumentGenerator transformer =
-            (LuceneDocumentGenerator) transformerClass
+        LuceneDocumentGenerator generator =
+            (LuceneDocumentGenerator) generatorClass
                 .getDeclaredConstructor(Args.class, Counters.class)
                 .newInstance(args, counters);
 
@@ -184,15 +191,22 @@ public final class IndexCollection {
           }
 
           @SuppressWarnings("unchecked") // Yes, we know what we're doing here.
-          Document doc = transformer.createDocument(d);
-          if (doc != null && (whitelistDocids == null || whitelistDocids.contains(d.id()))) {
-            if (args.uniqueDocid) {
-              writer.updateDocument(new Term("id", d.id()), doc);
-            } else {
-              writer.addDocument(doc);
-            }
-            cnt++;
+          Document doc = generator.createDocument(d);
+          if (doc == null) {
+            counters.unindexedDocuments.incrementAndGet();
+            continue;
           }
+          if (whitelistDocids != null && !whitelistDocids.contains(d.id())) {
+            counters.skippedDocuments.incrementAndGet();
+            continue;
+          }
+
+          if (args.uniqueDocid) {
+            writer.updateDocument(new Term("id", d.id()), doc);
+          } else {
+            writer.addDocument(doc);
+          }
+          cnt++;
         }
         iter.close();
         LOG.info(inputFile.getParent().getFileName().toString() + File.separator +
@@ -209,7 +223,7 @@ public final class IndexCollection {
   private final Path collectionPath;
   private final Set whitelistDocids;
   private final Class collectionClass;
-  private final Class transformerClass;
+  private final Class generatorClass;
   private final Collection collection;
   private final Counters counters;
 
@@ -240,7 +254,7 @@ public final class IndexCollection {
           " does not exist or is not readable, please check the path");
     }
 
-    this.transformerClass = Class.forName("io.anserini.index.generator." + args.generatorClass);
+    this.generatorClass = Class.forName("io.anserini.index.generator." + args.generatorClass);
     this.collectionClass = Class.forName("io.anserini.collection." + args.collectionClass);
 
     collection = (Collection) this.collectionClass.newInstance();
@@ -325,11 +339,13 @@ public final class IndexCollection {
       throw new RuntimeException("Error: unexpected difference in number of indexed documents!");
     }
 
-    LOG.info(String.format("Indexed documents:     %,12d", counters.indexedDocuments.get()));
-    LOG.info(String.format("Empty documents:       %,12d",counters.emptyDocuments.get()));
-    LOG.info(String.format("Unindexed documents:   %,12d",counters.unindexedDocuments.get()));
-    LOG.info(String.format("Unindexable documents: %,12d",counters.unindexableDocuments.get()));
-    LOG.info(String.format("Errors:                %,12d",counters.errors.get()));
+    LOG.info("# Final Counter Values");
+    LOG.info(String.format("Indexed:     %,12d", counters.indexedDocuments.get()));
+    LOG.info(String.format("Empty:       %,12d", counters.emptyDocuments.get()));
+    LOG.info(String.format("Unindexed:   %,12d", counters.unindexedDocuments.get()));
+    LOG.info(String.format("Unindexable: %,12d", counters.unindexableDocuments.get()));
+    LOG.info(String.format("Skipped:     %,12d", counters.errors.get()));
+    LOG.info(String.format("Errors:      %,12d", counters.errors.get()));
 
     final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
     LOG.info(String.format("Total %,d documents indexed in %s", numIndexed,
