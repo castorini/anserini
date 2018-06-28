@@ -46,7 +46,7 @@ public class TrecCoreDocument implements SourceDocument {
     NYTCorpusDocument nytDoc = nytParser.parseNYTCorpusDocumentFromFile(fileName, false);
 
     id = String.valueOf(nytDoc.getGuid());
-    contents = nytDoc.getBody();
+    contents = nytDoc.getBody() == null ? "" :nytDoc.getBody();
 
     return this;
   }
