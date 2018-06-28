@@ -33,7 +33,6 @@ def trec_eval_metric(metric, qrels, run):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Run regression tests on Tweets2011.')
     parser.add_argument('--index', dest='index', action='store_true', help='rebuild index from scratch')
-    parser.set_defaults(index=False)
 
     args = parser.parse_args()
 
