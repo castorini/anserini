@@ -154,6 +154,8 @@ public class AxiomReranker<T> implements Reranker<T> {
         bqBuilder.add(context.getFilter(), BooleanClause.Occur.FILTER);
         bqBuilder.add(query, BooleanClause.Occur.MUST);
         finalQuery = bqBuilder.build();
+      } else {
+        finalQuery = query;
       }
     }
 
