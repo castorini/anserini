@@ -238,7 +238,8 @@ public class AxiomReranker<T> implements Reranker<T> {
       if (this.deterministic) { // internal docid cannot be relied due to multi-threads indexing,
                                 // we have to rely on external docid here
         IndexSearcher searcher = new IndexSearcher(reader);
-        TopDocs rs = searcher.search(new MatchAllDocsQuery(), reader.maxDoc(), BREAK_SCORE_TIES_BY_DOCID,
+        TopDocs rs = searcher.search(new MatchAllDocsQuery(), reader.maxDoc(),
+          context.getSearchArgs().searchtweets ? BREAK_SCORE_TIES_BY_TWEETID : BREAK_SCORE_TIES_BY_DOCID,
           true, true);
         Random random = new Random(this.seed);
         while (docidSet.size() < targetSize) {
