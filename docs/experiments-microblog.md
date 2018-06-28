@@ -9,10 +9,11 @@ effectiveness results you'll get should be similar, but will likely not be ident
 Indexing the Tweets2011 collection:
 
 ```
-nohup sh target/appassembler/bin/IndexCollection -collection TweetCollection -input \
-/path/to/Tweets2011/ -generator TweetGenerator -index lucene-index.tweets2011.pos+docvectors+rawdocs \
--threads 32 -storePositions -storeDocvectors -optimize -uniqueDocid -tweet.keepUrls -tweet.stemming \
->& log.Tweets2011.keepUrls.stemming.txt &
+nohup sh target/appassembler/bin/IndexCollection -collection TweetCollection \
+ -input /path/to/Tweets2011/ -generator TweetGenerator \
+ -index lucene-index.tweets2011.pos+docvectors+rawdocs -threads 16 \
+ -storePositions -storeDocvectors -storeRawDocs -optimize -uniqueDocid -tweet.keepUrls -tweet.stemming \
+ >& log.tweets2011 &
 ```
 __NB:__ The process is backgrounded
 
