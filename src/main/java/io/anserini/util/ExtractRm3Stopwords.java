@@ -105,7 +105,7 @@ public class ExtractRm3Stopwords {
     PrintStream out = new PrintStream(new FileOutputStream(new File(myArgs.output)));
     Pair pair;
     while ((pair = queue.poll()) != null) {
-      out.println(pair.key);
+      out.println(pair.key + "\t" + pair.value);
     }
     out.close();
 

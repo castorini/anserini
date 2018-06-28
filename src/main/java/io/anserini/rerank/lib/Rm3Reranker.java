@@ -29,6 +29,9 @@ import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.index.Term;
+import org.apache.lucene.index.Terms;
+import org.apache.lucene.index.TermsEnum;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.BooleanClause;
@@ -36,6 +39,7 @@ import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.TopDocs;
+import org.apache.lucene.util.BytesRef;
 
 import java.io.IOException;
 import java.util.HashSet;
@@ -43,6 +47,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_BODY;
 import static io.anserini.search.SearchCollection.BREAK_SCORE_TIES_BY_DOCID;
 import static io.anserini.search.SearchCollection.BREAK_SCORE_TIES_BY_TWEETID;
 
@@ -79,7 +84,7 @@ public class Rm3Reranker implements Reranker {
   public Rm3Reranker(Analyzer analyzer, String field, String stoplist) {
     this.analyzer = analyzer;
     this.field = field;
-    this.stopper = new Stopper(stoplist);
+    this.stopper = stoplist == null ? null : new Stopper(stoplist);
   }
 
   @Override
@@ -92,7 +97,7 @@ public class Rm3Reranker implements Reranker {
     FeatureVector qfv = FeatureVector.fromTerms(
         AnalyzerUtils.tokenize(analyzer, context.getQueryText())).scaleToUnitL1Norm();
 
-    FeatureVector rm = estimateRelevanceModel(docs, reader);
+    FeatureVector rm = estimateRelevanceModel(docs, reader, context.getSearchArgs().searchtweets);
     LOG.info("Relevance model estimated.");
 
     rm = FeatureVector.interpolate(qfv, rm, originalQueryWeight);
@@ -145,7 +150,7 @@ public class Rm3Reranker implements Reranker {
     return ScoredDocuments.fromTopDocs(rs, searcher);
   }
 
-  public FeatureVector estimateRelevanceModel(ScoredDocuments docs, IndexReader reader) {
+  public FeatureVector estimateRelevanceModel(ScoredDocuments docs, IndexReader reader, boolean tweetsearch) {
     FeatureVector f = new FeatureVector();
 
     Set<String> vocab = Sets.newHashSet();
@@ -154,8 +159,8 @@ public class Rm3Reranker implements Reranker {
 
     for (int i = 0; i < numdocs; i++) {
       try {
-        FeatureVector docVector = FeatureVector.fromLuceneTermVector(
-            reader.getTermVector(docs.ids[i], field), stopper, reader);
+        FeatureVector docVector = createdFeatureVector(
+            reader.getTermVector(docs.ids[i], field), reader, tweetsearch);
         docVector.pruneToSize(fbTerms);
 
         vocab.addAll(docVector.getFeatures());
@@ -183,6 +188,43 @@ public class Rm3Reranker implements Reranker {
 
     f.pruneToSize(fbTerms);
     f.scaleToUnitL1Norm();
+
+    return f;
+  }
+
+  private FeatureVector createdFeatureVector(Terms terms, IndexReader reader, boolean tweetsearch) {
+    FeatureVector f = new FeatureVector();
+
+    try {
+      int numDocs = reader.numDocs();
+      TermsEnum termsEnum = terms.iterator();
+
+      BytesRef text;
+      while ((text = termsEnum.next()) != null) {
+        String term = text.utf8ToString();
+
+        if (tweetsearch) {
+          if (term.length() < 2) continue;
+          if (stopper.isStopWord(term)) continue;
+          if (!term.matches("[a-z0-9]+")) continue;
+        } else {
+          if (term.length() < 2 || term.length() > 20) continue;
+          if (term.matches("[0-9]+")) continue;
+          if (!term.matches("[a-z0-9]+")) continue;
+
+          // If a term appears in more than 10% of documents discard it as a feedback term.
+          int df = reader.docFreq(new Term(FIELD_BODY, term));
+          if (((float) df / numDocs) > 0.1f) continue;
+        }
+
+        int freq = (int) termsEnum.totalTermFreq();
+        f.addFeatureWeight(term, (float) freq);
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+      // Return empty feature vector
+      return f;
+    }
 
     return f;
   }
