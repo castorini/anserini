@@ -1,12 +1,5 @@
 package io.anserini.util;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.PrintStream;
-import java.nio.file.Paths;
-import java.util.Comparator;
-import java.util.PriorityQueue;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.index.DirectoryReader;
@@ -23,6 +16,13 @@ import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.OptionHandlerFilter;
 import org.kohsuke.args4j.ParserProperties;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
+import java.nio.file.Paths;
+import java.util.Comparator;
+import java.util.PriorityQueue;
 
 public class ExtractRm3Stopwords {
   private static final Logger LOG = LogManager.getLogger(ExtractRm3Stopwords.class);
@@ -65,6 +65,7 @@ public class ExtractRm3Stopwords {
 
     Directory dir = FSDirectory.open(Paths.get(myArgs.index));
     IndexReader reader = DirectoryReader.open(dir);
+    int numDocs = reader.numDocs();
 
     Comparator<Pair> comp = new Comparator<Pair>(){
       @Override
@@ -80,7 +81,7 @@ public class ExtractRm3Stopwords {
     LOG.info("Starting to iterate through all terms...");
     Terms terms = MultiFields.getFields(reader).terms(myArgs.field);
     TermsEnum termsEnum = terms.iterator();
-    BytesRef text = null;
+    BytesRef text;
     int cnt = 0;
     while ((text = termsEnum.next()) != null) {
       String term = text.utf8ToString();
@@ -105,7 +106,7 @@ public class ExtractRm3Stopwords {
     PrintStream out = new PrintStream(new FileOutputStream(new File(myArgs.output)));
     Pair pair;
     while ((pair = queue.poll()) != null) {
-      out.println(pair.key + "\t" + pair.value);
+      out.println(pair.key + "\t" + pair.value + "\t" + numDocs + "\t" + ((float) pair.value / numDocs));
     }
     out.close();
 

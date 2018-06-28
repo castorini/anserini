@@ -203,15 +203,14 @@ public class Rm3Reranker implements Reranker {
       while ((text = termsEnum.next()) != null) {
         String term = text.utf8ToString();
 
-        if (tweetsearch) {
-          if (term.length() < 2) continue;
-          if (stopper.isStopWord(term)) continue;
-          if (!term.matches("[a-z0-9]+")) continue;
-        } else {
-          if (term.length() < 2 || term.length() > 20) continue;
-          if (term.matches("[0-9]+")) continue;
-          if (!term.matches("[a-z0-9]+")) continue;
+        if (term.length() < 2 || term.length() > 20) continue;
+        if (!term.matches("[a-z0-9]+")) continue;
 
+        if (tweetsearch) {
+          // If a term appears in more than 1% of documents discard it as a feedback term.
+          int df = reader.docFreq(new Term(FIELD_BODY, term));
+          if (((float) df / numDocs) > 0.01f) continue;
+        } else {
           // If a term appears in more than 10% of documents discard it as a feedback term.
           int df = reader.docFreq(new Term(FIELD_BODY, term));
           if (((float) df / numDocs) > 0.1f) continue;
