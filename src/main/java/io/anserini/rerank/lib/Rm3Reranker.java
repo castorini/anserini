@@ -207,11 +207,13 @@ public class Rm3Reranker implements Reranker {
         if (!term.matches("[a-z0-9]+")) continue;
 
         if (tweetsearch) {
-          // If a term appears in more than 1% of documents discard it as a feedback term.
           int df = reader.docFreq(new Term(FIELD_BODY, term));
-          if (((float) df / numDocs) > 0.01f) continue;
+          if (numDocs > 100000000) {
+            if (((float) df / numDocs) > 0.007f) continue;
+          } else {
+            if (((float) df / numDocs) > 0.01f) continue;
+          }
         } else {
-          // If a term appears in more than 10% of documents discard it as a feedback term.
           int df = reader.docFreq(new Term(FIELD_BODY, term));
           if (((float) df / numDocs) > 0.1f) continue;
         }
