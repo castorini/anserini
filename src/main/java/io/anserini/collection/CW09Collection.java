@@ -49,7 +49,7 @@ public class CW09Collection extends WarcCollection {
   }
 
   @Override
-  public Collection.FileSegment createFileSegment(Path p) throws IOException {
+  public FileSegment createFileSegment(Path p) throws IOException {
     return new FileSegment(p);
   }
 }

@@ -29,7 +29,7 @@ import java.util.Set;
  * Class representing an instance of a TREC Core collection.
  */
 public class TrecCoreCollection extends Collection<TrecCoreDocument> {
-  public class FileSegment extends Collection.FileSegment {
+  public class FileSegment extends Collection<TrecCoreDocument>.FileSegment {
     private String fileName;
 
     protected FileSegment(Path path) throws IOException {

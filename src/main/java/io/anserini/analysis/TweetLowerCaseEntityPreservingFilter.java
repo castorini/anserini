@@ -16,7 +16,7 @@
 
 package io.anserini.analysis;
 
-import com.twitter.Regex;
+import com.twitter.twittertext.Regex;
 import org.apache.lucene.analysis.TokenFilter;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;

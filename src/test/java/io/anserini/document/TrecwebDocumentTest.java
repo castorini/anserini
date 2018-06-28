@@ -25,7 +25,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 
-public class TrecwebDocumentTest extends DocumentTest {
+public class TrecwebDocumentTest extends DocumentTest<TrecwebDocument> {
 
   @Before
   public void setUp() throws Exception {
@@ -41,7 +41,7 @@ public class TrecwebDocumentTest extends DocumentTest {
         "</html>\n" +
         "</DOC>\n");
 
-    HashMap doc1 = new HashMap<String, String>();
+    HashMap<String, String> doc1 = new HashMap<>();
     doc1.put("id", "WEB-0001");
     // <DOCHDR> Will NOT be included
     doc1.put("content", "<html>Wh at ever here will be parsed\n" +

@@ -21,6 +21,7 @@ import com.google.common.collect.Sets;
 import io.anserini.rerank.Reranker;
 import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.ScoredDocuments;
+import io.anserini.search.SearchArgs;
 import io.anserini.util.AnalyzerUtils;
 import io.anserini.util.FeatureVector;
 import org.apache.commons.io.IOUtils;
@@ -38,6 +39,7 @@ import org.apache.lucene.search.Query;
 import org.apache.lucene.search.TopDocs;
 
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -52,9 +54,9 @@ public class Rm3Reranker implements Reranker {
   private final Analyzer analyzer;
   private final String field;
 
-  private int fbTerms = 20;
-  private int fbDocs = 50;
-  private float originalQueryWeight = 0.6f;
+  private final int fbTerms;
+  private final int fbDocs;
+  private final float originalQueryWeight;
 
   private Stopper stopper;
 
@@ -64,7 +66,7 @@ public class Rm3Reranker implements Reranker {
     public Stopper(String pathToStoplist) {
       try {
         ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-        List<String> lines = IOUtils.readLines(classloader.getResourceAsStream(pathToStoplist));
+        List<String> lines = IOUtils.readLines(classloader.getResourceAsStream(pathToStoplist), Charset.defaultCharset());
         stopwords = new HashSet<>(lines);
       } catch (Exception e) {
         e.printStackTrace();
@@ -76,10 +78,13 @@ public class Rm3Reranker implements Reranker {
     }
   }
 
-  public Rm3Reranker(Analyzer analyzer, String field, String stoplist) {
+  public Rm3Reranker(Analyzer analyzer, String field, String stoplist, SearchArgs args) {
     this.analyzer = analyzer;
     this.field = field;
     this.stopper = new Stopper(stoplist);
+    this.fbTerms = args.rm3_fbTerms;
+    this.fbDocs = args.rm3_fbDocs;
+    this.originalQueryWeight = args.rm3_originalQueryWeight;
   }
 
   @Override

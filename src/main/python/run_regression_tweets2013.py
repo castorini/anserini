@@ -5,18 +5,18 @@ from subprocess import call
 index_cmd = """
 nohup sh target/appassembler/bin/IndexCollection -collection TweetCollection \
  -input /tuna1/collections/twitter/Tweets2013-corpus/data/ -generator TweetGenerator \
- -index lucene-index.Tweets2013.pos+docvectors+rawdocs.keepUrls.stemming -threads 32 \
+ -index lucene-index.tweets2013.pos+docvectors+rawdocs -threads 32 \
  -storePositions -storeDocvectors -storeRawDocs -uniqueDocid -tweet.keepUrls -tweet.stemming"""
 
 run_cmds = [ \
-    "sh target/appassembler/bin/SearchCollection -searchtweets -topicreader Microblog -index lucene-index.Tweets2013.pos+docvectors+rawdocs.keepUrls.stemming -topics src/main/resources/topics-and-qrels/topics.microblog2013.txt -output run.mb13.bm25.txt -bm25 -hits 1000",
-    "sh target/appassembler/bin/SearchCollection -searchtweets -topicreader Microblog -index lucene-index.Tweets2013.pos+docvectors+rawdocs.keepUrls.stemming -topics src/main/resources/topics-and-qrels/topics.microblog2014.txt -output run.mb14.bm25.txt -bm25 -hits 1000",
-    "sh target/appassembler/bin/SearchCollection -searchtweets -topicreader Microblog -index lucene-index.Tweets2013.pos+docvectors+rawdocs.keepUrls.stemming -topics src/main/resources/topics-and-qrels/topics.microblog2013.txt -output run.mb13.bm25+rm3.txt -bm25 -rm3 -hits 1000",
-    "sh target/appassembler/bin/SearchCollection -searchtweets -topicreader Microblog -index lucene-index.Tweets2013.pos+docvectors+rawdocs.keepUrls.stemming -topics src/main/resources/topics-and-qrels/topics.microblog2014.txt -output run.mb14.bm25+rm3.txt -bm25 -rm3 -hits 1000",
-    "sh target/appassembler/bin/SearchCollection -searchtweets -topicreader Microblog -index lucene-index.Tweets2013.pos+docvectors+rawdocs.keepUrls.stemming -topics src/main/resources/topics-and-qrels/topics.microblog2013.txt -output run.mb13.ql.txt -ql -hits 1000",
-    "sh target/appassembler/bin/SearchCollection -searchtweets -topicreader Microblog -index lucene-index.Tweets2013.pos+docvectors+rawdocs.keepUrls.stemming -topics src/main/resources/topics-and-qrels/topics.microblog2014.txt -output run.mb14.ql.txt -ql -hits 1000",
-    "sh target/appassembler/bin/SearchCollection -searchtweets -topicreader Microblog -index lucene-index.Tweets2013.pos+docvectors+rawdocs.keepUrls.stemming -topics src/main/resources/topics-and-qrels/topics.microblog2013.txt -output run.mb13.ql+rm3.txt -ql -rm3 -hits 1000",
-    "sh target/appassembler/bin/SearchCollection -searchtweets -topicreader Microblog -index lucene-index.Tweets2013.pos+docvectors+rawdocs.keepUrls.stemming -topics src/main/resources/topics-and-qrels/topics.microblog2014.txt -output run.mb14.ql+rm3.txt -ql -rm3 -hits 1000"
+    "sh target/appassembler/bin/SearchCollection -searchtweets -topicreader Microblog -index lucene-index.tweets2013.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.microblog2013.txt -output run.mb13.bm25.txt -bm25 -hits 1000",
+    "sh target/appassembler/bin/SearchCollection -searchtweets -topicreader Microblog -index lucene-index.tweets2013.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.microblog2014.txt -output run.mb14.bm25.txt -bm25 -hits 1000",
+    "sh target/appassembler/bin/SearchCollection -searchtweets -topicreader Microblog -index lucene-index.tweets2013.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.microblog2013.txt -output run.mb13.bm25+rm3.txt -bm25 -rm3 -hits 1000",
+    "sh target/appassembler/bin/SearchCollection -searchtweets -topicreader Microblog -index lucene-index.tweets2013.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.microblog2014.txt -output run.mb14.bm25+rm3.txt -bm25 -rm3 -hits 1000",
+    "sh target/appassembler/bin/SearchCollection -searchtweets -topicreader Microblog -index lucene-index.tweets2013.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.microblog2013.txt -output run.mb13.ql.txt -ql -hits 1000",
+    "sh target/appassembler/bin/SearchCollection -searchtweets -topicreader Microblog -index lucene-index.tweets2013.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.microblog2014.txt -output run.mb14.ql.txt -ql -hits 1000",
+    "sh target/appassembler/bin/SearchCollection -searchtweets -topicreader Microblog -index lucene-index.tweets2013.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.microblog2013.txt -output run.mb13.ql+rm3.txt -ql -rm3 -hits 1000",
+    "sh target/appassembler/bin/SearchCollection -searchtweets -topicreader Microblog -index lucene-index.tweets2013.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.microblog2014.txt -output run.mb14.ql+rm3.txt -ql -rm3 -hits 1000"
 ]
 
 t1_qrels = "src/main/resources/topics-and-qrels/qrels.microblog2013.txt"

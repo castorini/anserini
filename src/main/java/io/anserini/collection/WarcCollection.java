@@ -33,7 +33,7 @@ import java.util.zip.GZIPInputStream;
  */
 public abstract class WarcCollection extends Collection<WarcRecord> {
 
-  public abstract class FileSegment extends Collection.FileSegment {
+  public abstract class FileSegment extends Collection<WarcRecord>.FileSegment {
     protected DataInputStream stream;
 
     protected FileSegment(Path path) throws IOException {

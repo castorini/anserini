@@ -41,7 +41,7 @@ import java.util.zip.GZIPInputStream;
  */
 public class TrecCollection extends Collection<TrecDocument> {
 
-  public class FileSegment extends Collection.FileSegment {
+  public class FileSegment extends Collection<TrecDocument>.FileSegment {
     public FileSegment(Path path) throws IOException {
       dType = new TrecDocument();
 
@@ -73,7 +73,7 @@ public class TrecCollection extends Collection<TrecDocument> {
   }
 
   @Override
-  public Collection.FileSegment createFileSegment(Path p) throws IOException {
+  public FileSegment createFileSegment(Path p) throws IOException {
     return new FileSegment(p);
   }
 }

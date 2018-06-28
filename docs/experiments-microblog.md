@@ -9,10 +9,11 @@ effectiveness results you'll get should be similar, but will likely not be ident
 Indexing the Tweets2011 collection:
 
 ```
-nohup sh target/appassembler/bin/IndexCollection -collection TweetCollection -input \
-/path/to/Tweets2011/ -generator TweetGenerator  -index lucene-index.Tweets2011.pos+docvectors.keepUrls.stemming \
--threads 32 -storePositions -storeDocvectors -optimize -uniqueDocid -tweet.keepUrls -tweet.stemming \
->& log.Tweets2011.keepUrls.stemming.txt &
+nohup sh target/appassembler/bin/IndexCollection -collection TweetCollection \
+ -input /path/to/Tweets2011/ -generator TweetGenerator \
+ -index lucene-index.tweets2011.pos+docvectors+rawdocs -threads 16 \
+ -storePositions -storeDocvectors -storeRawDocs -optimize -uniqueDocid -tweet.keepUrls -tweet.stemming \
+ >& log.tweets2011 &
 ```
 __NB:__ The process is backgrounded
 
@@ -26,7 +27,7 @@ More available indexing options:
 Running topics from TREC 2011 (also look in `src/main/resources/topics-and-qrels/` for topics from TREC 2012):
 
 ```
-sh target/appassembler/bin/SearchCollection -searchtweets -topicreader Microblog -index lucene-index.Tweets2011.pos+docvectors.keepUrls.stemming -bm25 \
+sh target/appassembler/bin/SearchCollection -searchtweets -topicreader Microblog -index lucene-index.tweets2011.pos+docvectors+rawdocs -bm25 \
 -hits 1000 -topics src/main/resources/topics-and-qrels/topics.microblog2011.txt -output run.mb11.keepUrls.stemming.bm25.txt
 ```
 
