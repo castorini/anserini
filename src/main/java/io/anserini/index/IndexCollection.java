@@ -182,7 +182,8 @@ public final class IndexCollection {
         while (iter.hasNext()) {
           SourceDocument d = iter.next();
           if (d == null) {
-            counters.unindexed.incrementAndGet();
+            // Current implementation can't distinguish between end-of-iterator vs. actual error,
+            // so don't update counters.
             continue;
           }
           if (!d.indexable()) {
