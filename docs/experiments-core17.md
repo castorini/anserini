@@ -1,6 +1,8 @@
 # Anserini Experiments on TREC Core
 
-**Indexing**:
+## Indexing
+
+Typical indexing command:
 
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection TrecCoreCollection \
@@ -11,39 +13,45 @@ nohup sh target/appassembler/bin/IndexCollection -collection TrecCoreCollection 
 ```
 
 The directory `/path/to/nyt_corpus/` should be the root directory of TREC Core collection, i.e., `ls /path/to/nyt_corpus/` 
-should bring up a bunch of subdirectories, `1987` to `2007`. The command above builds a standard positional index 
-(`-storePositions`) that's optimized into a single segment (`-optimize`). If you also want to store document vectors 
-(e.g., for query expansion), add the `-docvectors` option.  The above command builds an index that stores term positions 
-(`-storePositions`) as well as doc vectors for relevance feedback (`-storeDocvectors`), and `-optimize` force merges all 
-index segment into one.
+should bring up a bunch of subdirectories, `1987` to `2007`.
+
+For additional details, see explanation of [common indexing options](common-indexing-options.md).
+
+## Retrieval
+
+Topics and qrels are stored in `src/main/resources/topics-and-qrels/`, downloaded from NIST:
+
++ `topics.core17.txt`: [Topics that were assessed by NIST assessors (TREC 2017 NYT)](https://trec.nist.gov/data/core/core_nist.txt)
++ `qrels.core17.txt`: [qrels judgments produced by NIST assessors (TREC 2017 NYT)](https://trec.nist.gov/data/core/qrels.txt)
 
 After indexing is done, you should be able to perform a retrieval as follows:
 
 ```
-sh target/appassembler/bin/SearchCollection \
-  -topicreader Trec -index lucene-index.core.pos+docvectors -bm25 \
-  -topics src/main/resources/topics-and-qrels/topics.core17.txt -output run.core17.bm25.txt
+nohup sh target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.core.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.core17.txt -output run.core17.bm25.txt -bm25 &
+nohup sh target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.core.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.core17.txt -output run.core17.bm25+rm3.txt -bm25 -rm3 &
+nohup sh target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.core.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.core17.txt -output run.core17.ql.txt -ql &
+nohup sh target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.core.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.core17.txt -output run.core17.ql+rm3.txt -ql -rm3 &
 ```
 
-For the retrieval model: specify `-bm25` to use BM25, `-ql` to use query likelihood, and add `-rm3` to invoke the RM3 
-relevance feedback model (requires docvectors index).
-
-
-
-**Evaluate**:
-
-Evaluation can be done using `trec_eval`:
+Evaluation can be performed using `trec_eval`:
 
 ```
 eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.core17.txt run.core17.bm25.txt
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.core17.txt run.core17.bm25+rm3.txt
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.core17.txt run.core17.ql.txt
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.core17.txt run.core17.ql+rm3.txt
 ```
 
-**Effectiveness Reference**:
+## Effectiveness
 
-If everything goes correctly, you should be able to replicate the following results:
+With the above commands, you should be able to replicate the following results:
 
-| Metric | BM25   | BM25+RM3 | QL     | QL+RM3 |
-| ------ | ------ | -------- | ------ | ------ |
-| MAP    | 0.1984 | 0.2518   | 0.1908 | 0.2343 |
-| P30    | 0.4220 | 0.4713   | 0.4280 | 0.4667 |
+MAP        | BM25   | BM25+RM3 | QL     | QL+RM3 |
+:----------|--------|----------|--------|--------|
+All Topics | 0.1996 | 0.2543   | 0.1928 | 0.2363 |
+
+
+P30        | BM25   | BM25+RM3 | QL     | QL+RM3 |
+:----------|--------|----------|--------|--------|
+All Topics | 0.4207 | 0.4767   | 0.4327 | 0.4640 |
 
