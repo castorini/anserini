@@ -1,12 +1,12 @@
 /**
  * Anserini: An information retrieval toolkit built on Lucene
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * <p>
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -29,28 +29,28 @@ import java.util.Set;
 
 public class WashPostCollection extends Collection<WashPostDocument> {
 
-    public class FileSegment extends Collection<WashPostDocument>.FileSegment {
-        private String fileName;
+  public class FileSegment extends Collection<WashPostDocument>.FileSegment {
+    private String fileName;
 
-        public FileSegment(Path path) throws IOException {
-            dType = new WashPostDocument();
+    public FileSegment(Path path) throws IOException {
+      dType = new WashPostDocument();
 
-            this.path = path;
-            this.fileName = path.toString();
-            this.bufferedReader = new BufferedReader(new FileReader(fileName));
-        }
+      this.path = path;
+      this.fileName = path.toString();
+      this.bufferedReader = new BufferedReader(new FileReader(fileName));
     }
+  }
 
-    @Override
-    public List<Path> getFileSegmentPaths() {
-        Set<String> allowedFileSuffix = new HashSet<>(Arrays.asList(".txt"));
+  @Override
+  public List<Path> getFileSegmentPaths() {
+    Set<String> allowedFileSuffix = new HashSet<>(Arrays.asList(".txt"));
 
-        return discover(path, EMPTY_SET, EMPTY_SET, EMPTY_SET,
-                allowedFileSuffix, EMPTY_SET);
-    }
+    return discover(path, EMPTY_SET, EMPTY_SET, EMPTY_SET,
+            allowedFileSuffix, EMPTY_SET);
+  }
 
-    @Override
-    public FileSegment createFileSegment(Path p) throws IOException {
-        return new WashPostCollection.FileSegment(p);
-    }
+  @Override
+  public FileSegment createFileSegment(Path p) throws IOException {
+    return new WashPostCollection.FileSegment(p);
+  }
 }
