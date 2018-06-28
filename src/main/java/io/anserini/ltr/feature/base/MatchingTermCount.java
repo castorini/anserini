@@ -15,10 +15,10 @@ import org.apache.lucene.util.BytesRef;
  * Computes the number of query terms that are found in the document. If there are three terms in
  * the query and all three terms are found in the document, the feature value is three.
  */
-public class MatchingTermCount implements FeatureExtractor {
+public class MatchingTermCount<T> implements FeatureExtractor<T> {
 
   @Override
-  public float extract(Document doc, Terms terms, RerankerContext context) {
+  public float extract(Document doc, Terms terms, RerankerContext<T> context) {
     try {
       List<String> queryTokens = context.getQueryTokens();
       TermsEnum termsEnum = terms.iterator();

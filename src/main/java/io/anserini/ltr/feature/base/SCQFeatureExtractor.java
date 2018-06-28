@@ -18,7 +18,7 @@ import java.util.List;
  * Avg( (1 + log(tf(t,D))) * idf(t)) found on page 33 of Carmel, Yom-Tov 2010
  * D is the collection term frequency
  */
-public class SCQFeatureExtractor implements FeatureExtractor{
+public class SCQFeatureExtractor<T> implements FeatureExtractor<T> {
   private static final Logger LOG = LogManager.getLogger(SCQFeatureExtractor.class);
 
   private String lastQueryProcessed = "";
@@ -47,7 +47,7 @@ public class SCQFeatureExtractor implements FeatureExtractor{
   }
 
   @Override
-  public float extract(Document doc, Terms terms, RerankerContext context) {
+  public float extract(Document doc, Terms terms, RerankerContext<T> context) {
     IndexReader reader = context.getIndexSearcher().getIndexReader();
 
     if (!lastQueryProcessed.equals(context.getQueryText())) {

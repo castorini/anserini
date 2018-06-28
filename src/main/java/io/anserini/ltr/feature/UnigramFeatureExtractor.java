@@ -18,11 +18,11 @@ import java.util.Map;
 /**
  * Counts unigrams
  */
-public class UnigramFeatureExtractor implements FeatureExtractor {
+public class UnigramFeatureExtractor<T> implements FeatureExtractor<T> {
   private static final Logger LOG = LogManager.getLogger(UnigramFeatureExtractor.class);
 
   @Override
-  public float extract(Document doc, Terms terms, RerankerContext context) {
+  public float extract(Document doc, Terms terms, RerankerContext<T> context) {
     try {
       return computeFullIndependenceScore(doc, terms, context);
     } catch (IOException e) {
@@ -38,7 +38,7 @@ public class UnigramFeatureExtractor implements FeatureExtractor {
    * @param context
    * @return
    */
-  private float computeFullIndependenceScore(Document doc, Terms terms, RerankerContext context) throws IOException {
+  private float computeFullIndependenceScore(Document doc, Terms terms, RerankerContext<T> context) throws IOException {
     // tf can be calculated by iterating over terms, number of times a term occurs in doc
     // |D| total number of terms can be calculated by iterating over stream
     IndexReader reader = context.getIndexSearcher().getIndexReader();
@@ -63,7 +63,7 @@ public class UnigramFeatureExtractor implements FeatureExtractor {
     }
     float score = 0.0f;
     // Smoothing count of 1
-    docSize ++;
+    docSize++;
     // Only compute the score for what's in term count all else 0
     for (String queryToken : termCount.keySet()) {
       score += termCount.get(queryToken);
