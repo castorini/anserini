@@ -29,7 +29,7 @@ import java.util.Set;
 
 public class WashPostCollection extends Collection<WashPostDocument> {
 
-    public class FileSegment extends Collection.FileSegment {
+    public class FileSegment extends Collection<WashPostDocument>.FileSegment {
         private String fileName;
 
         public FileSegment(Path path) throws IOException {
@@ -50,7 +50,7 @@ public class WashPostCollection extends Collection<WashPostDocument> {
     }
 
     @Override
-    public WashPostCollection.FileSegment createFileSegment(Path p) throws IOException {
+    public FileSegment createFileSegment(Path p) throws IOException {
         return new WashPostCollection.FileSegment(p);
     }
 }

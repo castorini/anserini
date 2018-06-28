@@ -23,7 +23,7 @@ import java.util.HashMap;
 import org.junit.Before;
 
 
-public class TrecDocumentTest extends DocumentTest {
+public class TrecDocumentTest extends DocumentTest<TrecDocument> {
 
   @Before
   public void setUP() throws Exception {
@@ -45,7 +45,7 @@ public class TrecDocumentTest extends DocumentTest {
         "</TEXT>\n" +
         "</DOC>\n");
 
-    HashMap doc1 = new HashMap<String, String>();
+    HashMap<String, String> doc1 = new HashMap<>();
     doc1.put("id", "AP-0001");
     // ONLY "<TEXT>", "<HEADLINE>", "<TITLE>", "<HL>", "<HEAD>",
     // "<TTL>", "<DD>", "<DATE>", "<LP>", "<LEADPARA>" will be included

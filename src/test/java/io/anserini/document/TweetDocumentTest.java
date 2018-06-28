@@ -16,7 +16,6 @@
 
 package io.anserini.document;
 
-import java.io.IOException;
 import java.util.HashMap;
 
 import org.junit.Before;
@@ -36,10 +35,10 @@ public class TweetDocumentTest extends DocumentTest<TweetDocument> {
         "\"statuses_count\":1},\"created_at\":\"Fri Feb 01 10:56:07 +0000 2018\"}"
     );
 
-    HashMap doc1 = new HashMap<String, String>();
+    HashMap<String, String> doc1 = new HashMap<>();
     doc1.put("id", "123456789");
     doc1.put("content", "this is the tweet contents.");
-    doc1.put("timestamp_ms", 1517482567000L);
+    doc1.put("timestamp_ms", "1517482567000");
 
     expected.add(doc1);
   }
@@ -50,7 +49,7 @@ public class TweetDocumentTest extends DocumentTest<TweetDocument> {
       TweetDocument parsed = parse(rawDocs.get(i));
       assertEquals(parsed.id(), expected.get(i).get("id"));
       assertEquals(parsed.content(), expected.get(i).get("content"));
-      assertEquals(parsed.getTimestampMs(), expected.get(i).get("timestamp_ms"));
+      assertEquals(parsed.getTimestampMs(), Long.parseLong(expected.get(i).get("timestamp_ms")));
     }
   }
 }

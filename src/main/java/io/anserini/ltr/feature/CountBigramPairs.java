@@ -13,7 +13,7 @@ import java.util.*;
  */
 public class CountBigramPairs {
   public static class PhraseCounter {
-    public Map<String, Integer> phraseCountMap = new HashMap();
+    public Map<String, Integer> phraseCountMap = new HashMap<>();
 
     public void incrementCount(String firstToken) {
       if (phraseCountMap.containsKey(firstToken)) {

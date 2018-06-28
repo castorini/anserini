@@ -27,7 +27,7 @@ import org.junit.After;
 import org.junit.Before;
 
 
-public class JsonLineObjectTest extends DocumentTest {
+public class JsonLineObjectTest extends DocumentTest<JsonDocument> {
   private String sampleFile = "sampleJsonLineObject.json";
 
   @Before
@@ -49,11 +49,11 @@ public class JsonLineObjectTest extends DocumentTest {
 
     dType = new JsonDocument(sampleFile);
 
-    HashMap doc1 = new HashMap<String, String>();
+    HashMap<String, String> doc1 = new HashMap<>();
     doc1.put("id", "doc1");
     doc1.put("content", "this is the contents 1.");
     expected.add(doc1);
-    HashMap doc2 = new HashMap<String, String>();
+    HashMap<String, String> doc2 = new HashMap<>();
     doc2.put("id", "doc2");
     doc2.put("content", "this is the contents 2.");
     expected.add(doc2);

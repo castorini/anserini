@@ -24,7 +24,7 @@ import org.apache.tools.ant.filters.StringInputStream;
 import org.junit.Before;
 
 
-public class ClueWeb12WarcRecordTest extends DocumentTest {
+public class ClueWeb12WarcRecordTest extends DocumentTest<ClueWeb12WarcRecord> {
 
   @Before
   public void setUP() throws Exception {
@@ -74,7 +74,7 @@ public class ClueWeb12WarcRecordTest extends DocumentTest {
         "whatever here will be included\n" +
         "</html>\n");
 
-    HashMap doc1 = new HashMap<String, String>();
+    HashMap<String, String> doc1 = new HashMap<>();
     doc1.put("id", null);
     doc1.put("content", "software: Nutch 1.0-dev (modified for clueweb09)\n" +
         "isPartOf: clueweb09-en\n" +
@@ -83,7 +83,7 @@ public class ClueWeb12WarcRecordTest extends DocumentTest {
         "conformsTo: http://www.archive.org/documents/WarcFileFormat-0.18.html");
     expected.add(doc1);
 
-    HashMap doc2 = new HashMap<String, String>();
+    HashMap<String, String> doc2 = new HashMap<>();
     doc2.put("id", "clueweb09-az0000-00-00000");
     doc2.put("content", "<html>\n" +
         "whatever here will be included\n" +

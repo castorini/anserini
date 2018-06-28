@@ -2,7 +2,6 @@ package io.anserini.ltr;
 
 import com.google.common.collect.Lists;
 import io.anserini.ltr.feature.FeatureExtractor;
-import io.anserini.ltr.feature.FeatureExtractors;
 import io.anserini.ltr.feature.base.BM25FeatureExtractor;
 import org.junit.Test;
 

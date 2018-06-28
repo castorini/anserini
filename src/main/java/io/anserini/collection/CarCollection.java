@@ -45,7 +45,7 @@ public class CarCollection extends Collection<CarDocument> {
         allowedFileSuffix, EMPTY_SET);
   }
 
-  public class FileSegment extends Collection.FileSegment {
+  public class FileSegment extends Collection<CarDocument>.FileSegment {
       private final FileInputStream stream;
       private final Iterator<Data.Paragraph> iter;
 

@@ -25,7 +25,7 @@ import java.util.Set;
  * Lucene uses the norm value encoded in the index, we are calculating it as is
  * also we do not have any boosting, the field norm is also not available
  */
-public class BM25FeatureExtractor implements FeatureExtractor{
+public class BM25FeatureExtractor<T> implements FeatureExtractor<T> {
   private static final Logger LOG = LogManager.getLogger(BM25FeatureExtractor.class);
 
   public static Map<String, Integer> getDocFreqs(IndexReader reader, List<String> queryTokens, String field) throws IOException {
@@ -88,7 +88,7 @@ public class BM25FeatureExtractor implements FeatureExtractor{
    * @return
    */
   @Override
-  public float extract(Document doc, Terms terms, RerankerContext context) {
+  public float extract(Document doc, Terms terms, RerankerContext<T> context) {
     Set<String> queryTokens = new HashSet<>(context.getQueryTokens());
 
     TermsEnum termsEnum = null;
@@ -132,7 +132,7 @@ public class BM25FeatureExtractor implements FeatureExtractor{
     // Iterate over the query tokens
     double avgFL = computeAvgFL(sumTotalTermFreq, maxDocs);
     for (String token : queryTokens) {
-      long docFreq = docFreqMap.containsKey(token) ? docFreqMap.get(token) : 0;
+      long docFreq = docFreqMap.getOrDefault(token, 0);
       double termFreq = termFreqMap.containsKey(token) ? termFreqMap.get(token) : 0;
       double numerator = (this.k1 + 1) * termFreq;
       double docLengthFactor = this.b * (docSize / avgFL);
