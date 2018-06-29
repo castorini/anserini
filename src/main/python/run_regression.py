@@ -59,7 +59,7 @@ def construct_ranking_command(yaml_data, build_index=True):
       os.path.join(yaml_data['root'], yaml_data['search_command']),
       '-topicreader', yaml_data['topic_reader'],
       '-index', os.path.join(yaml_data['index_root'] if yaml_data['index_root'] else "", yaml_data['name']+'_index')
-      if build_index else yaml_data['index'],
+      if build_index else yaml_data['index_path'],
       '-topics', os.path.join(yaml_data['root'], yaml_data['topic_root'], topic),
       '-output', 'run.{}.{}.{}'.format(yaml_data['name'], model, topic),
       *(['-'+c for c in yaml_data['models'][model]['paras']])
@@ -68,13 +68,15 @@ def construct_ranking_command(yaml_data, build_index=True):
   ]
   return ranking_commands
 
-def eval_n_verify(yaml_data):
+def eval_n_verify(yaml_data, dry_run):
   """Evaluate the ranking files and verify the results with what are stored in yaml file
   Args:
     yaml_data (dict): The yaml config read from config file.
+    dry_run (bool): If True, we just print out the commands without actually running them
 
   Returns:
   """
+  print('=========Verifying=========')
   try:
     eval_cmds = [
       [
@@ -89,19 +91,22 @@ def eval_n_verify(yaml_data):
     i = 0
     for model in yaml_data['models']:
       for j, topic in enumerate(yaml_data['topics']):
-        out = check_output(' '.join(eval_cmds[i]), shell=True).decode('utf-8')
-        if not out.strip():
-          continue
-        eval_out_split = out.split(yaml_data['eval_separator'])
-        for metric in yaml_data['models'][model]:
-          if metric == 'paras':
+        if dry_run:
+          print(' '.join(eval_cmds[i]))
+        else:
+          out = check_output(' '.join(eval_cmds[i]), shell=True).decode('utf-8')
+          if not out.strip():
             continue
-          expected = yaml_data['models'][model][metric][j]
-          real = round(float(eval_out_split[yaml_data['eval_'+metric+'_idx']].split( )[-1]), yaml_data['metric_precision'])
-          if expected == real:
-            print(OKBLUE, yaml_data['name'], model, topic, metric, expected, real)
-          else:
-            print(FAIL, yaml_data['name'], model, topic, metric, expected, real, '!!!!')
+          eval_out_split = out.split(yaml_data['eval_separator'])
+          for metric in yaml_data['models'][model]:
+            if metric == 'paras':
+              continue
+            expected = yaml_data['models'][model][metric][j]
+            real = round(float(eval_out_split[yaml_data['eval_'+metric+'_idx']].split( )[-1]), yaml_data['metric_precision'])
+            if expected == real:
+              print(OKBLUE, yaml_data['name'], model, topic, metric, expected, real)
+            else:
+              print(FAIL, yaml_data['name'], model, topic, metric, expected, real, '!!!!')
         i+=1
   finally:
     print(ENDC)
@@ -112,6 +117,8 @@ if __name__ == "__main__":
   parser.add_argument('--config', required=True, help='Yaml config file')
   parser.add_argument('--collection', required=True, help='the collection key in yaml')
   parser.add_argument('--index', dest='index', action='store_true', help='rebuild index from scratch')
+  parser.add_argument('--dry_run', dest='dry_run', action='store_true',
+  help='output the commands but not actually running them. this is useful for development/debug')
   args = parser.parse_args()
 
   with open(args.config) as f:
@@ -119,9 +126,17 @@ if __name__ == "__main__":
     dataMap = yaml.safe_load(f)
 
   # Decide if we're going to index from scratch. If not, use pre-stored index at known location.
-  if args.index == True:
-    call(' '.join(construct_indexing_command(dataMap[args.collection])), shell=True)
+  if args.index:
+    print('=========Indexing=========')
+    if args.dry_run:
+      print(' '.join(construct_indexing_command(dataMap[args.collection])))
+    else:
+      call(' '.join(construct_indexing_command(dataMap[args.collection])), shell=True)
+  print('=========Ranking=========')
   run_cmds = construct_ranking_command(dataMap[args.collection], args.index)
   for cmd in run_cmds:
-    call(' '.join(cmd), shell=True)
-  eval_n_verify(dataMap[args.collection])
+    if args.dry_run:
+      print(' '.join(cmd))
+    else:
+      call(' '.join(cmd), shell=True)
+  eval_n_verify(dataMap[args.collection], args.dry_run)

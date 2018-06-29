@@ -29,7 +29,7 @@ disk12:
   <<: *default
   name: disk12
   input: /tuna1/collections/newswire/disk12/
-  index:
+  index_path: ""
   topics:
     - topics.51-100.txt
     - topics.101-150.txt
