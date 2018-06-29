@@ -27,7 +27,7 @@ import org.junit.After;
 import org.junit.Before;
 
 
-public class JsonDocumentObjectTest extends DocumentTest {
+public class JsonDocumentObjectTest extends DocumentTest<JsonDocument> {
   private String sampleFile = "sampleJsonObject.json";
 
   @Before
@@ -45,7 +45,7 @@ public class JsonDocumentObjectTest extends DocumentTest {
 
     dType = new JsonDocument(sampleFile);
 
-    HashMap doc = new HashMap<String, String>();
+    HashMap<String, String> doc = new HashMap<>();
     doc.put("id", "doc");
     doc.put("content", "this is the contents.");
     expected.add(doc);

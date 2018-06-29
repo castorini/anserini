@@ -108,14 +108,14 @@ abstract public class BaseFeatureExtractor<K> {
     }
 
     // Build all the reranker contexts because they will be reused once per query
-    private Map<String, RerankerContext> buildRerankerContextMap() throws IOException {
-        Map<String, RerankerContext> queryContextMap = new HashMap<>();
+    private Map<String, RerankerContext<K>> buildRerankerContextMap() throws IOException {
+        Map<String, RerankerContext<K>> queryContextMap = new HashMap<>();
         IndexSearcher searcher = new IndexSearcher(reader);
 
         for (String qid : qrels.getQids()) {
             // Construct the reranker context
             LOG.debug(String.format("Constructing context for QID: %s", qid));
-            String queryText = topics.get(qid).get("title");
+            String queryText = topics.get((K)qid).get("title");
             Query q = null;
 
             // We will not be checking for nulls here because the input should be correct,
@@ -123,7 +123,7 @@ abstract public class BaseFeatureExtractor<K> {
             q = parseQuery(queryText);
             List<String> queryTokens = AnalyzerUtils.tokenize(queryAnalyzer, queryText);
             // Construct the reranker context
-            RerankerContext context = new RerankerContext(searcher, qid,
+            RerankerContext<K> context = new RerankerContext<>(searcher, (K)qid,
                     q, queryText,
                     queryTokens,
                     null, null);
@@ -149,7 +149,7 @@ abstract public class BaseFeatureExtractor<K> {
    * @throws IOException
    */
     public void printFeatureForAllDocs(PrintStream out) throws IOException {
-      Map<String, RerankerContext> queryContextMap = buildRerankerContextMap();
+      Map<String, RerankerContext<K>> queryContextMap = buildRerankerContextMap();
       FeatureExtractors extractors = getExtractors();
       Bits liveDocs = MultiFields.getLiveDocs(reader);
       Set<String> fieldsToLoad = getFieldsToLoad();
@@ -172,7 +172,7 @@ abstract public class BaseFeatureExtractor<K> {
           continue;
         }
 
-        for (Map.Entry<String, RerankerContext> entry : queryContextMap.entrySet()) {
+        for (Map.Entry<String, RerankerContext<K>> entry : queryContextMap.entrySet()) {
           float[] featureValues = extractors.extractAll(doc, terms, entry.getValue());
           writeFeatureVector(out, entry.getKey(),qrels.getRelevanceGrade(entry.getKey(),docIdString),
                   docIdString, featureValues);
@@ -188,7 +188,7 @@ abstract public class BaseFeatureExtractor<K> {
      * @throws IOException
      */
     public void printFeatures(PrintStream out) throws IOException {
-      Map<String, RerankerContext> queryContextMap = buildRerankerContextMap();
+      Map<String, RerankerContext<K>> queryContextMap = buildRerankerContextMap();
       FeatureExtractors extractors = getExtractors();
       Bits liveDocs = MultiFields.getLiveDocs(reader);
       Set<String> fieldsToLoad = getFieldsToLoad();

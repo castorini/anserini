@@ -19,7 +19,7 @@ import java.util.Map;
 /**
  * Implementation of the Sequential Dependence term dependence model
  */
-public class SequentialDependenceModel implements  FeatureExtractor {
+public class SequentialDependenceModel<T> implements FeatureExtractor<T> {
   private static final Logger LOG = LogManager.getLogger(SequentialDependenceModel.class);
 
   private static final String NAME = "SDM";
@@ -35,7 +35,7 @@ public class SequentialDependenceModel implements  FeatureExtractor {
     this.lambdaU = lambdaU;
   }
 
-  private float computeUnorderedFrequencyScore(Document doc, Terms terms, RerankerContext context) throws IOException {
+  private float computeUnorderedFrequencyScore(Document doc, Terms terms, RerankerContext<T> context) throws IOException {
     List<String> queryTokens = context.getQueryTokens();
 
     // Construct token stream with offset 0
@@ -104,7 +104,7 @@ public class SequentialDependenceModel implements  FeatureExtractor {
     return score;
   }
 
-  private float computeOrderedFrequencyScore(Document doc, Terms terms, RerankerContext context) throws IOException {
+  private float computeOrderedFrequencyScore(Document doc, Terms terms, RerankerContext<T> context) throws IOException {
     List<String> queryTokens = context.getQueryTokens();
     Map<String, String> queryPairMap = new HashMap<>();
     Map<String, Integer> phraseCountMap = new HashMap<>();
@@ -160,7 +160,7 @@ public class SequentialDependenceModel implements  FeatureExtractor {
    * @param context
    * @return
    */
-  private float computeFullIndependenceScore(Document doc, Terms terms, RerankerContext context) throws IOException {
+  private float computeFullIndependenceScore(Document doc, Terms terms, RerankerContext<T> context) throws IOException {
     // tf can be calculated by iterating over terms, number of times a term occurs in doc
     // |D| total number of terms can be calculated by iterating over stream
     IndexReader reader = context.getIndexSearcher().getIndexReader();
@@ -192,7 +192,7 @@ public class SequentialDependenceModel implements  FeatureExtractor {
   }
 
   @Override
-  public float extract(Document doc, Terms terms, RerankerContext context) {
+  public float extract(Document doc, Terms terms, RerankerContext<T> context) {
     float orderedWindowScore = 0.0f;
     float unorderedDependenceScore = 0.0f;
     float independentScore = 0.0f;

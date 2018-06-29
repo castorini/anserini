@@ -38,7 +38,7 @@ import java.util.zip.GZIPInputStream;
  */
 public class TweetCollection extends Collection<TweetDocument> {
 
-  public class FileSegment extends Collection.FileSegment {
+  public class FileSegment extends Collection<TweetDocument>.FileSegment {
     protected FileSegment(Path path) throws IOException {
       dType = new TweetDocument();
 

@@ -37,7 +37,9 @@ import org.apache.lucene.queryparser.flexible.standard.StandardQueryParser;
 import org.apache.lucene.search.BooleanClause;
 import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.MatchAllDocsQuery;
 import org.apache.lucene.search.Query;
+import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.FSDirectory;
 
@@ -71,29 +73,42 @@ import static io.anserini.search.SearchCollection.BREAK_SCORE_TIES_BY_TWEETID;
  * tweets index.
  *
  */
-public class AxiomReranker implements Reranker {
+public class AxiomReranker<T> implements Reranker<T> {
   private static final Logger LOG = LogManager.getLogger(AxiomReranker.class);
 
   private final String field; // from which field we look for the expansion terms, e.g. "body"
-  private final String externalIndexPath; // Axiomatic reranking can opt to use
-                                                       // external sources for searching the expansion
-                                                       // terms. Typically, we build another index
-                                                       // separately and include its information here.
+  private final boolean deterministic;  // whether the expansion terms are deterministically picked
+  private final long seed;
+  private final String externalIndexPath;  // Axiomatic reranking can opt to use
+                                           // external sources for searching the expansion
+                                           // terms. Typically, we build another index
+                                           // separately and include its information here.
+  private final ScoreDoc[] docidsCache;
 
-  private int R = 30; // factor that used in extracting random documents, we will extract R*M randomly select documents
-  private int M = 20; // number of top documents in initial results
-  private int L = 1000; // top similar terms
-  private int K = 20; // number of expansion terms
-  private float beta; // scaling parameter
+  private final int R; // factor that used in extracting random documents, we will extract R*M randomly select documents
+  private final int M; // number of top documents in initial results
+  private final int L = 1000; // top similar terms
+  private final int K = 20; // number of expansion terms
+  private final float beta; // scaling parameter
 
-  public AxiomReranker(String field, float beta, String externalIndexPath) {
+  public AxiomReranker(String field, SearchArgs args) throws IOException {
     this.field = field;
-    this.beta = beta;
-    this.externalIndexPath = externalIndexPath.trim();
+    this.deterministic = args.axiom_deterministic;
+    this.seed = args.axiom_seed;
+    this.R = args.axiom_r;
+    this.M = args.axiom_m;
+    this.beta = args.axiom_beta;
+    this.externalIndexPath = args.axiom_external_index.trim();
+
+    if (this.deterministic && this.R > 0) {
+      this.docidsCache = makeDocidsCache(args);
+    } else {
+      this.docidsCache = null;
+    }
   }
 
   @Override
-  public ScoredDocuments rerank(ScoredDocuments docs, RerankerContext context) {
+  public ScoredDocuments rerank(ScoredDocuments docs, RerankerContext<T> context) {
     Preconditions.checkState(docs.documents.length == docs.scores.length);
 
     try {
@@ -134,7 +149,7 @@ public class AxiomReranker implements Reranker {
   /**
    * Please note that the query in the context is always the keywordQuery w/o filter!
    */
-  private ScoredDocuments searchTopDocs(Query query, RerankerContext context) throws IOException {
+  private ScoredDocuments searchTopDocs(Query query, RerankerContext<T> context) throws IOException {
     IndexSearcher searcher = context.getIndexSearcher();
     Query finalQuery = null;
     if (query == null) { // we are dealing with the external index and we DONOT apply filter to it.
@@ -147,6 +162,8 @@ public class AxiomReranker implements Reranker {
         bqBuilder.add(context.getFilter(), BooleanClause.Occur.FILTER);
         bqBuilder.add(query, BooleanClause.Occur.MUST);
         finalQuery = bqBuilder.build();
+      } else {
+        finalQuery = query;
       }
     }
 
@@ -164,6 +181,23 @@ public class AxiomReranker implements Reranker {
   }
 
   /**
+   * If the result is deterministic we can cache all the docids. All queries can share this
+   * cache.
+   */
+  private ScoreDoc[] makeDocidsCache(SearchArgs args) throws IOException {
+    String index = args.axiom_external_index.trim().isEmpty() ? args.index : args.axiom_external_index.trim();
+    Path indexPath = Paths.get(index);
+    if (!Files.exists(indexPath) || !Files.isDirectory(indexPath) || !Files.isReadable(indexPath)) {
+      throw new IllegalArgumentException(this.externalIndexPath + " does not exist or is not a directory.");
+    }
+    IndexReader reader = DirectoryReader.open(FSDirectory.open(indexPath));
+    IndexSearcher searcher = new IndexSearcher(reader);
+    return searcher.search(new MatchAllDocsQuery(), reader.maxDoc(),
+      args.searchtweets ? BREAK_SCORE_TIES_BY_TWEETID : BREAK_SCORE_TIES_BY_DOCID,
+      true, true).scoreDocs;
+  }
+
+  /**
    * If the external reranking context is not null we will first search against the external
    * index and return the top ranked documents.
    *
@@ -172,7 +206,7 @@ public class AxiomReranker implements Reranker {
    *
    * @return Top ranked ScoredDocuments from searching external index
    */
-  private ScoredDocuments processExternalContext(ScoredDocuments docs, RerankerContext context) throws IOException {
+  private ScoredDocuments processExternalContext(ScoredDocuments docs, RerankerContext<T> context) throws IOException {
     if (!this.externalIndexPath.isEmpty()) {
       Path indexPath = Paths.get(this.externalIndexPath);
       if (!Files.exists(indexPath) || !Files.isDirectory(indexPath) || !Files.isReadable(indexPath)) {
@@ -181,10 +215,13 @@ public class AxiomReranker implements Reranker {
       IndexReader reader = DirectoryReader.open(FSDirectory.open(indexPath));
       IndexSearcher searcher = new IndexSearcher(reader);
       searcher.setSimilarity(context.getIndexSearcher().getSimilarity(true));
-      SearchArgs args = context.getSearchArgs();
-      args.hits = this.M;
 
-      RerankerContext externalContext = new RerankerContext(searcher, context.getQueryId(), context.getQuery(),
+      SearchArgs args = new SearchArgs();
+      args.hits = this.M;
+      args.arbitraryScoreTieBreak = context.getSearchArgs().arbitraryScoreTieBreak;
+      args.searchtweets = context.getSearchArgs().searchtweets;
+
+      RerankerContext<T> externalContext = new RerankerContext<>(searcher, context.getQueryId(), context.getQuery(),
         context.getQueryText(), context.getQueryTokens(), context.getFilter(), args);
 
       return searchTopDocs(null, externalContext);
@@ -204,7 +241,7 @@ public class AxiomReranker implements Reranker {
    * @return a Set of R*M document Ids
    */
   @VisibleForTesting
-  private Set<Integer> selectDocs(ScoredDocuments docs, RerankerContext context)
+  private Set<Integer> selectDocs(ScoredDocuments docs, RerankerContext<T> context)
     throws IOException {
     Set<Integer> docidSet = new HashSet<>(Arrays.asList(ArrayUtils.toObject(
       Arrays.copyOfRange(docs.ids, 0, Math.min(this.M, docs.ids.length)))));
@@ -223,9 +260,17 @@ public class AxiomReranker implements Reranker {
         reader = searcher.getIndexReader();
       }
       int availableDocsCnt = reader.getDocCount(this.field);
-      Random random = new Random();
-      while (docidSet.size() < targetSize) {
-        docidSet.add(random.nextInt(availableDocsCnt));
+      if (this.deterministic) { // internal docid cannot be relied due to multi-threads indexing,
+                                // we have to rely on external docid here
+        Random random = new Random(this.seed);
+        while (docidSet.size() < targetSize) {
+          docidSet.add(this.docidsCache[random.nextInt(this.docidsCache.length)].doc);
+        }
+      } else {
+        Random random = new Random();
+        while (docidSet.size() < targetSize) {
+          docidSet.add(random.nextInt(availableDocsCnt));
+        }
       }
     }
 
@@ -241,7 +286,7 @@ public class AxiomReranker implements Reranker {
    * @return A Map of <term -> Set<docId>> kind of a small inverted list where the Set of docIds is where the term occurs
    */
   @VisibleForTesting
-  private Map<String, Set<Integer>> extractTerms(Set<Integer> docIds, RerankerContext context,
+  private Map<String, Set<Integer>> extractTerms(Set<Integer> docIds, RerankerContext<T> context,
                                                  Pattern filterPattern) throws Exception, IOException {
     IndexReader reader;
     if (!this.externalIndexPath.isEmpty()) {
@@ -300,7 +345,7 @@ public class AxiomReranker implements Reranker {
    */
   @VisibleForTesting
   private Map<String, Double> calTermScore(
-    Map<String, Set<Integer>> termInvertedList, RerankerContext context) {
+    Map<String, Set<Integer>> termInvertedList, RerankerContext<T> context) {
     class ScoreComparator implements Comparator<Pair<String, Double>> {
       public int compare(Pair<String, Double> a, Pair<String, Double> b) {
         return Double.compare(b.getRight(), a.getRight());

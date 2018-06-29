@@ -23,7 +23,7 @@ import java.util.Set;
 /**
  * Counts occurrences of all pairs of query tokens
  */
-public class OrderedQueryPairsFeatureExtractor implements FeatureExtractor {
+public class OrderedQueryPairsFeatureExtractor<T> implements FeatureExtractor<T> {
   private static final Logger LOG = LogManager.getLogger(OrderedQueryPairsFeatureExtractor.class);
 
   protected static ArrayList<Integer> gapSizes = new ArrayList<>();
@@ -77,7 +77,7 @@ public class OrderedQueryPairsFeatureExtractor implements FeatureExtractor {
     }
   }
 
-  protected float computeOrderedFrequencyScore(Document doc, Terms terms, RerankerContext context) throws IOException {
+  protected float computeOrderedFrequencyScore(Document doc, Terms terms, RerankerContext<T> context) throws IOException {
 
     // Only compute the score once for all window sizes on the same document
     if (!context.getQueryId().equals(lastProcessedId) || lastProcessedDoc != doc) {
@@ -94,7 +94,7 @@ public class OrderedQueryPairsFeatureExtractor implements FeatureExtractor {
     // Smoothing count of 1
     Map<String, Integer> phraseCountMap = counters.get(this.gapSize).phraseCountMap;
     for (String queryToken : queryPairMap.keySet()) {
-      float countToUse = phraseCountMap.containsKey(queryToken) ? phraseCountMap.get(queryToken) : 0;
+      float countToUse = phraseCountMap.getOrDefault(queryToken, 0);
       score += countToUse;
     }
 
@@ -102,7 +102,7 @@ public class OrderedQueryPairsFeatureExtractor implements FeatureExtractor {
   }
 
   @Override
-  public float extract(Document doc, Terms terms, RerankerContext context) {
+  public float extract(Document doc, Terms terms, RerankerContext<T> context) {
     try {
       return computeOrderedFrequencyScore(doc, terms, context);
     } catch (IOException e) {

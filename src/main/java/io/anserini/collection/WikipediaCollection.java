@@ -35,7 +35,7 @@ import org.wikiclean.WikipediaBz2DumpInputStream;
  */
 public class WikipediaCollection extends Collection<WikipediaArticle> {
 
-  public class FileSegment extends Collection.FileSegment {
+  public class FileSegment extends Collection<WikipediaArticle>.FileSegment {
     private final WikipediaBz2DumpInputStream stream;
     private final WikiClean cleaner;
 

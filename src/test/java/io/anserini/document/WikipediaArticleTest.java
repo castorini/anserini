@@ -36,13 +36,13 @@ import io.anserini.collection.Collection;
 import io.anserini.collection.WikipediaCollection;
 
 
-public class WikipediaArticleTest extends DocumentTest {
+public class WikipediaArticleTest extends DocumentTest<WikipediaArticle> {
   protected static Path tmpPath;
 
   @Before
   public void setUp() throws Exception {
     super.setUp();
-    dType = new TrecwebDocument();
+    dType = new WikipediaArticle("Sample Title", "Sample Content");
 
     String doc = "<mediawiki xmlns=\"http://www.mediawiki.org/xml/export-0.10/\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.mediawiki.org/xml/export-0.10/ http://www.mediawiki.org/xm\n" +
         "l/export-0.10.xsd\" version=\"0.10\" xml:lang=\"en\">\n" +

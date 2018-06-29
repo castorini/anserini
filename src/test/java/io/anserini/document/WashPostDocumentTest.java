@@ -21,7 +21,7 @@ import java.util.HashMap;
 import org.junit.Before;
 
 
-public class WashPostDocumentTest extends DocumentTest {
+public class WashPostDocumentTest extends DocumentTest<WashPostDocument> {
 
     @Before
     public void setUP() throws Exception {
@@ -55,7 +55,7 @@ public class WashPostDocumentTest extends DocumentTest {
 
                 "\"type\": \"article\", \"source\": \"The Washington Post\"}");
 
-        HashMap doc1 = new HashMap<String, String>();
+        HashMap<String, String> doc1 = new HashMap<>();
         doc1.put("id", "5f992bbc-4b9f-11e2-a6a6-aabac85e8036");
         // Only "sanitized_html" and "tweet" of <type> subtag in <content> tag will be included
         doc1.put("content", "Using light to help reset your body clock\n" +

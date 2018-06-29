@@ -13,11 +13,11 @@ import java.io.IOException;
 /**
  * Returns the size of the document
  */
-public class DocSizeFeatureExtractor implements FeatureExtractor {
+public class DocSizeFeatureExtractor<T> implements FeatureExtractor<T> {
   private static final Logger LOG = LogManager.getLogger(DocSizeFeatureExtractor.class);
 
   @Override
-  public float extract(Document doc, Terms terms, RerankerContext context) {
+  public float extract(Document doc, Terms terms, RerankerContext<T> context) {
     float score;
     try {
       score = (float)terms.getSumTotalTermFreq();

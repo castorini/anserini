@@ -40,6 +40,7 @@ import org.apache.lucene.search.BooleanClause;
 import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
+import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.Sort;
 import org.apache.lucene.search.SortField;
 import org.apache.lucene.search.TopDocs;
@@ -68,11 +69,6 @@ import java.util.concurrent.TimeUnit;
 import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_BODY;
 import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_ID;
 
-/**
- * Searcher for Gov2, ClueWeb09, and ClueWeb12 corpra.
- * TREC Web Tracks from 2009 to 2014
- * TREC Terabyte Tracks from 2004 to 2006
- */
 public final class SearchCollection implements Closeable {
   public static final Sort BREAK_SCORE_TIES_BY_DOCID =
       new Sort(SortField.FIELD_SCORE, new SortField(FIELD_ID, SortField.Type.STRING_VAL));
@@ -86,6 +82,7 @@ public final class SearchCollection implements Closeable {
   private final IndexReader reader;
   private final Similarity similarity;
   private final Analyzer analyzer;
+  private final boolean isRerank;
   private final RerankerCascade cascade;
 
   public SearchCollection(SearchArgs args) throws IOException {
@@ -117,6 +114,8 @@ public final class SearchCollection implements Closeable {
       analyzer = args.keepstop ? new EnglishAnalyzer(CharArraySet.EMPTY_SET) : new EnglishAnalyzer();
     }
 
+    isRerank = args.rm3 || args.axiom;
+
     // Set up the ranking cascade.
     cascade = new RerankerCascade();
     if (args.rm3) {
@@ -124,7 +123,7 @@ public final class SearchCollection implements Closeable {
           null;
       cascade.add(new Rm3Reranker(analyzer, FIELD_BODY, stopwords));
     } else if (args.axiom) {
-      cascade.add(new AxiomReranker(FIELD_BODY, args.axiom_beta, args.axiom_external_index));
+      cascade.add(new AxiomReranker(FIELD_BODY, args));
     }
 
     cascade.add(new ScoreTiesAdjusterReranker());
@@ -145,10 +144,10 @@ public final class SearchCollection implements Closeable {
       throw new IllegalArgumentException("Topics file : " + topicsFile + " does not exist or is not a (readable) file.");
     }
 
-    TopicReader tr;
+    TopicReader<K> tr;
     SortedMap<K, Map<String, String>> topics;
     try {
-      tr = (TopicReader) Class.forName("io.anserini.search.query." + args.topicReader + "TopicReader")
+      tr = (TopicReader<K>) Class.forName("io.anserini.search.query." + args.topicReader + "TopicReader")
           .getConstructor(Path.class).newInstance(topicsFile);
       topics = tr.read();
     } catch (Exception e) {
@@ -193,16 +192,19 @@ public final class SearchCollection implements Closeable {
 
   public<K> ScoredDocuments search(IndexSearcher searcher, K qid, String queryString) throws IOException {
     Query query = AnalyzerUtils.buildBagOfWordsQuery(FIELD_BODY, analyzer, queryString);
-    List<String> queryTokens = AnalyzerUtils.tokenize(analyzer, queryString);
 
-    TopDocs rs;
-    if (args.arbitraryScoreTieBreak) {
-      rs = searcher.search(query, args.hits);
-    } else {
-      rs = searcher.search(query, args.hits, BREAK_SCORE_TIES_BY_DOCID, true, true);
+    TopDocs rs = new TopDocs(0, new ScoreDoc[]{}, Float.NaN);
+    if (!(isRerank && args.rerankcutoff <= 0)) {
+      if (args.arbitraryScoreTieBreak) {// Figure out how to break the scoring ties.
+        rs = searcher.search(query, isRerank ? args.rerankcutoff : args.hits);
+      } else {
+        rs = searcher.search(query, isRerank ? args.rerankcutoff : args.hits, BREAK_SCORE_TIES_BY_DOCID, true, true);
+      }
     }
 
-    RerankerContext context = new RerankerContext(searcher, qid, query, queryString, queryTokens, null, args);
+    List<String> queryTokens = AnalyzerUtils.tokenize(analyzer, queryString);
+    RerankerContext context = new RerankerContext<>(searcher, qid, query, queryString, queryTokens, null, args);
+
     return cascade.run(ScoredDocuments.fromTopDocs(rs, searcher), context);
   }
 
@@ -219,15 +221,18 @@ public final class SearchCollection implements Closeable {
     builder.add(keywordQuery, BooleanClause.Occur.MUST);
     Query compositeQuery = builder.build();
 
-    // Figure out how to break the scoring ties.
-    TopDocs rs;
-    if (args.arbitraryScoreTieBreak) {
-      rs = searcher.search(compositeQuery, args.hits);
-    } else {
-      rs = searcher.search(compositeQuery, args.hits, BREAK_SCORE_TIES_BY_TWEETID, true, true);
+
+    TopDocs rs = new TopDocs(0, new ScoreDoc[]{}, Float.NaN);
+    if (!(isRerank && args.rerankcutoff <= 0)) {
+      if (args.arbitraryScoreTieBreak) {// Figure out how to break the scoring ties.
+        rs = searcher.search(compositeQuery, isRerank ? args.rerankcutoff : args.hits);
+      } else {
+        rs = searcher.search(compositeQuery, isRerank ? args.rerankcutoff : args.hits, BREAK_SCORE_TIES_BY_TWEETID, true, true);
+      }
     }
 
-    RerankerContext context = new RerankerContext(searcher, qid, keywordQuery, queryString, queryTokens, filter, args);
+    RerankerContext context = new RerankerContext<>(searcher, qid, keywordQuery, queryString, queryTokens, filter, args);
+
     return cascade.run(ScoredDocuments.fromTopDocs(rs, searcher), context);
   }
 

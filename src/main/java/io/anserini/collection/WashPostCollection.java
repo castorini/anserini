@@ -29,28 +29,28 @@ import java.util.Set;
 
 public class WashPostCollection extends Collection<WashPostDocument> {
 
-    public class FileSegment extends Collection.FileSegment {
-        private String fileName;
+  public class FileSegment extends Collection<WashPostDocument>.FileSegment {
+    private String fileName;
 
-        public FileSegment(Path path) throws IOException {
-            dType = new WashPostDocument();
+    public FileSegment(Path path) throws IOException {
+      dType = new WashPostDocument();
 
-            this.path = path;
-            this.fileName = path.toString();
-            this.bufferedReader = new BufferedReader(new FileReader(fileName));
-        }
+      this.path = path;
+      this.fileName = path.toString();
+      this.bufferedReader = new BufferedReader(new FileReader(fileName));
     }
+  }
 
-    @Override
-    public List<Path> getFileSegmentPaths() {
-        Set<String> allowedFileSuffix = new HashSet<>(Arrays.asList(".txt"));
+  @Override
+  public List<Path> getFileSegmentPaths() {
+    Set<String> allowedFileSuffix = new HashSet<>(Arrays.asList(".txt"));
 
-        return discover(path, EMPTY_SET, EMPTY_SET, EMPTY_SET,
-                allowedFileSuffix, EMPTY_SET);
-    }
+    return discover(path, EMPTY_SET, EMPTY_SET, EMPTY_SET,
+            allowedFileSuffix, EMPTY_SET);
+  }
 
-    @Override
-    public WashPostCollection.FileSegment createFileSegment(Path p) throws IOException {
-        return new WashPostCollection.FileSegment(p);
-    }
+  @Override
+  public FileSegment createFileSegment(Path p) throws IOException {
+    return new WashPostCollection.FileSegment(p);
+  }
 }
