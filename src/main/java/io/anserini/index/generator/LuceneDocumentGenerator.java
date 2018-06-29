@@ -113,8 +113,8 @@ public class LuceneDocumentGenerator<T extends SourceDocument> {
     }
 
     if (contents.trim().length() == 0) {
-      LOG.info("Empty document: " + id);
-      counters.emptyDocuments.incrementAndGet();
+      // Log and move on, otherwise output can be very noisy.
+      counters.empty.incrementAndGet();
       return null;
     }
 
