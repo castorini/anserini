@@ -39,6 +39,7 @@ import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.MatchAllDocsQuery;
 import org.apache.lucene.search.Query;
+import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.FSDirectory;
 
@@ -75,28 +76,35 @@ import static io.anserini.search.SearchCollection.BREAK_SCORE_TIES_BY_TWEETID;
 public class AxiomReranker<T> implements Reranker<T> {
   private static final Logger LOG = LogManager.getLogger(AxiomReranker.class);
 
-  private String field; // from which field we look for the expansion terms, e.g. "body"
-  private boolean deterministic;  // whether the expansion terms are deterministically picked
-  private long seed;
-  private String externalIndexPath;  // Axiomatic reranking can opt to use
-                                     // external sources for searching the expansion
-                                     // terms. Typically, we build another index
-                                     // separately and include its information here.
+  private final String field; // from which field we look for the expansion terms, e.g. "body"
+  private final boolean deterministic;  // whether the expansion terms are deterministically picked
+  private final long seed;
+  private final String externalIndexPath;  // Axiomatic reranking can opt to use
+                                           // external sources for searching the expansion
+                                           // terms. Typically, we build another index
+                                           // separately and include its information here.
+  private final ScoreDoc[] docidsCache;
 
-  private int R; // factor that used in extracting random documents, we will extract R*M randomly select documents
-  private int M; // number of top documents in initial results
-  private int L = 1000; // top similar terms
-  private int K = 20; // number of expansion terms
-  private float beta; // scaling parameter
+  private final int R; // factor that used in extracting random documents, we will extract R*M randomly select documents
+  private final int M; // number of top documents in initial results
+  private final int L = 1000; // top similar terms
+  private final int K = 20; // number of expansion terms
+  private final float beta; // scaling parameter
 
-  public AxiomReranker(String field, SearchArgs args) {
+  public AxiomReranker(String field, SearchArgs args) throws IOException {
     this.field = field;
-    this.deterministic = args.axiom_decisive;
+    this.deterministic = args.axiom_deterministic;
     this.seed = args.axiom_seed;
     this.R = args.axiom_r;
     this.M = args.axiom_m;
     this.beta = args.axiom_beta;
     this.externalIndexPath = args.axiom_external_index.trim();
+
+    if (this.deterministic && this.R > 0) {
+      this.docidsCache = makeDocidsCache(args);
+    } else {
+      this.docidsCache = null;
+    }
   }
 
   @Override
@@ -173,6 +181,23 @@ public class AxiomReranker<T> implements Reranker<T> {
   }
 
   /**
+   * If the result is deterministic we can cache all the docids. All queries can share this
+   * cache.
+   */
+  private ScoreDoc[] makeDocidsCache(SearchArgs args) throws IOException {
+    String index = args.axiom_external_index.trim().isEmpty() ? args.index : args.axiom_external_index.trim();
+    Path indexPath = Paths.get(index);
+    if (!Files.exists(indexPath) || !Files.isDirectory(indexPath) || !Files.isReadable(indexPath)) {
+      throw new IllegalArgumentException(this.externalIndexPath + " does not exist or is not a directory.");
+    }
+    IndexReader reader = DirectoryReader.open(FSDirectory.open(indexPath));
+    IndexSearcher searcher = new IndexSearcher(reader);
+    return searcher.search(new MatchAllDocsQuery(), reader.maxDoc(),
+      args.searchtweets ? BREAK_SCORE_TIES_BY_TWEETID : BREAK_SCORE_TIES_BY_DOCID,
+      true, true).scoreDocs;
+  }
+
+  /**
    * If the external reranking context is not null we will first search against the external
    * index and return the top ranked documents.
    *
@@ -237,13 +262,9 @@ public class AxiomReranker<T> implements Reranker<T> {
       int availableDocsCnt = reader.getDocCount(this.field);
       if (this.deterministic) { // internal docid cannot be relied due to multi-threads indexing,
                                 // we have to rely on external docid here
-        IndexSearcher searcher = new IndexSearcher(reader);
-        TopDocs rs = searcher.search(new MatchAllDocsQuery(), reader.maxDoc(),
-          context.getSearchArgs().searchtweets ? BREAK_SCORE_TIES_BY_TWEETID : BREAK_SCORE_TIES_BY_DOCID,
-          true, true);
         Random random = new Random(this.seed);
         while (docidSet.size() < targetSize) {
-          docidSet.add(rs.scoreDocs[random.nextInt(rs.scoreDocs.length)].doc);
+          docidSet.add(this.docidsCache[random.nextInt(this.docidsCache.length)].doc);
         }
       } else {
         Random random = new Random();

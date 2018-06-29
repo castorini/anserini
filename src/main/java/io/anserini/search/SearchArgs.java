@@ -99,7 +99,7 @@ public class SearchArgs {
   public boolean axiom = false;
 
   @Option(name = "-axiom.deterministic", usage = "make the expansion terms axiomatic reranking results deterministic")
-  public boolean axiom_decisive = false;
+  public boolean axiom_deterministic = false;
 
   @Option(name = "-axiom.seed", metaVar = "[number]", usage = "seed for the random generator in axiomatic reranking")
   public long axiom_seed = 42L;
