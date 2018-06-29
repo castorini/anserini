@@ -1,0 +1,116 @@
+---
+default: &default
+  root: ~/workspace/Anserini
+  index_command: target/appassembler/bin/IndexCollection
+  search_command: target/appassembler/bin/SearchCollection
+  topic_root: src/main/resources/topics-and-qrels/
+  qrels_root: src/main/resources/topics-and-qrels/
+  index_root:
+  ranking_root:
+
+  collection: TrecCollection
+  generator: JsoupGenerator
+  threads: 16
+  index_options:
+    - storePositions
+    - storeDocvectors
+    - optimize
+  topic_reader: Trec
+  eval: eval/trec_eval.9.0/trec_eval
+  eval_paras:
+    - -m map
+    - -m P.30
+  eval_separator: "\n"
+  eval_map_idx: 0
+  eval_p30_idx: 1
+  metric_precision: 4
+
+disk12:
+  <<: *default
+  name: disk12
+  input: /tuna1/collections/newswire/disk12/
+  index:
+  topics:
+    - topics.51-100.txt
+    - topics.101-150.txt
+    - topics.151-200.txt
+  qrels:
+    - qrels.51-100.txt
+    - qrels.101-150.txt
+    - qrels.151-200.txt
+  models:
+    bm25:
+      paras:
+        - bm25
+      map:
+        - 0.2254
+        - 0.2003
+        - 0.2571
+      p30:
+        - 0.4493
+        - 0.4213
+        - 0.4740
+    bm25+rm3:
+      paras:
+        - bm25
+        - rm3
+      map:
+        - 0.2582
+        - 0.2537
+        - 0.3136
+      p30:
+        - 0.4800
+        - 0.4560
+        - 0.5067
+    bm25+ax:
+      paras:
+        - bm25
+        - axiom
+        - rerankCutoff 20
+        - axiom.deterministic
+      map:
+        - 0.2686
+        - 0.2712
+        - 0.3408
+      p30:
+        - 0.5180
+        - 0.4767
+        - 0.5327
+    ql:
+      paras:
+        - ql
+      map:
+        - 0.2188
+        - 0.2013
+        - 0.2530
+      p30:
+        - 0.4453
+        - 0.4153
+        - 0.4647
+    ql+rm3:
+      paras:
+        - ql
+        - rm3
+      map:
+        - 0.2475
+        - 0.2437
+        - 0.2940
+      p30:
+        - 0.4633
+        - 0.4393
+        - 0.4987
+    ql+ax:
+      paras:
+        - ql
+        - axiom
+        - rerankCutoff 20
+        - axiom.deterministic
+      map:
+        - 0.2513
+        - 0.2571
+        - 0.3200
+      p30:
+        - 0.4973
+        - 0.4680
+        - 0.5273
+
