@@ -1,5 +1,7 @@
 import sys
 import os
+import argparse
+
 from subprocess import call
 
 index_cmd = """
@@ -9,18 +11,18 @@ nohup sh target/appassembler/bin/IndexCollection -collection CW09Collection \
  -storePositions -storeDocvectors"""
 
 run_cmds = [ \
-    "sh target/appassembler/bin/SearchCollection -topicreader Webxml -index lucene-index.cw09b.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.web.51-100.txt -output run.web.51-100.bm25.txt -bm25",
-    "sh target/appassembler/bin/SearchCollection -topicreader Webxml -index lucene-index.cw09b.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.web.101-150.txt -output run.web.101-150.bm25.txt -bm25",
-    "sh target/appassembler/bin/SearchCollection -topicreader Webxml -index lucene-index.cw09b.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.web.151-200.txt -output run.web.151-200.bm25.txt -bm25",
-    "sh target/appassembler/bin/SearchCollection -topicreader Webxml -index lucene-index.cw09b.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.web.51-100.txt -output run.web.51-100.bm25+rm3.txt -bm25 -rm3",
-    "sh target/appassembler/bin/SearchCollection -topicreader Webxml -index lucene-index.cw09b.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.web.101-150.txt -output run.web.101-150.bm25+rm3.txt -bm25 -rm3",
-    "sh target/appassembler/bin/SearchCollection -topicreader Webxml -index lucene-index.cw09b.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.web.151-200.txt -output run.web.151-200.bm25+rm3.txt -bm25 -rm3",
-    "sh target/appassembler/bin/SearchCollection -topicreader Webxml -index lucene-index.cw09b.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.web.51-100.txt -output run.web.51-100.ql.txt -ql",
-    "sh target/appassembler/bin/SearchCollection -topicreader Webxml -index lucene-index.cw09b.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.web.101-150.txt -output run.web.101-150.ql.txt -ql",
-    "sh target/appassembler/bin/SearchCollection -topicreader Webxml -index lucene-index.cw09b.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.web.151-200.txt -output run.web.151-200.ql.txt -ql",
-    "sh target/appassembler/bin/SearchCollection -topicreader Webxml -index lucene-index.cw09b.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.web.51-100.txt -output run.web.51-100.ql+rm3.txt -ql -rm3",
-    "sh target/appassembler/bin/SearchCollection -topicreader Webxml -index lucene-index.cw09b.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.web.101-150.txt -output run.web.101-150.ql+rm3.txt -ql -rm3",
-    "sh target/appassembler/bin/SearchCollection -topicreader Webxml -index lucene-index.cw09b.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.web.151-200.txt -output run.web.151-200.ql+rm3.txt -ql -rm3"]
+    "sh target/appassembler/bin/SearchCollection -topicreader Webxml -index {} -topics src/main/resources/topics-and-qrels/topics.web.51-100.txt -output run.web.51-100.bm25.txt -bm25",
+    "sh target/appassembler/bin/SearchCollection -topicreader Webxml -index {} -topics src/main/resources/topics-and-qrels/topics.web.101-150.txt -output run.web.101-150.bm25.txt -bm25",
+    "sh target/appassembler/bin/SearchCollection -topicreader Webxml -index {} -topics src/main/resources/topics-and-qrels/topics.web.151-200.txt -output run.web.151-200.bm25.txt -bm25",
+    "sh target/appassembler/bin/SearchCollection -topicreader Webxml -index {} -topics src/main/resources/topics-and-qrels/topics.web.51-100.txt -output run.web.51-100.bm25+rm3.txt -bm25 -rm3",
+    "sh target/appassembler/bin/SearchCollection -topicreader Webxml -index {} -topics src/main/resources/topics-and-qrels/topics.web.101-150.txt -output run.web.101-150.bm25+rm3.txt -bm25 -rm3",
+    "sh target/appassembler/bin/SearchCollection -topicreader Webxml -index {} -topics src/main/resources/topics-and-qrels/topics.web.151-200.txt -output run.web.151-200.bm25+rm3.txt -bm25 -rm3",
+    "sh target/appassembler/bin/SearchCollection -topicreader Webxml -index {} -topics src/main/resources/topics-and-qrels/topics.web.51-100.txt -output run.web.51-100.ql.txt -ql",
+    "sh target/appassembler/bin/SearchCollection -topicreader Webxml -index {} -topics src/main/resources/topics-and-qrels/topics.web.101-150.txt -output run.web.101-150.ql.txt -ql",
+    "sh target/appassembler/bin/SearchCollection -topicreader Webxml -index {} -topics src/main/resources/topics-and-qrels/topics.web.151-200.txt -output run.web.151-200.ql.txt -ql",
+    "sh target/appassembler/bin/SearchCollection -topicreader Webxml -index {} -topics src/main/resources/topics-and-qrels/topics.web.51-100.txt -output run.web.51-100.ql+rm3.txt -ql -rm3",
+    "sh target/appassembler/bin/SearchCollection -topicreader Webxml -index {} -topics src/main/resources/topics-and-qrels/topics.web.101-150.txt -output run.web.101-150.ql+rm3.txt -ql -rm3",
+    "sh target/appassembler/bin/SearchCollection -topicreader Webxml -index {} -topics src/main/resources/topics-and-qrels/topics.web.151-200.txt -output run.web.151-200.ql+rm3.txt -ql -rm3"]
 
 
 t1_qrels = "src/main/resources/topics-and-qrels/qrels.web.51-100.txt"
@@ -37,9 +39,22 @@ def ndcg_eval(qrels, run):
     return round(float(os.popen("eval/gdeval.pl {} {} | grep 'amean' | sed 's/.*amean.//'".format(qrels, run)).read().split(',')[0]), 4)
 
 if __name__ == "__main__":
-    call(index_cmd, shell=True)
+    parser = argparse.ArgumentParser(description='Run regression tests on ClueWeb09b.')
+    parser.add_argument('--index', dest='index', action='store_true', help='rebuild index from scratch')
+
+    args = parser.parse_args()
+
+    # Decide if we're going to index from scratch. If not, use pre-stored index at known location.
+    if args.index == True:
+        call(index_cmd, shell=True)
+        index_path = 'lucene-index.cw09b.pos+docvectors'
+        print(args.index)
+    else:
+        index_path = '/tuna1/indexes/lucene-index.cw09b.pos+docvectors'
+
+    # Use the correct index path.
     for cmd in run_cmds:
-        call(cmd, shell=True)
+        call(cmd.format(index_path), shell=True)
 
     expected_t1_map = extract_value_from_doc("TREC 2010 Web Track: Topics 51-100", 1, 1)
     expected_t2_map = extract_value_from_doc("TREC 2011 Web Track: Topics 101-150", 1, 1)
