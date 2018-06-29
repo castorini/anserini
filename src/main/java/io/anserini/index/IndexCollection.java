@@ -337,7 +337,7 @@ public final class IndexCollection {
     }
 
     if (numIndexed != counters.indexed.get()) {
-      throw new RuntimeException("Error: unexpected difference in number of indexed documents!");
+      LOG.warn("Unexpected difference between number of indexed documents and index maxDoc.");
     }
 
     LOG.info("# Final Counter Values");
