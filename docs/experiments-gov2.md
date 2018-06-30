@@ -76,13 +76,13 @@ With the above commands, you should be able to replicate the following results:
 
 MAP                                                                                     | BM25   |BM25+RM3| QL     | QL+RM3
 :---------------------------------------------------------------------------------------|--------|--------|--------|--------
-[TREC 2004 Terabyte Track: Topics 701-750](http://trec.nist.gov/data/terabyte04.html)   | 0.2673 | 0.2952 | 0.2636 | 0.2799
-[TREC 2005 Terabyte Track: Topics 751-800](http://trec.nist.gov/data/terabyte05.html)   | 0.3366 | 0.3840 | 0.3264 | 0.3628
-[TREC 2006 Terabyte Track: Topics 801-850](http://trec.nist.gov/data/terabyte06.html)   | 0.3055 | 0.3410 | 0.2957 | 0.3199
+[TREC 2004 Terabyte Track: Topics 701-750](http://trec.nist.gov/data/terabyte04.html)   | 0.2673 | 0.2981 | 0.2636 | 0.2777
+[TREC 2005 Terabyte Track: Topics 751-800](http://trec.nist.gov/data/terabyte05.html)   | 0.3366 | 0.3843 | 0.3264 | 0.3620
+[TREC 2006 Terabyte Track: Topics 801-850](http://trec.nist.gov/data/terabyte06.html)   | 0.3055 | 0.3439 | 0.2957 | 0.3168
 
 
 P30                                                                                     | BM25   |BM25+RM3|  QL    | QL+RM3
 :---------------------------------------------------------------------------------------|--------|--------|--------|--------
-[TREC 2004 Terabyte Track: Topics 701-750](http://trec.nist.gov/data/terabyte04.html)   | 0.4837 | 0.5299 | 0.4667 | 0.4850
-[TREC 2005 Terabyte Track: Topics 751-800](http://trec.nist.gov/data/terabyte05.html)   | 0.5520 | 0.5933 | 0.5160 | 0.5673
-[TREC 2006 Terabyte Track: Topics 801-850](http://trec.nist.gov/data/terabyte06.html)   | 0.4900 | 0.5260 | 0.4753 | 0.4880
+[TREC 2004 Terabyte Track: Topics 701-750](http://trec.nist.gov/data/terabyte04.html)   | 0.4837 | 0.5333 | 0.4667 | 0.4912
+[TREC 2005 Terabyte Track: Topics 751-800](http://trec.nist.gov/data/terabyte05.html)   | 0.5520 | 0.5933 | 0.5160 | 0.5700
+[TREC 2006 Terabyte Track: Topics 801-850](http://trec.nist.gov/data/terabyte06.html)   | 0.4900 | 0.5240 | 0.4753 | 0.4840

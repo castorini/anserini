@@ -48,10 +48,10 @@ With the above commands, you should be able to replicate the following results:
 
 MAP        | BM25   | BM25+RM3 | QL     | QL+RM3 |
 :----------|--------|----------|--------|--------|
-All Topics | 0.1996 | 0.2534   | 0.1928 | 0.2363 |
+All Topics | 0.1996 | 0.2633   | 0.1928 | 0.2409 |
 
 
 P30        | BM25   | BM25+RM3 | QL     | QL+RM3 |
 :----------|--------|----------|--------|--------|
-All Topics | 0.4207 | 0.4767   | 0.4327 | 0.4640 |
+All Topics | 0.4207 | 0.4893   | 0.4327 | 0.4647 |
 
