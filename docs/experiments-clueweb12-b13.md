@@ -73,15 +73,15 @@ With the above commands, you should be able to replicate the following results:
 
 AP                                                                             | BM25   |BM25+RM3| QL     | QL+RM3
 :------------------------------------------------------------------------------|--------|--------|--------|--------
-[TREC 2013 Web Track: Topics 201-250](http://trec.nist.gov/data/web2013.html)  | 0.0457 | 0.0426 | 0.0389 | 0.0320
-[TREC 2014 Web Track: Topics 251-300](http://trec.nist.gov/data/web2014.html)  | 0.0219 | 0.0188 | 0.0228 | 0.0201
+[TREC 2013 Web Track: Topics 201-250](http://trec.nist.gov/data/web2013.html)  | 0.0457 | 0.0438 | 0.0389 | 0.0314
+[TREC 2014 Web Track: Topics 251-300](http://trec.nist.gov/data/web2014.html)  | 0.0219 | 0.0188 | 0.0228 | 0.0204
 
 P30                                                                            | BM25   |BM25+RM3| QL     | QL+RM3
 :------------------------------------------------------------------------------|--------|--------|--------|--------
-[TREC 2013 Web Track: Topics 201-250](http://trec.nist.gov/data/web2013.html)  | 0.2000 | 0.1753 | 0.1720 | 0.1447
-[TREC 2014 Web Track: Topics 251-300](http://trec.nist.gov/data/web2014.html)  | 0.1293 | 0.1133 | 0.1313 | 0.1173
+[TREC 2013 Web Track: Topics 201-250](http://trec.nist.gov/data/web2013.html)  | 0.2000 | 0.1773 | 0.1720 | 0.1433
+[TREC 2014 Web Track: Topics 251-300](http://trec.nist.gov/data/web2014.html)  | 0.1293 | 0.1140 | 0.1313 | 0.1160
 
 NDCG@20                                                                        | BM25   |BM25+RM3| QL     | QL+RM3
 :------------------------------------------------------------------------------|--------|--------|--------|--------
-[TREC 2013 Web Track: Topics 201-250](http://trec.nist.gov/data/web2013.html)  | 0.1242 | 0.1116 | 0.1158 | 0.0876
-[TREC 2014 Web Track: Topics 251-300](http://trec.nist.gov/data/web2014.html)  | 0.1190 | 0.0991 | 0.1133 | 0.0964
+[TREC 2013 Web Track: Topics 201-250](http://trec.nist.gov/data/web2013.html)  | 0.1242 | 0.1172 | 0.1158 | 0.0878
+[TREC 2014 Web Track: Topics 251-300](http://trec.nist.gov/data/web2014.html)  | 0.1190 | 0.0987 | 0.1133 | 0.0961
