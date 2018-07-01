@@ -130,7 +130,7 @@ public class Rm3Reranker implements Reranker {
     return ScoredDocuments.fromTopDocs(rs, searcher);
   }
 
-  public FeatureVector estimateRelevanceModel(ScoredDocuments docs, IndexReader reader, boolean tweetsearch) {
+  private FeatureVector estimateRelevanceModel(ScoredDocuments docs, IndexReader reader, boolean tweetsearch) {
     FeatureVector f = new FeatureVector();
 
     Set<String> vocab = Sets.newHashSet();
@@ -186,17 +186,49 @@ public class Rm3Reranker implements Reranker {
         if (term.length() < 2 || term.length() > 20) continue;
         if (!term.matches("[a-z0-9]+")) continue;
 
+        // This seemingly arbitrary logic needs some explanation. See following PR for details:
+        //   https://github.com/castorini/Anserini/pull/289
+        //
+        // We have long known that stopwords have a big impact in RM3. If we include stopwords
+        // in feedback, effectiveness is affected negatively. In the previous implementation, we
+        // built custom stopwords lists by selecting top k terms from the collection. We only
+        // had two stopwords lists, for gov2 and for Twitter. The gov2 list is used on all
+        // collections other than Twitter.
+        //
+        // The logic below instead uses a df threshold: If a term appears in more than n percent
+        // of the documents, then it is discarded as a feedback term. This heuristic has the
+        // advantage of getting rid of collection-specific stopwords lists, but at the cost of
+        // introducing an additional tuning parameter.
+        //
+        // Cognizant of the dangers of (essentially) tuning on test data, here's what I
+        // (@lintool) did:
+        //
+        // + For newswire collections, I picked a number, 10%, that seemed right. This value
+        //   actually increased effectiveness in most conditions across all newswire collections.
+        //
+        // + This 10% value worked fine on web collections; effectiveness didn't change much.
+        //
+        // Since this was the first and only heuristic value I selected, we're not really tuning
+        // parameters.
+        //
+        // The 10% threshold, however, doesn't work well on tweets because tweets are much
+        // shorter. Based on a list terms in the collection by df: For the Tweets2011 collection,
+        // I found a threshold close to a nice round number that approximated the length of the
+        // current stopwords list, by eyeballing the df values. This turned out to be 1%. I did
+        // this again for the Tweets2013 collection, using the same approach, and obtained a value
+        // of 0.7%.
+        //
+        // With both values, we obtained effectiveness pretty close to the old values with the
+        // custom stopwords list.
+        int df = reader.docFreq(new Term(FIELD_BODY, term));
+        float ratio = (float) df / numDocs;
         if (tweetsearch) {
-          int df = reader.docFreq(new Term(FIELD_BODY, term));
-          if (numDocs > 100000000) {
-            if (((float) df / numDocs) > 0.007f) continue;
+          if (numDocs > 100000000) { // Probably Tweets2013
+            if (ratio > 0.007f) continue;
           } else {
-            if (((float) df / numDocs) > 0.01f) continue;
+            if (ratio > 0.01f) continue;
           }
-        } else {
-          int df = reader.docFreq(new Term(FIELD_BODY, term));
-          if (((float) df / numDocs) > 0.1f) continue;
-        }
+        } else if (ratio > 0.1f) continue;
 
         int freq = (int) termsEnum.totalTermFreq();
         f.addFeatureWeight(term, (float) freq);

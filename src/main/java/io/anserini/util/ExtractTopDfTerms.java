@@ -1,3 +1,19 @@
+/**
+ * Anserini: An information retrieval toolkit built on Lucene
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package io.anserini.util;
 
 import org.apache.logging.log4j.LogManager;
@@ -24,8 +40,8 @@ import java.nio.file.Paths;
 import java.util.Comparator;
 import java.util.PriorityQueue;
 
-public class ExtractRm3Stopwords {
-  private static final Logger LOG = LogManager.getLogger(ExtractRm3Stopwords.class);
+public class ExtractTopDfTerms {
+  private static final Logger LOG = LogManager.getLogger(ExtractTopDfTerms.class);
 
   public static class Args {
     @Option(name = "-index", metaVar = "[path]", required = true, usage = "Lucene index")
@@ -37,7 +53,7 @@ public class ExtractRm3Stopwords {
     @Option(name = "-field", metaVar = "[name]", required = true, usage = "field")
     String field;
 
-    @Option(name = "-topK", metaVar = "[num]", required = false, usage = "number of terms to keep")
+    @Option(name = "-k", metaVar = "[num]", usage = "number of terms to keep")
     int topK = 100;
   }
 
@@ -59,7 +75,7 @@ public class ExtractRm3Stopwords {
     } catch (CmdLineException e) {
       System.err.println(e.getMessage());
       parser.printUsage(System.err);
-      System.err.println("Example: ExtractRm3Stopwords" + parser.printExample(OptionHandlerFilter.REQUIRED));
+      System.err.println("Example: ExtractTopDfTerms" + parser.printExample(OptionHandlerFilter.REQUIRED));
       return;
     }
 
