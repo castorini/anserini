@@ -1,11 +1,20 @@
-package io.anserini.util;
+/**
+ * Anserini: An information retrieval toolkit built on Lucene
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.PrintStream;
-import java.nio.file.Paths;
-import java.util.Comparator;
-import java.util.PriorityQueue;
+package io.anserini.util;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -24,8 +33,15 @@ import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.OptionHandlerFilter;
 import org.kohsuke.args4j.ParserProperties;
 
-public class ExtractRm3Stopwords {
-  private static final Logger LOG = LogManager.getLogger(ExtractRm3Stopwords.class);
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
+import java.nio.file.Paths;
+import java.util.Comparator;
+import java.util.PriorityQueue;
+
+public class ExtractTopDfTerms {
+  private static final Logger LOG = LogManager.getLogger(ExtractTopDfTerms.class);
 
   public static class Args {
     @Option(name = "-index", metaVar = "[path]", required = true, usage = "Lucene index")
@@ -37,7 +53,7 @@ public class ExtractRm3Stopwords {
     @Option(name = "-field", metaVar = "[name]", required = true, usage = "field")
     String field;
 
-    @Option(name = "-topK", metaVar = "[num]", required = false, usage = "number of terms to keep")
+    @Option(name = "-k", metaVar = "[num]", usage = "number of terms to keep")
     int topK = 100;
   }
 
@@ -59,12 +75,13 @@ public class ExtractRm3Stopwords {
     } catch (CmdLineException e) {
       System.err.println(e.getMessage());
       parser.printUsage(System.err);
-      System.err.println("Example: ExtractRm3Stopwords" + parser.printExample(OptionHandlerFilter.REQUIRED));
+      System.err.println("Example: ExtractTopDfTerms" + parser.printExample(OptionHandlerFilter.REQUIRED));
       return;
     }
 
     Directory dir = FSDirectory.open(Paths.get(myArgs.index));
     IndexReader reader = DirectoryReader.open(dir);
+    int numDocs = reader.numDocs();
 
     Comparator<Pair> comp = new Comparator<Pair>(){
       @Override
@@ -80,7 +97,7 @@ public class ExtractRm3Stopwords {
     LOG.info("Starting to iterate through all terms...");
     Terms terms = MultiFields.getFields(reader).terms(myArgs.field);
     TermsEnum termsEnum = terms.iterator();
-    BytesRef text = null;
+    BytesRef text;
     int cnt = 0;
     while ((text = termsEnum.next()) != null) {
       String term = text.utf8ToString();
@@ -105,7 +122,7 @@ public class ExtractRm3Stopwords {
     PrintStream out = new PrintStream(new FileOutputStream(new File(myArgs.output)));
     Pair pair;
     while ((pair = queue.poll()) != null) {
-      out.println(pair.key);
+      out.println(pair.key + "\t" + pair.value + "\t" + numDocs + "\t" + ((float) pair.value / numDocs));
     }
     out.close();
 
