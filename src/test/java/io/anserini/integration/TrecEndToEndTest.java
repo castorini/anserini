@@ -14,11 +14,9 @@
  * limitations under the License.
  */
 
-package io.anserini.end2end;
+package io.anserini.integration;
 
-import io.anserini.search.query.TrecTopicReader;
-
-public class TrecE2ETest extends EndToEndTest {
+public class TrecEndToEndTest extends EndToEndTest {
 
   @Override
   protected void init() {

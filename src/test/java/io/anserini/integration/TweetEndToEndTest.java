@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package io.anserini.end2end;
+package io.anserini.integration;
 
-public class TweetE2ETest extends EndToEndTest {
+public class TweetEndToEndTest extends EndToEndTest {
 
   @Override
   protected void init() {
