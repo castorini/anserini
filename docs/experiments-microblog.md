@@ -44,14 +44,14 @@ You should be able to get effectiveness scores along the following lines:
 
 MAP                                                                        | BM25   |BM25+RM3| QL     | QL+RM3 |
 ---------------------------------------------------------------------------|-------:|-------:|-------:|-------:|
-[TREC 2011 Microblog Track](http://trec.nist.gov/data/microblog2011.html)  | 0.3351 | 0.3467 | 0.3614 | 0.4102 |
-[TREC 2012 Microblog Track](http://trec.nist.gov/data/microblog2012.html)  | 0.1912 | 0.2057 | 0.2100 | 0.2413 |
-[TREC 2013 Microblog Track](http://trec.nist.gov/data/microblog2013.html)  | 0.2306 | 0.2359 | 0.2599 | 0.2803 |
-[TREC 2014 Microblog Track](http://trec.nist.gov/data/microblog2014.html)  | 0.3836 | 0.3964 | 0.4184 | 0.4660 |
+[TREC 2011 Microblog Track](http://trec.nist.gov/data/microblog2011.html)  | 0.3351 | 0.3472 | 0.3614 | 0.4100 |
+[TREC 2012 Microblog Track](http://trec.nist.gov/data/microblog2012.html)  | 0.1912 | 0.2056 | 0.2100 | 0.2413 |
+[TREC 2013 Microblog Track](http://trec.nist.gov/data/microblog2013.html)  | 0.2306 | 0.2356 | 0.2599 | 0.2804 |
+[TREC 2014 Microblog Track](http://trec.nist.gov/data/microblog2014.html)  | 0.3836 | 0.3962 | 0.4184 | 0.4660 |
 
 P30                                                                        | BM25   |BM25+RM3| QL     | QL+RM3 |
 ---------------------------------------------------------------------------|-------:|-------:|-------:|-------:|
-[TREC 2011 Microblog Track](http://trec.nist.gov/data/microblog2011.html)  | 0.3837 | 0.4041 | 0.4095 | 0.4476 |
-[TREC 2012 Microblog Track](http://trec.nist.gov/data/microblog2012.html)  | 0.3328 | 0.3429 | 0.3322 | 0.3537 |
-[TREC 2013 Microblog Track](http://trec.nist.gov/data/microblog2013.html)  | 0.4222 | 0.4056 | 0.4517 | 0.4617 |
-[TREC 2014 Microblog Track](http://trec.nist.gov/data/microblog2014.html)  | 0.6176 | 0.5873 | 0.6424 | 0.6467 |
+[TREC 2011 Microblog Track](http://trec.nist.gov/data/microblog2011.html)  | 0.3837 | 0.4027 | 0.4095 | 0.4463 |
+[TREC 2012 Microblog Track](http://trec.nist.gov/data/microblog2012.html)  | 0.3328 | 0.3418 | 0.3322 | 0.3531 |
+[TREC 2013 Microblog Track](http://trec.nist.gov/data/microblog2013.html)  | 0.4222 | 0.4061 | 0.4517 | 0.4606 |
+[TREC 2014 Microblog Track](http://trec.nist.gov/data/microblog2014.html)  | 0.6176 | 0.5873 | 0.6424 | 0.6442 |

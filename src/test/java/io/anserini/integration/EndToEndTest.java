@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.anserini.end2end;
+package io.anserini.integration;
 
 import io.anserini.eval.Eval;
 import io.anserini.eval.EvalArgs;
@@ -40,6 +40,8 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+// This automatically tests indexing, retrieval, and evaluation from end to end.
+// Subclasses inherit and special to different collections.
 @TestRuleLimitSysouts.Limit(bytes=20000)
 public abstract class EndToEndTest extends LuceneTestCase {
   protected IndexCollection.Args indexCollectionArgs = new IndexCollection.Args();
