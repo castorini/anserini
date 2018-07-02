@@ -56,6 +56,7 @@ public class Model {
     Map<String, Object> config = this.collections.get(collection);
     ObjectMapper oMapper = new ObjectMapper();
     StringBuilder builder = new StringBuilder();
+    builder.append("nohup ");
     builder.append(safeGet(config, "index_command"));
     builder.append(" ").append("-collection").append(" ").append(safeGet(config, "collection"));
     builder.append(" ").append("-generator").append(" ").append(safeGet(config, "generator"));
@@ -66,6 +67,8 @@ public class Model {
     for (String option : indexParas) {
       builder.append(" ").append(option);
     }
+    builder.append(String.format(" >& log.%s.pos+docvectors%s &", collection,
+      indexParas.contains("-storeRawDocs") ? "+rawdocs" : ""));
     return WordUtils.wrap(builder.toString(), 80, " \\\n", false);
   }
 
@@ -77,6 +80,7 @@ public class Model {
     List<Map<String, String>> topics = oMapper.convertValue((List)safeGet(config, "topics"), List.class);
     for (Map<String, Object> model : models) {
       for (Map<String, String> topic : topics) {
+        builder.append("nohup ");
         builder.append(safeGet(config, "search_command"));
         builder.append(" ").append("-topicreader").append(" ").append(safeGet(config, "topic_reader"));
         builder.append(" ").append("-index").append(" ").append("lucene-index."+safeGet(config, "name")+".pos+docvectors");
@@ -86,6 +90,7 @@ public class Model {
         for (String option : modelParas) {
           builder.append(" ").append(option);
         }
+        builder.append(" &"); // nohup
         builder.append("\n");
       }
       builder.append("\n");
