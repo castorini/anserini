@@ -7,9 +7,9 @@ Typical indexing command:
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection TrecCoreCollection \
  -input /path/to/nyt_corpus/ -generator JsoupGenerator \
- -index lucene-index.core.pos+docvectors -threads 16 \
- -storePositions -storeDocvectors -optimize \
- >& log.core.pos+docvectors &
+ -index lucene-index.nyt.pos+docvectors+rawdocs -threads 16 \
+ -storePositions -storeDocvectors -storeRawDocs -optimize \
+ >& log.nyt.pos+docvectors+rawdocs &
 ```
 
 The directory `/path/to/nyt_corpus/` should be the root directory of TREC Core collection, i.e., `ls /path/to/nyt_corpus/` 
@@ -27,10 +27,10 @@ Topics and qrels are stored in `src/main/resources/topics-and-qrels/`, downloade
 After indexing is done, you should be able to perform a retrieval as follows:
 
 ```
-nohup sh target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.core.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.core17.txt -output run.core17.bm25.txt -bm25 &
-nohup sh target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.core.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.core17.txt -output run.core17.bm25+rm3.txt -bm25 -rm3 &
-nohup sh target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.core.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.core17.txt -output run.core17.ql.txt -ql &
-nohup sh target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.core.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.core17.txt -output run.core17.ql+rm3.txt -ql -rm3 &
+nohup sh target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.nyt.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.core17.txt -output run.core17.bm25.txt -bm25 &
+nohup sh target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.nyt.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.core17.txt -output run.core17.bm25+rm3.txt -bm25 -rm3 &
+nohup sh target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.nyt.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.core17.txt -output run.core17.ql.txt -ql &
+nohup sh target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.nyt.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.core17.txt -output run.core17.ql+rm3.txt -ql -rm3 &
 ```
 
 Evaluation can be performed using `trec_eval`:
