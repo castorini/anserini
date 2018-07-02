@@ -14,12 +14,9 @@
  * limitations under the License.
  */
 
-package io.anserini.docgen;
+package io.anserini.doc;
 
-import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -52,27 +49,27 @@ public class Model {
     return obj.getOrDefault(key, defaults.getOrDefault(key, null));
   }
 
-  public String genIndexingCmd(String collection) {
+  public String generateIndexingCommand(String collection) {
     Map<String, Object> config = this.collections.get(collection);
     ObjectMapper oMapper = new ObjectMapper();
     StringBuilder builder = new StringBuilder();
     builder.append("nohup ");
     builder.append(safeGet(config, "index_command"));
-    builder.append(" ").append("-collection").append(" ").append(safeGet(config, "collection"));
-    builder.append(" ").append("-generator").append(" ").append(safeGet(config, "generator"));
-    builder.append(" ").append("-threads").append(" ").append(safeGet(config, "threads"));
-    builder.append(" ").append("-input").append(" ").append(safeGet(config, "input"));
-    builder.append(" ").append("-index").append(" ").append("lucene-index."+safeGet(config, "name")+".pos+docvectors");
-    List<String> indexParas = oMapper.convertValue(safeGet(config, "index_options"), List.class);
-    for (String option : indexParas) {
+    builder.append(" -collection ").append(safeGet(config, "collection"));
+    builder.append(" -generator ").append(safeGet(config, "generator"));
+    builder.append(" -threads ").append(safeGet(config, "threads"));
+    builder.append(" -input ").append("/path/to/"+collection);
+    builder.append(" -index ").append("lucene-index."+safeGet(config, "name")+".pos+docvectors");
+    List<String> indexParams = oMapper.convertValue(safeGet(config, "index_options"), List.class);
+    for (String option : indexParams) {
       builder.append(" ").append(option);
     }
     builder.append(String.format(" >& log.%s.pos+docvectors%s &", collection,
-      indexParas.contains("-storeRawDocs") ? "+rawdocs" : ""));
+      indexParams.contains("-storeRawDocs") ? "+rawdocs" : ""));
     return WordUtils.wrap(builder.toString(), 80, " \\\n", false);
   }
 
-  public String genRankingCmd(String collection) {
+  public String generateRankingCommand(String collection) {
     Map<String, Object> config = this.collections.get(collection);
     StringBuilder builder = new StringBuilder();
     ObjectMapper oMapper = new ObjectMapper();
@@ -86,8 +83,8 @@ public class Model {
         builder.append(" ").append("-index").append(" ").append("lucene-index."+safeGet(config, "name")+".pos+docvectors");
         builder.append(" ").append("-topic").append(" ").append(Paths.get((String)safeGet(config, "topic_root"), topic.get("path")).toString());
         builder.append(" ").append("-output").append(" ").append("run."+safeGet(config, "name")+"."+model.get("name")+"."+topic.get("path"));
-        List<String> modelParas = oMapper.convertValue(model.get("paras"), List.class);
-        for (String option : modelParas) {
+        List<String> modelParams = oMapper.convertValue(model.get("params"), List.class);
+        for (String option : modelParams) {
           builder.append(" ").append(option);
         }
         builder.append(" &"); // nohup
@@ -100,7 +97,7 @@ public class Model {
     return builder.toString();
   }
 
-  public String genEvalCmd(String collection) {
+  public String generateEvalCommand(String collection) {
     Map<String, Object> config = this.collections.get(collection);
     StringBuilder builder = new StringBuilder();
     ObjectMapper oMapper = new ObjectMapper();
@@ -111,8 +108,8 @@ public class Model {
       for (Map<String, String> topic : topics) {
         for (Map<String, Object> eval : evals) {
           builder.append(eval.get("command"));
-          List<String> evalParas = oMapper.convertValue(eval.get("paras"), List.class);
-          for (String option : evalParas) {
+          List<String> evalParams = oMapper.convertValue(eval.get("params"), List.class);
+          for (String option : evalParams) {
             builder.append(" ").append(option);
           }
           builder.append(" ").append(Paths.get((String)safeGet(config, "qrels_root"), topic.get("qrel")).toString());
@@ -127,7 +124,7 @@ public class Model {
     return builder.toString();
   }
 
-  public String genEffectiveness(String collection) {
+  public String generateEffectiveness(String collection) {
     Map<String, Object> config = this.collections.get(collection);
     StringBuilder builder = new StringBuilder();
     ObjectMapper oMapper = new ObjectMapper();

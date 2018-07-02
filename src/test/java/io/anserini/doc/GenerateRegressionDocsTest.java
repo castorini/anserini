@@ -14,10 +14,9 @@
  * limitations under the License.
  */
 
-package io.anserini.docgen;
+package io.anserini.doc;
 
 import java.io.File;
-import java.io.PrintWriter;
 import java.net.URL;
 import java.nio.file.Paths;
 import java.util.HashMap;
@@ -25,28 +24,28 @@ import java.util.Map;
 import java.util.Scanner;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 import org.apache.commons.lang3.text.StrSubstitutor;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import org.junit.Test;
 
-public class DocGen {
-  public static void main(String[] args) throws Exception {
+public class GenerateRegressionDocsTest {
+  @Test
+  public void main() throws Exception {
     ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-    URL resource = DocGen.class.getResource("/regression/all.yaml");
+    URL resource = GenerateRegressionDocsTest.class.getResource("/regression/all.yaml");
     Model data = mapper.readValue(Paths.get(resource.toURI()).toFile(), Model.class);
     //System.out.println(ReflectionToStringBuilder.toString(data, ToStringStyle.MULTI_LINE_STYLE));
 
     for (String collection : data.getCollections().keySet()) {
       Map<String, String> valuesMap = new HashMap<>();
-      valuesMap.put("index_cmds", data.genIndexingCmd(collection));
-      valuesMap.put("ranking_cmds", data.genRankingCmd(collection));
-      valuesMap.put("eval_cmds", data.genEvalCmd(collection));
-      valuesMap.put("effectiveness", data.genEffectiveness(collection));
+      valuesMap.put("index_cmds", data.generateIndexingCommand(collection));
+      valuesMap.put("ranking_cmds", data.generateRankingCommand(collection));
+      valuesMap.put("eval_cmds", data.generateEvalCommand(collection));
+      valuesMap.put("effectiveness", data.generateEffectiveness(collection));
       StrSubstitutor sub = new StrSubstitutor(valuesMap);
-      URL template = DocGen.class.getResource(String.format("/docgen/templates/%s.template", collection));
+      URL template = GenerateRegressionDocsTest.class.getResource(String.format("/docgen/templates/%s.template", collection));
       Scanner scanner = new Scanner(Paths.get(template.toURI()).toFile(), "UTF-8");
       String text = scanner.useDelimiter("\\A").next();
       scanner.close();

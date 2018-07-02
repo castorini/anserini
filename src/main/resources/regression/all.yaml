@@ -18,14 +18,14 @@ defaults: &defaults
   topic_reader: Trec
   evals: &evals
     - command: eval/trec_eval.9.0/trec_eval
-      paras:
+      params:
         - -m map
       separator: "\t"
       parse_index: 2
       metric: map
       metric_precision: 4
     - command: eval/trec_eval.9.0/trec_eval
-      paras:
+      params:
         - -m P.30
       separator: "\t"
       parse_index: 2
@@ -54,7 +54,7 @@ collections:
         qrel: qrels.151-200.txt
     models:
       - name: bm25
-        paras:
+        params:
           - -bm25
         results:
           map:
@@ -66,7 +66,7 @@ collections:
             - 0.4213
             - 0.4740
       - name: bm25+rm3
-        paras:
+        params:
           - -bm25
           - -rm3
         results:
@@ -79,7 +79,7 @@ collections:
             - 0.4560
             - 0.5067
       - name: bm25+ax
-        paras:
+        params:
           - -bm25
           - -axiom
           - -rerankCutoff 20
@@ -94,7 +94,7 @@ collections:
             - 0.4767
             - 0.5327
       - name: ql
-        paras:
+        params:
           - -ql
         results:
           map:
@@ -106,7 +106,7 @@ collections:
             - 0.4153
             - 0.4647
       - name: ql+rm3
-        paras:
+        params:
           - -ql
           - -rm3
         results:
@@ -119,7 +119,7 @@ collections:
             - 0.4393
             - 0.4987
       - name: ql+ax
-        paras:
+        params:
           - -ql
           - -axiom
           - -rerankCutoff 20
