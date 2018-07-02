@@ -1,11 +1,7 @@
 ### Requirements
 
-Python>=3.5
+Python>=2.6 or Python>=3.5
 `pip install pyyaml`
-
-### Before Run
-
-Set Anserini root in the yaml file as `default->root`
 
 ### Run
 
