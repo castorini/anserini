@@ -83,6 +83,14 @@ public class SearchArgs {
   @Option(name = "-b", metaVar = "[value]", required = false, usage = "BM25 b parameter")
   public float b = 0.4f;
 
+  @Option(name = "-f2exp", usage = "use F2Exp scoring model")
+  public boolean f2exp = false;
+
+  @Option(name = "-f2log", usage = "use F2Log scoring model")
+  public boolean f2log = false;
+  @Option(name = "-f2log.s", metaVar = "[value]", required = false, usage = "F2Log s parameter")
+  public float f2log_s = 0.5f;
+
   @Option(name = "-rm3", usage = "use RM3 query expansion model (implies using query likelihood)")
   public boolean rm3 = false;
 
