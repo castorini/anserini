@@ -1,4 +1,4 @@
-package io.anserini.document;
+package io.anserini.document.tweet;
 
 import java.util.List;
 import java.util.Optional;

@@ -1,4 +1,4 @@
-package io.anserini.document;
+package io.anserini.document.tweet;
 
 public class RetweetedStatus {
   protected long id;

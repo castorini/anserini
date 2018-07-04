@@ -16,20 +16,18 @@
 
 package io.anserini.document;
 
-import com.fasterxml.jackson.core.JsonFactory;
-import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.databind.*;
-import com.fasterxml.jackson.databind.node.ArrayNode;
 
 import java.io.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import io.anserini.document.tweet.*;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.junit.Before;
 
 /**
  * A Twitter document (status).
@@ -97,13 +95,13 @@ public class TweetDocument implements SourceDocument {
       return false;
     }
 
-    id = Long.toString(tweetObj.id);
-    idLong = tweetObj.id;
-    text = tweetObj.text;
-    screenname = tweetObj.user.screen_name;
-    name = tweetObj.user.name;
-    profile_image_url = tweetObj.user.profile_image_url;
-    createdAt = tweetObj.created_at;
+    id = Long.toString(tweetObj.getId());
+    idLong = tweetObj.getId();
+    text = tweetObj.getText();
+    screenname = tweetObj.getUser().getScreen_name();
+    name = tweetObj.getUser().getName();
+    profile_image_url = tweetObj.getUser().getProfile_image_url();
+    createdAt = tweetObj.getCreated_at();
 
     try {
       timestamp_ms = (new SimpleDateFormat(DATE_FORMAT, Locale.ENGLISH)).parse(createdAt).getTime();
@@ -113,46 +111,46 @@ public class TweetDocument implements SourceDocument {
       epoch = -1L;
     }
 
-    if (tweetObj.in_reply_to_status_id == null || !tweetObj.in_reply_to_status_id.isPresent()) {
+    if (tweetObj.getIn_reply_to_status_id() == null || !tweetObj.getIn_reply_to_status_id().isPresent()) {
       inReplyToStatusId = OptionalLong.empty();
     } else {
-      inReplyToStatusId = tweetObj.in_reply_to_status_id;
+      inReplyToStatusId = tweetObj.getIn_reply_to_status_id();
     }
 
-    if (tweetObj.in_reply_to_user_id == null || !tweetObj.in_reply_to_user_id.isPresent()) {
+    if (tweetObj.getIn_reply_to_user_id() == null || !tweetObj.getIn_reply_to_user_id().isPresent()) {
       inReplyToUserId = OptionalLong.empty();
     } else {
-      inReplyToUserId = tweetObj.in_reply_to_user_id;
+      inReplyToUserId = tweetObj.getIn_reply_to_user_id();
     }
 
-    if (tweetObj.retweeted_status == null || !tweetObj.retweeted_status.isPresent()) {
+    if (tweetObj.getRetweeted_status() == null || !tweetObj.getRetweeted_status().isPresent()) {
       retweetStatusId = OptionalLong.empty();
       retweetUserId = OptionalLong.empty();
       retweetCount = OptionalLong.empty();
     } else {
-      retweetStatusId = OptionalLong.of(tweetObj.retweeted_status.get().id);
-      retweetUserId = OptionalLong.of(tweetObj.retweeted_status.get().user.id);
-      retweetCount = OptionalLong.of(tweetObj.retweet_count);
+      retweetStatusId = OptionalLong.of(tweetObj.getRetweeted_status().get().getId());
+      retweetUserId = OptionalLong.of(tweetObj.getRetweeted_status().get().getUser().getId());
+      retweetCount = OptionalLong.of(tweetObj.getRetweet_count());
     }
 
-    if (tweetObj.coordinates == null || !tweetObj.coordinates.isPresent()) {
+    if (tweetObj.getCoordinates() == null || !tweetObj.getCoordinates().isPresent()) {
       latitude = OptionalDouble.empty();
       longitude = OptionalDouble.empty();
     } else {
-      longitude = tweetObj.coordinates.get().get(0);
-      latitude = tweetObj.coordinates.get().get(1);
+      longitude = tweetObj.getCoordinates().get().get(0);
+      latitude = tweetObj.getCoordinates().get().get(1);
     }
 
-    if (tweetObj.lang == null || !tweetObj.lang.isPresent()) {
+    if (tweetObj.getLang() == null || !tweetObj.getLang().isPresent()) {
       lang = Optional.empty();
     } else {
-      lang = tweetObj.lang;
+      lang = tweetObj.getLang();
     }
 
-    if (tweetObj.user != null) {
-      followersCount = tweetObj.user.followers_count;
-      friendsCount = tweetObj.user.friends_count;
-      statusesCount = tweetObj.user.statuses_count;
+    if (tweetObj.getUser() != null) {
+      followersCount = tweetObj.getUser().getFollowers_count();
+      friendsCount = tweetObj.getUser().getFriends_count();
+      statusesCount = tweetObj.getUser().getStatuses_count();
     }
 
     jsonString = json;
