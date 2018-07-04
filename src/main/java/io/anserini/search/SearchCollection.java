@@ -119,9 +119,7 @@ public final class SearchCollection implements Closeable {
     // Set up the ranking cascade.
     cascade = new RerankerCascade();
     if (args.rm3) {
-      String stopwords = "io/anserini/rerank/rm3/" +
-          (args.searchtweets ? "rm3-stoplist.twitter.txt" : "rm3-stoplist.gov2.txt");
-      cascade.add(new Rm3Reranker(analyzer, FIELD_BODY, stopwords, args));
+      cascade.add(new Rm3Reranker(analyzer, FIELD_BODY, args));
     } else if (args.axiom) {
       cascade.add(new AxiomReranker(FIELD_BODY, args));
     }
