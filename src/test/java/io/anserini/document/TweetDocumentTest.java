@@ -47,9 +47,9 @@ public class TweetDocumentTest extends DocumentTest<TweetDocument> {
   public void test() throws Exception {
     for (int i = 0; i < rawDocs.size(); i++) {
       TweetDocument parsed = parse(rawDocs.get(i));
-      //assertEquals(parsed.id(), expected.get(i).get("id"));
-      //assertEquals(parsed.content(), expected.get(i).get("content"));
-      //assertEquals(parsed.getTimestampMs(), Long.parseLong(expected.get(i).get("timestamp_ms")));
+      assertEquals(parsed.id(), expected.get(i).get("id"));
+      assertEquals(parsed.content(), expected.get(i).get("content"));
+      assertEquals(parsed.getTimestampMs(), Long.parseLong(expected.get(i).get("timestamp_ms")));
     }
   }
 }

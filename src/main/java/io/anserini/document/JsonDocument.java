@@ -36,7 +36,6 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 public class JsonDocument implements SourceDocument {
   protected String id;
   protected String contents;
-//  private Iterator<JsonNode> iterator;
   private ArrayNode node;
   private int i;
 

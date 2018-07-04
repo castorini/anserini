@@ -80,52 +80,6 @@ public class TweetDocument implements SourceDocument {
     return null;
   }
 
-  public static void main(String[] args) {
-//    //String json = "{\"name\":\"borislin\",\"id\":1234,\"createdAt\":\"Fri Feb 01 10:56:07 +0000 2018\"}";
-//    String json = "{\"in_reply_to_status_id\":null,\"id\":123456789,\"text\":\"this is the tweet contents.\",\"user\":{\"screen_name\":\"foo\",\"name\":\"foo\",\"profile_image_url\":\"foo\",\"followers_count\":1,\"friends_count\":1,\"statuses_count\":1}}";
-////    json = "{\"id\":123456789,\"text\":\"" + "this is the tweet contents."
-////            + "\",\"user\":{\"screen_name\":\"foo\",\"name\":\"foo\"," +
-////            "\"profile_image_url\":\"foo\",\"followers_count\":1,\"friends_count\":1," +
-////            "\"statuses_count\":1},\"created_at\":\"Fri Feb 01 10:56:07 +0000 2018\"}";
-//    ObjectMapper mapper = new ObjectMapper();
-//    Tweet tweetDocumentObj = null;
-//    try {
-//      tweetDocumentObj = mapper
-//        .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
-//        .registerModule(new Jdk8Module()) // Deserialize Java 8 Optional: http://www.baeldung.com/jackson-optional
-//        .readValue(json, Tweet.class);
-//
-//      System.out.println("Success!==================");
-//      System.out.println(tweetDocumentObj.user.name);
-//      System.out.println(tweetDocumentObj.id);
-//      System.out.println(tweetDocumentObj.in_reply_to_status_id.isPresent());
-////      System.out.println(tweetDocumentObj.user.name);
-//    } catch (IOException e) {
-//      System.out.println(e.getMessage());
-//      System.out.println( "Exception!!!!!!!!!!!!!!!!!!");
-//    }
-
-    String sampleFile = "sampleJsonObject.json";
-
-    String sampleDoc =
-            "{\n " +
-            "  \"id\": \"doc\",\n" +
-            "  \"contents\": \"this is the contents.\"\n" +
-            "}";
-    try {
-      Writer writer = new BufferedWriter(new OutputStreamWriter(
-              new FileOutputStream(sampleFile), "utf-8"));
-      writer.write(sampleDoc);
-      JsonDocument doc = new JsonDocument(sampleFile);
-      JsonParser raw = new JsonFactory().createParser(new BufferedReader(new FileReader(sampleFile)));
-      ObjectMapper objectMapper = new ObjectMapper();
-      ArrayNode node = objectMapper.readTree(raw);
-      System.out.println(node.isArray());
-    } catch (Exception e) {
-    }
-
-  }
-
   public boolean fromJson(String json) {
     ObjectMapper mapper = new ObjectMapper();
     Tweet tweetObj = null;
@@ -178,11 +132,7 @@ public class TweetDocument implements SourceDocument {
     } else {
       retweetStatusId = OptionalLong.of(tweetObj.retweeted_status.get().id);
       retweetUserId = OptionalLong.of(tweetObj.retweeted_status.get().user.id);
-      // retweet_count might say "100+"
-      // TODO: This is ugly, come back and fix later.
       retweetCount = OptionalLong.of(tweetObj.retweet_count);
-      //retweet_count = OptionalLong.of(Long.parseLong(obj.get("retweet_count")
-      //        .getAsString().replace("+", "")));
     }
 
     if (tweetObj.coordinates == null || !tweetObj.coordinates.isPresent()) {
@@ -209,75 +159,6 @@ public class TweetDocument implements SourceDocument {
     jsonObject = tweetObj;
 
     return true;
-
-
-//    JsonObject obj = null;
-//    try {
-//      obj = (JsonObject) JSON_PARSER.parse(json);
-//    } catch (JsonSyntaxException e) {
-//      return false;
-//    }
-//    if (obj.has("delete")) {
-//      return false;
-//    }
-//    id = obj.get("id").getAsString();
-//    idLong = Long.parseLong(id);
-//    text = obj.get("text").getAsString();
-//    screenname = obj.get("user").getAsJsonObject().get("screen_name").getAsString();
-//    name = obj.get("user").getAsJsonObject().get("name").getAsString();
-//    profile_image_url = obj.get("user").getAsJsonObject().get("profile_image_url").getAsString();
-//    createdAt = obj.get("created_at").getAsString();
-//
-//    try {
-//      timestamp_ms = (new SimpleDateFormat(DATE_FORMAT, Locale.ENGLISH)).parse(createdAt).getTime();
-//      epoch = timestamp_ms / 1000;
-//    } catch (ParseException e) {
-//      //LOG.debug(e);
-//      timestamp_ms = -1L;
-//      epoch = -1L;
-//    }
-//
-//    inReplyToStatusId = (!obj.has("in_reply_to_status_id") || obj.get("in_reply_to_status_id").isJsonNull()) ?
-//            OptionalLong.empty() : OptionalLong.of(obj.get("in_reply_to_status_id").getAsLong());
-//
-//    inReplyToUserId = (!obj.has("in_reply_to_user_id") || obj.get("in_reply_to_user_id").isJsonNull()) ?
-//            OptionalLong.empty() : OptionalLong.of(obj.get("in_reply_to_user_id").getAsLong());
-//
-//    if (!obj.has("retweeted_status") || obj.get("retweeted_status").isJsonNull()) {
-//      retweetStatusId = OptionalLong.empty();
-//      retweetUserId = OptionalLong.empty();
-//      retweetCount = OptionalLong.empty();
-//    } else {
-//      retweetStatusId = OptionalLong.of(obj.getAsJsonObject("retweeted_status").get("id").getAsLong());
-//      retweetUserId = OptionalLong.of(obj.getAsJsonObject("retweeted_status")
-//              .get("user").getAsJsonObject().get("id").getAsLong());
-//      // retweet_count might say "100+"
-//      // TODO: This is ugly, come back and fix later.
-//      retweetCount = OptionalLong.of(Long.parseLong(obj.get("retweet_count")
-//              .getAsString().replace("+", "")));
-//    }
-//
-//    if (!obj.has("coordinates") || obj.get("coordinates").isJsonNull()) {
-//      latitude = OptionalDouble.empty();
-//      longitude = OptionalDouble.empty();
-//    } else {
-//      latitude = OptionalDouble.of(obj.getAsJsonObject("coordinates")
-//              .getAsJsonArray("coordinates").get(1).getAsDouble());
-//      longitude = OptionalDouble.of(obj.getAsJsonObject("coordinates")
-//              .getAsJsonArray("coordinates").get(0).getAsDouble());
-//    }
-//
-//    String langOpt = (obj.get("lang") == null || obj.get("lang").isJsonNull()) ?
-//            null  : obj.get("lang").getAsString();
-//    lang = Optional.ofNullable(langOpt);
-//
-//    followersCount = obj.get("user").getAsJsonObject().get("followers_count").getAsInt();
-//    friendsCount = obj.get("user").getAsJsonObject().get("friends_count").getAsInt();
-//    statusesCount = obj.get("user").getAsJsonObject().get("statuses_count").getAsInt();
-//
-//    jsonString = json;
-//
-//    return true;
   }
 
   public TweetDocument fromTSV(String tsv) {

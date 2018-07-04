@@ -153,7 +153,6 @@ public abstract class EndToEndTest extends LuceneTestCase {
       checkIndex();
     } catch (Exception e) {
       System.out.println("Test Indexing failed");
-      System.out.println(e.getMessage());
       fail();
     }
   }

@@ -5,6 +5,9 @@ import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalLong;
 
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.databind.*;
+
 public class Tweet {
   protected long id;
   protected String text;
@@ -37,6 +40,19 @@ public class Tweet {
 
   public long getRetweet_count() {
     return retweet_count;
+  }
+
+  @JsonSetter("retweet_count")
+  public void setRetweet_count_internal(JsonNode retweet_count_internal) {
+    if (retweet_count_internal != null) {
+      if (retweet_count_internal.isTextual()) {
+        // retweet_count might say "100+"
+        // TODO: This is ugly, come back and fix later.
+        retweet_count = Long.parseLong(retweet_count_internal.asText().replace("+", ""));
+      } else if (retweet_count_internal.isNumber()) {
+        retweet_count = retweet_count_internal.asLong();
+      }
+    }
   }
 
   public OptionalLong getIn_reply_to_status_id() {
