@@ -49,6 +49,7 @@ public class FeatureExtractors {
     module.addDeserializer(UnorderedQueryPairsFeatureExtractor.class,
             new UnorderedQueryPairsFeatureExtractor.Deserializer());
     objectMapper.registerModule(module);
+    objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
 
     jsonParser.configure(Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
     JsonNode node = objectMapper.readTree(jsonParser);
@@ -63,11 +64,11 @@ public class FeatureExtractors {
         JsonNode config = extractor.get(CONFIG_KEY);
         JsonParser configJsonParser = objectMapper.treeAsTokens(config);
         FeatureExtractor parsedExtractor = (FeatureExtractor) objectMapper
-                .readValue(configJsonParser, FeatureExtractor.EXTRACTOR_MAP.get(extractorName));
+          .readValue(configJsonParser, FeatureExtractor.EXTRACTOR_MAP.get(extractorName));
         extractors.add(parsedExtractor);
       } else {
         FeatureExtractor parsedExtractor = (FeatureExtractor) FeatureExtractor.EXTRACTOR_MAP.get(extractorName)
-                .getConstructor().newInstance();
+          .getConstructor().newInstance();
         extractors.add(parsedExtractor);
       }
     }

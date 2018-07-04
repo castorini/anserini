@@ -48,6 +48,7 @@ public class JsonDocument implements SourceDocument {
     } catch (IOException e) {
       node = null;
     }
+    i = 0;
   }
 
   @Override

@@ -123,12 +123,9 @@ public class OrderedSequentialPairsFeatureExtractor<T> implements FeatureExtract
 
     return score;
   }
+
   @Override
   public String getName() {
     return "OrderedSequentialPairs" + this.gapSize;
-  }
-
-  public int getGapSize() {
-    return gapSize;
   }
 }
