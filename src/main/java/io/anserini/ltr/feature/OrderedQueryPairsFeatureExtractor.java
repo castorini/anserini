@@ -1,10 +1,9 @@
 package io.anserini.ltr.feature;
 
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import io.anserini.rerank.RerankerContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -12,7 +11,6 @@ import org.apache.lucene.document.Document;
 import org.apache.lucene.index.Terms;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -34,14 +32,22 @@ public class OrderedQueryPairsFeatureExtractor<T> implements FeatureExtractor<T>
   protected static String lastProcessedId = "";
   protected static Document lastProcessedDoc = null;
 
-  public static class Deserializer implements JsonDeserializer<OrderedQueryPairsFeatureExtractor>
+  public static class Deserializer extends StdDeserializer<OrderedQueryPairsFeatureExtractor>
   {
+    public Deserializer() {
+      this(null);
+    }
+
+    public Deserializer(Class<?> vc) {
+      super(vc);
+    }
+
     @Override
     public OrderedQueryPairsFeatureExtractor
-    deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
-            throws JsonParseException
+    deserialize(JsonParser jsonParser, DeserializationContext context) throws IOException
     {
-      int gapSize = ((JsonObject) json).get("gapSize").getAsInt();
+      JsonNode node = jsonParser.getCodec().readTree(jsonParser);
+      int gapSize = node.get("gapSize").asInt();
       return new OrderedQueryPairsFeatureExtractor(gapSize);
     }
   }
