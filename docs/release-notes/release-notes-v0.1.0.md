@@ -21,9 +21,9 @@ Ranking models as part of regression tests include QL, BM25, and RM3.
 
 + Jimmy Lin ([lintool](https://github.com/lintool))
 + Peilin Yang ([Peilin-Yang](https://github.com/Peilin-Yang))
-+ Ahmet Arslan ([iorixxx](http://iorixxx.github.io/))
++ Ahmet Arslan ([iorixxx](https://github.com/iorixxx))
 + Royal Sequiera ([rosequ](https://github.com/rosequ))
-+ Luchen Tan ([LuchenTan](https://github.com/LuchenTan)]
++ Luchen Tan ([LuchenTan](https://github.com/LuchenTan))
 + Salman Mohammed ([Salman Mohammed](https://github.com/salman1993))
 + Dayang Shi ([dyshi](https://github.com/dyshi))
 + Michael Tu ([tuzhucheng](https://github.com/tuzhucheng))
