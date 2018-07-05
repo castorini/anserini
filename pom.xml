@@ -283,7 +283,7 @@
       <artifactId>ant</artifactId>
       <version>1.9.1</version>
     </dependency>
-    <dependency> <!-- needed for io.anserini.document.WashPostDocument -->
+    <dependency> <!-- needed for io.anserini.document.WashingtonPostDocument -->
       <groupId>org.json</groupId>
       <artifactId>json</artifactId>
       <version>20160810</version>

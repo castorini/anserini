@@ -16,23 +16,22 @@
 
 package io.anserini.document;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.util.List;
-import java.util.Arrays;
-
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 /**
- * A Washington Post document.
+ * A document from the Washington Post collection.
  */
-public class WashPostDocument implements SourceDocument {
-  private static final Logger LOG = LogManager.getLogger(WashPostDocument.class);
+public class WashingtonPostDocument implements SourceDocument {
+  private static final Logger LOG = LogManager.getLogger(WashingtonPostDocument.class);
   private static final String PATTERN = "<\\/?\\w+>";
 
   private final String ID_TAG = "id";
