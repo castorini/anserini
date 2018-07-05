@@ -16,7 +16,7 @@
 
 package io.anserini.collection;
 
-import io.anserini.document.TrecCoreDocument;
+import io.anserini.document.NewYorkTimesDocument;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -26,10 +26,11 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Class representing an instance of a TREC Core collection.
+ * Class representing an instance of the New York Times Annotated Corpus,
+ * <a href="https://catalog.ldc.upenn.edu/products/LDC2008T19">LDC2008T19</a>.
  */
-public class TrecCoreCollection extends Collection<TrecCoreDocument> {
-  public class FileSegment extends Collection<TrecCoreDocument>.FileSegment {
+public class NewYorkTimesCollection extends Collection<NewYorkTimesDocument> {
+  public class FileSegment extends Collection<NewYorkTimesDocument>.FileSegment {
     private String fileName;
 
     protected FileSegment(Path path) throws IOException {
@@ -48,8 +49,8 @@ public class TrecCoreCollection extends Collection<TrecCoreDocument> {
     }
 
     @Override
-    public TrecCoreDocument next() {
-      TrecCoreDocument doc = new TrecCoreDocument(new File(fileName));
+    public NewYorkTimesDocument next() {
+      NewYorkTimesDocument doc = new NewYorkTimesDocument(new File(fileName));
       atEOF = true;
       try {
         doc = doc.readNextRecord(bufferedReader);
@@ -75,5 +76,4 @@ public class TrecCoreCollection extends Collection<TrecCoreDocument> {
   public FileSegment createFileSegment(Path p) throws IOException {
     return new FileSegment(p);
   }
-
 }
