@@ -73,3 +73,7 @@ hits[0].score
 # the full document of the 1st hit
 hits[0].content
 ```
+
+## Release History
+
++ v0.1.0: July 4, 2018 [[Release Notes]](docs/release-notes/release-notes-v0.1.0.md)
