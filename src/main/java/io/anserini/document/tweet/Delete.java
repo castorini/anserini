@@ -1,9 +1,0 @@
-package io.anserini.document.tweet;
-
-public class Delete {
-  protected String timestamp_ms;
-
-  public String getTimestamp_ms() {
-    return timestamp_ms;
-  }
-}

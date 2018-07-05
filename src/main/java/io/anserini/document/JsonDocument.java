@@ -46,14 +46,14 @@ public class JsonDocument implements SourceDocument {
       objectMapper.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
       node = objectMapper.readTree(jsonParser);
     } catch (IOException e) {
-      node = null;
+      node = null; // When the json file does not contain any json objects, set node to null
     }
     i = 0;
   }
 
   @Override
   public JsonDocument readNextRecord(BufferedReader bRdr) throws IOException {
-    if (node == null || i >= node.size()) {
+    if (node == null) {
       // try to read one JSON Object per line
       String line;
       while ((line = bRdr.readLine()) != null) {
@@ -62,7 +62,7 @@ public class JsonDocument implements SourceDocument {
         contents = json.get("contents").asText();
         return this;
       }
-    } else {
+    } else if (i < node.size()) {
       JsonNode json = node.get(i);
       id = json.get("id").asText();
       contents = json.get("contents").asText();
