@@ -16,7 +16,6 @@
 
 package io.anserini.document;
 
-import io.anserini.index.IndexCollection;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.w3c.dom.Document;
@@ -51,27 +50,20 @@ import java.util.List;
  * <a href="https://catalog.ldc.upenn.edu/products/LDC2008T19">LDC2008T19</a>.
  */
 public class NewYorkTimesDocument implements SourceDocument {
-  protected String id;
-  protected String contents;
-  protected File file;
+  private final RawDocument raw;
+  private String id;
+  private String contents;
 
-  public NewYorkTimesDocument(File file) {
-    this.file = file;
+  // No public constructor; must use parser to create document.
+  private NewYorkTimesDocument(RawDocument raw) {
+    this.raw = raw;
   }
 
   @Override
   public NewYorkTimesDocument readNextRecord(BufferedReader bRdr) throws Exception {
-    return readNextRecord(file);
-  }
-
-  public NewYorkTimesDocument readNextRecord(File fileName) throws IOException {
-    Parser nytParser = new Parser();
-    RawDocument nytDoc = nytParser.parseNYTCorpusDocumentFromFile(fileName, false);
-
-    id = String.valueOf(nytDoc.getGuid());
-    contents = nytDoc.getBody() == null ? "" : nytDoc.getBody();
-
-    return this;
+    // We're slowly refactoring to get rid of this method.
+    // See https://github.com/castorini/Anserini/issues/254
+    throw new UnsupportedOperationException();
   }
 
   @Override
@@ -88,6 +80,12 @@ public class NewYorkTimesDocument implements SourceDocument {
   public boolean indexable() {
     return true;
   }
+
+  public RawDocument getRawDocument() {
+    return raw;
+  }
+
+  // We intentionally segregate the Anserini NewYorkTimesDocument from the parsed document below.
 
   /**
    * Raw container class for a document from New York Times Annotated Corpus. This was originally
@@ -1759,8 +1757,18 @@ public class NewYorkTimesDocument implements SourceDocument {
     /** NITF Constant */
     private static final String GENERAL_DESCRIPTOR_ATTRIBUTE = "general_descriptor";
 
+    private static final Logger LOG = LogManager.getLogger(NewYorkTimesDocument.class);
 
-    private static final Logger LOG = LogManager.getLogger(IndexCollection.class);
+    public NewYorkTimesDocument parseFile(File fileName) throws IOException {
+      RawDocument raw = parseNYTCorpusDocumentFromFile(fileName, false);
+
+      NewYorkTimesDocument d = new NewYorkTimesDocument(raw);
+      d.id = String.valueOf(raw.getGuid());
+      d.contents = raw.getBody() == null ? "" : raw.getBody();
+
+      return d;
+    }
+
     /**
      * Parse an New York Times Document from a file.
      *
