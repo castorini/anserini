@@ -23,11 +23,18 @@ import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Set;
 
 /**
  * Class representing an instance of the New York Times Annotated Corpus,
  * <a href="https://catalog.ldc.upenn.edu/products/LDC2008T19">LDC2008T19</a>.
+ * Note that the collection is distributed as a number of {@code tgz} files, which
+ * uncompresses to individual XML documents in a directory structure. Since the
+ * current implementation of {@link FileSegment} cannot handle {@code tgz} (only
+ * {@code gz}), the collection must be first uncompressed prior to indexing.
+ * In this case, each {@link FileSegment} is an XML file containing only a single
+ * document.
  */
 public class NewYorkTimesCollection extends Collection<NewYorkTimesDocument> {
   public class FileSegment extends Collection<NewYorkTimesDocument>.FileSegment {
@@ -55,7 +62,7 @@ public class NewYorkTimesCollection extends Collection<NewYorkTimesDocument> {
 
     @Override
     public NewYorkTimesDocument next() {
-      if (docRead) return null;
+      if (docRead) throw new NoSuchElementException();
 
       NewYorkTimesDocument doc;
       try {
