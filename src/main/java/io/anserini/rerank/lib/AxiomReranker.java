@@ -110,7 +110,7 @@ public class AxiomReranker<T> implements Reranker<T> {
       // Extract an inverted list from the reranking pool
       Map<String, Set<Integer>> termInvertedList = extractTerms(usedDocs, context, null);
       // Calculate all the terms in the reranking pool and pick top K of them
-      Map<String, Double> expandedTermScores = calTermScore(termInvertedList, context);
+      Map<String, Double> expandedTermScores = computeTermScore(termInvertedList, context);
       StringBuilder builder = new StringBuilder();
       for (Map.Entry<String, Double> termScore : expandedTermScores.entrySet()) {
         String term = termScore.getKey();
@@ -334,7 +334,7 @@ public class AxiomReranker<T> implements Reranker<T> {
    * @return Map<String, Double> Top terms and their weight scores in a HashMap
    */
   @VisibleForTesting
-  private Map<String, Double> calTermScore(
+  private Map<String, Double> computeTermScore(
     Map<String, Set<Integer>> termInvertedList, RerankerContext<T> context) throws IOException {
     class ScoreComparator implements Comparator<Pair<String, Double>> {
       public int compare(Pair<String, Double> a, Pair<String, Double> b) {
