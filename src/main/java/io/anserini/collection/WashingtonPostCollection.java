@@ -16,7 +16,7 @@
 
 package io.anserini.collection;
 
-import io.anserini.document.WashPostDocument;
+import io.anserini.document.WashingtonPostDocument;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -27,13 +27,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class WashPostCollection extends Collection<WashPostDocument> {
+public class WashingtonPostCollection extends Collection<WashingtonPostDocument> {
 
-  public class FileSegment extends Collection<WashPostDocument>.FileSegment {
+  public class FileSegment extends Collection<WashingtonPostDocument>.FileSegment {
     private String fileName;
 
     public FileSegment(Path path) throws IOException {
-      dType = new WashPostDocument();
+      dType = new WashingtonPostDocument();
 
       this.path = path;
       this.fileName = path.toString();
@@ -51,6 +51,6 @@ public class WashPostCollection extends Collection<WashPostDocument> {
 
   @Override
   public FileSegment createFileSegment(Path p) throws IOException {
-    return new WashPostCollection.FileSegment(p);
+    return new WashingtonPostCollection.FileSegment(p);
   }
 }

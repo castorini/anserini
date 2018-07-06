@@ -21,12 +21,12 @@ import java.util.HashMap;
 import org.junit.Before;
 
 
-public class WashPostDocumentTest extends DocumentTest<WashPostDocument> {
+public class WashPostDocumentTest extends DocumentTest<WashingtonPostDocument> {
 
     @Before
     public void setUP() throws Exception {
         super.setUp();
-        dType = new WashPostDocument();
+        dType = new WashingtonPostDocument();
 
         rawDocs.add("{\"id\": \"5f992bbc-4b9f-11e2-a6a6-aabac85e8036\", " +
 

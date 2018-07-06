@@ -1,10 +1,36 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.anserini</groupId>
   <artifactId>anserini</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <name>Anserini retrieval platform</name>
+  <version>0.1.1-SNAPSHOT</version>
+  <name>Anserini</name>
+  <description>An information retrieval toolkit built on Lucene</description>
+  <url>http://anserini.io/</url>
+
+  <licenses>
+    <license>
+      <name>The Apache Software License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <developers>
+    <developer>
+      <name>Jimmy Lin</name>
+      <id>lintool</id>
+      <email>jimmylin@uwaterloo.ca</email>
+      <organization>University of Waterloo</organization>
+      <url>https://cs.uwaterloo.ca/~jimmylin/</url>
+    </developer>
+    <developer>
+      <name>Peilin Yang</name>
+      <id>Peilin-Yang</id>
+      <email>yangpeilyn@gmail.com</email>
+      <organization>Twitter, Inc.</organization>
+      <url>https://peilin-yang.github.io/</url>
+    </developer>
+  </developers>
 
   <properties>
     <LUCENE_VERSION>6.3.0</LUCENE_VERSION>
@@ -33,6 +59,18 @@
     </repository>
   </repositories>
 
+  <distributionManagement>
+    <snapshotRepository>
+      <id>sonatype-nexus-snapshots</id>
+      <name>Sonatype Nexus Shapshots</name>
+      <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+    </snapshotRepository>
+    <repository>
+      <id>sonatype-nexus-staging</id>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+    </repository>
+  </distributionManagement>
+
   <build>
     <plugins>
       <plugin>
@@ -52,35 +90,27 @@
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>appassembler-maven-plugin</artifactId>
         <version>2.0.0</version>
-        <executions>
-          <execution>
-            <phase>package</phase>
-            <goals>
-              <goal>assemble</goal>
-	    </goals>
-            <configuration>
-              <extraJvmArguments>-Xms512M -Xmx24576M</extraJvmArguments>
-              <programs>
-                <program>
-                  <mainClass>io.anserini.index.IndexCollection</mainClass>
-                  <id>IndexCollection</id>
-                </program>
-                <program>
-                  <mainClass>io.anserini.search.SearchCollection</mainClass>
-                  <id>SearchCollection</id>
-                </program>
-                <program>
-                  <mainClass>io.anserini.eval.Eval</mainClass>
-                  <id>Eval</id>
-                </program>
-                <program>
-                  <mainClass>io.anserini.index.IndexUtils</mainClass>
-                  <id>IndexUtils</id>
-                </program>
-              </programs>
-            </configuration>
-	  </execution>
-	</executions>
+        <configuration>
+          <extraJvmArguments>-Xms512M -Xmx24576M</extraJvmArguments>
+          <programs>
+            <program>
+              <mainClass>io.anserini.index.IndexCollection</mainClass>
+              <id>IndexCollection</id>
+            </program>
+            <program>
+              <mainClass>io.anserini.search.SearchCollection</mainClass>
+              <id>SearchCollection</id>
+            </program>
+            <program>
+              <mainClass>io.anserini.eval.Eval</mainClass>
+              <id>Eval</id>
+            </program>
+            <program>
+              <mainClass>io.anserini.index.IndexUtils</mainClass>
+              <id>IndexUtils</id>
+            </program>
+          </programs>
+        </configuration>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -106,7 +136,7 @@
           <execution>
             <!-- default is to bind to package phase: we override and not create fatjar unless explicitly
                  specified on command line - this speeds up the build greatly -->
-            <phase>none</phase>
+            <phase>package</phase>
             <goals>
               <goal>shade</goal>
             </goals>
@@ -142,6 +172,20 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-release-plugin</artifactId>
         <version>2.5.3</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-gpg-plugin</artifactId>
+        <version>1.6</version>
+        <executions>
+          <execution>
+            <id>sign-artifacts</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>sign</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
@@ -236,7 +280,7 @@
       <artifactId>ant</artifactId>
       <version>1.9.1</version>
     </dependency>
-    <dependency> <!-- needed for io.anserini.document.WashPostDocument -->
+    <dependency> <!-- needed for io.anserini.document.WashingtonPostDocument -->
       <groupId>org.json</groupId>
       <artifactId>json</artifactId>
       <version>20160810</version>

@@ -155,7 +155,7 @@ public abstract class Collection<T extends SourceDocument> {
    *
    * @param p path
    * @return {@code FileSegment} with the specified path
-   * @throws IOException
+   * @throws IOException if file access error encountered
    */
   public abstract FileSegment createFileSegment(Path p) throws IOException;
 

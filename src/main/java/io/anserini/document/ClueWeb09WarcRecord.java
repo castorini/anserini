@@ -1,4 +1,18 @@
-package io.anserini.document;
+/**
+ * Anserini: An information retrieval toolkit built on Lucene
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 /*
  * Container for a generic Warc Record
@@ -34,6 +48,7 @@ package io.anserini.document;
  * @author mhoy@cs.cmu.edu (Mark J. Hoy)
  */
 
+package io.anserini.document;
 
 import java.io.DataInput;
 import java.io.DataInputStream;
@@ -65,15 +80,15 @@ public final class ClueWeb09WarcRecord extends WarcRecord {
   private String warcFilePath = "";
 
   /**
-   * Default Constructor
+   * Default Constructor.
    */
   public ClueWeb09WarcRecord() {
   }
 
   /**
-   * Copy Constructor
+   * Copy Constructor.
    *
-   * @param o
+   * @param o record to copy from
    */
   public ClueWeb09WarcRecord(ClueWeb09WarcRecord o) {
     this.warcHeader = new WarcHeader(o.warcHeader);
@@ -82,12 +97,12 @@ public final class ClueWeb09WarcRecord extends WarcRecord {
 
   /**
    * Our read line implementation. We cannot allow buffering here (for gzip
-   * streams) so, we need to use DataInputStream. Also - we need to account
-   * for java's UTF8 implementation
+   * streams) so, we need to use DataInputStream. Also, we need to account
+   * for Java's UTF8 implementation.
    *
    * @param in the input data stream
    * @return the read line (or null if eof)
-   * @throws java.io.IOException
+   * @throws IOException if error encountered reading from stream
    */
   public String readLineFromInputStream(DataInputStream in) throws IOException {
     StringBuilder retString = new StringBuilder();
@@ -164,12 +179,13 @@ public final class ClueWeb09WarcRecord extends WarcRecord {
   }
 
   /**
-   * The actual heavy lifting of reading in the next WARC record
+   * Performs the actual heavy lifting of reading in the next WARC record.
    *
-   * @param in           the data input stream
+   * @param in the data input stream
    * @param headerBuffer a blank string buffer to contain the WARC header
-   * @return the content byts (w/ the headerBuffer populated)
-   * @throws java.io.IOException
+   * @param WARC_VERSION WARC version
+   * @return the content bytes (with the headerBuffer populated)
+   * @throws IOException if error encountered reading from stream
    */
   byte[] readNextRecord(DataInputStream in, StringBuilder headerBuffer, String WARC_VERSION) throws IOException {
     if (in == null) {
@@ -255,11 +271,12 @@ public final class ClueWeb09WarcRecord extends WarcRecord {
   }
 
   /**
-   * Reads in a WARC record from a data input stream
+   * Reads in a WARC record from a data input stream.
    *
    * @param in the input stream
-   * @return a WARC record (or null if eof)
-   * @throws java.io.IOException
+   * @param WARC_VERSION WARC version
+   * @return a WARC record (or null if EOF)
+   * @throws IOException if error encountered reading from stream
    */
   public ClueWeb09WarcRecord readNextWarcRecord(DataInputStream in, String WARC_VERSION) throws IOException {
     StringBuilder recordHeader = new StringBuilder();
@@ -303,7 +320,7 @@ public final class ClueWeb09WarcRecord extends WarcRecord {
   }
 
   /**
-   * Retrieves the total record length (header and content)
+   * Returns the total record length (header and content).
    *
    * @return total record length
    */
@@ -313,7 +330,7 @@ public final class ClueWeb09WarcRecord extends WarcRecord {
   }
 
   /**
-   * Sets the record content (copy)
+   * Sets the record content (copy).
    *
    * @param o record to copy from
    */
@@ -323,25 +340,27 @@ public final class ClueWeb09WarcRecord extends WarcRecord {
   }
 
   /**
-   * Gets the file path from this WARC file (if set)
+   * Gets the file path of this WARC file (if set).
+   *
+   * @return file path of this WARC file
    */
   public String getWarcFilePath() {
     return warcFilePath;
   }
 
   /**
-   * Sets the warc file path (optional - for use with getWarcFilePath)
+   * Sets the WARC file path. Optional, for use with {@link #getWarcFilePath()}.
    *
-   * @param path
+   * @param path path
    */
   public void setWarcFilePath(String path) {
     warcFilePath = path;
   }
 
   /**
-   * Sets the record type string
+   * Sets the record type string.
    *
-   * @param recordType
+   * @param recordType record type
    */
   public void setWarcRecordType(String recordType) {
     warcHeader.recordType = recordType;
@@ -350,16 +369,16 @@ public final class ClueWeb09WarcRecord extends WarcRecord {
   /**
    * Sets the content type string
    *
-   * @param contentType
+   * @param contentType content type
    */
   public void setWarcContentType(String contentType) {
     warcHeader.contentType = contentType;
   }
 
   /**
-   * Sets the WARC header date string
+   * Sets the WARC header date string.
    *
-   * @param dateString
+   * @param dateString date string
    */
   public void setWarcDate(String dateString) {
     warcHeader.dateString = dateString;
@@ -368,18 +387,17 @@ public final class ClueWeb09WarcRecord extends WarcRecord {
   /**
    * Sets the WARC uuid string
    *
-   * @param UUID
+   * @param UUID uuid string
    */
   public void setWarcUUID(String UUID) {
     warcHeader.UUID = UUID;
   }
 
   /**
-   * Adds a key/value pair to a WARC header. This is needed to filter out
-   * known keys
+   * Adds a key/value pair to a WARC header. This is needed to filter out known keys.
    *
-   * @param key
-   * @param value
+   * @param key key
+   * @param value value
    */
   public void addHeaderMetadata(String key, String value) {
     // don't allow addition of known keys
@@ -403,32 +421,35 @@ public final class ClueWeb09WarcRecord extends WarcRecord {
   }
 
   /**
-   * Clears all metadata items from a header
+   * Clears all metadata items from a header.
    */
   public void clearHeaderMetadata() {
     warcHeader.metadata.clear();
   }
 
   /**
-   * Gets the set of metadata items from the header
+   * Returns the set of metadata items from the header.
+   *
+   * @return metadata from the header
    */
   public Set<Entry<String, String>> getHeaderMetadata() {
     return warcHeader.metadata.entrySet();
   }
 
   /**
-   * Gets a value for a specific header metadata key
+   * Returns the value for a specific header metadata key.
    *
-   * @param key
+   * @param key key
+   * @return value for a metadata key
    */
   public String getHeaderMetadataItem(String key) {
     return warcHeader.metadata.get(key);
   }
 
   /**
-   * Sets the byte content for this record
+   * Sets the byte content for this record.
    *
-   * @param content
+   * @param content content
    */
   public void setContent(byte[] content) {
     warcContent = content;
@@ -436,21 +457,27 @@ public final class ClueWeb09WarcRecord extends WarcRecord {
   }
 
   /**
-   * Retrieves the byte content for this record
+   * Returns the byte content for this record.
+   *
+   * @return byte content of this record
    */
   public byte[] getByteContent() {
     return warcContent;
   }
 
   /**
-   * Retrieves the bytes content as a UTF-8 string
+   * Returns the byte content as a UTF-8 string.
+   *
+   * @return byte content as a UTF-8 string
    */
   public String getContentUTF8() {
     return new String(warcContent, StandardCharsets.UTF_8);
   }
 
   /**
-   * Gets the header record type string
+   * Returns the header record type string.
+   *
+   * @return header record type
    */
   public String getHeaderRecordType() {
     return warcHeader.recordType;
@@ -466,17 +493,19 @@ public final class ClueWeb09WarcRecord extends WarcRecord {
   }
 
   /**
-   * Gets the WARC header as a string
+   * Returns the WARC header as a string.
+   *
+   * @return WARC header as a string
    */
   public String getHeaderString() {
     return warcHeader.toString();
   }
 
   /**
-   * Serialization output
+   * Serializes this record.
    *
-   * @param out
-   * @throws java.io.IOException
+   * @param out output
+   * @throws IOException if error encountered during serialization
    */
   public void write(DataOutput out) throws IOException {
     warcHeader.write(out);
@@ -484,10 +513,10 @@ public final class ClueWeb09WarcRecord extends WarcRecord {
   }
 
   /**
-   * Serialization input
+   * Deserializes this record.
    *
-   * @param in
-   * @throws java.io.IOException
+   * @param in input
+   * @throws IOException if error encountered during deserialization
    */
   public void readFields(DataInput in) throws IOException {
     warcHeader.readFields(in);
@@ -513,9 +542,9 @@ public final class ClueWeb09WarcRecord extends WarcRecord {
   }
 
   /**
-   * Sets the byte content for this record
+   * Sets the byte content for this record.
    *
-   * @param content
+   * @param content content
    */
   public void setContent(String content) {
     setContent(content.getBytes());
@@ -546,7 +575,7 @@ public final class ClueWeb09WarcRecord extends WarcRecord {
   }
 
   /**
-   * Warc header class
+   * WARC header class.
    */
   public class WarcHeader {
     public String contentType = "";
@@ -557,13 +586,13 @@ public final class ClueWeb09WarcRecord extends WarcRecord {
     public int contentLength = 0;
 
     /**
-     * Default constructor
+     * Default constructor.
      */
     public WarcHeader() {
     }
 
     /**
-     * Copy Constructor
+     * Copy Constructor.
      *
      * @param o other WARC header
      */
@@ -577,10 +606,10 @@ public final class ClueWeb09WarcRecord extends WarcRecord {
     }
 
     /**
-     * Serialization output
+     * Serializes this header.
      *
-     * @param out the data output stream
-     * @throws java.io.IOException
+     * @param out output
+     * @throws IOException if error encountered during serialization
      */
     public void write(DataOutput out) throws IOException {
       out.writeUTF(contentType);
@@ -598,10 +627,10 @@ public final class ClueWeb09WarcRecord extends WarcRecord {
     }
 
     /**
-     * Serialization input
+     * Deserializes this header.
      *
-     * @param in the data input stream
-     * @throws java.io.IOException
+     * @param in input
+     * @throws IOException if error encountered during deserialization
      */
     public void readFields(DataInput in) throws IOException {
       contentType = in.readUTF();
