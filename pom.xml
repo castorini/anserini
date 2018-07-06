@@ -90,35 +90,27 @@
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>appassembler-maven-plugin</artifactId>
         <version>2.0.0</version>
-        <executions>
-          <execution>
-            <phase>package</phase>
-            <goals>
-              <goal>assemble</goal>
-	    </goals>
-            <configuration>
-              <extraJvmArguments>-Xms512M -Xmx24576M</extraJvmArguments>
-              <programs>
-                <program>
-                  <mainClass>io.anserini.index.IndexCollection</mainClass>
-                  <id>IndexCollection</id>
-                </program>
-                <program>
-                  <mainClass>io.anserini.search.SearchCollection</mainClass>
-                  <id>SearchCollection</id>
-                </program>
-                <program>
-                  <mainClass>io.anserini.eval.Eval</mainClass>
-                  <id>Eval</id>
-                </program>
-                <program>
-                  <mainClass>io.anserini.index.IndexUtils</mainClass>
-                  <id>IndexUtils</id>
-                </program>
-              </programs>
-            </configuration>
-	  </execution>
-	</executions>
+        <configuration>
+          <extraJvmArguments>-Xms512M -Xmx24576M</extraJvmArguments>
+          <programs>
+            <program>
+              <mainClass>io.anserini.index.IndexCollection</mainClass>
+              <id>IndexCollection</id>
+            </program>
+            <program>
+              <mainClass>io.anserini.search.SearchCollection</mainClass>
+              <id>SearchCollection</id>
+            </program>
+            <program>
+              <mainClass>io.anserini.eval.Eval</mainClass>
+              <id>Eval</id>
+            </program>
+            <program>
+              <mainClass>io.anserini.index.IndexUtils</mainClass>
+              <id>IndexUtils</id>
+            </program>
+          </programs>
+        </configuration>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -144,7 +136,7 @@
           <execution>
             <!-- default is to bind to package phase: we override and not create fatjar unless explicitly
                  specified on command line - this speeds up the build greatly -->
-            <phase>none</phase>
+            <phase>package</phase>
             <goals>
               <goal>shade</goal>
             </goals>
