@@ -31,10 +31,10 @@ import java.util.Set;
  * <a href="https://catalog.ldc.upenn.edu/products/LDC2008T19">LDC2008T19</a>.
  * Note that the collection is distributed as a number of {@code tgz} files, which
  * uncompresses to individual XML documents in a directory structure. Since the
- * current implementation of {@link FileSegment} cannot handle {@code tgz} (only
- * {@code gz}), the collection must be first uncompressed prior to indexing.
- * In this case, each {@link FileSegment} is an XML file containing only a single
- * document.
+ * current design of {@link io.anserini.collection.Collection.FileSegment} cannot
+ * handle {@code tgz} files (only {@code gz} files), the collection must first be
+ * uncompressed prior to indexing. In this case, each {@code FileSegment} is an
+ * XML file containing only a single document.
  */
 public class NewYorkTimesCollection extends Collection<NewYorkTimesDocument> {
   public class FileSegment extends Collection<NewYorkTimesDocument>.FileSegment {
