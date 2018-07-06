@@ -22,10 +22,17 @@ import java.io.IOException;
 import java.nio.file.Path;
 
 /**
- * Class representing an instance of the ClueWeb12 collection.
+ * Class representing an instance of the
+ * <a href="https://www.lemurproject.org/clueweb12.php/">ClueWeb12 collection</a>.
+ * This can be used to read the complete ClueWeb12 collection or the smaller ClueWeb12-B13 subset.
+ * Note that the implementation inherits from {@link ClueWeb09Collection} because
+ * {@link ClueWeb12Document} inherits from {@link io.anserini.document.ClueWeb09Document}.
  */
 public class ClueWeb12Collection extends ClueWeb09Collection {
 
+  /**
+   * Represents an individual WARC in the ClueWeb12 collection.
+   */
   public class FileSegment extends ClueWeb09Collection.FileSegment {
     private FileSegment(Path path) throws IOException {
       super(path);

@@ -30,10 +30,15 @@ import java.util.Set;
 import java.util.zip.GZIPInputStream;
 
 /**
- * Class representing an instance of the ClueWeb09 collection.
+ * Class representing an instance of the
+ * <a href="https://www.lemurproject.org/clueweb09.php/">ClueWeb09 collection</a>.
+ * This can be used to read the complete ClueWeb09 collection or the smaller ClueWeb09b subset.
  */
 public class ClueWeb09Collection extends Collection {
 
+  /**
+   * Represents an individual WARC in the ClueWeb09 collection.
+   */
   public class FileSegment extends Collection.FileSegment {
     protected DataInputStream stream;
 

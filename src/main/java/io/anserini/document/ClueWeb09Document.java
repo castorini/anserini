@@ -63,10 +63,13 @@ import java.util.Locale;
 import java.util.Map.Entry;
 import java.util.Set;
 
+/**
+ * A document from the <a href="https://www.lemurproject.org/clueweb09.php/">ClueWeb09 collection</a>.
+ * This class derives from tools provided by CMU for reading the ClueWeb09 collection.
+ */
 public class ClueWeb09Document implements SourceDocument {
   public static final String WARC_VERSION = "WARC/0.18";
-  private static final String WARC_VERSION_LINE = "WARC/0.18\n";
-  private final static String NEWLINE = "\n";
+  protected final static String NEWLINE = "\n";
 
   private static final byte MASK_THREE_BYTE_CHAR = (byte) (0xE0);
   private static final byte MASK_TWO_BYTE_CHAR = (byte) (0xC0);
@@ -100,18 +103,10 @@ public class ClueWeb09Document implements SourceDocument {
     return getDocid();
   }
 
-//  public String type() {
-//    return getHeaderRecordType();
-//  }
-
   @Override
   public String content() {
     return getContent();
   }
-
-//  public String url() {
-//    return getURL();
-//  }
 
   // This is being deprecated per https://github.com/castorini/Anserini/issues/254
   @Override
@@ -212,12 +207,12 @@ public class ClueWeb09Document implements SourceDocument {
    *
    * @param in the data input stream
    * @param headerBuffer a blank string buffer to contain the WARC header
-   * @param WARC_VERSION WARC version
+   * @param version WARC version
    * @return the content bytes (with the headerBuffer populated)
    * @throws IOException if error encountered reading from stream
    */
   protected static byte[] readNextRecord(DataInputStream in, StringBuilder headerBuffer,
-      String WARC_VERSION) throws IOException {
+      String version) throws IOException {
     if (in == null) {
       return null;
     }
@@ -234,7 +229,7 @@ public class ClueWeb09Document implements SourceDocument {
     // just read the header
     // first - find our WARC header
     while ((!foundMark) && ((line = readLineFromInputStream(in)) != null)) {
-      if (line.startsWith(WARC_VERSION)) {
+      if (line.startsWith(version)) {
         foundMark = true;
       }
     }

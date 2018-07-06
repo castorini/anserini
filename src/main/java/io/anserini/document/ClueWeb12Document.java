@@ -60,10 +60,14 @@ import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.Set;
 
+/**
+ * A document from the <a href="https://www.lemurproject.org/clueweb12.php/">ClueWeb12 collection</a>.
+ * This class derives from tools provided by CMU for reading the ClueWeb12 collection. Note that
+ * the implementation inherits from {@link ClueWeb09Document} for historic reasons, since the code
+ * originally developed for reading ClueWeb09 was subsequently adapted for reading ClueWeb12.
+ */
 public final class ClueWeb12Document extends ClueWeb09Document {
   public static final String WARC_VERSION = "WARC/1.0";
-  private static final String WARC_VERSION_LINE = "WARC/1.0\n";
-  private static final String NEWLINE = "\n";
 
   /**
    * Reads in a WARC record from a data input stream.
@@ -110,11 +114,6 @@ public final class ClueWeb12Document extends ClueWeb09Document {
     return getDocid();
   }
 
-//  @Override
-//  public String type() {
-//    return getWARCType();
-//  }
-
   @Override
   public String content() {
     return getContent();
@@ -124,11 +123,6 @@ public final class ClueWeb12Document extends ClueWeb09Document {
   public boolean indexable() {
     return "response".equals(getWARCType());
   }
-
-//  @Override
-//  public String url() {
-//    return getURL();
-//  }
 
   /**
    * WARC header class.
@@ -500,9 +494,5 @@ public final class ClueWeb12Document extends ClueWeb09Document {
     int k = str.indexOf("<", j);
 
     return k != -1 ? str.substring(k) : str.substring(j + 1);
-  }
-
-  public String getDisplayContentType() {
-    return "text/html";
   }
 }
