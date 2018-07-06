@@ -60,24 +60,24 @@ import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.Set;
 
-public final class ClueWeb12WarcRecord extends WarcRecord {
-
-  public final static String WARC_VERSION = "WARC/1.0";
-  public final static String WARC_VERSION_LINE = "WARC/1.0\n";
-  private final static String NEWLINE = "\n";
+public final class ClueWeb12Document extends ClueWeb09Document {
+  public static final String WARC_VERSION = "WARC/1.0";
+  private static final String WARC_VERSION_LINE = "WARC/1.0\n";
+  private static final String NEWLINE = "\n";
 
   /**
    * Reads in a WARC record from a data input stream.
    *
    * @param in the input stream
-   * @param WARC_VERSION WARC version
+   * @param version WARC version
    * @return a WARC record (or null if EOF)
    * @throws IOException if error encountered reading from stream
    */
-  public ClueWeb12WarcRecord readNextWarcRecord(DataInputStream in, String WARC_VERSION) throws IOException {
+  public static ClueWeb12Document readNextWarcRecord(DataInputStream in, String version)
+      throws IOException {
     StringBuilder recordHeader = new StringBuilder();
-    ClueWeb09WarcRecord r09 = new ClueWeb09WarcRecord();
-    byte[] recordContent = r09.readNextRecord(in, recordHeader, WARC_VERSION);
+    ClueWeb09Document r09 = new ClueWeb09Document();
+    byte[] recordContent = r09.readNextRecord(in, recordHeader, version);
     if (recordContent == null) {
       return null;
     }
@@ -86,7 +86,7 @@ public final class ClueWeb12WarcRecord extends WarcRecord {
     String thisHeaderString = recordHeader.toString();
     String[] headerLines = thisHeaderString.split(NEWLINE);
 
-    ClueWeb12WarcRecord retRecord = new ClueWeb12WarcRecord();
+    ClueWeb12Document retRecord = new ClueWeb12Document();
     for (int i = 0; i < headerLines.length; i++) {
       String[] pieces = headerLines[i].split(":", 2);
       if (pieces.length != 2) {
@@ -95,7 +95,6 @@ public final class ClueWeb12WarcRecord extends WarcRecord {
       }
       String thisKey = pieces[0].trim();
       String thisValue = pieces[1].trim();
-
 
       retRecord.addHeaderMetadata(thisKey, thisValue);
     }
@@ -111,20 +110,20 @@ public final class ClueWeb12WarcRecord extends WarcRecord {
     return getDocid();
   }
 
-  @Override
-  public String type() {
-    return getWARCType();
-  }
+//  @Override
+//  public String type() {
+//    return getWARCType();
+//  }
 
   @Override
   public String content() {
     return getContent();
   }
 
-  @Override
-  public String url() {
-    return getURL();
-  }
+//  @Override
+//  public String url() {
+//    return getURL();
+//  }
 
   /**
    * WARC header class.
@@ -244,7 +243,7 @@ public final class ClueWeb12WarcRecord extends WarcRecord {
   /**
    * Default Constructor.
    */
-  public ClueWeb12WarcRecord() {
+  public ClueWeb12Document() {
   }
 
   /**
@@ -252,7 +251,7 @@ public final class ClueWeb12WarcRecord extends WarcRecord {
    *
    * @param o record to copy from
    */
-  public ClueWeb12WarcRecord(ClueWeb12WarcRecord o) {
+  public ClueWeb12Document(ClueWeb12Document o) {
     this.warcHeader = new WarcHeader(o.warcHeader);
     this.warcContent = o.warcContent;
   }
@@ -272,7 +271,7 @@ public final class ClueWeb12WarcRecord extends WarcRecord {
    *
    * @param o record to copy from
    */
-  public void set(ClueWeb12WarcRecord o) {
+  public void set(ClueWeb12Document o) {
     this.warcHeader = new WarcHeader(o.warcHeader);
     this.warcContent = o.warcContent;
   }

@@ -16,7 +16,8 @@
 
 package io.anserini.collection;
 
-import io.anserini.document.WarcRecord;
+import io.anserini.document.ClueWeb09Document;
+
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -29,22 +30,36 @@ import java.util.Set;
 import java.util.zip.GZIPInputStream;
 
 /**
- * Abstract class representing an instance of a WARC collection.
+ * Class representing an instance of the ClueWeb09 collection.
  */
-public abstract class WarcCollection extends Collection<WarcRecord> {
+public class ClueWeb09Collection extends Collection {
 
-  public abstract class FileSegment extends Collection<WarcRecord>.FileSegment {
+  public class FileSegment extends Collection.FileSegment {
     protected DataInputStream stream;
 
     protected FileSegment(Path path) throws IOException {
-      this.path = path;
+      super.path = path;
       this.stream = new DataInputStream(
           new GZIPInputStream(Files.newInputStream(path, StandardOpenOption.READ)));
     }
 
     @Override
+    public ClueWeb09Document next() {
+      ClueWeb09Document doc;
+      try {
+        doc = ClueWeb09Document.readNextWarcRecord(stream, ClueWeb09Document.WARC_VERSION);
+        if (doc == null) {
+          atEOF = true;
+        }
+      } catch (IOException e) {
+        doc = null;
+      }
+      return doc;
+    }
+
+    @Override
     public void close() throws IOException {
-      atEOF = false;
+      atEOF = true;
       if (stream != null) {
         stream.close();
       }
@@ -52,11 +67,15 @@ public abstract class WarcCollection extends Collection<WarcRecord> {
   }
 
   @Override
+  public FileSegment createFileSegment(Path p) throws IOException {
+    return new FileSegment(p);
+  }
+
+  @Override
   public List<Path> getFileSegmentPaths() {
     Set<String> allowedFileSuffix = new HashSet<>(Arrays.asList(".warc.gz"));
     Set<String> skippedDirs = new HashSet<>(Arrays.asList("OtherData"));
 
-    return discover(path, EMPTY_SET, EMPTY_SET, EMPTY_SET,
-        allowedFileSuffix, skippedDirs);
+    return discover(path, EMPTY_SET, EMPTY_SET, EMPTY_SET, allowedFileSuffix, skippedDirs);
   }
 }

@@ -16,7 +16,7 @@
 
 package io.anserini.collection;
 
-import io.anserini.document.ClueWeb12WarcRecord;
+import io.anserini.document.ClueWeb12Document;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -24,19 +24,18 @@ import java.nio.file.Path;
 /**
  * Class representing an instance of the ClueWeb12 collection.
  */
-public class CW12Collection extends WarcCollection {
+public class ClueWeb12Collection extends ClueWeb09Collection {
 
-  public class FileSegment extends WarcCollection.FileSegment {
-    public FileSegment(Path path) throws IOException {
+  public class FileSegment extends ClueWeb09Collection.FileSegment {
+    private FileSegment(Path path) throws IOException {
       super(path);
-      dType = new ClueWeb12WarcRecord();
     }
 
     @Override
-    public ClueWeb12WarcRecord next() {
-      ClueWeb12WarcRecord doc = new ClueWeb12WarcRecord();
+    public ClueWeb12Document next() {
+      ClueWeb12Document doc;
       try {
-        doc = doc.readNextWarcRecord(stream, ClueWeb12WarcRecord.WARC_VERSION);
+        doc = ClueWeb12Document.readNextWarcRecord(stream, ClueWeb12Document.WARC_VERSION);
         if (doc == null) {
           atEOF = true;
         }
