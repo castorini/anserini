@@ -3,7 +3,7 @@
 **Indexing**:
 
 ```
-nohup sh target/appassembler/bin/IndexCollection -collection WashPostCollection \
+nohup sh target/appassembler/bin/IndexCollection -collection WashingtonPostCollection \
  -input /path/to/wapo_data -generator LuceneDocumentGenerator \
  -index lucene-index.wapo.pos+docvectors -threads 16 \
  -storePositions -storeDocvectors -storeRawDocs -optimize \
