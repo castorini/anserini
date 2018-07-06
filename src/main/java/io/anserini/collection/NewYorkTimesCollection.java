@@ -30,7 +30,11 @@ import java.util.Set;
  * <a href="https://catalog.ldc.upenn.edu/products/LDC2008T19">LDC2008T19</a>.
  */
 public class NewYorkTimesCollection extends Collection<NewYorkTimesDocument> {
+  private final NewYorkTimesDocument.Parser parser = new NewYorkTimesDocument.Parser();
+
   public class FileSegment extends Collection<NewYorkTimesDocument>.FileSegment {
+    // Each file segment only has one file, boolean to keep track if it's been read.
+    private boolean docRead = false;
     private String fileName;
 
     protected FileSegment(Path path) throws IOException {
@@ -40,26 +44,25 @@ public class NewYorkTimesCollection extends Collection<NewYorkTimesDocument> {
 
     @Override
     public void close() throws IOException {
-      atEOF = false;
+      docRead = true;
+      super.close();
     }
 
     @Override
     public boolean hasNext() {
-      return !atEOF;
+      return !docRead;
     }
 
     @Override
     public NewYorkTimesDocument next() {
-      NewYorkTimesDocument doc = new NewYorkTimesDocument(new File(fileName));
-      atEOF = true;
+      NewYorkTimesDocument doc;
       try {
-        doc = doc.readNextRecord(bufferedReader);
-        if (doc == null) {
-          atEOF = true;
-        }
-      } catch (Exception e) {
-        doc = null;
+        docRead = true;
+        doc = parser.parseFile(new File(fileName));
+      } catch (IOException e) {
+        return null;
       }
+
       return doc;
     }
   }
@@ -68,8 +71,7 @@ public class NewYorkTimesCollection extends Collection<NewYorkTimesDocument> {
   public List<Path> getFileSegmentPaths() {
     Set<String> allowedFileSuffix = new HashSet<>(Arrays.asList(".xml"));
 
-    return discover(path, EMPTY_SET, EMPTY_SET, EMPTY_SET,
-            allowedFileSuffix, EMPTY_SET);
+    return discover(path, EMPTY_SET, EMPTY_SET, EMPTY_SET, allowedFileSuffix, EMPTY_SET);
   }
 
   @Override

@@ -16,7 +16,6 @@
 
 package io.anserini.document;
 
-import io.anserini.index.IndexCollection;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.w3c.dom.Document;
@@ -53,25 +52,20 @@ import java.util.List;
 public class NewYorkTimesDocument implements SourceDocument {
   protected String id;
   protected String contents;
-  protected File file;
+  //protected File file;
 
-  public NewYorkTimesDocument(File file) {
-    this.file = file;
-  }
+  // No public constructor; must use parser to create document.
+  private NewYorkTimesDocument() {}
+
+  //public NewYorkTimesDocument(File file) {
+  //  this.file = file;
+  //}
 
   @Override
   public NewYorkTimesDocument readNextRecord(BufferedReader bRdr) throws Exception {
-    return readNextRecord(file);
-  }
-
-  public NewYorkTimesDocument readNextRecord(File fileName) throws IOException {
-    Parser nytParser = new Parser();
-    RawDocument nytDoc = nytParser.parseNYTCorpusDocumentFromFile(fileName, false);
-
-    id = String.valueOf(nytDoc.getGuid());
-    contents = nytDoc.getBody() == null ? "" : nytDoc.getBody();
-
-    return this;
+    // We're slowly refactoring to get rid of this method.
+    // See https://github.com/castorini/Anserini/issues/254
+    throw new UnsupportedOperationException();
   }
 
   @Override
@@ -1759,8 +1753,18 @@ public class NewYorkTimesDocument implements SourceDocument {
     /** NITF Constant */
     private static final String GENERAL_DESCRIPTOR_ATTRIBUTE = "general_descriptor";
 
+    private static final Logger LOG = LogManager.getLogger(NewYorkTimesDocument.class);
 
-    private static final Logger LOG = LogManager.getLogger(IndexCollection.class);
+    public NewYorkTimesDocument parseFile(File fileName) throws IOException {
+      RawDocument raw = parseNYTCorpusDocumentFromFile(fileName, false);
+
+      NewYorkTimesDocument d = new NewYorkTimesDocument();
+      d.id = String.valueOf(raw.getGuid());
+      d.contents = raw.getBody() == null ? "" : raw.getBody();
+
+      return d;
+    }
+
     /**
      * Parse an New York Times Document from a file.
      *
