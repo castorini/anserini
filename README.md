@@ -9,7 +9,7 @@ Anserini
 Build using Maven:
 
 ```
-mvn clean package
+mvn clean package appassembler:assemble
 ```
 
 The `eval/` directory contains evaluation tools and scripts, including `trec_eval`. Before using `trec_eval`, unpack and compile it, as follows:
@@ -42,17 +42,11 @@ Anserini is designed to support experiments on various standard TREC collections
 
 ## Python Interface
 
-Anserini was designed with Python integration in mind, for connecting with popular deep learning toolkits such as PyTorch. This is accomplished via [pyjnius](https://github.com/kivy/pyjnius). To make this work, tell Maven to explicitly build the fat jar, as follows:
-
-```
-mvn clean package shade:shade
-```
-
-The `SimpleSearcher` class provides a simple Python/Java bridge, shown below:
+Anserini was designed with Python integration in mind, for connecting with popular deep learning toolkits such as PyTorch. This is accomplished via [pyjnius](https://github.com/kivy/pyjnius). The `SimpleSearcher` class provides a simple Python/Java bridge, shown below:
 
 ```
 import jnius_config
-jnius_config.set_classpath("target/anserini-0.0.1-SNAPSHOT-fatjar.jar")
+jnius_config.set_classpath("target/anserini-0.1.1-SNAPSHOT-fatjar.jar")
 
 from jnius import autoclass
 JString = autoclass('java.lang.String')
