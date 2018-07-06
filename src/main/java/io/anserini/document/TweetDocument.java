@@ -96,9 +96,6 @@ public class TweetDocument implements SourceDocument {
     id = Long.toString(tweetObj.id());
     idLong = tweetObj.id();
     text = tweetObj.text();
-    screenname = tweetObj.user().screen_name();
-    name = tweetObj.user().name();
-    profile_image_url = tweetObj.user().profile_image_url();
     createdAt = tweetObj.created_at();
 
     try {
@@ -127,11 +124,16 @@ public class TweetDocument implements SourceDocument {
       retweetCount = OptionalLong.empty();
     } else {
       retweetStatusId = OptionalLong.of(tweetObj.retweeted_status().get().id());
-      retweetUserId = OptionalLong.of(tweetObj.retweeted_status().get().user().id());
+      if (tweetObj.retweeted_status().get().user() != null) {
+        retweetUserId = OptionalLong.of(tweetObj.retweeted_status().get().user().id());
+      } else {
+        retweetUserId = OptionalLong.empty();
+      }
       retweetCount = OptionalLong.of(tweetObj.retweet_count());
     }
 
-    if (tweetObj.coordinates() == null || !tweetObj.coordinates().isPresent()) {
+    if (tweetObj.coordinates() == null || !tweetObj.coordinates().isPresent()
+        || tweetObj.coordinates().get().coordinates() == null || tweetObj.coordinates().get().coordinates().size() < 2) {
       latitude = OptionalDouble.empty();
       longitude = OptionalDouble.empty();
     } else {
@@ -149,6 +151,9 @@ public class TweetDocument implements SourceDocument {
       followersCount = tweetObj.user().followers_count();
       friendsCount = tweetObj.user().friends_count();
       statusesCount = tweetObj.user().statuses_count();
+      screenname = tweetObj.user().screen_name();
+      name = tweetObj.user().name();
+      profile_image_url = tweetObj.user().profile_image_url();
     }
 
     jsonString = json;
