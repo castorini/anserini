@@ -120,6 +120,11 @@ public final class ClueWeb12Document extends ClueWeb09Document {
     return getContent();
   }
 
+  @Override
+  public boolean indexable() {
+    return "response".equals(getWARCType());
+  }
+
 //  @Override
 //  public String url() {
 //    return getURL();
