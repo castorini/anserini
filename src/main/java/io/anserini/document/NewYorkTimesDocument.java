@@ -50,16 +50,14 @@ import java.util.List;
  * <a href="https://catalog.ldc.upenn.edu/products/LDC2008T19">LDC2008T19</a>.
  */
 public class NewYorkTimesDocument implements SourceDocument {
-  protected String id;
-  protected String contents;
-  //protected File file;
+  private final RawDocument raw;
+  private String id;
+  private String contents;
 
   // No public constructor; must use parser to create document.
-  private NewYorkTimesDocument() {}
-
-  //public NewYorkTimesDocument(File file) {
-  //  this.file = file;
-  //}
+  private NewYorkTimesDocument(RawDocument raw) {
+    this.raw = raw;
+  }
 
   @Override
   public NewYorkTimesDocument readNextRecord(BufferedReader bRdr) throws Exception {
@@ -82,6 +80,12 @@ public class NewYorkTimesDocument implements SourceDocument {
   public boolean indexable() {
     return true;
   }
+
+  public RawDocument getRawDocument() {
+    return raw;
+  }
+
+  // We intentionally segregate the Anserini NewYorkTimesDocument from the parsed document below.
 
   /**
    * Raw container class for a document from New York Times Annotated Corpus. This was originally
@@ -1758,7 +1762,7 @@ public class NewYorkTimesDocument implements SourceDocument {
     public NewYorkTimesDocument parseFile(File fileName) throws IOException {
       RawDocument raw = parseNYTCorpusDocumentFromFile(fileName, false);
 
-      NewYorkTimesDocument d = new NewYorkTimesDocument();
+      NewYorkTimesDocument d = new NewYorkTimesDocument(raw);
       d.id = String.valueOf(raw.getGuid());
       d.contents = raw.getBody() == null ? "" : raw.getBody();
 

@@ -17,7 +17,7 @@
 package io.anserini.collection;
 
 import io.anserini.document.NewYorkTimesDocument;
-import java.io.File;
+
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Arrays;
@@ -30,16 +30,16 @@ import java.util.Set;
  * <a href="https://catalog.ldc.upenn.edu/products/LDC2008T19">LDC2008T19</a>.
  */
 public class NewYorkTimesCollection extends Collection<NewYorkTimesDocument> {
-  private final NewYorkTimesDocument.Parser parser = new NewYorkTimesDocument.Parser();
-
   public class FileSegment extends Collection<NewYorkTimesDocument>.FileSegment {
+    // We're creating a parser for each file, just to parse a single document, which is
+    // very inefficient. However, the parser is not thread safe, so this is our only option.
+    private final NewYorkTimesDocument.Parser parser = new NewYorkTimesDocument.Parser();
+
     // Each file segment only has one file, boolean to keep track if it's been read.
     private boolean docRead = false;
-    private String fileName;
 
     protected FileSegment(Path path) throws IOException {
-      this.path = path;
-      this.fileName = path.toString();
+      super.path = path;
     }
 
     @Override
@@ -55,10 +55,12 @@ public class NewYorkTimesCollection extends Collection<NewYorkTimesDocument> {
 
     @Override
     public NewYorkTimesDocument next() {
+      if (docRead) return null;
+
       NewYorkTimesDocument doc;
       try {
         docRead = true;
-        doc = parser.parseFile(new File(fileName));
+        doc = parser.parseFile(path.toFile());
       } catch (IOException e) {
         return null;
       }
