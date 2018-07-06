@@ -37,32 +37,34 @@ import java.util.List;
  */
 public class F2ExpSimilarity extends Similarity {
   private final float s;
+  private final float k;
 
   /**
-   * F2Exp with the supplied parameter values.
+   * F2Log with the supplied parameter values.
    * @param s Controls to what degree document length normalizes tf values.
    * @throws IllegalArgumentException if {@code s} is infinite or if {@code s} is
    *         not within the range {@code [0..1]}
    */
-  public F2ExpSimilarity(float s) {
+  public F2ExpSimilarity(float s, float k) {
     if (Float.isNaN(s) || s < 0 || s > 1) {
       throw new IllegalArgumentException("illegal s value: " + s + ", must be between 0 and 1");
     }
     this.s = s;
+    this.k = k;
   }
 
-  /** F2Log with these default values:
+  /** F2Exp with these default values:
    * <ul>
-   *   <li>{@code s = 0.5}</li>
+   *   <li>{@code k = 0.35}</li>
    * </ul>
    */
-  public F2ExpSimilarity() {
-    this(0.5f);
+  public F2ExpSimilarity(float s) {
+    this(s, 0.35f);
   }
 
   /** Implemented as <code>log(1 + (docCount - docFreq + 0.5)/(docFreq + 0.5))</code>. */
   protected float idf(long docFreq, long docCount) {
-    return (float) Math.log(1 + (docCount - docFreq + 0.5D)/(docFreq + 0.5D));
+    return (float) Math.pow((1.0f + docCount)/docFreq, this.k);
   }
 
   /** Implemented as <code>1 / (distance + 1)</code>. */
@@ -327,10 +329,18 @@ public class F2ExpSimilarity extends Similarity {
   }
 
   /**
-   * Returns the <code>b</code> parameter
-   * @see #F2LogSimilarity(float)
+   * Returns the <code>s</code> parameter
+   * @see #F2ExpSimilarity(float, float)
    */
   public final float getS() {
     return s;
+  }
+
+  /**
+   * Returns the <code>k</code> parameter
+   * @see #F2ExpSimilarity(float, float)
+   */
+  public final float getK() {
+    return k;
   }
 }

@@ -62,7 +62,7 @@ public class F2LogSimilarity extends Similarity {
 
   /** Implemented as <code>log(1 + (docCount - docFreq + 0.5)/(docFreq + 0.5))</code>. */
   protected float idf(long docFreq, long docCount) {
-    return (float) Math.log(1 + (docCount - docFreq + 0.5D)/(docFreq + 0.5D));
+    return (float) Math.log((1.0f + docCount) / docFreq);
   }
 
   /** Implemented as <code>1 / (distance + 1)</code>. */
