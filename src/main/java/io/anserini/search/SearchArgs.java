@@ -95,8 +95,14 @@ public class SearchArgs {
   @Option(name = "-rm3.originalQueryWeight", usage = "parameter to decide how many documents to be used to find expansion terms")
   public float rm3_originalQueryWeight = 0.6f;
 
+  @Option(name = "-rm3.outputQuery", usage = "output original and expanded query")
+  public boolean rm3_outputQuery = false;
+
   @Option(name = "-axiom", usage = "use Axiomatic query expansion model for the reranking")
   public boolean axiom = false;
+
+  @Option(name = "-axiom.outputQuery", usage = "output original and expanded query")
+  public boolean axiom_outputQuery = false;
 
   @Option(name = "-axiom.deterministic", usage = "make the expansion terms axiomatic reranking results deterministic")
   public boolean axiom_deterministic = false;
