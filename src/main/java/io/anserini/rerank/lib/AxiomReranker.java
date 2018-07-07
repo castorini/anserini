@@ -76,10 +76,10 @@ public class AxiomReranker<T> implements Reranker<T> {
                                            // separately and include its information here.
   private final ScoreDoc[] docidsCache;
 
-  private final int R; // factor that used in extracting random documents, we will extract R*M randomly select documents
-  private final int M; // number of top documents in initial results
-  private final int L = 1000; // top similar terms
-  private final int K = 20; // number of expansion terms
+  private final int R; // number of top documents in initial results
+  private final int N; // factor that used in extracting random documents, we will extract (N-1)*R randomly select documents
+  private final int K = 1000; // top similar terms
+  private final int M = 20; // number of expansion terms
   private final float beta; // scaling parameter
 
   public AxiomReranker(String field, SearchArgs args) throws IOException {
@@ -87,11 +87,11 @@ public class AxiomReranker<T> implements Reranker<T> {
     this.deterministic = args.axiom_deterministic;
     this.seed = args.axiom_seed;
     this.R = args.axiom_r;
-    this.M = args.axiom_m;
+    this.N = args.axiom_n;
     this.beta = args.axiom_beta;
     this.externalIndexPath = args.axiom_external_index.trim();
 
-    if (this.deterministic && this.R > 0) {
+    if (this.deterministic && this.N > 1) {
       this.docidsCache = makeDocidsCache(args);
     } else {
       this.docidsCache = null;
@@ -207,7 +207,7 @@ public class AxiomReranker<T> implements Reranker<T> {
       searcher.setSimilarity(context.getIndexSearcher().getSimilarity(true));
 
       SearchArgs args = new SearchArgs();
-      args.hits = this.M;
+      args.hits = this.R;
       args.arbitraryScoreTieBreak = context.getSearchArgs().arbitraryScoreTieBreak;
       args.searchtweets = context.getSearchArgs().searchtweets;
 
@@ -221,21 +221,21 @@ public class AxiomReranker<T> implements Reranker<T> {
   }
 
   /**
-   * Select R*M docs from the ranking results and the index as the reranking pool.
+   * Select {@code R*N} docs from the ranking results and the index as the reranking pool.
    * The process is:
-   * 1. Keep the top M documents in the original ranking list
-   * 2. Randomly pick (R-1)*M documents from the rest of the index so in total we have R*M documents
+   * 1. Keep the top R documents in the original ranking list
+   * 2. Randomly pick {@code (N-1)*R} documents from the rest of the index so in total we have R*M documents
    *
    * @param docs The initial ranking results
    * @param context An instance of RerankerContext
-   * @return a Set of R*M document Ids
+   * @return a Set of {@code R*N} document Ids
    */
   @VisibleForTesting
   private Set<Integer> selectDocs(ScoredDocuments docs, RerankerContext<T> context)
     throws IOException {
     Set<Integer> docidSet = new HashSet<>(Arrays.asList(ArrayUtils.toObject(
-      Arrays.copyOfRange(docs.ids, 0, Math.min(this.M, docs.ids.length)))));
-    long targetSize = this.R * this.M;
+      Arrays.copyOfRange(docs.ids, 0, Math.min(this.R, docs.ids.length)))));
+    long targetSize = this.R * this.N;
 
     if (docidSet.size() < targetSize) {
       IndexReader reader;
@@ -321,13 +321,16 @@ public class AxiomReranker<T> implements Reranker<T> {
    * Calculate the scores (weights) of each term that occured in the reranking pool.
    * The Process:
    * 1. For each query term, calculate its score for each term in the reranking pool. the score
-   * is calcuated as P(both occurs)*log{P(both occurs)/P(t1 occurs)/P(t2 occurs)}
+   * is calcuated as
+   * <pre>
+   * P(both occurs)*log{P(both occurs)/P(t1 occurs)/P(t2 occurs)}
    * + P(both not occurs)*log{P(both not occurs)/P(t1 not occurs)/P(t2 not occurs)}
    * + P(t1 occurs t2 not occurs)*log{P(t1 occurs t2 not occurs)/P(t1 occurs)/P(t2 not occurs)}
    * + P(t1 not occurs t2 occurs)*log{P(t1 not occurs t2 occurs)/P(t1 not occurs)/P(t2 occurs)}
+   * </pre>
    * 2. For each query term the scores of every other term in the reranking pool are stored in a
-   * PriorityQueue, only the top L are kept.
-   * 3. Add the scores of the same term together and pick the top K ones.
+   * PriorityQueue, only the top {@code K} are kept.
+   * 3. Add the scores of the same term together and pick the top {@code M} ones.
    *
    * @param termInvertedList A Map of <term -> Set<docId>> where the Set of docIds is where the term occurs
    * @param context An instance of RerankerContext
@@ -396,7 +399,7 @@ public class AxiomReranker<T> implements Reranker<T> {
 
     Map<String, Double> aggTermScores = new HashMap<>();
     for (PriorityQueue<Pair<String, Double>> termScores : allTermScoresPQ) {
-      for (int i = 0; i < Math.min(termScores.size(), this.L); i++) {
+      for (int i = 0; i < Math.min(termScores.size(), this.K); i++) {
         Pair<String, Double> termScore = termScores.poll();
         String term = termScore.getLeft();
         Double score = termScore.getRight();
@@ -410,7 +413,7 @@ public class AxiomReranker<T> implements Reranker<T> {
       termScoresPQ.add(Pair.of(termScore.getKey(), termScore.getValue() / queryTerms.size()));
     }
     Map<String, Double> resultTermScores = new HashMap<>();
-    for (int i = 0; i < Math.min(termScoresPQ.size(), this.K); i++) {
+    for (int i = 0; i < Math.min(termScoresPQ.size(), this.M); i++) {
       Pair<String, Double> termScore = termScoresPQ.poll();
       String term = termScore.getKey();
       double score = termScore.getValue();
