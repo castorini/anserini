@@ -29,18 +29,9 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.lucene.index.DirectoryReader;
-import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.index.Terms;
-import org.apache.lucene.index.TermsEnum;
+import org.apache.lucene.index.*;
 import org.apache.lucene.queryparser.flexible.standard.StandardQueryParser;
-import org.apache.lucene.search.BooleanClause;
-import org.apache.lucene.search.BooleanQuery;
-import org.apache.lucene.search.IndexSearcher;
-import org.apache.lucene.search.MatchAllDocsQuery;
-import org.apache.lucene.search.Query;
-import org.apache.lucene.search.ScoreDoc;
-import org.apache.lucene.search.TopDocs;
+import org.apache.lucene.search.*;
 import org.apache.lucene.store.FSDirectory;
 
 import java.io.IOException;
@@ -119,12 +110,12 @@ public class AxiomReranker<T> implements Reranker<T> {
       // Extract an inverted list from the reranking pool
       Map<String, Set<Integer>> termInvertedList = extractTerms(usedDocs, context, null);
       // Calculate all the terms in the reranking pool and pick top K of them
-      Map<String, Double> expandedTermScores = calTermScore(termInvertedList, context);
+      Map<String, Double> expandedTermScores = computeTermScore(termInvertedList, context);
       StringBuilder builder = new StringBuilder();
       for (Map.Entry<String, Double> termScore : expandedTermScores.entrySet()) {
         String term = termScore.getKey();
         double score = termScore.getValue();
-        builder.append(term + "^" + score + " ");
+        builder.append(term).append("^").append(score).append(" ");
       }
       String queryText = builder.toString().trim();
 
@@ -134,8 +125,7 @@ public class AxiomReranker<T> implements Reranker<T> {
       }
 
       StandardQueryParser p = new StandardQueryParser();
-      Query nq = null;
-      nq = p.parse(queryText, this.field);
+      Query nq = p.parse(queryText, this.field);
       LOG.info("Original Query: " + context.getQueryTokens());
       LOG.info("Running new query: " + nq);
 
@@ -151,7 +141,7 @@ public class AxiomReranker<T> implements Reranker<T> {
    */
   private ScoredDocuments searchTopDocs(Query query, RerankerContext<T> context) throws IOException {
     IndexSearcher searcher = context.getIndexSearcher();
-    Query finalQuery = null;
+    Query finalQuery;
     if (query == null) { // we are dealing with the external index and we DONOT apply filter to it.
       finalQuery = context.getQuery();
     } else {
@@ -192,7 +182,7 @@ public class AxiomReranker<T> implements Reranker<T> {
     }
     IndexReader reader = DirectoryReader.open(FSDirectory.open(indexPath));
     IndexSearcher searcher = new IndexSearcher(reader);
-    return searcher.search(new MatchAllDocsQuery(), reader.maxDoc(),
+    return searcher.search(new FieldValueQuery(LuceneDocumentGenerator.FIELD_ID), reader.maxDoc(),
       args.searchtweets ? BREAK_SCORE_TIES_BY_TWEETID : BREAK_SCORE_TIES_BY_DOCID,
       true, true).scoreDocs;
   }
@@ -344,13 +334,27 @@ public class AxiomReranker<T> implements Reranker<T> {
    * @return Map<String, Double> Top terms and their weight scores in a HashMap
    */
   @VisibleForTesting
-  private Map<String, Double> calTermScore(
-    Map<String, Set<Integer>> termInvertedList, RerankerContext<T> context) {
+  private Map<String, Double> computeTermScore(
+    Map<String, Set<Integer>> termInvertedList, RerankerContext<T> context) throws IOException {
     class ScoreComparator implements Comparator<Pair<String, Double>> {
       public int compare(Pair<String, Double> a, Pair<String, Double> b) {
         return Double.compare(b.getRight(), a.getRight());
       }
     }
+
+    // get collection statistics so that we can get idf later on.
+    IndexReader reader;
+    if (!this.externalIndexPath.isEmpty()) {
+      Path indexPath = Paths.get(this.externalIndexPath);
+      if (!Files.exists(indexPath) || !Files.isDirectory(indexPath) || !Files.isReadable(indexPath)) {
+        throw new IllegalArgumentException(this.externalIndexPath + " does not exist or is not a directory.");
+      }
+      reader = DirectoryReader.open(FSDirectory.open(indexPath));
+    } else {
+      IndexSearcher searcher = context.getIndexSearcher();
+      reader = searcher.getIndexReader();
+    }
+    final long docCount = reader.numDocs() == -1 ? reader.maxDoc() : reader.numDocs();
 
     //calculate the Mutual Information between term with each query term
     List<String> queryTerms = context.getQueryTokens();
@@ -370,6 +374,8 @@ public class AxiomReranker<T> implements Reranker<T> {
     List<PriorityQueue<Pair<String, Double>>> allTermScoresPQ = new ArrayList<>();
     for (Map.Entry<String, Integer> q : queryTermsCounts.entrySet()) {
       String queryTerm = q.getKey();
+      long df = reader.docFreq(new Term(LuceneDocumentGenerator.FIELD_BODY, queryTerm));
+      float idf = (float) Math.log((1 + docCount)/df);
       int qtf = q.getValue();
       if (termInvertedList.containsKey(queryTerm)) {
         PriorityQueue<Pair<String, Double>> termScorePQ = new PriorityQueue<>(new ScoreComparator());
@@ -377,10 +383,10 @@ public class AxiomReranker<T> implements Reranker<T> {
         for (Map.Entry<String, Set<Integer>> termEntry : termInvertedList.entrySet()) {
           double score;
           if (termEntry.getKey().equals(queryTerm)) { // The mutual information to itself will always be 1
-            score = 1.0 * qtf;
+            score = idf * qtf;
           } else {
             double crossMI = computeMutualInformation(termInvertedList.get(queryTerm), termEntry.getValue(), docIdsCount);
-            score = 1.0 * beta * qtf * crossMI / selfMI;
+            score = idf * beta * qtf * crossMI / selfMI;
           }
           termScorePQ.add(Pair.of(termEntry.getKey(), score));
         }
