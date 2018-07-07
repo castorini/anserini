@@ -29,7 +29,7 @@ public class TweetDocumentTest extends DocumentTest<TweetDocument> {
     super.setUp();
     dType = new TweetDocument();
 
-    rawDocs.add("{\"id\":123456789,\"text\":\"" + "this is the tweet contents."
+    rawDocs.add("{\"id_str\":\"123456789\",\"text\":\"" + "this is the tweet contents."
         + "\",\"user\":{\"screen_name\":\"foo\",\"name\":\"foo\"," +
         "\"profile_image_url\":\"foo\",\"followers_count\":1,\"friends_count\":1," +
         "\"statuses_count\":1},\"created_at\":\"Fri Feb 01 10:56:07 +0000 2018\"}"

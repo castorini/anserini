@@ -69,9 +69,12 @@ public class TweetDocument implements SourceDocument {
     String line;
     try {
       while ((line = reader.readLine()) != null) {
-        if (fromJson(line)) return this;
+        if (fromJson(line)) {
+          return this;
+        } // else: not desired JSON data, read the next line
       }
     } catch (IOException e) {
+      LOG.error("Exception from BufferedReader:", e);
     }
     return null;
   }
@@ -85,16 +88,20 @@ public class TweetDocument implements SourceDocument {
         .registerModule(new Jdk8Module()) // Deserialize Java 8 Optional: http://www.baeldung.com/jackson-optional
         .readValue(json, Status.class);
     } catch (IOException e) {
-      LOG.error(e.getMessage());
+//      LOG.error(e.getMessage());
       return false;
     }
+//    catch (Exception e2) {
+//      LOG.error("" + e2);
+//      return false;
+//    }
 
     if (tweetObj.delete() != null && tweetObj.delete().isPresent()) {
       return false;
     }
 
-    id = Long.toString(tweetObj.id());
-    idLong = tweetObj.id();
+    id = tweetObj.id_str();
+    idLong = Long.parseLong(tweetObj.id_str());
     text = tweetObj.text();
     createdAt = tweetObj.created_at();
 
@@ -104,7 +111,14 @@ public class TweetDocument implements SourceDocument {
     } catch (ParseException e) {
       timestamp_ms = -1L;
       epoch = -1L;
+      return false;
     }
+//    catch (NullPointerException e2) {
+//      LOG.info(json);
+//      LOG.info(createdAt);
+//      LOG.info(e2);
+//      return false;
+//    }
 
     if (tweetObj.in_reply_to_status_id() == null || !tweetObj.in_reply_to_status_id().isPresent()) {
       inReplyToStatusId = OptionalLong.empty();
@@ -147,12 +161,16 @@ public class TweetDocument implements SourceDocument {
       lang = tweetObj.lang();
     }
 
-    if (tweetObj.user() != null) {
-      followersCount = tweetObj.user().followers_count();
-      friendsCount = tweetObj.user().friends_count();
-      statusesCount = tweetObj.user().statuses_count();
-      screenname = tweetObj.user().screen_name();
+    followersCount = tweetObj.user().followers_count();
+    friendsCount = tweetObj.user().friends_count();
+    statusesCount = tweetObj.user().statuses_count();
+    screenname = tweetObj.user().screen_name();
+
+    if (tweetObj.user().name() != null) {
       name = tweetObj.user().name();
+    }
+
+    if (tweetObj.user().profile_image_url() != null) {
       profile_image_url = tweetObj.user().profile_image_url();
     }
 

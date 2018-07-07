@@ -5,8 +5,7 @@ import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalLong;
 
-import com.fasterxml.jackson.annotation.JsonGetter;
-import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.*;
 
 /**
@@ -14,12 +13,13 @@ import com.fasterxml.jackson.databind.*;
  */
 public class Status {
 
-  protected long id;
+  // Required fields
+  protected String created_at;
+  protected String id_str;
   protected String text;
   protected User user;
-  protected String created_at;
-  protected long retweet_count;
 
+  protected long retweet_count;
   protected OptionalLong in_reply_to_status_id;
   protected OptionalLong in_reply_to_user_id;
   protected Optional<RetweetedStatus> retweeted_status;
@@ -61,32 +61,31 @@ public class Status {
   }
 
   public static class User {
+    // Required fields
     protected String screen_name;
-    protected String name;
-    protected String profile_image_url;
-    protected long id;
     protected int followers_count;
     protected int friends_count;
     protected int statuses_count;
 
+    protected String name;
+    protected String profile_image_url;
+    protected long id;
+
+    @JsonCreator
+    public User(
+      @JsonProperty(value = "followers_count", required = true) int followers_count,
+      @JsonProperty(value = "friends_count", required = true) int friends_count,
+      @JsonProperty(value = "statuses_count", required = true) int statuses_count,
+      @JsonProperty(value = "screen_name", required = true) String screen_name) {
+      this.followers_count = followers_count;
+      this.friends_count = friends_count;
+      this.statuses_count = statuses_count;
+      this.screen_name = screen_name;
+    }
+
     @JsonGetter("screen_name")
     public String screen_name() {
       return screen_name;
-    }
-
-    @JsonGetter("name")
-    public String name() {
-      return name;
-    }
-
-    @JsonGetter("profile_image_url")
-    public String profile_image_url() {
-      return profile_image_url;
-    }
-
-    @JsonGetter("id")
-    public long id() {
-      return id;
     }
 
     @JsonGetter("followers_count")
@@ -103,11 +102,38 @@ public class Status {
     public int statuses_count() {
       return statuses_count;
     }
+
+    @JsonGetter("name")
+    public String name() {
+      return name;
+    }
+
+    @JsonGetter("profile_image_url")
+    public String profile_image_url() {
+      return profile_image_url;
+    }
+
+    @JsonGetter("id")
+    public long id() {
+      return id;
+    }
   }
 
-  @JsonGetter("id")
-  public long id() {
-    return id;
+  @JsonCreator
+  public Status(
+    @JsonProperty(value = "created_at", required = true) String created_at,
+    @JsonProperty(value = "id_str", required = true) String id_str,
+    @JsonProperty(value = "text", required = true) String text,
+    @JsonProperty(value = "user", required = true) User user) {
+    this.created_at = created_at;
+    this.id_str = id_str;
+    this.text = text;
+    this.user = user;
+  }
+
+  @JsonGetter("id_str")
+  public String id_str() {
+    return id_str;
   }
 
   @JsonGetter("text")
@@ -171,6 +197,7 @@ public class Status {
   @JsonGetter("coordinates")
   public Optional<Coordinates> coordinates() { return coordinates; }
 
+  //TODO: to be deleted before merging
 //  @JsonSetter("coordinates")
 //  public void set_coordinates(List<JsonNode> coordinates) {
 //    if (coordinates != null) {
