@@ -58,6 +58,7 @@ public class Rm3Reranker implements Reranker {
   private final int fbTerms;
   private final int fbDocs;
   private final float originalQueryWeight;
+  private final boolean outputQuery;
 
   public Rm3Reranker(Analyzer analyzer, String field, SearchArgs args) {
     this.analyzer = analyzer;
@@ -65,6 +66,7 @@ public class Rm3Reranker implements Reranker {
     this.fbTerms = args.rm3_fbTerms;
     this.fbDocs = args.rm3_fbDocs;
     this.originalQueryWeight = args.rm3_originalQueryWeight;
+    this.outputQuery = args.rm3_outputQuery;
   }
 
   @Override
@@ -78,7 +80,6 @@ public class Rm3Reranker implements Reranker {
         AnalyzerUtils.tokenize(analyzer, context.getQueryText())).scaleToUnitL1Norm();
 
     FeatureVector rm = estimateRelevanceModel(docs, reader, context.getSearchArgs().searchtweets);
-    LOG.info("Relevance model estimated.");
 
     rm = FeatureVector.interpolate(qfv, rm, originalQueryWeight);
 
@@ -100,7 +101,11 @@ public class Rm3Reranker implements Reranker {
       return docs;
     }
 
-    LOG.info("Running new query: " + feedbackQuery);
+    if (this.outputQuery) {
+      LOG.info("QID: " + context.getQueryId());
+      LOG.info("Original Query: " + context.getQuery().toString(this.field));
+      LOG.info("Running new query: " + feedbackQuery.toString(this.field));
+    }
 
     TopDocs rs;
     try {
