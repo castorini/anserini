@@ -104,11 +104,11 @@ public class SearchArgs {
   @Option(name = "-axiom.seed", metaVar = "[number]", usage = "seed for the random generator in axiomatic reranking")
   public long axiom_seed = 42L;
 
-  @Option(name = "-axiom.m", usage = "parameter M in axiomatic reranking")
-  public int axiom_m = 20;
-
   @Option(name = "-axiom.r", usage = "parameter R in axiomatic reranking")
-  public int axiom_r = 30;
+  public int axiom_r = 20;
+
+  @Option(name = "-axiom.n", usage = "parameter N in axiomatic reranking")
+  public int axiom_n = 30;
 
   @Option(name = "-axiom.beta", usage = "parameter beta for Axiomatic query expansion model")
   public float axiom_beta = 0.4f;
