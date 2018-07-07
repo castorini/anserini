@@ -37,10 +37,29 @@ Converts to a Lucene internal lookupDocid to a collection lookupDocid  (default:
 
 
 ```
+-dumpAllDocids outputCompressionFormat
+```
+Dumps all Docids in the index. For non-tweets collection the order is in ascending of String docid;
+For tweets collection the order is in descending of Long tweet id. Please provide the compression format for the output
+
+
+```
 -dumpRawDoc docid
 ```
 
 Dumps raw document.
+_NOTICE:_ available only if the raw documents are stored with indexing option `-storeRawDocs`
+
+
+```
+-dumpRawDocs docidsInputPath
+```
+
+Dumps raw documents from the input file (one docid per line). The output will be at: docidsInputPath+".output.tar.gz".
+By default, Anserini will prepend <DOCNO>docid<DOCNO> in front of the raw docs.
+Usually, prepend docid in desired for TREC Adhoc, Web documents. But for tweets,
+you may want to enable this option since the docid is a native field in the Json.
+Users can optionally provide an additional parameter `-dumpRawDocsDonotPrependDocid` to disable the default.
 _NOTICE:_ available only if the raw documents are stored with indexing option `-storeRawDocs`
 
 

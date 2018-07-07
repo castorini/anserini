@@ -17,6 +17,13 @@
 package io.anserini.index;
 
 import io.anserini.index.generator.LuceneDocumentGenerator;
+import io.anserini.index.generator.TweetGenerator;
+import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
+import org.apache.commons.compress.archivers.tar.TarArchiveOutputStream;
+import org.apache.commons.compress.compressors.bzip2.BZip2CompressorInputStream;
+import org.apache.commons.compress.compressors.bzip2.BZip2CompressorOutputStream;
+import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
+import org.apache.commons.compress.compressors.gzip.GzipCompressorOutputStream;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.CharArraySet;
@@ -33,13 +40,24 @@ import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.ParserProperties;
 import edu.stanford.nlp.simple.Sentence;
 import org.jsoup.Jsoup;
+import org.kohsuke.args4j.spi.StringArrayOptionHandler;
 
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.List;
-import java.io.File;
-import java.io.IOException;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
+
+import static io.anserini.search.SearchCollection.BREAK_SCORE_TIES_BY_DOCID;
+import static io.anserini.search.SearchCollection.BREAK_SCORE_TIES_BY_TWEETID;
 
 public class IndexUtils {
   private static final Logger LOG = LogManager.getLogger(IndexUtils.class);
+
+  enum Compression { RAW, GZ, BZ2, ZIP }
 
   public static final class Args {
     @Option(name = "-index", metaVar = "[Path]", required = true, usage = "index path")
@@ -54,8 +72,21 @@ public class IndexUtils {
     @Option(name = "-printDocvector", metaVar = "docid", usage = "prints the document vector of a document")
     String docvectorDocid;
 
+    @Option(name = "-dumpAllDocids", usage = "dumps all Docids in sorted order. For non-tweets collection the order is " +
+            "in ascending of String docid; For tweets collection the order is in descending of Long tweet id" +
+            "please provide the compression format for the output")
+    Compression dumpAllDocids;
+
     @Option(name = "-dumpRawDoc", metaVar = "docid", usage = "dumps raw document (if stored in the index)")
     String rawDoc;
+
+    @Option(name = "-dumpRawDocs", metaVar = "[Path]", usage = "dumps raw documents from the input file")
+    String rawDocs;
+
+    @Option(name = "-dumpRawDocsDonotPrependDocid", usage = "boolean switch to not prepend <DOCNO>docid<DOCNO> in " +
+            "front of the raw docs. Usually, prepend docid in desired for TREC Adhoc, Web documents. But for tweets, " +
+            "you may want to enable this option since the docid is a native field in the Json")
+    boolean rawDocsDonotPrependDocid = false;
 
     @Option(name = "-dumpTransformedDoc", metaVar = "docid", usage = "dumps transformed document (if stored in the index)")
     String transformedDoc;
@@ -82,6 +113,22 @@ public class IndexUtils {
   public IndexUtils(String indexPath) throws IOException {
     this.directory = FSDirectory.open(new File(indexPath).toPath());
     this.reader = DirectoryReader.open(directory);
+  }
+
+  public InputStream getReadFileStream(String path) throws IOException {
+    InputStream fin = Files.newInputStream(Paths.get(path), StandardOpenOption.READ);
+    BufferedInputStream in = new BufferedInputStream(fin);
+    if (path.endsWith(".bz2")) {
+      BZip2CompressorInputStream bzIn = new BZip2CompressorInputStream(in);
+      return bzIn;
+    } else if (path.endsWith(".gz")) {
+      GzipCompressorInputStream gzIn = new GzipCompressorInputStream(in);
+      return gzIn;
+    } else if (path.endsWith(".zip")) {
+      GzipCompressorInputStream zipIn = new GzipCompressorInputStream(in);
+      return zipIn;
+    }
+    return in;
   }
 
   void printIndexStats() throws IOException {
@@ -138,6 +185,51 @@ public class IndexUtils {
     }
   }
 
+  public void getAllDocids(Compression compression) throws IOException {
+    Query q = new FieldValueQuery(LuceneDocumentGenerator.FIELD_ID);
+    IndexSearcher searcher = new IndexSearcher(reader);
+    ScoreDoc[] scoreDocs;
+    try {
+      scoreDocs = searcher.search(new FieldValueQuery(LuceneDocumentGenerator.FIELD_ID), reader.maxDoc(),
+              BREAK_SCORE_TIES_BY_DOCID).scoreDocs;
+    } catch (IllegalStateException e) { // because this is tweets collection
+      scoreDocs = searcher.search(new FieldValueQuery(TweetGenerator.StatusField.ID_LONG.name), reader.maxDoc(),
+              BREAK_SCORE_TIES_BY_TWEETID).scoreDocs;
+    }
+
+    String basePath = directory.getDirectory().getFileName().toString() + ".allDocids";
+    OutputStream outStream = null;
+    String outputPath = "";
+    switch (compression) {
+      case RAW:
+        outputPath = basePath+".txt";
+        outStream = Files.newOutputStream(Paths.get(outputPath));
+        break;
+      case GZ:
+        outputPath = basePath+".gz";
+        outStream = new GzipCompressorOutputStream(new BufferedOutputStream(
+                Files.newOutputStream(Paths.get(outputPath))));
+        break;
+      case ZIP:
+        outputPath = basePath+".zip";
+        outStream = new ZipOutputStream(new BufferedOutputStream(Files.newOutputStream(Paths.get(outputPath))));
+        ((ZipOutputStream) outStream).putNextEntry(new ZipEntry(basePath));
+        break;
+      case BZ2:
+        outputPath = basePath+".bz2";
+        outStream = new BZip2CompressorOutputStream(new BufferedOutputStream(
+                Files.newOutputStream(Paths.get(outputPath))));
+        break;
+    }
+    for (int i = 0; i < scoreDocs.length; i++) {
+      StringBuilder builder = new StringBuilder();
+      builder.append(searcher.doc(scoreDocs[i].doc).getField(LuceneDocumentGenerator.FIELD_ID).stringValue()).append("\n");
+      outStream.write(builder.toString().getBytes(StandardCharsets.UTF_8));
+    }
+    outStream.close();
+    System.out.println(String.format("All Documents IDs are output to: %s", outputPath));
+  }
+
   public String getRawDocument(String docid) throws IOException, NotStoredException {
     Document d = reader.document(convertDocidToLuceneDocid(docid));
     IndexableField doc = d.getField(LuceneDocumentGenerator.FIELD_RAW);
@@ -145,6 +237,34 @@ public class IndexUtils {
       throw new NotStoredException("Raw documents not stored!");
     }
     return doc.stringValue();
+  }
+
+  public void dumpRawDocuments(String reqDocidsPath, boolean prependDocid) throws IOException, NotStoredException {
+    InputStream in = getReadFileStream(reqDocidsPath);
+    BufferedReader bRdr = new BufferedReader(new InputStreamReader(in));
+    FileOutputStream fOut = new FileOutputStream(new File(reqDocidsPath+".output.tar.gz"));
+    BufferedOutputStream bOut = new BufferedOutputStream(fOut);
+    GzipCompressorOutputStream gzOut = new GzipCompressorOutputStream(bOut);
+    TarArchiveOutputStream tOut = new TarArchiveOutputStream(gzOut);
+
+    String docid;
+    while ((docid = bRdr.readLine()) != null) {
+      Document d = reader.document(convertDocidToLuceneDocid(docid));
+      IndexableField doc = d.getField(LuceneDocumentGenerator.FIELD_RAW);
+      if (doc == null) {
+        throw new NotStoredException("Raw documents not stored!");
+      }
+      TarArchiveEntry tarEntry = new TarArchiveEntry(new File(docid));
+      tarEntry.setSize(doc.stringValue().length() + (prependDocid ? String.format("<DOCNO>%s</DOCNO>\n", docid).length() : 0));
+      tOut.putArchiveEntry(tarEntry);
+      if (prependDocid) {
+        tOut.write(String.format("<DOCNO>%s</DOCNO>\n", docid).getBytes());
+      }
+      tOut.write(doc.stringValue().getBytes(StandardCharsets.UTF_8));
+      tOut.closeArchiveEntry();
+    }
+    tOut.close();
+    System.out.println(String.format("Raw documents are output to: %s", reqDocidsPath+".output.tar.gz"));
   }
 
   public String getTransformedDocument(String docid) throws IOException, NotStoredException {
@@ -218,8 +338,16 @@ public class IndexUtils {
       util.printDocumentVector(args.docvectorDocid);
     }
 
+    if (args.dumpAllDocids != null) {
+      util.getAllDocids(args.dumpAllDocids);
+    }
+
     if (args.rawDoc != null) {
       System.out.println(util.getRawDocument(args.rawDoc));
+    }
+
+    if (args.rawDocs != null) {
+      util.dumpRawDocuments(args.rawDocs, !args.rawDocsDonotPrependDocid);
     }
 
     if (args.transformedDoc != null) {
