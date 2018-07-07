@@ -16,6 +16,8 @@ add the `-docvectors` option.  The above command builds an index that stores ter
 (`-storePositions`) as well as doc vectors for relevance feedback (`-storeDocvectors`), and 
 `-optimize` force merges all index segment into one.
 
+For additional details, see explanation of [common indexing options](common-indexing-options.md).
+
 After indexing is done, you should be able to perform a retrieval as follows:
 
 ```
