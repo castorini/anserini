@@ -36,8 +36,7 @@ Anserini is designed to support experiments on various standard TREC collections
 
 ## Tools
 
-+ [IndexCollection](docs/index-collection.md)
-+ [DumpIndex](docs/dumpindex.md)
++ [IndexUtils](docs/index-utils.md)
 + [Axiomatic Reranking](docs/axiom-reranking.md)
 
 ## Python Interface
