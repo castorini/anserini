@@ -81,6 +81,7 @@ public class AxiomReranker<T> implements Reranker<T> {
   private final int K = 1000; // top similar terms
   private final int M = 20; // number of expansion terms
   private final float beta; // scaling parameter
+  private final boolean outputQuery;
 
   public AxiomReranker(String field, SearchArgs args) throws IOException {
     this.field = field;
@@ -90,6 +91,7 @@ public class AxiomReranker<T> implements Reranker<T> {
     this.N = args.axiom_n;
     this.beta = args.axiom_beta;
     this.externalIndexPath = args.axiom_external_index.trim();
+    this.outputQuery = args.axiom_outputQuery;
 
     if (this.deterministic && this.N > 1) {
       this.docidsCache = makeDocidsCache(args);
@@ -126,8 +128,12 @@ public class AxiomReranker<T> implements Reranker<T> {
 
       StandardQueryParser p = new StandardQueryParser();
       Query nq = p.parse(queryText, this.field);
-      LOG.info("Original Query: " + context.getQueryTokens());
-      LOG.info("Running new query: " + nq);
+
+      if (this.outputQuery) {
+        LOG.info("QID: " + context.getQueryId());
+        LOG.info("Original Query: " + context.getQuery().toString(this.field));
+        LOG.info("Running new query: " + nq.toString(this.field));
+      }
 
       return searchTopDocs(nq, context);
     } catch (Exception e) {
@@ -293,12 +299,12 @@ public class AxiomReranker<T> implements Reranker<T> {
     for (int docid : docIds) {
       Terms terms = reader.getTermVector(docid, LuceneDocumentGenerator.FIELD_BODY);
       if (terms == null) {
-        LOG.info("Document vector not stored for docid: " + docid);
+        LOG.warn("Document vector not stored for docid: " + docid);
         continue;
       }
       TermsEnum te = terms.iterator();
       if (te == null) {
-        LOG.info("Document vector not stored for docid: " + docid);
+        LOG.warn("Document vector not stored for docid: " + docid);
         continue;
       }
       while ((te.next()) != null) {
