@@ -50,6 +50,7 @@
 
 package io.anserini.document;
 
+import java.io.BufferedReader;
 import java.io.DataInput;
 import java.io.DataInputStream;
 import java.io.DataOutput;
@@ -62,19 +63,21 @@ import java.util.Locale;
 import java.util.Map.Entry;
 import java.util.Set;
 
+/**
+ * A document from the <a href="https://www.lemurproject.org/clueweb09.php/">ClueWeb09 collection</a>.
+ * This class derives from tools provided by CMU for reading the ClueWeb09 collection.
+ */
+public class ClueWeb09Document implements SourceDocument {
+  public static final String WARC_VERSION = "WARC/0.18";
+  protected final static String NEWLINE = "\n";
 
-public final class ClueWeb09WarcRecord extends WarcRecord {
+  private static final byte MASK_THREE_BYTE_CHAR = (byte) (0xE0);
+  private static final byte MASK_TWO_BYTE_CHAR = (byte) (0xC0);
+  private static final byte MASK_TOPMOST_BIT = (byte) (0x80);
+  private static final byte MASK_BOTTOM_SIX_BITS = (byte) (0x1F);
+  private static final byte MASK_BOTTOM_FIVE_BITS = (byte) (0x3F);
+  private static final byte MASK_BOTTOM_FOUR_BITS = (byte) (0x0F);
 
-  public final static String WARC_VERSION = "WARC/0.18";
-  public final static String WARC_VERSION_LINE = "WARC/0.18\n";
-  private final static String NEWLINE = "\n";
-
-  private byte MASK_THREE_BYTE_CHAR = (byte) (0xE0);
-  private byte MASK_TWO_BYTE_CHAR = (byte) (0xC0);
-  private byte MASK_TOPMOST_BIT = (byte) (0x80);
-  private byte MASK_BOTTOM_SIX_BITS = (byte) (0x1F);
-  private byte MASK_BOTTOM_FIVE_BITS = (byte) (0x3F);
-  private byte MASK_BOTTOM_FOUR_BITS = (byte) (0x0F);
   private WarcHeader warcHeader = new WarcHeader();
   private byte[] warcContent = null;
   private String warcFilePath = "";
@@ -82,7 +85,7 @@ public final class ClueWeb09WarcRecord extends WarcRecord {
   /**
    * Default Constructor.
    */
-  public ClueWeb09WarcRecord() {
+  public ClueWeb09Document() {
   }
 
   /**
@@ -90,9 +93,30 @@ public final class ClueWeb09WarcRecord extends WarcRecord {
    *
    * @param o record to copy from
    */
-  public ClueWeb09WarcRecord(ClueWeb09WarcRecord o) {
+  public ClueWeb09Document(ClueWeb09Document o) {
     this.warcHeader = new WarcHeader(o.warcHeader);
     this.warcContent = o.warcContent;
+  }
+
+  @Override
+  public String id() {
+    return getDocid();
+  }
+
+  @Override
+  public String content() {
+    return getContent();
+  }
+
+  // This is being deprecated per https://github.com/castorini/Anserini/issues/254
+  @Override
+  public ClueWeb09Document readNextRecord(BufferedReader bRdr) throws IOException {
+    return null;
+  }
+
+  @Override
+  public boolean indexable() {
+    return "response".equals(getHeaderRecordType());
   }
 
   /**
@@ -104,7 +128,7 @@ public final class ClueWeb09WarcRecord extends WarcRecord {
    * @return the read line (or null if eof)
    * @throws IOException if error encountered reading from stream
    */
-  public String readLineFromInputStream(DataInputStream in) throws IOException {
+  private static String readLineFromInputStream(DataInputStream in) throws IOException {
     StringBuilder retString = new StringBuilder();
 
     boolean keepReading = true;
@@ -183,11 +207,12 @@ public final class ClueWeb09WarcRecord extends WarcRecord {
    *
    * @param in the data input stream
    * @param headerBuffer a blank string buffer to contain the WARC header
-   * @param WARC_VERSION WARC version
+   * @param version WARC version
    * @return the content bytes (with the headerBuffer populated)
    * @throws IOException if error encountered reading from stream
    */
-  byte[] readNextRecord(DataInputStream in, StringBuilder headerBuffer, String WARC_VERSION) throws IOException {
+  protected static byte[] readNextRecord(DataInputStream in, StringBuilder headerBuffer,
+      String version) throws IOException {
     if (in == null) {
       return null;
     }
@@ -204,7 +229,7 @@ public final class ClueWeb09WarcRecord extends WarcRecord {
     // just read the header
     // first - find our WARC header
     while ((!foundMark) && ((line = readLineFromInputStream(in)) != null)) {
-      if (line.startsWith(WARC_VERSION)) {
+      if (line.startsWith(version)) {
         foundMark = true;
       }
     }
@@ -274,13 +299,14 @@ public final class ClueWeb09WarcRecord extends WarcRecord {
    * Reads in a WARC record from a data input stream.
    *
    * @param in the input stream
-   * @param WARC_VERSION WARC version
+   * @param version WARC version
    * @return a WARC record (or null if EOF)
    * @throws IOException if error encountered reading from stream
    */
-  public ClueWeb09WarcRecord readNextWarcRecord(DataInputStream in, String WARC_VERSION) throws IOException {
+  public static ClueWeb09Document readNextWarcRecord(DataInputStream in, String version)
+      throws IOException {
     StringBuilder recordHeader = new StringBuilder();
-    byte[] recordContent = readNextRecord(in, recordHeader, WARC_VERSION);
+    byte[] recordContent = readNextRecord(in, recordHeader, version);
     if (recordContent == null) {
       return null;
     }
@@ -289,7 +315,7 @@ public final class ClueWeb09WarcRecord extends WarcRecord {
     String thisHeaderString = recordHeader.toString();
     String[] headerLines = thisHeaderString.split(NEWLINE);
 
-    ClueWeb09WarcRecord retRecord = new ClueWeb09WarcRecord();
+    ClueWeb09Document retRecord = new ClueWeb09Document();
     for (int i = 0; i < headerLines.length; i++) {
       String[] pieces = headerLines[i].split(":", 2);
       if (pieces.length != 2) {
@@ -334,7 +360,7 @@ public final class ClueWeb09WarcRecord extends WarcRecord {
    *
    * @param o record to copy from
    */
-  public void set(ClueWeb09WarcRecord o) {
+  public void set(ClueWeb09Document o) {
     this.warcHeader = new WarcHeader(o.warcHeader);
     this.warcContent = o.warcContent;
   }
@@ -548,30 +574,6 @@ public final class ClueWeb09WarcRecord extends WarcRecord {
    */
   public void setContent(String content) {
     setContent(content.getBytes());
-  }
-
-  public String getDisplayContentType() {
-    return "text/html";
-  }
-
-  @Override
-  public String id() {
-    return getDocid();
-  }
-
-  @Override
-  public String type() {
-    return getHeaderRecordType();
-  }
-
-  @Override
-  public String content() {
-    return getContent();
-  }
-
-  @Override
-  public String url() {
-    return getURL();
   }
 
   /**

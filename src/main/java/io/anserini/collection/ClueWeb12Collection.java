@@ -16,27 +16,33 @@
 
 package io.anserini.collection;
 
-import io.anserini.document.ClueWeb12WarcRecord;
+import io.anserini.document.ClueWeb12Document;
 
 import java.io.IOException;
 import java.nio.file.Path;
 
 /**
- * Class representing an instance of the ClueWeb12 collection.
+ * Class representing an instance of the
+ * <a href="https://www.lemurproject.org/clueweb12.php/">ClueWeb12 collection</a>.
+ * This can be used to read the complete ClueWeb12 collection or the smaller ClueWeb12-B13 subset.
+ * Note that the implementation inherits from {@link ClueWeb09Collection} because
+ * {@link ClueWeb12Document} inherits from {@link io.anserini.document.ClueWeb09Document}.
  */
-public class CW12Collection extends WarcCollection {
+public class ClueWeb12Collection extends ClueWeb09Collection {
 
-  public class FileSegment extends WarcCollection.FileSegment {
-    public FileSegment(Path path) throws IOException {
+  /**
+   * Represents an individual WARC in the ClueWeb12 collection.
+   */
+  public class FileSegment extends ClueWeb09Collection.FileSegment {
+    private FileSegment(Path path) throws IOException {
       super(path);
-      dType = new ClueWeb12WarcRecord();
     }
 
     @Override
-    public ClueWeb12WarcRecord next() {
-      ClueWeb12WarcRecord doc = new ClueWeb12WarcRecord();
+    public ClueWeb12Document next() {
+      ClueWeb12Document doc;
       try {
-        doc = doc.readNextWarcRecord(stream, ClueWeb12WarcRecord.WARC_VERSION);
+        doc = ClueWeb12Document.readNextWarcRecord(stream, ClueWeb12Document.WARC_VERSION);
         if (doc == null) {
           atEOF = true;
         }
