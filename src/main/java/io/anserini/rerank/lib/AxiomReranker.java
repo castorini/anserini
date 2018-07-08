@@ -25,6 +25,9 @@ import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.ScoredDocuments;
 import io.anserini.search.SearchArgs;
 
+import org.apache.commons.compress.compressors.bzip2.BZip2CompressorInputStream;
+import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.LogManager;
@@ -34,10 +37,11 @@ import org.apache.lucene.queryparser.flexible.standard.StandardQueryParser;
 import org.apache.lucene.search.*;
 import org.apache.lucene.store.FSDirectory;
 
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -74,7 +78,11 @@ public class AxiomReranker<T> implements Reranker<T> {
                                            // external sources for searching the expansion
                                            // terms. Typically, we build another index
                                            // separately and include its information here.
-  private final ScoreDoc[] docidsCache;
+  private final ScoreDoc[] internalDocidsCache; // When enabling the deterministic reranking we could cache all the
+                                                // internal Docids for all queries
+  private final List<String> externalDocidsCache; // When enabling the deterministic reranking we can opt to read sorted docids
+                                              // from a file. The file can be obtained by running
+                                              // `IndexUtils -index /path/to/index -dumpAllDocids GZ`
 
   private final int R; // number of top documents in initial results
   private final int N; // factor that used in extracting random documents, we will extract (N-1)*R randomly select documents
@@ -90,13 +98,20 @@ public class AxiomReranker<T> implements Reranker<T> {
     this.R = args.axiom_r;
     this.N = args.axiom_n;
     this.beta = args.axiom_beta;
-    this.externalIndexPath = args.axiom_external_index.trim();
+    this.externalIndexPath = args.axiom_external_index;
     this.outputQuery = args.axiom_outputQuery;
 
     if (this.deterministic && this.N > 1) {
-      this.docidsCache = makeDocidsCache(args);
+      if (args.axiom_docids != null) {
+        this.externalDocidsCache = makeExternalDocidsCache(args);
+        this.internalDocidsCache = null;
+      } else {
+        this.internalDocidsCache = makeInternalDocidsCache(args);
+        this.externalDocidsCache = null;
+      }
     } else {
-      this.docidsCache = null;
+      this.internalDocidsCache = null;
+      this.externalDocidsCache = null;
     }
   }
 
@@ -176,21 +191,46 @@ public class AxiomReranker<T> implements Reranker<T> {
     return ScoredDocuments.fromTopDocs(rs, searcher);
   }
 
+
+  public InputStream getReadFileStream(String path) throws IOException {
+    InputStream fin = Files.newInputStream(Paths.get(path), StandardOpenOption.READ);
+    BufferedInputStream in = new BufferedInputStream(fin);
+    if (path.endsWith(".bz2")) {
+      BZip2CompressorInputStream bzIn = new BZip2CompressorInputStream(in);
+      return bzIn;
+    } else if (path.endsWith(".gz")) {
+      GzipCompressorInputStream gzIn = new GzipCompressorInputStream(in);
+      return gzIn;
+    } else if (path.endsWith(".zip")) {
+      GzipCompressorInputStream zipIn = new GzipCompressorInputStream(in);
+      return zipIn;
+    }
+    return in;
+  }
+
+  /**
+   * If the result is deterministic we can cache all the external docids by reading them from a file
+   */
+  private List<String> makeExternalDocidsCache(SearchArgs args) throws IOException {
+    InputStream in = getReadFileStream(args.axiom_docids);
+    BufferedReader bRdr = new BufferedReader(new InputStreamReader(in));
+    return IOUtils.readLines(bRdr);
+  }
+
   /**
    * If the result is deterministic we can cache all the docids. All queries can share this
    * cache.
    */
-  private ScoreDoc[] makeDocidsCache(SearchArgs args) throws IOException {
-    String index = args.axiom_external_index.trim().isEmpty() ? args.index : args.axiom_external_index.trim();
+  private ScoreDoc[] makeInternalDocidsCache(SearchArgs args) throws IOException {
+    String index = args.axiom_external_index == null ? args.index : args.axiom_external_index;
     Path indexPath = Paths.get(index);
     if (!Files.exists(indexPath) || !Files.isDirectory(indexPath) || !Files.isReadable(indexPath)) {
-      throw new IllegalArgumentException(this.externalIndexPath + " does not exist or is not a directory.");
+      throw new IllegalArgumentException(index + " does not exist or is not a directory.");
     }
     IndexReader reader = DirectoryReader.open(FSDirectory.open(indexPath));
     IndexSearcher searcher = new IndexSearcher(reader);
     return searcher.search(new FieldValueQuery(LuceneDocumentGenerator.FIELD_ID), reader.maxDoc(),
-      args.searchtweets ? BREAK_SCORE_TIES_BY_TWEETID : BREAK_SCORE_TIES_BY_DOCID,
-      true, true).scoreDocs;
+        args.searchtweets ? BREAK_SCORE_TIES_BY_TWEETID : BREAK_SCORE_TIES_BY_DOCID, true, true).scoreDocs;
   }
 
   /**
@@ -203,7 +243,7 @@ public class AxiomReranker<T> implements Reranker<T> {
    * @return Top ranked ScoredDocuments from searching external index
    */
   private ScoredDocuments processExternalContext(ScoredDocuments docs, RerankerContext<T> context) throws IOException {
-    if (!this.externalIndexPath.isEmpty()) {
+    if (externalIndexPath != null) {
       Path indexPath = Paths.get(this.externalIndexPath);
       if (!Files.exists(indexPath) || !Files.isDirectory(indexPath) || !Files.isReadable(indexPath)) {
         throw new IllegalArgumentException(this.externalIndexPath + " does not exist or is not a directory.");
@@ -245,14 +285,16 @@ public class AxiomReranker<T> implements Reranker<T> {
 
     if (docidSet.size() < targetSize) {
       IndexReader reader;
-      if (!this.externalIndexPath.isEmpty()) {
+      IndexSearcher searcher;
+      if (this.externalIndexPath != null) {
         Path indexPath = Paths.get(this.externalIndexPath);
         if (!Files.exists(indexPath) || !Files.isDirectory(indexPath) || !Files.isReadable(indexPath)) {
           throw new IllegalArgumentException(this.externalIndexPath + " does not exist or is not a directory.");
         }
         reader = DirectoryReader.open(FSDirectory.open(indexPath));
+        searcher = new IndexSearcher(reader);
       } else {
-        IndexSearcher searcher = context.getIndexSearcher();
+        searcher = context.getIndexSearcher();
         reader = searcher.getIndexReader();
       }
       int availableDocsCnt = reader.getDocCount(this.field);
@@ -260,7 +302,14 @@ public class AxiomReranker<T> implements Reranker<T> {
                                 // we have to rely on external docid here
         Random random = new Random(this.seed);
         while (docidSet.size() < targetSize) {
-          docidSet.add(this.docidsCache[random.nextInt(this.docidsCache.length)].doc);
+          if (this.externalDocidsCache != null) {
+            String docid = this.externalDocidsCache.get(random.nextInt(this.externalDocidsCache.size()));
+            Query q = new TermQuery(new Term(LuceneDocumentGenerator.FIELD_ID, docid));
+            TopDocs rs = searcher.search(q, 1);
+            docidSet.add(rs.scoreDocs[0].doc);
+          } else {
+            docidSet.add(this.internalDocidsCache[random.nextInt(this.internalDocidsCache.length)].doc);
+          }
         }
       } else {
         Random random = new Random();
@@ -285,14 +334,16 @@ public class AxiomReranker<T> implements Reranker<T> {
   private Map<String, Set<Integer>> extractTerms(Set<Integer> docIds, RerankerContext<T> context,
                                                  Pattern filterPattern) throws Exception, IOException {
     IndexReader reader;
-    if (!this.externalIndexPath.isEmpty()) {
+    IndexSearcher searcher;
+    if (this.externalIndexPath != null) {
       Path indexPath = Paths.get(this.externalIndexPath);
       if (!Files.exists(indexPath) || !Files.isDirectory(indexPath) || !Files.isReadable(indexPath)) {
         throw new IllegalArgumentException(this.externalIndexPath + " does not exist or is not a directory.");
       }
       reader = DirectoryReader.open(FSDirectory.open(indexPath));
+      searcher = new IndexSearcher(reader);
     } else {
-      IndexSearcher searcher = context.getIndexSearcher();
+      searcher = context.getIndexSearcher();
       reader = searcher.getIndexReader();
     }
     Map<String, Set<Integer>> termDocidSets = new HashMap<>();
@@ -353,7 +404,7 @@ public class AxiomReranker<T> implements Reranker<T> {
 
     // get collection statistics so that we can get idf later on.
     IndexReader reader;
-    if (!this.externalIndexPath.isEmpty()) {
+    if (this.externalIndexPath != null) {
       Path indexPath = Paths.get(this.externalIndexPath);
       if (!Files.exists(indexPath) || !Files.isDirectory(indexPath) || !Files.isReadable(indexPath)) {
         throw new IllegalArgumentException(this.externalIndexPath + " does not exist or is not a directory.");
@@ -384,6 +435,9 @@ public class AxiomReranker<T> implements Reranker<T> {
     for (Map.Entry<String, Integer> q : queryTermsCounts.entrySet()) {
       String queryTerm = q.getKey();
       long df = reader.docFreq(new Term(LuceneDocumentGenerator.FIELD_BODY, queryTerm));
+      if (df == 0L) {
+        continue;
+      }
       float idf = (float) Math.log((1 + docCount)/df);
       int qtf = q.getValue();
       if (termInvertedList.containsKey(queryTerm)) {
