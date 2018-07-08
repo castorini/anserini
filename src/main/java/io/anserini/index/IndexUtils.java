@@ -40,7 +40,6 @@ import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.ParserProperties;
 import edu.stanford.nlp.simple.Sentence;
 import org.jsoup.Jsoup;
-import org.kohsuke.args4j.spi.StringArrayOptionHandler;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -72,7 +71,7 @@ public class IndexUtils {
     @Option(name = "-printDocvector", metaVar = "docid", usage = "prints the document vector of a document")
     String docvectorDocid;
 
-    @Option(name = "-dumpAllDocids", usage = "dumps all Docids in sorted order. For non-tweets collection the order is " +
+    @Option(name = "-dumpAllDocids", usage = "dumps all docids in sorted order. For non-tweet collection the order is " +
             "in ascending of String docid; For tweets collection the order is in descending of Long tweet id" +
             "please provide the compression format for the output")
     Compression dumpAllDocids;
@@ -83,10 +82,9 @@ public class IndexUtils {
     @Option(name = "-dumpRawDocs", metaVar = "[Path]", usage = "dumps raw documents from the input file")
     String rawDocs;
 
-    @Option(name = "-dumpRawDocsDonotPrependDocid", usage = "boolean switch to not prepend <DOCNO>docid<DOCNO> in " +
-            "front of the raw docs. Usually, prepend docid in desired for TREC Adhoc, Web documents. But for tweets, " +
-            "you may want to enable this option since the docid is a native field in the Json")
-    boolean rawDocsDonotPrependDocid = false;
+    @Option(name = "-dumpRawDocsWithDocid", metaVar = "[Path]", usage = "By default there is no <DOCNO>docid<DOCNO> " +
+            "stored in the raw docs. By prepending <DOCNO>docid<DOCNO> in front of the raw docs we can directly index them")
+    String rawDocsWithDocid;
 
     @Option(name = "-dumpTransformedDoc", metaVar = "docid", usage = "dumps transformed document (if stored in the index)")
     String transformedDoc;
@@ -347,7 +345,11 @@ public class IndexUtils {
     }
 
     if (args.rawDocs != null) {
-      util.dumpRawDocuments(args.rawDocs, !args.rawDocsDonotPrependDocid);
+      util.dumpRawDocuments(args.rawDocs, false);
+    }
+
+    if (args.rawDocsWithDocid != null) {
+      util.dumpRawDocuments(args.rawDocs, true);
     }
 
     if (args.transformedDoc != null) {

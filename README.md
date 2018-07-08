@@ -36,7 +36,7 @@ Anserini is designed to support experiments on various standard TREC collections
 
 ## Tools
 
-+ [IndexUtils](docs/index-utils.md)
++ `IndexUtils` is a powerful utility to interact with index in CLI, e.g. print index statistic. Please refer to `target/appassembler/bin/IndexUtils -h` for more details
 + [Axiomatic Reranking](docs/axiom-reranking.md)
 
 ## Python Interface
