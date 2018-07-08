@@ -33,7 +33,7 @@ public class WikipediaParagraph extends WikipediaArticle {
 
   @Override
   public String id() {
-    return title + String.valueOf(paragraphIndex);
+    return title + "-" + String.valueOf(paragraphIndex);
   }
 
   public int paragraphIndex() {

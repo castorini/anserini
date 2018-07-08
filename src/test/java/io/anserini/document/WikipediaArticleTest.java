@@ -17,18 +17,13 @@
 package io.anserini.document;
 
 import java.io.BufferedOutputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.HashMap;
 
 import org.apache.commons.compress.compressors.bzip2.BZip2CompressorOutputStream;
 import org.apache.tools.ant.filters.StringInputStream;
-import org.apache.tools.bzip2.CBZip2InputStream;
-import org.apache.tools.bzip2.CBZip2OutputStream;
 import org.junit.Before;
 import org.junit.Test;
 
