@@ -20,34 +20,23 @@ import java.io.BufferedReader;
 import java.io.IOException;
 
 /**
- * A Wikipedia article. The article title serves as the id.
+ * A Wikipedia paragraph. The article title and paragraph index together serve as an id.
  */
-public class WikipediaArticle implements SourceDocument {
-  protected final String title;
-  protected final String contents;
 
-  public WikipediaArticle(String title, String contents) {
-    this.title = title;
-    this.contents = contents;
-  }
+public class WikipediaParagraph extends WikipediaArticle {
+  protected final int paragraphIndex;
 
-  @Override
-  public WikipediaArticle readNextRecord(BufferedReader bRdr) throws IOException {
-    return null;
+  public WikipediaParagraph(String title, int paragraphIndex, String contents) {
+    super(title, contents);
+    this.paragraphIndex = paragraphIndex;
   }
 
   @Override
   public String id() {
-    return title;
+    return title + String.valueOf(paragraphIndex);
   }
 
-  @Override
-  public String content() {
-    return contents;
-  }
-
-  @Override
-  public boolean indexable() {
-    return true;
+  public int paragraphIndex() {
+    return paragraphIndex;
   }
 }

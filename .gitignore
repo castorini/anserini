@@ -8,6 +8,7 @@ eval/trec_eval.9.0/
 src/test/test-index*
 *~
 *.iml
+*.swp
 *.pyc
 *.out
 lucene-index*
