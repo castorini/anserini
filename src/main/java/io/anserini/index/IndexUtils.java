@@ -56,7 +56,7 @@ import static io.anserini.search.SearchCollection.BREAK_SCORE_TIES_BY_TWEETID;
 public class IndexUtils {
   private static final Logger LOG = LogManager.getLogger(IndexUtils.class);
 
-  enum Compression { RAW, GZ, BZ2, ZIP }
+  enum Compression { NONE, GZ, BZ2, ZIP }
 
   public static final class Args {
     @Option(name = "-index", metaVar = "[Path]", required = true, usage = "index path")
@@ -73,7 +73,7 @@ public class IndexUtils {
 
     @Option(name = "-dumpAllDocids", usage = "dumps all docids in sorted order. For non-tweet collection the order is " +
             "in ascending of String docid; For tweets collection the order is in descending of Long tweet id" +
-            "please provide the compression format for the output")
+            "please provide the compression scheme for the output")
     Compression dumpAllDocids;
 
     @Option(name = "-dumpRawDoc", metaVar = "docid", usage = "dumps raw document (if stored in the index)")
@@ -189,24 +189,23 @@ public class IndexUtils {
     ScoreDoc[] scoreDocs;
     try {
       scoreDocs = searcher.search(new FieldValueQuery(LuceneDocumentGenerator.FIELD_ID), reader.maxDoc(),
-              BREAK_SCORE_TIES_BY_DOCID).scoreDocs;
+          BREAK_SCORE_TIES_BY_DOCID).scoreDocs;
     } catch (IllegalStateException e) { // because this is tweets collection
       scoreDocs = searcher.search(new FieldValueQuery(TweetGenerator.StatusField.ID_LONG.name), reader.maxDoc(),
-              BREAK_SCORE_TIES_BY_TWEETID).scoreDocs;
+          BREAK_SCORE_TIES_BY_TWEETID).scoreDocs;
     }
 
     String basePath = directory.getDirectory().getFileName().toString() + ".allDocids";
     OutputStream outStream = null;
     String outputPath = "";
     switch (compression) {
-      case RAW:
+      case NONE:
         outputPath = basePath+".txt";
         outStream = Files.newOutputStream(Paths.get(outputPath));
         break;
       case GZ:
         outputPath = basePath+".gz";
-        outStream = new GzipCompressorOutputStream(new BufferedOutputStream(
-                Files.newOutputStream(Paths.get(outputPath))));
+        outStream = new GzipCompressorOutputStream(new BufferedOutputStream(Files.newOutputStream(Paths.get(outputPath))));
         break;
       case ZIP:
         outputPath = basePath+".zip";
@@ -215,8 +214,7 @@ public class IndexUtils {
         break;
       case BZ2:
         outputPath = basePath+".bz2";
-        outStream = new BZip2CompressorOutputStream(new BufferedOutputStream(
-                Files.newOutputStream(Paths.get(outputPath))));
+        outStream = new BZip2CompressorOutputStream(new BufferedOutputStream(Files.newOutputStream(Paths.get(outputPath))));
         break;
     }
     for (int i = 0; i < scoreDocs.length; i++) {
