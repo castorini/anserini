@@ -1,11 +1,14 @@
 package io.anserini.ltr.feature;
 
-import com.google.gson.*;
-import com.google.gson.stream.JsonReader;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonParser.Feature;
+import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+
 import io.anserini.rerank.RerankerContext;
 
 import java.io.FileReader;
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -28,26 +31,40 @@ public class FeatureExtractors {
   private static final String CONFIG_KEY = "params";
 
   public static FeatureExtractors loadExtractor(String filePath) throws Exception {
-    JsonObject extractorJson  = new JsonParser().parse(new FileReader(filePath)).getAsJsonObject();
+    JsonParser extractorJson = new JsonFactory().createParser(new FileReader(filePath));
     return FeatureExtractors.fromJson(extractorJson);
   }
 
-  public static FeatureExtractors fromJson(JsonObject json) throws Exception {
+  public static FeatureExtractors fromJson(JsonParser jsonParser) throws Exception {
     FeatureExtractors extractors = new FeatureExtractors();
 
-    Gson gson = FeatureExtractor.BUILDER.create();
-    for (JsonElement extractor : json.getAsJsonArray(JSON_KEY)) {
-      JsonObject extractorJson = extractor.getAsJsonObject();
-      String extractorName = extractorJson.get(NAME_KEY).getAsString();
+    ObjectMapper objectMapper = new ObjectMapper();
+    SimpleModule module = new SimpleModule();
+    module.addDeserializer(UnorderedSequentialPairsFeatureExtractor.class,
+            new UnorderedSequentialPairsFeatureExtractor.Deserializer());
+    module.addDeserializer(OrderedSequentialPairsFeatureExtractor.class,
+            new OrderedSequentialPairsFeatureExtractor.Deserializer());
+    module.addDeserializer(OrderedQueryPairsFeatureExtractor.class,
+            new OrderedQueryPairsFeatureExtractor.Deserializer());
+    module.addDeserializer(UnorderedQueryPairsFeatureExtractor.class,
+            new UnorderedQueryPairsFeatureExtractor.Deserializer());
+    objectMapper.registerModule(module);
+    objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+
+    jsonParser.configure(Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
+    JsonNode node = objectMapper.readTree(jsonParser);
+    for (JsonNode extractor : node.get(JSON_KEY)) {
+      String extractorName = extractor.get(NAME_KEY).asText();
       if (!FeatureExtractor.EXTRACTOR_MAP.containsKey(extractorName)) {
         LOG.warn(String.format("Unknown extractor %s encountered, skipping", extractorName));
         continue;
       }
 
-      if (extractorJson.has(CONFIG_KEY)) {
-        JsonObject config = extractorJson.get(CONFIG_KEY).getAsJsonObject();
-        FeatureExtractor parsedExtractor = (FeatureExtractor) gson.fromJson(config,
-            FeatureExtractor.EXTRACTOR_MAP.get(extractorName));
+      if (extractor.has(CONFIG_KEY)) {
+        JsonNode config = extractor.get(CONFIG_KEY);
+        JsonParser configJsonParser = objectMapper.treeAsTokens(config);
+        FeatureExtractor parsedExtractor = (FeatureExtractor) objectMapper
+          .readValue(configJsonParser, FeatureExtractor.EXTRACTOR_MAP.get(extractorName));
         extractors.add(parsedExtractor);
       } else {
         FeatureExtractor parsedExtractor = (FeatureExtractor) FeatureExtractor.EXTRACTOR_MAP.get(extractorName)
@@ -55,6 +72,7 @@ public class FeatureExtractors {
         extractors.add(parsedExtractor);
       }
     }
+
     return extractors;
   }
 

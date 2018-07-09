@@ -17,13 +17,15 @@
 package io.anserini.document;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 
 /**
  *
@@ -34,45 +36,38 @@ import com.google.gson.JsonParser;
 public class JsonDocument implements SourceDocument {
   protected String id;
   protected String contents;
-  private JsonElement raw;
+  private ArrayNode node;
   private int i;
 
-  public JsonDocument(String path) throws FileNotFoundException {
-    JsonParser parser = new JsonParser();
+  public JsonDocument(String path) {
     try {
-      raw = parser.parse(new BufferedReader(new FileReader(path))).getAsJsonArray();
-    } catch (IllegalStateException e1) {
-      try {
-        raw = parser.parse(new BufferedReader(new FileReader(path))).getAsJsonObject();
-      } catch (IllegalStateException e2) {
-        raw = parser.parse(new BufferedReader(new FileReader(path))).getAsJsonNull();
-      }
+      JsonParser jsonParser = new JsonFactory().createParser(new BufferedReader(new FileReader(path)));
+      ObjectMapper objectMapper = new ObjectMapper();
+      objectMapper.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
+      node = objectMapper.readTree(jsonParser);
+    } catch (IOException e) {
+      node = null; // When the json file does not contain any json objects, set node to null
     }
     i = 0;
   }
 
   @Override
   public JsonDocument readNextRecord(BufferedReader bRdr) throws IOException {
-    if (raw.isJsonArray() && i < raw.getAsJsonArray().size()) {
-      JsonObject o = raw.getAsJsonArray().get(i).getAsJsonObject();
-      id = o.get("id").getAsString();
-      contents = o.get("contents").getAsString();
-      i++;
-      return this;
-    } else if (raw.isJsonObject()) {
-      id = raw.getAsJsonObject().get("id").getAsString();
-      contents = raw.getAsJsonObject().get("contents").getAsString();
-      return this;
-    } else {
+    if (node == null) {
       // try to read one JSON Object per line
       String line;
-      JsonParser parser = new JsonParser();
       while ((line = bRdr.readLine()) != null) {
-        JsonObject o = parser.parse(line).getAsJsonObject();
-        id = o.get("id").getAsString();
-        contents = o.get("contents").getAsString();
+        JsonNode json = new JsonFactory().createParser(line).readValueAsTree();
+        id = json.get("id").asText();
+        contents = json.get("contents").asText();
         return this;
       }
+    } else if (i < node.size()) {
+      JsonNode json = node.get(i);
+      id = json.get("id").asText();
+      contents = json.get("contents").asText();
+      i++;
+      return this;
     }
     return null;
   }

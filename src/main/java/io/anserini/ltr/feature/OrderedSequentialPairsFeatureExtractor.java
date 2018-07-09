@@ -1,11 +1,10 @@
 package io.anserini.ltr.feature;
 
 import com.google.common.collect.Sets;
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonNode;
 import io.anserini.rerank.RerankerContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -13,7 +12,6 @@ import org.apache.lucene.document.Document;
 import org.apache.lucene.index.Terms;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -35,14 +33,22 @@ public class OrderedSequentialPairsFeatureExtractor<T> implements FeatureExtract
   protected static String lastProcessedId = "";
   protected static Document lastProcessedDoc = null;
 
-  public static class Deserializer implements JsonDeserializer<OrderedSequentialPairsFeatureExtractor>
+  public static class Deserializer extends StdDeserializer<OrderedSequentialPairsFeatureExtractor>
   {
+    public Deserializer() {
+      this(null);
+    }
+
+    public Deserializer(Class<?> vc) {
+      super(vc);
+    }
+
     @Override
     public OrderedSequentialPairsFeatureExtractor
-    deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
-            throws JsonParseException
+    deserialize(JsonParser jsonParser, DeserializationContext context) throws IOException
     {
-      int gapSize = ((JsonObject) json).get("gapSize").getAsInt();
+      JsonNode node = jsonParser.getCodec().readTree(jsonParser);
+      int gapSize = node.get("gapSize").asInt();
       return new OrderedSequentialPairsFeatureExtractor(gapSize);
     }
   }
@@ -117,6 +123,7 @@ public class OrderedSequentialPairsFeatureExtractor<T> implements FeatureExtract
 
     return score;
   }
+
   @Override
   public String getName() {
     return "OrderedSequentialPairs" + this.gapSize;
