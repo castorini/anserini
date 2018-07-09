@@ -88,13 +88,8 @@ public class TweetDocument implements SourceDocument {
         .registerModule(new Jdk8Module()) // Deserialize Java 8 Optional: http://www.baeldung.com/jackson-optional
         .readValue(json, Status.class);
     } catch (IOException e) {
-//      LOG.error(e.getMessage());
       return false;
     }
-//    catch (Exception e2) {
-//      LOG.error("" + e2);
-//      return false;
-//    }
 
     if (tweetObj.delete() != null && tweetObj.delete().isPresent()) {
       return false;
@@ -113,12 +108,6 @@ public class TweetDocument implements SourceDocument {
       epoch = -1L;
       return false;
     }
-//    catch (NullPointerException e2) {
-//      LOG.info(json);
-//      LOG.info(createdAt);
-//      LOG.info(e2);
-//      return false;
-//    }
 
     if (tweetObj.in_reply_to_status_id() == null || !tweetObj.in_reply_to_status_id().isPresent()) {
       inReplyToStatusId = OptionalLong.empty();
