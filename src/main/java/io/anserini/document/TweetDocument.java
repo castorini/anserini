@@ -31,31 +31,33 @@ import org.apache.logging.log4j.Logger;
  * A Twitter document (status).
  */
 public class TweetDocument implements SourceDocument {
+  // Required fields
   protected String screenname;
-  protected String name;
-  protected String profile_image_url;
-  protected String createdAt;
-  protected long timestamp_ms;
-  protected long epoch;
-  protected Status jsonObject;
-  protected String jsonString;
-  protected Optional<String> lang;
-  protected OptionalLong inReplyToStatusId;
-  protected OptionalLong inReplyToUserId;
   protected int followersCount;
   protected int friendsCount;
   protected int statusesCount;
+  protected String createdAt;
+  protected String id;
+  protected long idLong;
+  protected String text;
+  protected Status jsonObject;
+  protected String jsonString;
+
+  // Optional fields
+  protected Optional<String> name;
+  protected Optional<String> profile_image_url;
+  protected OptionalLong timestamp_ms;
+  protected OptionalLong epoch;
+  protected Optional<String> lang;
+  protected OptionalLong inReplyToStatusId;
+  protected OptionalLong inReplyToUserId;
   protected OptionalDouble latitude;
   protected OptionalDouble longitude;
   protected OptionalLong retweetStatusId;
   protected OptionalLong retweetUserId;
   protected OptionalLong retweetCount;
-  protected String retweetStatusString;
 
   //private boolean keepRetweets;
-  protected long idLong;
-  protected String id;
-  protected String text;
 
   private static final Logger LOG = LogManager.getLogger(TweetDocument.class);
   private static final String DATE_FORMAT = "E MMM dd HH:mm:ss ZZZZZ yyyy"; // "Fri Mar 29 11:03:41 +0000 2013"
@@ -101,11 +103,11 @@ public class TweetDocument implements SourceDocument {
     createdAt = tweetObj.created_at();
 
     try {
-      timestamp_ms = (new SimpleDateFormat(DATE_FORMAT, Locale.ENGLISH)).parse(createdAt).getTime();
-      epoch = timestamp_ms / 1000;
+      timestamp_ms = OptionalLong.of((new SimpleDateFormat(DATE_FORMAT, Locale.ENGLISH)).parse(createdAt).getTime());
+      epoch = timestamp_ms.isPresent() ? OptionalLong.of(timestamp_ms.getAsLong() / 1000) : OptionalLong.empty();
     } catch (ParseException e) {
-      timestamp_ms = -1L;
-      epoch = -1L;
+      timestamp_ms = OptionalLong.of(-1L);
+      epoch = OptionalLong.of(-1L);
       return false;
     }
 
@@ -126,22 +128,24 @@ public class TweetDocument implements SourceDocument {
       retweetUserId = OptionalLong.empty();
       retweetCount = OptionalLong.empty();
     } else {
-      retweetStatusId = OptionalLong.of(tweetObj.retweeted_status().get().id());
-      if (tweetObj.retweeted_status().get().user() != null) {
-        retweetUserId = OptionalLong.of(tweetObj.retweeted_status().get().user().id());
+      retweetStatusId = tweetObj.retweeted_status().get().id();
+      if (tweetObj.retweeted_status().get().user() != null && tweetObj.retweeted_status().get().user().isPresent()) {
+        retweetUserId = tweetObj.retweeted_status().get().user().get().id();
       } else {
         retweetUserId = OptionalLong.empty();
       }
-      retweetCount = OptionalLong.of(tweetObj.retweet_count());
+      retweetCount = tweetObj.retweet_count();
     }
 
-    if (tweetObj.coordinates() == null || !tweetObj.coordinates().isPresent()
-        || tweetObj.coordinates().get().coordinates() == null || tweetObj.coordinates().get().coordinates().size() < 2) {
+    if (tweetObj.coordinates() == null || !tweetObj.coordinates().isPresent() ||
+        tweetObj.coordinates().get().coordinates() == null ||
+        !tweetObj.coordinates().get().coordinates().isPresent() ||
+        tweetObj.coordinates().get().coordinates().get().size() < 2) {
       latitude = OptionalDouble.empty();
       longitude = OptionalDouble.empty();
     } else {
-      longitude = tweetObj.coordinates().get().coordinates().get(0);
-      latitude = tweetObj.coordinates().get().coordinates().get(1);
+      longitude = tweetObj.coordinates().get().coordinates().get().get(0);
+      latitude = tweetObj.coordinates().get().coordinates().get().get(1);
     }
 
     if (tweetObj.lang() == null || !tweetObj.lang().isPresent()) {
@@ -155,12 +159,16 @@ public class TweetDocument implements SourceDocument {
     statusesCount = tweetObj.user().statuses_count();
     screenname = tweetObj.user().screen_name();
 
-    if (tweetObj.user().name() != null) {
+    if (tweetObj.user().name() != null && tweetObj.user().name().isPresent()) {
       name = tweetObj.user().name();
+    } else {
+      name = Optional.empty();
     }
 
-    if (tweetObj.user().profile_image_url() != null) {
+    if (tweetObj.user().profile_image_url() != null && tweetObj.user().profile_image_url().isPresent()) {
       profile_image_url = tweetObj.user().profile_image_url();
+    } else {
+      profile_image_url = Optional.empty();
     }
 
     jsonString = json;
@@ -210,26 +218,15 @@ public class TweetDocument implements SourceDocument {
   public String getScreenname() {
     return screenname;
   }
-  public String getName() {
-    return name;
-  }
-  public String getProfileImageURL() {
-    return profile_image_url;
-  }
   public String getCreatedAt() {
     return createdAt;
   }
-  public long getTimestampMs() { return timestamp_ms; }
-  public long getEpoch() { return epoch; }
   public String getText() {
     return text;
   }
   public Status getJsonObject() { return jsonObject; }
   public String getJsonString() {
     return jsonString;
-  }
-  public Optional<String> getLang() {
-    return lang;
   }
   public int getFollowersCount() {
     return followersCount;
@@ -239,6 +236,18 @@ public class TweetDocument implements SourceDocument {
   }
   public int getStatusesCount() {
     return statusesCount;
+  }
+
+  public Optional<String> getName() {
+    return name;
+  }
+  public Optional<String> getProfileImageURL() {
+    return profile_image_url;
+  }
+  public OptionalLong getTimestampMs() { return timestamp_ms; }
+  public OptionalLong getEpoch() { return epoch; }
+  public Optional<String> getLang() {
+    return lang;
   }
   public OptionalLong getInReplyToStatusId() {
     return inReplyToStatusId;
@@ -260,8 +269,5 @@ public class TweetDocument implements SourceDocument {
   }
   public OptionalLong getRetweetCount() {
     return retweetCount;
-  }
-  public String getRetweetStatusString() {
-    return retweetStatusString;
   }
 }

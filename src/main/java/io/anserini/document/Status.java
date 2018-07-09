@@ -19,7 +19,8 @@ public class Status {
   protected String text;
   protected User user;
 
-  protected long retweet_count;
+  // Optional fields
+  protected OptionalLong retweet_count;
   protected OptionalLong in_reply_to_status_id;
   protected OptionalLong in_reply_to_user_id;
   protected Optional<RetweetedStatus> retweeted_status;
@@ -30,32 +31,32 @@ public class Status {
   // Must make inner classes static for deserialization in Jackson
   // http://www.cowtowncoder.com/blog/archives/2010/08/entry_411.html
   public static class Delete {
-    protected String timestamp_ms;
+    protected Optional<String> timestamp_ms;
 
     @JsonGetter("timestamp_ms")
-    public String timestamp_ms() {
+    public Optional<String> timestamp_ms() {
       return timestamp_ms;
     }
   }
 
   public static class Coordinates {
-    protected List<OptionalDouble> coordinates;
+    protected Optional<List<OptionalDouble>> coordinates;
 
     @JsonGetter("coordinates")
-    public List<OptionalDouble> coordinates() { return coordinates; }
+    public Optional<List<OptionalDouble>> coordinates() { return coordinates; }
   }
 
   public static class RetweetedStatus {
-    protected long id;
-    protected User user;
+    protected OptionalLong id;
+    protected Optional<User> user;
 
     @JsonGetter("id")
-    public long id() {
+    public OptionalLong id() {
       return id;
     }
 
     @JsonGetter("user")
-    public User user() {
+    public Optional<User> user() {
       return user;
     }
   }
@@ -67,9 +68,10 @@ public class Status {
     protected int friends_count;
     protected int statuses_count;
 
-    protected String name;
-    protected String profile_image_url;
-    protected long id;
+    // Opional fields
+    protected Optional<String> name;
+    protected Optional<String> profile_image_url;
+    protected OptionalLong id;
 
     @JsonCreator
     public User(
@@ -104,17 +106,17 @@ public class Status {
     }
 
     @JsonGetter("name")
-    public String name() {
+    public Optional<String> name() {
       return name;
     }
 
     @JsonGetter("profile_image_url")
-    public String profile_image_url() {
+    public Optional<String> profile_image_url() {
       return profile_image_url;
     }
 
     @JsonGetter("id")
-    public long id() {
+    public OptionalLong id() {
       return id;
     }
   }
@@ -152,7 +154,7 @@ public class Status {
   }
 
   @JsonGetter("retweet_count")
-  public long retweet_count() {
+  public OptionalLong retweet_count() {
     return retweet_count;
   }
 
@@ -162,9 +164,9 @@ public class Status {
       if (retweet_count_internal.isTextual()) {
         // retweet_count might say "100+"
         // TODO: This is ugly, come back and fix later.
-        retweet_count = Long.parseLong(retweet_count_internal.asText().replace("+", ""));
+        retweet_count = OptionalLong.of(Long.parseLong(retweet_count_internal.asText().replace("+", "")));
       } else if (retweet_count_internal.isNumber()) {
-        retweet_count = retweet_count_internal.asLong();
+        retweet_count = OptionalLong.of(retweet_count_internal.asLong());
       }
     }
   }

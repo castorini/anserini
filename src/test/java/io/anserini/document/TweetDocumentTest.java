@@ -49,7 +49,8 @@ public class TweetDocumentTest extends DocumentTest<TweetDocument> {
       TweetDocument parsed = parse(rawDocs.get(i));
       assertEquals(parsed.id(), expected.get(i).get("id"));
       assertEquals(parsed.content(), expected.get(i).get("content"));
-      assertEquals(parsed.getTimestampMs(), Long.parseLong(expected.get(i).get("timestamp_ms")));
+      assert(parsed.getTimestampMs().isPresent());
+      assertEquals(parsed.getTimestampMs().getAsLong(), Long.parseLong(expected.get(i).get("timestamp_ms")));
     }
   }
 }
