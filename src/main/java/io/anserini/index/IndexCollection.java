@@ -345,7 +345,7 @@ public final class IndexCollection {
     LOG.info(String.format("empty:       %,12d", counters.empty.get()));
     LOG.info(String.format("unindexed:   %,12d", counters.unindexed.get()));
     LOG.info(String.format("unindexable: %,12d", counters.unindexable.get()));
-    LOG.info(String.format("skipped:     %,12d", counters.errors.get()));
+    LOG.info(String.format("skipped:     %,12d", counters.skipped.get()));
     LOG.info(String.format("errors:      %,12d", counters.errors.get()));
 
     final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);

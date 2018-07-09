@@ -157,7 +157,8 @@ public class TweetGenerator extends LuceneDocumentGenerator<TweetDocument> {
     doc.add(new LongPoint(StatusField.ID_LONG.name, tweetDoc.getIdLong()));
     doc.add(new NumericDocValuesField(StatusField.ID_LONG.name, tweetDoc.getIdLong()));
 
-    doc.add(new LongPoint(StatusField.EPOCH.name, tweetDoc.getEpoch()));
+    tweetDoc.getEpoch().ifPresent( epoch ->
+      doc.add(new LongPoint(StatusField.EPOCH.name, epoch)) );
     doc.add(new StringField(StatusField.SCREEN_NAME.name, tweetDoc.getScreenname(), Field.Store.NO));
     doc.add(new IntPoint(StatusField.FRIENDS_COUNT.name, tweetDoc.getFollowersCount()));
     doc.add(new IntPoint(StatusField.FOLLOWERS_COUNT.name, tweetDoc.getFriendsCount()));
@@ -165,13 +166,16 @@ public class TweetGenerator extends LuceneDocumentGenerator<TweetDocument> {
 
     tweetDoc.getInReplyToStatusId().ifPresent( rid -> {
       doc.add(new LongPoint(StatusField.IN_REPLY_TO_STATUS_ID.name, rid));
-      doc.add(new LongPoint(StatusField.IN_REPLY_TO_USER_ID.name, tweetDoc.getInReplyToUserId().getAsLong()));
+      tweetDoc.getInReplyToUserId().ifPresent( ruid ->
+        doc.add(new LongPoint(StatusField.IN_REPLY_TO_USER_ID.name, ruid)) );
     });
 
     tweetDoc.getRetweetedStatusId().ifPresent( rid -> {
       doc.add(new LongPoint(StatusField.RETWEETED_STATUS_ID.name, rid));
-      doc.add(new LongPoint(StatusField.RETWEETED_USER_ID.name, tweetDoc.getRetweetedUserId().getAsLong()));
-      doc.add(new LongPoint(StatusField.RETWEET_COUNT.name, tweetDoc.getRetweetCount().getAsLong()));
+      tweetDoc.getRetweetedUserId().ifPresent( ruid ->
+        doc.add(new LongPoint(StatusField.RETWEETED_USER_ID.name, ruid)) );
+      tweetDoc.getRetweetCount().ifPresent( rc ->
+        doc.add(new LongPoint(StatusField.RETWEET_COUNT.name, rc)) );
     });
 
     tweetDoc.getLang().ifPresent( lang ->

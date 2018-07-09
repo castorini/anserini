@@ -34,7 +34,7 @@ public class JsonDocumentArrayTest extends DocumentTest<JsonDocument> {
   public void setUp() throws Exception {
     super.setUp();
 
-    String sampleDoc = "[\n" +
+    String sampleDoc =
       "[\n" +
       "  {\n" +
       "    \"id\": \"doc1\",\n" +
