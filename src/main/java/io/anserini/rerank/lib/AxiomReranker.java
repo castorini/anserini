@@ -98,15 +98,15 @@ public class AxiomReranker<T> implements Reranker<T> {
     this.R = args.axiom_r;
     this.N = args.axiom_n;
     this.beta = args.axiom_beta;
-    this.externalIndexPath = args.axiom_external_index;
+    this.externalIndexPath = args.axiom_index;
     this.outputQuery = args.axiom_outputQuery;
 
     if (this.deterministic && this.N > 1) {
       if (args.axiom_docids != null) {
-        this.externalDocidsCache = makeExternalDocidsCache(args);
+        this.externalDocidsCache = buildExternalDocidsCache(args);
         this.internalDocidsCache = null;
       } else {
-        this.internalDocidsCache = makeInternalDocidsCache(args);
+        this.internalDocidsCache = buildInternalDocidsCache(args);
         this.externalDocidsCache = null;
       }
     } else {
@@ -211,7 +211,7 @@ public class AxiomReranker<T> implements Reranker<T> {
   /**
    * If the result is deterministic we can cache all the external docids by reading them from a file
    */
-  private List<String> makeExternalDocidsCache(SearchArgs args) throws IOException {
+  private List<String> buildExternalDocidsCache(SearchArgs args) throws IOException {
     InputStream in = getReadFileStream(args.axiom_docids);
     BufferedReader bRdr = new BufferedReader(new InputStreamReader(in));
     return IOUtils.readLines(bRdr);
@@ -221,8 +221,8 @@ public class AxiomReranker<T> implements Reranker<T> {
    * If the result is deterministic we can cache all the docids. All queries can share this
    * cache.
    */
-  private ScoreDoc[] makeInternalDocidsCache(SearchArgs args) throws IOException {
-    String index = args.axiom_external_index == null ? args.index : args.axiom_external_index;
+  private ScoreDoc[] buildInternalDocidsCache(SearchArgs args) throws IOException {
+    String index = args.axiom_index == null ? args.index : args.axiom_index;
     Path indexPath = Paths.get(index);
     if (!Files.exists(indexPath) || !Files.isDirectory(indexPath) || !Files.isReadable(indexPath)) {
       throw new IllegalArgumentException(index + " does not exist or is not a directory.");

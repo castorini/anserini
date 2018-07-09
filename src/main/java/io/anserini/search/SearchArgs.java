@@ -124,7 +124,7 @@ public class SearchArgs {
   public float axiom_beta = 0.4f;
 
   @Option(name = "-axiom.index", usage = "path to the external index for generating the reranking doucments pool")
-  public String axiom_external_index = null;
+  public String axiom_index = null;
 
   @Option(name = "-model", metaVar = "[file]", required = false, usage = "ranklib model file")
   public String model = "";
