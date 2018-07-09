@@ -23,7 +23,7 @@ import org.apache.tools.ant.filters.StringInputStream;
 import org.junit.Before;
 
 
-public class ClueWeb09WarcRecordTest extends DocumentTest<ClueWeb09WarcRecord> {
+public class ClueWeb09DocumentTest extends DocumentTest<ClueWeb09Document> {
 
   @Before
   public void setUP() throws Exception {
@@ -90,10 +90,10 @@ public class ClueWeb09WarcRecordTest extends DocumentTest<ClueWeb09WarcRecord> {
     expected.add(doc2);
   }
 
-  protected ClueWeb09WarcRecord parse(String raw) throws IOException {
+  protected ClueWeb09Document parse(String raw) throws IOException {
     DataInputStream stream = new DataInputStream(new StringInputStream(raw));
-    ClueWeb09WarcRecord doc = new ClueWeb09WarcRecord();
-    doc = doc.readNextWarcRecord(stream, ClueWeb09WarcRecord.WARC_VERSION);
+    ClueWeb09Document doc = new ClueWeb09Document();
+    doc = doc.readNextWarcRecord(stream, ClueWeb09Document.WARC_VERSION);
     return doc;
   }
 }
