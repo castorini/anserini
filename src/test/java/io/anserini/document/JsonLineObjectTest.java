@@ -34,7 +34,7 @@ public class JsonLineObjectTest extends DocumentTest<JsonDocument> {
   public void setUp() throws Exception {
     super.setUp();
 
-    String sampleDoc = "[\n" +
+    String sampleDoc =
       "{\n " +
       "  \"id\": \"doc1\",\n" +
       "  \"contents\": \"this is the contents 1.\"\n" +
