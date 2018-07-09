@@ -110,6 +110,10 @@ public class SearchArgs {
   @Option(name = "-axiom.seed", metaVar = "[number]", usage = "seed for the random generator in axiomatic reranking")
   public long axiom_seed = 42L;
 
+  @Option(name = "-axiom.docids", usage = "sorted docids file that for deterministic reranking. this file can be obtained " +
+          "by running CLI command `IndexUtils -index /path/to/index -dumpAllDocids GZ`")
+  public String axiom_docids = null;
+
   @Option(name = "-axiom.r", usage = "parameter R in axiomatic reranking")
   public int axiom_r = 20;
 
@@ -120,7 +124,7 @@ public class SearchArgs {
   public float axiom_beta = 0.4f;
 
   @Option(name = "-axiom.index", usage = "path to the external index for generating the reranking doucments pool")
-  public String axiom_external_index = "";
+  public String axiom_index = null;
 
   @Option(name = "-model", metaVar = "[file]", required = false, usage = "ranklib model file")
   public String model = "";
