@@ -16,6 +16,8 @@ The directory `/path/to/wapo_data` should be the directory that contains a colle
 (`-storePositions`) as well as doc vectors for relevance feedback (`-storeDocvectors`), and `-optimize` force merges all 
 index segment into one.
 
+For additional details, see explanation of [common indexing options](common-indexing-options.md).
+
 **Search**:
 
 After indexing is done, you should be able to perform a retrieval run:

@@ -24,7 +24,7 @@ import org.apache.tools.ant.filters.StringInputStream;
 import org.junit.Before;
 
 
-public class ClueWeb12WarcRecordTest extends DocumentTest<ClueWeb12WarcRecord> {
+public class ClueWeb12DocumentTest extends DocumentTest<ClueWeb12Document> {
 
   @Before
   public void setUP() throws Exception {
@@ -91,10 +91,10 @@ public class ClueWeb12WarcRecordTest extends DocumentTest<ClueWeb12WarcRecord> {
     expected.add(doc2);
   }
 
-  protected ClueWeb12WarcRecord parse(String raw) throws IOException {
+  protected ClueWeb12Document parse(String raw) throws IOException {
     DataInputStream stream = new DataInputStream(new StringInputStream(raw));
-    ClueWeb12WarcRecord doc = new ClueWeb12WarcRecord();
-    doc = doc.readNextWarcRecord(stream, ClueWeb12WarcRecord.WARC_VERSION);
+    ClueWeb12Document doc = new ClueWeb12Document();
+    doc = doc.readNextWarcRecord(stream, ClueWeb12Document.WARC_VERSION);
     return doc;
   }
 }

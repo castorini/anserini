@@ -83,6 +83,12 @@ public class SearchArgs {
   @Option(name = "-b", metaVar = "[value]", required = false, usage = "BM25 b parameter")
   public float b = 0.4f;
 
+  @Option(name = "-f2log", usage = "use F2Log scoring model")
+  public boolean f2log = false;
+
+  @Option(name = "-f2log.s", metaVar = "[value]", required = false, usage = "F2Log s parameter")
+  public float f2log_s = 0.5f;
+
   @Option(name = "-rm3", usage = "use RM3 query expansion model (implies using query likelihood)")
   public boolean rm3 = false;
 
@@ -95,8 +101,14 @@ public class SearchArgs {
   @Option(name = "-rm3.originalQueryWeight", usage = "parameter to decide how many documents to be used to find expansion terms")
   public float rm3_originalQueryWeight = 0.6f;
 
+  @Option(name = "-rm3.outputQuery", usage = "output original and expanded query")
+  public boolean rm3_outputQuery = false;
+
   @Option(name = "-axiom", usage = "use Axiomatic query expansion model for the reranking")
   public boolean axiom = false;
+
+  @Option(name = "-axiom.outputQuery", usage = "output original and expanded query")
+  public boolean axiom_outputQuery = false;
 
   @Option(name = "-axiom.deterministic", usage = "make the expansion terms axiomatic reranking results deterministic")
   public boolean axiom_deterministic = false;
@@ -104,17 +116,21 @@ public class SearchArgs {
   @Option(name = "-axiom.seed", metaVar = "[number]", usage = "seed for the random generator in axiomatic reranking")
   public long axiom_seed = 42L;
 
-  @Option(name = "-axiom.m", usage = "parameter M in axiomatic reranking")
-  public int axiom_m = 20;
+  @Option(name = "-axiom.docids", usage = "sorted docids file that for deterministic reranking. this file can be obtained " +
+          "by running CLI command `IndexUtils -index /path/to/index -dumpAllDocids GZ`")
+  public String axiom_docids = null;
 
   @Option(name = "-axiom.r", usage = "parameter R in axiomatic reranking")
-  public int axiom_r = 30;
+  public int axiom_r = 20;
+
+  @Option(name = "-axiom.n", usage = "parameter N in axiomatic reranking")
+  public int axiom_n = 30;
 
   @Option(name = "-axiom.beta", usage = "parameter beta for Axiomatic query expansion model")
   public float axiom_beta = 0.4f;
 
   @Option(name = "-axiom.index", usage = "path to the external index for generating the reranking doucments pool")
-  public String axiom_external_index = "";
+  public String axiom_index = null;
 
   @Option(name = "-model", metaVar = "[file]", required = false, usage = "ranklib model file")
   public String model = "";
