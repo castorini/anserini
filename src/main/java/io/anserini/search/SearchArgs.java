@@ -85,6 +85,7 @@ public class SearchArgs {
 
   @Option(name = "-f2log", usage = "use F2Log scoring model")
   public boolean f2log = false;
+
   @Option(name = "-f2log.s", metaVar = "[value]", required = false, usage = "F2Log s parameter")
   public float f2log_s = 0.5f;
 
