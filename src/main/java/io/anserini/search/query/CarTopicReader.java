@@ -19,6 +19,7 @@ package io.anserini.search.query;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
@@ -46,10 +47,22 @@ public class CarTopicReader extends TopicReader {
       line = line.trim();
       if (line.startsWith("enwiki:")) {
         String id = line;
-        String title = java.net.URLDecoder.decode(line.substring(7).replace("%20", " ")
-            .replace("%2", " ").replace("/", " "), "utf-8");
-        fields.put("title", title);
-        map.put(id, fields);
+        String title = null;
+        try {
+          String title_url = line.substring(7);
+          title_url = title_url.replaceAll("%(?![0-9a-fA-F]{2})", "%25");
+          title_url = title_url.replaceAll("\\+", "%2B");
+          title = java.net.URLDecoder.decode(title_url, "utf-8")
+              .replace("/", " ").replace("(", " ").replace(")", " ");
+          fields.put("title", title);
+          map.put(id, fields);
+        } catch (UnsupportedEncodingException e) {
+          System.out.println(line);
+//          e.printStackTrace();
+        } catch (IllegalArgumentException e) {
+          System.out.println(line);
+//          e.printStackTrace();
+        }
       }
       else if (line.length() != 0) {
         String title = line;
