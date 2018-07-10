@@ -16,16 +16,18 @@
 
 package io.anserini.document;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * A document from the Washington Post collection.
@@ -33,18 +35,12 @@ import java.util.List;
 public class WashingtonPostDocument implements SourceDocument {
   private static final Logger LOG = LogManager.getLogger(WashingtonPostDocument.class);
   private static final String PATTERN = "<\\/?\\w+>";
-
-  private final String ID_TAG = "id";
-  private final String DATE_TAG = "published_date";
-  private final String CONTENT_TAG = "contents";
-  private final String PARAGRAPH_TAG = "content";
-  private final String TYPE_TAG = "type";
   private final List<String> CONTENT_TYPE_TAG = Arrays.asList("sanitized_html", "tweet");
 
+  // Required fields
   protected String id;
-  protected long date;
+  protected long published_date;
   protected String content;
-
 
   @Override
   public SourceDocument readNextRecord(BufferedReader bufferedReader) throws IOException {
@@ -53,41 +49,42 @@ public class WashingtonPostDocument implements SourceDocument {
       return null;
     }
     return parseRecord(nextRecord);
-
   }
 
   private SourceDocument parseRecord(String record) {
+
     StringBuilder builder = new StringBuilder();
-
-    JSONObject contentObj;
-    JSONObject recordObj = new JSONObject(record);
-
-    if (!recordObj.has(ID_TAG) || !recordObj.has(DATE_TAG)) {
+    ObjectMapper mapper = new ObjectMapper();
+    WashingtonPost recordObj = null;
+    try {
+      recordObj = mapper
+        .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES) // Ignore unrecognized properties
+        .registerModule(new Jdk8Module()) // Deserialize Java 8 Optional: http://www.baeldung.com/jackson-optional
+        .readValue(record, WashingtonPost.class);
+    } catch (IOException e) {
       // For current dataset, we can make sure all record has unique id and
       //  published date. So we just simply log a warning and return null
       //  here in case future data may bring up this issue
       LOG.warn("No unique ID or published date for this record, ignored...");
       return null;
     }
-    id = recordObj.getString(ID_TAG);
-    date = recordObj.getLong(DATE_TAG);
 
-    JSONArray contentArray = recordObj.getJSONArray(CONTENT_TAG);
-    for (Object obj : contentArray) {
-      contentObj = (JSONObject) obj;
-      if (contentObj.has(TYPE_TAG) && contentObj.has(PARAGRAPH_TAG)) {
-        if (CONTENT_TYPE_TAG.contains(contentObj.getString(TYPE_TAG))) {
-          try {
-            builder.append(removeTags(contentObj.getString(PARAGRAPH_TAG).trim())).append("\n");
-          } catch (JSONException e) {
-            LOG.error("Error caught while retrieving JSON string.");
-            e.printStackTrace();
+    id = recordObj.id();
+    published_date = recordObj.published_date();
+
+    if (recordObj.contents != null && recordObj.contents.isPresent()) {
+      for (WashingtonPost.Content contentObj : recordObj.contents.get()) {
+        if (contentObj.type() != null && contentObj.type().isPresent() &&
+            contentObj.content() != null && contentObj.content().isPresent()) {
+          if (CONTENT_TYPE_TAG.contains(contentObj.type().get())) {
+            builder.append(removeTags(contentObj.content().get().trim())).append("\n");
           }
+        } else {
+          LOG.warn("No type or content tag defined in Article " + id + ", ignored this file.");
         }
-      } else {
-        LOG.warn("No type or content tag defined in Article " + id + ", ignored this file.");
       }
     }
+
     content = builder.toString();
     return this;
   }
@@ -95,7 +92,6 @@ public class WashingtonPostDocument implements SourceDocument {
   private String removeTags(String content) {
     return content.replaceAll(PATTERN, " ");
   }
-
 
   @Override
   public String id() {
@@ -110,5 +106,9 @@ public class WashingtonPostDocument implements SourceDocument {
   @Override
   public boolean indexable() {
     return true;
+  }
+
+  public long published_date() {
+    return published_date;
   }
 }
