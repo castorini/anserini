@@ -5,7 +5,7 @@ import argparse
 from subprocess import call
 
 index_cmd = """
-nohup sh target/appassembler/bin/IndexCollection -collection ClueWeb12Collection \
+nohup sh target/appassembler/bin/IndexCollection -collection ClueWeb12 \
  -input /tuna1/collections/web/ClueWeb12-B13/DiskB/ -generator JsoupGenerator \
  -index lucene-index.cw12b13.pos+docvectors -threads 32 \
  -storePositions -storeDocvectors"""
