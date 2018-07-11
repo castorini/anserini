@@ -21,16 +21,17 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.HashMap;
 
+import io.anserini.collection.TrecwebCollection;
 import org.junit.Before;
 import org.junit.Test;
 
 
-public class TrecwebDocumentTest extends DocumentTest<TrecwebDocument> {
+public class TrecwebDocumentTest extends DocumentTest<TrecwebCollection.Document> {
 
   @Before
   public void setUp() throws Exception {
     super.setUp();
-    dType = new TrecwebDocument();
+    dType = new TrecwebCollection.Document();
 
     rawDocs.add("<DOC>\n" +
         "<DOCNO> WEB-0001 </DOCNO>\n" +

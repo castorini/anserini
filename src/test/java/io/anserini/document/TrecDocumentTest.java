@@ -16,19 +16,17 @@
 
 package io.anserini.document;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.StringReader;
 import java.util.HashMap;
+
+import io.anserini.collection.TrecCollection;
 import org.junit.Before;
 
-
-public class TrecDocumentTest extends DocumentTest<TrecDocument> {
+public class TrecDocumentTest extends DocumentTest<TrecCollection.Document> {
 
   @Before
   public void setUP() throws Exception {
     super.setUp();
-    dType = new TrecDocument();
+    dType = new TrecCollection.Document();
 
     rawDocs.add("<DOC>\n" +
         "<DOCNO> AP-0001 </DOCNO>\n" +
