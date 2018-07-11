@@ -79,7 +79,7 @@ import java.util.zip.GZIPInputStream;
  * <a href="https://www.lemurproject.org/clueweb09.php/">ClueWeb09 collection</a>.
  * This can be used to read the complete ClueWeb09 collection or the smaller ClueWeb09b subset.
  */
-public class ClueWeb09 extends Collection {
+public class ClueWeb09Collection extends Collection {
 
   /**
    * Represents an individual WARC in the ClueWeb09 collection.
@@ -94,10 +94,10 @@ public class ClueWeb09 extends Collection {
     }
 
     @Override
-    public ClueWeb09.Document next() {
-      ClueWeb09.Document doc;
+    public ClueWeb09Collection.Document next() {
+      ClueWeb09Collection.Document doc;
       try {
-        doc = ClueWeb09.Document.readNextWarcRecord(stream, ClueWeb09.Document.WARC_VERSION);
+        doc = ClueWeb09Collection.Document.readNextWarcRecord(stream, ClueWeb09Collection.Document.WARC_VERSION);
         if (doc == null) {
           atEOF = true;
         }

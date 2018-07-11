@@ -16,7 +16,7 @@
 
 package io.anserini.document;
 
-import io.anserini.collection.ClueWeb12;
+import io.anserini.collection.ClueWeb12Collection;
 import org.apache.tools.ant.filters.StringInputStream;
 import org.junit.Before;
 
@@ -25,7 +25,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 
-public class ClueWeb12DocumentTest extends DocumentTest<ClueWeb12.Document> {
+public class ClueWeb12DocumentTest extends DocumentTest<ClueWeb12Collection.Document> {
 
   @Before
   public void setUP() throws Exception {
@@ -92,10 +92,10 @@ public class ClueWeb12DocumentTest extends DocumentTest<ClueWeb12.Document> {
     expected.add(doc2);
   }
 
-  protected ClueWeb12.Document parse(String raw) throws IOException {
+  protected ClueWeb12Collection.Document parse(String raw) throws IOException {
     DataInputStream stream = new DataInputStream(new StringInputStream(raw));
-    ClueWeb12.Document doc = new ClueWeb12.Document();
-    doc = doc.readNextWarcRecord(stream, ClueWeb12.Document.WARC_VERSION);
+    ClueWeb12Collection.Document doc = new ClueWeb12Collection.Document();
+    doc = doc.readNextWarcRecord(stream, ClueWeb12Collection.Document.WARC_VERSION);
     return doc;
   }
 }

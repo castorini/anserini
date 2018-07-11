@@ -67,24 +67,24 @@ import java.util.Set;
  * Class representing an instance of the
  * <a href="https://www.lemurproject.org/clueweb12.php/">ClueWeb12 collection</a>.
  * This can be used to read the complete ClueWeb12 collection or the smaller ClueWeb12-B13 subset.
- * Note that the implementation inherits from {@link ClueWeb09} because
- * {@link ClueWeb12.Document} inherits from {@link io.anserini.collection.ClueWeb09.Document}.
+ * Note that the implementation inherits from {@link ClueWeb09Collection} because
+ * {@link ClueWeb12Collection.Document} inherits from {@link ClueWeb09Collection.Document}.
  */
-public class ClueWeb12 extends ClueWeb09 {
+public class ClueWeb12Collection extends ClueWeb09Collection {
 
   /**
-   * Represents an individual WARC in the ClueWeb12 collection.
+   * Represents an individual WARC in the ClueWeb12Collection collection.
    */
-  public class FileSegment extends ClueWeb09.FileSegment {
+  public class FileSegment extends ClueWeb09Collection.FileSegment {
     private FileSegment(Path path) throws IOException {
       super(path);
     }
 
     @Override
-    public ClueWeb12.Document next() {
-      ClueWeb12.Document doc;
+    public ClueWeb12Collection.Document next() {
+      ClueWeb12Collection.Document doc;
       try {
-        doc = ClueWeb12.Document.readNextWarcRecord(stream, Document.WARC_VERSION);
+        doc = ClueWeb12Collection.Document.readNextWarcRecord(stream, Document.WARC_VERSION);
         if (doc == null) {
           atEOF = true;
         }
@@ -103,10 +103,10 @@ public class ClueWeb12 extends ClueWeb09 {
   /**
    * A document from the <a href="https://www.lemurproject.org/clueweb12.php/">ClueWeb12 collection</a>.
    * This class derives from tools provided by CMU for reading the ClueWeb12 collection. Note that
-   * the implementation inherits from {@link ClueWeb09.Document} for historic reasons, since the code
+   * the implementation inherits from {@link ClueWeb09Collection.Document} for historic reasons, since the code
    * originally developed for reading ClueWeb09 was subsequently adapted for reading ClueWeb12.
    */
-  public static class Document extends ClueWeb09.Document {
+  public static class Document extends ClueWeb09Collection.Document {
     public static final String WARC_VERSION = "WARC/1.0";
 
     /**
@@ -120,7 +120,7 @@ public class ClueWeb12 extends ClueWeb09 {
     public static Document readNextWarcRecord(DataInputStream in, String version)
         throws IOException {
       StringBuilder recordHeader = new StringBuilder();
-      ClueWeb09.Document r09 = new ClueWeb09.Document();
+      ClueWeb09Collection.Document r09 = new ClueWeb09Collection.Document();
       byte[] recordContent = r09.readNextRecord(in, recordHeader, version);
       if (recordContent == null) {
         return null;
