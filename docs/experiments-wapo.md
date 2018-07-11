@@ -25,8 +25,8 @@ After indexing is done, you should be able to perform a retrieval run:
 ```
 sh target/appassembler/bin/SearchCollection \
 -topicreader Trec -index lucene-index.wapo.pos+docvectors \
--bm25 -topics src/main/resources/topics-and-qrels/topics.web.251-300.txt  \
--output run.wapo.251-300.bm25.txt
+-bm25 -topics src/main/resources/topics-and-qrels/topics.451-550.txt  \
+-output run.wapo.451-550.bm25.txt
 ```
 
 For the retrieval model: specify `-bm25` to use BM25, `-ql` to use query likelihood, and add `-rm3` to invoke the RM3 
