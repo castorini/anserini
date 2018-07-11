@@ -198,14 +198,17 @@ public class IndexUtils {
   }
 
   public void dumpDocumentVectors(String reqDocidsPath, String weight) throws IOException, InvalidDocVectorWeightException {
+    String outFileName = weight == null ? reqDocidsPath+".docvector.tar.gz" : reqDocidsPath+".docvector." + weight +".tar.gz";
+
     InputStream in = getReadFileStream(reqDocidsPath);
     BufferedReader bRdr = new BufferedReader(new InputStreamReader(in));
-    FileOutputStream fOut = new FileOutputStream(new File(reqDocidsPath+".docvector." + weight +".tar.gz"));
+    FileOutputStream fOut = new FileOutputStream(new File(outFileName));
     BufferedOutputStream bOut = new BufferedOutputStream(fOut);
     GzipCompressorOutputStream gzOut = new GzipCompressorOutputStream(bOut);
     TarArchiveOutputStream tOut = new TarArchiveOutputStream(gzOut);
 
     StringBuilder sb = new StringBuilder();
+    String sOut;
     Map<Term, Integer> docFreqMap = new HashMap<>();
 
     int numNonEmptyDocs = reader.getDocCount(LuceneDocumentGenerator.FIELD_BODY);
@@ -262,15 +265,15 @@ public class IndexUtils {
         }
       }
 
+      sOut = sb.toString();
       TarArchiveEntry tarEntry = new TarArchiveEntry(new File(docid));
-      tarEntry.setSize(sb.toString().length());
+      tarEntry.setSize(sOut.length());
       tOut.putArchiveEntry(tarEntry);
-      tOut.write(sb.toString().getBytes(StandardCharsets.UTF_8));
+      tOut.write(sOut.getBytes(StandardCharsets.UTF_8));
       tOut.closeArchiveEntry();
     }
     tOut.close();
-    System.out.println(String.format("Document Vectors are output to: %s",
-            reqDocidsPath+".docvector." + weight +".tar.gz"));
+    System.out.println(outFileName);
 
     sb.setLength(0);
   }
