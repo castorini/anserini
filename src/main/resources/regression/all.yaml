@@ -133,4 +133,138 @@ collections:
             - 0.4967
             - 0.4647
             - 0.5160
-
+  cw09b:
+    <<: *defaults
+    name: cw09b
+    input: /tuna1/collections/web/ClueWeb09b/
+    index_path: "/tuna1/indexes/lucene-index.cw09b.pos+docvectors" # path to the existing index, used in regression test if `--index` option is absent
+    collection: ClueWeb09Collection
+    threads: 44
+    index_options:
+      - -storePositions
+      - -storeDocvectors
+    topic_reader: Webxml
+    index_stats:
+      documents: 50220189
+      documents (non-empty): 50220159
+      total terms: 31270685466
+    topics:
+      - name: "TREC 2010 Web Track: Topics 51-100"
+        path: topics.web.51-100.txt
+        qrel: qrels.web.51-100.txt
+      - name: "TREC 2011 Web Track: Topics 101-150"
+        path: topics.web.101-150.txt
+        qrel: qrels.web.101-150.txt
+      - name: "TREC 2012 Web Track: Topics 151-200"
+        path: topics.web.151-200.txt
+        qrel: qrels.web.151-200.txt
+    evals:
+      - command: eval/trec_eval.9.0/trec_eval
+        params:
+          - -m map
+        separator: "\t"
+        parse_index: 2
+        metric: map
+        metric_precision: 4
+      - command: eval/trec_eval.9.0/trec_eval
+        params:
+          - -m P.30
+        separator: "\t"
+        parse_index: 2
+        metric: p30
+        metric_precision: 4
+      - command: eval/trec_eval.9.0/trec_eval
+        params:
+          - -m map
+        separator: "\t"
+        parse_index: 2
+        metric: map
+        metric_precision: 4
+      - command: eval/trec_eval.9.0/trec_eval
+        params:
+          - -m P.30
+        separator: "\t"
+        parse_index: 2
+        metric: p30
+        metric_precision: 4
+    models:
+      - name: bm25
+        params:
+          - -bm25
+        results:
+          map:
+            - 0.2254
+            - 0.2003
+            - 0.2571
+          p30:
+            - 0.4493
+            - 0.4213
+            - 0.4740
+      - name: bm25+rm3
+        params:
+          - -bm25
+          - -rm3
+        results:
+          map:
+            - 0.2612
+            - 0.2582
+            - 0.3214
+          p30:
+            - 0.4853
+            - 0.4573
+            - 0.5087
+      - name: bm25+ax
+        params:
+          - -bm25
+          - -axiom
+          - -rerankCutoff 20
+          - -axiom.deterministic
+        results:
+          map:
+            - 0.2675
+            - 0.2710
+            - 0.3346
+          p30:
+            - 0.5167
+            - 0.4780
+            - 0.5167
+      - name: ql
+        params:
+          - -ql
+        results:
+          map:
+            - 0.2188
+            - 0.2013
+            - 0.2530
+          p30:
+            - 0.4453
+            - 0.4153
+            - 0.4647
+      - name: ql+rm3
+        params:
+          - -ql
+          - -rm3
+        results:
+          map:
+            - 0.2502
+            - 0.2477
+            - 0.3015
+          p30:
+            - 0.4700
+            - 0.4407
+            - 0.4993
+      - name: ql+ax
+        params:
+          - -ql
+          - -axiom
+          - -rerankCutoff 20
+          - -axiom.deterministic
+        results:
+          map:
+            - 0.2519
+            - 0.2608
+            - 0.3111
+          p30:
+            - 0.4967
+            - 0.4647
+            - 0.5160
