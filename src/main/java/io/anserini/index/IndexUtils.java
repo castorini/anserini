@@ -40,7 +40,6 @@ import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.ParserProperties;
 import edu.stanford.nlp.simple.Sentence;
 import org.jsoup.Jsoup;
-import sun.rmi.runtime.Log;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -229,7 +228,6 @@ public class IndexUtils {
         LOG.warn("Document vector not stored for doc " + docid);
         continue;
       }
-
 
       TermsEnum te = terms.iterator();
       if (te == null) {
