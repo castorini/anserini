@@ -40,6 +40,7 @@ import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.ParserProperties;
 import edu.stanford.nlp.simple.Sentence;
 import org.jsoup.Jsoup;
+import sun.rmi.runtime.Log;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -76,7 +77,7 @@ public class IndexUtils {
     @Option(name = "-dumpDocVectors", metaVar = "[Path]", usage = "dumps the document vector for all documents from input file")
     String docVectors;
 
-    @Option(name = "-docVectorWeight", metaVar = "[str]", usage = "the weight for dumped document vector(s)")
+    @Option(name = "-docVectorWeight", metaVar = "[str]", usage = "the weight for dumped document vector(s), now only tf.idf is valid")
     String docVectorWeight;
 
     @Option(name = "-dumpAllDocids", usage = "dumps all docids in sorted order. For non-tweet collection the order is " +
@@ -199,6 +200,7 @@ public class IndexUtils {
 
   public void dumpDocumentVectors(String reqDocidsPath, String weight) throws IOException, InvalidDocVectorWeightException {
     String outFileName = weight == null ? reqDocidsPath+".docvector.tar.gz" : reqDocidsPath+".docvector." + weight +".tar.gz";
+    LOG.info("Start Dump Document Vectors");
 
     InputStream in = getReadFileStream(reqDocidsPath);
     BufferedReader bRdr = new BufferedReader(new InputStreamReader(in));
@@ -207,9 +209,9 @@ public class IndexUtils {
     GzipCompressorOutputStream gzOut = new GzipCompressorOutputStream(bOut);
     TarArchiveOutputStream tOut = new TarArchiveOutputStream(gzOut);
 
-    StringBuilder sb = new StringBuilder();
     String sOut;
     Map<Term, Integer> docFreqMap = new HashMap<>();
+    Map<String, String> docVectors;
 
     int numNonEmptyDocs = reader.getDocCount(LuceneDocumentGenerator.FIELD_BODY);
 
@@ -228,7 +230,7 @@ public class IndexUtils {
         continue;
       }
 
-      // iterate every term and write to file
+
       TermsEnum te = terms.iterator();
       if (te == null) {
         LOG.warn("Document vector not stored for doc " + docid);
@@ -238,14 +240,15 @@ public class IndexUtils {
       Term term;
       long freq;
 
-      sb.append(String.format("<DOCNO>%s</DOCNO>\n", docid));
+      // iterate every term and write and store in Map
+      docVectors = new HashMap<>();
       while ((te.next()) != null) {
         term = new Term(LuceneDocumentGenerator.FIELD_BODY, te.term());
         freq = te.totalTermFreq();
 
         if (weight == null) {
           // no weight
-          sb.append(term.bytes().utf8ToString()).append(" ").append(freq).append("\n");
+          docVectors.put(term.bytes().utf8ToString(), String.valueOf(freq));
         } else if (weight.equals("tf.idf")) {
           // weighed by TFIDF
           int docFreq;
@@ -261,18 +264,29 @@ public class IndexUtils {
             docFreqMap.put(term, docFreq);
           }
           float tfIdf =  (float) (freq * Math.log(numNonEmptyDocs * 1.0 / docFreq));
-          sb.append(term.bytes().utf8ToString()).append(" ").append(String.format("%.6f", tfIdf)).append("\n");
+          docVectors.put(term.bytes().utf8ToString(), String.format("%.6f", tfIdf));
         } else {
           // wrong weight argument
           throw new InvalidDocVectorWeightException(weight + " is an invalid exception");
         }
       }
 
-      sOut = sb.toString();
+      // Count size and write
+      int outLength = 0;
+      for (Map.Entry<String, String> entry: docVectors.entrySet()) {
+        outLength += (entry.getKey().getBytes(StandardCharsets.UTF_8).length
+                + entry.getValue().getBytes(StandardCharsets.UTF_8).length
+                + " \n".length());
+      }
+
       TarArchiveEntry tarEntry = new TarArchiveEntry(new File(docid));
-      tarEntry.setSize(sOut.length());
+      tarEntry.setSize(outLength + String.format("<DOCNO>%s</DOCNO>\n", docid).length());
       tOut.putArchiveEntry(tarEntry);
-      tOut.write(sOut.getBytes(StandardCharsets.UTF_8));
+      tOut.write(String.format("<DOCNO>%s</DOCNO>\n", docid).getBytes());
+      for (Map.Entry<String, String> entry: docVectors.entrySet()) {
+        sOut = entry.getKey() + " " + entry.getValue() + "\n";
+        tOut.write(sOut.getBytes(StandardCharsets.UTF_8));
+      }
       tOut.closeArchiveEntry();
 
       if (counter % 100000 == 0) {
@@ -280,9 +294,7 @@ public class IndexUtils {
       }
     }
     tOut.close();
-    System.out.println(outFileName);
-
-    sb.setLength(0);
+    LOG.info("Document Vectors are output to: " + outFileName);
   }
 
   public void getAllDocids(Compression compression) throws IOException {
