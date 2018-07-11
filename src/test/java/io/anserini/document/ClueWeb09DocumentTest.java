@@ -16,14 +16,16 @@
 
 package io.anserini.document;
 
-import java.io.DataInputStream;
-import java.io.IOException;
-import java.util.HashMap;
+import io.anserini.collection.ClueWeb09Collection;
 import org.apache.tools.ant.filters.StringInputStream;
 import org.junit.Before;
 
+import java.io.DataInputStream;
+import java.io.IOException;
+import java.util.HashMap;
 
-public class ClueWeb09DocumentTest extends DocumentTest<ClueWeb09Document> {
+
+public class ClueWeb09DocumentTest extends DocumentTest<ClueWeb09Collection.Document> {
 
   @Before
   public void setUP() throws Exception {
@@ -90,10 +92,10 @@ public class ClueWeb09DocumentTest extends DocumentTest<ClueWeb09Document> {
     expected.add(doc2);
   }
 
-  protected ClueWeb09Document parse(String raw) throws IOException {
+  protected ClueWeb09Collection.Document parse(String raw) throws IOException {
     DataInputStream stream = new DataInputStream(new StringInputStream(raw));
-    ClueWeb09Document doc = new ClueWeb09Document();
-    doc = doc.readNextWarcRecord(stream, ClueWeb09Document.WARC_VERSION);
+    ClueWeb09Collection.Document doc = new ClueWeb09Collection.Document();
+    doc = doc.readNextWarcRecord(stream, ClueWeb09Collection.Document.WARC_VERSION);
     return doc;
   }
 }
