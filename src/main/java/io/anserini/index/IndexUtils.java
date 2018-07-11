@@ -214,7 +214,10 @@ public class IndexUtils {
     int numNonEmptyDocs = reader.getDocCount(LuceneDocumentGenerator.FIELD_BODY);
 
     String docid;
+    int counter = 0;
     while ((docid = bRdr.readLine()) != null) {
+      counter++;
+
       // get term frequency
       Terms terms = reader.getTermVector(convertDocidToLuceneDocid(docid),
               LuceneDocumentGenerator.FIELD_BODY);
@@ -271,6 +274,10 @@ public class IndexUtils {
       tOut.putArchiveEntry(tarEntry);
       tOut.write(sOut.getBytes(StandardCharsets.UTF_8));
       tOut.closeArchiveEntry();
+
+      if (counter % 100000 == 0) {
+        LOG.info(counter + " files have been dumped.");
+      }
     }
     tOut.close();
     System.out.println(outFileName);
