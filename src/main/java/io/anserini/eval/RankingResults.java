@@ -1,7 +1,8 @@
 package io.anserini.eval;
-
+import static java.util.stream.Collectors.joining;
 import java.io.*;
 import java.util.*;
+import java.util.function.BiConsumer;
 import java.util.zip.GZIPInputStream;
 
 /**
@@ -37,6 +38,13 @@ public class RankingResults {
    * 1 Q0 doc1 1 8.965 run_tag_1
    * 1 Q0 doc2 2 7.465 run_tag_2
    *
+   * @param fileName the ranking result file
+   * @param long_docids if we should be treating the docids as Long type
+   * @param docid_desc if we should be sorting the docids in descending order when there are scores tie
+   *
+   * @return {qid: List[ResultDoc]}
+   *
+   * @throws IOException any io exception
    */
   public Map<String, List<ResultDoc>> readResultsFile(String fileName, boolean long_docids,
                                                       boolean docid_desc) throws IOException {
@@ -80,6 +88,12 @@ public class RankingResults {
         Collections.sort(documents);
       }
     }
+
+
+    String s = ranking.entrySet()
+            .stream()
+            .map(e -> e.getKey()+" "+e.getValue()+"\n")
+            .collect(joining("&"));
 
     return ranking;
   }
