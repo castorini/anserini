@@ -18,15 +18,17 @@ package io.anserini.document;
 
 
 import java.util.HashMap;
+
+import io.anserini.collection.WashingtonPostCollection;
 import org.junit.Before;
 import org.junit.Test;
 
 
-public class WashingtonPostDocumentTest extends DocumentTest<WashingtonPostDocument> {
+public class WashingtonPostDocumentTest extends DocumentTest<WashingtonPostCollection.Document> {
   @Before
   public void setUP() throws Exception {
     super.setUp();
-    dType = new WashingtonPostDocument();
+    dType = new WashingtonPostCollection.Document();
 
     rawDocs.add("{\"id\": \"5f992bbc-4b9f-11e2-a6a6-aabac85e8036\", " +
 
@@ -70,7 +72,7 @@ public class WashingtonPostDocumentTest extends DocumentTest<WashingtonPostDocum
   @Test
   public void test() throws Exception {
     for (int i = 0; i < rawDocs.size(); i++) {
-      WashingtonPostDocument parsed = parse(rawDocs.get(i));
+      WashingtonPostCollection.Document parsed = parse(rawDocs.get(i));
       System.out.println(parsed.id());
       System.out.println(expected.get(i).get("id"));
       assertEquals(parsed.id(), expected.get(i).get("id"));
