@@ -73,8 +73,6 @@ public class WashingtonPostDocumentTest extends DocumentTest<WashingtonPostColle
   public void test() throws Exception {
     for (int i = 0; i < rawDocs.size(); i++) {
       WashingtonPostCollection.Document parsed = parse(rawDocs.get(i));
-      System.out.println(parsed.id());
-      System.out.println(expected.get(i).get("id"));
       assertEquals(parsed.id(), expected.get(i).get("id"));
       assertEquals(parsed.content(), expected.get(i).get("content"));
       assertEquals(parsed.published_date(), Long.parseLong(expected.get(i).get("published_date")));
