@@ -233,7 +233,7 @@ public class NewYorkTimesCollection extends DocumentCollection
      * of that column.
      * <p>
      * Sample Column Names:
-     * <p>
+     * </p>
      * <ol>
      * <li>World News Briefs
      * <li>WEDDINGS

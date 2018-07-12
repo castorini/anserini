@@ -36,9 +36,9 @@ public class CarDocument implements SourceDocument {
 
   /**
    * readNextRecord() is not used because CarCollection will load the .cbor file directly from the disk
-   * @param bRdr
+   * @param bRdr file BufferedReader
    * @return null
-   * @throws IOException
+   * @throws IOException any io exception
    */
   @Override
   public CarDocument readNextRecord(BufferedReader bRdr) throws IOException {
