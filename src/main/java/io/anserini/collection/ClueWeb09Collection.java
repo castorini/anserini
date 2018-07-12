@@ -80,15 +80,15 @@ public class ClueWeb09Collection extends DocumentCollection
     implements FileSegmentProvider<ClueWeb09Collection.Document> {
 
   @Override
-  public ClueWeb09Collection.FileSegment createFileSegment(Path p) throws IOException {
-    return new FileSegment(p);
-  }
-
-  @Override
   public List<Path> getFileSegmentPaths() {
     Set<String> allowedFileSuffix = new HashSet<>(Arrays.asList(".warc.gz"));
 
     return discover(path, EMPTY_SET, EMPTY_SET, EMPTY_SET, allowedFileSuffix, EMPTY_SET);
+  }
+
+  @Override
+  public ClueWeb09Collection.FileSegment createFileSegment(Path p) throws IOException {
+    return new FileSegment(p);
   }
 
   /**

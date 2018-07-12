@@ -37,11 +37,17 @@ import java.util.Set;
  */
 public class CarCollection extends DocumentCollection implements FileSegmentProvider<CarDocument> {
 
+  @Override
   public List<Path> getFileSegmentPaths() {
     Set<String> allowedFileSuffix = new HashSet<>(Arrays.asList(".cbor"));
 
     return discover(path, EMPTY_SET, EMPTY_SET, EMPTY_SET,
         allowedFileSuffix, EMPTY_SET);
+  }
+
+  @Override
+  public FileSegment createFileSegment(Path p) throws IOException {
+    return new FileSegment(p);
   }
 
   public class FileSegment extends io.anserini.collection.FileSegment {
@@ -68,10 +74,4 @@ public class CarCollection extends DocumentCollection implements FileSegmentProv
       return doc;
     }
   }
-
-  @Override
-  public FileSegment createFileSegment(Path p) throws IOException {
-    return new FileSegment(p);
-  }
-
 }

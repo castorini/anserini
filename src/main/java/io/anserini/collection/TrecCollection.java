@@ -41,6 +41,20 @@ import java.util.zip.GZIPInputStream;
 public class TrecCollection extends DocumentCollection
     implements FileSegmentProvider<TrecCollection.Document> {
 
+  @Override
+  public List<Path> getFileSegmentPaths() {
+    Set<String> skippedFilePrefix = new HashSet<>(Arrays.asList("readme"));
+    Set<String> skippedDirs = new HashSet<>(Arrays.asList("cr", "dtd", "dtds"));
+
+    return discover(path, skippedFilePrefix, EMPTY_SET,
+        EMPTY_SET, EMPTY_SET, skippedDirs);
+  }
+
+  @Override
+  public FileSegment<TrecCollection.Document> createFileSegment(Path p) throws IOException {
+    return new FileSegment<>(p);
+  }
+
   public static class FileSegment<T extends TrecCollection.Document>
       extends io.anserini.collection.FileSegment<T> {
     public FileSegment(Path path) throws IOException {
@@ -62,18 +76,6 @@ public class TrecCollection extends DocumentCollection
         bufferedReader = new BufferedReader(new FileReader(fileName));
       }
     }
-  }
-
-  public List<Path> getFileSegmentPaths() {
-    Set<String> skippedFilePrefix = new HashSet<>(Arrays.asList("readme"));
-    Set<String> skippedDirs = new HashSet<>(Arrays.asList("cr", "dtd", "dtds"));
-
-    return discover(path, skippedFilePrefix, EMPTY_SET,
-        EMPTY_SET, EMPTY_SET, skippedDirs);
-  }
-
-  public FileSegment<TrecCollection.Document> createFileSegment(Path p) throws IOException {
-    return new FileSegment<>(p);
   }
 
   /**

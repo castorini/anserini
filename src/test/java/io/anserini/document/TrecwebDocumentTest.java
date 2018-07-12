@@ -16,14 +16,10 @@
 
 package io.anserini.document;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.StringReader;
 import java.util.HashMap;
 
 import io.anserini.collection.TrecwebCollection;
 import org.junit.Before;
-import org.junit.Test;
 
 
 public class TrecwebDocumentTest extends DocumentTest<TrecwebCollection.Document> {

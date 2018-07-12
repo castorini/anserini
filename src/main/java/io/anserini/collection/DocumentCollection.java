@@ -32,35 +32,36 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * <p>A static collection of documents, comprised of one or more {@code FileSegment}s.
- * Each {@code FileSegment} contains one or more {@code SourceDocument}s.
+ * <p>A static collection of documents, comprised of one or more {@link FileSegment}s.
+ * Each {@lin FileSegment} contains one or more {@lin SourceDocument}s.
  * A collection is assumed to be a directory. In the case where the collection is
  * a single file (e.g., a Wikipedia dump), place the file into an arbitrary directory.</p>
  *
- * <p>The collection class has two responsibilities:</p>
- *
- * <ol>
- * <li>Discover the files with qualified names in the input directory.</li>
- * <li>Extract documents from each file.</li>
- * </ol>
+ * <p>The collection is responsible for discovering files with qualified names in the input
+ * directory. The {@link FileSegment} is responsible for reading each file to generate
+ * {@link SourceDocument}s for indexing. Typically, the {@code DocumentCollection} implements
+ * the {@link FileSegmentProvider} interface to provide the association between the collection
+ * and the document type.</p>
  *
  * <p>The detailed steps of adding a new collection class are:</p>
  *
  * <ol>
  *
- * <li>Create a subclass for {@link DocumentCollection}.</li>
+ * <li>Create a subclass for {@link DocumentCollection}, which should implement
+ * {@link FileSegmentProvider}.</li>
  *
- * <li>Implement class {@link FileSegment} and function {@link FileSegmentProvider#getFileSegmentPaths},
- * {@link FileSegmentProvider#createFileSegment}. Take {@link TrecCollection} as an example.</li>
+ * <li>Implement class {@link FileSegment}, by convention as an inner class of the
+ * {@code DocumentCollection}. See {@link TrecCollection.FileSegment} as an example.</li>
  *
- * <li>Create a subclass for {@link SourceDocument} and implement function {@link SourceDocument#readNextRecord},
- * which returns a single {@code SourceDocument}. Take {@link io.anserini.collection.TrecCollection.Document} as an example.</li>
+ * <li>Create a subclass for {@link SourceDocument} implementing the corresponding document type.
+ * See {@link TrecCollection.Document} as an example.</li>
  *
- * <li>[Optional] Create a new {@link io.anserini.index.generator}. Function
- * {@link io.anserini.index.generator.LuceneDocumentGenerator#createDocument} takes a {@code SourceDocument}
- * as the input and return a native Lucene {@link org.apache.lucene.document.Document}.</li>
+ * <li>Optionally create a new {@link io.anserini.index.generator.LuceneDocumentGenerator}.
+ * The {@link io.anserini.index.generator.LuceneDocumentGenerator#createDocument}
+ * method takes {@code SourceDocument} as the input and return a Lucene
+ * {@link org.apache.lucene.document.Document} for indexing.</li>
  *
- * <li>Add unit test at {@code src/test/java/io/anserini/document}.</li>
+ * <li>Remember to add unit tests at {@code src/test/java/io/anserini/collection}!</li>
  *
  * </ol>
  */
@@ -90,16 +91,16 @@ public abstract class DocumentCollection {
   /**
    * Used internally by implementations to walk a path and collect file segments.
    *
-   * @param p path to walk
+   * @param p                 path to walk
    * @param skippedFilePrefix set of file prefixes to skip
    * @param allowedFilePrefix set of file prefixes to allow
    * @param skippedFileSuffix set of file suffixes to skip
    * @param allowedFileSuffix set of file suffixes to allow
-   * @param skippedDir set of directories to skip
+   * @param skippedDir        set of directories to skip
    * @return result of walking the specified path according to the specified constraints
    */
   protected List<Path> discover(Path p, Set<String> skippedFilePrefix, Set<String> allowedFilePrefix,
-      Set<String> skippedFileSuffix, Set<String> allowedFileSuffix, Set<String> skippedDir) {
+                                Set<String> skippedFileSuffix, Set<String> allowedFileSuffix, Set<String> skippedDir) {
     final List<Path> paths = new ArrayList<>();
 
     FileVisitor<Path> fv = new SimpleFileVisitor<Path>() {
@@ -171,5 +172,9 @@ public abstract class DocumentCollection {
     }
 
     return paths;
+  }
+
+  protected List<Path> discover() {
+    return discover(path, EMPTY_SET, EMPTY_SET, EMPTY_SET, EMPTY_SET, EMPTY_SET);
   }
 }

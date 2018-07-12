@@ -64,21 +64,23 @@ import java.util.Set;
 public class JsonCollection extends DocumentCollection
     implements FileSegmentProvider<JsonDocument> {
 
+  @Override
+  public List<Path> getFileSegmentPaths() {
+    Set<String> allowedFileSuffix = new HashSet<>(Arrays.asList(".json"));
+
+    return discover(path, EMPTY_SET, EMPTY_SET, EMPTY_SET,
+        allowedFileSuffix, EMPTY_SET);
+  }
+
+  @Override
+  public FileSegment createFileSegment(Path p) throws IOException {
+    return new FileSegment(p);
+  }
+
   public class FileSegment extends io.anserini.collection.FileSegment<JsonDocument> {
     protected FileSegment(Path path) throws IOException {
       dType = new JsonDocument(path.toString());
       bufferedReader = new BufferedReader(new FileReader(path.toString()));
     }
-  }
-
-  public List<Path> getFileSegmentPaths() {
-    Set<String> allowedFileSuffix = new HashSet<>(Arrays.asList(".json"));
-
-    return discover(path, EMPTY_SET, EMPTY_SET, EMPTY_SET,
-      allowedFileSuffix, EMPTY_SET);
-  }
-
-  public FileSegment createFileSegment(Path p) throws IOException {
-    return new FileSegment(p);
   }
 }

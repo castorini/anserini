@@ -76,15 +76,17 @@ import java.util.zip.GZIPInputStream;
 public class ClueWeb12Collection extends DocumentCollection
     implements FileSegmentProvider<ClueWeb12Collection.Document> {
 
-  public FileSegment createFileSegment(Path p) throws IOException {
-    return new FileSegment(p);
-  }
-
+  @Override
   public List<Path> getFileSegmentPaths() {
     Set<String> allowedFileSuffix = new HashSet<>(Arrays.asList(".warc.gz"));
     Set<String> skippedDirs = new HashSet<>(Arrays.asList("OtherData"));
 
     return discover(path, EMPTY_SET, EMPTY_SET, EMPTY_SET, allowedFileSuffix, skippedDirs);
+  }
+
+  @Override
+  public FileSegment createFileSegment(Path p) throws IOException {
+    return new FileSegment(p);
   }
 
   /**

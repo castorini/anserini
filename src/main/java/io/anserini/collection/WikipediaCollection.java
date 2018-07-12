@@ -37,6 +37,19 @@ import java.util.Set;
 public class WikipediaCollection extends DocumentCollection
     implements FileSegmentProvider<WikipediaArticle> {
 
+  @Override
+  public List<Path> getFileSegmentPaths() {
+    Set<String> allowedFileSuffix = new HashSet<>(Arrays.asList(".bz2"));
+
+    return discover(path, EMPTY_SET, EMPTY_SET, EMPTY_SET,
+        allowedFileSuffix, EMPTY_SET);
+  }
+
+  @Override
+  public FileSegment createFileSegment(Path p) throws IOException {
+    return new FileSegment(p);
+  }
+
   public class FileSegment extends io.anserini.collection.FileSegment {
     private final WikipediaBz2DumpInputStream stream;
     private final WikiClean cleaner;
@@ -84,18 +97,4 @@ public class WikipediaCollection extends DocumentCollection
       return null;
     }
   }
-
-  @Override
-  public List<Path> getFileSegmentPaths() {
-    Set<String> allowedFileSuffix = new HashSet<>(Arrays.asList(".bz2"));
-
-    return discover(path, EMPTY_SET, EMPTY_SET, EMPTY_SET,
-        allowedFileSuffix, EMPTY_SET);
-  }
-
-  @Override
-  public FileSegment createFileSegment(Path p) throws IOException {
-    return new FileSegment(p);
-  }
-
 }

@@ -27,10 +27,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.zip.GZIPInputStream;
 
 /**
@@ -40,9 +37,7 @@ public class TweetCollection extends DocumentCollection implements FileSegmentPr
 
   @Override
   public List<Path> getFileSegmentPaths() {
-    Set<String> allowedFileSuffix = new HashSet<>(Arrays.asList(".gz"));
-
-    return discover(path, EMPTY_SET, EMPTY_SET, EMPTY_SET, EMPTY_SET, EMPTY_SET);
+    return super.discover();
   }
 
   @Override
