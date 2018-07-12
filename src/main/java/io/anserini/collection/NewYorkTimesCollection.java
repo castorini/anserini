@@ -61,6 +61,7 @@ import java.util.Set;
  * XML file containing only a single document.
  */
 public class NewYorkTimesCollection extends Collection<NewYorkTimesCollection.Document> {
+  private static final Logger LOG = LogManager.getLogger(NewYorkTimesCollection.class);
 
   @Override
   public List<Path> getFileSegmentPaths() {
@@ -162,7 +163,7 @@ public class NewYorkTimesCollection extends Collection<NewYorkTimesCollection.Do
    *
    * @author Evan Sandhaus
    */
-  public static class RawDocument {
+  public class RawDocument {
     /**
      * This field specifies the location on nytimes.com of the article. When
      * present, this URL is preferred to the URL field on articles published on
@@ -1621,7 +1622,7 @@ public class NewYorkTimesCollection extends Collection<NewYorkTimesCollection.Do
    *
    * @author Evan Sandhaus
    */
-  public static class Parser {
+  public class Parser {
     /** NITF Constant */
     private static final String CORRECTION_TEXT = "correction_text";
 
@@ -1825,8 +1826,6 @@ public class NewYorkTimesCollection extends Collection<NewYorkTimesCollection.Do
 
     /** NITF Constant */
     private static final String GENERAL_DESCRIPTOR_ATTRIBUTE = "general_descriptor";
-
-    private static final Logger LOG = LogManager.getLogger(Document.class);
 
     public Document parseFile(File fileName) throws IOException {
       RawDocument raw = parseNYTCorpusDocumentFromFile(fileName, false);
