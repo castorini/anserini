@@ -17,16 +17,14 @@
 package io.anserini.document;
 
 import java.util.HashMap;
-
 import io.anserini.collection.TweetCollection;
 import org.junit.Before;
 import org.junit.Test;
 
-
 public class TweetDocumentTest extends DocumentTest<TweetCollection.Document> {
 
   @Before
-  public void setUP() throws Exception {
+  public void setUp() throws Exception {
     super.setUp();
     dType = new TweetCollection.Document();
 

@@ -82,7 +82,7 @@ public class TweetCollection extends Collection {
    */
   public static class Document implements SourceDocument {
     // Required fields
-    protected String screenname;
+    protected String screenName;
     protected int followersCount;
     protected int friendsCount;
     protected int statusesCount;
@@ -206,7 +206,7 @@ public class TweetCollection extends Collection {
       followersCount = tweetObj.getUser().getFollowersCount();
       friendsCount = tweetObj.getUser().getFriendsCount();
       statusesCount = tweetObj.getUser().getStatusesCount();
-      screenname = tweetObj.getUser().getScreenName();
+      screenName = tweetObj.getUser().getScreenName();
 
       if (JsonParser.isFieldAvailable(tweetObj.getUser().getName())) {
         name = tweetObj.getUser().getName();
@@ -236,7 +236,7 @@ public class TweetCollection extends Collection {
 
       id = columns[0];
       idLong = Long.parseLong(columns[0]);
-      screenname = columns[1];
+      screenName = columns[1];
       createdAt = columns[2];
 
       StringBuilder b = new StringBuilder();
@@ -267,8 +267,8 @@ public class TweetCollection extends Collection {
       return idLong;
     }
 
-    public String getScreenname() {
-      return screenname;
+    public String getScreenName() {
+      return screenName;
     }
 
     public String getCreatedAt() {
