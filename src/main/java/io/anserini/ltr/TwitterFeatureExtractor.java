@@ -1,6 +1,5 @@
 package io.anserini.ltr;
 
-import com.google.common.collect.Sets;
 import io.anserini.analysis.TweetAnalyzer;
 import io.anserini.index.generator.TweetGenerator;
 import io.anserini.index.generator.TweetGenerator.StatusField;
@@ -12,8 +11,13 @@ import io.anserini.ltr.feature.base.*;
 import io.anserini.ltr.feature.twitter.*;
 import io.anserini.util.AnalyzerUtils;
 import io.anserini.util.Qrels;
+
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
@@ -102,10 +106,12 @@ public class TwitterFeatureExtractor extends BaseFeatureExtractor<Integer> {
 
   @Override
   protected Set<String> getFieldsToLoad() {
-    return Sets.newHashSet(getIdField(), getTermVectorField(),
-            StatusField.FOLLOWERS_COUNT.name,
-            StatusField.FRIENDS_COUNT.name,
-            StatusField.IN_REPLY_TO_STATUS_ID.name);
+    return Stream.of(
+        getIdField(),
+        getTermVectorField(),
+        StatusField.FOLLOWERS_COUNT.name,
+        StatusField.FRIENDS_COUNT.name,
+        StatusField.IN_REPLY_TO_STATUS_ID.name).collect(Collectors.toCollection(HashSet::new));
   }
 
   @Override

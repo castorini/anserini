@@ -1,6 +1,5 @@
 package io.anserini.ltr;
 
-import com.google.common.collect.Sets;
 import io.anserini.index.generator.LuceneDocumentGenerator;
 import io.anserini.ltr.feature.FeatureExtractors;
 import io.anserini.ltr.feature.OrderedSequentialPairsFeatureExtractor;
@@ -19,8 +18,11 @@ import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.TermQuery;
 
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Feature extractor for the gov two collection
@@ -99,7 +101,7 @@ public class WebFeatureExtractor extends BaseFeatureExtractor {
 
   @Override
   protected Set<String> getFieldsToLoad() {
-    return Sets.newHashSet(getIdField(), getTermVectorField());
+    return Stream.of(getIdField(), getTermVectorField()).collect(Collectors.toCollection(HashSet::new));
   }
 
   @Override

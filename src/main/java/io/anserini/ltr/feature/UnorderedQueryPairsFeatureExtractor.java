@@ -4,17 +4,14 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
-import com.google.common.collect.Sets;
 import io.anserini.rerank.RerankerContext;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.Terms;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Counts all unordered pairs of query tokens
@@ -77,13 +74,13 @@ public class UnorderedQueryPairsFeatureExtractor<T> implements FeatureExtractor<
         if (queryPairMap.containsKey(queryTokens.get(i))) {
           queryPairMap.get(queryTokens.get(i)).add(queryTokens.get(j));
         } else {
-          queryPairMap.put(queryTokens.get(i), Sets.newHashSet(queryTokens.get(j)));
+          queryPairMap.put(queryTokens.get(i), Stream.of(queryTokens.get(j)).collect(Collectors.toCollection(HashSet::new)));
         }
 
         if (backQueryPairMap.containsKey(queryTokens.get(j))) {
           backQueryPairMap.get(queryTokens.get(j)).add(queryTokens.get(i));
         } else {
-          backQueryPairMap.put(queryTokens.get(j), Sets.newHashSet(queryTokens.get(i)));
+          backQueryPairMap.put(queryTokens.get(j), Stream.of(queryTokens.get(i)).collect(Collectors.toCollection(HashSet::new)));
         }
       }
       // This will serve as our smoothing param

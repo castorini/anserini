@@ -16,8 +16,6 @@
 
 package io.anserini.rerank.lib;
 
-import com.google.common.base.Preconditions;
-import com.google.common.collect.Sets;
 import io.anserini.rerank.Reranker;
 import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.ScoredDocuments;
@@ -42,6 +40,7 @@ import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.util.BytesRef;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -71,7 +70,7 @@ public class Rm3Reranker implements Reranker {
 
   @Override
   public ScoredDocuments rerank(ScoredDocuments docs, RerankerContext context) {
-    Preconditions.checkState(docs.documents.length == docs.scores.length);
+    assert (docs.documents.length == docs.scores.length);
 
     IndexSearcher searcher = context.getIndexSearcher();
     IndexReader reader = searcher.getIndexReader();
@@ -138,7 +137,7 @@ public class Rm3Reranker implements Reranker {
   private FeatureVector estimateRelevanceModel(ScoredDocuments docs, IndexReader reader, boolean tweetsearch) {
     FeatureVector f = new FeatureVector();
 
-    Set<String> vocab = Sets.newHashSet();
+    Set<String> vocab = new HashSet<>();
     int numdocs = docs.documents.length < fbDocs ? docs.documents.length : fbDocs;
     FeatureVector[] docvectors = new FeatureVector[numdocs];
 
