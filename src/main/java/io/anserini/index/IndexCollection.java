@@ -17,8 +17,10 @@
 package io.anserini.index;
 
 import io.anserini.analysis.TweetAnalyzer;
-import io.anserini.collection.Collection;
-import io.anserini.document.SourceDocument;
+import io.anserini.collection.DocumentCollection;
+import io.anserini.collection.FileSegment;
+import io.anserini.collection.FileSegmentProvider;
+import io.anserini.collection.SourceDocument;
 import io.anserini.index.generator.LuceneDocumentGenerator;
 
 import org.apache.commons.io.FileUtils;
@@ -134,7 +136,7 @@ public final class IndexCollection {
 
     /**
      * Counter for unindexed documents. These are cases where the {@link SourceDocument} returned
-     * by {@link Collection.FileSegment} is {@code null} or the {@link LuceneDocumentGenerator}
+     * by {@link FileSegment} is {@code null} or the {@link LuceneDocumentGenerator}
      * returned {@code null}. These are not necessarily errors.
      */
     public AtomicLong unindexed = new AtomicLong();
@@ -160,9 +162,9 @@ public final class IndexCollection {
   private final class IndexerThread extends Thread {
     final private Path inputFile;
     final private IndexWriter writer;
-    final private Collection collection;
+    final private DocumentCollection collection;
 
-    private IndexerThread(IndexWriter writer, Collection collection, Path inputFile) throws IOException {
+    private IndexerThread(IndexWriter writer, DocumentCollection collection, Path inputFile) throws IOException {
       this.writer = writer;
       this.collection = collection;
       this.inputFile = inputFile;
@@ -178,7 +180,7 @@ public final class IndexCollection {
                 .newInstance(args, counters);
 
         int cnt = 0;
-        Collection.FileSegment iter = collection.createFileSegment(inputFile);
+        FileSegment iter = ((FileSegmentProvider) collection).createFileSegment(inputFile);
         while (iter.hasNext()) {
           SourceDocument d = iter.next();
           if (d == null) {
@@ -225,13 +227,13 @@ public final class IndexCollection {
   private final Set whitelistDocids;
   private final Class collectionClass;
   private final Class generatorClass;
-  private final Collection collection;
+  private final DocumentCollection collection;
   private final Counters counters;
 
   public IndexCollection(IndexCollection.Args args) throws Exception {
     this.args = args;
 
-    LOG.info("Collection path: " + args.input);
+    LOG.info("DocumentCollection path: " + args.input);
     LOG.info("Index path: " + args.index);
     LOG.info("CollectionClass: " + args.collectionClass);
     LOG.info("Generator: " + args.generatorClass);
@@ -258,7 +260,7 @@ public final class IndexCollection {
     this.generatorClass = Class.forName("io.anserini.index.generator." + args.generatorClass);
     this.collectionClass = Class.forName("io.anserini.collection." + args.collectionClass);
 
-    collection = (Collection) this.collectionClass.newInstance();
+    collection = (DocumentCollection) this.collectionClass.newInstance();
     collection.setCollectionPath(collectionPath);
 
     if (args.whitelist != null) {
@@ -292,7 +294,7 @@ public final class IndexCollection {
     final IndexWriter writer = new IndexWriter(dir, config);
 
     final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(numThreads);
-    final List segmentPaths = collection.getFileSegmentPaths();
+    final List segmentPaths = ((FileSegmentProvider) collection).getFileSegmentPaths();
 
     final int segmentCnt = segmentPaths.size();
     LOG.info(segmentCnt + " files found in " + collectionPath.toString());

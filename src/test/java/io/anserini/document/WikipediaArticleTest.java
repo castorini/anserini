@@ -16,24 +16,19 @@
 
 package io.anserini.document;
 
+import io.anserini.collection.FileSegment;
+import io.anserini.collection.SourceDocument;
+import io.anserini.collection.WikipediaCollection;
+import org.apache.commons.compress.compressors.bzip2.BZip2CompressorOutputStream;
+import org.apache.tools.ant.filters.StringInputStream;
+import org.junit.Before;
+import org.junit.Test;
+
 import java.io.BufferedOutputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.HashMap;
-
-import org.apache.commons.compress.compressors.bzip2.BZip2CompressorOutputStream;
-import org.apache.tools.ant.filters.StringInputStream;
-import org.apache.tools.bzip2.CBZip2InputStream;
-import org.apache.tools.bzip2.CBZip2OutputStream;
-import org.junit.Before;
-import org.junit.Test;
-
-import io.anserini.collection.Collection;
-import io.anserini.collection.WikipediaCollection;
 
 
 public class WikipediaArticleTest extends DocumentTest<WikipediaArticle> {
@@ -97,7 +92,7 @@ public class WikipediaArticleTest extends DocumentTest<WikipediaArticle> {
   @Test
   public void test() throws IOException {
     WikipediaCollection wc = new WikipediaCollection();
-    Collection.FileSegment iter = wc.createFileSegment(tmpPath);
+    FileSegment iter = wc.createFileSegment(tmpPath);
     SourceDocument parsed = iter.next();
     assertEquals(parsed.id(), "Wiktionary:Welcome, newcomers");
     assertEquals(parsed.content(), "Wiktionary:Welcome, newcomers.\nthis is the   real content");

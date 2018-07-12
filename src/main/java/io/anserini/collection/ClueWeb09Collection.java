@@ -52,8 +52,6 @@
 
 package io.anserini.collection;
 
-import io.anserini.document.SourceDocument;
-
 import java.io.BufferedReader;
 import java.io.DataInput;
 import java.io.DataInputStream;
@@ -75,16 +73,29 @@ import java.util.Set;
 import java.util.zip.GZIPInputStream;
 
 /**
- * Class representing an instance of the
- * <a href="https://www.lemurproject.org/clueweb09.php/">ClueWeb09 collection</a>.
+ * An instance of the <a href="https://www.lemurproject.org/clueweb09.php/">ClueWeb09 collection</a>.
  * This can be used to read the complete ClueWeb09 collection or the smaller ClueWeb09b subset.
  */
-public class ClueWeb09Collection extends Collection {
+public class ClueWeb09Collection extends DocumentCollection
+    implements FileSegmentProvider<ClueWeb09Collection.Document> {
+
+  @Override
+  public ClueWeb09Collection.FileSegment createFileSegment(Path p) throws IOException {
+    return new FileSegment(p);
+  }
+
+  @Override
+  public List<Path> getFileSegmentPaths() {
+    Set<String> allowedFileSuffix = new HashSet<>(Arrays.asList(".warc.gz"));
+
+    return discover(path, EMPTY_SET, EMPTY_SET, EMPTY_SET, allowedFileSuffix, EMPTY_SET);
+  }
 
   /**
-   * Represents an individual WARC in the ClueWeb09 collection.
+   * An individual WARC in the ClueWeb09 collection.
    */
-  public class FileSegment extends Collection.FileSegment {
+  public static class FileSegment
+      extends io.anserini.collection.FileSegment<ClueWeb09Collection.Document> {
     protected DataInputStream stream;
 
     protected FileSegment(Path path) throws IOException {
@@ -97,7 +108,7 @@ public class ClueWeb09Collection extends Collection {
     public ClueWeb09Collection.Document next() {
       ClueWeb09Collection.Document doc;
       try {
-        doc = ClueWeb09Collection.Document.readNextWarcRecord(stream, ClueWeb09Collection.Document.WARC_VERSION);
+        doc = Document.readNextWarcRecord(stream, Document.WARC_VERSION);
         if (doc == null) {
           atEOF = true;
         }
@@ -114,19 +125,6 @@ public class ClueWeb09Collection extends Collection {
         stream.close();
       }
     }
-  }
-
-  @Override
-  public FileSegment createFileSegment(Path p) throws IOException {
-    return new FileSegment(p);
-  }
-
-  @Override
-  public List<Path> getFileSegmentPaths() {
-    Set<String> allowedFileSuffix = new HashSet<>(Arrays.asList(".warc.gz"));
-    Set<String> skippedDirs = new HashSet<>(Arrays.asList("OtherData"));
-
-    return discover(path, EMPTY_SET, EMPTY_SET, EMPTY_SET, allowedFileSuffix, skippedDirs);
   }
 
   /**

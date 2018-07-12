@@ -16,7 +16,6 @@
 
 package io.anserini.collection;
 
-import io.anserini.document.SourceDocument;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.w3c.dom.NamedNodeMap;
@@ -55,12 +54,13 @@ import java.util.Set;
  * <a href="https://catalog.ldc.upenn.edu/products/LDC2008T19">LDC2008T19</a>.
  * Note that the collection is distributed as a number of {@code tgz} files, which
  * uncompresses to individual XML documents in a directory structure. Since the
- * current design of {@link io.anserini.collection.Collection.FileSegment} cannot
+ * current design of {@link io.anserini.collection.FileSegment} cannot
  * handle {@code tgz} files (only {@code gz} files), the collection must first be
  * uncompressed prior to indexing. In this case, each {@code FileSegment} is an
  * XML file containing only a single document.
  */
-public class NewYorkTimesCollection extends Collection<NewYorkTimesCollection.Document> {
+public class NewYorkTimesCollection extends DocumentCollection
+    implements FileSegmentProvider<NewYorkTimesCollection.Document> {
   private static final Logger LOG = LogManager.getLogger(NewYorkTimesCollection.class);
 
   @Override
@@ -75,7 +75,7 @@ public class NewYorkTimesCollection extends Collection<NewYorkTimesCollection.Do
     return new FileSegment(p);
   }
 
-  public class FileSegment extends Collection<NewYorkTimesCollection.Document>.FileSegment {
+  public class FileSegment extends io.anserini.collection.FileSegment {
     // We're creating a parser for each file, just to parse a single document, which is
     // very inefficient. However, the parser is not thread safe, so this is our only option.
     private final NewYorkTimesCollection.Parser parser = new NewYorkTimesCollection.Parser();

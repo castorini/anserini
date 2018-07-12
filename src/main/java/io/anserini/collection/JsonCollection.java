@@ -61,16 +61,15 @@ import java.util.Set;
  * </pre>
  *
  */
-public class JsonCollection extends Collection<JsonDocument> {
+public class JsonCollection extends DocumentCollection implements FileSegmentProvider<JsonDocument> {
 
-  public class FileSegment extends Collection<JsonDocument>.FileSegment {
+  public class FileSegment extends io.anserini.collection.FileSegment {
     protected FileSegment(Path path) throws IOException {
       dType = new JsonDocument(path.toString());
       bufferedReader = new BufferedReader(new FileReader(path.toString()));
     }
   }
 
-  @Override
   public List<Path> getFileSegmentPaths() {
     Set<String> allowedFileSuffix = new HashSet<>(Arrays.asList(".json"));
 
@@ -78,7 +77,6 @@ public class JsonCollection extends Collection<JsonDocument> {
       allowedFileSuffix, EMPTY_SET);
   }
 
-  @Override
   public FileSegment createFileSegment(Path p) throws IOException {
     return new FileSegment(p);
   }

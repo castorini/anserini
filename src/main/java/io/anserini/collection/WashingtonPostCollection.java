@@ -27,9 +27,23 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class WashingtonPostCollection extends Collection<WashingtonPostDocument> {
+public class WashingtonPostCollection extends DocumentCollection
+    implements FileSegmentProvider<WashingtonPostDocument> {
 
-  public class FileSegment extends Collection<WashingtonPostDocument>.FileSegment {
+  @Override
+  public List<Path> getFileSegmentPaths() {
+    Set<String> allowedFileSuffix = new HashSet<>(Arrays.asList(".txt"));
+
+    return discover(path, EMPTY_SET, EMPTY_SET, EMPTY_SET,
+        allowedFileSuffix, EMPTY_SET);
+  }
+
+  @Override
+  public FileSegment createFileSegment(Path p) throws IOException {
+    return new WashingtonPostCollection.FileSegment(p);
+  }
+
+  public class FileSegment extends io.anserini.collection.FileSegment {
     private String fileName;
 
     public FileSegment(Path path) throws IOException {
@@ -39,18 +53,5 @@ public class WashingtonPostCollection extends Collection<WashingtonPostDocument>
       this.fileName = path.toString();
       this.bufferedReader = new BufferedReader(new FileReader(fileName));
     }
-  }
-
-  @Override
-  public List<Path> getFileSegmentPaths() {
-    Set<String> allowedFileSuffix = new HashSet<>(Arrays.asList(".txt"));
-
-    return discover(path, EMPTY_SET, EMPTY_SET, EMPTY_SET,
-            allowedFileSuffix, EMPTY_SET);
-  }
-
-  @Override
-  public FileSegment createFileSegment(Path p) throws IOException {
-    return new WashingtonPostCollection.FileSegment(p);
   }
 }

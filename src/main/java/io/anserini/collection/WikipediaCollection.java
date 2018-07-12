@@ -17,25 +17,27 @@
 package io.anserini.collection;
 
 import io.anserini.document.WikipediaArticle;
+import org.wikiclean.WikiClean;
+import org.wikiclean.WikiClean.WikiLanguage;
+import org.wikiclean.WikiCleanBuilder;
+import org.wikiclean.WikipediaBz2DumpInputStream;
+
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import org.wikiclean.WikiClean;
-import org.wikiclean.WikiClean.WikiLanguage;
-import org.wikiclean.WikiCleanBuilder;
-import org.wikiclean.WikipediaBz2DumpInputStream;
 
 /**
  * Class representing an instance of a Wikipedia collection. Note that Wikipedia dumps often come
  * as a single bz2 file. Since a collection is assumed to be in a directory, place the bz2 file in
  * a directory prior to indexing.
  */
-public class WikipediaCollection extends Collection<WikipediaArticle> {
+public class WikipediaCollection extends DocumentCollection
+    implements FileSegmentProvider<WikipediaArticle> {
 
-  public class FileSegment extends Collection<WikipediaArticle>.FileSegment {
+  public class FileSegment extends io.anserini.collection.FileSegment {
     private final WikipediaBz2DumpInputStream stream;
     private final WikiClean cleaner;
 

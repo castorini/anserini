@@ -16,7 +16,6 @@
 
 package io.anserini.collection;
 
-import io.anserini.document.SourceDocument;
 import org.apache.commons.compress.compressors.z.ZCompressorInputStream;
 
 import java.io.BufferedInputStream;
@@ -39,11 +38,12 @@ import java.util.zip.GZIPInputStream;
 /**
  * Class representing an instance of a TREC collection.
  */
-public class TrecCollection extends Collection<TrecCollection.Document> {
+public class TrecCollection extends DocumentCollection
+    implements FileSegmentProvider<TrecCollection.Document> {
 
-  public class FileSegment extends Collection<TrecCollection.Document>.FileSegment {
+  public static class FileSegment<T extends TrecCollection.Document> extends io.anserini.collection.FileSegment<T> {
     public FileSegment(Path path) throws IOException {
-      dType = new Document();
+      dType = (T) new Document();
 
       this.path = path;
       this.bufferedReader = null;
@@ -63,7 +63,6 @@ public class TrecCollection extends Collection<TrecCollection.Document> {
     }
   }
 
-  @Override
   public List<Path> getFileSegmentPaths() {
     Set<String> skippedFilePrefix = new HashSet<>(Arrays.asList("readme"));
     Set<String> skippedDirs = new HashSet<>(Arrays.asList("cr", "dtd", "dtds"));
@@ -72,9 +71,8 @@ public class TrecCollection extends Collection<TrecCollection.Document> {
         EMPTY_SET, EMPTY_SET, skippedDirs);
   }
 
-  @Override
-  public FileSegment createFileSegment(Path p) throws IOException {
-    return new FileSegment(p);
+  public FileSegment<TrecCollection.Document> createFileSegment(Path p) throws IOException {
+    return new FileSegment<>(p);
   }
 
   /**

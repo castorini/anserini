@@ -36,9 +36,21 @@ import java.util.zip.GZIPInputStream;
 /**
  * Class representing an instance of a Twitter collection.
  */
-public class TweetCollection extends Collection<TweetDocument> {
+public class TweetCollection extends DocumentCollection implements FileSegmentProvider<TweetDocument> {
 
-  public class FileSegment extends Collection<TweetDocument>.FileSegment {
+  @Override
+  public List<Path> getFileSegmentPaths() {
+    Set<String> allowedFileSuffix = new HashSet<>(Arrays.asList(".gz"));
+
+    return discover(path, EMPTY_SET, EMPTY_SET, EMPTY_SET, EMPTY_SET, EMPTY_SET);
+  }
+
+  @Override
+  public FileSegment createFileSegment(Path p) throws IOException {
+    return new FileSegment(p);
+  }
+
+  public class FileSegment extends io.anserini.collection.FileSegment {
     protected FileSegment(Path path) throws IOException {
       dType = new TweetDocument();
 
@@ -54,17 +66,4 @@ public class TweetCollection extends Collection<TweetDocument> {
       }
     }
   }
-
-  @Override
-  public List<Path> getFileSegmentPaths() {
-    Set<String> allowedFileSuffix = new HashSet<>(Arrays.asList(".gz"));
-
-    return discover(path, EMPTY_SET, EMPTY_SET, EMPTY_SET, EMPTY_SET, EMPTY_SET);
-  }
-
-  @Override
-  public FileSegment createFileSegment(Path p) throws IOException {
-    return new FileSegment(p);
-  }
-
 }

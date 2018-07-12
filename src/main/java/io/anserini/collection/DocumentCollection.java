@@ -16,12 +16,9 @@
 
 package io.anserini.collection;
 
-import io.anserini.document.SourceDocument;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.BufferedReader;
-import java.io.Closeable;
 import java.io.IOException;
 import java.nio.file.FileVisitResult;
 import java.nio.file.FileVisitor;
@@ -31,7 +28,6 @@ import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -52,10 +48,10 @@ import java.util.Set;
  *
  * <ol>
  *
- * <li>Create a subclass for {@link Collection}.</li>
+ * <li>Create a subclass for {@link DocumentCollection}.</li>
  *
- * <li>Implement class {@link FileSegment} and function {@link Collection#getFileSegmentPaths},
- * {@link Collection#createFileSegment}. Take {@link TrecCollection} as an example.</li>
+ * <li>Implement class {@link FileSegment} and function {@link FileSegmentProvider#getFileSegmentPaths},
+ * {@link FileSegmentProvider#createFileSegment}. Take {@link TrecCollection} as an example.</li>
  *
  * <li>Create a subclass for {@link SourceDocument} and implement function {@link SourceDocument#readNextRecord},
  * which returns a single {@code SourceDocument}. Take {@link io.anserini.collection.TrecCollection.Document} as an example.</li>
@@ -67,59 +63,11 @@ import java.util.Set;
  * <li>Add unit test at {@code src/test/java/io/anserini/document}.</li>
  *
  * </ol>
- *
- * @param <T> type of the source document
  */
-public abstract class Collection<T extends SourceDocument> {
-  private static final Logger LOG = LogManager.getLogger(Collection.class);
-
-  /**
-   * A file containing one more source documents to be indexed. A collection is comprised of one or
-   * more {@code FileSegment}s.
-   */
-  public abstract class FileSegment implements Iterator<T>, Closeable {
-    protected Path path;
-    protected BufferedReader bufferedReader;
-    protected boolean atEOF = false;
-    protected final int BUFFER_SIZE = 1 << 16; // 64K
-    protected T dType;
-
-    @Override
-    public boolean hasNext() {
-      return !atEOF;
-    }
-
-    @Override
-    public T next() {
-      T d;
-      try {
-        d = (T)dType.readNextRecord(bufferedReader);
-        if (d == null) {
-          atEOF = true;
-        }
-      } catch (Exception e) {
-        LOG.warn("Exception when parsing document:", e);
-        d = null;
-      }
-      return d;
-    }
-
-    @Override
-    public void remove() {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void close() throws IOException {
-      atEOF = false;
-      if (bufferedReader != null) {
-        bufferedReader.close();
-      }
-    }
-  }
-
+public abstract class DocumentCollection {
+  private static final Logger LOG = LogManager.getLogger(DocumentCollection.class);
+  protected static final Set<String> EMPTY_SET = new HashSet<>();
   protected Path path;
-  static protected final Set<String> EMPTY_SET = new HashSet<>();
 
   /**
    * Sets the path of the collection.
@@ -138,26 +86,6 @@ public abstract class Collection<T extends SourceDocument> {
   public final Path getCollectionPath() {
     return path;
   }
-
-  /**
-   * Returns a list of paths corresponding to file segments in the collection. Note that this
-   * method returns paths, as opposed to {@code FileSegment} objects directly, because each
-   * {@code FileSegment} object is backed by an open file, and thus having too many file handles
-   * open may be problematic for large collections. Use {@link #createFileSegment(Path)} to
-   * instantiate a {@code FileSegment} object from its path.
-   *
-   * @return a list of paths corresponding to file segments in the collection
-   */
-  public abstract List<Path> getFileSegmentPaths();
-
-  /**
-   * Creates a {@code FileSegment} from a path.
-   *
-   * @param p path
-   * @return {@code FileSegment} with the specified path
-   * @throws IOException if file access error encountered
-   */
-  public abstract FileSegment createFileSegment(Path p) throws IOException;
 
   /**
    * Used internally by implementations to walk a path and collect file segments.

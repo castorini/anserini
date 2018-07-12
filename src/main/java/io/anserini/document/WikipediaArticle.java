@@ -16,6 +16,8 @@
 
 package io.anserini.document;
 
+import io.anserini.collection.SourceDocument;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 

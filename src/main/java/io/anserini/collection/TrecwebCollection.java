@@ -19,22 +19,37 @@ package io.anserini.collection;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Class representing an instance of a TREC web collection.
  */
-public class TrecwebCollection extends TrecCollection  {
+public class TrecwebCollection extends DocumentCollection
+    implements FileSegmentProvider<TrecwebCollection.Document> {
 
-  public class FileSegment extends TrecCollection.FileSegment {
-    public FileSegment(Path path) throws IOException {
-      super(path);
-      dType = new Document();
-    }
+  @Override
+  public FileSegment<TrecwebCollection.Document> createFileSegment(Path p) throws IOException {
+    return new FileSegment(p);
   }
 
   @Override
-  public FileSegment createFileSegment(Path p) throws IOException {
-    return new FileSegment(p);
+  public List<Path> getFileSegmentPaths() {
+    Set<String> skippedFilePrefix = new HashSet<>(Arrays.asList("readme"));
+    Set<String> skippedDirs = new HashSet<>(Arrays.asList("cr", "dtd", "dtds"));
+
+    return discover(path, skippedFilePrefix, EMPTY_SET,
+        EMPTY_SET, EMPTY_SET, skippedDirs);
+  }
+
+  public static class FileSegment<T extends TrecwebCollection.Document>
+      extends TrecCollection.FileSegment<T> {
+    public FileSegment(Path path) throws IOException {
+      super(path);
+      dType = (T) new Document();
+    }
   }
 
   /**

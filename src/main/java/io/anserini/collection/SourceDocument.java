@@ -14,11 +14,9 @@
  * limitations under the License.
  */
 
-package io.anserini.document;
+package io.anserini.collection;
 
 import java.io.BufferedReader;
-import java.io.IOException;
-import java.util.Iterator;
 
 /**
  * A raw document from a collection to be indexed. We explicitly distinguish a source document from
