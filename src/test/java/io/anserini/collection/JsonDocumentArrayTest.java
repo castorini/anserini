@@ -14,7 +14,11 @@
  * limitations under the License.
  */
 
-package io.anserini.document;
+package io.anserini.collection;
+
+import io.anserini.document.JsonDocument;
+import org.junit.After;
+import org.junit.Before;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -22,10 +26,6 @@ import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.HashMap;
-
-import org.junit.After;
-import org.junit.Before;
-
 
 public class JsonDocumentArrayTest extends DocumentTest<JsonDocument> {
   private String sampleFile = "sampleJsonArray.json";

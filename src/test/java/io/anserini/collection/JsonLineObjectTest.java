@@ -14,7 +14,11 @@
  * limitations under the License.
  */
 
-package io.anserini.document;
+package io.anserini.collection;
+
+import io.anserini.document.JsonDocument;
+import org.junit.After;
+import org.junit.Before;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -23,12 +27,8 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.HashMap;
 
-import org.junit.After;
-import org.junit.Before;
-
-
-public class JsonDocumentObjectTest extends DocumentTest<JsonDocument> {
-  private String sampleFile = "sampleJsonObject.json";
+public class JsonLineObjectTest extends DocumentTest<JsonDocument> {
+  private String sampleFile = "sampleJsonLineObject.json";
 
   @Before
   public void setUp() throws Exception {
@@ -36,8 +36,12 @@ public class JsonDocumentObjectTest extends DocumentTest<JsonDocument> {
 
     String sampleDoc =
       "{\n " +
-      "  \"id\": \"doc\",\n" +
-      "  \"contents\": \"this is the contents.\"\n" +
+      "  \"id\": \"doc1\",\n" +
+      "  \"contents\": \"this is the contents 1.\"\n" +
+      "}\n" +
+      "{\n " +
+      "  \"id\": \"doc2\",\n" +
+      "  \"contents\": \"this is the contents 2.\"\n" +
       "}";
     Writer writer = new BufferedWriter(new OutputStreamWriter(
       new FileOutputStream(sampleFile), "utf-8"));
@@ -45,10 +49,14 @@ public class JsonDocumentObjectTest extends DocumentTest<JsonDocument> {
 
     dType = new JsonDocument(sampleFile);
 
-    HashMap<String, String> doc = new HashMap<>();
-    doc.put("id", "doc");
-    doc.put("content", "this is the contents.");
-    expected.add(doc);
+    HashMap<String, String> doc1 = new HashMap<>();
+    doc1.put("id", "doc1");
+    doc1.put("content", "this is the contents 1.");
+    expected.add(doc1);
+    HashMap<String, String> doc2 = new HashMap<>();
+    doc2.put("id", "doc2");
+    doc2.put("content", "this is the contents 2.");
+    expected.add(doc2);
   }
 
   @After

@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package io.anserini.document;
+package io.anserini.collection;
 
-
-import java.util.HashMap;
+import io.anserini.document.WashingtonPostDocument;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.HashMap;
 
 public class WashingtonPostDocumentTest extends DocumentTest<WashingtonPostDocument> {
   @Before

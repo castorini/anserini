@@ -21,8 +21,10 @@ import java.nio.file.Path;
 import java.util.List;
 
 /**
- * An interface that provides {@link FileSegment}s, which provides {@link SourceDocument}s for
- * a particular {@link DocumentCollection}.
+ * An interface that provides {@link FileSegment}s, which provides {@link SourceDocument}s.
+ * Typically, each implementation is associated with a particular {@link DocumentCollection}.
+ *
+ * @param <T> type of the source document
  */
 public interface FileSegmentProvider<T extends SourceDocument> {
   /**

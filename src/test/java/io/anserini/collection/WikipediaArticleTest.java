@@ -14,11 +14,9 @@
  * limitations under the License.
  */
 
-package io.anserini.document;
+package io.anserini.collection;
 
-import io.anserini.collection.FileSegment;
-import io.anserini.collection.SourceDocument;
-import io.anserini.collection.WikipediaCollection;
+import io.anserini.document.WikipediaArticle;
 import org.apache.commons.compress.compressors.bzip2.BZip2CompressorOutputStream;
 import org.apache.tools.ant.filters.StringInputStream;
 import org.junit.Before;
@@ -29,7 +27,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-
 
 public class WikipediaArticleTest extends DocumentTest<WikipediaArticle> {
   protected static Path tmpPath;

@@ -33,7 +33,7 @@ import java.util.Set;
 
 /**
  * <p>A static collection of documents, comprised of one or more {@link FileSegment}s.
- * Each {@lin FileSegment} contains one or more {@lin SourceDocument}s.
+ * Each {@link FileSegment} contains one or more {@link SourceDocument}s.
  * A collection is assumed to be a directory. In the case where the collection is
  * a single file (e.g., a Wikipedia dump), place the file into an arbitrary directory.</p>
  *
