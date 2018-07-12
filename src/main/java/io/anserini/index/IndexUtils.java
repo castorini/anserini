@@ -54,11 +54,13 @@ import java.util.zip.ZipOutputStream;
 
 import static io.anserini.search.SearchCollection.BREAK_SCORE_TIES_BY_DOCID;
 import static io.anserini.search.SearchCollection.BREAK_SCORE_TIES_BY_TWEETID;
+import static java.util.stream.Collectors.joining;
 
 public class IndexUtils {
   private static final Logger LOG = LogManager.getLogger(IndexUtils.class);
 
   enum Compression { NONE, GZ, BZ2, ZIP }
+  enum DocVectorWeight {NONE, TF_IDF}
 
   public static final class Args {
     @Option(name = "-index", metaVar = "[Path]", required = true, usage = "index path")
@@ -76,8 +78,9 @@ public class IndexUtils {
     @Option(name = "-dumpDocVectors", metaVar = "[Path]", usage = "dumps the document vector for all documents from input file")
     String docVectors;
 
-    @Option(name = "-docVectorWeight", metaVar = "[str]", usage = "the weight for dumped document vector(s), now only tf.idf is valid")
-    String docVectorWeight;
+    @Option(name = "-docVectorWeight", metaVar = "[str]",
+            usage = "the weight for dumped document vector(s), NONE or TF_IDF")
+    DocVectorWeight docVectorWeight;
 
     @Option(name = "-dumpAllDocids", usage = "dumps all docids in sorted order. For non-tweet collection the order is " +
             "in ascending of String docid; For tweets collection the order is in descending of Long tweet id" +
@@ -109,12 +112,6 @@ public class IndexUtils {
 
   public class NotStoredException extends Exception {
     public NotStoredException(String message) {
-      super(message);
-    }
-  }
-
-  public class InvalidDocVectorWeightException extends Exception {
-    public InvalidDocVectorWeightException(String message) {
       super(message);
     }
   }
@@ -197,9 +194,9 @@ public class IndexUtils {
     }
   }
 
-  public void dumpDocumentVectors(String reqDocidsPath, String weight) throws IOException, InvalidDocVectorWeightException {
+  public void dumpDocumentVectors(String reqDocidsPath, DocVectorWeight weight) throws IOException {
     String outFileName = weight == null ? reqDocidsPath+".docvector.tar.gz" : reqDocidsPath+".docvector." + weight +".tar.gz";
-    LOG.info("Start Dump Document Vectors");
+    LOG.info("Start Dump Document Vectors with weight " + weight);
 
     InputStream in = getReadFileStream(reqDocidsPath);
     BufferedReader bRdr = new BufferedReader(new InputStreamReader(in));
@@ -208,7 +205,6 @@ public class IndexUtils {
     GzipCompressorOutputStream gzOut = new GzipCompressorOutputStream(bOut);
     TarArchiveOutputStream tOut = new TarArchiveOutputStream(gzOut);
 
-    String sOut;
     Map<Term, Integer> docFreqMap = new HashMap<>();
     Map<String, String> docVectors;
 
@@ -244,47 +240,42 @@ public class IndexUtils {
         term = new Term(LuceneDocumentGenerator.FIELD_BODY, te.term());
         freq = te.totalTermFreq();
 
-        if (weight == null) {
-          // no weight
-          docVectors.put(term.bytes().utf8ToString(), String.valueOf(freq));
-        } else if (weight.equals("tf.idf")) {
-          // weighed by TFIDF
-          int docFreq;
-          if (docFreqMap.containsKey(term)) {
-            docFreq = docFreqMap.get(term);
-          } else {
-            try {
-              docFreq = reader.docFreq(term);
-            } catch (Exception e) {
-              LOG.error("Cannot find term " + term.toString() + " in indexing file.");
-              continue;
+        switch (weight) {
+          case NONE:
+            docVectors.put(term.bytes().utf8ToString(), String.valueOf(freq));
+            break;
+
+          case TF_IDF:
+            int docFreq;
+            if (docFreqMap.containsKey(term)) {
+              docFreq = docFreqMap.get(term);
+            } else {
+              try {
+                docFreq = reader.docFreq(term);
+              } catch (Exception e) {
+                LOG.error("Cannot find term " + term.toString() + " in indexing file.");
+                continue;
+              }
+              docFreqMap.put(term, docFreq);
             }
-            docFreqMap.put(term, docFreq);
-          }
-          float tfIdf =  (float) (freq * Math.log(numNonEmptyDocs * 1.0 / docFreq));
-          docVectors.put(term.bytes().utf8ToString(), String.format("%.6f", tfIdf));
-        } else {
-          // wrong weight argument
-          throw new InvalidDocVectorWeightException(weight + " is an invalid exception");
+            float tfIdf = (float) (freq * Math.log(numNonEmptyDocs * 1.0 / docFreq));
+            docVectors.put(term.bytes().utf8ToString(), String.format("%.6f", tfIdf));
+            break;
         }
       }
 
       // Count size and write
-      int outLength = 0;
-      for (Map.Entry<String, String> entry: docVectors.entrySet()) {
-        outLength += (entry.getKey().getBytes(StandardCharsets.UTF_8).length
-                + entry.getValue().getBytes(StandardCharsets.UTF_8).length
-                + " \n".length());
-      }
+      byte[] bytesOut = docVectors.entrySet()
+              .stream()
+              .map(e -> e.getKey()+" "+e.getValue())
+              .collect(joining("\n"))
+              .getBytes(StandardCharsets.UTF_8);
 
       TarArchiveEntry tarEntry = new TarArchiveEntry(new File(docid));
-      tarEntry.setSize(outLength + String.format("<DOCNO>%s</DOCNO>\n", docid).length());
+      tarEntry.setSize(bytesOut.length + String.format("<DOCNO>%s</DOCNO>\n", docid).length());
       tOut.putArchiveEntry(tarEntry);
       tOut.write(String.format("<DOCNO>%s</DOCNO>\n", docid).getBytes());
-      for (Map.Entry<String, String> entry: docVectors.entrySet()) {
-        sOut = entry.getKey() + " " + entry.getValue() + "\n";
-        tOut.write(sOut.getBytes(StandardCharsets.UTF_8));
-      }
+      tOut.write(bytesOut);
       tOut.closeArchiveEntry();
 
       if (counter % 100000 == 0) {
@@ -447,11 +438,10 @@ public class IndexUtils {
     }
 
     if (args.docVectors != null) {
-      if (args.docVectorWeight != null) {
-        util.dumpDocumentVectors(args.docVectors, args.docVectorWeight);
-      } else {
-        util.dumpDocumentVectors(args.docVectors, null);
+      if (args.docVectorWeight == null) {
+        args.docVectorWeight = DocVectorWeight.NONE;
       }
+      util.dumpDocumentVectors(args.docVectors, args.docVectorWeight);
     }
 
     if (args.dumpAllDocids != null) {
