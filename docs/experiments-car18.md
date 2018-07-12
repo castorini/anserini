@@ -1,4 +1,4 @@
-# Anserini Experiments on TREC Complext Answer Retrieval
+# Anserini Experiments on TREC Complex Answer Retrieval
 
 Indexing:
 
