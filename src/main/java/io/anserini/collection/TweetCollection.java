@@ -16,7 +16,17 @@
 
 package io.anserini.collection;
 
-import io.anserini.document.TweetDocument;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
+import io.anserini.document.SourceDocument;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -27,20 +37,19 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.zip.GZIPInputStream;
 
 /**
  * Class representing an instance of a Twitter collection.
  */
-public class TweetCollection extends Collection<TweetDocument> {
+public class TweetCollection extends Collection {
 
-  public class FileSegment extends Collection<TweetDocument>.FileSegment {
+  public class FileSegment extends Collection.FileSegment {
     protected FileSegment(Path path) throws IOException {
-      dType = new TweetDocument();
+      dType = new TweetCollection.Document();
 
       this.path = path;
       this.bufferedReader = null;
@@ -66,5 +75,445 @@ public class TweetCollection extends Collection<TweetDocument> {
   public FileSegment createFileSegment(Path p) throws IOException {
     return new FileSegment(p);
   }
+
+  /**
+   * A Twitter document (status).
+   */
+  public static class Document implements SourceDocument {
+    // Required fields
+    protected String screenname;
+    protected int followersCount;
+    protected int friendsCount;
+    protected int statusesCount;
+    protected String createdAt;
+    protected String id;
+    protected long idLong;
+    protected String text;
+    protected TweetObject jsonObject;
+    protected String jsonString;
+
+    // Optional fields
+    protected Optional<String> name;
+    protected Optional<String> profile_image_url;
+    protected OptionalLong timestamp_ms;
+    protected OptionalLong epoch;
+    protected Optional<String> lang;
+    protected OptionalLong inReplyToStatusId;
+    protected OptionalLong inReplyToUserId;
+    protected OptionalDouble latitude;
+    protected OptionalDouble longitude;
+    protected OptionalLong retweetStatusId;
+    protected OptionalLong retweetUserId;
+    protected OptionalLong retweetCount;
+
+    //private boolean keepRetweets;
+
+    private static final Logger LOG = LogManager.getLogger(Document.class);
+    private static final String DATE_FORMAT = "E MMM dd HH:mm:ss ZZZZZ yyyy"; // "Fri Mar 29 11:03:41 +0000 2013"
+
+    public Document() {
+      super();
+    }
+
+    @Override
+    public Document readNextRecord(BufferedReader reader) throws IOException {
+      String line;
+      try {
+        while ((line = reader.readLine()) != null) {
+          if (fromJson(line)) {
+            return this;
+          } // else: not desired JSON data, read the next line
+        }
+      } catch (IOException e) {
+        LOG.error("Exception from BufferedReader:", e);
+      }
+      return null;
+    }
+
+    public boolean fromJson(String json) {
+      ObjectMapper mapper = new ObjectMapper();
+      TweetObject tweetObj = null;
+      try {
+        tweetObj = mapper
+                .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES) // Ignore unrecognized properties
+                .registerModule(new Jdk8Module()) // Deserialize Java 8 Optional: http://www.baeldung.com/jackson-optional
+                .readValue(json, TweetObject.class);
+      } catch (IOException e) {
+        return false;
+      }
+
+      if (tweetObj.delete() != null && tweetObj.delete().isPresent()) {
+        return false;
+      }
+
+      id = tweetObj.id_str();
+      idLong = Long.parseLong(tweetObj.id_str());
+      text = tweetObj.text();
+      createdAt = tweetObj.created_at();
+
+      try {
+        timestamp_ms = OptionalLong.of((new SimpleDateFormat(DATE_FORMAT, Locale.ENGLISH)).parse(createdAt).getTime());
+        epoch = timestamp_ms.isPresent() ? OptionalLong.of(timestamp_ms.getAsLong() / 1000) : OptionalLong.empty();
+      } catch (ParseException e) {
+        timestamp_ms = OptionalLong.of(-1L);
+        epoch = OptionalLong.of(-1L);
+        return false;
+      }
+
+      if (tweetObj.in_reply_to_status_id() == null || !tweetObj.in_reply_to_status_id().isPresent()) {
+        inReplyToStatusId = OptionalLong.empty();
+      } else {
+        inReplyToStatusId = tweetObj.in_reply_to_status_id();
+      }
+
+      if (tweetObj.in_reply_to_user_id() == null || !tweetObj.in_reply_to_user_id().isPresent()) {
+        inReplyToUserId = OptionalLong.empty();
+      } else {
+        inReplyToUserId = tweetObj.in_reply_to_user_id();
+      }
+
+      if (tweetObj.retweeted_status() == null || !tweetObj.retweeted_status().isPresent()) {
+        retweetStatusId = OptionalLong.empty();
+        retweetUserId = OptionalLong.empty();
+        retweetCount = OptionalLong.empty();
+      } else {
+        retweetStatusId = tweetObj.retweeted_status().get().id();
+        if (tweetObj.retweeted_status().get().user() != null && tweetObj.retweeted_status().get().user().isPresent()) {
+          retweetUserId = tweetObj.retweeted_status().get().user().get().id();
+        } else {
+          retweetUserId = OptionalLong.empty();
+        }
+        retweetCount = tweetObj.retweet_count();
+      }
+
+      if (tweetObj.coordinates() == null || !tweetObj.coordinates().isPresent() ||
+              tweetObj.coordinates().get().coordinates() == null ||
+              !tweetObj.coordinates().get().coordinates().isPresent() ||
+              tweetObj.coordinates().get().coordinates().get().size() < 2) {
+        latitude = OptionalDouble.empty();
+        longitude = OptionalDouble.empty();
+      } else {
+        longitude = tweetObj.coordinates().get().coordinates().get().get(0);
+        latitude = tweetObj.coordinates().get().coordinates().get().get(1);
+      }
+
+      if (tweetObj.lang() == null || !tweetObj.lang().isPresent()) {
+        lang = Optional.empty();
+      } else {
+        lang = tweetObj.lang();
+      }
+
+      followersCount = tweetObj.user().followers_count();
+      friendsCount = tweetObj.user().friends_count();
+      statusesCount = tweetObj.user().statuses_count();
+      screenname = tweetObj.user().screen_name();
+
+      if (tweetObj.user().name() != null && tweetObj.user().name().isPresent()) {
+        name = tweetObj.user().name();
+      } else {
+        name = Optional.empty();
+      }
+
+      if (tweetObj.user().profile_image_url() != null && tweetObj.user().profile_image_url().isPresent()) {
+        profile_image_url = tweetObj.user().profile_image_url();
+      } else {
+        profile_image_url = Optional.empty();
+      }
+
+      jsonString = json;
+      jsonObject = tweetObj;
+
+      return true;
+    }
+
+    public Document fromTSV(String tsv) {
+      String[] columns = tsv.split("\t");
+
+      if (columns.length < 4) {
+        System.err.println("error parsing: " + tsv);
+        return null;
+      }
+
+      id = columns[0];
+      idLong = Long.parseLong(columns[0]);
+      screenname = columns[1];
+      createdAt = columns[2];
+
+      StringBuilder b = new StringBuilder();
+      for (int i = 3; i < columns.length; i++) {
+        b.append(columns[i] + " ");
+      }
+      text = b.toString().trim();
+
+      return this;
+    }
+
+    @Override
+    public String id() {
+      return id;
+    }
+
+    @Override
+    public String content() {
+      return text;
+    }
+
+    @Override
+    public boolean indexable() {
+      return true;
+    }
+
+    public long getIdLong() { return idLong; }
+    public String getScreenname() {
+      return screenname;
+    }
+    public String getCreatedAt() {
+      return createdAt;
+    }
+    public String getText() {
+      return text;
+    }
+    public TweetObject getJsonObject() { return jsonObject; }
+    public String getJsonString() {
+      return jsonString;
+    }
+    public int getFollowersCount() {
+      return followersCount;
+    }
+    public int getFriendsCount() {
+      return friendsCount;
+    }
+    public int getStatusesCount() {
+      return statusesCount;
+    }
+
+    public Optional<String> getName() {
+      return name;
+    }
+    public Optional<String> getProfileImageURL() {
+      return profile_image_url;
+    }
+    public OptionalLong getTimestampMs() { return timestamp_ms; }
+    public OptionalLong getEpoch() { return epoch; }
+    public Optional<String> getLang() {
+      return lang;
+    }
+    public OptionalLong getInReplyToStatusId() {
+      return inReplyToStatusId;
+    }
+    public OptionalLong getInReplyToUserId() {
+      return inReplyToUserId;
+    }
+    public OptionalDouble getlatitude() {
+      return latitude;
+    }
+    public OptionalDouble getLongitude() {
+      return longitude;
+    }
+    public OptionalLong getRetweetedStatusId() {
+      return retweetStatusId;
+    }
+    public OptionalLong getRetweetedUserId() {
+      return retweetUserId;
+    }
+    public OptionalLong getRetweetCount() {
+      return retweetCount;
+    }
+
+    /**
+     * A Twitter document object class used in Jackson JSON parser
+     */
+    public static class TweetObject {
+
+      // Required fields
+      protected String created_at;
+      protected String id_str;
+      protected String text;
+      protected TweetObject.User user;
+
+      // Optional fields
+      protected OptionalLong retweet_count;
+      protected OptionalLong in_reply_to_status_id;
+      protected OptionalLong in_reply_to_user_id;
+      protected Optional<TweetObject.RetweetedStatus> retweeted_status;
+      protected Optional<String> lang;
+      protected Optional<TweetObject.Delete> delete;
+      protected Optional<TweetObject.Coordinates> coordinates;
+
+      // Must make inner classes static for deserialization in Jackson
+      // http://www.cowtowncoder.com/blog/archives/2010/08/entry_411.html
+      public static class Delete {
+        protected Optional<String> timestamp_ms;
+
+        @JsonGetter("timestamp_ms")
+        public Optional<String> timestamp_ms() {
+          return timestamp_ms;
+        }
+      }
+
+      public static class Coordinates {
+        protected Optional<List<OptionalDouble>> coordinates;
+
+        @JsonGetter("coordinates")
+        public Optional<List<OptionalDouble>> coordinates() { return coordinates; }
+      }
+
+      public static class RetweetedStatus {
+        protected OptionalLong id;
+        protected Optional<TweetObject.User> user;
+
+        @JsonGetter("id")
+        public OptionalLong id() {
+          return id;
+        }
+
+        @JsonGetter("user")
+        public Optional<TweetObject.User> user() {
+          return user;
+        }
+      }
+
+      public static class User {
+        // Required fields
+        protected String screen_name;
+        protected int followers_count;
+        protected int friends_count;
+        protected int statuses_count;
+
+        // Opional fields
+        protected Optional<String> name;
+        protected Optional<String> profile_image_url;
+        protected OptionalLong id;
+
+        @JsonCreator
+        public User(
+                @JsonProperty(value = "followers_count", required = true) int followers_count,
+                @JsonProperty(value = "friends_count", required = true) int friends_count,
+                @JsonProperty(value = "statuses_count", required = true) int statuses_count,
+                @JsonProperty(value = "screen_name", required = true) String screen_name) {
+          this.followers_count = followers_count;
+          this.friends_count = friends_count;
+          this.statuses_count = statuses_count;
+          this.screen_name = screen_name;
+        }
+
+        @JsonGetter("screen_name")
+        public String screen_name() {
+          return screen_name;
+        }
+
+        @JsonGetter("followers_count")
+        public int followers_count() {
+          return followers_count;
+        }
+
+        @JsonGetter("friends_count")
+        public int friends_count() {
+          return friends_count;
+        }
+
+        @JsonGetter("statuses_count")
+        public int statuses_count() {
+          return statuses_count;
+        }
+
+        @JsonGetter("name")
+        public Optional<String> name() {
+          return name;
+        }
+
+        @JsonGetter("profile_image_url")
+        public Optional<String> profile_image_url() {
+          return profile_image_url;
+        }
+
+        @JsonGetter("id")
+        public OptionalLong id() {
+          return id;
+        }
+      }
+
+      @JsonCreator
+      public TweetObject(
+              @JsonProperty(value = "created_at", required = true) String created_at,
+              @JsonProperty(value = "id_str", required = true) String id_str,
+              @JsonProperty(value = "text", required = true) String text,
+              @JsonProperty(value = "user", required = true) TweetObject.User user) {
+        this.created_at = created_at;
+        this.id_str = id_str;
+        this.text = text;
+        this.user = user;
+      }
+
+      @JsonGetter("id_str")
+      public String id_str() {
+        return id_str;
+      }
+
+      @JsonGetter("text")
+      public String text() {
+        return text;
+      }
+
+      @JsonGetter("user")
+      public TweetObject.User user() {
+        return user;
+      }
+
+      @JsonGetter("created_at")
+      public String created_at() {
+        return created_at;
+      }
+
+      @JsonGetter("retweet_count")
+      public OptionalLong retweet_count() {
+        return retweet_count;
+      }
+
+      @JsonSetter("retweet_count")
+      public void set_retweet_count_internal(JsonNode retweet_count_internal) {
+        if (retweet_count_internal != null) {
+          if (retweet_count_internal.isTextual()) {
+            // retweet_count might say "100+"
+            // TODO: This is ugly, come back and fix later.
+            retweet_count = OptionalLong.of(Long.parseLong(retweet_count_internal.asText().replace("+", "")));
+          } else if (retweet_count_internal.isNumber()) {
+            retweet_count = OptionalLong.of(retweet_count_internal.asLong());
+          }
+        }
+      }
+
+      @JsonGetter("in_reply_to_status_id")
+      public OptionalLong in_reply_to_status_id() {
+        return in_reply_to_status_id;
+      }
+
+      @JsonGetter("in_reply_to_user_id")
+      public OptionalLong in_reply_to_user_id() {
+        return in_reply_to_user_id;
+      }
+
+      @JsonGetter("retweeted_status")
+      public Optional<TweetObject.RetweetedStatus> retweeted_status() {
+        return retweeted_status;
+      }
+
+      @JsonGetter("lang")
+      public Optional<String> lang() {
+        return lang;
+      }
+
+      @JsonGetter("delete")
+      public Optional<TweetObject.Delete> delete() {
+        return delete;
+      }
+
+      @JsonGetter("coordinates")
+      public Optional<TweetObject.Coordinates> coordinates() { return coordinates; }
+    }
+
+
+  }
+
 
 }
