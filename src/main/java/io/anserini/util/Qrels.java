@@ -41,15 +41,15 @@ public class Qrels {
    * Method will return whether this docId for this qid is judged or not
    * Note that if qid is invalid this will always return false
    * @param qid     qid
-   * @param docId   docId
+   * @param docid   docid
    * @return true if docId is judged against qid false otherwise
    */
-  public boolean isDocJudged(String qid, String docId) {
+  public boolean isDocJudged(String qid, String docid) {
     if (!qrels.containsKey(qid)) {
       return false;
     }
 
-    if (!qrels.get(qid).containsKey(docId)) {
+    if (!qrels.get(qid).containsKey(docid)) {
       return false;
     } else {
       return true;

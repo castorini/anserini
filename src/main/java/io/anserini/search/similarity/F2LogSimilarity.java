@@ -64,9 +64,7 @@ public class F2LogSimilarity extends Similarity {
    *
    * @param docFreq terms's document frequency
    * @param docCount total document count in the index
-   *
    * @return inverted document frequency
-   *
    * */
   protected float idf(long docFreq, long docCount) {
     return (float) Math.log((1.0f + docCount) / docFreq);
@@ -75,9 +73,7 @@ public class F2LogSimilarity extends Similarity {
   /** Implemented as <code>1 / (distance + 1)</code>.
    *
    * @param distance distance
-   *
    * @return sloppy frequency
-   *
    * */
   protected float sloppyFreq(int distance) {
     return 1.0f / (distance + 1);
@@ -89,9 +85,7 @@ public class F2LogSimilarity extends Similarity {
    * @param start start
    * @param end end
    * @param payload payload
-   *
    * @return 1
-   *
    * */
   protected float scorePayload(int doc, int start, int end, BytesRef payload) {
     return 1;
@@ -102,9 +96,7 @@ public class F2LogSimilarity extends Similarity {
    * any field that omits frequency information).
    *
    * @param collectionStats collection-wide statistics
-   *
    * @return average document length of FIELD_BODY
-   *
    * */
   protected float avgFieldLength(CollectionStatistics collectionStats) {
     final long sumTotalTermFreq = collectionStats.sumTotalTermFreq();
@@ -123,9 +115,7 @@ public class F2LogSimilarity extends Similarity {
    *
    * @param boost boost
    * @param fieldLength fieldLength
-   *
    * @return encoded document lengths
-   *
    * */
   protected byte encodeNormValue(float boost, int fieldLength) {
     return SmallFloat.floatToByte315(boost / (float) Math.sqrt(fieldLength));
@@ -135,9 +125,7 @@ public class F2LogSimilarity extends Similarity {
    * where <code>f</code> is {@link SmallFloat#byte315ToFloat(byte)}.
    *
    * @param b encoded document length
-   *
    * @return decoded document length
-   *
    * */
   protected float decodeNormValue(byte b) {
     return NORM_TABLE[b & 0xFF];
@@ -154,7 +142,6 @@ public class F2LogSimilarity extends Similarity {
    *  tokens do not count when computing norms.
    *
    * @param v v
-   *
    *  */
   public void setDiscountOverlaps(boolean v) {
     discountOverlaps = v;

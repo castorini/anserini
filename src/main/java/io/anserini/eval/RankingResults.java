@@ -1,7 +1,8 @@
 package io.anserini.eval;
-
+import static java.util.stream.Collectors.joining;
 import java.io.*;
 import java.util.*;
+import java.util.function.BiConsumer;
 import java.util.zip.GZIPInputStream;
 
 /**
@@ -87,6 +88,12 @@ public class RankingResults {
         Collections.sort(documents);
       }
     }
+
+
+    String s = ranking.entrySet()
+            .stream()
+            .map(e -> e.getKey()+" "+e.getValue()+"\n")
+            .collect(joining("&"));
 
     return ranking;
   }
