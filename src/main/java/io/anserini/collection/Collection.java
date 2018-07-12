@@ -58,7 +58,7 @@ import java.util.Set;
  * {@link Collection#createFileSegment}. Take {@link TrecCollection} as an example.</li>
  *
  * <li>Create a subclass for {@link SourceDocument} and implement function {@link SourceDocument#readNextRecord},
- * which returns a single {@code SourceDocument}. Take {@link io.anserini.document.TrecDocument} as an example.</li>
+ * which returns a single {@code SourceDocument}. Take {@link io.anserini.collection.TrecCollection.Document} as an example.</li>
  *
  * <li>[Optional] Create a new {@link io.anserini.index.generator}. Function
  * {@link io.anserini.index.generator.LuceneDocumentGenerator#createDocument} takes a {@code SourceDocument}
