@@ -23,6 +23,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import io.anserini.document.SourceDocument;
+import io.anserini.util.JsonParser;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -84,9 +85,9 @@ public class WashingtonPostCollection extends Collection {
     private SourceDocument parseRecord(String record) {
       StringBuilder builder = new StringBuilder();
       ObjectMapper mapper = new ObjectMapper();
-      WashingtonPostObject recordObj = null;
+      WashingtonPostObject wapoObj = null;
       try {
-        recordObj = mapper
+        wapoObj = mapper
                 .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES) // Ignore unrecognized properties
                 .registerModule(new Jdk8Module()) // Deserialize Java 8 Optional: http://www.baeldung.com/jackson-optional
                 .readValue(record, WashingtonPostObject.class);
@@ -98,13 +99,12 @@ public class WashingtonPostCollection extends Collection {
         return null;
       }
 
-      id = recordObj.id();
-      published_date = recordObj.published_date();
+      id = wapoObj.id();
+      published_date = wapoObj.published_date();
 
-      if (recordObj.contents != null && recordObj.contents.isPresent()) {
-        for (WashingtonPostObject.Content contentObj : recordObj.contents.get()) {
-          if (contentObj.type() != null && contentObj.type().isPresent() &&
-                  contentObj.content() != null && contentObj.content().isPresent()) {
+      if (JsonParser.isFieldAvailable(wapoObj.contents())) {
+        for (WashingtonPostObject.Content contentObj : wapoObj.contents().get()) {
+          if (JsonParser.isFieldAvailable(contentObj.type()) && JsonParser.isFieldAvailable(contentObj.content())) {
             if (CONTENT_TYPE_TAG.contains(contentObj.type().get())) {
               builder.append(removeTags(contentObj.content().get().trim())).append("\n");
             }
