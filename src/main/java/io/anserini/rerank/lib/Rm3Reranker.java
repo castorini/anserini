@@ -70,7 +70,7 @@ public class Rm3Reranker implements Reranker {
 
   @Override
   public ScoredDocuments rerank(ScoredDocuments docs, RerankerContext context) {
-    assert (docs.documents.length == docs.scores.length);
+    assert(docs.documents.length == docs.scores.length);
 
     IndexSearcher searcher = context.getIndexSearcher();
     IndexReader reader = searcher.getIndexReader();

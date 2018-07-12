@@ -10,8 +10,6 @@ import org.apache.lucene.index.Terms;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * This is a feature extractor that will calculate the
@@ -82,13 +80,13 @@ public class UnorderedSequentialPairsFeatureExtractor<T> implements FeatureExtra
       if (queryPairMap.containsKey(queryTokens.get(i))) {
         queryPairMap.get(queryTokens.get(i)).add(queryTokens.get(i+1));
       } else {
-        queryPairMap.put(queryTokens.get(i), Stream.of(queryTokens.get(i + 1)).collect(Collectors.toCollection(HashSet::new)));
+        queryPairMap.put(queryTokens.get(i), new HashSet<>(Arrays.asList(queryTokens.get(i + 1))));
       }
 
       if (backQueryPairMap.containsKey(queryTokens.get(i+1))) {
         backQueryPairMap.get(queryTokens.get(i+1)).add(queryTokens.get(i));
       } else {
-        backQueryPairMap.put(queryTokens.get(i + 1), Stream.of(queryTokens.get(i)).collect(Collectors.toCollection(HashSet::new)));
+        backQueryPairMap.put(queryTokens.get(i + 1), new HashSet<>(Arrays.asList(queryTokens.get(i))));
       }
       // This will serve as our smoothing param
       singleCountMap.put(queryTokens.get(i), 0);

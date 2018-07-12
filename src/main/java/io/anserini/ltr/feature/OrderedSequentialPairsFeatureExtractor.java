@@ -12,8 +12,6 @@ import org.apache.lucene.index.Terms;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * This feature extractor will return the number of phrases
@@ -91,7 +89,7 @@ public class OrderedSequentialPairsFeatureExtractor<T> implements FeatureExtract
       if (queryPairMap.containsKey(queryTokens.get(i))) {
         queryPairMap.get(queryTokens.get(i)).add(queryTokens.get(i+1));
       } else {
-        queryPairMap.put(queryTokens.get(i), Stream.of(queryTokens.get(i + 1)).collect(Collectors.toCollection(HashSet::new)));
+        queryPairMap.put(queryTokens.get(i), new HashSet<>(Arrays.asList(queryTokens.get(i + 1))));
       }
       singleCountMap.put(queryTokens.get(i), 0);
     }

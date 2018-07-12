@@ -10,8 +10,6 @@ import org.apache.lucene.index.Terms;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * Counts all unordered pairs of query tokens
@@ -74,13 +72,13 @@ public class UnorderedQueryPairsFeatureExtractor<T> implements FeatureExtractor<
         if (queryPairMap.containsKey(queryTokens.get(i))) {
           queryPairMap.get(queryTokens.get(i)).add(queryTokens.get(j));
         } else {
-          queryPairMap.put(queryTokens.get(i), Stream.of(queryTokens.get(j)).collect(Collectors.toCollection(HashSet::new)));
+          queryPairMap.put(queryTokens.get(i), new HashSet<>(Arrays.asList(queryTokens.get(j))));
         }
 
         if (backQueryPairMap.containsKey(queryTokens.get(j))) {
           backQueryPairMap.get(queryTokens.get(j)).add(queryTokens.get(i));
         } else {
-          backQueryPairMap.put(queryTokens.get(j), Stream.of(queryTokens.get(i)).collect(Collectors.toCollection(HashSet::new)));
+          backQueryPairMap.put(queryTokens.get(j), new HashSet<>(Arrays.asList(queryTokens.get(i))));
         }
       }
       // This will serve as our smoothing param

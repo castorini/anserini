@@ -12,11 +12,10 @@ import io.anserini.ltr.feature.twitter.*;
 import io.anserini.util.AnalyzerUtils;
 import io.anserini.util.Qrels;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -106,12 +105,13 @@ public class TwitterFeatureExtractor extends BaseFeatureExtractor<Integer> {
 
   @Override
   protected Set<String> getFieldsToLoad() {
-    return Stream.of(
+    return new HashSet<>(Arrays.asList(
         getIdField(),
         getTermVectorField(),
         StatusField.FOLLOWERS_COUNT.name,
         StatusField.FRIENDS_COUNT.name,
-        StatusField.IN_REPLY_TO_STATUS_ID.name).collect(Collectors.toCollection(HashSet::new));
+        StatusField.IN_REPLY_TO_STATUS_ID.name)
+    );
   }
 
   @Override

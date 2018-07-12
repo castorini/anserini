@@ -114,7 +114,7 @@ public class AxiomReranker<T> implements Reranker<T> {
 
   @Override
   public ScoredDocuments rerank(ScoredDocuments docs, RerankerContext<T> context) {
-    assert (docs.documents.length == docs.scores.length);
+    assert(docs.documents.length == docs.scores.length);
 
     try {
       // First to search against external index if it is not null
