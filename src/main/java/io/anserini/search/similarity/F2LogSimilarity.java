@@ -60,24 +60,52 @@ public class F2LogSimilarity extends Similarity {
     this(0.5f);
   }
 
-  /** Implemented as <code>log(1 + (docCount - docFreq + 0.5)/(docFreq + 0.5))</code>. */
+  /** Implemented as <code>log(1 + (docCount - docFreq + 0.5)/(docFreq + 0.5))</code>.
+   *
+   * @param docFreq terms's document frequency
+   * @param docCount total document count in the index
+   *
+   * @return inverted document frequency
+   *
+   * */
   protected float idf(long docFreq, long docCount) {
     return (float) Math.log((1.0f + docCount) / docFreq);
   }
 
-  /** Implemented as <code>1 / (distance + 1)</code>. */
+  /** Implemented as <code>1 / (distance + 1)</code>.
+   *
+   * @param distance distance
+   *
+   * @return sloppy frequency
+   *
+   * */
   protected float sloppyFreq(int distance) {
     return 1.0f / (distance + 1);
   }
 
-  /** The default implementation returns <code>1</code> */
+  /** The default implementation returns <code>1</code>
+   *
+   * @param doc doc
+   * @param start start
+   * @param end end
+   * @param payload payload
+   *
+   * @return 1
+   *
+   * */
   protected float scorePayload(int doc, int start, int end, BytesRef payload) {
     return 1;
   }
 
   /** The default implementation computes the average as <code>sumTotalTermFreq / docCount</code>,
    * or returns <code>1</code> if the index does not store sumTotalTermFreq:
-   * any field that omits frequency information). */
+   * any field that omits frequency information).
+   *
+   * @param collectionStats collection-wide statistics
+   *
+   * @return average document length of FIELD_BODY
+   *
+   * */
   protected float avgFieldLength(CollectionStatistics collectionStats) {
     final long sumTotalTermFreq = collectionStats.sumTotalTermFreq();
     if (sumTotalTermFreq <= 0) {
@@ -91,13 +119,26 @@ public class F2LogSimilarity extends Similarity {
   /** The default implementation encodes <code>boost / sqrt(length)</code>
    * with {@link SmallFloat#floatToByte315(float)}.  This is compatible with
    * Lucene's default implementation.  If you change this, then you should
-   * change {@link #decodeNormValue(byte)} to match. */
+   * change {@link #decodeNormValue(byte)} to match.
+   *
+   * @param boost boost
+   * @param fieldLength fieldLength
+   *
+   * @return encoded document lengths
+   *
+   * */
   protected byte encodeNormValue(float boost, int fieldLength) {
     return SmallFloat.floatToByte315(boost / (float) Math.sqrt(fieldLength));
   }
 
   /** The default implementation returns <code>1 / f<sup>2</sup></code>
-   * where <code>f</code> is {@link SmallFloat#byte315ToFloat(byte)}. */
+   * where <code>f</code> is {@link SmallFloat#byte315ToFloat(byte)}.
+   *
+   * @param b encoded document length
+   *
+   * @return decoded document length
+   *
+   * */
   protected float decodeNormValue(byte b) {
     return NORM_TABLE[b & 0xFF];
   }
@@ -110,7 +151,11 @@ public class F2LogSimilarity extends Similarity {
 
   /** Sets whether overlap tokens (Tokens with 0 position increment) are
    *  ignored when computing norm.  By default this is true, meaning overlap
-   *  tokens do not count when computing norms. */
+   *  tokens do not count when computing norms.
+   *
+   * @param v v
+   *
+   *  */
   public void setDiscountOverlaps(boolean v) {
     discountOverlaps = v;
   }
@@ -118,6 +163,8 @@ public class F2LogSimilarity extends Similarity {
   /**
    * Returns true if overlap tokens are discounted from the document's length.
    * @see #setDiscountOverlaps
+   *
+   * @return discountOverlaps
    */
   public boolean getDiscountOverlaps() {
     return discountOverlaps;
@@ -329,6 +376,8 @@ public class F2LogSimilarity extends Similarity {
   /**
    * Returns the <code>b</code> parameter
    * @see #F2LogSimilarity(float)
+   *
+   * @return s
    */
   public float getS() {
     return s;
