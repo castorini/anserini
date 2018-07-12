@@ -27,7 +27,9 @@ import java.util.Iterator;
 
 /**
  * A file containing one more source documents to be indexed. A collection is comprised of one or
- * more {@code FileSegment}s.
+ * more {@code FileSegment}s. Note that a {@code FileSegment} can have independent existence
+ * outside a collection, and in principle multiple collections might share the same
+ * {@code FileSegment} implementation.
  */
 public abstract class FileSegment<T extends SourceDocument> implements Iterator<T>, Closeable {
   private static final Logger LOG = LogManager.getLogger(FileSegment.class);

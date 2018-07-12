@@ -61,9 +61,10 @@ import java.util.Set;
  * </pre>
  *
  */
-public class JsonCollection extends DocumentCollection implements FileSegmentProvider<JsonDocument> {
+public class JsonCollection extends DocumentCollection
+    implements FileSegmentProvider<JsonDocument> {
 
-  public class FileSegment extends io.anserini.collection.FileSegment {
+  public class FileSegment extends io.anserini.collection.FileSegment<JsonDocument> {
     protected FileSegment(Path path) throws IOException {
       dType = new JsonDocument(path.toString());
       bufferedReader = new BufferedReader(new FileReader(path.toString()));

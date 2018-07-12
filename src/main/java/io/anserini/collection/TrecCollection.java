@@ -41,7 +41,8 @@ import java.util.zip.GZIPInputStream;
 public class TrecCollection extends DocumentCollection
     implements FileSegmentProvider<TrecCollection.Document> {
 
-  public static class FileSegment<T extends TrecCollection.Document> extends io.anserini.collection.FileSegment<T> {
+  public static class FileSegment<T extends TrecCollection.Document>
+      extends io.anserini.collection.FileSegment<T> {
     public FileSegment(Path path) throws IOException {
       dType = (T) new Document();
 
