@@ -207,11 +207,6 @@
       <version>${LUCENE_VERSION}</version>
     </dependency>
     <dependency>
-      <groupId>org.apache.lucene</groupId>
-      <artifactId>lucene-backward-codecs</artifactId>
-      <version>${LUCENE_VERSION}</version>
-    </dependency>
-    <dependency>
       <groupId>edu.umass.ciir</groupId>
       <artifactId>RankLib</artifactId>
       <version>2.1</version>
@@ -266,11 +261,6 @@
       <version>6.5.6</version>
     </dependency>
     <dependency>
-      <groupId>net.sf.py4j</groupId>
-      <artifactId>py4j</artifactId>
-      <version>0.10.4</version>
-    </dependency>
-    <dependency>
       <groupId>org.wikiclean</groupId>
       <artifactId>wikiclean</artifactId>
       <version>0.5</version>
@@ -279,11 +269,6 @@
       <groupId>org.apache.ant</groupId>
       <artifactId>ant</artifactId>
       <version>1.9.1</version>
-    </dependency>
-    <dependency>
-      <groupId>org.openrdf.sesame</groupId>
-      <artifactId>sesame-rio-ntriples</artifactId>
-      <version>4.1.2</version>
     </dependency>
     <dependency>
       <groupId>com.twitter.twittertext</groupId>
