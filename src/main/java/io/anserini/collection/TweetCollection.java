@@ -25,6 +25,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import io.anserini.document.SourceDocument;
+import io.anserini.util.JsonParser;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -142,7 +143,7 @@ public class TweetCollection extends Collection {
         return false;
       }
 
-      if (tweetObj.delete() != null && tweetObj.delete().isPresent()) {
+      if (JsonParser.isAvailable(tweetObj.delete())) {
         return false;
       }
 
@@ -160,47 +161,46 @@ public class TweetCollection extends Collection {
         return false;
       }
 
-      if (tweetObj.in_reply_to_status_id() == null || !tweetObj.in_reply_to_status_id().isPresent()) {
-        inReplyToStatusId = OptionalLong.empty();
-      } else {
+      if (JsonParser.isAvailable(tweetObj.in_reply_to_status_id())) {
         inReplyToStatusId = tweetObj.in_reply_to_status_id();
+      } else {
+        inReplyToStatusId = OptionalLong.empty();
       }
 
-      if (tweetObj.in_reply_to_user_id() == null || !tweetObj.in_reply_to_user_id().isPresent()) {
-        inReplyToUserId = OptionalLong.empty();
-      } else {
+      if (JsonParser.isAvailable(tweetObj.in_reply_to_user_id())) {
         inReplyToUserId = tweetObj.in_reply_to_user_id();
+      } else {
+        inReplyToUserId = OptionalLong.empty();
       }
 
-      if (tweetObj.retweeted_status() == null || !tweetObj.retweeted_status().isPresent()) {
-        retweetStatusId = OptionalLong.empty();
-        retweetUserId = OptionalLong.empty();
-        retweetCount = OptionalLong.empty();
-      } else {
+      if (JsonParser.isAvailable(tweetObj.retweeted_status())) {
         retweetStatusId = tweetObj.retweeted_status().get().id();
-        if (tweetObj.retweeted_status().get().user() != null && tweetObj.retweeted_status().get().user().isPresent()) {
+        if (JsonParser.isAvailable(tweetObj.retweeted_status().get().user())) {
           retweetUserId = tweetObj.retweeted_status().get().user().get().id();
         } else {
           retweetUserId = OptionalLong.empty();
         }
         retweetCount = tweetObj.retweet_count();
+      } else {
+        retweetStatusId = OptionalLong.empty();
+        retweetUserId = OptionalLong.empty();
+        retweetCount = OptionalLong.empty();
       }
 
-      if (tweetObj.coordinates() == null || !tweetObj.coordinates().isPresent() ||
-              tweetObj.coordinates().get().coordinates() == null ||
-              !tweetObj.coordinates().get().coordinates().isPresent() ||
-              tweetObj.coordinates().get().coordinates().get().size() < 2) {
-        latitude = OptionalDouble.empty();
-        longitude = OptionalDouble.empty();
-      } else {
+      if (JsonParser.isAvailable(tweetObj.coordinates()) &&
+          JsonParser.isAvailable(tweetObj.coordinates().get().coordinates()) &&
+          tweetObj.coordinates().get().coordinates().get().size() >= 2) {
         longitude = tweetObj.coordinates().get().coordinates().get().get(0);
         latitude = tweetObj.coordinates().get().coordinates().get().get(1);
+      } else {
+        latitude = OptionalDouble.empty();
+        longitude = OptionalDouble.empty();
       }
 
-      if (tweetObj.lang() == null || !tweetObj.lang().isPresent()) {
-        lang = Optional.empty();
-      } else {
+      if (JsonParser.isAvailable(tweetObj.lang())) {
         lang = tweetObj.lang();
+      } else {
+        lang = Optional.empty();
       }
 
       followersCount = tweetObj.user().followers_count();
@@ -208,13 +208,13 @@ public class TweetCollection extends Collection {
       statusesCount = tweetObj.user().statuses_count();
       screenname = tweetObj.user().screen_name();
 
-      if (tweetObj.user().name() != null && tweetObj.user().name().isPresent()) {
+      if (JsonParser.isAvailable(tweetObj.user().name())) {
         name = tweetObj.user().name();
       } else {
         name = Optional.empty();
       }
 
-      if (tweetObj.user().profile_image_url() != null && tweetObj.user().profile_image_url().isPresent()) {
+      if (JsonParser.isAvailable(tweetObj.user().profile_image_url())) {
         profile_image_url = tweetObj.user().profile_image_url();
       } else {
         profile_image_url = Optional.empty();
