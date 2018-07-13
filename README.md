@@ -30,7 +30,7 @@ Anserini is designed to support experiments on various standard TREC collections
 + [_ad hoc_ tweet retrieval: TREC Microblog experiments](docs/experiments-microblog.md)
 + [web search: Wt10g collection](docs/experiments-wt10g.md)
 + [web search: Gov2 collection](docs/experiments-gov2.md)
-+ [web search: ClueWeb09b collection](docs/experiments-clueweb09b.md)
++ [web search: ClueWeb09b collection](docs/experiments-cw09b.md)
 + [web search: ClueWeb12-B13 collection](docs/experiments-clueweb12-b13.md)
 + [web search: ClueWeb12 collection](docs/experiments-clueweb12.md)
 

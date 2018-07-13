@@ -6,5 +6,5 @@ Python>=2.6 or Python>=3.5
 ### Run
 
 ```
-python src/main/python/run_regression.py --config=src/main/resources/regression/all.yaml --collection disk12 --index
+python src/main/python/run_regression.py --collection disk12 --index
 ```

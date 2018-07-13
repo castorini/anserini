@@ -163,7 +163,7 @@ if __name__ == '__main__':
 
       # TODO: A better way might be using dataclasses as the model to hold the data
       # https://docs.python.org/3/library/dataclasses.html
-      with open(args.config) as f:
+      with open(os.path.join(args.anserini_root, args.config)) as f:
           dataMap = yaml.safe_load(f)
 
       yaml_data = dataMap['collections'][args.collection]
