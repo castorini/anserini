@@ -196,7 +196,7 @@ public class IndexUtils {
 
   public void dumpDocumentVectors(String reqDocidsPath, DocVectorWeight weight) throws IOException {
     String outFileName = weight == null ? reqDocidsPath+".docvector.tar.gz" : reqDocidsPath+".docvector." + weight +".tar.gz";
-    LOG.info("Start Dump Document Vectors with weight " + weight);
+    LOG.info("Start dump document vectors with weight " + weight);
 
     InputStream in = getReadFileStream(reqDocidsPath);
     BufferedReader bRdr = new BufferedReader(new InputStreamReader(in));
@@ -206,7 +206,6 @@ public class IndexUtils {
     TarArchiveOutputStream tOut = new TarArchiveOutputStream(gzOut);
 
     Map<Term, Integer> docFreqMap = new HashMap<>();
-    Map<String, String> docVectors;
 
     int numNonEmptyDocs = reader.getDocCount(LuceneDocumentGenerator.FIELD_BODY);
 
@@ -235,7 +234,7 @@ public class IndexUtils {
       long freq;
 
       // iterate every term and write and store in Map
-      docVectors = new HashMap<>();
+      Map<String, String> docVectors = new HashMap<>();
       while ((te.next()) != null) {
         term = new Term(LuceneDocumentGenerator.FIELD_BODY, te.term());
         freq = te.totalTermFreq();
@@ -339,6 +338,8 @@ public class IndexUtils {
   }
 
   public void dumpRawDocuments(String reqDocidsPath, boolean prependDocid) throws IOException, NotStoredException {
+    LOG.info("Start dump raw documents" + (prependDocid ? " with Docid prepended" : "."));
+
     InputStream in = getReadFileStream(reqDocidsPath);
     BufferedReader bRdr = new BufferedReader(new InputStreamReader(in));
     FileOutputStream fOut = new FileOutputStream(new File(reqDocidsPath+".output.tar.gz"));
@@ -347,23 +348,31 @@ public class IndexUtils {
     TarArchiveOutputStream tOut = new TarArchiveOutputStream(gzOut);
 
     String docid;
+    int counter = 0;
     while ((docid = bRdr.readLine()) != null) {
+      counter += 1;
       Document d = reader.document(convertDocidToLuceneDocid(docid));
       IndexableField doc = d.getField(LuceneDocumentGenerator.FIELD_RAW);
       if (doc == null) {
         throw new NotStoredException("Raw documents not stored!");
       }
       TarArchiveEntry tarEntry = new TarArchiveEntry(new File(docid));
-      tarEntry.setSize(doc.stringValue().length() + (prependDocid ? String.format("<DOCNO>%s</DOCNO>\n", docid).length() : 0));
+
+      byte[] bytesOut = doc.stringValue().getBytes(StandardCharsets.UTF_8);
+      tarEntry.setSize(bytesOut.length + (prependDocid ? String.format("<DOCNO>%s</DOCNO>\n", docid).length() : 0));
       tOut.putArchiveEntry(tarEntry);
       if (prependDocid) {
         tOut.write(String.format("<DOCNO>%s</DOCNO>\n", docid).getBytes());
       }
-      tOut.write(doc.stringValue().getBytes(StandardCharsets.UTF_8));
+      tOut.write(bytesOut);
       tOut.closeArchiveEntry();
+
+      if (counter % 100000 == 0) {
+        LOG.info(counter + " files have been dumped.");
+      }
     }
     tOut.close();
-    System.out.println(String.format("Raw documents are output to: %s", reqDocidsPath+".output.tar.gz"));
+    LOG.info(String.format("Raw documents are output to: %s", reqDocidsPath+".output.tar.gz"));
   }
 
   public String getTransformedDocument(String docid) throws IOException, NotStoredException {
