@@ -1,6 +1,5 @@
 package io.anserini.ltr.feature;
 
-import com.google.common.collect.Sets;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.fasterxml.jackson.databind.DeserializationContext;
@@ -12,11 +11,7 @@ import org.apache.lucene.document.Document;
 import org.apache.lucene.index.Terms;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * This feature extractor will return the number of phrases
@@ -94,7 +89,7 @@ public class OrderedSequentialPairsFeatureExtractor<T> implements FeatureExtract
       if (queryPairMap.containsKey(queryTokens.get(i))) {
         queryPairMap.get(queryTokens.get(i)).add(queryTokens.get(i+1));
       } else {
-        queryPairMap.put(queryTokens.get(i), Sets.newHashSet(queryTokens.get(i + 1)));
+        queryPairMap.put(queryTokens.get(i), new HashSet<>(Arrays.asList(queryTokens.get(i + 1))));
       }
       singleCountMap.put(queryTokens.get(i), 0);
     }

@@ -70,7 +70,7 @@ public class WashingtonPostCollection extends Collection {
 
     // Required fields
     protected String id;
-    protected long published_date;
+    protected long publishedDate;
     protected String content;
 
     @Override
@@ -99,14 +99,14 @@ public class WashingtonPostCollection extends Collection {
         return null;
       }
 
-      id = wapoObj.id();
-      published_date = wapoObj.published_date();
+      id = wapoObj.getId();
+      publishedDate = wapoObj.getPublishedDate();
 
-      if (JsonParser.isFieldAvailable(wapoObj.contents())) {
-        for (WashingtonPostObject.Content contentObj : wapoObj.contents().get()) {
-          if (JsonParser.isFieldAvailable(contentObj.type()) && JsonParser.isFieldAvailable(contentObj.content())) {
-            if (CONTENT_TYPE_TAG.contains(contentObj.type().get())) {
-              builder.append(removeTags(contentObj.content().get().trim())).append("\n");
+      if (JsonParser.isFieldAvailable(wapoObj.getContents())) {
+        for (WashingtonPostObject.Content contentObj : wapoObj.getContents().get()) {
+          if (JsonParser.isFieldAvailable(contentObj.getType()) && JsonParser.isFieldAvailable(contentObj.getContent())) {
+            if (CONTENT_TYPE_TAG.contains(contentObj.getType().get())) {
+              builder.append(removeTags(contentObj.getContent().get().trim())).append("\n");
             }
           } else {
             LOG.warn("No type or content tag defined in Article " + id + ", ignored this file.");
@@ -137,15 +137,15 @@ public class WashingtonPostCollection extends Collection {
       return true;
     }
 
-    public long published_date() {
-      return published_date;
+    public long getPublishedDate() {
+      return publishedDate;
     }
 
     // Used for JSON parsing by Jackson
     public static class WashingtonPostObject {
       // Required fields
       protected String id;
-      protected long published_date;
+      protected long publishedDate;
       protected String content;
 
       // Optional fields
@@ -156,39 +156,36 @@ public class WashingtonPostCollection extends Collection {
         protected Optional<String> content;
 
         @JsonGetter("type")
-        public Optional<String> type() {
+        public Optional<String> getType() {
           return type;
         }
 
         @JsonGetter("content")
-        public Optional<String> content() {
+        public Optional<String> getContent() {
           return content;
         }
       }
 
       @JsonGetter("id")
-      public String id() {
+      public String getId() {
         return id;
       }
 
       @JsonGetter("published_date")
-      public long published_date() {
-        return published_date;
+      public long getPublishedDate() {
+        return publishedDate;
       }
 
       @JsonGetter("contents")
-      public Optional<List<Content>> contents() { return contents; }
+      public Optional<List<Content>> getContents() { return contents; }
 
       @JsonCreator
       public WashingtonPostObject(
               @JsonProperty(value = "id", required = true) String id,
-              @JsonProperty(value = "published_date", required = true) long published_date) {
+              @JsonProperty(value = "published_date", required = true) long publishedDate) {
         this.id = id;
-        this.published_date = published_date;
+        this.publishedDate = publishedDate;
       }
-
     }
-
   }
-
 }

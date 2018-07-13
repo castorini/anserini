@@ -75,7 +75,7 @@ public class WashingtonPostDocumentTest extends DocumentTest<WashingtonPostColle
       WashingtonPostCollection.Document parsed = parse(rawDocs.get(i));
       assertEquals(parsed.id(), expected.get(i).get("id"));
       assertEquals(parsed.content(), expected.get(i).get("content"));
-      assertEquals(parsed.published_date(), Long.parseLong(expected.get(i).get("published_date")));
+      assertEquals(parsed.getPublishedDate(), Long.parseLong(expected.get(i).get("published_date")));
     }
   }
 }
