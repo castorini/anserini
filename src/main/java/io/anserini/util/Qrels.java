@@ -3,16 +3,15 @@ package io.anserini.util;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-
-import com.google.common.collect.Maps;
 
 public class Qrels {
   final private Map<String, Map<String, Integer>> qrels;
 
   public Qrels(String file) {
-    qrels = Maps.newHashMap();
+    qrels = new HashMap<>();
 
     try (BufferedReader br = new BufferedReader(new FileReader(file))) {
       String line;
@@ -27,7 +26,7 @@ public class Qrels {
         if (qrels.containsKey(qid)) {
           qrels.get(qid).put(docno, grade);
         } else {
-          Map<String, Integer> t = Maps.newHashMap();
+          Map<String, Integer> t = new HashMap<>();
           t.put(docno, grade);
           qrels.put(qid, t);
         }
