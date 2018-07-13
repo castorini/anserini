@@ -20,6 +20,7 @@ import os
 import yaml
 import itertools
 from subprocess import call, Popen, PIPE
+from multiprocessing import Pool
 import argparse
 
 OKBLUE = '\033[94m'
@@ -78,6 +79,7 @@ def verify_index(yaml_data, build_index=True):
       if stat in yaml_data['index_stats']:
           value = int(line.split(':')[1])
           assert(value == yaml_data['index_stats'][stat])
+          print(line)
   print(OKBLUE, '='*10, 'Verifying Index Succeed', '='*10, ENDC)
 
 def construct_ranking_command(yaml_data, build_index=True):
@@ -112,20 +114,23 @@ def eval_n_verify(yaml_data, dry_run):
       dry_run (bool): If True, we just print out the commands without actually running them
   """
   print('='*10, 'Verifying Results', '='*10)
+  all_eval_cmds = []
   try:
       for model in yaml_data['models']:
           for i, topic in enumerate(yaml_data['topics']):
               for eval in yaml_data['evals']:
                   eval_cmd = [
                       os.path.join(yaml_data['root'], eval['command']),
-                      ' '.join(eval['params']),
+                      ' '.join(eval['params']) if eval['params'] else '',
                       os.path.join(yaml_data['root'], yaml_data['qrels_root'], topic['qrel']),
                       'run.{0}.{1}.{2}'.format(yaml_data['name'], model['name'], topic['path'])
                   ]
                   if dry_run:
                       print(' '.join(eval_cmd))
                       continue
-                  out = [line for line in check_output(' '.join(eval_cmd)).decode('utf-8').split('\n') if line.strip()][0]
+                  all_eval_cmds.append(eval_cmd)
+
+                  out = [line for line in check_output(' '.join(eval_cmd)).decode('utf-8').split('\n') if line.strip()][-1]
                   if not out.strip():
                       continue
                   eval_out = out.strip().split(eval['separator'])[eval['parse_index']]
@@ -139,14 +144,21 @@ def eval_n_verify(yaml_data, dry_run):
       print(ENDC)
 
 
+def ranking_atom(cmd):
+    print(' '.join(cmd))
+    if not args.dry_run:
+        call(' '.join(cmd), shell=True)
+
+
 if __name__ == '__main__':
       parser = argparse.ArgumentParser(description='Regression Tests')
-      parser.add_argument('--config', required=True, help='Yaml config file')
+      parser.add_argument('--config', default='src/main/resources/regression/all.yaml', help='Yaml config file')
       parser.add_argument('--anserini_root', default='', help='Anserini path')
       parser.add_argument('--collection', required=True, help='the collection key in yaml')
       parser.add_argument('--index', dest='index', action='store_true', help='rebuild index from scratch')
       parser.add_argument('--dry_run', dest='dry_run', action='store_true',
           help='output the commands but not actually running them. this is useful for development/debug')
+      parser.add_argument('--n', dest='parallelism', type=int, default=4, help='number of parallel threads for ranking')
       args = parser.parse_args()
 
       # TODO: A better way might be using dataclasses as the model to hold the data
@@ -166,9 +178,7 @@ if __name__ == '__main__':
 
       print('='*10, 'Ranking', '='*10)
       run_cmds = construct_ranking_command(yaml_data, args.index)
-      for cmd in run_cmds:
-          print(' '.join(cmd))
-          if not args.dry_run:
-              call(' '.join(cmd), shell=True)
+      p = Pool(args.parallelism)
+      p.map(ranking_atom, run_cmds)
 
       eval_n_verify(yaml_data, args.dry_run)

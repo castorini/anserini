@@ -5,7 +5,7 @@
 Typical indexing command:
 
 ```
-nohup target/appassembler/bin/IndexCollection -collection TrecCollection \
+nohup sh target/appassembler/bin/IndexCollection -collection TrecCollection \
 -generator JsoupGenerator -threads 16 -input /path/to/disk12 -index \
 lucene-index.disk12.pos+docvectors -storePositions -storeDocvectors -optimize >& \
 log.disk12.pos+docvectors &

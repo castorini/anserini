@@ -35,7 +35,7 @@ public class GenerateRegressionDocsTest {
   public void main() throws Exception {
     ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
     URL resource = GenerateRegressionDocsTest.class.getResource("/regression/all.yaml");
-    Model data = mapper.readValue(Paths.get(resource.toURI()).toFile(), Model.class);
+    DataModel data = mapper.readValue(Paths.get(resource.toURI()).toFile(), DataModel.class);
     //System.out.println(ReflectionToStringBuilder.toString(data, ToStringStyle.MULTI_LINE_STYLE));
 
     for (String collection : data.getCollections().keySet()) {
