@@ -3,16 +3,15 @@ package io.anserini.util;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-
-import com.google.common.collect.Maps;
 
 public class Qrels {
   final private Map<String, Map<String, Integer>> qrels;
 
   public Qrels(String file) {
-    qrels = Maps.newHashMap();
+    qrels = new HashMap<>();
 
     try (BufferedReader br = new BufferedReader(new FileReader(file))) {
       String line;
@@ -27,7 +26,7 @@ public class Qrels {
         if (qrels.containsKey(qid)) {
           qrels.get(qid).put(docno, grade);
         } else {
-          Map<String, Integer> t = Maps.newHashMap();
+          Map<String, Integer> t = new HashMap<>();
           t.put(docno, grade);
           qrels.put(qid, t);
         }
@@ -41,15 +40,15 @@ public class Qrels {
    * Method will return whether this docId for this qid is judged or not
    * Note that if qid is invalid this will always return false
    * @param qid     qid
-   * @param docId   docId
-   * @return
+   * @param docid   docid
+   * @return true if docId is judged against qid false otherwise
    */
-  public boolean isDocJudged(String qid, String docId) {
+  public boolean isDocJudged(String qid, String docid) {
     if (!qrels.containsKey(qid)) {
       return false;
     }
 
-    if (!qrels.get(qid).containsKey(docId)) {
+    if (!qrels.get(qid).containsKey(docid)) {
       return false;
     } else {
       return true;

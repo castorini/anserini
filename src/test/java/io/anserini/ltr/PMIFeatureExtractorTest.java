@@ -1,11 +1,11 @@
 package io.anserini.ltr;
 
-import com.google.common.collect.Lists;
 import io.anserini.ltr.feature.FeatureExtractors;
 import io.anserini.ltr.feature.base.PMIFeatureExtractor;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 /**
  * Test implementation of PMI
@@ -36,7 +36,7 @@ public class PMIFeatureExtractorTest extends BaseFeatureExtractorTest {
     //              test token: 0
     // avgPMI = 1/3 * (Math.log(1/(2*5)) + Math.log(2/(5*3))) = -1.43916
     assertFeatureValues(expected, testQuery,
-            Lists.newArrayList("test document",
+            Arrays.asList("test document",
                     "document token",
                     "document no match",
                     "test",
@@ -50,7 +50,7 @@ public class PMIFeatureExtractorTest extends BaseFeatureExtractorTest {
     float[] expected = {0.0f};
     String testQuery  = "missing tokens";
     assertFeatureValues(expected, testQuery,
-            Lists.newArrayList("document",
+            Arrays.asList("document",
             "another document",
             "more documents",
             "just don't have the query pieces",
@@ -62,7 +62,7 @@ public class PMIFeatureExtractorTest extends BaseFeatureExtractorTest {
     float[] expected = {0.0f};
     String testQuery = "test document";
     assertFeatureValues(expected, testQuery,
-            Lists.newArrayList("document", "test entry",
+            Arrays.asList("document", "test entry",
                     "another document"), EXTRACTOR, 0);
   }
 }

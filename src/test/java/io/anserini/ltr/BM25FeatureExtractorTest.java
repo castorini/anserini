@@ -1,11 +1,11 @@
 package io.anserini.ltr;
 
-import com.google.common.collect.Lists;
 import io.anserini.ltr.feature.FeatureExtractor;
 import io.anserini.ltr.feature.base.BM25FeatureExtractor;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 /**
  * Tests that BM25 score is computed according to our forumla
@@ -56,7 +56,7 @@ public class BM25FeatureExtractorTest extends BaseFeatureExtractorTest {
     // 0.98082* 2.25 / (1 + 1.25 *(0.25 + 0.75* 4/3)) = 0.8612
     float[] expected = {0.92255f,0.8612f};
 
-    assertFeatureValues(expected, queryText, Lists.newArrayList("single document test case",
+    assertFeatureValues(expected, queryText, Arrays.asList("single document test case",
             "another document", "yet another document"), getChain(EXTRACTOR, EXTRACTOR2),0);
 
   }
@@ -75,7 +75,7 @@ public class BM25FeatureExtractorTest extends BaseFeatureExtractorTest {
     // 0.13353* 2.25 / (1 + 1.25 *(0.25 + 0.75* 4/3)) = 0.1172
     float[] expected = {1.04814f,0.97844f};
 
-    assertFeatureValues(expected, queryText, Lists.newArrayList("single document test case",
+    assertFeatureValues(expected, queryText, Arrays.asList("single document test case",
             "another document", "yet another document"), getChain(EXTRACTOR, EXTRACTOR2),0);
 
   }
@@ -93,7 +93,7 @@ public class BM25FeatureExtractorTest extends BaseFeatureExtractorTest {
     // 0.13353* 2.25 / (1 + 1.25 *(0.25 + 0.75* 5/3)) = 0.1045
     float[] expected = {1.30555f,1.2435f};
 
-    assertFeatureValues(expected, queryText, Lists.newArrayList("single document test case test",
+    assertFeatureValues(expected, queryText, Arrays.asList("single document test case test",
             "another document", "more document"), getChain(EXTRACTOR, EXTRACTOR2),0);
 
   }

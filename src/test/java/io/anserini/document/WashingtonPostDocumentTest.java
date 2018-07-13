@@ -18,17 +18,19 @@ package io.anserini.document;
 
 
 import java.util.HashMap;
+
+import io.anserini.collection.WashingtonPostCollection;
 import org.junit.Before;
+import org.junit.Test;
 
 
-public class WashPostDocumentTest extends DocumentTest<WashingtonPostDocument> {
+public class WashingtonPostDocumentTest extends DocumentTest<WashingtonPostCollection.Document> {
+  @Before
+  public void setUP() throws Exception {
+    super.setUp();
+    dType = new WashingtonPostCollection.Document();
 
-    @Before
-    public void setUP() throws Exception {
-        super.setUp();
-        dType = new WashingtonPostDocument();
-
-        rawDocs.add("{\"id\": \"5f992bbc-4b9f-11e2-a6a6-aabac85e8036\", " +
+    rawDocs.add("{\"id\": \"5f992bbc-4b9f-11e2-a6a6-aabac85e8036\", " +
 
                 "\"article_url\": " +
                 "\"https://www.washingtonpost.com/national/controlled-exposure-to" +
@@ -55,14 +57,25 @@ public class WashPostDocumentTest extends DocumentTest<WashingtonPostDocument> {
 
                 "\"type\": \"article\", \"source\": \"The Washington Post\"}");
 
-        HashMap<String, String> doc1 = new HashMap<>();
-        doc1.put("id", "5f992bbc-4b9f-11e2-a6a6-aabac85e8036");
-        // Only "sanitized_html" and "tweet" of <type> subtag in <content> tag will be included
-        doc1.put("content", "Using light to help reset your body clock\n" +
-                "When traveling east:\n" +
-                "A few days before you leave, start exposing yourself to bright light in the morning.\n" +
-                "When traveling west:\n" +
-                "When you arrive, expose yourself to light during the evening hours.\n");
-        expected.add(doc1);
+    HashMap<String, String> doc1 = new HashMap<>();
+    doc1.put("id", "5f992bbc-4b9f-11e2-a6a6-aabac85e8036");
+    // Only "sanitized_html" and "tweet" of <type> subtag in <content> tag will be included
+    doc1.put("content", "Using light to help reset your body clock\n" +
+             "When traveling east:\n" +
+             "A few days before you leave, start exposing yourself to bright light in the morning.\n" +
+             "When traveling west:\n" +
+             "When you arrive, expose yourself to light during the evening hours.\n");
+    doc1.put("published_date", "1356999181000");
+    expected.add(doc1);
+  }
+
+  @Test
+  public void test() throws Exception {
+    for (int i = 0; i < rawDocs.size(); i++) {
+      WashingtonPostCollection.Document parsed = parse(rawDocs.get(i));
+      assertEquals(parsed.id(), expected.get(i).get("id"));
+      assertEquals(parsed.content(), expected.get(i).get("content"));
+      assertEquals(parsed.getPublishedDate(), Long.parseLong(expected.get(i).get("published_date")));
     }
+  }
 }
