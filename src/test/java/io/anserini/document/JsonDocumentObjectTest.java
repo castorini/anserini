@@ -26,7 +26,6 @@ import java.util.HashMap;
 import org.junit.After;
 import org.junit.Before;
 
-
 public class JsonDocumentObjectTest extends DocumentTest<JsonDocument> {
   private String sampleFile = "sampleJsonObject.json";
 
