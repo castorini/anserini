@@ -23,11 +23,12 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.HashMap;
 
+import io.anserini.collection.JsonCollection;
 import org.junit.After;
 import org.junit.Before;
 
 
-public class JsonLineObjectTest extends DocumentTest<JsonDocument> {
+public class JsonLineObjectTest extends DocumentTest<JsonCollection.Document> {
   private String sampleFile = "sampleJsonLineObject.json";
 
   @Before
@@ -47,7 +48,7 @@ public class JsonLineObjectTest extends DocumentTest<JsonDocument> {
       new FileOutputStream(sampleFile), "utf-8"));
     writer.write(sampleDoc);
 
-    dType = new JsonDocument(sampleFile);
+    dType = new JsonCollection.Document(sampleFile);
 
     HashMap<String, String> doc1 = new HashMap<>();
     doc1.put("id", "doc1");
