@@ -16,15 +16,14 @@
 
 package io.anserini.rerank;
 
-import com.google.common.collect.Lists;
-
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Representation of a cascade of rerankers, applied in sequence.
  */
 public class RerankerCascade {
-  final List<Reranker> rerankers = Lists.newArrayList();
+  final List<Reranker> rerankers = new ArrayList<>();
 
   /**
    * Adds a reranker to this cascade.
