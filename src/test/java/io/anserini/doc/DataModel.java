@@ -202,8 +202,7 @@ public class DataModel {
         builder.append(String.format("%1$-40s|", topic.getName().toUpperCase()));
         for (Object modelObj : models) {
           Model model = oMapper.convertValue(modelObj, Model.class);
-          Map<String, List<Float>> results = oMapper.convertValue(model.getResults(), Map.class);
-          builder.append(String.format(" %-10.4f|", results.get(eval.getMetric()).get(i)));
+          builder.append(String.format(" %-10.4f|", model.getResults().get(eval.getMetric()).get(i)));
         }
         builder.append("\n");
       }

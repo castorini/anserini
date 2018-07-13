@@ -37,7 +37,7 @@ collections:
     <<: *defaults
     name: disk12
     input: /tuna1/collections/newswire/disk12/
-    index_path: "lucene-index.disk12.pos+docvectors+rawdocs" # path to the existing index, used in regression test if `--index` option is absent
+    index_path: "/tuna1/indexes/lucene-index.disk12.pos+docvectors+rawdocs" # path to the existing index, used in regression test if `--index` option is absent
     index_stats:
       documents: 741676
       documents (non-empty): 741675
