@@ -16,9 +16,6 @@
 
 package io.anserini.rerank.lib;
 
-import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Preconditions;
-
 import io.anserini.index.generator.LuceneDocumentGenerator;
 import io.anserini.rerank.Reranker;
 import io.anserini.rerank.RerankerContext;
@@ -117,7 +114,7 @@ public class AxiomReranker<T> implements Reranker<T> {
 
   @Override
   public ScoredDocuments rerank(ScoredDocuments docs, RerankerContext<T> context) {
-    Preconditions.checkState(docs.documents.length == docs.scores.length);
+    assert(docs.documents.length == docs.scores.length);
 
     try {
       // First to search against external index if it is not null
@@ -276,7 +273,6 @@ public class AxiomReranker<T> implements Reranker<T> {
    * @param context An instance of RerankerContext
    * @return a Set of {@code R*N} document Ids
    */
-  @VisibleForTesting
   private Set<Integer> selectDocs(ScoredDocuments docs, RerankerContext<T> context)
     throws IOException {
     Set<Integer> docidSet = new HashSet<>(Arrays.asList(ArrayUtils.toObject(
@@ -330,7 +326,6 @@ public class AxiomReranker<T> implements Reranker<T> {
    * @param filterPattern A Regex pattern that terms are collected only they matches the pattern, could be null
    * @return A Map of <term -> Set<docId>> kind of a small inverted list where the Set of docIds is where the term occurs
    */
-  @VisibleForTesting
   private Map<String, Set<Integer>> extractTerms(Set<Integer> docIds, RerankerContext<T> context,
                                                  Pattern filterPattern) throws Exception, IOException {
     IndexReader reader;
@@ -393,7 +388,6 @@ public class AxiomReranker<T> implements Reranker<T> {
    * @param context An instance of RerankerContext
    * @return Map<String, Double> Top terms and their weight scores in a HashMap
    */
-  @VisibleForTesting
   private Map<String, Double> computeTermScore(
     Map<String, Set<Integer>> termInvertedList, RerankerContext<T> context) throws IOException {
     class ScoreComparator implements Comparator<Pair<String, Double>> {
@@ -483,7 +477,6 @@ public class AxiomReranker<T> implements Reranker<T> {
     return resultTermScores;
   }
 
-  @VisibleForTesting
   private double computeMutualInformation(Set<Integer> docidsX, Set<Integer> docidsY, int totalDocCount) {
     int x1 = docidsX.size(), y1 = docidsY.size(); //document that x occurres
     int x0 = totalDocCount - x1, y0 = totalDocCount - y1; //document num that x doesn't occurres
