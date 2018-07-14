@@ -17,15 +17,19 @@ limitations under the License.
 
 from __future__ import print_function
 import os
-import yaml
 import itertools
 from subprocess import call, Popen, PIPE
 from multiprocessing import Pool
 import argparse
 
+import yaml
+
 OKBLUE = '\033[94m'
 FAIL = '\033[91m'
 ENDC = '\033[0m'
+
+def isclose(a, b, rel_tol=1e-09, abs_tol=0.0):
+    return abs(a-b) <= max(rel_tol * max(abs(a), abs(b)), abs_tol)
 
 def check_output(command):
     """
@@ -39,109 +43,107 @@ def check_output(command):
         raise RuntimeError("Command {0} running unsuccessfully".format(command))
 
 def construct_indexing_command(yaml_data):
-  """Construct the Anserini indexing command for regression test
-  Args:
+    """Construct the Anserini indexing command for regression test
+    Args:
       yaml_data (dict): The yaml config read from config file.
 
-  Returns:
+    Returns:
       (:obj:`list` of :obj:`str`): The command as a list that can be run by calling subprocess.call(command)
-  """
-  print('='*10, 'Indexing', '='*10)
-  index_command = [
-      os.path.join(yaml_data['root'], yaml_data['index_command']),
-      '-collection', yaml_data['collection'],
-      '-generator', yaml_data['generator'],
-      '-threads', str(yaml_data['threads']),
-      '-input', yaml_data['input'],
-      '-index', 'lucene-index.{0}.pos+docvectors{1}'.format(yaml_data['name'], '+rawdocs' if 'storeRawdocs' in yaml_data['index_options'] else '')
-  ]
-  index_command.extend(yaml_data['index_options'])
-  return index_command
+    """
+    print('='*10, 'Indexing', '='*10)
+    index_command = [
+        os.path.join(yaml_data['root'], yaml_data['index_command']),
+        '-collection', yaml_data['collection'],
+        '-generator', yaml_data['generator'],
+        '-threads', str(yaml_data['threads']),
+        '-input', yaml_data['input'],
+        '-index', 'lucene-index.{0}.pos+docvectors{1}'.format(yaml_data['name'], '+rawdocs' if 'storeRawdocs' in yaml_data['index_options'] else '')
+    ]
+    index_command.extend(yaml_data['index_options'])
+    return index_command
 
 def verify_index(yaml_data, build_index=True):
-  """Verify the index statistics (e.g. total documents, total terms) so that we know we are searching
-  against the correct index
+    """Verify the index statistics (e.g. total documents, total terms) so that we know we are searching
+    against the correct index
 
-  Args:
+    Args:
       yaml_data (dict): The yaml config read from config file.
-  """
-  print('='*10, 'Verifying Index', '='*10)
-  index_utils_command = [
-      os.path.join(yaml_data['root'], yaml_data['index_utils_command']),
-      '-index', os.path.join(yaml_data['index_root'] if yaml_data['index_root'] else '',
+    """
+    print('='*10, 'Verifying Index', '='*10)
+    index_utils_command = [
+        os.path.join(yaml_data['root'], yaml_data['index_utils_command']),
+        '-index', os.path.join(yaml_data['index_root'] if yaml_data['index_root'] else '',
         'lucene-index.{0}.pos+docvectors{1}'.format(yaml_data['name'], '+rawdocs' if 'storeRawdocs' in yaml_data['index_options'] else ''))
-      if build_index else yaml_data['index_path'],
-      '-stats'
-  ]
-  out = check_output(' '.join(index_utils_command)).decode('utf-8').split('\n')
-  for line in out:
-      stat = line.split(':')[0]
-      if stat in yaml_data['index_stats']:
-          value = int(line.split(':')[1])
-          assert(value == yaml_data['index_stats'][stat])
-          print(line)
-  print(OKBLUE, '='*10, 'Verifying Index Succeed', '='*10, ENDC)
+        if build_index else yaml_data['index_path'],
+        '-stats'
+    ]
+    out = check_output(' '.join(index_utils_command)).decode('utf-8').split('\n')
+    for line in out:
+        stat = line.split(':')[0]
+        if stat in yaml_data['index_stats']:
+            value = int(line.split(':')[1])
+            assert(value == yaml_data['index_stats'][stat])
+            print(line)
+    print(OKBLUE, '='*10, 'Verifying Index Succeed', '='*10, ENDC)
 
 def construct_ranking_command(yaml_data, build_index=True):
-  """Construct the Anserini ranking commands for regression test
-  Args:
+    """Construct the Anserini ranking commands for regression test
+    Args:
       yaml_data (dict): The yaml config read from config file.
       build_index (bool): If the index is not built by this script then read the index path for config
 
-  Returns:
+    Returns:
       (:obj:`list` of :obj:`list` of :obj:`str`):
       The ranking commands as several commands that can be run by calling subprocess.call(command)
-  """
-  ranking_commands = [
-      [
-          os.path.join(yaml_data['root'], yaml_data['search_command']),
-          '-topicreader', yaml_data['topic_reader'],
-          '-index', os.path.join(yaml_data['index_root'] if yaml_data['index_root'] else '',
-          'lucene-index.{0}.pos+docvectors{1}'.format(yaml_data['name'], '+rawdocs' if 'storeRawdocs' in yaml_data['index_options'] else ''))
+    """
+    ranking_commands = [
+        [
+            os.path.join(yaml_data['root'], yaml_data['search_command']),
+            '-topicreader', yaml_data['topic_reader'],
+            '-index', os.path.join(yaml_data['index_root'] if yaml_data['index_root'] else '',
+            'lucene-index.{0}.pos+docvectors{1}'.format(yaml_data['name'], '+rawdocs' if 'storeRawdocs' in yaml_data['index_options'] else ''))
             if build_index else yaml_data['index_path'],
-          ' '.join(model['params']),
-          '-topics', os.path.join(yaml_data['root'], yaml_data['topic_root'], topic['path']),
-          '-output', 'run.{0}.{1}.{2}'.format(yaml_data['name'], model['name'], topic['path'])
-      ]
-      for (model, topic) in list(itertools.product(yaml_data['models'], yaml_data['topics']))
-  ]
-  return ranking_commands
+            ' '.join(model['params']),
+            '-topics', os.path.join(yaml_data['root'], yaml_data['topic_root'], topic['path']),
+            '-output', 'run.{0}.{1}.{2}'.format(yaml_data['name'], model['name'], topic['path'])
+        ]
+        for (model, topic) in list(itertools.product(yaml_data['models'], yaml_data['topics']))
+    ]
+    return ranking_commands
 
 def eval_n_verify(yaml_data, dry_run):
-  """Evaluate the ranking files and verify the results with what are stored in yaml file
-  Args:
+    """Evaluate the ranking files and verify the results with what are stored in yaml file
+    Args:
       yaml_data (dict): The yaml config read from config file.
       dry_run (bool): If True, we just print out the commands without actually running them
-  """
-  print('='*10, 'Verifying Results', '='*10)
-  all_eval_cmds = []
-  try:
-      for model in yaml_data['models']:
-          for i, topic in enumerate(yaml_data['topics']):
-              for eval in yaml_data['evals']:
-                  eval_cmd = [
+    """
+    print('='*10, 'Verifying Results', '='*10)
+    try:
+        for model in yaml_data['models']:
+            for i, topic in enumerate(yaml_data['topics']):
+                for eval in yaml_data['evals']:
+                    eval_cmd = [
                       os.path.join(yaml_data['root'], eval['command']),
                       ' '.join(eval['params']) if eval['params'] else '',
                       os.path.join(yaml_data['root'], yaml_data['qrels_root'], topic['qrel']),
                       'run.{0}.{1}.{2}'.format(yaml_data['name'], model['name'], topic['path'])
-                  ]
-                  if dry_run:
-                      print(' '.join(eval_cmd))
-                      continue
-                  all_eval_cmds.append(eval_cmd)
+                    ]
+                    if dry_run:
+                        print(' '.join(eval_cmd))
+                        continue
 
-                  out = [line for line in check_output(' '.join(eval_cmd)).decode('utf-8').split('\n') if line.strip()][-1]
-                  if not out.strip():
-                      continue
-                  eval_out = out.strip().split(eval['separator'])[eval['parse_index']]
-                  expected = round(model['results'][eval['metric']][i], eval['metric_precision'])
-                  real = round(float(eval_out), eval['metric_precision'])
-                  if expected == real:
-                      print(OKBLUE, '[OK]', yaml_data['name'], model['name'], topic['name'], eval['metric'], expected, real, ENDC)
-                  else:
-                      print(FAIL, ['ERROR'], yaml_data['name'], model['name'], topic['name'], eval['metric'], expected, real, '!!!!', ENDC)
-  finally:
-      print(ENDC)
+                    out = [line for line in check_output(' '.join(eval_cmd)).decode('utf-8').split('\n') if line.strip()][-1]
+                    if not out.strip():
+                        continue
+                    eval_out = out.strip().split(eval['separator'])[eval['parse_index']]
+                    expected = round(model['results'][eval['metric']][i], eval['metric_precision'])
+                    real = round(float(eval_out), eval['metric_precision'])
+                    if isclose(expected, real):
+                        print(OKBLUE, '[OK]', yaml_data['name'], model['name'], topic['name'], eval['metric'], expected, real, ENDC)
+                    else:
+                        print(FAIL, ['ERROR'], yaml_data['name'], model['name'], topic['name'], eval['metric'], expected, real, '!!!!', ENDC)
+    finally:
+        print(ENDC)
 
 
 def ranking_atom(cmd):

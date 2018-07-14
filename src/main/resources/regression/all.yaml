@@ -24,6 +24,7 @@ defaults: &defaults
       parse_index: 2
       metric: map
       metric_precision: 4
+      can_combine: true
     - command: eval/trec_eval.9.0/trec_eval
       params:
         - -m P.30
@@ -31,6 +32,7 @@ defaults: &defaults
       parse_index: 2
       metric: p30
       metric_precision: 4
+      can_combine: true
 
 collections:
   disk12:
@@ -166,6 +168,7 @@ collections:
         parse_index: 2
         metric: map
         metric_precision: 4
+        can_combine: true
       - command: eval/trec_eval.9.0/trec_eval
         params:
           - -m P.30
@@ -173,6 +176,7 @@ collections:
         parse_index: 2
         metric: p30
         metric_precision: 4
+        can_combine: true
       - command: eval/gdeval.pl
         params:
         separator: ","

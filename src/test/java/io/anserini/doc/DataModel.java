@@ -17,10 +17,7 @@
 package io.anserini.doc;
 
 import java.nio.file.Paths;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -64,7 +61,10 @@ public class DataModel {
     private int parse_index;
     private String metric;
     private int metric_precision;
+    private boolean can_combine;
 
+    public boolean isCan_combine() { return can_combine; }
+    public void setCan_combine(boolean can_combine) { this.can_combine = can_combine; }
     public String getCommand() { return command; }
     public void setCommand(String command) { this.command = command; }
     public List<String> getParams() { return params; }
@@ -152,22 +152,32 @@ public class DataModel {
       Model model = oMapper.convertValue(modelObj, Model.class);
       for (Object topicObj : topics) {
         Topic topic = oMapper.convertValue(topicObj, Topic.class);
+        Map<String, Map<String, List<String>>> combinedEvalCmd = new HashMap<>();
         for (Object evalObj : evals) {
-          String cmd = "";
           Eval eval = oMapper.convertValue(evalObj, Eval.class);
-          cmd += eval.getCommand();
+          String evalCmd = eval.getCommand();
           List evalParams = oMapper.convertValue(eval.getParams(), List.class);
+          String evalCmdOption = "";
           if (evalParams != null) {
             for (Object option : evalParams) {
-                cmd += " "+option;
+              evalCmdOption += " "+option;
             }
           }
-          cmd += " "+Paths.get((String)safeGet(config, "qrels_root"), topic.getQrel());
-          cmd += " -output run."+safeGet(config, "name")+"."+model.getName()+"."+topic.getPath();
-          cmd += "\n";
-          if (!allEvalCommands.contains(cmd)) {
-            allCommandsStr += cmd;
-            allEvalCommands.add(cmd);
+          String evalCmdResidual = "";
+          evalCmdResidual += " "+Paths.get((String)safeGet(config, "qrels_root"), topic.getQrel());
+          evalCmdResidual += " -output run."+safeGet(config, "name")+"."+model.getName()+"."+topic.getPath();
+          evalCmdResidual += "\n";
+          if (eval.isCan_combine() || evalCmdOption.isEmpty()) {
+            combinedEvalCmd.putIfAbsent(evalCmd, new HashMap<>());
+            combinedEvalCmd.get(evalCmd).putIfAbsent(evalCmdResidual, new ArrayList<>());
+            combinedEvalCmd.get(evalCmd).get(evalCmdResidual).add(evalCmdOption);
+          } else {
+            allCommandsStr += evalCmd + evalCmdOption + evalCmdResidual;
+          }
+        }
+        for (Map.Entry<String, Map<String, List<String>>> entry : combinedEvalCmd.entrySet()) {
+          for (Map.Entry<String, List<String>> innerEntry : entry.getValue().entrySet()) {
+            allCommandsStr += entry.getKey() + String.join("", innerEntry.getValue()) + innerEntry.getKey();
           }
         }
       }
