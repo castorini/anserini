@@ -1,0 +1,138 @@
+# Anserini: Experiments on ClueWeb09 (Category B)
+
+## Indexing
+
+Typical indexing command:
+
+```
+nohup sh target/appassembler/bin/IndexCollection -collection ClueWeb09Collection \
+-generator JsoupGenerator -threads 44 -input /path/to/cw09b -index \
+lucene-index.cw09b.pos+docvectors -storePositions -storeDocvectors >& \
+log.cw09b.pos+docvectors &
+```
+
+The directory `/path/to/ClueWeb09b` should be the root directory of ClueWeb09B collection, i.e., `ls /path/to/ClueWeb09b` should bring up a bunch of subdirectories, `en0000` to `enwp03`.
+
+For additional details, see explanation of [common indexing options](common-indexing-options.md).
+
+## Retrieval
+
+Topics and qrels are stored in `src/main/resources/topics-and-qrels/`, downloaded from NIST:
+
++ `topics.web.1-50.txt`: [Topics 1-50 (TREC 2009 Web Track)](http://trec.nist.gov/data/web/09/wt09.topics.full.xml)
++ `topics.web.51-100.txt`: [Topics 51-100 (TREC 2010 Web Track)](http://trec.nist.gov/data/web/10/wt2010-topics.xml)
++ `topics.web.101-150.txt`: [Topics 101-150 (TREC 2011 Web Track)](http://trec.nist.gov/data/web/11/full-topics.xml)
++ `topics.web.151-200.txt`: [Topics 151-200 (TREC 2012 Web Track)](http://trec.nist.gov/data/web/12/full-topics.xml)
++ `qrels.web.1-50.txt`: [adhoc prels for category B runs for Topics 1-50 (TREC 2009 Web Track)](http://trec.nist.gov/data/web/09/prels.catB.1-50.gz)
++ `qrels.web.51-100.txt`: [adhoc qrels for Topics 51-100 (TREC 2010 Web Track)](http://trec.nist.gov/data/web/10/10.adhoc-qrels.final)
++ `qrels.web.101-150.txt`: [adhoc qrels for Topics 101-150 (TREC 2011 Web Track)](http://trec.nist.gov/data/web/11/qrels.adhoc)
++ `qrels.web.151-200.txt`: [adhoc qrels for Topics 151-200 (TREC 2012 Web Track)](http://trec.nist.gov/data/web/12/qrels.adhoc)
+
+After indexing has completed, you should be able to perform retrieval as follows:
+
+```
+nohup target/appassembler/bin/SearchCollection -topicreader Webxml -index lucene-index.cw09b.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.web.51-100.txt -output run.cw09b.bm25.topics.web.51-100.txt -bm25 &
+nohup target/appassembler/bin/SearchCollection -topicreader Webxml -index lucene-index.cw09b.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.web.101-150.txt -output run.cw09b.bm25.topics.web.101-150.txt -bm25 &
+nohup target/appassembler/bin/SearchCollection -topicreader Webxml -index lucene-index.cw09b.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.web.151-200.txt -output run.cw09b.bm25.topics.web.151-200.txt -bm25 &
+
+nohup target/appassembler/bin/SearchCollection -topicreader Webxml -index lucene-index.cw09b.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.web.51-100.txt -output run.cw09b.bm25+rm3.topics.web.51-100.txt -bm25 -rm3 &
+nohup target/appassembler/bin/SearchCollection -topicreader Webxml -index lucene-index.cw09b.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.web.101-150.txt -output run.cw09b.bm25+rm3.topics.web.101-150.txt -bm25 -rm3 &
+nohup target/appassembler/bin/SearchCollection -topicreader Webxml -index lucene-index.cw09b.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.web.151-200.txt -output run.cw09b.bm25+rm3.topics.web.151-200.txt -bm25 -rm3 &
+
+nohup target/appassembler/bin/SearchCollection -topicreader Webxml -index lucene-index.cw09b.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.web.51-100.txt -output run.cw09b.bm25+ax.topics.web.51-100.txt -bm25 -axiom -rerankCutoff 20 -axiom.deterministic -axiom.beta 0.1 &
+nohup target/appassembler/bin/SearchCollection -topicreader Webxml -index lucene-index.cw09b.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.web.101-150.txt -output run.cw09b.bm25+ax.topics.web.101-150.txt -bm25 -axiom -rerankCutoff 20 -axiom.deterministic -axiom.beta 0.1 &
+nohup target/appassembler/bin/SearchCollection -topicreader Webxml -index lucene-index.cw09b.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.web.151-200.txt -output run.cw09b.bm25+ax.topics.web.151-200.txt -bm25 -axiom -rerankCutoff 20 -axiom.deterministic -axiom.beta 0.1 &
+
+nohup target/appassembler/bin/SearchCollection -topicreader Webxml -index lucene-index.cw09b.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.web.51-100.txt -output run.cw09b.ql.topics.web.51-100.txt -ql &
+nohup target/appassembler/bin/SearchCollection -topicreader Webxml -index lucene-index.cw09b.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.web.101-150.txt -output run.cw09b.ql.topics.web.101-150.txt -ql &
+nohup target/appassembler/bin/SearchCollection -topicreader Webxml -index lucene-index.cw09b.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.web.151-200.txt -output run.cw09b.ql.topics.web.151-200.txt -ql &
+
+nohup target/appassembler/bin/SearchCollection -topicreader Webxml -index lucene-index.cw09b.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.web.51-100.txt -output run.cw09b.ql+rm3.topics.web.51-100.txt -ql -rm3 &
+nohup target/appassembler/bin/SearchCollection -topicreader Webxml -index lucene-index.cw09b.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.web.101-150.txt -output run.cw09b.ql+rm3.topics.web.101-150.txt -ql -rm3 &
+nohup target/appassembler/bin/SearchCollection -topicreader Webxml -index lucene-index.cw09b.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.web.151-200.txt -output run.cw09b.ql+rm3.topics.web.151-200.txt -ql -rm3 &
+
+nohup target/appassembler/bin/SearchCollection -topicreader Webxml -index lucene-index.cw09b.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.web.51-100.txt -output run.cw09b.ql+ax.topics.web.51-100.txt -ql -axiom -rerankCutoff 20 -axiom.deterministic -axiom.beta 0.1 &
+nohup target/appassembler/bin/SearchCollection -topicreader Webxml -index lucene-index.cw09b.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.web.101-150.txt -output run.cw09b.ql+ax.topics.web.101-150.txt -ql -axiom -rerankCutoff 20 -axiom.deterministic -axiom.beta 0.1 &
+nohup target/appassembler/bin/SearchCollection -topicreader Webxml -index lucene-index.cw09b.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.web.151-200.txt -output run.cw09b.ql+ax.topics.web.151-200.txt -ql -axiom -rerankCutoff 20 -axiom.deterministic -axiom.beta 0.1 &
+
+```
+
+Evaluation can be performed using `trec_eval` and `gdeval.pl`:
+
+```
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.web.51-100.txt -output run.cw09b.bm25.topics.web.51-100.txt
+eval/gdeval.pl src/main/resources/topics-and-qrels/qrels.web.51-100.txt -output run.cw09b.bm25.topics.web.51-100.txt
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.web.101-150.txt -output run.cw09b.bm25.topics.web.101-150.txt
+eval/gdeval.pl src/main/resources/topics-and-qrels/qrels.web.101-150.txt -output run.cw09b.bm25.topics.web.101-150.txt
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.web.151-200.txt -output run.cw09b.bm25.topics.web.151-200.txt
+eval/gdeval.pl src/main/resources/topics-and-qrels/qrels.web.151-200.txt -output run.cw09b.bm25.topics.web.151-200.txt
+
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.web.51-100.txt -output run.cw09b.bm25+rm3.topics.web.51-100.txt
+eval/gdeval.pl src/main/resources/topics-and-qrels/qrels.web.51-100.txt -output run.cw09b.bm25+rm3.topics.web.51-100.txt
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.web.101-150.txt -output run.cw09b.bm25+rm3.topics.web.101-150.txt
+eval/gdeval.pl src/main/resources/topics-and-qrels/qrels.web.101-150.txt -output run.cw09b.bm25+rm3.topics.web.101-150.txt
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.web.151-200.txt -output run.cw09b.bm25+rm3.topics.web.151-200.txt
+eval/gdeval.pl src/main/resources/topics-and-qrels/qrels.web.151-200.txt -output run.cw09b.bm25+rm3.topics.web.151-200.txt
+
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.web.51-100.txt -output run.cw09b.bm25+ax.topics.web.51-100.txt
+eval/gdeval.pl src/main/resources/topics-and-qrels/qrels.web.51-100.txt -output run.cw09b.bm25+ax.topics.web.51-100.txt
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.web.101-150.txt -output run.cw09b.bm25+ax.topics.web.101-150.txt
+eval/gdeval.pl src/main/resources/topics-and-qrels/qrels.web.101-150.txt -output run.cw09b.bm25+ax.topics.web.101-150.txt
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.web.151-200.txt -output run.cw09b.bm25+ax.topics.web.151-200.txt
+eval/gdeval.pl src/main/resources/topics-and-qrels/qrels.web.151-200.txt -output run.cw09b.bm25+ax.topics.web.151-200.txt
+
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.web.51-100.txt -output run.cw09b.ql.topics.web.51-100.txt
+eval/gdeval.pl src/main/resources/topics-and-qrels/qrels.web.51-100.txt -output run.cw09b.ql.topics.web.51-100.txt
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.web.101-150.txt -output run.cw09b.ql.topics.web.101-150.txt
+eval/gdeval.pl src/main/resources/topics-and-qrels/qrels.web.101-150.txt -output run.cw09b.ql.topics.web.101-150.txt
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.web.151-200.txt -output run.cw09b.ql.topics.web.151-200.txt
+eval/gdeval.pl src/main/resources/topics-and-qrels/qrels.web.151-200.txt -output run.cw09b.ql.topics.web.151-200.txt
+
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.web.51-100.txt -output run.cw09b.ql+rm3.topics.web.51-100.txt
+eval/gdeval.pl src/main/resources/topics-and-qrels/qrels.web.51-100.txt -output run.cw09b.ql+rm3.topics.web.51-100.txt
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.web.101-150.txt -output run.cw09b.ql+rm3.topics.web.101-150.txt
+eval/gdeval.pl src/main/resources/topics-and-qrels/qrels.web.101-150.txt -output run.cw09b.ql+rm3.topics.web.101-150.txt
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.web.151-200.txt -output run.cw09b.ql+rm3.topics.web.151-200.txt
+eval/gdeval.pl src/main/resources/topics-and-qrels/qrels.web.151-200.txt -output run.cw09b.ql+rm3.topics.web.151-200.txt
+
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.web.51-100.txt -output run.cw09b.ql+ax.topics.web.51-100.txt
+eval/gdeval.pl src/main/resources/topics-and-qrels/qrels.web.51-100.txt -output run.cw09b.ql+ax.topics.web.51-100.txt
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.web.101-150.txt -output run.cw09b.ql+ax.topics.web.101-150.txt
+eval/gdeval.pl src/main/resources/topics-and-qrels/qrels.web.101-150.txt -output run.cw09b.ql+ax.topics.web.101-150.txt
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.web.151-200.txt -output run.cw09b.ql+ax.topics.web.151-200.txt
+eval/gdeval.pl src/main/resources/topics-and-qrels/qrels.web.151-200.txt -output run.cw09b.ql+ax.topics.web.151-200.txt
+
+```
+
+## Effectiveness
+
+With the above commands, you should be able to replicate the following results:
+
+MAP                                     | BM25      | BM25+RM3  | BM25+AX   | QL        | QL+RM3    | QL+AX     |
+:---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
+TREC 2010 WEB TRACK: TOPICS 51-100      | 0.1094    | 0.1077    | 0.0970    | 0.1027    | 0.1061    | 0.1085    |
+TREC 2011 WEB TRACK: TOPICS 101-150     | 0.1095    | 0.1147    | 0.1000    | 0.0971    | 0.0963    | 0.0906    |
+TREC 2012 WEB TRACK: TOPICS 151-200     | 0.1072    | 0.1319    | 0.1231    | 0.1035    | 0.1140    | 0.1202    |
+
+
+P30                                     | BM25      | BM25+RM3  | BM25+AX   | QL        | QL+RM3    | QL+AX     |
+:---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
+TREC 2010 WEB TRACK: TOPICS 51-100      | 0.2653    | 0.2556    | 0.2465    | 0.2417    | 0.2535    | 0.2618    |
+TREC 2011 WEB TRACK: TOPICS 101-150     | 0.2540    | 0.2687    | 0.2420    | 0.2220    | 0.2187    | 0.2267    |
+TREC 2012 WEB TRACK: TOPICS 151-200     | 0.2180    | 0.2400    | 0.2233    | 0.2013    | 0.2053    | 0.2100    |
+
+
+NDCG20                                  | BM25      | BM25+RM3  | BM25+AX   | QL        | QL+RM3    | QL+AX     |
+:---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
+TREC 2010 WEB TRACK: TOPICS 51-100      | 0.1328    | 0.1430    | 0.1714    | 0.1132    | 0.1328    | 0.1443    |
+TREC 2011 WEB TRACK: TOPICS 101-150     | 0.1914    | 0.1885    | 0.1897    | 0.1635    | 0.1608    | 0.1594    |
+TREC 2012 WEB TRACK: TOPICS 151-200     | 0.0976    | 0.1254    | 0.1167    | 0.0862    | 0.1084    | 0.1047    |
+
+
+ERR20                                   | BM25      | BM25+RM3  | BM25+AX   | QL        | QL+RM3    | QL+AX     |
+:---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
+TREC 2010 WEB TRACK: TOPICS 51-100      | 0.0717    | 0.0791    | 0.1012    | 0.0586    | 0.0653    | 0.0792    |
+TREC 2011 WEB TRACK: TOPICS 101-150     | 0.0947    | 0.1092    | 0.1087    | 0.0842    | 0.0934    | 0.0879    |
+TREC 2012 WEB TRACK: TOPICS 151-200     | 0.1382    | 0.2079    | 0.1905    | 0.1315    | 0.1576    | 0.1574    |
+
+

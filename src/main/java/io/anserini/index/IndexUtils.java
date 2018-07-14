@@ -46,17 +46,21 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 import static io.anserini.search.SearchCollection.BREAK_SCORE_TIES_BY_DOCID;
 import static io.anserini.search.SearchCollection.BREAK_SCORE_TIES_BY_TWEETID;
+import static java.util.stream.Collectors.joining;
 
 public class IndexUtils {
   private static final Logger LOG = LogManager.getLogger(IndexUtils.class);
 
   enum Compression { NONE, GZ, BZ2, ZIP }
+  enum DocVectorWeight {NONE, TF_IDF}
 
   public static final class Args {
     @Option(name = "-index", metaVar = "[Path]", required = true, usage = "index path")
@@ -68,8 +72,15 @@ public class IndexUtils {
     @Option(name = "-printTermInfo", metaVar = "term", usage = "prints term info (stemmed, total counts, doc counts, etc.)")
     String term;
 
-    @Option(name = "-printDocvector", metaVar = "docid", usage = "prints the document vector of a document")
+    @Option(name = "-dumpDocVector", metaVar = "docid", usage = "prints the document vector of a document")
     String docvectorDocid;
+
+    @Option(name = "-dumpDocVectors", metaVar = "[Path]", usage = "dumps the document vector for all documents from input file")
+    String docVectors;
+
+    @Option(name = "-docVectorWeight", metaVar = "[str]",
+            usage = "the weight for dumped document vector(s), NONE or TF_IDF")
+    DocVectorWeight docVectorWeight;
 
     @Option(name = "-dumpAllDocids", usage = "dumps all docids in sorted order. For non-tweet collection the order is " +
             "in ascending of String docid; For tweets collection the order is in descending of Long tweet id" +
@@ -183,6 +194,97 @@ public class IndexUtils {
     }
   }
 
+  public void dumpDocumentVectors(String reqDocidsPath, DocVectorWeight weight) throws IOException {
+    String outFileName = weight == null ? reqDocidsPath+".docvector.tar.gz" : reqDocidsPath+".docvector." + weight +".tar.gz";
+    LOG.info("Start dump document vectors with weight " + weight);
+
+    InputStream in = getReadFileStream(reqDocidsPath);
+    BufferedReader bRdr = new BufferedReader(new InputStreamReader(in));
+    FileOutputStream fOut = new FileOutputStream(new File(outFileName));
+    BufferedOutputStream bOut = new BufferedOutputStream(fOut);
+    GzipCompressorOutputStream gzOut = new GzipCompressorOutputStream(bOut);
+    TarArchiveOutputStream tOut = new TarArchiveOutputStream(gzOut);
+
+    Map<Term, Integer> docFreqMap = new HashMap<>();
+
+    int numNonEmptyDocs = reader.getDocCount(LuceneDocumentGenerator.FIELD_BODY);
+
+    String docid;
+    int counter = 0;
+    while ((docid = bRdr.readLine()) != null) {
+      counter++;
+
+      // get term frequency
+      Terms terms = reader.getTermVector(convertDocidToLuceneDocid(docid),
+              LuceneDocumentGenerator.FIELD_BODY);
+      if (terms == null) {
+        // We do not throw exception here because there are some
+        //  collections in which part of documents don't have document vectors
+        LOG.warn("Document vector not stored for doc " + docid);
+        continue;
+      }
+
+      TermsEnum te = terms.iterator();
+      if (te == null) {
+        LOG.warn("Document vector not stored for doc " + docid);
+        continue;
+      }
+
+      Term term;
+      long freq;
+
+      // iterate every term and write and store in Map
+      Map<String, String> docVectors = new HashMap<>();
+      while ((te.next()) != null) {
+        term = new Term(LuceneDocumentGenerator.FIELD_BODY, te.term());
+        freq = te.totalTermFreq();
+
+        switch (weight) {
+          case NONE:
+            docVectors.put(term.bytes().utf8ToString(), String.valueOf(freq));
+            break;
+
+          case TF_IDF:
+            int docFreq;
+            if (docFreqMap.containsKey(term)) {
+              docFreq = docFreqMap.get(term);
+            } else {
+              try {
+                docFreq = reader.docFreq(term);
+              } catch (Exception e) {
+                LOG.error("Cannot find term " + term.toString() + " in indexing file.");
+                continue;
+              }
+              docFreqMap.put(term, docFreq);
+            }
+            float tfIdf = (float) (freq * Math.log(numNonEmptyDocs * 1.0 / docFreq));
+            docVectors.put(term.bytes().utf8ToString(), String.format("%.6f", tfIdf));
+            break;
+        }
+      }
+
+      // Count size and write
+      byte[] bytesOut = docVectors.entrySet()
+              .stream()
+              .map(e -> e.getKey()+" "+e.getValue())
+              .collect(joining("\n"))
+              .getBytes(StandardCharsets.UTF_8);
+
+      TarArchiveEntry tarEntry = new TarArchiveEntry(new File(docid));
+      tarEntry.setSize(bytesOut.length + String.format("<DOCNO>%s</DOCNO>\n", docid).length());
+      tOut.putArchiveEntry(tarEntry);
+      tOut.write(String.format("<DOCNO>%s</DOCNO>\n", docid).getBytes());
+      tOut.write(bytesOut);
+      tOut.closeArchiveEntry();
+
+      if (counter % 100000 == 0) {
+        LOG.info(counter + " files have been dumped.");
+      }
+    }
+    tOut.close();
+    LOG.info("Document Vectors are output to: " + outFileName);
+  }
+
   public void getAllDocids(Compression compression) throws IOException {
     Query q = new FieldValueQuery(LuceneDocumentGenerator.FIELD_ID);
     IndexSearcher searcher = new IndexSearcher(reader);
@@ -236,6 +338,8 @@ public class IndexUtils {
   }
 
   public void dumpRawDocuments(String reqDocidsPath, boolean prependDocid) throws IOException, NotStoredException {
+    LOG.info("Start dump raw documents" + (prependDocid ? " with Docid prepended" : "."));
+
     InputStream in = getReadFileStream(reqDocidsPath);
     BufferedReader bRdr = new BufferedReader(new InputStreamReader(in));
     FileOutputStream fOut = new FileOutputStream(new File(reqDocidsPath+".output.tar.gz"));
@@ -244,23 +348,31 @@ public class IndexUtils {
     TarArchiveOutputStream tOut = new TarArchiveOutputStream(gzOut);
 
     String docid;
+    int counter = 0;
     while ((docid = bRdr.readLine()) != null) {
+      counter += 1;
       Document d = reader.document(convertDocidToLuceneDocid(docid));
       IndexableField doc = d.getField(LuceneDocumentGenerator.FIELD_RAW);
       if (doc == null) {
         throw new NotStoredException("Raw documents not stored!");
       }
       TarArchiveEntry tarEntry = new TarArchiveEntry(new File(docid));
-      tarEntry.setSize(doc.stringValue().length() + (prependDocid ? String.format("<DOCNO>%s</DOCNO>\n", docid).length() : 0));
+
+      byte[] bytesOut = doc.stringValue().getBytes(StandardCharsets.UTF_8);
+      tarEntry.setSize(bytesOut.length + (prependDocid ? String.format("<DOCNO>%s</DOCNO>\n", docid).length() : 0));
       tOut.putArchiveEntry(tarEntry);
       if (prependDocid) {
         tOut.write(String.format("<DOCNO>%s</DOCNO>\n", docid).getBytes());
       }
-      tOut.write(doc.stringValue().getBytes(StandardCharsets.UTF_8));
+      tOut.write(bytesOut);
       tOut.closeArchiveEntry();
+
+      if (counter % 100000 == 0) {
+        LOG.info(counter + " files have been dumped.");
+      }
     }
     tOut.close();
-    System.out.println(String.format("Raw documents are output to: %s", reqDocidsPath+".output.tar.gz"));
+    LOG.info(String.format("Raw documents are output to: %s", reqDocidsPath+".output.tar.gz"));
   }
 
   public String getTransformedDocument(String docid) throws IOException, NotStoredException {
@@ -332,6 +444,13 @@ public class IndexUtils {
 
     if (args.docvectorDocid != null) {
       util.printDocumentVector(args.docvectorDocid);
+    }
+
+    if (args.docVectors != null) {
+      if (args.docVectorWeight == null) {
+        args.docVectorWeight = DocVectorWeight.NONE;
+      }
+      util.dumpDocumentVectors(args.docVectors, args.docVectorWeight);
     }
 
     if (args.dumpAllDocids != null) {
