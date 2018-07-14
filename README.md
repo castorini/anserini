@@ -12,10 +12,18 @@ Build using Maven:
 mvn clean package appassembler:assemble
 ```
 
-The `eval/` directory contains evaluation tools and scripts, including `trec_eval`. Before using `trec_eval`, unpack and compile it, as follows:
+The `eval/` directory contains evaluation tools and scripts, including
+[trec_eval](https://trec.nist.gov/trec_eval/trec_eval_latest.tar.gz),
+[gdeval.pl](https://github.com/trec-web/trec-web-2014/tree/master/src/eval),
+[ndeval](https://github.com/trec-web/trec-web-2014/tree/master/src/eval).
+Before using `trec_eval`, unpack and compile it, as follows:
 
 ```
 tar xvfz trec_eval.9.0.tar.gz && cd trec_eval.9.0 && make
+```
+Before using `ndeval`, compile it as follows:
+```
+cd ndeval && make
 ```
 
 ## Running Standard IR Experiments
