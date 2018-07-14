@@ -1,0 +1,322 @@
+---
+defaults: &defaults
+  index_command: target/appassembler/bin/IndexCollection
+  index_utils_command: target/appassembler/bin/IndexUtils
+  search_command: target/appassembler/bin/SearchCollection
+  topic_root: src/main/resources/topics-and-qrels/
+  qrels_root: src/main/resources/topics-and-qrels/
+  index_root:
+  ranking_root:
+
+  collection: TrecCollection
+  generator: JsoupGenerator
+  threads: 16
+  index_options:
+    - -storePositions
+    - -storeDocvectors
+    - -optimize
+  topic_reader: Trec
+  evals: &evals
+    - command: eval/trec_eval.9.0/trec_eval
+      params:
+        - -m map
+      separator: "\t"
+      parse_index: 2
+      metric: map
+      metric_precision: 4
+      can_combine: true
+    - command: eval/trec_eval.9.0/trec_eval
+      params:
+        - -m P.30
+      separator: "\t"
+      parse_index: 2
+      metric: p30
+      metric_precision: 4
+      can_combine: true
+
+collections:
+  disk12:
+    <<: *defaults
+    name: disk12
+    input: /tuna1/collections/newswire/disk12/
+    index_path: "/tuna1/indexes/lucene-index.disk12.pos+docvectors+rawdocs" # path to the existing index, used in regression test if `--index` option is absent
+    index_stats:
+      documents: 741676
+      documents (non-empty): 741675
+      total terms: 217199327
+    topics:
+      - name: "TREC-1 Ad Hoc Track: Topics 51-100"
+        path: topics.51-100.txt
+        qrel: qrels.51-100.txt
+      - name: "TREC-2 Ad Hoc Track: Topics 101-150"
+        path: topics.101-150.txt
+        qrel: qrels.101-150.txt
+      - name: "TREC-3 Ad Hoc Track: Topics 151-200"
+        path: topics.151-200.txt
+        qrel: qrels.151-200.txt
+    models:
+      - name: bm25
+        params:
+          - -bm25
+        results:
+          map:
+            - 0.2254
+            - 0.2003
+            - 0.2571
+          p30:
+            - 0.4493
+            - 0.4213
+            - 0.4740
+      - name: bm25+rm3
+        params:
+          - -bm25
+          - -rm3
+        results:
+          map:
+            - 0.2612
+            - 0.2582
+            - 0.3214
+          p30:
+            - 0.4853
+            - 0.4573
+            - 0.5087
+      - name: bm25+ax
+        params:
+          - -bm25
+          - -axiom
+          - -rerankCutoff 20
+          - -axiom.deterministic
+        results:
+          map:
+            - 0.2675
+            - 0.2710
+            - 0.3346
+          p30:
+            - 0.5167
+            - 0.4780
+            - 0.5167
+      - name: ql
+        params:
+          - -ql
+        results:
+          map:
+            - 0.2188
+            - 0.2013
+            - 0.2530
+          p30:
+            - 0.4453
+            - 0.4153
+            - 0.4647
+      - name: ql+rm3
+        params:
+          - -ql
+          - -rm3
+        results:
+          map:
+            - 0.2502
+            - 0.2477
+            - 0.3015
+          p30:
+            - 0.4700
+            - 0.4407
+            - 0.4993
+      - name: ql+ax
+        params:
+          - -ql
+          - -axiom
+          - -rerankCutoff 20
+          - -axiom.deterministic
+        results:
+          map:
+            - 0.2519
+            - 0.2608
+            - 0.3111
+          p30:
+            - 0.4967
+            - 0.4647
+            - 0.5160
+  cw09b:
+    <<: *defaults
+    name: cw09b
+    input: /tuna1/collections/web/ClueWeb09b/
+    index_path: "/tuna1/indexes/lucene-index.cw09b.pos+docvectors" # path to the existing index, used in regression test if `--index` option is absent
+    collection: ClueWeb09Collection
+    threads: 44
+    index_options:
+      - -storePositions
+      - -storeDocvectors
+    topic_reader: Webxml
+    index_stats:
+      documents: 50220189
+      documents (non-empty): 50220159
+      total terms: 31270685466
+    topics:
+      - name: "TREC 2010 Web Track: Topics 51-100"
+        path: topics.web.51-100.txt
+        qrel: qrels.web.51-100.txt
+      - name: "TREC 2011 Web Track: Topics 101-150"
+        path: topics.web.101-150.txt
+        qrel: qrels.web.101-150.txt
+      - name: "TREC 2012 Web Track: Topics 151-200"
+        path: topics.web.151-200.txt
+        qrel: qrels.web.151-200.txt
+    evals:
+      - command: eval/trec_eval.9.0/trec_eval
+        params:
+          - -m map
+        separator: "\t"
+        parse_index: 2
+        metric: map
+        metric_precision: 4
+        can_combine: true
+      - command: eval/trec_eval.9.0/trec_eval
+        params:
+          - -m P.30
+        separator: "\t"
+        parse_index: 2
+        metric: p30
+        metric_precision: 4
+        can_combine: true
+      - command: eval/gdeval.pl
+        params:
+        separator: ","
+        parse_index: -2
+        metric: ndcg20
+        metric_precision: 5
+      - command: eval/gdeval.pl
+        params:
+        separator: ","
+        parse_index: -1
+        metric: err20
+        metric_precision: 5
+    models:
+      - name: bm25
+        params:
+          - -bm25
+        results:
+          map:
+            - 0.1094
+            - 0.1095
+            - 0.1072
+          p30:
+            - 0.2653
+            - 0.2540
+            - 0.2180
+          ndcg20:
+            - 0.13280
+            - 0.19143
+            - 0.09764
+          err20:
+            - 0.07167
+            - 0.09470
+            - 0.13823
+      - name: bm25+rm3
+        params:
+          - -bm25
+          - -rm3
+        results:
+          map:
+            - 0.1077
+            - 0.1147
+            - 0.1319
+          p30:
+            - 0.2556
+            - 0.2687
+            - 0.2400
+          ndcg20:
+            - 0.14304
+            - 0.18853
+            - 0.12538
+          err20:
+            - 0.07910
+            - 0.10923
+            - 0.20791
+      - name: bm25+ax
+        params:
+          - -bm25
+          - -axiom
+          - -rerankCutoff 20
+          - -axiom.deterministic
+          - -axiom.beta 0.1
+        results:
+          map:
+            - 0.0970
+            - 0.1000
+            - 0.1231
+          p30:
+            - 0.2465
+            - 0.2420
+            - 0.2233
+          ndcg20:
+            - 0.17141
+            - 0.18973
+            - 0.11672
+          err20:
+            - 0.10120
+            - 0.10867
+            - 0.19055
+      - name: ql
+        params:
+          - -ql
+        results:
+          map:
+            - 0.1027
+            - 0.0971
+            - 0.1035
+          p30:
+            - 0.2417
+            - 0.2220
+            - 0.2013
+          ndcg20:
+            - 0.11319
+            - 0.16347
+            - 0.08620
+          err20:
+            - 0.05863
+            - 0.08419
+            - 0.13155
+      - name: ql+rm3
+        params:
+          - -ql
+          - -rm3
+        results:
+          map:
+            - 0.1061
+            - 0.0963
+            - 0.1140
+          p30:
+            - 0.2535
+            - 0.2187
+            - 0.2053
+          ndcg20:
+            - 0.13281
+            - 0.16082
+            - 0.10837
+          err20:
+            - 0.06527
+            - 0.09344
+            - 0.15763
+      - name: ql+ax
+        params:
+          - -ql
+          - -axiom
+          - -rerankCutoff 20
+          - -axiom.deterministic
+          - -axiom.beta 0.1
+        results:
+          map:
+            - 0.1085
+            - 0.0906
+            - 0.1202
+          p30:
+            - 0.2618
+            - 0.2267
+            - 0.2100
+          ndcg20:
+            - 0.14427
+            - 0.15944
+            - 0.10475
+          err20:
+            - 0.07921
+            - 0.08794
+            - 0.15735
