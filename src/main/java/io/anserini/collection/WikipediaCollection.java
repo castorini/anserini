@@ -16,7 +16,9 @@
 
 package io.anserini.collection;
 
-import io.anserini.document.WikipediaArticle;
+import io.anserini.document.SourceDocument;
+
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Arrays;
@@ -33,9 +35,9 @@ import org.wikiclean.WikipediaBz2DumpInputStream;
  * as a single bz2 file. Since a collection is assumed to be in a directory, place the bz2 file in
  * a directory prior to indexing.
  */
-public class WikipediaCollection extends Collection<WikipediaArticle> {
+public class WikipediaCollection extends Collection {
 
-  public class FileSegment extends Collection<WikipediaArticle>.FileSegment {
+  public class FileSegment extends Collection.FileSegment {
     private final WikipediaBz2DumpInputStream stream;
     private final WikiClean cleaner;
 
@@ -49,7 +51,7 @@ public class WikipediaCollection extends Collection<WikipediaArticle> {
     }
 
     @Override
-    public WikipediaArticle next() {
+    public Document next() {
       try {
         String page;
         String s;
@@ -69,7 +71,7 @@ public class WikipediaCollection extends Collection<WikipediaArticle> {
 
           // If we've gotten here, it means that we've advanced to the next "valid" article.
           String title = cleaner.getTitle(page).replaceAll("\\n+", " ");
-          return new WikipediaArticle(title, title + ".\n" + s);
+          return new Document(title, title + ".\n" + s);
         }
 
       } catch (IOException e) {
@@ -96,4 +98,37 @@ public class WikipediaCollection extends Collection<WikipediaArticle> {
     return new FileSegment(p);
   }
 
+  /**
+   * A Wikipedia article. The article title serves as the id.
+   */
+  public static class Document implements SourceDocument {
+    private final String title;
+    private final String contents;
+
+    public Document(String title, String contents) {
+      this.title = title;
+      this.contents = contents;
+
+    }
+
+    @Override
+    public Document readNextRecord(BufferedReader bRdr) throws IOException {
+      return null;
+    }
+
+    @Override
+    public String id() {
+      return title;
+    }
+
+    @Override
+    public String content() {
+      return contents;
+    }
+
+    @Override
+    public boolean indexable() {
+      return true;
+    }
+  }
 }
