@@ -5,7 +5,7 @@
 Typical indexing command:
 
 ```
-nohup sh target/appassembler/bin/IndexCollection -collection TrecCoreCollection \
+nohup sh target/appassembler/bin/IndexCollection -collection NewYorkTimesCollection \
  -input /path/to/nyt_corpus/ -generator JsoupGenerator \
  -index lucene-index.nyt.pos+docvectors+rawdocs -threads 16 \
  -storePositions -storeDocvectors -storeRawDocs -optimize \
