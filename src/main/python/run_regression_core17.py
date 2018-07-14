@@ -6,7 +6,7 @@ from subprocess import call
 
 index_cmd = """
 nohup sh target/appassembler/bin/IndexCollection -collection NewYorkTimesCollection \
- -input /tuna1/collections/newswire/NYTcorpus.uncompressed/data/ -generator JsoupGenerator \
+ -input /tuna1/collections/newswire/NYTcorpus/data/ -generator JsoupGenerator \
  -index lucene-index.nyt.pos+docvectors+rawdocs -threads 16 \
  -storePositions -storeDocvectors -storeRawDocs -optimize"""
 
