@@ -27,7 +27,6 @@ import io.anserini.collection.JsonCollection;
 import org.junit.After;
 import org.junit.Before;
 
-
 public class JsonDocumentObjectTest extends DocumentTest<JsonCollection.Document> {
   private String sampleFile = "sampleJsonObject.json";
 
