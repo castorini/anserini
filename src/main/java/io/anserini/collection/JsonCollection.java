@@ -81,7 +81,7 @@ public class JsonCollection extends Collection {
     Set<String> allowedFileSuffix = new HashSet<>(Arrays.asList(".json"));
 
     return discover(path, EMPTY_SET, EMPTY_SET, EMPTY_SET,
-            JsonDocumentObjectTest.javaallowedFileSuffix, EMPTY_SET);
+      allowedFileSuffix, EMPTY_SET);
   }
 
   @Override
