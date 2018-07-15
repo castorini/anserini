@@ -1073,9 +1073,9 @@ collections:
       - -tweet.keepUrls
       - -tweet.stemming
     index_stats:
-      documents: 203145941
-      documents (non-empty): 203143527
-      total terms: 2099085342
+      documents: 203145916
+      documents (non-empty): 203143249
+      total terms: 2099082204
     topic_reader: Microblog
     topics:
       - name: "[TREC 2011 Microblog Track](http://trec.nist.gov/data/microblog2013.html)"
