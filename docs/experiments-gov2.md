@@ -1,0 +1,104 @@
+# Anserini: Experiments on [Gov2](http://ir.dcs.gla.ac.uk/test_collections/gov2-summary.htm)
+
+## Indexing
+
+Typical indexing command:
+
+```
+nohup sh target/appassembler/bin/IndexCollection -collection Gov2Collection \
+-generator JsoupGenerator -threads 44 -input /path/to/gov2 -index \
+lucene-index.gov2.pos+docvectors -storePositions -storeDocvectors -optimize >& \
+log.gov2.pos+docvectors &
+```
+
+The directory `/path/to/gov2/` should be the root directory of Gov2 collection, i.e., `ls /path/to/gov2/` should bring up a bunch of subdirectories, `GX000` to `GX272`.
+
+For additional details, see explanation of [common indexing options](common-indexing-options.md).
+
+## Retrieval
+
+Topics and qrels are stored in `src/main/resources/topics-and-qrels/`, downloaded from NIST:
+
++ `topics.701-750.txt`: [Topics 701-750 (TREC 2004 Terabyte Track)](http://trec.nist.gov/data/terabyte/04/04topics.701-750.txt)
++ `topics.751-800.txt`: [Topics 751-800 (TREC 2005 Terabyte Track)](http://trec.nist.gov/data/terabyte/05/05.topics.751-800.txt)
++ `topics.801-850.txt`: [Topics 801-850 (TREC 2006 Terabyte Track)](http://trec.nist.gov/data/terabyte/06/06.topics.801-850.txt)
++ `qrels.701-750.txt`: [qrels for Topics 701-750 (TREC 2004 Terabyte Track)](http://trec.nist.gov/data/terabyte/04/04.qrels.12-Nov-04)
++ `qrels.751-800.txt`: [qrels for Topics 751-800 (TREC 2005 Terabyte Track)](http://trec.nist.gov/data/terabyte/05/05.adhoc_qrels)
++ `qrels.801-850.txt`: [qrels for Topics 801-850 (TREC 2006 Terabyte Track)](http://trec.nist.gov/data/terabyte/06/qrels.tb06.top50)
+
+After indexing has completed, you should be able to perform retrieval as follows:
+
+```
+nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.gov2.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.701-750.txt -output run.gov2.bm25.topics.701-750.txt -bm25 &
+nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.gov2.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.751-800.txt -output run.gov2.bm25.topics.751-800.txt -bm25 &
+nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.gov2.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.801-850.txt -output run.gov2.bm25.topics.801-850.txt -bm25 &
+
+nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.gov2.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.701-750.txt -output run.gov2.bm25+rm3.topics.701-750.txt -bm25 -rm3 &
+nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.gov2.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.751-800.txt -output run.gov2.bm25+rm3.topics.751-800.txt -bm25 -rm3 &
+nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.gov2.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.801-850.txt -output run.gov2.bm25+rm3.topics.801-850.txt -bm25 -rm3 &
+
+nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.gov2.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.701-750.txt -output run.gov2.bm25+ax.topics.701-750.txt -bm25 -axiom -axiom.beta 0.1 -rerankCutoff 20 -axiom.deterministic &
+nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.gov2.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.751-800.txt -output run.gov2.bm25+ax.topics.751-800.txt -bm25 -axiom -axiom.beta 0.1 -rerankCutoff 20 -axiom.deterministic &
+nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.gov2.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.801-850.txt -output run.gov2.bm25+ax.topics.801-850.txt -bm25 -axiom -axiom.beta 0.1 -rerankCutoff 20 -axiom.deterministic &
+
+nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.gov2.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.701-750.txt -output run.gov2.ql.topics.701-750.txt -ql &
+nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.gov2.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.751-800.txt -output run.gov2.ql.topics.751-800.txt -ql &
+nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.gov2.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.801-850.txt -output run.gov2.ql.topics.801-850.txt -ql &
+
+nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.gov2.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.701-750.txt -output run.gov2.ql+rm3.topics.701-750.txt -ql -rm3 &
+nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.gov2.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.751-800.txt -output run.gov2.ql+rm3.topics.751-800.txt -ql -rm3 &
+nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.gov2.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.801-850.txt -output run.gov2.ql+rm3.topics.801-850.txt -ql -rm3 &
+
+nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.gov2.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.701-750.txt -output run.gov2.ql+ax.topics.701-750.txt -ql -axiom -rerankCutoff 20 -axiom.beta 0.1 -axiom.deterministic &
+nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.gov2.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.751-800.txt -output run.gov2.ql+ax.topics.751-800.txt -ql -axiom -rerankCutoff 20 -axiom.beta 0.1 -axiom.deterministic &
+nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.gov2.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.801-850.txt -output run.gov2.ql+ax.topics.801-850.txt -ql -axiom -rerankCutoff 20 -axiom.beta 0.1 -axiom.deterministic &
+
+```
+
+Evaluation can be performed using `trec_eval`:
+
+```
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.701-750.txt -output run.gov2.bm25.topics.701-750.txt
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.751-800.txt -output run.gov2.bm25.topics.751-800.txt
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.801-850.txt -output run.gov2.bm25.topics.801-850.txt
+
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.701-750.txt -output run.gov2.bm25+rm3.topics.701-750.txt
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.751-800.txt -output run.gov2.bm25+rm3.topics.751-800.txt
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.801-850.txt -output run.gov2.bm25+rm3.topics.801-850.txt
+
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.701-750.txt -output run.gov2.bm25+ax.topics.701-750.txt
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.751-800.txt -output run.gov2.bm25+ax.topics.751-800.txt
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.801-850.txt -output run.gov2.bm25+ax.topics.801-850.txt
+
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.701-750.txt -output run.gov2.ql.topics.701-750.txt
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.751-800.txt -output run.gov2.ql.topics.751-800.txt
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.801-850.txt -output run.gov2.ql.topics.801-850.txt
+
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.701-750.txt -output run.gov2.ql+rm3.topics.701-750.txt
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.751-800.txt -output run.gov2.ql+rm3.topics.751-800.txt
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.801-850.txt -output run.gov2.ql+rm3.topics.801-850.txt
+
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.701-750.txt -output run.gov2.ql+ax.topics.701-750.txt
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.751-800.txt -output run.gov2.ql+ax.topics.751-800.txt
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.801-850.txt -output run.gov2.ql+ax.topics.801-850.txt
+
+```
+
+## Effectiveness
+
+With the above commands, you should be able to replicate the following results:
+
+MAP                                     | BM25      | BM25+RM3  | BM25+AX   | QL        | QL+RM3    | QL+AX     |
+:---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
+[TREC 2004 TERABYTE TRACK: TOPICS 701-750](HTTP://TREC.NIST.GOV/DATA/TERABYTE04.HTML)| 0.2673    | 0.2981    | 0.2738    | 0.2636    | 0.2777    | 0.2639    |
+[TREC 2005 TERABYTE TRACK: TOPICS 751-800](HTTP://TREC.NIST.GOV/DATA/TERABYTE05.HTML)| 0.3366    | 0.3843    | 0.3676    | 0.3264    | 0.3620    | 0.3673    |
+[TREC 2006 TERABYTE TRACK: TOPICS 801-850](HTTP://TREC.NIST.GOV/DATA/TERABYTE06.HTML)| 0.3055    | 0.3439    | 0.3059    | 0.2957    | 0.3168    | 0.3115    |
+
+
+P30                                     | BM25      | BM25+RM3  | BM25+AX   | QL        | QL+RM3    | QL+AX     |
+:---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
+[TREC 2004 TERABYTE TRACK: TOPICS 701-750](HTTP://TREC.NIST.GOV/DATA/TERABYTE04.HTML)| 0.4837    | 0.5333    | 0.5088    | 0.4667    | 0.4912    | 0.4844    |
+[TREC 2005 TERABYTE TRACK: TOPICS 751-800](HTTP://TREC.NIST.GOV/DATA/TERABYTE05.HTML)| 0.5520    | 0.5933    | 0.5920    | 0.5160    | 0.5700    | 0.5880    |
+[TREC 2006 TERABYTE TRACK: TOPICS 801-850](HTTP://TREC.NIST.GOV/DATA/TERABYTE06.HTML)| 0.4900    | 0.5240    | 0.5013    | 0.4753    | 0.4840    | 0.5007    |
+
+
