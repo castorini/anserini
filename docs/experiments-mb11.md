@@ -38,23 +38,23 @@ Topics and qrels are stored in `src/main/resources/topics-and-qrels/`, downloade
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.mb11.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.microblog2011.txt -output run.mb11.bm25.topics.microblog2011.txt -bm25 &
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.mb11.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.microblog2012.txt -output run.mb11.bm25.topics.microblog2012.txt -bm25 &
+nohup target/appassembler/bin/SearchCollection -topicreader Microblog -index lucene-index.mb11.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.microblog2011.txt -output run.mb11.bm25.topics.microblog2011.txt -searchtweets -bm25 &
+nohup target/appassembler/bin/SearchCollection -topicreader Microblog -index lucene-index.mb11.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.microblog2012.txt -output run.mb11.bm25.topics.microblog2012.txt -searchtweets -bm25 &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.mb11.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.microblog2011.txt -output run.mb11.bm25+rm3.topics.microblog2011.txt -bm25 -rm3 &
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.mb11.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.microblog2012.txt -output run.mb11.bm25+rm3.topics.microblog2012.txt -bm25 -rm3 &
+nohup target/appassembler/bin/SearchCollection -topicreader Microblog -index lucene-index.mb11.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.microblog2011.txt -output run.mb11.bm25+rm3.topics.microblog2011.txt -searchtweets -bm25 -rm3 &
+nohup target/appassembler/bin/SearchCollection -topicreader Microblog -index lucene-index.mb11.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.microblog2012.txt -output run.mb11.bm25+rm3.topics.microblog2012.txt -searchtweets -bm25 -rm3 &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.mb11.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.microblog2011.txt -output run.mb11.bm25+ax.topics.microblog2011.txt -bm25 -axiom -axiom.beta 1.0 -rerankCutoff 20 -axiom.deterministic &
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.mb11.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.microblog2012.txt -output run.mb11.bm25+ax.topics.microblog2012.txt -bm25 -axiom -axiom.beta 1.0 -rerankCutoff 20 -axiom.deterministic &
+nohup target/appassembler/bin/SearchCollection -topicreader Microblog -index lucene-index.mb11.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.microblog2011.txt -output run.mb11.bm25+ax.topics.microblog2011.txt -searchtweets -bm25 -axiom -axiom.beta 1.0 -rerankCutoff 20 -axiom.deterministic &
+nohup target/appassembler/bin/SearchCollection -topicreader Microblog -index lucene-index.mb11.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.microblog2012.txt -output run.mb11.bm25+ax.topics.microblog2012.txt -searchtweets -bm25 -axiom -axiom.beta 1.0 -rerankCutoff 20 -axiom.deterministic &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.mb11.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.microblog2011.txt -output run.mb11.ql.topics.microblog2011.txt -ql &
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.mb11.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.microblog2012.txt -output run.mb11.ql.topics.microblog2012.txt -ql &
+nohup target/appassembler/bin/SearchCollection -topicreader Microblog -index lucene-index.mb11.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.microblog2011.txt -output run.mb11.ql.topics.microblog2011.txt -searchtweets -ql &
+nohup target/appassembler/bin/SearchCollection -topicreader Microblog -index lucene-index.mb11.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.microblog2012.txt -output run.mb11.ql.topics.microblog2012.txt -searchtweets -ql &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.mb11.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.microblog2011.txt -output run.mb11.ql+rm3.topics.microblog2011.txt -ql -rm3 &
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.mb11.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.microblog2012.txt -output run.mb11.ql+rm3.topics.microblog2012.txt -ql -rm3 &
+nohup target/appassembler/bin/SearchCollection -topicreader Microblog -index lucene-index.mb11.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.microblog2011.txt -output run.mb11.ql+rm3.topics.microblog2011.txt -searchtweets -ql -rm3 &
+nohup target/appassembler/bin/SearchCollection -topicreader Microblog -index lucene-index.mb11.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.microblog2012.txt -output run.mb11.ql+rm3.topics.microblog2012.txt -searchtweets -ql -rm3 &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.mb11.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.microblog2011.txt -output run.mb11.ql+ax.topics.microblog2011.txt -ql -axiom -axiom.beta 1.0 -rerankCutoff 20 -axiom.deterministic &
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.mb11.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.microblog2012.txt -output run.mb11.ql+ax.topics.microblog2012.txt -ql -axiom -axiom.beta 1.0 -rerankCutoff 20 -axiom.deterministic &
+nohup target/appassembler/bin/SearchCollection -topicreader Microblog -index lucene-index.mb11.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.microblog2011.txt -output run.mb11.ql+ax.topics.microblog2011.txt -searchtweets -ql -axiom -axiom.beta 1.0 -rerankCutoff 20 -axiom.deterministic &
+nohup target/appassembler/bin/SearchCollection -topicreader Microblog -index lucene-index.mb11.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.microblog2012.txt -output run.mb11.ql+ax.topics.microblog2012.txt -searchtweets -ql -axiom -axiom.beta 1.0 -rerankCutoff 20 -axiom.deterministic &
 
 ```
 
@@ -87,13 +87,13 @@ With the above commands, you should be able to replicate the following results:
 
 MAP                                     | BM25      | BM25+RM3  | BM25+AX   | QL        | QL+RM3    | QL+AX     |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-[TREC 2011 MICROBLOG TRACK](HTTP://TREC.NIST.GOV/DATA/MICROBLOG2011.HTML)| 0.3351    | 0.3472    | 0.3472    | 0.3614    | 0.4100    | 0.4100    |
-[TREC 2012 MICROBLOG TRACK](HTTP://TREC.NIST.GOV/DATA/MICROBLOG2012.HTML)| 0.1912    | 0.2056    | 0.2056    | 0.2100    | 0.2413    | 0.2413    |
+[TREC 2011 MICROBLOG TRACK](HTTP://TREC.NIST.GOV/DATA/MICROBLOG2011.HTML)| 0.3351    | 0.3472    | 0.4035    | 0.3614    | 0.4100    | 0.4152    |
+[TREC 2012 MICROBLOG TRACK](HTTP://TREC.NIST.GOV/DATA/MICROBLOG2012.HTML)| 0.1912    | 0.2056    | 0.2313    | 0.2100    | 0.2413    | 0.2487    |
 
 
 P30                                     | BM25      | BM25+RM3  | BM25+AX   | QL        | QL+RM3    | QL+AX     |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-[TREC 2011 MICROBLOG TRACK](HTTP://TREC.NIST.GOV/DATA/MICROBLOG2011.HTML)| 0.3837    | 0.4027    | 0.4027    | 0.4095    | 0.4463    | 0.4463    |
-[TREC 2012 MICROBLOG TRACK](HTTP://TREC.NIST.GOV/DATA/MICROBLOG2012.HTML)| 0.3328    | 0.3418    | 0.3418    | 0.3322    | 0.3531    | 0.3531    |
+[TREC 2011 MICROBLOG TRACK](HTTP://TREC.NIST.GOV/DATA/MICROBLOG2011.HTML)| 0.3837    | 0.4027    | 0.4551    | 0.4095    | 0.4463    | 0.4374    |
+[TREC 2012 MICROBLOG TRACK](HTTP://TREC.NIST.GOV/DATA/MICROBLOG2012.HTML)| 0.3328    | 0.3418    | 0.3571    | 0.3322    | 0.3531    | 0.3819    |
 
 
