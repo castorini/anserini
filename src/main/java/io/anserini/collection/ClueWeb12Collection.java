@@ -57,34 +57,55 @@ import java.io.DataInputStream;
 import java.io.DataOutput;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.zip.GZIPInputStream;
 
 /**
- * Class representing an instance of the
- * <a href="https://www.lemurproject.org/clueweb12.php/">ClueWeb12 collection</a>.
+ * An instance of the <a href="https://www.lemurproject.org/clueweb12.php/">ClueWeb12 collection</a>.
  * This can be used to read the complete ClueWeb12 collection or the smaller ClueWeb12-B13 subset.
- * Note that the implementation inherits from {@link ClueWeb09Collection} because
- * {@link ClueWeb12Collection.Document} inherits from {@link ClueWeb09Collection.Document}.
  */
-public class ClueWeb12Collection extends ClueWeb09Collection {
+public class ClueWeb12Collection extends DocumentCollection
+    implements FileSegmentProvider<ClueWeb12Collection.Document> {
+
+  @Override
+  public List<Path> getFileSegmentPaths() {
+    Set<String> allowedFileSuffix = new HashSet<>(Arrays.asList(".warc.gz"));
+    Set<String> skippedDirs = new HashSet<>(Arrays.asList("OtherData"));
+
+    return discover(path, EMPTY_SET, EMPTY_SET, EMPTY_SET, allowedFileSuffix, skippedDirs);
+  }
+
+  @Override
+  public FileSegment createFileSegment(Path p) throws IOException {
+    return new FileSegment(p);
+  }
 
   /**
-   * Represents an individual WARC in the ClueWeb12Collection collection.
+   * An individual WARC in the ClueWeb12 collection.
    */
-  public class FileSegment extends ClueWeb09Collection.FileSegment {
-    private FileSegment(Path path) throws IOException {
-      super(path);
+  public static class FileSegment extends AbstractFileSegment<Document> {
+    protected DataInputStream stream;
+
+    protected FileSegment(Path path) throws IOException {
+      super.path = path;
+      this.stream = new DataInputStream(
+          new GZIPInputStream(Files.newInputStream(path, StandardOpenOption.READ)));
     }
 
     @Override
-    public ClueWeb12Collection.Document next() {
-      ClueWeb12Collection.Document doc;
+    public Document next() {
+      Document doc;
       try {
-        doc = ClueWeb12Collection.Document.readNextWarcRecord(stream, Document.WARC_VERSION);
+        doc = Document.readNextWarcRecord(stream, Document.WARC_VERSION);
         if (doc == null) {
           atEOF = true;
         }
@@ -93,11 +114,14 @@ public class ClueWeb12Collection extends ClueWeb09Collection {
       }
       return doc;
     }
-  }
 
-  @Override
-  public FileSegment createFileSegment(Path p) throws IOException {
-    return new FileSegment(p);
+    @Override
+    public void close() throws IOException {
+      atEOF = true;
+      if (stream != null) {
+        stream.close();
+      }
+    }
   }
 
   /**

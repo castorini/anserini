@@ -5,7 +5,7 @@ import argparse
 from subprocess import call
 
 index_cmd = """
-nohup sh target/appassembler/bin/IndexCollection -collection Gov2Collection \
+nohup sh target/appassembler/bin/IndexCollection -collection TrecwebCollection \
  -input /tuna1/collections/web/gov2/gov2-corpus/ -generator JsoupGenerator \
  -index lucene-index.gov2.pos+docvectors -threads 16 \
  -storePositions -storeDocvectors"""

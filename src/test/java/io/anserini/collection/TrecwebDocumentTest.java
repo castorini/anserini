@@ -14,17 +14,13 @@
  * limitations under the License.
  */
 
-package io.anserini.document;
+package io.anserini.collection;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.StringReader;
-import java.util.HashMap;
-
+import io.anserini.collection.DocumentTest;
 import io.anserini.collection.TrecwebCollection;
 import org.junit.Before;
-import org.junit.Test;
 
+import java.util.HashMap;
 
 public class TrecwebDocumentTest extends DocumentTest<TrecwebCollection.Document> {
 

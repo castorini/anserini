@@ -16,7 +16,10 @@
 
 package io.anserini.collection;
 
-import io.anserini.document.SourceDocument;
+import org.wikiclean.WikiClean;
+import org.wikiclean.WikiClean.WikiLanguage;
+import org.wikiclean.WikiCleanBuilder;
+import org.wikiclean.WikipediaBz2DumpInputStream;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -25,19 +28,29 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import org.wikiclean.WikiClean;
-import org.wikiclean.WikiClean.WikiLanguage;
-import org.wikiclean.WikiCleanBuilder;
-import org.wikiclean.WikipediaBz2DumpInputStream;
 
 /**
  * Class representing an instance of a Wikipedia collection. Note that Wikipedia dumps often come
  * as a single bz2 file. Since a collection is assumed to be in a directory, place the bz2 file in
  * a directory prior to indexing.
  */
-public class WikipediaCollection extends Collection<WikipediaCollection.Document> {
+public class WikipediaCollection extends DocumentCollection
+    implements FileSegmentProvider<WikipediaCollection.Document> {
 
-  public class FileSegment extends Collection<WikipediaCollection.Document>.FileSegment {
+  @Override
+  public List<Path> getFileSegmentPaths() {
+    Set<String> allowedFileSuffix = new HashSet<>(Arrays.asList(".bz2"));
+
+    return discover(path, EMPTY_SET, EMPTY_SET, EMPTY_SET,
+        allowedFileSuffix, EMPTY_SET);
+  }
+
+  @Override
+  public FileSegment createFileSegment(Path p) throws IOException {
+    return new FileSegment(p);
+  }
+
+  public class FileSegment extends AbstractFileSegment<Document> {
     private final WikipediaBz2DumpInputStream stream;
     private final WikiClean cleaner;
 
@@ -83,19 +96,6 @@ public class WikipediaCollection extends Collection<WikipediaCollection.Document
       atEOF = true;
       return null;
     }
-  }
-
-  @Override
-  public List<Path> getFileSegmentPaths() {
-    Set<String> allowedFileSuffix = new HashSet<>(Arrays.asList(".bz2"));
-
-    return discover(path, EMPTY_SET, EMPTY_SET, EMPTY_SET,
-        allowedFileSuffix, EMPTY_SET);
-  }
-
-  @Override
-  public FileSegment createFileSegment(Path p) throws IOException {
-    return new FileSegment(p);
   }
 
   /**

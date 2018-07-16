@@ -14,21 +14,18 @@
  * limitations under the License.
  */
 
-package io.anserini.document;
-
-import java.io.BufferedOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
+package io.anserini.collection;
 
 import org.apache.commons.compress.compressors.bzip2.BZip2CompressorOutputStream;
 import org.apache.tools.ant.filters.StringInputStream;
 import org.junit.Before;
 import org.junit.Test;
 
-import io.anserini.collection.Collection;
-import io.anserini.collection.WikipediaCollection;
+import java.io.BufferedOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 public class WikipediaArticleTest extends DocumentTest<WikipediaCollection.Document> {
   protected static Path tmpPath;
@@ -91,7 +88,7 @@ public class WikipediaArticleTest extends DocumentTest<WikipediaCollection.Docum
   @Test
   public void test() throws IOException {
     WikipediaCollection wc = new WikipediaCollection();
-    Collection.FileSegment iter = wc.createFileSegment(tmpPath);
+    AbstractFileSegment iter = wc.createFileSegment(tmpPath);
     SourceDocument parsed = iter.next();
     assertEquals(parsed.id(), "Wiktionary:Welcome, newcomers");
     assertEquals(parsed.content(), "Wiktionary:Welcome, newcomers.\nthis is the   real content");
