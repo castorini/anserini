@@ -286,7 +286,7 @@ public class F2LogSimilarity extends Similarity {
     }
   }
 
-  /** Collection statistics for the F2Log model. */
+  /** DocumentCollection statistics for the F2Log model. */
   private static class F2LogStats extends SimWeight {
     /** F2Log's idf */
     private final Explanation idf;
