@@ -88,7 +88,7 @@ public class WikipediaArticleTest extends DocumentTest<WikipediaCollection.Docum
   @Test
   public void test() throws IOException {
     WikipediaCollection wc = new WikipediaCollection();
-    FileSegment iter = wc.createFileSegment(tmpPath);
+    AbstractFileSegment iter = wc.createFileSegment(tmpPath);
     SourceDocument parsed = iter.next();
     assertEquals(parsed.id(), "Wiktionary:Welcome, newcomers");
     assertEquals(parsed.content(), "Wiktionary:Welcome, newcomers.\nthis is the   real content");

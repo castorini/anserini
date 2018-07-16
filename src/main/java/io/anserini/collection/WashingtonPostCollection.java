@@ -48,7 +48,7 @@ public class WashingtonPostCollection extends DocumentCollection
     return new WashingtonPostCollection.FileSegment(p);
   }
 
-  public class FileSegment extends io.anserini.collection.FileSegment<WashingtonPostCollection.Document> {
+  public class FileSegment extends AbstractFileSegment<Document> {
     private String fileName;
 
     public FileSegment(Path path) throws IOException {

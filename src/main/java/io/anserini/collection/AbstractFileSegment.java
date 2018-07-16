@@ -27,12 +27,12 @@ import java.util.Iterator;
 
 /**
  * A file containing one more source documents to be indexed. A collection is comprised of one or
- * more {@code FileSegment}s. Note that a {@code FileSegment} can have independent existence
+ * more {@code AbstractFileSegment}s. Note that a {@code AbstractFileSegment} can have independent existence
  * outside a collection, and in principle multiple collections might share the same
- * {@code FileSegment} implementation.
+ * {@code AbstractFileSegment} implementation.
  */
-public abstract class FileSegment<T extends SourceDocument> implements Iterator<T>, Closeable {
-  private static final Logger LOG = LogManager.getLogger(FileSegment.class);
+public abstract class AbstractFileSegment<T extends SourceDocument> implements Iterator<T>, Closeable {
+  private static final Logger LOG = LogManager.getLogger(AbstractFileSegment.class);
   protected final int BUFFER_SIZE = 1 << 16; // 64K
 
   protected Path path;
@@ -49,7 +49,7 @@ public abstract class FileSegment<T extends SourceDocument> implements Iterator<
   public T next() {
     T d;
     try {
-      d = (T)dType.readNextRecord(bufferedReader);
+      d = (T) dType.readNextRecord(bufferedReader);
       if (d == null) {
         atEOF = true;
       }

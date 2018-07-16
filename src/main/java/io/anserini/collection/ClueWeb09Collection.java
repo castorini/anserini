@@ -94,8 +94,7 @@ public class ClueWeb09Collection extends DocumentCollection
   /**
    * An individual WARC in the ClueWeb09 collection.
    */
-  public static class FileSegment
-      extends io.anserini.collection.FileSegment<ClueWeb09Collection.Document> {
+  public static class FileSegment extends AbstractFileSegment<Document> {
     protected DataInputStream stream;
 
     protected FileSegment(Path path) throws IOException {

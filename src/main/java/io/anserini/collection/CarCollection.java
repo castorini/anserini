@@ -36,7 +36,8 @@ import java.util.Set;
  * Since a collection is assumed to be in a directory, place the cbor file in
  * a directory prior to indexing.
  */
-public class CarCollection extends DocumentCollection implements FileSegmentProvider<CarCollection.Document> {
+public class CarCollection extends DocumentCollection
+    implements FileSegmentProvider<CarCollection.Document> {
 
   @Override
   public List<Path> getFileSegmentPaths() {
@@ -51,9 +52,9 @@ public class CarCollection extends DocumentCollection implements FileSegmentProv
     return new FileSegment(p);
   }
 
-  public class FileSegment extends io.anserini.collection.FileSegment<Document> {
-      private final FileInputStream stream;
-      private final Iterator<Data.Paragraph> iter;
+  public class FileSegment extends AbstractFileSegment<Document> {
+    private final FileInputStream stream;
+    private final Iterator<Data.Paragraph> iter;
 
     protected FileSegment(Path path) throws IOException {
       this.path = path;

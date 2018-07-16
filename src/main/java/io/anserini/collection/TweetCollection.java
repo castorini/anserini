@@ -46,7 +46,8 @@ import java.util.zip.GZIPInputStream;
 /**
  * Class representing an instance of a Twitter collection.
  */
-public class TweetCollection extends DocumentCollection implements FileSegmentProvider<TweetCollection.Document> {
+public class TweetCollection extends DocumentCollection
+    implements FileSegmentProvider<TweetCollection.Document> {
 
   @Override
   public List<Path> getFileSegmentPaths() {
@@ -58,7 +59,7 @@ public class TweetCollection extends DocumentCollection implements FileSegmentPr
     return new FileSegment(p);
   }
 
-  public class FileSegment extends io.anserini.collection.FileSegment<Document> {
+  public class FileSegment extends AbstractFileSegment<Document> {
     protected FileSegment(Path path) throws IOException {
       dType = new TweetCollection.Document();
 

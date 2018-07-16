@@ -21,7 +21,7 @@ import java.nio.file.Path;
 import java.util.List;
 
 /**
- * An interface that provides {@link FileSegment}s, which provides {@link SourceDocument}s.
+ * An interface that provides {@link AbstractFileSegment}s, which provides {@link SourceDocument}s.
  * Typically, each implementation is associated with a particular {@link DocumentCollection}.
  *
  * @param <T> type of the source document
@@ -29,21 +29,21 @@ import java.util.List;
 public interface FileSegmentProvider<T extends SourceDocument> {
   /**
    * Returns a list of paths corresponding to file segments in the collection. Note that this
-   * method returns paths, as opposed to {@code FileSegment} objects directly, because each
-   * {@code FileSegment} object is backed by an open file, and thus having too many file handles
+   * method returns paths, as opposed to {@code AbstractFileSegment} objects directly, because each
+   * {@code AbstractFileSegment} object is backed by an open file, and thus having too many file handles
    * open may be problematic for large collections. Use {@link #createFileSegment(Path)} to
-   * instantiate a {@code FileSegment} object from its path.
+   * instantiate a {@code AbstractFileSegment} object from its path.
    *
    * @return a list of paths corresponding to file segments in the collection
    */
   List<Path> getFileSegmentPaths();
 
   /**
-   * Creates a {@code FileSegment} from a path.
+   * Creates a {@code AbstractFileSegment} from a path.
    *
    * @param p path
-   * @return {@code FileSegment} with the specified path
+   * @return {@code AbstractFileSegment} with the specified path
    * @throws IOException if file access error encountered
    */
-  FileSegment<T> createFileSegment(Path p) throws IOException;
+  AbstractFileSegment<T> createFileSegment(Path p) throws IOException;
 }

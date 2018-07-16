@@ -56,9 +56,9 @@ import java.util.Set;
  * <a href="https://catalog.ldc.upenn.edu/products/LDC2008T19">LDC2008T19</a>.
  * Note that the collection is distributed as a number of {@code tgz} files, which
  * uncompresses to individual XML documents in a directory structure. Since the
- * current design of {@link io.anserini.collection.FileSegment} cannot
+ * current design of {@link AbstractFileSegment} cannot
  * handle {@code tgz} files (only {@code gz} files), the collection must first be
- * uncompressed prior to indexing. In this case, each {@code FileSegment} is an
+ * uncompressed prior to indexing. In this case, each {@code AbstractFileSegment} is an
  * XML file containing only a single document.
  */
 public class NewYorkTimesCollection extends DocumentCollection
@@ -77,7 +77,7 @@ public class NewYorkTimesCollection extends DocumentCollection
     return new FileSegment(p);
   }
 
-  public class FileSegment extends io.anserini.collection.FileSegment {
+  public class FileSegment extends AbstractFileSegment {
     // We're creating a parser for each file, just to parse a single document, which is
     // very inefficient. However, the parser is not thread safe, so this is our only option.
     private final NewYorkTimesCollection.Parser parser = new NewYorkTimesCollection.Parser();

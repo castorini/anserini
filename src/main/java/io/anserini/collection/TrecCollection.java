@@ -51,12 +51,11 @@ public class TrecCollection extends DocumentCollection
   }
 
   @Override
-  public FileSegment<TrecCollection.Document> createFileSegment(Path p) throws IOException {
+  public FileSegment<Document> createFileSegment(Path p) throws IOException {
     return new FileSegment<>(p);
   }
 
-  public static class FileSegment<T extends TrecCollection.Document>
-      extends io.anserini.collection.FileSegment<T> {
+  public static class FileSegment<T extends Document> extends AbstractFileSegment<T> {
     public FileSegment(Path path) throws IOException {
       dType = (T) new Document();
 

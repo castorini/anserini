@@ -23,7 +23,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 
-import javax.json.Json;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -83,7 +82,7 @@ public class JsonCollection extends DocumentCollection
     return new FileSegment(p);
   }
 
-  public class FileSegment extends io.anserini.collection.FileSegment<JsonCollection.Document> {
+  public class FileSegment extends AbstractFileSegment<Document> {
     protected FileSegment(Path path) throws IOException {
       dType = new JsonCollection.Document(path.toString());
       bufferedReader = new BufferedReader(new FileReader(path.toString()));

@@ -50,7 +50,7 @@ public class WikipediaCollection extends DocumentCollection
     return new FileSegment(p);
   }
 
-  public class FileSegment extends io.anserini.collection.FileSegment<Document> {
+  public class FileSegment extends AbstractFileSegment<Document> {
     private final WikipediaBz2DumpInputStream stream;
     private final WikiClean cleaner;
 
