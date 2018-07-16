@@ -77,7 +77,7 @@ public class NewYorkTimesCollection extends DocumentCollection
     return new FileSegment(p);
   }
 
-  public class FileSegment extends AbstractFileSegment {
+  public class FileSegment extends AbstractFileSegment<Document> {
     // We're creating a parser for each file, just to parse a single document, which is
     // very inefficient. However, the parser is not thread safe, so this is our only option.
     private final NewYorkTimesCollection.Parser parser = new NewYorkTimesCollection.Parser();

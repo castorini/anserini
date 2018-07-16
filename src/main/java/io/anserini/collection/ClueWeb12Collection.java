@@ -102,10 +102,10 @@ public class ClueWeb12Collection extends DocumentCollection
     }
 
     @Override
-    public ClueWeb12Collection.Document next() {
-      ClueWeb12Collection.Document doc;
+    public Document next() {
+      Document doc;
       try {
-        doc = ClueWeb12Collection.Document.readNextWarcRecord(stream, Document.WARC_VERSION);
+        doc = Document.readNextWarcRecord(stream, Document.WARC_VERSION);
         if (doc == null) {
           atEOF = true;
         }

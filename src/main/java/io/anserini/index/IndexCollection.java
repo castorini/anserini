@@ -174,6 +174,7 @@ public final class IndexCollection {
     @Override
     public void run() {
       try {
+        @SuppressWarnings("unchecked")
         LuceneDocumentGenerator generator =
             (LuceneDocumentGenerator) generatorClass
                 .getDeclaredConstructor(Args.class, Counters.class)

@@ -104,8 +104,8 @@ public class ClueWeb09Collection extends DocumentCollection
     }
 
     @Override
-    public ClueWeb09Collection.Document next() {
-      ClueWeb09Collection.Document doc;
+    public Document next() {
+      Document doc;
       try {
         doc = Document.readNextWarcRecord(stream, Document.WARC_VERSION);
         if (doc == null) {

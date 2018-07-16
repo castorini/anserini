@@ -56,6 +56,7 @@ public class TrecCollection extends DocumentCollection
   }
 
   public static class FileSegment<T extends Document> extends AbstractFileSegment<T> {
+    @SuppressWarnings("unchecked")
     public FileSegment(Path path) throws IOException {
       dType = (T) new Document();
 

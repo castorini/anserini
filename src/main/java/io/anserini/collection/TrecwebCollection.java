@@ -29,7 +29,7 @@ public class TrecwebCollection extends DocumentCollection
 
   @Override
   public FileSegment<Document> createFileSegment(Path p) throws IOException {
-    return new FileSegment(p);
+    return new FileSegment<>(p);
   }
 
   @Override
@@ -39,6 +39,7 @@ public class TrecwebCollection extends DocumentCollection
   }
 
   public static class FileSegment<T extends Document> extends TrecCollection.FileSegment<T> {
+    @SuppressWarnings("unchecked")
     public FileSegment(Path path) throws IOException {
       super(path);
       dType = (T) new Document();
