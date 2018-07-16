@@ -74,7 +74,7 @@ public class TweetCollection extends DocumentCollection
         bufferedReader = new BufferedReader(new FileReader(fileName));
       }
     }
-    DocumentCollection.java}
+  }
 
   /**
    * A Twitter document (status).

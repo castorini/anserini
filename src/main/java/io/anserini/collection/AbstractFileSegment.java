@@ -46,6 +46,7 @@ public abstract class AbstractFileSegment<T extends SourceDocument> implements I
   }
 
   @Override
+  @SuppressWarnings("unchecked")
   public T next() {
     T d;
     try {
