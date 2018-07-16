@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class AvgIDFFeatureExtractorTest extends BaseFeatureExtractorTest {
+public class AvgIDFFeatureExtractorTest extends BaseFeatureExtractorTest<Integer> {
 
   private static FeatureExtractors EXTRACTOR = getChain(new AvgIDFFeatureExtractor());
 

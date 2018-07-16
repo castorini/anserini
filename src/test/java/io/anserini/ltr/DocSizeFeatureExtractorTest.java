@@ -9,7 +9,7 @@ import java.util.Arrays;
 /**
  * Test we get the doc size correctly
  */
-public class DocSizeFeatureExtractorTest extends BaseFeatureExtractorTest{
+public class DocSizeFeatureExtractorTest extends BaseFeatureExtractorTest<Integer> {
 
   @Test
   public void testSingleDoc() throws IOException {

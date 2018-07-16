@@ -10,7 +10,7 @@ import java.util.Arrays;
 /**
  * Tests the simplified clarity feature
  */
-public class SCSFeatureExtractorTest extends BaseFeatureExtractorTest {
+public class SCSFeatureExtractorTest extends BaseFeatureExtractorTest<Integer> {
   private FeatureExtractors EXTRACTOR = getChain(new SimplifiedClarityFeatureExtractor());
 
   @Test

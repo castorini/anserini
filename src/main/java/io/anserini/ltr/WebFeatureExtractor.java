@@ -72,6 +72,7 @@ public class WebFeatureExtractor extends BaseFeatureExtractor {
    * @param topics
    * @param customExtractors
    */
+  @SuppressWarnings("unchecked")
   public <K> WebFeatureExtractor(IndexReader reader, Qrels qrels, Map<K, Map<String, String>> topics,
                              FeatureExtractors customExtractors) {
     super(reader, qrels, topics, customExtractors == null ? getDefaultExtractors() : customExtractors);
