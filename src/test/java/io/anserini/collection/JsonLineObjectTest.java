@@ -14,7 +14,10 @@
  * limitations under the License.
  */
 
-package io.anserini.document;
+package io.anserini.collection;
+
+import org.junit.After;
+import org.junit.Before;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -22,11 +25,6 @@ import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.HashMap;
-
-import io.anserini.collection.JsonCollection;
-import org.junit.After;
-import org.junit.Before;
-
 
 public class JsonLineObjectTest extends DocumentTest<JsonCollection.Document> {
   private String sampleFile = "sampleJsonLineObject.json";

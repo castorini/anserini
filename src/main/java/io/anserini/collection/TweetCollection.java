@@ -24,7 +24,6 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
-import io.anserini.document.SourceDocument;
 import io.anserini.util.JsonParser;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -38,6 +37,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
+import java.util.List;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -46,9 +46,20 @@ import java.util.zip.GZIPInputStream;
 /**
  * Class representing an instance of a Twitter collection.
  */
-public class TweetCollection extends Collection<TweetCollection.Document> {
+public class TweetCollection extends DocumentCollection
+    implements FileSegmentProvider<TweetCollection.Document> {
 
-  public class FileSegment extends Collection<TweetCollection.Document>.FileSegment {
+  @Override
+  public List<Path> getFileSegmentPaths() {
+    return super.discover();
+  }
+
+  @Override
+  public FileSegment createFileSegment(Path p) throws IOException {
+    return new FileSegment(p);
+  }
+
+  public class FileSegment extends AbstractFileSegment<Document> {
     protected FileSegment(Path path) throws IOException {
       dType = new TweetCollection.Document();
 
@@ -63,18 +74,6 @@ public class TweetCollection extends Collection<TweetCollection.Document> {
         bufferedReader = new BufferedReader(new FileReader(fileName));
       }
     }
-  }
-
-  @Override
-  public List<Path> getFileSegmentPaths() {
-    Set<String> allowedFileSuffix = new HashSet<>(Arrays.asList(".gz"));
-
-    return discover(path, EMPTY_SET, EMPTY_SET, EMPTY_SET, EMPTY_SET, EMPTY_SET);
-  }
-
-  @Override
-  public FileSegment createFileSegment(Path p) throws IOException {
-    return new FileSegment(p);
   }
 
   /**

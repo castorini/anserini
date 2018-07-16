@@ -22,9 +22,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import io.anserini.document.SourceDocument;
 
-import javax.json.Json;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -68,25 +66,27 @@ import java.util.Set;
  * </pre>
  *
  */
-public class JsonCollection extends Collection<JsonCollection.Document> {
-
-  public class FileSegment extends Collection<JsonCollection.Document>.FileSegment {
-    protected FileSegment(Path path) throws IOException {
-      dType = new Document(path.toString());
-      bufferedReader = new BufferedReader(new FileReader(path.toString()));
-    }
-  }
+public class JsonCollection extends DocumentCollection
+    implements FileSegmentProvider<JsonCollection.Document> {
 
   @Override
   public List<Path> getFileSegmentPaths() {
     Set<String> allowedFileSuffix = new HashSet<>(Arrays.asList(".json"));
 
-    return discover(path, EMPTY_SET, EMPTY_SET, EMPTY_SET, allowedFileSuffix, EMPTY_SET);
+    return discover(path, EMPTY_SET, EMPTY_SET, EMPTY_SET,
+        allowedFileSuffix, EMPTY_SET);
   }
 
   @Override
   public FileSegment createFileSegment(Path p) throws IOException {
     return new FileSegment(p);
+  }
+
+  public class FileSegment extends AbstractFileSegment<Document> {
+    protected FileSegment(Path path) throws IOException {
+      dType = new JsonCollection.Document(path.toString());
+      bufferedReader = new BufferedReader(new FileReader(path.toString()));
+    }
   }
 
   /**

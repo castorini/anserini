@@ -22,7 +22,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
-import io.anserini.document.SourceDocument;
 import io.anserini.util.JsonParser;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -33,9 +32,23 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.*;
 
-public class WashingtonPostCollection extends Collection<WashingtonPostCollection.Document> {
+public class WashingtonPostCollection extends DocumentCollection
+    implements FileSegmentProvider<WashingtonPostCollection.Document> {
 
-  public class FileSegment extends Collection<WashingtonPostCollection.Document>.FileSegment {
+  @Override
+  public List<Path> getFileSegmentPaths() {
+    Set<String> allowedFileSuffix = new HashSet<>(Arrays.asList(".txt"));
+
+    return discover(path, EMPTY_SET, EMPTY_SET, EMPTY_SET,
+        allowedFileSuffix, EMPTY_SET);
+  }
+
+  @Override
+  public FileSegment createFileSegment(Path p) throws IOException {
+    return new WashingtonPostCollection.FileSegment(p);
+  }
+
+  public class FileSegment extends AbstractFileSegment<Document> {
     private String fileName;
 
     public FileSegment(Path path) throws IOException {
@@ -45,19 +58,6 @@ public class WashingtonPostCollection extends Collection<WashingtonPostCollectio
       this.fileName = path.toString();
       this.bufferedReader = new BufferedReader(new FileReader(fileName));
     }
-  }
-
-  @Override
-  public List<Path> getFileSegmentPaths() {
-    Set<String> allowedFileSuffix = new HashSet<>(Arrays.asList(".txt"));
-
-    return discover(path, EMPTY_SET, EMPTY_SET, EMPTY_SET,
-            allowedFileSuffix, EMPTY_SET);
-  }
-
-  @Override
-  public FileSegment createFileSegment(Path p) throws IOException {
-    return new WashingtonPostCollection.FileSegment(p);
   }
 
   /**
