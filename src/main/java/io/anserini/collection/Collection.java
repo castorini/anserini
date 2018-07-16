@@ -90,6 +90,7 @@ public abstract class Collection<T extends SourceDocument> {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public T next() {
       T d;
       try {

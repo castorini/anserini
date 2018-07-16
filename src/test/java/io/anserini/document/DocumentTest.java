@@ -38,6 +38,7 @@ public class DocumentTest<D extends SourceDocument> extends LuceneTestCase {
     expected = new ArrayList<Map<String, String>>();
   }
 
+  @SuppressWarnings("unchecked")
   protected D parse(String raw) throws Exception {
     BufferedReader bufferedReader = new BufferedReader(new StringReader(raw));
     D d = (D)dType.readNextRecord(bufferedReader);

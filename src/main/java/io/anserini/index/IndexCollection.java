@@ -170,6 +170,7 @@ public final class IndexCollection {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public void run() {
       try {
         LuceneDocumentGenerator generator =

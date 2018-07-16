@@ -80,6 +80,7 @@ abstract public class BaseFeatureExtractorTest<T> extends LuceneTestCase {
    * and the query we want with dummy query ids and null filter
    * @return
    */
+  @SuppressWarnings("unchecked")
   protected RerankerContext<T> makeTestContext(String queryText) {
     try {
 	  RerankerContext<T> context = new RerankerContext<T>(
