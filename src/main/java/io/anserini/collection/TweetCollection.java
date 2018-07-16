@@ -46,9 +46,9 @@ import java.util.zip.GZIPInputStream;
 /**
  * Class representing an instance of a Twitter collection.
  */
-public class TweetCollection extends Collection {
+public class TweetCollection extends Collection<TweetCollection.Document> {
 
-  public class FileSegment extends Collection.FileSegment {
+  public class FileSegment extends Collection<TweetCollection.Document>.FileSegment {
     protected FileSegment(Path path) throws IOException {
       dType = new TweetCollection.Document();
 

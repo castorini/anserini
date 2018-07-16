@@ -79,12 +79,12 @@ import java.util.zip.GZIPInputStream;
  * <a href="https://www.lemurproject.org/clueweb09.php/">ClueWeb09 collection</a>.
  * This can be used to read the complete ClueWeb09 collection or the smaller ClueWeb09b subset.
  */
-public class ClueWeb09Collection extends Collection {
+public class ClueWeb09Collection extends Collection<ClueWeb09Collection.Document> {
 
   /**
    * Represents an individual WARC in the ClueWeb09 collection.
    */
-  public class FileSegment extends Collection.FileSegment {
+  public class FileSegment extends Collection<ClueWeb09Collection.Document>.FileSegment {
     protected DataInputStream stream;
 
     protected FileSegment(Path path) throws IOException {

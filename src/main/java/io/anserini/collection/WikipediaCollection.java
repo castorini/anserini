@@ -35,9 +35,9 @@ import org.wikiclean.WikipediaBz2DumpInputStream;
  * as a single bz2 file. Since a collection is assumed to be in a directory, place the bz2 file in
  * a directory prior to indexing.
  */
-public class WikipediaCollection extends Collection {
+public class WikipediaCollection extends Collection<WikipediaCollection.Document> {
 
-  public class FileSegment extends Collection.FileSegment {
+  public class FileSegment extends Collection<WikipediaCollection.Document>.FileSegment {
     private final WikipediaBz2DumpInputStream stream;
     private final WikiClean cleaner;
 
