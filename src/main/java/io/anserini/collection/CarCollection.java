@@ -18,7 +18,8 @@ package io.anserini.collection;
 
 import edu.unh.cs.treccar_v2.Data;
 import edu.unh.cs.treccar_v2.read_data.DeserializeData;
-import io.anserini.document.CarDocument;
+
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -35,7 +36,7 @@ import java.util.Set;
  * Since a collection is assumed to be in a directory, place the cbor file in
  * a directory prior to indexing.
  */
-public class CarCollection extends DocumentCollection implements FileSegmentProvider<CarDocument> {
+public class CarCollection extends DocumentCollection implements FileSegmentProvider<CarCollection.Document> {
 
   @Override
   public List<Path> getFileSegmentPaths() {
@@ -50,7 +51,7 @@ public class CarCollection extends DocumentCollection implements FileSegmentProv
     return new FileSegment(p);
   }
 
-  public class FileSegment extends io.anserini.collection.FileSegment {
+  public class FileSegment extends io.anserini.collection.FileSegment<Document> {
       private final FileInputStream stream;
       private final Iterator<Data.Paragraph> iter;
 
@@ -61,10 +62,10 @@ public class CarCollection extends DocumentCollection implements FileSegmentProv
     }
 
     @Override
-    public CarDocument next() {
+    public Document next() {
       System.setProperty("file.encoding", "UTF-8");
       Data.Paragraph p = iter.next();
-      CarDocument doc = new CarDocument(p.getParaId(), p.getTextOnly());
+      Document doc = new Document(p.getParaId(), p.getTextOnly());
 
       // If we've fall through here, we've either encountered an exception or we've reached the end
       // of the underlying stream.
@@ -72,6 +73,46 @@ public class CarCollection extends DocumentCollection implements FileSegmentProv
         atEOF = true;
       }
       return doc;
+    }
+  }
+
+  /**
+   * A paragraph object in the CAR dataset ver2.0. The paraID serves as the id.
+   * Reference: http://trec-car.cs.unh.edu/datareleases/
+   */
+  public class Document implements SourceDocument {
+    private final String paraID;
+    private final String paragraph;
+
+    public Document(String paraID, String paragraph) {
+      this.paraID = paraID;
+      this.paragraph = paragraph;
+    }
+
+    /**
+     * readNextRecord() is not used because CarCollection will load the .cbor file directly from the disk
+     * @param bRdr file BufferedReader
+     * @return null
+     * @throws IOException any io exception
+     */
+    @Override
+    public Document readNextRecord(BufferedReader bRdr) throws IOException {
+      return null;
+    }
+
+    @Override
+    public String id() {
+      return paraID;
+    }
+
+    @Override
+    public String content() {
+      return paragraph;
+    }
+
+    @Override
+    public boolean indexable() {
+      return true;
     }
   }
 }

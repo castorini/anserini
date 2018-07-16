@@ -16,18 +16,17 @@
 
 package io.anserini.collection;
 
-import io.anserini.document.TweetDocument;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.HashMap;
 
-public class TweetDocumentTest extends DocumentTest<TweetDocument> {
+public class TweetDocumentTest extends DocumentTest<TweetCollection.Document> {
 
   @Before
-  public void setUP() throws Exception {
+  public void setUp() throws Exception {
     super.setUp();
-    dType = new TweetDocument();
+    dType = new TweetCollection.Document();
 
     rawDocs.add("{\"id_str\":\"123456789\",\"text\":\"" + "this is the tweet contents."
         + "\",\"user\":{\"screen_name\":\"foo\",\"name\":\"foo\"," +
@@ -46,7 +45,7 @@ public class TweetDocumentTest extends DocumentTest<TweetDocument> {
   @Test
   public void test() throws Exception {
     for (int i = 0; i < rawDocs.size(); i++) {
-      TweetDocument parsed = parse(rawDocs.get(i));
+      TweetCollection.Document parsed = parse(rawDocs.get(i));
       assertEquals(parsed.id(), expected.get(i).get("id"));
       assertEquals(parsed.content(), expected.get(i).get("content"));
       assert(parsed.getTimestampMs().isPresent());

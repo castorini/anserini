@@ -29,7 +29,7 @@ t2_qrels = "src/main/resources/topics-and-qrels/qrels.751-800.txt"
 t3_qrels = "src/main/resources/topics-and-qrels/qrels.801-850.txt"
 
 def extract_value_from_doc(key, row, col):
-    return float(os.popen("grep '{}' docs/experiments-gov2.md | head -{} | tail -1".format(key, row)).read().split('|')[col].strip())
+    return float(os.popen("grep '{}' docs/experiments-gov2-old.md | head -{} | tail -1".format(key, row)).read().split('|')[col].strip())
 
 def trec_eval_metric(metric, qrels, run):
     return float(os.popen("eval/trec_eval.9.0/trec_eval -m {} {} {}".format(metric, qrels, run)).read().split("\t")[2].strip())

@@ -19,7 +19,7 @@ package io.anserini.index.generator;
 import com.twitter.twittertext.Extractor;
 import com.twitter.twittertext.TwitterTextParseResults;
 import com.twitter.twittertext.TwitterTextParser;
-import io.anserini.document.TweetDocument;
+import io.anserini.collection.TweetCollection;
 import io.anserini.index.IndexCollection;
 import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
 import org.apache.logging.log4j.LogManager;
@@ -43,9 +43,9 @@ import java.io.InputStreamReader;
 import java.util.List;
 
 /**
- * Converts a {@link TweetDocument} into a Lucene {@link Document}, ready to be indexed.
+ * Converts a {@link TweetCollection.Document} into a Lucene {@link Document}, ready to be indexed.
  */
-public class TweetGenerator extends LuceneDocumentGenerator<TweetDocument> {
+public class TweetGenerator extends LuceneDocumentGenerator<TweetCollection.Document> {
   private static final Logger LOG = LogManager.getLogger(TweetGenerator.class);
 
   public static final String FIELD_RAW = "raw";
@@ -107,7 +107,7 @@ public class TweetGenerator extends LuceneDocumentGenerator<TweetDocument> {
   }
 
   @Override
-  public Document createDocument(TweetDocument tweetDoc) {
+  public Document createDocument(TweetCollection.Document tweetDoc) {
     String id = tweetDoc.id();
 
     if (tweetDoc.content().trim().isEmpty()) {
@@ -159,7 +159,7 @@ public class TweetGenerator extends LuceneDocumentGenerator<TweetDocument> {
 
     tweetDoc.getEpoch().ifPresent( epoch ->
       doc.add(new LongPoint(StatusField.EPOCH.name, epoch)) );
-    doc.add(new StringField(StatusField.SCREEN_NAME.name, tweetDoc.getScreenname(), Field.Store.NO));
+    doc.add(new StringField(StatusField.SCREEN_NAME.name, tweetDoc.getScreenName(), Field.Store.NO));
     doc.add(new IntPoint(StatusField.FRIENDS_COUNT.name, tweetDoc.getFollowersCount()));
     doc.add(new IntPoint(StatusField.FOLLOWERS_COUNT.name, tweetDoc.getFriendsCount()));
     doc.add(new IntPoint(StatusField.STATUSES_COUNT.name, tweetDoc.getStatusesCount()));

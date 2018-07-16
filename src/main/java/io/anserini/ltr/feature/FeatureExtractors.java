@@ -9,14 +9,13 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import io.anserini.rerank.RerankerContext;
 
 import java.io.FileReader;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.Terms;
-
-import com.google.common.collect.Lists;
 
 /**
  * A collection of {@link FeatureExtractor}s.
@@ -87,7 +86,7 @@ public class FeatureExtractors {
 
   //********************************************************
 
-  public List<FeatureExtractor> extractors = Lists.newArrayList();
+  public List<FeatureExtractor> extractors = new ArrayList<>();
 
   public FeatureExtractors() {}
 

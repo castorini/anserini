@@ -16,7 +16,6 @@
 
 package io.anserini.collection;
 
-import io.anserini.document.WikipediaArticle;
 import org.apache.commons.compress.compressors.bzip2.BZip2CompressorOutputStream;
 import org.apache.tools.ant.filters.StringInputStream;
 import org.junit.Before;
@@ -28,13 +27,13 @@ import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-public class WikipediaArticleTest extends DocumentTest<WikipediaArticle> {
+public class WikipediaArticleTest extends DocumentTest<WikipediaCollection.Document> {
   protected static Path tmpPath;
 
   @Before
   public void setUp() throws Exception {
     super.setUp();
-    dType = new WikipediaArticle("Sample Title", "Sample Content");
+    dType = new WikipediaCollection.Document("Sample Title", "Sample Content");
 
     String doc = "<mediawiki xmlns=\"http://www.mediawiki.org/xml/export-0.10/\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.mediawiki.org/xml/export-0.10/ http://www.mediawiki.org/xm\n" +
         "l/export-0.10.xsd\" version=\"0.10\" xml:lang=\"en\">\n" +

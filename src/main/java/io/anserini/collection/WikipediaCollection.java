@@ -16,12 +16,12 @@
 
 package io.anserini.collection;
 
-import io.anserini.document.WikipediaArticle;
 import org.wikiclean.WikiClean;
 import org.wikiclean.WikiClean.WikiLanguage;
 import org.wikiclean.WikiCleanBuilder;
 import org.wikiclean.WikipediaBz2DumpInputStream;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Arrays;
@@ -35,7 +35,7 @@ import java.util.Set;
  * a directory prior to indexing.
  */
 public class WikipediaCollection extends DocumentCollection
-    implements FileSegmentProvider<WikipediaArticle> {
+    implements FileSegmentProvider<WikipediaCollection.Document> {
 
   @Override
   public List<Path> getFileSegmentPaths() {
@@ -50,7 +50,7 @@ public class WikipediaCollection extends DocumentCollection
     return new FileSegment(p);
   }
 
-  public class FileSegment extends io.anserini.collection.FileSegment {
+  public class FileSegment extends io.anserini.collection.FileSegment<Document> {
     private final WikipediaBz2DumpInputStream stream;
     private final WikiClean cleaner;
 
@@ -64,7 +64,7 @@ public class WikipediaCollection extends DocumentCollection
     }
 
     @Override
-    public WikipediaArticle next() {
+    public Document next() {
       try {
         String page;
         String s;
@@ -84,7 +84,7 @@ public class WikipediaCollection extends DocumentCollection
 
           // If we've gotten here, it means that we've advanced to the next "valid" article.
           String title = cleaner.getTitle(page).replaceAll("\\n+", " ");
-          return new WikipediaArticle(title, title + ".\n" + s);
+          return new Document(title, title + ".\n" + s);
         }
 
       } catch (IOException e) {
@@ -95,6 +95,40 @@ public class WikipediaCollection extends DocumentCollection
       // of the underlying stream.
       atEOF = true;
       return null;
+    }
+  }
+
+  /**
+   * A Wikipedia article. The article title serves as the id.
+   */
+  public static class Document implements SourceDocument {
+    private final String title;
+    private final String contents;
+
+    public Document(String title, String contents) {
+      this.title = title;
+      this.contents = contents;
+
+    }
+
+    @Override
+    public Document readNextRecord(BufferedReader bRdr) throws IOException {
+      return null;
+    }
+
+    @Override
+    public String id() {
+      return title;
+    }
+
+    @Override
+    public String content() {
+      return contents;
+    }
+
+    @Override
+    public boolean indexable() {
+      return true;
     }
   }
 }

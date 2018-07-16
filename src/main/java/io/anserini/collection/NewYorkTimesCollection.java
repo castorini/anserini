@@ -16,6 +16,9 @@
 
 package io.anserini.collection;
 
+import org.apache.commons.compress.archivers.ArchiveEntry;
+import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
+import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.w3c.dom.NamedNodeMap;
@@ -46,7 +49,6 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Set;
 
 /**
@@ -65,7 +67,7 @@ public class NewYorkTimesCollection extends DocumentCollection
 
   @Override
   public List<Path> getFileSegmentPaths() {
-    Set<String> allowedFileSuffix = new HashSet<>(Arrays.asList(".xml"));
+    Set<String> allowedFileSuffix = new HashSet<>(Arrays.asList(".xml", ".tgz"));
 
     return discover(path, EMPTY_SET, EMPTY_SET, EMPTY_SET, allowedFileSuffix, EMPTY_SET);
   }
@@ -79,38 +81,64 @@ public class NewYorkTimesCollection extends DocumentCollection
     // We're creating a parser for each file, just to parse a single document, which is
     // very inefficient. However, the parser is not thread safe, so this is our only option.
     private final NewYorkTimesCollection.Parser parser = new NewYorkTimesCollection.Parser();
-
-    // Each file segment only has one file, boolean to keep track if it's been read.
-    private boolean docRead = false;
+    private TarArchiveInputStream tarInput = null;
+    private ArchiveEntry nextEntry = null;
 
     protected FileSegment(Path path) throws IOException {
       super.path = path;
+      super.atEOF = false;
+
+      if (path.toString().endsWith(".tgz")) {
+        tarInput = new TarArchiveInputStream(new GzipCompressorInputStream(new FileInputStream(path.toFile())));
+        getNextEntry();
+      }
     }
 
     @Override
     public void close() throws IOException {
-      docRead = true;
+      atEOF = true;
       super.close();
     }
-
     @Override
     public boolean hasNext() {
-      return !docRead;
+      return !atEOF;
     }
 
     @Override
     public Document next() {
-      if (docRead) throw new NoSuchElementException();
-
       Document doc;
       try {
-        docRead = true;
-        doc = parser.parseFile(path.toFile());
+        if (path.toString().endsWith(".tgz")) {
+          bufferedReader = new BufferedReader(new InputStreamReader(tarInput, "UTF-8"));
+          File file = new File(nextEntry.getName()); // this is actually not a real file, only to match the method in Parser
+          doc = parser.parseFile(bufferedReader, file);
+          getNextEntry();
+        } else {
+          bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(path.toFile()), "UTF-8"));
+          doc = parser.parseFile(bufferedReader, path.toFile());
+          atEOF = true; // if it is a xml file, the segment only has one file, boolean to keep track if it's been read.
+        }
       } catch (IOException e) {
+        if (path.toString().endsWith(".xml")) {
+          atEOF = true;
+        }
         return null;
       }
 
       return doc;
+    }
+
+    private void getNextEntry() throws IOException {
+      nextEntry = tarInput.getNextEntry();
+      if (nextEntry == null) {
+        atEOF = true;
+        return;
+      }
+      // an ArchiveEntry may be a directory, so we need to read a next one.
+      //   this must be done after the null check.
+      if (nextEntry.isDirectory()) {
+        getNextEntry();
+      }
     }
   }
 
@@ -1827,8 +1855,8 @@ public class NewYorkTimesCollection extends DocumentCollection
     /** NITF Constant */
     private static final String GENERAL_DESCRIPTOR_ATTRIBUTE = "general_descriptor";
 
-    public Document parseFile(File fileName) throws IOException {
-      RawDocument raw = parseNYTCorpusDocumentFromFile(fileName, false);
+    public Document parseFile(BufferedReader bRdr, File fileName) throws IOException {
+      RawDocument raw = parseNYTCorpusDocumentFromBufferedReader(bRdr, fileName);
 
       Document d = new Document(raw);
       d.id = String.valueOf(raw.getGuid());
@@ -1853,6 +1881,20 @@ public class NewYorkTimesCollection extends DocumentCollection
       } else {
         document = loadNonValidating(file);
       }
+      return parseNYTCorpusDocumentFromDOMDocument(file, document);
+    }
+
+    /**
+     * Parse a New York Time Document from BufferedReader. The parameter `file` is
+     * used only to feed in other methods
+     *
+     * @param file the file from which to parse the document
+     * @param bRdr the BufferedReader of file
+     * @return the parsed document, or null if an error occurs
+     */
+    public RawDocument parseNYTCorpusDocumentFromBufferedReader(BufferedReader bRdr, File file) {
+      org.w3c.dom.Document document = loadFromBufferedReader(bRdr, file);
+
       return parseNYTCorpusDocumentFromDOMDocument(file, document);
     }
 
@@ -2220,6 +2262,32 @@ public class NewYorkTimesCollection extends DocumentCollection
         LOG.error("Error parsing date" + " from string " + content
             + " in file " + ldcDocument.getSourceFile() + ".");
       }
+    }
+
+    /**
+     * Load a document from a BufferedReader without validating it.
+     * @param bRdr the BufferedReader that data read in
+     * @param file the file that data stored in
+     * @return the parsed document or null if an error occurs
+     */
+    private org.w3c.dom.Document loadFromBufferedReader(BufferedReader bRdr, File file) {
+      org.w3c.dom.Document document;
+      StringBuffer sb = new StringBuffer();
+      try {
+        String line;
+        while ((line = bRdr.readLine()) != null) {
+          sb.append(line + "\n");
+        }
+        String xmlData = sb.toString();
+        xmlData = xmlData.replace("<!DOCTYPE nitf "
+                + "SYSTEM \"http://www.nitf.org/"
+                + "IPTC/NITF/3.3/specification/dtd/nitf-3-3.dtd\">", "");
+        document = parseStringToDOM(xmlData, "UTF-8", file);
+        return document;
+      } catch (IOException e) {
+        LOG.error("Error loading file " + file + ".");
+      }
+      return null;
     }
 
     /**
