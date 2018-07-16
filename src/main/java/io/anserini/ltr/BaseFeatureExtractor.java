@@ -108,6 +108,7 @@ abstract public class BaseFeatureExtractor<K> {
     }
 
     // Build all the reranker contexts because they will be reused once per query
+    @SuppressWarnings("unchecked")
     private Map<String, RerankerContext<K>> buildRerankerContextMap() throws IOException {
         Map<String, RerankerContext<K>> queryContextMap = new HashMap<>();
         IndexSearcher searcher = new IndexSearcher(reader);

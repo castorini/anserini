@@ -53,6 +53,7 @@ public class FeatureExtractorCli {
    * requires the user to supply the index directory and also the directory containing the qrels and topics
    * @param args  indexDir, qrelFile, topicFile, outputFile
    */
+  @SuppressWarnings("unchecked")
   public static<K> void main(String args[]) throws Exception {
 
     long curTime = System.nanoTime();
