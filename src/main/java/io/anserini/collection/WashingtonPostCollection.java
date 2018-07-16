@@ -33,9 +33,9 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.*;
 
-public class WashingtonPostCollection extends Collection {
+public class WashingtonPostCollection extends Collection<WashingtonPostCollection.Document> {
 
-  public class FileSegment extends Collection.FileSegment {
+  public class FileSegment extends Collection<WashingtonPostCollection.Document>.FileSegment {
     private String fileName;
 
     public FileSegment(Path path) throws IOException {

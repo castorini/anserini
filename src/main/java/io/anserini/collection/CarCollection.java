@@ -37,7 +37,7 @@ import java.util.Set;
  * Since a collection is assumed to be in a directory, place the cbor file in
  * a directory prior to indexing.
  */
-public class CarCollection extends Collection {
+public class CarCollection extends Collection<CarCollection.Document> {
 
   @Override
   public List<Path> getFileSegmentPaths() {
@@ -47,7 +47,7 @@ public class CarCollection extends Collection {
         allowedFileSuffix, EMPTY_SET);
   }
 
-  public class FileSegment extends Collection.FileSegment {
+  public class FileSegment extends Collection<CarCollection.Document>.FileSegment {
       private final FileInputStream stream;
       private final Iterator<Data.Paragraph> iter;
 
