@@ -16,13 +16,14 @@
 
 package io.anserini.integration;
 
+import io.anserini.util.AnalyzerUtils;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.codecs.FieldsProducer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.FieldType;
-import org.apache.lucene.document.TextField;
+import org.apache.lucene.document.StringField;
 import org.apache.lucene.index.CodecReader;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.FilterCodecReader;
@@ -36,7 +37,14 @@ import org.apache.lucene.index.SlowCodecReaderWrapper;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.index.Terms;
 import org.apache.lucene.index.TermsEnum;
+import org.apache.lucene.search.BooleanClause;
+import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.DocIdSetIterator;
+import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.Query;
+import org.apache.lucene.search.TermQuery;
+import org.apache.lucene.search.TopDocs;
+import org.apache.lucene.search.similarities.BM25Similarity;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.Accountable;
@@ -70,19 +78,21 @@ public class IndexerTest extends LuceneTestCase {
     textOptions.setIndexOptions(IndexOptions.DOCS_AND_FREQS);
     textOptions.setStored(true);
     textOptions.setTokenized(true);
+    textOptions.setStoreTermVectors(true);
+    textOptions.setStoreTermVectorPositions(true);
 
     Document doc1 = new Document();
-    doc1.add(new TextField("docid", "doc1", Field.Store.YES));
+    doc1.add(new StringField("docid", "doc1", Field.Store.YES));
     doc1.add(new Field("text", "here is some text here is some more text", textOptions));
     writer.addDocument(doc1);
 
     Document doc2 = new Document();
-    doc2.add(new TextField("docid", "doc2", Field.Store.YES));
+    doc2.add(new StringField("docid", "doc2", Field.Store.YES));
     doc2.add(new Field("text", "more text", textOptions));
     writer.addDocument(doc2);
 
     Document doc3 = new Document();
-    doc3.add(new TextField("docid", "doc3", Field.Store.YES));
+    doc3.add(new StringField("docid", "doc3", Field.Store.YES));
     doc3.add(new Field("text", "here is a test", textOptions));
     writer.addDocument(doc3);
 
@@ -149,6 +159,70 @@ public class IndexerTest extends LuceneTestCase {
     reader.close();
   }
 
+  // This test case iterates through all documents in the index and prints out the document vector:
+  // For each term, we print out the term frequency.
+  @Test
+  public void testIterateThroughDocumentVector() throws Exception {
+    Directory dir = FSDirectory.open(tempDir1);
+    IndexReader reader = DirectoryReader.open(dir);
+
+    int numDocs = reader.numDocs();
+    // Iterate through the document vectors
+    for (int i=0; i<numDocs; i++) {
+      System.out.println(reader.document(i));
+      Terms terms = reader.getTermVector(i, "text");
+      TermsEnum te = terms.iterator();
+
+      // For this document, iterate through the terms.
+      Term term;
+      while (te.next() != null) {
+        term = new Term("text", te.term());
+        long tf = te.totalTermFreq();
+        // Print out the term and its term frequency
+        System.out.println(term.bytes().utf8ToString() + " " + tf);
+      }
+    }
+  }
+
+  // This test case iterates through all documents in the index and prints out the document vector:
+  // For each term, we print out the term frequency and the BM25 weight.
+  @Test
+  public void testIterateThroughDocumentVectorComputeBM25() throws Exception {
+    Directory dir = FSDirectory.open(tempDir1);
+    IndexReader reader = DirectoryReader.open(dir);
+    IndexSearcher searcher = new IndexSearcher(reader);
+    searcher.setSimilarity(new BM25Similarity());
+
+    int numDocs = reader.numDocs();
+    // Iterate through the document vectors
+    for (int i=0; i<numDocs; i++) {
+      String docid = reader.document(i).getField("docid").stringValue();
+      System.out.println(reader.document(i));
+      System.out.println(i+ ": " + docid);
+      Terms terms = reader.getTermVector(i, "text");
+      TermsEnum te = terms.iterator();
+
+      // For this document, iterate through the terms.
+      while (te.next() != null) {
+        String term = new Term("text", te.term()).bytes().utf8ToString();
+        String stemmed = AnalyzerUtils.tokenize(new EnglishAnalyzer(), term).get(0);
+        long tf = te.totalTermFreq();
+
+        // The way to compute the BM25 score is to issue a query with the exact docid and the
+        // term in question, and look at the retrieval score.
+        Query filterQuery = new TermQuery(new Term("docid", docid)); // the docid
+        Query termQuery =  new TermQuery(new Term("text", term));    // the term
+        BooleanQuery.Builder builder = new BooleanQuery.Builder();   // must have both
+        builder.add(filterQuery, BooleanClause.Occur.MUST);
+        builder.add(termQuery, BooleanClause.Occur.MUST);
+        Query finalQuery = builder.build();
+        TopDocs rs = searcher.search(finalQuery, 1);                 // issue the query
+
+        // The BM25 weight is the maxScore
+        System.out.println(stemmed + " " + tf + " " + rs.getMaxScore());
+      }
+    }
+  }
 
   @Test
   public void testCloneIndex() throws Exception {
