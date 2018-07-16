@@ -87,7 +87,7 @@ public class ClueWeb09Collection extends DocumentCollection
   }
 
   @Override
-  public ClueWeb09Collection.FileSegment createFileSegment(Path p) throws IOException {
+  public FileSegment createFileSegment(Path p) throws IOException {
     return new FileSegment(p);
   }
 
