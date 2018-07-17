@@ -1,6 +1,6 @@
 package io.anserini.ltr;
 
-import com.google.common.collect.Lists;
+import io.anserini.index.generator.LuceneDocumentGenerator;
 import io.anserini.ltr.feature.FeatureExtractor;
 import io.anserini.ltr.feature.FeatureExtractors;
 import io.anserini.rerank.RerankerContext;
@@ -28,14 +28,15 @@ import org.junit.Before;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
 /**
  * This class will contain setup and teardown code for testing feature extractors
  */
-abstract public class BaseFeatureExtractorTest extends LuceneTestCase {
-  protected static final String TEST_FIELD_NAME = "text";
+abstract public class BaseFeatureExtractorTest<T> extends LuceneTestCase {
+  protected static final String TEST_FIELD_NAME = LuceneDocumentGenerator.FIELD_BODY;
   protected static final Analyzer TEST_ANALYZER = new EnglishAnalyzer();
   protected static final QueryParser TEST_PARSER = new QueryParser(TEST_FIELD_NAME, TEST_ANALYZER);
   protected static final String DEFAULT_QID = "1";
@@ -79,10 +80,16 @@ abstract public class BaseFeatureExtractorTest extends LuceneTestCase {
    * and the query we want with dummy query ids and null filter
    * @return
    */
-  protected RerankerContext makeTestContext(String queryText) {
+  @SuppressWarnings("unchecked")
+  protected RerankerContext<T> makeTestContext(String queryText) {
     try {
-      RerankerContext context = new RerankerContext(new IndexSearcher(DirectoryReader.open(DIRECTORY)), TEST_PARSER.parse(queryText), DEFAULT_QID,
-              queryText, AnalyzerUtils.tokenize(TEST_ANALYZER, queryText), TEST_FIELD_NAME, null);
+	  RerankerContext<T> context = new RerankerContext<T>(
+	    new IndexSearcher(DirectoryReader.open(DIRECTORY)),
+        (T) DEFAULT_QID,
+        TEST_PARSER.parse(queryText),
+        queryText,
+        AnalyzerUtils.tokenize(TEST_ANALYZER, queryText),
+        null, null);
       return context;
     } catch (ParseException e) {
       return null;
@@ -124,13 +131,13 @@ abstract public class BaseFeatureExtractorTest extends LuceneTestCase {
    */
   protected void assertFeatureValues(float[] expected, String queryText, String docText,
                                      FeatureExtractors extractors) throws IOException {
-    assertFeatureValues(expected, queryText, Lists.newArrayList(docText), extractors,0);
+    assertFeatureValues(expected, queryText, Arrays.asList(docText), extractors,0);
   }
 
   // just add a signature for single extractor
   protected void assertFeatureValues(float[] expected, String queryText, String docText,
                                      FeatureExtractor extractor) throws IOException {
-    assertFeatureValues(expected, queryText, Lists.newArrayList(docText), getChain(extractor),0);
+    assertFeatureValues(expected, queryText, Arrays.asList(docText), getChain(extractor),0);
   }
 
   /**
@@ -151,7 +158,7 @@ abstract public class BaseFeatureExtractorTest extends LuceneTestCase {
     testWriter.forceMerge(1);
 
     Document testDoc = addedDocs.get(docToExtract);
-    RerankerContext context = makeTestContext(queryText);
+    RerankerContext<T> context = makeTestContext(queryText);
     IndexReader reader = context.getIndexSearcher().getIndexReader();
     Terms terms = reader.getTermVector(docToExtract, TEST_FIELD_NAME);
     float[] extractedFeatureValues = extractors.extractAll(testDoc, terms, context);

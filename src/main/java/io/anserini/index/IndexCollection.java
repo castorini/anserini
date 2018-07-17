@@ -17,9 +17,13 @@
 package io.anserini.index;
 
 import io.anserini.analysis.TweetAnalyzer;
-import io.anserini.collection.Collection;
-import io.anserini.document.SourceDocument;
+import io.anserini.collection.AbstractFileSegment;
+import io.anserini.collection.DocumentCollection;
+import io.anserini.collection.FileSegmentProvider;
+import io.anserini.collection.SourceDocument;
 import io.anserini.index.generator.LuceneDocumentGenerator;
+
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -29,6 +33,7 @@ import org.apache.lucene.document.Document;
 import org.apache.lucene.index.ConcurrentMergeScheduler;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
+import org.apache.lucene.index.Term;
 import org.apache.lucene.search.similarities.BM25Similarity;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
@@ -43,7 +48,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -72,13 +79,6 @@ public final class IndexCollection {
     public String generatorClass;
 
     // optional arguments
-
-    @Option(name = "-memorybuffer", usage = "memory buffer size")
-    public int memorybufferSize = 2048;
-
-    @Option(name = "-keepStopwords", usage = "boolean switch to keep stopwords")
-    public boolean keepStopwords = false;
-
     @Option(name = "-storePositions", usage = "boolean switch to index storePositions")
     public boolean storePositions = false;
 
@@ -93,6 +93,20 @@ public final class IndexCollection {
 
     @Option(name = "-optimize", usage = "boolean switch to optimize index (force merge)")
     public boolean optimize = false;
+
+    @Option(name = "-keepStopwords", usage = "boolean switch to keep stopwords")
+    public boolean keepStopwords = false;
+
+    @Option(name = "-uniqueDocid", usage = "remove duplicated documents with the same doc id when indexing. " +
+      "please note that this option may slow the indexing a lot and if you are sure there is no " +
+      "duplicated document ids in the corpus you shouldn't use this option.")
+    public boolean uniqueDocid = false;
+
+    @Option(name = "-memorybuffer", usage = "memory buffer size")
+    public int memorybufferSize = 2048;
+
+    @Option(name = "-whitelist", usage = "file containing docids, one per line; only specified docids will be indexed.")
+    public String whitelist = null;
 
     @Option(name = "-tweet.keepRetweets", usage = "boolean switch to keep retweets while indexing")
     public boolean tweetKeepRetweets = false;
@@ -109,18 +123,48 @@ public final class IndexCollection {
   }
 
   public final class Counters {
-    public AtomicLong indexedDocuments = new AtomicLong();
-    public AtomicLong emptyDocuments = new AtomicLong();
-    public AtomicLong unindexableDocuments = new AtomicLong();
+    /**
+     * Counter for successfully indexed documents.
+     */
+    public AtomicLong indexed = new AtomicLong();
+
+    /**
+     * Counter for empty documents that are not indexed. Empty documents are not necessary errors;
+     * it could be the case, for example, that a document is comprised solely of stopwords.
+     */
+    public AtomicLong empty = new AtomicLong();
+
+    /**
+     * Counter for unindexed documents. These are cases where the {@link SourceDocument} returned
+     * by {@link AbstractFileSegment} is {@code null} or the {@link LuceneDocumentGenerator}
+     * returned {@code null}. These are not necessarily errors.
+     */
+    public AtomicLong unindexed = new AtomicLong();
+
+    /**
+     * Counter for unindexable documents. These are cases where {@link SourceDocument#indexable()}
+     * returns false.
+     */
+    public AtomicLong unindexable = new AtomicLong();
+
+    /**
+     * Counter for skipped documents. These are cases documents are skipped as part of normal
+     * processing logic, e.g., using a whitelist, not indexing retweets or deleted tweets.
+     */
+    public AtomicLong skipped = new AtomicLong();
+
+    /**
+     * Counter for unexpected errors.
+     */
     public AtomicLong errors = new AtomicLong();
   }
 
   private final class IndexerThread extends Thread {
     final private Path inputFile;
     final private IndexWriter writer;
-    final private Collection collection;
+    final private DocumentCollection collection;
 
-    private IndexerThread(IndexWriter writer, Collection collection, Path inputFile) throws IOException {
+    private IndexerThread(IndexWriter writer, DocumentCollection collection, Path inputFile) throws IOException {
       this.writer = writer;
       this.collection = collection;
       this.inputFile = inputFile;
@@ -130,36 +174,48 @@ public final class IndexCollection {
     @Override
     public void run() {
       try {
-        LuceneDocumentGenerator transformer =
-            (LuceneDocumentGenerator) transformerClass
+        @SuppressWarnings("unchecked")
+        LuceneDocumentGenerator generator =
+            (LuceneDocumentGenerator) generatorClass
                 .getDeclaredConstructor(Args.class, Counters.class)
                 .newInstance(args, counters);
 
         int cnt = 0;
-        Collection.FileSegment iter = collection.createFileSegment(inputFile);
+        AbstractFileSegment iter = ((FileSegmentProvider) collection).createFileSegment(inputFile);
         while (iter.hasNext()) {
           SourceDocument d = iter.next();
           if (d == null) {
-            counters.errors.incrementAndGet();
+            // Current implementation can't distinguish between end-of-iterator vs. actual error,
+            // so don't update counters.
             continue;
           }
           if (!d.indexable()) {
-            counters.unindexableDocuments.incrementAndGet();
+            counters.unindexable.incrementAndGet();
             continue;
           }
 
           @SuppressWarnings("unchecked") // Yes, we know what we're doing here.
-          Document doc = transformer.createDocument(d);
-
-          if (doc != null) {
-            writer.addDocument(doc);
-            cnt++;
+          Document doc = generator.createDocument(d);
+          if (doc == null) {
+            counters.unindexed.incrementAndGet();
+            continue;
           }
+          if (whitelistDocids != null && !whitelistDocids.contains(d.id())) {
+            counters.skipped.incrementAndGet();
+            continue;
+          }
+
+          if (args.uniqueDocid) {
+            writer.updateDocument(new Term("id", d.id()), doc);
+          } else {
+            writer.addDocument(doc);
+          }
+          cnt++;
         }
         iter.close();
         LOG.info(inputFile.getParent().getFileName().toString() + File.separator +
             inputFile.getFileName().toString() + ": " + cnt + " docs added.");
-        counters.indexedDocuments.addAndGet(cnt);
+        counters.indexed.addAndGet(cnt);
       } catch (Exception e) {
         LOG.error(Thread.currentThread().getName() + ": Unexpected Exception:", e);
       }
@@ -169,15 +225,16 @@ public final class IndexCollection {
   private final IndexCollection.Args args;
   private final Path indexPath;
   private final Path collectionPath;
+  private final Set whitelistDocids;
   private final Class collectionClass;
-  private final Class transformerClass;
-  private final Collection collection;
+  private final Class generatorClass;
+  private final DocumentCollection collection;
   private final Counters counters;
 
   public IndexCollection(IndexCollection.Args args) throws Exception {
     this.args = args;
 
-    LOG.info("Collection path: " + args.input);
+    LOG.info("DocumentCollection path: " + args.input);
     LOG.info("Index path: " + args.index);
     LOG.info("CollectionClass: " + args.collectionClass);
     LOG.info("Generator: " + args.generatorClass);
@@ -188,6 +245,7 @@ public final class IndexCollection {
     LOG.info("Store transformed docs? " + args.storeTransformedDocs);
     LOG.info("Store raw docs? " + args.storeRawDocs);
     LOG.info("Optimize (merge segments)? " + args.optimize);
+    LOG.info("Whitelist: " + args.whitelist);
 
     this.indexPath = Paths.get(args.index);
     if (!Files.exists(this.indexPath)) {
@@ -200,11 +258,18 @@ public final class IndexCollection {
           " does not exist or is not readable, please check the path");
     }
 
-    this.transformerClass = Class.forName("io.anserini.index.generator." + args.generatorClass);
+    this.generatorClass = Class.forName("io.anserini.index.generator." + args.generatorClass);
     this.collectionClass = Class.forName("io.anserini.collection." + args.collectionClass);
 
-    collection = (Collection) this.collectionClass.newInstance();
+    collection = (DocumentCollection) this.collectionClass.newInstance();
     collection.setCollectionPath(collectionPath);
+
+    if (args.whitelist != null) {
+      List<String> lines = FileUtils.readLines(new File(args.whitelist), "utf-8");
+      this.whitelistDocids = new HashSet<>(lines);
+    } else {
+      this.whitelistDocids = null;
+    }
 
     this.counters = new Counters();
   }
@@ -230,12 +295,12 @@ public final class IndexCollection {
     final IndexWriter writer = new IndexWriter(dir, config);
 
     final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(numThreads);
-    final List<Path> segmentPaths = collection.getFileSegmentPaths();
+    final List segmentPaths = ((FileSegmentProvider) collection).getFileSegmentPaths();
 
     final int segmentCnt = segmentPaths.size();
     LOG.info(segmentCnt + " files found in " + collectionPath.toString());
     for (int i = 0; i < segmentCnt; i++) {
-      executor.execute(new IndexerThread(writer, collection, segmentPaths.get(i)));
+      executor.execute(new IndexerThread(writer, collection, (Path) segmentPaths.get(i)));
     }
 
     executor.shutdown();
@@ -274,13 +339,21 @@ public final class IndexCollection {
       }
     }
 
-    LOG.info("Indexed documents: " + counters.indexedDocuments.get());
-    LOG.info("Empty documents: " + counters.emptyDocuments.get());
-    LOG.info("Errors: " + counters.errors.get());
+    if (numIndexed != counters.indexed.get()) {
+      LOG.warn("Unexpected difference between number of indexed documents and index maxDoc.");
+    }
+
+    LOG.info("# Final Counter Values");
+    LOG.info(String.format("indexed:     %,12d", counters.indexed.get()));
+    LOG.info(String.format("empty:       %,12d", counters.empty.get()));
+    LOG.info(String.format("unindexed:   %,12d", counters.unindexed.get()));
+    LOG.info(String.format("unindexable: %,12d", counters.unindexable.get()));
+    LOG.info(String.format("skipped:     %,12d", counters.skipped.get()));
+    LOG.info(String.format("errors:      %,12d", counters.errors.get()));
 
     final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
-    LOG.info("Total " + numIndexed + " documents indexed in " +
-        DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss"));
+    LOG.info(String.format("Total %,d documents indexed in %s", numIndexed,
+        DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss")));
   }
 
   public static void main(String[] args) throws Exception {

@@ -1,5 +1,6 @@
 package io.anserini.ltr.feature.base;
 
+import io.anserini.index.generator.LuceneDocumentGenerator;
 import io.anserini.ltr.feature.FeatureExtractor;
 import io.anserini.rerank.RerankerContext;
 import org.apache.logging.log4j.LogManager;
@@ -10,7 +11,6 @@ import org.apache.lucene.index.MultiFields;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.index.Terms;
 import org.apache.lucene.index.TermsEnum;
-import org.apache.lucene.search.similarities.BM25Similarity;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -25,7 +25,7 @@ import java.util.Set;
  * Lucene uses the norm value encoded in the index, we are calculating it as is
  * also we do not have any boosting, the field norm is also not available
  */
-public class BM25FeatureExtractor implements FeatureExtractor{
+public class BM25FeatureExtractor<T> implements FeatureExtractor<T> {
   private static final Logger LOG = LogManager.getLogger(BM25FeatureExtractor.class);
 
   public static Map<String, Integer> getDocFreqs(IndexReader reader, List<String> queryTokens, String field) throws IOException {
@@ -88,7 +88,7 @@ public class BM25FeatureExtractor implements FeatureExtractor{
    * @return
    */
   @Override
-  public float extract(Document doc, Terms terms, RerankerContext context) {
+  public float extract(Document doc, Terms terms, RerankerContext<T> context) {
     Set<String> queryTokens = new HashSet<>(context.getQueryTokens());
 
     TermsEnum termsEnum = null;
@@ -101,7 +101,7 @@ public class BM25FeatureExtractor implements FeatureExtractor{
 
     IndexReader reader = context.getIndexSearcher().getIndexReader();
     long maxDocs = reader.numDocs();
-    long sumTotalTermFreq = getSumTermFrequency(reader, context.getField());
+    long sumTotalTermFreq = getSumTermFrequency(reader, LuceneDocumentGenerator.FIELD_BODY);
     // Compute by iterating
     long docSize  = 0L;
 
@@ -109,7 +109,7 @@ public class BM25FeatureExtractor implements FeatureExtractor{
     // the term vector here is only a partial term vector that treats this as if we only have 1 document in the index
     Map<String, Integer> docFreqMap = null;
     try {
-      docFreqMap = getDocFreqs(reader, context.getQueryTokens(), context.getField());
+      docFreqMap = getDocFreqs(reader, context.getQueryTokens(), LuceneDocumentGenerator.FIELD_BODY);
     } catch (IOException e) {
       LOG.warn("Unable to retrieve document frequencies.");
       docFreqMap = new HashMap<>();
@@ -132,7 +132,7 @@ public class BM25FeatureExtractor implements FeatureExtractor{
     // Iterate over the query tokens
     double avgFL = computeAvgFL(sumTotalTermFreq, maxDocs);
     for (String token : queryTokens) {
-      long docFreq = docFreqMap.containsKey(token) ? docFreqMap.get(token) : 0;
+      long docFreq = docFreqMap.getOrDefault(token, 0);
       double termFreq = termFreqMap.containsKey(token) ? termFreqMap.get(token) : 0;
       double numerator = (this.k1 + 1) * termFreq;
       double docLengthFactor = this.b * (docSize / avgFL);
@@ -146,5 +146,13 @@ public class BM25FeatureExtractor implements FeatureExtractor{
   @Override
   public String getName() {
     return "BM25Feature";
+  }
+
+  public double getK1() {
+    return k1;
+  }
+
+  public double getB() {
+    return b;
   }
 }

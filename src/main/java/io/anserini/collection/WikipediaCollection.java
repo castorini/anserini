@@ -16,26 +16,41 @@
 
 package io.anserini.collection;
 
-import io.anserini.document.WikipediaArticle;
+import org.wikiclean.WikiClean;
+import org.wikiclean.WikiClean.WikiLanguage;
+import org.wikiclean.WikiCleanBuilder;
+import org.wikiclean.WikipediaBz2DumpInputStream;
+
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import org.wikiclean.WikiClean;
-import org.wikiclean.WikiClean.WikiLanguage;
-import org.wikiclean.WikiCleanBuilder;
-import org.wikiclean.WikipediaBz2DumpInputStream;
 
 /**
  * Class representing an instance of a Wikipedia collection. Note that Wikipedia dumps often come
  * as a single bz2 file. Since a collection is assumed to be in a directory, place the bz2 file in
  * a directory prior to indexing.
  */
-public class WikipediaCollection extends Collection<WikipediaArticle> {
+public class WikipediaCollection extends DocumentCollection
+    implements FileSegmentProvider<WikipediaCollection.Document> {
 
-  public class FileSegment extends Collection.FileSegment {
+  @Override
+  public List<Path> getFileSegmentPaths() {
+    Set<String> allowedFileSuffix = new HashSet<>(Arrays.asList(".bz2"));
+
+    return discover(path, EMPTY_SET, EMPTY_SET, EMPTY_SET,
+        allowedFileSuffix, EMPTY_SET);
+  }
+
+  @Override
+  public FileSegment createFileSegment(Path p) throws IOException {
+    return new FileSegment(p);
+  }
+
+  public class FileSegment extends AbstractFileSegment<Document> {
     private final WikipediaBz2DumpInputStream stream;
     private final WikiClean cleaner;
 
@@ -49,7 +64,7 @@ public class WikipediaCollection extends Collection<WikipediaArticle> {
     }
 
     @Override
-    public WikipediaArticle next() {
+    public Document next() {
       try {
         String page;
         String s;
@@ -69,7 +84,7 @@ public class WikipediaCollection extends Collection<WikipediaArticle> {
 
           // If we've gotten here, it means that we've advanced to the next "valid" article.
           String title = cleaner.getTitle(page).replaceAll("\\n+", " ");
-          return new WikipediaArticle(title, title + ".\n" + s);
+          return new Document(title, title + ".\n" + s);
         }
 
       } catch (IOException e) {
@@ -83,17 +98,37 @@ public class WikipediaCollection extends Collection<WikipediaArticle> {
     }
   }
 
-  @Override
-  public List<Path> getFileSegmentPaths() {
-    Set<String> allowedFileSuffix = new HashSet<>(Arrays.asList(".bz2"));
+  /**
+   * A Wikipedia article. The article title serves as the id.
+   */
+  public static class Document implements SourceDocument {
+    private final String title;
+    private final String contents;
 
-    return discover(path, EMPTY_SET, EMPTY_SET, EMPTY_SET,
-        allowedFileSuffix, EMPTY_SET);
+    public Document(String title, String contents) {
+      this.title = title;
+      this.contents = contents;
+
+    }
+
+    @Override
+    public Document readNextRecord(BufferedReader bRdr) throws IOException {
+      return null;
+    }
+
+    @Override
+    public String id() {
+      return title;
+    }
+
+    @Override
+    public String content() {
+      return contents;
+    }
+
+    @Override
+    public boolean indexable() {
+      return true;
+    }
   }
-
-  @Override
-  public FileSegment createFileSegment(Path p) throws IOException {
-    return new FileSegment(p);
-  }
-
 }

@@ -1,41 +1,56 @@
 import sys
 import os
+import argparse
+
 from subprocess import call
 
 index_cmd = """
-nohup sh target/appassembler/bin/IndexCollection -collection Gov2Collection \
+nohup sh target/appassembler/bin/IndexCollection -collection TrecwebCollection \
  -input /tuna1/collections/web/gov2/gov2-corpus/ -generator JsoupGenerator \
  -index lucene-index.gov2.pos+docvectors -threads 16 \
  -storePositions -storeDocvectors"""
 
 run_cmds = [ \
-    "sh target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.gov2.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.701-750.txt -output run.gov2.701-750.bm25.txt -bm25",
-    "sh target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.gov2.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.751-800.txt -output run.gov2.751-800.bm25.txt -bm25",
-    "sh target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.gov2.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.801-850.txt -output run.gov2.801-850.bm25.txt -bm25",
-    "sh target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.gov2.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.701-750.txt -output run.gov2.701-750.bm25+rm3.txt -bm25 -rm3",
-    "sh target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.gov2.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.751-800.txt -output run.gov2.751-800.bm25+rm3.txt -bm25 -rm3",
-    "sh target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.gov2.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.801-850.txt -output run.gov2.801-850.bm25+rm3.txt -bm25 -rm3",
-    "sh target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.gov2.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.701-750.txt -output run.gov2.701-750.ql.txt -ql",
-    "sh target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.gov2.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.751-800.txt -output run.gov2.751-800.ql.txt -ql",
-    "sh target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.gov2.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.801-850.txt -output run.gov2.801-850.ql.txt -ql",
-    "sh target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.gov2.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.701-750.txt -output run.gov2.701-750.ql+rm3.txt -ql -rm3",
-    "sh target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.gov2.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.751-800.txt -output run.gov2.751-800.ql+rm3.txt -ql -rm3",
-    "sh target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.gov2.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.801-850.txt -output run.gov2.801-850.ql+rm3.txt -ql -rm3"]
+    "sh target/appassembler/bin/SearchCollection -topicreader Trec -index {} -topics src/main/resources/topics-and-qrels/topics.701-750.txt -output run.gov2.701-750.bm25.txt -bm25",
+    "sh target/appassembler/bin/SearchCollection -topicreader Trec -index {} -topics src/main/resources/topics-and-qrels/topics.751-800.txt -output run.gov2.751-800.bm25.txt -bm25",
+    "sh target/appassembler/bin/SearchCollection -topicreader Trec -index {} -topics src/main/resources/topics-and-qrels/topics.801-850.txt -output run.gov2.801-850.bm25.txt -bm25",
+    "sh target/appassembler/bin/SearchCollection -topicreader Trec -index {} -topics src/main/resources/topics-and-qrels/topics.701-750.txt -output run.gov2.701-750.bm25+rm3.txt -bm25 -rm3",
+    "sh target/appassembler/bin/SearchCollection -topicreader Trec -index {} -topics src/main/resources/topics-and-qrels/topics.751-800.txt -output run.gov2.751-800.bm25+rm3.txt -bm25 -rm3",
+    "sh target/appassembler/bin/SearchCollection -topicreader Trec -index {} -topics src/main/resources/topics-and-qrels/topics.801-850.txt -output run.gov2.801-850.bm25+rm3.txt -bm25 -rm3",
+    "sh target/appassembler/bin/SearchCollection -topicreader Trec -index {} -topics src/main/resources/topics-and-qrels/topics.701-750.txt -output run.gov2.701-750.ql.txt -ql",
+    "sh target/appassembler/bin/SearchCollection -topicreader Trec -index {} -topics src/main/resources/topics-and-qrels/topics.751-800.txt -output run.gov2.751-800.ql.txt -ql",
+    "sh target/appassembler/bin/SearchCollection -topicreader Trec -index {} -topics src/main/resources/topics-and-qrels/topics.801-850.txt -output run.gov2.801-850.ql.txt -ql",
+    "sh target/appassembler/bin/SearchCollection -topicreader Trec -index {} -topics src/main/resources/topics-and-qrels/topics.701-750.txt -output run.gov2.701-750.ql+rm3.txt -ql -rm3",
+    "sh target/appassembler/bin/SearchCollection -topicreader Trec -index {} -topics src/main/resources/topics-and-qrels/topics.751-800.txt -output run.gov2.751-800.ql+rm3.txt -ql -rm3",
+    "sh target/appassembler/bin/SearchCollection -topicreader Trec -index {} -topics src/main/resources/topics-and-qrels/topics.801-850.txt -output run.gov2.801-850.ql+rm3.txt -ql -rm3"]
 
 t1_qrels = "src/main/resources/topics-and-qrels/qrels.701-750.txt"
 t2_qrels = "src/main/resources/topics-and-qrels/qrels.751-800.txt"
 t3_qrels = "src/main/resources/topics-and-qrels/qrels.801-850.txt"
 
 def extract_value_from_doc(key, row, col):
-    return float(os.popen("grep '{}' docs/experiments-gov2.md | head -{} | tail -1".format(key, row)).read().split('|')[col].strip())
+    return float(os.popen("grep '{}' docs/experiments-gov2-old.md | head -{} | tail -1".format(key, row)).read().split('|')[col].strip())
 
 def trec_eval_metric(metric, qrels, run):
     return float(os.popen("eval/trec_eval.9.0/trec_eval -m {} {} {}".format(metric, qrels, run)).read().split("\t")[2].strip())
 
 if __name__ == "__main__":
-    call(index_cmd, shell=True)
+    parser = argparse.ArgumentParser(description='Run regression tests on Gov2.')
+    parser.add_argument('--index', dest='index', action='store_true', help='rebuild index from scratch')
+
+    args = parser.parse_args()
+
+    # Decide if we're going to index from scratch. If not, use pre-stored index at known location.
+    if args.index == True:
+        call(index_cmd, shell=True)
+        index_path = 'lucene-index.gov2.pos+docvectors'
+        print(args.index)
+    else:
+        index_path = '/tuna1/indexes/lucene-index.gov2.pos+docvectors'
+
+    # Use the correct index path.
     for cmd in run_cmds:
-        call(cmd, shell=True)
+        call(cmd.format(index_path), shell=True)
 
     expected_t1_map = extract_value_from_doc("TREC 2004 Terabyte Track: Topics 701-750", 1, 1)
     expected_t2_map = extract_value_from_doc("TREC 2005 Terabyte Track: Topics 751-800", 1, 1)

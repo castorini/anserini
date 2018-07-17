@@ -53,6 +53,7 @@ public class FeatureExtractorCli {
    * requires the user to supply the index directory and also the directory containing the qrels and topics
    * @param args  indexDir, qrelFile, topicFile, outputFile
    */
+  @SuppressWarnings("unchecked")
   public static<K> void main(String args[]) throws Exception {
 
     long curTime = System.nanoTime();
@@ -82,7 +83,7 @@ public class FeatureExtractorCli {
     if (parsedArgs.collection.equals("gov2") || parsedArgs.collection.equals("webxml")) {
       // Open the topics file and read it
       String className = parsedArgs.collection.equals("gov2") ? "Trec" : "Webxml";
-      TopicReader tr = (TopicReader)Class.forName("io.anserini.search.query."+className+"TopicReader")
+      TopicReader<K> tr = (TopicReader<K>)Class.forName("io.anserini.search.query."+className+"TopicReader")
               .getConstructor(Path.class).newInstance(Paths.get(parsedArgs.topicsFile));
       SortedMap<K, Map<String, String>> topics = tr.read();
       LOG.debug(String.format("%d topics found", topics.size()));
@@ -90,10 +91,9 @@ public class FeatureExtractorCli {
       WebFeatureExtractor extractor = new WebFeatureExtractor(reader, qrels, topics, extractors);
       extractor.printFeatures(out);
     } else if (parsedArgs.collection.equals("twitter")) {
-      String className = parsedArgs.collection.equals("gov2") ? "Trec" : "Webxml";
-      TopicReader tr = (TopicReader)Class.forName("io.anserini.search.query.MicroblogTopicReader")
+      TopicReader<Integer> tr = (TopicReader<Integer>)Class.forName("io.anserini.search.query.MicroblogTopicReader")
           .getConstructor(Path.class).newInstance(Paths.get(parsedArgs.topicsFile));
-      SortedMap<String, Map<String, String>> topics = tr.read();
+      SortedMap<Integer, Map<String, String>> topics = tr.read();
       LOG.debug(String.format("%d topics found", topics.size()));
       TwitterFeatureExtractor extractor = new TwitterFeatureExtractor(reader, qrels, topics, extractors);
       extractor.printFeatures(out);

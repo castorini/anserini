@@ -6,12 +6,31 @@ import io.anserini.ltr.feature.FeatureExtractors;
 import io.anserini.rerank.RerankerCascade;
 import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.ScoredDocuments;
-import io.anserini.rerank.twitter.RemoveRetweetsTemporalTiebreakReranker;
 import io.anserini.search.SearchArgs;
 import io.anserini.search.query.MicroblogTopicReader;
 import io.anserini.search.query.TopicReader;
 import io.anserini.util.AnalyzerUtils;
 import io.anserini.util.Qrels;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.lucene.document.LongPoint;
+import org.apache.lucene.index.DirectoryReader;
+import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.search.BooleanClause;
+import org.apache.lucene.search.BooleanQuery;
+import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.Query;
+import org.apache.lucene.search.TopDocs;
+import org.apache.lucene.search.similarities.BM25Similarity;
+import org.apache.lucene.search.similarities.LMDirichletSimilarity;
+import org.apache.lucene.store.Directory;
+import org.apache.lucene.store.FSDirectory;
+import org.kohsuke.args4j.CmdLineException;
+import org.kohsuke.args4j.CmdLineParser;
+import org.kohsuke.args4j.Option;
+import org.kohsuke.args4j.OptionHandlerFilter;
+import org.kohsuke.args4j.ParserProperties;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
@@ -21,20 +40,6 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.apache.lucene.document.LongPoint;
-import org.apache.lucene.index.DirectoryReader;
-import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.search.*;
-import org.apache.lucene.search.similarities.BM25Similarity;
-import org.apache.lucene.search.similarities.LMDirichletSimilarity;
-import org.apache.lucene.store.Directory;
-import org.apache.lucene.store.FSDirectory;
-import org.kohsuke.args4j.*;
-
-import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_BODY;
 
 
 @SuppressWarnings("deprecation")
@@ -90,12 +95,11 @@ public class DumpTweetsLtrData {
 
     PrintStream out = new PrintStream(new FileOutputStream(new File(args.output)));
     RerankerCascade cascade = new RerankerCascade();
-    cascade.add(new RemoveRetweetsTemporalTiebreakReranker());
     cascade.add(new TweetsLtrDataGenerator(out, qrels, extractors));
 
     Path topicsFile = Paths.get(args.topics);
-    TopicReader tr = new MicroblogTopicReader(topicsFile);
-    SortedMap<K, Map<String, String>> topics = tr.read();
+    TopicReader<Integer> tr = new MicroblogTopicReader(topicsFile);
+    SortedMap<Integer, Map<String, String>> topics = tr.read();
 
     if (!Files.exists(topicsFile) || !Files.isRegularFile(topicsFile) || !Files.isReadable(topicsFile)) {
       throw new IllegalArgumentException("Topics file : " + topicsFile + " does not exist or is not a (readable) file.");
@@ -104,9 +108,9 @@ public class DumpTweetsLtrData {
     LOG.info("Initialized complete! (elapsed time = " + (System.nanoTime()-curTime)/1000000 + "ms)");
     long totalTime = 0;
     int cnt = 0;
-    for (Map.Entry<K, Map<String, String>> entry : topics.entrySet()) {
+    for (Map.Entry<Integer, Map<String, String>> entry : topics.entrySet()) {
       long curQueryTime = System.nanoTime();
-      K qID = entry.getKey();
+      Integer qID = entry.getKey();
       String queryString = entry.getValue().get("title");
       Long queryTime = Long.parseLong(entry.getValue().get("time"));
       Query filter = LongPoint.newRangeQuery(TweetGenerator.FIELD_ID, 0L, queryTime);
@@ -119,8 +123,9 @@ public class DumpTweetsLtrData {
 
       TopDocs rs = searcher.search(q, args.hits);
       List<String> queryTokens = AnalyzerUtils.tokenize(new TweetAnalyzer(), queryString);
-      RerankerContext context = new RerankerContext(searcher, query, queryString.toString(), queryString,
-          queryTokens, TweetGenerator.FIELD_BODY, filter);
+
+      RerankerContext<Integer> context = new RerankerContext<>(searcher, Integer.parseInt(queryString), query, queryString,
+          queryTokens, filter, null);
 
       cascade.run(ScoredDocuments.fromTopDocs(rs, searcher), context);
       long qtime = (System.nanoTime()-curQueryTime)/1000000;

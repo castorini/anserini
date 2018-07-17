@@ -1,5 +1,6 @@
 package io.anserini.ltr.feature.base;
 
+import io.anserini.index.generator.LuceneDocumentGenerator;
 import io.anserini.ltr.feature.FeatureExtractor;
 import io.anserini.rerank.RerankerContext;
 import org.apache.lucene.document.Document;
@@ -24,7 +25,7 @@ import java.util.Set;
  * where pr are the MLE
  * described on page 22 of Carmel, Yom-Tov 2010
  */
-public class PMIFeatureExtractor implements FeatureExtractor{
+public class PMIFeatureExtractor<T> implements FeatureExtractor<T> {
 
   private String lastQueryProcessed = "";
   private float lastComputedValue = 0f;
@@ -57,7 +58,7 @@ public class PMIFeatureExtractor implements FeatureExtractor{
   }
 
   @Override
-  public float extract(Document doc, Terms terms, RerankerContext context) {
+  public float extract(Document doc, Terms terms, RerankerContext<T> context) {
     // We need docfreqs of each token
     // and also doc freqs of each pair
     if (!this.lastQueryProcessed.equals(context.getQueryText())) {
@@ -72,7 +73,7 @@ public class PMIFeatureExtractor implements FeatureExtractor{
       try {
 
         for (String token : querySet) {
-          docFreqs.put(token, reader.docFreq(new Term(context.getField(), token)));
+          docFreqs.put(token, reader.docFreq(new Term(LuceneDocumentGenerator.FIELD_BODY, token)));
         }
 
         float sumPMI = 0.0f;
@@ -83,8 +84,8 @@ public class PMIFeatureExtractor implements FeatureExtractor{
           for (int j = i +1; j < queryTokens.size(); j++) {
             pairsComputed ++;
             String secondToken = queryTokens.get(j);
-            PostingsEnum firstEnum = MultiFields.getTermDocsEnum(reader,context.getField(), new BytesRef(firstToken));
-            PostingsEnum secondEnum = MultiFields.getTermDocsEnum(reader,context.getField(), new BytesRef(secondToken));
+            PostingsEnum firstEnum = MultiFields.getTermDocsEnum(reader,LuceneDocumentGenerator.FIELD_BODY, new BytesRef(firstToken));
+            PostingsEnum secondEnum = MultiFields.getTermDocsEnum(reader,LuceneDocumentGenerator.FIELD_BODY, new BytesRef(secondToken));
             int intersect;
             if (firstEnum == null || secondEnum == null) {
               intersect = 0;
@@ -95,8 +96,8 @@ public class PMIFeatureExtractor implements FeatureExtractor{
             if (intersect == 0) continue;
             // We should never reach this point and have doc freq =0 because then there would
             // be no intersect between docIds
-            int firstDocFreq = docFreqs.containsKey(firstToken) ? docFreqs.get(firstToken) : 1;
-            int secondDocFreq = docFreqs.containsKey(secondToken) ? docFreqs.get(secondToken) :1;
+            int firstDocFreq = docFreqs.getOrDefault(firstToken, 1);
+            int secondDocFreq = docFreqs.getOrDefault(secondToken, 1);
             float fraction = (intersect / (float) (firstDocFreq * secondDocFreq));
             if (fraction <= 0) {
               continue;

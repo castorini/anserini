@@ -1,14 +1,11 @@
-package io.anserini.search;
-
-/*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+/**
+ * Anserini: An information retrieval toolkit built on Lucene
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,20 +14,20 @@ package io.anserini.search;
  * limitations under the License.
  */
 
+package io.anserini.search;
+
 import io.anserini.analysis.TweetAnalyzer;
 import io.anserini.index.generator.TweetGenerator;
-import io.anserini.ltr.TweetsLtrDataGenerator;
-import io.anserini.ltr.WebCollectionLtrDataGenerator;
-import io.anserini.ltr.feature.FeatureExtractors;
-import io.anserini.rerank.IdentityReranker;
 import io.anserini.rerank.RerankerCascade;
 import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.ScoredDocuments;
-import io.anserini.rerank.rm3.Rm3Reranker;
-import io.anserini.rerank.twitter.RemoveRetweetsTemporalTiebreakReranker;
+
+import io.anserini.rerank.lib.AxiomReranker;
+import io.anserini.rerank.lib.Rm3Reranker;
+import io.anserini.rerank.lib.ScoreTiesAdjusterReranker;
 import io.anserini.search.query.TopicReader;
+import io.anserini.search.similarity.F2LogSimilarity;
 import io.anserini.util.AnalyzerUtils;
-import io.anserini.util.Qrels;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -40,19 +37,16 @@ import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.document.LongPoint;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.BooleanClause;
 import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
+import org.apache.lucene.search.Sort;
+import org.apache.lucene.search.SortField;
 import org.apache.lucene.search.TopDocs;
-import org.apache.lucene.search.similarities.BM25Similarity;
-import org.apache.lucene.search.similarities.LMDirichletSimilarity;
-import org.apache.lucene.search.similarities.Similarity;
-import org.apache.lucene.store.Directory;
+import org.apache.lucene.search.similarities.*;
 import org.apache.lucene.store.FSDirectory;
-import org.apache.lucene.store.MMapDirectory;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.OptionHandlerFilter;
@@ -60,7 +54,6 @@ import org.kohsuke.args4j.ParserProperties;
 
 import java.io.Closeable;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -75,23 +68,65 @@ import java.util.concurrent.TimeUnit;
 import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_BODY;
 import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_ID;
 
-/**
- * Searcher for Gov2, ClueWeb09, and ClueWeb12 corpra.
- * TREC Web Tracks from 2009 to 2014
- * TREC Terabyte Tracks from 2004 to 2006
- */
 public final class SearchCollection implements Closeable {
-  private static final Logger LOG = LogManager.getLogger(SearchCollection.class);
-  private final IndexReader reader;
+  public static final Sort BREAK_SCORE_TIES_BY_DOCID =
+      new Sort(SortField.FIELD_SCORE, new SortField(FIELD_ID, SortField.Type.STRING_VAL));
+  public static final Sort BREAK_SCORE_TIES_BY_TWEETID =
+      new Sort(SortField.FIELD_SCORE,
+          new SortField(TweetGenerator.StatusField.ID_LONG.name, SortField.Type.LONG, true));
 
-  public SearchCollection(String indexDir) throws IOException {
-    Path indexPath = Paths.get(indexDir);
+  private static final Logger LOG = LogManager.getLogger(SearchCollection.class);
+
+  private final SearchArgs args;
+  private final IndexReader reader;
+  private final Similarity similarity;
+  private final Analyzer analyzer;
+  private final boolean isRerank;
+  private final RerankerCascade cascade;
+
+  public SearchCollection(SearchArgs args) throws IOException {
+    this.args = args;
+    Path indexPath = Paths.get(args.index);
 
     if (!Files.exists(indexPath) || !Files.isDirectory(indexPath) || !Files.isReadable(indexPath)) {
-      throw new IllegalArgumentException(indexDir + " does not exist or is not a directory.");
+      throw new IllegalArgumentException(args.index + " does not exist or is not a directory.");
     }
 
+    LOG.info("Reading index at " + args.index);
     this.reader = DirectoryReader.open(FSDirectory.open(indexPath));
+
+    // Figure out which scoring model to use.
+    if (args.ql) {
+      LOG.info("Using QL scoring model");
+      this.similarity = new LMDirichletSimilarity(args.mu);
+    } else if (args.bm25) {
+      LOG.info("Using BM25 scoring model");
+      this.similarity = new BM25Similarity(args.k1, args.b);
+    } else if (args.f2log) {
+      LOG.info("Using F2Log scoring model");
+      this.similarity = new F2LogSimilarity(args.f2log_s);
+    } else {
+      throw new IllegalArgumentException("Error: Must specify scoring model!");
+    }
+
+    // Are we searching tweets?
+    if (args.searchtweets) {
+      analyzer = new TweetAnalyzer();
+    } else {
+      analyzer = args.keepstop ? new EnglishAnalyzer(CharArraySet.EMPTY_SET) : new EnglishAnalyzer();
+    }
+
+    isRerank = args.rm3 || args.axiom;
+
+    // Set up the ranking cascade.
+    cascade = new RerankerCascade();
+    if (args.rm3) {
+      cascade.add(new Rm3Reranker(analyzer, FIELD_BODY, args));
+    } else if (args.axiom) {
+      cascade.add(new AxiomReranker(FIELD_BODY, args));
+    }
+
+    cascade.add(new ScoreTiesAdjusterReranker());
   }
 
   @Override
@@ -99,62 +134,42 @@ public final class SearchCollection implements Closeable {
     reader.close();
   }
 
-  /**
-   * Prints TREC submission file to the standard output stream.
-   *
-   * @param topics     queries
-   * @param similarity similarity
-   * @throws IOException
-   */
-
-  public<K> void search(SortedMap<K, Map<String, String>> topics, String topicfield,
-                     String submissionFile, Similarity similarity, int numHits,
-                     RerankerCascade cascade,
-                     boolean keepstopwords, boolean searchtweets) throws IOException {
+  @SuppressWarnings("unchecked")
+  public<K> int runTopics() throws IOException {
     IndexSearcher searcher = new IndexSearcher(reader);
     searcher.setSimilarity(similarity);
 
-    final String runTag = "Anserini_" + topicfield+"_"+(keepstopwords ? "KeepStopwords_" : "")
-        + FIELD_BODY + "_" + (searchtweets ? "SearchTweets_" : "") + similarity.toString();
+    Path topicsFile = Paths.get(args.topics);
 
-    PrintWriter out = new PrintWriter(Files.newBufferedWriter(Paths.get(submissionFile), StandardCharsets.US_ASCII));
-
-    Analyzer analyzer;
-    if (searchtweets) {
-      analyzer = new TweetAnalyzer();
-    } else {
-      analyzer = keepstopwords ? new EnglishAnalyzer(CharArraySet.EMPTY_SET) : new EnglishAnalyzer();
+    if (!Files.exists(topicsFile) || !Files.isRegularFile(topicsFile) || !Files.isReadable(topicsFile)) {
+      throw new IllegalArgumentException("Topics file : " + topicsFile + " does not exist or is not a (readable) file.");
     }
-    QueryParser queryParser = new QueryParser(FIELD_BODY, analyzer);
-    queryParser.setDefaultOperator(QueryParser.Operator.OR);
-    Query filter = null;
+
+    TopicReader<K> tr;
+    SortedMap<K, Map<String, String>> topics;
+    try {
+      tr = (TopicReader<K>) Class.forName("io.anserini.search.query." + args.topicReader + "TopicReader")
+          .getConstructor(Path.class).newInstance(topicsFile);
+      topics = tr.read();
+    } catch (Exception e) {
+      throw new IllegalArgumentException("Unable to load topic reader: " + args.topicReader);
+    }
+
+    final String runTag = "Anserini_" + args.topicfield + "_" + (args.keepstop ? "KeepStopwords_" : "")
+        + FIELD_BODY + "_" + (args.searchtweets ? "SearchTweets_" : "") + similarity.toString();
+
+    PrintWriter out = new PrintWriter(Files.newBufferedWriter(Paths.get(args.output), StandardCharsets.US_ASCII));
+
     for (Map.Entry<K, Map<String, String>> entry : topics.entrySet()) {
-      K qID = entry.getKey();
-      String queryString = entry.getValue().get(topicfield);
-      Query query = AnalyzerUtils.buildBagOfWordsQuery(FIELD_BODY, analyzer, queryString);
+      K qid = entry.getKey();
+      String queryString = entry.getValue().get(args.topicfield);
 
-      if (searchtweets) {
-        long curQueryTime = System.currentTimeMillis();
-        long queryTweetTime = Long.parseLong(entry.getValue().get("time"));
-        // do not cosider the tweets with tweet ids that are beyond the queryTweetTime
-        // <querytweettime> tag contains the timestamp of the query in terms of the
-        // chronologically nearest tweet id within the corpus
-        filter = LongPoint.newRangeQuery(TweetGenerator.StatusField.ID_LONG.name, 0L, queryTweetTime);
-        BooleanQuery.Builder builder = new BooleanQuery.Builder();
-        builder.add(filter, BooleanClause.Occur.FILTER);
-        builder.add(query, BooleanClause.Occur.MUST);
-        query = builder.build();
+      ScoredDocuments docs;
+      if (args.searchtweets) {
+        docs = searchTweets(searcher, qid, queryString, Long.parseLong(entry.getValue().get("time")));
+      } else{
+        docs = search(searcher, qid, queryString);
       }
-
-      TopDocs rs = searcher.search(query, numHits);
-      ScoreDoc[] hits = rs.scoreDocs;
-      List<String> queryTokens = AnalyzerUtils.tokenize(analyzer, queryString);
-      if (searchtweets) { // This is ugly, but we have to reform the tweet query here for reranking
-        query = AnalyzerUtils.buildBagOfWordsQuery(FIELD_BODY, analyzer, queryString);
-      }
-      RerankerContext context = new RerankerContext(searcher, query, String.valueOf(qID), queryString,
-              queryTokens, FIELD_BODY, filter);
-      ScoredDocuments docs = cascade.run(ScoredDocuments.fromTopDocs(rs, searcher), context);
 
       /**
        * the first column is the topic number.
@@ -165,19 +180,61 @@ public final class SearchCollection implements Closeable {
        * the sixth column is called the "run tag" and should be a unique identifier for your
        */
       for (int i = 0; i < docs.documents.length; i++) {
-        out.println(String.format(Locale.US, "%s Q0 %s %d %f %s", qID,
+        out.println(String.format(Locale.US, "%s Q0 %s %d %f %s", qid,
             docs.documents[i].getField(FIELD_ID).stringValue(), (i + 1), docs.scores[i],
             ((i == 0 || i == docs.documents.length-1) ? runTag : "See_Line1")));
       }
     }
     out.flush();
     out.close();
+
+    return topics.size();
   }
 
-  public<K> void search(SortedMap<K, Map<String, String>> topics, String topicfield,
-                     String submissionFile, Similarity similarity, int numHits, RerankerCascade cascade)
-          throws IOException {
-    search(topics, topicfield, submissionFile, similarity, numHits, cascade, false, false);
+  public<K> ScoredDocuments search(IndexSearcher searcher, K qid, String queryString) throws IOException {
+    Query query = AnalyzerUtils.buildBagOfWordsQuery(FIELD_BODY, analyzer, queryString);
+
+    TopDocs rs = new TopDocs(0, new ScoreDoc[]{}, Float.NaN);
+    if (!(isRerank && args.rerankcutoff <= 0)) {
+      if (args.arbitraryScoreTieBreak) {// Figure out how to break the scoring ties.
+        rs = searcher.search(query, isRerank ? args.rerankcutoff : args.hits);
+      } else {
+        rs = searcher.search(query, isRerank ? args.rerankcutoff : args.hits, BREAK_SCORE_TIES_BY_DOCID, true, true);
+      }
+    }
+
+    List<String> queryTokens = AnalyzerUtils.tokenize(analyzer, queryString);
+    RerankerContext context = new RerankerContext<>(searcher, qid, query, queryString, queryTokens, null, args);
+
+    return cascade.run(ScoredDocuments.fromTopDocs(rs, searcher), context);
+  }
+
+  public<K> ScoredDocuments searchTweets(IndexSearcher searcher, K qid, String queryString, long t) throws IOException {
+    Query keywordQuery = AnalyzerUtils.buildBagOfWordsQuery(FIELD_BODY, analyzer, queryString);
+    List<String> queryTokens = AnalyzerUtils.tokenize(analyzer, queryString);
+
+    // Do not consider the tweets with tweet ids that are beyond the queryTweetTime
+    // <querytweettime> tag contains the timestamp of the query in terms of the
+    // chronologically nearest tweet id within the corpus
+    Query filter = LongPoint.newRangeQuery(TweetGenerator.StatusField.ID_LONG.name, 0L, t);
+    BooleanQuery.Builder builder = new BooleanQuery.Builder();
+    builder.add(filter, BooleanClause.Occur.FILTER);
+    builder.add(keywordQuery, BooleanClause.Occur.MUST);
+    Query compositeQuery = builder.build();
+
+
+    TopDocs rs = new TopDocs(0, new ScoreDoc[]{}, Float.NaN);
+    if (!(isRerank && args.rerankcutoff <= 0)) {
+      if (args.arbitraryScoreTieBreak) {// Figure out how to break the scoring ties.
+        rs = searcher.search(compositeQuery, isRerank ? args.rerankcutoff : args.hits);
+      } else {
+        rs = searcher.search(compositeQuery, isRerank ? args.rerankcutoff : args.hits, BREAK_SCORE_TIES_BY_TWEETID, true, true);
+      }
+    }
+
+    RerankerContext context = new RerankerContext<>(searcher, qid, keywordQuery, queryString, queryTokens, filter, args);
+
+    return cascade.run(ScoredDocuments.fromTopDocs(rs, searcher), context);
   }
 
   public static void main(String[] args) throws Exception {
@@ -193,86 +250,12 @@ public final class SearchCollection implements Closeable {
       return;
     }
 
-    LOG.info("Reading index at " + searchArgs.index);
-    Directory dir;
-    if (searchArgs.inmem) {
-      LOG.info("Using MMapDirectory with preload");
-      dir = new MMapDirectory(Paths.get(searchArgs.index));
-      ((MMapDirectory) dir).setPreload(true);
-    } else {
-      LOG.info("Using default FSDirectory");
-      dir = FSDirectory.open(Paths.get(searchArgs.index));
-    }
-
-    Similarity similarity = null;
-
-    if (searchArgs.ql) {
-      LOG.info("Using QL scoring model");
-      similarity = new LMDirichletSimilarity(searchArgs.mu);
-    } else if (searchArgs.bm25) {
-      LOG.info("Using BM25 scoring model");
-      similarity = new BM25Similarity(searchArgs.k1, searchArgs.b);
-    } else {
-      LOG.error("Error: Must specify scoring model!");
-      System.exit(-1);
-    }
-
-    Analyzer analyzer;
-    if (searchArgs.searchtweets) {
-      analyzer = new TweetAnalyzer();
-    } else {
-      analyzer = new EnglishAnalyzer();
-    }
-
-    RerankerCascade cascade = new RerankerCascade();
-    if (searchArgs.rm3) {
-      if (searchArgs.searchtweets) {
-        cascade.add(new Rm3Reranker(analyzer, FIELD_BODY,
-            "io/anserini/rerank/rm3/rm3-stoplist.twitter.txt", true));
-        cascade.add(new RemoveRetweetsTemporalTiebreakReranker());
-      } else {
-        cascade.add(new Rm3Reranker(analyzer, FIELD_BODY,
-            "io/anserini/rerank/rm3/rm3-stoplist.gov2.txt", true));
-      }
-    } else {
-      cascade.add(new IdentityReranker());
-      if (searchArgs.searchtweets) {
-        cascade.add(new RemoveRetweetsTemporalTiebreakReranker());
-      }
-    }
-    FeatureExtractors extractors = null;
-    if (searchArgs.extractors != null) {
-      extractors = FeatureExtractors.loadExtractor(searchArgs.extractors);
-    }
-
-    if (searchArgs.dumpFeatures) {
-      PrintStream out = new PrintStream(searchArgs.featureFile);
-      Qrels qrels = new Qrels(searchArgs.qrels);
-      if (searchArgs.searchtweets) {
-        cascade.add(new TweetsLtrDataGenerator(out, qrels, extractors));
-      } else {
-        cascade.add(new WebCollectionLtrDataGenerator(out,  qrels, extractors));
-      }
-    }
-
-    Path topicsFile = Paths.get(searchArgs.topics);
-
-    if (!Files.exists(topicsFile) || !Files.isRegularFile(topicsFile) || !Files.isReadable(topicsFile)) {
-      throw new IllegalArgumentException("Topics file : " + topicsFile + " does not exist or is not a (readable) file.");
-    }
-
-    TopicReader tr = (TopicReader)Class.forName("io.anserini.search.query."+searchArgs.topicReader+"TopicReader")
-            .getConstructor(Path.class).newInstance(topicsFile);
-    SortedMap<String, Map<String, String>> topics = tr.read();
-
     final long start = System.nanoTime();
-    SearchCollection searcher = new SearchCollection(searchArgs.index);
-    searcher.search(topics, searchArgs.topicfield, searchArgs.output, similarity, searchArgs.hits,
-        cascade, searchArgs.keepstop, searchArgs.searchtweets);
+    SearchCollection searcher = new SearchCollection(searchArgs);
+    int numTopics = searcher.runTopics();
     searcher.close();
-    final long durationMillis =
-        TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
-    LOG.info("Total " + topics.size() + " topics searched in "
+    final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
+    LOG.info("Total " + numTopics + " topics searched in "
         + DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss"));
   }
 }

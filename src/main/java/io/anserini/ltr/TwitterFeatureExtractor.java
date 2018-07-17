@@ -1,6 +1,5 @@
 package io.anserini.ltr;
 
-import com.google.common.collect.Sets;
 import io.anserini.analysis.TweetAnalyzer;
 import io.anserini.index.generator.TweetGenerator;
 import io.anserini.index.generator.TweetGenerator.StatusField;
@@ -12,8 +11,12 @@ import io.anserini.ltr.feature.base.*;
 import io.anserini.ltr.feature.twitter.*;
 import io.anserini.util.AnalyzerUtils;
 import io.anserini.util.Qrels;
+
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
@@ -25,7 +28,7 @@ import org.apache.lucene.search.Query;
 /**
  * Feature extractor for the twitter collections. Does not require performing searches
  */
-public class TwitterFeatureExtractor extends BaseFeatureExtractor{
+public class TwitterFeatureExtractor extends BaseFeatureExtractor<Integer> {
   private static final Logger LOG = LogManager.getLogger(TwitterFeatureExtractor.class);
   private static final FeatureExtractors DEFAULT_EXTRACTOR_CHAIN = FeatureExtractors.
           createFeatureExtractorChain(new UnigramFeatureExtractor(),
@@ -61,7 +64,7 @@ public class TwitterFeatureExtractor extends BaseFeatureExtractor{
    * @param qrels
    * @param topics
    */
-  public TwitterFeatureExtractor(IndexReader reader, Qrels qrels, Map<String, Map<String, String>> topics) {
+  public TwitterFeatureExtractor(IndexReader reader, Qrels qrels, Map<Integer, Map<String, String>> topics) {
     super(reader, qrels, topics, getDefaultExtractors());
     LOG.debug("Twitter Feature Extractor initialized.");
   }
@@ -74,7 +77,7 @@ public class TwitterFeatureExtractor extends BaseFeatureExtractor{
    * @param topics
    */
   public TwitterFeatureExtractor(IndexReader reader, Qrels qrels,
-                 Map<String, Map<String, String>> topics, FeatureExtractors featureExtractors) {
+                 Map<Integer, Map<String, String>> topics, FeatureExtractors featureExtractors) {
     super(reader, qrels, topics, featureExtractors == null ? getDefaultExtractors() : featureExtractors);
     LOG.debug("Twitter Feature Extractor initialized with custom feature extractors.");
   }
@@ -102,10 +105,13 @@ public class TwitterFeatureExtractor extends BaseFeatureExtractor{
 
   @Override
   protected Set<String> getFieldsToLoad() {
-    return Sets.newHashSet(getIdField(), getTermVectorField(),
-            StatusField.FOLLOWERS_COUNT.name,
-            StatusField.FRIENDS_COUNT.name,
-            StatusField.IN_REPLY_TO_STATUS_ID.name);
+    return new HashSet<>(Arrays.asList(
+        getIdField(),
+        getTermVectorField(),
+        StatusField.FOLLOWERS_COUNT.name,
+        StatusField.FRIENDS_COUNT.name,
+        StatusField.IN_REPLY_TO_STATUS_ID.name)
+    );
   }
 
   @Override

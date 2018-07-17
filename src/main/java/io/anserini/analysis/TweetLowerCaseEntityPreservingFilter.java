@@ -16,7 +16,7 @@
 
 package io.anserini.analysis;
 
-import com.twitter.Regex;
+import com.twitter.twittertext.Regex;
 import org.apache.lucene.analysis.TokenFilter;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
@@ -141,7 +141,7 @@ public final class TweetLowerCaseEntityPreservingFilter extends TokenFilter {
   }
 
   /**
-   * Remove all non-alphanumeric characters from the buffer
+   * Removes all non-alphanumeric characters from the buffer.
    */
   public void removeNonAlphanumeric() {
     final char[] buffer = termAtt.buffer();
@@ -158,7 +158,11 @@ public final class TweetLowerCaseEntityPreservingFilter extends TokenFilter {
   }
 
   /**
-   * Check if the given string is a valid entity (mention, hashtag or URL)
+   * Checks if the given string is a valid entity (mention, hashtag or URL).
+   *
+   * @param term string to check
+   * @return one of {@code INVALID_ENTITY}, {@code VALID_HASHTAG},
+   *         {@code VALID_MENTION}, {@code VALID_URL}
    */
   public int isEntity(String term) {
     if (Regex.VALID_URL.matcher(term).matches())
@@ -172,8 +176,11 @@ public final class TweetLowerCaseEntityPreservingFilter extends TokenFilter {
   }
 
   /**
-   * Check if the character at position i in the buffer is a delimiter which
-   * wouldn't be used as part of an entity
+   * Checks if the character at position <i>i</i> in the buffer is a delimiter that
+   * shouldn't be used as part of an entity.
+   *
+   * @param i index position
+   * @return if character a non-entity delimiter
    */
   public boolean isNonentityDelimiter(int i) {
     final char[] buffer = termAtt.buffer();
@@ -227,8 +234,11 @@ public final class TweetLowerCaseEntityPreservingFilter extends TokenFilter {
   }
 
   /**
-   * Check if the character at position i in the buffer is a delimiter which
-   * could be used as party of an entity
+   * Checks if the character at position <i>i</i> in the buffer is a delimiter that
+   * can be used as part of an entity.
+   *
+   * @param i index position
+   * @return if character an entity delimiter
    */
   public boolean isEntityDelimiter(int i) {
     final char[] buffer = termAtt.buffer();
@@ -244,7 +254,10 @@ public final class TweetLowerCaseEntityPreservingFilter extends TokenFilter {
   }
 
   /**
-   * Check if the character at position i in the buffer is a delimiter
+   * Checks if the character at position <i>i</i> in the buffer is a delimiter.
+   *
+   * @param i index position
+   * @return if character a delimiter
    */
   public boolean isDelimiter(int i) {
     return isNonentityDelimiter(i) || isEntityDelimiter(i);

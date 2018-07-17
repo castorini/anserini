@@ -6,16 +6,17 @@ import io.anserini.rerank.Reranker;
 import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.ScoredDocuments;
 import io.anserini.util.Qrels;
-import java.io.IOException;
-import java.io.PrintStream;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.Terms;
+
+import java.io.IOException;
+import java.io.PrintStream;
 
 /**
  * Used to rerank according to features
  *
  */
-public class TwitterFeatureReranker implements Reranker {
+public class TwitterFeatureReranker implements Reranker<Integer> {
   private final PrintStream out;
   private final Qrels qrels;
   private final FeatureExtractors extractors;
@@ -25,8 +26,9 @@ public class TwitterFeatureReranker implements Reranker {
     this.qrels = qrels;
     this.extractors = extractors == null ? TwitterFeatureExtractor.getDefaultExtractors() : extractors;
   }
+
   @Override
-  public<K> ScoredDocuments rerank(ScoredDocuments docs, RerankerContext context) {
+  public ScoredDocuments rerank(ScoredDocuments docs, RerankerContext<Integer> context) {
     IndexReader reader = context.getIndexSearcher().getIndexReader();
 
     for (int i = 0; i < docs.documents.length; i++) {
@@ -37,7 +39,7 @@ public class TwitterFeatureReranker implements Reranker {
         continue;
       }
 
-      String qid = ((String)context.getQueryId()).replaceFirst("^MB0*", "");
+      int qid = context.getQueryId();
       String docid = docs.documents[i].getField( TweetGenerator.FIELD_ID).stringValue();
 
       out.print(qrels.getRelevanceGrade(qid, docid));

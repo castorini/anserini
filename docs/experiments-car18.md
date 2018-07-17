@@ -1,4 +1,4 @@
-# Anserini Experiments on TREC Complext Answer Retrieval
+# Anserini Experiments on TREC Complex Answer Retrieval
 
 Indexing:
 
@@ -15,6 +15,8 @@ single segment (`-optimize`). If you also want to store document vectors (e.g., 
 add the `-docvectors` option.  The above command builds an index that stores term positions 
 (`-storePositions`) as well as doc vectors for relevance feedback (`-storeDocvectors`), and 
 `-optimize` force merges all index segment into one.
+
+For additional details, see explanation of [common indexing options](common-indexing-options.md).
 
 After indexing is done, you should be able to perform a retrieval as follows:
 

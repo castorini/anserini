@@ -1,5 +1,6 @@
 package io.anserini.ltr.feature.base;
 
+import io.anserini.index.generator.LuceneDocumentGenerator;
 import io.anserini.ltr.feature.FeatureExtractor;
 import io.anserini.rerank.RerankerContext;
 import org.apache.logging.log4j.LogManager;
@@ -16,7 +17,7 @@ import java.util.List;
  * Average IDF, idf calculated using log( 1+ (N - N_t + 0.5)/(N_t + 0.5))
  * where N is the total number of docs, calculated like in BM25
  */
-public class AvgIDFFeatureExtractor implements FeatureExtractor{
+public class AvgIDFFeatureExtractor<T> implements FeatureExtractor<T> {
   private static final Logger LOG = LogManager.getLogger(AvgIDFFeatureExtractor.class);
 
   private float sumIdf(IndexReader reader, List<String> queryTokens,
@@ -30,12 +31,12 @@ public class AvgIDFFeatureExtractor implements FeatureExtractor{
   }
 
   @Override
-  public float extract(Document doc, Terms terms, RerankerContext context) {
+  public float extract(Document doc, Terms terms, RerankerContext<T> context) {
     IndexReader reader = context.getIndexSearcher().getIndexReader();
 
     long numDocs = reader.numDocs() - reader.numDeletedDocs();
     try {
-      float sumIdf = sumIdf(reader, context.getQueryTokens(), numDocs, context.getField());
+      float sumIdf = sumIdf(reader, context.getQueryTokens(), numDocs, LuceneDocumentGenerator.FIELD_BODY);
       return sumIdf / (float) context.getQueryTokens().size();
     } catch (IOException e) {
       LOG.warn("Error computing AvgIdf, returning 0");
