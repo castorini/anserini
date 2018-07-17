@@ -16,7 +16,6 @@
 
 package io.anserini.integration;
 
-import io.anserini.util.AnalyzerUtils;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.codecs.FieldsProducer;
@@ -205,7 +204,6 @@ public class IndexerTest extends LuceneTestCase {
       // For this document, iterate through the terms.
       while (te.next() != null) {
         String term = new Term("text", te.term()).bytes().utf8ToString();
-        String stemmed = AnalyzerUtils.tokenize(new EnglishAnalyzer(), term).get(0);
         long tf = te.totalTermFreq();
 
         // The way to compute the BM25 score is to issue a query with the exact docid and the
@@ -219,7 +217,7 @@ public class IndexerTest extends LuceneTestCase {
         TopDocs rs = searcher.search(finalQuery, 1);                 // issue the query
 
         // The BM25 weight is the maxScore
-        System.out.println(stemmed + " " + tf + " " + rs.getMaxScore());
+        System.out.println(term + " " + tf + " " + rs.getMaxScore());
       }
     }
   }
