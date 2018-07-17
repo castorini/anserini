@@ -95,6 +95,7 @@ public class FeatureExtractors {
     return this;
   }
 
+  @SuppressWarnings("unchecked")
   public float[] extractAll(Document doc, Terms terms, RerankerContext context) {
     float[] features = new float[extractors.size()];
 

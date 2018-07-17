@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Test the term frequency feature extractor is correct
  */
-public class TermFrequencyFeatureExtractorTest extends BaseFeatureExtractorTest{
+public class TermFrequencyFeatureExtractorTest extends BaseFeatureExtractorTest<Integer> {
 
   private FeatureExtractors getChain() {
     FeatureExtractors chain = new FeatureExtractors();

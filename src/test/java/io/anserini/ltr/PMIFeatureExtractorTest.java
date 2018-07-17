@@ -10,7 +10,7 @@ import java.util.Arrays;
 /**
  * Test implementation of PMI
  */
-public class PMIFeatureExtractorTest extends BaseFeatureExtractorTest {
+public class PMIFeatureExtractorTest extends BaseFeatureExtractorTest<Integer> {
 
   private static FeatureExtractors EXTRACTOR = getChain(new PMIFeatureExtractor());
 

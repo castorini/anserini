@@ -134,6 +134,7 @@ public final class SearchCollection implements Closeable {
     reader.close();
   }
 
+  @SuppressWarnings("unchecked")
   public<K> int runTopics() throws IOException {
     IndexSearcher searcher = new IndexSearcher(reader);
     searcher.setSimilarity(similarity);
