@@ -12,6 +12,6 @@ jdk:
 script:
   - mvn clean package appassembler:assemble
   - git clone https://github.com/castorini/Anserini-data.git
-  -
+  - python src/main/python/run_regression.py --config src/main/resources/regression/cacm.yaml --collection cacm --index --fail_eval
   - ls target | grep fatjar | xargs python src/test/python/python_interface.py
 
