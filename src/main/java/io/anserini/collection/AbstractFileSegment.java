@@ -39,6 +39,7 @@ public abstract class AbstractFileSegment<T extends SourceDocument> implements I
   protected BufferedReader bufferedReader;
   protected boolean atEOF = false;
   protected T dType;
+  protected T bufferRecord = null;
 
   @Override
   public boolean hasNext() {
