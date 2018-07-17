@@ -11,4 +11,7 @@ jdk:
   - oraclejdk8
 script:
   - mvn clean package appassembler:assemble
+  - git clone https://github.com/castorini/Anserini-data.git
+  -
   - ls target | grep fatjar | xargs python src/test/python/python_interface.py
+
