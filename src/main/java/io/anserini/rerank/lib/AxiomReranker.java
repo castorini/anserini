@@ -397,7 +397,12 @@ public class AxiomReranker<T> implements Reranker<T> {
     Map<String, Set<Integer>> termInvertedList, RerankerContext<T> context) throws IOException {
     class ScoreComparator implements Comparator<Pair<String, Double>> {
       public int compare(Pair<String, Double> a, Pair<String, Double> b) {
-        return Double.compare(b.getRight(), a.getRight());
+        int cmp = Double.compare(b.getRight(), a.getRight());
+        if (cmp == 0) {
+          return a.getLeft().compareToIgnoreCase(b.getLeft());
+        } else {
+          return cmp;
+        }
       }
     }
 
