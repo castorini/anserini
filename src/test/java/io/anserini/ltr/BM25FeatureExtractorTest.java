@@ -10,7 +10,7 @@ import java.util.Arrays;
 /**
  * Tests that BM25 score is computed according to our forumla
  */
-public class BM25FeatureExtractorTest extends BaseFeatureExtractorTest {
+public class BM25FeatureExtractorTest extends BaseFeatureExtractorTest<Integer> {
   // Test the BM25 extractor with 2 settings of k and b
   private static final FeatureExtractor EXTRACTOR = new BM25FeatureExtractor(0.9,0.4);
   // 1.25,0.75

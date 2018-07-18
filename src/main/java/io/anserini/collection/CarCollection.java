@@ -18,7 +18,6 @@ package io.anserini.collection;
 
 import edu.unh.cs.treccar_v2.Data;
 import edu.unh.cs.treccar_v2.read_data.DeserializeData;
-import io.anserini.document.SourceDocument;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -37,7 +36,8 @@ import java.util.Set;
  * Since a collection is assumed to be in a directory, place the cbor file in
  * a directory prior to indexing.
  */
-public class CarCollection extends Collection {
+public class CarCollection extends DocumentCollection
+    implements FileSegmentProvider<CarCollection.Document> {
 
   @Override
   public List<Path> getFileSegmentPaths() {
@@ -47,9 +47,14 @@ public class CarCollection extends Collection {
         allowedFileSuffix, EMPTY_SET);
   }
 
-  public class FileSegment extends Collection.FileSegment {
-      private final FileInputStream stream;
-      private final Iterator<Data.Paragraph> iter;
+  @Override
+  public FileSegment createFileSegment(Path p) throws IOException {
+    return new FileSegment(p);
+  }
+
+  public class FileSegment extends AbstractFileSegment<Document> {
+    private final FileInputStream stream;
+    private final Iterator<Data.Paragraph> iter;
 
     protected FileSegment(Path path) throws IOException {
       this.path = path;
@@ -70,11 +75,6 @@ public class CarCollection extends Collection {
       }
       return doc;
     }
-  }
-
-  @Override
-  public FileSegment createFileSegment(Path p) throws IOException {
-    return new FileSegment(p);
   }
 
   /**
@@ -116,5 +116,4 @@ public class CarCollection extends Collection {
       return true;
     }
   }
-
 }

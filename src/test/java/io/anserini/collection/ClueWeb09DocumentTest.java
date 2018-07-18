@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 
-package io.anserini.document;
+package io.anserini.collection;
 
-import io.anserini.collection.ClueWeb12Collection;
 import org.apache.tools.ant.filters.StringInputStream;
 import org.junit.Before;
 
@@ -24,16 +23,15 @@ import java.io.DataInputStream;
 import java.io.IOException;
 import java.util.HashMap;
 
-
-public class ClueWeb12DocumentTest extends DocumentTest<ClueWeb12Collection.Document> {
+public class ClueWeb09DocumentTest extends DocumentTest<ClueWeb09Collection.Document> {
 
   @Before
-  public void setUP() throws Exception {
+  public void setUp() throws Exception {
     super.setUp();
 
     // WARC-Type: warcinfo is not indexable
     rawDocs.add(
-        "WARC/1.0\n" +
+        "WARC/0.18\n" +
         "WARC-Type: warcinfo\n" +
         "WARC-Date: 2009-03-65T08:43:19-0800\n" +
         "WARC-Record-ID: <urn:uuid:11111111-2222-3333-4444-555555555555>\n" +
@@ -48,7 +46,7 @@ public class ClueWeb12DocumentTest extends DocumentTest<ClueWeb12Collection.Docu
     );
 
     rawDocs.add(
-        "WARC/1.0\n" +
+        "WARC/0.18\n" +
         "WARC-Type: response\n" +
         "WARC-Target-URI: http://clueweb09.test.com/\n" +
         "WARC-Warcinfo-ID: 993d3969-9643-4934-b1c6-68d4dbe55b83\n" +
@@ -86,16 +84,16 @@ public class ClueWeb12DocumentTest extends DocumentTest<ClueWeb12Collection.Docu
 
     HashMap<String, String> doc2 = new HashMap<>();
     doc2.put("id", "clueweb09-az0000-00-00000");
-    doc2.put("content", "<html>\n" +
+    doc2.put("content", "\n<html>\n" +
         "whatever here will be included\n" +
         "</html>");
     expected.add(doc2);
   }
 
-  protected ClueWeb12Collection.Document parse(String raw) throws IOException {
+  protected ClueWeb09Collection.Document parse(String raw) throws IOException {
     DataInputStream stream = new DataInputStream(new StringInputStream(raw));
-    ClueWeb12Collection.Document doc = new ClueWeb12Collection.Document();
-    doc = doc.readNextWarcRecord(stream, ClueWeb12Collection.Document.WARC_VERSION);
+    ClueWeb09Collection.Document doc = new ClueWeb09Collection.Document();
+    doc = doc.readNextWarcRecord(stream, ClueWeb09Collection.Document.WARC_VERSION);
     return doc;
   }
 }

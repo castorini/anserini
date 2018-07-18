@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Average Inverse Collection Term Frequency as defined in
+ * Average Inverse DocumentCollection Term Frequency as defined in
  * Carmel, Yom-Tov Estimating query difficulty for Information Retrieval
  * log(|D| / tf)
  */

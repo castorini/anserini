@@ -44,6 +44,7 @@ public class RerankerCascade {
    * @param context reranker context
    * @return reranked results
    */
+  @SuppressWarnings("unchecked")
   public ScoredDocuments run(ScoredDocuments docs, RerankerContext context) {
     ScoredDocuments results = docs;
 
