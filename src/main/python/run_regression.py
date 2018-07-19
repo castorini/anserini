@@ -82,7 +82,7 @@ def verify_index(yaml_data, build_index=True):
         stat = line.split(':')[0]
         if stat in yaml_data['index_stats']:
             value = int(line.split(':')[1])
-            assert(value == yaml_data['index_stats'][stat])
+            assert value == yaml_data['index_stats'][stat]
             print(line)
     print(OKBLUE, '='*10, 'Verifying Index Succeed', '='*10, ENDC)
 
@@ -111,7 +111,7 @@ def construct_ranking_command(yaml_data, build_index=True):
     ]
     return ranking_commands
 
-def eval_n_verify(yaml_data, dry_run):
+def eval_n_verify(yaml_data, dry_run, fail_eval):
     """Evaluate the ranking files and verify the results with what are stored in yaml file
     Args:
       yaml_data (dict): The yaml config read from config file.
@@ -142,6 +142,8 @@ def eval_n_verify(yaml_data, dry_run):
                         print(OKBLUE, '[OK]', yaml_data['name'], model['name'], topic['name'], eval['metric'], expected, real, ENDC)
                     else:
                         print(FAIL, ['ERROR'], yaml_data['name'], model['name'], topic['name'], eval['metric'], expected, real, '!!!!', ENDC)
+                        if fail_eval:
+                            assert False
     finally:
         print(ENDC)
 
@@ -161,6 +163,7 @@ if __name__ == '__main__':
       parser.add_argument('--dry_run', dest='dry_run', action='store_true',
           help='output the commands but not actually running them. this is useful for development/debug')
       parser.add_argument('--n', dest='parallelism', type=int, default=4, help='number of parallel threads for ranking')
+      parser.add_argument('--fail_eval', dest='fail_eval', action='store_true', help='when enabled any eval inconsistency will fail the program')
       args = parser.parse_args()
 
       # TODO: A better way might be using dataclasses as the model to hold the data
@@ -183,4 +186,4 @@ if __name__ == '__main__':
       p = Pool(args.parallelism)
       p.map(ranking_atom, run_cmds)
 
-      eval_n_verify(yaml_data, args.dry_run)
+      eval_n_verify(yaml_data, args.dry_run, args.fail_eval)
