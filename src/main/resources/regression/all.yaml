@@ -1163,7 +1163,7 @@ collections:
           map:
             - 0.2719
           p30:
-            - 0.4893
+            - 0.4900
       - name: ql
         params:
           - -ql
