@@ -10,7 +10,7 @@ import java.util.Arrays;
  * Make sure that TFIDF feature extractor gives the scores as caculated by the formula
  * in the feature extractor, does not have all components of the lucene formula
  */
-public class TFIDFFeatureExtractorTest extends BaseFeatureExtractorTest {
+public class TFIDFFeatureExtractorTest extends BaseFeatureExtractorTest<Integer> {
 
   @Test
   public void testTFIDFOnSingleDocSingleQuery() throws IOException {

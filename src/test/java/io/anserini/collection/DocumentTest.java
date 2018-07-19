@@ -14,17 +14,17 @@
  * limitations under the License.
  */
 
-package io.anserini.document;
+package io.anserini.collection;
+
+import org.apache.lucene.util.LuceneTestCase;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import org.apache.lucene.util.LuceneTestCase;
-import org.junit.Before;
-import org.junit.Test;
 
 public class DocumentTest<D extends SourceDocument> extends LuceneTestCase {
   protected List<String> rawDocs;
@@ -34,10 +34,11 @@ public class DocumentTest<D extends SourceDocument> extends LuceneTestCase {
   @Before
   public void setUp() throws Exception {
     super.setUp();
-    rawDocs = new ArrayList<String>();
-    expected = new ArrayList<Map<String, String>>();
+    rawDocs = new ArrayList<>();
+    expected = new ArrayList<>();
   }
 
+  @SuppressWarnings("unchecked")
   protected D parse(String raw) throws Exception {
     BufferedReader bufferedReader = new BufferedReader(new StringReader(raw));
     D d = (D)dType.readNextRecord(bufferedReader);

@@ -16,7 +16,7 @@
 
 package io.anserini.index.generator;
 
-import io.anserini.document.SourceDocument;
+import io.anserini.collection.SourceDocument;
 import io.anserini.index.IndexCollection;
 import io.anserini.index.transform.StringTransform;
 import org.apache.logging.log4j.LogManager;

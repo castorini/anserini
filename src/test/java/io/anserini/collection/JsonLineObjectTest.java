@@ -14,7 +14,10 @@
  * limitations under the License.
  */
 
-package io.anserini.document;
+package io.anserini.collection;
+
+import org.junit.After;
+import org.junit.Before;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -23,33 +26,27 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.HashMap;
 
-import org.junit.After;
-import org.junit.Before;
-
-
-public class JsonDocumentArrayTest extends DocumentTest<JsonDocument> {
-  private String sampleFile = "sampleJsonArray.json";
+public class JsonLineObjectTest extends DocumentTest<JsonCollection.Document> {
+  private String sampleFile = "sampleJsonLineObject.json";
 
   @Before
   public void setUp() throws Exception {
     super.setUp();
 
     String sampleDoc =
-      "[\n" +
-      "  {\n" +
-      "    \"id\": \"doc1\",\n" +
-      "    \"contents\": \"this is the contents 1.\"\n" +
-      "  },\n" +
-      "  {\n" +
-      "    \"id\": \"doc2\",\n" +
-      "    \"contents\": \"this is the contents 2.\"\n" +
-      "  }\n" +
-      "]";
+      "{\n " +
+      "  \"id\": \"doc1\",\n" +
+      "  \"contents\": \"this is the contents 1.\"\n" +
+      "}\n" +
+      "{\n " +
+      "  \"id\": \"doc2\",\n" +
+      "  \"contents\": \"this is the contents 2.\"\n" +
+      "}";
     Writer writer = new BufferedWriter(new OutputStreamWriter(
       new FileOutputStream(sampleFile), "utf-8"));
     writer.write(sampleDoc);
 
-    dType = new JsonDocument(sampleFile);
+    dType = new JsonCollection.Document(sampleFile);
 
     HashMap<String, String> doc1 = new HashMap<>();
     doc1.put("id", "doc1");

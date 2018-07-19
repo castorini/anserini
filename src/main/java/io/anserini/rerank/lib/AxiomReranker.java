@@ -17,6 +17,7 @@
 package io.anserini.rerank.lib;
 
 import io.anserini.index.generator.LuceneDocumentGenerator;
+import io.anserini.index.generator.TweetGenerator;
 import io.anserini.rerank.Reranker;
 import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.ScoredDocuments;
@@ -226,8 +227,12 @@ public class AxiomReranker<T> implements Reranker<T> {
     }
     IndexReader reader = DirectoryReader.open(FSDirectory.open(indexPath));
     IndexSearcher searcher = new IndexSearcher(reader);
+    if (args.searchtweets) {
+      return searcher.search(new FieldValueQuery(TweetGenerator.StatusField.ID_LONG.name), reader.maxDoc(),
+          BREAK_SCORE_TIES_BY_TWEETID).scoreDocs;
+    }
     return searcher.search(new FieldValueQuery(LuceneDocumentGenerator.FIELD_ID), reader.maxDoc(),
-        args.searchtweets ? BREAK_SCORE_TIES_BY_TWEETID : BREAK_SCORE_TIES_BY_DOCID, true, true).scoreDocs;
+        BREAK_SCORE_TIES_BY_DOCID).scoreDocs;
   }
 
   /**
@@ -392,7 +397,12 @@ public class AxiomReranker<T> implements Reranker<T> {
     Map<String, Set<Integer>> termInvertedList, RerankerContext<T> context) throws IOException {
     class ScoreComparator implements Comparator<Pair<String, Double>> {
       public int compare(Pair<String, Double> a, Pair<String, Double> b) {
-        return Double.compare(b.getRight(), a.getRight());
+        int cmp = Double.compare(b.getRight(), a.getRight());
+        if (cmp == 0) {
+          return a.getLeft().compareToIgnoreCase(b.getLeft());
+        } else {
+          return cmp;
+        }
       }
     }
 

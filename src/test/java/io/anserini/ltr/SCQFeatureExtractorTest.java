@@ -7,7 +7,7 @@ import org.junit.Test;
 import java.io.IOException;
 import java.util.Arrays;
 
-public class SCQFeatureExtractorTest extends BaseFeatureExtractorTest {
+public class SCQFeatureExtractorTest extends BaseFeatureExtractorTest<Integer> {
 
   private static FeatureExtractors EXTRACTOR = getChain(new SCQFeatureExtractor());
 
