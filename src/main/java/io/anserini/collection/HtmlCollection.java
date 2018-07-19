@@ -22,7 +22,10 @@ import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -35,10 +38,10 @@ import java.util.List;
  * this makes the class a more generic class for indexing other types of the files, e.g. plain text files.
  *
  */
-public class HtmlFilesCollection extends DocumentCollection
-    implements FileSegmentProvider<HtmlFilesCollection.Document> {
+public class HtmlCollection extends DocumentCollection
+    implements FileSegmentProvider<HtmlCollection.Document> {
 
-  private static final Logger LOG = LogManager.getLogger(HtmlFilesCollection.class);
+  private static final Logger LOG = LogManager.getLogger(HtmlCollection.class);
 
   @Override
   public FileSegment createFileSegment(Path p) throws IOException {

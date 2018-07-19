@@ -17,7 +17,7 @@ collections:
       unique terms: 14363
       total terms: 320968
 
-    collection: HtmlFilesCollection
+    collection: HtmlCollection
     generator: JsoupGenerator
     threads: 8
     index_options:

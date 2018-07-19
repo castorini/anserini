@@ -34,7 +34,7 @@ public class CacmTopicReader extends TopicReader {
   protected final String TERMINATING_DOC = "</DOC>";
 
   private static final Pattern QUERY_ID_PATTERN =
-          Pattern.compile("<DOCNO>\\s*(.*?)\\s*</DOCNO>", Pattern.DOTALL);
+      Pattern.compile("<DOCNO>\\s*(.*?)\\s*</DOCNO>", Pattern.DOTALL);
 
   public CacmTopicReader(Path topicFile) {
     super(topicFile);
