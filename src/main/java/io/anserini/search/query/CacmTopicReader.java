@@ -27,11 +27,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class CacmTopicReader extends TopicReader {
-  protected final String DOCNO = "<DOCNO>";
-  protected final String TERMINATING_DOCNO = "</DOCNO>";
+  private final String DOCNO = "<DOCNO>";
+  private final String TERMINATING_DOCNO = "</DOCNO>";
 
-  protected final String DOC = "<DOC>";
-  protected final String TERMINATING_DOC = "</DOC>";
+  private final String DOC = "<DOC>";
+  private final String TERMINATING_DOC = "</DOC>";
 
   private static final Pattern QUERY_ID_PATTERN =
       Pattern.compile("<DOCNO>\\s*(.*?)\\s*</DOCNO>", Pattern.DOTALL);
