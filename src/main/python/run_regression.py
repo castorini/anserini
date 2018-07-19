@@ -70,12 +70,14 @@ def verify_index(yaml_data, build_index=True):
       yaml_data (dict): The yaml config read from config file.
     """
     print('='*10, 'Verifying Index', '='*10)
+    index_path = os.path.join(yaml_data['index_root'] if yaml_data['index_root'] else '', \
+        'lucene-index.{0}.pos+docvectors{1}'.format(yaml_data['name'], \
+        '+rawdocs' if 'storeRawdocs' in yaml_data['index_options'] else '')) \
+        if build_index else yaml_data['index_path']
+    print('[Index]', index_path)
     index_utils_command = [
         os.path.join(yaml_data['root'], yaml_data['index_utils_command']),
-        '-index', os.path.join(yaml_data['index_root'] if yaml_data['index_root'] else '',
-        'lucene-index.{0}.pos+docvectors{1}'.format(yaml_data['name'], '+rawdocs' if 'storeRawdocs' in yaml_data['index_options'] else ''))
-        if build_index else yaml_data['index_path'],
-        '-stats'
+        '-index', index_path, '-stats'
     ]
     out = check_output(' '.join(index_utils_command)).decode('utf-8').split('\n')
     for line in out:
@@ -155,35 +157,37 @@ def ranking_atom(cmd):
 
 
 if __name__ == '__main__':
-      parser = argparse.ArgumentParser(description='Regression Tests')
-      parser.add_argument('--config', default='src/main/resources/regression/all.yaml', help='Yaml config file')
-      parser.add_argument('--anserini_root', default='', help='Anserini path')
-      parser.add_argument('--collection', required=True, help='the collection key in yaml')
-      parser.add_argument('--index', dest='index', action='store_true', help='rebuild index from scratch')
-      parser.add_argument('--dry_run', dest='dry_run', action='store_true',
-          help='output the commands but not actually running them. this is useful for development/debug')
-      parser.add_argument('--n', dest='parallelism', type=int, default=4, help='number of parallel threads for ranking')
-      parser.add_argument('--fail_eval', dest='fail_eval', action='store_true', help='when enabled any eval inconsistency will fail the program')
-      args = parser.parse_args()
+    parser = argparse.ArgumentParser(description='Regression Tests')
+    parser.add_argument('--config', default='src/main/resources/regression/all.yaml', help='Yaml config file')
+    parser.add_argument('--anserini_root', default='', help='Anserini path')
+    parser.add_argument('--collection', required=True, help='the collection key in yaml')
+    parser.add_argument('--index', dest='index', action='store_true', help='rebuild index from scratch')
+    parser.add_argument('--no_ranking', dest='no_ranking', action='store_true', help='do not do the ranking')
+    parser.add_argument('--dry_run', dest='dry_run', action='store_true',
+      help='output the commands but not actually running them. this is useful for development/debug')
+    parser.add_argument('--n', dest='parallelism', type=int, default=4, help='number of parallel threads for ranking')
+    parser.add_argument('--fail_eval', dest='fail_eval', action='store_true', help='when enabled any eval inconsistency will fail the program')
+    args = parser.parse_args()
 
-      # TODO: A better way might be using dataclasses as the model to hold the data
-      # https://docs.python.org/3/library/dataclasses.html
-      with open(os.path.join(args.anserini_root, args.config)) as f:
-          dataMap = yaml.safe_load(f)
+    # TODO: A better way might be using dataclasses as the model to hold the data
+    # https://docs.python.org/3/library/dataclasses.html
+    with open(os.path.join(args.anserini_root, args.config)) as f:
+        dataMap = yaml.safe_load(f)
 
-      yaml_data = dataMap['collections'][args.collection]
-      yaml_data['root'] = args.anserini_root
-      # Decide if we're going to index from scratch. If not, use pre-stored index at known location.
-      if args.index:
-          print(' '.join(construct_indexing_command(yaml_data)))
-          if not args.dry_run:
-              call(' '.join(construct_indexing_command(yaml_data)), shell=True)
+    yaml_data = dataMap['collections'][args.collection]
+    yaml_data['root'] = args.anserini_root
+    # Decide if we're going to index from scratch. If not, use pre-stored index at known location.
+    if args.index:
+        print(' '.join(construct_indexing_command(yaml_data)))
+        if not args.dry_run:
+            call(' '.join(construct_indexing_command(yaml_data)), shell=True)
 
-      verify_index(yaml_data, args.index)
+    verify_index(yaml_data, args.index)
 
-      print('='*10, 'Ranking', '='*10)
-      run_cmds = construct_ranking_command(yaml_data, args.index)
-      p = Pool(args.parallelism)
-      p.map(ranking_atom, run_cmds)
+    if not args.no_ranking:
+        print('='*10, 'Ranking', '='*10)
+        run_cmds = construct_ranking_command(yaml_data, args.index)
+        p = Pool(args.parallelism)
+        p.map(ranking_atom, run_cmds)
 
-      eval_n_verify(yaml_data, args.dry_run, args.fail_eval)
+    eval_n_verify(yaml_data, args.dry_run, args.fail_eval)

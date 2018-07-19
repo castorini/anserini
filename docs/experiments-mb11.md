@@ -87,13 +87,13 @@ With the above commands, you should be able to replicate the following results:
 
 MAP                                     | BM25      | BM25+RM3  | BM25+AX   | QL        | QL+RM3    | QL+AX     |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-[TREC 2011 MICROBLOG TRACK](HTTP://TREC.NIST.GOV/DATA/MICROBLOG2011.HTML)| 0.3351    | 0.3472    | 0.4035    | 0.3614    | 0.4100    | 0.4152    |
-[TREC 2012 MICROBLOG TRACK](HTTP://TREC.NIST.GOV/DATA/MICROBLOG2012.HTML)| 0.1912    | 0.2056    | 0.2313    | 0.2100    | 0.2413    | 0.2487    |
+[TREC 2011 MICROBLOG TRACK](HTTP://TREC.NIST.GOV/DATA/MICROBLOG2011.HTML)| 0.3351    | 0.3472    | 0.4042    | 0.3614    | 0.4100    | 0.4179    |
+[TREC 2012 MICROBLOG TRACK](HTTP://TREC.NIST.GOV/DATA/MICROBLOG2012.HTML)| 0.1912    | 0.2056    | 0.2310    | 0.2100    | 0.2413    | 0.2502    |
 
 
 P30                                     | BM25      | BM25+RM3  | BM25+AX   | QL        | QL+RM3    | QL+AX     |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-[TREC 2011 MICROBLOG TRACK](HTTP://TREC.NIST.GOV/DATA/MICROBLOG2011.HTML)| 0.3837    | 0.4027    | 0.4551    | 0.4095    | 0.4463    | 0.4374    |
-[TREC 2012 MICROBLOG TRACK](HTTP://TREC.NIST.GOV/DATA/MICROBLOG2012.HTML)| 0.3328    | 0.3418    | 0.3571    | 0.3322    | 0.3531    | 0.3819    |
+[TREC 2011 MICROBLOG TRACK](HTTP://TREC.NIST.GOV/DATA/MICROBLOG2011.HTML)| 0.3837    | 0.4027    | 0.4558    | 0.4095    | 0.4463    | 0.4367    |
+[TREC 2012 MICROBLOG TRACK](HTTP://TREC.NIST.GOV/DATA/MICROBLOG2012.HTML)| 0.3328    | 0.3418    | 0.3588    | 0.3322    | 0.3531    | 0.3864    |
 
 

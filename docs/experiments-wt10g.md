@@ -5,7 +5,7 @@
 Typical indexing command:
 
 ```
-nohup sh target/appassembler/bin/IndexCollection -collection WtCollection \
+nohup sh target/appassembler/bin/IndexCollection -collection TrecwebCollection \
 -generator JsoupGenerator -threads 16 -input /path/to/wt10g -index \
 lucene-index.wt10g.pos+docvectors -storePositions -storeDocvectors -optimize >& \
 log.wt10g.pos+docvectors &
@@ -64,11 +64,11 @@ With the above commands, you should be able to replicate the following results:
 
 MAP                                     | BM25      | BM25+RM3  | BM25+AX   | QL        | QL+RM3    | QL+AX     |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-WT10G: TOPICS 451-550                   | 0.1981    | 0.2166    | 0.2187    | 0.2015    | 0.2173    | 0.2248    |
+WT10G: TOPICS 451-550                   | 0.1981    | 0.2166    | 0.2185    | 0.2015    | 0.2173    | 0.2250    |
 
 
 P30                                     | BM25      | BM25+RM3  | BM25+AX   | QL        | QL+RM3    | QL+AX     |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-WT10G: TOPICS 451-550                   | 0.2201    | 0.2452    | 0.2439    | 0.2184    | 0.2344    | 0.2520    |
+WT10G: TOPICS 451-550                   | 0.2201    | 0.2452    | 0.2442    | 0.2184    | 0.2344    | 0.2520    |
 
 
