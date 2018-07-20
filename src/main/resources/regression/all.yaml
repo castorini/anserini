@@ -1078,7 +1078,7 @@ collections:
           - -axiom.deterministic
         results:
           map:
-            - 0.2777
+            - 0.2770
             - 0.4673
           p30:
             - 0.4611
