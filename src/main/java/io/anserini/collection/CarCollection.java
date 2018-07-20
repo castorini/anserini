@@ -24,11 +24,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Class representing an instance of a CAR paragraph collection. Note that it is in .cbor format
@@ -63,17 +59,21 @@ public class CarCollection extends DocumentCollection
     }
 
     @Override
-    public Document next() {
-      System.setProperty("file.encoding", "UTF-8");
-      Data.Paragraph p = iter.next();
-      Document doc = new Document(p.getParaId(), p.getTextOnly());
-
-      // If we've fall through here, we've either encountered an exception or we've reached the end
-      // of the underlying stream.
-      if (!iter.hasNext()) {
-        atEOF = true;
+    public boolean hasNext() {
+      if (bufferRecord != null) {
+        return true;
       }
-      return doc;
+
+      System.setProperty("file.encoding", "UTF-8");
+      Data.Paragraph p;
+      try {
+         p = iter.next();
+      } catch (NoSuchElementException e) {
+        return false;
+      }
+      bufferRecord = new Document(p.getParaId(), p.getTextOnly());
+
+      return true;
     }
   }
 
