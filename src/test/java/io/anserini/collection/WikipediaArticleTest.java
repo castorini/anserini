@@ -16,24 +16,20 @@
 
 package io.anserini.collection;
 
-import org.apache.commons.compress.compressors.bzip2.BZip2CompressorOutputStream;
-import org.apache.tools.ant.filters.StringInputStream;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.BufferedOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.util.NoSuchElementException;
 
 public class WikipediaArticleTest extends DocumentTest<WikipediaCollection.Document> {
-  protected static Path tmpPath;
+  private static final Logger LOG = LogManager.getLogger(WashingtonPostDocumentTest.class);
 
   @Before
   public void setUp() throws Exception {
     super.setUp();
-    dType = new WikipediaCollection.Document("Sample Title", "Sample Content");
 
     String doc = "<mediawiki xmlns=\"http://www.mediawiki.org/xml/export-0.10/\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.mediawiki.org/xml/export-0.10/ http://www.mediawiki.org/xm\n" +
         "l/export-0.10.xsd\" version=\"0.10\" xml:lang=\"en\">\n" +
@@ -72,25 +68,23 @@ public class WikipediaArticleTest extends DocumentTest<WikipediaCollection.Docum
         "  </page>\n" +
         "</mediawiki>";
 
-    tmpPath = createTempFile();
-    OutputStream fout = Files.newOutputStream(tmpPath);
-    BufferedOutputStream out = new BufferedOutputStream(fout);
-    BZip2CompressorOutputStream tmpOut = new BZip2CompressorOutputStream(out);
-    StringInputStream in = new StringInputStream(doc);
-    final byte[] buffer = new byte[2048];
-    int n = 0;
-    while (-1 != (n = in.read(buffer))) {
-      tmpOut.write(buffer, 0, n);
-    }
-    tmpOut.close();
+    rawFiles.add(createFile(doc));
   }
 
   @Test
   public void test() throws IOException {
     WikipediaCollection wc = new WikipediaCollection();
-    AbstractFileSegment iter = wc.createFileSegment(tmpPath);
-    SourceDocument parsed = iter.next();
-    assertEquals(parsed.id(), "Wiktionary:Welcome, newcomers");
-    assertEquals(parsed.content(), "Wiktionary:Welcome, newcomers.\nthis is the   real content");
+    for (int i = 0; i < rawFiles.size(); i++) {
+      AbstractFileSegment<WikipediaCollection.Document> iter = wc.createFileSegment(rawFiles.get(i));
+      while (true) {
+        try {
+          WikipediaCollection.Document parsed = iter.next();
+          assertEquals(parsed.id(), "Wiktionary:Welcome, newcomers");
+          assertEquals(parsed.content(), "Wiktionary:Welcome, newcomers.\nthis is the   real content");
+        } catch (NoSuchElementException e) {
+          break;
+        }
+      }
+    }
   }
 }

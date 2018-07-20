@@ -24,6 +24,7 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  * A file containing one more source documents to be indexed. A collection is comprised of one or
@@ -46,20 +47,30 @@ public abstract class AbstractFileSegment<T extends SourceDocument> implements I
     return !atEOF;
   }
 
+//  @Override
+//  @SuppressWarnings("unchecked")
+//  public T next() {
+//    T d;
+//    try {
+//      d = (T) dType.readNextRecord(bufferedReader);
+//      if (d == null) {
+//        atEOF = true;
+//      }
+//    } catch (Exception e) {
+//      LOG.warn("Exception when parsing document: ", e);
+//      d = null;
+//    }
+//    return d;
+//  }
+
   @Override
-  @SuppressWarnings("unchecked")
   public T next() {
-    T d;
-    try {
-      d = (T) dType.readNextRecord(bufferedReader);
-      if (d == null) {
-        atEOF = true;
-      }
-    } catch (Exception e) {
-      LOG.warn("Exception when parsing document: ", e);
-      d = null;
+    if (bufferRecord == null && !hasNext()) {
+      throw new NoSuchElementException("EOF has been reached. No more documents to read.");
     }
-    return d;
+    T ret = bufferRecord;
+    bufferRecord = null;
+    return ret;
   }
 
   @Override

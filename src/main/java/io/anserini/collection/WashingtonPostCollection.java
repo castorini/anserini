@@ -35,6 +35,8 @@ import java.util.*;
 public class WashingtonPostCollection extends DocumentCollection
     implements FileSegmentProvider<WashingtonPostCollection.Document> {
 
+  private static final Logger LOG = LogManager.getLogger(WashingtonPostCollection.class);
+
   @Override
   public List<Path> getFileSegmentPaths() {
     Set<String> allowedFileSuffix = new HashSet<>(Arrays.asList(".txt"));
@@ -52,11 +54,72 @@ public class WashingtonPostCollection extends DocumentCollection
     private String fileName;
 
     public FileSegment(Path path) throws IOException {
-      dType = new WashingtonPostCollection.Document();
-
+      this.dType = new WashingtonPostCollection.Document();
+      this.bufferRecord = null;
       this.path = path;
       this.fileName = path.toString();
       this.bufferedReader = new BufferedReader(new FileReader(fileName));
+    }
+
+    @Override
+    public boolean hasNext() {
+      if (bufferRecord != null) {
+        return true;
+      }
+
+      String nextRecord = null;
+      try {
+         nextRecord = bufferedReader.readLine();
+      } catch (IOException e) {
+        return false;
+      }
+
+      if (nextRecord == null) {
+        return false;
+      }
+
+      parseRecord(nextRecord);
+      return bufferRecord != null;
+    }
+
+    private String removeTags(String content) {
+      return content.replaceAll(Document.PATTERN, " ");
+    }
+
+    private void parseRecord(String record) {
+      StringBuilder builder = new StringBuilder();
+      ObjectMapper mapper = new ObjectMapper();
+      Document.WashingtonPostObject wapoObj = null;
+      try {
+        wapoObj = mapper
+          .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES) // Ignore unrecognized properties
+          .registerModule(new Jdk8Module()) // Deserialize Java 8 Optional: http://www.baeldung.com/jackson-optional
+          .readValue(record, Document.WashingtonPostObject.class);
+      } catch (IOException e) {
+        // For current dataset, we can make sure all record has unique id and
+        // published date. So we just simply log a warning and return null
+        // here in case future data may bring up this issue
+        LOG.warn("No unique ID or published date for this record, ignored...");
+        return;
+      }
+
+      bufferRecord = new WashingtonPostCollection.Document();
+      bufferRecord.id = wapoObj.getId();
+      bufferRecord.publishedDate = wapoObj.getPublishedDate();
+
+      if (JsonParser.isFieldAvailable(wapoObj.getContents())) {
+        for (Document.WashingtonPostObject.Content contentObj : wapoObj.getContents().get()) {
+          if (JsonParser.isFieldAvailable(contentObj.getType()) && JsonParser.isFieldAvailable(contentObj.getContent())) {
+            if (Document.CONTENT_TYPE_TAG.contains(contentObj.getType().get())) {
+              builder.append(removeTags(contentObj.getContent().get().trim())).append("\n");
+            }
+          } else {
+            LOG.warn("No type or content tag defined in Article " + bufferRecord.id + ", ignored this file.");
+          }
+        }
+      }
+
+      bufferRecord.content = builder.toString();
     }
   }
 
@@ -66,61 +129,12 @@ public class WashingtonPostCollection extends DocumentCollection
   public static class Document implements SourceDocument {
     private static final Logger LOG = LogManager.getLogger(Document.class);
     private static final String PATTERN = "<\\/?\\w+>";
-    private final List<String> CONTENT_TYPE_TAG = Arrays.asList("sanitized_html", "tweet");
+    private static final List<String> CONTENT_TYPE_TAG = Arrays.asList("sanitized_html", "tweet");
 
     // Required fields
     protected String id;
     protected long publishedDate;
     protected String content;
-
-    @Override
-    public SourceDocument readNextRecord(BufferedReader bufferedReader) throws IOException {
-      String nextRecord = bufferedReader.readLine();
-      if (nextRecord == null) {
-        return null;
-      }
-      return parseRecord(nextRecord);
-    }
-
-    private SourceDocument parseRecord(String record) {
-      StringBuilder builder = new StringBuilder();
-      ObjectMapper mapper = new ObjectMapper();
-      WashingtonPostObject wapoObj = null;
-      try {
-        wapoObj = mapper
-                .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES) // Ignore unrecognized properties
-                .registerModule(new Jdk8Module()) // Deserialize Java 8 Optional: http://www.baeldung.com/jackson-optional
-                .readValue(record, WashingtonPostObject.class);
-      } catch (IOException e) {
-        // For current dataset, we can make sure all record has unique id and
-        //  published date. So we just simply log a warning and return null
-        //  here in case future data may bring up this issue
-        LOG.warn("No unique ID or published date for this record, ignored...");
-        return null;
-      }
-
-      id = wapoObj.getId();
-      publishedDate = wapoObj.getPublishedDate();
-
-      if (JsonParser.isFieldAvailable(wapoObj.getContents())) {
-        for (WashingtonPostObject.Content contentObj : wapoObj.getContents().get()) {
-          if (JsonParser.isFieldAvailable(contentObj.getType()) && JsonParser.isFieldAvailable(contentObj.getContent())) {
-            if (CONTENT_TYPE_TAG.contains(contentObj.getType().get())) {
-              builder.append(removeTags(contentObj.getContent().get().trim())).append("\n");
-            }
-          } else {
-            LOG.warn("No type or content tag defined in Article " + id + ", ignored this file.");
-          }
-        }
-      }
-
-      content = builder.toString();
-      return this;
-    }
-
-    private String removeTags(String content) {
-      return content.replaceAll(PATTERN, " ");
-    }
 
     @Override
     public String id() {
@@ -140,6 +154,9 @@ public class WashingtonPostCollection extends DocumentCollection
     public long getPublishedDate() {
       return publishedDate;
     }
+
+    @Override
+    public Document readNextRecord(BufferedReader reader) { return new Document(); }
 
     // Used for JSON parsing by Jackson
     public static class WashingtonPostObject {

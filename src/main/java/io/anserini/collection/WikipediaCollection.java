@@ -96,16 +96,6 @@ public class WikipediaCollection extends DocumentCollection
       // of the underlying stream.
       return false;
     }
-
-    @Override
-    public Document next() {
-      if (bufferRecord == null && !hasNext()) {
-        throw new NoSuchElementException("EOF has been reached. No more documents to read.");
-      }
-      Document ret = bufferRecord;
-      bufferRecord = null;
-      return ret;
-    }
   }
 
   /**
@@ -135,5 +125,8 @@ public class WikipediaCollection extends DocumentCollection
     public boolean indexable() {
       return true;
     }
+
+    @Override
+    public Document readNextRecord(BufferedReader reader) { return new Document("", ""); }
   }
 }

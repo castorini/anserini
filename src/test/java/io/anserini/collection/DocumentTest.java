@@ -16,12 +16,15 @@
 
 package io.anserini.collection;
 
+import org.apache.commons.compress.compressors.bzip2.BZip2CompressorOutputStream;
 import org.apache.lucene.util.LuceneTestCase;
+import org.apache.tools.ant.filters.StringInputStream;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.BufferedReader;
-import java.io.StringReader;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +32,7 @@ import java.util.Map;
 public class DocumentTest<D extends SourceDocument> extends LuceneTestCase {
   protected List<String> rawDocs;
   protected List<Map<String, String>> expected;
+  protected List<Path> rawFiles;
   protected D dType;
 
   @Before
@@ -36,6 +40,7 @@ public class DocumentTest<D extends SourceDocument> extends LuceneTestCase {
     super.setUp();
     rawDocs = new ArrayList<>();
     expected = new ArrayList<>();
+    rawFiles = new ArrayList<>();
   }
 
   @SuppressWarnings("unchecked")
@@ -43,6 +48,24 @@ public class DocumentTest<D extends SourceDocument> extends LuceneTestCase {
     BufferedReader bufferedReader = new BufferedReader(new StringReader(raw));
     D d = (D)dType.readNextRecord(bufferedReader);
     return d;
+  }
+
+  protected Path createFile(String doc) {
+    Path tmpPath = null;
+    try {
+      tmpPath = createTempFile();
+      OutputStream fout = Files.newOutputStream(tmpPath);
+      BufferedOutputStream out = new BufferedOutputStream(fout);
+      BZip2CompressorOutputStream tmpOut = new BZip2CompressorOutputStream(out);
+      StringInputStream in = new StringInputStream(doc);
+      final byte[] buffer = new byte[2048];
+      int n = 0;
+      while (-1 != (n = in.read(buffer))) {
+        tmpOut.write(buffer, 0, n);
+      }
+      tmpOut.close();
+    } catch (IOException e) {}
+    return tmpPath;
   }
 
   @Test

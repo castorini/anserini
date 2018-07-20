@@ -25,7 +25,7 @@ import java.util.HashMap;
 public class TrecDocumentTest extends DocumentTest<TrecCollection.Document> {
 
   @Before
-  public void setUP() throws Exception {
+  public void setUp() throws Exception {
     super.setUp();
     dType = new TrecCollection.Document();
 
