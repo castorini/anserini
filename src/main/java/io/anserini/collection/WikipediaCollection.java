@@ -53,6 +53,7 @@ public class WikipediaCollection extends DocumentCollection
 
     protected FileSegment(Path path) throws IOException {
       this.path = path;
+      this.bufferedRecord = null;
 
       stream = new WikipediaBz2DumpInputStream(path.toString());
       cleaner = new WikiCleanBuilder()
@@ -62,7 +63,7 @@ public class WikipediaCollection extends DocumentCollection
 
     @Override
     public boolean hasNext() {
-      if (bufferRecord != null) {
+      if (bufferedRecord != null) {
         return true;
       }
 
@@ -85,7 +86,7 @@ public class WikipediaCollection extends DocumentCollection
 
           // If we've gotten here, it means that we've advanced to the next "valid" article.
           String title = cleaner.getTitle(page).replaceAll("\\n+", " ");
-          bufferRecord = new Document(title, title + ".\n" + s);
+          bufferedRecord = new Document(title, title + ".\n" + s);
           return true;
         }
       } catch (IOException e) {
@@ -108,7 +109,6 @@ public class WikipediaCollection extends DocumentCollection
     public Document(String title, String contents) {
       this.title = title;
       this.contents = contents;
-
     }
 
     @Override

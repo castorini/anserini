@@ -55,7 +55,7 @@ public class WashingtonPostCollection extends DocumentCollection
 
     public FileSegment(Path path) throws IOException {
       this.dType = new WashingtonPostCollection.Document();
-      this.bufferRecord = null;
+      this.bufferedRecord = null;
       this.path = path;
       this.fileName = path.toString();
       this.bufferedReader = new BufferedReader(new FileReader(fileName));
@@ -63,7 +63,7 @@ public class WashingtonPostCollection extends DocumentCollection
 
     @Override
     public boolean hasNext() {
-      if (bufferRecord != null) {
+      if (bufferedRecord != null) {
         return true;
       }
 
@@ -79,7 +79,7 @@ public class WashingtonPostCollection extends DocumentCollection
       }
 
       parseRecord(nextRecord);
-      return bufferRecord != null;
+      return bufferedRecord != null;
     }
 
     private String removeTags(String content) {
@@ -103,9 +103,9 @@ public class WashingtonPostCollection extends DocumentCollection
         return;
       }
 
-      bufferRecord = new WashingtonPostCollection.Document();
-      bufferRecord.id = wapoObj.getId();
-      bufferRecord.publishedDate = wapoObj.getPublishedDate();
+      bufferedRecord = new WashingtonPostCollection.Document();
+      bufferedRecord.id = wapoObj.getId();
+      bufferedRecord.publishedDate = wapoObj.getPublishedDate();
 
       if (JsonParser.isFieldAvailable(wapoObj.getContents())) {
         for (Document.WashingtonPostObject.Content contentObj : wapoObj.getContents().get()) {
@@ -114,12 +114,12 @@ public class WashingtonPostCollection extends DocumentCollection
               builder.append(removeTags(contentObj.getContent().get().trim())).append("\n");
             }
           } else {
-            LOG.warn("No type or content tag defined in Article " + bufferRecord.id + ", ignored this file.");
+            LOG.warn("No type or content tag defined in Article " + bufferedRecord.id + ", ignored this file.");
           }
         }
       }
 
-      bufferRecord.content = builder.toString();
+      bufferedRecord.content = builder.toString();
     }
   }
 

@@ -60,7 +60,7 @@ public class CarCollection extends DocumentCollection
 
     @Override
     public boolean hasNext() {
-      if (bufferRecord != null) {
+      if (bufferedRecord != null) {
         return true;
       }
 
@@ -71,7 +71,7 @@ public class CarCollection extends DocumentCollection
       } catch (NoSuchElementException e) {
         return false;
       }
-      bufferRecord = new Document(p.getParaId(), p.getTextOnly());
+      bufferedRecord = new Document(p.getParaId(), p.getTextOnly());
 
       return true;
     }

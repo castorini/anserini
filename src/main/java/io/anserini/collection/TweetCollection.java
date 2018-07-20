@@ -68,6 +68,7 @@ public class TweetCollection extends DocumentCollection
     protected FileSegment(Path path) throws IOException {
       dType = new TweetCollection.Document();
 
+      this.bufferedRecord = null;
       this.path = path;
       this.bufferedReader = null;
       String fileName = path.toString();
@@ -82,7 +83,7 @@ public class TweetCollection extends DocumentCollection
 
     @Override
     public boolean hasNext() {
-      if (bufferRecord != null) {
+      if (bufferedRecord != null) {
         return true;
       }
 
@@ -101,7 +102,7 @@ public class TweetCollection extends DocumentCollection
         return false;
       }
 
-      return bufferRecord != null;
+      return bufferedRecord != null;
     }
 
     private boolean fromJson(String json) {
@@ -120,82 +121,82 @@ public class TweetCollection extends DocumentCollection
         return false;
       }
 
-      bufferRecord = new TweetCollection.Document();
-      bufferRecord.id = tweetObj.getIdStr();
-      bufferRecord.idLong = Long.parseLong(bufferRecord.id);
-      bufferRecord.text = tweetObj.getText();
-      bufferRecord.createdAt = tweetObj.getCreatedAt();
+      bufferedRecord = new TweetCollection.Document();
+      bufferedRecord.id = tweetObj.getIdStr();
+      bufferedRecord.idLong = Long.parseLong(bufferedRecord.id);
+      bufferedRecord.text = tweetObj.getText();
+      bufferedRecord.createdAt = tweetObj.getCreatedAt();
 
       try {
-        bufferRecord.timestampMs = OptionalLong.of((new SimpleDateFormat(DATE_FORMAT, Locale.ENGLISH)).parse(bufferRecord.createdAt).getTime());
-        bufferRecord.epoch = bufferRecord.timestampMs.isPresent() ? OptionalLong.of(bufferRecord.timestampMs.getAsLong() / 1000) : OptionalLong.empty();
+        bufferedRecord.timestampMs = OptionalLong.of((new SimpleDateFormat(DATE_FORMAT, Locale.ENGLISH)).parse(bufferedRecord.createdAt).getTime());
+        bufferedRecord.epoch = bufferedRecord.timestampMs.isPresent() ? OptionalLong.of(bufferedRecord.timestampMs.getAsLong() / 1000) : OptionalLong.empty();
       } catch (ParseException e) {
-        bufferRecord.timestampMs = OptionalLong.of(-1L);
-        bufferRecord.epoch = OptionalLong.of(-1L);
+        bufferedRecord.timestampMs = OptionalLong.of(-1L);
+        bufferedRecord.epoch = OptionalLong.of(-1L);
         return false;
       }
 
       if (JsonParser.isFieldAvailable(tweetObj.getInReplyToStatusId())) {
-        bufferRecord.inReplyToStatusId = tweetObj.getInReplyToStatusId();
+        bufferedRecord.inReplyToStatusId = tweetObj.getInReplyToStatusId();
       } else {
-        bufferRecord.inReplyToStatusId = OptionalLong.empty();
+        bufferedRecord.inReplyToStatusId = OptionalLong.empty();
       }
 
       if (JsonParser.isFieldAvailable(tweetObj.getInReplyToUserId())) {
-        bufferRecord.inReplyToUserId = tweetObj.getInReplyToUserId();
+        bufferedRecord.inReplyToUserId = tweetObj.getInReplyToUserId();
       } else {
-        bufferRecord.inReplyToUserId = OptionalLong.empty();
+        bufferedRecord.inReplyToUserId = OptionalLong.empty();
       }
 
       if (JsonParser.isFieldAvailable(tweetObj.getRetweetedStatus())) {
-        bufferRecord.retweetStatusId = tweetObj.getRetweetedStatus().get().getId();
+        bufferedRecord.retweetStatusId = tweetObj.getRetweetedStatus().get().getId();
         if (JsonParser.isFieldAvailable(tweetObj.getRetweetedStatus().get().getUser())) {
-          bufferRecord.retweetUserId = tweetObj.getRetweetedStatus().get().getUser().get().getId();
+          bufferedRecord.retweetUserId = tweetObj.getRetweetedStatus().get().getUser().get().getId();
         } else {
-          bufferRecord.retweetUserId = OptionalLong.empty();
+          bufferedRecord.retweetUserId = OptionalLong.empty();
         }
-        bufferRecord.retweetCount = tweetObj.getRetweetCount();
+        bufferedRecord.retweetCount = tweetObj.getRetweetCount();
       } else {
-        bufferRecord.retweetStatusId = OptionalLong.empty();
-        bufferRecord.retweetUserId = OptionalLong.empty();
-        bufferRecord.retweetCount = OptionalLong.empty();
+        bufferedRecord.retweetStatusId = OptionalLong.empty();
+        bufferedRecord.retweetUserId = OptionalLong.empty();
+        bufferedRecord.retweetCount = OptionalLong.empty();
       }
 
       if (JsonParser.isFieldAvailable(tweetObj.getCoordinates()) &&
               JsonParser.isFieldAvailable(tweetObj.getCoordinates().get().getCoordinates()) &&
               tweetObj.getCoordinates().get().getCoordinates().get().size() >= 2) {
-        bufferRecord.longitude = tweetObj.getCoordinates().get().getCoordinates().get().get(0);
-        bufferRecord.latitude = tweetObj.getCoordinates().get().getCoordinates().get().get(1);
+        bufferedRecord.longitude = tweetObj.getCoordinates().get().getCoordinates().get().get(0);
+        bufferedRecord.latitude = tweetObj.getCoordinates().get().getCoordinates().get().get(1);
       } else {
-        bufferRecord.latitude = OptionalDouble.empty();
-        bufferRecord.longitude = OptionalDouble.empty();
+        bufferedRecord.latitude = OptionalDouble.empty();
+        bufferedRecord.longitude = OptionalDouble.empty();
       }
 
       if (JsonParser.isFieldAvailable(tweetObj.getLang())) {
-        bufferRecord.lang = tweetObj.getLang();
+        bufferedRecord.lang = tweetObj.getLang();
       } else {
-        bufferRecord.lang = Optional.empty();
+        bufferedRecord.lang = Optional.empty();
       }
 
-      bufferRecord.followersCount = tweetObj.getUser().getFollowersCount();
-      bufferRecord.friendsCount = tweetObj.getUser().getFriendsCount();
-      bufferRecord.statusesCount = tweetObj.getUser().getStatusesCount();
-      bufferRecord.screenName = tweetObj.getUser().getScreenName();
+      bufferedRecord.followersCount = tweetObj.getUser().getFollowersCount();
+      bufferedRecord.friendsCount = tweetObj.getUser().getFriendsCount();
+      bufferedRecord.statusesCount = tweetObj.getUser().getStatusesCount();
+      bufferedRecord.screenName = tweetObj.getUser().getScreenName();
 
       if (JsonParser.isFieldAvailable(tweetObj.getUser().getName())) {
-        bufferRecord.name = tweetObj.getUser().getName();
+        bufferedRecord.name = tweetObj.getUser().getName();
       } else {
-        bufferRecord.name = Optional.empty();
+        bufferedRecord.name = Optional.empty();
       }
 
       if (JsonParser.isFieldAvailable(tweetObj.getUser().getProfileImageUrl())) {
-        bufferRecord.profileImageUrl = tweetObj.getUser().getProfileImageUrl();
+        bufferedRecord.profileImageUrl = tweetObj.getUser().getProfileImageUrl();
       } else {
-        bufferRecord.profileImageUrl = Optional.empty();
+        bufferedRecord.profileImageUrl = Optional.empty();
       }
 
-      bufferRecord.jsonString = json;
-      bufferRecord.jsonObject = tweetObj;
+      bufferedRecord.jsonString = json;
+      bufferedRecord.jsonObject = tweetObj;
 
       return true;
     }

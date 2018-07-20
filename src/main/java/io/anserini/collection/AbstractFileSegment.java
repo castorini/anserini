@@ -40,7 +40,7 @@ public abstract class AbstractFileSegment<T extends SourceDocument> implements I
   protected BufferedReader bufferedReader;
   protected boolean atEOF = false;
   protected T dType;
-  protected T bufferRecord = null;
+  protected T bufferedRecord = null;
 
   @Override
   public boolean hasNext() {
@@ -65,11 +65,11 @@ public abstract class AbstractFileSegment<T extends SourceDocument> implements I
 
   @Override
   public T next() {
-    if (bufferRecord == null && !hasNext()) {
+    if (bufferedRecord == null && !hasNext()) {
       throw new NoSuchElementException("EOF has been reached. No more documents to read.");
     }
-    T ret = bufferRecord;
-    bufferRecord = null;
+    T ret = bufferedRecord;
+    bufferedRecord = null;
     return ret;
   }
 
