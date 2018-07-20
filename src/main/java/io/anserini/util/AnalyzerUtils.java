@@ -76,6 +76,7 @@ final public class AnalyzerUtils {
       unorderedWindowBuilder.add(unorderedQ, BooleanClause.Occur.SHOULD);
     }
     termsBuilder.add(new TermQuery(new Term(field, tokens.get(tokens.size()-1))), BooleanClause.Occur.SHOULD);
+
     BooleanQuery.Builder builder = new BooleanQuery.Builder();
     builder.add(new BoostQuery(termsBuilder.build(), termWeight), BooleanClause.Occur.SHOULD);
     builder.add(new BoostQuery(orderedWindowBuilder.build(), orderWindowWeight), BooleanClause.Occur.SHOULD);

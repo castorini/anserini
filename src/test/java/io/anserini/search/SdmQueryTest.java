@@ -116,21 +116,20 @@ public class SdmQueryTest extends LuceneTestCase {
 
 
     String sdmQueryStr = "fox information river";
-    Query sdmQuery = AnalyzerUtils.buildSdmQuery(field, analyzer, sdmQueryStr, 1.0f, 0.0f, 0.0f);
-    assertEquals(sdmQuery.toString(), "(text:fox text:inform text:river)^1.0 " +
+    Query sdmQuery1 = AnalyzerUtils.buildSdmQuery(field, analyzer, sdmQueryStr, 1.0f, 0.0f, 0.0f);
+    assertEquals(sdmQuery1.toString(), "(text:fox text:inform text:river)^1.0 " +
         "(spanNear([text:fox, text:inform], 1, true) spanNear([text:inform, text:river], 1, true))^0.0 " +
         "(spanNear([text:fox, text:inform], 8, false) spanNear([text:inform, text:river], 8, false))^0.0");
-    rs = searcher.search(sdmQuery, 1);
+    TopDocs rs1 = searcher.search(sdmQuery1, 1);
     Query termQuery = AnalyzerUtils.buildBagOfWordsQuery(field, analyzer, sdmQueryStr);
-    TopDocs rsTerm;
-    rsTerm = searcher.search(termQuery, 1);
-    assertEquals(rs.scoreDocs[0].score, rsTerm.scoreDocs[0].score, 1e-6f);
+    TopDocs rsTerm = searcher.search(termQuery, 1);
+    assertEquals(rs1.scoreDocs[0].score, rsTerm.scoreDocs[0].score, 1e-6f);
 
-    sdmQuery = AnalyzerUtils.buildSdmQuery(field, analyzer, sdmQueryStr, 0.0f, 1.0f, 0.0f);
-    assertEquals(sdmQuery.toString(), "(text:fox text:inform text:river)^0.0 " +
+    Query sdmQuery2 = AnalyzerUtils.buildSdmQuery(field, analyzer, sdmQueryStr, 0.0f, 1.0f, 0.0f);
+    assertEquals(sdmQuery2.toString(), "(text:fox text:inform text:river)^0.0 " +
             "(spanNear([text:fox, text:inform], 1, true) spanNear([text:inform, text:river], 1, true))^1.0 " +
             "(spanNear([text:fox, text:inform], 8, false) spanNear([text:inform, text:river], 8, false))^0.0");
-    rs = searcher.search(sdmQuery, 1);
+    TopDocs rs2 = searcher.search(sdmQuery2, 1);
     Query orderedWindowQuery1 = new SpanNearQuery(new SpanQuery[] {
             new SpanTermQuery(new Term(field, "fox")),
             new SpanTermQuery(new Term(field, "inform"))}, 1,true);
@@ -139,13 +138,16 @@ public class SdmQueryTest extends LuceneTestCase {
             new SpanTermQuery(new Term(field, "river"))}, 1,true);
     TopDocs rsOrderedWindow1 = searcher.search(orderedWindowQuery1, 1);
     TopDocs rsOrderedWindow2 = searcher.search(orderedWindowQuery2, 1);
-    assertEquals(rs.scoreDocs[0].score, rsOrderedWindow1.scoreDocs[0].score + rsOrderedWindow2.scoreDocs[0].score, 1e-6f);
+    System.out.println(rs2.scoreDocs[0].score);
+    System.out.println(rsOrderedWindow1.scoreDocs[0].score);
+    System.out.println(rsOrderedWindow2.scoreDocs[0].score);
+    assertEquals(rs2.scoreDocs[0].score, rsOrderedWindow1.scoreDocs[0].score + rsOrderedWindow2.scoreDocs[0].score, 1e-6f);
 
-    sdmQuery = AnalyzerUtils.buildSdmQuery(field, analyzer, sdmQueryStr, 0.0f, 0.0f, 1.0f);
-    assertEquals(sdmQuery.toString(), "(text:fox text:inform text:river)^0.0 " +
+    Query sdmQuery3 = AnalyzerUtils.buildSdmQuery(field, analyzer, sdmQueryStr, 0.0f, 0.0f, 1.0f);
+    assertEquals(sdmQuery3.toString(), "(text:fox text:inform text:river)^0.0 " +
             "(spanNear([text:fox, text:inform], 1, true) spanNear([text:inform, text:river], 1, true))^0.0 " +
             "(spanNear([text:fox, text:inform], 8, false) spanNear([text:inform, text:river], 8, false))^1.0");
-    rs = searcher.search(sdmQuery, 1);
+    TopDocs rs3 = searcher.search(sdmQuery3, 1);
     Query unorderedWindowQuery1 = new SpanNearQuery(new SpanQuery[] {
             new SpanTermQuery(new Term(field, "fox")),
             new SpanTermQuery(new Term(field, "inform"))}, 8,false);
@@ -154,15 +156,15 @@ public class SdmQueryTest extends LuceneTestCase {
             new SpanTermQuery(new Term(field, "river"))}, 8,false);
     TopDocs rsUnorderedWindow1 = searcher.search(unorderedWindowQuery1, 1);
     TopDocs rsUnorderedWindow2 = searcher.search(unorderedWindowQuery2, 1);
-    assertEquals(rs.scoreDocs[0].score, rsUnorderedWindow1.scoreDocs[0].score + rsUnorderedWindow2.scoreDocs[0].score, 1e-6f);
+    assertEquals(rs3.scoreDocs[0].score, rsUnorderedWindow1.scoreDocs[0].score + rsUnorderedWindow2.scoreDocs[0].score, 1e-6f);
 
 
-    sdmQuery = AnalyzerUtils.buildSdmQuery(field, analyzer, sdmQueryStr, 0.85f, 0.1f, 0.05f);
-    assertEquals(sdmQuery.toString(), "(text:fox text:inform text:river)^0.85 " +
+    Query sdmQuery4 = AnalyzerUtils.buildSdmQuery(field, analyzer, sdmQueryStr, 0.85f, 0.1f, 0.05f);
+    assertEquals(sdmQuery4.toString(), "(text:fox text:inform text:river)^0.85 " +
             "(spanNear([text:fox, text:inform], 1, true) spanNear([text:inform, text:river], 1, true))^0.1 " +
             "(spanNear([text:fox, text:inform], 8, false) spanNear([text:inform, text:river], 8, false))^0.05");
-    rs = searcher.search(sdmQuery, 1);
-    assertEquals(rs.scoreDocs[0].score, rsTerm.scoreDocs[0].score*0.85f
+    TopDocs rs4 = searcher.search(sdmQuery4, 1);
+    assertEquals(rs4.scoreDocs[0].score, rsTerm.scoreDocs[0].score*0.85f
         + (rsOrderedWindow1.scoreDocs[0].score + rsOrderedWindow2.scoreDocs[0].score)*0.1f
         + (rsUnorderedWindow1.scoreDocs[0].score + rsUnorderedWindow2.scoreDocs[0].score)*0.05f, 1e-6f);
 
