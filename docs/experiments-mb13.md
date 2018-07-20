@@ -87,7 +87,7 @@ With the above commands, you should be able to replicate the following results:
 
 MAP                                     | BM25      | BM25+RM3  | BM25+AX   | QL        | QL+RM3    | QL+AX     |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-[TREC 2013 MICROBLOG TRACK](HTTP://TREC.NIST.GOV/DATA/MICROBLOG2013.HTML)| 0.2306    | 0.2356    | 0.2777    | 0.2599    | 0.2804    | 0.3167    |
+[TREC 2013 MICROBLOG TRACK](HTTP://TREC.NIST.GOV/DATA/MICROBLOG2013.HTML)| 0.2306    | 0.2356    | 0.2770    | 0.2599    | 0.2804    | 0.3167    |
 [TREC 2014 MICROBLOG TRACK](HTTP://TREC.NIST.GOV/DATA/MICROBLOG2014.HTML)| 0.3836    | 0.3962    | 0.4673    | 0.4184    | 0.4660    | 0.4943    |
 
 
