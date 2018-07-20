@@ -37,7 +37,6 @@ public class WashingtonPostDocumentTest extends DocumentTest<WashingtonPostColle
   @Before
   public void setUp() throws Exception {
     super.setUp();
-    dType = new WashingtonPostCollection.Document();
 
     String doc = "{\"id\": \"5f992bbc-4b9f-11e2-a6a6-aabac85e8036\", " +
 
@@ -77,6 +76,7 @@ public class WashingtonPostDocumentTest extends DocumentTest<WashingtonPostColle
              "When traveling west:\n" +
              "When you arrive, expose yourself to light during the evening hours.\n");
     doc1.put("published_date", "1356999181000");
+
     expected.add(doc1);
   }
 
