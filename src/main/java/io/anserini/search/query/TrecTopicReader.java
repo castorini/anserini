@@ -87,7 +87,7 @@ public class TrecTopicReader extends TopicReader {
           title = sb.substring(k+1).trim();
         }
 
-	      // description
+        // description
         read(bRdr,"<desc>",null,false,false);
         sb.setLength(0);
         String line = null;
@@ -108,8 +108,14 @@ public class TrecTopicReader extends TopicReader {
         }
         String narrative = sb.toString().trim();
         // we got a topic!
-        fields.put("title",title);
-        fields.put("description",description);
+        // this is for core track 2018 fix
+        id = id.replaceAll("</num>", "").trim();
+        title = title.replaceAll("</title>", "");
+        description = description.replaceAll("</desc>", "");
+        narrative = narrative.replaceAll("</narr>", "");
+        // this is for core track 2018 fix
+        fields.put("title", title);
+        fields.put("description", description);
         fields.put("narrative", narrative);
         map.put(Integer.valueOf(id), fields);
       }
