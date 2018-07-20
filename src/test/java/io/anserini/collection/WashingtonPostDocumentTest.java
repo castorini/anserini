@@ -82,9 +82,9 @@ public class WashingtonPostDocumentTest extends DocumentTest<WashingtonPostColle
 
   @Test
   public void test() throws Exception {
-    WashingtonPostCollection wpc = new WashingtonPostCollection();
+    WashingtonPostCollection collection = new WashingtonPostCollection();
     for (int i = 0; i < rawFiles.size(); i++) {
-      AbstractFileSegment<WashingtonPostCollection.Document> iter = wpc.createFileSegment(rawFiles.get(i));
+      AbstractFileSegment<WashingtonPostCollection.Document> iter = collection.createFileSegment(rawFiles.get(i));
       while (true) {
         try {
           WashingtonPostCollection.Document parsed = iter.next();

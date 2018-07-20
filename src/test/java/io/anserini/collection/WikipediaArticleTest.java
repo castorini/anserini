@@ -73,9 +73,9 @@ public class WikipediaArticleTest extends DocumentTest<WikipediaCollection.Docum
 
   @Test
   public void test() throws IOException {
-    WikipediaCollection wc = new WikipediaCollection();
+    WikipediaCollection collection = new WikipediaCollection();
     for (int i = 0; i < rawFiles.size(); i++) {
-      AbstractFileSegment<WikipediaCollection.Document> iter = wc.createFileSegment(rawFiles.get(i));
+      AbstractFileSegment<WikipediaCollection.Document> iter = collection.createFileSegment(rawFiles.get(i));
       while (true) {
         try {
           WikipediaCollection.Document parsed = iter.next();

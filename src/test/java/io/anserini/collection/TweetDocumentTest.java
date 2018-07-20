@@ -45,9 +45,9 @@ public class TweetDocumentTest extends DocumentTest<TweetCollection.Document> {
 
   @Test
   public void test() throws Exception {
-    TweetCollection tc = new TweetCollection();
+    TweetCollection collection = new TweetCollection();
     for (int i = 0; i < rawFiles.size(); i++) {
-      AbstractFileSegment<TweetCollection.Document> iter = tc.createFileSegment(rawFiles.get(i));
+      AbstractFileSegment<TweetCollection.Document> iter = collection.createFileSegment(rawFiles.get(i));
       while (true) {
         try {
           TweetCollection.Document parsed = iter.next();
