@@ -1,0 +1,192 @@
+---
+name: cw09b
+index_command: target/appassembler/bin/IndexCollection
+index_utils_command: target/appassembler/bin/IndexUtils
+search_command: target/appassembler/bin/SearchCollection
+topic_root: src/main/resources/topics-and-qrels/
+qrels_root: src/main/resources/topics-and-qrels/
+index_root:
+ranking_root:
+input: /tuna1/collections/web/ClueWeb09b/
+index_path: "/tuna1/indexes/lucene-index.cw09b.pos+docvectors" # path to the existing index, used in regression test if `--index` option is absent
+collection: ClueWeb09Collection
+generator: JsoupGenerator
+threads: 44
+index_options:
+  - -storePositions
+  - -storeDocvectors
+topic_reader: Webxml
+index_stats:
+  documents: 50220189
+  documents (non-empty): 50220159
+  total terms: 31270685466
+topics:
+  - name: "TREC 2010 Web Track: Topics 51-100"
+    path: topics.web.51-100.txt
+    qrel: qrels.web.51-100.txt
+  - name: "TREC 2011 Web Track: Topics 101-150"
+    path: topics.web.101-150.txt
+    qrel: qrels.web.101-150.txt
+  - name: "TREC 2012 Web Track: Topics 151-200"
+    path: topics.web.151-200.txt
+    qrel: qrels.web.151-200.txt
+evals:
+  - command: eval/trec_eval.9.0/trec_eval
+    params:
+      - -m map
+    separator: "\t"
+    parse_index: 2
+    metric: map
+    metric_precision: 4
+    can_combine: true
+  - command: eval/trec_eval.9.0/trec_eval
+    params:
+      - -m P.30
+    separator: "\t"
+    parse_index: 2
+    metric: p30
+    metric_precision: 4
+    can_combine: true
+  - command: eval/gdeval.pl
+    params:
+    separator: ","
+    parse_index: -2
+    metric: ndcg20
+    metric_precision: 5
+  - command: eval/gdeval.pl
+    params:
+    separator: ","
+    parse_index: -1
+    metric: err20
+    metric_precision: 5
+models:
+  - name: bm25
+    params:
+      - -bm25
+    results:
+      map:
+        - 0.1094
+        - 0.1095
+        - 0.1072
+      p30:
+        - 0.2653
+        - 0.2540
+        - 0.2180
+      ndcg20:
+        - 0.13280
+        - 0.19143
+        - 0.09764
+      err20:
+        - 0.07167
+        - 0.09470
+        - 0.13823
+  - name: bm25+rm3
+    params:
+      - -bm25
+      - -rm3
+    results:
+      map:
+        - 0.1077
+        - 0.1147
+        - 0.1319
+      p30:
+        - 0.2556
+        - 0.2687
+        - 0.2400
+      ndcg20:
+        - 0.14304
+        - 0.18853
+        - 0.12538
+      err20:
+        - 0.07910
+        - 0.10923
+        - 0.20791
+  - name: bm25+ax
+    params:
+      - -bm25
+      - -axiom
+      - -rerankCutoff 20
+      - -axiom.deterministic
+      - -axiom.beta 0.1
+    results:
+      map:
+        - 0.0966
+        - 0.0996
+        - 0.1242
+      p30:
+        - 0.2521
+        - 0.2420
+        - 0.2313
+      ndcg20:
+        - 0.17151
+        - 0.18775
+        - 0.11873
+      err20:
+        - 0.10073
+        - 0.10645
+        - 0.19208
+  - name: ql
+    params:
+      - -ql
+    results:
+      map:
+        - 0.1027
+        - 0.0971
+        - 0.1035
+      p30:
+        - 0.2417
+        - 0.2220
+        - 0.2013
+      ndcg20:
+        - 0.11319
+        - 0.16347
+        - 0.08620
+      err20:
+        - 0.05863
+        - 0.08419
+        - 0.13155
+  - name: ql+rm3
+    params:
+      - -ql
+      - -rm3
+    results:
+      map:
+        - 0.1061
+        - 0.0963
+        - 0.1140
+      p30:
+        - 0.2535
+        - 0.2187
+        - 0.2053
+      ndcg20:
+        - 0.13281
+        - 0.16082
+        - 0.10837
+      err20:
+        - 0.06527
+        - 0.09344
+        - 0.15763
+  - name: ql+ax
+    params:
+      - -ql
+      - -axiom
+      - -rerankCutoff 20
+      - -axiom.deterministic
+      - -axiom.beta 0.1
+    results:
+      map:
+        - 0.1088
+        - 0.0914
+        - 0.1215
+      p30:
+        - 0.2618
+        - 0.2267
+        - 0.2100
+      ndcg20:
+        - 0.14695
+        - 0.15916
+        - 0.10551
+      err20:
+        - 0.08023
+        - 0.08791
+        - 0.15829

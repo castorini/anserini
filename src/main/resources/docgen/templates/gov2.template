@@ -1,0 +1,42 @@
+# Anserini: Experiments on [Gov2](http://ir.dcs.gla.ac.uk/test_collections/gov2-summary.htm)
+
+## Indexing
+
+Typical indexing command:
+
+```
+${index_cmds}
+```
+
+The directory `/path/to/gov2/` should be the root directory of Gov2 collection, i.e., `ls /path/to/gov2/` should bring up a bunch of subdirectories, `GX000` to `GX272`.
+
+For additional details, see explanation of [common indexing options](common-indexing-options.md).
+
+## Retrieval
+
+Topics and qrels are stored in `src/main/resources/topics-and-qrels/`, downloaded from NIST:
+
++ `topics.701-750.txt`: [Topics 701-750 (TREC 2004 Terabyte Track)](http://trec.nist.gov/data/terabyte/04/04topics.701-750.txt)
++ `topics.751-800.txt`: [Topics 751-800 (TREC 2005 Terabyte Track)](http://trec.nist.gov/data/terabyte/05/05.topics.751-800.txt)
++ `topics.801-850.txt`: [Topics 801-850 (TREC 2006 Terabyte Track)](http://trec.nist.gov/data/terabyte/06/06.topics.801-850.txt)
++ `qrels.701-750.txt`: [qrels for Topics 701-750 (TREC 2004 Terabyte Track)](http://trec.nist.gov/data/terabyte/04/04.qrels.12-Nov-04)
++ `qrels.751-800.txt`: [qrels for Topics 751-800 (TREC 2005 Terabyte Track)](http://trec.nist.gov/data/terabyte/05/05.adhoc_qrels)
++ `qrels.801-850.txt`: [qrels for Topics 801-850 (TREC 2006 Terabyte Track)](http://trec.nist.gov/data/terabyte/06/qrels.tb06.top50)
+
+After indexing has completed, you should be able to perform retrieval as follows:
+
+```
+${ranking_cmds}
+```
+
+Evaluation can be performed using `trec_eval`:
+
+```
+${eval_cmds}
+```
+
+## Effectiveness
+
+With the above commands, you should be able to replicate the following results:
+
+${effectiveness}

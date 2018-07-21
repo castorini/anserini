@@ -91,7 +91,7 @@
         <artifactId>appassembler-maven-plugin</artifactId>
         <version>2.0.0</version>
         <configuration>
-          <extraJvmArguments>-Xms512M -Xmx24576M</extraJvmArguments>
+          <extraJvmArguments>-Xms512M -Xmx256G</extraJvmArguments>
           <programs>
             <program>
               <mainClass>io.anserini.index.IndexCollection</mainClass>

@@ -1,28 +1,29 @@
 ---
-name: cacm
+name: core17
 index_command: target/appassembler/bin/IndexCollection
 index_utils_command: target/appassembler/bin/IndexUtils
 search_command: target/appassembler/bin/SearchCollection
+topic_root: src/main/resources/topics-and-qrels/
+qrels_root: src/main/resources/topics-and-qrels/
 index_root:
 ranking_root:
-topic_root: Anserini-data/CACM/
-qrels_root: Anserini-data/CACM/
-input:  Anserini-data/CACM/corpus/uncompressed
-index_path: "" # path to the existing index, used in regression test if `--index` option is absent
-index_stats:
-  documents: 3204
-  documents (non-empty): 3204
-  unique terms: 14363
-  total terms: 320968
-
-collection: HtmlCollection
 generator: JsoupGenerator
-threads: 8
+threads: 16
 index_options:
   - -storePositions
   - -storeDocvectors
   - -optimize
-topic_reader: Cacm
+input: /tuna1/collections/newswire/NYTcorpus/
+index_path: "/tuna1/indexes/lucene-index.nyt.pos+docvectors+rawdocs" # path to the existing index, used in regression test if `--index` option is absent
+collection: NewYorkTimesCollection
+index_stats:
+  documents: 1831109
+  documents (non-empty): 1831109
+  total terms: 720510677
+topics:
+  - name: "All Topics"
+    path: topics.core17.txt
+    qrel: qrels.core17.txt
 evals:
   - command: eval/trec_eval.9.0/trec_eval
     params:
@@ -40,29 +41,24 @@ evals:
     metric: p30
     metric_precision: 4
     can_combine: true
-
-topics:
-  - name: "CACM All"
-    path: topics.cacm.txt
-    qrel: qrels.cacm.txt
 models:
   - name: bm25
     params:
       - -bm25
     results:
       map:
-        - 0.3102
+        - 0.1996
       p30:
-        - 0.1936
+        - 0.4207
   - name: bm25+rm3
     params:
       - -bm25
       - -rm3
     results:
       map:
-        - 0.3689
+        - 0.2633
       p30:
-        - 0.2282
+        - 0.4893
   - name: bm25+ax
     params:
       - -bm25
@@ -71,26 +67,26 @@ models:
       - -axiom.deterministic
     results:
       map:
-        - 0.3002
+        - 0.2719
       p30:
-        - 0.1974
+        - 0.4900
   - name: ql
     params:
       - -ql
     results:
       map:
-        - 0.3265
+        - 0.1928
       p30:
-        - 0.1942
+        - 0.4327
   - name: ql+rm3
     params:
       - -ql
       - -rm3
     results:
       map:
-        - 0.3821
+        - 0.2409
       p30:
-        - 0.2250
+        - 0.4647
   - name: ql+ax
     params:
       - -ql
@@ -99,6 +95,6 @@ models:
       - -axiom.deterministic
     results:
       map:
-        - 0.2894
+        - 0.2498
       p30:
-        - 0.1795
+        - 0.4813
