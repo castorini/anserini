@@ -91,7 +91,7 @@ NDCG20                                  | BM25      | BM25+RM3  | QL        | QL
 
 ERR20                                   | BM25      | BM25+RM3  | QL        | QL+RM3    |
 :---------------------------------------|-----------|-----------|-----------|-----------|
-[TREC 2013 Web Track: Topics 201-250](http://trec.nist.gov/data/web2013.html)| 0.0000    | 0.0000    | 0.0000    | 0.0000    |
-[TREC 2014 Web Track: Topics 251-300](http://trec.nist.gov/data/web2014.html)| 0.0000    | 0.0000    | 0.0000    | 0.0000    |
+[TREC 2013 Web Track: Topics 201-250](http://trec.nist.gov/data/web2013.html)| 0.1213    | 0.0917    | 0.1169    | 0.0868    |
+[TREC 2014 Web Track: Topics 251-300](http://trec.nist.gov/data/web2014.html)| 0.1737    | 0.1783    | 0.1451    | 0.1309    |
 
 

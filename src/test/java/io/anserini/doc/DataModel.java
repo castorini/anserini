@@ -249,7 +249,6 @@ public class DataModel {
   }
 
   public String generateIndexingCommand(String collection) {
-    ObjectMapper oMapper = new ObjectMapper();
     StringBuilder builder = new StringBuilder();
     builder.append("nohup sh ");
     builder.append(getIndex_command());
@@ -271,7 +270,6 @@ public class DataModel {
 
   public String generateRankingCommand(String collection) {
     StringBuilder builder = new StringBuilder();
-    ObjectMapper oMapper = new ObjectMapper();
     for (Model model : getModels()) {
       for (Topic topic : getTopics()) {
         builder.append("nohup ");
@@ -280,9 +278,8 @@ public class DataModel {
         builder.append(" ").append("-index").append(" ").append("lucene-index."+collection+".pos+docvectors");
         builder.append(" ").append("-topic").append(" ").append(Paths.get(getTopic_root(), topic.getPath()).toString());
         builder.append(" ").append("-output").append(" ").append("run."+collection+"."+model.getName()+"."+topic.getPath());
-        List modelParams = oMapper.convertValue(model.getParams(), List.class);
-        if (modelParams != null) {
-          for (Object option : modelParams) {
+        if (model.getParams() != null) {
+          for (String option : model.getParams()) {
             builder.append(" ").append(option);
           }
         }
@@ -299,16 +296,14 @@ public class DataModel {
   public String generateEvalCommand(String collection) {
     String allCommandsStr = "";
     Set<String> allEvalCommands = new HashSet<>();
-    ObjectMapper oMapper = new ObjectMapper();
     for (Model model : getModels()) {
       for (Topic topic : getTopics()) {
         Map<String, Map<String, List<String>>> combinedEvalCmd = new HashMap<>();
         for (Eval eval : getEvals()) {
           String evalCmd = eval.getCommand();
-          List evalParams = oMapper.convertValue(eval.getParams(), List.class);
           String evalCmdOption = "";
-          if (evalParams != null) {
-            for (Object option : evalParams) {
+          if (eval.getParams() != null) {
+            for (String option : eval.getParams()) {
               evalCmdOption += " "+option;
             }
           }
@@ -338,8 +333,7 @@ public class DataModel {
 
   public String generateEffectiveness(String collection) {
     StringBuilder builder = new StringBuilder();
-    ObjectMapper oMapper = new ObjectMapper();
-   for (Eval eval : getEvals()) {
+    for (Eval eval : getEvals()) {
       builder.append(String.format("%1$-40s|", eval.getMetric().toUpperCase()));
       for (Model model : getModels()) {
         builder.append(String.format(" %1$-10s|", model.getName().toUpperCase()));
