@@ -262,6 +262,11 @@ public class TweetCollection extends DocumentCollection
       return true;
     }
 
+    @Override
+    public List<String> paragraphs() {
+      throw new UnsupportedOperationException();
+    }
+
     public long getIdLong() {
       return idLong;
     }

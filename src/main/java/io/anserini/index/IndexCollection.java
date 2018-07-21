@@ -120,6 +120,9 @@ public final class IndexCollection {
     @Option(name = "-tweet.deletedIdsFile", metaVar = "[Path]",
         usage = "a file that contains deleted tweetIds, one per line. these tweeets won't be indexed")
     public String tweetDeletedIdsFile = "";
+
+    @Option(name = "-paragraph", usage = "boolean switch to use paragraph indexing")
+    public boolean paragraph = false;
   }
 
   public final class Counters {
@@ -194,21 +197,38 @@ public final class IndexCollection {
             continue;
           }
 
-          @SuppressWarnings("unchecked") // Yes, we know what we're doing here.
-          Document doc = generator.createDocument(d);
-          if (doc == null) {
-            counters.unindexed.incrementAndGet();
-            continue;
-          }
-          if (whitelistDocids != null && !whitelistDocids.contains(d.id())) {
-            counters.skipped.incrementAndGet();
-            continue;
-          }
+          if (args.paragraph) {
+            @SuppressWarnings("unchecked") // Yes, we know what we're doing here.
+            List<Document> docs = generator.createParagraphDocuments(d);
+            for (Document doc : docs) {
+              if (whitelistDocids != null && !whitelistDocids.contains(doc.getField(LuceneDocumentGenerator.FIELD_ARTICLE_ID).stringValue())) {
+                counters.skipped.incrementAndGet();
+                continue;
+              }
 
-          if (args.uniqueDocid) {
-            writer.updateDocument(new Term("id", d.id()), doc);
-          } else {
-            writer.addDocument(doc);
+              if (args.uniqueDocid) {
+                writer.updateDocument(new Term("id", d.id()), doc);
+              } else {
+                writer.addDocument(doc);
+              }
+            }
+          } else { // Default case: indexing documents
+            @SuppressWarnings("unchecked") // Yes, we know what we're doing here.
+            Document doc = generator.createDocument(d);
+            if (doc == null) {
+              counters.unindexed.incrementAndGet();
+              continue;
+            }
+            if (whitelistDocids != null && !whitelistDocids.contains(d.id())) {
+              counters.skipped.incrementAndGet();
+              continue;
+            }
+
+            if (args.uniqueDocid) {
+              writer.updateDocument(new Term("id", d.id()), doc);
+            } else {
+              writer.addDocument(doc);
+            }
           }
           cnt++;
         }
@@ -246,6 +266,7 @@ public final class IndexCollection {
     LOG.info("Store raw docs? " + args.storeRawDocs);
     LOG.info("Optimize (merge segments)? " + args.optimize);
     LOG.info("Whitelist: " + args.whitelist);
+    LOG.info("Index paragraphs? " + args.paragraph);
 
     this.indexPath = Paths.get(args.index);
     if (!Files.exists(this.indexPath)) {

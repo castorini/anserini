@@ -24,10 +24,8 @@ import org.wikiclean.WikipediaBz2DumpInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.regex.Pattern;
 
 /**
  * Class representing an instance of a Wikipedia collection. Note that Wikipedia dumps often come
@@ -104,11 +102,12 @@ public class WikipediaCollection extends DocumentCollection
   public static class Document implements SourceDocument {
     private final String title;
     private final String contents;
+    private final static Pattern CONTAINS_PERIOD = Pattern.compile("\\.");
+    private final static Pattern SINGLE_WORD_WITH_PERIOD = Pattern.compile("\\w+\\.");
 
     public Document(String title, String contents) {
       this.title = title;
       this.contents = contents;
-
     }
 
     @Override
@@ -129,6 +128,19 @@ public class WikipediaCollection extends DocumentCollection
     @Override
     public boolean indexable() {
       return true;
+    }
+
+    @Override
+    public List<String> paragraphs() {
+      String[] parts = contents.split("\\n+");
+      ArrayList<String> bufferedParagraphs = new ArrayList<>();
+      for (String p : parts) {
+        // Heuristic is that parts without periods ('.') or has one word followed by a period is a section header and should not be indexed.
+        if (CONTAINS_PERIOD.matcher(p).find() && !SINGLE_WORD_WITH_PERIOD.matcher(p).matches()) {
+          bufferedParagraphs.add(p);
+        }
+      }
+      return bufferedParagraphs;
     }
   }
 }

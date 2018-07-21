@@ -182,6 +182,11 @@ public class ClueWeb09Collection extends DocumentCollection
       return "response".equals(getHeaderRecordType());
     }
 
+    @Override
+    public List<String> paragraphs() {
+      throw new UnsupportedOperationException();
+    }
+
     /**
      * Our read line implementation. We cannot allow buffering here (for gzip
      * streams) so, we need to use DataInputStream. Also, we need to account

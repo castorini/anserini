@@ -17,6 +17,7 @@
 package io.anserini.collection;
 
 import java.io.BufferedReader;
+import java.util.List;
 
 /**
  * A raw document from a collection to be indexed. We explicitly distinguish a source document from
@@ -45,6 +46,11 @@ public interface SourceDocument {
    */
   boolean indexable();
 
+  /**
+   * Returns a List of strings, where each string is a paragraph of the source document.
+   * @return a list of strings representing the paragraphs of the document
+   */
+  List<String> paragraphs();
 
   /**
    *We assume that one source document contains multiple records.

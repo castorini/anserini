@@ -30,6 +30,9 @@ import org.apache.lucene.document.StringField;
 import org.apache.lucene.index.IndexOptions;
 import org.apache.lucene.util.BytesRef;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Converts a {@link SourceDocument} into a Lucene {@link Document}, ready to be indexed.
  * Prior to the creation of the Lucene document, this class will apply an optional
@@ -43,6 +46,7 @@ public class LuceneDocumentGenerator<T extends SourceDocument> {
   public static final String FIELD_RAW = "raw";
   public static final String FIELD_BODY = "contents";
   public static final String FIELD_ID = "id";
+  public static final String FIELD_ARTICLE_ID = "article_id";
 
   private final StringTransform transform;
 
@@ -149,5 +153,64 @@ public class LuceneDocumentGenerator<T extends SourceDocument> {
     document.add(new Field(FIELD_BODY, contents, fieldType));
 
     return document;
+  }
+
+  public List<Document> createParagraphDocuments(T src) {
+    String articleId = src.id();
+    List<Document> paragraphs = new ArrayList<>();
+
+    for (int i = 0; i < src.paragraphs().size(); i++) {
+      try {
+        String paragraph = transform != null ? transform.apply(src.paragraphs().get(i)) : src.paragraphs().get(i);
+
+        if (paragraph.trim().length() == 0) {
+          // Log and move on, otherwise output can be very noisy.
+          counters.empty.incrementAndGet();
+          continue;
+        }
+
+        String id = articleId + '-' + i;
+
+        // Make a new, empty document.
+        Document document = new Document();
+
+        // Store the collection docid.
+        document.add(new StringField(FIELD_ID, id, Field.Store.YES));
+        // This is needed to break score ties by docid.
+        document.add(new SortedDocValuesField(FIELD_ID, new BytesRef(id)));
+        // Store the article id.
+        document.add(new StringField(FIELD_ARTICLE_ID, articleId, Field.Store.YES));
+
+        if (args.storeRawDocs) {
+          document.add(new StoredField(FIELD_RAW, src.paragraphs().get(i)));
+        }
+
+        FieldType fieldType = new FieldType();
+        fieldType.setStored(args.storeTransformedDocs);
+
+        // Are we storing document vectors?
+        if (args.storeDocvectors) {
+          fieldType.setStoreTermVectors(true);
+          fieldType.setStoreTermVectorPositions(true);
+        }
+
+        // Are we building a "positional" or "count" index?
+        if (args.storePositions) {
+          fieldType.setIndexOptions(IndexOptions.DOCS_AND_FREQS_AND_POSITIONS);
+        } else {
+          fieldType.setIndexOptions(IndexOptions.DOCS_AND_FREQS);
+        }
+
+        document.add(new Field(FIELD_BODY, paragraph, fieldType));
+
+        paragraphs.add(document);
+      } catch (Exception e) {
+        LOG.error("Error extracting document paragraph text, skipping document: " + articleId + " paragraph: " + i, e);
+        counters.errors.incrementAndGet();
+        continue;
+      }
+    }
+
+    return paragraphs;
   }
 }

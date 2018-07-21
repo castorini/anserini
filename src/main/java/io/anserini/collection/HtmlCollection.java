@@ -157,5 +157,10 @@ public class HtmlCollection extends DocumentCollection
     public boolean indexable() {
       return true;
     }
+
+    @Override
+    public List<String> paragraphs() {
+      throw new UnsupportedOperationException();
+    }
   }
 }

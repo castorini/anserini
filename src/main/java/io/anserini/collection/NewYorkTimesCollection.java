@@ -178,6 +178,11 @@ public class NewYorkTimesCollection extends DocumentCollection
       return true;
     }
 
+    @Override
+    public List<String> paragraphs() {
+      throw new UnsupportedOperationException();
+    }
+
     public RawDocument getRawDocument() {
       return raw;
     }

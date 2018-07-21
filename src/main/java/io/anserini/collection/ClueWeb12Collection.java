@@ -188,6 +188,11 @@ public class ClueWeb12Collection extends DocumentCollection
       return "response".equals(getWARCType());
     }
 
+    @Override
+    public List<String> paragraphs() {
+      throw new UnsupportedOperationException();
+    }
+
     /**
      * WARC header class.
      */

@@ -137,6 +137,11 @@ public class WashingtonPostCollection extends DocumentCollection
       return true;
     }
 
+    @Override
+    public List<String> paragraphs() {
+      throw new UnsupportedOperationException();
+    }
+
     public long getPublishedDate() {
       return publishedDate;
     }
