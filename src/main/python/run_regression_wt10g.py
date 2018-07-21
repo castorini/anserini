@@ -5,7 +5,7 @@ import argparse
 from subprocess import call
 
 index_cmd = """
-nohup sh target/appassembler/bin/IndexCollection -collection WtCollection \
+nohup sh target/appassembler/bin/IndexCollection -collection TrecwebCollection \
  -input /tuna1/collections/web/wt10g/ -generator JsoupGenerator \
  -index lucene-index.wt10g.pos+docvectors -threads 16 \
  -storePositions -storeDocvectors"""
@@ -19,7 +19,7 @@ run_cmds = [ \
 qrels = "src/main/resources/topics-and-qrels/qrels.451-550.txt"
 
 def extract_value_from_doc(key, row, col):
-    return float(os.popen("grep '{}' docs/experiments-wt10g.md | head -{} | tail -1".format(key, row)).read().split('|')[col].strip())
+    return float(os.popen("grep '{}' docs/experiments-wt10g-old.md | head -{} | tail -1".format(key, row)).read().split('|')[col].strip())
 
 def trec_eval_metric(metric, qrels, run):
     return float(os.popen("eval/trec_eval.9.0/trec_eval -m {} {} {}".format(metric, qrels, run)).read().split("\t")[2].strip())

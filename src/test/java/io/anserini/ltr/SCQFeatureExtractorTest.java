@@ -1,13 +1,13 @@
 package io.anserini.ltr;
 
-import com.google.common.collect.Lists;
 import io.anserini.ltr.feature.FeatureExtractors;
 import io.anserini.ltr.feature.base.SCQFeatureExtractor;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.Arrays;
 
-public class SCQFeatureExtractorTest extends BaseFeatureExtractorTest {
+public class SCQFeatureExtractorTest extends BaseFeatureExtractorTest<Integer> {
 
   private static FeatureExtractors EXTRACTOR = getChain(new SCQFeatureExtractor());
 
@@ -40,7 +40,7 @@ public class SCQFeatureExtractorTest extends BaseFeatureExtractorTest {
     float[] expected = {1.162115f};
 
     assertFeatureValues(expected, testQuery,
-            Lists.newArrayList("test document multiple tokens document",
+            Arrays.asList("test document multiple tokens document",
                     "another document for doc freq count",
                     "yet another"), EXTRACTOR, 0);
   }

@@ -33,7 +33,7 @@ public class CarTopicReader extends TopicReader {
   /**
    * Read topics in the topic file of TREC CAR Track 2018
    * @return SortedMap where keys are query/topic IDs and values are title portions of the topics
-   * @throws IOException
+   * @throws IOException any io exception
    */
   @Override
   public SortedMap<String, Map<String, String>> read(BufferedReader bRdr) throws IOException {

@@ -26,6 +26,7 @@ import io.anserini.rerank.lib.AxiomReranker;
 import io.anserini.rerank.lib.Rm3Reranker;
 import io.anserini.rerank.lib.ScoreTiesAdjusterReranker;
 import io.anserini.search.query.TopicReader;
+import io.anserini.search.similarity.F2LogSimilarity;
 import io.anserini.util.AnalyzerUtils;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.apache.logging.log4j.LogManager;
@@ -44,9 +45,7 @@ import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.Sort;
 import org.apache.lucene.search.SortField;
 import org.apache.lucene.search.TopDocs;
-import org.apache.lucene.search.similarities.BM25Similarity;
-import org.apache.lucene.search.similarities.LMDirichletSimilarity;
-import org.apache.lucene.search.similarities.Similarity;
+import org.apache.lucene.search.similarities.*;
 import org.apache.lucene.store.FSDirectory;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
@@ -103,6 +102,9 @@ public final class SearchCollection implements Closeable {
     } else if (args.bm25) {
       LOG.info("Using BM25 scoring model");
       this.similarity = new BM25Similarity(args.k1, args.b);
+    } else if (args.f2log) {
+      LOG.info("Using F2Log scoring model");
+      this.similarity = new F2LogSimilarity(args.f2log_s);
     } else {
       throw new IllegalArgumentException("Error: Must specify scoring model!");
     }
@@ -132,6 +134,7 @@ public final class SearchCollection implements Closeable {
     reader.close();
   }
 
+  @SuppressWarnings("unchecked")
   public<K> int runTopics() throws IOException {
     IndexSearcher searcher = new IndexSearcher(reader);
     searcher.setSimilarity(similarity);

@@ -1,17 +1,17 @@
 package io.anserini.ltr;
 
-import com.google.common.collect.Lists;
 import io.anserini.ltr.feature.FeatureExtractors;
 import io.anserini.ltr.feature.base.TermFrequencyFeatureExtractor;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 /**
  * Test the term frequency feature extractor is correct
  */
-public class TermFrequencyFeatureExtractorTest extends BaseFeatureExtractorTest{
+public class TermFrequencyFeatureExtractorTest extends BaseFeatureExtractorTest<Integer> {
 
   private FeatureExtractors getChain() {
     FeatureExtractors chain = new FeatureExtractors();
@@ -54,7 +54,7 @@ public class TermFrequencyFeatureExtractorTest extends BaseFeatureExtractorTest{
 
   @Test
   public void testTermFrequencyWithMultipleDocs() throws IOException {
-    List<String> docs = Lists.newArrayList("document document", "document with multiple terms",
+    List<String> docs = Arrays.asList("document document", "document with multiple terms",
             "document to test", "test terms tokens", "another test document");
     // We want to test that the expected value of count 1 is found for document
     // at index 2
