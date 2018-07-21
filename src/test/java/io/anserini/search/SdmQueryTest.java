@@ -24,9 +24,7 @@ import org.apache.lucene.document.Field;
 import org.apache.lucene.document.FieldType;
 import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.*;
-import org.apache.lucene.search.IndexSearcher;
-import org.apache.lucene.search.Query;
-import org.apache.lucene.search.TopDocs;
+import org.apache.lucene.search.*;
 import org.apache.lucene.search.spans.SpanNearQuery;
 import org.apache.lucene.search.spans.SpanQuery;
 import org.apache.lucene.search.spans.SpanTermQuery;
@@ -59,7 +57,6 @@ public class SdmQueryTest extends LuceneTestCase {
     textOptions.setTokenized(true);
 
     Document doc1 = new Document();
-    doc1.add(new TextField("docid", "doc1", Field.Store.YES));
     doc1.add(new Field(field, "john fox information river chicken bush frank retrieval world", textOptions));
     writer.addDocument(doc1);
 
@@ -84,7 +81,7 @@ public class SdmQueryTest extends LuceneTestCase {
   }
 
   @Test
-  public void testReadingPostings() throws Exception {
+  public void spanQueriesTest() throws Exception {
     Directory dir = FSDirectory.open(tempDir1);
     IndexReader reader = DirectoryReader.open(dir);
     IndexSearcher searcher = newSearcher(reader);
@@ -94,26 +91,32 @@ public class SdmQueryTest extends LuceneTestCase {
     SpanTermQuery t1 = new SpanTermQuery(new Term(field, "john"));
     SpanTermQuery t2 = new SpanTermQuery(new Term(field, "bush"));
 
-    q = new SpanNearQuery(new SpanQuery[] {t1, t2}, 3, true);
+    q = new SpanNearQuery(new SpanQuery[]{t1, t2}, 3, true);
     rs = searcher.search(q, 1);
     assertEquals(rs.scoreDocs.length, 0);
 
-    q = new SpanNearQuery(new SpanQuery[] {t1, t2}, 8, true);
+    q = new SpanNearQuery(new SpanQuery[]{t1, t2}, 8, true);
     rs = searcher.search(q, 1);
     assertEquals(rs.scoreDocs.length, 1);
 
-    q = new SpanNearQuery(new SpanQuery[] {t2, t1}, 8,true);
+    q = new SpanNearQuery(new SpanQuery[]{t2, t1}, 8, true);
     rs = searcher.search(q, 1);
     assertEquals(rs.scoreDocs.length, 0);
 
-    q = new SpanNearQuery(new SpanQuery[] {t2, t1}, 8, false);
+    q = new SpanNearQuery(new SpanQuery[]{t2, t1}, 8, false);
     rs = searcher.search(q, 1);
     assertEquals(rs.scoreDocs.length, 1);
 
-    q = new SpanNearQuery(new SpanQuery[] {t2, t1},  16, false);
+    q = new SpanNearQuery(new SpanQuery[]{t2, t1}, 16, false);
     rs = searcher.search(q, 1);
     assertEquals(rs.scoreDocs.length, 1);
 
+  }
+  @Test
+  public void sdmQueriesTest() throws Exception {
+    Directory dir = FSDirectory.open(tempDir1);
+    IndexReader reader = DirectoryReader.open(dir);
+    IndexSearcher searcher = newSearcher(reader);
 
     String sdmQueryStr = "fox information river";
     Query sdmQuery1 = AnalyzerUtils.buildSdmQuery(field, analyzer, sdmQueryStr, 1.0f, 0.0f, 0.0f);
@@ -136,11 +139,16 @@ public class SdmQueryTest extends LuceneTestCase {
     Query orderedWindowQuery2 = new SpanNearQuery(new SpanQuery[] {
             new SpanTermQuery(new Term(field, "inform")),
             new SpanTermQuery(new Term(field, "river"))}, 1,true);
+//    BooleanQuery.Builder orderedWindowBuilder = new BooleanQuery.Builder();
+//    orderedWindowBuilder.add(orderedWindowQuery1, BooleanClause.Occur.SHOULD);
+//    orderedWindowBuilder.add(orderedWindowQuery2, BooleanClause.Occur.SHOULD);
     TopDocs rsOrderedWindow1 = searcher.search(orderedWindowQuery1, 1);
     TopDocs rsOrderedWindow2 = searcher.search(orderedWindowQuery2, 1);
+//    TopDocs rsOrderedWindow3 = searcher.search(orderedWindowBuilder.build(), 1);
     System.out.println(rs2.scoreDocs[0].score);
     System.out.println(rsOrderedWindow1.scoreDocs[0].score);
     System.out.println(rsOrderedWindow2.scoreDocs[0].score);
+//    System.out.println(rsOrderedWindow3.scoreDocs[0].score);
     assertEquals(rs2.scoreDocs[0].score, rsOrderedWindow1.scoreDocs[0].score + rsOrderedWindow2.scoreDocs[0].score, 1e-6f);
 
     Query sdmQuery3 = AnalyzerUtils.buildSdmQuery(field, analyzer, sdmQueryStr, 0.0f, 0.0f, 1.0f);
