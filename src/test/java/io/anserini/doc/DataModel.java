@@ -25,8 +25,169 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.WordUtils;
 
 public class DataModel {
-  private Map<String, Object> defaults;
-  private Map<String, Map<String, Object>> collections;
+  private String name;
+  private String index_command;
+  private String index_utils_command;
+  private String search_command;
+  private String topic_root;
+  private String qrels_root;
+  private String index_root;
+  private String ranking_root;
+  private String collection;
+  private String generator;
+  private int threads;
+  private String topic_reader;
+  private String input;
+  private String index_path;
+  private List<String> index_options;
+  private Map<String, Long> index_stats;
+  private List<Model> models;
+  private List<Topic> topics;
+  private List<Eval> evals;
+
+  public Map<String, Long> getIndex_stats() {
+    return index_stats;
+  }
+
+  public void setIndex_stats(Map<String, Long> index_stats) {
+    this.index_stats = index_stats;
+  }
+
+  public List<Eval> getEvals() {
+    return evals;
+  }
+
+  public void setEvals(List<Eval> evals) {
+    this.evals = evals;
+  }
+
+  public List<Topic> getTopics() {
+    return topics;
+  }
+
+  public void setTopics(List<Topic> topics) {
+    this.topics = topics;
+  }
+
+  public List<Model> getModels() {
+    return models;
+  }
+
+  public void setModels(List<Model> models) {
+    this.models = models;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public String getIndex_command() {
+    return index_command;
+  }
+
+  public void setIndex_command(String index_command) {
+    this.index_command = index_command;
+  }
+
+  public String getIndex_utils_command() {
+    return index_utils_command;
+  }
+
+  public void setIndex_utils_command(String index_utils_command) {
+    this.index_utils_command = index_utils_command;
+  }
+
+  public String getSearch_command() {
+    return search_command;
+  }
+
+  public void setSearch_command(String search_command) {
+    this.search_command = search_command;
+  }
+
+  public String getTopic_root() {
+    return topic_root;
+  }
+
+  public void setTopic_root(String topic_root) {
+    this.topic_root = topic_root;
+  }
+
+  public String getQrels_root() {
+    return qrels_root;
+  }
+
+  public void setQrels_root(String qrels_root) {
+    this.qrels_root = qrels_root;
+  }
+
+  public String getIndex_root() {
+    return index_root;
+  }
+
+  public void setIndex_root(String index_root) {
+    this.index_root = index_root;
+  }
+
+  public String getRanking_root() {
+    return ranking_root;
+  }
+
+  public void setRanking_root(String ranking_root) {
+    this.ranking_root = ranking_root;
+  }
+
+  public String getCollection() {
+    return collection;
+  }
+
+  public void setCollection(String collection) {
+    this.collection = collection;
+  }
+
+  public String getGenerator() {
+    return generator;
+  }
+
+  public void setGenerator(String generator) {
+    this.generator = generator;
+  }
+
+  public int getThreads() {
+    return threads;
+  }
+
+  public void setThreads(int threads) {
+    this.threads = threads;
+  }
+
+  public String getTopic_reader() {
+    return topic_reader;
+  }
+
+  public void setTopic_reader(String topic_reader) {
+    this.topic_reader = topic_reader;
+  }
+
+  public String getInput() {
+    return input;
+  }
+
+  public void setInput(String input) {
+    this.input = input;
+  }
+
+  public String getIndex_path() {
+    return index_path;
+  }
+
+  public void setIndex_path(String index_path) {
+    this.index_path = index_path;
+  }
 
   static class Topic {
     private String name;
@@ -79,51 +240,46 @@ public class DataModel {
     public void setMetric_precision(int metric_precision) { this.metric_precision = metric_precision; }
   }
 
-  public Map<String, Object> getDefaults() { return defaults; }
-  public void setDefaults(Map<String, Object> defaults) { this.defaults = defaults; }
-  public Map<String, Map<String, Object>> getCollections() { return collections; }
-  public void setCollections(Map<String, Map<String, Object>> collections) { this.collections = collections; }
+  public List<String> getIndex_options() {
+    return index_options;
+  }
 
-  private Object safeGet(Map<String, Object> obj, String key) {
-    return obj.getOrDefault(key, defaults.getOrDefault(key, null));
+  public void setIndex_options(List<String> index_options) {
+    this.index_options = index_options;
   }
 
   public String generateIndexingCommand(String collection) {
-    Map<String, Object> config = this.collections.get(collection);
     ObjectMapper oMapper = new ObjectMapper();
     StringBuilder builder = new StringBuilder();
     builder.append("nohup sh ");
-    builder.append(safeGet(config, "index_command"));
-    builder.append(" -collection ").append(safeGet(config, "collection"));
-    builder.append(" -generator ").append(safeGet(config, "generator"));
-    builder.append(" -threads ").append(safeGet(config, "threads"));
+    builder.append(getIndex_command());
+    builder.append(" -collection ").append(getCollection());
+    builder.append(" -generator ").append(getGenerator());
+    builder.append(" -threads ").append(getThreads());
     builder.append(" -input ").append("/path/to/"+collection);
-    builder.append(" -index ").append("lucene-index."+safeGet(config, "name")+".pos+docvectors");
-    List indexParams = oMapper.convertValue(safeGet(config, "index_options"), List.class);
-    for (Object option : indexParams) {
+    builder.append(" -index ").append("lucene-index."+getName()+".pos+docvectors");
+    boolean containRawDocs = false;
+    for (String option : getIndex_options()) {
       builder.append(" ").append(option);
+      if (option.contains("-storeRawDocs")) {
+        containRawDocs = true;
+      }
     }
-    builder.append(String.format(" >& log.%s.pos+docvectors%s &", collection,
-      indexParams.contains("-storeRawDocs") ? "+rawdocs" : ""));
+    builder.append(String.format(" >& log.%s.pos+docvectors%s &", collection, containRawDocs ? "+rawdocs" : ""));
     return WordUtils.wrap(builder.toString(), 80, " \\\n", false);
   }
 
   public String generateRankingCommand(String collection) {
-    Map<String, Object> config = this.collections.get(collection);
     StringBuilder builder = new StringBuilder();
     ObjectMapper oMapper = new ObjectMapper();
-    List models = oMapper.convertValue((List)safeGet(config, "models"), List.class);
-    List topics = oMapper.convertValue((List)safeGet(config, "topics"), List.class);
-    for (Object modelObj : models) {
-      Model model = oMapper.convertValue(modelObj, Model.class);
-      for (Object topicObj : topics) {
-        Topic topic = oMapper.convertValue(topicObj, Topic.class);
+    for (Model model : getModels()) {
+      for (Topic topic : getTopics()) {
         builder.append("nohup ");
-        builder.append(safeGet(config, "search_command"));
-        builder.append(" ").append("-topicreader").append(" ").append(safeGet(config, "topic_reader"));
-        builder.append(" ").append("-index").append(" ").append("lucene-index."+safeGet(config, "name")+".pos+docvectors");
-        builder.append(" ").append("-topic").append(" ").append(Paths.get((String)safeGet(config, "topic_root"), topic.getPath()).toString());
-        builder.append(" ").append("-output").append(" ").append("run."+safeGet(config, "name")+"."+model.getName()+"."+topic.getPath());
+        builder.append(getSearch_command());
+        builder.append(" ").append("-topicreader").append(" ").append(getTopic_reader());
+        builder.append(" ").append("-index").append(" ").append("lucene-index."+collection+".pos+docvectors");
+        builder.append(" ").append("-topic").append(" ").append(Paths.get(getTopic_root(), topic.getPath()).toString());
+        builder.append(" ").append("-output").append(" ").append("run."+collection+"."+model.getName()+"."+topic.getPath());
         List modelParams = oMapper.convertValue(model.getParams(), List.class);
         if (modelParams != null) {
           for (Object option : modelParams) {
@@ -141,20 +297,13 @@ public class DataModel {
   }
 
   public String generateEvalCommand(String collection) {
-    Map<String, Object> config = this.collections.get(collection);
     String allCommandsStr = "";
     Set<String> allEvalCommands = new HashSet<>();
     ObjectMapper oMapper = new ObjectMapper();
-    List models = oMapper.convertValue((List)safeGet(config, "models"), List.class);
-    List topics = oMapper.convertValue((List)safeGet(config, "topics"), List.class);
-    List evals = oMapper.convertValue((List)safeGet(config, "evals"), List.class);
-    for (Object modelObj : models) {
-      Model model = oMapper.convertValue(modelObj, Model.class);
-      for (Object topicObj : topics) {
-        Topic topic = oMapper.convertValue(topicObj, Topic.class);
+    for (Model model : getModels()) {
+      for (Topic topic : getTopics()) {
         Map<String, Map<String, List<String>>> combinedEvalCmd = new HashMap<>();
-        for (Object evalObj : evals) {
-          Eval eval = oMapper.convertValue(evalObj, Eval.class);
+        for (Eval eval : getEvals()) {
           String evalCmd = eval.getCommand();
           List evalParams = oMapper.convertValue(eval.getParams(), List.class);
           String evalCmdOption = "";
@@ -164,8 +313,8 @@ public class DataModel {
             }
           }
           String evalCmdResidual = "";
-          evalCmdResidual += " "+Paths.get((String)safeGet(config, "qrels_root"), topic.getQrel());
-          evalCmdResidual += " -output run."+safeGet(config, "name")+"."+model.getName()+"."+topic.getPath();
+          evalCmdResidual += " "+Paths.get(getQrels_root(), topic.getQrel());
+          evalCmdResidual += " -output run."+collection+"."+model.getName()+"."+topic.getPath();
           evalCmdResidual += "\n";
           if (eval.isCan_combine() || evalCmdOption.isEmpty()) {
             combinedEvalCmd.putIfAbsent(evalCmd, new HashMap<>());
@@ -188,30 +337,23 @@ public class DataModel {
   }
 
   public String generateEffectiveness(String collection) {
-    Map<String, Object> config = this.collections.get(collection);
     StringBuilder builder = new StringBuilder();
     ObjectMapper oMapper = new ObjectMapper();
-    List models = oMapper.convertValue((List)safeGet(config, "models"), List.class);
-    List topics = oMapper.convertValue((List)safeGet(config, "topics"), List.class);
-    List evals = oMapper.convertValue((List)safeGet(config, "evals"), List.class);
-    for (Object evalObj : evals) {
-      Eval eval = oMapper.convertValue(evalObj, Eval.class);
+   for (Eval eval : getEvals()) {
       builder.append(String.format("%1$-40s|", eval.getMetric().toUpperCase()));
-      for (Object modelObj : models) {
-        Model model = oMapper.convertValue(modelObj, Model.class);
+      for (Model model : getModels()) {
         builder.append(String.format(" %1$-10s|", model.getName().toUpperCase()));
       }
       builder.append("\n");
       builder.append(":").append(StringUtils.repeat("-", 39)).append("|");
-      for (Object modelObj : models) {
+      for (Model model : getModels()) {
         builder.append(StringUtils.repeat("-", 11)).append("|");
       }
       builder.append("\n");
       for (int i = 0; i < topics.size(); i++) {
-        Topic topic = oMapper.convertValue(topics.get(i), Topic.class);
-        builder.append(String.format("%1$-40s|", topic.getName().toUpperCase()));
-        for (Object modelObj : models) {
-          Model model = oMapper.convertValue(modelObj, Model.class);
+        Topic topic = getTopics().get(i);
+        builder.append(String.format("%1$-40s|", topic.getName()));
+        for (Model model : getModels()) {
           builder.append(String.format(" %-10.4f|", model.getResults().get(eval.getMetric()).get(i)));
         }
         builder.append("\n");

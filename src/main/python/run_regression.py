@@ -158,11 +158,10 @@ def ranking_atom(cmd):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Regression Tests')
-    parser.add_argument('--config', default='src/main/resources/regression/all.yaml', help='Yaml config file')
     parser.add_argument('--anserini_root', default='', help='Anserini path')
     parser.add_argument('--collection', required=True, help='the collection key in yaml')
     parser.add_argument('--index', dest='index', action='store_true', help='rebuild index from scratch')
-    parser.add_argument('--no_ranking', dest='no_ranking', action='store_true', help='do not do the ranking')
+    parser.add_argument('--no_retrieval', dest='no_retrieval', action='store_true', help='do not do the retrieval')
     parser.add_argument('--dry_run', dest='dry_run', action='store_true',
       help='output the commands but not actually running them. this is useful for development/debug')
     parser.add_argument('--n', dest='parallelism', type=int, default=4, help='number of parallel threads for ranking')
@@ -171,10 +170,9 @@ if __name__ == '__main__':
 
     # TODO: A better way might be using dataclasses as the model to hold the data
     # https://docs.python.org/3/library/dataclasses.html
-    with open(os.path.join(args.anserini_root, args.config)) as f:
-        dataMap = yaml.safe_load(f)
+    with open(os.path.join(args.anserini_root, 'src/main/resources/regression/{}.yaml'.format(args.collection))) as f:
+        yaml_data = yaml.safe_load(f)
 
-    yaml_data = dataMap['collections'][args.collection]
     yaml_data['root'] = args.anserini_root
     # Decide if we're going to index from scratch. If not, use pre-stored index at known location.
     if args.index:
@@ -184,7 +182,7 @@ if __name__ == '__main__':
 
     verify_index(yaml_data, args.index)
 
-    if not args.no_ranking:
+    if not args.no_retrieval:
         print('='*10, 'Ranking', '='*10)
         run_cmds = construct_ranking_command(yaml_data, args.index)
         p = Pool(args.parallelism)

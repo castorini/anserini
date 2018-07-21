@@ -90,15 +90,15 @@ With the above commands, you should be able to replicate the following results:
 
 MAP                                     | BM25      | BM25+RM3  | BM25+AX   | QL        | QL+RM3    | QL+AX     |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-[TREC 2004 TERABYTE TRACK: TOPICS 701-750](HTTP://TREC.NIST.GOV/DATA/TERABYTE04.HTML)| 0.2673    | 0.2981    | 0.2735    | 0.2636    | 0.2777    | 0.2638    |
-[TREC 2005 TERABYTE TRACK: TOPICS 751-800](HTTP://TREC.NIST.GOV/DATA/TERABYTE05.HTML)| 0.3366    | 0.3843    | 0.3669    | 0.3264    | 0.3620    | 0.3670    |
-[TREC 2006 TERABYTE TRACK: TOPICS 801-850](HTTP://TREC.NIST.GOV/DATA/TERABYTE06.HTML)| 0.3055    | 0.3439    | 0.3061    | 0.2957    | 0.3168    | 0.3112    |
+[TREC 2004 Terabyte Track: Topics 701-750](http://trec.nist.gov/data/terabyte04.html)| 0.2673    | 0.2981    | 0.2735    | 0.2636    | 0.2777    | 0.2638    |
+[TREC 2005 Terabyte Track: Topics 751-800](http://trec.nist.gov/data/terabyte05.html)| 0.3366    | 0.3843    | 0.3669    | 0.3264    | 0.3620    | 0.3670    |
+[TREC 2006 Terabyte Track: Topics 801-850](http://trec.nist.gov/data/terabyte06.html)| 0.3055    | 0.3439    | 0.3061    | 0.2957    | 0.3168    | 0.3112    |
 
 
 P30                                     | BM25      | BM25+RM3  | BM25+AX   | QL        | QL+RM3    | QL+AX     |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-[TREC 2004 TERABYTE TRACK: TOPICS 701-750](HTTP://TREC.NIST.GOV/DATA/TERABYTE04.HTML)| 0.4837    | 0.5333    | 0.5082    | 0.4667    | 0.4912    | 0.4837    |
-[TREC 2005 TERABYTE TRACK: TOPICS 751-800](HTTP://TREC.NIST.GOV/DATA/TERABYTE05.HTML)| 0.5520    | 0.5933    | 0.5947    | 0.5160    | 0.5700    | 0.5880    |
-[TREC 2006 TERABYTE TRACK: TOPICS 801-850](HTTP://TREC.NIST.GOV/DATA/TERABYTE06.HTML)| 0.4900    | 0.5240    | 0.5007    | 0.4753    | 0.4840    | 0.5007    |
+[TREC 2004 Terabyte Track: Topics 701-750](http://trec.nist.gov/data/terabyte04.html)| 0.4837    | 0.5333    | 0.5082    | 0.4667    | 0.4912    | 0.4837    |
+[TREC 2005 Terabyte Track: Topics 751-800](http://trec.nist.gov/data/terabyte05.html)| 0.5520    | 0.5933    | 0.5947    | 0.5160    | 0.5700    | 0.5880    |
+[TREC 2006 Terabyte Track: Topics 801-850](http://trec.nist.gov/data/terabyte06.html)| 0.4900    | 0.5240    | 0.5007    | 0.4753    | 0.4840    | 0.5007    |
 
 

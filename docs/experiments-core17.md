@@ -26,17 +26,17 @@ Topics and qrels are stored in `src/main/resources/topics-and-qrels/`, downloade
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.core17.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.core17.txt -output run.core17.bm25.topics.core17.txt -bm25 &
+nohup target/appassembler/bin/SearchCollection -topicreader null -index lucene-index.core17.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.core17.txt -output run.core17.bm25.topics.core17.txt -bm25 &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.core17.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.core17.txt -output run.core17.bm25+rm3.topics.core17.txt -bm25 -rm3 &
+nohup target/appassembler/bin/SearchCollection -topicreader null -index lucene-index.core17.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.core17.txt -output run.core17.bm25+rm3.topics.core17.txt -bm25 -rm3 &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.core17.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.core17.txt -output run.core17.bm25+ax.topics.core17.txt -bm25 -axiom -rerankCutoff 20 -axiom.deterministic &
+nohup target/appassembler/bin/SearchCollection -topicreader null -index lucene-index.core17.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.core17.txt -output run.core17.bm25+ax.topics.core17.txt -bm25 -axiom -rerankCutoff 20 -axiom.deterministic &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.core17.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.core17.txt -output run.core17.ql.topics.core17.txt -ql &
+nohup target/appassembler/bin/SearchCollection -topicreader null -index lucene-index.core17.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.core17.txt -output run.core17.ql.topics.core17.txt -ql &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.core17.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.core17.txt -output run.core17.ql+rm3.topics.core17.txt -ql -rm3 &
+nohup target/appassembler/bin/SearchCollection -topicreader null -index lucene-index.core17.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.core17.txt -output run.core17.ql+rm3.topics.core17.txt -ql -rm3 &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.core17.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.core17.txt -output run.core17.ql+ax.topics.core17.txt -ql -axiom -rerankCutoff 20 -axiom.deterministic &
+nohup target/appassembler/bin/SearchCollection -topicreader null -index lucene-index.core17.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.core17.txt -output run.core17.ql+ax.topics.core17.txt -ql -axiom -rerankCutoff 20 -axiom.deterministic &
 
 ```
 
@@ -63,11 +63,11 @@ With the above commands, you should be able to replicate the following results:
 
 MAP                                     | BM25      | BM25+RM3  | BM25+AX   | QL        | QL+RM3    | QL+AX     |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-ALL TOPICS                              | 0.1996    | 0.2633    | 0.2719    | 0.1928    | 0.2409    | 0.2498    |
+All Topics                              | 0.1996    | 0.2633    | 0.2719    | 0.1928    | 0.2409    | 0.2498    |
 
 
 P30                                     | BM25      | BM25+RM3  | BM25+AX   | QL        | QL+RM3    | QL+AX     |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-ALL TOPICS                              | 0.4207    | 0.4893    | 0.4900    | 0.4327    | 0.4647    | 0.4813    |
+All Topics                              | 0.4207    | 0.4893    | 0.4900    | 0.4327    | 0.4647    | 0.4813    |
 
 
