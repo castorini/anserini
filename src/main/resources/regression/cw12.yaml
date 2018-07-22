@@ -1,0 +1,125 @@
+---
+name: cw12
+index_command: target/appassembler/bin/IndexCollection
+index_utils_command: target/appassembler/bin/IndexUtils
+search_command: target/appassembler/bin/SearchCollection
+topic_root: src/main/resources/topics-and-qrels/
+qrels_root: src/main/resources/topics-and-qrels/
+index_root:
+ranking_root:
+input: /tuna1/collections/web/ClueWeb12/
+index_path: "/tuna1/indexes/lucene-index.cw12.pos+docvectors" # path to the existing index, used in regression test if `--index` option is absent
+collection: ClueWeb12Collection
+generator: JsoupGenerator
+threads: 44
+index_options:
+  - -storePositions
+  - -storeDocvectors
+topic_reader: Webxml
+index_stats:
+  documents: 731705088
+  documents (non-empty): 731556725
+  total terms: 428628865985
+topics:
+  - name: "[TREC 2013 Web Track: Topics 201-250](http://trec.nist.gov/data/web2013.html)"
+    path: topics.web.201-250.txt
+    qrel: qrels.web.201-250.txt
+  - name: "[TREC 2014 Web Track: Topics 251-300](http://trec.nist.gov/data/web2014.html)"
+    path: topics.web.251-300.txt
+    qrel: qrels.web.251-300.txt
+evals:
+  - command: eval/trec_eval.9.0/trec_eval
+    params:
+      - -m map
+    separator: "\t"
+    parse_index: 2
+    metric: map
+    metric_precision: 4
+    can_combine: true
+  - command: eval/trec_eval.9.0/trec_eval
+    params:
+      - -m P.30
+    separator: "\t"
+    parse_index: 2
+    metric: p30
+    metric_precision: 4
+    can_combine: true
+  - command: eval/gdeval.pl
+    params:
+    separator: ","
+    parse_index: -2
+    metric: ndcg20
+    metric_precision: 5
+  - command: eval/gdeval.pl
+    params:
+    separator: ","
+    parse_index: -1
+    metric: err20
+    metric_precision: 5
+models:
+  - name: bm25
+    params:
+      - -bm25
+    results:
+      map:
+        - 0.1673
+        - 0.2432
+      p30:
+        - 0.2827
+        - 0.4500
+      ndcg20:
+        - 0.20662
+        - 0.26458
+      err20:
+        - 0.12126
+        - 0.17373
+  - name: bm25+rm3
+    params:
+      - -bm25
+      - -rm3
+    results:
+      map:
+        - 0.1483
+        - 0.2460
+      p30:
+        - 0.2360
+        - 0.4167
+      ndcg20:
+        - 0.17524
+        - 0.24793
+      err20:
+        - 0.09165
+        - 0.17831
+  - name: ql
+    params:
+      - -ql
+    results:
+      map:
+        - 0.1438
+        - 0.2401
+      p30:
+        - 0.2507
+        - 0.4367
+      ndcg20:
+        - 0.19046
+        - 0.23273
+      err20:
+        - 0.11694
+        - 0.14512
+  - name: ql+rm3
+    params:
+      - -ql
+      - -rm3
+    results:
+      map:
+        - 0.1245
+        - 0.2302
+      p30:
+        - 0.2053
+        - 0.3880
+      ndcg20:
+        - 0.15630
+        - 0.21387
+      err20:
+        - 0.08678
+        - 0.13086

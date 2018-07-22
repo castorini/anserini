@@ -16,15 +16,13 @@ Python>=2.6 or Python>=3.5
 The scripts and the end-to-end experiments they replicate are as follows:
 
 + `python src/main/python/run_regression.py --collection disk12`: [Experiments on Disks 1 &amp; 2](experiments-disk12.md)
-+ `python src/main/python/run_regression.py --collection cw09b`: [Experiments on ClueWeb09 (Category B)](experiments-cw09b.md)
-
-###Old Script:
-
-+ `run_regression_disk12.py`: [Experiments on Disks 1 &amp; 2](experiments-disk12-old.md)
-+ `run_regression_robust04.py`: [Robust04 Experiments on Disks 4 &amp; 5](experiments-robust04-old.md)
-+ `run_regression_robust05.py`: [Robust05 Experiments on AQUAINT](experiments-robust05-old.md)
-+ `run_regression_wt10g.py`: [Experiments on Wt10g](experiments-wt10g-old.md)
-+ `run_regression_gov2.py`: [Experiments on Gov2](experiments-gov2-old.md)
-+ `run_regression_clueweb09b.py`: [Experiments on ClueWeb09b](experiments-clueweb09b-old.md)
-+ `run_regression_clueweb12-b13.py`: [Experiments on ClueWeb12-B13](experiments-clueweb12-b13-old.md)
-+ `run_regression_clueweb12.py`: [Experiments on ClueWeb12](experiments-clueweb12-old.md)
++ `python src/main/python/run_regression.py --collection robust04`: [Robust04 Experiments on Disks 4 &amp; 5](experiments-robust04.md)
++ `python src/main/python/run_regression.py --collection robust05`: [Robust05 Experiments on AQUAINT](experiments-robust05.md)
++ `python src/main/python/run_regression.py --collection wt10g`: [Experiments on Wt10g](experiments-wt10g.md)
++ `python src/main/python/run_regression.py --collection gov2`: [Experiments on Gov2](experiments-gov2.md)
++ `python src/main/python/run_regression.py --collection cw09b`: [Experiments on ClueWeb09  (Category B)](experiments-cw09b.md)
++ `python src/main/python/run_regression.py --collection cw12b13`: [Experiments on ClueWeb12-B13](experiments-cw12b13.md)
++ `python src/main/python/run_regression.py --collection cw12`: [Experiments on ClueWeb12](experiments-cw12.md)
++ `python src/main/python/run_regression.py --collection mb11`: [Experiments on Microblog2011](experiments-mb11.md)
++ `python src/main/python/run_regression.py --collection mb13`: [Experiments on Microblog2013](experiments-mb13.md)
++ `python src/main/python/run_regression.py --collection core17`: [Experiments on Core Track 2017](experiments-core17.md)
