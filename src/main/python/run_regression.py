@@ -131,6 +131,7 @@ def eval_n_verify(yaml_data, fail_eval, dry_run):
       dry_run (bool): If True, we just print out the commands without actually running them
     """
     logger.info('='*10+'Verifying Results'+'='*10)
+    success = True
     for model in yaml_data['models']:
         for i, topic in enumerate(yaml_data['topics']):
             for eval in yaml_data['evals']:
@@ -161,9 +162,12 @@ def eval_n_verify(yaml_data, fail_eval, dry_run):
                 if isclose(expected, actual):
                     logger.info(json.dumps(res, sort_keys=True))
                 else:
+                    success = False
                     logger.error('!'*5+json.dumps(res, sort_keys=True)+'!'*5)
                     if fail_eval:
                         assert False
+    if success:
+        logger.info("All Tests Passed!")
 
 
 def ranking_atom(cmd):
