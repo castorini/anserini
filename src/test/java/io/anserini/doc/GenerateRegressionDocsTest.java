@@ -38,7 +38,6 @@ public class GenerateRegressionDocsTest {
     for (final File fileEntry : new File(templatesRoot.toURI()).listFiles()) {
       String fileName = fileEntry.getName();
       String collection = fileEntry.getName().split("\\.")[0];
-      System.out.println(collection);
       URL yaml = GenerateRegressionDocsTest.class.getResource(String.format("/regression/%s.yaml", collection));
       DataModel data = mapper.readValue(new File(yaml.toURI()), DataModel.class);
       Map<String, String> valuesMap = new HashMap<>();
