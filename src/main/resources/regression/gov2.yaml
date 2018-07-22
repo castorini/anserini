@@ -1,0 +1,133 @@
+---
+name: gov2
+index_command: target/appassembler/bin/IndexCollection
+index_utils_command: target/appassembler/bin/IndexUtils
+search_command: target/appassembler/bin/SearchCollection
+topic_root: src/main/resources/topics-and-qrels/
+qrels_root: src/main/resources/topics-and-qrels/
+index_root:
+ranking_root:
+input: /tuna1/collections/web/gov2/gov2-corpus/
+index_path: "/tuna1/indexes/lucene-index.gov2.pos+docvectors" # path to the existing index, used in regression test if `--index` option is absent
+collection: TrecwebCollection
+threads: 44
+generator: JsoupGenerator
+index_options:
+  - -storePositions
+  - -storeDocvectors
+  - -optimize
+topic_reader: Trec
+evals:
+  - command: eval/trec_eval.9.0/trec_eval
+    params:
+      - -m map
+    separator: "\t"
+    parse_index: 2
+    metric: map
+    metric_precision: 4
+    can_combine: true
+  - command: eval/trec_eval.9.0/trec_eval
+    params:
+      - -m P.30
+    separator: "\t"
+    parse_index: 2
+    metric: p30
+    metric_precision: 4
+    can_combine: true
+index_stats:
+  documents: 25172934
+  documents (non-empty): 25170664
+  total terms: 17343119816
+topics:
+  - name: "[TREC 2004 Terabyte Track: Topics 701-750](http://trec.nist.gov/data/terabyte04.html)"
+    path: topics.701-750.txt
+    qrel: qrels.701-750.txt
+  - name: "[TREC 2005 Terabyte Track: Topics 751-800](http://trec.nist.gov/data/terabyte05.html)"
+    path: topics.751-800.txt
+    qrel: qrels.751-800.txt
+  - name: "[TREC 2006 Terabyte Track: Topics 801-850](http://trec.nist.gov/data/terabyte06.html)"
+    path: topics.801-850.txt
+    qrel: qrels.801-850.txt
+models:
+  - name: bm25
+    params:
+      - -bm25
+    results:
+      map:
+        - 0.2673
+        - 0.3366
+        - 0.3055
+      p30:
+        - 0.4837
+        - 0.5520
+        - 0.4900
+  - name: bm25+rm3
+    params:
+      - -bm25
+      - -rm3
+    results:
+      map:
+        - 0.2981
+        - 0.3843
+        - 0.3439
+      p30:
+        - 0.5333
+        - 0.5933
+        - 0.5240
+  - name: bm25+ax
+    params:
+      - -bm25
+      - -axiom
+      - -axiom.beta 0.1
+      - -rerankCutoff 20
+      - -axiom.deterministic
+    results:
+      map:
+        - 0.2735
+        - 0.3669
+        - 0.3061
+      p30:
+        - 0.5082
+        - 0.5947
+        - 0.5007
+  - name: ql
+    params:
+      - -ql
+    results:
+      map:
+        - 0.2636
+        - 0.3264
+        - 0.2957
+      p30:
+        - 0.4667
+        - 0.5160
+        - 0.4753
+  - name: ql+rm3
+    params:
+      - -ql
+      - -rm3
+    results:
+      map:
+        - 0.2777
+        - 0.3620
+        - 0.3168
+      p30:
+        - 0.4912
+        - 0.5700
+        - 0.4840
+  - name: ql+ax
+    params:
+      - -ql
+      - -axiom
+      - -rerankCutoff 20
+      - -axiom.beta 0.1
+      - -axiom.deterministic
+    results:
+      map:
+        - 0.2638
+        - 0.3670
+        - 0.3112
+      p30:
+        - 0.4837
+        - 0.5880
+        - 0.5007
