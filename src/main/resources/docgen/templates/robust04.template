@@ -1,4 +1,4 @@
-# Anserini: Robust04 Experiments on [Disks 4 &amp; 5](https://trec.nist.gov/data_disks.html)
+# Anserini: Experiments on [Disks 4 &amp; 5](https://trec.nist.gov/data_disks.html) (Robust04)
 
 ## Indexing
 
