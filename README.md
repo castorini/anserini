@@ -30,18 +30,25 @@ cd ndeval && make
 
 Anserini is designed to support experiments on various standard TREC collections out of the box:
 
-+ [_ad hoc_ retrieval: Experiments on Disks 1 &amp; 2](docs/experiments-disk12.md)
-+ [_ad hoc_ retrieval: Robust04 experiments on Disks 4 &amp; 5](docs/experiments-robust04.md)
-+ [_ad hoc_ retrieval: Robust05 experiments on the AQUAINT collection](docs/experiments-robust05.md)
-+ [_ad hoc_ retrieval: CORE17 experiments on the New York Times collection](docs/experiments-core17.md)
-+ [_ad hoc_ retrieval: CORE18 experiments on the Washington Post collection](docs/experiments-wapo.md)
-+ [_ad hoc_ tweet retrieval: TREC Microblog experiments (2011 &amp; 2012)](docs/experiments-mb11.md)
-+ [_ad hoc_ tweet retrieval: TREC Microblog experiments (2013 &amp; 2014)](docs/experiments-mb13.md)
-+ [web search: Wt10g collection](docs/experiments-wt10g.md)
-+ [web search: Gov2 collection](docs/experiments-gov2.md)
-+ [web search: ClueWeb09b collection](docs/experiments-cw09b.md)
-+ [web search: ClueWeb12-B13 collection](docs/experiments-cw12b13.md)
-+ [web search: ClueWeb12 collection](docs/experiments-cw12.md)
+### Newswire
+
++ [Experiments on Disks 1 &amp; 2](docs/experiments-disk12.md)
++ [Experiments on Disks 4 &amp; 5 (Robust04)](docs/experiments-robust04.md)
++ [Experiments on AQUAINT (Robust05)](docs/experiments-robust05.md)
++ [Experiments on New York Times (Core17)](docs/experiments-core17.md)
+
+### Web
+
++ [Experiments on Wt10g](docs/experiments-wt10g.md)
++ [Experiments on Gov2](docs/experiments-gov2.md)
++ [Experiments on ClueWeb09 (Category B)](docs/experiments-cw09b.md)
++ [Experiments on ClueWeb12-B13](docs/experiments-cw12b13.md)
++ [Experiments on ClueWeb12](docs/experiments-cw12.md)
+
+### Tweets
+
++ [Experiments on Tweets2011 (MB11 &amp; MB12)](docs/experiments-mb11.md)
++ [Experiments on Tweets2013 (MB13 &amp; MB14)](docs/experiments-mb13.md)
 
 ## Tools
 
