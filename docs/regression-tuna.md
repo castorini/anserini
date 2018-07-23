@@ -1,7 +1,7 @@
 ## Regression Experiments on Tuna
 
 The machine `tuna.cs.uwaterloo.ca` is a server used internally at Waterloo for development of Anserini.
-There are a number regression scripts in `src/main/python/` for running end-to-end regression experiments, which include:
+The regression script `src/main/python/run_regression.py` runs end-to-end regression experiments for various collections, which includes:
 
 + Building the index from scratch.
 + Running all retrieval runs in Anserini documentation.
@@ -17,7 +17,7 @@ pip install -r src/main/python/requirements.txt
 
 ## Invocations
 
-The scripts and the end-to-end experiments they replicate are as follows:
+Here's how to run the end-to-end experiments:
 
 ### Newswire
 
