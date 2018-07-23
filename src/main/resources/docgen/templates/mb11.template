@@ -1,4 +1,4 @@
-# Anserini: Experiments on TREC Microblog Collection 2011 &amp; 2012
+# Anserini: Experiments on Tweets2011 (MB11 &amp; MB12)
 
 ## Indexing
 
