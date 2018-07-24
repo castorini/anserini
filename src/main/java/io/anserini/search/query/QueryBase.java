@@ -52,8 +52,4 @@ public abstract class QueryBase {
   public Query buildQuery(String field, Analyzer analyzer, String queryText) {
     throw new UnsupportedOperationException();
   }
-  
-  public String toString() {
-    throw new UnsupportedOperationException();
-  }
 }
