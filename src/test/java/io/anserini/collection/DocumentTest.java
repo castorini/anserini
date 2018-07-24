@@ -17,12 +17,10 @@
 package io.anserini.collection;
 
 import org.apache.lucene.util.LuceneTestCase;
-import org.apache.tools.ant.filters.StringInputStream;
 import org.junit.After;
 import org.junit.Before;
 
 import java.io.*;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,40 +42,7 @@ public class DocumentTest extends LuceneTestCase {
     tmpPath = null;
   }
 
-//  public Path createFile(String doc) {
-//    Path tmpPath = null;
-//    try {
-//      tmpPath = createTempFile();
-//      OutputStream fout = Files.newOutputStream(tmpPath);
-//      BufferedOutputStream tmpOut = new BufferedOutputStream(fout);
-////      BZip2CompressorOutputStream tmpOut = new BZip2CompressorOutputStream(out);
-//      StringInputStream in = new StringInputStream(doc);
-//      final byte[] buffer = new byte[2048];
-//      int n = 0;
-//      while (-1 != (n = in.read(buffer))) {
-//        tmpOut.write(buffer, 0, n);
-//      }
-//      tmpOut.close();
-//    } catch (IOException e) {}
-//    return tmpPath;
-//  }
-
   public Path createFile(String doc) {
-//    Path tmpPath = null;
-//    try {
-//      tmpPath = createTempFile();
-//      OutputStream fout = Files.newOutputStream(tmpPath);
-//      BufferedOutputStream tmpOut = new BufferedOutputStream(fout);
-////      BZip2CompressorOutputStream tmpOut = new BZip2CompressorOutputStream(out);
-//      StringInputStream in = new StringInputStream(doc);
-//      final byte[] buffer = new byte[2048];
-//      int n = 0;
-//      while (-1 != (n = in.read(buffer))) {
-//        tmpOut.write(buffer, 0, n);
-//      }
-//      tmpOut.close();
-//    } catch (IOException e) {}
-
     try {
       tmpPath = createTempFile();
       Writer writer = new BufferedWriter(new OutputStreamWriter(

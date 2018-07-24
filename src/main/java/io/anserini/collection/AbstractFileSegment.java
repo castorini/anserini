@@ -21,7 +21,6 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.BufferedReader;
 import java.io.Closeable;
-import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Iterator;
@@ -34,7 +33,6 @@ import java.util.NoSuchElementException;
  * {@code AbstractFileSegment} implementation.
  */
 public abstract class AbstractFileSegment<T extends SourceDocument> implements Iterator<T>, Closeable {
-  private static final Logger LOG = LogManager.getLogger(AbstractFileSegment.class);
   protected final int BUFFER_SIZE = 1 << 16; // 64K
 
   protected Path path;

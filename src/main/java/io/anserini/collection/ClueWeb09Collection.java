@@ -56,7 +56,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.tools.ant.filters.StringInputStream;
 
-import java.io.BufferedReader;
 import java.io.DataInput;
 import java.io.DataInputStream;
 import java.io.DataOutput;
@@ -134,7 +133,6 @@ public class ClueWeb09Collection extends DocumentCollection
 
     @Override
     public void close() throws IOException {
-      atEOF = true;
       if (stream != null) {
         stream.close();
       }

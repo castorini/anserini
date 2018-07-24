@@ -21,7 +21,6 @@ import org.wikiclean.WikiClean.WikiLanguage;
 import org.wikiclean.WikiCleanBuilder;
 import org.wikiclean.WikipediaBz2DumpInputStream;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.*;

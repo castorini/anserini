@@ -72,21 +72,21 @@ public class ClueWeb12DocumentTest extends DocumentTest {
         "whatever here will be included\n" +
         "</html>\n");
 
-    HashMap<String, String> doc3 = new HashMap<>();
-    doc3.put("id", null);
-    doc3.put("content", "software: Nutch 1.0-dev (modified for clueweb09)\n" +
+    HashMap<String, String> doc1 = new HashMap<>();
+    doc1.put("id", null);
+    doc1.put("content", "software: Nutch 1.0-dev (modified for clueweb09)\n" +
         "isPartOf: clueweb09-en\n" +
         "description: clueweb09 crawl with WARC output\n" +
         "format: WARC file version 0.18\n" +
         "conformsTo: http://www.archive.org/documents/WarcFileFormat-0.18.html");
-    expected.add(doc3);
+    expected.add(doc1);
 
-    HashMap<String, String> doc4 = new HashMap<>();
-    doc4.put("id", "clueweb09-az0000-00-00000");
-    doc4.put("content", "<html>\n" +
+    HashMap<String, String> doc2 = new HashMap<>();
+    doc2.put("id", "clueweb09-az0000-00-00000");
+    doc2.put("content", "<html>\n" +
         "whatever here will be included\n" +
         "</html>");
-    expected.add(doc4);
+    expected.add(doc2);
   }
 
   @Test

@@ -133,7 +133,6 @@ public class ClueWeb12Collection extends DocumentCollection
 
     @Override
     public void close() throws IOException {
-      atEOF = true;
       if (stream != null) {
         stream.close();
       }
