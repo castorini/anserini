@@ -193,6 +193,7 @@ public final class IndexCollection {
             LOG.warn("Exception when parsing document: ", e2);
             continue;
           }
+
           if (!d.indexable()) {
             counters.unindexable.incrementAndGet();
             continue;

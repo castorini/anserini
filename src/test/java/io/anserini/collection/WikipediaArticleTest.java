@@ -73,10 +73,10 @@ public class WikipediaArticleTest extends DocumentTest {
         "  </page>\n" +
         "</mediawiki>";
 
-    tmpPath = createfile(doc);
+    tmpPath = createTmpFile(doc);
   }
 
-  private Path createfile(String doc) {
+  private Path createTmpFile(String doc) {
     Path tmpPath = null;
     try {
       tmpPath = createTempFile();

@@ -146,6 +146,7 @@ public class TrecCollection extends DocumentCollection
 
         if (line.startsWith(Document.TERMINATING_DOC)) {
           parseRecord(builder);
+          return;
         }
       }
     }
@@ -154,9 +155,7 @@ public class TrecCollection extends DocumentCollection
     private void parseRecord(StringBuilder builder) {
       int i = builder.indexOf(Document.DOCNO);
       if (i == -1) throw new RuntimeException("cannot find start tag " + Document.DOCNO);
-
       if (i != 0) throw new RuntimeException("should start with " + Document.DOCNO);
-
       int j = builder.indexOf(Document.TERMINATING_DOCNO);
       if (j == -1) throw new RuntimeException("cannot find end tag " + Document.TERMINATING_DOCNO);
 
