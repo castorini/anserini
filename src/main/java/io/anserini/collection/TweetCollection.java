@@ -66,9 +66,6 @@ public class TweetCollection extends DocumentCollection
     private static final String DATE_FORMAT = "E MMM dd HH:mm:ss ZZZZZ yyyy"; // "Fri Mar 29 11:03:41 +0000 2013"
 
     protected FileSegment(Path path) throws IOException {
-      dType = new TweetCollection.Document();
-
-      this.bufferedRecord = null;
       this.path = path;
       this.bufferedReader = null;
       String fileName = path.toString();

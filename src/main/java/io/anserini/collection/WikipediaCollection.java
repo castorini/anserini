@@ -53,8 +53,6 @@ public class WikipediaCollection extends DocumentCollection
 
     protected FileSegment(Path path) throws IOException {
       this.path = path;
-      this.bufferedRecord = null;
-
       stream = new WikipediaBz2DumpInputStream(path.toString());
       cleaner = new WikiCleanBuilder()
           .withLanguage(WikiLanguage.EN).withTitle(false)

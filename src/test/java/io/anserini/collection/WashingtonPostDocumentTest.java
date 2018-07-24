@@ -16,23 +16,14 @@
 
 package io.anserini.collection;
 
-import java.io.BufferedOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.NoSuchElementException;
 
-import org.apache.commons.compress.compressors.bzip2.BZip2CompressorOutputStream;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.apache.tools.ant.filters.StringInputStream;
 import org.junit.Before;
 import org.junit.Test;
 
-public class WashingtonPostDocumentTest extends DocumentTest<WashingtonPostCollection.Document> {
-  private static final Logger LOG = LogManager.getLogger(WashingtonPostDocumentTest.class);
+
+public class WashingtonPostDocumentTest extends DocumentTest {
 
   @Before
   public void setUp() throws Exception {

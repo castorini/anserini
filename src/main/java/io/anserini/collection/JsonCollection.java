@@ -91,9 +91,7 @@ public class JsonCollection extends DocumentCollection
     private int i;
 
     protected FileSegment(Path path) throws IOException {
-      //dType = new JsonCollection.Document(path.toString());
       bufferedReader = new BufferedReader(new FileReader(path.toString()));
-      this.bufferedRecord = null;
 
       try {
         JsonParser jsonParser = new JsonFactory().createParser(new BufferedReader(new FileReader(path.toString())));

@@ -16,16 +16,14 @@
 
 package io.anserini.collection;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
 import java.util.NoSuchElementException;
 
-public class WikipediaArticleTest extends DocumentTest<WikipediaCollection.Document> {
-  private static final Logger LOG = LogManager.getLogger(WashingtonPostDocumentTest.class);
+
+public class WikipediaArticleTest extends DocumentTest {
 
   @Before
   public void setUp() throws Exception {

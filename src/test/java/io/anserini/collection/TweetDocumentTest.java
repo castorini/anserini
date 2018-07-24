@@ -22,7 +22,8 @@ import org.junit.Test;
 import java.util.HashMap;
 import java.util.NoSuchElementException;
 
-public class TweetDocumentTest extends DocumentTest<TweetCollection.Document> {
+
+public class TweetDocumentTest extends DocumentTest {
 
   @Before
   public void setUp() throws Exception {

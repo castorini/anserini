@@ -39,29 +39,12 @@ public abstract class AbstractFileSegment<T extends SourceDocument> implements I
   protected Path path;
   protected BufferedReader bufferedReader;
   protected boolean atEOF = false;
-  protected T dType;
   protected T bufferedRecord = null;
 
   @Override
   public boolean hasNext() {
     return !atEOF;
   }
-
-//  @Override
-//  @SuppressWarnings("unchecked")
-//  public T next() {
-//    T d;
-//    try {
-//      d = (T) dType.readNextRecord(bufferedReader);
-//      if (d == null) {
-//        atEOF = true;
-//      }
-//    } catch (Exception e) {
-//      LOG.warn("Exception when parsing document: ", e);
-//      d = null;
-//    }
-//    return d;
-//  }
 
   @Override
   public T next() {

@@ -24,7 +24,7 @@ import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.NoSuchElementException;
 
-public class ClueWeb09DocumentTest extends DocumentTest<ClueWeb09Collection.Document> {
+public class ClueWeb09DocumentTest extends DocumentTest {
 
   @Before
   public void setUp() throws Exception {
@@ -91,13 +91,6 @@ public class ClueWeb09DocumentTest extends DocumentTest<ClueWeb09Collection.Docu
         "whatever here will be included\n" +
         "</html>");
     expected.add(doc4);
-  }
-
-  protected ClueWeb09Collection.Document parse(String raw) throws IOException {
-    Path path = createFile(raw);
-    ClueWeb09Collection collection = new ClueWeb09Collection();
-    AbstractFileSegment<ClueWeb09Collection.Document> iter = collection.createFileSegment(path);
-    return iter.next();
   }
 
   @Test

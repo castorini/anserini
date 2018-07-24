@@ -16,17 +16,14 @@
 
 package io.anserini.collection;
 
-import org.apache.tools.ant.filters.StringInputStream;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.DataInputStream;
-import java.io.IOException;
-import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.NoSuchElementException;
 
-public class ClueWeb12DocumentTest extends DocumentTest<ClueWeb12Collection.Document> {
+
+public class ClueWeb12DocumentTest extends DocumentTest {
 
   @Before
   public void setUp() throws Exception {
@@ -95,13 +92,6 @@ public class ClueWeb12DocumentTest extends DocumentTest<ClueWeb12Collection.Docu
     expected.add(doc4);
   }
 
-  protected ClueWeb12Collection.Document parse(String raw) throws IOException {
-    Path path = createFile(raw);
-    ClueWeb12Collection collection = new ClueWeb12Collection();
-    AbstractFileSegment<ClueWeb12Collection.Document> iter = collection.createFileSegment(path);
-    return iter.next();
-  }
-
   @Test
   public void test() throws Exception {
     ClueWeb12Collection collection = new ClueWeb12Collection();
@@ -118,5 +108,4 @@ public class ClueWeb12DocumentTest extends DocumentTest<ClueWeb12Collection.Docu
       }
     }
   }
-
 }

@@ -20,7 +20,6 @@ import org.apache.commons.compress.compressors.bzip2.BZip2CompressorOutputStream
 import org.apache.lucene.util.LuceneTestCase;
 import org.apache.tools.ant.filters.StringInputStream;
 import org.junit.Before;
-import org.junit.Test;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -29,25 +28,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class DocumentTest<D extends SourceDocument> extends LuceneTestCase {
-  protected List<String> rawDocs;
+
+public class DocumentTest extends LuceneTestCase {
   protected List<Map<String, String>> expected;
   protected List<Path> rawFiles;
-  protected D dType;
 
   @Before
   public void setUp() throws Exception {
     super.setUp();
-    rawDocs = new ArrayList<>();
     expected = new ArrayList<>();
     rawFiles = new ArrayList<>();
-  }
-
-  @SuppressWarnings("unchecked")
-  protected D parse(String raw) throws Exception {
-    BufferedReader bufferedReader = new BufferedReader(new StringReader(raw));
-    D d = (D)dType.readNextRecord(bufferedReader);
-    return d;
   }
 
   protected Path createFile(String doc) {
@@ -66,14 +56,5 @@ public class DocumentTest<D extends SourceDocument> extends LuceneTestCase {
       tmpOut.close();
     } catch (IOException e) {}
     return tmpPath;
-  }
-
-  @Test
-  public void test() throws Exception {
-    for (int i = 0; i < rawDocs.size(); i++) {
-      D parsed = parse(rawDocs.get(i));
-      assertEquals(parsed.id(), expected.get(i).get("id"));
-      assertEquals(parsed.content(), expected.get(i).get("content"));
-    }
   }
 }

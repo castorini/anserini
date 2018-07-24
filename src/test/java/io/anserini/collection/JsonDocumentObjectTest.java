@@ -23,7 +23,8 @@ import java.io.*;
 import java.util.HashMap;
 import java.util.NoSuchElementException;
 
-public class JsonDocumentObjectTest extends DocumentTest<JsonCollection.Document> {
+
+public class JsonDocumentObjectTest extends DocumentTest {
 
   @Before
   public void setUp() throws Exception {

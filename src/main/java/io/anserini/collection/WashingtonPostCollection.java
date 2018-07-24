@@ -54,8 +54,6 @@ public class WashingtonPostCollection extends DocumentCollection
     private String fileName;
 
     public FileSegment(Path path) throws IOException {
-      this.dType = new WashingtonPostCollection.Document();
-      this.bufferedRecord = null;
       this.path = path;
       this.fileName = path.toString();
       this.bufferedReader = new BufferedReader(new FileReader(fileName));
