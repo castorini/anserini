@@ -180,7 +180,8 @@ public abstract class EndToEndTest extends LuceneTestCase {
       searcher.close();
       checkRankingResults();
     } catch (Exception e) {
-      System.out.println("Test Searching failed: " + e);
+      System.out.println("Test Searching failed: ");
+      e.printStackTrace();
       fail();
     }
   }
@@ -206,6 +207,7 @@ public abstract class EndToEndTest extends LuceneTestCase {
           this.evalMetricValue, 0.001);
     } catch (Exception e) {
       System.out.println("Test Eval failed");
+      e.printStackTrace();
       fail();
     }
   }

@@ -1,7 +1,7 @@
 package io.anserini.ltr;
 
 import io.anserini.ltr.feature.FeatureExtractors;
-import io.anserini.search.query.TopicReader;
+import io.anserini.search.topicreader.TopicReader;
 import io.anserini.util.Qrels;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -91,7 +91,7 @@ public class FeatureExtractorCli {
       WebFeatureExtractor extractor = new WebFeatureExtractor(reader, qrels, topics, extractors);
       extractor.printFeatures(out);
     } else if (parsedArgs.collection.equals("twitter")) {
-      TopicReader<Integer> tr = (TopicReader<Integer>)Class.forName("io.anserini.search.query.MicroblogTopicReader")
+      TopicReader<Integer> tr = (TopicReader<Integer>)Class.forName("io.anserini.search.topicreader.MicroblogTopicReader")
           .getConstructor(Path.class).newInstance(Paths.get(parsedArgs.topicsFile));
       SortedMap<Integer, Map<String, String>> topics = tr.read();
       LOG.debug(String.format("%d topics found", topics.size()));

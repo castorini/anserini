@@ -17,7 +17,7 @@
 package io.anserini.search;
 
 import io.anserini.index.generator.LuceneDocumentGenerator;
-import io.anserini.util.AnalyzerUtils;
+import io.anserini.search.query.BagOfTermsQuery;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
@@ -84,7 +84,7 @@ public class SimpleSearcher implements Closeable {
   public Result[] search(String q, int k) throws IOException {
     IndexSearcher searcher = new IndexSearcher(reader);
     searcher.setSimilarity(similarity);
-    Query query = AnalyzerUtils.buildBagOfWordsQuery(LuceneDocumentGenerator.FIELD_BODY, analyzer, q);
+    Query query = new BagOfTermsQuery().buildQuery(LuceneDocumentGenerator.FIELD_BODY, analyzer, q);
 
     TopDocs rs = searcher.search(query, k);
     ScoreDoc[] hits = rs.scoreDocs;

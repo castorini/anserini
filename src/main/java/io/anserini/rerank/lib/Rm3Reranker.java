@@ -20,7 +20,7 @@ import io.anserini.rerank.Reranker;
 import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.ScoredDocuments;
 import io.anserini.search.SearchArgs;
-import io.anserini.util.AnalyzerUtils;
+import io.anserini.search.query.QueryBase;
 import io.anserini.util.FeatureVector;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -75,8 +75,7 @@ public class Rm3Reranker implements Reranker {
     IndexSearcher searcher = context.getIndexSearcher();
     IndexReader reader = searcher.getIndexReader();
 
-    FeatureVector qfv = FeatureVector.fromTerms(
-        AnalyzerUtils.tokenize(analyzer, context.getQueryText())).scaleToUnitL1Norm();
+    FeatureVector qfv = FeatureVector.fromTerms(QueryBase.tokenize(analyzer, context.getQueryText())).scaleToUnitL1Norm();
 
     FeatureVector rm = estimateRelevanceModel(docs, reader, context.getSearchArgs().searchtweets);
 

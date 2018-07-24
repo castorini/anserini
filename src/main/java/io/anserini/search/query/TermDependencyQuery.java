@@ -14,90 +14,70 @@
  * limitations under the License.
  */
 
-package io.anserini.util;
+package io.anserini.search.query;
 
 import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.TokenStream;
-import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.search.*;
 import org.apache.lucene.search.spans.SpanNearQuery;
 import org.apache.lucene.search.spans.SpanQuery;
 import org.apache.lucene.search.spans.SpanTermQuery;
 
-import java.io.IOException;
-import java.io.StringReader;
-import java.util.ArrayList;
 import java.util.List;
 
-final public class AnalyzerUtils {
-  static public List<String> tokenize(Analyzer analyzer, String s) {
-    List<String> list = new ArrayList<>();
-
-    try {
-      TokenStream tokenStream = analyzer.tokenStream(null, new StringReader(s));
-      CharTermAttribute cattr = tokenStream.addAttribute(CharTermAttribute.class);
-      tokenStream.reset();
-      while (tokenStream.incrementToken()) {
-        if (cattr.toString().length() == 0) {
-          continue;
-        }
-        list.add(cattr.toString());
-      }
-      tokenStream.end();
-      tokenStream.close();
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-
-    return list;
+/* Build the Term Dependency query. See:
+ * D. Metzler and W. B. Croft. A markov random field model for term dependencies. In SIGIR ’05.
+ */
+public class TermDependencyQuery extends QueryBase {
+  private final float termWeight;
+  private final float orderWindowWeight;
+  private final float unorderWindowWeight;
+  
+  public TermDependencyQuery() {
+    this.termWeight = 0.85f;
+    this.orderWindowWeight = 0.1f;
+    this.unorderWindowWeight = 0.05f;
   }
-
-  static public Query buildBagOfWordsQuery(String field, Analyzer analyzer, String queryText) {
-    List<String> tokens = tokenize(analyzer, queryText);
-
-    BooleanQuery.Builder builder = new BooleanQuery.Builder();
-    for (String t : tokens) {
-      builder.add(new TermQuery(new Term(field, t)), BooleanClause.Occur.SHOULD);
-    }
-
-    return builder.build();
+  
+  public TermDependencyQuery(float termWeight, float orderWindowWeight, float unorderWindowWeight) {
+    this.termWeight = termWeight;
+    this.orderWindowWeight = orderWindowWeight;
+    this.unorderWindowWeight = unorderWindowWeight;
   }
-
-  /* Build the Sequence Dependence Model query. See:
-   *  D. Metzler and W. B. Croft. A markov random field model for term dependencies. In SIGIR ’05.
-   *
-   */
-  static public Query buildSdmQuery(String field, Analyzer analyzer, String queryText,
-                                    float termWeight, float orderWindowWeight, float unorderWindowWeight) {
+  
+  /*
+  * Sequential Dependency Model
+  */
+  @Override
+  public Query buildQuery(String field, Analyzer analyzer, String queryText) {
     List<String> tokens = tokenize(analyzer, queryText);
-
+    
     BooleanQuery.Builder termsBuilder = new BooleanQuery.Builder();
     if (tokens.size() == 1) {
       termsBuilder.add(new TermQuery(new Term(field, tokens.get(0))), BooleanClause.Occur.SHOULD);
       return termsBuilder.build();
     }
-
+    
     BooleanQuery.Builder orderedWindowBuilder = new BooleanQuery.Builder();
     BooleanQuery.Builder unorderedWindowBuilder = new BooleanQuery.Builder();
     for (int i = 0; i < tokens.size()-1; i++) {
       termsBuilder.add(new TermQuery(new Term(field, tokens.get(i))), BooleanClause.Occur.SHOULD);
-
+      
       SpanTermQuery t1 = new SpanTermQuery(new Term(field, tokens.get(i)));
       SpanTermQuery t2 = new SpanTermQuery(new Term(field, tokens.get(i+1)));
       SpanNearQuery orderedQ = new SpanNearQuery(new SpanQuery[] {t1, t2}, 1, true);
       SpanNearQuery unorderedQ = new SpanNearQuery(new SpanQuery[] {t1, t2}, 8, false);
-
+      
       orderedWindowBuilder.add(orderedQ, BooleanClause.Occur.SHOULD);
       unorderedWindowBuilder.add(unorderedQ, BooleanClause.Occur.SHOULD);
     }
     termsBuilder.add(new TermQuery(new Term(field, tokens.get(tokens.size()-1))), BooleanClause.Occur.SHOULD);
-
+    
     BooleanQuery.Builder builder = new BooleanQuery.Builder();
     builder.add(new BoostQuery(termsBuilder.build(), termWeight), BooleanClause.Occur.SHOULD);
     builder.add(new BoostQuery(orderedWindowBuilder.build(), orderWindowWeight), BooleanClause.Occur.SHOULD);
     builder.add(new BoostQuery(unorderedWindowBuilder.build(), unorderWindowWeight), BooleanClause.Occur.SHOULD);
-
+    
     return builder.build();
   }
 }
