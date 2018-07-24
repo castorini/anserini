@@ -1,4 +1,4 @@
-# Anserini: Experiments on [TREC Core 2017](https://trec-core.github.io/2017/)
+# Anserini: Experiments on [New York Times](https://catalog.ldc.upenn.edu/ldc2008t19) ([Core17](https://trec-core.github.io/2017/))
 
 ## Indexing
 
