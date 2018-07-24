@@ -52,6 +52,9 @@
 
 package io.anserini.collection;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.BufferedReader;
 import java.io.DataInput;
 import java.io.DataInputStream;
@@ -62,14 +65,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.zip.GZIPInputStream;
 
 /**
@@ -78,6 +74,7 @@ import java.util.zip.GZIPInputStream;
  */
 public class ClueWeb09Collection extends DocumentCollection
     implements FileSegmentProvider<ClueWeb09Collection.Document> {
+  private static final Logger LOG = LogManager.getLogger(ClueWeb09Collection.class);
 
   @Override
   public List<Path> getFileSegmentPaths() {
@@ -95,6 +92,13 @@ public class ClueWeb09Collection extends DocumentCollection
    * An individual WARC in the ClueWeb09 collection.
    */
   public static class FileSegment extends AbstractFileSegment<Document> {
+    private static final byte MASK_THREE_BYTE_CHAR = (byte) (0xE0);
+    private static final byte MASK_TWO_BYTE_CHAR = (byte) (0xC0);
+    private static final byte MASK_TOPMOST_BIT = (byte) (0x80);
+    private static final byte MASK_BOTTOM_SIX_BITS = (byte) (0x1F);
+    private static final byte MASK_BOTTOM_FIVE_BITS = (byte) (0x3F);
+    private static final byte MASK_BOTTOM_FOUR_BITS = (byte) (0x0F);
+
     protected DataInputStream stream;
 
     protected FileSegment(Path path) throws IOException {
@@ -104,17 +108,19 @@ public class ClueWeb09Collection extends DocumentCollection
     }
 
     @Override
-    public Document next() {
-      Document doc;
-      try {
-        doc = Document.readNextWarcRecord(stream, Document.WARC_VERSION);
-        if (doc == null) {
-          atEOF = true;
-        }
-      } catch (IOException e) {
-        doc = null;
+    public boolean hasNext() {
+      if (bufferedRecord != null) {
+        return true;
       }
-      return doc;
+
+      try {
+        bufferedRecord = readNextWarcRecord(stream, Document.WARC_VERSION);
+      } catch (IOException e) {
+        LOG.error("Exception from BufferedReader:", e);
+        return false;
+      }
+
+      return bufferedRecord != null;
     }
 
     @Override
@@ -123,63 +129,6 @@ public class ClueWeb09Collection extends DocumentCollection
       if (stream != null) {
         stream.close();
       }
-    }
-  }
-
-  /**
-   * A document from the <a href="https://www.lemurproject.org/clueweb09.php/">ClueWeb09 collection</a>.
-   * This class derives from tools provided by CMU for reading the ClueWeb09 collection.
-   */
-  public static class Document implements SourceDocument {
-    public static final String WARC_VERSION = "WARC/0.18";
-    protected final static String NEWLINE = "\n";
-
-    private static final byte MASK_THREE_BYTE_CHAR = (byte) (0xE0);
-    private static final byte MASK_TWO_BYTE_CHAR = (byte) (0xC0);
-    private static final byte MASK_TOPMOST_BIT = (byte) (0x80);
-    private static final byte MASK_BOTTOM_SIX_BITS = (byte) (0x1F);
-    private static final byte MASK_BOTTOM_FIVE_BITS = (byte) (0x3F);
-    private static final byte MASK_BOTTOM_FOUR_BITS = (byte) (0x0F);
-
-    private Document.WarcHeader warcHeader = new Document.WarcHeader();
-    private byte[] warcContent = null;
-    private String warcFilePath = "";
-
-    /**
-     * Default Constructor.
-     */
-    public Document() {
-    }
-
-    /**
-     * Copy Constructor.
-     *
-     * @param o record to copy from
-     */
-    public Document(Document o) {
-      this.warcHeader = new Document.WarcHeader(o.warcHeader);
-      this.warcContent = o.warcContent;
-    }
-
-    @Override
-    public String id() {
-      return getDocid();
-    }
-
-    @Override
-    public String content() {
-      return getContent();
-    }
-
-    // This is being deprecated per https://github.com/castorini/Anserini/issues/254
-    @Override
-    public Document readNextRecord(BufferedReader bRdr) throws IOException {
-      return null;
-    }
-
-    @Override
-    public boolean indexable() {
-      return "response".equals(getHeaderRecordType());
     }
 
     /**
@@ -216,7 +165,7 @@ public class ClueWeb09Collection extends DocumentCollection
             byte thirdByte = in.readByte();
             // ensure the topmost bit is set
             if (((secondByte & MASK_TOPMOST_BIT) != MASK_TOPMOST_BIT)
-                || ((thirdByte & MASK_TOPMOST_BIT) != MASK_TOPMOST_BIT)) {
+                    || ((thirdByte & MASK_TOPMOST_BIT) != MASK_TOPMOST_BIT)) {
               // treat these as individual characters
               retString.append((char) readByte);
               retString.append((char) secondByte);
@@ -224,8 +173,8 @@ public class ClueWeb09Collection extends DocumentCollection
               continue;
             }
             int finalVal = (thirdByte & MASK_BOTTOM_FIVE_BITS) + 64
-                * (secondByte & MASK_BOTTOM_FIVE_BITS) + 4096
-                * (readByte & MASK_BOTTOM_FOUR_BITS);
+                    * (secondByte & MASK_BOTTOM_FIVE_BITS) + 4096
+                    * (readByte & MASK_BOTTOM_FOUR_BITS);
             thisChar = (char) finalVal;
           } else if ((readByte & MASK_TWO_BYTE_CHAR) == MASK_TWO_BYTE_CHAR) {
             // need to read next byte
@@ -241,7 +190,7 @@ public class ClueWeb09Collection extends DocumentCollection
               continue;
             }
             int finalVal = (secondByte & MASK_BOTTOM_FIVE_BITS) + 64
-                * (readByte & MASK_BOTTOM_SIX_BITS);
+                    * (readByte & MASK_BOTTOM_SIX_BITS);
             thisChar = (char) finalVal;
           } else {
             // interpret it as a single byte
@@ -276,11 +225,8 @@ public class ClueWeb09Collection extends DocumentCollection
      */
     protected static byte[] readNextRecord(DataInputStream in, StringBuilder headerBuffer,
                                            String version) throws IOException {
-      if (in == null) {
-        return null;
-      }
-      if (headerBuffer == null) {
-        return null;
+      if (in == null || headerBuffer == null) {
+        throw new NoSuchElementException();
       }
 
       String line = null;
@@ -299,7 +245,7 @@ public class ClueWeb09Collection extends DocumentCollection
 
       // no WARC mark?
       if (!foundMark) {
-        return null;
+        throw new NoSuchElementException();
       }
 
       // then read to the first newline
@@ -311,7 +257,7 @@ public class ClueWeb09Collection extends DocumentCollection
           inHeader = false;
         } else {
           headerBuffer.append(line);
-          headerBuffer.append(NEWLINE);
+          headerBuffer.append(Document.NEWLINE);
           String[] thisHeaderPieceParts = line.split(":", 2);
           if (thisHeaderPieceParts.length == 2) {
             if (thisHeaderPieceParts[0].toLowerCase(Locale.US).startsWith("content-length")) {
@@ -327,7 +273,7 @@ public class ClueWeb09Collection extends DocumentCollection
       }
 
       if (contentLength < 0) {
-        return null;
+        throw new NoSuchElementException();
       }
 
       // now read the bytes of the content
@@ -338,7 +284,7 @@ public class ClueWeb09Collection extends DocumentCollection
         try {
           int numRead = in.read(retContent, totalRead, totalWant);
           if (numRead < 0) {
-            return null;
+            throw new NoSuchElementException();
           } else {
             totalRead += numRead;
             totalWant = contentLength - totalRead;
@@ -350,7 +296,7 @@ public class ClueWeb09Collection extends DocumentCollection
             System.arraycopy(retContent, 0, newReturn, 0, totalRead);
             return newReturn;
           } else {
-            return null;
+            throw new NoSuchElementException();
           }
         } // end try/catch (EOFException)
       } // end while (totalRead < contentLength)
@@ -367,16 +313,13 @@ public class ClueWeb09Collection extends DocumentCollection
      * @throws IOException if error encountered reading from stream
      */
     public static Document readNextWarcRecord(DataInputStream in, String version)
-        throws IOException {
+            throws IOException {
       StringBuilder recordHeader = new StringBuilder();
       byte[] recordContent = readNextRecord(in, recordHeader, version);
-      if (recordContent == null) {
-        return null;
-      }
 
       // extract out our header information
       String thisHeaderString = recordHeader.toString();
-      String[] headerLines = thisHeaderString.split(NEWLINE);
+      String[] headerLines = thisHeaderString.split(Document.NEWLINE);
 
       Document retRecord = new Document();
       for (int i = 0; i < headerLines.length; i++) {
@@ -406,6 +349,57 @@ public class ClueWeb09Collection extends DocumentCollection
       retRecord.setContent(recordContent);
 
       return retRecord;
+    }
+  }
+
+  /**
+   * A document from the <a href="https://www.lemurproject.org/clueweb09.php/">ClueWeb09 collection</a>.
+   * This class derives from tools provided by CMU for reading the ClueWeb09 collection.
+   */
+  public static class Document implements SourceDocument {
+    public static final String WARC_VERSION = "WARC/0.18";
+    protected final static String NEWLINE = "\n";
+
+    private Document.WarcHeader warcHeader = new Document.WarcHeader();
+    private byte[] warcContent = null;
+    private String warcFilePath = "";
+
+    /**
+     * Default Constructor.
+     */
+    public Document() {
+    }
+
+    /**
+     * Copy Constructor.
+     *
+     * @param o record to copy from
+     */
+    public Document(Document o) {
+      this.warcHeader = new Document.WarcHeader(o.warcHeader);
+      this.warcContent = o.warcContent;
+      this.warcFilePath = o.getWarcFilePath();
+    }
+
+    @Override
+    public String id() {
+      return getDocid();
+    }
+
+    @Override
+    public String content() {
+      return getContent();
+    }
+
+    // This is being deprecated per https://github.com/castorini/Anserini/issues/254
+    @Override
+    public Document readNextRecord(BufferedReader bRdr) throws IOException {
+      return null;
+    }
+
+    @Override
+    public boolean indexable() {
+      return "response".equals(getHeaderRecordType());
     }
 
     /**

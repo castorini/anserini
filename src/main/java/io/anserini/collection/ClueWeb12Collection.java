@@ -52,6 +52,9 @@
 
 package io.anserini.collection;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.DataInput;
 import java.io.DataInputStream;
 import java.io.DataOutput;
@@ -75,6 +78,8 @@ import java.util.zip.GZIPInputStream;
  */
 public class ClueWeb12Collection extends DocumentCollection
     implements FileSegmentProvider<ClueWeb12Collection.Document> {
+
+  private static final Logger LOG = LogManager.getLogger(ClueWeb12Collection.class);
 
   @Override
   public List<Path> getFileSegmentPaths() {
@@ -102,17 +107,19 @@ public class ClueWeb12Collection extends DocumentCollection
     }
 
     @Override
-    public Document next() {
-      Document doc;
-      try {
-        doc = Document.readNextWarcRecord(stream, Document.WARC_VERSION);
-        if (doc == null) {
-          atEOF = true;
-        }
-      } catch (IOException e) {
-        doc = null;
+    public boolean hasNext() {
+      if (bufferedRecord != null) {
+        return true;
       }
-      return doc;
+
+      try {
+        bufferedRecord = readNextWarcRecord(stream, Document.WARC_VERSION);
+      } catch (IOException e) {
+        LOG.error("Exception from BufferedReader:", e);
+        return false;
+      }
+
+      return bufferedRecord != null;
     }
 
     @Override
@@ -122,16 +129,6 @@ public class ClueWeb12Collection extends DocumentCollection
         stream.close();
       }
     }
-  }
-
-  /**
-   * A document from the <a href="https://www.lemurproject.org/clueweb12.php/">ClueWeb12 collection</a>.
-   * This class derives from tools provided by CMU for reading the ClueWeb12 collection. Note that
-   * the implementation inherits from {@link ClueWeb09Collection.Document} for historic reasons, since the code
-   * originally developed for reading ClueWeb09 was subsequently adapted for reading ClueWeb12.
-   */
-  public static class Document extends ClueWeb09Collection.Document {
-    public static final String WARC_VERSION = "WARC/1.0";
 
     /**
      * Reads in a WARC record from a data input stream.
@@ -142,17 +139,16 @@ public class ClueWeb12Collection extends DocumentCollection
      * @throws IOException if error encountered reading from stream
      */
     public static Document readNextWarcRecord(DataInputStream in, String version)
-        throws IOException {
+            throws IOException {
       StringBuilder recordHeader = new StringBuilder();
-      ClueWeb09Collection.Document r09 = new ClueWeb09Collection.Document();
-      byte[] recordContent = r09.readNextRecord(in, recordHeader, version);
+      byte[] recordContent = ClueWeb09Collection.FileSegment.readNextRecord(in, recordHeader, version);
       if (recordContent == null) {
         return null;
       }
 
       // extract out our header information
       String thisHeaderString = recordHeader.toString();
-      String[] headerLines = thisHeaderString.split(NEWLINE);
+      String[] headerLines = thisHeaderString.split(Document.NEWLINE);
 
       Document retRecord = new Document();
       for (int i = 0; i < headerLines.length; i++) {
@@ -172,6 +168,16 @@ public class ClueWeb12Collection extends DocumentCollection
 
       return retRecord;
     }
+  }
+
+  /**
+   * A document from the <a href="https://www.lemurproject.org/clueweb12.php/">ClueWeb12 collection</a>.
+   * This class derives from tools provided by CMU for reading the ClueWeb12 collection. Note that
+   * the implementation inherits from {@link ClueWeb09Collection.Document} for historic reasons, since the code
+   * originally developed for reading ClueWeb09 was subsequently adapted for reading ClueWeb12.
+   */
+  public static class Document extends ClueWeb09Collection.Document {
+    public static final String WARC_VERSION = "WARC/1.0";
 
     @Override
     public String id() {

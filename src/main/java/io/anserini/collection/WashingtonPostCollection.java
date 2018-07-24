@@ -71,6 +71,7 @@ public class WashingtonPostCollection extends DocumentCollection
       try {
          nextRecord = bufferedReader.readLine();
       } catch (IOException e) {
+        LOG.error("Exception from BufferedReader:", e);
         return false;
       }
 
