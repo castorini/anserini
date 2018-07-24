@@ -16,6 +16,7 @@
 
 package io.anserini.collection;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -97,6 +98,7 @@ public class JsonCollection extends DocumentCollection
         JsonParser jsonParser = new JsonFactory().createParser(new BufferedReader(new FileReader(path.toString())));
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
+        JsonNode n = objectMapper.readTree(jsonParser);
         node = objectMapper.readTree(jsonParser);
       } catch (IOException e) {
         node = null; // When the json file does not contain any json objects, set node to null
@@ -115,7 +117,8 @@ public class JsonCollection extends DocumentCollection
         String nextRecord = null;
         try {
           if ((nextRecord = bufferedReader.readLine()) != null) {
-            JsonNode json = new JsonFactory().createParser(nextRecord).readValueAsTree();
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode json = mapper.readTree(nextRecord);
             bufferedRecord = new JsonCollection.Document(json.get("id").asText(), json.get("contents").asText());
           }
         } catch (IOException e) {
@@ -144,11 +147,6 @@ public class JsonCollection extends DocumentCollection
   public static class Document implements SourceDocument {
     protected String id;
     protected String contents;
-
-    @Override
-    public Document readNextRecord(BufferedReader bRdr) throws IOException {
-      return null;
-    }
 
     public Document(String id, String contents) {
       this.id = id;

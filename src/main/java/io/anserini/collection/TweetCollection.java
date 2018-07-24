@@ -356,8 +356,6 @@ public class TweetCollection extends DocumentCollection
       return retweetCount;
     }
 
-    public Document readNextRecord(BufferedReader reader) { return new Document(); }
-
     /**
      * A Twitter document object class used in Jackson JSON parser
      */

@@ -57,13 +57,15 @@ public class JsonDocumentArrayTest extends DocumentTest {
   @Test
   public void test() throws IOException {
     JsonCollection collection = new JsonCollection();
+    int j = 0;
     for (int i = 0; i < rawFiles.size(); i++) {
       AbstractFileSegment<JsonCollection.Document> iter = collection.createFileSegment(rawFiles.get(i));
       while (true) {
         try {
           JsonCollection.Document parsed = iter.next();
-          assertEquals(parsed.id(), expected.get(i).get("id"));
-          assertEquals(parsed.content(), expected.get(i).get("content"));
+          assertEquals(parsed.id(), expected.get(j).get("id"));
+          assertEquals(parsed.content(), expected.get(j).get("content"));
+          j++;
         } catch (NoSuchElementException e) {
           break;
         }

@@ -90,17 +90,6 @@ public class CarCollection extends DocumentCollection
       this.paragraph = paragraph;
     }
 
-    /**
-     * readNextRecord() is not used because CarCollection will load the .cbor file directly from the disk
-     * @param bRdr file BufferedReader
-     * @return null
-     * @throws IOException any io exception
-     */
-    @Override
-    public Document readNextRecord(BufferedReader bRdr) throws IOException {
-      return null;
-    }
-
     @Override
     public String id() {
       return paraID;

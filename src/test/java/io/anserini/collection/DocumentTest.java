@@ -16,9 +16,9 @@
 
 package io.anserini.collection;
 
-import org.apache.commons.compress.compressors.bzip2.BZip2CompressorOutputStream;
 import org.apache.lucene.util.LuceneTestCase;
 import org.apache.tools.ant.filters.StringInputStream;
+import org.junit.After;
 import org.junit.Before;
 
 import java.io.*;
@@ -32,29 +32,68 @@ import java.util.Map;
 public class DocumentTest extends LuceneTestCase {
   protected List<Map<String, String>> expected;
   protected List<Path> rawFiles;
+  protected List<String> rawDocs;
+  protected Path tmpPath;
 
   @Before
   public void setUp() throws Exception {
     super.setUp();
     expected = new ArrayList<>();
     rawFiles = new ArrayList<>();
+    rawDocs = new ArrayList<>();
+    tmpPath = null;
   }
 
-  protected Path createFile(String doc) {
-    Path tmpPath = null;
+//  public Path createFile(String doc) {
+//    Path tmpPath = null;
+//    try {
+//      tmpPath = createTempFile();
+//      OutputStream fout = Files.newOutputStream(tmpPath);
+//      BufferedOutputStream tmpOut = new BufferedOutputStream(fout);
+////      BZip2CompressorOutputStream tmpOut = new BZip2CompressorOutputStream(out);
+//      StringInputStream in = new StringInputStream(doc);
+//      final byte[] buffer = new byte[2048];
+//      int n = 0;
+//      while (-1 != (n = in.read(buffer))) {
+//        tmpOut.write(buffer, 0, n);
+//      }
+//      tmpOut.close();
+//    } catch (IOException e) {}
+//    return tmpPath;
+//  }
+
+  public Path createFile(String doc) {
+//    Path tmpPath = null;
+//    try {
+//      tmpPath = createTempFile();
+//      OutputStream fout = Files.newOutputStream(tmpPath);
+//      BufferedOutputStream tmpOut = new BufferedOutputStream(fout);
+////      BZip2CompressorOutputStream tmpOut = new BZip2CompressorOutputStream(out);
+//      StringInputStream in = new StringInputStream(doc);
+//      final byte[] buffer = new byte[2048];
+//      int n = 0;
+//      while (-1 != (n = in.read(buffer))) {
+//        tmpOut.write(buffer, 0, n);
+//      }
+//      tmpOut.close();
+//    } catch (IOException e) {}
+
     try {
       tmpPath = createTempFile();
-      OutputStream fout = Files.newOutputStream(tmpPath);
-      BufferedOutputStream out = new BufferedOutputStream(fout);
-      BZip2CompressorOutputStream tmpOut = new BZip2CompressorOutputStream(out);
-      StringInputStream in = new StringInputStream(doc);
-      final byte[] buffer = new byte[2048];
-      int n = 0;
-      while (-1 != (n = in.read(buffer))) {
-        tmpOut.write(buffer, 0, n);
-      }
-      tmpOut.close();
+      Writer writer = new BufferedWriter(new OutputStreamWriter(
+              new FileOutputStream(tmpPath.toFile()), "utf-8"));
+      writer.write(doc);
     } catch (IOException e) {}
+
     return tmpPath;
+  }
+
+  @After
+  public void tearDown() throws Exception {
+    if (tmpPath != null) {
+      File file = tmpPath.toFile();
+      file.delete();
+    }
+    super.tearDown();
   }
 }

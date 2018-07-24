@@ -123,8 +123,5 @@ public class WikipediaCollection extends DocumentCollection
     public boolean indexable() {
       return true;
     }
-
-    @Override
-    public Document readNextRecord(BufferedReader reader) { return new Document("", ""); }
   }
 }

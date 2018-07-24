@@ -54,6 +54,7 @@ package io.anserini.collection;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.tools.ant.filters.StringInputStream;
 
 import java.io.BufferedReader;
 import java.io.DataInput;
@@ -88,6 +89,10 @@ public class ClueWeb09Collection extends DocumentCollection
     return new FileSegment(p);
   }
 
+  public ClueWeb09Collection.FileSegment createFileSegment(String raw) {
+    return new ClueWeb09Collection.FileSegment(raw);
+  }
+
   /**
    * An individual WARC in the ClueWeb09 collection.
    */
@@ -105,6 +110,10 @@ public class ClueWeb09Collection extends DocumentCollection
       super.path = path;
       this.stream = new DataInputStream(
           new GZIPInputStream(Files.newInputStream(path, StandardOpenOption.READ)));
+    }
+
+    protected FileSegment(String raw) {
+      this.stream = new DataInputStream(new StringInputStream(raw));
     }
 
     @Override
@@ -389,12 +398,6 @@ public class ClueWeb09Collection extends DocumentCollection
     @Override
     public String content() {
       return getContent();
-    }
-
-    // This is being deprecated per https://github.com/castorini/Anserini/issues/254
-    @Override
-    public Document readNextRecord(BufferedReader bRdr) throws IOException {
-      return null;
     }
 
     @Override

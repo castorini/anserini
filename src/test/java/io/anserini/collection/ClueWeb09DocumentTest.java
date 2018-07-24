@@ -19,10 +19,9 @@ package io.anserini.collection;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.IOException;
-import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.NoSuchElementException;
+
 
 public class ClueWeb09DocumentTest extends DocumentTest {
 
@@ -31,7 +30,7 @@ public class ClueWeb09DocumentTest extends DocumentTest {
     super.setUp();
 
     // WARC-Type: warcinfo is not indexable
-    String doc1 =
+    rawDocs.add(
         "WARC/0.18\n" +
         "WARC-Type: warcinfo\n" +
         "WARC-Date: 2009-03-65T08:43:19-0800\n" +
@@ -43,9 +42,9 @@ public class ClueWeb09DocumentTest extends DocumentTest {
         "isPartOf: clueweb09-en\n" +
         "description: clueweb09 crawl with WARC output\n" +
         "format: WARC file version 0.18\n" +
-        "conformsTo: http://www.archive.org/documents/WarcFileFormat-0.18.html\n";
+        "conformsTo: http://www.archive.org/documents/WarcFileFormat-0.18.html\n");
 
-    String doc2 =
+    rawDocs.add(
         "WARC/0.18\n" +
         "WARC-Type: response\n" +
         "WARC-Target-URI: http://clueweb09.test.com/\n" +
@@ -71,10 +70,7 @@ public class ClueWeb09DocumentTest extends DocumentTest {
         "\n" +
         "<html>\n" +
         "whatever here will be included\n" +
-        "</html>\n";
-
-    rawFiles.add(createFile(doc1));
-    rawFiles.add(createFile(doc2));
+        "</html>\n");
 
     HashMap<String, String> doc3 = new HashMap<>();
     doc3.put("id", null);
@@ -94,10 +90,10 @@ public class ClueWeb09DocumentTest extends DocumentTest {
   }
 
   @Test
-  public void test() throws Exception {
+  public void test() {
     ClueWeb09Collection collection = new ClueWeb09Collection();
-    for (int i = 0; i < rawFiles.size(); i++) {
-      AbstractFileSegment<ClueWeb09Collection.Document> iter = collection.createFileSegment(rawFiles.get(i));
+    for (int i = 0; i < rawDocs.size(); i++) {
+      AbstractFileSegment<ClueWeb09Collection.Document> iter = collection.createFileSegment(rawDocs.get(i));
       while (true) {
         try {
           ClueWeb09Collection.Document parsed = iter.next();

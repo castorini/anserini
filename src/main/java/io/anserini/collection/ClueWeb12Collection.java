@@ -54,6 +54,7 @@ package io.anserini.collection;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.tools.ant.filters.StringInputStream;
 
 import java.io.DataInput;
 import java.io.DataInputStream;
@@ -94,6 +95,10 @@ public class ClueWeb12Collection extends DocumentCollection
     return new FileSegment(p);
   }
 
+  public FileSegment createFileSegment(String raw) {
+    return new FileSegment(raw);
+  }
+
   /**
    * An individual WARC in the ClueWeb12 collection.
    */
@@ -104,6 +109,10 @@ public class ClueWeb12Collection extends DocumentCollection
       super.path = path;
       this.stream = new DataInputStream(
           new GZIPInputStream(Files.newInputStream(path, StandardOpenOption.READ)));
+    }
+
+    protected FileSegment(String raw) {
+      this.stream = new DataInputStream(new StringInputStream(raw));
     }
 
     @Override

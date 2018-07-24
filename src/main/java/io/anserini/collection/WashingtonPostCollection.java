@@ -47,7 +47,7 @@ public class WashingtonPostCollection extends DocumentCollection
 
   @Override
   public FileSegment createFileSegment(Path p) throws IOException {
-    return new WashingtonPostCollection.FileSegment(p);
+    return new FileSegment(p);
   }
 
   public class FileSegment extends AbstractFileSegment<Document> {
@@ -153,9 +153,6 @@ public class WashingtonPostCollection extends DocumentCollection
     public long getPublishedDate() {
       return publishedDate;
     }
-
-    @Override
-    public Document readNextRecord(BufferedReader reader) { return new Document(); }
 
     // Used for JSON parsing by Jackson
     public static class WashingtonPostObject {

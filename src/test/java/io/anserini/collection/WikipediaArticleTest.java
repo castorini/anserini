@@ -16,14 +16,21 @@
 
 package io.anserini.collection;
 
+import org.apache.commons.compress.compressors.bzip2.BZip2CompressorOutputStream;
+import org.apache.tools.ant.filters.StringInputStream;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.BufferedOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.NoSuchElementException;
 
 
 public class WikipediaArticleTest extends DocumentTest {
+  protected static Path tmpPath;
 
   @Before
   public void setUp() throws Exception {
@@ -66,22 +73,38 @@ public class WikipediaArticleTest extends DocumentTest {
         "  </page>\n" +
         "</mediawiki>";
 
-    rawFiles.add(createFile(doc));
+    tmpPath = createfile(doc);
+  }
+
+  private Path createfile(String doc) {
+    Path tmpPath = null;
+    try {
+      tmpPath = createTempFile();
+      OutputStream fout = Files.newOutputStream(tmpPath);
+      BufferedOutputStream out = new BufferedOutputStream(fout);
+      BZip2CompressorOutputStream tmpOut = new BZip2CompressorOutputStream(out);
+      StringInputStream in = new StringInputStream(doc);
+      final byte[] buffer = new byte[2048];
+      int n = 0;
+      while (-1 != (n = in.read(buffer))) {
+        tmpOut.write(buffer, 0, n);
+      }
+      tmpOut.close();
+    } catch (IOException e) {}
+    return tmpPath;
   }
 
   @Test
   public void test() throws IOException {
     WikipediaCollection collection = new WikipediaCollection();
-    for (int i = 0; i < rawFiles.size(); i++) {
-      AbstractFileSegment<WikipediaCollection.Document> iter = collection.createFileSegment(rawFiles.get(i));
-      while (true) {
-        try {
-          WikipediaCollection.Document parsed = iter.next();
-          assertEquals(parsed.id(), "Wiktionary:Welcome, newcomers");
-          assertEquals(parsed.content(), "Wiktionary:Welcome, newcomers.\nthis is the   real content");
-        } catch (NoSuchElementException e) {
-          break;
-        }
+    AbstractFileSegment<WikipediaCollection.Document> iter = collection.createFileSegment(tmpPath);
+    while (true) {
+      try {
+        WikipediaCollection.Document parsed = iter.next();
+        assertEquals(parsed.id(), "Wiktionary:Welcome, newcomers");
+        assertEquals(parsed.content(), "Wiktionary:Welcome, newcomers.\nthis is the   real content");
+      } catch (NoSuchElementException e) {
+        break;
       }
     }
   }

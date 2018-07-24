@@ -151,13 +151,6 @@ public class NewYorkTimesCollection extends DocumentCollection
     }
 
     @Override
-    public Document readNextRecord(BufferedReader bRdr) throws Exception {
-      // We're slowly refactoring to get rid of this method.
-      // See https://github.com/castorini/Anserini/issues/254
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
     public String id() {
       return id;
     }
