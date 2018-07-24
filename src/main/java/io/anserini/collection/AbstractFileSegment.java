@@ -42,11 +42,6 @@ public abstract class AbstractFileSegment<T extends SourceDocument> implements I
   protected T bufferedRecord = null;
 
   @Override
-  public boolean hasNext() {
-    return !atEOF;
-  }
-
-  @Override
   public T next() {
     if (bufferedRecord == null && !hasNext()) {
       throw new NoSuchElementException("EOF has been reached. No more documents to read.");

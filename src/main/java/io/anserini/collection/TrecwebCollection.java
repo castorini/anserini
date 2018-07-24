@@ -86,6 +86,7 @@ public class TrecwebCollection extends DocumentCollection
       }
     }
 
+    @SuppressWarnings("unchecked")
     private void parseRecord(StringBuilder builder) {
       int i = builder.indexOf(Document.DOCNO);
       if (i == -1) throw new RuntimeException("cannot find start tag " + Document.DOCNO);
