@@ -1,0 +1,40 @@
+# Anserini: Experiments on [Wt10g](http://ir.dcs.gla.ac.uk/test_collections/wt10g.html)
+
+## Indexing
+
+Typical indexing command:
+
+```
+${index_cmds}
+```
+
+The directory `/path/to/wt10g/` should be the root directory of Wt10g collection, containing a bunch of subdirectories, `WTX001` to `WTX104`.
+
+For additional details, see explanation of [common indexing options](common-indexing-options.md).
+
+## Retrieval
+
+Topics and qrels are stored in `src/main/resources/topics-and-qrels/`, downloaded from NIST:
+
++ `topics.451-500.txt`: [Topics 451-500 (TREC-9 Web Track)](http://trec.nist.gov/data/topics_eng/topics.451-500.gz)
++ `topics.501-550.txt`: [Topics 501-550 (TREC 2001 Web Track)](http://trec.nist.gov/data/topics_eng/topics.501-550.txt)
++ `qrels.451-500.txt`: [qrels (TREC-9 Web Track)](http://trec.nist.gov/data/qrels_eng/qrels.trec9.main_web.gz)
++ `qrels.501-550.txt`: [qrels (TREC 2001 Web Track)](http://trec.nist.gov/data/qrels_eng/adhoc_qrels.txt)
+
+After indexing has completed, you should be able to perform retrieval as follows:
+
+```
+${ranking_cmds}
+```
+
+Evaluation can be performed using `trec_eval`:
+
+```
+${eval_cmds}
+```
+
+## Effectiveness
+
+With the above commands, you should be able to replicate the following results:
+
+${effectiveness}

@@ -28,26 +28,6 @@ Notes
 ==========
 Axiomatic Reranking algorithm is a non-deterministic algorithm since it randomly pick _(R-1)*M_ documents as part of the reranking pool (see algorithm above for details). Here we just list the performance references for major TREC collections. The ranking model we used is _BM25_ and the parameter _beta_ is set as 0.4 for all collections although this is definitely not the optimal value for individual collection. We report MAP for all collections except ClueWeb collections where ndcg@20 is reported.
 
-Collection | BM25+Axiom
-------|------|
-Disk12 51-100 | 0.2653
-Disk12 101-150 | 0.2690
-Disk12 151-200 | 0.3414
-Robust04 701-750 | 0.2909
-Robust05 | 0.2583
-Wt10g 451-550 | 0.1946
-Gov2 701-750 | 0.2460
-Gov2 751-800 | 0.3146
-Gov2 801-850 | 0.2935
-CW09b 51-100 | 0.1555
-CW09b 101-150 | 0.1593
-CW09b 151-200 | 0.1106
-CW12 201-250 | 0.1679
-CW12 251-300 | 0.2154
-Microblog 2011 | 0.3866
-Microblog 2012 | 0.2215
-Microblog 2013 | 0.2606
-Microblog 2014 | 0.4519
 
 Please refer to the paper [[Yang et al, 2013] Yang, P., and Fang, H. (2013). Evaluating the Effectiveness of Axiomatic Approaches in Web Track. In TREC 2013.](https://trec.nist.gov/pubs/trec22/papers/udel_fang-web.pdf) for more details.
 
