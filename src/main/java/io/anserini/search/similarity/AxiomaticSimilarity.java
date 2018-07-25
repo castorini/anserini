@@ -55,7 +55,7 @@ public abstract class AxiomaticSimilarity extends Similarity {
    * </ul>
    */
   AxiomaticSimilarity() {
-    this(0.5f);
+    this(0.25f);
   }
   
   /** Implemented as <code>log(1 + (docCount - docFreq + 0.5)/(docFreq + 0.5))</code>.
