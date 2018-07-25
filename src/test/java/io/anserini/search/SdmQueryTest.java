@@ -16,8 +16,8 @@
 
 package io.anserini.search;
 
-import io.anserini.search.query.BagOfTermsQuery;
-import io.anserini.search.query.TermDependencyQuery;
+import io.anserini.search.query.BagOfTermsQueryGenerator;
+import io.anserini.search.query.TermDependencyQueryGenerator;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.document.*;
@@ -114,18 +114,18 @@ public class SdmQueryTest extends LuceneTestCase {
 
 
     String sdmQueryStr = "fox information river";
-    Query sdmQuery1 = new TermDependencyQuery(1.0f, 0.0f, 0.0f).buildQuery(field, analyzer, sdmQueryStr);
+    Query sdmQuery1 = new TermDependencyQueryGenerator(1.0f, 0.0f, 0.0f).buildQuery(field, analyzer, sdmQueryStr);
     assertEquals(sdmQuery1.toString(), "(text:fox text:inform text:river)^1.0 " +
             "(spanNear([text:fox, text:inform], 1, true) spanNear([text:inform, text:river], 1, true))^0.0 " +
             "(spanNear([text:fox, text:inform], 8, false) spanNear([text:inform, text:river], 8, false))^0.0");
     TopDocs rs1 = searcher.search(sdmQuery1, 1);
-    Query termQuery = new BagOfTermsQuery().buildQuery(field, analyzer, sdmQueryStr);
+    Query termQuery = new BagOfTermsQueryGenerator().buildQuery(field, analyzer, sdmQueryStr);
     TopDocs rsTerm = searcher.search(termQuery, 1);
     assertEquals(rs1.scoreDocs[0].score, rsTerm.scoreDocs[0].score, 1e-6f);
 
 
     /////////
-    Query sdmQuery2 = new TermDependencyQuery(0.0f, 1.0f, 0.0f).buildQuery(field, analyzer, sdmQueryStr);
+    Query sdmQuery2 = new TermDependencyQueryGenerator(0.0f, 1.0f, 0.0f).buildQuery(field, analyzer, sdmQueryStr);
     assertEquals(sdmQuery2.toString(), "(text:fox text:inform text:river)^0.0 " +
             "(spanNear([text:fox, text:inform], 1, true) spanNear([text:inform, text:river], 1, true))^1.0 " +
             "(spanNear([text:fox, text:inform], 8, false) spanNear([text:inform, text:river], 8, false))^0.0");
@@ -141,7 +141,7 @@ public class SdmQueryTest extends LuceneTestCase {
     assertEquals(rs2.scoreDocs[0].score, rsOrderedWindow1.scoreDocs[0].score + rsOrderedWindow2.scoreDocs[0].score, 1e-6f);
 
     ////////
-    Query sdmQuery3 = new TermDependencyQuery(0.0f, 0.0f, 1.0f).buildQuery(field, analyzer, sdmQueryStr);
+    Query sdmQuery3 = new TermDependencyQueryGenerator(0.0f, 0.0f, 1.0f).buildQuery(field, analyzer, sdmQueryStr);
     assertEquals(sdmQuery3.toString(), "(text:fox text:inform text:river)^0.0 " +
             "(spanNear([text:fox, text:inform], 1, true) spanNear([text:inform, text:river], 1, true))^0.0 " +
             "(spanNear([text:fox, text:inform], 8, false) spanNear([text:inform, text:river], 8, false))^1.0");
@@ -157,7 +157,7 @@ public class SdmQueryTest extends LuceneTestCase {
     assertEquals(rs3.scoreDocs[0].score, rsUnorderedWindow1.scoreDocs[0].score + rsUnorderedWindow2.scoreDocs[0].score, 1e-6f);
 
     //////////
-    Query sdmQuery4 = new TermDependencyQuery(0.85f, 0.1f, 0.05f).buildQuery(field, analyzer, sdmQueryStr);
+    Query sdmQuery4 = new TermDependencyQueryGenerator(0.85f, 0.1f, 0.05f).buildQuery(field, analyzer, sdmQueryStr);
     assertEquals(sdmQuery4.toString(), "(text:fox text:inform text:river)^0.85 " +
             "(spanNear([text:fox, text:inform], 1, true) spanNear([text:inform, text:river], 1, true))^0.1 " +
             "(spanNear([text:fox, text:inform], 8, false) spanNear([text:inform, text:river], 8, false))^0.05");

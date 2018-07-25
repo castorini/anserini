@@ -2,7 +2,7 @@ package io.anserini.ltr;
 
 import io.anserini.ltr.feature.FeatureExtractors;
 import io.anserini.rerank.RerankerContext;
-import io.anserini.search.query.QueryBase;
+import io.anserini.util.AnalyzerUtils;
 import io.anserini.util.Qrels;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -122,7 +122,7 @@ abstract public class BaseFeatureExtractor<K> {
             // We will not be checking for nulls here because the input should be correct,
             // and if not it signals other issues
             q = parseQuery(queryText);
-            List<String> queryTokens = QueryBase.tokenize(queryAnalyzer, queryText);
+            List<String> queryTokens = AnalyzerUtils.tokenize(queryAnalyzer, queryText);
             // Construct the reranker context
             RerankerContext<K> context = new RerankerContext<>(searcher, (K)qid,
                     q, queryText,

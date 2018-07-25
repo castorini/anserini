@@ -26,7 +26,7 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class QueryBase {
+public abstract class QueryGenerator {
   static public List<String> tokenize(Analyzer analyzer, String s) {
     List<String> list = new ArrayList<>();
     

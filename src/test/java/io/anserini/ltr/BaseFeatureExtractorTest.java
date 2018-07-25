@@ -4,7 +4,7 @@ import io.anserini.index.generator.LuceneDocumentGenerator;
 import io.anserini.ltr.feature.FeatureExtractor;
 import io.anserini.ltr.feature.FeatureExtractors;
 import io.anserini.rerank.RerankerContext;
-import io.anserini.search.query.QueryBase;
+import io.anserini.util.AnalyzerUtils;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.document.Document;
@@ -88,7 +88,7 @@ abstract public class BaseFeatureExtractorTest<T> extends LuceneTestCase {
         (T) DEFAULT_QID,
         TEST_PARSER.parse(queryText),
         queryText,
-        QueryBase.tokenize(TEST_ANALYZER, queryText),
+        AnalyzerUtils.tokenize(TEST_ANALYZER, queryText),
         null, null);
       return context;
     } catch (ParseException e) {

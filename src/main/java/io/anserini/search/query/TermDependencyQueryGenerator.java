@@ -16,6 +16,7 @@
 
 package io.anserini.search.query;
 
+import io.anserini.util.AnalyzerUtils;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.search.*;
@@ -28,18 +29,18 @@ import java.util.List;
 /* Build the Term Dependency query. See:
  * D. Metzler and W. B. Croft. A markov random field model for term dependencies. In SIGIR ’05.
  */
-public class TermDependencyQuery extends QueryBase {
+public class TermDependencyQueryGenerator extends QueryGenerator {
   private final float termWeight;
   private final float orderWindowWeight;
   private final float unorderWindowWeight;
   
-  public TermDependencyQuery() {
+  public TermDependencyQueryGenerator() {
     this.termWeight = 0.85f;
     this.orderWindowWeight = 0.1f;
     this.unorderWindowWeight = 0.05f;
   }
   
-  public TermDependencyQuery(float termWeight, float orderWindowWeight, float unorderWindowWeight) {
+  public TermDependencyQueryGenerator(float termWeight, float orderWindowWeight, float unorderWindowWeight) {
     this.termWeight = termWeight;
     this.orderWindowWeight = orderWindowWeight;
     this.unorderWindowWeight = unorderWindowWeight;
@@ -50,7 +51,7 @@ public class TermDependencyQuery extends QueryBase {
   */
   @Override
   public Query buildQuery(String field, Analyzer analyzer, String queryText) {
-    List<String> tokens = tokenize(analyzer, queryText);
+    List<String> tokens = AnalyzerUtils.tokenize(analyzer, queryText);
     
     BooleanQuery.Builder termsBuilder = new BooleanQuery.Builder();
     if (tokens.size() == 1) {

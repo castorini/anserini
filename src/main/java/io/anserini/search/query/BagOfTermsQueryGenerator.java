@@ -16,6 +16,7 @@
 
 package io.anserini.search.query;
 
+import io.anserini.util.AnalyzerUtils;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.search.BooleanClause;
@@ -28,10 +29,10 @@ import java.util.List;
 /*
  * Bag of Terms query builder
  */
-public class BagOfTermsQuery extends QueryBase {
+public class BagOfTermsQueryGenerator extends QueryGenerator {
   @Override
   public Query buildQuery(String field, Analyzer analyzer, String queryText) {
-    List<String> tokens = tokenize(analyzer, queryText);
+    List<String> tokens = AnalyzerUtils.tokenize(analyzer, queryText);
   
     BooleanQuery.Builder builder = new BooleanQuery.Builder();
     for (String t : tokens) {

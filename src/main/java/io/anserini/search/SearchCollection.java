@@ -25,11 +25,11 @@ import io.anserini.rerank.ScoredDocuments;
 import io.anserini.rerank.lib.AxiomReranker;
 import io.anserini.rerank.lib.Rm3Reranker;
 import io.anserini.rerank.lib.ScoreTiesAdjusterReranker;
-import io.anserini.search.query.BagOfTermsQuery;
-import io.anserini.search.query.QueryBase;
-import io.anserini.search.query.TermDependencyQuery;
+import io.anserini.search.query.BagOfTermsQueryGenerator;
+import io.anserini.search.query.TermDependencyQueryGenerator;
 import io.anserini.search.topicreader.TopicReader;
 import io.anserini.search.similarity.F2LogSimilarity;
+import io.anserini.util.AnalyzerUtils;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -213,9 +213,9 @@ public final class SearchCollection implements Closeable {
   public<K> ScoredDocuments search(IndexSearcher searcher, K qid, String queryString) throws IOException {
     Query query;
     if (qc == QueryConstructor.SequentialDependenceModel) {
-      query = new TermDependencyQuery(args.sdm_tw, args.sdm_ow, args.sdm_uw).buildQuery(FIELD_BODY, analyzer, queryString);
+      query = new TermDependencyQueryGenerator(args.sdm_tw, args.sdm_ow, args.sdm_uw).buildQuery(FIELD_BODY, analyzer, queryString);
     } else {
-      query = new BagOfTermsQuery().buildQuery(FIELD_BODY, analyzer, queryString);
+      query = new BagOfTermsQueryGenerator().buildQuery(FIELD_BODY, analyzer, queryString);
     }
 
     TopDocs rs = new TopDocs(0, new ScoreDoc[]{}, Float.NaN);
@@ -227,7 +227,7 @@ public final class SearchCollection implements Closeable {
       }
     }
 
-    List<String> queryTokens = QueryBase.tokenize(analyzer, queryString);
+    List<String> queryTokens = AnalyzerUtils.tokenize(analyzer, queryString);
     RerankerContext context = new RerankerContext<>(searcher, qid, query, queryString, queryTokens, null, args);
 
     return cascade.run(ScoredDocuments.fromTopDocs(rs, searcher), context);
@@ -236,11 +236,11 @@ public final class SearchCollection implements Closeable {
   public<K> ScoredDocuments searchTweets(IndexSearcher searcher, K qid, String queryString, long t) throws IOException {
     Query keywordQuery;
     if (qc == QueryConstructor.SequentialDependenceModel) {
-      keywordQuery = new TermDependencyQuery(args.sdm_tw, args.sdm_ow, args.sdm_uw).buildQuery(FIELD_BODY, analyzer, queryString);
+      keywordQuery = new TermDependencyQueryGenerator(args.sdm_tw, args.sdm_ow, args.sdm_uw).buildQuery(FIELD_BODY, analyzer, queryString);
     } else {
-      keywordQuery = new BagOfTermsQuery().buildQuery(FIELD_BODY, analyzer, queryString);
+      keywordQuery = new BagOfTermsQueryGenerator().buildQuery(FIELD_BODY, analyzer, queryString);
     }
-    List<String> queryTokens = QueryBase.tokenize(analyzer, queryString);
+    List<String> queryTokens = AnalyzerUtils.tokenize(analyzer, queryString);
 
     // Do not consider the tweets with tweet ids that are beyond the queryTweetTime
     // <querytweettime> tag contains the timestamp of the query in terms of the
