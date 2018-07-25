@@ -7,7 +7,7 @@ import io.anserini.rerank.RerankerCascade;
 import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.ScoredDocuments;
 import io.anserini.search.SearchArgs;
-import io.anserini.search.query.BagOfTermsQueryGenerator;
+import io.anserini.search.query.BagOfWordsQueryGenerator;
 import io.anserini.search.topicreader.MicroblogTopicReader;
 import io.anserini.search.topicreader.TopicReader;
 import io.anserini.util.AnalyzerUtils;
@@ -115,7 +115,7 @@ public class DumpTweetsLtrData {
       String queryString = entry.getValue().get("title");
       Long queryTime = Long.parseLong(entry.getValue().get("time"));
       Query filter = LongPoint.newRangeQuery(TweetGenerator.FIELD_ID, 0L, queryTime);
-      Query query = new BagOfTermsQueryGenerator().buildQuery(TweetGenerator.FIELD_ID,
+      Query query = new BagOfWordsQueryGenerator().buildQuery(TweetGenerator.FIELD_ID,
           new TweetAnalyzer(), queryString);
       BooleanQuery.Builder builder = new BooleanQuery.Builder();
       builder.add(filter, BooleanClause.Occur.FILTER);

@@ -29,18 +29,18 @@ import java.util.List;
 /* Build the Term Dependency query. See:
  * D. Metzler and W. B. Croft. A markov random field model for term dependencies. In SIGIR ’05.
  */
-public class TermDependencyQueryGenerator extends QueryGenerator {
+public class SdmQueryGenerator extends QueryGenerator {
   private final float termWeight;
   private final float orderWindowWeight;
   private final float unorderWindowWeight;
   
-  public TermDependencyQueryGenerator() {
+  public SdmQueryGenerator() {
     this.termWeight = 0.85f;
     this.orderWindowWeight = 0.1f;
     this.unorderWindowWeight = 0.05f;
   }
   
-  public TermDependencyQueryGenerator(float termWeight, float orderWindowWeight, float unorderWindowWeight) {
+  public SdmQueryGenerator(float termWeight, float orderWindowWeight, float unorderWindowWeight) {
     this.termWeight = termWeight;
     this.orderWindowWeight = orderWindowWeight;
     this.unorderWindowWeight = unorderWindowWeight;

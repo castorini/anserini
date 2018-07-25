@@ -29,7 +29,7 @@ import java.util.List;
 /*
  * Bag of Terms query builder
  */
-public class BagOfTermsQueryGenerator extends QueryGenerator {
+public class BagOfWordsQueryGenerator extends QueryGenerator {
   @Override
   public Query buildQuery(String field, Analyzer analyzer, String queryText) {
     List<String> tokens = AnalyzerUtils.tokenize(analyzer, queryText);
