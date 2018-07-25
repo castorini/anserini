@@ -46,7 +46,7 @@ public class WebxmlTopicReader extends TopicReader {
    * topics.web.201-250.txt
    * topics.web.251-300.txt
    * @return SortedMap where keys are query/topic IDs and values are title portions of the topics
-   * @throws IOException
+   * @throws IOException any io exception
    */
   @Override
   public SortedMap<Integer, Map<String, String>> read(BufferedReader bRdr) throws IOException {

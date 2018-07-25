@@ -91,7 +91,7 @@
         <artifactId>appassembler-maven-plugin</artifactId>
         <version>2.0.0</version>
         <configuration>
-          <extraJvmArguments>-Xms512M -Xmx24576M</extraJvmArguments>
+          <extraJvmArguments>-Xms512M -Xmx256G</extraJvmArguments>
           <programs>
             <program>
               <mainClass>io.anserini.index.IndexCollection</mainClass>
@@ -207,11 +207,6 @@
       <version>${LUCENE_VERSION}</version>
     </dependency>
     <dependency>
-      <groupId>org.apache.lucene</groupId>
-      <artifactId>lucene-backward-codecs</artifactId>
-      <version>${LUCENE_VERSION}</version>
-    </dependency>
-    <dependency>
       <groupId>edu.umass.ciir</groupId>
       <artifactId>RankLib</artifactId>
       <version>2.1</version>
@@ -222,9 +217,19 @@
       <version>4.12</version>
     </dependency>
     <dependency>
-      <groupId>com.google.code.gson</groupId>
-      <artifactId>gson</artifactId>
-      <version>2.8.5</version>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>2.9.6</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.datatype</groupId>
+      <artifactId>jackson-datatype-jdk8</artifactId>
+      <version>2.8.6</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.dataformat</groupId>
+      <artifactId>jackson-dataformat-yaml</artifactId>
+      <version>2.8.11</version>
     </dependency>
     <dependency>
       <groupId>org.jsoup</groupId>
@@ -251,19 +256,9 @@
       <version>2.4</version>
     </dependency>
     <dependency>
-      <groupId>com.google.guava</groupId>
-      <artifactId>guava</artifactId>
-      <version>19.0-rc2</version>
-    </dependency>
-    <dependency>
       <groupId>it.unimi.dsi</groupId>
       <artifactId>fastutil</artifactId>
       <version>6.5.6</version>
-    </dependency>
-    <dependency>
-      <groupId>net.sf.py4j</groupId>
-      <artifactId>py4j</artifactId>
-      <version>0.10.4</version>
     </dependency>
     <dependency>
       <groupId>org.wikiclean</groupId>
@@ -274,16 +269,6 @@
       <groupId>org.apache.ant</groupId>
       <artifactId>ant</artifactId>
       <version>1.9.1</version>
-    </dependency>
-    <dependency> <!-- needed for io.anserini.document.WashingtonPostDocument -->
-      <groupId>org.json</groupId>
-      <artifactId>json</artifactId>
-      <version>20160810</version>
-    </dependency>
-    <dependency>
-      <groupId>org.openrdf.sesame</groupId>
-      <artifactId>sesame-rio-ntriples</artifactId>
-      <version>4.1.2</version>
     </dependency>
     <dependency>
       <groupId>com.twitter.twittertext</groupId>

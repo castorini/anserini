@@ -1,0 +1,127 @@
+---
+name: mb13
+index_command: target/appassembler/bin/IndexCollection
+index_utils_command: target/appassembler/bin/IndexUtils
+search_command: target/appassembler/bin/SearchCollection
+topic_root: src/main/resources/topics-and-qrels/
+qrels_root: src/main/resources/topics-and-qrels/
+index_root:
+ranking_root:
+input: /tuna1/collections/twitter/Tweets2013-corpus/data/
+index_path: "/tuna1/indexes/lucene-index.tweets2013.pos+docvectors+rawdocs" # path to the existing index, used in regression test if `--index` option is absent
+collection: TweetCollection
+threads: 44
+generator: TweetGenerator
+index_options:
+  - -storePositions
+  - -storeDocvectors
+  - -optimize
+  - -uniqueDocid
+  - -tweet.keepUrls
+  - -tweet.stemming
+index_stats:
+  documents: 203145916
+  documents (non-empty): 203143249
+  total terms: 2099082204
+topic_reader: Microblog
+topics:
+  - name: "[TREC 2013 Microblog Track](http://trec.nist.gov/data/microblog2013.html)"
+    path: topics.microblog2013.txt
+    qrel: qrels.microblog2013.txt
+  - name: "[TREC 2014 Microblog Track](http://trec.nist.gov/data/microblog2014.html)"
+    path: topics.microblog2014.txt
+    qrel: qrels.microblog2014.txt
+evals:
+  - command: eval/trec_eval.9.0/trec_eval
+    params:
+      - -m map
+    separator: "\t"
+    parse_index: 2
+    metric: map
+    metric_precision: 4
+    can_combine: true
+  - command: eval/trec_eval.9.0/trec_eval
+    params:
+      - -m P.30
+    separator: "\t"
+    parse_index: 2
+    metric: p30
+    metric_precision: 4
+    can_combine: true
+models:
+  - name: bm25
+    params:
+      - -searchtweets
+      - -bm25
+    results:
+      map:
+        - 0.2306
+        - 0.3836
+      p30:
+        - 0.4222
+        - 0.6176
+  - name: bm25+rm3
+    params:
+      - -searchtweets
+      - -bm25
+      - -rm3
+    results:
+      map:
+        - 0.2356
+        - 0.3962
+      p30:
+        - 0.4061
+        - 0.5873
+  - name: bm25+ax
+    params:
+      - -searchtweets
+      - -bm25
+      - -axiom
+      - -axiom.beta 1.0
+      - -rerankCutoff 20
+      - -axiom.deterministic
+    results:
+      map:
+        - 0.2770
+        - 0.4673
+      p30:
+        - 0.4611
+        - 0.6479
+  - name: ql
+    params:
+      - -searchtweets
+      - -ql
+    results:
+      map:
+        - 0.2599
+        - 0.4184
+      p30:
+        - 0.4517
+        - 0.6424
+  - name: ql+rm3
+    params:
+      - -searchtweets
+      - -ql
+      - -rm3
+    results:
+      map:
+        - 0.2804
+        - 0.4660
+      p30:
+        - 0.4606
+        - 0.6442
+  - name: ql+ax
+    params:
+      - -searchtweets
+      - -ql
+      - -axiom
+      - -axiom.beta 1.0
+      - -rerankCutoff 20
+      - -axiom.deterministic
+    results:
+      map:
+        - 0.3167
+        - 0.4943
+      p30:
+        - 0.5117
+        - 0.6770

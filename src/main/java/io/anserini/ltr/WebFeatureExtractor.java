@@ -1,6 +1,5 @@
 package io.anserini.ltr;
 
-import com.google.common.collect.Sets;
 import io.anserini.index.generator.LuceneDocumentGenerator;
 import io.anserini.ltr.feature.FeatureExtractors;
 import io.anserini.ltr.feature.OrderedSequentialPairsFeatureExtractor;
@@ -19,6 +18,8 @@ import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.TermQuery;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -71,6 +72,7 @@ public class WebFeatureExtractor extends BaseFeatureExtractor {
    * @param topics
    * @param customExtractors
    */
+  @SuppressWarnings("unchecked")
   public <K> WebFeatureExtractor(IndexReader reader, Qrels qrels, Map<K, Map<String, String>> topics,
                              FeatureExtractors customExtractors) {
     super(reader, qrels, topics, customExtractors == null ? getDefaultExtractors() : customExtractors);
@@ -99,7 +101,7 @@ public class WebFeatureExtractor extends BaseFeatureExtractor {
 
   @Override
   protected Set<String> getFieldsToLoad() {
-    return Sets.newHashSet(getIdField(), getTermVectorField());
+    return new HashSet<>(Arrays.asList(getIdField(), getTermVectorField()));
   }
 
   @Override

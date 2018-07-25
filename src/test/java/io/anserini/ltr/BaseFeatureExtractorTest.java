@@ -1,6 +1,5 @@
 package io.anserini.ltr;
 
-import com.google.common.collect.Lists;
 import io.anserini.index.generator.LuceneDocumentGenerator;
 import io.anserini.ltr.feature.FeatureExtractor;
 import io.anserini.ltr.feature.FeatureExtractors;
@@ -29,6 +28,7 @@ import org.junit.Before;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -80,6 +80,7 @@ abstract public class BaseFeatureExtractorTest<T> extends LuceneTestCase {
    * and the query we want with dummy query ids and null filter
    * @return
    */
+  @SuppressWarnings("unchecked")
   protected RerankerContext<T> makeTestContext(String queryText) {
     try {
 	  RerankerContext<T> context = new RerankerContext<T>(
@@ -130,13 +131,13 @@ abstract public class BaseFeatureExtractorTest<T> extends LuceneTestCase {
    */
   protected void assertFeatureValues(float[] expected, String queryText, String docText,
                                      FeatureExtractors extractors) throws IOException {
-    assertFeatureValues(expected, queryText, Lists.newArrayList(docText), extractors,0);
+    assertFeatureValues(expected, queryText, Arrays.asList(docText), extractors,0);
   }
 
   // just add a signature for single extractor
   protected void assertFeatureValues(float[] expected, String queryText, String docText,
                                      FeatureExtractor extractor) throws IOException {
-    assertFeatureValues(expected, queryText, Lists.newArrayList(docText), getChain(extractor),0);
+    assertFeatureValues(expected, queryText, Arrays.asList(docText), getChain(extractor),0);
   }
 
   /**

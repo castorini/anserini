@@ -1,13 +1,14 @@
 package io.anserini.ltr;
 
-import com.google.common.collect.Lists;
 import io.anserini.ltr.feature.FeatureExtractors;
 import io.anserini.ltr.feature.base.AvgIDFFeatureExtractor;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 
-public class AvgIDFFeatureExtractorTest extends BaseFeatureExtractorTest {
+public class AvgIDFFeatureExtractorTest extends BaseFeatureExtractorTest<Integer> {
 
   private static FeatureExtractors EXTRACTOR = getChain(new AvgIDFFeatureExtractor());
 
@@ -31,7 +32,7 @@ public class AvgIDFFeatureExtractorTest extends BaseFeatureExtractorTest {
     // N_test = 3       0.82667
     float[] expected = {1.391537f};
     assertFeatureValues(expected, "document token test",
-            Lists.newArrayList("first document test",
+            Arrays.asList("first document test",
                     "second document test",
                     "third document test ",
                     "unrelated entry",

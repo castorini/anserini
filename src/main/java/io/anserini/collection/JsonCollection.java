@@ -16,7 +16,12 @@
 
 package io.anserini.collection;
 
-import io.anserini.document.JsonDocument;
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -61,25 +66,87 @@ import java.util.Set;
  * </pre>
  *
  */
-public class JsonCollection extends Collection<JsonDocument> {
-
-  public class FileSegment extends Collection<JsonDocument>.FileSegment {
-    protected FileSegment(Path path) throws IOException {
-      dType = new JsonDocument(path.toString());
-      bufferedReader = new BufferedReader(new FileReader(path.toString()));
-    }
-  }
+public class JsonCollection extends DocumentCollection
+    implements FileSegmentProvider<JsonCollection.Document> {
 
   @Override
   public List<Path> getFileSegmentPaths() {
     Set<String> allowedFileSuffix = new HashSet<>(Arrays.asList(".json"));
 
     return discover(path, EMPTY_SET, EMPTY_SET, EMPTY_SET,
-      allowedFileSuffix, EMPTY_SET);
+        allowedFileSuffix, EMPTY_SET);
   }
 
   @Override
   public FileSegment createFileSegment(Path p) throws IOException {
     return new FileSegment(p);
+  }
+
+  public class FileSegment extends AbstractFileSegment<Document> {
+    protected FileSegment(Path path) throws IOException {
+      dType = new JsonCollection.Document(path.toString());
+      bufferedReader = new BufferedReader(new FileReader(path.toString()));
+    }
+  }
+
+  /**
+   *
+   * Here we actually read the whole json file at once.
+   * If there are multiple JSON objects we use a global index i to track the progress.
+   *
+   */
+  public static class Document implements SourceDocument {
+    protected String id;
+    protected String contents;
+    private ArrayNode node;
+    private int i;
+
+    public Document(String path) {
+      try {
+        JsonParser jsonParser = new JsonFactory().createParser(new BufferedReader(new FileReader(path)));
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
+        node = objectMapper.readTree(jsonParser);
+      } catch (IOException e) {
+        node = null; // When the json file does not contain any json objects, set node to null
+      }
+      i = 0;
+    }
+
+    @Override
+    public Document readNextRecord(BufferedReader bRdr) throws IOException {
+      if (node == null) {
+        // try to read one JSON Object per line
+        String line;
+        while ((line = bRdr.readLine()) != null) {
+          JsonNode json = new JsonFactory().createParser(line).readValueAsTree();
+          id = json.get("id").asText();
+          contents = json.get("contents").asText();
+          return this;
+        }
+      } else if (i < node.size()) {
+        JsonNode json = node.get(i);
+        id = json.get("id").asText();
+        contents = json.get("contents").asText();
+        i++;
+        return this;
+      }
+      return null;
+    }
+
+    @Override
+    public String id() {
+      return id;
+    }
+
+    @Override
+    public String content() {
+      return contents;
+    }
+
+    @Override
+    public boolean indexable() {
+      return true;
+    }
   }
 }

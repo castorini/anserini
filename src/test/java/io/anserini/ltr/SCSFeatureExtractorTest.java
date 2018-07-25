@@ -1,16 +1,16 @@
 package io.anserini.ltr;
 
-import com.google.common.collect.Lists;
 import io.anserini.ltr.feature.FeatureExtractors;
 import io.anserini.ltr.feature.base.SimplifiedClarityFeatureExtractor;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 /**
  * Tests the simplified clarity feature
  */
-public class SCSFeatureExtractorTest extends BaseFeatureExtractorTest {
+public class SCSFeatureExtractorTest extends BaseFeatureExtractorTest<Integer> {
   private FeatureExtractors EXTRACTOR = getChain(new SimplifiedClarityFeatureExtractor());
 
   @Test
@@ -20,7 +20,7 @@ public class SCSFeatureExtractorTest extends BaseFeatureExtractorTest {
     // P[t|D] = 0
     float[] expected = {0f};
     assertFeatureValues(expected, testQuery,
-            Lists.newArrayList("document",
+            Arrays.asList("document",
                     "another document"), EXTRACTOR, 0);
   }
 
@@ -34,7 +34,7 @@ public class SCSFeatureExtractorTest extends BaseFeatureExtractorTest {
     float[] expected = {0.6931f};
 
     assertFeatureValues(expected, testQuery,
-            Lists.newArrayList("test document",
+            Arrays.asList("test document",
                     "test test",
                     "another document",
                     "more test document",
@@ -53,7 +53,7 @@ public class SCSFeatureExtractorTest extends BaseFeatureExtractorTest {
     float[] expected = {0.25541f};
 
     assertFeatureValues(expected, testQuery,
-            Lists.newArrayList("test document",
+            Arrays.asList("test document",
                     "test test",
                     "another document",
                     "more test document",

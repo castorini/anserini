@@ -27,6 +27,7 @@ import io.anserini.rerank.lib.Rm3Reranker;
 import io.anserini.rerank.lib.ScoreTiesAdjusterReranker;
 import io.anserini.search.query.TopicReader;
 import io.anserini.search.similarity.F2ExpSimilarity;
+import io.anserini.search.similarity.AxiomaticSimilarity;
 import io.anserini.search.similarity.F2LogSimilarity;
 import io.anserini.util.AnalyzerUtils;
 import org.apache.commons.lang3.time.DurationFormatUtils;
@@ -111,7 +112,7 @@ public final class SearchCollection implements Closeable {
       this.similarity = new IBSimilarity(new DistributionSPL(), new LambdaDF(),  new NormalizationH2(args.spl_c));
     } else if (args.f2exp) {
       LOG.info("Using F2Exp scoring model");
-      this.similarity = new F2ExpSimilarity(args.f2exp_s, args.f2exp_k);
+      this.similarity = new F2ExpSimilarity(args.f2exp_s);
     } else if (args.f2log) {
       LOG.info("Using F2Log scoring model");
       this.similarity = new F2LogSimilarity(args.f2log_s);
@@ -144,6 +145,7 @@ public final class SearchCollection implements Closeable {
     reader.close();
   }
 
+  @SuppressWarnings("unchecked")
   public<K> int runTopics() throws IOException {
     IndexSearcher searcher = new IndexSearcher(reader);
     searcher.setSimilarity(similarity);

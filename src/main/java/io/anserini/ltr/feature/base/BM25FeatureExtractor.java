@@ -147,4 +147,12 @@ public class BM25FeatureExtractor<T> implements FeatureExtractor<T> {
   public String getName() {
     return "BM25Feature";
   }
+
+  public double getK1() {
+    return k1;
+  }
+
+  public double getB() {
+    return b;
+  }
 }
