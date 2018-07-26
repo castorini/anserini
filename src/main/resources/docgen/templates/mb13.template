@@ -1,0 +1,51 @@
+# Anserini: Experiments on Tweets2013 (MB13 &amp; MB14)
+
+## Indexing
+
+### Tweets2013 collection
+
+Note that the Tweets2013 collection is distributed as a list of tweet ids that you have to download yourself, so the
+effectiveness results you'll get should be similar, but will likely not be identical to the scores reported here.
+
+Indexing the Tweets2013 collection:
+
+```
+${index_cmds}
+```
+__NB:__ The process is backgrounded
+
+More available indexing options:
+* `-tweet.keepRetweets`: boolean switch to keep retweets while indexing, default `false`
+* `-tweet.keepUrls`: boolean switch to keep URLs in the tweet, default `false`
+* `-tweet.stemming`: boolean switch to apply Porter stemming while indexing tweets, default `false`
+* `-tweet.maxId`: the max tweet Id for indexing. Tweet Ids that are larger (when being parsed to Long type) than this value will NOT be indexed, default `LONG.MAX_VALUE`
+* `-tweet.deletedIdsFile`: a file that contains deleted tweetIds, one per line. these tweeets won't be indexed
+
+For additional details, see explanation of [common indexing options](common-indexing-options.md).
+
+## Retrieval
+
+Topics and qrels are stored in `src/main/resources/topics-and-qrels/`, downloaded from NIST:
+
++ `topics.microblog2013.txt`: [TREC 2013 Microblog Track](https://trec.nist.gov/data/microblog/2013/topics.MB111-170.txt)
++ `topics.microblog2014.txt`: [TREC 2014 Microblog Track](https://trec.nist.gov/data/microblog/2014/topics.MB171-225.txt)
++ `qrels.microblog2013.txt`: [Qrels for TREC 2013 Microblog Track](https://trec.nist.gov/data/microblog/2013/qrels.txt)
++ `qrels.microblog2014.txt`: [Qrels for TREC 2014 Microblog Track](https://trec.nist.gov/data/microblog/2014/qrels2014.txt)
+
+After indexing has completed, you should be able to perform retrieval as follows:
+
+```
+${ranking_cmds}
+```
+
+Evaluation can be performed using `trec_eval`:
+
+```
+${eval_cmds}
+```
+
+## Effectiveness
+
+With the above commands, you should be able to replicate the following results:
+
+${effectiveness}

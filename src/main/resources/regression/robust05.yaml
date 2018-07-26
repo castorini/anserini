@@ -1,0 +1,101 @@
+---
+name: robust05
+index_command: target/appassembler/bin/IndexCollection
+index_utils_command: target/appassembler/bin/IndexUtils
+search_command: target/appassembler/bin/SearchCollection
+topic_root: src/main/resources/topics-and-qrels/
+qrels_root: src/main/resources/topics-and-qrels/
+index_root:
+ranking_root:
+collection: TrecCollection
+generator: JsoupGenerator
+threads: 16
+index_options:
+  - -storePositions
+  - -storeDocvectors
+  - -optimize
+topic_reader: Trec
+evals:
+  - command: eval/trec_eval.9.0/trec_eval
+    params:
+      - -m map
+    separator: "\t"
+    parse_index: 2
+    metric: map
+    metric_precision: 4
+    can_combine: true
+  - command: eval/trec_eval.9.0/trec_eval
+    params:
+      - -m P.30
+    separator: "\t"
+    parse_index: 2
+    metric: p30
+    metric_precision: 4
+    can_combine: true
+input: /tuna1/collections/newswire/AQUAINT/
+index_path: "/tuna1/indexes/lucene-index.aquaint.pos+docvectors+rawdocs" # path to the existing index, used in regression test if `--index` option is absent
+index_stats:
+  documents: 1031455
+  documents (non-empty): 1031326
+  total terms: 317246296
+topics:
+  - name: "All Topics"
+    path: topics.robust05.txt
+    qrel: qrels.robust2005.txt
+models:
+  - name: bm25
+    params:
+      - -bm25
+    results:
+      map:
+        - 0.2003
+      p30:
+        - 0.3660
+  - name: bm25+rm3
+    params:
+      - -bm25
+      - -rm3
+    results:
+      map:
+        - 0.2511
+      p30:
+        - 0.3873
+  - name: bm25+ax
+    params:
+      - -bm25
+      - -axiom
+      - -rerankCutoff 20
+      - -axiom.deterministic
+    results:
+      map:
+        - 0.2528
+      p30:
+        - 0.4007
+  - name: ql
+    params:
+      - -ql
+    results:
+      map:
+        - 0.2026
+      p30:
+        - 0.3713
+  - name: ql+rm3
+    params:
+      - -ql
+      - -rm3
+    results:
+      map:
+        - 0.2480
+      p30:
+        - 0.4007
+  - name: ql+ax
+    params:
+      - -ql
+      - -axiom
+      - -rerankCutoff 20
+      - -axiom.deterministic
+    results:
+      map:
+        - 0.2501
+      p30:
+        - 0.4080

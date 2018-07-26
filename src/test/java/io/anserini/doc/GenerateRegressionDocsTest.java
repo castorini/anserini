@@ -18,7 +18,6 @@ package io.anserini.doc;
 
 import java.io.File;
 import java.net.URL;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -34,11 +33,13 @@ public class GenerateRegressionDocsTest {
   @Test
   public void main() throws Exception {
     ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-    URL resource = GenerateRegressionDocsTest.class.getResource("/regression/all.yaml");
-    DataModel data = mapper.readValue(Paths.get(resource.toURI()).toFile(), DataModel.class);
-    //System.out.println(ReflectionToStringBuilder.toString(data, ToStringStyle.MULTI_LINE_STYLE));
+    URL templatesRoot = GenerateRegressionDocsTest.class.getResource("/docgen/templates/");
 
-    for (String collection : data.getCollections().keySet()) {
+    for (final File fileEntry : new File(templatesRoot.toURI()).listFiles()) {
+      String fileName = fileEntry.getName();
+      String collection = fileEntry.getName().split("\\.")[0];
+      URL yaml = GenerateRegressionDocsTest.class.getResource(String.format("/regression/%s.yaml", collection));
+      DataModel data = mapper.readValue(new File(yaml.toURI()), DataModel.class);
       Map<String, String> valuesMap = new HashMap<>();
       valuesMap.put("index_cmds", data.generateIndexingCommand(collection));
       valuesMap.put("ranking_cmds", data.generateRankingCommand(collection));
@@ -46,7 +47,7 @@ public class GenerateRegressionDocsTest {
       valuesMap.put("effectiveness", data.generateEffectiveness(collection));
       StrSubstitutor sub = new StrSubstitutor(valuesMap);
       URL template = GenerateRegressionDocsTest.class.getResource(String.format("/docgen/templates/%s.template", collection));
-      Scanner scanner = new Scanner(Paths.get(template.toURI()).toFile(), "UTF-8");
+      Scanner scanner = new Scanner(new File(template.toURI()), "UTF-8");
       String text = scanner.useDelimiter("\\A").next();
       scanner.close();
       String resolvedString = sub.replace(text);
