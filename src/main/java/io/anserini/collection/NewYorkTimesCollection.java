@@ -44,12 +44,7 @@ import java.nio.file.Path;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Class representing an instance of the New York Times Annotated Corpus,
@@ -90,7 +85,6 @@ public class NewYorkTimesCollection extends DocumentCollection
 
       if (path.toString().endsWith(".tgz")) {
         tarInput = new TarArchiveInputStream(new GzipCompressorInputStream(new FileInputStream(path.toFile())));
-        getNextEntry();
       }
     }
 
@@ -99,40 +93,42 @@ public class NewYorkTimesCollection extends DocumentCollection
       atEOF = true;
       super.close();
     }
+
     @Override
     public boolean hasNext() {
-      return !atEOF;
-    }
-
-    @Override
-    public Document next() {
-      Document doc;
-      try {
-        if (path.toString().endsWith(".tgz")) {
-          bufferedReader = new BufferedReader(new InputStreamReader(tarInput, "UTF-8"));
-          File file = new File(nextEntry.getName()); // this is actually not a real file, only to match the method in Parser
-          doc = parser.parseFile(bufferedReader, file);
-          getNextEntry();
-        } else {
-          bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(path.toFile()), "UTF-8"));
-          doc = parser.parseFile(bufferedReader, path.toFile());
-          atEOF = true; // if it is a xml file, the segment only has one file, boolean to keep track if it's been read.
-        }
-      } catch (IOException e) {
-        if (path.toString().endsWith(".xml")) {
-          atEOF = true;
-        }
-        return null;
+      if (bufferedRecord != null) {
+        return true;
+      } else if (atEOF) {
+        return false;
       }
 
-      return doc;
+      try {
+        if (path.toString().endsWith(".tgz")) {
+          getNextEntry();
+          bufferedReader = new BufferedReader(new InputStreamReader(tarInput, "UTF-8"));
+          File file = new File(nextEntry.getName()); // this is actually not a real file, only to match the method in Parser
+          bufferedRecord = parser.parseFile(bufferedReader, file);
+        } else {
+          bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(path.toFile()), "UTF-8"));
+          bufferedRecord = parser.parseFile(bufferedReader, path.toFile());
+          atEOF = true; // if it is a xml file, the segment only has one file, boolean to keep track if it's been read.
+        }
+      } catch (NoSuchElementException e1) {
+        return false;
+      } catch (IOException e2) {
+        LOG.error("Exception from Parser:", e2);
+        if (path.toString().endsWith(".xml")) {
+          return false;
+        }
+      }
+
+      return bufferedReader != null;
     }
 
     private void getNextEntry() throws IOException {
       nextEntry = tarInput.getNextEntry();
       if (nextEntry == null) {
-        atEOF = true;
-        return;
+        throw new NoSuchElementException();
       }
       // an ArchiveEntry may be a directory, so we need to read a next one.
       //   this must be done after the null check.
@@ -154,13 +150,6 @@ public class NewYorkTimesCollection extends DocumentCollection
     // No public constructor; must use parser to create document.
     private Document(RawDocument raw) {
       this.raw = raw;
-    }
-
-    @Override
-    public Document readNextRecord(BufferedReader bRdr) throws Exception {
-      // We're slowly refactoring to get rid of this method.
-      // See https://github.com/castorini/Anserini/issues/254
-      throw new UnsupportedOperationException();
     }
 
     @Override

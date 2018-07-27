@@ -17,40 +17,48 @@
 package io.anserini.collection;
 
 import org.apache.lucene.util.LuceneTestCase;
+import org.junit.After;
 import org.junit.Before;
-import org.junit.Test;
 
-import java.io.BufferedReader;
-import java.io.StringReader;
+import java.io.*;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class DocumentTest<D extends SourceDocument> extends LuceneTestCase {
-  protected List<String> rawDocs;
+
+public class DocumentTest extends LuceneTestCase {
   protected List<Map<String, String>> expected;
-  protected D dType;
+  protected List<Path> rawFiles;
+  protected List<String> rawDocs;
+  protected Path tmpPath;
 
   @Before
   public void setUp() throws Exception {
     super.setUp();
-    rawDocs = new ArrayList<>();
     expected = new ArrayList<>();
+    rawFiles = new ArrayList<>();
+    rawDocs = new ArrayList<>();
+    tmpPath = null;
   }
 
-  @SuppressWarnings("unchecked")
-  protected D parse(String raw) throws Exception {
-    BufferedReader bufferedReader = new BufferedReader(new StringReader(raw));
-    D d = (D)dType.readNextRecord(bufferedReader);
-    return d;
+  public Path createFile(String doc) {
+    try {
+      tmpPath = createTempFile();
+      Writer writer = new BufferedWriter(new OutputStreamWriter(
+              new FileOutputStream(tmpPath.toFile()), "utf-8"));
+      writer.write(doc);
+    } catch (IOException e) {}
+
+    return tmpPath;
   }
 
-  @Test
-  public void test() throws Exception {
-    for (int i = 0; i < rawDocs.size(); i++) {
-      D parsed = parse(rawDocs.get(i));
-      assertEquals(parsed.id(), expected.get(i).get("id"));
-      assertEquals(parsed.content(), expected.get(i).get("content"));
+  @After
+  public void tearDown() throws Exception {
+    if (tmpPath != null) {
+      File file = tmpPath.toFile();
+      file.delete();
     }
+    super.tearDown();
   }
 }
