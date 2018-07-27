@@ -64,13 +64,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.zip.GZIPInputStream;
 
 /**
@@ -123,8 +117,10 @@ public class ClueWeb12Collection extends DocumentCollection
 
       try {
         bufferedRecord = readNextWarcRecord(stream, Document.WARC_VERSION);
-      } catch (IOException e) {
-        LOG.error("Exception from BufferedReader:", e);
+      } catch (NoSuchElementException e1) {
+        return false;
+      } catch (IOException e2) {
+        LOG.error("Exception from BufferedReader:", e2);
         return false;
       }
 
@@ -147,7 +143,7 @@ public class ClueWeb12Collection extends DocumentCollection
      * @throws IOException if error encountered reading from stream
      */
     public static Document readNextWarcRecord(DataInputStream in, String version)
-            throws IOException {
+        throws IOException {
       StringBuilder recordHeader = new StringBuilder();
       byte[] recordContent = ClueWeb09Collection.FileSegment.readNextRecord(in, recordHeader, version);
       if (recordContent == null) {

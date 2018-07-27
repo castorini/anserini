@@ -64,7 +64,6 @@ public class HtmlCollection extends DocumentCollection
       this.bufferedReader = null;
       if (path.toString().endsWith(".tgz") || path.toString().endsWith(".tar.gz")) {
         inputStream = new TarArchiveInputStream(new GzipCompressorInputStream(new FileInputStream(path.toFile())));
-        getNextEntry();
       }
     }
 
@@ -92,7 +91,9 @@ public class HtmlCollection extends DocumentCollection
           bufferedRecord = new Document(bufferedReader, path.getFileName().toString().replaceAll("\\.html$", ""));
           atEOF = true;
         }
-      } catch (IOException e) {
+      } catch (NoSuchElementException e1) {
+        return false;
+      } catch (IOException e2) {
         if (path.toString().endsWith(".html")) {
           return false;
         }

@@ -123,8 +123,10 @@ public class ClueWeb09Collection extends DocumentCollection
 
       try {
         bufferedRecord = readNextWarcRecord(stream, Document.WARC_VERSION);
-      } catch (IOException e) {
-        LOG.error("Exception from BufferedReader:", e);
+      } catch (NoSuchElementException e1) {
+        return false;
+      } catch (IOException e2) {
+        LOG.error("Exception from BufferedReader:", e2);
         return false;
       }
 
@@ -172,7 +174,7 @@ public class ClueWeb09Collection extends DocumentCollection
             byte thirdByte = in.readByte();
             // ensure the topmost bit is set
             if (((secondByte & MASK_TOPMOST_BIT) != MASK_TOPMOST_BIT)
-                    || ((thirdByte & MASK_TOPMOST_BIT) != MASK_TOPMOST_BIT)) {
+                || ((thirdByte & MASK_TOPMOST_BIT) != MASK_TOPMOST_BIT)) {
               // treat these as individual characters
               retString.append((char) readByte);
               retString.append((char) secondByte);
@@ -180,8 +182,8 @@ public class ClueWeb09Collection extends DocumentCollection
               continue;
             }
             int finalVal = (thirdByte & MASK_BOTTOM_FIVE_BITS) + 64
-                    * (secondByte & MASK_BOTTOM_FIVE_BITS) + 4096
-                    * (readByte & MASK_BOTTOM_FOUR_BITS);
+                * (secondByte & MASK_BOTTOM_FIVE_BITS) + 4096
+                * (readByte & MASK_BOTTOM_FOUR_BITS);
             thisChar = (char) finalVal;
           } else if ((readByte & MASK_TWO_BYTE_CHAR) == MASK_TWO_BYTE_CHAR) {
             // need to read next byte
@@ -197,7 +199,7 @@ public class ClueWeb09Collection extends DocumentCollection
               continue;
             }
             int finalVal = (secondByte & MASK_BOTTOM_FIVE_BITS) + 64
-                    * (readByte & MASK_BOTTOM_SIX_BITS);
+                * (readByte & MASK_BOTTOM_SIX_BITS);
             thisChar = (char) finalVal;
           } else {
             // interpret it as a single byte
@@ -320,7 +322,7 @@ public class ClueWeb09Collection extends DocumentCollection
      * @throws IOException if error encountered reading from stream
      */
     public static Document readNextWarcRecord(DataInputStream in, String version)
-            throws IOException {
+        throws IOException {
       StringBuilder recordHeader = new StringBuilder();
       byte[] recordContent = readNextRecord(in, recordHeader, version);
 

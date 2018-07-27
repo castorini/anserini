@@ -56,7 +56,7 @@ public class TrecwebCollection extends DocumentCollection
 
       try {
         readNextRecord(bufferedReader);
-      } catch (IOException e) {
+      } catch (RuntimeException | IOException e) {
         LOG.error("Exception from BufferedReader:", e);
         return false;
       }
@@ -79,6 +79,7 @@ public class TrecwebCollection extends DocumentCollection
 
         if (line.startsWith(Document.TERMINATING_DOC) && builder.length() > 0) {
           parseRecord(builder);
+          return;
         }
 
         if (found)

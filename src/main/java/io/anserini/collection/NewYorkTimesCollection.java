@@ -113,8 +113,10 @@ public class NewYorkTimesCollection extends DocumentCollection
           bufferedRecord = parser.parseFile(bufferedReader, path.toFile());
           atEOF = true; // if it is a xml file, the segment only has one file, boolean to keep track if it's been read.
         }
-      } catch (IOException e) {
-        LOG.error("Exception from Parser:", e);
+      } catch (NoSuchElementException e1) {
+        return false;
+      } catch (IOException e2) {
+        LOG.error("Exception from Parser:", e2);
         if (path.toString().endsWith(".xml")) {
           return false;
         }
