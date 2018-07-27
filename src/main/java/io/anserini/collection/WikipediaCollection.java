@@ -21,13 +21,9 @@ import org.wikiclean.WikiClean.WikiLanguage;
 import org.wikiclean.WikiCleanBuilder;
 import org.wikiclean.WikipediaBz2DumpInputStream;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Class representing an instance of a Wikipedia collection. Note that Wikipedia dumps often come
@@ -56,7 +52,6 @@ public class WikipediaCollection extends DocumentCollection
 
     protected FileSegment(Path path) throws IOException {
       this.path = path;
-
       stream = new WikipediaBz2DumpInputStream(path.toString());
       cleaner = new WikiCleanBuilder()
           .withLanguage(WikiLanguage.EN).withTitle(false)
@@ -64,7 +59,11 @@ public class WikipediaCollection extends DocumentCollection
     }
 
     @Override
-    public Document next() {
+    public boolean hasNext() {
+      if (bufferedRecord != null) {
+        return true;
+      }
+
       try {
         String page;
         String s;
@@ -84,17 +83,16 @@ public class WikipediaCollection extends DocumentCollection
 
           // If we've gotten here, it means that we've advanced to the next "valid" article.
           String title = cleaner.getTitle(page).replaceAll("\\n+", " ");
-          return new Document(title, title + ".\n" + s);
+          bufferedRecord = new Document(title, title + ".\n" + s);
+          return true;
         }
-
       } catch (IOException e) {
         e.printStackTrace();
       }
 
       // If we've fall through here, we've either encountered an exception or we've reached the end
       // of the underlying stream.
-      atEOF = true;
-      return null;
+      return false;
     }
   }
 
@@ -108,12 +106,6 @@ public class WikipediaCollection extends DocumentCollection
     public Document(String title, String contents) {
       this.title = title;
       this.contents = contents;
-
-    }
-
-    @Override
-    public Document readNextRecord(BufferedReader bRdr) throws IOException {
-      return null;
     }
 
     @Override
