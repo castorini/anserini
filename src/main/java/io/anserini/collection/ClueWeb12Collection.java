@@ -64,7 +64,14 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.NoSuchElementException;
+import java.util.Set;
 import java.util.zip.GZIPInputStream;
 
 /**
@@ -73,7 +80,6 @@ import java.util.zip.GZIPInputStream;
  */
 public class ClueWeb12Collection extends DocumentCollection
     implements FileSegmentProvider<ClueWeb12Collection.Document> {
-
   private static final Logger LOG = LogManager.getLogger(ClueWeb12Collection.class);
 
   @Override
@@ -94,7 +100,7 @@ public class ClueWeb12Collection extends DocumentCollection
   }
 
   /**
-   * An individual WARC in the ClueWeb12 collection.
+   * An individual WARC in the <a href="https://www.lemurproject.org/clueweb12.php/">ClueWeb12 collection</a>.
    */
   public static class FileSegment extends AbstractFileSegment<Document> {
     protected DataInputStream stream;

@@ -30,11 +30,19 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
+/**
+ * An instance of the <a href="https://trec.nist.gov/data/wapost/">TREC Washington Post Corpus</a>.
+ * The collection contains 608,180 news articles and blog posts from January 2012 through August 2017,
+ * stored in JSON format. The collection is 1.5GB compressed, 5.9GB uncompressed.
+ */
 public class WashingtonPostCollection extends DocumentCollection
     implements FileSegmentProvider<WashingtonPostCollection.Document> {
-
   private static final Logger LOG = LogManager.getLogger(WashingtonPostCollection.class);
 
   @Override
@@ -123,7 +131,7 @@ public class WashingtonPostCollection extends DocumentCollection
   }
 
   /**
-   * A document from the Washington Post collection.
+   * A document from the <a href="https://trec.nist.gov/data/wapost/">TREC Washington Post Corpus</a>.
    */
   public static class Document implements SourceDocument {
     private static final Logger LOG = LogManager.getLogger(Document.class);
@@ -154,7 +162,9 @@ public class WashingtonPostCollection extends DocumentCollection
       return publishedDate;
     }
 
-    // Used for JSON parsing by Jackson
+    /**
+     * Used internally by Jackson for JSON parsing.
+     */
     public static class WashingtonPostObject {
       // Required fields
       protected String id;
@@ -164,6 +174,9 @@ public class WashingtonPostCollection extends DocumentCollection
       // Optional fields
       protected Optional<List<Content>> contents;
 
+      /**
+       * Used internally by Jackson for JSON parsing.
+       */
       public static class Content {
         protected Optional<String> type;
         protected Optional<String> content;

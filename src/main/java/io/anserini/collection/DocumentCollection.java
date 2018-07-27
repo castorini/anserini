@@ -32,18 +32,18 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * <p>A static collection of documents, comprised of one or more {@link AbstractFileSegment}s.
- * Each {@link AbstractFileSegment} contains one or more {@link SourceDocument}s.
+ * <p>A static collection of documents, comprised of one or more {@link FileSegment}s.
+ * Each {@link FileSegment} is a container for {@link SourceDocument}s.
  * A collection is assumed to be a directory. In the case where the collection is
  * a single file (e.g., a Wikipedia dump), place the file into an arbitrary directory.</p>
  *
  * <p>The collection is responsible for discovering files with qualified names in the input
- * directory. The {@link AbstractFileSegment} is responsible for reading each file to generate
+ * directory. The file segment implementation is responsible for reading each file to generate
  * {@link SourceDocument}s for indexing. Typically, the {@code DocumentCollection} implements
  * the {@link FileSegmentProvider} interface to provide the association between the collection
  * and the document type.</p>
  *
- * <p>The detailed steps of adding a new collection class are:</p>
+ * <p>The steps of adding a new collection class are:</p>
  *
  * <ol>
  *

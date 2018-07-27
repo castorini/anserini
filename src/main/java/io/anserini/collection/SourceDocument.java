@@ -17,8 +17,9 @@
 package io.anserini.collection;
 
 /**
- * A raw document from a collection to be indexed. We explicitly distinguish a source document from
- * a Lucene document, which is the Lucene representation that is ready to be indexed.
+ * A raw document from a collection. A source document is explicitly distinguish a from a Lucene
+ * {@link org.apache.lucene.document.Document}, which is the Lucene representation that can be
+ * directly inserted into an index.
  */
 public interface SourceDocument {
   /**

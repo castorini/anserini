@@ -35,10 +35,8 @@ import java.util.List;
 import java.util.Set;
 
 /**
- *
- * Class representing a document collection in JSON.
- *
- * This class reads "*.json" files in the input directory.
+ * A JSON document collection.
+ * This class reads all <code>.json</code> files in the input directory.
  * Inside each file is either a JSON Object (one document) or a JSON Array (multiple documents) or
  * a JSON Document on each line (not actually valid Json String)
  * Example of JSON Object:
@@ -70,7 +68,6 @@ import java.util.Set;
  */
 public class JsonCollection extends DocumentCollection
     implements FileSegmentProvider<JsonCollection.Document> {
-
   private static final Logger LOG = LogManager.getLogger(JsonCollection.class);
 
   @Override
@@ -138,10 +135,7 @@ public class JsonCollection extends DocumentCollection
   }
 
   /**
-   *
-   * Here we actually read the whole json file at once.
-   * If there are multiple JSON objects we use a global index i to track the progress.
-   *
+   * A document in a JSON collection.
    */
   public static class Document implements SourceDocument {
     protected String id;

@@ -33,11 +33,10 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 /**
- * Using this class we can index a directory consists of HTML files.
+ * A collection of HTML documents.
  * The file name (excluding the extension) will be the docid and the stripped contents will be the contents.
  * Please note that we intentionally do not apply any restrictions on what the file extension should be --
  * this makes the class a more generic class for indexing other types of the files, e.g. plain text files.
- *
  */
 public class HtmlCollection extends DocumentCollection
     implements FileSegmentProvider<HtmlCollection.Document> {
@@ -54,7 +53,7 @@ public class HtmlCollection extends DocumentCollection
     return discover(path, EMPTY_SET, EMPTY_SET, EMPTY_SET, EMPTY_SET, EMPTY_SET);
   }
 
-  public static class FileSegment extends AbstractFileSegment<Document>  {
+  public class FileSegment extends AbstractFileSegment<Document>  {
     private TarArchiveInputStream inputStream = null;
     private ArchiveEntry nextEntry = null;
 
@@ -115,6 +114,9 @@ public class HtmlCollection extends DocumentCollection
     }
   }
 
+  /**
+   * A generic document in a collection of HTML documents.
+   */
   public static class Document implements SourceDocument {
     private String id;
     private String contents;

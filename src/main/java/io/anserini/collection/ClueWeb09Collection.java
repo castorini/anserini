@@ -93,7 +93,7 @@ public class ClueWeb09Collection extends DocumentCollection
   }
 
   /**
-   * An individual WARC in the ClueWeb09 collection.
+   * An individual WARC in the <a href="https://www.lemurproject.org/clueweb09.php/">ClueWeb09 collection</a>.
    */
   public static class FileSegment extends AbstractFileSegment<Document> {
     private static final byte MASK_THREE_BYTE_CHAR = (byte) (0xE0);

@@ -21,7 +21,7 @@ import java.nio.file.Path;
 import java.util.List;
 
 /**
- * An interface that provides {@link AbstractFileSegment}s, which provides {@link SourceDocument}s.
+ * An interface that provides {@link FileSegment}s, which contain {@link SourceDocument}s.
  * Typically, each implementation is associated with a particular {@link DocumentCollection}.
  *
  * @param <T> type of the source document
@@ -45,5 +45,5 @@ public interface FileSegmentProvider<T extends SourceDocument> {
    * @return {@code AbstractFileSegment} with the specified path
    * @throws IOException if file access error encountered
    */
-  AbstractFileSegment<T> createFileSegment(Path p) throws IOException;
+  FileSegment<T> createFileSegment(Path p) throws IOException;
 }

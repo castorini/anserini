@@ -17,7 +17,7 @@
 package io.anserini.index;
 
 import io.anserini.analysis.TweetAnalyzer;
-import io.anserini.collection.AbstractFileSegment;
+import io.anserini.collection.FileSegment;
 import io.anserini.collection.DocumentCollection;
 import io.anserini.collection.FileSegmentProvider;
 import io.anserini.collection.SourceDocument;
@@ -137,7 +137,7 @@ public final class IndexCollection {
 
     /**
      * Counter for unindexed documents. These are cases where the {@link SourceDocument} returned
-     * by {@link AbstractFileSegment} is {@code null} or the {@link LuceneDocumentGenerator}
+     * by {@link FileSegment} is {@code null} or the {@link LuceneDocumentGenerator}
      * returned {@code null}. These are not necessarily errors.
      */
     public AtomicLong unindexed = new AtomicLong();
@@ -182,7 +182,8 @@ public final class IndexCollection {
                 .newInstance(args, counters);
 
         int cnt = 0;
-        AbstractFileSegment iter = ((FileSegmentProvider) collection).createFileSegment(inputFile);
+        @SuppressWarnings("unchecked")
+        FileSegment<SourceDocument> iter = ((FileSegmentProvider) collection).createFileSegment(inputFile);
         while (iter.hasNext()) {
           SourceDocument d;
           try {
