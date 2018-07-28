@@ -59,7 +59,7 @@ public class JsonDocumentArrayTest extends DocumentTest {
     JsonCollection collection = new JsonCollection();
     int j = 0;
     for (int i = 0; i < rawFiles.size(); i++) {
-      AbstractFileSegment<JsonCollection.Document> iter = collection.createFileSegment(rawFiles.get(i));
+      BaseFileSegment<JsonCollection.Document> iter = collection.createFileSegment(rawFiles.get(i));
       while (true) {
         try {
           JsonCollection.Document parsed = iter.next();
