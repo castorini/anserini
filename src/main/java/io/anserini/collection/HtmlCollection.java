@@ -91,15 +91,14 @@ public class HtmlCollection extends DocumentCollection
           bufferedRecord = new Document(bufferedReader, path.getFileName().toString().replaceAll("\\.html$", ""));
           atEOF = true;
         }
-      } catch (NoSuchElementException e1) {
-        return false;
-      } catch (IOException e2) {
+      } catch (IOException e) {
         if (path.toString().endsWith(".html")) {
           return false;
         }
+        throw new RuntimeException(e);
       }
 
-      return bufferedReader != null;
+      return bufferedRecord != null;
     }
 
     private void getNextEntry() throws IOException {

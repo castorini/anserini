@@ -57,7 +57,7 @@ public abstract class AbstractFileSegment<T extends SourceDocument> implements I
 
   @Override
   public void close() throws IOException {
-    atEOF = false;
+    atEOF = true;
     if (bufferedReader != null) {
       bufferedReader.close();
     }
