@@ -41,7 +41,7 @@ import java.util.zip.GZIPInputStream;
  * A classic TREC <i>ad hoc</i> document collection.
  */
 public class TrecCollection extends DocumentCollection
-    implements FileSegmentProvider<TrecCollection.Document> {
+    implements SegmentProvider<TrecCollection.Document> {
 
   private static final Logger LOG = LogManager.getLogger(TrecCollection.class);
 
@@ -64,7 +64,7 @@ public class TrecCollection extends DocumentCollection
    *
    * @param <T> type of the document
    */
-  public static class FileSegment<T extends Document> extends AbstractFileSegment<T> {
+  public static class FileSegment<T extends Document> extends BaseFileSegment<T> {
     @SuppressWarnings("unchecked")
     public FileSegment(Path path) throws IOException {
       this.path = path;

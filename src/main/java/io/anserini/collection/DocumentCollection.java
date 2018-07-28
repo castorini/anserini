@@ -32,15 +32,15 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * <p>A static collection of documents, comprised of one or more {@link FileSegment}s.
- * Each {@link FileSegment} is a container for {@link SourceDocument}s.
+ * <p>A static collection of documents, comprised of one or more {@link Segment}s.
+ * Each {@link Segment} is a container for {@link SourceDocument}s.
  * A collection is assumed to be a directory. In the case where the collection is
  * a single file (e.g., a Wikipedia dump), place the file into an arbitrary directory.</p>
  *
  * <p>The collection is responsible for discovering files with qualified names in the input
  * directory. The file segment implementation is responsible for reading each file to generate
  * {@link SourceDocument}s for indexing. Typically, the {@code DocumentCollection} implements
- * the {@link FileSegmentProvider} interface to provide the association between the collection
+ * the {@link SegmentProvider} interface to provide the association between the collection
  * and the document type.</p>
  *
  * <p>The steps of adding a new collection class are:</p>
@@ -48,9 +48,9 @@ import java.util.Set;
  * <ol>
  *
  * <li>Create a subclass for {@link DocumentCollection}, which should implement
- * {@link FileSegmentProvider}.</li>
+ * {@link SegmentProvider}.</li>
  *
- * <li>Implement class {@link AbstractFileSegment}, by convention as an inner class of the
+ * <li>Implement class {@link BaseFileSegment}, by convention as an inner class of the
  * {@code DocumentCollection}. See {@link TrecCollection.FileSegment} as an example.</li>
  *
  * <li>Create a subclass for {@link SourceDocument} implementing the corresponding document type.

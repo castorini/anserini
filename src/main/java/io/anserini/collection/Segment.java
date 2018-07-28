@@ -20,8 +20,8 @@ import java.io.IOException;
 import java.util.Iterator;
 
 /**
- * A container holding one or more {@link SourceDocument}s. A collection is comprised of one or file segments.
+ * A container holding one or more {@link SourceDocument}s.
+ * A collection is comprised of one or more segments.
  */
-public interface FileSegment<T extends SourceDocument> extends Iterator<T> {
-  void close() throws IOException;
+public interface Segment<T extends SourceDocument> extends Iterator<T> {
 }

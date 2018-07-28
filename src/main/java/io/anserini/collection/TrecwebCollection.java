@@ -28,7 +28,7 @@ import java.util.List;
  * A classic TREC web collection (e.g., Gov2).
  */
 public class TrecwebCollection extends DocumentCollection
-    implements FileSegmentProvider<TrecwebCollection.Document> {
+    implements SegmentProvider<TrecwebCollection.Document> {
 
   private static final Logger LOG = LogManager.getLogger(TrecwebCollection.class);
 

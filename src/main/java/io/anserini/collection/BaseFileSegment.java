@@ -22,12 +22,12 @@ import java.nio.file.Path;
 import java.util.NoSuchElementException;
 
 /**
- * Base implementation for {@link FileSegment}.
- * A collection is comprised of one or file segments. Note that implementations may have independent
+ * Base implementation for a {@link Segment} backed by a file.
+ * A collection is comprised of one or more file segments. Note that implementations may have independent
  * existence outside a collection, and in principle multiple collections might share the same
- * {@code AbstractFileSegment} implementation.
+ * {@code BaseFileSegment} implementation.
  */
-public abstract class AbstractFileSegment<T extends SourceDocument> implements FileSegment<T> {
+public abstract class BaseFileSegment<T extends SourceDocument> implements Segment<T> {
   protected final int BUFFER_SIZE = 1 << 16; // 64K
 
   protected Path path;
@@ -50,7 +50,6 @@ public abstract class AbstractFileSegment<T extends SourceDocument> implements F
     throw new UnsupportedOperationException();
   }
 
-  @Override
   public void close() throws IOException {
     atEOF = false;
     if (bufferedReader != null) {

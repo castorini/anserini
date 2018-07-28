@@ -47,7 +47,7 @@ import java.util.zip.GZIPInputStream;
  * Class representing an instance of a Twitter collection.
  */
 public class TweetCollection extends DocumentCollection
-    implements FileSegmentProvider<TweetCollection.Document> {
+    implements SegmentProvider<TweetCollection.Document> {
 
   private static final Logger LOG = LogManager.getLogger(TweetCollection.class);
 
@@ -61,7 +61,7 @@ public class TweetCollection extends DocumentCollection
     return new FileSegment(p);
   }
 
-  public class FileSegment extends AbstractFileSegment<Document> {
+  public class FileSegment extends BaseFileSegment<Document> {
 
     private static final String DATE_FORMAT = "E MMM dd HH:mm:ss ZZZZZ yyyy"; // "Fri Mar 29 11:03:41 +0000 2013"
 

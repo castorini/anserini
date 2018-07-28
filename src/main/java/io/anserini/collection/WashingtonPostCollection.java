@@ -42,7 +42,7 @@ import java.util.Set;
  * stored in JSON format. The collection is 1.5GB compressed, 5.9GB uncompressed.
  */
 public class WashingtonPostCollection extends DocumentCollection
-    implements FileSegmentProvider<WashingtonPostCollection.Document> {
+    implements SegmentProvider<WashingtonPostCollection.Document> {
   private static final Logger LOG = LogManager.getLogger(WashingtonPostCollection.class);
 
   @Override
@@ -58,7 +58,7 @@ public class WashingtonPostCollection extends DocumentCollection
     return new FileSegment(p);
   }
 
-  public class FileSegment extends AbstractFileSegment<Document> {
+  public class FileSegment extends BaseFileSegment<Document> {
     private String fileName;
 
     public FileSegment(Path path) throws IOException {

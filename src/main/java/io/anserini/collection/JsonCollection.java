@@ -67,7 +67,7 @@ import java.util.Set;
  *
  */
 public class JsonCollection extends DocumentCollection
-    implements FileSegmentProvider<JsonCollection.Document> {
+    implements SegmentProvider<JsonCollection.Document> {
   private static final Logger LOG = LogManager.getLogger(JsonCollection.class);
 
   @Override
@@ -83,7 +83,7 @@ public class JsonCollection extends DocumentCollection
     return new FileSegment(p);
   }
 
-  public class FileSegment extends AbstractFileSegment<Document> {
+  public class FileSegment extends BaseFileSegment<Document> {
     private ArrayNode node;
     private int i;
 

@@ -39,7 +39,7 @@ import java.util.NoSuchElementException;
  * this makes the class a more generic class for indexing other types of the files, e.g. plain text files.
  */
 public class HtmlCollection extends DocumentCollection
-    implements FileSegmentProvider<HtmlCollection.Document> {
+    implements SegmentProvider<HtmlCollection.Document> {
 
   private static final Logger LOG = LogManager.getLogger(HtmlCollection.class);
 
@@ -53,7 +53,7 @@ public class HtmlCollection extends DocumentCollection
     return discover(path, EMPTY_SET, EMPTY_SET, EMPTY_SET, EMPTY_SET, EMPTY_SET);
   }
 
-  public class FileSegment extends AbstractFileSegment<Document>  {
+  public class FileSegment extends BaseFileSegment<Document> {
     private TarArchiveInputStream inputStream = null;
     private ArchiveEntry nextEntry = null;
 

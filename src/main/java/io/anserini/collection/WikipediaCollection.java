@@ -31,7 +31,7 @@ import java.util.*;
  * to be in a directory, place the <code>bz2</code> file in a directory prior to indexing.
  */
 public class WikipediaCollection extends DocumentCollection
-    implements FileSegmentProvider<WikipediaCollection.Document> {
+    implements SegmentProvider<WikipediaCollection.Document> {
 
   @Override
   public List<Path> getFileSegmentPaths() {
@@ -46,7 +46,7 @@ public class WikipediaCollection extends DocumentCollection
     return new FileSegment(p);
   }
 
-  public class FileSegment extends AbstractFileSegment<Document> {
+  public class FileSegment extends BaseFileSegment<Document> {
     private final WikipediaBz2DumpInputStream stream;
     private final WikiClean cleaner;
 

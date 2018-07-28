@@ -59,7 +59,7 @@ import java.util.Set;
  * files.
  */
 public class NewYorkTimesCollection extends DocumentCollection
-    implements FileSegmentProvider<NewYorkTimesCollection.Document> {
+    implements SegmentProvider<NewYorkTimesCollection.Document> {
   private static final Logger LOG = LogManager.getLogger(NewYorkTimesCollection.class);
 
   @Override
@@ -80,7 +80,7 @@ public class NewYorkTimesCollection extends DocumentCollection
    * This class works for both compressed <code>tgz</code> files or uncompressed <code>xml</code>
    * files.
    */
-  public class FileSegment extends AbstractFileSegment<Document> {
+  public class FileSegment extends BaseFileSegment<Document> {
     private final NewYorkTimesCollection.Parser parser = new NewYorkTimesCollection.Parser();
     private TarArchiveInputStream tarInput = null;
     private ArchiveEntry nextEntry = null;

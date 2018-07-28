@@ -33,7 +33,7 @@ import java.util.*;
  * a directory prior to indexing.
  */
 public class CarCollection extends DocumentCollection
-    implements FileSegmentProvider<CarCollection.Document> {
+    implements SegmentProvider<CarCollection.Document> {
 
   @Override
   public List<Path> getFileSegmentPaths() {
@@ -48,7 +48,7 @@ public class CarCollection extends DocumentCollection
     return new FileSegment(p);
   }
 
-  public class FileSegment extends AbstractFileSegment<Document> {
+  public class FileSegment extends BaseFileSegment<Document> {
     private final FileInputStream stream;
     private final Iterator<Data.Paragraph> iter;
 
