@@ -17,9 +17,10 @@
 package io.anserini.index;
 
 import io.anserini.analysis.TweetAnalyzer;
-import io.anserini.collection.AbstractFileSegment;
+import io.anserini.collection.BaseFileSegment;
+import io.anserini.collection.Segment;
 import io.anserini.collection.DocumentCollection;
-import io.anserini.collection.FileSegmentProvider;
+import io.anserini.collection.SegmentProvider;
 import io.anserini.collection.SourceDocument;
 import io.anserini.index.generator.LuceneDocumentGenerator;
 
@@ -137,7 +138,7 @@ public final class IndexCollection {
 
     /**
      * Counter for unindexed documents. These are cases where the {@link SourceDocument} returned
-     * by {@link AbstractFileSegment} is {@code null} or the {@link LuceneDocumentGenerator}
+     * by {@link Segment} is {@code null} or the {@link LuceneDocumentGenerator}
      * returned {@code null}. These are not necessarily errors.
      */
     public AtomicLong unindexed = new AtomicLong();
@@ -182,7 +183,11 @@ public final class IndexCollection {
                 .newInstance(args, counters);
 
         int cnt = 0;
-        AbstractFileSegment iter = ((FileSegmentProvider) collection).createFileSegment(inputFile);
+
+        @SuppressWarnings("unchecked")
+        BaseFileSegment<SourceDocument> iter =
+            (BaseFileSegment) ((SegmentProvider) collection).createFileSegment(inputFile);
+
         while (true) {
           boolean hasNext = false;
           try {
@@ -307,7 +312,7 @@ public final class IndexCollection {
     final IndexWriter writer = new IndexWriter(dir, config);
 
     final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(numThreads);
-    final List segmentPaths = ((FileSegmentProvider) collection).getFileSegmentPaths();
+    final List segmentPaths = ((SegmentProvider) collection).getFileSegmentPaths();
 
     final int segmentCnt = segmentPaths.size();
     LOG.info(segmentCnt + " files found in " + collectionPath.toString());

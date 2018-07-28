@@ -16,23 +16,18 @@
 
 package io.anserini.collection;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import java.io.BufferedReader;
-import java.io.Closeable;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 /**
- * A file containing one more source documents to be indexed. A collection is comprised of one or
- * more {@code AbstractFileSegment}s. Note that a {@code AbstractFileSegment} can have independent existence
- * outside a collection, and in principle multiple collections might share the same
- * {@code AbstractFileSegment} implementation.
+ * Base implementation for a {@link Segment} backed by a file.
+ * A collection is comprised of one or more file segments. Note that implementations may have independent
+ * existence outside a collection, and in principle multiple collections might share the same
+ * {@code BaseFileSegment} implementation.
  */
-public abstract class AbstractFileSegment<T extends SourceDocument> implements Iterator<T>, Closeable {
+public abstract class BaseFileSegment<T extends SourceDocument> implements Segment<T> {
   protected final int BUFFER_SIZE = 1 << 16; // 64K
 
   protected Path path;
@@ -55,7 +50,6 @@ public abstract class AbstractFileSegment<T extends SourceDocument> implements I
     throw new UnsupportedOperationException();
   }
 
-  @Override
   public void close() throws IOException {
     atEOF = true;
     bufferedRecord = null;

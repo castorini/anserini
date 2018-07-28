@@ -75,7 +75,7 @@ public class WashingtonPostDocumentTest extends DocumentTest {
   public void test() throws Exception {
     WashingtonPostCollection collection = new WashingtonPostCollection();
     for (int i = 0; i < rawFiles.size(); i++) {
-      AbstractFileSegment<WashingtonPostCollection.Document> iter = collection.createFileSegment(rawFiles.get(i));
+      BaseFileSegment<WashingtonPostCollection.Document> iter = collection.createFileSegment(rawFiles.get(i));
       while (true) {
         try {
           WashingtonPostCollection.Document parsed = iter.next();

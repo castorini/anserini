@@ -48,7 +48,7 @@ import java.util.zip.GZIPInputStream;
  * Class representing an instance of a Twitter collection.
  */
 public class TweetCollection extends DocumentCollection
-    implements FileSegmentProvider<TweetCollection.Document> {
+    implements SegmentProvider<TweetCollection.Document> {
 
   private static final Logger LOG = LogManager.getLogger(TweetCollection.class);
 
@@ -62,7 +62,7 @@ public class TweetCollection extends DocumentCollection
     return new FileSegment(p);
   }
 
-  public class FileSegment extends AbstractFileSegment<Document> {
+  public class FileSegment extends BaseFileSegment<Document> {
 
     private static final String DATE_FORMAT = "E MMM dd HH:mm:ss ZZZZZ yyyy"; // "Fri Mar 29 11:03:41 +0000 2013"
 
@@ -357,7 +357,7 @@ public class TweetCollection extends DocumentCollection
     }
 
     /**
-     * A Twitter document object class used in Jackson JSON parser
+     * Used internally by Jackson for JSON parsing.
      */
     public static class TweetObject {
 
@@ -378,6 +378,10 @@ public class TweetCollection extends DocumentCollection
 
       // Must make inner classes static for deserialization in Jackson
       // http://www.cowtowncoder.com/blog/archives/2010/08/entry_411.html
+
+      /**
+       * Used internally by Jackson for JSON parsing.
+       */
       public static class Delete {
         protected Optional<String> timestampMs;
 
@@ -387,6 +391,9 @@ public class TweetCollection extends DocumentCollection
         }
       }
 
+      /**
+       * Used internally by Jackson for JSON parsing.
+       */
       public static class Coordinates {
         protected Optional<List<OptionalDouble>> coordinates;
 
@@ -394,6 +401,9 @@ public class TweetCollection extends DocumentCollection
         public Optional<List<OptionalDouble>> getCoordinates() { return coordinates; }
       }
 
+      /**
+       * Used internally by Jackson for JSON parsing.
+       */
       public static class RetweetedStatus {
         protected OptionalLong id;
         protected Optional<TweetObject.User> user;
@@ -409,6 +419,9 @@ public class TweetCollection extends DocumentCollection
         }
       }
 
+      /**
+       * Used internally by Jackson for JSON parsing.
+       */
       public static class User {
         // Required fields
         protected String screenName;

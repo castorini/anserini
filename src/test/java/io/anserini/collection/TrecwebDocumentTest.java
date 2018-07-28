@@ -53,7 +53,7 @@ public class TrecwebDocumentTest extends DocumentTest {
   public void test() throws Exception {
     TrecwebCollection collection = new TrecwebCollection();
     for (int i = 0; i < rawFiles.size(); i++) {
-      AbstractFileSegment<TrecwebCollection.Document> iter = collection.createFileSegment(rawFiles.get(i));
+      BaseFileSegment<TrecwebCollection.Document> iter = collection.createFileSegment(rawFiles.get(i));
       while (true) {
         try {
           TrecCollection.Document parsed = iter.next();

@@ -25,10 +25,10 @@ import java.nio.file.Path;
 import java.util.List;
 
 /**
- * Class representing an instance of a TREC web collection.
+ * A classic TREC web collection (e.g., Gov2).
  */
 public class TrecwebCollection extends DocumentCollection
-    implements FileSegmentProvider<TrecwebCollection.Document> {
+    implements SegmentProvider<TrecwebCollection.Document> {
 
   private static final Logger LOG = LogManager.getLogger(TrecwebCollection.class);
 
@@ -43,6 +43,11 @@ public class TrecwebCollection extends DocumentCollection
         EMPTY_SET, EMPTY_SET, EMPTY_SET);
   }
 
+  /**
+   * A file in a TREC web collection (e.g., Gov2).
+   *
+   * @param <T> type of the document
+   */
   public static class FileSegment<T extends Document> extends TrecCollection.FileSegment<T> {
     public FileSegment(Path path) throws IOException {
       super(path);
@@ -115,7 +120,7 @@ public class TrecwebCollection extends DocumentCollection
   }
 
   /**
-   * A document from the GOV2 collection.
+   * A document from a classic TREC web collection (e.g., Gov2).
    */
   public static class Document extends TrecCollection.Document {
 
