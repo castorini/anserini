@@ -22,6 +22,8 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -69,6 +71,8 @@ import java.util.Set;
 public class JsonCollection extends DocumentCollection
     implements FileSegmentProvider<JsonCollection.Document> {
 
+  private static final Logger LOG = LogManager.getLogger(JsonCollection.class);
+
   @Override
   public List<Path> getFileSegmentPaths() {
     Set<String> allowedFileSuffix = new HashSet<>(Arrays.asList(".json"));
@@ -83,9 +87,53 @@ public class JsonCollection extends DocumentCollection
   }
 
   public class FileSegment extends AbstractFileSegment<Document> {
+    private ArrayNode node;
+    private int i;
+
     protected FileSegment(Path path) throws IOException {
-      dType = new JsonCollection.Document(path.toString());
       bufferedReader = new BufferedReader(new FileReader(path.toString()));
+
+      try {
+        JsonParser jsonParser = new JsonFactory().createParser(new BufferedReader(new FileReader(path.toString())));
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
+        JsonNode n = objectMapper.readTree(jsonParser);
+        node = objectMapper.readTree(jsonParser);
+      } catch (IOException e) {
+        node = null; // When the json file does not contain any json objects, set node to null
+      }
+      i = 0;
+    }
+
+    @Override
+    public boolean hasNext() {
+      if (bufferedRecord != null) {
+        return true;
+      }
+
+      if (node == null) {
+        // try to read one JSON Object per line
+        String nextRecord = null;
+        try {
+          if ((nextRecord = bufferedReader.readLine()) != null) {
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode json = mapper.readTree(nextRecord);
+            bufferedRecord = new JsonCollection.Document(json.get("id").asText(), json.get("contents").asText());
+          }
+        } catch (IOException e) {
+          LOG.error("Exception from BufferedReader:", e);
+        }
+
+        if (nextRecord == null) {
+          return false;
+        }
+      } else if (i < node.size()) {
+        JsonNode json = node.get(i);
+        bufferedRecord = new JsonCollection.Document(json.get("id").asText(), json.get("contents").asText());
+        i++;
+      }
+
+      return bufferedRecord != null;
     }
   }
 
@@ -98,40 +146,10 @@ public class JsonCollection extends DocumentCollection
   public static class Document implements SourceDocument {
     protected String id;
     protected String contents;
-    private ArrayNode node;
-    private int i;
 
-    public Document(String path) {
-      try {
-        JsonParser jsonParser = new JsonFactory().createParser(new BufferedReader(new FileReader(path)));
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
-        node = objectMapper.readTree(jsonParser);
-      } catch (IOException e) {
-        node = null; // When the json file does not contain any json objects, set node to null
-      }
-      i = 0;
-    }
-
-    @Override
-    public Document readNextRecord(BufferedReader bRdr) throws IOException {
-      if (node == null) {
-        // try to read one JSON Object per line
-        String line;
-        while ((line = bRdr.readLine()) != null) {
-          JsonNode json = new JsonFactory().createParser(line).readValueAsTree();
-          id = json.get("id").asText();
-          contents = json.get("contents").asText();
-          return this;
-        }
-      } else if (i < node.size()) {
-        JsonNode json = node.get(i);
-        id = json.get("id").asText();
-        contents = json.get("contents").asText();
-        i++;
-        return this;
-      }
-      return null;
+    public Document(String id, String contents) {
+      this.id = id;
+      this.contents = contents;
     }
 
     @Override

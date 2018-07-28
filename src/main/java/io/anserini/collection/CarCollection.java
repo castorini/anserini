@@ -19,16 +19,11 @@ package io.anserini.collection;
 import edu.unh.cs.treccar_v2.Data;
 import edu.unh.cs.treccar_v2.read_data.DeserializeData;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Class representing an instance of a CAR paragraph collection. Note that it is in .cbor format
@@ -63,17 +58,21 @@ public class CarCollection extends DocumentCollection
     }
 
     @Override
-    public Document next() {
-      System.setProperty("file.encoding", "UTF-8");
-      Data.Paragraph p = iter.next();
-      Document doc = new Document(p.getParaId(), p.getTextOnly());
-
-      // If we've fall through here, we've either encountered an exception or we've reached the end
-      // of the underlying stream.
-      if (!iter.hasNext()) {
-        atEOF = true;
+    public boolean hasNext() {
+      if (bufferedRecord != null) {
+        return true;
       }
-      return doc;
+
+      System.setProperty("file.encoding", "UTF-8");
+      Data.Paragraph p;
+      try {
+         p = iter.next();
+      } catch (NoSuchElementException e) {
+        return false;
+      }
+      bufferedRecord = new Document(p.getParaId(), p.getTextOnly());
+
+      return true;
     }
   }
 
@@ -88,17 +87,6 @@ public class CarCollection extends DocumentCollection
     public Document(String paraID, String paragraph) {
       this.paraID = paraID;
       this.paragraph = paragraph;
-    }
-
-    /**
-     * readNextRecord() is not used because CarCollection will load the .cbor file directly from the disk
-     * @param bRdr file BufferedReader
-     * @return null
-     * @throws IOException any io exception
-     */
-    @Override
-    public Document readNextRecord(BufferedReader bRdr) throws IOException {
-      return null;
     }
 
     @Override

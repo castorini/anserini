@@ -16,33 +16,44 @@
 
 package io.anserini.search.similarity;
 
-public class F2LogSimilarity extends AxiomaticSimilarity {
+public class F2ExpSimilarity extends AxiomaticSimilarity {
+  private final float k = 0.35f;
+
   /**
-   * F2Log with the supplied parameter values.
+   * F2Exp with the supplied parameter values.
    * @param s Controls to what degree document length normalizes tf values.
    * @throws IllegalArgumentException if {@code s} is infinite or if {@code s} is
    *         not within the range {@code [0..1]}
    */
-  public F2LogSimilarity(float s) {
+  public F2ExpSimilarity(float s) {
     super(s);
   }
 
-  /** F2Log with these default values:
+  /** F2Exp with these default values:
    * <ul>
-   *   <li>{@code s = 0.5}</li>
+   *   <li>{@code k = 0.35}</li>
    * </ul>
    */
-  public F2LogSimilarity() {
+  public F2ExpSimilarity() {
     this(0.5f);
   }
   
   @Override
   float idf(long docFreq, long docCount) {
-    return (float) Math.log((1.0f + docCount) / docFreq);
+    return (float) Math.pow((docCount + 1.0) / docFreq, this.k);
   }
 
   @Override
   public String toString() {
-    return "F2Log(s=" + s +")";
+    return "F2Exp(s=" + s +")";
+  }
+  
+  /**
+   * Returns the <code>k</code> parameter
+   * @see #F2ExpSimilarity(float)
+   * @return k
+   */
+  public float getK() {
+    return k;
   }
 }

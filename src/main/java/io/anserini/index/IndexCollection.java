@@ -50,6 +50,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashSet;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -183,12 +184,16 @@ public final class IndexCollection {
         int cnt = 0;
         AbstractFileSegment iter = ((FileSegmentProvider) collection).createFileSegment(inputFile);
         while (iter.hasNext()) {
-          SourceDocument d = iter.next();
-          if (d == null) {
-            // Current implementation can't distinguish between end-of-iterator vs. actual error,
-            // so don't update counters.
+          SourceDocument d;
+          try {
+            d = iter.next();
+          } catch (NoSuchElementException e1) {
+            continue;
+          } catch (Exception e2) { // TODO: update related counters (#317)
+            LOG.warn("Exception when parsing document: ", e2);
             continue;
           }
+
           if (!d.indexable()) {
             counters.unindexable.incrementAndGet();
             continue;

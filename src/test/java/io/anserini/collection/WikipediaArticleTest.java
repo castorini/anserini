@@ -26,14 +26,15 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.NoSuchElementException;
 
-public class WikipediaArticleTest extends DocumentTest<WikipediaCollection.Document> {
+
+public class WikipediaArticleTest extends DocumentTest {
   protected static Path tmpPath;
 
   @Before
   public void setUp() throws Exception {
     super.setUp();
-    dType = new WikipediaCollection.Document("Sample Title", "Sample Content");
 
     String doc = "<mediawiki xmlns=\"http://www.mediawiki.org/xml/export-0.10/\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.mediawiki.org/xml/export-0.10/ http://www.mediawiki.org/xm\n" +
         "l/export-0.10.xsd\" version=\"0.10\" xml:lang=\"en\">\n" +
@@ -72,25 +73,39 @@ public class WikipediaArticleTest extends DocumentTest<WikipediaCollection.Docum
         "  </page>\n" +
         "</mediawiki>";
 
-    tmpPath = createTempFile();
-    OutputStream fout = Files.newOutputStream(tmpPath);
-    BufferedOutputStream out = new BufferedOutputStream(fout);
-    BZip2CompressorOutputStream tmpOut = new BZip2CompressorOutputStream(out);
-    StringInputStream in = new StringInputStream(doc);
-    final byte[] buffer = new byte[2048];
-    int n = 0;
-    while (-1 != (n = in.read(buffer))) {
-      tmpOut.write(buffer, 0, n);
-    }
-    tmpOut.close();
+    tmpPath = createTmpFile(doc);
+  }
+
+  private Path createTmpFile(String doc) {
+    Path tmpPath = null;
+    try {
+      tmpPath = createTempFile();
+      OutputStream fout = Files.newOutputStream(tmpPath);
+      BufferedOutputStream out = new BufferedOutputStream(fout);
+      BZip2CompressorOutputStream tmpOut = new BZip2CompressorOutputStream(out);
+      StringInputStream in = new StringInputStream(doc);
+      final byte[] buffer = new byte[2048];
+      int n = 0;
+      while (-1 != (n = in.read(buffer))) {
+        tmpOut.write(buffer, 0, n);
+      }
+      tmpOut.close();
+    } catch (IOException e) {}
+    return tmpPath;
   }
 
   @Test
   public void test() throws IOException {
-    WikipediaCollection wc = new WikipediaCollection();
-    AbstractFileSegment iter = wc.createFileSegment(tmpPath);
-    SourceDocument parsed = iter.next();
-    assertEquals(parsed.id(), "Wiktionary:Welcome, newcomers");
-    assertEquals(parsed.content(), "Wiktionary:Welcome, newcomers.\nthis is the   real content");
+    WikipediaCollection collection = new WikipediaCollection();
+    AbstractFileSegment<WikipediaCollection.Document> iter = collection.createFileSegment(tmpPath);
+    while (true) {
+      try {
+        WikipediaCollection.Document parsed = iter.next();
+        assertEquals(parsed.id(), "Wiktionary:Welcome, newcomers");
+        assertEquals(parsed.content(), "Wiktionary:Welcome, newcomers.\nthis is the   real content");
+      } catch (NoSuchElementException e) {
+        break;
+      }
+    }
   }
 }

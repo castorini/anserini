@@ -16,8 +16,6 @@
 
 package io.anserini.collection;
 
-import java.io.BufferedReader;
-
 /**
  * A raw document from a collection to be indexed. We explicitly distinguish a source document from
  * a Lucene document, which is the Lucene representation that is ready to be indexed.
@@ -44,16 +42,4 @@ public interface SourceDocument {
    * @return <code>true</code> if this document is meant to be indexed
    */
   boolean indexable();
-
-
-  /**
-   *We assume that one source document contains multiple records.
-   * These records are also of type SourceDocument and are split by
-   * type-dependent delimiters.
-   *
-   * @param reader A file BufferedReader to be iterated
-   * @return the next record
-   * @throws Exception Any exception
-   */
-  SourceDocument readNextRecord(BufferedReader reader) throws Exception;
 }
