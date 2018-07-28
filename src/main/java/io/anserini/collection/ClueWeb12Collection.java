@@ -113,6 +113,8 @@ public class ClueWeb12Collection extends DocumentCollection
     public boolean hasNext() {
       if (bufferedRecord != null) {
         return true;
+      } else if (atEOF) {
+        return false;
       }
 
       try {
@@ -130,6 +132,7 @@ public class ClueWeb12Collection extends DocumentCollection
       if (stream != null) {
         stream.close();
       }
+      super.close();
     }
 
     /**

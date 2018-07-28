@@ -108,6 +108,8 @@ public class JsonCollection extends DocumentCollection
     public boolean hasNext() {
       if (bufferedRecord != null) {
         return true;
+      } else if (atEOF) {
+        return false;
       }
 
       if (node == null) {

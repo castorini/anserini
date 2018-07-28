@@ -61,6 +61,8 @@ public class CarCollection extends DocumentCollection
     public boolean hasNext() {
       if (bufferedRecord != null) {
         return true;
+      } else if (atEOF) {
+        return false;
       }
 
       System.setProperty("file.encoding", "UTF-8");

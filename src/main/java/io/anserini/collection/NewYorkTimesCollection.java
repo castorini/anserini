@@ -89,12 +89,6 @@ public class NewYorkTimesCollection extends DocumentCollection
     }
 
     @Override
-    public void close() throws IOException {
-      atEOF = true;
-      super.close();
-    }
-
-    @Override
     public boolean hasNext() {
       if (bufferedRecord != null) {
         return true;

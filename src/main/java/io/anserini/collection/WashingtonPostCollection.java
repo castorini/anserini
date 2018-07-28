@@ -63,6 +63,8 @@ public class WashingtonPostCollection extends DocumentCollection
     public boolean hasNext() {
       if (bufferedRecord != null) {
         return true;
+      } else if (atEOF) {
+        return false;
       }
 
       String nextRecord = null;
