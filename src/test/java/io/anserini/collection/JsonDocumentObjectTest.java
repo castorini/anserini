@@ -48,7 +48,7 @@ public class JsonDocumentObjectTest extends DocumentTest {
   public void test() throws IOException {
     JsonCollection collection = new JsonCollection();
     for (int i = 0; i < rawFiles.size(); i++) {
-      AbstractFileSegment<JsonCollection.Document> iter = collection.createFileSegment(rawFiles.get(i));
+      BaseFileSegment<JsonCollection.Document> iter = collection.createFileSegment(rawFiles.get(i));
       while (true) {
         try {
           JsonCollection.Document parsed = iter.next();

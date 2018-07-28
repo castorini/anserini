@@ -38,10 +38,10 @@ import java.util.Set;
 import java.util.zip.GZIPInputStream;
 
 /**
- * Class representing an instance of a TREC collection.
+ * A classic TREC <i>ad hoc</i> document collection.
  */
 public class TrecCollection extends DocumentCollection
-    implements FileSegmentProvider<TrecCollection.Document> {
+    implements SegmentProvider<TrecCollection.Document> {
 
   private static final Logger LOG = LogManager.getLogger(TrecCollection.class);
 
@@ -59,7 +59,12 @@ public class TrecCollection extends DocumentCollection
     return new FileSegment<>(p);
   }
 
-  public static class FileSegment<T extends Document> extends AbstractFileSegment<T> {
+  /**
+   * A file in a classic TREC <i>ad hoc</i> document collection.
+   *
+   * @param <T> type of the document
+   */
+  public static class FileSegment<T extends Document> extends BaseFileSegment<T> {
     @SuppressWarnings("unchecked")
     public FileSegment(Path path) throws IOException {
       this.path = path;
@@ -166,7 +171,7 @@ public class TrecCollection extends DocumentCollection
   }
 
   /**
-   * A TREC document.
+   * A document in a classic TREC <i>ad hoc</i> document collection.
    */
   public static class Document implements SourceDocument {
 
