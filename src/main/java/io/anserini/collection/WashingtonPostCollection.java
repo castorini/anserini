@@ -106,10 +106,9 @@ public class WashingtonPostCollection extends DocumentCollection
           .readValue(record, Document.WashingtonPostObject.class);
       } catch (IOException e) {
         // For current dataset, we can make sure all record has unique id and
-        // published date. So we just simply log a warning and return null
+        // published date. So we just simply throw an RuntimeException
         // here in case future data may bring up this issue
-        LOG.warn("No unique ID or published date for this record, ignored...");
-        return;
+        throw new RuntimeException("No unique ID or published date for this record, ignored...");
       }
 
       bufferedRecord = new WashingtonPostCollection.Document();
