@@ -1,126 +1,124 @@
 # -*- coding: utf-8 -*-
-import os,sys
-import codecs
+"""
+Anserini: An information retrieval toolkit built on Lucene
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+"""
+
+import os
 import subprocess
-from subprocess import Popen, PIPE
-import shlex
-import re
-import shutil
 import argparse
-import json
-import csv
-import inspect
 from multiprocessing import Pool
+import json
+import logging
+
+import yaml
 
 from search import Search
 from evaluation import Evaluation
 from performance import Performances
 
-anserini_root = '~/Anserini/'
-index_root = '/tuna1/indexes/'
-output_root = 'all_results/'
-if not os.path.exists(output_root):
-    os.makedirs(output_root)
+logger = logging.getLogger('oracle_effectiveness')
+logger.setLevel(logging.INFO)
+# create console handler with a higher log level
+ch = logging.StreamHandler()
+ch.setLevel(logging.INFO)
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+ch.setFormatter(formatter)
+# add the handlers to the logger
+logger.addHandler(ch)
 
-def gen_batch_framework(all_paras, func):
+parallelism=1
+def batch_everything(all_paras, func):
+    #print(all_paras)
     if len(all_paras) == 0:
-        print 'Nothing to run for ' + para_label
         return
-    p = Pool(66)
+    p = Pool(parallelism)
     p.map(func, all_paras)
 
-def gen_run_query_batch():
+def batch_retrieval(collection_yaml, models_yaml, output_root):
     all_paras = []
-    program = os.path.join(anserini_root, 'target/appassembler/bin', 'SearchCollection')
-    with open('models.json') as mf:
-        methods = json.load(mf)
-        with open('collections.json') as cf:
-            for c in json.load(cf):
-                collection_name = c['collection']
-                index_name = c['index']
-                this_output_root = os.path.join(output_root, collection_name)
-                if not os.path.exists(this_output_root):
-                    os.makedirs(this_output_root)
-                index_path = os.path.join(index_root, 'lucene-index.'+index_name+c['suffix'])
-                model_paras = Search(index_path).gen_run_batch_paras('all', methods, this_output_root)
-                for para in model_paras:
-                    this_para = (
-                        program, 
-                        '-topicreader', c['topic_reader'],
-                        '-index', index_path, 
-                        '-topics', ' '.join([os.path.join(anserini_root, 'src/main/resources/topics-and-qrels/', t) for t in c['topic_files']]),
-                        para[0],
-                        '-output', para[1]
-                    )
-                    all_paras.append(this_para)
-    gen_batch_framework(all_paras, run_query_atom)
+    program = os.path.join(collection_yaml['anserini_root'], 'target/appassembler/bin', 'SearchCollection')
+    index_path = os.path.join(collection_yaml['index_root'] if collection_yaml['index_root'] else '', collection_yaml['index_path'])
+    this_output_root = os.path.join(output_root, collection_yaml['name'])
+    if not os.path.exists(this_output_root):
+        os.makedirs(this_output_root)
+    logger.info('='*10+'Batch Retrieval Parameters Generated'+'='*10)
+    for topic in collection_yaml['topics']:
+        model_paras = Search(index_path).gen_batch_retrieval_paras(topic['path'], models_yaml, this_output_root)
+        for para in model_paras:
+            this_para = (
+                program,
+                '-topicreader', collection_yaml['topic_reader'],
+                '-index', index_path,
+                '-topics', os.path.join(collection_yaml['anserini_root'], collection_yaml['topic_root'], topic['path']),
+                para[0],
+                '-output', para[1]
+            )
+            all_paras.append(this_para)
+    logger.info('='*10+'Starting Batch Retrieval'+'='*10)
+    batch_everything(all_paras, atom_retrieval)
 
-def run_query_atom(para):
+def atom_retrieval(para):
     subprocess.call(' '.join(para), shell=True)
 
-def gen_eval_batch():
+def batch_eval(collection_yaml, models_yaml, output_root):
     all_paras = []
-    with open('collections.json') as cf:
-        for c in json.load(cf):
-            collection_name = c['collection']
-            index_name = c['index']
-            program = c['eval_bin']
-            this_output_root = os.path.join(output_root, collection_name)
-            if not os.path.exists(this_output_root):
-                os.makedirs(this_output_root)
-            index_path = os.path.join(index_root, 'lucene-index.'+index_name+c['suffix'])
-            eval_paras = Evaluation(index_path).gen_eval_paras(this_output_root)
-            for para in eval_paras:
+    index_path = os.path.join(collection_yaml['index_root'] if collection_yaml['index_root'] else '', collection_yaml['index_path'])
+    programs = set([eval['command'] for eval in collection_yaml['evals']])
+    this_output_root = os.path.join(output_root, collection_yaml['name'])
+    if not os.path.exists(this_output_root):
+        os.makedirs(this_output_root)
+    eval_paras = Evaluation(index_path).gen_batch_eval_paras(this_output_root)
+    for para in eval_paras:
+        topic_path, run_file_path, eval_output = para
+        for topic in collection_yaml['topics']:
+            if topic['path'] == topic_path:
                 this_para = (
-                    os.path.join(anserini_root, program), 
-                    os.path.join(anserini_root, 'src/main/resources/topics-and-qrels/', c['qrels']),
-                    para[0], para[1]
+                    [os.path.join(collection_yaml['anserini_root'], program) for program in programs],
+                    os.path.join(collection_yaml['anserini_root'], collection_yaml['qrels_root'], topic['qrel']),
+                    run_file_path,
+                    eval_output
                 )
                 all_paras.append(this_para)
-    gen_batch_framework(all_paras, run_eval_atom)
+    batch_everything(all_paras, atom_eval)
 
-def run_eval_atom(paras):
+def atom_eval(paras):
     Evaluation.output_all_evaluations(*paras)
 
-def gen_output_performances_batch():
+def batch_output_performances(collection_yaml, models_yaml, output_root):
     all_paras = []
-    with open('collections.json') as cf:
-        for c in json.load(cf):
-            collection_name = c['collection']
-            index_name = c['index']
-            this_output_root = os.path.join(output_root, collection_name)
-            if not os.path.exists(this_output_root):
-                os.makedirs(this_output_root)
-            index_path = os.path.join(index_root, 'lucene-index.'+index_name+c['suffix'])
-            all_paras.extend( Performances(index_path).gen_output_performances_paras(this_output_root) )
+    index_path = os.path.join(collection_yaml['index_root'] if collection_yaml['index_root'] else '', collection_yaml['index_path'])
+    this_output_root = os.path.join(output_root, collection_yaml['name'])
+    if not os.path.exists(this_output_root):
+        os.makedirs(this_output_root)
+    all_paras.extend( Performances(index_path).gen_output_performances_paras(this_output_root) )
 
-    #print all_paras
-    gen_batch_framework(all_paras, output_performances_atom)
+    batch_everything(all_paras, atom_output_performances)
 
-
-def output_performances_atom(para):
+def atom_output_performances(para):
     index_path = para[0]
     output_fn = para[1]
     input_fns = para[2:]
     Performances(index_path).output_performances(output_fn, input_fns)
 
-def print_optimal_performances(metrics=['map']):
-    # with open('g.json') as f:
-    #     methods = [m['name'] for m in json.load(f)['methods']]
-    # if os.path.exists('microblog_funcs.json'):
-    #     with open('microblog_funcs.json') as f:
-    #         methods.extend([m['name'] for m in json.load(f)['methods']])
-
-    with open('collections.json') as cf:
-        for c in json.load(cf):
-            collection_name = c['collection']
-            index_name = c['index']
-            this_output_root = os.path.join(output_root, collection_name)
-            index_path = os.path.join(index_root, 'lucene-index.'+index_name+c['suffix'])
-            print 
-            print collection_name
-            print '='*30
-            Performances(index_path).print_optimal_performance(this_output_root, metrics)
+def print_optimal_performances(collection_yaml, models_yaml, output_root, metrics=['map']):
+    index_path = os.path.join(collection_yaml['index_root'] if collection_yaml['index_root'] else '', collection_yaml['index_path'])
+    this_output_root = os.path.join(output_root, collection_yaml['name'])
+    logger.info('='*30+'Oracle Performances for '+collection_yaml['name']+'='*30)
+    performances = Performances(index_path).load_optimal_performance(this_output_root, metrics)
+    for performance in performances:
+        logger.info(json.dumps(performance, sort_keys=True))
 
 def del_method_related_files(method_name):
     folders = ['split_results', 'merged_results', 'evals', 'performances']
@@ -130,7 +128,7 @@ def del_method_related_files(method_name):
         collection_path = os.path.join(_root, index_name)
         for f in folders:
             if os.path.exists( os.path.join(collection_path, f) ):
-                print 'Deleting ' + os.path.join(collection_path, f) + ' *' + method_name + '*'
+                logger.info('Deleting ' + os.path.join(collection_path, f) + ' *' + method_name + '*')
                 if f == 'split_results' or f == 'merged_results':
                     subprocess.call('find %s -name "*method:%s*" -exec rm -rf {} \\;' % (os.path.join(collection_path, f), method_name), shell=True)
                 else:
@@ -140,55 +138,41 @@ def del_method_related_files(method_name):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
 
-    parser.add_argument("-b1", "--gen_run_query_batch",
-        action='store_true',
-        help="First Step: Generate the batch run query para files")
-    parser.add_argument("-b2", "--run_query_atom",
-        nargs=1,
-        help="First Step: Run Query")
+    # general settings
+    parser.add_argument('--anserini_root', default='', help='Anserini path')
+    parser.add_argument('--collection', required=True, help='the collection key in yaml')
+    parser.add_argument('--n', dest='parallelism', type=int, default=16, help='number of parallel threads for retrieval/eval')
+    parser.add_argument('--output_root', default='all_results', help='output directory of all results')
 
-    parser.add_argument("-c1", "--gen_eval_batch",
-        action='store_true',
-        help="Second Step: Evaluate the performance")
-    parser.add_argument("-c2", "--run_eval_atom",
+    # runtime
+    parser.add_argument(
+        "--del_method_related_files",
         nargs=1,
-        help="Second Step: Eval")
-
-    parser.add_argument("-e1", "--gen_output_performances_batch",
-        action='store_true',
-        help="Fifth Step: Generate the performance of each method (for all possible parameters), e.g. best, worst, mean, std")
-    parser.add_argument("-e2", "--output_performances_atom",
-        nargs=1,
-        help="Fifth Step: Generate the performance of each method (for all possible parameters), e.g. best, worst, mean, std")
-
-    parser.add_argument("-del", "--del_method_related_files",
-        nargs=1,
-        help="Delete all the output files of a method.")
-
-    parser.add_argument("-print_optimal", "--print_optimal_performances",
+        help="Delete all the output files of a method."
+    )
+    parser.add_argument(
+        "--print_optimal_performances",
         nargs='+',
-        help="inputs: [evaluation_method]") 
+        default=['map'],
+        help="inputs: [evaluation_methods]. For example, --print_optimal_performances map ndcg20"
+    )
 
     args = parser.parse_args()
 
-    if args.gen_run_query_batch:
-        gen_run_query_batch()
-    if args.run_query_atom:
-        run_query_atom(args.run_query_atom[0])
-
-    if args.gen_eval_batch:
-        gen_eval_batch()
-    if args.run_eval_atom:
-        run_eval_atom(args.run_eval_atom[0])
-
-    if args.gen_output_performances_batch:
-        gen_output_performances_batch()
-    if args.output_performances_atom:
-        output_performances_atom(args.output_performances_atom[0])
+    if not os.path.exists(args.output_root):
+        os.makedirs(args.output_root)
 
     if args.del_method_related_files:
         del_method_related_files(args.del_method_related_files[0])
-
-    if args.print_optimal_performances:
-        print_optimal_performances(args.print_optimal_performances)
+    else:
+        parallelism = args.parallelism
+        with open(os.path.join(args.anserini_root, 'src/main/resources/regression/{}.yaml'.format(args.collection))) as f:
+            collection_yaml = yaml.safe_load(f)
+        with open(os.path.join(args.anserini_root, 'src/main/resources/oracle/models.yaml')) as f:
+            models_yaml = yaml.safe_load(f)
+        collection_yaml['anserini_root'] = args.anserini_root
+        batch_retrieval(collection_yaml, models_yaml, args.output_root)
+        batch_eval(collection_yaml, models_yaml, args.output_root)
+        batch_output_performances(collection_yaml, models_yaml, args.output_root)
+        print_optimal_performances(collection_yaml, models_yaml, args.output_root, args.print_optimal_performances)
 

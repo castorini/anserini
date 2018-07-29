@@ -1,0 +1,41 @@
+---
+bm25:
+  params:
+    k1:
+      lower: 0.1
+      upper: 4.0
+      pace: 0.1
+    b:
+      lower: 0.1
+      upper: 1.0
+      pace: 0.05
+ql:
+  params:
+    mu:
+      lower: 0
+      upper: 10000
+      pace: 250
+pl2:
+  params:
+    pl2.c:
+      lower: 0.5
+      upper: 20
+      pace: 0.5
+spl:
+  params:
+    spl.c:
+      lower: 0.5
+      upper: 20
+      pace: 0.5
+f2exp:
+  params:
+    f2exp.s:
+      lower: 0
+      upper: 1
+      pace: 0.05
+f2log:
+  params:
+    f2log.s:
+      lower: 0
+      upper: 1
+      pace: 0.05

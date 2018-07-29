@@ -1,82 +1,85 @@
-import sys,os
-import ast
-import json
-import re
-import copy
+"""
+Anserini: An information retrieval toolkit built on Lucene
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+"""
+
+import os
 from inspect import currentframe, getframeinfo
 from subprocess import Popen, PIPE
+import logging
 
+logger = logging.getLogger('evalation')
 class Evaluation(object):
     """
-    Get the evaluation of a corpus for a result.
-    When constructing, pass the path of the corpus and the path of the result file. 
-    For example, "../wt2g/" "../wt2g/results/idf1"
+    Get the evaluation of a corpus for a result
     """
     def __init__(self, index_path):
+        self.logger = logging.getLogger('evalation.Evaluation')
         self.index_path = os.path.abspath(index_path)
         if not os.path.exists(self.index_path):
             frameinfo = getframeinfo(currentframe())
-            print frameinfo.filename, frameinfo.lineno
-            print '[Search Constructor]:Please provide a valid index path - ' + self.index_path
+            self.logger.error(frameinfo.filename, frameinfo.lineno)
+            self.logger.error('[Search Constructor]:Please provide a valid index path - ' + self.index_path)
             exit(1)
 
         self.run_files_root = 'run_files'
         self.eval_files_root = 'eval_files'
 
-    def gen_eval_paras(self, output_root):
+    def gen_batch_eval_paras(self, output_root):
         if not os.path.exists(os.path.join(output_root, self.eval_files_root)):
             os.makedirs(os.path.join(output_root, self.eval_files_root))
         all_paras = []
         for fn in os.listdir(os.path.join(output_root, self.run_files_root)):
             if not os.path.exists( os.path.join(output_root, self.eval_files_root, fn) ):
-                all_paras.append( (os.path.join(output_root, self.run_files_root, fn), 
-                    os.path.join(output_root, self.eval_files_root, fn)) )
+                all_paras.append((
+                    fn.split('_')[0], # topic path
+                    os.path.join(output_root, self.run_files_root, fn),
+                    os.path.join(output_root, self.eval_files_root, fn)
+                ))
         return all_paras
 
 
     @classmethod
-    def output_all_evaluations(self, qrel_program, qrel_file_path, result_file_path, output_path):
+    def output_all_evaluations(self, qrel_programs, qrel_file_path, result_file_path, output_path):
         """
         get all kinds of performance
 
         @Return: a dict of all performances 
         """
-        process = Popen(' '.join([qrel_program, qrel_file_path, result_file_path]), shell=True, stdout=PIPE)
-        stdout, stderr = process.communicate()
-        if process.returncode == 0:
-            if 'trec_eval' in qrel_program:
-                with open( output_path, 'wb' ) as o:
-                    o.write(stdout)
-            elif 'gdeval' in qrel_program:
-                # only ndcg@20 is retained
-                with open( output_path, 'wb' ) as o:
-                    for line in stdout.split('\n')[1:-1]:
-                        line = line.strip()
-                        if line:
-                            row = line.split(',')
-                            qid = row[-3]
-                            ndcg20 = row[-2]
-                            err20 = row[-1]
-                            o.write('ndcg20\t%s\t%s\n' % (qid if qid != 'amean' else 'all', ndcg20))
-                            o.write('err20\t%s\t%s\n' % (qid if qid != 'amean' else 'all', err20))
-        else:
-            print '[ERROR]' 
-
-    def get_all_performance_of_some_queries(self, qids):
-        """
-        get all kinds of performance
-
-        @Input:
-            qids (list) : a list contains the qid that to be returned
-
-        @Return: a dict of all performances of qids
-        """
-
-        all_performances = self.get_all_performance()
-        return {k: all_performances.get(k, None) for k in qids}
-
-
-if __name__ == '__main__':
-    e = Evaluation('../../wt2g', '../../wt2g/results/tf1')
-    print e.get_all_performance()
+        for i, qrel_program in enumerate(qrel_programs):
+            process = Popen(' '.join([qrel_program, qrel_file_path, result_file_path]), shell=True, stdout=PIPE)
+            stdout, stderr = process.communicate()
+            if process.returncode == 0:
+                try:
+                    if i == 0:
+                        o = open( output_path, 'w')
+                    else:
+                        o = open( output_path, 'a')
+                    if 'trec_eval' in qrel_program:
+                        o.write(stdout)
+                    elif 'gdeval' in qrel_program:
+                        for line in stdout.split('\n')[1:-1]:
+                            line = line.strip()
+                            if line:
+                                row = line.split(',')
+                                qid = row[-3]
+                                ndcg20 = row[-2]
+                                err20 = row[-1]
+                                o.write('ndcg20\t%s\t%s\n' % (qid if qid != 'amean' else 'all', ndcg20))
+                                o.write('err20\t%s\t%s\n' % (qid if qid != 'amean' else 'all', err20))
+                finally:
+                    o.close()
+            else:
+                logger.error('ERROR when running the evaluation for:' + result_file_path)
 

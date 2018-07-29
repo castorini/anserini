@@ -1,20 +1,34 @@
 # -*- coding: utf-8 -*-
-import sys,os
-import decimal
+"""
+Anserini: An information retrieval toolkit built on Lucene
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+"""
+
+import os
 import itertools
 from inspect import currentframe, getframeinfo
 from subprocess import Popen, PIPE
-
-reload(sys)
-sys.setdefaultencoding('utf-8')
+import logging
 
 class Search(object):
     def __init__(self, index_path):
+        self.logger = logging.getLogger('search.Search')
         self.index_path = os.path.abspath(index_path)
         if not os.path.exists(self.index_path):
             frameinfo = getframeinfo(currentframe())
-            print frameinfo.filename, frameinfo.lineno
-            print '[Search Constructor]:Please provide a valid index path - ' + self.index_path
+            self.logger.error(frameinfo.filename, frameinfo.lineno)
+            self.logger.error('[Search Constructor]:Please provide a valid index path - ' + self.index_path)
             exit(1)
 
         self.run_files_root = 'run_files'
@@ -24,26 +38,26 @@ class Search(object):
             yield float(x)
             x += jump
 
-    def gen_run_batch_paras(self, topic_type, methods, output_root):
+    def gen_batch_retrieval_paras(self, topic, models, output_root):
         all_paras = []
         if not os.path.exists(os.path.join(output_root, self.run_files_root)):
             os.makedirs(os.path.join(output_root, self.run_files_root))
-        for m in methods:
-            if 'paras' in m:
-                for p in itertools.product(*[self.drange(ele[0], ele[1]+1e-8, ele[2]) for ele in m['paras'].values()]):
-                    para_str = '-%s' % m['name']
-                    rfn = m['name']+'-'
-                    for k_idx, k in enumerate(m['paras'].keys()):
-                        para_str += ' -%s %s' % (k, p[k_idx])
+        for model, properties in models.items():
+            if 'params' in properties:
+                for p in itertools.product(*[self.drange(ele['lower'], ele['upper']+1e-8, ele['pace']) for ele in properties['params'].values()]):
+                    para_str = '-'+model
+                    rfn = model+'_'
+                    for k_idx, k in enumerate(properties['params'].keys()):
+                        para_str += ' -%s %.2f' % (k, p[k_idx])
                         if k_idx != 0:
                             rfn += ','
-                        rfn += '%s:%s' % (k, p[k_idx])
-                    results_fn = os.path.join(output_root, self.run_files_root, topic_type+'_'+rfn)
+                        rfn += '%s:%.2f' % (k, p[k_idx])
+                    results_fn = os.path.join(output_root, self.run_files_root, topic+'_'+rfn)
                     if not os.path.exists(results_fn):
                         all_paras.append( (para_str, results_fn) )
             else:
-                para_str = '-%s' % m['name']
-                results_fn = os.path.join(self.run_files_root, topic_type+'_'+m['name'])
+                para_str = '-'+model
+                results_fn = os.path.join(self.run_files_root, topic+'_'+properties['name'])
                 if not os.path.exists(results_fn):
                     all_paras.append( (para_str, results_fn) )
             
