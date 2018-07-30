@@ -44,6 +44,7 @@ public class CarTopicReader extends TopicReader {
     while ((line = bRdr.readLine()) != null) {
       Map<String,String> fields = new HashMap<>();
       line = line.trim();
+      // topic file
       if (line.startsWith("enwiki:")) {
         String id = line;
         String title = null;
@@ -63,6 +64,7 @@ public class CarTopicReader extends TopicReader {
 //          e.printStackTrace();
         }
       }
+      // title file
       else if (line.length() != 0) {
         String title = line;
         String id = "enwiki:" + java.net.URLEncoder.encode(line, "utf-8")
