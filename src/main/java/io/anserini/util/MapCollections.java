@@ -18,15 +18,17 @@ package io.anserini.util;
 
 
 import io.anserini.analysis.TweetAnalyzer;
-import io.anserini.collection.AbstractFileSegment;
+import io.anserini.collection.BaseFileSegment;
 import io.anserini.collection.DocumentCollection;
-import io.anserini.collection.FileSegmentProvider;
+import io.anserini.collection.SegmentProvider;
 import io.anserini.collection.SourceDocument;
 import io.anserini.index.generator.DocumentGenerator;
 import io.anserini.index.generator.LuceneDocumentGenerator;
 
 import io.anserini.index.transform.JsoupStringTransform;
 import io.anserini.index.transform.StringTransform;
+import io.anserini.util.mapper.CountDocumentMapper;
+import io.anserini.util.mapper.DocumentMapper;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.apache.logging.log4j.LogManager;
@@ -61,8 +63,8 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 
-public final class MapCollection {
-  private static final Logger LOG = LogManager.getLogger(MapCollection.class);
+public final class MapCollections {
+  private static final Logger LOG = LogManager.getLogger(MapCollections.class);
 
   public static final class Args {
 
@@ -82,6 +84,9 @@ public final class MapCollection {
 
     @Option(name = "-generator", required = true, usage = "document generator in io.anserini.index.generator")
     public String generatorClass;
+
+    @Option(name = "-mapper", required = true, usage = "mapper class in io.anserini.util.mapper")
+    public String mapperClass;
 
     // optional arguments
     @Option(name = "-storePositions", usage = "boolean switch to index storePositions")
@@ -141,7 +146,7 @@ public final class MapCollection {
 
     /**
      * Counter for unindexed documents. These are cases where the {@link SourceDocument} returned
-     * by {@link AbstractFileSegment} is {@code null} or the {@link LuceneDocumentGenerator}
+     * by {@link BaseFileSegment} is {@code null} or the {@link LuceneDocumentGenerator}
      * returned {@code null}. These are not necessarily errors.
      */
     public AtomicLong unindexed = new AtomicLong();
@@ -164,15 +169,18 @@ public final class MapCollection {
     public AtomicLong errors = new AtomicLong();
   }
 
-  private final class MapperThread extends Thread {
+  private final class MapThread extends Thread {
     final private Path inputFile;
     //    final private IndexWriter writer;
     final private DocumentCollection collection;
+    final private DocumentMapper mapper;
 
-    private MapperThread(DocumentCollection collection, Path inputFile) throws IOException {
+    private MapThread(DocumentCollection collection, DocumentMapper mapper, Path inputFile) {
 //      this.writer = writer;
       this.collection = collection;
+      this.mapper = mapper;
       this.inputFile = inputFile;
+
       setName(inputFile.getFileName().toString());
     }
 
@@ -180,23 +188,35 @@ public final class MapCollection {
     public void run() {
       try {
         @SuppressWarnings("unchecked")
-        DocumentGenerator generator =
-                (DocumentGenerator) generatorClass
-                        .getDeclaredConstructor(StringTransform.class, Args.class, Counters.class)
-                        .newInstance(new JsoupStringTransform(), args, counters);
+        DocumentGenerator generator = (DocumentGenerator) generatorClass
+          .getDeclaredConstructor(StringTransform.class, Args.class, DocumentMapper.class)
+          .newInstance(new JsoupStringTransform(), args, mapper);
 
-        int cnt = 0;
-        AbstractFileSegment iter = ((FileSegmentProvider) collection).createFileSegment(inputFile);
+        int numIndexed = 0;
+
+        @SuppressWarnings("unchecked")
+        BaseFileSegment<SourceDocument> iter =
+          (BaseFileSegment) ((SegmentProvider) collection).createFileSegment(inputFile);
+
         while (true) {
-          boolean hasNext = false;
+          boolean hasNext;
           try {
             hasNext = iter.hasNext();
           } catch (NoSuchElementException e1) {
             break;
-          } catch (Exception e2) {
-            LOG.warn("Exception when parsing document: ", e2);
-            counters.errors.incrementAndGet();
-            continue;
+          } catch (RuntimeException e2) {
+            if (e2.getMessage().contains("IOException")) {
+              LOG.error("Exception when parsing document: ", e2);
+              if (mapper.isCountDocumentMapper()) {
+                ((CountDocumentMapper)mapper).incrementErrors();
+              }
+              break; // IOException: stop reading more documents
+            } else {
+              if (mapper.isCountDocumentMapper()) {
+                ((CountDocumentMapper)mapper).incrementSkipped();
+              }
+              continue; // Non-IOException: continue reading the next document
+            }
           }
 
           if (!hasNext) {
@@ -206,19 +226,22 @@ public final class MapCollection {
           SourceDocument d = iter.next();
 
           if (!d.indexable()) {
-            counters.unindexable.incrementAndGet();
-            continue;
-          }
-
-          @SuppressWarnings("unchecked") // Yes, we know what we're doing here.
-                  Document doc = generator.createDocument(d);
-          if (doc == null) {
-            counters.unindexed.incrementAndGet();
+            if (mapper.isCountDocumentMapper()) {
+              ((CountDocumentMapper)mapper).incrementUnindexable();
+            }
             continue;
           }
 
           if (whitelistDocids != null && !whitelistDocids.contains(d.id())) {
-            counters.skipped.incrementAndGet();
+            if (mapper.isCountDocumentMapper()) {
+              ((CountDocumentMapper)mapper).incrementSkipped();
+            }
+            continue;
+          }
+
+          @SuppressWarnings("unchecked") // Yes, we know what we're doing here.
+          Document doc = generator.createDocument(d);
+          if (doc == null) {
             continue;
           }
 
@@ -227,13 +250,15 @@ public final class MapCollection {
 //          } else {
 //            writer.addDocument(doc);
 //          }
-          cnt++;
+          numIndexed++;
         }
 
         iter.close();
         LOG.info(inputFile.getParent().getFileName().toString() + File.separator +
-                inputFile.getFileName().toString() + ": " + cnt + " docs added.");
-        counters.indexed.addAndGet(cnt);
+                inputFile.getFileName().toString() + ": " + numIndexed + " docs added.");
+        if (mapper.isCountDocumentMapper()) {
+          ((CountDocumentMapper)mapper).incrementIndexedBy(numIndexed);
+        }
       } catch (Exception e) {
         LOG.error(Thread.currentThread().getName() + ": Unexpected Exception:", e);
       }
@@ -245,10 +270,13 @@ public final class MapCollection {
   private final Set whitelistDocids;
   private final Class collectionClass;
   private final Class generatorClass;
+  private final Class mapperClass;
   private final DocumentCollection collection;
+  private final DocumentMapper mapper;
   private final Counters counters;
 
-  public MapCollection(Args args) throws Exception {
+  @SuppressWarnings("unchecked")
+  public MapCollections(Args args) throws Exception {
     this.args = args;
 
     LOG.info("DocumentCollection path: " + args.input);
@@ -271,9 +299,14 @@ public final class MapCollection {
 
     this.generatorClass = Class.forName("io.anserini.index.generator." + args.generatorClass);
     this.collectionClass = Class.forName("io.anserini.collection." + args.collectionClass);
+    this.mapperClass = Class.forName("io.anserini.util.mapper." + args.mapperClass);
 
     collection = (DocumentCollection) this.collectionClass.newInstance();
     collection.setCollectionPath(collectionPath);
+
+    this.counters = new Counters();
+
+    mapper = (DocumentMapper) this.mapperClass.getDeclaredConstructor(Counters.class).newInstance(this.counters);
 
     if (args.whitelist != null) {
       List<String> lines = FileUtils.readLines(new File(args.whitelist), "utf-8");
@@ -281,8 +314,6 @@ public final class MapCollection {
     } else {
       this.whitelistDocids = null;
     }
-
-    this.counters = new Counters();
   }
 
   public void run() throws IOException, InterruptedException {
@@ -305,12 +336,12 @@ public final class MapCollection {
 //    final IndexWriter writer = new IndexWriter(dir, config);
 
     final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(numThreads);
-    final List segmentPaths = ((FileSegmentProvider) collection).getFileSegmentPaths();
+    final List segmentPaths = ((SegmentProvider) collection).getFileSegmentPaths();
 
     final int segmentCnt = segmentPaths.size();
     LOG.info(segmentCnt + " files found in " + collectionPath.toString());
     for (int i = 0; i < segmentCnt; i++) {
-      executor.execute(new MapCollection.MapperThread(collection, (Path) segmentPaths.get(i)));
+      executor.execute(new MapCollections.MapThread(collection, mapper, (Path) segmentPaths.get(i)));
     }
 
     executor.shutdown();
@@ -375,12 +406,12 @@ public final class MapCollection {
     } catch (CmdLineException e) {
       System.err.println(e.getMessage());
       parser.printUsage(System.err);
-      System.err.println("Example: "+ MapCollection.class.getSimpleName() +
+      System.err.println("Example: "+ MapCollections.class.getSimpleName() +
               parser.printExample(OptionHandlerFilter.REQUIRED));
       return;
     }
 
-    new MapCollection(mapCollectionArgs).run();
+    new MapCollections(mapCollectionArgs).run();
   }
 }
 

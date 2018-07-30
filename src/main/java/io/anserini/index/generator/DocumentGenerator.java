@@ -18,7 +18,9 @@ package io.anserini.index.generator;
 
 import io.anserini.collection.SourceDocument;
 import io.anserini.index.transform.StringTransform;
-import io.anserini.util.MapCollection;
+import io.anserini.util.MapCollections;
+import io.anserini.util.mapper.CountDocumentMapper;
+import io.anserini.util.mapper.DocumentMapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.document.Document;
@@ -45,9 +47,8 @@ public class DocumentGenerator<T extends SourceDocument> {
   public static final String FIELD_ID = "id";
 
   private final StringTransform transform;
-
-  protected MapCollection.Counters counters;
-  protected MapCollection.Args args;
+  protected DocumentMapper mapper;
+  protected MapCollections.Args args;
 
   /**
    * Default constructor.
@@ -69,12 +70,12 @@ public class DocumentGenerator<T extends SourceDocument> {
    * Constructor with config and counters
    *
    * @param args configuration arguments
-   * @param counters counters
+   * @param mapper mapper
    */
-  public DocumentGenerator(MapCollection.Args args, MapCollection.Counters counters) {
+  public DocumentGenerator(MapCollections.Args args, DocumentMapper mapper) {
     this.transform = null;
-    config(args);
-    setCounters(counters);
+    this.args = args;
+    this.mapper = mapper;
   }
 
   /**
@@ -82,21 +83,13 @@ public class DocumentGenerator<T extends SourceDocument> {
    *
    * @param transform string transform to apply
    * @param args configuration arguments
-   * @param counters counters
+   * @param mapper mapper
    */
-  public DocumentGenerator(StringTransform transform, MapCollection.Args args,
-      MapCollection.Counters counters) {
+  public DocumentGenerator(StringTransform transform, MapCollections.Args args,
+      DocumentMapper mapper) {
     this.transform = transform;
-    config(args);
-    setCounters(counters);
-  }
-
-  public void config(MapCollection.Args args) {
     this.args = args;
-  }
-
-  public void setCounters(MapCollection.Counters counters) {
-    this.counters = counters;
+    this.mapper = mapper;
   }
 
   public Document createDocument(T src) {
@@ -106,15 +99,18 @@ public class DocumentGenerator<T extends SourceDocument> {
     try {
       // If there's a transform, use it.
       contents = transform != null ? transform.apply(src.content()) : src.content();
-    } catch (Exception e) {
-      LOG.error("Error extracting document text, skipping document: " + id, e);
-      counters.errors.incrementAndGet();
+    } catch (Exception e1) {
+      LOG.error("Error extracting document text, skipping document: " + id, e1);
+      if (mapper.isCountDocumentMapper()) {
+        ((CountDocumentMapper) mapper).incrementErrors();
+      }
       return null;
     }
 
     if (contents.trim().length() == 0) {
-      // Log and move on, otherwise output can be very noisy.
-      counters.empty.incrementAndGet();
+      if (mapper.isCountDocumentMapper()) {
+        ((CountDocumentMapper) mapper).incrementEmpty();
+      }
       return null;
     }
 
