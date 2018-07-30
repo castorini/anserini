@@ -20,7 +20,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.text.StrSubstitutor;
 import org.junit.Test;
 
 import java.io.File;
@@ -28,10 +27,9 @@ import java.net.URL;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Scanner;
 
 @SuppressWarnings("unchecked")
-public class OracleEffectivenessDocsTest {
+public class JDIQ2018EffectivenessDocsTest {
   static class Model {
     private Map<String, Object> models;
     public Map<String, Object> getModels() {
@@ -115,9 +113,9 @@ public class OracleEffectivenessDocsTest {
   @Test
   public void main() throws Exception {
     ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-    URL yaml = OracleEffectivenessDocsTest.class.getResource("/oracle/models.yaml");
+    URL yaml = JDIQ2018EffectivenessDocsTest.class.getResource("/jdiq2018/models.yaml");
     Model data = mapper.readValue(new File(yaml.toURI()), Model.class);
-    FileUtils.writeStringToFile(new File("docs/oracle-effectiveness.md"),
+    FileUtils.writeStringToFile(new File("docs/jdiq2018-effectiveness.md"),
         data.generateEffectiveness(), "UTF-8");
   }
 }

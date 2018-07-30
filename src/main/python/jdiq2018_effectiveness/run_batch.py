@@ -28,7 +28,7 @@ from search import Search
 from evaluation import Evaluation
 from performance import Performances
 
-logger = logging.getLogger('oracle_effectiveness')
+logger = logging.getLogger('jdiq2018_effectiveness')
 logger.setLevel(logging.INFO)
 # create console handler with a higher log level
 ch = logging.StreamHandler()
@@ -120,7 +120,7 @@ def atom_output_performances(para):
 def print_optimal_performances(collection_yaml, models_yaml, output_root, metrics=['map']):
     index_path = os.path.join(collection_yaml['index_root'] if collection_yaml['index_root'] else '', collection_yaml['index_path'])
     this_output_root = os.path.join(output_root, collection_yaml['name'])
-    logger.info('='*30+'Oracle Performances for '+collection_yaml['name']+'='*30)
+    logger.info('='*30+'JDIQ2018 Performances for '+collection_yaml['name']+'='*30)
     performances = Performances(index_path).load_optimal_performance(this_output_root, metrics)
     success = True
     for performance in performances:
@@ -181,7 +181,7 @@ if __name__ == '__main__':
         parallelism = args.parallelism
         with open(os.path.join(args.anserini_root, 'src/main/resources/regression/{}.yaml'.format(args.collection))) as f:
             collection_yaml = yaml.safe_load(f)
-        with open(os.path.join(args.anserini_root, 'src/main/resources/oracle/models.yaml')) as f:
+        with open(os.path.join(args.anserini_root, 'src/main/resources/jdiq2018/models.yaml')) as f:
             models_yaml = yaml.safe_load(f)['models']
         collection_yaml['anserini_root'] = args.anserini_root
         batch_retrieval(collection_yaml, models_yaml, args.output_root)
