@@ -16,14 +16,14 @@
 
 package io.anserini.collection;
 
-import org.apache.tools.ant.filters.StringInputStream;
 import org.junit.Before;
+import org.junit.Test;
 
-import java.io.DataInputStream;
-import java.io.IOException;
 import java.util.HashMap;
+import java.util.NoSuchElementException;
 
-public class ClueWeb12DocumentTest extends DocumentTest<ClueWeb12Collection.Document> {
+
+public class ClueWeb12DocumentTest extends DocumentTest {
 
   @Before
   public void setUp() throws Exception {
@@ -42,8 +42,7 @@ public class ClueWeb12DocumentTest extends DocumentTest<ClueWeb12Collection.Docu
         "isPartOf: clueweb09-en\n" +
         "description: clueweb09 crawl with WARC output\n" +
         "format: WARC file version 0.18\n" +
-        "conformsTo: http://www.archive.org/documents/WarcFileFormat-0.18.html\n"
-    );
+        "conformsTo: http://www.archive.org/documents/WarcFileFormat-0.18.html\n");
 
     rawDocs.add(
         "WARC/1.0\n" +
@@ -90,10 +89,20 @@ public class ClueWeb12DocumentTest extends DocumentTest<ClueWeb12Collection.Docu
     expected.add(doc2);
   }
 
-  protected ClueWeb12Collection.Document parse(String raw) throws IOException {
-    DataInputStream stream = new DataInputStream(new StringInputStream(raw));
-    ClueWeb12Collection.Document doc = new ClueWeb12Collection.Document();
-    doc = doc.readNextWarcRecord(stream, ClueWeb12Collection.Document.WARC_VERSION);
-    return doc;
+  @Test
+  public void test() {
+    ClueWeb12Collection collection = new ClueWeb12Collection();
+    for (int i = 0; i < rawDocs.size(); i++) {
+      BaseFileSegment<ClueWeb12Collection.Document> iter = collection.createFileSegment(rawDocs.get(i));
+      while (true) {
+        try {
+          ClueWeb12Collection.Document parsed = iter.next();
+          assertEquals(parsed.id(), expected.get(i).get("id"));
+          assertEquals(parsed.content(), expected.get(i).get("content"));
+        } catch (NoSuchElementException e) {
+          break;
+        }
+      }
+    }
   }
 }

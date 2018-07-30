@@ -19,25 +19,21 @@ package io.anserini.collection;
 import edu.unh.cs.treccar_v2.Data;
 import edu.unh.cs.treccar_v2.read_data.DeserializeData;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
- * Class representing an instance of a CAR paragraph collection. Note that it is in .cbor format
- * and we can read it through the tool: https://github.com/TREMA-UNH/trec-car-tools.
- * Since a collection is assumed to be in a directory, place the cbor file in
+ * A document collection for the TREC Complex Answer Retrieval (CAR) Track.
+ * This class provides a wrapper around <a href="https://github.com/TREMA-UNH/trec-car-tools">tools</a>
+ * provided by the track for reading the <code>cbor</code> format.
+ * Since a collection is assumed to be in a directory, place the <code>cbor</code> file in
  * a directory prior to indexing.
  */
 public class CarCollection extends DocumentCollection
-    implements FileSegmentProvider<CarCollection.Document> {
+    implements SegmentProvider<CarCollection.Document> {
 
   @Override
   public List<Path> getFileSegmentPaths() {
@@ -52,7 +48,7 @@ public class CarCollection extends DocumentCollection
     return new FileSegment(p);
   }
 
-  public class FileSegment extends AbstractFileSegment<Document> {
+  public class FileSegment extends BaseFileSegment<Document> {
     private final FileInputStream stream;
     private final Iterator<Data.Paragraph> iter;
 
@@ -63,42 +59,34 @@ public class CarCollection extends DocumentCollection
     }
 
     @Override
-    public Document next() {
-      System.setProperty("file.encoding", "UTF-8");
-      Data.Paragraph p = iter.next();
-      Document doc = new Document(p.getParaId(), p.getTextOnly());
-
-      // If we've fall through here, we've either encountered an exception or we've reached the end
-      // of the underlying stream.
-      if (!iter.hasNext()) {
-        atEOF = true;
+    public boolean hasNext() {
+      if (bufferedRecord != null) {
+        return true;
+      } else if (atEOF) {
+        return false;
       }
-      return doc;
+
+      System.setProperty("file.encoding", "UTF-8");
+      Data.Paragraph p;
+      p = iter.next();
+      bufferedRecord = new Document(p.getParaId(), p.getTextOnly());
+
+      return true;
     }
   }
 
   /**
-   * A paragraph object in the CAR dataset ver2.0. The paraID serves as the id.
-   * Reference: http://trec-car.cs.unh.edu/datareleases/
+   * A document from a collection for the TREC Complex Answer Retrieval (CAR) Track.
+   * The paraID serves as the id.
+   * See <a href="http://trec-car.cs.unh.edu/datareleases/">this reference</a> for details.
    */
-  public class Document implements SourceDocument {
+  public static class Document implements SourceDocument {
     private final String paraID;
     private final String paragraph;
 
     public Document(String paraID, String paragraph) {
       this.paraID = paraID;
       this.paragraph = paragraph;
-    }
-
-    /**
-     * readNextRecord() is not used because CarCollection will load the .cbor file directly from the disk
-     * @param bRdr file BufferedReader
-     * @return null
-     * @throws IOException any io exception
-     */
-    @Override
-    public Document readNextRecord(BufferedReader bRdr) throws IOException {
-      return null;
     }
 
     @Override

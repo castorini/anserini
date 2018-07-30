@@ -30,16 +30,16 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 /**
- * Using this class we can index a directory consists of HTML files.
+ * A collection of HTML documents.
  * The file name (excluding the extension) will be the docid and the stripped contents will be the contents.
  * Please note that we intentionally do not apply any restrictions on what the file extension should be --
  * this makes the class a more generic class for indexing other types of the files, e.g. plain text files.
- *
  */
 public class HtmlCollection extends DocumentCollection
-    implements FileSegmentProvider<HtmlCollection.Document> {
+    implements SegmentProvider<HtmlCollection.Document> {
 
   private static final Logger LOG = LogManager.getLogger(HtmlCollection.class);
 
@@ -53,61 +53,51 @@ public class HtmlCollection extends DocumentCollection
     return discover(path, EMPTY_SET, EMPTY_SET, EMPTY_SET, EMPTY_SET, EMPTY_SET);
   }
 
-  public static class FileSegment extends AbstractFileSegment<Document>  {
+  public class FileSegment extends BaseFileSegment<Document> {
     private TarArchiveInputStream inputStream = null;
     private ArchiveEntry nextEntry = null;
 
     @SuppressWarnings("unchecked")
     public FileSegment(Path path) throws IOException {
-      //dType = (T) new Document(path.toString());
       this.path = path;
       this.bufferedReader = null;
       if (path.toString().endsWith(".tgz") || path.toString().endsWith(".tar.gz")) {
         inputStream = new TarArchiveInputStream(new GzipCompressorInputStream(new FileInputStream(path.toFile())));
-        getNextEntry();
       }
-    }
-
-    @Override
-    public void close() throws IOException {
-      atEOF = true;
-      super.close();
     }
 
     @Override
     public boolean hasNext() {
-      return !atEOF;
-    }
-
-    @Override
-    public Document next() {
-      Document doc;
+      if (bufferedRecord != null) {
+        return true;
+      } else if (atEOF) {
+        return false;
+      }
 
       try {
         if (path.toString().endsWith(".tgz") || path.toString().endsWith(".tar.gz")) {
-          bufferedReader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
-          doc = new Document(bufferedReader, Paths.get(nextEntry.getName()).getFileName().toString().replaceAll("\\.html$", ""));
           getNextEntry();
+          bufferedReader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
+          bufferedRecord = new Document(bufferedReader, Paths.get(nextEntry.getName()).getFileName().toString().replaceAll("\\.html$", ""));
         } else {
           bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(path.toFile()), StandardCharsets.UTF_8));
-          doc = new Document(bufferedReader, path.getFileName().toString().replaceAll("\\.html$", ""));
+          bufferedRecord = new Document(bufferedReader, path.getFileName().toString().replaceAll("\\.html$", ""));
           atEOF = true;
         }
       } catch (IOException e) {
         if (path.toString().endsWith(".html")) {
-          atEOF = true;
+          return false;
         }
-        return null;
+        throw new RuntimeException(e);
       }
 
-      return doc;
+      return bufferedRecord != null;
     }
 
     private void getNextEntry() throws IOException {
       nextEntry = inputStream.getNextEntry();
       if (nextEntry == null) {
-        atEOF = true;
-        return;
+        throw new NoSuchElementException();
       }
       // an ArchiveEntry may be a directory, so we need to read a next one.
       //   this must be done after the null check.
@@ -117,6 +107,9 @@ public class HtmlCollection extends DocumentCollection
     }
   }
 
+  /**
+   * A generic document in a collection of HTML documents.
+   */
   public static class Document implements SourceDocument {
     private String id;
     private String contents;
@@ -134,13 +127,6 @@ public class HtmlCollection extends DocumentCollection
         LOG.error("Error process file " + fileName);
         LOG.error(e);
       }
-    }
-
-    @Override
-    public Document readNextRecord(BufferedReader bRdr) {
-      // We're slowly refactoring to get rid of this method.
-      // See https://github.com/castorini/Anserini/issues/254
-      throw new UnsupportedOperationException();
     }
 
     @Override

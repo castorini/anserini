@@ -17,6 +17,8 @@
 package io.anserini.collection;
 
 import org.apache.commons.compress.compressors.z.ZCompressorInputStream;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -36,10 +38,12 @@ import java.util.Set;
 import java.util.zip.GZIPInputStream;
 
 /**
- * Class representing an instance of a TREC collection.
+ * A classic TREC <i>ad hoc</i> document collection.
  */
 public class TrecCollection extends DocumentCollection
-    implements FileSegmentProvider<TrecCollection.Document> {
+    implements SegmentProvider<TrecCollection.Document> {
+
+  private static final Logger LOG = LogManager.getLogger(TrecCollection.class);
 
   @Override
   public List<Path> getFileSegmentPaths() {
@@ -55,11 +59,14 @@ public class TrecCollection extends DocumentCollection
     return new FileSegment<>(p);
   }
 
-  public static class FileSegment<T extends Document> extends AbstractFileSegment<T> {
+  /**
+   * A file in a classic TREC <i>ad hoc</i> document collection.
+   *
+   * @param <T> type of the document
+   */
+  public static class FileSegment<T extends Document> extends BaseFileSegment<T> {
     @SuppressWarnings("unchecked")
     public FileSegment(Path path) throws IOException {
-      dType = (T) new Document();
-
       this.path = path;
       this.bufferedReader = null;
       String fileName = path.toString();
@@ -76,33 +83,25 @@ public class TrecCollection extends DocumentCollection
         bufferedReader = new BufferedReader(new FileReader(fileName));
       }
     }
-  }
-
-  /**
-   * A TREC document.
-   */
-  public static class Document implements SourceDocument {
-
-    protected final String DOCNO = "<DOCNO>";
-    protected final String TERMINATING_DOCNO = "</DOCNO>";
-
-    protected final String DOC = "<DOC>";
-    protected final String TERMINATING_DOC = "</DOC>";
-
-    protected final int BUFFER_SIZE = 1 << 16; // 64K
-
-    private final String[] startTags = {"<TEXT>", "<HEADLINE>", "<TITLE>", "<HL>", "<HEAD>",
-        "<TTL>", "<DD>", "<DATE>", "<LP>", "<LEADPARA>"
-    };
-    private final String[] endTags = {"</TEXT>", "</HEADLINE>", "</TITLE>", "</HL>", "</HEAD>",
-        "</TTL>", "</DD>", "</DATE>", "</LP>", "</LEADPARA>"
-    };
-
-    protected String id;
-    protected String content;
 
     @Override
-    public Document readNextRecord(BufferedReader reader) throws IOException {
+    public boolean hasNext() {
+      if (bufferedRecord != null) {
+        return true;
+      } else if (atEOF) {
+        return false;
+      }
+
+      try {
+        readNextRecord(bufferedReader);
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
+
+      return bufferedRecord != null;
+    }
+
+    private void readNextRecord(BufferedReader reader) throws IOException {
       StringBuilder builder = new StringBuilder();
       boolean found = false;
       int inTag = -1;
@@ -110,16 +109,16 @@ public class TrecCollection extends DocumentCollection
       String line;
       while ((line=reader.readLine()) != null) {
         line = line.trim();
-        if (line.startsWith(DOC)) {
+        if (line.startsWith(Document.DOC)) {
           found = true;
           // continue to read DOCNO
           while ((line = reader.readLine()) != null) {
-            if (line.startsWith(DOCNO)) {
+            if (line.startsWith(Document.DOCNO)) {
               builder.append(line).append('\n');
               break;
             }
           }
-          while (builder.indexOf(TERMINATING_DOCNO) == -1) {
+          while (builder.indexOf(Document.TERMINATING_DOCNO) == -1) {
             line = reader.readLine();
             if (line == null) break;
             builder.append(line).append('\n');
@@ -129,12 +128,12 @@ public class TrecCollection extends DocumentCollection
 
         if (found) {
           if (line.startsWith("<")) {
-            if (inTag >= 0 && line.startsWith(endTags[inTag])) {
+            if (inTag >= 0 && line.startsWith(Document.endTags[inTag])) {
               builder.append(line).append("\n");
               inTag = -1;
             } else if (inTag < 0) {
-              for (int k = 0; k < startTags.length; k++) {
-                if (line.startsWith(startTags[k])) {
+              for (int k = 0; k < Document.startTags.length; k++) {
+                if (line.startsWith(Document.startTags[k])) {
                   inTag = k;
                   break;
                 }
@@ -142,7 +141,7 @@ public class TrecCollection extends DocumentCollection
             }
           }
           if (inTag >= 0) {
-            if (line.endsWith(endTags[inTag])) {
+            if (line.endsWith(Document.endTags[inTag])) {
               builder.append(line).append("\n");
               inTag = -1;
             } else {
@@ -151,28 +150,49 @@ public class TrecCollection extends DocumentCollection
           }
         }
 
-        if (line.startsWith(TERMINATING_DOC)) {
-          return parseRecord(builder);
+        if (line.startsWith(Document.TERMINATING_DOC)) {
+          parseRecord(builder);
+          return;
         }
       }
-
-      return null;
     }
 
-    public Document parseRecord(StringBuilder builder) {
-      int i = builder.indexOf(DOCNO);
-      if (i == -1) throw new RuntimeException("cannot find start tag " + DOCNO);
+    @SuppressWarnings("unchecked")
+    private void parseRecord(StringBuilder builder) {
+      int i = builder.indexOf(Document.DOCNO);
+      if (i == -1) throw new RuntimeException("cannot find start tag " + Document.DOCNO);
+      if (i != 0) throw new RuntimeException("should start with " + Document.DOCNO);
+      int j = builder.indexOf(Document.TERMINATING_DOCNO);
+      if (j == -1) throw new RuntimeException("cannot find end tag " + Document.TERMINATING_DOCNO);
 
-      if (i != 0) throw new RuntimeException("should start with " + DOCNO);
-
-      int j = builder.indexOf(TERMINATING_DOCNO);
-      if (j == -1) throw new RuntimeException("cannot find end tag " + TERMINATING_DOCNO);
-
-      id = builder.substring(i + DOCNO.length(), j).trim();
-      content = builder.substring(j + TERMINATING_DOCNO.length()).trim();
-
-      return this;
+      bufferedRecord = (T) new Document();
+      bufferedRecord.id = builder.substring(i + Document.DOCNO.length(), j).trim();
+      bufferedRecord.content = builder.substring(j + Document.TERMINATING_DOCNO.length()).trim();
     }
+  }
+
+  /**
+   * A document in a classic TREC <i>ad hoc</i> document collection.
+   */
+  public static class Document implements SourceDocument {
+
+    protected static final String DOCNO = "<DOCNO>";
+    protected static final String TERMINATING_DOCNO = "</DOCNO>";
+
+    protected static final String DOC = "<DOC>";
+    protected static final String TERMINATING_DOC = "</DOC>";
+
+    protected final int BUFFER_SIZE = 1 << 16; // 64K
+
+    private static final String[] startTags = {"<TEXT>", "<HEADLINE>", "<TITLE>", "<HL>", "<HEAD>",
+        "<TTL>", "<DD>", "<DATE>", "<LP>", "<LEADPARA>"
+    };
+    private static final String[] endTags = {"</TEXT>", "</HEADLINE>", "</TITLE>", "</HL>", "</HEAD>",
+        "</TTL>", "</DD>", "</DATE>", "</LP>", "</LEADPARA>"
+    };
+
+    protected String id;
+    protected String content;
 
     @Override
     public String id() {

@@ -20,19 +20,21 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.HashMap;
+import java.util.NoSuchElementException;
 
-public class TweetDocumentTest extends DocumentTest<TweetCollection.Document> {
+
+public class TweetDocumentTest extends DocumentTest {
 
   @Before
   public void setUp() throws Exception {
     super.setUp();
-    dType = new TweetCollection.Document();
 
-    rawDocs.add("{\"id_str\":\"123456789\",\"text\":\"" + "this is the tweet contents."
+    String doc = "{\"id_str\":\"123456789\",\"text\":\"" + "this is the tweet contents."
         + "\",\"user\":{\"screen_name\":\"foo\",\"name\":\"foo\"," +
         "\"profile_image_url\":\"foo\",\"followers_count\":1,\"friends_count\":1," +
-        "\"statuses_count\":1},\"created_at\":\"Fri Feb 01 10:56:07 +0000 2018\"}"
-    );
+        "\"statuses_count\":1},\"created_at\":\"Fri Feb 01 10:56:07 +0000 2018\"}";
+
+    rawFiles.add(createFile(doc));
 
     HashMap<String, String> doc1 = new HashMap<>();
     doc1.put("id", "123456789");
@@ -44,12 +46,20 @@ public class TweetDocumentTest extends DocumentTest<TweetCollection.Document> {
 
   @Test
   public void test() throws Exception {
-    for (int i = 0; i < rawDocs.size(); i++) {
-      TweetCollection.Document parsed = parse(rawDocs.get(i));
-      assertEquals(parsed.id(), expected.get(i).get("id"));
-      assertEquals(parsed.content(), expected.get(i).get("content"));
-      assert(parsed.getTimestampMs().isPresent());
-      assertEquals(parsed.getTimestampMs().getAsLong(), Long.parseLong(expected.get(i).get("timestamp_ms")));
+    TweetCollection collection = new TweetCollection();
+    for (int i = 0; i < rawFiles.size(); i++) {
+      BaseFileSegment<TweetCollection.Document> iter = collection.createFileSegment(rawFiles.get(i));
+      while (true) {
+        try {
+          TweetCollection.Document parsed = iter.next();
+          assertEquals(parsed.id(), expected.get(i).get("id"));
+          assertEquals(parsed.content(), expected.get(i).get("content"));
+          assert(parsed.getTimestampMs().isPresent());
+          assertEquals(parsed.getTimestampMs().getAsLong(), Long.parseLong(expected.get(i).get("timestamp_ms")));
+        } catch (NoSuchElementException e) {
+          break;
+        }
+      }
     }
   }
 }

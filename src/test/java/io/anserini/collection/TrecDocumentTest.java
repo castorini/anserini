@@ -16,20 +16,20 @@
 
 package io.anserini.collection;
 
-import io.anserini.collection.DocumentTest;
-import io.anserini.collection.TrecCollection;
 import org.junit.Before;
+import org.junit.Test;
 
 import java.util.HashMap;
+import java.util.NoSuchElementException;
 
-public class TrecDocumentTest extends DocumentTest<TrecCollection.Document> {
+
+public class TrecDocumentTest extends DocumentTest {
 
   @Before
-  public void setUP() throws Exception {
+  public void setUp() throws Exception {
     super.setUp();
-    dType = new TrecCollection.Document();
 
-    rawDocs.add("<DOC>\n" +
+    String doc = "<DOC>\n" +
         "<DOCNO> AP-0001 </DOCNO>\n" +
         "<FILEID>field id test and should NOT be included</FILEID>\n" +
         "<FIRST>first test and should NOT be included</FIRST>\n" +
@@ -42,7 +42,9 @@ public class TrecDocumentTest extends DocumentTest<TrecCollection.Document> {
         "get this\n" +
         " right\n" +
         "</TEXT>\n" +
-        "</DOC>\n");
+        "</DOC>\n";
+
+    rawFiles.add(createFile(doc));
 
     HashMap<String, String> doc1 = new HashMap<>();
     doc1.put("id", "AP-0001");
@@ -56,5 +58,22 @@ public class TrecDocumentTest extends DocumentTest<TrecCollection.Document> {
         "right\n" +
         "</TEXT>");
     expected.add(doc1);
+  }
+
+  @Test
+  public void test() throws Exception {
+    TrecCollection collection = new TrecCollection();
+    for (int i = 0; i < rawFiles.size(); i++) {
+      BaseFileSegment<TrecCollection.Document> iter = collection.createFileSegment(rawFiles.get(i));
+      while (true) {
+        try {
+          TrecCollection.Document parsed = iter.next();
+          assertEquals(parsed.id(), expected.get(i).get("id"));
+          assertEquals(parsed.content(), expected.get(i).get("content"));
+        } catch (NoSuchElementException e) {
+          break;
+        }
+      }
+    }
   }
 }

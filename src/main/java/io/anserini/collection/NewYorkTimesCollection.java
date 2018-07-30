@@ -49,20 +49,17 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Set;
 
 /**
- * Class representing an instance of the New York Times Annotated Corpus,
- * <a href="https://catalog.ldc.upenn.edu/products/LDC2008T19">LDC2008T19</a>.
- * Note that the collection is distributed as a number of {@code tgz} files, which
- * uncompresses to individual XML documents in a directory structure. Since the
- * current design of {@link AbstractFileSegment} cannot
- * handle {@code tgz} files (only {@code gz} files), the collection must first be
- * uncompressed prior to indexing. In this case, each {@code AbstractFileSegment} is an
- * XML file containing only a single document.
+ * An instance of the <a href="https://catalog.ldc.upenn.edu/products/LDC2008T19">New York Times
+ * Annotated Corpus</a>.
+ * This class works for both compressed <code>tgz</code> files or uncompressed <code>xml</code>
+ * files.
  */
 public class NewYorkTimesCollection extends DocumentCollection
-    implements FileSegmentProvider<NewYorkTimesCollection.Document> {
+    implements SegmentProvider<NewYorkTimesCollection.Document> {
   private static final Logger LOG = LogManager.getLogger(NewYorkTimesCollection.class);
 
   @Override
@@ -77,9 +74,13 @@ public class NewYorkTimesCollection extends DocumentCollection
     return new FileSegment(p);
   }
 
-  public class FileSegment extends AbstractFileSegment<Document> {
-    // We're creating a parser for each file, just to parse a single document, which is
-    // very inefficient. However, the parser is not thread safe, so this is our only option.
+  /**
+   * An individual file from the
+   * <a href="https://catalog.ldc.upenn.edu/products/LDC2008T19">New York Times Annotated Corpus</a>.
+   * This class works for both compressed <code>tgz</code> files or uncompressed <code>xml</code>
+   * files.
+   */
+  public class FileSegment extends BaseFileSegment<Document> {
     private final NewYorkTimesCollection.Parser parser = new NewYorkTimesCollection.Parser();
     private TarArchiveInputStream tarInput = null;
     private ArchiveEntry nextEntry = null;
@@ -90,49 +91,42 @@ public class NewYorkTimesCollection extends DocumentCollection
 
       if (path.toString().endsWith(".tgz")) {
         tarInput = new TarArchiveInputStream(new GzipCompressorInputStream(new FileInputStream(path.toFile())));
-        getNextEntry();
       }
     }
 
     @Override
-    public void close() throws IOException {
-      atEOF = true;
-      super.close();
-    }
-    @Override
     public boolean hasNext() {
-      return !atEOF;
-    }
+      if (bufferedRecord != null) {
+        return true;
+      } else if (atEOF) {
+        return false;
+      }
 
-    @Override
-    public Document next() {
-      Document doc;
       try {
         if (path.toString().endsWith(".tgz")) {
+          getNextEntry();
           bufferedReader = new BufferedReader(new InputStreamReader(tarInput, "UTF-8"));
           File file = new File(nextEntry.getName()); // this is actually not a real file, only to match the method in Parser
-          doc = parser.parseFile(bufferedReader, file);
-          getNextEntry();
+          bufferedRecord = parser.parseFile(bufferedReader, file);
         } else {
           bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(path.toFile()), "UTF-8"));
-          doc = parser.parseFile(bufferedReader, path.toFile());
+          bufferedRecord = parser.parseFile(bufferedReader, path.toFile());
           atEOF = true; // if it is a xml file, the segment only has one file, boolean to keep track if it's been read.
         }
       } catch (IOException e) {
         if (path.toString().endsWith(".xml")) {
-          atEOF = true;
+          return false;
         }
-        return null;
+        throw new RuntimeException(e);
       }
 
-      return doc;
+      return bufferedRecord != null;
     }
 
     private void getNextEntry() throws IOException {
       nextEntry = tarInput.getNextEntry();
       if (nextEntry == null) {
-        atEOF = true;
-        return;
+        throw new NoSuchElementException();
       }
       // an ArchiveEntry may be a directory, so we need to read a next one.
       //   this must be done after the null check.
@@ -143,8 +137,8 @@ public class NewYorkTimesCollection extends DocumentCollection
   }
 
   /**
-   * A document from the New York Times Annotated Corpus,
-   * <a href="https://catalog.ldc.upenn.edu/products/LDC2008T19">LDC2008T19</a>.
+   * A document from the <a href="https://catalog.ldc.upenn.edu/products/LDC2008T19">New York Times
+   * Annotated Corpus</a>.
    */
   public static class Document implements SourceDocument {
     private final RawDocument raw;
@@ -154,13 +148,6 @@ public class NewYorkTimesCollection extends DocumentCollection
     // No public constructor; must use parser to create document.
     private Document(RawDocument raw) {
       this.raw = raw;
-    }
-
-    @Override
-    public Document readNextRecord(BufferedReader bRdr) throws Exception {
-      // We're slowly refactoring to get rid of this method.
-      // See https://github.com/castorini/Anserini/issues/254
-      throw new UnsupportedOperationException();
     }
 
     @Override

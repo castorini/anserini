@@ -16,16 +16,21 @@
 
 package io.anserini.collection;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
 
 /**
- * Class representing an instance of a TREC web collection.
+ * A classic TREC web collection (e.g., Gov2).
  */
 public class TrecwebCollection extends DocumentCollection
-    implements FileSegmentProvider<TrecwebCollection.Document> {
+    implements SegmentProvider<TrecwebCollection.Document> {
+
+  private static final Logger LOG = LogManager.getLogger(TrecwebCollection.class);
 
   @Override
   public FileSegment<Document> createFileSegment(Path p) throws IOException {
@@ -38,24 +43,34 @@ public class TrecwebCollection extends DocumentCollection
         EMPTY_SET, EMPTY_SET, EMPTY_SET);
   }
 
+  /**
+   * A file in a TREC web collection (e.g., Gov2).
+   *
+   * @param <T> type of the document
+   */
   public static class FileSegment<T extends Document> extends TrecCollection.FileSegment<T> {
-    @SuppressWarnings("unchecked")
     public FileSegment(Path path) throws IOException {
       super(path);
-      dType = (T) new Document();
     }
-  }
-
-  /**
-   * A document from the GOV2 collection.
-   */
-  public static class Document extends TrecCollection.Document {
-
-    private final String DOCHDR = "<DOCHDR>";
-    private final String TERMINATING_DOCHDR = "</DOCHDR>";
 
     @Override
-    public Document readNextRecord(BufferedReader reader) throws IOException {
+    public boolean hasNext() {
+      if (bufferedRecord != null) {
+        return true;
+      } else if (atEOF) {
+        return false;
+      }
+
+      try {
+        readNextRecord(bufferedReader);
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
+
+      return bufferedRecord != null;
+    }
+
+    private void readNextRecord(BufferedReader reader) throws IOException {
       StringBuilder builder = new StringBuilder();
       boolean found = false;
 
@@ -63,45 +78,53 @@ public class TrecwebCollection extends DocumentCollection
       while ((line=reader.readLine()) != null) {
         line = line.trim();
 
-        if (line.startsWith(DOC)) {
+        if (line.startsWith(Document.DOC)) {
           found = true;
           continue;
         }
 
-        if (line.startsWith(TERMINATING_DOC) && builder.length() > 0) {
-          return parseRecord(builder);
+        if (line.startsWith(Document.TERMINATING_DOC) && builder.length() > 0) {
+          parseRecord(builder);
+          return;
         }
 
         if (found)
           builder.append(line).append("\n");
       }
-      return null;
     }
 
-    @Override
-    public Document parseRecord(StringBuilder builder) {
+    @SuppressWarnings("unchecked")
+    private void parseRecord(StringBuilder builder) {
+      int i = builder.indexOf(Document.DOCNO);
+      if (i == -1) throw new RuntimeException("cannot find start tag " + Document.DOCNO);
 
-      int i = builder.indexOf(DOCNO);
-      if (i == -1) throw new RuntimeException("cannot find start tag " + DOCNO);
+      if (i != 0) throw new RuntimeException("should start with " + Document.DOCNO);
 
-      if (i != 0) throw new RuntimeException("should start with " + DOCNO);
+      int j = builder.indexOf(Document.TERMINATING_DOCNO);
+      if (j == -1) throw new RuntimeException("cannot find end tag " + Document.TERMINATING_DOCNO);
 
-      int j = builder.indexOf(TERMINATING_DOCNO);
-      if (j == -1) throw new RuntimeException("cannot find end tag " + TERMINATING_DOCNO);
+      bufferedRecord = (T) new Document();
+      bufferedRecord.id = builder.substring(i + Document.DOCNO.length(), j).trim();
 
-      id = builder.substring(i + DOCNO.length(), j).trim();
+      i = builder.indexOf(Document.DOCHDR);
+      if (i == -1) throw new RuntimeException("cannot find header tag " + Document.DOCHDR);
 
-      i = builder.indexOf(DOCHDR);
-      if (i == -1) throw new RuntimeException("cannot find header tag " + DOCHDR);
+      j = builder.indexOf(Document.TERMINATING_DOCHDR);
+      if (j == -1) throw new RuntimeException("cannot find end tag " + Document.TERMINATING_DOCHDR);
 
-      j = builder.indexOf(TERMINATING_DOCHDR);
-      if (j == -1) throw new RuntimeException("cannot find end tag " + TERMINATING_DOCHDR);
+      if (j < i) throw new RuntimeException(Document.TERMINATING_DOCHDR + " comes before " + Document.DOCHDR);
 
-      if (j < i) throw new RuntimeException(TERMINATING_DOCHDR + " comes before " + DOCHDR);
-
-      content = builder.substring(j + TERMINATING_DOCHDR.length()).trim();
-
-      return this;
+      bufferedRecord.content = builder.substring(j + Document.TERMINATING_DOCHDR.length()).trim();
     }
+  }
+
+  /**
+   * A document from a classic TREC web collection (e.g., Gov2).
+   */
+  public static class Document extends TrecCollection.Document {
+
+    private static final String DOCHDR = "<DOCHDR>";
+    private static final String TERMINATING_DOCHDR = "</DOCHDR>";
+
   }
 }

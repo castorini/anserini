@@ -52,6 +52,10 @@
 
 package io.anserini.collection;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.tools.ant.filters.StringInputStream;
+
 import java.io.DataInput;
 import java.io.DataInputStream;
 import java.io.DataOutput;
@@ -66,6 +70,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.zip.GZIPInputStream;
 
@@ -74,7 +79,8 @@ import java.util.zip.GZIPInputStream;
  * This can be used to read the complete ClueWeb12 collection or the smaller ClueWeb12-B13 subset.
  */
 public class ClueWeb12Collection extends DocumentCollection
-    implements FileSegmentProvider<ClueWeb12Collection.Document> {
+    implements SegmentProvider<ClueWeb12Collection.Document> {
+  private static final Logger LOG = LogManager.getLogger(ClueWeb12Collection.class);
 
   @Override
   public List<Path> getFileSegmentPaths() {
@@ -89,10 +95,14 @@ public class ClueWeb12Collection extends DocumentCollection
     return new FileSegment(p);
   }
 
+  public FileSegment createFileSegment(String raw) {
+    return new FileSegment(raw);
+  }
+
   /**
-   * An individual WARC in the ClueWeb12 collection.
+   * An individual WARC in the <a href="https://www.lemurproject.org/clueweb12.php/">ClueWeb12 collection</a>.
    */
-  public static class FileSegment extends AbstractFileSegment<Document> {
+  public static class FileSegment extends BaseFileSegment<Document> {
     protected DataInputStream stream;
 
     protected FileSegment(Path path) throws IOException {
@@ -101,37 +111,34 @@ public class ClueWeb12Collection extends DocumentCollection
           new GZIPInputStream(Files.newInputStream(path, StandardOpenOption.READ)));
     }
 
+    protected FileSegment(String raw) {
+      this.stream = new DataInputStream(new StringInputStream(raw));
+    }
+
     @Override
-    public Document next() {
-      Document doc;
-      try {
-        doc = Document.readNextWarcRecord(stream, Document.WARC_VERSION);
-        if (doc == null) {
-          atEOF = true;
-        }
-      } catch (IOException e) {
-        doc = null;
+    public boolean hasNext() {
+      if (bufferedRecord != null) {
+        return true;
+      } else if (atEOF) {
+        return false;
       }
-      return doc;
+
+      try {
+        bufferedRecord = readNextWarcRecord(stream, Document.WARC_VERSION);
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
+
+      return bufferedRecord != null;
     }
 
     @Override
     public void close() throws IOException {
-      atEOF = true;
       if (stream != null) {
         stream.close();
       }
+      super.close();
     }
-  }
-
-  /**
-   * A document from the <a href="https://www.lemurproject.org/clueweb12.php/">ClueWeb12 collection</a>.
-   * This class derives from tools provided by CMU for reading the ClueWeb12 collection. Note that
-   * the implementation inherits from {@link ClueWeb09Collection.Document} for historic reasons, since the code
-   * originally developed for reading ClueWeb09 was subsequently adapted for reading ClueWeb12.
-   */
-  public static class Document extends ClueWeb09Collection.Document {
-    public static final String WARC_VERSION = "WARC/1.0";
 
     /**
      * Reads in a WARC record from a data input stream.
@@ -144,15 +151,14 @@ public class ClueWeb12Collection extends DocumentCollection
     public static Document readNextWarcRecord(DataInputStream in, String version)
         throws IOException {
       StringBuilder recordHeader = new StringBuilder();
-      ClueWeb09Collection.Document r09 = new ClueWeb09Collection.Document();
-      byte[] recordContent = r09.readNextRecord(in, recordHeader, version);
+      byte[] recordContent = ClueWeb09Collection.FileSegment.readNextRecord(in, recordHeader, version);
       if (recordContent == null) {
         return null;
       }
 
       // extract out our header information
       String thisHeaderString = recordHeader.toString();
-      String[] headerLines = thisHeaderString.split(NEWLINE);
+      String[] headerLines = thisHeaderString.split(Document.NEWLINE);
 
       Document retRecord = new Document();
       for (int i = 0; i < headerLines.length; i++) {
@@ -172,6 +178,16 @@ public class ClueWeb12Collection extends DocumentCollection
 
       return retRecord;
     }
+  }
+
+  /**
+   * A document from the <a href="https://www.lemurproject.org/clueweb12.php/">ClueWeb12 collection</a>.
+   * This class derives from tools provided by CMU for reading the ClueWeb12 collection. Note that
+   * the implementation inherits from {@link ClueWeb09Collection.Document} for historic reasons, since the code
+   * originally developed for reading ClueWeb09 was subsequently adapted for reading ClueWeb12.
+   */
+  public static class Document extends ClueWeb09Collection.Document {
+    public static final String WARC_VERSION = "WARC/1.0";
 
     @Override
     public String id() {

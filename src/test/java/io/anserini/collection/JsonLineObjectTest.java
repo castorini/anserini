@@ -16,37 +16,31 @@
 
 package io.anserini.collection;
 
-import org.junit.After;
 import org.junit.Before;
+import org.junit.Test;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
+import java.io.*;
 import java.util.HashMap;
+import java.util.NoSuchElementException;
 
-public class JsonLineObjectTest extends DocumentTest<JsonCollection.Document> {
-  private String sampleFile = "sampleJsonLineObject.json";
+
+public class JsonLineObjectTest extends DocumentTest {
 
   @Before
   public void setUp() throws Exception {
     super.setUp();
 
-    String sampleDoc =
-      "{\n " +
-      "  \"id\": \"doc1\",\n" +
-      "  \"contents\": \"this is the contents 1.\"\n" +
+    String doc =
+      "{" +
+      "  \"id\": \"doc1\"," +
+      "  \"contents\": \"this is the contents 1.\"" +
       "}\n" +
-      "{\n " +
-      "  \"id\": \"doc2\",\n" +
-      "  \"contents\": \"this is the contents 2.\"\n" +
+      "{ " +
+      "  \"id\": \"doc2\"," +
+      "  \"contents\": \"this is the contents 2.\"" +
       "}";
-    Writer writer = new BufferedWriter(new OutputStreamWriter(
-      new FileOutputStream(sampleFile), "utf-8"));
-    writer.write(sampleDoc);
 
-    dType = new JsonCollection.Document(sampleFile);
+    rawFiles.add(createFile(doc));
 
     HashMap<String, String> doc1 = new HashMap<>();
     doc1.put("id", "doc1");
@@ -58,10 +52,22 @@ public class JsonLineObjectTest extends DocumentTest<JsonCollection.Document> {
     expected.add(doc2);
   }
 
-  @After
-  public void tearDown() throws Exception {
-    File file = new File(sampleFile);
-    file.delete();
-    super.tearDown();
+  @Test
+  public void test() throws IOException {
+    JsonCollection collection = new JsonCollection();
+    int j = 0;
+    for (int i = 0; i < rawFiles.size(); i++) {
+      BaseFileSegment<JsonCollection.Document> iter = collection.createFileSegment(rawFiles.get(i));
+      while (true) {
+        try {
+          JsonCollection.Document parsed = iter.next();
+          assertEquals(parsed.id(), expected.get(j).get("id"));
+          assertEquals(parsed.content(), expected.get(j).get("content"));
+          j++;
+        } catch (NoSuchElementException e) {
+          break;
+        }
+      }
+    }
   }
 }

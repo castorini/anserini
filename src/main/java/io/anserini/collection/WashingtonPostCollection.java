@@ -30,10 +30,20 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
+/**
+ * An instance of the <a href="https://trec.nist.gov/data/wapost/">TREC Washington Post Corpus</a>.
+ * The collection contains 608,180 news articles and blog posts from January 2012 through August 2017,
+ * stored in JSON format. The collection is 1.5GB compressed, 5.9GB uncompressed.
+ */
 public class WashingtonPostCollection extends DocumentCollection
-    implements FileSegmentProvider<WashingtonPostCollection.Document> {
+    implements SegmentProvider<WashingtonPostCollection.Document> {
+  private static final Logger LOG = LogManager.getLogger(WashingtonPostCollection.class);
 
   @Override
   public List<Path> getFileSegmentPaths() {
@@ -45,82 +55,93 @@ public class WashingtonPostCollection extends DocumentCollection
 
   @Override
   public FileSegment createFileSegment(Path p) throws IOException {
-    return new WashingtonPostCollection.FileSegment(p);
+    return new FileSegment(p);
   }
 
-  public class FileSegment extends AbstractFileSegment<Document> {
+  public class FileSegment extends BaseFileSegment<Document> {
     private String fileName;
 
     public FileSegment(Path path) throws IOException {
-      dType = new WashingtonPostCollection.Document();
-
       this.path = path;
       this.fileName = path.toString();
       this.bufferedReader = new BufferedReader(new FileReader(fileName));
     }
+
+    @Override
+    public boolean hasNext() {
+      if (bufferedRecord != null) {
+        return true;
+      } else if (atEOF) {
+        return false;
+      }
+
+      String nextRecord = null;
+      try {
+         nextRecord = bufferedReader.readLine();
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
+
+      if (nextRecord == null) {
+        return false;
+      }
+
+      parseRecord(nextRecord);
+      return bufferedRecord != null;
+    }
+
+    private String removeTags(String content) {
+      return content.replaceAll(Document.PATTERN, " ");
+    }
+
+    private void parseRecord(String record) {
+      StringBuilder builder = new StringBuilder();
+      ObjectMapper mapper = new ObjectMapper();
+      Document.WashingtonPostObject wapoObj = null;
+      try {
+        wapoObj = mapper
+          .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES) // Ignore unrecognized properties
+          .registerModule(new Jdk8Module()) // Deserialize Java 8 Optional: http://www.baeldung.com/jackson-optional
+          .readValue(record, Document.WashingtonPostObject.class);
+      } catch (IOException e) {
+        // For current dataset, we can make sure all record has unique id and
+        // published date. So we just simply throw an RuntimeException
+        // here in case future data may bring up this issue
+        throw new RuntimeException(e);
+      }
+
+      bufferedRecord = new WashingtonPostCollection.Document();
+      bufferedRecord.id = wapoObj.getId();
+      bufferedRecord.publishedDate = wapoObj.getPublishedDate();
+
+      if (JsonParser.isFieldAvailable(wapoObj.getContents())) {
+        for (Document.WashingtonPostObject.Content contentObj : wapoObj.getContents().get()) {
+          if (JsonParser.isFieldAvailable(contentObj.getType()) && JsonParser.isFieldAvailable(contentObj.getContent())) {
+            if (Document.CONTENT_TYPE_TAG.contains(contentObj.getType().get())) {
+              builder.append(removeTags(contentObj.getContent().get().trim())).append("\n");
+            }
+          } else {
+            LOG.warn("No type or content tag defined in Article " + bufferedRecord.id + ", ignored this file.");
+          }
+        }
+      }
+
+      bufferedRecord.content = builder.toString();
+    }
   }
 
   /**
-   * A document from the Washington Post collection.
+   * A document from the <a href="https://trec.nist.gov/data/wapost/">TREC Washington Post Corpus</a>.
    */
   public static class Document implements SourceDocument {
     private static final Logger LOG = LogManager.getLogger(Document.class);
     private static final String PATTERN = "<\\/?\\w+>";
-    private final List<String> CONTENT_TYPE_TAG = Arrays.asList("sanitized_html", "tweet");
+    private static final List<String> CONTENT_TYPE_TAG = Arrays.asList("sanitized_html", "tweet");
 
     // Required fields
     protected String id;
     protected long publishedDate;
     protected String content;
-
-    @Override
-    public SourceDocument readNextRecord(BufferedReader bufferedReader) throws IOException {
-      String nextRecord = bufferedReader.readLine();
-      if (nextRecord == null) {
-        return null;
-      }
-      return parseRecord(nextRecord);
-    }
-
-    private SourceDocument parseRecord(String record) {
-      StringBuilder builder = new StringBuilder();
-      ObjectMapper mapper = new ObjectMapper();
-      WashingtonPostObject wapoObj = null;
-      try {
-        wapoObj = mapper
-                .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES) // Ignore unrecognized properties
-                .registerModule(new Jdk8Module()) // Deserialize Java 8 Optional: http://www.baeldung.com/jackson-optional
-                .readValue(record, WashingtonPostObject.class);
-      } catch (IOException e) {
-        // For current dataset, we can make sure all record has unique id and
-        //  published date. So we just simply log a warning and return null
-        //  here in case future data may bring up this issue
-        LOG.warn("No unique ID or published date for this record, ignored...");
-        return null;
-      }
-
-      id = wapoObj.getId();
-      publishedDate = wapoObj.getPublishedDate();
-
-      if (JsonParser.isFieldAvailable(wapoObj.getContents())) {
-        for (WashingtonPostObject.Content contentObj : wapoObj.getContents().get()) {
-          if (JsonParser.isFieldAvailable(contentObj.getType()) && JsonParser.isFieldAvailable(contentObj.getContent())) {
-            if (CONTENT_TYPE_TAG.contains(contentObj.getType().get())) {
-              builder.append(removeTags(contentObj.getContent().get().trim())).append("\n");
-            }
-          } else {
-            LOG.warn("No type or content tag defined in Article " + id + ", ignored this file.");
-          }
-        }
-      }
-
-      content = builder.toString();
-      return this;
-    }
-
-    private String removeTags(String content) {
-      return content.replaceAll(PATTERN, " ");
-    }
 
     @Override
     public String id() {
@@ -141,7 +162,9 @@ public class WashingtonPostCollection extends DocumentCollection
       return publishedDate;
     }
 
-    // Used for JSON parsing by Jackson
+    /**
+     * Used internally by Jackson for JSON parsing.
+     */
     public static class WashingtonPostObject {
       // Required fields
       protected String id;
@@ -151,6 +174,9 @@ public class WashingtonPostCollection extends DocumentCollection
       // Optional fields
       protected Optional<List<Content>> contents;
 
+      /**
+       * Used internally by Jackson for JSON parsing.
+       */
       public static class Content {
         protected Optional<String> type;
         protected Optional<String> content;

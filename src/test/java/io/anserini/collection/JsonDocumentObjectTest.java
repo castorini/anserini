@@ -16,44 +16,48 @@
 
 package io.anserini.collection;
 
-import org.junit.After;
 import org.junit.Before;
+import org.junit.Test;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
+import java.io.*;
 import java.util.HashMap;
+import java.util.NoSuchElementException;
 
-public class JsonDocumentObjectTest extends DocumentTest<JsonCollection.Document> {
-  private String sampleFile = "sampleJsonObject.json";
+
+public class JsonDocumentObjectTest extends DocumentTest {
 
   @Before
   public void setUp() throws Exception {
     super.setUp();
 
-    String sampleDoc =
+    String doc =
       "{\n " +
       "  \"id\": \"doc\",\n" +
       "  \"contents\": \"this is the contents.\"\n" +
       "}";
-    Writer writer = new BufferedWriter(new OutputStreamWriter(
-      new FileOutputStream(sampleFile), "utf-8"));
-    writer.write(sampleDoc);
 
-    dType = new JsonCollection.Document(sampleFile);
+    rawFiles.add(createFile(doc));
 
-    HashMap<String, String> doc = new HashMap<>();
-    doc.put("id", "doc");
-    doc.put("content", "this is the contents.");
-    expected.add(doc);
+    HashMap<String, String> doc1 = new HashMap<>();
+    doc1.put("id", "doc");
+    doc1.put("content", "this is the contents.");
+    expected.add(doc1);
   }
 
-  @After
-  public void tearDown() throws Exception {
-    File file = new File(sampleFile);
-    file.delete();
-    super.tearDown();
+  @Test
+  public void test() throws IOException {
+    JsonCollection collection = new JsonCollection();
+    for (int i = 0; i < rawFiles.size(); i++) {
+      BaseFileSegment<JsonCollection.Document> iter = collection.createFileSegment(rawFiles.get(i));
+      while (true) {
+        try {
+          JsonCollection.Document parsed = iter.next();
+          assertEquals(parsed.id(), expected.get(i).get("id"));
+          assertEquals(parsed.content(), expected.get(i).get("content"));
+        } catch (NoSuchElementException e) {
+          break;
+        }
+      }
+    }
   }
 }
