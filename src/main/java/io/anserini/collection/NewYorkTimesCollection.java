@@ -114,7 +114,6 @@ public class NewYorkTimesCollection extends DocumentCollection
           atEOF = true; // if it is a xml file, the segment only has one file, boolean to keep track if it's been read.
         }
       } catch (IOException e) {
-        LOG.error("Exception from Parser:", e);
         if (path.toString().endsWith(".xml")) {
           return false;
         }

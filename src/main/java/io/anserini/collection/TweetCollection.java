@@ -91,8 +91,7 @@ public class TweetCollection extends DocumentCollection
       try {
         nextRecord = bufferedReader.readLine();
       } catch (IOException e) {
-        LOG.error("Exception from BufferedReader:", e);
-        return false;
+        throw new RuntimeException(e);
       }
 
       if (nextRecord == null) {
@@ -113,7 +112,7 @@ public class TweetCollection extends DocumentCollection
                 .registerModule(new Jdk8Module()) // Deserialize Java 8 Optional: http://www.baeldung.com/jackson-optional
                 .readValue(json, Document.TweetObject.class);
       } catch (IOException e) {
-        throw new RuntimeException("Undesired JSON data");
+        throw new RuntimeException(e);
       }
 
       if (JsonParser.isFieldAvailable(tweetObj.getDelete())) {
@@ -132,7 +131,7 @@ public class TweetCollection extends DocumentCollection
       } catch (ParseException e) {
         bufferedRecord.timestampMs = OptionalLong.of(-1L);
         bufferedRecord.epoch = OptionalLong.of(-1L);
-        throw new RuntimeException("Undesired timestamp data");
+        throw new RuntimeException(e);
       }
 
       if (JsonParser.isFieldAvailable(tweetObj.getInReplyToStatusId())) {

@@ -126,8 +126,7 @@ public class ClueWeb09Collection extends DocumentCollection
       try {
         bufferedRecord = readNextWarcRecord(stream, Document.WARC_VERSION);
       } catch (IOException e) {
-        LOG.error("Exception from BufferedReader:", e);
-        return false;
+        throw new RuntimeException(e);
       }
 
       return bufferedRecord != null;

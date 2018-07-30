@@ -79,8 +79,7 @@ public class WashingtonPostCollection extends DocumentCollection
       try {
          nextRecord = bufferedReader.readLine();
       } catch (IOException e) {
-        LOG.error("Exception from BufferedReader:", e);
-        return false;
+        throw new RuntimeException(e);
       }
 
       if (nextRecord == null) {
@@ -108,7 +107,7 @@ public class WashingtonPostCollection extends DocumentCollection
         // For current dataset, we can make sure all record has unique id and
         // published date. So we just simply throw an RuntimeException
         // here in case future data may bring up this issue
-        throw new RuntimeException("No unique ID or published date for this record, ignored...");
+        throw new RuntimeException(e);
       }
 
       bufferedRecord = new WashingtonPostCollection.Document();

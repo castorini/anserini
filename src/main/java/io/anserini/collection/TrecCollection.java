@@ -95,8 +95,7 @@ public class TrecCollection extends DocumentCollection
       try {
         readNextRecord(bufferedReader);
       } catch (IOException e) {
-        LOG.error("Exception from BufferedReader:", e);
-        return false;
+        throw new RuntimeException(e);
       }
 
       return bufferedRecord != null;

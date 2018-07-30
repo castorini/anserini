@@ -194,10 +194,15 @@ public final class IndexCollection {
             hasNext = iter.hasNext();
           } catch (NoSuchElementException e1) {
             break;
-          } catch (Exception e2) {
-            LOG.warn("Exception when parsing document: ", e2);
-            counters.errors.incrementAndGet();
-            continue;
+          } catch (RuntimeException e2) {
+            if (e2.getMessage().contains("IOException")) {
+              LOG.warn("Exception when parsing document: ", e2);
+              counters.errors.incrementAndGet();
+              break; // IOException: stop reading more documents
+            } else {
+              counters.skipped.incrementAndGet();
+              continue; // Non-IOException: continue reading the next document
+            }
           }
 
           if (!hasNext) {

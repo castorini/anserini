@@ -93,7 +93,7 @@ public class WikipediaCollection extends DocumentCollection
           return true;
         }
       } catch (IOException e) {
-        LOG.error("Exception:", e);
+        throw new RuntimeException(e);
       }
 
       // If we've fall through here, we've either encountered an exception or we've reached the end
