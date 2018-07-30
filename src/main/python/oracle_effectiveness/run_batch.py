@@ -46,6 +46,9 @@ def batch_everything(all_paras, func):
     p = Pool(parallelism)
     p.map(func, all_paras)
 
+def isclose(a, b, rel_tol=1e-09, abs_tol=0.0):
+    return abs(a-b) <= max(rel_tol * max(abs(a), abs(b)), abs_tol)
+
 def batch_retrieval(collection_yaml, models_yaml, output_root):
     all_paras = []
     program = os.path.join(collection_yaml['anserini_root'], 'target/appassembler/bin', 'SearchCollection')
@@ -59,6 +62,7 @@ def batch_retrieval(collection_yaml, models_yaml, output_root):
         for para in model_paras:
             this_para = (
                 program,
+                '-searchtweets' if 'mb' in collection_yaml['name'] else '',
                 '-topicreader', collection_yaml['topic_reader'],
                 '-index', index_path,
                 '-topics', os.path.join(collection_yaml['anserini_root'], collection_yaml['topic_root'], topic['path']),
@@ -91,6 +95,7 @@ def batch_eval(collection_yaml, models_yaml, output_root):
                     eval_output
                 )
                 all_paras.append(this_para)
+    logger.info('='*10+'Starting Batch Evaluation'+'='*10)
     batch_everything(all_paras, atom_eval)
 
 def atom_eval(paras):
@@ -103,7 +108,7 @@ def batch_output_performances(collection_yaml, models_yaml, output_root):
     if not os.path.exists(this_output_root):
         os.makedirs(this_output_root)
     all_paras.extend( Performances(index_path).gen_output_performances_paras(this_output_root) )
-
+    logger.info('='*10+'Starting Output Performances'+'='*10)
     batch_everything(all_paras, atom_output_performances)
 
 def atom_output_performances(para):
@@ -117,8 +122,16 @@ def print_optimal_performances(collection_yaml, models_yaml, output_root, metric
     this_output_root = os.path.join(output_root, collection_yaml['name'])
     logger.info('='*30+'Oracle Performances for '+collection_yaml['name']+'='*30)
     performances = Performances(index_path).load_optimal_performance(this_output_root, metrics)
+    success = True
     for performance in performances:
-        logger.info(json.dumps(performance, sort_keys=True))
+        expected = models_yaml[performance['model']]['expected'][collection_yaml['name']][performance['metric']][performance['topic']]
+        if isclose(expected, performance['actual']):
+            logger.info(json.dumps(performance, sort_keys=True))
+        else:
+            success = False
+            logger.error('!'*5+'expected:%f'%expected+json.dumps(performance, sort_keys=True)+'!'*5)
+    if success:
+        logger.info("All Tests Passed!")
 
 def del_method_related_files(method_name):
     folders = ['split_results', 'merged_results', 'evals', 'performances']
@@ -151,10 +164,10 @@ if __name__ == '__main__':
         help="Delete all the output files of a method."
     )
     parser.add_argument(
-        "--print_optimal_performances",
+        "--metrics",
         nargs='+',
         default=['map'],
-        help="inputs: [evaluation_methods]. For example, --print_optimal_performances map ndcg20"
+        help="inputs: [metrics]. For example, --metrics map ndcg20"
     )
 
     args = parser.parse_args()
@@ -169,10 +182,10 @@ if __name__ == '__main__':
         with open(os.path.join(args.anserini_root, 'src/main/resources/regression/{}.yaml'.format(args.collection))) as f:
             collection_yaml = yaml.safe_load(f)
         with open(os.path.join(args.anserini_root, 'src/main/resources/oracle/models.yaml')) as f:
-            models_yaml = yaml.safe_load(f)
+            models_yaml = yaml.safe_load(f)['models']
         collection_yaml['anserini_root'] = args.anserini_root
         batch_retrieval(collection_yaml, models_yaml, args.output_root)
         batch_eval(collection_yaml, models_yaml, args.output_root)
         batch_output_performances(collection_yaml, models_yaml, args.output_root)
-        print_optimal_performances(collection_yaml, models_yaml, args.output_root, args.print_optimal_performances)
+        print_optimal_performances(collection_yaml, models_yaml, args.output_root, args.metrics)
 
