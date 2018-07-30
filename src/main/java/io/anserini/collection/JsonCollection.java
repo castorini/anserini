@@ -35,10 +35,8 @@ import java.util.List;
 import java.util.Set;
 
 /**
- *
- * Class representing a document collection in JSON.
- *
- * This class reads "*.json" files in the input directory.
+ * A JSON document collection.
+ * This class reads all <code>.json</code> files in the input directory.
  * Inside each file is either a JSON Object (one document) or a JSON Array (multiple documents) or
  * a JSON Document on each line (not actually valid Json String)
  * Example of JSON Object:
@@ -69,8 +67,7 @@ import java.util.Set;
  *
  */
 public class JsonCollection extends DocumentCollection
-    implements FileSegmentProvider<JsonCollection.Document> {
-
+    implements SegmentProvider<JsonCollection.Document> {
   private static final Logger LOG = LogManager.getLogger(JsonCollection.class);
 
   @Override
@@ -86,7 +83,7 @@ public class JsonCollection extends DocumentCollection
     return new FileSegment(p);
   }
 
-  public class FileSegment extends AbstractFileSegment<Document> {
+  public class FileSegment extends BaseFileSegment<Document> {
     private ArrayNode node;
     private int i;
 
@@ -97,7 +94,6 @@ public class JsonCollection extends DocumentCollection
         JsonParser jsonParser = new JsonFactory().createParser(new BufferedReader(new FileReader(path.toString())));
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
-        JsonNode n = objectMapper.readTree(jsonParser);
         node = objectMapper.readTree(jsonParser);
       } catch (IOException e) {
         node = null; // When the json file does not contain any json objects, set node to null
@@ -109,6 +105,8 @@ public class JsonCollection extends DocumentCollection
     public boolean hasNext() {
       if (bufferedRecord != null) {
         return true;
+      } else if (atEOF) {
+        return false;
       }
 
       if (node == null) {
@@ -121,7 +119,7 @@ public class JsonCollection extends DocumentCollection
             bufferedRecord = new JsonCollection.Document(json.get("id").asText(), json.get("contents").asText());
           }
         } catch (IOException e) {
-          LOG.error("Exception from BufferedReader:", e);
+          throw new RuntimeException(e);
         }
 
         if (nextRecord == null) {
@@ -138,10 +136,7 @@ public class JsonCollection extends DocumentCollection
   }
 
   /**
-   *
-   * Here we actually read the whole json file at once.
-   * If there are multiple JSON objects we use a global index i to track the progress.
-   *
+   * A document in a JSON collection.
    */
   public static class Document implements SourceDocument {
     protected String id;

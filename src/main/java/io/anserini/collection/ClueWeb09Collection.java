@@ -73,7 +73,7 @@ import java.util.zip.GZIPInputStream;
  * This can be used to read the complete ClueWeb09 collection or the smaller ClueWeb09b subset.
  */
 public class ClueWeb09Collection extends DocumentCollection
-    implements FileSegmentProvider<ClueWeb09Collection.Document> {
+    implements SegmentProvider<ClueWeb09Collection.Document> {
   private static final Logger LOG = LogManager.getLogger(ClueWeb09Collection.class);
 
   @Override
@@ -93,9 +93,9 @@ public class ClueWeb09Collection extends DocumentCollection
   }
 
   /**
-   * An individual WARC in the ClueWeb09 collection.
+   * An individual WARC in the <a href="https://www.lemurproject.org/clueweb09.php/">ClueWeb09 collection</a>.
    */
-  public static class FileSegment extends AbstractFileSegment<Document> {
+  public static class FileSegment extends BaseFileSegment<Document> {
     private static final byte MASK_THREE_BYTE_CHAR = (byte) (0xE0);
     private static final byte MASK_TWO_BYTE_CHAR = (byte) (0xC0);
     private static final byte MASK_TOPMOST_BIT = (byte) (0x80);
@@ -119,15 +119,14 @@ public class ClueWeb09Collection extends DocumentCollection
     public boolean hasNext() {
       if (bufferedRecord != null) {
         return true;
+      } else if (atEOF) {
+        return false;
       }
 
       try {
         bufferedRecord = readNextWarcRecord(stream, Document.WARC_VERSION);
-      } catch (NoSuchElementException e1) {
-        return false;
-      } catch (IOException e2) {
-        LOG.error("Exception from BufferedReader:", e2);
-        return false;
+      } catch (IOException e) {
+        throw new RuntimeException(e);
       }
 
       return bufferedRecord != null;
@@ -138,6 +137,7 @@ public class ClueWeb09Collection extends DocumentCollection
       if (stream != null) {
         stream.close();
       }
+      super.close();
     }
 
     /**

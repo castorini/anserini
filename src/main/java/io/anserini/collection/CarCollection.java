@@ -26,13 +26,14 @@ import java.nio.file.Path;
 import java.util.*;
 
 /**
- * Class representing an instance of a CAR paragraph collection. Note that it is in .cbor format
- * and we can read it through the tool: https://github.com/TREMA-UNH/trec-car-tools.
- * Since a collection is assumed to be in a directory, place the cbor file in
+ * A document collection for the TREC Complex Answer Retrieval (CAR) Track.
+ * This class provides a wrapper around <a href="https://github.com/TREMA-UNH/trec-car-tools">tools</a>
+ * provided by the track for reading the <code>cbor</code> format.
+ * Since a collection is assumed to be in a directory, place the <code>cbor</code> file in
  * a directory prior to indexing.
  */
 public class CarCollection extends DocumentCollection
-    implements FileSegmentProvider<CarCollection.Document> {
+    implements SegmentProvider<CarCollection.Document> {
 
   @Override
   public List<Path> getFileSegmentPaths() {
@@ -47,7 +48,7 @@ public class CarCollection extends DocumentCollection
     return new FileSegment(p);
   }
 
-  public class FileSegment extends AbstractFileSegment<Document> {
+  public class FileSegment extends BaseFileSegment<Document> {
     private final FileInputStream stream;
     private final Iterator<Data.Paragraph> iter;
 
@@ -61,15 +62,13 @@ public class CarCollection extends DocumentCollection
     public boolean hasNext() {
       if (bufferedRecord != null) {
         return true;
+      } else if (atEOF) {
+        return false;
       }
 
       System.setProperty("file.encoding", "UTF-8");
       Data.Paragraph p;
-      try {
-         p = iter.next();
-      } catch (NoSuchElementException e) {
-        return false;
-      }
+      p = iter.next();
       bufferedRecord = new Document(p.getParaId(), p.getTextOnly());
 
       return true;
@@ -77,10 +76,11 @@ public class CarCollection extends DocumentCollection
   }
 
   /**
-   * A paragraph object in the CAR dataset ver2.0. The paraID serves as the id.
-   * Reference: http://trec-car.cs.unh.edu/datareleases/
+   * A document from a collection for the TREC Complex Answer Retrieval (CAR) Track.
+   * The paraID serves as the id.
+   * See <a href="http://trec-car.cs.unh.edu/datareleases/">this reference</a> for details.
    */
-  public class Document implements SourceDocument {
+  public static class Document implements SourceDocument {
     private final String paraID;
     private final String paragraph;
 

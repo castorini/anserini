@@ -44,20 +44,22 @@ import java.nio.file.Path;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Set;
 
 /**
- * Class representing an instance of the New York Times Annotated Corpus,
- * <a href="https://catalog.ldc.upenn.edu/products/LDC2008T19">LDC2008T19</a>.
- * Note that the collection is distributed as a number of {@code tgz} files, which
- * uncompresses to individual XML documents in a directory structure. Since the
- * current design of {@link AbstractFileSegment} cannot
- * handle {@code tgz} files (only {@code gz} files), the collection must first be
- * uncompressed prior to indexing. In this case, each {@code AbstractFileSegment} is an
- * XML file containing only a single document.
+ * An instance of the <a href="https://catalog.ldc.upenn.edu/products/LDC2008T19">New York Times
+ * Annotated Corpus</a>.
+ * This class works for both compressed <code>tgz</code> files or uncompressed <code>xml</code>
+ * files.
  */
 public class NewYorkTimesCollection extends DocumentCollection
-    implements FileSegmentProvider<NewYorkTimesCollection.Document> {
+    implements SegmentProvider<NewYorkTimesCollection.Document> {
   private static final Logger LOG = LogManager.getLogger(NewYorkTimesCollection.class);
 
   @Override
@@ -72,9 +74,13 @@ public class NewYorkTimesCollection extends DocumentCollection
     return new FileSegment(p);
   }
 
-  public class FileSegment extends AbstractFileSegment<Document> {
-    // We're creating a parser for each file, just to parse a single document, which is
-    // very inefficient. However, the parser is not thread safe, so this is our only option.
+  /**
+   * An individual file from the
+   * <a href="https://catalog.ldc.upenn.edu/products/LDC2008T19">New York Times Annotated Corpus</a>.
+   * This class works for both compressed <code>tgz</code> files or uncompressed <code>xml</code>
+   * files.
+   */
+  public class FileSegment extends BaseFileSegment<Document> {
     private final NewYorkTimesCollection.Parser parser = new NewYorkTimesCollection.Parser();
     private TarArchiveInputStream tarInput = null;
     private ArchiveEntry nextEntry = null;
@@ -86,12 +92,6 @@ public class NewYorkTimesCollection extends DocumentCollection
       if (path.toString().endsWith(".tgz")) {
         tarInput = new TarArchiveInputStream(new GzipCompressorInputStream(new FileInputStream(path.toFile())));
       }
-    }
-
-    @Override
-    public void close() throws IOException {
-      atEOF = true;
-      super.close();
     }
 
     @Override
@@ -113,16 +113,14 @@ public class NewYorkTimesCollection extends DocumentCollection
           bufferedRecord = parser.parseFile(bufferedReader, path.toFile());
           atEOF = true; // if it is a xml file, the segment only has one file, boolean to keep track if it's been read.
         }
-      } catch (NoSuchElementException e1) {
-        return false;
-      } catch (IOException e2) {
-        LOG.error("Exception from Parser:", e2);
+      } catch (IOException e) {
         if (path.toString().endsWith(".xml")) {
           return false;
         }
+        throw new RuntimeException(e);
       }
 
-      return bufferedReader != null;
+      return bufferedRecord != null;
     }
 
     private void getNextEntry() throws IOException {
@@ -139,8 +137,8 @@ public class NewYorkTimesCollection extends DocumentCollection
   }
 
   /**
-   * A document from the New York Times Annotated Corpus,
-   * <a href="https://catalog.ldc.upenn.edu/products/LDC2008T19">LDC2008T19</a>.
+   * A document from the <a href="https://catalog.ldc.upenn.edu/products/LDC2008T19">New York Times
+   * Annotated Corpus</a>.
    */
   public static class Document implements SourceDocument {
     private final RawDocument raw;

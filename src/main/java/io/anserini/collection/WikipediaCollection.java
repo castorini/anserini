@@ -16,6 +16,8 @@
 
 package io.anserini.collection;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.wikiclean.WikiClean;
 import org.wikiclean.WikiClean.WikiLanguage;
 import org.wikiclean.WikiCleanBuilder;
@@ -26,12 +28,14 @@ import java.nio.file.Path;
 import java.util.*;
 
 /**
- * Class representing an instance of a Wikipedia collection. Note that Wikipedia dumps often come
- * as a single bz2 file. Since a collection is assumed to be in a directory, place the bz2 file in
- * a directory prior to indexing.
+ * A Wikipedia collection.
+ * Note that Wikipedia dumps come as a single <code>bz2</code> file. Since a collection is assumed
+ * to be in a directory, place the <code>bz2</code> file in a directory prior to indexing.
  */
 public class WikipediaCollection extends DocumentCollection
-    implements FileSegmentProvider<WikipediaCollection.Document> {
+    implements SegmentProvider<WikipediaCollection.Document> {
+
+  private static final Logger LOG = LogManager.getLogger(WikipediaCollection.class);
 
   @Override
   public List<Path> getFileSegmentPaths() {
@@ -46,7 +50,7 @@ public class WikipediaCollection extends DocumentCollection
     return new FileSegment(p);
   }
 
-  public class FileSegment extends AbstractFileSegment<Document> {
+  public class FileSegment extends BaseFileSegment<Document> {
     private final WikipediaBz2DumpInputStream stream;
     private final WikiClean cleaner;
 
@@ -62,6 +66,8 @@ public class WikipediaCollection extends DocumentCollection
     public boolean hasNext() {
       if (bufferedRecord != null) {
         return true;
+      } else if (atEOF) {
+        return false;
       }
 
       try {
@@ -87,7 +93,7 @@ public class WikipediaCollection extends DocumentCollection
           return true;
         }
       } catch (IOException e) {
-        e.printStackTrace();
+        throw new RuntimeException(e);
       }
 
       // If we've fall through here, we've either encountered an exception or we've reached the end
@@ -97,7 +103,7 @@ public class WikipediaCollection extends DocumentCollection
   }
 
   /**
-   * A Wikipedia article. The article title serves as the id.
+   * A Wikipedia document. The article title serves as the id.
    */
   public static class Document implements SourceDocument {
     private final String title;

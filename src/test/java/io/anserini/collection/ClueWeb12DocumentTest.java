@@ -93,7 +93,7 @@ public class ClueWeb12DocumentTest extends DocumentTest {
   public void test() {
     ClueWeb12Collection collection = new ClueWeb12Collection();
     for (int i = 0; i < rawDocs.size(); i++) {
-      AbstractFileSegment<ClueWeb12Collection.Document> iter = collection.createFileSegment(rawDocs.get(i));
+      BaseFileSegment<ClueWeb12Collection.Document> iter = collection.createFileSegment(rawDocs.get(i));
       while (true) {
         try {
           ClueWeb12Collection.Document parsed = iter.next();

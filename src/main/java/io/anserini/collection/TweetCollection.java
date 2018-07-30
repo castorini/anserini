@@ -28,6 +28,7 @@ import io.anserini.util.JsonParser;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.json.JsonException;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -47,7 +48,7 @@ import java.util.zip.GZIPInputStream;
  * Class representing an instance of a Twitter collection.
  */
 public class TweetCollection extends DocumentCollection
-    implements FileSegmentProvider<TweetCollection.Document> {
+    implements SegmentProvider<TweetCollection.Document> {
 
   private static final Logger LOG = LogManager.getLogger(TweetCollection.class);
 
@@ -61,7 +62,7 @@ public class TweetCollection extends DocumentCollection
     return new FileSegment(p);
   }
 
-  public class FileSegment extends AbstractFileSegment<Document> {
+  public class FileSegment extends BaseFileSegment<Document> {
 
     private static final String DATE_FORMAT = "E MMM dd HH:mm:ss ZZZZZ yyyy"; // "Fri Mar 29 11:03:41 +0000 2013"
 
@@ -82,27 +83,27 @@ public class TweetCollection extends DocumentCollection
     public boolean hasNext() {
       if (bufferedRecord != null) {
         return true;
+      } else if (atEOF) {
+        return false;
       }
 
       String nextRecord = null;
       try {
-        while ((nextRecord = bufferedReader.readLine()) != null) {
-          if (fromJson(nextRecord)) {
-            return true;
-          } // else: not desired JSON data, read the next line
-        }
+        nextRecord = bufferedReader.readLine();
       } catch (IOException e) {
-        LOG.error("Exception from BufferedReader:", e);
+        throw new RuntimeException(e);
       }
 
       if (nextRecord == null) {
         return false;
       }
 
+      parseJson(nextRecord);
+
       return bufferedRecord != null;
     }
 
-    private boolean fromJson(String json) {
+    private void parseJson(String json) {
       ObjectMapper mapper = new ObjectMapper();
       Document.TweetObject tweetObj = null;
       try {
@@ -111,11 +112,11 @@ public class TweetCollection extends DocumentCollection
                 .registerModule(new Jdk8Module()) // Deserialize Java 8 Optional: http://www.baeldung.com/jackson-optional
                 .readValue(json, Document.TweetObject.class);
       } catch (IOException e) {
-        return false;
+        throw new RuntimeException(e);
       }
 
       if (JsonParser.isFieldAvailable(tweetObj.getDelete())) {
-        return false;
+        throw new RuntimeException("Ignore deleted tweets");
       }
 
       bufferedRecord = new TweetCollection.Document();
@@ -130,7 +131,7 @@ public class TweetCollection extends DocumentCollection
       } catch (ParseException e) {
         bufferedRecord.timestampMs = OptionalLong.of(-1L);
         bufferedRecord.epoch = OptionalLong.of(-1L);
-        return false;
+        throw new RuntimeException(e);
       }
 
       if (JsonParser.isFieldAvailable(tweetObj.getInReplyToStatusId())) {
@@ -194,8 +195,6 @@ public class TweetCollection extends DocumentCollection
 
       bufferedRecord.jsonString = json;
       bufferedRecord.jsonObject = tweetObj;
-
-      return true;
     }
   }
 
@@ -357,7 +356,7 @@ public class TweetCollection extends DocumentCollection
     }
 
     /**
-     * A Twitter document object class used in Jackson JSON parser
+     * Used internally by Jackson for JSON parsing.
      */
     public static class TweetObject {
 
@@ -378,6 +377,10 @@ public class TweetCollection extends DocumentCollection
 
       // Must make inner classes static for deserialization in Jackson
       // http://www.cowtowncoder.com/blog/archives/2010/08/entry_411.html
+
+      /**
+       * Used internally by Jackson for JSON parsing.
+       */
       public static class Delete {
         protected Optional<String> timestampMs;
 
@@ -387,6 +390,9 @@ public class TweetCollection extends DocumentCollection
         }
       }
 
+      /**
+       * Used internally by Jackson for JSON parsing.
+       */
       public static class Coordinates {
         protected Optional<List<OptionalDouble>> coordinates;
 
@@ -394,6 +400,9 @@ public class TweetCollection extends DocumentCollection
         public Optional<List<OptionalDouble>> getCoordinates() { return coordinates; }
       }
 
+      /**
+       * Used internally by Jackson for JSON parsing.
+       */
       public static class RetweetedStatus {
         protected OptionalLong id;
         protected Optional<TweetObject.User> user;
@@ -409,6 +418,9 @@ public class TweetCollection extends DocumentCollection
         }
       }
 
+      /**
+       * Used internally by Jackson for JSON parsing.
+       */
       public static class User {
         // Required fields
         protected String screenName;

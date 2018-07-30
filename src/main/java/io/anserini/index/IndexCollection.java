@@ -17,9 +17,10 @@
 package io.anserini.index;
 
 import io.anserini.analysis.TweetAnalyzer;
-import io.anserini.collection.AbstractFileSegment;
+import io.anserini.collection.BaseFileSegment;
+import io.anserini.collection.Segment;
 import io.anserini.collection.DocumentCollection;
-import io.anserini.collection.FileSegmentProvider;
+import io.anserini.collection.SegmentProvider;
 import io.anserini.collection.SourceDocument;
 import io.anserini.index.generator.LuceneDocumentGenerator;
 
@@ -137,7 +138,7 @@ public final class IndexCollection {
 
     /**
      * Counter for unindexed documents. These are cases where the {@link SourceDocument} returned
-     * by {@link AbstractFileSegment} is {@code null} or the {@link LuceneDocumentGenerator}
+     * by {@link Segment} is {@code null} or the {@link LuceneDocumentGenerator}
      * returned {@code null}. These are not necessarily errors.
      */
     public AtomicLong unindexed = new AtomicLong();
@@ -182,17 +183,33 @@ public final class IndexCollection {
                 .newInstance(args, counters);
 
         int cnt = 0;
-        AbstractFileSegment iter = ((FileSegmentProvider) collection).createFileSegment(inputFile);
-        while (iter.hasNext()) {
-          SourceDocument d;
+
+        @SuppressWarnings("unchecked")
+        BaseFileSegment<SourceDocument> iter =
+            (BaseFileSegment) ((SegmentProvider) collection).createFileSegment(inputFile);
+
+        while (true) {
+          boolean hasNext = false;
           try {
-            d = iter.next();
+            hasNext = iter.hasNext();
           } catch (NoSuchElementException e1) {
-            continue;
-          } catch (Exception e2) { // TODO: update related counters (#317)
-            LOG.warn("Exception when parsing document: ", e2);
-            continue;
+            break;
+          } catch (RuntimeException e2) {
+            if (e2.getMessage().contains("IOException")) {
+              LOG.warn("Exception when parsing document: ", e2);
+              counters.errors.incrementAndGet();
+              break; // IOException: stop reading more documents
+            } else {
+              counters.skipped.incrementAndGet();
+              continue; // Non-IOException: continue reading the next document
+            }
           }
+
+          if (!hasNext) {
+            break;
+          }
+
+          SourceDocument d = iter.next();
 
           if (!d.indexable()) {
             counters.unindexable.incrementAndGet();
@@ -300,7 +317,7 @@ public final class IndexCollection {
     final IndexWriter writer = new IndexWriter(dir, config);
 
     final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(numThreads);
-    final List segmentPaths = ((FileSegmentProvider) collection).getFileSegmentPaths();
+    final List segmentPaths = ((SegmentProvider) collection).getFileSegmentPaths();
 
     final int segmentCnt = segmentPaths.size();
     LOG.info(segmentCnt + " files found in " + collectionPath.toString());
