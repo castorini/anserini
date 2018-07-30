@@ -71,14 +71,15 @@ public class WashingtonPostCollection extends DocumentCollection
     public boolean hasNext() {
       if (bufferedRecord != null) {
         return true;
+      } else if (atEOF) {
+        return false;
       }
 
       String nextRecord = null;
       try {
          nextRecord = bufferedReader.readLine();
       } catch (IOException e) {
-        LOG.error("Exception from BufferedReader:", e);
-        return false;
+        throw new RuntimeException(e);
       }
 
       if (nextRecord == null) {
@@ -104,10 +105,9 @@ public class WashingtonPostCollection extends DocumentCollection
           .readValue(record, Document.WashingtonPostObject.class);
       } catch (IOException e) {
         // For current dataset, we can make sure all record has unique id and
-        // published date. So we just simply log a warning and return null
+        // published date. So we just simply throw an RuntimeException
         // here in case future data may bring up this issue
-        LOG.warn("No unique ID or published date for this record, ignored...");
-        return;
+        throw new RuntimeException(e);
       }
 
       bufferedRecord = new WashingtonPostCollection.Document();

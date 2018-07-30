@@ -88,13 +88,14 @@ public class TrecCollection extends DocumentCollection
     public boolean hasNext() {
       if (bufferedRecord != null) {
         return true;
+      } else if (atEOF) {
+        return false;
       }
 
       try {
         readNextRecord(bufferedReader);
-      } catch (IOException | RuntimeException e) {
-        LOG.error("Exception from BufferedReader:", e);
-        return false;
+      } catch (IOException e) {
+        throw new RuntimeException(e);
       }
 
       return bufferedRecord != null;

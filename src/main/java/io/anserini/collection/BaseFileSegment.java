@@ -51,7 +51,8 @@ public abstract class BaseFileSegment<T extends SourceDocument> implements Segme
   }
 
   public void close() throws IOException {
-    atEOF = false;
+    atEOF = true;
+    bufferedRecord = null;
     if (bufferedReader != null) {
       bufferedReader.close();
     }

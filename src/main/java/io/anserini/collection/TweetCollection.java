@@ -28,6 +28,7 @@ import io.anserini.util.JsonParser;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.json.JsonException;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -82,27 +83,27 @@ public class TweetCollection extends DocumentCollection
     public boolean hasNext() {
       if (bufferedRecord != null) {
         return true;
+      } else if (atEOF) {
+        return false;
       }
 
       String nextRecord = null;
       try {
-        while ((nextRecord = bufferedReader.readLine()) != null) {
-          if (fromJson(nextRecord)) {
-            return true;
-          } // else: not desired JSON data, read the next line
-        }
+        nextRecord = bufferedReader.readLine();
       } catch (IOException e) {
-        LOG.error("Exception from BufferedReader:", e);
+        throw new RuntimeException(e);
       }
 
       if (nextRecord == null) {
         return false;
       }
 
+      parseJson(nextRecord);
+
       return bufferedRecord != null;
     }
 
-    private boolean fromJson(String json) {
+    private void parseJson(String json) {
       ObjectMapper mapper = new ObjectMapper();
       Document.TweetObject tweetObj = null;
       try {
@@ -111,11 +112,11 @@ public class TweetCollection extends DocumentCollection
                 .registerModule(new Jdk8Module()) // Deserialize Java 8 Optional: http://www.baeldung.com/jackson-optional
                 .readValue(json, Document.TweetObject.class);
       } catch (IOException e) {
-        return false;
+        throw new RuntimeException(e);
       }
 
       if (JsonParser.isFieldAvailable(tweetObj.getDelete())) {
-        return false;
+        throw new RuntimeException("Ignore deleted tweets");
       }
 
       bufferedRecord = new TweetCollection.Document();
@@ -130,7 +131,7 @@ public class TweetCollection extends DocumentCollection
       } catch (ParseException e) {
         bufferedRecord.timestampMs = OptionalLong.of(-1L);
         bufferedRecord.epoch = OptionalLong.of(-1L);
-        return false;
+        throw new RuntimeException(e);
       }
 
       if (JsonParser.isFieldAvailable(tweetObj.getInReplyToStatusId())) {
@@ -194,8 +195,6 @@ public class TweetCollection extends DocumentCollection
 
       bufferedRecord.jsonString = json;
       bufferedRecord.jsonObject = tweetObj;
-
-      return true;
     }
   }
 

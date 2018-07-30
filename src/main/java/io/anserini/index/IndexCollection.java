@@ -183,19 +183,33 @@ public final class IndexCollection {
                 .newInstance(args, counters);
 
         int cnt = 0;
+
         @SuppressWarnings("unchecked")
         BaseFileSegment<SourceDocument> iter =
             (BaseFileSegment) ((SegmentProvider) collection).createFileSegment(inputFile);
-        while (iter.hasNext()) {
-          SourceDocument d;
+
+        while (true) {
+          boolean hasNext = false;
           try {
-            d = iter.next();
+            hasNext = iter.hasNext();
           } catch (NoSuchElementException e1) {
-            continue;
-          } catch (Exception e2) { // TODO: update related counters (#317)
-            LOG.warn("Exception when parsing document: ", e2);
-            continue;
+            break;
+          } catch (RuntimeException e2) {
+            if (e2.getMessage().contains("IOException")) {
+              LOG.warn("Exception when parsing document: ", e2);
+              counters.errors.incrementAndGet();
+              break; // IOException: stop reading more documents
+            } else {
+              counters.skipped.incrementAndGet();
+              continue; // Non-IOException: continue reading the next document
+            }
           }
+
+          if (!hasNext) {
+            break;
+          }
+
+          SourceDocument d = iter.next();
 
           if (!d.indexable()) {
             counters.unindexable.incrementAndGet();

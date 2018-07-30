@@ -95,12 +95,6 @@ public class NewYorkTimesCollection extends DocumentCollection
     }
 
     @Override
-    public void close() throws IOException {
-      atEOF = true;
-      super.close();
-    }
-
-    @Override
     public boolean hasNext() {
       if (bufferedRecord != null) {
         return true;
@@ -119,16 +113,14 @@ public class NewYorkTimesCollection extends DocumentCollection
           bufferedRecord = parser.parseFile(bufferedReader, path.toFile());
           atEOF = true; // if it is a xml file, the segment only has one file, boolean to keep track if it's been read.
         }
-      } catch (NoSuchElementException e1) {
-        return false;
-      } catch (IOException e2) {
-        LOG.error("Exception from Parser:", e2);
+      } catch (IOException e) {
         if (path.toString().endsWith(".xml")) {
           return false;
         }
+        throw new RuntimeException(e);
       }
 
-      return bufferedReader != null;
+      return bufferedRecord != null;
     }
 
     private void getNextEntry() throws IOException {
