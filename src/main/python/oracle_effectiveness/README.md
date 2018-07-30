@@ -18,4 +18,4 @@ nohup python src/main/python/oracle_effectiveness/run_batch.py --collection cw09
 nohup python src/main/python/oracle_effectiveness/run_batch.py --collection cw12b13 --metrics map ndcg20 err20 >& cw12b13.oracle.log &
 ```
 
-Results are automatically generated at [Here](docs/oracle-effectiveness.md)
+Results are automatically generated at [Here](/docs/oracle-effectiveness.md)
