@@ -17,32 +17,19 @@
 package io.anserini.util;
 
 
-import io.anserini.analysis.TweetAnalyzer;
 import io.anserini.collection.BaseFileSegment;
 import io.anserini.collection.DocumentCollection;
 import io.anserini.collection.SegmentProvider;
 import io.anserini.collection.SourceDocument;
 import io.anserini.index.generator.DocumentGenerator;
-import io.anserini.index.generator.LuceneDocumentGenerator;
 
 import io.anserini.index.transform.JsoupStringTransform;
 import io.anserini.index.transform.StringTransform;
 import io.anserini.util.mapper.CountDocumentMapper;
 import io.anserini.util.mapper.DocumentMapper;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.lucene.analysis.CharArraySet;
-import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.document.Document;
-import org.apache.lucene.index.ConcurrentMergeScheduler;
-import org.apache.lucene.index.IndexWriter;
-import org.apache.lucene.index.IndexWriterConfig;
-import org.apache.lucene.index.Term;
-import org.apache.lucene.search.similarities.BM25Similarity;
-import org.apache.lucene.store.Directory;
-import org.apache.lucene.store.FSDirectory;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.OptionHandlerFilter;
@@ -50,18 +37,14 @@ import org.kohsuke.args4j.ParserProperties;
 import org.kohsuke.args4j.Option;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashSet;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Set;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicLong;
 
 public final class MapCollections {
   private static final Logger LOG = LogManager.getLogger(MapCollections.class);
@@ -72,9 +55,6 @@ public final class MapCollections {
 
     @Option(name = "-input", metaVar = "[Directory]", required = true, usage = "collection directory")
     public String input;
-
-//    @Option(name = "-index", metaVar = "[Path]", required = true, usage = "index path")
-//    public String index;
 
     @Option(name = "-threads", metaVar = "[Number]", required = true, usage = "Number of Threads")
     public int threads;
@@ -89,6 +69,10 @@ public final class MapCollections {
     public String mapperClass;
 
     // optional arguments
+
+    @Option(name = "-index", metaVar = "[Path]", usage = "index path")
+    public String index;
+
     @Option(name = "-storePositions", usage = "boolean switch to index storePositions")
     public boolean storePositions = false;
 
@@ -120,65 +104,28 @@ public final class MapCollections {
 
     @Option(name = "-tweet.keepRetweets", usage = "boolean switch to keep retweets while indexing")
     public boolean tweetKeepRetweets = false;
+
     @Option(name = "-tweet.keepUrls", usage = "boolean switch to keep URLs while indexing tweets")
     public boolean tweetKeepUrls = false;
+
     @Option(name = "-tweet.stemming", usage = "boolean switch to apply Porter stemming while indexing tweets")
     public boolean tweetStemming = false;
+
     @Option(name = "-tweet.maxId", usage = "the max tweet Id for indexing. Tweet Ids that are larger " +
             " (when being parsed to Long type) than this value will NOT be indexed")
     public long tweetMaxId = Long.MAX_VALUE;
+
     @Option(name = "-tweet.deletedIdsFile", metaVar = "[Path]",
             usage = "a file that contains deleted tweetIds, one per line. these tweeets won't be indexed")
     public String tweetDeletedIdsFile = "";
   }
 
-  public final class Counters {
-    /**
-     * Counter for successfully indexed documents.
-     */
-    public AtomicLong indexed = new AtomicLong();
-
-    /**
-     * Counter for empty documents that are not indexed. Empty documents are not necessary errors;
-     * it could be the case, for example, that a document is comprised solely of stopwords.
-     */
-    public AtomicLong empty = new AtomicLong();
-
-    /**
-     * Counter for unindexed documents. These are cases where the {@link SourceDocument} returned
-     * by {@link BaseFileSegment} is {@code null} or the {@link LuceneDocumentGenerator}
-     * returned {@code null}. These are not necessarily errors.
-     */
-    public AtomicLong unindexed = new AtomicLong();
-
-    /**
-     * Counter for unindexable documents. These are cases where {@link SourceDocument#indexable()}
-     * returns false.
-     */
-    public AtomicLong unindexable = new AtomicLong();
-
-    /**
-     * Counter for skipped documents. These are cases documents are skipped as part of normal
-     * processing logic, e.g., using a whitelist, not indexing retweets or deleted tweets.
-     */
-    public AtomicLong skipped = new AtomicLong();
-
-    /**
-     * Counter for unexpected errors.
-     */
-    public AtomicLong errors = new AtomicLong();
-  }
-
   private final class MapThread extends Thread {
     final private Path inputFile;
-    //    final private IndexWriter writer;
     final private DocumentCollection collection;
-    final private DocumentMapper mapper;
 
-    private MapThread(DocumentCollection collection, DocumentMapper mapper, Path inputFile) {
-//      this.writer = writer;
+    private MapThread(DocumentCollection collection, Path inputFile) {
       this.collection = collection;
-      this.mapper = mapper;
       this.inputFile = inputFile;
 
       setName(inputFile.getFileName().toString());
@@ -225,17 +172,8 @@ public final class MapCollections {
 
           SourceDocument d = iter.next();
 
-          if (!d.indexable()) {
-            if (mapper.isCountDocumentMapper()) {
-              ((CountDocumentMapper)mapper).incrementUnindexable();
-            }
-            continue;
-          }
-
-          if (whitelistDocids != null && !whitelistDocids.contains(d.id())) {
-            if (mapper.isCountDocumentMapper()) {
-              ((CountDocumentMapper)mapper).incrementSkipped();
-            }
+          boolean isProcessed = mapper.process(d);
+          if (!isProcessed) {
             continue;
           }
 
@@ -245,11 +183,6 @@ public final class MapCollections {
             continue;
           }
 
-//          if (args.uniqueDocid) {
-//            writer.updateDocument(new Term("id", d.id()), doc);
-//          } else {
-//            writer.addDocument(doc);
-//          }
           numIndexed++;
         }
 
@@ -267,13 +200,11 @@ public final class MapCollections {
 
   private final Args args;
   private final Path collectionPath;
-  private final Set whitelistDocids;
   private final Class collectionClass;
   private final Class generatorClass;
   private final Class mapperClass;
   private final DocumentCollection collection;
   private final DocumentMapper mapper;
-  private final Counters counters;
 
   @SuppressWarnings("unchecked")
   public MapCollections(Args args) throws Exception {
@@ -282,6 +213,7 @@ public final class MapCollections {
     LOG.info("DocumentCollection path: " + args.input);
     LOG.info("CollectionClass: " + args.collectionClass);
     LOG.info("Generator: " + args.generatorClass);
+    LOG.info("Mapper: " + args.mapperClass);
     LOG.info("Threads: " + args.threads);
     LOG.info("Keep stopwords? " + args.keepStopwords);
     LOG.info("Store positions? " + args.storePositions);
@@ -304,44 +236,21 @@ public final class MapCollections {
     collection = (DocumentCollection) this.collectionClass.newInstance();
     collection.setCollectionPath(collectionPath);
 
-    this.counters = new Counters();
-
-    mapper = (DocumentMapper) this.mapperClass.getDeclaredConstructor(Counters.class).newInstance(this.counters);
-
-    if (args.whitelist != null) {
-      List<String> lines = FileUtils.readLines(new File(args.whitelist), "utf-8");
-      this.whitelistDocids = new HashSet<>(lines);
-    } else {
-      this.whitelistDocids = null;
-    }
+    mapper = (DocumentMapper) this.mapperClass.getDeclaredConstructor(Args.class).newInstance(this.args);
   }
 
-  public void run() throws IOException, InterruptedException {
+  public void run() {
     final long start = System.nanoTime();
-    LOG.info("Starting mapper...");
+    LOG.info("Starting MapCollections...");
 
     int numThreads = args.threads;
-
-//    final EnglishAnalyzer englishAnalyzer= args.keepStopwords ?
-//            new EnglishAnalyzer(CharArraySet.EMPTY_SET) : new EnglishAnalyzer();
-//    final TweetAnalyzer tweetAnalyzer = new TweetAnalyzer(args.tweetStemming);
-//    final IndexWriterConfig config = args.collectionClass.equals("TweetCollection") ?
-//            new IndexWriterConfig(tweetAnalyzer) : new IndexWriterConfig(englishAnalyzer);
-//    config.setSimilarity(new BM25Similarity());
-//    config.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
-//    config.setRAMBufferSizeMB(args.memorybufferSize);
-//    config.setUseCompoundFile(false);
-//    config.setMergeScheduler(new ConcurrentMergeScheduler());
-
-//    final IndexWriter writer = new IndexWriter(dir, config);
-
     final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(numThreads);
     final List segmentPaths = ((SegmentProvider) collection).getFileSegmentPaths();
 
     final int segmentCnt = segmentPaths.size();
     LOG.info(segmentCnt + " files found in " + collectionPath.toString());
     for (int i = 0; i < segmentCnt; i++) {
-      executor.execute(new MapCollections.MapThread(collection, mapper, (Path) segmentPaths.get(i)));
+      executor.execute(new MapCollections.MapThread(collection, (Path) segmentPaths.get(i)));
     }
 
     executor.shutdown();
@@ -364,37 +273,9 @@ public final class MapCollections {
               " is not equal to completedTaskCount =  " + executor.getCompletedTaskCount());
     }
 
-//    int numIndexed = writer.maxDoc();
-//
-//    try {
-//      writer.commit();
-//      if (args.optimize)
-//        writer.forceMerge(1);
-//    } finally {
-//      try {
-//        writer.close();
-//      } catch (IOException e) {
-//        // It is possible that this happens... but nothing much we can do at this point,
-//        // so just log the error and move on.
-//        LOG.error(e);
-//      }
-//    }
-
-//    if (numIndexed != counters.indexed.get()) {
-//      LOG.warn("Unexpected difference between number of indexed documents and index maxDoc.");
-//    }
-
-    LOG.info("# Final Counter Values");
-    LOG.info(String.format("indexed:     %,12d", counters.indexed.get()));
-    LOG.info(String.format("empty:       %,12d", counters.empty.get()));
-    LOG.info(String.format("unindexed:   %,12d", counters.unindexed.get()));
-    LOG.info(String.format("unindexable: %,12d", counters.unindexable.get()));
-    LOG.info(String.format("skipped:     %,12d", counters.skipped.get()));
-    LOG.info(String.format("errors:      %,12d", counters.errors.get()));
-
     final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
-    LOG.info(String.format("Total %,d documents indexed in %s", counters.indexed.get(),
-            DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss")));
+
+    mapper.printResult(durationMillis);
   }
 
   public static void main(String[] args) throws Exception {
