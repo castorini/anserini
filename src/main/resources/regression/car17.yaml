@@ -1,5 +1,5 @@
 ---
-name: core17
+name: car17
 index_command: target/appassembler/bin/IndexCollection
 index_utils_command: target/appassembler/bin/IndexUtils
 search_command: target/appassembler/bin/SearchCollection
@@ -36,10 +36,10 @@ evals:
     can_combine: true
   - command: eval/trec_eval.9.0/trec_eval
     params:
-      - -m mrr
+      - -m recip_rank
     separator: "\t"
     parse_index: 2
-    metric: mrr
+    metric: recip_rank
     metric_precision: 4
     can_combine: true
 models:
@@ -48,9 +48,9 @@ models:
       - -bm25
     results:
       map:
-        - 0.1638
-      mrr:
-        - 0.2263
+        - 0.1650
+      recip_rank:
+        - 0.2270
   - name: bm25+rm3
     params:
       - -bm25
@@ -58,7 +58,7 @@ models:
     results:
       map:
         - 0.1342
-      mrr:
+      recip_rank:
         - 0.1854
   - name: ql
     params:
@@ -66,7 +66,7 @@ models:
     results:
       map:
         - 0.1503
-      mrr:
+      recip_rank:
         - 0.2078
   - name: ql+rm3
     params:
@@ -75,5 +75,5 @@ models:
     results:
       map:
         - 0.1207
-      mrr:
+      recip_rank:
         - 0.1679
