@@ -45,11 +45,17 @@ public class CarTopicReader extends TopicReader {
       Map<String,String> fields = new HashMap<>();
       line = line.trim();
       // topic file
-      if (line.startsWith("enwiki:")) {
+      if (line.indexOf('%') > -1 || line.indexOf('/') > -1) {
         String id = line;
         String title = null;
         try {
-          String title_url = line.substring(7);
+          String title_url;
+          if (line.startsWith("enwiki:")) {
+            title_url = line.substring(7);
+          }
+          else {
+            title_url = line;
+          }
           title_url = title_url.replaceAll("%(?![0-9a-fA-F]{2})", "%25");
           title_url = title_url.replaceAll("\\+", "%2B");
           title = java.net.URLDecoder.decode(title_url, "utf-8")
@@ -58,10 +64,10 @@ public class CarTopicReader extends TopicReader {
           map.put(id, fields);
         } catch (UnsupportedEncodingException e) {
           System.out.println(line);
-//          e.printStackTrace();
+          e.printStackTrace();
         } catch (IllegalArgumentException e) {
           System.out.println(line);
-//          e.printStackTrace();
+          e.printStackTrace();
         }
       }
       // title file

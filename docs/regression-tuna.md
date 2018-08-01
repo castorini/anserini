@@ -39,6 +39,10 @@ Here's how to run the end-to-end experiments:
 + `python src/main/python/run_regression.py --collection mb11`: [Experiments on Tweets2011 (MB11 &amp; MB12)](experiments-mb11.md)
 + `python src/main/python/run_regression.py --collection mb13`: [Experiments on Tweets2013 (MB13 &amp; MB14)](experiments-mb13.md)
 
+### Wikipedia
+
++ `python src/main/python/run_regression.py --collection car17`: [Experiments on Car17](experiments-car17.md)
+
 ## Log
 
 The following log details whenever regression tests have changed in terms of effectiveness:
