@@ -79,7 +79,7 @@ public class WashingtonPostCollection extends DocumentCollection
       try {
          nextRecord = bufferedReader.readLine();
       } catch (IOException e) {
-        throw new RuntimeException(e);
+        throw new RuntimeException("File IOException: " + e.getMessage());
       }
 
       if (nextRecord == null) {

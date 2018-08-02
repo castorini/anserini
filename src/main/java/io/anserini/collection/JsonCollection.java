@@ -119,7 +119,7 @@ public class JsonCollection extends DocumentCollection
             bufferedRecord = new JsonCollection.Document(json.get("id").asText(), json.get("contents").asText());
           }
         } catch (IOException e) {
-          throw new RuntimeException(e);
+          throw new RuntimeException("File IOException: " + e.getMessage());
         }
 
         if (nextRecord == null) {
