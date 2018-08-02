@@ -57,23 +57,23 @@ models:
       - -rm3
     results:
       map:
-        - 0.1342
+        - 0.1354
       recip_rank:
-        - 0.1854
+        - 0.1861
   - name: ql
     params:
       - -ql
     results:
       map:
-        - 0.1503
+        - 0.1515
       recip_rank:
-        - 0.2078
+        - 0.2085
   - name: ql+rm3
     params:
       - -ql
       - -rm3
     results:
       map:
-        - 0.1207
+        - 0.1220
       recip_rank:
-        - 0.1679
+        - 0.1687
