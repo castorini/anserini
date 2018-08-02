@@ -30,11 +30,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 /**
  * An instance of the <a href="https://trec.nist.gov/data/wapost/">TREC Washington Post Corpus</a>.
@@ -47,7 +43,7 @@ public class WashingtonPostCollection extends DocumentCollection
 
   @Override
   public List<Path> getFileSegmentPaths() {
-    Set<String> allowedFileSuffix = new HashSet<>(Arrays.asList(".txt"));
+    Set<String> allowedFileSuffix = new HashSet<>(Arrays.asList(".txt", ".jl"));
 
     return discover(path, EMPTY_SET, EMPTY_SET, EMPTY_SET,
         allowedFileSuffix, EMPTY_SET);
@@ -122,11 +118,17 @@ public class WashingtonPostCollection extends DocumentCollection
                   && JsonParser.isFieldAvailable(contentObj.getContent())
                   && Document.CONTENT_TYPE_TAG.contains(contentObj.getType().get())) {
             Object contents = contentObj.getContent().get();
-            if (contents instanceof String) {
+            if (contents instanceof java.lang.String) {
               builder.append(removeTags(((String) contents).trim())).append("\n");
-            } else if (contents instanceof List) {
+            } else if (contents instanceof java.util.List) {
               for (Object content : (List<Object>) contents) {
                 builder.append(removeTags(((String) content).trim())).append("\n");
+              }
+            } else if (contents instanceof java.util.Map) {
+              for (Map.Entry<String, Object> entry : ((HashMap<String, Object>) contents).entrySet()) {
+                if (entry.getKey().equals("text")) {
+                  builder.append(removeTags(((String) entry.getValue()).trim())).append("\n");
+                }
               }
             } else {
               LOG.warn("Unexpected type of content encountered " + contents);
