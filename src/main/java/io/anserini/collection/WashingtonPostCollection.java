@@ -94,7 +94,6 @@ public class WashingtonPostCollection extends DocumentCollection
       StringBuilder builder = new StringBuilder();
       ObjectMapper mapper = new ObjectMapper();
       Document.WashingtonPostObject wapoObj = null;
-//      record = record.replaceAll("\\p{Cc}", "");
       try {
         wapoObj = mapper
           .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES) // Ignore unrecognized properties
