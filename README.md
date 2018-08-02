@@ -50,6 +50,10 @@ Anserini is designed to support experiments on various standard TREC collections
 + [Experiments on Tweets2011 (MB11 &amp; MB12)](docs/experiments-mb11.md)
 + [Experiments on Tweets2013 (MB13 &amp; MB14)](docs/experiments-mb13.md)
 
+### Wikipedia
+
++ [Experiments on CAR17](docs/experiments-car17.md)
+
 ## Tools
 
 + `IndexUtils` is a powerful utility to interact with an index using the command line, e.g. print index statistics. Refer to `target/appassembler/bin/IndexUtils -h` for more details.
