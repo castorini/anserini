@@ -88,7 +88,7 @@ public class HtmlCollection extends DocumentCollection
         if (path.toString().endsWith(".html")) {
           return false;
         }
-        throw new RuntimeException("File IOException: " + e.getMessage());
+        throw new RuntimeException("File IOException: ", e);
       }
 
       return bufferedRecord != null;

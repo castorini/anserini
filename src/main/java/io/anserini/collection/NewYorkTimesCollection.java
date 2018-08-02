@@ -117,7 +117,7 @@ public class NewYorkTimesCollection extends DocumentCollection
         if (path.toString().endsWith(".xml")) {
           return false;
         }
-        throw new RuntimeException("File IOException: " + e.getMessage());
+        throw new RuntimeException("File IOException: ", e);
       }
 
       return bufferedRecord != null;

@@ -195,7 +195,7 @@ public final class IndexCollection {
           } catch (NoSuchElementException e1) {
             break;
           } catch (RuntimeException e2) {
-            if (e2.getMessage().contains("File IOException")) {
+            if (e2.getMessage() != null && e2.getMessage().contains("File IOException")) {
               LOG.warn("Exception when parsing document: ", e2);
               counters.errors.incrementAndGet();
               break; // IOException: stop reading more documents

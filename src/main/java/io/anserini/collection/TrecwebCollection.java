@@ -64,7 +64,7 @@ public class TrecwebCollection extends DocumentCollection
       try {
         readNextRecord(bufferedReader);
       } catch (IOException e) {
-        throw new RuntimeException("File IOException: " + e.getMessage());
+        throw new RuntimeException("File IOException: ", e);
       }
 
       return bufferedRecord != null;
