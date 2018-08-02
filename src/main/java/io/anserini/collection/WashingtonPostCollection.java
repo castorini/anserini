@@ -98,6 +98,7 @@ public class WashingtonPostCollection extends DocumentCollection
       StringBuilder builder = new StringBuilder();
       ObjectMapper mapper = new ObjectMapper();
       Document.WashingtonPostObject wapoObj = null;
+//      record = record.replaceAll("\\p{Cc}", "");
       try {
         wapoObj = mapper
           .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES) // Ignore unrecognized properties
@@ -116,12 +117,20 @@ public class WashingtonPostCollection extends DocumentCollection
 
       if (JsonParser.isFieldAvailable(wapoObj.getContents())) {
         for (Document.WashingtonPostObject.Content contentObj : wapoObj.getContents().get()) {
-          if (JsonParser.isFieldAvailable(contentObj.getType()) && JsonParser.isFieldAvailable(contentObj.getContent())) {
-            if (Document.CONTENT_TYPE_TAG.contains(contentObj.getType().get())) {
-              builder.append(removeTags(contentObj.getContent().get().trim())).append("\n");
+          if (contentObj != null
+                  && JsonParser.isFieldAvailable(contentObj.getType())
+                  && JsonParser.isFieldAvailable(contentObj.getContent())
+                  && Document.CONTENT_TYPE_TAG.contains(contentObj.getType().get())) {
+            Object contents = contentObj.getContent().get();
+            if (contents instanceof String) {
+              builder.append(removeTags(((String) contents).trim())).append("\n");
+            } else if (contents instanceof List) {
+              for (Object content : (List<Object>) contents) {
+                builder.append(removeTags(((String) content).trim())).append("\n");
+              }
+            } else {
+              LOG.warn("Unexpected type of content encountered " + contents);
             }
-          } else {
-            LOG.warn("No type or content tag defined in Article " + bufferedRecord.id + ", ignored this file.");
           }
         }
       }
@@ -179,7 +188,7 @@ public class WashingtonPostCollection extends DocumentCollection
        */
       public static class Content {
         protected Optional<String> type;
-        protected Optional<String> content;
+        protected Optional<Object> content;
 
         @JsonGetter("type")
         public Optional<String> getType() {
@@ -187,7 +196,7 @@ public class WashingtonPostCollection extends DocumentCollection
         }
 
         @JsonGetter("content")
-        public Optional<String> getContent() {
+        public Optional<Object> getContent() {
           return content;
         }
       }
