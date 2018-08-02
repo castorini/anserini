@@ -104,7 +104,7 @@ public class FeatureVector {
       norm += Math.abs(features.get(term));
     }
     if (norm < 0.01) {
-      norm = 0.0f;
+      norm = 1.0f;
     }
     return norm;
   }
