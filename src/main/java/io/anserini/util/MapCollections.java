@@ -142,9 +142,6 @@ public final class MapCollections {
         iter.close();
         LOG.info(inputFile.getParent().getFileName().toString() + File.separator +
                 inputFile.getFileName().toString() + ": " + numMapped + " docs added.");
-        if (mapper.isCountDocumentMapper()) {
-          ((CountDocumentMapper)mapper).incrementIndexedBy(numMapped);
-        }
       } catch (Exception e) {
         LOG.error(Thread.currentThread().getName() + ": Unexpected Exception:", e);
       }
