@@ -58,9 +58,6 @@ public final class MapCollections {
     @Option(name = "-collection", required = true, usage = "collection class in io.anserini.collection")
     public String collectionClass;
 
-    @Option(name = "-generator", required = true, usage = "document generator in io.anserini.index.generator")
-    public String generatorClass;
-
     @Option(name = "-mapper", required = true, usage = "mapper class in io.anserini.util.mapper")
     public String mapperClass;
 
@@ -167,7 +164,6 @@ public final class MapCollections {
 
     LOG.info("DocumentCollection path: " + args.input);
     LOG.info("CollectionClass: " + args.collectionClass);
-    LOG.info("Generator: " + args.generatorClass);
     LOG.info("Mapper: " + args.mapperClass);
     LOG.info("Threads: " + args.threads);
     LOG.info("Output: " + args.output);
