@@ -24,6 +24,7 @@ import io.anserini.collection.SegmentProvider;
 import io.anserini.collection.SourceDocument;
 import io.anserini.index.generator.LuceneDocumentGenerator;
 
+import io.anserini.util.MapCollections;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.apache.logging.log4j.LogManager;
@@ -63,6 +64,15 @@ public final class IndexCollection {
 
   public static final class Args {
 
+    public Args(MapCollections.Args mapArgs) {
+      this.input = mapArgs.input;
+      this.collectionClass = mapArgs.collectionClass;
+      this.generatorClass = mapArgs.generatorClass;
+      this.threads = mapArgs.threads;
+    }
+
+    public Args() {}
+
     // required arguments
 
     @Option(name = "-input", metaVar = "[Directory]", required = true, usage = "collection directory")
@@ -81,6 +91,7 @@ public final class IndexCollection {
     public String generatorClass;
 
     // optional arguments
+
     @Option(name = "-storePositions", usage = "boolean switch to index storePositions")
     public boolean storePositions = false;
 
@@ -112,13 +123,17 @@ public final class IndexCollection {
 
     @Option(name = "-tweet.keepRetweets", usage = "boolean switch to keep retweets while indexing")
     public boolean tweetKeepRetweets = false;
+
     @Option(name = "-tweet.keepUrls", usage = "boolean switch to keep URLs while indexing tweets")
     public boolean tweetKeepUrls = false;
+
     @Option(name = "-tweet.stemming", usage = "boolean switch to apply Porter stemming while indexing tweets")
     public boolean tweetStemming = false;
+
     @Option(name = "-tweet.maxId", usage = "the max tweet Id for indexing. Tweet Ids that are larger " +
         " (when being parsed to Long type) than this value will NOT be indexed")
     public long tweetMaxId = Long.MAX_VALUE;
+
     @Option(name = "-tweet.deletedIdsFile", metaVar = "[Path]",
         usage = "a file that contains deleted tweetIds, one per line. these tweeets won't be indexed")
     public String tweetDeletedIdsFile = "";

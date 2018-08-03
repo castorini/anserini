@@ -19,6 +19,9 @@ package io.anserini.index.generator;
 import io.anserini.collection.SourceDocument;
 import io.anserini.index.IndexCollection;
 import io.anserini.index.transform.StringTransform;
+import io.anserini.util.MapCollections;
+import io.anserini.util.mapper.CountDocumentMapper;
+import io.anserini.util.mapper.DocumentMapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.document.Document;
@@ -48,6 +51,7 @@ public class LuceneDocumentGenerator<T extends SourceDocument> {
 
   protected IndexCollection.Counters counters;
   protected IndexCollection.Args args;
+  protected DocumentMapper mapper;
 
   /**
    * Default constructor.
@@ -91,6 +95,20 @@ public class LuceneDocumentGenerator<T extends SourceDocument> {
     setCounters(counters);
   }
 
+  /**
+   * Constructor with config and counters
+   *
+   * @param transform string transform to apply
+   * @param mapArgs configuration arguments
+   * @param mapper mapper
+   */
+  public LuceneDocumentGenerator(StringTransform transform, MapCollections.Args mapArgs,
+      DocumentMapper mapper) {
+    this.transform = transform;
+    this.args = new IndexCollection.Args(mapArgs);
+    this.mapper = mapper;
+  }
+
   public void config(IndexCollection.Args args) {
     this.args = args;
   }
@@ -108,13 +126,16 @@ public class LuceneDocumentGenerator<T extends SourceDocument> {
       contents = transform != null ? transform.apply(src.content()) : src.content();
     } catch (Exception e) {
       LOG.error("Error extracting document text, skipping document: " + id, e);
-      counters.errors.incrementAndGet();
+      if (mapper.isCountDocumentMapper()) {
+        ((CountDocumentMapper) mapper).incrementErrors();
+      }
       return null;
     }
 
     if (contents.trim().length() == 0) {
-      // Log and move on, otherwise output can be very noisy.
-      counters.empty.incrementAndGet();
+      if (mapper.isCountDocumentMapper()) {
+        ((CountDocumentMapper) mapper).incrementEmpty();
+      }
       return null;
     }
 

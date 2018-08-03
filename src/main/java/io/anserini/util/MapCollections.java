@@ -21,10 +21,8 @@ import io.anserini.collection.BaseFileSegment;
 import io.anserini.collection.DocumentCollection;
 import io.anserini.collection.SegmentProvider;
 import io.anserini.collection.SourceDocument;
-import io.anserini.index.generator.DocumentGenerator;
 
-import io.anserini.index.transform.JsoupStringTransform;
-import io.anserini.index.transform.StringTransform;
+import io.anserini.index.generator.LuceneDocumentGenerator;
 import io.anserini.util.mapper.CountDocumentMapper;
 import io.anserini.util.mapper.DocumentMapper;
 import org.apache.logging.log4j.LogManager;
@@ -70,35 +68,6 @@ public final class MapCollections {
 
     // optional arguments
 
-    @Option(name = "-index", metaVar = "[Path]", usage = "index path")
-    public String index;
-
-    @Option(name = "-storePositions", usage = "boolean switch to index storePositions")
-    public boolean storePositions = false;
-
-    @Option(name = "-storeDocvectors", usage = "boolean switch to store document vectors")
-    public boolean storeDocvectors = false;
-
-    @Option(name = "-storeTransformedDocs", usage = "boolean switch to store transformed document text")
-    public boolean storeTransformedDocs = false;
-
-    @Option(name = "-storeRawDocs", usage = "boolean switch to store raw document text")
-    public boolean storeRawDocs = false;
-
-    @Option(name = "-optimize", usage = "boolean switch to optimize index (force merge)")
-    public boolean optimize = false;
-
-    @Option(name = "-keepStopwords", usage = "boolean switch to keep stopwords")
-    public boolean keepStopwords = false;
-
-    @Option(name = "-uniqueDocid", usage = "remove duplicated documents with the same doc id when indexing. " +
-            "please note that this option may slow the indexing a lot and if you are sure there is no " +
-            "duplicated document ids in the corpus you shouldn't use this option.")
-    public boolean uniqueDocid = false;
-
-    @Option(name = "-memorybuffer", usage = "memory buffer size")
-    public int memorybufferSize = 2048;
-
     @Option(name = "-whitelist", usage = "file containing docids, one per line; only specified docids will be indexed.")
     public String whitelist = null;
 
@@ -107,9 +76,6 @@ public final class MapCollections {
 
     @Option(name = "-tweet.keepUrls", usage = "boolean switch to keep URLs while indexing tweets")
     public boolean tweetKeepUrls = false;
-
-    @Option(name = "-tweet.stemming", usage = "boolean switch to apply Porter stemming while indexing tweets")
-    public boolean tweetStemming = false;
 
     @Option(name = "-tweet.maxId", usage = "the max tweet Id for indexing. Tweet Ids that are larger " +
             " (when being parsed to Long type) than this value will NOT be indexed")
@@ -135,9 +101,9 @@ public final class MapCollections {
     public void run() {
       try {
         @SuppressWarnings("unchecked")
-        DocumentGenerator generator = (DocumentGenerator) generatorClass
-          .getDeclaredConstructor(StringTransform.class, Args.class, DocumentMapper.class)
-          .newInstance(new JsoupStringTransform(), args, mapper);
+        LuceneDocumentGenerator generator = (LuceneDocumentGenerator) generatorClass
+          .getDeclaredConstructor(MapCollections.Args.class, DocumentMapper.class)
+          .newInstance(args, mapper);
 
         int numIndexed = 0;
 
@@ -215,12 +181,6 @@ public final class MapCollections {
     LOG.info("Generator: " + args.generatorClass);
     LOG.info("Mapper: " + args.mapperClass);
     LOG.info("Threads: " + args.threads);
-    LOG.info("Keep stopwords? " + args.keepStopwords);
-    LOG.info("Store positions? " + args.storePositions);
-    LOG.info("Store docvectors? " + args.storeDocvectors);
-    LOG.info("Store transformed docs? " + args.storeTransformedDocs);
-    LOG.info("Store raw docs? " + args.storeRawDocs);
-    LOG.info("Optimize (merge segments)? " + args.optimize);
     LOG.info("Whitelist: " + args.whitelist);
 
     collectionPath = Paths.get(args.input);
