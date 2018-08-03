@@ -103,9 +103,6 @@ public class FeatureVector {
     for (String term : features.keySet()) {
       norm += Math.abs(features.get(term));
     }
-    if (norm < 0.01) {
-      norm = 1.0f;
-    }
     return norm;
   }
 
