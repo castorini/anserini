@@ -22,12 +22,10 @@ import io.anserini.collection.DocumentCollection;
 import io.anserini.collection.SegmentProvider;
 import io.anserini.collection.SourceDocument;
 
-import io.anserini.index.generator.LuceneDocumentGenerator;
 import io.anserini.util.mapper.CountDocumentMapper;
 import io.anserini.util.mapper.DocumentMapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.lucene.document.Document;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.OptionHandlerFilter;
@@ -68,6 +66,9 @@ public final class MapCollections {
 
     // optional arguments
 
+    @Option(name = "-output", metaVar = "[Path]", usage = "output path")
+    public String output;
+
     @Option(name = "-whitelist", usage = "file containing docids, one per line; only specified docids will be indexed.")
     public String whitelist = null;
 
@@ -100,12 +101,7 @@ public final class MapCollections {
     @Override
     public void run() {
       try {
-        @SuppressWarnings("unchecked")
-        LuceneDocumentGenerator generator = (LuceneDocumentGenerator) generatorClass
-          .getDeclaredConstructor(MapCollections.Args.class, DocumentMapper.class)
-          .newInstance(args, mapper);
-
-        int numIndexed = 0;
+        int numMapped = 0;
 
         @SuppressWarnings("unchecked")
         BaseFileSegment<SourceDocument> iter =
@@ -118,7 +114,7 @@ public final class MapCollections {
           } catch (NoSuchElementException e1) {
             break;
           } catch (RuntimeException e2) {
-            if (e2.getMessage().contains("IOException")) {
+            if (e2.getMessage() != null && e2.getMessage().contains("IOException")) {
               LOG.error("Exception when parsing document: ", e2);
               if (mapper.isCountDocumentMapper()) {
                 ((CountDocumentMapper)mapper).incrementErrors();
@@ -143,20 +139,14 @@ public final class MapCollections {
             continue;
           }
 
-          @SuppressWarnings("unchecked") // Yes, we know what we're doing here.
-          Document doc = generator.createDocument(d);
-          if (doc == null) {
-            continue;
-          }
-
-          numIndexed++;
+          numMapped++;
         }
 
         iter.close();
         LOG.info(inputFile.getParent().getFileName().toString() + File.separator +
-                inputFile.getFileName().toString() + ": " + numIndexed + " docs added.");
+                inputFile.getFileName().toString() + ": " + numMapped + " docs added.");
         if (mapper.isCountDocumentMapper()) {
-          ((CountDocumentMapper)mapper).incrementIndexedBy(numIndexed);
+          ((CountDocumentMapper)mapper).incrementIndexedBy(numMapped);
         }
       } catch (Exception e) {
         LOG.error(Thread.currentThread().getName() + ": Unexpected Exception:", e);
@@ -167,7 +157,6 @@ public final class MapCollections {
   private final Args args;
   private final Path collectionPath;
   private final Class collectionClass;
-  private final Class generatorClass;
   private final Class mapperClass;
   private final DocumentCollection collection;
   private final DocumentMapper mapper;
@@ -181,6 +170,7 @@ public final class MapCollections {
     LOG.info("Generator: " + args.generatorClass);
     LOG.info("Mapper: " + args.mapperClass);
     LOG.info("Threads: " + args.threads);
+    LOG.info("Output: " + args.output);
     LOG.info("Whitelist: " + args.whitelist);
 
     collectionPath = Paths.get(args.input);
@@ -189,7 +179,6 @@ public final class MapCollections {
               " does not exist or is not readable, please check the path");
     }
 
-    this.generatorClass = Class.forName("io.anserini.index.generator." + args.generatorClass);
     this.collectionClass = Class.forName("io.anserini.collection." + args.collectionClass);
     this.mapperClass = Class.forName("io.anserini.util.mapper." + args.mapperClass);
 

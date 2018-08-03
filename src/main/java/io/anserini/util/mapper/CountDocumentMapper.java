@@ -96,6 +96,8 @@ public class CountDocumentMapper extends DocumentMapper {
       incrementSkipped();
       return false;
     }
+
+    incrementIndexed();
     return true;
   }
 

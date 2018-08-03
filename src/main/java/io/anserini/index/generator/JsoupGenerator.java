@@ -18,8 +18,6 @@ package io.anserini.index.generator;
 
 import io.anserini.index.IndexCollection;
 import io.anserini.index.transform.JsoupStringTransform;
-import io.anserini.util.MapCollections;
-import io.anserini.util.mapper.DocumentMapper;
 
 public class JsoupGenerator extends LuceneDocumentGenerator {
   public JsoupGenerator() {
@@ -27,8 +25,5 @@ public class JsoupGenerator extends LuceneDocumentGenerator {
   }
   public JsoupGenerator(IndexCollection.Args args, IndexCollection.Counters counters) {
     super(new JsoupStringTransform(), args, counters);
-  }
-  public JsoupGenerator(MapCollections.Args args, DocumentMapper mapper) {
-    super(new JsoupStringTransform(), args, mapper);
   }
 }

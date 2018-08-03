@@ -24,7 +24,6 @@ import io.anserini.collection.SegmentProvider;
 import io.anserini.collection.SourceDocument;
 import io.anserini.index.generator.LuceneDocumentGenerator;
 
-import io.anserini.util.MapCollections;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.apache.logging.log4j.LogManager;
@@ -63,15 +62,6 @@ public final class IndexCollection {
   private static final Logger LOG = LogManager.getLogger(IndexCollection.class);
 
   public static final class Args {
-
-    public Args(MapCollections.Args mapArgs) {
-      this.input = mapArgs.input;
-      this.collectionClass = mapArgs.collectionClass;
-      this.generatorClass = mapArgs.generatorClass;
-      this.threads = mapArgs.threads;
-    }
-
-    public Args() {}
 
     // required arguments
 
