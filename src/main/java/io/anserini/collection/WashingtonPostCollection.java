@@ -185,7 +185,6 @@ public class WashingtonPostCollection extends DocumentCollection
       // Required fields
       protected String id;
       protected long publishedDate;
-      protected String content;
 
       // Optional fields
       protected Optional<List<Content>> contents;
