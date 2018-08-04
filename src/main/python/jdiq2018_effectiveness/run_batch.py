@@ -26,7 +26,7 @@ import yaml
 
 from search import Search
 from evaluation import Evaluation
-from performance import Performances
+from effectiveness import Effectiveness
 
 logger = logging.getLogger('jdiq2018_effectiveness')
 logger.setLevel(logging.INFO)
@@ -39,18 +39,17 @@ ch.setFormatter(formatter)
 logger.addHandler(ch)
 
 parallelism=1
-def batch_everything(all_paras, func):
-    #print(all_paras)
-    if len(all_paras) == 0:
+def batch_everything(all_params, func):
+    if len(all_params) == 0:
         return
     p = Pool(parallelism)
-    p.map(func, all_paras)
+    p.map(func, all_params)
 
 def isclose(a, b, rel_tol=1e-09, abs_tol=0.0):
     return abs(a-b) <= max(rel_tol * max(abs(a), abs(b)), abs_tol)
 
 def batch_retrieval(collection_yaml, models_yaml, output_root):
-    all_paras = []
+    all_params = []
     program = os.path.join(collection_yaml['anserini_root'], 'target/appassembler/bin', 'SearchCollection')
     index_path = os.path.join(collection_yaml['index_root'] if collection_yaml['index_root'] else '', collection_yaml['index_path'])
     this_output_root = os.path.join(output_root, collection_yaml['name'])
@@ -58,8 +57,8 @@ def batch_retrieval(collection_yaml, models_yaml, output_root):
         os.makedirs(this_output_root)
     logger.info('='*10+'Batch Retrieval Parameters Generated'+'='*10)
     for topic in collection_yaml['topics']:
-        model_paras = Search(index_path).gen_batch_retrieval_paras(topic['path'], models_yaml, this_output_root)
-        for para in model_paras:
+        model_params = Search(index_path).gen_batch_retrieval_paras(topic['path'], models_yaml, this_output_root)
+        for para in model_params:
             this_para = (
                 program,
                 '-searchtweets' if 'mb' in collection_yaml['name'] else '',
@@ -69,22 +68,22 @@ def batch_retrieval(collection_yaml, models_yaml, output_root):
                 para[0],
                 '-output', para[1]
             )
-            all_paras.append(this_para)
+            all_params.append(this_para)
     logger.info('='*10+'Starting Batch Retrieval'+'='*10)
-    batch_everything(all_paras, atom_retrieval)
+    batch_everything(all_params, atom_retrieval)
 
 def atom_retrieval(para):
     subprocess.call(' '.join(para), shell=True)
 
 def batch_eval(collection_yaml, models_yaml, output_root):
-    all_paras = []
+    all_params = []
     index_path = os.path.join(collection_yaml['index_root'] if collection_yaml['index_root'] else '', collection_yaml['index_path'])
     programs = set([eval['command'] for eval in collection_yaml['evals']])
     this_output_root = os.path.join(output_root, collection_yaml['name'])
     if not os.path.exists(this_output_root):
         os.makedirs(this_output_root)
-    eval_paras = Evaluation(index_path).gen_batch_eval_paras(this_output_root)
-    for para in eval_paras:
+    eval_params = Evaluation(index_path).gen_batch_eval_params(this_output_root)
+    for para in eval_params:
         topic_path, run_file_path, eval_output = para
         for topic in collection_yaml['topics']:
             if topic['path'] == topic_path:
@@ -94,47 +93,47 @@ def batch_eval(collection_yaml, models_yaml, output_root):
                     run_file_path,
                     eval_output
                 )
-                all_paras.append(this_para)
+                all_params.append(this_para)
     logger.info('='*10+'Starting Batch Evaluation'+'='*10)
-    batch_everything(all_paras, atom_eval)
+    batch_everything(all_params, atom_eval)
 
-def atom_eval(paras):
-    Evaluation.output_all_evaluations(*paras)
+def atom_eval(params):
+    Evaluation.output_all_evaluations(*params)
 
-def batch_output_performances(collection_yaml, models_yaml, output_root):
-    all_paras = []
+def batch_output_effectiveness(collection_yaml, models_yaml, output_root):
+    all_params = []
     index_path = os.path.join(collection_yaml['index_root'] if collection_yaml['index_root'] else '', collection_yaml['index_path'])
     this_output_root = os.path.join(output_root, collection_yaml['name'])
     if not os.path.exists(this_output_root):
         os.makedirs(this_output_root)
-    all_paras.extend( Performances(index_path).gen_output_performances_paras(this_output_root) )
-    logger.info('='*10+'Starting Output Performances'+'='*10)
-    batch_everything(all_paras, atom_output_performances)
+    all_params.extend( Effectiveness(index_path).gen_output_effectiveness_params(this_output_root) )
+    logger.info('='*10+'Starting Output Effectiveness'+'='*10)
+    batch_everything(all_params, atom_output_effectiveness)
 
-def atom_output_performances(para):
+def atom_output_effectiveness(para):
     index_path = para[0]
     output_fn = para[1]
     input_fns = para[2:]
-    Performances(index_path).output_performances(output_fn, input_fns)
+    Effectiveness(index_path).output_effectiveness(output_fn, input_fns)
 
-def print_optimal_performances(collection_yaml, models_yaml, output_root, metrics=['map']):
+def print_optimal_effectiveness(collection_yaml, models_yaml, output_root, metrics=['map']):
     index_path = os.path.join(collection_yaml['index_root'] if collection_yaml['index_root'] else '', collection_yaml['index_path'])
     this_output_root = os.path.join(output_root, collection_yaml['name'])
-    logger.info('='*30+'JDIQ2018 Performances for '+collection_yaml['name']+'='*30)
-    performances = Performances(index_path).load_optimal_performance(this_output_root, metrics)
+    logger.info('='*30+'JDIQ2018 Effectiveness for '+collection_yaml['name']+'='*30)
+    effectiveness = Effectiveness(index_path).load_optimal_effectiveness(this_output_root, metrics)
     success = True
-    for performance in performances:
-        expected = models_yaml[performance['model']]['expected'][collection_yaml['name']][performance['metric']][performance['topic']]
-        if isclose(expected, performance['actual']):
-            logger.info(json.dumps(performance, sort_keys=True))
+    for e in effectiveness:
+        expected = models_yaml[e['model']]['expected'][collection_yaml['name']][e['metric']][e['topic']]
+        if isclose(expected, e['actual']):
+            logger.info(json.dumps(e, sort_keys=True))
         else:
             success = False
-            logger.error('!'*5+'expected:%f'%expected+json.dumps(performance, sort_keys=True)+'!'*5)
+            logger.error('!'*5+'expected:%f'%expected+json.dumps(e, sort_keys=True)+'!'*5)
     if success:
         logger.info("All Tests Passed!")
 
 def del_method_related_files(method_name):
-    folders = ['split_results', 'merged_results', 'evals', 'performances']
+    folders = ['split_results', 'merged_results', 'evals', 'effectiveness']
     for q in g.query:
         collection_name = q['collection']
         index_name = c['index']
@@ -186,6 +185,5 @@ if __name__ == '__main__':
         collection_yaml['anserini_root'] = args.anserini_root
         batch_retrieval(collection_yaml, models_yaml, args.output_root)
         batch_eval(collection_yaml, models_yaml, args.output_root)
-        batch_output_performances(collection_yaml, models_yaml, args.output_root)
-        print_optimal_performances(collection_yaml, models_yaml, args.output_root, args.metrics)
-
+        batch_output_effectiveness(collection_yaml, models_yaml, args.output_root)
+        print_optimal_effectiveness(collection_yaml, models_yaml, args.output_root, args.metrics)

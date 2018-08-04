@@ -22,49 +22,49 @@ from operator import itemgetter
 from inspect import currentframe, getframeinfo
 import logging
 
-class Performances(object):
+class Effectiveness(object):
     """
-    Handle the performace. For example, get all the performances of one method(has multiple parameters).
+    Handle the performace. For example, get all the effectiveness of one method(has multiple parameters).
     When constructing, pass the index path
     """
     def __init__(self, index_path):
-        self.logger = logging.getLogger('performance.Performances')
+        self.logger = logging.getLogger('effectiveness.Effectiveness')
         self.index_path = os.path.abspath(index_path)
         if not os.path.exists(self.index_path):
             frameinfo = getframeinfo(currentframe())
             self.logger.error(frameinfo.filename, frameinfo.lineno)
-            self.logger.error('[Performances Constructor]:Please provide a valid index path - ' + self.index_path)
+            self.logger.error('[Effectiveness Constructor]:Please provide a valid index path - ' + self.index_path)
             exit(1)
 
         self.run_files_root = 'run_files'
         self.eval_files_root = 'eval_files'
-        self.performances_root = 'performance_files'
+        self.effectiveness_root = 'effectiveness_files'
 
-    def gen_output_performances_paras(self, output_root):
-        if not os.path.exists(os.path.join(output_root, self.performances_root)):
-            os.makedirs(os.path.join(output_root, self.performances_root))
-        all_paras = []
+    def gen_output_effectiveness_params(self, output_root):
+        if not os.path.exists(os.path.join(output_root, self.effectiveness_root)):
+            os.makedirs(os.path.join(output_root, self.effectiveness_root))
+        all_params = []
         all_results = {}
         for fn in os.listdir(os.path.join(output_root, self.eval_files_root)):
             if len(fn.split('_')) == 3:
                 topic_type, model, model_params = fn.split('_')
             elif len(fn.split('_')) == 2:
                 topic_type, model = fn.split('_')
-            performace_fn = os.path.join(output_root, self.performances_root, topic_type+'_'+model)
+            performace_fn = os.path.join(output_root, self.effectiveness_root, topic_type+'_'+model)
             if not os.path.exists(performace_fn):
                 k = topic_type+'_'+model
                 if k not in all_results:
                     all_results[k] = []
                 all_results[k].append( os.path.join(output_root, self.eval_files_root, fn) )
         for k in all_results:
-            performace_fn = os.path.join(output_root, self.performances_root, k)
+            performace_fn = os.path.join(output_root, self.effectiveness_root, k)
             tmp = [ self.index_path, performace_fn ]
             tmp.extend( all_results[k] )
-            all_paras.append(tuple(tmp))
+            all_params.append(tuple(tmp))
 
-        return all_paras
+        return all_params
 
-    def output_performances(self, output_fn, eval_fn_list):
+    def output_effectiveness(self, output_fn, eval_fn_list):
         all_results = {}
         for fn in eval_fn_list:
             eval_res = self.read_eval_file(fn)
@@ -112,12 +112,12 @@ class Performances(object):
 
         return res
 
-    def load_optimal_performance(self, output_root, metrics=['map']):
+    def load_optimal_effectiveness(self, output_root, metrics=['map']):
         data = []
-        performances_root = os.path.join(output_root, self.performances_root)
-        for fn in os.listdir(performances_root):
+        effectiveness_root = os.path.join(output_root, self.effectiveness_root)
+        for fn in os.listdir(effectiveness_root):
             topic, model = fn.split('_')
-            with open(os.path.join(performances_root, fn)) as f:
+            with open(os.path.join(effectiveness_root, fn)) as f:
                 all_performance = json.load(f)
                 for metric in metrics:
                     res = {
@@ -129,6 +129,3 @@ class Performances(object):
                     }
                     data.append(res)
         return data
-
-
-

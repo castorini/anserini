@@ -36,18 +36,18 @@ class Evaluation(object):
         self.run_files_root = 'run_files'
         self.eval_files_root = 'eval_files'
 
-    def gen_batch_eval_paras(self, output_root):
+    def gen_batch_eval_params(self, output_root):
         if not os.path.exists(os.path.join(output_root, self.eval_files_root)):
             os.makedirs(os.path.join(output_root, self.eval_files_root))
-        all_paras = []
+        all_params = []
         for fn in os.listdir(os.path.join(output_root, self.run_files_root)):
             if not os.path.exists( os.path.join(output_root, self.eval_files_root, fn) ):
-                all_paras.append((
+                all_params.append((
                     fn.split('_')[0], # topic path
                     os.path.join(output_root, self.run_files_root, fn),
                     os.path.join(output_root, self.eval_files_root, fn)
                 ))
-        return all_paras
+        return all_params
 
 
     @classmethod
@@ -82,4 +82,3 @@ class Evaluation(object):
                     o.close()
             else:
                 logger.error('ERROR when running the evaluation for:' + result_file_path)
-

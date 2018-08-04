@@ -38,8 +38,8 @@ class Search(object):
             yield float(x)
             x += jump
 
-    def gen_batch_retrieval_paras(self, topic, models, output_root):
-        all_paras = []
+    def gen_batch_retrieval_params(self, topic, models, output_root):
+        all_params = []
         if not os.path.exists(os.path.join(output_root, self.run_files_root)):
             os.makedirs(os.path.join(output_root, self.run_files_root))
         for model, properties in models.items():
@@ -54,12 +54,11 @@ class Search(object):
                         rfn += '%s:%.2f' % (k, p[k_idx])
                     results_fn = os.path.join(output_root, self.run_files_root, topic+'_'+rfn)
                     if not os.path.exists(results_fn):
-                        all_paras.append( (para_str, results_fn) )
+                        all_params.append( (para_str, results_fn) )
             else:
                 para_str = '-'+model
                 results_fn = os.path.join(self.run_files_root, topic+'_'+properties['name'])
                 if not os.path.exists(results_fn):
-                    all_paras.append( (para_str, results_fn) )
+                    all_params.append( (para_str, results_fn) )
             
-        return all_paras
-        
+        return all_params
