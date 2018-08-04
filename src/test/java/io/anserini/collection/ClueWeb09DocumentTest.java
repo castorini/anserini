@@ -21,7 +21,7 @@ import org.junit.Test;
 
 import java.util.HashMap;
 import java.util.NoSuchElementException;
-
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class ClueWeb09DocumentTest extends DocumentTest {
 
@@ -104,5 +104,18 @@ public class ClueWeb09DocumentTest extends DocumentTest {
         }
       }
     }
+  }
+
+  // Tests if the iterator is behaving properly. If it is, we shouldn't have any issues running into
+  // NoSuchElementExceptions.
+  @Test
+  public void testStreamIteration() {
+    ClueWeb09Collection collection = new ClueWeb09Collection();
+    BaseFileSegment<ClueWeb09Collection.Document> iter =
+        collection.createFileSegment(rawDocs.get(0) + rawDocs.get(1));
+    AtomicInteger cnt = new AtomicInteger();
+    // FIXME: We're using NoSuchElementExceptions to trigger the end of the iteration, which is janky.
+    iter.forEachRemaining(d -> cnt.incrementAndGet());
+    assertEquals(cnt, 2);
   }
 }
