@@ -15,7 +15,7 @@ index_options:
   - -optimize
 topic_reader: Trec
 input: /tuna1/collections/newswire/NYTcorpus/
-index_path: "/tuna1/indexes/lucene-index.nyt.pos+docvectors+rawdocs" # path to the existing index, used in regression test if `--index` option is absent
+index_path: "/tuna1/indexes/lucene-index.core17.pos+docvectors" # path to the existing index, used in regression test if `--index` option is absent
 collection: NewYorkTimesCollection
 index_stats:
   documents: 1831109
