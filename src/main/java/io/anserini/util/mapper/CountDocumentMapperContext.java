@@ -17,18 +17,24 @@
 package io.anserini.util.mapper;
 
 import io.anserini.collection.SourceDocument;
-import io.anserini.util.MapCollections;
 
-public abstract class DocumentMapper {
-  protected MapCollections.Args args;
+import java.util.concurrent.atomic.AtomicLong;
 
-  public DocumentMapper(MapCollections.Args args) {
-    this.args = args;
-  }
+public class CountDocumentMapperContext extends DocumentMapperContext {
+  /**
+   * Counter for successfully processed documents.
+   */
+  public AtomicLong processed = new AtomicLong();
 
-  public abstract void setContext(DocumentMapperContext context);
+  /**
+   * Counter for unindexable documents. These are cases where {@link SourceDocument#indexable()}
+   * returns false.
+   */
+  public AtomicLong unindexable = new AtomicLong();
 
-  public abstract void process(SourceDocument doc, DocumentMapperContext context);
-
-  public abstract void printResult(long durationMillis);
+  /**
+   * Counter for skipped documents. These are cases documents are skipped as part of normal
+   * processing logic, e.g., using a whitelist, not indexing retweets or deleted tweets.
+   */
+  public AtomicLong skipped = new AtomicLong();
 }

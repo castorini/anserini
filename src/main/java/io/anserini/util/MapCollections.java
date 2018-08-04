@@ -16,14 +16,13 @@
 
 package io.anserini.util;
 
-
 import io.anserini.collection.BaseFileSegment;
 import io.anserini.collection.DocumentCollection;
 import io.anserini.collection.SegmentProvider;
 import io.anserini.collection.SourceDocument;
 
-import io.anserini.util.mapper.CountDocumentMapper;
 import io.anserini.util.mapper.DocumentMapper;
+import io.anserini.util.mapper.DocumentMapperContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.kohsuke.args4j.CmdLineException;
@@ -41,6 +40,7 @@ import java.util.NoSuchElementException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public final class MapCollections {
   private static final Logger LOG = LogManager.getLogger(MapCollections.class);
@@ -60,6 +60,9 @@ public final class MapCollections {
 
     @Option(name = "-mapper", required = true, usage = "mapper class in io.anserini.util.mapper")
     public String mapperClass;
+
+    @Option(name = "-context", required = true, usage = "context class in io.anserini.util.mapper")
+    public String contextClass;
 
     // optional arguments
 
@@ -98,50 +101,22 @@ public final class MapCollections {
     @Override
     public void run() {
       try {
-        int numMapped = 0;
-
         @SuppressWarnings("unchecked")
         BaseFileSegment<SourceDocument> iter =
           (BaseFileSegment) ((SegmentProvider) collection).createFileSegment(inputFile);
 
-        while (true) {
-          boolean hasNext;
-          try {
-            hasNext = iter.hasNext();
-          } catch (NoSuchElementException e1) {
-            break;
-          } catch (RuntimeException e2) {
-            if (e2.getMessage() != null && e2.getMessage().contains("IOException")) {
-              LOG.error("Exception when parsing document: ", e2);
-              if (mapper.isCountDocumentMapper()) {
-                ((CountDocumentMapper)mapper).incrementErrors();
-              }
-              break; // IOException: stop reading more documents
-            } else {
-              if (mapper.isCountDocumentMapper()) {
-                ((CountDocumentMapper)mapper).incrementSkipped();
-              }
-              continue; // Non-IOException: continue reading the next document
-            }
-          }
-
-          if (!hasNext) {
-            break;
-          }
-
-          SourceDocument d = iter.next();
-
-          boolean isProcessed = mapper.process(d);
-          if (!isProcessed) {
-            continue;
-          }
-
-          numMapped++;
-        }
+        // We're calling these records because the documents may not in indexable.
+        AtomicInteger records = new AtomicInteger();
+        try {
+          iter.forEachRemaining(d -> {
+            mapper.process(d, context);
+            records.incrementAndGet();
+          });
+        } catch (NoSuchElementException e) {}
 
         iter.close();
         LOG.info(inputFile.getParent().getFileName().toString() + File.separator +
-                inputFile.getFileName().toString() + ": " + numMapped + " docs added.");
+                inputFile.getFileName().toString() + ": " + records.incrementAndGet() + " records processed.");
       } catch (Exception e) {
         LOG.error(Thread.currentThread().getName() + ": Unexpected Exception:", e);
       }
@@ -152,8 +127,10 @@ public final class MapCollections {
   private final Path collectionPath;
   private final Class collectionClass;
   private final Class mapperClass;
+  private final Class contextClass;
   private final DocumentCollection collection;
   private final DocumentMapper mapper;
+  private final DocumentMapperContext context;
 
   @SuppressWarnings("unchecked")
   public MapCollections(Args args) throws Exception {
@@ -162,6 +139,7 @@ public final class MapCollections {
     LOG.info("DocumentCollection path: " + args.input);
     LOG.info("CollectionClass: " + args.collectionClass);
     LOG.info("Mapper: " + args.mapperClass);
+    LOG.info("Context: " + args.contextClass);
     LOG.info("Threads: " + args.threads);
     LOG.info("Output: " + args.output);
     LOG.info("Whitelist: " + args.whitelist);
@@ -174,11 +152,14 @@ public final class MapCollections {
 
     this.collectionClass = Class.forName("io.anserini.collection." + args.collectionClass);
     this.mapperClass = Class.forName("io.anserini.util.mapper." + args.mapperClass);
+    this.contextClass = Class.forName("io.anserini.util.mapper." + args.contextClass);
 
-    collection = (DocumentCollection) this.collectionClass.newInstance();
+    collection = (DocumentCollection) collectionClass.newInstance();
     collection.setCollectionPath(collectionPath);
 
-    mapper = (DocumentMapper) this.mapperClass.getDeclaredConstructor(Args.class).newInstance(this.args);
+    context = (DocumentMapperContext) contextClass.newInstance();
+    mapper = (DocumentMapper) mapperClass.getDeclaredConstructor(Args.class).newInstance(args);
+    mapper.setContext(context);
   }
 
   public void run() {

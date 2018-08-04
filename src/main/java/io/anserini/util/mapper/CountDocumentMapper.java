@@ -27,48 +27,16 @@ import java.io.File;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.atomic.AtomicLong;
 
 public class CountDocumentMapper extends DocumentMapper {
-
   private static final Logger LOG = LogManager.getLogger(CountDocumentMapper.class);
 
-  public final static class Counters {
-    /**
-     * Counter for successfully indexed documents.
-     */
-    public AtomicLong indexed = new AtomicLong();
-
-    /**
-     * Counter for empty documents that are not indexed. Empty documents are not necessary errors;
-     * it could be the case, for example, that a document is comprised solely of stopwords.
-     */
-    public AtomicLong empty = new AtomicLong();
-
-    /**
-     * Counter for unindexable documents. These are cases where {@link SourceDocument#indexable()}
-     * returns false.
-     */
-    public AtomicLong unindexable = new AtomicLong();
-
-    /**
-     * Counter for skipped documents. These are cases documents are skipped as part of normal
-     * processing logic, e.g., using a whitelist, not indexing retweets or deleted tweets.
-     */
-    public AtomicLong skipped = new AtomicLong();
-
-    /**
-     * Counter for unexpected errors.
-     */
-    public AtomicLong errors = new AtomicLong();
-  }
-
-  private final Counters counters;
+  private CountDocumentMapperContext counters;
   private final Set whitelistDocids;
 
-  public CountDocumentMapper(MapCollections.Args args) throws Exception {
+  public CountDocumentMapper(MapCollections.Args args)
+      throws Exception {
     super(args);
-    this.counters = new CountDocumentMapper.Counters();
 
     if (args.whitelist != null) {
       List<String> lines = FileUtils.readLines(new File(args.whitelist), "utf-8");
@@ -78,53 +46,32 @@ public class CountDocumentMapper extends DocumentMapper {
     }
   }
 
-  public void incrementErrors() {
-    counters.errors.incrementAndGet();
+  @Override
+  public void setContext(DocumentMapperContext context) {
+    this.counters = (CountDocumentMapperContext) context;
   }
 
-  public void incrementSkipped() {
-    counters.skipped.incrementAndGet();
-  }
-
-  public void incrementUnindexable() {
-    counters.unindexable.incrementAndGet();
-  }
-
-  public void incrementEmpty() {
-    counters.empty.incrementAndGet();
-  }
-
-  public void incrementIndexed() {
-    counters.indexed.incrementAndGet();
-  }
-
-  public void incrementIndexedBy(int numIndexed) {
-    counters.indexed.addAndGet(numIndexed);
-  }
-
-  public boolean process(SourceDocument d) {
-    if (!d.indexable()) {
-      incrementUnindexable();
-      return false;
+  @Override
+  public void process(SourceDocument doc, DocumentMapperContext context) {
+    if (!doc.indexable()) {
+      ((CountDocumentMapperContext) context).unindexable.incrementAndGet();
+      return;
     }
 
-    if (whitelistDocids != null && !whitelistDocids.contains(d.id())) {
-      incrementSkipped();
-      return false;
+    if (whitelistDocids != null && !whitelistDocids.contains(doc.id())) {
+      ((CountDocumentMapperContext) context).skipped.incrementAndGet();
+      return;
     }
 
-    incrementIndexed();
-    return true;
+    ((CountDocumentMapperContext) context).processed.incrementAndGet();
   }
 
   public void printResult(long durationMillis) {
     LOG.info("# Final Counter Values");
-    LOG.info(String.format("indexed:     %,12d", counters.indexed.get()));
-    LOG.info(String.format("empty:       %,12d", counters.empty.get()));
+    LOG.info(String.format("processed:   %,12d", counters.processed.get()));
     LOG.info(String.format("unindexable: %,12d", counters.unindexable.get()));
     LOG.info(String.format("skipped:     %,12d", counters.skipped.get()));
-    LOG.info(String.format("errors:      %,12d", counters.errors.get()));
-    LOG.info(String.format("Total %,d documents indexed in %s", counters.indexed.get(),
+    LOG.info(String.format("Total %,d documents processed in %s", counters.processed.get(),
             DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss")));
   }
 }
