@@ -62,15 +62,13 @@ public class CarCollection extends DocumentCollection
     public boolean hasNext() {
       if (bufferedRecord != null) {
         return true;
+      } else if (atEOF) {
+        return false;
       }
 
       System.setProperty("file.encoding", "UTF-8");
       Data.Paragraph p;
-      try {
-         p = iter.next();
-      } catch (NoSuchElementException e) {
-        return false;
-      }
+      p = iter.next();
       bufferedRecord = new Document(p.getParaId(), p.getTextOnly());
 
       return true;

@@ -119,15 +119,14 @@ public class ClueWeb09Collection extends DocumentCollection
     public boolean hasNext() {
       if (bufferedRecord != null) {
         return true;
+      } else if (atEOF) {
+        return false;
       }
 
       try {
         bufferedRecord = readNextWarcRecord(stream, Document.WARC_VERSION);
-      } catch (NoSuchElementException e1) {
-        return false;
-      } catch (IOException e2) {
-        LOG.error("Exception from BufferedReader:", e2);
-        return false;
+      } catch (IOException e) {
+        throw new RuntimeException("File IOException: ", e);
       }
 
       return bufferedRecord != null;
@@ -138,6 +137,7 @@ public class ClueWeb09Collection extends DocumentCollection
       if (stream != null) {
         stream.close();
       }
+      super.close();
     }
 
     /**

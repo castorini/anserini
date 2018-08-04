@@ -94,7 +94,6 @@ public class JsonCollection extends DocumentCollection
         JsonParser jsonParser = new JsonFactory().createParser(new BufferedReader(new FileReader(path.toString())));
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
-        JsonNode n = objectMapper.readTree(jsonParser);
         node = objectMapper.readTree(jsonParser);
       } catch (IOException e) {
         node = null; // When the json file does not contain any json objects, set node to null
@@ -106,6 +105,8 @@ public class JsonCollection extends DocumentCollection
     public boolean hasNext() {
       if (bufferedRecord != null) {
         return true;
+      } else if (atEOF) {
+        return false;
       }
 
       if (node == null) {
@@ -118,7 +119,7 @@ public class JsonCollection extends DocumentCollection
             bufferedRecord = new JsonCollection.Document(json.get("id").asText(), json.get("contents").asText());
           }
         } catch (IOException e) {
-          LOG.error("Exception from BufferedReader:", e);
+          throw new RuntimeException("File IOException: ", e);
         }
 
         if (nextRecord == null) {

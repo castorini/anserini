@@ -57,13 +57,14 @@ public class TrecwebCollection extends DocumentCollection
     public boolean hasNext() {
       if (bufferedRecord != null) {
         return true;
+      } else if (atEOF) {
+        return false;
       }
 
       try {
         readNextRecord(bufferedReader);
-      } catch (RuntimeException | IOException e) {
-        LOG.error("Exception from BufferedReader:", e);
-        return false;
+      } catch (IOException e) {
+        throw new RuntimeException("File IOException: ", e);
       }
 
       return bufferedRecord != null;

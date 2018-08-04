@@ -67,12 +67,6 @@ public class HtmlCollection extends DocumentCollection
     }
 
     @Override
-    public void close() throws IOException {
-      atEOF = true;
-      super.close();
-    }
-
-    @Override
     public boolean hasNext() {
       if (bufferedRecord != null) {
         return true;
@@ -90,15 +84,14 @@ public class HtmlCollection extends DocumentCollection
           bufferedRecord = new Document(bufferedReader, path.getFileName().toString().replaceAll("\\.html$", ""));
           atEOF = true;
         }
-      } catch (NoSuchElementException e1) {
-        return false;
-      } catch (IOException e2) {
+      } catch (IOException e) {
         if (path.toString().endsWith(".html")) {
           return false;
         }
+        throw new RuntimeException("File IOException: ", e);
       }
 
-      return bufferedReader != null;
+      return bufferedRecord != null;
     }
 
     private void getNextEntry() throws IOException {

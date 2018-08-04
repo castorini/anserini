@@ -16,6 +16,8 @@
 
 package io.anserini.collection;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.wikiclean.WikiClean;
 import org.wikiclean.WikiClean.WikiLanguage;
 import org.wikiclean.WikiCleanBuilder;
@@ -32,6 +34,8 @@ import java.util.*;
  */
 public class WikipediaCollection extends DocumentCollection
     implements SegmentProvider<WikipediaCollection.Document> {
+
+  private static final Logger LOG = LogManager.getLogger(WikipediaCollection.class);
 
   @Override
   public List<Path> getFileSegmentPaths() {
@@ -62,6 +66,8 @@ public class WikipediaCollection extends DocumentCollection
     public boolean hasNext() {
       if (bufferedRecord != null) {
         return true;
+      } else if (atEOF) {
+        return false;
       }
 
       try {
@@ -87,7 +93,7 @@ public class WikipediaCollection extends DocumentCollection
           return true;
         }
       } catch (IOException e) {
-        e.printStackTrace();
+        throw new RuntimeException("File IOException: ", e);
       }
 
       // If we've fall through here, we've either encountered an exception or we've reached the end
