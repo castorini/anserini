@@ -19,8 +19,10 @@ package io.anserini.collection;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import io.anserini.util.JsonParser;
 import org.apache.logging.log4j.LogManager;
@@ -122,22 +124,8 @@ public class WashingtonPostCollection extends DocumentCollection
                   && JsonParser.isFieldAvailable(contentObj.getType())
                   && JsonParser.isFieldAvailable(contentObj.getContent())
                   && Document.CONTENT_TYPE_TAG.contains(contentObj.getType().get())) {
-            Object contents = contentObj.getContent().get();
-            if (contents instanceof java.lang.String) {
-              builder.append(removeTags(((String) contents).trim())).append("\n");
-            } else if (contents instanceof java.util.List) {
-              for (Object content : (List<Object>) contents) {
-                builder.append(removeTags(((String) content).trim())).append("\n");
-              }
-            } else if (contents instanceof java.util.Map) {
-              for (Map.Entry<String, Object> entry : ((HashMap<String, Object>) contents).entrySet()) {
-                if (entry.getKey().equals("text")) {
-                  builder.append(removeTags(((String) entry.getValue()).trim())).append("\n");
-                }
-              }
-            } else {
-              LOG.warn("Unexpected type of content encountered " + contents);
-            }
+            String content = contentObj.getContent().get();
+            builder.append(removeTags(content));
           }
         }
       }
@@ -189,12 +177,72 @@ public class WashingtonPostCollection extends DocumentCollection
       // Optional fields
       protected Optional<List<Content>> contents;
 
+      @SuppressWarnings("unchecked")
+      public static class ContentJsonDeserializer extends JsonDeserializer<Content> {
+
+        @Override
+        public Content deserialize(com.fasterxml.jackson.core.JsonParser jsonParser,
+                                   DeserializationContext context) throws IOException {
+          Map<String, Object> contentMap = jsonParser.readValueAs(Map.class);
+
+          Content content = new Content();
+          content.setType(getType(contentMap));
+          content.setContent(getContent(contentMap));
+          return content;
+        }
+
+        private Optional<String> getType(Map<String, Object> map) {
+          Object type = map.get("type");
+          if (type == null) {
+            return Optional.empty();
+          }
+          return Optional.of(type.toString());
+        }
+
+        private Optional<String> getContent(Map<String, Object> map) {
+          Object contentObj = map.get("content");
+          if (contentObj == null) {
+            return Optional.empty();
+          }
+
+          StringBuilder contentStringBuilder = new StringBuilder();
+          if (contentObj instanceof String) {
+            contentStringBuilder.append(contentObj);
+          } else if (contentObj instanceof List) {
+            for (Object content: (List<Object>) contentObj) {
+              contentStringBuilder.append(content);
+            }
+          } else if (contentObj instanceof Map) {
+            Object content = ((HashMap<String, Object>) contentObj).get("text");
+            if (content == null) {
+              return Optional.empty();
+            }
+            contentStringBuilder.append(content);
+          } else {
+            return Optional.empty();
+          }
+
+          return Optional.of(contentStringBuilder.toString());
+        }
+      }
+
       /**
        * Used internally by Jackson for JSON parsing.
        */
+      @JsonDeserialize(using = ContentJsonDeserializer.class)
       public static class Content {
         protected Optional<String> type;
-        protected Optional<Object> content;
+        protected Optional<String> content;
+
+        @JsonSetter("type")
+        public void setType(Optional<String> type) {
+          this.type = type;
+        }
+
+        @JsonSetter("content")
+        public void setContent(Optional<String> content) {
+          this.content = content;
+        }
 
         @JsonGetter("type")
         public Optional<String> getType() {
@@ -202,7 +250,7 @@ public class WashingtonPostCollection extends DocumentCollection
         }
 
         @JsonGetter("content")
-        public Optional<Object> getContent() {
+        public Optional<String> getContent() {
           return content;
         }
       }
