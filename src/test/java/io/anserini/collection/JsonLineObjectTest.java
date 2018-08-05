@@ -59,14 +59,20 @@ public class JsonLineObjectTest extends DocumentTest {
     for (int i = 0; i < rawFiles.size(); i++) {
       BaseFileSegment<JsonCollection.Document> iter = collection.createFileSegment(rawFiles.get(i));
       while (true) {
+        boolean hasNext;
         try {
-          JsonCollection.Document parsed = iter.next();
-          assertEquals(parsed.id(), expected.get(j).get("id"));
-          assertEquals(parsed.content(), expected.get(j).get("content"));
-          j++;
+          hasNext = iter.hasNext();
         } catch (NoSuchElementException e) {
           break;
         }
+
+        if (!hasNext) {
+          break;
+        }
+
+        JsonCollection.Document parsed = iter.next();
+        assertEquals(parsed.id(), expected.get(i).get("id"));
+        assertEquals(parsed.content(), expected.get(i).get("content"));
       }
     }
   }

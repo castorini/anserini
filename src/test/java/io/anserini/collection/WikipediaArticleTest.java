@@ -99,13 +99,20 @@ public class WikipediaArticleTest extends DocumentTest {
     WikipediaCollection collection = new WikipediaCollection();
     BaseFileSegment<WikipediaCollection.Document> iter = collection.createFileSegment(tmpPath);
     while (true) {
+      boolean hasNext;
       try {
-        WikipediaCollection.Document parsed = iter.next();
-        assertEquals(parsed.id(), "Wiktionary:Welcome, newcomers");
-        assertEquals(parsed.content(), "Wiktionary:Welcome, newcomers.\nthis is the   real content");
+        hasNext = iter.hasNext();
       } catch (NoSuchElementException e) {
         break;
       }
+
+      if (!hasNext) {
+        break;
+      }
+
+      WikipediaCollection.Document parsed = iter.next();
+      assertEquals(parsed.id(), "Wiktionary:Welcome, newcomers");
+      assertEquals(parsed.content(), "Wiktionary:Welcome, newcomers.\nthis is the   real content");
     }
   }
 }
