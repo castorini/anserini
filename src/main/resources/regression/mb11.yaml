@@ -15,6 +15,7 @@ generator: TweetGenerator
 index_options:
   - -storePositions
   - -storeDocvectors
+  - -storeRawDocs
   - -optimize
   - -uniqueDocid
   - -tweet.keepUrls
