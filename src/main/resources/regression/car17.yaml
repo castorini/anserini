@@ -59,7 +59,16 @@ models:
       map:
         - 0.1354
       recip_rank:
-        - 0.1861
+        - 0.1860
+  - name: bm25+ax
+    params:
+      - -bm25
+      - -axiom
+    results:
+      map:
+        - 
+      recip_rank:
+        - 
   - name: ql
     params:
       - -ql
@@ -77,3 +86,12 @@ models:
         - 0.1220
       recip_rank:
         - 0.1687
+  - name: ql+ax
+    params:
+      - -bm25
+      - -axiom
+    results:
+      map:
+        - 
+      recip_rank:
+        - 
