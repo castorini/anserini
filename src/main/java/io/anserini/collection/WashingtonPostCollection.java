@@ -125,7 +125,7 @@ public class WashingtonPostCollection extends DocumentCollection
                   && JsonParser.isFieldAvailable(contentObj.getContent())
                   && Document.CONTENT_TYPE_TAG.contains(contentObj.getType().get())) {
             String content = contentObj.getContent().get();
-            builder.append(removeTags(content));
+            builder.append(removeTags(content.trim())).append("\n");
           }
         }
       }
