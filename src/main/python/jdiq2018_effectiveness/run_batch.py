@@ -57,7 +57,7 @@ def batch_retrieval(collection_yaml, models_yaml, output_root):
         os.makedirs(this_output_root)
     logger.info('='*10+'Batch Retrieval Parameters Generated'+'='*10)
     for topic in collection_yaml['topics']:
-        model_params = Search(index_path).gen_batch_retrieval_paras(topic['path'], models_yaml, this_output_root)
+        model_params = Search(index_path).gen_batch_retrieval_params(topic['path'], models_yaml, this_output_root)
         for para in model_params:
             this_para = (
                 program,
