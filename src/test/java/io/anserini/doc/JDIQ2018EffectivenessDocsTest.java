@@ -20,6 +20,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.text.StrSubstitutor;
 import org.junit.Test;
 
 import java.io.File;
@@ -27,6 +28,7 @@ import java.net.URL;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 
 @SuppressWarnings("unchecked")
 public class JDIQ2018EffectivenessDocsTest {
@@ -115,7 +117,15 @@ public class JDIQ2018EffectivenessDocsTest {
     ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
     URL yaml = JDIQ2018EffectivenessDocsTest.class.getResource("/jdiq2018/models.yaml");
     Model data = mapper.readValue(new File(yaml.toURI()), Model.class);
-    FileUtils.writeStringToFile(new File("docs/jdiq2018-effectiveness.md"),
-        data.generateEffectiveness(), "UTF-8");
+    Map<String, String> valuesMap = new HashMap<>();
+    valuesMap.put("results", data.generateEffectiveness());
+    StrSubstitutor sub = new StrSubstitutor(valuesMap);
+    URL template = GenerateRegressionDocsTest.class.getResource("/jdiq2018/doc.template");
+    Scanner scanner = new Scanner(new File(template.toURI()), "UTF-8");
+    String text = scanner.useDelimiter("\\A").next();
+    scanner.close();
+    String resolvedString = sub.replace(text);
+    FileUtils.writeStringToFile(new File("docs/experiments-jdiq2018.md"),
+        resolvedString, "UTF-8");
   }
 }
