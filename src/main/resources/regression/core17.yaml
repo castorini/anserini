@@ -12,6 +12,7 @@ threads: 16
 index_options:
   - -storePositions
   - -storeDocvectors
+  - -storeRawDocs
   - -optimize
 topic_reader: Trec
 input: /tuna1/collections/newswire/NYTcorpus/
