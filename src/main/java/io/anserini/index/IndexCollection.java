@@ -81,6 +81,7 @@ public final class IndexCollection {
     public String generatorClass;
 
     // optional arguments
+
     @Option(name = "-storePositions", usage = "boolean switch to index storePositions")
     public boolean storePositions = false;
 
@@ -112,13 +113,17 @@ public final class IndexCollection {
 
     @Option(name = "-tweet.keepRetweets", usage = "boolean switch to keep retweets while indexing")
     public boolean tweetKeepRetweets = false;
+
     @Option(name = "-tweet.keepUrls", usage = "boolean switch to keep URLs while indexing tweets")
     public boolean tweetKeepUrls = false;
+
     @Option(name = "-tweet.stemming", usage = "boolean switch to apply Porter stemming while indexing tweets")
     public boolean tweetStemming = false;
+
     @Option(name = "-tweet.maxId", usage = "the max tweet Id for indexing. Tweet Ids that are larger " +
         " (when being parsed to Long type) than this value will NOT be indexed")
     public long tweetMaxId = Long.MAX_VALUE;
+
     @Option(name = "-tweet.deletedIdsFile", metaVar = "[Path]",
         usage = "a file that contains deleted tweetIds, one per line. these tweeets won't be indexed")
     public String tweetDeletedIdsFile = "";
@@ -195,7 +200,7 @@ public final class IndexCollection {
           } catch (NoSuchElementException e1) {
             break;
           } catch (RuntimeException e2) {
-            if (e2.getMessage().contains("IOException")) {
+            if (e2.getMessage() != null && e2.getMessage().contains("File IOException")) {
               LOG.warn("Exception when parsing document: ", e2);
               counters.errors.incrementAndGet();
               break; // IOException: stop reading more documents

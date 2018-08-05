@@ -39,9 +39,21 @@ Here's how to run the end-to-end experiments:
 + `python src/main/python/run_regression.py --collection mb11`: [Experiments on Tweets2011 (MB11 &amp; MB12)](experiments-mb11.md)
 + `python src/main/python/run_regression.py --collection mb13`: [Experiments on Tweets2013 (MB13 &amp; MB14)](experiments-mb13.md)
 
+### JDIQ2018 Effectiveness
+
+Please see doc [here](experiments-jdiq2018.md)
+
 ## Log
 
 The following log details whenever regression tests have changed in terms of effectiveness:
+
+### August 4, 2018
+
++ [commit 2cadf31cf831ef2f79f3c67f1ecdd5f9d6c97ee4](https://github.com/castorini/Anserini/commit/2cadf31cf831ef2f79f3c67f1ecdd5f9d6c97ee4)
+
+This commit adds the effectiveness verification testing for the JDIQ2018 Paper:
+
++ [JDIQ2018 Effectiveness](jdiq2018-effectiveness.md)
 
 ### July 22, 2018
 
