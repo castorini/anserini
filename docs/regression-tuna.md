@@ -53,7 +53,7 @@ The following log details whenever regression tests have changed in terms of eff
 
 This commit adds the effectiveness verification testing for the JDIQ2018 Paper:
 
-+ [JDIQ2018 Effectiveness](jdiq2018-effectiveness.md)
++ [JDIQ2018 Effectiveness](experiments-jdiq2018.md)
 
 ### July 22, 2018
 
