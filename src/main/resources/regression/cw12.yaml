@@ -15,6 +15,7 @@ threads: 44
 index_options:
   - -storePositions
   - -storeDocvectors
+  - -storeRawDocs
 topic_reader: Webxml
 index_stats:
   documents: 731705088
