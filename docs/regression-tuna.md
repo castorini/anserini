@@ -49,7 +49,7 @@ The following log details whenever regression tests have changed in terms of eff
 
 ### August 4, 2018
 
-+ [commit ](https://github.com/castorini/Anserini/commit/)
++ [commit 2cadf31cf831ef2f79f3c67f1ecdd5f9d6c97ee4](https://github.com/castorini/Anserini/commit/2cadf31cf831ef2f79f3c67f1ecdd5f9d6c97ee4)
 
 This commit adds the effectiveness verification testing for the JDIQ2018 Paper:
 
