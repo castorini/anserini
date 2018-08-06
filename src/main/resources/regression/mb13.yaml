@@ -8,7 +8,7 @@ qrels_root: src/main/resources/topics-and-qrels/
 index_root:
 ranking_root:
 input: /tuna1/collections/twitter/Tweets2013-corpus/data/
-index_path: "/tuna1/indexes/lucene-index.mb13.pos+docvectors" # path to the existing index, used in regression test if `--index` option is absent
+index_path: "/tuna1/indexes/lucene-index.mb13.pos+docvectors+rawdocs" # path to the existing index, used in regression test if `--index` option is absent
 collection: TweetCollection
 threads: 44
 generator: TweetGenerator
