@@ -80,7 +80,7 @@ def verify_index(yaml_data, build_index=True, dry_run=False):
     logger.info('='*10+'Verifying Index'+'='*10)
     index_path = os.path.join(yaml_data['index_root'] if yaml_data['index_root'] else '', \
         'lucene-index.{0}.pos+docvectors{1}'.format(yaml_data['name'], \
-        '+rawdocs' if 'storeRawdocs' in yaml_data['index_options'] else '')) \
+        '+rawdocs' if '-storeRawDocs' in yaml_data['index_options'] else '')) \
         if build_index else yaml_data['index_path']
     logger.info('[Index]: ' + index_path)
     index_utils_command = [
@@ -114,7 +114,7 @@ def construct_ranking_command(yaml_data, build_index=True):
             os.path.join(yaml_data['root'], yaml_data['search_command']),
             '-topicreader', yaml_data['topic_reader'],
             '-index', os.path.join(yaml_data['index_root'] if yaml_data['index_root'] else '',
-            'lucene-index.{0}.pos+docvectors{1}'.format(yaml_data['name'], '+rawdocs' if 'storeRawdocs' in yaml_data['index_options'] else ''))
+            'lucene-index.{0}.pos+docvectors{1}'.format(yaml_data['name'], '+rawdocs' if '-storeRawDocs' in yaml_data['index_options'] else ''))
             if build_index else yaml_data['index_path'],
             ' '.join(model['params']),
             '-topics', os.path.join(yaml_data['root'], yaml_data['topic_root'], topic['path']),
