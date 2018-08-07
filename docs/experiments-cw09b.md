@@ -7,8 +7,8 @@ Typical indexing command:
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection ClueWeb09Collection \
 -generator JsoupGenerator -threads 44 -input /path/to/cw09b -index \
-lucene-index.cw09b.pos+docvectors -storePositions -storeDocvectors >& \
-log.cw09b.pos+docvectors &
+lucene-index.cw09b.pos+docvectors -storePositions -storeDocvectors -storeRawDocs \
+>& log.cw09b.pos+docvectors+rawdocs &
 ```
 
 The directory `/path/to/ClueWeb09b` should be the root directory of ClueWeb09B collection, i.e., `ls /path/to/ClueWeb09b` should bring up a bunch of subdirectories, `en0000` to `enwp03`.

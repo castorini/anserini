@@ -47,13 +47,13 @@ Please see doc [here](experiments-jdiq2018.md)
 
 The following log details whenever regression tests have changed in terms of effectiveness:
 
-### August 4, 2018
+### August 5, 2018
 
-+ [commit 2cadf31cf831ef2f79f3c67f1ecdd5f9d6c97ee4](https://github.com/castorini/Anserini/commit/2cadf31cf831ef2f79f3c67f1ecdd5f9d6c97ee4)
++ [commit c0da5105429a15fb85158d1740e0516305cd9de6](https://github.com/castorini/Anserini/commit/c0da5105429a15fb85158d1740e0516305cd9de6)
 
 This commit adds the effectiveness verification testing for the JDIQ2018 Paper:
 
-+ [JDIQ2018 Effectiveness](jdiq2018-effectiveness.md)
++ [JDIQ2018 Effectiveness](experiments-jdiq2018.md)
 
 ### July 22, 2018
 
