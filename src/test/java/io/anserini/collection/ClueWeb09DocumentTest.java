@@ -95,13 +95,20 @@ public class ClueWeb09DocumentTest extends DocumentTest {
     for (int i = 0; i < rawDocs.size(); i++) {
       BaseFileSegment<ClueWeb09Collection.Document> iter = collection.createFileSegment(rawDocs.get(i));
       while (true) {
+        boolean hasNext;
         try {
-          ClueWeb09Collection.Document parsed = iter.next();
-          assertEquals(parsed.id(), expected.get(i).get("id"));
-          assertEquals(parsed.content(), expected.get(i).get("content"));
+          hasNext = iter.hasNext();
         } catch (NoSuchElementException e) {
           break;
         }
+
+        if (!hasNext) {
+          break;
+        }
+
+        ClueWeb09Collection.Document parsed = iter.next();
+        assertEquals(parsed.id(), expected.get(i).get("id"));
+        assertEquals(parsed.content(), expected.get(i).get("content"));
       }
     }
   }

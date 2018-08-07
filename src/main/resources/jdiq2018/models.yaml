@@ -1,0 +1,367 @@
+---
+models:
+  bm25:
+    params:
+      k1:
+        lower: 0.1
+        upper: 4.0
+        pace: 0.1
+      b:
+        lower: 0.1
+        upper: 1.0
+        pace: 0.05
+    expected:
+      disk12:
+        map:
+          topics.51-100.txt: 0.2262
+          topics.101-150.txt: 0.2062
+          topics.151-200.txt: 0.2605
+      robust04:
+        map:
+          topics.robust04.301-450.601-700.txt: 0.2532
+      robust05:
+        map:
+          topics.robust05.txt: 0.2090
+      core17:
+        map:
+          topics.core17.txt: 0.2047
+      wt10g:
+        map:
+          topics.451-550.txt: 0.2012
+      gov2:
+        map:
+          topics.701-750.txt: 0.2684
+          topics.751-800.txt: 0.3392
+          topics.801-850.txt: 0.3080
+      cw09b:
+        map:
+          topics.web.51-100.txt: 0.1147
+          topics.web.101-150.txt: 0.1117
+          topics.web.151-200.txt: 0.1202
+        ndcg20:
+          topics.web.51-100.txt: 0.14592
+          topics.web.101-150.txt: 0.19374
+          topics.web.151-200.txt: 0.10379
+        err20:
+          topics.web.51-100.txt: 0.07644
+          topics.web.101-150.txt: 0.10229
+          topics.web.151-200.txt: 0.14715
+      cw12b13:
+        map:
+          topics.web.201-250.txt: 0.0475
+          topics.web.251-300.txt: 0.0238
+        ndcg20:
+          topics.web.201-250.txt: 0.13862
+          topics.web.251-300.txt: 0.12366
+        err20:
+          topics.web.201-250.txt: 0.0959
+          topics.web.251-300.txt: 0.12708
+      mb11:
+        map:
+          topics.microblog2011.txt: 0.3683
+          topics.microblog2012.txt: 0.2083
+      mb13:
+        map:
+          topics.microblog2013.txt: 0.2599
+          topics.microblog2014.txt: 0.4203
+  ql:
+    params:
+      mu:
+        lower: 0
+        upper: 10000
+        pace: 250
+    expected:
+      disk12:
+        map:
+          topics.51-100.txt: 0.2210
+          topics.101-150.txt: 0.2017
+          topics.151-200.txt: 0.2544
+      robust04:
+        map:
+          topics.robust04.301-450.601-700.txt: 0.2496
+      robust05:
+        map:
+          topics.robust05.txt: 0.2026
+      core17:
+        map:
+          topics.core17.txt: 0.1951
+      wt10g:
+        map:
+          topics.451-550.txt: 0.2034
+      gov2:
+        map:
+          topics.701-750.txt: 0.2636
+          topics.751-800.txt: 0.3267
+          topics.801-850.txt: 0.2957
+      cw09b:
+        map:
+          topics.web.51-100.txt: 0.104
+          topics.web.101-150.txt: 0.1002
+          topics.web.151-200.txt: 0.1091
+        ndcg20:
+          topics.web.51-100.txt: 0.11701
+          topics.web.101-150.txt: 0.16868
+          topics.web.151-200.txt: 0.09965
+        err20:
+          topics.web.51-100.txt: 0.06455
+          topics.web.101-150.txt: 0.08608
+          topics.web.151-200.txt: 0.14886
+      cw12b13:
+        map:
+          topics.web.201-250.txt: 0.0392
+          topics.web.251-300.txt: 0.0241
+        ndcg20:
+          topics.web.201-250.txt: 0.1168
+          topics.web.251-300.txt: 0.11883
+        err20:
+          topics.web.201-250.txt: 0.0883
+          topics.web.251-300.txt: 0.1088
+      mb11:
+        map:
+          topics.microblog2011.txt: 0.3635
+          topics.microblog2012.txt: 0.2120
+      mb13:
+        map:
+          topics.microblog2013.txt: 0.2613
+          topics.microblog2014.txt: 0.4201
+  pl2:
+    params:
+      pl2.c:
+        lower: 0.5
+        upper: 20
+        pace: 0.5
+    expected:
+      disk12:
+        map:
+          topics.51-100.txt: 0.2213
+          topics.101-150.txt: 0.1952
+          topics.151-200.txt: 0.2524
+      robust04:
+        map:
+          topics.robust04.301-450.601-700.txt: 0.2521
+      robust05:
+        map:
+          topics.robust05.txt: 0.2006
+      core17:
+        map:
+          topics.core17.txt: 0.2005
+      wt10g:
+        map:
+          topics.451-550.txt: 0.1889
+      gov2:
+        map:
+          topics.701-750.txt: 0.2696
+          topics.751-800.txt: 0.3428
+          topics.801-850.txt: 0.3084
+      cw09b:
+        map:
+          topics.web.51-100.txt: 0.1085
+          topics.web.101-150.txt: 0.1075
+          topics.web.151-200.txt: 0.1135
+        ndcg20:
+          topics.web.51-100.txt: 0.12131
+          topics.web.101-150.txt: 0.17742
+          topics.web.151-200.txt: 0.09281
+        err20:
+          topics.web.51-100.txt: 0.06348
+          topics.web.101-150.txt: 0.09095
+          topics.web.151-200.txt: 0.14314
+      cw12b13:
+        map:
+          topics.web.201-250.txt: 0.0416
+          topics.web.251-300.txt: 0.0239
+        ndcg20:
+          topics.web.201-250.txt: 0.12392
+          topics.web.251-300.txt: 0.11768
+        err20:
+          topics.web.201-250.txt: 0.09066
+          topics.web.251-300.txt: 0.10751
+      mb11:
+        map:
+          topics.microblog2011.txt: 0.3572
+          topics.microblog2012.txt: 0.2032
+      mb13:
+        map:
+          topics.microblog2013.txt: 0.2519
+          topics.microblog2014.txt: 0.4115
+  spl:
+    params:
+      spl.c:
+        lower: 0.5
+        upper: 20
+        pace: 0.5
+    expected:
+      disk12:
+        map:
+          topics.51-100.txt: 0.2189
+          topics.101-150.txt: 0.1819
+          topics.151-200.txt: 0.2448
+      robust04:
+        map:
+          topics.robust04.301-450.601-700.txt: 0.2502
+      robust05:
+        map:
+          topics.robust05.txt: 0.1969
+      core17:
+        map:
+          topics.core17.txt: 0.1981
+      wt10g:
+        map:
+          topics.451-550.txt: 0.1726
+      gov2:
+        map:
+          topics.701-750.txt: 0.2687
+          topics.751-800.txt: 0.3386
+          topics.801-850.txt: 0.3140
+      cw09b:
+        map:
+          topics.web.51-100.txt: 0.1077
+          topics.web.101-150.txt: 0.1066
+          topics.web.151-200.txt: 0.1131
+        ndcg20:
+          topics.web.51-100.txt: 0.12324
+          topics.web.101-150.txt: 0.17621
+          topics.web.151-200.txt: 0.09311
+        err20:
+          topics.web.51-100.txt: 0.06653
+          topics.web.101-150.txt: 0.09082
+          topics.web.151-200.txt: 0.14348
+      cw12b13:
+        map:
+          topics.web.201-250.txt: 0.0412
+          topics.web.251-300.txt: 0.0238
+        ndcg20:
+          topics.web.201-250.txt: 0.12534
+          topics.web.251-300.txt: 0.11788
+        err20:
+          topics.web.201-250.txt: 0.09046
+          topics.web.251-300.txt: 0.109
+      mb11:
+        map:
+          topics.microblog2011.txt: 0.3601
+          topics.microblog2012.txt: 0.2050
+      mb13:
+        map:
+          topics.microblog2013.txt: 0.2536
+          topics.microblog2014.txt: 0.4132
+  f2exp:
+    params:
+      f2exp.s:
+        lower: 0
+        upper: 1
+        pace: 0.05
+    expected:
+      disk12:
+        map:
+          topics.51-100.txt: 0.2216
+          topics.101-150.txt: 0.1997
+          topics.151-200.txt: 0.2474
+      robust04:
+        map:
+          topics.robust04.301-450.601-700.txt: 0.2491
+      robust05:
+        map:
+          topics.robust05.txt: 0.1960
+      core17:
+        map:
+          topics.core17.txt: 0.1986
+      wt10g:
+        map:
+          topics.451-550.txt: 0.1972
+      gov2:
+        map:
+          topics.701-750.txt: 0.2535
+          topics.751-800.txt: 0.3156
+          topics.801-850.txt: 0.2845
+      cw09b:
+        map:
+          topics.web.51-100.txt: 0.1067
+          topics.web.101-150.txt: 0.1067
+          topics.web.151-200.txt: 0.1042
+        ndcg20:
+          topics.web.51-100.txt: 0.13895
+          topics.web.101-150.txt: 0.18424
+          topics.web.151-200.txt: 0.08933
+        err20:
+          topics.web.51-100.txt: 0.07512
+          topics.web.101-150.txt: 0.09258
+          topics.web.151-200.txt: 0.12932
+      cw12b13:
+        map:
+          topics.web.201-250.txt: 0.0434
+          topics.web.251-300.txt: 0.0201
+        ndcg20:
+          topics.web.201-250.txt: 0.12254
+          topics.web.251-300.txt: 0.11349
+        err20:
+          topics.web.201-250.txt: 0.08114
+          topics.web.251-300.txt: 0.11991
+      mb11:
+        map:
+          topics.microblog2011.txt: 0.3770
+          topics.microblog2012.txt: 0.2098
+      mb13:
+        map:
+          topics.microblog2013.txt: 0.2541
+          topics.microblog2014.txt: 0.3844
+  f2log:
+    params:
+      f2log.s:
+        lower: 0
+        upper: 1
+        pace: 0.05
+    expected:
+      disk12:
+        map:
+          topics.51-100.txt: 0.2230
+          topics.101-150.txt: 0.1992
+          topics.151-200.txt: 0.2531
+      robust04:
+        map:
+          topics.robust04.301-450.601-700.txt: 0.2500
+      robust05:
+        map:
+          topics.robust05.txt: 0.1976
+      core17:
+        map:
+          topics.core17.txt: 0.2041
+      wt10g:
+        map:
+          topics.451-550.txt: 0.1923
+      gov2:
+        map:
+          topics.701-750.txt: 0.2627
+          topics.751-800.txt: 0.3298
+          topics.801-850.txt: 0.2970
+      cw09b:
+        map:
+          topics.web.51-100.txt: 0.107
+          topics.web.101-150.txt: 0.1108
+          topics.web.151-200.txt: 0.1046
+        ndcg20:
+          topics.web.51-100.txt: 0.13495
+          topics.web.101-150.txt: 0.19114
+          topics.web.151-200.txt: 0.09591
+        err20:
+          topics.web.51-100.txt: 0.07234
+          topics.web.101-150.txt: 0.09381
+          topics.web.151-200.txt: 0.14312
+      cw12b13:
+        map:
+          topics.web.201-250.txt: 0.0446
+          topics.web.251-300.txt: 0.0212
+        ndcg20:
+          topics.web.201-250.txt: 0.12442
+          topics.web.251-300.txt: 0.11743
+        err20:
+          topics.web.201-250.txt: 0.08356
+          topics.web.251-300.txt: 0.12344
+      mb11:
+        map:
+          topics.microblog2011.txt: 0.3823
+          topics.microblog2012.txt: 0.2018
+      mb13:
+        map:
+          topics.microblog2013.txt: 0.2622
+          topics.microblog2014.txt: 0.4104
+
