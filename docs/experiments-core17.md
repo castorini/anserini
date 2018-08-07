@@ -8,7 +8,7 @@ Typical indexing command:
 nohup sh target/appassembler/bin/IndexCollection -collection \
 NewYorkTimesCollection -generator JsoupGenerator -threads 16 -input \
 /path/to/core17 -index lucene-index.core17.pos+docvectors -storePositions \
--storeDocvectors -optimize >& log.core17.pos+docvectors &
+-storeDocvectors -storeRawDocs -optimize >& log.core17.pos+docvectors+rawdocs &
 ```
 
 The directory `/path/to/nyt_corpus/` should be the root directory of TREC Core collection, i.e., `ls /path/to/nyt_corpus/`

@@ -98,6 +98,10 @@
               <id>IndexCollection</id>
             </program>
             <program>
+              <mainClass>io.anserini.util.MapCollections</mainClass>
+              <id>MapCollections</id>
+            </program>
+            <program>
               <mainClass>io.anserini.search.SearchCollection</mainClass>
               <id>SearchCollection</id>
             </program>
