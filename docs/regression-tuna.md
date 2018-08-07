@@ -43,9 +43,21 @@ Here's how to run the end-to-end experiments:
 
 + `python src/main/python/run_regression.py --collection car17`: [Experiments on Car17](experiments-car17.md)
 
+### JDIQ2018 Effectiveness
+
+Please see doc [here](experiments-jdiq2018.md)
+
 ## Log
 
 The following log details whenever regression tests have changed in terms of effectiveness:
+
+### August 5, 2018
+
++ [commit c0da5105429a15fb85158d1740e0516305cd9de6](https://github.com/castorini/Anserini/commit/c0da5105429a15fb85158d1740e0516305cd9de6)
+
+This commit adds the effectiveness verification testing for the JDIQ2018 Paper:
+
++ [JDIQ2018 Effectiveness](experiments-jdiq2018.md)
 
 ### July 22, 2018
 

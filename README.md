@@ -58,6 +58,9 @@ Anserini is designed to support experiments on various standard TREC collections
 
 + `IndexUtils` is a powerful utility to interact with an index using the command line, e.g. print index statistics. Refer to `target/appassembler/bin/IndexUtils -h` for more details.
 + [Axiomatic Reranking](docs/axiom-reranking.md)
++ `MapCollections` is a generic mapper framework that processes each file segment in parallel. Developers can build their own mapper that `extends` to `DocumentMapper`. One example is our `CountDocumentMapper` which counts the number of documents in the whole collection:
+
+    ```nohup target/appassembler/bin/MapCollections -collection TrecCollection -threads 16 -input /tuna1/collections/newswire/disk12/ -mapper CountDocumentMapper &> log.disk12.count &```
 
 ## Python Interface
 

@@ -48,6 +48,7 @@ public class DocumentTest extends LuceneTestCase {
       Writer writer = new BufferedWriter(new OutputStreamWriter(
               new FileOutputStream(tmpPath.toFile()), "utf-8"));
       writer.write(doc);
+      writer.close();
     } catch (IOException e) {}
 
     return tmpPath;
