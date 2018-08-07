@@ -165,6 +165,7 @@ public class Rm3Reranker implements Reranker {
     for (String term : vocab) {
       float fbWeight = 0.0f;
       for (int i = 0; i < docvectors.length; i++) {
+        // avoid zero norm in some CAR documents
         if (norms[i] > 0.001f) {
           fbWeight += (docvectors[i].getFeatureWeight(term) / norms[i]) * docs.scores[i];
         }
