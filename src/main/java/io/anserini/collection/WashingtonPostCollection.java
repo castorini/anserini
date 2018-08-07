@@ -214,7 +214,7 @@ public class WashingtonPostCollection extends DocumentCollection
 
           StringBuilder contentStringBuilder = new StringBuilder();
           if (contentObj instanceof String) {
-            contentStringBuilder.append(contentObj).append(" ");
+            contentStringBuilder.append(contentObj);
           } else if (contentObj instanceof List) {
             for (Object content: (List<Object>) contentObj) {
               contentStringBuilder.append(content).append(" ");
