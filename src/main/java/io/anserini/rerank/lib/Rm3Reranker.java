@@ -165,7 +165,9 @@ public class Rm3Reranker implements Reranker {
     for (String term : vocab) {
       float fbWeight = 0.0f;
       for (int i = 0; i < docvectors.length; i++) {
-        // avoid zero norm in some CAR documents
+        // Avoids zero-length feedback documents, which causes division by zero when computing term weights.
+        // Zero-length feedback documents occur (e.g., with CAR17) when a document has only terms 
+        // that accents (which are indexed, but not selected for feedback).
         if (norms[i] > 0.001f) {
           fbWeight += (docvectors[i].getFeatureWeight(term) / norms[i]) * docs.scores[i];
         }
