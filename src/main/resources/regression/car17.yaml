@@ -66,9 +66,9 @@ models:
       - -axiom
     results:
       map:
-        - 
+        - 0.1318 
       recip_rank:
-        - 
+        - 0.1796
   - name: ql
     params:
       - -ql
@@ -92,6 +92,6 @@ models:
       - -axiom
     results:
       map:
-        - 
+        - 0.1308
       recip_rank:
-        - 
+        - 0.1799
