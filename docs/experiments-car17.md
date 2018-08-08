@@ -7,7 +7,7 @@ Typical indexing command:
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection CarCollection \
 -generator LuceneDocumentGenerator -threads 40 -input /path/to/car17 -index \
-lucene-index.core17.pos+docvectors -storePositions -storeDocvectors -optimize >& \
+lucene-index.car17.pos+docvectors -storePositions -storeDocvectors -optimize >& \
 log.car17.pos+docvectors &
 ```
 
@@ -30,22 +30,30 @@ nohup target/appassembler/bin/SearchCollection -topicreader Car -index lucene-in
 
 nohup target/appassembler/bin/SearchCollection -topicreader Car -index lucene-index.car17.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.car17.test200.txt -output run.car17.bm25+rm3.topics.car17.test200.txt -bm25 -rm3 &
 
+nohup target/appassembler/bin/SearchCollection -topicreader Car -index lucene-index.car17.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.car17.test200.txt -output run.car17.bm25+ax.topics.car17.test200.txt -bm25 -axiom &
+
 nohup target/appassembler/bin/SearchCollection -topicreader Car -index lucene-index.car17.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.car17.test200.txt -output run.car17.ql.topics.car17.test200.txt -ql &
 
 nohup target/appassembler/bin/SearchCollection -topicreader Car -index lucene-index.car17.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.car17.test200.txt -output run.car17.ql+rm3.topics.car17.test200.txt -ql -rm3 &
+
+nohup target/appassembler/bin/SearchCollection -topicreader Car -index lucene-index.car17.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.car17.test200.txt -output run.car17.ql+ax.topics.car17.test200.txt -bm25 -axiom &
 
 ```
 
 Evaluation can be performed using `trec_eval` and `gdeval.pl`:
 
 ```
-eval/trec_eval.9.0/trec_eval -m map -m mrr src/main/resources/topics-and-qrels/qrels.car17.test200.hierarchical.txt -output run.car17.bm25.topics.car17.test200.txt
+eval/trec_eval.9.0/trec_eval -m map -m recip_rank src/main/resources/topics-and-qrels/qrels.car17.test200.hierarchical.txt -output run.car17.bm25.topics.car17.test200.txt
 
-eval/trec_eval.9.0/trec_eval -m map -m mrr src/main/resources/topics-and-qrels/qrels.car17.test200.hierarchical.txt -output run.car17.bm25+rm3.topics.car17.test200.txt
+eval/trec_eval.9.0/trec_eval -m map -m recip_rank src/main/resources/topics-and-qrels/qrels.car17.test200.hierarchical.txt -output run.car17.bm25+rm3.topics.car17.test200.txt
 
-eval/trec_eval.9.0/trec_eval -m map -m mrr src/main/resources/topics-and-qrels/qrels.car17.test200.hierarchical.txt -output run.car17.ql.topics.car17.test200.txt
+eval/trec_eval.9.0/trec_eval -m map -m recip_rank src/main/resources/topics-and-qrels/qrels.car17.test200.hierarchical.txt -output run.car17.bm25+ax.topics.car17.test200.txt
 
-eval/trec_eval.9.0/trec_eval -m map -m mrr src/main/resources/topics-and-qrels/qrels.car17.test200.hierarchical.txt -output run.car17.ql+rm3.topics.car17.test200.txt
+eval/trec_eval.9.0/trec_eval -m map -m recip_rank src/main/resources/topics-and-qrels/qrels.car17.test200.hierarchical.txt -output run.car17.ql.topics.car17.test200.txt
+
+eval/trec_eval.9.0/trec_eval -m map -m recip_rank src/main/resources/topics-and-qrels/qrels.car17.test200.hierarchical.txt -output run.car17.ql+rm3.topics.car17.test200.txt
+
+eval/trec_eval.9.0/trec_eval -m map -m recip_rank src/main/resources/topics-and-qrels/qrels.car17.test200.hierarchical.txt -output run.car17.ql+ax.topics.car17.test200.txt
 
 ```
 
@@ -53,13 +61,13 @@ eval/trec_eval.9.0/trec_eval -m map -m mrr src/main/resources/topics-and-qrels/q
 
 With the above commands, you should be able to replicate the following results:
 
-MAP                                     | BM25      | BM25+RM3  | QL        | QL+RM3    |
-:---------------------------------------|-----------|-----------|-----------|-----------|
-All Topics                              | 0.1638    | 0.1342    | 0.1503    | 0.1207    |
+MAP                                     | BM25      | BM25+RM3  | BM25+AX   | QL        | QL+RM3    | QL+AX     |
+:---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
+All Topics                              | 0.1650    | 0.1354    | null      | 0.1515    | 0.1220    | null      |
 
 
-MRR                                     | BM25      | BM25+RM3  | QL        | QL+RM3    |
-:---------------------------------------|-----------|-----------|-----------|-----------|
-All Topics                              | 0.2263    | 0.1854    | 0.2078    | 0.1679    |
+RECIP_RANK                              | BM25      | BM25+RM3  | BM25+AX   | QL        | QL+RM3    | QL+AX     |
+:---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
+All Topics                              | 0.2270    | 0.1860    | null      | 0.2085    | 0.1687    | null      |
 
 
