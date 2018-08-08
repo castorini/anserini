@@ -26,7 +26,7 @@ After indexing has completed, you should be able to perform retrieval as follows
 ${ranking_cmds}
 ```
 
-Evaluation can be performed using `trec_eval` and `gdeval.pl`:
+Evaluation can be performed using `trec_eval`:
 
 ```
 ${eval_cmds}

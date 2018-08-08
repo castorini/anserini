@@ -10,6 +10,7 @@ ranking_root:
 generator: LuceneDocumentGenerator
 threads: 40
 index_options:
+  - -storeRawDocs
   - -storePositions
   - -storeDocvectors
   - -optimize
@@ -64,11 +65,13 @@ models:
     params:
       - -bm25
       - -axiom
+      - -rerankCutoff 20
+      - -axiom.deterministic
     results:
       map:
         - 0.1318 
       recip_rank:
-        - 0.1796
+        - 0.1817
   - name: ql
     params:
       - -ql
@@ -88,10 +91,12 @@ models:
         - 0.1687
   - name: ql+ax
     params:
-      - -bm25
+      - -ql
       - -axiom
+      - -rerankCutoff 20
+      - -axiom.deterministic
     results:
       map:
-        - 0.1308
+        - 0.1083
       recip_rank:
-        - 0.1799
+        - 0.1503
