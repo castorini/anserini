@@ -43,9 +43,22 @@ Here's how to run the end-to-end experiments:
 
 Please see doc [here](experiments-jdiq2018.md)
 
+### TREC2018
+
++ [CENTRE Task 2](experiments-trec2018.md)
+
 ## Log
 
 The following log details whenever regression tests have changed in terms of effectiveness:
+
+### August 9, 2018
+
++ [commit ](https://github.com/castorini/Anserini/commit/)
+
+This commit adds the effectiveness verification testing for the TREC2018 CENTRE Task2:
+
++ [JDIQ2018 Effectiveness](experiments-jdiq2018.md)
+
 
 ### August 5, 2018
 
