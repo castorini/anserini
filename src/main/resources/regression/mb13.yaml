@@ -16,7 +16,6 @@ index_options:
   - -storePositions
   - -storeDocvectors
   - -storeRawDocs
-  - -optimize
   - -uniqueDocid
   - -tweet.keepUrls
   - -tweet.stemming
