@@ -8,7 +8,7 @@ Typical indexing command:
 nohup sh target/appassembler/bin/IndexCollection -collection TrecCollection \
 -generator JsoupGenerator -threads 16 -input /path/to/robust05 -index \
 lucene-index.robust05.pos+docvectors -storePositions -storeDocvectors \
--storeRawDocs -optimize >& log.robust05.pos+docvectors+rawdocs &
+-storeRawDocs >& log.robust05.pos+docvectors+rawdocs &
 ```
 
 The directory `/path/to/aquaint/` should be the root directory of AQUAINT collection; under subdirectory `disk1/` there should be `NYT/` and under subdirectory `disk2/` there should be `APW/` and `XIE/`.
