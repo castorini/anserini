@@ -95,7 +95,7 @@ def verify_index(yaml_data, build_index=True, dry_run=False):
             stat = line.split(':')[0]
             if stat in yaml_data['index_stats']:
                 value = int(line.split(':')[1])
-                #assert value == yaml_data['index_stats'][stat]
+                assert value == yaml_data['index_stats'][stat]
                 logger.info(line)
         logger.info('='*10+'Verifying Index Succeed'+'='*10)
 
