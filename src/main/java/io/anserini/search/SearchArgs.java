@@ -56,7 +56,7 @@ public class SearchArgs {
   public int rerankcutoff = 50;
 
   @Option(name = "-runtag", metaVar = "[tag]", required = false, usage = "runtag")
-  public String runtag = "Anserini";
+  public String runtag = null;
 
   @Option(name = "-ql", usage = "use query likelihood scoring model")
   public boolean ql = false;
