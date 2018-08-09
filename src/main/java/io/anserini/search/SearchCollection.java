@@ -166,8 +166,7 @@ public final class SearchCollection implements Closeable {
       throw new IllegalArgumentException("Unable to load topic reader: " + args.topicReader);
     }
 
-    final String runTag = args.runtag == null ? "Anserini_" + args.topicfield + "_" + (args.keepstop ? "KeepStopwords_" : "")
-        + FIELD_BODY + "_" + (args.searchtweets ? "SearchTweets_" : "") + similarity.toString() : args.runtag;
+    final String runTag = args.runtag == null ? "Anserini" : args.runtag;
 
     PrintWriter out = new PrintWriter(Files.newBufferedWriter(Paths.get(args.output), StandardCharsets.US_ASCII));
 
