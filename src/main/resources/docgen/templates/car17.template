@@ -1,0 +1,39 @@
+# Anserini: Experiments on [Car17](http://trec-car.cs.unh.edu/)
+
+## Indexing
+
+Typical indexing command:
+
+```
+${index_cmds}
+```
+
+The directory `/path/to/Car17` should be the root directory of Car17 collection, i.e., `ls /path/to/Car17` should bring up a list of `.cbor` files.
+
+For additional details, see explanation of [common indexing options](common-indexing-options.md).
+
+## Retrieval
+
+Topics and qrels are stored in `src/main/resources/topics-and-qrels/`, downloaded from NIST:
+
++ `topics.car17.test200.txt`: [Topics for the test200 subset (TREC 2017 Complex Answer Retrieval Track)](http://trec-car.cs.unh.edu/datareleases/v1.5/test200-v1.5.tar.xz)
++ `qrel: qrels.car17.test200.hierarchical.txt`: [adhoc qrels (TREC 2017 Complex Answer Retrieval Track)](http://trec-car.cs.unh.edu/datareleases/v1.5/test200-v1.5.tar.xz)
+
+
+After indexing has completed, you should be able to perform retrieval as follows:
+
+```
+${ranking_cmds}
+```
+
+Evaluation can be performed using `trec_eval`:
+
+```
+${eval_cmds}
+```
+
+## Effectiveness
+
+With the above commands, you should be able to replicate the following results:
+
+${effectiveness}
