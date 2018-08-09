@@ -55,21 +55,21 @@ git clone https://github.com/castorini/Anserini-data.git
         -whitelist Anserini-data/TREC2018/CENTRE/task2/cw12lite2013_docids >& log.cw12lite2018.pos+docvectors+rawdocs &
         ```
   - index of snippets 2013
-        ```
-        sh Anserini/target/appassembler/bin/IndexCollection -input \
-        Anserini-data/TREC2018/CENTRE/task2/searchengine_snippets/snippets2013_anserini/ \
-        -collection JsonCollection -index lucene-index.snippets2013.pos+docvectors+rawdocs \
-        -generator JsoupGenerator -threads 8 -uniqueDocid -storePositions -storeDocvectors -storeRawDocs -optimize \
-        >& log.snippets2013.pos+docvectors+rawdocs
-        ```
+    ```
+    sh Anserini/target/appassembler/bin/IndexCollection -input \
+    Anserini-data/TREC2018/CENTRE/task2/searchengine_snippets/snippets2013_anserini/ \
+    -collection JsonCollection -index lucene-index.snippets2013.pos+docvectors+rawdocs \
+    -generator JsoupGenerator -threads 8 -uniqueDocid -storePositions -storeDocvectors -storeRawDocs -optimize \
+    >& log.snippets2013.pos+docvectors+rawdocs
+    ```
   - index of snippets 2018
-        ```
-        Anserini/target/appassembler/bin/IndexCollection -input \
-        Anserini-data/TREC2018/CENTRE/task2/searchengine_snippets/snippets2018_anserini/ \
-        -collection JsonCollection -index lucene-index.snippets2018.pos+docvectors+rawdocs -generator JsoupGenerator \
-        -threads 8 -uniqueDocid -storePositions -storeDocvectors -storeRawDocs -optimize \
-        >& log.snippets2018.pos+docvectors+rawdocs
-        ```
+    ```
+    Anserini/target/appassembler/bin/IndexCollection -input \
+    Anserini-data/TREC2018/CENTRE/task2/searchengine_snippets/snippets2018_anserini/ \
+    -collection JsonCollection -index lucene-index.snippets2018.pos+docvectors+rawdocs -generator JsoupGenerator \
+    -threads 8 -uniqueDocid -storePositions -storeDocvectors -storeRawDocs -optimize \
+    >& log.snippets2018.pos+docvectors+rawdocs
+    ```
 #### (Optional) Get Wikipedia Dump:
 + `curl -O https://dumps.wikimedia.org/enwiki/20180620/enwiki-20180620-pages-articles.xml.bz2`
 + index of Wikipedia Dump
