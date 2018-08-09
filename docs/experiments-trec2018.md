@@ -59,16 +59,16 @@ git clone https://github.com/castorini/Anserini-data.git
     sh Anserini/target/appassembler/bin/IndexCollection -input \
     Anserini-data/TREC2018/CENTRE/task2/searchengine_snippets/snippets2013_anserini/ \
     -collection JsonCollection -index lucene-index.snippets2013.pos+docvectors+rawdocs \
-    -generator JsoupGenerator -threads 8 -uniqueDocid -storePositions -storeDocvectors -storeRawDocs -optimize \
-    >& log.snippets2013.pos+docvectors+rawdocs
+    -generator JsoupGenerator -threads 8 -uniqueDocid -storePositions -storeDocvectors \
+    -storeRawDocs -optimize >& log.snippets2013.pos+docvectors+rawdocs
     ```
   - index of snippets 2018
     ```
     Anserini/target/appassembler/bin/IndexCollection -input \
     Anserini-data/TREC2018/CENTRE/task2/searchengine_snippets/snippets2018_anserini/ \
-    -collection JsonCollection -index lucene-index.snippets2018.pos+docvectors+rawdocs -generator JsoupGenerator \
-    -threads 8 -uniqueDocid -storePositions -storeDocvectors -storeRawDocs -optimize \
-    >& log.snippets2018.pos+docvectors+rawdocs
+    -collection JsonCollection -index lucene-index.snippets2018.pos+docvectors+rawdocs \
+    -generator JsoupGenerator -threads 8 -uniqueDocid -storePositions -storeDocvectors \
+    -storeRawDocs -optimize >& log.snippets2018.pos+docvectors+rawdocs
     ```
 #### (Optional) Get Wikipedia Dump:
 + `curl -O https://dumps.wikimedia.org/enwiki/20180620/enwiki-20180620-pages-articles.xml.bz2`
@@ -109,7 +109,7 @@ target/appassembler/bin/IndexCollection -collection WashingtonPostCollection \
 -threads 44 -storePositions -storeDocvectors -storeRawDocs -optimize &>log.wash18.pos+docvectors+rawdocs
 ```
 
-### Submitted Runs Only
+### Submitted Runs
 ```
 target/appassembler/bin/SearchCollection -index lucene-index.wash18.pos+docvectors+rawdocs -topicreader Trec -topics 2018-test-topics.txt -bm25 -hits 10000 -runtag anserini_bm25 -output wash18_bm25.txt
 target/appassembler/bin/SearchCollection -index lucene-index.wash18.pos+docvectors+rawdocs -topicreader Trec -topics 2018-test-topics.txt -bm25 -hits 10000 -runtag anserini_rm3 -rm3 -output wash18_bm25_rm3.txt
