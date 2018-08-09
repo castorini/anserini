@@ -10,10 +10,9 @@ ranking_root:
 generator: LuceneDocumentGenerator
 threads: 40
 index_options:
-  - -storeRawDocs
   - -storePositions
   - -storeDocvectors
-  - -optimize
+  - -storeRawDocs
 topic_reader: Car
 input: /tuna1/collections/car17/paragraphcorpus/
 index_path: "/tuna1/indexes/lucene-index.car17.pos+docvectors+rawdocs" # path to the existing index, used in regression test if `--index` option is absent
