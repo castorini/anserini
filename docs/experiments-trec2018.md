@@ -6,14 +6,14 @@ Steps to deterministically reproduce the results:
 
 #### Get code and data:
 ```
-git clone https://github.com/castorini/Anserini.git && cd Anserini && :mvn clean package appassembler:assemble
+git clone https://github.com/castorini/Anserini.git && cd Anserini && mvn clean package appassembler:assemble
 git clone https://github.com/castorini/Anserini-data.git
 ```
 #### Build the indexes:
   - index of ClueWeb12 Full:
       ```
       nohup sh Anserini/target/appassembler/bin/IndexCollection -collection ClueWeb12Collection \
-      -generator JsoupGenerator -threads 44 -input /path/to/cw12 -index lucene-index.cw12.pos+docvectors \
+      -generator JsoupGenerator -threads 44 -input /path/to/cw12 -index lucene-index.cw12.pos+docvectors+rawdocs \
       -storePositions -storeDocvectors -storeRawDocs >& log.cw12.pos+docvectors+rawdocs &
       ```
   - index of CW12Lite2013:
@@ -21,6 +21,8 @@ git clone https://github.com/castorini/Anserini-data.git
        ```
        nohup Anserini/target/appassembler/bin/IndexUtils -index lucene-index.cw12.pos+docvectors+rawdocs \
        -dumpRawDocs Anserini-data/TREC2018/CENTRE/task2/cw12lite2013_docids &
+       ```
+       ```
        nohup Anserini/target/appassembler/bin/IndexCollection -collection HtmlCollection \
        -input cw12lite2013_docids.tar.gz -index lucene-index.cw12lite2013.pos+docvectors+rawdocs \
        -generator JsoupGenerator -threads 44 -storePositions -storeDocvectors -storeRawDocs -optimize \
@@ -38,6 +40,8 @@ git clone https://github.com/castorini/Anserini-data.git
         ```
         nohup Anserini/target/appassembler/bin/IndexUtils -index lucene-index.cw12.pos+docvectors+rawdocs \
         -dumpRawDocs Anserini-data/TREC2018/CENTRE/task2/cw12lite2018_docids &
+        ```
+        ```
         nohup Anserini/target/appassembler/bin/IndexCollection -collection HtmlCollection \
         -input cw12lite2018_docids.tar.gz -index lucene-index.cw12lite2018.pos+docvectors+rawdocs \
         -generator JsoupGenerator -threads 44 -storePositions -storeDocvectors -storeRawDocs -optimize \
