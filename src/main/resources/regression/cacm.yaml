@@ -21,6 +21,7 @@ threads: 8
 index_options:
   - -storePositions
   - -storeDocvectors
+  - -optimize
 topic_reader: Cacm
 evals:
   - command: eval/trec_eval.9.0/trec_eval

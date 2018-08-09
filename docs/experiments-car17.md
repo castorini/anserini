@@ -7,8 +7,8 @@ Typical indexing command:
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection CarCollection \
 -generator LuceneDocumentGenerator -threads 40 -input /path/to/car17 -index \
-lucene-index.car17.pos+docvectors -storeRawDocs -storePositions -storeDocvectors \
--optimize >& log.car17.pos+docvectors+rawdocs &
+lucene-index.car17.pos+docvectors -storePositions -storeDocvectors -storeRawDocs \
+>& log.car17.pos+docvectors+rawdocs &
 ```
 
 The directory `/path/to/Car17` should be the root directory of Car17 collection, i.e., `ls /path/to/Car17` should bring up a list of `.cbor` files.
