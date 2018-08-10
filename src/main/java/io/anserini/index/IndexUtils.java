@@ -392,7 +392,7 @@ public class IndexUtils {
     ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(Math.max(cores/2, 1));
     LOG.info(String.format("Using %d threads to dump raw documents", Math.max(cores/2, 1)));
     for (int i = 0; i < docids.size(); i++) {
-      executor.execute(new DumpThread(reader, docids.get(i), outputDir));
+      executor.execute(new DumpThread(reader, docids.get(i), outputDir, prependDocid));
     }
   
     executor.shutdown();
