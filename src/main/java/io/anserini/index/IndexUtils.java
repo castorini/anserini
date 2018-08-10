@@ -355,17 +355,20 @@ public class IndexUtils {
       LOG.info("Create dump directory failed: "+ outputDir);
       return;
     }
+    
     final class DumpThread extends Thread {
       final private IndexReader reader;
       final private String docid;
       final private String outputDir;
       final private boolean prependDocid;
+      
       public DumpThread(IndexReader reader, String docid, String outputDir, boolean prependDocid) throws IOException {
         this.reader = reader;
         this.docid = docid;
         this.outputDir = outputDir;
         this.prependDocid = prependDocid;
       }
+      
       @Override
       public void run() {
         try {
@@ -383,6 +386,7 @@ public class IndexUtils {
         }
       }
     }
+    
     List<String> docids = new ArrayList<>();
     String docid;
     while ((docid = bRdr.readLine()) != null) {
