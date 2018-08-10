@@ -18,42 +18,46 @@ git clone https://github.com/castorini/Anserini-data.git
       ```
   - index of CW12Lite2013:
     - If you already have the ClubWeb12 Full index with `-storeRawDocs` option enabled when indexing:
-       ```
-       nohup Anserini/target/appassembler/bin/IndexUtils -index lucene-index.cw12.pos+docvectors+rawdocs \
-       -dumpRawDocs Anserini-data/TREC2018/CENTRE/task2/cw12lite2013_docids &
-       ```
-       ```
-       nohup Anserini/target/appassembler/bin/IndexCollection -collection HtmlCollection \
-       -input cw12lite2013_docids.tar.gz -index lucene-index.cw12lite2013.pos+docvectors+rawdocs \
-       -generator JsoupGenerator -threads 44 -storePositions -storeDocvectors -storeRawDocs -optimize \
-       >& log.cw12lite2013.pos+docvectors+rawdocs &
-       ```
+      ```
+      nohup Anserini/target/appassembler/bin/IndexUtils -index lucene-index.cw12.pos+docvectors+rawdocs \
+      -dumpRawDocs Anserini-data/TREC2018/CENTRE/task2/cw12lite2013_docids &
+      ```
+      about 19GB in raw size
+      ```
+      nohup Anserini/target/appassembler/bin/IndexCollection -collection HtmlCollection \
+      -input cw12lite2013_docids_rawdocs.dump -index lucene-index.cw12lite2013.pos+docvectors+rawdocs \
+      -generator JsoupGenerator -threads 44 -storePositions -storeDocvectors -storeRawDocs -optimize \
+      >& log.cw12lite2013.pos+docvectors+rawdocs &
+      ```
+      about 8.3GB of the index
     - If you would like to build the index from scratch (e.g. you do not have clueweb12 full index):
-        ```
-        nohup sh Anserini/target/appassembler/bin/IndexCollection -collection ClueWeb12Collection \
-        -generator JsoupGenerator -threads 44 -input /path/to/cw12 -index \
-        lucene-index.cw12lite2013.pos+docvectors+rawdocs -storePositions -storeDocvectors -storeRawDocs \
-        -whitelist Anserini-data/TREC2018/CENTRE/task2/cw12lite2013_docids >& log.cw12lite2013.pos+docvectors+rawdocs &
-        ```
+      ```
+      nohup sh Anserini/target/appassembler/bin/IndexCollection -collection ClueWeb12Collection \
+      -generator JsoupGenerator -threads 44 -input /path/to/cw12 -index \
+      lucene-index.cw12lite2013.pos+docvectors+rawdocs -storePositions -storeDocvectors -storeRawDocs \
+      -whitelist Anserini-data/TREC2018/CENTRE/task2/cw12lite2013_docids >& log.cw12lite2013.pos+docvectors+rawdocs &
+      ```
   - index of CW12Lite2018:
     - If you already have the ClubWeb12 Full index with `-storeRawDocs` option enabled when indexing:
-        ```
-        nohup Anserini/target/appassembler/bin/IndexUtils -index lucene-index.cw12.pos+docvectors+rawdocs \
-        -dumpRawDocs Anserini-data/TREC2018/CENTRE/task2/cw12lite2018_docids &
-        ```
-        ```
-        nohup Anserini/target/appassembler/bin/IndexCollection -collection HtmlCollection \
-        -input cw12lite2018_docids.tar.gz -index lucene-index.cw12lite2018.pos+docvectors+rawdocs \
-        -generator JsoupGenerator -threads 44 -storePositions -storeDocvectors -storeRawDocs -optimize \
-        >& log.cw12lite2018.pos+docvectors+rawdocs &
-        ```
+      ```
+      nohup Anserini/target/appassembler/bin/IndexUtils -index lucene-index.cw12.pos+docvectors+rawdocs \
+      -dumpRawDocs Anserini-data/TREC2018/CENTRE/task2/cw12lite2018_docids &
+      ```
+      about 28GB in raw size
+      ```
+      nohup Anserini/target/appassembler/bin/IndexCollection -collection HtmlCollection \
+      -input cw12lite2018_docids_rawdocs.dump -index lucene-index.cw12lite2018.pos+docvectors+rawdocs \
+      -generator JsoupGenerator -threads 44 -storePositions -storeDocvectors -storeRawDocs \
+      -optimize >& log.cw12lite2018.pos+docvectors+rawdocs &
+      ```
+      about 12GB of the index
     - If you would like to build the index from scratch (e.g. you do not have clueweb12 full index):
-        ```
-        nohup sh Anserini/target/appassembler/bin/IndexCollection -collection ClueWeb12Collection \
-        -generator JsoupGenerator -threads 44 -input /path/to/cw12 -index \
-        lucene-index.cw12lite2018.pos+docvectors+rawdocs -storePositions -storeDocvectors -storeRawDocs \
-        -whitelist Anserini-data/TREC2018/CENTRE/task2/cw12lite2013_docids >& log.cw12lite2018.pos+docvectors+rawdocs &
-        ```
+      ```
+      nohup sh Anserini/target/appassembler/bin/IndexCollection -collection ClueWeb12Collection \
+      -generator JsoupGenerator -threads 44 -input /path/to/cw12 -index \
+      lucene-index.cw12lite2018.pos+docvectors+rawdocs -storePositions -storeDocvectors -storeRawDocs \
+      -whitelist Anserini-data/TREC2018/CENTRE/task2/cw12lite2013_docids >& log.cw12lite2018.pos+docvectors+rawdocs &
+      ```
   - index of snippets 2013
     ```
     sh Anserini/target/appassembler/bin/IndexCollection -input \
