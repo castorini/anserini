@@ -76,6 +76,7 @@ git clone https://github.com/castorini/Anserini-data.git
     ```
 #### (Optional) Get Wikipedia Dump:
 + `curl -O https://dumps.wikimedia.org/enwiki/20180620/enwiki-20180620-pages-articles.xml.bz2`
++ verification md5 `bca0ceb72e000105cc97fb54fef70cc3`
 + index of Wikipedia Dump
 ```
 nohup sh Anserini/target/appassembler/bin/IndexCollection -collection WikipediaCollection \

@@ -53,15 +53,6 @@ Please see doc [here](experiments-jdiq2018.md)
 
 The following log details whenever regression tests have changed in terms of effectiveness:
 
-### August 10, 2018
-
-+ [commit ](https://github.com/castorini/Anserini/commit/)
-
-This commit adds the effectiveness verification testing for the TREC2018 CENTRE Task2:
-
-+ [JDIQ2018 Effectiveness](experiments-jdiq2018.md)
-
-
 ### August 5, 2018
 
 + [commit c0da5105429a15fb85158d1740e0516305cd9de6](https://github.com/castorini/Anserini/commit/c0da5105429a15fb85158d1740e0516305cd9de6)
