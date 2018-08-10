@@ -53,7 +53,7 @@ Please see doc [here](experiments-jdiq2018.md)
 
 The following log details whenever regression tests have changed in terms of effectiveness:
 
-### August 9, 2018
+### August 10, 2018
 
 + [commit ](https://github.com/castorini/Anserini/commit/)
 
