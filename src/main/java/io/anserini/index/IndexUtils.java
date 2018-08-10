@@ -24,6 +24,7 @@ import org.apache.commons.compress.compressors.bzip2.BZip2CompressorInputStream;
 import org.apache.commons.compress.compressors.bzip2.BZip2CompressorOutputStream;
 import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
 import org.apache.commons.compress.compressors.gzip.GzipCompressorOutputStream;
+import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.CharArraySet;
@@ -44,11 +45,16 @@ import org.jsoup.Jsoup;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -342,37 +348,73 @@ public class IndexUtils {
 
     InputStream in = getReadFileStream(reqDocidsPath);
     BufferedReader bRdr = new BufferedReader(new InputStreamReader(in));
-    FileOutputStream fOut = new FileOutputStream(new File(reqDocidsPath+".output.tar.gz"));
-    BufferedOutputStream bOut = new BufferedOutputStream(fOut);
-    GzipCompressorOutputStream gzOut = new GzipCompressorOutputStream(bOut);
-    TarArchiveOutputStream tOut = new TarArchiveOutputStream(gzOut);
-
-    String docid;
-    int counter = 0;
-    while ((docid = bRdr.readLine()) != null) {
-      counter += 1;
-      Document d = reader.document(convertDocidToLuceneDocid(docid));
-      IndexableField doc = d.getField(LuceneDocumentGenerator.FIELD_RAW);
-      if (doc == null) {
-        throw new NotStoredException("Raw documents not stored!");
+    
+    String outputDir = Paths.get(reqDocidsPath).getFileName()+"_rawdocs.dump";
+    boolean mkdirStatus = new File(outputDir).mkdirs();
+    if (!mkdirStatus) {
+      LOG.info("Create dump directory failed: "+ outputDir);
+      return;
+    }
+    
+    final class DumpThread extends Thread {
+      final private IndexReader reader;
+      final private String docid;
+      final private String outputDir;
+      final private boolean prependDocid;
+      
+      public DumpThread(IndexReader reader, String docid, String outputDir, boolean prependDocid) throws IOException {
+        this.reader = reader;
+        this.docid = docid;
+        this.outputDir = outputDir;
+        this.prependDocid = prependDocid;
       }
-      TarArchiveEntry tarEntry = new TarArchiveEntry(new File(docid));
-
-      byte[] bytesOut = doc.stringValue().getBytes(StandardCharsets.UTF_8);
-      tarEntry.setSize(bytesOut.length + (prependDocid ? String.format("<DOCNO>%s</DOCNO>\n", docid).length() : 0));
-      tOut.putArchiveEntry(tarEntry);
-      if (prependDocid) {
-        tOut.write(String.format("<DOCNO>%s</DOCNO>\n", docid).getBytes());
-      }
-      tOut.write(bytesOut);
-      tOut.closeArchiveEntry();
-
-      if (counter % 100000 == 0) {
-        LOG.info(counter + " files have been dumped.");
+      
+      @Override
+      public void run() {
+        try {
+          Document d = reader.document(convertDocidToLuceneDocid(docid));
+          IndexableField doc = d.getField(LuceneDocumentGenerator.FIELD_RAW);
+          if (doc == null) {
+            LOG.error("Raw documents not stored: " + docid);
+          }
+          FileUtils.writeStringToFile(
+              Paths.get(outputDir, docid).toFile(),
+              prependDocid ? String.format("<DOCNO>%s</DOCNO>\n", docid)+doc.stringValue() : doc.stringValue(),
+              StandardCharsets.UTF_8);
+        } catch (IOException e) {
+          e.printStackTrace();
+        }
       }
     }
-    tOut.close();
-    LOG.info(String.format("Raw documents are output to: %s", reqDocidsPath+".output.tar.gz"));
+    
+    List<String> docids = new ArrayList<>();
+    String docid;
+    while ((docid = bRdr.readLine()) != null) {
+      docids.add(docid);
+    }
+    int cores = Runtime.getRuntime().availableProcessors();
+    ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(Math.max(cores/2, 1));
+    LOG.info(String.format("Using %d threads to dump raw documents", Math.max(cores/2, 1)));
+    for (int i = 0; i < docids.size(); i++) {
+      executor.execute(new DumpThread(reader, docids.get(i), outputDir, prependDocid));
+    }
+  
+    executor.shutdown();
+  
+    try {
+      // Wait for existing tasks to terminate
+      while (!executor.awaitTermination(1, TimeUnit.MINUTES)) {
+        LOG.info(String.format("%.2f percent completed",
+            (double) executor.getCompletedTaskCount() / docids.size() * 100.0d));
+      }
+    } catch (InterruptedException ie) {
+      // (Re-)Cancel if current thread also interrupted
+      executor.shutdownNow();
+      // Preserve interrupt status
+      Thread.currentThread().interrupt();
+    }
+
+    LOG.info(String.format("Raw documents are output to: %s", outputDir));
   }
 
   public String getTransformedDocument(String docid) throws IOException, NotStoredException {

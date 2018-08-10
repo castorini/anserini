@@ -20,7 +20,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
@@ -46,7 +45,7 @@ import java.util.Set;
  * stored in JSON format. The collection is 1.5GB compressed, 5.9GB uncompressed.
  */
 public class WashingtonPostCollection extends DocumentCollection
-    implements SegmentProvider<WashingtonPostCollection.Document> {
+        implements SegmentProvider<WashingtonPostCollection.Document> {
   private static final Logger LOG = LogManager.getLogger(WashingtonPostCollection.class);
 
   @Override
@@ -54,7 +53,7 @@ public class WashingtonPostCollection extends DocumentCollection
     Set<String> allowedFileSuffix = new HashSet<>(Arrays.asList(".txt", ".jl"));
 
     return discover(path, EMPTY_SET, EMPTY_SET, EMPTY_SET,
-        allowedFileSuffix, EMPTY_SET);
+            allowedFileSuffix, EMPTY_SET);
   }
 
   @Override
@@ -81,9 +80,9 @@ public class WashingtonPostCollection extends DocumentCollection
 
       String nextRecord = null;
       try {
-         nextRecord = bufferedReader.readLine();
+        nextRecord = bufferedReader.readLine();
       } catch (IOException e) {
-        throw new RuntimeException("File IOException: ", e);
+        throw new RuntimeException(e);
       }
 
       if (nextRecord == null) {
@@ -104,9 +103,9 @@ public class WashingtonPostCollection extends DocumentCollection
       Document.WashingtonPostObject wapoObj = null;
       try {
         wapoObj = mapper
-          .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES) // Ignore unrecognized properties
-          .registerModule(new Jdk8Module()) // Deserialize Java 8 Optional: http://www.baeldung.com/jackson-optional
-          .readValue(record, Document.WashingtonPostObject.class);
+                .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES) // Ignore unrecognized properties
+                .registerModule(new Jdk8Module()) // Deserialize Java 8 Optional: http://www.baeldung.com/jackson-optional
+                .readValue(record, Document.WashingtonPostObject.class);
       } catch (IOException e) {
         // For current dataset, we can make sure all record has unique id and
         // published date. So we just simply throw an RuntimeException
@@ -118,14 +117,20 @@ public class WashingtonPostCollection extends DocumentCollection
       bufferedRecord.id = wapoObj.getId();
       bufferedRecord.publishedDate = wapoObj.getPublishedDate();
 
+      builder.append(wapoObj.getTitle()).append("\n");
+
       if (JsonParser.isFieldAvailable(wapoObj.getContents())) {
         for (Document.WashingtonPostObject.Content contentObj : wapoObj.getContents().get()) {
-          if (contentObj != null
-                  && JsonParser.isFieldAvailable(contentObj.getType())
+          if (contentObj == null) continue;
+          if (JsonParser.isFieldAvailable(contentObj.getType())
                   && JsonParser.isFieldAvailable(contentObj.getContent())
                   && Document.CONTENT_TYPE_TAG.contains(contentObj.getType().get())) {
             String content = contentObj.getContent().get();
-            builder.append(removeTags(content.trim())).append("\n");
+            builder.append(removeTags(content)).append("\n");
+          }
+          if (JsonParser.isFieldAvailable(contentObj.getFullCaption())) {
+            String fullCaption = contentObj.getFullCaption().get();
+            builder.append(removeTags(fullCaption)).append("\n");
           }
         }
       }
@@ -139,7 +144,7 @@ public class WashingtonPostCollection extends DocumentCollection
    */
   public static class Document implements SourceDocument {
     private static final Logger LOG = LogManager.getLogger(Document.class);
-    private static final String PATTERN = "<\\/?\\w+>";
+    private static final String PATTERN = "<.+>";
     private static final List<String> CONTENT_TYPE_TAG = Arrays.asList("sanitized_html", "tweet");
 
     // Required fields
@@ -173,6 +178,7 @@ public class WashingtonPostCollection extends DocumentCollection
       // Required fields
       protected String id;
       protected long publishedDate;
+      protected String title;
 
       // Optional fields
       protected Optional<List<Content>> contents;
@@ -188,6 +194,7 @@ public class WashingtonPostCollection extends DocumentCollection
           Content content = new Content();
           content.setType(getType(contentMap));
           content.setContent(getContent(contentMap));
+          content.setFullCaption(getFullCaption(contentMap));
           return content;
         }
 
@@ -210,19 +217,27 @@ public class WashingtonPostCollection extends DocumentCollection
             contentStringBuilder.append(contentObj);
           } else if (contentObj instanceof List) {
             for (Object content: (List<Object>) contentObj) {
-              contentStringBuilder.append(content);
+              contentStringBuilder.append(content).append(" ");
             }
           } else if (contentObj instanceof Map) {
             Object content = ((HashMap<String, Object>) contentObj).get("text");
             if (content == null) {
               return Optional.empty();
             }
-            contentStringBuilder.append(content);
+            contentStringBuilder.append(content).append(" ");
           } else {
             return Optional.empty();
           }
 
           return Optional.of(contentStringBuilder.toString());
+        }
+
+        private Optional<String> getFullCaption(Map<String, Object> map) {
+          Object fullCaption = map.get("fullcaption");
+          if (fullCaption == null) {
+            return Optional.empty();
+          }
+          return Optional.of(fullCaption.toString());
         }
       }
 
@@ -233,6 +248,7 @@ public class WashingtonPostCollection extends DocumentCollection
       public static class Content {
         protected Optional<String> type;
         protected Optional<String> content;
+        protected Optional<String> fullCaption;
 
         @JsonSetter("type")
         public void setType(Optional<String> type) {
@@ -244,6 +260,11 @@ public class WashingtonPostCollection extends DocumentCollection
           this.content = content;
         }
 
+        @JsonSetter("fullcaption")
+        public void setFullCaption(Optional<String> fullCaption) {
+          this.fullCaption = fullCaption;
+        }
+
         @JsonGetter("type")
         public Optional<String> getType() {
           return type;
@@ -252,6 +273,11 @@ public class WashingtonPostCollection extends DocumentCollection
         @JsonGetter("content")
         public Optional<String> getContent() {
           return content;
+        }
+
+        @JsonGetter("fullcaption")
+        public Optional<String> getFullCaption() {
+          return fullCaption;
         }
       }
 
@@ -265,15 +291,22 @@ public class WashingtonPostCollection extends DocumentCollection
         return publishedDate;
       }
 
+      @JsonGetter("title")
+      public String getTitle() {
+        return title;
+      }
+
       @JsonGetter("contents")
       public Optional<List<Content>> getContents() { return contents; }
 
       @JsonCreator
       public WashingtonPostObject(
               @JsonProperty(value = "id", required = true) String id,
-              @JsonProperty(value = "published_date", required = true) long publishedDate) {
+              @JsonProperty(value = "published_date", required = true) long publishedDate,
+              @JsonProperty(value = "title", required = true) String title) {
         this.id = id;
         this.publishedDate = publishedDate;
+        this.title = title;
       }
     }
   }

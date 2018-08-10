@@ -14,7 +14,6 @@ index_options:
   - -storePositions
   - -storeDocvectors
   - -storeRawDocs
-  - -optimize
 topic_reader: Trec
 evals:
   - command: eval/trec_eval.9.0/trec_eval
@@ -34,7 +33,7 @@ evals:
     metric_precision: 4
     can_combine: true
 input: /tuna1/collections/web/wt10g/
-index_path: "/tuna1/indexes/lucene-index.wt10g.pos+docvectors" # path to the existing index, used in regression test if `--index` option is absent
+index_path: "/tuna1/indexes/lucene-index.wt10g.pos+docvectors+rawdocs" # path to the existing index, used in regression test if `--index` option is absent
 index_stats:
   documents: 1688402
   documents (non-empty): 1688290
