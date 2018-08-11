@@ -47,6 +47,8 @@ Here's how to run the end-to-end experiments:
 
 Please see doc [here](experiments-jdiq2018.md)
 
+### [TREC2018](experiments-trec2018.md)
+
 ## Log
 
 The following log details whenever regression tests have changed in terms of effectiveness:
