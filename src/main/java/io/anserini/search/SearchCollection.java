@@ -193,7 +193,8 @@ public final class SearchCollection implements Closeable {
         if (doc == null) {
           throw new RuntimeException("Raw documents not stored!");
         }
-        queryString = doc.stringValue();
+        queryString = doc.stringValue().split("\\n")[0]; // pick title
+        LOG.info("Read document title: " + queryString);
       }
 
       ScoredDocuments docs;
