@@ -8,13 +8,14 @@ qrels_root: src/main/resources/topics-and-qrels/
 index_root:
 ranking_root:
 input: /tuna1/collections/web/ClueWeb12-B13/
-index_path: "/tuna1/indexes/lucene-index.cw12b13.pos+docvectors" # path to the existing index, used in regression test if `--index` option is absent
+index_path: "/tuna1/indexes/lucene-index.cw12b13.pos+docvectors+rawdocs" # path to the existing index, used in regression test if `--index` option is absent
 collection: ClueWeb12Collection
 generator: JsoupGenerator
 threads: 44
 index_options:
   - -storePositions
   - -storeDocvectors
+  - -storeRawDocs
 topic_reader: Webxml
 index_stats:
   documents: 52249039

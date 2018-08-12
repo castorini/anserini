@@ -61,7 +61,8 @@ public class WashingtonPostDocumentTest extends DocumentTest {
     HashMap<String, String> doc1 = new HashMap<>();
     doc1.put("id", "5f992bbc-4b9f-11e2-a6a6-aabac85e8036");
     // Only "sanitized_html" and "tweet" of <type> subtag in <content> tag will be included
-    doc1.put("content", "Using light to help reset your body clock\n" +
+    doc1.put("content", "Controlled exposure to light can ease jet lag’s effects before and after a trip\n" +
+             "Using light to help reset your body clock\n" +
              "When traveling east:\n" +
              "A few days before you leave, start exposing yourself to bright light in the morning.\n" +
              "When traveling west:\n" +
@@ -77,14 +78,21 @@ public class WashingtonPostDocumentTest extends DocumentTest {
     for (int i = 0; i < rawFiles.size(); i++) {
       BaseFileSegment<WashingtonPostCollection.Document> iter = collection.createFileSegment(rawFiles.get(i));
       while (true) {
+        boolean hasNext;
         try {
-          WashingtonPostCollection.Document parsed = iter.next();
-          assertEquals(parsed.id(), expected.get(i).get("id"));
-          assertEquals(parsed.content(), expected.get(i).get("content"));
-          assertEquals(parsed.getPublishedDate(), Long.parseLong(expected.get(i).get("published_date")));
+          hasNext = iter.hasNext();
         } catch (NoSuchElementException e) {
           break;
         }
+
+        if (!hasNext) {
+          break;
+        }
+
+        WashingtonPostCollection.Document parsed = iter.next();
+        assertEquals(parsed.id(), expected.get(i).get("id"));
+        assertEquals(parsed.content(), expected.get(i).get("content"));
+        assertEquals(parsed.getPublishedDate(), Long.parseLong(expected.get(i).get("published_date")));
       }
     }
   }

@@ -56,7 +56,7 @@ public class SearchArgs {
   public int rerankcutoff = 50;
 
   @Option(name = "-runtag", metaVar = "[tag]", required = false, usage = "runtag")
-  public String runtag = "Anserini";
+  public String runtag = null;
 
   @Option(name = "-ql", usage = "use query likelihood scoring model")
   public boolean ql = false;
@@ -99,13 +99,13 @@ public class SearchArgs {
   public boolean f2exp = false;
   
   @Option(name = "-f2exp.s", metaVar = "[value]", required = false, usage = "F2Exp s parameter")
-  public float f2exp_s = 0.25f;
+  public float f2exp_s = 0.5f;
 
   @Option(name = "-f2log", usage = "use F2Log scoring model")
   public boolean f2log = false;
 
   @Option(name = "-f2log.s", metaVar = "[value]", required = false, usage = "F2Log s parameter")
-  public float f2log_s = 0.25f;
+  public float f2log_s = 0.5f;
 
   @Option(name = "-rm3", usage = "use RM3 query expansion model (implies using query likelihood)")
   public boolean rm3 = false;
