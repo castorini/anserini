@@ -20,7 +20,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.HashMap;
-import java.util.NoSuchElementException;
 
 
 public class TrecDocumentTest extends DocumentTest {
@@ -65,18 +64,7 @@ public class TrecDocumentTest extends DocumentTest {
     TrecCollection collection = new TrecCollection();
     for (int i = 0; i < rawFiles.size(); i++) {
       BaseFileSegment<TrecCollection.Document> iter = collection.createFileSegment(rawFiles.get(i));
-      while (true) {
-        boolean hasNext;
-        try {
-          hasNext = iter.hasNext();
-        } catch (NoSuchElementException e) {
-          break;
-        }
-
-        if (!hasNext) {
-          break;
-        }
-
+      while (iter.hasNext()) {
         TrecCollection.Document parsed = iter.next();
         assertEquals(parsed.id(), expected.get(i).get("id"));
         assertEquals(parsed.content(), expected.get(i).get("content"));

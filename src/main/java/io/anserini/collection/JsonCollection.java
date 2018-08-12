@@ -91,6 +91,9 @@ public class JsonCollection extends DocumentCollection
 
     @Override
     public boolean hasNext() {
+      error = false;
+      skipped = false;
+
       if (bufferedRecord != null) {
         return true;
       } else if (atEOF) {
@@ -109,7 +112,12 @@ public class JsonCollection extends DocumentCollection
         }
       } else if (node.isArray()) {
         if (iter != null && iter.hasNext()) {
-          JsonNode json = iter.next();
+          JsonNode json;
+          try {
+            json = iter.next();
+          } catch (NoSuchElementException e) {
+            return false;
+          }
           bufferedRecord = new JsonCollection.Document(json.get("id").asText(), json.get("contents").asText());
         } else {
           return false;
@@ -121,6 +129,9 @@ public class JsonCollection extends DocumentCollection
 
       return bufferedRecord != null;
     }
+
+    @Override
+    public void readNext() {}
   }
 
   /**

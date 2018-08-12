@@ -26,7 +26,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.NoSuchElementException;
 
 
 public class WikipediaArticleTest extends DocumentTest {
@@ -98,18 +97,7 @@ public class WikipediaArticleTest extends DocumentTest {
   public void test() throws IOException {
     WikipediaCollection collection = new WikipediaCollection();
     BaseFileSegment<WikipediaCollection.Document> iter = collection.createFileSegment(tmpPath);
-    while (true) {
-      boolean hasNext;
-      try {
-        hasNext = iter.hasNext();
-      } catch (NoSuchElementException e) {
-        break;
-      }
-
-      if (!hasNext) {
-        break;
-      }
-
+    while (iter.hasNext()) {
       WikipediaCollection.Document parsed = iter.next();
       assertEquals(parsed.id(), "Wiktionary:Welcome, newcomers");
       assertEquals(parsed.content(), "Wiktionary:Welcome, newcomers.\nthis is the   real content");

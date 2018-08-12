@@ -116,20 +116,8 @@ public class ClueWeb12Collection extends DocumentCollection
     }
 
     @Override
-    public boolean hasNext() {
-      if (bufferedRecord != null) {
-        return true;
-      } else if (atEOF) {
-        return false;
-      }
-
-      try {
-        bufferedRecord = readNextWarcRecord(stream, Document.WARC_VERSION);
-      } catch (IOException e) {
-        throw new RuntimeException("File IOException: ", e);
-      }
-
-      return bufferedRecord != null;
+    public void readNext() throws IOException {
+      bufferedRecord = readNextWarcRecord(stream, Document.WARC_VERSION);
     }
 
     @Override

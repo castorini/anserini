@@ -85,20 +85,8 @@ public class TrecCollection extends DocumentCollection
     }
 
     @Override
-    public boolean hasNext() {
-      if (bufferedRecord != null) {
-        return true;
-      } else if (atEOF) {
-        return false;
-      }
-
-      try {
-        readNextRecord(bufferedReader);
-      } catch (IOException e) {
-        throw new RuntimeException("File IOException: ", e);
-      }
-
-      return bufferedRecord != null;
+    public void readNext() throws IOException {
+      readNextRecord(bufferedReader);
     }
 
     private void readNextRecord(BufferedReader reader) throws IOException {

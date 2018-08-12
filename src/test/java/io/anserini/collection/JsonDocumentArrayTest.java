@@ -21,7 +21,6 @@ import org.junit.Test;
 
 import java.io.*;
 import java.util.HashMap;
-import java.util.NoSuchElementException;
 
 
 public class JsonDocumentArrayTest extends DocumentTest {
@@ -60,18 +59,7 @@ public class JsonDocumentArrayTest extends DocumentTest {
     int j = 0;
     for (int i = 0; i < rawFiles.size(); i++) {
       BaseFileSegment<JsonCollection.Document> iter = collection.createFileSegment(rawFiles.get(i));
-      while (true) {
-        boolean hasNext;
-        try {
-          hasNext = iter.hasNext();
-        } catch (NoSuchElementException e) {
-          break;
-        }
-
-        if (!hasNext) {
-          break;
-        }
-
+      while (iter.hasNext()) {
         JsonCollection.Document parsed = iter.next();
         assertEquals(parsed.id(), expected.get(j).get("id"));
         assertEquals(parsed.content(), expected.get(j).get("content"));

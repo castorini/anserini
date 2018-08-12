@@ -193,25 +193,10 @@ public final class IndexCollection {
         BaseFileSegment<SourceDocument> iter =
             (BaseFileSegment) ((SegmentProvider) collection).createFileSegment(inputFile);
 
-        while (true) {
-          boolean hasNext = false;
-          try {
-            hasNext = iter.hasNext();
-          } catch (NoSuchElementException e1) {
-            break;
-          } catch (RuntimeException e2) {
-            if (e2.getMessage() != null && e2.getMessage().contains("File IOException")) {
-              LOG.warn("Exception when parsing document: ", e2);
-              counters.errors.incrementAndGet();
-              break; // IOException: stop reading more documents
-            } else {
-              counters.skipped.incrementAndGet();
-              continue; // Non-IOException: continue reading the next document
-            }
-          }
-
-          if (!hasNext) {
-            break;
+        while (iter.hasNext()) {
+          if (iter.isSkipped()) {
+            counters.skipped.incrementAndGet();
+            continue;
           }
 
           SourceDocument d = iter.next();
@@ -239,6 +224,11 @@ public final class IndexCollection {
           }
           cnt++;
         }
+
+        if (iter.isError()) {
+          counters.errors.incrementAndGet();
+        }
+
         iter.close();
         LOG.info(inputFile.getParent().getFileName().toString() + File.separator +
             inputFile.getFileName().toString() + ": " + cnt + " docs added.");

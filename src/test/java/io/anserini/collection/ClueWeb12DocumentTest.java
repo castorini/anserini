@@ -20,7 +20,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.HashMap;
-import java.util.NoSuchElementException;
 
 
 public class ClueWeb12DocumentTest extends DocumentTest {
@@ -94,18 +93,7 @@ public class ClueWeb12DocumentTest extends DocumentTest {
     ClueWeb12Collection collection = new ClueWeb12Collection();
     for (int i = 0; i < rawDocs.size(); i++) {
       BaseFileSegment<ClueWeb12Collection.Document> iter = collection.createFileSegment(rawDocs.get(i));
-      while (true) {
-        boolean hasNext;
-        try {
-          hasNext = iter.hasNext();
-        } catch (NoSuchElementException e) {
-          break;
-        }
-
-        if (!hasNext) {
-          break;
-        }
-
+      while (iter.hasNext()) {
         ClueWeb12Collection.Document parsed = iter.next();
         assertEquals(parsed.id(), expected.get(i).get("id"));
         assertEquals(parsed.content(), expected.get(i).get("content"));

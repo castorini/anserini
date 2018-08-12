@@ -68,6 +68,9 @@ public class HtmlCollection extends DocumentCollection
 
     @Override
     public boolean hasNext() {
+      error = false;
+      skipped = false;
+
       if (bufferedRecord != null) {
         return true;
       } else if (atEOF) {
@@ -84,15 +87,23 @@ public class HtmlCollection extends DocumentCollection
           bufferedRecord = new Document(bufferedReader, path.getFileName().toString().replaceAll("\\.html$", ""));
           atEOF = true;
         }
-      } catch (IOException e) {
-        if (path.toString().endsWith(".html")) {
-          return false;
+      } catch (IOException e1) {
+        if (!path.toString().endsWith(".xml")) {
+          error = true;
         }
-        throw new RuntimeException("File IOException: ", e);
+        return false;
+      } catch (NoSuchElementException e2) {
+        return false;
+      } catch (RuntimeException e3) {
+        skipped = true;
+        return true;
       }
 
       return bufferedRecord != null;
     }
+
+    @Override
+    public void readNext() {}
 
     private void getNextEntry() throws IOException {
       nextEntry = inputStream.getNextEntry();

@@ -34,6 +34,8 @@ public abstract class BaseFileSegment<T extends SourceDocument> implements Segme
   protected BufferedReader bufferedReader;
   protected boolean atEOF = false;
   protected T bufferedRecord = null;
+  protected boolean skipped = false;
+  protected boolean error = false;
 
   @Override
   public T next() {
@@ -46,6 +48,42 @@ public abstract class BaseFileSegment<T extends SourceDocument> implements Segme
   }
 
   @Override
+  public boolean hasNext() {
+    error = false;
+    skipped = false;
+
+    if (bufferedRecord != null) {
+      return true;
+    } else if (atEOF) {
+      return false;
+    }
+
+    try {
+      readNext();
+    } catch (IOException e1) {
+      error = true;
+      return false;
+    } catch (NoSuchElementException e2) {
+      return false;
+    } catch (RuntimeException e3) {
+      skipped = true;
+      return true;
+    }
+
+    return bufferedRecord != null;
+  }
+
+  public abstract void readNext() throws IOException;
+
+  public boolean isError() {
+    return error;
+  }
+
+  public boolean isSkipped() {
+    return skipped;
+  }
+
+  @Override
   public void remove() {
     throw new UnsupportedOperationException();
   }
@@ -53,6 +91,8 @@ public abstract class BaseFileSegment<T extends SourceDocument> implements Segme
   public void close() throws IOException {
     atEOF = true;
     bufferedRecord = null;
+    skipped = false;
+    error = false;
     if (bufferedReader != null) {
       bufferedReader.close();
     }
