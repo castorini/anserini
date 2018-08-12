@@ -18,6 +18,7 @@ package io.anserini.search.topicreader;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
@@ -43,13 +44,33 @@ public class CarTopicReader extends TopicReader {
     while ((line = bRdr.readLine()) != null) {
       Map<String,String> fields = new HashMap<>();
       line = line.trim();
-      if (line.startsWith("enwiki:")) {
+      // topic file
+      if (line.indexOf('%') > -1 || line.indexOf('/') > -1) {
         String id = line;
-        String title = java.net.URLDecoder.decode(line.substring(7).replace("%20", " ")
-            .replace("%2", " ").replace("/", " "), "utf-8");
-        fields.put("title", title);
-        map.put(id, fields);
+        String title = null;
+        try {
+          String title_url;
+          if (line.startsWith("enwiki:")) {
+            title_url = line.substring(7);
+          }
+          else {
+            title_url = line;
+          }
+          title_url = title_url.replaceAll("%(?![0-9a-fA-F]{2})", "%25");
+          title_url = title_url.replaceAll("\\+", "%2B");
+          title = java.net.URLDecoder.decode(title_url, "utf-8")
+              .replace("/", " ").replace("(", " ").replace(")", " ");
+          fields.put("title", title);
+          map.put(id, fields);
+        } catch (UnsupportedEncodingException e) {
+          System.out.println(line);
+          e.printStackTrace();
+        } catch (IllegalArgumentException e) {
+          System.out.println(line);
+          e.printStackTrace();
+        }
       }
+      // title file
       else if (line.length() != 0) {
         String title = line;
         String id = "enwiki:" + java.net.URLEncoder.encode(line, "utf-8")

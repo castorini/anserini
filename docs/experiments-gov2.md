@@ -7,8 +7,8 @@ Typical indexing command:
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection TrecwebCollection \
 -generator JsoupGenerator -threads 44 -input /path/to/gov2 -index \
-lucene-index.gov2.pos+docvectors -storePositions -storeDocvectors -optimize >& \
-log.gov2.pos+docvectors &
+lucene-index.gov2.pos+docvectors -storePositions -storeDocvectors -storeRawDocs \
+>& log.gov2.pos+docvectors+rawdocs &
 ```
 
 The directory `/path/to/gov2/` should be the root directory of Gov2 collection, i.e., `ls /path/to/gov2/` should bring up a bunch of subdirectories, `GX000` to `GX272`.

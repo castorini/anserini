@@ -7,8 +7,8 @@ Typical indexing command:
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection TrecwebCollection \
 -generator JsoupGenerator -threads 16 -input /path/to/wt10g -index \
-lucene-index.wt10g.pos+docvectors -storePositions -storeDocvectors -optimize >& \
-log.wt10g.pos+docvectors &
+lucene-index.wt10g.pos+docvectors -storePositions -storeDocvectors -storeRawDocs \
+>& log.wt10g.pos+docvectors+rawdocs &
 ```
 
 The directory `/path/to/wt10g/` should be the root directory of Wt10g collection, containing a bunch of subdirectories, `WTX001` to `WTX104`.

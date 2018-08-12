@@ -16,27 +16,20 @@
 
 package io.anserini.collection;
 
-import com.fasterxml.jackson.core.JsonFactory;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
- *
- * Class representing a document collection in JSON.
- *
- * This class reads "*.json" files in the input directory.
+ * A JSON document collection.
+ * This class reads all <code>.json</code> files in the input directory.
  * Inside each file is either a JSON Object (one document) or a JSON Array (multiple documents) or
  * a JSON Document on each line (not actually valid Json String)
  * Example of JSON Object:
@@ -67,7 +60,8 @@ import java.util.Set;
  *
  */
 public class JsonCollection extends DocumentCollection
-    implements FileSegmentProvider<JsonCollection.Document> {
+    implements SegmentProvider<JsonCollection.Document> {
+  private static final Logger LOG = LogManager.getLogger(JsonCollection.class);
 
   @Override
   public List<Path> getFileSegmentPaths() {
@@ -82,56 +76,63 @@ public class JsonCollection extends DocumentCollection
     return new FileSegment(p);
   }
 
-  public class FileSegment extends AbstractFileSegment<Document> {
+  public class FileSegment extends BaseFileSegment<Document> {
+    private JsonNode node;
+    private Iterator<JsonNode> iter = null;
+
     protected FileSegment(Path path) throws IOException {
-      dType = new JsonCollection.Document(path.toString());
       bufferedReader = new BufferedReader(new FileReader(path.toString()));
+      ObjectMapper mapper = new ObjectMapper();
+      node = mapper.readTree(bufferedReader);
+      if (node.isArray()) {
+        iter = node.elements();
+      }
+    }
+
+    @Override
+    public boolean hasNext() {
+      if (bufferedRecord != null) {
+        return true;
+      } else if (atEOF) {
+        return false;
+      }
+
+      if (node == null) {
+        return false;
+      } else if (node.isObject()) {
+        bufferedRecord = new JsonCollection.Document(node.get("id").asText(), node.get("contents").asText());
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+          node = mapper.readTree(bufferedReader); // if bufferedReader contains JSON line objects, we parse the next JSON into node
+        } catch (IOException e) {
+          atEOF = true; // there is no more JSON object in the bufferedReader
+        }
+      } else if (node.isArray()) {
+        if (iter != null && iter.hasNext()) {
+          JsonNode json = iter.next();
+          bufferedRecord = new JsonCollection.Document(json.get("id").asText(), json.get("contents").asText());
+        } else {
+          return false;
+        }
+      } else {
+        LOG.error("Error: invalid JsonNode type");
+        return false;
+      }
+
+      return bufferedRecord != null;
     }
   }
 
   /**
-   *
-   * Here we actually read the whole json file at once.
-   * If there are multiple JSON objects we use a global index i to track the progress.
-   *
+   * A document in a JSON collection.
    */
   public static class Document implements SourceDocument {
     protected String id;
     protected String contents;
-    private ArrayNode node;
-    private int i;
 
-    public Document(String path) {
-      try {
-        JsonParser jsonParser = new JsonFactory().createParser(new BufferedReader(new FileReader(path)));
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
-        node = objectMapper.readTree(jsonParser);
-      } catch (IOException e) {
-        node = null; // When the json file does not contain any json objects, set node to null
-      }
-      i = 0;
-    }
-
-    @Override
-    public Document readNextRecord(BufferedReader bRdr) throws IOException {
-      if (node == null) {
-        // try to read one JSON Object per line
-        String line;
-        while ((line = bRdr.readLine()) != null) {
-          JsonNode json = new JsonFactory().createParser(line).readValueAsTree();
-          id = json.get("id").asText();
-          contents = json.get("contents").asText();
-          return this;
-        }
-      } else if (i < node.size()) {
-        JsonNode json = node.get(i);
-        id = json.get("id").asText();
-        contents = json.get("contents").asText();
-        i++;
-        return this;
-      }
-      return null;
+    public Document(String id, String contents) {
+      this.id = id;
+      this.contents = contents;
     }
 
     @Override

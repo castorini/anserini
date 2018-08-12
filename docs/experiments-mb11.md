@@ -12,8 +12,9 @@ Indexing the Tweets2011 collection:
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection TweetCollection \
 -generator TweetGenerator -threads 44 -input /path/to/mb11 -index \
-lucene-index.mb11.pos+docvectors -storePositions -storeDocvectors -optimize \
--uniqueDocid -tweet.keepUrls -tweet.stemming >& log.mb11.pos+docvectors &
+lucene-index.mb11.pos+docvectors -storePositions -storeDocvectors -storeRawDocs \
+-uniqueDocid -tweet.keepUrls -tweet.stemming >& log.mb11.pos+docvectors+rawdocs \
+&
 ```
 __NB:__ The process is backgrounded
 

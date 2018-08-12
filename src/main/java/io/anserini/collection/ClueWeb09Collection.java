@@ -52,7 +52,10 @@
 
 package io.anserini.collection;
 
-import java.io.BufferedReader;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.tools.ant.filters.StringInputStream;
+
 import java.io.DataInput;
 import java.io.DataInputStream;
 import java.io.DataOutput;
@@ -62,14 +65,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.zip.GZIPInputStream;
 
 /**
@@ -77,7 +73,8 @@ import java.util.zip.GZIPInputStream;
  * This can be used to read the complete ClueWeb09 collection or the smaller ClueWeb09b subset.
  */
 public class ClueWeb09Collection extends DocumentCollection
-    implements FileSegmentProvider<ClueWeb09Collection.Document> {
+    implements SegmentProvider<ClueWeb09Collection.Document> {
+  private static final Logger LOG = LogManager.getLogger(ClueWeb09Collection.class);
 
   @Override
   public List<Path> getFileSegmentPaths() {
@@ -91,10 +88,21 @@ public class ClueWeb09Collection extends DocumentCollection
     return new FileSegment(p);
   }
 
+  public ClueWeb09Collection.FileSegment createFileSegment(String raw) {
+    return new ClueWeb09Collection.FileSegment(raw);
+  }
+
   /**
-   * An individual WARC in the ClueWeb09 collection.
+   * An individual WARC in the <a href="https://www.lemurproject.org/clueweb09.php/">ClueWeb09 collection</a>.
    */
-  public static class FileSegment extends AbstractFileSegment<Document> {
+  public static class FileSegment extends BaseFileSegment<Document> {
+    private static final byte MASK_THREE_BYTE_CHAR = (byte) (0xE0);
+    private static final byte MASK_TWO_BYTE_CHAR = (byte) (0xC0);
+    private static final byte MASK_TOPMOST_BIT = (byte) (0x80);
+    private static final byte MASK_BOTTOM_SIX_BITS = (byte) (0x1F);
+    private static final byte MASK_BOTTOM_FIVE_BITS = (byte) (0x3F);
+    private static final byte MASK_BOTTOM_FOUR_BITS = (byte) (0x0F);
+
     protected DataInputStream stream;
 
     protected FileSegment(Path path) throws IOException {
@@ -103,83 +111,33 @@ public class ClueWeb09Collection extends DocumentCollection
           new GZIPInputStream(Files.newInputStream(path, StandardOpenOption.READ)));
     }
 
+    protected FileSegment(String raw) {
+      this.stream = new DataInputStream(new StringInputStream(raw));
+    }
+
     @Override
-    public Document next() {
-      Document doc;
-      try {
-        doc = Document.readNextWarcRecord(stream, Document.WARC_VERSION);
-        if (doc == null) {
-          atEOF = true;
-        }
-      } catch (IOException e) {
-        doc = null;
+    public boolean hasNext() {
+      if (bufferedRecord != null) {
+        return true;
+      } else if (atEOF) {
+        return false;
       }
-      return doc;
+
+      try {
+        bufferedRecord = readNextWarcRecord(stream, Document.WARC_VERSION);
+      } catch (IOException e) {
+        throw new RuntimeException("File IOException: ", e);
+      }
+
+      return bufferedRecord != null;
     }
 
     @Override
     public void close() throws IOException {
-      atEOF = true;
       if (stream != null) {
         stream.close();
       }
-    }
-  }
-
-  /**
-   * A document from the <a href="https://www.lemurproject.org/clueweb09.php/">ClueWeb09 collection</a>.
-   * This class derives from tools provided by CMU for reading the ClueWeb09 collection.
-   */
-  public static class Document implements SourceDocument {
-    public static final String WARC_VERSION = "WARC/0.18";
-    protected final static String NEWLINE = "\n";
-
-    private static final byte MASK_THREE_BYTE_CHAR = (byte) (0xE0);
-    private static final byte MASK_TWO_BYTE_CHAR = (byte) (0xC0);
-    private static final byte MASK_TOPMOST_BIT = (byte) (0x80);
-    private static final byte MASK_BOTTOM_SIX_BITS = (byte) (0x1F);
-    private static final byte MASK_BOTTOM_FIVE_BITS = (byte) (0x3F);
-    private static final byte MASK_BOTTOM_FOUR_BITS = (byte) (0x0F);
-
-    private Document.WarcHeader warcHeader = new Document.WarcHeader();
-    private byte[] warcContent = null;
-    private String warcFilePath = "";
-
-    /**
-     * Default Constructor.
-     */
-    public Document() {
-    }
-
-    /**
-     * Copy Constructor.
-     *
-     * @param o record to copy from
-     */
-    public Document(Document o) {
-      this.warcHeader = new Document.WarcHeader(o.warcHeader);
-      this.warcContent = o.warcContent;
-    }
-
-    @Override
-    public String id() {
-      return getDocid();
-    }
-
-    @Override
-    public String content() {
-      return getContent();
-    }
-
-    // This is being deprecated per https://github.com/castorini/Anserini/issues/254
-    @Override
-    public Document readNextRecord(BufferedReader bRdr) throws IOException {
-      return null;
-    }
-
-    @Override
-    public boolean indexable() {
-      return "response".equals(getHeaderRecordType());
+      super.close();
     }
 
     /**
@@ -276,11 +234,8 @@ public class ClueWeb09Collection extends DocumentCollection
      */
     protected static byte[] readNextRecord(DataInputStream in, StringBuilder headerBuffer,
                                            String version) throws IOException {
-      if (in == null) {
-        return null;
-      }
-      if (headerBuffer == null) {
-        return null;
+      if (in == null || headerBuffer == null) {
+        throw new NoSuchElementException();
       }
 
       String line = null;
@@ -299,7 +254,7 @@ public class ClueWeb09Collection extends DocumentCollection
 
       // no WARC mark?
       if (!foundMark) {
-        return null;
+        throw new NoSuchElementException();
       }
 
       // then read to the first newline
@@ -311,7 +266,7 @@ public class ClueWeb09Collection extends DocumentCollection
           inHeader = false;
         } else {
           headerBuffer.append(line);
-          headerBuffer.append(NEWLINE);
+          headerBuffer.append(Document.NEWLINE);
           String[] thisHeaderPieceParts = line.split(":", 2);
           if (thisHeaderPieceParts.length == 2) {
             if (thisHeaderPieceParts[0].toLowerCase(Locale.US).startsWith("content-length")) {
@@ -327,7 +282,7 @@ public class ClueWeb09Collection extends DocumentCollection
       }
 
       if (contentLength < 0) {
-        return null;
+        throw new NoSuchElementException();
       }
 
       // now read the bytes of the content
@@ -338,7 +293,7 @@ public class ClueWeb09Collection extends DocumentCollection
         try {
           int numRead = in.read(retContent, totalRead, totalWant);
           if (numRead < 0) {
-            return null;
+            throw new NoSuchElementException();
           } else {
             totalRead += numRead;
             totalWant = contentLength - totalRead;
@@ -350,7 +305,7 @@ public class ClueWeb09Collection extends DocumentCollection
             System.arraycopy(retContent, 0, newReturn, 0, totalRead);
             return newReturn;
           } else {
-            return null;
+            throw new NoSuchElementException();
           }
         } // end try/catch (EOFException)
       } // end while (totalRead < contentLength)
@@ -370,13 +325,10 @@ public class ClueWeb09Collection extends DocumentCollection
         throws IOException {
       StringBuilder recordHeader = new StringBuilder();
       byte[] recordContent = readNextRecord(in, recordHeader, version);
-      if (recordContent == null) {
-        return null;
-      }
 
       // extract out our header information
       String thisHeaderString = recordHeader.toString();
-      String[] headerLines = thisHeaderString.split(NEWLINE);
+      String[] headerLines = thisHeaderString.split(Document.NEWLINE);
 
       Document retRecord = new Document();
       for (int i = 0; i < headerLines.length; i++) {
@@ -406,6 +358,51 @@ public class ClueWeb09Collection extends DocumentCollection
       retRecord.setContent(recordContent);
 
       return retRecord;
+    }
+  }
+
+  /**
+   * A document from the <a href="https://www.lemurproject.org/clueweb09.php/">ClueWeb09 collection</a>.
+   * This class derives from tools provided by CMU for reading the ClueWeb09 collection.
+   */
+  public static class Document implements SourceDocument {
+    public static final String WARC_VERSION = "WARC/0.18";
+    protected final static String NEWLINE = "\n";
+
+    private Document.WarcHeader warcHeader = new Document.WarcHeader();
+    private byte[] warcContent = null;
+    private String warcFilePath = "";
+
+    /**
+     * Default Constructor.
+     */
+    public Document() {
+    }
+
+    /**
+     * Copy Constructor.
+     *
+     * @param o record to copy from
+     */
+    public Document(Document o) {
+      this.warcHeader = new Document.WarcHeader(o.warcHeader);
+      this.warcContent = o.warcContent;
+      this.warcFilePath = o.getWarcFilePath();
+    }
+
+    @Override
+    public String id() {
+      return getDocid();
+    }
+
+    @Override
+    public String content() {
+      return getContent();
+    }
+
+    @Override
+    public boolean indexable() {
+      return "response".equals(getHeaderRecordType());
     }
 
     /**

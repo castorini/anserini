@@ -16,26 +16,26 @@
 
 package io.anserini.collection;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.wikiclean.WikiClean;
 import org.wikiclean.WikiClean.WikiLanguage;
 import org.wikiclean.WikiCleanBuilder;
 import org.wikiclean.WikipediaBz2DumpInputStream;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
- * Class representing an instance of a Wikipedia collection. Note that Wikipedia dumps often come
- * as a single bz2 file. Since a collection is assumed to be in a directory, place the bz2 file in
- * a directory prior to indexing.
+ * A Wikipedia collection.
+ * Note that Wikipedia dumps come as a single <code>bz2</code> file. Since a collection is assumed
+ * to be in a directory, place the <code>bz2</code> file in a directory prior to indexing.
  */
 public class WikipediaCollection extends DocumentCollection
-    implements FileSegmentProvider<WikipediaCollection.Document> {
+    implements SegmentProvider<WikipediaCollection.Document> {
+
+  private static final Logger LOG = LogManager.getLogger(WikipediaCollection.class);
 
   @Override
   public List<Path> getFileSegmentPaths() {
@@ -50,13 +50,12 @@ public class WikipediaCollection extends DocumentCollection
     return new FileSegment(p);
   }
 
-  public class FileSegment extends AbstractFileSegment<Document> {
+  public class FileSegment extends BaseFileSegment<Document> {
     private final WikipediaBz2DumpInputStream stream;
     private final WikiClean cleaner;
 
     protected FileSegment(Path path) throws IOException {
       this.path = path;
-
       stream = new WikipediaBz2DumpInputStream(path.toString());
       cleaner = new WikiCleanBuilder()
           .withLanguage(WikiLanguage.EN).withTitle(false)
@@ -64,7 +63,13 @@ public class WikipediaCollection extends DocumentCollection
     }
 
     @Override
-    public Document next() {
+    public boolean hasNext() {
+      if (bufferedRecord != null) {
+        return true;
+      } else if (atEOF) {
+        return false;
+      }
+
       try {
         String page;
         String s;
@@ -84,22 +89,21 @@ public class WikipediaCollection extends DocumentCollection
 
           // If we've gotten here, it means that we've advanced to the next "valid" article.
           String title = cleaner.getTitle(page).replaceAll("\\n+", " ");
-          return new Document(title, title + ".\n" + s);
+          bufferedRecord = new Document(title, title + ".\n" + s);
+          return true;
         }
-
       } catch (IOException e) {
-        e.printStackTrace();
+        throw new RuntimeException("File IOException: ", e);
       }
 
       // If we've fall through here, we've either encountered an exception or we've reached the end
       // of the underlying stream.
-      atEOF = true;
-      return null;
+      return false;
     }
   }
 
   /**
-   * A Wikipedia article. The article title serves as the id.
+   * A Wikipedia document. The article title serves as the id.
    */
   public static class Document implements SourceDocument {
     private final String title;
@@ -108,12 +112,6 @@ public class WikipediaCollection extends DocumentCollection
     public Document(String title, String contents) {
       this.title = title;
       this.contents = contents;
-
-    }
-
-    @Override
-    public Document readNextRecord(BufferedReader bRdr) throws IOException {
-      return null;
     }
 
     @Override
