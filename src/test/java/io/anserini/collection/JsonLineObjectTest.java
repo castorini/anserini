@@ -21,6 +21,7 @@ import org.junit.Test;
 
 import java.io.*;
 import java.util.HashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 
 public class JsonLineObjectTest extends DocumentTest {
@@ -59,9 +60,25 @@ public class JsonLineObjectTest extends DocumentTest {
       BaseFileSegment<JsonCollection.Document> iter = collection.createFileSegment(rawFiles.get(i));
       while (iter.hasNext()) {
         JsonCollection.Document parsed = iter.next();
-        assertEquals(parsed.id(), expected.get(i).get("id"));
-        assertEquals(parsed.content(), expected.get(i).get("content"));
+        assertEquals(parsed.id(), expected.get(j).get("id"));
+        assertEquals(parsed.content(), expected.get(j).get("content"));
+        j++;
       }
+    }
+  }
+
+  // Tests if the iterator is behaving properly. If it is, we shouldn't have any issues running into
+  // NoSuchElementExceptions.
+  @Test
+  public void testStreamIteration() {
+    JsonCollection collection = new JsonCollection();
+    try {
+      BaseFileSegment<JsonCollection.Document> iter = collection.createFileSegment(rawFiles.get(0));
+      AtomicInteger cnt = new AtomicInteger();
+      iter.forEachRemaining(d -> cnt.incrementAndGet());
+      assertEquals(2, cnt.get());
+    } catch (IOException e) {
+      throw new RuntimeException(e);
     }
   }
 }

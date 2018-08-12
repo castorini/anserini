@@ -20,6 +20,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.HashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 
 public class ClueWeb12DocumentTest extends DocumentTest {
@@ -99,5 +100,17 @@ public class ClueWeb12DocumentTest extends DocumentTest {
         assertEquals(parsed.content(), expected.get(i).get("content"));
       }
     }
+  }
+
+  // Tests if the iterator is behaving properly. If it is, we shouldn't have any issues running into
+  // NoSuchElementExceptions.
+  @Test
+  public void testStreamIteration() {
+    ClueWeb12Collection collection = new ClueWeb12Collection();
+    BaseFileSegment<ClueWeb12Collection.Document> iter =
+            collection.createFileSegment(rawDocs.get(0) + rawDocs.get(1));
+    AtomicInteger cnt = new AtomicInteger();
+    iter.forEachRemaining(d -> cnt.incrementAndGet());
+    assertEquals(2, cnt.get());
   }
 }

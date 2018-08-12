@@ -17,6 +17,7 @@
 package io.anserini.collection;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.MappingIterator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -77,15 +78,19 @@ public class JsonCollection extends DocumentCollection
   }
 
   public class FileSegment extends BaseFileSegment<Document> {
-    private JsonNode node;
-    private Iterator<JsonNode> iter = null;
+    private JsonNode node = null;
+    private Iterator<JsonNode> iter = null; // iterator for JSON document array
+    private MappingIterator<JsonNode> iterator; // iterator for JSON line objects
 
     protected FileSegment(Path path) throws IOException {
       bufferedReader = new BufferedReader(new FileReader(path.toString()));
       ObjectMapper mapper = new ObjectMapper();
-      node = mapper.readTree(bufferedReader);
-      if (node.isArray()) {
-        iter = node.elements();
+      iterator = mapper.readerFor(JsonNode.class).readValues(bufferedReader);
+      if (iterator.hasNext()) {
+        node = iterator.next();
+        if (node.isArray()) {
+          iter = node.elements();
+        }
       }
     }
 
@@ -104,20 +109,14 @@ public class JsonCollection extends DocumentCollection
         return false;
       } else if (node.isObject()) {
         bufferedRecord = new JsonCollection.Document(node.get("id").asText(), node.get("contents").asText());
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-          node = mapper.readTree(bufferedReader); // if bufferedReader contains JSON line objects, we parse the next JSON into node
-        } catch (IOException e) {
+        if (iterator.hasNext()) { // if bufferedReader contains JSON line objects, we parse the next JSON into node
+          node = iterator.next();
+        } else {
           atEOF = true; // there is no more JSON object in the bufferedReader
         }
       } else if (node.isArray()) {
         if (iter != null && iter.hasNext()) {
-          JsonNode json;
-          try {
-            json = iter.next();
-          } catch (NoSuchElementException e) {
-            return false;
-          }
+          JsonNode json = iter.next();
           bufferedRecord = new JsonCollection.Document(json.get("id").asText(), json.get("contents").asText());
         } else {
           return false;

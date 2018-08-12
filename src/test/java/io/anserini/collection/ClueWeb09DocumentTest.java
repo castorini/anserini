@@ -108,9 +108,9 @@ public class ClueWeb09DocumentTest extends DocumentTest {
   public void testStreamIteration() {
     ClueWeb09Collection collection = new ClueWeb09Collection();
     BaseFileSegment<ClueWeb09Collection.Document> iter =
-      collection.createFileSegment(rawDocs.get(0) + rawDocs.get(1));
+            collection.createFileSegment(rawDocs.get(0) + rawDocs.get(1));
     AtomicInteger cnt = new AtomicInteger();
     iter.forEachRemaining(d -> cnt.incrementAndGet());
-    assertEquals(cnt.get(), 2);
+    assertEquals(2, cnt.get());
   }
 }

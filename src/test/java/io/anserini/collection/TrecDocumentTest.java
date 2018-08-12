@@ -19,7 +19,9 @@ package io.anserini.collection;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 
 public class TrecDocumentTest extends DocumentTest {
@@ -69,6 +71,21 @@ public class TrecDocumentTest extends DocumentTest {
         assertEquals(parsed.id(), expected.get(i).get("id"));
         assertEquals(parsed.content(), expected.get(i).get("content"));
       }
+    }
+  }
+
+  // Tests if the iterator is behaving properly. If it is, we shouldn't have any issues running into
+  // NoSuchElementExceptions.
+  @Test
+  public void testStreamIteration() {
+    TrecCollection collection = new TrecCollection();
+    try {
+      BaseFileSegment<TrecCollection.Document> iter = collection.createFileSegment(rawFiles.get(0));
+      AtomicInteger cnt = new AtomicInteger();
+      iter.forEachRemaining(d -> cnt.incrementAndGet());
+      assertEquals(1, cnt.get());
+    } catch (IOException e) {
+      throw new RuntimeException(e);
     }
   }
 }
