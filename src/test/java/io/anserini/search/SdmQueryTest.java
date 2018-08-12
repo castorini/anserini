@@ -111,8 +111,7 @@ public class SdmQueryTest extends LuceneTestCase {
     q = new SpanNearQuery(new SpanQuery[]{t2, t1}, 16, false);
     rs = searcher.search(q, 1);
     assertEquals(rs.scoreDocs.length, 1);
-
-
+    
     String sdmQueryStr = "fox information river";
     Query sdmQuery1 = new SdmQueryGenerator(1.0f, 0.0f, 0.0f).buildQuery(field, analyzer, sdmQueryStr);
     assertEquals(sdmQuery1.toString(), "(text:fox text:inform text:river)^1.0 " +
@@ -122,7 +121,6 @@ public class SdmQueryTest extends LuceneTestCase {
     Query termQuery = new BagOfWordsQueryGenerator().buildQuery(field, analyzer, sdmQueryStr);
     TopDocs rsTerm = searcher.search(termQuery, 1);
     assertEquals(rs1.scoreDocs[0].score, rsTerm.scoreDocs[0].score, 1e-6f);
-
 
     /////////
     Query sdmQuery2 = new SdmQueryGenerator(0.0f, 1.0f, 0.0f).buildQuery(field, analyzer, sdmQueryStr);

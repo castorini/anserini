@@ -92,6 +92,7 @@ public final class SearchCollection implements Closeable {
     BagOfTerms,
     SequentialDependenceModel
   }
+  
   private final QueryConstructor qc;
 
   public SearchCollection(SearchArgs args) throws IOException {
