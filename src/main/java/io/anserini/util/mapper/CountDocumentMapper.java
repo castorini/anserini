@@ -34,8 +34,7 @@ public class CountDocumentMapper extends DocumentMapper {
   private CountDocumentMapperContext counters;
   private final Set whitelistDocids;
 
-  public CountDocumentMapper(MapCollections.Args args)
-      throws Exception {
+  public CountDocumentMapper(MapCollections.Args args) throws Exception {
     super(args);
 
     if (args.whitelist != null) {

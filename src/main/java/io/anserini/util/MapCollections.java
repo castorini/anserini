@@ -112,7 +112,10 @@ public final class MapCollections {
             mapper.process(d, context);
             records.incrementAndGet();
           });
-        } catch (NoSuchElementException e) {}
+        }
+        // TODO: This is primarily to deal with https://github.com/castorini/Anserini/issues/381
+        // So we're just going to eat the exception for now - we'll come back and fix this after issue resolved.
+        catch (NoSuchElementException e) {}
 
         iter.close();
         LOG.info(inputFile.getParent().getFileName().toString() + File.separator +
