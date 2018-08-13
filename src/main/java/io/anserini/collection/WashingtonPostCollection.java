@@ -93,12 +93,7 @@ public class WashingtonPostCollection extends DocumentCollection
       return bufferedRecord != null;
     }
 
-    private String removeTags(String content) {
-      return content.replaceAll(Document.PATTERN, " ");
-    }
-
     private void parseRecord(String record) {
-      StringBuilder builder = new StringBuilder();
       ObjectMapper mapper = new ObjectMapper();
       Document.WashingtonPostObject wapoObj = null;
       try {
@@ -115,8 +110,14 @@ public class WashingtonPostCollection extends DocumentCollection
 
       bufferedRecord = new WashingtonPostCollection.Document();
       bufferedRecord.id = wapoObj.getId();
-      bufferedRecord.publishedDate = wapoObj.getPublishedDate();
+      bufferedRecord.title = wapoObj.getTitle();
+      bufferedRecord.articleUrl = wapoObj.getArticleUrl();
+      bufferedRecord.author = wapoObj.getAuthor();
+      bufferedRecord.obj = wapoObj;
+      bufferedRecord.content = record;
 
+      /*
+      StringBuilder builder = new StringBuilder();
       builder.append(wapoObj.getTitle()).append("\n");
 
       if (JsonParser.isFieldAvailable(wapoObj.getContents())) {
@@ -136,6 +137,7 @@ public class WashingtonPostCollection extends DocumentCollection
       }
 
       bufferedRecord.content = builder.toString();
+      */
     }
   }
 
@@ -144,13 +146,15 @@ public class WashingtonPostCollection extends DocumentCollection
    */
   public static class Document implements SourceDocument {
     private static final Logger LOG = LogManager.getLogger(Document.class);
-    private static final String PATTERN = "<.+>";
-    private static final List<String> CONTENT_TYPE_TAG = Arrays.asList("sanitized_html", "tweet");
 
     // Required fields
     protected String id;
-    protected long publishedDate;
+    protected String articleUrl;
+    protected String author;
+    protected long publishDate;
+    protected String title;
     protected String content;
+    protected WashingtonPostObject obj;
 
     @Override
     public String id() {
@@ -166,17 +170,39 @@ public class WashingtonPostCollection extends DocumentCollection
     public boolean indexable() {
       return true;
     }
-
-    public long getPublishedDate() {
-      return publishedDate;
+  
+    public String getArticleUrl() {
+      return articleUrl;
     }
-
+  
+    public String getAuthor() {
+      return author;
+    }
+  
+    public long getPublishDate() {
+      return publishDate;
+    }
+  
+    public String getTitle() {
+      return title;
+    }
+  
+    public String getContent() {
+      return content;
+    }
+  
+    public WashingtonPostObject getObj() {
+      return obj;
+    }
+  
     /**
      * Used internally by Jackson for JSON parsing.
      */
     public static class WashingtonPostObject {
       // Required fields
       protected String id;
+      protected String articleUrl;
+      protected String author;
       protected long publishedDate;
       protected String title;
 
@@ -285,6 +311,16 @@ public class WashingtonPostCollection extends DocumentCollection
       public String getId() {
         return id;
       }
+  
+      @JsonGetter("article_url")
+      public String getArticleUrl() {
+        return articleUrl;
+      }
+  
+      @JsonGetter("author")
+      public String getAuthor() {
+        return author;
+      }
 
       @JsonGetter("published_date")
       public long getPublishedDate() {
@@ -302,9 +338,13 @@ public class WashingtonPostCollection extends DocumentCollection
       @JsonCreator
       public WashingtonPostObject(
               @JsonProperty(value = "id", required = true) String id,
+              @JsonProperty(value = "article_url", required = true) String articleUrl,
+              @JsonProperty(value = "author", required = true) String author,
               @JsonProperty(value = "published_date", required = true) long publishedDate,
               @JsonProperty(value = "title", required = true) String title) {
         this.id = id;
+        this.articleUrl = articleUrl;
+        this.author = author;
         this.publishedDate = publishedDate;
         this.title = title;
       }
