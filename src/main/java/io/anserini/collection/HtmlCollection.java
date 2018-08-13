@@ -68,8 +68,11 @@ public class HtmlCollection extends DocumentCollection
 
     @Override
     public boolean hasNext() {
-      error = false;
-      skipped = false;
+      if (nextRecordStatus == Status.ERROR) {
+        return false;
+      } else if (nextRecordStatus == Status.SKIPPED) {
+        return true;
+      }
 
       if (bufferedRecord != null) {
         return true;
@@ -89,13 +92,13 @@ public class HtmlCollection extends DocumentCollection
         }
       } catch (IOException e1) {
         if (!path.toString().endsWith(".xml")) {
-          error = true;
+          nextRecordStatus = Status.ERROR;
         }
         return false;
       } catch (NoSuchElementException e2) {
         return false;
       } catch (RuntimeException e3) {
-        skipped = true;
+        nextRecordStatus = Status.SKIPPED;
         return true;
       }
 

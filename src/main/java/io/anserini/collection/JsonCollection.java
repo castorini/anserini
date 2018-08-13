@@ -96,8 +96,11 @@ public class JsonCollection extends DocumentCollection
 
     @Override
     public boolean hasNext() {
-      error = false;
-      skipped = false;
+      if (nextRecordStatus == Status.ERROR) {
+        return false;
+      } else if (nextRecordStatus == Status.SKIPPED) {
+        return true;
+      }
 
       if (bufferedRecord != null) {
         return true;

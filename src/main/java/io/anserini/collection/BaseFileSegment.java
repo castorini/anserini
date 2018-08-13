@@ -34,12 +34,19 @@ public abstract class BaseFileSegment<T extends SourceDocument> implements Segme
   protected BufferedReader bufferedReader;
   protected boolean atEOF = false;
   protected T bufferedRecord = null;
-  protected boolean skipped = false;
-  protected boolean error = false;
+  protected Status nextRecordStatus = Status.VOID;
+
+  public enum Status {
+    SKIPPED, ERROR, VOID
+  }
 
   @Override
   public T next() {
-    if (bufferedRecord == null && !hasNext()) {
+    if (nextRecordStatus == Status.SKIPPED) {
+      nextRecordStatus = Status.VOID;
+      throw new RuntimeException("Record skipped...");
+    } else if (nextRecordStatus == Status.ERROR || bufferedRecord == null && !hasNext()) {
+      nextRecordStatus = Status.VOID;
       throw new NoSuchElementException("EOF has been reached. No more documents to read.");
     }
     T ret = bufferedRecord;
@@ -49,8 +56,11 @@ public abstract class BaseFileSegment<T extends SourceDocument> implements Segme
 
   @Override
   public boolean hasNext() {
-    error = false;
-    skipped = false;
+    if (nextRecordStatus == Status.ERROR) {
+      return false;
+    } else if (nextRecordStatus == Status.SKIPPED) {
+      return true;
+    }
 
     if (bufferedRecord != null) {
       return true;
@@ -61,12 +71,12 @@ public abstract class BaseFileSegment<T extends SourceDocument> implements Segme
     try {
       readNext();
     } catch (IOException e1) {
-      error = true;
+      nextRecordStatus = Status.ERROR;
       return false;
     } catch (NoSuchElementException e2) {
       return false;
     } catch (RuntimeException e3) {
-      skipped = true;
+      nextRecordStatus = Status.SKIPPED;
       return true;
     }
 
@@ -75,12 +85,8 @@ public abstract class BaseFileSegment<T extends SourceDocument> implements Segme
 
   public abstract void readNext() throws IOException;
 
-  public boolean isError() {
-    return error;
-  }
-
-  public boolean isSkipped() {
-    return skipped;
+  public Status getNextRecordStatus() {
+    return nextRecordStatus;
   }
 
   @Override
@@ -91,8 +97,7 @@ public abstract class BaseFileSegment<T extends SourceDocument> implements Segme
   public void close() throws IOException {
     atEOF = true;
     bufferedRecord = null;
-    skipped = false;
-    error = false;
+    nextRecordStatus = Status.VOID;
     if (bufferedReader != null) {
       bufferedReader.close();
     }

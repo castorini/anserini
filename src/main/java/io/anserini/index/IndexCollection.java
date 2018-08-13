@@ -51,7 +51,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashSet;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -194,12 +193,13 @@ public final class IndexCollection {
             (BaseFileSegment) ((SegmentProvider) collection).createFileSegment(inputFile);
 
         while (iter.hasNext()) {
-          if (iter.isSkipped()) {
+          SourceDocument d;
+          try {
+            d = iter.next();
+          } catch (RuntimeException e) {
             counters.skipped.incrementAndGet();
             continue;
           }
-
-          SourceDocument d = iter.next();
 
           if (!d.indexable()) {
             counters.unindexable.incrementAndGet();
@@ -225,7 +225,7 @@ public final class IndexCollection {
           cnt++;
         }
 
-        if (iter.isError()) {
+        if (iter.getNextRecordStatus() == BaseFileSegment.Status.ERROR) {
           counters.errors.incrementAndGet();
         }
 
