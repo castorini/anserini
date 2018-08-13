@@ -26,17 +26,17 @@ Topics and qrels are stored in `src/main/resources/topics-and-qrels/`, downloade
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.robust04.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.robust04.301-450.601-700.txt -output run.robust04.bm25.topics.robust04.301-450.601-700.txt -bm25 &
+nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.robust04.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.robust04.301-450.601-700.txt -output run.robust04.bm25.topics.robust04.301-450.601-700.txt -bm25 &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.robust04.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.robust04.301-450.601-700.txt -output run.robust04.bm25+rm3.topics.robust04.301-450.601-700.txt -bm25 -rm3 &
+nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.robust04.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.robust04.301-450.601-700.txt -output run.robust04.bm25+rm3.topics.robust04.301-450.601-700.txt -bm25 -rm3 &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.robust04.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.robust04.301-450.601-700.txt -output run.robust04.bm25+ax.topics.robust04.301-450.601-700.txt -bm25 -axiom -rerankCutoff 20 -axiom.deterministic &
+nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.robust04.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.robust04.301-450.601-700.txt -output run.robust04.bm25+ax.topics.robust04.301-450.601-700.txt -bm25 -axiom -rerankCutoff 20 -axiom.deterministic &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.robust04.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.robust04.301-450.601-700.txt -output run.robust04.ql.topics.robust04.301-450.601-700.txt -ql &
+nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.robust04.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.robust04.301-450.601-700.txt -output run.robust04.ql.topics.robust04.301-450.601-700.txt -ql &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.robust04.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.robust04.301-450.601-700.txt -output run.robust04.ql+rm3.topics.robust04.301-450.601-700.txt -ql -rm3 &
+nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.robust04.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.robust04.301-450.601-700.txt -output run.robust04.ql+rm3.topics.robust04.301-450.601-700.txt -ql -rm3 &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.robust04.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.robust04.301-450.601-700.txt -output run.robust04.ql+ax.topics.robust04.301-450.601-700.txt -ql -axiom -rerankCutoff 20 -axiom.deterministic &
+nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.robust04.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.robust04.301-450.601-700.txt -output run.robust04.ql+ax.topics.robust04.301-450.601-700.txt -ql -axiom -rerankCutoff 20 -axiom.deterministic &
 
 ```
 
