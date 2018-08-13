@@ -39,23 +39,23 @@ Topics and qrels are stored in `src/main/resources/topics-and-qrels/`, downloade
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-nohup target/appassembler/bin/SearchCollection -topicreader Microblog -index lucene-index.mb11.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.microblog2011.txt -output run.mb11.bm25.topics.microblog2011.txt -searchtweets -bm25 &
-nohup target/appassembler/bin/SearchCollection -topicreader Microblog -index lucene-index.mb11.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.microblog2012.txt -output run.mb11.bm25.topics.microblog2012.txt -searchtweets -bm25 &
+nohup target/appassembler/bin/SearchCollection -topicreader Microblog -index lucene-index.mb11.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.microblog2011.txt -output run.mb11.bm25.topics.microblog2011.txt -searchtweets -bm25 &
+nohup target/appassembler/bin/SearchCollection -topicreader Microblog -index lucene-index.mb11.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.microblog2012.txt -output run.mb11.bm25.topics.microblog2012.txt -searchtweets -bm25 &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Microblog -index lucene-index.mb11.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.microblog2011.txt -output run.mb11.bm25+rm3.topics.microblog2011.txt -searchtweets -bm25 -rm3 &
-nohup target/appassembler/bin/SearchCollection -topicreader Microblog -index lucene-index.mb11.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.microblog2012.txt -output run.mb11.bm25+rm3.topics.microblog2012.txt -searchtweets -bm25 -rm3 &
+nohup target/appassembler/bin/SearchCollection -topicreader Microblog -index lucene-index.mb11.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.microblog2011.txt -output run.mb11.bm25+rm3.topics.microblog2011.txt -searchtweets -bm25 -rm3 &
+nohup target/appassembler/bin/SearchCollection -topicreader Microblog -index lucene-index.mb11.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.microblog2012.txt -output run.mb11.bm25+rm3.topics.microblog2012.txt -searchtweets -bm25 -rm3 &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Microblog -index lucene-index.mb11.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.microblog2011.txt -output run.mb11.bm25+ax.topics.microblog2011.txt -searchtweets -bm25 -axiom -axiom.beta 1.0 -rerankCutoff 20 -axiom.deterministic &
-nohup target/appassembler/bin/SearchCollection -topicreader Microblog -index lucene-index.mb11.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.microblog2012.txt -output run.mb11.bm25+ax.topics.microblog2012.txt -searchtweets -bm25 -axiom -axiom.beta 1.0 -rerankCutoff 20 -axiom.deterministic &
+nohup target/appassembler/bin/SearchCollection -topicreader Microblog -index lucene-index.mb11.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.microblog2011.txt -output run.mb11.bm25+ax.topics.microblog2011.txt -searchtweets -bm25 -axiom -axiom.beta 1.0 -rerankCutoff 20 -axiom.deterministic &
+nohup target/appassembler/bin/SearchCollection -topicreader Microblog -index lucene-index.mb11.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.microblog2012.txt -output run.mb11.bm25+ax.topics.microblog2012.txt -searchtweets -bm25 -axiom -axiom.beta 1.0 -rerankCutoff 20 -axiom.deterministic &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Microblog -index lucene-index.mb11.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.microblog2011.txt -output run.mb11.ql.topics.microblog2011.txt -searchtweets -ql &
-nohup target/appassembler/bin/SearchCollection -topicreader Microblog -index lucene-index.mb11.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.microblog2012.txt -output run.mb11.ql.topics.microblog2012.txt -searchtweets -ql &
+nohup target/appassembler/bin/SearchCollection -topicreader Microblog -index lucene-index.mb11.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.microblog2011.txt -output run.mb11.ql.topics.microblog2011.txt -searchtweets -ql &
+nohup target/appassembler/bin/SearchCollection -topicreader Microblog -index lucene-index.mb11.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.microblog2012.txt -output run.mb11.ql.topics.microblog2012.txt -searchtweets -ql &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Microblog -index lucene-index.mb11.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.microblog2011.txt -output run.mb11.ql+rm3.topics.microblog2011.txt -searchtweets -ql -rm3 &
-nohup target/appassembler/bin/SearchCollection -topicreader Microblog -index lucene-index.mb11.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.microblog2012.txt -output run.mb11.ql+rm3.topics.microblog2012.txt -searchtweets -ql -rm3 &
+nohup target/appassembler/bin/SearchCollection -topicreader Microblog -index lucene-index.mb11.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.microblog2011.txt -output run.mb11.ql+rm3.topics.microblog2011.txt -searchtweets -ql -rm3 &
+nohup target/appassembler/bin/SearchCollection -topicreader Microblog -index lucene-index.mb11.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.microblog2012.txt -output run.mb11.ql+rm3.topics.microblog2012.txt -searchtweets -ql -rm3 &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Microblog -index lucene-index.mb11.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.microblog2011.txt -output run.mb11.ql+ax.topics.microblog2011.txt -searchtweets -ql -axiom -axiom.beta 1.0 -rerankCutoff 20 -axiom.deterministic &
-nohup target/appassembler/bin/SearchCollection -topicreader Microblog -index lucene-index.mb11.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.microblog2012.txt -output run.mb11.ql+ax.topics.microblog2012.txt -searchtweets -ql -axiom -axiom.beta 1.0 -rerankCutoff 20 -axiom.deterministic &
+nohup target/appassembler/bin/SearchCollection -topicreader Microblog -index lucene-index.mb11.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.microblog2011.txt -output run.mb11.ql+ax.topics.microblog2011.txt -searchtweets -ql -axiom -axiom.beta 1.0 -rerankCutoff 20 -axiom.deterministic &
+nohup target/appassembler/bin/SearchCollection -topicreader Microblog -index lucene-index.mb11.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.microblog2012.txt -output run.mb11.ql+ax.topics.microblog2012.txt -searchtweets -ql -axiom -axiom.beta 1.0 -rerankCutoff 20 -axiom.deterministic &
 
 ```
 

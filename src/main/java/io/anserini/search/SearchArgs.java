@@ -107,6 +107,18 @@ public class SearchArgs {
   @Option(name = "-f2log.s", metaVar = "[value]", required = false, usage = "F2Log s parameter")
   public float f2log_s = 0.5f;
 
+  @Option(name = "-sdm", usage = "boolean switch to use Sequential Dependence Model query")
+  public boolean sdm = false;
+
+  @Option(name = "-sdm.tw", metaVar = "[value]", usage = "SDM term weight")
+  public float sdm_tw = 0.85f;
+
+  @Option(name = "-sdm.ow", metaVar = "[value]", usage = "ordered window weight in sdm")
+  public float sdm_ow = 0.1f;
+
+  @Option(name = "-sdm.uw", metaVar = "[value]", usage = "unordered window weight in sdm")
+  public float sdm_uw = 0.05f;
+
   @Option(name = "-rm3", usage = "use RM3 query expansion model (implies using query likelihood)")
   public boolean rm3 = false;
 
