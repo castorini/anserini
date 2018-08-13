@@ -27,17 +27,17 @@ Topics and qrels are stored in `src/main/resources/topics-and-qrels/`, downloade
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.wt10g.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.451-550.txt -output run.wt10g.bm25.topics.451-550.txt -bm25 &
+nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.wt10g.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.451-550.txt -output run.wt10g.bm25.topics.451-550.txt -bm25 &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.wt10g.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.451-550.txt -output run.wt10g.bm25+rm3.topics.451-550.txt -bm25 -rm3 &
+nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.wt10g.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.451-550.txt -output run.wt10g.bm25+rm3.topics.451-550.txt -bm25 -rm3 &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.wt10g.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.451-550.txt -output run.wt10g.bm25+ax.topics.451-550.txt -bm25 -axiom -axiom.beta 0.1 -rerankCutoff 20 -axiom.deterministic &
+nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.wt10g.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.451-550.txt -output run.wt10g.bm25+ax.topics.451-550.txt -bm25 -axiom -axiom.beta 0.1 -rerankCutoff 20 -axiom.deterministic &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.wt10g.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.451-550.txt -output run.wt10g.ql.topics.451-550.txt -ql &
+nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.wt10g.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.451-550.txt -output run.wt10g.ql.topics.451-550.txt -ql &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.wt10g.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.451-550.txt -output run.wt10g.ql+rm3.topics.451-550.txt -ql -rm3 &
+nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.wt10g.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.451-550.txt -output run.wt10g.ql+rm3.topics.451-550.txt -ql -rm3 &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.wt10g.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.451-550.txt -output run.wt10g.ql+ax.topics.451-550.txt -ql -axiom -axiom.beta 0.1 -rerankCutoff 20 -axiom.deterministic &
+nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.wt10g.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.451-550.txt -output run.wt10g.ql+ax.topics.451-550.txt -ql -axiom -axiom.beta 0.1 -rerankCutoff 20 -axiom.deterministic &
 
 ```
 
