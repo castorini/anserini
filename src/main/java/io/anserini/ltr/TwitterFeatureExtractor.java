@@ -9,7 +9,7 @@ import io.anserini.ltr.feature.UnigramFeatureExtractor;
 import io.anserini.ltr.feature.UnorderedSequentialPairsFeatureExtractor;
 import io.anserini.ltr.feature.base.*;
 import io.anserini.ltr.feature.twitter.*;
-import io.anserini.util.AnalyzerUtils;
+import io.anserini.search.query.BagOfWordsQueryGenerator;
 import io.anserini.util.Qrels;
 
 import java.util.Arrays;
@@ -117,7 +117,7 @@ public class TwitterFeatureExtractor extends BaseFeatureExtractor<Integer> {
   @Override
   protected Query parseQuery(String queryText) {
     LOG.debug(String.format("Parsing query: %s", queryText) );
-    return AnalyzerUtils.buildBagOfWordsQuery(TweetGenerator.FIELD_BODY, new TweetAnalyzer(), queryText);
+    return new BagOfWordsQueryGenerator().buildQuery(TweetGenerator.FIELD_BODY, new TweetAnalyzer(), queryText);
   }
 
   @Override
