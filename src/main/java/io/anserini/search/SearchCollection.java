@@ -27,6 +27,7 @@ import io.anserini.rerank.ScoredDocuments;
 import io.anserini.rerank.lib.AxiomReranker;
 import io.anserini.rerank.lib.Rm3Reranker;
 import io.anserini.rerank.lib.ScoreTiesAdjusterReranker;
+import io.anserini.search.query.NewsTrackBLTopicReader;
 import io.anserini.search.query.TopicReader;
 import io.anserini.search.similarity.F2ExpSimilarity;
 import io.anserini.search.similarity.AxiomaticSimilarity;
@@ -142,20 +143,6 @@ public final class SearchCollection implements Closeable {
   public void close() throws IOException {
     reader.close();
   }
-  
-  private int convertDocidToLuceneDocid(String docid) throws IOException {
-    IndexSearcher searcher = new IndexSearcher(reader);
-    
-    Query q = new TermQuery(new Term(LuceneDocumentGenerator.FIELD_ID, docid));
-    TopDocs rs = searcher.search(q, 1);
-    ScoreDoc[] hits = rs.scoreDocs;
-    
-    if (hits == null) {
-      throw new RuntimeException("Docid not found!");
-    }
-    
-    return hits[0].doc;
-  }
 
   @SuppressWarnings("unchecked")
   public<K> int runTopics() throws IOException {
@@ -188,13 +175,9 @@ public final class SearchCollection implements Closeable {
       
       // News Track Background Linking only gives docid, we will use the raw document as the query....
       if (args.topicReader.compareToIgnoreCase("NewsTrackBL") == 0) {
-        Document d = reader.document(convertDocidToLuceneDocid(queryString));
-        IndexableField doc = d.getField(LuceneDocumentGenerator.FIELD_RAW);
-        if (doc == null) {
-          throw new RuntimeException("Raw documents not stored!");
-        }
-        queryString = doc.stringValue().split("\\n")[0]; // pick title
-        LOG.info("Read document title: " + queryString);
+        // the original queryString is actually a document id
+        queryString = NewsTrackBLTopicReader.generateQueryString(reader, queryString);
+        LOG.info("Read at most 10 TF-IDF terms from document as query string: " + queryString);
       }
 
       ScoredDocuments docs;

@@ -16,13 +16,17 @@
 
 package io.anserini.search.query;
 
+import io.anserini.index.generator.LuceneDocumentGenerator;
+import org.apache.commons.lang3.tuple.Pair;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.index.*;
+import org.apache.lucene.search.*;
+import org.apache.lucene.util.BytesRef;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.SortedMap;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -87,5 +91,62 @@ public class NewsTrackBLTopicReader extends TopicReader<Integer> {
     }
 
     return map;
+  }
+  
+  private static int convertDocidToLuceneDocid(IndexReader reader, String docid) throws IOException {
+    IndexSearcher searcher = new IndexSearcher(reader);
+    
+    Query q = new TermQuery(new Term(LuceneDocumentGenerator.FIELD_ID, docid));
+    TopDocs rs = searcher.search(q, 1);
+    ScoreDoc[] hits = rs.scoreDocs;
+    
+    if (hits == null) {
+      throw new RuntimeException("Docid not found!");
+    }
+    
+    return hits[0].doc;
+  }
+  
+  /**
+   * For TREC2018 News Track Background linking task, the query string is actually a document id.
+   * In order to make sense of the query we extract the top terms with higher tf-idf scores from the
+   * raw document of that docId from the index.
+   * @return SortedMap where keys are query/topic IDs and values are title portions of the topics
+   * @throws IOException any io exception
+   */
+  public static String generateQueryString(IndexReader reader, String docid) throws IOException{
+    long docCount = reader.numDocs();
+    Terms terms = reader.getTermVector(convertDocidToLuceneDocid(reader, docid), LuceneDocumentGenerator.FIELD_BODY);
+    Map<String, Integer> termsMap = new HashMap<>();
+    TermsEnum it = terms.iterator();
+    BytesRef text = null;
+    while ((text = it.next()) != null) {
+      String term = text.utf8ToString();
+      termsMap.put(term, termsMap.getOrDefault(term, 0)+1);
+    }
+  
+    class ScoreComparator implements Comparator<Pair<String, Double>> {
+      public int compare(Pair<String, Double> a, Pair<String, Double> b) {
+        int cmp = Double.compare(b.getRight(), a.getRight());
+        if (cmp == 0) {
+          return a.getLeft().compareToIgnoreCase(b.getLeft());
+        } else {
+          return cmp;
+        }
+      }
+    }
+    
+    PriorityQueue<Pair<String, Double>> termsTfIdfPQ = new PriorityQueue<>(new ScoreComparator());
+    for (Map.Entry<String, Integer> termEntry : termsMap.entrySet()) {
+      String term = termEntry.getKey();
+      int tf = termEntry.getValue();
+      double tfIdf = tf * Math.log((1.0f + docCount) / reader.docFreq(new Term(term)));
+      termsTfIdfPQ.add(Pair.of(term, tfIdf));
+    }
+    String queryString = "";
+    for (int i = 0; i < Math.min(termsTfIdfPQ.size(), 10); i++) {
+      queryString += termsTfIdfPQ.poll().getKey() + " ";
+    }
+    return queryString;
   }
 }
