@@ -20,6 +20,8 @@ import io.anserini.index.generator.LuceneDocumentGenerator;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.*;
+import org.apache.lucene.queryparser.flexible.core.QueryNodeException;
+import org.apache.lucene.queryparser.flexible.standard.StandardQueryParser;
 import org.apache.lucene.search.*;
 import org.apache.lucene.util.BytesRef;
 
@@ -115,10 +117,13 @@ public class NewsTrackBLTopicReader extends TopicReader<Integer> {
    * raw document of that docId from the index.
    * @param reader Index reader
    * @param docid the query docid
+   * @param k how many terms will be picked from the query document
+   * @param isWeighted whether to include terms' tf-idf score as their weights
    * @return SortedMap where keys are query/topic IDs and values are title portions of the topics
    * @throws IOException any io exception
    */
-  public static Query generateQueryString(IndexReader reader, String docid) throws IOException {
+  public static Query generateQueryString(IndexReader reader, String docid, int k, boolean isWeighted)
+      throws IOException, QueryNodeException {
     class ScoreComparator implements Comparator<Pair<String, Double>> {
       public int compare(Pair<String, Double> a, Pair<String, Double> b) {
         int cmp = Double.compare(b.getRight(), a.getRight());
@@ -144,13 +149,12 @@ public class NewsTrackBLTopicReader extends TopicReader<Integer> {
     }
     
     String queryString = "";
-    for (int i = 0; i < Math.min(termsTfIdfPQ.size(), 10); i++) {
-      queryString += termsTfIdfPQ.poll().getKey() + " ";
+    for (int i = 0; i < Math.min(termsTfIdfPQ.size(), k); i++) {
+      Pair<String, Double> termScores = termsTfIdfPQ.poll();
+      queryString += termScores.getKey() + (isWeighted ? String.format("^ %f", termScores.getValue()) : " ");
     }
-    BooleanQuery.Builder builder = new BooleanQuery.Builder();
-    for (String t : queryString.split(" ")) {
-      builder.add(new TermQuery(new Term(FIELD_BODY, t)), BooleanClause.Occur.SHOULD);
-    }
-    return builder.build();
+    StandardQueryParser p = new StandardQueryParser();
+    Query nq = p.parse(queryString, FIELD_BODY);
+    return nq;
   }
 }

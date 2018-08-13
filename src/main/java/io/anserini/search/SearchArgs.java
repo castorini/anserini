@@ -40,6 +40,14 @@ public class SearchArgs {
   @Option(name = "-searchtweets", usage = "Whether the search is against a tweet " +
       "index created by IndexCollection -collection TweetCollection")
   public Boolean searchtweets = false;
+  
+  @Option(name = "-newsBL.k", usage = "extract top k terms from the query document for TREC News Track Background " +
+      "Linking task. The terms are ranked by their tf-idf score from the query document")
+  public int newsBL_k = 10;
+  
+  @Option(name = "-newsBL.weighted", usage = "Boolean switch to construct boosted query for TREC News Track Background " +
+      "Linking task. The terms scores are their tf-idf score from the query document")
+  public boolean newsBL_weighted = false;
 
   @Option(name = "-keepstopwords", usage = "Boolean switch to keep stopwords in the query topics")
   public boolean keepstop = false;

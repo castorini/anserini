@@ -46,6 +46,7 @@ import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexableField;
 import org.apache.lucene.index.Term;
+import org.apache.lucene.queryparser.flexible.core.QueryNodeException;
 import org.apache.lucene.search.*;
 import org.apache.lucene.search.similarities.*;
 import org.apache.lucene.store.FSDirectory;
@@ -148,7 +149,7 @@ public final class SearchCollection implements Closeable {
   }
 
   @SuppressWarnings("unchecked")
-  public<K> int runTopics() throws IOException {
+  public<K> int runTopics() throws IOException, QueryNodeException {
     IndexSearcher searcher = new IndexSearcher(reader);
     searcher.setSimilarity(similarity);
 
@@ -202,13 +203,13 @@ public final class SearchCollection implements Closeable {
     return topics.size();
   }
 
-  public<K> ScoredDocuments search(IndexSearcher searcher, K qid, String queryString) throws IOException {
+  public<K> ScoredDocuments search(IndexSearcher searcher, K qid, String queryString) throws IOException, QueryNodeException {
     Query query = null;
     if (args.topicReader.compareToIgnoreCase("NewsTrackBL") != 0) {
       query = AnalyzerUtils.buildBagOfWordsQuery(FIELD_BODY, analyzer, queryString);
     } else {
       // News Track Background Linking only gives docid, we will use the raw document as the query....
-      query = NewsTrackBLTopicReader.generateQueryString(reader, queryString);
+      query = NewsTrackBLTopicReader.generateQueryString(reader, queryString, args.newsBL_k, args.newsBL_weighted);
     }
 
     TopDocs rs = new TopDocs(0, new ScoreDoc[]{}, Float.NaN);
