@@ -116,19 +116,7 @@ public class NewsTrackBLTopicReader extends TopicReader<Integer> {
    * @return SortedMap where keys are query/topic IDs and values are title portions of the topics
    * @throws IOException any io exception
    */
-  public static String generateQueryString(IndexReader reader, String docid) throws IOException{
-    long docCount = reader.numDocs();
-    Terms terms = reader.getTermVector(convertDocidToLuceneDocid(reader, docid), LuceneDocumentGenerator.FIELD_BODY);
-    Map<String, Integer> termsMap = new HashMap<>();
-    TermsEnum it = terms.iterator();
-    BytesRef text = null;
-    while ((text = it.next()) != null) {
-      String term = text.utf8ToString();
-      if (term.length() < 2) continue;
-      if (!term.matches("[a-z]+")) continue;
-      termsMap.put(term, termsMap.getOrDefault(term, 0)+1);
-    }
-  
+  public static String generateQueryString(IndexReader reader, String docid) throws IOException {
     class ScoreComparator implements Comparator<Pair<String, Double>> {
       public int compare(Pair<String, Double> a, Pair<String, Double> b) {
         int cmp = Double.compare(b.getRight(), a.getRight());
@@ -139,14 +127,20 @@ public class NewsTrackBLTopicReader extends TopicReader<Integer> {
         }
       }
     }
-    
+  
     PriorityQueue<Pair<String, Double>> termsTfIdfPQ = new PriorityQueue<>(new ScoreComparator());
-    for (Map.Entry<String, Integer> termEntry : termsMap.entrySet()) {
-      String term = termEntry.getKey();
-      int tf = termEntry.getValue();
-      double tfIdf = tf * Math.log((1.0f + docCount) / reader.docFreq(new Term(term)));
+    long docCount = reader.numDocs();
+    Terms terms = reader.getTermVector(convertDocidToLuceneDocid(reader, docid), LuceneDocumentGenerator.FIELD_BODY);
+    TermsEnum it = terms.iterator();
+    while (it.next() != null) {
+      String term = it.term().utf8ToString();
+      if (term.length() < 2) continue;
+      if (!term.matches("[a-z]+")) continue;
+      long tf = it.totalTermFreq();
+      double tfIdf = tf * Math.log((1.0f + docCount) / reader.docFreq(new Term(LuceneDocumentGenerator.FIELD_BODY, term)));
       termsTfIdfPQ.add(Pair.of(term, tfIdf));
     }
+    
     String queryString = "";
     for (int i = 0; i < Math.min(termsTfIdfPQ.size(), 10); i++) {
       queryString += termsTfIdfPQ.poll().getKey() + " ";

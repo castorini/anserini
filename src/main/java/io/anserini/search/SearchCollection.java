@@ -208,7 +208,16 @@ public final class SearchCollection implements Closeable {
   }
 
   public<K> ScoredDocuments search(IndexSearcher searcher, K qid, String queryString) throws IOException {
-    Query query = AnalyzerUtils.buildBagOfWordsQuery(FIELD_BODY, analyzer, queryString);
+    Query query = null;
+    if (args.topicReader.compareToIgnoreCase("NewsTrackBL") != 0) {
+      query = AnalyzerUtils.buildBagOfWordsQuery(FIELD_BODY, analyzer, queryString);
+    } else {
+      BooleanQuery.Builder builder = new BooleanQuery.Builder();
+      for (String t : queryString.split(" ")) {
+        builder.add(new TermQuery(new Term(FIELD_BODY, t)), BooleanClause.Occur.SHOULD);
+      }
+      query = builder.build();
+    }
 
     TopDocs rs = new TopDocs(0, new ScoreDoc[]{}, Float.NaN);
     if (!(isRerank && args.rerankcutoff <= 0)) {
