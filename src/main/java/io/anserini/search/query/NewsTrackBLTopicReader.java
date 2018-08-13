@@ -111,6 +111,8 @@ public class NewsTrackBLTopicReader extends TopicReader<Integer> {
    * For TREC2018 News Track Background linking task, the query string is actually a document id.
    * In order to make sense of the query we extract the top terms with higher tf-idf scores from the
    * raw document of that docId from the index.
+   * @param reader Index reader
+   * @param docid the query docid
    * @return SortedMap where keys are query/topic IDs and values are title portions of the topics
    * @throws IOException any io exception
    */
@@ -122,6 +124,8 @@ public class NewsTrackBLTopicReader extends TopicReader<Integer> {
     BytesRef text = null;
     while ((text = it.next()) != null) {
       String term = text.utf8ToString();
+      if (term.length() < 2) continue;
+      if (!term.matches("[a-z]+")) continue;
       termsMap.put(term, termsMap.getOrDefault(term, 0)+1);
     }
   
