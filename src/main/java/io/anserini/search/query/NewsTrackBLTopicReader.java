@@ -151,8 +151,9 @@ public class NewsTrackBLTopicReader extends TopicReader<Integer> {
     String queryString = "";
     for (int i = 0; i < Math.min(termsTfIdfPQ.size(), k); i++) {
       Pair<String, Double> termScores = termsTfIdfPQ.poll();
-      queryString += termScores.getKey() + (isWeighted ? String.format("^ %f", termScores.getValue()) : " ");
+      queryString += termScores.getKey() + (isWeighted ? String.format("^%f ", termScores.getValue()) : " ");
     }
+    System.out.println("Query: " + queryString);
     StandardQueryParser p = new StandardQueryParser();
     Query nq = p.parse(queryString, FIELD_BODY);
     return nq;
