@@ -30,6 +30,8 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_BODY;
+
 /*
 Topic reader for TREC2018 news track background linking task
  */
@@ -93,7 +95,7 @@ public class NewsTrackBLTopicReader extends TopicReader<Integer> {
     return map;
   }
   
-  private static int convertDocidToLuceneDocid(IndexReader reader, String docid) throws IOException {
+  public static int convertDocidToLuceneDocid(IndexReader reader, String docid) throws IOException {
     IndexSearcher searcher = new IndexSearcher(reader);
     
     Query q = new TermQuery(new Term(LuceneDocumentGenerator.FIELD_ID, docid));
@@ -116,7 +118,7 @@ public class NewsTrackBLTopicReader extends TopicReader<Integer> {
    * @return SortedMap where keys are query/topic IDs and values are title portions of the topics
    * @throws IOException any io exception
    */
-  public static String generateQueryString(IndexReader reader, String docid) throws IOException {
+  public static Query generateQueryString(IndexReader reader, String docid) throws IOException {
     class ScoreComparator implements Comparator<Pair<String, Double>> {
       public int compare(Pair<String, Double> a, Pair<String, Double> b) {
         int cmp = Double.compare(b.getRight(), a.getRight());
@@ -130,14 +132,14 @@ public class NewsTrackBLTopicReader extends TopicReader<Integer> {
   
     PriorityQueue<Pair<String, Double>> termsTfIdfPQ = new PriorityQueue<>(new ScoreComparator());
     long docCount = reader.numDocs();
-    Terms terms = reader.getTermVector(convertDocidToLuceneDocid(reader, docid), LuceneDocumentGenerator.FIELD_BODY);
+    Terms terms = reader.getTermVector(convertDocidToLuceneDocid(reader, docid), FIELD_BODY);
     TermsEnum it = terms.iterator();
     while (it.next() != null) {
       String term = it.term().utf8ToString();
       if (term.length() < 2) continue;
       if (!term.matches("[a-z]+")) continue;
       long tf = it.totalTermFreq();
-      double tfIdf = tf * Math.log((1.0f + docCount) / reader.docFreq(new Term(LuceneDocumentGenerator.FIELD_BODY, term)));
+      double tfIdf = tf * Math.log((1.0f + docCount) / reader.docFreq(new Term(FIELD_BODY, term)));
       termsTfIdfPQ.add(Pair.of(term, tfIdf));
     }
     
@@ -145,6 +147,10 @@ public class NewsTrackBLTopicReader extends TopicReader<Integer> {
     for (int i = 0; i < Math.min(termsTfIdfPQ.size(), 10); i++) {
       queryString += termsTfIdfPQ.poll().getKey() + " ";
     }
-    return queryString;
+    BooleanQuery.Builder builder = new BooleanQuery.Builder();
+    for (String t : queryString.split(" ")) {
+      builder.add(new TermQuery(new Term(FIELD_BODY, t)), BooleanClause.Occur.SHOULD);
+    }
+    return builder.build();
   }
 }

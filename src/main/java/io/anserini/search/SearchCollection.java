@@ -25,6 +25,7 @@ import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.ScoredDocuments;
 
 import io.anserini.rerank.lib.AxiomReranker;
+import io.anserini.rerank.lib.NewsTrackBLReranker;
 import io.anserini.rerank.lib.Rm3Reranker;
 import io.anserini.rerank.lib.ScoreTiesAdjusterReranker;
 import io.anserini.search.query.NewsTrackBLTopicReader;
@@ -135,7 +136,9 @@ public final class SearchCollection implements Closeable {
     } else if (args.axiom) {
       cascade.add(new AxiomReranker(FIELD_BODY, args));
     }
-
+    if (args.topicReader.compareToIgnoreCase("NewsTrackBL") == 0) {
+      cascade.add(new NewsTrackBLReranker());
+    }
     cascade.add(new ScoreTiesAdjusterReranker());
   }
 
@@ -172,14 +175,6 @@ public final class SearchCollection implements Closeable {
     for (Map.Entry<K, Map<String, String>> entry : topics.entrySet()) {
       K qid = entry.getKey();
       String queryString = entry.getValue().get(args.topicfield);
-      
-      // News Track Background Linking only gives docid, we will use the raw document as the query....
-      if (args.topicReader.compareToIgnoreCase("NewsTrackBL") == 0) {
-        // the original queryString is actually a document id
-        queryString = NewsTrackBLTopicReader.generateQueryString(reader, queryString);
-        LOG.info("Read at most 10 TF-IDF terms from document as query string: " + queryString);
-      }
-
       ScoredDocuments docs;
       if (args.searchtweets) {
         docs = searchTweets(searcher, qid, queryString, Long.parseLong(entry.getValue().get("time")));
@@ -212,11 +207,8 @@ public final class SearchCollection implements Closeable {
     if (args.topicReader.compareToIgnoreCase("NewsTrackBL") != 0) {
       query = AnalyzerUtils.buildBagOfWordsQuery(FIELD_BODY, analyzer, queryString);
     } else {
-      BooleanQuery.Builder builder = new BooleanQuery.Builder();
-      for (String t : queryString.split(" ")) {
-        builder.add(new TermQuery(new Term(FIELD_BODY, t)), BooleanClause.Occur.SHOULD);
-      }
-      query = builder.build();
+      // News Track Background Linking only gives docid, we will use the raw document as the query....
+      query = NewsTrackBLTopicReader.generateQueryString(reader, queryString);
     }
 
     TopDocs rs = new TopDocs(0, new ScoreDoc[]{}, Float.NaN);
