@@ -16,8 +16,9 @@
 
 package io.anserini.collection;
 
+import java.io.IOException;
 import java.util.HashMap;
-import java.util.NoSuchElementException;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -77,23 +78,27 @@ public class WashingtonPostDocumentTest extends DocumentTest {
     WashingtonPostCollection collection = new WashingtonPostCollection();
     for (int i = 0; i < rawFiles.size(); i++) {
       BaseFileSegment<WashingtonPostCollection.Document> iter = collection.createFileSegment(rawFiles.get(i));
-      while (true) {
-        boolean hasNext;
-        try {
-          hasNext = iter.hasNext();
-        } catch (NoSuchElementException e) {
-          break;
-        }
-
-        if (!hasNext) {
-          break;
-        }
-
+      while (iter.hasNext()) {
         WashingtonPostCollection.Document parsed = iter.next();
         assertEquals(parsed.id(), expected.get(i).get("id"));
         assertEquals(parsed.content(), expected.get(i).get("content"));
         assertEquals(parsed.getPublishedDate(), Long.parseLong(expected.get(i).get("published_date")));
       }
+    }
+  }
+
+  // Tests if the iterator is behaving properly. If it is, we shouldn't have any issues running into
+  // NoSuchElementExceptions.
+  @Test
+  public void testStreamIteration() {
+    WashingtonPostCollection collection = new WashingtonPostCollection();
+    try {
+      BaseFileSegment<WashingtonPostCollection.Document> iter = collection.createFileSegment(rawFiles.get(0));
+      AtomicInteger cnt = new AtomicInteger();
+      iter.forEachRemaining(d -> cnt.incrementAndGet());
+      assertEquals(1, cnt.get());
+    } catch (IOException e) {
+      throw new RuntimeException(e);
     }
   }
 }
