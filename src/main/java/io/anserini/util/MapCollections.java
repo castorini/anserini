@@ -36,7 +36,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -107,15 +106,10 @@ public final class MapCollections {
 
         // We're calling these records because the documents may not in indexable.
         AtomicInteger records = new AtomicInteger();
-        try {
-          iter.forEachRemaining(d -> {
-            mapper.process(d, context);
-            records.incrementAndGet();
-          });
-        }
-        // TODO: This is primarily to deal with https://github.com/castorini/Anserini/issues/381
-        // So we're just going to eat the exception for now - we'll come back and fix this after issue resolved.
-        catch (NoSuchElementException e) {}
+        iter.forEachRemaining(d -> {
+          mapper.process(d, context);
+          records.incrementAndGet();
+        });
 
         iter.close();
         LOG.info(inputFile.getParent().getFileName().toString() + File.separator +
