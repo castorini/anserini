@@ -116,29 +116,6 @@ public class WashingtonPostCollection extends DocumentCollection
       bufferedRecord.author = wapoObj.getAuthor();
       bufferedRecord.obj = wapoObj;
       bufferedRecord.content = record;
-
-      /*
-      StringBuilder builder = new StringBuilder();
-      builder.append(wapoObj.getTitle()).append("\n");
-
-      if (JsonParser.isFieldAvailable(wapoObj.getContents())) {
-        for (Document.WashingtonPostObject.Content contentObj : wapoObj.getContents().get()) {
-          if (contentObj == null) continue;
-          if (JsonParser.isFieldAvailable(contentObj.getType())
-                  && JsonParser.isFieldAvailable(contentObj.getContent())
-                  && Document.CONTENT_TYPE_TAG.contains(contentObj.getType().get())) {
-            String content = contentObj.getContent().get();
-            builder.append(removeTags(content)).append("\n");
-          }
-          if (JsonParser.isFieldAvailable(contentObj.getFullCaption())) {
-            String fullCaption = contentObj.getFullCaption().get();
-            builder.append(removeTags(fullCaption)).append("\n");
-          }
-        }
-      }
-
-      bufferedRecord.content = builder.toString();
-      */
     }
   }
 
