@@ -46,8 +46,7 @@ public class WapoGenerator extends LuceneDocumentGenerator<WashingtonPostCollect
     ARTICLE_URL("article_url"),
     PUBLISHED_DATE("published_date"),
     TITLE("title"),
-    FULL_CAPTION("ful" +
-        "lCaption"),
+    FULL_CAPTION("fullCaption"),
     KICKER("kicker");
 
     public final String name;
