@@ -23,6 +23,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.document.*;
 import org.apache.lucene.index.IndexOptions;
+import org.apache.lucene.util.BytesRef;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -67,7 +68,6 @@ public class WapoGenerator extends LuceneDocumentGenerator<WashingtonPostCollect
 
   @Override
   public Document createDocument(WashingtonPostCollection.Document wapoDoc) {
-    System.out.println(wapoDoc.id());
     String id = wapoDoc.id();
 
     if (wapoDoc.content().trim().isEmpty()) {
@@ -77,6 +77,8 @@ public class WapoGenerator extends LuceneDocumentGenerator<WashingtonPostCollect
 
     Document doc = new Document();
     doc.add(new StringField(FIELD_ID, id, Field.Store.YES));
+    // This is needed to break score ties by docid.
+    doc.add(new SortedDocValuesField(FIELD_ID, new BytesRef(id)));
     doc.add(new LongPoint(WapoField.PUBLISHED_DATE.name, wapoDoc.getPublishDate()));
     wapoDoc.getAuthor().ifPresent(author -> {
       doc.add(new StringField(WapoField.AUTHOR.name, author, Field.Store.NO));
