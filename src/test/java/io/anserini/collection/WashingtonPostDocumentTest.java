@@ -16,8 +16,9 @@
 
 package io.anserini.collection;
 
+import java.io.IOException;
 import java.util.HashMap;
-import java.util.NoSuchElementException;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -39,7 +40,7 @@ public class WashingtonPostDocumentTest extends DocumentTest {
                 "\"title\": " +
                 "\"Controlled exposure to light can ease jet lag’s effects before and after a trip\", " +
 
-                "\"author\": \"\", " +
+                "\"author\": \"Mike\", " +
 
                 "\"published_date\": 1356999181000, " +
 
@@ -60,13 +61,11 @@ public class WashingtonPostDocumentTest extends DocumentTest {
 
     HashMap<String, String> doc1 = new HashMap<>();
     doc1.put("id", "5f992bbc-4b9f-11e2-a6a6-aabac85e8036");
+    doc1.put("title", "Controlled exposure to light can ease jet lag’s effects before and after a trip");
+    doc1.put("author", "Mike");
+    doc1.put("article_url", "https://www.washingtonpost.com/national/controlled-exposure-to-light-can-ease-jet-lags-effects-before-and-after-a-trip/2012/12/24/5f992bbc-4b9f-11e2-a6a6-aabac85e8036_story.html");
     // Only "sanitized_html" and "tweet" of <type> subtag in <content> tag will be included
-    doc1.put("content", "Controlled exposure to light can ease jet lag’s effects before and after a trip\n" +
-             "Using light to help reset your body clock\n" +
-             "When traveling east:\n" +
-             "A few days before you leave, start exposing yourself to bright light in the morning.\n" +
-             "When traveling west:\n" +
-             "When you arrive, expose yourself to light during the evening hours.\n");
+    doc1.put("content", doc);
     doc1.put("published_date", "1356999181000");
 
     expected.add(doc1);
@@ -77,23 +76,30 @@ public class WashingtonPostDocumentTest extends DocumentTest {
     WashingtonPostCollection collection = new WashingtonPostCollection();
     for (int i = 0; i < rawFiles.size(); i++) {
       BaseFileSegment<WashingtonPostCollection.Document> iter = collection.createFileSegment(rawFiles.get(i));
-      while (true) {
-        boolean hasNext;
-        try {
-          hasNext = iter.hasNext();
-        } catch (NoSuchElementException e) {
-          break;
-        }
-
-        if (!hasNext) {
-          break;
-        }
-
+      while (iter.hasNext()) {
         WashingtonPostCollection.Document parsed = iter.next();
         assertEquals(parsed.id(), expected.get(i).get("id"));
-        assertEquals(parsed.content(), expected.get(i).get("content"));
-        assertEquals(parsed.getPublishedDate(), Long.parseLong(expected.get(i).get("published_date")));
+        assertEquals(parsed.getArticleUrl().get(), expected.get(i).get("article_url"));
+        assertEquals(parsed.getTitle().get(), expected.get(i).get("title"));
+        assertEquals(parsed.getAuthor().get(), expected.get(i).get("author"));
+        assertEquals(parsed.getPublishDate(), Long.parseLong(expected.get(i).get("published_date")));
+        assertEquals(parsed.getContent(), expected.get(i).get("content"));
       }
+    }
+  }
+
+  // Tests if the iterator is behaving properly. If it is, we shouldn't have any issues running into
+  // NoSuchElementExceptions.
+  @Test
+  public void testStreamIteration() {
+    WashingtonPostCollection collection = new WashingtonPostCollection();
+    try {
+      BaseFileSegment<WashingtonPostCollection.Document> iter = collection.createFileSegment(rawFiles.get(0));
+      AtomicInteger cnt = new AtomicInteger();
+      iter.forEachRemaining(d -> cnt.incrementAndGet());
+      assertEquals(1, cnt.get());
+    } catch (IOException e) {
+      throw new RuntimeException(e);
     }
   }
 }

@@ -80,27 +80,12 @@ public class TweetCollection extends DocumentCollection
     }
 
     @Override
-    public boolean hasNext() {
-      if (bufferedRecord != null) {
-        return true;
-      } else if (atEOF) {
-        return false;
-      }
-
-      String nextRecord = null;
-      try {
-        nextRecord = bufferedReader.readLine();
-      } catch (IOException e) {
-        throw new RuntimeException("File IOException: ", e);
-      }
-
+    public void readNext() throws IOException {
+      String nextRecord = bufferedReader.readLine();
       if (nextRecord == null) {
-        return false;
+        throw new NoSuchElementException();
       }
-
       parseJson(nextRecord);
-
-      return bufferedRecord != null;
     }
 
     private void parseJson(String json) {

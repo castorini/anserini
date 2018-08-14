@@ -16,19 +16,5 @@
 
 package io.anserini.util.mapper;
 
-import io.anserini.collection.SourceDocument;
-import io.anserini.util.MapCollections;
-
-public abstract class DocumentMapper {
-  protected MapCollections.Args args;
-
-  public DocumentMapper(MapCollections.Args args) {
-    this.args = args;
-  }
-
-  public abstract void setContext(DocumentMapperContext context);
-
-  public abstract void process(SourceDocument doc, DocumentMapperContext context);
-
-  public abstract void printResult(long durationMillis);
+public class DocumentMapperContext {
 }

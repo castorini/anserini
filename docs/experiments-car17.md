@@ -26,17 +26,17 @@ Topics and qrels are stored in `src/main/resources/topics-and-qrels/`, downloade
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-nohup target/appassembler/bin/SearchCollection -topicreader Car -index lucene-index.car17.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.car17.test200.txt -output run.car17.bm25.topics.car17.test200.txt -bm25 &
+nohup target/appassembler/bin/SearchCollection -topicreader Car -index lucene-index.car17.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.car17.test200.txt -output run.car17.bm25.topics.car17.test200.txt -bm25 &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Car -index lucene-index.car17.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.car17.test200.txt -output run.car17.bm25+rm3.topics.car17.test200.txt -bm25 -rm3 &
+nohup target/appassembler/bin/SearchCollection -topicreader Car -index lucene-index.car17.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.car17.test200.txt -output run.car17.bm25+rm3.topics.car17.test200.txt -bm25 -rm3 &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Car -index lucene-index.car17.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.car17.test200.txt -output run.car17.bm25+ax.topics.car17.test200.txt -bm25 -axiom -rerankCutoff 20 -axiom.deterministic &
+nohup target/appassembler/bin/SearchCollection -topicreader Car -index lucene-index.car17.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.car17.test200.txt -output run.car17.bm25+ax.topics.car17.test200.txt -bm25 -axiom -rerankCutoff 20 -axiom.deterministic &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Car -index lucene-index.car17.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.car17.test200.txt -output run.car17.ql.topics.car17.test200.txt -ql &
+nohup target/appassembler/bin/SearchCollection -topicreader Car -index lucene-index.car17.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.car17.test200.txt -output run.car17.ql.topics.car17.test200.txt -ql &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Car -index lucene-index.car17.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.car17.test200.txt -output run.car17.ql+rm3.topics.car17.test200.txt -ql -rm3 &
+nohup target/appassembler/bin/SearchCollection -topicreader Car -index lucene-index.car17.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.car17.test200.txt -output run.car17.ql+rm3.topics.car17.test200.txt -ql -rm3 &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Car -index lucene-index.car17.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.car17.test200.txt -output run.car17.ql+ax.topics.car17.test200.txt -ql -axiom -rerankCutoff 20 -axiom.deterministic &
+nohup target/appassembler/bin/SearchCollection -topicreader Car -index lucene-index.car17.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.car17.test200.txt -output run.car17.ql+ax.topics.car17.test200.txt -ql -axiom -rerankCutoff 20 -axiom.deterministic &
 
 ```
 
