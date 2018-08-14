@@ -25,10 +25,7 @@ import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.Terms;
 import org.apache.lucene.index.TermsEnum;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_BODY;
 import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_ID;
@@ -53,15 +50,17 @@ public class NewsTrackBLReranker implements Reranker {
     }
     
     // remove the duplicates: 1. the same doc with the query doc 2. duplicated docs in the results
-    List<Integer> forbiddenDocIdsIndex = new ArrayList<>();
+    Set<Integer> forbiddenDocIdsIndex = new HashSet<>();
     System.out.println("QID: " + context.getQueryId());
-    for (int i = 0; !forbiddenDocIdsIndex.contains(i) && i < docs.documents.length; i++) {
+    for (int i = 0; i < docs.documents.length; i++) {
+      if (forbiddenDocIdsIndex.contains(i)) continue;
       String docid = docs.documents[i].getField(FIELD_ID).stringValue();
       if (computeCosineSimilarity(queryTermsMap, docsVectorsMap.get(i)) >= 0.9) {
         forbiddenDocIdsIndex.add(i);
+        continue;
       }
       for (int j = i+1; j < docs.documents.length; j++) {
-        System.out.println(String.format("%d %d %f", i, j, computeCosineSimilarity(docsVectorsMap.get(i), docsVectorsMap.get(j))));
+        System.out.println(String.format("%s %s %f", docs.documents[i].getField(FIELD_ID).stringValue(), docs.documents[j].getField(FIELD_ID).stringValue(), computeCosineSimilarity(docsVectorsMap.get(i), docsVectorsMap.get(j))));
         if (computeCosineSimilarity(docsVectorsMap.get(i), docsVectorsMap.get(j)) >= 0.9) {
           forbiddenDocIdsIndex.add(j);
         }
