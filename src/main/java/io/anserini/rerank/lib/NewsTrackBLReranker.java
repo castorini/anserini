@@ -19,15 +19,12 @@ package io.anserini.rerank.lib;
 import io.anserini.rerank.Reranker;
 import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.ScoredDocuments;
-import io.anserini.search.query.NewsTrackBLTopicReader;
-import org.apache.commons.lang3.tuple.Pair;
+import io.anserini.search.topicreader.NewsTrackBLTopicReader;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.index.Term;
 import org.apache.lucene.index.Terms;
 import org.apache.lucene.index.TermsEnum;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

@@ -14,9 +14,10 @@
  * limitations under the License.
  */
 
-package io.anserini.search.query;
+package io.anserini.search.topicreader;
 
 import io.anserini.index.generator.LuceneDocumentGenerator;
+import io.anserini.index.generator.WapoGenerator;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.*;
@@ -121,6 +122,7 @@ public class NewsTrackBLTopicReader extends TopicReader<Integer> {
    * @param isWeighted whether to include terms' tf-idf score as their weights
    * @return SortedMap where keys are query/topic IDs and values are title portions of the topics
    * @throws IOException any io exception
+   * @throws QueryNodeException query construction errors
    */
   public static Query generateQueryString(IndexReader reader, String docid, int k, boolean isWeighted)
       throws IOException, QueryNodeException {
@@ -153,9 +155,13 @@ public class NewsTrackBLTopicReader extends TopicReader<Integer> {
       Pair<String, Double> termScores = termsTfIdfPQ.poll();
       queryString += termScores.getKey() + (isWeighted ? String.format("^%f ", termScores.getValue()) : " ");
     }
+    // We need to explicitly filter some documents as the guide says
+    queryString += String.format(" -%s:Opinions -%s:\"Letters to the Editor\" -%s:\"The Post's View\"",
+        WapoGenerator.WapoField.KICKER.name, WapoGenerator.WapoField.KICKER.name, WapoGenerator.WapoField.KICKER.name);
     System.out.println("Query: " + queryString);
     StandardQueryParser p = new StandardQueryParser();
-    Query nq = p.parse(queryString, FIELD_BODY);
-    return nq;
+    Query q = p.parse(queryString, FIELD_BODY);
+    
+    return q;
   }
 }
