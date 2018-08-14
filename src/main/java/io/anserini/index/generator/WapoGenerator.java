@@ -67,6 +67,7 @@ public class WapoGenerator extends LuceneDocumentGenerator<WashingtonPostCollect
 
   @Override
   public Document createDocument(WashingtonPostCollection.Document wapoDoc) {
+    System.out.println(wapoDoc.id());
     String id = wapoDoc.id();
 
     if (wapoDoc.content().trim().isEmpty()) {
@@ -77,9 +78,15 @@ public class WapoGenerator extends LuceneDocumentGenerator<WashingtonPostCollect
     Document doc = new Document();
     doc.add(new StringField(FIELD_ID, id, Field.Store.YES));
     doc.add(new LongPoint(WapoField.PUBLISHED_DATE.name, wapoDoc.getPublishDate()));
-    doc.add(new StringField(WapoField.AUTHOR.name, wapoDoc.getAuthor(), Field.Store.NO));
-    doc.add(new StringField(WapoField.ARTICLE_URL.name, wapoDoc.getArticleUrl(), Field.Store.NO));
-    doc.add(new StringField(WapoField.TITLE.name, wapoDoc.getTitle(), Field.Store.NO));
+    wapoDoc.getAuthor().ifPresent(author -> {
+      doc.add(new StringField(WapoField.AUTHOR.name, author, Field.Store.NO));
+    });
+    wapoDoc.getArticleUrl().ifPresent(url -> {
+      doc.add(new StringField(WapoField.ARTICLE_URL.name, url, Field.Store.NO));
+    });
+    wapoDoc.getTitle().ifPresent(title -> {
+      doc.add(new StringField(WapoField.TITLE.name, title, Field.Store.NO));
+    });
 
     StringBuilder contentBuilder = new StringBuilder();
     contentBuilder.append(wapoDoc.getTitle()).append("\n\n");

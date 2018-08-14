@@ -150,10 +150,10 @@ public class WashingtonPostCollection extends DocumentCollection
 
     // Required fields
     protected String id;
-    protected String articleUrl;
-    protected String author;
+    protected Optional<String> articleUrl;
+    protected Optional<String> author;
     protected long publishDate;
-    protected String title;
+    protected Optional<String> title;
     protected String content;
     protected WashingtonPostObject obj;
 
@@ -172,11 +172,11 @@ public class WashingtonPostCollection extends DocumentCollection
       return true;
     }
   
-    public String getArticleUrl() {
+    public Optional<String> getArticleUrl() {
       return articleUrl;
     }
   
-    public String getAuthor() {
+    public Optional<String> getAuthor() {
       return author;
     }
   
@@ -184,7 +184,7 @@ public class WashingtonPostCollection extends DocumentCollection
       return publishDate;
     }
   
-    public String getTitle() {
+    public Optional<String> getTitle() {
       return title;
     }
   
@@ -202,10 +202,10 @@ public class WashingtonPostCollection extends DocumentCollection
     public static class WashingtonPostObject {
       // Required fields
       protected String id;
-      protected String articleUrl;
-      protected String author;
+      protected Optional<String> articleUrl;
+      protected Optional<String> author;
       protected long publishedDate;
-      protected String title;
+      protected Optional<String> title;
 
       // Optional fields
       protected Optional<List<Content>> contents;
@@ -314,12 +314,12 @@ public class WashingtonPostCollection extends DocumentCollection
       }
   
       @JsonGetter("article_url")
-      public String getArticleUrl() {
+      public Optional<String> getArticleUrl() {
         return articleUrl;
       }
   
       @JsonGetter("author")
-      public String getAuthor() {
+      public Optional<String> getAuthor() {
         return author;
       }
 
@@ -329,7 +329,7 @@ public class WashingtonPostCollection extends DocumentCollection
       }
 
       @JsonGetter("title")
-      public String getTitle() {
+      public Optional<String> getTitle() {
         return title;
       }
 
@@ -339,10 +339,10 @@ public class WashingtonPostCollection extends DocumentCollection
       @JsonCreator
       public WashingtonPostObject(
               @JsonProperty(value = "id", required = true) String id,
-              @JsonProperty(value = "article_url", required = false) String articleUrl,
-              @JsonProperty(value = "author", required = false) String author,
+              @JsonProperty(value = "article_url", required = false) Optional<String> articleUrl,
+              @JsonProperty(value = "author", required = false) Optional<String> author,
               @JsonProperty(value = "published_date", required = true) long publishedDate,
-              @JsonProperty(value = "title", required = true) String title) {
+              @JsonProperty(value = "title", required = true) Optional<String> title) {
         this.id = id;
         this.articleUrl = articleUrl;
         this.author = author;
