@@ -110,6 +110,7 @@ public class WashingtonPostCollection extends DocumentCollection
 
       bufferedRecord = new WashingtonPostCollection.Document();
       bufferedRecord.id = wapoObj.getId();
+      bufferedRecord.publishDate = wapoObj.getPublishedDate();
       bufferedRecord.title = wapoObj.getTitle();
       bufferedRecord.articleUrl = wapoObj.getArticleUrl();
       bufferedRecord.author = wapoObj.getAuthor();
