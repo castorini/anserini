@@ -89,9 +89,9 @@ public class WashingtonPostDocumentTest extends DocumentTest {
 
         WashingtonPostCollection.Document parsed = iter.next();
         assertEquals(parsed.id(), expected.get(i).get("id"));
-        assertEquals(parsed.getArticleUrl(), expected.get(i).get("article_url"));
-        assertEquals(parsed.getTitle(), expected.get(i).get("title"));
-        assertEquals(parsed.getAuthor(), expected.get(i).get("author"));
+        assertEquals(parsed.getArticleUrl().get(), expected.get(i).get("article_url"));
+        assertEquals(parsed.getTitle().get(), expected.get(i).get("title"));
+        assertEquals(parsed.getAuthor().get(), expected.get(i).get("author"));
         assertEquals(parsed.getPublishDate(), Long.parseLong(expected.get(i).get("published_date")));
         assertEquals(parsed.getContent(), expected.get(i).get("content"));
       }
