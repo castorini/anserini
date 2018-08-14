@@ -46,24 +46,39 @@ public class NewsTrackBLReranker implements Reranker {
     String queryDocId = context.getQueryText();
     final Map<String, Long> queryTermsMap = convertDocVectorToMap(reader, queryDocId);
     
-    List<Integer> resDocIdsIndex = new ArrayList<>();
+    List<Map<String, Long>> docsVectorsMap = new ArrayList<>();
     for (int i = 0; i < docs.documents.length; i++) {
       String docid = docs.documents[i].getField(FIELD_ID).stringValue();
-      if (computeCosineSimilarity(queryTermsMap, convertDocVectorToMap(reader, docid)) < 0.8) {
-        resDocIdsIndex.add(i);
+      docsVectorsMap.add(convertDocVectorToMap(reader, docid));
+    }
+    
+    // remove the duplicates: 1. the same doc with the query doc 2. duplicated docs in the results
+    List<Integer> forbiddenDocIdsIndex = new ArrayList<>();
+    for (int i = 0; !forbiddenDocIdsIndex.contains(i) && i < docs.documents.length; i++) {
+      String docid = docs.documents[i].getField(FIELD_ID).stringValue();
+      if (computeCosineSimilarity(queryTermsMap, docsVectorsMap.get(i)) >= 0.9) {
+        forbiddenDocIdsIndex.add(i);
+      }
+      for (int j = i+1; j < docs.documents.length; j++) {
+        if (computeCosineSimilarity(docsVectorsMap.get(i), docsVectorsMap.get(j)) >= 0.9) {
+          forbiddenDocIdsIndex.add(j);
+        }
       }
     }
   
     ScoredDocuments scoredDocs = new ScoredDocuments();
-    scoredDocs.documents = new Document[resDocIdsIndex.size()];
-    scoredDocs.ids = new int[resDocIdsIndex.size()];
-    scoredDocs.scores = new float[resDocIdsIndex.size()];
-    int i = 0;
-    for (Integer idx : resDocIdsIndex) {
-      scoredDocs.documents[i] = docs.documents[idx];
-      scoredDocs.scores[i] = docs.scores[idx];
-      scoredDocs.ids[i] = docs.ids[idx];
-      i++;
+    int resSize = docs.documents.length - forbiddenDocIdsIndex.size();
+    scoredDocs.documents = new Document[resSize];
+    scoredDocs.ids = new int[resSize];
+    scoredDocs.scores = new float[resSize];
+    int idx = 0;
+    for (int i = 0; i < docs.documents.length; i++) {
+      if (!forbiddenDocIdsIndex.contains(i)) {
+        scoredDocs.documents[idx] = docs.documents[i];
+        scoredDocs.scores[idx] = docs.scores[i];
+        scoredDocs.ids[idx] = docs.ids[i];
+        idx++;
+      }
     }
   
     return scoredDocs;
