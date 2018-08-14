@@ -339,8 +339,8 @@ public class WashingtonPostCollection extends DocumentCollection
       @JsonCreator
       public WashingtonPostObject(
               @JsonProperty(value = "id", required = true) String id,
-              @JsonProperty(value = "article_url", required = true) String articleUrl,
-              @JsonProperty(value = "author", required = true) String author,
+              @JsonProperty(value = "article_url", required = false) String articleUrl,
+              @JsonProperty(value = "author", required = false) String author,
               @JsonProperty(value = "published_date", required = true) long publishedDate,
               @JsonProperty(value = "title", required = true) String title) {
         this.id = id;
