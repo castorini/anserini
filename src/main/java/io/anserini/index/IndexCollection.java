@@ -51,7 +51,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashSet;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -193,28 +192,14 @@ public final class IndexCollection {
         BaseFileSegment<SourceDocument> iter =
             (BaseFileSegment) ((SegmentProvider) collection).createFileSegment(inputFile);
 
-        while (true) {
-          boolean hasNext = false;
+        while (iter.hasNext()) {
+          SourceDocument d;
           try {
-            hasNext = iter.hasNext();
-          } catch (NoSuchElementException e1) {
-            break;
-          } catch (RuntimeException e2) {
-            if (e2.getMessage() != null && e2.getMessage().contains("File IOException")) {
-              LOG.warn("Exception when parsing document: ", e2);
-              counters.errors.incrementAndGet();
-              break; // IOException: stop reading more documents
-            } else {
-              counters.skipped.incrementAndGet();
-              continue; // Non-IOException: continue reading the next document
-            }
+            d = iter.next();
+          } catch (RuntimeException e) {
+            counters.skipped.incrementAndGet();
+            continue;
           }
-
-          if (!hasNext) {
-            break;
-          }
-
-          SourceDocument d = iter.next();
 
           if (!d.indexable()) {
             counters.unindexable.incrementAndGet();
@@ -239,6 +224,11 @@ public final class IndexCollection {
           }
           cnt++;
         }
+
+        if (iter.getNextRecordStatus() == BaseFileSegment.Status.ERROR) {
+          counters.errors.incrementAndGet();
+        }
+
         iter.close();
         LOG.info(inputFile.getParent().getFileName().toString() + File.separator +
             inputFile.getFileName().toString() + ": " + cnt + " docs added.");

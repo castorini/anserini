@@ -63,42 +63,28 @@ public class WikipediaCollection extends DocumentCollection
     }
 
     @Override
-    public boolean hasNext() {
-      if (bufferedRecord != null) {
-        return true;
-      } else if (atEOF) {
-        return false;
-      }
+    public void readNext() throws IOException {
+      String page;
+      String s;
 
-      try {
-        String page;
-        String s;
-
-        // Advance to the next valid page.
-        while ((page = stream.readNext()) != null) {
-          // See https://en.wikipedia.org/wiki/Wikipedia:Namespace
-          if (page.contains("<ns>") && !page.contains("<ns>0</ns>")) {
-            continue;
-          }
-
-          s = cleaner.clean(page).replaceAll("\\n+", " ");
-          // Skip redirects
-          if (s.startsWith("#REDIRECT")) {
-            continue;
-          }
-
-          // If we've gotten here, it means that we've advanced to the next "valid" article.
-          String title = cleaner.getTitle(page).replaceAll("\\n+", " ");
-          bufferedRecord = new Document(title, title + ".\n" + s);
-          return true;
+      // Advance to the next valid page.
+      while ((page = stream.readNext()) != null) {
+        // See https://en.wikipedia.org/wiki/Wikipedia:Namespace
+        if (page.contains("<ns>") && !page.contains("<ns>0</ns>")) {
+          continue;
         }
-      } catch (IOException e) {
-        throw new RuntimeException("File IOException: ", e);
-      }
 
-      // If we've fall through here, we've either encountered an exception or we've reached the end
-      // of the underlying stream.
-      return false;
+        s = cleaner.clean(page).replaceAll("\\n+", " ");
+        // Skip redirects
+        if (s.startsWith("#REDIRECT")) {
+          continue;
+        }
+
+        // If we've gotten here, it means that we've advanced to the next "valid" article.
+        String title = cleaner.getTitle(page).replaceAll("\\n+", " ");
+        bufferedRecord = new Document(title, title + ".\n" + s);
+        break;
+      }
     }
   }
 
