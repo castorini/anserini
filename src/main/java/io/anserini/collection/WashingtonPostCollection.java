@@ -73,12 +73,7 @@ public class WashingtonPostCollection extends DocumentCollection
       parseRecord(nextRecord);
     }
 
-    private String removeTags(String content) {
-      return content.replaceAll(Document.PATTERN, " ");
-    }
-
     private void parseRecord(String record) {
-      StringBuilder builder = new StringBuilder();
       ObjectMapper mapper = new ObjectMapper();
       Document.WashingtonPostObject wapoObj = null;
       try {
@@ -95,27 +90,12 @@ public class WashingtonPostCollection extends DocumentCollection
 
       bufferedRecord = new WashingtonPostCollection.Document();
       bufferedRecord.id = wapoObj.getId();
-      bufferedRecord.publishedDate = wapoObj.getPublishedDate();
-
-      builder.append(wapoObj.getTitle()).append("\n");
-
-      if (JsonParser.isFieldAvailable(wapoObj.getContents())) {
-        for (Document.WashingtonPostObject.Content contentObj : wapoObj.getContents().get()) {
-          if (contentObj == null) continue;
-          if (JsonParser.isFieldAvailable(contentObj.getType())
-                  && JsonParser.isFieldAvailable(contentObj.getContent())
-                  && Document.CONTENT_TYPE_TAG.contains(contentObj.getType().get())) {
-            String content = contentObj.getContent().get();
-            builder.append(removeTags(content)).append("\n");
-          }
-          if (JsonParser.isFieldAvailable(contentObj.getFullCaption())) {
-            String fullCaption = contentObj.getFullCaption().get();
-            builder.append(removeTags(fullCaption)).append("\n");
-          }
-        }
-      }
-
-      bufferedRecord.content = builder.toString();
+      bufferedRecord.publishDate = wapoObj.getPublishedDate();
+      bufferedRecord.title = wapoObj.getTitle();
+      bufferedRecord.articleUrl = wapoObj.getArticleUrl();
+      bufferedRecord.author = wapoObj.getAuthor();
+      bufferedRecord.obj = wapoObj;
+      bufferedRecord.content = record;
     }
   }
 
@@ -124,13 +104,15 @@ public class WashingtonPostCollection extends DocumentCollection
    */
   public static class Document implements SourceDocument {
     private static final Logger LOG = LogManager.getLogger(Document.class);
-    private static final String PATTERN = "<.+>";
-    private static final List<String> CONTENT_TYPE_TAG = Arrays.asList("sanitized_html", "tweet");
 
     // Required fields
     protected String id;
-    protected long publishedDate;
+    protected Optional<String> articleUrl;
+    protected Optional<String> author;
+    protected long publishDate;
+    protected Optional<String> title;
     protected String content;
+    protected WashingtonPostObject obj;
 
     @Override
     public String id() {
@@ -146,19 +128,41 @@ public class WashingtonPostCollection extends DocumentCollection
     public boolean indexable() {
       return true;
     }
-
-    public long getPublishedDate() {
-      return publishedDate;
+  
+    public Optional<String> getArticleUrl() {
+      return articleUrl;
     }
-
+  
+    public Optional<String> getAuthor() {
+      return author;
+    }
+  
+    public long getPublishDate() {
+      return publishDate;
+    }
+  
+    public Optional<String> getTitle() {
+      return title;
+    }
+  
+    public String getContent() {
+      return content;
+    }
+  
+    public WashingtonPostObject getObj() {
+      return obj;
+    }
+  
     /**
      * Used internally by Jackson for JSON parsing.
      */
     public static class WashingtonPostObject {
       // Required fields
       protected String id;
+      protected Optional<String> articleUrl;
+      protected Optional<String> author;
       protected long publishedDate;
-      protected String title;
+      protected Optional<String> title;
 
       // Optional fields
       protected Optional<List<Content>> contents;
@@ -265,6 +269,16 @@ public class WashingtonPostCollection extends DocumentCollection
       public String getId() {
         return id;
       }
+  
+      @JsonGetter("article_url")
+      public Optional<String> getArticleUrl() {
+        return articleUrl;
+      }
+  
+      @JsonGetter("author")
+      public Optional<String> getAuthor() {
+        return author;
+      }
 
       @JsonGetter("published_date")
       public long getPublishedDate() {
@@ -272,7 +286,7 @@ public class WashingtonPostCollection extends DocumentCollection
       }
 
       @JsonGetter("title")
-      public String getTitle() {
+      public Optional<String> getTitle() {
         return title;
       }
 
@@ -282,9 +296,13 @@ public class WashingtonPostCollection extends DocumentCollection
       @JsonCreator
       public WashingtonPostObject(
               @JsonProperty(value = "id", required = true) String id,
+              @JsonProperty(value = "article_url", required = false) Optional<String> articleUrl,
+              @JsonProperty(value = "author", required = false) Optional<String> author,
               @JsonProperty(value = "published_date", required = true) long publishedDate,
-              @JsonProperty(value = "title", required = true) String title) {
+              @JsonProperty(value = "title", required = true) Optional<String> title) {
         this.id = id;
+        this.articleUrl = articleUrl;
+        this.author = author;
         this.publishedDate = publishedDate;
         this.title = title;
       }
