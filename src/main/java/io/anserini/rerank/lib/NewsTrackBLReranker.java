@@ -54,12 +54,14 @@ public class NewsTrackBLReranker implements Reranker {
     
     // remove the duplicates: 1. the same doc with the query doc 2. duplicated docs in the results
     List<Integer> forbiddenDocIdsIndex = new ArrayList<>();
+    System.out.println("QID: " + context.getQueryId());
     for (int i = 0; !forbiddenDocIdsIndex.contains(i) && i < docs.documents.length; i++) {
       String docid = docs.documents[i].getField(FIELD_ID).stringValue();
       if (computeCosineSimilarity(queryTermsMap, docsVectorsMap.get(i)) >= 0.9) {
         forbiddenDocIdsIndex.add(i);
       }
       for (int j = i+1; j < docs.documents.length; j++) {
+        System.out.println(String.format("%d %d %f", i, j, computeCosineSimilarity(docsVectorsMap.get(i), docsVectorsMap.get(j))));
         if (computeCosineSimilarity(docsVectorsMap.get(i), docsVectorsMap.get(j)) >= 0.9) {
           forbiddenDocIdsIndex.add(j);
         }
