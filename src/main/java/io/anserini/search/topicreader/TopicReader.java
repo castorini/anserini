@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.anserini.search.query;
+package io.anserini.search.topicreader;
 
 import java.io.BufferedReader;
 import java.io.IOException;

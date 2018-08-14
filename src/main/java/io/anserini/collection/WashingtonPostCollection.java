@@ -31,13 +31,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 /**
  * An instance of the <a href="https://trec.nist.gov/data/wapost/">TREC Washington Post Corpus</a>.
@@ -71,26 +65,12 @@ public class WashingtonPostCollection extends DocumentCollection
     }
 
     @Override
-    public boolean hasNext() {
-      if (bufferedRecord != null) {
-        return true;
-      } else if (atEOF) {
-        return false;
-      }
-
-      String nextRecord = null;
-      try {
-        nextRecord = bufferedReader.readLine();
-      } catch (IOException e) {
-        throw new RuntimeException(e);
-      }
-
+    public void readNext() throws IOException {
+      String nextRecord = bufferedReader.readLine();
       if (nextRecord == null) {
-        return false;
+        throw new NoSuchElementException();
       }
-
       parseRecord(nextRecord);
-      return bufferedRecord != null;
     }
 
     private void parseRecord(String record) {
