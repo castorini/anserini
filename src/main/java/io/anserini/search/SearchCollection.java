@@ -18,6 +18,7 @@ package io.anserini.search;
 
 import io.anserini.analysis.TweetAnalyzer;
 import io.anserini.index.generator.TweetGenerator;
+import io.anserini.index.generator.WapoGenerator;
 import io.anserini.rerank.RerankerCascade;
 import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.ScoredDocuments;
@@ -42,6 +43,8 @@ import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.document.LongPoint;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.index.Term;
+import org.apache.lucene.queries.TermsQuery;
 import org.apache.lucene.queryparser.flexible.core.QueryNodeException;
 import org.apache.lucene.queryparser.flexible.standard.StandardQueryParser;
 import org.apache.lucene.search.*;
@@ -84,7 +87,7 @@ public final class SearchCollection implements Closeable {
   private final boolean isRerank;
   private final RerankerCascade cascade;
 
-  enum QueryConstructor {
+  public enum QueryConstructor {
     BagOfTerms,
     SequentialDependenceModel
   }
@@ -219,23 +222,34 @@ public final class SearchCollection implements Closeable {
   
   public<K> ScoredDocuments search(IndexSearcher searcher, K qid, String queryString)
       throws IOException, QueryNodeException {
-    Query query;
-    if (args.topicReader.compareToIgnoreCase("NewsTrackBL") != 0) {
+    Query query = null;
+    if (args.topicReader.compareToIgnoreCase("NewsTrackBL") == 0) {// News Track Background Linking only gives docid, we will use the raw document as the query....
+      if (qc == QueryConstructor.SequentialDependenceModel) {
+        args.newsBL_weighted = false;
+      }
+      String qs = NewsTrackBLTopicReader.generateQueryString(reader, queryString, args.newsBL_k, args.newsBL_weighted);
+      Query q = null;
+      if (qc == QueryConstructor.SequentialDependenceModel) {
+        q = new SdmQueryGenerator(args.sdm_tw, args.sdm_ow, args.sdm_uw).buildQuery(FIELD_BODY, analyzer, qs);
+      } else {
+        // DO NOT use BagOfWordsQueryGenerator here!!!!
+        // Because the actual query strings are extracted from tokenized document!!!
+        q = new StandardQueryParser().parse(qs, FIELD_BODY);
+      }
+      Query filter = new TermsQuery(
+          new Term(WapoGenerator.WapoField.KICKER.name, "Opinion"),
+          new Term(WapoGenerator.WapoField.KICKER.name, "Letters to the Editor"),
+          new Term(WapoGenerator.WapoField.KICKER.name, "The Post's View")
+      );
+      BooleanQuery.Builder builder = new BooleanQuery.Builder();
+      builder.add(filter, BooleanClause.Occur.MUST_NOT);
+      builder.add(q, BooleanClause.Occur.MUST);
+      query = builder.build();
+    } else {
       if (qc == QueryConstructor.SequentialDependenceModel) {
         query = new SdmQueryGenerator(args.sdm_tw, args.sdm_ow, args.sdm_uw).buildQuery(FIELD_BODY, analyzer, queryString);
       } else {
         query = new BagOfWordsQueryGenerator().buildQuery(FIELD_BODY, analyzer, queryString);
-      }
-    } else {
-      // News Track Background Linking only gives docid, we will use the raw document as the query....
-      if (qc == QueryConstructor.SequentialDependenceModel) {
-        args.newsBL_weighted = false;
-      }
-      queryString = NewsTrackBLTopicReader.generateQueryString(reader, queryString, args.newsBL_k, args.newsBL_weighted);
-      if (qc == QueryConstructor.SequentialDependenceModel) {
-        query = new SdmQueryGenerator(args.sdm_tw, args.sdm_ow, args.sdm_uw).buildQuery(FIELD_BODY, analyzer, queryString);
-      } else {
-        query = new StandardQueryParser().parse(queryString, FIELD_BODY);
       }
     }
 

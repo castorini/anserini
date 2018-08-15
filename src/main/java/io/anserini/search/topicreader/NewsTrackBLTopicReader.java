@@ -18,6 +18,8 @@ package io.anserini.search.topicreader;
 
 import io.anserini.index.generator.LuceneDocumentGenerator;
 import io.anserini.index.generator.WapoGenerator;
+import io.anserini.search.SearchCollection;
+import io.anserini.search.query.SdmQueryGenerator;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.*;
@@ -120,7 +122,7 @@ public class NewsTrackBLTopicReader extends TopicReader<Integer> {
    * @param docid the query docid
    * @param k how many terms will be picked from the query document
    * @param isWeighted whether to include terms' tf-idf score as their weights
-   * @return String the modified query string
+   * @return String constructed query string
    * @throws IOException any io exception
    * @throws QueryNodeException query construction errors
    */
@@ -155,9 +157,6 @@ public class NewsTrackBLTopicReader extends TopicReader<Integer> {
       Pair<String, Double> termScores = termsTfIdfPQ.poll();
       queryString += termScores.getKey() + (isWeighted ? String.format("^%f ", termScores.getValue()) : " ");
     }
-    // We need to explicitly filter some documents as the guide says
-    queryString += String.format(" -%s:Opinions -%s:\"Letters to the Editor\" -%s:\"The Post's View\"",
-        WapoGenerator.WapoField.KICKER.name, WapoGenerator.WapoField.KICKER.name, WapoGenerator.WapoField.KICKER.name);
     System.out.println("Query: " + queryString);
     
     return queryString;
