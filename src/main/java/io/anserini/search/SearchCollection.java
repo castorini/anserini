@@ -43,6 +43,7 @@ import org.apache.lucene.document.LongPoint;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.queryparser.flexible.core.QueryNodeException;
+import org.apache.lucene.queryparser.flexible.standard.StandardQueryParser;
 import org.apache.lucene.search.*;
 import org.apache.lucene.search.similarities.*;
 import org.apache.lucene.store.FSDirectory;
@@ -219,14 +220,23 @@ public final class SearchCollection implements Closeable {
   public<K> ScoredDocuments search(IndexSearcher searcher, K qid, String queryString)
       throws IOException, QueryNodeException {
     Query query;
-    if (qc == QueryConstructor.SequentialDependenceModel) {
-      query = new SdmQueryGenerator(args.sdm_tw, args.sdm_ow, args.sdm_uw).buildQuery(FIELD_BODY, analyzer, queryString);
-    } else
-      if (args.topicReader.compareToIgnoreCase("NewsTrackBL") != 0) {
-        query = new BagOfWordsQueryGenerator().buildQuery(FIELD_BODY, analyzer, queryString);
+    if (args.topicReader.compareToIgnoreCase("NewsTrackBL") != 0) {
+      if (qc == QueryConstructor.SequentialDependenceModel) {
+        query = new SdmQueryGenerator(args.sdm_tw, args.sdm_ow, args.sdm_uw).buildQuery(FIELD_BODY, analyzer, queryString);
       } else {
+        query = new BagOfWordsQueryGenerator().buildQuery(FIELD_BODY, analyzer, queryString);
+      }
+    } else {
       // News Track Background Linking only gives docid, we will use the raw document as the query....
-      query = NewsTrackBLTopicReader.generateQueryString(reader, queryString, args.newsBL_k, args.newsBL_weighted);
+      if (qc == QueryConstructor.SequentialDependenceModel) {
+        args.newsBL_weighted = false;
+      }
+      queryString = NewsTrackBLTopicReader.generateQueryString(reader, queryString, args.newsBL_k, args.newsBL_weighted);
+      if (qc == QueryConstructor.SequentialDependenceModel) {
+        query = new SdmQueryGenerator(args.sdm_tw, args.sdm_ow, args.sdm_uw).buildQuery(FIELD_BODY, analyzer, queryString);
+      } else {
+        query = new StandardQueryParser().parse(queryString, FIELD_BODY);
+      }
     }
 
     TopDocs rs = new TopDocs(0, new ScoreDoc[]{}, Float.NaN);

@@ -120,11 +120,11 @@ public class NewsTrackBLTopicReader extends TopicReader<Integer> {
    * @param docid the query docid
    * @param k how many terms will be picked from the query document
    * @param isWeighted whether to include terms' tf-idf score as their weights
-   * @return SortedMap where keys are query/topic IDs and values are title portions of the topics
+   * @return String the modified query string
    * @throws IOException any io exception
    * @throws QueryNodeException query construction errors
    */
-  public static Query generateQueryString(IndexReader reader, String docid, int k, boolean isWeighted)
+  public static String generateQueryString(IndexReader reader, String docid, int k, boolean isWeighted)
       throws IOException, QueryNodeException {
     class ScoreComparator implements Comparator<Pair<String, Double>> {
       public int compare(Pair<String, Double> a, Pair<String, Double> b) {
@@ -159,9 +159,7 @@ public class NewsTrackBLTopicReader extends TopicReader<Integer> {
     queryString += String.format(" -%s:Opinions -%s:\"Letters to the Editor\" -%s:\"The Post's View\"",
         WapoGenerator.WapoField.KICKER.name, WapoGenerator.WapoField.KICKER.name, WapoGenerator.WapoField.KICKER.name);
     System.out.println("Query: " + queryString);
-    StandardQueryParser p = new StandardQueryParser();
-    Query q = p.parse(queryString, FIELD_BODY);
     
-    return q;
+    return queryString;
   }
 }

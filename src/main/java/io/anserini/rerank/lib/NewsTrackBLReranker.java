@@ -51,7 +51,6 @@ public class NewsTrackBLReranker implements Reranker {
     
     // remove the duplicates: 1. the same doc with the query doc 2. duplicated docs in the results
     Set<Integer> forbiddenDocIdsIndex = new HashSet<>();
-    System.out.println("QID: " + context.getQueryId());
     for (int i = 0; i < docs.documents.length; i++) {
       if (forbiddenDocIdsIndex.contains(i)) continue;
       String docid = docs.documents[i].getField(FIELD_ID).stringValue();
@@ -60,7 +59,6 @@ public class NewsTrackBLReranker implements Reranker {
         continue;
       }
       for (int j = i+1; j < docs.documents.length; j++) {
-        System.out.println(String.format("%s %s %f", docs.documents[i].getField(FIELD_ID).stringValue(), docs.documents[j].getField(FIELD_ID).stringValue(), computeCosineSimilarity(docsVectorsMap.get(i), docsVectorsMap.get(j))));
         if (computeCosineSimilarity(docsVectorsMap.get(i), docsVectorsMap.get(j)) >= 0.9) {
           forbiddenDocIdsIndex.add(j);
         }
