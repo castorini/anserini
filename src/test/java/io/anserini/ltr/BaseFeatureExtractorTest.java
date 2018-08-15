@@ -87,6 +87,7 @@ abstract public class BaseFeatureExtractorTest<T> extends LuceneTestCase {
 	    new IndexSearcher(DirectoryReader.open(DIRECTORY)),
         (T) DEFAULT_QID,
         TEST_PARSER.parse(queryText),
+        null,
         queryText,
         AnalyzerUtils.tokenize(TEST_ANALYZER, queryText),
         null, null);

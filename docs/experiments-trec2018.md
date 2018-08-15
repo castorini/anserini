@@ -132,4 +132,8 @@ target/appassembler/bin/SearchCollection -index lucene-index.wash18.pos+docvecto
 The same as Core Track
 
 ### Submitted Runs
+```
+target/appassembler/bin/SearchCollection -index lucene-index.wash18.pos+docvectors+rawdocs -topicreader NewsTrackBL -topics ~/newsir18-background-linking-topics.v2.xml -bm25 -hits 100 -newsBL.k 1000 -newsBL.weighted -runtag anserini_1000w -output tfidf_1000_weighted_bm25.txt
+
+```
 

@@ -223,18 +223,20 @@ public final class SearchCollection implements Closeable {
   public<K> ScoredDocuments search(IndexSearcher searcher, K qid, String queryString)
       throws IOException, QueryNodeException {
     Query query = null;
+    String queryDocID = null;
     if (args.topicReader.compareToIgnoreCase("NewsTrackBL") == 0) {// News Track Background Linking only gives docid, we will use the raw document as the query....
       if (qc == QueryConstructor.SequentialDependenceModel) {
         args.newsBL_weighted = false;
       }
-      String qs = NewsTrackBLTopicReader.generateQueryString(reader, queryString, args.newsBL_k, args.newsBL_weighted);
+      queryDocID = queryString;
+      queryString = NewsTrackBLTopicReader.generateQueryString(reader, queryDocID, args.newsBL_k, args.newsBL_weighted);
       Query q = null;
       if (qc == QueryConstructor.SequentialDependenceModel) {
-        q = new SdmQueryGenerator(args.sdm_tw, args.sdm_ow, args.sdm_uw).buildQuery(FIELD_BODY, analyzer, qs);
+        q = new SdmQueryGenerator(args.sdm_tw, args.sdm_ow, args.sdm_uw).buildQuery(FIELD_BODY, analyzer, queryString);
       } else {
         // DO NOT use BagOfWordsQueryGenerator here!!!!
         // Because the actual query strings are extracted from tokenized document!!!
-        q = new StandardQueryParser().parse(qs, FIELD_BODY);
+        q = new StandardQueryParser().parse(queryString, FIELD_BODY);
       }
       Query filter = new TermsQuery(
           new Term(WapoGenerator.WapoField.KICKER.name, "Opinion"),
@@ -263,7 +265,7 @@ public final class SearchCollection implements Closeable {
     }
 
     List<String> queryTokens = AnalyzerUtils.tokenize(analyzer, queryString);
-    RerankerContext context = new RerankerContext<>(searcher, qid, query, queryString, queryTokens, null, args);
+    RerankerContext context = new RerankerContext<>(searcher, qid, query, queryDocID, queryString, queryTokens, null, args);
 
     return cascade.run(ScoredDocuments.fromTopDocs(rs, searcher), context);
   }
@@ -296,7 +298,7 @@ public final class SearchCollection implements Closeable {
       }
     }
 
-    RerankerContext context = new RerankerContext<>(searcher, qid, keywordQuery, queryString, queryTokens, filter, args);
+    RerankerContext context = new RerankerContext<>(searcher, qid, keywordQuery, null, queryString, queryTokens, filter, args);
 
     return cascade.run(ScoredDocuments.fromTopDocs(rs, searcher), context);
   }

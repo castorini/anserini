@@ -260,7 +260,7 @@ public class AxiomReranker<T> implements Reranker<T> {
       args.searchtweets = context.getSearchArgs().searchtweets;
 
       RerankerContext<T> externalContext = new RerankerContext<>(searcher, context.getQueryId(), context.getQuery(),
-        context.getQueryText(), context.getQueryTokens(), context.getFilter(), args);
+          context.getQueryDocId(), context.getQueryText(), context.getQueryTokens(), context.getFilter(), args);
 
       return searchTopDocs(null, externalContext);
     } else {

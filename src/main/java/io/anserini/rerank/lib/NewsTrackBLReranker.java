@@ -40,7 +40,7 @@ public class NewsTrackBLReranker implements Reranker {
   @Override
   public ScoredDocuments rerank(ScoredDocuments docs, RerankerContext context) {
     IndexReader reader = context.getIndexSearcher().getIndexReader();
-    String queryDocId = context.getQueryText();
+    String queryDocId = context.getQueryDocId();
     final Map<String, Long> queryTermsMap = convertDocVectorToMap(reader, queryDocId);
     
     List<Map<String, Long>> docsVectorsMap = new ArrayList<>();
