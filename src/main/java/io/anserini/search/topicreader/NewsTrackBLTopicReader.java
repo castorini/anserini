@@ -187,7 +187,7 @@ public class NewsTrackBLTopicReader extends TopicReader<Integer> {
             "task needs to read the raw document to full construct the query string");
       }
       List<String> queryTokens = AnalyzerUtils.tokenize(analyzer, parseRecord(rawDocStr.stringValue()));
-      queryString = String.join(" ", queryTokens);
+      queryString = String.join(" ", queryTokens.subList(0, k));
     } else {
       class ScoreComparator implements Comparator<Pair<String, Double>> {
         public int compare(Pair<String, Double> a, Pair<String, Double> b) {
