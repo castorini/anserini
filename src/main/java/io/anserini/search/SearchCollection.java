@@ -229,7 +229,7 @@ public final class SearchCollection implements Closeable {
         args.newsBL_weighted = false;
       }
       queryDocID = queryString;
-      queryString = NewsTrackBLTopicReader.generateQueryString(reader, queryDocID, args.newsBL_k, args.newsBL_weighted);
+      queryString = NewsTrackBLTopicReader.generateQueryString(reader, queryDocID, args.newsBL_k, args.newsBL_weighted, qc, analyzer);
       Query q = null;
       if (qc == QueryConstructor.SequentialDependenceModel) {
         q = new SdmQueryGenerator(args.sdm_tw, args.sdm_ow, args.sdm_uw).buildQuery(FIELD_BODY, analyzer, queryString);
