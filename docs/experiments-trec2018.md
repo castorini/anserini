@@ -134,8 +134,8 @@ The same as Core Track
 ### Submitted Runs
 ```
 target/appassembler/bin/SearchCollection -searchnewsbackground -index lucene-index.wash18.pos+docvectors+rawdocs -topicreader NewsTrackBL -topics ~/newsir18-background-linking-topics.v2.xml -bm25 -hits 100 -newsBL.k 1000 -newsBL.weighted -runtag anserini_1000w -output tfidf_1000_weighted_bm25.txt
-target/appassembler/bin/SearchCollection -searchnewsbackground -index lucene-index.wash18.pos+docvectors+rawdocs -topicreader NewsTrackBL -topics ~/newsir18-background-linking-topics.v2.xml -bm25 -axiom -axiom.deterministic -axiom.top 1000 -hits 100 -newsBL.k 100 -runtag anserini_ax100u -output tfidf_100_unweighted_bm25_ax.txt
-target/appassembler/bin/SearchCollection -searchnewsbackground -index lucene-index.wash18.pos+docvectors+rawdocs -topicreader NewsTrackBL -topics ~/newsir18-background-linking-topics.v2.xml -bm25 -sdm -hits 100 -newsBL.k 1000 -runtag anserini_sdm -output tfidf_1000_unweighted_bm25_sdm.txt
+target/appassembler/bin/SearchCollection -searchnewsbackground -index lucene-index.wash18.pos+docvectors+rawdocs -topicreader NewsTrackBL -topics ~/newsir18-background-linking-topics.v2.xml -bm25 -axiom -axiom.deterministic -axiom.top 1000 -hits 100 -newsBL.k 100 -runtag anserini_nax -output unweighted_bm25_ax_1000.txt
+target/appassembler/bin/SearchCollection -searchnewsbackground -index lucene-index.wash18.pos+docvectors+rawdocs -topicreader NewsTrackBL -topics ~/newsir18-background-linking-topics.v2.xml -bm25 -sdm -hits 100 -newsBL.k 1000 -runtag anserini_nsdm -output unweighted_bm25_sdm_1000.txt
+target/appassembler/bin/SearchCollection -searchnewsbackground -index lucene-index.wash18.pos+docvectors+rawdocs -topicreader NewsTrackBL -topics ~/newsir18-background-linking-topics.v2.xml -bm25 -sdm -hits 100 -newsBL.k 1000 -newsBL.paragraph -runtag anserini_sdmp -output unweighted_bm25_sdm_paragraph.txt
+target/appassembler/bin/SearchCollection -searchnewsbackground -index lucene-index.wash18.pos+docvectors+rawdocs -topicreader NewsTrackBL -topics ~/newsir18-background-linking-topics.v2.xml -bm25 -axiom -axiom.deterministic -hits 100 -newsBL.k 1000 -newsBL.paragraph -runtag anserini_axp -output unweighted_bm25_ax_paragraph.txt
 ```
-
-nohup ../Anserini/target/appassembler/bin/SearchCollection -index lucene-index.wash18.pos+docvectors+rawdocs -topicreader NewsTrackBL -topics ~/newsir18-background-linking-topics.v2.xml -bm25 -axiom -axiom.deterministic -hits 100 -newsBL.k 1000 -runtag anserini_ax -output tfidf_1000_unweighted_bm25_ax1000.txt
