@@ -253,7 +253,10 @@ public class NewsTrackBLTopicReader extends TopicReader<Integer> {
           contentObj.getType().ifPresent(type -> {
             contentObj.getContent().ifPresent(content -> {
               if (WapoGenerator.CONTENT_TYPE_TAG.contains(type)) {
-                paragraphs.add(WapoGenerator.removeTags(content));
+                String sanityContent = WapoGenerator.removeTags(content);
+                if (sanityContent.trim().length() > 0) {
+                  paragraphs.add(sanityContent);
+                }
               }
             });
           });

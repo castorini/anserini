@@ -24,6 +24,7 @@ import org.apache.logging.log4j.Logger;
 import org.apache.lucene.document.*;
 import org.apache.lucene.index.IndexOptions;
 import org.apache.lucene.util.BytesRef;
+import org.jsoup.Jsoup;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -63,7 +64,7 @@ public class WapoGenerator extends LuceneDocumentGenerator<WashingtonPostCollect
   }
   
   public static String removeTags(String content) {
-    return content.replaceAll(PATTERN, " ");
+    return Jsoup.parse(content).text();
   }
 
   @Override
