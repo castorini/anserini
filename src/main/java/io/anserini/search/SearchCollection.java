@@ -40,6 +40,7 @@ import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.CharArraySet;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;
+import org.apache.lucene.document.Document;
 import org.apache.lucene.document.LongPoint;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
@@ -62,10 +63,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.SortedMap;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_BODY;
@@ -155,9 +153,6 @@ public final class SearchCollection implements Closeable {
       LOG.info("Rerank with Axiomatic Reranking");
       cascade.add(new AxiomReranker(FIELD_BODY, args));
     }
-    if (args.topicReader.compareToIgnoreCase("NewsTrackBL") == 0) {
-      cascade.add(new NewsTrackBLReranker());
-    }
     cascade.add(new ScoreTiesAdjusterReranker());
   }
 
@@ -197,6 +192,8 @@ public final class SearchCollection implements Closeable {
       ScoredDocuments docs;
       if (args.searchtweets) {
         docs = searchTweets(searcher, qid, queryString, Long.parseLong(entry.getValue().get("time")));
+      } else if (args.searchnewsbackground) {
+        docs = searchNewsBackground(searcher, qid, queryString);
       } else{
         docs = search(searcher, qid, queryString);
       }
@@ -223,36 +220,10 @@ public final class SearchCollection implements Closeable {
   public<K> ScoredDocuments search(IndexSearcher searcher, K qid, String queryString)
       throws IOException, QueryNodeException {
     Query query = null;
-    String queryDocID = null;
-    if (args.topicReader.compareToIgnoreCase("NewsTrackBL") == 0) {// News Track Background Linking only gives docid, we will use the raw document as the query....
-      if (qc == QueryConstructor.SequentialDependenceModel) {
-        args.newsBL_weighted = false;
-      }
-      queryDocID = queryString;
-      queryString = NewsTrackBLTopicReader.generateQueryString(reader, queryDocID, args.newsBL_k, args.newsBL_weighted, qc, analyzer);
-      Query q = null;
-      if (qc == QueryConstructor.SequentialDependenceModel) {
-        q = new SdmQueryGenerator(args.sdm_tw, args.sdm_ow, args.sdm_uw).buildQuery(FIELD_BODY, analyzer, queryString);
-      } else {
-        // DO NOT use BagOfWordsQueryGenerator here!!!!
-        // Because the actual query strings are extracted from tokenized document!!!
-        q = new StandardQueryParser().parse(queryString, FIELD_BODY);
-      }
-      Query filter = new TermsQuery(
-          new Term(WapoGenerator.WapoField.KICKER.name, "Opinion"),
-          new Term(WapoGenerator.WapoField.KICKER.name, "Letters to the Editor"),
-          new Term(WapoGenerator.WapoField.KICKER.name, "The Post's View")
-      );
-      BooleanQuery.Builder builder = new BooleanQuery.Builder();
-      builder.add(filter, BooleanClause.Occur.MUST_NOT);
-      builder.add(q, BooleanClause.Occur.MUST);
-      query = builder.build();
+    if (qc == QueryConstructor.SequentialDependenceModel) {
+      query = new SdmQueryGenerator(args.sdm_tw, args.sdm_ow, args.sdm_uw).buildQuery(FIELD_BODY, analyzer, queryString);
     } else {
-      if (qc == QueryConstructor.SequentialDependenceModel) {
-        query = new SdmQueryGenerator(args.sdm_tw, args.sdm_ow, args.sdm_uw).buildQuery(FIELD_BODY, analyzer, queryString);
-      } else {
-        query = new BagOfWordsQueryGenerator().buildQuery(FIELD_BODY, analyzer, queryString);
-      }
+      query = new BagOfWordsQueryGenerator().buildQuery(FIELD_BODY, analyzer, queryString);
     }
 
     TopDocs rs = new TopDocs(0, new ScoreDoc[]{}, Float.NaN);
@@ -265,9 +236,113 @@ public final class SearchCollection implements Closeable {
     }
 
     List<String> queryTokens = AnalyzerUtils.tokenize(analyzer, queryString);
-    RerankerContext context = new RerankerContext<>(searcher, qid, query, queryDocID, queryString, queryTokens, null, args);
+    RerankerContext context = new RerankerContext<>(searcher, qid, query, null, queryString, queryTokens, null, args);
 
     return cascade.run(ScoredDocuments.fromTopDocs(rs, searcher), context);
+  }
+  
+  public<K> ScoredDocuments searchNewsBackground(IndexSearcher searcher, K qid, String queryString)
+      throws IOException, QueryNodeException {
+    Query query = null;
+    String queryDocID = null;
+    if (qc == QueryConstructor.SequentialDependenceModel) {
+      args.newsBL_weighted = false;
+    }
+    queryDocID = queryString;
+    List<String> queryList = NewsTrackBLTopicReader.generateQueryString(reader, queryDocID, args.newsBL_paragraph,
+        args.newsBL_k, args.newsBL_weighted, qc, analyzer);
+    List<ScoredDocuments> allRes = new ArrayList<>();
+    for (String queryStr : queryList) {
+      Query q = null;
+      if (qc == QueryConstructor.SequentialDependenceModel) {
+        q = new SdmQueryGenerator(args.sdm_tw, args.sdm_ow, args.sdm_uw).buildQuery(FIELD_BODY, analyzer, queryStr);
+      } else {
+        // DO NOT use BagOfWordsQueryGenerator here!!!!
+        // Because the actual query strings are extracted from tokenized document!!!
+        q = new StandardQueryParser().parse(queryStr, FIELD_BODY);
+      }
+      Query filter = new TermsQuery(
+          new Term(WapoGenerator.WapoField.KICKER.name, "Opinions"),
+          new Term(WapoGenerator.WapoField.KICKER.name, "Letters to the Editor"),
+          new Term(WapoGenerator.WapoField.KICKER.name, "The Post's View")
+      );
+      BooleanQuery.Builder builder = new BooleanQuery.Builder();
+      builder.add(filter, BooleanClause.Occur.MUST_NOT);
+      builder.add(q, BooleanClause.Occur.MUST);
+      query = builder.build();
+      
+      TopDocs rs = new TopDocs(0, new ScoreDoc[]{}, Float.NaN);
+      if (!(isRerank && args.rerankcutoff <= 0)) {
+        if (args.arbitraryScoreTieBreak) {// Figure out how to break the scoring ties.
+          rs = searcher.search(query, isRerank ? args.rerankcutoff : args.hits);
+        } else {
+          rs = searcher.search(query, isRerank ? args.rerankcutoff : args.hits, BREAK_SCORE_TIES_BY_DOCID, true, true);
+        }
+      }
+      
+      List<String> queryTokens = Arrays.asList(queryStr.split(" "));
+      RerankerContext context = new RerankerContext<>(searcher, qid, query, queryDocID, queryStr, queryTokens, null, args);
+  
+      allRes.add(cascade.run(ScoredDocuments.fromTopDocs(rs, searcher), context));
+    }
+    
+    // Finally do a round-robin picking
+    int totalSize = 0;
+    float[] scoresOfFirst = new float[allRes.size()];
+    for (int i = 0; i < allRes.size(); i++) {
+      totalSize += allRes.get(i).documents.length;
+      scoresOfFirst[i] = allRes.get(i).scores.length > 0 ? allRes.get(i).scores[0] : Float.NEGATIVE_INFINITY;
+    }
+    totalSize = Math.min(args.hits, totalSize);
+  
+    ScoredDocuments scoredDocs = new ScoredDocuments();
+    scoredDocs.documents = new Document[totalSize];
+    scoredDocs.ids = new int[totalSize];
+    scoredDocs.scores = new float[totalSize];
+  
+    class ArrayIndexComparator implements Comparator<Integer> {
+      private final float[] array;
+    
+      public ArrayIndexComparator(float[] array) {
+        this.array = array;
+      }
+      public Integer[] createIndexArray() {
+        Integer[] indexes = new Integer[array.length];
+        for (int i = 0; i < array.length; i++)
+        {
+          indexes[i] = i; // Autoboxing
+        }
+        return indexes;
+      }
+      @Override
+      public int compare(Integer index1, Integer index2) {
+        // Autounbox from Integer to int to use as array indexes
+        return Float.compare(array[index1], array[index2]);
+      }
+    }
+    
+    ArrayIndexComparator comparator = new ArrayIndexComparator(scoresOfFirst);
+    Integer[] indexes = comparator.createIndexArray();
+    Arrays.sort(indexes, comparator);
+    
+    int rowIdx = 0;
+    int idx = 0;
+    while(idx < totalSize) {
+      for(int i = 0; i < indexes.length; i++) {
+        if (rowIdx < allRes.get(indexes[i]).documents.length) {
+          scoredDocs.documents[idx] = allRes.get(indexes[i]).documents[rowIdx];
+          scoredDocs.ids[idx] = allRes.get(indexes[i]).ids[rowIdx];
+          scoredDocs.scores[idx] = args.hits-idx;
+          idx++;
+        }
+      }
+      rowIdx++;
+    }
+  
+    NewsTrackBLReranker postProcessor = new NewsTrackBLReranker();
+    RerankerContext context = new RerankerContext<>(searcher, qid, null, queryDocID, null, null, null, args);
+    scoredDocs = postProcessor.rerank(scoredDocs, context);
+    return scoredDocs;
   }
 
   public<K> ScoredDocuments searchTweets(IndexSearcher searcher, K qid, String queryString, long t) throws IOException {

@@ -110,6 +110,80 @@ public class NewsTrackBLTopicReader extends TopicReader<Integer> {
     return map;
   }
   
+  /**
+   * For TREC2018 News Track Background linking task, the query string is actually a document id.
+   * In order to make sense of the query we extract the top terms with higher tf-idf scores from the
+   * raw document of that docId from the index.
+   * @param reader Index reader
+   * @param docid the query docid
+   * @param k how many terms will be picked from the query document
+   * @param isWeighted whether to include terms' tf-idf score as their weights
+   * @param qc Query Constructor
+   * @param analyzer Analyzer
+   * @return Strings constructed query strings
+   * @throws IOException any io exception
+   * @throws QueryNodeException query construction errors
+   */
+  public static List<String> generateQueryString(IndexReader reader, String docid, boolean paragraph, int k,
+     boolean isWeighted, SearchCollection.QueryConstructor qc, Analyzer analyzer) throws IOException, QueryNodeException {
+    List<String> queryStrings = new ArrayList<>();
+    IndexableField rawDocStr = reader.document(convertDocidToLuceneDocid(reader, docid)).getField(FIELD_RAW);
+    if (rawDocStr == null) {
+      throw new RuntimeException("Raw documents not stored and Unfortunately SDM query for News Background Linking " +
+          "task needs to read the raw document to full construct the query string");
+    }
+    if (paragraph) {
+      queryStrings = getParagraphs(rawDocStr.stringValue());
+    } else {
+      queryStrings.add(getRawContents(rawDocStr.stringValue()));
+    }
+    for (int i = 0; i < queryStrings.size(); i++) {
+      List<String> queryTokens = AnalyzerUtils.tokenize(analyzer, queryStrings.get(i));
+      if (qc == SearchCollection.QueryConstructor.SequentialDependenceModel) {
+        String queryString = String.join(" ", queryTokens.subList(0, Math.min(queryTokens.size(), k)));
+        queryStrings.set(i, queryString);
+      } else {
+        class ScoreComparator implements Comparator<Pair<String, Double>> {
+          public int compare(Pair<String, Double> a, Pair<String, Double> b) {
+            int cmp = Double.compare(b.getRight(), a.getRight());
+            if (cmp == 0) {
+              return a.getLeft().compareToIgnoreCase(b.getLeft());
+            } else {
+              return cmp;
+            }
+          }
+        }
+    
+        PriorityQueue<Pair<String, Double>> termsTfIdfPQ = new PriorityQueue<>(new ScoreComparator());
+        long docCount = reader.numDocs();
+        Map<String, Integer> termsMap = new HashMap<>();
+        queryTokens.forEach(token -> {
+          if ((token.length() >= 2) && (token.matches("[a-z]+")))
+            termsMap.merge(token, 1, Math::addExact);
+          }
+        );
+        termsMap.forEach((term, count) -> {
+          try {
+            double tfIdf = count * Math.log((1.0f + docCount) / reader.docFreq(new Term(FIELD_BODY, term)));
+            termsTfIdfPQ.add(Pair.of(term, tfIdf));
+          } catch (IOException e) {
+            e.printStackTrace();
+          }
+        });
+        String constructedQueryStr = "";
+        for (int j = 0; j < Math.min(termsTfIdfPQ.size(), k); j++) {
+          Pair<String, Double> termScores = termsTfIdfPQ.poll();
+          constructedQueryStr += termScores.getKey() + (isWeighted ? String.format("^%f ", termScores.getValue()) : " ");
+        }
+        queryStrings.set(i, constructedQueryStr);
+      }
+      System.out.println(String.format("Query %d: %s", i, queryStrings.get(i)));
+    }
+    
+    return queryStrings;
+  }
+  
+  
   public static int convertDocidToLuceneDocid(IndexReader reader, String docid) throws IOException {
     IndexSearcher searcher = new IndexSearcher(reader);
     
@@ -124,7 +198,7 @@ public class NewsTrackBLTopicReader extends TopicReader<Integer> {
     return hits[0].doc;
   }
   
-  private static String parseRecord(String record) {
+  private static WashingtonPostCollection.Document.WashingtonPostObject getWapoObj(String record) {
     ObjectMapper mapper = new ObjectMapper();
     WashingtonPostCollection.Document.WashingtonPostObject wapoObj = null;
     try {
@@ -138,10 +212,15 @@ public class NewsTrackBLTopicReader extends TopicReader<Integer> {
       // here in case future data may bring up this issue
       throw new RuntimeException(e);
     }
+    return wapoObj;
+  }
   
+  private static String getRawContents(String record) {
+    WashingtonPostCollection.Document.WashingtonPostObject wapoObj = getWapoObj(record);
+    
     StringBuilder contentBuilder = new StringBuilder();
     contentBuilder.append(wapoObj.getTitle()).append("\n\n");
-  
+    
     wapoObj.getContents().ifPresent(contents -> {
       for (WashingtonPostCollection.Document.WashingtonPostObject.Content contentObj : contents) {
         if (contentObj == null) continue;
@@ -160,68 +239,28 @@ public class NewsTrackBLTopicReader extends TopicReader<Integer> {
         });
       }
     });
-  
+    
     return contentBuilder.toString();
   }
   
-  /**
-   * For TREC2018 News Track Background linking task, the query string is actually a document id.
-   * In order to make sense of the query we extract the top terms with higher tf-idf scores from the
-   * raw document of that docId from the index.
-   * @param reader Index reader
-   * @param docid the query docid
-   * @param k how many terms will be picked from the query document
-   * @param isWeighted whether to include terms' tf-idf score as their weights
-   * @return String constructed query string
-   * @throws IOException any io exception
-   * @throws QueryNodeException query construction errors
-   */
-  public static String generateQueryString(IndexReader reader, String docid, int k,
-                                           boolean isWeighted, SearchCollection.QueryConstructor qc, Analyzer analyzer)
-      throws IOException, QueryNodeException {
-    String queryString = "";
-    if (qc == SearchCollection.QueryConstructor.SequentialDependenceModel) {
-      IndexableField rawDocStr = reader.document(convertDocidToLuceneDocid(reader, docid)).getField(FIELD_RAW);
-      if (rawDocStr == null) {
-        throw new RuntimeException("Raw documents not stored and Unfortunately SDM query for News Background Linking " +
-            "task needs to read the raw document to full construct the query string");
-      }
-      List<String> queryTokens = AnalyzerUtils.tokenize(analyzer, parseRecord(rawDocStr.stringValue()));
-      queryString = String.join(" ", queryTokens.subList(0, k));
-    } else {
-      class ScoreComparator implements Comparator<Pair<String, Double>> {
-        public int compare(Pair<String, Double> a, Pair<String, Double> b) {
-          int cmp = Double.compare(b.getRight(), a.getRight());
-          if (cmp == 0) {
-            return a.getLeft().compareToIgnoreCase(b.getLeft());
-          } else {
-            return cmp;
-          }
+  private static List<String> getParagraphs(String record) {
+    List<String> paragraphs = new ArrayList<>();
+    WashingtonPostCollection.Document.WashingtonPostObject wapoObj = getWapoObj(record);
+    wapoObj.getContents().ifPresent(contents -> {
+      for (WashingtonPostCollection.Document.WashingtonPostObject.Content contentObj : contents) {
+        if (contentObj == null) continue;
+        if (contentObj.getType().isPresent() && contentObj.getContent().isPresent()) {
+          contentObj.getType().ifPresent(type -> {
+            contentObj.getContent().ifPresent(content -> {
+              if (WapoGenerator.CONTENT_TYPE_TAG.contains(type)) {
+                paragraphs.add(WapoGenerator.removeTags(content));
+              }
+            });
+          });
         }
       }
-  
-      PriorityQueue<Pair<String, Double>> termsTfIdfPQ = new PriorityQueue<>(new ScoreComparator());
-      long docCount = reader.numDocs();
-      Set<String> s = new HashSet<>();
-      s.add(FIELD_BODY);
-      //String t = reader.document(convertDocidToLuceneDocid(reader, docid), s);
-  
-      Terms terms = reader.getTermVector(convertDocidToLuceneDocid(reader, docid), FIELD_BODY);
-      TermsEnum it = terms.iterator();
-      while (it.next() != null) {
-        String term = it.term().utf8ToString();
-        if (term.length() < 2) continue;
-        if (!term.matches("[a-z]+")) continue;
-        long tf = it.totalTermFreq();
-        double tfIdf = tf * Math.log((1.0f + docCount) / reader.docFreq(new Term(FIELD_BODY, term)));
-        termsTfIdfPQ.add(Pair.of(term, tfIdf));
-      }
-      for (int i = 0; i < Math.min(termsTfIdfPQ.size(), k); i++) {
-        Pair<String, Double> termScores = termsTfIdfPQ.poll();
-        queryString += termScores.getKey() + (isWeighted ? String.format("^%f ", termScores.getValue()) : " ");
-      }
-    }
-    System.out.println("Query: " + queryString);
-    return queryString;
+    });
+    
+    return paragraphs;
   }
 }

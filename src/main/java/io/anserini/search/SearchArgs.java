@@ -41,6 +41,14 @@ public class SearchArgs {
       "index created by IndexCollection -collection TweetCollection")
   public Boolean searchtweets = false;
   
+  @Option(name = "-searchnewsbackground", usage = "Whether the search for News Track Background Linking Task " +
+      "index created by IndexCollection -collection WashingtonPostCollection")
+  public Boolean searchnewsbackground = false;
+  
+  @Option(name = "-newsBL.paragraph", usage = "construct one query string from each paragraph of the query document. " +
+      "The results will be a round-robin combination of the results from running these paragraph queries")
+  public boolean newsBL_paragraph = false;
+  
   @Option(name = "-newsBL.k", usage = "extract top k terms from the query document for TREC News Track Background " +
       "Linking task. The terms are ranked by their tf-idf score from the query document")
   public int newsBL_k = 10;
