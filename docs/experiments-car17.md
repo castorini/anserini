@@ -43,17 +43,17 @@ nohup target/appassembler/bin/SearchCollection -topicreader Car -index lucene-in
 Evaluation can be performed using `trec_eval`:
 
 ```
-eval/trec_eval.9.0/trec_eval -m map -m recip_rank src/main/resources/topics-and-qrels/qrels.car17.test200.hierarchical.txt -output run.car17.bm25.topics.car17.test200.txt
+eval/trec_eval.9.0/trec_eval -m map -m recip_rank src/main/resources/topics-and-qrels/qrels.car17.test200.hierarchical.txt run.car17.bm25.topics.car17.test200.txt
 
-eval/trec_eval.9.0/trec_eval -m map -m recip_rank src/main/resources/topics-and-qrels/qrels.car17.test200.hierarchical.txt -output run.car17.bm25+rm3.topics.car17.test200.txt
+eval/trec_eval.9.0/trec_eval -m map -m recip_rank src/main/resources/topics-and-qrels/qrels.car17.test200.hierarchical.txt run.car17.bm25+rm3.topics.car17.test200.txt
 
-eval/trec_eval.9.0/trec_eval -m map -m recip_rank src/main/resources/topics-and-qrels/qrels.car17.test200.hierarchical.txt -output run.car17.bm25+ax.topics.car17.test200.txt
+eval/trec_eval.9.0/trec_eval -m map -m recip_rank src/main/resources/topics-and-qrels/qrels.car17.test200.hierarchical.txt run.car17.bm25+ax.topics.car17.test200.txt
 
-eval/trec_eval.9.0/trec_eval -m map -m recip_rank src/main/resources/topics-and-qrels/qrels.car17.test200.hierarchical.txt -output run.car17.ql.topics.car17.test200.txt
+eval/trec_eval.9.0/trec_eval -m map -m recip_rank src/main/resources/topics-and-qrels/qrels.car17.test200.hierarchical.txt run.car17.ql.topics.car17.test200.txt
 
-eval/trec_eval.9.0/trec_eval -m map -m recip_rank src/main/resources/topics-and-qrels/qrels.car17.test200.hierarchical.txt -output run.car17.ql+rm3.topics.car17.test200.txt
+eval/trec_eval.9.0/trec_eval -m map -m recip_rank src/main/resources/topics-and-qrels/qrels.car17.test200.hierarchical.txt run.car17.ql+rm3.topics.car17.test200.txt
 
-eval/trec_eval.9.0/trec_eval -m map -m recip_rank src/main/resources/topics-and-qrels/qrels.car17.test200.hierarchical.txt -output run.car17.ql+ax.topics.car17.test200.txt
+eval/trec_eval.9.0/trec_eval -m map -m recip_rank src/main/resources/topics-and-qrels/qrels.car17.test200.hierarchical.txt run.car17.ql+ax.topics.car17.test200.txt
 
 ```
 
