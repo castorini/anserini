@@ -43,17 +43,17 @@ nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-i
 Evaluation can be performed using `trec_eval`:
 
 ```
-eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust2004.txt -output run.robust04.bm25.topics.robust04.301-450.601-700.txt
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust2004.txt run.robust04.bm25.topics.robust04.301-450.601-700.txt
 
-eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust2004.txt -output run.robust04.bm25+rm3.topics.robust04.301-450.601-700.txt
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust2004.txt run.robust04.bm25+rm3.topics.robust04.301-450.601-700.txt
 
-eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust2004.txt -output run.robust04.bm25+ax.topics.robust04.301-450.601-700.txt
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust2004.txt run.robust04.bm25+ax.topics.robust04.301-450.601-700.txt
 
-eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust2004.txt -output run.robust04.ql.topics.robust04.301-450.601-700.txt
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust2004.txt run.robust04.ql.topics.robust04.301-450.601-700.txt
 
-eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust2004.txt -output run.robust04.ql+rm3.topics.robust04.301-450.601-700.txt
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust2004.txt run.robust04.ql+rm3.topics.robust04.301-450.601-700.txt
 
-eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust2004.txt -output run.robust04.ql+ax.topics.robust04.301-450.601-700.txt
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust2004.txt run.robust04.ql+ax.topics.robust04.301-450.601-700.txt
 
 ```
 
