@@ -85,7 +85,7 @@ public class AxiomReranker<T> implements Reranker<T> {
   private final int R; // number of top documents in initial results
   private final int N; // factor that used in extracting random documents, we will extract (N-1)*R randomly select documents
   private final int K = 1000; // top similar terms
-  private final int M = 20; // number of expansion terms
+  private final int M; // number of expansion terms
   private final float beta; // scaling parameter
   private final boolean outputQuery;
 
@@ -95,6 +95,7 @@ public class AxiomReranker<T> implements Reranker<T> {
     this.seed = args.axiom_seed;
     this.R = args.axiom_r;
     this.N = args.axiom_n;
+    this.M = args.axiom_top;
     this.beta = args.axiom_beta;
     this.externalIndexPath = args.axiom_index;
     this.outputQuery = args.axiom_outputQuery;
@@ -463,7 +464,7 @@ public class AxiomReranker<T> implements Reranker<T> {
 
     Map<String, Double> aggTermScores = new HashMap<>();
     for (PriorityQueue<Pair<String, Double>> termScores : allTermScoresPQ) {
-      for (int i = 0; i < Math.min(termScores.size(), this.K); i++) {
+      for (int i = 0; i < Math.min(termScores.size(), Math.max(this.M, this.K)); i++) {
         Pair<String, Double> termScore = termScores.poll();
         String term = termScore.getLeft();
         Double score = termScore.getRight();
