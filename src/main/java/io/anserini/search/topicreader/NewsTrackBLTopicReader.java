@@ -134,6 +134,7 @@ public class NewsTrackBLTopicReader extends TopicReader<Integer> {
     }
     if (paragraph) {
       queryStrings = getParagraphs(rawDocStr.stringValue());
+      queryStrings = queryStrings.subList(0, Math.min(5, queryStrings.size()));
     } else {
       queryStrings.add(getRawContents(rawDocStr.stringValue()));
     }
@@ -263,7 +264,12 @@ public class NewsTrackBLTopicReader extends TopicReader<Integer> {
         }
       }
     });
-    
+    paragraphs.sort(new Comparator<String>() {
+      @Override
+      public int compare(String o1, String o2) {
+        return o2.length() - o1.length();
+      }
+    });
     return paragraphs;
   }
 }

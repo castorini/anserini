@@ -300,38 +300,13 @@ public final class SearchCollection implements Closeable {
     scoredDocs.ids = new int[totalSize];
     scoredDocs.scores = new float[totalSize];
   
-    class ArrayIndexComparator implements Comparator<Integer> {
-      private final float[] array;
-    
-      public ArrayIndexComparator(float[] array) {
-        this.array = array;
-      }
-      public Integer[] createIndexArray() {
-        Integer[] indexes = new Integer[array.length];
-        for (int i = 0; i < array.length; i++)
-        {
-          indexes[i] = i; // Autoboxing
-        }
-        return indexes;
-      }
-      @Override
-      public int compare(Integer index1, Integer index2) {
-        // Autounbox from Integer to int to use as array indexes
-        return Float.compare(array[index1], array[index2]);
-      }
-    }
-    
-    ArrayIndexComparator comparator = new ArrayIndexComparator(scoresOfFirst);
-    Integer[] indexes = comparator.createIndexArray();
-    Arrays.sort(indexes, comparator);
-    
     int rowIdx = 0;
     int idx = 0;
     while(idx < totalSize) {
-      for(int i = 0; i < indexes.length; i++) {
-        if (rowIdx < allRes.get(indexes[i]).documents.length) {
-          scoredDocs.documents[idx] = allRes.get(indexes[i]).documents[rowIdx];
-          scoredDocs.ids[idx] = allRes.get(indexes[i]).ids[rowIdx];
+      for(int i = 0; i < allRes.size(); i++) {
+        if (rowIdx < allRes.get(i).documents.length) {
+          scoredDocs.documents[idx] = allRes.get(i).documents[rowIdx];
+          scoredDocs.ids[idx] = allRes.get(i).ids[rowIdx];
           scoredDocs.scores[idx] = args.hits-idx;
           idx++;
         }
