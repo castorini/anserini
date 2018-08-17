@@ -21,8 +21,6 @@ index_options:
   - -tweet.stemming
 index_stats:
   documents: 203145916
-  documents (non-empty): 203143269
-  total terms: 2099082414
 topic_reader: Microblog
 topics:
   - name: "[TREC 2013 Microblog Track](http://trec.nist.gov/data/microblog2013.html)"
