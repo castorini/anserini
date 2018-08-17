@@ -50,8 +50,8 @@ import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_RAW;
 /*
 Topic reader for TREC2018 news track background linking task
  */
-public class NewsTrackBLTopicReader extends TopicReader<Integer> {
-  public NewsTrackBLTopicReader(Path topicFile) {
+public class NewsBackgroundLinkingTopicReader extends TopicReader<Integer> {
+  public NewsBackgroundLinkingTopicReader(Path topicFile) {
     super(topicFile);
   }
 

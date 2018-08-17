@@ -19,13 +19,18 @@ package io.anserini.rerank.lib;
 import io.anserini.rerank.Reranker;
 import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.ScoredDocuments;
-import io.anserini.search.topicreader.NewsTrackBLTopicReader;
+import io.anserini.search.topicreader.NewsBackgroundLinkingTopicReader;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.Terms;
 import org.apache.lucene.index.TermsEnum;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
 
 import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_BODY;
 import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_ID;
@@ -36,7 +41,7 @@ import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_ID;
 * Near-duplicate documents (similar/same with the query docid) will be removed by comparing
 * their cosine similarity with the query docid.
  */
-public class NewsTrackBLReranker implements Reranker {
+public class NewsBackgroundLinkingReranker implements Reranker {
   @Override
   public ScoredDocuments rerank(ScoredDocuments docs, RerankerContext context) {
     IndexReader reader = context.getIndexSearcher().getIndexReader();
@@ -86,7 +91,7 @@ public class NewsTrackBLReranker implements Reranker {
   private Map<String, Long> convertDocVectorToMap(IndexReader reader, String docid) {
     Map<String, Long> m = new HashMap<>();
     try {
-      Terms terms = reader.getTermVector(NewsTrackBLTopicReader.convertDocidToLuceneDocid(reader, docid), FIELD_BODY);
+      Terms terms = reader.getTermVector(NewsBackgroundLinkingTopicReader.convertDocidToLuceneDocid(reader, docid), FIELD_BODY);
       TermsEnum it = terms.iterator();
       while (it.next() != null) {
         String term = it.term().utf8ToString();

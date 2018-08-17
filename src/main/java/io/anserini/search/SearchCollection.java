@@ -24,10 +24,10 @@ import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.ScoredDocuments;
 
 import io.anserini.rerank.lib.AxiomReranker;
-import io.anserini.rerank.lib.NewsTrackBLReranker;
+import io.anserini.rerank.lib.NewsBackgroundLinkingReranker;
 import io.anserini.rerank.lib.Rm3Reranker;
 import io.anserini.rerank.lib.ScoreTiesAdjusterReranker;
-import io.anserini.search.topicreader.NewsTrackBLTopicReader;
+import io.anserini.search.topicreader.NewsBackgroundLinkingTopicReader;
 import io.anserini.search.similarity.F2ExpSimilarity;
 import io.anserini.search.query.BagOfWordsQueryGenerator;
 import io.anserini.search.query.SdmQueryGenerator;
@@ -193,7 +193,7 @@ public final class SearchCollection implements Closeable {
       if (args.searchtweets) {
         docs = searchTweets(searcher, qid, queryString, Long.parseLong(entry.getValue().get("time")));
       } else if (args.searchnewsbackground) {
-        docs = searchNewsBackground(searcher, qid, queryString);
+        docs = searchBackgroundLinking(searcher, qid, queryString);
       } else{
         docs = search(searcher, qid, queryString);
       }
@@ -241,16 +241,16 @@ public final class SearchCollection implements Closeable {
     return cascade.run(ScoredDocuments.fromTopDocs(rs, searcher), context);
   }
   
-  public<K> ScoredDocuments searchNewsBackground(IndexSearcher searcher, K qid, String queryString)
+  public<K> ScoredDocuments searchBackgroundLinking(IndexSearcher searcher, K qid, String queryString)
       throws IOException, QueryNodeException {
     Query query = null;
     String queryDocID = null;
     if (qc == QueryConstructor.SequentialDependenceModel) {
-      args.newsBL_weighted = false;
+      args.backgroundlinking_weighted = false;
     }
     queryDocID = queryString;
-    List<String> queryList = NewsTrackBLTopicReader.generateQueryString(reader, queryDocID, args.newsBL_paragraph,
-        args.newsBL_k, args.newsBL_weighted, qc, analyzer);
+    List<String> queryList = NewsBackgroundLinkingTopicReader.generateQueryString(reader, queryDocID,
+        args.backgroundlinking_paragraph, args.backgroundlinking_k, args.backgroundlinking_weighted, qc, analyzer);
     List<ScoredDocuments> allRes = new ArrayList<>();
     for (String queryStr : queryList) {
       Query q = null;
@@ -314,7 +314,7 @@ public final class SearchCollection implements Closeable {
       rowIdx++;
     }
   
-    NewsTrackBLReranker postProcessor = new NewsTrackBLReranker();
+    NewsBackgroundLinkingReranker postProcessor = new NewsBackgroundLinkingReranker();
     RerankerContext context = new RerankerContext<>(searcher, qid, null, queryDocID, null, null, null, args);
     scoredDocs = postProcessor.rerank(scoredDocs, context);
     return scoredDocs;

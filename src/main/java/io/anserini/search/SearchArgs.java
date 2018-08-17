@@ -45,17 +45,17 @@ public class SearchArgs {
       "index created by IndexCollection -collection WashingtonPostCollection")
   public Boolean searchnewsbackground = false;
   
-  @Option(name = "-newsBL.paragraph", usage = "construct one query string from each paragraph of the query document. " +
+  @Option(name = "-backgroundlinking.paragraph", usage = "construct one query string from each paragraph of the query document. " +
       "The results will be a round-robin combination of the results from running these paragraph queries")
-  public boolean newsBL_paragraph = false;
+  public boolean backgroundlinking_paragraph = false;
   
-  @Option(name = "-newsBL.k", usage = "extract top k terms from the query document for TREC News Track Background " +
+  @Option(name = "-backgroundlinking.k", usage = "extract top k terms from the query document for TREC News Track Background " +
       "Linking task. The terms are ranked by their tf-idf score from the query document")
-  public int newsBL_k = 10;
+  public int backgroundlinking_k = 10;
   
-  @Option(name = "-newsBL.weighted", usage = "Boolean switch to construct boosted query for TREC News Track Background " +
+  @Option(name = "-backgroundlinking.weighted", usage = "Boolean switch to construct boosted query for TREC News Track Background " +
       "Linking task. The terms scores are their tf-idf score from the query document")
-  public boolean newsBL_weighted = false;
+  public boolean backgroundlinking_weighted = false;
 
   @Option(name = "-keepstopwords", usage = "Boolean switch to keep stopwords in the query topics")
   public boolean keepstop = false;
