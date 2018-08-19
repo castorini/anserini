@@ -56,7 +56,7 @@ public class SearchArgs {
   public int rerankcutoff = 50;
 
   @Option(name = "-runtag", metaVar = "[tag]", required = false, usage = "runtag")
-  public String runtag = "Anserini";
+  public String runtag = null;
 
   @Option(name = "-ql", usage = "use query likelihood scoring model")
   public boolean ql = false;
@@ -99,13 +99,25 @@ public class SearchArgs {
   public boolean f2exp = false;
   
   @Option(name = "-f2exp.s", metaVar = "[value]", required = false, usage = "F2Exp s parameter")
-  public float f2exp_s = 0.25f;
+  public float f2exp_s = 0.5f;
 
   @Option(name = "-f2log", usage = "use F2Log scoring model")
   public boolean f2log = false;
 
   @Option(name = "-f2log.s", metaVar = "[value]", required = false, usage = "F2Log s parameter")
-  public float f2log_s = 0.25f;
+  public float f2log_s = 0.5f;
+
+  @Option(name = "-sdm", usage = "boolean switch to use Sequential Dependence Model query")
+  public boolean sdm = false;
+
+  @Option(name = "-sdm.tw", metaVar = "[value]", usage = "SDM term weight")
+  public float sdm_tw = 0.85f;
+
+  @Option(name = "-sdm.ow", metaVar = "[value]", usage = "ordered window weight in sdm")
+  public float sdm_ow = 0.1f;
+
+  @Option(name = "-sdm.uw", metaVar = "[value]", usage = "unordered window weight in sdm")
+  public float sdm_uw = 0.05f;
 
   @Option(name = "-rm3", usage = "use RM3 query expansion model (implies using query likelihood)")
   public boolean rm3 = false;
@@ -146,6 +158,9 @@ public class SearchArgs {
 
   @Option(name = "-axiom.beta", usage = "parameter beta for Axiomatic query expansion model")
   public float axiom_beta = 0.4f;
+  
+  @Option(name = "-axiom.top", usage = "select top K terms from the expansion terms pool")
+  public int axiom_top = 20;
 
   @Option(name = "-axiom.index", usage = "path to the external index for generating the reranking doucments pool")
   public String axiom_index = null;

@@ -36,15 +36,4 @@ public class AnalyzerUtils {
 
     return list;
   }
-
-  static public Query buildBagOfWordsQuery(String field, Analyzer analyzer, String queryText) {
-    List<String> tokens = tokenize(analyzer, queryText);
-
-    BooleanQuery.Builder builder = new BooleanQuery.Builder();
-    for (String t : tokens) {
-      builder.add(new TermQuery(new Term(field, t)), BooleanClause.Occur.SHOULD);
-    }
-
-    return builder.build();
-  }
 }

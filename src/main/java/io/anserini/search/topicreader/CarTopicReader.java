@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.anserini.search.query;
+package io.anserini.search.topicreader;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -44,11 +44,18 @@ public class CarTopicReader extends TopicReader {
     while ((line = bRdr.readLine()) != null) {
       Map<String,String> fields = new HashMap<>();
       line = line.trim();
-      if (line.startsWith("enwiki:")) {
+      // topic file
+      if (line.indexOf('%') > -1 || line.indexOf('/') > -1) {
         String id = line;
         String title = null;
         try {
-          String title_url = line.substring(7);
+          String title_url;
+          if (line.startsWith("enwiki:")) {
+            title_url = line.substring(7);
+          }
+          else {
+            title_url = line;
+          }
           title_url = title_url.replaceAll("%(?![0-9a-fA-F]{2})", "%25");
           title_url = title_url.replaceAll("\\+", "%2B");
           title = java.net.URLDecoder.decode(title_url, "utf-8")
@@ -57,12 +64,13 @@ public class CarTopicReader extends TopicReader {
           map.put(id, fields);
         } catch (UnsupportedEncodingException e) {
           System.out.println(line);
-//          e.printStackTrace();
+          e.printStackTrace();
         } catch (IllegalArgumentException e) {
           System.out.println(line);
-//          e.printStackTrace();
+          e.printStackTrace();
         }
       }
+      // title file
       else if (line.length() != 0) {
         String title = line;
         String id = "enwiki:" + java.net.URLEncoder.encode(line, "utf-8")

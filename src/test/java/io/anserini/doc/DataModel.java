@@ -273,7 +273,7 @@ public class DataModel {
         builder.append(getSearch_command());
         builder.append(" ").append("-topicreader").append(" ").append(getTopic_reader());
         builder.append(" ").append("-index").append(" ").append("lucene-index."+collection+".pos+docvectors");
-        builder.append(" ").append("-topic").append(" ").append(Paths.get(getTopic_root(), topic.getPath()).toString());
+        builder.append(" ").append("-topics").append(" ").append(Paths.get(getTopic_root(), topic.getPath()).toString());
         builder.append(" ").append("-output").append(" ").append("run."+collection+"."+model.getName()+"."+topic.getPath());
         if (model.getParams() != null) {
           for (String option : model.getParams()) {
@@ -306,7 +306,7 @@ public class DataModel {
           }
           String evalCmdResidual = "";
           evalCmdResidual += " "+Paths.get(getQrels_root(), topic.getQrel());
-          evalCmdResidual += " -output run."+collection+"."+model.getName()+"."+topic.getPath();
+          evalCmdResidual += " run."+collection+"."+model.getName()+"."+topic.getPath();
           evalCmdResidual += "\n";
           if (eval.isCan_combine() || evalCmdOption.isEmpty()) {
             combinedEvalCmd.putIfAbsent(evalCmd, new HashMap<>());

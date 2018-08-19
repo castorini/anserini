@@ -25,10 +25,12 @@ import io.anserini.rerank.ScoredDocuments;
 import io.anserini.rerank.lib.AxiomReranker;
 import io.anserini.rerank.lib.Rm3Reranker;
 import io.anserini.rerank.lib.ScoreTiesAdjusterReranker;
-import io.anserini.search.query.TopicReader;
-import io.anserini.search.similarity.F2ExpSimilarity;
+import io.anserini.search.query.BagOfWordsQueryGenerator;
+import io.anserini.search.query.SdmQueryGenerator;
 import io.anserini.search.similarity.AxiomaticSimilarity;
+import io.anserini.search.similarity.F2ExpSimilarity;
 import io.anserini.search.similarity.F2LogSimilarity;
+import io.anserini.search.topicreader.TopicReader;
 import io.anserini.util.AnalyzerUtils;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.apache.logging.log4j.LogManager;
@@ -86,6 +88,13 @@ public final class SearchCollection implements Closeable {
   private final boolean isRerank;
   private final RerankerCascade cascade;
 
+  enum QueryConstructor {
+    BagOfTerms,
+    SequentialDependenceModel
+  }
+  
+  private final QueryConstructor qc;
+
   public SearchCollection(SearchArgs args) throws IOException {
     this.args = args;
     Path indexPath = Paths.get(args.index);
@@ -122,9 +131,18 @@ public final class SearchCollection implements Closeable {
 
     // Are we searching tweets?
     if (args.searchtweets) {
+      LOG.info("Search Tweets");
       analyzer = new TweetAnalyzer();
     } else {
       analyzer = args.keepstop ? new EnglishAnalyzer(CharArraySet.EMPTY_SET) : new EnglishAnalyzer();
+    }
+
+    if (args.sdm) {
+      LOG.info("Use Sequential Dependence Model query");
+      qc = QueryConstructor.SequentialDependenceModel;
+    } else {
+      LOG.info("Use Bag of Terms query");
+      qc = QueryConstructor.BagOfTerms;
     }
 
     isRerank = args.rm3 || args.axiom;
@@ -132,8 +150,10 @@ public final class SearchCollection implements Closeable {
     // Set up the ranking cascade.
     cascade = new RerankerCascade();
     if (args.rm3) {
+      LOG.info("Rerank with RM3");
       cascade.add(new Rm3Reranker(analyzer, FIELD_BODY, args));
     } else if (args.axiom) {
+      LOG.info("Rerank with Axiomatic Reranking");
       cascade.add(new AxiomReranker(FIELD_BODY, args));
     }
 
@@ -159,15 +179,14 @@ public final class SearchCollection implements Closeable {
     TopicReader<K> tr;
     SortedMap<K, Map<String, String>> topics;
     try {
-      tr = (TopicReader<K>) Class.forName("io.anserini.search.query." + args.topicReader + "TopicReader")
+      tr = (TopicReader<K>) Class.forName("io.anserini.search.topicreader." + args.topicReader + "TopicReader")
           .getConstructor(Path.class).newInstance(topicsFile);
       topics = tr.read();
     } catch (Exception e) {
       throw new IllegalArgumentException("Unable to load topic reader: " + args.topicReader);
     }
 
-    final String runTag = "Anserini_" + args.topicfield + "_" + (args.keepstop ? "KeepStopwords_" : "")
-        + FIELD_BODY + "_" + (args.searchtweets ? "SearchTweets_" : "") + similarity.toString();
+    final String runTag = args.runtag == null ? "Anserini" : args.runtag;
 
     PrintWriter out = new PrintWriter(Files.newBufferedWriter(Paths.get(args.output), StandardCharsets.US_ASCII));
 
@@ -192,8 +211,7 @@ public final class SearchCollection implements Closeable {
        */
       for (int i = 0; i < docs.documents.length; i++) {
         out.println(String.format(Locale.US, "%s Q0 %s %d %f %s", qid,
-            docs.documents[i].getField(FIELD_ID).stringValue(), (i + 1), docs.scores[i],
-            ((i == 0 || i == docs.documents.length-1) ? runTag : "See_Line1")));
+            docs.documents[i].getField(FIELD_ID).stringValue(), (i + 1), docs.scores[i], runTag));
       }
     }
     out.flush();
@@ -203,7 +221,12 @@ public final class SearchCollection implements Closeable {
   }
 
   public<K> ScoredDocuments search(IndexSearcher searcher, K qid, String queryString) throws IOException {
-    Query query = AnalyzerUtils.buildBagOfWordsQuery(FIELD_BODY, analyzer, queryString);
+    Query query;
+    if (qc == QueryConstructor.SequentialDependenceModel) {
+      query = new SdmQueryGenerator(args.sdm_tw, args.sdm_ow, args.sdm_uw).buildQuery(FIELD_BODY, analyzer, queryString);
+    } else {
+      query = new BagOfWordsQueryGenerator().buildQuery(FIELD_BODY, analyzer, queryString);
+    }
 
     TopDocs rs = new TopDocs(0, new ScoreDoc[]{}, Float.NaN);
     if (!(isRerank && args.rerankcutoff <= 0)) {
@@ -221,7 +244,12 @@ public final class SearchCollection implements Closeable {
   }
 
   public<K> ScoredDocuments searchTweets(IndexSearcher searcher, K qid, String queryString, long t) throws IOException {
-    Query keywordQuery = AnalyzerUtils.buildBagOfWordsQuery(FIELD_BODY, analyzer, queryString);
+    Query keywordQuery;
+    if (qc == QueryConstructor.SequentialDependenceModel) {
+      keywordQuery = new SdmQueryGenerator(args.sdm_tw, args.sdm_ow, args.sdm_uw).buildQuery(FIELD_BODY, analyzer, queryString);
+    } else {
+      keywordQuery = new BagOfWordsQueryGenerator().buildQuery(FIELD_BODY, analyzer, queryString);
+    }
     List<String> queryTokens = AnalyzerUtils.tokenize(analyzer, queryString);
 
     // Do not consider the tweets with tweet ids that are beyond the queryTweetTime

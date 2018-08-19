@@ -8,7 +8,7 @@ Typical indexing command:
 nohup sh target/appassembler/bin/IndexCollection -collection TrecCollection \
 -generator JsoupGenerator -threads 16 -input /path/to/disk12 -index \
 lucene-index.disk12.pos+docvectors -storePositions -storeDocvectors \
--storeRawDocs -optimize >& log.disk12.pos+docvectors+rawdocs &
+-storeRawDocs >& log.disk12.pos+docvectors+rawdocs &
 ```
 
 The directory `/path/to/disk12/` should be the root directory of the Disk12 collection, i.e., `ls /path/to/disk12/` should bring up subdirectories like `doe`, `wsj`.
@@ -29,58 +29,58 @@ Topics and qrels are stored in `src/main/resources/topics-and-qrels/`, downloade
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.51-100.txt -output run.disk12.bm25.topics.51-100.txt -bm25 &
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.101-150.txt -output run.disk12.bm25.topics.101-150.txt -bm25 &
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.151-200.txt -output run.disk12.bm25.topics.151-200.txt -bm25 &
+nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.51-100.txt -output run.disk12.bm25.topics.51-100.txt -bm25 &
+nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.101-150.txt -output run.disk12.bm25.topics.101-150.txt -bm25 &
+nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.151-200.txt -output run.disk12.bm25.topics.151-200.txt -bm25 &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.51-100.txt -output run.disk12.bm25+rm3.topics.51-100.txt -bm25 -rm3 &
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.101-150.txt -output run.disk12.bm25+rm3.topics.101-150.txt -bm25 -rm3 &
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.151-200.txt -output run.disk12.bm25+rm3.topics.151-200.txt -bm25 -rm3 &
+nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.51-100.txt -output run.disk12.bm25+rm3.topics.51-100.txt -bm25 -rm3 &
+nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.101-150.txt -output run.disk12.bm25+rm3.topics.101-150.txt -bm25 -rm3 &
+nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.151-200.txt -output run.disk12.bm25+rm3.topics.151-200.txt -bm25 -rm3 &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.51-100.txt -output run.disk12.bm25+ax.topics.51-100.txt -bm25 -axiom -rerankCutoff 20 -axiom.deterministic &
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.101-150.txt -output run.disk12.bm25+ax.topics.101-150.txt -bm25 -axiom -rerankCutoff 20 -axiom.deterministic &
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.151-200.txt -output run.disk12.bm25+ax.topics.151-200.txt -bm25 -axiom -rerankCutoff 20 -axiom.deterministic &
+nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.51-100.txt -output run.disk12.bm25+ax.topics.51-100.txt -bm25 -axiom -rerankCutoff 20 -axiom.deterministic &
+nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.101-150.txt -output run.disk12.bm25+ax.topics.101-150.txt -bm25 -axiom -rerankCutoff 20 -axiom.deterministic &
+nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.151-200.txt -output run.disk12.bm25+ax.topics.151-200.txt -bm25 -axiom -rerankCutoff 20 -axiom.deterministic &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.51-100.txt -output run.disk12.ql.topics.51-100.txt -ql &
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.101-150.txt -output run.disk12.ql.topics.101-150.txt -ql &
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.151-200.txt -output run.disk12.ql.topics.151-200.txt -ql &
+nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.51-100.txt -output run.disk12.ql.topics.51-100.txt -ql &
+nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.101-150.txt -output run.disk12.ql.topics.101-150.txt -ql &
+nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.151-200.txt -output run.disk12.ql.topics.151-200.txt -ql &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.51-100.txt -output run.disk12.ql+rm3.topics.51-100.txt -ql -rm3 &
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.101-150.txt -output run.disk12.ql+rm3.topics.101-150.txt -ql -rm3 &
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.151-200.txt -output run.disk12.ql+rm3.topics.151-200.txt -ql -rm3 &
+nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.51-100.txt -output run.disk12.ql+rm3.topics.51-100.txt -ql -rm3 &
+nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.101-150.txt -output run.disk12.ql+rm3.topics.101-150.txt -ql -rm3 &
+nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.151-200.txt -output run.disk12.ql+rm3.topics.151-200.txt -ql -rm3 &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.51-100.txt -output run.disk12.ql+ax.topics.51-100.txt -ql -axiom -rerankCutoff 20 -axiom.deterministic &
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.101-150.txt -output run.disk12.ql+ax.topics.101-150.txt -ql -axiom -rerankCutoff 20 -axiom.deterministic &
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.151-200.txt -output run.disk12.ql+ax.topics.151-200.txt -ql -axiom -rerankCutoff 20 -axiom.deterministic &
+nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.51-100.txt -output run.disk12.ql+ax.topics.51-100.txt -ql -axiom -rerankCutoff 20 -axiom.deterministic &
+nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.101-150.txt -output run.disk12.ql+ax.topics.101-150.txt -ql -axiom -rerankCutoff 20 -axiom.deterministic &
+nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.151-200.txt -output run.disk12.ql+ax.topics.151-200.txt -ql -axiom -rerankCutoff 20 -axiom.deterministic &
 
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```
-eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.51-100.txt -output run.disk12.bm25.topics.51-100.txt
-eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.101-150.txt -output run.disk12.bm25.topics.101-150.txt
-eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.151-200.txt -output run.disk12.bm25.topics.151-200.txt
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.51-100.txt run.disk12.bm25.topics.51-100.txt
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.101-150.txt run.disk12.bm25.topics.101-150.txt
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.151-200.txt run.disk12.bm25.topics.151-200.txt
 
-eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.51-100.txt -output run.disk12.bm25+rm3.topics.51-100.txt
-eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.101-150.txt -output run.disk12.bm25+rm3.topics.101-150.txt
-eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.151-200.txt -output run.disk12.bm25+rm3.topics.151-200.txt
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.51-100.txt run.disk12.bm25+rm3.topics.51-100.txt
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.101-150.txt run.disk12.bm25+rm3.topics.101-150.txt
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.151-200.txt run.disk12.bm25+rm3.topics.151-200.txt
 
-eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.51-100.txt -output run.disk12.bm25+ax.topics.51-100.txt
-eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.101-150.txt -output run.disk12.bm25+ax.topics.101-150.txt
-eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.151-200.txt -output run.disk12.bm25+ax.topics.151-200.txt
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.51-100.txt run.disk12.bm25+ax.topics.51-100.txt
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.101-150.txt run.disk12.bm25+ax.topics.101-150.txt
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.151-200.txt run.disk12.bm25+ax.topics.151-200.txt
 
-eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.51-100.txt -output run.disk12.ql.topics.51-100.txt
-eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.101-150.txt -output run.disk12.ql.topics.101-150.txt
-eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.151-200.txt -output run.disk12.ql.topics.151-200.txt
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.51-100.txt run.disk12.ql.topics.51-100.txt
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.101-150.txt run.disk12.ql.topics.101-150.txt
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.151-200.txt run.disk12.ql.topics.151-200.txt
 
-eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.51-100.txt -output run.disk12.ql+rm3.topics.51-100.txt
-eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.101-150.txt -output run.disk12.ql+rm3.topics.101-150.txt
-eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.151-200.txt -output run.disk12.ql+rm3.topics.151-200.txt
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.51-100.txt run.disk12.ql+rm3.topics.51-100.txt
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.101-150.txt run.disk12.ql+rm3.topics.101-150.txt
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.151-200.txt run.disk12.ql+rm3.topics.151-200.txt
 
-eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.51-100.txt -output run.disk12.ql+ax.topics.51-100.txt
-eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.101-150.txt -output run.disk12.ql+ax.topics.101-150.txt
-eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.151-200.txt -output run.disk12.ql+ax.topics.151-200.txt
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.51-100.txt run.disk12.ql+ax.topics.51-100.txt
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.101-150.txt run.disk12.ql+ax.topics.101-150.txt
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.151-200.txt run.disk12.ql+ax.topics.151-200.txt
 
 ```
 

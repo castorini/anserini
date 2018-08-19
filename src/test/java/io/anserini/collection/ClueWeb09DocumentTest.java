@@ -20,7 +20,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.HashMap;
-import java.util.NoSuchElementException;
+import java.util.concurrent.atomic.AtomicInteger;
 
 
 public class ClueWeb09DocumentTest extends DocumentTest {
@@ -94,22 +94,23 @@ public class ClueWeb09DocumentTest extends DocumentTest {
     ClueWeb09Collection collection = new ClueWeb09Collection();
     for (int i = 0; i < rawDocs.size(); i++) {
       BaseFileSegment<ClueWeb09Collection.Document> iter = collection.createFileSegment(rawDocs.get(i));
-      while (true) {
-        boolean hasNext;
-        try {
-          hasNext = iter.hasNext();
-        } catch (NoSuchElementException e) {
-          break;
-        }
-
-        if (!hasNext) {
-          break;
-        }
-
+      while (iter.hasNext()) {
         ClueWeb09Collection.Document parsed = iter.next();
         assertEquals(parsed.id(), expected.get(i).get("id"));
         assertEquals(parsed.content(), expected.get(i).get("content"));
       }
     }
+  }
+
+  // Tests if the iterator is behaving properly. If it is, we shouldn't have any issues running into
+  // NoSuchElementExceptions.
+  @Test
+  public void testStreamIteration() {
+    ClueWeb09Collection collection = new ClueWeb09Collection();
+    BaseFileSegment<ClueWeb09Collection.Document> iter =
+            collection.createFileSegment(rawDocs.get(0) + rawDocs.get(1));
+    AtomicInteger cnt = new AtomicInteger();
+    iter.forEachRemaining(d -> cnt.incrementAndGet());
+    assertEquals(2, cnt.get());
   }
 }

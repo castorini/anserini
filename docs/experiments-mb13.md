@@ -13,8 +13,8 @@ Indexing the Tweets2013 collection:
 nohup sh target/appassembler/bin/IndexCollection -collection TweetCollection \
 -generator TweetGenerator -threads 44 -input /path/to/mb13 -index \
 lucene-index.mb13.pos+docvectors -storePositions -storeDocvectors -storeRawDocs \
--optimize -uniqueDocid -tweet.keepUrls -tweet.stemming >& \
-log.mb13.pos+docvectors+rawdocs &
+-uniqueDocid -tweet.keepUrls -tweet.stemming >& log.mb13.pos+docvectors+rawdocs \
+&
 ```
 __NB:__ The process is backgrounded
 
@@ -39,46 +39,46 @@ Topics and qrels are stored in `src/main/resources/topics-and-qrels/`, downloade
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-nohup target/appassembler/bin/SearchCollection -topicreader Microblog -index lucene-index.mb13.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.microblog2013.txt -output run.mb13.bm25.topics.microblog2013.txt -searchtweets -bm25 &
-nohup target/appassembler/bin/SearchCollection -topicreader Microblog -index lucene-index.mb13.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.microblog2014.txt -output run.mb13.bm25.topics.microblog2014.txt -searchtweets -bm25 &
+nohup target/appassembler/bin/SearchCollection -topicreader Microblog -index lucene-index.mb13.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.microblog2013.txt -output run.mb13.bm25.topics.microblog2013.txt -searchtweets -bm25 &
+nohup target/appassembler/bin/SearchCollection -topicreader Microblog -index lucene-index.mb13.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.microblog2014.txt -output run.mb13.bm25.topics.microblog2014.txt -searchtweets -bm25 &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Microblog -index lucene-index.mb13.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.microblog2013.txt -output run.mb13.bm25+rm3.topics.microblog2013.txt -searchtweets -bm25 -rm3 &
-nohup target/appassembler/bin/SearchCollection -topicreader Microblog -index lucene-index.mb13.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.microblog2014.txt -output run.mb13.bm25+rm3.topics.microblog2014.txt -searchtweets -bm25 -rm3 &
+nohup target/appassembler/bin/SearchCollection -topicreader Microblog -index lucene-index.mb13.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.microblog2013.txt -output run.mb13.bm25+rm3.topics.microblog2013.txt -searchtweets -bm25 -rm3 &
+nohup target/appassembler/bin/SearchCollection -topicreader Microblog -index lucene-index.mb13.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.microblog2014.txt -output run.mb13.bm25+rm3.topics.microblog2014.txt -searchtweets -bm25 -rm3 &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Microblog -index lucene-index.mb13.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.microblog2013.txt -output run.mb13.bm25+ax.topics.microblog2013.txt -searchtweets -bm25 -axiom -axiom.beta 1.0 -rerankCutoff 20 -axiom.deterministic &
-nohup target/appassembler/bin/SearchCollection -topicreader Microblog -index lucene-index.mb13.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.microblog2014.txt -output run.mb13.bm25+ax.topics.microblog2014.txt -searchtweets -bm25 -axiom -axiom.beta 1.0 -rerankCutoff 20 -axiom.deterministic &
+nohup target/appassembler/bin/SearchCollection -topicreader Microblog -index lucene-index.mb13.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.microblog2013.txt -output run.mb13.bm25+ax.topics.microblog2013.txt -searchtweets -bm25 -axiom -axiom.beta 1.0 -rerankCutoff 20 -axiom.deterministic &
+nohup target/appassembler/bin/SearchCollection -topicreader Microblog -index lucene-index.mb13.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.microblog2014.txt -output run.mb13.bm25+ax.topics.microblog2014.txt -searchtweets -bm25 -axiom -axiom.beta 1.0 -rerankCutoff 20 -axiom.deterministic &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Microblog -index lucene-index.mb13.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.microblog2013.txt -output run.mb13.ql.topics.microblog2013.txt -searchtweets -ql &
-nohup target/appassembler/bin/SearchCollection -topicreader Microblog -index lucene-index.mb13.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.microblog2014.txt -output run.mb13.ql.topics.microblog2014.txt -searchtweets -ql &
+nohup target/appassembler/bin/SearchCollection -topicreader Microblog -index lucene-index.mb13.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.microblog2013.txt -output run.mb13.ql.topics.microblog2013.txt -searchtweets -ql &
+nohup target/appassembler/bin/SearchCollection -topicreader Microblog -index lucene-index.mb13.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.microblog2014.txt -output run.mb13.ql.topics.microblog2014.txt -searchtweets -ql &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Microblog -index lucene-index.mb13.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.microblog2013.txt -output run.mb13.ql+rm3.topics.microblog2013.txt -searchtweets -ql -rm3 &
-nohup target/appassembler/bin/SearchCollection -topicreader Microblog -index lucene-index.mb13.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.microblog2014.txt -output run.mb13.ql+rm3.topics.microblog2014.txt -searchtweets -ql -rm3 &
+nohup target/appassembler/bin/SearchCollection -topicreader Microblog -index lucene-index.mb13.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.microblog2013.txt -output run.mb13.ql+rm3.topics.microblog2013.txt -searchtweets -ql -rm3 &
+nohup target/appassembler/bin/SearchCollection -topicreader Microblog -index lucene-index.mb13.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.microblog2014.txt -output run.mb13.ql+rm3.topics.microblog2014.txt -searchtweets -ql -rm3 &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Microblog -index lucene-index.mb13.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.microblog2013.txt -output run.mb13.ql+ax.topics.microblog2013.txt -searchtweets -ql -axiom -axiom.beta 1.0 -rerankCutoff 20 -axiom.deterministic &
-nohup target/appassembler/bin/SearchCollection -topicreader Microblog -index lucene-index.mb13.pos+docvectors -topic src/main/resources/topics-and-qrels/topics.microblog2014.txt -output run.mb13.ql+ax.topics.microblog2014.txt -searchtweets -ql -axiom -axiom.beta 1.0 -rerankCutoff 20 -axiom.deterministic &
+nohup target/appassembler/bin/SearchCollection -topicreader Microblog -index lucene-index.mb13.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.microblog2013.txt -output run.mb13.ql+ax.topics.microblog2013.txt -searchtweets -ql -axiom -axiom.beta 1.0 -rerankCutoff 20 -axiom.deterministic &
+nohup target/appassembler/bin/SearchCollection -topicreader Microblog -index lucene-index.mb13.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.microblog2014.txt -output run.mb13.ql+ax.topics.microblog2014.txt -searchtweets -ql -axiom -axiom.beta 1.0 -rerankCutoff 20 -axiom.deterministic &
 
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```
-eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.microblog2013.txt -output run.mb13.bm25.topics.microblog2013.txt
-eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.microblog2014.txt -output run.mb13.bm25.topics.microblog2014.txt
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.microblog2013.txt run.mb13.bm25.topics.microblog2013.txt
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.microblog2014.txt run.mb13.bm25.topics.microblog2014.txt
 
-eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.microblog2013.txt -output run.mb13.bm25+rm3.topics.microblog2013.txt
-eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.microblog2014.txt -output run.mb13.bm25+rm3.topics.microblog2014.txt
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.microblog2013.txt run.mb13.bm25+rm3.topics.microblog2013.txt
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.microblog2014.txt run.mb13.bm25+rm3.topics.microblog2014.txt
 
-eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.microblog2013.txt -output run.mb13.bm25+ax.topics.microblog2013.txt
-eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.microblog2014.txt -output run.mb13.bm25+ax.topics.microblog2014.txt
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.microblog2013.txt run.mb13.bm25+ax.topics.microblog2013.txt
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.microblog2014.txt run.mb13.bm25+ax.topics.microblog2014.txt
 
-eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.microblog2013.txt -output run.mb13.ql.topics.microblog2013.txt
-eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.microblog2014.txt -output run.mb13.ql.topics.microblog2014.txt
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.microblog2013.txt run.mb13.ql.topics.microblog2013.txt
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.microblog2014.txt run.mb13.ql.topics.microblog2014.txt
 
-eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.microblog2013.txt -output run.mb13.ql+rm3.topics.microblog2013.txt
-eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.microblog2014.txt -output run.mb13.ql+rm3.topics.microblog2014.txt
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.microblog2013.txt run.mb13.ql+rm3.topics.microblog2013.txt
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.microblog2014.txt run.mb13.ql+rm3.topics.microblog2014.txt
 
-eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.microblog2013.txt -output run.mb13.ql+ax.topics.microblog2013.txt
-eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.microblog2014.txt -output run.mb13.ql+ax.topics.microblog2014.txt
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.microblog2013.txt run.mb13.ql+ax.topics.microblog2013.txt
+eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.microblog2014.txt run.mb13.ql+ax.topics.microblog2014.txt
 
 ```
 

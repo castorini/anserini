@@ -96,6 +96,12 @@ public class NewYorkTimesCollection extends DocumentCollection
 
     @Override
     public boolean hasNext() {
+      if (nextRecordStatus == Status.ERROR) {
+        return false;
+      } else if (nextRecordStatus == Status.SKIPPED) {
+        return true;
+      }
+
       if (bufferedRecord != null) {
         return true;
       } else if (atEOF) {
@@ -113,15 +119,23 @@ public class NewYorkTimesCollection extends DocumentCollection
           bufferedRecord = parser.parseFile(bufferedReader, path.toFile());
           atEOF = true; // if it is a xml file, the segment only has one file, boolean to keep track if it's been read.
         }
-      } catch (IOException e) {
-        if (path.toString().endsWith(".xml")) {
-          return false;
+      } catch (IOException e1) {
+        if (!path.toString().endsWith(".xml")) {
+          nextRecordStatus = Status.ERROR;
         }
-        throw new RuntimeException("File IOException: ", e);
+        return false;
+      } catch (NoSuchElementException e2) {
+        return false;
+      } catch (RuntimeException e3) {
+        nextRecordStatus = Status.SKIPPED;
+        return true;
       }
 
       return bufferedRecord != null;
     }
+
+    @Override
+    public void readNext() {}
 
     private void getNextEntry() throws IOException {
       nextEntry = tarInput.getNextEntry();

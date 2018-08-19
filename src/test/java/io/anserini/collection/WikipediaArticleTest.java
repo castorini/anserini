@@ -26,12 +26,10 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.NoSuchElementException;
+import java.util.concurrent.atomic.AtomicInteger;
 
 
 public class WikipediaArticleTest extends DocumentTest {
-  protected static Path tmpPath;
-
   @Before
   public void setUp() throws Exception {
     super.setUp();
@@ -73,7 +71,7 @@ public class WikipediaArticleTest extends DocumentTest {
         "  </page>\n" +
         "</mediawiki>";
 
-    tmpPath = createTmpFile(doc);
+    rawFiles.add(createTmpFile(doc));
   }
 
   private Path createTmpFile(String doc) {
@@ -97,22 +95,26 @@ public class WikipediaArticleTest extends DocumentTest {
   @Test
   public void test() throws IOException {
     WikipediaCollection collection = new WikipediaCollection();
-    BaseFileSegment<WikipediaCollection.Document> iter = collection.createFileSegment(tmpPath);
-    while (true) {
-      boolean hasNext;
-      try {
-        hasNext = iter.hasNext();
-      } catch (NoSuchElementException e) {
-        break;
-      }
-
-      if (!hasNext) {
-        break;
-      }
-
+    BaseFileSegment<WikipediaCollection.Document> iter = collection.createFileSegment(rawFiles.get(0));
+    while (iter.hasNext()) {
       WikipediaCollection.Document parsed = iter.next();
       assertEquals(parsed.id(), "Wiktionary:Welcome, newcomers");
       assertEquals(parsed.content(), "Wiktionary:Welcome, newcomers.\nthis is the   real content");
+    }
+  }
+
+  // Tests if the iterator is behaving properly. If it is, we shouldn't have any issues running into
+  // NoSuchElementExceptions.
+  @Test
+  public void testStreamIteration() {
+    WikipediaCollection collection = new WikipediaCollection();
+    try {
+      BaseFileSegment<WikipediaCollection.Document> iter = collection.createFileSegment(rawFiles.get(0));
+      AtomicInteger cnt = new AtomicInteger();
+      iter.forEachRemaining(d -> cnt.incrementAndGet());
+      assertEquals(1, cnt.get());
+    } catch (IOException e) {
+      throw new RuntimeException(e);
     }
   }
 }
