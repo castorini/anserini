@@ -21,6 +21,7 @@ import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
 import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.lucene.document.Field;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -30,6 +31,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 /**
@@ -157,5 +159,8 @@ public class HtmlCollection extends DocumentCollection
     public boolean indexable() {
       return true;
     }
+  
+    @Override
+    public List<Field> getAdditionalFields(List<String> fieldNames) { return null; }
   }
 }

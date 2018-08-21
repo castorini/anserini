@@ -21,6 +21,7 @@ import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
 import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.lucene.document.Field;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -44,13 +45,7 @@ import java.nio.file.Path;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Set;
+import java.util.*;
 
 /**
  * An instance of the <a href="https://catalog.ldc.upenn.edu/products/LDC2008T19">New York Times
@@ -178,6 +173,9 @@ public class NewYorkTimesCollection extends DocumentCollection
     public boolean indexable() {
       return true;
     }
+  
+    @Override
+    public List<Field> getAdditionalFields(List<String> fieldNames) { return null; }
 
     public RawDocument getRawDocument() {
       return raw;

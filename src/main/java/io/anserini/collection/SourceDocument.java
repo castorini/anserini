@@ -16,6 +16,11 @@
 
 package io.anserini.collection;
 
+import org.apache.lucene.document.Field;
+
+import java.util.List;
+import java.util.Map;
+
 /**
  * A raw document from a collection. A source document is explicitly distinguish a from a Lucene
  * {@link org.apache.lucene.document.Document}, which is the Lucene representation that can be
@@ -43,4 +48,11 @@ public interface SourceDocument {
    * @return <code>true</code> if this document is meant to be indexed
    */
   boolean indexable();
+  
+  /**
+   * Returns the additional Lucene Fields from the document.
+   * It is up to the concrete collection to choose and implement this method.
+   * For example, for Web collection, we may index the Url of the web page as well.
+   */
+  List<Field> getAdditionalFields(List<String> fieldNames);
 }

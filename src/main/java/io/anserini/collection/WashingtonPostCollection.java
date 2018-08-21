@@ -26,6 +26,7 @@ import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import io.anserini.util.JsonParser;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.lucene.document.Field;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -128,6 +129,9 @@ public class WashingtonPostCollection extends DocumentCollection
     public boolean indexable() {
       return true;
     }
+  
+    @Override
+    public List<Field> getAdditionalFields(List<String> fieldNames) { return null; }
   
     public Optional<String> getArticleUrl() {
       return articleUrl;

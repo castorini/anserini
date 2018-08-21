@@ -27,6 +27,7 @@ import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import io.anserini.util.JsonParser;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.lucene.document.Field;
 
 import javax.json.JsonException;
 import java.io.BufferedReader;
@@ -255,6 +256,9 @@ public class TweetCollection extends DocumentCollection
     public boolean indexable() {
       return true;
     }
+  
+    @Override
+    public List<Field> getAdditionalFields(List<String> fieldNames) { return null; }
 
     public long getIdLong() {
       return idLong;

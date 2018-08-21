@@ -54,7 +54,11 @@ package io.anserini.collection;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.lucene.document.Field;
+import org.apache.lucene.document.StringField;
+import org.apache.lucene.document.TextField;
 import org.apache.tools.ant.filters.StringInputStream;
+import org.jsoup.Jsoup;
 
 import java.io.DataInput;
 import java.io.DataInputStream;
@@ -356,6 +360,11 @@ public class ClueWeb09Collection extends DocumentCollection
   public static class Document implements SourceDocument {
     public static final String WARC_VERSION = "WARC/0.18";
     protected final static String NEWLINE = "\n";
+  
+    public final String FIELD_URL = "url";
+    public final String FIELD_TITLE = "title";
+    public final String FIELD_ANCHORTEXT = "anchor_text";
+    public final String FIELD_HTMLBODY = "html_body";
 
     private Document.WarcHeader warcHeader = new Document.WarcHeader();
     private byte[] warcContent = null;
@@ -392,7 +401,53 @@ public class ClueWeb09Collection extends DocumentCollection
     public boolean indexable() {
       return "response".equals(getHeaderRecordType());
     }
-
+  
+    @Override
+    public List<Field> getAdditionalFields(List<String> fieldNames) {
+      List<Field> res = new ArrayList<>();
+      for (String fieldName : fieldNames) {
+        if (fieldName.compareToIgnoreCase(FIELD_URL) == 0) {
+          res.add(new StringField(FIELD_URL, getUrl(), Field.Store.YES));
+        }
+        if (fieldName.compareToIgnoreCase(FIELD_TITLE) == 0) {
+          res.add(new TextField(FIELD_TITLE, getTitle(), Field.Store.YES));
+        }
+        if (fieldName.compareToIgnoreCase(FIELD_ANCHORTEXT) == 0) {
+          res.add(new TextField(FIELD_ANCHORTEXT, getAnchorText(), Field.Store.YES));
+        }
+        if (fieldName.compareToIgnoreCase(FIELD_HTMLBODY) == 0) {
+          res.add(new TextField(FIELD_HTMLBODY, getHtmlBody(), Field.Store.NO));
+        }
+      }
+      return res;
+    }
+    
+    public String getAnchorText() {
+      org.jsoup.nodes.Document doc = Jsoup.parse(content());
+      org.jsoup.select.Elements links = doc.select("a");
+      String anchorTexts = "";
+      for(org.jsoup.nodes.Element link : links) {
+        anchorTexts += " "+link.text();
+      }
+      return anchorTexts;
+    }
+  
+    public String getTitle() {
+      org.jsoup.nodes.Document doc = Jsoup.parse(content());
+      org.jsoup.nodes.Element titleEle = doc.select("title").first();
+      return titleEle == null ? "" : titleEle.text();
+    }
+  
+    public String getUrl() {
+      return getURL();
+    }
+  
+    public String getHtmlBody() {
+      org.jsoup.nodes.Document doc = Jsoup.parse(content());
+      org.jsoup.nodes.Element bodyEle = doc.select("body").first();
+      return bodyEle == null ? "" : bodyEle.text();
+    }
+    
     /**
      * Returns the total record length (header and content).
      *

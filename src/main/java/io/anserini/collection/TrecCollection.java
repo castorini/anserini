@@ -19,6 +19,7 @@ package io.anserini.collection;
 import org.apache.commons.compress.compressors.z.ZCompressorInputStream;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.lucene.document.Field;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -31,10 +32,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.zip.GZIPInputStream;
 
 /**
@@ -196,5 +194,8 @@ public class TrecCollection extends DocumentCollection
     public boolean indexable() {
       return true;
     }
+  
+    @Override
+    public List<Field> getAdditionalFields(List<String> fieldNames) { return null; }
   }
 }

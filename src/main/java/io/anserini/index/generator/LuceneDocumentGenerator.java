@@ -30,6 +30,9 @@ import org.apache.lucene.document.StringField;
 import org.apache.lucene.index.IndexOptions;
 import org.apache.lucene.util.BytesRef;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * Converts a {@link SourceDocument} into a Lucene {@link Document}, ready to be indexed.
  * Prior to the creation of the Lucene document, this class will apply an optional
@@ -76,6 +79,14 @@ public class LuceneDocumentGenerator<T extends SourceDocument> {
     config(args);
     setCounters(counters);
   }
+  
+  protected void addSelfDefinedFields(Document document, List<Field> additionalFields) {
+    if (additionalFields != null) {
+      for (Field field : additionalFields) {
+        document.add(field);
+      }
+    }
+  }
 
   /**
    * Constructor with config and counters
@@ -99,7 +110,7 @@ public class LuceneDocumentGenerator<T extends SourceDocument> {
     this.counters = counters;
   }
 
-  public Document createDocument(T src) {
+  public Document createDocument(T src, List<Field> additionalFields) {
     String id = src.id();
     String contents;
 
@@ -146,6 +157,8 @@ public class LuceneDocumentGenerator<T extends SourceDocument> {
     }
 
     document.add(new Field(FIELD_BODY, contents, fieldType));
+    
+    addSelfDefinedFields(document, additionalFields);
 
     return document;
   }

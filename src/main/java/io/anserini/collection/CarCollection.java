@@ -18,6 +18,7 @@ package io.anserini.collection;
 
 import edu.unh.cs.treccar_v2.Data;
 import edu.unh.cs.treccar_v2.read_data.DeserializeData;
+import org.apache.lucene.document.Field;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -95,5 +96,8 @@ public class CarCollection extends DocumentCollection
     public boolean indexable() {
       return true;
     }
+  
+    @Override
+    public List<Field> getAdditionalFields(List<String> fieldNames) { return null; }
   }
 }

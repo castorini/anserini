@@ -43,12 +43,14 @@ import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.OptionHandlerFilter;
 import org.kohsuke.args4j.ParserProperties;
 import org.kohsuke.args4j.Option;
+import org.kohsuke.args4j.spi.StringArrayOptionHandler;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -75,6 +77,13 @@ public final class IndexCollection {
 
     @Option(name = "-collection", required = true, usage = "collection class in io.anserini.collection")
     public String collectionClass;
+  
+    @Option(name = "-fields", handler = StringArrayOptionHandler.class, usage = "The additional indexing fields other "
+        +"than id and contents. It is up to the specific collection to implement the details. "
+        +"Valid options for ClueWeb09|12: url,title,html_body,anchor_text,spam_score,pagerank_scoreinlink_counts,outlink_counts.")
+    public String[] fields = new String[] {
+        "url", "title", "html_body", "anchor_text", "spam_score", "pagerank_score", "inlink_counts", "outlink_counts"
+    };
 
     @Option(name = "-generator", required = true, usage = "document generator in io.anserini.index.generator")
     public String generatorClass;
@@ -207,7 +216,7 @@ public final class IndexCollection {
           }
 
           @SuppressWarnings("unchecked") // Yes, we know what we're doing here.
-          Document doc = generator.createDocument(d);
+          Document doc = generator.createDocument(d, d.getAdditionalFields(Arrays.asList(args.fields)));
           if (doc == null) {
             counters.unindexed.incrementAndGet();
             continue;
@@ -254,6 +263,7 @@ public final class IndexCollection {
     LOG.info("DocumentCollection path: " + args.input);
     LOG.info("Index path: " + args.index);
     LOG.info("CollectionClass: " + args.collectionClass);
+    LOG.info("Additional Fields: " + String.join(" ", args.fields));
     LOG.info("Generator: " + args.generatorClass);
     LOG.info("Threads: " + args.threads);
     LOG.info("Keep stopwords? " + args.keepStopwords);

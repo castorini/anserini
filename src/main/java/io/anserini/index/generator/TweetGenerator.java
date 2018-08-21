@@ -41,6 +41,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Converts a {@link TweetCollection.Document} into a Lucene {@link Document}, ready to be indexed.
@@ -107,7 +108,7 @@ public class TweetGenerator extends LuceneDocumentGenerator<TweetCollection.Docu
   }
 
   @Override
-  public Document createDocument(TweetCollection.Document tweetDoc) {
+  public Document createDocument(TweetCollection.Document tweetDoc, List<Field> additionalFields) {
     String id = tweetDoc.id();
 
     if (tweetDoc.content().trim().isEmpty()) {

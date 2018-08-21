@@ -54,7 +54,10 @@ package io.anserini.collection;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.lucene.document.Field;
+import org.apache.lucene.document.TextField;
 import org.apache.tools.ant.filters.StringInputStream;
+import org.jsoup.Jsoup;
 
 import java.io.DataInput;
 import java.io.DataInputStream;
@@ -191,7 +194,6 @@ public class ClueWeb12Collection extends DocumentCollection
     public boolean indexable() {
       return "response".equals(getWARCType());
     }
-
     /**
      * WARC header class.
      */

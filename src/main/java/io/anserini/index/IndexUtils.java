@@ -77,6 +77,9 @@ public class IndexUtils {
 
     @Option(name = "-printTermInfo", metaVar = "term", usage = "prints term info (stemmed, total counts, doc counts, etc.)")
     String term;
+  
+    @Option(name = "-search", usage = "point search for a document")
+    String searchDocid;
 
     @Option(name = "-dumpDocVector", metaVar = "docid", usage = "prints the document vector of a document")
     String docvectorDocid;
@@ -165,6 +168,11 @@ public class IndexUtils {
       System.out.println("  " + fd + " (" + "indexOption: " + fi.getIndexOptions() +
           ", hasVectors: " + fi.hasVectors() + ")");
     }
+  }
+  
+  public void pointSearch(String extenalDocid) throws IOException, ParseException {
+    Document d = reader.document(convertDocidToLuceneDocid(extenalDocid));
+    System.out.println(d);
   }
 
   public void printTermCounts(String termStr) throws IOException, ParseException {
@@ -478,6 +486,10 @@ public class IndexUtils {
 
     if (args.stats) {
       util.printIndexStats();
+    }
+  
+    if (args.searchDocid != null) {
+      util.pointSearch(args.searchDocid);
     }
 
     if (args.term != null) {

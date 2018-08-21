@@ -28,6 +28,7 @@ import org.apache.lucene.util.BytesRef;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Converts a {@link WashingtonPostCollection.Document} into a Lucene {@link Document}, ready to be indexed.
@@ -67,7 +68,7 @@ public class WapoGenerator extends LuceneDocumentGenerator<WashingtonPostCollect
   }
 
   @Override
-  public Document createDocument(WashingtonPostCollection.Document wapoDoc) {
+  public Document createDocument(WashingtonPostCollection.Document wapoDoc, List<Field> additionalFields) {
     String id = wapoDoc.id();
 
     if (wapoDoc.content().trim().isEmpty()) {
