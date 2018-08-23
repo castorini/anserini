@@ -65,6 +65,9 @@ public class CarCollection extends DocumentCollection
       Data.Paragraph p;
       p = iter.next();
       bufferedRecord = new Document(p.getParaId(), p.getTextOnly());
+      if (!iter.hasNext()) {
+        atEOF = true;
+      }
     }
   }
 
