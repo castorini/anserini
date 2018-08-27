@@ -24,20 +24,17 @@ import org.apache.lucene.document.Document;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.Terms;
 import org.apache.lucene.index.TermsEnum;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.HashMap;
 import java.util.Map;
-
 import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_BODY;
 import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_ID;
 
-
 /*
-* TREC News track Background Linking task postprocessing.
+* TREC News Track Background Linking task postprocessing.
 * Near-duplicate documents (similar/same with the query docid) will be removed by comparing
 * their cosine similarity with the query docid.
  */
@@ -55,29 +52,29 @@ public class NewsBackgroundLinkingReranker implements Reranker {
     }
     
     // remove the duplicates: 1. the same doc with the query doc 2. duplicated docs in the results
-    Set<Integer> forbiddenDocIdsIndex = new HashSet<>();
+    Set<Integer> duplicates = new HashSet<>();
     for (int i = 0; i < docs.documents.length; i++) {
-      if (forbiddenDocIdsIndex.contains(i)) continue;
+      if (duplicates.contains(i)) continue;
       String docid = docs.documents[i].getField(FIELD_ID).stringValue();
       if (computeCosineSimilarity(queryTermsMap, docsVectorsMap.get(i)) >= 0.9) {
-        forbiddenDocIdsIndex.add(i);
+        duplicates.add(i);
         continue;
       }
       for (int j = i+1; j < docs.documents.length; j++) {
         if (computeCosineSimilarity(docsVectorsMap.get(i), docsVectorsMap.get(j)) >= 0.9) {
-          forbiddenDocIdsIndex.add(j);
+          duplicates.add(j);
         }
       }
     }
   
     ScoredDocuments scoredDocs = new ScoredDocuments();
-    int resSize = docs.documents.length - forbiddenDocIdsIndex.size();
+    int resSize = docs.documents.length - duplicates.size();
     scoredDocs.documents = new Document[resSize];
     scoredDocs.ids = new int[resSize];
     scoredDocs.scores = new float[resSize];
     int idx = 0;
     for (int i = 0; i < docs.documents.length; i++) {
-      if (!forbiddenDocIdsIndex.contains(i)) {
+      if (!duplicates.contains(i)) {
         scoredDocs.documents[idx] = docs.documents[i];
         scoredDocs.scores[idx] = docs.scores[i];
         scoredDocs.ids[idx] = docs.ids[i];
