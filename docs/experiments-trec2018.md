@@ -104,6 +104,22 @@ The above commands generate _ALL_ results we have put in the notebook paper. To 
 TBD
 ```
 
+### Task 3: Web Track 2014
+
+Steps to deterministically reproduce the results:
+
+#### Get code and data:
+```
+git clone https://github.com/castorini/Anserini.git && cd Anserini && mvn clean package appassembler:assemble
+```
+#### Build the indexes:
+  - index of ClueWeb12 Full with additional fields (url, title, anchor_text, html_body):
+      ```
+      nohup sh Anserini/target/appassembler/bin/IndexCollection -collection ClueWeb12Collection \
+      -generator JsoupGenerator -threads 44 -input /path/to/cw12 -index lucene-index.cw12.pos+docvectors+rawdocs \
+      -storePositions -storeDocvectors -storeRawDocs -fields url title anchor_text html_body \
+      >& log.cw12.pos+docvectors+rawdocs+fields &
+      ```
 
 ## Core Track
 
