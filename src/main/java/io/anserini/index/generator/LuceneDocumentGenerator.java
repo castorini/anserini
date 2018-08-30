@@ -119,12 +119,16 @@ public class LuceneDocumentGenerator<T extends SourceDocument> {
       contents = transform != null ? transform.apply(src.content()) : src.content();
     } catch (Exception e) {
       LOG.error("Error extracting document text, skipping document: " + id, e);
-      counters.errors.incrementAndGet();
+      if (counters != null) {
+        counters.errors.incrementAndGet();
+      }
       return null;
     }
 
     if (contents.trim().length() == 0) {
-      counters.empty.incrementAndGet();
+      if (counters != null) {
+        counters.empty.incrementAndGet();
+      }
       return null;
     }
 
@@ -136,26 +140,25 @@ public class LuceneDocumentGenerator<T extends SourceDocument> {
     // This is needed to break score ties by docid.
     document.add(new SortedDocValuesField(FIELD_ID, new BytesRef(id)));
 
-    if (args.storeRawDocs) {
-      document.add(new StoredField(FIELD_RAW, src.content()));
-    }
-
     FieldType fieldType = new FieldType();
-    fieldType.setStored(args.storeTransformedDocs);
-
-    // Are we storing document vectors?
-    if (args.storeDocvectors) {
-      fieldType.setStoreTermVectors(true);
-      fieldType.setStoreTermVectorPositions(true);
-    }
-
-    // Are we building a "positional" or "count" index?
-    if (args.storePositions) {
-      fieldType.setIndexOptions(IndexOptions.DOCS_AND_FREQS_AND_POSITIONS);
+    if (args != null) {
+      fieldType.setStored(args.storeTransformedDocs);
+      // Are we storing document vectors?
+      if (args.storeDocvectors) {
+        fieldType.setStoreTermVectors(true);
+        fieldType.setStoreTermVectorPositions(true);
+      }
+      // Are we building a "positional" or "count" index?
+      if (args.storePositions) {
+        fieldType.setIndexOptions(IndexOptions.DOCS_AND_FREQS_AND_POSITIONS);
+      }
+      if (args.storeRawDocs) {
+        document.add(new StoredField(FIELD_RAW, src.content()));
+      }
     } else {
       fieldType.setIndexOptions(IndexOptions.DOCS_AND_FREQS);
     }
-
+    
     document.add(new Field(FIELD_BODY, contents, fieldType));
     
     addSelfDefinedFields(document, additionalFields);

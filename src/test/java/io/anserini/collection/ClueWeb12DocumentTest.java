@@ -54,7 +54,7 @@ public class ClueWeb12DocumentTest extends DocumentTest {
         "WARC-TREC-ID: clueweb09-az0000-00-00000\n" +
         "Content-Type: application/http;msgtype=response\n" +
         "WARC-Identified-Payload-Type: \n" +
-        "Content-Length: 345\n" + // The Content-Length MUST match the length of the record!!!
+        "Content-Length: 448\n" + // The Content-Length MUST match the length of the record!!!
         "\n" +
         "HTTP/1.1 200 OK\n" +
         "Content-Type: text/html\n" +
@@ -66,10 +66,14 @@ public class ClueWeb12DocumentTest extends DocumentTest {
         "Connection: close\n" +
         "Last-Modified: Tue, 13 Jan 2009 18:05:10 GMT\n" +
         "Expires: Mon, 20 Dec 1998 01:00:00 GMT\n" +
-        "Content-Length: 49\n" +
+        "Content-Length: 149\n" +
         "\n" +
         "<html>\n" +
-        "whatever here will be included\n" +
+        "<head></head>\n" +
+        "<body>\n" +
+        "whatever here will be included <title>fox river</title>\n" +
+        "<a href=\"http://www.link.com\">anchor text 1</a>\n" +
+        "</body>\n" +
         "</html>\n");
 
     HashMap<String, String> doc1 = new HashMap<>();
@@ -84,7 +88,11 @@ public class ClueWeb12DocumentTest extends DocumentTest {
     HashMap<String, String> doc2 = new HashMap<>();
     doc2.put("id", "clueweb09-az0000-00-00000");
     doc2.put("content", "<html>\n" +
-        "whatever here will be included\n" +
+        "<head></head>\n" +
+        "<body>\n" +
+        "whatever here will be included <title>fox river</title>\n" +
+        "<a href=\"http://www.link.com\">anchor text 1</a>\n" +
+        "</body>\n" +
         "</html>");
     expected.add(doc2);
   }

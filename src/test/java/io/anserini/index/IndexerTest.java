@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.anserini.integration;
+package io.anserini.index;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;

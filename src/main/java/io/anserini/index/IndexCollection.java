@@ -81,9 +81,7 @@ public final class IndexCollection {
     @Option(name = "-fields", handler = StringArrayOptionHandler.class, usage = "The additional indexing fields other "
         +"than id and contents. It is up to the specific collection to implement the details. "
         +"Valid options for ClueWeb09|12: url,title,html_body,anchor_text,spam_score,pagerank_scoreinlink_counts,outlink_counts.")
-    public String[] fields = new String[] {
-        "url", "title", "html_body", "anchor_text", "spam_score", "pagerank_score", "inlink_counts", "outlink_counts"
-    };
+    public String[] fields = new String[]{};
 
     @Option(name = "-generator", required = true, usage = "document generator in io.anserini.index.generator")
     public String generatorClass;

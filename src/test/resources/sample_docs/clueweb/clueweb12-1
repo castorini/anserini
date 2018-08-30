@@ -1,0 +1,30 @@
+WARC/1.0
+WARC-Type: response
+WARC-Target-URI: http://clueweb09.test.com/
+WARC-Warcinfo-ID: 993d3969-9643-4934-b1c6-68d4dbe55b83
+WARC-Date: 2009-03-65T08:43:19-0800
+WARC-Record-ID: <urn:uuid:6f12f095-18a8-4415-8f04-ec2477be81d5>
+WARC-TREC-ID: clueweb09-az0000-00-00000
+Content-Type: application/http;msgtype=response
+WARC-Identified-Payload-Type:
+Content-Length: 458
+
+HTTP/1.1 200 OK
+Content-Type: text/html
+Date: Tue, 13 Jan 2009 18:05:10 GMT
+Pragma: no-cache
+Cache-Control: no-cache, must-revalidate
+X-Powered-By: PHP/4.4.8
+Server: WebServerX
+Connection: close
+Last-Modified: Tue, 13 Jan 2009 18:05:10 GMT
+Expires: Mon, 20 Dec 1998 01:00:00 GMT
+Content-Length: 159
+
+<html>
+<head></head>
+<body>
+whatever here will be included fox <title>fox fox river</title>
+<a href="http://www.link.com">anchor text fox</a>
+</body>
+</html>
