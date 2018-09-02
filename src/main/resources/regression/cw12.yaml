@@ -7,7 +7,9 @@ topic_root: src/main/resources/topics-and-qrels/
 qrels_root: src/main/resources/topics-and-qrels/
 index_root:
 ranking_root:
-input: /tuna1/collections/web/ClueWeb12/
+input:
+  - /tuna1/collections/web/ClueWeb12/
+  - /scratch2/collections/web/ClueWeb12/
 index_path: "/tuna1/indexes/lucene-index.cw12.pos+docvectors+rawdocs" # path to the existing index, used in regression test if `--index` option is absent
 collection: ClueWeb12Collection
 generator: JsoupGenerator

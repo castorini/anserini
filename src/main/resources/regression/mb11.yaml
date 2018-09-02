@@ -7,7 +7,9 @@ topic_root: src/main/resources/topics-and-qrels/
 qrels_root: src/main/resources/topics-and-qrels/
 index_root:
 ranking_root:
-input: /tuna1/collections/twitter/Tweets2011-corpus/json.gold/
+input:
+  - /tuna1/collections/twitter/Tweets2011-corpus/json.gold/
+  - /scratch2/collections/twitter/Tweets2011-corpus/json.gold/
 index_path: "/tuna1/indexes/lucene-index.mb11.pos+docvectors+rawdocs" # path to the existing index, used in regression test if `--index` option is absent
 collection: TweetCollection
 threads: 44

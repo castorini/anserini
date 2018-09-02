@@ -14,7 +14,9 @@ index_options:
   - -storeDocvectors
   - -storeRawDocs
 topic_reader: Trec
-input: /tuna1/collections/newswire/NYTcorpus/
+input:
+  - /tuna1/collections/newswire/NYTcorpus/
+  - /scratch2/collections/newswire/NYTcorpus/
 index_path: "/tuna1/indexes/lucene-index.core17.pos+docvectors+rawdocs" # path to the existing index, used in regression test if `--index` option is absent
 collection: NewYorkTimesCollection
 index_stats:

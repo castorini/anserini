@@ -32,7 +32,9 @@ evals:
     metric: p30
     metric_precision: 4
     can_combine: true
-input: /tuna1/collections/newswire/AQUAINT/
+input:
+  - /tuna1/collections/newswire/AQUAINT/
+  - /scratch2/collections/newswire/AQUAINT/
 index_path: "/tuna1/indexes/lucene-index.robust05.pos+docvectors+rawdocs" # path to the existing index, used in regression test if `--index` option is absent
 index_stats:
   documents: 1031455

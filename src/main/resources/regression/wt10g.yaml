@@ -32,7 +32,9 @@ evals:
     metric: p30
     metric_precision: 4
     can_combine: true
-input: /tuna1/collections/web/wt10g/
+input:
+  - /tuna1/collections/web/wt10g/
+  - /scratch2/collections/web/wt10g/
 index_path: "/tuna1/indexes/lucene-index.wt10g.pos+docvectors+rawdocs" # path to the existing index, used in regression test if `--index` option is absent
 index_stats:
   documents: 1688402
