@@ -7,7 +7,8 @@ index_root:
 ranking_root:
 topic_root: Anserini-data/CACM/
 qrels_root: Anserini-data/CACM/
-input:  Anserini-data/CACM/corpus/uncompressed
+input:
+  - Anserini-data/CACM/corpus/uncompressed
 index_path: "" # path to the existing index, used in regression test if `--index` option is absent
 index_stats:
   documents: 3204
