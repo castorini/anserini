@@ -61,7 +61,7 @@ def construct_indexing_command(yaml_data):
     logger.info('='*10+'Indexing'+'='*10)
     for input_root in yaml_data['input_roots']:
         if os.path.exists(os.path.join(input_root, yaml_data['input'])):
-            corpus_input_path = os.path.exists(os.path.join(input_root, yaml_data['input']))
+            corpus_input_path = os.path.join(input_root, yaml_data['input'])
             break
     if not corpus_input_path:
         raise RuntimeError("All corpus inputs are not existing, please check!")
