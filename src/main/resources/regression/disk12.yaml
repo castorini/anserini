@@ -32,9 +32,10 @@ evals:
     metric: p30
     metric_precision: 4
     can_combine: true
-input:
-  - /tuna1/collections/newswire/disk12/
-  - /scratch2/collections/newswire/disk12/
+input_roots:
+  - /tuna1/
+  - /scratch2/
+input: collections/newswire/disk12/
 index_path: "/tuna1/indexes/lucene-index.disk12.pos+docvectors+rawdocs" # path to the existing index, used in regression test if `--index` option is absent
 index_stats:
   documents: 741676

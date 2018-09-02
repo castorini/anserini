@@ -59,9 +59,9 @@ def construct_indexing_command(yaml_data):
       (:obj:`list` of :obj:`str`): The command as a list that can be run by calling subprocess.call(command)
     """
     logger.info('='*10+'Indexing'+'='*10)
-    for input in yaml_data['input']:
-        if os.path.exists(input):
-            corpus_input_path = input
+    for input_root in yaml_data['input_roots']:
+        if os.path.exists(os.path.join(input_root, yaml_data['input'])):
+            corpus_input_path = os.path.exists(os.path.join(input_root, yaml_data['input']))
             break
     if not corpus_input_path:
         raise RuntimeError("All corpus inputs are not existing, please check!")
