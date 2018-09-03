@@ -14,7 +14,10 @@ index_options:
   - -storeDocvectors
   - -storeRawDocs
 topic_reader: Car
-input: /tuna1/collections/car17/paragraphcorpus/
+input_roots:
+  - /tuna1/
+  - /scratch2/
+input: collections/car17/paragraphcorpus/
 index_path: "/tuna1/indexes/lucene-index.car17.pos+docvectors+rawdocs" # path to the existing index, used in regression test if `--index` option is absent
 collection: CarCollection
 index_stats:

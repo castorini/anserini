@@ -7,7 +7,10 @@ topic_root: src/main/resources/topics-and-qrels/
 qrels_root: src/main/resources/topics-and-qrels/
 index_root:
 ranking_root:
-input: /tuna1/collections/web/gov2/gov2-corpus/
+input_roots:
+  - /tuna1/
+  - /scratch2/
+input: collections/web/gov2/gov2-corpus/
 index_path: "/tuna1/indexes/lucene-index.gov2.pos+docvectors+rawdocs" # path to the existing index, used in regression test if `--index` option is absent
 collection: TrecwebCollection
 threads: 44

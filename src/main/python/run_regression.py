@@ -59,12 +59,18 @@ def construct_indexing_command(yaml_data):
       (:obj:`list` of :obj:`str`): The command as a list that can be run by calling subprocess.call(command)
     """
     logger.info('='*10+'Indexing'+'='*10)
+    for input_root in yaml_data['input_roots']:
+        if os.path.exists(os.path.join(input_root, yaml_data['input'])):
+            corpus_input_path = os.path.join(input_root, yaml_data['input'])
+            break
+    if not corpus_input_path:
+        raise RuntimeError("All corpus inputs are not existing, please check!")
     index_command = [
         os.path.join(yaml_data['root'], yaml_data['index_command']),
         '-collection', yaml_data['collection'],
         '-generator', yaml_data['generator'],
         '-threads', str(yaml_data['threads']),
-        '-input', yaml_data['input'],
+        '-input', corpus_input_path,
         '-index', 'lucene-index.{0}.pos+docvectors{1}'.format(yaml_data['name'], '+rawdocs' if '-storeRawDocs' in yaml_data['index_options'] else '')
     ]
     index_command.extend(yaml_data['index_options'])
