@@ -5,13 +5,12 @@ index_utils_command: target/appassembler/bin/IndexUtils
 search_command: target/appassembler/bin/SearchCollection
 topic_root: src/main/resources/topics-and-qrels/
 qrels_root: src/main/resources/topics-and-qrels/
-index_root:
 ranking_root:
 input_roots:
   - /tuna1/
   - /scratch2/
 input: collections/web/gov2/gov2-corpus/
-index_path: "/tuna1/indexes/lucene-index.gov2.pos+docvectors+rawdocs" # path to the existing index, used in regression test if `--index` option is absent
+index_path: indexes/lucene-index.gov2.pos+docvectors+rawdocs # path to the existing index, used in regression test if `--index` option is absent
 collection: TrecwebCollection
 threads: 44
 generator: JsoupGenerator

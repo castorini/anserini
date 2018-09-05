@@ -3,7 +3,6 @@ name: cacm
 index_command: target/appassembler/bin/IndexCollection
 index_utils_command: target/appassembler/bin/IndexUtils
 search_command: target/appassembler/bin/SearchCollection
-index_root:
 ranking_root:
 topic_root: Anserini-data/CACM/
 qrels_root: Anserini-data/CACM/

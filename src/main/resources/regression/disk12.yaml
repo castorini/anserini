@@ -5,7 +5,6 @@ index_utils_command: target/appassembler/bin/IndexUtils
 search_command: target/appassembler/bin/SearchCollection
 topic_root: src/main/resources/topics-and-qrels/
 qrels_root: src/main/resources/topics-and-qrels/
-index_root:
 ranking_root:
 collection: TrecCollection
 generator: JsoupGenerator
@@ -36,7 +35,7 @@ input_roots:
   - /tuna1/
   - /scratch2/
 input: collections/newswire/disk12/
-index_path: "/tuna1/indexes/lucene-index.disk12.pos+docvectors+rawdocs" # path to the existing index, used in regression test if `--index` option is absent
+index_path: indexes/lucene-index.disk12.pos+docvectors+rawdocs # path to the existing index, used in regression test if `--index` option is absent
 index_stats:
   documents: 741676
   documents (non-empty): 741675

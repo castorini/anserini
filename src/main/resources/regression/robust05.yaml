@@ -36,7 +36,7 @@ input_roots:
   - /tuna1/
   - /scratch2/
 input: collections/newswire/AQUAINT/
-index_path: "/tuna1/indexes/lucene-index.robust05.pos+docvectors+rawdocs" # path to the existing index, used in regression test if `--index` option is absent
+index_path: indexes/lucene-index.robust05.pos+docvectors+rawdocs # path to the existing index, used in regression test if `--index` option is absent
 index_stats:
   documents: 1031455
   documents (non-empty): 1031326
