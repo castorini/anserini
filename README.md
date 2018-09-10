@@ -90,6 +90,7 @@ hits[0].content
 ## Release History
 
 + v0.1.0: July 4, 2018 [[Release Notes](docs/release-notes/release-notes-v0.1.0.md)]
++ v0.2.0: September 10, 2018 [[Release Notes](docs/release-notes/release-notes-v0.2.0.md)]
 
 ## References
 
