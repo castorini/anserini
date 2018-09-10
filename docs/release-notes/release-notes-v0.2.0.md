@@ -8,7 +8,19 @@
 + Added regressions for TREC 2017 CAR (Complex Answer Retrieval) Track.
 + Added regressions for forthcoming JDIQ article.
 
-## Contributors
+## Contributors (This Release)
+
+Sorted by number of commits:
+
++ Peilin Yang ([Peilin-Yang](https://github.com/Peilin-Yang))
++ Jimmy Lin ([lintool](https://github.com/lintool))
++ Boris Lin ([borislin](https://github.com/borislin))
++ Yuhao Xie ([Kytabyte](https://github.com/Kytabyte)]
++ Victor Yang ([Victor0118](https://github.com/Victor0118))
+
+## All Contributors
+
+Sorted by number of commits:
 
 + Jimmy Lin ([lintool](https://github.com/lintool))
 + Peilin Yang ([Peilin-Yang](https://github.com/Peilin-Yang))
