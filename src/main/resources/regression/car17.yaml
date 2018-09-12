@@ -5,7 +5,6 @@ index_utils_command: target/appassembler/bin/IndexUtils
 search_command: target/appassembler/bin/SearchCollection
 topic_root: src/main/resources/topics-and-qrels/
 qrels_root: src/main/resources/topics-and-qrels/
-index_root:
 ranking_root:
 generator: LuceneDocumentGenerator
 threads: 40
@@ -14,8 +13,11 @@ index_options:
   - -storeDocvectors
   - -storeRawDocs
 topic_reader: Car
-input: /tuna1/collections/car17/paragraphcorpus/
-index_path: "/tuna1/indexes/lucene-index.car17.pos+docvectors+rawdocs" # path to the existing index, used in regression test if `--index` option is absent
+input_roots:
+  - /tuna1/
+  - /scratch2/
+input: collections/car17/paragraphcorpus/
+index_path: indexes/lucene-index.car17.pos+docvectors+rawdocs # path to the existing index, used in regression test if `--index` option is absent
 collection: CarCollection
 index_stats:
   documents: 29678360
