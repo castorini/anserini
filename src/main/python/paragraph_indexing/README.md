@@ -19,19 +19,23 @@ Segment each raw document into paragraph and dump out into seperate .json file n
 ]
 ```
 
-This is done by `paraseg/seg_${collection}.py`, where supported collections so far are `robust04` and `core17`
+This is done by calling `seg_${collection}.py`, where supported collections so far are `robust04` and `core17`
+
+
 
 ### Example:
 
 Run 
 
 ```
-python paraseg/seg_robust04.py \
+python seg_robust04.py \
  --input lucene-index.robust04.pos+docvectors+rawdocs.allDocids.txt.output.tar.gz \
  --output robust04.paragraphs/
 ```
 
-All documents will be segmented into paragraph and stored in folder `robust04.paragraphs/`
+All documents will be segmented into paragraph and stored in folder `./robust04.paragraphs/`
+
+
 
 ### Input file
 
@@ -78,12 +82,3 @@ sh target/appassembler/bin/IndexCollection -collection JsonCollection \
 ```
 
 to index each paragraph for Robust04 collection. `-input` should be the output folder of the paragraph segmentation
-
-
-
-## TL;DR
-
-1. Download `paraseg/` and `run.sh` under Anserini directory
-2. Run `bash run.sh robust04` on Robust04 collection or `bash run.sh core17` on NYT Collection.
-3. This script will segment document into paragraph, do paragraph indexing, and do searching on `BM25`, `BM25+RM3`, `QL`, `QL+RM3`
-
