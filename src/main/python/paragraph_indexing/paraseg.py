@@ -16,8 +16,8 @@ limitations under the License.
 
 class _ParaSegmenter(object):
   """ The base class for all Paragraph Segmentation class """
-  def __init__(self, bufferreader, start_pattern_list=None):
-    self._br = bufferreader
+  def __init__(self, bufferedreader, start_pattern_list=None):
+    self._br = bufferedreader
     self._isstart = False
     self._curline = None
     self._paralist = []
@@ -107,7 +107,7 @@ class FBISParaSegmenter(_ParaSegmenter):
   """ A Segmenter to segment documents in FBIS collection under Robust04.
 
   Args:
-    bufferreader (io.BufferedReader): the buffered reader of a document.
+    bufferedreader (io.BufferedReader): the buffered reader of a document.
   """
   def __init__(self, bufferedreader):
     start_pattern_list = [b'\n'] # start pattern by observation
@@ -151,14 +151,14 @@ class FR94ParaSegmenter(_ParaSegmenter):
   """ A Segmenter to segment documents in FR94 collection under Robust04.
 
   Args:
-    bufferreader (io.BufferedReader): the buffered reader of a document.
+    bufferedreader (io.BufferedReader): the buffered reader of a document.
   """
-  def __init__(self, bufferreader):
+  def __init__(self, bufferedreader):
     self._start_pattern_list = [
         b'<!-- PJG 0012 frnewline -->\n',
         b'<!-- PJG ITAG l=11 g=1 f=1 -->\n'
     ] # start pattern by observation
-    super(FR94ParaSegmenter, self).__init__(bufferreader, self._start_pattern_list)
+    super(FR94ParaSegmenter, self).__init__(bufferedreader, self._start_pattern_list)
 
   def _isend(self, line):
     if super(FR94ParaSegmenter, self)._isend(line):
@@ -184,11 +184,11 @@ class FTParaSegmenter(_ParaSegmenter):
   """ A Segmenter to segment documents in FT collection under Robust04.
 
   Args:
-    bufferreader (io.BufferedReader): the buffered reader of a document.
+    bufferedreader (io.BufferedReader): the buffered reader of a document.
   """
-  def __init__(self, bufferreader):
+  def __init__(self, bufferedreader):
     start_pattern_list = [b'<TEXT>\n'] # start pattern by observation
-    super(FTParaSegmenter, self).__init__(bufferreader, start_pattern_list)
+    super(FTParaSegmenter, self).__init__(bufferedreader, start_pattern_list)
     self._linelimit = 105 # An empirical number to decide if this is end of paragraph
 
   def _isend(self, line):
@@ -215,11 +215,11 @@ class LAParaSegmenter(_ParaSegmenter):
   """ A Segmenter to segment documents in LA collection under Robust04.
 
   Args:
-    bufferreader (io.BufferedReader): the buffered reader of a document.
+    bufferedreader (io.BufferedReader): the buffered reader of a document.
   """
-  def __init__(self, bufferreader):
+  def __init__(self, bufferedreader):
     self._start_pattern_list = [b'<P>\n']
-    super(LAParaSegmenter, self).__init__(bufferreader, self._start_pattern_list)
+    super(LAParaSegmenter, self).__init__(bufferedreader, self._start_pattern_list)
 
   def _isend(self, line):
     if super(LAParaSegmenter, self)._isend(line):
@@ -245,10 +245,10 @@ class NYTParaSegmenter(_ParaSegmenter):
   """ A Segmenter to segment documents in New York Times collection under Core17.
 
   Args:
-    bufferreader (io.BufferedReader): the buffered reader of a document.
+    bufferedreader (io.BufferedReader): the buffered reader of a document.
   """
-  def __init__(self, bufferreader):
-    super(NYTParaSegmenter, self).__init__(bufferreader)
+  def __init__(self, bufferedreader):
+    super(NYTParaSegmenter, self).__init__(bufferedreader)
 
   def hasnextpara(self):
     self._curline = self._br.readline()
