@@ -23,58 +23,56 @@ from .paraseg import NYTParaSegmenter
 from .utils import TgzReader, safe_mkdir, form_json
 
 if __name__ == '__main__':
-  logging.basicConfig(level=logging.DEBUG,
-                      format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S ')
+    logging.basicConfig(level=logging.DEBUG,
+                        format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S ')
 
-  parser = argparse.ArgumentParser()
-  parser.add_argument("--input", '-i', type=str,
-                      help='path to input tgz file', required=True)
-  parser.add_argument("--output", '-o', type=str,
-                      help='path to output folder', required=True)
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--input", '-i', type=str,
+                        help='path to input tgz file', required=True)
+    parser.add_argument("--output", '-o', type=str,
+                        help='path to output folder', required=True)
 
-  args = parser.parse_args()
-  input_path = args.input
-  output_path = args.output
+    args = parser.parse_args()
+    input_path = args.input
+    output_path = args.output
 
-  # preprocessing
-  safe_mkdir(output_path)
+    # preprocessing
+    safe_mkdir(output_path)
 
-  # start to segment
-  counter = 0
+    # start to segment
+    counter = 0
 
-  logging.info('start to segment files from %s', input_path)
-  reader = TgzReader(input_path)
-  while reader.hasnext():
-    counter += 1
-    if counter % 100000 == 0:
-      logging.info('%s files have been processed', counter)
+    logging.info('start to segment files from %s', input_path)
+    reader = TgzReader(input_path)
+    while reader.hasnext():
+        counter += 1
+        if counter % 100000 == 0:
+            logging.info('%s files have been processed', counter)
 
-    docname, content_buffer = reader.next()
-    segmenter = NYTParaSegmenter(content_buffer)
+        docname, content_buffer = reader.next()
+        segmenter = NYTParaSegmenter(content_buffer)
 
-    paraid = 0
-    parajsonarray = []
-    while segmenter.hasnextpara():
-      parastr = segmenter.nextpara()
-      if len(parastr) < 50: # drop paragraphs with length < 50
-        continue
+        paraid = 0
+        parajsonarray = []
+        while segmenter.hasnextpara():
+            parastr = segmenter.nextpara()
 
-      paraid += 1
-      if paraid >= 10000:
-        logging.info('document %s has more than 10000 paragraphs...', docname)
-        break
-      parajsonarray.append(form_json(docname, paraid, parastr))
+            paraid += 1
+            if paraid >= 10000:
+                logging.info('document %s has more than 10000 paragraphs...', docname)
+                break
+            parajsonarray.append(form_json(docname, paraid, parastr))
 
-    # This is an empty file
-    if paraid == 0:
-      paraid += 1
-      parastr = ''
-      parajsonarray.append(form_json(docname, paraid, parastr))
+        # This is an empty file
+        if paraid == 0:
+            paraid += 1
+            parastr = ''
+            parajsonarray.append(form_json(docname, paraid, parastr))
 
-    jsonstr = json.dumps(parajsonarray, separators=(',', ':'), indent=2)
+        jsonstr = json.dumps(parajsonarray, separators=(',', ':'), indent=2)
 
-    with open(os.path.join(output_path, '{}.json'.format(docname)), 'w') as f:
-      f.write(jsonstr)
+        with open(os.path.join(output_path, '{}.json'.format(docname)), 'w') as f:
+            f.write(jsonstr)
 
-  logging.info('%d files have been segmented into paragraphs stored in %s', counter, output_path)
-  reader.close()
+    logging.info('%d files have been segmented into paragraphs stored in %s', counter, output_path)
+    reader.close()
