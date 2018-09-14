@@ -51,7 +51,9 @@ nohup sh target/appassembler/bin/IndexCollection -collection TrecCollection \
  >& log.robust04.pos+docvectors+rawdocs &
 ```
 
-and then
+and then dump the raw documents by the following two steps:
+1. dump all docids of the collection
+2. feed the docids file to dump raw documents
 
 ```bash
 sh target/appassembler/bin/IndexUtils \

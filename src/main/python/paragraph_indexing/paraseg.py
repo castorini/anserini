@@ -63,7 +63,7 @@ class _ParaSegmenter(object):
         return False
 
     def hasnextpara(self):
-        """ Check if there is anthoer paragraph in this document
+        """ Check if there is a paragraph in this document
 
         If self._isstart == False after initialization, no useful information is contained in
         this document, then return False
