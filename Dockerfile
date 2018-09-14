@@ -13,7 +13,7 @@ USER solr
 WORKDIR /opt/solr/
 
 # Anserini JAR for TwitterAnalyzer.
-COPY --chown=solr .docker/lib/anserini.jar lib/
+COPY --chown=solr target/anserini-0.2.1-SNAPSHOT-fatjar.jar lib/
 
 # Copy the configsets.
 COPY --chown=solr .docker/configsets/. server/solr/configsets
