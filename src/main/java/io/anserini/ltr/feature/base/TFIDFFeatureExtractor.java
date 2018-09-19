@@ -56,7 +56,8 @@ public class TFIDFFeatureExtractor<T> implements FeatureExtractor<T> {
 
     // number of query tokens found
     // how many of our query tokens were found
-    float coord = similarity.coord(countMap.size(), context.getQueryTokens().size());
+    //float coord = similarity.coord(countMap.size(), context.getQueryTokens().size());
+    // coord removed in Lucene 7
 
     for (Object token : context.getQueryTokens()) {
       long termFreq = countMap.getOrDefault(token.toString(), 0L);
@@ -66,7 +67,7 @@ public class TFIDFFeatureExtractor<T> implements FeatureExtractor<T> {
       score += tf * idf*idf;
     }
 
-    score *= coord;
+    //score *= coord;
 
     return score;
   }

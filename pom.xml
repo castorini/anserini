@@ -33,7 +33,7 @@
   </developers>
 
   <properties>
-    <LUCENE_VERSION>6.3.0</LUCENE_VERSION>
+    <LUCENE_VERSION>7.4.0</LUCENE_VERSION>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 

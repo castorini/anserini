@@ -273,6 +273,16 @@ public class IndexerTest extends LuceneTestCase {
       System.out.println("Getting custom postings reader...");
       return new MyFieldsProducer(in.getPostingsReader());
     }
+
+    @Override
+    public IndexReader.CacheHelper getCoreCacheHelper() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public IndexReader.CacheHelper getReaderCacheHelper() {
+      throw new UnsupportedOperationException();
+    }
   }
 
   // Custom class so we can intercept calls and potentially alter behavior.

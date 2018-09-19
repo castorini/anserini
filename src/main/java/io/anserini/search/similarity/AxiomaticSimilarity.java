@@ -170,7 +170,9 @@ public abstract class AxiomaticSimilarity extends Similarity {
   @Override
   public long computeNorm(FieldInvertState state) {
     final int numTerms = discountOverlaps ? state.getLength() - state.getNumOverlap() : state.getLength();
-    return encodeNormValue(state.getBoost(), numTerms);
+    // return encodeNormValue(state.getBoost(), numTerms);
+    return encodeNormValue(1.0f, numTerms);
+    // Migration to Lucene 7: https://issues.apache.org/jira/browse/LUCENE-6819
   }
 
   /**
@@ -229,7 +231,7 @@ public abstract class AxiomaticSimilarity extends Similarity {
   }
   
   @Override
-  public SimWeight computeWeight(CollectionStatistics collectionStats, TermStatistics... termStats) {
+  public SimWeight computeWeight(float boost, CollectionStatistics collectionStats, TermStatistics... termStats) {
     Explanation idf = termStats.length == 1 ? idfExplain(collectionStats, termStats[0]) : idfExplain(collectionStats, termStats);
     
     float avgdl = avgFieldLength(collectionStats);
@@ -268,21 +270,23 @@ public abstract class AxiomaticSimilarity extends Similarity {
       this.idf = idf;
       this.avgdl = avgdl;
       this.cache = cache;
-      normalize(1f, 1f);
+      //normalize(1f, 1f);
     }
-    
-    @Override
-    public float getValueForNormalization() {
-      // we return a TF-IDF like normalization to be nice, but we don't actually normalize ourselves.
-      return weight * weight;
-    }
-    
-    @Override
-    public void normalize(float queryNorm, float boost) {
-      // we don't normalize with queryNorm at all, we just capture the top-level boost
-      this.boost = boost;
-      this.weight = idf.getValue() * boost;
-    }
+
+// Weight.getValueForNormalization() and Weight.normalize() removed (LUCENE-7368)
+//
+//    @Override
+//    public float getValueForNormalization() {
+//      // we return a TF-IDF like normalization to be nice, but we don't actually normalize ourselves.
+//      return weight * weight;
+//    }
+//
+//    @Override
+//    public void normalize(float queryNorm, float boost) {
+//      // we don't normalize with queryNorm at all, we just capture the top-level boost
+//      this.boost = boost;
+//      this.weight = idf.getValue() * boost;
+//    }
   }
   
   class F2LogDocScorer extends SimScorer {
@@ -308,7 +312,15 @@ public abstract class AxiomaticSimilarity extends Similarity {
     @Override
     public float score(int doc, float freq) {
       // if there are no norms, we act as if b=0
-      float norm = norms == null ? 1.0f : cache[(byte)norms.get(doc) & 0xFF];
+      float norm = 1.0f;
+
+      if ( norms != null ) {
+        try {
+          norms.advanceExact(doc);
+        norm = cache[(byte) norms.longValue() & 0xFF];
+        } catch (IOException e) {}
+      }
+
       return weightValue * freq / (freq + norm);
     }
     
@@ -337,13 +349,15 @@ public abstract class AxiomaticSimilarity extends Similarity {
       return Explanation.match(
           freq.getValue() / freq.getValue(),
           "tfNorm, computed from:", subs);
-    } else {
-      float doclen = decodeNormValue((byte)norms.get(doc));
+    } else { try {
+      norms.advanceExact(doc);
+      float doclen = decodeNormValue((byte) norms.longValue());
       subs.add(Explanation.match(stats.avgdl, "avgFieldLength"));
       subs.add(Explanation.match(doclen, "fieldLength"));
       return Explanation.match(
-          freq.getValue() / (freq.getValue() + s + s * doclen/stats.avgdl),
+          freq.getValue() / (freq.getValue() + s + s * doclen / stats.avgdl),
           "tfNorm, computed from:", subs);
+    } catch (IOException e) {return null;}
     }
   }
   
