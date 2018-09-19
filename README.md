@@ -47,6 +47,8 @@ Anserini is designed to support experiments on various standard TREC collections
 + [Experiments on Tweets2013 (MB13 &amp; MB14)](docs/experiments-mb13.md)
 + [Experiments on CAR17](docs/experiments-car17.md)
 
+All of the above results are associated with [regression tests](docs/regressions.md) for replicability.
+
 ## Additional Documentation
 
 + [Axiomatic Reranking](docs/axiom-reranking.md)
@@ -89,8 +91,8 @@ hits[0].content
 
 ## Release History
 
-+ v0.1.0: July 4, 2018 [[Release Notes](docs/release-notes/release-notes-v0.1.0.md)]
 + v0.2.0: September 10, 2018 [[Release Notes](docs/release-notes/release-notes-v0.2.0.md)]
++ v0.1.0: July 4, 2018 [[Release Notes](docs/release-notes/release-notes-v0.1.0.md)]
 
 ## References
 
