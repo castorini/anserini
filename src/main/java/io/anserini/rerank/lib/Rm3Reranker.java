@@ -1,5 +1,5 @@
 /**
- * Anserini: An information retrieval toolkit built on Lucene
+ * Anserini: A toolkit for reproducible information retrieval research built on Lucene
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,18 +25,11 @@ import io.anserini.util.FeatureVector;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.index.Terms;
 import org.apache.lucene.index.TermsEnum;
-import org.apache.lucene.queryparser.classic.ParseException;
-import org.apache.lucene.queryparser.classic.QueryParser;
-import org.apache.lucene.search.BooleanClause;
-import org.apache.lucene.search.BooleanQuery;
-import org.apache.lucene.search.IndexSearcher;
-import org.apache.lucene.search.Query;
-import org.apache.lucene.search.TopDocs;
+import org.apache.lucene.search.*;
 import org.apache.lucene.util.BytesRef;
 
 import java.io.IOException;
@@ -81,23 +74,16 @@ public class Rm3Reranker implements Reranker {
 
     rm = FeatureVector.interpolate(qfv, rm, originalQueryWeight);
 
-    StringBuilder builder = new StringBuilder();
+    BooleanQuery.Builder feedbackQueryBuilder = new BooleanQuery.Builder();
+
     Iterator<String> terms = rm.iterator();
     while (terms.hasNext()) {
       String term = terms.next();
-      double prob = rm.getFeatureWeight(term);
-      builder.append(term + "^" + prob + " ");
+      float prob = rm.getFeatureWeight(term);
+      feedbackQueryBuilder.add(new BoostQuery(new TermQuery(new Term(this.field, term)), prob), BooleanClause.Occur.SHOULD);
     }
-    String queryText = builder.toString().trim();
 
-    QueryParser p = new QueryParser(field, new WhitespaceAnalyzer());
-    Query feedbackQuery;
-    try {
-      feedbackQuery = p.parse(queryText);
-    } catch (ParseException e) {
-      e.printStackTrace();
-      return docs;
-    }
+    Query feedbackQuery = feedbackQueryBuilder.build();
 
     if (this.outputQuery) {
       LOG.info("QID: " + context.getQueryId());

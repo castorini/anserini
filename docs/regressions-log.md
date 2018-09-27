@@ -1,45 +1,13 @@
-## Regression Experiments on Tuna
+# Anserini Regressions Log
 
-The machine `tuna.cs.uwaterloo.ca` is a server used internally at Waterloo for development of Anserini.
-The regression script `src/main/python/run_regression.py` runs end-to-end regression experiments for various collections, which includes:
+The following change log details commits to regression tests that alter effectiveness and the addition of new regression tests.
+This documentation is useful for figuring why results may have changed over time.
 
-+ Building the index from scratch.
-+ Running all retrieval runs in Anserini documentation.
-+ Verifying results against effectiveness figures stored in `src/main/resources/regression/all.yaml`.
+### September 26, 2018
 
-## Requirements
++ [commit 7c882d310564e27351ed51e0c8a669a13f33b48a](https://github.com/castorini/Anserini/commit/7c882d310564e27351ed51e0c8a669a13f33b48a) Wed Sep 26 20:45:33 2018 -0400
 
-Python>=2.6 or Python>=3.5
-
-```
-pip install -r src/main/python/requirements.txt
-```
-
-## Invocations
-
-Here's how to run the end-to-end experiments on standard test collections:
-
-+ `python src/main/python/run_regression.py --collection disk12`: [Experiments on Disks 1 &amp; 2](experiments-disk12.md)
-+ `python src/main/python/run_regression.py --collection robust04`: [Experiments on Disks 4 &amp; 5 (Robust04)](experiments-robust04.md)
-+ `python src/main/python/run_regression.py --collection robust05`: [Experiments on AQUAINT (Robust05)](experiments-robust05.md)
-+ `python src/main/python/run_regression.py --collection core17`: [Experiments on Netw York Times (Core17)](experiments-core17.md)
-+ `python src/main/python/run_regression.py --collection wt10g`: [Experiments on Wt10g](experiments-wt10g.md)
-+ `python src/main/python/run_regression.py --collection gov2`: [Experiments on Gov2](experiments-gov2.md)
-+ `python src/main/python/run_regression.py --collection cw09b`: [Experiments on ClueWeb09  (Category B)](experiments-cw09b.md)
-+ `python src/main/python/run_regression.py --collection cw12b13`: [Experiments on ClueWeb12-B13](experiments-cw12b13.md)
-+ `python src/main/python/run_regression.py --collection cw12`: [Experiments on ClueWeb12](experiments-cw12.md)
-+ `python src/main/python/run_regression.py --collection mb11`: [Experiments on Tweets2011 (MB11 &amp; MB12)](experiments-mb11.md)
-+ `python src/main/python/run_regression.py --collection mb13`: [Experiments on Tweets2013 (MB13 &amp; MB14)](experiments-mb13.md)
-+ `python src/main/python/run_regression.py --collection car17`: [Experiments on Car17](experiments-car17.md)
-
-## Additional Regressions
-
-+ [JDIQ 2018 Experiments](experiments-jdiq2018.md)
-+ [TREC 2018 runbook](experiments-trec2018.md)
-
-## Log
-
-The following log details whenever regression tests have changed in terms of effectiveness or new new regressions have been added:
+Fixed bug as part of [Issue 429](https://github.com/castorini/Anserini/issues/429): `cw12` and `mb13` regression tests changed slightly in effectiveness.
 
 ### August 8, 2018
 

@@ -73,25 +73,45 @@ With the above commands, you should be able to replicate the following results:
 
 MAP                                     | BM25      | BM25+RM3  | QL        | QL+RM3    |
 :---------------------------------------|-----------|-----------|-----------|-----------|
+<<<<<<< HEAD
 [TREC 2013 Web Track: Topics 201-250](http://trec.nist.gov/data/web2013.html)| 0.1695    | 0.1499    | 0.1493    | 0.1273    |
 [TREC 2014 Web Track: Topics 251-300](http://trec.nist.gov/data/web2014.html)| 0.2469    | 0.2479    | 0.2467    | 0.2391    |
+=======
+[TREC 2013 Web Track: Topics 201-250](http://trec.nist.gov/data/web2013.html)| 0.1673    | 0.1483    | 0.1438    | 0.1245    |
+[TREC 2014 Web Track: Topics 251-300](http://trec.nist.gov/data/web2014.html)| 0.2432    | 0.2481    | 0.2401    | 0.2334    |
+>>>>>>> master
 
 
 P30                                     | BM25      | BM25+RM3  | QL        | QL+RM3    |
 :---------------------------------------|-----------|-----------|-----------|-----------|
+<<<<<<< HEAD
 [TREC 2013 Web Track: Topics 201-250](http://trec.nist.gov/data/web2013.html)| 0.2767    | 0.2413    | 0.2613    | 0.2213    |
 [TREC 2014 Web Track: Topics 251-300](http://trec.nist.gov/data/web2014.html)| 0.4533    | 0.4067    | 0.4380    | 0.4113    |
+=======
+[TREC 2013 Web Track: Topics 201-250](http://trec.nist.gov/data/web2013.html)| 0.2827    | 0.2360    | 0.2507    | 0.2053    |
+[TREC 2014 Web Track: Topics 251-300](http://trec.nist.gov/data/web2014.html)| 0.4500    | 0.4233    | 0.4367    | 0.3973    |
+>>>>>>> master
 
 
 NDCG20                                  | BM25      | BM25+RM3  | QL        | QL+RM3    |
 :---------------------------------------|-----------|-----------|-----------|-----------|
+<<<<<<< HEAD
 [TREC 2013 Web Track: Topics 201-250](http://trec.nist.gov/data/web2013.html)| 0.2086    | 0.1858    | 0.1993    | 0.1597    |
 [TREC 2014 Web Track: Topics 251-300](http://trec.nist.gov/data/web2014.html)| 0.2578    | 0.2476    | 0.2228    | 0.2262    |
+=======
+[TREC 2013 Web Track: Topics 201-250](http://trec.nist.gov/data/web2013.html)| 0.2066    | 0.1752    | 0.1905    | 0.1563    |
+[TREC 2014 Web Track: Topics 251-300](http://trec.nist.gov/data/web2014.html)| 0.2646    | 0.2484    | 0.2327    | 0.2148    |
+>>>>>>> master
 
 
 ERR20                                   | BM25      | BM25+RM3  | QL        | QL+RM3    |
 :---------------------------------------|-----------|-----------|-----------|-----------|
+<<<<<<< HEAD
 [TREC 2013 Web Track: Topics 201-250](http://trec.nist.gov/data/web2013.html)| 0.1284    | 0.0984    | 0.1232    | 0.0927    |
 [TREC 2014 Web Track: Topics 251-300](http://trec.nist.gov/data/web2014.html)| 0.1630    | 0.1786    | 0.1321    | 0.1382    |
+=======
+[TREC 2013 Web Track: Topics 201-250](http://trec.nist.gov/data/web2013.html)| 0.1213    | 0.0917    | 0.1169    | 0.0868    |
+[TREC 2014 Web Track: Topics 251-300](http://trec.nist.gov/data/web2014.html)| 0.1737    | 0.1785    | 0.1451    | 0.1312    |
+>>>>>>> master
 
 
