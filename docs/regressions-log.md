@@ -3,6 +3,12 @@
 The following change log details commits to regression tests that alter effectiveness and the addition of new regression tests.
 This documentation is useful for figuring why results may have changed over time.
 
+### September 26, 2018
+
++ [commit 7c882d310564e27351ed51e0c8a669a13f33b48a](https://github.com/castorini/Anserini/commit/7c882d310564e27351ed51e0c8a669a13f33b48a) Wed Sep 26 20:45:33 2018 -0400
+
+Fixed bug as part of [Issue 429](https://github.com/castorini/Anserini/issues/429): `cw12` and `mb13` regression tests changed slightly in effectiveness.
+
 ### August 8, 2018
 
 + [commit d4b3272e7f07fa274e5d8ffd50976beb0c08de52](https://github.com/castorini/Anserini/commit/d4b3272e7f07fa274e5d8ffd50976beb0c08de52) Wed Aug 8 22:33:15 2018 -0400
