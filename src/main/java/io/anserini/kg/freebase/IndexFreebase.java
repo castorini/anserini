@@ -3,11 +3,14 @@ package io.anserini.kg.freebase;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.lucene.analysis.core.SimpleAnalyzer;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.codecs.lucene50.Lucene50StoredFieldsFormat;
 import org.apache.lucene.codecs.lucene62.Lucene62Codec;
-import org.apache.lucene.document.*;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.document.Field;
+import org.apache.lucene.document.StoredField;
+import org.apache.lucene.document.StringField;
+import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.store.Directory;
@@ -21,6 +24,7 @@ import org.kohsuke.args4j.ParserProperties;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -33,8 +37,8 @@ import java.util.function.Function;
  * ({@code mid}), is treated as a Lucene "document". This class builds an index for lookup based
  * on {@code mid}.
  */
-public class IndexTopics {
-  private static final Logger LOG = LogManager.getLogger(IndexTopics.class);
+public class IndexFreebase {
+  private static final Logger LOG = LogManager.getLogger(IndexFreebase.class);
 
   public static final class Args {
     @Option(name = "-input", metaVar = "[file]", required = true, usage = "Freebase dump file")
@@ -44,29 +48,19 @@ public class IndexTopics {
     public Path index;
   }
 
-  /**
-   * Four fields:
-   * topicMid - the MID of the topic
-   * label - the object value of the (topicMid, http://www.w3.org/2000/01/rdf-schema#label)
-   * name - the object value of the (topicMid, http://rdf.freebase.com/ns/type.object.name)
-   */
-  public static final String FIELD_TOPIC_MID = "topicMid";
+  public static final String FIELD_ID = "mid";
   public static final String FIELD_LABEL = "label";
   public static final String FIELD_NAME = "name";
   public static final String FIELD_ALIAS = "alias";
 
-  /**
-   * Predicates for which the literals should be stored
-   */
   private static final String W3_LABEL_URI = "http://www.w3.org/2000/01/rdf-schema#label";
   private static final String FB_OBJECT_NAME = FreebaseNode.FREEBASE_NS_SHORT + "type.object.name";
   private static final String FB_COMMON_TOPIC_ALIAS = FreebaseNode.FREEBASE_NS_SHORT + "common.topic.alias";
 
-
   private final Path indexPath;
   private final Path inputPath;
 
-  public IndexTopics(Path inputPath, Path indexPath) throws Exception {
+  public IndexFreebase(Path inputPath, Path indexPath) throws Exception {
     this.inputPath = inputPath;
     this.indexPath = indexPath;
 
@@ -75,25 +69,23 @@ public class IndexTopics {
 
     if (!Files.exists(inputPath) || !Files.isReadable(inputPath)) {
       throw new IllegalArgumentException("Input " + inputPath.toString() +
-              " does not exist or is not readable.");
+          " does not exist or is not readable.");
     }
   }
 
-  public void run() throws IOException, InterruptedException {
+  public void run() throws IOException {
     final long start = System.nanoTime();
     LOG.info("Starting indexer...");
 
     final Directory dir = FSDirectory.open(indexPath);
-    final SimpleAnalyzer analyzer = new SimpleAnalyzer();
+    final EnglishAnalyzer analyzer = new EnglishAnalyzer();
     final IndexWriterConfig config = new IndexWriterConfig(analyzer);
     config.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
-    config.setCodec(new Lucene62Codec(Lucene50StoredFieldsFormat.Mode.BEST_SPEED));
-    config.setUseCompoundFile(false);
 
     final IndexWriter writer = new IndexWriter(dir, config);
 
     final AtomicInteger cnt = new AtomicInteger();
-    new Freebase(inputPath).stream().map(new TopicLuceneDocumentGenerator())
+    new Freebase(inputPath).stream().map(new LuceneDocumentGenerator())
         .forEach(doc -> {
           try {
             writer.addDocument(doc);
@@ -121,7 +113,7 @@ public class IndexTopics {
 
     long duration = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
     LOG.info("Total " + numIndexed + " documents indexed in " +
-            DurationFormatUtils.formatDuration(duration, "HH:mm:ss"));
+        DurationFormatUtils.formatDuration(duration, "HH:mm:ss"));
   }
 
   public static void main(String[] args) throws Exception {
@@ -133,50 +125,51 @@ public class IndexTopics {
     } catch (CmdLineException e) {
       System.err.println(e.getMessage());
       parser.printUsage(System.err);
-      System.err.println("Example: "+ IndexTopics.class.getSimpleName() +
-              parser.printExample(OptionHandlerFilter.REQUIRED));
+      System.err.println("Example: "+ IndexFreebase.class.getSimpleName() +
+          parser.printExample(OptionHandlerFilter.REQUIRED));
       return;
     }
 
-    new IndexTopics(indexArgs.input, indexArgs.index).run();
+    new IndexFreebase(indexArgs.input, indexArgs.index).run();
   }
 
-  public static class TopicLuceneDocumentGenerator implements Function<FreebaseNode, Document> {
+  private static class LuceneDocumentGenerator implements Function<FreebaseNode, Document> {
     public Document apply(FreebaseNode src) {
-      String topicMid = FreebaseNode.cleanUri(src.uri());
-      String name = "";
-      String alias = "";
-      String label = "";
-      Map<String, List<String>> predicateValues = src.getPredicateValues();
+      Document doc = new Document();
+      doc.add(new StringField(FIELD_ID, FreebaseNode.cleanUri(src.uri()), Field.Store.YES));
+
+      List<String> names = new ArrayList<>();
+      List<String> aliases = new ArrayList<>();
+      List<String> labels = new ArrayList<>();
+
       // Iterate over predicates and object values
-      for(Map.Entry<String, List<String>> entry: predicateValues.entrySet()) {
-        String predicate = FreebaseNode.cleanUri( entry.getKey() );
+      for (Map.Entry<String, List<String>> entry : src.getPredicateValues().entrySet()) {
+        final String predicate = FreebaseNode.cleanUri(entry.getKey());
+        entry.getValue().forEach(value ->
+            doc.add(new StoredField(predicate, FreebaseNode.normalizeObjectValue(value))));
+
         List<String> objects = entry.getValue();
         for (String object : objects) {
           if (predicate.startsWith(W3_LABEL_URI)) {
-            label = label.trim() + FreebaseNode.normalizeObjectValue(object) + " ";
+            String label = FreebaseNode.normalizeObjectValue(object).trim();
+            if (label.length() > 0) labels.add(label);
           } else if (predicate.startsWith(FB_OBJECT_NAME)) {
-            name = name.trim() + FreebaseNode.normalizeObjectValue(object) + " ";
+            String name = FreebaseNode.normalizeObjectValue(object).trim();
+            if (name.length() > 0 ) names.add(name);
           } else if (predicate.startsWith(FB_COMMON_TOPIC_ALIAS)) {
-            alias = alias.trim() + FreebaseNode.normalizeObjectValue(object) + " ";
+            String alias = FreebaseNode.normalizeObjectValue(object).trim();
+            if (alias.length() > 0 ) aliases.add(alias);
           }
         }
       }
 
-      // Convert to a document
-      Document doc = new Document();
-
-      // Index subject as a StringField to allow searching
-      Field topicMidField = new StringField(FIELD_TOPIC_MID, topicMid, Field.Store.YES);
-      doc.add(topicMidField);
-
-      Field aliasField = new TextField(FIELD_ALIAS, alias, Field.Store.YES);
+      Field aliasField = new TextField(FIELD_ALIAS, String.join(" ", aliases), Field.Store.YES);
       doc.add(aliasField);
 
-      Field nameField = new TextField(FIELD_NAME, name, Field.Store.YES);
+      Field nameField = new TextField(FIELD_NAME, String.join(" ", names), Field.Store.YES);
       doc.add(nameField);
 
-      Field labelField = new TextField(FIELD_LABEL, label, Field.Store.YES);
+      Field labelField = new TextField(FIELD_LABEL, String.join(" ", labels), Field.Store.YES);
       doc.add(labelField);
 
       return doc;

@@ -169,4 +169,26 @@ public class FreebaseNode {
         return RdfObjectType.OTHER;
     }
   }
+
+  /**
+   * Helper function. Extracts value from literal that has a type
+   * (whether the type is a language for a string literal or a basic data type
+   * like date, int, etc.)
+   *
+   * @param literalString the string representation of the literal, including its type
+   * @return value of the literal
+   */
+  public static String extractValueFromTypedLiteralString(String literalString) {
+    return NTriplesUtil.parseLiteral(literalString, valueFactory).stringValue();
+  }
+
+  /**
+   * Helper function. Converts freebase URI to freebase mention id
+   *
+   * @param freebaseUri freebase uri, similar to
+   * @return freebase mention id
+   */
+  public static String freebaseUriToFreebaseId(String freebaseUri) {
+    return freebaseUri.substring(freebaseUri.lastIndexOf('/')).replace('.', '/');
+  }
 }
