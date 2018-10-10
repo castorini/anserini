@@ -1,3 +1,19 @@
+/**
+ * Anserini: A toolkit for reproducible information retrieval research built on Lucene
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package io.anserini.kg.freebase;
 
 import org.junit.Test;
@@ -15,13 +31,13 @@ public class FreebaseNodeTest {
   private static ValueFactory valueFactory = SimpleValueFactory.getInstance();
 
   @Test
-  public void cleanUri() throws Exception {
+  public void cleanUri() {
     assertEquals("fb:m.02mjmr",
         FreebaseNode.cleanUri("<http://rdf.freebase.com/ns/m.02mjmr>"));
   }
 
   @Test
-  public void normalizeObject() throws Exception {
+  public void normalizeObject() {
     // FYI - to demonstrate behavior of NTriplesUtil.unescapeString
     assertEquals("\"Hanna Bieluszko\"@en",
         NTriplesUtil.unescapeString("\"Hanna Bieluszko\"@en"));
@@ -40,7 +56,7 @@ public class FreebaseNodeTest {
   }
 
   @Test
-  public void getObjectType() throws Exception {
+  public void getObjectType() {
     assertEquals(FreebaseNode.RdfObjectType.URI,
         FreebaseNode.getObjectType("<http://rdf.freebase.com/ns/m.02mjmr>"));
 
@@ -55,7 +71,7 @@ public class FreebaseNodeTest {
   }
 
   @Test
-  public void freebaseUriToFreebaseId() throws Exception {
+  public void freebaseUriToFreebaseId() {
     String barackObamaFreebaseUri = "http://rdf.freebase.com/ns/m.02mjmr";
     String barackObamaFreebaseID = FreebaseNode.freebaseUriToFreebaseId(barackObamaFreebaseUri);
     String correctId = "/m/02mjmr";
@@ -64,7 +80,7 @@ public class FreebaseNodeTest {
   }
 
   @Test
-  public void extractValueFromTypedLiteralString() throws Exception {
+  public void extractValueFromTypedLiteralString() {
     String l1 = "\"1954-10-28\"^^<http://www.w3.org/2001/XMLSchema#date>";
     String l2 = "\"Hanna Bieluszko\"@en";
 

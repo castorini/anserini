@@ -1,11 +1,25 @@
+/**
+ * Anserini: A toolkit for reproducible information retrieval research built on Lucene
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package io.anserini.kg.freebase;
 
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;
-import org.apache.lucene.codecs.lucene50.Lucene50StoredFieldsFormat;
-import org.apache.lucene.codecs.lucene62.Lucene62Codec;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.StoredField;
@@ -35,7 +49,7 @@ import java.util.function.Function;
  * Builds a triples lookup index from a Freebase dump in N-Triples RDF format. Each
  * {@link FreebaseNode} object, which represents a group of triples that share the same subject
  * ({@code mid}), is treated as a Lucene "document". This class builds an index for lookup based
- * on {@code mid}.
+ * on {@code mid} as well a free text search over the textual labels of the nodes.
  */
 public class IndexFreebase {
   private static final Logger LOG = LogManager.getLogger(IndexFreebase.class);
@@ -142,9 +156,10 @@ public class IndexFreebase {
       List<String> aliases = new ArrayList<>();
       List<String> labels = new ArrayList<>();
 
-      // Iterate over predicates and object values
+      // Iterate over predicates and object values.
       for (Map.Entry<String, List<String>> entry : src.getPredicateValues().entrySet()) {
         final String predicate = FreebaseNode.cleanUri(entry.getKey());
+        // Each predicate/value is a stored field.
         entry.getValue().forEach(value ->
             doc.add(new StoredField(predicate, FreebaseNode.normalizeObjectValue(value))));
 
@@ -163,6 +178,7 @@ public class IndexFreebase {
         }
       }
 
+      // These are the fields we're going to enable free-text search over.
       Field aliasField = new TextField(FIELD_ALIAS, String.join(" ", aliases), Field.Store.YES);
       doc.add(aliasField);
 

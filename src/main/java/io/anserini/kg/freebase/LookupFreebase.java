@@ -1,3 +1,19 @@
+/**
+ * Anserini: A toolkit for reproducible information retrieval research built on Lucene
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package io.anserini.kg.freebase;
 
 import io.anserini.rerank.ScoredDocuments;
@@ -27,7 +43,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 /**
- * Lookups a Freebase mid and returns all properties associated with it.
+ * Lookups a Freebase object either by {@code mid} or by a free text search over the textual labels
+ * of the nodes.
  */
 public class LookupFreebase implements Closeable {
   private static final Logger LOG = LogManager.getLogger(LookupFreebase.class);
@@ -41,7 +58,7 @@ public class LookupFreebase implements Closeable {
     @Option(name = "-mid", metaVar = "[mid]", usage = "Freebase machine id")
     public String mid = null;
 
-    @Option(name = "-query", metaVar = "[query]", usage = "topic name to query for")
+    @Option(name = "-query", metaVar = "[query]", usage = "full-text query")
     public String query;
 
     @Option(name="-hits", metaVar = "[hits]", usage = "number of search hits")
@@ -88,7 +105,13 @@ public class LookupFreebase implements Closeable {
     });
   }
 
-  public void search(String queryName, int numHits) throws Exception {
+  /**
+   * Full text search over textual labels of nodes.
+   * @param q query string
+   * @param numHits hits to return
+   * @throws Exception on error
+   */
+  public void search(String q, int numHits) throws Exception {
     // Initialize index searcher
     IndexSearcher searcher = new IndexSearcher(reader);
 
@@ -97,7 +120,7 @@ public class LookupFreebase implements Closeable {
         new String[]{ IndexFreebase.FIELD_NAME, IndexFreebase.FIELD_LABEL, IndexFreebase.FIELD_ALIAS },
         new SimpleAnalyzer());
     queryParser.setDefaultOperator(QueryParser.Operator.OR);
-    Query query = queryParser.parse(queryName);
+    Query query = queryParser.parse(q);
 
     TopDocs rs = searcher.search(query, numHits);
     ScoredDocuments docs = ScoredDocuments.fromTopDocs(rs, searcher);
@@ -131,8 +154,10 @@ public class LookupFreebase implements Closeable {
     LookupFreebase lookup = new LookupFreebase(searchArgs.index);
 
     if (searchArgs.mid != null) {
+      // Lookup by mid.
       lookup.lookupMid(searchArgs.mid);
     } else {
+      // Full-text search over text labels.
       lookup.search(searchArgs.query, searchArgs.numHits);
     }
 
