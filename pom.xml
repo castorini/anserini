@@ -174,6 +174,18 @@
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.22.0</version>
+        <configuration>
+          <systemPropertyVariables>
+            <!-- We have at least one test case with UTF output. Need to enforce this, otherwise we might
+                 get a test failure. See https://github.com/castorini/Anserini/issues/441 -->
+            <LC_ALL>en_US.UTF-8</LC_ALL>
+          </systemPropertyVariables>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-source-plugin</artifactId>
         <version>3.0.1</version>
       </plugin>
