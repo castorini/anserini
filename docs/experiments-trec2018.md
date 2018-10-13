@@ -140,7 +140,7 @@ target/appassembler/bin/SearchCollection -index lucene-index.wash18.pos+docvecto
 target/appassembler/bin/IndexCollection -collection WashingtonPostCollection \
 -input WashingtonPost.v2/data/ -generator JsoupGenerator -index lucene-index.wash18.pos+docvectors+rawdocs \
 -threads 44 -storePositions -storeDocvectors -storeRawDocs -optimize &>log.wash18.pos+docvectors+rawdocs
-
+```
 
 ### Submitted Runs
 _Need to have your own topics file before TREC officially releases it_
