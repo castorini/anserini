@@ -159,7 +159,7 @@ public class SearchArgs {
   @Option(name = "-axiom.beta", usage = "parameter beta for Axiomatic query expansion model")
   public float axiom_beta = 0.4f;
   
-  @Option(name = "-axiom.top", usage = "select top K terms from the expansion terms pool")
+  @Option(name = "-axiom.top", usage = "select top M terms from the expansion terms pool")
   public int axiom_top = 20;
 
   @Option(name = "-axiom.index", usage = "path to the external index for generating the reranking doucments pool")

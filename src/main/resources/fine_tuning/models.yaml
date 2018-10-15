@@ -1,0 +1,48 @@
+---
+models:
+  axiom:
+    name: axiom
+    fixed_params: "-axiom.n 30 -axiom.deterministic"
+    nexus_params:
+      rerankCutoff: "axiom.r"
+    params:
+      axiom.r:
+        type: int
+        lower: 1
+        upper: 50
+        pace: 1
+      axiom.top:
+        type: int
+        lower: 1
+        upper: 50
+        pace: 1
+      axiom.beta:
+        type: float
+        lower: 0
+        upper: 1
+        pace: 0.1
+    expected:
+      robust04:
+        map: 0.2532
+  rm3:
+    name: rm3
+    fixed_params: ""
+    params:
+      rm3.fbTerms:
+        type: int
+        lower: 1
+        upper: 50
+        pace: 1
+      rm3.fbDocs:
+        type: int
+        lower: 1
+        upper: 50
+        pace: 1
+      rm3.originalQueryWeight:
+        type: float
+        lower: 0
+        upper: 1
+        pace: 0.1
+    expected:
+      robust04:
+        map: 0.2532
