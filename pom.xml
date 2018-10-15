@@ -215,7 +215,7 @@
       <artifactId>lucene-benchmark</artifactId>
       <version>${LUCENE_VERSION}</version>
     </dependency>
-    <dependency>
+    <dependency> <!-- needed only for org.apache.lucene.search.CheckHits: candidate for cleanup -->
       <groupId>org.apache.lucene</groupId>
       <artifactId>lucene-test-framework</artifactId>
       <version>${LUCENE_VERSION}</version>
@@ -283,6 +283,11 @@
       <groupId>org.apache.ant</groupId>
       <artifactId>ant</artifactId>
       <version>1.9.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.openrdf.sesame</groupId>
+      <artifactId>sesame-rio-ntriples</artifactId>
+      <version>4.1.2</version>
     </dependency>
     <dependency>
       <groupId>com.twitter.twittertext</groupId>
