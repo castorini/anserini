@@ -50,16 +50,14 @@ class Effectiveness(object):
                 basemodel, model, model_params = fn.split('_')
             elif len(fn.split('_')) == 2:
                 basemodel, model = fn.split('_')
-            performace_fn = os.path.join(output_root, self.effectiveness_root, basemodel+'_'+model)
-            if not os.path.exists(performace_fn):
-                k = basemodel+'_'+model
-                if k not in all_results:
-                    all_results[k] = []
-                all_results[k].append( os.path.join(output_root, self.eval_files_root, fn) )
-        for k in all_results:
-            performace_fn = os.path.join(output_root, self.effectiveness_root, k)
+            output_fn = basemodel+'_'+model
+            if output_fn not in all_results:
+                all_results[output_fn] = []
+            all_results[output_fn].append( os.path.join(output_root, self.eval_files_root, fn) )
+        for output_fn in all_results:
+            performace_fn = os.path.join(output_root, self.effectiveness_root, output_fn)
             tmp = [ self.index_path, performace_fn ]
-            tmp.extend( all_results[k] )
+            tmp.extend( all_results[output_fn] )
             all_params.append(tuple(tmp))
 
         return all_params
