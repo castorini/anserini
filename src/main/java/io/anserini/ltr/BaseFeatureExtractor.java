@@ -141,7 +141,7 @@ abstract public class BaseFeatureExtractor<K> {
             List<String> queryTokens = AnalyzerUtils.tokenize(queryAnalyzer, queryText);
             // Construct the reranker context
             RerankerContext<K> context = new RerankerContext<>(searcher, (K)qid,
-                    q, queryText,
+                    q, null, queryText,
                     queryTokens,
                     null, null);
 
