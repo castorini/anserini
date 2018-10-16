@@ -33,11 +33,12 @@ import java.util.Map;
 import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_BODY;
 import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_ID;
 
+
 /*
 * TREC News Track Background Linking task postprocessing.
 * Near-duplicate documents (similar/same with the query docid) will be removed by comparing
 * their cosine similarity with the query docid.
- */
+*/
 public class NewsBackgroundLinkingReranker implements Reranker {
   @Override
   public ScoredDocuments rerank(ScoredDocuments docs, RerankerContext context) {
@@ -88,7 +89,8 @@ public class NewsBackgroundLinkingReranker implements Reranker {
   private Map<String, Long> convertDocVectorToMap(IndexReader reader, String docid) {
     Map<String, Long> m = new HashMap<>();
     try {
-      Terms terms = reader.getTermVector(NewsBackgroundLinkingTopicReader.convertDocidToLuceneDocid(reader, docid), FIELD_BODY);
+      Terms terms = reader.getTermVector(
+          NewsBackgroundLinkingTopicReader.convertDocidToLuceneDocid(reader, docid), FIELD_BODY);
       TermsEnum it = terms.iterator();
       while (it.next() != null) {
         String term = it.term().utf8ToString();
