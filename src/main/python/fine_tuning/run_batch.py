@@ -68,8 +68,6 @@ def batch_retrieval(collection_yaml, models_yaml, output_root):
     program = os.path.join(collection_yaml['anserini_root'], 'target/appassembler/bin', 'SearchCollection')
     index_path = get_index_path(collection_yaml)
     this_output_root = os.path.join(output_root, collection_yaml['name'])
-    if not os.path.exists(this_output_root):
-        os.makedirs(this_output_root)
     logger.info('='*10+'Generating Batch Retrieval Parameters'+'='*10)
     model_params = Search(index_path).gen_batch_retrieval_params(models_yaml, this_output_root)
     for para in model_params:
@@ -95,8 +93,6 @@ def batch_eval(collection_yaml, models_yaml, output_root):
     index_path = get_index_path(collection_yaml)
     programs = set([eval['command']+' '+eval['params'] for eval in collection_yaml['evals']])
     this_output_root = os.path.join(output_root, collection_yaml['name'])
-    if not os.path.exists(this_output_root):
-        os.makedirs(this_output_root)
     eval_params = Evaluation(index_path).gen_batch_eval_params(this_output_root)
     for para in eval_params:
         run_file_path, eval_output = para
@@ -117,8 +113,6 @@ def batch_output_effectiveness(collection_yaml, models_yaml, output_root):
     all_params = []
     index_path = get_index_path(collection_yaml)
     this_output_root = os.path.join(output_root, collection_yaml['name'])
-    if not os.path.exists(this_output_root):
-        os.makedirs(this_output_root)
     all_params.extend( Effectiveness(index_path).gen_output_effectiveness_params(this_output_root) )
     logger.info('='*10+'Starting Output Effectiveness'+'='*10)
     batch_everything(all_params, atom_output_effectiveness)
@@ -135,17 +129,6 @@ def print_optimal_effectiveness(collection_yaml, models_yaml, output_root, metri
     logger.info('='*30+'Optimal Effectiveness for '+collection_yaml['name']+'='*30)
     effectiveness = Effectiveness(index_path).load_optimal_effectiveness(this_output_root, metrics)
     print(json.dumps(effectiveness, sort_keys=True, indent=2))
-    return
-    success = True
-    for e in effectiveness:
-        expected = models_yaml[e['model']]['expected'][collection_yaml['name']][e['metric']][e['topic']]
-        if isclose(expected, e['actual']):
-            logger.info(json.dumps(e, sort_keys=True))
-        else:
-            success = False
-            logger.error('!'*5+'expected:%f'%expected+json.dumps(e, sort_keys=True)+'!'*5)
-    if success:
-        logger.info("All Tests Passed!")
 
 def del_method_related_files(method_name):
     folders = ['split_results', 'merged_results', 'evals', 'effectiveness']
@@ -188,9 +171,6 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    if not os.path.exists(args.output_root):
-        os.makedirs(args.output_root)
-
     if args.del_method_related_files:
         del_method_related_files(args.del_method_related_files[0])
     else:
@@ -204,6 +184,8 @@ if __name__ == '__main__':
             if k != 'collections':
                 collection_yaml[k] = collections_yaml[k]
         collection_yaml['anserini_root'] = args.anserini_root
+        if not os.path.exists(os.path.join(args.output_root, collection_yaml['name'])):
+            os.makedirs(os.path.join(args.output_root, collection_yaml['name']))
         models_yaml['basemodel'] = args.basemodel
         batch_retrieval(collection_yaml, models_yaml, args.output_root)
         batch_eval(collection_yaml, models_yaml, args.output_root)

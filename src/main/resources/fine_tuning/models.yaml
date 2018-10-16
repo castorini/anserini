@@ -27,6 +27,8 @@ models:
   rm3:
     name: rm3
     fixed_params: ""
+    nexus_params:
+      rerankCutoff: "rm3.fbDocs"
     params:
       rm3.fbTerms:
         type: int
@@ -43,6 +45,3 @@ models:
         lower: 0
         upper: 1
         pace: 0.1
-    expected:
-      robust04:
-        map: 0.2532
