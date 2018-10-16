@@ -132,7 +132,6 @@ target/appassembler/bin/SearchCollection -index lucene-index.wash18.pos+docvecto
 target/appassembler/bin/SearchCollection -index lucene-index.wash18.pos+docvectors+rawdocs -topicreader Trec -topics 2018-test-topics.txt -ql -hits 10000 -runtag anserini_qlax17 -axiom -axiom.deterministic -rerankCutoff 0 -axiom.index lucene-index.core17.pos+docvectors+rawdocs -output wash18_ql_ax17.txt
 ```
 
-<<<<<<< HEAD
 ## News Track - Background Linking
 
 ### Build the index
