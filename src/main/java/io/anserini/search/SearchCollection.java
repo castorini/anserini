@@ -18,17 +18,19 @@ package io.anserini.search;
 
 import io.anserini.analysis.TweetAnalyzer;
 import io.anserini.index.generator.TweetGenerator;
+import io.anserini.index.generator.WapoGenerator;
 import io.anserini.rerank.RerankerCascade;
 import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.ScoredDocuments;
 
 import io.anserini.rerank.lib.AxiomReranker;
+import io.anserini.rerank.lib.NewsBackgroundLinkingReranker;
 import io.anserini.rerank.lib.Rm3Reranker;
 import io.anserini.rerank.lib.ScoreTiesAdjusterReranker;
+import io.anserini.search.topicreader.NewsBackgroundLinkingTopicReader;
+import io.anserini.search.similarity.F2ExpSimilarity;
 import io.anserini.search.query.BagOfWordsQueryGenerator;
 import io.anserini.search.query.SdmQueryGenerator;
-import io.anserini.search.similarity.AxiomaticSimilarity;
-import io.anserini.search.similarity.F2ExpSimilarity;
 import io.anserini.search.similarity.F2LogSimilarity;
 import io.anserini.search.topicreader.TopicReader;
 import io.anserini.util.AnalyzerUtils;
@@ -38,17 +40,15 @@ import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.CharArraySet;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;
+import org.apache.lucene.document.Document;
 import org.apache.lucene.document.LongPoint;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.search.BooleanClause;
-import org.apache.lucene.search.BooleanQuery;
-import org.apache.lucene.search.IndexSearcher;
-import org.apache.lucene.search.Query;
-import org.apache.lucene.search.ScoreDoc;
-import org.apache.lucene.search.Sort;
-import org.apache.lucene.search.SortField;
-import org.apache.lucene.search.TopDocs;
+import org.apache.lucene.index.Term;
+import org.apache.lucene.queries.TermsQuery;
+import org.apache.lucene.queryparser.flexible.core.QueryNodeException;
+import org.apache.lucene.queryparser.flexible.standard.StandardQueryParser;
+import org.apache.lucene.search.*;
 import org.apache.lucene.search.similarities.*;
 import org.apache.lucene.store.FSDirectory;
 import org.kohsuke.args4j.CmdLineException;
@@ -63,10 +63,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.SortedMap;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_BODY;
@@ -88,7 +85,7 @@ public final class SearchCollection implements Closeable {
   private final boolean isRerank;
   private final RerankerCascade cascade;
 
-  enum QueryConstructor {
+  public enum QueryConstructor {
     BagOfTerms,
     SequentialDependenceModel
   }
@@ -156,7 +153,6 @@ public final class SearchCollection implements Closeable {
       LOG.info("Rerank with Axiomatic Reranking");
       cascade.add(new AxiomReranker(FIELD_BODY, args));
     }
-
     cascade.add(new ScoreTiesAdjusterReranker());
   }
 
@@ -166,7 +162,7 @@ public final class SearchCollection implements Closeable {
   }
 
   @SuppressWarnings("unchecked")
-  public<K> int runTopics() throws IOException {
+  public<K> int runTopics() throws IOException, QueryNodeException {
     IndexSearcher searcher = new IndexSearcher(reader);
     searcher.setSimilarity(similarity);
 
@@ -193,10 +189,11 @@ public final class SearchCollection implements Closeable {
     for (Map.Entry<K, Map<String, String>> entry : topics.entrySet()) {
       K qid = entry.getKey();
       String queryString = entry.getValue().get(args.topicfield);
-
       ScoredDocuments docs;
       if (args.searchtweets) {
         docs = searchTweets(searcher, qid, queryString, Long.parseLong(entry.getValue().get("time")));
+      } else if (args.searchnewsbackground) {
+        docs = searchBackgroundLinking(searcher, qid, queryString);
       } else{
         docs = search(searcher, qid, queryString);
       }
@@ -219,9 +216,10 @@ public final class SearchCollection implements Closeable {
 
     return topics.size();
   }
-
-  public<K> ScoredDocuments search(IndexSearcher searcher, K qid, String queryString) throws IOException {
-    Query query;
+  
+  public<K> ScoredDocuments search(IndexSearcher searcher, K qid, String queryString)
+      throws IOException, QueryNodeException {
+    Query query = null;
     if (qc == QueryConstructor.SequentialDependenceModel) {
       query = new SdmQueryGenerator(args.sdm_tw, args.sdm_ow, args.sdm_uw).buildQuery(FIELD_BODY, analyzer, queryString);
     } else {
@@ -238,9 +236,88 @@ public final class SearchCollection implements Closeable {
     }
 
     List<String> queryTokens = AnalyzerUtils.tokenize(analyzer, queryString);
-    RerankerContext context = new RerankerContext<>(searcher, qid, query, queryString, queryTokens, null, args);
+    RerankerContext context = new RerankerContext<>(searcher, qid, query, null, queryString, queryTokens, null, args);
 
     return cascade.run(ScoredDocuments.fromTopDocs(rs, searcher), context);
+  }
+  
+  public<K> ScoredDocuments searchBackgroundLinking(IndexSearcher searcher, K qid, String queryString)
+      throws IOException, QueryNodeException {
+    Query query = null;
+    String queryDocID = null;
+    if (qc == QueryConstructor.SequentialDependenceModel) {
+      args.backgroundlinking_weighted = false;
+    }
+    queryDocID = queryString;
+    List<String> queryList = NewsBackgroundLinkingTopicReader.generateQueryString(reader, queryDocID,
+        args.backgroundlinking_paragraph, args.backgroundlinking_k, args.backgroundlinking_weighted, qc, analyzer);
+    List<ScoredDocuments> allRes = new ArrayList<>();
+    for (String queryStr : queryList) {
+      Query q = null;
+      if (qc == QueryConstructor.SequentialDependenceModel) {
+        q = new SdmQueryGenerator(args.sdm_tw, args.sdm_ow, args.sdm_uw).buildQuery(FIELD_BODY, analyzer, queryStr);
+      } else {
+        // DO NOT use BagOfWordsQueryGenerator here!!!!
+        // Because the actual query strings are extracted from tokenized document!!!
+        q = new StandardQueryParser().parse(queryStr, FIELD_BODY);
+      }
+      Query filter = new TermsQuery(
+          new Term(WapoGenerator.WapoField.KICKER.name, "Opinions"),
+          new Term(WapoGenerator.WapoField.KICKER.name, "Letters to the Editor"),
+          new Term(WapoGenerator.WapoField.KICKER.name, "The Post's View")
+      );
+      BooleanQuery.Builder builder = new BooleanQuery.Builder();
+      builder.add(filter, BooleanClause.Occur.MUST_NOT);
+      builder.add(q, BooleanClause.Occur.MUST);
+      query = builder.build();
+      
+      TopDocs rs = new TopDocs(0, new ScoreDoc[]{}, Float.NaN);
+      if (!(isRerank && args.rerankcutoff <= 0)) {
+        if (args.arbitraryScoreTieBreak) {// Figure out how to break the scoring ties.
+          rs = searcher.search(query, isRerank ? args.rerankcutoff : args.hits);
+        } else {
+          rs = searcher.search(query, isRerank ? args.rerankcutoff : args.hits, BREAK_SCORE_TIES_BY_DOCID, true, true);
+        }
+      }
+      
+      List<String> queryTokens = Arrays.asList(queryStr.split(" "));
+      RerankerContext context = new RerankerContext<>(searcher, qid, query, queryDocID, queryStr, queryTokens, null, args);
+  
+      allRes.add(cascade.run(ScoredDocuments.fromTopDocs(rs, searcher), context));
+    }
+    
+    // Finally do a round-robin picking
+    int totalSize = 0;
+    float[] scoresOfFirst = new float[allRes.size()];
+    for (int i = 0; i < allRes.size(); i++) {
+      totalSize += allRes.get(i).documents.length;
+      scoresOfFirst[i] = allRes.get(i).scores.length > 0 ? allRes.get(i).scores[0] : Float.NEGATIVE_INFINITY;
+    }
+    totalSize = Math.min(args.hits, totalSize);
+  
+    ScoredDocuments scoredDocs = new ScoredDocuments();
+    scoredDocs.documents = new Document[totalSize];
+    scoredDocs.ids = new int[totalSize];
+    scoredDocs.scores = new float[totalSize];
+  
+    int rowIdx = 0;
+    int idx = 0;
+    while(idx < totalSize) {
+      for(int i = 0; i < allRes.size(); i++) {
+        if (rowIdx < allRes.get(i).documents.length) {
+          scoredDocs.documents[idx] = allRes.get(i).documents[rowIdx];
+          scoredDocs.ids[idx] = allRes.get(i).ids[rowIdx];
+          scoredDocs.scores[idx] = args.hits-idx;
+          idx++;
+        }
+      }
+      rowIdx++;
+    }
+  
+    NewsBackgroundLinkingReranker postProcessor = new NewsBackgroundLinkingReranker();
+    RerankerContext context = new RerankerContext<>(searcher, qid, null, queryDocID, null, null, null, args);
+    scoredDocs = postProcessor.rerank(scoredDocs, context);
+    return scoredDocs;
   }
 
   public<K> ScoredDocuments searchTweets(IndexSearcher searcher, K qid, String queryString, long t) throws IOException {
@@ -271,7 +348,7 @@ public final class SearchCollection implements Closeable {
       }
     }
 
-    RerankerContext context = new RerankerContext<>(searcher, qid, keywordQuery, queryString, queryTokens, filter, args);
+    RerankerContext context = new RerankerContext<>(searcher, qid, keywordQuery, null, queryString, queryTokens, filter, args);
 
     return cascade.run(ScoredDocuments.fromTopDocs(rs, searcher), context);
   }

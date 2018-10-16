@@ -141,8 +141,8 @@ public class DumpTweetsLtrData {
       TopDocs rs = searcher.search(q, args.hits);
       List<String> queryTokens = AnalyzerUtils.tokenize(new TweetAnalyzer(), queryString);
 
-      RerankerContext<Integer> context = new RerankerContext<>(searcher, Integer.parseInt(queryString), query, queryString,
-          queryTokens, filter, null);
+      RerankerContext<Integer> context = new RerankerContext<>(searcher, Integer.parseInt(queryString), query, null,
+          queryString, queryTokens, filter, null);
 
       cascade.run(ScoredDocuments.fromTopDocs(rs, searcher), context);
       long qtime = (System.nanoTime()-curQueryTime)/1000000;
