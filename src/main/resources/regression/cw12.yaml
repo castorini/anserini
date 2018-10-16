@@ -5,10 +5,12 @@ index_utils_command: target/appassembler/bin/IndexUtils
 search_command: target/appassembler/bin/SearchCollection
 topic_root: src/main/resources/topics-and-qrels/
 qrels_root: src/main/resources/topics-and-qrels/
-index_root:
 ranking_root:
-input: /tuna1/collections/web/ClueWeb12/
-index_path: "/tuna1/indexes/lucene-index.cw12.pos+docvectors+rawdocs" # path to the existing index, used in regression test if `--index` option is absent
+input_roots:
+  - /tuna1/
+  - /scratch2/
+input: collections/web/ClueWeb12/
+index_path: indexes/lucene-index.cw12.pos+docvectors+rawdocs # path to the existing index, used in regression test if `--index` option is absent
 collection: ClueWeb12Collection
 generator: JsoupGenerator
 threads: 44
@@ -81,16 +83,16 @@ models:
     results:
       map:
         - 0.1483
-        - 0.2460
+        - 0.2481
       p30:
         - 0.2360
-        - 0.4167
+        - 0.4233
       ndcg20:
         - 0.17524
-        - 0.24793
+        - 0.24838
       err20:
         - 0.09165
-        - 0.17831
+        - 0.17851
   - name: ql
     params:
       - -ql
@@ -114,13 +116,13 @@ models:
     results:
       map:
         - 0.1245
-        - 0.2302
+        - 0.2334
       p30:
         - 0.2053
-        - 0.3880
+        - 0.3973
       ndcg20:
         - 0.15630
-        - 0.21387
+        - 0.21479
       err20:
         - 0.08678
-        - 0.13086
+        - 0.13124

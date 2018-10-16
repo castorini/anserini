@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Anserini: An information retrieval toolkit built on Lucene
+Anserini: A toolkit for reproducible information retrieval research built on Lucene
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -48,10 +48,25 @@ def batch_everything(all_params, func):
 def isclose(a, b, rel_tol=1e-09, abs_tol=0.0):
     return abs(a-b) <= max(rel_tol * max(abs(a), abs(b)), abs_tol)
 
+def get_index_path(yaml_data):
+    """
+    Find the possible index path
+    """
+    index_path = os.path.join('lucene-index.{0}.pos+docvectors{1}'.format(yaml_data['name'], \
+                                                                          '+rawdocs' if '-storeRawDocs' in yaml_data['index_options'] else ''))
+    if not os.path.exists(index_path):
+        index_path = yaml_data['index_path']
+        if not index_path or not os.path.exists(index_path):
+            for input_root in yaml_data['input_roots']:
+                if os.path.exists(os.path.join(input_root, yaml_data['index_path'])):
+                    index_path = os.path.join(input_root, yaml_data['index_path'])
+                    break
+    return index_path
+
 def batch_retrieval(collection_yaml, models_yaml, output_root):
     all_params = []
     program = os.path.join(collection_yaml['anserini_root'], 'target/appassembler/bin', 'SearchCollection')
-    index_path = os.path.join(collection_yaml['index_root'] if collection_yaml['index_root'] else '', collection_yaml['index_path'])
+    index_path = get_index_path(collection_yaml)
     this_output_root = os.path.join(output_root, collection_yaml['name'])
     if not os.path.exists(this_output_root):
         os.makedirs(this_output_root)
@@ -77,7 +92,7 @@ def atom_retrieval(para):
 
 def batch_eval(collection_yaml, models_yaml, output_root):
     all_params = []
-    index_path = os.path.join(collection_yaml['index_root'] if collection_yaml['index_root'] else '', collection_yaml['index_path'])
+    index_path = get_index_path(collection_yaml)
     programs = set([eval['command'] for eval in collection_yaml['evals']])
     this_output_root = os.path.join(output_root, collection_yaml['name'])
     if not os.path.exists(this_output_root):
@@ -102,7 +117,7 @@ def atom_eval(params):
 
 def batch_output_effectiveness(collection_yaml, models_yaml, output_root):
     all_params = []
-    index_path = os.path.join(collection_yaml['index_root'] if collection_yaml['index_root'] else '', collection_yaml['index_path'])
+    index_path = get_index_path(collection_yaml)
     this_output_root = os.path.join(output_root, collection_yaml['name'])
     if not os.path.exists(this_output_root):
         os.makedirs(this_output_root)
@@ -117,7 +132,7 @@ def atom_output_effectiveness(para):
     Effectiveness(index_path).output_effectiveness(output_fn, input_fns)
 
 def print_optimal_effectiveness(collection_yaml, models_yaml, output_root, metrics=['map']):
-    index_path = os.path.join(collection_yaml['index_root'] if collection_yaml['index_root'] else '', collection_yaml['index_path'])
+    index_path = get_index_path(collection_yaml)
     this_output_root = os.path.join(output_root, collection_yaml['name'])
     logger.info('='*30+'JDIQ2018 Effectiveness for '+collection_yaml['name']+'='*30)
     effectiveness = Effectiveness(index_path).load_optimal_effectiveness(this_output_root, metrics)

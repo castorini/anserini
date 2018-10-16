@@ -7,8 +7,11 @@ topic_root: src/main/resources/topics-and-qrels/
 qrels_root: src/main/resources/topics-and-qrels/
 index_root:
 ranking_root:
-input: /tuna1/collections/twitter/Tweets2013-corpus/data/
-index_path: "/tuna1/indexes/lucene-index.mb13.pos+docvectors+rawdocs" # path to the existing index, used in regression test if `--index` option is absent
+input_roots:
+  - /tuna1/
+  - /scratch2/
+input: collections/twitter/Tweets2013-corpus/data/
+index_path: indexes/lucene-index.mb13.pos+docvectors+rawdocs # path to the existing index, used in regression test if `--index` option is absent
 collection: TweetCollection
 threads: 44
 generator: TweetGenerator
@@ -17,6 +20,7 @@ index_options:
   - -storeDocvectors
   - -storeRawDocs
   - -uniqueDocid
+  - -optimize
   - -tweet.keepUrls
   - -tweet.stemming
 index_stats:
@@ -68,10 +72,10 @@ models:
     results:
       map:
         - 0.2356
-        - 0.3962
+        - 0.4043
       p30:
         - 0.4061
-        - 0.5873
+        - 0.6048
   - name: bm25+ax
     params:
       - -searchtweets
@@ -106,10 +110,10 @@ models:
     results:
       map:
         - 0.2804
-        - 0.4660
+        - 0.4763
       p30:
         - 0.4606
-        - 0.6442
+        - 0.6612
   - name: ql+ax
     params:
       - -searchtweets

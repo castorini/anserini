@@ -1,5 +1,5 @@
 /**
- * Anserini: An information retrieval toolkit built on Lucene
+ * Anserini: A toolkit for reproducible information retrieval research built on Lucene
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,6 +34,7 @@ public class DataModel {
   private String generator;
   private int threads;
   private String topic_reader;
+  private List<String> input_roots;
   private String input;
   private String index_path;
   private List<String> index_options;
@@ -169,7 +170,15 @@ public class DataModel {
   public void setTopic_reader(String topic_reader) {
     this.topic_reader = topic_reader;
   }
-
+  
+  public List<String> getInput_roots() {
+    return input_roots;
+  }
+  
+  public void setInput_roots(List<String> input_roots) {
+    this.input_roots = input_roots;
+  }
+  
   public String getInput() {
     return input;
   }

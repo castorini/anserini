@@ -1,6 +1,6 @@
 #!/Users/peiliny/miniconda3/bin/python
 """
-Anserini: An information retrieval toolkit built on Lucene
+Anserini: A toolkit for reproducible information retrieval research built on Lucene
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -50,6 +50,21 @@ def check_output(command):
     else:
         raise RuntimeError("Command {0} running unsuccessfully".format(command))
 
+def get_index_path(yaml_data):
+    """
+    Find the possible index path
+    """
+    index_path = os.path.join('lucene-index.{0}.pos+docvectors{1}'.format(yaml_data['name'], \
+        '+rawdocs' if '-storeRawDocs' in yaml_data['index_options'] else ''))
+    if not os.path.exists(index_path):
+        index_path = yaml_data['index_path']
+        if not index_path or not os.path.exists(index_path):
+            for input_root in yaml_data['input_roots']:
+                if os.path.exists(os.path.join(input_root, yaml_data['index_path'])):
+                    index_path = os.path.join(input_root, yaml_data['index_path'])
+                    break
+    return index_path
+
 def construct_indexing_command(yaml_data):
     """Construct the Anserini indexing command for regression test
     Args:
@@ -59,12 +74,19 @@ def construct_indexing_command(yaml_data):
       (:obj:`list` of :obj:`str`): The command as a list that can be run by calling subprocess.call(command)
     """
     logger.info('='*10+'Indexing'+'='*10)
+    corpus_input_path = None
+    for input_root in yaml_data['input_roots']:
+        if os.path.exists(os.path.join(input_root, yaml_data['input'])):
+            corpus_input_path = os.path.join(input_root, yaml_data['input'])
+            break
+    if not corpus_input_path:
+        raise RuntimeError("All corpus inputs are not existing, please check!")
     index_command = [
         os.path.join(yaml_data['root'], yaml_data['index_command']),
         '-collection', yaml_data['collection'],
         '-generator', yaml_data['generator'],
         '-threads', str(yaml_data['threads']),
-        '-input', yaml_data['input'],
+        '-input', corpus_input_path,
         '-index', 'lucene-index.{0}.pos+docvectors{1}'.format(yaml_data['name'], '+rawdocs' if '-storeRawDocs' in yaml_data['index_options'] else '')
     ]
     index_command.extend(yaml_data['index_options'])
@@ -78,10 +100,7 @@ def verify_index(yaml_data, build_index=True, dry_run=False):
       yaml_data (dict): The yaml config read from config file.
     """
     logger.info('='*10+'Verifying Index'+'='*10)
-    index_path = os.path.join(yaml_data['index_root'] if yaml_data['index_root'] else '', \
-        'lucene-index.{0}.pos+docvectors{1}'.format(yaml_data['name'], \
-        '+rawdocs' if '-storeRawDocs' in yaml_data['index_options'] else '')) \
-        if build_index else yaml_data['index_path']
+    index_path = get_index_path(yaml_data)
     logger.info('[Index]: ' + index_path)
     index_utils_command = [
         os.path.join(yaml_data['root'], yaml_data['index_utils_command']),
@@ -113,9 +132,7 @@ def construct_ranking_command(yaml_data, build_index=True):
         [
             os.path.join(yaml_data['root'], yaml_data['search_command']),
             '-topicreader', yaml_data['topic_reader'],
-            '-index', os.path.join(yaml_data['index_root'] if yaml_data['index_root'] else '',
-            'lucene-index.{0}.pos+docvectors{1}'.format(yaml_data['name'], '+rawdocs' if '-storeRawDocs' in yaml_data['index_options'] else ''))
-            if build_index else yaml_data['index_path'],
+            '-index', get_index_path(yaml_data),
             ' '.join(model['params']),
             '-topics', os.path.join(yaml_data['root'], yaml_data['topic_root'], topic['path']),
             '-output', 'run.{0}.{1}.{2}'.format(yaml_data['name'], model['name'], topic['path'])
