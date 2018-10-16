@@ -1,0 +1,29 @@
+---
+search_command: target/appassembler/bin/SearchCollection
+topic_root: src/main/resources/topics-and-qrels/
+qrels_root: src/main/resources/topics-and-qrels/
+input_roots:
+  - /tuna1/
+  - /scratch2/
+  - /scratch2/yangpeilyn/Anserini/Anserini/
+collections:
+    robust04:
+      name: robust04
+      index_path: indexes/lucene-index.robust04.pos+docvectors+rawdocs
+      index_options:
+        - -storePositions
+        - -storeDocvectors
+        - -storeRawDocs
+      collection: TrecCollection
+      generator: JsoupGenerator
+      topic_reader: Trec
+      topic: topics.robust04.301-450.601-700.txt
+      qrel: qrels.robust2004.txt
+      evals:
+        - command: eval/trec_eval.9.0/trec_eval
+          params: -m map -q
+          separator: "\t"
+          parse_index: 2
+          metric: map
+          metric_precision: 4
+          can_combine: true
