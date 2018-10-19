@@ -27,3 +27,16 @@ collections:
           metric: map
           metric_precision: 4
           can_combine: true
+        - command: eval/trec_eval.9.0/trec_eval
+          params: -m P.20 -q
+          separator: "\t"
+          parse_index: 2
+          metric: p20
+          metric_precision: 4
+          can_combine: true
+        - command: eval/gdeval.pl
+          params: ""
+          separator: ","
+          parse_index: -2
+          metric: ndcg20
+          metric_precision: 5
