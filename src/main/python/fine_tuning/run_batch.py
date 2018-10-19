@@ -152,7 +152,7 @@ if __name__ == '__main__':
     parser.add_argument('--anserini_root', default='', help='Anserini path')
     parser.add_argument('--collection', required=True, help='the collection key in yaml')
     parser.add_argument('--basemodel', default='bm25', choices=['bm25', 'ql'], help='the ranking model')
-    parser.add_argument('--model', default='axiom', choices=['axiom', 'rm3', 'sdm'], help='the higher level model')
+    parser.add_argument('--model', default='axiom', choices=['bm25', 'ql', 'axiom', 'rm3', 'bm25+axiom', 'bm25+rm3'], help='the higher level model')
     parser.add_argument('--n', dest='parallelism', type=int, default=16, help='number of parallel threads for retrieval/eval')
     parser.add_argument('--output_root', default='fine_tuning_results', help='output directory of all results')
 

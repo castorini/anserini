@@ -1,5 +1,34 @@
 ---
 models:
+  bm25:
+    name: bm25
+    fixed_params: "-bm25"
+    params:
+      k1:
+        type: float
+        lower: 0.1
+        upper: 4.0
+        pace: 0.1
+      b:
+        type: float
+        lower: 0.1
+        upper: 1.0
+        pace: 0.05
+    expected:
+      robust04:
+        map: 0.2532
+  ql:
+    name: ql
+    fixed_params: "-ql"
+    params:
+      mu:
+        type: int
+        lower: 0
+        upper: 10000
+        pace: 250
+    expected:
+      robust04:
+        map: 0.2532
   axiom:
     name: axiom
     fixed_params: "-axiom.n 30 -axiom.deterministic"
@@ -24,6 +53,40 @@ models:
     expected:
       robust04:
         map: 0.2532
+  bm25+axiom:
+    name: axiom
+    fixed_params: "-axiom.n 30 -axiom.deterministic"
+    nexus_params:
+      rerankCutoff: "axiom.r"
+    params:
+      axiom.r:
+        type: int
+        lower: 1
+        upper: 50
+        pace: 1
+      axiom.top:
+        type: int
+        lower: 1
+        upper: 50
+        pace: 1
+      axiom.beta:
+        type: float
+        lower: 0
+        upper: 1
+        pace: 0.1
+      b:
+        type: float
+        lower: 0
+        upper: 0.5
+        pace: 0.1
+      k1:
+        type: float
+        lower: 0.9
+        upper: 0.9
+        pace: 0.1
+    expected:
+      robust04:
+        map: 0.2532
   rm3:
     name: rm3
     fixed_params: ""
@@ -44,4 +107,35 @@ models:
         type: float
         lower: 0
         upper: 1
+        pace: 0.1
+  bm25+rm3:
+    name: rm3
+    fixed_params: ""
+    nexus_params:
+      rerankCutoff: "rm3.fbDocs"
+    params:
+      rm3.fbTerms:
+        type: int
+        lower: 1
+        upper: 50
+        pace: 1
+      rm3.fbDocs:
+        type: int
+        lower: 1
+        upper: 50
+        pace: 1
+      rm3.originalQueryWeight:
+        type: float
+        lower: 0
+        upper: 1
+        pace: 0.1
+      b:
+        type: float
+        lower: 0
+        upper: 0.5
+        pace: 0.1
+      k1:
+        type: float
+        lower: 0.9
+        upper: 0.9
         pace: 0.1
