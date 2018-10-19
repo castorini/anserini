@@ -91,18 +91,18 @@ def atom_retrieval(para):
 def batch_eval(collection_yaml, models_yaml, output_root):
     all_params = []
     index_path = get_index_path(collection_yaml)
-    programs = set([eval['command']+' '+eval['params'] for eval in collection_yaml['evals']])
     this_output_root = os.path.join(output_root, collection_yaml['name'])
-    eval_params = Evaluation(index_path).gen_batch_eval_params(this_output_root)
-    for para in eval_params:
-        run_file_path, eval_output = para
-        this_para = (
-            [os.path.join(collection_yaml['anserini_root'], program) for program in programs],
-            os.path.join(collection_yaml['anserini_root'], collection_yaml['qrels_root'], collection_yaml['qrel']),
-            run_file_path,
-            eval_output
-        )
-        all_params.append(this_para)
+    for eval in collection_yaml['evals']:
+        eval_params = Evaluation(index_path).gen_batch_eval_params(this_output_root, eval['metric'])
+        for param in eval_params:
+            run_file_path, eval_output = param
+            this_para = (
+                [os.path.join(collection_yaml['anserini_root'], eval['command']+' '+eval['params'])],
+                os.path.join(collection_yaml['anserini_root'], collection_yaml['qrels_root'], collection_yaml['qrel']),
+                run_file_path,
+                eval_output
+            )
+            all_params.append(this_para)
     logger.info('='*10+'Starting Batch Evaluation'+'='*10)
     batch_everything(all_params, atom_eval)
 

@@ -60,8 +60,7 @@ class Search(object):
                 all_params.append( (para_str, results_fn) )
 
         # always include a baseline here
-        all_params.append((
-            '-%s' % (model_yaml['name']),
-            os.path.join(output_root, self.run_files_root, model_yaml['basemodel']+'_'+model_yaml['name']+'_noparams')
-        ))
+        no_params_fn = os.path.join(output_root, self.run_files_root, model_yaml['basemodel']+'_'+model_yaml['name']+'_noparams')
+        if not os.path.exists(no_params_fn):
+            all_params.append(('-%s' % (model_yaml['name']), no_params_fn))
         return all_params

@@ -45,15 +45,17 @@ class Effectiveness(object):
             os.makedirs(os.path.join(output_root, self.effectiveness_root))
         all_params = []
         all_results = {}
-        for fn in os.listdir(os.path.join(output_root, self.eval_files_root)):
-            if len(fn.split('_')) == 3:
-                basemodel, model, model_params = fn.split('_')
-            elif len(fn.split('_')) == 2:
-                basemodel, model = fn.split('_')
-            output_fn = basemodel+'_'+model
-            if output_fn not in all_results:
-                all_results[output_fn] = []
-            all_results[output_fn].append( os.path.join(output_root, self.eval_files_root, fn) )
+        for metric_dir in os.listdir(os.path.join(output_root, self.eval_files_root)):
+            for fn in os.listdir(os.path.join(output_root, self.eval_files_root, metric_dir)):
+                if len(fn.split('_')) == 3:
+                    basemodel, model, model_params = fn.split('_')
+                elif len(fn.split('_')) == 2:
+                    basemodel, model = fn.split('_')
+                output_fn = basemodel+'_'+model+'_'+metric_dir
+                if not os.path.exists(output_fn):
+                    if output_fn not in all_results:
+                        all_results[output_fn] = []
+                    all_results[output_fn].append( os.path.join(output_root, self.eval_files_root, metric_dir, fn) )
         for output_fn in all_results:
             performace_fn = os.path.join(output_root, self.effectiveness_root, output_fn)
             tmp = [ self.index_path, performace_fn ]
@@ -132,18 +134,19 @@ class Effectiveness(object):
         data = []
         effectiveness_root = os.path.join(output_root, self.effectiveness_root)
         for fn in os.listdir(effectiveness_root):
-            basemodel, model = fn.split('_')
+            basemodel, model, metric = fn.split('_')
+            if metric not in metrics:
+                continue
             with open(os.path.join(effectiveness_root, fn)) as f:
-                all_performance = json.load(f)
-                for metric in metrics:
-                    all_optimal = self.add_up_all_optimal(all_performance[metric])
+                for real_metric, all_performance in json.load(f).items():
+                    all_optimal = self.add_up_all_optimal(all_performance)
                     res = {
                         'model': model,
                         'basemodel': basemodel,
                         'metric': metric,
-                        'actual_all': all_performance[metric]['all']['max'],
+                        'actual_all': all_performance['all']['max'],
                         'actual_optimal': all_optimal[0],
-                        'optimal_params_dist': all_optimal[1]
+                        #'optimal_params_dist': all_optimal[1]
                     }
                     data.append(res)
         return data
