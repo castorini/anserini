@@ -60,9 +60,9 @@ models:
       - -rm3
     results:
       map:
-        - 0.2166
+        - 0.2169
       p30:
-        - 0.2452
+        - 0.2456
   - name: bm25+ax
     params:
       - -bm25
@@ -89,9 +89,9 @@ models:
       - -rm3
     results:
       map:
-        - 0.2173
+        - 0.2169
       p30:
-        - 0.2344
+        - 0.2354
   - name: ql+ax
     params:
       - -ql
