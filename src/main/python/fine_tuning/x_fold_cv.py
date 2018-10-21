@@ -1,7 +1,18 @@
+#!/Users/peiliny/miniconda3/bin/python
 """
-tuning parameters using x-fold cross-validation
+Anserini: A toolkit for reproducible information retrieval research built on Lucene
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+http://www.apache.org/licenses/LICENSE-2.0
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
 """
 
+from __future__ import print_function
 import os
 import re
 import argparse
@@ -10,7 +21,9 @@ import logging
 
 class XFlodValidate(object):
     """
-    Tune x-fold 
+    Perform X-Fold cross validation for various 
+    parameters and report the average effectiveness
+    for each fold
     """
     def __init__(self,output_root,fold=2):
         self.logger = logging.getLogger('x_fold_cv.XFlodValidate')
@@ -19,14 +32,16 @@ class XFlodValidate(object):
         self.fold = fold
 
     def _get_param_average(self):
-        # Get the average performance of each 
-        # parameter set in each fold
+        # For each parameter set, get its 
+        # average performances in each fold,
+        # metric, reranking model, and base 
+        # ranking model
         avg_performances = {}
         for collection_name in os.walk(self.output_root).next()[1]:
             eval_root_dir = os.path.join(self.output_root, collection_name,self.eval_files_root)
             for metric in os.walk(eval_root_dir).next()[1]: 
                 eval_dir = os.path.join(eval_root_dir,metric)
-                for fn in  os.listdir(eval_dir):
+                for fn in os.listdir(eval_dir):
                     basemodel, model, param = fn.split("_")
                     if basemodel not in avg_performances:
                         avg_performances[basemodel] = {}
@@ -37,29 +52,31 @@ class XFlodValidate(object):
                     for metric in param_avg_performances:
                         if metric not in avg_performances[basemodel][model]:
                             avg_performances[basemodel][model][metric] = {}
-                        for i in param_avg_performances[metric]:
-                            if i not in avg_performances[basemodel][model][metric]:
-                                avg_performances[basemodel][model][metric][i] = {}
-                            avg_performances[basemodel][model][metric][i][param] = param_avg_performances[metric][i]
+                        for fold_id in param_avg_performances[metric]:
+                            if fold_id not in avg_performances[basemodel][model][metric]:
+                                avg_performances[basemodel][model][metric][fold_id] = {}
+                            avg_performances[basemodel][model][metric][fold_id][param] = param_avg_performances[metric][fold_id]
 
         return avg_performances
 
-    def tune(self,quite):
-        # x-fold tuning
+    def tune(self,verbose):
+        # Tune parameter with x-fold. Use x-1 fold
+        # for training and 1 fold for testing. Do
+        # it for each fold and report average
         avg_performances = self._get_param_average()
         for basemodel in avg_performances:
             for model in avg_performances[basemodel]:
                 for metric in avg_performances[basemodel][model]:
-                    print "For %s %s %s" %(basemodel, model, metric)
+                    print("For {0} {1} {2}".format(basemodel, model, metric))
                     metric_fold_performances = []
-                    for i in xrange(self.fold):
-                        test_fold_performances = avg_performances[basemodel][model][metric][i]
+                    for test_idx in xrange(self.fold):
+                        test_fold_performances = avg_performances[basemodel][model][metric][test_idx]
                         training_data = {}
-                        for j in xrange(self.fold):
-                            if j == i:
+                        for train_idx in xrange(self.fold):
+                            if train_idx == test_idx:
                                 continue
-                            fold_performance = avg_performances[basemodel][model][metric][j]
-                            for param in  fold_performance:
+                            fold_performance = avg_performances[basemodel][model][metric][train_idx]
+                            for param in fold_performance:
                                 if param not in training_data:
                                     training_data[param] = .0
                                 training_data[param] += fold_performance[param]
@@ -67,18 +84,20 @@ class XFlodValidate(object):
                                                              key=lambda x:x[1],
                                                              reverse=True)
                         best_param = sorted_training_performance[0][0]
-                        if not quite:
-                            print "\tFold: %d" %(i)
-                            print "\t\tBest param: %s" %(best_param)
-                            print "\t\ttest performance: {0:.4f}".format(test_fold_performances[best_param])
+                        if verbose:
+                            print("\tFold: {0}".format(test_idx))
+                            print("\t\tBest param: {0}".format(best_param))
+                            print("\t\ttest performance: {0:.4f}".format(test_fold_performances[best_param]))
 
                         metric_fold_performances.append(test_fold_performances[best_param])
-                    print "\tAverage {0:.4f}".format( sum(metric_fold_performances) / len(metric_fold_performances))
+                    print("\tAverage {0:.4f}".format( sum(metric_fold_performances) / len(metric_fold_performances)))
 
     def _get_param_avg_performances(self,file_path):
+        # Given a file, return its average effectiveness
+        # for each metric in each fold
         param_performance_list = {}
-        for i in xrange(self.fold):
-            param_performance_list[i] = {}
+        for fold_id in xrange(self.fold):
+            param_performance_list[fold_id] = {}
         with open(file_path) as f:
             for line in f:
                 line = line.strip()
@@ -86,8 +105,8 @@ class XFlodValidate(object):
                     row = line.split()
                     metric = row[0]
                     if metric not in param_performance_list[0]:
-                        for i in param_performance_list:
-                            param_performance_list[i][metric] = []
+                        for fold_id in param_performance_list:
+                            param_performance_list[fold_id][metric] = []
                     qid = row[1]
                     try:
                         value = float(row[2])
@@ -97,24 +116,24 @@ class XFlodValidate(object):
                     else:
                         if qid != "all":
                             # compute fold id base on qid
-                            idx = int(qid) % self.fold
-                            param_performance_list[idx][metric].append(value)
+                            fold_id = int(qid) % self.fold
+                            param_performance_list[fold_id][metric].append(value)
         param_avg_performances = {}
 
         for metric in param_performance_list[0].keys():
             param_avg_performances[metric] = {}
-            for i in param_performance_list:
-                param_avg_performances[metric][i] = sum(param_performance_list[i][metric])/len(param_performance_list[i][metric])
+            for fold_id in param_performance_list:
+                param_avg_performances[metric][fold_id] = sum(param_performance_list[fold_id][metric])/len(param_performance_list[fold_id][metric])
         return param_avg_performances
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--output_root', default='fine_tuning_results', help='output directory of all results')
     parser.add_argument('--fold',"-f", default=2, type=int, help='number of fold')
-    parser.add_argument('--quite',"-q", action="store_true", help="output in quite mode")
+    parser.add_argument('--verbose',"-v", action="store_true", help="output in verbose mode")
     args=parser.parse_args()
     
-    XFlodValidate(args.output_root,args.fold).tune(args.quite)
+    XFlodValidate(args.output_root,args.fold).tune(args.verbose)
 
 if __name__=="__main__":
     main()
