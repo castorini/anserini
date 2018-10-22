@@ -36,12 +36,20 @@ class XFlodValidate(object):
         # metric, reranking model, and base 
         # ranking model
         avg_performances = {}
-        for collection_name in os.walk(self.output_root).next()[1]:
+        for collection_name in os.listdir(self.output_root):
             eval_root_dir = os.path.join(self.output_root, collection_name,self.eval_files_root)
-            for metric in os.walk(eval_root_dir).next()[1]: 
+            if os.is_file(eval_root_dir):
+                continue
+            # if it is a directory for a collection,
+            # do x-fold cv for the collection
+            for metric in os.listdir(eval_root_dir):
                 eval_dir = os.path.join(eval_root_dir,metric)
+                if os.is_file(eval_dir):
+                    continue
+                # if it is a directory containing effectiveness
+                # for a metric, do x-fold cv for the metric
                 for fn in os.listdir(eval_dir):
-                    basemodel, model, param = fn.split("_")
+                    basemodel, model, param = fn.split('_')
                     if basemodel not in avg_performances:
                         avg_performances[basemodel] = {}
                     if model not in avg_performances[basemodel]:
@@ -66,7 +74,7 @@ class XFlodValidate(object):
         for basemodel in avg_performances:
             for model in avg_performances[basemodel]:
                 for metric in avg_performances[basemodel][model]:
-                    print("For {0} {1} {2}".format(basemodel, model, metric))
+                    print('For {} {} {}'.format(basemodel, model, metric))
                     metric_fold_performances = []
                     for test_idx in xrange(self.fold):
                         test_fold_performances = avg_performances[basemodel][model][metric][test_idx]
@@ -84,12 +92,12 @@ class XFlodValidate(object):
                                                              reverse=True)
                         best_param = sorted_training_performance[0][0]
                         if verbose:
-                            print("\tFold: {0}".format(test_idx))
-                            print("\t\tBest param: {0}".format(best_param))
-                            print("\t\ttest performance: {0:.4f}".format(test_fold_performances[best_param]))
+                            print('\tFold: {}'.format(test_idx))
+                            print('\t\tBest param: {}'.format(best_param))
+                            print('\t\ttest performance: {0:.4f}'.format(test_fold_performances[best_param]))
 
                         metric_fold_performances.append(test_fold_performances[best_param])
-                    print("\tAverage {0:.4f}".format( sum(metric_fold_performances) / len(metric_fold_performances)))
+                    print('\tAverage {0:.4f}'.format( sum(metric_fold_performances) / len(metric_fold_performances)))
 
     def _get_param_avg_performances(self,file_path):
         # Given a file, return its average effectiveness
@@ -110,10 +118,10 @@ class XFlodValidate(object):
                     try:
                         value = float(row[2])
                     except:
-                        self.logger.error( "Cannot parse %s" %(row[2]) )
+                        self.logger.error( 'Cannot parse %s' %(row[2]) )
                         continue
                     else:
-                        if qid != "all":
+                        if qid != 'all':
                             # compute fold id base on qid
                             fold_id = int(qid) % self.fold
                             param_performance_list[fold_id][metric].append(value)
@@ -128,12 +136,12 @@ class XFlodValidate(object):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--output_root', default='fine_tuning_results', help='output directory of all results')
-    parser.add_argument('--fold',"-f", default=2, type=int, help='number of fold')
-    parser.add_argument('--verbose',"-v", action="store_true", help="output in verbose mode")
+    parser.add_argument('--fold','-f', default=2, type=int, help='number of fold')
+    parser.add_argument('--verbose','-v', action='store_true', help='output in verbose mode')
     args=parser.parse_args()
     
     XFlodValidate(args.output_root,args.fold).tune(args.verbose)
 
-if __name__=="__main__":
+if __name__ == '__main__':
     main()
 
