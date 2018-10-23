@@ -15,6 +15,7 @@ public class FeatureVectorTest extends LuceneTestCase {
     fv.addFeatureWeight("b", 0.3f);
     fv.addFeatureWeight("b", 0.5f);
     fv.addFeatureWeight("c", 0.4f);
+    fv.addFeatureWeight("d", 0.1f);
     return fv;
   }
   
