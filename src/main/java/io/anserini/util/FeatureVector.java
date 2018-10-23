@@ -43,11 +43,10 @@ public class FeatureVector {
   public FeatureVector pruneToSize(int k) {
     List<KeyValuePair> pairs = getOrderedFeatures();
     Object2FloatOpenHashMap<String> pruned = new Object2FloatOpenHashMap<String>();
-
-    int i = 0;
+    
     for (KeyValuePair pair : pairs) {
       pruned.put((String) pair.getKey(), pair.getValue());
-      if (i++ > k) {
+      if (pruned.size() >= k) {
         break;
       }
     }
