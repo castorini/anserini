@@ -127,8 +127,11 @@ def print_optimal_effectiveness(collection_yaml, models_yaml, output_root, metri
     index_path = get_index_path(collection_yaml)
     this_output_root = os.path.join(output_root, collection_yaml['name'])
     logger.info('='*30+'Optimal Effectiveness for '+collection_yaml['name']+'='*30)
-    effectiveness = Effectiveness(index_path).load_optimal_effectiveness(this_output_root, metrics)
+    effectiveness, per_topic_oracle = Effectiveness(index_path).load_optimal_effectiveness(this_output_root, metrics)
     print(json.dumps(effectiveness, sort_keys=True, indent=2))
+    logger.info('='*30+'Per-topic Oracle across all methods'+'='*30)
+    for metric in per_topic_oracle:
+        print(metric, sum(per_topic_oracle[metric].values())/len(per_topic_oracle[metric]))
 
 def del_method_related_files(method_name):
     folders = ['split_results', 'merged_results', 'evals', 'effectiveness']
@@ -150,6 +153,7 @@ if __name__ == '__main__':
 
     # general settings
     parser.add_argument('--anserini_root', default='', help='Anserini path')
+    parser.add_argument('--run', action='store_true', help='Generate the runs files and evaluate them. Otherwise we only output the evaluation results (based on the existing eval files)')
     parser.add_argument('--collection', required=True, help='the collection key in yaml')
     parser.add_argument('--basemodel', default='bm25', choices=['bm25', 'ql'], help='the ranking model')
     parser.add_argument('--model', default='axiom', choices=['bm25', 'ql', 'axiom', 'rm3', 'bm25+axiom', 'bm25+rm3'], help='the higher level model')
@@ -187,7 +191,9 @@ if __name__ == '__main__':
         if not os.path.exists(os.path.join(args.output_root, collection_yaml['name'])):
             os.makedirs(os.path.join(args.output_root, collection_yaml['name']))
         models_yaml['basemodel'] = args.basemodel
-        batch_retrieval(collection_yaml, models_yaml, args.output_root)
-        batch_eval(collection_yaml, models_yaml, args.output_root)
+
+        if args.run:
+            batch_retrieval(collection_yaml, models_yaml, args.output_root)
+            batch_eval(collection_yaml, models_yaml, args.output_root)
         batch_output_effectiveness(collection_yaml, models_yaml, args.output_root)
         print_optimal_effectiveness(collection_yaml, models_yaml, args.output_root, args.metrics)

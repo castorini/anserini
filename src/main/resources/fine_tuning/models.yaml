@@ -2,7 +2,7 @@
 models:
   bm25:
     name: bm25
-    fixed_params: "-bm25"
+    fixed_params: ""
     params:
       k1:
         type: float
@@ -19,7 +19,7 @@ models:
         map: 0.2532
   ql:
     name: ql
-    fixed_params: "-ql"
+    fixed_params: ""
     params:
       mu:
         type: int
@@ -72,13 +72,13 @@ models:
       axiom.beta:
         type: float
         lower: 0
-        upper: 1
+        upper: 0.5
         pace: 0.1
       b:
         type: float
         lower: 0
         upper: 0.5
-        pace: 0.1
+        pace: 0.05
       k1:
         type: float
         lower: 0.9
