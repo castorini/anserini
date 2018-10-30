@@ -16,6 +16,7 @@
 
 package io.anserini.search;
 
+import io.anserini.analysis.EnglishAnalyzerStemming;
 import io.anserini.analysis.TweetAnalyzer;
 import io.anserini.index.generator.TweetGenerator;
 import io.anserini.index.generator.WapoGenerator;
@@ -131,7 +132,8 @@ public final class SearchCollection implements Closeable {
       LOG.info("Search Tweets");
       analyzer = new TweetAnalyzer();
     } else {
-      analyzer = args.keepstop ? new EnglishAnalyzer(CharArraySet.EMPTY_SET) : new EnglishAnalyzer();
+      analyzer = args.keepstop ?
+          new EnglishAnalyzerStemming(args.stemmer, CharArraySet.EMPTY_SET) : new EnglishAnalyzerStemming(args.stemmer);
     }
 
     if (args.sdm) {

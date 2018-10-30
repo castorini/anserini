@@ -38,13 +38,13 @@ class XFlodValidate(object):
         avg_performances = {}
         for collection_name in os.listdir(self.output_root):
             eval_root_dir = os.path.join(self.output_root, collection_name,self.eval_files_root)
-            if os.is_file(eval_root_dir):
+            if os.path.isfile(eval_root_dir):
                 continue
             # if it is a directory for a collection,
             # do x-fold cv for the collection
             for metric in os.listdir(eval_root_dir):
                 eval_dir = os.path.join(eval_root_dir,metric)
-                if os.is_file(eval_dir):
+                if os.path.isfile(eval_dir):
                     continue
                 # if it is a directory containing effectiveness
                 # for a metric, do x-fold cv for the metric

@@ -16,20 +16,15 @@
 
 package io.anserini.index;
 
+import io.anserini.analysis.EnglishAnalyzerStemming;
 import io.anserini.analysis.TweetAnalyzer;
-import io.anserini.collection.BaseFileSegment;
-import io.anserini.collection.Segment;
-import io.anserini.collection.DocumentCollection;
-import io.anserini.collection.SegmentProvider;
-import io.anserini.collection.SourceDocument;
+import io.anserini.collection.*;
 import io.anserini.index.generator.LuceneDocumentGenerator;
-
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.CharArraySet;
-import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.ConcurrentMergeScheduler;
 import org.apache.lucene.index.IndexWriter;
@@ -38,11 +33,7 @@ import org.apache.lucene.index.Term;
 import org.apache.lucene.search.similarities.BM25Similarity;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
-import org.kohsuke.args4j.CmdLineException;
-import org.kohsuke.args4j.CmdLineParser;
-import org.kohsuke.args4j.OptionHandlerFilter;
-import org.kohsuke.args4j.ParserProperties;
-import org.kohsuke.args4j.Option;
+import org.kohsuke.args4j.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -98,6 +89,9 @@ public final class IndexCollection {
 
     @Option(name = "-keepStopwords", usage = "boolean switch to keep stopwords")
     public boolean keepStopwords = false;
+  
+    @Option(name = "-stemmer", usage = "Stemmer: one of the following porter,krovetz,none. Default porter")
+    public String stemmer = "porter";
 
     @Option(name = "-uniqueDocid", usage = "remove duplicated documents with the same doc id when indexing. " +
       "please note that this option may slow the indexing a lot and if you are sure there is no " +
@@ -256,6 +250,7 @@ public final class IndexCollection {
     LOG.info("CollectionClass: " + args.collectionClass);
     LOG.info("Generator: " + args.generatorClass);
     LOG.info("Threads: " + args.threads);
+    LOG.info("Stemmer: " + args.stemmer);
     LOG.info("Keep stopwords? " + args.keepStopwords);
     LOG.info("Store positions? " + args.storePositions);
     LOG.info("Store docvectors? " + args.storeDocvectors);
@@ -296,13 +291,14 @@ public final class IndexCollection {
     LOG.info("Starting indexer...");
 
     int numThreads = args.threads;
-
+    
     final Directory dir = FSDirectory.open(indexPath);
-    final EnglishAnalyzer englishAnalyzer= args.keepStopwords ?
-        new EnglishAnalyzer(CharArraySet.EMPTY_SET) : new EnglishAnalyzer();
+    final EnglishAnalyzerStemming analyzer = args.keepStopwords ?
+        new EnglishAnalyzerStemming(args.stemmer, CharArraySet.EMPTY_SET) : new EnglishAnalyzerStemming(args.stemmer);
+    
     final TweetAnalyzer tweetAnalyzer = new TweetAnalyzer(args.tweetStemming);
     final IndexWriterConfig config = args.collectionClass.equals("TweetCollection") ?
-        new IndexWriterConfig(tweetAnalyzer) : new IndexWriterConfig(englishAnalyzer);
+        new IndexWriterConfig(tweetAnalyzer) : new IndexWriterConfig(analyzer);
     config.setSimilarity(new BM25Similarity());
     config.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
     config.setRAMBufferSizeMB(args.memorybufferSize);
