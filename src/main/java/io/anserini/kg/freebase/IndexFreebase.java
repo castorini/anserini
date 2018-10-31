@@ -16,10 +16,10 @@
 
 package io.anserini.kg.freebase;
 
+import io.anserini.analysis.FreebaseAnalyzer;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.StoredField;
@@ -92,7 +92,7 @@ public class IndexFreebase {
     LOG.info("Starting indexer...");
 
     final Directory dir = FSDirectory.open(indexPath);
-    final EnglishAnalyzer analyzer = new EnglishAnalyzer();
+    final FreebaseAnalyzer analyzer = new FreebaseAnalyzer();
     final IndexWriterConfig config = new IndexWriterConfig(analyzer);
     config.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
 
