@@ -27,6 +27,7 @@ import yaml
 from search import Search
 from evaluation import Evaluation
 from effectiveness import Effectiveness
+from xfold import XFoldValidate
 
 logger = logging.getLogger('fine_tuning')
 logger.setLevel(logging.INFO)
@@ -123,15 +124,47 @@ def atom_output_effectiveness(para):
     input_fns = para[2:]
     Effectiveness(index_path).output_effectiveness(output_fn, input_fns)
 
-def print_optimal_effectiveness(collection_yaml, models_yaml, output_root, metrics=['map']):
+def verify_effectiveness(collection_yaml, models_yaml, output_root):
     index_path = get_index_path(collection_yaml)
     this_output_root = os.path.join(output_root, collection_yaml['name'])
-    logger.info('='*30+'Optimal Effectiveness for '+collection_yaml['name']+'='*30)
-    effectiveness, per_topic_oracle = Effectiveness(index_path).load_optimal_effectiveness(this_output_root, metrics)
-    print(json.dumps(effectiveness, sort_keys=True, indent=2))
-    logger.info('='*30+'Per-topic Oracle across all methods'+'='*30)
-    for metric in per_topic_oracle:
-        print(metric, sum(per_topic_oracle[metric].values())/len(per_topic_oracle[metric]))
+    effectiveness, per_topic_oracle = Effectiveness(index_path).load_optimal_effectiveness(this_output_root)
+    success_optimal = True
+    for e in effectiveness:
+        if e['basemodel'] != models_yaml['basemodel'] or e['model'] != models_yaml['name'] or e['metric'] not in models_yaml['expected'][collection_yaml['name']]:
+            continue
+        expected = models_yaml['expected'][collection_yaml['name']][e['metric']]
+        if isclose(expected['best'], e['best']['value']):
+            logger.info(json.dumps(e, sort_keys=True))
+        else:
+            success_optimal = False
+            logger.error('!'*5+'base model: %s model: %s metric: %s expected best: %f actual: %s ' % (e['basemodel'], e['model'], e['metric'], expected['best'], e['best']['value'])+'!'*5)
+        if isclose(expected['oracle'], e['oracles']):
+            logger.info(json.dumps(e, sort_keys=True))
+        else:
+            success_optimal = False
+            logger.error('!'*5+'base model: %s model: %s metric: %s oracle: %f actual: %s ' % (e['basemodel'], e['model'], e['metric'], expected['oracle'], e['oracles'])+'!'*5)
+
+    success_xfold = True
+    for fold in [2, 5]:
+        x_fold_effectiveness = XFoldValidate(output_root, fold).tune(False)
+        for basemodel in x_fold_effectiveness:
+            if models_yaml['basemodel'] != basemodel:
+                continue
+            for model in x_fold_effectiveness[basemodel]:
+                if models_yaml['name'] != model:
+                    continue
+                for metric in x_fold_effectiveness[basemodel][model]:
+                    if metric not in models_yaml['expected'][collection_yaml['name']]:
+                        continue
+                    expected = models_yaml['expected'][collection_yaml['name']][metric]
+                    if isclose(expected['%d-fold' % fold], x_fold_effectiveness[basemodel][model][metric]):
+                        logger.info(json.dumps(x_fold_effectiveness[basemodel][model], sort_keys=True))
+                    else:
+                        success_optimal = False
+                        logger.error('!'*5+'base model: %s model: %s fold: %d metric: %s expected: %f actual: %s ' % (basemodel, model, fold, metric, expected['%d-fold' % fold], x_fold_effectiveness[basemodel][model][metric])+'!'*5)
+
+    if success_optimal and success_xfold:
+        logger.info("[Regression Tests Passed] Done...")
 
 def del_method_related_files(method_name):
     folders = ['split_results', 'merged_results', 'evals', 'effectiveness']
@@ -195,5 +228,5 @@ if __name__ == '__main__':
         if args.run:
             batch_retrieval(collection_yaml, models_yaml, args.output_root)
             batch_eval(collection_yaml, models_yaml, args.output_root)
-        batch_output_effectiveness(collection_yaml, models_yaml, args.output_root)
-        print_optimal_effectiveness(collection_yaml, models_yaml, args.output_root, args.metrics)
+            batch_output_effectiveness(collection_yaml, models_yaml, args.output_root)
+        verify_effectiveness(collection_yaml, models_yaml, args.output_root)

@@ -13,10 +13,24 @@ models:
         type: float
         lower: 0.1
         upper: 1.0
-        pace: 0.05
+        pace: 0.1
     expected:
       robust04:
-        map: 0.2532
+        map:
+          best: 0.2532
+          oracle: 0.2921
+          2-fold: 0.2253
+          5-fold: 0.2524
+        P_20:
+          best: 0.3614
+          oracle: 0.4426
+          2-fold: 0.3604
+          5-fold: 0.3577
+        ndcg20:
+          best: 0.41659
+          oracle: 0.5028
+          2-fold: 0.4108
+          5-fold: 0.4128
   ql:
     name: ql
     fixed_params: ""
@@ -28,7 +42,21 @@ models:
         pace: 250
     expected:
       robust04:
-        map: 0.2532
+        map:
+          best: 0.2496
+          oracle: 0.2703
+          2-fold: 0.2496
+          5-fold: 0.2495
+        P_20:
+          best: 0.3572
+          oracle: 0.4008
+          2-fold: 0.3543
+          5-fold: 0.3534
+        ndcg20:
+          best: 0.40703
+          oracle: 0.45610
+          2-fold: 0.4042
+          5-fold: 0.4046
   axiom:
     name: axiom
     fixed_params: "-axiom.n 30 -axiom.deterministic"
@@ -108,6 +136,23 @@ models:
         lower: 0
         upper: 1
         pace: 0.1
+    expected:
+      robust04:
+        map:
+          best: 0.2532
+          oracle: 0.2921
+          2-fold: 0.2253
+          5-fold: 0.2524
+        P_20:
+          best: 0.3614
+          oracle: 0.4426
+          2-fold: 0.3604
+          5-fold: 0.3577
+        ndcg20:
+          best: 0.41659
+          oracle: 0.5028
+          2-fold: 0.4108
+          5-fold: 0.4128
   bm25+rm3:
     name: rm3
     fixed_params: ""
@@ -139,3 +184,20 @@ models:
         lower: 0.9
         upper: 0.9
         pace: 0.1
+    expected:
+      robust04:
+        map:
+          best: 0.2532
+          oracle: 0.2921
+          2-fold: 0.2253
+          5-fold: 0.2524
+        P_20:
+          best: 0.3614
+          oracle: 0.4426
+          2-fold: 0.3604
+          5-fold: 0.3577
+        ndcg20:
+          best: 0.41659
+          oracle: 0.5028
+          2-fold: 0.4108
+          5-fold: 0.4128

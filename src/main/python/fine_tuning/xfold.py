@@ -18,7 +18,7 @@ import argparse
 import logging
 
 
-class XFlodValidate(object):
+class XFoldValidate(object):
     """
     Perform X-Fold cross validation for various 
     parameters and report the average effectiveness
@@ -71,10 +71,14 @@ class XFlodValidate(object):
         # for training and 1 fold for testing. Do
         # it for each fold and report average
         avg_performances = self._get_param_average()
+        res = {}
         for basemodel in avg_performances:
+            res[basemodel] = {}
             for model in avg_performances[basemodel]:
+                res[basemodel][model] = {}
                 for metric in avg_performances[basemodel][model]:
-                    print('For {} {} {}'.format(basemodel, model, metric))
+                    if verbose:
+                        print('For {} {} {}'.format(basemodel, model, metric))
                     metric_fold_performances = []
                     for test_idx in xrange(self.fold):
                         test_fold_performances = avg_performances[basemodel][model][metric][test_idx]
@@ -97,7 +101,8 @@ class XFlodValidate(object):
                             print('\t\ttest performance: {0:.4f}'.format(test_fold_performances[best_param]))
 
                         metric_fold_performances.append(test_fold_performances[best_param])
-                    print('\tAverage {0:.4f}'.format( sum(metric_fold_performances) / len(metric_fold_performances)))
+                    res[basemodel][model][metric] = round(sum(metric_fold_performances) / len(metric_fold_performances), 4)
+        return res
 
     def _get_param_avg_performances(self,file_path):
         # Given a file, return its average effectiveness
@@ -130,17 +135,17 @@ class XFlodValidate(object):
         for metric in param_performance_list[0].keys():
             param_avg_performances[metric] = {}
             for fold_id in param_performance_list:
-                param_avg_performances[metric][fold_id] = sum(param_performance_list[fold_id][metric])/len(param_performance_list[fold_id][metric])
+                param_avg_performances[metric][fold_id] = round(sum(param_performance_list[fold_id][metric])/len(param_performance_list[fold_id][metric]), 4)
         return param_avg_performances
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--output_root', default='fine_tuning_results', help='output directory of all results')
-    parser.add_argument('--fold','-f', default=2, type=int, help='number of fold')
-    parser.add_argument('--verbose','-v', action='store_true', help='output in verbose mode')
+    parser.add_argument('--fold', '-f', default=2, type=int, help='number of fold')
+    parser.add_argument('--verbose', '-v', action='store_true', help='output in verbose mode')
     args=parser.parse_args()
-    
-    XFlodValidate(args.output_root,args.fold).tune(args.verbose)
+
+    print(json.dumps(XFoldValidate(args.output_root, args.fold).tune(args.verbose), sort_keys=True, indent=2))
 
 if __name__ == '__main__':
     main()

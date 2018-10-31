@@ -101,7 +101,7 @@ public final class SearchCollection implements Closeable {
       throw new IllegalArgumentException(args.index + " does not exist or is not a directory.");
     }
 
-    LOG.info("Reading index at " + args.index);
+    LOG.info("Reading index at " + indexPath);
     this.reader = DirectoryReader.open(FSDirectory.open(indexPath));
 
     // Figure out which scoring model to use.

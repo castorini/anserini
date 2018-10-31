@@ -132,27 +132,25 @@ class Effectiveness(object):
                     per_topic_oracle_with_metric[qid] = json_data[qid]['max']['value']
                 else:
                     per_topic_oracle_with_metric[qid] = max(json_data[qid]['max']['value'], per_topic_oracle_with_metric[qid])
-        return round(sum_optimal/n, 5), params_dist
+        return round(sum_optimal/n, 4), params_dist
 
-    def load_optimal_effectiveness(self, output_root, metrics=['map']):
+    def load_optimal_effectiveness(self, output_root):
         data = []
         per_topic_oracle = {} # per topic optimal across all kinds of methods
         effectiveness_root = os.path.join(output_root, self.effectiveness_root)
         for fn in os.listdir(effectiveness_root):
             basemodel, model, metric = fn.split('_')
-            if metric not in metrics:
-                continue
-            if metric not in per_topic_oracle:
-                per_topic_oracle[metric] = {}
             with open(os.path.join(effectiveness_root, fn)) as f:
                 for real_metric, all_performance in json.load(f).items():
-                    all_optimal = self.add_up_all_optimal(all_performance, per_topic_oracle[metric])
+                    if real_metric not in per_topic_oracle:
+                        per_topic_oracle[real_metric] = {}
+                    all_optimal = self.add_up_all_optimal(all_performance, per_topic_oracle[real_metric])
                     res = {
                         'model': model,
                         'basemodel': basemodel,
-                        'metric': metric,
-                        'optimal_all': all_performance['all']['max'],
-                        'optimal_per_topic': all_optimal[0]
+                        'metric': real_metric,
+                        'best': all_performance['all']['max'],
+                        'oracles': all_optimal[0]
                     }
                     data.append(res)
         return data, per_topic_oracle
