@@ -31,7 +31,6 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.index.*;
-import org.apache.lucene.queryparser.flexible.standard.StandardQueryParser;
 import org.apache.lucene.search.*;
 import org.apache.lucene.store.FSDirectory;
 
@@ -127,21 +126,21 @@ public class AxiomReranker<T> implements Reranker<T> {
       Map<String, Set<Integer>> termInvertedList = extractTerms(usedDocs, context, null);
       // Calculate all the terms in the reranking pool and pick top K of them
       Map<String, Double> expandedTermScores = computeTermScore(termInvertedList, context);
-      StringBuilder builder = new StringBuilder();
-      for (Map.Entry<String, Double> termScore : expandedTermScores.entrySet()) {
-        String term = termScore.getKey();
-        double score = termScore.getValue();
-        builder.append(term).append("^").append(score).append(" ");
-      }
-      String queryText = builder.toString().trim();
 
-      if (queryText.isEmpty()) {
+      BooleanQuery.Builder nqBuilder = new BooleanQuery.Builder();
+
+      if (expandedTermScores.isEmpty()) {
         LOG.info("[Empty Expanded Query]: " + context.getQueryTokens());
-        queryText = context.getQueryText();
+        nqBuilder.add(new TermQuery(new Term(this.field, context.getQueryText())), BooleanClause.Occur.SHOULD);
+      } else {
+        for (Map.Entry<String, Double> termScore : expandedTermScores.entrySet()) {
+          String term = termScore.getKey();
+          float prob = termScore.getValue().floatValue();
+          nqBuilder.add(new BoostQuery(new TermQuery(new Term(this.field, term)), prob), BooleanClause.Occur.SHOULD);
+        }
       }
 
-      StandardQueryParser p = new StandardQueryParser();
-      Query nq = p.parse(queryText, this.field);
+      Query nq = nqBuilder.build();
 
       if (this.outputQuery) {
         LOG.info("QID: " + context.getQueryId());
