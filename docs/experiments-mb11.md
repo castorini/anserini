@@ -88,13 +88,13 @@ With the above commands, you should be able to replicate the following results:
 
 MAP                                     | BM25      | BM25+RM3  | BM25+AX   | QL        | QL+RM3    | QL+AX     |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-[TREC 2011 Microblog Track](http://trec.nist.gov/data/microblog2011.html)| 0.3351    | 0.3472    | 0.4042    | 0.3614    | 0.4100    | 0.4179    |
-[TREC 2012 Microblog Track](http://trec.nist.gov/data/microblog2012.html)| 0.1912    | 0.2056    | 0.2310    | 0.2100    | 0.2413    | 0.2502    |
+[TREC 2011 Microblog Track](http://trec.nist.gov/data/microblog2011.html)| 0.3351    | 0.3477    | 0.4042    | 0.3614    | 0.4093    | 0.4179    |
+[TREC 2012 Microblog Track](http://trec.nist.gov/data/microblog2012.html)| 0.1912    | 0.2055    | 0.2310    | 0.2100    | 0.2412    | 0.2502    |
 
 
 P30                                     | BM25      | BM25+RM3  | BM25+AX   | QL        | QL+RM3    | QL+AX     |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-[TREC 2011 Microblog Track](http://trec.nist.gov/data/microblog2011.html)| 0.3837    | 0.4027    | 0.4558    | 0.4095    | 0.4463    | 0.4367    |
-[TREC 2012 Microblog Track](http://trec.nist.gov/data/microblog2012.html)| 0.3328    | 0.3418    | 0.3588    | 0.3322    | 0.3531    | 0.3864    |
+[TREC 2011 Microblog Track](http://trec.nist.gov/data/microblog2011.html)| 0.3837    | 0.4027    | 0.4558    | 0.4095    | 0.4483    | 0.4367    |
+[TREC 2012 Microblog Track](http://trec.nist.gov/data/microblog2012.html)| 0.3328    | 0.3424    | 0.3588    | 0.3322    | 0.3542    | 0.3864    |
 
 
