@@ -65,7 +65,23 @@ public class LookupFreebase implements Closeable {
     private int numHits = 20;
   }
 
-  private LookupFreebase(Path indexPath) throws IOException {
+  protected class Result {
+    public String mid;
+    public String name;
+    public String wikiTitle;
+    public String w3Label;
+    public float score;
+
+    public Result(String mid, String name, String wikiTitle, String w3Label, float score) {
+      this.mid = mid;
+      this.name = name;
+      this.wikiTitle = wikiTitle;
+      this.w3Label = w3Label;
+      this.score = score;
+    }
+  }
+
+  public LookupFreebase(Path indexPath) throws IOException {
     if (!Files.exists(indexPath) || !Files.isDirectory(indexPath) || !Files.isReadable(indexPath)) {
       throw new IllegalArgumentException(indexPath + " does not exist or is not a directory.");
     }
@@ -83,7 +99,7 @@ public class LookupFreebase implements Closeable {
    * @param mid subject mid
    * @throws Exception on error
    */
-  public void lookupMid(String mid) throws IOException {
+  public Document lookupMid(String mid) throws IOException {
     IndexSearcher searcher = new IndexSearcher(reader);
 
     // Search for exact subject URI
@@ -92,17 +108,15 @@ public class LookupFreebase implements Closeable {
     TopDocs topDocs = searcher.search(query, 1);
     if (topDocs.totalHits == 0) {
       System.err.println("Error: mid not found!");
-      System.exit(-1);
+      return null;
     }
     if (topDocs.totalHits > 1) {
       System.err.println("Error: more than one matching mid found. This shouldn't happen!");
-      System.exit(-1);
+      return null;
     }
 
     Document doc = reader.document(topDocs.scoreDocs[0].doc);
-    doc.forEach(field -> {
-      System.out.println(field.name() + " = " + field.stringValue());
-    });
+    return doc;
   }
 
   /**
@@ -111,7 +125,7 @@ public class LookupFreebase implements Closeable {
    * @param numHits hits to return
    * @throws Exception on error
    */
-  public void search(String q, int numHits) throws Exception {
+  public Result[] search(String q, int numHits) throws Exception {
     // Initialize index searcher
     IndexSearcher searcher = new IndexSearcher(reader);
 
@@ -125,16 +139,16 @@ public class LookupFreebase implements Closeable {
     TopDocs rs = searcher.search(query, numHits);
     ScoredDocuments docs = ScoredDocuments.fromTopDocs(rs, searcher);
 
+    Result[] results = new Result[docs.documents.length];
     for (int i = 0; i < docs.documents.length; i++) {
-      String resultDoc = String.format("%d - SCORE: %f\nTOPIC_MID: %s\nOBJECT_NAME: %s\nWIKI_TITLE: %s\nW3_LABEL: %s\n",
-          (i + 1),
-          docs.scores[i],
-          docs.documents[i].getField(IndexFreebase.FIELD_ID).stringValue(),
-          docs.documents[i].getField(IndexFreebase.FIELD_NAME).stringValue(),
-          docs.documents[i].getField(IndexFreebase.FIELD_ALIAS).stringValue(),
-          docs.documents[i].getField(IndexFreebase.FIELD_LABEL).stringValue());
-      System.out.println(resultDoc);
+      float score = docs.scores[i];
+      String mid = docs.documents[i].getField(IndexFreebase.FIELD_ID).stringValue();
+      String name = docs.documents[i].getField(IndexFreebase.FIELD_NAME).stringValue();
+      String wikiTitle = docs.documents[i].getField(IndexFreebase.FIELD_ALIAS).stringValue();
+      String w3Label = docs.documents[i].getField(IndexFreebase.FIELD_LABEL).stringValue();
+      results[i] = new Result(mid, name, wikiTitle, w3Label, score);
     }
+    return results;
   }
 
   public static void main(String[] args) throws Exception {
@@ -155,12 +169,28 @@ public class LookupFreebase implements Closeable {
 
     if (searchArgs.mid != null) {
       // Lookup by mid.
-      lookup.lookupMid(searchArgs.mid);
+      Document doc = lookup.lookupMid(searchArgs.mid);
+      if (doc == null)
+        System.exit(-1);
+      doc.forEach(field -> {
+        System.out.println(field.name() + " = " + field.stringValue());
+      });
     } else {
       // Full-text search over text labels.
-      lookup.search(searchArgs.query, searchArgs.numHits);
+      Result[] results = lookup.search(searchArgs.query, searchArgs.numHits);
+      for (int i = 0; i < results.length; i++) {
+        String resultDoc = String.format("%d - SCORE: %f\nTOPIC_MID: %s\nOBJECT_NAME: %s\nWIKI_TITLE: %s\nW3_LABEL: %s\n",
+            (i + 1),
+            results[i].score,
+            results[i].mid,
+            results[i].name,
+            results[i].wikiTitle,
+            results[i].w3Label);
+        System.out.println(resultDoc);
+      }
     }
 
     lookup.close();
   }
 }
+
