@@ -133,16 +133,16 @@ def verify_effectiveness(collection_yaml, models_yaml, output_root):
         if e['basemodel'] != models_yaml['basemodel'] or e['model'] != models_yaml['name'] or e['metric'] not in models_yaml['expected'][collection_yaml['name']]:
             continue
         expected = models_yaml['expected'][collection_yaml['name']][e['metric']]
-        if isclose(expected['best'], e['best']['value']):
+        if isclose(expected['best_avg'], e['best_avg']['value']):
             logger.info(json.dumps(e, sort_keys=True))
         else:
             success_optimal = False
-            logger.error('!'*5+'base model: %s model: %s metric: %s expected best: %f actual: %s ' % (e['basemodel'], e['model'], e['metric'], expected['best'], e['best']['value'])+'!'*5)
-        if isclose(expected['oracle'], e['oracles']):
+            logger.error('!'*5+'base model: %s model: %s metric: %s expected best: %f actual: %s ' % (e['basemodel'], e['model'], e['metric'], expected['best_avg'], e['best_avg']['value'])+'!'*5)
+        if isclose(expected['oracles_per_topic'], e['oracles_per_topic']):
             logger.info(json.dumps(e, sort_keys=True))
         else:
             success_optimal = False
-            logger.error('!'*5+'base model: %s model: %s metric: %s oracle: %f actual: %s ' % (e['basemodel'], e['model'], e['metric'], expected['oracle'], e['oracles'])+'!'*5)
+            logger.error('!'*5+'base model: %s model: %s metric: %s oracles_per_topic: %f actual: %s ' % (e['basemodel'], e['model'], e['metric'], expected['oracles_per_topic'], e['oracles_per_topic'])+'!'*5)
 
     success_xfold = True
     for fold in [2, 5]:

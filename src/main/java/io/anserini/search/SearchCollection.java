@@ -16,7 +16,7 @@
 
 package io.anserini.search;
 
-import io.anserini.analysis.EnglishAnalyzerStemming;
+import io.anserini.analysis.EnglishStemmingAnalyzer;
 import io.anserini.analysis.TweetAnalyzer;
 import io.anserini.index.generator.TweetGenerator;
 import io.anserini.index.generator.WapoGenerator;
@@ -40,7 +40,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.CharArraySet;
-import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.LongPoint;
 import org.apache.lucene.index.DirectoryReader;
@@ -133,7 +132,7 @@ public final class SearchCollection implements Closeable {
       analyzer = new TweetAnalyzer();
     } else {
       analyzer = args.keepstop ?
-          new EnglishAnalyzerStemming(args.stemmer, CharArraySet.EMPTY_SET) : new EnglishAnalyzerStemming(args.stemmer);
+          new EnglishStemmingAnalyzer(args.stemmer, CharArraySet.EMPTY_SET) : new EnglishStemmingAnalyzer(args.stemmer);
     }
 
     if (args.sdm) {

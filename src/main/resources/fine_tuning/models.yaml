@@ -17,18 +17,18 @@ models:
     expected:
       robust04:
         map:
-          best: 0.2532
-          oracle: 0.2921
+          best_avg: 0.2532
+          oracles_per_topic: 0.2921
           2-fold: 0.2253
           5-fold: 0.2524
         P_20:
-          best: 0.3614
-          oracle: 0.4426
+          best_avg: 0.3614
+          oracles_per_topic: 0.4426
           2-fold: 0.3604
           5-fold: 0.3577
         ndcg20:
-          best: 0.41659
-          oracle: 0.5028
+          best_avg: 0.41659
+          oracles_per_topic: 0.5028
           2-fold: 0.4108
           5-fold: 0.4128
   ql:
@@ -43,18 +43,18 @@ models:
     expected:
       robust04:
         map:
-          best: 0.2496
-          oracle: 0.2703
+          best_avg: 0.2496
+          oracles_per_topic: 0.2703
           2-fold: 0.2496
           5-fold: 0.2495
         P_20:
-          best: 0.3572
-          oracle: 0.4008
+          best_avg: 0.3572
+          oracles_per_topic: 0.4008
           2-fold: 0.3543
           5-fold: 0.3534
         ndcg20:
-          best: 0.40703
-          oracle: 0.45610
+          best_avg: 0.40703
+          oracles_per_topic: 0.45610
           2-fold: 0.4042
           5-fold: 0.4046
   axiom:
@@ -139,18 +139,18 @@ models:
     expected:
       robust04:
         map:
-          best: 0.2532
-          oracle: 0.2921
+          best_avg: 0.2532
+          oracles_per_topic: 0.2921
           2-fold: 0.2253
           5-fold: 0.2524
         P_20:
-          best: 0.3614
-          oracle: 0.4426
+          best_avg: 0.3614
+          oracles_per_topic: 0.4426
           2-fold: 0.3604
           5-fold: 0.3577
         ndcg20:
-          best: 0.41659
-          oracle: 0.5028
+          best_avg: 0.41659
+          oracles_per_topic: 0.5028
           2-fold: 0.4108
           5-fold: 0.4128
   bm25+rm3:
@@ -187,17 +187,17 @@ models:
     expected:
       robust04:
         map:
-          best: 0.2532
-          oracle: 0.2921
+          best_avg: 0.2532
+          oracles_per_topic: 0.2921
           2-fold: 0.2253
           5-fold: 0.2524
         P_20:
-          best: 0.3614
-          oracle: 0.4426
+          best_avg: 0.3614
+          oracles_per_topic: 0.4426
           2-fold: 0.3604
           5-fold: 0.3577
         ndcg20:
-          best: 0.41659
-          oracle: 0.5028
+          best_avg: 0.41659
+          oracles_per_topic: 0.5028
           2-fold: 0.4108
           5-fold: 0.4128

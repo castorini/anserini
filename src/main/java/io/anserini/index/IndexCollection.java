@@ -16,7 +16,7 @@
 
 package io.anserini.index;
 
-import io.anserini.analysis.EnglishAnalyzerStemming;
+import io.anserini.analysis.EnglishStemmingAnalyzer;
 import io.anserini.analysis.TweetAnalyzer;
 import io.anserini.collection.*;
 import io.anserini.index.generator.LuceneDocumentGenerator;
@@ -293,8 +293,8 @@ public final class IndexCollection {
     int numThreads = args.threads;
     
     final Directory dir = FSDirectory.open(indexPath);
-    final EnglishAnalyzerStemming analyzer = args.keepStopwords ?
-        new EnglishAnalyzerStemming(args.stemmer, CharArraySet.EMPTY_SET) : new EnglishAnalyzerStemming(args.stemmer);
+    final EnglishStemmingAnalyzer analyzer = args.keepStopwords ?
+        new EnglishStemmingAnalyzer(args.stemmer, CharArraySet.EMPTY_SET) : new EnglishStemmingAnalyzer(args.stemmer);
     
     final TweetAnalyzer tweetAnalyzer = new TweetAnalyzer(args.tweetStemming);
     final IndexWriterConfig config = args.collectionClass.equals("TweetCollection") ?

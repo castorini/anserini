@@ -149,8 +149,8 @@ class Effectiveness(object):
                         'model': model,
                         'basemodel': basemodel,
                         'metric': real_metric,
-                        'best': all_performance['all']['max'],
-                        'oracles': all_optimal[0]
+                        'best_avg': all_performance['all']['max'],
+                        'oracles_per_topic': all_optimal[0]
                     }
                     data.append(res)
         return data, per_topic_oracle

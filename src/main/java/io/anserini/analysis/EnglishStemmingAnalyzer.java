@@ -9,27 +9,27 @@ import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.analysis.standard.StandardFilter;
 import org.apache.lucene.analysis.standard.StandardTokenizer;
 
-public class EnglishAnalyzerStemming extends StopwordAnalyzerBase {
+public class EnglishStemmingAnalyzer extends StopwordAnalyzerBase {
   private final String stemmer;
   private final CharArraySet stemExclusionSet;
   
-  public EnglishAnalyzerStemming() {
+  public EnglishStemmingAnalyzer() {
     this("", StandardAnalyzer.STOP_WORDS_SET);
   }
   
-  public EnglishAnalyzerStemming(String stemmer) {
+  public EnglishStemmingAnalyzer(String stemmer) {
     this(stemmer, StandardAnalyzer.STOP_WORDS_SET, CharArraySet.EMPTY_SET);
   }
   
-  public EnglishAnalyzerStemming(CharArraySet stopwords) {
+  public EnglishStemmingAnalyzer(CharArraySet stopwords) {
     this("", stopwords, CharArraySet.EMPTY_SET);
   }
   
-  public EnglishAnalyzerStemming(String stemmer, CharArraySet stopwords) {
+  public EnglishStemmingAnalyzer(String stemmer, CharArraySet stopwords) {
     this(stemmer, stopwords, CharArraySet.EMPTY_SET);
   }
   
-  public EnglishAnalyzerStemming(String stemmer, CharArraySet stopwords, CharArraySet stemExclusionSet) {
+  public EnglishStemmingAnalyzer(String stemmer, CharArraySet stopwords, CharArraySet stemExclusionSet) {
     super(stopwords);
     this.stemmer = stemmer;
     this.stemExclusionSet = CharArraySet.unmodifiableSet(CharArraySet.copy(stemExclusionSet));
