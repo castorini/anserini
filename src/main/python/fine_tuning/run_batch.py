@@ -27,6 +27,7 @@ import yaml
 from search import Search
 from evaluation import Evaluation
 from effectiveness import Effectiveness
+from xfold import XFoldValidate
 
 logger = logging.getLogger('fine_tuning')
 logger.setLevel(logging.INFO)
@@ -123,12 +124,47 @@ def atom_output_effectiveness(para):
     input_fns = para[2:]
     Effectiveness(index_path).output_effectiveness(output_fn, input_fns)
 
-def print_optimal_effectiveness(collection_yaml, models_yaml, output_root, metrics=['map']):
+def verify_effectiveness(collection_yaml, models_yaml, output_root):
     index_path = get_index_path(collection_yaml)
     this_output_root = os.path.join(output_root, collection_yaml['name'])
-    logger.info('='*30+'Optimal Effectiveness for '+collection_yaml['name']+'='*30)
-    effectiveness = Effectiveness(index_path).load_optimal_effectiveness(this_output_root, metrics)
-    print(json.dumps(effectiveness, sort_keys=True, indent=2))
+    effectiveness, per_topic_oracle = Effectiveness(index_path).load_optimal_effectiveness(this_output_root)
+    success_optimal = True
+    for e in effectiveness:
+        if e['basemodel'] != models_yaml['basemodel'] or e['model'] != models_yaml['name'] or e['metric'] not in models_yaml['expected'][collection_yaml['name']]:
+            continue
+        expected = models_yaml['expected'][collection_yaml['name']][e['metric']]
+        if isclose(expected['best_avg'], e['best_avg']['value']):
+            logger.info(json.dumps(e, sort_keys=True))
+        else:
+            success_optimal = False
+            logger.error('!'*5+'base model: %s model: %s metric: %s expected best: %f actual: %s ' % (e['basemodel'], e['model'], e['metric'], expected['best_avg'], e['best_avg']['value'])+'!'*5)
+        if isclose(expected['oracles_per_topic'], e['oracles_per_topic']):
+            logger.info(json.dumps(e, sort_keys=True))
+        else:
+            success_optimal = False
+            logger.error('!'*5+'base model: %s model: %s metric: %s oracles_per_topic: %f actual: %s ' % (e['basemodel'], e['model'], e['metric'], expected['oracles_per_topic'], e['oracles_per_topic'])+'!'*5)
+
+    success_xfold = True
+    for fold in [2, 5]:
+        x_fold_effectiveness = XFoldValidate(output_root, fold).tune(False)
+        for basemodel in x_fold_effectiveness:
+            if models_yaml['basemodel'] != basemodel:
+                continue
+            for model in x_fold_effectiveness[basemodel]:
+                if models_yaml['name'] != model:
+                    continue
+                for metric in x_fold_effectiveness[basemodel][model]:
+                    if metric not in models_yaml['expected'][collection_yaml['name']]:
+                        continue
+                    expected = models_yaml['expected'][collection_yaml['name']][metric]
+                    if isclose(expected['%d-fold' % fold], x_fold_effectiveness[basemodel][model][metric]):
+                        logger.info(json.dumps(x_fold_effectiveness[basemodel][model], sort_keys=True))
+                    else:
+                        success_optimal = False
+                        logger.error('!'*5+'base model: %s model: %s fold: %d metric: %s expected: %f actual: %s ' % (basemodel, model, fold, metric, expected['%d-fold' % fold], x_fold_effectiveness[basemodel][model][metric])+'!'*5)
+
+    if success_optimal and success_xfold:
+        logger.info("[Regression Tests Passed] Done...")
 
 def del_method_related_files(method_name):
     folders = ['split_results', 'merged_results', 'evals', 'effectiveness']
@@ -150,9 +186,10 @@ if __name__ == '__main__':
 
     # general settings
     parser.add_argument('--anserini_root', default='', help='Anserini path')
+    parser.add_argument('--run', action='store_true', help='Generate the runs files and evaluate them. Otherwise we only output the evaluation results (based on the existing eval files)')
     parser.add_argument('--collection', required=True, help='the collection key in yaml')
     parser.add_argument('--basemodel', default='bm25', choices=['bm25', 'ql'], help='the ranking model')
-    parser.add_argument('--model', default='axiom', choices=['axiom', 'rm3', 'sdm'], help='the higher level model')
+    parser.add_argument('--model', default='axiom', choices=['bm25', 'ql', 'axiom', 'rm3', 'bm25+axiom', 'bm25+rm3'], help='the higher level model')
     parser.add_argument('--n', dest='parallelism', type=int, default=16, help='number of parallel threads for retrieval/eval')
     parser.add_argument('--output_root', default='fine_tuning_results', help='output directory of all results')
 
@@ -187,7 +224,9 @@ if __name__ == '__main__':
         if not os.path.exists(os.path.join(args.output_root, collection_yaml['name'])):
             os.makedirs(os.path.join(args.output_root, collection_yaml['name']))
         models_yaml['basemodel'] = args.basemodel
-        batch_retrieval(collection_yaml, models_yaml, args.output_root)
-        batch_eval(collection_yaml, models_yaml, args.output_root)
-        batch_output_effectiveness(collection_yaml, models_yaml, args.output_root)
-        print_optimal_effectiveness(collection_yaml, models_yaml, args.output_root, args.metrics)
+
+        if args.run:
+            batch_retrieval(collection_yaml, models_yaml, args.output_root)
+            batch_eval(collection_yaml, models_yaml, args.output_root)
+            batch_output_effectiveness(collection_yaml, models_yaml, args.output_root)
+        verify_effectiveness(collection_yaml, models_yaml, args.output_root)

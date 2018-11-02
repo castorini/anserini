@@ -16,6 +16,7 @@
 
 package io.anserini.search;
 
+import io.anserini.analysis.EnglishStemmingAnalyzer;
 import io.anserini.analysis.TweetAnalyzer;
 import io.anserini.index.generator.TweetGenerator;
 import io.anserini.index.generator.WapoGenerator;
@@ -39,7 +40,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.CharArraySet;
-import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.LongPoint;
 import org.apache.lucene.index.DirectoryReader;
@@ -100,7 +100,7 @@ public final class SearchCollection implements Closeable {
       throw new IllegalArgumentException(args.index + " does not exist or is not a directory.");
     }
 
-    LOG.info("Reading index at " + args.index);
+    LOG.info("Reading index at " + indexPath);
     this.reader = DirectoryReader.open(FSDirectory.open(indexPath));
 
     // Figure out which scoring model to use.
@@ -131,7 +131,8 @@ public final class SearchCollection implements Closeable {
       LOG.info("Search Tweets");
       analyzer = new TweetAnalyzer();
     } else {
-      analyzer = args.keepstop ? new EnglishAnalyzer(CharArraySet.EMPTY_SET) : new EnglishAnalyzer();
+      analyzer = args.keepstop ?
+          new EnglishStemmingAnalyzer(args.stemmer, CharArraySet.EMPTY_SET) : new EnglishStemmingAnalyzer(args.stemmer);
     }
 
     if (args.sdm) {
