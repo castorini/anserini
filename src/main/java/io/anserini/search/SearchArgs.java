@@ -186,4 +186,11 @@ public class SearchArgs {
 
   @Option(name = "-model", metaVar = "[file]", required = false, usage = "ranklib model file")
   public String model = "";
+
+  @Option(name = "-qlmj", usage = "use jerelinker-mercer query likelihood scoring model")
+  public boolean qlmj = false;
+
+  @Option(name = "-lambda", metaVar = "[value]", usage = "Jerelink Mercer smoothing parameter")
+  public float lambda = 0.1f;
+
 }

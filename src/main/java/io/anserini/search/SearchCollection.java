@@ -122,6 +122,9 @@ public final class SearchCollection implements Closeable {
     } else if (args.f2log) {
       LOG.info("Using F2Log scoring model");
       this.similarity = new F2LogSimilarity(args.f2log_s);
+    } else if (args.qlmj) {
+      LOG.info("Using Jerelinker-Mercer QL scoring model");
+      this.similarity = new LMJelinekMercerSimilarity(args.lambda);
     } else {
       throw new IllegalArgumentException("Error: Must specify scoring model!");
     }
