@@ -4,7 +4,7 @@ Anserini
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.anserini/anserini/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.anserini/anserini)
 [![LICENSE](https://img.shields.io/badge/license-Apache-blue.svg?style=flat-square)](./LICENSE)
 
-Anserini is an open-source information retrieval toolkit built on Lucene that aims to bridge the gap between academic information retrieval research and the practice of building real-world search applications. This effort grew out of [a reproducibility study of various open-source retrieval engines in 2016](https://cs.uwaterloo.ca/~jimmylin/publications/Lin_etal_ECIR2016.pdf) (Lin et al., ECIR 2016) and the initial vision of our system is described [in a short paper](https://dl.acm.org/authorize?N47337) (Yang et al., SIGIR 2017).
+Anserini is an open-source information retrieval toolkit built on Lucene that aims to bridge the gap between academic information retrieval research and the practice of building real-world search applications. This effort grew out of [a reproducibility study of various open-source retrieval engines in 2016](https://cs.uwaterloo.ca/~jimmylin/publications/Lin_etal_ECIR2016.pdf) (Lin et al., ECIR 2016). Additional details can be found [in a short paper](https://dl.acm.org/authorize?N47337) (Yang et al., SIGIR 2017) and a [journal article](https://dl.acm.org/citation.cfm?doid=3289400.3239571).
 
 ## Getting Started
 
@@ -32,7 +32,8 @@ cd ndeval && make
 
 ## Running Standard IR Experiments
 
-Anserini is designed to support experiments on various standard TREC collections out of the box:
+Anserini is designed to support experiments on various standard TREC collections out of the box.
+Each collection is associated with [regression tests](docs/regressions.md) for replicability.
 
 + [Experiments on Disks 1 &amp; 2](docs/experiments-disk12.md)
 + [Experiments on Disks 4 &amp; 5 (Robust04)](docs/experiments-robust04.md)
@@ -47,7 +48,10 @@ Anserini is designed to support experiments on various standard TREC collections
 + [Experiments on Tweets2013 (MB13 &amp; MB14)](docs/experiments-mb13.md)
 + [Experiments on CAR17](docs/experiments-car17.md)
 
-All of the above results are associated with [regression tests](docs/regressions.md) for replicability.
+Additional experiments:
+
++ [Experiments for JDIQ 2018 article](docs/experiments-jdiq2018.md)
+
 
 ## Additional Documentation
 
@@ -67,7 +71,7 @@ Anserini was designed with Python integration in mind, for connecting with popul
 
 ```
 import jnius_config
-jnius_config.set_classpath("target/anserini-0.1.1-SNAPSHOT-fatjar.jar")
+jnius_config.set_classpath("target/anserini-0.2.1-SNAPSHOT-fatjar.jar")
 
 from jnius import autoclass
 JString = autoclass('java.lang.String')
@@ -99,6 +103,8 @@ hits[0].content
 + Jimmy Lin, Matt Crane, Andrew Trotman, Jamie Callan, Ishan Chattopadhyaya, John Foley, Grant Ingersoll, Craig Macdonald, Sebastiano Vigna. [Toward Reproducible Baselines: The Open-Source IR Reproducibility Challenge.](https://cs.uwaterloo.ca/~jimmylin/publications/Lin_etal_ECIR2016.pdf) _Proceedings of the 38th European Conference on Information Retrieval (ECIR 2016)_, pages 408-420, March 2016, Padua, Italy.
 
 + Peilin Yang, Hui Fang, and Jimmy Lin. [Anserini: Enabling the Use of Lucene for Information Retrieval Research.](https://dl.acm.org/authorize?N47337) _Proceedings of the 40th Annual International ACM SIGIR Conference on Research and Development in Information Retrieval (SIGIR 2017)_, pages 1253-1256, August 2017, Tokyo, Japan.
+
++ Peilin Yang, Hui Fang, and Jimmy Lin. [Anserini: Reproducible Ranking Baselines Using Lucene.](https://dl.acm.org/citation.cfm?doid=3289400.3239571) Journal of Data and Information Quality, 10(4), Article 16, 2018.
 
 ## Acknowledgments
 
