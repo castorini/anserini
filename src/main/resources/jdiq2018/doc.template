@@ -1,6 +1,6 @@
 # Anserini: JDIQ 2018 Experiments
 
-These script are used in the following article to compute optimal retrieval effectiveness by grid search over model parameters:
+This page documents the script used in the following article to compute optimal retrieval effectiveness by grid search over model parameters:
 
 + Peilin Yang, Hui Fang, and Jimmy Lin. [Anserini: Reproducible Ranking Baselines Using Lucene.](https://dl.acm.org/citation.cfm?doid=3289400.3239571) Journal of Data and Information Quality, 10(4), Article 16, 2018.
 
@@ -10,9 +10,9 @@ By the time the article was published, the implementation of Anserini has progre
 As Anserini continues to improve we will update these scripts, which will lead to further divergences between the published values.
 Unfortunately, this is an unavoidable aspect of empirical research on software artifacts.
 
-## Run
+## Parameter Tuning
 
-Running the scripts on `tuna`:
+Invoke the tuning script on various collections as follows, on `tuna`:
 
 ```
 nohup python src/main/python/jdiq2018_effectiveness/run_batch.py --collection disk12 >& disk12.jdiq2018.log &
@@ -23,6 +23,8 @@ nohup python src/main/python/jdiq2018_effectiveness/run_batch.py --collection go
 nohup python src/main/python/jdiq2018_effectiveness/run_batch.py --collection cw09b --metrics map ndcg20 err20 >& cw09b.jdiq2018.log &
 nohup python src/main/python/jdiq2018_effectiveness/run_batch.py --collection cw12b13 --metrics map ndcg20 err20 >& cw12b13.jdiq2018.log &
 ```
+
+The script assumes hard-coded index directories; modify as appropriate.
 
 ## Effectiveness
 
