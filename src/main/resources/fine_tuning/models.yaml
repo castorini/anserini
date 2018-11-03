@@ -139,20 +139,20 @@ models:
     expected:
       robust04:
         map:
-          best_avg: 0.2532
-          oracles_per_topic: 0.2921
-          2-fold: 0.2253
-          5-fold: 0.2524
+          best_avg: 0.3009
+          oracles_per_topic: 0.4138
+          2-fold: 0.2954
+          5-fold: 0.2970
         P_20:
-          best_avg: 0.3614
-          oracles_per_topic: 0.4426
-          2-fold: 0.3604
-          5-fold: 0.3577
+          best_avg: 0.3994
+          oracles_per_topic: 0.5675
+          2-fold: 0.3812
+          5-fold: 0.3891
         ndcg20:
-          best_avg: 0.41659
-          oracles_per_topic: 0.5028
-          2-fold: 0.4108
-          5-fold: 0.4128
+          best_avg: 0.44631
+          oracles_per_topic: 0.6279
+          2-fold: 0.4389
+          5-fold: 0.4329
   bm25+rm3:
     name: rm3
     fixed_params: ""
