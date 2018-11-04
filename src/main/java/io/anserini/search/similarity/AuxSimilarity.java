@@ -14,9 +14,16 @@
  * limitations under the License.
  */
 
-package io.anserini.rerank;
+package io.anserini.search.similarity;
 
-public interface Reranker<T> {
-  ScoredDocuments rerank(ScoredDocuments docs, RerankerContext<T> context);
-  String toString();
+import org.apache.lucene.search.similarities.Similarity;
+
+public class AuxSimilarity {
+  public Similarity similarity;
+  public String tag; // params tag. use similarity.toString() if one needs more info (e.g. model name + params)
+  
+  public AuxSimilarity(Similarity similarity, String tag) {
+    this.similarity = similarity;
+    this.tag = tag;
+  }
 }

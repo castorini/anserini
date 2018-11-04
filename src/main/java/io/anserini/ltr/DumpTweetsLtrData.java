@@ -23,7 +23,9 @@ import io.anserini.rerank.RerankerCascade;
 import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.ScoredDocuments;
 import io.anserini.search.SearchArgs;
+import io.anserini.search.SearchCollection;
 import io.anserini.search.query.BagOfWordsQueryGenerator;
+import io.anserini.search.similarity.AuxSimilarity;
 import io.anserini.search.topicreader.MicroblogTopicReader;
 import io.anserini.search.topicreader.TopicReader;
 import io.anserini.util.AnalyzerUtils;
@@ -92,17 +94,7 @@ public class DumpTweetsLtrData {
     IndexReader reader = DirectoryReader.open(dir);
     IndexSearcher searcher = new IndexSearcher(reader);
 
-    if (args.ql) {
-      LOG.info("Using QL scoring model");
-      searcher.setSimilarity(new LMDirichletSimilarity(args.mu));
-    } else if (args.bm25) {
-      LOG.info("Using BM25 scoring model");
-      searcher.setSimilarity(new BM25Similarity(args.k1, args.b));
-    } else {
-      LOG.error("Error: Must specify scoring model!");
-      System.exit(-1);
-    }
-
+    searcher.setSimilarity(new BM25Similarity());
     Qrels qrels = new Qrels(args.qrels);
 
     FeatureExtractors extractors = null;
