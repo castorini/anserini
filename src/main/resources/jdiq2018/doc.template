@@ -15,13 +15,13 @@ Unfortunately, this is an unavoidable aspect of empirical research on software a
 Invoke the tuning script on various collections as follows, on `tuna`:
 
 ```
-nohup python src/main/python/jdiq2018_effectiveness/run_batch.py --collection disk12 >& disk12.jdiq2018.log &
-nohup python src/main/python/jdiq2018_effectiveness/run_batch.py --collection robust04 >& robust04.jdiq2018.log &
-nohup python src/main/python/jdiq2018_effectiveness/run_batch.py --collection robust05 >& robust05.jdiq2018.log &
-nohup python src/main/python/jdiq2018_effectiveness/run_batch.py --collection wt10g >& wt10g.jdiq2018.log &
-nohup python src/main/python/jdiq2018_effectiveness/run_batch.py --collection gov2 >& gov2.jdiq2018.log &
-nohup python src/main/python/jdiq2018_effectiveness/run_batch.py --collection cw09b --metrics map ndcg20 err20 >& cw09b.jdiq2018.log &
-nohup python src/main/python/jdiq2018_effectiveness/run_batch.py --collection cw12b13 --metrics map ndcg20 err20 >& cw12b13.jdiq2018.log &
+nohup python src/main/python/jdiq2018_effectiveness/run_batch.py --collection disk12 >& jdiq2018.disk12.log &
+nohup python src/main/python/jdiq2018_effectiveness/run_batch.py --collection robust04 >& jdiq2018.robust04.log &
+nohup python src/main/python/jdiq2018_effectiveness/run_batch.py --collection robust05 >& jdiq2018.robust05.log &
+nohup python src/main/python/jdiq2018_effectiveness/run_batch.py --collection wt10g >& jdiq2018.wt10g.log &
+nohup python src/main/python/jdiq2018_effectiveness/run_batch.py --collection gov2 >& jdiq2018.gov2.log &
+nohup python src/main/python/jdiq2018_effectiveness/run_batch.py --collection cw09b --metrics map ndcg20 err20 >& jdiq2018.cw09b.log &
+nohup python src/main/python/jdiq2018_effectiveness/run_batch.py --collection cw12b13 --metrics map ndcg20 err20 >& jdiq2018.cw12b13.log &
 ```
 
 The script assumes hard-coded index directories; modify as appropriate.
