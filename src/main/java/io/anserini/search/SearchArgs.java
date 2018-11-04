@@ -34,9 +34,18 @@ public class SearchArgs {
   public String topicReader;
 
   // optional arguments
+  @Option(name = "-threads", metaVar = "[Number]", usage = "Number of Threads")
+  public int threads = 1;
+  
+  @Option(name = "-inmem", usage = "Boolean switch to read index in memory")
+  public Boolean inmem = false;
+  
   @Option(name = "-topicfield", usage = "Which field of the query should be used, default \"title\"." +
       " For TREC ad hoc topics, description or narrative can be used.")
   public String topicfield = "title";
+  
+  @Option(name = "-skipexists", usage = "When enabled, will skip if the run file exists")
+  public Boolean skipexists = false;
 
   @Option(name = "-searchtweets", usage = "Whether the search is against a tweet " +
       "index created by IndexCollection -collection TweetCollection")

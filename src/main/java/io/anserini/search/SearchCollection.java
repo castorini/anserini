@@ -23,17 +23,16 @@ import io.anserini.index.generator.WapoGenerator;
 import io.anserini.rerank.RerankerCascade;
 import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.ScoredDocuments;
-
 import io.anserini.rerank.lib.AxiomReranker;
 import io.anserini.rerank.lib.NewsBackgroundLinkingReranker;
 import io.anserini.rerank.lib.Rm3Reranker;
 import io.anserini.rerank.lib.ScoreTiesAdjusterReranker;
-import io.anserini.search.similarity.AuxSimilarity;
-import io.anserini.search.topicreader.NewsBackgroundLinkingTopicReader;
-import io.anserini.search.similarity.F2ExpSimilarity;
 import io.anserini.search.query.BagOfWordsQueryGenerator;
 import io.anserini.search.query.SdmQueryGenerator;
+import io.anserini.search.similarity.AuxSimilarity;
+import io.anserini.search.similarity.F2ExpSimilarity;
 import io.anserini.search.similarity.F2LogSimilarity;
+import io.anserini.search.topicreader.NewsBackgroundLinkingTopicReader;
 import io.anserini.search.topicreader.TopicReader;
 import io.anserini.util.AnalyzerUtils;
 import org.apache.commons.lang3.time.DurationFormatUtils;
@@ -52,12 +51,14 @@ import org.apache.lucene.queryparser.flexible.standard.StandardQueryParser;
 import org.apache.lucene.search.*;
 import org.apache.lucene.search.similarities.*;
 import org.apache.lucene.store.FSDirectory;
+import org.apache.lucene.store.MMapDirectory;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.OptionHandlerFilter;
 import org.kohsuke.args4j.ParserProperties;
 
 import java.io.Closeable;
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
@@ -65,6 +66,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_BODY;
@@ -84,13 +87,76 @@ public final class SearchCollection implements Closeable {
   private final Analyzer analyzer;
   private List<AuxSimilarity> similarities;
   private final boolean isRerank;
-
   public enum QueryConstructor {
     BagOfTerms,
     SequentialDependenceModel
   }
-  
   private final QueryConstructor qc;
+  
+  private final class SearcherThread<K> extends Thread {
+    final private IndexSearcher searcher;
+    final private SortedMap<K, Map<String, String>> topics;
+    final private AuxSimilarity auxSimilarity;
+    final private String cascadeTag;
+    final private RerankerCascade cascade;
+    final private String outputPath;
+    final private String runTag;
+    
+    private SearcherThread(IndexSearcher searcher, SortedMap<K, Map<String, String>> topics, AuxSimilarity auxSimilarity,
+                           String cascadeTag, RerankerCascade cascade, String outputPath, String runTag) throws IOException {
+      this.searcher = searcher;
+      this.topics = topics;
+      this.auxSimilarity = auxSimilarity;
+      this.cascadeTag = cascadeTag;
+      this.cascade = cascade;
+      this.runTag = runTag;
+      this.outputPath = outputPath;
+      setName(outputPath);
+    }
+    
+    @Override
+    public void run() {
+      try {
+        LOG.info("[Start] Ranking with similarity: " + auxSimilarity.similarity.toString());
+        final long start = System.nanoTime();
+        if (!cascadeTag.isEmpty()) LOG.info("ReRanking with: " + cascadeTag);
+        PrintWriter out = new PrintWriter(Files.newBufferedWriter(Paths.get(outputPath), StandardCharsets.US_ASCII));
+        for (Map.Entry<K, Map<String, String>> entry : topics.entrySet()) {
+          K qid = entry.getKey();
+          String queryString = entry.getValue().get(args.topicfield);
+          ScoredDocuments docs;
+          if (args.searchtweets) {
+            docs = searchTweets(searcher, qid, queryString, Long.parseLong(entry.getValue().get("time")), cascade);
+          } else if (args.searchnewsbackground) {
+            docs = searchBackgroundLinking(searcher, qid, queryString, cascade);
+          } else{
+            docs = search(searcher, qid, queryString, cascade);
+          }
+    
+          /**
+           * the first column is the topic number.
+           * the second column is currently unused and should always be "Q0".
+           * the third column is the official document identifier of the retrieved document.
+           * the fourth column is the rank the document is retrieved.
+           * the fifth column shows the score (integer or floating point) that generated the ranking.
+           * the sixth column is called the "run tag" and should be a unique identifier for your
+           */
+          for (int i = 0; i < docs.documents.length; i++) {
+            out.println(String.format(Locale.US, "%s Q0 %s %d %f %s", qid,
+                docs.documents[i].getField(FIELD_ID).stringValue(), (i + 1), docs.scores[i], runTag));
+          }
+        }
+        out.flush();
+        out.close();
+        final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
+        LOG.info("[Finished] Ranking with similarity: " + auxSimilarity.similarity.toString());
+        LOG.info("Run " + topics.size() + " topics searched in "
+            + DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss"));
+      } catch (Exception e) {
+        LOG.error(Thread.currentThread().getName() + ": Unexpected Exception:", e);
+      }
+    }
+  }
 
   public SearchCollection(SearchArgs args) throws IOException {
     this.args = args;
@@ -101,7 +167,11 @@ public final class SearchCollection implements Closeable {
     }
 
     LOG.info("Reading index at " + indexPath);
-    this.reader = DirectoryReader.open(FSDirectory.open(indexPath));
+    if (args.inmem) {
+      this.reader = DirectoryReader.open(MMapDirectory.open(indexPath));
+    } else {
+      this.reader = DirectoryReader.open(FSDirectory.open(indexPath));
+    }
 
     // Are we searching tweets?
     if (args.searchtweets) {
@@ -175,7 +245,7 @@ public final class SearchCollection implements Closeable {
             cascade.add(new Rm3Reranker(analyzer, FIELD_BODY, Integer.valueOf(fbTerms),
                 Integer.valueOf(fbDocs), Float.valueOf(originalQueryWeight), args.rm3_outputQuery));
             cascade.add(new ScoreTiesAdjusterReranker());
-            String tag = "rm3.fbTerms:"+fbTerms+",rm3.fbDocs:"+fbDocs+",rm3.originalQueryWeight"+originalQueryWeight;
+            String tag = "rm3.fbTerms:"+fbTerms+",rm3.fbDocs:"+fbDocs+",rm3.originalQueryWeight:"+originalQueryWeight;
             cascades.put(tag, cascade);
           }
         }
@@ -224,50 +294,31 @@ public final class SearchCollection implements Closeable {
       throw new IllegalArgumentException("Unable to load topic reader: " + args.topicReader);
     }
   
+    final String runTag = args.runtag == null ? "Anserini" : args.runtag;
+    final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(args.threads);
     this.similarities = constructSimiliries();
     Map<String, RerankerCascade> cascades = constructRerankerCascades();
     for (AuxSimilarity auxSimilarity : this.similarities) {
       searcher.setSimilarity(auxSimilarity.similarity);
-      LOG.info("[Start] Ranking with similarity: " + auxSimilarity.similarity.toString());
-      final String runTag = args.runtag == null ? "Anserini" : args.runtag;
       for (Map.Entry<String, RerankerCascade> cascade : cascades.entrySet()) {
-        final long start = System.nanoTime();
-        if (!cascade.getKey().isEmpty()) LOG.info("ReRanking with: " + cascade.getKey());
         final String outputPath = (this.similarities.size()+cascades.size())>2 ?
             args.output+"_"+auxSimilarity.tag+(cascade.getKey().isEmpty()?"":",")+cascade.getKey() : args.output;
-        PrintWriter out = new PrintWriter(Files.newBufferedWriter(Paths.get(outputPath), StandardCharsets.US_ASCII));
-        for (Map.Entry<K, Map<String, String>> entry : topics.entrySet()) {
-          K qid = entry.getKey();
-          String queryString = entry.getValue().get(args.topicfield);
-          ScoredDocuments docs;
-          if (args.searchtweets) {
-            docs = searchTweets(searcher, qid, queryString, Long.parseLong(entry.getValue().get("time")), cascade.getValue());
-          } else if (args.searchnewsbackground) {
-            docs = searchBackgroundLinking(searcher, qid, queryString, cascade.getValue());
-          } else{
-            docs = search(searcher, qid, queryString, cascade.getValue());
-          }
-    
-          /**
-           * the first column is the topic number.
-           * the second column is currently unused and should always be "Q0".
-           * the third column is the official document identifier of the retrieved document.
-           * the fourth column is the rank the document is retrieved.
-           * the fifth column shows the score (integer or floating point) that generated the ranking.
-           * the sixth column is called the "run tag" and should be a unique identifier for your
-           */
-          for (int i = 0; i < docs.documents.length; i++) {
-            out.println(String.format(Locale.US, "%s Q0 %s %d %f %s", qid,
-                docs.documents[i].getField(FIELD_ID).stringValue(), (i + 1), docs.scores[i], runTag));
-          }
+        if (args.skipexists && new File(outputPath).exists()) {
+          continue;
         }
-        out.flush();
-        out.close();
-        final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
-        LOG.info("[Finished] Ranking with similarity: " + auxSimilarity.similarity.toString());
-        LOG.info("Run " + topics.size() + " topics searched in "
-            + DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss"));
+        executor.execute(new SearcherThread<K>(searcher, topics, auxSimilarity, cascade.getKey(), cascade.getValue(),
+            outputPath, runTag));
       }
+    }
+    executor.shutdown();
+    try {
+      // Wait for existing tasks to terminate
+      while (!executor.awaitTermination(1, TimeUnit.MINUTES)) {}
+    } catch (InterruptedException ie) {
+      // (Re-)Cancel if current thread also interrupted
+      executor.shutdownNow();
+      // Preserve interrupt status
+      Thread.currentThread().interrupt();
     }
   }
   
