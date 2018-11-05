@@ -73,6 +73,17 @@ import java.util.concurrent.TimeUnit;
 import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_BODY;
 import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_ID;
 
+/*
+* Entry point of the Retrieval.
+* More advanced usage: one can provide multiple parameters to ranking models so that
+* they can be processed in parallel and this also applies to the reranking methods.
+* For example, one'd like to run BM25 with b=0.2 and b=0.75 then the command can be
+* simplified as:
+* <pre>SearchCollection -index /path/to/index/ -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.51-100.txt -inmem -threads 2 -bm25 -b 0.2 0.75</pre>
+* To run reranking with multiple params onc can do:
+* <pre>SearchCollection -index /path/to/index/ -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.51-100.txt -inmem -threads 4 -bm25 -b 0.2 0.75 -rm3 -rm3.fbDocs 5 10 -rm3.originalQueryWeight 0.5 0.3</pre>
+* this will generate 8 runs with parallelism as 4.
+ */
 public final class SearchCollection implements Closeable {
   public static final Sort BREAK_SCORE_TIES_BY_DOCID =
       new Sort(SortField.FIELD_SCORE, new SortField(FIELD_ID, SortField.Type.STRING_VAL));
@@ -304,6 +315,7 @@ public final class SearchCollection implements Closeable {
         final String outputPath = (this.similarities.size()+cascades.size())>2 ?
             args.output+"_"+auxSimilarity.tag+(cascade.getKey().isEmpty()?"":",")+cascade.getKey() : args.output;
         if (args.skipexists && new File(outputPath).exists()) {
+          LOG.info("Skipping True: "+outputPath);
           continue;
         }
         executor.execute(new SearcherThread<K>(searcher, topics, auxSimilarity, cascade.getKey(), cascade.getValue(),
