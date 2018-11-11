@@ -16,19 +16,52 @@ import os
 import re
 import argparse
 import logging
+import json
 
-
+logging.basicConfig()
 class XFoldValidate(object):
     """
     Perform X-Fold cross validation for various 
     parameters and report the average effectiveness
-    for each fold
+    for each fold. If use_drr_fold is specified, 
+    the 5-folds used in the deep relevance ranking paper
+    (https://github.com/nlpaueb/deep-relevance-ranking)
+    will be used. Otherwise, the qid will be used to
+    determine the fold.
     """
-    def __init__(self,output_root,fold=2):
+    def __init__(self,output_root,collection,
+                 fold=5,use_drr_fold=False,
+                 anserini_root=None):
         self.logger = logging.getLogger('x_fold_cv.XFlodValidate')
         self.output_root = output_root
         self.eval_files_root = 'eval_files'
+        self.collection = collection
+        # check if the drr fold can be used
+        if fold != 5 and use_drr_fold:
+            self.logger.error("Cannot use {}-fold since fold number has to be five for drr folds! Use default fold instead.".format(fold))
+            use_drr_fold = False
+        elif collection != 'robust04':
+            self.logger.error("Cannot use drr folds for {} (has to be robust04)! Use default fold instead.".format(collection))
+            use_drr_fold = False
         self.fold = fold
+        self.use_drr_fold = use_drr_fold
+        if self.use_drr_fold:
+            self._load_drr_folds(anserini_root)
+
+    def _load_drr_folds(self,anserini_root):
+        # load qids for each fold
+        if not anserini_root:
+            self.logger.error('Anserini root is not specified! Use default fold instead')
+            self.use_drr_fold = False
+        else:
+            self._fold_id_dict = {}
+            fold_dir = os.path.join(anserini_root, 'src/main/resources/fine_tuning/drr_folds')
+            for fold_id in xrange(5):
+                fold_fn = os.path.join(fold_dir,'rob04.test.s{}.json'.format(fold_id+1))
+                fold_info = json.load(open(fold_fn))
+                for q_info in fold_info['questions']:
+                    qid = q_info['id']
+                    self._fold_id_dict[qid] = fold_id
 
     def _get_param_average(self):
         # For each parameter set, get its 
@@ -36,35 +69,41 @@ class XFoldValidate(object):
         # metric, reranking model, and base 
         # ranking model
         avg_performances = {}
-        for collection_name in os.listdir(self.output_root):
-            eval_root_dir = os.path.join(self.output_root, collection_name,self.eval_files_root)
-            if os.path.isfile(eval_root_dir):
-                continue
-            # if it is a directory for a collection,
-            # do x-fold cv for the collection
-            for metric in os.listdir(eval_root_dir):
-                eval_dir = os.path.join(eval_root_dir,metric)
-                if os.path.isfile(eval_dir):
-                    continue
-                # if it is a directory containing effectiveness
-                # for a metric, do x-fold cv for the metric
-                for fn in os.listdir(eval_dir):
-                    basemodel, model, param = fn.split('_')
-                    if basemodel not in avg_performances:
-                        avg_performances[basemodel] = {}
-                    if model not in avg_performances[basemodel]:
-                        avg_performances[basemodel][model] = {}
+        eval_root_dir = os.path.join(self.output_root, self.collection,self.eval_files_root)
 
-                    param_avg_performances = self._get_param_avg_performances(os.path.join(eval_dir,fn))
-                    for metric in param_avg_performances:
-                        if metric not in avg_performances[basemodel][model]:
-                            avg_performances[basemodel][model][metric] = {}
-                        for fold_id in param_avg_performances[metric]:
-                            if fold_id not in avg_performances[basemodel][model][metric]:
-                                avg_performances[basemodel][model][metric][fold_id] = {}
-                            avg_performances[basemodel][model][metric][fold_id][param] = param_avg_performances[metric][fold_id]
+        # do x-fold cv for the collection
+        for metric in os.listdir(eval_root_dir):
+            eval_dir = os.path.join(eval_root_dir,metric)
+            if os.path.isfile(eval_dir):
+                continue
+            # if it is a directory containing effectiveness
+            # for a metric, do x-fold cv for the metric
+            for fn in os.listdir(eval_dir):
+                basemodel, model, param = fn.split('_')
+                if basemodel not in avg_performances:
+                    avg_performances[basemodel] = {}
+                if model not in avg_performances[basemodel]:
+                    avg_performances[basemodel][model] = {}
+
+                param_avg_performances = self._get_param_avg_performances(os.path.join(eval_dir,fn))
+                for metric in param_avg_performances:
+                    if metric not in avg_performances[basemodel][model]:
+                        avg_performances[basemodel][model][metric] = {}
+                    for fold_id in param_avg_performances[metric]:
+                        if fold_id not in avg_performances[basemodel][model][metric]:
+                            avg_performances[basemodel][model][metric][fold_id] = {}
+                        avg_performances[basemodel][model][metric][fold_id][param] = param_avg_performances[metric][fold_id]
 
         return avg_performances
+
+    def _compute_fold_id(self,qid):
+        # compute fold id
+        if self.use_drr_fold:
+            # use the fold get from the drr paper
+            return self._fold_id_dict[qid]
+        else:
+            # compute the fold id based on qid
+            return int(qid) % self.fold
 
     def tune(self,verbose):
         # Tune parameter with x-fold. Use x-1 fold
@@ -128,7 +167,7 @@ class XFoldValidate(object):
                     else:
                         if qid != 'all':
                             # compute fold id base on qid
-                            fold_id = int(qid) % self.fold
+                            fold_id = self._compute_fold_id(qid)
                             param_performance_list[fold_id][metric].append(value)
         param_avg_performances = {}
 
@@ -143,9 +182,11 @@ def main():
     parser.add_argument('--output_root', default='fine_tuning_results', help='output directory of all results')
     parser.add_argument('--fold', '-f', default=2, type=int, help='number of fold')
     parser.add_argument('--verbose', '-v', action='store_true', help='output in verbose mode')
+    parser.add_argument('--collection', required=True, help='the collection key in yaml')
+    parser.add_argument('--anserini_root', default='', help='Anserini path')
     args=parser.parse_args()
 
-    print(json.dumps(XFoldValidate(args.output_root, args.fold).tune(args.verbose), sort_keys=True, indent=2))
+    print(json.dumps(XFoldValidate(args.output_root, args.collection, args.fold, True, args.anserini_root).tune(args.verbose), sort_keys=True, indent=2))
 
 if __name__ == '__main__':
     main()
