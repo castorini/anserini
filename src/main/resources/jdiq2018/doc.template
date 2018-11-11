@@ -1,24 +1,31 @@
-### JDIQ2018 Effectiveness Scripts
+# Anserini: JDIQ 2018 Experiments
 
-The scripts calculate the optimal performances of all supported ranking models (by grid-searching all possible model parameters).
-The main purpose is to reproduce what we have in our JDIQ2018 paper:
+This page documents the script used in the following article to compute optimal retrieval effectiveness by grid search over model parameters:
 
++ Peilin Yang, Hui Fang, and Jimmy Lin. [Anserini: Reproducible Ranking Baselines Using Lucene.](https://dl.acm.org/citation.cfm?doid=3289400.3239571) Journal of Data and Information Quality, 10(4), Article 16, 2018.
 
-_NOTICE: The query topics used in JDIQ paper are combined topics per collection while the numbers generated
-by the scripts here are separated_
+Note that the values produced by these scripts are _slightly_ different than those reported in the article.
+The reason for these differences stem from the fact that Anserini evolved throughout the peer review process; the values reported in the article where those generated when the manuscript was submitted.
+By the time the article was published, the implementation of Anserini has progressed.
+As Anserini continues to improve we will update these scripts, which will lead to further divergences between the published values.
+Unfortunately, this is an unavoidable aspect of empirical research on software artifacts.
 
-### Run
-On tuna:
+## Parameter Tuning
+
+Invoke the tuning script on various collections as follows, on `tuna`:
+
 ```
-nohup python src/main/python/jdiq2018_effectiveness/run_batch.py --collection disk12 >& disk12.jdiq2018.log &
-nohup python src/main/python/jdiq2018_effectiveness/run_batch.py --collection robust04 >& robust04.jdiq2018.log &
-nohup python src/main/python/jdiq2018_effectiveness/run_batch.py --collection robust05 >& robust05.jdiq2018.log &
-nohup python src/main/python/jdiq2018_effectiveness/run_batch.py --collection wt10g >& wt10g.jdiq2018.log &
-nohup python src/main/python/jdiq2018_effectiveness/run_batch.py --collection gov2 >& gov2.jdiq2018.log &
-nohup python src/main/python/jdiq2018_effectiveness/run_batch.py --collection cw09b --metrics map ndcg20 err20 >& cw09b.jdiq2018.log &
-nohup python src/main/python/jdiq2018_effectiveness/run_batch.py --collection cw12b13 --metrics map ndcg20 err20 >& cw12b13.jdiq2018.log &
+nohup python src/main/python/jdiq2018_effectiveness/run_batch.py --collection disk12 >& jdiq2018.disk12.log &
+nohup python src/main/python/jdiq2018_effectiveness/run_batch.py --collection robust04 >& jdiq2018.robust04.log &
+nohup python src/main/python/jdiq2018_effectiveness/run_batch.py --collection robust05 >& jdiq2018.robust05.log &
+nohup python src/main/python/jdiq2018_effectiveness/run_batch.py --collection wt10g >& jdiq2018.wt10g.log &
+nohup python src/main/python/jdiq2018_effectiveness/run_batch.py --collection gov2 >& jdiq2018.gov2.log &
+nohup python src/main/python/jdiq2018_effectiveness/run_batch.py --collection cw09b --metrics map ndcg20 err20 >& jdiq2018.cw09b.log &
+nohup python src/main/python/jdiq2018_effectiveness/run_batch.py --collection cw12b13 --metrics map ndcg20 err20 >& jdiq2018.cw12b13.log &
 ```
 
-### Results
+The script assumes hard-coded index directories; modify as appropriate.
+
+## Effectiveness
 
 ${results}
