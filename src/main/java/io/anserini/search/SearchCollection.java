@@ -29,7 +29,7 @@ import io.anserini.rerank.lib.Rm3Reranker;
 import io.anserini.rerank.lib.ScoreTiesAdjusterReranker;
 import io.anserini.search.query.BagOfWordsQueryGenerator;
 import io.anserini.search.query.SdmQueryGenerator;
-import io.anserini.search.similarity.AuxSimilarity;
+import io.anserini.search.similarity.TaggedSimilarity;
 import io.anserini.search.similarity.F2ExpSimilarity;
 import io.anserini.search.similarity.F2LogSimilarity;
 import io.anserini.search.topicreader.NewsBackgroundLinkingTopicReader;
@@ -96,7 +96,7 @@ public final class SearchCollection implements Closeable {
   private final SearchArgs args;
   private final IndexReader reader;
   private final Analyzer analyzer;
-  private List<AuxSimilarity> similarities;
+  private List<TaggedSimilarity> similarities;
   private final boolean isRerank;
   public enum QueryConstructor {
     BagOfTerms,
@@ -107,17 +107,17 @@ public final class SearchCollection implements Closeable {
   private final class SearcherThread<K> extends Thread {
     final private IndexSearcher searcher;
     final private SortedMap<K, Map<String, String>> topics;
-    final private AuxSimilarity auxSimilarity;
+    final private TaggedSimilarity taggedSimilarity;
     final private String cascadeTag;
     final private RerankerCascade cascade;
     final private String outputPath;
     final private String runTag;
     
-    private SearcherThread(IndexSearcher searcher, SortedMap<K, Map<String, String>> topics, AuxSimilarity auxSimilarity,
+    private SearcherThread(IndexSearcher searcher, SortedMap<K, Map<String, String>> topics, TaggedSimilarity taggedSimilarity,
                            String cascadeTag, RerankerCascade cascade, String outputPath, String runTag) throws IOException {
       this.searcher = searcher;
       this.topics = topics;
-      this.auxSimilarity = auxSimilarity;
+      this.taggedSimilarity = taggedSimilarity;
       this.cascadeTag = cascadeTag;
       this.cascade = cascade;
       this.runTag = runTag;
@@ -128,7 +128,7 @@ public final class SearchCollection implements Closeable {
     @Override
     public void run() {
       try {
-        LOG.info("[Start] Ranking with similarity: " + auxSimilarity.similarity.toString());
+        LOG.info("[Start] Ranking with similarity: " + taggedSimilarity.similarity.toString());
         final long start = System.nanoTime();
         if (!cascadeTag.isEmpty()) LOG.info("ReRanking with: " + cascadeTag);
         PrintWriter out = new PrintWriter(Files.newBufferedWriter(Paths.get(outputPath), StandardCharsets.US_ASCII));
@@ -160,7 +160,7 @@ public final class SearchCollection implements Closeable {
         out.flush();
         out.close();
         final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
-        LOG.info("[Finished] Ranking with similarity: " + auxSimilarity.similarity.toString());
+        LOG.info("[Finished] Ranking with similarity: " + taggedSimilarity.similarity.toString());
         LOG.info("Run " + topics.size() + " topics searched in "
             + DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss"));
       } catch (Exception e) {
@@ -209,34 +209,34 @@ public final class SearchCollection implements Closeable {
     reader.close();
   }
   
-  public List<AuxSimilarity> constructSimiliries() {
+  public List<TaggedSimilarity> constructSimiliries() {
     // Figure out which scoring model to use.
-    List<AuxSimilarity> similarities = new ArrayList<>();
+    List<TaggedSimilarity> similarities = new ArrayList<>();
     if (args.ql) {
       for (String mu : args.mu) {
-        similarities.add(new AuxSimilarity(new LMDirichletSimilarity(Float.valueOf(mu)), "mu:"+mu));
+        similarities.add(new TaggedSimilarity(new LMDirichletSimilarity(Float.valueOf(mu)), "mu:"+mu));
       }
     } else if (args.bm25) {
       for (String k1 : args.k1) {
         for (String b : args.b) {
-          similarities.add(new AuxSimilarity(new BM25Similarity(Float.valueOf(k1), Float.valueOf(b)), "k1:"+k1+",b:"+b));
+          similarities.add(new TaggedSimilarity(new BM25Similarity(Float.valueOf(k1), Float.valueOf(b)), "k1:"+k1+",b:"+b));
         }
       }
     } else if (args.pl2) {
       for (String c : args.pl2_c) {
-        similarities.add(new AuxSimilarity(new DFRSimilarity(new BasicModelP(), new AfterEffectL(), new NormalizationH2(Float.valueOf(c))), "c:"+c));
+        similarities.add(new TaggedSimilarity(new DFRSimilarity(new BasicModelP(), new AfterEffectL(), new NormalizationH2(Float.valueOf(c))), "c:"+c));
       };
     } else if (args.spl) {
       for (String c : args.spl_c) {
-        similarities.add(new AuxSimilarity(new IBSimilarity(new DistributionSPL(), new LambdaDF(),  new NormalizationH2(Float.valueOf(c))), "c:"+c));
+        similarities.add(new TaggedSimilarity(new IBSimilarity(new DistributionSPL(), new LambdaDF(),  new NormalizationH2(Float.valueOf(c))), "c:"+c));
       }
     } else if (args.f2exp) {
       for (String s : args.f2exp_s) {
-        similarities.add(new AuxSimilarity(new F2ExpSimilarity(Float.valueOf(s)), "s:"+s));
+        similarities.add(new TaggedSimilarity(new F2ExpSimilarity(Float.valueOf(s)), "s:"+s));
       }
     } else if (args.f2log) {
       for (String s : args.f2log_s) {
-        similarities.add(new AuxSimilarity(new F2LogSimilarity(Float.valueOf(s)), "s:"+s));
+        similarities.add(new TaggedSimilarity(new F2LogSimilarity(Float.valueOf(s)), "s:"+s));
       }
     } else {
       throw new IllegalArgumentException("Error: Must specify scoring model!");
@@ -309,16 +309,16 @@ public final class SearchCollection implements Closeable {
     final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(args.threads);
     this.similarities = constructSimiliries();
     Map<String, RerankerCascade> cascades = constructRerankerCascades();
-    for (AuxSimilarity auxSimilarity : this.similarities) {
-      searcher.setSimilarity(auxSimilarity.similarity);
+    for (TaggedSimilarity taggedSimilarity : this.similarities) {
+      searcher.setSimilarity(taggedSimilarity.similarity);
       for (Map.Entry<String, RerankerCascade> cascade : cascades.entrySet()) {
         final String outputPath = (this.similarities.size()+cascades.size())>2 ?
-            args.output+"_"+auxSimilarity.tag+(cascade.getKey().isEmpty()?"":",")+cascade.getKey() : args.output;
+            args.output+"_"+ taggedSimilarity.tag+(cascade.getKey().isEmpty()?"":",")+cascade.getKey() : args.output;
         if (args.skipexists && new File(outputPath).exists()) {
           LOG.info("Skipping True: "+outputPath);
           continue;
         }
-        executor.execute(new SearcherThread<K>(searcher, topics, auxSimilarity, cascade.getKey(), cascade.getValue(),
+        executor.execute(new SearcherThread<K>(searcher, topics, taggedSimilarity, cascade.getKey(), cascade.getValue(),
             outputPath, runTag));
       }
     }

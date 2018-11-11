@@ -532,7 +532,7 @@ public class AxiomReranker<T> implements Reranker<T> {
   }
   
   @Override
-  public String toString() {
+  public String tag() {
     return "AxiomaticRerank(R="+R+",N="+N+",K:"+K+",M:"+M+")";
   }
 }

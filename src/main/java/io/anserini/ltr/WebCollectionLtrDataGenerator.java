@@ -75,4 +75,7 @@ public class WebCollectionLtrDataGenerator implements Reranker<Integer> {
     // Does nothing to the actual docs, we just need to extract the feature vector
     return docs;
   }
+  
+  @Override
+  public String tag() { return ""; }
 }

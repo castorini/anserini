@@ -237,7 +237,7 @@ public class Rm3Reranker implements Reranker {
   }
   
   @Override
-  public String toString() {
+  public String tag() {
     return "Rm3(fbDocs="+fbDocs+",fbTerms="+fbTerms+",originalQueryWeight:"+originalQueryWeight+")";
   }
 }

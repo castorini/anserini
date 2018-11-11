@@ -140,4 +140,7 @@ public class NewsBackgroundLinkingReranker implements Reranker {
     
     return Math.sqrt(agg);
   }
+  
+  @Override
+  public String tag() { return ""; }
 }
