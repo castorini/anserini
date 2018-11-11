@@ -17,6 +17,7 @@
 package io.anserini.search;
 
 import org.kohsuke.args4j.Option;
+import org.kohsuke.args4j.spi.StringArrayOptionHandler;
 
 public class SearchArgs {
   // required arguments
@@ -33,9 +34,18 @@ public class SearchArgs {
   public String topicReader;
 
   // optional arguments
+  @Option(name = "-threads", metaVar = "[Number]", usage = "Number of Threads")
+  public int threads = 1;
+  
+  @Option(name = "-inmem", usage = "Boolean switch to read index in memory")
+  public Boolean inmem = false;
+  
   @Option(name = "-topicfield", usage = "Which field of the query should be used, default \"title\"." +
       " For TREC ad hoc topics, description or narrative can be used.")
   public String topicfield = "title";
+  
+  @Option(name = "-skipexists", usage = "When enabled, will skip if the run file exists")
+  public Boolean skipexists = false;
 
   @Option(name = "-searchtweets", usage = "Whether the search is against a tweet " +
       "index created by IndexCollection -collection TweetCollection")
@@ -80,8 +90,8 @@ public class SearchArgs {
   @Option(name = "-ql", usage = "use query likelihood scoring model")
   public boolean ql = false;
 
-  @Option(name = "-mu", metaVar = "[value]", usage = "Dirichlet smoothing parameter")
-  public float mu = 1000.0f;
+  @Option(name = "-mu", handler = StringArrayOptionHandler.class, usage = "Dirichlet smoothing parameter")
+  public String[] mu = new String[] {"1000"};
   /*
    * Why this value? We want to pick a value that corresponds to what the community generally
    * considers to "good". Zhai and Lafferty (SIGIR 2001) write "the optimal value of mu appears to
@@ -96,35 +106,35 @@ public class SearchArgs {
   @Option(name = "-bm25", usage = "use BM25 scoring model")
   public boolean bm25 = false;
 
-  @Option(name = "-k1", metaVar = "[value]", required = false, usage = "BM25 k1 parameter")
-  public float k1 = 0.9f;
+  @Option(name = "-k1", handler = StringArrayOptionHandler.class, usage = "BM25 k1 parameter")
+  public String[] k1 = new String[] {"0.9"};
 
-  @Option(name = "-b", metaVar = "[value]", required = false, usage = "BM25 b parameter")
-  public float b = 0.4f;
+  @Option(name = "-b", handler = StringArrayOptionHandler.class, usage = "BM25 b parameter")
+  public String[] b = new String[] {"0.4"};
   
   @Option(name = "-pl2", usage = "use PL2 scoring model")
   public boolean pl2 = false;
   
-  @Option(name = "-pl2.c", metaVar = "[value]", required = false, usage = "PL2 c parameter")
-  public float pl2_c = 0.1f;
+  @Option(name = "-pl2.c", metaVar = "[value]", usage = "PL2 c parameter")
+  public String[] pl2_c = new String[] {"0.1"};
 
   @Option(name = "-spl", usage = "use SPL scoring model")
   public boolean spl = false;
   
-  @Option(name = "-spl.c", metaVar = "[value]", required = false, usage = "SPL c parameter")
-  public float spl_c = 0.1f;
+  @Option(name = "-spl.c", metaVar = "[value]", usage = "SPL c parameter")
+  public String[] spl_c = new String[] {"0.1"};
 
   @Option(name = "-f2exp", usage = "use F2Exp scoring model")
   public boolean f2exp = false;
   
-  @Option(name = "-f2exp.s", metaVar = "[value]", required = false, usage = "F2Exp s parameter")
-  public float f2exp_s = 0.5f;
+  @Option(name = "-f2exp.s", metaVar = "[value]", usage = "F2Exp s parameter")
+  public String[] f2exp_s = new String[] {"0.5"};
 
   @Option(name = "-f2log", usage = "use F2Log scoring model")
   public boolean f2log = false;
 
-  @Option(name = "-f2log.s", metaVar = "[value]", required = false, usage = "F2Log s parameter")
-  public float f2log_s = 0.5f;
+  @Option(name = "-f2log.s", metaVar = "[value]", usage = "F2Log s parameter")
+  public String[] f2log_s = new String[] {"0.5"};
 
   @Option(name = "-sdm", usage = "boolean switch to use Sequential Dependence Model query")
   public boolean sdm = false;
@@ -141,14 +151,14 @@ public class SearchArgs {
   @Option(name = "-rm3", usage = "use RM3 query expansion model (implies using query likelihood)")
   public boolean rm3 = false;
 
-  @Option(name = "-rm3.fbTerms", usage = "parameter to decide how many expansion terms to be picked")
-  public int rm3_fbTerms = 20;
+  @Option(name = "-rm3.fbTerms", handler = StringArrayOptionHandler.class, usage = "parameter to decide how many expansion terms to be picked")
+  public String[] rm3_fbTerms = new String[] {"20"};
 
-  @Option(name = "-rm3.fbDocs", usage = "parameter to decide how many documents to be used to find expansion terms")
-  public int rm3_fbDocs = 50;
+  @Option(name = "-rm3.fbDocs", handler = StringArrayOptionHandler.class, usage = "parameter to decide how many documents to be used to find expansion terms")
+  public String[] rm3_fbDocs = new String[] {"50"};
 
-  @Option(name = "-rm3.originalQueryWeight", usage = "parameter to decide how many documents to be used to find expansion terms")
-  public float rm3_originalQueryWeight = 0.6f;
+  @Option(name = "-rm3.originalQueryWeight", handler = StringArrayOptionHandler.class, usage = "parameter to decide how many documents to be used to find expansion terms")
+  public String[] rm3_originalQueryWeight = new String[] {"0.6"};
 
   @Option(name = "-rm3.outputQuery", usage = "output original and expanded query")
   public boolean rm3_outputQuery = false;
@@ -169,17 +179,17 @@ public class SearchArgs {
           "by running CLI command `IndexUtils -index /path/to/index -dumpAllDocids GZ`")
   public String axiom_docids = null;
 
-  @Option(name = "-axiom.r", usage = "parameter R in axiomatic reranking")
-  public int axiom_r = 20;
+  @Option(name = "-axiom.r", handler = StringArrayOptionHandler.class, usage = "parameter R in axiomatic reranking")
+  public String[] axiom_r = new String[] {"20"};
 
-  @Option(name = "-axiom.n", usage = "parameter N in axiomatic reranking")
-  public int axiom_n = 30;
+  @Option(name = "-axiom.n", handler = StringArrayOptionHandler.class, usage = "parameter N in axiomatic reranking")
+  public String[] axiom_n = new String[] {"30"};
 
-  @Option(name = "-axiom.beta", usage = "parameter beta for Axiomatic query expansion model")
-  public float axiom_beta = 0.4f;
+  @Option(name = "-axiom.beta", handler = StringArrayOptionHandler.class, usage = "parameter beta for Axiomatic query expansion model")
+  public String[] axiom_beta = new String[] {"0.4"};
   
-  @Option(name = "-axiom.top", usage = "select top M terms from the expansion terms pool")
-  public int axiom_top = 20;
+  @Option(name = "-axiom.top", handler = StringArrayOptionHandler.class, usage = "select top M terms from the expansion terms pool")
+  public String[] axiom_top = new String[] {"20"};
 
   @Option(name = "-axiom.index", usage = "path to the external index for generating the reranking doucments pool")
   public String axiom_index = null;
