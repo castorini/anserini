@@ -72,4 +72,7 @@ public class TweetsLtrDataGenerator implements Reranker {
 
     return docs;
   }
+  
+  @Override
+  public String tag() { return ""; }
 }
