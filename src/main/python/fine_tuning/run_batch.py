@@ -124,7 +124,7 @@ def atom_output_effectiveness(para):
     input_fns = para[2:]
     Effectiveness(index_path).output_effectiveness(output_fn, input_fns)
 
-def verify_effectiveness(collection_yaml, models_yaml, output_root, collection, anserini_root):
+def verify_effectiveness(collection_yaml, models_yaml, output_root):
     index_path = get_index_path(collection_yaml)
     this_output_root = os.path.join(output_root, collection_yaml['name'])
     effectiveness, per_topic_oracle = Effectiveness(index_path).load_optimal_effectiveness(this_output_root)
@@ -147,9 +147,10 @@ def verify_effectiveness(collection_yaml, models_yaml, output_root, collection, 
     success_xfold = True
     for fold in [2, 5]:
         if collection ==  'robust04' and fold == 5:
-            x_fold_effectiveness = XFoldValidate(output_root, collection, fold, True, anserini_root).tune(False)
+            fold_dir = os.path.join(collection_yaml['anserini_root'], 'src/main/resources/fine_tuning/drr_folds')
+            x_fold_effectiveness = XFoldValidate(output_root, collection_yaml['name'], fold, True, fold_dir).tune(False)
         else:
-            x_fold_effectiveness = XFoldValidate(output_root, collection, fold).tune(False)
+            x_fold_effectiveness = XFoldValidate(output_root, collection_yaml['name'], fold).tune(False)
         for basemodel in x_fold_effectiveness:
             if models_yaml['basemodel'] != basemodel:
                 continue

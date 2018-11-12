@@ -31,34 +31,28 @@ class XFoldValidate(object):
     """
     def __init__(self,output_root,collection,
                  fold=5,use_drr_fold=False,
-                 anserini_root=None):
+                 fold_dir=None):
         self.logger = logging.getLogger('x_fold_cv.XFlodValidate')
         self.output_root = output_root
         self.eval_files_root = 'eval_files'
         self.collection = collection
-        # check if the drr fold can be used
-        if fold != 5 and use_drr_fold:
-            self.logger.error("Cannot use {}-fold since fold number has to be five for drr folds! Use default fold instead.".format(fold))
-            use_drr_fold = False
-        elif collection != 'robust04':
-            self.logger.error("Cannot use drr folds for {} (has to be robust04)! Use default fold instead.".format(collection))
-            use_drr_fold = False
         self.fold = fold
         self.use_drr_fold = use_drr_fold
         if self.use_drr_fold:
-            self._load_drr_folds(anserini_root)
+            self._load_drr_folds(fold_dir)
 
-    def _load_drr_folds(self,anserini_root):
+    def _load_drr_folds(self,fold_dir):
         # load qids for each fold
-        if not anserini_root:
-            self.logger.error('Anserini root is not specified! Use default fold instead')
-            self.use_drr_fold = False
-        else:
-            self._fold_id_dict = {}
-            fold_dir = os.path.join(anserini_root, 'src/main/resources/fine_tuning/drr_folds')
-            for fold_id in xrange(5):
-                fold_fn = os.path.join(fold_dir,'rob04.test.s{}.json'.format(fold_id+1))
+        self._fold_id_dict = {}
+        for fold_id in xrange(5):
+            fold_fn = os.path.join(fold_dir,'rob04.test.s{}.json'.format(fold_id+1))
+            try:
                 fold_info = json.load(open(fold_fn))
+            except IOError:
+                self.logger.error("Error when parsing fold file: {}\nUse default fold instead!".format(fold_fn))
+                self.use_drr_fold = False
+                break
+            else:
                 for q_info in fold_info['questions']:
                     qid = q_info['id']
                     self._fold_id_dict[qid] = fold_id
@@ -183,10 +177,10 @@ def main():
     parser.add_argument('--fold', '-f', default=2, type=int, help='number of fold')
     parser.add_argument('--verbose', '-v', action='store_true', help='output in verbose mode')
     parser.add_argument('--collection', required=True, help='the collection key in yaml')
-    parser.add_argument('--anserini_root', default='', help='Anserini path')
+    parser.add_argument('--fold_dir', required=True, help='Anserini path')
     args=parser.parse_args()
 
-    print(json.dumps(XFoldValidate(args.output_root, args.collection, args.fold, True, args.anserini_root).tune(args.verbose), sort_keys=True, indent=2))
+    print(json.dumps(XFoldValidate(args.output_root, args.collection, args.fold, True, args.fold_dir).tune(args.verbose), sort_keys=True, indent=2))
 
 if __name__ == '__main__':
     main()
