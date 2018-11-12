@@ -23,40 +23,21 @@ class XFoldValidate(object):
     """
     Perform X-Fold cross validation for various 
     parameters and report the average effectiveness
-    for each fold. If use_drr_fold is specified, 
-    the 5-folds used in the deep relevance ranking paper
-    (https://github.com/nlpaueb/deep-relevance-ranking)
-    will be used. Otherwise, the qid will be used to
-    determine the fold.
+    for each fold. fold_mapping is an optional argument.
+    It can be a dictionary {qid:fold_id} that maps 
+    each qid to its corresponding fold.
     """
     def __init__(self,output_root,collection,
-                 fold=5,use_drr_fold=False,
-                 fold_dir=None):
+                 fold=5,fold_mapping=None):
         self.logger = logging.getLogger('x_fold_cv.XFlodValidate')
         self.output_root = output_root
         self.eval_files_root = 'eval_files'
         self.collection = collection
         self.fold = fold
-        self.use_drr_fold = use_drr_fold
-        if self.use_drr_fold:
-            self._load_drr_folds(fold_dir)
+        self.fold_mapping = fold_mapping
 
-    def _load_drr_folds(self,fold_dir):
-        # load qids for each fold
-        self._fold_id_dict = {}
-        for fold_id in xrange(5):
-            fold_fn = os.path.join(fold_dir,'rob04.test.s{}.json'.format(fold_id+1))
-            try:
-                fold_info = json.load(open(fold_fn))
-            except IOError:
-                self.logger.error("Error when parsing fold file: {}\nUse default fold instead!".format(fold_fn))
-                self.use_drr_fold = False
-                break
-            else:
-                for q_info in fold_info['questions']:
-                    qid = q_info['id']
-                    self._fold_id_dict[qid] = fold_id
 
+    
     def _get_param_average(self):
         # For each parameter set, get its 
         # average performances in each fold,
@@ -92,9 +73,9 @@ class XFoldValidate(object):
 
     def _compute_fold_id(self,qid):
         # compute fold id
-        if self.use_drr_fold:
-            # use the fold get from the drr paper
-            return self._fold_id_dict[qid]
+        if self.fold_mapping:
+            # use the fold mapping passed to it
+            return self.fold_mapping[qid]
         else:
             # compute the fold id based on qid
             return int(qid) % self.fold
@@ -177,10 +158,14 @@ def main():
     parser.add_argument('--fold', '-f', default=2, type=int, help='number of fold')
     parser.add_argument('--verbose', '-v', action='store_true', help='output in verbose mode')
     parser.add_argument('--collection', required=True, help='the collection key in yaml')
-    parser.add_argument('--fold_dir', required=True, help='Anserini path')
+    parser.add_argument('--fold_dir', help='directory of drr fold files')
     args=parser.parse_args()
 
-    print(json.dumps(XFoldValidate(args.output_root, args.collection, args.fold, True, args.fold_dir).tune(args.verbose), sort_keys=True, indent=2))
+    fold_mapping = {}
+    if args.fold_dir:
+        from run_batch import load_drr_fold_mapping
+        fold_mapping = load_drr_fold_mapping(args.fold_dir)
+    print(json.dumps(XFoldValidate(args.output_root, args.collection, args.fold, fold_mapping).tune(args.verbose), sort_keys=True, indent=2))
 
 if __name__ == '__main__':
     main()
