@@ -80,7 +80,21 @@ models:
         pace: 0.1
     expected:
       robust04:
-        map: 0.2532
+        map:
+          best_avg: 0.2955
+          oracles_per_topic: 0.4044
+          2-fold: 0.2929
+          5-fold: 0.2878
+        P_20:
+          best_avg: 0.3932
+          oracles_per_topic: 0.5661
+          2-fold: 0.3883
+          5-fold: 0.3902
+        ndcg20:
+          best_avg: 0.44484
+          oracles_per_topic: 0.6278
+          2-fold: 0.4361
+          5-fold: 0.4375
   bm25+axiom:
     name: axiom
     fixed_params: "-axiom.n 30 -axiom.deterministic"
@@ -114,7 +128,21 @@ models:
         pace: 0.1
     expected:
       robust04:
-        map: 0.2532
+        map:
+          best_avg: 0.0
+          oracles_per_topic: 0.0
+          2-fold: 0.0
+          5-fold: 0.0
+        P_20:
+          best_avg: 0.0
+          oracles_per_topic: 0.0
+          2-fold: 0.0
+          5-fold: 0.0
+        ndcg20:
+          best_avg: 0.0
+          oracles_per_topic: 0.0
+          2-fold: 0.0
+          5-fold: 0.0
   rm3:
     name: rm3
     fixed_params: ""
@@ -187,17 +215,17 @@ models:
     expected:
       robust04:
         map:
-          best_avg: 0.2532
-          oracles_per_topic: 0.2921
-          2-fold: 0.2253
-          5-fold: 0.2524
+          best_avg: 0.3020
+          oracles_per_topic: 0.4343
+          2-fold: 0.2973
+          5-fold: 0.2938
         P_20:
-          best_avg: 0.3614
-          oracles_per_topic: 0.4426
-          2-fold: 0.3604
-          5-fold: 0.3577
+          best_avg: 0.4012
+          oracles_per_topic: 0.5960
+          2-fold: 0.3779
+          5-fold: 0.3885
         ndcg20:
-          best_avg: 0.41659
-          oracles_per_topic: 0.5028
-          2-fold: 0.4108
-          5-fold: 0.4128
+          best_avg: 0.44958
+          oracles_per_topic: 0.6606
+          2-fold: 0.4386
+          5-fold: 0.4454
