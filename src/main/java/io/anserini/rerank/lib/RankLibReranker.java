@@ -102,4 +102,7 @@ public class RankLibReranker<T> implements Reranker<T> {
 
     return rerankedDocs;
   }
+  
+  @Override
+  public String tag() { return ""; }
 }

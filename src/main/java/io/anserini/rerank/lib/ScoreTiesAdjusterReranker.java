@@ -69,4 +69,7 @@ public class ScoreTiesAdjusterReranker implements Reranker {
 
     return docs;
   }
+  
+  @Override
+  public String tag() { return ""; }
 }

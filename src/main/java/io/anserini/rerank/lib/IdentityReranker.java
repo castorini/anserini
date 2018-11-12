@@ -25,4 +25,7 @@ public class IdentityReranker implements Reranker {
   public ScoredDocuments rerank(ScoredDocuments docs, RerankerContext context) {
     return docs;
   }
+  
+  @Override
+  public String tag() { return ""; }
 }

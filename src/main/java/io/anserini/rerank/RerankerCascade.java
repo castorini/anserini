@@ -33,7 +33,6 @@ public class RerankerCascade {
    */
   public RerankerCascade add(Reranker reranker) {
     rerankers.add(reranker);
-
     return this;
   }
 

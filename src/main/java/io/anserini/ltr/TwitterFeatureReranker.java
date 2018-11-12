@@ -68,4 +68,7 @@ public class TwitterFeatureReranker implements Reranker<Integer> {
 
     return docs;
   }
+  
+  @Override
+  public String tag() { return ""; }
 }
