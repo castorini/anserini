@@ -105,6 +105,7 @@ public final class SearchCollection implements Closeable {
   private final QueryConstructor qc;
   
   private final class SearcherThread<K> extends Thread {
+    final private IndexReader reader;
     final private IndexSearcher searcher;
     final private SortedMap<K, Map<String, String>> topics;
     final private TaggedSimilarity taggedSimilarity;
@@ -113,15 +114,17 @@ public final class SearchCollection implements Closeable {
     final private String outputPath;
     final private String runTag;
     
-    private SearcherThread(IndexSearcher searcher, SortedMap<K, Map<String, String>> topics, TaggedSimilarity taggedSimilarity,
+    private SearcherThread(IndexReader reader, SortedMap<K, Map<String, String>> topics, TaggedSimilarity taggedSimilarity,
                            String cascadeTag, RerankerCascade cascade, String outputPath, String runTag) throws IOException {
-      this.searcher = searcher;
+      this.reader = reader;
       this.topics = topics;
       this.taggedSimilarity = taggedSimilarity;
       this.cascadeTag = cascadeTag;
       this.cascade = cascade;
       this.runTag = runTag;
       this.outputPath = outputPath;
+      this.searcher = new IndexSearcher(this.reader);
+      this.searcher.setSimilarity(this.taggedSimilarity.similarity);
       setName(outputPath);
     }
     
@@ -137,11 +140,11 @@ public final class SearchCollection implements Closeable {
           String queryString = entry.getValue().get(args.topicfield);
           ScoredDocuments docs;
           if (args.searchtweets) {
-            docs = searchTweets(searcher, qid, queryString, Long.parseLong(entry.getValue().get("time")), cascade);
+            docs = searchTweets(this.searcher, qid, queryString, Long.parseLong(entry.getValue().get("time")), cascade);
           } else if (args.searchnewsbackground) {
-            docs = searchBackgroundLinking(searcher, qid, queryString, cascade);
+            docs = searchBackgroundLinking(this.searcher, qid, queryString, cascade);
           } else{
-            docs = search(searcher, qid, queryString, cascade);
+            docs = search(this.searcher, qid, queryString, cascade);
           }
     
           /**
@@ -288,7 +291,6 @@ public final class SearchCollection implements Closeable {
 
   @SuppressWarnings("unchecked")
   public<K> void runTopics() throws IOException, QueryNodeException {
-    IndexSearcher searcher = new IndexSearcher(reader);
     Path topicsFile = Paths.get(args.topics);
   
     if (!Files.exists(topicsFile) || !Files.isRegularFile(topicsFile) || !Files.isReadable(topicsFile)) {
@@ -310,7 +312,6 @@ public final class SearchCollection implements Closeable {
     this.similarities = constructSimiliries();
     Map<String, RerankerCascade> cascades = constructRerankerCascades();
     for (TaggedSimilarity taggedSimilarity : this.similarities) {
-      searcher.setSimilarity(taggedSimilarity.similarity);
       for (Map.Entry<String, RerankerCascade> cascade : cascades.entrySet()) {
         final String outputPath = (this.similarities.size()+cascades.size())>2 ?
             args.output+"_"+ taggedSimilarity.tag+(cascade.getKey().isEmpty()?"":",")+cascade.getKey() : args.output;
@@ -318,7 +319,7 @@ public final class SearchCollection implements Closeable {
           LOG.info("Skipping True: "+outputPath);
           continue;
         }
-        executor.execute(new SearcherThread<K>(searcher, topics, taggedSimilarity, cascade.getKey(), cascade.getValue(),
+        executor.execute(new SearcherThread<K>(reader, topics, taggedSimilarity, cascade.getKey(), cascade.getValue(),
             outputPath, runTag));
       }
     }
