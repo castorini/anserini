@@ -165,7 +165,7 @@ def verify_effectiveness(collection_yaml, models_yaml, output_root, use_drr_fold
 
     success_xfold = True
     for fold in [2, 5]:
-        if (collection ==  'robust04' 
+        if (collection_yaml['name'] ==  'robust04' 
                 and fold == 5 
                 and use_drr_fold):
             fold_dir = os.path.join(collection_yaml['anserini_root'], 'src/main/resources/fine_tuning/drr_folds')
@@ -256,5 +256,5 @@ if __name__ == '__main__':
             batch_retrieval(collection_yaml, models_yaml, args.output_root)
             batch_eval(collection_yaml, models_yaml, args.output_root)
             batch_output_effectiveness(collection_yaml, models_yaml, args.output_root)
-        verify_effectiveness(collection_yaml, models_yaml, args.output_root, args.collection, args.anserini_root, args.use_drr_fold)
+        verify_effectiveness(collection_yaml, models_yaml, args.output_root, args.use_drr_fold)
 
