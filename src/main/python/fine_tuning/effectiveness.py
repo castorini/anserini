@@ -22,6 +22,7 @@ from operator import itemgetter
 from inspect import currentframe, getframeinfo
 import logging
 
+logging.basicConfig()
 class Effectiveness(object):
     """
     Handle the performace. For example, get all the effectiveness of one method(has multiple parameters).

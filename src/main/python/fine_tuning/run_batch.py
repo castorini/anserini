@@ -89,7 +89,7 @@ def batch_retrieval(collection_yaml, models_yaml, output_root):
     index_path = get_index_path(collection_yaml)
     this_output_root = os.path.join(output_root, collection_yaml['name'])
     logger.info('='*10+'Generating Batch Retrieval Parameters'+'='*10)
-    model_params = Search(index_path).gen_batch_retrieval_params(models_yaml, this_output_root)
+    model_params = Search(index_path).gen_batch_retrieval_params(models_yaml, this_output_root, parallelism)
     for para in model_params:
         this_para = (
             program,
@@ -165,9 +165,7 @@ def verify_effectiveness(collection_yaml, models_yaml, output_root, use_drr_fold
 
     success_xfold = True
     for fold in [2, 5]:
-        if (collection ==  'robust04' 
-                and fold == 5 
-                and use_drr_fold):
+        if collection_yaml['name'] == 'robust04' and fold == 5 and use_drr_fold:
             fold_dir = os.path.join(collection_yaml['anserini_root'], 'src/main/resources/fine_tuning/drr_folds')
             fold_mapping = load_drr_fold_mapping(fold_dir)
             x_fold_effectiveness = XFoldValidate(output_root, collection_yaml['name'], fold, fold_mapping).tune(False)
@@ -256,5 +254,5 @@ if __name__ == '__main__':
             batch_retrieval(collection_yaml, models_yaml, args.output_root)
             batch_eval(collection_yaml, models_yaml, args.output_root)
             batch_output_effectiveness(collection_yaml, models_yaml, args.output_root)
-        verify_effectiveness(collection_yaml, models_yaml, args.output_root, args.collection, args.anserini_root, args.use_drr_fold)
+        verify_effectiveness(collection_yaml, models_yaml, args.output_root, args.use_drr_fold)
 

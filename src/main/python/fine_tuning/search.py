@@ -21,6 +21,7 @@ from inspect import currentframe, getframeinfo
 from subprocess import Popen, PIPE
 import logging
 
+logging.basicConfig()
 class Search(object):
     def __init__(self, index_path):
         self.logger = logging.getLogger('search.Search')
@@ -38,26 +39,18 @@ class Search(object):
             yield float(x)
             x += jump
 
-    def gen_batch_retrieval_params(self, model_yaml, output_root):
+    def gen_batch_retrieval_params(self, model_yaml, output_root, parallelism=4):
         all_params = []
         if not os.path.exists(os.path.join(output_root, self.run_files_root)):
             os.makedirs(os.path.join(output_root, self.run_files_root))
-        for p in itertools.product(*[self.drange(param['lower'], param['upper']+1e-8, param['pace']) for param in model_yaml['params'].values()]):
-            para_str = '-%s %s' % (model_yaml['name'], model_yaml['fixed_params'])
-            rfn = model_yaml['name']+'_'
-            for k_idx, k in enumerate(model_yaml['params'].keys()):
-                is_float = True if model_yaml['params'][k]['type'] == 'float' else False
-                para_str += ' -%s %.2f' % (k, p[k_idx]) if is_float else ' -%s %d' % (k, p[k_idx])
-                if 'nexus_params' in model_yaml:
-                    for nexus_params in model_yaml['nexus_params']:
-                        if model_yaml['nexus_params'][nexus_params] == k:
-                            para_str += ' -%s %.2f' % (nexus_params, p[k_idx]) if is_float else ' -%s %d' % (nexus_params, p[k_idx])
-                if k_idx != 0:
-                    rfn += ','
-                rfn += '%s:%.2f' % (k, p[k_idx]) if is_float else '%s:%d' % (k, p[k_idx])
-            results_fn = os.path.join(output_root, self.run_files_root, model_yaml['basemodel']+'_'+rfn)
-            if not os.path.exists(results_fn):
-                all_params.append( (para_str, results_fn) )
+        para_str = '-threads %d -%s %s' % (parallelism, model_yaml['name'], model_yaml['fixed_params'])
+        results_fn = os.path.join(output_root, self.run_files_root, model_yaml['basemodel']+'_'+model_yaml['name'])
+        for param_name, params in model_yaml['params'].items():
+            para_str += ' -%s' % (param_name)
+            for p in self.drange(params['lower'], params['upper']+1e-8, params['pace']):
+                is_float = True if params['type'] == 'float' else False
+                para_str += ' %.2f' % (p) if is_float else ' %d' % (p)
+        all_params.append( (para_str, results_fn) )
 
         # always include a baseline here
         no_params_fn = os.path.join(output_root, self.run_files_root, model_yaml['basemodel']+'_'+model_yaml['name']+'_noparams')
