@@ -4,7 +4,7 @@
 .idea
 target/
 bin/
-eval/trec_eval.9.0/
+eval/trec_eval.9.0.4/
 eval/ndeval/ndeval
 src/test/test-index*
 *~

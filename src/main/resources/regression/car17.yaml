@@ -28,7 +28,7 @@ topics:
     path: topics.car17.test200.txt
     qrel: qrels.car17.test200.hierarchical.txt
 evals:
-  - command: eval/trec_eval.9.0/trec_eval
+  - command: eval/trec_eval.9.0.4/trec_eval
     params:
       - -m map
     separator: "\t"
@@ -36,7 +36,7 @@ evals:
     metric: map
     metric_precision: 4
     can_combine: true
-  - command: eval/trec_eval.9.0/trec_eval
+  - command: eval/trec_eval.9.0.4/trec_eval
     params:
       - -m recip_rank
     separator: "\t"
