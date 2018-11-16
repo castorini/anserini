@@ -30,6 +30,8 @@ import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.analysis.standard.StandardFilter;
 import org.apache.lucene.analysis.standard.StandardTokenizer;
 
+/* ASCIIFoldingFilter is used for accent folding. This will normalize the characters
+    * with accent such as Latin characters, which enhances the search */
 public final class FreebaseAnalyzer extends StopwordAnalyzerBase {
   private final CharArraySet stemExclusionSet;
 
@@ -56,8 +58,6 @@ public final class FreebaseAnalyzer extends StopwordAnalyzerBase {
     EnglishPossessiveFilter result2 = new EnglishPossessiveFilter(result);
     LowerCaseFilter result3 = new LowerCaseFilter(result2);
     Object result4 = new StopFilter(result3, this.stopwords);
-    /* ASCIIFoldingFilter is used for accent folding. This will norma. ize the characters
-    * with accent such as latin characters, which enhances the search */
     result4 = new ASCIIFoldingFilter((TokenStream) result4);
     if(!this.stemExclusionSet.isEmpty()) {
       result4 = new SetKeywordMarkerFilter((TokenStream)result4, this.stemExclusionSet);
