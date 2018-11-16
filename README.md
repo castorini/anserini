@@ -21,7 +21,7 @@ The `eval/` directory contains evaluation tools and scripts, including
 Before using `trec_eval`, unpack and compile it, as follows:
 
 ```
-tar xvfz trec_eval.9.0.tar.gz && cd trec_eval.9.0 && make
+tar xvfz trec_eval.9.0.4.tar.gz && cd trec_eval.9.0.4 && make
 ```
 
 Before using `ndeval`, compile it as follows:
