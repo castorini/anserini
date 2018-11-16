@@ -19,7 +19,7 @@ from inspect import currentframe, getframeinfo
 from subprocess import Popen, PIPE
 import logging
 
-logger = logging.getLogger('evalation')
+logging.basicConfig()
 class Evaluation(object):
     """
     Get the evaluation of a corpus for a result

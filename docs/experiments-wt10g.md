@@ -44,17 +44,17 @@ nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-i
 Evaluation can be performed using `trec_eval`:
 
 ```
-eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.451-550.txt run.wt10g.bm25.topics.451-550.txt
+eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.451-550.txt run.wt10g.bm25.topics.451-550.txt
 
-eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.451-550.txt run.wt10g.bm25+rm3.topics.451-550.txt
+eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.451-550.txt run.wt10g.bm25+rm3.topics.451-550.txt
 
-eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.451-550.txt run.wt10g.bm25+ax.topics.451-550.txt
+eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.451-550.txt run.wt10g.bm25+ax.topics.451-550.txt
 
-eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.451-550.txt run.wt10g.ql.topics.451-550.txt
+eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.451-550.txt run.wt10g.ql.topics.451-550.txt
 
-eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.451-550.txt run.wt10g.ql+rm3.topics.451-550.txt
+eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.451-550.txt run.wt10g.ql+rm3.topics.451-550.txt
 
-eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.451-550.txt run.wt10g.ql+ax.topics.451-550.txt
+eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.451-550.txt run.wt10g.ql+ax.topics.451-550.txt
 
 ```
 

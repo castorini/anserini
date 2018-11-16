@@ -16,55 +16,70 @@ import os
 import re
 import argparse
 import logging
+import json
 
 
+logging.basicConfig()
 class XFoldValidate(object):
     """
     Perform X-Fold cross validation for various 
     parameters and report the average effectiveness
-    for each fold
+    for each fold. fold_mapping is an optional argument.
+    It can be a dictionary {qid:fold_id} that maps 
+    each qid to its corresponding fold.
     """
-    def __init__(self,output_root,fold=2):
+    def __init__(self,output_root,collection,
+                 fold=5,fold_mapping=None):
         self.logger = logging.getLogger('x_fold_cv.XFlodValidate')
         self.output_root = output_root
         self.eval_files_root = 'eval_files'
+        self.collection = collection
         self.fold = fold
+        self.fold_mapping = fold_mapping
 
+
+    
     def _get_param_average(self):
         # For each parameter set, get its 
         # average performances in each fold,
         # metric, reranking model, and base 
         # ranking model
         avg_performances = {}
-        for collection_name in os.listdir(self.output_root):
-            eval_root_dir = os.path.join(self.output_root, collection_name,self.eval_files_root)
-            if os.path.isfile(eval_root_dir):
-                continue
-            # if it is a directory for a collection,
-            # do x-fold cv for the collection
-            for metric in os.listdir(eval_root_dir):
-                eval_dir = os.path.join(eval_root_dir,metric)
-                if os.path.isfile(eval_dir):
-                    continue
-                # if it is a directory containing effectiveness
-                # for a metric, do x-fold cv for the metric
-                for fn in os.listdir(eval_dir):
-                    basemodel, model, param = fn.split('_')
-                    if basemodel not in avg_performances:
-                        avg_performances[basemodel] = {}
-                    if model not in avg_performances[basemodel]:
-                        avg_performances[basemodel][model] = {}
+        eval_root_dir = os.path.join(self.output_root, self.collection,self.eval_files_root)
 
-                    param_avg_performances = self._get_param_avg_performances(os.path.join(eval_dir,fn))
-                    for metric in param_avg_performances:
-                        if metric not in avg_performances[basemodel][model]:
-                            avg_performances[basemodel][model][metric] = {}
-                        for fold_id in param_avg_performances[metric]:
-                            if fold_id not in avg_performances[basemodel][model][metric]:
-                                avg_performances[basemodel][model][metric][fold_id] = {}
-                            avg_performances[basemodel][model][metric][fold_id][param] = param_avg_performances[metric][fold_id]
+        # do x-fold cv for the collection
+        for metric in os.listdir(eval_root_dir):
+            eval_dir = os.path.join(eval_root_dir,metric)
+            if os.path.isfile(eval_dir):
+                continue
+            # if it is a directory containing effectiveness
+            # for a metric, do x-fold cv for the metric
+            for fn in os.listdir(eval_dir):
+                basemodel, model, param = fn.split('_')
+                if basemodel not in avg_performances:
+                    avg_performances[basemodel] = {}
+                if model not in avg_performances[basemodel]:
+                    avg_performances[basemodel][model] = {}
+
+                param_avg_performances = self._get_param_avg_performances(os.path.join(eval_dir,fn))
+                for metric in param_avg_performances:
+                    if metric not in avg_performances[basemodel][model]:
+                        avg_performances[basemodel][model][metric] = {}
+                    for fold_id in param_avg_performances[metric]:
+                        if fold_id not in avg_performances[basemodel][model][metric]:
+                            avg_performances[basemodel][model][metric][fold_id] = {}
+                        avg_performances[basemodel][model][metric][fold_id][param] = param_avg_performances[metric][fold_id]
 
         return avg_performances
+
+    def _compute_fold_id(self,qid):
+        # compute fold id
+        if self.fold_mapping:
+            # use the fold mapping passed to it
+            return self.fold_mapping[qid]
+        else:
+            # compute the fold id based on qid
+            return int(qid) % self.fold
 
     def tune(self,verbose):
         # Tune parameter with x-fold. Use x-1 fold
@@ -91,8 +106,9 @@ class XFoldValidate(object):
                                 if param not in training_data:
                                     training_data[param] = .0
                                 training_data[param] += fold_performance[param]
+                        # sort in descending order based on performance first, then use filenames(x[0]) to break ties
                         sorted_training_performance = sorted(training_data.items(),
-                                                             key=lambda x:x[1],
+                                                             key=lambda x:(x[1], x[0]),
                                                              reverse=True)
                         best_param = sorted_training_performance[0][0]
                         if verbose:
@@ -128,7 +144,7 @@ class XFoldValidate(object):
                     else:
                         if qid != 'all':
                             # compute fold id base on qid
-                            fold_id = int(qid) % self.fold
+                            fold_id = self._compute_fold_id(qid)
                             param_performance_list[fold_id][metric].append(value)
         param_avg_performances = {}
 
@@ -143,9 +159,15 @@ def main():
     parser.add_argument('--output_root', default='fine_tuning_results', help='output directory of all results')
     parser.add_argument('--fold', '-f', default=2, type=int, help='number of fold')
     parser.add_argument('--verbose', '-v', action='store_true', help='output in verbose mode')
+    parser.add_argument('--collection', required=True, help='the collection key in yaml')
+    parser.add_argument('--fold_dir', help='directory of drr fold files')
     args=parser.parse_args()
 
-    print(json.dumps(XFoldValidate(args.output_root, args.fold).tune(args.verbose), sort_keys=True, indent=2))
+    fold_mapping = {}
+    if args.fold_dir:
+        from run_batch import load_drr_fold_mapping
+        fold_mapping = load_drr_fold_mapping(args.fold_dir)
+    print(json.dumps(XFoldValidate(args.output_root, args.collection, args.fold, fold_mapping).tune(args.verbose), sort_keys=True, indent=2))
 
 if __name__ == '__main__':
     main()

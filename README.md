@@ -8,7 +8,7 @@ Anserini is an open-source information retrieval toolkit built on Lucene that ai
 
 ## Getting Started
 
-Build using Maven:
+Anserini requires Java 8 (note that there are [known issues with Java 10 and Java 11](https://github.com/castorini/Anserini/issues/445)) and Maven 3.3+. Build using Maven:
 
 ```
 mvn clean package appassembler:assemble
@@ -21,7 +21,7 @@ The `eval/` directory contains evaluation tools and scripts, including
 Before using `trec_eval`, unpack and compile it, as follows:
 
 ```
-tar xvfz trec_eval.9.0.tar.gz && cd trec_eval.9.0 && make
+tar xvfz trec_eval.9.0.4.tar.gz && cd trec_eval.9.0.4 && make
 ```
 
 Before using `ndeval`, compile it as follows:

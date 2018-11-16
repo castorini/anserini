@@ -20,14 +20,14 @@ collections:
       topic: topics.robust04.301-450.601-700.txt
       qrel: qrels.robust2004.txt
       evals:
-        - command: eval/trec_eval.9.0/trec_eval
+        - command: eval/trec_eval.9.0.4/trec_eval
           params: -m map -q
           separator: "\t"
           parse_index: 2
           metric: map
           metric_precision: 4
           can_combine: true
-        - command: eval/trec_eval.9.0/trec_eval
+        - command: eval/trec_eval.9.0.4/trec_eval
           params: -m P.20 -q
           separator: "\t"
           parse_index: 2
@@ -42,7 +42,7 @@ collections:
           metric_precision: 5
     cw09b:
       name: cw09b
-      index_path: lucene-index.cw09b.pos+docvectors+rawdocs
+      index_path: lucene-index.cw09b.pos+docvectors
       index_options:
         - -storePositions
         - -storeDocvectors
@@ -53,14 +53,14 @@ collections:
       topic: topics.web.51-200.txt
       qrel: qrels.web.51-200.txt
       evals:
-        - command: eval/trec_eval.9.0/trec_eval
+        - command: eval/trec_eval.9.0.4/trec_eval
           params: -m map -q
           separator: "\t"
           parse_index: 2
           metric: map
           metric_precision: 4
           can_combine: true
-        - command: eval/trec_eval.9.0/trec_eval
+        - command: eval/trec_eval.9.0.4/trec_eval
           params: -m P.20 -q
           separator: "\t"
           parse_index: 2

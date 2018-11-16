@@ -43,7 +43,7 @@ parallelism=1
 def batch_everything(all_params, func):
     if len(all_params) == 0:
         return
-    p = Pool(parallelism)
+    p = Pool(min(parallelism, len(all_params)))
     p.map(func, all_params)
 
 def isclose(a, b, rel_tol=1e-09, abs_tol=0.0):
@@ -64,13 +64,32 @@ def get_index_path(yaml_data):
                     break
     return index_path
 
+def load_drr_fold_mapping(fold_dir):
+    # load the qid: fold_id mapping of the 5-folds used 
+    # in the deep relevance ranking paper
+    # (https://github.com/nlpaueb/deep-relevance-ranking)
+    fold_mapping = {}
+    for fold_id in xrange(5):
+        fold_fn = os.path.join(fold_dir,'rob04.test.s{}.json'.format(fold_id+1))
+        try:
+            fold_info = json.load(open(fold_fn))
+        except IOError:
+            logger.error("Error when parsing fold file: {}\n".format(fold_fn))
+            return None
+        else:
+            for q_info in fold_info['questions']:
+                qid = q_info['id']
+                fold_mapping[qid] = fold_id
+    return fold_mapping
+
+
 def batch_retrieval(collection_yaml, models_yaml, output_root):
     all_params = []
     program = os.path.join(collection_yaml['anserini_root'], 'target/appassembler/bin', 'SearchCollection')
     index_path = get_index_path(collection_yaml)
     this_output_root = os.path.join(output_root, collection_yaml['name'])
     logger.info('='*10+'Generating Batch Retrieval Parameters'+'='*10)
-    model_params = Search(index_path).gen_batch_retrieval_params(models_yaml, this_output_root)
+    model_params = Search(index_path).gen_batch_retrieval_params(models_yaml, this_output_root, parallelism)
     for para in model_params:
         this_para = (
             program,
@@ -124,7 +143,7 @@ def atom_output_effectiveness(para):
     input_fns = para[2:]
     Effectiveness(index_path).output_effectiveness(output_fn, input_fns)
 
-def verify_effectiveness(collection_yaml, models_yaml, output_root):
+def verify_effectiveness(collection_yaml, models_yaml, output_root, use_drr_fold):
     index_path = get_index_path(collection_yaml)
     this_output_root = os.path.join(output_root, collection_yaml['name'])
     effectiveness, per_topic_oracle = Effectiveness(index_path).load_optimal_effectiveness(this_output_root)
@@ -146,7 +165,12 @@ def verify_effectiveness(collection_yaml, models_yaml, output_root):
 
     success_xfold = True
     for fold in [2, 5]:
-        x_fold_effectiveness = XFoldValidate(output_root, fold).tune(False)
+        if collection_yaml['name'] == 'robust04' and fold == 5 and use_drr_fold:
+            fold_dir = os.path.join(collection_yaml['anserini_root'], 'src/main/resources/fine_tuning/drr_folds')
+            fold_mapping = load_drr_fold_mapping(fold_dir)
+            x_fold_effectiveness = XFoldValidate(output_root, collection_yaml['name'], fold, fold_mapping).tune(False)
+        else:
+            x_fold_effectiveness = XFoldValidate(output_root, collection_yaml['name'], fold).tune(False)
         for basemodel in x_fold_effectiveness:
             if models_yaml['basemodel'] != basemodel:
                 continue
@@ -192,6 +216,7 @@ if __name__ == '__main__':
     parser.add_argument('--model', default='axiom', choices=['bm25', 'ql', 'axiom', 'rm3', 'bm25+axiom', 'bm25+rm3'], help='the higher level model')
     parser.add_argument('--n', dest='parallelism', type=int, default=16, help='number of parallel threads for retrieval/eval')
     parser.add_argument('--output_root', default='fine_tuning_results', help='output directory of all results')
+    parser.add_argument('--use_drr_fold', action='store_true', help='if specified, use the 5-folds from the deep-relevance-ranking paper')
 
     # runtime
     parser.add_argument(
@@ -229,4 +254,5 @@ if __name__ == '__main__':
             batch_retrieval(collection_yaml, models_yaml, args.output_root)
             batch_eval(collection_yaml, models_yaml, args.output_root)
             batch_output_effectiveness(collection_yaml, models_yaml, args.output_root)
-        verify_effectiveness(collection_yaml, models_yaml, args.output_root)
+        verify_effectiveness(collection_yaml, models_yaml, args.output_root, args.use_drr_fold)
+
