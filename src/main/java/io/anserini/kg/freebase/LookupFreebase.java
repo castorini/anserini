@@ -16,10 +16,10 @@
 
 package io.anserini.kg.freebase;
 
+import io.anserini.analysis.FreebaseAnalyzer;
 import io.anserini.rerank.ScoredDocuments;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.lucene.analysis.core.SimpleAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
@@ -132,7 +132,7 @@ public class LookupFreebase implements Closeable {
     // search for query in multiple fields
     MultiFieldQueryParser queryParser = new MultiFieldQueryParser(
         new String[]{ IndexFreebase.FIELD_NAME, IndexFreebase.FIELD_LABEL, IndexFreebase.FIELD_ALIAS },
-        new SimpleAnalyzer());
+        new FreebaseAnalyzer());
     queryParser.setDefaultOperator(QueryParser.Operator.OR);
     Query query = queryParser.parse(q);
 
