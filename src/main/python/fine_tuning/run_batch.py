@@ -43,7 +43,7 @@ parallelism=1
 def batch_everything(all_params, func):
     if len(all_params) == 0:
         return
-    p = Pool(parallelism)
+    p = Pool(min(parallelism, len(all_params)))
     p.map(func, all_params)
 
 def isclose(a, b, rel_tol=1e-09, abs_tol=0.0):
