@@ -18,6 +18,7 @@ import argparse
 import logging
 import json
 
+
 logging.basicConfig()
 class XFoldValidate(object):
     """

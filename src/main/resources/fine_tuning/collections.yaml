@@ -42,7 +42,7 @@ collections:
           metric_precision: 5
     cw09b:
       name: cw09b
-      index_path: lucene-index.cw09b.pos+docvectors+rawdocs
+      index_path: lucene-index.cw09b.pos+docvectors
       index_options:
         - -storePositions
         - -storeDocvectors
