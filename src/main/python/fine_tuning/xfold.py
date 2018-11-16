@@ -106,8 +106,9 @@ class XFoldValidate(object):
                                 if param not in training_data:
                                     training_data[param] = .0
                                 training_data[param] += fold_performance[param]
+                        # sort in descending order based on performance first, then use filenames(x[0]) to break ties
                         sorted_training_performance = sorted(training_data.items(),
-                                                             key=lambda x:x[1],
+                                                             key=lambda x:(x[1], x[0]),
                                                              reverse=True)
                         best_param = sorted_training_performance[0][0]
                         if verbose:
