@@ -22,6 +22,7 @@ from operator import itemgetter
 from inspect import currentframe, getframeinfo
 import logging
 
+logging.basicConfig()
 class Effectiveness(object):
     """
     Handle the performace. For example, get all the effectiveness of one method(has multiple parameters).
@@ -65,26 +66,19 @@ class Effectiveness(object):
         return all_params
 
     def output_effectiveness(self, output_fn, eval_fn_list):
-        all_results = {}
+        all_best_results = {}
         for fn in eval_fn_list:
             eval_res = self.read_eval_file(fn)
             for metric in eval_res:
-                if metric not in all_results:
-                    all_results[metric] = {}
+                if metric not in all_best_results:
+                    all_best_results[metric] = {}
                 for qid in eval_res[metric]:
-                    if qid not in all_results[metric]:
-                        all_results[metric][qid] = []
-                    all_results[metric][qid].extend( eval_res[metric][qid] )
-        final_results = {}
-        for metric in all_results:
-            final_results[metric] = {}
-            for qid in all_results[metric]:
-                final_results[metric][qid] = {}
-                all_results[metric][qid].sort(key=itemgetter(0), reverse=True)
-                final_results[metric][qid]['max'] = {'value':all_results[metric][qid][0][0], 'para':all_results[metric][qid][0][1]}
+                    eval_res[metric][qid].sort(key=itemgetter(0), reverse=True)
+                    if qid not in all_best_results[metric] or eval_res[metric][qid] > all_best_results[metric][qid]['value']:
+                        all_best_results[metric][qid] = {'value': eval_res[metric][qid][0], 'para': eval_res[metric][qid][1]}
 
         with open(output_fn, 'w') as o:
-            json.dump(final_results, o, indent=2, sort_keys=True)
+            json.dump(all_best_results, o, indent=2, sort_keys=True)
 
     def read_eval_file(self, fn):
         """
@@ -118,9 +112,9 @@ class Effectiveness(object):
         params_dist = {}
         for qid in json_data:
             if qid != 'all':
-                sum_optimal += json_data[qid]['max']['value']
+                sum_optimal += json_data[qid]['value']
                 n+=1
-                for param in json_data[qid]['max']['para'].split(','):
+                for param in json_data[qid]['para'].split(','):
                     if len(param.split(':')) > 1:
                         param_name, param_value = param.split(':')
                         if param_name not in params_dist:
@@ -129,9 +123,9 @@ class Effectiveness(object):
                             params_dist[param_name][param_value] = 0
                         params_dist[param_name][param_value] += 1
                 if qid not in per_topic_oracle_with_metric:
-                    per_topic_oracle_with_metric[qid] = json_data[qid]['max']['value']
+                    per_topic_oracle_with_metric[qid] = json_data[qid]['value']
                 else:
-                    per_topic_oracle_with_metric[qid] = max(json_data[qid]['max']['value'], per_topic_oracle_with_metric[qid])
+                    per_topic_oracle_with_metric[qid] = max(json_data[qid]['value'], per_topic_oracle_with_metric[qid])
         return round(sum_optimal/n, 4), params_dist
 
     def load_optimal_effectiveness(self, output_root):
@@ -149,7 +143,7 @@ class Effectiveness(object):
                         'model': model,
                         'basemodel': basemodel,
                         'metric': real_metric,
-                        'best_avg': all_performance['all']['max'],
+                        'best_avg': all_performance['all'],
                         'oracles_per_topic': all_optimal[0]
                     }
                     data.append(res)
