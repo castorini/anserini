@@ -208,16 +208,16 @@ models:
       robust04:
         map:
           best_avg: 0.3020
-          oracles_per_topic: 0.4343
+          oracles_per_topic: 0.4402
           2-fold: 0.2973
           5-fold: 0.2956
         P_20:
           best_avg: 0.4012
-          oracles_per_topic: 0.5960
-          2-fold: 0.3779
+          oracles_per_topic: 0.6054
+          2-fold: 0.3871
           5-fold: 0.3931
         ndcg20:
           best_avg: 0.44958
-          oracles_per_topic: 0.6606
-          2-fold: 0.4386
-          5-fold: 0.4410
+          oracles_per_topic: 0.6702
+          2-fold: 0.4358
+          5-fold: 0.4402
