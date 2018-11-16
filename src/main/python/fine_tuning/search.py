@@ -52,8 +52,8 @@ class Search(object):
                 para_str += ' %.2f' % (p) if is_float else ' %d' % (p)
         all_params.append( (para_str, results_fn) )
 
-        # always include a baseline here
-        no_params_fn = os.path.join(output_root, self.run_files_root, model_yaml['basemodel']+'_'+model_yaml['name']+'_noparams')
-        if not os.path.exists(no_params_fn):
-            all_params.append(('-%s' % (model_yaml['name']), no_params_fn))
+        # TODO: should we always include a baseline here?
+        # no_params_fn = os.path.join(output_root, self.run_files_root, model_yaml['basemodel']+'_'+model_yaml['name']+'_noparams')
+        # if not os.path.exists(no_params_fn):
+        #     all_params.append(('-%s' % (model_yaml['name']), no_params_fn))
         return all_params
