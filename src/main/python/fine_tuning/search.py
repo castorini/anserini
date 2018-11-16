@@ -47,14 +47,14 @@ class Search(object):
             rfn = model_yaml['name']+'_'
             for k_idx, k in enumerate(model_yaml['params'].keys()):
                 is_float = True if model_yaml['params'][k]['type'] == 'float' else False
-                para_str += ' -%s %.1f' % (k, p[k_idx]) if is_float else ' -%s %d' % (k, p[k_idx])
+                para_str += ' -%s %.2f' % (k, p[k_idx]) if is_float else ' -%s %d' % (k, p[k_idx])
                 if 'nexus_params' in model_yaml:
                     for nexus_params in model_yaml['nexus_params']:
                         if model_yaml['nexus_params'][nexus_params] == k:
-                            para_str += ' -%s %.1f' % (nexus_params, p[k_idx]) if is_float else ' -%s %d' % (nexus_params, p[k_idx])
+                            para_str += ' -%s %.2f' % (nexus_params, p[k_idx]) if is_float else ' -%s %d' % (nexus_params, p[k_idx])
                 if k_idx != 0:
                     rfn += ','
-                rfn += '%s:%.1f' % (k, p[k_idx]) if is_float else '%s:%d' % (k, p[k_idx])
+                rfn += '%s:%.2f' % (k, p[k_idx]) if is_float else '%s:%d' % (k, p[k_idx])
             results_fn = os.path.join(output_root, self.run_files_root, model_yaml['basemodel']+'_'+rfn)
             if not os.path.exists(results_fn):
                 all_params.append( (para_str, results_fn) )

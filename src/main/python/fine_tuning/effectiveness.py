@@ -112,7 +112,7 @@ class Effectiveness(object):
 
         return res
 
-    def add_up_all_optimal(self, json_data):
+    def add_up_all_optimal(self, json_data, per_topic_oracle_with_metric):
         sum_optimal = 0.0
         n = 0
         params_dist = {}
@@ -128,25 +128,29 @@ class Effectiveness(object):
                         if param_value not in params_dist[param_name]:
                             params_dist[param_name][param_value] = 0
                         params_dist[param_name][param_value] += 1
-        return round(sum_optimal/n, 5), params_dist
+                if qid not in per_topic_oracle_with_metric:
+                    per_topic_oracle_with_metric[qid] = json_data[qid]['max']['value']
+                else:
+                    per_topic_oracle_with_metric[qid] = max(json_data[qid]['max']['value'], per_topic_oracle_with_metric[qid])
+        return round(sum_optimal/n, 4), params_dist
 
-    def load_optimal_effectiveness(self, output_root, metrics=['map']):
+    def load_optimal_effectiveness(self, output_root):
         data = []
+        per_topic_oracle = {} # per topic optimal across all kinds of methods
         effectiveness_root = os.path.join(output_root, self.effectiveness_root)
         for fn in os.listdir(effectiveness_root):
             basemodel, model, metric = fn.split('_')
-            if metric not in metrics:
-                continue
             with open(os.path.join(effectiveness_root, fn)) as f:
                 for real_metric, all_performance in json.load(f).items():
-                    all_optimal = self.add_up_all_optimal(all_performance)
+                    if real_metric not in per_topic_oracle:
+                        per_topic_oracle[real_metric] = {}
+                    all_optimal = self.add_up_all_optimal(all_performance, per_topic_oracle[real_metric])
                     res = {
                         'model': model,
                         'basemodel': basemodel,
-                        'metric': metric,
-                        'actual_all': all_performance['all']['max'],
-                        'actual_optimal': all_optimal[0],
-                        #'optimal_params_dist': all_optimal[1]
+                        'metric': real_metric,
+                        'best_avg': all_performance['all']['max'],
+                        'oracles_per_topic': all_optimal[0]
                     }
                     data.append(res)
-        return data
+        return data, per_topic_oracle

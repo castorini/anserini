@@ -1,5 +1,62 @@
 ---
 models:
+  bm25:
+    name: bm25
+    fixed_params: ""
+    params:
+      k1:
+        type: float
+        lower: 0.1
+        upper: 4.0
+        pace: 0.1
+      b:
+        type: float
+        lower: 0.1
+        upper: 1.0
+        pace: 0.1
+    expected:
+      robust04:
+        map:
+          best_avg: 0.2532
+          oracles_per_topic: 0.2921
+          2-fold: 0.2253
+          5-fold: 0.2524
+        P_20:
+          best_avg: 0.3614
+          oracles_per_topic: 0.4426
+          2-fold: 0.3604
+          5-fold: 0.3577
+        ndcg20:
+          best_avg: 0.41659
+          oracles_per_topic: 0.5028
+          2-fold: 0.4108
+          5-fold: 0.4128
+  ql:
+    name: ql
+    fixed_params: ""
+    params:
+      mu:
+        type: int
+        lower: 0
+        upper: 10000
+        pace: 250
+    expected:
+      robust04:
+        map:
+          best_avg: 0.2496
+          oracles_per_topic: 0.2703
+          2-fold: 0.2496
+          5-fold: 0.2495
+        P_20:
+          best_avg: 0.3572
+          oracles_per_topic: 0.4008
+          2-fold: 0.3543
+          5-fold: 0.3534
+        ndcg20:
+          best_avg: 0.40703
+          oracles_per_topic: 0.45610
+          2-fold: 0.4042
+          5-fold: 0.4046
   axiom:
     name: axiom
     fixed_params: "-axiom.n 30 -axiom.deterministic"
@@ -20,6 +77,40 @@ models:
         type: float
         lower: 0
         upper: 1
+        pace: 0.1
+    expected:
+      robust04:
+        map: 0.2532
+  bm25+axiom:
+    name: axiom
+    fixed_params: "-axiom.n 30 -axiom.deterministic"
+    nexus_params:
+      rerankCutoff: "axiom.r"
+    params:
+      axiom.r:
+        type: int
+        lower: 1
+        upper: 50
+        pace: 1
+      axiom.top:
+        type: int
+        lower: 1
+        upper: 50
+        pace: 1
+      axiom.beta:
+        type: float
+        lower: 0
+        upper: 0.5
+        pace: 0.1
+      b:
+        type: float
+        lower: 0
+        upper: 0.5
+        pace: 0.05
+      k1:
+        type: float
+        lower: 0.9
+        upper: 0.9
         pace: 0.1
     expected:
       robust04:
@@ -45,3 +136,68 @@ models:
         lower: 0
         upper: 1
         pace: 0.1
+    expected:
+      robust04:
+        map:
+          best_avg: 0.2532
+          oracles_per_topic: 0.2921
+          2-fold: 0.2253
+          5-fold: 0.2524
+        P_20:
+          best_avg: 0.3614
+          oracles_per_topic: 0.4426
+          2-fold: 0.3604
+          5-fold: 0.3577
+        ndcg20:
+          best_avg: 0.41659
+          oracles_per_topic: 0.5028
+          2-fold: 0.4108
+          5-fold: 0.4128
+  bm25+rm3:
+    name: rm3
+    fixed_params: ""
+    nexus_params:
+      rerankCutoff: "rm3.fbDocs"
+    params:
+      rm3.fbTerms:
+        type: int
+        lower: 1
+        upper: 50
+        pace: 1
+      rm3.fbDocs:
+        type: int
+        lower: 1
+        upper: 50
+        pace: 1
+      rm3.originalQueryWeight:
+        type: float
+        lower: 0
+        upper: 1
+        pace: 0.1
+      b:
+        type: float
+        lower: 0
+        upper: 0.5
+        pace: 0.1
+      k1:
+        type: float
+        lower: 0.9
+        upper: 0.9
+        pace: 0.1
+    expected:
+      robust04:
+        map:
+          best_avg: 0.2532
+          oracles_per_topic: 0.2921
+          2-fold: 0.2253
+          5-fold: 0.2524
+        P_20:
+          best_avg: 0.3614
+          oracles_per_topic: 0.4426
+          2-fold: 0.3604
+          5-fold: 0.3577
+        ndcg20:
+          best_avg: 0.41659
+          oracles_per_topic: 0.5028
+          2-fold: 0.4108
+          5-fold: 0.4128
