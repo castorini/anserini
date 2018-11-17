@@ -52,13 +52,13 @@ public class Rm3Reranker implements Reranker {
   private final float originalQueryWeight;
   private final boolean outputQuery;
 
-  public Rm3Reranker(Analyzer analyzer, String field, SearchArgs args) {
+  public Rm3Reranker(Analyzer analyzer, String field, int fbTerms, int fbDocs, float originalQueryWeight, boolean outputQuery) {
     this.analyzer = analyzer;
     this.field = field;
-    this.fbTerms = args.rm3_fbTerms;
-    this.fbDocs = args.rm3_fbDocs;
-    this.originalQueryWeight = args.rm3_originalQueryWeight;
-    this.outputQuery = args.rm3_outputQuery;
+    this.fbTerms = fbTerms;
+    this.fbDocs = fbDocs;
+    this.originalQueryWeight = originalQueryWeight;
+    this.outputQuery = outputQuery;
   }
 
   @Override
@@ -234,5 +234,10 @@ public class Rm3Reranker implements Reranker {
     }
 
     return f;
+  }
+  
+  @Override
+  public String tag() {
+    return "Rm3(fbDocs="+fbDocs+",fbTerms="+fbTerms+",originalQueryWeight:"+originalQueryWeight+")";
   }
 }

@@ -27,16 +27,18 @@ public class RerankerContext<K> {
   private final IndexSearcher searcher;
   private final Query query;
   private final K queryId;
+  private final String queryDocId; // this is for News Track Background Linking task
   private final String queryText;
   private final List<String> queryTokens;
   private final Query filter;
   private final SearchArgs searchArgs;
 
-  public RerankerContext(IndexSearcher searcher, K queryId, Query query, String queryText,
+  public RerankerContext(IndexSearcher searcher, K queryId, Query query, String queryDocId, String queryText,
       List<String> queryTokens, Query filter, SearchArgs searchArgs) throws IOException {
     this.searcher = searcher;
     this.query = query;
     this.queryId = queryId;
+    this.queryDocId = queryDocId;
     this.queryText = queryText;
     this.queryTokens = queryTokens;
     this.filter = filter;
@@ -58,7 +60,11 @@ public class RerankerContext<K> {
   public K getQueryId() {
     return queryId;
   }
-
+  
+  public String getQueryDocId() {
+    return queryDocId;
+  }
+  
   public String getQueryText() {
     return queryText;
   }
