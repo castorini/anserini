@@ -92,7 +92,7 @@ public class DumpTweetsLtrData {
     IndexReader reader = DirectoryReader.open(dir);
     IndexSearcher searcher = new IndexSearcher(reader);
 
-    if (args.ql) {
+    if (args.ql || args.qld) {
       LOG.info("Using QL scoring model");
       searcher.setSimilarity(new LMDirichletSimilarity(args.mu));
     } else if (args.bm25) {

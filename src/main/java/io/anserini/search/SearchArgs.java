@@ -80,6 +80,9 @@ public class SearchArgs {
   @Option(name = "-ql", usage = "use query likelihood scoring model")
   public boolean ql = false;
 
+  @Option(name = "-qld", usage = "use Dirichlet query likelihood scoring model")
+  public boolean qld = false;
+
   @Option(name = "-mu", metaVar = "[value]", usage = "Dirichlet smoothing parameter")
   public float mu = 1000.0f;
   /*
@@ -187,10 +190,10 @@ public class SearchArgs {
   @Option(name = "-model", metaVar = "[file]", required = false, usage = "ranklib model file")
   public String model = "";
 
-  @Option(name = "-qlmj", usage = "use Jelinek-Mercer query likelihood scoring model")
-  public boolean qlmj = false;
+  @Option(name = "-qljm", usage = "use Jelinek-Mercer query likelihood scoring model")
+  public boolean qljm = false;
 
-  @Option(name = "-lambda", metaVar = "[value]", usage = "Jelinek Mercer smoothing parameter")
-  public float lambda = 0.1f;
+  @Option(name = "-qljm.lambda", metaVar = "[value]", usage = "Jelinek Mercer smoothing parameter")
+  public float qljm_lambda = 0.1f;
 
 }

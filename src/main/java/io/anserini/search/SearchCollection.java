@@ -104,7 +104,7 @@ public final class SearchCollection implements Closeable {
     this.reader = DirectoryReader.open(FSDirectory.open(indexPath));
 
     // Figure out which scoring model to use.
-    if (args.ql) {
+    if (args.ql || args.qld) {
       LOG.info("Using QL scoring model");
       this.similarity = new LMDirichletSimilarity(args.mu);
     } else if (args.bm25) {
@@ -122,9 +122,9 @@ public final class SearchCollection implements Closeable {
     } else if (args.f2log) {
       LOG.info("Using F2Log scoring model");
       this.similarity = new F2LogSimilarity(args.f2log_s);
-    } else if (args.qlmj) {
+    } else if (args.qljm) {
       LOG.info("Using Jelinek-Mercer QL scoring model");
-      this.similarity = new LMJelinekMercerSimilarity(args.lambda);
+      this.similarity = new LMJelinekMercerSimilarity(args.qljm_lambda);
     } else {
       throw new IllegalArgumentException("Error: Must specify scoring model!");
     }
