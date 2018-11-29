@@ -108,6 +108,14 @@ public abstract class DocumentCollection {
       public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
         Path name = file.getFileName();
         boolean shouldAdd = true;
+        if (Files.isSymbolicLink(file)) {
+          name = Files.readSymbolicLink(file);
+          if (Files.isDirectory(name)) {
+            paths.addAll(discover(name, skippedFilePrefix, allowedFilePrefix, skippedFileSuffix,
+                allowedFileSuffix, skippedDir));
+            shouldAdd = false;
+          }
+        }
         if (name != null) {
           String fileName = name.toString();
           for (String s : skippedFileSuffix) {
