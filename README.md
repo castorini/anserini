@@ -40,6 +40,7 @@ Note that these regressions capture the "out of the box" experience, based on [_
 + [Experiments on Disks 4 &amp; 5 (Robust04)](docs/experiments-robust04.md)
 + [Experiments on AQUAINT (Robust05)](docs/experiments-robust05.md)
 + [Experiments on New York Times (Core17)](docs/experiments-core17.md)
++ [Experiments on Washington Post (Core18)](docs/experiments-core18.md)
 + [Experiments on Wt10g](docs/experiments-wt10g.md)
 + [Experiments on Gov2](docs/experiments-gov2.md)
 + [Experiments on ClueWeb09 (Category B)](docs/experiments-cw09b.md)
