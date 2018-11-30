@@ -3,6 +3,12 @@
 The following change log details commits to regression tests that alter effectiveness and the addition of new regression tests.
 This documentation is useful for figuring why results may have changed over time.
 
+### November 30, 2018
+
++ [commit e5b87f0d6c16b47d0be6cc8fd587acd20e3fbb0d](https://github.com/castorini/Anserini/commit/e5b87f0d6c16b47d0be6cc8fd587acd20e3fbb0d) Fri Nov 30 04:57:04 2018 -0800
+
+Added default regressions for TREC 2018 Common Core Track.
+
 ### October 22, 2018
 
 + [commit 10255e0f15c8caca94f8d5376a2c7c9ad1f5b5fd](https://github.com/castorini/Anserini/commit/10255e0f15c8caca94f8d5376a2c7c9ad1f5b5fd) Mon Oct 22 20:54:28 2018 -0700
