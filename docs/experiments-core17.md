@@ -11,7 +11,7 @@ NewYorkTimesCollection -generator JsoupGenerator -threads 16 -input \
 -storeDocvectors -storeRawDocs >& log.core17.pos+docvectors+rawdocs &
 ```
 
-The directory `/path/to/nyt_corpus/` should be the root directory of TREC Core collection, i.e., `ls /path/to/nyt_corpus/`
+The directory `/path/to/nyt_corpus/` should be the root directory of TREC Core2017 collection, i.e., `ls /path/to/nyt_corpus/`
 should bring up a bunch of subdirectories, `1987` to `2007`.
 
 For additional details, see explanation of [common indexing options](common-indexing-options.md).

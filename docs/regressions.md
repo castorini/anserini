@@ -26,6 +26,7 @@ nohup python src/main/python/run_regression.py --collection disk12 >& log.disk12
 nohup python src/main/python/run_regression.py --collection robust04 >& log.robust04 &
 nohup python src/main/python/run_regression.py --collection robust05 >& log.robust05 &
 nohup python src/main/python/run_regression.py --collection core17 >& log.core17 &
+nohup python src/main/python/run_regression.py --collection core18 >& log.core18 &
 
 nohup python src/main/python/run_regression.py --collection mb11 >& log.mb11 &
 nohup python src/main/python/run_regression.py --collection mb13 >& log.mb13 &
@@ -46,6 +47,7 @@ nohup python src/main/python/run_regression.py --collection disk12 --index >& lo
 nohup python src/main/python/run_regression.py --collection robust04 --index >& log.robust04 &
 nohup python src/main/python/run_regression.py --collection robust05 --index >& log.robust05 &
 nohup python src/main/python/run_regression.py --collection core17 --index >& log.core17 &
+nohup python src/main/python/run_regression.py --collection core18 --index >& log.core18 &
 
 nohup python src/main/python/run_regression.py --collection mb11 --index >& log.mb11 &
 nohup python src/main/python/run_regression.py --collection mb13 --index >& log.mb13 &

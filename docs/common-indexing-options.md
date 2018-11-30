@@ -13,3 +13,4 @@ Please note that this option may slow the indexing a lot so if you are sure ther
 corpus you shouldn't use this option
 + `-whitelist`: file containing docids, one per line; only specified docids will be indexed
 
+Note: For Solr highlighting to work, the `-storeTransformedDocs` flag needs to be passed to ensure the text and positions are stored in the same field.

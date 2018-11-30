@@ -34,11 +34,13 @@ cd ndeval && make
 
 Anserini is designed to support experiments on various standard TREC collections out of the box.
 Each collection is associated with [regression tests](docs/regressions.md) for replicability.
+Note that these regressions capture the "out of the box" experience, based on [_default_ parameter settings](https://github.com/castorini/Anserini/blob/master/src/main/java/io/anserini/search/SearchArgs.java).
 
 + [Experiments on Disks 1 &amp; 2](docs/experiments-disk12.md)
 + [Experiments on Disks 4 &amp; 5 (Robust04)](docs/experiments-robust04.md)
 + [Experiments on AQUAINT (Robust05)](docs/experiments-robust05.md)
 + [Experiments on New York Times (Core17)](docs/experiments-core17.md)
++ [Experiments on Washington Post (Core18)](docs/experiments-core18.md)
 + [Experiments on Wt10g](docs/experiments-wt10g.md)
 + [Experiments on Gov2](docs/experiments-gov2.md)
 + [Experiments on ClueWeb09 (Category B)](docs/experiments-cw09b.md)
@@ -48,10 +50,10 @@ Each collection is associated with [regression tests](docs/regressions.md) for r
 + [Experiments on Tweets2013 (MB13 &amp; MB14)](docs/experiments-mb13.md)
 + [Experiments on CAR17](docs/experiments-car17.md)
 
-Additional experiments:
+Additional regressions:
 
-+ [Experiments for JDIQ 2018 article](docs/experiments-jdiq2018.md)
-
++ [Experiments from JDIQ 2018 article](docs/experiments-jdiq2018.md): parameter tuning experiments for baseline "bag-of-words" retrieval models
++ Anserini runs from TREC 2018: _coming soon_!
 
 ## Additional Documentation
 

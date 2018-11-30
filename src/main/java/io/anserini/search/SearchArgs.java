@@ -103,6 +103,15 @@ public class SearchArgs {
    * setting seems reasonable and does not contradict Zhai and Lafferty.
    */
 
+  @Option(name = "-qld", usage = "use query likelihood Dirichlet scoring model")
+  public boolean qld = false;
+
+  @Option(name = "-qljm", usage = "use query likelihood Jelinek Mercer scoring model")
+  public boolean qljm = false;
+
+  @Option(name = "-qljm.lambda", handler = StringArrayOptionHandler.class, usage = "Jelinek Mercer smoothing parameter")
+  public String[] qljm_lambda = new String[] {"0.1"};
+
   @Option(name = "-bm25", usage = "use BM25 scoring model")
   public boolean bm25 = false;
 

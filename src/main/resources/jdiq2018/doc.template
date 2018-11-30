@@ -4,8 +4,15 @@ This page documents the script used in the following article to compute optimal 
 
 + Peilin Yang, Hui Fang, and Jimmy Lin. [Anserini: Reproducible Ranking Baselines Using Lucene.](https://dl.acm.org/citation.cfm?doid=3289400.3239571) Journal of Data and Information Quality, 10(4), Article 16, 2018.
 
-Note that the values produced by these scripts are _slightly_ different than those reported in the article.
-The reason for these differences stem from the fact that Anserini evolved throughout the peer review process; the values reported in the article where those generated when the manuscript was submitted.
+**Important note**: We clearly state in the article:
+
+> For all systems, we report results from parameter tuning to optimize average precision (AP) at rank 1000 on the newswire collections, WT10g, and Gov2, and NDCG@20 for the ClueWeb collections.
+> There was no separation of training and test data, so these results should be interpreted as oracle settings.
+
+If you're going to refer to these effectiveness results, _please_ be aware of what you're comparing!
+
+**Additional note**: The values produced by these scripts are _slightly_ different than those reported in the article.
+The reason for these differences stems from the fact that Anserini evolved throughout the peer review process; the values reported in the article were those generated when the manuscript was submitted.
 By the time the article was published, the implementation of Anserini has progressed.
 As Anserini continues to improve we will update these scripts, which will lead to further divergences between the published values.
 Unfortunately, this is an unavoidable aspect of empirical research on software artifacts.

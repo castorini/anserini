@@ -213,9 +213,13 @@ public final class SearchCollection implements Closeable {
   public List<TaggedSimilarity> constructSimiliries() {
     // Figure out which scoring model to use.
     List<TaggedSimilarity> similarities = new ArrayList<>();
-    if (args.ql) {
+    if (args.ql || args.qld) {
       for (String mu : args.mu) {
         similarities.add(new TaggedSimilarity(new LMDirichletSimilarity(Float.valueOf(mu)), "mu:"+mu));
+      }
+    } else if (args.qljm) {
+      for (String lambda : args.qljm_lambda) {
+        similarities.add(new TaggedSimilarity(new LMJelinekMercerSimilarity(Float.valueOf(lambda)), "lambda:" + lambda));
       }
     } else if (args.bm25) {
       for (String k1 : args.k1) {
