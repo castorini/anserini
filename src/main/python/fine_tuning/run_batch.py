@@ -53,15 +53,10 @@ def get_index_path(yaml_data):
     """
     Find the possible index path
     """
-    index_path = os.path.join('lucene-index.{0}.pos+docvectors{1}'.format(yaml_data['name'], \
-                                                                          '+rawdocs' if '-storeRawDocs' in yaml_data['index_options'] else ''))
-    if not os.path.exists(index_path):
-        index_path = yaml_data['index_path']
-        if not index_path or not os.path.exists(index_path):
-            for input_root in yaml_data['input_roots']:
-                if os.path.exists(os.path.join(input_root, yaml_data['index_path'])):
-                    index_path = os.path.join(input_root, yaml_data['index_path'])
-                    break
+    for index_root in yaml_data['index_roots']:
+        if os.path.exists(os.path.join(index_root, yaml_data['index_path'])):
+            index_path = os.path.join(index_root, yaml_data['index_path'])
+            break
     return index_path
 
 def load_drr_fold_mapping(fold_dir):
