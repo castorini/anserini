@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.anserini.kg.freebase;
+package io.anserini.kg;
 
 import io.anserini.analysis.FreebaseAnalyzer;
 import io.anserini.rerank.ScoredDocuments;
