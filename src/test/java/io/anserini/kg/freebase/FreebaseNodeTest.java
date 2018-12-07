@@ -53,6 +53,8 @@ public class FreebaseNodeTest {
     // Test MQL key escaping (see method for more details):
     assertEquals("Barack_Hussein_Obama,_Jr.",
         FreebaseNode.normalizeObjectValue("\"Barack_Hussein_Obama$002C_Jr$002E\""));
+
+    assertEquals("fb:m.0x2spfl", FreebaseNode.normalizeObjectValue("<http://rdf.freebase.com/ns/m.0x2spfl>"));
   }
 
   @Test

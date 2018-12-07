@@ -122,11 +122,15 @@ public class FreebaseNode {
         return removeEnclosingQuote(objectValue);
       }
     } else if (type.equals(FreebaseNode.RdfObjectType.TEXT)) {
-      Literal parsedLiteral = NTriplesUtil.parseLiteral(objectValue, valueFactory);
-      if (parsedLiteral.getLanguage().toString().equals(LANG_EN)) {
-        return parsedLiteral.stringValue();
-      }
-      return "";
+      // Previously, we were basically throwing away all non-English text...
+      // No idea why we're doing this... just commented out.
+      //
+      //Literal parsedLiteral = NTriplesUtil.parseLiteral(objectValue, valueFactory);
+      //if (parsedLiteral.getLanguage().toString().equals(LANG_EN)) {
+      //  return parsedLiteral.stringValue();
+      //}
+      //return "";
+      return objectValue;
     } else {
       return objectValue;
     }

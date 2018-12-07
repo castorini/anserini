@@ -46,10 +46,14 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 
 /**
- * Builds a triples lookup index from a Freebase dump in N-Triples RDF format. Each
- * {@link FreebaseNode} object, which represents a group of triples that share the same subject
- * ({@code mid}), is treated as a Lucene "document". This class builds an index for lookup based
- * on {@code mid} as well a free text search over the textual labels of the nodes.
+ * Builds an index over a Freebase dump in N-Triples RDF format. Two types of indexes are possible:
+ *
+ * <ul>
+ * <li>Each {@link FreebaseNode} object, which represents a group of triples that share the same
+ * subject ({@code mid}), is treated as a Lucene "document". This class builds an index for lookup
+ * based on {@code mid} as well a free text search over the textual labels of the nodes.</li>
+ * <li>Each triple is treated as its own Lucene "document".</li>
+ * </ul>
  */
 public class IndexFreebase {
   private static final Logger LOG = LogManager.getLogger(IndexFreebase.class);
@@ -60,8 +64,18 @@ public class IndexFreebase {
 
     @Option(name = "-index", metaVar = "[path]", required = true, usage = "index path")
     public Path index;
+
+    @Option(name = "-triples", usage = "store each triple in its own Lucene document")
+    public boolean storeTriples = false;
   }
 
+  // For storing each triple in its own Lucene document
+  public static final String FIELD_SUBJECT = "s";
+  public static final String FIELD_PREDICATE = "p";
+  public static final String FIELD_OBJECT = "o";
+  private static final int MAX_OBJECT_LENGTH = 16384;
+
+  // For storing each node in its own Lucene document
   public static final String FIELD_ID = "mid";
   public static final String FIELD_LABEL = "label";
   public static final String FIELD_NAME = "name";
@@ -73,10 +87,12 @@ public class IndexFreebase {
 
   private final Path indexPath;
   private final Path inputPath;
+  private final boolean storeTriples;
 
-  public IndexFreebase(Path inputPath, Path indexPath) throws Exception {
+  public IndexFreebase(Path inputPath, Path indexPath, boolean storeTriples) throws Exception {
     this.inputPath = inputPath;
     this.indexPath = indexPath;
+    this.storeTriples = storeTriples;
 
     LOG.info("Input path: " + this.inputPath);
     LOG.info("Index path: " + this.indexPath);
@@ -97,22 +113,33 @@ public class IndexFreebase {
     config.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
 
     final IndexWriter writer = new IndexWriter(dir, config);
-
     final AtomicInteger cnt = new AtomicInteger();
-    new Freebase(inputPath).stream().map(new LuceneDocumentGenerator())
-        .forEach(doc -> {
-          try {
-            writer.addDocument(doc);
-            int cur = cnt.incrementAndGet();
-            if (cur % 10000000 == 0) {
-              LOG.info(cnt + " nodes added.");
-            }
-          } catch (IOException e) {
-            LOG.error(e);
-          }
-        });
 
-    LOG.info(cnt.get() + " nodes added.");
+    Function<FreebaseNode, List<Document>> generator = storeTriples ?
+        new LuceneDocumentGeneratorTriples() : new LuceneDocumentGenerator();
+
+    try {
+      new Freebase(inputPath).stream().map(generator)
+          // The generator returns a list of documents, so this is really just a flatMap:
+          .forEach(list -> list.forEach(doc -> {
+            try {
+              writer.addDocument(doc);
+              int cur = cnt.incrementAndGet();
+              if (cur % 10000000 == 0) {
+                LOG.info(String.format("%,d documents added.", cur));
+              }
+              // This is pretty janky, but the last resort...
+              if (cur >= IndexWriter.MAX_DOCS) throw new RuntimeException();
+            } catch (IOException e) {
+              LOG.error(e);
+            }
+          }));
+    } catch (RuntimeException e) {
+      // We've probably exceeded IndexWriter.MAX_DOCS... just eat the exception and continue.
+      e.printStackTrace();
+    }
+
+    LOG.info(cnt.get() + " documents added.");
     int numIndexed = writer.maxDoc();
 
     try {
@@ -144,11 +171,11 @@ public class IndexFreebase {
       return;
     }
 
-    new IndexFreebase(indexArgs.input, indexArgs.index).run();
+    new IndexFreebase(indexArgs.input, indexArgs.index, indexArgs.storeTriples).run();
   }
 
-  private static class LuceneDocumentGenerator implements Function<FreebaseNode, Document> {
-    public Document apply(FreebaseNode src) {
+  private static class LuceneDocumentGenerator implements Function<FreebaseNode, List<Document>> {
+    public List<Document> apply(FreebaseNode src) {
       Document doc = new Document();
       doc.add(new StringField(FIELD_ID, FreebaseNode.cleanUri(src.uri()), Field.Store.YES));
 
@@ -188,7 +215,42 @@ public class IndexFreebase {
       Field labelField = new TextField(FIELD_LABEL, String.join(" ", labels), Field.Store.YES);
       doc.add(labelField);
 
-      return doc;
+      List<Document> docs = new ArrayList<>();
+      docs.add(doc);
+      return docs;
+    }
+  }
+
+  private static class LuceneDocumentGeneratorTriples implements Function<FreebaseNode, List<Document>> {
+    public List<Document> apply(FreebaseNode src) {
+      List<Document> docs = new ArrayList<>();
+
+      String subject = FreebaseNode.cleanUri(src.uri());
+      // Iterate over predicates and object values.
+      for (Map.Entry<String, List<String>> entry : src.getPredicateValues().entrySet()) {
+        final String predicate = FreebaseNode.cleanUri(entry.getKey());
+        // Each predicate/value is a stored field.
+        entry.getValue().forEach(value -> {
+          Document doc = new Document();
+          doc.add(new StringField(FIELD_SUBJECT, subject, Field.Store.YES));
+          doc.add(new StringField(FIELD_PREDICATE, predicate, Field.Store.YES));
+
+          String object = FreebaseNode.normalizeObjectValue(value);
+          if (object.length() > MAX_OBJECT_LENGTH) {
+            object = object.substring(0, MAX_OBJECT_LENGTH);
+            LOG.warn(String.format(
+                "Encountered excessive long object value for subject '%s' predicate '%s' - storing without indexing",
+                subject, predicate));
+            doc.add(new StoredField(FIELD_OBJECT, object));
+          } else {
+            doc.add(new StringField(FIELD_OBJECT, object, Field.Store.YES));
+          }
+
+          docs.add(doc);
+        });
+      }
+
+      return docs;
     }
   }
 }
