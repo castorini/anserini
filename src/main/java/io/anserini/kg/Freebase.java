@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.anserini.kg.freebase;
+package io.anserini.kg;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
