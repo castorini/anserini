@@ -16,6 +16,9 @@
 
 package io.anserini.kg;
 
+import org.openrdf.model.Literal;
+import org.openrdf.rio.ntriples.NTriplesUtil;
+
 import io.anserini.analysis.FreebaseAnalyzer;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.apache.logging.log4j.LogManager;
@@ -34,6 +37,8 @@ import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.OptionHandlerFilter;
 import org.kohsuke.args4j.ParserProperties;
+import org.openrdf.model.ValueFactory;
+import org.openrdf.model.impl.SimpleValueFactory;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -49,10 +54,13 @@ import java.util.function.Function;
  * Builds an index over a Freebase dump in N-Triples RDF format. Two types of indexes are possible:
  *
  * <ul>
+ *
  * <li>Each {@link FreebaseNode} object, which represents a group of triples that share the same
  * subject ({@code mid}), is treated as a Lucene "document". This class builds an index for lookup
  * based on {@code mid} as well a free text search over the textual labels of the nodes.</li>
+ *
  * <li>Each triple is treated as its own Lucene "document".</li>
+ *
  * </ul>
  */
 public class IndexFreebase {
@@ -60,13 +68,16 @@ public class IndexFreebase {
 
   public static final class Args {
     @Option(name = "-input", metaVar = "[file]", required = true, usage = "Freebase dump file")
-    public Path input;
+    protected Path input;
 
     @Option(name = "-index", metaVar = "[path]", required = true, usage = "index path")
-    public Path index;
+    protected Path index;
 
     @Option(name = "-triples", usage = "store each triple in its own Lucene document")
-    public boolean storeTriples = false;
+    protected boolean storeTriples = false;
+
+    @Option(name = "-langEnOnly", usage = "store only English literals")
+    protected boolean langEnOnly = false;
   }
 
   // For storing each triple in its own Lucene document
@@ -88,11 +99,13 @@ public class IndexFreebase {
   private final Path indexPath;
   private final Path inputPath;
   private final boolean storeTriples;
+  private final boolean langEnOnly;
 
-  public IndexFreebase(Path inputPath, Path indexPath, boolean storeTriples) throws Exception {
+  public IndexFreebase(Path inputPath, Path indexPath, boolean storeTriples, boolean langEnOnly) {
     this.inputPath = inputPath;
     this.indexPath = indexPath;
     this.storeTriples = storeTriples;
+    this.langEnOnly = langEnOnly;
 
     LOG.info("Input path: " + this.inputPath);
     LOG.info("Index path: " + this.indexPath);
@@ -100,6 +113,10 @@ public class IndexFreebase {
     if (!Files.exists(inputPath) || !Files.isReadable(inputPath)) {
       throw new IllegalArgumentException("Input " + inputPath.toString() +
           " does not exist or is not readable.");
+    }
+
+    if ( langEnOnly) {
+      LOG.info("Storing only English literals.");
     }
   }
 
@@ -116,7 +133,7 @@ public class IndexFreebase {
     final AtomicInteger cnt = new AtomicInteger();
 
     Function<FreebaseNode, List<Document>> generator = storeTriples ?
-        new LuceneDocumentGeneratorTriples() : new LuceneDocumentGenerator();
+        new LuceneDocumentGeneratorTriples(langEnOnly) : new LuceneDocumentGenerator(langEnOnly);
 
     try {
       new Freebase(inputPath).stream().map(generator)
@@ -171,10 +188,19 @@ public class IndexFreebase {
       return;
     }
 
-    new IndexFreebase(indexArgs.input, indexArgs.index, indexArgs.storeTriples).run();
+    new IndexFreebase(indexArgs.input, indexArgs.index, indexArgs.storeTriples, indexArgs.langEnOnly).run();
   }
 
+  private static final String LANG_EN = "Optional[en]";
+  private static ValueFactory valueFactory = SimpleValueFactory.getInstance();
+
   private static class LuceneDocumentGenerator implements Function<FreebaseNode, List<Document>> {
+    private final boolean langEnOnly;
+
+    private LuceneDocumentGenerator(boolean langEnOnly) {
+      this.langEnOnly = langEnOnly;
+    }
+
     public List<Document> apply(FreebaseNode src) {
       Document doc = new Document();
       doc.add(new StringField(FIELD_ID, FreebaseNode.cleanUri(src.uri()), Field.Store.YES));
@@ -187,8 +213,17 @@ public class IndexFreebase {
       for (Map.Entry<String, List<String>> entry : src.getPredicateValues().entrySet()) {
         final String predicate = FreebaseNode.cleanUri(entry.getKey());
         // Each predicate/value is a stored field.
-        entry.getValue().forEach(value ->
-            doc.add(new StoredField(predicate, FreebaseNode.normalizeObjectValue(value))));
+        entry.getValue().forEach(value -> {
+          String normalizeObjectValue =FreebaseNode.normalizeObjectValue(value);
+          if (langEnOnly) {
+            Literal parsedLiteral = NTriplesUtil.parseLiteral(normalizeObjectValue, valueFactory);
+            if (parsedLiteral.getLanguage().toString().equals(LANG_EN)) {
+              doc.add(new StoredField(predicate, FreebaseNode.normalizeObjectValue(value)));
+            }
+          } else {
+            doc.add(new StoredField(predicate, FreebaseNode.normalizeObjectValue(value)));
+          }
+        });
 
         List<String> objects = entry.getValue();
         for (String object : objects) {
@@ -222,6 +257,12 @@ public class IndexFreebase {
   }
 
   private static class LuceneDocumentGeneratorTriples implements Function<FreebaseNode, List<Document>> {
+    private final boolean langEnOnly;
+
+    private LuceneDocumentGeneratorTriples(boolean langEnOnly) {
+      this.langEnOnly = langEnOnly;
+    }
+
     public List<Document> apply(FreebaseNode src) {
       List<Document> docs = new ArrayList<>();
 
@@ -229,7 +270,7 @@ public class IndexFreebase {
       // Iterate over predicates and object values.
       for (Map.Entry<String, List<String>> entry : src.getPredicateValues().entrySet()) {
         final String predicate = FreebaseNode.cleanUri(entry.getKey());
-        // Each predicate/value is a stored field.
+        // Each predicate/value triple forms a separate document.
         entry.getValue().forEach(value -> {
           Document doc = new Document();
           doc.add(new StringField(FIELD_SUBJECT, subject, Field.Store.YES));
@@ -246,7 +287,20 @@ public class IndexFreebase {
             doc.add(new StringField(FIELD_OBJECT, object, Field.Store.YES));
           }
 
-          docs.add(doc);
+          if (langEnOnly) {
+            // We only want to add English literals, so check the language.
+            if (FreebaseNode.getObjectType(value).equals(FreebaseNode.RdfObjectType.TEXT)) {
+              Literal parsedLiteral = NTriplesUtil.parseLiteral(value, valueFactory);
+              if (parsedLiteral.getLanguage().toString().equals(LANG_EN)) {
+                docs.add(doc);
+              }
+            } else {
+              // But we still want to add everything else...
+              docs.add(doc);
+            }
+          } else {
+            docs.add(doc);
+          }
         });
       }
 
