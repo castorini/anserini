@@ -74,8 +74,8 @@ class Effectiveness(object):
                     all_best_results[metric] = {}
                 for qid in eval_res[metric]:
                     eval_res[metric][qid].sort(key=itemgetter(0), reverse=True)
-                    if qid not in all_best_results[metric] or eval_res[metric][qid] > all_best_results[metric][qid]['value']:
-                        all_best_results[metric][qid] = {'value': eval_res[metric][qid][0], 'para': eval_res[metric][qid][1]}
+                    if qid not in all_best_results[metric] or eval_res[metric][qid][0][0] > all_best_results[metric][qid]['value']:
+                        all_best_results[metric][qid] = {'value': eval_res[metric][qid][0][0], 'para': eval_res[metric][qid][0][1]}
 
         with open(output_fn, 'w') as o:
             json.dump(all_best_results, o, indent=2, sort_keys=True)
