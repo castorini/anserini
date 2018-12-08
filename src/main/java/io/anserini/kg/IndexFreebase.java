@@ -48,6 +48,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Function;
 
 /**
@@ -101,6 +102,9 @@ public class IndexFreebase {
   private final boolean storeTriples;
   private final boolean langEnOnly;
 
+  private final AtomicInteger docCount = new AtomicInteger();
+  private final AtomicLong triplesCount = new AtomicLong();
+
   public IndexFreebase(Path inputPath, Path indexPath, boolean storeTriples, boolean langEnOnly) {
     this.inputPath = inputPath;
     this.indexPath = indexPath;
@@ -130,7 +134,6 @@ public class IndexFreebase {
     config.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
 
     final IndexWriter writer = new IndexWriter(dir, config);
-    final AtomicInteger cnt = new AtomicInteger();
 
     Function<FreebaseNode, List<Document>> generator = storeTriples ?
         new LuceneDocumentGeneratorTriples(langEnOnly) : new LuceneDocumentGenerator(langEnOnly);
@@ -141,7 +144,7 @@ public class IndexFreebase {
           .forEach(list -> list.forEach(doc -> {
             try {
               writer.addDocument(doc);
-              int cur = cnt.incrementAndGet();
+              int cur = docCount.incrementAndGet();
               if (cur % 10000000 == 0) {
                 LOG.info(String.format("%,d documents added.", cur));
               }
@@ -156,7 +159,8 @@ public class IndexFreebase {
       e.printStackTrace();
     }
 
-    LOG.info(cnt.get() + " documents added.");
+    LOG.info(String.format("%,d triples indexed.", triplesCount.get()));
+    LOG.info(String.format("%,d documents added.", docCount.get()));
     int numIndexed = writer.maxDoc();
 
     try {
@@ -191,10 +195,11 @@ public class IndexFreebase {
     new IndexFreebase(indexArgs.input, indexArgs.index, indexArgs.storeTriples, indexArgs.langEnOnly).run();
   }
 
+  // Needed for the document generators below.
   private static final String LANG_EN = "Optional[en]";
   private static ValueFactory valueFactory = SimpleValueFactory.getInstance();
 
-  private static class LuceneDocumentGenerator implements Function<FreebaseNode, List<Document>> {
+  private class LuceneDocumentGenerator implements Function<FreebaseNode, List<Document>> {
     private final boolean langEnOnly;
 
     private LuceneDocumentGenerator(boolean langEnOnly) {
@@ -214,14 +219,22 @@ public class IndexFreebase {
         final String predicate = FreebaseNode.cleanUri(entry.getKey());
         // Each predicate/value is a stored field.
         entry.getValue().forEach(value -> {
-          String normalizeObjectValue =FreebaseNode.normalizeObjectValue(value);
           if (langEnOnly) {
-            Literal parsedLiteral = NTriplesUtil.parseLiteral(normalizeObjectValue, valueFactory);
-            if (parsedLiteral.getLanguage().toString().equals(LANG_EN)) {
+            // We only want to add English literals, so check the language.
+            if (FreebaseNode.getObjectType(value).equals(FreebaseNode.RdfObjectType.TEXT)) {
+              Literal parsedLiteral = NTriplesUtil.parseLiteral(value, valueFactory);
+              if (parsedLiteral.getLanguage().toString().equals(LANG_EN)) {
+                doc.add(new StoredField(predicate, FreebaseNode.normalizeObjectValue(value)));
+                triplesCount.incrementAndGet();
+              }
+            } else {
+              // But we still want to add everything else...
               doc.add(new StoredField(predicate, FreebaseNode.normalizeObjectValue(value)));
+              triplesCount.incrementAndGet();
             }
           } else {
             doc.add(new StoredField(predicate, FreebaseNode.normalizeObjectValue(value)));
+            triplesCount.incrementAndGet();
           }
         });
 
@@ -256,7 +269,7 @@ public class IndexFreebase {
     }
   }
 
-  private static class LuceneDocumentGeneratorTriples implements Function<FreebaseNode, List<Document>> {
+  private class LuceneDocumentGeneratorTriples implements Function<FreebaseNode, List<Document>> {
     private final boolean langEnOnly;
 
     private LuceneDocumentGeneratorTriples(boolean langEnOnly) {
@@ -293,13 +306,16 @@ public class IndexFreebase {
               Literal parsedLiteral = NTriplesUtil.parseLiteral(value, valueFactory);
               if (parsedLiteral.getLanguage().toString().equals(LANG_EN)) {
                 docs.add(doc);
+                triplesCount.incrementAndGet();
               }
             } else {
               // But we still want to add everything else...
               docs.add(doc);
+              triplesCount.incrementAndGet();
             }
           } else {
             docs.add(doc);
+            triplesCount.incrementAndGet();
           }
         });
       }
