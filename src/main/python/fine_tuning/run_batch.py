@@ -183,7 +183,7 @@ def verify_effectiveness(collection_yaml, models_yaml, output_root, use_drr_fold
                         logger.error('!'*5+'base model: %s model: %s fold: %d metric: %s expected: %f actual: %s ' % (basemodel, model, fold, metric, expected['%d-fold' % fold], x_fold_effectiveness[basemodel][model][metric])+'!'*5)
 
     if success_optimal and success_xfold:
-        logger.info("[Regression Tests Passed] All Passed^^^")
+        logger.info('[Regression Tests Passed] All Passed^^^')
 
 def del_method_related_files(method_name):
     folders = ['split_results', 'merged_results', 'evals', 'effectiveness']
