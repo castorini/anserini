@@ -2,7 +2,7 @@
 search_command: target/appassembler/bin/SearchCollection
 topic_root: src/main/resources/topics-and-qrels/
 qrels_root: src/main/resources/topics-and-qrels/
-input_roots:
+index_roots:
   - /tuna1/
   - /scratch2/indexes/lucene6/
   - /scratch2/
