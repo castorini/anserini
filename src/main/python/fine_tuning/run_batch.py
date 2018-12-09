@@ -53,15 +53,10 @@ def get_index_path(yaml_data):
     """
     Find the possible index path
     """
-    index_path = os.path.join('lucene-index.{0}.pos+docvectors{1}'.format(yaml_data['name'], \
-                                                                          '+rawdocs' if '-storeRawDocs' in yaml_data['index_options'] else ''))
-    if not os.path.exists(index_path):
-        index_path = yaml_data['index_path']
-        if not index_path or not os.path.exists(index_path):
-            for input_root in yaml_data['input_roots']:
-                if os.path.exists(os.path.join(input_root, yaml_data['index_path'])):
-                    index_path = os.path.join(input_root, yaml_data['index_path'])
-                    break
+    for index_root in yaml_data['index_roots']:
+        if os.path.exists(os.path.join(index_root, yaml_data['index_path'])):
+            index_path = os.path.join(index_root, yaml_data['index_path'])
+            break
     return index_path
 
 def load_drr_fold_mapping(fold_dir):
@@ -188,7 +183,7 @@ def verify_effectiveness(collection_yaml, models_yaml, output_root, use_drr_fold
                         logger.error('!'*5+'base model: %s model: %s fold: %d metric: %s expected: %f actual: %s ' % (basemodel, model, fold, metric, expected['%d-fold' % fold], x_fold_effectiveness[basemodel][model][metric])+'!'*5)
 
     if success_optimal and success_xfold:
-        logger.info("[Regression Tests Passed] Done...")
+        logger.info('[Regression Tests Passed] All Passed^^^')
 
 def del_method_related_files(method_name):
     folders = ['split_results', 'merged_results', 'evals', 'effectiveness']
