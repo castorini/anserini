@@ -16,7 +16,6 @@
 
 package io.anserini.kg;
 
-import org.openrdf.model.Literal;
 import org.openrdf.model.ValueFactory;
 import org.openrdf.model.impl.SimpleValueFactory;
 import org.openrdf.rio.ntriples.NTriplesUtil;
@@ -94,7 +93,6 @@ public class FreebaseNode {
   public static final String FREEBASE_NS_SHORT = "fb:";
   public static final String FREEBASE_KEY_LONG = "^http://rdf.freebase.com/key/";
   public static final String FREEBASE_KEY_SHORT = "fbkey:";
-  public static final String LANG_EN = "Optional[en]";
 
   public static String cleanUri(String uri) {
     if (uri.charAt(0) == '<') {
@@ -121,16 +119,6 @@ public class FreebaseNode {
       } else {
         return removeEnclosingQuote(objectValue);
       }
-    } else if (type.equals(FreebaseNode.RdfObjectType.TEXT)) {
-      // Previously, we were basically throwing away all non-English text...
-      // No idea why we're doing this... just commented out.
-      //
-      //Literal parsedLiteral = NTriplesUtil.parseLiteral(objectValue, valueFactory);
-      //if (parsedLiteral.getLanguage().toString().equals(LANG_EN)) {
-      //  return parsedLiteral.stringValue();
-      //}
-      //return "";
-      return objectValue;
     } else {
       return objectValue;
     }
