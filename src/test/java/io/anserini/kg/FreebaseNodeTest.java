@@ -23,6 +23,7 @@ import org.openrdf.model.ValueFactory;
 import org.openrdf.model.impl.SimpleValueFactory;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class FreebaseNodeTest {
   /**
@@ -94,5 +95,10 @@ public class FreebaseNodeTest {
 
     assertEquals(l1expectedVal, l1val);
     assertEquals(l2expectedVal, l2val);
+
+    // Example showing how to use the API
+    ValueFactory valueFactory = SimpleValueFactory.getInstance();
+    Literal parsedLiteral = NTriplesUtil.parseLiteral(l2, valueFactory);
+    assertTrue(parsedLiteral.getLanguage().toString().equals("Optional[en]"));
   }
 }
