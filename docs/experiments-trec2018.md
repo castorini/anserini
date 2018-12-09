@@ -102,12 +102,58 @@ python src/main/python/trec2018/centre/task2/main.py --eval --plot
 The above commands generate _ALL_ results we have put in the notebook paper. To reproduce the submitted runs _ONLY_:
 ```
 target/appassembler/bin/SearchCollection -index lucene-index.cw12.pos+docvectors+rawdocs -topicreader Webxml -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt -bm25 -rerankCutoff 20 -axiom -axiom.deterministic -axiom.beta 0.5 -runtag Anserini-UDInfolabWEB1-1 -output Anserini-UDInfolabWEB1-1.txt
-target/appassembler/bin/SearchCollection -index lucene-index.cw12.pos+docvectors+rawdocs -topicreader Webxml -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt -bm25 -rerankCutoff 20 -axiom -axiom.deterministic -axiom.beta 0.5 -axiom.index lucene-index.snippets2018.pos+docvectors+rawdocs -runtag Anserini-UDInfolabWEB1-2 -output Anserini-UDInfolabWEB1-1.txt
+target/appassembler/bin/SearchCollection -index lucene-index.cw12.pos+docvectors+rawdocs -topicreader Webxml -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt -bm25 -rerankCutoff 20 -axiom -axiom.deterministic -axiom.beta 0.5 -axiom.index lucene-index.snippets2018.pos+docvectors+rawdocs -runtag Anserini-UDInfolabWEB1-2 -output Anserini-UDInfolabWEB1-2.txt
 target/appassembler/bin/SearchCollection -index lucene-index.cw12.pos+docvectors+rawdocs -topicreader Webxml -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt -bm25 -rerankCutoff 20 -axiom -axiom.deterministic -axiom.beta 0.5 -axiom.index lucene-index.wiki.pos+docvectors -runtag Anserini-UDInfolabWEB1-3 -output Anserini-UDInfolabWEB1-3.txt
 target/appassembler/bin/SearchCollection -index lucene-index.cw12lite2013.pos+docvectors+rawdocs -topicreader Webxml -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt -ql -rerankCutoff 20 -axiom -axiom.deterministic -axiom.beta 1.7 -runtag Anserini-UDInfolabWEB2-1 -output Anserini-UDInfolabWEB2-1.txt
 target/appassembler/bin/SearchCollection -index lucene-index.cw12lite2018.pos+docvectors+rawdocs -topicreader Webxml -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt -ql -rerankCutoff 20 -axiom -axiom.deterministic -axiom.beta 1.7 -runtag Anserini-UDInfolabWEB2-2 -output Anserini-UDInfolabWEB2-2.txt
 target/appassembler/bin/SearchCollection -index lucene-index.cw12lite2018.pos+docvectors+rawdocs -topicreader Webxml -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt -bm25 -rerankCutoff 20 -axiom -axiom.deterministic -axiom.beta 0.5 -axiom.index lucene-index.wiki.pos+docvectors -runtag Anserini-UDInfolabWEB2-3 -output Anserini-UDInfolabWEB2-3.txt
 ```
+
+_Users of Anserini will need to download the NEW qrels (old ones are already included in Anserini) directly from TREC's from NIST and put it at `src/main/resources/topics-and-qrels/qrels.web.201-250.new.pruned.txt`. Anserini will include the new qrels file after NIST officially publishes it._
+
+### Effectiveness
+
+Evaluation can be performed using `trec_eval` and `gdeval.pl`:
+
+```
+eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.web.201-250.new.pruned.txt Anserini-UDInfolabWEB1-1.txt
+eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.web.201-250.new.pruned.txt Anserini-UDInfolabWEB1-2.txt
+eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.web.201-250.new.pruned.txt Anserini-UDInfolabWEB1-3.txt
+eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.web.201-250.new.pruned.txt Anserini-UDInfolabWEB2-1.txt
+eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.web.201-250.new.pruned.txt Anserini-UDInfolabWEB2-2.txt
+eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.web.201-250.new.pruned.txt Anserini-UDInfolabWEB2-3.txt
+eval/gdeval.pl src/main/resources/topics-and-qrels/qrels.web.201-250.new.pruned.txt Anserini-UDInfolabWEB1-1.txt
+eval/gdeval.pl -m map -m P.30 src/main/resources/topics-and-qrels/qrels.web.201-250.new.pruned.txt Anserini-UDInfolabWEB1-2.txt
+eval/gdeval.pl -m map -m P.30 src/main/resources/topics-and-qrels/qrels.web.201-250.new.pruned.txt Anserini-UDInfolabWEB1-3.txt
+eval/gdeval.pl -m map -m P.30 src/main/resources/topics-and-qrels/qrels.web.201-250.new.pruned.txt Anserini-UDInfolabWEB2-1.txt
+eval/gdeval.pl -m map -m P.30 src/main/resources/topics-and-qrels/qrels.web.201-250.new.pruned.txt Anserini-UDInfolabWEB2-2.txt
+eval/gdeval.pl -m map -m P.30 src/main/resources/topics-and-qrels/qrels.web.201-250.new.pruned.txt Anserini-UDInfolabWEB2-3.txt
+```
+
+With the above commands, you should be able to replicate the following results:
+
+
+MAP                                     | Anserini-UDInfolabWEB1-1 | Anserini-UDInfolabWEB1-2 | Anserini-UDInfolabWEB1-3 | Anserini-UDInfolabWEB2-1 | Anserini-UDInfolabWEB2-2 | Anserini-UDInfolabWEB2-3 |
+:---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
+Old Qrels                               | 0.1029    | 0.1772    | 0.0645    | 0.0920    | 0.0592    | 0.0583    |
+New Qrels                               | 0.0910    | 0.1929    | 0.1079    | 0.0774    | 0.1333    | 0.1000    |
+
+
+P30                                     | Anserini-UDInfolabWEB1-1 | Anserini-UDInfolabWEB1-2 | Anserini-UDInfolabWEB1-3 | Anserini-UDInfolabWEB2-1 | Anserini-UDInfolabWEB2-2 | Anserini-UDInfolabWEB2-3 |
+:---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
+Old Qrels                               | 0.1940    | 0.3007    | 0.1400    | 0.2427    | 0.2293    | 0.1407    |
+New Qrels                               | 0.2667    | 0.4520    | 0.3400    | 0.2960    | 0.2293    | 0.3467    |
+
+NDCG20                                  | Anserini-UDInfolabWEB1-1 | Anserini-UDInfolabWEB1-2 | Anserini-UDInfolabWEB1-3 | Anserini-UDInfolabWEB2-1 | Anserini-UDInfolabWEB2-2 | Anserini-UDInfolabWEB2-3 |
+:---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
+Old Qrels                               | 0.16760    | 0.25233    | 0.11001    | 0.19950    | 0.12996    | 0.10229    |
+New Qrels                               | 0.11223    | 0.20426    | 0.16492    | 0.10746    | 0.10144    | 0.14627    |
+
+
+ERR20                                   | Anserini-UDInfolabWEB1-1 | Anserini-UDInfolabWEB1-2 | Anserini-UDInfolabWEB1-3 | Anserini-UDInfolabWEB2-1 | Anserini-UDInfolabWEB2-2 | Anserini-UDInfolabWEB2-3 |
+:---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
+Old Qrels                               | 0.10018    | 0.13991    | 0.06524    | 0.12447    | 0.09758    | 0.06108    |
+New Qrels                               | 0.12962    | 0.17499    | 0.15344    | 0.08373    | 0.12700    | 0.15017    |
 
 
 ## Core Track
@@ -131,6 +177,30 @@ target/appassembler/bin/SearchCollection -index lucene-index.wash18.pos+docvecto
 target/appassembler/bin/SearchCollection -index lucene-index.wash18.pos+docvectors+rawdocs -topicreader Trec -topics 2018-test-topics.txt -ql -hits 10000 -runtag anserini_qlax -axiom -axiom.deterministic -rerankCutoff 20 -output wash18_ql_ax.txt
 target/appassembler/bin/SearchCollection -index lucene-index.wash18.pos+docvectors+rawdocs -topicreader Trec -topics 2018-test-topics.txt -ql -hits 10000 -runtag anserini_qlax17 -axiom -axiom.deterministic -rerankCutoff 0 -axiom.index lucene-index.core17.pos+docvectors+rawdocs -output wash18_ql_ax17.txt
 ```
+
+_Users of Anserini will need to download the topics and qrels directly from TREC's from NIST and put them at `src/main/resources/topics-and-qrels/` with file names `topics.core18.txt` and `qrels.core18.txt`. We will include the topics and qrels files after NIST publishes them._
+
+### Effectiveness
+
+Evaluation can be performed using `trec_eval`:
+
+```
+eval/trec_eval.9.0.4/trec_eval -c -M1000 -m map -m P.30 src/main/resources/topics-and-qrels/qrels.core18.txt wash18_bm25.txt
+eval/trec_eval.9.0.4/trec_eval -c -M1000 -m map -m P.30 src/main/resources/topics-and-qrels/qrels.core18.txt wash18_bm25_rm3.txt
+```
+
+With the above commands, you should be able to replicate the following results:
+
+
+MAP                                     | BM25      | BM25+RM3  | BM25+AX   | QL        | QL+RM3    | QL+AX     |
+:---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
+All Topics                              | 0.2487    | 0.2911    | 0.2919    | 0.2504    | 0.2754    | 0.2976    |
+
+
+P30                                     | BM25      | BM25+RM3  | BM25+AX   | QL        | QL+RM3    | QL+AX     |
+:---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
+All Topics                              | 0.3640    | 0.4087    | 0.4033    | 0.3620    | 0.3773    | 0.4067    |
+
 
 ## News Track - Background Linking
 
