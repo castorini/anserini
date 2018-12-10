@@ -54,11 +54,11 @@ The yields a total of 1,922,701,053 triples/documents.
 
 ## Searching Freebase
 
-After indexing is done, there are two ways to search Freebase.
+Working with the "node as document" index, there are two ways to search Freebase.
 The simplest is lookup by `mid`:
 
 ```
-mvn exec:java -Dexec.mainClass="io.anserini.kg.LookupFreebase" \
+mvn exec:java -Dexec.mainClass="io.anserini.kg.LookupFreebaseNodes" \
  -Dexec.args="-index freebase-index-nodes-en -mid fb:m.02mjmr"
 ```
 
@@ -67,6 +67,23 @@ The above command looks up the entity corresponding to "Barack Obama".
 It is also possible to perform a free text search over the textual labels of the nodes, as follows:
 
 ```
-mvn exec:java -Dexec.mainClass="io.anserini.kg.LookupFreebase" \
+mvn exec:java -Dexec.mainClass="io.anserini.kg.LookupFreebaseNodes" \
  -Dexec.args="-index freebase-index-nodes-en -query 'Barack Obama'"
+```
+
+With the "triple as document" index, search for triples as follows:
+
+```
+mvn exec:java -Dexec.mainClass="io.anserini.kg.LookupFreebaseTriples" \
+ -Dexec.args="-index freebase-index-triples-en -s fb:m.02mjmr -hits 1000"
+```
+
+Use the `-s` to find matching subjects, `-p` to find matching predicates, and `-o` to find matching objects.
+These three options can be used in different combinations.
+
+For example, to find all mappings to IMDB:
+
+```
+mvn exec:java -Dexec.mainClass="io.anserini.kg.LookupFreebaseTriples" \
+ -Dexec.args="-index freebase-index-triples-en -p fbkey:authority.imdb.name -hits 1000"
 ```

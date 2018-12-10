@@ -43,23 +43,21 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 /**
- * Lookups a Freebase object either by {@code mid} or by a free text search over the textual labels
- * of the nodes.
+ * Uses a "node as a document" index of Freebase to look up a Freebase object either by {@code mid} or by a free text
+ * search over the textual labels of the nodes.
  */
-public class LookupFreebase implements Closeable {
-  private static final Logger LOG = LogManager.getLogger(LookupFreebase.class);
-
+public class LookupFreebaseNodes implements Closeable {
   private final IndexReader reader;
 
   static final class Args {
     @Option(name = "-index", metaVar = "[path]", required = true, usage = "index path")
-    public Path index;
+    private Path index;
 
     @Option(name = "-mid", metaVar = "[mid]", usage = "Freebase machine id")
-    public String mid = null;
+    private String mid = null;
 
     @Option(name = "-query", metaVar = "[query]", usage = "full-text query")
-    public String query;
+    private String query;
 
     @Option(name="-hits", metaVar = "[hits]", usage = "number of search hits")
     private int numHits = 20;
@@ -81,7 +79,7 @@ public class LookupFreebase implements Closeable {
     }
   }
 
-  public LookupFreebase(Path indexPath) throws IOException {
+  public LookupFreebaseNodes(Path indexPath) throws IOException {
     if (!Files.exists(indexPath) || !Files.isDirectory(indexPath) || !Files.isReadable(indexPath)) {
       throw new IllegalArgumentException(indexPath + " does not exist or is not a directory.");
     }
@@ -97,7 +95,7 @@ public class LookupFreebase implements Closeable {
   /**
    * Prints all known facts about a particular mid.
    * @param mid subject mid
-   * @throws Exception on error
+   * @throws IOException on error
    */
   public Document lookupMid(String mid) throws IOException {
     IndexSearcher searcher = new IndexSearcher(reader);
@@ -115,8 +113,7 @@ public class LookupFreebase implements Closeable {
       return null;
     }
 
-    Document doc = reader.document(topDocs.scoreDocs[0].doc);
-    return doc;
+    return reader.document(topDocs.scoreDocs[0].doc);
   }
 
   /**
@@ -160,21 +157,19 @@ public class LookupFreebase implements Closeable {
     } catch (CmdLineException e) {
       System.err.println(e.getMessage());
       parser.printUsage(System.err);
-      System.err.println("Example: "+ LookupFreebase.class.getSimpleName() +
+      System.err.println("Example: "+ LookupFreebaseNodes.class.getSimpleName() +
           parser.printExample(OptionHandlerFilter.REQUIRED));
       return;
     }
 
-    LookupFreebase lookup = new LookupFreebase(searchArgs.index);
+    LookupFreebaseNodes lookup = new LookupFreebaseNodes(searchArgs.index);
 
     if (searchArgs.mid != null) {
       // Lookup by mid.
       Document doc = lookup.lookupMid(searchArgs.mid);
       if (doc == null)
         System.exit(-1);
-      doc.forEach(field -> {
-        System.out.println(field.name() + " = " + field.stringValue());
-      });
+      doc.forEach(field -> System.out.println(field.name() + " = " + field.stringValue()));
     } else {
       // Full-text search over text labels.
       Result[] results = lookup.search(searchArgs.query, searchArgs.numHits);
