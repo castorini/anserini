@@ -25,7 +25,7 @@ index_options:
   - -optimize
 topic_reader: Cacm
 evals:
-  - command: eval/trec_eval.9.0/trec_eval
+  - command: eval/trec_eval.9.0.4/trec_eval
     params:
       - -m map
     separator: "\t"
@@ -33,7 +33,7 @@ evals:
     metric: map
     metric_precision: 4
     can_combine: true
-  - command: eval/trec_eval.9.0/trec_eval
+  - command: eval/trec_eval.9.0.4/trec_eval
     params:
       - -m P.30
     separator: "\t"
@@ -61,9 +61,9 @@ models:
       - -rm3
     results:
       map:
-        - 0.3689
+        - 0.3698
       p30:
-        - 0.2282
+        - 0.2301
   - name: bm25+ax
     params:
       - -bm25
@@ -89,7 +89,7 @@ models:
       - -rm3
     results:
       map:
-        - 0.3821
+        - 0.3768
       p30:
         - 0.2250
   - name: ql+ax

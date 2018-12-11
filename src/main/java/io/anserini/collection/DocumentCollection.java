@@ -1,5 +1,5 @@
 /**
- * Anserini: An information retrieval toolkit built on Lucene
+ * Anserini: A toolkit for reproducible information retrieval research built on Lucene
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -108,6 +108,14 @@ public abstract class DocumentCollection {
       public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
         Path name = file.getFileName();
         boolean shouldAdd = true;
+        if (Files.isSymbolicLink(file)) {
+          name = Files.readSymbolicLink(file);
+          if (Files.isDirectory(name)) {
+            paths.addAll(discover(name, skippedFilePrefix, allowedFilePrefix, skippedFileSuffix,
+                allowedFileSuffix, skippedDir));
+            shouldAdd = false;
+          }
+        }
         if (name != null) {
           String fileName = name.toString();
           for (String s : skippedFileSuffix) {

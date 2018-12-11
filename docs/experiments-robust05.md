@@ -42,17 +42,17 @@ nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-i
 Evaluation can be performed using `trec_eval`:
 
 ```
-eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust2005.txt run.robust05.bm25.topics.robust05.txt
+eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust2005.txt run.robust05.bm25.topics.robust05.txt
 
-eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust2005.txt run.robust05.bm25+rm3.topics.robust05.txt
+eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust2005.txt run.robust05.bm25+rm3.topics.robust05.txt
 
-eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust2005.txt run.robust05.bm25+ax.topics.robust05.txt
+eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust2005.txt run.robust05.bm25+ax.topics.robust05.txt
 
-eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust2005.txt run.robust05.ql.topics.robust05.txt
+eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust2005.txt run.robust05.ql.topics.robust05.txt
 
-eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust2005.txt run.robust05.ql+rm3.topics.robust05.txt
+eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust2005.txt run.robust05.ql+rm3.topics.robust05.txt
 
-eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust2005.txt run.robust05.ql+ax.topics.robust05.txt
+eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust2005.txt run.robust05.ql+ax.topics.robust05.txt
 
 ```
 
@@ -62,11 +62,11 @@ With the above commands, you should be able to replicate the following results:
 
 MAP                                     | BM25      | BM25+RM3  | BM25+AX   | QL        | QL+RM3    | QL+AX     |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-All Topics                              | 0.2003    | 0.2511    | 0.2528    | 0.2026    | 0.2480    | 0.2501    |
+All Topics                              | 0.2003    | 0.2517    | 0.2528    | 0.2026    | 0.2474    | 0.2501    |
 
 
 P30                                     | BM25      | BM25+RM3  | BM25+AX   | QL        | QL+RM3    | QL+AX     |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-All Topics                              | 0.3660    | 0.3873    | 0.4007    | 0.3713    | 0.4007    | 0.4080    |
+All Topics                              | 0.3660    | 0.3913    | 0.4007    | 0.3713    | 0.4020    | 0.4080    |
 
 

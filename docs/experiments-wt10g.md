@@ -44,17 +44,17 @@ nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-i
 Evaluation can be performed using `trec_eval`:
 
 ```
-eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.451-550.txt run.wt10g.bm25.topics.451-550.txt
+eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.451-550.txt run.wt10g.bm25.topics.451-550.txt
 
-eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.451-550.txt run.wt10g.bm25+rm3.topics.451-550.txt
+eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.451-550.txt run.wt10g.bm25+rm3.topics.451-550.txt
 
-eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.451-550.txt run.wt10g.bm25+ax.topics.451-550.txt
+eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.451-550.txt run.wt10g.bm25+ax.topics.451-550.txt
 
-eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.451-550.txt run.wt10g.ql.topics.451-550.txt
+eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.451-550.txt run.wt10g.ql.topics.451-550.txt
 
-eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.451-550.txt run.wt10g.ql+rm3.topics.451-550.txt
+eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.451-550.txt run.wt10g.ql+rm3.topics.451-550.txt
 
-eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.451-550.txt run.wt10g.ql+ax.topics.451-550.txt
+eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.451-550.txt run.wt10g.ql+ax.topics.451-550.txt
 
 ```
 
@@ -64,11 +64,11 @@ With the above commands, you should be able to replicate the following results:
 
 MAP                                     | BM25      | BM25+RM3  | BM25+AX   | QL        | QL+RM3    | QL+AX     |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-Wt10g: Topics 451-550                   | 0.1981    | 0.2166    | 0.2185    | 0.2015    | 0.2173    | 0.2250    |
+Wt10g: Topics 451-550                   | 0.1981    | 0.2169    | 0.2185    | 0.2015    | 0.2169    | 0.2250    |
 
 
 P30                                     | BM25      | BM25+RM3  | BM25+AX   | QL        | QL+RM3    | QL+AX     |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-Wt10g: Topics 451-550                   | 0.2201    | 0.2452    | 0.2442    | 0.2184    | 0.2344    | 0.2520    |
+Wt10g: Topics 451-550                   | 0.2201    | 0.2456    | 0.2442    | 0.2184    | 0.2354    | 0.2520    |
 
 

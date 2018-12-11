@@ -1,5 +1,5 @@
 /**
- * Anserini: An information retrieval toolkit built on Lucene
+ * Anserini: A toolkit for reproducible information retrieval research built on Lucene
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,6 +24,7 @@ import org.apache.logging.log4j.Logger;
 import org.apache.lucene.document.*;
 import org.apache.lucene.index.IndexOptions;
 import org.apache.lucene.util.BytesRef;
+import org.jsoup.Jsoup;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -40,7 +41,7 @@ public class WapoGenerator extends LuceneDocumentGenerator<WashingtonPostCollect
   public static final String FIELD_ID = "id";
   
   private static final String PATTERN = "<.+>";
-  private static final List<String> CONTENT_TYPE_TAG = Arrays.asList("sanitized_html", "tweet");
+  public static final List<String> CONTENT_TYPE_TAG = Arrays.asList("sanitized_html", "tweet");
 
   public enum WapoField {
     AUTHOR("author"),
@@ -62,8 +63,8 @@ public class WapoGenerator extends LuceneDocumentGenerator<WashingtonPostCollect
     super(args, counters);
   }
   
-  private String removeTags(String content) {
-    return content.replaceAll(PATTERN, " ");
+  public static String removeTags(String content) {
+    return Jsoup.parse(content).text();
   }
 
   @Override

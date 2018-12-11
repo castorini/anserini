@@ -1,0 +1,103 @@
+---
+name: core18
+index_command: target/appassembler/bin/IndexCollection
+index_utils_command: target/appassembler/bin/IndexUtils
+search_command: target/appassembler/bin/SearchCollection
+topic_root: src/main/resources/topics-and-qrels/
+qrels_root: src/main/resources/topics-and-qrels/
+ranking_root:
+generator: WapoGenerator
+threads: 16
+index_options:
+  - -storePositions
+  - -storeDocvectors
+  - -storeRawDocs
+topic_reader: Trec
+input_roots:
+  - /tuna1/
+  - /scratch2/
+input: collections/newswire/WashingtonPost.v2/data/
+index_path: indexes/lucene-index.core18.pos+docvectors+rawdocs # path to the existing index, used in regression test if `--index` option is absent
+collection: WashingtonPostCollection
+index_stats:
+  documents: 595037
+  documents (non-empty): 595037
+  total terms: 317882653
+topics:
+  - name: "All Topics"
+    path: topics.core18.txt
+    qrel: qrels.core18.txt
+evals:
+  - command: eval/trec_eval.9.0.4/trec_eval
+    params:
+      - -m map
+    separator: "\t"
+    parse_index: 2
+    metric: map
+    metric_precision: 4
+    can_combine: true
+  - command: eval/trec_eval.9.0.4/trec_eval
+    params:
+      - -m P.30
+    separator: "\t"
+    parse_index: 2
+    metric: p30
+    metric_precision: 4
+    can_combine: true
+models:
+  - name: bm25
+    params:
+      - -bm25
+    results:
+      map:
+        - 0.2487
+      p30:
+        - 0.3640
+  - name: bm25+rm3
+    params:
+      - -bm25
+      - -rm3
+    results:
+      map:
+        - 0.2911
+      p30:
+        - 0.4087
+  - name: bm25+ax
+    params:
+      - -bm25
+      - -axiom
+      - -rerankCutoff 20
+      - -axiom.deterministic
+    results:
+      map:
+        - 0.2919
+      p30:
+        - 0.4033
+  - name: ql
+    params:
+      - -ql
+    results:
+      map:
+        - 0.2504
+      p30:
+        - 0.3620
+  - name: ql+rm3
+    params:
+      - -ql
+      - -rm3
+    results:
+      map:
+        - 0.2754
+      p30:
+        - 0.3773
+  - name: ql+ax
+    params:
+      - -ql
+      - -axiom
+      - -rerankCutoff 20
+      - -axiom.deterministic
+    results:
+      map:
+        - 0.2976
+      p30:
+        - 0.4067

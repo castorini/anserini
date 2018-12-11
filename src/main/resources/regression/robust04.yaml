@@ -16,7 +16,7 @@ index_options:
   - -storeRawDocs
 topic_reader: Trec
 evals:
-  - command: eval/trec_eval.9.0/trec_eval
+  - command: eval/trec_eval.9.0.4/trec_eval
     params:
       - -m map
     separator: "\t"
@@ -24,7 +24,7 @@ evals:
     metric: map
     metric_precision: 4
     can_combine: true
-  - command: eval/trec_eval.9.0/trec_eval
+  - command: eval/trec_eval.9.0.4/trec_eval
     params:
       - -m P.30
     separator: "\t"
@@ -60,9 +60,9 @@ models:
       - -rm3
     results:
       map:
-        - 0.2757
+        - 0.2759
       p30:
-        - 0.3256
+        - 0.3252
   - name: bm25+ax
     params:
       - -bm25
@@ -88,9 +88,9 @@ models:
       - -rm3
     results:
       map:
-        - 0.2645
+        - 0.2643
       p30:
-        - 0.3153
+        - 0.3138
   - name: ql+ax
     params:
       - -ql

@@ -43,17 +43,17 @@ nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-i
 Evaluation can be performed using `trec_eval`:
 
 ```
-eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust2004.txt run.robust04.bm25.topics.robust04.301-450.601-700.txt
+eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust2004.txt run.robust04.bm25.topics.robust04.301-450.601-700.txt
 
-eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust2004.txt run.robust04.bm25+rm3.topics.robust04.301-450.601-700.txt
+eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust2004.txt run.robust04.bm25+rm3.topics.robust04.301-450.601-700.txt
 
-eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust2004.txt run.robust04.bm25+ax.topics.robust04.301-450.601-700.txt
+eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust2004.txt run.robust04.bm25+ax.topics.robust04.301-450.601-700.txt
 
-eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust2004.txt run.robust04.ql.topics.robust04.301-450.601-700.txt
+eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust2004.txt run.robust04.ql.topics.robust04.301-450.601-700.txt
 
-eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust2004.txt run.robust04.ql+rm3.topics.robust04.301-450.601-700.txt
+eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust2004.txt run.robust04.ql+rm3.topics.robust04.301-450.601-700.txt
 
-eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust2004.txt run.robust04.ql+ax.topics.robust04.301-450.601-700.txt
+eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust2004.txt run.robust04.ql+ax.topics.robust04.301-450.601-700.txt
 
 ```
 
@@ -63,11 +63,11 @@ With the above commands, you should be able to replicate the following results:
 
 MAP                                     | BM25      | BM25+RM3  | BM25+AX   | QL        | QL+RM3    | QL+AX     |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-All Topics                              | 0.2501    | 0.2757    | 0.2860    | 0.2468    | 0.2645    | 0.2775    |
+All Topics                              | 0.2501    | 0.2759    | 0.2860    | 0.2468    | 0.2643    | 0.2775    |
 
 
 P30                                     | BM25      | BM25+RM3  | BM25+AX   | QL        | QL+RM3    | QL+AX     |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-All Topics                              | 0.3123    | 0.3256    | 0.3339    | 0.3083    | 0.3153    | 0.3233    |
+All Topics                              | 0.3123    | 0.3252    | 0.3339    | 0.3083    | 0.3138    | 0.3233    |
 
 

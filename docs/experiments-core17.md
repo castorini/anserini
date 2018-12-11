@@ -1,4 +1,4 @@
-# Anserini: Experiments on [New York Times](https://catalog.ldc.upenn.edu/ldc2008t19) ([Core17](https://trec-core.github.io/2017/))
+# Anserini: Experiments on the [New York Times](https://catalog.ldc.upenn.edu/LDC2008T19) ([Core17](https://trec-core.github.io/2017/))
 
 ## Indexing
 
@@ -11,7 +11,7 @@ NewYorkTimesCollection -generator JsoupGenerator -threads 16 -input \
 -storeDocvectors -storeRawDocs >& log.core17.pos+docvectors+rawdocs &
 ```
 
-The directory `/path/to/nyt_corpus/` should be the root directory of TREC Core collection, i.e., `ls /path/to/nyt_corpus/`
+The directory `/path/to/nyt_corpus/` should be the root directory of TREC Core2017 collection, i.e., `ls /path/to/nyt_corpus/`
 should bring up a bunch of subdirectories, `1987` to `2007`.
 
 For additional details, see explanation of [common indexing options](common-indexing-options.md).
@@ -43,17 +43,17 @@ nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-i
 Evaluation can be performed using `trec_eval`:
 
 ```
-eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.core17.txt run.core17.bm25.topics.core17.txt
+eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.core17.txt run.core17.bm25.topics.core17.txt
 
-eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.core17.txt run.core17.bm25+rm3.topics.core17.txt
+eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.core17.txt run.core17.bm25+rm3.topics.core17.txt
 
-eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.core17.txt run.core17.bm25+ax.topics.core17.txt
+eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.core17.txt run.core17.bm25+ax.topics.core17.txt
 
-eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.core17.txt run.core17.ql.topics.core17.txt
+eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.core17.txt run.core17.ql.topics.core17.txt
 
-eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.core17.txt run.core17.ql+rm3.topics.core17.txt
+eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.core17.txt run.core17.ql+rm3.topics.core17.txt
 
-eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.core17.txt run.core17.ql+ax.topics.core17.txt
+eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.core17.txt run.core17.ql+ax.topics.core17.txt
 
 ```
 
@@ -63,11 +63,11 @@ With the above commands, you should be able to replicate the following results:
 
 MAP                                     | BM25      | BM25+RM3  | BM25+AX   | QL        | QL+RM3    | QL+AX     |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-All Topics                              | 0.1996    | 0.2633    | 0.2719    | 0.1928    | 0.2409    | 0.2498    |
+All Topics                              | 0.1996    | 0.2639    | 0.2719    | 0.1928    | 0.2427    | 0.2498    |
 
 
 P30                                     | BM25      | BM25+RM3  | BM25+AX   | QL        | QL+RM3    | QL+AX     |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-All Topics                              | 0.4207    | 0.4893    | 0.4900    | 0.4327    | 0.4647    | 0.4813    |
+All Topics                              | 0.4207    | 0.4880    | 0.4900    | 0.4327    | 0.4640    | 0.4813    |
 
 

@@ -1,3 +1,19 @@
+/**
+ * Anserini: A toolkit for reproducible information retrieval research built on Lucene
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package io.anserini.ltr;
 
 import io.anserini.analysis.TweetAnalyzer;
@@ -23,7 +39,6 @@ import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.search.similarities.BM25Similarity;
-import org.apache.lucene.search.similarities.LMDirichletSimilarity;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.kohsuke.args4j.CmdLineException;
@@ -76,17 +91,7 @@ public class DumpTweetsLtrData {
     IndexReader reader = DirectoryReader.open(dir);
     IndexSearcher searcher = new IndexSearcher(reader);
 
-    if (args.ql) {
-      LOG.info("Using QL scoring model");
-      searcher.setSimilarity(new LMDirichletSimilarity(args.mu));
-    } else if (args.bm25) {
-      LOG.info("Using BM25 scoring model");
-      searcher.setSimilarity(new BM25Similarity(args.k1, args.b));
-    } else {
-      LOG.error("Error: Must specify scoring model!");
-      System.exit(-1);
-    }
-
+    searcher.setSimilarity(new BM25Similarity());
     Qrels qrels = new Qrels(args.qrels);
 
     FeatureExtractors extractors = null;
@@ -125,8 +130,8 @@ public class DumpTweetsLtrData {
       TopDocs rs = searcher.search(q, args.hits);
       List<String> queryTokens = AnalyzerUtils.tokenize(new TweetAnalyzer(), queryString);
 
-      RerankerContext<Integer> context = new RerankerContext<>(searcher, Integer.parseInt(queryString), query, queryString,
-          queryTokens, filter, null);
+      RerankerContext<Integer> context = new RerankerContext<>(searcher, Integer.parseInt(queryString), query, null,
+          queryString, queryTokens, filter, null);
 
       cascade.run(ScoredDocuments.fromTopDocs(rs, searcher), context);
       long qtime = (System.nanoTime()-curQueryTime)/1000000;

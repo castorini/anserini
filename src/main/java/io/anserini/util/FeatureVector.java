@@ -1,5 +1,5 @@
 /**
- * Anserini: An information retrieval toolkit built on Lucene
+ * Anserini: A toolkit for reproducible information retrieval research built on Lucene
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,11 +43,10 @@ public class FeatureVector {
   public FeatureVector pruneToSize(int k) {
     List<KeyValuePair> pairs = getOrderedFeatures();
     Object2FloatOpenHashMap<String> pruned = new Object2FloatOpenHashMap<String>();
-
-    int i = 0;
+    
     for (KeyValuePair pair : pairs) {
       pruned.put((String) pair.getKey(), pair.getValue());
-      if (i++ > k) {
+      if (pruned.size() >= k) {
         break;
       }
     }

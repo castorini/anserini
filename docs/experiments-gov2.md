@@ -58,29 +58,29 @@ nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-i
 Evaluation can be performed using `trec_eval`:
 
 ```
-eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.701-750.txt run.gov2.bm25.topics.701-750.txt
-eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.751-800.txt run.gov2.bm25.topics.751-800.txt
-eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.801-850.txt run.gov2.bm25.topics.801-850.txt
+eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.701-750.txt run.gov2.bm25.topics.701-750.txt
+eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.751-800.txt run.gov2.bm25.topics.751-800.txt
+eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.801-850.txt run.gov2.bm25.topics.801-850.txt
 
-eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.701-750.txt run.gov2.bm25+rm3.topics.701-750.txt
-eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.751-800.txt run.gov2.bm25+rm3.topics.751-800.txt
-eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.801-850.txt run.gov2.bm25+rm3.topics.801-850.txt
+eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.701-750.txt run.gov2.bm25+rm3.topics.701-750.txt
+eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.751-800.txt run.gov2.bm25+rm3.topics.751-800.txt
+eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.801-850.txt run.gov2.bm25+rm3.topics.801-850.txt
 
-eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.701-750.txt run.gov2.bm25+ax.topics.701-750.txt
-eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.751-800.txt run.gov2.bm25+ax.topics.751-800.txt
-eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.801-850.txt run.gov2.bm25+ax.topics.801-850.txt
+eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.701-750.txt run.gov2.bm25+ax.topics.701-750.txt
+eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.751-800.txt run.gov2.bm25+ax.topics.751-800.txt
+eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.801-850.txt run.gov2.bm25+ax.topics.801-850.txt
 
-eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.701-750.txt run.gov2.ql.topics.701-750.txt
-eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.751-800.txt run.gov2.ql.topics.751-800.txt
-eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.801-850.txt run.gov2.ql.topics.801-850.txt
+eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.701-750.txt run.gov2.ql.topics.701-750.txt
+eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.751-800.txt run.gov2.ql.topics.751-800.txt
+eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.801-850.txt run.gov2.ql.topics.801-850.txt
 
-eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.701-750.txt run.gov2.ql+rm3.topics.701-750.txt
-eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.751-800.txt run.gov2.ql+rm3.topics.751-800.txt
-eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.801-850.txt run.gov2.ql+rm3.topics.801-850.txt
+eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.701-750.txt run.gov2.ql+rm3.topics.701-750.txt
+eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.751-800.txt run.gov2.ql+rm3.topics.751-800.txt
+eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.801-850.txt run.gov2.ql+rm3.topics.801-850.txt
 
-eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.701-750.txt run.gov2.ql+ax.topics.701-750.txt
-eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.751-800.txt run.gov2.ql+ax.topics.751-800.txt
-eval/trec_eval.9.0/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.801-850.txt run.gov2.ql+ax.topics.801-850.txt
+eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.701-750.txt run.gov2.ql+ax.topics.701-750.txt
+eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.751-800.txt run.gov2.ql+ax.topics.751-800.txt
+eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.801-850.txt run.gov2.ql+ax.topics.801-850.txt
 
 ```
 
@@ -90,15 +90,15 @@ With the above commands, you should be able to replicate the following results:
 
 MAP                                     | BM25      | BM25+RM3  | BM25+AX   | QL        | QL+RM3    | QL+AX     |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-[TREC 2004 Terabyte Track: Topics 701-750](http://trec.nist.gov/data/terabyte04.html)| 0.2673    | 0.2981    | 0.2735    | 0.2636    | 0.2777    | 0.2638    |
-[TREC 2005 Terabyte Track: Topics 751-800](http://trec.nist.gov/data/terabyte05.html)| 0.3366    | 0.3843    | 0.3669    | 0.3264    | 0.3620    | 0.3670    |
-[TREC 2006 Terabyte Track: Topics 801-850](http://trec.nist.gov/data/terabyte06.html)| 0.3055    | 0.3439    | 0.3061    | 0.2957    | 0.3168    | 0.3112    |
+[TREC 2004 Terabyte Track: Topics 701-750](http://trec.nist.gov/data/terabyte04.html)| 0.2673    | 0.2974    | 0.2735    | 0.2636    | 0.2770    | 0.2638    |
+[TREC 2005 Terabyte Track: Topics 751-800](http://trec.nist.gov/data/terabyte05.html)| 0.3366    | 0.3846    | 0.3669    | 0.3264    | 0.3610    | 0.3670    |
+[TREC 2006 Terabyte Track: Topics 801-850](http://trec.nist.gov/data/terabyte06.html)| 0.3055    | 0.3438    | 0.3061    | 0.2957    | 0.3160    | 0.3112    |
 
 
 P30                                     | BM25      | BM25+RM3  | BM25+AX   | QL        | QL+RM3    | QL+AX     |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-[TREC 2004 Terabyte Track: Topics 701-750](http://trec.nist.gov/data/terabyte04.html)| 0.4837    | 0.5333    | 0.5082    | 0.4667    | 0.4912    | 0.4837    |
-[TREC 2005 Terabyte Track: Topics 751-800](http://trec.nist.gov/data/terabyte05.html)| 0.5520    | 0.5933    | 0.5947    | 0.5160    | 0.5700    | 0.5880    |
-[TREC 2006 Terabyte Track: Topics 801-850](http://trec.nist.gov/data/terabyte06.html)| 0.4900    | 0.5240    | 0.5007    | 0.4753    | 0.4840    | 0.5007    |
+[TREC 2004 Terabyte Track: Topics 701-750](http://trec.nist.gov/data/terabyte04.html)| 0.4837    | 0.5347    | 0.5082    | 0.4667    | 0.4878    | 0.4837    |
+[TREC 2005 Terabyte Track: Topics 751-800](http://trec.nist.gov/data/terabyte05.html)| 0.5520    | 0.5960    | 0.5947    | 0.5160    | 0.5673    | 0.5880    |
+[TREC 2006 Terabyte Track: Topics 801-850](http://trec.nist.gov/data/terabyte06.html)| 0.4900    | 0.5227    | 0.5007    | 0.4753    | 0.4853    | 0.5007    |
 
 

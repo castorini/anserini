@@ -31,7 +31,7 @@ topics:
     path: topics.web.251-300.txt
     qrel: qrels.web.251-300.txt
 evals:
-  - command: eval/trec_eval.9.0/trec_eval
+  - command: eval/trec_eval.9.0.4/trec_eval
     params:
       - -m map
     separator: "\t"
@@ -39,7 +39,7 @@ evals:
     metric: map
     metric_precision: 4
     can_combine: true
-  - command: eval/trec_eval.9.0/trec_eval
+  - command: eval/trec_eval.9.0.4/trec_eval
     params:
       - -m P.30
     separator: "\t"
@@ -82,17 +82,17 @@ models:
       - -rm3
     results:
       map:
-        - 0.1483
-        - 0.2460
+        - 0.1489
+        - 0.2468
       p30:
-        - 0.2360
-        - 0.4167
+        - 0.2347
+        - 0.4200
       ndcg20:
-        - 0.17524
-        - 0.24793
+        - 0.17566
+        - 0.24349
       err20:
-        - 0.09165
-        - 0.17831
+        - 0.09148
+        - 0.17411
   - name: ql
     params:
       - -ql
@@ -115,14 +115,14 @@ models:
       - -rm3
     results:
       map:
-        - 0.1245
-        - 0.2302
+        - 0.1235
+        - 0.2331
       p30:
-        - 0.2053
-        - 0.3880
+        - 0.2047
+        - 0.4013
       ndcg20:
-        - 0.15630
-        - 0.21387
+        - 0.15570
+        - 0.21679
       err20:
-        - 0.08678
-        - 0.13086
+        - 0.08588
+        - 0.13441

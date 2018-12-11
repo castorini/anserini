@@ -36,7 +36,7 @@ topics:
     path: topics.microblog2014.txt
     qrel: qrels.microblog2014.txt
 evals:
-  - command: eval/trec_eval.9.0/trec_eval
+  - command: eval/trec_eval.9.0.4/trec_eval
     params:
       - -m map
     separator: "\t"
@@ -44,7 +44,7 @@ evals:
     metric: map
     metric_precision: 4
     can_combine: true
-  - command: eval/trec_eval.9.0/trec_eval
+  - command: eval/trec_eval.9.0.4/trec_eval
     params:
       - -m P.30
     separator: "\t"
@@ -72,10 +72,10 @@ models:
     results:
       map:
         - 0.2356
-        - 0.3962
+        - 0.4036
       p30:
-        - 0.4061
-        - 0.5873
+        - 0.4044
+        - 0.6061
   - name: bm25+ax
     params:
       - -searchtweets
@@ -109,11 +109,11 @@ models:
       - -rm3
     results:
       map:
-        - 0.2804
-        - 0.4660
+        - 0.2796
+        - 0.4763
       p30:
-        - 0.4606
-        - 0.6442
+        - 0.4600
+        - 0.6606
   - name: ql+ax
     params:
       - -searchtweets

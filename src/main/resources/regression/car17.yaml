@@ -28,7 +28,7 @@ topics:
     path: topics.car17.test200.txt
     qrel: qrels.car17.test200.hierarchical.txt
 evals:
-  - command: eval/trec_eval.9.0/trec_eval
+  - command: eval/trec_eval.9.0.4/trec_eval
     params:
       - -m map
     separator: "\t"
@@ -36,7 +36,7 @@ evals:
     metric: map
     metric_precision: 4
     can_combine: true
-  - command: eval/trec_eval.9.0/trec_eval
+  - command: eval/trec_eval.9.0.4/trec_eval
     params:
       - -m recip_rank
     separator: "\t"
@@ -59,9 +59,9 @@ models:
       - -rm3
     results:
       map:
-        - 0.1354
+        - 0.1343
       recip_rank:
-        - 0.1860
+        - 0.1852
   - name: bm25+ax
     params:
       - -bm25
@@ -87,9 +87,9 @@ models:
       - -rm3
     results:
       map:
-        - 0.1220
+        - 0.1211
       recip_rank:
-        - 0.1687
+        - 0.1672
   - name: ql+ax
     params:
       - -ql

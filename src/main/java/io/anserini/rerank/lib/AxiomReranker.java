@@ -1,5 +1,5 @@
 /**
- * Anserini: An information retrieval toolkit built on Lucene
+ * Anserini: A toolkit for reproducible information retrieval research built on Lucene
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,7 +31,6 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.index.*;
-import org.apache.lucene.queryparser.flexible.standard.StandardQueryParser;
 import org.apache.lucene.search.*;
 import org.apache.lucene.store.FSDirectory;
 
@@ -72,13 +71,14 @@ public class AxiomReranker<T> implements Reranker<T> {
   private final String field; // from which field we look for the expansion terms, e.g. "body"
   private final boolean deterministic;  // whether the expansion terms are deterministically picked
   private final long seed;
+  private final String originalIndexPath;
   private final String externalIndexPath;  // Axiomatic reranking can opt to use
                                            // external sources for searching the expansion
                                            // terms. Typically, we build another index
                                            // separately and include its information here.
-  private final ScoreDoc[] internalDocidsCache; // When enabling the deterministic reranking we could cache all the
+  public static ScoreDoc[] internalDocidsCache; // When enabling the deterministic reranking we could cache all the
                                                 // internal Docids for all queries
-  private final List<String> externalDocidsCache; // When enabling the deterministic reranking we can opt to read sorted docids
+  public static List<String> externalDocidsCache; // When enabling the deterministic reranking we can opt to read sorted docids
                                               // from a file. The file can be obtained by running
                                               // `IndexUtils -index /path/to/index -dumpAllDocids GZ`
 
@@ -88,29 +88,39 @@ public class AxiomReranker<T> implements Reranker<T> {
   private final int M; // number of expansion terms
   private final float beta; // scaling parameter
   private final boolean outputQuery;
+  private final boolean searchTweets;
 
-  public AxiomReranker(String field, SearchArgs args) throws IOException {
+  public AxiomReranker(String originalIndexPath, String externalIndexPath, String field, boolean deterministic,
+                       long seed, int r, int n, float beta, int top, String docidsCachePath,
+                       boolean outputQuery, boolean searchTweets) throws IOException {
     this.field = field;
-    this.deterministic = args.axiom_deterministic;
-    this.seed = args.axiom_seed;
-    this.R = args.axiom_r;
-    this.N = args.axiom_n;
-    this.M = args.axiom_top;
-    this.beta = args.axiom_beta;
-    this.externalIndexPath = args.axiom_index;
-    this.outputQuery = args.axiom_outputQuery;
+    this.deterministic = deterministic;
+    this.seed = seed;
+    this.R = r;
+    this.N = n;
+    this.M = top;
+    this.beta = beta;
+    this.originalIndexPath = originalIndexPath;
+    this.externalIndexPath = externalIndexPath;
+    this.outputQuery = outputQuery;
+    this.searchTweets = searchTweets;
 
     if (this.deterministic && this.N > 1) {
-      if (args.axiom_docids != null) {
-        this.externalDocidsCache = buildExternalDocidsCache(args);
-        this.internalDocidsCache = null;
+      if (docidsCachePath != null) {
+        if (AxiomReranker.externalDocidsCache == null) {
+          AxiomReranker.externalDocidsCache = buildExternalDocidsCache(docidsCachePath);
+          AxiomReranker.internalDocidsCache = null;
+        }
       } else {
-        this.internalDocidsCache = buildInternalDocidsCache(args);
-        this.externalDocidsCache = null;
+        if (AxiomReranker.internalDocidsCache == null) {
+          String indexPath = externalIndexPath == null ? originalIndexPath : externalIndexPath;
+          AxiomReranker.internalDocidsCache = buildInternalDocidsCache(indexPath, this.searchTweets);
+          AxiomReranker.externalDocidsCache = null;
+        }
       }
     } else {
-      this.internalDocidsCache = null;
-      this.externalDocidsCache = null;
+      AxiomReranker.internalDocidsCache = null;
+      AxiomReranker.externalDocidsCache = null;
     }
   }
 
@@ -127,21 +137,21 @@ public class AxiomReranker<T> implements Reranker<T> {
       Map<String, Set<Integer>> termInvertedList = extractTerms(usedDocs, context, null);
       // Calculate all the terms in the reranking pool and pick top K of them
       Map<String, Double> expandedTermScores = computeTermScore(termInvertedList, context);
-      StringBuilder builder = new StringBuilder();
-      for (Map.Entry<String, Double> termScore : expandedTermScores.entrySet()) {
-        String term = termScore.getKey();
-        double score = termScore.getValue();
-        builder.append(term).append("^").append(score).append(" ");
-      }
-      String queryText = builder.toString().trim();
 
-      if (queryText.isEmpty()) {
+      BooleanQuery.Builder nqBuilder = new BooleanQuery.Builder();
+
+      if (expandedTermScores.isEmpty()) {
         LOG.info("[Empty Expanded Query]: " + context.getQueryTokens());
-        queryText = context.getQueryText();
+        nqBuilder.add(new TermQuery(new Term(this.field, context.getQueryText())), BooleanClause.Occur.SHOULD);
+      } else {
+        for (Map.Entry<String, Double> termScore : expandedTermScores.entrySet()) {
+          String term = termScore.getKey();
+          float prob = termScore.getValue().floatValue();
+          nqBuilder.add(new BoostQuery(new TermQuery(new Term(this.field, term)), prob), BooleanClause.Occur.SHOULD);
+        }
       }
 
-      StandardQueryParser p = new StandardQueryParser();
-      Query nq = p.parse(queryText, this.field);
+      Query nq = nqBuilder.build();
 
       if (this.outputQuery) {
         LOG.info("QID: " + context.getQueryId());
@@ -210,8 +220,8 @@ public class AxiomReranker<T> implements Reranker<T> {
   /**
    * If the result is deterministic we can cache all the external docids by reading them from a file
    */
-  private List<String> buildExternalDocidsCache(SearchArgs args) throws IOException {
-    InputStream in = getReadFileStream(args.axiom_docids);
+  private List<String> buildExternalDocidsCache(String docidsCachePath) throws IOException {
+    InputStream in = getReadFileStream(docidsCachePath);
     BufferedReader bRdr = new BufferedReader(new InputStreamReader(in));
     return IOUtils.readLines(bRdr);
   }
@@ -220,15 +230,14 @@ public class AxiomReranker<T> implements Reranker<T> {
    * If the result is deterministic we can cache all the docids. All queries can share this
    * cache.
    */
-  private ScoreDoc[] buildInternalDocidsCache(SearchArgs args) throws IOException {
-    String index = args.axiom_index == null ? args.index : args.axiom_index;
-    Path indexPath = Paths.get(index);
-    if (!Files.exists(indexPath) || !Files.isDirectory(indexPath) || !Files.isReadable(indexPath)) {
-      throw new IllegalArgumentException(index + " does not exist or is not a directory.");
+  private ScoreDoc[] buildInternalDocidsCache(String indexPath, boolean searchTweets) throws IOException {
+    Path index = Paths.get(indexPath);
+    if (!Files.exists(index) || !Files.isDirectory(index) || !Files.isReadable(index)) {
+      throw new IllegalArgumentException(indexPath + " does not exist or is not a directory.");
     }
-    IndexReader reader = DirectoryReader.open(FSDirectory.open(indexPath));
+    IndexReader reader = DirectoryReader.open(FSDirectory.open(index));
     IndexSearcher searcher = new IndexSearcher(reader);
-    if (args.searchtweets) {
+    if (searchTweets) {
       return searcher.search(new FieldValueQuery(TweetGenerator.StatusField.ID_LONG.name), reader.maxDoc(),
           BREAK_SCORE_TIES_BY_TWEETID).scoreDocs;
     }
@@ -246,7 +255,7 @@ public class AxiomReranker<T> implements Reranker<T> {
    * @return Top ranked ScoredDocuments from searching external index
    */
   private ScoredDocuments processExternalContext(ScoredDocuments docs, RerankerContext<T> context) throws IOException {
-    if (externalIndexPath != null) {
+    if (this.externalIndexPath != null) {
       Path indexPath = Paths.get(this.externalIndexPath);
       if (!Files.exists(indexPath) || !Files.isDirectory(indexPath) || !Files.isReadable(indexPath)) {
         throw new IllegalArgumentException(this.externalIndexPath + " does not exist or is not a directory.");
@@ -261,7 +270,7 @@ public class AxiomReranker<T> implements Reranker<T> {
       args.searchtweets = context.getSearchArgs().searchtweets;
 
       RerankerContext<T> externalContext = new RerankerContext<>(searcher, context.getQueryId(), context.getQuery(),
-        context.getQueryText(), context.getQueryTokens(), context.getFilter(), args);
+          context.getQueryDocId(), context.getQueryText(), context.getQueryTokens(), context.getFilter(), args);
 
       return searchTopDocs(null, externalContext);
     } else {
@@ -304,13 +313,13 @@ public class AxiomReranker<T> implements Reranker<T> {
                                 // we have to rely on external docid here
         Random random = new Random(this.seed);
         while (docidSet.size() < targetSize) {
-          if (this.externalDocidsCache != null) {
-            String docid = this.externalDocidsCache.get(random.nextInt(this.externalDocidsCache.size()));
+          if (AxiomReranker.externalDocidsCache != null) {
+            String docid = AxiomReranker.externalDocidsCache.get(random.nextInt(AxiomReranker.externalDocidsCache.size()));
             Query q = new TermQuery(new Term(LuceneDocumentGenerator.FIELD_ID, docid));
             TopDocs rs = searcher.search(q, 1);
             docidSet.add(rs.scoreDocs[0].doc);
           } else {
-            docidSet.add(this.internalDocidsCache[random.nextInt(this.internalDocidsCache.length)].doc);
+            docidSet.add(AxiomReranker.internalDocidsCache[random.nextInt(AxiomReranker.internalDocidsCache.length)].doc);
           }
         }
       } else {
@@ -520,5 +529,10 @@ public class AxiomReranker<T> implements Reranker<T> {
     if (pXY10 != 0) m10 = pXY10 * Math.log(pXY10 / (pX1 * pY0));
     if (pXY11 != 0) m11 = pXY11 * Math.log(pXY11 / (pX1 * pY1));
     return m00 + m10 + m01 + m11;
+  }
+  
+  @Override
+  public String tag() {
+    return "AxiomaticRerank(R="+R+",N="+N+",K:"+K+",M:"+M+")";
   }
 }
