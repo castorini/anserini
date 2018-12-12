@@ -20,9 +20,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.wikiclean.WikiClean;
 import org.wikiclean.WikiClean.WikiLanguage;
-import org.wikiclean.WikiCleanBuilder;
-import org.wikiclean.WikipediaBz2DumpInputStream;
+import org.wikiclean.*;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.*;
@@ -51,13 +51,13 @@ public class WikipediaCollection extends DocumentCollection
   }
 
   public class FileSegment extends BaseFileSegment<Document> {
-    private final WikipediaBz2DumpInputStream stream;
+    private final Iterator<String> iter;
     private final WikiClean cleaner;
 
     protected FileSegment(Path path) throws IOException {
       this.path = path;
-      stream = new WikipediaBz2DumpInputStream(path.toString());
-      cleaner = new WikiCleanBuilder()
+      iter = new WikipediaArticlesDump(new File(path.toString())).iterator();
+      cleaner = new WikiClean.Builder()
           .withLanguage(WikiLanguage.EN).withTitle(false)
           .withFooter(false).build();
     }
@@ -68,7 +68,9 @@ public class WikipediaCollection extends DocumentCollection
       String s;
 
       // Advance to the next valid page.
-      while ((page = stream.readNext()) != null) {
+      while (iter.hasNext()) {
+        page = iter.next();
+
         // See https://en.wikipedia.org/wiki/Wikipedia:Namespace
         if (page.contains("<ns>") && !page.contains("<ns>0</ns>")) {
           continue;
