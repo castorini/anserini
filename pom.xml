@@ -277,7 +277,7 @@
     <dependency>
       <groupId>org.wikiclean</groupId>
       <artifactId>wikiclean</artifactId>
-      <version>0.5</version>
+      <version>1.1</version>
     </dependency>
     <dependency> <!-- needed for CBZip2InputStream -->
       <groupId>org.apache.ant</groupId>

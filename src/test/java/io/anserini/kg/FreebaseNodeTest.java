@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.anserini.kg.freebase;
+package io.anserini.kg;
 
 import org.junit.Test;
 import org.openrdf.rio.ntriples.NTriplesUtil;
@@ -23,6 +23,7 @@ import org.openrdf.model.ValueFactory;
 import org.openrdf.model.impl.SimpleValueFactory;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class FreebaseNodeTest {
   /**
@@ -53,6 +54,8 @@ public class FreebaseNodeTest {
     // Test MQL key escaping (see method for more details):
     assertEquals("Barack_Hussein_Obama,_Jr.",
         FreebaseNode.normalizeObjectValue("\"Barack_Hussein_Obama$002C_Jr$002E\""));
+
+    assertEquals("fb:m.0x2spfl", FreebaseNode.normalizeObjectValue("<http://rdf.freebase.com/ns/m.0x2spfl>"));
   }
 
   @Test
@@ -92,5 +95,10 @@ public class FreebaseNodeTest {
 
     assertEquals(l1expectedVal, l1val);
     assertEquals(l2expectedVal, l2val);
+
+    // Example showing how to use the API
+    ValueFactory valueFactory = SimpleValueFactory.getInstance();
+    Literal parsedLiteral = NTriplesUtil.parseLiteral(l2, valueFactory);
+    assertTrue(parsedLiteral.getLanguage().toString().equals("Optional[en]"));
   }
 }
