@@ -1,3 +1,71 @@
+# Anserini: TREC 2018 Runbook
+
+## Common Core Track
+
+Building the index:
+
+```
+nohup target/appassembler/bin/IndexCollection \
+ -collection WashingtonPostCollection \
+ -input WashingtonPost.v2/data/ -generator WapoGenerator \
+ -index lucene-index.core18.pos+docvectors+rawdocs \
+ -threads 36 -storePositions -storeDocvectors -storeRawDocs &> \
+log.core18.pos+docvectors+rawdocs &
+```
+
+**NOTE**: Topics and qrels are currently available only to TREC 2018 participants.
+Users will need to download the topics and qrels directly from the NIST website and put them at `src/main/resources/topics-and-qrels/` with file names `topics.core18.txt` and `qrels.core18.txt`.
+These files will be checked into the repo after NIST publishes them publicly.
+
+Commands to replicate submitted runs:
+
+```
+target/appassembler/bin/SearchCollection -index lucene-index.core18.pos+docvectors+rawdocs -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.core18.txt -bm25 -hits 10000 -runtag anserini_bm25 -output core18.anserini_bm25.txt
+target/appassembler/bin/SearchCollection -index lucene-index.core18.pos+docvectors+rawdocs -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.core18.txt -bm25 -hits 10000 -runtag anserini_sdm -sdm -output core18.anserini_sdm.txt
+target/appassembler/bin/SearchCollection -index lucene-index.core18.pos+docvectors+rawdocs -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.core18.txt -bm25 -hits 10000 -runtag anserini_rm3 -rm3 -output core18.anserini_rm3.txt
+target/appassembler/bin/SearchCollection -index lucene-index.core18.pos+docvectors+rawdocs -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.core18.txt -bm25 -hits 10000 -runtag anserini_ax -axiom -axiom.deterministic -rerankCutoff 20 -output core18.anserini_ax.txt
+target/appassembler/bin/SearchCollection -index lucene-index.core18.pos+docvectors+rawdocs -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.core18.txt -bm25 -hits 10000 -runtag anserini_ax17 -axiom -axiom.deterministic -rerankCutoff 0 -axiom.index lucene-index.core17.pos+docvectors+rawdocs -output core18.anserini_ax17.txt
+target/appassembler/bin/SearchCollection -index lucene-index.core18.pos+docvectors+rawdocs -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.core18.txt -ql -hits 10000 -runtag anserini_ql -output core18.anserini_ql.txt
+target/appassembler/bin/SearchCollection -index lucene-index.core18.pos+docvectors+rawdocs -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.core18.txt -ql -hits 10000 -runtag anserini_qlsdm -sdm -output core18.anserini_qlsdm.txt
+target/appassembler/bin/SearchCollection -index lucene-index.core18.pos+docvectors+rawdocs -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.core18.txt -ql -hits 10000 -runtag anserini_qlrm3 -rm3 -output core18.anserini_qlrm3.txt
+target/appassembler/bin/SearchCollection -index lucene-index.core18.pos+docvectors+rawdocs -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.core18.txt -ql -hits 10000 -runtag anserini_qlax -axiom -axiom.deterministic -rerankCutoff 20 -output core18.anserini_qlax.txt
+target/appassembler/bin/SearchCollection -index lucene-index.core18.pos+docvectors+rawdocs -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.core18.txt -ql -hits 10000 -runtag anserini_qlax17 -axiom -axiom.deterministic -rerankCutoff 0 -axiom.index lucene-index.core17.pos+docvectors+rawdocs -output core18.anserini_qlax17.txt
+```
+
+Evaluation can be performed using `trec_eval`:
+
+```
+eval/trec_eval.9.0.4/trec_eval -c -M1000 -m map -m ndcg -m P.10 src/main/resources/topics-and-qrels/qrels.core18.txt core18.anserini_bm25.txt
+eval/trec_eval.9.0.4/trec_eval -c -M1000 -m map -m ndcg -m P.10 src/main/resources/topics-and-qrels/qrels.core18.txt core18.anserini_sdm.txt
+eval/trec_eval.9.0.4/trec_eval -c -M1000 -m map -m ndcg -m P.10 src/main/resources/topics-and-qrels/qrels.core18.txt core18.anserini_rm3.txt
+eval/trec_eval.9.0.4/trec_eval -c -M1000 -m map -m ndcg -m P.10 src/main/resources/topics-and-qrels/qrels.core18.txt core18.anserini_ax.txt
+eval/trec_eval.9.0.4/trec_eval -c -M1000 -m map -m ndcg -m P.10 src/main/resources/topics-and-qrels/qrels.core18.txt core18.anserini_ax17.txt
+eval/trec_eval.9.0.4/trec_eval -c -M1000 -m map -m ndcg -m P.10 src/main/resources/topics-and-qrels/qrels.core18.txt core18.anserini_ql.txt
+eval/trec_eval.9.0.4/trec_eval -c -M1000 -m map -m ndcg -m P.10 src/main/resources/topics-and-qrels/qrels.core18.txt core18.anserini_qlsdm.txt
+eval/trec_eval.9.0.4/trec_eval -c -M1000 -m map -m ndcg -m P.10 src/main/resources/topics-and-qrels/qrels.core18.txt core18.anserini_qlrm3.txt
+eval/trec_eval.9.0.4/trec_eval -c -M1000 -m map -m ndcg -m P.10 src/main/resources/topics-and-qrels/qrels.core18.txt core18.anserini_qlax.txt
+eval/trec_eval.9.0.4/trec_eval -c -M1000 -m map -m ndcg -m P.10 src/main/resources/topics-and-qrels/qrels.core18.txt core18.anserini_qlax17.txt
+```
+
+The above describes how the Anserini team generated runs for TREC 2018.
+However, after the submission of the runs, the Anserini codebase continued to evolved, and as of commit `3114507d863b9aadcc6660fe8257fc4d1ab6e1f4` (Wed Dec 12 12:59:25 2018 -0800), running the above commands unfortunately yields different effectiveness numbers.
+In the table below, we compare the effectiveness of our submitted runs, marked with * and the effectiveness of the generated runs at the commit point referenced above.
+
+                  | AP*    | AP     | NDCG*  | NDCG   | P10*   | P10    |
+:-----------------|-------:|-------:|-------:|-------:|-------:|-------:|
+`anserini_bm25`   | 0.2284 | 0.2487 | 0.5064 | 0.5322 | 0.4500 | 0.4660 |
+`anserini_sdm`    | 0.2364 | 0.2570 | 0.5127 | 0.5382 | 0.4860 | 0.4960 |
+`anserini_rm3`    | 0.2680 | 0.2911 | 0.5422 | 0.5732 | 0.4680 | 0.4860 |
+`anserini_ax`     | 0.2734 | 0.2919 | 0.5582 | 0.5724 | 0.4960 | 0.4920 |
+`anserini_ax17`   | 0.2059 | 0.2195 | 0.4942 | 0.5158 | 0.4060 | 0.4200 |
+`anserini_ql`     | 0.2294 | 0.2504 | 0.5059 | 0.5302 | 0.4660 | 0.4760 |
+`anserini_qlsdm`  | 0.2326 | 0.2535 | 0.5071 | 0.5324 | 0.4740 | 0.4920 |
+`anserini_qlrm3`  | 0.2501 | 0.2754 | 0.5359 | 0.5615 | 0.4660 | 0.4900 |
+`anserini_qlax`   | 0.2749 | 0.2976 | 0.5484 | 0.5697 | 0.4780 | 0.4920 |
+`anserini_qlax17` | 0.2039 | 0.2180 | 0.4875 | 0.5072 | 0.4280 | 0.4160 |
+
+
+
 ## CENTRE Track
 
 ### Task 2: Web Track 2013
@@ -156,50 +224,6 @@ Old Qrels                               | 0.10018    | 0.13991    | 0.06524    |
 New Qrels                               | 0.12962    | 0.17499    | 0.15344    | 0.08373    | 0.12700    | 0.15017    |
 
 
-## Core Track
-
-### Build the index
-```
-nohup target/appassembler/bin/IndexCollection -collection WashingtonPostCollection \
--input WashingtonPost.v2/data/ -generator WapoGenerator -index lucene-index.wash18.pos+docvectors+rawdocs \
--threads 44 -storePositions -storeDocvectors -storeRawDocs -optimize &> log.wash18.pos+docvectors+rawdocs &
-```
-
-### Submitted Runs
-_Need to have your own topics file before TREC officially releases it_
-```
-target/appassembler/bin/SearchCollection -index lucene-index.wash18.pos+docvectors+rawdocs -topicreader Trec -topics 2018-test-topics.txt -bm25 -hits 10000 -runtag anserini_bm25 -output wash18_bm25.txt
-target/appassembler/bin/SearchCollection -index lucene-index.wash18.pos+docvectors+rawdocs -topicreader Trec -topics 2018-test-topics.txt -bm25 -hits 10000 -runtag anserini_rm3 -rm3 -output wash18_bm25_rm3.txt
-target/appassembler/bin/SearchCollection -index lucene-index.wash18.pos+docvectors+rawdocs -topicreader Trec -topics 2018-test-topics.txt -bm25 -hits 10000 -runtag anserini_ax -axiom -axiom.deterministic -rerankCutoff 20 -output wash18_bm25_ax.txt
-target/appassembler/bin/SearchCollection -index lucene-index.wash18.pos+docvectors+rawdocs -topicreader Trec -topics 2018-test-topics.txt -bm25 -hits 10000 -runtag anserini_ax17 -axiom -axiom.deterministic -rerankCutoff 0 -axiom.index lucene-index.core17.pos+docvectors+rawdocs -output wash18_ax17.txt
-target/appassembler/bin/SearchCollection -index lucene-index.wash18.pos+docvectors+rawdocs -topicreader Trec -topics 2018-test-topics.txt -ql -hits 10000 -runtag anserini_ql -output wash18_ql.txt
-target/appassembler/bin/SearchCollection -index lucene-index.wash18.pos+docvectors+rawdocs -topicreader Trec -topics 2018-test-topics.txt -ql -hits 10000 -runtag anserini_qlrm3 -rm3 -output wash18_ql_rm3.txt
-target/appassembler/bin/SearchCollection -index lucene-index.wash18.pos+docvectors+rawdocs -topicreader Trec -topics 2018-test-topics.txt -ql -hits 10000 -runtag anserini_qlax -axiom -axiom.deterministic -rerankCutoff 20 -output wash18_ql_ax.txt
-target/appassembler/bin/SearchCollection -index lucene-index.wash18.pos+docvectors+rawdocs -topicreader Trec -topics 2018-test-topics.txt -ql -hits 10000 -runtag anserini_qlax17 -axiom -axiom.deterministic -rerankCutoff 0 -axiom.index lucene-index.core17.pos+docvectors+rawdocs -output wash18_ql_ax17.txt
-```
-
-_Users of Anserini will need to download the topics and qrels directly from TREC's from NIST and put them at `src/main/resources/topics-and-qrels/` with file names `topics.core18.txt` and `qrels.core18.txt`. We will include the topics and qrels files after NIST publishes them._
-
-### Effectiveness
-
-Evaluation can be performed using `trec_eval`:
-
-```
-eval/trec_eval.9.0.4/trec_eval -c -M1000 -m map -m P.30 src/main/resources/topics-and-qrels/qrels.core18.txt wash18_bm25.txt
-eval/trec_eval.9.0.4/trec_eval -c -M1000 -m map -m P.30 src/main/resources/topics-and-qrels/qrels.core18.txt wash18_bm25_rm3.txt
-```
-
-With the above commands, you should be able to replicate the following results:
-
-
-MAP                                     | BM25      | BM25+RM3  | BM25+AX   | QL        | QL+RM3    | QL+AX     |
-:---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-All Topics                              | 0.2487    | 0.2911    | 0.2919    | 0.2504    | 0.2754    | 0.2976    |
-
-
-P30                                     | BM25      | BM25+RM3  | BM25+AX   | QL        | QL+RM3    | QL+AX     |
-:---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-All Topics                              | 0.3640    | 0.4087    | 0.4033    | 0.3620    | 0.3773    | 0.4067    |
 
 
 ## News Track - Background Linking
