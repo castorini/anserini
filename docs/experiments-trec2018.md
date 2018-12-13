@@ -49,9 +49,9 @@ eval/trec_eval.9.0.4/trec_eval -c -M1000 -m map -m ndcg -m P.10 src/main/resourc
 
 The above describes how the Anserini team generated runs for TREC 2018.
 However, after the submission of the runs, the Anserini codebase continued to evolved, and as of commit `3114507d863b9aadcc6660fe8257fc4d1ab6e1f4` (Wed Dec 12 12:59:25 2018 -0800), running the above commands unfortunately yields different effectiveness numbers.
-In the table below, we compare the effectiveness of our submitted runs, marked with * and the effectiveness of the generated runs at the commit point referenced above.
+In the table below, we compare the effectiveness of our submitted runs, marked with * (e.g., AP*), and the effectiveness of the generated runs at the commit point referenced above, marked with + (e.g., AP+).
 
-                  | AP*    | AP     | NDCG*  | NDCG   | P10*   | P10    |
+Metric            | AP*    | AP+    | NDCG*  | NDCG+  | P10*   | P10+   |
 :-----------------|-------:|-------:|-------:|-------:|-------:|-------:|
 `anserini_bm25`   | 0.2284 | 0.2487 | 0.5064 | 0.5322 | 0.4500 | 0.4660 |
 `anserini_sdm`    | 0.2364 | 0.2570 | 0.5127 | 0.5382 | 0.4860 | 0.4960 |
@@ -238,7 +238,7 @@ target/appassembler/bin/SearchCollection -searchnewsbackground -index lucene-ind
 target/appassembler/bin/SearchCollection -searchnewsbackground -index lucene-index.wash18.pos+docvectors+rawdocs -topicreader NewsTrackBL -topics ~/newsir18-background-linking-topics.v2.xml -bm25 -sdm -hits 100 -backgroundlinking.k 1000 -runtag anserini_nsdm -output unweighted_bm25_sdm_1000.txt
 target/appassembler/bin/SearchCollection -searchnewsbackground -index lucene-index.wash18.pos+docvectors+rawdocs -topicreader NewsTrackBL -topics ~/newsir18-background-linking-topics.v2.xml -bm25 -sdm -hits 100 -backgroundlinking.k 1000 -backgroundlinking.paragraph -runtag anserini_sdmp -output unweighted_bm25_sdm_paragraph.txt
 target/appassembler/bin/SearchCollection -searchnewsbackground -index lucene-index.wash18.pos+docvectors+rawdocs -topicreader NewsTrackBL -topics ~/newsir18-background-linking-topics.v2.xml -bm25 -axiom -axiom.deterministic -axiom.top 1000 -hits 100 -backgroundlinking.k 1000 -backgroundlinking.paragraph -runtag anserini_axp -output unweighted_bm25_ax_paragraph.txt
-=======
+```
 
 ## News Track (Background Linking Task)
 
@@ -250,7 +250,7 @@ target/appassembler/bin/IndexCollection -collection WashingtonPostCollection \
 ```
 
 ### Submitted Runs
-_Need to have your own topics file before TREC officially releases it_
+
 ```
 target/appassembler/bin/SearchCollection -index lucene-index.wash18.pos+docvectors+rawdocs -searchnewsbackground -topicreader NewsTrackBL -topics newsir18-background-linking-topics.v2.xml -bm25 -hits 100 -newsBL.k 1000 -newsBL.weighted -runtag anserini_1000w -output tfidf_1000_weighted_bm25.txt
 target/appassembler/bin/SearchCollection -index lucene-index.wash18.pos+docvectors+rawdocs -searchnewsbackground -topicreader NewsTrackBL -topics newsir18-background-linking-topics.v2.xml -bm25 -sdm -hits 100 -newsBL.k 1000 -runtag anserini_sdm -output tfidf_1000_unweighted_bm25_sdm.txt
