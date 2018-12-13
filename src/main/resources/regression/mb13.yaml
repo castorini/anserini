@@ -71,11 +71,11 @@ models:
       - -rm3
     results:
       map:
-        - 0.2441
-        - 0.4079
+        - 0.2440
+        - 0.4158
       p30:
-        - 0.4344
-        - 0.6067
+        - 0.4350
+        - 0.6236
   - name: bm25+ax
     params:
       - -searchtweets
@@ -109,11 +109,11 @@ models:
       - -rm3
     results:
       map:
-        - 0.2814
-        - 0.4641
+        - 0.2815
+        - 0.4746
       p30:
-        - 0.4689
-        - 0.6424
+        - 0.4672
+        - 0.6594
   - name: ql+ax
     params:
       - -searchtweets
