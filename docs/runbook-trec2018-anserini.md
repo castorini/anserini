@@ -5,8 +5,8 @@ This is the runbook for TREC 2018 submissions by the "Anserini" group. Note that
 In total, the Anserini group participated in three tracks:
 
 + Common Core Track
-+ CENTRE Track
 + News Track
++ CENTRE Track
 
 Note that this document is specifically a **runbook** and does not encode regression experiments. Runbooks are designed to help us (i.e., TREC participants) document the steps taken to generate a run. They are primarily designed to make experiments repeatable (i.e., by ourselves), although they might be helpful for others who wish to replicate our runs.
 
