@@ -271,28 +271,40 @@ eval/gdeval.pl -m map -m P.30 src/main/resources/topics-and-qrels/qrels.web.201-
 eval/gdeval.pl -m map -m P.30 src/main/resources/topics-and-qrels/qrels.web.201-250.new.pruned.txt Anserini-UDInfolabWEB2-3.txt
 ```
 
-With the above commands, you should be able to replicate the following results:
+With the above commands, you should be able to replicate the following results (old and new refer to old and new qrels):
 
+MAP                        | old    | new    |              
+:--------------------------|-------:|-------:|
+`Anserini-UDInfolabWEB1-1` | 0.1029 | 0.0910 | 
+`Anserini-UDInfolabWEB1-2` | 0.1772 | 0.1929 |
+`Anserini-UDInfolabWEB1-3` | 0.0645 | 0.1079 |
+`Anserini-UDInfolabWEB2-1` | 0.0920 | 0.0774 |
+`Anserini-UDInfolabWEB2-2` | 0.0592 | 0.1333 |
+`Anserini-UDInfolabWEB2-3` | 0.0583 | 0.1000 |
 
-MAP                                     | Anserini-UDInfolabWEB1-1 | Anserini-UDInfolabWEB1-2 | Anserini-UDInfolabWEB1-3 | Anserini-UDInfolabWEB2-1 | Anserini-UDInfolabWEB2-2 | Anserini-UDInfolabWEB2-3 |
-:---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-Old Qrels                               | 0.1029    | 0.1772    | 0.0645    | 0.0920    | 0.0592    | 0.0583    |
-New Qrels                               | 0.0910    | 0.1929    | 0.1079    | 0.0774    | 0.1333    | 0.1000    |
+P30                        | old    | new    |              
+:--------------------------|-------:|-------:|
+`Anserini-UDInfolabWEB1-1` | 0.1940 | 0.2667 |
+`Anserini-UDInfolabWEB1-2` | 0.3007 | 0.4520 |
+`Anserini-UDInfolabWEB1-3` | 0.1400 | 0.3400 |
+`Anserini-UDInfolabWEB2-1` | 0.2427 | 0.2960 |
+`Anserini-UDInfolabWEB2-2` | 0.2293 | 0.2293 |
+`Anserini-UDInfolabWEB2-3` | 0.1407 | 0.3467 |
 
+NDCG20                     | old    | new    |              
+:--------------------------|-------:|-------:|
+`Anserini-UDInfolabWEB1-1` |0.16760 |0.11223 |
+`Anserini-UDInfolabWEB1-2` |0.25233 |0.20426 |
+`Anserini-UDInfolabWEB1-3` |0.11001 |0.16492 |
+`Anserini-UDInfolabWEB2-1` |0.19950 |0.10746 |
+`Anserini-UDInfolabWEB2-2` |0.12996 |0.10144 |
+`Anserini-UDInfolabWEB2-3` |0.10229 |0.14627 |
 
-P30                                     | Anserini-UDInfolabWEB1-1 | Anserini-UDInfolabWEB1-2 | Anserini-UDInfolabWEB1-3 | Anserini-UDInfolabWEB2-1 | Anserini-UDInfolabWEB2-2 | Anserini-UDInfolabWEB2-3 |
-:---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-Old Qrels                               | 0.1940    | 0.3007    | 0.1400    | 0.2427    | 0.2293    | 0.1407    |
-New Qrels                               | 0.2667    | 0.4520    | 0.3400    | 0.2960    | 0.2293    | 0.3467    |
-
-NDCG20                                  | Anserini-UDInfolabWEB1-1 | Anserini-UDInfolabWEB1-2 | Anserini-UDInfolabWEB1-3 | Anserini-UDInfolabWEB2-1 | Anserini-UDInfolabWEB2-2 | Anserini-UDInfolabWEB2-3 |
-:---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-Old Qrels                               | 0.16760    | 0.25233    | 0.11001    | 0.19950    | 0.12996    | 0.10229    |
-New Qrels                               | 0.11223    | 0.20426    | 0.16492    | 0.10746    | 0.10144    | 0.14627    |
-
-
-ERR20                                   | Anserini-UDInfolabWEB1-1 | Anserini-UDInfolabWEB1-2 | Anserini-UDInfolabWEB1-3 | Anserini-UDInfolabWEB2-1 | Anserini-UDInfolabWEB2-2 | Anserini-UDInfolabWEB2-3 |
-:---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-Old Qrels                               | 0.10018    | 0.13991    | 0.06524    | 0.12447    | 0.09758    | 0.06108    |
-New Qrels                               | 0.12962    | 0.17499    | 0.15344    | 0.08373    | 0.12700    | 0.15017    |
-
+ERR20                      | old    | new    |              
+:--------------------------|-------:|-------:|
+`Anserini-UDInfolabWEB1-1` |0.10018 |0.12962 |
+`Anserini-UDInfolabWEB1-2` |0.13991 |0.17499 |
+`Anserini-UDInfolabWEB1-3` |0.06524 |0.15344 |
+`Anserini-UDInfolabWEB2-1` |0.12447 |0.08373 |
+`Anserini-UDInfolabWEB2-2` |0.09758 |0.12700 |
+`Anserini-UDInfolabWEB2-3` |0.06108 |0.15017 |
