@@ -1,6 +1,15 @@
-# TREC 18 Common Core Track
+# TREC 2018 Runbook: "h2oloo" Group
 
-## Build Index for Train and Evaluation Data
+This is the runbook for TREC 2018 submissions by the "h2oloo" group. Note that Anserini (the system) was used by another group ("Anserini") for a completely different set of runs.
+The h2oloo group participated in the Common Core Track.
+
+Note that this document is specifically a **runbook** and does not encode regression experiments. Runbooks are designed to help us (i.e., TREC participants) document the steps taken to generate a run. They are primarily designed to make experiments repeatable (i.e., by ourselves), although they might be helpful for others who wish to replicate our runs.
+
+However, we concede that _repeatability_ of the runs (even by us) is challenging, since the codebase is always evolving, and by the time we add proper documentation, it might be several months later... but we try our best...
+
+## Data Preparation with Anserini
+
+### Index Construction
 
 - Robust04
 
@@ -37,7 +46,7 @@ target/appassembler/bin/IndexCollection -collection WashingtonPostCollection \
 -threads 44 -storePositions -storeDocvectors -storeRawDocs -optimize &> log.wash18.pos+docvectors+rawdocs
 ```
 
-## Searching by BM25+RM3 and BM25+Axiom
+### Initial Retrieval
 
 - Robust04
 
@@ -84,7 +93,7 @@ target/appassembler/bin/SearchCollection -topicreader Trec \
 -bm25 -axiom -rerankCutoff 20 -axiom.deterministic -hits 10000
 ```
 
-- Core18 (Use Peilin's result...)
+- Core18
 
 ``` bash
 target/appassembler/bin/SearchCollection -topicreader Trec \
@@ -99,7 +108,7 @@ target/appassembler/bin/SearchCollection -topicreader Trec \
 -rerankCutoff 20 -axiom.deterministic -hits 10000
 ```
 
-## Building TF-IDF vectors
+### Extraction of TF-IDF vectors
 
 - Robust04
 
@@ -145,11 +154,11 @@ target/appassembler/bin/IndexUtils -index lucene-index.wapo.pos+docvectors
 -docVectorWeight TF_IDF
 ```
 
+## Classifier Training/Inference
 
+Now we are done with Anserini part; everything below is in Python.
 
-**Now we are done with Anserini part, start Python part.**
-
-Create a folder with the following structure:
+Create the following structure folder structure:
 
 ```
 folder
@@ -179,38 +188,25 @@ folder
 |   |_  utils.py
 ```
 
+### Building Training Data
 
-
-## Building Training Data
-
-All the steps after the command are processed in the following command
+Run the following command to build the training data:
 
 ```bash
 python script/build_train.py --tfidf-folder src/main_folder/train/tfidf/ \
 --qrels-folder src/main_folder/train/rank/ -output-folder main_folder/train/
 ```
 
-### Building vocabulary
+The command performs the following:
 
-Training data consists of documents in Robust04, Robust05, and Core17's qrels file. Vocabulary contains all words in training data.
++ **Building vocabulary**. Training data consists of documents in qrels from Robust04, Robust05, and Core17. Vocabulary contains all words in training data.
++ **Building and Dumping docid index and vocabulary index**. Each document and each vocabulary in training data are indexed for the ease of building feature matrix in next step. They are dumped in `main_folder/train/`.
++ **Building features and labels**. Features are the TF-IDF values with shape (`n_docs`, `n_vocabs`) topic-wise, and labels are the qrels value (changing all 2s to 1s). Features are stored using `scipy.sparse_matrix`
++ **Dump features and labels**. Features are dumped as `.npz` file and labels are as `.npy` file for each topic. These files are named with the topic id, e.g., `321.npz` is the feature file for topic 321 and `321.npy` is the label file for topic 321. They are dumped in `main_folder/train/features` folder.
 
-### Building and Dumping docid index and vocabulary index
+### Building Test Data
 
-Each document and each vocabulary in training data are indexed for the ease of building feature matrix in next step. They are dumped in `main_folder/train/`.
-
-### Building features and labels
-
-Features are the TF-IDF values with shape (n_docs, n_vocabs) topic-wisely, and labels are the qrels value (with changing all 2s to 1s). Features are stored using `scipy.sparse_matrix`
-
-### Dump features and labels
-
-Features are dumped as `.npz` file and labels are as `.npy` file for each topic. These files are named with the topic id, e.g. `321.npz` is the feature file for topic 321 and `321.npy` is the label file for topic 321. They are dumped in `main_folder/train/features` folder.
-
-
-
-## Building Test Data
-
-Run the following command to build test data.
+Run the following command to build test data:
 
 ``` bash
 python script/build_test.py --tfidf-file src/main_folder/test/Core18_tfidf.tar.gz \
@@ -218,25 +214,15 @@ python script/build_test.py --tfidf-file src/main_folder/test/Core18_tfidf.tar.g
 --output-folder main_folder/test/ --vocab-folder main_folder/train/
 ```
 
-The command executed the following steps
+The command performs the following:
 
-### Building and Dumping docid index
++ **Building and Dumping docid index**. Test data consists of top 10000 documents generated by BM25+RM3 or BM25+Axiom for each topic. Each document in test data is indexed. The docid index file is dumped in `main_folder/test`.
++ **Building features**. Features are TF-IDF values with shape (n_docs, n_vocabs), where vocabulary is build in the above step.
++ **Dump features**. A single `.npz` file was dumped at this step. In the dev step, we can use `docid index` to find the features for any document. The docid index file is dumped in `main_folder/test`.
 
-Test data consists of top-10000 documents generated by BM25+RM3 or BM25+Axiom for each topic. Each document in test data is indexed. The docid index file is dumped in `main_folder/test`.
+### Training and Generating Classifier Results
 
-### Building features
-
-Features are TF-IDF values with shape (n_docs, n_vocabs), where vocabulary is build in **Bulid Train** step.
-
-### Dump features
-
-A single `.npz` file was dumped at this step. In the dev step, we can use `docid index` to find the features for any document. The docid index file is dumped in `main_folder/test`.
-
-
-
-## Training and Generating Classifier Results
-
-Run the following command to train classifier and inference classifier on Core18 documents topic-wisely to rerank the documents.
+Run the following command to train classifiers and run inference on Core18 documents topic-wise to rerank the documents.
 
 ``` bash
 python script/train.py --train-folder main_folder/train/ \
@@ -249,17 +235,15 @@ Where `clf` can be chosen from `lr1`, `lr2`, `svm`, `sgdr` (SGD Regressor), `lgb
 
 The result will be in `main_folder/test/output/CLASSIFIER` folder, where `CLASSIFIER` is the classifier used for training.
 
+**Note that only one of rm3 or axiom results can be generated at one time and fed into next step (because the output name are fixed).**
 
+### Ensembles and Generating Submission Files
 
-**Note that only one of rm3 or axiom results can be generated at one time and fed into next step (because the output name are fixed), as for the first place we did not take multiple rerank files into account.**
+Run the following script to apply ensemble classifiers (or use a single classifier) to generate submissions. The argument `--ensemble` can choose from 1, 3, and 7. When choosing 1, `LR2` is used, choosing 3, `LR2+SVM+LGB` is used, choosing 7, all classifiers are used.
 
-## Ensemble and Generating submission
+**BM25+Axiom**
 
-Run the following script to ensemble the classifiers (or use single classifier) and generate submissions. The argument `--ensemble` can choose from 1, 3, and 7. When choosing 1, `LR2` is used, choosing 3, `LR2+SVM+LGB` is used, choosing 7, all classifiers are used.
-
-### BM25+Axiom
-
-- LR2 + SVM + LGB on BM25+axiom rerank file, interpolating ratio 0.6 (Priority 1)
+- LR2 + SVM + LGB on BM25+axiom rerank file, interpolation weight 0.6 (Priority 1)
 
 ```bash
 python script/submission.py --rank-file src/main_folder/test/run.core18.bm25+ax.topics.wapo.txt \
@@ -267,7 +251,7 @@ python script/submission.py --rank-file src/main_folder/test/run.core18.bm25+ax.
 --runtag h2oloo_e3ax0.6 --output core18_en3_ax_0.6.txt
 ```
 
-- LR2 on BM25+axiom rerank file, interpolating ratio 0.6 (Priority 3)
+- LR2 on BM25+axiom rerank file, interpolation weight 0.6 (Priority 3)
 
 ``` bash
 python script/submission.py --rank-file src/main_folder/test/run.core18.bm25+ax.topics.wapo.txt \
@@ -275,7 +259,7 @@ python script/submission.py --rank-file src/main_folder/test/run.core18.bm25+ax.
 --runtag h2oloo_LRax0.6 --output core18_LR2_ax_0.6.txt
 ```
 
-- LR2 + SVM + LGB on BM25+axiom rerank file, interpolating ratio 0.7 (Priority 2)
+- LR2 + SVM + LGB on BM25+axiom rerank file, interpolation weight 0.7 (Priority 2)
 
 ``` bash
 python script/submission.py --rank-file src/main_folder/test/run.core18.bm25+ax.topics.wapo.txt \
@@ -283,7 +267,7 @@ python script/submission.py --rank-file src/main_folder/test/run.core18.bm25+ax.
 --runtag h2oloo_e3ax0.7 --output core18_en3_ax_0.7.txt
 ```
 
-- All classifiers on BM25+axiom rerank file, interpolating ratio 0.6 (Priority 5)
+- All classifiers on BM25+axiom rerank file, interpolation weight 0.6 (Priority 5)
 
 ``` bash
 python script/submission.py --rank-file src/main_folder/test/run.core18.bm25+ax.topics.wapo.txt \
@@ -291,7 +275,7 @@ python script/submission.py --rank-file src/main_folder/test/run.core18.bm25+ax.
 --runtag h2oloo_e7ax0.6 --output core18_en7_ax_0.6.txt
 ```
 
-- All classifiers on BM25+axiom rerank file, interpolating ratio 0.7 (Priority 6)
+- All classifiers on BM25+axiom rerank file, interpolation weight 0.7 (Priority 6)
 
 ``` bash
 python script/submission.py --rank-file src/main_folder/test/run.core18.bm25+ax.topics.wapo.txt \
@@ -299,9 +283,9 @@ python script/submission.py --rank-file src/main_folder/test/run.core18.bm25+ax.
 --runtag h2oloo_e7ax0.7 --output core18_en7_ax_0.7.txt
 ```
 
-### BM25+RM3
+**BM25+RM3**
 
-- LR2 + SVM + LGB on BM25+rm3 rerank file, interpolating ratio 0.6 (Priority 4)
+- LR2 + SVM + LGB on BM25+rm3 rerank file, interpolation weight 0.6 (Priority 4)
 
 ``` bash
 python script/submission.py --rank-file src/main_folder/test/run.core18.bm25+rm3.topics.wapo.txt \
@@ -309,7 +293,7 @@ python script/submission.py --rank-file src/main_folder/test/run.core18.bm25+rm3
 --runtag h2oloo_e3rm30.6 --output core18_en3_rm3_0.6.txt
 ```
 
-- All classifiers on BM25+rm3 rerank file, interpolating ratio 0.6 (Priority 7)
+- All classifiers on BM25+rm3 rerank file, interpolation weight 0.6 (Priority 7)
 
 ``` bash
 python script/submission.py --rank-file src/main_folder/test/run.core18.bm25+rm3.topics.wapo.txt \
@@ -317,7 +301,7 @@ python script/submission.py --rank-file src/main_folder/test/run.core18.bm25+rm3
 --runtag h2oloo_e7rm30.6 --output core18_en7_rm3_0.6.txt
 ```
 
-- All classifiers on BM25+rm3 rerank file, interpolating ratio 0.7 (Priority 8)
+- All classifiers on BM25+rm3 rerank file, interpolation weight 0.7 (Priority 8)
 
 ``` bash
 python script/submission.py --rank-file src/main_folder/test/run.core18.bm25+rm3.topics.wapo.txt \
@@ -325,7 +309,7 @@ python script/submission.py --rank-file src/main_folder/test/run.core18.bm25+rm3
 --runtag h2oloo_e7rm30.7 --output core18_en7_rm3_0.7.txt
 ```
 
-- LR2 on BM25+axiom rerank file, interpolating ratio 0.7 (Priority 10)
+- LR2 on BM25+axiom rerank file, interpolation weight 0.7 (Priority 10)
 
 ``` bash
 python script/submission.py --rank-file src/main_folder/test/run.core18.bm25+ax.topics.wapo.txt \
