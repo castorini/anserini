@@ -1,4 +1,16 @@
-# Anserini: TREC 2018 Runbook
+# TREC 2018 Runbook: "Anserini" Group
+
+This is the runbook for TREC 2018 submissions by the "Anserini" group. Note that Anserini (the system) was used by another group ("h2oloo") for a completely different set of runs.
+
+In total, the Anserini group participated in three tracks:
+
++ Common Core Track
++ News Track
++ CENTRE Track
+
+Note that this document is specifically a **runbook** and does not encode regression experiments. Runbooks are designed to help us (i.e., TREC participants) document the steps taken to generate a run. They are primarily designed to make experiments repeatable (i.e., by ourselves), although they might be helpful for others who wish to replicate our runs.
+
+However, we concede that _repeatability_ of the runs (even by us) is challenging, since the codebase is always evolving, and by the time we add proper documentation, it might be several months later. See details below... but we try our best...
 
 ## Common Core Track
 
@@ -66,92 +78,151 @@ Metric            | AP*    | AP+    | NDCG*  | NDCG+  | P10*   | P10+   |
 
 
 
+
+## News Track - Background Linking
+
+### Build the index
+The same as Core Track
+
+### Submitted Runs
+```
+target/appassembler/bin/SearchCollection -searchnewsbackground -index lucene-index.wash18.pos+docvectors+rawdocs -topicreader NewsTrackBL -topics ~/newsir18-background-linking-topics.v2.xml -bm25 -hits 100 -backgroundlinking.k 1000 -backgroundlinking.weighted -runtag anserini_1000w -output tfidf_1000_weighted_bm25.txt
+target/appassembler/bin/SearchCollection -searchnewsbackground -index lucene-index.wash18.pos+docvectors+rawdocs -topicreader NewsTrackBL -topics ~/newsir18-background-linking-topics.v2.xml -bm25 -axiom -axiom.deterministic -axiom.top 1000 -hits 100 -backgroundlinking.k 100 -runtag anserini_nax -output unweighted_bm25_ax_1000.txt
+target/appassembler/bin/SearchCollection -searchnewsbackground -index lucene-index.wash18.pos+docvectors+rawdocs -topicreader NewsTrackBL -topics ~/newsir18-background-linking-topics.v2.xml -bm25 -sdm -hits 100 -backgroundlinking.k 1000 -runtag anserini_nsdm -output unweighted_bm25_sdm_1000.txt
+target/appassembler/bin/SearchCollection -searchnewsbackground -index lucene-index.wash18.pos+docvectors+rawdocs -topicreader NewsTrackBL -topics ~/newsir18-background-linking-topics.v2.xml -bm25 -sdm -hits 100 -backgroundlinking.k 1000 -backgroundlinking.paragraph -runtag anserini_sdmp -output unweighted_bm25_sdm_paragraph.txt
+target/appassembler/bin/SearchCollection -searchnewsbackground -index lucene-index.wash18.pos+docvectors+rawdocs -topicreader NewsTrackBL -topics ~/newsir18-background-linking-topics.v2.xml -bm25 -axiom -axiom.deterministic -axiom.top 1000 -hits 100 -backgroundlinking.k 1000 -backgroundlinking.paragraph -runtag anserini_axp -output unweighted_bm25_ax_paragraph.txt
+```
+
+## News Track
+
+We participated in the Background Linking Task, which uses the same collection and index as the Common Core Track.
+To generate submitted runs:
+
+```
+target/appassembler/bin/SearchCollection -index lucene-index.wash18.pos+docvectors+rawdocs -searchnewsbackground -topicreader NewsTrackBL -topics newsir18-background-linking-topics.v2.xml -bm25 -hits 100 -newsBL.k 1000 -newsBL.weighted -runtag anserini_1000w -output tfidf_1000_weighted_bm25.txt
+target/appassembler/bin/SearchCollection -index lucene-index.wash18.pos+docvectors+rawdocs -searchnewsbackground -topicreader NewsTrackBL -topics newsir18-background-linking-topics.v2.xml -bm25 -sdm -hits 100 -newsBL.k 1000 -runtag anserini_sdm -output tfidf_1000_unweighted_bm25_sdm.txt
+target/appassembler/bin/SearchCollection -index lucene-index.wash18.pos+docvectors+rawdocs -searchnewsbackground -topicreader NewsTrackBL -topics newsir18-background-linking-topics.v2.xml -bm25 -axiom -axiom.deterministic -hits 100 -newsBL.k 1000 -runtag anserini_ax -output tfidf_1000_unweighted_bm25_ax.txt
+target/appassembler/bin/SearchCollection -index lucene-index.wash18.pos+docvectors+rawdocs -searchnewsbackground -topicreader NewsTrackBL -topics newsir18-background-linking-topics.v2.xml -bm25 -sdm -hits 100 -newsBL.k 1000 -newsBL.paragraph -runtag anserini_sdmp -output tfidf_1000_unweighted_bm25_sdm_paragraph.txt
+target/appassembler/bin/SearchCollection -index lucene-index.wash18.pos+docvectors+rawdocs -searchnewsbackground -topicreader NewsTrackBL -topics newsir18-background-linking-topics.v2.xml -bm25 -axiom -axiom.deterministic -hits 100 -newsBL.k 1000 -newsBL.paragraph -runtag anserini_axp -output tfidf_1000_unweighted_bm25_ax_paragraph.txt
+```
+
+
 ## CENTRE Track
 
-### Task 2: Web Track 2013
+We participated in "Task 2: Web Track 2013". Steps to generate our runs:
 
-Steps to deterministically reproduce the results:
+In addition to the Anserini repo, the following repo is needed:
 
-#### Get code and data:
 ```
-git clone https://github.com/castorini/Anserini.git && cd Anserini && mvn clean package appassembler:assemble
 git clone https://github.com/castorini/Anserini-data.git
 ```
-#### Build the indexes:
-  - index of ClueWeb12 Full:
-      ```
-      nohup sh Anserini/target/appassembler/bin/IndexCollection -collection ClueWeb12Collection \
-      -generator JsoupGenerator -threads 44 -input /path/to/cw12 -index lucene-index.cw12.pos+docvectors+rawdocs \
-      -storePositions -storeDocvectors -storeRawDocs >& log.cw12.pos+docvectors+rawdocs &
-      ```
-  - index of CW12Lite2013:
-    - If you already have the ClubWeb12 Full index with `-storeRawDocs` option enabled when indexing:
-      ```
-      nohup Anserini/target/appassembler/bin/IndexUtils -index lucene-index.cw12.pos+docvectors+rawdocs \
-      -dumpRawDocs Anserini-data/TREC2018/CENTRE/task2/cw12lite2013_docids &
-      ```
-      about 19GB in raw size
-      ```
-      nohup Anserini/target/appassembler/bin/IndexCollection -collection HtmlCollection \
-      -input cw12lite2013_docids_rawdocs.dump -index lucene-index.cw12lite2013.pos+docvectors+rawdocs \
-      -generator JsoupGenerator -threads 44 -storePositions -storeDocvectors -storeRawDocs -optimize \
-      >& log.cw12lite2013.pos+docvectors+rawdocs &
-      ```
-      about 8.3GB of the index
-    - If you would like to build the index from scratch (e.g. you do not have clueweb12 full index):
-      ```
-      nohup sh Anserini/target/appassembler/bin/IndexCollection -collection ClueWeb12Collection \
-      -generator JsoupGenerator -threads 44 -input /path/to/cw12 -index \
-      lucene-index.cw12lite2013.pos+docvectors+rawdocs -storePositions -storeDocvectors -storeRawDocs \
-      -whitelist Anserini-data/TREC2018/CENTRE/task2/cw12lite2013_docids >& log.cw12lite2013.pos+docvectors+rawdocs &
-      ```
-  - index of CW12Lite2018:
-    - If you already have the ClubWeb12 Full index with `-storeRawDocs` option enabled when indexing:
-      ```
-      nohup Anserini/target/appassembler/bin/IndexUtils -index lucene-index.cw12.pos+docvectors+rawdocs \
-      -dumpRawDocs Anserini-data/TREC2018/CENTRE/task2/cw12lite2018_docids &
-      ```
-      about 28GB in raw size
-      ```
-      nohup Anserini/target/appassembler/bin/IndexCollection -collection HtmlCollection \
-      -input cw12lite2018_docids_rawdocs.dump -index lucene-index.cw12lite2018.pos+docvectors+rawdocs \
-      -generator JsoupGenerator -threads 44 -storePositions -storeDocvectors -storeRawDocs \
-      -optimize >& log.cw12lite2018.pos+docvectors+rawdocs &
-      ```
-      about 12GB of the index
-    - If you would like to build the index from scratch (e.g. you do not have clueweb12 full index):
-      ```
-      nohup sh Anserini/target/appassembler/bin/IndexCollection -collection ClueWeb12Collection \
-      -generator JsoupGenerator -threads 44 -input /path/to/cw12 -index \
-      lucene-index.cw12lite2018.pos+docvectors+rawdocs -storePositions -storeDocvectors -storeRawDocs \
-      -whitelist Anserini-data/TREC2018/CENTRE/task2/cw12lite2013_docids >& log.cw12lite2018.pos+docvectors+rawdocs &
-      ```
-  - index of snippets 2013
-    ```
-    sh Anserini/target/appassembler/bin/IndexCollection -input \
-    Anserini-data/TREC2018/CENTRE/task2/searchengine_snippets/snippets2013_anserini/ \
-    -collection JsonCollection -index lucene-index.snippets2013.pos+docvectors+rawdocs \
-    -generator JsoupGenerator -threads 8 -uniqueDocid -storePositions -storeDocvectors \
-    -storeRawDocs -optimize >& log.snippets2013.pos+docvectors+rawdocs
-    ```
-  - index of snippets 2018
-    ```
-    Anserini/target/appassembler/bin/IndexCollection -input \
+
+First, build the various indexes, as follows.
+
+### Indexing
+
+**Index of ClueWeb12:**
+
+```
+nohup sh Anserini/target/appassembler/bin/IndexCollection -collection ClueWeb12Collection \
+ -generator JsoupGenerator -threads 44 -input /path/to/cw12 -index lucene-index.cw12.pos+docvectors+rawdocs \
+ -storePositions -storeDocvectors -storeRawDocs >& log.cw12.pos+docvectors+rawdocs &
+```
+
+**Index of CW12Lite2013:**
+
+(Option 1): If you already have the ClubWeb12 full index (above) with `-storeRawDocs` option enabled when indexing:
+
+```
+nohup Anserini/target/appassembler/bin/IndexUtils -index lucene-index.cw12.pos+docvectors+rawdocs \
+ -dumpRawDocs Anserini-data/TREC2018/CENTRE/task2/cw12lite2013_docids &
+```
+
+This will generate a file about 19GB in raw size.
+
+```
+nohup Anserini/target/appassembler/bin/IndexCollection -collection HtmlCollection \
+ -input cw12lite2013_docids_rawdocs.dump -index lucene-index.cw12lite2013.pos+docvectors+rawdocs \
+ -generator JsoupGenerator -threads 44 -storePositions -storeDocvectors -storeRawDocs -optimize \
+ >& log.cw12lite2013.pos+docvectors+rawdocs &
+```
+
+This will generate an index about 8.3GB in size.
+
+(Option 2): If you would like to build the index from scratch (e.g. you do not have ClueWeb12 full index):
+
+```
+nohup sh Anserini/target/appassembler/bin/IndexCollection -collection ClueWeb12Collection \
+ -generator JsoupGenerator -threads 44 -input /path/to/cw12 -index \
+ lucene-index.cw12lite2013.pos+docvectors+rawdocs -storePositions -storeDocvectors -storeRawDocs \
+ -whitelist Anserini-data/TREC2018/CENTRE/task2/cw12lite2013_docids >& log.cw12lite2013.pos+docvectors+rawdocs &
+```
+
+**Index of CW12Lite2018:**
+
+(Option 1): If you already have the ClubWeb12 Full index with `-storeRawDocs` option enabled when indexing:
+
+```
+nohup Anserini/target/appassembler/bin/IndexUtils -index lucene-index.cw12.pos+docvectors+rawdocs \
+ -dumpRawDocs Anserini-data/TREC2018/CENTRE/task2/cw12lite2018_docids &
+```
+
+This will gnereate a file about 28GB in raw size.
+
+```
+nohup Anserini/target/appassembler/bin/IndexCollection -collection HtmlCollection \
+ -input cw12lite2018_docids_rawdocs.dump -index lucene-index.cw12lite2018.pos+docvectors+rawdocs \
+ -generator JsoupGenerator -threads 44 -storePositions -storeDocvectors -storeRawDocs \
+ -optimize >& log.cw12lite2018.pos+docvectors+rawdocs &
+```
+
+This will generate an index about 12GB in size.
+
+(Option 2): If you would like to build the index from scratch (e.g. you do not have clueweb12 full index):
+
+```
+nohup sh Anserini/target/appassembler/bin/IndexCollection -collection ClueWeb12Collection \
+ -generator JsoupGenerator -threads 44 -input /path/to/cw12 -index \
+ lucene-index.cw12lite2018.pos+docvectors+rawdocs -storePositions -storeDocvectors -storeRawDocs \
+ -whitelist Anserini-data/TREC2018/CENTRE/task2/cw12lite2013_docids >& log.cw12lite2018.pos+docvectors+rawdocs &
+```
+
+**Index of snippets 2013**
+
+```
+nohup sh Anserini/target/appassembler/bin/IndexCollection -input \
+ Anserini-data/TREC2018/CENTRE/task2/searchengine_snippets/snippets2013_anserini/ \
+ -collection JsonCollection -index lucene-index.snippets2013.pos+docvectors+rawdocs \
+ -generator JsoupGenerator -threads 8 -uniqueDocid -storePositions -storeDocvectors \
+ -storeRawDocs -optimize >& log.snippets2013.pos+docvectors+rawdocs &
+```
+
+**Index of snippets 2018**
+
+```
+nohup sh Anserini/target/appassembler/bin/IndexCollection -input \
     Anserini-data/TREC2018/CENTRE/task2/searchengine_snippets/snippets2018_anserini/ \
     -collection JsonCollection -index lucene-index.snippets2018.pos+docvectors+rawdocs \
     -generator JsoupGenerator -threads 8 -uniqueDocid -storePositions -storeDocvectors \
-    -storeRawDocs -optimize >& log.snippets2018.pos+docvectors+rawdocs
-    ```
-#### (Optional) Get Wikipedia Dump:
-+ `curl -O https://dumps.wikimedia.org/enwiki/20180620/enwiki-20180620-pages-articles.xml.bz2`
-+ verification md5 `bca0ceb72e000105cc97fb54fef70cc3`
-+ index of Wikipedia Dump
+    -storeRawDocs -optimize >& log.snippets2018.pos+docvectors+rawdocs &
+```
+
+**Index of Wikipedia dump (optional)**:
+
+```
+curl -O https://dumps.wikimedia.org/enwiki/20180620/enwiki-20180620-pages-articles.xml.bz2
+```
+
+For verification, md5 `bca0ceb72e000105cc97fb54fef70cc3`
+
 ```
 nohup sh Anserini/target/appassembler/bin/IndexCollection -collection WikipediaCollection \
 -generator JsoupGenerator -threads 16 -input enwiki-20180620-pages-articles.xml.bz2 -index \
 lucene-index.wiki.pos+docvectors -storePositions -storeDocvectors >& log.wiki.pos+docvectors &
 ```
-#### Retrieval && Evaluation && Plot:
+
+### Retrieval, Evaluation, and Plotting
+
 ```
 python src/main/python/trec2018/centre/task2/main.py --target_index lucene-index.cw12lite2018.pos+docvectors+rawdocs --expansion_index lucene-index.cw12lite2018.pos+docvectors+rawdocs  --retrieval
 python src/main/python/trec2018/centre/task2/main.py --target_index lucene-index.cw12lite2018.pos+docvectors+rawdocs --expansion_index lucene-index.snippets2018.pos+docvectors+rawdocs  --retrieval
@@ -166,8 +237,8 @@ python src/main/python/trec2018/centre/task2/main.py --target_index lucene-index
 python src/main/python/trec2018/centre/task2/main.py --eval --plot
 ```
 
-#### Submitted Runs Only
 The above commands generate _ALL_ results we have put in the notebook paper. To reproduce the submitted runs _ONLY_:
+
 ```
 target/appassembler/bin/SearchCollection -index lucene-index.cw12.pos+docvectors+rawdocs -topicreader Webxml -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt -bm25 -rerankCutoff 20 -axiom -axiom.deterministic -axiom.beta 0.5 -runtag Anserini-UDInfolabWEB1-1 -output Anserini-UDInfolabWEB1-1.txt
 target/appassembler/bin/SearchCollection -index lucene-index.cw12.pos+docvectors+rawdocs -topicreader Webxml -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt -bm25 -rerankCutoff 20 -axiom -axiom.deterministic -axiom.beta 0.5 -axiom.index lucene-index.snippets2018.pos+docvectors+rawdocs -runtag Anserini-UDInfolabWEB1-2 -output Anserini-UDInfolabWEB1-2.txt
@@ -177,7 +248,9 @@ target/appassembler/bin/SearchCollection -index lucene-index.cw12lite2018.pos+do
 target/appassembler/bin/SearchCollection -index lucene-index.cw12lite2018.pos+docvectors+rawdocs -topicreader Webxml -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt -bm25 -rerankCutoff 20 -axiom -axiom.deterministic -axiom.beta 0.5 -axiom.index lucene-index.wiki.pos+docvectors -runtag Anserini-UDInfolabWEB2-3 -output Anserini-UDInfolabWEB2-3.txt
 ```
 
-_Users of Anserini will need to download the NEW qrels (old ones are already included in Anserini) directly from TREC's from NIST and put it at `src/main/resources/topics-and-qrels/qrels.web.201-250.new.pruned.txt`. Anserini will include the new qrels file after NIST officially publishes it._
+**NOTE**: Topics and qrels are currently available only to TREC 2018 participants.
+Users will need to download the topics and qrels directly from the NIST website and put them at `src/main/resources/topics-and-qrels/qrels.web.201-250.new.pruned.txt`.
+These files will be checked into the repo after NIST publishes them publicly.
 
 ### Effectiveness
 
@@ -223,38 +296,3 @@ ERR20                                   | Anserini-UDInfolabWEB1-1 | Anserini-UD
 Old Qrels                               | 0.10018    | 0.13991    | 0.06524    | 0.12447    | 0.09758    | 0.06108    |
 New Qrels                               | 0.12962    | 0.17499    | 0.15344    | 0.08373    | 0.12700    | 0.15017    |
 
-
-
-
-## News Track - Background Linking
-
-### Build the index
-The same as Core Track
-
-### Submitted Runs
-```
-target/appassembler/bin/SearchCollection -searchnewsbackground -index lucene-index.wash18.pos+docvectors+rawdocs -topicreader NewsTrackBL -topics ~/newsir18-background-linking-topics.v2.xml -bm25 -hits 100 -backgroundlinking.k 1000 -backgroundlinking.weighted -runtag anserini_1000w -output tfidf_1000_weighted_bm25.txt
-target/appassembler/bin/SearchCollection -searchnewsbackground -index lucene-index.wash18.pos+docvectors+rawdocs -topicreader NewsTrackBL -topics ~/newsir18-background-linking-topics.v2.xml -bm25 -axiom -axiom.deterministic -axiom.top 1000 -hits 100 -backgroundlinking.k 100 -runtag anserini_nax -output unweighted_bm25_ax_1000.txt
-target/appassembler/bin/SearchCollection -searchnewsbackground -index lucene-index.wash18.pos+docvectors+rawdocs -topicreader NewsTrackBL -topics ~/newsir18-background-linking-topics.v2.xml -bm25 -sdm -hits 100 -backgroundlinking.k 1000 -runtag anserini_nsdm -output unweighted_bm25_sdm_1000.txt
-target/appassembler/bin/SearchCollection -searchnewsbackground -index lucene-index.wash18.pos+docvectors+rawdocs -topicreader NewsTrackBL -topics ~/newsir18-background-linking-topics.v2.xml -bm25 -sdm -hits 100 -backgroundlinking.k 1000 -backgroundlinking.paragraph -runtag anserini_sdmp -output unweighted_bm25_sdm_paragraph.txt
-target/appassembler/bin/SearchCollection -searchnewsbackground -index lucene-index.wash18.pos+docvectors+rawdocs -topicreader NewsTrackBL -topics ~/newsir18-background-linking-topics.v2.xml -bm25 -axiom -axiom.deterministic -axiom.top 1000 -hits 100 -backgroundlinking.k 1000 -backgroundlinking.paragraph -runtag anserini_axp -output unweighted_bm25_ax_paragraph.txt
-```
-
-## News Track (Background Linking Task)
-
-### Build the index (same with the core track)
-```
-target/appassembler/bin/IndexCollection -collection WashingtonPostCollection \
--input WashingtonPost.v2/data/ -generator JsoupGenerator -index lucene-index.wash18.pos+docvectors+rawdocs \
--threads 44 -storePositions -storeDocvectors -storeRawDocs -optimize &>log.wash18.pos+docvectors+rawdocs
-```
-
-### Submitted Runs
-
-```
-target/appassembler/bin/SearchCollection -index lucene-index.wash18.pos+docvectors+rawdocs -searchnewsbackground -topicreader NewsTrackBL -topics newsir18-background-linking-topics.v2.xml -bm25 -hits 100 -newsBL.k 1000 -newsBL.weighted -runtag anserini_1000w -output tfidf_1000_weighted_bm25.txt
-target/appassembler/bin/SearchCollection -index lucene-index.wash18.pos+docvectors+rawdocs -searchnewsbackground -topicreader NewsTrackBL -topics newsir18-background-linking-topics.v2.xml -bm25 -sdm -hits 100 -newsBL.k 1000 -runtag anserini_sdm -output tfidf_1000_unweighted_bm25_sdm.txt
-target/appassembler/bin/SearchCollection -index lucene-index.wash18.pos+docvectors+rawdocs -searchnewsbackground -topicreader NewsTrackBL -topics newsir18-background-linking-topics.v2.xml -bm25 -axiom -axiom.deterministic -hits 100 -newsBL.k 1000 -runtag anserini_ax -output tfidf_1000_unweighted_bm25_ax.txt
-target/appassembler/bin/SearchCollection -index lucene-index.wash18.pos+docvectors+rawdocs -searchnewsbackground -topicreader NewsTrackBL -topics newsir18-background-linking-topics.v2.xml -bm25 -sdm -hits 100 -newsBL.k 1000 -newsBL.paragraph -runtag anserini_sdmp -output tfidf_1000_unweighted_bm25_sdm_paragraph.txt
-target/appassembler/bin/SearchCollection -index lucene-index.wash18.pos+docvectors+rawdocs -searchnewsbackground -topicreader NewsTrackBL -topics newsir18-background-linking-topics.v2.xml -bm25 -axiom -axiom.deterministic -hits 100 -newsBL.k 1000 -newsBL.paragraph -runtag anserini_axp -output tfidf_1000_unweighted_bm25_ax_paragraph.txt
-```
