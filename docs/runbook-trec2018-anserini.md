@@ -271,7 +271,7 @@ eval/gdeval.pl -m map -m P.30 src/main/resources/topics-and-qrels/qrels.web.201-
 eval/gdeval.pl -m map -m P.30 src/main/resources/topics-and-qrels/qrels.web.201-250.new.pruned.txt Anserini-UDInfolabWEB2-3.txt
 ```
 
-With the above commands, you should be able to replicate the following results (old and new refer to old and new qrels):
+These are the effectiveness scores derived from our official TREC runs submitted to NIST, with "old" and "new" qrels:
 
 MAP                        | old    | new    |              
 :--------------------------|-------:|-------:|
