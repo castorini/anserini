@@ -411,16 +411,16 @@ However, the effectiveness of the runs differs from the effectiveness of our off
 
 In the table below, we compare the effectiveness of our submitted runs, marked with * (e.g., AP*), and the effectiveness of the generated runs at the commit point referenced above, marked with + (e.g., AP+).
 
-Metric                              | AP*    | AP+    | NDCG*  | NDCG+  | P10*   | P10+   |
-:-----------------------------------|-------:|-------:|-------:|-------:|-------:|-------:|
-`h2oloo_LRax0.6`                    | 0.3227 | 0.3343 | 0.6123 | 0.6297 | 0.5800 | 0.5780 |
-`h2oloo_e3ax0.6` (`h2oloo_enax0.6`) | 0.3341 | 0.3507 | 0.6233 | 0.6450 | 0.5860 | 0.6060 |
-`h2oloo_e3ax0.7` (`h2oloo_enax0.7`) | 0.3351 | 0.3477 | 0.6218 | 0.6463 | 0.5920 | 0.6100 |
-`h2oloo_e7ax0.6`                    | 0.3310 | 0.3464 | 0.6215 | 0.6433 | 0.5840 | 0.6080 |
-`h2oloo_e7ax0.7`                    | 0.3274 | 0.3455 | 0.6209 | 0.6434 | 0.5880 | 0.6020 |
-`h2oloo_LRrm0.6` (`h2oloo_LR2_rm3`) | 0.3273 | 0.3539 | 0.6113 | 0.6471 | 0.5800 | 0.6040 |
-`h2oloo_e3rm30.6`                   | 0.3382 | 0.3652 | 0.6193 | 0.6533 | 0.5920 | 0.6140 |
-`h2oloo_e7rm30.6`                   | 0.3333 | 0.3620 | 0.6143 | 0.6510 | 0.5820 | 0.6100 |
-`h2oloo_e7rm30.7`                   | 0.3361 | 0.3609 | 0.6177 | 0.6498 | 0.5940 | 0.6040 |
+Metric                                | AP*    | AP+    | NDCG*  | NDCG+  | P10*   | P10+   |
+:-------------------------------------|-------:|-------:|-------:|-------:|-------:|-------:|
+`h2oloo_LRax0.6`                      | 0.3227 | 0.3343 | 0.6123 | 0.6297 | 0.5800 | 0.5780 |
+`h2oloo_e3ax0.6` (`h2oloo_enax0.6`)   | 0.3341 | 0.3507 | 0.6233 | 0.6450 | 0.5860 | 0.6060 |
+`h2oloo_e3ax0.7` (`h2oloo_enax0.7`)   | 0.3351 | 0.3477 | 0.6218 | 0.6463 | 0.5920 | 0.6100 |
+`h2oloo_e7ax0.6`                      | 0.3310 | 0.3464 | 0.6215 | 0.6433 | 0.5840 | 0.6080 |
+`h2oloo_e7ax0.7`                      | 0.3274 | 0.3455 | 0.6209 | 0.6434 | 0.5880 | 0.6020 |
+`h2oloo_LRrm0.6` (`h2oloo_LR2_rm3`)   | 0.3273 | 0.3539 | 0.6113 | 0.6471 | 0.5800 | 0.6040 |
+`h2oloo_e3rm30.6` (`h2oloo_enrm30.6`) | 0.3382 | 0.3652 | 0.6193 | 0.6533 | 0.5920 | 0.6140 |
+`h2oloo_e7rm30.6`                     | 0.3333 | 0.3620 | 0.6143 | 0.6510 | 0.5820 | 0.6100 |
+`h2oloo_e7rm30.7`                     | 0.3361 | 0.3609 | 0.6177 | 0.6498 | 0.5940 | 0.6040 |
 
 There is a one additional run `h2oloo_LR2AX0.6` submitted to TREC that came from another code base, which we do not include here.
