@@ -26,7 +26,7 @@ def ensemble(folder, ratio, num_ensemble, runtag, output):
   elif num_ensemble == 3:
     clf_list = ['LR2', 'SVM', 'LGB']
   elif num_ensemble == 7:
-    clf_list = ['LR1', 'LR2', 'SVM', 'Ridge', 'LGB', 'SGDClassifier', 'SGDRegressor']
+    clf_list = ['LR1', 'LR2', 'SVM', 'Ridge', 'LGB', 'SGDC', 'SGDR']
   else:
     return
 
