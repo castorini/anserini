@@ -333,12 +333,12 @@ python script/submission.py --rank-file src/main_folder/test/Core18_rerank_rm3.t
  --runtag h2oloo_e7rm30.7 --output core18.h2oloo_e7rm30.7.txt
 ```
 
-- LR2 on BM25+RM3 ranking, interpolation weight 0.7 (Priority 10)
+- LR2 on BM25+RM3 ranking, interpolation weight 0.6 (Priority 10)
 
 ``` bash
 python script/submission.py --rank-file src/main_folder/test/Core18_rerank_rm3.txt \
- --clf-folder main_folder/output --ratio 0.7 --ensemble 1 \
- --runtag h2oloo_LRrm0.7 --output core18.h2oloo_LRrm0.7.txt
+ --clf-folder main_folder/output --ratio 0.6 --ensemble 1 \
+ --runtag h2oloo_LRrm0.6 --output core18.h2oloo_LRrm0.6.txt
 ```
 
 ## Effectiveness
@@ -356,24 +356,71 @@ Run `trec_eval` to evaluate effectiveness. On the runs based on Axiom:
 On the runs based on RM3:
 
 ```
-../eval/trec_eval.9.0.4/trec_eval -c -M1000 -m map -m ndcg -m P.10 ../src/main/resources/topics-and-qrels/qrels.core18.txt core18.h2oloo_LRrm0.7.txt
+../eval/trec_eval.9.0.4/trec_eval -c -M1000 -m map -m ndcg -m P.10 ../src/main/resources/topics-and-qrels/qrels.core18.txt core18.h2oloo_LRrm0.6.txt
 ../eval/trec_eval.9.0.4/trec_eval -c -M1000 -m map -m ndcg -m P.10 ../src/main/resources/topics-and-qrels/qrels.core18.txt core18.h2oloo_e3rm30.6.txt
 ../eval/trec_eval.9.0.4/trec_eval -c -M1000 -m map -m ndcg -m P.10 ../src/main/resources/topics-and-qrels/qrels.core18.txt core18.h2oloo_e7rm30.6.txt
 ../eval/trec_eval.9.0.4/trec_eval -c -M1000 -m map -m ndcg -m P.10 ../src/main/resources/topics-and-qrels/qrels.core18.txt core18.h2oloo_e7rm30.7.txt
 ```
 
-As of `commit xxxxx` the results of running the above commands yields the following:
+We have confirmed that as of `commit acf4c872f6bf36756ba972dbddd8fcefcfb2a648` (Sat Dec 15 11:41:59 2018 -0500), the above commands work.
+For reference, this was the conda environment (setting up the environment with `conda install -c conda-forge lightgbm`):
 
-Effectiveness     | MAP    | NDCG   | P10    |
-:-----------------|-------:|-------:|-------:|
-`h2oloo_LRax0.6`  | 0.3343 | 0.6297 | 0.5780 |
-`h2oloo_e3ax0.6`  | 0.3507 | 0.6450 | 0.6060 |
-`h2oloo_e3ax0.7`  | 0.3477 | 0.6463 | 0.6100 |
-`h2oloo_e7ax0.6`  | 0.3464 | 0.6433 | 0.6080 |
-`h2oloo_e7ax0.7`  | 0.3455 | 0.6434 | 0.6020 |
-`h2oloo_LRrm0.7`  | 0.3504 | 0.6455 | 0.6000 |
-`h2oloo_e3rm30.6` | 0.3652 | 0.6533 | 0.6140 |
-`h2oloo_e7rm30.6` | 0.3620 | 0.6510 | 0.6100 |
-`h2oloo_e7rm30.7` | 0.3609 | 0.6498 | 0.6040 |
+```
+$ conda list
+# packages in environment at /anaconda3/envs/python36:
+#
+# Name                    Version                   Build  Channel
+blas                      1.0                         mkl  
+bzip2                     1.0.6                         1    conda-forge
+ca-certificates           2018.11.29           ha4d7672_0    conda-forge
+certifi                   2018.11.29            py36_1000    conda-forge
+clangdev                  4.0.0                 default_0    conda-forge
+icu                       58.2                 hfc679d8_0    conda-forge
+intel-openmp              2019.1                      144  
+libcxx                    4.0.1                hcfea43d_1  
+libcxxabi                 4.0.1                hcfea43d_1  
+libedit                   3.1.20170329         hb402a30_2  
+libffi                    3.2.1                h475c297_4  
+libgfortran               3.0.1                h93005f0_2  
+libiconv                  1.15                 h470a237_3    conda-forge
+libxml2                   2.9.8                h422b904_5    conda-forge
+lightgbm                  2.2.1            py36hfc679d8_0    conda-forge
+llvmdev                   4.0.0                 default_0    conda-forge
+mkl                       2019.1                      144  
+mkl_fft                   1.0.10                   py36_0    conda-forge
+mkl_random                1.0.2                    py36_0    conda-forge
+ncurses                   6.1                  h0a44026_1  
+numpy                     1.15.4           py36hacdab7b_0  
+numpy-base                1.15.4           py36h6575580_0  
+openmp                    4.0.0                         1    conda-forge
+openssl                   1.0.2p               h470a237_1    conda-forge
+pip                       18.1                     py36_0  
+python                    3.6.6                h5001a0f_0    conda-forge
+readline                  7.0                  h1de35cc_5  
+scikit-learn              0.20.1           py36h27c97d8_0  
+scipy                     1.1.0            py36h1410ff5_2  
+setuptools                40.6.2                   py36_0  
+sqlite                    3.25.3               ha441bb4_0  
+tk                        8.6.8                ha441bb4_0  
+wheel                     0.32.3                   py36_0  
+xz                        5.2.4                h1de35cc_4  
+zlib                      1.2.11               h1de35cc_3  
+```
 
+However, the effectiveness of the runs differs from the effectiveness of our official TREC runs submitted to NIST.
 
+In the table below, we compare the effectiveness of our submitted runs, marked with * (e.g., AP*), and the effectiveness of the generated runs at the commit point referenced above, marked with + (e.g., AP+).
+
+Metric                                | AP*    | AP+    | NDCG*  | NDCG+  | P10*   | P10+   |
+:-------------------------------------|-------:|-------:|-------:|-------:|-------:|-------:|
+`h2oloo_LRax0.6`                      | 0.3227 | 0.3343 | 0.6123 | 0.6297 | 0.5800 | 0.5780 |
+`h2oloo_e3ax0.6` (`h2oloo_enax0.6`)   | 0.3341 | 0.3507 | 0.6233 | 0.6450 | 0.5860 | 0.6060 |
+`h2oloo_e3ax0.7` (`h2oloo_enax0.7`)   | 0.3351 | 0.3477 | 0.6218 | 0.6463 | 0.5920 | 0.6100 |
+`h2oloo_e7ax0.6`                      | 0.3310 | 0.3464 | 0.6215 | 0.6433 | 0.5840 | 0.6080 |
+`h2oloo_e7ax0.7`                      | 0.3274 | 0.3455 | 0.6209 | 0.6434 | 0.5880 | 0.6020 |
+`h2oloo_LRrm0.6` (`h2oloo_LR2_rm3`)   | 0.3273 | 0.3539 | 0.6113 | 0.6471 | 0.5800 | 0.6040 |
+`h2oloo_e3rm30.6` (`h2oloo_enrm30.6`) | 0.3382 | 0.3652 | 0.6193 | 0.6533 | 0.5920 | 0.6140 |
+`h2oloo_e7rm30.6`                     | 0.3333 | 0.3620 | 0.6143 | 0.6510 | 0.5820 | 0.6100 |
+`h2oloo_e7rm30.7`                     | 0.3361 | 0.3609 | 0.6177 | 0.6498 | 0.5940 | 0.6040 |
+
+There is a one additional run `h2oloo_LR2AX0.6` submitted to TREC that came from another code base, which we do not include here.
