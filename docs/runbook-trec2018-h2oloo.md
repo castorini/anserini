@@ -163,7 +163,7 @@ target/appassembler/bin/IndexUtils -index lucene-index.core18.pos+docvectors+raw
 
 Now we are done with Anserini part; everything below is in Python.
 
-Create the following structure folder structure:
+Create the following folder structure and populate with files as follows:
 
 ```
 root
