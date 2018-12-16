@@ -3,14 +3,15 @@
 **Release date: December 16, 2018**
 
 + Final release based on Lucene 6; upgrade to Lucene 7 planned next.
-+ Added runbooks for TREC 2018: Anserini and CENTRE groups.
++ TREC 2018 additions:
+  - Added runbooks for Anserini and h2oloo groups.
+  - Added code for News Track Background Linking Task.
 + Revived and augmented experimental feature to index/search Freebase.
 + Added Jelinek-Mercer smoothing for QL scoring.
 + Updated JDIQ regression tests to align with article publication.
 + Added regression tests for SIGIR Forum article.
 + Added ability to supply multiple retrieval parameters on command line for more efficient parameter sweeps.
 + Fixed bug in implementation of `-rm3.fbTerms`.
-+ Added code for TREC 2018 News Track Background Linking Task.
 + Refactored Ax and RM3 feedback reranker to construct queries programmatically instead of using Lucene's `QueryParser`.
 
 
