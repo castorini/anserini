@@ -81,23 +81,23 @@ public class SimpleSearcher implements Closeable {
     this.reader = DirectoryReader.open(FSDirectory.open(indexPath));
     this.similarity = new LMDirichletSimilarity(1000.0f);
     this.analyzer = new EnglishAnalyzer();
-    setNormalReRanker();
+    setNormalReranker();
   }
 
-  public void setRM3ReRanker() {
-    setRM3ReRanker(20, 50, 0.6f, false);
+  public void setRM3Reranker() {
+    setRM3Reranker(20, 50, 0.6f, false);
   }
 
-  public void setRM3ReRanker(int fbTerms, int fbDocs, float originalQueryWeight) {
-    setRM3ReRanker(fbTerms, fbDocs, originalQueryWeight, false);
+  public void setRM3Reranker(int fbTerms, int fbDocs, float originalQueryWeight) {
+    setRM3Reranker(fbTerms, fbDocs, originalQueryWeight, false);
   }
 
-  public void setNormalReRanker() {
+  public void setNormalReranker() {
     cascade = new RerankerCascade();
     cascade.add(new ScoreTiesAdjusterReranker());
   }
 
-  public void setRM3ReRanker(int fbTerms, int fbDocs, float originalQueryWeight, boolean rm3_outputQuery) {
+  public void setRM3Reranker(int fbTerms, int fbDocs, float originalQueryWeight, boolean rm3_outputQuery) {
     cascade = new RerankerCascade();
     cascade.add(new Rm3Reranker(this.analyzer, FIELD_BODY, fbTerms, fbDocs, originalQueryWeight, rm3_outputQuery));
     cascade.add(new ScoreTiesAdjusterReranker());
