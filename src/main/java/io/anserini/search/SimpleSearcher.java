@@ -18,8 +18,6 @@ package io.anserini.search;
 
 import io.anserini.index.generator.LuceneDocumentGenerator;
 import io.anserini.search.query.BagOfWordsQueryGenerator;
-import io.anserini.search.similarity.F2ExpSimilarity;
-import io.anserini.search.similarity.F2LogSimilarity;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
@@ -94,11 +92,11 @@ public class SimpleSearcher implements Closeable {
   }
 
   public void setF2ExpSimilarity(float s) {
-    this.similarity = new F2ExpSimilarity(s);
+    this.similarity = new AxiomaticF2EXP(s);
   }
 
   public void setF2LogSimilarity(float s) {
-    this.similarity = new F2LogSimilarity(s);
+    this.similarity = new AxiomaticF2LOG(s);
   }
 
   @Override
