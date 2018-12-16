@@ -33,7 +33,7 @@
   </developers>
 
   <properties>
-    <LUCENE_VERSION>7.5.0</LUCENE_VERSION>
+    <lucene.version>7.6.0</lucene.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
@@ -208,17 +208,17 @@
     <dependency>
       <groupId>org.apache.lucene</groupId>
       <artifactId>lucene-core</artifactId>
-      <version>${LUCENE_VERSION}</version>
+      <version>${lucene.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.lucene</groupId>
       <artifactId>lucene-benchmark</artifactId>
-      <version>${LUCENE_VERSION}</version>
+      <version>${lucene.version}</version>
     </dependency>
     <dependency> <!-- needed only for org.apache.lucene.search.CheckHits: candidate for cleanup -->
       <groupId>org.apache.lucene</groupId>
       <artifactId>lucene-test-framework</artifactId>
-      <version>${LUCENE_VERSION}</version>
+      <version>${lucene.version}</version>
     </dependency>
     <dependency>
       <groupId>edu.umass.ciir</groupId>
