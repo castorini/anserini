@@ -19,6 +19,8 @@ Ranking models as part of regression tests include QL, BM25, and RM3.
 
 ## Contributors
 
+Sorted by number of commits, [according to GitHub](https://github.com/castorini/Anserini/graphs/contributors):
+
 + Jimmy Lin ([lintool](https://github.com/lintool))
 + Peilin Yang ([Peilin-Yang](https://github.com/Peilin-Yang))
 + Ahmet Arslan ([iorixxx](https://github.com/iorixxx))

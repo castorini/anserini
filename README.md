@@ -53,7 +53,7 @@ Note that these regressions capture the "out of the box" experience, based on [_
 Additional regressions:
 
 + [Experiments from JDIQ 2018 article](docs/experiments-jdiq2018.md): parameter tuning experiments for baseline "bag-of-words" retrieval models
-+ Anserini runs from TREC 2018: _coming soon_!
++ Runbooks for TREC 2018: [[Anserini group](docs/runbook-trec2018-anserini.md)] [[h2oloo group](docs/runbook-trec2018-h2oloo.md)]
 
 ## Additional Documentation
 
@@ -73,7 +73,7 @@ Anserini was designed with Python integration in mind, for connecting with popul
 
 ```
 import jnius_config
-jnius_config.set_classpath("target/anserini-0.2.1-SNAPSHOT-fatjar.jar")
+jnius_config.set_classpath("target/anserini-0.3.1-SNAPSHOT-fatjar.jar")
 
 from jnius import autoclass
 JString = autoclass('java.lang.String')
@@ -97,6 +97,7 @@ hits[0].content
 
 ## Release History
 
++ v0.3.0: December 16, 2018 [[Release Notes](docs/release-notes/release-notes-v0.3.0.md)]
 + v0.2.0: September 10, 2018 [[Release Notes](docs/release-notes/release-notes-v0.2.0.md)]
 + v0.1.0: July 4, 2018 [[Release Notes](docs/release-notes/release-notes-v0.1.0.md)]
 
