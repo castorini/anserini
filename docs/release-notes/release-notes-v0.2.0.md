@@ -20,7 +20,7 @@ Sorted by number of commits:
 
 ## All Contributors
 
-Sorted by number of commits:
+Sorted by number of commits, [according to GitHub](https://github.com/castorini/Anserini/graphs/contributors):
 
 + Jimmy Lin ([lintool](https://github.com/lintool))
 + Peilin Yang ([Peilin-Yang](https://github.com/Peilin-Yang))
