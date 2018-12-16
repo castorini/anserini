@@ -6,6 +6,7 @@
 + TREC 2018 additions:
   - Added runbooks for Anserini and h2oloo groups.
   - Added code for News Track Background Linking Task.
+  - Added default regressions for Common Core Track.
 + Revived and augmented experimental feature to index/search Freebase.
 + Added Jelinek-Mercer smoothing for QL scoring.
 + Updated JDIQ regression tests to align with article publication.
