@@ -220,9 +220,13 @@ public class IndexUtils {
     while ((docid = bRdr.readLine()) != null) {
       counter++;
 
+      int internalDocid = convertDocidToLuceneDocid(docid);
+      if (internalDocid == -1) {
+        continue;
+      }
+
       // get term frequency
-      Terms terms = reader.getTermVector(convertDocidToLuceneDocid(docid),
-              LuceneDocumentGenerator.FIELD_BODY);
+      Terms terms = reader.getTermVector(internalDocid, LuceneDocumentGenerator.FIELD_BODY);
       if (terms == null) {
         // We do not throw exception here because there are some
         //  collections in which part of documents don't have document vectors
@@ -446,8 +450,9 @@ public class IndexUtils {
     TopDocs rs = searcher.search(q, 1);
     ScoreDoc[] hits = rs.scoreDocs;
 
-    if (hits == null) {
-      throw new RuntimeException("Docid not found!");
+    if (hits == null || hits.length == 0) {
+      LOG.warn(String.format("Docid %s not found!", docid));
+      return -1;
     }
 
     return hits[0].doc;
