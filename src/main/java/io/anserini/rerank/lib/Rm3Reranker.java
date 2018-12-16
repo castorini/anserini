@@ -111,7 +111,6 @@ public class Rm3Reranker implements Reranker {
       } else {
         rs = searcher.search(finalQuery, context.getSearchArgs().hits, BREAK_SCORE_TIES_BY_DOCID, true, true);
       }
-
     } catch (IOException e) {
       e.printStackTrace();
       return docs;
