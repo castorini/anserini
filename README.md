@@ -53,7 +53,7 @@ Note that these regressions capture the "out of the box" experience, based on [_
 Additional regressions:
 
 + [Experiments from JDIQ 2018 article](docs/experiments-jdiq2018.md): parameter tuning experiments for baseline "bag-of-words" retrieval models
-+ Anserini runs from TREC 2018: _coming soon_!
++ Runbooks for TREC 2018: [[Anserini group](docs/runbook-trec2018-anserini.md)] [[h2oloo group](docs/runbook-trec2018-h2oloo.md)]
 
 ## Additional Documentation
 
