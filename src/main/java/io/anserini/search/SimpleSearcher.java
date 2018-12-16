@@ -18,6 +18,8 @@ package io.anserini.search;
 
 import io.anserini.index.generator.LuceneDocumentGenerator;
 import io.anserini.search.query.BagOfWordsQueryGenerator;
+import io.anserini.search.similarity.F2ExpSimilarity;
+import io.anserini.search.similarity.F2LogSimilarity;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
@@ -30,8 +32,7 @@ import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
-import org.apache.lucene.search.similarities.LMDirichletSimilarity;
-import org.apache.lucene.search.similarities.Similarity;
+import org.apache.lucene.search.similarities.*;
 import org.apache.lucene.store.FSDirectory;
 
 import java.io.Closeable;
@@ -70,6 +71,34 @@ public class SimpleSearcher implements Closeable {
     this.reader = DirectoryReader.open(FSDirectory.open(indexPath));
     this.similarity = new LMDirichletSimilarity(1000.0f);
     this.analyzer = new EnglishAnalyzer();
+  }
+
+  public void setLMDirichletSimilarity(float mu) {
+    this.similarity = new LMDirichletSimilarity(mu);
+  }
+
+  public void setLMJelinekMercerSimilarity(float lambda) {
+    this.similarity = new LMJelinekMercerSimilarity(lambda);
+  }
+
+  public void setBM25Similarity(float k1, float b) {
+    this.similarity = new BM25Similarity(k1, b);
+  }
+
+  public void setDFRSimilarity(float c) {
+    this.similarity = new DFRSimilarity(new BasicModelP(), new AfterEffectL(), new NormalizationH2(c));
+  }
+
+  public void setIBSimilarity(float c) {
+    this.similarity = new IBSimilarity(new DistributionSPL(), new LambdaDF(), new NormalizationH2(c));
+  }
+
+  public void setF2ExpSimilarity(float s) {
+    this.similarity = new F2ExpSimilarity(s);
+  }
+
+  public void setF2LogSimilarity(float s) {
+    this.similarity = new F2LogSimilarity(s);
   }
 
   @Override
