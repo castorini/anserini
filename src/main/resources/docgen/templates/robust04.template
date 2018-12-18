@@ -37,3 +37,5 @@ ${eval_cmds}
 With the above commands, you should be able to replicate the following results:
 
 ${effectiveness}
+
+* Results replicated by @chriskamphuis on 2018-12-18 (commit `a152359`)
