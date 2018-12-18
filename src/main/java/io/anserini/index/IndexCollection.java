@@ -106,8 +106,8 @@ public final class IndexCollection {
     @Option(name = "-whitelist", usage = "file containing docids, one per line; only specified docids will be indexed.")
     public String whitelist = null;
     
-    @Option(name = "-chinese", usage = "boolean to use chinese analyser while indexing")
-    public boolean chinese = false;
+    @Option(name = "-chineseAnalyser", usage = "boolean to use chinese analyser while indexing")
+    public boolean chineseAnalyser = false;
 
     @Option(name = "-tweet.keepRetweets", usage = "boolean switch to keep retweets while indexing")
     public boolean tweetKeepRetweets = false;
@@ -263,7 +263,7 @@ public final class IndexCollection {
     LOG.info("Store raw docs? " + args.storeRawDocs);
     LOG.info("Optimize (merge segments)? " + args.optimize);
     LOG.info("Whitelist: " + args.whitelist);
-    LOG.info("Chinese?: " + args.chinese);
+    LOG.info("Chinese Analyser?: " + args.chineseAnalyser);
 
     this.indexPath = Paths.get(args.index);
     if (!Files.exists(this.indexPath)) {
@@ -305,7 +305,7 @@ public final class IndexCollection {
     final TweetAnalyzer tweetAnalyzer = new TweetAnalyzer(args.tweetStemming);
     final CJKAnalyzer chineseAnalyzer = new CJKAnalyzer();
     final IndexWriterConfig config = args.collectionClass.equals("TweetCollection") ?
-        new IndexWriterConfig(tweetAnalyzer) : args.chinese? new IndexWriterConfig(chineseAnalyzer) : new IndexWriterConfig(analyzer);
+        new IndexWriterConfig(tweetAnalyzer) : args.chineseAnalyser? new IndexWriterConfig(chineseAnalyzer) : new IndexWriterConfig(analyzer);
     config.setSimilarity(new BM25Similarity());
     config.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
     config.setRAMBufferSizeMB(args.memorybufferSize);
