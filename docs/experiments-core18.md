@@ -70,3 +70,5 @@ P30                                     | BM25      | BM25+RM3  | BM25+AX   | QL
 All Topics                              | 0.3580    | 0.4200    | 0.4007    | 0.3627    | 0.3753    | 0.4073    |
 
 
+
+* Results replicated by @andrewyates on 2018-11-30 (commit `c1aac`)
