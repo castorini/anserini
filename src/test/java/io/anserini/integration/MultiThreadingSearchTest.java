@@ -43,7 +43,7 @@ public class MultiThreadingSearchTest extends EndToEndTest {
   protected void setSearchArgs() {
     super.setSearchArgs();
     searchArgs.bm25 = true;
-    searchArgs.b = new String[] {"0.2", "0.4"};
+    searchArgs.b = new String[] {"0.2", "0.8"};
   }
   
   protected void testEval() throws Exception {

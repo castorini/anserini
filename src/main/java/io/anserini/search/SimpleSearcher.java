@@ -23,8 +23,6 @@ import io.anserini.rerank.ScoredDocuments;
 import io.anserini.rerank.lib.Rm3Reranker;
 import io.anserini.rerank.lib.ScoreTiesAdjusterReranker;
 import io.anserini.search.query.BagOfWordsQueryGenerator;
-import io.anserini.search.similarity.F2ExpSimilarity;
-import io.anserini.search.similarity.F2LogSimilarity;
 import io.anserini.util.AnalyzerUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -124,11 +122,11 @@ public class SimpleSearcher implements Closeable {
   }
 
   public void setF2ExpSimilarity(float s) {
-    this.similarity = new F2ExpSimilarity(s);
+    this.similarity = new AxiomaticF2EXP(s);
   }
 
   public void setF2LogSimilarity(float s) {
-    this.similarity = new F2LogSimilarity(s);
+    this.similarity = new AxiomaticF2LOG(s);
   }
 
   @Override

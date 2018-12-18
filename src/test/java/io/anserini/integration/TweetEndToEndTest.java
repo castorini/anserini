@@ -34,9 +34,21 @@ public class TweetEndToEndTest extends EndToEndTest {
     storedFieldStatusTotalDocCounts = 4;
     storedFieldStatusTotFields = 12;  // 4 tweets * (1 id + 1 text + 1 raw)
 
-    evalMetricValue = (float)(0.0/1+1.0/2)/3.0f; // 2 retrieved docs in total: (please note the querytweettime filters 1 rel tweet)
-                                              // 1st retrieved doc is non-rel, 2nd retrieved is rel
-                                              // and there are in total 3 rel docs in qrels
+    // The search output should be as follows (for Lucene 7.5):
+    // 1 Q0 5 1 1.167100 Anserini
+    // 1 Q0 3 2 0.693100 Anserini
+
+    // Qrels are at src/test/resources/sample_qrels/Microblog
+    // 1 0 1 0
+    // 1 0 3 1
+    // 1 0 5 0
+    // 1 0 6 0
+    // 1 0 8 1
+    // 1 0 10 1
+    evalMetricValue = (float) (0.0/1 + 1.0/2)/3.0f;
+    // 2 retrieved docs in total: note that querytweettime filters 1 rel tweet.
+    // 1st retrieved doc is not relevant, 2nd retrieved doc is relelevant,
+    // and there are 3 relevant docs in qrels.
   }
 
   @Override

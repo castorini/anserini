@@ -238,10 +238,10 @@ public class AxiomReranker<T> implements Reranker<T> {
     IndexReader reader = DirectoryReader.open(FSDirectory.open(index));
     IndexSearcher searcher = new IndexSearcher(reader);
     if (searchTweets) {
-      return searcher.search(new FieldValueQuery(TweetGenerator.StatusField.ID_LONG.name), reader.maxDoc(),
+      return searcher.search(new DocValuesFieldExistsQuery(TweetGenerator.StatusField.ID_LONG.name), reader.maxDoc(),
           BREAK_SCORE_TIES_BY_TWEETID).scoreDocs;
     }
-    return searcher.search(new FieldValueQuery(LuceneDocumentGenerator.FIELD_ID), reader.maxDoc(),
+    return searcher.search(new DocValuesFieldExistsQuery(LuceneDocumentGenerator.FIELD_ID), reader.maxDoc(),
         BREAK_SCORE_TIES_BY_DOCID).scoreDocs;
   }
 

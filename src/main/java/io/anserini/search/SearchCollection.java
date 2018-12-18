@@ -30,8 +30,6 @@ import io.anserini.rerank.lib.ScoreTiesAdjusterReranker;
 import io.anserini.search.query.BagOfWordsQueryGenerator;
 import io.anserini.search.query.SdmQueryGenerator;
 import io.anserini.search.similarity.TaggedSimilarity;
-import io.anserini.search.similarity.F2ExpSimilarity;
-import io.anserini.search.similarity.F2LogSimilarity;
 import io.anserini.search.topicreader.NewsBackgroundLinkingTopicReader;
 import io.anserini.search.topicreader.TopicReader;
 import io.anserini.util.AnalyzerUtils;
@@ -45,13 +43,13 @@ import org.apache.lucene.document.LongPoint;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.Term;
-import org.apache.lucene.queries.TermsQuery;
 import org.apache.lucene.queryparser.flexible.core.QueryNodeException;
 import org.apache.lucene.queryparser.flexible.standard.StandardQueryParser;
 import org.apache.lucene.search.*;
 import org.apache.lucene.search.similarities.*;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.store.MMapDirectory;
+import org.apache.lucene.util.BytesRef;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.OptionHandlerFilter;
@@ -239,11 +237,11 @@ public final class SearchCollection implements Closeable {
       }
     } else if (args.f2exp) {
       for (String s : args.f2exp_s) {
-        similarities.add(new TaggedSimilarity(new F2ExpSimilarity(Float.valueOf(s)), "s:"+s));
+        similarities.add(new TaggedSimilarity(new AxiomaticF2EXP(Float.valueOf(s)), "s:"+s));
       }
     } else if (args.f2log) {
       for (String s : args.f2log_s) {
-        similarities.add(new TaggedSimilarity(new F2LogSimilarity(Float.valueOf(s)), "s:"+s));
+        similarities.add(new TaggedSimilarity(new AxiomaticF2LOG(Float.valueOf(s)), "s:"+s));
       }
     } else {
       throw new IllegalArgumentException("Error: Must specify scoring model!");
@@ -294,7 +292,7 @@ public final class SearchCollection implements Closeable {
   }
 
   @SuppressWarnings("unchecked")
-  public<K> void runTopics() throws IOException, QueryNodeException {
+  public<K> void runTopics() throws IOException {
     Path topicsFile = Paths.get(args.topics);
   
     if (!Files.exists(topicsFile) || !Files.isRegularFile(topicsFile) || !Files.isReadable(topicsFile)) {
@@ -340,7 +338,7 @@ public final class SearchCollection implements Closeable {
   }
   
   public<K> ScoredDocuments search(IndexSearcher searcher, K qid, String queryString, RerankerCascade cascade)
-      throws IOException, QueryNodeException {
+      throws IOException {
     Query query = null;
     if (qc == QueryConstructor.SequentialDependenceModel) {
       query = new SdmQueryGenerator(args.sdm_tw, args.sdm_ow, args.sdm_uw).buildQuery(FIELD_BODY, analyzer, queryString);
@@ -383,10 +381,10 @@ public final class SearchCollection implements Closeable {
         // Because the actual query strings are extracted from tokenized document!!!
         q = new StandardQueryParser().parse(queryStr, FIELD_BODY);
       }
-      Query filter = new TermsQuery(
-          new Term(WapoGenerator.WapoField.KICKER.name, "Opinions"),
-          new Term(WapoGenerator.WapoField.KICKER.name, "Letters to the Editor"),
-          new Term(WapoGenerator.WapoField.KICKER.name, "The Post's View")
+      Query filter = new TermInSetQuery(WapoGenerator.WapoField.KICKER.name, new BytesRef("Opinions"), new BytesRef("Letters to the Editor"), new BytesRef("The Post's View")
+//          new Term(WapoGenerator.WapoField.KICKER.name, "Opinions"),
+//          new Term(WapoGenerator.WapoField.KICKER.name, "Letters to the Editor"),
+//          new Term(WapoGenerator.WapoField.KICKER.name, "The Post's View")
       );
       BooleanQuery.Builder builder = new BooleanQuery.Builder();
       builder.add(filter, BooleanClause.Occur.MUST_NOT);

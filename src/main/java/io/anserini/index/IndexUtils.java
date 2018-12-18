@@ -296,14 +296,14 @@ public class IndexUtils {
   }
 
   public void getAllDocids(Compression compression) throws IOException {
-    Query q = new FieldValueQuery(LuceneDocumentGenerator.FIELD_ID);
+    Query q = new DocValuesFieldExistsQuery(LuceneDocumentGenerator.FIELD_ID);
     IndexSearcher searcher = new IndexSearcher(reader);
     ScoreDoc[] scoreDocs;
     try {
-      scoreDocs = searcher.search(new FieldValueQuery(LuceneDocumentGenerator.FIELD_ID), reader.maxDoc(),
+      scoreDocs = searcher.search(new DocValuesFieldExistsQuery(LuceneDocumentGenerator.FIELD_ID), reader.maxDoc(),
           BREAK_SCORE_TIES_BY_DOCID).scoreDocs;
     } catch (IllegalStateException e) { // because this is tweets collection
-      scoreDocs = searcher.search(new FieldValueQuery(TweetGenerator.StatusField.ID_LONG.name), reader.maxDoc(),
+      scoreDocs = searcher.search(new DocValuesFieldExistsQuery(TweetGenerator.StatusField.ID_LONG.name), reader.maxDoc(),
           BREAK_SCORE_TIES_BY_TWEETID).scoreDocs;
     }
 
