@@ -36,3 +36,5 @@ ${eval_cmds}
 With the above commands, you should be able to replicate the following results:
 
 ${effectiveness}
+
+* Results replicated by @andrewyates on 2018-11-30 (commit `c1aac`)
