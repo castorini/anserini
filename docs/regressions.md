@@ -26,6 +26,7 @@ nohup python src/main/python/run_regression.py --collection disk12 >& log.disk12
 nohup python src/main/python/run_regression.py --collection robust04 >& log.robust04 &
 nohup python src/main/python/run_regression.py --collection robust05 >& log.robust05 &
 nohup python src/main/python/run_regression.py --collection core17 >& log.core17 &
+nohup python src/main/python/run_regression.py --collection core18 >& log.core18 &
 
 nohup python src/main/python/run_regression.py --collection mb11 >& log.mb11 &
 nohup python src/main/python/run_regression.py --collection mb13 >& log.mb13 &
@@ -46,6 +47,7 @@ nohup python src/main/python/run_regression.py --collection disk12 --index >& lo
 nohup python src/main/python/run_regression.py --collection robust04 --index >& log.robust04 &
 nohup python src/main/python/run_regression.py --collection robust05 --index >& log.robust05 &
 nohup python src/main/python/run_regression.py --collection core17 --index >& log.core17 &
+nohup python src/main/python/run_regression.py --collection core18 --index >& log.core18 &
 
 nohup python src/main/python/run_regression.py --collection mb11 --index >& log.mb11 &
 nohup python src/main/python/run_regression.py --collection mb13 --index >& log.mb13 &
@@ -66,7 +68,8 @@ Details of each specific regression:
 + `disk12`: [Experiments on Disks 1 &amp; 2](experiments-disk12.md)
 + `robust04`: [Experiments on Disks 4 &amp; 5 (Robust04)](experiments-robust04.md)
 + `robust05`: [Experiments on AQUAINT (Robust05)](experiments-robust05.md)
-+ `core17`: [Experiments on Netw York Times (Core17)](experiments-core17.md)
++ `core17`: [Experiments on the New York Times (Core17)](experiments-core17.md)
++ `core18`: [Experiments on the Washington Post (Core18)](experiments-core18.md)
 + `wt10g`: [Experiments on Wt10g](experiments-wt10g.md)
 + `gov2`: [Experiments on Gov2](experiments-gov2.md)
 + `cw09b`: [Experiments on ClueWeb09  (Category B)](experiments-cw09b.md)

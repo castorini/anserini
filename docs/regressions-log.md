@@ -3,6 +3,18 @@
 The following change log details commits to regression tests that alter effectiveness and the addition of new regression tests.
 This documentation is useful for figuring why results may have changed over time.
 
+### November 30, 2018
+
++ [commit e5b87f0d6c16b47d0be6cc8fd587acd20e3fbb0d](https://github.com/castorini/Anserini/commit/e5b87f0d6c16b47d0be6cc8fd587acd20e3fbb0d) Fri Nov 30 04:57:04 2018 -0800
+
+Added default regressions for TREC 2018 Common Core Track.
+
+### October 22, 2018
+
++ [commit 10255e0f15c8caca94f8d5376a2c7c9ad1f5b5fd](https://github.com/castorini/Anserini/commit/10255e0f15c8caca94f8d5376a2c7c9ad1f5b5fd) Mon Oct 22 20:54:28 2018 -0700
+
+Fixed incorrect implementation of `-rm3.fbTerms`.
+
 ### September 26, 2018
 
 + [commit 7c882d310564e27351ed51e0c8a669a13f33b48a](https://github.com/castorini/Anserini/commit/7c882d310564e27351ed51e0c8a669a13f33b48a) Wed Sep 26 20:45:33 2018 -0400
