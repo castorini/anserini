@@ -221,6 +221,11 @@
       <version>${LUCENE_VERSION}</version>
     </dependency>
     <dependency>
+    <groupId>org.apache.lucene</groupId>
+    <artifactId>lucene-analyzers-smartcn</artifactId>
+    <version>${LUCENE_VERSION}</version>
+    </dependency>
+    <dependency>
       <groupId>edu.umass.ciir</groupId>
       <artifactId>RankLib</artifactId>
       <version>2.1</version>
