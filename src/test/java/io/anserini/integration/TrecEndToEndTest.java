@@ -25,16 +25,22 @@ public class TrecEndToEndTest extends EndToEndTest {
     generator = "Jsoup";
     topicReader = "Trec";
 
-    fieldNormStatusTotalFields = 1; // text
-    termIndexStatusTermCount = 12; // Please note that standard analyzer ignores stopwords.
-                                   // Also, this includes docids
-    termIndexStatusTotFreq = 17;  //
-    termIndexStatusTotPos = 16;   // only "text" fields are indexed with position so we have 16
+    fieldNormStatusTotalFields = 1;  // text
+    termIndexStatusTermCount = 12;   // Note that standard analyzer ignores stopwords; includes docids.
+    termIndexStatusTotFreq = 17;
+    termIndexStatusTotPos = 16;      // Only "text" fields are indexed with position so we have 16.
     storedFieldStatusTotalDocCounts = 3;
     storedFieldStatusTotFields = 9;  // 3 docs * (1 id + 1 text + 1 raw)
 
-    evalMetricValue = (float)(0.0/1+1.0/2+2.0/3)/2.0f; // 3 retrieved docs in total:
-                               // 1st retrieved doc is non-rel, 2nd and 3rd are rel
-                               // and there are in total 3 rel docs in qrels
+    // The search output should be as follows (for Lucene 7.5):
+    // 1 Q0 DOC222 1 0.652100 Anserini
+    // 1 Q0 TREC_DOC_1 2 0.633500 Anserini
+    // 1 Q0 WSJ_1 3 0.130400 Anserini
+
+    // Qrels are at src/test/resources/sample_qrels/Trec
+    // 1 0 TREC_DOC_1 0
+    // 1 0 DOC222 1
+    // 1 0 WSJ_1 1
+    evalMetricValue = (float) (1.0/1.0 + 2.0/3)/2.0f;
   }
 }

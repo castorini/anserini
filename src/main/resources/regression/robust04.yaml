@@ -51,18 +51,18 @@ models:
       - -bm25
     results:
       map:
-        - 0.2501
+        - 0.2531
       p30:
-        - 0.3123
+        - 0.3102
   - name: bm25+rm3
     params:
       - -bm25
       - -rm3
     results:
       map:
-        - 0.2759
+        - 0.2778
       p30:
-        - 0.3252
+        - 0.3288
   - name: bm25+ax
     params:
       - -bm25
@@ -71,26 +71,26 @@ models:
       - -axiom.deterministic
     results:
       map:
-        - 0.2860
+        - 0.2895
       p30:
-        - 0.3339
+        - 0.3333
   - name: ql
     params:
       - -ql
     results:
       map:
-        - 0.2468
+        - 0.2467
       p30:
-        - 0.3083
+        - 0.3079
   - name: ql+rm3
     params:
       - -ql
       - -rm3
     results:
       map:
-        - 0.2643
+        - 0.2649
       p30:
-        - 0.3138
+        - 0.3171
   - name: ql+ax
     params:
       - -ql
@@ -99,6 +99,6 @@ models:
       - -axiom.deterministic
     results:
       map:
-        - 0.2775
+        - 0.2774
       p30:
-        - 0.3233
+        - 0.3229
