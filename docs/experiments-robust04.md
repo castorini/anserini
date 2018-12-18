@@ -71,3 +71,5 @@ P30                                     | BM25      | BM25+RM3  | BM25+AX   | QL
 All Topics                              | 0.3102    | 0.3288    | 0.3333    | 0.3079    | 0.3171    | 0.3229    |
 
 
+
+* Results replicated by @chriskamphuis on 2018-12-18 (commit `a152359`)
