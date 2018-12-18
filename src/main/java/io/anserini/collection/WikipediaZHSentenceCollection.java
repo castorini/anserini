@@ -93,8 +93,8 @@ public class WikipediaZHSentenceCollection extends DocumentCollection
       if (iterator.hasNext()) {
         node = iterator.next();
         String text = node.get("text").asText();
-		iterParagraph = Arrays.asList(text.split("。")).listIterator();
-		iterParagraph.next();
+        iterParagraph = Arrays.asList(text.split("。")).listIterator();
+        iterParagraph.next();
       }
     }
 
@@ -116,15 +116,15 @@ public class WikipediaZHSentenceCollection extends DocumentCollection
         return false;
       } 
       while(!iterParagraph.hasNext()) {
-			if (iterator.hasNext()) { // if bufferedReader contains JSON line objects, we parse the next JSON into node
-			  node = iterator.next();
-			  String text = node.get("text").asText();  
-			  iterParagraph = Arrays.asList(text.split("。")).listIterator();
-			  iterParagraph.next();
-			} else {
-			  atEOF = true; // there is no more JSON object in the bufferedReader
-			  return false;
-			}
+            if (iterator.hasNext()) { // if bufferedReader contains JSON line objects, we parse the next JSON into node
+              node = iterator.next();
+              String text = node.get("text").asText();  
+              iterParagraph = Arrays.asList(text.split("。")).listIterator();
+              iterParagraph.next();
+            } else {
+              atEOF = true; // there is no more JSON object in the bufferedReader
+              return false;
+            }
       }
       String sentence = iterParagraph.next().trim() + "。"; // Trim and add the punctuation back in since we split on it.
       sentence = sentence.replaceAll("\\n+", " ");
