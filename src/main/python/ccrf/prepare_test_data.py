@@ -10,61 +10,69 @@ import numpy as np
 
 from utils import TfidfTgzReader
 
-topic_list = [
-    '321', '336', '341',
-    '347', '350', '362',
-    '363', '367', '375', '378', '393',
-    '397', '400', '408', '414',
-    '422', '426', '427', '433',
-    '439', '442', '445', '626', '646',
-    '690'
-]
+# Global variables, which we're later going to refactor into an external config file.
+
+topics = ['321', '336', '341', '347', '350', '362', '363', '367', '375', '378',
+          '393', '397', '400', '408', '414', '422', '426', '427', '433', '439',
+          '442', '445', '626', '646', '690']
+
+config = {
+    'target': {'name': 'core18',
+               'run': 'run.core18.bm25+rm3.topics.core18.txt',
+               'index': 'lucene-index.core18.pos+docvectors+rawdocs'}
+}
+
+working_directory = 'ccrf'
+
+
+def dump_docvectors():
+    run = config['target']['run']
+    source_name = config['target']['name']
+    index = config['target']['index']
+    docids_file = os.path.join(working_directory, f'docids.{source_name}')
+    logging.info(f'Extracting docvectors for {source_name} with Anserini')
+    cmd = f'cut -f 3 -d " " {run} | sort | uniq > {docids_file}'
+    os.system(cmd)
+    cmd = f'target/appassembler/bin/IndexUtils -index {index} -dumpDocVectors {docids_file} -docVectorWeight TF_IDF'
+    os.system(cmd)
+
 
 def read_vocab(path):
-    """
-
-    """
     logging.info("loading vocabulary dictionary...")
     with open(path, 'rb') as f:
         vocab = pickle.load(f)
 
     return vocab
 
-def build_docid_idx_dict(rank_file):
-    """
-
-    """
+def build_docid_idx_dict():
     logging.info('building docid idx dict...')
     cur_idx = 0
     docid_idx_dict = {}
-    with open(rank_file, 'r') as f:
+    with open(config['target']['run'], 'r') as f:
         for line in f:
             topic, _, docid, _, _, _ = line.split(' ')
-            if topic in topic_list and docid not in docid_idx_dict:
+            if topic in topics and docid not in docid_idx_dict:
                 docid_idx_dict[docid] = cur_idx
                 docid_idx_dict[cur_idx] = docid
                 cur_idx += 1
     return docid_idx_dict
 
-def write_docid_idx_dict(docid_idx_dict, filename):
-    """
 
-    """
-    logging.info(f"writting docid-idx-dict to {filename}")
+def write_docid_idx_dict(docid_idx_dict, filename):
+    logging.info(f"writing docid-idx-dict to {filename}")
     with open(filename, 'wb') as f:
         pickle.dump(docid_idx_dict, f)
 
 
-def build_tfidf_matrix(tfidf_raw, docid_idx_dict, vocab_idx_dict):
-    """
-
-    """
+def build_tfidf_matrix(docid_idx_dict, vocab_idx_dict):
     num_docs, num_vocabs = len(docid_idx_dict) // 2, len(vocab_idx_dict) // 2
     logging.info(f'start building tfidf sparse matrix with {num_docs} docs and {num_vocabs} vocabs...')
 
     tfidf_dict = {}
     count = 0
 
+    source_name = config['target']['name']
+    tfidf_raw = os.path.join(working_directory, f'docids.{source_name}.docvector.TF_IDF.tar.gz')
     reader = TfidfTgzReader(tfidf_raw)
     while reader.hasnextdoc():
         docid = reader.getnextdoc().strip()
@@ -91,9 +99,11 @@ def build_tfidf_matrix(tfidf_raw, docid_idx_dict, vocab_idx_dict):
     logging.info(f'finish building tfidf sparse matrix.')
     return sklearn.preprocessing.normalize(tfidf_sp, norm='l2')
 
+
 def _safe_mkdir(path):
     if not os.path.exists(path):
         os.makedirs(path)
+
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG,
@@ -101,39 +111,25 @@ if __name__ == '__main__':
     start_time = time.time()
 
     parser = argparse.ArgumentParser()
-    parser.add_argument("--tfidf-file", '-t', type=str,
-                        help='path to tfidf file', required=True)
-    parser.add_argument("--rank-file", '-r', type=str,
-                        help='path to qrels_file', required=True)
-    parser.add_argument("--vocab-folder", '-v', type=str,
-                        help='folder contains vocab-idx-dict.pkl', required=True)
-    parser.add_argument("--output-folder", '-o', type=str,
-                        help='output folder to dump training data for each topic', required=True)
-
     args = parser.parse_args()
 
-    tfidf_raw = args.tfidf_file
-    rank_file = args.rank_file
-    out_folder = args.output_folder
-    vocab_folder = args.vocab_folder
+    assert os.path.isdir(working_directory)
 
-    # sanity check
-    assert os.path.isdir(vocab_folder)
-
-    # constant
-    vocab_path = os.path.join(vocab_folder, 'vocab-idx-dict.pkl')
-    out_docid_idx_file = os.path.join(out_folder, 'test-docid-idx-dict.pkl')
-    out_feature_file = os.path.join(out_folder, 'test.npz')
+    # constants
+    vocab_path = os.path.join(working_directory, 'vocab-idx-dict.pkl')
+    out_docid_idx_file = os.path.join(working_directory, 'test-docid-idx-dict.pkl')
+    out_feature_file = os.path.join(working_directory, 'test.npz')
 
     # preprocessing
-    _safe_mkdir(out_folder)
+    _safe_mkdir(working_directory)
 
     # pipeline from here
     logging.info(f'start building test...')
 
+    dump_docvectors()
     vocab_dict = read_vocab(vocab_path)
-    docid_idx_dict = build_docid_idx_dict(rank_file)
-    tfidf_sp = build_tfidf_matrix(tfidf_raw, docid_idx_dict, vocab_dict)
+    docid_idx_dict = build_docid_idx_dict()
+    tfidf_sp = build_tfidf_matrix(docid_idx_dict, vocab_dict)
 
     write_docid_idx_dict(docid_idx_dict, out_docid_idx_file)
 
