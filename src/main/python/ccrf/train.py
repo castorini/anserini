@@ -4,9 +4,10 @@ import os
 import pickle
 import time
 import numpy as np
-import sklearn
-import scipy.sparse
+import sklearn.linear_model
+import sklearn.svm
 import lightgbm as lgb
+import scipy.sparse
 
 # Global variables, which we're later going to refactor into an external config file.
 
