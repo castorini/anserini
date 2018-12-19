@@ -72,4 +72,6 @@ All Topics                              | 0.3102    | 0.3288    | 0.3333    | 0.
 
 
 
-* Results replicated by @chriskamphuis on 2018-12-18 (commit `a152359`)
+## Replication Log
+
++ Results replicated by [@chriskamphuis](https://github.com/chriskamphuis) on 2018-12-18 (commit [`a15235`](https://github.com/castorini/Anserini/commit/a152359435ac6ae694b39f561343bba5eed8fdc9))
