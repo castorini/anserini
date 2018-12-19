@@ -3,18 +3,16 @@ import logging
 import os
 import pickle
 import time
-
-from scipy.sparse import save_npz, csr_matrix
+import scipy.sparse
 import sklearn.preprocessing
 import numpy as np
-
-from utils import TfidfTgzReader
+import utils
 
 # Global variables, which we're later going to refactor into an external config file.
 
-topics = ['321', '336', '341', '347', '350', '362', '363', '367', '375', '378',
+topics = {'321', '336', '341', '347', '350', '362', '363', '367', '375', '378',
           '393', '397', '400', '408', '414', '422', '426', '427', '433', '439',
-          '442', '445', '626', '646', '690']
+          '442', '445', '626', '646', '690'}
 
 config = {
     'target': {'name': 'core18',
@@ -44,6 +42,7 @@ def read_vocab(path):
 
     return vocab
 
+
 def build_docid_idx_dict():
     logging.info('building docid idx dict...')
     cur_idx = 0
@@ -52,6 +51,16 @@ def build_docid_idx_dict():
         for line in f:
             topic, _, docid, _, _, _ = line.split(' ')
             if topic in topics and docid not in docid_idx_dict:
+                # docid_idx_dict and vocab_idx_dict actually store two different mappings:
+                # both docid (vocab) -> idx and idx -> docid (vocab).
+                #
+                # The docid -> idx mapping is to transform the docid to the row number of the matrix, and
+                # the idx -> docid mapping is to generate the final submission from the index.
+                # The vocab -> mapping is to transform the word into the column number of the matrix, and
+                # the idx -> vocab mapping is easy for us to check the importance of features.
+                #
+                # The docid and vocab are in string format and indices are integers, so there won't be any conflict.
+                # However, this isn't a good design, and should probably be refactored later.
                 docid_idx_dict[docid] = cur_idx
                 docid_idx_dict[cur_idx] = docid
                 cur_idx += 1
@@ -59,7 +68,7 @@ def build_docid_idx_dict():
 
 
 def write_docid_idx_dict(docid_idx_dict, filename):
-    logging.info(f"writing docid-idx-dict to {filename}")
+    logging.info(f'writing docid-idx-dict to {filename}')
     with open(filename, 'wb') as f:
         pickle.dump(docid_idx_dict, f)
 
@@ -73,7 +82,7 @@ def build_tfidf_matrix(docid_idx_dict, vocab_idx_dict):
 
     source_name = config['target']['name']
     tfidf_raw = os.path.join(working_directory, f'docids.{source_name}.docvector.TF_IDF.tar.gz')
-    reader = TfidfTgzReader(tfidf_raw)
+    reader = utils.TfidfTgzReader(tfidf_raw)
     while reader.hasnextdoc():
         docid = reader.getnextdoc().strip()
         count += 1
@@ -95,7 +104,7 @@ def build_tfidf_matrix(docid_idx_dict, vocab_idx_dict):
 
     indices = tuple(zip(*tfidf_dict.keys()))
     values = list(tfidf_dict.values())
-    tfidf_sp = csr_matrix((values, indices), shape=(num_docs, num_vocabs), dtype=np.float32)
+    tfidf_sp = scipy.sparse.csr_matrix((values, indices), shape=(num_docs, num_vocabs), dtype=np.float32)
     logging.info(f'finish building tfidf sparse matrix.')
     return sklearn.preprocessing.normalize(tfidf_sp, norm='l2')
 
@@ -134,7 +143,7 @@ if __name__ == '__main__':
     write_docid_idx_dict(docid_idx_dict, out_docid_idx_file)
 
     logging.info(f'writing test data to {out_feature_file}...')
-    save_npz(out_feature_file, tfidf_sp)
+    scipy.sparse.save_npz(out_feature_file, tfidf_sp)
 
     logging.info(f'build test finished in {time.time() - start_time} seconds')
 

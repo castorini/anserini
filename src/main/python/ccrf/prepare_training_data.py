@@ -3,17 +3,17 @@ import logging
 import os
 import pickle
 import time
-
-from scipy.sparse import save_npz, csr_matrix
+import scipy.sparse
 import sklearn.preprocessing
 import numpy as np
 
-from utils import TfidfTgzReader
+import utils
 
 # Global variables, which we're later going to refactor into an external config file.
-topics = ['321', '336', '341', '347', '350', '362', '363', '367', '375', '378',
+
+topics = {'321', '336', '341', '347', '350', '362', '363', '367', '375', '378',
           '393', '397', '400', '408', '414', '422', '426', '427', '433', '439',
-          '442', '445', '626', '646', '690']
+          '442', '445', '626', '646', '690'}
 
 config = {
     'sources': [{'name': 'robust04',
@@ -70,7 +70,7 @@ def build_docid_idx_and_label():
     return docid_idx_dict, topic_docid_label
 
 
-def build_vocab_tfidf_dict(docid_idx_dict, isalpha):
+def build_vocab_tfidf_dict(docid_idx_dict, is_alpha):
     logging.info('start building vocab tfidf dict')
     vocab_idx_dict, tfidf_dict = {}, {}
     cur_idx = 0
@@ -81,7 +81,7 @@ def build_vocab_tfidf_dict(docid_idx_dict, isalpha):
         logging.info(f'start building vocab tfidf dict for {tfidf_raw}')
         count = 0
 
-        reader = TfidfTgzReader(tfidf_raw)
+        reader = utils.TfidfTgzReader(tfidf_raw)
         while reader.hasnextdoc():
             docid = reader.getnextdoc().strip()
             count += 1
@@ -89,13 +89,12 @@ def build_vocab_tfidf_dict(docid_idx_dict, isalpha):
                 logging.info(f'{count} files have been processed...')
 
             if docid not in docid_idx_dict:
-                # reader.skipdoc()
                 continue
 
             doc_idx = docid_idx_dict[docid]
             while reader.hasnexttfidf():
                 word, tfidf = reader.getnexttfidf()
-                if not isalpha or word.isalpha():
+                if not is_alpha or word.isalpha():
                     if word not in vocab_idx_dict:
                         vocab_idx_dict[word] = cur_idx
                         vocab_idx_dict[cur_idx] = word
@@ -122,12 +121,13 @@ def to_sparse(tfidf_dict, docid_idx_dict, vocab_idx_dict):
     num_docs, num_vocabs = len(docid_idx_dict) // 2, len(vocab_idx_dict) // 2
     indices = tuple(zip(*tfidf_dict.keys()))
     values = list(tfidf_dict.values())
-    tfidf_sp = csr_matrix((values, indices), shape=(num_docs, num_vocabs), dtype=np.float32)
+    tfidf_sp = scipy.sparse.csr_matrix((values, indices), shape=(num_docs, num_vocabs), dtype=np.float32)
 
     return sklearn.preprocessing.normalize(tfidf_sp, norm='l2')
 
+
 def write_train_feature(topic_docid_label: dict,
-                        feature_matrix: csr_matrix,
+                        feature_matrix: scipy.sparse.csr_matrix,
                         docid_idx_dict: dict,
                         out_path: str):
     logging.info("writting training data...")
@@ -136,7 +136,7 @@ def write_train_feature(topic_docid_label: dict,
         logging.info(f'writing topic {topic}')
         X_idx, y = list(zip(*labels.items()))
         X, y = feature_matrix[X_idx, :], np.array(y)
-        save_npz(os.path.join(out_path, f'{topic}.npz'), X)
+        scipy.sparse.save_npz(os.path.join(out_path, f'{topic}.npz'), X)
         np.save(os.path.join(out_path, f'{topic}.npy'), np.array(y))
 
 
@@ -156,7 +156,7 @@ if __name__ == '__main__':
 
     # Parse command-line arguments.
     args = parser.parse_args()
-    isalpha = args.only_alpha
+    is_alpha = args.only_alpha
 
     # constants
     out_feature_folder = os.path.join(working_directory, 'features')
@@ -172,7 +172,7 @@ if __name__ == '__main__':
 
     dump_docvectors()
     docid_idx_dict, topic_docid_label = build_docid_idx_and_label()
-    vocab_idx_dict, tfidf_dict = build_vocab_tfidf_dict(docid_idx_dict, isalpha)
+    vocab_idx_dict, tfidf_dict = build_vocab_tfidf_dict(docid_idx_dict, is_alpha)
 
     write_docid_idx_dict(docid_idx_dict, out_docid_idx_file)
     write_vocab_idx_dict(vocab_idx_dict, out_vocab_idx_file)
