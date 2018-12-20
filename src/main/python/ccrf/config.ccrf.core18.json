@@ -1,0 +1,41 @@
+{
+  "topics": [
+    "321", "336", "341", "347", "350", "362", "363", "367", "375", "378",
+    "393", "397", "400", "408", "414", "422", "426", "427", "433", "439",
+    "442", "445", "626", "646", "690"],
+
+  "sources": [
+    { "name": "robust04",
+      "qrels": "src/main/resources/topics-and-qrels/qrels.robust2004.txt",
+      "index": "lucene-index.robust04.pos+docvectors+rawdocs"},
+    { "name": "robust05",
+      "qrels": "src/main/resources/topics-and-qrels/qrels.robust2005.txt",
+      "index": "lucene-index.robust05.pos+docvectors+rawdocs"},
+    { "name": "core17",
+      "qrels": "src/main/resources/topics-and-qrels/qrels.core17.txt",
+      "index": "lucene-index.core17.pos+docvectors+rawdocs"}
+  ],
+
+  "target": {
+    "name": "core18",
+    "run": "run.core18.bm25+rm3.topics.core18.txt",
+    "index": "lucene-index.core18.pos+docvectors+rawdocs"
+  },
+
+  "classifiers": ["lr", "svm", "lgb"],
+
+  "runs": [
+    { "classifiers": ["lr"],
+      "weight": "0.6",
+      "runtag": "h2oloo_lr_0.6",
+      "output": "core18.h2oloo_lr_0.6.txt"
+    },
+    { "classifiers": ["lr", "svm", "lgb"],
+      "weight": "0.6",
+      "runtag": "h2oloo_e3_0.6",
+      "output": "core18.h2oloo_e3_0.6.txt"
+    }
+  ],
+
+  "working_directory": "ccrf.core18"
+}
