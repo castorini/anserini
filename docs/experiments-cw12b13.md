@@ -7,7 +7,7 @@ Typical indexing command:
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection ClueWeb12Collection \
 -generator JsoupGenerator -threads 44 -input /path/to/cw12b13 -index \
-lucene-index.cw12b13.pos+docvectors -storePositions -storeDocvectors \
+lucene-index.cw12b13.pos+docvectors+rawdocs -storePositions -storeDocvectors \
 -storeRawDocs >& log.cw12b13.pos+docvectors+rawdocs &
 ```
 
@@ -27,23 +27,23 @@ Topics and qrels are stored in `src/main/resources/topics-and-qrels/`, downloade
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-nohup target/appassembler/bin/SearchCollection -topicreader Webxml -index lucene-index.cw12b13.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt -output run.cw12b13.bm25.topics.web.201-250.txt -bm25 &
-nohup target/appassembler/bin/SearchCollection -topicreader Webxml -index lucene-index.cw12b13.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.web.251-300.txt -output run.cw12b13.bm25.topics.web.251-300.txt -bm25 &
+nohup target/appassembler/bin/SearchCollection -topicreader Webxml -index lucene-index.cw12b13.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt -output run.cw12b13.bm25.topics.web.201-250.txt -bm25 &
+nohup target/appassembler/bin/SearchCollection -topicreader Webxml -index lucene-index.cw12b13.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.web.251-300.txt -output run.cw12b13.bm25.topics.web.251-300.txt -bm25 &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Webxml -index lucene-index.cw12b13.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt -output run.cw12b13.bm25+rm3.topics.web.201-250.txt -bm25 -rm3 &
-nohup target/appassembler/bin/SearchCollection -topicreader Webxml -index lucene-index.cw12b13.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.web.251-300.txt -output run.cw12b13.bm25+rm3.topics.web.251-300.txt -bm25 -rm3 &
+nohup target/appassembler/bin/SearchCollection -topicreader Webxml -index lucene-index.cw12b13.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt -output run.cw12b13.bm25+rm3.topics.web.201-250.txt -bm25 -rm3 &
+nohup target/appassembler/bin/SearchCollection -topicreader Webxml -index lucene-index.cw12b13.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.web.251-300.txt -output run.cw12b13.bm25+rm3.topics.web.251-300.txt -bm25 -rm3 &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Webxml -index lucene-index.cw12b13.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt -output run.cw12b13.bm25+ax.topics.web.201-250.txt -bm25 -axiom -rerankCutoff 20 -axiom.deterministic -axiom.beta 0.1 &
-nohup target/appassembler/bin/SearchCollection -topicreader Webxml -index lucene-index.cw12b13.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.web.251-300.txt -output run.cw12b13.bm25+ax.topics.web.251-300.txt -bm25 -axiom -rerankCutoff 20 -axiom.deterministic -axiom.beta 0.1 &
+nohup target/appassembler/bin/SearchCollection -topicreader Webxml -index lucene-index.cw12b13.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt -output run.cw12b13.bm25+ax.topics.web.201-250.txt -bm25 -axiom -rerankCutoff 20 -axiom.deterministic -axiom.beta 0.1 &
+nohup target/appassembler/bin/SearchCollection -topicreader Webxml -index lucene-index.cw12b13.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.web.251-300.txt -output run.cw12b13.bm25+ax.topics.web.251-300.txt -bm25 -axiom -rerankCutoff 20 -axiom.deterministic -axiom.beta 0.1 &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Webxml -index lucene-index.cw12b13.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt -output run.cw12b13.ql.topics.web.201-250.txt -ql &
-nohup target/appassembler/bin/SearchCollection -topicreader Webxml -index lucene-index.cw12b13.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.web.251-300.txt -output run.cw12b13.ql.topics.web.251-300.txt -ql &
+nohup target/appassembler/bin/SearchCollection -topicreader Webxml -index lucene-index.cw12b13.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt -output run.cw12b13.ql.topics.web.201-250.txt -ql &
+nohup target/appassembler/bin/SearchCollection -topicreader Webxml -index lucene-index.cw12b13.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.web.251-300.txt -output run.cw12b13.ql.topics.web.251-300.txt -ql &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Webxml -index lucene-index.cw12b13.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt -output run.cw12b13.ql+rm3.topics.web.201-250.txt -ql -rm3 &
-nohup target/appassembler/bin/SearchCollection -topicreader Webxml -index lucene-index.cw12b13.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.web.251-300.txt -output run.cw12b13.ql+rm3.topics.web.251-300.txt -ql -rm3 &
+nohup target/appassembler/bin/SearchCollection -topicreader Webxml -index lucene-index.cw12b13.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt -output run.cw12b13.ql+rm3.topics.web.201-250.txt -ql -rm3 &
+nohup target/appassembler/bin/SearchCollection -topicreader Webxml -index lucene-index.cw12b13.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.web.251-300.txt -output run.cw12b13.ql+rm3.topics.web.251-300.txt -ql -rm3 &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Webxml -index lucene-index.cw12b13.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt -output run.cw12b13.ql+ax.topics.web.201-250.txt -ql -axiom -rerankCutoff 20 -axiom.deterministic -axiom.beta 0.1 &
-nohup target/appassembler/bin/SearchCollection -topicreader Webxml -index lucene-index.cw12b13.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.web.251-300.txt -output run.cw12b13.ql+ax.topics.web.251-300.txt -ql -axiom -rerankCutoff 20 -axiom.deterministic -axiom.beta 0.1 &
+nohup target/appassembler/bin/SearchCollection -topicreader Webxml -index lucene-index.cw12b13.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt -output run.cw12b13.ql+ax.topics.web.201-250.txt -ql -axiom -rerankCutoff 20 -axiom.deterministic -axiom.beta 0.1 &
+nohup target/appassembler/bin/SearchCollection -topicreader Webxml -index lucene-index.cw12b13.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.web.251-300.txt -output run.cw12b13.ql+ax.topics.web.251-300.txt -ql -axiom -rerankCutoff 20 -axiom.deterministic -axiom.beta 0.1 &
 
 ```
 
