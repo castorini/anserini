@@ -29,6 +29,8 @@ import io.anserini.rerank.lib.Rm3Reranker;
 import io.anserini.rerank.lib.ScoreTiesAdjusterReranker;
 import io.anserini.search.query.BagOfWordsQueryGenerator;
 import io.anserini.search.query.SdmQueryGenerator;
+import io.anserini.search.similarity.F2ExpSimilarity;
+import io.anserini.search.similarity.F2LogSimilarity;
 import io.anserini.search.similarity.TaggedSimilarity;
 import io.anserini.search.topicreader.NewsBackgroundLinkingTopicReader;
 import io.anserini.search.topicreader.TopicReader;
@@ -237,11 +239,11 @@ public final class SearchCollection implements Closeable {
       }
     } else if (args.f2exp) {
       for (String s : args.f2exp_s) {
-        similarities.add(new TaggedSimilarity(new AxiomaticF2EXP(Float.valueOf(s)), "s:"+s));
+        similarities.add(new TaggedSimilarity(new F2ExpSimilarity(Float.valueOf(s)), "s:"+s));
       }
     } else if (args.f2log) {
       for (String s : args.f2log_s) {
-        similarities.add(new TaggedSimilarity(new AxiomaticF2LOG(Float.valueOf(s)), "s:"+s));
+        similarities.add(new TaggedSimilarity(new F2LogSimilarity(Float.valueOf(s)), "s:"+s));
       }
     } else {
       throw new IllegalArgumentException("Error: Must specify scoring model!");
