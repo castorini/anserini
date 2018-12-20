@@ -267,7 +267,7 @@ models:
           topics.core17.txt: 0.2005
       wt10g:
         map:
-          topics.451-550.txt: 0.1996
+          topics.451-550.txt: 0.2002
       gov2:
         map:
           topics.701-750.txt: 0.2592
@@ -327,7 +327,7 @@ models:
           topics.core17.txt: 0.2050
       wt10g:
         map:
-          topics.451-550.txt: 0.1938
+          topics.451-550.txt: 0.1946
       gov2:
         map:
           topics.701-750.txt: 0.2689
