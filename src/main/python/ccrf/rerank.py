@@ -1,14 +1,15 @@
 import argparse
+import json
 import logging
 import os
 import pickle
 import time
+
+import lightgbm as lgb
 import numpy as np
 import sklearn.linear_model
 import sklearn.svm
-import lightgbm as lgb
 import scipy.sparse
-import json
 
 
 def load_train(topic, path):

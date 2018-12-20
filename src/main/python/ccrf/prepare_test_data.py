@@ -1,12 +1,13 @@
 import argparse
+import json
 import logging
 import os
 import pickle
 import time
+
 import scipy.sparse
 import sklearn.preprocessing
 import numpy as np
-import json
 
 import utils
 
