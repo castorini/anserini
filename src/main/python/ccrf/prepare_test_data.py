@@ -24,14 +24,6 @@ def dump_docvectors(config):
     os.system(cmd)
 
 
-def read_vocab(path):
-    logging.info("Loading vocabulary dictionary...")
-    with open(path, 'rb') as f:
-        vocab = pickle.load(f)
-
-    return vocab
-
-
 def build_docid_idx_dict(config):
     logging.info('Building docid_idx_dict...')
     cur_idx = 0
@@ -58,7 +50,7 @@ def build_docid_idx_dict(config):
 
 def build_tfidf_matrix(config, docid_idx_dict, vocab_idx_dict):
     num_docs, num_vocabs = len(docid_idx_dict) // 2, len(vocab_idx_dict) // 2
-    logging.info(f'Building tf.idf sparse matrix with {num_docs} docs and {num_vocabs} vocabs...')
+    logging.info(f'Building tf.idf sparse matrix with {num_docs} docs and {num_vocabs} features...')
 
     tfidf_dict = {}
     count = 0
@@ -113,15 +105,17 @@ if __name__ == '__main__':
     working_directory = config['working_directory']
     assert os.path.isdir(working_directory)
 
-    vocab_path = os.path.join(working_directory, 'vocab-idx-dict.pkl')
-    out_docid_idx_file = os.path.join(working_directory, 'test-docid-idx-dict.pkl')
+    out_docid_idx_file = os.path.join(working_directory, 'test_docid_idx_dict.pkl')
     out_feature_file = os.path.join(working_directory, 'test.npz')
 
     _safe_mkdir(working_directory)
 
     logging.info(f'Preparing test data...')
+    logging.info("Loading vocabulary...")
+    with open(os.path.join(working_directory, 'vocab_idx_dict.pkl'), 'rb') as f:
+        vocab_dict = pickle.load(f)
+
     dump_docvectors(config)
-    vocab_dict = read_vocab(vocab_path)
     docid_idx_dict = build_docid_idx_dict(config)
     tfidf_sp = build_tfidf_matrix(config, docid_idx_dict, vocab_dict)
 
@@ -133,4 +127,3 @@ if __name__ == '__main__':
     scipy.sparse.save_npz(out_feature_file, tfidf_sp)
 
     logging.info(f'Finished in {time.time() - start_time} seconds')
-
