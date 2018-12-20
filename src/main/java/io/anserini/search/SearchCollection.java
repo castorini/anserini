@@ -29,6 +29,8 @@ import io.anserini.rerank.lib.Rm3Reranker;
 import io.anserini.rerank.lib.ScoreTiesAdjusterReranker;
 import io.anserini.search.query.BagOfWordsQueryGenerator;
 import io.anserini.search.query.SdmQueryGenerator;
+import io.anserini.search.similarity.F2ExpSimilarity;
+import io.anserini.search.similarity.F2LogSimilarity;
 import io.anserini.search.similarity.TaggedSimilarity;
 import io.anserini.search.topicreader.NewsBackgroundLinkingTopicReader;
 import io.anserini.search.topicreader.TopicReader;
@@ -237,11 +239,11 @@ public final class SearchCollection implements Closeable {
       }
     } else if (args.f2exp) {
       for (String s : args.f2exp_s) {
-        similarities.add(new TaggedSimilarity(new AxiomaticF2EXP(Float.valueOf(s)), "s:"+s));
+        similarities.add(new TaggedSimilarity(new F2ExpSimilarity(Float.valueOf(s)), "s:"+s));
       }
     } else if (args.f2log) {
       for (String s : args.f2log_s) {
-        similarities.add(new TaggedSimilarity(new AxiomaticF2LOG(Float.valueOf(s)), "s:"+s));
+        similarities.add(new TaggedSimilarity(new F2LogSimilarity(Float.valueOf(s)), "s:"+s));
       }
     } else {
       throw new IllegalArgumentException("Error: Must specify scoring model!");
@@ -293,20 +295,20 @@ public final class SearchCollection implements Closeable {
 
   @SuppressWarnings("unchecked")
   public<K> void runTopics() throws IOException {
-    Path topicsFile = Paths.get(args.topics);
-  
-    if (!Files.exists(topicsFile) || !Files.isRegularFile(topicsFile) || !Files.isReadable(topicsFile)) {
-      throw new IllegalArgumentException("Topics file : " + topicsFile + " does not exist or is not a (readable) file.");
-    }
-  
     TopicReader<K> tr;
-    SortedMap<K, Map<String, String>> topics;
-    try {
-      tr = (TopicReader<K>) Class.forName("io.anserini.search.topicreader." + args.topicReader + "TopicReader")
-          .getConstructor(Path.class).newInstance(topicsFile);
-      topics = tr.read();
-    } catch (Exception e) {
-      throw new IllegalArgumentException("Unable to load topic reader: " + args.topicReader);
+    SortedMap<K, Map<String, String>> topics = new TreeMap<>();
+    for (String singleTopicsFile : args.topics) {
+      Path topicsFilePath = Paths.get(singleTopicsFile);
+      if (!Files.exists(topicsFilePath) || !Files.isRegularFile(topicsFilePath) || !Files.isReadable(topicsFilePath)) {
+        throw new IllegalArgumentException("Topics file : " + topicsFilePath + " does not exist or is not a (readable) file.");
+      }
+      try {
+        tr = (TopicReader<K>) Class.forName("io.anserini.search.topicreader." + args.topicReader + "TopicReader")
+            .getConstructor(Path.class).newInstance(topicsFilePath);
+        topics.putAll(tr.read());
+      } catch (Exception e) {
+        throw new IllegalArgumentException("Unable to load topic reader: " + args.topicReader);
+      }
     }
   
     final String runTag = args.runtag == null ? "Anserini" : args.runtag;

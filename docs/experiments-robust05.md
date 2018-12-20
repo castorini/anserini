@@ -7,7 +7,7 @@ Typical indexing command:
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection TrecCollection \
 -generator JsoupGenerator -threads 16 -input /path/to/robust05 -index \
-lucene-index.robust05.pos+docvectors -storePositions -storeDocvectors \
+lucene-index.robust05.pos+docvectors+rawdocs -storePositions -storeDocvectors \
 -storeRawDocs >& log.robust05.pos+docvectors+rawdocs &
 ```
 
@@ -25,17 +25,17 @@ Topics and qrels are stored in `src/main/resources/topics-and-qrels/`, downloade
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.robust05.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.robust05.txt -output run.robust05.bm25.topics.robust05.txt -bm25 &
+nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.robust05.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.robust05.txt -output run.robust05.bm25.topics.robust05.txt -bm25 &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.robust05.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.robust05.txt -output run.robust05.bm25+rm3.topics.robust05.txt -bm25 -rm3 &
+nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.robust05.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.robust05.txt -output run.robust05.bm25+rm3.topics.robust05.txt -bm25 -rm3 &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.robust05.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.robust05.txt -output run.robust05.bm25+ax.topics.robust05.txt -bm25 -axiom -rerankCutoff 20 -axiom.deterministic &
+nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.robust05.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.robust05.txt -output run.robust05.bm25+ax.topics.robust05.txt -bm25 -axiom -rerankCutoff 20 -axiom.deterministic &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.robust05.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.robust05.txt -output run.robust05.ql.topics.robust05.txt -ql &
+nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.robust05.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.robust05.txt -output run.robust05.ql.topics.robust05.txt -ql &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.robust05.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.robust05.txt -output run.robust05.ql+rm3.topics.robust05.txt -ql -rm3 &
+nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.robust05.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.robust05.txt -output run.robust05.ql+rm3.topics.robust05.txt -ql -rm3 &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.robust05.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.robust05.txt -output run.robust05.ql+ax.topics.robust05.txt -ql -axiom -rerankCutoff 20 -axiom.deterministic &
+nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.robust05.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.robust05.txt -output run.robust05.ql+ax.topics.robust05.txt -ql -axiom -rerankCutoff 20 -axiom.deterministic &
 
 ```
 
