@@ -22,13 +22,15 @@
     "index": "lucene-index.core18.pos+docvectors+rawdocs"
   },
 
+  "classifiers": ["lr", "svm", "lgb"],
+
   "runs": [
-    { "classifier": "lr",
+    { "classifiers": ["lr"],
       "weight": "0.6",
       "runtag": "h2oloo_lr_0.6",
       "output": "core18.h2oloo_lr_0.6.txt"
     },
-    { "classifier": "ensemble",
+    { "classifiers": ["lr", "svm", "lgb"],
       "weight": "0.6",
       "runtag": "h2oloo_e3_0.6",
       "output": "core18.h2oloo_e3_0.6.txt"

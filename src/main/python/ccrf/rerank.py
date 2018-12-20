@@ -164,7 +164,7 @@ if __name__ == '__main__':
     assert os.path.isdir(train_feature_folder)
     _safe_mkdir(models_folder)
 
-    for classifier in ['lr', 'svm', 'lgb']:
+    for classifier in config['classifiers']:
         test_docid_idx_dict = load_docid_idx(test_docid_idx_path)
         test_doc_score = generate_test_score(config['topics'], config['target']['run'], test_docid_idx_dict)
         test_data = load_test(test_feature_path)

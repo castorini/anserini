@@ -3,6 +3,7 @@ import logging
 import json
 import os
 
+
 def submission(origin_file, topics, runtag, output_file):
     with open(output_file, 'a') as fout, open(origin_file, 'r') as fin:
         for line in fin:
@@ -52,11 +53,7 @@ if __name__ == '__main__':
         runtag = run['runtag']
         weight = run['weight']
         output = os.path.join(config['working_directory'], run['output'])
-        if run['classifier'] == 'ensemble':
-            clf_list = ['lr', 'svm', 'lgb']
-        else:
-            clf_list = ['lr']
 
         logging.info(f'Preparing run for {runtag}')
-        ensemble(model_directory, weight, clf_list, runtag, output)
+        ensemble(model_directory, weight, run['classifiers'], runtag, output)
         submission(config['target']['run'], config['topics'], runtag, output)
