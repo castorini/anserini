@@ -24,8 +24,8 @@ public class SearchArgs {
   @Option(name = "-index", metaVar = "[path]", required = true, usage = "Path to Lucene index")
   public String index;
 
-  @Option(name = "-topics", metaVar = "[file]", required = true, usage = "topics file")
-  public String topics;
+  @Option(name = "-topics", metaVar = "[file]", handler = StringArrayOptionHandler.class, required = true, usage = "topics file")
+  public String[] topics;
 
   @Option(name = "-output", metaVar = "[file]", required = true, usage = "output file")
   public String output;
