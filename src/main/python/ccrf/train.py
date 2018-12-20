@@ -159,18 +159,24 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     args = parser.parse_args()
 
-    # sanity check
-    assert os.path.isdir(working_directory)
-
     # constants
     train_feature_folder = os.path.join(working_directory, 'features')
     test_feature_path = os.path.join(working_directory, 'test.npz')
     test_docid_idx_path = os.path.join(working_directory, 'test-docid-idx-dict.pkl')
+    models_folder = os.path.join(working_directory, 'models')
+
+    # sanity check
+    assert os.path.isdir(working_directory)
+    assert os.path.isdir(train_feature_folder)
+    _safe_mkdir(models_folder)
 
     for classifier in ['lr2', 'svm', 'lgb']:
         test_docid_idx_dict = load_docid_idx(test_docid_idx_path)
         test_doc_score = generate_test_score(config['target']['run'], test_docid_idx_dict)
         test_data = load_test(test_feature_path)
 
+        model_folder = os.path.join(models_folder, classifier)
+        _safe_mkdir(model_folder)
+
         # There's some use of global variables above that needs to be undone in refactoring...
-        run_classifier(classifier, os.path.join(working_directory, 'models', classifier))
+        run_classifier(classifier, model_folder)
