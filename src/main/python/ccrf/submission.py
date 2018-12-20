@@ -1,37 +1,20 @@
 import argparse
+import logging
+import json
+import os
 
-topic_list = [
-    '321', '336', '341',
-    '347', '350', '362',
-    '363', '367', '375', '378', '393',
-    '397', '400', '408', '414',
-    '422', '426', '427', '433',
-    '439', '442', '445', '626', '646',
-    '690'
-]
-
-
-def submission(origin_file, runtag, output_file):
+def submission(origin_file, topics, runtag, output_file):
     with open(output_file, 'a') as fout, open(origin_file, 'r') as fin:
         for line in fin:
             data = line.strip().split(' ')
-            if data[0] in topic_list:
+            if data[0] in topics:
                 continue
             data[-1] = runtag
             fout.write(' '.join(data) + '\n')
 
 
-def ensemble(folder, ratio, num_ensemble, runtag, output):
+def ensemble(folder, ratio, clf_list, runtag, output):
     ensemble_dict = {}
-    if num_ensemble == 1:
-        clf_list = ['LR2']
-    elif num_ensemble == 3:
-        clf_list = ['LR2', 'SVM', 'LGB']
-    elif num_ensemble == 7:
-        clf_list = ['LR1', 'LR2', 'SVM', 'Ridge', 'LGB', 'SGDC', 'SGDR']
-    else:
-        return
-
     for clf in clf_list:
         with open('{}/{}/rerank_{}.txt'.format(folder, clf, ratio), 'r') as f:
             for line in f:
@@ -51,25 +34,29 @@ def ensemble(folder, ratio, num_ensemble, runtag, output):
 
 
 if __name__ == '__main__':
+    logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(message)s')
+
     parser = argparse.ArgumentParser()
-    parser.add_argument("--rank-file", type=str,
-                        help='path to original rerank file', required=True)
-    parser.add_argument("--clf-folder", type=str,
-                        help='classifier folder', required=True)
-    parser.add_argument("--ratio", type=float,
-                        help='interpolating ratio', required=True)
-    parser.add_argument("--ensemble", type=int,
-                        help='number of ensemble classifiers, '
-                             'choose from 1, 3, and 7. 1 for LR2, 3 for LR2+SVM+LGB, '
-                             '7 for all classifiers', required=True)
-    parser.add_argument("--runtag", type=str,
-                        help='submission runtag', required=True)
-    parser.add_argument("--output", type=str,
-                        help='output file name', required=True)
-
+    parser.add_argument("--config", type=str, help='config file', required=True)
     args = parser.parse_args()
-    if args.ensemble not in [1, 3, 7]:
-        raise ValueError('Unsupported number of ensemble classifiers. Must choose from 1, 3, and 7.')
+    config_file = args.config
 
-    ensemble(args.clf_folder, args.ratio, args.ensemble, args.runtag, args.output)
-    submission(args.rank_file, args.runtag, args.output)
+    # Load configuration
+    with open(config_file) as f:
+        config = json.load(f)
+
+    model_directory = os.path.join(config['working_directory'], 'models')
+    assert os.path.isdir(model_directory)
+
+    for run in config['runs']:
+        runtag = run['runtag']
+        weight = run['weight']
+        output = os.path.join(config['working_directory'], run['output'])
+        if run['classifier'] == 'ensemble':
+            clf_list = ['lr', 'svm', 'lgb']
+        else:
+            clf_list = ['lr']
+
+        logging.info(f'Preparing run for {runtag}')
+        ensemble(model_directory, weight, clf_list, runtag, output)
+        submission(config['target']['run'], config['topics'], runtag, output)
