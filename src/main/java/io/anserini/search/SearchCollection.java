@@ -295,20 +295,20 @@ public final class SearchCollection implements Closeable {
 
   @SuppressWarnings("unchecked")
   public<K> void runTopics() throws IOException {
-    Path topicsFile = Paths.get(args.topics);
-  
-    if (!Files.exists(topicsFile) || !Files.isRegularFile(topicsFile) || !Files.isReadable(topicsFile)) {
-      throw new IllegalArgumentException("Topics file : " + topicsFile + " does not exist or is not a (readable) file.");
-    }
-  
     TopicReader<K> tr;
-    SortedMap<K, Map<String, String>> topics;
-    try {
-      tr = (TopicReader<K>) Class.forName("io.anserini.search.topicreader." + args.topicReader + "TopicReader")
-          .getConstructor(Path.class).newInstance(topicsFile);
-      topics = tr.read();
-    } catch (Exception e) {
-      throw new IllegalArgumentException("Unable to load topic reader: " + args.topicReader);
+    SortedMap<K, Map<String, String>> topics = new TreeMap<>();
+    for (String singleTopicsFile : args.topics) {
+      Path topicsFilePath = Paths.get(singleTopicsFile);
+      if (!Files.exists(topicsFilePath) || !Files.isRegularFile(topicsFilePath) || !Files.isReadable(topicsFilePath)) {
+        throw new IllegalArgumentException("Topics file : " + topicsFilePath + " does not exist or is not a (readable) file.");
+      }
+      try {
+        tr = (TopicReader<K>) Class.forName("io.anserini.search.topicreader." + args.topicReader + "TopicReader")
+            .getConstructor(Path.class).newInstance(topicsFilePath);
+        topics.putAll(tr.read());
+      } catch (Exception e) {
+        throw new IllegalArgumentException("Unable to load topic reader: " + args.topicReader);
+      }
     }
   
     final String runTag = args.runtag == null ? "Anserini" : args.runtag;
