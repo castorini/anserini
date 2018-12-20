@@ -83,7 +83,7 @@ public class WikipediaZHSentenceCollection extends DocumentCollection
 
   public class FileSegment extends BaseFileSegment<Document> {
     private JsonNode node = null;
-    private ListIterator<String> iterParagraph = null; // iterator for paragraphs
+    private ListIterator<String> iterSentence = null; // iterator for sentences
     private MappingIterator<JsonNode> iterator; // iterator for JSON line objects
 
     protected FileSegment(Path path) throws IOException {
@@ -92,9 +92,9 @@ public class WikipediaZHSentenceCollection extends DocumentCollection
       iterator = mapper.readerFor(JsonNode.class).readValues(bufferedReader);
       if (iterator.hasNext()) {
         node = iterator.next();
-        String text = node.get("text").asText();
-        iterParagraph = Arrays.asList(text.split("。")).listIterator();
-        iterParagraph.next();
+        String text = node.get("text").asText(); // simple sentence splitter
+        iterSentence = Arrays.asList(text.split("。")).listIterator();
+        iterSentence.next();
       }
     }
 
@@ -115,26 +115,26 @@ public class WikipediaZHSentenceCollection extends DocumentCollection
       if (node == null) {
         return false;
       } 
-      while(!iterParagraph.hasNext()) {
+      while(!iterSentence.hasNext()) {
             if (iterator.hasNext()) { // if bufferedReader contains JSON line objects, we parse the next JSON into node
               node = iterator.next();
-              String text = node.get("text").asText();  
-              iterParagraph = Arrays.asList(text.split("。")).listIterator();
-              iterParagraph.next();
+              String text = node.get("text").asText();  // simple sentence splitter
+              iterSentence = Arrays.asList(text.split("。")).listIterator();
+              iterSentence.next();
             } else {
               atEOF = true; // there is no more JSON object in the bufferedReader
               return false;
             }
       }
-      String sentence = iterParagraph.next().trim() + "。"; // Trim and add the punctuation back in since we split on it.
+      String sentence = iterSentence.next().trim() + "。"; // Trim and add the punctuation back in since we split on it.
       sentence = sentence.replaceAll("\\n+", " ");
-      bufferedRecord = new WikipediaZHSentenceCollection.Document(node.get("id").asText() + "_" + String.valueOf(iterParagraph.nextIndex()), sentence);
-      while(!iterParagraph.hasNext()) {
+      bufferedRecord = new WikipediaZHSentenceCollection.Document(node.get("id").asText() + "_" + String.valueOf(iterSentence.nextIndex()), sentence);
+      while(!iterSentence.hasNext()) {
           if (iterator.hasNext()) { // if bufferedReader contains JSON line objects, we parse the next JSON into node
             node = iterator.next();
             String text = node.get("text").asText();  
-            iterParagraph = Arrays.asList(text.split("。")).listIterator();
-            iterParagraph.next();
+            iterSentence = Arrays.asList(text.split("。")).listIterator();
+            iterSentence.next();
           } else {
             atEOF = true; // there is no more JSON object in the bufferedReader
             return false;
