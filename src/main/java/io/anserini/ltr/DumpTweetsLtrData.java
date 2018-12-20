@@ -56,6 +56,7 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
+import java.util.TreeMap;
 
 
 @SuppressWarnings("deprecation")
@@ -102,13 +103,15 @@ public class DumpTweetsLtrData {
     PrintStream out = new PrintStream(new FileOutputStream(new File(args.output)));
     RerankerCascade cascade = new RerankerCascade();
     cascade.add(new TweetsLtrDataGenerator(out, qrels, extractors));
-
-    Path topicsFile = Paths.get(args.topics);
-    TopicReader<Integer> tr = new MicroblogTopicReader(topicsFile);
-    SortedMap<Integer, Map<String, String>> topics = tr.read();
-
-    if (!Files.exists(topicsFile) || !Files.isRegularFile(topicsFile) || !Files.isReadable(topicsFile)) {
-      throw new IllegalArgumentException("Topics file : " + topicsFile + " does not exist or is not a (readable) file.");
+  
+    SortedMap<Integer, Map<String, String>> topics = new TreeMap<>();
+    for (String singleTopicFile : args.topics) {
+      Path topicsFilePath = Paths.get(singleTopicFile);
+      if (!Files.exists(topicsFilePath) || !Files.isRegularFile(topicsFilePath) || !Files.isReadable(topicsFilePath)) {
+        throw new IllegalArgumentException("Topics file : " + topicsFilePath + " does not exist or is not a (readable) file.");
+      }
+      TopicReader<Integer> tr = new MicroblogTopicReader(topicsFilePath);
+      topics.putAll(tr.read());
     }
 
     LOG.info("Initialized complete! (elapsed time = " + (System.nanoTime()-curTime)/1000000 + "ms)");
