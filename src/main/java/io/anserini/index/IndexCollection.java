@@ -277,18 +277,14 @@ public final class IndexCollection {
 
     @Override
     public void run() {
-
       try {
 
         LuceneDocumentGenerator generator = (LuceneDocumentGenerator) generatorClass.getDeclaredConstructor(Args.class, Counters.class).newInstance(args, counters);
         BaseFileSegment<SourceDocument> iter = (BaseFileSegment) ((SegmentProvider) collection).createFileSegment(input);
 
         int cnt = 0;
-
         while (iter.hasNext()) {
-
           SourceDocument sourceDocument;
-
           try {
             sourceDocument = iter.next();
           } catch (RuntimeException e) {
@@ -302,12 +298,10 @@ public final class IndexCollection {
           }
 
           Document document = generator.createDocument(sourceDocument);
-
           if (document == null) {
             counters.unindexed.incrementAndGet();
             continue;
           }
-
           if (whitelistDocids != null && !whitelistDocids.contains(sourceDocument.id())) {
             counters.skipped.incrementAndGet();
             continue;
@@ -324,19 +318,15 @@ public final class IndexCollection {
 
           // With CloudSolrClient, we need to buffer ourselves...
           if (args.solrCloud) {
-
             buffer.add(solrDocument);
-
             if (buffer.size() == args.solrBatch) {
               flush();
             }
-
           } else {
             this.solrClient.add(args.solrIndex, solrDocument); // ... and ConcurrentUpdateSolrClient does it for us
           }
 
           cnt++;
-
         }
 
         // If we're running in cloud mode and have docs in the buffer, flush them.
@@ -356,9 +346,7 @@ public final class IndexCollection {
 
         iter.close();
         LOG.info(input.getParent().getFileName().toString() + File.separator + input.getFileName().toString() + ": " + cnt + " docs added.");
-
         counters.indexed.addAndGet(cnt);
-
       } catch (Exception e) {
         LOG.error(Thread.currentThread().getName() + ": Unexpected Exception:", e);
       }
