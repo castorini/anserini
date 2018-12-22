@@ -161,13 +161,13 @@ public class SearchArgs {
   public boolean rm3 = false;
 
   @Option(name = "-rm3.fbTerms", handler = StringArrayOptionHandler.class, usage = "parameter to decide how many expansion terms to be picked")
-  public String[] rm3_fbTerms = new String[] {"20"};
+  public String[] rm3_fbTerms = new String[] {"10"};
 
   @Option(name = "-rm3.fbDocs", handler = StringArrayOptionHandler.class, usage = "parameter to decide how many documents to be used to find expansion terms")
-  public String[] rm3_fbDocs = new String[] {"50"};
+  public String[] rm3_fbDocs = new String[] {"10"};
 
   @Option(name = "-rm3.originalQueryWeight", handler = StringArrayOptionHandler.class, usage = "parameter to decide how many documents to be used to find expansion terms")
-  public String[] rm3_originalQueryWeight = new String[] {"0.6"};
+  public String[] rm3_originalQueryWeight = new String[] {"0.5"};
 
   @Option(name = "-rm3.outputQuery", usage = "output original and expanded query")
   public boolean rm3_outputQuery = false;
