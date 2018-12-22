@@ -90,13 +90,13 @@ public final class IndexCollection {
 
     @Option(name = "-keepStopwords", usage = "boolean switch to keep stopwords")
     public boolean keepStopwords = false;
-  
+
     @Option(name = "-stemmer", usage = "Stemmer: one of the following porter,krovetz,none. Default porter")
     public String stemmer = "porter";
 
     @Option(name = "-uniqueDocid", usage = "remove duplicated documents with the same doc id when indexing. " +
-      "please note that this option may slow the indexing a lot and if you are sure there is no " +
-      "duplicated document ids in the corpus you shouldn't use this option.")
+        "please note that this option may slow the indexing a lot and if you are sure there is no " +
+        "duplicated document ids in the corpus you shouldn't use this option.")
     public boolean uniqueDocid = false;
 
     @Option(name = "-memorybuffer", usage = "memory buffer size")
@@ -219,7 +219,8 @@ public final class IndexCollection {
             continue;
           }
 
-          @SuppressWarnings("unchecked") // Yes, we know what we're doing here.
+          // Yes, we know what we're doing here.
+          @SuppressWarnings("unchecked")
           Document doc = generator.createDocument(d);
           if (doc == null) {
             counters.unindexed.incrementAndGet();
@@ -259,18 +260,18 @@ public final class IndexCollection {
     private final SolrClient solrClient;
     private final List<SolrInputDocument> buffer = new ArrayList(args.solrBatch);
 
-    private SolrIndexerThread(Path input, DocumentCollection collection, String url) {
+    private SolrIndexerThread(Path input, DocumentCollection collection) {
       this.input = input;
       this.collection = collection;
       if (args.solrCloud) {
-        List<String> urls = Splitter.on(',').splitToList(url);
+        List<String> urls = Splitter.on(',').splitToList(args.solrUrl);
         if (StringUtils.isNotEmpty(args.solrZkChroot)) {
-          this.solrClient = new CloudSolrClient.Builder(urls, Optional.of(args.solrZkChroot)).build();
+          this.solrClient = new CloudSolrClient.Builder(urls, Optional.of(args.solrZkChroot)).build(); // Connect to ZooKeeper
         } else {
-          this.solrClient = new CloudSolrClient.Builder(urls).build();
+          this.solrClient = new CloudSolrClient.Builder(urls).build(); // Connect to list of Solr servers
         }
       } else {
-        this.solrClient = new ConcurrentUpdateSolrClient.Builder(url).withQueueSize(args.solrBatch).build();
+        this.solrClient = new ConcurrentUpdateSolrClient.Builder(args.solrUrl).withQueueSize(args.solrBatch).build();
       }
     }
 
@@ -435,11 +436,11 @@ public final class IndexCollection {
     LOG.info("Starting indexer...");
 
     int numThreads = args.threads;
-    
+
     final Directory dir = FSDirectory.open(indexPath);
     final EnglishStemmingAnalyzer analyzer = args.keepStopwords ?
         new EnglishStemmingAnalyzer(args.stemmer, CharArraySet.EMPTY_SET) : new EnglishStemmingAnalyzer(args.stemmer);
-    
+
     final TweetAnalyzer tweetAnalyzer = new TweetAnalyzer(args.tweetStemming);
     final IndexWriterConfig config = args.collectionClass.equals("TweetCollection") ?
         new IndexWriterConfig(tweetAnalyzer) : new IndexWriterConfig(analyzer);
@@ -458,7 +459,7 @@ public final class IndexCollection {
     LOG.info(segmentCnt + " files found in " + collectionPath.toString());
     for (int i = 0; i < segmentCnt; i++) {
       if (args.solr) {
-        executor.execute(new SolrIndexerThread((Path) segmentPaths.get(i), collection, args.solrUrl));
+        executor.execute(new SolrIndexerThread((Path) segmentPaths.get(i), collection));
       } else {
         executor.execute(new IndexerThread(writer, collection, (Path) segmentPaths.get(i)));
       }
@@ -526,7 +527,7 @@ public final class IndexCollection {
     } catch (CmdLineException e) {
       System.err.println(e.getMessage());
       parser.printUsage(System.err);
-      System.err.println("Example: "+ IndexCollection.class.getSimpleName() +
+      System.err.println("Example: " + IndexCollection.class.getSimpleName() +
           parser.printExample(OptionHandlerFilter.REQUIRED));
       return;
     }
