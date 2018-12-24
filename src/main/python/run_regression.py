@@ -1,4 +1,4 @@
-#!/Users/peiliny/miniconda3/bin/python
+# -*- coding: utf-8 -*-
 """
 Anserini: A toolkit for reproducible information retrieval research built on Lucene
 
@@ -36,8 +36,10 @@ ch.setFormatter(formatter)
 # add the handlers to the logger
 logger.addHandler(ch)
 
+
 def isclose(a, b, rel_tol=1e-09, abs_tol=0.0):
     return abs(a-b) <= max(rel_tol * max(abs(a), abs(b)), abs_tol)
+
 
 def check_output(command):
     """
@@ -49,6 +51,7 @@ def check_output(command):
         return output
     else:
         raise RuntimeError("Command {0} running unsuccessfully".format(command))
+
 
 def get_index_path(yaml_data):
     """
@@ -64,6 +67,7 @@ def get_index_path(yaml_data):
                     index_path = os.path.join(input_root, yaml_data['index_path'])
                     break
     return index_path
+
 
 def construct_indexing_command(yaml_data):
     """Construct the Anserini indexing command for regression test
@@ -92,6 +96,7 @@ def construct_indexing_command(yaml_data):
     index_command.extend(yaml_data['index_options'])
     return index_command
 
+
 def verify_index(yaml_data, build_index=True, dry_run=False):
     """Verify the index statistics (e.g. total documents, total terms) so that we know we are searching
     against the correct index
@@ -118,6 +123,7 @@ def verify_index(yaml_data, build_index=True, dry_run=False):
                 logger.info(line)
         logger.info('='*10+'Verifying Index Succeed'+'='*10)
 
+
 def construct_ranking_command(output_root, yaml_data, build_index=True):
     """Construct the Anserini ranking commands for regression test
     Args:
@@ -140,6 +146,7 @@ def construct_ranking_command(output_root, yaml_data, build_index=True):
         for (model, topic) in list(itertools.product(yaml_data['models'], yaml_data['topics']))
     ]
     return ranking_commands
+
 
 def eval_n_verify(output_root, yaml_data, fail_eval, dry_run):
     """Evaluate the ranking files and verify the results with what are stored in yaml file
@@ -200,9 +207,10 @@ if __name__ == '__main__':
     parser.add_argument('--index', dest='index', action='store_true', help='rebuild index from scratch')
     parser.add_argument('--no_retrieval', dest='no_retrieval', action='store_true', help='do not do the retrieval')
     parser.add_argument('--dry_run', dest='dry_run', action='store_true',
-      help='output the commands but not actually running them. this is useful for development/debug')
+                        help='output the commands but not actually running them. this is useful for development/debug')
     parser.add_argument('--n', dest='parallelism', type=int, default=4, help='number of parallel threads for ranking')
-    parser.add_argument('--fail_eval', dest='fail_eval', action='store_true', help='when enabled any eval inconsistency will fail the program')
+    parser.add_argument('--fail_eval', dest='fail_eval', action='store_true',
+                        help='when enabled any eval inconsistency will fail the program')
     parser.add_argument('--output_root', default='runs.regression', help='output directory of all results')
     args = parser.parse_args()
 
@@ -211,7 +219,8 @@ if __name__ == '__main__':
 
     # TODO: A better way might be using dataclasses as the model to hold the data
     # https://docs.python.org/3/library/dataclasses.html
-    with open(os.path.join(args.anserini_root, 'src/main/resources/regression/{}.yaml'.format(args.collection))) as f:
+    with open(os.path.join(args.anserini_root,
+                           'src/main/resources/regression/{}.yaml'.format(args.collection))) as f:
         yaml_data = yaml.safe_load(f)
 
     yaml_data['root'] = args.anserini_root
