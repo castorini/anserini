@@ -118,7 +118,7 @@ def verify_index(yaml_data, build_index=True, dry_run=False):
                 logger.info(line)
         logger.info('='*10+'Verifying Index Succeed'+'='*10)
 
-def construct_ranking_command(yaml_data, build_index=True):
+def construct_ranking_command(output_root, yaml_data, build_index=True):
     """Construct the Anserini ranking commands for regression test
     Args:
       yaml_data (dict): The yaml config read from config file.
@@ -135,13 +135,13 @@ def construct_ranking_command(yaml_data, build_index=True):
             '-index', get_index_path(yaml_data),
             ' '.join(model['params']),
             '-topics', os.path.join(yaml_data['root'], yaml_data['topic_root'], topic['path']),
-            '-output', 'run.{0}.{1}.{2}'.format(yaml_data['name'], model['name'], topic['path'])
+            '-output', os.path.join(output_root, 'run.{0}.{1}.{2}'.format(yaml_data['name'], model['name'], topic['path']))
         ]
         for (model, topic) in list(itertools.product(yaml_data['models'], yaml_data['topics']))
     ]
     return ranking_commands
 
-def eval_n_verify(yaml_data, fail_eval, dry_run):
+def eval_n_verify(output_root, yaml_data, fail_eval, dry_run):
     """Evaluate the ranking files and verify the results with what are stored in yaml file
     Args:
       yaml_data (dict): The yaml config read from config file.
@@ -156,7 +156,7 @@ def eval_n_verify(yaml_data, fail_eval, dry_run):
                   os.path.join(yaml_data['root'], eval['command']),
                   ' '.join(eval['params']) if eval['params'] else '',
                   os.path.join(yaml_data['root'], yaml_data['qrels_root'], topic['qrel']),
-                  'run.{0}.{1}.{2}'.format(yaml_data['name'], model['name'], topic['path'])
+                  os.path.join(output_root, 'run.{0}.{1}.{2}'.format(yaml_data['name'], model['name'], topic['path']))
                 ]
                 if dry_run:
                     logger.info(' '.join(eval_cmd))
@@ -203,7 +203,11 @@ if __name__ == '__main__':
       help='output the commands but not actually running them. this is useful for development/debug')
     parser.add_argument('--n', dest='parallelism', type=int, default=4, help='number of parallel threads for ranking')
     parser.add_argument('--fail_eval', dest='fail_eval', action='store_true', help='when enabled any eval inconsistency will fail the program')
+    parser.add_argument('--output_root', default='runs.regression', help='output directory of all results')
     args = parser.parse_args()
+
+    if not os.path.exists(args.output_root):
+        os.makedirs(args.output_root)
 
     # TODO: A better way might be using dataclasses as the model to hold the data
     # https://docs.python.org/3/library/dataclasses.html
@@ -221,8 +225,8 @@ if __name__ == '__main__':
 
     if not args.no_retrieval:
         logger.info('='*10+'Ranking'+'='*10)
-        run_cmds = construct_ranking_command(yaml_data, args.index)
+        run_cmds = construct_ranking_command(args.output_root, yaml_data, args.index)
         p = Pool(args.parallelism)
         p.map(ranking_atom, run_cmds)
 
-    eval_n_verify(yaml_data, args.fail_eval, args.dry_run)
+    eval_n_verify(args.output_root, yaml_data, args.fail_eval, args.dry_run)
