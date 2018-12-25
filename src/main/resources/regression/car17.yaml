@@ -59,9 +59,9 @@ models:
       - -rm3
     results:
       map:
-        - 0.1386
+        - 0.1287
       recip_rank:
-        - 0.1907
+        - 0.1788
   - name: bm25+ax
     params:
       - -bm25
@@ -87,9 +87,9 @@ models:
       - -rm3
     results:
       map:
-        - 0.1198
+        - 0.1173
       recip_rank:
-        - 0.1653
+        - 0.1573
   - name: ql+ax
     params:
       - -ql
