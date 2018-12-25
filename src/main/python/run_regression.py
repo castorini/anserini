@@ -37,14 +37,12 @@ ch.setFormatter(formatter)
 logger.addHandler(ch)
 
 
-def isclose(a, b, rel_tol=1e-09, abs_tol=0.0):
+def is_close(a, b, rel_tol=1e-09, abs_tol=0.0):
     return abs(a-b) <= max(rel_tol * max(abs(a), abs(b)), abs_tol)
 
 
 def check_output(command):
-    """
-    Python 2.6 compatible subprocess.check_output
-    """
+    """Python 2.6 compatible subprocess.check_output."""
     process = Popen(command, shell=True, stdout=PIPE)
     output, err = process.communicate()
     if process.returncode == 0: # success
@@ -54,9 +52,7 @@ def check_output(command):
 
 
 def get_index_path(yaml_data):
-    """
-    Find the possible index path
-    """
+    """Find the index path."""
     index_path = os.path.join('lucene-index.{0}.pos+docvectors{1}'.format(yaml_data['name'], \
         '+rawdocs' if '-storeRawDocs' in yaml_data['index_options'] else ''))
     if not os.path.exists(index_path):
@@ -70,12 +66,13 @@ def get_index_path(yaml_data):
 
 
 def construct_indexing_command(yaml_data):
-    """Construct the Anserini indexing command for regression test
+    """Construct the Anserini indexing command.
+
     Args:
-      yaml_data (dict): The yaml config read from config file.
+        yaml_data (dict): The yaml config read from config file.
 
     Returns:
-      (:obj:`list` of :obj:`str`): The command as a list that can be run by calling subprocess.call(command)
+        (:obj:`list` of :obj:`str`): the command as a list that can be executed by calling subprocess.call(command)
     """
     logger.info('='*10+'Indexing'+'='*10)
     corpus_input_path = None
@@ -91,18 +88,19 @@ def construct_indexing_command(yaml_data):
         '-generator', yaml_data['generator'],
         '-threads', str(yaml_data['threads']),
         '-input', corpus_input_path,
-        '-index', 'lucene-index.{0}.pos+docvectors{1}'.format(yaml_data['name'], '+rawdocs' if '-storeRawDocs' in yaml_data['index_options'] else '')
+        '-index', 'lucene-index.{0}.pos+docvectors{1}'
+            .format(yaml_data['name'], '+rawdocs' if '-storeRawDocs' in yaml_data['index_options'] else '')
     ]
     index_command.extend(yaml_data['index_options'])
     return index_command
 
 
 def verify_index(yaml_data, build_index=True, dry_run=False):
-    """Verify the index statistics (e.g. total documents, total terms) so that we know we are searching
-    against the correct index
+    """Verify index statistics (e.g., total documents, total terms) so that we know we are searching
+    against the correct index.
 
     Args:
-      yaml_data (dict): The yaml config read from config file.
+        yaml_data (dict): the yaml config
     """
     logger.info('='*10+'Verifying Index'+'='*10)
     index_path = get_index_path(yaml_data)
@@ -125,14 +123,16 @@ def verify_index(yaml_data, build_index=True, dry_run=False):
 
 
 def construct_ranking_command(output_root, yaml_data, build_index=True):
-    """Construct the Anserini ranking commands for regression test
+    """Construct the Anserini ranking commands for regression tests.
+
     Args:
-      yaml_data (dict): The yaml config read from config file.
-      build_index (bool): If the index is not built by this script then read the index path for config
+        output_root (string): location of folder for run files
+        yaml_data (dict): the yaml config
+        build_index (bool): if the index is not built by this script then read the index path from config
 
     Returns:
-      (:obj:`list` of :obj:`list` of :obj:`str`):
-      The ranking commands as several commands that can be run by calling subprocess.call(command)
+        (:obj:`list` of :obj:`list` of :obj:`str`): the ranking commands as several commands that can be
+        executed by calling subprocess.call(command)
     """
     ranking_commands = [
         [
@@ -148,11 +148,13 @@ def construct_ranking_command(output_root, yaml_data, build_index=True):
     return ranking_commands
 
 
-def eval_n_verify(output_root, yaml_data, fail_eval, dry_run):
-    """Evaluate the ranking files and verify the results with what are stored in yaml file
+def evaluate_and_verify(output_root, yaml_data, fail_eval, dry_run):
+    """Evaluate run files and verify results stored in the yaml config.
+
     Args:
-      yaml_data (dict): The yaml config read from config file.
-      dry_run (bool): If True, we just print out the commands without actually running them
+        output_root (string): location of folder for run files
+        yaml_data (dict): the yaml config
+        dry_run (bool): if True, print out commands without actually running them
     """
     logger.info('='*10+'Verifying Results'+'='*10)
     success = True
@@ -183,7 +185,7 @@ def eval_n_verify(output_root, yaml_data, fail_eval, dry_run):
                     'expected': expected,
                     'actual': actual
                 }
-                if isclose(expected, actual):
+                if is_close(expected, actual):
                     logger.info(json.dumps(res, sort_keys=True))
                 else:
                     success = False
@@ -203,14 +205,14 @@ def ranking_atom(cmd):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Regression Tests')
     parser.add_argument('--anserini_root', default='', help='Anserini path')
-    parser.add_argument('--collection', required=True, help='the collection key in yaml')
-    parser.add_argument('--index', dest='index', action='store_true', help='rebuild index from scratch')
-    parser.add_argument('--no_retrieval', dest='no_retrieval', action='store_true', help='do not do the retrieval')
+    parser.add_argument('--collection', required=True, help='collection key in yaml')
+    parser.add_argument('--index', dest='index', action='store_true', help='build index from scratch')
+    parser.add_argument('--no_retrieval', dest='no_retrieval', action='store_true', help='do not perform retrieval')
     parser.add_argument('--dry_run', dest='dry_run', action='store_true',
-                        help='output the commands but not actually running them. this is useful for development/debug')
+                        help='output commands without actual execution')
     parser.add_argument('--n', dest='parallelism', type=int, default=4, help='number of parallel threads for ranking')
     parser.add_argument('--fail_eval', dest='fail_eval', action='store_true',
-                        help='when enabled any eval inconsistency will fail the program')
+                        help='fail when any run does not match expected effectiveness')
     parser.add_argument('--output_root', default='runs.regression', help='output directory of all results')
     args = parser.parse_args()
 
@@ -238,4 +240,4 @@ if __name__ == '__main__':
         p = Pool(args.parallelism)
         p.map(ranking_atom, run_cmds)
 
-    eval_n_verify(args.output_root, yaml_data, args.fail_eval, args.dry_run)
+    evaluate_and_verify(args.output_root, yaml_data, args.fail_eval, args.dry_run)
