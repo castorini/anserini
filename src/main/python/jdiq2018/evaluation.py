@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Anserini: A toolkit for reproducible information retrieval research built on Lucene
 
