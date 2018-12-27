@@ -28,7 +28,7 @@ from search import Search
 from evaluation import Evaluation
 from effectiveness import Effectiveness
 
-logger = logging.getLogger('jdiq2018_effectiveness')
+logger = logging.getLogger('jdiq2018')
 logger.setLevel(logging.INFO)
 # create console handler with a higher log level
 ch = logging.StreamHandler()
@@ -39,6 +39,8 @@ ch.setFormatter(formatter)
 logger.addHandler(ch)
 
 parallelism=1
+
+
 def batch_everything(all_params, func):
     if len(all_params) == 0:
         return
@@ -48,12 +50,14 @@ def batch_everything(all_params, func):
 def isclose(a, b, rel_tol=1e-09, abs_tol=0.0):
     return abs(a-b) <= max(rel_tol * max(abs(a), abs(b)), abs_tol)
 
+
 def get_index_path(yaml_data):
     """
     Find the possible index path
     """
-    index_path = os.path.join('lucene-index.{0}.pos+docvectors{1}'.format(yaml_data['name'], \
-                                                                          '+rawdocs' if '-storeRawDocs' in yaml_data['index_options'] else ''))
+    index_path = os.path.join('lucene-index.{0}.pos+docvectors{1}'
+                              .format(yaml_data['name'],
+                                      '+rawdocs' if '-storeRawDocs' in yaml_data['index_options'] else ''))
     if not os.path.exists(index_path):
         index_path = yaml_data['index_path']
         if not index_path or not os.path.exists(index_path):
@@ -62,6 +66,7 @@ def get_index_path(yaml_data):
                     index_path = os.path.join(input_root, yaml_data['index_path'])
                     break
     return index_path
+
 
 def batch_retrieval(collection_yaml, models_yaml, output_root):
     all_params = []
@@ -79,7 +84,8 @@ def batch_retrieval(collection_yaml, models_yaml, output_root):
                 '-searchtweets' if 'mb' in collection_yaml['name'] else '',
                 '-topicreader', collection_yaml['topic_reader'],
                 '-index', index_path,
-                '-topics', os.path.join(collection_yaml['anserini_root'], collection_yaml['topic_root'], topic['path']),
+                '-topics', os.path.join(collection_yaml['anserini_root'],
+                                        collection_yaml['topic_root'], topic['path']),
                 para[0],
                 '-output', para[1]
             )
@@ -87,8 +93,10 @@ def batch_retrieval(collection_yaml, models_yaml, output_root):
     logger.info('='*10+'Starting Batch Retrieval'+'='*10)
     batch_everything(all_params, atom_retrieval)
 
+
 def atom_retrieval(para):
     subprocess.call(' '.join(para), shell=True)
+
 
 def batch_eval(collection_yaml, models_yaml, output_root):
     all_params = []
@@ -112,8 +120,10 @@ def batch_eval(collection_yaml, models_yaml, output_root):
     logger.info('='*10+'Starting Batch Evaluation'+'='*10)
     batch_everything(all_params, atom_eval)
 
+
 def atom_eval(params):
     Evaluation.output_all_evaluations(*params)
+
 
 def batch_output_effectiveness(collection_yaml, models_yaml, output_root):
     all_params = []
@@ -125,11 +135,13 @@ def batch_output_effectiveness(collection_yaml, models_yaml, output_root):
     logger.info('='*10+'Starting Output Effectiveness'+'='*10)
     batch_everything(all_params, atom_output_effectiveness)
 
+
 def atom_output_effectiveness(para):
     index_path = para[0]
     output_fn = para[1]
     input_fns = para[2:]
     Effectiveness(index_path).output_effectiveness(output_fn, input_fns)
+
 
 def print_optimal_effectiveness(collection_yaml, models_yaml, output_root, metrics=['map']):
     index_path = get_index_path(collection_yaml)
@@ -147,6 +159,7 @@ def print_optimal_effectiveness(collection_yaml, models_yaml, output_root, metri
     if success:
         logger.info("All Tests Passed!")
 
+
 def del_method_related_files(method_name):
     folders = ['split_results', 'merged_results', 'evals', 'effectiveness']
     for q in g.query:
@@ -157,9 +170,11 @@ def del_method_related_files(method_name):
             if os.path.exists( os.path.join(collection_path, f) ):
                 logger.info('Deleting ' + os.path.join(collection_path, f) + ' *' + method_name + '*')
                 if f == 'split_results' or f == 'merged_results':
-                    subprocess.call('find %s -name "*method:%s*" -exec rm -rf {} \\;' % (os.path.join(collection_path, f), method_name), shell=True)
+                    subprocess.call('find %s -name "*method:%s*" -exec rm -rf {} \\;' %
+                                    (os.path.join(collection_path, f), method_name), shell=True)
                 else:
-                    subprocess.call('find %s -name "*%s*" -exec rm -rf {} \\;' % (os.path.join(collection_path, f), method_name), shell=True)
+                    subprocess.call('find %s -name "*%s*" -exec rm -rf {} \\;' %
+                                    (os.path.join(collection_path, f), method_name), shell=True)
 
 
 if __name__ == '__main__':
@@ -168,8 +183,9 @@ if __name__ == '__main__':
     # general settings
     parser.add_argument('--anserini_root', default='', help='Anserini path')
     parser.add_argument('--collection', required=True, help='the collection key in yaml')
-    parser.add_argument('--n', dest='parallelism', type=int, default=16, help='number of parallel threads for retrieval/eval')
-    parser.add_argument('--output_root', default='all_results', help='output directory of all results')
+    parser.add_argument('--n', dest='parallelism', type=int, default=16,
+                        help='number of parallel threads for retrieval/eval')
+    parser.add_argument('--output_root', default='runs.jdiq2018', help='output directory of all results')
 
     # runtime
     parser.add_argument(
@@ -193,7 +209,8 @@ if __name__ == '__main__':
         del_method_related_files(args.del_method_related_files[0])
     else:
         parallelism = args.parallelism
-        with open(os.path.join(args.anserini_root, 'src/main/resources/regression/{}.yaml'.format(args.collection))) as f:
+        with open(os.path.join(args.anserini_root,
+                               'src/main/resources/regression/{}.yaml'.format(args.collection))) as f:
             collection_yaml = yaml.safe_load(f)
         with open(os.path.join(args.anserini_root, 'src/main/resources/jdiq2018/models.yaml')) as f:
             models_yaml = yaml.safe_load(f)['models']
