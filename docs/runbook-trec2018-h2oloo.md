@@ -424,3 +424,20 @@ Metric                                | AP*    | AP+    | NDCG*  | NDCG+  | P10*
 `h2oloo_e7rm30.7`                     | 0.3361 | 0.3609 | 0.6177 | 0.6498 | 0.5940 | 0.6040 |
 
 There is a one additional run `h2oloo_LR2AX0.6` submitted to TREC that came from another code base, which we do not include here.
+
+
+**Update**: As of commit `e71df7aee42c7776a63b9845600a4075632fa11c` Tue Dec 18 07:45:30 2018 -0500, Anserini was upgraded to Lucene 7.
+The results are different from those with Lucene 6 above.
+Differences are as follows between code running at the above commit point (L7) vs. previous results (L6):
+
+Metric                                | AP*    | AP+ L6 | AP+ L7 |
+:-------------------------------------|-------:|-------:|-------:|
+`h2oloo_LRax0.6`                      | 0.3227 | 0.3343 | 0.3396 |
+`h2oloo_e3ax0.6` (`h2oloo_enax0.6`)   | 0.3341 | 0.3507 | 0.3563 |
+`h2oloo_e3ax0.7` (`h2oloo_enax0.7`)   | 0.3351 | 0.3477 | 0.3526 |
+`h2oloo_e7ax0.6`                      | 0.3310 | 0.3464 | 0.3504 |
+`h2oloo_e7ax0.7`                      | 0.3274 | 0.3455 | 0.3490 |
+`h2oloo_LRrm0.6` (`h2oloo_LR2_rm3`)   | 0.3273 | 0.3539 | 0.3569 |
+`h2oloo_e3rm30.6` (`h2oloo_enrm30.6`) | 0.3382 | 0.3652 | 0.3670 |
+`h2oloo_e7rm30.6`                     | 0.3333 | 0.3620 | 0.3639 |
+`h2oloo_e7rm30.7`                     | 0.3361 | 0.3609 | 0.3647 |
