@@ -255,6 +255,12 @@ public class DataModel {
   }
 
   public String generateIndexingCommand(String collection) {
+    boolean containRawDocs = false;
+    for (String option : getIndex_options()) {
+      if (option.contains("-storeRawDocs")) {
+        containRawDocs = true;
+      }
+    }
     StringBuilder builder = new StringBuilder();
     builder.append("nohup sh ");
     builder.append(getIndex_command());
@@ -262,26 +268,28 @@ public class DataModel {
     builder.append(" -generator ").append(getGenerator());
     builder.append(" -threads ").append(getThreads());
     builder.append(" -input ").append("/path/to/"+collection);
-    builder.append(" -index ").append("lucene-index."+getName()+".pos+docvectors");
-    boolean containRawDocs = false;
+    builder.append(" -index ").append("lucene-index."+getName()+".pos+docvectors"+(containRawDocs ? "+rawdocs" : ""));
     for (String option : getIndex_options()) {
       builder.append(" ").append(option);
-      if (option.contains("-storeRawDocs")) {
-        containRawDocs = true;
-      }
     }
     builder.append(String.format(" >& log.%s.pos+docvectors%s &", collection, containRawDocs ? "+rawdocs" : ""));
     return WordUtils.wrap(builder.toString(), 80, " \\\n", false);
   }
 
   public String generateRankingCommand(String collection) {
+    boolean containRawDocs = false;
+    for (String option : getIndex_options()) {
+      if (option.contains("-storeRawDocs")) {
+        containRawDocs = true;
+      }
+    }
     StringBuilder builder = new StringBuilder();
     for (Model model : getModels()) {
       for (Topic topic : getTopics()) {
         builder.append("nohup ");
         builder.append(getSearch_command());
         builder.append(" ").append("-topicreader").append(" ").append(getTopic_reader());
-        builder.append(" ").append("-index").append(" ").append("lucene-index."+collection+".pos+docvectors");
+        builder.append(" ").append("-index").append(" ").append("lucene-index."+collection+".pos+docvectors"+(containRawDocs ? "+rawdocs" : ""));
         builder.append(" ").append("-topics").append(" ").append(Paths.get(getTopic_root(), topic.getPath()).toString());
         builder.append(" ").append("-output").append(" ").append("run."+collection+"."+model.getName()+"."+topic.getPath());
         if (model.getParams() != null) {

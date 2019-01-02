@@ -7,7 +7,7 @@ Typical indexing command:
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection TrecCollection \
 -generator JsoupGenerator -threads 16 -input /path/to/disk12 -index \
-lucene-index.disk12.pos+docvectors -storePositions -storeDocvectors \
+lucene-index.disk12.pos+docvectors+rawdocs -storePositions -storeDocvectors \
 -storeRawDocs >& log.disk12.pos+docvectors+rawdocs &
 ```
 
@@ -29,29 +29,29 @@ Topics and qrels are stored in `src/main/resources/topics-and-qrels/`, downloade
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.51-100.txt -output run.disk12.bm25.topics.51-100.txt -bm25 &
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.101-150.txt -output run.disk12.bm25.topics.101-150.txt -bm25 &
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.151-200.txt -output run.disk12.bm25.topics.151-200.txt -bm25 &
+nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.51-100.txt -output run.disk12.bm25.topics.51-100.txt -bm25 &
+nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.101-150.txt -output run.disk12.bm25.topics.101-150.txt -bm25 &
+nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.151-200.txt -output run.disk12.bm25.topics.151-200.txt -bm25 &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.51-100.txt -output run.disk12.bm25+rm3.topics.51-100.txt -bm25 -rm3 &
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.101-150.txt -output run.disk12.bm25+rm3.topics.101-150.txt -bm25 -rm3 &
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.151-200.txt -output run.disk12.bm25+rm3.topics.151-200.txt -bm25 -rm3 &
+nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.51-100.txt -output run.disk12.bm25+rm3.topics.51-100.txt -bm25 -rm3 &
+nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.101-150.txt -output run.disk12.bm25+rm3.topics.101-150.txt -bm25 -rm3 &
+nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.151-200.txt -output run.disk12.bm25+rm3.topics.151-200.txt -bm25 -rm3 &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.51-100.txt -output run.disk12.bm25+ax.topics.51-100.txt -bm25 -axiom -rerankCutoff 20 -axiom.deterministic &
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.101-150.txt -output run.disk12.bm25+ax.topics.101-150.txt -bm25 -axiom -rerankCutoff 20 -axiom.deterministic &
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.151-200.txt -output run.disk12.bm25+ax.topics.151-200.txt -bm25 -axiom -rerankCutoff 20 -axiom.deterministic &
+nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.51-100.txt -output run.disk12.bm25+ax.topics.51-100.txt -bm25 -axiom -rerankCutoff 20 -axiom.deterministic &
+nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.101-150.txt -output run.disk12.bm25+ax.topics.101-150.txt -bm25 -axiom -rerankCutoff 20 -axiom.deterministic &
+nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.151-200.txt -output run.disk12.bm25+ax.topics.151-200.txt -bm25 -axiom -rerankCutoff 20 -axiom.deterministic &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.51-100.txt -output run.disk12.ql.topics.51-100.txt -ql &
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.101-150.txt -output run.disk12.ql.topics.101-150.txt -ql &
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.151-200.txt -output run.disk12.ql.topics.151-200.txt -ql &
+nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.51-100.txt -output run.disk12.ql.topics.51-100.txt -ql &
+nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.101-150.txt -output run.disk12.ql.topics.101-150.txt -ql &
+nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.151-200.txt -output run.disk12.ql.topics.151-200.txt -ql &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.51-100.txt -output run.disk12.ql+rm3.topics.51-100.txt -ql -rm3 &
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.101-150.txt -output run.disk12.ql+rm3.topics.101-150.txt -ql -rm3 &
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.151-200.txt -output run.disk12.ql+rm3.topics.151-200.txt -ql -rm3 &
+nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.51-100.txt -output run.disk12.ql+rm3.topics.51-100.txt -ql -rm3 &
+nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.101-150.txt -output run.disk12.ql+rm3.topics.101-150.txt -ql -rm3 &
+nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.151-200.txt -output run.disk12.ql+rm3.topics.151-200.txt -ql -rm3 &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.51-100.txt -output run.disk12.ql+ax.topics.51-100.txt -ql -axiom -rerankCutoff 20 -axiom.deterministic &
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.101-150.txt -output run.disk12.ql+ax.topics.101-150.txt -ql -axiom -rerankCutoff 20 -axiom.deterministic &
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.151-200.txt -output run.disk12.ql+ax.topics.151-200.txt -ql -axiom -rerankCutoff 20 -axiom.deterministic &
+nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.51-100.txt -output run.disk12.ql+ax.topics.51-100.txt -ql -axiom -rerankCutoff 20 -axiom.deterministic &
+nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.101-150.txt -output run.disk12.ql+ax.topics.101-150.txt -ql -axiom -rerankCutoff 20 -axiom.deterministic &
+nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.disk12.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.151-200.txt -output run.disk12.ql+ax.topics.151-200.txt -ql -axiom -rerankCutoff 20 -axiom.deterministic &
 
 ```
 
@@ -90,15 +90,15 @@ With the above commands, you should be able to replicate the following results:
 
 MAP                                     | BM25      | BM25+RM3  | BM25+AX   | QL        | QL+RM3    | QL+AX     |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-TREC-1 Ad Hoc Track: Topics 51-100      | 0.2273    | 0.2617    | 0.2640    | 0.2189    | 0.2478    | 0.2501    |
-TREC-2 Ad Hoc Track: Topics 101-150     | 0.2010    | 0.2600    | 0.2722    | 0.2015    | 0.2485    | 0.2593    |
-TREC-3 Ad Hoc Track: Topics 151-200     | 0.2580    | 0.3227    | 0.3318    | 0.2518    | 0.2996    | 0.3103    |
+TREC-1 Ad Hoc Track: Topics 51-100      | 0.2273    | 0.2634    | 0.2640    | 0.2189    | 0.2435    | 0.2501    |
+TREC-2 Ad Hoc Track: Topics 101-150     | 0.2010    | 0.2587    | 0.2722    | 0.2015    | 0.2442    | 0.2593    |
+TREC-3 Ad Hoc Track: Topics 151-200     | 0.2580    | 0.3390    | 0.3318    | 0.2518    | 0.3042    | 0.3103    |
 
 
 P30                                     | BM25      | BM25+RM3  | BM25+AX   | QL        | QL+RM3    | QL+AX     |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-TREC-1 Ad Hoc Track: Topics 51-100      | 0.4533    | 0.4867    | 0.5067    | 0.4520    | 0.4653    | 0.4953    |
-TREC-2 Ad Hoc Track: Topics 101-150     | 0.4280    | 0.4580    | 0.4753    | 0.4207    | 0.4453    | 0.4740    |
-TREC-3 Ad Hoc Track: Topics 151-200     | 0.4740    | 0.5040    | 0.5100    | 0.4580    | 0.4933    | 0.5167    |
+TREC-1 Ad Hoc Track: Topics 51-100      | 0.4533    | 0.4800    | 0.5067    | 0.4520    | 0.4627    | 0.4953    |
+TREC-2 Ad Hoc Track: Topics 101-150     | 0.4280    | 0.4593    | 0.4753    | 0.4207    | 0.4420    | 0.4740    |
+TREC-3 Ad Hoc Track: Topics 151-200     | 0.4740    | 0.5273    | 0.5100    | 0.4580    | 0.4913    | 0.5167    |
 
 

@@ -160,7 +160,7 @@ public abstract class EndToEndTest extends LuceneTestCase {
   protected void setSearchArgs() {
     // required
     searchArgs.index = this.indexOutputPrefix+this.collectionClass;
-    searchArgs.topics = this.topicDirPrefix+this.topicReader;
+    searchArgs.topics = new String[]{this.topicDirPrefix+this.topicReader};
     searchArgs.output = this.searchOutputPrefix+this.topicReader;
     searchArgs.topicReader = this.topicReader;
     searchArgs.bm25 = true;

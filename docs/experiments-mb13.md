@@ -12,8 +12,8 @@ Indexing the Tweets2013 collection:
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection TweetCollection \
 -generator TweetGenerator -threads 44 -input /path/to/mb13 -index \
-lucene-index.mb13.pos+docvectors -storePositions -storeDocvectors -storeRawDocs \
--uniqueDocid -optimize -tweet.keepUrls -tweet.stemming >& \
+lucene-index.mb13.pos+docvectors+rawdocs -storePositions -storeDocvectors \
+-storeRawDocs -uniqueDocid -optimize -tweet.keepUrls -tweet.stemming >& \
 log.mb13.pos+docvectors+rawdocs &
 ```
 __NB:__ The process is backgrounded
@@ -39,23 +39,23 @@ Topics and qrels are stored in `src/main/resources/topics-and-qrels/`, downloade
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-nohup target/appassembler/bin/SearchCollection -topicreader Microblog -index lucene-index.mb13.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.microblog2013.txt -output run.mb13.bm25.topics.microblog2013.txt -searchtweets -bm25 &
-nohup target/appassembler/bin/SearchCollection -topicreader Microblog -index lucene-index.mb13.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.microblog2014.txt -output run.mb13.bm25.topics.microblog2014.txt -searchtweets -bm25 &
+nohup target/appassembler/bin/SearchCollection -topicreader Microblog -index lucene-index.mb13.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.microblog2013.txt -output run.mb13.bm25.topics.microblog2013.txt -searchtweets -bm25 &
+nohup target/appassembler/bin/SearchCollection -topicreader Microblog -index lucene-index.mb13.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.microblog2014.txt -output run.mb13.bm25.topics.microblog2014.txt -searchtweets -bm25 &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Microblog -index lucene-index.mb13.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.microblog2013.txt -output run.mb13.bm25+rm3.topics.microblog2013.txt -searchtweets -bm25 -rm3 &
-nohup target/appassembler/bin/SearchCollection -topicreader Microblog -index lucene-index.mb13.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.microblog2014.txt -output run.mb13.bm25+rm3.topics.microblog2014.txt -searchtweets -bm25 -rm3 &
+nohup target/appassembler/bin/SearchCollection -topicreader Microblog -index lucene-index.mb13.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.microblog2013.txt -output run.mb13.bm25+rm3.topics.microblog2013.txt -searchtweets -bm25 -rm3 &
+nohup target/appassembler/bin/SearchCollection -topicreader Microblog -index lucene-index.mb13.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.microblog2014.txt -output run.mb13.bm25+rm3.topics.microblog2014.txt -searchtweets -bm25 -rm3 &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Microblog -index lucene-index.mb13.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.microblog2013.txt -output run.mb13.bm25+ax.topics.microblog2013.txt -searchtweets -bm25 -axiom -axiom.beta 1.0 -rerankCutoff 20 -axiom.deterministic &
-nohup target/appassembler/bin/SearchCollection -topicreader Microblog -index lucene-index.mb13.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.microblog2014.txt -output run.mb13.bm25+ax.topics.microblog2014.txt -searchtweets -bm25 -axiom -axiom.beta 1.0 -rerankCutoff 20 -axiom.deterministic &
+nohup target/appassembler/bin/SearchCollection -topicreader Microblog -index lucene-index.mb13.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.microblog2013.txt -output run.mb13.bm25+ax.topics.microblog2013.txt -searchtweets -bm25 -axiom -axiom.beta 1.0 -rerankCutoff 20 -axiom.deterministic &
+nohup target/appassembler/bin/SearchCollection -topicreader Microblog -index lucene-index.mb13.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.microblog2014.txt -output run.mb13.bm25+ax.topics.microblog2014.txt -searchtweets -bm25 -axiom -axiom.beta 1.0 -rerankCutoff 20 -axiom.deterministic &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Microblog -index lucene-index.mb13.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.microblog2013.txt -output run.mb13.ql.topics.microblog2013.txt -searchtweets -ql &
-nohup target/appassembler/bin/SearchCollection -topicreader Microblog -index lucene-index.mb13.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.microblog2014.txt -output run.mb13.ql.topics.microblog2014.txt -searchtweets -ql &
+nohup target/appassembler/bin/SearchCollection -topicreader Microblog -index lucene-index.mb13.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.microblog2013.txt -output run.mb13.ql.topics.microblog2013.txt -searchtweets -ql &
+nohup target/appassembler/bin/SearchCollection -topicreader Microblog -index lucene-index.mb13.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.microblog2014.txt -output run.mb13.ql.topics.microblog2014.txt -searchtweets -ql &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Microblog -index lucene-index.mb13.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.microblog2013.txt -output run.mb13.ql+rm3.topics.microblog2013.txt -searchtweets -ql -rm3 &
-nohup target/appassembler/bin/SearchCollection -topicreader Microblog -index lucene-index.mb13.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.microblog2014.txt -output run.mb13.ql+rm3.topics.microblog2014.txt -searchtweets -ql -rm3 &
+nohup target/appassembler/bin/SearchCollection -topicreader Microblog -index lucene-index.mb13.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.microblog2013.txt -output run.mb13.ql+rm3.topics.microblog2013.txt -searchtweets -ql -rm3 &
+nohup target/appassembler/bin/SearchCollection -topicreader Microblog -index lucene-index.mb13.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.microblog2014.txt -output run.mb13.ql+rm3.topics.microblog2014.txt -searchtweets -ql -rm3 &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Microblog -index lucene-index.mb13.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.microblog2013.txt -output run.mb13.ql+ax.topics.microblog2013.txt -searchtweets -ql -axiom -axiom.beta 1.0 -rerankCutoff 20 -axiom.deterministic &
-nohup target/appassembler/bin/SearchCollection -topicreader Microblog -index lucene-index.mb13.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.microblog2014.txt -output run.mb13.ql+ax.topics.microblog2014.txt -searchtweets -ql -axiom -axiom.beta 1.0 -rerankCutoff 20 -axiom.deterministic &
+nohup target/appassembler/bin/SearchCollection -topicreader Microblog -index lucene-index.mb13.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.microblog2013.txt -output run.mb13.ql+ax.topics.microblog2013.txt -searchtweets -ql -axiom -axiom.beta 1.0 -rerankCutoff 20 -axiom.deterministic &
+nohup target/appassembler/bin/SearchCollection -topicreader Microblog -index lucene-index.mb13.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.microblog2014.txt -output run.mb13.ql+ax.topics.microblog2014.txt -searchtweets -ql -axiom -axiom.beta 1.0 -rerankCutoff 20 -axiom.deterministic &
 
 ```
 
@@ -88,13 +88,13 @@ With the above commands, you should be able to replicate the following results:
 
 MAP                                     | BM25      | BM25+RM3  | BM25+AX   | QL        | QL+RM3    | QL+AX     |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-[TREC 2013 Microblog Track](http://trec.nist.gov/data/microblog2013.html)| 0.2371    | 0.2440    | 0.2855    | 0.2602    | 0.2815    | 0.3152    |
-[TREC 2014 Microblog Track](http://trec.nist.gov/data/microblog2014.html)| 0.3931    | 0.4158    | 0.4796    | 0.4181    | 0.4746    | 0.4965    |
+[TREC 2013 Microblog Track](http://trec.nist.gov/data/microblog2013.html)| 0.2371    | 0.2513    | 0.2855    | 0.2602    | 0.2911    | 0.3152    |
+[TREC 2014 Microblog Track](http://trec.nist.gov/data/microblog2014.html)| 0.3931    | 0.4374    | 0.4796    | 0.4181    | 0.4676    | 0.4965    |
 
 
 P30                                     | BM25      | BM25+RM3  | BM25+AX   | QL        | QL+RM3    | QL+AX     |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-[TREC 2013 Microblog Track](http://trec.nist.gov/data/microblog2013.html)| 0.4339    | 0.4350    | 0.4728    | 0.4561    | 0.4672    | 0.5078    |
-[TREC 2014 Microblog Track](http://trec.nist.gov/data/microblog2014.html)| 0.6212    | 0.6236    | 0.6648    | 0.6430    | 0.6594    | 0.6727    |
+[TREC 2013 Microblog Track](http://trec.nist.gov/data/microblog2013.html)| 0.4339    | 0.4411    | 0.4728    | 0.4561    | 0.4906    | 0.5078    |
+[TREC 2014 Microblog Track](http://trec.nist.gov/data/microblog2014.html)| 0.6212    | 0.6442    | 0.6648    | 0.6430    | 0.6533    | 0.6727    |
 
 

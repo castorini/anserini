@@ -7,8 +7,9 @@ Typical indexing command:
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection \
 WashingtonPostCollection -generator WapoGenerator -threads 16 -input \
-/path/to/core18 -index lucene-index.core18.pos+docvectors -storePositions \
--storeDocvectors -storeRawDocs >& log.core18.pos+docvectors+rawdocs &
+/path/to/core18 -index lucene-index.core18.pos+docvectors+rawdocs \
+-storePositions -storeDocvectors -storeRawDocs >& \
+log.core18.pos+docvectors+rawdocs &
 ```
 
 The directory `/path/to/core18/` should be the root directory of TREC Core2018 collection, i.e., `ls /path/to/core18/`
@@ -25,17 +26,17 @@ at `src/main/resources/topics-and-qrels/` with file names `topics.core18.txt` an
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.core18.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.core18.txt -output run.core18.bm25.topics.core18.txt -bm25 &
+nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.core18.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.core18.txt -output run.core18.bm25.topics.core18.txt -bm25 &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.core18.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.core18.txt -output run.core18.bm25+rm3.topics.core18.txt -bm25 -rm3 &
+nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.core18.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.core18.txt -output run.core18.bm25+rm3.topics.core18.txt -bm25 -rm3 &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.core18.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.core18.txt -output run.core18.bm25+ax.topics.core18.txt -bm25 -axiom -rerankCutoff 20 -axiom.deterministic &
+nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.core18.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.core18.txt -output run.core18.bm25+ax.topics.core18.txt -bm25 -axiom -rerankCutoff 20 -axiom.deterministic &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.core18.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.core18.txt -output run.core18.ql.topics.core18.txt -ql &
+nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.core18.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.core18.txt -output run.core18.ql.topics.core18.txt -ql &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.core18.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.core18.txt -output run.core18.ql+rm3.topics.core18.txt -ql -rm3 &
+nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.core18.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.core18.txt -output run.core18.ql+rm3.topics.core18.txt -ql -rm3 &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.core18.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.core18.txt -output run.core18.ql+ax.topics.core18.txt -ql -axiom -rerankCutoff 20 -axiom.deterministic &
+nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.core18.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.core18.txt -output run.core18.ql+ax.topics.core18.txt -ql -axiom -rerankCutoff 20 -axiom.deterministic &
 
 ```
 
@@ -62,12 +63,12 @@ With the above commands, you should be able to replicate the following results:
 
 MAP                                     | BM25      | BM25+RM3  | BM25+AX   | QL        | QL+RM3    | QL+AX     |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-All Topics                              | 0.2491    | 0.2952    | 0.2921    | 0.2522    | 0.2759    | 0.2975    |
+All Topics                              | 0.2491    | 0.3147    | 0.2921    | 0.2522    | 0.3064    | 0.2975    |
 
 
 P30                                     | BM25      | BM25+RM3  | BM25+AX   | QL        | QL+RM3    | QL+AX     |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-All Topics                              | 0.3580    | 0.4200    | 0.4007    | 0.3627    | 0.3753    | 0.4073    |
+All Topics                              | 0.3580    | 0.4193    | 0.4007    | 0.3627    | 0.4007    | 0.4073    |
 
 
 

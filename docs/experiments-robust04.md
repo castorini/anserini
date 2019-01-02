@@ -7,7 +7,7 @@ Typical indexing command:
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection TrecCollection \
 -generator JsoupGenerator -threads 16 -input /path/to/robust04 -index \
-lucene-index.robust04.pos+docvectors -storePositions -storeDocvectors \
+lucene-index.robust04.pos+docvectors+rawdocs -storePositions -storeDocvectors \
 -storeRawDocs >& log.robust04.pos+docvectors+rawdocs &
 ```
 
@@ -26,17 +26,17 @@ Topics and qrels are stored in `src/main/resources/topics-and-qrels/`, downloade
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.robust04.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.robust04.301-450.601-700.txt -output run.robust04.bm25.topics.robust04.301-450.601-700.txt -bm25 &
+nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.robust04.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.robust04.301-450.601-700.txt -output run.robust04.bm25.topics.robust04.301-450.601-700.txt -bm25 &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.robust04.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.robust04.301-450.601-700.txt -output run.robust04.bm25+rm3.topics.robust04.301-450.601-700.txt -bm25 -rm3 &
+nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.robust04.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.robust04.301-450.601-700.txt -output run.robust04.bm25+rm3.topics.robust04.301-450.601-700.txt -bm25 -rm3 &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.robust04.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.robust04.301-450.601-700.txt -output run.robust04.bm25+ax.topics.robust04.301-450.601-700.txt -bm25 -axiom -rerankCutoff 20 -axiom.deterministic &
+nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.robust04.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.robust04.301-450.601-700.txt -output run.robust04.bm25+ax.topics.robust04.301-450.601-700.txt -bm25 -axiom -rerankCutoff 20 -axiom.deterministic &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.robust04.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.robust04.301-450.601-700.txt -output run.robust04.ql.topics.robust04.301-450.601-700.txt -ql &
+nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.robust04.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.robust04.301-450.601-700.txt -output run.robust04.ql.topics.robust04.301-450.601-700.txt -ql &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.robust04.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.robust04.301-450.601-700.txt -output run.robust04.ql+rm3.topics.robust04.301-450.601-700.txt -ql -rm3 &
+nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.robust04.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.robust04.301-450.601-700.txt -output run.robust04.ql+rm3.topics.robust04.301-450.601-700.txt -ql -rm3 &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.robust04.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.robust04.301-450.601-700.txt -output run.robust04.ql+ax.topics.robust04.301-450.601-700.txt -ql -axiom -rerankCutoff 20 -axiom.deterministic &
+nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.robust04.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.robust04.301-450.601-700.txt -output run.robust04.ql+ax.topics.robust04.301-450.601-700.txt -ql -axiom -rerankCutoff 20 -axiom.deterministic &
 
 ```
 
@@ -63,12 +63,12 @@ With the above commands, you should be able to replicate the following results:
 
 MAP                                     | BM25      | BM25+RM3  | BM25+AX   | QL        | QL+RM3    | QL+AX     |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-All Topics                              | 0.2531    | 0.2778    | 0.2895    | 0.2467    | 0.2649    | 0.2774    |
+All Topics                              | 0.2531    | 0.2903    | 0.2895    | 0.2467    | 0.2747    | 0.2774    |
 
 
 P30                                     | BM25      | BM25+RM3  | BM25+AX   | QL        | QL+RM3    | QL+AX     |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-All Topics                              | 0.3102    | 0.3288    | 0.3333    | 0.3079    | 0.3171    | 0.3229    |
+All Topics                              | 0.3102    | 0.3365    | 0.3333    | 0.3079    | 0.3232    | 0.3229    |
 
 
 

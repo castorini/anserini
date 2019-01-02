@@ -7,8 +7,8 @@ Typical indexing command:
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection CarCollection \
 -generator LuceneDocumentGenerator -threads 40 -input /path/to/car17 -index \
-lucene-index.car17.pos+docvectors -storePositions -storeDocvectors -storeRawDocs \
->& log.car17.pos+docvectors+rawdocs &
+lucene-index.car17.pos+docvectors+rawdocs -storePositions -storeDocvectors \
+-storeRawDocs >& log.car17.pos+docvectors+rawdocs &
 ```
 
 The directory `/path/to/Car17` should be the root directory of Car17 collection, i.e., `ls /path/to/Car17` should bring up a list of `.cbor` files.
@@ -26,17 +26,17 @@ Topics and qrels are stored in `src/main/resources/topics-and-qrels/`, downloade
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-nohup target/appassembler/bin/SearchCollection -topicreader Car -index lucene-index.car17.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.car17.test200.txt -output run.car17.bm25.topics.car17.test200.txt -bm25 &
+nohup target/appassembler/bin/SearchCollection -topicreader Car -index lucene-index.car17.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.car17.test200.txt -output run.car17.bm25.topics.car17.test200.txt -bm25 &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Car -index lucene-index.car17.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.car17.test200.txt -output run.car17.bm25+rm3.topics.car17.test200.txt -bm25 -rm3 &
+nohup target/appassembler/bin/SearchCollection -topicreader Car -index lucene-index.car17.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.car17.test200.txt -output run.car17.bm25+rm3.topics.car17.test200.txt -bm25 -rm3 &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Car -index lucene-index.car17.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.car17.test200.txt -output run.car17.bm25+ax.topics.car17.test200.txt -bm25 -axiom -rerankCutoff 20 -axiom.deterministic &
+nohup target/appassembler/bin/SearchCollection -topicreader Car -index lucene-index.car17.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.car17.test200.txt -output run.car17.bm25+ax.topics.car17.test200.txt -bm25 -axiom -rerankCutoff 20 -axiom.deterministic &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Car -index lucene-index.car17.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.car17.test200.txt -output run.car17.ql.topics.car17.test200.txt -ql &
+nohup target/appassembler/bin/SearchCollection -topicreader Car -index lucene-index.car17.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.car17.test200.txt -output run.car17.ql.topics.car17.test200.txt -ql &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Car -index lucene-index.car17.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.car17.test200.txt -output run.car17.ql+rm3.topics.car17.test200.txt -ql -rm3 &
+nohup target/appassembler/bin/SearchCollection -topicreader Car -index lucene-index.car17.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.car17.test200.txt -output run.car17.ql+rm3.topics.car17.test200.txt -ql -rm3 &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Car -index lucene-index.car17.pos+docvectors -topics src/main/resources/topics-and-qrels/topics.car17.test200.txt -output run.car17.ql+ax.topics.car17.test200.txt -ql -axiom -rerankCutoff 20 -axiom.deterministic &
+nohup target/appassembler/bin/SearchCollection -topicreader Car -index lucene-index.car17.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.car17.test200.txt -output run.car17.ql+ax.topics.car17.test200.txt -ql -axiom -rerankCutoff 20 -axiom.deterministic &
 
 ```
 
@@ -63,11 +63,11 @@ With the above commands, you should be able to replicate the following results:
 
 MAP                                     | BM25      | BM25+RM3  | BM25+AX   | QL        | QL+RM3    | QL+AX     |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-All Topics                              | 0.1689    | 0.1386    | 0.1355    | 0.1516    | 0.1198    | 0.1082    |
+All Topics                              | 0.1689    | 0.1287    | 0.1355    | 0.1516    | 0.1173    | 0.1082    |
 
 
 RECIP_RANK                              | BM25      | BM25+RM3  | BM25+AX   | QL        | QL+RM3    | QL+AX     |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-All Topics                              | 0.2321    | 0.1907    | 0.1857    | 0.2085    | 0.1653    | 0.1501    |
+All Topics                              | 0.2321    | 0.1788    | 0.1857    | 0.2085    | 0.1573    | 0.1501    |
 
 
