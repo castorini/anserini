@@ -79,20 +79,20 @@ models:
     expected:
       robust04:
         map:
-          best_avg: 0.2955
-          oracles_per_topic: 0.4044
-          2-fold: 0.2929
-          5-fold: 0.2878
+          best_avg: 0.2967
+          oracles_per_topic: 0.4024
+          2-fold: 0.2897
+          5-fold: 0.2914
         P_20:
-          best_avg: 0.3932
-          oracles_per_topic: 0.5661
-          2-fold: 0.3883
-          5-fold: 0.3902
+          best_avg: 0.3924
+          oracles_per_topic: 0.5651
+          2-fold: 0.3877
+          5-fold: 0.3854
         ndcg20:
-          best_avg: 0.44484
-          oracles_per_topic: 0.6278
-          2-fold: 0.4361
-          5-fold: 0.4375
+          best_avg: 0.44386
+          oracles_per_topic: 0.6262
+          2-fold: 0.4371
+          5-fold: 0.4326
   bm25+axiom:
     name: axiom
     fixed_params: "-inmem -skipexists -axiom.n 30 -axiom.deterministic -rerankCutoff 50"
@@ -106,7 +106,7 @@ models:
         type: float
         lower: 0
         upper: 0.5
-        pace: 0.05
+        pace: 0.1
       axiom.r:
         type: int
         lower: 1
@@ -125,20 +125,20 @@ models:
     expected:
       robust04:
         map:
-          best_avg: 0.0
-          oracles_per_topic: 0.0
-          2-fold: 0.0
-          5-fold: 0.0
+          best_avg: 0.2983
+          oracles_per_topic: 0.4168
+          2-fold: 0.2933
+          5-fold: 0.2920
         P_20:
-          best_avg: 0.0
-          oracles_per_topic: 0.0
-          2-fold: 0.0
-          5-fold: 0.0
+          best_avg: 0.3932
+          oracles_per_topic: 0.5841
+          2-fold: 0.3821
+          5-fold: 0.3856
         ndcg20:
-          best_avg: 0.0
-          oracles_per_topic: 0.0
-          2-fold: 0.0
-          5-fold: 0.0
+          best_avg: 0.44498
+          oracles_per_topic: 0.64720
+          2-fold: 0.4282
+          5-fold: 0.4302
   rm3:
     name: rm3
     fixed_params: "-inmem -skipexists -rerankCutoff 50"
