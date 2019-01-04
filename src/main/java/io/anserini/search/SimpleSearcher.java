@@ -54,6 +54,7 @@ public class SimpleSearcher implements Closeable {
   private Similarity similarity;
   private Analyzer analyzer;
   private RerankerCascade cascade;
+  private boolean searchtweets;
 
   protected class Result {
     public String docid;
@@ -80,6 +81,10 @@ public class SimpleSearcher implements Closeable {
     this.similarity = new LMDirichletSimilarity(1000.0f);
     this.analyzer = new EnglishAnalyzer();
     setNormalReranker();
+  }
+
+  public void setSearchTweets(boolean flag) {
+     searchtweets = flag;
   }
 
   public void setRM3Reranker() {
@@ -149,6 +154,7 @@ public class SimpleSearcher implements Closeable {
     SearchArgs searchArgs = new SearchArgs();
     searchArgs.arbitraryScoreTieBreak = false;
     searchArgs.hits = k;
+    searchArgs.searchtweets = searchtweets;
     RerankerContext context = new RerankerContext<>(searcher, null, query, null, q, queryTokens, null, searchArgs);
     ScoredDocuments hits = cascade.run(ScoredDocuments.fromTopDocs(rs, searcher), context);
 
