@@ -24,6 +24,7 @@ import io.anserini.rerank.lib.Rm3Reranker;
 import io.anserini.rerank.lib.ScoreTiesAdjusterReranker;
 import io.anserini.search.query.BagOfWordsQueryGenerator;
 import io.anserini.util.AnalyzerUtils;
+import io.anserini.analysis.TweetAnalyzer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
@@ -84,7 +85,13 @@ public class SimpleSearcher implements Closeable {
   }
 
   public void setSearchTweets(boolean flag) {
-     searchtweets = flag;
+     this.searchtweets = flag;
+     if (flag) {
+        this.analyzer = new TweetAnalyzer();
+      }
+     else {
+        this.analyzer = new EnglishAnalyzer();
+     }
   }
 
   public void setRM3Reranker() {
