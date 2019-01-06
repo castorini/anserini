@@ -17,6 +17,7 @@
 package io.anserini.search;
 
 import io.anserini.index.generator.LuceneDocumentGenerator;
+import io.anserini.index.generator.TweetGenerator;
 import io.anserini.rerank.RerankerCascade;
 import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.ScoredDocuments;
@@ -30,6 +31,7 @@ import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.document.Document;
+import org.apache.lucene.document.LongPoint;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexableField;
@@ -37,6 +39,7 @@ import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
+import org.apache.lucene.search.*;
 import org.apache.lucene.search.similarities.*;
 import org.apache.lucene.store.FSDirectory;
 
@@ -48,14 +51,22 @@ import java.nio.file.Paths;
 import java.util.List;
 
 import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_BODY;
+import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_RAW;
+import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_ID;
 
 public class SimpleSearcher implements Closeable {
+  public static final Sort BREAK_SCORE_TIES_BY_DOCID =
+      new Sort(SortField.FIELD_SCORE, new SortField(FIELD_ID, SortField.Type.STRING_VAL));
+  public static final Sort BREAK_SCORE_TIES_BY_TWEETID =
+      new Sort(SortField.FIELD_SCORE,
+          new SortField(TweetGenerator.StatusField.ID_LONG.name, SortField.Type.LONG, true));
   private static final Logger LOG = LogManager.getLogger(SimpleSearcher.class);
   private final IndexReader reader;
   private Similarity similarity;
   private Analyzer analyzer;
   private RerankerCascade cascade;
   private boolean searchtweets;
+  private boolean isRerank;
 
   protected class Result {
     public String docid;
@@ -81,17 +92,13 @@ public class SimpleSearcher implements Closeable {
     this.reader = DirectoryReader.open(FSDirectory.open(indexPath));
     this.similarity = new LMDirichletSimilarity(1000.0f);
     this.analyzer = new EnglishAnalyzer();
-    setNormalReranker();
+    this.isRerank = false;
+    setDefaultReranker();
   }
 
   public void setSearchTweets(boolean flag) {
      this.searchtweets = flag;
-     if (flag) {
-        this.analyzer = new TweetAnalyzer();
-      }
-     else {
-        this.analyzer = new EnglishAnalyzer();
-     }
+     this.analyzer = flag? new TweetAnalyzer(true) : new EnglishAnalyzer();
   }
 
   public void setRM3Reranker() {
@@ -102,12 +109,14 @@ public class SimpleSearcher implements Closeable {
     setRM3Reranker(fbTerms, fbDocs, originalQueryWeight, false);
   }
 
-  public void setNormalReranker() {
+  public void setDefaultReranker() {
+    isRerank = false;
     cascade = new RerankerCascade();
     cascade.add(new ScoreTiesAdjusterReranker());
   }
 
   public void setRM3Reranker(int fbTerms, int fbDocs, float originalQueryWeight, boolean rm3_outputQuery) {
+    isRerank = true;
     cascade = new RerankerCascade();
     cascade.add(new Rm3Reranker(this.analyzer, FIELD_BODY, fbTerms, fbDocs, originalQueryWeight, rm3_outputQuery));
     cascade.add(new ScoreTiesAdjusterReranker());
@@ -151,25 +160,49 @@ public class SimpleSearcher implements Closeable {
   }
 
   public Result[] search(String q, int k) throws IOException {
+    return search(q, k, -1);
+  }
+
+  public Result[] search(String q, int k, long t) throws IOException {
     IndexSearcher searcher = new IndexSearcher(reader);
     searcher.setSimilarity(similarity);
-    Query query = new BagOfWordsQueryGenerator().buildQuery(LuceneDocumentGenerator.FIELD_BODY, analyzer, q);
-
-    TopDocs rs = searcher.search(query, k);
-
+    Query query = new BagOfWordsQueryGenerator().buildQuery(FIELD_BODY, analyzer, q);
     List<String> queryTokens = AnalyzerUtils.tokenize(analyzer, q);
+    
     SearchArgs searchArgs = new SearchArgs();
     searchArgs.arbitraryScoreTieBreak = false;
     searchArgs.hits = k;
     searchArgs.searchtweets = searchtweets;
-    RerankerContext context = new RerankerContext<>(searcher, null, query, null, q, queryTokens, null, searchArgs);
+    TopDocs rs = new TopDocs(0, new ScoreDoc[]{}, Float.NaN);
+    RerankerContext context;
+    if (searchtweets) {
+		if (t > 0) {
+            // Do not consider the tweets with tweet ids that are beyond the queryTweetTime
+            // <querytweettime> tag contains the timestamp of the query in terms of the
+            // chronologically nearest tweet id within the corpus
+            Query filter = LongPoint.newRangeQuery(TweetGenerator.StatusField.ID_LONG.name, 0L, t);
+            BooleanQuery.Builder builder = new BooleanQuery.Builder();
+            builder.add(filter, BooleanClause.Occur.FILTER);
+            builder.add(query, BooleanClause.Occur.MUST);
+            Query compositeQuery = builder.build();
+            rs = searcher.search(compositeQuery, isRerank ? searchArgs.rerankcutoff : k, BREAK_SCORE_TIES_BY_TWEETID, true, true);
+            context = new RerankerContext<>(searcher, null, compositeQuery, null, q, queryTokens, filter, searchArgs);
+        } else {
+            rs = searcher.search(query, isRerank ? searchArgs.rerankcutoff : k, BREAK_SCORE_TIES_BY_TWEETID, true, true);
+            context = new RerankerContext<>(searcher, null, query, null, q, queryTokens, null, searchArgs);
+        }
+    } else {
+    	rs = searcher.search(query, isRerank ? searchArgs.rerankcutoff : k, BREAK_SCORE_TIES_BY_DOCID, true, true);
+        context = new RerankerContext<>(searcher, null, query, null, q, queryTokens, null, searchArgs);
+    }
+
     ScoredDocuments hits = cascade.run(ScoredDocuments.fromTopDocs(rs, searcher), context);
 
     Result[] results = new Result[hits.ids.length];
     for (int i = 0; i < hits.ids.length; i++) {
       Document doc = hits.documents[i];
-      String docid = doc.getField(LuceneDocumentGenerator.FIELD_ID).stringValue();
-      IndexableField field = doc.getField(LuceneDocumentGenerator.FIELD_RAW);
+      String docid = doc.getField(FIELD_ID).stringValue();
+      IndexableField field = doc.getField(FIELD_RAW);
       String content = field == null ? null : field.stringValue();
       results[i] = new Result(docid, hits.ids[i], hits.scores[i], content);
     }
