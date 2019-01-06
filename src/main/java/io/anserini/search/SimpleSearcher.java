@@ -92,6 +92,7 @@ public class SimpleSearcher implements Closeable {
     this.reader = DirectoryReader.open(FSDirectory.open(indexPath));
     this.similarity = new LMDirichletSimilarity(1000.0f);
     this.analyzer = new EnglishAnalyzer();
+    this.searchtweets = false;
     this.isRerank = false;
     setDefaultReranker();
   }
@@ -173,6 +174,7 @@ public class SimpleSearcher implements Closeable {
     searchArgs.arbitraryScoreTieBreak = false;
     searchArgs.hits = k;
     searchArgs.searchtweets = searchtweets;
+
     TopDocs rs = new TopDocs(0, new ScoreDoc[]{}, Float.NaN);
     RerankerContext context;
     if (searchtweets) {
@@ -218,7 +220,7 @@ public class SimpleSearcher implements Closeable {
       return null;
     }
 
-    IndexableField field = doc.getField(LuceneDocumentGenerator.FIELD_RAW);
+    IndexableField field = doc.getField(FIELD_RAW);
     return field == null ? null : field.stringValue();
   }
 }
