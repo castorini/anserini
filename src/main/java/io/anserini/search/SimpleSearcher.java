@@ -103,7 +103,7 @@ public class SimpleSearcher implements Closeable {
   }
 
   public void setRM3Reranker() {
-    setRM3Reranker(20, 50, 0.6f, false);
+    setRM3Reranker(10, 10, 0.5f, false);
   }
 
   public void setRM3Reranker(int fbTerms, int fbDocs, float originalQueryWeight) {
