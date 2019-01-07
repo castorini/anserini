@@ -50,13 +50,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
-import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_BODY;
-import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_RAW;
-import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_ID;
-
 public class SimpleSearcher implements Closeable {
   public static final Sort BREAK_SCORE_TIES_BY_DOCID =
-      new Sort(SortField.FIELD_SCORE, new SortField(FIELD_ID, SortField.Type.STRING_VAL));
+      new Sort(SortField.FIELD_SCORE, new SortField(LuceneDocumentGenerator.FIELD_ID, SortField.Type.STRING_VAL));
   public static final Sort BREAK_SCORE_TIES_BY_TWEETID =
       new Sort(SortField.FIELD_SCORE,
           new SortField(TweetGenerator.StatusField.ID_LONG.name, SortField.Type.LONG, true));
@@ -119,7 +115,7 @@ public class SimpleSearcher implements Closeable {
   public void setRM3Reranker(int fbTerms, int fbDocs, float originalQueryWeight, boolean rm3_outputQuery) {
     isRerank = true;
     cascade = new RerankerCascade();
-    cascade.add(new Rm3Reranker(this.analyzer, FIELD_BODY, fbTerms, fbDocs, originalQueryWeight, rm3_outputQuery));
+    cascade.add(new Rm3Reranker(this.analyzer, LuceneDocumentGenerator.FIELD_BODY, fbTerms, fbDocs, originalQueryWeight, rm3_outputQuery));
     cascade.add(new ScoreTiesAdjusterReranker());
   }
 
@@ -167,7 +163,7 @@ public class SimpleSearcher implements Closeable {
   public Result[] search(String q, int k, long t) throws IOException {
     IndexSearcher searcher = new IndexSearcher(reader);
     searcher.setSimilarity(similarity);
-    Query query = new BagOfWordsQueryGenerator().buildQuery(FIELD_BODY, analyzer, q);
+    Query query = new BagOfWordsQueryGenerator().buildQuery(LuceneDocumentGenerator.FIELD_BODY, analyzer, q);
     List<String> queryTokens = AnalyzerUtils.tokenize(analyzer, q);
     
     SearchArgs searchArgs = new SearchArgs();
@@ -178,23 +174,23 @@ public class SimpleSearcher implements Closeable {
     TopDocs rs = new TopDocs(0, new ScoreDoc[]{}, Float.NaN);
     RerankerContext context;
     if (searchtweets) {
-		if (t > 0) {
-            // Do not consider the tweets with tweet ids that are beyond the queryTweetTime
-            // <querytweettime> tag contains the timestamp of the query in terms of the
-            // chronologically nearest tweet id within the corpus
-            Query filter = LongPoint.newRangeQuery(TweetGenerator.StatusField.ID_LONG.name, 0L, t);
-            BooleanQuery.Builder builder = new BooleanQuery.Builder();
-            builder.add(filter, BooleanClause.Occur.FILTER);
-            builder.add(query, BooleanClause.Occur.MUST);
-            Query compositeQuery = builder.build();
-            rs = searcher.search(compositeQuery, isRerank ? searchArgs.rerankcutoff : k, BREAK_SCORE_TIES_BY_TWEETID, true, true);
-            context = new RerankerContext<>(searcher, null, compositeQuery, null, q, queryTokens, filter, searchArgs);
-        } else {
-            rs = searcher.search(query, isRerank ? searchArgs.rerankcutoff : k, BREAK_SCORE_TIES_BY_TWEETID, true, true);
-            context = new RerankerContext<>(searcher, null, query, null, q, queryTokens, null, searchArgs);
-        }
+      if (t > 0) {
+        // Do not consider the tweets with tweet ids that are beyond the queryTweetTime
+        // <querytweettime> tag contains the timestamp of the query in terms of the
+        // chronologically nearest tweet id within the corpus
+        Query filter = LongPoint.newRangeQuery(TweetGenerator.StatusField.ID_LONG.name, 0L, t);
+        BooleanQuery.Builder builder = new BooleanQuery.Builder();
+        builder.add(filter, BooleanClause.Occur.FILTER);
+        builder.add(query, BooleanClause.Occur.MUST);
+        Query compositeQuery = builder.build();
+        rs = searcher.search(compositeQuery, isRerank ? searchArgs.rerankcutoff : k, BREAK_SCORE_TIES_BY_TWEETID, true, true);
+        context = new RerankerContext<>(searcher, null, compositeQuery, null, q, queryTokens, filter, searchArgs);
+      } else {
+        rs = searcher.search(query, isRerank ? searchArgs.rerankcutoff : k, BREAK_SCORE_TIES_BY_TWEETID, true, true);
+        context = new RerankerContext<>(searcher, null, query, null, q, queryTokens, null, searchArgs);
+      }
     } else {
-    	rs = searcher.search(query, isRerank ? searchArgs.rerankcutoff : k, BREAK_SCORE_TIES_BY_DOCID, true, true);
+      rs = searcher.search(query, isRerank ? searchArgs.rerankcutoff : k, BREAK_SCORE_TIES_BY_DOCID, true, true);
         context = new RerankerContext<>(searcher, null, query, null, q, queryTokens, null, searchArgs);
     }
 
@@ -203,8 +199,8 @@ public class SimpleSearcher implements Closeable {
     Result[] results = new Result[hits.ids.length];
     for (int i = 0; i < hits.ids.length; i++) {
       Document doc = hits.documents[i];
-      String docid = doc.getField(FIELD_ID).stringValue();
-      IndexableField field = doc.getField(FIELD_RAW);
+      String docid = doc.getField(LuceneDocumentGenerator.FIELD_ID).stringValue();
+      IndexableField field = doc.getField(LuceneDocumentGenerator.FIELD_RAW);
       String content = field == null ? null : field.stringValue();
       results[i] = new Result(docid, hits.ids[i], hits.scores[i], content);
     }
@@ -220,7 +216,7 @@ public class SimpleSearcher implements Closeable {
       return null;
     }
 
-    IndexableField field = doc.getField(FIELD_RAW);
+    IndexableField field = doc.getField(LuceneDocumentGenerator.FIELD_RAW);
     return field == null ? null : field.stringValue();
   }
 }
