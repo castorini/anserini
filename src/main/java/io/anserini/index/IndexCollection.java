@@ -178,12 +178,12 @@ public final class IndexCollection {
     public AtomicLong errors = new AtomicLong();
   }
 
-  private final class IndexerThread extends Thread {
+  private final class LocalIndexerThread extends Thread {
     final private Path inputFile;
     final private IndexWriter writer;
     final private DocumentCollection collection;
 
-    private IndexerThread(IndexWriter writer, DocumentCollection collection, Path inputFile) throws IOException {
+    private LocalIndexerThread(IndexWriter writer, DocumentCollection collection, Path inputFile) throws IOException {
       this.writer = writer;
       this.collection = collection;
       this.inputFile = inputFile;
@@ -257,22 +257,11 @@ public final class IndexCollection {
 
     private final Path input;
     private final DocumentCollection collection;
-    private final SolrClient solrClient;
     private final List<SolrInputDocument> buffer = new ArrayList(args.solrBatch);
 
-    private SolrIndexerThread(Path input, DocumentCollection collection) {
+    private SolrIndexerThread(DocumentCollection collection, Path input) {
       this.input = input;
       this.collection = collection;
-      if (args.solrCloud) {
-        List<String> urls = Splitter.on(',').splitToList(args.solrUrl);
-        if (StringUtils.isNotEmpty(args.solrZkChroot)) {
-          this.solrClient = new CloudSolrClient.Builder(urls, Optional.of(args.solrZkChroot)).build(); // Connect to ZooKeeper
-        } else {
-          this.solrClient = new CloudSolrClient.Builder(urls).build(); // Connect to list of Solr servers
-        }
-      } else {
-        this.solrClient = new ConcurrentUpdateSolrClient.Builder(args.solrUrl).withQueueSize(args.solrBatch).build();
-      }
     }
 
     @Override
@@ -323,7 +312,7 @@ public final class IndexCollection {
               flush();
             }
           } else {
-            this.solrClient.add(args.solrIndex, solrDocument); // ... and ConcurrentUpdateSolrClient does it for us
+            solrClient.add(args.solrIndex, solrDocument); // ... and ConcurrentUpdateSolrClient does it for us
           }
 
           cnt++;
@@ -336,9 +325,6 @@ public final class IndexCollection {
 
         // Send commit to Solr
         solrClient.commit(args.solrIndex);
-
-        // Close the SolrClient
-        solrClient.close();
 
         if (iter.getNextRecordStatus() == BaseFileSegment.Status.ERROR) {
           counters.errors.incrementAndGet();
@@ -374,6 +360,7 @@ public final class IndexCollection {
   private final Class generatorClass;
   private final DocumentCollection collection;
   private final Counters counters;
+  private SolrClient solrClient;
 
   public IndexCollection(IndexCollection.Args args) throws Exception {
     this.args = args;
@@ -391,6 +378,13 @@ public final class IndexCollection {
     LOG.info("Store raw docs? " + args.storeRawDocs);
     LOG.info("Optimize (merge segments)? " + args.optimize);
     LOG.info("Whitelist: " + args.whitelist);
+    LOG.info("Solr? " + args.solr);
+    if (args.solr) {
+      LOG.info("Solr batch size: " + args.solrBatch);
+      LOG.info("SolrCloud? " + args.solrCloud + " (zkChroot = " + args.solrZkChroot + ")");
+      LOG.info("Solr index: " + args.solrIndex);
+      LOG.info("Solr URL: " + args.solrUrl);
+    }
 
     this.indexPath = Paths.get(args.index);
     if (!Files.exists(this.indexPath)) {
@@ -414,6 +408,19 @@ public final class IndexCollection {
       this.whitelistDocids = new HashSet<>(lines);
     } else {
       this.whitelistDocids = null;
+    }
+
+    if (args.solr) {
+      if (args.solrCloud) {
+        List<String> urls = Splitter.on(',').splitToList(args.solrUrl);
+        if (StringUtils.isNotEmpty(args.solrZkChroot)) {
+          this.solrClient = new CloudSolrClient.Builder(urls, Optional.of(args.solrZkChroot)).build(); // Connect to ZooKeeper
+        } else {
+          this.solrClient = new CloudSolrClient.Builder(urls).build(); // Connect to list of Solr servers
+        }
+      } else {
+        this.solrClient = new ConcurrentUpdateSolrClient.Builder(args.solrUrl).withQueueSize(args.solrBatch).build();
+      }
     }
 
     this.counters = new Counters();
@@ -447,9 +454,9 @@ public final class IndexCollection {
     LOG.info(segmentCnt + " files found in " + collectionPath.toString());
     for (int i = 0; i < segmentCnt; i++) {
       if (args.solr) {
-        executor.execute(new SolrIndexerThread((Path) segmentPaths.get(i), collection));
+        executor.execute(new SolrIndexerThread(collection, (Path) segmentPaths.get(i)));
       } else {
-        executor.execute(new IndexerThread(writer, collection, (Path) segmentPaths.get(i)));
+        executor.execute(new LocalIndexerThread(writer, collection, (Path) segmentPaths.get(i)));
       }
     }
 
@@ -479,6 +486,8 @@ public final class IndexCollection {
       writer.commit();
       if (args.optimize)
         writer.forceMerge(1);
+      if (args.solr)
+        solrClient.close();
     } finally {
       try {
         writer.close();
