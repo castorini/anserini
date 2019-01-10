@@ -13,5 +13,8 @@ src/test/test-index*
 *.out
 lucene-index*
 run.*
-log*
+log.*
+*.log
 out.*
+runs.regression/
+runs.jdiq2018/
