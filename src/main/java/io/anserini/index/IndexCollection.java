@@ -419,7 +419,8 @@ public final class IndexCollection {
           this.solrClient = new CloudSolrClient.Builder(urls).build(); // Connect to list of Solr servers
         }
       } else {
-        this.solrClient = new ConcurrentUpdateSolrClient.Builder(args.solrUrl).withQueueSize(args.solrBatch).build();
+        this.solrClient = new ConcurrentUpdateSolrClient.Builder(args.solrUrl)
+            .withQueueSize(args.solrBatch).withThreadCount(args.threads).build();
       }
     }
 
