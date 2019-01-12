@@ -58,7 +58,7 @@ if __name__ == '__main__':
 
     # Generate separate topics for each fold.
     for i in range(len(folds)):
-        out = open(f'topics.robust04.fold{i}', 'w+')
+        out = open(f'topics.robust04.fold{i}', 'w')
         for t in range(len(topics)):
             match = re.search(r'Number: (\d+)', topics[t], re.M)
             if match:
