@@ -1,19 +1,18 @@
 # -*- coding: utf-8 -*-
-"""
-Anserini: A toolkit for reproducible information retrieval research built on Lucene
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-"""
+#
+# Anserini: A toolkit for reproducible information retrieval research built on Lucene
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 
 import os
 import json
@@ -23,11 +22,12 @@ from inspect import currentframe, getframeinfo
 import logging
 
 logging.basicConfig()
+
 class Effectiveness(object):
-    """
-    Handle the performace. For example, get all the effectiveness of one method(has multiple parameters).
-    When constructing, pass the index path
-    """
+    """Handles the effectiveness.
+    
+    For example, get all the effectiveness of one method (has multiple parameters).
+    When constructing, pass the index path."""
     def __init__(self, index_path):
         self.logger = logging.getLogger('effectiveness.Effectiveness')
         self.index_path = os.path.abspath(index_path)
@@ -68,9 +68,7 @@ class Effectiveness(object):
                         f.write('%s,%.1f,%.4f\n' % (basemodel, ele[0], ele[1]))
 
     def read_eval_file(self, fn):
-        """
-        return {qid: {metric: [(value, para), ...]}}
-        """
+        """return {qid: {metric: [(value, para), ...]}}"""
         split_fn = os.path.basename(fn).split('_')
         params = split_fn[-1] if len(split_fn) == 3 else ''
         res = {}
