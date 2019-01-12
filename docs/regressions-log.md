@@ -20,7 +20,7 @@ Changed RM3 defaults to match settings in Indri.
 
 + [commit e71df7aee42c7776a63b9845600a4075632fa11c](https://github.com/castorini/Anserini/commit/26fbb3936cb2db1d69f02ad990d83e773e7d87c2) Thu Dec 20 08:20:42 2018 -0800
 
-Added Axiomatic F2Exp and F2Log back to Anserini (previously, was using default Lucene implementation as part of version 7.6 upgrade).
+Added Axiomatic F2Exp and F2Log ranking models back into Anserini (previously, we were using the default Lucene implementation as part of version 7.6 upgrade).
 
 ### December 18, 2018
 
