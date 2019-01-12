@@ -43,8 +43,6 @@ BM25+AxiomaticReranking Robust04 (runs + eval + print results):
 python src/main/python/fine_tuning/run_batch.py --collection robust04 --model bm25+axiom --n 44 --run --use_drr_fold
 ```
 
-Change `robust04` to `cw0b9` for ClueWeb09b results.
-
 ## Tuned Run
 
 Tuned parameter values:
