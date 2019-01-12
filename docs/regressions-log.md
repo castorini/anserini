@@ -3,11 +3,43 @@
 The following change log details commits to regression tests that alter effectiveness and the addition of new regression tests.
 This documentation is useful for figuring why results may have changed over time.
 
+
+### January 2, 2019
+
++ [commit 407f308cc543286e39701caf0acd1afab39dde2c](https://github.com/castorini/Anserini/commit/407f308cc543286e39701caf0acd1afab39dde2c) Wed Jan 2 06:34:57 2019 -0800
+
+Added fine tuning results (i.e., SIGIR Forum article experiments) for axiomatic semantic term matching.
+
+### December 24, 2018
+
++ [commit 1aa3970bd32b456025ada608389f7e4896eff19e](https://github.com/castorini/Anserini/commit/1aa3970bd32b456025ada608389f7e4896eff19e) Mon Dec 24 07:22:20 2018 -0500
+
+Changed RM3 defaults to match settings in Indri.
+
+### December 20, 2018
+
++ [commit e71df7aee42c7776a63b9845600a4075632fa11c](https://github.com/castorini/Anserini/commit/26fbb3936cb2db1d69f02ad990d83e773e7d87c2) Thu Dec 20 08:20:42 2018 -0800
+
+Added Axiomatic F2Exp and F2Log ranking models back into Anserini (previously, we were using the default Lucene implementation as part of version 7.6 upgrade).
+
+### December 18, 2018
+
++ [commit e71df7aee42c7776a63b9845600a4075632fa11c](https://github.com/castorini/Anserini/commit/e71df7aee42c7776a63b9845600a4075632fa11c) Tue Dec 18 07:45:30 2018 -0500
+
+Upgrade to Lucene 7.6.
+
 ### November 30, 2018
 
 + [commit e5b87f0d6c16b47d0be6cc8fd587acd20e3fbb0d](https://github.com/castorini/Anserini/commit/e5b87f0d6c16b47d0be6cc8fd587acd20e3fbb0d) Fri Nov 30 04:57:04 2018 -0800
 
 Added default regressions for TREC 2018 Common Core Track.
+
+### November 16, 2018
+
++ [commit 2c8cd7a550faca0fc450e4159a4a874d4795ac25](https://github.com/castorini/Anserini/commit/2c8cd7a550faca0fc450e4159a4a874d4795ac25) Fri Nov 16 16:18:23 2018 -0500
+
+This is the commit id references in the [SIGIR Forum 2018 article](http://sigir.org/wp-content/uploads/2019/01/p040.pdf).
+Note that [commit 18c3211117f35f72cbc1019c125ff885f51056ea](https://github.com/castorini/Anserini/commit/18c3211117f35f72cbc1019c125ff885f51056ea) (Sun Dec 9 03:25:49 2018 -0800) contains minor fixes to the code.
 
 ### October 22, 2018
 
