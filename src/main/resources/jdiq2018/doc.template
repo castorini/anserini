@@ -17,18 +17,21 @@ By the time the article was published, the implementation of Anserini has progre
 As Anserini continues to improve we will update these scripts, which will lead to further divergences between the published values.
 Unfortunately, this is an unavoidable aspect of empirical research on software artifacts.
 
+**Update (12/18/2018)**:
+Regression effectiveness values further changed at commit `e71df7aee42c7776a63b9845600a4075632fa11c` Tue Dec 18 07:45:30 2018 -0500 with upgrade to Lucene 7.6.
+
 ## Parameter Tuning
 
 Invoke the tuning script on various collections as follows, on `tuna`:
 
 ```
-nohup python src/main/python/jdiq2018_effectiveness/run_batch.py --collection disk12 >& jdiq2018.disk12.log &
-nohup python src/main/python/jdiq2018_effectiveness/run_batch.py --collection robust04 >& jdiq2018.robust04.log &
-nohup python src/main/python/jdiq2018_effectiveness/run_batch.py --collection robust05 >& jdiq2018.robust05.log &
-nohup python src/main/python/jdiq2018_effectiveness/run_batch.py --collection wt10g >& jdiq2018.wt10g.log &
-nohup python src/main/python/jdiq2018_effectiveness/run_batch.py --collection gov2 >& jdiq2018.gov2.log &
-nohup python src/main/python/jdiq2018_effectiveness/run_batch.py --collection cw09b --metrics map ndcg20 err20 >& jdiq2018.cw09b.log &
-nohup python src/main/python/jdiq2018_effectiveness/run_batch.py --collection cw12b13 --metrics map ndcg20 err20 >& jdiq2018.cw12b13.log &
+nohup python src/main/python/jdiq2018/run_regression.py --collection disk12 >& jdiq2018.disk12.log &
+nohup python src/main/python/jdiq2018/run_regression.py --collection robust04 >& jdiq2018.robust04.log &
+nohup python src/main/python/jdiq2018/run_regression.py --collection robust05 >& jdiq2018.robust05.log &
+nohup python src/main/python/jdiq2018/run_regression.py --collection wt10g >& jdiq2018.wt10g.log &
+nohup python src/main/python/jdiq2018/run_regression.py --collection gov2 >& jdiq2018.gov2.log &
+nohup python src/main/python/jdiq2018/run_regression.py --collection cw09b --metrics map ndcg20 err20 >& jdiq2018.cw09b.log &
+nohup python src/main/python/jdiq2018/run_regression.py --collection cw12b13 --metrics map ndcg20 err20 >& jdiq2018.cw12b13.log &
 ```
 
 The script assumes hard-coded index directories; modify as appropriate.

@@ -16,23 +16,32 @@
 
 package io.anserini.index;
 
+import com.google.common.base.Splitter;
 import io.anserini.analysis.EnglishStemmingAnalyzer;
 import io.anserini.analysis.TweetAnalyzer;
 import io.anserini.collection.*;
 import io.anserini.index.generator.LuceneDocumentGenerator;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DurationFormatUtils;
+import org.apache.commons.pool2.BasePooledObjectFactory;
+import org.apache.commons.pool2.ObjectPool;
+import org.apache.commons.pool2.PooledObject;
+import org.apache.commons.pool2.impl.DefaultPooledObject;
+import org.apache.commons.pool2.impl.GenericObjectPool;
+import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.CharArraySet;
 import org.apache.lucene.document.Document;
-import org.apache.lucene.index.ConcurrentMergeScheduler;
-import org.apache.lucene.index.IndexWriter;
-import org.apache.lucene.index.IndexWriterConfig;
-import org.apache.lucene.index.Term;
+import org.apache.lucene.index.*;
 import org.apache.lucene.search.similarities.BM25Similarity;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
+import org.apache.solr.client.solrj.SolrClient;
+import org.apache.solr.client.solrj.impl.CloudSolrClient;
+import org.apache.solr.client.solrj.impl.ConcurrentUpdateSolrClient;
+import org.apache.solr.common.SolrInputDocument;
 import org.kohsuke.args4j.*;
 
 import java.io.File;
@@ -40,9 +49,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -58,9 +65,6 @@ public final class IndexCollection {
     @Option(name = "-input", metaVar = "[Directory]", required = true, usage = "collection directory")
     public String input;
 
-    @Option(name = "-index", metaVar = "[Path]", required = true, usage = "index path")
-    public String index;
-
     @Option(name = "-threads", metaVar = "[Number]", required = true, usage = "Number of Threads")
     public int threads;
 
@@ -71,6 +75,9 @@ public final class IndexCollection {
     public String generatorClass;
 
     // optional arguments
+
+    @Option(name = "-index", metaVar = "[Path]", forbids = {"-solr"}, usage = "index path")
+    public String index;
 
     @Option(name = "-storePositions", usage = "boolean switch to index storePositions")
     public boolean storePositions = false;
@@ -89,13 +96,13 @@ public final class IndexCollection {
 
     @Option(name = "-keepStopwords", usage = "boolean switch to keep stopwords")
     public boolean keepStopwords = false;
-  
+
     @Option(name = "-stemmer", usage = "Stemmer: one of the following porter,krovetz,none. Default porter")
     public String stemmer = "porter";
 
     @Option(name = "-uniqueDocid", usage = "remove duplicated documents with the same doc id when indexing. " +
-      "please note that this option may slow the indexing a lot and if you are sure there is no " +
-      "duplicated document ids in the corpus you shouldn't use this option.")
+        "please note that this option may slow the indexing a lot and if you are sure there is no " +
+        "duplicated document ids in the corpus you shouldn't use this option.")
     public boolean uniqueDocid = false;
 
     @Option(name = "-memorybuffer", usage = "memory buffer size")
@@ -120,6 +127,24 @@ public final class IndexCollection {
     @Option(name = "-tweet.deletedIdsFile", metaVar = "[Path]",
         usage = "a file that contains deleted tweetIds, one per line. these tweeets won't be indexed")
     public String tweetDeletedIdsFile = "";
+
+    @Option(name = "-solr", forbids = {"-index"}, usage = "boolean switch to determine if we should index into Solr")
+    public boolean solr = false;
+
+    @Option(name = "-solr.batch", usage = "the batch size for submitting documents to Solr")
+    public int solrBatch = 1000;
+
+    @Option(name = "-solr.cloud", usage = "boolean switch to determine if we're running in SolrCloud mode")
+    public boolean solrCloud = false;
+
+    @Option(name = "-solr.index", usage = "the name of the index")
+    public String solrIndex = null;
+
+    @Option(name = "-solr.url", usage = "the URL of Solr (standalone) or ZooKeeper (cloud, possibly comma-separated) servers")
+    public String solrUrl = null;
+
+    @Option(name = "-solr.zkChroot", usage = "the ZooKeeper chroot, if using a ZooKeeper URL instead of Solr")
+    public String solrZkChroot = null;
   }
 
   public final class Counters {
@@ -159,12 +184,12 @@ public final class IndexCollection {
     public AtomicLong errors = new AtomicLong();
   }
 
-  private final class IndexerThread extends Thread {
+  private final class LocalIndexerThread extends Thread {
     final private Path inputFile;
     final private IndexWriter writer;
     final private DocumentCollection collection;
 
-    private IndexerThread(IndexWriter writer, DocumentCollection collection, Path inputFile) throws IOException {
+    private LocalIndexerThread(IndexWriter writer, DocumentCollection collection, Path inputFile) throws IOException {
       this.writer = writer;
       this.collection = collection;
       this.inputFile = inputFile;
@@ -200,7 +225,8 @@ public final class IndexCollection {
             continue;
           }
 
-          @SuppressWarnings("unchecked") // Yes, we know what we're doing here.
+          // Yes, we know what we're doing here.
+          @SuppressWarnings("unchecked")
           Document doc = generator.createDocument(d);
           if (doc == null) {
             counters.unindexed.incrementAndGet();
@@ -233,14 +259,115 @@ public final class IndexCollection {
     }
   }
 
+  private final class SolrIndexerThread implements Runnable {
+
+    private final Path input;
+    private final DocumentCollection collection;
+    private final List<SolrInputDocument> buffer = new ArrayList(args.solrBatch);
+
+    private SolrIndexerThread(DocumentCollection collection, Path input) {
+      this.input = input;
+      this.collection = collection;
+    }
+
+    @Override
+    public void run() {
+      try {
+
+        LuceneDocumentGenerator generator = (LuceneDocumentGenerator) generatorClass.getDeclaredConstructor(Args.class, Counters.class).newInstance(args, counters);
+        BaseFileSegment<SourceDocument> iter = (BaseFileSegment) ((SegmentProvider) collection).createFileSegment(input);
+
+        SolrClient client = solrPool.borrowObject();
+
+        int cnt = 0;
+        while (iter.hasNext()) {
+          SourceDocument sourceDocument;
+          try {
+            sourceDocument = iter.next();
+          } catch (RuntimeException e) {
+            counters.skipped.incrementAndGet();
+            continue;
+          }
+
+          if (!sourceDocument.indexable()) {
+            counters.unindexable.incrementAndGet();
+            continue;
+          }
+
+          Document document = generator.createDocument(sourceDocument);
+          if (document == null) {
+            counters.unindexed.incrementAndGet();
+            continue;
+          }
+          if (whitelistDocids != null && !whitelistDocids.contains(sourceDocument.id())) {
+            counters.skipped.incrementAndGet();
+            continue;
+          }
+
+          SolrInputDocument solrDocument = new SolrInputDocument();
+
+          // Add all STORED fields
+          for (IndexableField field : document.getFields()) {
+            if (field.fieldType().stored()) {
+              solrDocument.addField(field.name(), field.stringValue());
+            }
+          }
+
+          // With CloudSolrClient, we need to buffer ourselves...
+          if (args.solrCloud) {
+            buffer.add(solrDocument);
+            if (buffer.size() == args.solrBatch) {
+              flush(client);
+            }
+          } else {
+            client.add(args.solrIndex, solrDocument); // ... and ConcurrentUpdateSolrClient does it for us
+          }
+
+          cnt++;
+        }
+
+        // If we're running in cloud mode and have docs in the buffer, flush them.
+        if (args.solrCloud && !buffer.isEmpty()) {
+          flush(client);
+        }
+
+        if (iter.getNextRecordStatus() == BaseFileSegment.Status.ERROR) {
+          counters.errors.incrementAndGet();
+        }
+
+        solrPool.returnObject(client);
+
+        iter.close();
+        LOG.info(input.getParent().getFileName().toString() + File.separator + input.getFileName().toString() + ": " + cnt + " docs added.");
+        counters.indexed.addAndGet(cnt);
+      } catch (Exception e) {
+        LOG.error(Thread.currentThread().getName() + ": Unexpected Exception:", e);
+      }
+
+    }
+
+    private void flush(SolrClient client) {
+      if (!buffer.isEmpty()) {
+        try {
+          client.add(args.solrIndex, buffer);
+          buffer.clear();
+        } catch (Exception e) {
+          LOG.error("Error flushing documents to Solr", e);
+        }
+      }
+    }
+
+  }
+
   private final IndexCollection.Args args;
-  private final Path indexPath;
   private final Path collectionPath;
   private final Set whitelistDocids;
   private final Class collectionClass;
   private final Class generatorClass;
   private final DocumentCollection collection;
   private final Counters counters;
+  private Path indexPath;
+  private ObjectPool<SolrClient> solrPool;
 
   public IndexCollection(IndexCollection.Args args) throws Exception {
     this.args = args;
@@ -258,16 +385,28 @@ public final class IndexCollection {
     LOG.info("Store raw docs? " + args.storeRawDocs);
     LOG.info("Optimize (merge segments)? " + args.optimize);
     LOG.info("Whitelist: " + args.whitelist);
+    LOG.info("Solr? " + args.solr);
+    if (args.solr) {
+      LOG.info("Solr batch size: " + args.solrBatch);
+      LOG.info("SolrCloud? " + args.solrCloud + " (zkChroot = " + args.solrZkChroot + ")");
+      LOG.info("Solr index: " + args.solrIndex);
+      LOG.info("Solr URL: " + args.solrUrl);
+    }
 
-    this.indexPath = Paths.get(args.index);
-    if (!Files.exists(this.indexPath)) {
-      Files.createDirectories(this.indexPath);
+    if (args.index == null && !args.solr) {
+      throw new IllegalArgumentException("Must specify one of -index or -solr");
+    }
+
+    if (args.index != null) {
+      this.indexPath = Paths.get(args.index);
+      if (!Files.exists(this.indexPath)) {
+        Files.createDirectories(this.indexPath);
+      }
     }
 
     collectionPath = Paths.get(args.input);
     if (!Files.exists(collectionPath) || !Files.isReadable(collectionPath) || !Files.isDirectory(collectionPath)) {
-      throw new RuntimeException("Document directory " + collectionPath.toString() +
-          " does not exist or is not readable, please check the path");
+      throw new RuntimeException("Document directory " + collectionPath.toString() + " does not exist or is not readable, please check the path");
     }
 
     this.generatorClass = Class.forName("io.anserini.index.generator." + args.generatorClass);
@@ -283,7 +422,45 @@ public final class IndexCollection {
       this.whitelistDocids = null;
     }
 
+    if (args.solr) {
+      GenericObjectPoolConfig config = new GenericObjectPoolConfig();
+      config.setMaxTotal(args.threads);
+      this.solrPool = new GenericObjectPool(new SolrClientFactory(), config);
+    }
+
     this.counters = new Counters();
+  }
+
+  private class SolrClientFactory extends BasePooledObjectFactory<SolrClient> {
+
+    @Override
+    public SolrClient create() throws Exception {
+      // SolrCloud
+      if (args.solrCloud) {
+        List<String> urls = Splitter.on(',').splitToList(args.solrUrl);
+        if (StringUtils.isNotEmpty(args.solrZkChroot)) {
+          return new CloudSolrClient.Builder(urls, Optional.of(args.solrZkChroot)).build(); // Connect to ZooKeeper
+        } else {
+          return new CloudSolrClient.Builder(urls).build(); // Connect to list of Solr servers
+        }
+      }
+      // Standlone
+      return new ConcurrentUpdateSolrClient.Builder(args.solrUrl)
+          .withQueueSize(args.solrBatch)
+          .withThreadCount(args.threads)
+          .build();
+    }
+
+    @Override
+    public PooledObject<SolrClient> wrap(SolrClient solrClient) {
+      return new DefaultPooledObject(solrClient);
+    }
+
+    @Override
+    public void destroyObject(PooledObject<SolrClient> pooled) throws Exception {
+      pooled.getObject().commit(args.solrIndex);
+    }
+
   }
 
   public void run() throws IOException, InterruptedException {
@@ -291,21 +468,25 @@ public final class IndexCollection {
     LOG.info("Starting indexer...");
 
     int numThreads = args.threads;
-    
-    final Directory dir = FSDirectory.open(indexPath);
-    final EnglishStemmingAnalyzer analyzer = args.keepStopwords ?
-        new EnglishStemmingAnalyzer(args.stemmer, CharArraySet.EMPTY_SET) : new EnglishStemmingAnalyzer(args.stemmer);
-    
-    final TweetAnalyzer tweetAnalyzer = new TweetAnalyzer(args.tweetStemming);
-    final IndexWriterConfig config = args.collectionClass.equals("TweetCollection") ?
-        new IndexWriterConfig(tweetAnalyzer) : new IndexWriterConfig(analyzer);
-    config.setSimilarity(new BM25Similarity());
-    config.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
-    config.setRAMBufferSizeMB(args.memorybufferSize);
-    config.setUseCompoundFile(false);
-    config.setMergeScheduler(new ConcurrentMergeScheduler());
 
-    final IndexWriter writer = new IndexWriter(dir, config);
+    IndexWriter writer = null;
+
+    // Used for LocalIndexThread
+    if (indexPath != null) {
+
+      final Directory dir = FSDirectory.open(indexPath);
+      final EnglishStemmingAnalyzer analyzer = args.keepStopwords ?
+          new EnglishStemmingAnalyzer(args.stemmer, CharArraySet.EMPTY_SET) : new EnglishStemmingAnalyzer(args.stemmer);
+      final TweetAnalyzer tweetAnalyzer = new TweetAnalyzer(args.tweetStemming);
+      final IndexWriterConfig config = args.collectionClass.equals("TweetCollection") ? new IndexWriterConfig(tweetAnalyzer) : new IndexWriterConfig(analyzer);
+      config.setSimilarity(new BM25Similarity());
+      config.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
+      config.setRAMBufferSizeMB(args.memorybufferSize);
+      config.setUseCompoundFile(false);
+      config.setMergeScheduler(new ConcurrentMergeScheduler());
+
+      writer = new IndexWriter(dir, config);
+    }
 
     final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(numThreads);
     final List segmentPaths = ((SegmentProvider) collection).getFileSegmentPaths();
@@ -313,7 +494,11 @@ public final class IndexCollection {
     final int segmentCnt = segmentPaths.size();
     LOG.info(segmentCnt + " files found in " + collectionPath.toString());
     for (int i = 0; i < segmentCnt; i++) {
-      executor.execute(new IndexerThread(writer, collection, (Path) segmentPaths.get(i)));
+      if (args.solr) {
+        executor.execute(new SolrIndexerThread(collection, (Path) segmentPaths.get(i)));
+      } else {
+        executor.execute(new LocalIndexerThread(writer, collection, (Path) segmentPaths.get(i)));
+      }
     }
 
     executor.shutdown();
@@ -336,12 +521,20 @@ public final class IndexCollection {
           " is not equal to completedTaskCount =  " + executor.getCompletedTaskCount());
     }
 
-    int numIndexed = writer.maxDoc();
+    long numIndexed;
+
+    if (args.solr) {
+      numIndexed = counters.indexed.get();
+    } else {
+      numIndexed = writer.maxDoc();
+    }
 
     try {
       writer.commit();
       if (args.optimize)
         writer.forceMerge(1);
+      if (args.solr)
+        solrPool.close();
     } finally {
       try {
         writer.close();
@@ -378,7 +571,7 @@ public final class IndexCollection {
     } catch (CmdLineException e) {
       System.err.println(e.getMessage());
       parser.printUsage(System.err);
-      System.err.println("Example: "+ IndexCollection.class.getSimpleName() +
+      System.err.println("Example: " + IndexCollection.class.getSimpleName() +
           parser.printExample(OptionHandlerFilter.REQUIRED));
       return;
     }

@@ -157,20 +157,34 @@ public class SearchArgs {
   @Option(name = "-sdm.uw", metaVar = "[value]", usage = "unordered window weight in sdm")
   public float sdm_uw = 0.05f;
 
-  @Option(name = "-rm3", usage = "use RM3 query expansion model (implies using query likelihood)")
+  // RM3 Options: Anserini uses the same default options as in Indri.
+  // As of v5.13, the defaults in Indri are, from src/RMExpander.cpp:
+  //
+  //   int fbDocs = _param.get( "fbDocs" , 10 );
+  //   int fbTerms = _param.get( "fbTerms" , 10 );
+  //   double fbOrigWt = _param.get( "fbOrigWeight", 0.5 );
+  //   double mu = _param.get( "fbMu", 0 );
+
+  @Option(name = "-rm3", usage = "use RM3 query expansion model")
   public boolean rm3 = false;
 
-  @Option(name = "-rm3.fbTerms", handler = StringArrayOptionHandler.class, usage = "parameter to decide how many expansion terms to be picked")
-  public String[] rm3_fbTerms = new String[] {"20"};
+  @Option(name = "-rm3.fbTerms", handler = StringArrayOptionHandler.class,
+      usage = "RM3 parameter: number of expansion terms")
+  public String[] rm3_fbTerms = new String[] {"10"};
 
-  @Option(name = "-rm3.fbDocs", handler = StringArrayOptionHandler.class, usage = "parameter to decide how many documents to be used to find expansion terms")
-  public String[] rm3_fbDocs = new String[] {"50"};
+  @Option(name = "-rm3.fbDocs", handler = StringArrayOptionHandler.class,
+      usage = "RM3 parameter: number of documents")
+  public String[] rm3_fbDocs = new String[] {"10"};
 
-  @Option(name = "-rm3.originalQueryWeight", handler = StringArrayOptionHandler.class, usage = "parameter to decide how many documents to be used to find expansion terms")
-  public String[] rm3_originalQueryWeight = new String[] {"0.6"};
+  @Option(name = "-rm3.originalQueryWeight", handler = StringArrayOptionHandler.class,
+      usage = "RM3 parameter: weight to assign to the original query")
+  public String[] rm3_originalQueryWeight = new String[] {"0.5"};
 
-  @Option(name = "-rm3.outputQuery", usage = "output original and expanded query")
+  @Option(name = "-rm3.outputQuery",
+      usage = "RM3 parameter: print original and expanded queries")
   public boolean rm3_outputQuery = false;
+
+  // Axiomatic semantic matching matching options.
 
   @Option(name = "-axiom", usage = "use Axiomatic query expansion model for the reranking")
   public boolean axiom = false;

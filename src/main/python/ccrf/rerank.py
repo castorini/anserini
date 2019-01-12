@@ -19,20 +19,13 @@ def load_train(topic, path):
 
 
 def load_test(path):
-    logging.info('loading test data...')
+    logging.info('Loading test data...')
     X = scipy.sparse.load_npz(path)
     return X
 
 
-def load_docid_idx(path):
-    logging.info('loading docid idx dict...')
-    with open(path, 'rb') as f:
-        docid_idx_dict = pickle.load(f)
-    return docid_idx_dict
-
-
-def generate_test_score(topics, rank_file, docid_idx_dict):
-    logging.info('generating test score...')
+def load_base_run(topics, rank_file, docid_idx_dict):
+    logging.info('Loading base run...')
     score_dict = {}
     with open(rank_file, 'r') as f:
         curqid = None
@@ -72,7 +65,7 @@ def rerank(test_doc_score, alpha, output, limit, tag):
 
     filename = f'rerank_{alpha}.txt'
     with open(os.path.join(output, filename), 'w') as f:
-        logging.info(f'dump file for alpha = {alpha}...')
+        logging.info(f'Writing output for alpha = {alpha}')
         for topic in test_doc_score:
             docid, _, old_score, new_score = test_doc_score[topic]
             score = interpolate(np.array(old_score), new_score)
@@ -114,9 +107,9 @@ def evaluate_topic(X_train, y_train, X_test, classifier):
         return y_test
 
 
-def run_classifier(config, clf, output_folder):
-    # pipeline from here
-    logging.info(f'Begin training/inference using {clf} classifier...')
+def run_classifier(config, classifier, output_folder):
+    start_time = time.time()
+    logging.info(f'Begin training/inference using {classifier} classifier...')
 
     for topic in config['topics']:
         X_train, y_train = load_train(topic, train_feature_folder)
@@ -124,14 +117,14 @@ def run_classifier(config, clf, output_folder):
         X_test = test_data[doc_idx]
 
         logging.info(f'Processing topic {topic}')
-        y_test = evaluate_topic(X_train, y_train, X_test, clf)
+        y_test = evaluate_topic(X_train, y_train, X_test, classifier)
 
         test_doc_score[topic].append(y_test)
 
     for alpha in [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1]:
-        rerank(test_doc_score, alpha, output_folder, 10000, clf)
+        rerank(test_doc_score, alpha, output_folder, 10000, classifier)
 
-    logging.info(f'Finished in {time.time() - start_time} seconds')
+    logging.info(f'Finished with {classifier} in {time.time() - start_time} seconds')
 
 
 def _safe_mkdir(path):
@@ -141,7 +134,6 @@ def _safe_mkdir(path):
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(message)s')
-    start_time = time.time()
 
     parser = argparse.ArgumentParser()
     parser.add_argument("--config", type=str, help='config file', required=True)
@@ -157,7 +149,7 @@ if __name__ == '__main__':
 
     train_feature_folder = os.path.join(working_directory, 'features')
     test_feature_path = os.path.join(working_directory, 'test.npz')
-    test_docid_idx_path = os.path.join(working_directory, 'test-docid-idx-dict.pkl')
+    test_docid_idx_path = os.path.join(working_directory, 'test_docid_idx_dict.pkl')
     models_folder = os.path.join(working_directory, 'models')
 
     # sanity check
@@ -166,8 +158,12 @@ if __name__ == '__main__':
     _safe_mkdir(models_folder)
 
     for classifier in config['classifiers']:
-        test_docid_idx_dict = load_docid_idx(test_docid_idx_path)
-        test_doc_score = generate_test_score(config['topics'], config['target']['run'], test_docid_idx_dict)
+        logging.info(f'Applying {classifier}...')
+        logging.info('Loading docid_idx dict...')
+        with open(test_docid_idx_path, 'rb') as f:
+            test_docid_idx_dict = pickle.load(f)
+
+        test_doc_score = load_base_run(config['topics'], config['target']['run'], test_docid_idx_dict)
         test_data = load_test(test_feature_path)
 
         model_folder = os.path.join(models_folder, classifier)
