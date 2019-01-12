@@ -458,7 +458,7 @@ public final class IndexCollection {
 
     @Override
     public void destroyObject(PooledObject<SolrClient> pooled) throws Exception {
-      pooled.getObject().commit(args.solrIndex);
+      pooled.getObject().close();
     }
 
   }
@@ -530,7 +530,8 @@ public final class IndexCollection {
     }
 
     try {
-      writer.commit();
+      if (writer != null)
+        writer.commit();
       if (args.optimize)
         writer.forceMerge(1);
       if (args.solr)
