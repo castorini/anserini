@@ -91,4 +91,6 @@ class Effectiveness(object):
                         if 'axiom.beta' in param:
                             beta = float(param.split(':')[1])
                             res[metric][qid] = (beta, value)
+                    if split_fn[1] == 'baseline': # baseline
+                        res[metric][qid] = (-1, value)
         return res

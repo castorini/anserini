@@ -52,5 +52,7 @@ class Search(object):
                     para_str += ' %.2f' % (p) if is_float else ' %d' % (p)
             results_fn = os.path.join(output_root, self.run_files_root, model+'_'+model_yaml['name'])
             all_params.append( (model, para_str, results_fn) )
+            # Adding baseline models
+            all_params.append( (model, '-inmem -skipexists ', os.path.join(output_root, self.run_files_root, model+'_baseline_'+model)) )
 
         return all_params

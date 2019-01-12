@@ -68,9 +68,11 @@ class Plots(object):
             fig, ax = plt.subplots(1, 1, figsize=(6, 4))
             for (model, linestyle, color) in zip(sorted(all_results), ls, colors):
                 all_results[model].sort(key = itemgetter(0))
-                x = [float(ele[0]) for ele in all_results[model]]
-                y = [float(ele[1]) for ele in all_results[model]]
+                x = [float(ele[0]) for ele in all_results[model] if ele[0] >= 0]
+                y = [float(ele[1]) for ele in all_results[model] if ele[0] >= 0]
                 ax.plot(x, y, linestyle=linestyle, marker='o', ms=5, label=model.upper()+'+AX', color=color)
+                if model in baselines and collection_name in baselines[model]:
+                    ax.axhline(y = baselines[model][collection_name], linestyle=linestyle, color=color, label=model.upper())
                 ax.grid(True)
                 ax.set_title(collection)
                 ax.set_xlabel(r'$\beta$')
