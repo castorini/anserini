@@ -458,7 +458,7 @@ public final class IndexCollection {
 
     @Override
     public void destroyObject(PooledObject<SolrClient> pooled) throws Exception {
-      pooled.getObject().commit(args.solrIndex);
+      pooled.getObject().close();
     }
 
   }
@@ -530,14 +530,16 @@ public final class IndexCollection {
     }
 
     try {
-      writer.commit();
+      if (writer != null)
+        writer.commit();
       if (args.optimize)
         writer.forceMerge(1);
       if (args.solr)
         solrPool.close();
     } finally {
       try {
-        writer.close();
+        if (writer != null)
+          writer.close();
       } catch (IOException e) {
         // It is possible that this happens... but nothing much we can do at this point,
         // so just log the error and move on.
