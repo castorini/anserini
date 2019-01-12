@@ -1,19 +1,18 @@
 # -*- coding: utf-8 -*-
-"""
-Anserini: A toolkit for reproducible information retrieval research built on Lucene
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-"""
+#
+# Anserini: A toolkit for reproducible information retrieval research built on Lucene
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 
 import os
 import subprocess
@@ -49,9 +48,7 @@ def isclose(a, b, rel_tol=1e-09, abs_tol=0.0):
     return abs(a-b) <= max(rel_tol * max(abs(a), abs(b)), abs_tol)
 
 def get_index_path(yaml_data):
-    """
-    Find the possible index path
-    """
+    """Find the index path."""
     for index_root in yaml_data['index_roots']:
         if os.path.exists(os.path.join(index_root, yaml_data['index_path'])):
             index_path = os.path.join(index_root, yaml_data['index_path'])
@@ -122,6 +119,53 @@ def plot_params_sensitivity(collection_yaml, output_root):
     this_output_root = os.path.join(output_root, collection_yaml['name'])
     Plots().plot_params_sensitivity(collection_yaml['name'], this_output_root)
 
+def concatenate_qrels():
+    filenames = ['src/main/resources/topics-and-qrels/qrels.51-100.txt',
+                 'src/main/resources/topics-and-qrels/qrels.101-150.txt',
+                 'src/main/resources/topics-and-qrels/qrels.151-200.txt']
+    with open('src/main/resources/topics-and-qrels/qrels.disk12.all.txt', 'w') as outfile:
+        for fname in filenames:
+            with open(fname) as infile:
+                outfile.write(infile.read())
+
+    filenames = ['src/main/resources/topics-and-qrels/qrels.701-750.txt',
+                 'src/main/resources/topics-and-qrels/qrels.751-800.txt',
+                 'src/main/resources/topics-and-qrels/qrels.801-850.txt']
+    with open('src/main/resources/topics-and-qrels/qrels.gov2.all.txt', 'w') as outfile:
+        for fname in filenames:
+            with open(fname) as infile:
+                outfile.write(infile.read())
+
+    filenames = ['src/main/resources/topics-and-qrels/qrels.web.51-100.txt',
+                 'src/main/resources/topics-and-qrels/qrels.web.101-150.txt',
+                 'src/main/resources/topics-and-qrels/qrels.web.151-200.txt']
+    with open('src/main/resources/topics-and-qrels/qrels.cw09.all.txt', 'w') as outfile:
+        for fname in filenames:
+            with open(fname) as infile:
+                outfile.write(infile.read())
+
+    filenames = ['src/main/resources/topics-and-qrels/qrels.web.201-250.txt',
+                 'src/main/resources/topics-and-qrels/qrels.web.251-300.txt']
+    with open('src/main/resources/topics-and-qrels/qrels.cw12.all.txt', 'w') as outfile:
+        for fname in filenames:
+            with open(fname) as infile:
+                outfile.write(infile.read())
+
+    filenames = ['src/main/resources/topics-and-qrels/qrels.microblog2011.txt',
+                 'src/main/resources/topics-and-qrels/qrels.microblog2012.txt']
+    with open('src/main/resources/topics-and-qrels/qrels.mb11.all.txt', 'w') as outfile:
+        for fname in filenames:
+            with open(fname) as infile:
+                outfile.write(infile.read())
+
+    filenames = ['src/main/resources/topics-and-qrels/qrels.microblog2013.txt',
+                 'src/main/resources/topics-and-qrels/qrels.microblog2014.txt']
+    with open('src/main/resources/topics-and-qrels/qrels.mb13.all.txt', 'w') as outfile:
+        for fname in filenames:
+            with open(fname) as infile:
+                outfile.write(infile.read())
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
 
@@ -150,6 +194,9 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
+    # concatenate qrels together for easier evaluation
+    concatenate_qrels()
+
     if args.del_method_related_files:
         del_method_related_files(args.del_method_related_files[0])
     else:
@@ -175,4 +222,3 @@ if __name__ == '__main__':
         if args.plot:
             from plot_para_sensitivity import Plots
             plot_params_sensitivity(collection_yaml, args.output_root)
-

@@ -15,3 +15,10 @@ lucene-index*
 run.*
 log*
 out.*
+# these are generated automatically by ecir2019_axiomatic runbook
+src/main/resources/topics-and-qrels/qrels.cw09.all.txt
+src/main/resources/topics-and-qrels/qrels.cw12.all.txt
+src/main/resources/topics-and-qrels/qrels.disk12.all.txt
+src/main/resources/topics-and-qrels/qrels.gov2.all.txt
+src/main/resources/topics-and-qrels/qrels.mb11.all.txt
+src/main/resources/topics-and-qrels/qrels.mb13.all.txt
