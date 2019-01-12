@@ -26,41 +26,41 @@ def dump_docvectors(config):
 
 
 def build_docid_idx_and_label(config):
-    logging.info(f'Building docid idx dict and topic docid label dict')
+    logging.info(f'Building docid_idx dict and topic_docid_label dict...')
     cur_idx = 0
     docid_idx_dict = {}
     topic_docid_label = {topic: {} for topic in config['topics']}
 
     for source in config['sources']:
         rank_file = source['qrels']
-        logging.info(f'Building docid idx dict for {rank_file}')
+        logging.info(f'Building docid_idx dict for {rank_file}...')
         with open(os.path.join(rank_file), 'r') as f:
             for line in f:
                 topic, _, docid, label = line.strip().split(' ')
                 if topic in config['topics']:
                     if docid not in docid_idx_dict:
-                        # build docid_idx_dict
+                        # Build docid_idx_dict: the idx is the row index for that document in the sparse matrix
                         docid_idx_dict[docid] = cur_idx
                         docid_idx_dict[cur_idx] = docid
                         cur_idx += 1
 
-                    # update topic_docid_label
+                    # The "label" in this case is relevant/not-relevant
                     topic_docid_label[topic][docid_idx_dict[docid]] = 0 if label == '0' else 1
 
-    logging.info(f'Finished building docid idx dict and topic docid label dict.')
+    logging.info(f'Finished building docid_idx dict and topic_docid_label dict.')
     logging.info(f'{cur_idx} documents found in total.')
     return docid_idx_dict, topic_docid_label
 
 
 def build_vocab_tfidf_dict(config, docid_idx_dict, is_alpha):
-    logging.info('Building vocab tf.idf dict')
+    logging.info('Building tf.idf dict for all sources...')
     vocab_idx_dict, tfidf_dict = {}, {}
     cur_idx = 0
 
     for source in config['sources']:
         source_name = source['name']
         tfidf_raw = os.path.join(config['working_directory'], f'docids.{source_name}.docvector.TF_IDF.tar.gz')
-        logging.info(f'Building vocab tf.idf dict for {tfidf_raw}')
+        logging.info(f'Building tf.idf dict for {tfidf_raw}')
         count = 0
 
         reader = utils.TfidfTgzReader(tfidf_raw)
@@ -83,12 +83,12 @@ def build_vocab_tfidf_dict(config, docid_idx_dict, is_alpha):
                         cur_idx += 1
                     tfidf_dict[(doc_idx, vocab_idx_dict[word])] = float(tfidf)
 
-    logging.info(f'Finished building vocab tf.idf dict, {cur_idx} words in total.')
+    logging.info(f'Finished building tf.idf dict, {cur_idx} unique words in total.')
     return vocab_idx_dict, tfidf_dict
 
 
 def to_sparse(tfidf_dict, docid_idx_dict, vocab_idx_dict):
-    logging.info('Converting tf.idf dict to sparse matrix')
+    logging.info('Converting tf.idf dict into a sparse matrix...')
     num_docs, num_vocabs = len(docid_idx_dict) // 2, len(vocab_idx_dict) // 2
     indices = tuple(zip(*tfidf_dict.keys()))
     values = list(tfidf_dict.values())
@@ -120,7 +120,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument("--config", type=str, help='config file', required=True)
     parser.add_argument("--only-alpha", '-a', type=bool, default=False,
-                        help='whether to only keep alpha word')
+                        help='whether to only keep alpha words')
 
     args = parser.parse_args()
     is_alpha = args.only_alpha
@@ -130,12 +130,10 @@ if __name__ == '__main__':
     with open(config_file) as f:
         config = json.load(f)
 
-    out_feature_folder = os.path.join(config['working_directory'], 'features')
-    out_docid_idx_file = os.path.join(config['working_directory'], 'train-docid-idx-dict.pkl')
-    out_vocab_idx_file = os.path.join(config['working_directory'], 'vocab-idx-dict.pkl')
+    features_folder = os.path.join(config['working_directory'], 'features')
 
     _safe_mkdir(config['working_directory'])
-    _safe_mkdir(out_feature_folder)
+    _safe_mkdir(features_folder)
 
     # pipeline from here
     logging.info(f'Preparing training data...')
@@ -144,15 +142,17 @@ if __name__ == '__main__':
     docid_idx_dict, topic_docid_label = build_docid_idx_and_label(config)
     vocab_idx_dict, tfidf_dict = build_vocab_tfidf_dict(config, docid_idx_dict, is_alpha)
 
+    out_docid_idx_file = os.path.join(config['working_directory'], 'train_docid_idx_dict.pkl')
     logging.info(f"Writing docid_idx_dict to {out_docid_idx_file}...")
     with open(out_docid_idx_file, 'wb') as f:
         pickle.dump(docid_idx_dict, f)
 
+    out_vocab_idx_file = os.path.join(config['working_directory'], 'vocab_idx_dict.pkl')
     logging.info(f"Writing vocab_idx_dict to {out_vocab_idx_file}...")
     with open(out_vocab_idx_file, 'wb') as f:
         pickle.dump(vocab_idx_dict, f)
 
     tfidf_sp = to_sparse(tfidf_dict, docid_idx_dict, vocab_idx_dict)
-    write_train_feature(topic_docid_label, tfidf_sp, out_path=out_feature_folder)
+    write_train_feature(topic_docid_label, tfidf_sp, out_path=features_folder)
 
     logging.info(f'Finished in {time.time() - start_time} seconds')
