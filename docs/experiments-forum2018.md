@@ -11,8 +11,8 @@ See "History" section below.
 
 Folds:
 
-+ The folds for 2-fold cross-validation used in "paper 1" is [here](src/main/resources/fine_tuning/robust04-paper1-folds.json).
-+ The folds for 5-fold cross-validation used in "paper 2" is [here](src/main/resources/fine_tuning/robust04-paper2-folds.json).
++ [Folds for 2-fold cross-validation used in "paper 1"](../src/main/resources/fine_tuning/robust04-paper1-folds.json)
++ [Folds for 5-fold cross-validation used in "paper 2"](../src/main/resources/fine_tuning/robust04-paper2-folds.json)
 
 ## Parameter Tuning
 
@@ -49,8 +49,8 @@ Change `robust04` to `cw0b9` for ClueWeb09b results.
 
 Tuned parameter values:
 
-+ [For the 2-fold cross-validation used in "paper 1", in terms of MAP](src/main/resources/fine_tuning/robust04-paper1-folds-map-params.json)
-+ [For tor 5-fold cross-validation used in "paper 2", in terms of MAP](src/main/resources/fine_tuning/robust04-paper2-folds-map-params.json)
++ [For the 2-fold cross-validation used in "paper 1", in terms of MAP](../src/main/resources/fine_tuning/robust04-paper1-folds-map-params.json)
++ [For tor 5-fold cross-validation used in "paper 2", in terms of MAP](../src/main/resources/fine_tuning/robust04-paper2-folds-map-params.json)
 
 To be clear, these are the tuned parameters on _that_ fold, trained on the remaining folds.
 

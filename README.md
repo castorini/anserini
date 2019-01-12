@@ -53,7 +53,7 @@ Note that these regressions capture the "out of the box" experience, based on [_
 Additional regressions:
 
 + [Experiments from JDIQ 2018 article](docs/experiments-jdiq2018.md)
-+ [Experiments from SIGIR Forum 2018 article](docs/experiments-forum.md)
++ [Experiments from SIGIR Forum 2018 article](docs/experiments-forum2018.md)
 
 Runbooks:
 
