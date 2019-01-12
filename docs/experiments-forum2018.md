@@ -4,7 +4,7 @@ This page documents code for replicating results from the following article:
 
 + Jimmy Lin. [The Neural Hype and Comparisons Against Weak Baselines.](http://sigir.org/wp-content/uploads/2019/01/p040.pdf) SIGIR Forum, 52(2):40-51, 2018.
 
-Note that the commit id [2c8cd7a](https://github.com/castorini/Anserini/commit/2c8cd7a550faca0fc450e4159a4a874d4795ac25) referenced in the article is out of date with respect to the latest experimental results.
+Note that the commit [2c8cd7a](https://github.com/castorini/Anserini/commit/2c8cd7a550faca0fc450e4159a4a874d4795ac25) referenced in the article is out of date with respect to the latest experimental results.
 See "History" section below.
 
 **Requirements**: Python>=2.6 or Python>=3.5 `pip install -r src/main/python/requirements.txt`
@@ -68,9 +68,9 @@ Change `paper2` to `paper1` to reconstruct using the folds in paper 1.
 
 ## History
 
-+ [commit 407f308](https://github.com/castorini/Anserini/commit/407f308cc543286e39701caf0acd1afab39dde2c) (2019/1/2) - Added results for axiomatic semantic term matching.
-+ [commit e71df7a](https://github.com/castorini/Anserini/commit/e71df7aee42c7776a63b9845600a4075632fa11c) (2018/12/18) - Upgrade to Lucene 7.6.
-+ [commit 18c3211](https://github.com/castorini/Anserini/commit/18c3211117f35f72cbc1019c125ff885f51056ea) (2018/12/9) - minor fixes.
-+ [commit 2c8cd7a](https://github.com/castorini/Anserini/commit/2c8cd7a550faca0fc450e4159a4a874d4795ac25) (2018/11/16) - commit id referenced in SIGIR Forum article.
++ commit [407f308](https://github.com/castorini/Anserini/commit/407f308cc543286e39701caf0acd1afab39dde2c) (2019/1/2) - Added results for axiomatic semantic term matching.
++ commit [e71df7a](https://github.com/castorini/Anserini/commit/e71df7aee42c7776a63b9845600a4075632fa11c) (2018/12/18) - Upgrade to Lucene 7.6.
++ commit [18c3211](https://github.com/castorini/Anserini/commit/18c3211117f35f72cbc1019c125ff885f51056ea) (2018/12/9) - minor fixes.
++ commit [2c8cd7a](https://github.com/castorini/Anserini/commit/2c8cd7a550faca0fc450e4159a4a874d4795ac25) (2018/11/16) - commit id referenced in SIGIR Forum article.
 
 
