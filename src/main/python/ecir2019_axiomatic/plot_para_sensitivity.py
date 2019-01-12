@@ -56,8 +56,8 @@ class Plots(object):
             os.makedirs(os.path.join(output_root, self.plots_root))
         title_mappings = {
             'disk12': 'Disk 1 & 2',
-            'disk45': 'Disks 4 & 5',
-            'aquaint': 'AQUAINT',
+            'robust04': 'Disks 4 & 5',
+            'robust05': 'AQUAINT',
             'core17': 'New York Times',
             'core18': 'Washington Post',
             'wt10g': 'WT10g',
@@ -65,8 +65,8 @@ class Plots(object):
             'cw09b': 'ClueWeb09b',
             'cw12b13': 'ClueWeb12-B13',
             'cw12': 'ClueWeb12',
-            'microblog20112012': 'Tweets 2011',
-            'microblog20132014': 'Tweets 2013'
+            'mb11': 'Tweets 2011',
+            'mb13': 'Tweets 2013'
         }
 
         for fn in os.listdir(os.path.join(output_root, self.effectiveness_root)):
@@ -76,15 +76,16 @@ class Plots(object):
             fig, ax = plt.subplots(1, 1, figsize=(6, 4))
             for (model, linestyle, color) in zip(sorted(all_results), ls, colors):
                 all_results[model].sort(key = itemgetter(0))
-                x = [float(ele[0]) for ele in all_results[model] if ele[0] >= 0]
-                y = [float(ele[1]) for ele in all_results[model] if ele[0] >= 0]
-                ax.plot(x, y, linestyle=linestyle, marker='o', ms=5, label=model.upper()+'+AX', color=color)
-                if model in baselines and collection_name in baselines[model]:
-                    ax.axhline(y = baselines[model][collection_name], linestyle=linestyle, color=color, label=model.upper())
+                x = [float(ele[0]) for ele in all_results[model] if ele[0] > 0]
+                y = [float(ele[1]) for ele in all_results[model] if ele[0] > 0]
+                ax.plot(x, y, linestyle=linestyle, marker='o', ms=5, label=model.upper()+'+Ax', color=color)
+                baseline = [float(ele[1]) for ele in all_results[model] if ele[0] < 0]
+                if len(baseline) == 1:
+                    ax.axhline(baseline[0], linestyle=linestyle, color=color, label=model.upper())
                 ax.grid(True)
-                ax.set_title(collection)
+                ax.set_title(collection if collection not in title_mappings else title_mappings[collection])
                 ax.set_xlabel(r'$\beta$')
                 ax.set_ylabel('MAP' if not 'cw' in collection else 'NDCG@20')
                 ax.legend(loc=4)
-            output_fn = os.path.join(output_root, self.plots_root, 'params_sensitivity.eps')
+            output_fn = os.path.join(output_root, self.plots_root, 'params_sensitivity_{}.eps'.format(collection))
             plt.savefig(output_fn, bbox_inches='tight', format='eps')
