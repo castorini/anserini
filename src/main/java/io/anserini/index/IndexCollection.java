@@ -137,7 +137,7 @@ public final class IndexCollection {
     @Option(name = "-solr.cloud", usage = "boolean switch to determine if we're running in SolrCloud mode")
     public boolean solrCloud = false;
 
-    @Option(name = "-solr.commit", usage = "the number of seconds to commitWithin")
+    @Option(name = "-solr.commitWithin", usage = "the number of seconds to commitWithin")
     public int solrCommitWithin = 60;
 
     @Option(name = "-solr.index", usage = "the name of the index")
@@ -537,22 +537,24 @@ public final class IndexCollection {
     if (args.solr) {
       try {
         solrPool.borrowObject().commit(args.solrIndex);
+        solrPool.close();
       } catch (Exception e) {
         LOG.error("Exception during final Solr commit: ", e);
       }
     }
 
     try {
-      if (writer != null)
+      if (writer != null) {
         writer.commit();
-      if (args.optimize)
-        writer.forceMerge(1);
-      if (args.solr)
-        solrPool.close();
+        if (args.optimize) {
+          writer.forceMerge(1);
+        }
+      }
     } finally {
       try {
-        if (writer != null)
+        if (writer != null) {
           writer.close();
+        }
       } catch (IOException e) {
         // It is possible that this happens... but nothing much we can do at this point,
         // so just log the error and move on.
