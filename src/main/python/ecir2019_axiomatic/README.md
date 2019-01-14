@@ -21,3 +21,25 @@ python src/main/python/ecir2019_axiomatic/run_batch.py --collection cw12b13 --mo
 python src/main/python/ecir2019_axiomatic/run_batch.py --collection mb11 --models bm25 ql f2exp --n 32 --run --plot
 python src/main/python/ecir2019_axiomatic/run_batch.py --collection mb13 --models bm25 ql f2exp --n 32 --run --plot
 ```
+
+
+### Run with random seeds (Fig 6 in the paper)
+
+```
+python src/main/python/ecir2019_axiomatic/run_batch.py --collection disk12 --models bm25 --n 32 --run --random --plot
+python src/main/python/ecir2019_axiomatic/run_batch.py --collection robust04 --models bm25 --n 32 --run --random --plot
+python src/main/python/ecir2019_axiomatic/run_batch.py --collection robust05 --models bm25 --n 32 --run --random --plot
+python src/main/python/ecir2019_axiomatic/run_batch.py --collection core17 --models bm25 --n 32 --run --random --plot
+python src/main/python/ecir2019_axiomatic/run_batch.py --collection wt10g --models bm25 --n 32 --run --random --plot
+python src/main/python/ecir2019_axiomatic/run_batch.py --collection gov2 --models bm25 --n 32 --run --random --plot
+python src/main/python/ecir2019_axiomatic/run_batch.py --collection cw09b --models bm25 --n 32 --run --random --plot
+python src/main/python/ecir2019_axiomatic/run_batch.py --collection cw12b13 --models bm25 --n 32 --run --random --plot
+python src/main/python/ecir2019_axiomatic/run_batch.py --collection mb11 --models bm25 --n 32 --run --random --plot
+python src/main/python/ecir2019_axiomatic/run_batch.py --collection mb13 --models bm25 --n 32 --run --random --plot
+```
+
+
+### Reproduce F2EXP results in Table 1
+
+One will need to manually check the being generated results: `ecir2019_axiomatic/{collection}/effectiveness_` or run:
+``

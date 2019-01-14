@@ -34,15 +34,26 @@ class Evaluation(object):
         self.run_files_root = 'run_files'
         self.eval_files_root = 'eval_files'
 
+        self.random_seed_run_files_root = 'random_seed_run_files'
+        self.random_seed_eval_files_root = 'random_seed_eval_files'
+
     def gen_batch_eval_params(self, output_root, metric):
         if not os.path.exists(os.path.join(output_root, self.eval_files_root, metric)):
             os.makedirs(os.path.join(output_root, self.eval_files_root, metric))
+        if not os.path.exists(os.path.join(output_root, self.random_seed_eval_files_root, metric)):
+            os.makedirs(os.path.join(output_root, self.random_seed_eval_files_root, metric))
         all_params = []
         for fn in os.listdir(os.path.join(output_root, self.run_files_root)):
             if not os.path.exists( os.path.join(output_root, self.eval_files_root, metric, fn) ):
                 all_params.append((
                     os.path.join(output_root, self.run_files_root, fn),
                     os.path.join(output_root, self.eval_files_root, metric, fn)
+                ))
+        for fn in os.listdir(os.path.join(output_root, self.random_seed_run_files_root)):
+            if not os.path.exists( os.path.join(output_root, self.random_seed_eval_files_root, metric, fn) ):
+                all_params.append((
+                    os.path.join(output_root, self.random_seed_run_files_root, fn),
+                    os.path.join(output_root, self.random_seed_eval_files_root, metric, fn)
                 ))
         return all_params
 

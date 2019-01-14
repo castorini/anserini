@@ -55,13 +55,22 @@ def get_index_path(yaml_data):
             break
     return index_path
 
-def batch_retrieval(collection_yaml, models_yaml, output_root, dry_run = False):
+def batch_retrieval(collection_yaml, models_yaml, output_root, random = False, dry_run = False):
     all_params = []
     program = os.path.join(collection_yaml['anserini_root'], 'target/appassembler/bin', 'SearchCollection')
     index_path = get_index_path(collection_yaml)
     this_output_root = os.path.join(output_root, collection_yaml['name'])
     logger.info('='*10+'Generating Batch Retrieval Parameters'+'='*10)
-    model_params = Search(index_path).gen_batch_retrieval_params(models_yaml, this_output_root, parallelism)
+    if random:
+        if collection_yaml['name'] == 'disk12' or collection_yaml['name'] == 'robust04' or collection_yaml['name'] == 'robust05' or collection_yaml['name'] == 'core17':
+            beta = 0.5
+        elif collection_yaml['name'] == 'mb11' or collection_yaml['name'] == 'mb13':
+            beta = 1.0
+        else: # Web collections
+            beta = 0.1
+        model_params = Search(index_path).gen_random_batch_retrieval_params(models_yaml, this_output_root, beta, parallelism)
+    else:
+        model_params = Search(index_path).gen_batch_retrieval_params(models_yaml, this_output_root, parallelism)
     for para in model_params:
         this_para = (
             program,
@@ -109,15 +118,24 @@ def batch_eval(collection_yaml, models_yaml, output_root, dry_run = False):
 def atom_eval(params):
     Evaluation.output_all_evaluations(*params)
 
-def batch_output_effectiveness(collection_yaml, models_yaml, output_root):
+def batch_output_effectiveness(collection_yaml, models_yaml, output_root, random = False):
     index_path = get_index_path(collection_yaml)
     this_output_root = os.path.join(output_root, collection_yaml['name'])
     logger.info('='*10+'Starting Output Effectiveness'+'='*10)
-    Effectiveness(index_path).output_effectiveness(this_output_root)
+    Effectiveness(index_path).output_effectiveness(this_output_root, random)
 
-def plot_params_sensitivity(collection_yaml, output_root):
+def plot(collection_yaml, output_root, random = False):
     this_output_root = os.path.join(output_root, collection_yaml['name'])
-    Plots().plot_params_sensitivity(collection_yaml['name'], this_output_root)
+    if random:
+        if collection_yaml['name'] == 'disk12' or collection_yaml['name'] == 'robust04' or collection_yaml['name'] == 'robust05' or collection_yaml['name'] == 'core17':
+            beta = 0.5
+        elif collection_yaml['name'] == 'mb11' or collection_yaml['name'] == 'mb13':
+            beta = 1.0
+        else: # Web collections
+            beta = 0.1
+        Plots().plot_random_seeds(collection_yaml['name'], this_output_root, beta)
+    else:
+        Plots().plot_params_sensitivity(collection_yaml['name'], this_output_root)
 
 def concatenate_qrels():
     filenames = ['src/main/resources/topics-and-qrels/qrels.51-100.txt',
@@ -172,6 +190,7 @@ if __name__ == '__main__':
     # general settings
     parser.add_argument('--anserini_root', default='', help='Anserini path')
     parser.add_argument('--run', action='store_true', help='Generate the runs files and evaluate them. Otherwise we only output the evaluation results (based on the existing eval files)')
+    parser.add_argument('--random', action='store_true', help='Generate the random seed runs files and evaluate them. Otherwise we only output the evaluation results (based on the existing eval files)')
     parser.add_argument('--plot', action='store_true', help='Plot the parameters sensitivity from performances CSV file')
     parser.add_argument('--collection', required=True, help='the collection key in yaml')
     parser.add_argument('--models', nargs='+', default='bm25', help='the list of base ranking models, choose from [bm25, ql, f2exp] (any ones or all of them)')
@@ -216,9 +235,9 @@ if __name__ == '__main__':
         models_yaml['models'] = args.models
 
         if args.run:
-            batch_retrieval(collection_yaml, models_yaml, args.output_root, args.dry_run)
+            batch_retrieval(collection_yaml, models_yaml, args.output_root, args.random, args.dry_run)
             batch_eval(collection_yaml, models_yaml, args.output_root, args.dry_run)
-            batch_output_effectiveness(collection_yaml, models_yaml, args.output_root)
+            batch_output_effectiveness(collection_yaml, models_yaml, args.output_root, args.random)
         if args.plot:
-            from plot_para_sensitivity import Plots
-            plot_params_sensitivity(collection_yaml, args.output_root)
+            from plots import Plots
+            plot(collection_yaml, args.output_root, args.random)
