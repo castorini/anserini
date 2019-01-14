@@ -58,7 +58,7 @@ Additional regressions:
 Runbooks:
 
 + Runbooks for TREC 2018: [[Anserini group](docs/runbook-trec2018-anserini.md)] [[h2oloo group](docs/runbook-trec2018-h2oloo.md)]
-+ Runbook for ECIR 2019 [paper on axiomatic semantic term matching](docs/runbook-ecir2019-axiomatic.md)
++ Runbook for [ECIR 2019 paper on axiomatic semantic term matching](docs/runbook-ecir2019-axiomatic.md)
 
 ## Additional Documentation
 
