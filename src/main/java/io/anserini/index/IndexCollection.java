@@ -137,6 +137,9 @@ public final class IndexCollection {
     @Option(name = "-solr.cloud", usage = "boolean switch to determine if we're running in SolrCloud mode")
     public boolean solrCloud = false;
 
+    @Option(name = "-solr.commit", usage = "the number of seconds to commitWithin")
+    public int solrCommit = 60;
+
     @Option(name = "-solr.index", usage = "the name of the index")
     public String solrIndex = null;
 
@@ -320,7 +323,7 @@ public final class IndexCollection {
               flush(client);
             }
           } else {
-            client.add(args.solrIndex, solrDocument); // ... and ConcurrentUpdateSolrClient does it for us
+            client.add(args.solrIndex, solrDocument, args.solrCommit * 1000); // ... and ConcurrentUpdateSolrClient does it for us
           }
 
           cnt++;
@@ -349,7 +352,7 @@ public final class IndexCollection {
     private void flush(SolrClient client) {
       if (!buffer.isEmpty()) {
         try {
-          client.add(args.solrIndex, buffer);
+          client.add(args.solrIndex, buffer, args.solrCommit * 1000);
           buffer.clear();
         } catch (Exception e) {
           LOG.error("Error flushing documents to Solr", e);
