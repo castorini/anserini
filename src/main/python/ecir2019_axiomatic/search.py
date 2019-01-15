@@ -15,6 +15,7 @@
 # limitations under the License.
 
 import os
+import random
 import itertools
 from inspect import currentframe, getframeinfo
 from subprocess import Popen, PIPE
@@ -33,6 +34,7 @@ class Search(object):
             exit(1)
 
         self.run_files_root = 'run_files'
+        self.random_seed_run_files_root = 'random_seed_run_files'
 
     def drange(self, x, y, jump):
         while x < y:
@@ -45,14 +47,34 @@ class Search(object):
             os.makedirs(os.path.join(output_root, self.run_files_root))
         for model in model_yaml['models']:
             para_str = '-threads %d -%s %s' % (parallelism, model_yaml['name'], model_yaml['fixed_params'])
-            for param_name, params in model_yaml['params'].items():
-                para_str += ' -%s' % (param_name)
-                for p in self.drange(params['lower'], params['upper']+1e-8, params['pace']):
-                    is_float = True if params['type'] == 'float' else False
-                    para_str += ' %.2f' % (p) if is_float else ' %d' % (p)
-            results_fn = os.path.join(output_root, self.run_files_root, model+'_'+model_yaml['name'])
+            if random: # generate the runs with random seeds
+                random.seed(42)
+            else:
+                for param_name, params in model_yaml['params'].items():
+                    para_str += ' -%s' % (param_name)
+                    for p in self.drange(params['lower'], params['upper']+1e-8, params['pace']):
+                        is_float = True if params['type'] == 'float' else False
+                        para_str += ' %.2f' % (p) if is_float else ' %d' % (p)
+                results_fn = os.path.join(output_root, self.run_files_root, model+'_'+model_yaml['name'])
+                all_params.append( (model, para_str, results_fn) )
+                # Adding baseline models
+                all_params.append( (model, '-inmem -skipexists ', os.path.join(output_root, self.run_files_root, model+'_baseline_'+model)) )
+
+        return all_params
+
+    def gen_random_batch_retrieval_params(self, model_yaml, output_root, beta, parallelism=4, seed = 42, round = 100):
+        all_params = []
+        if not os.path.exists(os.path.join(output_root, self.random_seed_run_files_root)):
+            os.makedirs(os.path.join(output_root, self.random_seed_run_files_root))
+
+        for model in model_yaml['models']:
+            para_str = '-threads %d -%s %s' % (parallelism, model_yaml['name'], model_yaml['fixed_params'])
+            para_str += ' -rerankCutoff 20 -axiom.beta {} -axiom.seed '.format(beta)
+            random.seed(42)
+            for i in range(round):
+                seed = random.randint(1, 10000)
+                para_str += ' {}'.format(seed)
+            results_fn = os.path.join(output_root, self.random_seed_run_files_root, model+'_'+model_yaml['name'])
             all_params.append( (model, para_str, results_fn) )
-            # Adding baseline models
-            all_params.append( (model, '-inmem -skipexists ', os.path.join(output_root, self.run_files_root, model+'_baseline_'+model)) )
 
         return all_params

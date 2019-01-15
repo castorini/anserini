@@ -273,13 +273,16 @@ public final class SearchCollection implements Closeable {
         for (String n : args.axiom_n) {
           for (String beta : args.axiom_beta) {
             for (String top : args.axiom_top) {
-              RerankerCascade cascade = new RerankerCascade();
-              cascade.add(new AxiomReranker(args.index, args.axiom_index, FIELD_BODY, args.axiom_deterministic,
-                  args.axiom_seed, Integer.valueOf(r), Integer.valueOf(n), Float.valueOf(beta), Integer.valueOf(top),
-                  args.axiom_docids, args.axiom_outputQuery, args.searchtweets));
-              cascade.add(new ScoreTiesAdjusterReranker());
-              String tag = "axiom.r:"+r+",axiom.n:"+n+",axiom.beta:"+beta+",axiom.top:"+top;
-              cascades.put(tag, cascade);
+              for (String seed : args.axiom_seed) {
+                RerankerCascade cascade = new RerankerCascade();
+                cascade.add(new AxiomReranker(args.index, args.axiom_index, FIELD_BODY,
+                    args.axiom_deterministic, Integer.valueOf(seed), Integer.valueOf(r),
+                    Integer.valueOf(n), Float.valueOf(beta), Integer.valueOf(top),
+                    args.axiom_docids, args.axiom_outputQuery, args.searchtweets));
+                cascade.add(new ScoreTiesAdjusterReranker());
+                String tag = "axiom.seed:"+seed+",axiom.r:"+r+",axiom.n:"+n+",axiom.beta:"+beta+",axiom.top:"+top;
+                cascades.put(tag, cascade);
+              }
             }
           }
         }
