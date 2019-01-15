@@ -195,8 +195,8 @@ public class SearchArgs {
   @Option(name = "-axiom.deterministic", usage = "make the expansion terms axiomatic reranking results deterministic")
   public boolean axiom_deterministic = false;
 
-  @Option(name = "-axiom.seed", metaVar = "[number]", usage = "seed for the random generator in axiomatic reranking")
-  public long axiom_seed = 42L;
+  @Option(name = "-axiom.seed", handler = StringArrayOptionHandler.class, usage = "seed for the random generator in axiomatic reranking")
+  public String[] axiom_seed = new String[] {"42"};
 
   @Option(name = "-axiom.docids", usage = "sorted docids file that for deterministic reranking. this file can be obtained " +
           "by running CLI command `IndexUtils -index /path/to/index -dumpAllDocids GZ`")
