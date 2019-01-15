@@ -125,7 +125,7 @@ def batch_output_effectiveness(collection_yaml, models_yaml, output_root, random
     logger.info('='*10+'Starting Output Effectiveness'+'='*10)
     Effectiveness(index_path).output_effectiveness(this_output_root, random)
 
-def plot(collection_yaml, output_root, random = False):
+def plot(collection_yaml, output_root, metrics, random = False):
     this_output_root = os.path.join(output_root, collection_yaml['name'])
     if random:
         if collection_yaml['name'] == 'disk12' or collection_yaml['name'] == 'robust04' or collection_yaml['name'] == 'robust05' or collection_yaml['name'] == 'core17':
@@ -134,9 +134,9 @@ def plot(collection_yaml, output_root, random = False):
             beta = 1.0
         else: # Web collections
             beta = 0.1
-        Plots().plot_random_seeds(collection_yaml['name'], this_output_root, beta)
+        Plots().plot_random_seeds(collection_yaml['name'], this_output_root, beta, metrics)
     else:
-        Plots().plot_params_sensitivity(collection_yaml['name'], this_output_root)
+        Plots().plot_params_sensitivity(collection_yaml['name'], this_output_root, metrics)
 
 def cal_coverage(collection_yaml, model_yaml, output_root):
     index_path = get_index_path(collection_yaml)
@@ -258,9 +258,9 @@ if __name__ == '__main__':
     if args.plot:
         from plots import Plots
         if args.cal_coverage:
-            plot_coverage(collection_yaml, args.output_root)
+            plot_coverage(collection_yaml, args.output_root, args.metrics)
         else:
-            plot(collection_yaml, args.output_root, args.random)
+            plot(collection_yaml, args.output_root, args.metrics, args.random)
 
     if args.per_topic_analysis:
         from plots import Plots
