@@ -70,12 +70,15 @@ class Plots(object):
                 all_results[model].append((float(para), float(score)))
         return all_results
 
-    def plot_params_sensitivity(self, collection, output_root):
+    def plot_params_sensitivity(self, collection, output_root, metrics):
         if not os.path.exists(os.path.join(output_root, self.plots_root)):
             os.makedirs(os.path.join(output_root, self.plots_root))
 
         for fn in os.listdir(os.path.join(output_root, self.effectiveness_root)):
             if not fn.startswith('axiom_paras_sensitivity_'):
+                continue
+            metric = os.path.splitext(fn)[0].split('_')[-1]
+            if metric not in metrics:
                 continue
             all_results = self.read_data(os.path.join(output_root, self.effectiveness_root, fn))
             ls = ['-', '--', ':']
@@ -94,7 +97,7 @@ class Plots(object):
                 ax.set_xlabel(r'$\beta$')
                 ax.set_ylabel('AP' if not 'cw' in collection else 'NDCG@20')
                 ax.legend(loc=4)
-            output_fn = os.path.join(output_root, self.plots_root, 'params_sensitivity_{}.eps'.format(collection))
+            output_fn = os.path.join(output_root, self.plots_root, 'params_sensitivity_{}_{}.eps'.format(collection, metric))
             plt.savefig(output_fn, bbox_inches='tight', format='eps')
 
     def read_coverage_data(self, fn):
@@ -158,12 +161,15 @@ class Plots(object):
             output_fn = os.path.join(output_root, self.plots_root, 'per_query_{}_{}.eps'.format(collection, beta))
             plt.savefig(output_fn, bbox_inches='tight', format='eps')
 
-    def plot_random_seeds(self, collection, output_root, beta):
+    def plot_random_seeds(self, collection, output_root, beta, metrics):
         if not os.path.exists(os.path.join(output_root, self.plots_root)):
             os.makedirs(os.path.join(output_root, self.plots_root))
 
         for fn in os.listdir(os.path.join(output_root, self.effectiveness_root)):
             if not fn.startswith('axiom_random_seeds_'):
+                continue
+            metric = os.path.splitext(fn)[0].split('_')[-1]
+            if metric not in metrics:
                 continue
             fig, ax = plt.subplots(1, 1, figsize=(3, 3))
             random_seeds_results = self.read_data(os.path.join(output_root, self.effectiveness_root, fn))
@@ -181,5 +187,5 @@ class Plots(object):
                 ax.boxplot(y, showfliers=True)
                 ax.set_xticks([])
                 #ax.legend(loc=0) # Legend is muted -- the explanations are in the text (caption)
-            output_fn = os.path.join(output_root, self.plots_root, 'random_seeds_{}.eps'.format(collection))
+            output_fn = os.path.join(output_root, self.plots_root, 'random_seeds_{}_{}.eps'.format(collection, metric))
             plt.savefig(output_fn, bbox_inches='tight', format='eps')
