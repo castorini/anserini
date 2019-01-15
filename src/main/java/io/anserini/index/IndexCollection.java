@@ -137,6 +137,9 @@ public final class IndexCollection {
     @Option(name = "-solr.cloud", usage = "boolean switch to determine if we're running in SolrCloud mode")
     public boolean solrCloud = false;
 
+    @Option(name = "-solr.commitWithin", usage = "the number of seconds to commitWithin")
+    public int solrCommitWithin = 60;
+
     @Option(name = "-solr.index", usage = "the name of the index")
     public String solrIndex = null;
 
@@ -320,7 +323,7 @@ public final class IndexCollection {
               flush(client);
             }
           } else {
-            client.add(args.solrIndex, solrDocument); // ... and ConcurrentUpdateSolrClient does it for us
+            client.add(args.solrIndex, solrDocument, args.solrCommitWithin * 1000); // ... and ConcurrentUpdateSolrClient does it for us
           }
 
           cnt++;
@@ -349,7 +352,7 @@ public final class IndexCollection {
     private void flush(SolrClient client) {
       if (!buffer.isEmpty()) {
         try {
-          client.add(args.solrIndex, buffer);
+          client.add(args.solrIndex, buffer, args.solrCommitWithin * 1000);
           buffer.clear();
         } catch (Exception e) {
           LOG.error("Error flushing documents to Solr", e);
@@ -389,6 +392,7 @@ public final class IndexCollection {
     if (args.solr) {
       LOG.info("Solr batch size: " + args.solrBatch);
       LOG.info("SolrCloud? " + args.solrCloud + " (zkChroot = " + args.solrZkChroot + ")");
+      LOG.info("Solr commitWithin: " + args.solrCommitWithin);
       LOG.info("Solr index: " + args.solrIndex);
       LOG.info("Solr URL: " + args.solrUrl);
     }
@@ -529,17 +533,28 @@ public final class IndexCollection {
       numIndexed = writer.maxDoc();
     }
 
-    try {
-      if (writer != null)
-        writer.commit();
-      if (args.optimize)
-        writer.forceMerge(1);
-      if (args.solr)
+    // Do a final commit
+    if (args.solr) {
+      try {
+        solrPool.borrowObject().commit(args.solrIndex);
         solrPool.close();
+      } catch (Exception e) {
+        LOG.error("Exception during final Solr commit: ", e);
+      }
+    }
+
+    try {
+      if (writer != null) {
+        writer.commit();
+        if (args.optimize) {
+          writer.forceMerge(1);
+        }
+      }
     } finally {
       try {
-        if (writer != null)
+        if (writer != null) {
           writer.close();
+        }
       } catch (IOException e) {
         // It is possible that this happens... but nothing much we can do at this point,
         // so just log the error and move on.
