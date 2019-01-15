@@ -123,7 +123,7 @@ class Plots(object):
         ax.grid(True)
         ax.set_title(collection if collection not in self.title_mappings else self.title_mappings[collection])
         ax.set_xlabel(r'$\beta$')
-        ax.set_ylabel('Unjudged Documents')
+        # ax.set_ylabel('Unjudged Documents')
         ax.set_ylim([0,1])
         ax.yaxis.set_major_formatter(FuncFormatter(lambda y, _: '{:.0%}'.format(y)))
         ax.legend(loc=0)
