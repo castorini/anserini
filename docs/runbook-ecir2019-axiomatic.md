@@ -20,8 +20,8 @@ python src/main/python/ecir2019_axiomatic/run_batch.py --collection robust05 --m
 python src/main/python/ecir2019_axiomatic/run_batch.py --collection core17 --models bm25 ql f2exp --n 32 --run --plot
 python src/main/python/ecir2019_axiomatic/run_batch.py --collection wt10g --models bm25 ql f2exp --n 32 --run --plot
 python src/main/python/ecir2019_axiomatic/run_batch.py --collection gov2 --models bm25 ql f2exp --n 32 --run --plot
-python src/main/python/ecir2019_axiomatic/run_batch.py --collection cw09b --models bm25 ql f2exp --n 32 --run --plot
-python src/main/python/ecir2019_axiomatic/run_batch.py --collection cw12b13 --models bm25 ql f2exp --n 32 --run --plot
+python src/main/python/ecir2019_axiomatic/run_batch.py --collection cw09b --models bm25 ql f2exp --n 32 --metrics ndcg20 --run --plot
+python src/main/python/ecir2019_axiomatic/run_batch.py --collection cw12b13 --models bm25 ql f2exp --n 32 --metrics ndcg20 --run --plot
 python src/main/python/ecir2019_axiomatic/run_batch.py --collection mb11 --models bm25 ql f2exp --n 32 --run --plot
 python src/main/python/ecir2019_axiomatic/run_batch.py --collection mb13 --models bm25 ql f2exp --n 32 --run --plot
 ```
@@ -63,8 +63,8 @@ python src/main/python/ecir2019_axiomatic/run_batch.py --collection robust05 --m
 python src/main/python/ecir2019_axiomatic/run_batch.py --collection core17 --models bm25 --n 32 --run --random --plot
 python src/main/python/ecir2019_axiomatic/run_batch.py --collection wt10g --models bm25 --n 32 --run --random --plot
 python src/main/python/ecir2019_axiomatic/run_batch.py --collection gov2 --models bm25 --n 32 --run --random --plot
-python src/main/python/ecir2019_axiomatic/run_batch.py --collection cw09b --models bm25 --n 32 --run --random --plot
-python src/main/python/ecir2019_axiomatic/run_batch.py --collection cw12b13 --models bm25 --n 32 --run --random --plot
+python src/main/python/ecir2019_axiomatic/run_batch.py --collection cw09b --models bm25 --n 32 --metrics ndcg20 --run --random --plot
+python src/main/python/ecir2019_axiomatic/run_batch.py --collection cw12b13 --models bm25 --n 32 --metrics ndcg20 --run --random --plot
 python src/main/python/ecir2019_axiomatic/run_batch.py --collection mb11 --models bm25 --n 32 --run --random --plot
 python src/main/python/ecir2019_axiomatic/run_batch.py --collection mb13 --models bm25 --n 32 --run --random --plot
 ```
