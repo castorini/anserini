@@ -13,6 +13,8 @@ These are plots in Figures 1, 2, and 3 of the paper.
 First, change the index path at `src/main/resources/ecir2019_axiomatic/collections.yaml`
 Our script will go through the `index_roots` property and concatenate with the collection's `index_path`, taking the first match as the location of the index.
 
+Run the following commands:
+
 ```
 python src/main/python/ecir2019_axiomatic/run_batch.py --collection disk12 --models bm25 ql f2exp --n 32 --run --plot
 python src/main/python/ecir2019_axiomatic/run_batch.py --collection robust04 --models bm25 ql f2exp --n 32 --run --plot
@@ -28,7 +30,7 @@ python src/main/python/ecir2019_axiomatic/run_batch.py --collection mb13 --model
 
 ## Qrels Coverage
 
-This is Figure 4 in the paper.
+These are plots in Figure 4 of the paper.
 
 ```
 python src/main/python/ecir2019_axiomatic/run_batch.py --collection disk12 --models bm25 --cal_coverage --plot
@@ -45,7 +47,7 @@ python src/main/python/ecir2019_axiomatic/run_batch.py --collection mb13 --model
 
 ## Per-Topic Analysis
 
-This is Figure 5 in the paper.
+These are plots in Figure 5 of the paper.
 
 Assuming you've already run the above "Parameter Sensitivity Plots" successfully, the following commands will generate the relevant data:
 
@@ -60,7 +62,7 @@ python src/main/python/ecir2019_axiomatic/run_batch.py --collection mb13 --per_t
 
 ## Runs with Random Seeds
 
-This is Figure 6 in the paper.
+These are plots in Figure 6 of the paper.
 
 ```
 python src/main/python/ecir2019_axiomatic/run_batch.py --collection disk12 --models bm25 --n 32 --run --random --plot
