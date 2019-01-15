@@ -31,6 +31,7 @@ class Coverage(object):
             exit(1)
 
         self.run_files_root = 'run_files'
+        self.coverage_root = 'coverage'
 
     def get_qrels(self, qrels_file):
         qrels = {}
@@ -42,10 +43,12 @@ class Coverage(object):
                 qrels[qid].add(docid)
         return qrels
 
-    def cal_single_run_coverage(self, run_file):
-        qrels = self.get_qrels()
+    def cal_single_run_coverage(self, run_file, qrels):
         run = {}
         run_top = {20: {}, 50: {}, 100: {}}
+        for param in run_file.split('_')[-1].split(','):
+            if 'axiom.beta' in param:
+                beta = float(param.split(':')[1])
         with open(run_file) as f:
             i = 0
             for line in f:
@@ -63,36 +66,40 @@ class Coverage(object):
                     if i < k:
                         run_top[k][qid].add(docid)
                 i+=1
-        overall = {}
+        overall = [beta, {}]
         for qid in qrels:
             for k in run_top:
                 if qid in run_top[k]:
-                    if k not in overall:
-                        overall[k] = 0.0
-                    overall[k] += (k - (len(qrels[qid] & run_top[k][qid]))) * 1.0 / k
-        for k in overall:
-            overall[k] /= len(qrels)
+                    if k not in overall[1]:
+                        overall[1][k] = 0.0
+                    overall[1][k] += (k - (len(qrels[qid] & run_top[k][qid]))) * 1.0 / k
+        for k in overall[1]:
+            overall[1][k] /= len(qrels)
+
         return overall
 
-    def cal_coverage(self):
+    def cal_coverage(self, model_yaml, qrels_path, output_root):
+        if not os.path.exists(os.path.join(output_root, self.coverage_root)):
+            os.makedirs(os.path.join(output_root, self.coverage_root))
         all_results = {}
-        for fn in os.listdir(self.results_root):
-            (ct, model, beta) = os.path.splitext(fn)[0].split('_')
-            collection = ct.split('-')[0]
-            topic = '-'.join(ct.split('-')[1:])
-            k = (ct, model)
-            if collection.startswith('cw'):
-                qrels_fn = qrels_root+'web.'+topic+'.txt'
-            else:
-                qrels_fn = qrels_root+topic+'.txt'
-            qrels = get_qrels(qrels_fn)
-            avg_overlap = self.cal_coverage(os.path.join(results_root, fn), qrels)
-            if k not in all_results:
-                all_results[k] = []
-            all_results[k].append((float(beta), avg_overlap))
+        for fn in os.listdir(os.path.join(output_root, self.run_files_root)):
+            should_skip = False
+            for model in model_yaml['models']:
+                if model not in fn or 'baseline' in fn:
+                    should_skip = True
+                    break
+            if should_skip:
+                continue
+            qrels = self.get_qrels(qrels_path)
+            avg_overlap = self.cal_single_run_coverage(os.path.join(output_root, self.run_files_root, fn), qrels)
+            if avg_overlap[0] == 0.0: # ignore beta = 0.0
+                continue
+            for k in avg_overlap[1]:
+                if k not in all_results:
+                    all_results[k] = []
+                all_results[k].append((float(avg_overlap[0]), avg_overlap[1][k]))
 
-        with open('axiom_judgement_overlap_top%d_avg.csv' % top, 'w') as f:
-            for k in sorted(all_results, key=itemgetter(0,1)):
-                all_results[k].sort(key = itemgetter(0))
-                for ele in all_results[k]:
-                    f.write('%s,%s,%.1f,%.4f\n' % (k[0], k[1], ele[0], ele[1]))
+        for k in all_results:
+            with open(os.path.join(output_root, self.coverage_root, 'coverage_%d_avg.csv' % k), 'w') as f:
+                for ele in sorted(all_results[k]):
+                    f.write('%.1f,%.4f\n' % (ele[0], ele[1]))

@@ -26,6 +26,7 @@ import yaml
 from search import Search
 from evaluation import Evaluation
 from effectiveness import Effectiveness
+from coverage import Coverage
 
 logger = logging.getLogger('ecir2019_axiomatic')
 logger.setLevel(logging.INFO)
@@ -137,6 +138,24 @@ def plot(collection_yaml, output_root, random = False):
     else:
         Plots().plot_params_sensitivity(collection_yaml['name'], this_output_root)
 
+def cal_coverage(collection_yaml, model_yaml, output_root):
+    index_path = get_index_path(collection_yaml)
+    this_output_root = os.path.join(output_root, collection_yaml['name'])
+    Coverage(index_path).cal_coverage(
+        model_yaml,
+        os.path.join(collection_yaml['anserini_root'], collection_yaml['qrels_root'], collection_yaml['qrel']),
+        this_output_root
+    )
+
+def plot_coverage(collection_yaml, output_root):
+    this_output_root = os.path.join(output_root, collection_yaml['name'])
+    Plots().plot_coverage(collection_yaml['name'], this_output_root)
+
+
+def plot_per_topic_analysis(collection_yaml, output_root):
+    this_output_root = os.path.join(output_root, collection_yaml['name'])
+    Plots().plot_per_topic_analysis(collection_yaml['name'], this_output_root)
+
 def concatenate_qrels():
     filenames = ['src/main/resources/topics-and-qrels/qrels.51-100.txt',
                  'src/main/resources/topics-and-qrels/qrels.101-150.txt',
@@ -197,13 +216,10 @@ if __name__ == '__main__':
     parser.add_argument('--n', dest='parallelism', type=int, default=16, help='number of parallel threads for retrieval/eval')
     parser.add_argument('--output_root', default='ecir2019_axiomatic', help='output directory of all results')
     parser.add_argument('--dry_run', action='store_true', help='dry run the commands without actually running them')
+    parser.add_argument('--cal_coverage', action='store_true', help='calculate the qrels coverage')
+    parser.add_argument('--per_topic_analysis', action='store_true', help='plot the per-topic analysis figures')
 
     # runtime
-    parser.add_argument(
-        "--del_method_related_files",
-        nargs=1,
-        help="Delete all the output files of a method."
-    )
     parser.add_argument(
         "--metrics",
         nargs='+',
@@ -216,28 +232,36 @@ if __name__ == '__main__':
     # concatenate qrels together for easier evaluation
     concatenate_qrels()
 
-    if args.del_method_related_files:
-        del_method_related_files(args.del_method_related_files[0])
-    else:
-        parallelism = args.parallelism
-        resources_root = 'src/main/resources/ecir2019_axiomatic/'
-        with open(os.path.join(args.anserini_root, resources_root, 'collections.yaml')) as f:
-            collections_yaml = yaml.safe_load(f)
-        with open(os.path.join(args.anserini_root, resources_root, 'models.yaml')) as f:
-            models_yaml = yaml.safe_load(f)
-        collection_yaml = collections_yaml['collections'][args.collection]
-        for k in collections_yaml:
-            if k != 'collections':
-                collection_yaml[k] = collections_yaml[k]
-        collection_yaml['anserini_root'] = args.anserini_root
-        if not os.path.exists(os.path.join(args.output_root, collection_yaml['name'])):
-            os.makedirs(os.path.join(args.output_root, collection_yaml['name']))
-        models_yaml['models'] = args.models
+    parallelism = args.parallelism
+    resources_root = 'src/main/resources/ecir2019_axiomatic/'
+    with open(os.path.join(args.anserini_root, resources_root, 'collections.yaml')) as f:
+        collections_yaml = yaml.safe_load(f)
+    with open(os.path.join(args.anserini_root, resources_root, 'models.yaml')) as f:
+        models_yaml = yaml.safe_load(f)
+    collection_yaml = collections_yaml['collections'][args.collection]
+    for k in collections_yaml:
+        if k != 'collections':
+            collection_yaml[k] = collections_yaml[k]
+    collection_yaml['anserini_root'] = args.anserini_root
+    if not os.path.exists(os.path.join(args.output_root, collection_yaml['name'])):
+        os.makedirs(os.path.join(args.output_root, collection_yaml['name']))
+    models_yaml['models'] = args.models
 
-        if args.run:
-            batch_retrieval(collection_yaml, models_yaml, args.output_root, args.random, args.dry_run)
-            batch_eval(collection_yaml, models_yaml, args.output_root, args.dry_run)
-            batch_output_effectiveness(collection_yaml, models_yaml, args.output_root, args.random)
-        if args.plot:
-            from plots import Plots
+    if args.run:
+        batch_retrieval(collection_yaml, models_yaml, args.output_root, args.random, args.dry_run)
+        batch_eval(collection_yaml, models_yaml, args.output_root, args.dry_run)
+        batch_output_effectiveness(collection_yaml, models_yaml, args.output_root, args.random)
+
+    if args.cal_coverage:
+        cal_coverage(collection_yaml, models_yaml, args.output_root)
+
+    if args.plot:
+        from plots import Plots
+        if args.cal_coverage:
+            plot_coverage(collection_yaml, args.output_root)
+        else:
             plot(collection_yaml, args.output_root, args.random)
+
+    if args.per_topic_analysis:
+        from plots import Plots
+        plot_per_topic_analysis(collection_yaml, args.output_root)

@@ -21,6 +21,7 @@ import math
 import logging
 from operator import itemgetter
 import matplotlib
+from matplotlib.ticker import FuncFormatter
 
 # https://stackoverflow.com/questions/37604289/tkinter-tclerror-no-display-name-and-no-display-environment-variable
 if os.environ.get('DISPLAY','') == '':
@@ -39,10 +40,12 @@ class Plots(object):
         self.run_files_root = 'run_files'
         self.eval_files_root = 'eval_files'
         self.effectiveness_root = 'effectiveness_files'
+        self.coverage_root = 'coverage'
+        self.per_topic_analysis_root = 'per_topic_analysis'
         self.plots_root = 'plots'
 
         self.title_mappings = {
-            'disk12': 'Disk 1 & 2',
+            'disk12': 'Disks 1 & 2',
             'robust04': 'Disks 4 & 5',
             'robust05': 'AQUAINT',
             'core17': 'New York Times',
@@ -89,9 +92,70 @@ class Plots(object):
                 ax.grid(True)
                 ax.set_title(collection if collection not in self.title_mappings else self.title_mappings[collection])
                 ax.set_xlabel(r'$\beta$')
-                ax.set_ylabel('MAP' if not 'cw' in collection else 'NDCG@20')
+                ax.set_ylabel('AP' if not 'cw' in collection else 'NDCG@20')
                 ax.legend(loc=4)
             output_fn = os.path.join(output_root, self.plots_root, 'params_sensitivity_{}.eps'.format(collection))
+            plt.savefig(output_fn, bbox_inches='tight', format='eps')
+
+    def read_coverage_data(self, fn):
+        all_results = []
+        with open(fn) as f:
+            r = csv.reader(f)
+            for row in r:
+                beta, coverage = row
+                all_results.append((float(beta), float(coverage)))
+        return all_results
+
+    def plot_coverage(self, collection, output_root):
+        if not os.path.exists(os.path.join(output_root, self.plots_root)):
+            os.makedirs(os.path.join(output_root, self.plots_root))
+
+        fig, ax = plt.subplots(1, 1, figsize=(3, 3))
+        for fn in os.listdir(os.path.join(output_root, self.coverage_root)):
+            top = fn.split('_')[1]
+            all_results = self.read_coverage_data(os.path.join(output_root, self.coverage_root, fn))
+            x = [float(ele[0]) for ele in all_results]
+            y = [float(ele[1]) for ele in all_results]
+            ax.plot(x, y, marker='s', ms=5, label='top'+top)
+        ax.grid(True)
+        ax.set_title(collection if collection not in self.title_mappings else self.title_mappings[collection])
+        ax.set_xlabel(r'$\beta$')
+        ax.set_ylabel('Unjudged Documents')
+        ax.set_ylim([0,1])
+        ax.yaxis.set_major_formatter(FuncFormatter(lambda y, _: '{:.0%}'.format(y)))
+        ax.legend(loc=0)
+        output_fn = os.path.join(output_root, self.plots_root, 'judgements_coverage_{}.eps'.format(collection))
+        plt.savefig(output_fn, bbox_inches='tight', format='eps')
+
+    def read_per_topic_analysis(self, fn):
+        all_results = []
+        with open(fn) as f:
+            r = csv.reader(f)
+            for row in r:
+                qid, diff = row
+                all_results.append((qid, float(diff)))
+        return all_results
+
+    def plot_per_topic_analysis(self, collection, output_root):
+        if not os.path.exists(os.path.join(output_root, self.plots_root)):
+            os.makedirs(os.path.join(output_root, self.plots_root))
+
+        for fn in os.listdir(os.path.join(output_root, self.per_topic_analysis_root)):
+            fig, ax = plt.subplots(1, 1, figsize=(16, 3))
+            beta = os.path.splitext(fn)[0].split('_')[1]
+            all_results = self.read_per_topic_analysis(os.path.join(output_root, self.per_topic_analysis_root, fn))
+            all_results.sort(key = itemgetter(1), reverse=True)
+            x = [_x+0.5 for _x in range(len(all_results))]
+            y = [float(ele[1]) for ele in all_results]
+            ax.bar(x, y, width=0.6, align='edge')
+            ax.set_xticks(x)
+            ax.set_xticklabels([int(ele[0]) for ele in all_results], {'fontsize': 5}, rotation='vertical')
+            ax.grid(True)
+            ax.set_title(collection if collection not in self.title_mappings else self.title_mappings[collection])
+            ax.set_xlabel('Topics')
+            ax.set_ylabel('MAP Diff')
+            ax.set_ylim(-0.4, 0.55)
+            output_fn = os.path.join(output_root, self.plots_root, 'per_query_{}_{}.eps'.format(collection, beta))
             plt.savefig(output_fn, bbox_inches='tight', format='eps')
 
     def plot_random_seeds(self, collection, output_root, beta):
