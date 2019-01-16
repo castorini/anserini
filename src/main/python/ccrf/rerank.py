@@ -121,7 +121,7 @@ def run_classifier(config, classifier, output_folder):
 
         test_doc_score[topic].append(y_test)
 
-    for alpha in [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1]:
+    for alpha in [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]:
         rerank(test_doc_score, alpha, output_folder, 10000, classifier)
 
     logging.info(f'Finished with {classifier} in {time.time() - start_time} seconds')
