@@ -1,0 +1,68 @@
+{
+  "topics": [
+    "307",
+    "310",
+    "397",
+    "330",
+    "341",
+    "419",
+    "375",
+    "363",
+    "393",
+    "427",
+    "344",
+    "394",
+    "353",
+    "336",
+    "372",
+    "399",
+    "408",
+    "433",
+    "426",
+    "443",
+    "436",
+    "362",
+    "378",
+    "354",
+    "404",
+    "345",
+    "347",
+    "439",
+    "367",
+    "389",
+    "416",
+    "325",
+    "435"
+  ],
+  "sources": [
+    {
+      "name": "robust04",
+      "qrels": "src/main/resources/topics-and-qrels/qrels.robust2004.txt",
+      "index": "lucene-index.robust04.pos+docvectors+rawdocs"
+    },
+    {
+      "name": "core17",
+      "qrels": "src/main/resources/topics-and-qrels/qrels.core17.txt",
+      "index": "lucene-index.core17.pos+docvectors+rawdocs"
+    }
+  ],
+  "target": {
+    "name": "robust05",
+    "run": "run.robust05.bm25.topics.robust05.txt",
+    "index": "lucene-index.robust05.pos+docvectors+rawdocs"
+  },
+  "classifiers": [
+    "lr"
+  ],
+  "runs": [
+    {
+      "classifiers": [
+        "lr"
+      ],
+      "weight": "0.0",
+      "runtag": "bm25",
+      "output": "robust05_bm25.txt"
+    }
+  ],
+  "working_directory": "ccrf.0417_robust05"
+}
