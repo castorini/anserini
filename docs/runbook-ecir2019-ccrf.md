@@ -1,10 +1,10 @@
-# Anserini: ECIR 2019 Cross-Collection Relevance Transfer
+# Anserini: ECIR 2019 Cross-Collection Relevance Feedback
 
 This page documents code for replicating results from the following paper:
 
 - Ruifan Yu, Yuhao Xie and Jimmy Lin. Simple Techniques for Cross-Collection Relevance Transfer. Proceedings of the 41th European Conference on Information Retrieval (ECIR 2019), April 2019, Cologne, Germany.
 
-**Requirements**: The main requirements are
+**Requirements**: The main requirements are:
 
 ```
 python >= 3.6
@@ -61,9 +61,7 @@ zlib                      1.2.11               h1de35cc_3
 
 ## Preparation
 
-### Indexing
-
-Run the following commands to index the `Robust04`, `Robust05`, and `Core17` collections.
+Run the following commands to index the `Robust04`, `Robust05`, and `Core17` collections:
 
 ```bash
 nohup sh target/appassembler/bin/IndexCollection -collection TrecCollection \
@@ -77,14 +75,12 @@ nohup sh target/appassembler/bin/IndexCollection -collection TrecCollection \
  -storePositions -storeDocvectors -storeRawDocs >& log.robust05.pos+docvectors+rawdocs &
 
 nohup sh target/appassembler/bin/IndexCollection -collection NewYorkTimesCollection \
--generator JsoupGenerator -threads 16 -input /path/to/core17 \
--index lucene-index.core17.pos+docvectors+rawdocs \
--storePositions -storeDocvectors -storeRawDocs >& log.core17.pos+docvectors+rawdocs &
+ -generator JsoupGenerator -threads 16 -input /path/to/core17 \
+ -index lucene-index.core17.pos+docvectors+rawdocs \
+ -storePositions -storeDocvectors -storeRawDocs >& log.core17.pos+docvectors+rawdocs &
 ```
 
-### Retrieval
-
-Retrieve the top-ranked documents using BM25 only, BM25 with RM3 reranking (`BM25+RM3`), and BM25 with axiomatic reranking (`BM25+AX`) for the three collections.
+Retrieve the top-ranked documents using BM25, BM25 with RM3 (BM25+RM3), and BM25 with axiomatic semantic term matching (BM25+AX) for the three collections:
 
 ```bash
 nohup target/appassembler/bin/SearchCollection -topicreader Trec \
@@ -136,9 +132,8 @@ nohup target/appassembler/bin/SearchCollection -topicreader Trec \
  -bm25 -axiom -rerankCutoff 20 -axiom.deterministic -hits 10000 &
 ```
 
-### Relevance Transfer
-
-Configuration files for different combinations of source and target collections are stored in `src/main/python/ccrf/configs`.
+Train classifiers and apply inference for relevance transfer:
+Configuration files for different combinations of source and target collections are stored in `src/main/python/ccrf/configs/`.
 For each configuration, run the following commands:
 
 ```bash
@@ -148,7 +143,7 @@ python src/main/python/ccrf/rerank.py --config $CONFIG_NAME
 python src/main/python/ccrf/generate_runs.py --config $CONFIG_NAME
 ```
 
-After successfully generating all experiment results, you should have the following following folders in your current directory:
+After successfully generating all experimental results, you should have the following folders in your current directory:
 
 ```
 ccrf.0405_core17/
@@ -174,88 +169,134 @@ ccrf.17_robust05.ax/
 ccrf.17_robust05.rm3/
 ```
 
-## Baseline Retrieval Results
+## Results
 
-These are the results in Table 1 of the paper.
+### Baselines
+
+These are commands to generate results in Table 1 of the paper:
 
 ```bash
 head -n 440668 ccrf.0517_robust04/robust04_bm25.txt > robust04_bm25.cut.txt && \
-eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.robust2004.txt robust04_bm25.cut.txt -m map -m P.10 -M 1000
+eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.robust2004.txt \
+ robust04_bm25.cut.txt -m map -m P.10 -M 1000
 
 head -n 500000 ccrf.0517_robust04.rm3/robust04_bm25+rm3.txt > robust04_bm25+rm3.cut.txt && \
-eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.robust2004.txt robust04_bm25+rm3.cut.txt -m map -m P.10 -M 1000
+eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.robust2004.txt \
+ robust04_bm25+rm3.cut.txt -m map -m P.10 -M 1000
 
 head -n 500000 ccrf.0517_robust04.ax/robust04_bm25+ax.txt > robust04_bm25+ax.cut.txt && \
-eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.robust2004.txt robust04_bm25+ax.cut.txt -m map -m P.10 -M 1000
+eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.robust2004.txt \
+ robust04_bm25+ax.cut.txt -m map -m P.10 -M 1000
 
 head -n 316234 ccrf.0417_robust05/robust05_bm25.txt > robust05_bm25.cut.txt && \
-eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.robust2005.txt robust05_bm25.cut.txt -m map -m P.10 -M 1000
+eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.robust2005.txt \
+ robust05_bm25.cut.txt -m map -m P.10 -M 1000
 
 head -n 330000 ccrf.0417_robust05.rm3/robust05_bm25+rm3.txt > robust05_bm25+rm3.cut.txt && \
-eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.robust2005.txt robust05_bm25+rm3.cut.txt -m map -m P.10 -M 1000
+eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.robust2005.txt \
+ robust05_bm25+rm3.cut.txt -m map -m P.10 -M 1000
 
 head -n 330000 ccrf.0417_robust05.ax/robust05_bm25+ax.txt > robust05_bm25+ax.cut.txt && \
-eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.robust2005.txt robust05_bm25+ax.cut.txt -m map -m P.10 -M 1000
+eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.robust2005.txt \
+ robust05_bm25+ax.cut.txt -m map -m P.10 -M 1000
 
-eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.core17.txt ccrf.0405_core17/core17_bm25.txt -m map -m P.10 -M 1000
+eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.core17.txt \
+ ccrf.0405_core17/core17_bm25.txt -m map -m P.10 -M 1000
 
-eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.core17.txt ccrf.0405_core17.rm3/core17_bm25+rm3.txt -m map -m P.10 -M 1000
+eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.core17.txt \
+ ccrf.0405_core17.rm3/core17_bm25+rm3.txt -m map -m P.10 -M 1000
 
-eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.core17.txt ccrf.0405_core17.ax/core17_bm25+ax.txt -m map -m P.10 -M 1000
+eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.core17.txt \
+ ccrf.0405_core17.ax/core17_bm25+ax.txt -m map -m P.10 -M 1000
 ```
 
-## Relevance Transfer Results
+### Main Relevance Transfer Experiment
 
-These are the results in Table 2 of the paper
+These are commands to generate results in Table 2 of the paper: training on Robust04 and Robust05, testing on Core17.
 
-- The first block is just a copy of <tt>WCRobust0405</tt> and the results from `Table 1`.
-- The second block is to run the following commands and find the optimal interpolation weight $\alpha$ with the highest score.
+The first block of the table contains results of <tt>WCRobust0405</tt> and results copied from Table 1.
+
+The second block of the table contains results from optimal alpha settings.
+To determine the optimal settings, use the following commands:
 
 ```bash
-eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.core17.txt ccrf.0405_core17.rm3/core17.rm3_${clf}_${weight}.txt -m map -m P.10 -M 1000
+eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.core17.txt \
+ ccrf.0405_core17.rm3/core17.rm3_${clf}_${weight}.txt -m map -m P.10 -M 1000
 
-eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.core17.txt ccrf.0405_core17.ax/core17.ax_${clf}_${weight}.txt -m map -m P.10 -M 1000
+eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.core17.txt \
+ ccrf.0405_core17.ax/core17.ax_${clf}_${weight}.txt -m map -m P.10 -M 1000
 ```
 
-where the options for `clf` are `lr`, `svm`, `lgb`, and `e3` (represents the ensemble of the three classifiers), and `weight` are `0.0`, `0.1`, `0.2`, `0.3`, `0.4`, `0.5`, `0.6`, `0.7`, `0.8`, `0.9`,`1.0`. 
+The options for `clf` are `lr`, `svm`, `lgb`, and `e3` (ensemble of the three classifiers), and `weight` is [0.0 ... 1.0] in tenth increments.
 
-- The third block's results are from the following commands:
+The third block of the table contains results with alpha = 0.6:
 
 ```bash
-eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.core17.txt ccrf.0405_core17.rm3/core17.rm3_${clf}_0.6.txt -m map -m P.10 -M 1000
+eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.core17.txt \
+ ccrf.0405_core17.rm3/core17.rm3_${clf}_0.6.txt -m map -m P.10 -M 1000
 
-eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.core17.txt ccrf.0405_core17.ax/core17.ax_${clf}_0.6.txt -m map -m P.10 -M 1000
+eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.core17.txt \
+ ccrf.0405_core17.ax/core17.ax_${clf}_0.6.txt -m map -m P.10 -M 1000
 ```
 
-where the options for `clf` are `lr`, `svm`, `lgb`, and `e3`.
+The options for `clf` are `lr`, `svm`, `lgb`, and `e3` (same as above).
 
-## Results on different combinations of source and target collections
+### Experiments with Different Source/Target Combinations
 
-There are the results in Table 3 of the paper.
+These are commands to generate results in Table 3 of the paper.
+
+Relevance transfer to Core17:
 
 ```bash
-eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.core17.txt ccrf.0405_core17.rm3/core17_bm25+rm3.txt -m map -m P.10 -M 1000
+eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.core17.txt \
+ ccrf.0405_core17.rm3/core17_bm25+rm3.txt -m map -m P.10 -M 1000
 
-eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.core17.txt ccrf.0405_core17.rm3/core17.rm3_lr_0.6.txt -m map -m P.10 -M 1000
+eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.core17.txt \
+ ccrf.0405_core17.rm3/core17.rm3_lr_0.6.txt -m map -m P.10 -M 1000
 
-eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.core17.txt ccrf.04_core17.rm3/core17.rm3_lr_0.6.txt -m map -m P.10 -M 1000
+eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.core17.txt \
+ ccrf.04_core17.rm3/core17.rm3_lr_0.6.txt -m map -m P.10 -M 1000
 
-head -n 330000 ccrf.05_core17.rm3/core17.rm3_lr_0.6.txt > core17.rm3_lr_0.6.cut.txt && eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.core17.txt core17.rm3_lr_0.6.cut.txt -m map -m P.10 -M 1000
+eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.core17.txt \
+ ccrf.05_core17.rm3/core17.rm3_lr_0.6.txt -m map -m P.10 -M 1000
+```
 
-head -n 500000 ccrf.0517_robust04.rm3/robust04_bm25+rm3.txt > robust04_bm25+rm3.cut.txt && eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.robust2004.txt robust04_bm25+rm3.cut.txt -m map -m P.10 -M 1000
+Relevance transfer to Robust04:
 
-head -n 500000 ccrf.0517_robust04.rm3/robust04.rm3_lr_0.6.txt > robust04.rm3_lr_0.6.cut.txt && eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.robust2004.txt robust04.rm3_lr_0.6.cut.txt -m map -m P.10 -M 1000
+```bash
+head -n 500000 ccrf.0517_robust04.rm3/robust04_bm25+rm3.txt > robust04_bm25+rm3.cut.txt && \
+eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.robust2004.txt \
+ robust04_bm25+rm3.cut.txt -m map -m P.10 -M 1000
 
-head -n 330000 ccrf.05_robust04.rm3/robust04.rm3_lr_0.6.txt > robust04.rm3_lr_0.6.cut.txt && eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.robust2004.txt robust04.rm3_lr_0.6.cut.txt -m map -m P.10 -M 1000
+head -n 500000 ccrf.0517_robust04.rm3/robust04.rm3_lr_0.6.txt > robust04.rm3_lr_0.6.cut.txt &&  \ 
+eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.robust2004.txt \
+ robust04.rm3_lr_0.6.cut.txt -m map -m P.10 -M 1000
 
-head -n 500000 ccrf.17_robust04.rm3/robust04.rm3_lr_0.6.txt > robust04.rm3_lr_0.6.cut.txt && eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.robust2004.txt robust04.rm3_lr_0.6.cut.txt -m map -m P.10 -M 1000
+head -n 500000 ccrf.05_robust04.rm3/robust04.rm3_lr_0.6.txt > robust04.rm3_lr_0.6.cut.txt && \
+eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.robust2004.txt \
+ robust04.rm3_lr_0.6.cut.txt -m map -m P.10 -M 1000
 
-head -n 330000 ccrf.0417_robust05.rm3/robust05_bm25+rm3.txt > robust05_bm25+rm3.cut.txt && eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.robust2005.txt robust05_bm25+rm3.cut.txt -m map -m P.10 -M 1000
+head -n 500000 ccrf.17_robust04.rm3/robust04.rm3_lr_0.6.txt > robust04.rm3_lr_0.6.cut.txt && \
+eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.robust2004.txt \
+ robust04.rm3_lr_0.6.cut.txt -m map -m P.10 -M 1000
+```
 
-head -n 330000 ccrf.0417_robust05.rm3/robust05.rm3_lr_0.6.txt > robust05.rm3_lr_0.6.cut.txt && eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.robust2005.txt robust05.rm3_lr_0.6.cut.txt -m map -m P.10 -M 1000
+Relevance transfer to Robust05:
 
-head -n 330000 ccrf.04_robust05.rm3/robust05.rm3_lr_0.6.txt > robust05.rm3_lr_0.6.cut.txt && eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.robust2005.txt robust05.rm3_lr_0.6.cut.txt -m map -m P.10 -M 1000
+```bash
+head -n 330000 ccrf.0417_robust05.rm3/robust05_bm25+rm3.txt > robust05_bm25+rm3.cut.txt && \
+eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.robust2005.txt \
+ robust05_bm25+rm3.cut.txt -m map -m P.10 -M 1000
 
-head -n 330000 ccrf.17_robust05.rm3/robust05.rm3_lr_0.6.txt > robust05.rm3_lr_0.6.cut.txt && eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.robust2005.txt robust05.rm3_lr_0.6.cut.txt -m map -m P.10 -M 1000
+head -n 330000 ccrf.0417_robust05.rm3/robust05.rm3_lr_0.6.txt > robust05.rm3_lr_0.6.cut.txt && \
+eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.robust2005.txt \
+ robust05.rm3_lr_0.6.cut.txt -m map -m P.10 -M 1000
 
+head -n 330000 ccrf.04_robust05.rm3/robust05.rm3_lr_0.6.txt > robust05.rm3_lr_0.6.cut.txt && \
+eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.robust2005.txt \
+ robust05.rm3_lr_0.6.cut.txt -m map -m P.10 -M 1000
+
+head -n 330000 ccrf.17_robust05.rm3/robust05.rm3_lr_0.6.txt > robust05.rm3_lr_0.6.cut.txt && \
+eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.robust2005.txt \
+ robust05.rm3_lr_0.6.cut.txt -m map -m P.10 -M 1000
 ```
