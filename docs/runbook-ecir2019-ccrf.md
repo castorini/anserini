@@ -1,4 +1,4 @@
-# ECIR 2019 Cross-Collection Relevance Transfer
+# Anserini: ECIR 2019 Cross-Collection Relevance Transfer
 
 This page documents code for replicating results from the following paper:
 
@@ -14,7 +14,8 @@ scikit-learn >= 0.20.1
 lightgbm >= 2.2.1
 ```
 
-We suggest use conda environment, and for reference, this was the conda environment (setting up the environment with `conda install -c conda-forge lightgbm`):
+We suggest using Conda to manage your Python environment.
+For reference, this was the Conda environment for our experiments (after setting up the environment with `conda install -c conda-forge lightgbm`):
 
 ```
 $ conda list
@@ -62,83 +63,83 @@ zlib                      1.2.11               h1de35cc_3
 
 ### Indexing
 
-Run the following commands to index `Robust04`, `Robust05`, and `Core17` collection.
+Run the following commands to index the `Robust04`, `Robust05`, and `Core17` collections.
 
 ```bash
 nohup sh target/appassembler/bin/IndexCollection -collection TrecCollection \
--generator JsoupGenerator -threads 16 -input /path/to/robust04 -index \
-lucene-index.robust04.pos+docvectors+rawdocs -storePositions -storeDocvectors \
--storeRawDocs >& log.robust04.pos+docvectors+rawdocs &
+ -generator JsoupGenerator -threads 16 -input /path/to/robust04 \
+ -index lucene-index.robust04.pos+docvectors+rawdocs \
+ -storePositions -storeDocvectors -storeRawDocs >& log.robust04.pos+docvectors+rawdocs &
 
 nohup sh target/appassembler/bin/IndexCollection -collection TrecCollection \
--generator JsoupGenerator -threads 16 -input /path/to/robust05 -index \
-lucene-index.robust05.pos+docvectors+rawdocs -storePositions -storeDocvectors \
--storeRawDocs >& log.robust05.pos+docvectors+rawdocs &
+ -generator JsoupGenerator -threads 16 -input /path/to/robust05 \
+ -index lucene-index.robust05.pos+docvectors+rawdocs \
+ -storePositions -storeDocvectors -storeRawDocs >& log.robust05.pos+docvectors+rawdocs &
 
-nohup sh target/appassembler/bin/IndexCollection -collection \
-NewYorkTimesCollection -generator JsoupGenerator -threads 16 -input \
-/path/to/core17 -index lucene-index.core17.pos+docvectors+rawdocs \
--storePositions -storeDocvectors -storeRawDocs >& \
-log.core17.pos+docvectors+rawdocs &
+nohup sh target/appassembler/bin/IndexCollection -collection NewYorkTimesCollection \
+-generator JsoupGenerator -threads 16 -input /path/to/core17 \
+-index lucene-index.core17.pos+docvectors+rawdocs \
+-storePositions -storeDocvectors -storeRawDocs >& log.core17.pos+docvectors+rawdocs &
 ```
 
 ### Retrieval
 
-Retrieve the top-relevant documents using `BM25`only, BM25 with RM3 reranking (`BM25+RM3`) and BM25 with axiomatic reranking (`BM25+AX`) for the three collections.
+Retrieve the top-ranked documents using BM25 only, BM25 with RM3 reranking (`BM25+RM3`), and BM25 with axiomatic reranking (`BM25+AX`) for the three collections.
 
 ```bash
 nohup target/appassembler/bin/SearchCollection -topicreader Trec \
--index lucene-index.robust04.pos+docvectors+rawdocs \
--topics src/main/resources/topics-and-qrels/topics.robust04.301-450.601-700.txt \
--output run.robust04.bm25.topics.robust04.301-450.601-700.txt -bm25 -hits 10000 &
+ -index lucene-index.robust04.pos+docvectors+rawdocs \
+ -topics src/main/resources/topics-and-qrels/topics.robust04.301-450.601-700.txt \
+ -output run.robust04.bm25.topics.robust04.301-450.601-700.txt -bm25 -hits 10000 &
 
 nohup target/appassembler/bin/SearchCollection -topicreader Trec \
--index lucene-index.robust04.pos+docvectors+rawdocs \
--topics src/main/resources/topics-and-qrels/topics.robust04.301-450.601-700.txt \
--output run.robust04.bm25+rm3.topics.robust04.301-450.601-700.txt -bm25 -rm3 -hits 10000 &
+ -index lucene-index.robust04.pos+docvectors+rawdocs \
+ -topics src/main/resources/topics-and-qrels/topics.robust04.301-450.601-700.txt \
+ -output run.robust04.bm25+rm3.topics.robust04.301-450.601-700.txt -bm25 -rm3 -hits 10000 &
 
 nohup target/appassembler/bin/SearchCollection -topicreader Trec \
--index lucene-index.robust04.pos+docvectors+rawdocs \
--topics src/main/resources/topics-and-qrels/topics.robust04.301-450.601-700.txt \
--output run.robust04.bm25+ax.topics.robust04.301-450.601-700.txt \
--bm25 -axiom -rerankCutoff 20 -axiom.deterministic  -hits 10000 &
+ -index lucene-index.robust04.pos+docvectors+rawdocs \
+ -topics src/main/resources/topics-and-qrels/topics.robust04.301-450.601-700.txt \
+ -output run.robust04.bm25+ax.topics.robust04.301-450.601-700.txt \
+ -bm25 -axiom -rerankCutoff 20 -axiom.deterministic  -hits 10000 &
 
 nohup target/appassembler/bin/SearchCollection -topicreader Trec \
--index lucene-index.robust05.pos+docvectors+rawdocs \
--topics src/main/resources/topics-and-qrels/topics.robust05.txt \
--output run.robust05.bm25.topics.robust05.txt -bm25 -hits 10000 &
+ -index lucene-index.robust05.pos+docvectors+rawdocs \
+ -topics src/main/resources/topics-and-qrels/topics.robust05.txt \
+ -output run.robust05.bm25.topics.robust05.txt -bm25 -hits 10000 &
 
 nohup target/appassembler/bin/SearchCollection -topicreader Trec \
--index lucene-index.robust05.pos+docvectors+rawdocs \
--topics src/main/resources/topics-and-qrels/topics.robust05.txt \
--output run.robust05.bm25+rm3.topics.robust05.txt -bm25 -rm3 -hits 10000 &
+ -index lucene-index.robust05.pos+docvectors+rawdocs \
+ -topics src/main/resources/topics-and-qrels/topics.robust05.txt \
+ -output run.robust05.bm25+rm3.topics.robust05.txt -bm25 -rm3 -hits 10000 &
 
 nohup target/appassembler/bin/SearchCollection -topicreader Trec \
--index lucene-index.robust05.pos+docvectors+rawdocs \
--topics src/main/resources/topics-and-qrels/topics.robust05.txt \
--output run.robust05.bm25+ax.topics.robust05.txt \
--bm25 -axiom -rerankCutoff 20 -axiom.deterministic -hits 10000 &
+ -index lucene-index.robust05.pos+docvectors+rawdocs \
+ -topics src/main/resources/topics-and-qrels/topics.robust05.txt \
+ -output run.robust05.bm25+ax.topics.robust05.txt \
+ -bm25 -axiom -rerankCutoff 20 -axiom.deterministic -hits 10000 &
 
 nohup target/appassembler/bin/SearchCollection -topicreader Trec \
--index lucene-index.core17.pos+docvectors+rawdocs \
--topics src/main/resources/topics-and-qrels/topics.core17.txt \
--output run.core17.bm25.topics.core17.txt -bm25 -hits 10000 &
+ -index lucene-index.core17.pos+docvectors+rawdocs \
+ -topics src/main/resources/topics-and-qrels/topics.core17.txt \
+ -output run.core17.bm25.topics.core17.txt -bm25 -hits 10000 &
 
 nohup target/appassembler/bin/SearchCollection -topicreader Trec \
--index lucene-index.core17.pos+docvectors+rawdocs \
--topics src/main/resources/topics-and-qrels/topics.core17.txt \
--output run.core17.bm25+rm3.topics.core17.txt -bm25 -rm3 -hits 10000 &
+ -index lucene-index.core17.pos+docvectors+rawdocs \
+ -topics src/main/resources/topics-and-qrels/topics.core17.txt \
+ -output run.core17.bm25+rm3.topics.core17.txt -bm25 -rm3 -hits 10000 &
 
 nohup target/appassembler/bin/SearchCollection -topicreader Trec \
--index lucene-index.core17.pos+docvectors+rawdocs \
--topics src/main/resources/topics-and-qrels/topics.core17.txt \
--output run.core17.bm25+ax.topics.core17.txt \
--bm25 -axiom -rerankCutoff 20 -axiom.deterministic -hits 10000 &
+ -index lucene-index.core17.pos+docvectors+rawdocs \
+ -topics src/main/resources/topics-and-qrels/topics.core17.txt \
+ -output run.core17.bm25+ax.topics.core17.txt \
+ -bm25 -axiom -rerankCutoff 20 -axiom.deterministic -hits 10000 &
 ```
 
-### Rerank
+### Relevance Transfer
 
-Run the following commands to generate one combination of relevance transfer experiment.
+Configuration files for different combinations of source and target collections are stored in `src/main/python/ccrf/configs`.
+For each configuration, run the following commands:
 
 ```bash
 python src/main/python/ccrf/prepare_training_data.py --config $CONFIG_NAME
@@ -146,8 +147,6 @@ python src/main/python/ccrf/prepare_test_data.py --config $CONFIG_NAME
 python src/main/python/ccrf/rerank.py --config $CONFIG_NAME
 python src/main/python/ccrf/generate_runs.py --config $CONFIG_NAME
 ```
-
-where the configs are in `src/main/python/ccrf/configs`. Use the config file name as the argument in the above commands.
 
 After successfully generating all experiment results, you should have the following following folders in your current directory:
 
@@ -180,23 +179,29 @@ ccrf.17_robust05.rm3/
 These are the results in Table 1 of the paper.
 
 ```bash
-head -n 440668 ccrf.0517_robust04/robust04_bm25.txt > robust04_bm25.cut.txt && eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.robust2004.txt robust04_bm25.cut.txt -m map -m P.10 -M 1000
+head -n 440668 ccrf.0517_robust04/robust04_bm25.txt > robust04_bm25.cut.txt && \
+eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.robust2004.txt robust04_bm25.cut.txt -m map -m P.10 -M 1000
 
-head -n 500000 ccrf.0517_robust04.rm3/robust04_bm25+rm3.txt > robust04_bm25+rm3.cut.txt && eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.robust2004.txt robust04_bm25+rm3.cut.txt -m map -m P.10 -M 1000
+head -n 500000 ccrf.0517_robust04.rm3/robust04_bm25+rm3.txt > robust04_bm25+rm3.cut.txt && \
+eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.robust2004.txt robust04_bm25+rm3.cut.txt -m map -m P.10 -M 1000
 
-head -n 500000 ccrf.0517_robust04.ax/robust04_bm25+ax.txt > robust04_bm25+ax.cut.txt && eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.robust2004.txt robust04_bm25+ax.cut.txt -m map -m P.10 -M 1000
+head -n 500000 ccrf.0517_robust04.ax/robust04_bm25+ax.txt > robust04_bm25+ax.cut.txt && \
+eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.robust2004.txt robust04_bm25+ax.cut.txt -m map -m P.10 -M 1000
 
-head -n 316234 ccrf.0417_robust05/robust05_bm25.txt > robust05_bm25.cut.txt && eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.robust2005.txt robust05_bm25.cut.txt -m map -m P.10 -M 1000
+head -n 316234 ccrf.0417_robust05/robust05_bm25.txt > robust05_bm25.cut.txt && \
+eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.robust2005.txt robust05_bm25.cut.txt -m map -m P.10 -M 1000
 
-head -n 330000 ccrf.0417_robust05.rm3/robust05_bm25+rm3.txt > robust05_bm25+rm3.cut.txt && eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.robust2005.txt robust05_bm25+rm3.cut.txt -m map -m P.10 -M 1000
+head -n 330000 ccrf.0417_robust05.rm3/robust05_bm25+rm3.txt > robust05_bm25+rm3.cut.txt && \
+eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.robust2005.txt robust05_bm25+rm3.cut.txt -m map -m P.10 -M 1000
 
-head -n 330000 ccrf.0417_robust05.ax/robust05_bm25+ax.txt > robust05_bm25+ax.cut.txt && eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.robust2005.txt robust05_bm25+ax.cut.txt -m map -m P.10 -M 1000
+head -n 330000 ccrf.0417_robust05.ax/robust05_bm25+ax.txt > robust05_bm25+ax.cut.txt && \
+eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.robust2005.txt robust05_bm25+ax.cut.txt -m map -m P.10 -M 1000
 
-eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.core17.txt ccrf.0405_core17/core17_bm25.txt -m map -m P.10 -M 1000
+eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.core17.txt ccrf.0405_core17/core17_bm25.txt -m map -m P.10 -M 1000
 
-eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.core17.txt ccrf.0405_core17.rm3/core17_bm25+rm3.txt -m map -m P.10 -M 1000
+eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.core17.txt ccrf.0405_core17.rm3/core17_bm25+rm3.txt -m map -m P.10 -M 1000
 
-eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.core17.txt ccrf.0405_core17.ax/core17_bm25+ax.txt -m map -m P.10 -M 1000
+eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.core17.txt ccrf.0405_core17.ax/core17_bm25+ax.txt -m map -m P.10 -M 1000
 ```
 
 ## Relevance Transfer Results
@@ -207,9 +212,9 @@ These are the results in Table 2 of the paper
 - The second block is to run the following commands and find the optimal interpolation weight $\alpha$ with the highest score.
 
 ```bash
-eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.core17.txt ccrf.0405_core17.rm3/core17.rm3_${clf}_${weight}.txt -m map -m P.10 -M 1000
+eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.core17.txt ccrf.0405_core17.rm3/core17.rm3_${clf}_${weight}.txt -m map -m P.10 -M 1000
 
-eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.core17.txt ccrf.0405_core17.ax/core17.ax_${clf}_${weight}.txt -m map -m P.10 -M 1000
+eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.core17.txt ccrf.0405_core17.ax/core17.ax_${clf}_${weight}.txt -m map -m P.10 -M 1000
 ```
 
 where the options for `clf` are `lr`, `svm`, `lgb`, and `e3` (represents the ensemble of the three classifiers), and `weight` are `0.0`, `0.1`, `0.2`, `0.3`, `0.4`, `0.5`, `0.6`, `0.7`, `0.8`, `0.9`,`1.0`. 
@@ -217,9 +222,9 @@ where the options for `clf` are `lr`, `svm`, `lgb`, and `e3` (represents the ens
 - The third block's results are from the following commands:
 
 ```bash
-eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.core17.txt ccrf.0405_core17.rm3/core17.rm3_${clf}_0.6.txt -m map -m P.10 -M 1000
+eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.core17.txt ccrf.0405_core17.rm3/core17.rm3_${clf}_0.6.txt -m map -m P.10 -M 1000
 
-eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.core17.txt ccrf.0405_core17.ax/core17.ax_${clf}_0.6.txt -m map -m P.10 -M 1000
+eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.core17.txt ccrf.0405_core17.ax/core17.ax_${clf}_0.6.txt -m map -m P.10 -M 1000
 ```
 
 where the options for `clf` are `lr`, `svm`, `lgb`, and `e3`.
@@ -229,28 +234,28 @@ where the options for `clf` are `lr`, `svm`, `lgb`, and `e3`.
 There are the results in Table 3 of the paper.
 
 ```bash
-eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.core17.txt ccrf.0405_core17.rm3/core17_bm25+rm3.txt -m map -m P.10 -M 1000
+eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.core17.txt ccrf.0405_core17.rm3/core17_bm25+rm3.txt -m map -m P.10 -M 1000
 
-eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.core17.txt ccrf.0405_core17.rm3/core17.rm3_lr_0.6.txt -m map -m P.10 -M 1000
+eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.core17.txt ccrf.0405_core17.rm3/core17.rm3_lr_0.6.txt -m map -m P.10 -M 1000
 
-eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.core17.txt ccrf.04_core17.rm3/core17.rm3_lr_0.6.txt -m map -m P.10 -M 1000
+eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.core17.txt ccrf.04_core17.rm3/core17.rm3_lr_0.6.txt -m map -m P.10 -M 1000
 
-head -n 330000 ccrf.05_core17.rm3/core17.rm3_lr_0.6.txt > core17.rm3_lr_0.6.cut.txt && eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.core17.txt core17.rm3_lr_0.6.cut.txt -m map -m P.10 -M 1000
+head -n 330000 ccrf.05_core17.rm3/core17.rm3_lr_0.6.txt > core17.rm3_lr_0.6.cut.txt && eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.core17.txt core17.rm3_lr_0.6.cut.txt -m map -m P.10 -M 1000
 
-head -n 500000 ccrf.0517_robust04.rm3/robust04_bm25+rm3.txt > robust04_bm25+rm3.cut.txt && eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.robust2004.txt robust04_bm25+rm3.cut.txt -m map -m P.10 -M 1000
+head -n 500000 ccrf.0517_robust04.rm3/robust04_bm25+rm3.txt > robust04_bm25+rm3.cut.txt && eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.robust2004.txt robust04_bm25+rm3.cut.txt -m map -m P.10 -M 1000
 
-head -n 500000 ccrf.0517_robust04.rm3/robust04.rm3_lr_0.6.txt > robust04.rm3_lr_0.6.cut.txt && eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.robust2004.txt robust04.rm3_lr_0.6.cut.txt -m map -m P.10 -M 1000
+head -n 500000 ccrf.0517_robust04.rm3/robust04.rm3_lr_0.6.txt > robust04.rm3_lr_0.6.cut.txt && eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.robust2004.txt robust04.rm3_lr_0.6.cut.txt -m map -m P.10 -M 1000
 
-head -n 330000 ccrf.05_robust04.rm3/robust04.rm3_lr_0.6.txt > robust04.rm3_lr_0.6.cut.txt && eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.robust2004.txt robust04.rm3_lr_0.6.cut.txt -m map -m P.10 -M 1000
+head -n 330000 ccrf.05_robust04.rm3/robust04.rm3_lr_0.6.txt > robust04.rm3_lr_0.6.cut.txt && eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.robust2004.txt robust04.rm3_lr_0.6.cut.txt -m map -m P.10 -M 1000
 
-head -n 500000 ccrf.17_robust04.rm3/robust04.rm3_lr_0.6.txt > robust04.rm3_lr_0.6.cut.txt && eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.robust2004.txt robust04.rm3_lr_0.6.cut.txt -m map -m P.10 -M 1000
+head -n 500000 ccrf.17_robust04.rm3/robust04.rm3_lr_0.6.txt > robust04.rm3_lr_0.6.cut.txt && eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.robust2004.txt robust04.rm3_lr_0.6.cut.txt -m map -m P.10 -M 1000
 
-head -n 330000 ccrf.0417_robust05.rm3/robust05_bm25+rm3.txt > robust05_bm25+rm3.cut.txt && eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.robust2005.txt robust05_bm25+rm3.cut.txt -m map -m P.10 -M 1000
+head -n 330000 ccrf.0417_robust05.rm3/robust05_bm25+rm3.txt > robust05_bm25+rm3.cut.txt && eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.robust2005.txt robust05_bm25+rm3.cut.txt -m map -m P.10 -M 1000
 
-head -n 330000 ccrf.0417_robust05.rm3/robust05.rm3_lr_0.6.txt > robust05.rm3_lr_0.6.cut.txt && eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.robust2005.txt robust05.rm3_lr_0.6.cut.txt -m map -m P.10 -M 1000
+head -n 330000 ccrf.0417_robust05.rm3/robust05.rm3_lr_0.6.txt > robust05.rm3_lr_0.6.cut.txt && eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.robust2005.txt robust05.rm3_lr_0.6.cut.txt -m map -m P.10 -M 1000
 
-head -n 330000 ccrf.04_robust05.rm3/robust05.rm3_lr_0.6.txt > robust05.rm3_lr_0.6.cut.txt && eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.robust2005.txt robust05.rm3_lr_0.6.cut.txt -m map -m P.10 -M 1000
+head -n 330000 ccrf.04_robust05.rm3/robust05.rm3_lr_0.6.txt > robust05.rm3_lr_0.6.cut.txt && eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.robust2005.txt robust05.rm3_lr_0.6.cut.txt -m map -m P.10 -M 1000
 
-head -n 330000 ccrf.17_robust05.rm3/robust05.rm3_lr_0.6.txt > robust05.rm3_lr_0.6.cut.txt && eval/trec_eval.9.0/trec_eval src/main/resources/topics-and-qrels/qrels.robust2005.txt robust05.rm3_lr_0.6.cut.txt -m map -m P.10 -M 1000
+head -n 330000 ccrf.17_robust05.rm3/robust05.rm3_lr_0.6.txt > robust05.rm3_lr_0.6.cut.txt && eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.robust2005.txt robust05.rm3_lr_0.6.cut.txt -m map -m P.10 -M 1000
 
 ```
