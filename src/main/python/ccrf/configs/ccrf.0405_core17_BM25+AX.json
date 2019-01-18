@@ -79,6 +79,14 @@
         "lr"
       ],
       "weight": "0.0",
+      "runtag": "core17_bm25+ax",
+      "output": "core17_bm25+ax.txt"
+    },
+    {
+      "classifiers": [
+        "lr"
+      ],
+      "weight": "0.0",
       "runtag": "core17_lr_0.0",
       "output": "core17.ax_lr_0.0.txt"
     },
@@ -346,7 +354,7 @@
       ],
       "weight": "0.0",
       "runtag": "core17.ax_e3_0.0",
-      "output": "core17.e3_0.0.txt"
+      "output": "core17.ax_e3_0.0.txt"
     },
     {
       "classifiers": [
@@ -356,7 +364,7 @@
       ],
       "weight": "0.1",
       "runtag": "core17.ax_e3_0.1",
-      "output": "core17.e3_0.1.txt"
+      "output": "core17.ax_e3_0.1.txt"
     },
     {
       "classifiers": [
@@ -366,7 +374,7 @@
       ],
       "weight": "0.2",
       "runtag": "core17.ax_e3_0.2",
-      "output": "core17.e3_0.2.txt"
+      "output": "core17.ax_e3_0.2.txt"
     },
     {
       "classifiers": [
@@ -376,7 +384,7 @@
       ],
       "weight": "0.3",
       "runtag": "core17.ax_e3_0.3",
-      "output": "core17.e3_0.3.txt"
+      "output": "core17.ax_e3_0.3.txt"
     },
     {
       "classifiers": [
@@ -386,7 +394,7 @@
       ],
       "weight": "0.4",
       "runtag": "core17.ax_e3_0.4",
-      "output": "core17.e3_0.4.txt"
+      "output": "core17.ax_e3_0.4.txt"
     },
     {
       "classifiers": [
@@ -396,7 +404,7 @@
       ],
       "weight": "0.5",
       "runtag": "core17.ax_e3_0.5",
-      "output": "core17.e3_0.5.txt"
+      "output": "core17.ax_e3_0.5.txt"
     },
     {
       "classifiers": [
@@ -406,7 +414,7 @@
       ],
       "weight": "0.6",
       "runtag": "core17.ax_e3_0.6",
-      "output": "core17.e3_0.6.txt"
+      "output": "core17.ax_e3_0.6.txt"
     },
     {
        "classifiers": [
@@ -416,7 +424,7 @@
        ],
        "weight": "0.7",
        "runtag": "core17.ax_e3_0.7",
-       "output": "core17.e3_0.7.txt"
+       "output": "core17.ax_e3_0.7.txt"
      },
      {
        "classifiers": [
@@ -426,7 +434,7 @@
        ],
        "weight": "0.8",
        "runtag": "core17.ax_e3_0.8",
-       "output": "core17.e3_0.8.txt"
+       "output": "core17.ax_e3_0.8.txt"
      },
      {
       "classifiers": [
@@ -436,7 +444,7 @@
       ],
       "weight": "0.9",
       "runtag": "core17.ax_e3_0.9",
-      "output": "core17.e3_0.9.txt"
+      "output": "core17.ax_e3_0.9.txt"
     },
     {
       "classifiers": [
@@ -446,7 +454,7 @@
       ],
       "weight": "1.0",
       "runtag": "core17.ax_e3_1.0",
-      "output": "core17.e3_1.0.txt"
+      "output": "core17.ax_e3_1.0.txt"
     }
   ],
   "working_directory": "ccrf.0405_core17.ax"
