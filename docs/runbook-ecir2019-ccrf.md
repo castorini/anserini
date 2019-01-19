@@ -133,14 +133,14 @@ nohup target/appassembler/bin/SearchCollection -topicreader Trec \
 ```
 
 Train classifiers and apply inference for relevance transfer:
-Configuration files for different combinations of source and target collections are stored in `src/main/python/ccrf/configs/`.
+Configuration files for different combinations of source and target collections are stored in `src/main/python/ecir2019_ccrf/configs/`.
 For each configuration, run the following commands:
 
 ```bash
-python src/main/python/ccrf/prepare_training_data.py --config $CONFIG_NAME
-python src/main/python/ccrf/prepare_test_data.py --config $CONFIG_NAME
-python src/main/python/ccrf/rerank.py --config $CONFIG_NAME
-python src/main/python/ccrf/generate_runs.py --config $CONFIG_NAME
+python src/main/python/ecir2019_ccrf/prepare_training_data.py --config $CONFIG_NAME
+python src/main/python/ecir2019_ccrf/prepare_test_data.py --config $CONFIG_NAME
+python src/main/python/ecir2019_ccrf/rerank.py --config $CONFIG_NAME
+python src/main/python/ecir2019_ccrf/generate_runs.py --config $CONFIG_NAME
 ```
 
 After successfully generating all experimental results, you should have the following folders in your current directory:
