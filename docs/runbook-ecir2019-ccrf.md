@@ -133,14 +133,14 @@ nohup target/appassembler/bin/SearchCollection -topicreader Trec \
 ```
 
 Train classifiers and apply inference for relevance transfer:
-Configuration files for different combinations of source and target collections are stored in `src/main/python/ccrf/configs/`.
+Configuration files for different combinations of source and target collections are stored in `src/main/python/ecir2019_ccrf/configs/`.
 For each configuration, run the following commands:
 
 ```bash
-python src/main/python/ccrf/prepare_training_data.py --config $CONFIG_NAME
-python src/main/python/ccrf/prepare_test_data.py --config $CONFIG_NAME
-python src/main/python/ccrf/rerank.py --config $CONFIG_NAME
-python src/main/python/ccrf/generate_runs.py --config $CONFIG_NAME
+python src/main/python/ecir2019_ccrf/prepare_training_data.py --config $CONFIG_NAME
+python src/main/python/ecir2019_ccrf/prepare_test_data.py --config $CONFIG_NAME
+python src/main/python/ecir2019_ccrf/rerank.py --config $CONFIG_NAME
+python src/main/python/ecir2019_ccrf/generate_runs.py --config $CONFIG_NAME
 ```
 
 After successfully generating all experimental results, you should have the following folders in your current directory:
@@ -176,27 +176,27 @@ ccrf.17_robust05.rm3/
 These are commands to generate results in Table 1 of the paper:
 
 ```bash
-head -n 440668 ccrf.0517_robust04/robust04_bm25.txt > robust04_bm25.cut.txt && \
+python src/main/python/ecir2019_ccrf/filter_topic.py --input ccrf.0517_robust04/robust04_bm25.txt --output robust04_bm25.cut.txt && \
 eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.robust2004.txt \
  robust04_bm25.cut.txt -m map -m P.10 -M 1000
 
-head -n 500000 ccrf.0517_robust04.rm3/robust04_bm25+rm3.txt > robust04_bm25+rm3.cut.txt && \
+python src/main/python/ecir2019_ccrf/filter_topic.py --input ccrf.0517_robust04.rm3/robust04_bm25+rm3.txt --output robust04_bm25+rm3.cut.txt && \
 eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.robust2004.txt \
  robust04_bm25+rm3.cut.txt -m map -m P.10 -M 1000
 
-head -n 500000 ccrf.0517_robust04.ax/robust04_bm25+ax.txt > robust04_bm25+ax.cut.txt && \
+python src/main/python/ecir2019_ccrf/filter_topic.py --input ccrf.0517_robust04.ax/robust04_bm25+ax.txt --output robust04_bm25+ax.cut.txt && \
 eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.robust2004.txt \
  robust04_bm25+ax.cut.txt -m map -m P.10 -M 1000
 
-head -n 316234 ccrf.0417_robust05/robust05_bm25.txt > robust05_bm25.cut.txt && \
+python src/main/python/ecir2019_ccrf/filter_topic.py --input ccrf.0417_robust05/robust05_bm25.txt --output robust05_bm25.cut.txt && \
 eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.robust2005.txt \
  robust05_bm25.cut.txt -m map -m P.10 -M 1000
 
-head -n 330000 ccrf.0417_robust05.rm3/robust05_bm25+rm3.txt > robust05_bm25+rm3.cut.txt && \
+python src/main/python/ecir2019_ccrf/filter_topic.py --input ccrf.0417_robust05.rm3/robust05_bm25+rm3.txt --output robust05_bm25+rm3.cut.txt && \
 eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.robust2005.txt \
  robust05_bm25+rm3.cut.txt -m map -m P.10 -M 1000
 
-head -n 330000 ccrf.0417_robust05.ax/robust05_bm25+ax.txt > robust05_bm25+ax.cut.txt && \
+python src/main/python/ecir2019_ccrf/filter_topic.py --input ccrf.0417_robust05.ax/robust05_bm25+ax.txt --output robust05_bm25+ax.cut.txt && \
 eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.robust2005.txt \
  robust05_bm25+ax.cut.txt -m map -m P.10 -M 1000
 
@@ -264,19 +264,19 @@ eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.core17.
 Relevance transfer to Robust04:
 
 ```bash
-head -n 500000 ccrf.0517_robust04.rm3/robust04_bm25+rm3.txt > robust04_bm25+rm3.cut.txt && \
+python src/main/python/ecir2019_ccrf/filter_topic.py --input ccrf.0517_robust04.rm3/robust04_bm25+rm3.txt --output robust04_bm25+rm3.cut.txt && \
 eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.robust2004.txt \
  robust04_bm25+rm3.cut.txt -m map -m P.10 -M 1000
 
-head -n 500000 ccrf.0517_robust04.rm3/robust04.rm3_lr_0.6.txt > robust04.rm3_lr_0.6.cut.txt &&  \ 
+python src/main/python/ecir2019_ccrf/filter_topic.py --input ccrf.0517_robust04.rm3/robust04.rm3_lr_0.6.txt --output robust04.rm3_lr_0.6.cut.txt &&  \ 
 eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.robust2004.txt \
  robust04.rm3_lr_0.6.cut.txt -m map -m P.10 -M 1000
 
-head -n 500000 ccrf.05_robust04.rm3/robust04.rm3_lr_0.6.txt > robust04.rm3_lr_0.6.cut.txt && \
+python src/main/python/ecir2019_ccrf/filter_topic.py --input ccrf.05_robust04.rm3/robust04.rm3_lr_0.6.txt --output robust04.rm3_lr_0.6.cut.txt && \
 eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.robust2004.txt \
  robust04.rm3_lr_0.6.cut.txt -m map -m P.10 -M 1000
 
-head -n 500000 ccrf.17_robust04.rm3/robust04.rm3_lr_0.6.txt > robust04.rm3_lr_0.6.cut.txt && \
+python src/main/python/ecir2019_ccrf/filter_topic.py --input ccrf.17_robust04.rm3/robust04.rm3_lr_0.6.txt --output robust04.rm3_lr_0.6.cut.txt && \
 eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.robust2004.txt \
  robust04.rm3_lr_0.6.cut.txt -m map -m P.10 -M 1000
 ```
@@ -284,19 +284,19 @@ eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.robust2
 Relevance transfer to Robust05:
 
 ```bash
-head -n 330000 ccrf.0417_robust05.rm3/robust05_bm25+rm3.txt > robust05_bm25+rm3.cut.txt && \
+python src/main/python/ecir2019_ccrf/filter_topic.py --input ccrf.0417_robust05.rm3/robust05_bm25+rm3.txt --output robust05_bm25+rm3.cut.txt && \
 eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.robust2005.txt \
  robust05_bm25+rm3.cut.txt -m map -m P.10 -M 1000
 
-head -n 330000 ccrf.0417_robust05.rm3/robust05.rm3_lr_0.6.txt > robust05.rm3_lr_0.6.cut.txt && \
+python src/main/python/ecir2019_ccrf/filter_topic.py --input ccrf.0417_robust05.rm3/robust05.rm3_lr_0.6.txt --output robust05.rm3_lr_0.6.cut.txt && \
 eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.robust2005.txt \
  robust05.rm3_lr_0.6.cut.txt -m map -m P.10 -M 1000
 
-head -n 330000 ccrf.04_robust05.rm3/robust05.rm3_lr_0.6.txt > robust05.rm3_lr_0.6.cut.txt && \
+python src/main/python/ecir2019_ccrf/filter_topic.py --input ccrf.04_robust05.rm3/robust05.rm3_lr_0.6.txt --output robust05.rm3_lr_0.6.cut.txt && \
 eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.robust2005.txt \
  robust05.rm3_lr_0.6.cut.txt -m map -m P.10 -M 1000
 
-head -n 330000 ccrf.17_robust05.rm3/robust05.rm3_lr_0.6.txt > robust05.rm3_lr_0.6.cut.txt && \
+python src/main/python/ecir2019_ccrf/filter_topic.py --input ccrf.17_robust05.rm3/robust05.rm3_lr_0.6.txt --output robust05.rm3_lr_0.6.cut.txt && \
 eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.robust2005.txt \
  robust05.rm3_lr_0.6.cut.txt -m map -m P.10 -M 1000
 ```
