@@ -276,7 +276,7 @@ eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.robust2
  robust04_bm25+rm3.cut.txt -m map -m P.10 -M 1000
 
 python src/main/python/ecir2019_ccrf/filter_topics.py --input ccrf.0517_robust04.rm3/robust04.rm3_lr_0.6.txt \
- --output robust04.rm3_lr_0.6.cut.txt &&  \ 
+ --output robust04.rm3_lr_0.6.cut.txt &&  \
 eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.robust2004.txt \
  robust04.rm3_lr_0.6.cut.txt -m map -m P.10 -M 1000
 
