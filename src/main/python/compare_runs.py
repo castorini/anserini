@@ -65,6 +65,10 @@ if __name__ == '__main__':
     base_metrics = load_metrics('eval.base')
     comp_metrics = load_metrics('eval.comp')
 
+    # trec_eval expects something like 'P.10' on the command line but outputs 'P_10'
+    if metric.startswith('P.'):
+        metric = 'P_' + metric[2:]
+
     for key in base_metrics[metric]:
         base_score = base_metrics[metric][key]
         comp_score = comp_metrics[metric][key]
