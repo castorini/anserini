@@ -59,15 +59,15 @@ if __name__ == '__main__':
     qrels = args.qrels
     metric = args.metric
 
-    os.system(f'eval/trec_eval.9.0.4/trec_eval -q -M1000 {qrels} {base} > eval.base')
-    os.system(f'eval/trec_eval.9.0.4/trec_eval -q -M1000 {qrels} {comp} > eval.comp')
+    os.system(f'eval/trec_eval.9.0.4/trec_eval -q -M1000 -m {metric} {qrels} {base} > eval.base')
+    os.system(f'eval/trec_eval.9.0.4/trec_eval -q -M1000 -m {metric} {qrels} {comp} > eval.comp')
 
     base_metrics = load_metrics('eval.base')
     comp_metrics = load_metrics('eval.comp')
 
     # trec_eval expects something like 'P.10' on the command line but outputs 'P_10'
-    if metric.startswith('P.'):
-        metric = 'P_' + metric[2:]
+    if "." in metric:
+        metric = "_".join(metric.split("."))
 
     for key in base_metrics[metric]:
         base_score = base_metrics[metric][key]
