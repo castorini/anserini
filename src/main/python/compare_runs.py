@@ -89,10 +89,30 @@ if __name__ == '__main__':
         metric = "_".join(metric.split("."))
 
     all_results = []
+    num_better = 0
+    num_worse = 0
+    num_unchanged = 0
+    biggest_gain = 0
+    biggest_gain_topic = ''
+    biggest_loss = 0
+    biggest_loss_topic = ''
     for key in base_metrics[metric]:
         base_score = base_metrics[metric][key]
         comp_score = comp_metrics[metric][key]
         diff = comp_score - base_score
+        # This is our relatively arbitrary definition of "better", "worse", and "unchanged".
+        if diff > 0.01:
+            num_better += 1
+        elif diff < -0.01:
+            num_worse += 1
+        else:
+            num_unchanged += 1
+        if diff > biggest_gain:
+            biggest_gain = diff
+            biggest_gain_topic = key
+        if diff < biggest_loss:
+            biggest_loss = diff
+            biggest_loss_topic = key
         all_results.append((key, diff))
         print(f'{key}\t{base_score:.4}\t{comp_score:.4}\t{diff:.4}')
 
@@ -104,5 +124,10 @@ if __name__ == '__main__':
     print(f'base mean: {np.mean(a):.4}')
     print(f'comp mean: {np.mean(b):.4}')
     print(f't-statistic: {tstat:.6}, p-value: {pvalue:.6}')
-    
+    print(f'better (diff > 0.01): {num_better:>3}')
+    print(f'worse  (diff > 0.01): {num_worse:>3}')
+    print(f'(mostly) unchanged  : {num_unchanged:>3}')
+    print(f'biggest gain: {biggest_gain:.4} (topic {biggest_gain_topic})')
+    print(f'biggest loss: {biggest_loss:.4} (topic {biggest_loss_topic})')
+
     plot(all_results)
