@@ -72,6 +72,6 @@ All Topics                              | 0.3580    | 0.4193    | 0.4007    | 0.
 
 
 
-## Replicate Log
+## Replication Log
 
 * Results replicated by [@andrewyates](https://github.com/andrewyates) on 2018-11-30 (commit [`c1aac5`](https://github.com/castorini/Anserini/commit/c1aac5e353e2ab77db3e7106cb4c017a09ce0fe9))
