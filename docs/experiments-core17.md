@@ -72,3 +72,7 @@ P30                                     | BM25      | BM25+RM3  | BM25+AX   | QL
 All Topics                              | 0.4160    | 0.4940    | 0.4927    | 0.4373    | 0.4740    | 0.4827    |
 
 
+
+## Replication Log
+
+* Results replicated by [@tteofili](https://github.com/tteofili) on 2019-01-27 (commit [`951090`](https://github.com/castorini/Anserini/commit/951090b66230040f037dde46534d896416467337))

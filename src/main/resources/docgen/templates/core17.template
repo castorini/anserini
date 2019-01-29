@@ -38,6 +38,6 @@ With the above commands, you should be able to replicate the following results:
 
 ${effectiveness}
 
-## Replicate Log
+## Replication Log
 
 * Results replicated by [@tteofili](https://github.com/tteofili) on 2019-01-27 (commit [`951090`](https://github.com/castorini/Anserini/commit/951090b66230040f037dde46534d896416467337))
