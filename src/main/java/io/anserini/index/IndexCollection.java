@@ -309,9 +309,9 @@ public final class IndexCollection {
 
           SolrInputDocument solrDocument = new SolrInputDocument();
 
-          // Add all STORED fields
+          // Copy all Lucene Document fields to Solr document
           for (IndexableField field : document.getFields()) {
-            if (field.fieldType().stored()) {
+            if (field.stringValue() != null) { // For some reason, id is multi-valued with null as one of the values
               solrDocument.addField(field.name(), field.stringValue());
             }
           }
@@ -426,11 +426,12 @@ public final class IndexCollection {
       this.whitelistDocids = null;
     }
 
-    if (args.solr) {
-      GenericObjectPoolConfig config = new GenericObjectPoolConfig();
-      config.setMaxTotal(args.threads);
-      this.solrPool = new GenericObjectPool(new SolrClientFactory(), config);
-    }
+      if (args.solr) {
+        GenericObjectPoolConfig<SolrClient> config = new GenericObjectPoolConfig<>();
+        config.setMaxTotal(args.threads);
+        config.setMinIdle(args.threads); // To guard against premature discarding of solrClients
+        this.solrPool = new GenericObjectPool<>(new SolrClientFactory(), config);
+      }
 
     this.counters = new Counters();
   }
@@ -536,7 +537,10 @@ public final class IndexCollection {
     // Do a final commit
     if (args.solr) {
       try {
-        solrPool.borrowObject().commit(args.solrIndex);
+        SolrClient client = solrPool.borrowObject();
+        client.commit(args.solrIndex);
+        // Needed for orderly shutdown so the SolrClient executor does not delay main thread exit
+        solrPool.returnObject(client);
         solrPool.close();
       } catch (Exception e) {
         LOG.error("Exception during final Solr commit: ", e);
