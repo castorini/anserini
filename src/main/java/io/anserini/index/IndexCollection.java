@@ -426,11 +426,12 @@ public final class IndexCollection {
       this.whitelistDocids = null;
     }
 
-    if (args.solr) {
-      GenericObjectPoolConfig config = new GenericObjectPoolConfig();
-      config.setMaxTotal(args.threads);
-      this.solrPool = new GenericObjectPool(new SolrClientFactory(), config);
-    }
+      if (args.solr) {
+        GenericObjectPoolConfig<SolrClient> config = new GenericObjectPoolConfig<>();
+        config.setMaxTotal(args.threads);
+        config.setMinIdle(args.threads); // To guard against premature discarding of solrClients
+        this.solrPool = new GenericObjectPool<>(new SolrClientFactory(), config);
+      }
 
     this.counters = new Counters();
   }
