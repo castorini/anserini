@@ -536,7 +536,10 @@ public final class IndexCollection {
     // Do a final commit
     if (args.solr) {
       try {
-        solrPool.borrowObject().commit(args.solrIndex);
+        SolrClient client = solrPool.borrowObject();
+        client.commit(args.solrIndex);
+        // Needed for orderly shutdown so the SolrClient executor does not delay main thread exit
+        solrPool.returnObject(client);
         solrPool.close();
       } catch (Exception e) {
         LOG.error("Exception during final Solr commit: ", e);
