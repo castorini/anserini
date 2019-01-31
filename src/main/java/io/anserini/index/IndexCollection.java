@@ -309,9 +309,9 @@ public final class IndexCollection {
 
           SolrInputDocument solrDocument = new SolrInputDocument();
 
-          // Add all STORED fields
+          // Copy all Lucene Document fields to Solr document
           for (IndexableField field : document.getFields()) {
-            if (field.fieldType().stored()) {
+            if (field.stringValue() != null) { // For some reason, id is multi-valued with null as one of the values
               solrDocument.addField(field.name(), field.stringValue());
             }
           }
