@@ -91,7 +91,7 @@
         <artifactId>appassembler-maven-plugin</artifactId>
         <version>2.0.0</version>
         <configuration>
-          <extraJvmArguments>-Xms512M -Xmx256G</extraJvmArguments>
+          <extraJvmArguments>-Xms512M -Xmx32G</extraJvmArguments>
           <programs>
             <program>
               <mainClass>io.anserini.index.IndexCollection</mainClass>
@@ -303,11 +303,6 @@
       <groupId>com.github.TREMA-UNH</groupId>
       <artifactId>trec-car-tools-java</artifactId>
       <version>13</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.commons</groupId>
-      <artifactId>commons-pool2</artifactId>
-      <version>2.6.0</version>
     </dependency>
   </dependencies>
 </project>
