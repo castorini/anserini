@@ -457,10 +457,20 @@ public final class IndexCollection {
         }
       }
       // Standlone
-      return new ConcurrentUpdateSolrClient.Builder(args.solrUrl)
+      ConcurrentUpdateSolrClient.Builder builder = new ConcurrentUpdateSolrClient.Builder(args.solrUrl)
           .withQueueSize(args.solrBatch)
-          .withThreadCount(args.solrClientThreads)
-          .build();
+          .withThreadCount(args.solrClientThreads);
+      return new ExceptionHandlingSolrClient(builder);
+    }
+    private class ExceptionHandlingSolrClient extends ConcurrentUpdateSolrClient {
+      ExceptionHandlingSolrClient(ConcurrentUpdateSolrClient.Builder builder) {
+        super(builder);
+      }
+
+      @Override
+      public void handleError(Throwable ex) {
+        LOG.warn("Solr: Exception delivering documents", ex);
+      }
     }
 
     @Override
