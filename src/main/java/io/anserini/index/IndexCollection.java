@@ -148,6 +148,12 @@ public final class IndexCollection {
 
     @Option(name = "-solr.zkChroot", usage = "the ZooKeeper chroot, if using a ZooKeeper URL instead of Solr")
     public String solrZkChroot = null;
+
+    // Note: This is used for ConcurrentSolrClient, where each processing thread has its own instance
+    // If the architecture is changed to share one ConcurrentSolrClient among all threads, the default should likely be increased
+    @Option(name = "-solr.client.threads", metaVar = "[Number]", required = false, usage = "Number of Threads for each SolrClient")
+    public int solrClientThreads = 1;
+
   }
 
   public final class Counters {
@@ -395,6 +401,7 @@ public final class IndexCollection {
       LOG.info("Solr commitWithin: " + args.solrCommitWithin);
       LOG.info("Solr index: " + args.solrIndex);
       LOG.info("Solr URL: " + args.solrUrl);
+      LOG.info("SolrClient Threads: " + args.solrClientThreads);
     }
 
     if (args.index == null && !args.solr) {
@@ -452,7 +459,7 @@ public final class IndexCollection {
       // Standlone
       return new ConcurrentUpdateSolrClient.Builder(args.solrUrl)
           .withQueueSize(args.solrBatch)
-          .withThreadCount(args.threads)
+          .withThreadCount(args.solrClientThreads)
           .build();
     }
 
