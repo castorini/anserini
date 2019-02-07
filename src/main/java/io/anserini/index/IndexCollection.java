@@ -141,6 +141,11 @@ public final class IndexCollection {
 
     @Option(name = "-solr.zkChroot", usage = "the ZooKeeper chroot if using SolrCloud")
     public String solrZkChroot = "/";
+
+    // Note: This is used for ConcurrentSolrClient, where each processing thread has its own instance
+    // If the architecture is changed to share one ConcurrentSolrClient among all threads, the default should likely be increased
+    @Option(name = "-solr.client.threads", metaVar = "[Number]", required = false, usage = "Number of Threads for each SolrClient")
+    public int solrClientThreads = 16;
   }
 
   public final class Counters {
@@ -384,6 +389,7 @@ public final class IndexCollection {
       LOG.info("Solr commitWithin: " + args.solrCommitWithin);
       LOG.info("Solr index: " + args.solrIndex);
       LOG.info("Solr URL: " + args.solrUrl);
+      LOG.info("SolrClient Threads: " + args.solrClientThreads);
     }
 
     if (args.index == null && !args.solr) {
@@ -420,12 +426,26 @@ public final class IndexCollection {
         List<String> urls = Splitter.on(',').splitToList(args.solrUrl);
         this.solrClient = new CloudSolrClient.Builder(urls, Optional.of(args.solrZkChroot)).build();
       } else {
-        this.solrClient = new ConcurrentUpdateSolrClient.Builder(args.solrUrl).withQueueSize(args.solrBatch).withThreadCount(args.threads).build();
+        ConcurrentUpdateSolrClient.Builder builder = new ConcurrentUpdateSolrClient.Builder(args.solrUrl)
+          .withQueueSize(args.solrBatch)
+          .withThreadCount(args.solrClientThreads);
+        this.solrClient = new ExceptionHandlingSolrClient(builder);
       }
     }
 
     this.counters = new Counters();
   }
+  
+  private class ExceptionHandlingSolrClient extends ConcurrentUpdateSolrClient {
+      ExceptionHandlingSolrClient(ConcurrentUpdateSolrClient.Builder builder) {
+        super(builder);
+      }
+
+      @Override
+      public void handleError(Throwable ex) {
+        LOG.warn("Solr: Exception delivering documents", ex);
+      }
+    }
 
   public void run() throws IOException {
     final long start = System.nanoTime();
