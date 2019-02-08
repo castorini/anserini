@@ -16,7 +16,9 @@
 
 package io.anserini.index;
 
+import com.google.common.base.Charsets;
 import com.google.common.base.Splitter;
+import com.google.common.hash.Hashing;
 import io.anserini.analysis.EnglishStemmingAnalyzer;
 import io.anserini.analysis.TweetAnalyzer;
 import io.anserini.collection.*;
@@ -146,6 +148,12 @@ public final class IndexCollection {
     // If the architecture is changed to share one ConcurrentSolrClient among all threads, the default should likely be increased
     @Option(name = "-solr.client.threads", metaVar = "[Number]", required = false, usage = "Number of Threads for each SolrClient")
     public int solrClientThreads = 16;
+
+    @Option(name = "-shard.count", usage = "the number of shards for the index")
+    public int shardCount = -1;
+
+    @Option(name = "-shard.current", usage = "the current shard number to produce (indexed from 0)")
+    public int shardCurrent = -1;
   }
 
   public final class Counters {
@@ -226,6 +234,15 @@ public final class IndexCollection {
             continue;
           }
 
+          // Used for indexing distinct shardCount of a collection
+          if (args.shardCount > 1) {
+            int hash = Hashing.sha1().hashString(d.id(), Charsets.UTF_8).asInt() % args.shardCount;
+            if (hash != args.shardCurrent) {
+              counters.skipped.incrementAndGet();
+              continue;
+            }
+          }
+
           // Yes, we know what we're doing here.
           @SuppressWarnings("unchecked")
           Document doc = generator.createDocument(d);
@@ -291,6 +308,15 @@ public final class IndexCollection {
           if (!sourceDocument.indexable()) {
             counters.unindexable.incrementAndGet();
             continue;
+          }
+
+          // Used for indexing distinct shardCount of a collection
+          if (args.shardCount > 1) {
+            int hash = Hashing.sha1().hashString(sourceDocument.id(), Charsets.UTF_8).asInt() % args.shardCount;
+            if (hash != args.shardCurrent) {
+              counters.skipped.incrementAndGet();
+              continue;
+            }
           }
 
           Document document = generator.createDocument(sourceDocument);
