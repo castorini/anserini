@@ -150,11 +150,22 @@ public final class IndexCollection {
     @Option(name = "-solr.zkChroot", usage = "the ZooKeeper chroot if using SolrCloud")
     public String solrZkChroot = "/";
 
-    // Note: This is used for ConcurrentSolrClient, where each processing thread has its own instance
-    @Option(name = "-solr.client.threads", metaVar = "[Number]", usage = "Number of Threads for each SolrClient")
-    public int solrClientThreads = 1;
+    /**
+     * The number of {@link SolrClient#add(Collection) add} calls to buffer before draining pending update queue.
+     */
+    @Option(name = "-solr.client.queue.size", usage = "the number of update requests to buffer before draining")
+    public int solrClientQueueSize = 16;
 
-    @Option(name = "-solr.pool.size", usage = "the number of clients to keep in the pool")
+    /**
+     * The number threads used to drain the ConcurrentUpdateSolrClient queue
+     */
+    @Option(name = "-solr.client.thread.count", metaVar = "[NUMBER]", usage = "the number of threads used to drain the ConcurrentUpdateSolrClient queue")
+    public int solrClientThreadCount = 1;
+
+    /**
+     * The number of SolrClients to keep in the object pool.
+     */
+    @Option(name = "-solr.pool.size", metaVar = "[NUMBER]", usage = "the number of clients to keep in the pool")
     public int solrPoolSize = 16;
 
     @Option(name = "-shard.count", usage = "the number of shards for the index")
@@ -303,8 +314,6 @@ public final class IndexCollection {
         LuceneDocumentGenerator generator = (LuceneDocumentGenerator) generatorClass.getDeclaredConstructor(Args.class, Counters.class).newInstance(args, counters);
         BaseFileSegment<SourceDocument> iter = (BaseFileSegment) ((SegmentProvider) collection).createFileSegment(input);
 
-        SolrClient solrClient = solrPool.borrowObject();
-
         int cnt = 0;
         while (iter.hasNext()) {
           SourceDocument sourceDocument;
@@ -348,29 +357,22 @@ public final class IndexCollection {
             }
           }
 
-          // With CloudSolrClient, we need to buffer ourselves...
-          if (args.solrCloud) {
-            buffer.add(solrDocument);
-            if (buffer.size() == args.solrBatch) {
-              flush(solrClient);
-            }
-          } else {
-            solrClient.add(args.solrIndex, solrDocument, args.solrCommitWithin * 1000); // ... and ConcurrentUpdateSolrClient does it for us
+          buffer.add(solrDocument);
+          if (buffer.size() == args.solrBatch) {
+            flush();
           }
 
           cnt++;
         }
 
-        // If we're running in cloud mode and have docs in the buffer, flush them.
-        if (args.solrCloud && !buffer.isEmpty()) {
-          flush(solrClient);
+        // If we have docs in the buffer, flush them.
+        if (!buffer.isEmpty()) {
+          flush();
         }
 
         if (iter.getNextRecordStatus() == BaseFileSegment.Status.ERROR) {
           counters.errors.incrementAndGet();
         }
-
-        solrPool.returnObject(solrClient);
 
         iter.close();
         LOG.info(input.getParent().getFileName().toString() + File.separator + input.getFileName().toString() + ": " + cnt + " docs added.");
@@ -381,10 +383,12 @@ public final class IndexCollection {
 
     }
 
-    private void flush(SolrClient solrClient) {
+    private void flush() {
       if (!buffer.isEmpty()) {
         try {
+          SolrClient solrClient = solrPool.borrowObject();
           solrClient.add(args.solrIndex, buffer, args.solrCommitWithin * 1000);
+          solrPool.returnObject(solrClient);
           buffer.clear();
         } catch (Exception e) {
           LOG.error("Error flushing documents to Solr", e);
@@ -427,7 +431,9 @@ public final class IndexCollection {
       LOG.info("Solr commitWithin: " + args.solrCommitWithin);
       LOG.info("Solr index: " + args.solrIndex);
       LOG.info("Solr URL: " + args.solrUrl);
-      LOG.info("SolrClient Threads: " + args.solrClientThreads);
+      LOG.info("SolrClient thread count: " + args.solrClientThreadCount);
+      LOG.info("SolrClient queue size: " + args.solrClientQueueSize);
+      LOG.info("SolrClient pool size: " + args.solrPoolSize);
     }
 
     if (args.index == null && !args.solr) {
@@ -480,8 +486,8 @@ public final class IndexCollection {
       }
 
       ConcurrentUpdateSolrClient.Builder builder = new ConcurrentUpdateSolrClient.Builder(args.solrUrl)
-          .withQueueSize(args.solrBatch)
-          .withThreadCount(args.solrClientThreads);
+          .withQueueSize(args.solrClientQueueSize)
+          .withThreadCount(args.solrClientThreadCount);
 
       return new ExceptionHandlingSolrClient(builder);
 
