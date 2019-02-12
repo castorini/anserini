@@ -385,13 +385,21 @@ public final class IndexCollection {
 
     private void flush() {
       if (!buffer.isEmpty()) {
+        SolrClient solrClient = null;
         try {
-          SolrClient solrClient = solrPool.borrowObject();
+          solrClient = solrPool.borrowObject();
           solrClient.add(args.solrIndex, buffer, args.solrCommitWithin * 1000);
-          solrPool.returnObject(solrClient);
           buffer.clear();
         } catch (Exception e) {
           LOG.error("Error flushing documents to Solr", e);
+        } finally {
+          if (solrClient != null) {
+            try {
+              solrPool.returnObject(solrClient);
+            } catch (Exception e) {
+              LOG.error("Error returning SolrClient to pool", e);
+            }
+          }
         }
       }
     }
