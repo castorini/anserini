@@ -165,7 +165,7 @@ public final class IndexCollection {
     /**
      * The number of SolrClients to keep in the object pool.
      */
-    @Option(name = "-solr.pool.size", metaVar = "[NUMBER]", usage = "the number of clients to keep in the pool")
+    @Option(name = "-solr.poolSize", metaVar = "[NUMBER]", usage = "the number of clients to keep in the pool")
     public int solrPoolSize = 16;
 
     @Option(name = "-shard.count", usage = "the number of shards for the index")
