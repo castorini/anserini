@@ -153,14 +153,14 @@ public final class IndexCollection {
     /**
      * The number of {@link SolrClient#add(Collection) add} calls to buffer before draining pending update queue.
      */
-    @Option(name = "-solr.client.queue.size", usage = "the number of update requests to buffer before draining")
+    @Option(name = "-solr.clientQueueSize", usage = "the number of update requests to buffer before draining")
     public int solrClientQueueSize = 16;
 
     /**
      * The number threads used to drain the ConcurrentUpdateSolrClient queue
      */
-    @Option(name = "-solr.client.thread.count", metaVar = "[NUMBER]", usage = "the number of threads used to drain the ConcurrentUpdateSolrClient queue")
-    public int solrClientThreadCount = 1;
+    @Option(name = "-solr.clientThreads", metaVar = "[NUMBER]", usage = "the number of threads used to drain the ConcurrentUpdateSolrClient queue")
+    public int solrClientThreads = 1;
 
     /**
      * The number of SolrClients to keep in the object pool.
@@ -431,7 +431,7 @@ public final class IndexCollection {
       LOG.info("Solr commitWithin: " + args.solrCommitWithin);
       LOG.info("Solr index: " + args.solrIndex);
       LOG.info("Solr URL: " + args.solrUrl);
-      LOG.info("SolrClient thread count: " + args.solrClientThreadCount);
+      LOG.info("SolrClient thread count: " + args.solrClientThreads);
       LOG.info("SolrClient queue size: " + args.solrClientQueueSize);
       LOG.info("SolrClient pool size: " + args.solrPoolSize);
     }
@@ -487,10 +487,9 @@ public final class IndexCollection {
 
       ConcurrentUpdateSolrClient.Builder builder = new ConcurrentUpdateSolrClient.Builder(args.solrUrl)
           .withQueueSize(args.solrClientQueueSize)
-          .withThreadCount(args.solrClientThreadCount);
+          .withThreadCount(args.solrClientThreads);
 
       return new ExceptionHandlingSolrClient(builder);
-
     }
 
     @Override
