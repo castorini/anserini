@@ -62,7 +62,7 @@ def plot(all_results, output_path="."):
     ax.set_title("Per-topic analysis on {}".format(metric))
     ax.set_xlabel('Topics')
     ax.set_ylabel('{} Diff'.format(metric))
-    ax.set_ylim(-0.4, 0.55)
+    ax.set_ylim(-0.4, 0.7)
     output_fn = os.path.join(output_path, 'per_query_{}.pdf'.format(metric))
     plt.savefig(output_fn, bbox_inches='tight', format='pdf')
 
