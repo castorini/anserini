@@ -31,6 +31,7 @@ import matplotlib.pyplot as plt
 plt.switch_backend('agg')
 from operator import itemgetter
 
+plt.style.use('ggplot')
 
 def load_metrics(file):
     metrics = {}
