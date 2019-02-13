@@ -92,16 +92,14 @@ public class SearchArgs {
 
   @Option(name = "-mu", handler = StringArrayOptionHandler.class, usage = "Dirichlet smoothing parameter")
   public String[] mu = new String[] {"1000"};
-  /*
-   * Why this value? We want to pick a value that corresponds to what the community generally
-   * considers to "good". Zhai and Lafferty (SIGIR 2001) write "the optimal value of mu appears to
-   * have a wide range (500-10000) and usually is around 2,000. A large value is 'safer,' especially
-   * for long verbose queries." We might consider additional evidence from TREC papers: the UMass
-   * TREC overview papers from 2002 and 2003 don't specifically mention query-likelihood as a
-   * retrieval model. The UMass overview paper from TREC 2004 mentions setting mu to 1000;
-   * incidentally, this is the first mention of what the community would later call RM3. So, this
-   * setting seems reasonable and does not contradict Zhai and Lafferty.
-   */
+
+  // Why this value? We want to pick a value that corresponds to what the community generally considers to be "good".
+  // Zhai and Lafferty (SIGIR 2001) write "the optimal value of mu appears to have a wide range (500-10000) and
+  // usually is around 2,000. A large value is 'safer', especially for long verbose queries." We might consider
+  // additional evidence from TREC papers: the UMass TREC overview papers from 2002 and 2003 don't specifically
+  // mention query-likelihood as a retrieval model. The UMass overview paper from TREC 2004 mentions setting mu
+  // to 1000; incidentally, this is the first mention of what the community would later call RM3. So, this setting
+  // seems reasonable and does not contradict Zhai and Lafferty.
 
   @Option(name = "-qld", usage = "use query likelihood Dirichlet scoring model")
   public boolean qld = false;
@@ -114,6 +112,13 @@ public class SearchArgs {
 
   @Option(name = "-bm25", usage = "use BM25 scoring model")
   public boolean bm25 = false;
+
+  // BM25 parameters: Robertson et al. (TREC 4) propose the range of 1.0-2.0 for k1 and 0.6-0.75 for b, with k1 = 1.2
+  // and b = 0.75 being a very common setting. Empirically, these values don't work very well for modern collections.
+  // Here, we adopt the defaults recommended by Trotman et al. (SIGIR 2012 OSIR Workshop) of k1 = 0.9 and b = 0.4.
+  // These values come from tuning on the INEX 2008 Wikipedia collection, which is less commonly used, so there isn't
+  // the danger of (inadvertently) training on test data. These settings are used in the ATIRE system and also in
+  // Lin et al. (ECIR 2016).
 
   @Option(name = "-k1", handler = StringArrayOptionHandler.class, usage = "BM25 k1 parameter")
   public String[] k1 = new String[] {"0.9"};
