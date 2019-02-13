@@ -57,14 +57,14 @@ def plot(all_results, output_path="."):
     y = [float(ele[1]) for ele in all_results]
     ax.bar(x, y, width=0.6, align='edge')
     ax.set_xticks(x)
-    ax.set_xticklabels([int(ele[0]) for ele in all_results], {'fontsize': 5}, rotation='vertical')
+    ax.set_xticklabels([int(ele[0]) for ele in all_results], {'fontsize': 4}, rotation='vertical')
     ax.grid(True)
     ax.set_title("Per-topic analysis on {}".format(metric))
     ax.set_xlabel('Topics')
     ax.set_ylabel('{} Diff'.format(metric))
     ax.set_ylim(-0.4, 0.55)
-    output_fn = os.path.join(output_path, 'per_query_{}.eps'.format(metric))
-    plt.savefig(output_fn, bbox_inches='tight', format='eps')
+    output_fn = os.path.join(output_path, 'per_query_{}.pdf'.format(metric))
+    plt.savefig(output_fn, bbox_inches='tight', format='pdf')
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
