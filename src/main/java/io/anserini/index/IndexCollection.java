@@ -601,7 +601,9 @@ public final class IndexCollection {
     if (args.solr) {
       try {
         SolrClient client = solrPool.borrowObject();
-        client.commit(args.solrIndex);
+        if (!args.dryRun) {
+            client.commit(args.solrIndex);
+        }
         // Needed for orderly shutdown so the SolrClient executor does not delay main thread exit
         solrPool.returnObject(client);
         solrPool.close();
