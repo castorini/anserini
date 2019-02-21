@@ -173,6 +173,9 @@ public final class IndexCollection {
 
     @Option(name = "-shard.current", usage = "the current shard number to produce (indexed from 0)")
     public int shardCurrent = -1;
+
+    @Option(name = "-dryRun", usage = "performs all analysis steps except Lucene / Solr indexing")
+    public boolean dryRun = false;
   }
 
   public final class Counters {
@@ -274,10 +277,12 @@ public final class IndexCollection {
             continue;
           }
 
-          if (args.uniqueDocid) {
-            writer.updateDocument(new Term("id", d.id()), doc);
-          } else {
-            writer.addDocument(doc);
+          if (!args.dryRun) {
+            if (args.uniqueDocid) {
+              writer.updateDocument(new Term("id", d.id()), doc);
+            } else {
+              writer.addDocument(doc);
+            }
           }
           cnt++;
         }
@@ -388,7 +393,9 @@ public final class IndexCollection {
         SolrClient solrClient = null;
         try {
           solrClient = solrPool.borrowObject();
-          solrClient.add(args.solrIndex, buffer, args.solrCommitWithin * 1000);
+          if (!args.dryRun) {
+            solrClient.add(args.solrIndex, buffer, args.solrCommitWithin * 1000);
+          }
           buffer.clear();
         } catch (Exception e) {
           LOG.error("Error flushing documents to Solr", e);
@@ -443,6 +450,7 @@ public final class IndexCollection {
       LOG.info("SolrClient queue size: " + args.solrClientQueueSize);
       LOG.info("SolrClient pool size: " + args.solrPoolSize);
     }
+    LOG.info("Dry run (no index created)? " + args.dryRun);
 
     if (args.index == null && !args.solr) {
       throw new IllegalArgumentException("Must specify one of -index or -solr");
@@ -532,7 +540,7 @@ public final class IndexCollection {
     IndexWriter writer = null;
 
     // Used for LocalIndexThread
-    if (indexPath != null) {
+    if (indexPath != null && !args.dryRun) {
 
       final Directory dir = FSDirectory.open(indexPath);
       final EnglishStemmingAnalyzer analyzer = args.keepStopwords ?
@@ -586,14 +594,16 @@ public final class IndexCollection {
     if (args.solr) {
       numIndexed = counters.indexed.get();
     } else {
-      numIndexed = writer.maxDoc();
+      numIndexed = args.dryRun ? counters.indexed.get() : writer.maxDoc();
     }
 
     // Do a final commit
     if (args.solr) {
       try {
         SolrClient client = solrPool.borrowObject();
-        client.commit(args.solrIndex);
+        if (!args.dryRun) {
+            client.commit(args.solrIndex);
+        }
         // Needed for orderly shutdown so the SolrClient executor does not delay main thread exit
         solrPool.returnObject(client);
         solrPool.close();
