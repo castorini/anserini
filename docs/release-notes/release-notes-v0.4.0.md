@@ -9,7 +9,7 @@
 + Added Anserini/Solr integration.
 + Updated documentation for experiments in SIGIR Forum 2018 article; added fine tuning results for axiomatic semantic term matching.
 + Changed RM3 default parameters to match those from Indri and updated regressions.
-+ Added back F2Exp and F2Log similarities (instead of using Lucene defaults), and updated regressions.
++ Added back F2Exp and F2Log similarities (instead of using Lucene defaults) and updated regressions.
 + Added Python `compare_runs.py` analysis script.
 + Augmented `SimpleSearcher` functionality.
 + Refactored regression framework.
