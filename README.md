@@ -79,7 +79,7 @@ Anserini was designed with Python integration in mind, for connecting with popul
 
 ```
 import jnius_config
-jnius_config.set_classpath("target/anserini-0.3.1-SNAPSHOT-fatjar.jar")
+jnius_config.set_classpath("target/anserini-0.4.1-SNAPSHOT-fatjar.jar")
 
 from jnius import autoclass
 JString = autoclass('java.lang.String')
@@ -103,6 +103,7 @@ hits[0].content
 
 ## Release History
 
++ v0.4.0: March 4, 2019 [[Release Notes](docs/release-notes/release-notes-v0.4.0.md)]
 + v0.3.0: December 16, 2018 [[Release Notes](docs/release-notes/release-notes-v0.3.0.md)]
 + v0.2.0: September 10, 2018 [[Release Notes](docs/release-notes/release-notes-v0.2.0.md)]
 + v0.1.0: July 4, 2018 [[Release Notes](docs/release-notes/release-notes-v0.1.0.md)]
