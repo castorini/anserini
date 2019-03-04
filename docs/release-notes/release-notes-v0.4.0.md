@@ -2,17 +2,17 @@
 
 **Release date: March 4, 2019**
 
-+ Upgraded to Lucene 7.6 (and updated regressions).
++ Upgraded to Lucene 7.6 and updated regressions.
 + Added runbooks for ECIR 2019:
   - Ruifan Yu, Yuhao Xie, and Jimmy Lin. Simple Techniques for Cross-Collection Relevance Feedback.
   - Peilin Yang and Jimmy Lin. Reproducing and Generalizing Semantic Term Matching in Axiomatic Information Retrieval.
 + Added Anserini/Solr integration.
-+ Updated documentation for experiments in SIGIR Forum 2018 article; added fine tuning results for axiomatic semantic matching.
-+ Changed RM3 default parameters to match those from Indri (and updated regressions).
-+ Axiomatic F2Exp and F2Log back to Anserini (instead of using Lucene defaults) (and updated regressions).
++ Updated documentation for experiments in SIGIR Forum 2018 article; added fine tuning results for axiomatic semantic term matching.
++ Changed RM3 default parameters to match those from Indri and updated regressions.
++ Added back F2Exp and F2Log similarities (instead of using Lucene defaults), and updated regressions.
 + Added Python `compare_runs.py` analysis script.
 + Augmented `SimpleSearcher` functionality.
-+ Refacted regression framework.
++ Refactored regression framework.
 
 ## Contributors (This Release)
 
