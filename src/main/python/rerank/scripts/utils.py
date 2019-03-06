@@ -5,6 +5,12 @@ printable.remove("\t")
 printable.remove("\r")
 import os
 
+import jnius_config
+jnius_config.set_classpath("target/anserini-0.4.1-SNAPSHOT-fatjar.jar")
+from jnius import autoclass
+JString = autoclass('java.lang.String')
+JSearcher = autoclass('io.anserini.search.SimpleSearcher')
+
 def cal_score(fn_qrels="src/main/resources/topics-and-qrels/qrels.microblog2014.txt", prediction="score.txt"):
     cmd = "/bin/sh run_eval_new.sh {} {}".format(prediction, fn_qrels)
     pargs = shlex.split(cmd)

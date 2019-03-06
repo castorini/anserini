@@ -6,12 +6,6 @@ from tqdm import tqdm
 import string
 import argparse
 
-import jnius_config
-jnius_config.set_classpath("target/anserini-0.4.1-SNAPSHOT-fatjar.jar")
-from jnius import autoclass
-JString = autoclass('java.lang.String')
-JSearcher = autoclass('io.anserini.search.SimpleSearcher')
-
 from utils import *
 
 parser = argparse.ArgumentParser()
