@@ -16,8 +16,8 @@ JSearcher = autoclass('io.anserini.search.SimpleSearcher')
 from nltk.tokenize import TweetTokenizer
 tknzr = TweetTokenizer()
 
-def cal_score(fn_qrels="src/main/resources/topics-and-qrels/qrels.microblog2014.txt", prediction="score.txt"):
-    cmd = "./etc/trec_eval.9.0/trec_eval {judgement} {output} -m map -m recip_rank".format(output=prediction, judgement=fn_qrels)
+def calculate_score(fn_qrels="src/main/resources/topics-and-qrels/qrels.microblog2014.txt", prediction="score.txt"):
+    cmd = "eval/trec_eval.9.0/trec_eval {judgement} {output} -m map -m recip_rank".format(output=prediction, judgement=fn_qrels)
     pargs = shlex.split(cmd)
     p = subprocess.Popen(pargs, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     pout, perr = p.communicate()
