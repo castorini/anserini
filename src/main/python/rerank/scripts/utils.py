@@ -1,3 +1,6 @@
+import shlex
+import subprocess
+import sys
 import string
 printable = set(string.printable)
 printable.remove("\n")

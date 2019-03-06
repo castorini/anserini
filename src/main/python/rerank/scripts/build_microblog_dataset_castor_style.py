@@ -1,6 +1,3 @@
-import shlex
-import subprocess
-import sys
 import json
 from tqdm import tqdm
 import string
@@ -29,7 +26,7 @@ for year in range(2011, 2015):
     qid2reldocids = get_qid2reldocids(fqrel)
     ftest = open("src/main/resources/topics-and-qrels/topics.microblog{}.txt".format(year))
     qid2text_time = get_qid2text_time_new(ftest)
-    prediction_fn = "predictions_tuned/predict_{}_tweet_{}.txt".format(args.method, year)
+    prediction_fn = "predict_{}_tweet_{}.txt".format(args.method, year)
     output_fn = "src/main/python/rerank/data/MB-{}/trec-{}".format(args.method, year)
     if not os.path.exists(output_fn):
         os.makedirs(output_fn)
