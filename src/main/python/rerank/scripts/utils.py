@@ -26,11 +26,11 @@ def cal_score(fn_qrels="src/main/resources/topics-and-qrels/qrels.microblog2014.
         lines = pout.split('\n')
     else:
         lines = pout.split(b'\n')
-    Map = float(lines[0].strip().split()[-1])
-    Mrr = float(lines[1].strip().split()[-1])
-    print("AP: {}".format(Map))
-    print("MRR: {}".format(Mrr))
-    return Map, Mrr
+    MAP = float(lines[0].strip().split()[-1])
+    MRR = float(lines[1].strip().split()[-1])
+    print("MAP: {}".format(MAP))
+    print("MRR: {}".format(MRR))
+    return MAP, MRR
 
 def get_qid2reldocids(fqrel):
     f = open(fqrel)
