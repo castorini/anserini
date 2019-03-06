@@ -7,13 +7,16 @@ from utils import *
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--method', default='QL', help='[QL, QL+RM3]')
+parser.add_argument('--K', default=1000, type=int, help='number of document retrieved')
+parser.add_argument('--indexmb11', default="/tuna1/indexes/lucene-index.mb11.pos+docvectors+rawdocs", help='index of MB 2011 corpus')
+parser.add_argument('--indexmb13', default="/tuna1/indexes/lucene-index.mb13.pos+docvectors+rawdocs", help='index of MB 2013 corpus')
 args = parser.parse_args()
 
 
-searcher11 = JSearcher(JString('/tuna1/indexes/lucene-index.mb11.pos+docvectors+rawdocs'))
+searcher11 = JSearcher(JString(args.indexmb11))
 searcher11.setSearchTweets(1)
 
-searcher13 = JSearcher(JString('/tuna1/indexes/lucene-index.mb13.pos+docvectors+rawdocs'))
+searcher13 = JSearcher(JString(args.indexmb13))
 searcher13.setSearchTweets(1)
 
 
@@ -38,7 +41,7 @@ for year in range(2011, 2015):
     else:
         print("Unsupported ranking method")
         break 
-    search(searcher, prediction_fn, output_fn, qid2text_time, qid2reldocids, K=1000) # 756
+    search(searcher, prediction_fn, output_fn, qid2text_time, qid2reldocids, K=args.K) # 756
     fn_qrels = "src/main/resources/topics-and-qrels/qrels.microblog{}.txt".format(year)
     cal_score(fn_qrels=fn_qrels, prediction=prediction_fn)
 

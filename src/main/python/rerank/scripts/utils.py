@@ -13,9 +13,11 @@ jnius_config.set_classpath("target/anserini-0.4.1-SNAPSHOT-fatjar.jar")
 from jnius import autoclass
 JString = autoclass('java.lang.String')
 JSearcher = autoclass('io.anserini.search.SimpleSearcher')
+from nltk.tokenize import TweetTokenizer
+tknzr = TweetTokenizer()
 
 def cal_score(fn_qrels="src/main/resources/topics-and-qrels/qrels.microblog2014.txt", prediction="score.txt"):
-    cmd = "/bin/sh run_eval_new.sh {} {}".format(prediction, fn_qrels)
+    cmd = "./etc/trec_eval.9.0/trec_eval {judgement} {output} -m map -m recip_rank".format(output=prediction, judgement=fn_qrels)
     pargs = shlex.split(cmd)
     p = subprocess.Popen(pargs, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     pout, perr = p.communicate()
@@ -26,15 +28,9 @@ def cal_score(fn_qrels="src/main/resources/topics-and-qrels/qrels.microblog2014.
         lines = pout.split(b'\n')
     Map = float(lines[0].strip().split()[-1])
     Mrr = float(lines[1].strip().split()[-1])
-    P20 = float(lines[2].strip().split()[-1])
-    P30 = float(lines[3].strip().split()[-1])
-    NDCG20 = float(lines[4].strip().split()[-1])
-    print(Map)
-    print(Mrr)
-    print(P30)
-    print(P20)
-    print(NDCG20)
-    return Map, Mrr, P30, P20, NDCG20
+    print("AP: {}".format(Map))
+    print("MRR: {}".format(Mrr))
+    return Map, Mrr
 
 def get_qid2reldocids(fqrel):
     f = open(fqrel)
@@ -85,27 +81,25 @@ def get_qid2text_time_new(data):
     query_pattern2 = "<title>\\s*(.*?)\\s*</title>"
     querytime_pattern = "<querytweettime>\\s*(\\d+)\\s*</querytweettime>"
     for l in data:
-        tmp = re.search(num_pattern, l)
-        if tmp:
-            qid = tmp.group(1)
+        qid_match = re.search(num_pattern, l)
+        if qid_match:
+            qid = qid_match.group(1)
         else:
-            tmp = re.search(query_pattern, l)
-            if tmp:
-                query = tmp.group(1)
+            query_match = re.search(query_pattern, l)
+            if query_match:
+                query = query_match.group(1)
             else:
-                tmp = re.search(query_pattern2, l)
-                if tmp:
-                    query = tmp.group(1)
+                query_match2= re.search(query_pattern2, l)
+                if query_match2:
+                    query = query_match2.group(1)
                 else:
-                    tmp = re.search(querytime_pattern, l)
-                    if tmp:
-                        querytime = tmp.group(1)
+                    querytime_match = re.search(querytime_pattern, l)
+                    if querytime_match:
+                        querytime = querytime_match.group(1)
                         qid2text_time[int(qid)] = (query, int(querytime))
         
     return qid2text_time
 
-from nltk.tokenize import TweetTokenizer
-tknzr = TweetTokenizer()
 def parse_doc_from_index(content):
     import json
     text = json.loads(content)["text"].replace("\n", " ").replace("\t", " ").replace("\r", " ")
