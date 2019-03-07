@@ -7,9 +7,7 @@ Note that this document is specifically a **runbook** and does not encode regres
 
 However, we concede that _repeatability_ of the runs (even by us) is challenging, since the codebase is always evolving, and by the time we add proper documentation, it might be several months later... but we try our best...
 
-**NOTE**: Topics and qrels are currently available only to TREC 2018 participants.
-Users will need to download the topics and qrels directly from the NIST website and put them at `src/main/resources/topics-and-qrels/` with file names `topics.core18.txt` and `qrels.core18.txt`.
-These files will be checked into the repo after NIST publishes them publicly.
+Topics and qrels are stored in `src/main/resources/topics-and-qrels/`.
 
 ## Data Preparation with Anserini
 
