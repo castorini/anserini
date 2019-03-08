@@ -40,7 +40,7 @@ for year in range(2011, 2015):
     fqrel = "src/main/resources/topics-and-qrels/qrels.microblog{}.txt".format(year)
     qid2reldocids = get_qid2reldocids(fqrel)
     ftest = open("src/main/resources/topics-and-qrels/topics.microblog{}.txt".format(year))
-    qid2text_time = get_qid2text_time_new(ftest)
+    qid2text_time = get_qid2text_time_tweet(ftest)
     prediction_fn = "predict_{}_tweet_{}.txt".format(args.method, year)
     output_fn = os.path.join(args.output_dir, "MB-{}/trec-{}".format(args.method, year))
     if not os.path.exists(output_fn):
@@ -53,7 +53,7 @@ for year in range(2011, 2015):
     else:
         print("Unsupported ranking method")
         break 
-    search(searcher, prediction_fn, output_fn, qid2text_time, qid2reldocids, K=args.K) # 756
+    search_tweet(searcher, prediction_fn, output_fn, qid2text_time, qid2reldocids, K=args.K) # 756
     fn_qrels = "src/main/resources/topics-and-qrels/qrels.microblog{}.txt".format(year)
     calculate_score(fn_qrels=fn_qrels, prediction=prediction_fn)
 
