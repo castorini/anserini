@@ -31,7 +31,13 @@ for split in range(1, 6):
     ftest = json.load(open("src/main/resources/fine_tuning/drr_folds/rob04.test.s{}.json".format(split)))
     for mode, data in [("train", ftrain), ("dev", fdev), ("test", ftest)]: #  
         qid2text = get_qid2text_robust04(data)
-        method = "BM25_0.9_0.5_RM3_{}_{}_{}".format(*best_rm3_parameters[split-1])
+        if args.method == "BM25+RM3":
+            method = "BM25_0.9_0.5_RM3_{}_{}_{}".format(*best_rm3_parameters[split-1])
+        elif args.method == "BM25":
+            method = "BM25_0.9_0.5"
+        else:
+            print("Unsupported ranking method")
+            break 
         prediction_fn = "predict_{}_robust04_split{}_{}.txt".format(method, split, mode)
         output_dir = os.path.join(args.output_dir, "Robust04Corpus")
         output_fn = os.path.join(output_dir, "split{}_{}_{}.txt".format(split, mode, method))
@@ -42,8 +48,5 @@ for split in range(1, 6):
                 searcher.setRM3Reranker(*best_rm3_parameters[split-1])
         elif args.method == "BM25":
             searcher.setDefaultReranker()
-        else:
-            print("Unsupported ranking method")
-            break 
         search_robust04(searcher, prediction_fn, qid2text, output_fn, qid2reldocids, K=args.K)
         calculate_score(fn_qrels=fqrel, prediction=prediction_fn)
