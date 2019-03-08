@@ -23,18 +23,20 @@ args = parser.parse_args()
 searcher = JSearcher(JString(args.index))
 
 fqrel = "src/main/resources/topics-and-qrels/qrels.robust2004.txt"
+qid2reldocids = get_qid2reldocids(fqrel)
 best_rm3_parameters = [[47, 9, 0.3], [47, 9, 0.3], [47, 9, 0.3], [47, 9, 0.3], [26, 8, 0.3]]
 for split in range(1, 6):
     ftrain = json.load(open("src/main/resources/fine_tuning/drr_folds/rob04.train.s{}.json".format(split)))
     fdev = json.load(open("src/main/resources/fine_tuning/drr_folds/rob04.dev.s{}.json".format(split)))
     ftest = json.load(open("src/main/resources/fine_tuning/drr_folds/rob04.test.s{}.json".format(split)))
     for mode, data in [("train", ftrain), ("dev", fdev), ("test", ftest)]: #  
-        qid2text = get_qid2text_new(data)
+        qid2text = get_qid2text_robust04(data)
         method = "BM25_0.9_0.5_RM3_{}_{}_{}".format(*best_rm3_parameters[split-1])
-        prediction_fn = "predictions_tuned/predict_{}_robust04_split{}_{}.txt".format(method, split, mode)
-        output_fn = os.path.join("Robust04Corpus/split{}_{}_{}.txt".format(split, mode, method))
-        if not os.path.exists(output_fn):
-            os.makedirs(output_fn)
+        prediction_fn = "predict_{}_robust04_split{}_{}.txt".format(method, split, mode)
+        output_dir = os.path.join(args.output_dir, "Robust04Corpus")
+        output_fn = os.path.join(output_dir, "split{}_{}_{}.txt".format(split, mode, method))
+        if not os.path.exists(output_dir):
+            os.makedirs(output_dir)
             searcher.setBM25Similarity(0.9, 0.5)
         if args.method == "BM25+RM3":
                 searcher.setRM3Reranker(*best_rm3_parameters[split-1])
@@ -44,4 +46,4 @@ for split in range(1, 6):
             print("Unsupported ranking method")
             break 
         search_robust04(searcher, prediction_fn, qid2text, output_fn, qid2reldocids, K=args.K)
-        calculate_score(prediction=prediction_fn)
+        calculate_score(fn_qrels=fqrel, prediction=prediction_fn)

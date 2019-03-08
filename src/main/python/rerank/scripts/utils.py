@@ -84,7 +84,7 @@ def search_robust04(searcher, prediction_fn, qid2text, output_fn, qid2reldocids,
             docno = hits[i].docid
             label = 1 if qid in qid2reldocids and docno in qid2reldocids[qid] else 0
             b = parse_doc_from_index_robust04(hits[i].content)
-            f.write("{} 0 {} 0 {} {}\n".format(qid, docno, sim, method))
+            f.write("{} 0 {} 0 {} SimpleSearcher\n".format(qid, docno, sim))
             out.write("{}\t{}\t{}\t{}\t{}\n".format(label, a, b, qid, docno))
             out.flush()
     f.close()
