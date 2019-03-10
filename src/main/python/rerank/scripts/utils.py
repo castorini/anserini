@@ -44,7 +44,7 @@ def get_qid2reldocids(fqrel):
             qid2reldocids[qid].add(docid)
     return qid2reldocids
 
-def search(searcher, prediction_fn, output_fn, qid2text_time, qid2reldocids, K=1000):
+def search_tweet(searcher, prediction_fn, output_fn, qid2text_time, qid2reldocids, K=1000):
     f = open(prediction_fn, "w")
     outa = open(os.path.join(output_fn, "a.toks"), "w") # , encoding="utf-8"
     outb = open(os.path.join(output_fn, "b.toks"), "w") # , encoding="utf-8"
@@ -58,7 +58,7 @@ def search(searcher, prediction_fn, output_fn, qid2text_time, qid2reldocids, K=1
             sim = hits[i].score
             docno = hits[i].docid
             label = 1 if qid in qid2reldocids and docno in qid2reldocids[qid] else 0
-            b, url = parse_doc_from_index(hits[i].content)
+            b, url = parse_doc_from_index_tweet(hits[i].content)
             b = "".join(filter(lambda x: x in printable, b))
             f.write("{} Q0 {} {} {:.6f} Anserini\n".format(qid, docno, i+1, sim))
             outa.write("{}\n".format(a))
@@ -72,8 +72,25 @@ def search(searcher, prediction_fn, output_fn, qid2text_time, qid2reldocids, K=1
     outsim.close()
     outurl.close()
     f.close()
+
+def search_robust04(searcher, prediction_fn, qid2text, output_fn, qid2reldocids, K=1000):
+    f = open(prediction_fn, "w")
+    out = open(output_fn, "w")
+    for qid in qid2text:
+        a = qid2text[qid]
+        hits = searcher.search(JString(a), K)
+        for i in range(len(hits)):
+            sim = hits[i].score
+            docno = hits[i].docid
+            label = 1 if qid in qid2reldocids and docno in qid2reldocids[qid] else 0
+            b = parse_doc_from_index_robust04(hits[i].content)
+            f.write("{} 0 {} 0 {} SimpleSearcher\n".format(qid, docno, sim))
+            out.write("{}\t{}\t{}\t{}\t{}\n".format(label, a, b, qid, docno))
+            out.flush()
+    f.close()
+    out.close()
     
-def get_qid2text_time_new(data):
+def get_qid2text_time_tweet(data):
     qid2text_time = {}
     import re
     num_pattern = "<num> Number: MB(\\d+) </num>"
@@ -100,7 +117,13 @@ def get_qid2text_time_new(data):
         
     return qid2text_time
 
-def parse_doc_from_index(content):
+def get_qid2text_robust04(data):
+    qid2text = {}
+    for d in data['questions']:
+        qid2text[d["id"]] = d["body"]
+    return qid2text
+
+def parse_doc_from_index_tweet(content):
     import json
     text = json.loads(content)["text"].replace("\n", " ").replace("\t", " ").replace("\r", " ")
     bs = []
@@ -114,3 +137,20 @@ def parse_doc_from_index(content):
     url = " ".join(urls)
     b = " ".join(tknzr.tokenize(b))
     return b, url
+
+
+def parse_doc_from_index_robust04(content):
+    ls = content.split("\n")
+    see_text = False
+    doc = ""
+    for l in ls:
+        l = l.replace("\n", "").strip()
+        if "<TEXT>" in l:
+            see_text = True
+        elif "</TEXT>" in l:
+            break
+        elif see_text:
+            if l == "<P>" or l == "</P>":
+                continue
+            doc += l + " "
+    return doc.strip()
