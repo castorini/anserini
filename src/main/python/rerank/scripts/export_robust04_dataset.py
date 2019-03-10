@@ -24,7 +24,9 @@ searcher = JSearcher(JString(args.index))
 
 fqrel = "src/main/resources/topics-and-qrels/qrels.robust2004.txt"
 qid2reldocids = get_qid2reldocids(fqrel)
+# parameters is from Lin, Jimmy. "The Neural Hype and Comparisons Against Weak Baselines." ACM SIGIR Forum. Vol. 52. No. 1. ACM, 2019.
 best_rm3_parameters = [[47, 9, 0.3], [47, 9, 0.3], [47, 9, 0.3], [47, 9, 0.3], [26, 8, 0.3]]
+
 for split in range(1, 6):
     ftrain = json.load(open("src/main/resources/fine_tuning/drr_folds/rob04.train.s{}.json".format(split)))
     fdev = json.load(open("src/main/resources/fine_tuning/drr_folds/rob04.dev.s{}.json".format(split)))
@@ -34,7 +36,7 @@ for split in range(1, 6):
         if args.method == "BM25+RM3":
             method = "BM25_0.9_0.5_RM3_{}_{}_{}".format(*best_rm3_parameters[split-1])
         elif args.method == "BM25":
-            method = "BM25_0.9_0.5"
+            method = "BM25_0.9_0.4"
         else:
             print("Unsupported ranking method")
             break 
@@ -43,7 +45,7 @@ for split in range(1, 6):
         output_fn = os.path.join(output_dir, "split{}_{}_{}.txt".format(split, mode, method))
         if not os.path.exists(output_dir):
             os.makedirs(output_dir)
-            searcher.setBM25Similarity(0.9, 0.5)
+            searcher.setBM25Similarity(0.9, 0.4)
         if args.method == "BM25+RM3":
                 searcher.setRM3Reranker(*best_rm3_parameters[split-1])
         elif args.method == "BM25":
