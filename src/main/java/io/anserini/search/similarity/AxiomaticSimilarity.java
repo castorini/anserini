@@ -16,12 +16,9 @@
 
 package io.anserini.search.similarity;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.lucene.index.FieldInvertState;
-import org.apache.lucene.index.LeafReaderContext;
-import org.apache.lucene.index.NumericDocValues;
 import org.apache.lucene.search.CollectionStatistics;
 import org.apache.lucene.search.Explanation;
 import org.apache.lucene.search.TermStatistics;
@@ -37,16 +34,9 @@ import org.apache.lucene.util.SmallFloat;
 public abstract class AxiomaticSimilarity extends Similarity {
   protected final float s;
   /** Cache of decoded bytes. */
-  protected static final float[] OLD_LENGTH_TABLE = new float[256];
   protected static final float[] LENGTH_TABLE = new float[256];
   
   static {
-    for (int i = 1; i < 256; i++) {
-      float f = SmallFloat.byte315ToFloat((byte)i);
-      OLD_LENGTH_TABLE[i] = 1.0f / (f*f);
-    }
-    OLD_LENGTH_TABLE[0] = 1.0f / OLD_LENGTH_TABLE[255]; // otherwise inf
-    
     for (int i = 0; i < 256; i++) {
       LENGTH_TABLE[i] = SmallFloat.byte4ToInt((byte) i);
     }
@@ -226,28 +216,20 @@ public abstract class AxiomaticSimilarity extends Similarity {
   }
   
   @Override
-  public final SimWeight computeWeight(float boost, CollectionStatistics collectionStats, TermStatistics... termStats) {
+  public final SimScorer scorer(float boost, CollectionStatistics collectionStats, TermStatistics... termStats) {
     Explanation idf = termStats.length == 1 ? idfExplain(collectionStats, termStats[0]) : idfExplain(collectionStats, termStats);
     float avgdl = avgFieldLength(collectionStats);
   
-    float[] oldCache = new float[256];
     float[] cache = new float[256];
     for (int i = 0; i < cache.length; i++) {
-      oldCache[i] = s + s * OLD_LENGTH_TABLE[i] / avgdl;
       cache[i] = s + s * LENGTH_TABLE[i] / avgdl;
     }
-    return new Stats(collectionStats.field(), boost, idf, avgdl, oldCache, cache);
-  }
-  
-  
-  @Override
-  public final SimScorer simScorer(SimWeight stats, LeafReaderContext context) throws IOException {
-    Stats axStats = (Stats) stats;
-    return new AxDocScorer(axStats, context.reader().getMetaData().getCreatedVersionMajor(), context.reader().getNormValues(axStats.field));
+    Stats axStats = new Stats(collectionStats.field(), boost, idf, avgdl, cache);
+    return new AxDocScorer(axStats);
   }
   
   /** DocumentCollection statistics for the F2Log model. */
-  static class Stats extends SimWeight {
+  static class Stats {
     /** F2Log's idf */
     public final Explanation idf;
     /** The average document length. */
@@ -259,15 +241,14 @@ public abstract class AxiomaticSimilarity extends Similarity {
     /** field name, for pulling norms */
     public final String field;
     /** precomputed norm[256] with k1 * ((1 - b) + b * dl / avgdl)
-     *  for both OLD_LENGTH_TABLE and LENGTH_TABLE */
-    private final float[] oldCache, cache;
+     *  for LENGTH_TABLE */
+    private final float[] cache;
     
-    Stats(String field, float boost, Explanation idf, float avgdl, float[] oldCache, float[] cache) {
+    Stats(String field, float boost, Explanation idf, float avgdl, float[] cache) {
       this.field = field;
       this.idf = idf;
       this.avgdl = avgdl;
-      this.weight = idf.getValue() * boost;
-      this.oldCache = oldCache;
+      this.weight = (float) (idf.getValue().doubleValue() * boost);
       this.cache = cache;
     }
   }
@@ -275,23 +256,13 @@ public abstract class AxiomaticSimilarity extends Similarity {
   class AxDocScorer extends SimScorer {
     private final Stats stats;
     private final float weightValue; // boost * idf
-    private final NumericDocValues norms;
-    /** precomputed cache for all length values */
-    private final float[] lengthCache;
     /** precomputed norm[256] with k1 * ((1 - b) + b * dl / avgdl) */
     private final float[] cache;
   
-    AxDocScorer(Stats stats, int indexCreatedVersionMajor, NumericDocValues norms) throws IOException {
+    AxDocScorer(Stats stats) {
       this.stats = stats;
       this.weightValue = stats.weight;
-      this.norms = norms;
-      if (indexCreatedVersionMajor >= 7) {
-        lengthCache = LENGTH_TABLE;
-        cache = stats.cache;
-      } else {
-        lengthCache = OLD_LENGTH_TABLE;
-        cache = stats.oldCache;
-      }
+      cache = stats.cache;
     }
     
     /* Score function is:
@@ -302,73 +273,44 @@ public abstract class AxiomaticSimilarity extends Similarity {
        </pre>
      */
     @Override
-    public float score(int doc, float freq) throws IOException {
+    public float score(float freq, long encodedNorm) {
       // if there are no norms, we act as if b=0
-      float norm;
-      if (norms == null) {
-        norm = 0.0f;
-      } else {
-        if (norms.advanceExact(doc)) {
-          norm = cache[((byte) norms.longValue()) & 0xFF];
-        } else {
-          norm = cache[0];
-        }
-      }
-      return weightValue * freq / (freq + norm);
+      double norm = cache[((byte) encodedNorm) & 0xFF];
+      return weightValue * (float) (freq / (freq + norm));
     }
     
     @Override
-    public Explanation explain(int doc, Explanation freq) throws IOException {
-      return explainScore(doc, freq, stats, norms, lengthCache);
-    }
-    
-    @Override
-    public float computeSlopFactor(int distance) {
-      return sloppyFreq(distance);
-    }
-    
-    @Override
-    public float computePayloadFactor(int doc, int start, int end, BytesRef payload) {
-      return scorePayload(doc, start, end, payload);
+    public Explanation explain(Explanation freq, long encodedNorm) {
+      return explainScore(freq, encodedNorm, stats);
     }
   }
   
-  private Explanation explainTFNorm(int doc, Explanation freq, Stats stats, NumericDocValues norms, float[] lengthCache) throws IOException {
+  private Explanation explainTFNorm(Explanation freq, long encodedNorm, Stats stats) {
     List<Explanation> subs = new ArrayList<>();
     subs.add(freq);
     subs.add(Explanation.match(s, "parameter s"));
-    if (norms == null) {
-      subs.add(Explanation.match(0, "norm"));
-      return Explanation.match(1,
-          "tfNorm, computed as constant from:", subs);
-    } else {
-      byte norm;
-      if (norms.advanceExact(doc)) {
-        norm = (byte) norms.longValue();
-      } else {
-        norm = 0;
-      }
-      float doclen = lengthCache[norm & 0xff];
-      subs.add(Explanation.match(stats.avgdl, "avgFieldLength"));
-      subs.add(Explanation.match(doclen, "fieldLength"));
-      return Explanation.match(
-          (freq.getValue() / (freq.getValue() + s + s * doclen/stats.avgdl)),
-          "tfNorm, computed as (freq / (freq + s + s * fieldLength / avgFieldLength) from:", subs);
-    }
+
+    byte norm = (byte) encodedNorm;
+    float doclen = LENGTH_TABLE[norm & 0xff];
+    subs.add(Explanation.match(stats.avgdl, "avgFieldLength"));
+    subs.add(Explanation.match(doclen, "fieldLength"));
+    return Explanation.match(
+        (freq.getValue().floatValue() / (freq.getValue().floatValue() + s + s * doclen/stats.avgdl)),
+        "tfNorm, computed as (freq / (freq + s + s * fieldLength / avgFieldLength) from:", subs);
   }
   
   
-  private Explanation explainScore(int doc, Explanation freq, Stats stats, NumericDocValues norms, float[] lengthCache) throws IOException {
+  private Explanation explainScore(Explanation freq, long encodedNorm, Stats stats) {
     Explanation boostExpl = Explanation.match(stats.boost, "boost");
     List<Explanation> subs = new ArrayList<>();
-    if (boostExpl.getValue() != 1.0f)
+    if (boostExpl.getValue().floatValue() != 1.0f)
       subs.add(boostExpl);
     subs.add(stats.idf);
-    Explanation tfNormExpl = explainTFNorm(doc, freq, stats, norms, lengthCache);
+    Explanation tfNormExpl = explainTFNorm(freq, encodedNorm, stats);
     subs.add(tfNormExpl);
     return Explanation.match(
-        boostExpl.getValue() * stats.idf.getValue() * tfNormExpl.getValue(),
-        "score(doc="+doc+",freq="+freq+"), product of:", subs);
+        boostExpl.getValue().floatValue() * stats.idf.getValue().floatValue() * tfNormExpl.getValue().floatValue(),
+        "score(freq="+freq+", length=" + LENGTH_TABLE[Byte.toUnsignedInt((byte) encodedNorm)] + "), product of:", subs);
   }
   
   @Override
