@@ -126,11 +126,11 @@ public class SearchArgs {
   @Option(name = "-b", handler = StringArrayOptionHandler.class, usage = "BM25 b parameter")
   public String[] b = new String[] {"0.4"};
   
-  @Option(name = "-pl2", usage = "use PL2 scoring model")
-  public boolean pl2 = false;
+  @Option(name = "-inl2", usage = "use I(n)L2 scoring model")
+  public boolean inl2 = false;
   
-  @Option(name = "-pl2.c", metaVar = "[value]", usage = "PL2 c parameter")
-  public String[] pl2_c = new String[] {"0.1"};
+  @Option(name = "-inl2.c", metaVar = "[value]", usage = "I(n)L2 c parameter")
+  public String[] inl2_c = new String[] {"0.1"};
 
   @Option(name = "-spl", usage = "use SPL scoring model")
   public boolean spl = false;

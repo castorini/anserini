@@ -132,7 +132,7 @@ public class SimpleSearcher implements Closeable {
   }
 
   public void setDFRSimilarity(float c) {
-    this.similarity = new DFRSimilarity(new BasicModelP(), new AfterEffectL(), new NormalizationH2(c));
+    this.similarity = new DFRSimilarity(new BasicModelIn(), new AfterEffectL(), new NormalizationH2(c));
   }
 
   public void setIBSimilarity(float c) {
@@ -171,7 +171,7 @@ public class SimpleSearcher implements Closeable {
     searchArgs.hits = k;
     searchArgs.searchtweets = searchtweets;
 
-    TopDocs rs = new TopDocs(0, new ScoreDoc[]{}, Float.NaN);
+    TopDocs rs = new TopDocs(new TotalHits(0, TotalHits.Relation.EQUAL_TO), new ScoreDoc[]{});
     RerankerContext context;
     if (searchtweets) {
       if (t > 0) {
@@ -183,14 +183,14 @@ public class SimpleSearcher implements Closeable {
         builder.add(filter, BooleanClause.Occur.FILTER);
         builder.add(query, BooleanClause.Occur.MUST);
         Query compositeQuery = builder.build();
-        rs = searcher.search(compositeQuery, isRerank ? searchArgs.rerankcutoff : k, BREAK_SCORE_TIES_BY_TWEETID, true, true);
+        rs = searcher.search(compositeQuery, isRerank ? searchArgs.rerankcutoff : k, BREAK_SCORE_TIES_BY_TWEETID, true);
         context = new RerankerContext<>(searcher, null, compositeQuery, null, q, queryTokens, filter, searchArgs);
       } else {
-        rs = searcher.search(query, isRerank ? searchArgs.rerankcutoff : k, BREAK_SCORE_TIES_BY_TWEETID, true, true);
+        rs = searcher.search(query, isRerank ? searchArgs.rerankcutoff : k, BREAK_SCORE_TIES_BY_TWEETID, true);
         context = new RerankerContext<>(searcher, null, query, null, q, queryTokens, null, searchArgs);
       }
     } else {
-      rs = searcher.search(query, isRerank ? searchArgs.rerankcutoff : k, BREAK_SCORE_TIES_BY_DOCID, true, true);
+      rs = searcher.search(query, isRerank ? searchArgs.rerankcutoff : k, BREAK_SCORE_TIES_BY_DOCID, true);
         context = new RerankerContext<>(searcher, null, query, null, q, queryTokens, null, searchArgs);
     }
 

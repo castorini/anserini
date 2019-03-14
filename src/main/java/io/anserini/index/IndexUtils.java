@@ -45,7 +45,6 @@ import org.jsoup.Jsoup;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
@@ -147,8 +146,7 @@ public class IndexUtils {
   }
 
   void printIndexStats() throws IOException {
-    Fields fields = MultiFields.getFields(reader);
-    Terms terms = fields.terms(LuceneDocumentGenerator.FIELD_BODY);
+    Terms terms = MultiTerms.getTerms(reader, LuceneDocumentGenerator.FIELD_BODY);
 
     System.out.println("Index statistics");
     System.out.println("----------------");
@@ -159,10 +157,9 @@ public class IndexUtils {
 
     System.out.println("stored fields:");
 
-    FieldInfos fieldInfos = MultiFields.getMergedFieldInfos(reader);
-    for (String fd : fields) {
-      FieldInfo fi = fieldInfos.fieldInfo(fd);
-      System.out.println("  " + fd + " (" + "indexOption: " + fi.getIndexOptions() +
+    FieldInfos fieldInfos = FieldInfos.getMergedFieldInfos(reader);
+    for (FieldInfo fi : fieldInfos) {
+      System.out.println("  " + fi.name + " (" + "indexOption: " + fi.getIndexOptions() +
           ", hasVectors: " + fi.hasVectors() + ")");
     }
   }
@@ -178,7 +175,7 @@ public class IndexUtils {
     System.out.println("collection frequency: " + reader.totalTermFreq(t));
     System.out.println("document frequency:   " + reader.docFreq(t));
 
-    PostingsEnum postingsEnum = MultiFields.getTermDocsEnum(reader, LuceneDocumentGenerator.FIELD_BODY, t.bytes());
+    PostingsEnum postingsEnum = MultiTerms.getTermPostingsEnum(reader, LuceneDocumentGenerator.FIELD_BODY, t.bytes());
     System.out.println("postings:\n");
     while (postingsEnum.nextDoc() != DocIdSetIterator.NO_MORE_DOCS) {
       System.out.printf("\t%s, %s\n", postingsEnum.docID(), postingsEnum.freq());
