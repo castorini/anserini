@@ -66,14 +66,39 @@ public class Rm3Reranker implements Reranker {
     assert(docs.documents.length == docs.scores.length);
 
     IndexSearcher searcher = context.getIndexSearcher();
-    IndexReader reader = searcher.getIndexReader();
+    FeatureVector rm3 = estimateRM3Model(docs, context);
+
+    Query finalQuery = buildFeedbackQuery(context, rm3);
+
+    TopDocs rs;
+    try {
+      // Figure out how to break the scoring ties.
+      if (context.getSearchArgs().arbitraryScoreTieBreak) {
+        rs = searcher.search(finalQuery, context.getSearchArgs().hits);
+      } else if (context.getSearchArgs().searchtweets) {
+        rs = searcher.search(finalQuery, context.getSearchArgs().hits, BREAK_SCORE_TIES_BY_TWEETID, true, true);
+      } else {
+        rs = searcher.search(finalQuery, context.getSearchArgs().hits, BREAK_SCORE_TIES_BY_DOCID, true, true);
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+      return docs;
+    }
+
+    return ScoredDocuments.fromTopDocs(rs, searcher);
+  }
+
+  private FeatureVector estimateRM3Model(ScoredDocuments docs, RerankerContext context) {
 
     FeatureVector qfv = FeatureVector.fromTerms(AnalyzerUtils.tokenize(analyzer, context.getQueryText())).scaleToUnitL1Norm();
 
-    FeatureVector rm = estimateRelevanceModel(docs, reader, context.getSearchArgs().searchtweets);
+    FeatureVector rm = estimateRelevanceModel(docs, context.getIndexSearcher().getIndexReader(), context.getSearchArgs().searchtweets);
 
     rm = FeatureVector.interpolate(qfv, rm, originalQueryWeight);
+    return rm;
+  }
 
+  private Query buildFeedbackQuery(RerankerContext context, FeatureVector rm) {
     BooleanQuery.Builder feedbackQueryBuilder = new BooleanQuery.Builder();
 
     Iterator<String> terms = rm.iterator();
@@ -91,32 +116,16 @@ public class Rm3Reranker implements Reranker {
       LOG.info("Running new query: " + feedbackQuery.toString(this.field));
     }
 
-    TopDocs rs;
-    try {
-      Query finalQuery = feedbackQuery;
-      // If there's a filter condition, we need to add in the constraint.
-      // Otherwise, just use the feedback query.
-      if (context.getFilter() != null) {
-        BooleanQuery.Builder bqBuilder = new BooleanQuery.Builder();
-        bqBuilder.add(context.getFilter(), BooleanClause.Occur.FILTER);
-        bqBuilder.add(feedbackQuery, BooleanClause.Occur.MUST);
-        finalQuery = bqBuilder.build();
-      }
-
-      // Figure out how to break the scoring ties.
-      if (context.getSearchArgs().arbitraryScoreTieBreak) {
-        rs = searcher.search(finalQuery, context.getSearchArgs().hits);
-      } else if (context.getSearchArgs().searchtweets) {
-        rs = searcher.search(finalQuery, context.getSearchArgs().hits, BREAK_SCORE_TIES_BY_TWEETID, true, true);
-      } else {
-        rs = searcher.search(finalQuery, context.getSearchArgs().hits, BREAK_SCORE_TIES_BY_DOCID, true, true);
-      }
-    } catch (IOException e) {
-      e.printStackTrace();
-      return docs;
+    Query finalQuery = feedbackQuery;
+    // If there's a filter condition, we need to add in the constraint.
+    // Otherwise, just use the feedback query.
+    if (context.getFilter() != null) {
+      BooleanQuery.Builder bqBuilder = new BooleanQuery.Builder();
+      bqBuilder.add(context.getFilter(), BooleanClause.Occur.FILTER);
+      bqBuilder.add(feedbackQuery, BooleanClause.Occur.MUST);
+      finalQuery = bqBuilder.build();
     }
-
-    return ScoredDocuments.fromTopDocs(rs, searcher);
+    return finalQuery;
   }
 
   private FeatureVector estimateRelevanceModel(ScoredDocuments docs, IndexReader reader, boolean tweetsearch) {
