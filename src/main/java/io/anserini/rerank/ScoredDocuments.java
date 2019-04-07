@@ -32,12 +32,17 @@ public class ScoredDocuments {
   public int[] ids;
   // Scores returned from the searcher's similarity
   public float[] scores;
-  
+
+  public TopDocs topDocs;
   public static ScoredDocuments fromTopDocs(TopDocs rs, IndexSearcher searcher) {
+
+
+
     ScoredDocuments scoredDocs = new ScoredDocuments();
     scoredDocs.documents = new Document[rs.scoreDocs.length];
     scoredDocs.ids = new int[rs.scoreDocs.length];
     scoredDocs.scores = new float[rs.scoreDocs.length];
+    scoredDocs.topDocs= rs;
 
     for (int i=0; i<rs.scoreDocs.length; i++) {
       try {
@@ -52,4 +57,5 @@ public class ScoredDocuments {
 
     return scoredDocs;
   }
+
 }

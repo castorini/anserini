@@ -33,9 +33,7 @@ import org.apache.lucene.search.*;
 import org.apache.lucene.util.BytesRef;
 
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
+import java.util.*;
 
 import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_BODY;
 import static io.anserini.search.SearchCollection.BREAK_SCORE_TIES_BY_DOCID;
@@ -51,6 +49,30 @@ public class Rm3Reranker implements Reranker {
   private final int fbDocs;
   private final float originalQueryWeight;
   private final boolean outputQuery;
+
+  public Analyzer getAnalyzer() {
+    return analyzer;
+  }
+
+  public String getField() {
+    return field;
+  }
+
+  public int getFbTerms() {
+    return fbTerms;
+  }
+
+  public int getFbDocs() {
+    return fbDocs;
+  }
+
+  public float getOriginalQueryWeight() {
+    return originalQueryWeight;
+  }
+
+  public boolean isOutputQuery() {
+    return outputQuery;
+  }
 
   public Rm3Reranker(Analyzer analyzer, String field, int fbTerms, int fbDocs, float originalQueryWeight, boolean outputQuery) {
     this.analyzer = analyzer;
@@ -68,7 +90,7 @@ public class Rm3Reranker implements Reranker {
     IndexSearcher searcher = context.getIndexSearcher();
     FeatureVector rm3 = estimateRM3Model(docs, context);
 
-    Query finalQuery = buildFeedbackQuery(context, rm3);
+    Query finalQuery = buildFeedbackQuery(context,rm3);
 
     TopDocs rs;
     try {
@@ -88,7 +110,7 @@ public class Rm3Reranker implements Reranker {
     return ScoredDocuments.fromTopDocs(rs, searcher);
   }
 
-  private FeatureVector estimateRM3Model(ScoredDocuments docs, RerankerContext context) {
+  protected FeatureVector estimateRM3Model(ScoredDocuments docs, RerankerContext context) {
 
     FeatureVector qfv = FeatureVector.fromTerms(AnalyzerUtils.tokenize(analyzer, context.getQueryText())).scaleToUnitL1Norm();
 
@@ -98,7 +120,7 @@ public class Rm3Reranker implements Reranker {
     return rm;
   }
 
-  private Query buildFeedbackQuery(RerankerContext context, FeatureVector rm) {
+  protected Query buildFeedbackQuery(RerankerContext context, FeatureVector rm) {
     BooleanQuery.Builder feedbackQueryBuilder = new BooleanQuery.Builder();
 
     Iterator<String> terms = rm.iterator();
@@ -107,6 +129,8 @@ public class Rm3Reranker implements Reranker {
       float prob = rm.getFeatureWeight(term);
       feedbackQueryBuilder.add(new BoostQuery(new TermQuery(new Term(this.field, term)), prob), BooleanClause.Occur.SHOULD);
     }
+
+
 
     Query feedbackQuery = feedbackQueryBuilder.build();
 
@@ -137,8 +161,16 @@ public class Rm3Reranker implements Reranker {
 
     for (int i = 0; i < numdocs; i++) {
       try {
-        FeatureVector docVector = createdFeatureVector(
-            reader.getTermVector(docs.ids[i], field), reader, tweetsearch);
+        Terms termVector = reader.getTermVector(docs.ids[i], field);
+        FeatureVector docVector = null;
+        if (termVector==null){
+          String text = docs.documents[i].get(field);
+          List<String> filteredWords = filterStopwords(AnalyzerUtils.tokenize(analyzer,text),reader,tweetsearch,numdocs);
+          docVector = FeatureVector.fromTerms(filteredWords);
+
+        }
+
+        docVector = createdFeatureVector(termVector , reader, tweetsearch);
         docVector.pruneToSize(fbTerms);
 
         vocab.addAll(docVector.getFeatures());
@@ -188,50 +220,7 @@ public class Rm3Reranker implements Reranker {
 
         if (term.length() < 2 || term.length() > 20) continue;
         if (!term.matches("[a-z0-9]+")) continue;
-
-        // This seemingly arbitrary logic needs some explanation. See following PR for details:
-        //   https://github.com/castorini/Anserini/pull/289
-        //
-        // We have long known that stopwords have a big impact in RM3. If we include stopwords
-        // in feedback, effectiveness is affected negatively. In the previous implementation, we
-        // built custom stopwords lists by selecting top k terms from the collection. We only
-        // had two stopwords lists, for gov2 and for Twitter. The gov2 list is used on all
-        // collections other than Twitter.
-        //
-        // The logic below instead uses a df threshold: If a term appears in more than n percent
-        // of the documents, then it is discarded as a feedback term. This heuristic has the
-        // advantage of getting rid of collection-specific stopwords lists, but at the cost of
-        // introducing an additional tuning parameter.
-        //
-        // Cognizant of the dangers of (essentially) tuning on test data, here's what I
-        // (@lintool) did:
-        //
-        // + For newswire collections, I picked a number, 10%, that seemed right. This value
-        //   actually increased effectiveness in most conditions across all newswire collections.
-        //
-        // + This 10% value worked fine on web collections; effectiveness didn't change much.
-        //
-        // Since this was the first and only heuristic value I selected, we're not really tuning
-        // parameters.
-        //
-        // The 10% threshold, however, doesn't work well on tweets because tweets are much
-        // shorter. Based on a list terms in the collection by df: For the Tweets2011 collection,
-        // I found a threshold close to a nice round number that approximated the length of the
-        // current stopwords list, by eyeballing the df values. This turned out to be 1%. I did
-        // this again for the Tweets2013 collection, using the same approach, and obtained a value
-        // of 0.7%.
-        //
-        // With both values, we obtained effectiveness pretty close to the old values with the
-        // custom stopwords list.
-        int df = reader.docFreq(new Term(FIELD_BODY, term));
-        float ratio = (float) df / numDocs;
-        if (tweetsearch) {
-          if (numDocs > 100000000) { // Probably Tweets2013
-            if (ratio > 0.007f) continue;
-          } else {
-            if (ratio > 0.01f) continue;
-          }
-        } else if (ratio > 0.1f) continue;
+        if (isStopword(term,reader, tweetsearch, numDocs)) continue;
 
         int freq = (int) termsEnum.totalTermFreq();
         f.addFeatureWeight(term, (float) freq);
@@ -244,7 +233,68 @@ public class Rm3Reranker implements Reranker {
 
     return f;
   }
-  
+
+
+  private List<String> filterStopwords(List<String> terms, IndexReader reader, boolean tweetsearch, int numDocs) throws IOException {
+    List<String> filteredTerms = new LinkedList<>();
+    for (String term: terms){
+      if (isStopword(term,reader,tweetsearch,numDocs)){
+        continue;
+      }else{
+        filteredTerms.add(term);
+      }
+    }
+    return filteredTerms;
+  }
+
+
+  private boolean isStopword(String term, IndexReader reader, boolean tweetsearch, int numDocs) throws IOException {
+    // This seemingly arbitrary logic needs some explanation. See following PR for details:
+    //   https://github.com/castorini/Anserini/pull/289
+    //
+    // We have long known that stopwords have a big impact in RM3. If we include stopwords
+    // in feedback, effectiveness is affected negatively. In the previous implementation, we
+    // built custom stopwords lists by selecting top k terms from the collection. We only
+    // had two stopwords lists, for gov2 and for Twitter. The gov2 list is used on all
+    // collections other than Twitter.
+    //
+    // The logic below instead uses a df threshold: If a term appears in more than n percent
+    // of the documents, then it is discarded as a feedback term. This heuristic has the
+    // advantage of getting rid of collection-specific stopwords lists, but at the cost of
+    // introducing an additional tuning parameter.
+    //
+    // Cognizant of the dangers of (essentially) tuning on test data, here's what I
+    // (@lintool) did:
+    //
+    // + For newswire collections, I picked a number, 10%, that seemed right. This value
+    //   actually increased effectiveness in most conditions across all newswire collections.
+    //
+    // + This 10% value worked fine on web collections; effectiveness didn't change much.
+    //
+    // Since this was the first and only heuristic value I selected, we're not really tuning
+    // parameters.
+    //
+    // The 10% threshold, however, doesn't work well on tweets because tweets are much
+    // shorter. Based on a list terms in the collection by df: For the Tweets2011 collection,
+    // I found a threshold close to a nice round number that approximated the length of the
+    // current stopwords list, by eyeballing the df values. This turned out to be 1%. I did
+    // this again for the Tweets2013 collection, using the same approach, and obtained a value
+    // of 0.7%.
+    //
+    // With both values, we obtained effectiveness pretty close to the old values with the
+    // custom stopwords list.
+    int df = reader.docFreq(new Term(FIELD_BODY, term));
+    float ratio = (float) df / numDocs;
+    if (tweetsearch) {
+      if (numDocs > 100000000) { // Probably Tweets2013
+        if (ratio > 0.007f) return true;
+      } else {
+        if (ratio > 0.01f) return true;
+      }
+    } else if (ratio > 0.1f) return true;
+    return false;
+  }
+
   @Override
   public String tag() {
     return "Rm3(fbDocs="+fbDocs+",fbTerms="+fbTerms+",originalQueryWeight:"+originalQueryWeight+")";
