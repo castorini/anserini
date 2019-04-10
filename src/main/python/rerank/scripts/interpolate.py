@@ -1,3 +1,7 @@
+'''scripts to aggregate the retrieval scores and the reranking scores by linear interpolation
+
+The hyper-parameter \lamda is tuned on the dev set
+'''
 import numpy as np
 import shlex
 import subprocess
@@ -31,7 +35,7 @@ def get_docsim(fn, docno2sim={}):
     return docno2sim
 
 
-def get_map_inter(docno2sim, docno2sim_ql, l, debug=False, mode="train"):
+def get_map_inter(docno2sim, docno2sim_ql, l, model, fn_qrels, debug=False, mode="train"):
     docno2sim_inter = {}
     for docnoqid in docno2sim:
         if docnoqid in docno2sim_ql:
@@ -50,10 +54,9 @@ def get_map_inter(docno2sim, docno2sim_ql, l, debug=False, mode="train"):
         qid = temp[1]
         score = docno2sim_inter[docno+"_"+qid]
         f_inter.write('{} 0 {} 0 {} {}\n'.format(qid, docno, score, model))
-    # always remember to close the file !
     f_inter.close()
     
-    cmd = "./eval/trec_eval.9.0/trec_eval {} {} -m ndcg_cut.20 -m map -m recip_rank -m P.20,30".format(fn_qrels, fn_inter)
+    cmd = "./eval/trec_eval.9.0.4/trec_eval {} {} -m ndcg_cut.20 -m map -m recip_rank -m P.20,30".format(fn_qrels, fn_inter)
     pargs = shlex.split(cmd)
     p = subprocess.Popen(pargs, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     pout, perr = p.communicate()
@@ -74,21 +77,20 @@ def get_map_inter(docno2sim, docno2sim_ql, l, debug=False, mode="train"):
     NDCG20 = float(lines[4].strip().split()[-1])
     return Map, P30, Mrr, P20, NDCG20
 
-def get_inter_tune(l, fn_baseline_train, fn_rerank_valid, debug=False):
+def get_inter_tune(l, fn_baseline_dev, fn_rerank_dev, model, fn_qrels, debug=False):
     docno2sim = {}
     docno2sim_ql = {}
-    docno2sim_ql = get_docsim(fn_baseline_train, docno2sim_ql)
-    docno2sim = get_docsim(fn_rerank_valid, docno2sim)
-    return get_map_inter(docno2sim, docno2sim_ql, l, debug=debug)
+    docno2sim_ql = get_docsim(fn_baseline_dev, docno2sim_ql)
+    docno2sim = get_docsim(fn_rerank_dev, docno2sim)
+    return get_map_inter(docno2sim, docno2sim_ql, l, model, fn_qrels, debug=debug, mode="dev")
 
-def select_l(model, fn_baseline_train, fn_rerank_valid, debug=False):
+def tune_lambda(fn_baseline_train, fn_rerank_dev, model, fn_qrels, debug=False):
     maxL = 0
     maxMap = 0
     ll = []
     for l in range(0, 100, 5):
         l = l / 100.0
-        # print("trying lambda: {:.2f}".format(l))
-        Map, P30, Mrr, P20, NDCG20 = get_inter_tune(l, fn_baseline_train, fn_rerank_valid, debug=debug)
+        Map, P30, Mrr, P20, NDCG20 = get_inter_tune(l, fn_baseline_train, fn_rerank_dev, model=model, debug=debug, fn_qrels=fn_qrels)
         ll.append(Map)
         if Map > maxMap:
             maxMap = Map
@@ -96,25 +98,26 @@ def select_l(model, fn_baseline_train, fn_rerank_valid, debug=False):
     print("best lambda: {} with MAP: {}".format(maxL, maxMap))
     return maxL, ll
 
-def get_inter_test(model, l, fn_baseline, fn_rerank):
+def get_inter_test(model, l, fn_baseline, fn_rerank, fn_qrels, debug=False):
     docno2sim = {}
     docno2sim_ql = {}
     docno2sim_ql = get_docsim(fn_baseline, docno2sim_ql)
     docno2sim = get_docsim(fn_rerank, docno2sim)
-    return get_map_inter(docno2sim, docno2sim_ql, l, debug=False, mode="test")
+    return get_map_inter(docno2sim, docno2sim_ql, l, fn_qrels=fn_qrels, debug=debug, mode="test", model=model)
 
 
 if __name__ == '__main__':
-
 	parser = argparse.ArgumentParser()
-	parser.add_argument('--fn_baseline', default='BM25_0.9_0.5', help='[QL, QL+RM3, BM25, BM25+RM3] + parameters, which is in the ')
-	parser.add_argument('--fn_baseline_dev', default='drmm', help='[drmm, knrm, ...]')
-	aarser.add_argument('--fn_rerank', default=1000, type=int, help='number of document retrieved')
-	parser.add_argument('--fn_rerank_valid', default="/tuna1/indexes/lucene-index.robust04.pos+docvectors+rawdocs", help='index of Robust04 corpus')
-	parser.add_argument('--fn_qrels', default="../../../resources/topics-and-qrels/qrels.robust2004.txt", help='qrels file of Robust04')
+	parser.add_argument('--fn_baseline', default='predict_BM25_0.9_0.5_RM3_47_9_0.3_robust04_split1_test.txt', help='file name of the baseline run on the test set')
+	parser.add_argument('--fn_baseline_dev', default='predict_BM25_0.9_0.5_RM3_47_9_0.3_robust04_split1_dev.txt', help='file name of the baseline run on the dev set')
+	parser.add_argument('--fn_rerank', default='src/main/python/rerank/MatchZoo/data/robust04/predict.test.drmm.txt', help='file name of the rerank run on the test set')
+	parser.add_argument('--fn_rerank_dev', default='src/main/python/rerank/MatchZoo/data/robust04/predict.valid.drmm.txt', help='file name of the rerank run on the dev set')
+	parser.add_argument('--fn_qrels', default="src/main/resources/topics-and-qrels/qrels.robust2004.txt", help='qrels file of Robust04')
+	parser.add_argument('--model_rerank', default="drmm", help='rerank model name')
+	parser.add_argument('--debug', action='store_true', help='qrels file of Robust04')
 	args = parser.parse_args()
 		
-	maxL, ll = select_l(model, fn_baseline_dev, fn_rerank_valid, debug=False)
-	testMap, P30, MRR, P20, NDCG20 = get_inter_test(model=model, l=maxL, fn_baseline=fn_baseline, fn_rerank=fn_rerank)
+	maxL, ll = tune_lambda(args.fn_baseline_dev, args.fn_rerank_dev, model=args.model_rerank, fn_qrels=args.fn_qrels, debug=args.debug)
+	testMap, P30, MRR, P20, NDCG20 = get_inter_test(model=args.model_rerank, l=maxL, fn_qrels=args.fn_qrels, fn_baseline=args.fn_baseline, fn_rerank=args.fn_rerank, debug=args.debug)
 	print("Model: {}, Map={:.4f}, MRR={:.4f}, P30={:.4f}, P20={:.4f}, NDCG20={:.4f}, with lambda = {}"
-          .format(model, testMap, MRR, P30, P20, NDCG20, maxL))
+          .format(args.model_rerank, testMap, MRR, P30, P20, NDCG20, maxL))
