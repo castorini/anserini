@@ -1,5 +1,15 @@
 '''scripts to aggregate the retrieval scores and the reranking scores by linear interpolation
 
+This scipt requires five input files:
+
+1. Four run files following the TREC format (query-id Q0 document-id rank score STANDARD)
+of both the baseline run and the rerank run on both the validation set and the test set
+2. One qrel file following the TREC format (query-id 0 document-id relevance) that contains
+relevance info on the whole dataset (including dev and test set)
+
+This script will print out the tuned scores on the test set (Map, P30, Mrr, P20, NDCG20).
+You can modify the trec_eval arguments to try other evaluation metrics.
+
 The hyper-parameter \lamda is tuned on the dev set
 '''
 import numpy as np
