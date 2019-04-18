@@ -8,7 +8,9 @@ Anserini is an open-source information retrieval toolkit built on Lucene that ai
 
 ## Getting Started
 
-Anserini requires Java 8 (note that there are [known issues with Java 10 and Java 11](https://github.com/castorini/Anserini/issues/445)) and Maven 3.3+. Build using Maven:
+Anserini requires Java 8 (note that there are [known issues with Java 10 and Java 11](https://github.com/castorini/Anserini/issues/445)) and Maven 3.3+.
+Oracle JVM is necessary to replicate our regression results; there are known issues with OpenJDK (see [this](https://github.com/castorini/Anserini/pull/590) and [this](https://github.com/castorini/Anserini/issues/592)).
+Build using Maven:
 
 ```
 mvn clean package appassembler:assemble
