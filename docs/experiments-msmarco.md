@@ -31,7 +31,7 @@ The output message should be like this:
 ```
 
 # Retrieving Dev set
-Since queries of the set are too many (+100k), it would take a long time to retrieve all of them. To speed this up, we use only the queries that are in the qrels file: 
+Since there are too many queries in the dev set (+100k), it would take a long time to retrieve all of them. To speed this up, we use only the queries that are in the qrels file: 
 ```
 python ./src/main/python/msmarco/filter_queries.py --qrels=${DATA_DIR}/qrels.dev.small.tsv --queries=${DATA_DIR}/queries.dev.tsv --output_queries=${DATA_DIR}/queries.dev.small.tsv
 ```
@@ -43,7 +43,7 @@ python ./src/main/python/msmarco/retrieve.py -index ${DATA_DIR}/lucene-index-msm
 ```
 
 It should take 2-3 hours to retrieve the documents. 
-'hits' specifies the of documents per query to be retrieved. Thus, the output
+'hits' specifies the number of documents per query to be retrieved. Thus, the output
 file should have approximately 6980 * 1000 = 6.9M lines. 
 
 In case you want to compare your retrieved docs against ours, we made our output
@@ -51,7 +51,7 @@ available [here](https://drive.google.com/open?id=1Z0IEY6Z8jPqQMTLVj-MQdyU4VV-Zu
 
 
 # Evaluating Dev Set
-Finally, we can evaluate the retrieved documents using this the official MS MARCO evaluation script: 
+Finally, we can evaluate the retrieved documents using the official MS MARCO evaluation script: 
 ```
 python ./src/main/python/msmarco/msmarco_eval.py ${DATA_DIR}/qrels.dev.small.tsv ${DATA_DIR}/run.dev.small.tsv
 ```
