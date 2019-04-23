@@ -21,8 +21,8 @@ index_path: indexes/lucene-index.car17.pos+docvectors+rawdocs # path to the exis
 collection: CarCollection
 index_stats:
   documents: 29678360
-  documents (non-empty): 29674409
-  total terms: 1257896158
+  documents (non-empty): 29674425
+  total terms: 1257909884
 topics:
   - name: "All Topics"
     path: topics.car17.test200.txt
@@ -59,7 +59,7 @@ models:
       - -rm3
     results:
       map:
-        - 0.1287
+        - 0.1286
       recip_rank:
         - 0.1788
   - name: bm25+ax

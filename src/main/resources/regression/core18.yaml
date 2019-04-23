@@ -22,7 +22,7 @@ collection: WashingtonPostCollection
 index_stats:
   documents: 595037
   documents (non-empty): 595037
-  total terms: 317882653
+  total terms: 317898812
 topics:
   - name: "All Topics"
     path: topics.core18.txt
@@ -70,7 +70,7 @@ models:
       - -axiom.deterministic
     results:
       map:
-        - 0.2921
+        - 0.2926
       p30:
         - 0.4007
   - name: ql
