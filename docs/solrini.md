@@ -4,7 +4,7 @@ In order to index collections with Solr, we'll setup a single-node SolrCloud ins
 
 ## Setup
 
-1) From the Solr [archives](https://archive.apache.org/dist/lucene/solr/), download the Solr version that matches Anserini's [Lucene version](https://github.com/castorini/anserini/blob/master/pom.xml#L36).
+1) From the Solr [archives](https://archive.apache.org/dist/lucene/solr/), download the Solr (non `-src`) version that matches Anserini's [Lucene version](https://github.com/castorini/anserini/blob/master/pom.xml#L36).
 2) Extract the archive:
    - `mkdir solrini && tar -zxvf solr*.tgz -C solrini --strip-components=1`
 3) Start Solr:
