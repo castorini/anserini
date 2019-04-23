@@ -20,9 +20,9 @@ unzip anserini/conf/lang.zip -d anserini/conf
 unzip anserini-twitter/conf/lang.zip -d anserini-twitter/conf
 
 echo "###"
-echo "# Start Solr: $SOLR_DIR/bin/solr start -c -m 8G"
-echo "# Import configsets:"
-echo "#  - $SOLR_DIR/bin/solr zk -z localhost:9983 upconfig -n anserini -d anserini"
-echo "#  - $SOLR_DIR/bin/solr zk -z localhost:9983 upconfig -n anserini-twitter -d anserini-twitter"
-echo "# Browse Solr: http://localhost:8983"
+echo "# 1) Start Solr: $SOLR_DIR/bin/solr start -c -m 8G"
+echo "# 2) Import configsets:"
+echo "#     - $SOLR_DIR/bin/solr zk -z localhost:9983 upconfig -n anserini -d anserini"
+echo "#     - $SOLR_DIR/bin/solr zk -z localhost:9983 upconfig -n anserini-twitter -d anserini-twitter"
+echo "# 3) Browse Solr: http://localhost:8983"
 echo "###"
