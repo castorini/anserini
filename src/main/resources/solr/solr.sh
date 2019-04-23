@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-# Solr version to download (i.e., 8.0.0)
-SOLR_VERSION=8.0.0
+# Solr version to download (i.e., 7.6.0)
+SOLR_VERSION=7.6.0
 
 # Solr directory name
 SOLR_DIR=solr-${SOLR_VERSION}
