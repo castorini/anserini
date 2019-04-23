@@ -6,11 +6,11 @@ In order to index collections with Solr, we'll setup a single-node SolrCloud ins
 
 1) From the Solr [archives](https://archive.apache.org/dist/lucene/solr/), download the Solr version that matches Anserini's [Lucene version](https://github.com/castorini/anserini/blob/master/pom.xml#L36).
 2) Extract the archive:
-   - `mkdir solrini && tar -zxvf solr*.tgz -C solrini`
+   - `mkdir solrini && tar -zxvf solr*.tgz -C solrini --strip-components=1`
 3) Start Solr:
    - `solrini/bin/solr start -c -m 8G`
 4) Run the Solr bootstrap script to copy the Anserini JAR into Solr's classpath and upload the configsets to Solr's internal ZooKeeper:
-   - `./solr.sh solrini localhost:9983`
+   - `pushd src/main/resources/solr && ./solr.sh ../../../../solrini localhost:9983 && popd`
    
 Solr should be available at [http://localhost:8983](http://localhost:8983) for browsing.
 
