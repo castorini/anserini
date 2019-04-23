@@ -6,7 +6,7 @@ import string
 import time
 from absl import flags
 import jnius_config
-jnius_config.set_classpath("/home/rfn216/Anserini/target/anserini-0.3.1-SNAPSHOT-fatjar.jar")
+jnius_config.set_classpath("target/anserini-0.4.1-SNAPSHOT-fatjar.jar")
 
 from jnius import autoclass
 JString = autoclass('java.lang.String')
