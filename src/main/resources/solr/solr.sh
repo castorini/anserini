@@ -4,7 +4,7 @@
 # This script assumes a single-node SolrCloud instance is running locally.
 ###
 
-if [ -z "$1" ]; then
+if [[ -z "$1" ]]; then
     echo "Usage: ./solr.sh <solr_directory> <solr_zookeeper_url>"
     exit 1
 fi
@@ -23,5 +23,5 @@ unzip anserini/conf/lang.zip -d anserini/conf
 unzip anserini-twitter/conf/lang.zip -d anserini-twitter/conf
 
 # Upload configset to Solr
-$SOLR_DIR/bin/solr zk -z ${ZOOKEEPER_URL:-localhost:9983} upconfig -n anserini -d anserini
-$SOLR_DIR/bin/solr zk -z ${ZOOKEEPER_URL:-localhost:9983} upconfig -n anserini-twitter -d anserini-twitter
+${SOLR_DIR}/bin/solr zk -z ${ZOOKEEPER_URL:-localhost:9983} upconfig -n anserini -d anserini
+${SOLR_DIR}/bin/solr zk -z ${ZOOKEEPER_URL:-localhost:9983} upconfig -n anserini-twitter -d anserini-twitter
