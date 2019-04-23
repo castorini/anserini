@@ -22,7 +22,7 @@ collection: NewYorkTimesCollection
 index_stats:
   documents: 1831109
   documents (non-empty): 1831109
-  total terms: 720510677
+  total terms: 720510680
 topics:
   - name: "All Topics"
     path: topics.core17.txt
@@ -70,7 +70,7 @@ models:
       - -axiom.deterministic
     results:
       map:
-        - 0.2700
+        - 0.2701
       p30:
         - 0.4927
   - name: ql

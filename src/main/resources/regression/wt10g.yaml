@@ -39,8 +39,8 @@ input: collections/web/wt10g/
 index_path: indexes/lucene-index.wt10g.pos+docvectors+rawdocs # path to the existing index, used in regression test if `--index` option is absent
 index_stats:
   documents: 1688402
-  documents (non-empty): 1688290
-  total terms: 752326031
+  documents (non-empty): 1688291
+  total terms: 752790242
 topics:
   - name: "Wt10g: Topics 451-550"
     path: topics.451-550.txt
@@ -53,7 +53,7 @@ models:
       map:
         - 0.1992
       p30:
-        - 0.2218
+        - 0.2214
   - name: bm25+rm3
     params:
       - -bm25
@@ -103,4 +103,4 @@ models:
       map:
         - 0.2275
       p30:
-        - 0.2517
+        - 0.2514

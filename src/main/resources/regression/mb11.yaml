@@ -112,7 +112,7 @@ models:
         - 0.2389
       p30:
         - 0.4435
-        - 0.3520
+        - 0.3514
   - name: ql+ax
     params:
       - -searchtweets

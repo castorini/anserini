@@ -40,7 +40,7 @@ index_path: indexes/lucene-index.robust04.pos+docvectors+rawdocs # path to the e
 index_stats:
   documents: 528030
   documents (non-empty): 528030
-  total terms: 174540587
+  total terms: 174540872
 topics:
   - name: "All Topics"
     path: topics.robust04.301-450.601-700.txt
@@ -71,7 +71,7 @@ models:
       - -axiom.deterministic
     results:
       map:
-        - 0.2895
+        - 0.2896
       p30:
         - 0.3333
   - name: ql
