@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 
 ###
 # This script assumes a single-node SolrCloud instance is running locally.
