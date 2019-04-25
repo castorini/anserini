@@ -36,7 +36,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     searcher = JSearcher(JString(args.index))
-    searcher.setBM25Similarity(args.b1, args.k)
+    searcher.setBM25Similarity(float(args.b1), float(args.k))
     print('Initializing BM25, setting b1={} and k={}'.format(args.b1, args.k))
 
     with open(args.output, 'w') as fout:
