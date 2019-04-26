@@ -16,6 +16,11 @@ limitations under the License.
 """
 
 # Simple script for tuning BM25 parameters (k1 and b) for MS MARCO
+#
+# The output of the script should be (on dev set):
+#   Best parameters: run.bm25.b1_0.6.k_0.9.txt: MRR@10 = 0.18951874971574093
+#
+# Compared to default Anserini parameters of b1=0.9, k=0.4, MRR@10 = 0.18388092964024202
 
 import os
 import subprocess
@@ -23,8 +28,8 @@ import re
 
 base_directory = "msmarco_data/bm25_tuning/"
 
-for b1 in [0.7, 0.8, 0.9, 1.0, 1.1, 1.2]:
-    for k in [0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8]:
+for b1 in [0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2]:
+    for k in [0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]:
         print('Trying... b1 = {}, k = {}'.format(b1, k))
         filename = 'run.bm25.b1_{}.k_{}.txt'.format(b1, k)
         if os.path.isfile('msmarco_data/bm25_tuning/{}'.format(filename)):
