@@ -82,4 +82,4 @@ QueriesRanked: 6980
 ```
 
 Note that this figure differs slightly from the value reported in [Document Expansion by Query Prediction](https://arxiv.org/abs/1904.08375), which uses the Anserini default of `b1=0.9`, `k=0.4`, yielding `MRR@10 = 0.18388092964024202`.
-Subsequent tuning (after publication) on the dev set obtains `b1=0.6`, `k=0.9`, which yields the figure above; this is the default setting in `retrieve.py` above.
+Subsequent tuning (after publication) on the dev set obtains `b1=0.6`, `k=0.8`, which yields the figure above; this is the default setting in `retrieve.py` above.
