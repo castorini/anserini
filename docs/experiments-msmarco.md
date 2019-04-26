@@ -53,8 +53,8 @@ The output queries file should contain 6980 lines.
 We can now retrieve this smaller set of queries.
 
 ```
-python ./src/main/python/msmarco/retrieve.py -index ${DATA_DIR}/lucene-index-msmarco \
- -qid_queries ${DATA_DIR}/queries.dev.small.tsv -output ${DATA_DIR}/run.dev.small.tsv -hits 1000
+python ./src/main/python/msmarco/retrieve.py --index ${DATA_DIR}/lucene-index-msmarco \
+ --qid_queries ${DATA_DIR}/queries.dev.small.tsv --output ${DATA_DIR}/run.dev.small.tsv --hits 1000
 ```
 
 Retrieval speed will vary by machine:
@@ -76,7 +76,10 @@ And the output should be like this:
 
 ```
 #####################
-MRR @10: 0.18388092964024202
+MRR @10: 0.1906588552326375
 QueriesRanked: 6980
 #####################
 ```
+
+Note that this figure differs slightly from the value reported in [Document Expansion by Query Prediction](https://arxiv.org/abs/1904.08375), which uses the Anserini default of `b1=0.9`, `k=0.4`, yielding `MRR@10 = 0.18388092964024202`.
+Subsequent tuning (after publication) on the dev set obtains `b1=0.6`, `k=0.8`, which yields the figure above; this is the default setting in `retrieve.py` above.
