@@ -32,8 +32,8 @@ if __name__ == '__main__':
     parser.add_argument('--index', required=True, default='', help='index path')
     parser.add_argument('--hits', default=10, help='number of hits to retrieve')
     parser.add_argument('--b1', default=0.6, help='BM25 b1 parameter')
-    parser.add_argument('--k', default=0.9, help='BM25 k parameter')
-    # Tuning on dev set obtains b1=0.6, k=0.9 w/ MRR@10 = 0.18951874971574093
+    parser.add_argument('--k', default=0.8, help='BM25 k parameter')
+    # Tuning on dev set obtains b1=0.6, k=0.8 w/ MRR@10 = 0.1906588552326375
     # Note that this differs slightly from the value reported in https://arxiv.org/abs/1904.08375
     # which uses the Anserini default of b1=0.9, k=0.4 w/ MRR@10 = 0.18388092964024202
     # To reperform tuning, see tune_bm25.py
