@@ -24,6 +24,23 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+/**
+ * Topic reader for simple web topics, like the efficiency queries from the TREC 2005 Terabyte Track:
+ *
+ * <pre>
+ * 1:pierson s twin lakes marina
+ * 2:nurseries in woodbridge new jersey
+ * 3:miami white pages
+ * 4:delta air lines
+ * 5:hsn
+ * 6:ironman ivan stewart s super off road
+ * 7:pajaro carpintero
+ * 8:kitchen canister sets
+ * 9:buy pills online
+ * 10:hotel meistertrunk
+ * ...
+ * </pre>
+ */
 public class WebTopicReader extends TopicReader {
   public WebTopicReader(Path topicFile) {
     super(topicFile);
