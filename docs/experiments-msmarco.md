@@ -28,7 +28,7 @@ We can now index these docs as a `JsonCollection` using Anserini:
 ```
 sh ./target/appassembler/bin/IndexCollection -collection JsonCollection \
  -generator LuceneDocumentGenerator -threads 9 -input ${DATA_DIR}/collection_jsonl \
- -index ${DATA_DIR}/lucene-index-msmarco -optimize -storeRawDocs 
+ -index ${DATA_DIR}/lucene-index-msmarco -optimize -storePositions -storeDocvectors -storeRawDocs 
 ```
 
 The output message should be something like this:
