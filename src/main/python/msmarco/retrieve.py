@@ -33,6 +33,10 @@ if __name__ == '__main__':
     parser.add_argument('--hits', default=10, help='number of hits to retrieve')
     parser.add_argument('--b1', default=0.6, help='BM25 b1 parameter')
     parser.add_argument('--k', default=0.8, help='BM25 k parameter')
+    parser.add_argument('--rm3', action='store_true', default=False, help='BM25 k parameter')
+    parser.add_argument('--fbTerms', default=10, type=int, help='RM3 parameter: number of expansion terms')
+    parser.add_argument('--fbDocs', default=10, type=int, help='RM3 parameter: number of documents')
+    parser.add_argument('--originalQueryWeight', default=0.5, type=float, help='RM3 parameter: weight to assign to the original query')
     # Tuning on dev set obtains b1=0.6, k=0.8 w/ MRR@10 = 0.1906588552326375
     # Note that this differs slightly from the value reported in https://arxiv.org/abs/1904.08375
     # which uses the Anserini default of b1=0.9, k=0.4 w/ MRR@10 = 0.18388092964024202
@@ -43,6 +47,9 @@ if __name__ == '__main__':
     searcher = JSearcher(JString(args.index))
     searcher.setBM25Similarity(float(args.b1), float(args.k))
     print('Initializing BM25, setting b1={} and k={}'.format(args.b1, args.k))
+    if args.rm3:
+        searcher.setRM3Reranker(args.fbTerms, args.fbDocs, args.originalQueryWeight)
+        print('Initializing RM3, setting fbTerms={}, fbDocs={} and originalQueryWeight={}'.format(args.fbTerms, args.fbDocs, args.originalQueryWeight))
 
     with open(args.output, 'w') as fout:
       start_time = time.time()
