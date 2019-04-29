@@ -25,44 +25,39 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 /**
- * Topic reader for standard XML format used in the TREC Web Tracks.
+ * Topic reader for simple web topics, like the efficiency queries from the TREC 2005 Terabyte Track:
+ *
+ * <pre>
+ * 1:pierson s twin lakes marina
+ * 2:nurseries in woodbridge new jersey
+ * 3:miami white pages
+ * 4:delta air lines
+ * 5:hsn
+ * 6:ironman ivan stewart s super off road
+ * 7:pajaro carpintero
+ * 8:kitchen canister sets
+ * 9:buy pills online
+ * 10:hotel meistertrunk
+ * ...
+ * </pre>
  */
-public class WebxmlTopicReader extends TopicReader {
-  public WebxmlTopicReader(Path topicFile) {
+public class WebTopicReader extends TopicReader {
+  public WebTopicReader(Path topicFile) {
     super(topicFile);
-  }
-
-  private String extract(String line, String tag) {
-    int i = line.indexOf(tag);
-    if (i == -1) throw new IllegalArgumentException("line does not contain the tag : " + tag);
-    int j = line.indexOf("\"", i + tag.length() + 2);
-    if (j == -1) throw new IllegalArgumentException("line does not contain quotation");
-    return line.substring(i + tag.length() + 2, j);
   }
 
   @Override
   public SortedMap<Integer, Map<String, String>> read(BufferedReader bRdr) throws IOException {
     SortedMap<Integer, Map<String, String>> map = new TreeMap<>();
-    Map<String,String> fields = new HashMap<>();
-
-    String number = "";
-    String query = "";
 
     String line;
-
     while ((line = bRdr.readLine()) != null) {
       line = line.trim();
-      if (line.startsWith("<topic")) {
-        number = extract(line, "number");
-      }
-      if (line.startsWith("<query>") && line.endsWith("</query>")) {
-        query = line.substring(7, line.length() - 8).trim();
-        fields.put("title", query);
-      }
-      if (line.startsWith("</topic>")) {
-        map.put(Integer.valueOf(number), fields);
-        fields = new HashMap<>();
-      }
+      String[] arr = line.split(":");
+
+      Map<String,String> fields = new HashMap<>();
+      fields.put("title", arr[1]);
+      map.put(Integer.valueOf(arr[0]), fields);
     }
 
     return map;
