@@ -161,11 +161,16 @@ public class SimpleSearcher implements Closeable {
   }
 
   public Result[] search(String q, int k, long t) throws IOException {
-    IndexSearcher searcher = new IndexSearcher(reader);
-    searcher.setSimilarity(similarity);
     Query query = new BagOfWordsQueryGenerator().buildQuery(LuceneDocumentGenerator.FIELD_BODY, analyzer, q);
     List<String> queryTokens = AnalyzerUtils.tokenize(analyzer, q);
-    
+
+    return search(query, queryTokens, q, k, t);
+  }
+
+  protected Result[] search(Query query, List<String> queryTokens, String queryString, int k, long t) throws IOException {
+    IndexSearcher searcher = new IndexSearcher(reader);
+    searcher.setSimilarity(similarity);
+
     SearchArgs searchArgs = new SearchArgs();
     searchArgs.arbitraryScoreTieBreak = false;
     searchArgs.hits = k;
@@ -183,15 +188,18 @@ public class SimpleSearcher implements Closeable {
         builder.add(filter, BooleanClause.Occur.FILTER);
         builder.add(query, BooleanClause.Occur.MUST);
         Query compositeQuery = builder.build();
-        rs = searcher.search(compositeQuery, isRerank ? searchArgs.rerankcutoff : k, BREAK_SCORE_TIES_BY_TWEETID, true, true);
-        context = new RerankerContext<>(searcher, null, compositeQuery, null, q, queryTokens, filter, searchArgs);
+        rs = searcher.search(compositeQuery, isRerank ?
+            searchArgs.rerankcutoff : k, BREAK_SCORE_TIES_BY_TWEETID, true, true);
+        context = new RerankerContext<>(searcher, null, compositeQuery, null, queryString, queryTokens, filter, searchArgs);
       } else {
-        rs = searcher.search(query, isRerank ? searchArgs.rerankcutoff : k, BREAK_SCORE_TIES_BY_TWEETID, true, true);
-        context = new RerankerContext<>(searcher, null, query, null, q, queryTokens, null, searchArgs);
+        rs = searcher.search(query, isRerank ?
+            searchArgs.rerankcutoff : k, BREAK_SCORE_TIES_BY_TWEETID, true, true);
+        context = new RerankerContext<>(searcher, null, query, null, queryString, queryTokens, null, searchArgs);
       }
     } else {
-      rs = searcher.search(query, isRerank ? searchArgs.rerankcutoff : k, BREAK_SCORE_TIES_BY_DOCID, true, true);
-        context = new RerankerContext<>(searcher, null, query, null, q, queryTokens, null, searchArgs);
+      rs = searcher.search(query, isRerank ?
+          searchArgs.rerankcutoff : k, BREAK_SCORE_TIES_BY_DOCID, true, true);
+        context = new RerankerContext<>(searcher, null, query, null, queryString, queryTokens, null, searchArgs);
     }
 
     ScoredDocuments hits = cascade.run(ScoredDocuments.fromTopDocs(rs, searcher), context);
@@ -210,6 +218,7 @@ public class SimpleSearcher implements Closeable {
 
   // searching both the defaults contents fields and another field with weight boost
   // this is used for MS MACRO experiments with query expansion.
+  // TODO: "fields" should probably changed to a map of fields to boosts for extensibility
   public Result[] searchFields(String q, String f, float boost, int k) throws IOException {
     IndexSearcher searcher = new IndexSearcher(reader);
     searcher.setSimilarity(similarity);
@@ -222,32 +231,7 @@ public class SimpleSearcher implements Closeable {
 
     List<String> queryTokens = AnalyzerUtils.tokenize(analyzer, q);
 
-    SearchArgs searchArgs = new SearchArgs();
-    searchArgs.arbitraryScoreTieBreak = false;
-    searchArgs.hits = k;
-    searchArgs.searchtweets = searchtweets;
-
-    TopDocs rs = new TopDocs(0, new ScoreDoc[]{}, Float.NaN);
-    RerankerContext context;
-    if (searchtweets) {
-      throw new UnsupportedOperationException();
-    } else {
-      rs = searcher.search(query, isRerank ? searchArgs.rerankcutoff : k, BREAK_SCORE_TIES_BY_DOCID, true, true);
-      context = new RerankerContext<>(searcher, null, query, null, q, queryTokens, null, searchArgs);
-    }
-
-    ScoredDocuments hits = cascade.run(ScoredDocuments.fromTopDocs(rs, searcher), context);
-
-    Result[] results = new Result[hits.ids.length];
-    for (int i = 0; i < hits.ids.length; i++) {
-      Document doc = hits.documents[i];
-      String docid = doc.getField(LuceneDocumentGenerator.FIELD_ID).stringValue();
-      IndexableField field = doc.getField(LuceneDocumentGenerator.FIELD_RAW);
-      String content = field == null ? null : field.stringValue();
-      results[i] = new Result(docid, hits.ids[i], hits.scores[i], content);
-    }
-
-    return results;
+    return search(query, queryTokens, q, k, -1);
   }
 
   public String doc(int ldocid) {
