@@ -208,6 +208,48 @@ public class SimpleSearcher implements Closeable {
     return results;
   }
 
+  // searching both the defaults contents fields and another field with weight boost
+  // this is used for MS MACRO experiments with query expansion.
+  public Result[] searchFields(String q, String f, float boost, int k) throws IOException {
+    IndexSearcher searcher = new IndexSearcher(reader);
+    searcher.setSimilarity(similarity);
+
+    Query queryContents = new BagOfWordsQueryGenerator().buildQuery(LuceneDocumentGenerator.FIELD_BODY, analyzer, q);
+    Query queryField = new BagOfWordsQueryGenerator().buildQuery(f, analyzer, q);
+    BooleanQuery query = new BooleanQuery.Builder()
+        .add(queryContents, BooleanClause.Occur.SHOULD)
+        .add(new BoostQuery(queryField, boost), BooleanClause.Occur.SHOULD).build();
+
+    List<String> queryTokens = AnalyzerUtils.tokenize(analyzer, q);
+
+    SearchArgs searchArgs = new SearchArgs();
+    searchArgs.arbitraryScoreTieBreak = false;
+    searchArgs.hits = k;
+    searchArgs.searchtweets = searchtweets;
+
+    TopDocs rs = new TopDocs(0, new ScoreDoc[]{}, Float.NaN);
+    RerankerContext context;
+    if (searchtweets) {
+      throw new UnsupportedOperationException();
+    } else {
+      rs = searcher.search(query, isRerank ? searchArgs.rerankcutoff : k, BREAK_SCORE_TIES_BY_DOCID, true, true);
+      context = new RerankerContext<>(searcher, null, query, null, q, queryTokens, null, searchArgs);
+    }
+
+    ScoredDocuments hits = cascade.run(ScoredDocuments.fromTopDocs(rs, searcher), context);
+
+    Result[] results = new Result[hits.ids.length];
+    for (int i = 0; i < hits.ids.length; i++) {
+      Document doc = hits.documents[i];
+      String docid = doc.getField(LuceneDocumentGenerator.FIELD_ID).stringValue();
+      IndexableField field = doc.getField(LuceneDocumentGenerator.FIELD_RAW);
+      String content = field == null ? null : field.stringValue();
+      results[i] = new Result(docid, hits.ids[i], hits.scores[i], content);
+    }
+
+    return results;
+  }
+
   public String doc(int ldocid) {
     Document doc;
     try {
