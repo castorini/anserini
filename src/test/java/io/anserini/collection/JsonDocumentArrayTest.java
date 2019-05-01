@@ -23,7 +23,12 @@ import java.io.*;
 import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
-
+// A file in a JsonCollection can either be:
+// (1) A single JSON object (i.e., a single document)
+// (2) An array of JSON objects
+// (3) JSON Lines (i.e., one JSON object per line)
+//
+// This is the test case for (2)
 public class JsonDocumentArrayTest extends DocumentTest {
 
   @Before
