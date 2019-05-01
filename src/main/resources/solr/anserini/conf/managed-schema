@@ -522,6 +522,11 @@
   <field name="fullCaption" type="text_en" multiValued="true" />
   <field name="kicker" type="string" />
   <field name="published_date" type="plong" />
-  <field name="title" type="text_en" /> 
+  <field name="title" type="text_en" />
+
+  <similarity class="solr.BM25SimilarityFactory">
+    <float name="k1">0.9</float>
+    <float name="b">0.4</float>
+  </similarity>
 
 </schema>

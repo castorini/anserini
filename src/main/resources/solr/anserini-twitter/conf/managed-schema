@@ -539,4 +539,9 @@
     </analyzer>
   </fieldType>
 
+  <similarity class="solr.BM25SimilarityFactory">
+    <float name="k1">0.9</float>
+    <float name="b">0.4</float>
+  </similarity>
+
 </schema>

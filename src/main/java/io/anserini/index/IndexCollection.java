@@ -359,6 +359,8 @@ public final class IndexCollection {
           for (IndexableField field : document.getFields()) {
             if (field.stringValue() != null) { // For some reason, id is multi-valued with null as one of the values
               solrDocument.addField(field.name(), field.stringValue());
+            } else if (field.numericValue() != null) {
+              solrDocument.addField(field.name(), field.numericValue());
             }
           }
 
