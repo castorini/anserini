@@ -20,41 +20,38 @@ import os
 import argparse
 
 def convert_collection(args):
-  print('Converting collection...')
+    print('Converting collection...')
 
-  predictions_file = open(args.predictions)
-  file_index = 0
-  with open(args.collection_path) as f:
-    for i, line in enumerate(f):
+    predictions_file = open(args.predictions)
+    file_index = 0
+    with open(args.collection_path) as f:
+        for i, line in enumerate(f):
+            # Start writting to a new file whent the current one reached its maximum capacity. 
+            if i % args.max_docs_per_file == 0:
+                if i > 0:
+                    output_jsonl_file.close()
+                output_path = os.path.join(args.output_folder, 'docs{:02d}.json'.format(file_index))
+                output_jsonl_file = open(output_path, 'w')
+                file_index += 1
 
-      # Start writting to a new file whent the current one reached its maximum 
-      # capacity. 
-      if i % args.max_docs_per_file == 0:
-        if i > 0:
-          output_jsonl_file.close()
-        output_path = os.path.join(
-            args.output_folder, 'docs{:02d}.json'.format(file_index))
-        output_jsonl_file = open(output_path, 'w')
-        file_index += 1
+            doc_id, doc_text = line.rstrip().split('\t')
 
-      doc_id, doc_text = line.rstrip().split('\t')
-
-      # Reads from predictions and merge then to the original doc text. 
-      pred_text = []
-      for _ in range(int(args.stride)):
-        pred_text.append(predictions_file.readline().strip())
-      pred_text = ' '.join(pred_text)
-      pred_text = pred_text.replace(' / ', ' ')
-      text = doc_text + ' ' + pred_text
+            # Reads from predictions and merge then to the original doc text. 
+            pred_text = []
+            for _ in range(args.stride):
+                pred_text.append(predictions_file.readline().strip())
+            pred_text = ' '.join(pred_text)
+            pred_text = pred_text.replace(' / ', ' ')
+            text = (doc_text + ' ') *  + pred_text
       
-      output_dict = {'id': doc_id, 'contents': text}
-      output_jsonl_file.write(json.dumps(output_dict) + '\n')
+            output_dict = {'id': doc_id, 'contents': text}
+            output_jsonl_file.write(json.dumps(output_dict) + '\n')
 
-      if i % 100000 == 0:
-        print('Converted {} docs in {} files'.format(i, file_index))
+            if i % 100000 == 0:
+                print('Converted {} docs in {} files'.format(i, file_index))
 
-  output_jsonl_file.close()
-  predictions_file.close()
+    output_jsonl_file.close()
+    predictions_file.close()
 
 
 if __name__ == '__main__':
@@ -62,8 +59,9 @@ if __name__ == '__main__':
     parser.add_argument('--collection_path', required=True, help='MS MARCO tsv collection')
     parser.add_argument('--predictions', required=True, help='query predictions file')
     parser.add_argument('--output_folder', required=True, help='output folder for jsonl collection')
-    parser.add_argument('--stride', required=True, help='even [n] lines in predictions file is associated with each document')
+    parser.add_argument('--stride', required=True, type=int, help='even [s] lines in predictions file is associated with each document')
     parser.add_argument('--max_docs_per_file', default=1000000, type=int, help='maximum number of documents in each jsonl file')
+    parser.add_argument('--original_copies', default=1, type=int, help='number of copies of the original document to duplicate')
 
     args = parser.parse_args()
 
