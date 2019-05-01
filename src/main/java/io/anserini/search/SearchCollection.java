@@ -134,7 +134,7 @@ public final class SearchCollection implements Closeable {
         LOG.info("[Start] Ranking with similarity: " + taggedSimilarity.similarity.toString());
         final long start = System.nanoTime();
         if (!cascadeTag.isEmpty()) LOG.info("ReRanking with: " + cascadeTag);
-        PrintWriter out = new PrintWriter(Files.newBufferedWriter(Paths.get(outputPath), StandardCharsets.US_ASCII));
+        PrintWriter out = new PrintWriter(Files.newBufferedWriter(Paths.get(outputPath.replace(":", "=")), StandardCharsets.US_ASCII));
         for (Map.Entry<K, Map<String, String>> entry : topics.entrySet()) {
           K qid = entry.getKey();
           String queryString = entry.getValue().get(args.topicfield);

@@ -60,6 +60,8 @@ public class DocumentTest extends LuceneTestCase {
       File file = tmpPath.toFile();
       file.delete();
     }
+    // Call garbage collector for Windows compatibility
+    System.gc(); 
     super.tearDown();
   }
 }
