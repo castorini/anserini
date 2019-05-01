@@ -42,7 +42,7 @@ def convert_collection(args):
                 pred_text.append(predictions_file.readline().strip())
             pred_text = ' '.join(pred_text)
             pred_text = pred_text.replace(' / ', ' ')
-            text = (doc_text + ' ') *  + pred_text
+            text = (doc_text + ' ') * args.original_copies + pred_text
       
             output_dict = {'id': doc_id, 'contents': text}
             output_jsonl_file.write(json.dumps(output_dict) + '\n')
