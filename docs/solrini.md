@@ -30,7 +30,7 @@ We'll index [robust04](https://github.com/castorini/Anserini/blob/master/docs/ex
 ```
 sh target/appassembler/bin/IndexCollection -collection TrecCollection -generator JsoupGenerator \
   -threads 8 -input /path/to/robust04 \
-  -solr -solr.cloud -solr.index robust04 -solr.url localhost:9983 \
+  -solr -solr.index robust04 -solr.zkUrl localhost:9983 \
   -storePositions -storeDocvectors -storeRawDocs
 ```
 Make sure `/path/to/robust04` is updated with the appropriate path.
