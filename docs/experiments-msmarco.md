@@ -83,3 +83,16 @@ QueriesRanked: 6980
 
 Note that this figure differs slightly from the value reported in [Document Expansion by Query Prediction](https://arxiv.org/abs/1904.08375), which uses the Anserini default of `b1=0.9`, `k=0.4`, yielding `MRR@10 = 0.18388092964024202`.
 Subsequent tuning (after publication) on the dev set obtains `b1=0.6`, `k=0.8`, which yields the figure above; this is the default setting in `retrieve.py` above.
+
+We can also use the official TREC evaluation tool, `trec_eval`, to compute other metrics than MRR@10. 
+For that we first need to convert runs and qrels files to the TREC format:
+```
+python ./src/main/python/msmarco/convert_msmarco_to_trec_run.py --input_run=run.dev.small.tsv --output_run=run.dev.small.trec
+
+python ./src/main/python/msmarco/convert_msmarco_to_trec_qrels.py --input_qrels=qrels.dev.small.tsv --output_qrels=qrels.dev.small.trec
+```
+
+And run the `trec_eval` tool:
+```
+./eval/trec_eval.9.0.4/trec_eval -m 'all_trec' qrels.dev.small.trec run.dev.small.trec
+```
