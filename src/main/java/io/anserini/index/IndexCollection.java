@@ -147,7 +147,7 @@ public final class IndexCollection {
     public String zkChroot = "/";
 
     @Option(name = "-solr.poolSize", metaVar = "[NUMBER]", usage = "the number of clients to keep in the pool")
-    public int solrPoolSize = 16;
+    public int solrPoolSize = 8;
 
     @Option(name = "-shard.count", usage = "the number of shards for the index")
     public int shardCount = -1;
