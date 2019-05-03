@@ -18,12 +18,11 @@ public class FilterQueryBuilder {
 
 
     /***
-     * Creates a query that match any documents whose value for field <b>fld</b> is on the <>values</> set.
+     * Creates a query that match any documents whose value for field <b>fld</b> is on the <b>values</b> set.
      * This is useful to restrict scoring to certain list of documents.
-     * @param fld
-     * @param values
+     * @param fld to the field to use in the query
+     * @param values list of values to match on
      * @return
-     * @throws IOException
      */
     public static Query buildSetQuery(String fld,Iterable<String> values)  {
         Set<BytesRef> idsSet = new HashSet();
@@ -37,11 +36,10 @@ public class FilterQueryBuilder {
 
 
     /***
-     * Adds a <b>filter</b> query to the <b>Qquery</b>. The methods creates a new boolean query then add the query is a must clause and the filter as a filter clause
+     * Adds a <b>filter</b> query to the <b>query</b>. The methods creates a new boolean query then add the query is a must clause and the filter as a filter clause
      * @param query  the query to which if the filter is added
      * @param filter the query filter
      * @return the original query with the filter query added to it.
-     * @throws IOException
      */
     public static Query addFilterQuery(Query query, Query filter) {
 
