@@ -19,7 +19,6 @@ package io.anserini.rerank.lib;
 import io.anserini.rerank.Reranker;
 import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.ScoredDocuments;
-import io.anserini.search.SearchArgs;
 import io.anserini.util.AnalyzerUtils;
 import io.anserini.util.FeatureVector;
 import org.apache.logging.log4j.LogManager;
@@ -112,10 +111,27 @@ public class Rm3Reranker implements Reranker {
 
   protected FeatureVector estimateRM3Model(ScoredDocuments docs, RerankerContext context) {
 
-    FeatureVector qfv = FeatureVector.fromTerms(AnalyzerUtils.tokenize(analyzer, context.getQueryText())).scaleToUnitL1Norm();
+    FeatureVector qfv = getQfv(context);
 
     FeatureVector rm = estimateRelevanceModel(docs, context.getIndexSearcher().getIndexReader(), context.getSearchArgs().searchtweets);
 
+    rm = FeatureVector.interpolate(qfv, rm, originalQueryWeight);
+    return rm;
+  }
+
+  private FeatureVector getQfv(RerankerContext context) {
+    return FeatureVector.fromTerms(AnalyzerUtils.tokenize(analyzer, context.getQueryText())).scaleToUnitL1Norm();
+  }
+
+  protected FeatureVector estimateRM3Model(FeatureVector qfv, FeatureVector rm) {
+    rm = FeatureVector.interpolate(qfv, rm, originalQueryWeight);
+    return rm;
+  }
+
+
+  protected FeatureVector estimateRM3Model(String[] contents, float[] scores, RerankerContext context) {
+    FeatureVector qfv = getQfv(context);
+    FeatureVector rm = estimateRelevanceModel(scores,contents, context.getIndexSearcher().getIndexReader(), context.getSearchArgs().searchtweets);
     rm = FeatureVector.interpolate(qfv, rm, originalQueryWeight);
     return rm;
   }
@@ -152,50 +168,28 @@ public class Rm3Reranker implements Reranker {
     return finalQuery;
   }
 
-  private FeatureVector estimateRelevanceModel(ScoredDocuments docs, IndexReader reader, boolean tweetsearch) {
-    FeatureVector f = new FeatureVector();
+  protected FeatureVector estimateRelevanceModel(ScoredDocuments docs, IndexReader reader, boolean tweetsearch) {
+    FeatureVector[] docvectors = buildDocVectors(docs,reader,tweetsearch);
+    return estimateRelevanceModel(docs.scores,docvectors);
+  }
 
-    Set<String> vocab = new HashSet<>();
-    int numdocs = docs.documents.length < fbDocs ? docs.documents.length : fbDocs;
-    FeatureVector[] docvectors = new FeatureVector[numdocs];
 
-    for (int i = 0; i < numdocs; i++) {
-      try {
-        Terms termVector = reader.getTermVector(docs.ids[i], field);
-        FeatureVector docVector = null;
-        if (termVector==null){
-          String text = docs.documents[i].get(field);
-          List<String> filteredWords = filterStopwords(AnalyzerUtils.tokenize(analyzer,text),reader,tweetsearch,numdocs);
-          docVector = FeatureVector.fromTerms(filteredWords);
-
-        }
-
-        docVector = createdFeatureVector(termVector , reader, tweetsearch);
-        docVector.pruneToSize(fbTerms);
-
-        vocab.addAll(docVector.getFeatures());
-        docvectors[i] = docVector;
-      } catch (IOException e) {
-        e.printStackTrace();
-        // Just return empty feature vector.
-        return f;
-      }
-    }
-
+  protected FeatureVector estimateRelevanceModel(float[] scores, FeatureVector[] docvectors) {
+    Set<String> vocab = getVocab(docvectors);
     // Precompute the norms once and cache results.
-    float[] norms = new float[docvectors.length];
-    for (int i = 0; i < docvectors.length; i++) {
-      norms[i] = (float) docvectors[i].computeL1Norm();
-    }
-
+    float[] norms = computeNorms(docvectors);
+     if (norms.length != scores.length){
+       System.out.println("Missing a norm");
+     }
+    FeatureVector f = new FeatureVector();
     for (String term : vocab) {
       float fbWeight = 0.0f;
       for (int i = 0; i < docvectors.length; i++) {
         // Avoids zero-length feedback documents, which causes division by zero when computing term weights.
-        // Zero-length feedback documents occur (e.g., with CAR17) when a document has only terms 
+        // Zero-length feedback documents occur (e.g., with CAR17) when a document has only terms
         // that accents (which are indexed, but not selected for feedback).
         if (norms[i] > 0.001f) {
-          fbWeight += (docvectors[i].getFeatureWeight(term) / norms[i]) * docs.scores[i];
+          fbWeight += (docvectors[i].getFeatureWeight(term) / norms[i]) * scores[i];
         }
       }
       f.addFeatureWeight(term, fbWeight);
@@ -207,7 +201,20 @@ public class Rm3Reranker implements Reranker {
     return f;
   }
 
-  private FeatureVector createdFeatureVector(Terms terms, IndexReader reader, boolean tweetsearch) {
+
+  protected FeatureVector estimateRelevanceModel(float[] scores, String[] contents, IndexReader reader, boolean tweetsearch) {
+     return estimateRelevanceModel(scores,buildDocVectors(contents,reader,tweetsearch));
+  }
+
+  private float[] computeNorms(FeatureVector[] docvectors) {
+    float[] norms = new float[docvectors.length];
+    for (int i = 0; i < docvectors.length; i++) {
+      norms[i] = (float) docvectors[i].computeL1Norm();
+    }
+    return norms;
+  }
+
+  protected FeatureVector createdFeatureVector(Terms terms, IndexReader reader, boolean tweetsearch) {
     FeatureVector f = new FeatureVector();
 
     try {
@@ -233,6 +240,8 @@ public class Rm3Reranker implements Reranker {
 
     return f;
   }
+
+
 
 
   private List<String> filterStopwords(List<String> terms, IndexReader reader, boolean tweetsearch, int numDocs) throws IOException {
@@ -295,8 +304,72 @@ public class Rm3Reranker implements Reranker {
     return false;
   }
 
+
+
   @Override
   public String tag() {
     return "Rm3(fbDocs="+fbDocs+",fbTerms="+fbTerms+",originalQueryWeight:"+originalQueryWeight+")";
+  }
+
+  FeatureVector[] buildDocVectors(ScoredDocuments docs, IndexReader reader, boolean tweetsearch){
+    int numdocs = docs.documents.length < fbDocs ? docs.documents.length : fbDocs;
+    FeatureVector[] docvectors = new FeatureVector[numdocs];
+
+    for (int i = 0; i < numdocs; i++) {
+      try {
+        Terms termVector = reader.getTermVector(docs.ids[i], field);
+        FeatureVector docVector = null;
+        if (termVector==null){
+          String text = docs.documents[i].get(field);
+          List<String> filteredWords = filterStopwords(AnalyzerUtils.tokenize(analyzer,text),reader,tweetsearch,numdocs);
+          docVector = FeatureVector.fromTerms(filteredWords);
+        }else{
+          docVector = createdFeatureVector(termVector , reader, tweetsearch);
+        }
+        docVector.pruneToSize(fbTerms);
+
+        docvectors[i] = docVector;
+      } catch (IOException e) {
+        e.printStackTrace();
+        // Just return empty feature vector.
+        docvectors[i] = null;
+      }
+    }
+
+    return docvectors;
+  }
+
+  public Set<String> getVocab(FeatureVector[] docvectors){
+    Set<String> vocab = new HashSet<>();
+
+    for (FeatureVector docVector: docvectors){
+      vocab.addAll(docVector.getFeatures());
+    }
+    return vocab;
+  }
+
+  FeatureVector[] buildDocVectors(String[] contents, IndexReader reader, boolean tweetsearch){
+    int numdocs = contents.length < fbDocs ? contents.length : fbDocs;
+    FeatureVector[] docvectors = new FeatureVector[numdocs];
+
+    for (int i = 0; i < numdocs; i++) {
+      try {
+        FeatureVector docVector = null;
+
+        List<String> filteredWords = filterStopwords(AnalyzerUtils.tokenize(analyzer,contents[i]),reader,tweetsearch,reader.numDocs());
+//        List<String> filteredWords = AnalyzerUtils.tokenize(analyzer,contents[i]);
+        if (false){
+          throw new IOException();
+        }
+        docVector = FeatureVector.fromTerms(filteredWords);
+        docVector.pruneToSize(fbTerms);
+        docvectors[i] = docVector;
+      } catch (IOException e) {
+        e.printStackTrace();
+        // Just return empty feature vector.
+        docvectors[i] = null;
+      }
+    }
+    return docvectors;
   }
 }
