@@ -21,7 +21,7 @@ python ./src/main/python/msmarco/convert_collection_to_jsonl.py \
  --collection_path=${DATA_DIR}/collection.tsv --output_folder=${DATA_DIR}/collection_jsonl
 ```
 
-The above script should generate 9 jsonl files in ${DATA_DIR}/collection_jsonl, each with 1M lines/docs (except for the last one, which should have 841,823 lines).
+The above script should generate 9 jsonl files in `${DATA_DIR}/collection_jsonl`, each with 1M lines (except for the last one, which should have 841,823 lines).
 
 We can now index these docs as a `JsonCollection` using Anserini:
 
@@ -63,36 +63,55 @@ On a slower machine with mechanical disks, the entire process might take as long
 The option `-hits` specifies the of documents per query to be retrieved.
 Thus, the output file should have approximately 6980 * 1000 = 6.9M lines. 
 
-In case you want to compare your retrieved docs against ours, we made our output
-available [here](https://drive.google.com/open?id=1Z0IEY6Z8jPqQMTLVj-MQdyU4VV-ZuQqJ).
-
 Finally, we can evaluate the retrieved documents using this the official MS MARCO evaluation script: 
 
 ```
-python ./src/main/python/msmarco/msmarco_eval.py ${DATA_DIR}/qrels.dev.small.tsv ${DATA_DIR}/run.dev.small.tsv
+python ./src/main/python/msmarco/msmarco_eval.py \
+ ${DATA_DIR}/qrels.dev.small.tsv ${DATA_DIR}/run.dev.small.tsv
 ```
 
 And the output should be like this:
 
 ```
 #####################
-MRR @10: 0.1906588552326375
+MRR @10: 0.18751751034702308
 QueriesRanked: 6980
 #####################
 ```
 
-Note that this figure differs slightly from the value reported in [Document Expansion by Query Prediction](https://arxiv.org/abs/1904.08375), which uses the Anserini default of `b1=0.9`, `k=0.4`, yielding `MRR@10 = 0.18388092964024202`.
-Subsequent tuning (after publication) on the dev set obtains `b1=0.6`, `k=0.8`, which yields the figure above; this is the default setting in `retrieve.py` above.
-
 We can also use the official TREC evaluation tool, `trec_eval`, to compute other metrics than MRR@10. 
 For that we first need to convert runs and qrels files to the TREC format:
-```
-python ./src/main/python/msmarco/convert_msmarco_to_trec_run.py --input_run=run.dev.small.tsv --output_run=run.dev.small.trec
 
-python ./src/main/python/msmarco/convert_msmarco_to_trec_qrels.py --input_qrels=qrels.dev.small.tsv --output_qrels=qrels.dev.small.trec
+```
+python ./src/main/python/msmarco/convert_msmarco_to_trec_run.py \
+ --input_run ${DATA_DIR}/run.dev.small.tsv --output_run ${DATA_DIR}/run.dev.small.trec
+
+python ./src/main/python/msmarco/convert_msmarco_to_trec_qrels.py \
+ --input_qrels ${DATA_DIR}/qrels.dev.small.tsv --output_qrels ${DATA_DIR}/qrels.dev.small.trec
 ```
 
 And run the `trec_eval` tool:
+
 ```
-./eval/trec_eval.9.0.4/trec_eval -m 'all_trec' qrels.dev.small.trec run.dev.small.trec
+./eval/trec_eval.9.0.4/trec_eval -mrecall.1000 -mmap \
+ ${DATA_DIR}/qrels.dev.small.trec ${DATA_DIR}/run.dev.small.trec
 ```
+
+The output should be:
+
+```
+map                   	all	0.1956
+recall_1000           	all	0.8578
+```
+
+Average precision and recall@1000 are the two metrics we care about the most.
+
+## BM25 Tuning
+
+Note that this figure differs slightly from the value reported in [Document Expansion by Query Prediction](https://arxiv.org/abs/1904.08375) (see section on tuning BM25 parameters below), which uses the Anserini default of `b1=0.9`, `k=0.4`.
+
+Tuning was accomplished with the `tune_bm25.py` script, using the queries found [here](https://github.com/castorini/Anserini-data/tree/master/MSMARCO).
+There are five different sets of 10k samples (from the `shuf` command).
+We tune on each individual set and then average parameter values across all five sets (this has the effect of regularization).
+Note that we are currently optimizing recall@1000 since Anserini output will serve as input to later stage rerankers (e.g., based on BERT), and we want to maximize the number of relevant documents the rerankers have to work with.
+The tuned parameters using this method are `b1=0.82`, `k=0.72`.
