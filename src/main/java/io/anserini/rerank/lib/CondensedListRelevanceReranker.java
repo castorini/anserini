@@ -1,12 +1,12 @@
 /**
  * Anserini: A toolkit for reproducible information retrieval research built on Lucene
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * <p>
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -38,13 +38,13 @@ public class CondensedListRelevanceReranker extends Rm3Reranker {
   private static final Logger LOG = LogManager.getLogger(CondensedListRelevanceReranker.class);
 
   public CondensedListRelevanceReranker(Analyzer analyzer, String field, int fbTerms, int fbDocs, float originalQueryWeight, boolean outputQuery) {
-    super(analyzer,field, fbTerms,fbDocs, originalQueryWeight, outputQuery);
+    super(analyzer, field, fbTerms, fbDocs, originalQueryWeight, outputQuery);
   }
 
   @Override
-  public ScoredDocuments rerank(ScoredDocuments docs, RerankerContext context)  {
+  public ScoredDocuments rerank(ScoredDocuments docs, RerankerContext context) {
 
-    assert(docs.documents.length == docs.scores.length);
+    assert (docs.documents.length == docs.scores.length);
 
     IndexSearcher searcher = context.getIndexSearcher();
     Query finalQuery = reformulateQuery(docs, context);
@@ -59,8 +59,8 @@ public class CondensedListRelevanceReranker extends Rm3Reranker {
 //      return docs;
 //    }
 
-    Query docNumFilter = FilterQueryBuilder.buildSetQuery(LuceneDocumentGenerator.FIELD_ID,getFieldValues(docs,LuceneDocumentGenerator.FIELD_ID,searcher));
-    finalQuery = FilterQueryBuilder.addFilterQuery(finalQuery,docNumFilter);
+    Query docNumFilter = FilterQueryBuilder.buildSetQuery(LuceneDocumentGenerator.FIELD_ID, getFieldValues(docs, LuceneDocumentGenerator.FIELD_ID, searcher));
+    finalQuery = FilterQueryBuilder.addFilterQuery(finalQuery, docNumFilter);
     TopDocs rs;
     try {
       // Figure out how to break the scoring ties.
@@ -81,14 +81,14 @@ public class CondensedListRelevanceReranker extends Rm3Reranker {
   }
 
 
-  private Set<String> getFieldValues(ScoredDocuments docs, String fld, IndexSearcher searcher){
+  private Set<String> getFieldValues(ScoredDocuments docs, String fld, IndexSearcher searcher) {
     Set<String> values = new HashSet<>();
 
-    for (int id : docs.ids){
+    for (int id : docs.ids) {
       try {
         values.add(searcher.doc(id).getField(fld).stringValue());
       } catch (IOException e) {
-        LOG.warn(String.format("Failed to extract %s from document with lucene id %s", fld,id));
+        LOG.warn(String.format("Failed to extract %s from document with lucene id %s", fld, id));
         e.printStackTrace();
       }
     }
@@ -98,20 +98,19 @@ public class CondensedListRelevanceReranker extends Rm3Reranker {
   public Query reformulateQuery(ScoredDocuments docs, RerankerContext context) {
     FeatureVector rm3 = estimateRM3Model(docs, context);
 
-    return buildFeedbackQuery(context,rm3);
+    return buildFeedbackQuery(context, rm3);
   }
 
 
   @Override
   public String tag() {
-    return "CLRm3(fbDocs="+getFbDocs()+",fbTerms="+getFbTerms()+",originalQueryWeight:"+getOriginalQueryWeight()+")";
+    return "CLRm3(fbDocs=" + getFbDocs() + ",fbTerms=" + getFbTerms() + ",originalQueryWeight:" + getOriginalQueryWeight() + ")";
   }
-
 
 
 }
 
-class RM3QueryRescorer extends QueryRescorer{
+class RM3QueryRescorer extends QueryRescorer {
   public RM3QueryRescorer(Query query) {
     super(query);
   }

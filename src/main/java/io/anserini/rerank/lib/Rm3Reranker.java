@@ -33,6 +33,7 @@ import org.apache.lucene.util.BytesRef;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_BODY;
 import static io.anserini.search.SearchCollection.BREAK_SCORE_TIES_BY_DOCID;
@@ -173,14 +174,11 @@ public class Rm3Reranker implements Reranker {
     return estimateRelevanceModel(docs.scores,docvectors);
   }
 
-
   protected FeatureVector estimateRelevanceModel(float[] scores, FeatureVector[] docvectors) {
     Set<String> vocab = getVocab(docvectors);
     // Precompute the norms once and cache results.
     float[] norms = computeNorms(docvectors);
-     if (norms.length != scores.length){
-       System.out.println("Missing a norm");
-     }
+
     FeatureVector f = new FeatureVector();
     for (String term : vocab) {
       float fbWeight = 0.0f;
@@ -200,7 +198,6 @@ public class Rm3Reranker implements Reranker {
 
     return f;
   }
-
 
   protected FeatureVector estimateRelevanceModel(float[] scores, String[] contents, IndexReader reader, boolean tweetsearch) {
      return estimateRelevanceModel(scores,buildDocVectors(contents,reader,tweetsearch));
@@ -241,21 +238,18 @@ public class Rm3Reranker implements Reranker {
     return f;
   }
 
-
-
-
   private List<String> filterStopwords(List<String> terms, IndexReader reader, boolean tweetsearch, int numDocs) throws IOException {
-    List<String> filteredTerms = new LinkedList<>();
-    for (String term: terms){
-      if (isStopword(term,reader,tweetsearch,numDocs)){
-        continue;
-      }else{
-        filteredTerms.add(term);
-      }
-    }
-    return filteredTerms;
+    return terms.stream().filter(term -> {
+          try {
+            return !isStopword(term, reader, tweetsearch, numDocs);
+          } catch (IOException e) {
+            e.printStackTrace();
+            LOG.warn("Fail to test " + term );
+            return false;
+          }
+        }
+        ).collect(Collectors.toList());
   }
-
 
   private boolean isStopword(String term, IndexReader reader, boolean tweetsearch, int numDocs) throws IOException {
     // This seemingly arbitrary logic needs some explanation. See following PR for details:
@@ -304,8 +298,6 @@ public class Rm3Reranker implements Reranker {
     return false;
   }
 
-
-
   @Override
   public String tag() {
     return "Rm3(fbDocs="+fbDocs+",fbTerms="+fbTerms+",originalQueryWeight:"+originalQueryWeight+")";
@@ -327,7 +319,6 @@ public class Rm3Reranker implements Reranker {
           docVector = createdFeatureVector(termVector , reader, tweetsearch);
         }
         docVector.pruneToSize(fbTerms);
-
         docvectors[i] = docVector;
       } catch (IOException e) {
         e.printStackTrace();
