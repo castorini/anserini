@@ -104,7 +104,7 @@ map                   	all	0.1956
 recall_1000           	all	0.8578
 ```
 
-Average precision and recall@1000 are the two metrics we car about the most.
+Average precision and recall@1000 are the two metrics we care about the most.
 
 ## BM25 Tuning
 
@@ -113,4 +113,5 @@ Note that this figure differs slightly from the value reported in [Document Expa
 Tuning was accomplished with the `tune_bm25.py` script, using the queries found [here](https://github.com/castorini/Anserini-data/tree/master/MSMARCO).
 There are five different sets of 10k samples (from the `shuf` command).
 We tune on each individual set and then average parameter values across all five sets (this has the effect of regularization).
+Note that we are currently optimizing recall@1000 since Anserini output will serve as input to later stage rerankers (e.g., based on BERT), and we want to maximize the number of relevant documents the rerankers have to work with.
 The tuned parameters using this method are `b1=0.82`, `k=0.72`.
