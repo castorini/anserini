@@ -1,6 +1,6 @@
 Anserini
 ========
-[![Build Status](https://travis-ci.org/castorini/Anserini.svg?branch=master)](https://travis-ci.org/castorini/Anserini)
+[![Build Status](https://travis-ci.org/castorini/anserini.svg?branch=master)](https://travis-ci.org/castorini/Anserini)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.anserini/anserini/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.anserini/anserini)
 [![LICENSE](https://img.shields.io/badge/license-Apache-blue.svg?style=flat-square)](./LICENSE)
 
@@ -8,7 +8,9 @@ Anserini is an open-source information retrieval toolkit built on Lucene that ai
 
 ## Getting Started
 
-Anserini requires Java 8 (note that there are [known issues with Java 10 and Java 11](https://github.com/castorini/Anserini/issues/445)) and Maven 3.3+. Build using Maven:
+Anserini requires Java 8 (note that there are [known issues with Java 10 and Java 11](https://github.com/castorini/Anserini/issues/445)) and Maven 3.3+.
+Oracle JVM is necessary to replicate our regression results; there are known issues with OpenJDK (see [this](https://github.com/castorini/Anserini/pull/590) and [this](https://github.com/castorini/Anserini/issues/592)).
+Build using Maven:
 
 ```
 mvn clean package appassembler:assemble
@@ -49,6 +51,7 @@ Note that these regressions capture the "out of the box" experience, based on [_
 + [Experiments on Tweets2011 (MB11 &amp; MB12)](docs/experiments-mb11.md)
 + [Experiments on Tweets2013 (MB13 &amp; MB14)](docs/experiments-mb13.md)
 + [Experiments on CAR17](docs/experiments-car17.md)
++ [Experiments on MS MARCO](docs/experiments-msmarco.md)
 
 Additional regressions:
 

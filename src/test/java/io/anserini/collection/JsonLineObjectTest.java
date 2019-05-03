@@ -21,9 +21,17 @@ import org.junit.Test;
 
 import java.io.*;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
-
+// A file in a JsonCollection can either be:
+// (1) A single JSON object (i.e., a single document)
+// (2) An array of JSON objects
+// (3) JSON Lines (i.e., one JSON object per line)
+//
+// This is the test case for (3)
+//
+// Note that we're testing the multifield capability here and only here, since the codepath is shared.
 public class JsonLineObjectTest extends DocumentTest {
 
   @Before
@@ -33,11 +41,15 @@ public class JsonLineObjectTest extends DocumentTest {
     String doc =
       "{" +
       "  \"id\": \"doc1\"," +
-      "  \"contents\": \"this is the contents 1.\"" +
+      "  \"contents\": \"this is the contents 1.\"," +
+      "  \"field1\": \"doc1 field1 content\"," +
+      "  \"field2\": \"doc1 field2 content\"" +
       "}\n" +
       "{ " +
       "  \"id\": \"doc2\"," +
-      "  \"contents\": \"this is the contents 2.\"" +
+      "  \"contents\": \"this is the contents 2.\"," +
+      "  \"field1\": \"doc2 field1 content\"," +
+      "  \"field2\": \"doc2 field2 content\"" +
       "}";
 
     rawFiles.add(createFile(doc));
@@ -45,23 +57,30 @@ public class JsonLineObjectTest extends DocumentTest {
     HashMap<String, String> doc1 = new HashMap<>();
     doc1.put("id", "doc1");
     doc1.put("content", "this is the contents 1.");
+    doc1.put("field1", "doc1 field1 content");
+    doc1.put("field2", "doc1 field2 content");
     expected.add(doc1);
     HashMap<String, String> doc2 = new HashMap<>();
     doc2.put("id", "doc2");
     doc2.put("content", "this is the contents 2.");
+    doc2.put("field1", "doc2 field1 content");
+    doc2.put("field2", "doc2 field2 content");
     expected.add(doc2);
   }
 
   @Test
   public void test() throws IOException {
     JsonCollection collection = new JsonCollection();
-    int j = 0;
     for (int i = 0; i < rawFiles.size(); i++) {
       BaseFileSegment<JsonCollection.Document> iter = collection.createFileSegment(rawFiles.get(i));
+      int j = 0;
       while (iter.hasNext()) {
         JsonCollection.Document parsed = iter.next();
         assertEquals(parsed.id(), expected.get(j).get("id"));
         assertEquals(parsed.content(), expected.get(j).get("content"));
+        for (Map.Entry<String, String> e : parsed.fields().entrySet()) {
+          assertEquals(e.getValue(), expected.get(j).get(e.getKey()));
+        }
         j++;
       }
     }

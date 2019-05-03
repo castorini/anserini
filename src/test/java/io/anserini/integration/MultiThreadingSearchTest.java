@@ -52,8 +52,8 @@ public class MultiThreadingSearchTest extends EndToEndTest {
     try {
       Eval.setAllMetrics(this.evalMetrics);
       for (int i = 0; i < searchArgs.b.length; i++) {
-        System.out.println(evalArgs.runPath+"_k1:"+searchArgs.k1[0]+",b:"+searchArgs.b[i]);
-        Eval.eval(evalArgs.runPath+"_k1:"+searchArgs.k1[0]+",b:"+searchArgs.b[i], evalArgs.qrelPath, evalArgs.longDocids, evalArgs.asc);
+        System.out.println(evalArgs.runPath+"_k1="+searchArgs.k1[0]+",b="+searchArgs.b[i]);
+        Eval.eval(evalArgs.runPath+"_k1="+searchArgs.k1[0]+",b="+searchArgs.b[i], evalArgs.qrelPath, evalArgs.longDocids, evalArgs.asc);
         assertEquals(Eval.getAllEvals().get(this.evalMetrics[0]).aggregated,
             res[i], 0.001);
       }
@@ -68,7 +68,7 @@ public class MultiThreadingSearchTest extends EndToEndTest {
   @Override
   public void tearDown() throws Exception {
     for (String b : searchArgs.b) {
-      new File(evalArgs.runPath+"_k1:"+searchArgs.k1[0]+",b:"+b).delete();
+      new File(evalArgs.runPath+"_k1="+searchArgs.k1[0]+",b="+b).delete();
     }
     super.tearDown();
   }
