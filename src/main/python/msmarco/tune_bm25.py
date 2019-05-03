@@ -40,6 +40,9 @@ index = args.index
 qrels = args.qrels
 queries = args.queries
 
+if not os.path.exists(args.base_directory):
+  os.makedirs(args.base_directory)
+
 print('# Settings')
 print('base directory: {}'.format(base_directory))
 print('index: {}'.format(index))
@@ -47,13 +50,8 @@ print('queries: {}'.format(queries))
 print('qrels: {}'.format(qrels))
 print('\n')
 
-# For an initial parameter search, the following ranges are a good start:
-#   b1 in [0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2]
-#   k  in [0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
-#
-# However, based on results from above, we know the good settings are somewhere here:
-for b1 in [0.50, 0.55, 0.60, 0.65, 0.70]:
-    for k in [0.70, 0.75, 0.80, 0.85, 0.90]:
+for b1 in [0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2]:
+    for k in [0.5, 0.6, 0.7, 0.8, 0.9]:
         print('Trying... b1 = {}, k = {}'.format(b1, k))
         filename = 'run.bm25.b1_{}.k_{}.txt'.format(b1, k)
         if os.path.isfile('{}/{}'.format(base_directory, filename)):
@@ -65,16 +63,30 @@ for b1 in [0.50, 0.55, 0.60, 0.65, 0.70]:
 
 print('\n\nStarting evaluation...')
 
+# We're going to be tuning to maximize recall, although we'll compute MRR and MAP also just for reference.
 max_score = 0
 max_file = ''
 for filename in sorted(os.listdir(base_directory)):
+   # trec file, perhaps left over from a previous tuning run: skip.
+   if filename.endswith('trec'):
+       continue
+   # convert to a trec run and evaluate with trec_eval
+   subprocess.call('python src/main/python/msmarco/convert_msmarco_to_trec_run.py \
+       --input {}/{} --output {}/{}.trec'.format(base_directory, filename, base_directory, filename), shell=True)
+   results = subprocess.check_output(['eval/trec_eval.9.0.4/trec_eval', 'msmarco_data/qrels.train.trec',
+       '{}/{}.trec'.format(base_directory, filename), '-mrecall.1000', '-mmap'])
+   match = re.search('map +\tall\t([0-9.]+)', results.decode('utf-8'))
+   ap = float(match.group(1))
+   match = re.search('recall_1000 +\tall\t([0-9.]+)', results.decode('utf-8'))
+   recall = float(match.group(1))
+   # evaluate with official scoring script
    results = subprocess.check_output(['python', 'src/main/python/msmarco/msmarco_eval.py', \
        '{}'.format(qrels), '{}/{}'.format(base_directory, filename)])
    match = re.search('MRR @10: ([\d.]+)', results.decode('utf-8'))
-   score = float(match.group(1))
-   print('{}: MRR@10 = {}'.format(filename, score))
-   if score > max_score:
-      max_score = score
+   rr = float(match.group(1))
+   print('{}: MRR@10 = {}, MAP = {}, R@1000 = {}'.format(filename, rr, ap, recall))
+   if recall > max_score:
+      max_score = recall
       max_file = filename
 
-print('\n\nBest parameters: {}: MRR@10 = {}'.format(max_file, max_score))
+print('\n\nBest parameters: {}: R@1000 = {}'.format(max_file, max_score))
