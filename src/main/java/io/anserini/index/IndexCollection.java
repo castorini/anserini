@@ -147,7 +147,7 @@ public final class IndexCollection {
     public String zkChroot = "/";
 
     @Option(name = "-solr.poolSize", metaVar = "[NUMBER]", usage = "the number of clients to keep in the pool")
-    public int solrPoolSize = 8;
+    public int solrPoolSize = 16;
 
     @Option(name = "-shard.count", usage = "the number of shards for the index")
     public int shardCount = -1;
@@ -338,6 +338,10 @@ public final class IndexCollection {
 
           // Copy all Lucene Document fields to Solr document
           for (IndexableField field : document.getFields()) {
+            // Skip docValues fields - this is done via Solr config.
+            if (field.fieldType().docValuesType() != DocValuesType.NONE) {
+              continue;
+            }
             if (field.stringValue() != null) { // For some reason, id is multi-valued with null as one of the values
               solrDocument.addField(field.name(), field.stringValue());
             } else if (field.numericValue() != null) {
