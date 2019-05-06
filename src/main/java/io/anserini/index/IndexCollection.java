@@ -58,6 +58,8 @@ import java.util.concurrent.atomic.AtomicLong;
 public final class IndexCollection {
   private static final Logger LOG = LogManager.getLogger(IndexCollection.class);
 
+  private static final int TIMEOUT = 600 * 1000;
+
   public static final class Args {
 
     // required arguments
@@ -479,7 +481,10 @@ public final class IndexCollection {
 
     @Override
     public SolrClient create() {
-      return new CloudSolrClient.Builder(Splitter.on(',').splitToList(args.zkUrl), Optional.of(args.zkChroot)).build();
+      return new CloudSolrClient.Builder(Splitter.on(',').splitToList(args.zkUrl), Optional.of(args.zkChroot))
+          .withConnectionTimeout(TIMEOUT)
+          .withSocketTimeout(TIMEOUT)
+          .build();
     }
 
     @Override
