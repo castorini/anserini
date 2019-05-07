@@ -9,7 +9,6 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-
 class JCollection:
     
     def __init__(self, collection_class, collection_path):
@@ -108,9 +107,9 @@ class IterSegment:
                 array = tokenizer(id, contents)
                 self.results += array # merge two lists
         
-        if (self.iter.getNextRecordStatus() == JBaseFileSegmentStatus.ERROR) {
-          self.generator.counters.errors.incrementAndGet()
-        }
+        if (self.iter.getNextRecordStatus() == JBaseFileSegmentStatus.ERROR):
+            self.generator.counters.errors.incrementAndGet()
+        
         self.iter.close()
         
         # write json array to outputdir (either as array of docs, or many arrays of doc tokens)
