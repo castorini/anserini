@@ -22,10 +22,11 @@ JArgs = autoclass('io.anserini.index.IndexCollection$Args')
 JCounters = autoclass('io.anserini.index.IndexCollection$Counters')
 JIndexCollection = autoclass('io.anserini.index.IndexCollection')
 
-
 #######################
 # Anserini collections
 #######################
+
+JBaseFileSegmentStatus = autoclass('io.anserini.collection.BaseFileSegment$Status')
 
 JTrecCollection = autoclass('io.anserini.collection.TrecCollection')
 JTrecwebCollection = autoclass('io.anserini.collection.TrecwebCollection')
