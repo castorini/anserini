@@ -1,8 +1,14 @@
 import os
 import json
 
+from concurrent.futures import ThreadPoolExecutor
 from utils import *
 from document_tokenizer import *
+
+import logging
+logger = logging.getLogger(__name__)
+
+
 
 class JCollection:
     
@@ -66,6 +72,7 @@ class IterSegment:
         self.results = [] #list as json array for now
         
     def run(self, tokenize=None, raw=False):
+        print("starting thread: " + self.segment_name)
         # get iterator, append json object to docs
         if tokenize:
             tokenizer = DocumentTokenizer(tokenize).tokenizer
@@ -101,20 +108,27 @@ class IterSegment:
                 array = tokenizer(id, contents)
                 self.results += array # merge two lists
         
+        if (self.iter.getNextRecordStatus() == JBaseFileSegmentStatus.ERROR) {
+          self.generator.counters.errors.incrementAndGet()
+        }
+        self.iter.close()
+        
         # write json array to outputdir (either as array of docs, or many arrays of doc tokens)
         with open(os.path.join(self.output_path, '{}.json'.format(self.segment_name)), 'w') as f:
             jsonstr = json.dumps(self.results, separators=(',', ':'), indent=2)
             f.write(jsonstr)
-            
-        print("Finished iterating over segment: " + 
+        
+        count = len(self.results)
+        logger.info("Finished iterating over segment: " + 
                      self.segment_name + " with " + 
-                     str(len(self.results)) + " results.")
+                     str(count) + " results.")
+        self.generator.counters.indexed.addAndGet(count)
         
 
 
 def IterCollection(input_path, collection_class, 
                    generator_class, output_path, 
-                   tokenize=None, raw=False):
+                   threads=1, tokenize=None, raw=False):
     """
     Parameters
     -----------
@@ -130,6 +144,9 @@ def IterCollection(input_path, collection_class,
         
     output_path: str
         path to create directory and write output json collection
+        
+    threads: int
+        maximum number of threads for concurrent processing 
     
     tokenize: str
         specify option for tokenizing/segmenting each document
@@ -144,11 +161,11 @@ def IterCollection(input_path, collection_class,
     args = JArgs()
     args.input = input_path
     args.index = output_path
-    args.threads = 1 # for now
+    args.threads = threads
     args.collectionClass = collection_class
     args.generatorClass = generator_class
     args.storeRawDocs = True
-    args.dryRun = True
+    args.dryRun = True ## So that indexing will be skipped
     
     ## Instantiates IndexCollection Class - creates output dir
     ## This is so we can use existing generator logic to create documents
@@ -161,70 +178,21 @@ def IterCollection(input_path, collection_class,
     generator = JGenerator(generator_class, args, counters)
     
     print(len(segment_paths))
-    for (i, path) in enumerate(segment_paths):
-        # single threaded for now
-        print(tokenize)
-        print(raw)
-        IterSegment(collection, generator, path, output_path).run(tokenize, raw)
+    
+    with ThreadPoolExecutor(max_workers=3) as executor:
+        for (i, path) in enumerate(segment_paths):
+#            if i > 10: break # for debugging
+            # single threaded for now
+            # IterSegment(collection, generator, path, output_path).run(tokenize, raw)
+            executor.submit(IterSegment(collection, generator, path, output_path).run, tokenize, raw)
     # END    
     # log counters stored in collection
-    
-############
-# Testing
-############
-    
-IterCollection('../../../../../collection/disk45',
-               'TrecCollection',
-               'JsoupGenerator',
-               'json_test/',
-               'trec_tiling',
-               True)
-    
-#collection = JCollection('TrecCollection', 
-#                         JPaths.get('../../../../../collection/disk45'),
-#                         'JsoupStringTransform')
-#
-#segment_paths = collection.get_segment_paths().toArray()
-#safe_mkdir('json_test/')
-#IterSegment(collection, segment_paths[0], 'json_test/').run()
+    print("all threads complete")
+    logger.info("# Final Counter Values");
+    logger.info("indexed:     {:12d}".format(counters.indexed.get()))
+    logger.info("empty:       {:12d}".format(counters.empty.get()))
+    logger.info("unindexed:   {:12d}".format(counters.unindexed.get()))
+    logger.info("unindexable: {:12d}".format(counters.unindexable.get()))
+    logger.info("skipped:     {:12d}".format(counters.skipped.get()))
+    logger.info("errors:      {:12d}".format(counters.errors.get()))
 
-
-
-
-#### Debug
-
-#args = JArgs()
-#args.input = '../../../../../collection/disk45'
-#args.index = 'json_test/'
-#args.threads = 1
-#args.collectionClass = 'TrecCollection'
-#args.generatorClass = 'JsoupGenerator'
-#args.storeRawDocs = True
-#args.dryRun = True
-
-## Instantiates IndexCollection Class - creates output dir
-## This is so we can use existing generator logic to create documents
-## The idea is to skip the indexing steps of Anserini
-#ic = JIndexCollection(args)
-#counters = JCounters(ic)
-#
-#collection = JCollection('TrecCollection', 
-#                         JPaths.get('../../../../../collection/disk45'))
-#generator = JGenerator('JsoupGenerator', args, counters)
-#
-#seg = IterSegment(collection, 
-#                  generator,
-#                  JPaths.get('../../../../../collection/disk45/disk4/fr94/01/fr940104.0z'),
-#                  'json_test/', 
-#                  tokenize_option)
-
-
-
-
-#iter = collection.get_iterator(JPaths.get('../../../../../collection/disk45/disk4/fr94/01/fr940104.0z'))
-
-
-
-
-# collection_path = JPaths.get(input)
-# check if exists, is directory, and readable

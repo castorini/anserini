@@ -1,5 +1,6 @@
 from nltk.tokenize import TextTilingTokenizer
 from bs4 import BeautifulSoup
+import re
 
 class DocumentTokenizer:
     """
@@ -25,13 +26,15 @@ class DocumentTokenizer:
             tokens = ttt.tokenize(parsed)
             print(str(len(tokens)) + " tiles from document " + str(id))
             for (i, tile) in enumerate(tokens):
-                tile_id = '{}.{:05d}'.format(id, i),
-                results.append({'id': tile_id, 'contents': tile})
+                tile_id = '{}.{:05d}'.format(id, i)
+                contents = re.sub('[\n]+', ' ', tile)
+                results.append({'id': tile_id, 'contents': contents})
         except:
             # error tokenizing, write as one tile
             print("error tokenizing, write as one tile")
+            contents = re.sub('[\n]+', ' ', parsed)
             results.append({'id':'{}.{:05d}'.format(id, 0), 
-                            'contents': parsed})
+                            'contents': contents})
             
         return results
     
