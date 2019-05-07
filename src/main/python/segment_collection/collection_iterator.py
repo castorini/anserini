@@ -10,6 +10,10 @@ logger = logging.getLogger(__name__)
 
 
 class JCollection:
+    """
+    Wrapper for Anserini collection classes, 
+    which contain logic for iterating over different collections for documents
+    """
     
     def __init__(self, collection_class, collection_path):
         self.collection_class = collection_class
@@ -37,6 +41,11 @@ class JCollection:
             raise ValueError(collection_class)
             
 class JGenerator:
+    """
+    Wrapper for Anserini generator classes, 
+    which contain logic for tranforming / parsing different document types 
+    for body contents, and generating Lucene documents (ready for indexing)
+    """
     
     def __init__(self, generator_class, args, counters):
         self.generator_class = generator_class
@@ -60,7 +69,12 @@ class JGenerator:
             raise ValueError(generator_class)
                
 class IterSegment:
-    # can make this into a thread later for parallel processing?
+    """
+    Similar to IndexCollection.LocalIndexerThread
+    But does not perform indexing steps
+    And instead calls tokenizer on document contents during iteration
+    Then writes segmented results to a JSONCollection
+    """
     
     def __init__(self, collection, generator, segment_path, output_path):
         self.output_path = output_path
@@ -71,7 +85,7 @@ class IterSegment:
         self.results = [] #list as json array for now
         
     def run(self, tokenize=None, raw=False):
-        print("starting thread: " + self.segment_name)
+#        print("starting thread: " + self.segment_name)
         # get iterator, append json object to docs
         if tokenize:
             tokenizer = DocumentTokenizer(tokenize).tokenizer
@@ -88,7 +102,7 @@ class IterSegment:
                 self.generator.counters.unindexable.incrementAndGet()
                 continue
 
-            # generate Lucene document, then get fields
+            # Generate Lucene document, then fetch fields
             doc = self.generator.generator_instance.createDocument(d)
             if doc is None:
                 self.generator.counters.unindexed.incrementAndGet()
@@ -102,26 +116,30 @@ class IterSegment:
             if tokenize is None:
                 self.results.append(doc)            
             else:
-                # call tokenize on document (TODO)
-                # raise NotImplementedError
+                # split document into segments
                 array = tokenizer(id, contents)
-                self.results += array # merge two lists
+                self.results += array # merge lists
         
         if (self.iter.getNextRecordStatus() == JBaseFileSegmentStatus.ERROR):
             self.generator.counters.errors.incrementAndGet()
         
         self.iter.close()
         
-        # write json array to outputdir (either as array of docs, or many arrays of doc tokens)
-        with open(os.path.join(self.output_path, '{}.json'.format(self.segment_name)), 'w') as f:
-            jsonstr = json.dumps(self.results, separators=(',', ':'), indent=2)
-            f.write(jsonstr)
-        
         count = len(self.results)
-        logger.info("Finished iterating over segment: " + 
-                     self.segment_name + " with " + 
-                     str(count) + " results.")
         self.generator.counters.indexed.addAndGet(count)
+        if (count > 0):
+            # write json array to outputdir (either as array of docs, or many arrays of doc tokens)
+            with open(os.path.join(self.output_path, '{}.json'.format(self.segment_name)), 'w') as f:
+                jsonstr = json.dumps(self.results, separators=(',', ':'), indent=2)
+                f.write(jsonstr)
+                
+            logger.info("Finished iterating over segment: " + 
+                        self.segment_name + " with " + 
+                        str(count) + " results.")
+        else:
+            logger.info("No documents parsed from segment: " + self.segment_name)
+        
+
         
 
 
@@ -180,11 +198,8 @@ def IterCollection(input_path, collection_class,
     
     with ThreadPoolExecutor(max_workers=3) as executor:
         for (i, path) in enumerate(segment_paths):
-#            if i > 10: break # for debugging
-            # single threaded for now
-            # IterSegment(collection, generator, path, output_path).run(tokenize, raw)
             executor.submit(IterSegment(collection, generator, path, output_path).run, tokenize, raw)
-    # END    
+            
     # log counters stored in collection
     print("all threads complete")
     logger.info("# Final Counter Values");

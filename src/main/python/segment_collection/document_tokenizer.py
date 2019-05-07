@@ -8,23 +8,23 @@ logger = logging.getLogger(__name__)
 
 class DocumentTokenizer:
     """
-    Tokenize: 
-        input: document as json object
-        return segmented document as json array
+    Tokenize:
+        initialize with option (str) specifying what tokenizer to use
+        self.tokenizer(id, contents) returns JSON array of tokenized contents
     """
     def __init__(self, option):
-        self.option = option
-        self.tokenizer = self._get_tokenizer(option)
+#        self.option = option
+        self.tokenizer = getattr(self, option)
 
-    def _get_tokenizer(self, option):
-        if option == 'trec_tiler':
-            return self._trec_tiler
-        elif option == 'trec_sentencer':
-            return self._trec_sentencer
-        else:
-            raise ValueError(option)
+#    def _get_tokenizer(self, option):
+#        if option == 'trec_tiler':
+#            return self._trec_tiler
+#        elif option == 'trec_sentencer':
+#            return self._trec_sentencer
+#        else:
+#            raise ValueError(option)
 
-    def _trec_tiler(self, id, contents):
+    def trec_tiler(self, id, contents):
         results = []
         parsed = BeautifulSoup(contents, features="xml").text
         try:
@@ -44,7 +44,7 @@ class DocumentTokenizer:
             
         return results
     
-    def _trec_sentencer(self, id, contents):
+    def trec_sentencer(self, id, contents):
         results = []
         parsed = re.sub('[\n]+', ' ', BeautifulSoup(contents, features="xml").text)
         try:
