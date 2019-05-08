@@ -187,16 +187,17 @@ def IterCollection(input_path, collection_class,
     ## Instantiates IndexCollection Class - creates output dir
     ## This is so we can use existing generator logic to create documents
     ## The idea is to skip the indexing steps of Anserini
-    indexer = JIndexCollection(args)
+    ## Do not call run() on this
+    indexer = JIndexCollection(args) 
     counters = JCounters(indexer)
     
     collection = JCollection(collection_class, JPaths.get(input_path))
     segment_paths = collection.get_segment_paths().toArray()
     generator = JGenerator(generator_class, args, counters)
     
-    print(len(segment_paths))
+#    print(len(segment_paths))
     
-    with ThreadPoolExecutor(max_workers=3) as executor:
+    with ThreadPoolExecutor(max_workers=threads) as executor:
         for (i, path) in enumerate(segment_paths):
             executor.submit(IterSegment(collection, generator, path, output_path).run, tokenize, raw)
             
