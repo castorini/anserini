@@ -12,7 +12,7 @@ wget https://msmarco.blob.core.windows.net/msmarcoranking/collectionandqueries.t
 tar -xvf ${DATA_DIR}/collectionandqueries.tar.gz -C ${DATA_DIR}
 ```
 
-To confirm, `collectionandqueries.tar.gz` should have MD5 checksum of `fed5aa512935c7b62787cb68ac9597d6`.
+To confirm, `collectionandqueries.tar.gz` should have MD5 checksum of `31644046b18952c1386cd4564ba2ae69`.
 
 Next, we need to convert the MS MARCO tsv collection into Anserini's jsonl files (which have one json object per line):
 
