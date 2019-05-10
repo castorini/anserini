@@ -1,5 +1,5 @@
 ---
-name: car17
+name: car17v1.5
 index_command: target/appassembler/bin/IndexCollection
 index_utils_command: target/appassembler/bin/IndexUtils
 search_command: target/appassembler/bin/SearchCollection
@@ -16,8 +16,8 @@ topic_reader: Car
 input_roots:
   - /tuna1/
   - /scratch2/
-input: collections/car17/paragraphcorpus/
-index_path: indexes/lucene-index.car17.pos+docvectors+rawdocs # path to the existing index, used in regression test if `--index` option is absent
+input: collections/car/paragraphCorpus.v1.5/
+index_path: indexes/lucene-index.car17v1.5.pos+docvectors+rawdocs # path to the existing index, used in regression test if `--index` option is absent
 collection: CarCollection
 index_stats:
   documents: 29678360
@@ -25,8 +25,8 @@ index_stats:
   total terms: 1257896158
 topics:
   - name: "All Topics"
-    path: topics.car17.test200.txt
-    qrel: qrels.car17.test200.hierarchical.txt
+    path: topics.car17v1.5.test200.txt
+    qrel: qrels.car17v1.5.test200.txt
 evals:
   - command: eval/trec_eval.9.0.4/trec_eval
     params:
