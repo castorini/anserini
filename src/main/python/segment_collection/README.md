@@ -9,6 +9,8 @@
 - `--tokenize {tokenizing function to call}`
 - `--raw` if raw text to be used instead of transformed body contents  
 
+An example run with Robust04 sentencing can be found [here](example/example.md).
+
 ### Python-Java Bridging
 
 `collection_iterator.py` replicates `IndexCollection` logic for iterating over collections and generating Lucene documents with:
@@ -35,3 +37,4 @@ can be called on either the parsed or raw document content to split into segment
     }
 ]
 ```
+
