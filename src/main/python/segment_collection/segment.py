@@ -5,7 +5,7 @@ import logging
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG,
                         filename='json_segment.log',
-                        format='%(asctime)s %(message)s', 
+                        format='%(asctime)s %(name)s %(threadName)s %(levelname)s - %(message)s', 
                         datefmt='%m/%d/%Y %I:%M:%S ')
 
     parser = argparse.ArgumentParser()
@@ -21,9 +21,8 @@ if __name__ == '__main__':
                     help='number of threads', required=False)
     parser.add_argument("--tokenize", '-t', type=str, default=None,
                     help='defaults to full documents if tokenizer not provided.', required=False)
-    parser.add_argument("--raw", '-r', type=bool, default=False,
+    parser.add_argument("--raw", '-r', action='store_true',
                     help='defaults to false for transformed text', required=False)
-
 
     args = parser.parse_args()
     

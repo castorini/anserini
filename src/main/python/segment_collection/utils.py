@@ -1,5 +1,5 @@
 import jnius_config
-jnius_config.set_classpath("../../../../target/anserini-0.4.1-SNAPSHOT-fatjar.jar")
+jnius_config.set_classpath("target/anserini-0.4.1-SNAPSHOT-fatjar.jar")
 
 from jnius import autoclass
 from jnius import cast
@@ -22,16 +22,24 @@ JArgs = autoclass('io.anserini.index.IndexCollection$Args')
 JCounters = autoclass('io.anserini.index.IndexCollection$Counters')
 JIndexCollection = autoclass('io.anserini.index.IndexCollection')
 
+
 #######################
 # Anserini collections
 #######################
 
 JBaseFileSegmentStatus = autoclass('io.anserini.collection.BaseFileSegment$Status')
 
+JCarCollection = autoclass('io.anserini.collection.CarCollection')
+JClueWeb09Collection = autoclass('io.anserini.collection.ClueWeb09Collection')
+JClueWeb12Collection = autoclass('io.anserini.collection.ClueWeb12Collection')
+JHtmlCollection = autoclass('io.anserini.collection.HtmlCollection')
+JJsonCollection = autoclass('io.anserini.collection.JsonCollection')
+JNewYorkTimesCollection = autoclass('io.anserini.collection.NewYorkTimesCollection')
 JTrecCollection = autoclass('io.anserini.collection.TrecCollection')
 JTrecwebCollection = autoclass('io.anserini.collection.TrecwebCollection')
-JJsonCollection = autoclass('io.anserini.collection.JsonCollection')
-# add more ...
+JTweetCollection = autoclass('io.anserini.collection.TweetCollection')
+JWashingtonPostCollection = autoclass('io.anserini.collection.WashingtonPostCollection')
+JWikipediaCollection = autoclass('io.anserini.collection.WikipediaCollection')
 
 
 ###############################
