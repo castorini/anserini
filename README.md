@@ -50,7 +50,8 @@ Note that these regressions capture the "out of the box" experience, based on [_
 + [Experiments on ClueWeb12](docs/experiments-cw12.md)
 + [Experiments on Tweets2011 (MB11 &amp; MB12)](docs/experiments-mb11.md)
 + [Experiments on Tweets2013 (MB13 &amp; MB14)](docs/experiments-mb13.md)
-+ [Experiments on Complex Answer Retrieval (CAR) from TREC 2017 (v1.5)](docs/experiments-car17v1.5.md)
++ [Experiments on Complex Answer Retrieval v1.5 (CAR17)](docs/experiments-car17v1.5.md)
++ [Experiments on Complex Answer Retrieval v2.0 (CAR17)](docs/experiments-car17v2.0.md)
 + [Experiments on MS MARCO](docs/experiments-msmarco.md)
 
 Additional regressions:
