@@ -1,4 +1,4 @@
-# Anserini: Experiments on [Car17](http://trec-car.cs.unh.edu/) (v1.5)
+# Anserini: Experiments on [TREC 2017 CAR](http://trec-car.cs.unh.edu/) (v1.5)
 
 ## Indexing
 
@@ -8,7 +8,7 @@ Typical indexing command:
 ${index_cmds}
 ```
 
-The directory `/path/to/Car17` should be the root directory of Car17 collection, i.e., `ls /path/to/Car17` should bring up a list of `.cbor` files.
+The directory `/path/to/Car17v1.5` should be the root directory of Complex Answer Retrieval (CAR) paragraph corpus (v1.5), which can be downloaded [here](http://trec-car.cs.unh.edu/datareleases/).
 
 For additional details, see explanation of [common indexing options](common-indexing-options.md).
 
@@ -17,7 +17,7 @@ For additional details, see explanation of [common indexing options](common-inde
 Topics and qrels are stored in `src/main/resources/topics-and-qrels/`, downloaded from NIST:
 
 + `topics.car17v1.5.test200.txt`: [Topics for the test200 subset (TREC 2017 Complex Answer Retrieval Track)](http://trec-car.cs.unh.edu/datareleases/v1.5/test200-v1.5.tar.xz)
-+ `qrel: qrels.car17v1.5.test200.txt`: [adhoc qrels (TREC 2017 Complex Answer Retrieval Track)](http://trec-car.cs.unh.edu/datareleases/v1.5/test200-v1.5.tar.xz)
++ `qrels.car17v1.5.test200.txt`: [adhoc qrels (TREC 2017 Complex Answer Retrieval Track)](http://trec-car.cs.unh.edu/datareleases/v1.5/test200-v1.5.tar.xz)
 
 
 After indexing has completed, you should be able to perform retrieval as follows:
