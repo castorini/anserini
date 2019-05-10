@@ -18,29 +18,6 @@ class DocumentTokenizer:
     ## Try different tokenizing logic here
     
     ## 1) Use with raw=False, i.e. the parsed FIELD_BODY from lucene Documents
-
-    def text_tiler(self, id, contents):
-        # pass in transformed content from document for now
-        # using raw content will require different parsing for
-        # different document types, e.g. html vs. xml
-        results = []
-        try:
-            ttt = TextTilingTokenizer()
-            tokens = ttt.tokenize(contents)
-#            print(str(len(tokens)) + " tiles from document " + str(id))
-            if (len(tokens) > 100000):
-                logger.error(str(len(tokens)) + " tiles from document " + str(id))
-                
-            for (i, tile) in enumerate(tokens):
-                tile_id = '{}.{:06d}'.format(id, i)
-                results.append({'id': tile_id, 'contents': contents})
-        except:
-            # error tokenizing, write as one tile
-            logger.error("error tokenizing, write as one tile")
-            results.append({'id':'{}.{:06d}'.format(id, 0), 
-                            'contents': contents})
-            
-        return results
     
     def text_sentencer(self, id, contents):
         # pass in transformed content from document for now
@@ -68,6 +45,28 @@ class DocumentTokenizer:
     ##      using raw content will require different parsing for
     ##      different document types, e.g. html vs. xml
 
+#    def text_tiler(self, id, contents):
+#        # pass in transformed content from document for now
+#        # using raw content will require different parsing for
+#        # different document types, e.g. html vs. xml
+#        results = []
+#        try:
+#            ttt = TextTilingTokenizer()
+#            tokens = [re.sub('[\n]+', ' ', BeautifulSoup(t).text) for t in ttt.tokenize(contents)]
+##            print(str(len(tokens)) + " tiles from document " + str(id))
+#            if (len(tokens) > 100000):
+#                logger.error(str(len(tokens)) + " tiles from document " + str(id))
+#                
+#            for (i, tile) in enumerate(tokens):
+#                tile_id = '{}.{:06d}'.format(id, i)
+#                results.append({'id': tile_id, 'contents': contents})
+#        except:
+#            # error tokenizing, write as one tile
+#            logger.error("error tokenizing, write as one tile")
+#            results.append({'id':'{}.{:06d}'.format(id, 0), 
+#                            'contents': contents})
+#            
+#        return results
     
 #    def trec_sentencer(self, id, contents):
 #        # pass in raw content from document and parse as html for now
