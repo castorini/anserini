@@ -1,4 +1,4 @@
-# Anserini: Experiments on [Car17](http://trec-car.cs.unh.edu/)
+# Anserini: Experiments on [Car17](http://trec-car.cs.unh.edu/) (v1.5)
 
 ## Indexing
 
@@ -16,8 +16,8 @@ For additional details, see explanation of [common indexing options](common-inde
 
 Topics and qrels are stored in `src/main/resources/topics-and-qrels/`, downloaded from NIST:
 
-+ `topics.car17.test200.txt`: [Topics for the test200 subset (TREC 2017 Complex Answer Retrieval Track)](http://trec-car.cs.unh.edu/datareleases/v1.5/test200-v1.5.tar.xz)
-+ `qrel: qrels.car17.test200.hierarchical.txt`: [adhoc qrels (TREC 2017 Complex Answer Retrieval Track)](http://trec-car.cs.unh.edu/datareleases/v1.5/test200-v1.5.tar.xz)
++ `topics.car17v1.5.test200.txt`: [Topics for the test200 subset (TREC 2017 Complex Answer Retrieval Track)](http://trec-car.cs.unh.edu/datareleases/v1.5/test200-v1.5.tar.xz)
++ `qrel: qrels.car17v1.5.test200.txt`: [adhoc qrels (TREC 2017 Complex Answer Retrieval Track)](http://trec-car.cs.unh.edu/datareleases/v1.5/test200-v1.5.tar.xz)
 
 
 After indexing has completed, you should be able to perform retrieval as follows:
