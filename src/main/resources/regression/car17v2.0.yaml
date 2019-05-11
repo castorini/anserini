@@ -25,8 +25,8 @@ index_stats:
   total terms: 1249740109
 topics:
   - name: "benchmarkY1test"
-    path: topics.car17v2.0.test.pages.cbor-hierarchical.txt
-    qrel: qrels.car17v2.0.test.pages.cbor-hierarchical.txt
+    path: topics.car17v2.0.benchmarkY1test.txt
+    qrel: qrels.car17v2.0.benchmarkY1test.txt
 evals:
   - command: eval/trec_eval.9.0.4/trec_eval
     params:
