@@ -14,11 +14,10 @@ For additional details, see explanation of [common indexing options](common-inde
 
 ## Retrieval
 
-The "benchmarkY1-test" topics and qrels are stored in `src/main/resources/topics-and-qrels/`, downloaded from [the CAR website](http://trec-car.cs.unh.edu/datareleases/):
+The "benchmarkY1-test" topics and qrels (v2.0) are stored in `src/main/resources/topics-and-qrels/`, downloaded from [the CAR website](http://trec-car.cs.unh.edu/datareleases/):
 
-+ `topics.car17v2.0.test.pages.cbor-hierarchical.txt`
-+ `qrels.car17v2.0.test.pages.cbor-hierarchical.txt`
-
++ `topics.car17v2.0.benchmarkY1test.txt`
++ `qrels.car17v2.0.benchmarkY1test.txt`
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
