@@ -17,43 +17,42 @@ For additional details, see explanation of [common indexing options](common-inde
 
 ## Retrieval
 
-The "benchmarkY1-test" topics and qrels are stored in `src/main/resources/topics-and-qrels/`, downloaded from [the CAR website](http://trec-car.cs.unh.edu/datareleases/):
+The "benchmarkY1-test" topics and qrels (v2.0) are stored in `src/main/resources/topics-and-qrels/`, downloaded from [the CAR website](http://trec-car.cs.unh.edu/datareleases/):
 
-+ `topics.car17v2.0.test.pages.cbor-hierarchical.txt`
-+ `qrels.car17v2.0.test.pages.cbor-hierarchical.txt`
-
++ `topics.car17v2.0.benchmarkY1test.txt`
++ `qrels.car17v2.0.benchmarkY1test.txt`
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-nohup target/appassembler/bin/SearchCollection -topicreader Car -index lucene-index.car17v2.0.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.car17v2.0.test.pages.cbor-hierarchical.txt -output run.car17v2.0.bm25.topics.car17v2.0.test.pages.cbor-hierarchical.txt -bm25 &
+nohup target/appassembler/bin/SearchCollection -topicreader Car -index lucene-index.car17v2.0.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.car17v2.0.benchmarkY1test.txt -output run.car17v2.0.bm25.topics.car17v2.0.benchmarkY1test.txt -bm25 &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Car -index lucene-index.car17v2.0.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.car17v2.0.test.pages.cbor-hierarchical.txt -output run.car17v2.0.bm25+rm3.topics.car17v2.0.test.pages.cbor-hierarchical.txt -bm25 -rm3 &
+nohup target/appassembler/bin/SearchCollection -topicreader Car -index lucene-index.car17v2.0.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.car17v2.0.benchmarkY1test.txt -output run.car17v2.0.bm25+rm3.topics.car17v2.0.benchmarkY1test.txt -bm25 -rm3 &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Car -index lucene-index.car17v2.0.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.car17v2.0.test.pages.cbor-hierarchical.txt -output run.car17v2.0.bm25+ax.topics.car17v2.0.test.pages.cbor-hierarchical.txt -bm25 -axiom -rerankCutoff 20 -axiom.deterministic &
+nohup target/appassembler/bin/SearchCollection -topicreader Car -index lucene-index.car17v2.0.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.car17v2.0.benchmarkY1test.txt -output run.car17v2.0.bm25+ax.topics.car17v2.0.benchmarkY1test.txt -bm25 -axiom -rerankCutoff 20 -axiom.deterministic &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Car -index lucene-index.car17v2.0.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.car17v2.0.test.pages.cbor-hierarchical.txt -output run.car17v2.0.ql.topics.car17v2.0.test.pages.cbor-hierarchical.txt -ql &
+nohup target/appassembler/bin/SearchCollection -topicreader Car -index lucene-index.car17v2.0.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.car17v2.0.benchmarkY1test.txt -output run.car17v2.0.ql.topics.car17v2.0.benchmarkY1test.txt -ql &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Car -index lucene-index.car17v2.0.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.car17v2.0.test.pages.cbor-hierarchical.txt -output run.car17v2.0.ql+rm3.topics.car17v2.0.test.pages.cbor-hierarchical.txt -ql -rm3 &
+nohup target/appassembler/bin/SearchCollection -topicreader Car -index lucene-index.car17v2.0.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.car17v2.0.benchmarkY1test.txt -output run.car17v2.0.ql+rm3.topics.car17v2.0.benchmarkY1test.txt -ql -rm3 &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Car -index lucene-index.car17v2.0.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.car17v2.0.test.pages.cbor-hierarchical.txt -output run.car17v2.0.ql+ax.topics.car17v2.0.test.pages.cbor-hierarchical.txt -ql -axiom -rerankCutoff 20 -axiom.deterministic &
+nohup target/appassembler/bin/SearchCollection -topicreader Car -index lucene-index.car17v2.0.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.car17v2.0.benchmarkY1test.txt -output run.car17v2.0.ql+ax.topics.car17v2.0.benchmarkY1test.txt -ql -axiom -rerankCutoff 20 -axiom.deterministic &
 
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```
-eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recip_rank src/main/resources/topics-and-qrels/qrels.car17v2.0.test.pages.cbor-hierarchical.txt run.car17v2.0.bm25.topics.car17v2.0.test.pages.cbor-hierarchical.txt
+eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recip_rank src/main/resources/topics-and-qrels/qrels.car17v2.0.benchmarkY1test.txt run.car17v2.0.bm25.topics.car17v2.0.benchmarkY1test.txt
 
-eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recip_rank src/main/resources/topics-and-qrels/qrels.car17v2.0.test.pages.cbor-hierarchical.txt run.car17v2.0.bm25+rm3.topics.car17v2.0.test.pages.cbor-hierarchical.txt
+eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recip_rank src/main/resources/topics-and-qrels/qrels.car17v2.0.benchmarkY1test.txt run.car17v2.0.bm25+rm3.topics.car17v2.0.benchmarkY1test.txt
 
-eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recip_rank src/main/resources/topics-and-qrels/qrels.car17v2.0.test.pages.cbor-hierarchical.txt run.car17v2.0.bm25+ax.topics.car17v2.0.test.pages.cbor-hierarchical.txt
+eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recip_rank src/main/resources/topics-and-qrels/qrels.car17v2.0.benchmarkY1test.txt run.car17v2.0.bm25+ax.topics.car17v2.0.benchmarkY1test.txt
 
-eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recip_rank src/main/resources/topics-and-qrels/qrels.car17v2.0.test.pages.cbor-hierarchical.txt run.car17v2.0.ql.topics.car17v2.0.test.pages.cbor-hierarchical.txt
+eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recip_rank src/main/resources/topics-and-qrels/qrels.car17v2.0.benchmarkY1test.txt run.car17v2.0.ql.topics.car17v2.0.benchmarkY1test.txt
 
-eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recip_rank src/main/resources/topics-and-qrels/qrels.car17v2.0.test.pages.cbor-hierarchical.txt run.car17v2.0.ql+rm3.topics.car17v2.0.test.pages.cbor-hierarchical.txt
+eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recip_rank src/main/resources/topics-and-qrels/qrels.car17v2.0.benchmarkY1test.txt run.car17v2.0.ql+rm3.topics.car17v2.0.benchmarkY1test.txt
 
-eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recip_rank src/main/resources/topics-and-qrels/qrels.car17v2.0.test.pages.cbor-hierarchical.txt run.car17v2.0.ql+ax.topics.car17v2.0.test.pages.cbor-hierarchical.txt
+eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recip_rank src/main/resources/topics-and-qrels/qrels.car17v2.0.benchmarkY1test.txt run.car17v2.0.ql+ax.topics.car17v2.0.benchmarkY1test.txt
 
 ```
 
