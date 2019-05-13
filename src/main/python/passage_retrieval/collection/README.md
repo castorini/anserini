@@ -4,7 +4,7 @@
 ### Example usage 
 
 ```
-from collection.collection import *
+from collection.pycollection import *
 ```
 
 ```
@@ -23,11 +23,9 @@ doc.id
 # Raw document contents
 doc.contents
 
-# Whether document is indexable
-doc.indexable
 ```
 
-### To iterate over collection and process document:  
+### To iterate over collection and process document  
 
 ```
 collection = Collection(collection_class, input_path)

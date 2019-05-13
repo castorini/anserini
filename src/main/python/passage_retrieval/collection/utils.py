@@ -29,9 +29,6 @@ JList = autoclass('java.util.List')
 
 class JCollections:
     
-    def TrecwebCollection():
-        return autoclass('io.anserini.collection.TrecwebCollection')  
-    
     def CarCollection():
         return autoclass('io.anserini.collection.CarCollection')
     
@@ -50,7 +47,7 @@ class JCollections:
     def NewYorkTimesCollection():
         return autoclass('io.anserini.collection.NewYorkTimesCollection')
     
-    def JTrecCollection():
+    def TrecCollection():
         return autoclass('io.anserini.collection.TrecCollection')
     
     def TrecwebCollection():
