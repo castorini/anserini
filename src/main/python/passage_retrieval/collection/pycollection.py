@@ -19,7 +19,7 @@ class Collection:
         
     def _get_collection(self):
         try:
-            return getattr(JCollections, self.collection_class)()
+            return JCollections[self.collection_class].value()
         except:
             raise ValueError(self.collection_class)
             
