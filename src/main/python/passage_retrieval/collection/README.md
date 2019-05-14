@@ -5,6 +5,7 @@
 
 ```
 from collection.pycollection import *
+from collection.pygenerator import *
 ```
 
 ```
@@ -25,6 +26,12 @@ doc.contents
 
 ```
 
+```
+# Fetching Lucene document generator given generator class
+generator = Generator('JsoupGenerator')
+
+```
+
 ### To iterate over collection and process document  
 
 ```
@@ -32,5 +39,12 @@ collection = Collection(collection_class, input_path)
 
 for (i, fs) in enumerate(collection.segments):
 	for (i, doc) in enumerate(fs):
-		foo(doc)
+		# foo(doc)
+		# for example:
+		
+		parsed_doc = generator.generator.createDocument(doc.document)
+		id = parsed_doc.get('id')				# FIELD_ID
+        raw = parsed_doc.get('raw') 			# FIELD_RAW
+		contents = parsed_doc.get('contents')	# FIELD_BODY
+		
 ```
