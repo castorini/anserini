@@ -41,7 +41,7 @@ for (i, fs) in enumerate(collection.segments):
         # for example:
 
         parsed_doc = generator.generator.createDocument(doc.document)
-        id = parsed_doc.get('id')				# FIELD_ID
-        raw = parsed_doc.get('raw') 			# FIELD_RAW
-        contents = parsed_doc.get('contents')	# FIELD_BODY
+        id = parsed_doc.get('id')               # FIELD_ID
+        raw = parsed_doc.get('raw')             # FIELD_RAW
+        contents = parsed_doc.get('contents')   # FIELD_BODY
 ```
