@@ -18,7 +18,7 @@ An example run with Robust04 sentencing can be found [here](example/example.md).
 - parsed contents (FIELD_BODY)
 - raw contents (FIELD_RAW)  
 
-`utils.py` contains Java classes from Anserini accessed with Pyjnius.  
+`collection` contains Python wrapper code for accessing Anserini's Java collection and generator classes with Pyjnius.  
 
 ### Document Tokenizing
 
@@ -30,7 +30,7 @@ can be called on either the parsed or raw document content to split into segment
     {
         "id":"{$DOCID}.000000",
         "content":"{segment-content}"
-	},
+    },
     {
         "id":"{$DOCID}.000001",
         "content":"{segment-content}"
