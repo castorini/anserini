@@ -2,7 +2,7 @@
 
 ### Creating sentence collection
 ```
-python src/main/python/segment_collection/segment.py \
+python src/main/python/passage_retrieval/segment.py \
 --input "path/to/input/collection" \
 --collection TrecCollection \
 --generator JsoupGenerator \

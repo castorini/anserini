@@ -26,7 +26,7 @@ def IterSegment(fs, generator, output_path, tokenizer, raw):
         try:
             doc = generator.generator.createDocument(d.document)
             if doc is None:
-                logger.error("Generator did not return document, skipping...")
+                logger.warn("Generator did not return document, skipping...")
                 fs.collection.counters.skipped.increment()
                 continue
             id = doc.get('id')
@@ -111,13 +111,13 @@ def IterCollection(input_path, collection_class,
     logger.info("Total duration: %s", str(datetime.timedelta(seconds=elapsed)))
     
 
-IterCollection('C:/cygwin64/home/Emily/usra/collection/disk45',
-               'TrecCollection',
-               'JsoupGenerator',
-               "C:/cygwin64/home/Emily/usra/output/json_sentences2/",
-               1,
-               'text_sentencer',
-               False)
-    
+#IterCollection('C:/cygwin64/home/Emily/usra/collection/disk45',
+#               'TrecCollection',
+#               'JsoupGenerator',
+#               "C:/cygwin64/home/Emily/usra/output/json_sentences2/",
+#               1,
+#               'text_sentencer',
+#               False)
+#    
 
 

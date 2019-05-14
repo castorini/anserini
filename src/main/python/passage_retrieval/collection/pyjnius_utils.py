@@ -1,5 +1,5 @@
 import jnius_config
-jnius_config.set_classpath("../../../../target/anserini-0.4.1-SNAPSHOT-fatjar.jar")
+jnius_config.set_classpath("target/anserini-0.4.1-SNAPSHOT-fatjar.jar")
 
 from jnius import autoclass
 from jnius import cast
