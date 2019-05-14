@@ -1,29 +1,8 @@
-from .utils import *
-import threading
+from collection.pyjnius_utils import *
+from collection.threading_utils import *
 
 import logging
 logger = logging.getLogger(__name__)
-
-
-class ThreadSafeCount:
-    def __init__(self):
-        self.value = 0
-        self.lock = threading.Lock()
-        
-    def increment(self, inc=1):
-        with self.lock:
-            self.value += inc
-            return self.value
-            
-class Counters:
-    
-    def __init__(self):
-        self.indexable = ThreadSafeCount()
-        self.unindexable = ThreadSafeCount()
-        self.empty = ThreadSafeCount()
-        self.skipped = ThreadSafeCount()
-        self.errors = ThreadSafeCount()
-
 
 class Collection:
         
@@ -40,7 +19,7 @@ class Collection:
         
     def _get_collection(self):
         try:
-            return getattr(JCollections, self.collection_class)()()
+            return getattr(JCollections, self.collection_class)()
         except:
             raise ValueError(self.collection_class)
             
