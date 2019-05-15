@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""
+'''
 Anserini: A Lucene toolkit for replicable information retrieval research
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,21 +13,16 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-"""
+'''
 
 # Simple script for tuning BM25 parameters (k1 and b) for MS MARCO
-#
-# The output of the script should be (on dev set):
-#   Best parameters: run.bm25.b1_0.6.k_0.8.txt: MRR@10 = 0.1906588552326375
-#
-# Compared to default Anserini parameters of b1=0.9, k=0.4, MRR@10 = 0.18388092964024202
 
 import argparse
 import os
 import re
 import subprocess
 
-parser = argparse.ArgumentParser(description='Retrieve MS MARCO Passages')
+parser = argparse.ArgumentParser(description='Tunes BM25 parameters for MS MARCO Passages')
 parser.add_argument('--base_directory', required=True, help='base directory for storing runs')
 parser.add_argument('--index', required=True, help='index to use')
 parser.add_argument('--queries', required=True, help='queries for evaluation')
@@ -50,16 +45,16 @@ print('queries: {}'.format(queries))
 print('qrels: {}'.format(qrels))
 print('\n')
 
-for b1 in [0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2]:
-    for k in [0.5, 0.6, 0.7, 0.8, 0.9]:
-        print('Trying... b1 = {}, k = {}'.format(b1, k))
-        filename = 'run.bm25.b1_{}.k_{}.txt'.format(b1, k)
+for k1 in [0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2]:
+    for b in [0.5, 0.6, 0.7, 0.8, 0.9]:
+        print('Trying... k1 = {}, b = {}'.format(k1, b))
+        filename = 'run.bm25.k1_{}.b_{}.txt'.format(k1, b)
         if os.path.isfile('{}/{}'.format(base_directory, filename)):
            print('Run already exists, skipping!')
         else:
            subprocess.call('python src/main/python/msmarco/retrieve.py \
                --index {} --qid_queries {} --output {}/{} \
-               --b1 {} --k {} --hits 1000'.format(index, queries, base_directory, filename, b1, k), shell=True)
+               --k1 {} --b {} --hits 1000'.format(index, queries, base_directory, filename, k1, b), shell=True)
 
 print('\n\nStarting evaluation...')
 

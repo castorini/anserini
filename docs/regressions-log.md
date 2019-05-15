@@ -4,6 +4,14 @@ The following change log details commits to regression tests that alter effectiv
 This documentation is useful for figuring why results may have changed over time.
 
 
+### May 11, 2019
+
++ [commit 3eef2fb4808d88608d2c467418b77516eba3538a](https://github.com/castorini/anserini/commit/3eef2fb4808d88608d2c467418b77516eba3538a) Sat May 11 14:34:46 2019 -0400
++ [commit 2ba2b9582ee942aee714301b78015a2ded16da8c](https://github.com/castorini/anserini/commit/2ba2b9582ee942aee714301b78015a2ded16da8c) Sat May 11 11:20:47 2019 -0400
++ [commit d911bba180aceabbe052624b7f715a2189e25dbb](https://github.com/castorini/anserini/commit/d911bba180aceabbe052624b7f715a2189e25dbb) Fri May 10 09:12:26 2019 -0400
+
+CAR regression refactoring: added v2.0 regression and renamed existing regression to v1.5. Both use `benchmarkY1-test` to support consistent comparisons.
+
 ### January 2, 2019
 
 + [commit 407f308cc543286e39701caf0acd1afab39dde2c](https://github.com/castorini/Anserini/commit/407f308cc543286e39701caf0acd1afab39dde2c) Wed Jan 2 06:34:57 2019 -0800
