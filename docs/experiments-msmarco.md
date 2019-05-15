@@ -60,7 +60,7 @@ python ./src/main/python/msmarco/retrieve.py --index ${DATA_DIR}/lucene-index-ms
 Retrieval speed will vary by machine:
 On a modern desktop with an SSD, we can get ~0.04 per query (taking about five minutes).
 On a slower machine with mechanical disks, the entire process might take as long as a couple of hours.
-Alternatively, we can run the same script implemented in Java to remove Python overhead. This ends up being ~4x faster.
+Alternatively, we can run the same script implemented in Java to remove Python overhead, which ends up being ~4x faster.
 
 ```
 ./target/appassembler/bin/SearchMsmarco -index ${DATA_DIR}/lucene-index-msmarco \
