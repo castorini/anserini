@@ -1,5 +1,6 @@
 import threading
 
+
 class ThreadSafeCount:
     
     def __init__(self):
@@ -10,6 +11,7 @@ class ThreadSafeCount:
         with self.lock:
             self.value += inc
             return self.value
+     
             
 class Counters:
     

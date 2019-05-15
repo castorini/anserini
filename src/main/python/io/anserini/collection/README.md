@@ -4,8 +4,9 @@
 ### Example usage 
 
 ```
-from collection.pycollection import *
-from collection.pygenerator import *
+import sys
+sys.path += ['src/main/python/io/anserini']
+from collection import pycollection, pygenerator
 ```
 
 ```

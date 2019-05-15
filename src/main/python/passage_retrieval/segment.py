@@ -1,7 +1,9 @@
 import argparse
-from collection_iterator import *
 import logging
-    
+
+from collection_iterator import IterSegment, IterCollection
+
+
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG,
                         filename='json_segment.log',

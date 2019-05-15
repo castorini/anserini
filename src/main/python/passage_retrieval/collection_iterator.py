@@ -2,19 +2,16 @@ import os
 import json
 import time
 import datetime
-
 from concurrent.futures import ThreadPoolExecutor
-from collection.pycollection import *
-from collection.pygenerator import *
-from document_tokenizer import *
+from document_tokenizer import DocumentTokenizer
+
+import sys
+sys.path += ['src/main/python/io/anserini']
+from collection import pycollection, pygenerator
 
 import logging
 logger = logging.getLogger(__name__)
 
-logging.basicConfig(level=logging.DEBUG,
-                    filename='json_segment.log',
-                    format='%(asctime)s %(name)s %(threadName)s %(levelname)s - %(message)s', 
-                    datefmt='%m/%d/%Y %I:%M:%S ')      
 
 def IterSegment(fs, generator, output_path, tokenizer, raw):
     
@@ -71,7 +68,6 @@ def IterSegment(fs, generator, output_path, tokenizer, raw):
         logger.info("No documents parsed from segment: " + fs.segment_name)
         
     
-
 def IterCollection(input_path, collection_class, 
                    generator_class, output_path, 
                    threads=1, tokenize=None, raw=False):
@@ -87,8 +83,8 @@ def IterCollection(input_path, collection_class,
         except:
             raise ValueError(tokenize)
 
-    collection = Collection(collection_class, input_path)
-    generator = Generator(generator_class)
+    collection = pycollection.Collection(collection_class, input_path)
+    generator = pygenerator.Generator(generator_class)
     
     if not os.path.exists(output_path):
         logger.info("making directory...")
@@ -110,14 +106,3 @@ def IterCollection(input_path, collection_class,
     
     logger.info("Total duration: %s", str(datetime.timedelta(seconds=elapsed)))
     
-
-#IterCollection('C:/cygwin64/home/Emily/usra/collection/disk45',
-#               'TrecCollection',
-#               'JsoupGenerator',
-#               "C:/cygwin64/home/Emily/usra/output/json_sentences2/",
-#               1,
-#               'text_sentencer',
-#               False)
-#    
-
-

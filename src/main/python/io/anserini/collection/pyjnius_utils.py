@@ -26,7 +26,7 @@ class JIndexHelpers:
         Counters = autoclass('io.anserini.index.IndexCollection$Counters')
         return Counters(IndexCollection)
     
-    
+
 class JCollections(Enum):
     CarCollection = autoclass('io.anserini.collection.CarCollection')
     ClueWeb09Collection = autoclass('io.anserini.collection.ClueWeb09Collection')

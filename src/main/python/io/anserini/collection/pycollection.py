@@ -1,5 +1,5 @@
-from collection.pyjnius_utils import *
-from collection.threading_utils import *
+from .pyjnius_utils import JCollections, JPaths
+from .threading_utils import Counters
 
 import logging
 logger = logging.getLogger(__name__)
@@ -70,5 +70,4 @@ class Document:
         self.document = document
         self.id = document.id()
         self.contents = document.content()
-    
-            
+        
