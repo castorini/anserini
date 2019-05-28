@@ -7,7 +7,6 @@ from collection_iterator import IterSegment, IterCollection
 
 if __name__ == '__main__':
 
-
     parser = argparse.ArgumentParser()
     parser.add_argument("--input", '-i', type=str,
                         help='path to input directory containing collection', required=True)
@@ -32,9 +31,9 @@ if __name__ == '__main__':
                            os.path.basename(os.path.abspath(args.output)) + '.log')
     
     logging.basicConfig(level=logging.DEBUG,
-                    filename=logfile,
-                    format='%(asctime)s %(name)s %(threadName)s %(levelname)s - %(message)s', 
-                    datefmt='%m/%d/%Y %I:%M:%S ')
+                        filename=logfile,
+                        format='%(asctime)s %(name)s %(threadName)s %(levelname)s - %(message)s', 
+                        datefmt='%m/%d/%Y %I:%M:%S ')
     
     # iterating over collection, tokenize (opt.), and 
     # write JsonCollection to output

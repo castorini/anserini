@@ -19,7 +19,8 @@ class DocumentTokenizer:
     Attributes
     ----------
     tokenizer : callable
-        Method for splitting document contents into passages.
+        Class method for splitting document contents into passages.
+        Takes arguments: id, contents, lim
         
     """
     def __init__(self, option):
