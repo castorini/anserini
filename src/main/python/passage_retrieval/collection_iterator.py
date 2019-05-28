@@ -13,7 +13,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-def IterSegment(fs, generator, output_path, tokenizer, raw):
+def IterSegment(fs, generator, output_path, tokenizer, tokenmin, raw):
     
     results = []
     doc_count = 0
@@ -41,7 +41,7 @@ def IterSegment(fs, generator, output_path, tokenizer, raw):
         else:
             # split document into segments
             try:
-                array = tokenizer(id, contents)
+                array = tokenizer.run_tokenizer(id, contents, tokenmin)
                 results += array # merge lists
             except:
                 fs.collection.counters.skipped.increment()
@@ -70,7 +70,8 @@ def IterSegment(fs, generator, output_path, tokenizer, raw):
     
 def IterCollection(input_path, collection_class, 
                    generator_class, output_path, 
-                   threads=1, tokenize=None, raw=False):
+                   threads=1, tokenize=None, 
+                   tokenmin=0, raw=False):
     
     start = time.time()
     logger.info("Begin reading collection.")
@@ -79,7 +80,7 @@ def IterCollection(input_path, collection_class,
     tokenizer = None
     if tokenize is not None:
         try:
-            tokenizer = DocumentTokenizer(tokenize).tokenizer
+            tokenizer = DocumentTokenizer(tokenize)
         except:
             raise ValueError(tokenize)
 
@@ -92,7 +93,8 @@ def IterCollection(input_path, collection_class,
     
     with ThreadPoolExecutor(max_workers=threads) as executor:    
         for (seg_num, fs) in enumerate(collection.segments):
-            executor.submit(IterSegment, fs, generator, output_path, tokenizer, raw)
+            executor.submit(IterSegment, fs, generator, output_path, 
+                            tokenizer, tokenmin, raw)
     
     end = time.time()
     elapsed = end - start

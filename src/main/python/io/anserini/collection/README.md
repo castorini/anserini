@@ -11,7 +11,7 @@ from collection import pycollection, pygenerator
 
 ```
 # Fetching collection given class and path to directory
-collection = Collection('TrecCollection', '/path/to/disk45')
+collection = pycollection.Collection('TrecCollection', '/path/to/disk45')
 
 # Get file segment in collection
 fs = next(collection.segments)
@@ -28,13 +28,13 @@ doc.contents
 
 ```
 # Fetching Lucene document generator given generator class
-generator = Generator('JsoupGenerator')
+generator = pygenerator.Generator('JsoupGenerator')
 ```
 
 ### To iterate over collection and process document  
 
 ```
-collection = Collection(collection_class, input_path)
+collection = pycollection.Collection(collection_class, input_path)
 
 for (i, fs) in enumerate(collection.segments):
     for (i, doc) in enumerate(fs):
