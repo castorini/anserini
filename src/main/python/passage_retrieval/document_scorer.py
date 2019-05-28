@@ -3,6 +3,20 @@ import numpy as np
 import argparse
 
 def get_data(input_path):
+    """
+    Reading passage retrieval results into a dataframe.
+    
+    Parameters
+    ----------
+    input_path : str
+        Path to file containing passage retrieval results.
+        
+    Returns
+    -------
+    data : DataFrame
+        DataFrame containing passage retrieval results.
+    
+    """
     data = pd.read_csv(input_path, sep=" ", header = None,
                        names=["topic", "query", "id", "rank", "score", "tag"],
                        dtype={"topic": "object", 
@@ -14,12 +28,25 @@ def get_data(input_path):
     
     new = data["id"].str.split(".", n=1, expand=True)
     data["docid"] = new[0] # get source document id
-#    data["segid"] = new[1] # get segment id
     data = data.drop("id", axis=1)
     return data
 
 
 def max_score(input_path, output_path):
+    """
+    Aggregates passage scores into document scores by taking the 
+    maximum scoring passage for each document.
+    
+    Writes aggregated document results to file.
+    
+    Parameters
+    ----------
+    input_path : str
+        Path to file containing passage retrieval results.
+        
+    output_path : str
+        Path to output aggregated document-level results.    
+    """
     data = get_data(input_path)
     
     doc = data.groupby(["topic", "query", "tag", "docid"], 

@@ -14,7 +14,29 @@ logger = logging.getLogger(__name__)
 
 
 def IterSegment(fs, generator, output_path, tokenizer, tokenmin, raw):
+    """
+    Parameters
+    ----------
+    fs : pycollection.FileSegment
+        File segment to iterate over for documents.
+        
+    generator : pygenerator.Generator
+        Generator to apply transforms and create Lucene documents.
+        
+    output_path : str
+        Path to output json file containing passages from the file segment.
     
+    tokenizer : DocumentTokenizer
+        Tokenizer to call on document contents for passage splitting.
+        
+    tokenmin : int
+        Minimum limit argument (e.g. minword) passed to tokenizer
+        
+    raw : bool
+        True for using raw (FIELD_RAW) document contents,
+        False for using parsed (FIELD_BODY) document contents.
+    
+    """
     results = []
     doc_count = 0
     
@@ -56,8 +78,10 @@ def IterSegment(fs, generator, output_path, tokenizer, tokenmin, raw):
     
     count = len(results)
     if (count > 0):
-        # write json array to outputdir (either as array of docs, or many arrays of doc tokens)
-        with open(os.path.join(output_path, '{}.json'.format(fs.segment_name)), 'w') as f:
+        # write json array to outputdir 
+        # (either as array of docs, or many arrays of doc tokens)
+        with open(os.path.join(output_path, 
+                               '{}.json'.format(fs.segment_name)), 'w') as f:
             jsonstr = json.dumps(results, separators=(',', ':'), indent=2)
             f.write(jsonstr)
             
@@ -72,7 +96,35 @@ def IterCollection(input_path, collection_class,
                    generator_class, output_path, 
                    threads=1, tokenize=None, 
                    tokenmin=0, raw=False):
-    
+    """
+    Parameters
+    ----------
+    input_path : str
+        Path to input collection.
+        
+    collection_class : str
+        Anserini collection class to use.
+        
+    generator_class : str
+        Anserini generator class to use.
+        
+    output_path : str
+        Path to output resulting json collection.
+        
+    threads : int
+        Maximum number of threads.
+        
+    tokenize : str
+        Name of tokenizer method to use for document-to-passage splitting.
+        
+    tokenmin : int
+        Minimum limit argument (e.g. minword) passed to tokenizer
+        
+    raw : bool
+        True for using raw (FIELD_RAW) document contents,
+        False for using parsed (FIELD_BODY) document contents.
+        
+    """
     start = time.time()
     logger.info("Begin reading collection.")
     
@@ -100,7 +152,7 @@ def IterCollection(input_path, collection_class,
     elapsed = end - start
 
     print("all threads complete")
-    logger.info("# Final Counter Values");
+    logger.info("# Final Counter Values")
     logger.info("indexable:     {:12d}".format(collection.counters.indexable.value))
     logger.info("unindexable: {:12d}".format(collection.counters.unindexable.value))
     logger.info("skipped:     {:12d}".format(collection.counters.skipped.value))

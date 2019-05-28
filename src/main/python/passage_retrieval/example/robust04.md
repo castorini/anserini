@@ -9,7 +9,7 @@ python src/main/python/passage_retrieval/segment.py \
 --collection TrecCollection \
 --generator JsoupGenerator \
 --output {path/to/create/output/folder} \
---tokenize minwords_sentence
+--tokenize split_sentence_minword
 ```
 
 Example 2: passages of at least 100 words
@@ -19,7 +19,7 @@ python src/main/python/passage_retrieval/segment.py \
 --collection TrecCollection \
 --generator JsoupGenerator \
 --output {path/to/create/output/folder} \
---tokenize fixed_word \
+--tokenize split_fixed_minword \
 --min 100
 ```
 
@@ -30,7 +30,7 @@ python src/main/python/passage_retrieval/segment.py \
 --collection TrecCollection \
 --generator JsoupGenerator \
 --output {path/to/create/output/folder} \
---tokenize minwords_sentence \
+--tokenize split_sentence_minword \
 --min 500
 ```
 
