@@ -7,9 +7,10 @@
 - `--output {path to create output collection directory}`
 - `--threads {max number of threads} `
 - `--tokenize {tokenizing function to call}`
+- `--min {limit argument for tokenizer}`
 - `--raw` if raw text to be used instead of transformed body contents  
 
-An example run with Robust04 sentencing can be found [here](example/example.md).
+An example run with Robust04 sentencing can be found [here](example/robust04.md).
 
 ### Python-Java Bridging
 
