@@ -39,7 +39,7 @@ public class WapoGenerator extends LuceneDocumentGenerator<WashingtonPostCollect
   public static final String FIELD_RAW = "raw";
   public static final String FIELD_BODY = "contents";
   public static final String FIELD_ID = "id";
-
+  
   private static final String PATTERN = "<.+>";
   public static final List<String> CONTENT_TYPE_TAG = Arrays.asList("sanitized_html", "tweet");
 
@@ -52,17 +52,17 @@ public class WapoGenerator extends LuceneDocumentGenerator<WashingtonPostCollect
     KICKER("kicker");
 
     public final String name;
-
+  
     WapoField(String s) {
       name = s;
     }
   }
-
+  
   public WapoGenerator(IndexCollection.Args args,
                         IndexCollection.Counters counters) throws IOException {
     super(args, counters);
   }
-
+  
   public static String removeTags(String content) {
     return Jsoup.parse(content).text();
   }
@@ -92,18 +92,30 @@ public class WapoGenerator extends LuceneDocumentGenerator<WashingtonPostCollect
     });
 
     StringBuilder contentBuilder = new StringBuilder();
+    wapoDoc.getTitle().ifPresent(title -> {
+      contentBuilder.append(title).append("\n");
+    });
 
     wapoDoc.getObj().getContents().ifPresent(contents -> {
       for (WashingtonPostObject.Content contentObj : contents) {
-        if (contentObj != null) {
+        if (contentObj == null) continue;
+        if (contentObj.getType().isPresent() && contentObj.getContent().isPresent()) {
           contentObj.getType().ifPresent(type -> {
             contentObj.getContent().ifPresent(content -> {
               if (CONTENT_TYPE_TAG.contains(type)) {
-                contentBuilder.append(removeTags(content)).append(" ");
+                contentBuilder.append(removeTags(content)).append("\n");
+              } else if (type.compareToIgnoreCase("kicker") == 0) {
+                doc.add(new StringField(WapoField.KICKER.name, content, Field.Store.NO));
+                contentBuilder.append(content).append("\n");
               }
             });
           });
         }
+        contentObj.getFullCaption().ifPresent(caption -> {
+          String fullCaption = contentObj.getFullCaption().get();
+          doc.add(new StringField(WapoField.FULL_CAPTION.name, fullCaption, Field.Store.NO));
+          contentBuilder.append(removeTags(fullCaption)).append("\n");
+        });
       }
     });
 
