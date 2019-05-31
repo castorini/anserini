@@ -1,5 +1,5 @@
 ---
-name: car17
+name: car17v1.5
 index_command: target/appassembler/bin/IndexCollection
 index_utils_command: target/appassembler/bin/IndexUtils
 search_command: target/appassembler/bin/SearchCollection
@@ -16,17 +16,17 @@ topic_reader: Car
 input_roots:
   - /tuna1/
   - /scratch2/
-input: collections/car17/paragraphcorpus/
-index_path: indexes/lucene-index.car17.pos+docvectors+rawdocs # path to the existing index, used in regression test if `--index` option is absent
+input: collections/car/paragraphCorpus.v1.5/
+index_path: indexes/lucene-index.car17v1.5.pos+docvectors+rawdocs # path to the existing index, used in regression test if `--index` option is absent
 collection: CarCollection
 index_stats:
   documents: 29678360
   documents (non-empty): 29674409
   total terms: 1257896158
 topics:
-  - name: "All Topics"
-    path: topics.car17.test200.txt
-    qrel: qrels.car17.test200.hierarchical.txt
+  - name: "benchmarkY1test"
+    path: topics.car17v1.5.benchmarkY1test.txt
+    qrel: qrels.car17v1.5.benchmarkY1test.txt
 evals:
   - command: eval/trec_eval.9.0.4/trec_eval
     params:
@@ -50,18 +50,18 @@ models:
       - -bm25
     results:
       map:
-        - 0.1689
+        - 0.1563
       recip_rank:
-        - 0.2321
+        - 0.2336
   - name: bm25+rm3
     params:
       - -bm25
       - -rm3
     results:
       map:
-        - 0.1287
+        - 0.1295
       recip_rank:
-        - 0.1788
+        - 0.1923
   - name: bm25+ax
     params:
       - -bm25
@@ -70,26 +70,26 @@ models:
       - -axiom.deterministic
     results:
       map:
-        - 0.1355 
+        - 0.1358 
       recip_rank:
-        - 0.1857
+        - 0.1949
   - name: ql
     params:
       - -ql
     results:
       map:
-        - 0.1516
+        - 0.1386
       recip_rank:
-        - 0.2085
+        - 0.2037
   - name: ql+rm3
     params:
       - -ql
       - -rm3
     results:
       map:
-        - 0.1173
+        - 0.1080
       recip_rank:
-        - 0.1573
+        - 0.1599
   - name: ql+ax
     params:
       - -ql
@@ -98,6 +98,6 @@ models:
       - -axiom.deterministic
     results:
       map:
-        - 0.1082
+        - 0.1048
       recip_rank:
-        - 0.1501
+        - 0.1524

@@ -45,16 +45,20 @@ print('queries: {}'.format(queries))
 print('qrels: {}'.format(qrels))
 print('\n')
 
-for k1 in [0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2]:
-    for b in [0.5, 0.6, 0.7, 0.8, 0.9]:
-        print('Trying... k1 = {}, b = {}'.format(k1, b))
-        filename = 'run.bm25.k1_{}.b_{}.txt'.format(k1, b)
-        if os.path.isfile('{}/{}'.format(base_directory, filename)):
-           print('Run already exists, skipping!')
-        else:
-           subprocess.call('python src/main/python/msmarco/retrieve.py \
+k1 = 0.82
+b = 0.72
+for fbDocs in [5, 10, 15]:
+    for fbTerms in [10, 30, 50]:
+        for originalQueryWeight in [0.6, 0.7, 0.8, 0.9]:
+            print('Trying... fbDocs = {}, fbTerms = {}, originalQueryWeight = {}'.format(fbDocs, fbTerms, originalQueryWeight))
+            filename = 'run.bm25.k1_{}.b_{}.rm3.fbDocs_{}.fbTerms_{}.originalQueryWeight_{}.txt'.format(k1, b, fbDocs, fbTerms, originalQueryWeight)
+            if os.path.isfile('{}/{}'.format(base_directory, filename)):
+               print('Run already exists, skipping!')
+            else:
+               subprocess.call('python src/main/python/msmarco/retrieve.py \
                --index {} --qid_queries {} --output {}/{} \
-               --k1 {} --b {} --hits 1000'.format(index, queries, base_directory, filename, k1, b), shell=True)
+               --k1 {} --b {} --hits 1000 --rm3 --fbDocs {} --fbTerms {} --originalQueryWeight {}'\
+               .format(index, queries, base_directory, filename, k1, b, fbDocs, fbTerms, originalQueryWeight), shell=True)
 
 print('\n\nStarting evaluation...')
 
@@ -68,7 +72,7 @@ for filename in sorted(os.listdir(base_directory)):
    # convert to a trec run and evaluate with trec_eval
    subprocess.call('python src/main/python/msmarco/convert_msmarco_to_trec_run.py \
        --input {}/{} --output {}/{}.trec'.format(base_directory, filename, base_directory, filename), shell=True)
-   results = subprocess.check_output(['eval/trec_eval.9.0.4/trec_eval', 'msmarco_data/qrels.train.trec',
+   results = subprocess.check_output(['eval/trec_eval.9.0.4/trec_eval', 'msmarco_data/qrels.dev.small.tsv',
        '{}/{}.trec'.format(base_directory, filename), '-mrecall.1000', '-mmap'])
    match = re.search('map +\tall\t([0-9.]+)', results.decode('utf-8'))
    ap = float(match.group(1))
