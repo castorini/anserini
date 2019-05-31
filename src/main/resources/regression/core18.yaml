@@ -14,9 +14,9 @@ index_options:
   - -storeRawDocs
 topic_reader: Trec
 input_roots:
-  - /home/ryan/sync/ir/
+  - /tuna1/
   - /scratch2/
-input: collections/WashingtonPost.v2/data/
+input: collections/newswire/WashingtonPost.v2/data/
 index_path: indexes/lucene-index.core18.pos+docvectors+rawdocs # path to the existing index, used in regression test if `--index` option is absent
 collection: WashingtonPostCollection
 index_stats:
