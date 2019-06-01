@@ -3,12 +3,18 @@
 The following change log details commits to regression tests that alter effectiveness and the addition of new regression tests.
 This documentation is useful for figuring why results may have changed over time.
 
+### May 31, 2019
+
++ commit [27493ed](https://github.com/castorini/anserini/commit/27493ed999b230db6153e98a4113b5a44ff362d9) (5/31/2019)
+
+Per [Issue 658](https://github.com/castorini/anserini/issues/658): fixed broken regression in Core18 introduced by commit [c4ab6b](https://github.com/castorini/anserini/commit/c4ab6bfbe38648337ad824503e8945f5111ac673) (4/18/2019).
+
 
 ### May 11, 2019
 
-+ [commit 3eef2fb4808d88608d2c467418b77516eba3538a](https://github.com/castorini/anserini/commit/3eef2fb4808d88608d2c467418b77516eba3538a) Sat May 11 14:34:46 2019 -0400
-+ [commit 2ba2b9582ee942aee714301b78015a2ded16da8c](https://github.com/castorini/anserini/commit/2ba2b9582ee942aee714301b78015a2ded16da8c) Sat May 11 11:20:47 2019 -0400
-+ [commit d911bba180aceabbe052624b7f715a2189e25dbb](https://github.com/castorini/anserini/commit/d911bba180aceabbe052624b7f715a2189e25dbb) Fri May 10 09:12:26 2019 -0400
++ commit [3eef2fb](https://github.com/castorini/anserini/commit/3eef2fb4808d88608d2c467418b77516eba3538a) (5/11/2019)
++ commit [2ba2b95](https://github.com/castorini/anserini/commit/2ba2b9582ee942aee714301b78015a2ded16da8c) (5/11/2019)
++ commit [d911bba](https://github.com/castorini/anserini/commit/d911bba180aceabbe052624b7f715a2189e25dbb) (5/10/2019)
 
 CAR regression refactoring: added v2.0 regression and renamed existing regression to v1.5. Both use `benchmarkY1-test` to support consistent comparisons.
 
