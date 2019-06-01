@@ -1,7 +1,7 @@
 # Anserini: Lucene 7 vs. Lucene 8
 
-Experiments performed in late April on an Intel E5-2699 v4 @ 2.20GHz processor, single thread.
-Query evaluation latency on ClueWeb12-B13 collection, running the first 10k queries in Terabyte 05 efficiency queries:
+Experiments performed in late April 2019 on an Intel E5-2699 v4 @ 2.20GHz processor, single thread.
+Query evaluation latency on the ClueWeb12-B13 collection, running the first 10k queries from the [TREC 2005 Terabyte Track efficiency queries](https://trec.nist.gov/data/terabyte05.html):
 
 Hits       | Lucene 7.6 | Lucene 8.0 | speedup |
 ----------:|-----------:|-----------:|--------:|

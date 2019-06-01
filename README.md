@@ -8,7 +8,7 @@ Anserini is an open-source information retrieval toolkit built on Lucene that ai
 This effort grew out of [a reproducibility study of various open-source retrieval engines in 2016](https://cs.uwaterloo.ca/~jimmylin/publications/Lin_etal_ECIR2016.pdf) (Lin et al., ECIR 2016). 
 See [Yang et al. (SIGIR 2017)](https://dl.acm.org/authorize?N47337) and [Yang et al. (JDIQ 2018)](https://dl.acm.org/citation.cfm?doid=3289400.3239571) for overviews.
 
-Anserini is currently based on Lucene 7.6, which planned upgrade to Lucene 8 in the near future.
+Anserini is currently based on Lucene 7.6, with a planned upgrade to Lucene 8 in the near future.
 Based on [preliminary experiments](docs/lucene7-vs-lucene8.md), query evaluation latency has been much improved in Lucene 8.
 
 ## Getting Started
