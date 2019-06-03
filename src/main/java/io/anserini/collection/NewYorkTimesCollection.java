@@ -1863,11 +1863,7 @@ public class NewYorkTimesCollection extends DocumentCollection
 
       Document d = new Document(raw);
       d.id = String.valueOf(raw.getGuid());
-      String body =  raw.getBody() == null ? "" : raw.getBody();
-      String headline =  raw.getHeadline() == null ? "" : raw.getHeadline();
-      String articleAbstract =  raw.getArticleAbstract() == null ? "" : raw.getArticleAbstract();
-      
-      d.contents = Stream.of(headline, articleAbstract, body)
+      d.contents = Stream.of(raw.getHeadline(), raw.getArticleAbstract(), raw.getBody())
         .filter(text -> text != null)
         .collect(Collectors.joining("\n"));
 
