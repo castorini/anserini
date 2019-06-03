@@ -50,18 +50,18 @@ models:
       - -bm25
     results:
       map:
-        - 0.1528
+        - 0.1545
       recip_rank:
-        - 0.2294
+        - 0.2321
   - name: bm25+rm3
     params:
       - -bm25
       - -rm3
     results:
       map:
-        - 0.1270
+        - 0.1286
       recip_rank:
-        - 0.1903
+        - 0.1927
   - name: bm25+ax
     params:
       - -bm25
@@ -70,26 +70,26 @@ models:
       - -axiom.deterministic
     results:
       map:
-        - 0.1342 
+        - 0.1364 
       recip_rank:
-        - 0.1943
+        - 0.1978
   - name: ql
     params:
       - -ql
     results:
       map:
-        - 0.1353
+        - 0.1371
       recip_rank:
-        - 0.1989
+        - 0.2013
   - name: ql+rm3
     params:
       - -ql
       - -rm3
     results:
       map:
-        - 0.1065
+        - 0.1080
       recip_rank:
-        - 0.1577
+        - 0.1598
   - name: ql+ax
     params:
       - -ql
@@ -98,6 +98,6 @@ models:
       - -axiom.deterministic
     results:
       map:
-        - 0.1054
+        - 0.1077
       recip_rank:
-        - 0.1554
+        - 0.1588
