@@ -51,6 +51,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
+import java.util.stream.Stream;
+import java.util.stream.Collectors;
 
 /**
  * An instance of the <a href="https://catalog.ldc.upenn.edu/products/LDC2008T19">New York Times
@@ -1861,7 +1863,9 @@ public class NewYorkTimesCollection extends DocumentCollection
 
       Document d = new Document(raw);
       d.id = String.valueOf(raw.getGuid());
-      d.contents = raw.getBody() == null ? "" : raw.getBody();
+      d.contents = Stream.of(raw.getHeadline(), raw.getArticleAbstract(), raw.getBody())
+        .filter(text -> text != null)
+        .collect(Collectors.joining("\n"));
 
       return d;
     }
