@@ -3,15 +3,15 @@
 **Release date: June 5, 2019**
 
 + Improved CAR regressions: separated into v1.5 and v2.0; fixed bug in topic reader.
-+ Improved New York Times collection parsing (slight increase in regression numbers for Core17)
-+ Improved Washington Post collection parsing (slight increase in regression numbers for Core18)
-+ Solrini: Added code for indexing into Solr (SIGIR 2019 demo)
-+ Added Python wrapper for Java Collection API
-+ Basic code for MS MARCO experiments
-+ Fixed broken tests in Windows
-+ Added basic support for multi-field indexing and search for JSON collections
-+ Added support for efficiency topics from the TREC 2005 Terabyte Track
-+ Added Core18 topics and qrels
++ Improved New York Times collection parsing (slight increase in regression numbers for Core17).
++ Improved Washington Post collection parsing (slight increase in regression numbers for Core18).
++ Solrini: Added code for indexing into Solr (SIGIR 2019 demo).
++ Added Python wrapper for document collections Java API.
++ Added code for basic MS MARCO experiments.
++ Added basic support for multi-field indexing and search for JSON collections.
++ Added support for efficiency topics from the TREC 2005 Terabyte Track.
++ Added Core18 topics and qrels.
++ Fixed broken tests in Windows.
 
 ## Contributors (This Release)
 
