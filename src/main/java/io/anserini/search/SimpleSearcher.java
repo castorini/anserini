@@ -161,11 +161,16 @@ public class SimpleSearcher implements Closeable {
   }
 
   public Result[] search(String q, int k, long t) throws IOException {
-    IndexSearcher searcher = new IndexSearcher(reader);
-    searcher.setSimilarity(similarity);
     Query query = new BagOfWordsQueryGenerator().buildQuery(LuceneDocumentGenerator.FIELD_BODY, analyzer, q);
     List<String> queryTokens = AnalyzerUtils.tokenize(analyzer, q);
-    
+
+    return search(query, queryTokens, q, k, t);
+  }
+
+  protected Result[] search(Query query, List<String> queryTokens, String queryString, int k, long t) throws IOException {
+    IndexSearcher searcher = new IndexSearcher(reader);
+    searcher.setSimilarity(similarity);
+
     SearchArgs searchArgs = new SearchArgs();
     searchArgs.arbitraryScoreTieBreak = false;
     searchArgs.hits = k;
@@ -206,6 +211,24 @@ public class SimpleSearcher implements Closeable {
     }
 
     return results;
+  }
+
+  // searching both the defaults contents fields and another field with weight boost
+  // this is used for MS MACRO experiments with query expansion.
+  // TODO: "fields" should probably changed to a map of fields to boosts for extensibility
+  public Result[] searchFields(String q, String f, float boost, int k) throws IOException {
+    IndexSearcher searcher = new IndexSearcher(reader);
+    searcher.setSimilarity(similarity);
+
+    Query queryContents = new BagOfWordsQueryGenerator().buildQuery(LuceneDocumentGenerator.FIELD_BODY, analyzer, q);
+    Query queryField = new BagOfWordsQueryGenerator().buildQuery(f, analyzer, q);
+    BooleanQuery query = new BooleanQuery.Builder()
+        .add(queryContents, BooleanClause.Occur.SHOULD)
+        .add(new BoostQuery(queryField, boost), BooleanClause.Occur.SHOULD).build();
+
+    List<String> queryTokens = AnalyzerUtils.tokenize(analyzer, q);
+
+    return search(query, queryTokens, q, k, -1);
   }
 
   public String doc(int ldocid) {

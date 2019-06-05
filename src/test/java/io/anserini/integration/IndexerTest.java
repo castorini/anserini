@@ -113,6 +113,8 @@ public class IndexerTest extends LuceneTestCase {
   @After
   @Override
   public void tearDown() throws Exception {
+    // Call garbage collector for Windows compatibility
+    System.gc();
     super.tearDown();
   }
 

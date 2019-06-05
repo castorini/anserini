@@ -111,7 +111,7 @@ public class JsonCollection extends DocumentCollection
       if (node == null) {
         return false;
       } else if (node.isObject()) {
-        bufferedRecord = new JsonCollection.Document(node.get("id").asText(), node.get("contents").asText());
+        bufferedRecord = new JsonCollection.Document(node);
         if (iterator.hasNext()) { // if bufferedReader contains JSON line objects, we parse the next JSON into node
           node = iterator.next();
         } else {
@@ -120,7 +120,7 @@ public class JsonCollection extends DocumentCollection
       } else if (node.isArray()) {
         if (iter != null && iter.hasNext()) {
           JsonNode json = iter.next();
-          bufferedRecord = new JsonCollection.Document(json.get("id").asText(), json.get("contents").asText());
+          bufferedRecord = new JsonCollection.Document(node);
         } else {
           return false;
         }
@@ -139,13 +139,23 @@ public class JsonCollection extends DocumentCollection
   /**
    * A document in a JSON collection.
    */
-  public static class Document implements SourceDocument {
-    protected String id;
-    protected String contents;
+  public static class Document implements MultifieldSourceDocument {
+    private String id;
+    private String contents;
+    private Map<String, String> fields;
 
-    public Document(String id, String contents) {
-      this.id = id;
-      this.contents = contents;
+    public Document(JsonNode json) {
+      this.fields = new HashMap<>();
+
+      json.fields().forEachRemaining( e -> {
+        if ("id".equals(e.getKey())) {
+          this.id = json.get("id").asText();
+        } else if ("contents".equals(e.getKey())) {
+          this.contents = json.get("contents").asText();
+        } else {
+          this.fields.put(e.getKey(), e.getValue().asText());
+        }
+      });
     }
 
     @Override
@@ -161,6 +171,11 @@ public class JsonCollection extends DocumentCollection
     @Override
     public boolean indexable() {
       return true;
+    }
+
+    @Override
+    public Map<String, String> fields() {
+      return fields;
     }
   }
 }
