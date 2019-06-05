@@ -110,3 +110,7 @@ ERR20                                   | BM25      | BM25+RM3  | BM25+AX   | QL
 [TREC 2014 Web Track: Topics 251-300](http://trec.nist.gov/data/web2014.html)| 0.1201    | 0.1066    | 0.0928    | 0.1092    | 0.0928    | 0.0900    |
 
 
+
+## Replication Log
+
+* Results replicated by [@matthew-z](https://github.com/matthew-z) on 2019-04-14 (commit [`abaa4c8`](https://github.com/castorini/Anserini/commit/abaa4c8e7cb50e8e4a3677377716f609b7859538))[<sup>*</sup>](https://github.com/castorini/Anserini/pull/590)[<sup>!</sup>](https://github.com/castorini/Anserini/issues/592)

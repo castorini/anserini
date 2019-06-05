@@ -214,16 +214,16 @@ public final class SearchCollection implements Closeable {
     List<TaggedSimilarity> similarities = new ArrayList<>();
     if (args.ql || args.qld) {
       for (String mu : args.mu) {
-        similarities.add(new TaggedSimilarity(new LMDirichletSimilarity(Float.valueOf(mu)), "mu:"+mu));
+        similarities.add(new TaggedSimilarity(new LMDirichletSimilarity(Float.valueOf(mu)), "mu="+mu));
       }
     } else if (args.qljm) {
       for (String lambda : args.qljm_lambda) {
-        similarities.add(new TaggedSimilarity(new LMJelinekMercerSimilarity(Float.valueOf(lambda)), "lambda:" + lambda));
+        similarities.add(new TaggedSimilarity(new LMJelinekMercerSimilarity(Float.valueOf(lambda)), "lambda=" + lambda));
       }
     } else if (args.bm25) {
       for (String k1 : args.k1) {
         for (String b : args.b) {
-          similarities.add(new TaggedSimilarity(new BM25Similarity(Float.valueOf(k1), Float.valueOf(b)), "k1:"+k1+",b:"+b));
+          similarities.add(new TaggedSimilarity(new BM25Similarity(Float.valueOf(k1), Float.valueOf(b)), "k1="+k1+",b="+b));
         }
       }
     } else if (args.inl2) {
@@ -232,7 +232,7 @@ public final class SearchCollection implements Closeable {
       };
     } else if (args.spl) {
       for (String c : args.spl_c) {
-        similarities.add(new TaggedSimilarity(new IBSimilarity(new DistributionSPL(), new LambdaDF(),  new NormalizationH2(Float.valueOf(c))), "c:"+c));
+        similarities.add(new TaggedSimilarity(new IBSimilarity(new DistributionSPL(), new LambdaDF(),  new NormalizationH2(Float.valueOf(c))), "c="+c));
       }
     } else if (args.f2exp) {
       for (String s : args.f2exp_s) {

@@ -17,6 +17,8 @@ Python>=2.6 or Python>=3.5
 pip install -r src/main/python/requirements.txt
 ```
 
+Note that Oracle JVM is necessary to replicate our regression results; there are known issues with OpenJDK (see [this](https://github.com/castorini/Anserini/pull/590) and [this](https://github.com/castorini/Anserini/issues/592)).
+
 ## Invocations
 
 tl;dr - Copy and paste the following lines into console on `tuna` to run the regressions without building indexes from scratch:
@@ -37,7 +39,8 @@ nohup python src/main/python/run_regression.py --collection cw09b >& log.cw09b &
 nohup python src/main/python/run_regression.py --collection cw12b13 >& log.cw12b13 &
 nohup python src/main/python/run_regression.py --collection cw12 >& log.cw12 &
 
-nohup python src/main/python/run_regression.py --collection car17 >& log.car17 &
+nohup python src/main/python/run_regression.py --collection car17v1.5 >& log.car17v1.5 &
+nohup python src/main/python/run_regression.py --collection car17v2.0 >& log.car17v2.0 &
 ```
 
 Copy and paste the following lines into console on `tuna` to run the regressions from the raw collection, which includes building indexes from scratch (note difference is the additional `--index` option):
@@ -58,7 +61,8 @@ nohup python src/main/python/run_regression.py --collection cw09b --index >& log
 nohup python src/main/python/run_regression.py --collection cw12b13 --index >& log.cw12b13 &
 nohup python src/main/python/run_regression.py --collection cw12 --index >& log.cw12 &
 
-nohup python src/main/python/run_regression.py --collection car17 --index >& log.car17 &
+nohup python src/main/python/run_regression.py --collection car17v1.5 --index >& log.car17v1.5 &
+nohup python src/main/python/run_regression.py --collection car17v2.0 --index >& log.car17v2.0 &
 ```
 
 Watch out: the full `cw12` regress takes a couple days to run and generates a 12TB index!
@@ -77,7 +81,9 @@ Details of each specific regression:
 + `cw12`: [Experiments on ClueWeb12](experiments-cw12.md)
 + `mb11`: [Experiments on Tweets2011 (MB11 &amp; MB12)](experiments-mb11.md)
 + `mb13`: [Experiments on Tweets2013 (MB13 &amp; MB14)](experiments-mb13.md)
-+ `car17`: [Experiments on Car17](experiments-car17.md)
++ `car17v1.5`: [Experiments on Complex Answer Retrieval v1.5 (CAR17)](experiments-car17v1.5.md)
++ `car17v2.0`: [Experiments on Complex Answer Retrieval v2.0 (CAR17)](experiments-car17v2.0.md)
+
 
 ## Additional Regressions
 

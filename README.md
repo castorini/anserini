@@ -1,14 +1,21 @@
 Anserini
 ========
-[![Build Status](https://travis-ci.org/castorini/Anserini.svg?branch=master)](https://travis-ci.org/castorini/Anserini)
+[![Build Status](https://travis-ci.org/castorini/anserini.svg?branch=master)](https://travis-ci.org/castorini/Anserini)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.anserini/anserini/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.anserini/anserini)
 [![LICENSE](https://img.shields.io/badge/license-Apache-blue.svg?style=flat-square)](./LICENSE)
 
-Anserini is an open-source information retrieval toolkit built on Lucene that aims to bridge the gap between academic information retrieval research and the practice of building real-world search applications. This effort grew out of [a reproducibility study of various open-source retrieval engines in 2016](https://cs.uwaterloo.ca/~jimmylin/publications/Lin_etal_ECIR2016.pdf) (Lin et al., ECIR 2016). Additional details can be found [in a short paper](https://dl.acm.org/authorize?N47337) (Yang et al., SIGIR 2017) and a [journal article](https://dl.acm.org/citation.cfm?doid=3289400.3239571) (Yang et al., JDIQ 2018).
+Anserini is an open-source information retrieval toolkit built on Lucene that aims to bridge the gap between academic information retrieval research and the practice of building real-world search applications. 
+This effort grew out of [a reproducibility study of various open-source retrieval engines in 2016](https://cs.uwaterloo.ca/~jimmylin/publications/Lin_etal_ECIR2016.pdf) (Lin et al., ECIR 2016). 
+See [Yang et al. (SIGIR 2017)](https://dl.acm.org/authorize?N47337) and [Yang et al. (JDIQ 2018)](https://dl.acm.org/citation.cfm?doid=3289400.3239571) for overviews.
+
+Anserini is currently based on Lucene 7.6, with a planned upgrade to Lucene 8 in the near future.
+Based on [preliminary experiments](docs/lucene7-vs-lucene8.md), query evaluation latency has been much improved in Lucene 8.
 
 ## Getting Started
 
-Anserini requires Java 8 (note that there are [known issues with Java 10 and Java 11](https://github.com/castorini/Anserini/issues/445)) and Maven 3.3+. Build using Maven:
+Anserini requires Java 8 (note that there are [known issues with Java 10 and Java 11](https://github.com/castorini/Anserini/issues/445)) and Maven 3.3+.
+Oracle JVM is necessary to replicate our regression results; there are known issues with OpenJDK (see [this](https://github.com/castorini/Anserini/pull/590) and [this](https://github.com/castorini/Anserini/issues/592)).
+Build using Maven:
 
 ```
 mvn clean package appassembler:assemble
@@ -48,7 +55,9 @@ Note that these regressions capture the "out of the box" experience, based on [_
 + [Experiments on ClueWeb12](docs/experiments-cw12.md)
 + [Experiments on Tweets2011 (MB11 &amp; MB12)](docs/experiments-mb11.md)
 + [Experiments on Tweets2013 (MB13 &amp; MB14)](docs/experiments-mb13.md)
-+ [Experiments on CAR17](docs/experiments-car17.md)
++ [Experiments on Complex Answer Retrieval v1.5 (CAR17)](docs/experiments-car17v1.5.md)
++ [Experiments on Complex Answer Retrieval v2.0 (CAR17)](docs/experiments-car17v2.0.md)
++ [Experiments on MS MARCO](docs/experiments-msmarco.md)
 
 Additional regressions:
 
@@ -73,7 +82,7 @@ Runbooks:
      -mapper CountDocumentMapper -context CountDocumentMapperContext
    ```
 
-## Python Interface
+## Python Integration
 
 Anserini was designed with Python integration in mind, for connecting with popular deep learning toolkits such as PyTorch. This is accomplished via [pyjnius](https://github.com/kivy/pyjnius). The `SimpleSearcher` class provides a simple Python/Java bridge, shown below:
 
@@ -101,6 +110,16 @@ hits[0].score
 hits[0].content
 ```
 
+## Solr Integration
+
+Anserini provides code for indexing into SolrCloud, thus providing interoperable support for test collections wiith local Lucene indexes and Solr indexes.
+See [this page](docs/solrini.md) for more details.
+
+## Elasticsearch Integration
+
+Anserini integration with Elastic search is coming soon!
+See [Issues 633](https://github.com/castorini/anserini/issues/633).
+
 ## Release History
 
 + v0.4.0: March 4, 2019 [[Release Notes](docs/release-notes/release-notes-v0.4.0.md)]
@@ -110,12 +129,21 @@ hits[0].content
 
 ## References
 
-+ Jimmy Lin, Matt Crane, Andrew Trotman, Jamie Callan, Ishan Chattopadhyaya, John Foley, Grant Ingersoll, Craig Macdonald, Sebastiano Vigna. [Toward Reproducible Baselines: The Open-Source IR Reproducibility Challenge.](https://cs.uwaterloo.ca/~jimmylin/publications/Lin_etal_ECIR2016.pdf) _Proceedings of the 38th European Conference on Information Retrieval (ECIR 2016)_, pages 408-420, March 2016, Padua, Italy.
-
-+ Peilin Yang, Hui Fang, and Jimmy Lin. [Anserini: Enabling the Use of Lucene for Information Retrieval Research.](https://dl.acm.org/authorize?N47337) _Proceedings of the 40th Annual International ACM SIGIR Conference on Research and Development in Information Retrieval (SIGIR 2017)_, pages 1253-1256, August 2017, Tokyo, Japan.
-
-+ Peilin Yang, Hui Fang, and Jimmy Lin. [Anserini: Reproducible Ranking Baselines Using Lucene.](https://dl.acm.org/citation.cfm?doid=3289400.3239571) Journal of Data and Information Quality, 10(4), Article 16, 2018.
++ Jimmy Lin, Matt Crane, Andrew Trotman, Jamie Callan, Ishan Chattopadhyaya, John Foley, Grant Ingersoll, Craig Macdonald, Sebastiano Vigna. [Toward Reproducible Baselines: The Open-Source IR Reproducibility Challenge.](https://cs.uwaterloo.ca/~jimmylin/publications/Lin_etal_ECIR2016.pdf) _ECIR 2016_.
++ Peilin Yang, Hui Fang, and Jimmy Lin. [Anserini: Enabling the Use of Lucene for Information Retrieval Research.](https://dl.acm.org/authorize?N47337) _SIGIR 2017_.
++ Peilin Yang, Hui Fang, and Jimmy Lin. [Anserini: Reproducible Ranking Baselines Using Lucene.](https://dl.acm.org/citation.cfm?doid=3289400.3239571) _Journal of Data and Information Quality_, 10(4), Article 16, 2018.
++ Wei Yang, Haotian Zhang, and Jimmy Lin. [Simple Applications of BERT for Ad Hoc Document Retrieval.](https://arxiv.org/abs/1903.10972) _arXiv:1903.10972_, March 2019.
++ Rodrigo Nogueira, Wei Yang, Jimmy Lin, and Kyunghyun Cho. [Document Expansion by Query Prediction.](https://arxiv.org/abs/1903.10972) _arXiv:1904.08375_, April 2019.
++ Peilin Yang and Jimmy Lin. [Reproducing and Generalizing Semantic Term Matching in Axiomatic Information Retrieval.](https://cs.uwaterloo.ca/~jimmylin/publications/Yang_Lin_ECIR2019.pdf) _ECIR 2019_.
++ Ruifan Yu, Yuhao Xie and Jimmy Lin. [Simple Techniques for Cross-Collection Relevance Transfer.](https://cs.uwaterloo.ca/~jimmylin/publications/Yu_etal_ECIR2019.pdf) _ECIR 2019_.
++ Wei Yang, Yuqing Xie, Aileen Lin, Xingyu Li, Luchen Tan, Kun Xiong, Ming Li, and Jimmy Lin. [End-to-End Open-Domain Question Answering with BERTserini.](https://aclweb.org/anthology/papers/N/N19/N19-4013/) _NAACL-HLT 2019 Demos_.
++ Ryan Clancy, Toke Eskildsen, Nick Ruest, and Jimmy Lin. [Solr Integration in the Anserini Information Retrieval Toolkit.](https://cs.uwaterloo.ca/~jimmylin/publications/Clancy_etal_SIGIR2019a.pdf) _SIGIR 2019_.
++ Ryan Clancy, Jaejun Lee, Zeynep Akkalyoncu Yilmaz, and Jimmy Lin. [Information Retrieval Meets Scalable Text Analytics: Solr Integration with Spark.](https://cs.uwaterloo.ca/~jimmylin/publications/Clancy_etal_SIGIR2019b.pdf) _SIGIR 2019_.
++ Jimmy Lin and Peilin Yang. [The Impact of Score Ties on Repeatability in Document Ranking.](https://cs.uwaterloo.ca/~jimmylin/publications/Lin_Yang_SIGIR2019.pdf) _SIGIR 2019_.
++ Wei Yang, Kuang Lu, Peilin Yang, and Jimmy Lin. [Critically Examining the "Neural Hype": Weak Baselines and the Additivity of Effectiveness Gains from Neural Ranking Models.](https://cs.uwaterloo.ca/~jimmylin/publications/Lin_Yang_SIGIR2019.pdf) _SIGIR 2019_.
 
 ## Acknowledgments
 
-This research has been supported in part by the Natural Sciences and Engineering Research Council (NSERC) of Canada and the U.S. National Science Foundation under IIS-1423002 and CNS-1405688. Any opinions, findings, and conclusions or recommendations expressed do not necessarily reflect the views of the sponsors.
+This research is supported in part by the Natural Sciences and Engineering Research Council (NSERC) of Canada.
+Previous support came from the U.S. National Science Foundation under IIS-1423002 and CNS-1405688.
+Any opinions, findings, and conclusions or recommendations expressed do not necessarily reflect the views of the sponsors.

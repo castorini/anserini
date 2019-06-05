@@ -56,10 +56,27 @@ cd ../..
 
 **Train, Test and Evaluation**:
 
+1. Train DRMM:
 ```bash
 python matchzoo/main.py --phase train --model_file ./examples/robust04/config/drmm_robust04.config
+``` 
+
+2. Inference on the test set
+```bash
 python matchzoo/main.py --phase predict --model_file ./examples/robust04/config/drmm_robust04.config
+```
+
+3. Modify the `drmm_robust04.config` (predict -> relation_file/hist_feats_file and outputs -> save_path) to do the inference on the dev set using the same command above.
+
+4. Tune the interpolation hyper-parameter on the dev set and apply it on the test set:
+
+```bash
 cd ../../../../../
-./eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.robust2004.txt src/main/python/rerank/MatchZoo/data/robust04/predict.test.drmm.txt -m ndcg_cut.20 -m map -m recip_rank -m P.20,30
+python src/main/python/rerank/scripts/interpolate.py
+```
+
+Commond above already prints out the final score. If you want to print it without tuning again, you can run the following command:
+```bash
+./eval/trec_eval.9.0.4/trec_eval src/main/resources/topics-and-qrels/qrels.robust2004.txt predict.inter.test.drmm -m ndcg_cut.20 -m map -m recip_rank -m P.20,30
 ```
 
