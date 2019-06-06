@@ -88,7 +88,7 @@ Anserini was designed with Python integration in mind, for connecting with popul
 
 ```
 import jnius_config
-jnius_config.set_classpath("target/anserini-0.4.1-SNAPSHOT-fatjar.jar")
+jnius_config.set_classpath("target/anserini-0.5.1-SNAPSHOT-fatjar.jar")
 
 from jnius import autoclass
 JString = autoclass('java.lang.String')
@@ -122,6 +122,7 @@ See [Issues 633](https://github.com/castorini/anserini/issues/633).
 
 ## Release History
 
++ v0.5.0: June 5, 2019 [[Release Notes](docs/release-notes/release-notes-v0.5.0.md)]
 + v0.4.0: March 4, 2019 [[Release Notes](docs/release-notes/release-notes-v0.4.0.md)]
 + v0.3.0: December 16, 2018 [[Release Notes](docs/release-notes/release-notes-v0.3.0.md)]
 + v0.2.0: September 10, 2018 [[Release Notes](docs/release-notes/release-notes-v0.2.0.md)]
@@ -129,17 +130,18 @@ See [Issues 633](https://github.com/castorini/anserini/issues/633).
 
 ## References
 
-+ Jimmy Lin, Matt Crane, Andrew Trotman, Jamie Callan, Ishan Chattopadhyaya, John Foley, Grant Ingersoll, Craig Macdonald, Sebastiano Vigna. [Toward Reproducible Baselines: The Open-Source IR Reproducibility Challenge.](https://cs.uwaterloo.ca/~jimmylin/publications/Lin_etal_ECIR2016.pdf) _ECIR 2016_, pages 408-420.
-+ Peilin Yang, Hui Fang, and Jimmy Lin. [Anserini: Enabling the Use of Lucene for Information Retrieval Research.](https://dl.acm.org/authorize?N47337) _SIGIR 2017_, pages 1253-1256.
++ Jimmy Lin, Matt Crane, Andrew Trotman, Jamie Callan, Ishan Chattopadhyaya, John Foley, Grant Ingersoll, Craig Macdonald, Sebastiano Vigna. [Toward Reproducible Baselines: The Open-Source IR Reproducibility Challenge.](https://cs.uwaterloo.ca/~jimmylin/publications/Lin_etal_ECIR2016.pdf) _ECIR 2016_.
++ Peilin Yang, Hui Fang, and Jimmy Lin. [Anserini: Enabling the Use of Lucene for Information Retrieval Research.](https://dl.acm.org/authorize?N47337) _SIGIR 2017_.
 + Peilin Yang, Hui Fang, and Jimmy Lin. [Anserini: Reproducible Ranking Baselines Using Lucene.](https://dl.acm.org/citation.cfm?doid=3289400.3239571) _Journal of Data and Information Quality_, 10(4), Article 16, 2018.
-+ Peilin Yang and Jimmy Lin. [Reproducing and Generalizing Semantic Term Matching in Axiomatic Information Retrieval](https://cs.uwaterloo.ca/~jimmylin/publications/Yang_Lin_ECIR2019.pdf). _ECIR 2019_, pages 369-381.
-+ Ruifan Yu, Yuhao Xie and Jimmy Lin. [Simple Techniques for Cross-Collection Relevance Transfer.](https://cs.uwaterloo.ca/~jimmylin/publications/Yu_etal_ECIR2019.pdf) _ECIR 2019_, page 397-409.
-+ Wei Yang, Yuqing Xie, Aileen Lin, Xingyu Li, Luchen Tan, Kun Xiong, Ming Li, and Jimmy Lin. [End-to-End Open-Domain Question Answering with BERTserini.](https://aclweb.org/anthology/papers/N/N19/N19-4013/) _NAACL-HLT 2019 Demos_, pages 72-77.
++ Wei Yang, Haotian Zhang, and Jimmy Lin. [Simple Applications of BERT for Ad Hoc Document Retrieval.](https://arxiv.org/abs/1903.10972) _arXiv:1903.10972_, March 2019.
++ Rodrigo Nogueira, Wei Yang, Jimmy Lin, and Kyunghyun Cho. [Document Expansion by Query Prediction.](https://arxiv.org/abs/1903.10972) _arXiv:1904.08375_, April 2019.
++ Peilin Yang and Jimmy Lin. [Reproducing and Generalizing Semantic Term Matching in Axiomatic Information Retrieval.](https://cs.uwaterloo.ca/~jimmylin/publications/Yang_Lin_ECIR2019.pdf) _ECIR 2019_.
++ Ruifan Yu, Yuhao Xie and Jimmy Lin. [Simple Techniques for Cross-Collection Relevance Transfer.](https://cs.uwaterloo.ca/~jimmylin/publications/Yu_etal_ECIR2019.pdf) _ECIR 2019_.
++ Wei Yang, Yuqing Xie, Aileen Lin, Xingyu Li, Luchen Tan, Kun Xiong, Ming Li, and Jimmy Lin. [End-to-End Open-Domain Question Answering with BERTserini.](https://aclweb.org/anthology/papers/N/N19/N19-4013/) _NAACL-HLT 2019 Demos_.
 + Ryan Clancy, Toke Eskildsen, Nick Ruest, and Jimmy Lin. [Solr Integration in the Anserini Information Retrieval Toolkit.](https://cs.uwaterloo.ca/~jimmylin/publications/Clancy_etal_SIGIR2019a.pdf) _SIGIR 2019_.
 + Ryan Clancy, Jaejun Lee, Zeynep Akkalyoncu Yilmaz, and Jimmy Lin. [Information Retrieval Meets Scalable Text Analytics: Solr Integration with Spark.](https://cs.uwaterloo.ca/~jimmylin/publications/Clancy_etal_SIGIR2019b.pdf) _SIGIR 2019_.
 + Jimmy Lin and Peilin Yang. [The Impact of Score Ties on Repeatability in Document Ranking.](https://cs.uwaterloo.ca/~jimmylin/publications/Lin_Yang_SIGIR2019.pdf) _SIGIR 2019_.
 + Wei Yang, Kuang Lu, Peilin Yang, and Jimmy Lin. [Critically Examining the "Neural Hype": Weak Baselines and the Additivity of Effectiveness Gains from Neural Ranking Models.](https://cs.uwaterloo.ca/~jimmylin/publications/Lin_Yang_SIGIR2019.pdf) _SIGIR 2019_.
-+ Ryan Clancy, Nicola Ferro, Claudia Hauff, Jimmy Lin, Tetsuya Sakai, and Ze Zhong Wu. [The SIGIR 2019 Open-Source IR Replicability Challenge (OSIRRC 2019).](https://cs.uwaterloo.ca/~jimmylin/publications/Clancy_etal_SIGIR2019_workshop.pdf) _SIGIR 2019_.
 
 ## Acknowledgments
 
