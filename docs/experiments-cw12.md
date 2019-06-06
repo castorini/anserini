@@ -71,25 +71,25 @@ eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrel
 
 With the above commands, you should be able to replicate the following results:
 
-MAP                                     | BM25      | BM25+RM3  | QL        | QL+RM3    |
+MAP                                     | BM25      | +RM3      | QL        | +RM3      |
 :---------------------------------------|-----------|-----------|-----------|-----------|
 [TREC 2013 Web Track: Topics 201-250](http://trec.nist.gov/data/web2013.html)| 0.1695    | 0.1464    | 0.1493    | 0.1291    |
 [TREC 2014 Web Track: Topics 251-300](http://trec.nist.gov/data/web2014.html)| 0.2469    | 0.2325    | 0.2467    | 0.2168    |
 
 
-P30                                     | BM25      | BM25+RM3  | QL        | QL+RM3    |
+P30                                     | BM25      | +RM3      | QL        | +RM3      |
 :---------------------------------------|-----------|-----------|-----------|-----------|
 [TREC 2013 Web Track: Topics 201-250](http://trec.nist.gov/data/web2013.html)| 0.2767    | 0.2387    | 0.2613    | 0.2347    |
 [TREC 2014 Web Track: Topics 251-300](http://trec.nist.gov/data/web2014.html)| 0.4533    | 0.4073    | 0.4380    | 0.3793    |
 
 
-NDCG20                                  | BM25      | BM25+RM3  | QL        | QL+RM3    |
+NDCG20                                  | BM25      | +RM3      | QL        | +RM3      |
 :---------------------------------------|-----------|-----------|-----------|-----------|
 [TREC 2013 Web Track: Topics 201-250](http://trec.nist.gov/data/web2013.html)| 0.2086    | 0.2033    | 0.1993    | 0.1725    |
 [TREC 2014 Web Track: Topics 251-300](http://trec.nist.gov/data/web2014.html)| 0.2578    | 0.2530    | 0.2228    | 0.2066    |
 
 
-ERR20                                   | BM25      | BM25+RM3  | QL        | QL+RM3    |
+ERR20                                   | BM25      | +RM3      | QL        | +RM3      |
 :---------------------------------------|-----------|-----------|-----------|-----------|
 [TREC 2013 Web Track: Topics 201-250](http://trec.nist.gov/data/web2013.html)| 0.1284    | 0.1264    | 0.1232    | 0.1008    |
 [TREC 2014 Web Track: Topics 251-300](http://trec.nist.gov/data/web2014.html)| 0.1630    | 0.1655    | 0.1321    | 0.1218    |

@@ -29,6 +29,7 @@ import java.util.Set;
 
 public class DataModel {
   private String name;
+  private String display;
   private String index_command;
   private String index_utils_command;
   private String search_command;
@@ -216,12 +217,14 @@ public class DataModel {
 
   static class Model {
     private String name;
+    private String display;
     private List<String> params;
     private Map<String, List<Float>> results;
 
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
     public Map<String, List<Float>> getResults() { return results; }
+    public String getDisplay() { return display; }
     public void setResults(Map<String, List<Float>> results) { this.results = results; }
     public List<String> getParams() { return params; }
     public void setParams(List<String> params) { this.params = params; }
@@ -356,7 +359,11 @@ public class DataModel {
     for (Eval eval : getEvals()) {
       builder.append(String.format("%1$-40s|", eval.getMetric().toUpperCase()));
       for (Model model : getModels()) {
-        builder.append(String.format(" %1$-10s|", model.getName().toUpperCase()));
+        if (model.getDisplay() == null) {
+          builder.append(String.format(" %1$-10s|", model.getName().toUpperCase()));
+        } else {
+          builder.append(String.format(" %1$-10s|", model.getDisplay()));
+        }
       }
       builder.append("\n");
       builder.append(":").append(StringUtils.repeat("-", 39)).append("|");
