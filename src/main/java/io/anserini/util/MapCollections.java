@@ -1,5 +1,5 @@
 /**
- * Anserini: A toolkit for reproducible information retrieval research built on Lucene
+ * Anserini: A Lucene toolkit for replicable information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,16 +20,15 @@ import io.anserini.collection.BaseFileSegment;
 import io.anserini.collection.DocumentCollection;
 import io.anserini.collection.SegmentProvider;
 import io.anserini.collection.SourceDocument;
-
 import io.anserini.util.mapper.DocumentMapper;
 import io.anserini.util.mapper.DocumentMapperContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
+import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.OptionHandlerFilter;
 import org.kohsuke.args4j.ParserProperties;
-import org.kohsuke.args4j.Option;
 
 import java.io.File;
 import java.nio.file.Files;

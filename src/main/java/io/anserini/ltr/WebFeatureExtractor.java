@@ -1,5 +1,5 @@
 /**
- * Anserini: A toolkit for reproducible information retrieval research built on Lucene
+ * Anserini: A Lucene toolkit for replicable information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +21,19 @@ import io.anserini.ltr.feature.FeatureExtractors;
 import io.anserini.ltr.feature.OrderedSequentialPairsFeatureExtractor;
 import io.anserini.ltr.feature.UnigramFeatureExtractor;
 import io.anserini.ltr.feature.UnorderedSequentialPairsFeatureExtractor;
-import io.anserini.ltr.feature.base.*;
+import io.anserini.ltr.feature.base.AvgICTFFeatureExtractor;
+import io.anserini.ltr.feature.base.AvgIDFFeatureExtractor;
+import io.anserini.ltr.feature.base.BM25FeatureExtractor;
+import io.anserini.ltr.feature.base.DocSizeFeatureExtractor;
+import io.anserini.ltr.feature.base.MatchingTermCount;
+import io.anserini.ltr.feature.base.PMIFeatureExtractor;
+import io.anserini.ltr.feature.base.QueryLength;
+import io.anserini.ltr.feature.base.SCQFeatureExtractor;
+import io.anserini.ltr.feature.base.SimplifiedClarityFeatureExtractor;
+import io.anserini.ltr.feature.base.SumMatchingTf;
+import io.anserini.ltr.feature.base.TFIDFFeatureExtractor;
+import io.anserini.ltr.feature.base.TermFrequencyFeatureExtractor;
+import io.anserini.ltr.feature.base.UniqueTermCount;
 import io.anserini.util.Qrels;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

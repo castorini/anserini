@@ -1,5 +1,5 @@
 /**
- * Anserini: An information retrieval toolkit built on Lucene
+ * Anserini: A Lucene toolkit for replicable information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,15 +24,16 @@ import org.apache.lucene.document.Document;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.Terms;
 import org.apache.lucene.index.TermsEnum;
+
 import java.util.ArrayList;
-import java.util.List;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
 import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_BODY;
 import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_ID;
-
 
 /*
 * TREC News Track Background Linking task postprocessing.
