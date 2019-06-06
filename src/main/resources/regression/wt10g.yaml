@@ -47,6 +47,7 @@ topics:
     qrel: qrels.451-550.txt
 models:
   - name: bm25
+    display: BM25
     params:
       - -bm25
     results:
@@ -55,6 +56,7 @@ models:
       p30:
         - 0.2218
   - name: bm25+rm3
+    display: +RM3
     params:
       - -bm25
       - -rm3
@@ -64,6 +66,7 @@ models:
       p30:
         - 0.2398
   - name: bm25+ax
+    display: +Ax
     params:
       - -bm25
       - -axiom
@@ -76,6 +79,7 @@ models:
       p30:
         - 0.2483
   - name: ql
+    display: QL
     params:
       - -ql
     results:
@@ -84,6 +88,7 @@ models:
       p30:
         - 0.2180
   - name: ql+rm3
+    display: +RM3
     params:
       - -ql
       - -rm3
@@ -93,6 +98,7 @@ models:
       p30:
         - 0.2310
   - name: ql+ax
+    display: +Ax
     params:
       - -ql
       - -axiom

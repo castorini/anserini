@@ -19,7 +19,7 @@ For additional details, see explanation of [common indexing options](common-inde
 
 Topics and qrels are stored in `src/main/resources/topics-and-qrels/`, downloaded from NIST:
 
-+ `topics.robust05.txt`: [Hard Topics of ROBUST04 (TREC 2005 Robust Track)](http://trec.nist.gov/data/robust/05/05.50.topics.txt)
++ `topics.robust05.txt`: [Hard Topics of Robust04 (TREC 2005 Robust Track)](http://trec.nist.gov/data/robust/05/05.50.topics.txt)
 + `qrels.robust2005.txt`: [qrels (TREC 2005 Robust Track)](http://trec.nist.gov/data/robust/05/TREC2005.qrels.txt)
 
 After indexing has completed, you should be able to perform retrieval as follows:
@@ -60,13 +60,13 @@ eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrel
 
 With the above commands, you should be able to replicate the following results:
 
-MAP                                     | BM25      | BM25+RM3  | BM25+AX   | QL        | QL+RM3    | QL+AX     |
+MAP                                     | BM25      | +RM3      | +Ax       | QL        | +RM3      | +Ax       |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-All Topics                              | 0.2031    | 0.2602    | 0.2584    | 0.2028    | 0.2491    | 0.2476    |
+[TREC 2005 Robust Track Topics](http://trec.nist.gov/data/robust/05/05.50.topics.txt)| 0.2031    | 0.2602    | 0.2584    | 0.2028    | 0.2491    | 0.2476    |
 
 
-P30                                     | BM25      | BM25+RM3  | BM25+AX   | QL        | QL+RM3    | QL+AX     |
+P30                                     | BM25      | +RM3      | +Ax       | QL        | +RM3      | +Ax       |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-All Topics                              | 0.3693    | 0.4187    | 0.4120    | 0.3653    | 0.4067    | 0.4113    |
+[TREC 2005 Robust Track Topics](http://trec.nist.gov/data/robust/05/05.50.topics.txt)| 0.3693    | 0.4187    | 0.4120    | 0.3653    | 0.4067    | 0.4113    |
 
 
