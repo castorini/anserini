@@ -24,7 +24,7 @@ index_stats:
   documents (non-empty): 595030
   total terms: 318203786
 topics:
-  - name: "All Topics"
+  - name: "[TREC 2018 Common Core Track Topics](https://trec.nist.gov/data/core/topics2018.txt)"
     path: topics.core18.txt
     qrel: qrels.core18.txt
 evals:
@@ -46,6 +46,7 @@ evals:
     can_combine: true
 models:
   - name: bm25
+    display: BM25
     params:
       - -bm25
     results:
@@ -54,6 +55,7 @@ models:
       p30:
         - 0.3567
   - name: bm25+rm3
+    display: +RM3
     params:
       - -bm25
       - -rm3
@@ -63,6 +65,7 @@ models:
       p30:
         - 0.4200
   - name: bm25+ax
+    display: +Ax
     params:
       - -bm25
       - -axiom
@@ -74,6 +77,7 @@ models:
       p30:
         - 0.4027
   - name: ql
+    display: QL
     params:
       - -ql
     results:
@@ -82,6 +86,7 @@ models:
       p30:
         - 0.3653
   - name: ql+rm3
+    display: +RM3
     params:
       - -ql
       - -rm3
@@ -91,6 +96,7 @@ models:
       p30:
         - 0.4000
   - name: ql+ax
+    display: +Ax
     params:
       - -ql
       - -axiom

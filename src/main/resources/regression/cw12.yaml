@@ -61,6 +61,7 @@ evals:
     metric_precision: 5
 models:
   - name: bm25
+    display: BM25
     params:
       - -bm25
     results:
@@ -77,6 +78,7 @@ models:
         - 0.12835
         - 0.16305
   - name: bm25+rm3
+    display: +RM3
     params:
       - -bm25
       - -rm3
@@ -94,6 +96,7 @@ models:
         - 0.12637
         - 0.16550
   - name: ql
+    display: QL
     params:
       - -ql
     results:
@@ -110,6 +113,7 @@ models:
         - 0.12319
         - 0.13211
   - name: ql+rm3
+    display: +RM3
     params:
       - -ql
       - -rm3

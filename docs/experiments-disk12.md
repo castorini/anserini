@@ -88,17 +88,17 @@ eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrel
 
 With the above commands, you should be able to replicate the following results:
 
-MAP                                     | BM25      | BM25+RM3  | BM25+AX   | QL        | QL+RM3    | QL+AX     |
+MAP                                     | BM25      | +RM3      | +Ax       | QL        | +RM3      | +Ax       |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-TREC-1 Ad Hoc Track: Topics 51-100      | 0.2273    | 0.2634    | 0.2640    | 0.2189    | 0.2435    | 0.2501    |
-TREC-2 Ad Hoc Track: Topics 101-150     | 0.2010    | 0.2587    | 0.2722    | 0.2015    | 0.2442    | 0.2593    |
-TREC-3 Ad Hoc Track: Topics 151-200     | 0.2580    | 0.3390    | 0.3318    | 0.2518    | 0.3042    | 0.3103    |
+[TREC-1 Ad Hoc Track: Topics 51-100](http://trec.nist.gov/data/topics_eng/topics.51-100.gz)| 0.2273    | 0.2634    | 0.2640    | 0.2189    | 0.2435    | 0.2501    |
+[TREC-2 Ad Hoc Track: Topics 101-150](http://trec.nist.gov/data/topics_eng/topics.101-150.gz)| 0.2010    | 0.2587    | 0.2722    | 0.2015    | 0.2442    | 0.2593    |
+[TREC-3 Ad Hoc Track: Topics 151-200](http://trec.nist.gov/data/topics_eng/topics.151-200.gz)| 0.2580    | 0.3390    | 0.3318    | 0.2518    | 0.3042    | 0.3103    |
 
 
-P30                                     | BM25      | BM25+RM3  | BM25+AX   | QL        | QL+RM3    | QL+AX     |
+P30                                     | BM25      | +RM3      | +Ax       | QL        | +RM3      | +Ax       |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-TREC-1 Ad Hoc Track: Topics 51-100      | 0.4533    | 0.4800    | 0.5067    | 0.4520    | 0.4627    | 0.4953    |
-TREC-2 Ad Hoc Track: Topics 101-150     | 0.4280    | 0.4593    | 0.4753    | 0.4207    | 0.4420    | 0.4740    |
-TREC-3 Ad Hoc Track: Topics 151-200     | 0.4740    | 0.5273    | 0.5100    | 0.4580    | 0.4913    | 0.5167    |
+[TREC-1 Ad Hoc Track: Topics 51-100](http://trec.nist.gov/data/topics_eng/topics.51-100.gz)| 0.4533    | 0.4800    | 0.5067    | 0.4520    | 0.4627    | 0.4953    |
+[TREC-2 Ad Hoc Track: Topics 101-150](http://trec.nist.gov/data/topics_eng/topics.101-150.gz)| 0.4280    | 0.4593    | 0.4753    | 0.4207    | 0.4420    | 0.4740    |
+[TREC-3 Ad Hoc Track: Topics 151-200](http://trec.nist.gov/data/topics_eng/topics.151-200.gz)| 0.4740    | 0.5273    | 0.5100    | 0.4580    | 0.4913    | 0.5167    |
 
 

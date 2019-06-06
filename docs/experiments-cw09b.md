@@ -108,31 +108,31 @@ eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrel
 
 With the above commands, you should be able to replicate the following results:
 
-MAP                                     | BM25      | BM25+RM3  | BM25+AX   | QL        | QL+RM3    | QL+AX     |
+MAP                                     | BM25      | +RM3      | +Ax       | QL        | +RM3      | +Ax       |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-TREC 2010 Web Track: Topics 51-100      | 0.1126    | 0.0933    | 0.0928    | 0.1060    | 0.1019    | 0.1086    |
-TREC 2011 Web Track: Topics 101-150     | 0.1094    | 0.1081    | 0.0974    | 0.0958    | 0.0837    | 0.0879    |
-TREC 2012 Web Track: Topics 151-200     | 0.1106    | 0.1107    | 0.1315    | 0.1069    | 0.1059    | 0.1212    |
+[TREC 2010 Web Track: Topics 51-100](http://trec.nist.gov/data/web/10/wt2010-topics.xml)| 0.1126    | 0.0933    | 0.0928    | 0.1060    | 0.1019    | 0.1086    |
+[TREC 2011 Web Track: Topics 101-150](http://trec.nist.gov/data/web/11/full-topics.xml)| 0.1094    | 0.1081    | 0.0974    | 0.0958    | 0.0837    | 0.0879    |
+[TREC 2012 Web Track: Topics 151-200](http://trec.nist.gov/data/web/12/full-topics.xml)| 0.1106    | 0.1107    | 0.1315    | 0.1069    | 0.1059    | 0.1212    |
 
 
-P30                                     | BM25      | BM25+RM3  | BM25+AX   | QL        | QL+RM3    | QL+AX     |
+P30                                     | BM25      | +RM3      | +Ax       | QL        | +RM3      | +Ax       |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-TREC 2010 Web Track: Topics 51-100      | 0.2681    | 0.2389    | 0.2354    | 0.2431    | 0.2312    | 0.2618    |
-TREC 2011 Web Track: Topics 101-150     | 0.2513    | 0.2467    | 0.2393    | 0.2147    | 0.2067    | 0.2167    |
-TREC 2012 Web Track: Topics 151-200     | 0.2167    | 0.1920    | 0.2553    | 0.2080    | 0.1980    | 0.2140    |
+[TREC 2010 Web Track: Topics 51-100](http://trec.nist.gov/data/web/10/wt2010-topics.xml)| 0.2681    | 0.2389    | 0.2354    | 0.2431    | 0.2312    | 0.2618    |
+[TREC 2011 Web Track: Topics 101-150](http://trec.nist.gov/data/web/11/full-topics.xml)| 0.2513    | 0.2467    | 0.2393    | 0.2147    | 0.2067    | 0.2167    |
+[TREC 2012 Web Track: Topics 151-200](http://trec.nist.gov/data/web/12/full-topics.xml)| 0.2167    | 0.1920    | 0.2553    | 0.2080    | 0.1980    | 0.2140    |
 
 
-NDCG20                                  | BM25      | BM25+RM3  | BM25+AX   | QL        | QL+RM3    | QL+AX     |
+NDCG20                                  | BM25      | +RM3      | +Ax       | QL        | +RM3      | +Ax       |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-TREC 2010 Web Track: Topics 51-100      | 0.1354    | 0.1369    | 0.1637    | 0.1143    | 0.1185    | 0.1454    |
-TREC 2011 Web Track: Topics 101-150     | 0.1890    | 0.1916    | 0.1833    | 0.1619    | 0.1447    | 0.1509    |
-TREC 2012 Web Track: Topics 151-200     | 0.1014    | 0.0917    | 0.1441    | 0.0868    | 0.0896    | 0.1030    |
+[TREC 2010 Web Track: Topics 51-100](http://trec.nist.gov/data/web/10/wt2010-topics.xml)| 0.1354    | 0.1369    | 0.1637    | 0.1143    | 0.1185    | 0.1454    |
+[TREC 2011 Web Track: Topics 101-150](http://trec.nist.gov/data/web/11/full-topics.xml)| 0.1890    | 0.1916    | 0.1833    | 0.1619    | 0.1447    | 0.1509    |
+[TREC 2012 Web Track: Topics 151-200](http://trec.nist.gov/data/web/12/full-topics.xml)| 0.1014    | 0.0917    | 0.1441    | 0.0868    | 0.0896    | 0.1030    |
 
 
-ERR20                                   | BM25      | BM25+RM3  | BM25+AX   | QL        | QL+RM3    | QL+AX     |
+ERR20                                   | BM25      | +RM3      | +Ax       | QL        | +RM3      | +Ax       |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-TREC 2010 Web Track: Topics 51-100      | 0.0733    | 0.0747    | 0.0981    | 0.0599    | 0.0592    | 0.0742    |
-TREC 2011 Web Track: Topics 101-150     | 0.0959    | 0.0960    | 0.1091    | 0.0849    | 0.0786    | 0.0820    |
-TREC 2012 Web Track: Topics 151-200     | 0.1304    | 0.1493    | 0.2355    | 0.1305    | 0.1334    | 0.1558    |
+[TREC 2010 Web Track: Topics 51-100](http://trec.nist.gov/data/web/10/wt2010-topics.xml)| 0.0733    | 0.0747    | 0.0981    | 0.0599    | 0.0592    | 0.0742    |
+[TREC 2011 Web Track: Topics 101-150](http://trec.nist.gov/data/web/11/full-topics.xml)| 0.0959    | 0.0960    | 0.1091    | 0.0849    | 0.0786    | 0.0820    |
+[TREC 2012 Web Track: Topics 151-200](http://trec.nist.gov/data/web/12/full-topics.xml)| 0.1304    | 0.1493    | 0.2355    | 0.1305    | 0.1334    | 0.1558    |
 
 
