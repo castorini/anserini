@@ -46,6 +46,7 @@ evals:
     can_combine: true
 models:
   - name: bm25
+    display: BM25
     params:
       - -bm25
     results:
@@ -54,6 +55,7 @@ models:
       recip_rank:
         - 0.2336
   - name: bm25+rm3
+    display: +RM3
     params:
       - -bm25
       - -rm3
@@ -63,6 +65,7 @@ models:
       recip_rank:
         - 0.1923
   - name: bm25+ax
+    display: +Ax
     params:
       - -bm25
       - -axiom
@@ -74,6 +77,7 @@ models:
       recip_rank:
         - 0.1949
   - name: ql
+    display: QL
     params:
       - -ql
     results:
@@ -82,6 +86,7 @@ models:
       recip_rank:
         - 0.2037
   - name: ql+rm3
+    display: +RM3
     params:
       - -ql
       - -rm3
@@ -91,6 +96,7 @@ models:
       recip_rank:
         - 0.1599
   - name: ql+ax
+    display: +Ax
     params:
       - -ql
       - -axiom

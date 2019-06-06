@@ -62,12 +62,12 @@ eval/trec_eval.9.0.4/trec_eval -m map -m recip_rank src/main/resources/topics-an
 
 With the above commands, you should be able to replicate the following results:
 
-MAP                                     | BM25      | BM25+RM3  | BM25+AX   | QL        | QL+RM3    | QL+AX     |
+MAP                                     | BM25      | +RM3      | +Ax       | QL        | +RM3      | +Ax       |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
 [TREC 2017 CAR: benchmarkY1test (v1.5)](http://trec-car.cs.unh.edu/datareleases/)| 0.1563    | 0.1295    | 0.1358    | 0.1386    | 0.1080    | 0.1048    |
 
 
-RECIP_RANK                              | BM25      | BM25+RM3  | BM25+AX   | QL        | QL+RM3    | QL+AX     |
+RECIP_RANK                              | BM25      | +RM3      | +Ax       | QL        | +RM3      | +Ax       |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
 [TREC 2017 CAR: benchmarkY1test (v1.5)](http://trec-car.cs.unh.edu/datareleases/)| 0.2336    | 0.1923    | 0.1949    | 0.2037    | 0.1599    | 0.1524    |
 
