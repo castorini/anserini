@@ -1,5 +1,5 @@
 /**
- * Anserini: A toolkit for reproducible information retrieval research built on Lucene
+ * Anserini: A Lucene toolkit for replicable information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,22 +23,37 @@ import io.anserini.ltr.feature.FeatureExtractors;
 import io.anserini.ltr.feature.OrderedSequentialPairsFeatureExtractor;
 import io.anserini.ltr.feature.UnigramFeatureExtractor;
 import io.anserini.ltr.feature.UnorderedSequentialPairsFeatureExtractor;
-import io.anserini.ltr.feature.base.*;
-import io.anserini.ltr.feature.twitter.*;
+import io.anserini.ltr.feature.base.AvgICTFFeatureExtractor;
+import io.anserini.ltr.feature.base.AvgIDFFeatureExtractor;
+import io.anserini.ltr.feature.base.BM25FeatureExtractor;
+import io.anserini.ltr.feature.base.DocSizeFeatureExtractor;
+import io.anserini.ltr.feature.base.MatchingTermCount;
+import io.anserini.ltr.feature.base.PMIFeatureExtractor;
+import io.anserini.ltr.feature.base.QueryLength;
+import io.anserini.ltr.feature.base.SCQFeatureExtractor;
+import io.anserini.ltr.feature.base.SimplifiedClarityFeatureExtractor;
+import io.anserini.ltr.feature.base.SumMatchingTf;
+import io.anserini.ltr.feature.base.TFIDFFeatureExtractor;
+import io.anserini.ltr.feature.base.TermFrequencyFeatureExtractor;
+import io.anserini.ltr.feature.base.UniqueTermCount;
+import io.anserini.ltr.feature.twitter.HashtagCount;
+import io.anserini.ltr.feature.twitter.IsTweetReply;
+import io.anserini.ltr.feature.twitter.LinkCount;
+import io.anserini.ltr.feature.twitter.TwitterFollowerCount;
+import io.anserini.ltr.feature.twitter.TwitterFriendCount;
 import io.anserini.search.query.BagOfWordsQueryGenerator;
 import io.anserini.util.Qrels;
-
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.LongPoint;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.search.Query;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Feature extractor for the twitter collections. Does not require performing searches
