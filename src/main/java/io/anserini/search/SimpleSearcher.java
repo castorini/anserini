@@ -189,14 +189,14 @@ public class SimpleSearcher implements Closeable {
         builder.add(query, BooleanClause.Occur.MUST);
         Query compositeQuery = builder.build();
         rs = searcher.search(compositeQuery, isRerank ? searchArgs.rerankcutoff : k, BREAK_SCORE_TIES_BY_TWEETID, true);
-        context = new RerankerContext<>(searcher, null, compositeQuery, null, q, queryTokens, filter, searchArgs);
+        context = new RerankerContext<>(searcher, null, compositeQuery, null, queryString, queryTokens, filter, searchArgs);
       } else {
         rs = searcher.search(query, isRerank ? searchArgs.rerankcutoff : k, BREAK_SCORE_TIES_BY_TWEETID, true);
-        context = new RerankerContext<>(searcher, null, query, null, q, queryTokens, null, searchArgs);
+        context = new RerankerContext<>(searcher, null, query, null, queryString, queryTokens, null, searchArgs);
       }
     } else {
       rs = searcher.search(query, isRerank ? searchArgs.rerankcutoff : k, BREAK_SCORE_TIES_BY_DOCID, true);
-        context = new RerankerContext<>(searcher, null, query, null, q, queryTokens, null, searchArgs);
+        context = new RerankerContext<>(searcher, null, query, null, queryString, queryTokens, null, searchArgs);
     }
 
     ScoredDocuments hits = cascade.run(ScoredDocuments.fromTopDocs(rs, searcher), context);
