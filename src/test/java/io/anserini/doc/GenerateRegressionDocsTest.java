@@ -51,7 +51,7 @@ public class GenerateRegressionDocsTest {
       scanner.close();
       String resolvedString = sub.replace(text);
 
-      FileUtils.writeStringToFile(new File(String.format("docs/experiments-%s.md", collection)),
+      FileUtils.writeStringToFile(new File(String.format("docs/regressions-%s.md", collection)),
         resolvedString, "UTF-8");
     }
   }

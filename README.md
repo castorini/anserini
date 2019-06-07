@@ -43,30 +43,27 @@ Anserini is designed to support experiments on various standard TREC collections
 Each collection is associated with [regression tests](docs/regressions.md) for replicability.
 Note that these regressions capture the "out of the box" experience, based on [_default_ parameter settings](https://github.com/castorini/Anserini/blob/master/src/main/java/io/anserini/search/SearchArgs.java).
 
-+ [Experiments on Disks 1 &amp; 2](docs/experiments-disk12.md)
-+ [Experiments on Disks 4 &amp; 5 (Robust04)](docs/experiments-robust04.md)
-+ [Experiments on AQUAINT (Robust05)](docs/experiments-robust05.md)
-+ [Experiments on the New York Times (Core17)](docs/experiments-core17.md)
-+ [Experiments on the Washington Post (Core18)](docs/experiments-core18.md)
-+ [Experiments on Wt10g](docs/experiments-wt10g.md)
-+ [Experiments on Gov2](docs/experiments-gov2.md)
-+ [Experiments on ClueWeb09 (Category B)](docs/experiments-cw09b.md)
-+ [Experiments on ClueWeb12-B13](docs/experiments-cw12b13.md)
-+ [Experiments on ClueWeb12](docs/experiments-cw12.md)
-+ [Experiments on Tweets2011 (MB11 &amp; MB12)](docs/experiments-mb11.md)
-+ [Experiments on Tweets2013 (MB13 &amp; MB14)](docs/experiments-mb13.md)
-+ [Experiments on Complex Answer Retrieval v1.5 (CAR17)](docs/experiments-car17v1.5.md)
-+ [Experiments on Complex Answer Retrieval v2.0 (CAR17)](docs/experiments-car17v2.0.md)
++ [Experiments on Disks 1 &amp; 2](docs/regressions-disk12.md)
++ [Experiments on Disks 4 &amp; 5 (Robust04)](docs/regressions-robust04.md)
++ [Experiments on AQUAINT (Robust05)](docs/regressions-robust05.md)
++ [Experiments on the New York Times (Core17)](docs/regressions-core17.md)
++ [Experiments on the Washington Post (Core18)](docs/regressions-core18.md)
++ [Experiments on Wt10g](docs/regressions-wt10g.md)
++ [Experiments on Gov2](docs/regressions-gov2.md)
++ [Experiments on ClueWeb09 (Category B)](docs/regressions-cw09b.md)
++ [Experiments on ClueWeb12-B13](docs/regressions-cw12b13.md)
++ [Experiments on ClueWeb12](docs/regressions-cw12.md)
++ [Experiments on Tweets2011 (MB11 &amp; MB12)](docs/regressions-mb11.md)
++ [Experiments on Tweets2013 (MB13 &amp; MB14)](docs/regressions-mb13.md)
++ [Experiments on Complex Answer Retrieval v1.5 (CAR17)](docs/regressions-car17v1.5.md)
++ [Experiments on Complex Answer Retrieval v2.0 (CAR17)](docs/regressions-car17v2.0.md)
+
+Other experiments:
+
 + [Experiments on MS MARCO](docs/experiments-msmarco.md)
 + [Experiments on AI2 Open Research](docs/experiments-openresearch.md)
-
-Additional regressions:
-
 + [Experiments from JDIQ 2018 article](docs/experiments-jdiq2018.md)
 + [Experiments from SIGIR Forum 2018 article](docs/experiments-forum2018.md)
-
-Runbooks:
-
 + Runbooks for TREC 2018: [[Anserini group](docs/runbook-trec2018-anserini.md)] [[h2oloo group](docs/runbook-trec2018-h2oloo.md)]
 + Runbook for [ECIR 2019 paper on axiomatic semantic term matching](docs/runbook-ecir2019-axiomatic.md)
 + Runbook for [ECIR 2019 paper on cross-collection relevance feedback](docs/runbook-ecir2019-ccrf.md)
