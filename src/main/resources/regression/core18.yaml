@@ -21,8 +21,8 @@ index_path: indexes/lucene-index.core18.pos+docvectors+rawdocs # path to the exi
 collection: WashingtonPostCollection
 index_stats:
   documents: 595037
-  documents (non-empty): 595037
-  total terms: 317898812
+  documents (non-empty): 595030
+  total terms: 318219945
 topics:
   - name: "All Topics"
     path: topics.core18.txt
@@ -59,7 +59,7 @@ models:
       - -rm3
     results:
       map:
-        - 0.3136
+        - 0.3135
       p30:
         - 0.4200
   - name: bm25+ax
@@ -70,7 +70,7 @@ models:
       - -axiom.deterministic
     results:
       map:
-        - 0.2920
+        - 0.2925
       p30:
         - 0.4027
   - name: ql
