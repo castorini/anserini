@@ -68,7 +68,7 @@ if __name__ == '__main__':
               if doc_id == query_id:
                   continue
               fout.write('{} Q0 {} {} {} Anserini\n'.format(
-                  query_id, doc_id, rank + 1, 1 / (rank + 1)))
+                  query_id, doc_id, rank + 1, hits[i].score))
               rank += 1
               if rank >= args.hits:
                   break
