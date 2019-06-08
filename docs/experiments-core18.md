@@ -64,7 +64,7 @@ With the above commands, you should be able to replicate the following results:
 
 MAP                                     | BM25      | BM25+RM3  | BM25+AX   | QL        | QL+RM3    | QL+AX     |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-All Topics                              | 0.2495    | 0.3136    | 0.2920    | 0.2526    | 0.3073    | 0.2966    |
+All Topics                              | 0.2495    | 0.3135    | 0.2925    | 0.2526    | 0.3073    | 0.2966    |
 
 
 P30                                     | BM25      | BM25+RM3  | BM25+AX   | QL        | QL+RM3    | QL+AX     |
