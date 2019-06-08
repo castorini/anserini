@@ -16,6 +16,7 @@
 
 package io.anserini.index.generator;
 
+import io.anserini.collection.MultifieldSourceDocument;
 import io.anserini.collection.SourceDocument;
 import io.anserini.index.IndexCollection;
 import io.anserini.index.transform.StringTransform;
@@ -118,7 +119,7 @@ public class LuceneDocumentGenerator<T extends SourceDocument> {
     }
 
     // Make a new, empty document.
-    Document document = new Document();
+    final Document document = new Document();
 
     // Store the collection docid.
     document.add(new StringField(FIELD_ID, id, Field.Store.YES));
@@ -146,6 +147,29 @@ public class LuceneDocumentGenerator<T extends SourceDocument> {
     }
 
     document.add(new Field(FIELD_BODY, contents, fieldType));
+
+    // If this document has other fields, then we want to index it also.
+    // Currently we just use all the settings of the main "content" field.
+    if (src instanceof MultifieldSourceDocument) {
+      ((MultifieldSourceDocument) src).fields().forEach((k, v) -> {
+        FieldType type = new FieldType();
+
+        type.setStored(args.storeTransformedDocs);
+
+        if (args.storeDocvectors) {
+          type.setStoreTermVectors(true);
+          type.setStoreTermVectorPositions(true);
+        }
+
+        if (args.storePositions) {
+          type.setIndexOptions(IndexOptions.DOCS_AND_FREQS_AND_POSITIONS);
+        } else {
+          type.setIndexOptions(IndexOptions.DOCS_AND_FREQS);
+        }
+
+        document.add(new Field(k, v, fieldType));
+      });
+    }
 
     return document;
   }

@@ -41,7 +41,6 @@ import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.impl.CloudSolrClient;
-import org.apache.solr.client.solrj.impl.ConcurrentUpdateSolrClient;
 import org.apache.solr.common.SolrInputDocument;
 import org.kohsuke.args4j.*;
 
@@ -58,6 +57,8 @@ import java.util.concurrent.atomic.AtomicLong;
 
 public final class IndexCollection {
   private static final Logger LOG = LogManager.getLogger(IndexCollection.class);
+
+  private static final int TIMEOUT = 600 * 1000;
 
   public static final class Args {
 
@@ -135,36 +136,18 @@ public final class IndexCollection {
     @Option(name = "-solr.batch", usage = "the batch size for submitting documents to Solr")
     public int solrBatch = 1000;
 
-    @Option(name = "-solr.cloud", usage = "boolean switch to determine if we're running in SolrCloud mode")
-    public boolean solrCloud = false;
-
     @Option(name = "-solr.commitWithin", usage = "the number of seconds to commitWithin")
     public int solrCommitWithin = 60;
 
     @Option(name = "-solr.index", usage = "the name of the index")
     public String solrIndex = null;
 
-    @Option(name = "-solr.url", usage = "the URL of Solr (standalone) or ZooKeeper (cloud, possibly comma-separated) servers")
-    public String solrUrl = null;
+    @Option(name = "-solr.zkUrl", usage = "the URL of Solr's ZooKeeper (comma separated list of using ensemble)")
+    public String zkUrl = null;
 
-    @Option(name = "-solr.zkChroot", usage = "the ZooKeeper chroot if using SolrCloud")
-    public String solrZkChroot = "/";
+    @Option(name = "-solr.zkChroot", usage = "the ZooKeeper chroot")
+    public String zkChroot = "/";
 
-    /**
-     * The number of {@link SolrClient#add(Collection) add} calls to buffer before draining pending update queue.
-     */
-    @Option(name = "-solr.clientQueueSize", usage = "the number of update requests to buffer before draining")
-    public int solrClientQueueSize = 16;
-
-    /**
-     * The number threads used to drain the ConcurrentUpdateSolrClient queue
-     */
-    @Option(name = "-solr.clientThreads", metaVar = "[NUMBER]", usage = "the number of threads used to drain the ConcurrentUpdateSolrClient queue")
-    public int solrClientThreads = 1;
-
-    /**
-     * The number of SolrClients to keep in the object pool.
-     */
     @Option(name = "-solr.poolSize", metaVar = "[NUMBER]", usage = "the number of clients to keep in the pool")
     public int solrPoolSize = 16;
 
@@ -357,8 +340,14 @@ public final class IndexCollection {
 
           // Copy all Lucene Document fields to Solr document
           for (IndexableField field : document.getFields()) {
+            // Skip docValues fields - this is done via Solr config.
+            if (field.fieldType().docValuesType() != DocValuesType.NONE) {
+              continue;
+            }
             if (field.stringValue() != null) { // For some reason, id is multi-valued with null as one of the values
               solrDocument.addField(field.name(), field.stringValue());
+            } else if (field.numericValue() != null) {
+              solrDocument.addField(field.name(), field.numericValue());
             }
           }
 
@@ -442,12 +431,9 @@ public final class IndexCollection {
     LOG.info("Solr? " + args.solr);
     if (args.solr) {
       LOG.info("Solr batch size: " + args.solrBatch);
-      LOG.info("SolrCloud? " + args.solrCloud + " (zkChroot = " + args.solrZkChroot + ")");
       LOG.info("Solr commitWithin: " + args.solrCommitWithin);
       LOG.info("Solr index: " + args.solrIndex);
-      LOG.info("Solr URL: " + args.solrUrl);
-      LOG.info("SolrClient thread count: " + args.solrClientThreads);
-      LOG.info("SolrClient queue size: " + args.solrClientQueueSize);
+      LOG.info("Solr ZooKeeper URL: " + args.zkUrl);
       LOG.info("SolrClient pool size: " + args.solrPoolSize);
     }
     LOG.info("Dry run (no index created)? " + args.dryRun);
@@ -495,17 +481,10 @@ public final class IndexCollection {
 
     @Override
     public SolrClient create() {
-
-      if (args.solrCloud) {
-        List<String> urls = Splitter.on(',').splitToList(args.solrUrl);
-        return new CloudSolrClient.Builder(urls, Optional.of(args.solrZkChroot)).build();
-      }
-
-      ConcurrentUpdateSolrClient.Builder builder = new ConcurrentUpdateSolrClient.Builder(args.solrUrl)
-          .withQueueSize(args.solrClientQueueSize)
-          .withThreadCount(args.solrClientThreads);
-
-      return new ExceptionHandlingSolrClient(builder);
+      return new CloudSolrClient.Builder(Splitter.on(',').splitToList(args.zkUrl), Optional.of(args.zkChroot))
+          .withConnectionTimeout(TIMEOUT)
+          .withSocketTimeout(TIMEOUT)
+          .build();
     }
 
     @Override
@@ -518,17 +497,6 @@ public final class IndexCollection {
       pooled.getObject().close();
     }
 
-  }
-
-  private class ExceptionHandlingSolrClient extends ConcurrentUpdateSolrClient {
-    ExceptionHandlingSolrClient(ConcurrentUpdateSolrClient.Builder builder) {
-      super(builder);
-    }
-
-    @Override
-    public void handleError(Throwable ex) {
-      LOG.warn("Solr: Exception delivering documents", ex);
-    }
   }
 
   public void run() throws IOException {

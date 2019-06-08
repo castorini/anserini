@@ -92,8 +92,10 @@ public class WapoGenerator extends LuceneDocumentGenerator<WashingtonPostCollect
     });
 
     StringBuilder contentBuilder = new StringBuilder();
-    contentBuilder.append(wapoDoc.getTitle()).append("\n\n");
-  
+    wapoDoc.getTitle().ifPresent(title -> {
+      contentBuilder.append(title).append("\n");
+    });
+
     wapoDoc.getObj().getContents().ifPresent(contents -> {
       for (WashingtonPostObject.Content contentObj : contents) {
         if (contentObj == null) continue;
@@ -104,6 +106,7 @@ public class WapoGenerator extends LuceneDocumentGenerator<WashingtonPostCollect
                 contentBuilder.append(removeTags(content)).append("\n");
               } else if (type.compareToIgnoreCase("kicker") == 0) {
                 doc.add(new StringField(WapoField.KICKER.name, content, Field.Store.NO));
+                contentBuilder.append(content).append("\n");
               }
             });
           });
