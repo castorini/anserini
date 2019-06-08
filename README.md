@@ -60,7 +60,7 @@ Note that these regressions capture the "out of the box" experience, based on [_
 
 Other experiments:
 
-+ [Experiments on MS MARCO](docs/experiments-msmarco.md)
++ [Experiments on MS MARCO](docs/experiments-msmarco-passage.md)
 + [Experiments on AI2 Open Research](docs/experiments-openresearch.md)
 + [Experiments from JDIQ 2018 article](docs/experiments-jdiq2018.md)
 + [Experiments from SIGIR Forum 2018 article](docs/experiments-forum2018.md)

@@ -67,7 +67,7 @@ public class SearchMsmarco {
       SimpleSearcher.Result[] hits = searcher.search(query, retrieveArgs.hits);
 
       if (lineNumber % 10 == 0) {
-        double timePerQuery = (double) (System.nanoTime() - startTime) / (lineNumber + 1) / 10e9;
+        double timePerQuery = (double) (System.nanoTime() - startTime) / (lineNumber + 1) / 1e9;
         System.out.format("Retrieving query " + lineNumber + " (%.3f s/query)\n", timePerQuery);
       }
 
