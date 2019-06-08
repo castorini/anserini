@@ -40,13 +40,13 @@ nohup target/appassembler/bin/SearchCollection -topicreader Tsv -index lucene-in
 Evaluation can be performed using `trec_eval`:
 
 ```
-eval/trec_eval.9.0.4/trec_eval -m map -m recall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt run.msmarco-passage.bm25-default.topics.msmarco-passage.dev-subset.txt
+eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt run.msmarco-passage.bm25-default.topics.msmarco-passage.dev-subset.txt
 
-eval/trec_eval.9.0.4/trec_eval -m map -m recall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt run.msmarco-passage.bm25-default+rm3.topics.msmarco-passage.dev-subset.txt
+eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt run.msmarco-passage.bm25-default+rm3.topics.msmarco-passage.dev-subset.txt
 
-eval/trec_eval.9.0.4/trec_eval -m map -m recall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt run.msmarco-passage.bm25-tuned.topics.msmarco-passage.dev-subset.txt
+eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt run.msmarco-passage.bm25-tuned.topics.msmarco-passage.dev-subset.txt
 
-eval/trec_eval.9.0.4/trec_eval -m map -m recall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt run.msmarco-passage.bm25-tuned+rm3.topics.msmarco-passage.dev-subset.txt
+eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt run.msmarco-passage.bm25-tuned+rm3.topics.msmarco-passage.dev-subset.txt
 
 ```
 

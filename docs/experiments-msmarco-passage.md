@@ -100,7 +100,7 @@ python ./src/main/python/msmarco/convert_msmarco_to_trec_qrels.py \
 And run the `trec_eval` tool:
 
 ```
-./eval/trec_eval.9.0.4/trec_eval -mrecall.1000 -mmap \
+./eval/trec_eval.9.0.4/trec_eval -c -mrecall.1000 -mmap \
  msmarco-passage/qrels.dev.small.trec msmarco-passage/run.dev.small.trec
 ```
 

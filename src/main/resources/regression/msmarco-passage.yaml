@@ -19,6 +19,7 @@ evals:
   - command: eval/trec_eval.9.0.4/trec_eval
     params:
       - -m map
+      - -c
     separator: "\t"
     parse_index: 2
     metric: map
@@ -27,6 +28,7 @@ evals:
   - command: eval/trec_eval.9.0.4/trec_eval
     params:
       - -m recall.1000
+      - -c
     separator: "\t"
     parse_index: 2
     metric: R@1000
