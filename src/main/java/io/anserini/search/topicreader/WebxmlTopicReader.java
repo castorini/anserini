@@ -24,6 +24,9 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+/**
+ * Topic reader for standard XML format used in the TREC Web Tracks.
+ */
 public class WebxmlTopicReader extends TopicReader {
   public WebxmlTopicReader(Path topicFile) {
     super(topicFile);
@@ -37,17 +40,6 @@ public class WebxmlTopicReader extends TopicReader {
     return line.substring(i + tag.length() + 2, j);
   }
 
-  /**
-   * Read topics of TREC Web Tracks from 2009 to 2014 including:
-   * topics.web.1-50.txt
-   * topics.web.51-100.txt
-   * topics.web.101-150.txt
-   * topics.web.151-200.txt
-   * topics.web.201-250.txt
-   * topics.web.251-300.txt
-   * @return SortedMap where keys are query/topic IDs and values are title portions of the topics
-   * @throws IOException any io exception
-   */
   @Override
   public SortedMap<Integer, Map<String, String>> read(BufferedReader bRdr) throws IOException {
     SortedMap<Integer, Map<String, String>> map = new TreeMap<>();
