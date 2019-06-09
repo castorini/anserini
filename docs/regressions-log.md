@@ -3,6 +3,13 @@
 The following change log details commits to regression tests that alter effectiveness and the addition of new regression tests.
 This documentation is useful for figuring why results may have changed over time.
 
+### June 9. 2019
+
++ commit [93f8f3c](https://github.com/castorini/anserini/commit/93f8f3c769bc9f95b2c351dc8347f0bbe940d1b2) (6/9/2019)
++ commit [781d9ed](https://github.com/castorini/anserini/commit/781d9ed111b41883c2342ff4d367ca77cfd9ebb2) (6/8/2019)
+
+Added regressions for MS MARCO passage and document ranking tasks.
+
 ### June 3, 2019
 
 + commit [3545350](https://github.com/castorini/anserini/commit/3545350f3a12bd55a616e41057aa51d3b5cfaed2) (6/3/2019)

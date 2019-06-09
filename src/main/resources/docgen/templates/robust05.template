@@ -1,4 +1,4 @@
-# Anserini: Experiments on [AQUAINT](https://tac.nist.gov//data/data_desc.html#AQUAINT) (Robust05)
+# Anserini: Regressions for [AQUAINT](https://tac.nist.gov//data/data_desc.html#AQUAINT) (Robust05)
 
 ## Indexing
 
