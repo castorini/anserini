@@ -1,4 +1,4 @@
-# Anserini: Experiments on [Gov2](http://ir.dcs.gla.ac.uk/test_collections/gov2-summary.htm)
+# Anserini: Regressions for [Gov2](http://ir.dcs.gla.ac.uk/test_collections/gov2-summary.htm)
 
 ## Indexing
 

@@ -1,4 +1,4 @@
-# Anserini: Experiments on [TREC 2017 CAR](http://trec-car.cs.unh.edu/) (v1.5)
+# Anserini: Regressions for [TREC 2017 CAR](http://trec-car.cs.unh.edu/) (v1.5)
 
 ## Indexing
 

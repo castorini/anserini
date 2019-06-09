@@ -1,4 +1,4 @@
-# Anserini: Experiments on [MS MARCO (Document)](https://github.com/microsoft/TREC-2019-Deep-Learning)
+# Anserini: Regressions for [MS MARCO (Document)](https://github.com/microsoft/TREC-2019-Deep-Learning)
 
 This page documents regression experiments for the MS MARCO Document Ranking Task, which is integrated into Anserini's regression testing framework.
 For more complete instructions on how to run end-to-end experiments, refer to [this page](experiments-msmarco-doc.md).
