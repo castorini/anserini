@@ -153,7 +153,7 @@ public final class IndexCollection {
     @Option(name = "-solr.commitWithin", usage = "the number of seconds to commitWithin")
     public int solrCommitWithin = 60;
 
-    @Option(name = "-solr.index", usage = "the name of the index")
+    @Option(name = "-solr.index", usage = "the name of the index in Solr")
     public String solrIndex = null;
 
     @Option(name = "-solr.zkUrl", usage = "the URL of Solr's ZooKeeper (comma separated list of using ensemble)")
@@ -170,6 +170,9 @@ public final class IndexCollection {
 
     @Option(name = "-es.batch", usage = "the number of index requests in a bulk request sent to Elasticsearch")
     public int esBatch = 1000;
+
+    @Option(name = "-es.index", usage = "the name of the index in Elasticsearch")
+    public String esIndex = null;
 
     @Option(name = "-es.hostname", usage = "the name of Elasticsearch HTTP host")
     public String esHostname = "localhost";
@@ -511,7 +514,9 @@ public final class IndexCollection {
             }
           }
           builder.endObject();
-          bulkRequest.add(new IndexRequest(input.getFileName().toString(), "doc", sourceDocument.id()).source(builder));
+          
+          String indexName = (args.esIndex != null) ? args.esIndex : input.getFileName().toString();
+          bulkRequest.add(new IndexRequest(indexName, "doc", sourceDocument.id()).source(builder));
           if (bulkRequest.numberOfActions() == args.esBatch) {
             sendBulkRequest();
           }
@@ -602,6 +607,7 @@ public final class IndexCollection {
     LOG.info("Elasticsearch? " + args.es);
     if (args.es) {
       LOG.info("Elasticsearch batch size: " + args.esBatch);
+      LOG.info("Elasticsearch index: " + args.esIndex);
       LOG.info("Elasticsearch hostname: " + args.esHostname);
       LOG.info("Elasticsearch host port: " + args.esPort);
       LOG.info("ELK stack user: " + args.esUser);

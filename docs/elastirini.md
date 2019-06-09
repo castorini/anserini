@@ -9,6 +9,6 @@ Note: depending on the documents you are indexing, you probably also have to inc
 ## Index
 
 To index with Elasticsearch, instead of passing in `-index` (to index with Lucene directly) or `-solr` (to index with Solr), we pass in `-es`. For example, to index [robust04](https://github.com/castorini/Anserini/blob/master/docs/experiments-robust04.md), we could run:
-`sh target/appassembler/bin/IndexCollection -collection TrecCollection -generator JsoupGenerator -es -threads 16 -input [absolute path to disk45] -storePositions -storeDocvectors -storeRawDocs`
+`sh target/appassembler/bin/IndexCollection -collection TrecCollection -generator JsoupGenerator -es -es.index [index name] -threads 16 -input [absolute path to disk45] -storePositions -storeDocvectors -storeRawDocs`
 
 There are additional `-es` parameters for using Elasticsearch in Anserini; you could specify them as you see fit.
