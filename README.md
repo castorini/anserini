@@ -57,16 +57,16 @@ Note that these regressions capture the "out of the box" experience, based on [_
 + [Regressions for Tweets2013 (MB13 &amp; MB14)](docs/regressions-mb13.md)
 + [Regressions for Complex Answer Retrieval v1.5 (CAR17)](docs/regressions-car17v1.5.md)
 + [Regressions for Complex Answer Retrieval v2.0 (CAR17)](docs/regressions-car17v2.0.md)
-+ [Regressions for MS MARCO Passage Task](docs/regressions-msmarco-passage.md)
-+ [Regressions for MS MARCO Document Task](docs/regressions-msmarco-doc.md)
++ [Regressions for the MS MARCO Passage Task](docs/regressions-msmarco-passage.md)
++ [Regressions for the MS MARCO Document Task](docs/regressions-msmarco-doc.md)
 
 Other experiments:
 
-+ [Experiments on MS MARCO Passage Task](docs/experiments-msmarco-passage.md)
-+ [Experiments on MS MARCO Document Task](docs/experiments-msmarco-doc.md)
-+ [Experiments on AI2 Open Research](docs/experiments-openresearch.md)
-+ [Experiments from JDIQ 2018 article](docs/experiments-jdiq2018.md)
-+ [Experiments from SIGIR Forum 2018 article](docs/experiments-forum2018.md)
++ [Guide to running experiments on the MS MARCO Passage Task](docs/experiments-msmarco-passage.md)
++ [Guide to running experiments on the MS MARCO Document Task](docs/experiments-msmarco-doc.md)
++ [Guide to running Experiments on the AI2 Open Research Corpus](docs/experiments-openresearch.md)
++ [Experiments from Yang et al. (JDIQ 2018)](docs/experiments-jdiq2018.md)
++ [Experiments from Lin (SIGIR Forum 2018)](docs/experiments-forum2018.md)
 + Runbooks for TREC 2018: [[Anserini group](docs/runbook-trec2018-anserini.md)] [[h2oloo group](docs/runbook-trec2018-h2oloo.md)]
 + Runbook for [ECIR 2019 paper on axiomatic semantic term matching](docs/runbook-ecir2019-axiomatic.md)
 + Runbook for [ECIR 2019 paper on cross-collection relevance feedback](docs/runbook-ecir2019-ccrf.md)
