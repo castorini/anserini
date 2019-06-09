@@ -1,4 +1,4 @@
-# Anserini: Experiments on [ClueWeb12](http://lemurproject.org/clueweb12.php/)
+# Anserini: Regressions for [ClueWeb12](http://lemurproject.org/clueweb12.php/)
 
 ## Indexing
 
