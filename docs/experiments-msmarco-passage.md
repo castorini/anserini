@@ -1,9 +1,12 @@
 # Anserini: Experiments on [MS MARCO (Passage)](https://github.com/microsoft/MSMARCO-Passage-Ranking)
 
+This page contains basic instructions for getting started on the MS MARCO *passage* ranking task.
+Note that there is a separate [MS MARCO *document* ranking task](experiments-msmarco-doc.md).
+
 ## Data Prep
 
 We're going to use `msmarco-passage/` as the working directory.
-First, we need to download and extract the MS MARCO dataset:
+First, we need to download and extract the MS MARCO passage dataset:
 
 ```
 mkdir msmarco-passage
@@ -37,7 +40,7 @@ The output message should be something like this:
 2019-06-08 08:53:47,351 INFO  [main] index.IndexCollection (IndexCollection.java:632) - Total 8,841,823 documents indexed in 00:01:31
 ```
 
-Your speed may vary... with a modern desktop machine with an SSD, indexing takes less than two minutes.
+Your speed may vary... with a modern desktop with an SSD, indexing takes less than two minutes.
 
 ## Retrieving and Evaluating the Dev set
 
