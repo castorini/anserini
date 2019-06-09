@@ -22,7 +22,7 @@ Build the index with the following command:
 
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection TrecCollection \
- -generator JsoupGenerator -threads 1 -input msmarco-doc/collection \
+ -generator LuceneDocumentGenerator -threads 1 -input msmarco-doc/collection \
  -index lucene-index.msmarco-doc.pos+docvectors+rawdocs -storePositions -storeDocvectors -storeRawDocs \
  >& log.msmarco-doc.pos+docvectors+rawdocs &
 ```
@@ -31,14 +31,14 @@ On a modern desktop with an SSD, indexing takes around 40 minutes.
 The final log lines should look something like this:
 
 ```
-2019-06-08 13:30:00,349 INFO  [main] index.IndexCollection (IndexCollection.java:623) - # Final Counter Values
-2019-06-08 13:30:00,349 INFO  [main] index.IndexCollection (IndexCollection.java:624) - indexed:        3,213,835
-2019-06-08 13:30:00,349 INFO  [main] index.IndexCollection (IndexCollection.java:625) - empty:                  0
-2019-06-08 13:30:00,349 INFO  [main] index.IndexCollection (IndexCollection.java:626) - unindexed:              0
-2019-06-08 13:30:00,349 INFO  [main] index.IndexCollection (IndexCollection.java:627) - unindexable:            0
-2019-06-08 13:30:00,350 INFO  [main] index.IndexCollection (IndexCollection.java:628) - skipped:                0
-2019-06-08 13:30:00,350 INFO  [main] index.IndexCollection (IndexCollection.java:629) - errors:                 0
-2019-06-08 13:30:00,354 INFO  [main] index.IndexCollection (IndexCollection.java:632) - Total 3,213,835 documents indexed in 00:43:32
+2019-06-09 09:32:35,233 INFO  [main] index.IndexCollection (IndexCollection.java:623) - # Final Counter Values
+2019-06-09 09:32:35,233 INFO  [main] index.IndexCollection (IndexCollection.java:624) - indexed:        3,213,835
+2019-06-09 09:32:35,233 INFO  [main] index.IndexCollection (IndexCollection.java:625) - empty:                  0
+2019-06-09 09:32:35,234 INFO  [main] index.IndexCollection (IndexCollection.java:626) - unindexed:              0
+2019-06-09 09:32:35,234 INFO  [main] index.IndexCollection (IndexCollection.java:627) - unindexable:            0
+2019-06-09 09:32:35,234 INFO  [main] index.IndexCollection (IndexCollection.java:628) - skipped:                0
+2019-06-09 09:32:35,234 INFO  [main] index.IndexCollection (IndexCollection.java:629) - errors:                 0
+2019-06-09 09:32:35,238 INFO  [main] index.IndexCollection (IndexCollection.java:632) - Total 3,213,835 documents indexed in 00:39:07
 ```
 
 ## Retrieving and Evaluating the Dev set
@@ -84,10 +84,10 @@ After the run completes, we can evaluate with `trec_eval`:
 $ eval/trec_eval.9.0.4/trec_eval -c msmarco-doc/msmarco-docdev-qrels.tsv msmarco-doc/run.msmarco-doc.dev.bm25.txt
 runid                 	all	Anserini
 num_q                 	all	5193
-num_ret               	all	5191672
+num_ret               	all	5191674
 num_rel               	all	5193
 num_rel_ret           	all	4599
-map                   	all	0.2306
+map                   	all	0.2308
 ...
 ```
 
@@ -101,7 +101,7 @@ $ eval/trec_eval.9.0.4/trec_eval -c -mmap -M 100 msmarco-doc/msmarco-docdev-qrel
 map                   	all	0.2219
 
 $ eval/trec_eval.9.0.4/trec_eval -c -mmap -M 100 msmarco-doc/msmarco-docdev-qrels.tsv msmarco-doc/run.msmarco-doc.dev.bm25.txt
-map                   	all	0.2300
+map                   	all	0.2301
 ```
 
 We see that "out of the box" Anserini is already better!

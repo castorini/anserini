@@ -58,6 +58,7 @@ Note that these regressions capture the "out of the box" experience, based on [_
 + [Experiments on Complex Answer Retrieval v1.5 (CAR17)](docs/regressions-car17v1.5.md)
 + [Experiments on Complex Answer Retrieval v2.0 (CAR17)](docs/regressions-car17v2.0.md)
 + [Experiments on MS MARCO Passage Task](docs/regressions-msmarco-passage.md)
++ [Experiments on MS MARCO Document Task](docs/regressions-msmarco-doc.md)
 
 Other experiments:
 

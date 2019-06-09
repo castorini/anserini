@@ -1,7 +1,7 @@
 # Anserini: Experiments on [MS MARCO (Passage)](https://github.com/microsoft/MSMARCO-Passage-Ranking)
 
 This page documents regression experiments for the MS MARCO Passage Ranking Task, which is integrated into Anserini's regression testing framework.
-For more complete instructions on how to run end-to-end experiments, refer to a [separate page](experiments-msmarco.md).
+For more complete instructions on how to run end-to-end experiments, refer to [this page](experiments-msmarco-passage.md).
 
 ## Indexing
 
@@ -22,7 +22,7 @@ For additional details, see explanation of [common indexing options](common-inde
 ## Retrieval
 
 Topics and qrels are stored in `src/main/resources/topics-and-qrels/`.
-The regression experiments here evaluate on the 6980 dev set questions; see [this page](experiments-msmarco.md) for more details.
+The regression experiments here evaluate on the 6980 dev set questions; see [this page](experiments-msmarco-passage.md) for more details.
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
@@ -66,5 +66,5 @@ R@1000                                  | BM25 (Default)| +RM3      | BM25 (Tune
 
 
 The setting "default" refers the default BM25 settings of `k1=0.9`, `b=0.4`, while "tuned" refers to the tuned setting of `k1=0.82`, `b=0.72`.
-See [this page](experiments-msmarco.md) for more details.
+See [this page](experiments-msmarco-passage.md) for more details.
 Note that these results are slightly different from the above referenced page because those experiments make up "fake" scores when converting runs from MS MARCO format into TREC format for evaluation by `trec_eval`.
