@@ -30,8 +30,9 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 
-/*
- * Java rewrite of retrieve.py
+/**
+ * Class that performs retrieval for the MS MARCO passage ranking task. This is the Java version of the Python script
+ * <code>src/main/python/msmarco/retrieve.py</code>.
  */
 public class SearchMsmarco {
   public static class Args {
