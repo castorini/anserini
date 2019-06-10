@@ -66,6 +66,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
+/**
+ * Class that exposes basic search functionality, designed specifically to provide the bridge between Java and Python
+ * via pyjnius.
+ */
 public class SimpleSearcher implements Closeable {
   public static final Sort BREAK_SCORE_TIES_BY_DOCID =
       new Sort(SortField.FIELD_SCORE, new SortField(LuceneDocumentGenerator.FIELD_ID, SortField.Type.STRING_VAL));
@@ -79,6 +83,8 @@ public class SimpleSearcher implements Closeable {
   private RerankerCascade cascade;
   private boolean searchtweets;
   private boolean isRerank;
+
+  private IndexSearcher searcher = null;
 
   protected class Result {
     public String docid;
@@ -184,8 +190,11 @@ public class SimpleSearcher implements Closeable {
   }
 
   protected Result[] search(Query query, List<String> queryTokens, String queryString, int k, long t) throws IOException {
-    IndexSearcher searcher = new IndexSearcher(reader);
-    searcher.setSimilarity(similarity);
+    // Initialize an index searcher only once
+    if (searcher == null) {
+      searcher = new IndexSearcher(reader);
+      searcher.setSimilarity(similarity);
+    }
 
     SearchArgs searchArgs = new SearchArgs();
     searchArgs.arbitraryScoreTieBreak = false;
@@ -226,6 +235,7 @@ public class SimpleSearcher implements Closeable {
       String docid = doc.getField(LuceneDocumentGenerator.FIELD_ID).stringValue();
       IndexableField field = doc.getField(LuceneDocumentGenerator.FIELD_RAW);
       String content = field == null ? null : field.stringValue();
+
       results[i] = new Result(docid, hits.ids[i], hits.scores[i], content);
     }
 
