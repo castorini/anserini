@@ -1,4 +1,4 @@
-# Anserini: Experiments on [Wt10g](http://ir.dcs.gla.ac.uk/test_collections/wt10g.html)
+# Anserini: Regressions for [Wt10g](http://ir.dcs.gla.ac.uk/test_collections/wt10g.html)
 
 ## Indexing
 

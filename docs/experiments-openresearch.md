@@ -74,6 +74,7 @@ python ./src/main/python/openresearch/retrieve.py \
   --output ${DATA_DIR}/anserini_format/run.small.test \
   --hits 1000
 ```
+
 or, if we would like to use key terms as query:
 
 ```
@@ -100,6 +101,7 @@ Finally, we can evaluate the retrieved documents using the official TREC evaluat
  ${DATA_DIR}/anserini_format/qrels.test ${DATA_DIR}/anserini_format/run.small.test
 ```
 
+
 The output of only using title as query should be:
 
 ```
@@ -109,6 +111,7 @@ P_20                  	all	0.0539
 recall_20             	all	0.0786
 recall_1000           	all	0.2866
 ```
+
 The output of using the concatenation of title and abstract as query should be:  
 
 ```
@@ -128,6 +131,7 @@ recall_20             	all	0.0790
 recall_1000           	all	0.2818
 ```
 
+
 The table below compares our BM25 results against Bhagavatula's et. al (2018):
 
 |                                 | F1@20 |  MRR  |
@@ -136,4 +140,5 @@ The table below compares our BM25 results against Bhagavatula's et. al (2018):
 | BM25 (Anserini, Ours, title)    | 0.063 | 0.244 |
 | BM25 (Anserini, Ours, title+abstract)| 0.095 | 0.351 |
 | BM25 (Anserini, Ours, key terms)| 0.065 | 0.251 |
+
 

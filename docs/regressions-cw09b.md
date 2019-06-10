@@ -1,4 +1,4 @@
-# Anserini: Experiments on [ClueWeb09 (Category B)](http://lemurproject.org/clueweb09.php/)
+# Anserini: Regressions for [ClueWeb09 (Category B)](http://lemurproject.org/clueweb09.php/)
 
 ## Indexing
 

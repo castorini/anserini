@@ -19,18 +19,59 @@ package io.anserini.search;
 import org.apache.commons.io.FileUtils;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
+import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.OptionHandlerFilter;
 import org.kohsuke.args4j.ParserProperties;
 
 import java.io.File;
+import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 
-/*
- * Java rewrite of retrieve.py
+/**
+ * Class that performs retrieval for the MS MARCO passage ranking task. This is the Java version of the Python script
+ * <code>src/main/python/msmarco/retrieve.py</code>.
  */
 public class SearchMsmarco {
+  public static class Args {
+    // required arguments
+    @Option(name = "-qid_queries", metaVar = "[file]", required = true, usage="query id - query mapping file")
+    public String qid_queries = "";
+
+    @Option(name = "-output", metaVar = "[file]", required = true, usage = "output file")
+    public String output = "";
+
+    @Option(name = "-index", metaVar = "[path]", required = true, usage = "index path")
+    public String index = "";
+
+    // optional arguments
+    @Option(name = "-hits", metaVar = "[number]", usage = "number of hits to retrieve")
+    public int hits = 10;
+
+    @Option(name = "-k1", metaVar = "[value]", usage = "BM25 k1 parameter")
+    public float k1 = 0.82f;
+
+    @Option(name = "-b", metaVar = "[value]", usage = "BM25 b parameter")
+    public float b = 0.72f;
+
+    // See our MS MARCO documentation to understand how these parameter values were tuned.
+    @Option(name = "-rm3", usage = "use RM3 query expansion model")
+    public boolean rm3 = false;
+
+    @Option(name = "-fbTerms", metaVar = "[number]", usage = "RM3 parameter: number of expansion terms")
+    public int fbTerms = 10;
+
+    @Option(name = "-fbDocs", metaVar = "[number]", usage = "RM3 parameter: number of documents")
+    public int fbDocs = 10;
+
+    @Option(name = "-originalQueryWeight", metaVar = "[value]", usage = "RM3 parameter: weight to assign to the original query")
+    public float originalQueryWeight = 0.5f;
+  }
+
   public static void main(String[] args) throws Exception {
-    RetrieveArgs retrieveArgs = new RetrieveArgs();
+    Args retrieveArgs = new Args();
     CmdLineParser parser = new CmdLineParser(retrieveArgs, ParserProperties.defaults().withUsageWidth(90));
 
     try {
@@ -52,8 +93,7 @@ public class SearchMsmarco {
               + " and originalQueryWeight=" + retrieveArgs.originalQueryWeight);
     }
 
-    File fout = new File(retrieveArgs.output);
-    FileUtils.writeStringToFile(fout, "", "utf-8"); // clear the file
+    PrintWriter out = new PrintWriter(Files.newBufferedWriter(Paths.get(retrieveArgs.output), StandardCharsets.US_ASCII));
 
     long startTime = System.nanoTime();
     List<String> lines = FileUtils.readLines(new File(retrieveArgs.qid_queries), "utf-8");
@@ -66,16 +106,18 @@ public class SearchMsmarco {
 
       SimpleSearcher.Result[] hits = searcher.search(query, retrieveArgs.hits);
 
-      if (lineNumber % 10 == 0) {
-        double timePerQuery = (double) (System.nanoTime() - startTime) / (lineNumber + 1) / 10e9;
+      if (lineNumber % 100 == 0) {
+        double timePerQuery = (double) (System.nanoTime() - startTime) / (lineNumber + 1) / 1e9;
         System.out.format("Retrieving query " + lineNumber + " (%.3f s/query)\n", timePerQuery);
       }
 
       for (int rank = 0; rank < hits.length; ++rank) {
         String docno = hits[rank].docid;
-        FileUtils.writeStringToFile(fout, qid + "\t" + docno + "\t" + (rank + 1) + "\n", "utf-8", true);
+        out.println(qid + "\t" + docno + "\t" + (rank + 1));
       }
     }
+    out.flush();
+    out.close();
 
     System.out.println("Done!");
   }
