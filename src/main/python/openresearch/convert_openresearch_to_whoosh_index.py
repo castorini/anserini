@@ -28,10 +28,10 @@ def create_dataset(args):
     schema = Schema(title=TEXT,
                     abstract=TEXT,
                     id=ID(stored=True))
-    if os.path.exists(args.index_location):
+    if os.path.exists(args.whoosh_index):
         assert False
     else:
-        os.mkdir(args.index_location)
+        os.mkdir(args.whoosh_index)
     whoosh_index = create_in(args.whoosh_index, schema)
     writer = whoosh_index.writer()
 
