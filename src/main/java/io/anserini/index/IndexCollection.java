@@ -522,6 +522,9 @@ public final class IndexCollection {
           XContentBuilder builder = XContentFactory.jsonBuilder();
           builder.startObject();
           for (IndexableField field : document.getFields()) {
+            if (field.name().equals(LuceneDocumentGenerator.FIELD_RAW) && !args.storeRawDocs) continue;
+            if (field.name().equals(LuceneDocumentGenerator.FIELD_BODY) && !args.storeTransformedDocs) continue;
+
             if (field.stringValue() != null) {
               builder.field(field.name(), field.stringValue());
             } else if (field.numericValue() != null) {
