@@ -19,7 +19,7 @@ import argparse
 import time
 
 import jnius_config
-jnius_config.set_classpath('target/anserini-0.4.1-SNAPSHOT-fatjar.jar')
+jnius_config.set_classpath('target/anserini-0.6.0-SNAPSHOT-fatjar.jar')
 
 from jnius import autoclass
 JString = autoclass('java.lang.String')
@@ -49,15 +49,15 @@ if __name__ == '__main__':
         print('Initializing RM3, setting fbTerms={}, fbDocs={} and originalQueryWeight={}'.format(args.fbTerms, args.fbDocs, args.originalQueryWeight))
 
     with open(args.output, 'w') as fout:
-      start_time = time.time()
-      for line_number, line in enumerate(open(args.qid_queries)):
-          qid, query = line.strip().split('\t')
-          hits = searcher.search(JString(query.encode('utf8')), int(args.hits))
-          if line_number % 10 == 0:
-              time_per_query = (time.time() - start_time) / (line_number + 1)
-              print('Retrieving query {} ({:0.3f} s/query)'.format(line_number, time_per_query))
-          for rank in range(len(hits)):
-              docno = hits[rank].docid
-              fout.write('{}\t{}\t{}\n'.format(qid, docno, rank + 1))
+        start_time = time.time()
+        for line_number, line in enumerate(open(args.qid_queries)):
+            qid, query = line.strip().split('\t')
+            hits = searcher.search(JString(query.encode('utf8')), int(args.hits))
+            if line_number % 100 == 0:
+                time_per_query = (time.time() - start_time) / (line_number + 1)
+                print('Retrieving query {} ({:0.3f} s/query)'.format(line_number, time_per_query))
+            for rank in range(len(hits)):
+                docno = hits[rank].docid
+                fout.write('{}\t{}\t{}\n'.format(qid, docno, rank + 1))
 
     print('Done!')

@@ -1,4 +1,4 @@
-# Anserini: Experiments on the [Washington Post](https://trec.nist.gov/data/wapost/) ([Core18](https://trec-core.github.io/2018/))
+# Anserini: Regressions for the [Washington Post](https://trec.nist.gov/data/wapost/) ([Core18](https://trec-core.github.io/2018/))
 
 ## Indexing
 
@@ -62,14 +62,14 @@ eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrel
 
 With the above commands, you should be able to replicate the following results:
 
-MAP                                     | BM25      | BM25+RM3  | BM25+AX   | QL        | QL+RM3    | QL+AX     |
+MAP                                     | BM25      | +RM3      | +Ax       | QL        | +RM3      | +Ax       |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-All Topics                              | 0.2495    | 0.3135    | 0.2925    | 0.2526    | 0.3073    | 0.2966    |
+[TREC 2018 Common Core Track Topics](https://trec.nist.gov/data/core/topics2018.txt)| 0.2495    | 0.3135    | 0.2925    | 0.2526    | 0.3073    | 0.2966    |
 
 
-P30                                     | BM25      | BM25+RM3  | BM25+AX   | QL        | QL+RM3    | QL+AX     |
+P30                                     | BM25      | +RM3      | +Ax       | QL        | +RM3      | +Ax       |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-All Topics                              | 0.3567    | 0.4200    | 0.4027    | 0.3653    | 0.4000    | 0.4060    |
+[TREC 2018 Common Core Track Topics](https://trec.nist.gov/data/core/topics2018.txt)| 0.3567    | 0.4200    | 0.4027    | 0.3653    | 0.4000    | 0.4060    |
 
 
 

@@ -43,29 +43,30 @@ Anserini is designed to support experiments on various standard TREC collections
 Each collection is associated with [regression tests](docs/regressions.md) for replicability.
 Note that these regressions capture the "out of the box" experience, based on [_default_ parameter settings](https://github.com/castorini/Anserini/blob/master/src/main/java/io/anserini/search/SearchArgs.java).
 
-+ [Experiments on Disks 1 &amp; 2](docs/experiments-disk12.md)
-+ [Experiments on Disks 4 &amp; 5 (Robust04)](docs/experiments-robust04.md)
-+ [Experiments on AQUAINT (Robust05)](docs/experiments-robust05.md)
-+ [Experiments on the New York Times (Core17)](docs/experiments-core17.md)
-+ [Experiments on the Washington Post (Core18)](docs/experiments-core18.md)
-+ [Experiments on Wt10g](docs/experiments-wt10g.md)
-+ [Experiments on Gov2](docs/experiments-gov2.md)
-+ [Experiments on ClueWeb09 (Category B)](docs/experiments-cw09b.md)
-+ [Experiments on ClueWeb12-B13](docs/experiments-cw12b13.md)
-+ [Experiments on ClueWeb12](docs/experiments-cw12.md)
-+ [Experiments on Tweets2011 (MB11 &amp; MB12)](docs/experiments-mb11.md)
-+ [Experiments on Tweets2013 (MB13 &amp; MB14)](docs/experiments-mb13.md)
-+ [Experiments on Complex Answer Retrieval v1.5 (CAR17)](docs/experiments-car17v1.5.md)
-+ [Experiments on Complex Answer Retrieval v2.0 (CAR17)](docs/experiments-car17v2.0.md)
-+ [Experiments on MS MARCO](docs/experiments-msmarco.md)
++ [Regressions for Disks 1 &amp; 2](docs/regressions-disk12.md)
++ [Regressions for Disks 4 &amp; 5 (Robust04)](docs/regressions-robust04.md)
++ [Regressions for AQUAINT (Robust05)](docs/regressions-robust05.md)
++ [Regressions for the New York Times (Core17)](docs/regressions-core17.md)
++ [Regressions for the Washington Post (Core18)](docs/regressions-core18.md)
++ [Regressions for Wt10g](docs/regressions-wt10g.md)
++ [Regressions for Gov2](docs/regressions-gov2.md)
++ [Regressions for ClueWeb09 (Category B)](docs/regressions-cw09b.md)
++ [Regressions for ClueWeb12-B13](docs/regressions-cw12b13.md)
++ [Regressions for ClueWeb12](docs/regressions-cw12.md)
++ [Regressions for Tweets2011 (MB11 &amp; MB12)](docs/regressions-mb11.md)
++ [Regressions for Tweets2013 (MB13 &amp; MB14)](docs/regressions-mb13.md)
++ [Regressions for Complex Answer Retrieval v1.5 (CAR17)](docs/regressions-car17v1.5.md)
++ [Regressions for Complex Answer Retrieval v2.0 (CAR17)](docs/regressions-car17v2.0.md)
++ [Regressions for the MS MARCO Passage Task](docs/regressions-msmarco-passage.md)
++ [Regressions for the MS MARCO Document Task](docs/regressions-msmarco-doc.md)
 
-Additional regressions:
+Other experiments:
 
-+ [Experiments from JDIQ 2018 article](docs/experiments-jdiq2018.md)
-+ [Experiments from SIGIR Forum 2018 article](docs/experiments-forum2018.md)
-
-Runbooks:
-
++ [Guide to running experiments on the MS MARCO Passage Task](docs/experiments-msmarco-passage.md)
++ [Guide to running experiments on the MS MARCO Document Task](docs/experiments-msmarco-doc.md)
++ [Guide to running Experiments on the AI2 Open Research Corpus](docs/experiments-openresearch.md)
++ [Experiments from Yang et al. (JDIQ 2018)](docs/experiments-jdiq2018.md)
++ [Experiments from Lin (SIGIR Forum 2018)](docs/experiments-forum2018.md)
 + Runbooks for TREC 2018: [[Anserini group](docs/runbook-trec2018-anserini.md)] [[h2oloo group](docs/runbook-trec2018-h2oloo.md)]
 + Runbook for [ECIR 2019 paper on axiomatic semantic term matching](docs/runbook-ecir2019-axiomatic.md)
 + Runbook for [ECIR 2019 paper on cross-collection relevance feedback](docs/runbook-ecir2019-ccrf.md)
@@ -88,7 +89,7 @@ Anserini was designed with Python integration in mind, for connecting with popul
 
 ```
 import jnius_config
-jnius_config.set_classpath("target/anserini-0.4.1-SNAPSHOT-fatjar.jar")
+jnius_config.set_classpath("target/anserini-0.6.0-SNAPSHOT-fatjar.jar")
 
 from jnius import autoclass
 JString = autoclass('java.lang.String')
@@ -122,6 +123,8 @@ See [Issues 633](https://github.com/castorini/anserini/issues/633).
 
 ## Release History
 
++ v0.5.1: June 11, 2019 [[Release Notes](docs/release-notes/release-notes-v0.5.1.md)]
++ v0.5.0: June 5, 2019 [[Release Notes](docs/release-notes/release-notes-v0.5.0.md)]
 + v0.4.0: March 4, 2019 [[Release Notes](docs/release-notes/release-notes-v0.4.0.md)]
 + v0.3.0: December 16, 2018 [[Release Notes](docs/release-notes/release-notes-v0.3.0.md)]
 + v0.2.0: September 10, 2018 [[Release Notes](docs/release-notes/release-notes-v0.2.0.md)]
@@ -133,7 +136,7 @@ See [Issues 633](https://github.com/castorini/anserini/issues/633).
 + Peilin Yang, Hui Fang, and Jimmy Lin. [Anserini: Enabling the Use of Lucene for Information Retrieval Research.](https://dl.acm.org/authorize?N47337) _SIGIR 2017_.
 + Peilin Yang, Hui Fang, and Jimmy Lin. [Anserini: Reproducible Ranking Baselines Using Lucene.](https://dl.acm.org/citation.cfm?doid=3289400.3239571) _Journal of Data and Information Quality_, 10(4), Article 16, 2018.
 + Wei Yang, Haotian Zhang, and Jimmy Lin. [Simple Applications of BERT for Ad Hoc Document Retrieval.](https://arxiv.org/abs/1903.10972) _arXiv:1903.10972_, March 2019.
-+ Rodrigo Nogueira, Wei Yang, Jimmy Lin, and Kyunghyun Cho. [Document Expansion by Query Prediction.](https://arxiv.org/abs/1903.10972) _arXiv:1904.08375_, April 2019.
++ Rodrigo Nogueira, Wei Yang, Jimmy Lin, and Kyunghyun Cho. [Document Expansion by Query Prediction.](https://arxiv.org/abs/1904.08375) _arXiv:1904.08375_, April 2019.
 + Peilin Yang and Jimmy Lin. [Reproducing and Generalizing Semantic Term Matching in Axiomatic Information Retrieval.](https://cs.uwaterloo.ca/~jimmylin/publications/Yang_Lin_ECIR2019.pdf) _ECIR 2019_.
 + Ruifan Yu, Yuhao Xie and Jimmy Lin. [Simple Techniques for Cross-Collection Relevance Transfer.](https://cs.uwaterloo.ca/~jimmylin/publications/Yu_etal_ECIR2019.pdf) _ECIR 2019_.
 + Wei Yang, Yuqing Xie, Aileen Lin, Xingyu Li, Luchen Tan, Kun Xiong, Ming Li, and Jimmy Lin. [End-to-End Open-Domain Question Answering with BERTserini.](https://aclweb.org/anthology/papers/N/N19/N19-4013/) _NAACL-HLT 2019 Demos_.

@@ -1,8 +1,6 @@
-# Anserini: Experiments on Tweets2011 (MB11 &amp; MB12)
+# Anserini: Regressions for Tweets2011 (MB11 &amp; MB12)
 
 ## Indexing
-
-### Tweets2011 collection
 
 Note that the Tweets2011 collection is distributed as a list of tweet ids that you have to download yourself, so the
 effectiveness results you'll get should be similar, but will likely not be identical to the scores reported here.
@@ -12,7 +10,6 @@ Indexing the Tweets2011 collection:
 ```
 ${index_cmds}
 ```
-__NB:__ The process is backgrounded
 
 More available indexing options:
 * `-tweet.keepRetweets`: boolean switch to keep retweets while indexing, default `false`
