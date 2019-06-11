@@ -1,5 +1,5 @@
 /**
- * Anserini: A toolkit for reproducible information retrieval research built on Lucene
+ * Anserini: A Lucene toolkit for replicable information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,7 +32,8 @@ import org.apache.lucene.index.MultiTerms;
 import org.apache.lucene.index.Terms;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 /**
  * This reranker class will load in a RankLib model and then score and rerank the documents

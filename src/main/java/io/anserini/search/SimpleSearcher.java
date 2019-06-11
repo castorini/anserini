@@ -1,5 +1,5 @@
 /**
- * Anserini: A toolkit for reproducible information retrieval research built on Lucene
+ * Anserini: A Lucene toolkit for replicable information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 package io.anserini.search;
 
+import io.anserini.analysis.TweetAnalyzer;
 import io.anserini.index.generator.LuceneDocumentGenerator;
 import io.anserini.index.generator.TweetGenerator;
 import io.anserini.rerank.RerankerCascade;
@@ -25,7 +26,6 @@ import io.anserini.rerank.lib.Rm3Reranker;
 import io.anserini.rerank.lib.ScoreTiesAdjusterReranker;
 import io.anserini.search.query.BagOfWordsQueryGenerator;
 import io.anserini.util.AnalyzerUtils;
-import io.anserini.analysis.TweetAnalyzer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
@@ -35,12 +35,29 @@ import org.apache.lucene.document.LongPoint;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexableField;
+import org.apache.lucene.search.BooleanClause;
+import org.apache.lucene.search.BooleanQuery;
+import org.apache.lucene.search.BoostQuery;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
+import org.apache.lucene.search.Sort;
+import org.apache.lucene.search.SortField;
 import org.apache.lucene.search.TopDocs;
-import org.apache.lucene.search.*;
-import org.apache.lucene.search.similarities.*;
+import org.apache.lucene.search.TotalHits;
+import org.apache.lucene.search.similarities.AfterEffectL;
+import org.apache.lucene.search.similarities.AxiomaticF2EXP;
+import org.apache.lucene.search.similarities.AxiomaticF2LOG;
+import org.apache.lucene.search.similarities.BM25Similarity;
+import org.apache.lucene.search.similarities.BasicModelIn;
+import org.apache.lucene.search.similarities.DFRSimilarity;
+import org.apache.lucene.search.similarities.DistributionSPL;
+import org.apache.lucene.search.similarities.IBSimilarity;
+import org.apache.lucene.search.similarities.LMDirichletSimilarity;
+import org.apache.lucene.search.similarities.LMJelinekMercerSimilarity;
+import org.apache.lucene.search.similarities.LambdaDF;
+import org.apache.lucene.search.similarities.NormalizationH2;
+import org.apache.lucene.search.similarities.Similarity;
 import org.apache.lucene.store.FSDirectory;
 
 import java.io.Closeable;
@@ -50,6 +67,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
+/**
+ * Class that exposes basic search functionality, designed specifically to provide the bridge between Java and Python
+ * via pyjnius.
+ */
 public class SimpleSearcher implements Closeable {
   public static final Sort BREAK_SCORE_TIES_BY_DOCID =
       new Sort(SortField.FIELD_SCORE, new SortField(LuceneDocumentGenerator.FIELD_ID, SortField.Type.STRING_VAL));
@@ -63,6 +84,8 @@ public class SimpleSearcher implements Closeable {
   private RerankerCascade cascade;
   private boolean searchtweets;
   private boolean isRerank;
+
+  private IndexSearcher searcher = null;
 
   protected class Result {
     public String docid;
@@ -168,8 +191,11 @@ public class SimpleSearcher implements Closeable {
   }
 
   protected Result[] search(Query query, List<String> queryTokens, String queryString, int k, long t) throws IOException {
-    IndexSearcher searcher = new IndexSearcher(reader);
-    searcher.setSimilarity(similarity);
+    // Initialize an index searcher only once
+    if (searcher == null) {
+      searcher = new IndexSearcher(reader);
+      searcher.setSimilarity(similarity);
+    }
 
     SearchArgs searchArgs = new SearchArgs();
     searchArgs.arbitraryScoreTieBreak = false;
@@ -207,6 +233,7 @@ public class SimpleSearcher implements Closeable {
       String docid = doc.getField(LuceneDocumentGenerator.FIELD_ID).stringValue();
       IndexableField field = doc.getField(LuceneDocumentGenerator.FIELD_RAW);
       String content = field == null ? null : field.stringValue();
+
       results[i] = new Result(docid, hits.ids[i], hits.scores[i], content);
     }
 

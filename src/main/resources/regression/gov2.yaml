@@ -52,6 +52,7 @@ topics:
     qrel: qrels.801-850.txt
 models:
   - name: bm25
+    display: BM25
     params:
       - -bm25
     results:
@@ -64,6 +65,7 @@ models:
         - 0.5540
         - 0.4907
   - name: bm25+rm3
+    display: +RM3
     params:
       - -bm25
       - -rm3
@@ -77,6 +79,7 @@ models:
         - 0.5920
         - 0.5160
   - name: bm25+ax
+    display: +Ax
     params:
       - -bm25
       - -axiom
@@ -93,6 +96,7 @@ models:
         - 0.5933
         - 0.5033
   - name: ql
+    display: QL
     params:
       - -ql
     results:
@@ -105,6 +109,7 @@ models:
         - 0.5347
         - 0.4720
   - name: ql+rm3
+    display: +RM3
     params:
       - -ql
       - -rm3
@@ -118,6 +123,7 @@ models:
         - 0.5620
         - 0.4847
   - name: ql+ax
+    display: +Ax
     params:
       - -ql
       - -axiom

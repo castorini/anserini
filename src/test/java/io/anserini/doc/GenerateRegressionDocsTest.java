@@ -1,5 +1,5 @@
 /**
- * Anserini: A toolkit for reproducible information retrieval research built on Lucene
+ * Anserini: A Lucene toolkit for replicable information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,18 +16,17 @@
 
 package io.anserini.doc;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.text.StrSubstitutor;
+import org.junit.Test;
+
 import java.io.File;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
-
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang3.text.StrSubstitutor;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-import org.junit.Test;
 
 public class GenerateRegressionDocsTest {
   @Test
@@ -52,7 +51,7 @@ public class GenerateRegressionDocsTest {
       scanner.close();
       String resolvedString = sub.replace(text);
 
-      FileUtils.writeStringToFile(new File(String.format("docs/experiments-%s.md", collection)),
+      FileUtils.writeStringToFile(new File(String.format("docs/regressions-%s.md", collection)),
         resolvedString, "UTF-8");
     }
   }

@@ -1,8 +1,6 @@
-# Anserini: Experiments on Tweets2013 (MB13 &amp; MB14)
+# Anserini: Regressions for Tweets2013 (MB13 &amp; MB14)
 
 ## Indexing
-
-### Tweets2013 collection
 
 Note that the Tweets2013 collection is distributed as a list of tweet ids that you have to download yourself, so the
 effectiveness results you'll get should be similar, but will likely not be identical to the scores reported here.
@@ -16,7 +14,6 @@ lucene-index.mb13.pos+docvectors+rawdocs -storePositions -storeDocvectors \
 -storeRawDocs -uniqueDocid -optimize -tweet.keepUrls -tweet.stemming >& \
 log.mb13.pos+docvectors+rawdocs &
 ```
-__NB:__ The process is backgrounded
 
 More available indexing options:
 * `-tweet.keepRetweets`: boolean switch to keep retweets while indexing, default `false`
@@ -86,15 +83,15 @@ eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrel
 
 With the above commands, you should be able to replicate the following results:
 
-MAP                                     | BM25      | BM25+RM3  | BM25+AX   | QL        | QL+RM3    | QL+AX     |
+MAP                                     | BM25      | +RM3      | +Ax       | QL        | +RM3      | +Ax       |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-[TREC 2013 Microblog Track](http://trec.nist.gov/data/microblog2013.html)| 0.2371    | 0.2513    | 0.2855    | 0.2602    | 0.2911    | 0.3152    |
-[TREC 2014 Microblog Track](http://trec.nist.gov/data/microblog2014.html)| 0.3931    | 0.4374    | 0.4796    | 0.4181    | 0.4676    | 0.4965    |
+[TREC 2013 Microblog Track Topics](http://trec.nist.gov/data/microblog2013.html)| 0.2371    | 0.2513    | 0.2855    | 0.2602    | 0.2911    | 0.3152    |
+[TREC 2014 Microblog Track Topics](http://trec.nist.gov/data/microblog2014.html)| 0.3931    | 0.4374    | 0.4796    | 0.4181    | 0.4676    | 0.4965    |
 
 
-P30                                     | BM25      | BM25+RM3  | BM25+AX   | QL        | QL+RM3    | QL+AX     |
+P30                                     | BM25      | +RM3      | +Ax       | QL        | +RM3      | +Ax       |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-[TREC 2013 Microblog Track](http://trec.nist.gov/data/microblog2013.html)| 0.4339    | 0.4411    | 0.4728    | 0.4561    | 0.4906    | 0.5078    |
-[TREC 2014 Microblog Track](http://trec.nist.gov/data/microblog2014.html)| 0.6212    | 0.6442    | 0.6648    | 0.6430    | 0.6533    | 0.6727    |
+[TREC 2013 Microblog Track Topics](http://trec.nist.gov/data/microblog2013.html)| 0.4339    | 0.4411    | 0.4728    | 0.4561    | 0.4906    | 0.5078    |
+[TREC 2014 Microblog Track Topics](http://trec.nist.gov/data/microblog2014.html)| 0.6212    | 0.6442    | 0.6648    | 0.6430    | 0.6533    | 0.6727    |
 
 

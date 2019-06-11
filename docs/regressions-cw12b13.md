@@ -1,4 +1,4 @@
-# Anserini: Experiments on [ClueWeb12-B13](http://lemurproject.org/clueweb12/ClueWeb12-CreateB13.php)
+# Anserini: Regressions for [ClueWeb12-B13](http://lemurproject.org/clueweb12/ClueWeb12-CreateB13.php)
 
 ## Indexing
 
@@ -86,25 +86,25 @@ eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrel
 
 With the above commands, you should be able to replicate the following results:
 
-MAP                                     | BM25      | BM25+RM3  | BM25+AX   | QL        | QL+RM3    | QL+AX     |
+MAP                                     | BM25      | +RM3      | +Ax       | QL        | +RM3      | +Ax       |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
 [TREC 2013 Web Track: Topics 201-250](http://trec.nist.gov/data/web2013.html)| 0.0468    | 0.0408    | 0.0435    | 0.0397    | 0.0322    | 0.0358    |
 [TREC 2014 Web Track: Topics 251-300](http://trec.nist.gov/data/web2014.html)| 0.0224    | 0.0210    | 0.0180    | 0.0235    | 0.0203    | 0.0183    |
 
 
-P30                                     | BM25      | BM25+RM3  | BM25+AX   | QL        | QL+RM3    | QL+AX     |
+P30                                     | BM25      | +RM3      | +Ax       | QL        | +RM3      | +Ax       |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
 [TREC 2013 Web Track: Topics 201-250](http://trec.nist.gov/data/web2013.html)| 0.2113    | 0.1673    | 0.1833    | 0.1780    | 0.1513    | 0.1507    |
 [TREC 2014 Web Track: Topics 251-300](http://trec.nist.gov/data/web2014.html)| 0.1273    | 0.1207    | 0.1107    | 0.1373    | 0.1173    | 0.1147    |
 
 
-NDCG20                                  | BM25      | BM25+RM3  | BM25+AX   | QL        | QL+RM3    | QL+AX     |
+NDCG20                                  | BM25      | +RM3      | +Ax       | QL        | +RM3      | +Ax       |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
 [TREC 2013 Web Track: Topics 201-250](http://trec.nist.gov/data/web2013.html)| 0.1286    | 0.1119    | 0.1287    | 0.1106    | 0.0920    | 0.1141    |
 [TREC 2014 Web Track: Topics 251-300](http://trec.nist.gov/data/web2014.html)| 0.1183    | 0.1081    | 0.0963    | 0.1177    | 0.1004    | 0.0989    |
 
 
-ERR20                                   | BM25      | BM25+RM3  | BM25+AX   | QL        | QL+RM3    | QL+AX     |
+ERR20                                   | BM25      | +RM3      | +Ax       | QL        | +RM3      | +Ax       |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
 [TREC 2013 Web Track: Topics 201-250](http://trec.nist.gov/data/web2013.html)| 0.0838    | 0.0753    | 0.0941    | 0.0768    | 0.0553    | 0.0780    |
 [TREC 2014 Web Track: Topics 251-300](http://trec.nist.gov/data/web2014.html)| 0.1201    | 0.1066    | 0.0928    | 0.1092    | 0.0928    | 0.0900    |

@@ -1,4 +1,4 @@
-# Anserini: Experiments on [TREC 2017 CAR](http://trec-car.cs.unh.edu/) (v2.0)
+# Anserini: Regressions for [TREC 2017 CAR](http://trec-car.cs.unh.edu/) (v2.0)
 
 ## Indexing
 
@@ -18,6 +18,8 @@ The "benchmarkY1-test" topics and qrels (v2.0) are stored in `src/main/resources
 
 + `topics.car17v2.0.benchmarkY1test.txt`
 + `qrels.car17v2.0.benchmarkY1test.txt`
+
+Specifically, this is the section-level passage retrieval task with automatic ground truth.
 
 After indexing has completed, you should be able to perform retrieval as follows:
 

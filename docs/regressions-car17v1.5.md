@@ -1,4 +1,4 @@
-# Anserini: Experiments on [TREC 2017 CAR](http://trec-car.cs.unh.edu/) (v1.5)
+# Anserini: Regressions for [TREC 2017 CAR](http://trec-car.cs.unh.edu/) (v1.5)
 
 ## Indexing
 
@@ -21,6 +21,8 @@ The "benchmarkY1-test" topics and qrels (v1.5) are stored in `src/main/resources
 
 + `topics.car17v1.5.benchmarkY1test.txt`
 + `qrels.car17v1.5.benchmarkY1test.txt`
+
+Specifically, this is the section-level passage retrieval task with automatic ground truth.
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
@@ -60,13 +62,13 @@ eval/trec_eval.9.0.4/trec_eval -m map -m recip_rank src/main/resources/topics-an
 
 With the above commands, you should be able to replicate the following results:
 
-MAP                                     | BM25      | BM25+RM3  | BM25+AX   | QL        | QL+RM3    | QL+AX     |
+MAP                                     | BM25      | +RM3      | +Ax       | QL        | +RM3      | +Ax       |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-benchmarkY1test                         | 0.1563    | 0.1295    | 0.1358    | 0.1386    | 0.1080    | 0.1048    |
+[TREC 2017 CAR: benchmarkY1test (v1.5)](http://trec-car.cs.unh.edu/datareleases/)| 0.1563    | 0.1295    | 0.1358    | 0.1386    | 0.1080    | 0.1048    |
 
 
-RECIP_RANK                              | BM25      | BM25+RM3  | BM25+AX   | QL        | QL+RM3    | QL+AX     |
+RECIP_RANK                              | BM25      | +RM3      | +Ax       | QL        | +RM3      | +Ax       |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-benchmarkY1test                         | 0.2336    | 0.1923    | 0.1949    | 0.2037    | 0.1599    | 0.1524    |
+[TREC 2017 CAR: benchmarkY1test (v1.5)](http://trec-car.cs.unh.edu/datareleases/)| 0.2336    | 0.1923    | 0.1949    | 0.2037    | 0.1599    | 0.1524    |
 
 
