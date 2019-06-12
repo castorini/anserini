@@ -27,7 +27,6 @@ configure_classpath()
 from jnius import autoclass
 JString = autoclass('java.lang.String')
 JSearcher = autoclass('io.anserini.search.SimpleSearcher')
-print("Pyjnius check passed")
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Retrieve MS MARCO Passages.')
