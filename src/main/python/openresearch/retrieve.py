@@ -18,8 +18,11 @@ limitations under the License.
 import argparse
 import time
 
-import jnius_config
-jnius_config.set_classpath('target/anserini-0.6.0-SNAPSHOT-fatjar.jar')
+# Pyjnius setup
+import sys
+sys.path += ['src/main/python']
+from pyjnius_setup import configure_classpath
+configure_classpath()
 
 from jnius import autoclass
 JString = autoclass('java.lang.String')
