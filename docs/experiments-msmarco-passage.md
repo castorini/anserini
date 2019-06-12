@@ -12,7 +12,7 @@ First, we need to download and extract the MS MARCO passage dataset:
 mkdir msmarco-passage
 
 wget https://msmarco.blob.core.windows.net/msmarcoranking/collectionandqueries.tar.gz -P msmarco-passage
-tar -xvf msmarco-passage/collectionandqueries.tar.gz -C msmarco-passage
+tar -xzvf msmarco-passage/collectionandqueries.tar.gz -C msmarco-passage
 ```
 
 To confirm, `collectionandqueries.tar.gz` should have MD5 checksum of `31644046b18952c1386cd4564ba2ae69`.
