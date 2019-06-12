@@ -51,9 +51,9 @@ models:
       - -bm25
     results:
       map:
-        - 0.1563
+        - 0.1562
       recip_rank:
-        - 0.2336
+        - 0.2331
   - name: bm25+rm3
     display: +RM3
     params:

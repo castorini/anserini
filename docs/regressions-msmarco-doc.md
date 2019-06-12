@@ -47,11 +47,11 @@ With the above commands, you should be able to replicate the following results:
 
 MAP                                     | BM25      | +RM3      |
 :---------------------------------------|-----------|-----------|
-[MS MARCO Document Ranking: Dev Queries](https://github.com/microsoft/TREC-2019-Deep-Learning)| 0.2308    | 0.1631    |
+[MS MARCO Document Ranking: Dev Queries](https://github.com/microsoft/TREC-2019-Deep-Learning)| 0.2310    | 0.1632    |
 
 
 R@1000                                  | BM25      | +RM3      |
 :---------------------------------------|-----------|-----------|
-[MS MARCO Document Ranking: Dev Queries](https://github.com/microsoft/TREC-2019-Deep-Learning)| 0.8856    | 0.8787    |
+[MS MARCO Document Ranking: Dev Queries](https://github.com/microsoft/TREC-2019-Deep-Learning)| 0.8856    | 0.8785    |
 
 
