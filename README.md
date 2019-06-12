@@ -10,7 +10,7 @@ See [Yang et al. (SIGIR 2017)](https://dl.acm.org/authorize?N47337) and [Yang et
 
 Anserini was upgraded to Lucene 8.0 as of commit [`75e36f9`](https://github.com/castorini/anserini/commit/75e36f97f7037d1ceb20fa9c91582eac5e974131) (6/12/2019); prior to that, the toolkit uses Lucene 7.6.
 Based on [preliminary experiments](docs/lucene7-vs-lucene8.md), query evaluation latency has been much improved in Lucene 8.
-As a result of this upgrade, results of all regression experiments have changed slightly.
+As a result of this upgrade, results of all regressions have changed slightly.
 To replicate old results from Lucene 7.6, use [v0.5.1](https://github.com/castorini/anserini/releases).
 
 ## Getting Started
