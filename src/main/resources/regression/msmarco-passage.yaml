@@ -42,7 +42,7 @@ index_path: indexes/lucene-index.msmarco-passage.pos+docvectors+rawdocs
 index_stats:
   documents: 8841823
   documents (non-empty): 8841823
-  total terms: 352122244
+  total terms: 352316036
 topics:
   - name: "[MS MARCO Passage Ranking: Dev Queries](https://github.com/microsoft/MSMARCO-Passage-Ranking)"
     path: topics.msmarco-passage.dev-subset.txt
@@ -54,7 +54,7 @@ models:
       - -bm25
     results:
       map:
-        - 0.1924
+        - 0.1926
       R@1000:
         - 0.8526
   - name: bm25-default+rm3
@@ -75,7 +75,7 @@ models:
       - -b 0.72
     results:
       map:
-        - 0.1956
+        - 0.1957
       R@1000:
         - 0.8578
   - name: bm25-tuned+rm3
