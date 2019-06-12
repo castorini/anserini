@@ -7,6 +7,7 @@ before_install:
   - pip install --user cython --upgrade Cython
   - pip install --user pyjnius --upgrade pyjnius
 install: true
+dist: trusty
 jdk:
   - oraclejdk8
 script:
