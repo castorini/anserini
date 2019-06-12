@@ -1,7 +1,7 @@
 import sys
-import jnius_config
-
-jnius_config.set_classpath('target/' + sys.argv[1])
+sys.path += ['src/main/python']
+from pyjnius_setup import configure_classpath
+configure_classpath()
 
 from jnius import autoclass
 JSearcher = autoclass('io.anserini.search.SimpleSearcher')
