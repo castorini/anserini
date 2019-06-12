@@ -8,7 +8,7 @@ before_install:
   - pip install --user pyjnius --upgrade pyjnius
 install: true
 jdk:
-  - oraclejdk8
+  - oraclejdk11
 script:
   - mvn clean package appassembler:assemble
   - find target/appassembler/bin/ -type f -exec sed -i 's/-Xmx.*G/-Xmx2G/g' {} \;
