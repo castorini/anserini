@@ -3,6 +3,13 @@
 The following change log details commits to regression tests that alter effectiveness and the addition of new regression tests.
 This documentation is useful for figuring why results may have changed over time.
 
+### June 12, 2019
+
++ commit [75e36f9](https://github.com/castorini/anserini/commit/75e36f97f7037d1ceb20fa9c91582eac5e974131) (6/9/2019)
+
+Upgrade to Lucene 8: minor changes to all regression experiments.
+[JDIQ 2018](experiments-jdiq2018.md) experiments are no longer maintained.
+
 ### June 9. 2019
 
 + commit [93f8f3c](https://github.com/castorini/anserini/commit/93f8f3c769bc9f95b2c351dc8347f0bbe940d1b2) (6/9/2019)
