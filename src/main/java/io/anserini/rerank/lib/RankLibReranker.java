@@ -28,7 +28,7 @@ import io.anserini.rerank.ScoredDocuments;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.document.Document;
-import org.apache.lucene.index.MultiFields;
+import org.apache.lucene.index.MultiTerms;
 import org.apache.lucene.index.Terms;
 
 import java.io.IOException;
@@ -50,7 +50,7 @@ public class RankLibReranker<T> implements Reranker<T> {
   private DataPoint convertToDataPoint(Document doc, RerankerContext<T> context) {
     Terms terms = null;
     try {
-      terms = MultiFields.getTerms(context.getIndexSearcher().getIndexReader(), this.termsField);
+      terms = MultiTerms.getTerms(context.getIndexSearcher().getIndexReader(), this.termsField);
     } catch (IOException e) {
       LOG.error("Unable to retrieve term vectors");
     }

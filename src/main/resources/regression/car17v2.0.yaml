@@ -21,8 +21,8 @@ index_path: indexes/lucene-index.car17v2.0.pos+docvectors+rawdocs
 collection: CarCollection
 index_stats:
   documents: 29794689
-  documents (non-empty): 29791041
-  total terms: 1249740109
+  documents (non-empty): 29791059
+  total terms: 1249754054
 topics:
   - name: "[TREC 2017 CAR: benchmarkY1test (v2.0)](http://trec-car.cs.unh.edu/datareleases/)"
     path: topics.car17v2.0.benchmarkY1test.txt

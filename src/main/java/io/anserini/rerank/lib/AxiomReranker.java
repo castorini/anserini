@@ -207,9 +207,9 @@ public class AxiomReranker<T> implements Reranker<T> {
     if (context.getSearchArgs().arbitraryScoreTieBreak) {
       rs = searcher.search(finalQuery, context.getSearchArgs().hits);
     } else if (context.getSearchArgs().searchtweets) {
-      rs = searcher.search(finalQuery, context.getSearchArgs().hits, BREAK_SCORE_TIES_BY_TWEETID, true, true);
+      rs = searcher.search(finalQuery, context.getSearchArgs().hits, BREAK_SCORE_TIES_BY_TWEETID, true);
     } else {
-      rs = searcher.search(finalQuery, context.getSearchArgs().hits, BREAK_SCORE_TIES_BY_DOCID, true, true);
+      rs = searcher.search(finalQuery, context.getSearchArgs().hits, BREAK_SCORE_TIES_BY_DOCID, true);
     }
 
     return ScoredDocuments.fromTopDocs(rs, searcher);
@@ -277,7 +277,7 @@ public class AxiomReranker<T> implements Reranker<T> {
       }
       IndexReader reader = DirectoryReader.open(FSDirectory.open(indexPath));
       IndexSearcher searcher = new IndexSearcher(reader);
-      searcher.setSimilarity(context.getIndexSearcher().getSimilarity(true));
+      searcher.setSimilarity(context.getIndexSearcher().getSimilarity());
 
       SearchArgs args = new SearchArgs();
       args.hits = this.R;

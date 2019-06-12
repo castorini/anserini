@@ -29,8 +29,6 @@ import io.anserini.rerank.lib.Rm3Reranker;
 import io.anserini.rerank.lib.ScoreTiesAdjusterReranker;
 import io.anserini.search.query.BagOfWordsQueryGenerator;
 import io.anserini.search.query.SdmQueryGenerator;
-import io.anserini.search.similarity.F2ExpSimilarity;
-import io.anserini.search.similarity.F2LogSimilarity;
 import io.anserini.search.similarity.TaggedSimilarity;
 import io.anserini.search.topicreader.NewsBackgroundLinkingTopicReader;
 import io.anserini.search.topicreader.TopicReader;
@@ -55,9 +53,12 @@ import org.apache.lucene.search.Sort;
 import org.apache.lucene.search.SortField;
 import org.apache.lucene.search.TermInSetQuery;
 import org.apache.lucene.search.TopDocs;
+import org.apache.lucene.search.TotalHits;
 import org.apache.lucene.search.similarities.AfterEffectL;
+import org.apache.lucene.search.similarities.AxiomaticF2EXP;
+import org.apache.lucene.search.similarities.AxiomaticF2LOG;
 import org.apache.lucene.search.similarities.BM25Similarity;
-import org.apache.lucene.search.similarities.BasicModelP;
+import org.apache.lucene.search.similarities.BasicModelIn;
 import org.apache.lucene.search.similarities.DFRSimilarity;
 import org.apache.lucene.search.similarities.DistributionSPL;
 import org.apache.lucene.search.similarities.IBSimilarity;
@@ -252,9 +253,9 @@ public final class SearchCollection implements Closeable {
           similarities.add(new TaggedSimilarity(new BM25Similarity(Float.valueOf(k1), Float.valueOf(b)), "k1="+k1+",b="+b));
         }
       }
-    } else if (args.pl2) {
-      for (String c : args.pl2_c) {
-        similarities.add(new TaggedSimilarity(new DFRSimilarity(new BasicModelP(), new AfterEffectL(), new NormalizationH2(Float.valueOf(c))), "c="+c));
+    } else if (args.inl2) {
+      for (String c : args.inl2_c) {
+        similarities.add(new TaggedSimilarity(new DFRSimilarity(new BasicModelIn(), new AfterEffectL(), new NormalizationH2(Float.valueOf(c))), "c:"+c));
       };
     } else if (args.spl) {
       for (String c : args.spl_c) {
@@ -262,11 +263,11 @@ public final class SearchCollection implements Closeable {
       }
     } else if (args.f2exp) {
       for (String s : args.f2exp_s) {
-        similarities.add(new TaggedSimilarity(new F2ExpSimilarity(Float.valueOf(s)), "s="+s));
+        similarities.add(new TaggedSimilarity(new AxiomaticF2EXP(Float.valueOf(s)), "s:"+s));
       }
     } else if (args.f2log) {
       for (String s : args.f2log_s) {
-        similarities.add(new TaggedSimilarity(new F2LogSimilarity(Float.valueOf(s)), "s="+s));
+        similarities.add(new TaggedSimilarity(new AxiomaticF2LOG(Float.valueOf(s)), "s:"+s));
       }
     } else {
       throw new IllegalArgumentException("Error: Must specify scoring model!");
@@ -374,12 +375,12 @@ public final class SearchCollection implements Closeable {
       query = new BagOfWordsQueryGenerator().buildQuery(FIELD_BODY, analyzer, queryString);
     }
 
-    TopDocs rs = new TopDocs(0, new ScoreDoc[]{}, Float.NaN);
+    TopDocs rs = new TopDocs(new TotalHits(0, TotalHits.Relation.EQUAL_TO), new ScoreDoc[]{});
     if (!(isRerank && args.rerankcutoff <= 0)) {
       if (args.arbitraryScoreTieBreak) {// Figure out how to break the scoring ties.
         rs = searcher.search(query, isRerank ? args.rerankcutoff : args.hits);
       } else {
-        rs = searcher.search(query, isRerank ? args.rerankcutoff : args.hits, BREAK_SCORE_TIES_BY_DOCID, true, true);
+        rs = searcher.search(query, isRerank ? args.rerankcutoff : args.hits, BREAK_SCORE_TIES_BY_DOCID, true);
       }
     }
 
@@ -419,12 +420,12 @@ public final class SearchCollection implements Closeable {
       builder.add(q, BooleanClause.Occur.MUST);
       query = builder.build();
       
-      TopDocs rs = new TopDocs(0, new ScoreDoc[]{}, Float.NaN);
+      TopDocs rs = new TopDocs(new TotalHits(0, TotalHits.Relation.EQUAL_TO), new ScoreDoc[]{});
       if (!(isRerank && args.rerankcutoff <= 0)) {
         if (args.arbitraryScoreTieBreak) {// Figure out how to break the scoring ties.
           rs = searcher.search(query, isRerank ? args.rerankcutoff : args.hits);
         } else {
-          rs = searcher.search(query, isRerank ? args.rerankcutoff : args.hits, BREAK_SCORE_TIES_BY_DOCID, true, true);
+          rs = searcher.search(query, isRerank ? args.rerankcutoff : args.hits, BREAK_SCORE_TIES_BY_DOCID, true);
         }
       }
       
@@ -487,12 +488,12 @@ public final class SearchCollection implements Closeable {
     Query compositeQuery = builder.build();
 
 
-    TopDocs rs = new TopDocs(0, new ScoreDoc[]{}, Float.NaN);
+    TopDocs rs = new TopDocs(new TotalHits(0,TotalHits.Relation.EQUAL_TO), new ScoreDoc[]{});
     if (!(isRerank && args.rerankcutoff <= 0)) {
       if (args.arbitraryScoreTieBreak) {// Figure out how to break the scoring ties.
         rs = searcher.search(compositeQuery, isRerank ? args.rerankcutoff : args.hits);
       } else {
-        rs = searcher.search(compositeQuery, isRerank ? args.rerankcutoff : args.hits, BREAK_SCORE_TIES_BY_TWEETID, true, true);
+        rs = searcher.search(compositeQuery, isRerank ? args.rerankcutoff : args.hits, BREAK_SCORE_TIES_BY_TWEETID, true);
       }
     }
 

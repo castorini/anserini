@@ -102,11 +102,11 @@ public class LookupFreebaseNodes implements Closeable {
     TermQuery query = new TermQuery(new Term(IndexFreebase.FIELD_ID, mid));
 
     TopDocs topDocs = searcher.search(query, 1);
-    if (topDocs.totalHits == 0) {
+    if (topDocs.totalHits.value == 0) {
       System.err.println("Error: mid not found!");
       return null;
     }
-    if (topDocs.totalHits > 1) {
+    if (topDocs.totalHits.value > 1) {
       System.err.println("Error: more than one matching mid found. This shouldn't happen!");
       return null;
     }

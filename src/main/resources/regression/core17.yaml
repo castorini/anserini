@@ -22,7 +22,7 @@ collection: NewYorkTimesCollection
 index_stats:
   documents: 1855649
   documents (non-empty): 1855649
-  total terms: 751034051
+  total terms: 751034054
 topics:
   - name: "[TREC 2017 Common Core Track Topics](https://trec.nist.gov/data/core/core_nist.txt)"
     path: topics.core17.txt
@@ -73,7 +73,7 @@ models:
       - -axiom.deterministic
     results:
       map:
-        - 0.2787
+        - 0.2788
       p30:
         - 0.4980
   - name: ql
