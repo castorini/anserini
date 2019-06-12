@@ -161,7 +161,7 @@ public class IndexFreebase {
 
     LOG.info(String.format("%,d triples indexed.", triplesCount.get()));
     LOG.info(String.format("%,d documents added.", docCount.get()));
-    int numIndexed = writer.maxDoc();
+    int numIndexed = writer.getDocStats().maxDoc;
 
     try {
       writer.commit();

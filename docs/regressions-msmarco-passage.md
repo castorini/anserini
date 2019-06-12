@@ -56,7 +56,7 @@ With the above commands, you should be able to replicate the following results:
 
 MAP                                     | BM25 (Default)| +RM3      | BM25 (Tuned)| +RM3      |
 :---------------------------------------|-----------|-----------|-----------|-----------|
-[MS MARCO Passage Ranking: Dev Queries](https://github.com/microsoft/MSMARCO-Passage-Ranking)| 0.1924    | 0.1661    | 0.1956    | 0.1766    |
+[MS MARCO Passage Ranking: Dev Queries](https://github.com/microsoft/MSMARCO-Passage-Ranking)| 0.1926    | 0.1661    | 0.1957    | 0.1766    |
 
 
 R@1000                                  | BM25 (Default)| +RM3      | BM25 (Tuned)| +RM3      |

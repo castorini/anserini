@@ -23,7 +23,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.index.MultiFields;
+import org.apache.lucene.index.MultiTerms;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.index.Terms;
 import org.apache.lucene.index.TermsEnum;
@@ -83,7 +83,7 @@ public class BM25FeatureExtractor<T> implements FeatureExtractor<T> {
   private long getSumTermFrequency(IndexReader reader, String fieldName) {
     Terms collectionTermVector = null;
     try {
-      collectionTermVector = MultiFields.getTerms(reader, fieldName);
+      collectionTermVector = MultiTerms.getTerms(reader, fieldName);
       long totalTermFreq = collectionTermVector.getSumTotalTermFreq();
       return totalTermFreq;
     } catch (IOException e) {

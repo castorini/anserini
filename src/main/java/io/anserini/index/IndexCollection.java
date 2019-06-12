@@ -579,7 +579,7 @@ public final class IndexCollection {
     if (args.solr) {
       numIndexed = counters.indexed.get();
     } else {
-      numIndexed = args.dryRun ? counters.indexed.get() : writer.maxDoc();
+      numIndexed = args.dryRun ? counters.indexed.get() : writer.getDocStats().maxDoc;
     }
 
     // Do a final commit
