@@ -135,7 +135,7 @@ public abstract class DocumentCollection<T extends SourceDocument> implements It
       }
 
       @Override
-      public FileSegment<T> next()throws NoSuchElementException {
+      public FileSegment<T> next() throws NoSuchElementException {
         if (!hasNext()){
           throw new NoSuchElementException("No more file segments to read.");
         } else {
