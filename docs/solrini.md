@@ -42,7 +42,10 @@ Most notably, we replace the `-index` parameter (which specifies the Lucene inde
 
 We'll index [robust04](https://github.com/castorini/Anserini/blob/master/docs/experiments-robust04.md) as an example:
 
-Create the `robust04` collection from the Solr [collections page](http://localhost:8983/solr/#/~collections). Make sure the `config set` value is set to `anserini`
+Create the `robust04` collection in Solr:
+```
+solrini/bin/solr create -n anserini -c robust04
+```
 
 Run the Solr indexing command for `robust04`:
 
