@@ -34,7 +34,7 @@ sh ./target/appassembler/bin/IndexCollection -collection JsonCollection \
  -index msmarco-passage/lucene-index-msmarco -storePositions -storeDocvectors -storeRawDocs 
 ```
 
-Upon completion, you should have an index with 8,841,823 documents.
+Upon completion, we should have an index with 8,841,823 documents.
 The indexing speed may vary... on a modern desktop with an SSD, indexing takes less than two minutes.
 
 ## Retrieving and Evaluating the Dev set
@@ -61,7 +61,7 @@ Thus, the output file should have approximately 6980 * 1000 = 6.9M lines.
 
 Retrieval speed will vary by machine:
 On a modern desktop with an SSD, we can get ~0.06 s/query (taking about seven minutes).
-Alternatively, we can run the same script implemented in Java (which for some reason seems to be slower, see [issue 604](https://github.com/castorini/anserini/issues/604)):
+Alternatively, we can run the same script implemented in Java, which is a bit faster:
 
 ```
 ./target/appassembler/bin/SearchMsmarco  -hits 1000 -index msmarco-passage/lucene-index-msmarco \
