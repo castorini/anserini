@@ -72,21 +72,21 @@ models:
     params:
       - -bm25
       - -k1 0.82
-      - -b 0.72
+      - -b 0.68
     results:
       map:
-        - 0.1957
+        - 0.1958
       R@1000:
-        - 0.8578
+        - 0.8573
   - name: bm25-tuned+rm3
     display: +RM3
     params:
       - -bm25
       - -k1 0.82
-      - -b 0.72
+      - -b 0.68
       - -rm3
     results:
       map:
-        - 0.1766
+        - 0.1762
       R@1000:
-        - 0.8701
+        - 0.8687
