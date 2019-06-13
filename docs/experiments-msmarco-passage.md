@@ -34,13 +34,8 @@ sh ./target/appassembler/bin/IndexCollection -collection JsonCollection \
  -index msmarco-passage/lucene-index-msmarco -storePositions -storeDocvectors -storeRawDocs 
 ```
 
-The output message should be something like this:
-
-```
-2019-06-08 08:53:47,351 INFO  [main] index.IndexCollection (IndexCollection.java:632) - Total 8,841,823 documents indexed in 00:01:31
-```
-
-Your speed may vary... with a modern desktop with an SSD, indexing takes less than two minutes.
+Upon completion, you should have an index with 8,841,823 documents.
+The indexing speed may vary... on a modern desktop with an SSD, indexing takes less than two minutes.
 
 ## Retrieving and Evaluating the Dev set
 
