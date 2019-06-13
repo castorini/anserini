@@ -60,20 +60,16 @@ import java.util.stream.Collectors;
  * This class works for both compressed <code>tgz</code> files or uncompressed <code>xml</code>
  * files.
  */
-public class NewYorkTimesCollection extends DocumentCollection
-    implements SegmentProvider<NewYorkTimesCollection.Document> {
+public class NewYorkTimesCollection extends DocumentCollection<NewYorkTimesCollection.Document> {
   private static final Logger LOG = LogManager.getLogger(NewYorkTimesCollection.class);
 
-  @Override
-  public List<Path> getFileSegmentPaths() {
-    Set<String> allowedFileSuffix = new HashSet<>(Arrays.asList(".xml", ".tgz"));
-
-    return discover(path, EMPTY_SET, EMPTY_SET, EMPTY_SET, allowedFileSuffix, EMPTY_SET);
+  public NewYorkTimesCollection(){
+    this.allowedFileSuffix = new HashSet<>(Arrays.asList(".xml", ".tgz"));
   }
 
   @Override
-  public FileSegment createFileSegment(Path p) throws IOException {
-    return new FileSegment(p);
+  public FileSegment<NewYorkTimesCollection.Document> createFileSegment(Path p) throws IOException {
+    return new Segment(p);
   }
 
   /**
@@ -82,34 +78,21 @@ public class NewYorkTimesCollection extends DocumentCollection
    * This class works for both compressed <code>tgz</code> files or uncompressed <code>xml</code>
    * files.
    */
-  public class FileSegment extends BaseFileSegment<Document> {
+  public class Segment extends FileSegment<NewYorkTimesCollection.Document>{
+
     private final NewYorkTimesCollection.Parser parser = new NewYorkTimesCollection.Parser();
     private TarArchiveInputStream tarInput = null;
     private ArchiveEntry nextEntry = null;
 
-    protected FileSegment(Path path) throws IOException {
-      super.path = path;
-      super.atEOF = false;
-
-      if (path.toString().endsWith(".tgz")) {
+    protected Segment(Path path) throws IOException {
+      super(path);
+      if (this.path.toString().endsWith(".tgz")) {
         tarInput = new TarArchiveInputStream(new GzipCompressorInputStream(new FileInputStream(path.toFile())));
       }
     }
 
     @Override
-    public boolean hasNext() {
-      if (nextRecordStatus == Status.ERROR) {
-        return false;
-      } else if (nextRecordStatus == Status.SKIPPED) {
-        return true;
-      }
-
-      if (bufferedRecord != null) {
-        return true;
-      } else if (atEOF) {
-        return false;
-      }
-
+    protected void readNext() throws IOException {
       try {
         if (path.toString().endsWith(".tgz")) {
           getNextEntry();
@@ -125,19 +108,9 @@ public class NewYorkTimesCollection extends DocumentCollection
         if (!path.toString().endsWith(".xml")) {
           nextRecordStatus = Status.ERROR;
         }
-        return false;
-      } catch (NoSuchElementException e2) {
-        return false;
-      } catch (RuntimeException e3) {
-        nextRecordStatus = Status.SKIPPED;
-        return true;
+        throw e1;
       }
-
-      return bufferedRecord != null;
     }
-
-    @Override
-    public void readNext() {}
 
     private void getNextEntry() throws IOException {
       nextEntry = tarInput.getNextEntry();

@@ -50,32 +50,26 @@ import java.util.zip.GZIPInputStream;
 /**
  * Class representing an instance of a Twitter collection.
  */
-public class TweetCollection extends DocumentCollection
-    implements SegmentProvider<TweetCollection.Document> {
+public class TweetCollection extends DocumentCollection<TweetCollection.Document> {
 
   private static final Logger LOG = LogManager.getLogger(TweetCollection.class);
 
   @Override
-  public List<Path> getFileSegmentPaths() {
-    return super.discover();
+  public FileSegment<TweetCollection.Document> createFileSegment(Path p) throws IOException {
+    return new Segment(p);
   }
 
-  @Override
-  public FileSegment createFileSegment(Path p) throws IOException {
-    return new FileSegment(p);
-  }
-
-  public class FileSegment extends BaseFileSegment<Document> {
+  public class Segment extends FileSegment<TweetCollection.Document> {
 
     private static final String DATE_FORMAT = "E MMM dd HH:mm:ss ZZZZZ yyyy"; // "Fri Mar 29 11:03:41 +0000 2013"
 
-    protected FileSegment(Path path) throws IOException {
-      this.path = path;
+    protected Segment(Path path) throws IOException {
+      super(path);
       this.bufferedReader = null;
       String fileName = path.toString();
       if (fileName.endsWith(".gz")) { //.gz
         InputStream stream = new GZIPInputStream(
-            Files.newInputStream(path, StandardOpenOption.READ), BUFFER_SIZE);
+                Files.newInputStream(path, StandardOpenOption.READ), BUFFER_SIZE);
         bufferedReader = new BufferedReader(new InputStreamReader(stream, StandardCharsets.UTF_8));
       } else { // plain text file
         bufferedReader = new BufferedReader(new FileReader(fileName));
@@ -84,11 +78,16 @@ public class TweetCollection extends DocumentCollection
 
     @Override
     public void readNext() throws IOException {
-      String nextRecord = bufferedReader.readLine();
-      if (nextRecord == null) {
-        throw new NoSuchElementException();
+      try {
+        String nextRecord = bufferedReader.readLine();
+        if (nextRecord == null) {
+          throw new NoSuchElementException();
+        }
+        parseJson(nextRecord);
+      } catch (IOException e1) {
+        nextRecordStatus = Status.ERROR;
+        throw e1;
       }
-      parseJson(nextRecord);
     }
 
     private void parseJson(String json) {

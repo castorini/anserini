@@ -21,6 +21,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class WashingtonPostDocumentTest extends DocumentTest {
@@ -74,7 +75,7 @@ public class WashingtonPostDocumentTest extends DocumentTest {
   public void test() throws Exception {
     WashingtonPostCollection collection = new WashingtonPostCollection();
     for (int i = 0; i < rawFiles.size(); i++) {
-      BaseFileSegment<WashingtonPostCollection.Document> iter = collection.createFileSegment(rawFiles.get(i));
+      Iterator<WashingtonPostCollection.Document> iter = collection.createFileSegment(rawFiles.get(i)).iterator();
       while (iter.hasNext()) {
         WashingtonPostCollection.Document parsed = iter.next();
         assertEquals(parsed.id(), expected.get(i).get("id"));
@@ -93,7 +94,7 @@ public class WashingtonPostDocumentTest extends DocumentTest {
   public void testStreamIteration() {
     WashingtonPostCollection collection = new WashingtonPostCollection();
     try {
-      BaseFileSegment<WashingtonPostCollection.Document> iter = collection.createFileSegment(rawFiles.get(0));
+      Iterator<WashingtonPostCollection.Document> iter = collection.createFileSegment(rawFiles.get(0)).iterator();
       AtomicInteger cnt = new AtomicInteger();
       iter.forEachRemaining(d -> cnt.incrementAndGet());
       assertEquals(1, cnt.get());

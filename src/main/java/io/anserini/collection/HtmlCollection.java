@@ -38,28 +38,21 @@ import java.util.NoSuchElementException;
  * Please note that we intentionally do not apply any restrictions on what the file extension should be --
  * this makes the class a more generic class for indexing other types of the files, e.g. plain text files.
  */
-public class HtmlCollection extends DocumentCollection
-    implements SegmentProvider<HtmlCollection.Document> {
+public class HtmlCollection extends DocumentCollection<HtmlCollection.Document> {
 
   private static final Logger LOG = LogManager.getLogger(HtmlCollection.class);
 
   @Override
-  public FileSegment createFileSegment(Path p) throws IOException {
-    return new FileSegment(p);
+  public FileSegment<HtmlCollection.Document> createFileSegment(Path p) throws IOException {
+    return new Segment(p);
   }
 
-  @Override
-  public List<Path> getFileSegmentPaths() {
-    return discover(path, EMPTY_SET, EMPTY_SET, EMPTY_SET, EMPTY_SET, EMPTY_SET);
-  }
-
-  public class FileSegment extends BaseFileSegment<Document> {
+  public class Segment extends FileSegment<HtmlCollection.Document> {
     private TarArchiveInputStream inputStream = null;
     private ArchiveEntry nextEntry = null;
 
-    @SuppressWarnings("unchecked")
-    public FileSegment(Path path) throws IOException {
-      this.path = path;
+    protected Segment(Path path) throws IOException {
+      super(path);
       this.bufferedReader = null;
       if (path.toString().endsWith(".tgz") || path.toString().endsWith(".tar.gz")) {
         inputStream = new TarArchiveInputStream(new GzipCompressorInputStream(new FileInputStream(path.toFile())));
@@ -67,19 +60,7 @@ public class HtmlCollection extends DocumentCollection
     }
 
     @Override
-    public boolean hasNext() {
-      if (nextRecordStatus == Status.ERROR) {
-        return false;
-      } else if (nextRecordStatus == Status.SKIPPED) {
-        return true;
-      }
-
-      if (bufferedRecord != null) {
-        return true;
-      } else if (atEOF) {
-        return false;
-      }
-
+    public void readNext() throws IOException {
       try {
         if (path.toString().endsWith(".tgz") || path.toString().endsWith(".tar.gz")) {
           getNextEntry();
@@ -94,19 +75,9 @@ public class HtmlCollection extends DocumentCollection
         if (!path.toString().endsWith(".xml")) {
           nextRecordStatus = Status.ERROR;
         }
-        return false;
-      } catch (NoSuchElementException e2) {
-        return false;
-      } catch (RuntimeException e3) {
-        nextRecordStatus = Status.SKIPPED;
-        return true;
+        throw e1;
       }
-
-      return bufferedRecord != null;
     }
-
-    @Override
-    public void readNext() {}
 
     private void getNextEntry() throws IOException {
       nextEntry = inputStream.getNextEntry();

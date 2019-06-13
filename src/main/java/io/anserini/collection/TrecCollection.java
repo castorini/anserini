@@ -40,23 +40,18 @@ import java.util.zip.GZIPInputStream;
 /**
  * A classic TREC <i>ad hoc</i> document collection.
  */
-public class TrecCollection extends DocumentCollection
-    implements SegmentProvider<TrecCollection.Document> {
+public class TrecCollection extends DocumentCollection<TrecCollection.Document> {
 
   private static final Logger LOG = LogManager.getLogger(TrecCollection.class);
 
-  @Override
-  public List<Path> getFileSegmentPaths() {
-    Set<String> skippedFilePrefix = new HashSet<>(Arrays.asList("readme"));
-    Set<String> skippedDirs = new HashSet<>(Arrays.asList("cr", "dtd", "dtds"));
-
-    return discover(path, skippedFilePrefix, EMPTY_SET,
-        EMPTY_SET, EMPTY_SET, skippedDirs);
+  public TrecCollection(){
+    this.skippedFilePrefix = new HashSet<>(Arrays.asList("readme"));
+    this.skippedDir = new HashSet<>(Arrays.asList("cr", "dtd", "dtds"));
   }
 
   @Override
   public FileSegment<Document> createFileSegment(Path p) throws IOException {
-    return new FileSegment<>(p);
+    return new Segment<>(p);
   }
 
   /**
@@ -64,10 +59,10 @@ public class TrecCollection extends DocumentCollection
    *
    * @param <T> type of the document
    */
-  public static class FileSegment<T extends Document> extends BaseFileSegment<T> {
-    @SuppressWarnings("unchecked")
-    public FileSegment(Path path) throws IOException {
-      this.path = path;
+  public static class Segment<T extends Document> extends FileSegment<T>{
+
+    protected Segment(Path path) throws IOException {
+      super(path);
       this.bufferedReader = null;
       String fileName = path.toString();
       if (fileName.matches("(?i:.*?\\.\\d*z$)")) { // .z .0z .1z .2z
@@ -86,7 +81,12 @@ public class TrecCollection extends DocumentCollection
 
     @Override
     public void readNext() throws IOException {
-      readNextRecord(bufferedReader);
+      try {
+        readNextRecord(bufferedReader);
+      } catch (IOException e1) {
+        nextRecordStatus = Status.ERROR;
+        throw e1;
+      }
     }
 
     private void readNextRecord(BufferedReader reader) throws IOException {

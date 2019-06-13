@@ -80,30 +80,26 @@ import java.util.zip.GZIPInputStream;
  * An instance of the <a href="https://www.lemurproject.org/clueweb09.php/">ClueWeb09 collection</a>.
  * This can be used to read the complete ClueWeb09 collection or the smaller ClueWeb09b subset.
  */
-public class ClueWeb09Collection extends DocumentCollection
-    implements SegmentProvider<ClueWeb09Collection.Document> {
+public class ClueWeb09Collection extends DocumentCollection<ClueWeb09Collection.Document> {
   private static final Logger LOG = LogManager.getLogger(ClueWeb09Collection.class);
 
-  @Override
-  public List<Path> getFileSegmentPaths() {
-    Set<String> allowedFileSuffix = new HashSet<>(Arrays.asList(".warc.gz"));
-
-    return discover(path, EMPTY_SET, EMPTY_SET, EMPTY_SET, allowedFileSuffix, EMPTY_SET);
+  public ClueWeb09Collection(){
+    this.allowedFileSuffix = new HashSet<>(Arrays.asList(".warc.gz"));
   }
 
   @Override
-  public FileSegment createFileSegment(Path p) throws IOException {
-    return new FileSegment(p);
+  public FileSegment<ClueWeb09Collection.Document> createFileSegment(Path p) throws IOException {
+    return new Segment(p);
   }
 
-  public ClueWeb09Collection.FileSegment createFileSegment(String raw) {
-    return new ClueWeb09Collection.FileSegment(raw);
+  public FileSegment<ClueWeb09Collection.Document> createFileSegment(String raw) {
+    return new Segment(raw);
   }
 
   /**
    * An individual WARC in the <a href="https://www.lemurproject.org/clueweb09.php/">ClueWeb09 collection</a>.
    */
-  public static class FileSegment extends BaseFileSegment<Document> {
+  public static class Segment extends FileSegment<ClueWeb09Collection.Document> {
     private static final byte MASK_THREE_BYTE_CHAR = (byte) (0xE0);
     private static final byte MASK_TWO_BYTE_CHAR = (byte) (0xC0);
     private static final byte MASK_TOPMOST_BIT = (byte) (0x80);
@@ -113,19 +109,25 @@ public class ClueWeb09Collection extends DocumentCollection
 
     protected DataInputStream stream;
 
-    protected FileSegment(Path path) throws IOException {
-      super.path = path;
+    protected Segment(Path path) throws IOException {
+      super(path);
       this.stream = new DataInputStream(
-          new GZIPInputStream(Files.newInputStream(path, StandardOpenOption.READ)));
+              new GZIPInputStream(Files.newInputStream(path, StandardOpenOption.READ)));
     }
 
-    protected FileSegment(String raw) {
+    protected Segment(String raw) {
+      super(null);
       this.stream = new DataInputStream(new StringInputStream(raw));
     }
 
     @Override
     public void readNext() throws IOException {
-      bufferedRecord = readNextWarcRecord(stream, Document.WARC_VERSION);
+      try {
+        bufferedRecord = readNextWarcRecord(stream, Document.WARC_VERSION);
+      } catch (IOException e1){
+        nextRecordStatus = Status.ERROR;
+        throw e1;
+      }
     }
 
     @Override

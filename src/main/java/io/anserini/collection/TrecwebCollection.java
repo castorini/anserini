@@ -27,20 +27,13 @@ import java.util.List;
 /**
  * A classic TREC web collection (e.g., Gov2).
  */
-public class TrecwebCollection extends DocumentCollection
-    implements SegmentProvider<TrecwebCollection.Document> {
+public class TrecwebCollection extends DocumentCollection<TrecwebCollection.Document> {
 
   private static final Logger LOG = LogManager.getLogger(TrecwebCollection.class);
 
   @Override
   public FileSegment<Document> createFileSegment(Path p) throws IOException {
-    return new FileSegment<>(p);
-  }
-
-  @Override
-  public List<Path> getFileSegmentPaths() {
-    return discover(path, EMPTY_SET, EMPTY_SET,
-        EMPTY_SET, EMPTY_SET, EMPTY_SET);
+    return new Segment<>(p);
   }
 
   /**
@@ -48,14 +41,20 @@ public class TrecwebCollection extends DocumentCollection
    *
    * @param <T> type of the document
    */
-  public static class FileSegment<T extends Document> extends TrecCollection.FileSegment<T> {
-    public FileSegment(Path path) throws IOException {
+  public static class Segment<T extends Document> extends TrecCollection.Segment<T> {
+
+    protected Segment(Path path) throws IOException {
       super(path);
     }
 
     @Override
     public void readNext() throws IOException {
-      readNextRecord(bufferedReader);
+      try {
+        readNextRecord(bufferedReader);
+      } catch (IOException e1) {
+        nextRecordStatus = Status.ERROR;
+        throw e1;
+      }
     }
 
     private void readNextRecord(BufferedReader reader) throws IOException {

@@ -20,6 +20,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class ClueWeb12DocumentTest extends DocumentTest {
@@ -92,7 +93,7 @@ public class ClueWeb12DocumentTest extends DocumentTest {
   public void test() {
     ClueWeb12Collection collection = new ClueWeb12Collection();
     for (int i = 0; i < rawDocs.size(); i++) {
-      BaseFileSegment<ClueWeb12Collection.Document> iter = collection.createFileSegment(rawDocs.get(i));
+      Iterator<ClueWeb12Collection.Document> iter = collection.createFileSegment(rawDocs.get(i)).iterator();
       while (iter.hasNext()) {
         ClueWeb12Collection.Document parsed = iter.next();
         assertEquals(parsed.id(), expected.get(i).get("id"));
@@ -106,8 +107,8 @@ public class ClueWeb12DocumentTest extends DocumentTest {
   @Test
   public void testStreamIteration() {
     ClueWeb12Collection collection = new ClueWeb12Collection();
-    BaseFileSegment<ClueWeb12Collection.Document> iter =
-            collection.createFileSegment(rawDocs.get(0) + rawDocs.get(1));
+    Iterator<ClueWeb12Collection.Document> iter =
+            collection.createFileSegment(rawDocs.get(0) + rawDocs.get(1)).iterator();
     AtomicInteger cnt = new AtomicInteger();
     iter.forEachRemaining(d -> cnt.incrementAndGet());
     assertEquals(2, cnt.get());
