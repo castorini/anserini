@@ -54,7 +54,7 @@ public class SearchMsmarco {
     public float k1 = 0.82f;
 
     @Option(name = "-b", metaVar = "[value]", usage = "BM25 b parameter")
-    public float b = 0.72f;
+    public float b = 0.68f;
 
     // See our MS MARCO documentation to understand how these parameter values were tuned.
     @Option(name = "-rm3", usage = "use RM3 query expansion model")
