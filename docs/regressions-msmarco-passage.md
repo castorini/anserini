@@ -31,9 +31,9 @@ nohup target/appassembler/bin/SearchCollection -topicreader Tsv -index lucene-in
 
 nohup target/appassembler/bin/SearchCollection -topicreader Tsv -index lucene-index.msmarco-passage.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt -output run.msmarco-passage.bm25-default+rm3.topics.msmarco-passage.dev-subset.txt -bm25 -rm3 &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Tsv -index lucene-index.msmarco-passage.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt -output run.msmarco-passage.bm25-tuned.topics.msmarco-passage.dev-subset.txt -bm25 -k1 0.82 -b 0.72 &
+nohup target/appassembler/bin/SearchCollection -topicreader Tsv -index lucene-index.msmarco-passage.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt -output run.msmarco-passage.bm25-tuned.topics.msmarco-passage.dev-subset.txt -bm25 -k1 0.82 -b 0.68 &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Tsv -index lucene-index.msmarco-passage.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt -output run.msmarco-passage.bm25-tuned+rm3.topics.msmarco-passage.dev-subset.txt -bm25 -k1 0.82 -b 0.72 -rm3 &
+nohup target/appassembler/bin/SearchCollection -topicreader Tsv -index lucene-index.msmarco-passage.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt -output run.msmarco-passage.bm25-tuned+rm3.topics.msmarco-passage.dev-subset.txt -bm25 -k1 0.82 -b 0.68 -rm3 &
 
 ```
 
@@ -56,12 +56,12 @@ With the above commands, you should be able to replicate the following results:
 
 MAP                                     | BM25 (Default)| +RM3      | BM25 (Tuned)| +RM3      |
 :---------------------------------------|-----------|-----------|-----------|-----------|
-[MS MARCO Passage Ranking: Dev Queries](https://github.com/microsoft/MSMARCO-Passage-Ranking)| 0.1926    | 0.1661    | 0.1957    | 0.1766    |
+[MS MARCO Passage Ranking: Dev Queries](https://github.com/microsoft/MSMARCO-Passage-Ranking)| 0.1926    | 0.1661    | 0.1958    | 0.1762    |
 
 
 R@1000                                  | BM25 (Default)| +RM3      | BM25 (Tuned)| +RM3      |
 :---------------------------------------|-----------|-----------|-----------|-----------|
-[MS MARCO Passage Ranking: Dev Queries](https://github.com/microsoft/MSMARCO-Passage-Ranking)| 0.8526    | 0.8606    | 0.8578    | 0.8701    |
+[MS MARCO Passage Ranking: Dev Queries](https://github.com/microsoft/MSMARCO-Passage-Ranking)| 0.8526    | 0.8606    | 0.8573    | 0.8687    |
 
 
 
