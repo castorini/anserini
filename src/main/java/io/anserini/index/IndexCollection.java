@@ -213,9 +213,6 @@ public final class IndexCollection {
     @Option(name = "-es.socketTimeout", metaVar = "[NUMBER]", usage = "the Elasticsearch (low level) REST client socket timeout (in ms)")
     public int esSocketTimeout = 120000;
 
-    @Option(name = "-es.maxRetryTimeout", metaVar = "[NUMBER]", usage = "the Elasticsearch (low level) REST client max retry timeout (in ms)")
-    public int esMaxRetryTimeout = 120000;
-
     @Option(name = "-shard.count", usage = "the number of shards for the index")
     public int shardCount = -1;
 
@@ -534,7 +531,7 @@ public final class IndexCollection {
           builder.endObject();
           
           String indexName = (args.esIndex != null) ? args.esIndex : input.getFileName().toString();
-          bulkRequest.add(new IndexRequest(indexName, "doc", sourceDocument.id()).source(builder));
+          bulkRequest.add(new IndexRequest(indexName, "doc").id(sourceDocument.id()).source(builder));
           if (bulkRequest.numberOfActions() == args.esBatch) {
             sendBulkRequest();
           }
@@ -631,7 +628,6 @@ public final class IndexCollection {
       LOG.info("ELK stack user: " + args.esUser);
       LOG.info("Elasticsearch client connect timeout (in ms): " + args.esConnectTimeout);
       LOG.info("Elasticsearch client socket timeout (in ms): " + args.esSocketTimeout);
-      LOG.info("Elasticsearch client max retry timeout (in ms): " + args.esMaxRetryTimeout);
       LOG.info("Elasticsearch pool size: " + args.esPoolSize);
     }
     LOG.info("Dry run (no index created)? " + args.dryRun);
@@ -725,7 +721,6 @@ public final class IndexCollection {
                 .setSocketTimeout(args.esSocketTimeout);
             }
         })
-        .setMaxRetryTimeoutMillis(args.esMaxRetryTimeout)
       );
     }
 
