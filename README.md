@@ -137,8 +137,8 @@ See [this page](docs/solrini.md) for more details.
 
 ## Elasticsearch Integration
 
-Anserini integration with Elastic search is coming soon!
-See [Issues 633](https://github.com/castorini/anserini/issues/633).
+Anserini enables indexing with a locally deployed [ELK stack using Docker](https://github.com/deviantony/docker-elk).
+See [this page](docs/elastirini.md) for more details.
 
 ## Release History
 
