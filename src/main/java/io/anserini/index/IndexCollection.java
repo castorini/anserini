@@ -723,7 +723,7 @@ public final class IndexCollection {
         })
       );
     }
-
+    
     @Override
     public PooledObject<RestHighLevelClient> wrap(RestHighLevelClient esClient) {
       return new DefaultPooledObject(esClient);
