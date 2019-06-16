@@ -576,7 +576,7 @@ public final class IndexCollection {
           try {
             esPool.returnObject(esClient);
           } catch (Exception e) {
-            LOG.error("Error returning ESClient to pool", e);
+            LOG.error("Error returning ES client to pool", e);
           }
         }
       }
@@ -817,6 +817,10 @@ public final class IndexCollection {
       } catch (Exception e) {
         LOG.error("Exception during final Solr commit: ", e);
       }
+    }
+
+    if (args.es) {
+      esPool.close();
     }
 
     try {
