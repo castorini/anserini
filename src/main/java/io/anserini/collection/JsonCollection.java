@@ -98,7 +98,7 @@ public class JsonCollection extends DocumentCollection<JsonCollection.Document> 
     }
 
     @Override
-    public void readNext() throws IOException {
+    public void readNext() throws NoSuchElementException {
       if (node == null) {
         throw new NoSuchElementException("JsonNode is empty");
       } else if (node.isObject()) {

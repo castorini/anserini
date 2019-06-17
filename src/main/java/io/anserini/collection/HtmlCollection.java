@@ -72,8 +72,8 @@ public class HtmlCollection extends DocumentCollection<HtmlCollection.Document> 
           atEOF = true;
         }
       } catch (IOException e1) {
-        if (!path.toString().endsWith(".xml")) {
-          nextRecordStatus = Status.ERROR;
+        if (path.toString().endsWith(".html")) {
+          atEOF = true;
         }
         throw e1;
       }

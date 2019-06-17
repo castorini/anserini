@@ -92,7 +92,7 @@ public class NewYorkTimesCollection extends DocumentCollection<NewYorkTimesColle
     }
 
     @Override
-    protected void readNext() throws IOException {
+    protected void readNext() throws IOException, NoSuchElementException {
       try {
         if (path.toString().endsWith(".tgz")) {
           getNextEntry();
@@ -105,8 +105,8 @@ public class NewYorkTimesCollection extends DocumentCollection<NewYorkTimesColle
           atEOF = true; // if it is a xml file, the segment only has one file, boolean to keep track if it's been read.
         }
       } catch (IOException e1) {
-        if (!path.toString().endsWith(".xml")) {
-          nextRecordStatus = Status.ERROR;
+        if (path.toString().endsWith(".xml")) {
+          atEOF = true;
         }
         throw e1;
       }

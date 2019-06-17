@@ -72,16 +72,11 @@ public class WashingtonPostCollection extends DocumentCollection<WashingtonPostC
 
     @Override
     public void readNext() throws IOException {
-      try {
-        String nextRecord = bufferedReader.readLine();
-        if (nextRecord == null) {
-          throw new NoSuchElementException();
-        }
-        parseRecord(nextRecord);
-      } catch (IOException e1) {
-        nextRecordStatus = Status.ERROR;
-        throw e1;
+      String nextRecord = bufferedReader.readLine();
+      if (nextRecord == null) {
+        throw new NoSuchElementException();
       }
+      parseRecord(nextRecord);
     }
 
     private void parseRecord(String record) {

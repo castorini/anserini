@@ -121,13 +121,8 @@ public class ClueWeb09Collection extends DocumentCollection<ClueWeb09Collection.
     }
 
     @Override
-    public void readNext() throws IOException {
-      try {
-        bufferedRecord = readNextWarcRecord(stream, Document.WARC_VERSION);
-      } catch (IOException e1){
-        nextRecordStatus = Status.ERROR;
-        throw e1;
-      }
+    public void readNext() throws IOException, NoSuchElementException {
+      bufferedRecord = readNextWarcRecord(stream, Document.WARC_VERSION);
     }
 
     @Override

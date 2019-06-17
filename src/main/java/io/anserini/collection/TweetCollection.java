@@ -77,20 +77,15 @@ public class TweetCollection extends DocumentCollection<TweetCollection.Document
     }
 
     @Override
-    public void readNext() throws IOException {
-      try {
-        String nextRecord = bufferedReader.readLine();
-        if (nextRecord == null) {
-          throw new NoSuchElementException();
-        }
-        parseJson(nextRecord);
-      } catch (IOException e1) {
-        nextRecordStatus = Status.ERROR;
-        throw e1;
+    public void readNext() throws IOException, NoSuchElementException, ParseException {
+      String nextRecord = bufferedReader.readLine();
+      if (nextRecord == null) {
+        throw new NoSuchElementException();
       }
+      parseJson(nextRecord);
     }
 
-    private void parseJson(String json) {
+    private void parseJson(String json) throws ParseException {
       ObjectMapper mapper = new ObjectMapper();
       Document.TweetObject tweetObj = null;
       try {
@@ -99,11 +94,11 @@ public class TweetCollection extends DocumentCollection<TweetCollection.Document
                 .registerModule(new Jdk8Module()) // Deserialize Java 8 Optional: http://www.baeldung.com/jackson-optional
                 .readValue(json, Document.TweetObject.class);
       } catch (IOException e) {
-        throw new RuntimeException(e);
+        throw new ParseException("IOException in parseJson", 0);
       }
 
       if (JsonParser.isFieldAvailable(tweetObj.getDelete())) {
-        throw new RuntimeException("Ignore deleted tweets");
+        throw new ParseException("Ignore deleted tweets", 0);
       }
 
       bufferedRecord = new TweetCollection.Document();
@@ -118,7 +113,7 @@ public class TweetCollection extends DocumentCollection<TweetCollection.Document
       } catch (ParseException e) {
         bufferedRecord.timestampMs = OptionalLong.of(-1L);
         bufferedRecord.epoch = OptionalLong.of(-1L);
-        throw new RuntimeException(e);
+        throw e;
       }
 
       if (JsonParser.isFieldAvailable(tweetObj.getInReplyToStatusId())) {

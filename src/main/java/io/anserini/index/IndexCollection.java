@@ -289,7 +289,7 @@ public final class IndexCollection {
                   " docs skipped.");
         }
 
-        if (segment.getNextRecordStatus() == FileSegment.Status.ERROR) {
+        if (segment.getErrorStatus()) {
           counters.errors.incrementAndGet();
         }
 
@@ -386,7 +386,7 @@ public final class IndexCollection {
           flush();
         }
 
-        if (segment.getNextRecordStatus() == FileSegment.Status.ERROR) {
+        if (segment.getErrorStatus()) {
           counters.errors.incrementAndGet();
         }
 

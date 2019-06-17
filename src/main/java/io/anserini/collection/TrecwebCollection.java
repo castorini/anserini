@@ -22,6 +22,7 @@ import org.apache.logging.log4j.Logger;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.text.ParseException;
 import java.util.List;
 
 /**
@@ -48,16 +49,11 @@ public class TrecwebCollection extends DocumentCollection<TrecwebCollection.Docu
     }
 
     @Override
-    public void readNext() throws IOException {
-      try {
+    public void readNext() throws IOException, ParseException {
         readNextRecord(bufferedReader);
-      } catch (IOException e1) {
-        nextRecordStatus = Status.ERROR;
-        throw e1;
-      }
     }
 
-    private void readNextRecord(BufferedReader reader) throws IOException {
+    private void readNextRecord(BufferedReader reader) throws IOException, ParseException {
       StringBuilder builder = new StringBuilder();
       boolean found = false;
 
@@ -81,25 +77,25 @@ public class TrecwebCollection extends DocumentCollection<TrecwebCollection.Docu
     }
 
     @SuppressWarnings("unchecked")
-    private void parseRecord(StringBuilder builder) {
+    private void parseRecord(StringBuilder builder) throws ParseException {
       int i = builder.indexOf(Document.DOCNO);
-      if (i == -1) throw new RuntimeException("cannot find start tag " + Document.DOCNO);
+      if (i == -1) throw new ParseException("cannot find start tag " + Document.DOCNO, 0);
 
-      if (i != 0) throw new RuntimeException("should start with " + Document.DOCNO);
+      if (i != 0) throw new ParseException("should start with " + Document.DOCNO, 0);
 
       int j = builder.indexOf(Document.TERMINATING_DOCNO);
-      if (j == -1) throw new RuntimeException("cannot find end tag " + Document.TERMINATING_DOCNO);
+      if (j == -1) throw new ParseException("cannot find end tag " + Document.TERMINATING_DOCNO, 0);
 
       bufferedRecord = (T) new Document();
       bufferedRecord.id = builder.substring(i + Document.DOCNO.length(), j).trim();
 
       i = builder.indexOf(Document.DOCHDR);
-      if (i == -1) throw new RuntimeException("cannot find header tag " + Document.DOCHDR);
+      if (i == -1) throw new ParseException("cannot find header tag " + Document.DOCHDR, 0);
 
       j = builder.indexOf(Document.TERMINATING_DOCHDR);
-      if (j == -1) throw new RuntimeException("cannot find end tag " + Document.TERMINATING_DOCHDR);
+      if (j == -1) throw new ParseException("cannot find end tag " + Document.TERMINATING_DOCHDR, 0);
 
-      if (j < i) throw new RuntimeException(Document.TERMINATING_DOCHDR + " comes before " + Document.DOCHDR);
+      if (j < i) throw new ParseException(Document.TERMINATING_DOCHDR + " comes before " + Document.DOCHDR, 0);
 
       bufferedRecord.content = builder.substring(j + Document.TERMINATING_DOCHDR.length()).trim();
     }

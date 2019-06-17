@@ -54,7 +54,7 @@ public class CarCollection extends DocumentCollection<CarCollection.Document> {
     }
 
     @Override
-    public void readNext() throws IOException {
+    public void readNext() {
       System.setProperty("file.encoding", "UTF-8");
       Data.Paragraph p;
       p = iter.next();

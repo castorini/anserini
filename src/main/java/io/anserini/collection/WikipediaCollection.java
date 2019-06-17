@@ -62,7 +62,7 @@ public class WikipediaCollection extends DocumentCollection<WikipediaCollection.
     }
 
     @Override
-    public void readNext() throws IOException {
+    public void readNext() {
       String page;
       String s;
 
