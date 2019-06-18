@@ -707,20 +707,13 @@ public final class IndexCollection {
       credentialsProvider.setCredentials(AuthScope.ANY, new UsernamePasswordCredentials(args.esUser, args.esPassword));
       return new RestHighLevelClient(
         RestClient.builder(new HttpHost(args.esHostname, args.esPort, "http"))
-        .setHttpClientConfigCallback(new HttpClientConfigCallback() {
-          @Override
-          public HttpAsyncClientBuilder customizeHttpClient(HttpAsyncClientBuilder httpClientBuilder) {
-              return httpClientBuilder.setDefaultCredentialsProvider(credentialsProvider);
-          }
-        })
-        .setRequestConfigCallback(new RequestConfigCallback() {
-            @Override
-            public RequestConfig.Builder customizeRequestConfig(RequestConfig.Builder requestConfigBuilder) {
-                return requestConfigBuilder
+        .setHttpClientConfigCallback(
+                (HttpAsyncClientBuilder httpClientBuilder) -> 
+                        httpClientBuilder.setDefaultCredentialsProvider(credentialsProvider))
+        .setRequestConfigCallback(
+                (RequestConfig.Builder requestConfigBuilder) -> requestConfigBuilder
                 .setConnectTimeout(args.esConnectTimeout)
-                .setSocketTimeout(args.esSocketTimeout);
-            }
-        })
+                .setSocketTimeout(args.esSocketTimeout))
       );
     }
     
