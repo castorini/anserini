@@ -282,15 +282,17 @@ public final class IndexCollection {
         }
 
         int skipped = segment.getSkippedCount();
-        counters.skipped.addAndGet(skipped);
         if (skipped > 0) {
-          LOG.info(inputFile.getParent().getFileName().toString() + File.separator +
-                  inputFile.getFileName().toString() + ": " + segment.getSkippedCount() +
+          counters.skipped.addAndGet(skipped);
+          LOG.warn(inputFile.getParent().getFileName().toString() + File.separator +
+                  inputFile.getFileName().toString() + ": " + skipped +
                   " docs skipped.");
         }
 
         if (segment.getErrorStatus()) {
           counters.errors.incrementAndGet();
+          LOG.error(inputFile.getParent().getFileName().toString() + File.separator +
+                  inputFile.getFileName().toString() + ": error iterating through segment.");
         }
 
         segment.close();
@@ -386,16 +388,18 @@ public final class IndexCollection {
           flush();
         }
 
-        if (segment.getErrorStatus()) {
-          counters.errors.incrementAndGet();
+        int skipped = segment.getSkippedCount();
+        if (skipped > 0) {
+          counters.skipped.addAndGet(skipped);
+          LOG.warn(input.getParent().getFileName().toString() + File.separator +
+                  input.getFileName().toString() + ": " + skipped +
+                  " docs skipped.");
         }
 
-        int skipped = segment.getSkippedCount();
-        counters.skipped.addAndGet(skipped);
-        if (skipped > 0) {
-          LOG.info(input.getParent().getFileName().toString() + File.separator +
-                  input.getFileName().toString() + ": " + segment.getSkippedCount() +
-                  " docs skipped.");
+        if (segment.getErrorStatus()) {
+          counters.errors.incrementAndGet();
+          LOG.error(input.getParent().getFileName().toString() + File.separator +
+                  input.getFileName().toString() + ": error iterating through segment.");
         }
 
         segment.close();
