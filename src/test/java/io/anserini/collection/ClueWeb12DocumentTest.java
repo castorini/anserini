@@ -79,6 +79,7 @@ public class ClueWeb12DocumentTest extends DocumentTest {
         "description: clueweb09 crawl with WARC output\n" +
         "format: WARC file version 0.18\n" +
         "conformsTo: http://www.archive.org/documents/WarcFileFormat-0.18.html");
+    doc1.put("indexable", "false");
     expected.add(doc1);
 
     HashMap<String, String> doc2 = new HashMap<>();
@@ -86,6 +87,7 @@ public class ClueWeb12DocumentTest extends DocumentTest {
     doc2.put("content", "<html>\n" +
         "whatever here will be included\n" +
         "</html>");
+    doc2.put("indexable", "true");
     expected.add(doc2);
   }
 
@@ -107,10 +109,15 @@ public class ClueWeb12DocumentTest extends DocumentTest {
   @Test
   public void testStreamIteration() {
     ClueWeb12Collection collection = new ClueWeb12Collection();
-    Iterator<ClueWeb12Collection.Document> iter =
-            collection.createFileSegment(rawDocs.get(0) + rawDocs.get(1)).iterator();
+    FileSegment<ClueWeb12Collection.Document> segment = collection.createFileSegment(rawDocs.get(0) + rawDocs.get(1));
+    Iterator<ClueWeb12Collection.Document> iter = segment.iterator();
     AtomicInteger cnt = new AtomicInteger();
-    iter.forEachRemaining(d -> cnt.incrementAndGet());
+    iter.forEachRemaining(d -> {
+      int i = cnt.getAndIncrement();
+      assertEquals(d.id(), expected.get(i).get("id"));
+      assertEquals(d.content(), expected.get(i).get("content"));
+      assertEquals(String.valueOf(d.indexable()), expected.get(i).get("indexable"));
+    });
     assertEquals(2, cnt.get());
   }
 }
