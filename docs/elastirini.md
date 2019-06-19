@@ -44,7 +44,7 @@ If at some point one of the ELK components is failing for some reason, or if you
 
 Once we have a local instance of Elasticsearch up and running, we can index using Elasticsearch through Elastirini.
 
-First, we need to create the index in Elasticsearch.
+First, let us create the index in Elasticsearch.
 
 `curl --user elastic:changeme -XPUT "localhost:9200/yourindexname"`
 
