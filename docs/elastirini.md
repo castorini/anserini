@@ -54,7 +54,7 @@ You can further specify the settings associated with this index. For example, if
 
 `curl --user elastic:changeme -XPUT -H 'Content-Type: application/json' 'localhost:9200/yourindexname/_settings' -d '{ "index": { "refresh_interval": "60s"}}'`
 
-Now, we can start indexing through Elastirini. Here, instead of passing in `-index` (to index with Lucene directly) or `-solr` (to index with Solr), we pass in `-es`. For example, to index [robust04](https://github.com/castorini/Anserini/blob/master/docs/experiments-robust04.md), we could run:
+Now, we can start indexing through Elastirini. Here, instead of passing in `-index` (to index with Lucene directly) or `-solr` (to index with Solr), we pass in `-es`. For example, to index [robust04](https://github.com/castorini/anserini/blob/master/docs/regressions-robust04.md), we could run:
 
 `sh target/appassembler/bin/IndexCollection -collection TrecCollection -generator JsoupGenerator -es -es.index yourindexname -threads 16 -input /absolute/path/to/disk45 -storePositions -storeDocvectors -storeRawDocs`
 
