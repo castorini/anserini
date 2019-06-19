@@ -208,10 +208,10 @@ public final class IndexCollection {
     public int esPoolSize = 10;
 
     @Option(name = "-es.connectTimeout", metaVar = "[NUMBER]", usage = "the Elasticsearch (low level) REST client connect timeout (in ms)")
-    public int esConnectTimeout = 5000;
+    public int esConnectTimeout = TIMEOUT;
 
     @Option(name = "-es.socketTimeout", metaVar = "[NUMBER]", usage = "the Elasticsearch (low level) REST client socket timeout (in ms)")
-    public int esSocketTimeout = 120000;
+    public int esSocketTimeout = TIMEOUT;
 
     @Option(name = "-shard.count", usage = "the number of shards for the index")
     public int shardCount = -1;
