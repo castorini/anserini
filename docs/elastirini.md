@@ -12,15 +12,21 @@ First, we clone the repository and switch into the directory.
 
 Depending on the documents you are indexing, you probably also have to increase the ELK stack's heap size in `docker-compose.yml`:
 
-To increase Elasticsearch's heap size (on MacOS):
+To increase Elasticsearch's heap size:
+
+`sed -i 's/ES_JAVA_OPTS: "-Xmx256m -Xms256m"/ES_JAVA_OPTS: "-Xmx1g -Xms512m"/' docker-compose.yml`
+
+If you are on MacOS:
 
 `sed -i '' 's/ES_JAVA_OPTS: "-Xmx256m -Xms256m"/ES_JAVA_OPTS: "-Xmx1g -Xms512m"/' docker-compose.yml`
 
-To increase Logstash's heap size (on MacOS):
+To increase Logstash's heap size:
+
+`sed -i 's/LS_JAVA_OPTS: "-Xmx256m -Xms256m"/LS_JAVA_OPTS: "-Xmx1g -Xms512m"/' docker-compose.yml`
+
+If you are on MacOS:
 
 `sed -i '' 's/LS_JAVA_OPTS: "-Xmx256m -Xms256m"/LS_JAVA_OPTS: "-Xmx1g -Xms512m"/' docker-compose.yml`
-
-When running on other operating systems, remove the `''` argument to `-i`.
 
 Note `-Xmx` is the maximum memory that can be allocated, and `-Xms` is the initial memory allocated. You can specify these values as needed.
 
