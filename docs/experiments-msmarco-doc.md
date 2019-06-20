@@ -108,6 +108,7 @@ We see that "out of the box" Anserini is already better!
 It is well known that BM25 parameter tuning is important.
 The above instructions use the Anserini (system-wide) default of `k1=0.9`, `b=0.4`.
 
+Let's try to do better!
 BM25 tuning was accomplished using the queries found [here](https://github.com/castorini/Anserini-data/tree/master/MSMARCO): these are five different sets of 10k samples (from the `shuf` command).
 We tuned on each individual set (grid search, in tenth increments) and then averaged parameter values across all five sets (this has the effect of regularization).
 Here, we optimized for average precision (AP).

@@ -49,7 +49,7 @@ Each collection is associated with [regression tests](docs/regressions.md) for r
 Note that these regressions capture the "out of the box" experience, based on [_default_ parameter settings](https://github.com/castorini/Anserini/blob/master/src/main/java/io/anserini/search/SearchArgs.java).
 
 + [Regressions for Disks 1 &amp; 2](docs/regressions-disk12.md)
-+ [Regressions for Disks 4 &amp; 5 (Robust04)](docs/regressions-robust04.md)
++ [Regressions for Disks 4 &amp; 5 (Robust04)](docs/regressions-robust04.md) [[Colab demo](https://colab.research.google.com/drive/1s44ylhEkXDzqNgkJSyXDYetGIxO9TWZn)]
 + [Regressions for AQUAINT (Robust05)](docs/regressions-robust05.md)
 + [Regressions for the New York Times (Core17)](docs/regressions-core17.md)
 + [Regressions for the Washington Post (Core18)](docs/regressions-core18.md)

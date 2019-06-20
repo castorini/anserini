@@ -63,3 +63,7 @@ R@1000                                  | BM25 (Default)| +RM3      | BM25 (Tune
 [MS MARCO Document Ranking: Dev Queries](https://github.com/microsoft/TREC-2019-Deep-Learning)| 0.8856    | 0.8785    | 0.9326    | 0.9320    |
 
 
+
+The setting "default" refers the default BM25 settings of `k1=0.9`, `b=0.4`, while "tuned" refers to the tuned setting of `k1=3.44`, `b=0.87`.
+See [this page](experiments-msmarco-doc.md) for more details.
+Note that here we are using `trec_eval` to evaluate the top 1000 hits for each query; beware, the runs provided by MS MARCO organizers for reranking have only 100 hits per query.
