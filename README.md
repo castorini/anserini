@@ -63,6 +63,7 @@ Note that these regressions capture the "out of the box" experience, based on [_
 + [Regressions for Complex Answer Retrieval v1.5 (CAR17)](docs/regressions-car17v1.5.md)
 + [Regressions for Complex Answer Retrieval v2.0 (CAR17)](docs/regressions-car17v2.0.md)
 + [Regressions for the MS MARCO Passage Task](docs/regressions-msmarco-passage.md)
++ [Regressions for the MS MARCO Passage Task with doc2query expansion](docs/regressions-msmarco-passage-doc2query.md)
 + [Regressions for the MS MARCO Document Task](docs/regressions-msmarco-doc.md)
 
 Other experiments:
@@ -119,6 +120,7 @@ hits[0].content
 ```
 
 Optionally, a path to Anserini root directory can be specified for scripts outside of Anserini:
+
 ```
 anserini_root = {path/to/anserini}
 
