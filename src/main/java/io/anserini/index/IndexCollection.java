@@ -21,10 +21,8 @@ import com.google.common.base.Splitter;
 import com.google.common.hash.Hashing;
 import io.anserini.analysis.EnglishStemmingAnalyzer;
 import io.anserini.analysis.TweetAnalyzer;
-import io.anserini.collection.BaseFileSegment;
 import io.anserini.collection.DocumentCollection;
-import io.anserini.collection.Segment;
-import io.anserini.collection.SegmentProvider;
+import io.anserini.collection.FileSegment;
 import io.anserini.collection.SourceDocument;
 import io.anserini.index.generator.LuceneDocumentGenerator;
 import org.apache.commons.io.FileUtils;
@@ -69,6 +67,7 @@ import org.elasticsearch.action.bulk.BulkRequest;
 import org.elasticsearch.action.index.IndexRequest;
 import org.kohsuke.args4j.*;
 
+import javax.xml.transform.Source;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -79,6 +78,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.Iterator;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -237,7 +237,7 @@ public final class IndexCollection {
 
     /**
      * Counter for unindexed documents. These are cases where the {@link SourceDocument} returned
-     * by {@link Segment} is {@code null} or the {@link LuceneDocumentGenerator}
+     * by {@link FileSegment} is {@code null} or the {@link LuceneDocumentGenerator}
      * returned {@code null}. These are not necessarily errors.
      */
     public AtomicLong unindexed = new AtomicLong();
@@ -278,23 +278,17 @@ public final class IndexCollection {
         @SuppressWarnings("unchecked")
         LuceneDocumentGenerator generator =
             (LuceneDocumentGenerator) generatorClass
-                .getDeclaredConstructor(Args.class, Counters.class)
-                .newInstance(args, counters);
+                  .getDeclaredConstructor(Args.class, Counters.class)
+                  .newInstance(args, counters);
 
         int cnt = 0;
 
         @SuppressWarnings("unchecked")
-        BaseFileSegment<SourceDocument> iter =
-            (BaseFileSegment) ((SegmentProvider) collection).createFileSegment(inputFile);
+        FileSegment<SourceDocument> segment =
+                (FileSegment) collection.createFileSegment(inputFile);
 
-        while (iter.hasNext()) {
-          SourceDocument d;
-          try {
-            d = iter.next();
-          } catch (RuntimeException e) {
-            counters.skipped.incrementAndGet();
-            continue;
-          }
+        for (Object document : segment) {
+          SourceDocument d = (SourceDocument) document;
 
           if (!d.indexable()) {
             counters.unindexable.incrementAndGet();
@@ -332,13 +326,23 @@ public final class IndexCollection {
           cnt++;
         }
 
-        if (iter.getNextRecordStatus() == BaseFileSegment.Status.ERROR) {
-          counters.errors.incrementAndGet();
+        int skipped = segment.getSkippedCount();
+        if (skipped > 0) {
+          counters.skipped.addAndGet(skipped);
+          LOG.warn(inputFile.getParent().getFileName().toString() + File.separator +
+                  inputFile.getFileName().toString() + ": " + skipped +
+                  " docs skipped.");
         }
 
-        iter.close();
+        if (segment.getErrorStatus()) {
+          counters.errors.incrementAndGet();
+          LOG.error(inputFile.getParent().getFileName().toString() + File.separator +
+                  inputFile.getFileName().toString() + ": error iterating through segment.");
+        }
+
+        segment.close();
         LOG.info(inputFile.getParent().getFileName().toString() + File.separator +
-            inputFile.getFileName().toString() + ": " + cnt + " docs added.");
+              inputFile.getFileName().toString() + ": " + cnt + " docs added.");
         counters.indexed.addAndGet(cnt);
       } catch (Exception e) {
         LOG.error(Thread.currentThread().getName() + ": Unexpected Exception:", e);
@@ -360,19 +364,20 @@ public final class IndexCollection {
     @Override
     public void run() {
       try {
-
-        LuceneDocumentGenerator generator = (LuceneDocumentGenerator) generatorClass.getDeclaredConstructor(Args.class, Counters.class).newInstance(args, counters);
-        BaseFileSegment<SourceDocument> iter = (BaseFileSegment) ((SegmentProvider) collection).createFileSegment(input);
+        @SuppressWarnings("unchecked")
+        LuceneDocumentGenerator generator =
+                (LuceneDocumentGenerator) generatorClass
+                        .getDeclaredConstructor(Args.class, Counters.class)
+                        .newInstance(args, counters);
 
         int cnt = 0;
-        while (iter.hasNext()) {
-          SourceDocument sourceDocument;
-          try {
-            sourceDocument = iter.next();
-          } catch (RuntimeException e) {
-            counters.skipped.incrementAndGet();
-            continue;
-          }
+
+        @SuppressWarnings("unchecked")
+        FileSegment<SourceDocument> segment =
+                (FileSegment) collection.createFileSegment(input);
+
+        for (Object d : segment) {
+          SourceDocument sourceDocument = (SourceDocument) d;
 
           if (!sourceDocument.indexable()) {
             counters.unindexable.incrementAndGet();
@@ -388,6 +393,8 @@ public final class IndexCollection {
             }
           }
 
+          // Yes, we know what we're doing here.
+          @SuppressWarnings("unchecked")
           Document document = generator.createDocument(sourceDocument);
           if (document == null) {
             counters.unindexed.incrementAndGet();
@@ -426,11 +433,21 @@ public final class IndexCollection {
           flush();
         }
 
-        if (iter.getNextRecordStatus() == BaseFileSegment.Status.ERROR) {
-          counters.errors.incrementAndGet();
+        int skipped = segment.getSkippedCount();
+        if (skipped > 0) {
+          counters.skipped.addAndGet(skipped);
+          LOG.warn(input.getParent().getFileName().toString() + File.separator +
+                  input.getFileName().toString() + ": " + skipped +
+                  " docs skipped.");
         }
 
-        iter.close();
+        if (segment.getErrorStatus()) {
+          counters.errors.incrementAndGet();
+          LOG.error(input.getParent().getFileName().toString() + File.separator +
+                  input.getFileName().toString() + ": error iterating through segment.");
+        }
+
+        segment.close();
         LOG.info(input.getParent().getFileName().toString() + File.separator + input.getFileName().toString() + ": " + cnt + " docs added.");
         counters.indexed.addAndGet(cnt);
       } catch (Exception e) {
@@ -755,7 +772,7 @@ public final class IndexCollection {
     }
 
     final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(numThreads);
-    final List segmentPaths = ((SegmentProvider) collection).getFileSegmentPaths();
+    final List segmentPaths = collection.discover(collection.getCollectionPath());
 
     final int segmentCnt = segmentPaths.size();
     LOG.info(segmentCnt + " files found in " + collectionPath.toString());

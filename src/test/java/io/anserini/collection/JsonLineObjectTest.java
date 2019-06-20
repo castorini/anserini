@@ -22,6 +22,7 @@ import org.junit.Test;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Iterator;
 import java.util.concurrent.atomic.AtomicInteger;
 
 // A file in a JsonCollection can either be:
@@ -72,7 +73,8 @@ public class JsonLineObjectTest extends DocumentTest {
   public void test() throws IOException {
     JsonCollection collection = new JsonCollection();
     for (int i = 0; i < rawFiles.size(); i++) {
-      BaseFileSegment<JsonCollection.Document> iter = collection.createFileSegment(rawFiles.get(i));
+      Iterator<JsonCollection.Document> iter =
+              collection.createFileSegment(rawFiles.get(i)).iterator();
       int j = 0;
       while (iter.hasNext()) {
         JsonCollection.Document parsed = iter.next();
@@ -92,7 +94,8 @@ public class JsonLineObjectTest extends DocumentTest {
   public void testStreamIteration() {
     JsonCollection collection = new JsonCollection();
     try {
-      BaseFileSegment<JsonCollection.Document> iter = collection.createFileSegment(rawFiles.get(0));
+      Iterator<JsonCollection.Document> iter =
+              collection.createFileSegment(rawFiles.get(0)).iterator();
       AtomicInteger cnt = new AtomicInteger();
       iter.forEachRemaining(d -> cnt.incrementAndGet());
       assertEquals(2, cnt.get());
