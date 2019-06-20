@@ -1,4 +1,4 @@
-# Anserini: Regressions for [MS MARCO](https://github.com/microsoft/MSMARCO-Passage-Ranking) (Passage+Doc2query)
+# Anserini: Regressions for [MS MARCO](https://github.com/microsoft/MSMARCO-Passage-Ranking) (Passage Expansion)
 
 This page documents regression experiments for the MS MARCO Passage Ranking Task (with Doc2query expansions), which is integrated into Anserini's regression testing framework.
 For more complete instructions on how to run end-to-end experiments, refer to [this page](experiments-msmarco-passage.md).
