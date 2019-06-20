@@ -48,8 +48,8 @@ topics:
     path: topics.msmarco-doc.dev.txt
     qrel: qrels.msmarco-doc.dev.txt
 models:
-  - name: bm25
-    display: BM25
+  - name: bm25-default
+    display: BM25 (Default)
     params:
       - -bm25
     results:
@@ -57,7 +57,7 @@ models:
         - 0.2310
       R@1000:
         - 0.8856
-  - name: bm25+rm3
+  - name: bm25-default+rm3
     display: +RM3
     params:
       - -bm25
@@ -67,3 +67,26 @@ models:
         - 0.1632
       R@1000:
         - 0.8785
+  - name: bm25-tuned
+    display: BM25 (Tuned)
+    params:
+      - -bm25
+      - -k1 3.44
+      - -b 0.87
+    results:
+      map:
+        - 0.2788
+      R@1000:
+        - 0.9326
+  - name: bm25-tuned+rm3
+    display: +RM3
+    params:
+      - -bm25
+      - -k1 3.44
+      - -b 0.87
+      - -rm3
+    results:
+      map:
+        - 0.2289
+      R@1000:
+        - 0.9320
