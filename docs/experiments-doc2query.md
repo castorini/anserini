@@ -1,6 +1,6 @@
 # Anserini: Doc2query Experiments
 
-This section describes how to replicate the document expansion experiments in following paper:
+This page describes how to replicate the document expansion experiments in following paper:
 
 + Rodrigo Nogueira, Wei Yang, Jimmy Lin, Kyunghyun Cho. [Document Expansion by Query Prediction.](https://arxiv.org/abs/1904.08375) _arxiv:1904.08375_
 

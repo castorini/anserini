@@ -118,8 +118,8 @@ Note that this figure differs slightly from the value reported in [Document Expa
 
 Tuning was accomplished with the `tune_bm25.py` script, using the queries found [here](https://github.com/castorini/Anserini-data/tree/master/MSMARCO).
 There are five different sets of 10k samples (from the `shuf` command).
-We tune on each individual set and then average parameter values across all five sets (this has the effect of regularization).
-Note that we are currently optimizing recall@1000 since Anserini output will serve as input to later stage rerankers (e.g., based on BERT), and we want to maximize the number of relevant documents the rerankers have to work with.
+We tuned on each individual set and then averaged parameter values across all five sets (this has the effect of regularization).
+Note that we optimized recall@1000 since Anserini output serves as input to later stage rerankers (e.g., based on BERT), and we want to maximize the number of relevant documents the rerankers have to work with.
 The tuned parameters using this method are `k1=0.82`, `b=0.68`.
 
 Here's the comparison between the Anserini default and tuned parameters:
