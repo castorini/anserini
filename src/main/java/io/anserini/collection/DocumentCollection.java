@@ -125,7 +125,7 @@ public abstract class DocumentCollection<T extends SourceDocument> implements It
           return false;
         } else {
           try {
-            Path segmentPath = pathsIterator.next();
+            segmentPath = pathsIterator.next();
             segment = createFileSegment(segmentPath);
           } catch (IOException e){
             return false;
