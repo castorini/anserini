@@ -21,6 +21,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class TrecDocumentTest extends DocumentTest {
@@ -64,7 +65,7 @@ public class TrecDocumentTest extends DocumentTest {
   public void test() throws Exception {
     TrecCollection collection = new TrecCollection();
     for (int i = 0; i < rawFiles.size(); i++) {
-      BaseFileSegment<TrecCollection.Document> iter = collection.createFileSegment(rawFiles.get(i));
+      Iterator<TrecCollection.Document> iter = collection.createFileSegment(rawFiles.get(i)).iterator();
       while (iter.hasNext()) {
         TrecCollection.Document parsed = iter.next();
         assertEquals(parsed.id(), expected.get(i).get("id"));
@@ -79,7 +80,7 @@ public class TrecDocumentTest extends DocumentTest {
   public void testStreamIteration() {
     TrecCollection collection = new TrecCollection();
     try {
-      BaseFileSegment<TrecCollection.Document> iter = collection.createFileSegment(rawFiles.get(0));
+      Iterator<TrecCollection.Document> iter = collection.createFileSegment(rawFiles.get(0)).iterator();
       AtomicInteger cnt = new AtomicInteger();
       iter.forEachRemaining(d -> cnt.incrementAndGet());
       assertEquals(1, cnt.get());

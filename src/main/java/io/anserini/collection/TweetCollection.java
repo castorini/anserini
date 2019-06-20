@@ -50,32 +50,26 @@ import java.util.zip.GZIPInputStream;
 /**
  * Class representing an instance of a Twitter collection.
  */
-public class TweetCollection extends DocumentCollection
-    implements SegmentProvider<TweetCollection.Document> {
+public class TweetCollection extends DocumentCollection<TweetCollection.Document> {
 
   private static final Logger LOG = LogManager.getLogger(TweetCollection.class);
 
   @Override
-  public List<Path> getFileSegmentPaths() {
-    return super.discover();
+  public FileSegment<TweetCollection.Document> createFileSegment(Path p) throws IOException {
+    return new Segment(p);
   }
 
-  @Override
-  public FileSegment createFileSegment(Path p) throws IOException {
-    return new FileSegment(p);
-  }
-
-  public class FileSegment extends BaseFileSegment<Document> {
+  public class Segment extends FileSegment<TweetCollection.Document> {
 
     private static final String DATE_FORMAT = "E MMM dd HH:mm:ss ZZZZZ yyyy"; // "Fri Mar 29 11:03:41 +0000 2013"
 
-    protected FileSegment(Path path) throws IOException {
-      this.path = path;
+    protected Segment(Path path) throws IOException {
+      super(path);
       this.bufferedReader = null;
       String fileName = path.toString();
       if (fileName.endsWith(".gz")) { //.gz
         InputStream stream = new GZIPInputStream(
-            Files.newInputStream(path, StandardOpenOption.READ), BUFFER_SIZE);
+                Files.newInputStream(path, StandardOpenOption.READ), BUFFER_SIZE);
         bufferedReader = new BufferedReader(new InputStreamReader(stream, StandardCharsets.UTF_8));
       } else { // plain text file
         bufferedReader = new BufferedReader(new FileReader(fileName));
@@ -83,7 +77,7 @@ public class TweetCollection extends DocumentCollection
     }
 
     @Override
-    public void readNext() throws IOException {
+    public void readNext() throws IOException, NoSuchElementException, ParseException {
       String nextRecord = bufferedReader.readLine();
       if (nextRecord == null) {
         throw new NoSuchElementException();
@@ -91,7 +85,7 @@ public class TweetCollection extends DocumentCollection
       parseJson(nextRecord);
     }
 
-    private void parseJson(String json) {
+    private void parseJson(String json) throws ParseException {
       ObjectMapper mapper = new ObjectMapper();
       Document.TweetObject tweetObj = null;
       try {
@@ -100,11 +94,11 @@ public class TweetCollection extends DocumentCollection
                 .registerModule(new Jdk8Module()) // Deserialize Java 8 Optional: http://www.baeldung.com/jackson-optional
                 .readValue(json, Document.TweetObject.class);
       } catch (IOException e) {
-        throw new RuntimeException(e);
+        throw new ParseException("IOException in parseJson", 0);
       }
 
       if (JsonParser.isFieldAvailable(tweetObj.getDelete())) {
-        throw new RuntimeException("Ignore deleted tweets");
+        throw new ParseException("Ignore deleted tweets", 0);
       }
 
       bufferedRecord = new TweetCollection.Document();
@@ -119,7 +113,7 @@ public class TweetCollection extends DocumentCollection
       } catch (ParseException e) {
         bufferedRecord.timestampMs = OptionalLong.of(-1L);
         bufferedRecord.epoch = OptionalLong.of(-1L);
-        throw new RuntimeException(e);
+        throw e;
       }
 
       if (JsonParser.isFieldAvailable(tweetObj.getInReplyToStatusId())) {
