@@ -8,7 +8,7 @@ This documentation is useful for figuring why results may have changed over time
 + commit [`86be3d2`](https://github.com/castorini/anserini/commit/86be3d21ea8bdf9309ca5f85362c2782c3898a19) (6/20/2019)
 + commit [`b656da3`](https://github.com/castorini/anserini/commit/b656da3ed0ec3fa385dfdb9df0d153cd9a78bd7d) (6/20/2019)
 
-Added new Doc2query regression `msmarco-passage-doc2query` to replicate [Nogueira et al. (arXiv 2019)](https://arxiv.org/abs/1904.08375).
+Added new Doc2query regression `msmarco-passage-doc2query` to replicate [Nogueira et al. (arXiv 2019)](https://arxiv.org/abs/1904.08375) on the MS MARCO passage ranking task.
 Added tuned BM25 parameters to `msmarco-doc` regression.
 Associated documentation updated.
 
