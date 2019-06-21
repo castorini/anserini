@@ -49,7 +49,7 @@ Each collection is associated with [regression tests](docs/regressions.md) for r
 Note that these regressions capture the "out of the box" experience, based on [_default_ parameter settings](https://github.com/castorini/Anserini/blob/master/src/main/java/io/anserini/search/SearchArgs.java).
 
 + [Regressions for Disks 1 &amp; 2](docs/regressions-disk12.md)
-+ [Regressions for Disks 4 &amp; 5 (Robust04)](docs/regressions-robust04.md)
++ [Regressions for Disks 4 &amp; 5 (Robust04)](docs/regressions-robust04.md) [[Colab demo](https://colab.research.google.com/drive/1s44ylhEkXDzqNgkJSyXDYetGIxO9TWZn)]
 + [Regressions for AQUAINT (Robust05)](docs/regressions-robust05.md)
 + [Regressions for the New York Times (Core17)](docs/regressions-core17.md)
 + [Regressions for the Washington Post (Core18)](docs/regressions-core18.md)
@@ -63,13 +63,15 @@ Note that these regressions capture the "out of the box" experience, based on [_
 + [Regressions for Complex Answer Retrieval v1.5 (CAR17)](docs/regressions-car17v1.5.md)
 + [Regressions for Complex Answer Retrieval v2.0 (CAR17)](docs/regressions-car17v2.0.md)
 + [Regressions for the MS MARCO Passage Task](docs/regressions-msmarco-passage.md)
++ [Regressions for the MS MARCO Passage Task with doc2query expansion](docs/regressions-msmarco-passage-doc2query.md)
 + [Regressions for the MS MARCO Document Task](docs/regressions-msmarco-doc.md)
 
 Other experiments:
 
-+ [Guide to running experiments on the MS MARCO Passage Task](docs/experiments-msmarco-passage.md)
-+ [Guide to running experiments on the MS MARCO Document Task](docs/experiments-msmarco-doc.md)
-+ [Guide to running Experiments on the AI2 Open Research Corpus](docs/experiments-openresearch.md)
++ [Guide to running BM25 baselines on the MS MARCO Passage Task](docs/experiments-msmarco-passage.md)
++ [Guide to running BM25 baselines on the MS MARCO Document Task](docs/experiments-msmarco-doc.md)
++ [Guide to replicating document expansion by query prediction (Doc2query) results](docs/experiments-doc2query.md)
++ [Guide to running experiments on the AI2 Open Research Corpus](docs/experiments-openresearch.md)
 + [Experiments from Yang et al. (JDIQ 2018)](docs/experiments-jdiq2018.md)
 + [Experiments from Lin (SIGIR Forum 2018)](docs/experiments-forum2018.md)
 + Runbooks for TREC 2018: [[Anserini group](docs/runbook-trec2018-anserini.md)] [[h2oloo group](docs/runbook-trec2018-h2oloo.md)]
@@ -119,6 +121,7 @@ hits[0].content
 ```
 
 Optionally, a path to Anserini root directory can be specified for scripts outside of Anserini:
+
 ```
 anserini_root = {path/to/anserini}
 
