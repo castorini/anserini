@@ -2,12 +2,13 @@ syntax = "proto3";
 package io.anserini.cidxf;
 
 message Posting {
-  int32 docno = 1;
+  int32 docid = 1;
   int32 tf = 2;
 }
 
 message PostingsList {
   string term = 1;
-  repeated Posting posting = 2;
+  int64 df = 2;
+  int64 cf = 3;
+  repeated Posting posting = 4;
 }
-

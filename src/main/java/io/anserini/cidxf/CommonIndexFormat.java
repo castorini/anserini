@@ -19,9 +19,9 @@ public final class CommonIndexFormat {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>int32 docno = 1;</code>
+     * <code>int32 docid = 1;</code>
      */
-    int getDocno();
+    int getDocid();
 
     /**
      * <code>int32 tf = 2;</code>
@@ -75,7 +75,7 @@ public final class CommonIndexFormat {
               break;
             case 8: {
 
-              docno_ = input.readInt32();
+              docid_ = input.readInt32();
               break;
             }
             case 16: {
@@ -115,13 +115,13 @@ public final class CommonIndexFormat {
               io.anserini.cidxf.CommonIndexFormat.Posting.class, io.anserini.cidxf.CommonIndexFormat.Posting.Builder.class);
     }
 
-    public static final int DOCNO_FIELD_NUMBER = 1;
-    private int docno_;
+    public static final int DOCID_FIELD_NUMBER = 1;
+    private int docid_;
     /**
-     * <code>int32 docno = 1;</code>
+     * <code>int32 docid = 1;</code>
      */
-    public int getDocno() {
-      return docno_;
+    public int getDocid() {
+      return docid_;
     }
 
     public static final int TF_FIELD_NUMBER = 2;
@@ -147,8 +147,8 @@ public final class CommonIndexFormat {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (docno_ != 0) {
-        output.writeInt32(1, docno_);
+      if (docid_ != 0) {
+        output.writeInt32(1, docid_);
       }
       if (tf_ != 0) {
         output.writeInt32(2, tf_);
@@ -162,9 +162,9 @@ public final class CommonIndexFormat {
       if (size != -1) return size;
 
       size = 0;
-      if (docno_ != 0) {
+      if (docid_ != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(1, docno_);
+          .computeInt32Size(1, docid_);
       }
       if (tf_ != 0) {
         size += com.google.protobuf.CodedOutputStream
@@ -185,8 +185,8 @@ public final class CommonIndexFormat {
       }
       io.anserini.cidxf.CommonIndexFormat.Posting other = (io.anserini.cidxf.CommonIndexFormat.Posting) obj;
 
-      if (getDocno()
-          != other.getDocno()) return false;
+      if (getDocid()
+          != other.getDocid()) return false;
       if (getTf()
           != other.getTf()) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
@@ -200,8 +200,8 @@ public final class CommonIndexFormat {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
-      hash = (37 * hash) + DOCNO_FIELD_NUMBER;
-      hash = (53 * hash) + getDocno();
+      hash = (37 * hash) + DOCID_FIELD_NUMBER;
+      hash = (53 * hash) + getDocid();
       hash = (37 * hash) + TF_FIELD_NUMBER;
       hash = (53 * hash) + getTf();
       hash = (29 * hash) + unknownFields.hashCode();
@@ -337,7 +337,7 @@ public final class CommonIndexFormat {
       @java.lang.Override
       public Builder clear() {
         super.clear();
-        docno_ = 0;
+        docid_ = 0;
 
         tf_ = 0;
 
@@ -367,7 +367,7 @@ public final class CommonIndexFormat {
       @java.lang.Override
       public io.anserini.cidxf.CommonIndexFormat.Posting buildPartial() {
         io.anserini.cidxf.CommonIndexFormat.Posting result = new io.anserini.cidxf.CommonIndexFormat.Posting(this);
-        result.docno_ = docno_;
+        result.docid_ = docid_;
         result.tf_ = tf_;
         onBuilt();
         return result;
@@ -417,8 +417,8 @@ public final class CommonIndexFormat {
 
       public Builder mergeFrom(io.anserini.cidxf.CommonIndexFormat.Posting other) {
         if (other == io.anserini.cidxf.CommonIndexFormat.Posting.getDefaultInstance()) return this;
-        if (other.getDocno() != 0) {
-          setDocno(other.getDocno());
+        if (other.getDocid() != 0) {
+          setDocid(other.getDocid());
         }
         if (other.getTf() != 0) {
           setTf(other.getTf());
@@ -452,28 +452,28 @@ public final class CommonIndexFormat {
         return this;
       }
 
-      private int docno_ ;
+      private int docid_ ;
       /**
-       * <code>int32 docno = 1;</code>
+       * <code>int32 docid = 1;</code>
        */
-      public int getDocno() {
-        return docno_;
+      public int getDocid() {
+        return docid_;
       }
       /**
-       * <code>int32 docno = 1;</code>
+       * <code>int32 docid = 1;</code>
        */
-      public Builder setDocno(int value) {
+      public Builder setDocid(int value) {
         
-        docno_ = value;
+        docid_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>int32 docno = 1;</code>
+       * <code>int32 docid = 1;</code>
        */
-      public Builder clearDocno() {
+      public Builder clearDocid() {
         
-        docno_ = 0;
+        docid_ = 0;
         onChanged();
         return this;
       }
@@ -571,25 +571,35 @@ public final class CommonIndexFormat {
         getTermBytes();
 
     /**
-     * <code>repeated .io.anserini.cidxf.Posting posting = 2;</code>
+     * <code>int64 df = 2;</code>
+     */
+    long getDf();
+
+    /**
+     * <code>int64 cf = 3;</code>
+     */
+    long getCf();
+
+    /**
+     * <code>repeated .io.anserini.cidxf.Posting posting = 4;</code>
      */
     java.util.List<io.anserini.cidxf.CommonIndexFormat.Posting> 
         getPostingList();
     /**
-     * <code>repeated .io.anserini.cidxf.Posting posting = 2;</code>
+     * <code>repeated .io.anserini.cidxf.Posting posting = 4;</code>
      */
     io.anserini.cidxf.CommonIndexFormat.Posting getPosting(int index);
     /**
-     * <code>repeated .io.anserini.cidxf.Posting posting = 2;</code>
+     * <code>repeated .io.anserini.cidxf.Posting posting = 4;</code>
      */
     int getPostingCount();
     /**
-     * <code>repeated .io.anserini.cidxf.Posting posting = 2;</code>
+     * <code>repeated .io.anserini.cidxf.Posting posting = 4;</code>
      */
     java.util.List<? extends io.anserini.cidxf.CommonIndexFormat.PostingOrBuilder> 
         getPostingOrBuilderList();
     /**
-     * <code>repeated .io.anserini.cidxf.Posting posting = 2;</code>
+     * <code>repeated .io.anserini.cidxf.Posting posting = 4;</code>
      */
     io.anserini.cidxf.CommonIndexFormat.PostingOrBuilder getPostingOrBuilder(
         int index);
@@ -648,7 +658,17 @@ public final class CommonIndexFormat {
               term_ = s;
               break;
             }
-            case 18: {
+            case 16: {
+
+              df_ = input.readInt64();
+              break;
+            }
+            case 24: {
+
+              cf_ = input.readInt64();
+              break;
+            }
+            case 34: {
               if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 posting_ = new java.util.ArrayList<io.anserini.cidxf.CommonIndexFormat.Posting>();
                 mutable_bitField0_ |= 0x00000001;
@@ -726,35 +746,53 @@ public final class CommonIndexFormat {
       }
     }
 
-    public static final int POSTING_FIELD_NUMBER = 2;
+    public static final int DF_FIELD_NUMBER = 2;
+    private long df_;
+    /**
+     * <code>int64 df = 2;</code>
+     */
+    public long getDf() {
+      return df_;
+    }
+
+    public static final int CF_FIELD_NUMBER = 3;
+    private long cf_;
+    /**
+     * <code>int64 cf = 3;</code>
+     */
+    public long getCf() {
+      return cf_;
+    }
+
+    public static final int POSTING_FIELD_NUMBER = 4;
     private java.util.List<io.anserini.cidxf.CommonIndexFormat.Posting> posting_;
     /**
-     * <code>repeated .io.anserini.cidxf.Posting posting = 2;</code>
+     * <code>repeated .io.anserini.cidxf.Posting posting = 4;</code>
      */
     public java.util.List<io.anserini.cidxf.CommonIndexFormat.Posting> getPostingList() {
       return posting_;
     }
     /**
-     * <code>repeated .io.anserini.cidxf.Posting posting = 2;</code>
+     * <code>repeated .io.anserini.cidxf.Posting posting = 4;</code>
      */
     public java.util.List<? extends io.anserini.cidxf.CommonIndexFormat.PostingOrBuilder> 
         getPostingOrBuilderList() {
       return posting_;
     }
     /**
-     * <code>repeated .io.anserini.cidxf.Posting posting = 2;</code>
+     * <code>repeated .io.anserini.cidxf.Posting posting = 4;</code>
      */
     public int getPostingCount() {
       return posting_.size();
     }
     /**
-     * <code>repeated .io.anserini.cidxf.Posting posting = 2;</code>
+     * <code>repeated .io.anserini.cidxf.Posting posting = 4;</code>
      */
     public io.anserini.cidxf.CommonIndexFormat.Posting getPosting(int index) {
       return posting_.get(index);
     }
     /**
-     * <code>repeated .io.anserini.cidxf.Posting posting = 2;</code>
+     * <code>repeated .io.anserini.cidxf.Posting posting = 4;</code>
      */
     public io.anserini.cidxf.CommonIndexFormat.PostingOrBuilder getPostingOrBuilder(
         int index) {
@@ -778,8 +816,14 @@ public final class CommonIndexFormat {
       if (!getTermBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 1, term_);
       }
+      if (df_ != 0L) {
+        output.writeInt64(2, df_);
+      }
+      if (cf_ != 0L) {
+        output.writeInt64(3, cf_);
+      }
       for (int i = 0; i < posting_.size(); i++) {
-        output.writeMessage(2, posting_.get(i));
+        output.writeMessage(4, posting_.get(i));
       }
       unknownFields.writeTo(output);
     }
@@ -793,9 +837,17 @@ public final class CommonIndexFormat {
       if (!getTermBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, term_);
       }
+      if (df_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(2, df_);
+      }
+      if (cf_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(3, cf_);
+      }
       for (int i = 0; i < posting_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(2, posting_.get(i));
+          .computeMessageSize(4, posting_.get(i));
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -814,6 +866,10 @@ public final class CommonIndexFormat {
 
       if (!getTerm()
           .equals(other.getTerm())) return false;
+      if (getDf()
+          != other.getDf()) return false;
+      if (getCf()
+          != other.getCf()) return false;
       if (!getPostingList()
           .equals(other.getPostingList())) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
@@ -829,6 +885,12 @@ public final class CommonIndexFormat {
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + TERM_FIELD_NUMBER;
       hash = (53 * hash) + getTerm().hashCode();
+      hash = (37 * hash) + DF_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getDf());
+      hash = (37 * hash) + CF_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getCf());
       if (getPostingCount() > 0) {
         hash = (37 * hash) + POSTING_FIELD_NUMBER;
         hash = (53 * hash) + getPostingList().hashCode();
@@ -969,6 +1031,10 @@ public final class CommonIndexFormat {
         super.clear();
         term_ = "";
 
+        df_ = 0L;
+
+        cf_ = 0L;
+
         if (postingBuilder_ == null) {
           posting_ = java.util.Collections.emptyList();
           bitField0_ = (bitField0_ & ~0x00000001);
@@ -1003,6 +1069,8 @@ public final class CommonIndexFormat {
         io.anserini.cidxf.CommonIndexFormat.PostingsList result = new io.anserini.cidxf.CommonIndexFormat.PostingsList(this);
         int from_bitField0_ = bitField0_;
         result.term_ = term_;
+        result.df_ = df_;
+        result.cf_ = cf_;
         if (postingBuilder_ == null) {
           if (((bitField0_ & 0x00000001) != 0)) {
             posting_ = java.util.Collections.unmodifiableList(posting_);
@@ -1063,6 +1131,12 @@ public final class CommonIndexFormat {
         if (!other.getTerm().isEmpty()) {
           term_ = other.term_;
           onChanged();
+        }
+        if (other.getDf() != 0L) {
+          setDf(other.getDf());
+        }
+        if (other.getCf() != 0L) {
+          setCf(other.getCf());
         }
         if (postingBuilder_ == null) {
           if (!other.posting_.isEmpty()) {
@@ -1189,6 +1263,58 @@ public final class CommonIndexFormat {
         return this;
       }
 
+      private long df_ ;
+      /**
+       * <code>int64 df = 2;</code>
+       */
+      public long getDf() {
+        return df_;
+      }
+      /**
+       * <code>int64 df = 2;</code>
+       */
+      public Builder setDf(long value) {
+        
+        df_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int64 df = 2;</code>
+       */
+      public Builder clearDf() {
+        
+        df_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      private long cf_ ;
+      /**
+       * <code>int64 cf = 3;</code>
+       */
+      public long getCf() {
+        return cf_;
+      }
+      /**
+       * <code>int64 cf = 3;</code>
+       */
+      public Builder setCf(long value) {
+        
+        cf_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int64 cf = 3;</code>
+       */
+      public Builder clearCf() {
+        
+        cf_ = 0L;
+        onChanged();
+        return this;
+      }
+
       private java.util.List<io.anserini.cidxf.CommonIndexFormat.Posting> posting_ =
         java.util.Collections.emptyList();
       private void ensurePostingIsMutable() {
@@ -1202,7 +1328,7 @@ public final class CommonIndexFormat {
           io.anserini.cidxf.CommonIndexFormat.Posting, io.anserini.cidxf.CommonIndexFormat.Posting.Builder, io.anserini.cidxf.CommonIndexFormat.PostingOrBuilder> postingBuilder_;
 
       /**
-       * <code>repeated .io.anserini.cidxf.Posting posting = 2;</code>
+       * <code>repeated .io.anserini.cidxf.Posting posting = 4;</code>
        */
       public java.util.List<io.anserini.cidxf.CommonIndexFormat.Posting> getPostingList() {
         if (postingBuilder_ == null) {
@@ -1212,7 +1338,7 @@ public final class CommonIndexFormat {
         }
       }
       /**
-       * <code>repeated .io.anserini.cidxf.Posting posting = 2;</code>
+       * <code>repeated .io.anserini.cidxf.Posting posting = 4;</code>
        */
       public int getPostingCount() {
         if (postingBuilder_ == null) {
@@ -1222,7 +1348,7 @@ public final class CommonIndexFormat {
         }
       }
       /**
-       * <code>repeated .io.anserini.cidxf.Posting posting = 2;</code>
+       * <code>repeated .io.anserini.cidxf.Posting posting = 4;</code>
        */
       public io.anserini.cidxf.CommonIndexFormat.Posting getPosting(int index) {
         if (postingBuilder_ == null) {
@@ -1232,7 +1358,7 @@ public final class CommonIndexFormat {
         }
       }
       /**
-       * <code>repeated .io.anserini.cidxf.Posting posting = 2;</code>
+       * <code>repeated .io.anserini.cidxf.Posting posting = 4;</code>
        */
       public Builder setPosting(
           int index, io.anserini.cidxf.CommonIndexFormat.Posting value) {
@@ -1249,7 +1375,7 @@ public final class CommonIndexFormat {
         return this;
       }
       /**
-       * <code>repeated .io.anserini.cidxf.Posting posting = 2;</code>
+       * <code>repeated .io.anserini.cidxf.Posting posting = 4;</code>
        */
       public Builder setPosting(
           int index, io.anserini.cidxf.CommonIndexFormat.Posting.Builder builderForValue) {
@@ -1263,7 +1389,7 @@ public final class CommonIndexFormat {
         return this;
       }
       /**
-       * <code>repeated .io.anserini.cidxf.Posting posting = 2;</code>
+       * <code>repeated .io.anserini.cidxf.Posting posting = 4;</code>
        */
       public Builder addPosting(io.anserini.cidxf.CommonIndexFormat.Posting value) {
         if (postingBuilder_ == null) {
@@ -1279,7 +1405,7 @@ public final class CommonIndexFormat {
         return this;
       }
       /**
-       * <code>repeated .io.anserini.cidxf.Posting posting = 2;</code>
+       * <code>repeated .io.anserini.cidxf.Posting posting = 4;</code>
        */
       public Builder addPosting(
           int index, io.anserini.cidxf.CommonIndexFormat.Posting value) {
@@ -1296,7 +1422,7 @@ public final class CommonIndexFormat {
         return this;
       }
       /**
-       * <code>repeated .io.anserini.cidxf.Posting posting = 2;</code>
+       * <code>repeated .io.anserini.cidxf.Posting posting = 4;</code>
        */
       public Builder addPosting(
           io.anserini.cidxf.CommonIndexFormat.Posting.Builder builderForValue) {
@@ -1310,7 +1436,7 @@ public final class CommonIndexFormat {
         return this;
       }
       /**
-       * <code>repeated .io.anserini.cidxf.Posting posting = 2;</code>
+       * <code>repeated .io.anserini.cidxf.Posting posting = 4;</code>
        */
       public Builder addPosting(
           int index, io.anserini.cidxf.CommonIndexFormat.Posting.Builder builderForValue) {
@@ -1324,7 +1450,7 @@ public final class CommonIndexFormat {
         return this;
       }
       /**
-       * <code>repeated .io.anserini.cidxf.Posting posting = 2;</code>
+       * <code>repeated .io.anserini.cidxf.Posting posting = 4;</code>
        */
       public Builder addAllPosting(
           java.lang.Iterable<? extends io.anserini.cidxf.CommonIndexFormat.Posting> values) {
@@ -1339,7 +1465,7 @@ public final class CommonIndexFormat {
         return this;
       }
       /**
-       * <code>repeated .io.anserini.cidxf.Posting posting = 2;</code>
+       * <code>repeated .io.anserini.cidxf.Posting posting = 4;</code>
        */
       public Builder clearPosting() {
         if (postingBuilder_ == null) {
@@ -1352,7 +1478,7 @@ public final class CommonIndexFormat {
         return this;
       }
       /**
-       * <code>repeated .io.anserini.cidxf.Posting posting = 2;</code>
+       * <code>repeated .io.anserini.cidxf.Posting posting = 4;</code>
        */
       public Builder removePosting(int index) {
         if (postingBuilder_ == null) {
@@ -1365,14 +1491,14 @@ public final class CommonIndexFormat {
         return this;
       }
       /**
-       * <code>repeated .io.anserini.cidxf.Posting posting = 2;</code>
+       * <code>repeated .io.anserini.cidxf.Posting posting = 4;</code>
        */
       public io.anserini.cidxf.CommonIndexFormat.Posting.Builder getPostingBuilder(
           int index) {
         return getPostingFieldBuilder().getBuilder(index);
       }
       /**
-       * <code>repeated .io.anserini.cidxf.Posting posting = 2;</code>
+       * <code>repeated .io.anserini.cidxf.Posting posting = 4;</code>
        */
       public io.anserini.cidxf.CommonIndexFormat.PostingOrBuilder getPostingOrBuilder(
           int index) {
@@ -1382,7 +1508,7 @@ public final class CommonIndexFormat {
         }
       }
       /**
-       * <code>repeated .io.anserini.cidxf.Posting posting = 2;</code>
+       * <code>repeated .io.anserini.cidxf.Posting posting = 4;</code>
        */
       public java.util.List<? extends io.anserini.cidxf.CommonIndexFormat.PostingOrBuilder> 
            getPostingOrBuilderList() {
@@ -1393,14 +1519,14 @@ public final class CommonIndexFormat {
         }
       }
       /**
-       * <code>repeated .io.anserini.cidxf.Posting posting = 2;</code>
+       * <code>repeated .io.anserini.cidxf.Posting posting = 4;</code>
        */
       public io.anserini.cidxf.CommonIndexFormat.Posting.Builder addPostingBuilder() {
         return getPostingFieldBuilder().addBuilder(
             io.anserini.cidxf.CommonIndexFormat.Posting.getDefaultInstance());
       }
       /**
-       * <code>repeated .io.anserini.cidxf.Posting posting = 2;</code>
+       * <code>repeated .io.anserini.cidxf.Posting posting = 4;</code>
        */
       public io.anserini.cidxf.CommonIndexFormat.Posting.Builder addPostingBuilder(
           int index) {
@@ -1408,7 +1534,7 @@ public final class CommonIndexFormat {
             index, io.anserini.cidxf.CommonIndexFormat.Posting.getDefaultInstance());
       }
       /**
-       * <code>repeated .io.anserini.cidxf.Posting posting = 2;</code>
+       * <code>repeated .io.anserini.cidxf.Posting posting = 4;</code>
        */
       public java.util.List<io.anserini.cidxf.CommonIndexFormat.Posting.Builder> 
            getPostingBuilderList() {
@@ -1502,9 +1628,10 @@ public final class CommonIndexFormat {
     java.lang.String[] descriptorData = {
       "\n)src/main/protobuf/CommonIndexFormat.pr" +
       "oto\022\021io.anserini.cidxf\"$\n\007Posting\022\r\n\005doc" +
-      "no\030\001 \001(\005\022\n\n\002tf\030\002 \001(\005\"I\n\014PostingsList\022\014\n\004" +
-      "term\030\001 \001(\t\022+\n\007posting\030\002 \003(\0132\032.io.anserin" +
-      "i.cidxf.Postingb\006proto3"
+      "id\030\001 \001(\005\022\n\n\002tf\030\002 \001(\005\"a\n\014PostingsList\022\014\n\004" +
+      "term\030\001 \001(\t\022\n\n\002df\030\002 \001(\003\022\n\n\002cf\030\003 \001(\003\022+\n\007po" +
+      "sting\030\004 \003(\0132\032.io.anserini.cidxf.Postingb" +
+      "\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -1515,13 +1642,13 @@ public final class CommonIndexFormat {
     internal_static_io_anserini_cidxf_Posting_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_io_anserini_cidxf_Posting_descriptor,
-        new java.lang.String[] { "Docno", "Tf", });
+        new java.lang.String[] { "Docid", "Tf", });
     internal_static_io_anserini_cidxf_PostingsList_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_io_anserini_cidxf_PostingsList_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_io_anserini_cidxf_PostingsList_descriptor,
-        new java.lang.String[] { "Term", "Posting", });
+        new java.lang.String[] { "Term", "Df", "Cf", "Posting", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)
