@@ -85,8 +85,7 @@ Other experiments:
 
 + Use Anserini in Python via [Pyserini](docs/pyserini.md)!
 + Anserini integrates with SolrCloud via [Solrini](docs/solrini.md)!
-+ Anserini integrates with Elastic search is coming soon!
-See [Issues 633](https://github.com/castorini/anserini/issues/633).
++ Anserini integrates with Elasticsearch via [Elasterini](docs/elastirini.md)!
 
 ## Release History
 
