@@ -1,4 +1,4 @@
-# Solrini: Solr Integration with Anserini
+# Solrini: Anserini Integration with Solr
 
 This page documents code for replicating results from the following paper:
 

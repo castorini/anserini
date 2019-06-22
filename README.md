@@ -16,6 +16,9 @@ To replicate old results from Lucene 7.6, use [v0.5.1](https://github.com/castor
 
 ## Getting Started
 
+A zero effort way to try out Anserini is to look at our online [colab demo](https://colab.research.google.com/drive/1s44ylhEkXDzqNgkJSyXDYetGIxO9TWZn)!
+Click "Open in Playground" and you'll be able to replicate our baselines from the TREC 2004 Robust Track just from the browser!
+
 Anserini currently uses Java 8 (note that there are [known issues with Java 10 and Java 11](https://github.com/castorini/Anserini/issues/445)) and Maven 3.3+.
 Oracle JVM is necessary to replicate our regression results; there are known issues with OpenJDK (see [this](https://github.com/castorini/Anserini/pull/590) and [this](https://github.com/castorini/Anserini/issues/592)).
 We are planning an upgrade to a more recent JDK (see [#710](https://github.com/castorini/anserini/issues/710)).
@@ -78,70 +81,13 @@ Other experiments:
 + Runbook for [ECIR 2019 paper on axiomatic semantic term matching](docs/runbook-ecir2019-axiomatic.md)
 + Runbook for [ECIR 2019 paper on cross-collection relevance feedback](docs/runbook-ecir2019-ccrf.md)
 
-## Additional Documentation
+See [this page](docs/additional.md) for additional documentation.
 
-+ [Axiomatic Reranking](docs/axiom-reranking.md)
-+ `IndexUtils` is a utility to interact with an index using the command line (e.g., print index statistics). Refer to `target/appassembler/bin/IndexUtils -h` for more details.
-+ `MapCollections` is a generic mapper framework for processing a document collection in parallel. Developers can write their own mappers for different tasks: one simple example is `CountDocumentMapper` which counts the number of documents in a collection:
+## Integrations
 
-   ```
-   target/appassembler/bin/MapCollections -collection ClueWeb09Collection \
-     -threads 16 -input ~/collections/web/ClueWeb09b/ClueWeb09_English_1/ \
-     -mapper CountDocumentMapper -context CountDocumentMapperContext
-   ```
-
-## Python Integration
-
-Anserini was designed with Python integration in mind, for connecting with popular deep learning toolkits such as PyTorch. This is accomplished via [pyjnius](https://github.com/kivy/pyjnius). The `SimpleSearcher` class provides a simple Python/Java bridge, shown below:
-
-```
-import sys
-sys.path += ['src/main/python']
-from pyjnius_setup import configure_classpath
-configure_classpath()
-
-from jnius import autoclass
-JString = autoclass('java.lang.String')
-JSearcher = autoclass('io.anserini.search.SimpleSearcher')
-
-searcher = JSearcher(JString('lucene-index.robust04.pos+docvectors+rawdocs'))
-hits = searcher.search(JString('hubble space telescope'))
-
-# the docid of the 1st hit
-hits[0].docid
-
-# the internal Lucene docid of the 1st hit
-hits[0].ldocid
-
-# the score of the 1st hit
-hits[0].score
-
-# the full document of the 1st hit
-hits[0].content
-```
-
-Optionally, a path to Anserini root directory can be specified for scripts outside of Anserini:
-
-```
-anserini_root = {path/to/anserini}
-
-import os, sys
-sys.path += [os.path.join(anserini_root, 'src/main/python')]
-
-from pyjnius_setup import configure_classpath
-configure_classpath(anserini_root)
-...
-```
-
-## Solr Integration
-
-Anserini provides code for indexing into SolrCloud, thus providing interoperable support for test collections wiith local Lucene indexes and Solr indexes.
-See [this page](docs/solrini.md) for more details.
-
-## Elasticsearch Integration
-
-Anserini enables indexing with a locally deployed [ELK stack using Docker](https://github.com/deviantony/docker-elk).
-See [this page](docs/elastirini.md) for more details.
++ Use Anserini in Python via [Pyserini](docs/pyserini.md)!
++ Anserini integrates with SolrCloud via [Solrini](docs/solrini.md)!
++ Anserini integrates with Elasticsearch via [Elasterini](docs/elastirini.md)!
 
 ## Release History
 
