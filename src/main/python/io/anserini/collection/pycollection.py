@@ -13,16 +13,24 @@ class Collection:
         self.collection_path = JPaths.get(collection_path)
         self.collection = self._get_collection()     
         self.collection.setCollectionPath(self.collection_path)
-        self.segment_paths = self.collection.getFileSegmentPaths()
-        self.segments = (FileSegment(self, 
-                                     self.collection.createFileSegment(path), 
-                                     path) for path in self.segment_paths.toArray())
+        self.collection_iterator = self.collection.iterator()
         
     def _get_collection(self):
         try:
             return JCollections[self.collection_class].value()
         except:
             raise ValueError(self.collection_class)
+            
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        if self.collection_iterator.hasNext():
+            fs = self.collection_iterator.next()
+            return FileSegment(self, fs, fs.getSegmentPath())
+        else:
+            raise StopIteration
+                
             
             
 class FileSegment:
@@ -31,12 +39,13 @@ class FileSegment:
         self.collection = collection
         try:
             self.segment = cast(collection.collection.getClass().getName() + 
-                                "$FileSegment", segment)
+                                "$Segment", segment)
         except:
             logger.exception("Exception from casting FileSegment type...")
-            self.segment = cast("io.anserini.collection.BaseFileSegment", 
+            self.segment = cast("io.anserini.collection.FileSegment", 
                                 segment)
             
+        self.segment_iterator = self.segment.iterator()
         self.segment_path = segment_path
         self.segment_name = re.sub(r"\\|\/", "-", 
                                    collection.collection_path.relativize(
@@ -47,31 +56,24 @@ class FileSegment:
         return self
 
     def __next__(self):
-        if self.segment.hasNext():
-            try:
-                d = self.segment.next()
-                if not d.indexable():
-                    logger.error(self.segment_name + 
-                             ": Document not indexable, skipping...")
-                    self.collection.counters.unindexable.increment()
-                    return self.__next__()
-                else:
-                    return Document(self, d)
-            except:
-                logger.error(self.segment_name + 
-                             ": Error fetching iter.next(), skipping...")
-                self.collection.counters.skipped.increment()
-                return self.__next__()
+        if self.segment.iterator().hasNext():
+            d = self.segment.iterator().next()
+            return Document(self, d)
         else:
-            if (self.segment.getNextRecordStatus().toString() == 'ERROR'):
+            # log if iteration stopped by error
+            if (self.segment.getErrorStatus()):
                 logger.error(self.segment_name + 
-                             ": EOF - Error from getNextRecordStatus()")
+                             ": Error from segment iteration, stopping...")
                 self.collection.counters.errors.increment()
-                self.segment.close()
-                raise StopIteration
-            else:
-                self.segment.close()
-                raise StopIteration
+
+            # stop iteration and log skipped documents
+            skipped = self.segment.getSkippedCount()
+            if (skipped > 0):
+                self.collection.counters.skips.increment(skipped)
+                logger.warn(self.segment_name + 
+                                 ": " + str(skipped) + " documents skipped")
+            self.segment.close()
+            raise StopIteration
 
         
 class Document:
@@ -80,6 +82,7 @@ class Document:
         self.segment = segment
         self.document = document
         self.id = document.id()
+        self.indexable = document.indexable()
         try:
             self.contents = document.content()
         except:
