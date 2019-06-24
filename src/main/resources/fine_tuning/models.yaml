@@ -8,24 +8,24 @@ models:
         type: int
         lower: 0
         upper: 10000
-        pace: 250
+        pace: 100
     expected:
       robust04:
         map:
-          best_avg: 0.2514
-          oracles_per_topic: 0.2721
-          2-fold: 0.2509
-          5-fold: 0.2486
+          best_avg: 0.2520
+          oracles_per_topic: 0.2767
+          2-fold: 0.2520
+          5-fold: 0.2499
         P_20:
-          best_avg: 0.3610
-          oracles_per_topic: 0.4008
-          2-fold: 0.3610
-          5-fold: 0.3573
+          best_avg: 0.3627
+          oracles_per_topic: 0.4088
+          2-fold: 0.3616
+          5-fold: 0.3607
         ndcg20:
-          best_avg: 0.41022
-          oracles_per_topic: 0.45820
-          2-fold: 0.4083
-          5-fold: 0.4059
+          best_avg: 0.4127
+          oracles_per_topic: 0.4659
+          2-fold: 0.4112
+          5-fold: 0.4088
   bm25:
     name: bm25
     fixed_params: "-inmem -skipexists"
@@ -44,9 +44,9 @@ models:
       robust04:
         map:
           best_avg: 0.2543
-          oracles_per_topic: 0.2935
+          oracles_per_topic: 0.2936
           2-fold: 0.2539
-          5-fold: 0.2530
+          5-fold: 0.2531
         P_20:
           best_avg: 0.3631
           oracles_per_topic: 0.4424
@@ -55,8 +55,8 @@ models:
         ndcg20:
           best_avg: 0.41862
           oracles_per_topic: 0.5031
-          2-fold: 0.4144
-          5-fold: 0.4160
+          2-fold: 0.4146
+          5-fold: 0.4148
   axiom:
     name: axiom
     fixed_params: "-inmem -skipexists -axiom.n 30 -axiom.deterministic -rerankCutoff 50"
@@ -209,15 +209,15 @@ models:
         map:
           best_avg: 0.3058
           oracles_per_topic: 0.4375
-          2-fold: 0.2987
+          2-fold: 0.3026
           5-fold: 0.3033
         P_20:
           best_avg: 0.4024
           oracles_per_topic: 0.5994
-          2-fold: 0.3913
-          5-fold: 0.3937
+          2-fold: 0.3966
+          5-fold: 0.3977
         ndcg20:
           best_avg: 0.44979
           oracles_per_topic: 0.6653
-          2-fold: 0.4321
-          5-fold: 0.4426
+          2-fold: 0.4395
+          5-fold: 0.4403

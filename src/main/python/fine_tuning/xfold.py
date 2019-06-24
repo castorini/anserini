@@ -95,10 +95,10 @@ class XFoldValidate(object):
                     if verbose:
                         print('For {} {} {}'.format(basemodel, model, metric))
                     metric_fold_performances = []
-                    for test_idx in xrange(self.fold):
+                    for test_idx in range(self.fold):
                         test_fold_performances = avg_performances[basemodel][model][metric][test_idx]
                         training_data = {}
-                        for train_idx in xrange(self.fold):
+                        for train_idx in range(self.fold):
                             if train_idx == test_idx:
                                 continue
                             fold_performance = avg_performances[basemodel][model][metric][train_idx]
@@ -124,7 +124,7 @@ class XFoldValidate(object):
         # Given a file, return its average effectiveness
         # for each metric in each fold
         param_performance_list = {}
-        for fold_id in xrange(self.fold):
+        for fold_id in range(self.fold):
             param_performance_list[fold_id] = {}
         with open(file_path) as f:
             for line in f:
