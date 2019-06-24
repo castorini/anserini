@@ -15,7 +15,7 @@
 # limitations under the License.
 
 """
-Script to add Anserini jar to classpath for pyjnius usage
+Module for adding Anserini jar to classpath for pyjnius usage
 """
 
 import os

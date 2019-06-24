@@ -6,8 +6,9 @@ from concurrent.futures import ThreadPoolExecutor
 from document_tokenizer import DocumentTokenizer
 
 import sys
-sys.path += ['src/main/python/io/anserini']
-from collection import pycollection, pygenerator
+sys.path += ['src/main/python']
+from pyserini.collection import pycollection
+from pyserini.index import pygenerator
 
 import logging
 logger = logging.getLogger(__name__)
@@ -51,7 +52,7 @@ def IterSegment(fs, generator, output_path, tokenizer, tokenmin, raw):
                 
         # Generate Lucene document, then fetch fields
         try:
-            doc = generator.generator.createDocument(d.document)
+            doc = generator.object.createDocument(d.object)
             if doc is None:
                 logger.warn("Generator did not return document, skipping...")
                 fs.collection.counters.skipped.increment()

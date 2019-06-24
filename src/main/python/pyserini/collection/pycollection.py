@@ -1,5 +1,5 @@
-from .pyjnius_utils import JCollections, JPaths, cast
-from .threading_utils import Counters
+from ..pyclass import JCollections, JPaths, cast
+from ..multithreading import Counters
 import re
 
 import logging
@@ -11,9 +11,9 @@ class Collection:
         self.counters = Counters()
         self.collection_class = collection_class
         self.collection_path = JPaths.get(collection_path)
-        self.collection = self._get_collection()     
-        self.collection.setCollectionPath(self.collection_path)
-        self.collection_iterator = self.collection.iterator()
+        self.object = self._get_collection()     
+        self.object.setCollectionPath(self.collection_path)
+        self.collection_iterator = self.object.iterator()
         
     def _get_collection(self):
         try:
@@ -38,14 +38,14 @@ class FileSegment:
     def __init__(self, collection, segment, segment_path):
         self.collection = collection
         try:
-            self.segment = cast(collection.collection.getClass().getName() + 
+            self.object = cast(collection.object.getClass().getName() + 
                                 "$Segment", segment)
         except:
             logger.exception("Exception from casting FileSegment type...")
-            self.segment = cast("io.anserini.collection.FileSegment", 
+            self.object = cast("io.anserini.collection.FileSegment", 
                                 segment)
             
-        self.segment_iterator = self.segment.iterator()
+        self.segment_iterator = self.object.iterator()
         self.segment_path = segment_path
         self.segment_name = re.sub(r"\\|\/", "-", 
                                    collection.collection_path.relativize(
@@ -56,23 +56,23 @@ class FileSegment:
         return self
 
     def __next__(self):
-        if self.segment.iterator().hasNext():
-            d = self.segment.iterator().next()
+        if self.object.iterator().hasNext():
+            d = self.object.iterator().next()
             return Document(self, d)
         else:
             # log if iteration stopped by error
-            if (self.segment.getErrorStatus()):
+            if (self.object.getErrorStatus()):
                 logger.error(self.segment_name + 
                              ": Error from segment iteration, stopping...")
                 self.collection.counters.errors.increment()
 
             # stop iteration and log skipped documents
-            skipped = self.segment.getSkippedCount()
+            skipped = self.object.getSkippedCount()
             if (skipped > 0):
                 self.collection.counters.skips.increment(skipped)
                 logger.warn(self.segment_name + 
                                  ": " + str(skipped) + " documents skipped")
-            self.segment.close()
+            self.object.close()
             raise StopIteration
 
         
@@ -80,11 +80,11 @@ class Document:
     
     def __init__(self, segment, document):
         self.segment = segment
-        self.document = document
-        self.id = document.id()
-        self.indexable = document.indexable()
+        self.object = document
+        self.id = self.object.id()
+        self.indexable = self.object.indexable()
         try:
-            self.contents = document.content()
+            self.contents = self.object.content()
         except:
-            self.contents = document.getContent()
+            self.contents = self.object.getContent()
         
