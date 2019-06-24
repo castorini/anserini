@@ -41,6 +41,14 @@ def IterSegment(fs, generator, output_path, tokenizer, tokenmin, raw):
     doc_count = 0
     
     for (i, d) in enumerate(fs):
+        
+        # Skip unindexable documents
+        if not d.indexable:
+            logger.error(fs.segment_name + 
+                     ": Document not indexable, skipping...")
+            fs.collection.counters.unindexable.increment()
+            continue
+                
         # Generate Lucene document, then fetch fields
         try:
             doc = generator.generator.createDocument(d.document)
@@ -144,7 +152,7 @@ def IterCollection(input_path, collection_class,
         os.mkdir(output_path)
     
     with ThreadPoolExecutor(max_workers=threads) as executor:    
-        for (seg_num, fs) in enumerate(collection.segments):
+        for (seg_num, fs) in enumerate(collection):
             executor.submit(IterSegment, fs, generator, output_path, 
                             tokenizer, tokenmin, raw)
     
