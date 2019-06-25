@@ -2,7 +2,7 @@
 models:
   ql:
     name: ql
-    fixed_params: "-inmem -skipexists"
+    fixed_params: "-inmem -skipexists -ql"
     params:
       mu:
         type: int
@@ -28,7 +28,7 @@ models:
           5-fold: 0.4088
   bm25:
     name: bm25
-    fixed_params: "-inmem -skipexists"
+    fixed_params: "-inmem -skipexists -bm25"
     params:
       k1:
         type: float
@@ -57,45 +57,9 @@ models:
           oracles_per_topic: 0.5031
           2-fold: 0.4146
           5-fold: 0.4148
-  axiom:
-    name: axiom
-    fixed_params: "-inmem -skipexists -axiom.n 30 -axiom.deterministic -rerankCutoff 50"
-    params:
-      axiom.r:
-        type: int
-        lower: 1
-        upper: 50
-        pace: 1
-      axiom.top:
-        type: int
-        lower: 1
-        upper: 50
-        pace: 1
-      axiom.beta:
-        type: float
-        lower: 0
-        upper: 1
-        pace: 0.1
-    expected:
-      robust04:
-        map:
-          best_avg: 0.2967
-          oracles_per_topic: 0.4024
-          2-fold: 0.2897
-          5-fold: 0.2914
-        P_20:
-          best_avg: 0.3924
-          oracles_per_topic: 0.5651
-          2-fold: 0.3877
-          5-fold: 0.3854
-        ndcg20:
-          best_avg: 0.44386
-          oracles_per_topic: 0.6262
-          2-fold: 0.4371
-          5-fold: 0.4326
   bm25+axiom:
-    name: axiom
-    fixed_params: "-inmem -skipexists -axiom.n 30 -axiom.deterministic -rerankCutoff 50"
+    name: bm25+axiom
+    fixed_params: "-inmem -skipexists -bm25 -axiom -axiom.n 30 -axiom.deterministic -rerankCutoff 50"
     params:
       k1:
         type: float
@@ -139,45 +103,9 @@ models:
           oracles_per_topic: 0.5506
           2-fold: 0.4322
           5-fold: 0.4323
-  rm3:
-    name: rm3
-    fixed_params: "-inmem -skipexists -rerankCutoff 50"
-    params:
-      rm3.fbTerms:
-        type: int
-        lower: 1
-        upper: 50
-        pace: 1
-      rm3.fbDocs:
-        type: int
-        lower: 1
-        upper: 50
-        pace: 1
-      rm3.originalQueryWeight:
-        type: float
-        lower: 0
-        upper: 1
-        pace: 0.1
-    expected:
-      robust04:
-        map:
-          best_avg: 0.3017
-          oracles_per_topic: 0.4153
-          2-fold: 0.2943
-          5-fold: 0.2982
-        P_20:
-          best_avg: 0.4016
-          oracles_per_topic: 0.5709
-          2-fold: 0.3940
-          5-fold: 0.3947
-        ndcg20:
-          best_avg: 0.44877
-          oracles_per_topic: 0.6332
-          2-fold: 0.4411
-          5-fold: 0.4412
   bm25+rm3:
-    name: rm3
-    fixed_params: "-inmem -skipexists -rerankCutoff 50"
+    name: bm25+rm3
+    fixed_params: "-inmem -skipexists -bm25 -rm3 -rerankCutoff 50"
     params:
       k1:
         type: float

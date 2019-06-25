@@ -55,20 +55,18 @@ class XFoldValidate(object):
             # if it is a directory containing effectiveness
             # for a metric, do x-fold cv for the metric
             for fn in os.listdir(eval_dir):
-                basemodel, model, param = fn.split('_')
-                if basemodel not in avg_performances:
-                    avg_performances[basemodel] = {}
-                if model not in avg_performances[basemodel]:
-                    avg_performances[basemodel][model] = {}
+                model, param = fn.split('_')
+                if model not in avg_performances:
+                    avg_performances[model] = {}
 
                 param_avg_performances = self._get_param_avg_performances(os.path.join(eval_dir,fn))
                 for metric in param_avg_performances:
-                    if metric not in avg_performances[basemodel][model]:
-                        avg_performances[basemodel][model][metric] = {}
+                    if metric not in avg_performances[model]:
+                        avg_performances[model][metric] = {}
                     for fold_id in param_avg_performances[metric]:
-                        if fold_id not in avg_performances[basemodel][model][metric]:
-                            avg_performances[basemodel][model][metric][fold_id] = {}
-                        avg_performances[basemodel][model][metric][fold_id][param] = param_avg_performances[metric][fold_id]
+                        if fold_id not in avg_performances[model][metric]:
+                            avg_performances[model][metric][fold_id] = {}
+                        avg_performances[model][metric][fold_id][param] = param_avg_performances[metric][fold_id]
 
         return avg_performances
 
@@ -86,38 +84,37 @@ class XFoldValidate(object):
         # for training and 1 fold for testing. Do
         # it for each fold and report average
         avg_performances = self._get_param_average()
-        res = {}
-        for basemodel in avg_performances:
-            res[basemodel] = {}
-            for model in avg_performances[basemodel]:
-                res[basemodel][model] = {}
-                for metric in avg_performances[basemodel][model]:
-                    if verbose:
-                        print('For {} {} {}'.format(basemodel, model, metric))
-                    metric_fold_performances = []
-                    for test_idx in range(self.fold):
-                        test_fold_performances = avg_performances[basemodel][model][metric][test_idx]
-                        training_data = {}
-                        for train_idx in range(self.fold):
-                            if train_idx == test_idx:
-                                continue
-                            fold_performance = avg_performances[basemodel][model][metric][train_idx]
-                            for param in fold_performance:
-                                if param not in training_data:
-                                    training_data[param] = .0
-                                training_data[param] += fold_performance[param]
-                        # sort in descending order based on performance first, then use filenames(x[0]) to break ties
-                        sorted_training_performance = sorted(training_data.items(),
-                                                             key=lambda x:(x[1], x[0]),
-                                                             reverse=True)
-                        best_param = sorted_training_performance[0][0]
-                        if verbose:
-                            print('\tFold: {}'.format(test_idx))
-                            print('\t\tBest param: {}'.format(best_param))
-                            print('\t\ttest performance: {0:.4f}'.format(test_fold_performances[best_param]))
 
-                        metric_fold_performances.append(test_fold_performances[best_param])
-                    res[basemodel][model][metric] = round(sum(metric_fold_performances) / len(metric_fold_performances), 4)
+        res = {}
+        for model in avg_performances:
+            res[model] = {}
+            for metric in avg_performances[model]:
+                if verbose:
+                    print('model: {}, metric: {}'.format(model, metric))
+                metric_fold_performances = []
+                for test_idx in range(self.fold):
+                    test_fold_performances = avg_performances[model][metric][test_idx]
+                    training_data = {}
+                    for train_idx in range(self.fold):
+                        if train_idx == test_idx:
+                            continue
+                        fold_performance = avg_performances[model][metric][train_idx]
+                        for param in fold_performance:
+                            if param not in training_data:
+                                training_data[param] = .0
+                            training_data[param] += fold_performance[param]
+                    # sort in descending order based on performance first, then use filenames(x[0]) to break ties
+                    sorted_training_performance = sorted(training_data.items(),
+                                                         key=lambda x:(x[1], x[0]),
+                                                         reverse=True)
+                    best_param = sorted_training_performance[0][0]
+                    if verbose:
+                        print('\tFold: {}'.format(test_idx))
+                        print('\t\tBest param: {}'.format(best_param))
+                        print('\t\ttest performance: {0:.4f}'.format(test_fold_performances[best_param]))
+
+                    metric_fold_performances.append(test_fold_performances[best_param])
+                res[model][metric] = round(sum(metric_fold_performances) / len(metric_fold_performances), 4)
         return res
 
     def _get_param_avg_performances(self,file_path):
