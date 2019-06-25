@@ -99,46 +99,46 @@ models:
     params:
       k1:
         type: float
-        lower: 0.9
-        upper: 0.9
+        lower: 0.8
+        upper: 0.8
         pace: 0.1
       b:
         type: float
-        lower: 0
-        upper: 0.5
-        pace: 0.1
+        lower: 0.5
+        upper: 0.6
+        pace: 0.05
       axiom.r:
         type: int
-        lower: 1
-        upper: 50
-        pace: 1
+        lower: 5
+        upper: 20
+        pace: 5
       axiom.top:
         type: int
-        lower: 1
+        lower: 5
         upper: 50
-        pace: 1
+        pace: 5
       axiom.beta:
         type: float
-        lower: 0
-        upper: 0.5
-        pace: 0.1
+        lower: 0.3
+        upper: 0.4
+        pace: 0.05
     expected:
       robust04:
         map:
-          best_avg: 0.2983
-          oracles_per_topic: 0.4168
-          2-fold: 0.2933
-          5-fold: 0.2920
+          best_avg: 0.2984
+          oracles_per_topic: 0.3612
+          2-fold: 0.2940
+          5-fold: 0.2950
         P_20:
-          best_avg: 0.3932
-          oracles_per_topic: 0.5841
-          2-fold: 0.3821
-          5-fold: 0.3856
+          best_avg: 0.3918
+          oracles_per_topic: 0.4900
+          2-fold: 0.3801
+          5-fold: 0.3868
         ndcg20:
-          best_avg: 0.44498
-          oracles_per_topic: 0.64720
-          2-fold: 0.4282
-          5-fold: 0.4302
+          best_avg: 0.4399
+          oracles_per_topic: 0.5506
+          2-fold: 0.4322
+          5-fold: 0.4323
   rm3:
     name: rm3
     fixed_params: "-inmem -skipexists -rerankCutoff 50"
