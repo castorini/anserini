@@ -6,7 +6,16 @@ import logging
 logger = logging.getLogger(__name__)
 
 class Collection:
-        
+    """
+    Iterable wrapper class for Anserini's DocumentCollection.
+            
+    Parameters
+    ----------
+    collection_class : str
+        Name of collection class to instantiate
+    collection_path : str
+        Path to directory containing collection
+    """    
     def __init__(self, collection_class, collection_path):
         self.counters = Counters()
         self.collection_class = collection_class
@@ -32,9 +41,19 @@ class Collection:
             raise StopIteration
                 
             
-            
 class FileSegment:
-
+    """
+    Iterable wrapper class for Anserini's FileSegment.
+            
+    Parameters
+    ----------
+    collection : Collection
+        Parent collection of the file segment
+    segment : io.anserini.collection.FileSegment
+        FileSegment object to create wrapper from
+    segment_path : str
+        Path to file backing the file segment
+    """  
     def __init__(self, collection, segment, segment_path):
         self.collection = collection
         try:
@@ -51,7 +70,6 @@ class FileSegment:
                                    collection.collection_path.relativize(
                                            segment_path).toString())
         
-
     def __iter__(self):
         return self
 
@@ -76,8 +94,18 @@ class FileSegment:
             raise StopIteration
 
         
-class Document:
-    
+class Document:  
+    """
+    Wrapper class for Anserini's SourceDocument.
+            
+    Parameters
+    ----------
+
+    segment : FileSegment
+        Parent segment of the source document
+    document : io.anserini.collection.SourceDocument
+        SourceDocument object to create wrapper from
+    """ 
     def __init__(self, segment, document):
         self.segment = segment
         self.object = document

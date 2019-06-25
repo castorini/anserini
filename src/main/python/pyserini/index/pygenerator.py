@@ -24,6 +24,14 @@ import logging
 logger = logging.getLogger(__name__)
 
 class Generator:
+    """
+    Wrapper class for Anserini's generators.
+            
+    Parameters
+    ----------
+    generator_class : str
+        Name of generator class to instantiate
+    """
         
     def __init__(self, generator_class):
         self.counters = JIndexHelpers.JCounters()
@@ -36,4 +44,18 @@ class Generator:
             return JGenerators[self.generator_class].value(self.args, self.counters)
         except:
             raise ValueError(self.generator_class)
+            
+    def create_document(self, document):
+        """
+        Parameters
+        ----------
+        document : pyserini.collection.pycollection.Document
+            Collection document to create Lucene document from
+            
+        Returns
+        -------
+        result : org.apache.lucene.document.Document
+            Lucene document generated
+        """
+        return self.object.createDocument(document.object)
             

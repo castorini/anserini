@@ -52,7 +52,7 @@ def IterSegment(fs, generator, output_path, tokenizer, tokenmin, raw):
                 
         # Generate Lucene document, then fetch fields
         try:
-            doc = generator.object.createDocument(d.object)
+            doc = generator.create_document(d)
             if doc is None:
                 logger.warn("Generator did not return document, skipping...")
                 fs.collection.counters.skipped.increment()

@@ -1,17 +1,12 @@
 # Pyserini: Anserini Integration with Python
 
-Anserini was designed with Python integration in mind, for connecting with popular 
-deep learning toolkits such as PyTorch. 
-[Pyserini](https://github.com/castorini/anserini/src/main/python/pyserini) 
-provides a Python interface via [pyjnius](https://github.com/kivy/pyjnius) 
-for accessing various classes within Anserini.
+Anserini was designed with Python integration in mind, for connecting with popular deep learning toolkits such as PyTorch. 
+[Pyserini](https://github.com/castorini/anserini/src/main/python/pyserini) provides a Python interface via [pyjnius](https://github.com/kivy/pyjnius) for accessing various classes within Anserini.
 
 This is an ongoing effort, and contributions for extending the interface are welcome!
-You can also interact with Anserini's Java classes directly 
-using `pyjnius`, as described 
-[here](#Direct-interaction-via-Pyjnius).
+You can also interact with Anserini's Java classes directly using `pyjnius`, as described [here](#Direct-Interaction-via-Pyjnius).
 
-### Setup for using Pyserini
+### Setup for Using Pyserini
 
 Requirements:
 
@@ -27,19 +22,20 @@ import os, sys
 sys.path += [os.path.join(anserini_root, 'src/main/python')]
 ```
 
-For scripts that are being executed outside of Anserini, replace `anserini_root` 
-with the corresponding path to the `anserini` root directory 
-(e.g. `anserini_root = 'path/to/anserini'`).
+For scripts that are being executed outside of Anserini, replace `anserini_root` with the corresponding path to the `anserini` root directory (e.g. `anserini_root = 'path/to/anserini'`).
 
-*****
-
-### Example usage of SimpleSearcher
+### Example Usage of SimpleSearcher
 The `SimpleSearcher` class provides a simple Python/Java bridge for searching, as shown below:
 
 ```
 from pyserini.search import pysearch
 
 searcher = pysearch.SimpleSearcher('lucene-index.robust04.pos+docvectors+rawdocs')
+
+# To additionally configure search options, such as using BM25+RM3:
+searcher.set_bm25_similarity(0.9, 0.4)
+searcher.set_rm3_reranker(10, 10, 0.5)
+
 hits = searcher.search('hubble space telescope')
 
 # the docid of the 1st hit
@@ -55,21 +51,8 @@ hits[0].score
 hits[0].content
 ```
 
-In each python wrapper class, the `object` field contains the 
-underlying java reflection class instance. 
-We can also directly call methods on the underlying object,
-with appropriate type conversions applied to the arguments. For example:
-
-```
-searcher.object.setBM25Similarity(float(0.9), float(0.4))
-searcher.object.setRM3Reranker(10, 10, 0.5)
-hits = searcher.object.search(JString('hubble space telescope'))
-``` 
-
-
-### Example usage of Collection API
-The `collection` classes provide interfaces for iterating over a collection 
-and processing documents, as shown below:
+### Example Usage of Collection API
+The `collection` classes provide interfaces for iterating over a collection and processing documents, as shown below:
 
 ```
 from pyserini.collection import pycollection
@@ -81,17 +64,15 @@ generator = pygenerator.Generator('JsoupGenerator')
 for (i, fs) in enumerate(collection):
     for (i, doc) in enumerate(fs):
 
-        parsed = generator.generator.createDocument(doc.document)
+        parsed = generator.create_document(doc)
         docid = parsed.get('id')            # FIELD_ID
         raw = parsed.get('raw')             # FIELD_RAW
         contents = parsed.get('contents')   # FIELD_BODY
 ```
 
-### Direct interaction via Pyjnius
+### Direct Interaction via Pyjnius
 
-Alternatively, for parts of Anserini that have not yet been integrated
-into the Pyserini interface, you can interact with Anserini's Java classes 
-directly via [pyjnius](https://github.com/kivy/pyjnius). 
+Alternatively, for parts of Anserini that have not yet been integrated into the Pyserini interface, you can interact with Anserini's Java classes directly via [pyjnius](https://github.com/kivy/pyjnius). 
 
 First, call Pyserini's setup helper for setting up classpath for the JVM:
 ```
