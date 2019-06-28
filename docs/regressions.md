@@ -43,6 +43,7 @@ nohup python src/main/python/run_regression.py --collection car17v1.5 >& log.car
 nohup python src/main/python/run_regression.py --collection car17v2.0 >& log.car17v2.0 &
 
 nohup python src/main/python/run_regression.py --collection msmarco-passage >& log.msmarco-passage &
+nohup python src/main/python/run_regression.py --collection msmarco-passage-doc2query >& log.msmarco-passage-doc2query &
 nohup python src/main/python/run_regression.py --collection msmarco-doc >& log.msmarco-doc &
 ```
 
@@ -68,6 +69,7 @@ nohup python src/main/python/run_regression.py --index --collection car17v1.5 >&
 nohup python src/main/python/run_regression.py --index --collection car17v2.0 >& log.car17v2.0 &
 
 nohup python src/main/python/run_regression.py --index --collection msmarco-passage >& log.msmarco-passage &
+nohup python src/main/python/run_regression.py --index --collection msmarco-passage-doc2query >& log.msmarco-passage-doc2query &
 nohup python src/main/python/run_regression.py --index --collection msmarco-doc >& log.msmarco-doc &
 ```
 
