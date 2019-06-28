@@ -6,7 +6,7 @@ Anserini was designed with Python integration in mind, for connecting with popul
 This is an ongoing effort, and contributions for extending the interface are welcome!
 You can also interact with Anserini's Java classes directly using `pyjnius`, as described [here](#Direct-Interaction-via-Pyjnius).
 
-### Setup for Using Pyserini
+## Setup for Using Pyserini
 
 Requirements:
 
@@ -24,7 +24,7 @@ sys.path += [os.path.join(anserini_root, 'src/main/python')]
 
 For scripts that are being executed outside of Anserini, replace `anserini_root` with the corresponding path to the `anserini` root directory (e.g. `anserini_root = 'path/to/anserini'`).
 
-### Example Usage of SimpleSearcher
+## Example Usage of SimpleSearcher
 The `SimpleSearcher` class provides a simple Python/Java bridge for searching, as shown below:
 
 ```
@@ -51,7 +51,7 @@ hits[0].score
 hits[0].content
 ```
 
-### Example Usage of Collection API
+## Example Usage of Collection API
 The `collection` classes provide interfaces for iterating over a collection and processing documents, as shown below:
 
 ```
@@ -70,7 +70,7 @@ for (i, fs) in enumerate(collection):
         contents = parsed.get('contents')   # FIELD_BODY
 ```
 
-### Direct Interaction via Pyjnius
+## Direct Interaction via Pyjnius
 
 Alternatively, for parts of Anserini that have not yet been integrated into the Pyserini interface, you can interact with Anserini's Java classes directly via [pyjnius](https://github.com/kivy/pyjnius). 
 

@@ -14,16 +14,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""
+'''
 Module for hiding Python-Java calls via Pyjnius
-"""
+'''
 
 ### Pyjnius setup
 
 from .setup import configure_classpath, os
 # find path back to root of anserini directory
 configure_classpath(os.path.abspath(
-        os.path.join(os.path.realpath(__file__), "../../../../..")))
+        os.path.join(os.path.realpath(__file__), '../../../../..')))
     
 from jnius import autoclass, cast
 from enum import Enum

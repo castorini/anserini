@@ -6,7 +6,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 class Collection:
-    """
+    '''
     Iterable wrapper class for Anserini's DocumentCollection.
             
     Parameters
@@ -15,7 +15,7 @@ class Collection:
         Name of collection class to instantiate
     collection_path : str
         Path to directory containing collection
-    """    
+    '''    
     def __init__(self, collection_class, collection_path):
         self.counters = Counters()
         self.collection_class = collection_class
@@ -42,7 +42,7 @@ class Collection:
                 
             
 class FileSegment:
-    """
+    '''
     Iterable wrapper class for Anserini's FileSegment.
             
     Parameters
@@ -53,20 +53,20 @@ class FileSegment:
         FileSegment object to create wrapper from
     segment_path : str
         Path to file backing the file segment
-    """  
+    '''  
     def __init__(self, collection, segment, segment_path):
         self.collection = collection
         try:
             self.object = cast(collection.object.getClass().getName() + 
-                                "$Segment", segment)
+                                '$Segment', segment)
         except:
-            logger.exception("Exception from casting FileSegment type...")
-            self.object = cast("io.anserini.collection.FileSegment", 
+            logger.exception('Exception from casting FileSegment type...')
+            self.object = cast('io.anserini.collection.FileSegment', 
                                 segment)
             
         self.segment_iterator = self.object.iterator()
         self.segment_path = segment_path
-        self.segment_name = re.sub(r"\\|\/", "-", 
+        self.segment_name = re.sub(r'\\|\/', '-', 
                                    collection.collection_path.relativize(
                                            segment_path).toString())
         
@@ -81,7 +81,7 @@ class FileSegment:
             # log if iteration stopped by error
             if (self.object.getErrorStatus()):
                 logger.error(self.segment_name + 
-                             ": Error from segment iteration, stopping...")
+                             ': Error from segment iteration, stopping...')
                 self.collection.counters.errors.increment()
 
             # stop iteration and log skipped documents
@@ -89,13 +89,13 @@ class FileSegment:
             if (skipped > 0):
                 self.collection.counters.skips.increment(skipped)
                 logger.warn(self.segment_name + 
-                                 ": " + str(skipped) + " documents skipped")
+                                 ': ' + str(skipped) + ' documents skipped')
             self.object.close()
             raise StopIteration
 
         
 class Document:  
-    """
+    '''
     Wrapper class for Anserini's SourceDocument.
             
     Parameters
@@ -105,7 +105,7 @@ class Document:
         Parent segment of the source document
     document : io.anserini.collection.SourceDocument
         SourceDocument object to create wrapper from
-    """ 
+    ''' 
     def __init__(self, segment, document):
         self.segment = segment
         self.object = document

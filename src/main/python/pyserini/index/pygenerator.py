@@ -14,9 +14,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""
+'''
 Module for providing python interface to Anserini generators
-"""
+'''
 
 from ..pyclass import JIndexHelpers, JGenerators
 
@@ -24,14 +24,14 @@ import logging
 logger = logging.getLogger(__name__)
 
 class Generator:
-    """
+    '''
     Wrapper class for Anserini's generators.
             
     Parameters
     ----------
     generator_class : str
         Name of generator class to instantiate
-    """
+    '''
         
     def __init__(self, generator_class):
         self.counters = JIndexHelpers.JCounters()
@@ -46,7 +46,7 @@ class Generator:
             raise ValueError(self.generator_class)
             
     def create_document(self, document):
-        """
+        '''
         Parameters
         ----------
         document : pyserini.collection.pycollection.Document
@@ -56,6 +56,6 @@ class Generator:
         -------
         result : org.apache.lucene.document.Document
             Lucene document generated
-        """
+        '''
         return self.object.createDocument(document.object)
             
