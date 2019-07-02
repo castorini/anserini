@@ -14,6 +14,12 @@ Based on [preliminary experiments](docs/lucene7-vs-lucene8.md), query evaluation
 As a result of this upgrade, results of all regressions have changed slightly.
 To replicate old results from Lucene 7.6, use [v0.5.1](https://github.com/castorini/anserini/releases).
 
+If you've found Anserini to be helpful, we have a simple request for you to contribute back.
+In the course of replicating baseline results on standard test collections, please let us know if you're successful by sending us a pull request with a simple note, like what appears at the bottom of [the Robust04 page](docs/regressions-robust04.md).
+Replicability is important to us, and we'd like to know about successes as well as failures.
+Since the regression documentation is auto-generated, pull requests should be sent against the [raw templates](https://github.com/castorini/anserini/tree/master/src/main/resources/docgen/templates).
+In turn, you'll be recognized as a [contributor](https://github.com/castorini/anserini/graphs/contributors).
+
 ## Getting Started
 
 A zero effort way to try out Anserini is to look at our online [colab demo](https://colab.research.google.com/drive/1s44ylhEkXDzqNgkJSyXDYetGIxO9TWZn)!
