@@ -83,7 +83,7 @@ python src/main/python/fine_tuning/run_batch.py --collection robust04 --model bm
 Tuned parameter values for BM25+RM3:
 
 + [For the 2-fold cross-validation used in "paper 1", in terms of MAP](../src/main/resources/fine_tuning/params/params.map.robust04-paper1-folds.bm25+rm3.json)
-+ [For tor 5-fold cross-validation used in "paper 2", in terms of MAP](../src/main/resources/fine_tuning/params/params.map.robust04-paper2-folds.bm25+rm3.json)
++ [For the 5-fold cross-validation used in "paper 2", in terms of MAP](../src/main/resources/fine_tuning/params/params.map.robust04-paper2-folds.bm25+rm3.json)
 
 To be clear, these are the tuned parameters on _that_ fold, trained on the remaining folds.
 
