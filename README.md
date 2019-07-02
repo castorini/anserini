@@ -71,12 +71,12 @@ Note that these regressions capture the "out of the box" experience, based on [_
 
 Other experiments:
 
++ [Replicating "Neural Hype" Experiments](docs/experiments-forum2018.md)
 + [Guide to running BM25 baselines on the MS MARCO Passage Task](docs/experiments-msmarco-passage.md)
 + [Guide to running BM25 baselines on the MS MARCO Document Task](docs/experiments-msmarco-doc.md)
 + [Guide to replicating document expansion by query prediction (Doc2query) results](docs/experiments-doc2query.md)
 + [Guide to running experiments on the AI2 Open Research Corpus](docs/experiments-openresearch.md)
 + [Experiments from Yang et al. (JDIQ 2018)](docs/experiments-jdiq2018.md)
-+ [Experiments from Lin (SIGIR Forum 2018)](docs/experiments-forum2018.md)
 + Runbooks for TREC 2018: [[Anserini group](docs/runbook-trec2018-anserini.md)] [[h2oloo group](docs/runbook-trec2018-h2oloo.md)]
 + Runbook for [ECIR 2019 paper on axiomatic semantic term matching](docs/runbook-ecir2019-axiomatic.md)
 + Runbook for [ECIR 2019 paper on cross-collection relevance feedback](docs/runbook-ecir2019-ccrf.md)
