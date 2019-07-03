@@ -43,8 +43,8 @@ class Search(object):
         all_params = []
         if not os.path.exists(os.path.join(output_root, self.run_files_root)):
             os.makedirs(os.path.join(output_root, self.run_files_root))
-        para_str = '-threads %d -%s %s' % (parallelism, model_yaml['name'], model_yaml['fixed_params'])
-        results_fn = os.path.join(output_root, self.run_files_root, model_yaml['basemodel']+'_'+model_yaml['name'])
+        para_str = '-threads %d %s' % (parallelism, model_yaml['fixed_params'])
+        results_fn = os.path.join(output_root, self.run_files_root, model_yaml['name'])
         for param_name, params in model_yaml['params'].items():
             para_str += ' -%s' % (param_name)
             for p in self.drange(params['lower'], params['upper']+1e-8, params['pace']):
@@ -52,8 +52,4 @@ class Search(object):
                 para_str += ' %.2f' % (p) if is_float else ' %d' % (p)
         all_params.append( (para_str, results_fn) )
 
-        # TODO: should we always include a baseline here?
-        # no_params_fn = os.path.join(output_root, self.run_files_root, model_yaml['basemodel']+'_'+model_yaml['name']+'_noparams')
-        # if not os.path.exists(no_params_fn):
-        #     all_params.append(('-%s' % (model_yaml['name']), no_params_fn))
         return all_params
