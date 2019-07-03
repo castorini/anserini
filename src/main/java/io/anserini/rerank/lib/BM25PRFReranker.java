@@ -109,12 +109,13 @@ public class BM25PRFReranker implements Reranker {
         }
 
         double getRelWeight() {
-            return Math.log((dfRel + 0.5D) * (numDocs - df - numDocsRel + dfRel + 0.5D) /
+            double rw =  Math.log((dfRel + 0.5D) * (numDocs - df - numDocsRel + dfRel + 0.5D) /
                     ((df - dfRel + 0.5D) * (numDocsRel - dfRel + 0.5D))) * weight;
+            return Math.max(rw, 1e-6);
         }
 
         double getOfferWeight() {
-            return getRelWeight() * Math.log(dfRel);
+            return getRelWeight() * Math.log(Math.max(dfRel, 1e-6));
         }
 
 
@@ -147,8 +148,8 @@ public class BM25PRFReranker implements Reranker {
 
             for (Map.Entry<String, PRFFeature> f : features.entrySet()) {
                 String term = f.getKey();
-                float prob = (float) f.getValue().getRelWeight();
-                feedbackQueryBuilder.add(new BoostQuery(new TermQuery(new Term(field, term)), prob), BooleanClause.Occur.SHOULD);
+                float rw = (float) f.getValue().getRelWeight();
+                feedbackQueryBuilder.add(new BoostQuery(new TermQuery(new Term(field, term)), rw), BooleanClause.Occur.SHOULD);
             }
             return feedbackQueryBuilder.build();
         }
