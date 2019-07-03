@@ -26,7 +26,7 @@ import io.anserini.rerank.ScoredDocuments;
 import io.anserini.rerank.lib.AxiomReranker;
 import io.anserini.rerank.lib.NewsBackgroundLinkingReranker;
 import io.anserini.rerank.lib.Rm3Reranker;
-import io.anserini.rerank.lib.BM25PRFReranker;
+import io.anserini.rerank.lib.BM25PrfReranker;
 import io.anserini.rerank.lib.ScoreTiesAdjusterReranker;
 import io.anserini.search.query.BagOfWordsQueryGenerator;
 import io.anserini.search.query.SdmQueryGenerator;
@@ -319,7 +319,7 @@ public final class SearchCollection implements Closeable {
                     for (String b : args.bm25prf_b) {
                         for (String newTermWeight : args.bm25prf_newTermWeight) {
                             RerankerCascade cascade = new RerankerCascade();
-                            cascade.add(new BM25PRFReranker(analyzer, FIELD_BODY, Integer.valueOf(fbTerms),
+                            cascade.add(new BM25PrfReranker(analyzer, FIELD_BODY, Integer.valueOf(fbTerms),
                                     Integer.valueOf(fbDocs), Float.valueOf(k1), Float.valueOf(b), Float.valueOf(newTermWeight),
                                     args.bm25prf_outputQuery));
                             cascade.add(new ScoreTiesAdjusterReranker());
