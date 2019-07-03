@@ -218,7 +218,7 @@ if __name__ == '__main__':
     parser.add_argument('--model', required=True, help='model')
     parser.add_argument('--threads', dest='parallelism', type=int, default=16, help='number of parallel threads for retrieval and evaluation')
     parser.add_argument('--output_root', default='fine_tuning_results', help='output directory of all results')
-    parser.add_argument('--fold_settings', default='', help='fold setting')
+    parser.add_argument('--fold_settings', default='', help='JSON file holding fold definitions, see src/main/resources/fine_tuning/robust04-paper1-folds.json for an example.')
     parser.add_argument('--verbose', action='store_true', help='if specified print out model parameters and per fold scores')
 
     # runtime
