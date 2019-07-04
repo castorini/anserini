@@ -62,10 +62,25 @@ Thus, the output file should have approximately 6980 * 1000 = 6.9M lines.
 
 Retrieval speed will vary by machine:
 On a modern desktop with an SSD, we can get ~0.06 s/query (taking about seven minutes).
+
+For multithreaded retrieval in Python, we can run the following script and specify the number of threads:
+```
+python ./src/main/python/msmarco/retrieve_multithread.py --hits 1000 --threads 16 \
+ --index msmarco-passage/lucene-index-msmarco \
+ --qid_queries msmarco-passage/queries.dev.small.tsv --output msmarco-passage/run.dev.small.tsv
+```
+
 Alternatively, we can run the same script implemented in Java, which is a bit faster:
 
 ```
 ./target/appassembler/bin/SearchMsmarco  -hits 1000 -index msmarco-passage/lucene-index-msmarco \
+ -qid_queries msmarco-passage/queries.dev.small.tsv -output msmarco-passage/run.dev.small.tsv
+```
+
+For multithreaded retrieval in Java, we can run the following script and specify the number of threads:
+```
+./target/appassembler/bin/SearchMsmarcoMultithread  -hits 1000 -threads 16 \
+ -index msmarco-passage/lucene-index-msmarco \
  -qid_queries msmarco-passage/queries.dev.small.tsv -output msmarco-passage/run.dev.small.tsv
 ```
 
