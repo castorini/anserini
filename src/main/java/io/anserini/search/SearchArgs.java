@@ -189,6 +189,35 @@ public class SearchArgs {
       usage = "RM3 parameter: print original and expanded queries")
   public boolean rm3_outputQuery = false;
 
+  // BM25PRF Options
+
+  @Option(name = "-bm25prf", usage = "use bm25PRF query expansion model")
+  public boolean bm25prf = false;
+
+  @Option(name = "-bm25prf.fbTerms", handler = StringArrayOptionHandler.class,
+          usage = "bm25PRF parameter: number of expansion terms")
+  public String[] bm25prf_fbTerms = new String[] {"20"};
+
+  @Option(name = "-bm25prf.fbDocs", handler = StringArrayOptionHandler.class,
+          usage = "bm25PRF parameter: number of documents")
+  public String[] bm25prf_fbDocs = new String[] {"10"};
+
+  @Option(name = "-bm25prf.k1", handler = StringArrayOptionHandler.class,
+          usage = "bm25PRF parameter: k1")
+  public String[] bm25prf_k1 = new String[] {"0.9"};
+
+  @Option(name = "-bm25prf.b", handler = StringArrayOptionHandler.class,
+          usage = "bm25PRF parameter: b")
+  public String[] bm25prf_b = new String[] {"0.4"};
+
+  @Option(name = "-bm25prf.newTermWeight", handler = StringArrayOptionHandler.class,
+          usage = "bm25PRF parameter: weight to assign to the expansion terms")
+  public String[] bm25prf_newTermWeight = new String[] {"0.2"};
+
+  @Option(name = "-bm25prf.outputQuery",
+          usage = "bm25PRF parameter: print original and expanded queries")
+  public boolean bm25prf_outputQuery = false;
+
   // Axiomatic semantic matching matching options.
 
   @Option(name = "-axiom", usage = "use Axiomatic query expansion model for the reranking")

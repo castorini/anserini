@@ -26,6 +26,7 @@ import io.anserini.rerank.ScoredDocuments;
 import io.anserini.rerank.lib.AxiomReranker;
 import io.anserini.rerank.lib.NewsBackgroundLinkingReranker;
 import io.anserini.rerank.lib.Rm3Reranker;
+import io.anserini.rerank.lib.BM25PrfReranker;
 import io.anserini.rerank.lib.ScoreTiesAdjusterReranker;
 import io.anserini.search.query.BagOfWordsQueryGenerator;
 import io.anserini.search.query.SdmQueryGenerator;
@@ -228,7 +229,7 @@ public final class SearchCollection implements Closeable {
       qc = QueryConstructor.BagOfTerms;
     }
   
-    isRerank = args.rm3 || args.axiom;
+    isRerank = args.rm3 || args.axiom || args.bm25prf;
   }
 
   @Override
@@ -311,7 +312,27 @@ public final class SearchCollection implements Closeable {
           }
         }
       }
-    } else {
+    }else if (args.bm25prf) {
+        for (String fbTerms : args.bm25prf_fbTerms) {
+            for (String fbDocs : args.bm25prf_fbDocs) {
+                for (String k1 : args.bm25prf_k1) {
+                    for (String b : args.bm25prf_b) {
+                        for (String newTermWeight : args.bm25prf_newTermWeight) {
+                            RerankerCascade cascade = new RerankerCascade();
+                            cascade.add(new BM25PrfReranker(analyzer, FIELD_BODY, Integer.valueOf(fbTerms),
+                                    Integer.valueOf(fbDocs), Float.valueOf(k1), Float.valueOf(b), Float.valueOf(newTermWeight),
+                                    args.bm25prf_outputQuery));
+                            cascade.add(new ScoreTiesAdjusterReranker());
+                            String tag = "bm25prf.fbTerms:" + fbTerms + ",fbDocs:" + fbDocs + ",bm25prf.k1:" + k1 + ",bm25prf.b:" + b + ",bm25prf.newTermWeight:" + newTermWeight;
+                            cascades.put(tag, cascade);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    else {
       RerankerCascade cascade = new RerankerCascade();
       cascade.add(new ScoreTiesAdjusterReranker());
       cascades.put("", cascade);
