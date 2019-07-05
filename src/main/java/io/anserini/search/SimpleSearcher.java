@@ -241,6 +241,7 @@ public class SimpleSearcher implements Closeable {
       throw new RuntimeException("queryCount = " + queryCnt +
               " is not equal to completedTaskCount =  " + executor.getCompletedTaskCount());
     }
+    
     return results;
   }
 

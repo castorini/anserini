@@ -71,20 +71,21 @@ class SimpleSearcher:
             
         Returns
         -------
-        results : map of <str, io.anserini.search.SimpleSearcher$Result>
-            Map of <qid, document hits> returned from each query
+        result_dict : dict of {str : io.anserini.search.SimpleSearcher$Result}
+            Dictionary of {qid : document hits} returned from each query
         '''
         query_strings = JArrayList()
         qid_strings = JArrayList()
         for query in queries:
-            jq = JString(str(query.encode('utf8')))
+            jq = JString(query.encode('utf8'))
             query_strings.add(jq)
 
         for qid in qids:
-            jqid = JString(str(qid))
+            jqid = JString(qid)
             qid_strings.add(jqid)
 
-        return self.object.batchSearch(query_strings, qid_strings, int(k), int(t), int(threads))
+        results = self.object.batchSearch(query_strings, qid_strings, int(k), int(t), int(threads)).entrySet().toArray()
+        return {r.getKey() : r.getValue() for r in results}
 
     def search_fields(self, q, f, boost, k):
         '''

@@ -110,10 +110,6 @@
               <id>SearchMsmarco</id>
             </program>
             <program>
-              <mainClass>io.anserini.search.SearchMsmarcoMultithread</mainClass>
-              <id>SearchMsmarcoMultithread</id>
-            </program>
-            <program>
               <mainClass>io.anserini.eval.Eval</mainClass>
               <id>Eval</id>
             </program>
