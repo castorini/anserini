@@ -34,6 +34,7 @@ JString = autoclass('java.lang.String')
 JPath = autoclass('java.nio.file.Path')
 JPaths = autoclass('java.nio.file.Paths')
 JList = autoclass('java.util.List')
+JArrayList = autoclass('java.util.ArrayList')
 
 ### Search
 
