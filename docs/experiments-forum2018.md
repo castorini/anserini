@@ -11,7 +11,7 @@ Scripts referenced on this page encode automated regressions that allow users to
 The SIGIR Forum article references commit [`2c8cd7a`](https://github.com/castorini/Anserini/commit/2c8cd7a550faca0fc450e4159a4a874d4795ac25) (11/16/2018), the results of which changed slightly with an upgrade to Lucene 7.6 at commit [`e71df7a`](https://github.com/castorini/Anserini/commit/e71df7aee42c7776a63b9845600a4075632fa11c) (12/18/2018).
 The SIGIR 2019 paper contains experiments performed post upgrade.
 
-The Anserini upgrade to Lucene 8.0 at commit [`75e36f9`](https://github.com/castorini/anserini/commit/75e36f97f7037d1ceb20fa9c91582eac5e974131) (6/12/2019) broke the regression tests, which was later fixed at commit [`xxxxxxx`](https://github.com/castorini/anserini/commit/xxxxxxx) (x/x/xxx).
+The Anserini upgrade to Lucene 8.0 at commit [`75e36f9`](https://github.com/castorini/anserini/commit/75e36f97f7037d1ceb20fa9c91582eac5e974131) (6/12/2019) broke the regression tests, which was later fixed at commit [`64bae9c`](https://github.com/castorini/anserini/commit/64bae9c8b87ad56bc8cf6ea0c5405eb2a82b3682) (7/3/2019).
 This commit represents the latest state of the code and the results that can be currently replicated.
 See summary in "History" section below.
 
@@ -110,7 +110,7 @@ This difference arises from rounding when averaging across the folds.
 The following documents commits that have altered effectiveness figures:
 
 
-+ commit [`xxxxxxx`](https://github.com/castorini/anserini/commit/xxxxxxx) (x/xx/xxxx) - Regression experiments here fixed.
++ commit [`64bae9c`](https://github.com/castorini/anserini/commit/64bae9c8b87ad56bc8cf6ea0c5405eb2a82b3682) (7/3/2019) - Regression experiments here fixed.
 + commit [`75e36f9`](https://github.com/castorini/anserini/commit/75e36f97f7037d1ceb20fa9c91582eac5e974131) (6/12/2019) - Upgrade to Lucene 8.0 breaks regression experiments here.
 + commit [`407f308`](https://github.com/castorini/Anserini/commit/407f308cc543286e39701caf0acd1afab39dde2c) (1/2/2019) - Added results for axiomatic semantic term matching.
 + commit [`e71df7a`](https://github.com/castorini/Anserini/commit/e71df7aee42c7776a63b9845600a4075632fa11c) (12/18/2018) - Upgrade to Lucene 7.6.
