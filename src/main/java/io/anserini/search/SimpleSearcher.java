@@ -66,6 +66,13 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CompletionException;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * Class that exposes basic search functionality, designed specifically to provide the bridge between Java and Python
@@ -188,6 +195,54 @@ public class SimpleSearcher implements Closeable {
     List<String> queryTokens = AnalyzerUtils.tokenize(analyzer, q);
 
     return search(query, queryTokens, q, k, t);
+  }
+
+  public Map<String, Result[]> batchSearch(List<String> queries, List<String> qids, int k, long t, int threads) throws IOException {
+    ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(threads);
+    ConcurrentHashMap<String, Result[]> results = new ConcurrentHashMap<>();
+
+    long startTime = System.nanoTime();
+    AtomicLong index = new AtomicLong();
+    int queryCnt = queries.size();
+    for (int q = 0; q < queryCnt; ++q) {
+      String query = queries.get(q);
+      String qid = qids.get(q);
+      executor.execute(() -> {
+        try {
+          results.put(qid, search(query, k, t));
+        } catch (IOException e) {
+          throw new CompletionException(e);
+        }
+        // logging for speed
+        Long lineNumber = index.incrementAndGet();
+        if (lineNumber % 100 == 0) {
+          double timePerQuery = (double) (System.nanoTime() - startTime) / (lineNumber + 1) / 1e9;
+          System.out.format("Retrieving query " + lineNumber + " (%.3f s/query)\n", timePerQuery);
+        }
+      });
+    }
+
+    executor.shutdown();
+
+    try {
+      // Wait for existing tasks to terminate
+      while (!executor.awaitTermination(1, TimeUnit.MINUTES)) {
+        LOG.info(String.format("%.2f percent completed",
+                (double) executor.getCompletedTaskCount() / queries.size() * 100.0d));
+      }
+    } catch (InterruptedException ie) {
+      // (Re-)Cancel if current thread also interrupted
+      executor.shutdownNow();
+      // Preserve interrupt status
+      Thread.currentThread().interrupt();
+    }
+
+    if (queryCnt != executor.getCompletedTaskCount()) {
+      throw new RuntimeException("queryCount = " + queryCnt +
+              " is not equal to completedTaskCount =  " + executor.getCompletedTaskCount());
+    }
+    
+    return results;
   }
 
   protected Result[] search(Query query, List<String> queryTokens, String queryString, int k, long t) throws IOException {

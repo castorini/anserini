@@ -52,8 +52,9 @@ The output queries file should contain 6980 lines.
 We can now retrieve this smaller set of queries:
 
 ```
-python ./src/main/python/msmarco/retrieve.py --hits 1000 --index msmarco-passage/lucene-index-msmarco \
- --qid_queries msmarco-passage/queries.dev.small.tsv --output msmarco-passage/run.dev.small.tsv
+python ./src/main/python/msmarco/retrieve.py --hits 1000 --threads 1 \
+ --index msmarco-passage/lucene-index-msmarco --qid_queries msmarco-passage/queries.dev.small.tsv \
+ --output msmarco-passage/run.dev.small.tsv
 ```
 
 Note that by default, the above script uses BM25 with tuned parameters `k1=0.82`, `b=0.68` (more details below).
@@ -61,13 +62,17 @@ The option `-hits` specifies the of documents per query to be retrieved.
 Thus, the output file should have approximately 6980 * 1000 = 6.9M lines. 
 
 Retrieval speed will vary by machine:
-On a modern desktop with an SSD, we can get ~0.06 s/query (taking about seven minutes).
+On a modern desktop with an SSD, we can get ~0.06 s/query (taking about seven minutes). We can also perform multithreaded retrieval by changing the `--threads` argument.
+
 Alternatively, we can run the same script implemented in Java, which is a bit faster:
 
 ```
-./target/appassembler/bin/SearchMsmarco  -hits 1000 -index msmarco-passage/lucene-index-msmarco \
- -qid_queries msmarco-passage/queries.dev.small.tsv -output msmarco-passage/run.dev.small.tsv
+./target/appassembler/bin/SearchMsmarco  -hits 1000 -threads 1 \
+ -index msmarco-passage/lucene-index-msmarco -qid_queries msmarco-passage/queries.dev.small.tsv \
+ -output msmarco-passage/run.dev.small.tsv
 ```
+
+Similarly, we can perform multithreaded retrieval by changing the `-threads` argument.
 
 Finally, we can evaluate the retrieved documents using this the official MS MARCO evaluation script: 
 

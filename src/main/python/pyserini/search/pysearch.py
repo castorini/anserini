@@ -18,7 +18,7 @@
 Module for providing python interface to Anserini searchers
 '''
 
-from ..pyclass import JSearcher, JString
+from ..pyclass import JSearcher, JString, JArrayList
 
 import logging
 logger = logging.getLogger(__name__)
@@ -53,7 +53,40 @@ class SimpleSearcher:
             List of document hits returned from search
         '''
         return self.object.search(JString(q), k, t)
-    
+        
+    def batch_search(self, queries, qids, k=10, t=-1, threads=1):
+        '''
+        Parameters
+        ----------
+        queries : list of str
+            list of query strings
+        qids : list of str
+            list of corresponding query ids
+        k : int
+            Number of hits to return
+        t : int
+            Query tweet time for searching tweets  
+        threads : int
+            Maximum number of threads 
+            
+        Returns
+        -------
+        result_dict : dict of {str : io.anserini.search.SimpleSearcher$Result}
+            Dictionary of {qid : document hits} returned from each query
+        '''
+        query_strings = JArrayList()
+        qid_strings = JArrayList()
+        for query in queries:
+            jq = JString(query.encode('utf8'))
+            query_strings.add(jq)
+
+        for qid in qids:
+            jqid = JString(qid)
+            qid_strings.add(jqid)
+
+        results = self.object.batchSearch(query_strings, qid_strings, int(k), int(t), int(threads)).entrySet().toArray()
+        return {r.getKey() : r.getValue() for r in results}
+
     def search_fields(self, q, f, boost, k):
         '''
         Parameters
