@@ -87,7 +87,7 @@ So, this simple trick improves MRR by a bit over baseline Doc2query.
 
 ## TREC CAR
 
-We will now describe how to reproduce the TREC-CAR results of our model BM25+doc2query presented the paper.
+We will now describe how to reproduce the TREC-CAR results of our model BM25+doc2query presented in the paper.
 
 To start, download the TREC-CAR dataset and the predicted queries (i.e., document expansions):
 ```
