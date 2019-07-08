@@ -16,7 +16,6 @@
 
 package io.anserini.rerank.lib;
 
-import io.anserini.index.IndexCollection;
 import io.anserini.index.generator.LuceneDocumentGenerator;
 import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.ScoredDocuments;
@@ -34,11 +33,18 @@ import java.util.Set;
 import static io.anserini.search.SearchCollection.BREAK_SCORE_TIES_BY_DOCID;
 import static io.anserini.search.SearchCollection.BREAK_SCORE_TIES_BY_TWEETID;
 
+
 public class CondensedListRelevanceReranker extends Rm3Reranker {
   private static final Logger LOG = LogManager.getLogger(CondensedListRelevanceReranker.class);
 
-  public CondensedListRelevanceReranker(Analyzer analyzer, String field, int fbTerms, int fbDocs, float originalQueryWeight, boolean outputQuery) {
+  private String condenseListGenerator;
+  public static final String QUERY_FILTER_RESCORER = "queryFilter";
+  public static final String DOC_FILTER_RESCORER = "docFilter";
+  public static final String HIT_RESCORER = "hitRescorer";
+
+  public CondensedListRelevanceReranker(Analyzer analyzer, String field, int fbTerms, int fbDocs, float originalQueryWeight, boolean outputQuery, String clGenerator) {
     super(analyzer, field, fbTerms, fbDocs, originalQueryWeight, outputQuery);
+    this.condenseListGenerator = clGenerator;
   }
 
   @Override
@@ -48,38 +54,44 @@ public class CondensedListRelevanceReranker extends Rm3Reranker {
 
     IndexSearcher searcher = context.getIndexSearcher();
     Query finalQuery = reformulateQuery(docs, context);
+    Query filterQuery = null;
+    TopDocs rs = null;
+    if (this.condenseListGenerator
+        .equals(QUERY_FILTER_RESCORER) || this.condenseListGenerator.equals(DOC_FILTER_RESCORER)) {
+      filterQuery = this.condenseListGenerator.equals(QUERY_FILTER_RESCORER)? context.getQuery(): FilterQueryBuilder.buildSetQuery(LuceneDocumentGenerator.FIELD_ID,
+          getFieldValues(docs, LuceneDocumentGenerator.FIELD_ID, searcher));
+      rs = rescoreWithTieBreaker(finalQuery,filterQuery,context,searcher);
+    }else if (this.condenseListGenerator.equals(HIT_RESCORER)){
+      QueryRescorer rm3Rescoer = new RM3QueryRescorer(finalQuery);
+      try {
+         rs = rm3Rescoer.rescore(searcher,docs.topDocs,context.getSearchArgs().hits);
+      } catch (IOException e) {
+         e.printStackTrace();
+      }
+    }
 
+    return rs==null? docs:ScoredDocuments.fromTopDocs(rs, searcher);
 
-//    QueryRescorer rm3Rescoer = new RM3QueryRescorer(finalQuery);
-//    TopDocs rs;
-//    try {
-//      rs = rm3Rescoer.rescore(searcher,docs.topDocs,context.getSearchArgs().hits);
-//    } catch (IOException e) {
-//      e.printStackTrace();
-//      return docs;
-//    }
+  }
 
-    Query docNumFilter = FilterQueryBuilder.buildSetQuery(LuceneDocumentGenerator.FIELD_ID, getFieldValues(docs, LuceneDocumentGenerator.FIELD_ID, searcher));
-    finalQuery = FilterQueryBuilder.addFilterQuery(finalQuery, docNumFilter);
-    TopDocs rs;
+  private TopDocs rescoreWithTieBreaker(Query finalQuery, Query filterQuery, RerankerContext context, IndexSearcher searcher){
+
+    TopDocs rs = null;
+    finalQuery = FilterQueryBuilder.addFilterQuery(finalQuery,filterQuery);
     try {
       // Figure out how to break the scoring ties.
       if (context.getSearchArgs().arbitraryScoreTieBreak) {
         rs = searcher.search(finalQuery, context.getSearchArgs().hits);
       } else if (context.getSearchArgs().searchtweets) {
-        rs = searcher.search(finalQuery, context.getSearchArgs().hits, BREAK_SCORE_TIES_BY_TWEETID, true, true);
+        rs = searcher.search(finalQuery, context.getSearchArgs().hits, BREAK_SCORE_TIES_BY_TWEETID, true);
       } else {
-        rs = searcher.search(finalQuery, context.getSearchArgs().hits, BREAK_SCORE_TIES_BY_DOCID, true, true);
+        rs = searcher.search(finalQuery, context.getSearchArgs().hits, BREAK_SCORE_TIES_BY_DOCID, true);
       }
     } catch (IOException e) {
       e.printStackTrace();
-      return docs;
     }
-
-    return ScoredDocuments.fromTopDocs(rs, searcher);
-
+    return rs;
   }
-
 
   private Set<String> getFieldValues(ScoredDocuments docs, String fld, IndexSearcher searcher) {
     Set<String> values = new HashSet<>();

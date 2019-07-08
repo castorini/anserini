@@ -1,5 +1,5 @@
 /**
- * Anserini: A toolkit for reproducible information retrieval research built on Lucene
+ * Anserini: A Lucene toolkit for replicable information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,42 +20,41 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.wikiclean.WikiClean;
 import org.wikiclean.WikiClean.WikiLanguage;
-import org.wikiclean.*;
+import org.wikiclean.WikipediaArticlesDump;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 
 /**
  * A Wikipedia collection.
  * Note that Wikipedia dumps come as a single <code>bz2</code> file. Since a collection is assumed
  * to be in a directory, place the <code>bz2</code> file in a directory prior to indexing.
  */
-public class WikipediaCollection extends DocumentCollection
-    implements SegmentProvider<WikipediaCollection.Document> {
+public class WikipediaCollection extends DocumentCollection<WikipediaCollection.Document> {
 
   private static final Logger LOG = LogManager.getLogger(WikipediaCollection.class);
 
-  @Override
-  public List<Path> getFileSegmentPaths() {
-    Set<String> allowedFileSuffix = new HashSet<>(Arrays.asList(".bz2"));
-
-    return discover(path, EMPTY_SET, EMPTY_SET, EMPTY_SET,
-        allowedFileSuffix, EMPTY_SET);
+  public WikipediaCollection(){
+    this.allowedFileSuffix = new HashSet<>(Arrays.asList(".bz2"));
   }
 
   @Override
-  public FileSegment createFileSegment(Path p) throws IOException {
-    return new FileSegment(p);
+  public FileSegment<WikipediaCollection.Document> createFileSegment(Path p) throws IOException {
+    return new Segment(p);
   }
 
-  public class FileSegment extends BaseFileSegment<Document> {
+  public class Segment extends FileSegment<WikipediaCollection.Document> {
     private final Iterator<String> iter;
     private final WikiClean cleaner;
 
-    protected FileSegment(Path path) throws IOException {
-      this.path = path;
+    protected Segment(Path path) throws IOException {
+      super(path);
       iter = new WikipediaArticlesDump(new File(path.toString())).iterator();
       cleaner = new WikiClean.Builder()
           .withLanguage(WikiLanguage.EN).withTitle(false)
@@ -63,7 +62,7 @@ public class WikipediaCollection extends DocumentCollection
     }
 
     @Override
-    public void readNext() throws IOException {
+    public void readNext() {
       String page;
       String s;
 

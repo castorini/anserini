@@ -1,5 +1,5 @@
 /**
- * Anserini: A toolkit for reproducible information retrieval research built on Lucene
+ * Anserini: A Lucene toolkit for replicable information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -49,28 +49,23 @@ import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
  * The collection contains 608,180 news articles and blog posts from January 2012 through August 2017,
  * stored in JSON format. The collection is 1.5GB compressed, 5.9GB uncompressed.
  */
-public class WashingtonPostCollection extends DocumentCollection
-        implements SegmentProvider<WashingtonPostCollection.Document> {
+public class WashingtonPostCollection extends DocumentCollection<WashingtonPostCollection.Document> {
   private static final Logger LOG = LogManager.getLogger(WashingtonPostCollection.class);
 
-  @Override
-  public List<Path> getFileSegmentPaths() {
-    Set<String> allowedFileSuffix = new HashSet<>(Arrays.asList(".txt", ".jl"));
-
-    return discover(path, EMPTY_SET, EMPTY_SET, EMPTY_SET,
-            allowedFileSuffix, EMPTY_SET);
+  public WashingtonPostCollection(){
+    this.allowedFileSuffix = new HashSet<>(Arrays.asList(".txt", ".jl"));
   }
 
   @Override
-  public FileSegment createFileSegment(Path p) throws IOException {
-    return new FileSegment(p);
+  public FileSegment<WashingtonPostCollection.Document> createFileSegment(Path p) throws IOException {
+    return new Segment(p);
   }
 
-  public class FileSegment extends BaseFileSegment<Document> {
+  public class Segment extends FileSegment<Document> {
     private String fileName;
 
-    public FileSegment(Path path) throws IOException {
-      this.path = path;
+    protected Segment(Path path) throws IOException {
+      super(path);
       this.fileName = path.toString();
       this.bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(this.fileName), "utf-8"));
     }

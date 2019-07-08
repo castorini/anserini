@@ -1,5 +1,5 @@
 /**
- * Anserini: A toolkit for reproducible information retrieval research built on Lucene
+ * Anserini: A Lucene toolkit for replicable information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@ import io.anserini.ltr.feature.FeatureExtractor;
 import io.anserini.rerank.RerankerContext;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.index.MultiFields;
+import org.apache.lucene.index.MultiTerms;
 import org.apache.lucene.index.PostingsEnum;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.index.Terms;
@@ -100,8 +100,8 @@ public class PMIFeatureExtractor<T> implements FeatureExtractor<T> {
           for (int j = i +1; j < queryTokens.size(); j++) {
             pairsComputed ++;
             String secondToken = queryTokens.get(j);
-            PostingsEnum firstEnum = MultiFields.getTermDocsEnum(reader,LuceneDocumentGenerator.FIELD_BODY, new BytesRef(firstToken));
-            PostingsEnum secondEnum = MultiFields.getTermDocsEnum(reader,LuceneDocumentGenerator.FIELD_BODY, new BytesRef(secondToken));
+            PostingsEnum firstEnum = MultiTerms.getTermPostingsEnum(reader,LuceneDocumentGenerator.FIELD_BODY, new BytesRef(firstToken));
+            PostingsEnum secondEnum = MultiTerms.getTermPostingsEnum(reader,LuceneDocumentGenerator.FIELD_BODY, new BytesRef(secondToken));
             int intersect;
             if (firstEnum == null || secondEnum == null) {
               intersect = 0;

@@ -28,10 +28,10 @@ index_stats:
   total terms: 175050212
 topic_reader: Microblog
 topics:
-  - name: "[TREC 2011 Microblog Track](http://trec.nist.gov/data/microblog2011.html)"
+  - name: "[TREC 2011 Microblog Track Topics](http://trec.nist.gov/data/microblog2011.html)"
     path: topics.microblog2011.txt
     qrel: qrels.microblog2011.txt
-  - name: "[TREC 2012 Microblog Track](http://trec.nist.gov/data/microblog2012.html)"
+  - name: "[TREC 2012 Microblog Track Topics](http://trec.nist.gov/data/microblog2012.html)"
     path: topics.microblog2012.txt
     qrel: qrels.microblog2012.txt
 evals:
@@ -53,6 +53,7 @@ evals:
     can_combine: true
 models:
   - name: bm25
+    display: BM25
     params:
       - -searchtweets
       - -bm25
@@ -64,6 +65,7 @@ models:
         - 0.3959
         - 0.3316
   - name: bm25+rm3
+    display: +RM3
     params:
       - -searchtweets
       - -bm25
@@ -76,6 +78,7 @@ models:
         - 0.4170
         - 0.3463
   - name: bm25+ax
+    display: +Ax
     params:
       - -searchtweets
       - -bm25
@@ -91,6 +94,7 @@ models:
         - 0.4612
         - 0.3554
   - name: ql
+    display: QL
     params:
       - -searchtweets
       - -ql
@@ -102,6 +106,7 @@ models:
         - 0.4061
         - 0.3333
   - name: ql+rm3
+    display: +RM3
     params:
       - -searchtweets
       - -ql
@@ -112,8 +117,9 @@ models:
         - 0.2389
       p30:
         - 0.4435
-        - 0.3520
+        - 0.3514
   - name: ql+ax
+    display: +Ax
     params:
       - -searchtweets
       - -ql

@@ -2,7 +2,7 @@
 
 This page documents code for replicating results from the following paper:
 
-- Ruifan Yu, Yuhao Xie and Jimmy Lin. Simple Techniques for Cross-Collection Relevance Transfer. Proceedings of the 41th European Conference on Information Retrieval (ECIR 2019), April 2019, Cologne, Germany.
++ Ruifan Yu, Yuhao Xie and Jimmy Lin. [Simple Techniques for Cross-Collection Relevance Transfer.](https://cs.uwaterloo.ca/~jimmylin/publications/Yu_etal_ECIR2019.pdf) _Proceedings of the 41th European Conference on Information Retrieval, Part I (ECIR 2019)_, page 397-409, April 2019, Cologne, Germany.
 
 **Requirements**: The main requirements are:
 

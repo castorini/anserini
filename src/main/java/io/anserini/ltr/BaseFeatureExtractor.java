@@ -1,5 +1,5 @@
 /**
- * Anserini: A toolkit for reproducible information retrieval research built on Lucene
+ * Anserini: A Lucene toolkit for replicable information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,7 +25,8 @@ import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.index.MultiFields;
+import org.apache.lucene.index.MultiBits;
+import org.apache.lucene.index.MultiTerms;
 import org.apache.lucene.index.Terms;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
@@ -35,7 +36,10 @@ import org.apache.lucene.util.Bits;
 
 import java.io.IOException;
 import java.io.PrintStream;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Feature extractor class that forms the base for other feature extractors
@@ -168,7 +172,7 @@ abstract public class BaseFeatureExtractor<K> {
     public void printFeatureForAllDocs(PrintStream out) throws IOException {
       Map<String, RerankerContext<K>> queryContextMap = buildRerankerContextMap();
       FeatureExtractors extractors = getExtractors();
-      Bits liveDocs = MultiFields.getLiveDocs(reader);
+      Bits liveDocs = MultiBits.getLiveDocs(reader);
       Set<String> fieldsToLoad = getFieldsToLoad();
 
       this.printHeader(out, extractors);
@@ -183,7 +187,7 @@ abstract public class BaseFeatureExtractor<K> {
         String docIdString = doc.get(getIdField());
         // NOTE doc frequencies should not be retrieved from here, term vector returned is as if on single document
         // index
-        Terms terms = MultiFields.getTerms(reader, getTermVectorField());//reader.getTermVector(docId, getTermVectorField());
+        Terms terms = MultiTerms.getTerms(reader, getTermVectorField());//reader.getTermVector(docId, getTermVectorField());
 
         if (terms == null) {
           continue;
@@ -207,7 +211,7 @@ abstract public class BaseFeatureExtractor<K> {
     public void printFeatures(PrintStream out) throws IOException {
       Map<String, RerankerContext<K>> queryContextMap = buildRerankerContextMap();
       FeatureExtractors extractors = getExtractors();
-      Bits liveDocs = MultiFields.getLiveDocs(reader);
+      Bits liveDocs = MultiBits.getLiveDocs(reader);
       Set<String> fieldsToLoad = getFieldsToLoad();
 
       // We need to open a searcher
@@ -227,7 +231,7 @@ abstract public class BaseFeatureExtractor<K> {
           int qrelScore = entry.getValue();
           // We issue a specific query
           TopDocs topDocs = searcher.search(docIdQuery(docId), 1);
-          if (topDocs.totalHits == 0) {
+          if (topDocs.totalHits.value == 0) {
             LOG.warn(String.format("Document Id %s expected but not found in index, skipping...", docId));
             continue;
           }

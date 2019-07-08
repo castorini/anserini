@@ -39,7 +39,7 @@ evals:
 index_stats:
   documents: 25172934
   documents (non-empty): 25170664
-  total terms: 17343119816
+  total terms: 17345062322
 topics:
   - name: "[TREC 2004 Terabyte Track: Topics 701-750](http://trec.nist.gov/data/terabyte04.html)"
     path: topics.701-750.txt
@@ -52,6 +52,7 @@ topics:
     qrel: qrels.801-850.txt
 models:
   - name: bm25
+    display: BM25
     params:
       - -bm25
     results:
@@ -64,6 +65,7 @@ models:
         - 0.5540
         - 0.4907
   - name: bm25+rm3
+    display: +RM3
     params:
       - -bm25
       - -rm3
@@ -77,6 +79,7 @@ models:
         - 0.5920
         - 0.5160
   - name: bm25+ax
+    display: +Ax
     params:
       - -bm25
       - -axiom
@@ -85,26 +88,28 @@ models:
       - -axiom.deterministic
     results:
       map:
-        - 0.2665
-        - 0.3664
+        - 0.2669
+        - 0.3666
         - 0.3069
       p30:
-        - 0.4986
+        - 0.4993
         - 0.5933
         - 0.5033
   - name: ql
+    display: QL
     params:
       - -ql
     results:
       map:
         - 0.2681
         - 0.3303
-        - 0.2996
+        - 0.2997
       p30:
         - 0.4755
         - 0.5347
         - 0.4720
   - name: ql+rm3
+    display: +RM3
     params:
       - -ql
       - -rm3
@@ -118,6 +123,7 @@ models:
         - 0.5620
         - 0.4847
   - name: ql+ax
+    display: +Ax
     params:
       - -ql
       - -axiom

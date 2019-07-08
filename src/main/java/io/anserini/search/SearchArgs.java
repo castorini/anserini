@@ -1,5 +1,5 @@
 /**
- * Anserini: A toolkit for reproducible information retrieval research built on Lucene
+ * Anserini: A Lucene toolkit for replicable information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -126,11 +126,11 @@ public class SearchArgs {
   @Option(name = "-b", handler = StringArrayOptionHandler.class, usage = "BM25 b parameter")
   public String[] b = new String[] {"0.4"};
   
-  @Option(name = "-pl2", usage = "use PL2 scoring model")
-  public boolean pl2 = false;
+  @Option(name = "-inl2", usage = "use I(n)L2 scoring model")
+  public boolean inl2 = false;
   
-  @Option(name = "-pl2.c", metaVar = "[value]", usage = "PL2 c parameter")
-  public String[] pl2_c = new String[] {"0.1"};
+  @Option(name = "-inl2.c", metaVar = "[value]", usage = "I(n)L2 c parameter")
+  public String[] inl2_c = new String[] {"0.1"};
 
   @Option(name = "-spl", usage = "use SPL scoring model")
   public boolean spl = false;
@@ -189,6 +189,63 @@ public class SearchArgs {
       usage = "RM3 parameter: print original and expanded queries")
   public boolean rm3_outputQuery = false;
 
+
+  // CLRM3 Options, same as the options of RM3
+  @Option(name = "-clrm3", usage = "use CLRM3 query expansion model")
+  public boolean clrm3 = false;
+
+  @Option(name = "-clrm3.fbTerms", handler = StringArrayOptionHandler.class,
+      usage = "CLRM3 parameter: number of expansion terms")
+  public String[] clrm3_fbTerms = new String[] {"10"};
+
+  @Option(name = "-clrm3.fbDocs", handler = StringArrayOptionHandler.class,
+      usage = "CLR parameter: number of documents")
+  public String[] clrm3_fbDocs = new String[] {"10"};
+
+  @Option(name = "-clrm3.originalQueryWeight", handler = StringArrayOptionHandler.class,
+      usage = "CLRM3 parameter: weight to assign to the original query")
+  public String[] clrm3_originalQueryWeight = new String[] {"0.5"};
+
+  @Option(name = "-clrm3.outputQuery",
+      usage = "CLRM3 parameter: print original and expanded queries")
+  public boolean clrm3_outputQuery = false;
+
+  @Option(name = "-clrm3.clGenerator",
+      usage = "CLRM3 parameter: how to generate the condense list that is being reranked. "
+          + "Options are: queryFilter, docFilter, hitRescorer. "
+          + "queryFilter (default) generates list using the original query. "
+          + "Both docFilter, hitRescorer are based on the rerankerRankcutoff, but docFilter handles score ties, while hitRescorer does not. HitRescorver is more efficient. ")
+  public String[] clrm3_cdGenerator = new String[] {"queryFilter"};
+
+  // BM25PRF Options
+
+  @Option(name = "-bm25prf", usage = "use bm25PRF query expansion model")
+  public boolean bm25prf = false;
+
+  @Option(name = "-bm25prf.fbTerms", handler = StringArrayOptionHandler.class,
+          usage = "bm25PRF parameter: number of expansion terms")
+  public String[] bm25prf_fbTerms = new String[] {"20"};
+
+  @Option(name = "-bm25prf.fbDocs", handler = StringArrayOptionHandler.class,
+          usage = "bm25PRF parameter: number of documents")
+  public String[] bm25prf_fbDocs = new String[] {"10"};
+
+  @Option(name = "-bm25prf.k1", handler = StringArrayOptionHandler.class,
+          usage = "bm25PRF parameter: k1")
+  public String[] bm25prf_k1 = new String[] {"0.9"};
+
+  @Option(name = "-bm25prf.b", handler = StringArrayOptionHandler.class,
+          usage = "bm25PRF parameter: b")
+  public String[] bm25prf_b = new String[] {"0.4"};
+
+  @Option(name = "-bm25prf.newTermWeight", handler = StringArrayOptionHandler.class,
+          usage = "bm25PRF parameter: weight to assign to the expansion terms")
+  public String[] bm25prf_newTermWeight = new String[] {"0.2"};
+
+  @Option(name = "-bm25prf.outputQuery",
+          usage = "bm25PRF parameter: print original and expanded queries")
+  public boolean bm25prf_outputQuery = false;
+
   // Axiomatic semantic matching matching options.
 
   @Option(name = "-axiom", usage = "use Axiomatic query expansion model for the reranking")
@@ -224,4 +281,7 @@ public class SearchArgs {
 
   @Option(name = "-model", metaVar = "[file]", required = false, usage = "ranklib model file")
   public String model = "";
+
+  @Option(name = "-qid_queries", metaVar = "[file]", usage="query id - query mapping file")
+  public String qid_queries = "";
 }

@@ -2,9 +2,13 @@
 
 This page documents code for replicating results from the following paper:
 
-+ Peilin Yang and Jimmy Lin. Reproducing and Generalizing Semantic Term Matching in Axiomatic Information Retrieval. Proceedings of the 41th European Conference on Information Retrieval (ECIR 2019), April 2019, Cologne, Germany.
++ Peilin Yang and Jimmy Lin. [Reproducing and Generalizing Semantic Term Matching in Axiomatic Information Retrieval](https://cs.uwaterloo.ca/~jimmylin/publications/Yang_Lin_ECIR2019.pdf). _Proceedings of the 41th European Conference on Information Retrieval, Part I (ECIR 2019)_, pages 369-381, April 2019, Cologne, Germany.
 
-**Requirements**: Python>=2.6 or Python>=3.5 `pip install -r src/main/python/requirements.txt`
+**Requirements**: With Python>=2.6 or Python>=3.5:
+
+```
+pip install -r src/main/python/requirements.txt
+```
 
 ## Parameter Sensitivity Plots
 

@@ -1,5 +1,5 @@
 /**
- * Anserini: A toolkit for reproducible information retrieval research built on Lucene
+ * Anserini: A Lucene toolkit for replicable information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.index.MultiFields;
+import org.apache.lucene.index.MultiTerms;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.index.Terms;
 import org.apache.lucene.index.TermsEnum;
@@ -95,7 +95,7 @@ public class ExtractTopDfTerms {
     PriorityQueue<Pair> queue = new PriorityQueue<Pair>(myArgs.topK, comp);
 
     LOG.info("Starting to iterate through all terms...");
-    Terms terms = MultiFields.getFields(reader).terms(myArgs.field);
+    Terms terms = MultiTerms.getTerms(reader, myArgs.field);
     TermsEnum termsEnum = terms.iterator();
     BytesRef text;
     int cnt = 0;

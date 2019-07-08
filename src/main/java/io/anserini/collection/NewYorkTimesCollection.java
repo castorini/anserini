@@ -1,5 +1,5 @@
 /**
- * Anserini: A toolkit for reproducible information retrieval research built on Lucene
+ * Anserini: A Lucene toolkit for replicable information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -51,6 +51,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
+import java.util.stream.Stream;
+import java.util.stream.Collectors;
 
 /**
  * An instance of the <a href="https://catalog.ldc.upenn.edu/products/LDC2008T19">New York Times
@@ -58,20 +60,16 @@ import java.util.Set;
  * This class works for both compressed <code>tgz</code> files or uncompressed <code>xml</code>
  * files.
  */
-public class NewYorkTimesCollection extends DocumentCollection
-    implements SegmentProvider<NewYorkTimesCollection.Document> {
+public class NewYorkTimesCollection extends DocumentCollection<NewYorkTimesCollection.Document> {
   private static final Logger LOG = LogManager.getLogger(NewYorkTimesCollection.class);
 
-  @Override
-  public List<Path> getFileSegmentPaths() {
-    Set<String> allowedFileSuffix = new HashSet<>(Arrays.asList(".xml", ".tgz"));
-
-    return discover(path, EMPTY_SET, EMPTY_SET, EMPTY_SET, allowedFileSuffix, EMPTY_SET);
+  public NewYorkTimesCollection(){
+    this.allowedFileSuffix = new HashSet<>(Arrays.asList(".xml", ".tgz"));
   }
 
   @Override
-  public FileSegment createFileSegment(Path p) throws IOException {
-    return new FileSegment(p);
+  public FileSegment<NewYorkTimesCollection.Document> createFileSegment(Path p) throws IOException {
+    return new Segment(p);
   }
 
   /**
@@ -80,34 +78,21 @@ public class NewYorkTimesCollection extends DocumentCollection
    * This class works for both compressed <code>tgz</code> files or uncompressed <code>xml</code>
    * files.
    */
-  public class FileSegment extends BaseFileSegment<Document> {
+  public class Segment extends FileSegment<NewYorkTimesCollection.Document>{
+
     private final NewYorkTimesCollection.Parser parser = new NewYorkTimesCollection.Parser();
     private TarArchiveInputStream tarInput = null;
     private ArchiveEntry nextEntry = null;
 
-    protected FileSegment(Path path) throws IOException {
-      super.path = path;
-      super.atEOF = false;
-
-      if (path.toString().endsWith(".tgz")) {
+    protected Segment(Path path) throws IOException {
+      super(path);
+      if (this.path.toString().endsWith(".tgz")) {
         tarInput = new TarArchiveInputStream(new GzipCompressorInputStream(new FileInputStream(path.toFile())));
       }
     }
 
     @Override
-    public boolean hasNext() {
-      if (nextRecordStatus == Status.ERROR) {
-        return false;
-      } else if (nextRecordStatus == Status.SKIPPED) {
-        return true;
-      }
-
-      if (bufferedRecord != null) {
-        return true;
-      } else if (atEOF) {
-        return false;
-      }
-
+    protected void readNext() throws IOException, NoSuchElementException {
       try {
         if (path.toString().endsWith(".tgz")) {
           getNextEntry();
@@ -120,22 +105,12 @@ public class NewYorkTimesCollection extends DocumentCollection
           atEOF = true; // if it is a xml file, the segment only has one file, boolean to keep track if it's been read.
         }
       } catch (IOException e1) {
-        if (!path.toString().endsWith(".xml")) {
-          nextRecordStatus = Status.ERROR;
+        if (path.toString().endsWith(".xml")) {
+          atEOF = true;
         }
-        return false;
-      } catch (NoSuchElementException e2) {
-        return false;
-      } catch (RuntimeException e3) {
-        nextRecordStatus = Status.SKIPPED;
-        return true;
+        throw e1;
       }
-
-      return bufferedRecord != null;
     }
-
-    @Override
-    public void readNext() {}
 
     private void getNextEntry() throws IOException {
       nextEntry = tarInput.getNextEntry();
@@ -1861,7 +1836,9 @@ public class NewYorkTimesCollection extends DocumentCollection
 
       Document d = new Document(raw);
       d.id = String.valueOf(raw.getGuid());
-      d.contents = raw.getBody() == null ? "" : raw.getBody();
+      d.contents = Stream.of(raw.getHeadline(), raw.getArticleAbstract(), raw.getBody())
+        .filter(text -> text != null)
+        .collect(Collectors.joining("\n"));
 
       return d;
     }

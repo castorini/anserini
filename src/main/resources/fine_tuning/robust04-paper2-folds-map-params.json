@@ -1,5 +1,0 @@
-[ "-bm25 -rm3 -k1 0.90 -b 0.50 -rm3.fbTerms 47 -rm3.fbDocs 9 -rm3.originalQueryWeight 0.30",
-  "-bm25 -rm3 -k1 0.90 -b 0.50 -rm3.fbTerms 47 -rm3.fbDocs 9 -rm3.originalQueryWeight 0.30",
-  "-bm25 -rm3 -k1 0.90 -b 0.50 -rm3.fbTerms 47 -rm3.fbDocs 9 -rm3.originalQueryWeight 0.30",
-  "-bm25 -rm3 -k1 0.90 -b 0.50 -rm3.fbTerms 47 -rm3.fbDocs 9 -rm3.originalQueryWeight 0.30",
-  "-bm25 -rm3 -k1 0.90 -b 0.50 -rm3.fbTerms 26 -rm3.fbDocs 8 -rm3.originalQueryWeight 0.30" ]

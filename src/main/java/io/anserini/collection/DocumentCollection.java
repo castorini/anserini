@@ -1,5 +1,5 @@
 /**
- * Anserini: A toolkit for reproducible information retrieval research built on Lucene
+ * Anserini: A Lucene toolkit for replicable information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,28 +30,27 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
- * <p>A static collection of documents, comprised of one or more {@link Segment}s.
- * Each {@link Segment} is a container for {@link SourceDocument}s.
+ * <p>A static collection of documents, comprised of one or more {@link FileSegment}s.
+ * Each {@link FileSegment} is a container for {@link SourceDocument}s.
  * A collection is assumed to be a directory. In the case where the collection is
  * a single file (e.g., a Wikipedia dump), place the file into an arbitrary directory.</p>
  *
  * <p>The collection is responsible for discovering files with qualified names in the input
  * directory. The file segment implementation is responsible for reading each file to generate
- * {@link SourceDocument}s for indexing. Typically, the {@code DocumentCollection} implements
- * the {@link SegmentProvider} interface to provide the association between the collection
- * and the document type.</p>
+ * {@link SourceDocument}s for indexing. </p>
  *
  * <p>The steps of adding a new collection class are:</p>
  *
  * <ol>
  *
- * <li>Create a subclass for {@link DocumentCollection}, which should implement
- * {@link SegmentProvider}.</li>
+ * <li>Create a subclass for {@link DocumentCollection}.</li>
  *
- * <li>Implement class {@link BaseFileSegment}, by convention as an inner class of the
- * {@code DocumentCollection}. See {@link TrecCollection.FileSegment} as an example.</li>
+ * <li>Implement class {@link FileSegment}, by convention as an inner class of the
+ * {@code DocumentCollection}. See {@link TrecCollection.Segment} as an example.</li>
  *
  * <li>Create a subclass for {@link SourceDocument} implementing the corresponding document type.
  * See {@link TrecCollection.Document} as an example.</li>
@@ -65,10 +64,16 @@ import java.util.Set;
  *
  * </ol>
  */
-public abstract class DocumentCollection {
+public abstract class DocumentCollection<T extends SourceDocument> implements Iterable<FileSegment<T>> {
+
   private static final Logger LOG = LogManager.getLogger(DocumentCollection.class);
-  protected static final Set<String> EMPTY_SET = new HashSet<>();
+
   protected Path path;
+  protected Set<String> skippedFilePrefix = new HashSet<>();
+  protected Set<String> allowedFilePrefix = new HashSet<>();
+  protected Set<String> skippedFileSuffix = new HashSet<>();
+  protected Set<String> allowedFileSuffix = new HashSet<>();
+  protected Set<String> skippedDir = new HashSet<>();
 
   /**
    * Sets the path of the collection.
@@ -89,18 +94,71 @@ public abstract class DocumentCollection {
   }
 
   /**
+   * Creates a {@code FileSegment} from a path.
+   *
+   * @param p path
+   * @return {@code FileSegment} with the specified path
+   * @throws IOException if file access error encountered
+   */
+  public abstract FileSegment<T> createFileSegment(Path p) throws IOException;
+
+  /**
+   * An iterator over {@code FileSegment} for the {@code DocumentCollection} iterable.
+   * A collection is comprised of one or more file segments.
+   */
+  @Override
+  public final Iterator<FileSegment<T>> iterator(){
+
+    List<Path> paths = discover(this.path);
+    Iterator<Path> pathsIterator  = paths.iterator();
+
+    return new Iterator<FileSegment<T>>(){
+      Path segmentPath;
+      FileSegment<T> segment;
+
+      @Override
+      public boolean hasNext(){
+        if (segment != null){
+          return true;
+        }
+        if (!pathsIterator.hasNext()){
+          return false;
+        } else {
+          try {
+            segmentPath = pathsIterator.next();
+            segment = createFileSegment(segmentPath);
+          } catch (IOException e){
+            return false;
+          }
+        }
+        return true;
+      }
+
+      @Override
+      public FileSegment<T> next() throws NoSuchElementException {
+        if (!hasNext()){
+          throw new NoSuchElementException("No more file segments to read.");
+        } else {
+          FileSegment<T> seg = segment;
+          segment = null;
+          return seg;
+        }
+      }
+
+      @Override
+      public void remove(){
+        throw new UnsupportedOperationException();
+      }
+    };
+  }
+
+  /**
    * Used internally by implementations to walk a path and collect file segments.
    *
    * @param p                 path to walk
-   * @param skippedFilePrefix set of file prefixes to skip
-   * @param allowedFilePrefix set of file prefixes to allow
-   * @param skippedFileSuffix set of file suffixes to skip
-   * @param allowedFileSuffix set of file suffixes to allow
-   * @param skippedDir        set of directories to skip
-   * @return result of walking the specified path according to the specified constraints
+   * @return result of walking the specified path according to the collection-specific constraints
    */
-  protected List<Path> discover(Path p, Set<String> skippedFilePrefix, Set<String> allowedFilePrefix,
-                                Set<String> skippedFileSuffix, Set<String> allowedFileSuffix, Set<String> skippedDir) {
+  public final List<Path> discover(Path p) {
     final List<Path> paths = new ArrayList<>();
 
     FileVisitor<Path> fv = new SimpleFileVisitor<Path>() {
@@ -111,8 +169,7 @@ public abstract class DocumentCollection {
         if (Files.isSymbolicLink(file)) {
           name = Files.readSymbolicLink(file);
           if (Files.isDirectory(name)) {
-            paths.addAll(discover(name, skippedFilePrefix, allowedFilePrefix, skippedFileSuffix,
-                allowedFileSuffix, skippedDir));
+            paths.addAll(discover(name));
             shouldAdd = false;
           }
         }
@@ -180,9 +237,5 @@ public abstract class DocumentCollection {
     }
 
     return paths;
-  }
-
-  protected List<Path> discover() {
-    return discover(path, EMPTY_SET, EMPTY_SET, EMPTY_SET, EMPTY_SET, EMPTY_SET);
   }
 }

@@ -21,10 +21,10 @@ index_path: indexes/lucene-index.core18.pos+docvectors+rawdocs # path to the exi
 collection: WashingtonPostCollection
 index_stats:
   documents: 595037
-  documents (non-empty): 595037
-  total terms: 317882653
+  documents (non-empty): 595030
+  total terms: 318219945
 topics:
-  - name: "All Topics"
+  - name: "[TREC 2018 Common Core Track Topics](https://trec.nist.gov/data/core/topics2018.txt)"
     path: topics.core18.txt
     qrel: qrels.core18.txt
 evals:
@@ -46,23 +46,26 @@ evals:
     can_combine: true
 models:
   - name: bm25
+    display: BM25
     params:
       - -bm25
     results:
       map:
-        - 0.2491
+        - 0.2495
       p30:
-        - 0.3580
+        - 0.3567
   - name: bm25+rm3
+    display: +RM3
     params:
       - -bm25
       - -rm3
     results:
       map:
-        - 0.3147
+        - 0.3135
       p30:
-        - 0.4193
+        - 0.4200
   - name: bm25+ax
+    display: +Ax
     params:
       - -bm25
       - -axiom
@@ -70,27 +73,30 @@ models:
       - -axiom.deterministic
     results:
       map:
-        - 0.2921
+        - 0.2925
       p30:
-        - 0.4007
+        - 0.4027
   - name: ql
+    display: QL
     params:
       - -ql
     results:
       map:
-        - 0.2522
+        - 0.2526
       p30:
-        - 0.3627
+        - 0.3653
   - name: ql+rm3
+    display: +RM3
     params:
       - -ql
       - -rm3
     results:
       map:
-        - 0.3064
+        - 0.3073
       p30:
-        - 0.4007
+        - 0.4000
   - name: ql+ax
+    display: +Ax
     params:
       - -ql
       - -axiom
@@ -98,6 +104,6 @@ models:
       - -axiom.deterministic
     results:
       map:
-        - 0.2975
+        - 0.2966
       p30:
-        - 0.4073
+        - 0.4060

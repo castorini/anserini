@@ -42,19 +42,21 @@ index_stats:
   documents (non-empty): 1031326
   total terms: 317246296
 topics:
-  - name: "All Topics"
+  - name: "[TREC 2005 Robust Track Topics](http://trec.nist.gov/data/robust/05/05.50.topics.txt)"
     path: topics.robust05.txt
     qrel: qrels.robust2005.txt
 models:
   - name: bm25
+    display: BM25
     params:
       - -bm25
     results:
       map:
-        - 0.2031
+        - 0.2032
       p30:
         - 0.3693
   - name: bm25+rm3
+    display: +RM3
     params:
       - -bm25
       - -rm3
@@ -64,6 +66,7 @@ models:
       p30:
         - 0.4187
   - name: bm25+ax
+    display: +Ax
     params:
       - -bm25
       - -axiom
@@ -71,10 +74,11 @@ models:
       - -axiom.deterministic
     results:
       map:
-        - 0.2584
+        - 0.2587
       p30:
         - 0.4120
   - name: ql
+    display: QL
     params:
       - -ql
     results:
@@ -83,6 +87,7 @@ models:
       p30:
         - 0.3653
   - name: ql+rm3
+    display: +RM3
     params:
       - -ql
       - -rm3
@@ -92,6 +97,7 @@ models:
       p30:
         - 0.4067
   - name: ql+ax
+    display: +Ax
     params:
       - -ql
       - -axiom

@@ -1,5 +1,5 @@
 /**
- * Anserini: A toolkit for reproducible information retrieval research built on Lucene
+ * Anserini: A Lucene toolkit for replicable information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,13 +21,11 @@ import org.apache.lucene.analysis.LowerCaseFilter;
 import org.apache.lucene.analysis.StopFilter;
 import org.apache.lucene.analysis.StopwordAnalyzerBase;
 import org.apache.lucene.analysis.TokenStream;
-import org.apache.lucene.analysis.Analyzer.TokenStreamComponents;
+import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.analysis.en.EnglishPossessiveFilter;
 import org.apache.lucene.analysis.en.PorterStemFilter;
 import org.apache.lucene.analysis.miscellaneous.ASCIIFoldingFilter;
 import org.apache.lucene.analysis.miscellaneous.SetKeywordMarkerFilter;
-import org.apache.lucene.analysis.standard.StandardAnalyzer;
-import org.apache.lucene.analysis.standard.StandardFilter;
 import org.apache.lucene.analysis.standard.StandardTokenizer;
 
 /* ASCIIFoldingFilter is used for accent folding. This will normalize the characters
@@ -54,23 +52,23 @@ public final class FreebaseAnalyzer extends StopwordAnalyzerBase {
 
   protected TokenStreamComponents createComponents(String fieldName) {
     StandardTokenizer source = new StandardTokenizer();
-    StandardFilter result = new StandardFilter(source);
-    EnglishPossessiveFilter result2 = new EnglishPossessiveFilter(result);
-    LowerCaseFilter result3 = new LowerCaseFilter(result2);
-    Object result4 = new StopFilter(result3, this.stopwords);
-    result4 = new ASCIIFoldingFilter((TokenStream) result4);
+    TokenStream result = source;
+    result = new EnglishPossessiveFilter(result);
+    result = new LowerCaseFilter(result);
+    result = new StopFilter(result, this.stopwords);
+    result = new ASCIIFoldingFilter(result);
     if(!this.stemExclusionSet.isEmpty()) {
-      result4 = new SetKeywordMarkerFilter((TokenStream)result4, this.stemExclusionSet);
+      result = new SetKeywordMarkerFilter(result, this.stemExclusionSet);
     }
 
-    PorterStemFilter result1 = new PorterStemFilter((TokenStream)result4);
-    return new TokenStreamComponents(source, result1);
+    result = new PorterStemFilter(result);
+    return new TokenStreamComponents(source, result);
   }
 
   protected TokenStream normalize(String fieldName, TokenStream in) {
-    StandardFilter result = new StandardFilter(in);
-    LowerCaseFilter result1 = new LowerCaseFilter(result);
-    return result1;
+    TokenStream result = in;
+    result = new LowerCaseFilter(result);
+    return result;
   }
 
   private static class DefaultSetHolder {
@@ -80,7 +78,7 @@ public final class FreebaseAnalyzer extends StopwordAnalyzerBase {
     }
 
     static {
-      DEFAULT_STOP_SET = StandardAnalyzer.STOP_WORDS_SET;
+      DEFAULT_STOP_SET = EnglishAnalyzer.ENGLISH_STOP_WORDS_SET;
     }
   }
 }

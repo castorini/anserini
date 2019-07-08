@@ -48,11 +48,8 @@ class Effectiveness(object):
         all_results = {}
         for metric_dir in os.listdir(os.path.join(output_root, self.eval_files_root)):
             for fn in os.listdir(os.path.join(output_root, self.eval_files_root, metric_dir)):
-                if len(fn.split('_')) == 3:
-                    basemodel, model, model_params = fn.split('_')
-                elif len(fn.split('_')) == 2:
-                    basemodel, model = fn.split('_')
-                output_fn = basemodel+'_'+model+'_'+metric_dir
+                model, model_params = fn.split('_')
+                output_fn = model+'_'+metric_dir
                 if not os.path.exists(output_fn):
                     if output_fn not in all_results:
                         all_results[output_fn] = []
@@ -85,7 +82,7 @@ class Effectiveness(object):
         return {qid: {metric: [(value, para), ...]}}
         """
         split_fn = os.path.basename(fn).split('_')
-        params = split_fn[-1] if len(split_fn) == 3 else ''
+        params = split_fn[1]
         res = {}
         with open(fn) as _in:
             for line in _in:
@@ -133,7 +130,7 @@ class Effectiveness(object):
         per_topic_oracle = {} # per topic optimal across all kinds of methods
         effectiveness_root = os.path.join(output_root, self.effectiveness_root)
         for fn in os.listdir(effectiveness_root):
-            basemodel, model, metric = fn.split('_')
+            model, metric = fn.split('_')
             with open(os.path.join(effectiveness_root, fn)) as f:
                 for real_metric, all_performance in json.load(f).items():
                     if real_metric not in per_topic_oracle:
@@ -141,7 +138,6 @@ class Effectiveness(object):
                     all_optimal = self.add_up_all_optimal(all_performance, per_topic_oracle[real_metric])
                     res = {
                         'model': model,
-                        'basemodel': basemodel,
                         'metric': real_metric,
                         'best_avg': all_performance['all'],
                         'oracles_per_topic': all_optimal[0]

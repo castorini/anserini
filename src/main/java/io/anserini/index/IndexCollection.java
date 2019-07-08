@@ -1,5 +1,5 @@
 /**
- * Anserini: A toolkit for reproducible information retrieval research built on Lucene
+ * Anserini: A Lucene toolkit for replicable information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +21,9 @@ import com.google.common.base.Splitter;
 import com.google.common.hash.Hashing;
 import io.anserini.analysis.EnglishStemmingAnalyzer;
 import io.anserini.analysis.TweetAnalyzer;
-import io.anserini.collection.*;
+import io.anserini.collection.DocumentCollection;
+import io.anserini.collection.FileSegment;
+import io.anserini.collection.SourceDocument;
 import io.anserini.index.generator.LuceneDocumentGenerator;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.time.DurationFormatUtils;
@@ -35,13 +37,34 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.CharArraySet;
 import org.apache.lucene.document.Document;
-import org.apache.lucene.index.*;
+import org.apache.lucene.index.ConcurrentMergeScheduler;
+import org.apache.lucene.index.DocValuesType;
+import org.apache.lucene.index.IndexWriter;
+import org.apache.lucene.index.IndexWriterConfig;
+import org.apache.lucene.index.IndexableField;
+import org.apache.lucene.index.Term;
 import org.apache.lucene.search.similarities.BM25Similarity;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.impl.CloudSolrClient;
 import org.apache.solr.common.SolrInputDocument;
+import org.apache.http.HttpHost;
+import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.UsernamePasswordCredentials;
+import org.apache.http.client.CredentialsProvider;
+import org.apache.http.client.config.RequestConfig;
+import org.apache.http.impl.client.BasicCredentialsProvider;
+import org.apache.http.impl.nio.client.HttpAsyncClientBuilder;
+import org.elasticsearch.common.xcontent.XContentFactory;
+import org.elasticsearch.common.xcontent.XContentBuilder;
+import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.client.RestClient;
+import org.elasticsearch.client.RestClientBuilder.HttpClientConfigCallback;
+import org.elasticsearch.client.RestClientBuilder.RequestConfigCallback;
+import org.elasticsearch.client.RequestOptions;
+import org.elasticsearch.action.bulk.BulkRequest;
+import org.elasticsearch.action.index.IndexRequest;
 import org.kohsuke.args4j.*;
 
 import java.io.File;
@@ -49,7 +72,12 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.Iterator;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -57,6 +85,8 @@ import java.util.concurrent.atomic.AtomicLong;
 
 public final class IndexCollection {
   private static final Logger LOG = LogManager.getLogger(IndexCollection.class);
+
+  private static final int TIMEOUT = 600 * 1000;
 
   public static final class Args {
 
@@ -76,7 +106,7 @@ public final class IndexCollection {
 
     // optional arguments
 
-    @Option(name = "-index", metaVar = "[Path]", forbids = {"-solr"}, usage = "index path")
+    @Option(name = "-index", metaVar = "[Path]", forbids = {"-solr", "-es"}, usage = "index path")
     public String index;
 
     @Option(name = "-storePositions", usage = "boolean switch to index storePositions")
@@ -128,7 +158,7 @@ public final class IndexCollection {
         usage = "a file that contains deleted tweetIds, one per line. these tweeets won't be indexed")
     public String tweetDeletedIdsFile = "";
 
-    @Option(name = "-solr", forbids = {"-index"}, usage = "boolean switch to determine if we should index into Solr")
+    @Option(name = "-solr", forbids = {"-index", "-es"}, usage = "boolean switch to determine if we should index into Solr")
     public boolean solr = false;
 
     @Option(name = "-solr.batch", usage = "the batch size for submitting documents to Solr")
@@ -137,7 +167,7 @@ public final class IndexCollection {
     @Option(name = "-solr.commitWithin", usage = "the number of seconds to commitWithin")
     public int solrCommitWithin = 60;
 
-    @Option(name = "-solr.index", usage = "the name of the index")
+    @Option(name = "-solr.index", usage = "the name of the index in Solr")
     public String solrIndex = null;
 
     @Option(name = "-solr.zkUrl", usage = "the URL of Solr's ZooKeeper (comma separated list of using ensemble)")
@@ -147,7 +177,40 @@ public final class IndexCollection {
     public String zkChroot = "/";
 
     @Option(name = "-solr.poolSize", metaVar = "[NUMBER]", usage = "the number of clients to keep in the pool")
-    public int solrPoolSize = 8;
+    public int solrPoolSize = 16;
+
+    @Option(name="-es", forbids = {"-index", "-solr"}, usage = "boolean switch to determine if we should index through Elasticsearch")
+    public boolean es = false;
+
+    @Option(name = "-es.batch", usage = "the number of index requests in a bulk request sent to Elasticsearch")
+    public int esBatch = 1000;
+
+    @Option(name = "-es.index", usage = "the name of the index in Elasticsearch")
+    public String esIndex = null;
+
+    @Option(name = "-es.hostname", usage = "the name of Elasticsearch HTTP host")
+    public String esHostname = "localhost";
+
+    @Option(name = "-es.port", usage = "the port for Elasticsearch HTTP host")
+    public int esPort = 9200;
+
+    /**
+     * The user and password are defaulted to those pre-configured for docker-elk
+     */
+    @Option(name = "-es.user", usage = "the user of the ELK stack")
+    public String esUser = "elastic";
+
+    @Option(name = "-es.password", usage = "the password for the ELK stack")
+    public String esPassword = "changeme";
+
+    @Option(name = "-es.poolSize", metaVar = "[NUMBER]", usage = "the number of Elasticsearch clients to keep in the pool")
+    public int esPoolSize = 10;
+
+    @Option(name = "-es.connectTimeout", metaVar = "[NUMBER]", usage = "the Elasticsearch (low level) REST client connect timeout (in ms)")
+    public int esConnectTimeout = TIMEOUT;
+
+    @Option(name = "-es.socketTimeout", metaVar = "[NUMBER]", usage = "the Elasticsearch (low level) REST client socket timeout (in ms)")
+    public int esSocketTimeout = TIMEOUT;
 
     @Option(name = "-shard.count", usage = "the number of shards for the index")
     public int shardCount = -1;
@@ -173,7 +236,7 @@ public final class IndexCollection {
 
     /**
      * Counter for unindexed documents. These are cases where the {@link SourceDocument} returned
-     * by {@link Segment} is {@code null} or the {@link LuceneDocumentGenerator}
+     * by {@link FileSegment} is {@code null} or the {@link LuceneDocumentGenerator}
      * returned {@code null}. These are not necessarily errors.
      */
     public AtomicLong unindexed = new AtomicLong();
@@ -214,23 +277,17 @@ public final class IndexCollection {
         @SuppressWarnings("unchecked")
         LuceneDocumentGenerator generator =
             (LuceneDocumentGenerator) generatorClass
-                .getDeclaredConstructor(Args.class, Counters.class)
-                .newInstance(args, counters);
+                  .getDeclaredConstructor(Args.class, Counters.class)
+                  .newInstance(args, counters);
 
         int cnt = 0;
 
         @SuppressWarnings("unchecked")
-        BaseFileSegment<SourceDocument> iter =
-            (BaseFileSegment) ((SegmentProvider) collection).createFileSegment(inputFile);
+        FileSegment<SourceDocument> segment =
+                (FileSegment) collection.createFileSegment(inputFile);
 
-        while (iter.hasNext()) {
-          SourceDocument d;
-          try {
-            d = iter.next();
-          } catch (RuntimeException e) {
-            counters.skipped.incrementAndGet();
-            continue;
-          }
+        for (Object document : segment) {
+          SourceDocument d = (SourceDocument) document;
 
           if (!d.indexable()) {
             counters.unindexable.incrementAndGet();
@@ -268,13 +325,23 @@ public final class IndexCollection {
           cnt++;
         }
 
-        if (iter.getNextRecordStatus() == BaseFileSegment.Status.ERROR) {
-          counters.errors.incrementAndGet();
+        int skipped = segment.getSkippedCount();
+        if (skipped > 0) {
+          counters.skipped.addAndGet(skipped);
+          LOG.warn(inputFile.getParent().getFileName().toString() + File.separator +
+                  inputFile.getFileName().toString() + ": " + skipped +
+                  " docs skipped.");
         }
 
-        iter.close();
+        if (segment.getErrorStatus()) {
+          counters.errors.incrementAndGet();
+          LOG.error(inputFile.getParent().getFileName().toString() + File.separator +
+                  inputFile.getFileName().toString() + ": error iterating through segment.");
+        }
+
+        segment.close();
         LOG.info(inputFile.getParent().getFileName().toString() + File.separator +
-            inputFile.getFileName().toString() + ": " + cnt + " docs added.");
+              inputFile.getFileName().toString() + ": " + cnt + " docs added.");
         counters.indexed.addAndGet(cnt);
       } catch (Exception e) {
         LOG.error(Thread.currentThread().getName() + ": Unexpected Exception:", e);
@@ -296,19 +363,20 @@ public final class IndexCollection {
     @Override
     public void run() {
       try {
-
-        LuceneDocumentGenerator generator = (LuceneDocumentGenerator) generatorClass.getDeclaredConstructor(Args.class, Counters.class).newInstance(args, counters);
-        BaseFileSegment<SourceDocument> iter = (BaseFileSegment) ((SegmentProvider) collection).createFileSegment(input);
+        @SuppressWarnings("unchecked")
+        LuceneDocumentGenerator generator =
+                (LuceneDocumentGenerator) generatorClass
+                        .getDeclaredConstructor(Args.class, Counters.class)
+                        .newInstance(args, counters);
 
         int cnt = 0;
-        while (iter.hasNext()) {
-          SourceDocument sourceDocument;
-          try {
-            sourceDocument = iter.next();
-          } catch (RuntimeException e) {
-            counters.skipped.incrementAndGet();
-            continue;
-          }
+
+        @SuppressWarnings("unchecked")
+        FileSegment<SourceDocument> segment =
+                (FileSegment) collection.createFileSegment(input);
+
+        for (Object d : segment) {
+          SourceDocument sourceDocument = (SourceDocument) d;
 
           if (!sourceDocument.indexable()) {
             counters.unindexable.incrementAndGet();
@@ -324,6 +392,8 @@ public final class IndexCollection {
             }
           }
 
+          // Yes, we know what we're doing here.
+          @SuppressWarnings("unchecked")
           Document document = generator.createDocument(sourceDocument);
           if (document == null) {
             counters.unindexed.incrementAndGet();
@@ -338,6 +408,10 @@ public final class IndexCollection {
 
           // Copy all Lucene Document fields to Solr document
           for (IndexableField field : document.getFields()) {
+            // Skip docValues fields - this is done via Solr config.
+            if (field.fieldType().docValuesType() != DocValuesType.NONE) {
+              continue;
+            }
             if (field.stringValue() != null) { // For some reason, id is multi-valued with null as one of the values
               solrDocument.addField(field.name(), field.stringValue());
             } else if (field.numericValue() != null) {
@@ -358,11 +432,21 @@ public final class IndexCollection {
           flush();
         }
 
-        if (iter.getNextRecordStatus() == BaseFileSegment.Status.ERROR) {
-          counters.errors.incrementAndGet();
+        int skipped = segment.getSkippedCount();
+        if (skipped > 0) {
+          counters.skipped.addAndGet(skipped);
+          LOG.warn(input.getParent().getFileName().toString() + File.separator +
+                  input.getFileName().toString() + ": " + skipped +
+                  " docs skipped.");
         }
 
-        iter.close();
+        if (segment.getErrorStatus()) {
+          counters.errors.incrementAndGet();
+          LOG.error(input.getParent().getFileName().toString() + File.separator +
+                  input.getFileName().toString() + ": error iterating through segment.");
+        }
+
+        segment.close();
         LOG.info(input.getParent().getFileName().toString() + File.separator + input.getFileName().toString() + ": " + cnt + " docs added.");
         counters.indexed.addAndGet(cnt);
       } catch (Exception e) {
@@ -396,6 +480,138 @@ public final class IndexCollection {
 
   }
 
+  private final class ESIndexerThread implements Runnable {
+    private final Path input;
+    private final DocumentCollection collection;
+    private BulkRequest bulkRequest;
+
+    private ESIndexerThread(DocumentCollection collection, Path input) {
+      this.input = input;
+      this.collection = collection;
+      this.bulkRequest = new BulkRequest();
+    }
+
+    @Override
+    public void run() {
+      try {
+
+        @SuppressWarnings("unchecked")
+        LuceneDocumentGenerator generator =
+                (LuceneDocumentGenerator) generatorClass
+                        .getDeclaredConstructor(Args.class, Counters.class)
+                        .newInstance(args, counters);
+
+        @SuppressWarnings("unchecked")
+        FileSegment<SourceDocument> segment =
+                (FileSegment) collection.createFileSegment(input);
+
+        int cnt = 0;
+
+        for (Object d : segment) {
+          SourceDocument sourceDocument = (SourceDocument) d;
+
+          if (!sourceDocument.indexable()) {
+            counters.unindexable.incrementAndGet();
+            continue;
+          }
+
+          // Used for indexing distinct shardCount of a collection
+          if (args.shardCount > 1) {
+            int hash = Hashing.sha1().hashString(sourceDocument.id(), Charsets.UTF_8).asInt() % args.shardCount;
+            if (hash != args.shardCurrent) {
+              counters.skipped.incrementAndGet();
+              continue;
+            }
+          }
+
+          Document document = generator.createDocument(sourceDocument);
+          if (document == null) {
+            counters.unindexed.incrementAndGet();
+            continue;
+          }
+          if (whitelistDocids != null && !whitelistDocids.contains(sourceDocument.id())) {
+            counters.skipped.incrementAndGet();
+            continue;
+          }
+
+          XContentBuilder builder = XContentFactory.jsonBuilder();
+          builder.startObject();
+          for (IndexableField field : document.getFields()) {
+            if (field.name().equals(LuceneDocumentGenerator.FIELD_RAW) && !args.storeRawDocs) continue;
+            if (field.name().equals(LuceneDocumentGenerator.FIELD_BODY) && !args.storeTransformedDocs) continue;
+
+            if (field.stringValue() != null) {
+              builder.field(field.name(), field.stringValue());
+            } else if (field.numericValue() != null) {
+              builder.field(field.name(), field.numericValue());
+            }
+          }
+          builder.endObject();
+          
+          String indexName = (args.esIndex != null) ? args.esIndex : input.getFileName().toString();
+          bulkRequest.add(new IndexRequest(indexName, "doc").id(sourceDocument.id()).source(builder));
+          if (bulkRequest.numberOfActions() == args.esBatch) {
+            sendBulkRequest();
+          }
+
+          cnt++;
+        }
+
+        if (bulkRequest.numberOfActions() != 0) {
+          sendBulkRequest();
+        }
+
+        int skipped = segment.getSkippedCount();
+        if (skipped > 0) {
+          counters.skipped.addAndGet(skipped);
+          LOG.warn(input.getParent().getFileName().toString() + File.separator +
+                  input.getFileName().toString() + ": " + skipped +
+                  " docs skipped.");
+        }
+
+        if (segment.getErrorStatus()) {
+          counters.errors.incrementAndGet();
+          LOG.error(input.getParent().getFileName().toString() + File.separator +
+                  input.getFileName().toString() + ": error iterating through segment.");
+        }
+
+        segment.close();
+        LOG.info(input.getParent().getFileName().toString() + File.separator + input.getFileName().toString() + ": " + cnt + " docs added.");
+        counters.indexed.addAndGet(cnt);
+      } catch (Exception e) {
+        LOG.error(Thread.currentThread().getName() + ": Unexpected Exception:", e);
+      }
+    }
+
+    private void sendBulkRequest() {
+      if (bulkRequest.numberOfActions() == 0) {
+        return;
+      }
+
+      RestHighLevelClient esClient = null;
+      try {
+        esClient = esPool.borrowObject();
+        if (!args.dryRun) {
+          // synchronous
+          // TODO parse the response returned by this
+          esClient.bulk(bulkRequest, RequestOptions.DEFAULT);
+        }
+        bulkRequest = new BulkRequest();
+      } catch (Exception e) {
+        LOG.error("Error sending bulk requests to Elasticsearch", e);
+      } finally {
+        if (esClient != null) {
+          try {
+            esPool.returnObject(esClient);
+          } catch (Exception e) {
+            LOG.error("Error returning ES client to pool", e);
+          }
+        }
+      }
+    }
+  }
+
+
   private final IndexCollection.Args args;
   private final Path collectionPath;
   private final Set whitelistDocids;
@@ -405,6 +621,7 @@ public final class IndexCollection {
   private final Counters counters;
   private Path indexPath;
   private ObjectPool<SolrClient> solrPool;
+  private ObjectPool<RestHighLevelClient> esPool;
 
   public IndexCollection(IndexCollection.Args args) throws Exception {
     this.args = args;
@@ -430,10 +647,21 @@ public final class IndexCollection {
       LOG.info("Solr ZooKeeper URL: " + args.zkUrl);
       LOG.info("SolrClient pool size: " + args.solrPoolSize);
     }
+    LOG.info("Elasticsearch? " + args.es);
+    if (args.es) {
+      LOG.info("Elasticsearch batch size: " + args.esBatch);
+      LOG.info("Elasticsearch index: " + args.esIndex);
+      LOG.info("Elasticsearch hostname: " + args.esHostname);
+      LOG.info("Elasticsearch host port: " + args.esPort);
+      LOG.info("ELK stack user: " + args.esUser);
+      LOG.info("Elasticsearch client connect timeout (in ms): " + args.esConnectTimeout);
+      LOG.info("Elasticsearch client socket timeout (in ms): " + args.esSocketTimeout);
+      LOG.info("Elasticsearch pool size: " + args.esPoolSize);
+    }
     LOG.info("Dry run (no index created)? " + args.dryRun);
 
-    if (args.index == null && !args.solr) {
-      throw new IllegalArgumentException("Must specify one of -index or -solr");
+    if (args.index == null && !args.solr && !args.es) {
+      throw new IllegalArgumentException("Must specify one of -index, -solr, or -es");
     }
 
     if (args.index != null) {
@@ -466,6 +694,11 @@ public final class IndexCollection {
       config.setMaxTotal(args.solrPoolSize);
       config.setMinIdle(args.solrPoolSize); // To guard against premature discarding of solrClients
       this.solrPool = new GenericObjectPool(new SolrClientFactory(), config);
+    } else if (args.es) {
+      GenericObjectPoolConfig<RestHighLevelClient> config = new GenericObjectPoolConfig<>();
+      config.setMaxTotal(args.esPoolSize);
+      config.setMinIdle(args.esPoolSize);
+      this.esPool = new GenericObjectPool(new ESClientFactory(), config);
     }
 
     this.counters = new Counters();
@@ -475,7 +708,10 @@ public final class IndexCollection {
 
     @Override
     public SolrClient create() {
-      return new CloudSolrClient.Builder(Splitter.on(',').splitToList(args.zkUrl), Optional.of(args.zkChroot)).build();
+      return new CloudSolrClient.Builder(Splitter.on(',').splitToList(args.zkUrl), Optional.of(args.zkChroot))
+          .withConnectionTimeout(TIMEOUT)
+          .withSocketTimeout(TIMEOUT)
+          .build();
     }
 
     @Override
@@ -489,6 +725,37 @@ public final class IndexCollection {
     }
 
   }
+
+
+  private class ESClientFactory extends BasePooledObjectFactory<RestHighLevelClient> {
+
+    @Override
+    public RestHighLevelClient create() {
+      final CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
+      credentialsProvider.setCredentials(AuthScope.ANY, new UsernamePasswordCredentials(args.esUser, args.esPassword));
+      return new RestHighLevelClient(
+        RestClient.builder(new HttpHost(args.esHostname, args.esPort, "http"))
+        .setHttpClientConfigCallback(
+                (HttpAsyncClientBuilder httpClientBuilder) -> 
+                        httpClientBuilder.setDefaultCredentialsProvider(credentialsProvider))
+        .setRequestConfigCallback(
+                (RequestConfig.Builder requestConfigBuilder) -> requestConfigBuilder
+                .setConnectTimeout(args.esConnectTimeout)
+                .setSocketTimeout(args.esSocketTimeout))
+      );
+    }
+    
+    @Override
+    public PooledObject<RestHighLevelClient> wrap(RestHighLevelClient esClient) {
+      return new DefaultPooledObject(esClient);
+    }
+
+    @Override
+    public void destroyObject(PooledObject<RestHighLevelClient> pooled) throws Exception {
+      pooled.getObject().close();
+    }
+  }
+
 
   public void run() throws IOException {
     final long start = System.nanoTime();
@@ -516,13 +783,15 @@ public final class IndexCollection {
     }
 
     final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(numThreads);
-    final List segmentPaths = ((SegmentProvider) collection).getFileSegmentPaths();
+    final List segmentPaths = collection.discover(collection.getCollectionPath());
 
     final int segmentCnt = segmentPaths.size();
     LOG.info(segmentCnt + " files found in " + collectionPath.toString());
     for (int i = 0; i < segmentCnt; i++) {
       if (args.solr) {
         executor.execute(new SolrIndexerThread(collection, (Path) segmentPaths.get(i)));
+      } else if (args.es) {
+        executor.execute(new ESIndexerThread(collection, (Path) segmentPaths.get(i)));
       } else {
         executor.execute(new LocalIndexerThread(writer, collection, (Path) segmentPaths.get(i)));
       }
@@ -550,10 +819,10 @@ public final class IndexCollection {
 
     long numIndexed;
 
-    if (args.solr) {
+    if (args.solr || args.es) {
       numIndexed = counters.indexed.get();
     } else {
-      numIndexed = args.dryRun ? counters.indexed.get() : writer.maxDoc();
+      numIndexed = args.dryRun ? counters.indexed.get() : writer.getDocStats().maxDoc;
     }
 
     // Do a final commit
@@ -569,6 +838,10 @@ public final class IndexCollection {
       } catch (Exception e) {
         LOG.error("Exception during final Solr commit: ", e);
       }
+    }
+
+    if (args.es) {
+      esPool.close();
     }
 
     try {

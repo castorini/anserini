@@ -1,5 +1,5 @@
 /**
- * Anserini: A toolkit for reproducible information retrieval research built on Lucene
+ * Anserini: A Lucene toolkit for replicable information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,8 +20,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.concurrent.atomic.AtomicInteger;
-
 
 public class ClueWeb09DocumentTest extends DocumentTest {
 
@@ -79,6 +79,7 @@ public class ClueWeb09DocumentTest extends DocumentTest {
         "description: clueweb09 crawl with WARC output\n" +
         "format: WARC file version 0.18\n" +
         "conformsTo: http://www.archive.org/documents/WarcFileFormat-0.18.html");
+    doc1.put("indexable", "false");
     expected.add(doc1);
 
     HashMap<String, String> doc2 = new HashMap<>();
@@ -86,6 +87,7 @@ public class ClueWeb09DocumentTest extends DocumentTest {
     doc2.put("content", "\n<html>\n" +
         "whatever here will be included\n" +
         "</html>");
+    doc2.put("indexable", "true");
     expected.add(doc2);
   }
 
@@ -93,11 +95,13 @@ public class ClueWeb09DocumentTest extends DocumentTest {
   public void test() {
     ClueWeb09Collection collection = new ClueWeb09Collection();
     for (int i = 0; i < rawDocs.size(); i++) {
-      BaseFileSegment<ClueWeb09Collection.Document> iter = collection.createFileSegment(rawDocs.get(i));
+      Iterator<ClueWeb09Collection.Document> iter =
+              collection.createFileSegment(rawDocs.get(i)).iterator();
       while (iter.hasNext()) {
         ClueWeb09Collection.Document parsed = iter.next();
         assertEquals(parsed.id(), expected.get(i).get("id"));
         assertEquals(parsed.content(), expected.get(i).get("content"));
+        assertEquals(String.valueOf(parsed.indexable()), expected.get(i).get("indexable"));
       }
     }
   }
@@ -107,10 +111,15 @@ public class ClueWeb09DocumentTest extends DocumentTest {
   @Test
   public void testStreamIteration() {
     ClueWeb09Collection collection = new ClueWeb09Collection();
-    BaseFileSegment<ClueWeb09Collection.Document> iter =
-            collection.createFileSegment(rawDocs.get(0) + rawDocs.get(1));
+    FileSegment<ClueWeb09Collection.Document> segment = collection.createFileSegment(rawDocs.get(0) + rawDocs.get(1));
+    Iterator<ClueWeb09Collection.Document> iter = segment.iterator();
     AtomicInteger cnt = new AtomicInteger();
-    iter.forEachRemaining(d -> cnt.incrementAndGet());
+    iter.forEachRemaining(d -> {
+      int i = cnt.getAndIncrement();
+      assertEquals(d.id(), expected.get(i).get("id"));
+      assertEquals(d.content(), expected.get(i).get("content"));
+      assertEquals(String.valueOf(d.indexable()), expected.get(i).get("indexable"));
+    });
     assertEquals(2, cnt.get());
   }
 }
