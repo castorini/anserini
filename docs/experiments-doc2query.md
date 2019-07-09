@@ -87,9 +87,9 @@ So, this simple trick improves MRR by a bit over baseline Doc2query.
 
 ## TREC CAR
 
-We will now describe how to reproduce the TREC-CAR results of our model BM25+doc2query presented in the paper.
+We will now describe how to reproduce the TREC CAR results of our model BM25+doc2query presented in the paper.
 
-To start, download the TREC-CAR dataset and the predicted queries (i.e., document expansions):
+To start, download the TREC CAR dataset and the predicted queries (i.e., document expansions):
 ```
 mkdir trec_car
 
@@ -147,4 +147,4 @@ recip_rank            	all	0.2750
 ```
 
 Note that this MAP is sligtly higher than the arXiv paper (0.178) because we used
-TREC-CAR corpus v2.0 in this experiment instead of corpus v1.5 used in the paper.
+TREC CAR corpus v2.0 in this experiment instead of corpus v1.5 used in the paper.
