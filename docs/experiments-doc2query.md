@@ -12,7 +12,7 @@ Here, we run through how to replicate the BM25+Doc2query condition with our copy
 To replicate our Doc2query results on the [MS MARCO Passage Ranking Task](https://github.com/microsoft/MSMARCO-Passage-Ranking), follow these instructions.
 Before going through this guide, it is recommended that you [replicate our BM25 baselines](experiments-msmarco-passage.md) first.
 
-To start, grab the predicted queries (i.e., document expansions):
+To start, grab the predicted queries:
 
 ```
 wget https://www.dropbox.com/s/709q495d9hohcmh/pred-test_topk10.tar.gz -P msmarco-passage
@@ -89,7 +89,7 @@ So, this simple trick improves MRR by a bit over baseline Doc2query.
 
 We will now describe how to reproduce the TREC CAR results of our model BM25+doc2query presented in the paper.
 
-To start, download the TREC CAR dataset and the predicted queries (i.e., document expansions):
+To start, download the TREC CAR dataset and the predicted queries:
 ```
 mkdir trec_car
 
