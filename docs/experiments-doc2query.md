@@ -145,3 +145,6 @@ With the above commands, you should be able to replicate the following results:
 map                   	all	0.1807
 recip_rank            	all	0.2750
 ```
+
+Note that this MAP is sligtly higher than the arXiv paper (0.178) because we used
+TREC-CAR corpus v2.0 in this experiment instead of corpus v1.5 used in the paper.
