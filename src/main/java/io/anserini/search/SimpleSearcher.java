@@ -138,11 +138,11 @@ public class SimpleSearcher implements Closeable {
   }
 
   public void setCLRReranker() {
-    setCLRReranker(10, 10, 0.5f, false,CondensedListRelevanceReranker.QUERY_FILTER_RESCORER);
+    setCLRReranker(10, 10, 0.5f, false,CondensedListRelevanceReranker.QUERY_FILTER);
   }
 
   public void setCLRReranker(int fbTerms, int fbDocs, float originalQueryWeight) {
-    setCLRReranker(fbTerms, fbDocs, originalQueryWeight, false,CondensedListRelevanceReranker.QUERY_FILTER_RESCORER);
+    setCLRReranker(fbTerms, fbDocs, originalQueryWeight, false,CondensedListRelevanceReranker.QUERY_FILTER);
   }
 
   public void setCLRReranker(int fbTerms, int fbDocs, float originalQueryWeight, boolean rm3_outputQuery,String cdListBuilder) {

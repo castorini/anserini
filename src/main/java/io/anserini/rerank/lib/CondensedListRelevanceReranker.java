@@ -1,5 +1,5 @@
 /**
- * Anserini: A toolkit for reproducible information retrieval research built on Lucene
+ * Anserini: A Lucene toolkit for replicable information retrieval research
  * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,8 +38,8 @@ public class CondensedListRelevanceReranker extends Rm3Reranker {
   private static final Logger LOG = LogManager.getLogger(CondensedListRelevanceReranker.class);
 
   private String condenseListGenerator;
-  public static final String QUERY_FILTER_RESCORER = "queryFilter";
-  public static final String DOC_FILTER_RESCORER = "docFilter";
+  public static final String QUERY_FILTER = "queryFilter";
+  public static final String DOC_FILTER = "docFilter";
   public static final String HIT_RESCORER = "hitRescorer";
 
   public CondensedListRelevanceReranker(Analyzer analyzer, String field, int fbTerms, int fbDocs, float originalQueryWeight, boolean outputQuery, String clGenerator) {
@@ -57,12 +57,15 @@ public class CondensedListRelevanceReranker extends Rm3Reranker {
     Query filterQuery = null;
     TopDocs rs = null;
     if (this.condenseListGenerator
-        .equals(QUERY_FILTER_RESCORER) || this.condenseListGenerator.equals(DOC_FILTER_RESCORER)) {
-      filterQuery = this.condenseListGenerator.equals(QUERY_FILTER_RESCORER)? context.getQuery(): FilterQueryBuilder.buildSetQuery(LuceneDocumentGenerator.FIELD_ID,
+        .equals(QUERY_FILTER) || this.condenseListGenerator.equals(
+        DOC_FILTER)) {
+      filterQuery = this.condenseListGenerator.equals(QUERY_FILTER)? context.getQuery(): FilterQueryBuilder.buildSetQuery(LuceneDocumentGenerator.FIELD_ID,
           getFieldValues(docs, LuceneDocumentGenerator.FIELD_ID, searcher));
       rs = rescoreWithTieBreaker(finalQuery,filterQuery,context,searcher);
-    }else if (this.condenseListGenerator.equals(HIT_RESCORER)){
+
+    } else if (this.condenseListGenerator.equals(HIT_RESCORER)){
       QueryRescorer rm3Rescoer = new RM3QueryRescorer(finalQuery);
+
       try {
          rs = rm3Rescoer.rescore(searcher,docs.topDocs,context.getSearchArgs().hits);
       } catch (IOException e) {
@@ -116,7 +119,7 @@ public class CondensedListRelevanceReranker extends Rm3Reranker {
 
   @Override
   public String tag() {
-    return "CLRm3(fbDocs=" + getFbDocs() + ",fbTerms=" + getFbTerms() + ",originalQueryWeight:" + getOriginalQueryWeight() + ")";
+    return "CLRm3(fbDocs=" + getFbDocs() + ",fbTerms=" + getFbTerms() +"clGenerator="+ condenseListGenerator+",originalQueryWeight:" + getOriginalQueryWeight() + ")";
   }
 
 

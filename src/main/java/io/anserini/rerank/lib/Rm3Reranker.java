@@ -1,6 +1,5 @@
 /**
- * Anserini: A toolkit for reproducible information retrieval research built on Lucene
- *
+ * Anserini: A Lucene toolkit for replicable information retrieval research
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -315,7 +314,7 @@ public class Rm3Reranker implements Reranker {
           String text = docs.documents[i].get(field);
           List<String> filteredWords = filterStopwords(AnalyzerUtils.tokenize(analyzer,text),reader,tweetsearch,numdocs);
           docVector = FeatureVector.fromTerms(filteredWords);
-        }else{
+        } else{
           docVector = createdFeatureVector(termVector , reader, tweetsearch);
         }
         docVector.pruneToSize(fbTerms);
@@ -348,10 +347,6 @@ public class Rm3Reranker implements Reranker {
         FeatureVector docVector = null;
 
         List<String> filteredWords = filterStopwords(AnalyzerUtils.tokenize(analyzer,contents[i]),reader,tweetsearch,reader.numDocs());
-//        List<String> filteredWords = AnalyzerUtils.tokenize(analyzer,contents[i]);
-        if (false){
-          throw new IOException();
-        }
         docVector = FeatureVector.fromTerms(filteredWords);
         docVector.pruneToSize(fbTerms);
         docvectors[i] = docVector;
