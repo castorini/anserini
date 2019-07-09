@@ -69,12 +69,10 @@ class Page(object):
     @staticmethod
     def from_cbor(cbor):
         assert cbor[0] == 0 or cbor[0] == 1 # tag
-        # assert cbor[1][0] == 0 # PageName tag
         pagename = cbor[1]
-        # assert cbor[2][0] == 0 # PageId tag
         pageId = cbor[2].decode('ascii')
 
-        if len(cbor)==4:
+        if len(cbor) == 4:
             return Page(pagename, pageId, map(PageSkeleton.from_cbor, cbor[3]), ArticlePage, PageMetadata.default())
         else:
             page_type = PageType.from_cbor(cbor[4])
@@ -227,63 +225,63 @@ class PageMetadata(object):
         disamStr = ("" if self.disambiguationNames is None else (" disambiguated = "+", ".join([name for name in self.disambiguationNames])))
         catStr = ("" if self.redirectNames is None else (" categories = "+", ".join([name for name in self.categoryNames])))
         inlinkStr = ("" if self.inlinkIds is None else (" inlinks = "+", ".join([name for name in self.inlinkIds])))
-        # inlinkAnchorStr = str (self.inlinkAnchors)
         inlinkAnchorStr = ("" if self.inlinkAnchors is None else \
                                 (" inlinkAnchors = "+", ".join( \
-                                    [ ("%s: %d" % (name, freq)) for (name, freq) in self.inlinkAnchors] \
-                                    # [ ("%s: " % (name)) for (name, freq) in self.inlinkAnchors] \
-                                )))
+                                    [("%s: %d" % (name, freq)) for (name, freq) in self.inlinkAnchors])))
         return  "%s \n%s \n%s \n%s \n%s\n" % (redirStr, disamStr, catStr, inlinkStr, inlinkAnchorStr)
 
     @staticmethod
     def from_cbor(cbor):
-        redirectNames=None
-        disambiguationNames=None
-        disambiguationIds=None
-        categoryNames=None
-        categoryIds=None
-        inlinkIds=None
-        inlinkAnchors=None
+        redirectNames = None
+        disambiguationNames = None
+        disambiguationIds = None
+        categoryNames = None
+        categoryIds = None
+        inlinkIds = None
+        inlinkAnchors = None
 
-        def decodeListOfIdList(cbor):
-            if len(cbor)==0: return None
+        
+        def decode_list_of_id_list(cbor):
+            if len(cbor) == 0:
+                return None
             else:
                 return [elem.decode('ascii') for elem in cbor]
 
-        def decodeListOfNameList(cbor):
-            if len(cbor)==0: return None
+        def decode_list_of_name_list(cbor):
+            if len(cbor) == 0:
+                return None
             else:
                 return cbor
 
-        def decodeListOfNameIntList(cbor):
-            if len(cbor)==0: return None
+        def decode_list_of_name_int_list(cbor):
+            if len(cbor) == 0: return None
             else:
-                # need to convert list of pair-lists to lists of pair-tuples
+                # Need to convert list of pair-lists to lists of pair-tuples.
                 return [(elem[0], elem[1]) for elem in cbor]
 
         for i in range(0, len(cbor), 2):
             tag = cbor[i][0]
-            cbor_data = cbor[i+1]
+            cbor_data = cbor[i + 1]
 
             if tag == 0:
-                redirectNames = decodeListOfNameList(cbor_data)
+                redirectNames = decode_list_of_name_list(cbor_data)
             elif tag == 1:
-                disambiguationNames=decodeListOfNameList(cbor_data)
+                disambiguationNames = decode_list_of_name_list(cbor_data)
             elif tag == 2:
-                disambiguationIds=decodeListOfIdList(cbor_data)
+                disambiguationIds = decode_list_of_id_list(cbor_data)
             elif tag == 3:
-                categoryNames=decodeListOfNameList(cbor_data)
+                categoryNames = decode_list_of_name_list(cbor_data)
             elif tag == 4:
-                categoryIds=decodeListOfIdList(cbor_data)
+                categoryIds = decode_list_of_id_list(cbor_data)
             elif tag == 5:
-                inlinkIds=decodeListOfIdList(cbor_data)
+                inlinkIds = decode_list_of_id_list(cbor_data)
 
             elif tag == 6:
-                # compatability with v1.6
-                inlinkAnchors = [(anchor, 1) for anchor in decodeListOfNameList(cbor_data)]
+                # Compatability with v1.6.
+                inlinkAnchors = [(anchor, 1) for anchor in decode_list_of_name_list(cbor_data)]
             elif tag == 7:
-                # compatability with v2.0
-                inlinkAnchors = decodeListOfNameIntList(cbor_data)
+                # Compatability with v2.0.
+                inlinkAnchors = decode_list_of_name_int_list(cbor_data)
             i+=2
 
         return PageMetadata(redirectNames, disambiguationNames, disambiguationIds, categoryNames, categoryIds, inlinkIds, inlinkAnchors)
@@ -544,18 +542,18 @@ class ParaLink(ParaBody):
 def _iter_with_header(file, parse, expected_file_types):
     maybe_hdr = cbor.load(file)
     if isinstance(maybe_hdr, list) and maybe_hdr[0] == 'CAR':
-        # we have a header
+        # We have a header.
         file_type = maybe_hdr[1][0]
         assert file_type in expected_file_types
 
-        # read beginning of variable-length list
+        # Read beginning of variable-length list.
         assert file.read(1) == b'\x9f'
     else:
         yield parse(maybe_hdr)
 
     while True:
         try:
-            # Check for break symbol
+            # Check for break symbol.
             if (peek_for_break(file)):
                 break
 
