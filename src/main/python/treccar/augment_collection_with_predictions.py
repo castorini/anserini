@@ -14,12 +14,10 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
-
 import json
 import os
 import argparse
 from trec_car_classes import *
-
 
 def convert_collection(args):
     print('Converting collection...')
@@ -37,7 +35,6 @@ def convert_collection(args):
                 output_path = os.path.join(args.output_folder, 'docs{:02d}.json'.format(file_index))
                 output_jsonl_file = open(output_path, 'w')
                 file_index += 1
-
 
             doc_id = para_obj.para_id
             para_txt = [elem.text if isinstance(elem, ParaText)
