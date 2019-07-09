@@ -10,7 +10,7 @@ Here, we run through how to replicate the BM25+Doc2query condition with our copy
 ## MS MARCO Passage Ranking
 
 To replicate our Doc2query results on the [MS MARCO Passage Ranking Task](https://github.com/microsoft/MSMARCO-Passage-Ranking), follow these instructions.
-Before going through this guide, it is recommended to [replicate our BM25 baselines](experiments-msmarco-passage.md) first.
+Before going through this guide, it is recommended that you [replicate our BM25 baselines](experiments-msmarco-passage.md) first.
 
 To start, grab the predicted queries (i.e., document expansions):
 
@@ -120,14 +120,15 @@ We can then index the expanded documents:
 
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection JsonCollection \
--generator LuceneDocumentGenerator -threads 40 -input trec_car/collection_jsonl_expanded_topk10 -index \
-trec_car/lucene-index.car17v2.0
+-generator LuceneDocumentGenerator -threads 40 -input trec_car/collection_jsonl_expanded_topk10 \
+-index trec_car/lucene-index.car17v2.0
 ```
 
 And retrieve the test queries:
 
 ```
-sh target/appassembler/bin/SearchCollection -topicreader Car -index trec_car/lucene-index.car17v2.0 \
+sh target/appassembler/bin/SearchCollection -topicreader Car \
+-index trec_car/lucene-index.car17v2.0 \
 -topics src/main/resources/topics-and-qrels/topics.car17v2.0.benchmarkY1test.txt \
 -output trec_car/run.car17v2.0.bm25.topics.car17v2.0.benchmarkY1test.txt -bm25
 ```
