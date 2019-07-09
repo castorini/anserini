@@ -67,8 +67,8 @@ def convert_collection(args):
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Augments TREC-CAR collection with predicted queries to create Anserini jsonl collection')
-    parser.add_argument('--collection_path', required=True, help='TREC-CAR cbor collection')
+    parser = argparse.ArgumentParser(description='Augments TREC CAR collection with predicted queries to create Anserini jsonl collection')
+    parser.add_argument('--collection_path', required=True, help='TREC CAR cbor collection')
     parser.add_argument('--predictions', required=True, help='query predictions file')
     parser.add_argument('--output_folder', required=True, help='output folder for jsonl collection')
     parser.add_argument('--stride', required=True, type=int, help='even [s] lines in predictions file is associated with each document')
