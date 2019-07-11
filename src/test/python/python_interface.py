@@ -1,6 +1,6 @@
 import sys
 sys.path += ['src/main/python']
-from pyjnius_setup import configure_classpath
+from pyserini.setup import configure_classpath
 configure_classpath()
 
 from jnius import autoclass

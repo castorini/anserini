@@ -6,8 +6,9 @@ from concurrent.futures import ThreadPoolExecutor
 from document_tokenizer import DocumentTokenizer
 
 import sys
-sys.path += ['src/main/python/io/anserini']
-from collection import pycollection, pygenerator
+sys.path += ['src/main/python']
+from pyserini.collection import pycollection
+from pyserini.index import pygenerator
 
 import logging
 logger = logging.getLogger(__name__)
@@ -41,9 +42,17 @@ def IterSegment(fs, generator, output_path, tokenizer, tokenmin, raw):
     doc_count = 0
     
     for (i, d) in enumerate(fs):
+        
+        # Skip unindexable documents
+        if not d.indexable:
+            logger.error(fs.segment_name + 
+                     ": Document not indexable, skipping...")
+            fs.collection.counters.unindexable.increment()
+            continue
+                
         # Generate Lucene document, then fetch fields
         try:
-            doc = generator.generator.createDocument(d.document)
+            doc = generator.create_document(d)
             if doc is None:
                 logger.warn("Generator did not return document, skipping...")
                 fs.collection.counters.skipped.increment()
@@ -144,7 +153,7 @@ def IterCollection(input_path, collection_class,
         os.mkdir(output_path)
     
     with ThreadPoolExecutor(max_workers=threads) as executor:    
-        for (seg_num, fs) in enumerate(collection.segments):
+        for (seg_num, fs) in enumerate(collection):
             executor.submit(IterSegment, fs, generator, output_path, 
                             tokenizer, tokenmin, raw)
     

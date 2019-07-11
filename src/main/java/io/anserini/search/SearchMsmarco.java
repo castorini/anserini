@@ -29,6 +29,8 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Class that performs retrieval for the MS MARCO passage ranking task. This is the Java version of the Python script
@@ -47,6 +49,9 @@ public class SearchMsmarco {
     public String index = "";
 
     // optional arguments
+    @Option(name = "-threads", metaVar = "[number]", usage = "maximum number of threads")
+    public int threads = 1;
+
     @Option(name = "-hits", metaVar = "[number]", usage = "number of hits to retrieve")
     public int hits = 10;
 
@@ -54,7 +59,7 @@ public class SearchMsmarco {
     public float k1 = 0.82f;
 
     @Option(name = "-b", metaVar = "[value]", usage = "BM25 b parameter")
-    public float b = 0.72f;
+    public float b = 0.68f;
 
     // See our MS MARCO documentation to understand how these parameter values were tuned.
     @Option(name = "-rm3", usage = "use RM3 query expansion model")
@@ -83,6 +88,8 @@ public class SearchMsmarco {
       return;
     }
 
+    long totalStartTime = System.nanoTime();
+
     SimpleSearcher searcher = new SimpleSearcher(retrieveArgs.index);
     searcher.setBM25Similarity(retrieveArgs.k1, retrieveArgs.b);
     System.out.println("Initializing BM25, setting k1=" + retrieveArgs.k1 + " and b=" + retrieveArgs.b + "");
@@ -95,30 +102,50 @@ public class SearchMsmarco {
 
     PrintWriter out = new PrintWriter(Files.newBufferedWriter(Paths.get(retrieveArgs.output), StandardCharsets.US_ASCII));
 
-    long startTime = System.nanoTime();
-    List<String> lines = FileUtils.readLines(new File(retrieveArgs.qid_queries), "utf-8");
+    if (retrieveArgs.threads == 1) {
+      // single-threaded retrieval
+      long startTime = System.nanoTime();
+      List<String> lines = FileUtils.readLines(new File(retrieveArgs.qid_queries), "utf-8");
 
-    for (int lineNumber = 0; lineNumber < lines.size(); ++lineNumber) {
-      String line = lines.get(lineNumber);
-      String[] split = line.trim().split("\t");
-      String qid = split[0];
-      String query = split[1];
+      for (int lineNumber = 0; lineNumber < lines.size(); ++lineNumber) {
+        String line = lines.get(lineNumber);
+        String[] split = line.trim().split("\t");
+        String qid = split[0];
+        String query = split[1];
 
-      SimpleSearcher.Result[] hits = searcher.search(query, retrieveArgs.hits);
+        SimpleSearcher.Result[] hits = searcher.search(query, retrieveArgs.hits);
 
-      if (lineNumber % 100 == 0) {
-        double timePerQuery = (double) (System.nanoTime() - startTime) / (lineNumber + 1) / 1e9;
-        System.out.format("Retrieving query " + lineNumber + " (%.3f s/query)\n", timePerQuery);
+        if (lineNumber % 100 == 0) {
+          double timePerQuery = (double) (System.nanoTime() - startTime) / (lineNumber + 1) / 1e9;
+          System.out.format("Retrieving query " + lineNumber + " (%.3f s/query)\n", timePerQuery);
+        }
+
+        for (int rank = 0; rank < hits.length; ++rank) {
+          String docno = hits[rank].docid;
+          out.println(qid + "\t" + docno + "\t" + (rank + 1));
+        }
       }
+    } else {
+      // multithreaded batch retrieval
+      List<String> lines = FileUtils.readLines(new File(retrieveArgs.qid_queries), "utf-8");
+      List<String> queries = lines.stream().map(x -> x.trim().split("\t")[1]).collect(Collectors.toList());
+      List<String> qids = lines.stream().map(x -> x.trim().split("\t")[0]).collect(Collectors.toList());
 
-      for (int rank = 0; rank < hits.length; ++rank) {
-        String docno = hits[rank].docid;
-        out.println(qid + "\t" + docno + "\t" + (rank + 1));
+      Map<String, SimpleSearcher.Result[]> results = searcher.batchSearch(queries, qids, retrieveArgs.hits, -1, retrieveArgs.threads);
+
+      for (String qid : qids) {
+        SimpleSearcher.Result[] hits = results.get(qid);
+        for (int rank = 0; rank < hits.length; ++rank) {
+          String docno = hits[rank].docid;
+          out.println(qid + "\t" + docno + "\t" + (rank + 1));
+        }
       }
     }
     out.flush();
     out.close();
 
+    double totalTime = (double) (System.nanoTime() - totalStartTime) / 1e9;
+    System.out.format("Total retrieval time: %.3f s\n", totalTime);
     System.out.println("Done!");
   }
 }

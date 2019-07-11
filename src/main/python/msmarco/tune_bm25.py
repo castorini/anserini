@@ -68,7 +68,7 @@ for filename in sorted(os.listdir(base_directory)):
    # convert to a trec run and evaluate with trec_eval
    subprocess.call('python src/main/python/msmarco/convert_msmarco_to_trec_run.py \
        --input {}/{} --output {}/{}.trec'.format(base_directory, filename, base_directory, filename), shell=True)
-   results = subprocess.check_output(['eval/trec_eval.9.0.4/trec_eval', 'msmarco_data/qrels.train.trec',
+   results = subprocess.check_output(['eval/trec_eval.9.0.4/trec_eval', args.qrels,
        '{}/{}.trec'.format(base_directory, filename), '-mrecall.1000', '-mmap'])
    match = re.search('map +\tall\t([0-9.]+)', results.decode('utf-8'))
    ap = float(match.group(1))

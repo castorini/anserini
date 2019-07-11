@@ -1,7 +1,8 @@
-# Anserini: Experiments on [MS MARCO (Passage)](https://github.com/microsoft/MSMARCO-Passage-Ranking)
+# Anserini: BM25 Baselines on [MS MARCO (Passage)](https://github.com/microsoft/MSMARCO-Passage-Ranking)
 
-This page contains basic instructions for getting started on the MS MARCO *passage* ranking task.
+This page contains instructions for running BM25 baselines on the MS MARCO *passage* ranking task.
 Note that there is a separate [MS MARCO *document* ranking task](experiments-msmarco-doc.md).
+We also have a [separate page](experiments-doc2query.md) describing document expansion experiments (Doc2query) for this task.
 
 ## Data Prep
 
@@ -34,13 +35,8 @@ sh ./target/appassembler/bin/IndexCollection -collection JsonCollection \
  -index msmarco-passage/lucene-index-msmarco -storePositions -storeDocvectors -storeRawDocs 
 ```
 
-The output message should be something like this:
-
-```
-2019-06-08 08:53:47,351 INFO  [main] index.IndexCollection (IndexCollection.java:632) - Total 8,841,823 documents indexed in 00:01:31
-```
-
-Your speed may vary... with a modern desktop with an SSD, indexing takes less than two minutes.
+Upon completion, we should have an index with 8,841,823 documents.
+The indexing speed may vary... on a modern desktop with an SSD, indexing takes less than two minutes.
 
 ## Retrieving and Evaluating the Dev set
 
@@ -56,22 +52,27 @@ The output queries file should contain 6980 lines.
 We can now retrieve this smaller set of queries:
 
 ```
-python ./src/main/python/msmarco/retrieve.py --hits 1000 --index msmarco-passage/lucene-index-msmarco \
- --qid_queries msmarco-passage/queries.dev.small.tsv --output msmarco-passage/run.dev.small.tsv
+python ./src/main/python/msmarco/retrieve.py --hits 1000 --threads 1 \
+ --index msmarco-passage/lucene-index-msmarco --qid_queries msmarco-passage/queries.dev.small.tsv \
+ --output msmarco-passage/run.dev.small.tsv
 ```
 
-Note that by default, the above script uses BM25 with tuned parameters `k1=0.82`, `b=0.72` (more details below).
+Note that by default, the above script uses BM25 with tuned parameters `k1=0.82`, `b=0.68` (more details below).
 The option `-hits` specifies the of documents per query to be retrieved.
 Thus, the output file should have approximately 6980 * 1000 = 6.9M lines. 
 
 Retrieval speed will vary by machine:
-On a modern desktop with an SSD, we can get ~0.06 s/query (taking about seven minutes).
-Alternatively, we can run the same script implemented in Java (which for some reason seems to be slower, see [issue 604](https://github.com/castorini/anserini/issues/604)):
+On a modern desktop with an SSD, we can get ~0.06 s/query (taking about seven minutes). We can also perform multithreaded retrieval by changing the `--threads` argument.
+
+Alternatively, we can run the same script implemented in Java, which is a bit faster:
 
 ```
-./target/appassembler/bin/SearchMsmarco  -hits 1000 -index msmarco-passage/lucene-index-msmarco \
- -qid_queries msmarco-passage/queries.dev.small.tsv -output msmarco-passage/run.dev.small.tsv
+./target/appassembler/bin/SearchMsmarco  -hits 1000 -threads 1 \
+ -index msmarco-passage/lucene-index-msmarco -qid_queries msmarco-passage/queries.dev.small.tsv \
+ -output msmarco-passage/run.dev.small.tsv
 ```
+
+Similarly, we can perform multithreaded retrieval by changing the `-threads` argument.
 
 Finally, we can evaluate the retrieved documents using this the official MS MARCO evaluation script: 
 
@@ -84,7 +85,7 @@ And the output should be like this:
 
 ```
 #####################
-MRR @10: 0.18751751034702308
+MRR @10: 0.18741227770955546
 QueriesRanked: 6980
 #####################
 ```
@@ -110,8 +111,8 @@ And run the `trec_eval` tool:
 The output should be:
 
 ```
-map                   	all	0.1956
-recall_1000           	all	0.8578
+map                   	all	0.1957
+recall_1000           	all	0.8573
 ```
 
 Average precision and recall@1000 are the two metrics we care about the most.
@@ -121,12 +122,22 @@ Average precision and recall@1000 are the two metrics we care about the most.
 Note that this figure differs slightly from the value reported in [Document Expansion by Query Prediction](https://arxiv.org/abs/1904.08375), which uses the Anserini (system-wide) default of `k1=0.9`, `b=0.4`.
 
 Tuning was accomplished with the `tune_bm25.py` script, using the queries found [here](https://github.com/castorini/Anserini-data/tree/master/MSMARCO).
-There are five different sets of 10k samples (from the `shuf` command).
-We tune on each individual set and then average parameter values across all five sets (this has the effect of regularization).
-Note that we are currently optimizing recall@1000 since Anserini output will serve as input to later stage rerankers (e.g., based on BERT), and we want to maximize the number of relevant documents the rerankers have to work with.
-The tuned parameters using this method are `k1=0.82`, `b=0.72`.
+There are five different sets of 10k samples (using the `shuf` command).
+We tuned on each individual set and then averaged parameter values across all five sets (this has the effect of regularization).
+Note that we optimized recall@1000 since Anserini output serves as input to later stage rerankers (e.g., based on BERT), and we want to maximize the number of relevant documents the rerankers have to work with.
+The tuned parameters using this method are `k1=0.82`, `b=0.68`.
 
 Here's the comparison between the Anserini default and tuned parameters:
+
+Setting                     | MRR@10 | MAP    | Recall@1000 |
+:---------------------------|-------:|-------:|------------:|
+Default (`k1=0.9`, `b=0.4`) | 0.1840 | 0.1926 | 0.8526
+Tuned (`k1=0.82`, `b=0.68`) | 0.1874 | 0.1957 | 0.8573
+
+Anserini was upgraded to Lucene 8.0 as of commit [`75e36f9`](https://github.com/castorini/anserini/commit/75e36f97f7037d1ceb20fa9c91582eac5e974131) (6/12/2019); prior to that, the toolkit uses Lucene 7.6.
+The above results are based on Lucene 8.0, but Lucene 7.6 results can be replicated with [v0.5.1](https://github.com/castorini/anserini/releases);
+the effectiveness differences are very small.
+For convenience, here are the effectiveness numbers with Lucene 7.6 (v0.5.1):
 
 Setting                     | MRR@10 | MAP    | Recall@1000 |
 :---------------------------|-------:|-------:|------------:|

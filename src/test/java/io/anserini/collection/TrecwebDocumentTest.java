@@ -21,6 +21,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class TrecwebDocumentTest extends DocumentTest {
@@ -36,6 +37,26 @@ public class TrecwebDocumentTest extends DocumentTest {
         "<html>Wh at ever here will be parsed \n" +
         " <br> asdf <div>\n" +
         "</html>\n" +
+        "</DOC>\n" +
+
+        // Test for incomplete tags, should skip this document and continue
+        "<DOC>\n" +
+        "WEB-0002 </DOCNO>\n" +
+        "<DOCHDR>DOCHDR will NOT be \n" +
+        " included</DOCHDR>\n" +
+        "<html>Wh at ever here will be parsed \n" +
+        " <br> asdf <div>\n" +
+        "</html>\n" +
+        "</DOC>\n" +
+
+        // This document should be parsed
+        "<DOC>\n" +
+        "<DOCNO> WEB-0003 </DOCNO>\n" +
+        "<DOCHDR>DOCHDR will NOT be \n" +
+        " included</DOCHDR>\n" +
+        "<html>Wh at ever here will be parsed \n" +
+        " <br> asdf <div>\n" +
+        "</html>\n" +
         "</DOC>\n";
 
     rawFiles.add(createFile(doc));
@@ -46,20 +67,34 @@ public class TrecwebDocumentTest extends DocumentTest {
     doc1.put("content", "<html>Wh at ever here will be parsed\n" +
         "<br> asdf <div>\n" +
         "</html>");
+    doc1.put("indexable", "true");
     expected.add(doc1);
+
+    HashMap<String, String> doc3 = new HashMap<>();
+    doc3.put("id", "WEB-0003");
+    // <DOCHDR> Will NOT be included
+    doc3.put("content", "<html>Wh at ever here will be parsed\n" +
+            "<br> asdf <div>\n" +
+            "</html>");
+    doc3.put("indexable", "true");
+    expected.add(doc3);
   }
 
   @Test
   public void test() throws Exception {
     TrecwebCollection collection = new TrecwebCollection();
-    for (int i = 0; i < rawFiles.size(); i++) {
-      BaseFileSegment<TrecwebCollection.Document> iter = collection.createFileSegment(rawFiles.get(i));
-      while (iter.hasNext()) {
-        TrecCollection.Document parsed = iter.next();
-        assertEquals(parsed.id(), expected.get(i).get("id"));
-        assertEquals(parsed.content(), expected.get(i).get("content"));
-      }
+    FileSegment<TrecwebCollection.Document> segment = collection.createFileSegment(rawFiles.get(0));
+    Iterator<TrecwebCollection.Document> iter = segment.iterator();
+    AtomicInteger cnt = new AtomicInteger();
+    while (iter.hasNext()){
+      TrecwebCollection.Document parsed = iter.next();
+      int i = cnt.getAndIncrement();
+      assertEquals(parsed.id(), expected.get(i).get("id"));
+      assertEquals(parsed.content(), expected.get(i).get("content"));
     }
+    assertEquals(2, cnt.get());
+    assertEquals(1, segment.getSkippedCount());
+    assertEquals(false, segment.getErrorStatus());
   }
 
   // Tests if the iterator is behaving properly. If it is, we shouldn't have any issues running into
@@ -68,10 +103,18 @@ public class TrecwebDocumentTest extends DocumentTest {
   public void testStreamIteration() {
     TrecwebCollection collection = new TrecwebCollection();
     try {
-      BaseFileSegment<TrecwebCollection.Document> iter = collection.createFileSegment(rawFiles.get(0));
+      FileSegment<TrecwebCollection.Document> segment = collection.createFileSegment(rawFiles.get(0));
+      Iterator<TrecwebCollection.Document> iter = segment.iterator();
       AtomicInteger cnt = new AtomicInteger();
-      iter.forEachRemaining(d -> cnt.incrementAndGet());
-      assertEquals(1, cnt.get());
+      iter.forEachRemaining(d -> {
+        int i = cnt.getAndIncrement();
+        assertEquals(d.id(), expected.get(i).get("id"));
+        assertEquals(d.content(), expected.get(i).get("content"));
+        assertEquals(String.valueOf(d.indexable()), expected.get(i).get("indexable"));
+      });
+      assertEquals(2, cnt.get());
+      assertEquals(1, segment.getSkippedCount());
+      assertEquals(false, segment.getErrorStatus());
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
