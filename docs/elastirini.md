@@ -59,7 +59,6 @@ Once we have a local instance of Elasticsearch up and running, we can index usin
 First, let us create the index in Elasticsearch.
 
 ```
-
 curl --user elastic:changeme -XPUT -H 'Content-Type: application/json' 'localhost:9200/<index_name>' \
     -d '{
             "mappings": {
