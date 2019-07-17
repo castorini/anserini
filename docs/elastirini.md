@@ -59,7 +59,41 @@ Once we have a local instance of Elasticsearch up and running, we can index usin
 First, let us create the index in Elasticsearch.
 
 ```
-curl --user elastic:changeme -XPUT -H 'Content-Type: application/json' 'localhost:9200/<index_name>' -d '{ "settings": { "index": { "refresh_interval": "60s", "similarity": { "default": { "type": "BM25", "k1": "0.9", "b": "0.4" }}}}}'
+
+curl --user elastic:changeme -XPUT -H 'Content-Type: application/json' 'localhost:9200/<index_name>' \
+    -d '{
+            "mappings": {
+                "dynamic_templates": [
+                    {
+                        "all_text": {
+                            "match_mapping_type": "string",
+                            "mapping": {
+                                "type": "text",
+                                "analyzer": "english"
+                            }
+                        }
+                    }
+                ],
+                "properties": {
+                    "published_date": {
+                        "type": "date",
+                        "format": "epoch_millis"
+                    }
+                }
+            },
+            "settings": {
+                "index": {
+                    "refresh_interval": "60s",
+                    "similarity": {
+                        "default": {
+                            "type": "BM25",
+                            "k1": "0.9",
+                            "b": "0.4"
+                        }
+                    }
+                }
+            }
+        }'
 ```
 
 Here, the username and password are those defaulted by `docker-elk`. You can change these if you like.

@@ -37,9 +37,7 @@ import org.apache.http.HttpHost;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.CredentialsProvider;
-import org.apache.http.client.config.RequestConfig;
 import org.apache.http.impl.client.BasicCredentialsProvider;
-import org.apache.http.impl.nio.client.HttpAsyncClientBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.CharArraySet;
@@ -425,15 +423,12 @@ public final class IndexCollection {
         int skipped = segment.getSkippedCount();
         if (skipped > 0) {
           counters.skipped.addAndGet(skipped);
-          LOG.warn(input.getParent().getFileName().toString() + File.separator +
-              input.getFileName().toString() + ": " + skipped +
-              " docs skipped.");
+          LOG.warn(input.getParent().getFileName().toString() + File.separator + input.getFileName().toString() + ": " + skipped + " docs skipped.");
         }
 
         if (segment.getErrorStatus()) {
           counters.errors.incrementAndGet();
-          LOG.error(input.getParent().getFileName().toString() + File.separator +
-              input.getFileName().toString() + ": error iterating through segment.");
+          LOG.error(input.getParent().getFileName().toString() + File.separator + input.getFileName().toString() + ": error iterating through segment.");
         }
 
         segment.close();
@@ -467,7 +462,6 @@ public final class IndexCollection {
         }
       }
     }
-
   }
 
   private final class ESIndexerThread implements Runnable {
@@ -543,18 +537,12 @@ public final class IndexCollection {
             if (field.equalsIgnoreCase("id") || indexableFields.length == 1) {
               // Single value fields or "id" field
               Object value = document.getField(field).stringValue() != null ? document.getField(field).stringValue() : document.getField(field).numericValue();
-              switch (field) {
-                case "published_date":
-                  builder.timeField(field, value);
-                default:
-                  builder.field(field, value);
-              }
+              builder.field(field, value);
             } else {
               // Multi-valued fields
               Object[] values = Stream.of(indexableFields).map(f -> f.stringValue() != null ? f.stringValue() : f.numericValue()).toArray();
               builder.array(field, values);
             }
-
           }
 
           builder.endObject();
@@ -575,15 +563,12 @@ public final class IndexCollection {
         int skipped = segment.getSkippedCount();
         if (skipped > 0) {
           counters.skipped.addAndGet(skipped);
-          LOG.warn(input.getParent().getFileName().toString() + File.separator +
-              input.getFileName().toString() + ": " + skipped +
-              " docs skipped.");
+          LOG.warn(input.getParent().getFileName().toString() + File.separator + input.getFileName().toString() + ": " + skipped + " docs skipped.");
         }
 
         if (segment.getErrorStatus()) {
           counters.errors.incrementAndGet();
-          LOG.error(input.getParent().getFileName().toString() + File.separator +
-              input.getFileName().toString() + ": error iterating through segment.");
+          LOG.error(input.getParent().getFileName().toString() + File.separator + input.getFileName().toString() + ": error iterating through segment.");
         }
 
         segment.close();
@@ -734,9 +719,7 @@ public final class IndexCollection {
     public void destroyObject(PooledObject<SolrClient> pooled) throws Exception {
       pooled.getObject().close();
     }
-
   }
-
 
   private class ESClientFactory extends BasePooledObjectFactory<RestHighLevelClient> {
 
@@ -746,13 +729,8 @@ public final class IndexCollection {
       credentialsProvider.setCredentials(AuthScope.ANY, new UsernamePasswordCredentials(args.esUser, args.esPassword));
       return new RestHighLevelClient(
           RestClient.builder(new HttpHost(args.esHostname, args.esPort, "http"))
-              .setHttpClientConfigCallback(
-                  (HttpAsyncClientBuilder httpClientBuilder) ->
-                      httpClientBuilder.setDefaultCredentialsProvider(credentialsProvider))
-              .setRequestConfigCallback(
-                  (RequestConfig.Builder requestConfigBuilder) -> requestConfigBuilder
-                      .setConnectTimeout(args.esConnectTimeout)
-                      .setSocketTimeout(args.esSocketTimeout))
+              .setHttpClientConfigCallback(builder -> builder.setDefaultCredentialsProvider(credentialsProvider))
+              .setRequestConfigCallback(builder -> builder.setConnectTimeout(args.esConnectTimeout).setSocketTimeout(args.esSocketTimeout))
       );
     }
 
@@ -766,7 +744,6 @@ public final class IndexCollection {
       pooled.getObject().close();
     }
   }
-
 
   public void run() throws IOException {
     final long start = System.nanoTime();
