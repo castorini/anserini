@@ -59,21 +59,52 @@ Once we have a local instance of Elasticsearch up and running, we can index usin
 First, let us create the index in Elasticsearch.
 
 ```
-curl --user elastic:changeme -XPUT "localhost:9200/yourindexname"
+curl --user elastic:changeme -XPUT -H 'Content-Type: application/json' 'localhost:9200/<index_name>' \
+    -d '{
+          "mappings":{
+            "dynamic_templates":[
+              {
+                "all_text":{
+                  "match_mapping_type":"string",
+                  "mapping":{
+                    "type":"text",
+                    "analyzer":"english"
+                  }
+                }
+              }
+            ],
+            "properties":{
+              "epoch":{
+                "type":"date",
+                "format":"epoch_second"
+              },
+              "published_date":{
+                "type":"date",
+                "format":"epoch_millis"
+              }
+            }
+          },
+          "settings":{
+            "index":{
+              "refresh_interval":"60s",
+              "similarity":{
+                "default":{
+                  "type":"BM25",
+                  "k1":"0.9",
+                  "b":"0.4"
+                }
+              }
+            }
+          }
+        }'
 ```
 
 Here, the username and password are those defaulted by `docker-elk`. You can change these if you like.
 
-You can further specify the settings associated with this index. For example, if you would like to change `index.refresh_interval` from the default 1 second to 60 seconds:
-
-```
-curl --user elastic:changeme -XPUT -H 'Content-Type: application/json' 'localhost:9200/yourindexname/_settings' -d '{ "index": { "refresh_interval": "60s"}}'
-```
-
 Now, we can start indexing through Elastirini. Here, instead of passing in `-index` (to index with Lucene directly) or `-solr` (to index with Solr), we pass in `-es`. For example, to index [robust04](https://github.com/castorini/anserini/blob/master/docs/regressions-robust04.md), we could run:
 
 ```
-sh target/appassembler/bin/IndexCollection -collection TrecCollection -generator JsoupGenerator -es -es.index yourindexname -threads 16 -input /absolute/path/to/disk45 -storePositions -storeDocvectors -storeRawDocs
+sh target/appassembler/bin/IndexCollection -collection TrecCollection -generator JsoupGenerator -es -es.index <index_name> -threads 16 -input /absolute/path/to/disk45 -storePositions -storeDocvectors -storeRawDocs
 ```
 
 There are also other `-es` parameters that you can specify as you see fit.
