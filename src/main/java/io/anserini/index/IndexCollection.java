@@ -540,7 +540,7 @@ public final class IndexCollection {
               builder.field(field, value);
             } else {
               // Multi-valued fields
-              Object[] values = Stream.of(indexableFields).map(f -> f.stringValue() != null ? f.stringValue() : f.numericValue()).toArray();
+              Object[] values = Stream.of(indexableFields).map(f -> f.stringValue()).toArray();
               builder.array(field, values);
             }
           }

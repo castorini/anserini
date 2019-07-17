@@ -75,6 +75,10 @@ curl --user elastic:changeme -XPUT -H 'Content-Type: application/json' 'localhos
                     }
                 ],
                 "properties": {
+                	"epoch": {
+                		"type": "date",
+                		"format": "epoch_second"
+                	},
                     "published_date": {
                         "type": "date",
                         "format": "epoch_millis"
