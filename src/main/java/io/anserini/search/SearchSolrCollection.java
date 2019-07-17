@@ -22,12 +22,6 @@ import io.anserini.rerank.lib.ScoreTiesAdjusterReranker;
 import io.anserini.search.topicreader.TopicReader;
 import io.anserini.index.generator.TweetGenerator;
 import org.apache.commons.lang3.time.DurationFormatUtils;
-import org.apache.commons.pool2.BasePooledObjectFactory;
-import org.apache.commons.pool2.ObjectPool;
-import org.apache.commons.pool2.PooledObject;
-import org.apache.commons.pool2.impl.DefaultPooledObject;
-import org.apache.commons.pool2.impl.GenericObjectPool;
-import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.search.Query;
@@ -57,8 +51,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.SortedMap;
 import java.util.TreeMap;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_ID;
@@ -70,9 +62,8 @@ public final class SearchSolrCollection implements Closeable {
 
   private static final Logger LOG = LogManager.getLogger(SearchCollection.class);
   private static final int TIMEOUT = 600 * 1000;
-
   private final Args args;
-  private ObjectPool<SolrClient> solrPool;
+  private SolrClient client;
 
   public static final class Args {
 
@@ -90,9 +81,6 @@ public final class SearchSolrCollection implements Closeable {
     @Option(name = "-solr.index", usage = "the name of the index in Solr")
     public String solrIndex = null;
 
-    @Option(name = "-solr.poolSize", metaVar = "[NUMBER]", usage = "the number of clients to keep in the pool")
-    public int solrPoolSize = 16;
-
     @Option(name = "-solr.zkUrl", usage = "the URL of Solr's ZooKeeper (comma separated list of using ensemble)")
     public String zkUrl = null;
 
@@ -100,9 +88,6 @@ public final class SearchSolrCollection implements Closeable {
     public String zkChroot = "/";
 
     // optional arguments
-    @Option(name = "-threads", metaVar = "[Number]", usage = "Number of Threads")
-    public int threads = 1;
-
     @Option(name = "-topicfield", usage = "Which field of the query should be used, default \"title\"." +
             " For TREC ad hoc topics, description or narrative can be used.")
     public String topicfield = "title";
@@ -125,7 +110,7 @@ public final class SearchSolrCollection implements Closeable {
     final private String outputPath;
     final private String runTag;
 
-    private SolrSearcherThread(SortedMap<K, Map<String, String>> topics, String outputPath, String runTag) throws IOException {
+    private SolrSearcherThread(SortedMap<K, Map<String, String>> topics, String outputPath, String runTag){
 
       this.topics = topics;
       this.runTag = runTag;
@@ -140,17 +125,14 @@ public final class SearchSolrCollection implements Closeable {
         final long start = System.nanoTime();
         PrintWriter out = new PrintWriter(Files.newBufferedWriter(Paths.get(outputPath), StandardCharsets.US_ASCII));
 
-        // Solr client
-        SolrClient client = solrPool.borrowObject();
-
         for (Map.Entry<K, Map<String, String>> entry : topics.entrySet()) {
           K qid = entry.getKey();
           String queryString = entry.getValue().get(args.topicfield);
           ScoredDocuments docs;
           if (args.searchtweets) {
-            docs = searchSolrTweets(client, qid, queryString, Long.parseLong(entry.getValue().get("time")));
+            docs = searchSolrTweets(queryString, Long.parseLong(entry.getValue().get("time")));
           } else {
-            docs = searchSolr(client, qid, queryString);
+            docs = searchSolr(queryString);
           }
 
           /**
@@ -169,14 +151,6 @@ public final class SearchSolrCollection implements Closeable {
         out.flush();
         out.close();
 
-        // Needed for orderly shutdown so the SolrClient executor does not delay main thread exit
-        try {
-          solrPool.returnObject(client);
-          solrPool.close();
-        } catch (Exception e) {
-          LOG.error("Exception in SolrClient executor: ", e);
-        }
-
         final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
         LOG.info("[Finished] Run " + topics.size() + " topics searched in "
                 + DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss"));
@@ -190,11 +164,11 @@ public final class SearchSolrCollection implements Closeable {
     this.args = args;
     LOG.info("Solr index: " + args.solrIndex);
     LOG.info("Solr ZooKeeper URL: " + args.zkUrl);
-    LOG.info("SolrClient pool size: " + args.solrPoolSize);
-    GenericObjectPoolConfig<SolrClient> config = new GenericObjectPoolConfig<>();
-    config.setMaxTotal(args.solrPoolSize);
-    config.setMinIdle(args.solrPoolSize); // To guard against premature discarding of solrClients
-    this.solrPool = new GenericObjectPool(new SolrClientFactory(), config);
+    this.client = new CloudSolrClient.Builder(Splitter.on(',')
+            .splitToList(args.zkUrl), Optional.of(args.zkChroot))
+            .withConnectionTimeout(TIMEOUT)
+            .withSocketTimeout(TIMEOUT)
+            .build();
   }
 
   @SuppressWarnings("unchecked")
@@ -216,46 +190,11 @@ public final class SearchSolrCollection implements Closeable {
     }
   
     final String runTag = args.runtag == null ? "Solrini" : args.runtag;
-    final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(args.threads);
-
-    executor.execute(new SolrSearcherThread<K>(topics, args.output, runTag));
-
-    executor.shutdown();
-
-    try {
-      // Wait for existing tasks to terminate
-      while (!executor.awaitTermination(1, TimeUnit.MINUTES)) {}
-    } catch (InterruptedException ie) {
-      // (Re-)Cancel if current thread also interrupted
-      executor.shutdownNow();
-      // Preserve interrupt status
-      Thread.currentThread().interrupt();
-    }
+    SolrSearcherThread<K> solrThread = new SolrSearcherThread<K>(topics, args.output, runTag);
+    solrThread.run();
   }
 
-  private class SolrClientFactory extends BasePooledObjectFactory<SolrClient> {
-
-    @Override
-    public SolrClient create() {
-      return new CloudSolrClient.Builder(Splitter.on(',').splitToList(args.zkUrl), Optional.of(args.zkChroot))
-              .withConnectionTimeout(TIMEOUT)
-              .withSocketTimeout(TIMEOUT)
-              .build();
-    }
-
-    @Override
-    public PooledObject<SolrClient> wrap(SolrClient solrClient) {
-      return new DefaultPooledObject(solrClient);
-    }
-
-    @Override
-    public void destroyObject(PooledObject<SolrClient> pooled) throws Exception {
-      pooled.getObject().close();
-    }
-  }
-
-  public<K> ScoredDocuments searchSolr(SolrClient client, K qid, String queryString)
-          throws IOException {
+  public<K> ScoredDocuments searchSolr(String queryString){
 
     SolrDocumentList results = null;
 
@@ -279,7 +218,7 @@ public final class SearchSolrCollection implements Closeable {
     return reranker.rerank(ScoredDocuments.fromSolrDocs(results), null);
   }
 
-  public<K> ScoredDocuments searchSolrTweets(SolrClient client, K qid, String queryString, long t) throws IOException {
+  public<K> ScoredDocuments searchSolrTweets(String queryString, long t){
 
     SolrDocumentList results = null;
 
@@ -310,8 +249,8 @@ public final class SearchSolrCollection implements Closeable {
   }
 
   @Override
-  public void close() {
-    solrPool.close();
+  public void close() throws IOException {
+    client.close();
   }
 
   public static void main(String[] args) throws Exception {

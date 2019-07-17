@@ -69,4 +69,10 @@ sh target/appassembler/bin/SearchSolrCollection -topicreader Trec \
   -output run.solr.robust04.bm25.topics.robust04.301-450.601-700.txt
 ```
 
+Evaluation can be performed using `trec_eval`:
+
+```
+eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust2004.txt run.solr.robust04.bm25.topics.robust04.301-450.601-700.txt
+```
+
 Other collections can be indexed by substituting the appropriate parameters; see each collection's [experiment docs](https://github.com/castorini/anserini/tree/master/docs).
