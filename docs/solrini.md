@@ -60,4 +60,19 @@ Make sure `/path/to/robust04` is updated with the appropriate path.
 
 Once indexing has completed, you should be able to query `robust04` from the Solr [query interface](http://localhost:8983/solr/#/robust04/query).
 
+You can also run the following command to replicate Anserini BM25 retrieval:
+
+```
+sh target/appassembler/bin/SearchSolrCollection -topicreader Trec \
+  -solr.index robust04 -solr.zkUrl localhost:9983 \
+  -topics src/main/resources/topics-and-qrels/topics.robust04.301-450.601-700.txt \
+  -output run.solr.robust04.bm25.topics.robust04.301-450.601-700.txt
+```
+
+Evaluation can be performed using `trec_eval`:
+
+```
+eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust2004.txt run.solr.robust04.bm25.topics.robust04.301-450.601-700.txt
+```
+
 Other collections can be indexed by substituting the appropriate parameters; see each collection's [experiment docs](https://github.com/castorini/anserini/tree/master/docs).

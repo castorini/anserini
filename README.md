@@ -9,11 +9,6 @@ Anserini is an open-source information retrieval toolkit built on Lucene that ai
 This effort grew out of [a reproducibility study of various open-source retrieval engines in 2016](https://cs.uwaterloo.ca/~jimmylin/publications/Lin_etal_ECIR2016.pdf) (Lin et al., ECIR 2016). 
 See [Yang et al. (SIGIR 2017)](https://dl.acm.org/authorize?N47337) and [Yang et al. (JDIQ 2018)](https://dl.acm.org/citation.cfm?doid=3289400.3239571) for overviews.
 
-Anserini was upgraded to Lucene 8.0 as of commit [`75e36f9`](https://github.com/castorini/anserini/commit/75e36f97f7037d1ceb20fa9c91582eac5e974131) (6/12/2019); prior to that, the toolkit uses Lucene 7.6.
-Based on [preliminary experiments](docs/lucene7-vs-lucene8.md), query evaluation latency has been much improved in Lucene 8.
-As a result of this upgrade, results of all regressions have changed slightly.
-To replicate old results from Lucene 7.6, use [v0.5.1](https://github.com/castorini/anserini/releases).
-
 If you've found Anserini to be helpful, we have a simple request for you to contribute back.
 In the course of replicating baseline results on standard test collections, please let us know if you're successful by sending us a pull request with a simple note, like what appears at the bottom of [the Robust04 page](docs/regressions-robust04.md).
 Replicability is important to us, and we'd like to know about successes as well as failures.
@@ -25,11 +20,16 @@ In turn, you'll be recognized as a [contributor](https://github.com/castorini/an
 A zero effort way to try out Anserini is to look at our online [colab demo](https://colab.research.google.com/drive/1s44ylhEkXDzqNgkJSyXDYetGIxO9TWZn)!
 Click "Open in Playground" and you'll be able to replicate our baselines from the TREC 2004 Robust Track just from the browser!
 
-Anserini currently uses Java 8 (note that there are [known issues with Java 10 and Java 11](https://github.com/castorini/Anserini/issues/445)) and Maven 3.3+.
-Oracle JVM is necessary to replicate our regression results; there are known issues with OpenJDK (see [this](https://github.com/castorini/Anserini/pull/590) and [this](https://github.com/castorini/Anserini/issues/592)).
-We are planning an upgrade to a more recent JDK (see [#710](https://github.com/castorini/anserini/issues/710)).
+Main dependencies:
 
-Build using Maven:
++ Anserini was recently upgraded to Java 11 at commit [`17b702d`](https://github.com/castorini/anserini/commit/17b702d9c3c0971e04eb8386ab83bf2fb2630714) (7/11/2019) from Java 8.
+Maven 3.3+ is also required.
++ Anserini was upgraded to Lucene 8.0 as of commit [`75e36f9`](https://github.com/castorini/anserini/commit/75e36f97f7037d1ceb20fa9c91582eac5e974131) (6/12/2019); prior to that, the toolkit uses Lucene 7.6.
+Based on [preliminary experiments](docs/lucene7-vs-lucene8.md), query evaluation latency has been much improved in Lucene 8.
+As a result of this upgrade, results of all regressions have changed slightly.
+To replicate old results from Lucene 7.6, use [v0.5.1](https://github.com/castorini/anserini/releases).
+
+After cloning our repo, build using Maven:
 
 ```
 mvn clean package appassembler:assemble
