@@ -341,7 +341,7 @@ public final class IndexCollection {
 
     private final Path input;
     private final DocumentCollection collection;
-    private final List<SolrInputDocument> buffer = new ArrayList(args.solrBatch);
+    private final List<SolrInputDocument> buffer = new ArrayList<>(args.solrBatch);
 
     private SolrIndexerThread(DocumentCollection collection, Path input) {
       this.input = input;
@@ -508,6 +508,8 @@ public final class IndexCollection {
             }
           }
 
+          // Yes, we know what we're doing here.
+          @SuppressWarnings("unchecked")
           Document document = generator.createDocument(sourceDocument);
           if (document == null) {
             counters.unindexed.incrementAndGet();
@@ -689,12 +691,12 @@ public final class IndexCollection {
       GenericObjectPoolConfig<SolrClient> config = new GenericObjectPoolConfig<>();
       config.setMaxTotal(args.solrPoolSize);
       config.setMinIdle(args.solrPoolSize); // To guard against premature discarding of solrClients
-      this.solrPool = new GenericObjectPool(new SolrClientFactory(), config);
+      this.solrPool = new GenericObjectPool<>(new SolrClientFactory(), config);
     } else if (args.es) {
       GenericObjectPoolConfig<RestHighLevelClient> config = new GenericObjectPoolConfig<>();
       config.setMaxTotal(args.esPoolSize);
       config.setMinIdle(args.esPoolSize);
-      this.esPool = new GenericObjectPool(new ESClientFactory(), config);
+      this.esPool = new GenericObjectPool<>(new ESClientFactory(), config);
     }
 
     this.counters = new Counters();
@@ -712,7 +714,7 @@ public final class IndexCollection {
 
     @Override
     public PooledObject<SolrClient> wrap(SolrClient solrClient) {
-      return new DefaultPooledObject(solrClient);
+      return new DefaultPooledObject<>(solrClient);
     }
 
     @Override
@@ -736,7 +738,7 @@ public final class IndexCollection {
 
     @Override
     public PooledObject<RestHighLevelClient> wrap(RestHighLevelClient esClient) {
-      return new DefaultPooledObject(esClient);
+      return new DefaultPooledObject<>(esClient);
     }
 
     @Override
