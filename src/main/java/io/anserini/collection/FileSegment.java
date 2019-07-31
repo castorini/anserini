@@ -22,6 +22,7 @@ import java.nio.file.Path;
 import java.text.ParseException;
 import java.util.NoSuchElementException;
 import java.util.Iterator;
+import java.io.Closeable;
 
 /**
  * <p>
@@ -35,7 +36,8 @@ import java.util.Iterator;
  * multiple collections might share the same {@code FileSegment} implementation.
  * </p>
  */
-public abstract class FileSegment<T extends SourceDocument> implements Iterable<T> {
+public abstract class FileSegment<T extends SourceDocument> implements Iterable<T>, Closeable {
+
   protected Path path;
   protected final int BUFFER_SIZE = 1 << 16; // 64K
   protected BufferedReader bufferedReader;
@@ -72,6 +74,7 @@ public abstract class FileSegment<T extends SourceDocument> implements Iterable<
     return path;
   }
 
+  @Override
   public void close() throws IOException {
     atEOF = true;
     bufferedRecord = null;
