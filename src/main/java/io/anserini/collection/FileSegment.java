@@ -52,7 +52,7 @@ public abstract class FileSegment<T extends SourceDocument> implements Iterable<
   protected int skipped = 0;
 
   /*
-   * Move exception handling for file read errors is contained within the iterator. If error is
+   * Exception handling for file read errors is contained within the iterator. If error is
    * encountered, iteration is terminated and this error flag is set. Call getErrorStatus() at the
    * end of segment iteration to return error status.
    */
