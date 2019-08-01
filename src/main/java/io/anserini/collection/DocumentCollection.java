@@ -65,7 +65,6 @@ import java.util.NoSuchElementException;
  * </ol>
  */
 public abstract class DocumentCollection<T extends SourceDocument> implements Iterable<FileSegment<T>> {
-
   private static final Logger LOG = LogManager.getLogger(DocumentCollection.class);
 
   protected Path path;
@@ -108,11 +107,10 @@ public abstract class DocumentCollection<T extends SourceDocument> implements It
    */
   @Override
   public final Iterator<FileSegment<T>> iterator(){
-
     List<Path> paths = discover(this.path);
-    Iterator<Path> pathsIterator  = paths.iterator();
+    Iterator<Path> pathsIterator = paths.iterator();
 
-    return new Iterator<FileSegment<T>>(){
+    return new Iterator<>(){
       Path segmentPath;
       FileSegment<T> segment;
 
@@ -155,13 +153,13 @@ public abstract class DocumentCollection<T extends SourceDocument> implements It
   /**
    * Used internally by implementations to walk a path and collect file segments.
    *
-   * @param p                 path to walk
+   * @param p path to walk
    * @return result of walking the specified path according to the collection-specific constraints
    */
   public final List<Path> discover(Path p) {
     final List<Path> paths = new ArrayList<>();
 
-    FileVisitor<Path> fv = new SimpleFileVisitor<Path>() {
+    FileVisitor<Path> fv = new SimpleFileVisitor<>() {
       @Override
       public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
         Path name = file.getFileName();
