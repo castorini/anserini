@@ -110,7 +110,7 @@ public abstract class DocumentCollection<T extends SourceDocument> implements It
     List<Path> paths = discover(this.path);
     Iterator<Path> pathsIterator = paths.iterator();
 
-    return new Iterator<>(){
+    return new Iterator<FileSegment<T>>(){
       Path segmentPath;
       FileSegment<T> segment;
 
@@ -159,7 +159,7 @@ public abstract class DocumentCollection<T extends SourceDocument> implements It
   public final List<Path> discover(Path p) {
     final List<Path> paths = new ArrayList<>();
 
-    FileVisitor<Path> fv = new SimpleFileVisitor<>() {
+    FileVisitor<Path> fv = new SimpleFileVisitor<Path>() {
       @Override
       public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
         Path name = file.getFileName();
