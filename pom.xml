@@ -110,6 +110,10 @@
               <id>SearchSolrCollection</id>
             </program>
             <program>
+              <mainClass>io.anserini.search.SearchESCollection</mainClass>
+              <id>SearchESCollection</id>
+            </program>
+            <program>
               <mainClass>io.anserini.search.SearchMsmarco</mainClass>
               <id>SearchMsmarco</id>
             </program>
