@@ -29,7 +29,8 @@ public class TrecTopicReaderTest {
 
   @Test
   public void test() throws IOException {
-    TopicReader reader = new TrecTopicReader(Paths.get("src/main/resources/topics-and-qrels/topics.core18.txt"));
+    TopicReader<Integer> reader = new TrecTopicReader(
+        Paths.get("src/main/resources/topics-and-qrels/topics.core18.txt"));
 
     SortedMap<Integer, Map<String, String>> topics = reader.read();
 
