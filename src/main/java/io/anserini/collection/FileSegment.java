@@ -102,7 +102,7 @@ public abstract class FileSegment<T extends SourceDocument> implements Iterable<
    */
   @Override
   public final Iterator<T> iterator(){
-    return new Iterator<>(){
+    return new Iterator<T>(){
       @Override
       public T next() throws NoSuchElementException {
         if (error) {
