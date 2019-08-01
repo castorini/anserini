@@ -129,7 +129,7 @@ There are also other `-es` parameters that you can specify as you see fit.
 You can also run the following command to replicate Anserini BM25 retrieval:
 
 ```
-sh target/appassembler/bin/SearchESCollection -topicreader Trec -es.index robust04 \
+sh target/appassembler/bin/SearchElastic -topicreader Trec -es.index robust04 \
   -topics src/main/resources/topics-and-qrels/topics.robust04.301-450.601-700.txt \
   -output run.es.robust04.bm25.topics.robust04.301-450.601-700.txt
 ```

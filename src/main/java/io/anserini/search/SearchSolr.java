@@ -16,32 +16,22 @@
 
 package io.anserini.search;
 
+import com.google.common.base.Splitter;
 import io.anserini.rerank.ScoredDocuments;
 import io.anserini.rerank.lib.ScoreTiesAdjusterReranker;
 import io.anserini.search.topicreader.TopicReader;
 import io.anserini.index.generator.TweetGenerator;
 import org.apache.commons.lang3.time.DurationFormatUtils;
-import org.apache.http.HttpHost;
-import org.apache.http.auth.AuthScope;
-import org.apache.http.auth.UsernamePasswordCredentials;
-import org.apache.http.client.CredentialsProvider;
-import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.elasticsearch.action.search.SearchRequest;
-import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.index.query.QueryStringQueryBuilder;
-import org.elasticsearch.index.query.BoolQueryBuilder;
-import org.elasticsearch.index.query.RangeQueryBuilder;
-import org.elasticsearch.search.builder.SearchSourceBuilder;
-import org.elasticsearch.search.SearchHits;
-import org.elasticsearch.client.RequestOptions;
-import org.elasticsearch.client.RestClient;
-import org.elasticsearch.client.RestHighLevelClient;
-import org.elasticsearch.search.sort.FieldSortBuilder;
-import org.elasticsearch.search.sort.ScoreSortBuilder;
-import org.elasticsearch.search.sort.SortOrder;
+import org.apache.lucene.search.Query;
+import org.apache.lucene.document.LongPoint;
+import org.apache.solr.client.solrj.SolrClient;
+import org.apache.solr.client.solrj.impl.CloudSolrClient;
+import org.apache.solr.client.solrj.SolrQuery;
+import org.apache.solr.client.solrj.response.QueryResponse;
+import org.apache.solr.common.SolrDocumentList;
+import org.apache.solr.client.solrj.SolrQuery.SortClause;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.OptionHandlerFilter;
@@ -58,6 +48,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.concurrent.TimeUnit;
@@ -67,12 +58,12 @@ import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_ID;
 /*
 * Entry point of the Retrieval.
  */
-public final class SearchESCollection implements Closeable {
+public final class SearchSolr implements Closeable {
 
   private static final Logger LOG = LogManager.getLogger(SearchCollection.class);
   private static final int TIMEOUT = 600 * 1000;
   private final Args args;
-  private RestHighLevelClient client;
+  private SolrClient client;
 
   public static final class Args {
 
@@ -87,23 +78,14 @@ public final class SearchESCollection implements Closeable {
     @Option(name = "-topicreader", required = true, usage = "define how to read the topic(query) file: one of [Trec|Webxml]")
     public String topicReader;
 
-    @Option(name = "-es.index", usage = "the name of the index in Elasticsearch")
-    public String esIndex = null;
+    @Option(name = "-solr.index", usage = "the name of the index in Solr")
+    public String solrIndex = null;
 
-    @Option(name = "-es.hostname", usage = "the name of Elasticsearch HTTP host")
-    public String esHostname = "localhost";
+    @Option(name = "-solr.zkUrl", usage = "the URL of Solr's ZooKeeper (comma separated list of using ensemble)")
+    public String zkUrl = null;
 
-    @Option(name = "-es.port", usage = "the port for Elasticsearch HTTP host")
-    public int esPort = 9200;
-
-    /**
-     * The user and password are defaulted to those pre-configured for docker-elk
-     */
-    @Option(name = "-es.user", usage = "the user of the ELK stack")
-    public String esUser = "elastic";
-
-    @Option(name = "-es.password", usage = "the password for the ELK stack")
-    public String esPassword = "changeme";
+    @Option(name = "-solr.zkChroot", usage = "the ZooKeeper chroot")
+    public String zkChroot = "/";
 
     // optional arguments
     @Option(name = "-topicfield", usage = "Which field of the query should be used, default \"title\"." +
@@ -122,13 +104,13 @@ public final class SearchESCollection implements Closeable {
 
   }
 
-  private final class ESSearcherThread<K> extends Thread {
+  private final class SolrSearcherThread<K> extends Thread {
 
     final private SortedMap<K, Map<String, String>> topics;
     final private String outputPath;
     final private String runTag;
 
-    private ESSearcherThread(SortedMap<K, Map<String, String>> topics, String outputPath, String runTag){
+    private SolrSearcherThread(SortedMap<K, Map<String, String>> topics, String outputPath, String runTag){
 
       this.topics = topics;
       this.runTag = runTag;
@@ -139,7 +121,7 @@ public final class SearchESCollection implements Closeable {
     @Override
     public void run() {
       try {
-        LOG.info("[Start] Retrieval with Elasticsearch collection: " + args.esIndex);
+        LOG.info("[Start] Retrieval with Solr collection: " + args.solrIndex);
         final long start = System.nanoTime();
         PrintWriter out = new PrintWriter(Files.newBufferedWriter(Paths.get(outputPath), StandardCharsets.US_ASCII));
 
@@ -148,9 +130,9 @@ public final class SearchESCollection implements Closeable {
           String queryString = entry.getValue().get(args.topicfield);
           ScoredDocuments docs;
           if (args.searchtweets) {
-            docs = searchESTweets(queryString, Long.parseLong(entry.getValue().get("time")));
+            docs = searchTweets(queryString, Long.parseLong(entry.getValue().get("time")));
           } else {
-            docs = searchES(queryString);
+            docs = search(queryString);
           }
 
           /**
@@ -178,19 +160,15 @@ public final class SearchESCollection implements Closeable {
     }
   }
 
-  public SearchESCollection(Args args) {
+  public SearchSolr(Args args) throws IOException {
     this.args = args;
-    LOG.info("Elasticsearch index: " + args.esIndex);
-    LOG.info("Elasticsearch hostname: " + args.esHostname);
-    LOG.info("Elasticsearch host port: " + args.esPort);
-
-    final CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
-    credentialsProvider.setCredentials(AuthScope.ANY, new UsernamePasswordCredentials(args.esUser, args.esPassword));
-
-    this.client = new RestHighLevelClient(
-            RestClient.builder(new HttpHost(args.esHostname, args.esPort, "http"))
-                    .setHttpClientConfigCallback(builder -> builder.setDefaultCredentialsProvider(credentialsProvider))
-                    .setRequestConfigCallback(builder -> builder.setConnectTimeout(TIMEOUT).setSocketTimeout(TIMEOUT)));
+    LOG.info("Solr index: " + args.solrIndex);
+    LOG.info("Solr ZooKeeper URL: " + args.zkUrl);
+    this.client = new CloudSolrClient.Builder(Splitter.on(',')
+            .splitToList(args.zkUrl), Optional.of(args.zkChroot))
+            .withConnectionTimeout(TIMEOUT)
+            .withSocketTimeout(TIMEOUT)
+            .build();
   }
 
   @SuppressWarnings("unchecked")
@@ -211,91 +189,63 @@ public final class SearchESCollection implements Closeable {
       }
     }
   
-    final String runTag = args.runtag == null ? "Elastirini" : args.runtag;
-    ESSearcherThread<K> esThread = new ESSearcherThread<K>(topics, args.output, runTag);
-    esThread.run();
+    final String runTag = args.runtag == null ? "Solrini" : args.runtag;
+    SolrSearcherThread<K> solrThread = new SolrSearcherThread<K>(topics, args.output, runTag);
+    solrThread.run();
   }
 
-  public<K> ScoredDocuments searchES(String queryString){
+  public<K> ScoredDocuments search(String queryString){
 
-    SearchHits results = null;
+    SolrDocumentList results = null;
 
-    String specials = "+-=&|><!(){}[]^\"~*?:\\/";
-
-    for (int i = 0; i < specials.length(); i++){
-      char c = specials.charAt(i);
-      queryString = queryString.replace(String.valueOf(c), " ");
-    }
-
-    QueryStringQueryBuilder query = QueryBuilders
-            .queryStringQuery(queryString)
-            .defaultField("contents")
-            .analyzer("english");
-
-    SearchRequest searchRequest = new SearchRequest(args.esIndex);
-    SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
-    sourceBuilder.query(query);
-    sourceBuilder.size(args.hits);
-    sourceBuilder.sort(new ScoreSortBuilder().order(SortOrder.DESC));
-    sourceBuilder.sort(new FieldSortBuilder(FIELD_ID).order(SortOrder.ASC));
-    searchRequest.source(sourceBuilder);
+    SolrQuery solrq = new SolrQuery();
+    solrq.set("df", "contents");
+    solrq.set("fl", "* score");
+    // Remove double quotes in query since they are special syntax in Solr query parser
+    solrq.setQuery(queryString.replace("\"", ""));
+    solrq.setRows(args.hits);
+    solrq.setSort(SortClause.desc("score"));
+    solrq.addSort(SortClause.asc(FIELD_ID));
 
     try {
-      SearchResponse searchResponse = client.search(searchRequest, RequestOptions.DEFAULT);
-      results = searchResponse.getHits();
+      QueryResponse response = client.query(args.solrIndex, solrq);
+      results = response.getResults();
     } catch (Exception e) {
-      LOG.error("Exception during ES query: ", e);
+      LOG.error("Exception during Solr query: ", e);
     }
 
     ScoreTiesAdjusterReranker reranker = new ScoreTiesAdjusterReranker();
-    return reranker.rerank(ScoredDocuments.fromESDocs(results), null);
+    return reranker.rerank(ScoredDocuments.fromSolrDocs(results), null);
   }
 
-  public<K> ScoredDocuments searchESTweets(String queryString, long t){
+  public<K> ScoredDocuments searchTweets(String queryString, long t){
 
-    SearchHits results = null;
+    SolrDocumentList results = null;
 
-    String specials = "+-=&|><!(){}[]^\"~*?:\\/";
-
-    for (int i = 0; i < specials.length(); i++){
-      char c = specials.charAt(i);
-      queryString = queryString.replace(String.valueOf(c), " ");
-    }
+    SolrQuery solrq = new SolrQuery();
+    solrq.set("df", "contents");
+    solrq.set("fl", "* score");
+    // Remove double quotes in query since they are special syntax in Solr query parser
+    solrq.setQuery(queryString.replace("\"", ""));
+    solrq.setRows(args.hits);
+    solrq.setSort(SortClause.desc("score"));
+    solrq.addSort(SortClause.desc(TweetGenerator.StatusField.ID_LONG.name));
 
     // Do not consider the tweets with tweet ids that are beyond the queryTweetTime
     // <querytweettime> tag contains the timestamp of the query in terms of the
     // chronologically nearest tweet id within the corpus
-    RangeQueryBuilder queryTweetTime = QueryBuilders
-            .rangeQuery(TweetGenerator.StatusField.ID_LONG.name)
-            .from(0L)
-            .to(t);
-
-    QueryStringQueryBuilder queryTerms = QueryBuilders
-            .queryStringQuery(queryString)
-            .defaultField("contents")
-            .analyzer("english");
-
-    BoolQueryBuilder query = QueryBuilders.boolQuery()
-            .filter(queryTweetTime)
-            .should(queryTerms);
-
-    SearchRequest searchRequest = new SearchRequest(args.esIndex);
-    SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
-    sourceBuilder.query(query);
-    sourceBuilder.size(args.hits);
-    sourceBuilder.sort(new ScoreSortBuilder().order(SortOrder.DESC));
-    sourceBuilder.sort(new FieldSortBuilder(TweetGenerator.StatusField.ID_LONG.name).order(SortOrder.DESC));
-    searchRequest.source(sourceBuilder);
+    Query filter = LongPoint.newRangeQuery(TweetGenerator.StatusField.ID_LONG.name, 0L, t);
+    solrq.set("fq", filter.toString());
 
     try {
-      SearchResponse searchResponse = client.search(searchRequest, RequestOptions.DEFAULT);
-      results = searchResponse.getHits();
+      QueryResponse response = client.query(args.solrIndex, solrq);
+      results = response.getResults();
     } catch (Exception e) {
-      LOG.error("Exception during ES query: ", e);
+      LOG.error("Exception during Solr query: ", e);
     }
 
     ScoreTiesAdjusterReranker reranker = new ScoreTiesAdjusterReranker();
-    return reranker.rerank(ScoredDocuments.fromESDocs(results), null);
+    return reranker.rerank(ScoredDocuments.fromSolrDocs(results), null);
   }
 
   @Override
@@ -304,20 +254,20 @@ public final class SearchESCollection implements Closeable {
   }
 
   public static void main(String[] args) throws Exception {
-    Args searchESArgs = new Args();
-    CmdLineParser parser = new CmdLineParser(searchESArgs, ParserProperties.defaults().withUsageWidth(90));
+    Args searchSolrArgs = new Args();
+    CmdLineParser parser = new CmdLineParser(searchSolrArgs, ParserProperties.defaults().withUsageWidth(90));
 
     try {
       parser.parseArgument(args);
     } catch (CmdLineException e) {
       System.err.println(e.getMessage());
       parser.printUsage(System.err);
-      System.err.println("Example: SearchESCollection" + parser.printExample(OptionHandlerFilter.REQUIRED));
+      System.err.println("Example: SearchSolr" + parser.printExample(OptionHandlerFilter.REQUIRED));
       return;
     }
 
     final long start = System.nanoTime();
-    SearchESCollection searcher = new SearchESCollection(searchESArgs);
+    SearchSolr searcher = new SearchSolr(searchSolrArgs);
     searcher.runTopics();
     searcher.close();
     final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
