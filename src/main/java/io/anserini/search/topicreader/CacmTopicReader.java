@@ -26,7 +26,7 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class CacmTopicReader extends TopicReader {
+public class CacmTopicReader extends TopicReader<Integer> {
   private final String DOCNO = "<DOCNO>";
   private final String TERMINATING_DOCNO = "</DOCNO>";
 

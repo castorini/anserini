@@ -82,7 +82,7 @@ public class TrecCollection extends DocumentCollection<TrecCollection.Document> 
 
     @Override
     public void readNext() throws IOException, ParseException {
-        readNextRecord(bufferedReader);
+      readNextRecord(bufferedReader);
     }
 
     private void readNextRecord(BufferedReader reader) throws IOException {

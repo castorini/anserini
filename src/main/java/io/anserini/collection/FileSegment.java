@@ -25,10 +25,16 @@ import java.util.Iterator;
 import java.io.Closeable;
 
 /**
+ * <p>
  * Base implementation for a {@link FileSegment}.
- * A collection is comprised of one or more file segments. Note that implementations may have independent
- * existence outside a collection, and in principle multiple collections might share the same
- * {@code FileSegment} implementation.
+ * A collection is comprised of one or more {@link FileSegment}s, each of which is a container for
+ * {@link SourceDocument}s.
+ * </p>
+ *
+ * <p>
+ * Note that implementations may have independent existence outside a collection, and in principle
+ * multiple collections might share the same {@code FileSegment} implementation.
+ * </p>
  */
 public abstract class FileSegment<T extends SourceDocument> implements Iterable<T>, Closeable {
 
@@ -38,17 +44,17 @@ public abstract class FileSegment<T extends SourceDocument> implements Iterable<
   protected boolean atEOF = false;
   protected T bufferedRecord = null;
 
-  /**
-   * Move exception handling for skipped docs to within segment
-   * Desired behaviour is to continue iteration and increment counter
-   * Call getSkippedCount() at the end of segment iteration to return count of total docs skipped
+  /*
+   * Exception handling for skipped documents is contained within the iterator. If error is
+   * encountered, counter is incremented but iteration continues. Call getSkippedCount() at the
+   * end of segment iteration to return count of total documents skipped.
    */
   protected int skipped = 0;
 
-  /**
-   * Move exception handling for file read errors to within segment
-   * Desired behaviour is to stop iteration and update error = true
-   * Call getErrorStatus() at the end of segment iteration to return error status of iterator
+  /*
+   * Exception handling for file read errors is contained within the iterator. If error is
+   * encountered, iteration is terminated and this error flag is set. Call getErrorStatus() at the
+   * end of segment iteration to return error status.
    */
   protected boolean error = false;
 
@@ -78,7 +84,9 @@ public abstract class FileSegment<T extends SourceDocument> implements Iterable<
   }
 
   /**
-   * For concrete classes to implement depending on desired iterator behaviour
+   * Advances to the next record in this file segment. The {@code Iterator} implementation in the
+   * {@code FileSegment} conveniently wraps this method so that concrete classes only need to
+   * override this method.
    *
    * @throws IOException if reader error encountered and iterator should stop
    * @throws ParseException if parse error encountered and iterator should continue
@@ -88,14 +96,13 @@ public abstract class FileSegment<T extends SourceDocument> implements Iterable<
   protected abstract void readNext() throws IOException, ParseException, NoSuchElementException;
 
   /**
-   * An iterator over {@code SourceDocument} for the {@code FileSegment} iterable.
-   * A file segment is comprised of one or more source documents.
+   * An iterator that provides the {@code SourceDocument}s for this {@code FileSegment}.
+   * The iterator {@code hasNext()} calls {@link FileSegment#readNext()} to advance to the next
+   * record, which is overridden by concrete implementations of the {@code FileSegment}.
    */
   @Override
   public final Iterator<T> iterator(){
-
-    return new Iterator<T>(){
-
+    return new Iterator<>(){
       @Override
       public T next() throws NoSuchElementException {
         if (error) {
@@ -111,7 +118,6 @@ public abstract class FileSegment<T extends SourceDocument> implements Iterable<
 
       @Override
       public boolean hasNext() {
-
         if (bufferedRecord != null) {
           return true;
         } else if (atEOF) {

@@ -41,7 +41,7 @@ import java.util.TreeMap;
  * ...
  * </pre>
  */
-public class WebTopicReader extends TopicReader {
+public class WebTopicReader extends TopicReader<Integer> {
   public WebTopicReader(Path topicFile) {
     super(topicFile);
   }
