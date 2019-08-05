@@ -30,9 +30,17 @@ nohup target/appassembler/bin/SearchCollection -topicreader Tsv -index lucene-in
 
 nohup target/appassembler/bin/SearchCollection -topicreader Tsv -index lucene-index.msmarco-doc.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt -output run.msmarco-doc.bm25-default+rm3.topics.msmarco-doc.dev.txt -bm25 -rm3 &
 
+nohup target/appassembler/bin/SearchCollection -topicreader Tsv -index lucene-index.msmarco-doc.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt -output run.msmarco-doc.bm25-default+ax.topics.msmarco-doc.dev.txt -bm25 -axiom -rerankCutoff 20 -axiom.deterministic &
+
+nohup target/appassembler/bin/SearchCollection -topicreader Tsv -index lucene-index.msmarco-doc.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt -output run.msmarco-doc.bm25-default+prf.topics.msmarco-doc.dev.txt -bm25 -bm25prf &
+
 nohup target/appassembler/bin/SearchCollection -topicreader Tsv -index lucene-index.msmarco-doc.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt -output run.msmarco-doc.bm25-tuned.topics.msmarco-doc.dev.txt -bm25 -k1 3.44 -b 0.87 &
 
 nohup target/appassembler/bin/SearchCollection -topicreader Tsv -index lucene-index.msmarco-doc.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt -output run.msmarco-doc.bm25-tuned+rm3.topics.msmarco-doc.dev.txt -bm25 -k1 3.44 -b 0.87 -rm3 &
+
+nohup target/appassembler/bin/SearchCollection -topicreader Tsv -index lucene-index.msmarco-doc.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt -output run.msmarco-doc.bm25-tuned+ax.topics.msmarco-doc.dev.txt -bm25 -k1 3.44 -b 0.87 -axiom -rerankCutoff 20 -axiom.deterministic &
+
+nohup target/appassembler/bin/SearchCollection -topicreader Tsv -index lucene-index.msmarco-doc.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt -output run.msmarco-doc.bm25-tuned+prf.topics.msmarco-doc.dev.txt -bm25 -k1 3.44 -b 0.87 -bm25prf &
 
 ```
 
@@ -43,9 +51,17 @@ eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.1000 -c src/main/resources/to
 
 eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt run.msmarco-doc.bm25-default+rm3.topics.msmarco-doc.dev.txt
 
+eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt run.msmarco-doc.bm25-default+ax.topics.msmarco-doc.dev.txt
+
+eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt run.msmarco-doc.bm25-default+prf.topics.msmarco-doc.dev.txt
+
 eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt run.msmarco-doc.bm25-tuned.topics.msmarco-doc.dev.txt
 
 eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt run.msmarco-doc.bm25-tuned+rm3.topics.msmarco-doc.dev.txt
+
+eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt run.msmarco-doc.bm25-tuned+ax.topics.msmarco-doc.dev.txt
+
+eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt run.msmarco-doc.bm25-tuned+prf.topics.msmarco-doc.dev.txt
 
 ```
 
@@ -53,14 +69,14 @@ eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.1000 -c src/main/resources/to
 
 With the above commands, you should be able to replicate the following results:
 
-MAP                                     | BM25 (Default)| +RM3      | BM25 (Tuned)| +RM3      |
-:---------------------------------------|-----------|-----------|-----------|-----------|
-[MS MARCO Document Ranking: Dev Queries](https://github.com/microsoft/TREC-2019-Deep-Learning)| 0.2310    | 0.1632    | 0.2788    | 0.2289    |
+MAP                                     | BM25 (Default)| +RM3      | +Ax       | +PRF      | BM25 (Tuned)| +RM3      | +Ax       | +PRF      |
+:---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
+[MS MARCO Document Ranking: Dev Queries](https://github.com/microsoft/TREC-2019-Deep-Learning)| 0.2310    | 0.1632    | 0.1147    | 0.1359    | 0.2788    | 0.2289    | 0.1895    | 0.1562    |
 
 
-R@1000                                  | BM25 (Default)| +RM3      | BM25 (Tuned)| +RM3      |
-:---------------------------------------|-----------|-----------|-----------|-----------|
-[MS MARCO Document Ranking: Dev Queries](https://github.com/microsoft/TREC-2019-Deep-Learning)| 0.8856    | 0.8785    | 0.9326    | 0.9320    |
+R@1000                                  | BM25 (Default)| +RM3      | +Ax       | +PRF      | BM25 (Tuned)| +RM3      | +Ax       | +PRF      |
+:---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
+[MS MARCO Document Ranking: Dev Queries](https://github.com/microsoft/TREC-2019-Deep-Learning)| 0.8856    | 0.8785    | 0.8369    | 0.8471    | 0.9326    | 0.9320    | 0.9264    | 0.8758    |
 
 
 
