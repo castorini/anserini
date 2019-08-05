@@ -4,6 +4,7 @@ The following change log details commits to regression tests that alter effectiv
 This documentation is useful for figuring why results may have changed over time.
 
 ### August 5, 2019
+
 + commit [`80c5447`](https://github.com/castorini/anserini/commit/80c54479d16fea901e474d31b906344300443c02) (8/5/2019)  
 
 Added +Ax and +PRF regressions with both tuned and default BM25 parameters for MS MARCO document ranking task.
