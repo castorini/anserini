@@ -104,10 +104,11 @@ public class AxiomReranker<T> implements Reranker<T> {
   private final float beta; // scaling parameter
   private final boolean outputQuery;
   private final boolean searchTweets;
+  private final boolean useCollection; // whether to use entire collection as working set for MI calculations
 
   public AxiomReranker(String originalIndexPath, String externalIndexPath, String field, boolean deterministic,
                        long seed, int r, int n, float beta, int top, String docidsCachePath,
-                       boolean outputQuery, boolean searchTweets) throws IOException {
+                       boolean outputQuery, boolean searchTweets, boolean useCollection) throws IOException {
     this.field = field;
     this.deterministic = deterministic;
     this.seed = seed;
@@ -119,6 +120,7 @@ public class AxiomReranker<T> implements Reranker<T> {
     this.externalIndexPath = externalIndexPath;
     this.outputQuery = outputQuery;
     this.searchTweets = searchTweets;
+    this.useCollection = useCollection;
 
     if (this.deterministic && this.N > 1) {
       if (docidsCachePath != null) {
@@ -147,6 +149,7 @@ public class AxiomReranker<T> implements Reranker<T> {
       // First to search against external index if it is not null
       docs = processExternalContext(docs, context);
       // Select R*M docs from the original ranking list as the reranking pool
+      // Selects R docs if entire collection used as working set
       Set<Integer> usedDocs = selectDocs(docs, context);
       // Extract an inverted list from the reranking pool
       Map<String, Set<Integer>> termInvertedList = extractTerms(usedDocs, context, null);
@@ -307,6 +310,11 @@ public class AxiomReranker<T> implements Reranker<T> {
     throws IOException {
     Set<Integer> docidSet = new HashSet<>(Arrays.asList(ArrayUtils.toObject(
       Arrays.copyOfRange(docs.ids, 0, Math.min(this.R, docs.ids.length)))));
+
+    if (this.useCollection) {
+      return docidSet;
+    }
+
     long targetSize = this.R * this.N;
 
     if (docidSet.size() < targetSize) {
@@ -350,6 +358,7 @@ public class AxiomReranker<T> implements Reranker<T> {
 
   /**
    * Extract ALL the terms from the documents pool.
+   * If using entire collection as working set, returns empty set of docids for each term since it will not be used
    *
    * @param docIds The reranking pool, see {@link #selectDocs} for explanations
    * @param context An instance of RerankerContext
@@ -366,7 +375,6 @@ public class AxiomReranker<T> implements Reranker<T> {
         throw new IllegalArgumentException(this.externalIndexPath + " does not exist or is not a directory.");
       }
       reader = DirectoryReader.open(FSDirectory.open(indexPath));
-      searcher = new IndexSearcher(reader);
     } else {
       searcher = context.getIndexSearcher();
       reader = searcher.getIndexReader();
@@ -392,7 +400,11 @@ public class AxiomReranker<T> implements Reranker<T> {
           if (!termDocidSets.containsKey(term)) {
             termDocidSets.put(term, new HashSet<>());
           }
-          termDocidSets.get(term).add(docid);
+          if (!useCollection) {
+            // if not using whole collection to compute MI,
+            // we want to add docids that the term appears in within the reranking pool
+            termDocidSets.get(term).add(docid);
+          }
         }
       }
     }
@@ -419,7 +431,7 @@ public class AxiomReranker<T> implements Reranker<T> {
    * @return Map<String, Double> Top terms and their weight scores in a HashMap
    */
   private Map<String, Double> computeTermScore(
-    Map<String, Set<Integer>> termInvertedList, RerankerContext<T> context) throws IOException {
+          Map<String, Set<Integer>> termInvertedList, RerankerContext<T> context) throws IOException {
     class ScoreComparator implements Comparator<Pair<String, Double>> {
       public int compare(Pair<String, Double> a, Pair<String, Double> b) {
         int cmp = Double.compare(b.getRight(), a.getRight());
@@ -471,13 +483,26 @@ public class AxiomReranker<T> implements Reranker<T> {
       int qtf = q.getValue();
       if (termInvertedList.containsKey(queryTerm)) {
         PriorityQueue<Pair<String, Double>> termScorePQ = new PriorityQueue<>(new ScoreComparator());
-        double selfMI = computeMutualInformation(termInvertedList.get(queryTerm), termInvertedList.get(queryTerm), docIdsCount);
+        double selfMI;
+        if (useCollection) {
+          Term termq = new Term(LuceneDocumentGenerator.FIELD_BODY, queryTerm);
+          selfMI = computeMutualInformationCollection(termq, termq, context);
+        } else {
+          selfMI = computeMutualInformation(termInvertedList.get(queryTerm), termInvertedList.get(queryTerm), docIdsCount);
+        }
         for (Map.Entry<String, Set<Integer>> termEntry : termInvertedList.entrySet()) {
           double score;
           if (termEntry.getKey().equals(queryTerm)) { // The mutual information to itself will always be 1
             score = idf * qtf;
           } else {
-            double crossMI = computeMutualInformation(termInvertedList.get(queryTerm), termEntry.getValue(), docIdsCount);
+            double crossMI;
+            if (useCollection) {
+              Term termx = new Term(LuceneDocumentGenerator.FIELD_BODY, queryTerm);
+              Term termy = new Term(LuceneDocumentGenerator.FIELD_BODY, termEntry.getKey());
+              crossMI = computeMutualInformationCollection(termx, termy, context);
+            } else {
+              crossMI = computeMutualInformation(termInvertedList.get(queryTerm), termEntry.getValue(), docIdsCount);
+            }
             score = idf * beta * qtf * crossMI / selfMI;
           }
           termScorePQ.add(Pair.of(termEntry.getKey(), score));
@@ -512,6 +537,51 @@ public class AxiomReranker<T> implements Reranker<T> {
     return resultTermScores;
   }
 
+  private double computeMutualInformationCollection(Term x, Term y, RerankerContext<T> context) throws IOException {
+
+    IndexSearcher searcher = context.getIndexSearcher();
+    IndexReader reader = searcher.getIndexReader();
+
+    int totalDocCount = reader.numDocs();
+    int x1 = reader.docFreq(x);
+    int y1 = reader.docFreq(y);
+    int x0 = totalDocCount - x1;
+    int y0 = totalDocCount - y1;
+
+    if (x1 == 0 || x0 == 0 || y1 == 0 || y0 == 0) {
+      return 0;
+    }
+
+    float pX0 = 1.0f * x0 / totalDocCount;
+    float pX1 = 1.0f * x1 / totalDocCount;
+    float pY0 = 1.0f * y0 / totalDocCount;
+    float pY1 = 1.0f * y1 / totalDocCount;
+
+    TermQuery tqx = new TermQuery(x);
+    TermQuery tqy = new TermQuery(y);
+    BooleanQuery query = new BooleanQuery.Builder()
+            .add(tqx, BooleanClause.Occur.MUST)
+            .add(tqy, BooleanClause.Occur.MUST)
+            .build();
+
+    int numXY11 = searcher.count(query); //doc num both x and y occur
+    int numXY10 = x1 - numXY11;    //doc num that x occurs but y doesn't
+    int numXY01 = y1 - numXY11;    // doc num that y occurs but x doesn't
+    int numXY00 = totalDocCount - numXY11 - numXY10 - numXY01; //doc num that neither x nor y occurs
+
+    float pXY11 = 1.0f * numXY11 / totalDocCount;
+    float pXY10 = 1.0f * numXY10 / totalDocCount;
+    float pXY01 = 1.0f * numXY01 / totalDocCount;
+    float pXY00 = 1.0f * numXY00 / totalDocCount;
+
+    double m00 = 0, m01 = 0, m10 = 0, m11 = 0;
+    if (pXY00 != 0) m00 = pXY00 * Math.log(pXY00 / (pX0 * pY0));
+    if (pXY01 != 0) m01 = pXY01 * Math.log(pXY01 / (pX0 * pY1));
+    if (pXY10 != 0) m10 = pXY10 * Math.log(pXY10 / (pX1 * pY0));
+    if (pXY11 != 0) m11 = pXY11 * Math.log(pXY11 / (pX1 * pY1));
+    return m00 + m10 + m01 + m11;
+  }
+
   private double computeMutualInformation(Set<Integer> docidsX, Set<Integer> docidsY, int totalDocCount) {
     int x1 = docidsX.size(), y1 = docidsY.size(); //document that x occurres
     int x0 = totalDocCount - x1, y0 = totalDocCount - y1; //document num that x doesn't occurres
@@ -529,7 +599,7 @@ public class AxiomReranker<T> implements Reranker<T> {
     Set<Integer> docidsXClone = new HashSet<>(docidsX); // directly operate on docidsX will change it permanently
     docidsXClone.retainAll(docidsY);
     int numXY11 = docidsXClone.size();
-    int numXY10 = numXY10 = x1 - numXY11;    //doc num that x occurs but y doesn't
+    int numXY10 = x1 - numXY11;    //doc num that x occurs but y doesn't
     int numXY01 = y1 - numXY11;    // doc num that y occurs but x doesn't
     int numXY00 = totalDocCount - numXY11 - numXY10 - numXY01; //doc num that neither x nor y occurs
 
@@ -545,7 +615,7 @@ public class AxiomReranker<T> implements Reranker<T> {
     if (pXY11 != 0) m11 = pXY11 * Math.log(pXY11 / (pX1 * pY1));
     return m00 + m10 + m01 + m11;
   }
-  
+
   @Override
   public String tag() {
     return "AxiomaticRerank(R="+R+",N="+N+",K:"+K+",M:"+M+")";
