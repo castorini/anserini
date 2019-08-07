@@ -37,7 +37,7 @@ import java.util.TreeMap;
  * ...
  * </pre>
  */
-public class TsvTopicReader extends TopicReader {
+public class TsvTopicReader extends TopicReader<Integer> {
   public TsvTopicReader(Path topicFile) {
     super(topicFile);
   }

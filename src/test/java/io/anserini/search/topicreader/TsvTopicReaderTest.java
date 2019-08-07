@@ -29,7 +29,7 @@ public class TsvTopicReaderTest {
 
   @Test
   public void test() throws IOException {
-    TopicReader reader = new TsvTopicReader(
+    TopicReader<Integer> reader = new TsvTopicReader(
         Paths.get("src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt"));
 
     SortedMap<Integer, Map<String, String>> topics = reader.read();

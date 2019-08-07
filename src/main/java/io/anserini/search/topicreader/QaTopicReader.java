@@ -26,7 +26,7 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class QaTopicReader extends TopicReader {
+public class QaTopicReader extends TopicReader<Integer> {
 
   public QaTopicReader(Path topicFile) {
     super(topicFile);
