@@ -88,16 +88,21 @@ python ./src/main/python/openresearch/retrieve_pubmed_dblp.py \
   --output ${output_folder}/anserini_format/dblp_title_abstract/run.test \
   --hits 1000
 
-
+echo "pubmed title"
 ./eval/trec_eval.9.0.4/trec_eval -mrecip_rank -mmap -mrecall.20,1000 -mP.20  \
  ${output_folder}/anserini_format/pubmed_title/qrels.test ${output_folder}/anserini_format/pubmed_title/run.test
-./eval/trec_eval.9.0.4/trec_eval -mrecip_rank -mmap -mrecall.20,1000 -mP.20  \
- ${output_folder}/anserini_format/pubmed_title_abstract/qrels.test ${output_folder}/anserini_format/pubmed_title_abstract/run.test
+echo "pubmed key terms from title + abstract"
 ./eval/trec_eval.9.0.4/trec_eval -mrecip_rank -mmap -mrecall.20,1000 -mP.20  \
  ${output_folder}anserini_format/pubmed_title_abstract/qrels.test ${output_folder}anserini_format/pubmed_title_abstract/run.keyterms.test
+echo "pubmed title + abstract"
+./eval/trec_eval.9.0.4/trec_eval -mrecip_rank -mmap -mrecall.20,1000 -mP.20  \
+ ${output_folder}/anserini_format/pubmed_title_abstract/qrels.test ${output_folder}/anserini_format/pubmed_title_abstract/run.test
+echo "dblp title"
 ./eval/trec_eval.9.0.4/trec_eval -mrecip_rank -mmap -mrecall.20,1000 -mP.20  \
  ${output_folder}/anserini_format/dblp_title/qrels.test ${output_folder}/anserini_format/dblp_title/run.test
-./eval/trec_eval.9.0.4/trec_eval -mrecip_rank -mmap -mrecall.20,1000 -mP.20  \
- ${output_folder}/anserini_format/dblp_title_abstract/qrels.test ${output_folder}/anserini_format/dblp_title_abstract/run.test
+echo "dblp key terms from title + abstract"
 ./eval/trec_eval.9.0.4/trec_eval -mrecip_rank -mmap -mrecall.20,1000 -mP.20  \
  ${output_folder}/anserini_format/dblp_title_abstract/qrels.test ${output_folder}/anserini_format/dblp_title_abstract/run.keyterms.test
+echo "dblp title + abstract"
+./eval/trec_eval.9.0.4/trec_eval -mrecip_rank -mmap -mrecall.20,1000 -mP.20  \
+ ${output_folder}/anserini_format/dblp_title_abstract/qrels.test ${output_folder}/anserini_format/dblp_title_abstract/run.test
