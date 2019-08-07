@@ -3,6 +3,12 @@
 The following change log details commits to regression tests that alter effectiveness and the addition of new regression tests.
 This documentation is useful for figuring why results may have changed over time.
 
+### August 5, 2019
+
++ commit [`80c5447`](https://github.com/castorini/anserini/commit/80c54479d16fea901e474d31b906344300443c02) (8/5/2019)  
+
+Added +Ax and +PRF regressions with both tuned and default BM25 parameters for MS MARCO document ranking task.
+
 ### June 20, 2019
 
 + commit [`86be3d2`](https://github.com/castorini/anserini/commit/86be3d21ea8bdf9309ca5f85362c2782c3898a19) (6/20/2019)
