@@ -49,42 +49,42 @@ python ./src/main/python/openresearch/convert_pubmed_to_whoosh_index.py \
   --collection_path ${citeomatic_data}/citeomatic-2018-02-12/comparison/dblp \
   --whoosh_index ${output_folder}/anserini_format/dblp_title_abstract/whoosh_index
 
-python ./src/main/python/openresearch/retrieve_pubmed_dblp.py \
+python ./src/main/python/openresearch/retrieve.py \
   --index ${output_folder}/lucene-index-pubmed-title \
   --qid_queries ${output_folder}/anserini_format/pubmed_title/queries.test.tsv \
-  --candidate_file ${output_folder}/anserini_format/pubmed_title/candidates.txt \
+  --valid_docs ${output_folder}/anserini_format/pubmed_title/candidates.txt \
   --output ${output_folder}/anserini_format/pubmed_title/run.test \
   --hits 1000
-python ./src/main/python/openresearch/retrieve_pubmed_dblp_keyterms.py \
+python ./src/main/python/openresearch/retrieve_with_key_terms.py \
   --index ${output_folder}/lucene-index-dblp-title-abstract \
   --qid_queries ${output_folder}/anserini_format/dblp_title_abstract/queries.test.tsv \
-  --candidate_file ${output_folder}/anserini_format/dblp_title_abstract/candidates.txt \
+  --valid_docs ${output_folder}/anserini_format/dblp_title_abstract/candidates.txt \
   --output ${output_folder}/anserini_format/dblp_title_abstract/run.keyterms.test \
   --hits 1000 \
   --whoosh_index ${output_folder}/anserini_format/dblp_title_abstract/whoosh_index
-python ./src/main/python/openresearch/retrieve_pubmed_dblp.py \
+python ./src/main/python/openresearch/retrieve.py \
   --index ${output_folder}/lucene-index-pubmed-title-abstract \
   --qid_queries ${output_folder}/anserini_format/pubmed_title_abstract/queries.test.tsv \
-  --candidate_file ${output_folder}/anserini_format/pubmed_title_abstract/candidates.txt \
+  --valid_docs ${output_folder}/anserini_format/pubmed_title_abstract/candidates.txt \
   --output ${output_folder}/anserini_format/pubmed_title_abstract/run.test \
   --hits 1000
-python ./src/main/python/openresearch/retrieve_pubmed_dblp.py \
+python ./src/main/python/openresearch/retrieve.py \
   --index ${output_folder}/lucene-index-dblp-title \
   --qid_queries ${output_folder}/anserini_format/dblp_title/queries.test.tsv \
-  --candidate_file ${output_folder}/anserini_format/dblp_title/candidates.txt \
+  --valid_docs ${output_folder}/anserini_format/dblp_title/candidates.txt \
   --output ${output_folder}/anserini_format/dblp_title/run.test \
   --hits 1000
-python ./src/main/python/openresearch/retrieve_pubmed_dblp_keyterms.py \
+python ./src/main/python/openresearch/retrieve_with_key_terms.py \
   --index ${output_folder}/lucene-index-dblp-title-abstract \
   --qid_queries ${output_folder}/anserini_format/dblp_title_abstract/queries.test.tsv \
-  --candidate_file ${output_folder}/anserini_format/dblp_title_abstract/candidates.txt \
+  --valid_docs ${output_folder}/anserini_format/dblp_title_abstract/candidates.txt \
   --output ${output_folder}/anserini_format/dblp_title_abstract/run.keyterms.test \
   --hits 1000 \
   --whoosh_index ${output_folder}/anserini_format/dblp_title_abstract/whoosh_index
-python ./src/main/python/openresearch/retrieve_pubmed_dblp.py \
+python ./src/main/python/openresearch/retrieve.py \
   --index ${output_folder}/lucene-index-dblp-title-abstract \
   --qid_queries ${output_folder}/anserini_format/dblp_title_abstract/queries.test.tsv \
-  --candidate_file ${output_folder}/anserini_format/dblp_title_abstract/candidates.txt \
+  --valid_docs ${output_folder}/anserini_format/dblp_title_abstract/candidates.txt \
   --output ${output_folder}/anserini_format/dblp_title_abstract/run.test \
   --hits 1000
 

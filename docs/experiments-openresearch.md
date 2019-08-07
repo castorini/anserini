@@ -219,3 +219,23 @@ recall_20               all     0.2511
 recall_1000             all     0.6913
 f1_20                   all     0.194
 ```
+
+The table below compares our BM25 results against Bhagavatula's et. al (2018):
+
+**PubMed**
+
+|                                 | F1@20 |  MRR  |
+|----------|:-------------:|------:|
+| BM25 (Bhagavatula et. al, 2018) | 0.209 | 0.574 |
+| BM25 (Anserini, Ours, title)    | 0.199 | 0.584 |
+| BM25 (Anserini, Ours, key terms)| 0.201 | 0.595 |
+| BM25 (Anserini, Ours, title+abstract)| 0.268 | 0.720|
+
+**DBLP**
+
+|                                 | F1@20 |  MRR  |
+|----------|:-------------:|------:|
+| BM25 (Bhagavatula et. al, 2018) | 0.119 | 0.425 |
+| BM25 (Anserini, Ours, title)    | 0.133 | 0.424 |
+| BM25 (Anserini, Ours, key terms)| 0.130 | 0.425 |
+| BM25 (Anserini, Ours, title+abstract)| 0.194 | 0.585 |
