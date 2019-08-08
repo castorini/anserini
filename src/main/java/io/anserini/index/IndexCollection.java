@@ -251,6 +251,7 @@ public final class IndexCollection {
     final private Path inputFile;
     final private IndexWriter writer;
     final private DocumentCollection collection;
+    private FileSegment fileSegment;
 
     private LocalIndexerThread(IndexWriter writer, DocumentCollection collection, Path inputFile) throws IOException {
       this.writer = writer;
@@ -273,6 +274,7 @@ public final class IndexCollection {
         @SuppressWarnings("unchecked")
         FileSegment<SourceDocument> segment =
             (FileSegment) collection.createFileSegment(inputFile);
+        this.fileSegment = segment; // for calling close() and cleaning up resources in case of exception
 
         for (Object document : segment) {
           SourceDocument d = (SourceDocument) document;
@@ -327,12 +329,18 @@ public final class IndexCollection {
               inputFile.getFileName().toString() + ": error iterating through segment.");
         }
 
-        segment.close();
         LOG.info(inputFile.getParent().getFileName().toString() + File.separator +
             inputFile.getFileName().toString() + ": " + cnt + " docs added.");
         counters.indexed.addAndGet(cnt);
       } catch (Exception e) {
         LOG.error(Thread.currentThread().getName() + ": Unexpected Exception:", e);
+      } finally {
+        // clean up resources
+        try {
+          fileSegment.close();
+        } catch (IOException io) {
+          LOG.error("IOException closing segment: " + io.getMessage());
+        }
       }
     }
   }

@@ -16,6 +16,9 @@
 
 package io.anserini.collection;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -37,6 +40,7 @@ import java.io.Closeable;
  * </p>
  */
 public abstract class FileSegment<T extends SourceDocument> implements Iterable<T>, Closeable {
+  private static final Logger LOG = LogManager.getLogger(FileSegment.class);
 
   protected Path path;
   protected final int BUFFER_SIZE = 1 << 16; // 64K
