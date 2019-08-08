@@ -274,7 +274,8 @@ public final class IndexCollection {
         @SuppressWarnings("unchecked")
         FileSegment<SourceDocument> segment =
             (FileSegment) collection.createFileSegment(inputFile);
-        this.fileSegment = segment; // for calling close() and cleaning up resources in case of exception
+        // in order to call close() and clean up resources in case of exception
+        this.fileSegment = segment;
 
         for (Object document : segment) {
           SourceDocument d = (SourceDocument) document;
@@ -337,7 +338,9 @@ public final class IndexCollection {
       } finally {
         // clean up resources
         try {
-          fileSegment.close();
+          if (fileSegment != null){
+            fileSegment.close();
+          }
         } catch (IOException io) {
           LOG.error("IOException closing segment: " + io.getMessage());
         }
@@ -350,6 +353,7 @@ public final class IndexCollection {
     private final Path input;
     private final DocumentCollection collection;
     private final List<SolrInputDocument> buffer = new ArrayList<>(args.solrBatch);
+    private FileSegment fileSegment;
 
     private SolrIndexerThread(DocumentCollection collection, Path input) {
       this.input = input;
@@ -370,6 +374,8 @@ public final class IndexCollection {
         @SuppressWarnings("unchecked")
         FileSegment<SourceDocument> segment =
             (FileSegment) collection.createFileSegment(input);
+        // in order to call close() and clean up resources in case of exception
+        this.fileSegment = segment;
 
         for (Object d : segment) {
           SourceDocument sourceDocument = (SourceDocument) d;
@@ -439,11 +445,19 @@ public final class IndexCollection {
           LOG.error(input.getParent().getFileName().toString() + File.separator + input.getFileName().toString() + ": error iterating through segment.");
         }
 
-        segment.close();
         LOG.info(input.getParent().getFileName().toString() + File.separator + input.getFileName().toString() + ": " + cnt + " docs added.");
         counters.indexed.addAndGet(cnt);
       } catch (Exception e) {
         LOG.error(Thread.currentThread().getName() + ": Unexpected Exception:", e);
+      } finally {
+        // clean up resources
+        try {
+          if (fileSegment != null){
+            fileSegment.close();
+          }
+        } catch (IOException io) {
+          LOG.error("IOException closing segment: " + io.getMessage());
+        }
       }
 
     }
@@ -476,6 +490,7 @@ public final class IndexCollection {
     private final Path input;
     private final DocumentCollection collection;
     private BulkRequest bulkRequest;
+    private FileSegment fileSegment;
 
     private ESIndexerThread(DocumentCollection collection, Path input) {
       this.input = input;
@@ -496,6 +511,8 @@ public final class IndexCollection {
         @SuppressWarnings("unchecked")
         FileSegment<SourceDocument> segment =
             (FileSegment) collection.createFileSegment(input);
+        // in order to call close() and clean up resources in case of exception
+        this.fileSegment = segment;
 
         int cnt = 0;
 
@@ -581,11 +598,19 @@ public final class IndexCollection {
           LOG.error(input.getParent().getFileName().toString() + File.separator + input.getFileName().toString() + ": error iterating through segment.");
         }
 
-        segment.close();
         LOG.info(input.getParent().getFileName().toString() + File.separator + input.getFileName().toString() + ": " + cnt + " docs added.");
         counters.indexed.addAndGet(cnt);
       } catch (Exception e) {
         LOG.error(Thread.currentThread().getName() + ": Unexpected Exception:", e);
+      } finally {
+        // clean up resources
+        try {
+          if (fileSegment != null){
+            fileSegment.close();
+          }
+        } catch (IOException io) {
+          LOG.error("IOException closing segment: " + io.getMessage());
+        }
       }
     }
 
