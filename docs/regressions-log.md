@@ -130,14 +130,14 @@ This commit adds the effectiveness verification testing for the [JDIQ2018 Paper]
 
 These three commits establish the new regression testing infrastructure with the following tests:
 
-+ [Experiments on Disks 1 &amp; 2](experiments-disk12.md): {BM25, QL} &#10799; {RM3, Ax} &#10799; {AP, P30}
-+ [Experiments on Disks 4 &amp; 5 (Robust04)](experiments-robust04.md): {BM25, QL} &#10799; {RM3, Ax} &#10799; {AP, P30}
-+ [Experiments on AQUAINT (Robust05)](experiments-robust05.md): {BM25, QL} &#10799; {RM3, Ax} &#10799; {AP, P30}
-+ [Experiments on New York Times (Core17)](experiments-core17.md): {BM25, QL} &#10799; {RM3, Ax} &#10799; {AP, P30}
-+ [Experiments on Wt10g](experiments-wt10g.md): {BM25, QL} &#10799; {RM3, Ax} &#10799; {AP, P30}
-+ [Experiments on Gov2](experiments-gov2.md): {BM25, QL} &#10799; {RM3, Ax} &#10799; {AP, P30}
-+ [Experiments on ClueWeb09 (Category B)](experiments-cw09b.md): {BM25, QL} &#10799; {RM3, Ax} &#10799; {AP, P30, NDCG@20, ERR@20}
-+ [Experiments on ClueWeb12-B13](experiments-cw12b13.md): {BM25, QL} &#10799; {RM3, Ax} &#10799; {AP, P30, NDCG@20, ERR@20}
-+ [Experiments on ClueWeb12](experiments-cw12.md): {BM25, QL} &#10799; {RM3} &#10799; {AP, P30, NDCG@20, ERR@20}
-+ [Experiments on Tweets2011 (MB11 &amp; MB12)](experiments-mb11.md): {BM25, QL} &#10799; {RM3, Ax} &#10799; {AP, P30}
-+ [Experiments on Tweets2013 (MB13 &amp; MB14)](experiments-mb13.md): {BM25, QL} &#10799; {RM3, Ax} &#10799; {AP, P30}
++ Experiments on Disks 1 &amp; 2: {BM25, QL} &#10799; {RM3, Ax} &#10799; {AP, P30}
++ Experiments on Disks 4 &amp; 5 (Robust04): {BM25, QL} &#10799; {RM3, Ax} &#10799; {AP, P30}
++ Experiments on AQUAINT (Robust05): {BM25, QL} &#10799; {RM3, Ax} &#10799; {AP, P30}
++ Experiments on New York Times (Core17): {BM25, QL} &#10799; {RM3, Ax} &#10799; {AP, P30}
++ Experiments on Wt10g: {BM25, QL} &#10799; {RM3, Ax} &#10799; {AP, P30}
++ Experiments on Gov2: {BM25, QL} &#10799; {RM3, Ax} &#10799; {AP, P30}
++ Experiments on ClueWeb09 (Category B): {BM25, QL} &#10799; {RM3, Ax} &#10799; {AP, P30, NDCG@20, ERR@20}
++ Experiments on ClueWeb12-B13: {BM25, QL} &#10799; {RM3, Ax} &#10799; {AP, P30, NDCG@20, ERR@20}
++ Experiments on ClueWeb12: {BM25, QL} &#10799; {RM3} &#10799; {AP, P30, NDCG@20, ERR@20}
++ Experiments on Tweets2011 (MB11 &amp; MB12): {BM25, QL} &#10799; {RM3, Ax} &#10799; {AP, P30}
++ Experiments on Tweets2013 (MB13 &amp; MB14): {BM25, QL} &#10799; {RM3, Ax} &#10799; {AP, P30}
