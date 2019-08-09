@@ -10,7 +10,7 @@ Typical indexing command:
 ${index_cmds}
 ```
 
-The directory `/path/to/Car17v1.5` should be the root directory of Complex Answer Retrieval (CAR) paragraph corpus (v1.5), which can be downloaded [here](http://trec-car.cs.unh.edu/datareleases/).
+The directory `/path/to/car17v1.5` should be the root directory of Complex Answer Retrieval (CAR) paragraph corpus (v1.5), which can be downloaded [here](http://trec-car.cs.unh.edu/datareleases/).
 
 For additional details, see explanation of [common indexing options](common-indexing-options.md).
 

@@ -20,7 +20,7 @@ lucene-index.car17v2.0-doc2query.pos+docvectors+rawdocs -storePositions \
 &
 ```
 
-The directory `/path/to/Car17v2.0` should be the root directory of Complex Answer Retrieval (CAR) paragraph corpus (v2.0) that has been augmented with the Doc2query expansions, i.e., `collection_jsonl_expanded_topk10/` as described in [this page](experiments-doc2query.md).
+The directory `/path/to/car17v2.0-doc2query` should be the root directory of Complex Answer Retrieval (CAR) paragraph corpus (v2.0) that has been augmented with the Doc2query expansions, i.e., `collection_jsonl_expanded_topk10/` as described in [this page](experiments-doc2query.md).
 
 For additional details, see explanation of [common indexing options](common-indexing-options.md).
 

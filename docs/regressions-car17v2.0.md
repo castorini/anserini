@@ -13,7 +13,7 @@ lucene-index.car17v2.0.pos+docvectors+rawdocs -storePositions -storeDocvectors \
 -storeRawDocs >& log.car17v2.0.pos+docvectors+rawdocs &
 ```
 
-The directory `/path/to/Car17v2.0` should be the root directory of Complex Answer Retrieval (CAR) paragraph corpus (v2.0), which can be downloaded [here](http://trec-car.cs.unh.edu/datareleases/).
+The directory `/path/to/car17v2.0` should be the root directory of Complex Answer Retrieval (CAR) paragraph corpus (v2.0), which can be downloaded [here](http://trec-car.cs.unh.edu/datareleases/).
 
 For additional details, see explanation of [common indexing options](common-indexing-options.md).
 
