@@ -149,3 +149,7 @@ recip_rank            	all	0.2750
 
 Note that this MAP is sligtly higher than the arXiv paper (0.178) because we used
 TREC CAR corpus v2.0 in this experiment instead of corpus v1.5 used in the paper.
+
+## Replication Log
+
++ Results replicated by [@justram](https://github.com/justram) on 2019-08-09 (commit [`5f098f`](https://github.com/justram/Anserini/commit/5f098f23527611bca1224149bc2d155adce1e48))

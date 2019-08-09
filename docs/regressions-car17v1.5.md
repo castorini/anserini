@@ -1,4 +1,6 @@
-# Anserini: Regressions for [TREC 2017 CAR](http://trec-car.cs.unh.edu/) (v1.5)
+# Anserini: Regressions for [CAR17](http://trec-car.cs.unh.edu/) (v1.5)
+
+This page documents regression experiments for the [TREC 2017 Complex Answer Retrieval (CAR)](http://trec-car.cs.unh.edu/) section-level passage retrieval task (v1.5).
 
 ## Indexing
 
@@ -11,7 +13,7 @@ lucene-index.car17v1.5.pos+docvectors+rawdocs -storePositions -storeDocvectors \
 -storeRawDocs >& log.car17v1.5.pos+docvectors+rawdocs &
 ```
 
-The directory `/path/to/Car17v1.5` should be the root directory of Complex Answer Retrieval (CAR) paragraph corpus (v1.5), which can be downloaded [here](http://trec-car.cs.unh.edu/datareleases/).
+The directory `/path/to/car17v1.5` should be the root directory of Complex Answer Retrieval (CAR) paragraph corpus (v1.5), which can be downloaded [here](http://trec-car.cs.unh.edu/datareleases/).
 
 For additional details, see explanation of [common indexing options](common-indexing-options.md).
 
