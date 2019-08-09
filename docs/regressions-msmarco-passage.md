@@ -31,9 +31,17 @@ nohup target/appassembler/bin/SearchCollection -topicreader Tsv -index lucene-in
 
 nohup target/appassembler/bin/SearchCollection -topicreader Tsv -index lucene-index.msmarco-passage.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt -output run.msmarco-passage.bm25-default+rm3.topics.msmarco-passage.dev-subset.txt -bm25 -rm3 &
 
+nohup target/appassembler/bin/SearchCollection -topicreader Tsv -index lucene-index.msmarco-passage.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt -output run.msmarco-passage.bm25-default+ax.topics.msmarco-passage.dev-subset.txt -bm25 -axiom -rerankCutoff 20 -axiom.deterministic &
+
+nohup target/appassembler/bin/SearchCollection -topicreader Tsv -index lucene-index.msmarco-passage.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt -output run.msmarco-passage.bm25-default+prf.topics.msmarco-passage.dev-subset.txt -bm25 -bm25prf &
+
 nohup target/appassembler/bin/SearchCollection -topicreader Tsv -index lucene-index.msmarco-passage.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt -output run.msmarco-passage.bm25-tuned.topics.msmarco-passage.dev-subset.txt -bm25 -k1 0.82 -b 0.68 &
 
 nohup target/appassembler/bin/SearchCollection -topicreader Tsv -index lucene-index.msmarco-passage.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt -output run.msmarco-passage.bm25-tuned+rm3.topics.msmarco-passage.dev-subset.txt -bm25 -k1 0.82 -b 0.68 -rm3 &
+
+nohup target/appassembler/bin/SearchCollection -topicreader Tsv -index lucene-index.msmarco-passage.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt -output run.msmarco-passage.bm25-tuned+ax.topics.msmarco-passage.dev-subset.txt -bm25 -k1 0.82 -b 0.68 -axiom -rerankCutoff 20 -axiom.deterministic &
+
+nohup target/appassembler/bin/SearchCollection -topicreader Tsv -index lucene-index.msmarco-passage.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt -output run.msmarco-passage.bm25-tuned+prf.topics.msmarco-passage.dev-subset.txt -bm25 -k1 0.82 -b 0.68 -bm25prf &
 
 ```
 
@@ -44,9 +52,17 @@ eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.1000 -c src/main/resources/to
 
 eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt run.msmarco-passage.bm25-default+rm3.topics.msmarco-passage.dev-subset.txt
 
+eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt run.msmarco-passage.bm25-default+ax.topics.msmarco-passage.dev-subset.txt
+
+eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt run.msmarco-passage.bm25-default+prf.topics.msmarco-passage.dev-subset.txt
+
 eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt run.msmarco-passage.bm25-tuned.topics.msmarco-passage.dev-subset.txt
 
 eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt run.msmarco-passage.bm25-tuned+rm3.topics.msmarco-passage.dev-subset.txt
+
+eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt run.msmarco-passage.bm25-tuned+ax.topics.msmarco-passage.dev-subset.txt
+
+eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt run.msmarco-passage.bm25-tuned+prf.topics.msmarco-passage.dev-subset.txt
 
 ```
 
@@ -54,14 +70,14 @@ eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.1000 -c src/main/resources/to
 
 With the above commands, you should be able to replicate the following results:
 
-MAP                                     | BM25 (Default)| +RM3      | BM25 (Tuned)| +RM3      |
-:---------------------------------------|-----------|-----------|-----------|-----------|
-[MS MARCO Passage Ranking: Dev Queries](https://github.com/microsoft/MSMARCO-Passage-Ranking)| 0.1926    | 0.1661    | 0.1958    | 0.1762    |
+MAP                                     | BM25 (Default)| +RM3      | +Ax       | +PRF      | BM25 (Tuned)| +RM3      | +Ax       | +PRF      |
+:---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
+[MS MARCO Passage Ranking: Dev Queries](https://github.com/microsoft/MSMARCO-Passage-Ranking)| 0.1926    | 0.1661    | 0.1625    | 0.1520    | 0.1958    | 0.1762    | 0.1699    | 0.1582    |
 
 
-R@1000                                  | BM25 (Default)| +RM3      | BM25 (Tuned)| +RM3      |
-:---------------------------------------|-----------|-----------|-----------|-----------|
-[MS MARCO Passage Ranking: Dev Queries](https://github.com/microsoft/MSMARCO-Passage-Ranking)| 0.8526    | 0.8606    | 0.8573    | 0.8687    |
+R@1000                                  | BM25 (Default)| +RM3      | +Ax       | +PRF      | BM25 (Tuned)| +RM3      | +Ax       | +PRF      |
+:---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
+[MS MARCO Passage Ranking: Dev Queries](https://github.com/microsoft/MSMARCO-Passage-Ranking)| 0.8526    | 0.8606    | 0.8747    | 0.8537    | 0.8573    | 0.8687    | 0.8809    | 0.8561    |
 
 
 
