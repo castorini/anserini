@@ -55,7 +55,7 @@ if __name__ == '__main__':
             start_time = time.time()
             for line_number, line in enumerate(open(args.qid_queries)):
                 qid, query = line.strip().split('\t')
-                hits = searcher.search(JString(query.encode('utf8')), int(args.hits))
+                hits = searcher.search(query.encode('utf8'), int(args.hits))
                 if line_number % 100 == 0:
                     time_per_query = (time.time() - start_time) / (line_number + 1)
                     print('Retrieving query {} ({:0.3f} s/query)'.format(line_number, time_per_query), flush=True)
