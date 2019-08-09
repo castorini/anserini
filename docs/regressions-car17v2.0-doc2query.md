@@ -1,6 +1,6 @@
-# Anserini: Regressions for [TREC 2017 CAR](http://trec-car.cs.unh.edu/) (v2.0) + Doc2query
+# Anserini: Regressions for [CAR17](http://trec-car.cs.unh.edu/) (v2.0) + Doc2query
 
-This page documents regression experiments for the TREC 2017 CAR (v2.0) task with Doc2query expansions, as proposed in the following paper:
+This page documents regression experiments for the [TREC 2017 Complex Answer Retrieval (CAR)](http://trec-car.cs.unh.edu/) section-level passage retrieval task (v2.0), with Doc2query expansions, as proposed in the following paper:
 
 + Rodrigo Nogueira, Wei Yang, Jimmy Lin, Kyunghyun Cho. [Document Expansion by Query Prediction.](https://arxiv.org/abs/1904.08375) _arxiv:1904.08375_
 

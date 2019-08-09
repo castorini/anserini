@@ -1,4 +1,6 @@
-# Anserini: Regressions for [TREC 2017 CAR](http://trec-car.cs.unh.edu/) (v2.0)
+# Anserini: Regressions for [CAR17](http://trec-car.cs.unh.edu/) (v2.0)
+
+This page documents regression experiments for the [TREC 2017 Complex Answer Retrieval (CAR)](http://trec-car.cs.unh.edu/) section-level passage retrieval task (v2.0).
 
 ## Indexing
 
