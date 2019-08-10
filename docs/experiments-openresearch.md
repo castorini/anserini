@@ -124,11 +124,11 @@ recall_1000           	all	0.3628
 The output of using key terms in title and abstract as query should be:
 
 ```
-map                   	all	0.0412
-recip_rank            	all	0.2521
-P_20                  	all	0.0546
-recall_20             	all	0.0790
-recall_1000           	all	0.2818
+map                     all 0.0528
+recip_rank              all 0.2202
+P_20                    all 0.0428
+recall_20               all 0.1022
+recall_1000             all 0.3344
 ```
 
 
@@ -139,6 +139,103 @@ The table below compares our BM25 results against Bhagavatula's et. al (2018):
 | BM25 (Bhagavatula et. al, 2018) | 0.058 | 0.218 |
 | BM25 (Anserini, Ours, title)    | 0.063 | 0.244 |
 | BM25 (Anserini, Ours, title+abstract)| 0.095 | 0.351 |
-| BM25 (Anserini, Ours, key terms)| 0.065 | 0.251 |
+| BM25 (Anserini, Ours, key terms)| 0.060 | 0.220 |
 
 
+## Extra Baseline on PubMed and DBLP
+
+### PubMed and DBLP dataset
+
+Follow [citeomatic's repo](https://github.com/allenai/citeomatic/tree/44dc210c82515b5d4c5a96f5aafcb9b6e48206af) to download the necessary data.
+
+The steps are similar to run baseline on OpenResearch, to run all three experiments on PubMed and DBLP quickly, run
+
+`./src/main/python/openresearch/run_pubmed_dblp.sh -citeomatic_data <YOUR CITEOMATIC_DATA_ROOT> -output_folder <YOUR_OUTPUT_FOLDER>`
+
+The results are as follows:
+
+The output of using PubMed title as query
+
+```
+map                     all     0.1615
+recip_rank              all     0.5844
+P_20                    all     0.2034
+recall_20               all     0.1954
+recall_1000             all     0.6536
+f1_20                   all     0.199
+```
+
+The output of using PubMed key terms from title and abstract as query
+
+```
+map                     all     0.1637
+recip_rank              all     0.5953
+P_20                    all     0.2058
+recall_20               all     0.1969
+recall_1000             all     0.6041
+f1_20                   all     0.201
+```
+
+The output of using PubMed title + abstract as query
+
+```
+map                     all     0.2361
+recip_rank              all     0.7208
+P_20                    all     0.2726
+recall_20               all     0.2632
+recall_1000             all     0.7649
+f1_20                   all     0.268
+```
+
+The output of using DBLP title as query
+
+```
+map                     all     0.1056
+recip_rank              all     0.4244
+P_20                    all     0.1090
+recall_20               all     0.1721
+recall_1000             all     0.5511
+f1_20                   all     0.133
+```
+
+The output of using DBLP key terms from title and abstract as query
+
+```
+map                     all     0.1015
+recip_rank              all     0.4254
+P_20                    all     0.1059
+recall_20               all     0.1669
+recall_1000             all     0.5099
+f1_20                   all     0.130
+```
+
+The output of using DBLP title + abstract as query
+
+```
+map                     all     0.1687
+recip_rank              all     0.5851
+P_20                    all     0.1586
+recall_20               all     0.2511
+recall_1000             all     0.6913
+f1_20                   all     0.194
+```
+
+The table below compares our BM25 results against Bhagavatula's et. al (2018):
+
+**PubMed**
+
+|                                 | F1@20 |  MRR  |
+|----------|:-------------:|------:|
+| BM25 (Bhagavatula et. al, 2018) | 0.209 | 0.574 |
+| BM25 (Anserini, Ours, title)    | 0.199 | 0.584 |
+| BM25 (Anserini, Ours, key terms)| 0.201 | 0.595 |
+| BM25 (Anserini, Ours, title+abstract)| 0.268 | 0.720|
+
+**DBLP**
+
+|                                 | F1@20 |  MRR  |
+|----------|:-------------:|------:|
+| BM25 (Bhagavatula et. al, 2018) | 0.119 | 0.425 |
+| BM25 (Anserini, Ours, title)    | 0.133 | 0.424 |
+| BM25 (Anserini, Ours, key terms)| 0.130 | 0.425 |
+| BM25 (Anserini, Ours, title+abstract)| 0.194 | 0.585 |
