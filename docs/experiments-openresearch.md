@@ -124,11 +124,11 @@ recall_1000           	all	0.3628
 The output of using key terms in title and abstract as query should be:
 
 ```
-map                   	all	0.0412
-recip_rank            	all	0.2521
-P_20                  	all	0.0546
-recall_20             	all	0.0790
-recall_1000           	all	0.2818
+map                     all 0.0528
+recip_rank              all 0.2202
+P_20                    all 0.0428
+recall_20               all 0.1022
+recall_1000             all 0.3344
 ```
 
 
@@ -139,7 +139,7 @@ The table below compares our BM25 results against Bhagavatula's et. al (2018):
 | BM25 (Bhagavatula et. al, 2018) | 0.058 | 0.218 |
 | BM25 (Anserini, Ours, title)    | 0.063 | 0.244 |
 | BM25 (Anserini, Ours, title+abstract)| 0.095 | 0.351 |
-| BM25 (Anserini, Ours, key terms)| 0.065 | 0.251 |
+| BM25 (Anserini, Ours, key terms)| 0.060 | 0.220 |
 
 
 ## Extra Baseline on PubMed and DBLP
