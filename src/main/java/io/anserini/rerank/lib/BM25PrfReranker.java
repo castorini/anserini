@@ -48,6 +48,8 @@ import java.util.Map;
 import java.util.Set;
 
 import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_BODY;
+import static io.anserini.search.SearchCollection.BREAK_SCORE_TIES_BY_DOCID;
+import static io.anserini.search.SearchCollection.BREAK_SCORE_TIES_BY_TWEETID;
 
 
 class BM25PrfSimilarity extends BM25Similarity {
@@ -110,7 +112,14 @@ public class BM25PrfReranker implements Reranker {
     TopDocs rs;
 
     try {
-      rs = searcher.search(newQuery, context.getSearchArgs().hits);
+      // Figure out how to break the scoring ties.
+      if (context.getSearchArgs().arbitraryScoreTieBreak) {
+        rs = searcher.search(newQuery, context.getSearchArgs().hits);
+      } else if (context.getSearchArgs().searchtweets) {
+        rs = searcher.search(newQuery, context.getSearchArgs().hits, BREAK_SCORE_TIES_BY_TWEETID, true);
+      } else {
+        rs = searcher.search(newQuery, context.getSearchArgs().hits, BREAK_SCORE_TIES_BY_DOCID, true);
+      }
     } catch (IOException e) {
       e.printStackTrace();
       return docs;
