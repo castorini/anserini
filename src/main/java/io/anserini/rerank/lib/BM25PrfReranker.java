@@ -48,6 +48,8 @@ import java.util.Map;
 import java.util.Set;
 
 import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_BODY;
+import static io.anserini.search.SearchCollection.BREAK_SCORE_TIES_BY_DOCID;
+import static io.anserini.search.SearchCollection.BREAK_SCORE_TIES_BY_TWEETID;
 
 
 class BM25PrfSimilarity extends BM25Similarity {
@@ -110,7 +112,13 @@ public class BM25PrfReranker implements Reranker {
     TopDocs rs;
 
     try {
-      rs = searcher.search(newQuery, context.getSearchArgs().hits);
+      if (context.getSearchArgs().arbitraryScoreTieBreak) {
+        rs = searcher.search(newQuery, context.getSearchArgs().hits);
+      } else if (context.getSearchArgs().searchtweets) {
+        rs = searcher.search(newQuery, context.getSearchArgs().hits, BREAK_SCORE_TIES_BY_TWEETID, true);
+      } else {
+        rs = searcher.search(newQuery, context.getSearchArgs().hits, BREAK_SCORE_TIES_BY_DOCID, true);
+      }
     } catch (IOException e) {
       e.printStackTrace();
       return docs;
@@ -126,7 +134,7 @@ public class BM25PrfReranker implements Reranker {
     Set<String> vocab = new HashSet<>();
 
     Map<Integer, Set<String>> docToTermsMap = new HashMap<>();
-    int numRelDocs = docs.documents.length < fbDocs ? docs.documents.length : fbDocs;
+    int numRelDocs = StrictMath.min(docs.documents.length, fbDocs);
     int numDocs = reader.numDocs();
 
     for (int i = 0; i < numRelDocs; i++) {
@@ -221,10 +229,10 @@ public class BM25PrfReranker implements Reranker {
     int dfRel;
     int numDocs;
     int numDocsRel;
-    float weight;
+    double weight;
 
 
-    PrfFeature(int df, int dfRel, int numDocs, int numDocsRel, float weight) {
+    PrfFeature(int df, int dfRel, int numDocs, int numDocsRel, double weight) {
       this.df = df;
       this.dfRel = dfRel;
       this.numDocs = numDocs;
@@ -233,15 +241,15 @@ public class BM25PrfReranker implements Reranker {
     }
 
     double getRelWeight() {
-      double rw = Math.log((dfRel + 0.5D) * (numDocs - df - numDocsRel + dfRel + 0.5D) /
+      double rw = StrictMath.log((dfRel + 0.5D) * (numDocs - df - numDocsRel + dfRel + 0.5D) /
           ((df - dfRel + 0.5D) * (numDocsRel - dfRel + 0.5D))) * weight;
-      return Math.max(rw, 1e-6);
+      return StrictMath.max(rw, 1e-6);
     }
 
     double getOfferWeight() {
       // we apply log to dfRel according to
       // Sakai and Robertson (SIGIR 2002)
-      return getRelWeight() * Math.log(Math.max(dfRel, 1e-6));
+      return getRelWeight() * StrictMath.log(StrictMath.max(dfRel, 1e-6D));
     }
 
 
@@ -258,19 +266,18 @@ public class BM25PrfReranker implements Reranker {
       this.features = new HashMap<>();
     }
 
-    void addFeature(String term, int df, int dfRel, int numDocs, int numDocsRel, float weight) {
+    void addFeature(String term, int df, int dfRel, int numDocs, int numDocsRel, double weight) {
       features.put(term, new PrfFeature(df, dfRel, numDocs, numDocsRel, weight));
     }
 
 
     void addFeature(String term, int df, int dfRel, int numDocs, int numDocsRel) {
-      addFeature(term, df, dfRel, numDocs, numDocsRel, 1.0f);
+      addFeature(term, df, dfRel, numDocs, numDocsRel, 1.0D);
     }
 
 
-    public Query toQuery() {
+    Query toQuery() {
       BooleanQuery.Builder feedbackQueryBuilder = new BooleanQuery.Builder();
-
       for (Map.Entry<String, PrfFeature> f : features.entrySet()) {
         String term = f.getKey();
         float rw = (float) f.getValue().getRelWeight();
