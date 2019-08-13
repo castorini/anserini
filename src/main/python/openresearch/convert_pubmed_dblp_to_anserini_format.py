@@ -148,6 +148,7 @@ def create_dataset(args):
                 # Skip papers have out citations < 10.
                 if len(out_citations) < 10:
                     continue
+                    
                 set_name = 'test'
                 num_test += 1
 
