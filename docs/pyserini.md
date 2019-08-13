@@ -2,6 +2,7 @@
 
 Anserini was designed with Python integration in mind, for connecting with popular deep learning toolkits such as PyTorch. 
 [Pyserini](https://github.com/castorini/anserini/src/main/python/pyserini) provides a Python interface via [pyjnius](https://github.com/kivy/pyjnius) for accessing various classes within Anserini.
+For a quick walk-through, check out our online [colab demo](https://colab.research.google.com/drive/1KN_tWOdQ6zUNeYgXlwB67IdyYsetq27W).
 
 This is an ongoing effort, and contributions for extending the interface are welcome!
 You can also interact with Anserini's Java classes directly using `pyjnius`, as described [here](#Direct-Interaction-via-Pyjnius).
