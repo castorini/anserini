@@ -114,37 +114,41 @@ def create_dataset(args):
             out_citation for out_citation in out_citations 
             if out_citation in doc_ids
             ]
-            
-            # Remove self citations.
-            out_citations = [
-            out_citation for out_citation in out_citations 
-            if out_citation != doc_id
-            ]
-
-            # Use only citations that have an older publication year than the citing
-            # paper's or do not have an year.
-            out_citations2 = []
-            for out_citation in out_citations: 
-                if out_citation in id_years:
-                    if id_years[out_citation] <= obj['year']:
-                        out_citations2.append(out_citation)
-            out_citations = out_citations2
-
-            # Follow Bhagavatula's setting to restrict our citations candidates to train_ids only
-            out_citations = set(out_citations)
-            out_citations.intersection_update(train_ids)
-
-            # Skip papers have out citations < 10.
-            if len(out_citations) < 10:
-                continue
 
             if doc_id in train_ids:
+                if len(out_citations) == 0:
+                    continue
                 set_name = 'train'
                 num_train += 1  
             elif doc_id in dev_ids:
+                if len(out_citations) == 0:
+                    continue
                 set_name = 'dev'
                 num_dev += 1
             elif doc_id in test_ids:
+                # Remove self citations.
+                out_citations = [
+                out_citation for out_citation in out_citations 
+                if out_citation != doc_id
+                ]
+
+                # Use only citations that have an older publication year than the citing
+                # paper's or do not have an year.
+                out_citations2 = []
+                for out_citation in out_citations: 
+                    if out_citation in id_years:
+                        if id_years[out_citation] <= obj['year']:
+                            out_citations2.append(out_citation)
+                out_citations = out_citations2
+
+                # Follow Bhagavatula's setting to restrict our citations candidates to train_ids only
+                out_citations = set(out_citations)
+                out_citations.intersection_update(train_ids)
+
+                # Skip papers have out citations < 10.
+                if len(out_citations) < 10:
+                    continue
+                    
                 set_name = 'test'
                 num_test += 1
 
