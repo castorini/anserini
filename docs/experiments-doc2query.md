@@ -54,6 +54,14 @@ python ./src/main/python/msmarco/retrieve.py --hits 1000 --index msmarco-passage
  --qid_queries msmarco-passage/queries.dev.small.tsv --output msmarco-passage/run.dev.small.expanded-topk10.tsv
 ```
 
+Alternatively, we can run the same script implemented in Java, which is a bit faster:
+
+```
+./target/appassembler/bin/SearchMsmarco  -hits 1000 -threads 1 \
+ -index msmarco-passage/lucene-index-msmarco-expanded-topk10 -qid_queries msmarco-passage/queries.dev.small.tsv \
+ -output msmarco-passage/run.dev.small.expanded-topk10.tsv
+```
+
 Finally, to evaluate:
 
 ```
