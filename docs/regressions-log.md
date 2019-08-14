@@ -3,6 +3,13 @@
 The following change log details commits to regression tests that alter effectiveness and the addition of new regression tests.
 This documentation is useful for figuring why results may have changed over time.
 
+### August 14, 2019
+
++ commit [`2f1b665`](https://github.com/castorini/anserini/commit/2f1b66586073f1fc4e8913d1119fbbf478745013) (8/14/2019)
+
+Resolves inconsistent tie-breaking for BM25prf that leads to non-deterministic results, per [#774](https://github.com/castorini/anserini/issues/774). Note that regression numbers did not change.
+
+
 ### August 9, 2019
 
 + commit [`1217d47`](https://github.com/castorini/anserini/commit/1217d475c88cc4782ff3056506afc43d71bf31fb) (8/9/2019)
