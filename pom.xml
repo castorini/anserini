@@ -106,8 +106,12 @@
               <id>SearchCollection</id>
             </program>
             <program>
-              <mainClass>io.anserini.search.SearchSolrCollection</mainClass>
-              <id>SearchSolrCollection</id>
+              <mainClass>io.anserini.search.SearchSolr</mainClass>
+              <id>SearchSolr</id>
+            </program>
+            <program>
+              <mainClass>io.anserini.search.SearchElastic</mainClass>
+              <id>SearchElastic</id>
             </program>
             <program>
               <mainClass>io.anserini.search.SearchMsmarco</mainClass>

@@ -63,7 +63,7 @@ Once indexing has completed, you should be able to query `robust04` from the Sol
 You can also run the following command to replicate Anserini BM25 retrieval:
 
 ```
-sh target/appassembler/bin/SearchSolrCollection -topicreader Trec \
+sh target/appassembler/bin/SearchSolr -topicreader Trec \
   -solr.index robust04 -solr.zkUrl localhost:9983 \
   -topics src/main/resources/topics-and-qrels/topics.robust04.301-450.601-700.txt \
   -output run.solr.robust04.bm25.topics.robust04.301-450.601-700.txt
