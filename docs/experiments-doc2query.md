@@ -54,6 +54,14 @@ python ./src/main/python/msmarco/retrieve.py --hits 1000 --index msmarco-passage
  --qid_queries msmarco-passage/queries.dev.small.tsv --output msmarco-passage/run.dev.small.expanded-topk10.tsv
 ```
 
+Alternatively, we can run the same script implemented in Java, which is a bit faster:
+
+```
+./target/appassembler/bin/SearchMsmarco  -hits 1000 -threads 1 \
+ -index msmarco-passage/lucene-index-msmarco-expanded-topk10 -qid_queries msmarco-passage/queries.dev.small.tsv \
+ -output msmarco-passage/run.dev.small.expanded-topk10.tsv
+```
+
 Finally, to evaluate:
 
 ```
@@ -109,9 +117,10 @@ There are as many lines in the above file as there are documents; all 10 predict
 Now let's create a new document collection by concatenating the predicted queries to the original documents:
 
 ```
-python src/main/python/treccar/augment_collection_with_predictions.py \
-  --collection_path trec_car/paragraphCorpus/dedup.articles-paragraphs.cbor --output_folder trec_car/collection_jsonl_expanded_topk10 \
-  --predictions trec_car/pred-test_topk10.txt --stride 1
+python src/main/python/trec_car/augment_collection_with_predictions.py \
+ --collection_path trec_car/paragraphCorpus/dedup.articles-paragraphs.cbor \
+ --output_folder trec_car/collection_jsonl_expanded_topk10 \
+ --predictions trec_car/pred-test_topk10.txt --stride 1
 ```
 
 This augmentation process might take 2-3 hours.
@@ -119,25 +128,25 @@ This augmentation process might take 2-3 hours.
 We can then index the expanded documents:
 
 ```
-nohup sh target/appassembler/bin/IndexCollection -collection JsonCollection \
--generator LuceneDocumentGenerator -threads 40 -input trec_car/collection_jsonl_expanded_topk10 \
--index trec_car/lucene-index.car17v2.0
+sh target/appassembler/bin/IndexCollection -collection JsonCollection \
+ -generator LuceneDocumentGenerator -threads 30 -input trec_car/collection_jsonl_expanded_topk10 \
+ -index trec_car/lucene-index.car17v2.0
 ```
 
 And retrieve the test queries:
 
 ```
 sh target/appassembler/bin/SearchCollection -topicreader Car \
--index trec_car/lucene-index.car17v2.0 \
--topics src/main/resources/topics-and-qrels/topics.car17v2.0.benchmarkY1test.txt \
--output trec_car/run.car17v2.0.bm25.topics.car17v2.0.benchmarkY1test.txt -bm25
+ -index trec_car/lucene-index.car17v2.0 \
+ -topics src/main/resources/topics-and-qrels/topics.car17v2.0.benchmarkY1test.txt \
+ -output trec_car/run.car17v2.0.bm25.topics.car17v2.0.benchmarkY1test.txt -bm25
 ```
 
 Evaluation is performed with `trec_eval`:
 ```
 eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recip_rank \
-src/main/resources/topics-and-qrels/qrels.car17v2.0.benchmarkY1test.txt \
-trec_car/run.car17v2.0.bm25.topics.car17v2.0.benchmarkY1test.txt
+ src/main/resources/topics-and-qrels/qrels.car17v2.0.benchmarkY1test.txt \
+ trec_car/run.car17v2.0.bm25.topics.car17v2.0.benchmarkY1test.txt
 ```
 
 With the above commands, you should be able to replicate the following results:
@@ -148,3 +157,8 @@ recip_rank            	all	0.2750
 
 Note that this MAP is sligtly higher than the arXiv paper (0.178) because we used
 TREC CAR corpus v2.0 in this experiment instead of corpus v1.5 used in the paper.
+
+## Replication Log
+
++ Results replicated by [@justram](https://github.com/justram) on 2019-08-09 (commit [`5f098f`](https://github.com/justram/Anserini/commit/5f098f23527611bca1224149bc2d155adce1e48))
++ Results replicated by [@ronakice](https://github.com/ronakice) on 2019-08-13 (commit [`5b29d16`](https://github.com/castorini/anserini/commit/5b29d1654abc5e8a014c2230da990ab2f91fb340))

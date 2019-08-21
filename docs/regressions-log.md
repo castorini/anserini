@@ -3,6 +3,27 @@
 The following change log details commits to regression tests that alter effectiveness and the addition of new regression tests.
 This documentation is useful for figuring why results may have changed over time.
 
+### August 14, 2019
+
++ commit [`2f1b665`](https://github.com/castorini/anserini/commit/2f1b66586073f1fc4e8913d1119fbbf478745013) (8/14/2019)
+
+Resolves inconsistent tie-breaking for BM25prf that leads to non-deterministic results, per [#774](https://github.com/castorini/anserini/issues/774). Note that regression numbers did not change.
+
+
+### August 9, 2019
+
++ commit [`1217d47`](https://github.com/castorini/anserini/commit/1217d475c88cc4782ff3056506afc43d71bf31fb) (8/9/2019)
++ commit [`75dfaa6`](https://github.com/castorini/anserini/commit/75dfaa6989ed36f76422d7be0d9d424d85705ee3) (8/9/2019)
+
+Added new Doc2query regression `car17v2.0-doc2query` to replicate [Nogueira et al. (arXiv 2019)](https://arxiv.org/abs/1904.08375) on the TREC 2017 Complex Answer Retrieval (CAR) section-level passage retrieval task (v2.0).
+Added +Ax and +PRF regressions with both tuned and default BM25 parameters for MS MARCO passage ranking task.
+
+### August 5, 2019
+
++ commit [`80c5447`](https://github.com/castorini/anserini/commit/80c54479d16fea901e474d31b906344300443c02) (8/5/2019)
+
+Added +Ax and +PRF regressions with both tuned and default BM25 parameters for MS MARCO document ranking task.
+
 ### June 20, 2019
 
 + commit [`86be3d2`](https://github.com/castorini/anserini/commit/86be3d21ea8bdf9309ca5f85362c2782c3898a19) (6/20/2019)
@@ -116,14 +137,14 @@ This commit adds the effectiveness verification testing for the [JDIQ2018 Paper]
 
 These three commits establish the new regression testing infrastructure with the following tests:
 
-+ [Experiments on Disks 1 &amp; 2](experiments-disk12.md): {BM25, QL} &#10799; {RM3, Ax} &#10799; {AP, P30}
-+ [Experiments on Disks 4 &amp; 5 (Robust04)](experiments-robust04.md): {BM25, QL} &#10799; {RM3, Ax} &#10799; {AP, P30}
-+ [Experiments on AQUAINT (Robust05)](experiments-robust05.md): {BM25, QL} &#10799; {RM3, Ax} &#10799; {AP, P30}
-+ [Experiments on New York Times (Core17)](experiments-core17.md): {BM25, QL} &#10799; {RM3, Ax} &#10799; {AP, P30}
-+ [Experiments on Wt10g](experiments-wt10g.md): {BM25, QL} &#10799; {RM3, Ax} &#10799; {AP, P30}
-+ [Experiments on Gov2](experiments-gov2.md): {BM25, QL} &#10799; {RM3, Ax} &#10799; {AP, P30}
-+ [Experiments on ClueWeb09 (Category B)](experiments-cw09b.md): {BM25, QL} &#10799; {RM3, Ax} &#10799; {AP, P30, NDCG@20, ERR@20}
-+ [Experiments on ClueWeb12-B13](experiments-cw12b13.md): {BM25, QL} &#10799; {RM3, Ax} &#10799; {AP, P30, NDCG@20, ERR@20}
-+ [Experiments on ClueWeb12](experiments-cw12.md): {BM25, QL} &#10799; {RM3} &#10799; {AP, P30, NDCG@20, ERR@20}
-+ [Experiments on Tweets2011 (MB11 &amp; MB12)](experiments-mb11.md): {BM25, QL} &#10799; {RM3, Ax} &#10799; {AP, P30}
-+ [Experiments on Tweets2013 (MB13 &amp; MB14)](experiments-mb13.md): {BM25, QL} &#10799; {RM3, Ax} &#10799; {AP, P30}
++ Experiments on Disks 1 &amp; 2: {BM25, QL} &#10799; {RM3, Ax} &#10799; {AP, P30}
++ Experiments on Disks 4 &amp; 5 (Robust04): {BM25, QL} &#10799; {RM3, Ax} &#10799; {AP, P30}
++ Experiments on AQUAINT (Robust05): {BM25, QL} &#10799; {RM3, Ax} &#10799; {AP, P30}
++ Experiments on New York Times (Core17): {BM25, QL} &#10799; {RM3, Ax} &#10799; {AP, P30}
++ Experiments on Wt10g: {BM25, QL} &#10799; {RM3, Ax} &#10799; {AP, P30}
++ Experiments on Gov2: {BM25, QL} &#10799; {RM3, Ax} &#10799; {AP, P30}
++ Experiments on ClueWeb09 (Category B): {BM25, QL} &#10799; {RM3, Ax} &#10799; {AP, P30, NDCG@20, ERR@20}
++ Experiments on ClueWeb12-B13: {BM25, QL} &#10799; {RM3, Ax} &#10799; {AP, P30, NDCG@20, ERR@20}
++ Experiments on ClueWeb12: {BM25, QL} &#10799; {RM3} &#10799; {AP, P30, NDCG@20, ERR@20}
++ Experiments on Tweets2011 (MB11 &amp; MB12): {BM25, QL} &#10799; {RM3, Ax} &#10799; {AP, P30}
++ Experiments on Tweets2013 (MB13 &amp; MB14): {BM25, QL} &#10799; {RM3, Ax} &#10799; {AP, P30}
