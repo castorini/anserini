@@ -34,6 +34,7 @@ import java.util.Set;
 
 import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_BODY;
 import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_ID;
+import static io.anserini.index.generator.WapoGenerator.FIELD_DATE;
 
 /*
 * TREC News Track Background Linking task postprocessing.
@@ -54,29 +55,44 @@ public class NewsBackgroundLinkingReranker implements Reranker {
     }
     
     // remove the duplicates: 1. the same doc with the query doc 2. duplicated docs in the results
-    Set<Integer> duplicates = new HashSet<>();
+    Set<Integer> to_remove = new HashSet<>();
     for (int i = 0; i < docs.documents.length; i++) {
-      if (duplicates.contains(i)) continue;
+      if (to_remove.contains(i)) continue;
       String docid = docs.documents[i].getField(FIELD_ID).stringValue();
       if (computeCosineSimilarity(queryTermsMap, docsVectorsMap.get(i)) >= 0.9) {
-        duplicates.add(i);
+        to_remove.add(i);
         continue;
       }
       for (int j = i+1; j < docs.documents.length; j++) {
         if (computeCosineSimilarity(docsVectorsMap.get(i), docsVectorsMap.get(j)) >= 0.9) {
-          duplicates.add(j);
+          to_remove.add(j);
         }
+      }
+    }
+
+    if(context.getSearchArgs().backgroundlinking_datefilter){
+      try{
+        Document query_doc = reader.document(NewsBackgroundLinkingTopicReader.convertDocidToLuceneDocid(reader, queryDocId));
+        long query_doc_date = Long.parseLong(query_doc.getField(FIELD_DATE).stringValue());
+        for (int i = 0; i < docs.documents.length; i++) {
+          long date = Long.parseLong(docs.documents[i].getField(FIELD_DATE).stringValue());
+          if(date > query_doc_date){
+            to_remove.add(i);
+          }
+        }
+      } catch (Exception e) {
+        e.printStackTrace();
       }
     }
   
     ScoredDocuments scoredDocs = new ScoredDocuments();
-    int resSize = docs.documents.length - duplicates.size();
+    int resSize = docs.documents.length - to_remove.size();
     scoredDocs.documents = new Document[resSize];
     scoredDocs.ids = new int[resSize];
     scoredDocs.scores = new float[resSize];
     int idx = 0;
     for (int i = 0; i < docs.documents.length; i++) {
-      if (!duplicates.contains(i)) {
+      if (!to_remove.contains(i)) {
         scoredDocs.documents[idx] = docs.documents[i];
         scoredDocs.scores[idx] = docs.scores[i];
         scoredDocs.ids[idx] = docs.ids[i];

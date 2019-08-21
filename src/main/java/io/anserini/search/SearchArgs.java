@@ -66,7 +66,11 @@ public class SearchArgs {
   @Option(name = "-backgroundlinking.weighted", usage = "Boolean switch to construct boosted query for TREC News Track Background " +
       "Linking task. The terms scores are their tf-idf score from the query document")
   public boolean backgroundlinking_weighted = false;
-  
+
+  @Option(name = "-backgroundlinking.datefilter", usage = "Boolean switch to filter out articles published after topic article " +
+      "for the TREC News Track Background Linking task.")
+  public boolean backgroundlinking_datefilter = false;
+
   @Option(name = "-stemmer", usage = "Stemmer: one of the following porter,krovetz,none. Default porter")
   public String stemmer = "porter";
   
