@@ -555,9 +555,6 @@ public final class IndexCollection {
             // Skip docValues fields
             if (document.getField(field).fieldType().docValuesType() != DocValuesType.NONE) continue;
 
-            if (field.equals(LuceneDocumentGenerator.FIELD_RAW) && !args.storeRawDocs) continue;
-            if (field.equals(LuceneDocumentGenerator.FIELD_BODY) && !args.storeTransformedDocs) continue;
-
             // Get field objects for current field name (could be multiple, such as WaPo's fullCaption)
             IndexableField[] indexableFields = document.getFields(field);
 
