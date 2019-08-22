@@ -55,29 +55,28 @@ public class NewsBackgroundLinkingReranker implements Reranker {
     }
     
     // remove the duplicates: 1. the same doc with the query doc 2. duplicated docs in the results
-    Set<Integer> to_remove = new HashSet<>();
+    Set<Integer> toRemove = new HashSet<>();
     for (int i = 0; i < docs.documents.length; i++) {
-      if (to_remove.contains(i)) continue;
-      String docid = docs.documents[i].getField(FIELD_ID).stringValue();
+      if (toRemove.contains(i)) continue;
       if (computeCosineSimilarity(queryTermsMap, docsVectorsMap.get(i)) >= 0.9) {
-        to_remove.add(i);
+        toRemove.add(i);
         continue;
       }
       for (int j = i+1; j < docs.documents.length; j++) {
         if (computeCosineSimilarity(docsVectorsMap.get(i), docsVectorsMap.get(j)) >= 0.9) {
-          to_remove.add(j);
+          toRemove.add(j);
         }
       }
     }
 
     if(context.getSearchArgs().backgroundlinking_datefilter){
       try{
-        Document query_doc = reader.document(NewsBackgroundLinkingTopicReader.convertDocidToLuceneDocid(reader, queryDocId));
-        long query_doc_date = Long.parseLong(query_doc.getField(PUBLISHED_DATE.name).stringValue());
+        Document queryDoc = reader.document(NewsBackgroundLinkingTopicReader.convertDocidToLuceneDocid(reader, queryDocId));
+        long queryDocDate = Long.parseLong(queryDoc.getField(PUBLISHED_DATE.name).stringValue());
         for (int i = 0; i < docs.documents.length; i++) {
           long date = Long.parseLong(docs.documents[i].getField(PUBLISHED_DATE.name).stringValue());
-          if(date > query_doc_date){
-            to_remove.add(i);
+          if(date > queryDocDate){
+            toRemove.add(i);
           }
         }
       } catch (Exception e) {
@@ -86,13 +85,13 @@ public class NewsBackgroundLinkingReranker implements Reranker {
     }
   
     ScoredDocuments scoredDocs = new ScoredDocuments();
-    int resSize = docs.documents.length - to_remove.size();
+    int resSize = docs.documents.length - toRemove.size();
     scoredDocs.documents = new Document[resSize];
     scoredDocs.ids = new int[resSize];
     scoredDocs.scores = new float[resSize];
     int idx = 0;
     for (int i = 0; i < docs.documents.length; i++) {
-      if (!to_remove.contains(i)) {
+      if (!toRemove.contains(i)) {
         scoredDocs.documents[idx] = docs.documents[i];
         scoredDocs.scores[idx] = docs.scores[i];
         scoredDocs.ids[idx] = docs.ids[i];
