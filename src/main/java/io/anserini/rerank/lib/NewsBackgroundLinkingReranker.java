@@ -34,7 +34,7 @@ import java.util.Set;
 
 import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_BODY;
 import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_ID;
-import static io.anserini.index.generator.WapoGenerator.FIELD_DATE;
+import static io.anserini.index.generator.WapoGenerator.WapoField.PUBLISHED_DATE;
 
 /*
 * TREC News Track Background Linking task postprocessing.
@@ -73,9 +73,9 @@ public class NewsBackgroundLinkingReranker implements Reranker {
     if(context.getSearchArgs().backgroundlinking_datefilter){
       try{
         Document query_doc = reader.document(NewsBackgroundLinkingTopicReader.convertDocidToLuceneDocid(reader, queryDocId));
-        long query_doc_date = Long.parseLong(query_doc.getField(FIELD_DATE).stringValue());
+        long query_doc_date = Long.parseLong(query_doc.getField(PUBLISHED_DATE.name).stringValue());
         for (int i = 0; i < docs.documents.length; i++) {
-          long date = Long.parseLong(docs.documents[i].getField(FIELD_DATE).stringValue());
+          long date = Long.parseLong(docs.documents[i].getField(PUBLISHED_DATE.name).stringValue());
           if(date > query_doc_date){
             to_remove.add(i);
           }

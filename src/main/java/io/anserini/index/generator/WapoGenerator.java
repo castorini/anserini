@@ -45,8 +45,7 @@ public class WapoGenerator extends LuceneDocumentGenerator<WashingtonPostCollect
   public static final String FIELD_RAW = "raw";
   public static final String FIELD_BODY = "contents";
   public static final String FIELD_ID = "id";
-  public static final String FIELD_DATE = "published_date";
-  
+
   private static final String PATTERN = "<.+>";
   public static final List<String> CONTENT_TYPE_TAG = Arrays.asList("sanitized_html", "tweet");
 
@@ -86,7 +85,7 @@ public class WapoGenerator extends LuceneDocumentGenerator<WashingtonPostCollect
     doc.add(new StringField(FIELD_ID, id, Field.Store.YES));
     // This is needed to break score ties by docid.
     doc.add(new SortedDocValuesField(FIELD_ID, new BytesRef(id)));
-    doc.add(new LongPoint(FIELD_DATE, wapoDoc.getPublishDate()));
+    doc.add(new LongPoint(WapoField.PUBLISHED_DATE.name, wapoDoc.getPublishDate()));
     doc.add(new StoredField(WapoField.PUBLISHED_DATE.name, wapoDoc.getPublishDate()));
     wapoDoc.getAuthor().ifPresent(author -> {
       doc.add(new StringField(WapoField.AUTHOR.name, author, Field.Store.NO));
