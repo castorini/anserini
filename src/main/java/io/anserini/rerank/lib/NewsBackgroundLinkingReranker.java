@@ -70,12 +70,13 @@ public class NewsBackgroundLinkingReranker implements Reranker {
     }
 
     if(context.getSearchArgs().backgroundlinking_datefilter){
-      try{
-        Document queryDoc = reader.document(NewsBackgroundLinkingTopicReader.convertDocidToLuceneDocid(reader, queryDocId));
+      try {
+        int luceneId = NewsBackgroundLinkingTopicReader.convertDocidToLuceneDocid(reader, queryDocId);
+        Document queryDoc = reader.document(luceneId);
         long queryDocDate = Long.parseLong(queryDoc.getField(PUBLISHED_DATE.name).stringValue());
         for (int i = 0; i < docs.documents.length; i++) {
           long date = Long.parseLong(docs.documents[i].getField(PUBLISHED_DATE.name).stringValue());
-          if(date > queryDocDate){
+          if (date > queryDocDate){
             toRemove.add(i);
           }
         }
