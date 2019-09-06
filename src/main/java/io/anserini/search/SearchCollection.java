@@ -237,7 +237,7 @@ public final class SearchCollection implements Closeable {
     reader.close();
   }
   
-  public List<TaggedSimilarity> constructSimiliries() {
+  public List<TaggedSimilarity> constructSimilarities() {
     // Figure out which scoring model to use.
     List<TaggedSimilarity> similarities = new ArrayList<>();
     if (args.ql || args.qld) {
@@ -361,7 +361,7 @@ public final class SearchCollection implements Closeable {
   
     final String runTag = args.runtag == null ? "Anserini" : args.runtag;
     final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(args.threads);
-    this.similarities = constructSimiliries();
+    this.similarities = constructSimilarities();
     Map<String, RerankerCascade> cascades = constructRerankerCascades();
     for (TaggedSimilarity taggedSimilarity : this.similarities) {
       for (Map.Entry<String, RerankerCascade> cascade : cascades.entrySet()) {
