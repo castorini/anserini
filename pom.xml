@@ -118,6 +118,10 @@
               <id>SearchMsmarco</id>
             </program>
             <program>
+               <mainClass>io.anserini.util.ExtractDocumentLengths</mainClass>
+               <id>DocLen</id>
+            </program>
+            <program>
               <mainClass>io.anserini.eval.Eval</mainClass>
               <id>Eval</id>
             </program>
