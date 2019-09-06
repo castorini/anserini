@@ -76,3 +76,6 @@ P30                                     | BM25      | +RM3      | +Ax       | QL
 ## Replication Log
 
 * Results replicated by [@andrewyates](https://github.com/andrewyates) on 2018-11-30 (commit [`c1aac5`](https://github.com/castorini/Anserini/commit/c1aac5e353e2ab77db3e7106cb4c017a09ce0fe9))
+* Results replicated by [@chriskamphuis](https://github.com/chriskamphuis) on 2019-09-06 (commit [`bfa6820
+`](https://github.com/castorini/Anserini/commit/bfa6820afb85f304c2d9e787ac7448f554605967))
+
