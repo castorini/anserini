@@ -71,7 +71,7 @@ With the above commands, you should be able to replicate the following results:
 
 MAP                                     | BM25 (Default)| +RM3      | +Ax       | +PRF      | BM25 (Tuned)| +RM3      | +Ax       | +PRF      |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
-[MS MARCO Document Ranking: Dev Queries](https://github.com/microsoft/TREC-2019-Deep-Learning)| 0.2310    | 0.1632    | 0.1147    | 0.1359    | 0.2788    | 0.2289    | 0.1895    | 0.1562    |
+[MS MARCO Document Ranking: Dev Queries](https://github.com/microsoft/TREC-2019-Deep-Learning)| 0.2310    | 0.1632    | 0.1147    | 0.1357    | 0.2788    | 0.2289    | 0.1895    | 0.1559    |
 
 
 R@1000                                  | BM25 (Default)| +RM3      | +Ax       | +PRF      | BM25 (Tuned)| +RM3      | +Ax       | +PRF      |
