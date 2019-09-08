@@ -77,24 +77,27 @@ def construct_indexing_command(yaml_data, args):
     """
     logger.info('='*10+'Indexing'+'='*10)
 
-    # Determine where the input collection path is by checking various locations
+    # Determine the input collection path, either from the command line,
+    # or by checking various locations specified in the YAML.
     collection_path = None
-    for input_root in yaml_data['input_roots']:
-        if os.path.exists(os.path.join(input_root, yaml_data['input'])):
-            collection_path = os.path.join(input_root, yaml_data['input'])
-            break
-
-    # Allow command-line override of the input collection path
     if args.collection_path != '':
-        collection_path = args.collection_path
+        if  os.path.exists(args.collection_path):
+            collection_path = args.collection_path
+    else:
+        for input_root in yaml_data['input_roots']:
+            collection_path = os.path.join(input_root, yaml_data['input'])
+            if os.path.exists(collection_path):
+                break
 
     if not collection_path:
-        raise RuntimeError("All corpus inputs are not existing, please check!")
+        raise RuntimeError("Unable to find input collection path!")
 
-    # Read number of threads from YAML, but allow command-line override
-    threads = yaml_data['threads']
+    # Determine the number of indexing threads, either from the command line,
+    # or reading the YAML config.
     if args.indexing_threads != -1:
         threads = args.indexing_threads
+    else:
+        threads = yaml_data['threads']
 
     index_command = [
         os.path.join(yaml_data['root'], yaml_data['index_command']),
