@@ -65,29 +65,43 @@ def get_index_path(yaml_data):
     return index_path
 
 
-def construct_indexing_command(yaml_data):
+def construct_indexing_command(yaml_data, args):
     """Construct the Anserini indexing command.
 
     Args:
         yaml_data (dict): The yaml config read from config file.
+        args: the command-line arguments.
 
     Returns:
         (:obj:`list` of :obj:`str`): the command as a list that can be executed by calling subprocess.call(command)
     """
     logger.info('='*10+'Indexing'+'='*10)
-    corpus_input_path = None
+
+    # Determine where the input collection path is by checking various locations
+    collection_path = None
     for input_root in yaml_data['input_roots']:
         if os.path.exists(os.path.join(input_root, yaml_data['input'])):
-            corpus_input_path = os.path.join(input_root, yaml_data['input'])
+            collection_path = os.path.join(input_root, yaml_data['input'])
             break
-    if not corpus_input_path:
+
+    # Allow command-line override of the input collection path
+    if args.collection_path != '':
+        collection_path = args.collection_path
+
+    if not collection_path:
         raise RuntimeError("All corpus inputs are not existing, please check!")
+
+    # Read number of threads from YAML, but allow command-line override
+    threads = yaml_data['threads']
+    if args.indexing_threads != -1:
+        threads = args.indexing_threads
+
     index_command = [
         os.path.join(yaml_data['root'], yaml_data['index_command']),
         '-collection', yaml_data['collection'],
         '-generator', yaml_data['generator'],
-        '-threads', str(yaml_data['threads']),
-        '-input', corpus_input_path,
+        '-threads', str(threads),
+        '-input', collection_path,
         '-index', 'lucene-index.{0}.pos+docvectors{1}'
             .format(yaml_data['name'], '+rawdocs' if '-storeRawDocs' in yaml_data['index_options'] else '')
     ]
@@ -216,6 +230,9 @@ if __name__ == '__main__':
     parser.add_argument('--fail_eval', dest='fail_eval', action='store_true',
                         help='fail when any run does not match expected effectiveness')
     parser.add_argument('--output_root', default='runs.regression', help='output directory of all results')
+
+    parser.add_argument('--indexing_threads', type=int, default=-1, help='override number of indexing threads from YAML')
+    parser.add_argument('--collection_path', default='', help='override collection input path from YAML')
     args = parser.parse_args()
 
     if not os.path.exists(args.output_root):
@@ -228,11 +245,13 @@ if __name__ == '__main__':
         yaml_data = yaml.safe_load(f)
 
     yaml_data['root'] = args.anserini_root
+
     # Decide if we're going to index from scratch. If not, use pre-stored index at known location.
     if args.index:
-        logger.info(' '.join(construct_indexing_command(yaml_data)))
+        indexing_command = ' '.join(construct_indexing_command(yaml_data, args))
+        logger.info(indexing_command)
         if not args.dry_run:
-            call(' '.join(construct_indexing_command(yaml_data)), shell=True)
+            call(indexing_command, shell=True)
 
     verify_index(yaml_data, args.index, args.dry_run)
 
