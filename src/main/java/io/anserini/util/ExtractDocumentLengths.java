@@ -19,7 +19,6 @@ package io.anserini.util;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.Terms;
-import org.apache.lucene.index.TermsEnum;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.SmallFloat;
@@ -60,17 +59,13 @@ public class ExtractDocumentLengths {
     int numDocs = reader.numDocs();
     out.println("luceneID\tcount\tuniquecount\tlossycount");
     for (int i = 0; i < numDocs; i++) {
-      int total = 0;
       Terms terms = reader.getTermVector(i, "contents");
       if(terms == null) {
         out.println(i + "\t" + 0 + "\t" + 0 + "\t" + 0);
         continue;
       }
-      TermsEnum termsEnum = terms.iterator();
-      while ((termsEnum.next()) != null) {
-        total += termsEnum.totalTermFreq();
-      }
-      long length = SmallFloat.longToInt4(terms.size());
+      long total = terms.getSumTotalTermFreq();
+      long length = SmallFloat.longToInt4(total);
       out.println(i + "\t" + total + "\t" + terms.size() + "\t" + length) ;
     }
     out.close();
