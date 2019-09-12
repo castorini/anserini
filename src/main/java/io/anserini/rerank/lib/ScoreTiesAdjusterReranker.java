@@ -27,6 +27,11 @@ import io.anserini.rerank.ScoredDocuments;
 public class ScoreTiesAdjusterReranker implements Reranker {
   @Override
   public ScoredDocuments rerank(ScoredDocuments docs, RerankerContext context) {
+
+    if (context.getSearchArgs().arbitraryScoreTieBreak) {
+      return docs;
+    }
+
     int dup = 0;
     for (int i=0; i<docs.documents.length; i++) {
       docs.scores[i] = Math.round(docs.scores[i] * 1e4f) / 1e4f;

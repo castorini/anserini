@@ -57,6 +57,9 @@ public class IndexArgs {
   @Option(name = "-whitelist", usage = "file containing docids, one per line; only specified docids will be indexed.")
   public String whitelist = null;
 
+  @Option(name = "-bm25.accurate", usage = "Switch to use the accurate BM25 similarity)")
+  public boolean bm25Accurate = false;
+
   @Option(name = "-tweet.keepRetweets", usage = "boolean switch to keep retweets while indexing")
   public boolean tweetKeepRetweets = false;
 
