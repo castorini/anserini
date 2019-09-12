@@ -41,7 +41,6 @@ public class CountWikidataDocuments {
     private String input;
   }
 
-  // This class is modeled after https://github.com/Wikidata/Wikidata-Toolkit-Examples/blob/master/src/examples/LocalDumpFileExample.java
   public static void main(String[] args) throws Exception {
     Args dumpArgs = new Args();
     CmdLineParser parser = new CmdLineParser(dumpArgs, ParserProperties.defaults().withUsageWidth(90));
@@ -56,6 +55,7 @@ public class CountWikidataDocuments {
       return;
     }
 
+    // This code is adapted from https://github.com/Wikidata/Wikidata-Toolkit-Examples/blob/master/src/examples/LocalDumpFileExample.java
     DumpProcessingController dumpProcessingController = new DumpProcessingController("wikidatawiki");
     CountingEntityDocumentProcessor processor = new CountingEntityDocumentProcessor();
     dumpProcessingController.registerEntityDocumentProcessor(processor,"wikidatawiki", true);
@@ -78,6 +78,8 @@ public class CountWikidataDocuments {
     public int lexemeCount = 0;
     public int propertyCount = 0;
 
+    // Items are Entities that are typically represented by a Wikipage.
+    // See https://www.mediawiki.org/wiki/Wikibase/DataModel#Items
     public void processItemDocument​(ItemDocument itemDocument) {
       itemCount++;
       if (itemCount % 1000000 == 0) {
@@ -85,6 +87,8 @@ public class CountWikidataDocuments {
       }
     }
 
+    // A Lexeme is a lexical element of a language, such as a word, a phrase, or a prefix.
+    // See https://www.wikidata.org/wiki/Wikidata:Lexicographical_data/Documentation
     public void processLexemeDocument​(LexemeDocument lexemeDocument) {
       lexemeCount++;
       if (lexemeCount % 1000000 == 0) {
@@ -92,6 +96,8 @@ public class CountWikidataDocuments {
       }
     }
 
+    // Properties are Entities that describe a relationship between Items (or other Entities) and Values of the property.
+    // See https://www.mediawiki.org/wiki/Wikibase/DataModel#Properties
     public void processPropertyDocument​(PropertyDocument propertyDocument) {
       propertyCount++;
       if (propertyCount % 1000000 == 0) {
