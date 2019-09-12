@@ -18,6 +18,7 @@ package io.anserini.index.generator;
 
 import io.anserini.collection.WashingtonPostCollection;
 import io.anserini.collection.WashingtonPostCollection.Document.WashingtonPostObject;
+import io.anserini.index.IndexArgs;
 import io.anserini.index.IndexCollection;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -64,7 +65,7 @@ public class WapoGenerator extends LuceneDocumentGenerator<WashingtonPostCollect
     }
   }
   
-  public WapoGenerator(IndexCollection.Args args, IndexCollection.Counters counters) {
+  public WapoGenerator(IndexArgs args, IndexCollection.Counters counters) {
     super(args, counters);
   }
   
