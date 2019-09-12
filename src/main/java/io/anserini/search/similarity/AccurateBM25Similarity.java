@@ -59,7 +59,7 @@ public class AccurateBM25Similarity extends Similarity {
     if (state.getIndexOptions() == IndexOptions.DOCS && state.getIndexCreatedVersionMajor() >= 8) {
       numTerms = state.getUniqueTermCount();
     } else {
-      numTerms = state.getLength() - state.getNumOverlap();
+      numTerms = state.getLength();
     }
     return numTerms;
   }
@@ -127,7 +127,6 @@ public class AccurateBM25Similarity extends Similarity {
       this.k1 = k1;
       this.b = b;
       this.weight = boost * idf.getValue().floatValue();
-
       this.multK1minusB = k1 * (1 - b);
       // Normally avgdl should be >= 1, but let's use Math.max to avoid division by zero just in case
       this.multK1_b_InvAvgdl = k1 * b / Math.max(1e-10f, avgdl);
@@ -156,11 +155,7 @@ public class AccurateBM25Similarity extends Similarity {
       subs.add(Explanation.match(k1, "k1, term saturation parameter"));
       float docLen = norm;
       subs.add(Explanation.match(b, "b, length normalization parameter"));
-      if ((norm & 0xFF) > 39) {
-        subs.add(Explanation.match(docLen, "dl, length of field (approximate)"));
-      } else {
-        subs.add(Explanation.match(docLen, "dl, length of field"));
-      }
+      subs.add(Explanation.match(docLen, "dl, length of field"));
       subs.add(Explanation.match(avgdl, "avgdl, average length of field"));
       float normValue = k1 * ((1 - b) + b * docLen / avgdl);
       return Explanation.match(

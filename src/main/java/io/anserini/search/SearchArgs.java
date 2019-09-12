@@ -117,6 +117,9 @@ public class SearchArgs {
   @Option(name = "-bm25", usage = "use BM25 scoring model")
   public boolean bm25 = false;
 
+  @Option(name = "-bm25.accurate", usage = "use BM25 scoring model")
+  public boolean bm25Accurate = false;
+
   // BM25 parameters: Robertson et al. (TREC 4) propose the range of 1.0-2.0 for k1 and 0.6-0.75 for b, with k1 = 1.2
   // and b = 0.75 being a very common setting. Empirically, these values don't work very well for modern collections.
   // Here, we adopt the defaults recommended by Trotman et al. (SIGIR 2012 OSIR Workshop) of k1 = 0.9 and b = 0.4.
