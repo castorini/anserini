@@ -30,6 +30,7 @@ import io.anserini.rerank.lib.BM25PrfReranker;
 import io.anserini.rerank.lib.ScoreTiesAdjusterReranker;
 import io.anserini.search.query.BagOfWordsQueryGenerator;
 import io.anserini.search.query.SdmQueryGenerator;
+import io.anserini.search.similarity.AccurateBM25Similarity;
 import io.anserini.search.similarity.TaggedSimilarity;
 import io.anserini.search.topicreader.NewsBackgroundLinkingTopicReader;
 import io.anserini.search.topicreader.TopicReader;
@@ -252,6 +253,12 @@ public final class SearchCollection implements Closeable {
       for (String k1 : args.k1) {
         for (String b : args.b) {
           similarities.add(new TaggedSimilarity(new BM25Similarity(Float.valueOf(k1), Float.valueOf(b)), "k1="+k1+",b="+b));
+        }
+      }
+    } else if (args.bm25Accurate) {
+      for (String k1 : args.k1) {
+        for (String b : args.b) {
+          similarities.add(new TaggedSimilarity(new AccurateBM25Similarity(Float.valueOf(k1), Float.valueOf(b)), "k1="+k1+",b="+b));
         }
       }
     } else if (args.inl2) {
