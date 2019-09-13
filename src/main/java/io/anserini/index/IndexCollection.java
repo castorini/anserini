@@ -656,10 +656,12 @@ public final class IndexCollection {
     if (indexPath != null && !args.dryRun) {
 
       final Directory dir = FSDirectory.open(indexPath);
+      final CJKAnalyzer chineseAnalyzer = new CJKAnalyzer();
       final EnglishStemmingAnalyzer analyzer = args.keepStopwords ?
           new EnglishStemmingAnalyzer(args.stemmer, CharArraySet.EMPTY_SET) : new EnglishStemmingAnalyzer(args.stemmer);
       final TweetAnalyzer tweetAnalyzer = new TweetAnalyzer(args.tweetStemming);
-      final IndexWriterConfig config = args.collectionClass.equals("TweetCollection") ? new IndexWriterConfig(tweetAnalyzer) : new IndexWriterConfig(analyzer);
+      final IndexWriterConfig config = args.collectionClass.equals("TweetCollection") ?
+          new IndexWriterConfig(tweetAnalyzer) : args.language.equals("zh") ? new IndexWriterConfig(chineseAnalyzer) : new IndexWriterConfig(analyzer);
       if (args.bm25Accurate) {
         config.setSimilarity(new AccurateBM25Similarity()); // necessary during indexing as the norm used in BM25 is already determined at index time.
       } else {
