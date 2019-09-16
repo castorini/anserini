@@ -281,6 +281,11 @@ public final class IndexCollection {
             if (field.fieldType().docValuesType() != DocValuesType.NONE) {
               continue;
             }
+            // If the field is already in the doc, skip it.
+            // This fixes an issue with WaPo where published_date is in the Lucene doc as LongPoint and StoredField. Solr needs one copy, more fine-grained control in config.
+            if (solrDocument.containsKey(field.name())) {
+              continue;
+            }
             if (field.stringValue() != null) { // For some reason, id is multi-valued with null as one of the values
               solrDocument.addField(field.name(), field.stringValue());
             } else if (field.numericValue() != null) {
