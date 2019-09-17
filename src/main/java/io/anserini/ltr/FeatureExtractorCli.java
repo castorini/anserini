@@ -66,33 +66,30 @@ public class FeatureExtractorCli {
     public String extractors = null;
 
     @SuppressWarnings("unchecked")
-	public <K> TopicReader<K> buildTopicReaderForCollection() throws Exception {
-		if ("clueweb".equals(collection)) {
-			return new WebxmlTopicReader(Paths.get(topicsFile));
-		}
-		else if ("gov2".equals(collection)){
-			return new TrecTopicReader(Paths.get(topicsFile));
-		}
-		else if ("twitter".equals(collection)) {
-			return (TopicReader<K>) new MicroblogTopicReader(Paths.get(topicsFile));
-		}
-		
-		throw new RuntimeException("Unrecognized collection " + collection);
-	}
-	
-    @SuppressWarnings("unchecked")
-	public <K> BaseFeatureExtractor<K> buildBaseFeatureExtractor(IndexReader reader, Qrels qrels, Map<K, Map<String, String>> topics, FeatureExtractors extractors) {
-		if ("clueweb".equals(collection) || "gov2".equals(collection)) {
-			return new WebFeatureExtractor(reader, qrels, topics, extractors);
-		}
-		else if ("twitter".equals(collection)) {
-			return (BaseFeatureExtractor<K>) new TwitterFeatureExtractor(reader, qrels, (Map<Integer, Map<String, String>>) topics, extractors);
-		}
-		
-		throw new RuntimeException("Unrecognized collection " + collection);
-	}
+    public <K> TopicReader<K> buildTopicReaderForCollection() throws Exception {
+      if ("clueweb".equals(collection)) {
+        return (TopicReader<K>) new WebxmlTopicReader(Paths.get(topicsFile));
+      } else if ("gov2".equals(collection)){
+        return (TopicReader<K>) new TrecTopicReader(Paths.get(topicsFile));
+      } else if ("twitter".equals(collection)) {
+        return (TopicReader<K>) new MicroblogTopicReader(Paths.get(topicsFile));
+      }
 
+      throw new RuntimeException("Unrecognized collection " + collection);
+    }
+
+    @SuppressWarnings("unchecked")
+    public <K> BaseFeatureExtractor<K> buildBaseFeatureExtractor(IndexReader reader, Qrels qrels, Map<K, Map<String, String>> topics, FeatureExtractors extractors) {
+      if ("clueweb".equals(collection) || "gov2".equals(collection)) {
+        return new WebFeatureExtractor(reader, qrels, topics, extractors);
+      } else if ("twitter".equals(collection)) {
+        return (BaseFeatureExtractor<K>) new TwitterFeatureExtractor(reader, qrels, (Map<Integer, Map<String, String>>) topics, extractors);
+      }
+
+      throw new RuntimeException("Unrecognized collection " + collection);
+    }
   }
+
   /**
    * requires the user to supply the index directory and also the directory containing the qrels and topics
    * @param args  indexDir, qrelFile, topicFile, outputFile

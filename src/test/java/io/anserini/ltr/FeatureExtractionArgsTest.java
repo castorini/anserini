@@ -33,47 +33,46 @@ import io.anserini.search.topicreader.WebxmlTopicReader;
  */
 public class FeatureExtractionArgsTest {
 
-	@Test
-	public <K> void checkThatTopicReaderForCluewebCollectionCanBeCreated() throws Exception {
-		FeatureExtractionArgs args = createFeatureExtractionArgsWithCollection("clueweb");
-		TopicReader<K> topicReaderForCollection = args.buildTopicReaderForCollection();
-		
-		Assert.assertEquals(WebxmlTopicReader.class, topicReaderForCollection.getClass());
-	}
+  @Test
+  public <K> void checkThatTopicReaderForCluewebCollectionCanBeCreated() throws Exception {
+    FeatureExtractionArgs args = createFeatureExtractionArgsWithCollection("clueweb");
+    TopicReader<K> topicReaderForCollection = args.buildTopicReaderForCollection();
 
-	@Test
-	public <K> void checkThatTopicReaderForGov2CollectionCanBeCreated() throws Exception {
-		FeatureExtractionArgs args = createFeatureExtractionArgsWithCollection("gov2");
-		TopicReader<K> topicReaderForCollection = args.buildTopicReaderForCollection();
-		
-		Assert.assertEquals(TrecTopicReader.class, topicReaderForCollection.getClass());
-	}
+    Assert.assertEquals(WebxmlTopicReader.class, topicReaderForCollection.getClass());
+  }
 
-	@Test
-	public void checkThatTopicReaderForTwitterCollectionCanBeCreated() throws Exception {
-		FeatureExtractionArgs args = createFeatureExtractionArgsWithCollection("twitter");
-		TopicReader<Integer> topicReaderForCollection = args.buildTopicReaderForCollection();
+  @Test
+  public <K> void checkThatTopicReaderForGov2CollectionCanBeCreated() throws Exception {
+    FeatureExtractionArgs args = createFeatureExtractionArgsWithCollection("gov2");
+    TopicReader<K> topicReaderForCollection = args.buildTopicReaderForCollection();
 
-		Assert.assertEquals(MicroblogTopicReader.class, topicReaderForCollection.getClass());
-	}
+    Assert.assertEquals(TrecTopicReader.class, topicReaderForCollection.getClass());
+  }
 
-	private static FeatureExtractionArgs createFeatureExtractionArgsWithCollection(String collection)
-			throws CmdLineException {
-		String[] args = createProgramArgsWithCollection(collection);
-		return parseFeatureExtractionArgs(args);
-	}
+  @Test
+  public void checkThatTopicReaderForTwitterCollectionCanBeCreated() throws Exception {
+    FeatureExtractionArgs args = createFeatureExtractionArgsWithCollection("twitter");
+    TopicReader<Integer> topicReaderForCollection = args.buildTopicReaderForCollection();
 
-	private static String[] createProgramArgsWithCollection(String collection) {
-		return new String[] { "-index", "example-index-arg", "-qrel", "example-qrel-arg", "-topic", "example-topic-arg",
-				"-out", "example-out-arg", "-collection", collection };
-	}
+    Assert.assertEquals(MicroblogTopicReader.class, topicReaderForCollection.getClass());
+  }
 
-	private static FeatureExtractionArgs parseFeatureExtractionArgs(String[] args) throws CmdLineException {
-		FeatureExtractionArgs parsedArgs = new FeatureExtractionArgs();
-		CmdLineParser parser = new CmdLineParser(parsedArgs, ParserProperties.defaults().withUsageWidth(90));
+  private static FeatureExtractionArgs createFeatureExtractionArgsWithCollection(String collection) throws CmdLineException {
+    String[] args = createProgramArgsWithCollection(collection);
+    return parseFeatureExtractionArgs(args);
+  }
 
-		parser.parseArgument(args);
+  private static String[] createProgramArgsWithCollection(String collection) {
+    return new String[] { "-index", "example-index-arg", "-qrel", "example-qrel-arg", "-topic", "example-topic-arg",
+        "-out", "example-out-arg", "-collection", collection };
+  }
 
-		return parsedArgs;
-	}
+  private static FeatureExtractionArgs parseFeatureExtractionArgs(String[] args) throws CmdLineException {
+    FeatureExtractionArgs parsedArgs = new FeatureExtractionArgs();
+    CmdLineParser parser = new CmdLineParser(parsedArgs, ParserProperties.defaults().withUsageWidth(90));
+
+    parser.parseArgument(args);
+
+    return parsedArgs;
+  }
 }
