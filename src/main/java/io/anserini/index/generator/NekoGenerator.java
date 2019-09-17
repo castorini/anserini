@@ -16,6 +16,7 @@
 
 package io.anserini.index.generator;
 
+import io.anserini.index.IndexArgs;
 import io.anserini.index.IndexCollection;
 import io.anserini.index.transform.NekoStringTransform;
 
@@ -23,7 +24,7 @@ public class NekoGenerator extends LuceneDocumentGenerator {
   public NekoGenerator() {
     super(new NekoStringTransform());
   }
-  public NekoGenerator(IndexCollection.Args args, IndexCollection.Counters counters) {
+  public NekoGenerator(IndexArgs args, IndexCollection.Counters counters) {
     super(new NekoStringTransform(), args, counters);
   }
 }

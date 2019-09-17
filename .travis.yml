@@ -7,12 +7,13 @@ before_install:
   - pip install --user cython --upgrade Cython
   - pip install --user pyjnius --upgrade pyjnius
 install: true
+dist: trusty
 jdk:
-  - oraclejdk8
+  - oraclejdk11
 script:
   - mvn clean package appassembler:assemble
   - find target/appassembler/bin/ -type f -exec sed -i 's/-Xmx.*G/-Xmx2G/g' {} \;
   - git clone https://github.com/castorini/Anserini-data.git
   - cd eval && tar xvfz trec_eval.9.0.4.tar.gz && cd trec_eval.9.0.4 && make && cd .. && cd ..
   - python src/main/python/run_regression.py --collection cacm --index --fail_eval
-  - ls target | grep fatjar | xargs python src/test/python/python_interface.py
+  - python src/test/python/python_interface.py

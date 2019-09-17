@@ -44,11 +44,12 @@ import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.Sort;
 import org.apache.lucene.search.SortField;
 import org.apache.lucene.search.TopDocs;
+import org.apache.lucene.search.TotalHits;
 import org.apache.lucene.search.similarities.AfterEffectL;
 import org.apache.lucene.search.similarities.AxiomaticF2EXP;
 import org.apache.lucene.search.similarities.AxiomaticF2LOG;
 import org.apache.lucene.search.similarities.BM25Similarity;
-import org.apache.lucene.search.similarities.BasicModelP;
+import org.apache.lucene.search.similarities.BasicModelIn;
 import org.apache.lucene.search.similarities.DFRSimilarity;
 import org.apache.lucene.search.similarities.DistributionSPL;
 import org.apache.lucene.search.similarities.IBSimilarity;
@@ -65,7 +66,18 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CompletionException;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicLong;
 
+/**
+ * Class that exposes basic search functionality, designed specifically to provide the bridge between Java and Python
+ * via pyjnius.
+ */
 public class SimpleSearcher implements Closeable {
   public static final Sort BREAK_SCORE_TIES_BY_DOCID =
       new Sort(SortField.FIELD_SCORE, new SortField(LuceneDocumentGenerator.FIELD_ID, SortField.Type.STRING_VAL));
@@ -79,6 +91,8 @@ public class SimpleSearcher implements Closeable {
   private RerankerCascade cascade;
   private boolean searchtweets;
   private boolean isRerank;
+
+  private IndexSearcher searcher = null;
 
   protected class Result {
     public String docid;
@@ -148,7 +162,7 @@ public class SimpleSearcher implements Closeable {
   }
 
   public void setDFRSimilarity(float c) {
-    this.similarity = new DFRSimilarity(new BasicModelP(), new AfterEffectL(), new NormalizationH2(c));
+    this.similarity = new DFRSimilarity(new BasicModelIn(), new AfterEffectL(), new NormalizationH2(c));
   }
 
   public void setIBSimilarity(float c) {
@@ -183,16 +197,67 @@ public class SimpleSearcher implements Closeable {
     return search(query, queryTokens, q, k, t);
   }
 
+  public Map<String, Result[]> batchSearch(List<String> queries, List<String> qids, int k, long t, int threads) throws IOException {
+    ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(threads);
+    ConcurrentHashMap<String, Result[]> results = new ConcurrentHashMap<>();
+
+    long startTime = System.nanoTime();
+    AtomicLong index = new AtomicLong();
+    int queryCnt = queries.size();
+    for (int q = 0; q < queryCnt; ++q) {
+      String query = queries.get(q);
+      String qid = qids.get(q);
+      executor.execute(() -> {
+        try {
+          results.put(qid, search(query, k, t));
+        } catch (IOException e) {
+          throw new CompletionException(e);
+        }
+        // logging for speed
+        Long lineNumber = index.incrementAndGet();
+        if (lineNumber % 100 == 0) {
+          double timePerQuery = (double) (System.nanoTime() - startTime) / (lineNumber + 1) / 1e9;
+          System.out.format("Retrieving query " + lineNumber + " (%.3f s/query)\n", timePerQuery);
+        }
+      });
+    }
+
+    executor.shutdown();
+
+    try {
+      // Wait for existing tasks to terminate
+      while (!executor.awaitTermination(1, TimeUnit.MINUTES)) {
+        LOG.info(String.format("%.2f percent completed",
+                (double) executor.getCompletedTaskCount() / queries.size() * 100.0d));
+      }
+    } catch (InterruptedException ie) {
+      // (Re-)Cancel if current thread also interrupted
+      executor.shutdownNow();
+      // Preserve interrupt status
+      Thread.currentThread().interrupt();
+    }
+
+    if (queryCnt != executor.getCompletedTaskCount()) {
+      throw new RuntimeException("queryCount = " + queryCnt +
+              " is not equal to completedTaskCount =  " + executor.getCompletedTaskCount());
+    }
+    
+    return results;
+  }
+
   protected Result[] search(Query query, List<String> queryTokens, String queryString, int k, long t) throws IOException {
-    IndexSearcher searcher = new IndexSearcher(reader);
-    searcher.setSimilarity(similarity);
+    // Initialize an index searcher only once
+    if (searcher == null) {
+      searcher = new IndexSearcher(reader);
+      searcher.setSimilarity(similarity);
+    }
 
     SearchArgs searchArgs = new SearchArgs();
     searchArgs.arbitraryScoreTieBreak = false;
     searchArgs.hits = k;
     searchArgs.searchtweets = searchtweets;
 
-    TopDocs rs = new TopDocs(0, new ScoreDoc[]{}, Float.NaN);
+    TopDocs rs = new TopDocs(new TotalHits(0, TotalHits.Relation.EQUAL_TO), new ScoreDoc[]{});
     RerankerContext context;
     if (searchtweets) {
       if (t > 0) {
@@ -204,17 +269,14 @@ public class SimpleSearcher implements Closeable {
         builder.add(filter, BooleanClause.Occur.FILTER);
         builder.add(query, BooleanClause.Occur.MUST);
         Query compositeQuery = builder.build();
-        rs = searcher.search(compositeQuery, isRerank ?
-            searchArgs.rerankcutoff : k, BREAK_SCORE_TIES_BY_TWEETID, true, true);
+        rs = searcher.search(compositeQuery, isRerank ? searchArgs.rerankcutoff : k, BREAK_SCORE_TIES_BY_TWEETID, true);
         context = new RerankerContext<>(searcher, null, compositeQuery, null, queryString, queryTokens, filter, searchArgs);
       } else {
-        rs = searcher.search(query, isRerank ?
-            searchArgs.rerankcutoff : k, BREAK_SCORE_TIES_BY_TWEETID, true, true);
+        rs = searcher.search(query, isRerank ? searchArgs.rerankcutoff : k, BREAK_SCORE_TIES_BY_TWEETID, true);
         context = new RerankerContext<>(searcher, null, query, null, queryString, queryTokens, null, searchArgs);
       }
     } else {
-      rs = searcher.search(query, isRerank ?
-          searchArgs.rerankcutoff : k, BREAK_SCORE_TIES_BY_DOCID, true, true);
+      rs = searcher.search(query, isRerank ? searchArgs.rerankcutoff : k, BREAK_SCORE_TIES_BY_DOCID, true);
         context = new RerankerContext<>(searcher, null, query, null, queryString, queryTokens, null, searchArgs);
     }
 
@@ -226,6 +288,7 @@ public class SimpleSearcher implements Closeable {
       String docid = doc.getField(LuceneDocumentGenerator.FIELD_ID).stringValue();
       IndexableField field = doc.getField(LuceneDocumentGenerator.FIELD_RAW);
       String content = field == null ? null : field.stringValue();
+
       results[i] = new Result(docid, hits.ids[i], hits.scores[i], content);
     }
 

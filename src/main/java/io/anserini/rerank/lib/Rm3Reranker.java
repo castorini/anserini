@@ -112,9 +112,9 @@ public class Rm3Reranker implements Reranker {
       if (context.getSearchArgs().arbitraryScoreTieBreak) {
         rs = searcher.search(finalQuery, context.getSearchArgs().hits);
       } else if (context.getSearchArgs().searchtweets) {
-        rs = searcher.search(finalQuery, context.getSearchArgs().hits, BREAK_SCORE_TIES_BY_TWEETID, true, true);
+        rs = searcher.search(finalQuery, context.getSearchArgs().hits, BREAK_SCORE_TIES_BY_TWEETID, true);
       } else {
-        rs = searcher.search(finalQuery, context.getSearchArgs().hits, BREAK_SCORE_TIES_BY_DOCID, true, true);
+        rs = searcher.search(finalQuery, context.getSearchArgs().hits, BREAK_SCORE_TIES_BY_DOCID, true);
       }
     } catch (IOException e) {
       e.printStackTrace();

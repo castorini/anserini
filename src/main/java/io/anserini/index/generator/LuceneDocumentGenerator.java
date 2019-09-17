@@ -18,6 +18,7 @@ package io.anserini.index.generator;
 
 import io.anserini.collection.MultifieldSourceDocument;
 import io.anserini.collection.SourceDocument;
+import io.anserini.index.IndexArgs;
 import io.anserini.index.IndexCollection;
 import io.anserini.index.transform.StringTransform;
 import org.apache.logging.log4j.LogManager;
@@ -48,7 +49,7 @@ public class LuceneDocumentGenerator<T extends SourceDocument> {
   private final StringTransform transform;
 
   protected IndexCollection.Counters counters;
-  protected IndexCollection.Args args;
+  protected IndexArgs args;
 
   /**
    * Default constructor.
@@ -72,7 +73,7 @@ public class LuceneDocumentGenerator<T extends SourceDocument> {
    * @param args configuration arguments
    * @param counters counters
    */
-  public LuceneDocumentGenerator(IndexCollection.Args args, IndexCollection.Counters counters) {
+  public LuceneDocumentGenerator(IndexArgs args, IndexCollection.Counters counters) {
     this.transform = null;
     config(args);
     setCounters(counters);
@@ -85,14 +86,14 @@ public class LuceneDocumentGenerator<T extends SourceDocument> {
    * @param args configuration arguments
    * @param counters counters
    */
-  public LuceneDocumentGenerator(StringTransform transform, IndexCollection.Args args,
+  public LuceneDocumentGenerator(StringTransform transform, IndexArgs args,
       IndexCollection.Counters counters) {
     this.transform = transform;
     config(args);
     setCounters(counters);
   }
 
-  public void config(IndexCollection.Args args) {
+  public void config(IndexArgs args) {
     this.args = args;
   }
 

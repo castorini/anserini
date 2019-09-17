@@ -1,4 +1,4 @@
-# Solrini: Solr Integration with Anserini
+# Solrini: Anserini Integration with Solr
 
 This page documents code for replicating results from the following paper:
 
@@ -42,7 +42,10 @@ Most notably, we replace the `-index` parameter (which specifies the Lucene inde
 
 We'll index [robust04](https://github.com/castorini/Anserini/blob/master/docs/experiments-robust04.md) as an example:
 
-Create the `robust04` collection from the Solr [collections page](http://localhost:8983/solr/#/~collections). Make sure the `config set` value is set to `anserini`
+Create the `robust04` collection in Solr:
+```
+solrini/bin/solr create -n anserini -c robust04
+```
 
 Run the Solr indexing command for `robust04`:
 
@@ -56,5 +59,20 @@ sh target/appassembler/bin/IndexCollection -collection TrecCollection -generator
 Make sure `/path/to/robust04` is updated with the appropriate path.
 
 Once indexing has completed, you should be able to query `robust04` from the Solr [query interface](http://localhost:8983/solr/#/robust04/query).
+
+You can also run the following command to replicate Anserini BM25 retrieval:
+
+```
+sh target/appassembler/bin/SearchSolr -topicreader Trec \
+  -solr.index robust04 -solr.zkUrl localhost:9983 \
+  -topics src/main/resources/topics-and-qrels/topics.robust04.301-450.601-700.txt \
+  -output run.solr.robust04.bm25.topics.robust04.301-450.601-700.txt
+```
+
+Evaluation can be performed using `trec_eval`:
+
+```
+eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust2004.txt run.solr.robust04.bm25.topics.robust04.301-450.601-700.txt
+```
 
 Other collections can be indexed by substituting the appropriate parameters; see each collection's [experiment docs](https://github.com/castorini/anserini/tree/master/docs).

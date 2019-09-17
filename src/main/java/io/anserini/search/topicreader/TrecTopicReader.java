@@ -27,7 +27,7 @@ import java.util.TreeMap;
 /**
  * Topic reader for standard TREC <i>ad hoc</i> topics, with title, description, and narrative fields.
  */
-public class TrecTopicReader extends TopicReader {
+public class TrecTopicReader extends TopicReader<Integer> {
 
   public TrecTopicReader(Path topicFile) {
     super(topicFile);

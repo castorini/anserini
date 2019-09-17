@@ -532,10 +532,18 @@
 
   <!-- "tweet" field type -->
   <fieldType name="tweet" class="solr.TextField">
-    <analyzer>
+    <analyzer type="index">
       <tokenizer class="solr.WhitespaceTokenizerFactory"/>
       <filter class="io.anserini.analysis.TweetLowerCaseEntityPreservingFilterFactory" />
       <filter class="solr.PorterStemFilterFactory"/>
+    </analyzer>
+    <analyzer type="query">
+      <tokenizer class="solr.WhitespaceTokenizerFactory"/>
+      <filter class="io.anserini.analysis.TweetLowerCaseEntityPreservingFilterFactory" />
+      <filter class="solr.PorterStemFilterFactory"/>
+      <!-- Filter out empty tokens resulting from TweetLowerCaseEntityPreservingFilterFactory -->
+      <!-- Max (required) chosen as maxTokenLen (256) of WhitespaceTokenizerFactory -->
+      <filter class="solr.LengthFilterFactory" min="1" max="256"/>
     </analyzer>
   </fieldType>
 

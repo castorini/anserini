@@ -1,4 +1,4 @@
-# Anserini: Experiments on [Wt10g](http://ir.dcs.gla.ac.uk/test_collections/wt10g.html)
+# Anserini: Regressions for [Wt10g](http://ir.dcs.gla.ac.uk/test_collections/wt10g.html)
 
 ## Indexing
 
@@ -69,6 +69,6 @@ Wt10g: Topics 451-550                   | 0.1992    | 0.2276    | 0.2200    | 0.
 
 P30                                     | BM25      | +RM3      | +Ax       | QL        | +RM3      | +Ax       |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-Wt10g: Topics 451-550                   | 0.2218    | 0.2398    | 0.2483    | 0.2180    | 0.2310    | 0.2517    |
+Wt10g: Topics 451-550                   | 0.2214    | 0.2398    | 0.2483    | 0.2180    | 0.2310    | 0.2514    |
 
 

@@ -1,4 +1,4 @@
-# Anserini: Experiments on [AQUAINT](https://tac.nist.gov//data/data_desc.html#AQUAINT) (Robust05)
+# Anserini: Regressions for [AQUAINT](https://tac.nist.gov//data/data_desc.html#AQUAINT) (Robust05)
 
 ## Indexing
 
@@ -62,7 +62,7 @@ With the above commands, you should be able to replicate the following results:
 
 MAP                                     | BM25      | +RM3      | +Ax       | QL        | +RM3      | +Ax       |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-[TREC 2005 Robust Track Topics](http://trec.nist.gov/data/robust/05/05.50.topics.txt)| 0.2031    | 0.2602    | 0.2584    | 0.2028    | 0.2491    | 0.2476    |
+[TREC 2005 Robust Track Topics](http://trec.nist.gov/data/robust/05/05.50.topics.txt)| 0.2032    | 0.2602    | 0.2587    | 0.2028    | 0.2491    | 0.2476    |
 
 
 P30                                     | BM25      | +RM3      | +Ax       | QL        | +RM3      | +Ax       |

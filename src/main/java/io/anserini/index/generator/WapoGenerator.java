@@ -18,6 +18,7 @@ package io.anserini.index.generator;
 
 import io.anserini.collection.WashingtonPostCollection;
 import io.anserini.collection.WashingtonPostCollection.Document.WashingtonPostObject;
+import io.anserini.index.IndexArgs;
 import io.anserini.index.IndexCollection;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -45,7 +46,7 @@ public class WapoGenerator extends LuceneDocumentGenerator<WashingtonPostCollect
   public static final String FIELD_RAW = "raw";
   public static final String FIELD_BODY = "contents";
   public static final String FIELD_ID = "id";
-  
+
   private static final String PATTERN = "<.+>";
   public static final List<String> CONTENT_TYPE_TAG = Arrays.asList("sanitized_html", "tweet");
 
@@ -64,7 +65,7 @@ public class WapoGenerator extends LuceneDocumentGenerator<WashingtonPostCollect
     }
   }
   
-  public WapoGenerator(IndexCollection.Args args, IndexCollection.Counters counters) {
+  public WapoGenerator(IndexArgs args, IndexCollection.Counters counters) {
     super(args, counters);
   }
   
@@ -86,6 +87,7 @@ public class WapoGenerator extends LuceneDocumentGenerator<WashingtonPostCollect
     // This is needed to break score ties by docid.
     doc.add(new SortedDocValuesField(FIELD_ID, new BytesRef(id)));
     doc.add(new LongPoint(WapoField.PUBLISHED_DATE.name, wapoDoc.getPublishDate()));
+    doc.add(new StoredField(WapoField.PUBLISHED_DATE.name, wapoDoc.getPublishDate()));
     wapoDoc.getAuthor().ifPresent(author -> {
       doc.add(new StringField(WapoField.AUTHOR.name, author, Field.Store.NO));
     });

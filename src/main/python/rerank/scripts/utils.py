@@ -8,8 +8,12 @@ printable.remove("\t")
 printable.remove("\r")
 import os
 
-import jnius_config
-jnius_config.set_classpath("target/anserini-0.5.1-SNAPSHOT-fatjar.jar")
+# Pyjnius setup
+import sys
+sys.path += ['src/main/python']
+from pyserini.setup import configure_classpath
+configure_classpath()
+
 from jnius import autoclass
 JString = autoclass('java.lang.String')
 JSearcher = autoclass('io.anserini.search.SimpleSearcher')

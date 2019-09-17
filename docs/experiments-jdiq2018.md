@@ -18,7 +18,12 @@ As Anserini continues to improve we will update these scripts, which will lead t
 Unfortunately, this is an unavoidable aspect of empirical research on software artifacts.
 
 **Update (12/18/2018)**:
-Regression effectiveness values further changed at commit `e71df7aee42c7776a63b9845600a4075632fa11c` Tue Dec 18 07:45:30 2018 -0500 with upgrade to Lucene 7.6.
+Regression effectiveness values changed at commit [`e71df7a`](https://github.com/castorini/anserini/commit/e71df7aee42c7776a63b9845600a4075632fa11c) with upgrade to Lucene 7.6.
+
+**Update (6/12/2019)**:
+With commit [`75e36f9`](https://github.com/castorini/anserini/commit/75e36f97f7037d1ceb20fa9c91582eac5e974131), which upgrades Anserini to Lucene 8.0, we are no longer maintaining the replicability of these experiments.
+That is, running these commands will produce results different from the numbers reported here.
+The most recent version in which these results are replicable is the [v0.5.1](https://github.com/castorini/anserini/releases) release (6/11/2019).
 
 ## Parameter Tuning
 

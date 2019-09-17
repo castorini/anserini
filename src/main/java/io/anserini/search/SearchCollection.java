@@ -26,11 +26,11 @@ import io.anserini.rerank.ScoredDocuments;
 import io.anserini.rerank.lib.AxiomReranker;
 import io.anserini.rerank.lib.NewsBackgroundLinkingReranker;
 import io.anserini.rerank.lib.Rm3Reranker;
+import io.anserini.rerank.lib.BM25PrfReranker;
 import io.anserini.rerank.lib.ScoreTiesAdjusterReranker;
 import io.anserini.search.query.BagOfWordsQueryGenerator;
 import io.anserini.search.query.SdmQueryGenerator;
-import io.anserini.search.similarity.F2ExpSimilarity;
-import io.anserini.search.similarity.F2LogSimilarity;
+import io.anserini.search.similarity.AccurateBM25Similarity;
 import io.anserini.search.similarity.TaggedSimilarity;
 import io.anserini.search.topicreader.NewsBackgroundLinkingTopicReader;
 import io.anserini.search.topicreader.TopicReader;
@@ -55,9 +55,12 @@ import org.apache.lucene.search.Sort;
 import org.apache.lucene.search.SortField;
 import org.apache.lucene.search.TermInSetQuery;
 import org.apache.lucene.search.TopDocs;
+import org.apache.lucene.search.TotalHits;
 import org.apache.lucene.search.similarities.AfterEffectL;
+import org.apache.lucene.search.similarities.AxiomaticF2EXP;
+import org.apache.lucene.search.similarities.AxiomaticF2LOG;
 import org.apache.lucene.search.similarities.BM25Similarity;
-import org.apache.lucene.search.similarities.BasicModelP;
+import org.apache.lucene.search.similarities.BasicModelIn;
 import org.apache.lucene.search.similarities.DFRSimilarity;
 import org.apache.lucene.search.similarities.DistributionSPL;
 import org.apache.lucene.search.similarities.IBSimilarity;
@@ -227,7 +230,7 @@ public final class SearchCollection implements Closeable {
       qc = QueryConstructor.BagOfTerms;
     }
   
-    isRerank = args.rm3 || args.axiom;
+    isRerank = args.rm3 || args.axiom || args.bm25prf;
   }
 
   @Override
@@ -235,7 +238,7 @@ public final class SearchCollection implements Closeable {
     reader.close();
   }
   
-  public List<TaggedSimilarity> constructSimiliries() {
+  public List<TaggedSimilarity> constructSimilarities() {
     // Figure out which scoring model to use.
     List<TaggedSimilarity> similarities = new ArrayList<>();
     if (args.ql || args.qld) {
@@ -252,9 +255,15 @@ public final class SearchCollection implements Closeable {
           similarities.add(new TaggedSimilarity(new BM25Similarity(Float.valueOf(k1), Float.valueOf(b)), "k1="+k1+",b="+b));
         }
       }
-    } else if (args.pl2) {
-      for (String c : args.pl2_c) {
-        similarities.add(new TaggedSimilarity(new DFRSimilarity(new BasicModelP(), new AfterEffectL(), new NormalizationH2(Float.valueOf(c))), "c="+c));
+    } else if (args.bm25Accurate) {
+      for (String k1 : args.k1) {
+        for (String b : args.b) {
+          similarities.add(new TaggedSimilarity(new AccurateBM25Similarity(Float.valueOf(k1), Float.valueOf(b)), "k1="+k1+",b="+b));
+        }
+      }
+    } else if (args.inl2) {
+      for (String c : args.inl2_c) {
+        similarities.add(new TaggedSimilarity(new DFRSimilarity(new BasicModelIn(), new AfterEffectL(), new NormalizationH2(Float.valueOf(c))), "c:"+c));
       };
     } else if (args.spl) {
       for (String c : args.spl_c) {
@@ -262,11 +271,11 @@ public final class SearchCollection implements Closeable {
       }
     } else if (args.f2exp) {
       for (String s : args.f2exp_s) {
-        similarities.add(new TaggedSimilarity(new F2ExpSimilarity(Float.valueOf(s)), "s="+s));
+        similarities.add(new TaggedSimilarity(new AxiomaticF2EXP(Float.valueOf(s)), "s:"+s));
       }
     } else if (args.f2log) {
       for (String s : args.f2log_s) {
-        similarities.add(new TaggedSimilarity(new F2LogSimilarity(Float.valueOf(s)), "s="+s));
+        similarities.add(new TaggedSimilarity(new AxiomaticF2LOG(Float.valueOf(s)), "s:"+s));
       }
     } else {
       throw new IllegalArgumentException("Error: Must specify scoring model!");
@@ -310,7 +319,27 @@ public final class SearchCollection implements Closeable {
           }
         }
       }
-    } else {
+    }else if (args.bm25prf) {
+        for (String fbTerms : args.bm25prf_fbTerms) {
+            for (String fbDocs : args.bm25prf_fbDocs) {
+                for (String k1 : args.bm25prf_k1) {
+                    for (String b : args.bm25prf_b) {
+                        for (String newTermWeight : args.bm25prf_newTermWeight) {
+                            RerankerCascade cascade = new RerankerCascade();
+                            cascade.add(new BM25PrfReranker(analyzer, FIELD_BODY, Integer.valueOf(fbTerms),
+                                    Integer.valueOf(fbDocs), Float.valueOf(k1), Float.valueOf(b), Float.valueOf(newTermWeight),
+                                    args.bm25prf_outputQuery));
+                            cascade.add(new ScoreTiesAdjusterReranker());
+                            String tag = "bm25prf.fbTerms:" + fbTerms + ",fbDocs:" + fbDocs + ",bm25prf.k1:" + k1 + ",bm25prf.b:" + b + ",bm25prf.newTermWeight:" + newTermWeight;
+                            cascades.put(tag, cascade);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    else {
       RerankerCascade cascade = new RerankerCascade();
       cascade.add(new ScoreTiesAdjusterReranker());
       cascades.put("", cascade);
@@ -339,7 +368,7 @@ public final class SearchCollection implements Closeable {
   
     final String runTag = args.runtag == null ? "Anserini" : args.runtag;
     final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(args.threads);
-    this.similarities = constructSimiliries();
+    this.similarities = constructSimilarities();
     Map<String, RerankerCascade> cascades = constructRerankerCascades();
     for (TaggedSimilarity taggedSimilarity : this.similarities) {
       for (Map.Entry<String, RerankerCascade> cascade : cascades.entrySet()) {
@@ -374,12 +403,12 @@ public final class SearchCollection implements Closeable {
       query = new BagOfWordsQueryGenerator().buildQuery(FIELD_BODY, analyzer, queryString);
     }
 
-    TopDocs rs = new TopDocs(0, new ScoreDoc[]{}, Float.NaN);
+    TopDocs rs = new TopDocs(new TotalHits(0, TotalHits.Relation.EQUAL_TO), new ScoreDoc[]{});
     if (!(isRerank && args.rerankcutoff <= 0)) {
       if (args.arbitraryScoreTieBreak) {// Figure out how to break the scoring ties.
         rs = searcher.search(query, isRerank ? args.rerankcutoff : args.hits);
       } else {
-        rs = searcher.search(query, isRerank ? args.rerankcutoff : args.hits, BREAK_SCORE_TIES_BY_DOCID, true, true);
+        rs = searcher.search(query, isRerank ? args.rerankcutoff : args.hits, BREAK_SCORE_TIES_BY_DOCID, true);
       }
     }
 
@@ -419,12 +448,12 @@ public final class SearchCollection implements Closeable {
       builder.add(q, BooleanClause.Occur.MUST);
       query = builder.build();
       
-      TopDocs rs = new TopDocs(0, new ScoreDoc[]{}, Float.NaN);
+      TopDocs rs = new TopDocs(new TotalHits(0, TotalHits.Relation.EQUAL_TO), new ScoreDoc[]{});
       if (!(isRerank && args.rerankcutoff <= 0)) {
         if (args.arbitraryScoreTieBreak) {// Figure out how to break the scoring ties.
           rs = searcher.search(query, isRerank ? args.rerankcutoff : args.hits);
         } else {
-          rs = searcher.search(query, isRerank ? args.rerankcutoff : args.hits, BREAK_SCORE_TIES_BY_DOCID, true, true);
+          rs = searcher.search(query, isRerank ? args.rerankcutoff : args.hits, BREAK_SCORE_TIES_BY_DOCID, true);
         }
       }
       
@@ -487,12 +516,12 @@ public final class SearchCollection implements Closeable {
     Query compositeQuery = builder.build();
 
 
-    TopDocs rs = new TopDocs(0, new ScoreDoc[]{}, Float.NaN);
+    TopDocs rs = new TopDocs(new TotalHits(0,TotalHits.Relation.EQUAL_TO), new ScoreDoc[]{});
     if (!(isRerank && args.rerankcutoff <= 0)) {
       if (args.arbitraryScoreTieBreak) {// Figure out how to break the scoring ties.
         rs = searcher.search(compositeQuery, isRerank ? args.rerankcutoff : args.hits);
       } else {
-        rs = searcher.search(compositeQuery, isRerank ? args.rerankcutoff : args.hits, BREAK_SCORE_TIES_BY_TWEETID, true, true);
+        rs = searcher.search(compositeQuery, isRerank ? args.rerankcutoff : args.hits, BREAK_SCORE_TIES_BY_TWEETID, true);
       }
     }
 

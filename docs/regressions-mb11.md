@@ -1,8 +1,6 @@
-# Anserini: Experiments on Tweets2011 (MB11 &amp; MB12)
+# Anserini: Regressions for Tweets2011 (MB11 &amp; MB12)
 
 ## Indexing
-
-### Tweets2011 collection
 
 Note that the Tweets2011 collection is distributed as a list of tweet ids that you have to download yourself, so the
 effectiveness results you'll get should be similar, but will likely not be identical to the scores reported here.
@@ -16,7 +14,6 @@ lucene-index.mb11.pos+docvectors+rawdocs -storePositions -storeDocvectors \
 -storeRawDocs -uniqueDocid -tweet.keepUrls -tweet.stemming >& \
 log.mb11.pos+docvectors+rawdocs &
 ```
-__NB:__ The process is backgrounded
 
 More available indexing options:
 * `-tweet.keepRetweets`: boolean switch to keep retweets while indexing, default `false`
@@ -95,6 +92,6 @@ MAP                                     | BM25      | +RM3      | +Ax       | QL
 P30                                     | BM25      | +RM3      | +Ax       | QL        | +RM3      | +Ax       |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
 [TREC 2011 Microblog Track Topics](http://trec.nist.gov/data/microblog2011.html)| 0.3959    | 0.4170    | 0.4612    | 0.4061    | 0.4435    | 0.4408    |
-[TREC 2012 Microblog Track Topics](http://trec.nist.gov/data/microblog2012.html)| 0.3316    | 0.3463    | 0.3554    | 0.3333    | 0.3520    | 0.3842    |
+[TREC 2012 Microblog Track Topics](http://trec.nist.gov/data/microblog2012.html)| 0.3316    | 0.3463    | 0.3554    | 0.3333    | 0.3514    | 0.3842    |
 
 

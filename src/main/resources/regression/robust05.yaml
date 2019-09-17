@@ -52,7 +52,7 @@ models:
       - -bm25
     results:
       map:
-        - 0.2031
+        - 0.2032
       p30:
         - 0.3693
   - name: bm25+rm3
@@ -74,7 +74,7 @@ models:
       - -axiom.deterministic
     results:
       map:
-        - 0.2584
+        - 0.2587
       p30:
         - 0.4120
   - name: ql

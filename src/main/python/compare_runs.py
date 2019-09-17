@@ -33,6 +33,8 @@ from operator import itemgetter
 
 plt.style.use('ggplot')
 
+from msmarco_compare import compute_metrics_from_files 
+
 def load_metrics(file):
     metrics = {}
     with open(file, 'r') as f:
@@ -50,7 +52,7 @@ def load_metrics(file):
     return metrics
 
 
-def plot(all_results, output_path="."):
+def plot(all_results, ymin=-1, ymax=1, output_path="."):
     fig, ax = plt.subplots(1, 1, figsize=(16, 3))
     all_results.sort(key = itemgetter(1), reverse=True)
     x = [_x+0.5 for _x in range(len(all_results))]
@@ -62,7 +64,7 @@ def plot(all_results, output_path="."):
     ax.set_title("Per-topic analysis on {}".format(metric))
     ax.set_xlabel('Topics')
     ax.set_ylabel('{} Diff'.format(metric))
-    ax.set_ylim(-0.4, 0.7)
+    ax.set_ylim(ymin, ymax)
     output_fn = os.path.join(output_path, 'per_query_{}.pdf'.format(metric))
     plt.savefig(output_fn, bbox_inches='tight', format='pdf')
 
@@ -71,7 +73,10 @@ if __name__ == '__main__':
     parser.add_argument("--base", type=str, help='base run', required=True)
     parser.add_argument("--comparison", type=str, help='comparison run', required=True)
     parser.add_argument("--qrels", type=str, help='qrels', required=True)
-    parser.add_argument("--metric", type=str, help='metric', required=True)
+    parser.add_argument("--metric", type=str, help='metric', default="map")
+    parser.add_argument("--msmarco", action='store_true', default=False, help='whether to use masarco eval script')
+    parser.add_argument("--ymin", type=float, help='min value of the y axis', default=-1)
+    parser.add_argument("--ymax", type=float, help='max value of the y axis', default=1)
 
     args = parser.parse_args()
     base = args.base
@@ -79,11 +84,15 @@ if __name__ == '__main__':
     qrels = args.qrels
     metric = args.metric
 
-    os.system(f'eval/trec_eval.9.0.4/trec_eval -q -M1000 -m {metric} {qrels} {base} > eval.base')
-    os.system(f'eval/trec_eval.9.0.4/trec_eval -q -M1000 -m {metric} {qrels} {comp} > eval.comp')
+    if args.msmarco:
+        base_all, base_metrics = compute_metrics_from_files(qrels, base, per_query_score=True) 
+        comp_all, comp_metrics = compute_metrics_from_files(qrels, comp, per_query_score=True) 
+    else:
+        os.system(f'eval/trec_eval.9.0.4/trec_eval -q -M1000 -m {metric} {qrels} {base} > eval.base')
+        os.system(f'eval/trec_eval.9.0.4/trec_eval -q -M1000 -m {metric} {qrels} {comp} > eval.comp')
 
-    base_metrics = load_metrics('eval.base')
-    comp_metrics = load_metrics('eval.comp')
+        base_metrics = load_metrics('eval.base')
+        comp_metrics = load_metrics('eval.comp')
 
     # trec_eval expects something like 'P.10' on the command line but outputs 'P_10'
     if "." in metric:
@@ -97,8 +106,14 @@ if __name__ == '__main__':
     biggest_gain_topic = ''
     biggest_loss = 0
     biggest_loss_topic = ''
+    if args.msmarco:
+        metric = "MRR@10"
+    keys = []
     for key in base_metrics[metric]:
         base_score = base_metrics[metric][key]
+        if key not in comp_metrics[metric]:
+            continue
+        keys.append(key)
         comp_score = comp_metrics[metric][key]
         diff = comp_score - base_score
         # This is our relatively arbitrary definition of "better", "worse", and "unchanged".
@@ -118,8 +133,8 @@ if __name__ == '__main__':
         print(f'{key}\t{base_score:.4}\t{comp_score:.4}\t{diff:.4}')
 
     # Extract the paired scores
-    a = [base_metrics[metric][k] for k in sorted(base_metrics[metric])]
-    b = [comp_metrics[metric][k] for k in sorted(comp_metrics[metric])]
+    a = [base_metrics[metric][k] for k in keys]
+    b = [comp_metrics[metric][k] for k in keys]
 
     (tstat, pvalue) = scipy.stats.ttest_rel(a, b)
     print(f'base mean: {np.mean(a):.4}')
@@ -131,4 +146,4 @@ if __name__ == '__main__':
     print(f'biggest gain: {biggest_gain:.4} (topic {biggest_gain_topic})')
     print(f'biggest loss: {biggest_loss:.4} (topic {biggest_loss_topic})')
 
-    plot(all_results)
+    plot(all_results, ymin=args.ymin, ymax=args.ymax)

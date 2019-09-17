@@ -22,12 +22,11 @@ import org.apache.lucene.analysis.StopFilter;
 import org.apache.lucene.analysis.StopwordAnalyzerBase;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.Tokenizer;
+import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.analysis.en.EnglishPossessiveFilter;
 import org.apache.lucene.analysis.en.KStemFilter;
 import org.apache.lucene.analysis.en.PorterStemFilter;
 import org.apache.lucene.analysis.miscellaneous.SetKeywordMarkerFilter;
-import org.apache.lucene.analysis.standard.StandardAnalyzer;
-import org.apache.lucene.analysis.standard.StandardFilter;
 import org.apache.lucene.analysis.standard.StandardTokenizer;
 
 public class EnglishStemmingAnalyzer extends StopwordAnalyzerBase {
@@ -35,11 +34,11 @@ public class EnglishStemmingAnalyzer extends StopwordAnalyzerBase {
   private final CharArraySet stemExclusionSet;
   
   public EnglishStemmingAnalyzer() {
-    this("", StandardAnalyzer.STOP_WORDS_SET);
+    this("", EnglishAnalyzer.ENGLISH_STOP_WORDS_SET);
   }
   
   public EnglishStemmingAnalyzer(String stemmer) {
-    this(stemmer, StandardAnalyzer.STOP_WORDS_SET, CharArraySet.EMPTY_SET);
+    this(stemmer, EnglishAnalyzer.ENGLISH_STOP_WORDS_SET, CharArraySet.EMPTY_SET);
   }
   
   public EnglishStemmingAnalyzer(CharArraySet stopwords) {
@@ -59,7 +58,7 @@ public class EnglishStemmingAnalyzer extends StopwordAnalyzerBase {
   protected TokenStreamComponents createComponents(String fieldName) {
     Tokenizer source = new StandardTokenizer();
     TokenStream result = null;
-    result = new StandardFilter(source);
+    result = source;
     result = new EnglishPossessiveFilter(result);
     result = new LowerCaseFilter(result);
     result = new StopFilter(result, this.stopwords);
@@ -77,7 +76,7 @@ public class EnglishStemmingAnalyzer extends StopwordAnalyzerBase {
   }
   
   protected TokenStream normalize(String fieldName, TokenStream in) {
-    TokenStream result = new StandardFilter(in);
+    TokenStream result = in;
     result = new LowerCaseFilter(result);
     return result;
   }

@@ -219,7 +219,7 @@ public class IndexerTest extends LuceneTestCase {
         TopDocs rs = searcher.search(finalQuery, 1);                 // issue the query
 
         // The BM25 weight is the maxScore
-        System.out.println(term + " " + tf + " " + rs.getMaxScore());
+        System.out.println(term + " " + tf + " " + (rs.scoreDocs.length == 0 ? Float.NaN : rs.scoreDocs[0].score));
       }
     }
   }

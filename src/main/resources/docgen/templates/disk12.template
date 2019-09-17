@@ -1,4 +1,4 @@
-# Anserini: Experiments on Disks 1 &amp; 2
+# Anserini: Regressions for Disks 1 &amp; 2
 
 ## Indexing
 

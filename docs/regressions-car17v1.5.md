@@ -1,4 +1,6 @@
-# Anserini: Experiments on [TREC 2017 CAR](http://trec-car.cs.unh.edu/) (v1.5)
+# Anserini: Regressions for [CAR17](http://trec-car.cs.unh.edu/) (v1.5)
+
+This page documents regression experiments for the [TREC 2017 Complex Answer Retrieval (CAR)](http://trec-car.cs.unh.edu/) section-level passage retrieval task (v1.5).
 
 ## Indexing
 
@@ -11,7 +13,7 @@ lucene-index.car17v1.5.pos+docvectors+rawdocs -storePositions -storeDocvectors \
 -storeRawDocs >& log.car17v1.5.pos+docvectors+rawdocs &
 ```
 
-The directory `/path/to/Car17v1.5` should be the root directory of Complex Answer Retrieval (CAR) paragraph corpus (v1.5), which can be downloaded [here](http://trec-car.cs.unh.edu/datareleases/).
+The directory `/path/to/car17v1.5` should be the root directory of Complex Answer Retrieval (CAR) paragraph corpus (v1.5), which can be downloaded [here](http://trec-car.cs.unh.edu/datareleases/).
 
 For additional details, see explanation of [common indexing options](common-indexing-options.md).
 
@@ -64,11 +66,11 @@ With the above commands, you should be able to replicate the following results:
 
 MAP                                     | BM25      | +RM3      | +Ax       | QL        | +RM3      | +Ax       |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-[TREC 2017 CAR: benchmarkY1test (v1.5)](http://trec-car.cs.unh.edu/datareleases/)| 0.1563    | 0.1295    | 0.1358    | 0.1386    | 0.1080    | 0.1048    |
+[TREC 2017 CAR: benchmarkY1test (v1.5)](http://trec-car.cs.unh.edu/datareleases/)| 0.1562    | 0.1295    | 0.1358    | 0.1386    | 0.1080    | 0.1048    |
 
 
 RECIP_RANK                              | BM25      | +RM3      | +Ax       | QL        | +RM3      | +Ax       |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-[TREC 2017 CAR: benchmarkY1test (v1.5)](http://trec-car.cs.unh.edu/datareleases/)| 0.2336    | 0.1923    | 0.1949    | 0.2037    | 0.1599    | 0.1524    |
+[TREC 2017 CAR: benchmarkY1test (v1.5)](http://trec-car.cs.unh.edu/datareleases/)| 0.2331    | 0.1923    | 0.1949    | 0.2037    | 0.1599    | 0.1524    |
 
 
