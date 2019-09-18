@@ -94,6 +94,10 @@
           <extraJvmArguments>-Xms512M -Xmx31G</extraJvmArguments>
           <programs>
             <program>
+              <mainClass>io.anserini.ltr.FeatureExtractorCli</mainClass>
+              <id>FeatureExtractorCli</id>
+            </program>
+            <program>
               <mainClass>io.anserini.index.IndexCollection</mainClass>
               <id>IndexCollection</id>
             </program>
