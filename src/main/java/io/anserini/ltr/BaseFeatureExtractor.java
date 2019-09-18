@@ -136,7 +136,7 @@ abstract public class BaseFeatureExtractor<K> {
         for (String qid : qrels.getQids()) {
             // Construct the reranker context
             LOG.debug(String.format("Constructing context for QID: %s", qid));
-            String queryText = topics.get((K)qid).get("title");
+            String queryText = topics.get(Integer.parseInt(qid)).get("title");
             Query q = null;
 
             // We will not be checking for nulls here because the input should be correct,
