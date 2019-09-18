@@ -18,6 +18,7 @@ package io.anserini.index;
 
 import com.google.common.base.Charsets;
 import com.google.common.base.Splitter;
+import com.google.common.collect.Lists;
 import com.google.common.hash.Hashing;
 import io.anserini.analysis.EnglishStemmingAnalyzer;
 import io.anserini.analysis.TweetAnalyzer;
@@ -25,6 +26,7 @@ import io.anserini.collection.DocumentCollection;
 import io.anserini.collection.FileSegment;
 import io.anserini.collection.SourceDocument;
 import io.anserini.index.generator.LuceneDocumentGenerator;
+import io.anserini.index.generator.WapoGenerator;
 import io.anserini.search.similarity.AccurateBM25Similarity;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.time.DurationFormatUtils;
@@ -76,6 +78,10 @@ public final class IndexCollection {
   private static final Logger LOG = LogManager.getLogger(IndexCollection.class);
 
   private static final int TIMEOUT = 600 * 1000;
+
+  // When duplicates of these fields are attempted to be indexed in Solr, they are ignored. This allows some fields to be multi-valued, but not others.
+  // Stored vs. indexed vs. doc values vs. multi-valued vs. ... are controlled via config, rather than code, in Solr.
+  private static final List<String> IGNORED_DUPLICATE_FIELDS = Lists.newArrayList(WapoGenerator.WapoField.PUBLISHED_DATE.name);
 
   public final class Counters {
     /**
@@ -281,10 +287,15 @@ public final class IndexCollection {
             if (field.fieldType().docValuesType() != DocValuesType.NONE) {
               continue;
             }
-            if (field.stringValue() != null) { // For some reason, id is multi-valued with null as one of the values
-              solrDocument.addField(field.name(), field.stringValue());
-            } else if (field.numericValue() != null) {
+            // If the field is already in the doc, skip it.
+            // This fixes an issue with WaPo where published_date is in the Lucene doc as LongPoint and StoredField. Solr needs one copy, more fine-grained control in config.
+            if (solrDocument.containsKey(field.name()) && IGNORED_DUPLICATE_FIELDS.contains(field.name())) {
+              continue;
+            }
+            if (field.numericValue() != null) {
               solrDocument.addField(field.name(), field.numericValue());
+            } else if (field.stringValue() != null) { // For some reason, id is multi-valued with null as one of the values
+              solrDocument.addField(field.name(), field.stringValue());
             }
           }
 
