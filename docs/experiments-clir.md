@@ -33,7 +33,7 @@ To do the document retrieval, run
 ```
 nohup target/appassembler/bin/SearchCollection -topicreader TsvStringKey \
 -index lucene-index.clir_zh.pos+docvectors+rawdocs/ \
--topics resources/topics-and-qrels/topics.ntcir8.eval.txt \
+-topics src/main/resources/topics-and-qrels/topics.ntcir8zh.eval.txt \
 -output run.clir-zh.bm25-default.zh.topics.txt -bm25 -language zh &
 ```
 
@@ -42,5 +42,11 @@ nohup target/appassembler/bin/SearchCollection -topicreader TsvStringKey \
 To evalutate, run
 
 ```
-evals/trec/trec_eval.9.0.4/trec_eval -m map resources/topics-and-qrels/qrels.ntcir8.eval.txt run.clir-zh.bm25-default.zh.topics.txt
+eval/trec_eval.9.0.4/trec_eval -m map \
+src/main/resources/topics-and-qrels/qrels.ntcir8.eval.txt \
+run.clir-zh.bm25-default.zh.topics.txt
 ```
+
+| Collection |  MAP  |
+|:----------:|:-----:|
+| NTCIR-8 ZH | 0.3568|
