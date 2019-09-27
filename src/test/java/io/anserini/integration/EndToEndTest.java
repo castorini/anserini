@@ -1,5 +1,5 @@
 /**
- * Anserini: A toolkit for reproducible information retrieval research built on Lucene
+ * Anserini: A Lucene toolkit for replicable information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@ package io.anserini.integration;
 
 import io.anserini.eval.Eval;
 import io.anserini.eval.EvalArgs;
+import io.anserini.index.IndexArgs;
 import io.anserini.index.IndexCollection;
 import io.anserini.search.SearchArgs;
 import io.anserini.search.SearchCollection;
@@ -44,7 +45,7 @@ import java.util.List;
 // Subclasses inherit and special to different collections.
 @TestRuleLimitSysouts.Limit(bytes=20000)
 public abstract class EndToEndTest extends LuceneTestCase {
-  protected IndexCollection.Args indexCollectionArgs = new IndexCollection.Args();
+  protected IndexArgs indexCollectionArgs = new IndexArgs();
   protected SearchArgs searchArgs = new SearchArgs();
   protected EvalArgs evalArgs = new EvalArgs();
 

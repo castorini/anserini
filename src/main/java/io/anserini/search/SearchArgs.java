@@ -1,5 +1,5 @@
 /**
- * Anserini: A toolkit for reproducible information retrieval research built on Lucene
+ * Anserini: A Lucene toolkit for replicable information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -66,7 +66,11 @@ public class SearchArgs {
   @Option(name = "-backgroundlinking.weighted", usage = "Boolean switch to construct boosted query for TREC News Track Background " +
       "Linking task. The terms scores are their tf-idf score from the query document")
   public boolean backgroundlinking_weighted = false;
-  
+
+  @Option(name = "-backgroundlinking.datefilter", usage = "Boolean switch to filter out articles published after topic article " +
+      "for the TREC News Track Background Linking task.")
+  public boolean backgroundlinking_datefilter = false;
+
   @Option(name = "-stemmer", usage = "Stemmer: one of the following porter,krovetz,none. Default porter")
   public String stemmer = "porter";
   
@@ -92,16 +96,14 @@ public class SearchArgs {
 
   @Option(name = "-mu", handler = StringArrayOptionHandler.class, usage = "Dirichlet smoothing parameter")
   public String[] mu = new String[] {"1000"};
-  /*
-   * Why this value? We want to pick a value that corresponds to what the community generally
-   * considers to "good". Zhai and Lafferty (SIGIR 2001) write "the optimal value of mu appears to
-   * have a wide range (500-10000) and usually is around 2,000. A large value is 'safer,' especially
-   * for long verbose queries." We might consider additional evidence from TREC papers: the UMass
-   * TREC overview papers from 2002 and 2003 don't specifically mention query-likelihood as a
-   * retrieval model. The UMass overview paper from TREC 2004 mentions setting mu to 1000;
-   * incidentally, this is the first mention of what the community would later call RM3. So, this
-   * setting seems reasonable and does not contradict Zhai and Lafferty.
-   */
+
+  // Why this value? We want to pick a value that corresponds to what the community generally considers to be "good".
+  // Zhai and Lafferty (SIGIR 2001) write "the optimal value of mu appears to have a wide range (500-10000) and
+  // usually is around 2,000. A large value is 'safer', especially for long verbose queries." We might consider
+  // additional evidence from TREC papers: the UMass TREC overview papers from 2002 and 2003 don't specifically
+  // mention query-likelihood as a retrieval model. The UMass overview paper from TREC 2004 mentions setting mu
+  // to 1000; incidentally, this is the first mention of what the community would later call RM3. So, this setting
+  // seems reasonable and does not contradict Zhai and Lafferty.
 
   @Option(name = "-qld", usage = "use query likelihood Dirichlet scoring model")
   public boolean qld = false;
@@ -115,17 +117,27 @@ public class SearchArgs {
   @Option(name = "-bm25", usage = "use BM25 scoring model")
   public boolean bm25 = false;
 
+  @Option(name = "-bm25.accurate", usage = "use BM25 scoring model")
+  public boolean bm25Accurate = false;
+
+  // BM25 parameters: Robertson et al. (TREC 4) propose the range of 1.0-2.0 for k1 and 0.6-0.75 for b, with k1 = 1.2
+  // and b = 0.75 being a very common setting. Empirically, these values don't work very well for modern collections.
+  // Here, we adopt the defaults recommended by Trotman et al. (SIGIR 2012 OSIR Workshop) of k1 = 0.9 and b = 0.4.
+  // These values come from tuning on the INEX 2008 Wikipedia collection, which is less commonly used, so there isn't
+  // the danger of (inadvertently) training on test data. These settings are used in the ATIRE system and also in
+  // Lin et al. (ECIR 2016).
+
   @Option(name = "-k1", handler = StringArrayOptionHandler.class, usage = "BM25 k1 parameter")
   public String[] k1 = new String[] {"0.9"};
 
   @Option(name = "-b", handler = StringArrayOptionHandler.class, usage = "BM25 b parameter")
   public String[] b = new String[] {"0.4"};
   
-  @Option(name = "-pl2", usage = "use PL2 scoring model")
-  public boolean pl2 = false;
+  @Option(name = "-inl2", usage = "use I(n)L2 scoring model")
+  public boolean inl2 = false;
   
-  @Option(name = "-pl2.c", metaVar = "[value]", usage = "PL2 c parameter")
-  public String[] pl2_c = new String[] {"0.1"};
+  @Option(name = "-inl2.c", metaVar = "[value]", usage = "I(n)L2 c parameter")
+  public String[] inl2_c = new String[] {"0.1"};
 
   @Option(name = "-spl", usage = "use SPL scoring model")
   public boolean spl = false;
@@ -184,6 +196,35 @@ public class SearchArgs {
       usage = "RM3 parameter: print original and expanded queries")
   public boolean rm3_outputQuery = false;
 
+  // BM25PRF Options
+
+  @Option(name = "-bm25prf", usage = "use bm25PRF query expansion model")
+  public boolean bm25prf = false;
+
+  @Option(name = "-bm25prf.fbTerms", handler = StringArrayOptionHandler.class,
+          usage = "bm25PRF parameter: number of expansion terms")
+  public String[] bm25prf_fbTerms = new String[] {"20"};
+
+  @Option(name = "-bm25prf.fbDocs", handler = StringArrayOptionHandler.class,
+          usage = "bm25PRF parameter: number of documents")
+  public String[] bm25prf_fbDocs = new String[] {"10"};
+
+  @Option(name = "-bm25prf.k1", handler = StringArrayOptionHandler.class,
+          usage = "bm25PRF parameter: k1")
+  public String[] bm25prf_k1 = new String[] {"0.9"};
+
+  @Option(name = "-bm25prf.b", handler = StringArrayOptionHandler.class,
+          usage = "bm25PRF parameter: b")
+  public String[] bm25prf_b = new String[] {"0.4"};
+
+  @Option(name = "-bm25prf.newTermWeight", handler = StringArrayOptionHandler.class,
+          usage = "bm25PRF parameter: weight to assign to the expansion terms")
+  public String[] bm25prf_newTermWeight = new String[] {"0.2"};
+
+  @Option(name = "-bm25prf.outputQuery",
+          usage = "bm25PRF parameter: print original and expanded queries")
+  public boolean bm25prf_outputQuery = false;
+
   // Axiomatic semantic matching matching options.
 
   @Option(name = "-axiom", usage = "use Axiomatic query expansion model for the reranking")
@@ -219,4 +260,7 @@ public class SearchArgs {
 
   @Option(name = "-model", metaVar = "[file]", required = false, usage = "ranklib model file")
   public String model = "";
+
+  @Option(name = "-qid_queries", metaVar = "[file]", usage="query id - query mapping file")
+  public String qid_queries = "";
 }

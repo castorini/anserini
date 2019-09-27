@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.anserini</groupId>
   <artifactId>anserini</artifactId>
-  <version>0.3.1-SNAPSHOT</version>
+  <version>0.6.1-SNAPSHOT</version>
   <name>Anserini</name>
   <description>An information retrieval toolkit built on Lucene</description>
   <url>http://anserini.io/</url>
@@ -33,7 +33,7 @@
   </developers>
 
   <properties>
-    <lucene.version>7.6.0</lucene.version>
+    <lucene.version>8.0.0</lucene.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
@@ -76,12 +76,12 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.7.0</version>
+        <version>3.8.1</version>
         <configuration>
-          <source>1.8</source>
-          <target>1.8</target>
-          <testSource>1.8</testSource>
-          <testTarget>1.8</testTarget>
+          <source>11</source>
+          <target>11</target>
+          <testSource>11</testSource>
+          <testTarget>11</testTarget>
           <showDeprecation>true</showDeprecation>
           <compilerArgument>-Xlint:unchecked</compilerArgument>
         </configuration>
@@ -91,8 +91,12 @@
         <artifactId>appassembler-maven-plugin</artifactId>
         <version>2.0.0</version>
         <configuration>
-          <extraJvmArguments>-Xms512M -Xmx256G</extraJvmArguments>
+          <extraJvmArguments>-Xms512M -Xmx31G</extraJvmArguments>
           <programs>
+            <program>
+              <mainClass>io.anserini.ltr.FeatureExtractorCli</mainClass>
+              <id>FeatureExtractorCli</id>
+            </program>
             <program>
               <mainClass>io.anserini.index.IndexCollection</mainClass>
               <id>IndexCollection</id>
@@ -104,6 +108,22 @@
             <program>
               <mainClass>io.anserini.search.SearchCollection</mainClass>
               <id>SearchCollection</id>
+            </program>
+            <program>
+              <mainClass>io.anserini.search.SearchSolr</mainClass>
+              <id>SearchSolr</id>
+            </program>
+            <program>
+              <mainClass>io.anserini.search.SearchElastic</mainClass>
+              <id>SearchElastic</id>
+            </program>
+            <program>
+              <mainClass>io.anserini.search.SearchMsmarco</mainClass>
+              <id>SearchMsmarco</id>
+            </program>
+            <program>
+               <mainClass>io.anserini.util.ExtractDocumentLengths</mainClass>
+               <id>DocLen</id>
             </program>
             <program>
               <mainClass>io.anserini.eval.Eval</mainClass>
@@ -119,7 +139,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
-        <version>3.0.1</version>
+        <version>3.1.0</version>
         <executions>
           <execution>
             <id>attach-javadocs</id>
@@ -135,7 +155,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-shade-plugin</artifactId>
-        <version>3.1.0</version>
+        <version>3.2.1</version>
         <executions>
           <execution>
             <!-- default is to bind to package phase: we override and not create fatjar unless explicitly
@@ -175,12 +195,12 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-source-plugin</artifactId>
-        <version>3.0.1</version>
+        <version>3.1.0</version>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-deploy-plugin</artifactId>
-        <version>2.8.2</version>
+        <version>3.0.0-M1</version>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -226,6 +246,31 @@
       <version>${lucene.version}</version>
     </dependency>
     <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpcore</artifactId>
+      <version>4.4.11</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpclient</artifactId>
+      <version>4.5.8</version>
+    </dependency>
+    <dependency>
+      <groupId>org.elasticsearch.client</groupId>
+      <artifactId>elasticsearch-rest-high-level-client</artifactId>
+      <version>7.0.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.elasticsearch.client</groupId>
+      <artifactId>elasticsearch-rest-client</artifactId>
+      <version>7.0.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.elasticsearch</groupId>
+      <artifactId>elasticsearch</artifactId>
+      <version>7.0.0</version>
+    </dependency>
+    <dependency>
       <groupId>edu.umass.ciir</groupId>
       <artifactId>RankLib</artifactId>
       <version>2.1</version>
@@ -238,17 +283,17 @@
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-databind</artifactId>
-      <version>2.9.6</version>
+      <version>2.10.0.pr1</version>
     </dependency>
     <dependency>
       <groupId>com.fasterxml.jackson.datatype</groupId>
       <artifactId>jackson-datatype-jdk8</artifactId>
-      <version>2.8.6</version>
+      <version>2.10.0.pr1</version>
     </dependency>
     <dependency>
       <groupId>com.fasterxml.jackson.dataformat</groupId>
       <artifactId>jackson-dataformat-yaml</artifactId>
-      <version>2.8.11</version>
+      <version>2.10.0.pr1</version>
     </dependency>
     <dependency>
       <groupId>org.jsoup</groupId>
@@ -308,6 +353,11 @@
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-pool2</artifactId>
       <version>2.6.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.wikidata.wdtk</groupId>
+      <artifactId>wdtk-dumpfiles</artifactId>
+      <version>0.10.0</version>
     </dependency>
   </dependencies>
 </project>

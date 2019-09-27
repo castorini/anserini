@@ -1,5 +1,5 @@
 /**
- * Anserini: An information retrieval toolkit built on Lucene
+ * Anserini: A Lucene toolkit for replicable information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,15 +24,17 @@ import org.apache.lucene.document.Document;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.Terms;
 import org.apache.lucene.index.TermsEnum;
+
 import java.util.ArrayList;
-import java.util.List;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
 import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_BODY;
 import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_ID;
-
+import static io.anserini.index.generator.WapoGenerator.WapoField.PUBLISHED_DATE;
 
 /*
 * TREC News Track Background Linking task postprocessing.
@@ -53,29 +55,44 @@ public class NewsBackgroundLinkingReranker implements Reranker {
     }
     
     // remove the duplicates: 1. the same doc with the query doc 2. duplicated docs in the results
-    Set<Integer> duplicates = new HashSet<>();
+    Set<Integer> toRemove = new HashSet<>();
     for (int i = 0; i < docs.documents.length; i++) {
-      if (duplicates.contains(i)) continue;
-      String docid = docs.documents[i].getField(FIELD_ID).stringValue();
+      if (toRemove.contains(i)) continue;
       if (computeCosineSimilarity(queryTermsMap, docsVectorsMap.get(i)) >= 0.9) {
-        duplicates.add(i);
+        toRemove.add(i);
         continue;
       }
       for (int j = i+1; j < docs.documents.length; j++) {
         if (computeCosineSimilarity(docsVectorsMap.get(i), docsVectorsMap.get(j)) >= 0.9) {
-          duplicates.add(j);
+          toRemove.add(j);
         }
+      }
+    }
+
+    if (context.getSearchArgs().backgroundlinking_datefilter) {
+      try {
+        int luceneId = NewsBackgroundLinkingTopicReader.convertDocidToLuceneDocid(reader, queryDocId);
+        Document queryDoc = reader.document(luceneId);
+        long queryDocDate = Long.parseLong(queryDoc.getField(PUBLISHED_DATE.name).stringValue());
+        for (int i = 0; i < docs.documents.length; i++) {
+          long date = Long.parseLong(docs.documents[i].getField(PUBLISHED_DATE.name).stringValue());
+          if (date > queryDocDate) {
+            toRemove.add(i);
+          }
+        }
+      } catch (Exception e) {
+        e.printStackTrace();
       }
     }
   
     ScoredDocuments scoredDocs = new ScoredDocuments();
-    int resSize = docs.documents.length - duplicates.size();
+    int resSize = docs.documents.length - toRemove.size();
     scoredDocs.documents = new Document[resSize];
     scoredDocs.ids = new int[resSize];
     scoredDocs.scores = new float[resSize];
     int idx = 0;
     for (int i = 0; i < docs.documents.length; i++) {
-      if (!duplicates.contains(i)) {
+      if (!toRemove.contains(i)) {
         scoredDocs.documents[idx] = docs.documents[i];
         scoredDocs.scores[idx] = docs.scores[i];
         scoredDocs.ids[idx] = docs.ids[i];

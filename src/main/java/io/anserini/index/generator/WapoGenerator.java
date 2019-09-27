@@ -1,5 +1,5 @@
 /**
- * Anserini: A toolkit for reproducible information retrieval research built on Lucene
+ * Anserini: A Lucene toolkit for replicable information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,10 +18,17 @@ package io.anserini.index.generator;
 
 import io.anserini.collection.WashingtonPostCollection;
 import io.anserini.collection.WashingtonPostCollection.Document.WashingtonPostObject;
+import io.anserini.index.IndexArgs;
 import io.anserini.index.IndexCollection;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.lucene.document.*;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.document.Field;
+import org.apache.lucene.document.FieldType;
+import org.apache.lucene.document.LongPoint;
+import org.apache.lucene.document.SortedDocValuesField;
+import org.apache.lucene.document.StoredField;
+import org.apache.lucene.document.StringField;
 import org.apache.lucene.index.IndexOptions;
 import org.apache.lucene.util.BytesRef;
 import org.jsoup.Jsoup;
@@ -39,7 +46,7 @@ public class WapoGenerator extends LuceneDocumentGenerator<WashingtonPostCollect
   public static final String FIELD_RAW = "raw";
   public static final String FIELD_BODY = "contents";
   public static final String FIELD_ID = "id";
-  
+
   private static final String PATTERN = "<.+>";
   public static final List<String> CONTENT_TYPE_TAG = Arrays.asList("sanitized_html", "tweet");
 
@@ -58,8 +65,7 @@ public class WapoGenerator extends LuceneDocumentGenerator<WashingtonPostCollect
     }
   }
   
-  public WapoGenerator(IndexCollection.Args args,
-                        IndexCollection.Counters counters) throws IOException {
+  public WapoGenerator(IndexArgs args, IndexCollection.Counters counters) {
     super(args, counters);
   }
   
@@ -81,6 +87,7 @@ public class WapoGenerator extends LuceneDocumentGenerator<WashingtonPostCollect
     // This is needed to break score ties by docid.
     doc.add(new SortedDocValuesField(FIELD_ID, new BytesRef(id)));
     doc.add(new LongPoint(WapoField.PUBLISHED_DATE.name, wapoDoc.getPublishDate()));
+    doc.add(new StoredField(WapoField.PUBLISHED_DATE.name, wapoDoc.getPublishDate()));
     wapoDoc.getAuthor().ifPresent(author -> {
       doc.add(new StringField(WapoField.AUTHOR.name, author, Field.Store.NO));
     });
@@ -92,8 +99,10 @@ public class WapoGenerator extends LuceneDocumentGenerator<WashingtonPostCollect
     });
 
     StringBuilder contentBuilder = new StringBuilder();
-    contentBuilder.append(wapoDoc.getTitle()).append("\n\n");
-  
+    wapoDoc.getTitle().ifPresent(title -> {
+      contentBuilder.append(title).append("\n");
+    });
+
     wapoDoc.getObj().getContents().ifPresent(contents -> {
       for (WashingtonPostObject.Content contentObj : contents) {
         if (contentObj == null) continue;
@@ -104,6 +113,7 @@ public class WapoGenerator extends LuceneDocumentGenerator<WashingtonPostCollect
                 contentBuilder.append(removeTags(content)).append("\n");
               } else if (type.compareToIgnoreCase("kicker") == 0) {
                 doc.add(new StringField(WapoField.KICKER.name, content, Field.Store.NO));
+                contentBuilder.append(content).append("\n");
               }
             });
           });

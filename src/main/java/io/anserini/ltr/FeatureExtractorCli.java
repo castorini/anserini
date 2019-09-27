@@ -1,5 +1,5 @@
 /**
- * Anserini: A toolkit for reproducible information retrieval research built on Lucene
+ * Anserini: A Lucene toolkit for replicable information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,10 @@
 package io.anserini.ltr;
 
 import io.anserini.ltr.feature.FeatureExtractors;
+import io.anserini.search.topicreader.MicroblogTopicReader;
 import io.anserini.search.topicreader.TopicReader;
+import io.anserini.search.topicreader.TrecTopicReader;
+import io.anserini.search.topicreader.WebxmlTopicReader;
 import io.anserini.util.Qrels;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -33,9 +36,7 @@ import org.kohsuke.args4j.ParserProperties;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
-import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.SortedMap;
 
@@ -45,7 +46,7 @@ import java.util.SortedMap;
 public class FeatureExtractorCli {
   private static final Logger LOG = LogManager.getLogger(FeatureExtractorCli.class);
 
-  private static class FeatureExtractionArgs {
+  static class FeatureExtractionArgs {
     @Option(name = "-index", metaVar = "[path]", required = true, usage = "Lucene index directory")
     public String indexDir;
 
@@ -64,15 +65,37 @@ public class FeatureExtractorCli {
     @Option(name = "-extractors", metaVar = "[path]", required = false, usage = "FeatureExtractors File")
     public String extractors = null;
 
+    @SuppressWarnings("unchecked")
+    public <K> TopicReader<K> buildTopicReaderForCollection() throws Exception {
+      if ("clueweb".equals(collection)) {
+        return (TopicReader<K>) new WebxmlTopicReader(Paths.get(topicsFile));
+      } else if ("gov2".equals(collection)){
+        return (TopicReader<K>) new TrecTopicReader(Paths.get(topicsFile));
+      } else if ("twitter".equals(collection)) {
+        return (TopicReader<K>) new MicroblogTopicReader(Paths.get(topicsFile));
+      }
+
+      throw new RuntimeException("Unrecognized collection " + collection);
+    }
+
+    @SuppressWarnings("unchecked")
+    public <K> BaseFeatureExtractor<K> buildBaseFeatureExtractor(IndexReader reader, Qrels qrels, Map<K, Map<String, String>> topics, FeatureExtractors extractors) {
+      if ("clueweb".equals(collection) || "gov2".equals(collection)) {
+        return new WebFeatureExtractor(reader, qrels, topics, extractors);
+      } else if ("twitter".equals(collection)) {
+        return (BaseFeatureExtractor<K>) new TwitterFeatureExtractor(reader, qrels, (Map<Integer, Map<String, String>>) topics, extractors);
+      }
+
+      throw new RuntimeException("Unrecognized collection " + collection);
+    }
   }
+
   /**
    * requires the user to supply the index directory and also the directory containing the qrels and topics
    * @param args  indexDir, qrelFile, topicFile, outputFile
    */
-  @SuppressWarnings("unchecked")
   public static<K> void main(String args[]) throws Exception {
 
-    long curTime = System.nanoTime();
     FeatureExtractionArgs parsedArgs = new FeatureExtractionArgs();
     CmdLineParser parser= new CmdLineParser(parsedArgs, ParserProperties.defaults().withUsageWidth(90));
 
@@ -96,35 +119,11 @@ public class FeatureExtractorCli {
     // Query parser needed to construct the query object for feature extraction in the loop
     PrintStream out = new PrintStream (new FileOutputStream(new File(parsedArgs.outputFile)));
 
-    if (parsedArgs.collection.equals("gov2") || parsedArgs.collection.equals("webxml")) {
-      // Open the topics file and read it
-      String className = parsedArgs.collection.equals("gov2") ? "Trec" : "Webxml";
-      TopicReader<K> tr = (TopicReader<K>)Class.forName("io.anserini.search.query."+className+"TopicReader")
-              .getConstructor(Path.class).newInstance(Paths.get(parsedArgs.topicsFile));
-      SortedMap<K, Map<String, String>> topics = tr.read();
-      LOG.debug(String.format("%d topics found", topics.size()));
+    TopicReader<K> tr = parsedArgs.buildTopicReaderForCollection();
+    SortedMap<K, Map<String, String>> topics = tr.read();
+    LOG.debug(String.format("%d topics found", topics.size()));
 
-      WebFeatureExtractor extractor = new WebFeatureExtractor(reader, qrels, topics, extractors);
-      extractor.printFeatures(out);
-    } else if (parsedArgs.collection.equals("twitter")) {
-      TopicReader<Integer> tr = (TopicReader<Integer>)Class.forName("io.anserini.search.topicreader.MicroblogTopicReader")
-          .getConstructor(Path.class).newInstance(Paths.get(parsedArgs.topicsFile));
-      SortedMap<Integer, Map<String, String>> topics = tr.read();
-      LOG.debug(String.format("%d topics found", topics.size()));
-      TwitterFeatureExtractor extractor = new TwitterFeatureExtractor(reader, qrels, topics, extractors);
-      extractor.printFeatures(out);
-    } else {
-      System.err.println("Unrecognized collection " + parsedArgs.collection );
-    }
+    BaseFeatureExtractor<K> extractor = parsedArgs.buildBaseFeatureExtractor(reader, qrels, topics, extractors);
+    extractor.printFeatures(out);
   }
-
-  private static Map<String,String> convertTopicsFormat(Map<String, Map<String, String>> topics) {
-    HashMap<String, String> convertedTopics = new HashMap<>(topics.size());
-
-    for (Map.Entry<String, Map<String, String>> entry : topics.entrySet()) {
-      convertedTopics.put(String.valueOf(entry.getKey()), entry.getValue().get("title"));
-    }
-    return convertedTopics;
-  }
-
 }

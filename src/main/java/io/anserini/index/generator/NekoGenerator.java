@@ -1,5 +1,5 @@
 /**
- * Anserini: A toolkit for reproducible information retrieval research built on Lucene
+ * Anserini: A Lucene toolkit for replicable information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 package io.anserini.index.generator;
 
+import io.anserini.index.IndexArgs;
 import io.anserini.index.IndexCollection;
 import io.anserini.index.transform.NekoStringTransform;
 
@@ -23,7 +24,7 @@ public class NekoGenerator extends LuceneDocumentGenerator {
   public NekoGenerator() {
     super(new NekoStringTransform());
   }
-  public NekoGenerator(IndexCollection.Args args, IndexCollection.Counters counters) {
+  public NekoGenerator(IndexArgs args, IndexCollection.Counters counters) {
     super(new NekoStringTransform(), args, counters);
   }
 }

@@ -1,5 +1,5 @@
 /**
- * Anserini: A toolkit for reproducible information retrieval research built on Lucene
+ * Anserini: A Lucene toolkit for replicable information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,6 +27,11 @@ import io.anserini.rerank.ScoredDocuments;
 public class ScoreTiesAdjusterReranker implements Reranker {
   @Override
   public ScoredDocuments rerank(ScoredDocuments docs, RerankerContext context) {
+
+    if (context.getSearchArgs().arbitraryScoreTieBreak) {
+      return docs;
+    }
+
     int dup = 0;
     for (int i=0; i<docs.documents.length; i++) {
       docs.scores[i] = Math.round(docs.scores[i] * 1e4f) / 1e4f;

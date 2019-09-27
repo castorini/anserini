@@ -1,5 +1,5 @@
 /**
- * Anserini: A toolkit for reproducible information retrieval research built on Lucene
+ * Anserini: A Lucene toolkit for replicable information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,26 +16,25 @@
 
 package io.anserini.util;
 
-import io.anserini.collection.BaseFileSegment;
+import io.anserini.collection.FileSegment;
 import io.anserini.collection.DocumentCollection;
-import io.anserini.collection.SegmentProvider;
 import io.anserini.collection.SourceDocument;
-
 import io.anserini.util.mapper.DocumentMapper;
 import io.anserini.util.mapper.DocumentMapperContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
+import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.OptionHandlerFilter;
 import org.kohsuke.args4j.ParserProperties;
-import org.kohsuke.args4j.Option;
 
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Iterator;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -101,17 +100,16 @@ public final class MapCollections {
     public void run() {
       try {
         @SuppressWarnings("unchecked")
-        BaseFileSegment<SourceDocument> iter =
-          (BaseFileSegment) ((SegmentProvider) collection).createFileSegment(inputFile);
+        FileSegment<SourceDocument> segment = (FileSegment) collection.createFileSegment(inputFile);
 
         // We're calling these records because the documents may not in indexable.
         AtomicInteger records = new AtomicInteger();
-        iter.forEachRemaining(d -> {
+        segment.iterator().forEachRemaining(d -> {
           mapper.process(d, context);
           records.incrementAndGet();
         });
 
-        iter.close();
+        segment.close();
         LOG.info(inputFile.getParent().getFileName().toString() + File.separator +
                 inputFile.getFileName().toString() + ": " + records.incrementAndGet() + " records processed.");
       } catch (Exception e) {
@@ -165,7 +163,7 @@ public final class MapCollections {
 
     int numThreads = args.threads;
     final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(numThreads);
-    final List segmentPaths = ((SegmentProvider) collection).getFileSegmentPaths();
+    final List segmentPaths = collection.discover(collection.getCollectionPath());
 
     final int segmentCnt = segmentPaths.size();
     LOG.info(segmentCnt + " files found in " + collectionPath.toString());

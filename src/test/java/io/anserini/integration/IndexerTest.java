@@ -1,5 +1,5 @@
 /**
- * Anserini: A toolkit for reproducible information retrieval research built on Lucene
+ * Anserini: A Lucene toolkit for replicable information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -113,6 +113,8 @@ public class IndexerTest extends LuceneTestCase {
   @After
   @Override
   public void tearDown() throws Exception {
+    // Call garbage collector for Windows compatibility
+    System.gc();
     super.tearDown();
   }
 
@@ -217,7 +219,7 @@ public class IndexerTest extends LuceneTestCase {
         TopDocs rs = searcher.search(finalQuery, 1);                 // issue the query
 
         // The BM25 weight is the maxScore
-        System.out.println(term + " " + tf + " " + rs.getMaxScore());
+        System.out.println(term + " " + tf + " " + (rs.scoreDocs.length == 0 ? Float.NaN : rs.scoreDocs[0].score));
       }
     }
   }

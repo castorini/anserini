@@ -1,5 +1,5 @@
 /**
- * Anserini: A toolkit for reproducible information retrieval research built on Lucene
+ * Anserini: A Lucene toolkit for replicable information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -161,7 +161,7 @@ public class IndexFreebase {
 
     LOG.info(String.format("%,d triples indexed.", triplesCount.get()));
     LOG.info(String.format("%,d documents added.", docCount.get()));
-    int numIndexed = writer.maxDoc();
+    int numIndexed = writer.getDocStats().maxDoc;
 
     try {
       writer.commit();

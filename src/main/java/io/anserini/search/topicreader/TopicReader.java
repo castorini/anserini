@@ -1,5 +1,5 @@
 /**
- * Anserini: A toolkit for reproducible information retrieval research built on Lucene
+ * Anserini: A Lucene toolkit for replicable information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,17 +28,28 @@ import java.nio.file.StandardOpenOption;
 import java.util.Map;
 import java.util.SortedMap;
 
+/**
+ * A reader of topics, i.e., information needs or queries, in a variety of standard formats.
+ *
+ * @param <K> type of the topic id
+ */
 public abstract class TopicReader<K> {
   protected Path topicFile;
 
-  public TopicReader() {
-
-  }
+  public TopicReader() {}
 
   public TopicReader(Path topicFile) {
     this.topicFile = topicFile;
   }
 
+  /**
+   * Returns a sorted map of ids to topics. Each topic is represented as a map, where the keys are the standard TREC
+   * topic fields "title", "description", and "narrative". For topic formats that do not provide this three-way
+   * elaboration, the "title" key is used to hold the "query".
+   *
+   * @return a sorted map of ids to topics
+   * @throws IOException
+   */
   public SortedMap<K, Map<String, String>> read() throws IOException {
     InputStream topics = Files.newInputStream(topicFile, StandardOpenOption.READ);
     BufferedReader bRdr = new BufferedReader(new InputStreamReader(topics, StandardCharsets.UTF_8));

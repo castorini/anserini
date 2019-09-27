@@ -41,17 +41,18 @@ index_stats:
   documents (non-empty): 741675
   total terms: 217199327
 topics:
-  - name: "TREC-1 Ad Hoc Track: Topics 51-100"
+  - name: "[TREC-1 Ad Hoc Track: Topics 51-100](http://trec.nist.gov/data/topics_eng/topics.51-100.gz)"
     path: topics.51-100.txt
     qrel: qrels.51-100.txt
-  - name: "TREC-2 Ad Hoc Track: Topics 101-150"
+  - name: "[TREC-2 Ad Hoc Track: Topics 101-150](http://trec.nist.gov/data/topics_eng/topics.101-150.gz)"
     path: topics.101-150.txt
     qrel: qrels.101-150.txt
-  - name: "TREC-3 Ad Hoc Track: Topics 151-200"
+  - name: "[TREC-3 Ad Hoc Track: Topics 151-200](http://trec.nist.gov/data/topics_eng/topics.151-200.gz)"
     path: topics.151-200.txt
     qrel: qrels.151-200.txt
 models:
   - name: bm25
+    display: BM25
     params:
       - -bm25
     results:
@@ -64,6 +65,7 @@ models:
         - 0.4280
         - 0.4740
   - name: bm25+rm3
+    display: +RM3
     params:
       - -bm25
       - -rm3
@@ -77,6 +79,7 @@ models:
         - 0.4593
         - 0.5273
   - name: bm25+ax
+    display: +Ax
     params:
       - -bm25
       - -axiom
@@ -92,6 +95,7 @@ models:
         - 0.4753
         - 0.5100
   - name: ql
+    display: QL
     params:
       - -ql
     results:
@@ -104,6 +108,7 @@ models:
         - 0.4207
         - 0.4580
   - name: ql+rm3
+    display: +RM3
     params:
       - -ql
       - -rm3
@@ -117,6 +122,7 @@ models:
         - 0.4420
         - 0.4913
   - name: ql+ax
+    display: +Ax
     params:
       - -ql
       - -axiom

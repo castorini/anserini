@@ -1,5 +1,5 @@
 /**
- * Anserini: A toolkit for reproducible information retrieval research built on Lucene
+ * Anserini: A Lucene toolkit for replicable information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,6 @@
 
 package io.anserini.eval;
 
-
 import io.anserini.eval.metric.AvgPrecision;
 import io.anserini.eval.metric.NDCG;
 import io.anserini.eval.metric.Precision;
@@ -25,7 +24,11 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class MetricsTest extends LuceneTestCase {
   protected List<ResultDoc> rankingList;

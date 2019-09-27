@@ -30,6 +30,7 @@ if __name__ == '__main__':
     parser.add_argument("--index", type=str, help='index', required=True)
     parser.add_argument("--folds", type=str, help='folds file', required=True)
     parser.add_argument("--params", type=str, help='params file', required=True)
+    parser.add_argument("--output", type=str, help='output run file', required=True)
 
     args = parser.parse_args()
     index = args.index
@@ -70,11 +71,11 @@ if __name__ == '__main__':
     folds_run_files = []
     for i in range(len(folds)):
         os.system(f'target/appassembler/bin/SearchCollection -topicreader Trec -index {index} '
-                  f'-topics topics.robust04.fold{i} -output run.robust04.bm25+rm3.fold{i}.txt -hits 1000 {params[i]}')
-        folds_run_files.append(f'run.robust04.bm25+rm3.fold{i}.txt')
+                  f'-topics topics.robust04.fold{i} -output {args.output}.fold{i} -hits 1000 {params[i]}')
+        folds_run_files.append(f'{args.output}.fold{i}')
 
     # Concatenate all partial run files together.
-    with open('run.robust04.bm25+rm3.txt', 'w') as outfile:
+    with open(args.output, 'w') as outfile:
         for fname in folds_run_files:
             with open(fname) as infile:
                 outfile.write(infile.read())

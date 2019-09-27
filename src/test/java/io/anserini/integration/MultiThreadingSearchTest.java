@@ -1,5 +1,5 @@
 /**
- * Anserini: A toolkit for reproducible information retrieval research built on Lucene
+ * Anserini: A Lucene toolkit for replicable information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,6 @@
 package io.anserini.integration;
 
 import io.anserini.eval.Eval;
-import org.apache.commons.io.FileUtils;
 import org.junit.After;
 
 import java.io.File;
@@ -35,8 +34,9 @@ public class MultiThreadingSearchTest extends EndToEndTest {
     termIndexStatusTermCount = 12; // Please note that standard analyzer ignores stopwords.
                                    // Also, this includes docids
     termIndexStatusTotFreq = 17;  //
-    termIndexStatusTotPos = 16;   // only "text" fields are indexed with position so we have 16
     storedFieldStatusTotalDocCounts = 3;
+    // 16 positions for text fields, plus 1 for each document because of id
+    termIndexStatusTotPos = 16 + storedFieldStatusTotalDocCounts;
     storedFieldStatusTotFields = 9;  // 3 docs * (1 id + 1 text + 1 raw)
   }
   
@@ -52,8 +52,8 @@ public class MultiThreadingSearchTest extends EndToEndTest {
     try {
       Eval.setAllMetrics(this.evalMetrics);
       for (int i = 0; i < searchArgs.b.length; i++) {
-        System.out.println(evalArgs.runPath+"_k1:"+searchArgs.k1[0]+",b:"+searchArgs.b[i]);
-        Eval.eval(evalArgs.runPath+"_k1:"+searchArgs.k1[0]+",b:"+searchArgs.b[i], evalArgs.qrelPath, evalArgs.longDocids, evalArgs.asc);
+        System.out.println(evalArgs.runPath+"_k1="+searchArgs.k1[0]+",b="+searchArgs.b[i]);
+        Eval.eval(evalArgs.runPath+"_k1="+searchArgs.k1[0]+",b="+searchArgs.b[i], evalArgs.qrelPath, evalArgs.longDocids, evalArgs.asc);
         assertEquals(Eval.getAllEvals().get(this.evalMetrics[0]).aggregated,
             res[i], 0.001);
       }
@@ -68,7 +68,7 @@ public class MultiThreadingSearchTest extends EndToEndTest {
   @Override
   public void tearDown() throws Exception {
     for (String b : searchArgs.b) {
-      new File(evalArgs.runPath+"_k1:"+searchArgs.k1[0]+",b:"+b).delete();
+      new File(evalArgs.runPath+"_k1="+searchArgs.k1[0]+",b="+b).delete();
     }
     super.tearDown();
   }

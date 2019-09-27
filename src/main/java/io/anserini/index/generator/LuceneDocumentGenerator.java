@@ -1,5 +1,5 @@
 /**
- * Anserini: A toolkit for reproducible information retrieval research built on Lucene
+ * Anserini: A Lucene toolkit for replicable information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,9 @@
 
 package io.anserini.index.generator;
 
+import io.anserini.collection.MultifieldSourceDocument;
 import io.anserini.collection.SourceDocument;
+import io.anserini.index.IndexArgs;
 import io.anserini.index.IndexCollection;
 import io.anserini.index.transform.StringTransform;
 import org.apache.logging.log4j.LogManager;
@@ -47,7 +49,7 @@ public class LuceneDocumentGenerator<T extends SourceDocument> {
   private final StringTransform transform;
 
   protected IndexCollection.Counters counters;
-  protected IndexCollection.Args args;
+  protected IndexArgs args;
 
   /**
    * Default constructor.
@@ -71,7 +73,7 @@ public class LuceneDocumentGenerator<T extends SourceDocument> {
    * @param args configuration arguments
    * @param counters counters
    */
-  public LuceneDocumentGenerator(IndexCollection.Args args, IndexCollection.Counters counters) {
+  public LuceneDocumentGenerator(IndexArgs args, IndexCollection.Counters counters) {
     this.transform = null;
     config(args);
     setCounters(counters);
@@ -84,14 +86,14 @@ public class LuceneDocumentGenerator<T extends SourceDocument> {
    * @param args configuration arguments
    * @param counters counters
    */
-  public LuceneDocumentGenerator(StringTransform transform, IndexCollection.Args args,
+  public LuceneDocumentGenerator(StringTransform transform, IndexArgs args,
       IndexCollection.Counters counters) {
     this.transform = transform;
     config(args);
     setCounters(counters);
   }
 
-  public void config(IndexCollection.Args args) {
+  public void config(IndexArgs args) {
     this.args = args;
   }
 
@@ -118,7 +120,7 @@ public class LuceneDocumentGenerator<T extends SourceDocument> {
     }
 
     // Make a new, empty document.
-    Document document = new Document();
+    final Document document = new Document();
 
     // Store the collection docid.
     document.add(new StringField(FIELD_ID, id, Field.Store.YES));
@@ -146,6 +148,29 @@ public class LuceneDocumentGenerator<T extends SourceDocument> {
     }
 
     document.add(new Field(FIELD_BODY, contents, fieldType));
+
+    // If this document has other fields, then we want to index it also.
+    // Currently we just use all the settings of the main "content" field.
+    if (src instanceof MultifieldSourceDocument) {
+      ((MultifieldSourceDocument) src).fields().forEach((k, v) -> {
+        FieldType type = new FieldType();
+
+        type.setStored(args.storeTransformedDocs);
+
+        if (args.storeDocvectors) {
+          type.setStoreTermVectors(true);
+          type.setStoreTermVectorPositions(true);
+        }
+
+        if (args.storePositions) {
+          type.setIndexOptions(IndexOptions.DOCS_AND_FREQS_AND_POSITIONS);
+        } else {
+          type.setIndexOptions(IndexOptions.DOCS_AND_FREQS);
+        }
+
+        document.add(new Field(k, v, fieldType));
+      });
+    }
 
     return document;
   }

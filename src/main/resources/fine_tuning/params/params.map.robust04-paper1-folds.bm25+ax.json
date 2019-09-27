@@ -1,0 +1,2 @@
+[ "-bm25 -axiom -k1 0.8 -b 0.55 -rerankCutoff 50 -axiom.deterministic -axiom.n 30 -axiom.seed 42 -axiom.r 10 -axiom.n 30 -axiom.beta 0.35 -axiom.top 50",
+  "-bm25 -axiom -k1 0.8 -b 0.50 -rerankCutoff 50 -axiom.deterministic -axiom.n 30 -axiom.seed 42 -axiom.r 10 -axiom.n 30 -axiom.beta 0.30 -axiom.top 25" ]

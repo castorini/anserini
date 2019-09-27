@@ -20,11 +20,11 @@ input: collections/newswire/NYTcorpus/
 index_path: indexes/lucene-index.core17.pos+docvectors+rawdocs # path to the existing index, used in regression test if `--index` option is absent
 collection: NewYorkTimesCollection
 index_stats:
-  documents: 1831109
-  documents (non-empty): 1831109
-  total terms: 720510677
+  documents: 1855649
+  documents (non-empty): 1855649
+  total terms: 751034054
 topics:
-  - name: "All Topics"
+  - name: "[TREC 2017 Common Core Track Topics](https://trec.nist.gov/data/core/core_nist.txt)"
     path: topics.core17.txt
     qrel: qrels.core17.txt
 evals:
@@ -46,23 +46,26 @@ evals:
     can_combine: true
 models:
   - name: bm25
+    display: BM25
     params:
       - -bm25
     results:
       map:
-        - 0.1977
+        - 0.2087
       p30:
-        - 0.4160
+        - 0.4293
   - name: bm25+rm3
+    display: +RM3
     params:
       - -bm25
       - -rm3
     results:
       map:
-        - 0.2682
+        - 0.2823
       p30:
-        - 0.4940
+        - 0.5093
   - name: bm25+ax
+    display: +Ax
     params:
       - -bm25
       - -axiom
@@ -70,34 +73,37 @@ models:
       - -axiom.deterministic
     results:
       map:
-        - 0.2700
+        - 0.2788
       p30:
-        - 0.4927
+        - 0.4980
   - name: ql
+    display: QL
     params:
       - -ql
     results:
       map:
-        - 0.1913
+        - 0.2032
       p30:
-        - 0.4373
+        - 0.4467
   - name: ql+rm3
+    display: +RM3
     params:
       - -ql
       - -rm3
     results:
       map:
-        - 0.2485
-      p30:
-        - 0.4740
-  - name: ql+ax
-    params:
-      - -ql
-      - -axiom
-      - -rerankCutoff 20
-      - -axiom.deterministic
-    results:
-      map:
-        - 0.2514
+        - 0.2606
       p30:
         - 0.4827
+  - name: ql+ax
+    display: +Ax
+    params:
+      - -ql
+      - -axiom
+      - -rerankCutoff 20
+      - -axiom.deterministic
+    results:
+      map:
+        - 0.2613
+      p30:
+        - 0.4953

@@ -1,5 +1,5 @@
 /**
- * Anserini: A toolkit for reproducible information retrieval research built on Lucene
+ * Anserini: A Lucene toolkit for replicable information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,12 +17,9 @@
 package io.anserini.search.similarity;
 
 import org.apache.lucene.index.FieldInvertState;
-import org.apache.lucene.index.LeafReaderContext;
 import org.apache.lucene.search.CollectionStatistics;
 import org.apache.lucene.search.TermStatistics;
 import org.apache.lucene.search.similarities.Similarity;
-
-import java.io.IOException;
 
 /**
  * Similarity that uses a Ranklib ranker to compute the score
@@ -34,12 +31,8 @@ public class RankLibSimilarity extends Similarity {
   }
 
   @Override
-  public SimWeight computeWeight(float boost, CollectionStatistics collectionStatistics, TermStatistics... termStatistics) {
+  public SimScorer scorer(float boost, CollectionStatistics collectionStatistics, TermStatistics... termStatistics) {
     return null;
   }
 
-  @Override
-  public SimScorer simScorer(SimWeight simWeight, LeafReaderContext leafReaderContext) throws IOException {
-    return null;
-  }
 }

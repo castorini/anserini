@@ -1,5 +1,5 @@
 /**
- * Anserini: A toolkit for reproducible information retrieval research built on Lucene
+ * Anserini: A Lucene toolkit for replicable information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +24,10 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-public class TrecTopicReader extends TopicReader {
+/**
+ * Topic reader for standard TREC <i>ad hoc</i> topics, with title, description, and narrative fields.
+ */
+public class TrecTopicReader extends TopicReader<Integer> {
 
   public TrecTopicReader(Path topicFile) {
     super(topicFile);

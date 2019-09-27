@@ -1,5 +1,5 @@
 /**
- * Anserini: A toolkit for reproducible information retrieval research built on Lucene
+ * Anserini: A Lucene toolkit for replicable information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,8 +18,6 @@ package io.anserini.kg;
 
 import io.anserini.analysis.FreebaseAnalyzer;
 import io.anserini.rerank.ScoredDocuments;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
@@ -104,11 +102,11 @@ public class LookupFreebaseNodes implements Closeable {
     TermQuery query = new TermQuery(new Term(IndexFreebase.FIELD_ID, mid));
 
     TopDocs topDocs = searcher.search(query, 1);
-    if (topDocs.totalHits == 0) {
+    if (topDocs.totalHits.value == 0) {
       System.err.println("Error: mid not found!");
       return null;
     }
-    if (topDocs.totalHits > 1) {
+    if (topDocs.totalHits.value > 1) {
       System.err.println("Error: more than one matching mid found. This shouldn't happen!");
       return null;
     }

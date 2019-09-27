@@ -1,5 +1,5 @@
 /**
- * Anserini: A toolkit for reproducible information retrieval research built on Lucene
+ * Anserini: A Lucene toolkit for replicable information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,8 +30,9 @@ public class TweetEndToEndTest extends EndToEndTest {
     // We set that retweets and the tweets with ids larger than tweetMaxId will NOT be indexed!
     termIndexStatusTermCount = 32; // other indexable fields: 4 doc ids + 4 "lang" fields + 4 "screen_name" fields
     termIndexStatusTotFreq = 36;
-    termIndexStatusTotPos = 24;   // only "text" fields are indexed with positions
     storedFieldStatusTotalDocCounts = 4;
+    // 24 positions for text fields, plus 3 for each document because of id, screen_name and lang
+    termIndexStatusTotPos = 24 + 3 * storedFieldStatusTotalDocCounts;
     storedFieldStatusTotFields = 12;  // 4 tweets * (1 id + 1 text + 1 raw)
 
     // The search output should be as follows (for Lucene 7.5):
