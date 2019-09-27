@@ -42,6 +42,7 @@ import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.CharArraySet;
+import org.apache.lucene.analysis.cjk.CJKAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.*;
 import org.apache.lucene.search.similarities.BM25Similarity;
@@ -660,8 +661,14 @@ public final class IndexCollection {
       final EnglishStemmingAnalyzer analyzer = args.keepStopwords ?
           new EnglishStemmingAnalyzer(args.stemmer, CharArraySet.EMPTY_SET) : new EnglishStemmingAnalyzer(args.stemmer);
       final TweetAnalyzer tweetAnalyzer = new TweetAnalyzer(args.tweetStemming);
-      final IndexWriterConfig config = args.collectionClass.equals("TweetCollection") ?
-          new IndexWriterConfig(tweetAnalyzer) : args.language.equals("zh") ? new IndexWriterConfig(chineseAnalyzer) : new IndexWriterConfig(analyzer);
+      final IndexWriterConfig config;
+      if (args.collectionClass.equals("TweetCollection")) {
+        config = new IndexWriterConfig(tweetAnalyzer);
+      } else if (args.language.equals("zh")) {
+        config = new IndexWriterConfig(chineseAnalyzer);
+      } else {
+        config = new IndexWriterConfig(analyzer);
+      }
       if (args.bm25Accurate) {
         config.setSimilarity(new AccurateBM25Similarity()); // necessary during indexing as the norm used in BM25 is already determined at index time.
       } else {
