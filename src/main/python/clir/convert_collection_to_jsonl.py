@@ -56,12 +56,10 @@ def zh2json(file_path, output_path):
                 example = {}
                 line = fin.readline()
                 if line.startswith("<DOCNO>"):
-                    line = line.replace("<DOCNO>", "").replace("</DOCNO>",
-                                                               "").strip()
+                    line = line.replace("<DOCNO>", "").replace("</DOCNO>", "").strip()
                     example["id"] = line
                 else:
-                    print("The line is {}, but we assume it is <DOCNO> line".
-                          format(line))
+                    print("The line is {}, but we assume it is <DOCNO> line".format(line))
                     exit()
                 # Read contents
                 example["contents"] = []
