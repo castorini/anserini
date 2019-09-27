@@ -40,9 +40,9 @@ We can use Anserini as a common "frontend" for indexing into SolrCloud, thus sup
 Indexing into Solr is similar indexing to disk with Lucene, with a few added parameters.
 Most notably, we replace the `-index` parameter (which specifies the Lucene index path on disk) with Solr parameters.
 
-We'll index [robust04](https://github.com/castorini/Anserini/blob/master/docs/experiments-robust04.md) as an example:
+We'll index [robust04](regressions-robust04.md) as an example.
+First, create the `robust04` collection in Solr:
 
-Create the `robust04` collection in Solr:
 ```
 solrini/bin/solr create -n anserini -c robust04
 ```
