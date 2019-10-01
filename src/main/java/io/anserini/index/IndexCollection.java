@@ -44,7 +44,9 @@ import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.CharArraySet;
+import org.apache.lucene.analysis.ar.ArabicAnalyzer;
 import org.apache.lucene.analysis.cjk.CJKAnalyzer;
+import org.apache.lucene.analysis.fr.FrenchAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.*;
 import org.apache.lucene.search.similarities.BM25Similarity;
@@ -669,6 +671,8 @@ public final class IndexCollection {
 
       final Directory dir = FSDirectory.open(indexPath);
       final CJKAnalyzer chineseAnalyzer = new CJKAnalyzer();
+      final ArabicAnalyzer arabicAnalyzer = new ArabicAnalyzer();
+      final FrenchAnalyzer frenchAnalyzer = new FrenchAnalyzer();
       final EnglishStemmingAnalyzer analyzer = args.keepStopwords ?
           new EnglishStemmingAnalyzer(args.stemmer, CharArraySet.EMPTY_SET) : new EnglishStemmingAnalyzer(args.stemmer);
       final TweetAnalyzer tweetAnalyzer = new TweetAnalyzer(args.tweetStemming);
@@ -677,6 +681,10 @@ public final class IndexCollection {
         config = new IndexWriterConfig(tweetAnalyzer);
       } else if (args.language.equals("zh")) {
         config = new IndexWriterConfig(chineseAnalyzer);
+      } else if (args.language.equals("ar")) {
+        config = new IndexWriterConfig(arabicAnalyzer);
+      } else if (args.language.equals("fr")) {
+        config = new IndexWriterConfig(frenchAnalyzer);
       } else {
         config = new IndexWriterConfig(analyzer);
       }
