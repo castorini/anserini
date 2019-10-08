@@ -14,7 +14,7 @@ index_options:
   - -storePositions
   - -storeDocvectors
   - -storeRawDocs
-topic_reader: Tsv
+topic_reader: TsvInt
 evals:
   - command: eval/trec_eval.9.0.4/trec_eval
     params:

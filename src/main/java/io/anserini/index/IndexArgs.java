@@ -76,6 +76,9 @@ public class IndexArgs {
   @Option(name = "-bm25.accurate", usage = "Switch to use the accurate BM25 similarity)")
   public boolean bm25Accurate = false;
 
+  @Option(name = "-language", usage = "the language for analyzer")
+  public String language= "en";
+
   @Option(name = "-tweet.keepRetweets", usage = "boolean switch to keep retweets while indexing")
   public boolean tweetKeepRetweets = false;
 
