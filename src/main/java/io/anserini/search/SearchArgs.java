@@ -36,6 +36,9 @@ public class SearchArgs {
   // optional arguments
   @Option(name = "-threads", metaVar = "[Number]", usage = "Number of Threads")
   public int threads = 1;
+
+  @Option(name = "-language", usage = "Analyzer Language")
+  public String language = "en";
   
   @Option(name = "-inmem", usage = "Boolean switch to read index in memory")
   public Boolean inmem = false;

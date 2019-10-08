@@ -45,6 +45,7 @@ public class DataModel {
   private String input;
   private String index_path;
   private List<String> index_options;
+  private List<String> search_options;
   private Map<String, Long> index_stats;
   private List<Model> models;
   private List<Topic> topics;
@@ -263,6 +264,14 @@ public class DataModel {
     this.index_options = index_options;
   }
 
+  public List<String> getSearch_options() {
+    return search_options;
+  }
+
+  public void setSearch_options(List<String> search_options) {
+    this.search_options = search_options;
+  }
+
   public String generateIndexingCommand(String collection) {
     boolean containRawDocs = false;
     for (String option : getIndex_options()) {
@@ -301,6 +310,11 @@ public class DataModel {
         builder.append(" ").append("-index").append(" ").append("lucene-index."+collection+".pos+docvectors"+(containRawDocs ? "+rawdocs" : ""));
         builder.append(" ").append("-topics").append(" ").append(Paths.get(getTopic_root(), topic.getPath()).toString());
         builder.append(" ").append("-output").append(" ").append("run."+collection+"."+model.getName()+"."+topic.getPath());
+        if (getSearch_options() != null) {
+          for (String option : getSearch_options()) {
+            builder.append(" ").append(option);
+          }
+        }
         if (model.getParams() != null) {
           for (String option : model.getParams()) {
             builder.append(" ").append(option);
