@@ -160,8 +160,8 @@ def construct_ranking_command(output_root, yaml_data, build_index=True):
             '-index', get_index_path(yaml_data),
             ' '.join(model['params']),
             '-topics', os.path.join(yaml_data['root'], yaml_data['topic_root'], topic['path']),
-            '-output', os.path.join(output_root, 'run.{0}.{1}.{2}'.format(yaml_data['name'], model['name'], topic['path']))
-        ]
+            '-output', os.path.join(output_root, 'run.{0}.{1}.{2}'.format(yaml_data['name'], model['name'], topic['path'])),
+        ] + yaml_data['search_options'] if 'search_options' in yaml_data else []
         for (model, topic) in list(itertools.product(yaml_data['models'], yaml_data['topics']))
     ]
     return ranking_commands
