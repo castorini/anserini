@@ -28,7 +28,7 @@ public class ScoreTiesAdjusterReranker implements Reranker {
   @Override
   public ScoredDocuments rerank(ScoredDocuments docs, RerankerContext context) {
 
-    if (context.getSearchArgs().arbitraryScoreTieBreak) {
+    if (context != null && context.getSearchArgs().arbitraryScoreTieBreak) {
       return docs;
     }
 
