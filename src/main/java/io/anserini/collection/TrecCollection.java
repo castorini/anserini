@@ -31,11 +31,12 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
+import java.text.ParseException;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.regex.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.zip.GZIPInputStream;
-import java.text.ParseException;
 
 /**
  * A classic TREC <i>ad hoc</i> document collection.
@@ -92,7 +93,10 @@ public class TrecCollection extends DocumentCollection<TrecCollection.Document> 
       String line;
       while ((line=reader.readLine()) != null) {
         line = line.trim();
-        if (line.startsWith(Document.DOC)) {
+
+        // Also handle the variant case where docid is an attributed of the <DOC> tag, e.g., <DOC id="abc">
+        // The NTCIR-8 ACLIA task, which uses LDC2007T38, is organized in this way.
+        if (line.startsWith(Document.DOC) || line.startsWith("<DOC ")) {
           found = true;
 
           Matcher matcher = ID_PATTERN.matcher(line);
@@ -100,7 +104,7 @@ public class TrecCollection extends DocumentCollection<TrecCollection.Document> 
             // Handle cases like <DOC id="abc">
             builder.append(Document.DOCNO).append(matcher.group(1)).append(Document.TERMINATING_DOCNO);
           } else {
-            // continue to read DOCNO
+            // Continue to read DOCNO as normal.
             while ((line = reader.readLine()) != null) {
               if (line.startsWith(Document.DOCNO)) {
                 builder.append(line).append('\n');
@@ -112,7 +116,6 @@ public class TrecCollection extends DocumentCollection<TrecCollection.Document> 
               if (line == null) break;
               builder.append(line).append('\n');
             }
-            continue;
           }
         }
 
@@ -169,8 +172,7 @@ public class TrecCollection extends DocumentCollection<TrecCollection.Document> 
     protected static final String DOCNO = "<DOCNO>";
     protected static final String TERMINATING_DOCNO = "</DOCNO>";
 
-    protected static final String DOC = "<DOC";
-    // Note, no closing > because we might have <DOC id="..."
+    protected static final String DOC = "<DOC>";
     protected static final String TERMINATING_DOC = "</DOC>";
 
     protected final int BUFFER_SIZE = 1 << 16; // 64K
