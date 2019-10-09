@@ -33,8 +33,7 @@ import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.regex.*;
 import java.util.zip.GZIPInputStream;
 import java.text.ParseException;
 
@@ -42,7 +41,6 @@ import java.text.ParseException;
  * A classic TREC <i>ad hoc</i> document collection.
  */
 public class TrecCollection extends DocumentCollection<TrecCollection.Document> {
-
   private static final Logger LOG = LogManager.getLogger(TrecCollection.class);
 
   public TrecCollection(){
@@ -61,6 +59,7 @@ public class TrecCollection extends DocumentCollection<TrecCollection.Document> 
    * @param <T> type of the document
    */
   public static class Segment<T extends Document> extends FileSegment<T>{
+    private static final Pattern ID_PATTERN = Pattern.compile(".*id=\\\"([^\\\"]+)\\\".*");
 
     protected Segment(Path path) throws IOException {
       super(path);
@@ -95,19 +94,26 @@ public class TrecCollection extends DocumentCollection<TrecCollection.Document> 
         line = line.trim();
         if (line.startsWith(Document.DOC)) {
           found = true;
-          // continue to read DOCNO
-          while ((line = reader.readLine()) != null) {
-            if (line.startsWith(Document.DOCNO)) {
-              builder.append(line).append('\n');
-              break;
+
+          Matcher matcher = ID_PATTERN.matcher(line);
+          if (matcher.matches()) {
+            // Handle cases like <DOC id="abc">
+            builder.append(Document.DOCNO).append(matcher.group(1)).append(Document.TERMINATING_DOCNO);
+          } else {
+            // continue to read DOCNO
+            while ((line = reader.readLine()) != null) {
+              if (line.startsWith(Document.DOCNO)) {
+                builder.append(line).append('\n');
+                break;
+              }
             }
+            while (builder.indexOf(Document.TERMINATING_DOCNO) == -1) {
+              line = reader.readLine();
+              if (line == null) break;
+              builder.append(line).append('\n');
+            }
+            continue;
           }
-          while (builder.indexOf(Document.TERMINATING_DOCNO) == -1) {
-            line = reader.readLine();
-            if (line == null) break;
-            builder.append(line).append('\n');
-          }
-          continue;
         }
 
         if (found) {
@@ -163,7 +169,8 @@ public class TrecCollection extends DocumentCollection<TrecCollection.Document> 
     protected static final String DOCNO = "<DOCNO>";
     protected static final String TERMINATING_DOCNO = "</DOCNO>";
 
-    protected static final String DOC = "<DOC>";
+    protected static final String DOC = "<DOC";
+    // Note, no closing > because we might have <DOC id="..."
     protected static final String TERMINATING_DOC = "</DOC>";
 
     protected final int BUFFER_SIZE = 1 << 16; // 64K
