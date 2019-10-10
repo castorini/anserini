@@ -39,7 +39,29 @@ import java.util.regex.Pattern;
 import java.util.zip.GZIPInputStream;
 
 /**
- * A classic TREC <i>ad hoc</i> document collection.
+ * <p>A classic TREC <i>ad hoc</i> document collection.</p>
+ *
+ * <p>This class handles a collection comprising files containing documents of the form:</p>
+ *
+ * <pre>
+ * &lt;DOC&gt;
+ * &lt;DOCNO&gt;doc1&lt;/DOCNO&gt;
+ * &lt;TEXT&gt;
+ * ...
+ * &lt;/TEXT&gt;
+ * &lt;/DOC&gt;
+ * </pre>
+ *
+ * <p>This class also handles the following alternative format (e.g., for NTCIR-8 ACLIA):</p>
+ * <pre>
+ * &lt;DOC id="doc1"&gt;
+ * &lt;TEXT&gt;
+ * ...
+ * &lt;/TEXT&gt;
+ * &lt;/DOC&gt;
+ * </pre>
+ *
+ * <p>In both cases, compressed files are transparently handled.</p>
  */
 public class TrecCollection extends DocumentCollection<TrecCollection.Document> {
   private static final Logger LOG = LogManager.getLogger(TrecCollection.class);
