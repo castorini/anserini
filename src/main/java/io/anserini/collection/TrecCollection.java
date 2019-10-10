@@ -77,7 +77,7 @@ public class TrecCollection extends DocumentCollection<TrecCollection.Document> 
   }
 
   /**
-   * A file in a classic TREC <i>ad hoc</i> document collection.
+   * A file in a classic TREC <i>ad hoc</i> document collection, typically containing multiple documents.
    *
    * @param <T> type of the document
    */

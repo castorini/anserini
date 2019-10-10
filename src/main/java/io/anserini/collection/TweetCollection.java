@@ -48,10 +48,9 @@ import java.util.OptionalLong;
 import java.util.zip.GZIPInputStream;
 
 /**
- * Class representing an instance of a Twitter collection.
+ * A collection of tweets.
  */
 public class TweetCollection extends DocumentCollection<TweetCollection.Document> {
-
   private static final Logger LOG = LogManager.getLogger(TweetCollection.class);
 
   @Override
@@ -59,8 +58,10 @@ public class TweetCollection extends DocumentCollection<TweetCollection.Document
     return new Segment(p);
   }
 
-  public class Segment extends FileSegment<TweetCollection.Document> {
-
+  /**
+   * A file containing multiple tweets.
+   */
+  public static class Segment extends FileSegment<TweetCollection.Document> {
     private static final String DATE_FORMAT = "E MMM dd HH:mm:ss ZZZZZ yyyy"; // "Fri Mar 29 11:03:41 +0000 2013"
 
     protected Segment(Path path) throws IOException {
@@ -181,7 +182,7 @@ public class TweetCollection extends DocumentCollection<TweetCollection.Document
   }
 
   /**
-   * A Twitter document (status).
+   * A tweet (i.e., status).
    */
   public static class Document implements SourceDocument {
     // Required fields
