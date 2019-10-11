@@ -7,14 +7,16 @@ topic_root: src/main/resources/topics-and-qrels/
 qrels_root: src/main/resources/topics-and-qrels/
 index_root:
 ranking_root:
-collection: JsonCollection
+collection: TrecCollection
 generator: LuceneDocumentGenerator
-threads: 1
+threads: 16
 index_options:
   - -storePositions
   - -storeDocvectors
   - -storeRawDocs
   - -language zh
+  - -uniqueDocid
+  - -optimize # we need this, because without, "documents (non-empty)" would be non-deterministic, failing regression.
 search_options:
   - -language zh
 topic_reader: TsvString
@@ -37,14 +39,14 @@ evals:
     can_combine: true
 input_roots:
   - /tuna1/
-input: collections/clir/zh/
-index_path: indexes/lucene-index.ntcir8-zh.pos+docvectors+rawdocs # path to the existing index, used in regression test if `--index` option is absent
+input: collections/newswire/clir/ntcir.zh/ntcir8-zh/
+index_path: indexes/lucene-index.ntcir8-zh.pos+docvectors+rawdocs
 index_stats:
-  documents: 388589
-  documents (non-empty): 388589
-  total terms: 170842752
+  documents: 308832
+  documents (non-empty): 308832
+  total terms: 134618027
 topics:
-  - name: "[NTCIR-8 IR4QA Track Topics](http://research.nii.ac.jp/ntcir/ntcir-ws8/ws-en.html)"
+  - name: "[NTCIR-8 ACLIA (IR4QA subtask, Chinese monolingual)](http://research.nii.ac.jp/ntcir/ntcir-ws8/ws-en.html)"
     path: topics.ntcir8zh.eval.txt
     qrel: qrels.ntcir8.eval.txt
 models:
@@ -54,6 +56,6 @@ models:
       - -bm25
     results:
       map:
-        - 0.3568
+        - 0.4014
       p30:
-        - 0.2995
+        - 0.3365
