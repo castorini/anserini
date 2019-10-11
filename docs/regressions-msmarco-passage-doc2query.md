@@ -33,13 +33,13 @@ The regression experiments here evaluate on the 6980 dev set questions; see [thi
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-nohup target/appassembler/bin/SearchCollection -topicreader Tsv -index lucene-index.msmarco-passage-doc2query.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt -output run.msmarco-passage-doc2query.bm25-default.topics.msmarco-passage.dev-subset.txt -bm25 &
+nohup target/appassembler/bin/SearchCollection -topicreader TsvInt -index lucene-index.msmarco-passage-doc2query.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt -output run.msmarco-passage-doc2query.bm25-default.topics.msmarco-passage.dev-subset.txt -bm25 &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Tsv -index lucene-index.msmarco-passage-doc2query.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt -output run.msmarco-passage-doc2query.bm25-default+rm3.topics.msmarco-passage.dev-subset.txt -bm25 -rm3 &
+nohup target/appassembler/bin/SearchCollection -topicreader TsvInt -index lucene-index.msmarco-passage-doc2query.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt -output run.msmarco-passage-doc2query.bm25-default+rm3.topics.msmarco-passage.dev-subset.txt -bm25 -rm3 &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Tsv -index lucene-index.msmarco-passage-doc2query.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt -output run.msmarco-passage-doc2query.bm25-tuned.topics.msmarco-passage.dev-subset.txt -bm25 -k1 0.82 -b 0.68 &
+nohup target/appassembler/bin/SearchCollection -topicreader TsvInt -index lucene-index.msmarco-passage-doc2query.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt -output run.msmarco-passage-doc2query.bm25-tuned.topics.msmarco-passage.dev-subset.txt -bm25 -k1 0.82 -b 0.68 &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Tsv -index lucene-index.msmarco-passage-doc2query.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt -output run.msmarco-passage-doc2query.bm25-tuned+rm3.topics.msmarco-passage.dev-subset.txt -bm25 -k1 0.82 -b 0.68 -rm3 &
+nohup target/appassembler/bin/SearchCollection -topicreader TsvInt -index lucene-index.msmarco-passage-doc2query.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt -output run.msmarco-passage-doc2query.bm25-tuned+rm3.topics.msmarco-passage.dev-subset.txt -bm25 -k1 0.82 -b 0.68 -rm3 &
 
 ```
 
