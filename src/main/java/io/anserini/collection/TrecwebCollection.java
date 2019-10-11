@@ -38,7 +38,7 @@ public class TrecwebCollection extends DocumentCollection<TrecwebCollection.Docu
   }
 
   /**
-   * A file in a TREC web collection (e.g., Gov2).
+   * A file in a TREC web collection (e.g., Gov2), typically containing multiple documents.
    *
    * @param <T> type of the document
    */

@@ -61,7 +61,11 @@ public class WashingtonPostCollection extends DocumentCollection<WashingtonPostC
     return new Segment(p);
   }
 
-  public class Segment extends FileSegment<Document> {
+  /**
+   * A file containing multiple documents from the <a href="https://trec.nist.gov/data/wapost/">TREC Washington Post Corpus</a>.
+   * The corpus is distributed as a single file.
+   */
+  public static class Segment extends FileSegment<Document> {
     private String fileName;
 
     protected Segment(Path path) throws IOException {
@@ -173,6 +177,9 @@ public class WashingtonPostCollection extends DocumentCollection<WashingtonPostC
       // Optional fields
       protected Optional<List<Content>> contents;
 
+      /**
+       * Used internally by Jackson for JSON parsing.
+       */
       @SuppressWarnings("unchecked")
       public static class ContentJsonDeserializer extends JsonDeserializer<Content> {
 

@@ -47,7 +47,10 @@ public class HtmlCollection extends DocumentCollection<HtmlCollection.Document> 
     return new Segment(p);
   }
 
-  public class Segment extends FileSegment<HtmlCollection.Document> {
+  /**
+   * An individual file in {@code HtmlCollection}.
+   */
+  public static class Segment extends FileSegment<HtmlCollection.Document> {
     private TarArchiveInputStream inputStream = null;
     private ArchiveEntry nextEntry = null;
 
@@ -93,7 +96,7 @@ public class HtmlCollection extends DocumentCollection<HtmlCollection.Document> 
   }
 
   /**
-   * A generic document in a collection of HTML documents.
+   * A generic document in {@code HtmlCollection}.
    */
   public static class Document implements SourceDocument {
     private String id;

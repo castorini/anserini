@@ -71,7 +71,7 @@ public class JsonCollection extends DocumentCollection<JsonCollection.Document> 
   private static final Logger LOG = LogManager.getLogger(JsonCollection.class);
 
   public JsonCollection(){
-    this.allowedFileSuffix = new HashSet<>(Arrays.asList(".json"));
+    this.allowedFileSuffix = new HashSet<>(Arrays.asList(".json", ".jsonl"));
   }
 
   @Override
@@ -79,7 +79,10 @@ public class JsonCollection extends DocumentCollection<JsonCollection.Document> 
     return new Segment(p);
   }
 
-  public class Segment extends FileSegment<JsonCollection.Document> {
+  /**
+   * A file in a JSON collection, typically containing multiple documents.
+   */
+  public static class Segment extends FileSegment<JsonCollection.Document> {
     private JsonNode node = null;
     private Iterator<JsonNode> iter = null; // iterator for JSON document array
     private MappingIterator<JsonNode> iterator; // iterator for JSON line objects

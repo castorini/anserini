@@ -147,7 +147,7 @@
               <goal>jar</goal>
             </goals>
             <configuration>
-              <excludePackageNames>io.anserini.kg:io.anserini.ltr</excludePackageNames>
+              <excludePackageNames>io.anserini.ltr</excludePackageNames>
             </configuration>
           </execution>
         </executions>

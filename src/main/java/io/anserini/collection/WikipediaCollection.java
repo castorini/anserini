@@ -49,7 +49,10 @@ public class WikipediaCollection extends DocumentCollection<WikipediaCollection.
     return new Segment(p);
   }
 
-  public class Segment extends FileSegment<WikipediaCollection.Document> {
+  /**
+   * A collection of Wikipedia articles (note that Wikipedia dumps are distributed as a single file).
+   */
+  public static class Segment extends FileSegment<WikipediaCollection.Document> {
     private final Iterator<String> iter;
     private final WikiClean cleaner;
 
@@ -90,7 +93,7 @@ public class WikipediaCollection extends DocumentCollection<WikipediaCollection.
   }
 
   /**
-   * A Wikipedia document. The article title serves as the id.
+   * A Wikipedia article. The article title serves as the id.
    */
   public static class Document implements SourceDocument {
     private final String title;
