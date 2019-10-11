@@ -9,7 +9,7 @@ Instructions for setting up SolrCloud clusters can be found by searching the web
 
 ## Setting up a Single-Node SolrCloud Instance
 
-From the Solr [archives](https://archive.apache.org/dist/lucene/solr/), download the Solr (non `-src`) version that matches Anserini's [Lucene version](https://github.com/castorini/anserini/blob/master/pom.xml#L36).
+From the Solr [archives](https://archive.apache.org/dist/lucene/solr/), download the Solr (non `-src`) version that matches Anserini's [Lucene version](https://github.com/castorini/anserini/blob/master/pom.xml#L36) to the `anserini/` directory.
 
 Extract the archive:
 
@@ -74,5 +74,16 @@ Evaluation can be performed using `trec_eval`:
 ```
 eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust2004.txt run.solr.robust04.bm25.topics.robust04.301-450.601-700.txt
 ```
+
+We've verified that these instructions can be straightforwardly adapted to work with [Washington Post](regressions-core18.md):
+
+```
+sh target/appassembler/bin/IndexCollection -collection WashingtonPostCollection -generator WapoGenerator \
+   -threads 8 -input /path/to/WashingtonPost \
+   -solr -solr.index core18 -solr.zkUrl localhost:9983 \
+   -storePositions -storeDocvectors -storeRawDocs
+```
+
+Make sure `core18` collection is created and `/path/to/WashingtonPost` is updated with the appropriate path.
 
 Other collections can be indexed by substituting the appropriate parameters; see each collection's [experiment docs](https://github.com/castorini/anserini/tree/master/docs).
