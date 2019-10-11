@@ -75,7 +75,7 @@ Note that these regressions capture the "out of the box" experience, based on [_
 + [Regressions for the MS MARCO Passage Task](docs/regressions-msmarco-passage.md)
 + [Regressions for the MS MARCO Passage Task with Doc2query expansion](docs/regressions-msmarco-passage-doc2query.md)
 + [Regressions for the MS MARCO Document Task](docs/regressions-msmarco-doc.md)
-+ [Regressions for [NTCIR-8 ACLIA (IR4QA subtask, Chinese monolingual)](docs/regressions-ntcir8-zh.md)
++ [Regressions for NTCIR-8 ACLIA (IR4QA subtask, Chinese monolingual)](docs/regressions-ntcir8-zh.md)
 
 Other experiments:
 
