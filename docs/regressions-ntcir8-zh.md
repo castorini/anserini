@@ -16,8 +16,7 @@ lucene-index.ntcir8-zh.pos+docvectors+rawdocs -storePositions -storeDocvectors \
 log.ntcir8-zh.pos+docvectors+rawdocs &
 ```
 
-The directory `/path/to/ntcir-8/` should be a directory containing the official document collection (a single file), in Json format.
-[This page](experiments-ntcir8-zh.md) explains how to perform this conversion.
+The directory `/path/to/ntcir8-zh/` should be a directory containing the collection, 48 gzipped files matching the pattern `xin_cmn_200[2-5]*` from LDC2007T38.
 
 For additional details, see explanation of [common indexing options](common-indexing-options.md).
 
@@ -54,7 +53,3 @@ P30                                     | BM25      |
 [NTCIR-8 ACLIA (IR4QA subtask, Chinese monolingual)](http://research.nii.ac.jp/ntcir/ntcir-ws8/ws-en.html)| 0.3365    |
 
 
-
-The setting "default" refers the default BM25 settings of `k1=0.9`, `b=0.4`.
-See [this page](experiments-ntcir8-zh.md) for more details.
-Note that here we are using `trec_eval` to evaluate the top 1000 hits for each query.
