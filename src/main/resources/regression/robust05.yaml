@@ -33,8 +33,9 @@ evals:
     metric_precision: 4
     can_combine: true
 input_roots:
-  - /tuna1/
-  - /scratch2/
+  - /tuna1/      # on tuna
+  - /store/      # on orca
+  - /scratch2/   # on damiano
 input: collections/newswire/AQUAINT/
 index_path: indexes/lucene-index.robust05.pos+docvectors+rawdocs # path to the existing index, used in regression test if `--index` option is absent
 index_stats:
