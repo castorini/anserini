@@ -27,21 +27,21 @@ The regression experiments here evaluate on the 6980 dev set questions; see [thi
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-nohup target/appassembler/bin/SearchCollection -topicreader Tsv -index lucene-index.msmarco-passage.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt -output run.msmarco-passage.bm25-default.topics.msmarco-passage.dev-subset.txt -bm25 &
+nohup target/appassembler/bin/SearchCollection -topicreader TsvInt -index lucene-index.msmarco-passage.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt -output run.msmarco-passage.bm25-default.topics.msmarco-passage.dev-subset.txt -bm25 &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Tsv -index lucene-index.msmarco-passage.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt -output run.msmarco-passage.bm25-default+rm3.topics.msmarco-passage.dev-subset.txt -bm25 -rm3 &
+nohup target/appassembler/bin/SearchCollection -topicreader TsvInt -index lucene-index.msmarco-passage.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt -output run.msmarco-passage.bm25-default+rm3.topics.msmarco-passage.dev-subset.txt -bm25 -rm3 &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Tsv -index lucene-index.msmarco-passage.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt -output run.msmarco-passage.bm25-default+ax.topics.msmarco-passage.dev-subset.txt -bm25 -axiom -rerankCutoff 20 -axiom.deterministic &
+nohup target/appassembler/bin/SearchCollection -topicreader TsvInt -index lucene-index.msmarco-passage.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt -output run.msmarco-passage.bm25-default+ax.topics.msmarco-passage.dev-subset.txt -bm25 -axiom -rerankCutoff 20 -axiom.deterministic &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Tsv -index lucene-index.msmarco-passage.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt -output run.msmarco-passage.bm25-default+prf.topics.msmarco-passage.dev-subset.txt -bm25 -bm25prf &
+nohup target/appassembler/bin/SearchCollection -topicreader TsvInt -index lucene-index.msmarco-passage.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt -output run.msmarco-passage.bm25-default+prf.topics.msmarco-passage.dev-subset.txt -bm25 -bm25prf &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Tsv -index lucene-index.msmarco-passage.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt -output run.msmarco-passage.bm25-tuned.topics.msmarco-passage.dev-subset.txt -bm25 -k1 0.82 -b 0.68 &
+nohup target/appassembler/bin/SearchCollection -topicreader TsvInt -index lucene-index.msmarco-passage.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt -output run.msmarco-passage.bm25-tuned.topics.msmarco-passage.dev-subset.txt -bm25 -k1 0.82 -b 0.68 &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Tsv -index lucene-index.msmarco-passage.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt -output run.msmarco-passage.bm25-tuned+rm3.topics.msmarco-passage.dev-subset.txt -bm25 -k1 0.82 -b 0.68 -rm3 &
+nohup target/appassembler/bin/SearchCollection -topicreader TsvInt -index lucene-index.msmarco-passage.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt -output run.msmarco-passage.bm25-tuned+rm3.topics.msmarco-passage.dev-subset.txt -bm25 -k1 0.82 -b 0.68 -rm3 &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Tsv -index lucene-index.msmarco-passage.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt -output run.msmarco-passage.bm25-tuned+ax.topics.msmarco-passage.dev-subset.txt -bm25 -k1 0.82 -b 0.68 -axiom -rerankCutoff 20 -axiom.deterministic &
+nohup target/appassembler/bin/SearchCollection -topicreader TsvInt -index lucene-index.msmarco-passage.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt -output run.msmarco-passage.bm25-tuned+ax.topics.msmarco-passage.dev-subset.txt -bm25 -k1 0.82 -b 0.68 -axiom -rerankCutoff 20 -axiom.deterministic &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Tsv -index lucene-index.msmarco-passage.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt -output run.msmarco-passage.bm25-tuned+prf.topics.msmarco-passage.dev-subset.txt -bm25 -k1 0.82 -b 0.68 -bm25prf &
+nohup target/appassembler/bin/SearchCollection -topicreader TsvInt -index lucene-index.msmarco-passage.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt -output run.msmarco-passage.bm25-tuned+prf.topics.msmarco-passage.dev-subset.txt -bm25 -k1 0.82 -b 0.68 -bm25prf &
 
 ```
 
