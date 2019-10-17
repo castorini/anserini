@@ -3,19 +3,23 @@
 The following change log details commits to regression tests that alter effectiveness and the addition of new regression tests.
 This documentation is useful for figuring why results may have changed over time.
 
+### October 11, 2019
+
++ commit [`445bb45`](https://github.com/castorini/anserini/commit/445bb458da825c9919d7a4e92de5ce87c929af7d) (10/11/2019)
+
+Add regressions for NTCIR-8 ACLIA (IR4QA subtask, Chinese monolingual).
+
 ### September 5, 2019
 
 + commit [`e88b931`](https://github.com/castorini/anserini/commit/e88b931d9fdb0a2b285ed5ef666889ce0965e5e0) (9/5/2019)
 
 As it turns out, we were incorrect in entry below (commit [`2f1b665`](https://github.com/castorini/anserini/commit/2f1b66586073f1fc4e8913d1119fbbf478745013)). Regressions numbers after BM25prf fix _did_ change slightly.
 
-
 ### August 14, 2019
 
 + commit [`2f1b665`](https://github.com/castorini/anserini/commit/2f1b66586073f1fc4e8913d1119fbbf478745013) (8/14/2019)
 
 Resolves inconsistent tie-breaking for BM25prf that leads to non-deterministic results, per [#774](https://github.com/castorini/anserini/issues/774). Note that regression numbers did not change.
-
 
 ### August 9, 2019
 
