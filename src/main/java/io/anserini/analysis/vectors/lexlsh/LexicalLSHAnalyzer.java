@@ -38,7 +38,7 @@ public class LexicalLSHAnalyzer extends Analyzer {
 
   public LexicalLSHAnalyzer() {
     this(DEFAULT_SHINGLE_SIZE, DEFAULT_SHINGLE_SIZE, MinHashFilter.DEFAULT_HASH_COUNT, MinHashFilter.DEFAULT_BUCKET_COUNT,
-            MinHashFilter.DEFAULT_HASH_SET_SIZE, DEFAULT_DECIMALS);
+        MinHashFilter.DEFAULT_HASH_SET_SIZE, DEFAULT_DECIMALS);
   }
 
   public LexicalLSHAnalyzer(int decimals, int ngrams, int hashCount, int bucketCount, int hashSetSize) {

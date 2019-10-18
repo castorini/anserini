@@ -1,12 +1,12 @@
 /**
  * Anserini: A Lucene toolkit for replicable information retrieval research
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * <p>
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -34,48 +34,48 @@ import static io.anserini.analysis.vectors.fw.FakeWordsEncoderAnalyzer.REMOVE_IT
  */
 public final class EncodeAndQuantizeFilter extends TokenFilter {
 
-    private static final String PREFIX = "f";
-    private final CharTermAttribute termAttribute = addAttribute(CharTermAttribute.class);
-    private final int q;
-    private final List<String> fs = new LinkedList<>();
-    private int tokenCount = 0;
+  private static final String PREFIX = "f";
+  private final CharTermAttribute termAttribute = addAttribute(CharTermAttribute.class);
+  private final int q;
+  private final List<String> fs = new LinkedList<>();
+  private int tokenCount = 0;
 
-    EncodeAndQuantizeFilter(TokenStream input, int q) {
-        super(input);
-        this.q = q;
-    }
+  EncodeAndQuantizeFilter(TokenStream input, int q) {
+    super(input);
+    this.q = q;
+  }
 
-    @Override
-    public boolean incrementToken() throws IOException {
-        if (!fs.isEmpty()) {
-            termAttribute.setEmpty();
-            termAttribute.append(fs.remove(0));
-            return true;
-        }
-        if (input.incrementToken()) {
-            tokenCount++;
-            String token = new String(termAttribute.buffer(), 0, termAttribute.length());
-            int qv = (int) (Double.parseDouble(token) * q);
-            String fw = PREFIX + tokenCount;
-            for (int i = 0; i < qv - 1; i++) {
-                fs.add(fw);
-            }
-            termAttribute.setEmpty();
-            if (qv > 0) {
-                termAttribute.append(fw);
-            } else {
-                termAttribute.append(REMOVE_IT);
-            }
-            return true;
-        } else {
-            return false;
-        }
+  @Override
+  public boolean incrementToken() throws IOException {
+    if (!fs.isEmpty()) {
+      termAttribute.setEmpty();
+      termAttribute.append(fs.remove(0));
+      return true;
     }
+    if (input.incrementToken()) {
+      tokenCount++;
+      String token = new String(termAttribute.buffer(), 0, termAttribute.length());
+      int qv = (int) (Double.parseDouble(token) * q);
+      String fw = PREFIX + tokenCount;
+      for (int i = 0; i < qv - 1; i++) {
+        fs.add(fw);
+      }
+      termAttribute.setEmpty();
+      if (qv > 0) {
+        termAttribute.append(fw);
+      } else {
+        termAttribute.append(REMOVE_IT);
+      }
+      return true;
+    } else {
+      return false;
+    }
+  }
 
-    @Override
-    public void reset() throws IOException {
-        super.reset();
-        this.fs.clear();
-        this.tokenCount = 0;
-    }
+  @Override
+  public void reset() throws IOException {
+    super.reset();
+    this.fs.clear();
+    this.tokenCount = 0;
+  }
 }
