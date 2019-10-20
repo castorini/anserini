@@ -65,7 +65,7 @@ public class NearestVector {
     public int q = 60;
 
     @Option(name = "-cutoff", metaVar = "[float]", usage = "tf cutoff factor")
-    public float cutoff = 0.001f;
+    public float cutoff = 0.1f;
   }
 
   public static void main(String[] args) throws Exception {
@@ -137,7 +137,7 @@ public class NearestVector {
       observations.add(wordValue);
     }
 
-    System.out.printf("top %d neighbors of '%s' (%dms): %s", indexArgs.depth, indexArgs.word, time, observations.toString());
+    System.out.printf("top %d neighbors of '%s' (%dms): %s\n", indexArgs.depth, indexArgs.word, time, observations.toString());
 
     reader.close();
     d.close();
