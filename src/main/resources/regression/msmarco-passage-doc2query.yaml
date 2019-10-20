@@ -35,8 +35,9 @@ evals:
     metric_precision: 4
     can_combine: true
 input_roots:
-  - /tuna1/
-  - /scratch2/
+  - /tuna1/      # on tuna
+  - /store/      # on orca
+  - /scratch2/   # on damiano
 input: collections/msmarco/passage-expanded-topk10
 index_path: indexes/lucene-index.msmarco-passage-doc2query.pos+docvectors+rawdocs
 index_stats:

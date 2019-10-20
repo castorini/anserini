@@ -7,8 +7,9 @@ topic_root: src/main/resources/topics-and-qrels/
 qrels_root: src/main/resources/topics-and-qrels/
 ranking_root:
 input_roots:
-  - /tuna1/
-  - /scratch2/
+  - /tuna1/      # on tuna
+  - /store/      # on orca
+  - /scratch2/   # on damiano
 input: collections/web/ClueWeb12/
 index_path: indexes/lucene-index.cw12.pos+docvectors+rawdocs # path to the existing index, used in regression test if `--index` option is absent
 collection: ClueWeb12Collection
