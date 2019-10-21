@@ -1,7 +1,7 @@
 package io.anserini.analysis.vectors;
 
 import io.anserini.analysis.vectors.fw.FakeWordsEncoderAnalyzer;
-import io.anserini.analysis.vectors.lexlsh.LexicalLshAnalyzer;
+import io.anserini.analysis.vectors.lexlsh.LexicalLocalitySensitiveHashingAnalyzer;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.lucene.analysis.Analyzer;
@@ -81,7 +81,7 @@ public class IndexVectors {
     if (indexArgs.encoding.equalsIgnoreCase(FW)) {
       vectorAnalyzer = new FakeWordsEncoderAnalyzer(indexArgs.q);
     } else if (indexArgs.encoding.equalsIgnoreCase(LEXLSH)) {
-      vectorAnalyzer = new LexicalLshAnalyzer(indexArgs.decimals, indexArgs.ngrams, indexArgs.hashCount,
+      vectorAnalyzer = new LexicalLocalitySensitiveHashingAnalyzer(indexArgs.decimals, indexArgs.ngrams, indexArgs.hashCount,
           indexArgs.bucketCount, indexArgs.hashSetSize);
     } else {
       parser.printUsage(System.err);
