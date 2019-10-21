@@ -14,7 +14,7 @@ import org.apache.lucene.analysis.shingle.ShingleFilter;
  * up to a configurable number of decimal places, eventually aggregate them using n-grams and finally generate a text
  * fingerprint via LSH.
  */
-public class LexicalLSH2Analyzer extends Analyzer {
+public class LexicalLshAnalyzer extends Analyzer {
 
   private static final int DEFAULT_SHINGLE_SIZE = 5;
   private static final int DEFAULT_DECIMALS = 1;
@@ -26,7 +26,7 @@ public class LexicalLSH2Analyzer extends Analyzer {
   private final int hashSetSize;
   private final int decimals;
 
-  private LexicalLSH2Analyzer(int min, int max, int hashCount, int bucketCount, int hashSetSize, int decimals) {
+  private LexicalLshAnalyzer(int min, int max, int hashCount, int bucketCount, int hashSetSize, int decimals) {
     super();
     this.min = min;
     this.max = max;
@@ -36,12 +36,12 @@ public class LexicalLSH2Analyzer extends Analyzer {
     this.decimals = decimals;
   }
 
-  public LexicalLSH2Analyzer() {
+  public LexicalLshAnalyzer() {
     this(DEFAULT_SHINGLE_SIZE, DEFAULT_SHINGLE_SIZE, MinHashFilter.DEFAULT_HASH_COUNT, MinHashFilter.DEFAULT_BUCKET_COUNT,
         MinHashFilter.DEFAULT_HASH_SET_SIZE, DEFAULT_DECIMALS);
   }
 
-  public LexicalLSH2Analyzer(int decimals, int ngrams, int hashCount, int bucketCount, int hashSetSize) {
+  public LexicalLshAnalyzer(int decimals, int ngrams, int hashCount, int bucketCount, int hashSetSize) {
     this(ngrams, ngrams, decimals, hashCount, bucketCount, hashSetSize);
   }
 
