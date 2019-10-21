@@ -133,6 +133,14 @@
               <mainClass>io.anserini.index.IndexUtils</mainClass>
               <id>IndexUtils</id>
             </program>
+            <program>
+              <mainClass>io.anserini.analysis.vectors.IndexVectors</mainClass>
+              <id>IndexVectors</id>
+            </program>
+            <program>
+              <mainClass>io.anserini.analysis.vectors.ApproximateNearestNeighborSearch</mainClass>
+              <id>NearestVector</id>
+            </program>
           </programs>
         </configuration>
       </plugin>
