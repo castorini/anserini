@@ -10,17 +10,17 @@ import java.io.IOException;
  * {@link TokenFilter} which prepends the token / feature position plus underscore to the token itself
  * (possibly with some offset)
  */
-final class FeaturePositionTokenFilter extends TokenFilter {
+final class LexicalLshFeaturePositionTokenFilter extends TokenFilter {
 
   private final CharTermAttribute termAttribute = addAttribute(CharTermAttribute.class);
   private final int start;
   private int tokenCount = 0;
 
-  FeaturePositionTokenFilter(TokenStream stream) {
+  LexicalLshFeaturePositionTokenFilter(TokenStream stream) {
     this(stream, 0);
   }
 
-  FeaturePositionTokenFilter(TokenStream stream, int start) {
+  LexicalLshFeaturePositionTokenFilter(TokenStream stream, int start) {
     super(stream);
     this.start = start;
   }

@@ -138,7 +138,7 @@
               <id>IndexVectors</id>
             </program>
             <program>
-              <mainClass>io.anserini.analysis.vectors.NearestVector</mainClass>
+              <mainClass>io.anserini.analysis.vectors.ApproximateNearestNeighborSearch</mainClass>
               <id>NearestVector</id>
             </program>
           </programs>

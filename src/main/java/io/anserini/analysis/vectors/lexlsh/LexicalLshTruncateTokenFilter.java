@@ -10,14 +10,14 @@ import java.io.IOException;
 /**
  * {@link TokenFilter} which truncates a number beyond {#length} decimals.
  */
-class TruncateTokenFilter extends TokenFilter {
+class LexicalLshTruncateTokenFilter extends TokenFilter {
 
   private final CharTermAttribute termAttribute = addAttribute(CharTermAttribute.class);
   private final KeywordAttribute keywordAttr = addAttribute(KeywordAttribute.class);
 
   private final int decimals;
 
-  TruncateTokenFilter(TokenStream input, int decimals) {
+  LexicalLshTruncateTokenFilter(TokenStream input, int decimals) {
     super(input);
     if (decimals < 1) {
       throw new IllegalArgumentException("'decimals' parameter must be a positive number: " + decimals);

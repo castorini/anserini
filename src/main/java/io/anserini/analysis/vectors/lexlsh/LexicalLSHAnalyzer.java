@@ -14,7 +14,7 @@ import org.apache.lucene.analysis.shingle.ShingleFilter;
  * up to a configurable number of decimal places, eventually aggregate them using n-grams and finally generate a text
  * fingerprint via LSH.
  */
-public class LexicalLSHAnalyzer extends Analyzer {
+public class LexicalLshAnalyzer extends Analyzer {
 
   private static final int DEFAULT_SHINGLE_SIZE = 5;
   private static final int DEFAULT_DECIMALS = 1;
@@ -26,7 +26,7 @@ public class LexicalLSHAnalyzer extends Analyzer {
   private final int hashSetSize;
   private final int decimals;
 
-  private LexicalLSHAnalyzer(int min, int max, int hashCount, int bucketCount, int hashSetSize, int decimals) {
+  private LexicalLshAnalyzer(int min, int max, int hashCount, int bucketCount, int hashSetSize, int decimals) {
     super();
     this.min = min;
     this.max = max;
@@ -36,20 +36,20 @@ public class LexicalLSHAnalyzer extends Analyzer {
     this.decimals = decimals;
   }
 
-  public LexicalLSHAnalyzer() {
+  public LexicalLshAnalyzer() {
     this(DEFAULT_SHINGLE_SIZE, DEFAULT_SHINGLE_SIZE, MinHashFilter.DEFAULT_HASH_COUNT, MinHashFilter.DEFAULT_BUCKET_COUNT,
         MinHashFilter.DEFAULT_HASH_SET_SIZE, DEFAULT_DECIMALS);
   }
 
-  public LexicalLSHAnalyzer(int decimals, int ngrams, int hashCount, int bucketCount, int hashSetSize) {
+  public LexicalLshAnalyzer(int decimals, int ngrams, int hashCount, int bucketCount, int hashSetSize) {
     this(ngrams, ngrams, decimals, hashCount, bucketCount, hashSetSize);
   }
 
   @Override
   protected TokenStreamComponents createComponents(String fieldName) {
     Tokenizer source = new FeatureVectorsTokenizer();
-    TokenFilter truncate = new TruncateTokenFilter(source, decimals);
-    TokenFilter featurePos = new FeaturePositionTokenFilter(truncate);
+    TokenFilter truncate = new LexicalLshTruncateTokenFilter(source, decimals);
+    TokenFilter featurePos = new LexicalLshFeaturePositionTokenFilter(truncate);
     TokenStream filter;
     if (min > 1) {
       ShingleFilter shingleFilter = new ShingleFilter(featurePos, min, max);

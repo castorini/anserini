@@ -27,7 +27,7 @@ public class FakeWordsEncoderAnalyzer extends Analyzer {
   static final String REMOVE_IT = "_";
   private final int q;
 
-  private CharArraySet set = new CharArraySet(1, false);
+  private final CharArraySet set = new CharArraySet(1, false);
 
   public FakeWordsEncoderAnalyzer(int q) {
     this.q = q;
@@ -37,7 +37,7 @@ public class FakeWordsEncoderAnalyzer extends Analyzer {
   @Override
   protected TokenStreamComponents createComponents(String fieldName) {
     Tokenizer t = new FeatureVectorsTokenizer();
-    TokenFilter filter = new EncodeAndQuantizeFilter(t, q);
+    TokenFilter filter = new FakeWordsEncodeAndQuantizeFilter(t, q);
     filter = new StopFilter(filter, set);
     return new TokenStreamComponents(t, filter);
   }

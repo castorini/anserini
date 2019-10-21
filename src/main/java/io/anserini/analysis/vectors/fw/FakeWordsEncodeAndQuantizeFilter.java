@@ -32,7 +32,7 @@ import static io.anserini.analysis.vectors.fw.FakeWordsEncoderAnalyzer.REMOVE_IT
  * Note: if quantization leads to zero, a "to-be-removed" token is added (and eventually taken care of by a
  * {@link org.apache.lucene.analysis.StopFilter} in the downstream text analysis chain.
  */
-public final class EncodeAndQuantizeFilter extends TokenFilter {
+public final class FakeWordsEncodeAndQuantizeFilter extends TokenFilter {
 
   private static final String PREFIX = "f";
   private final CharTermAttribute termAttribute = addAttribute(CharTermAttribute.class);
@@ -40,7 +40,7 @@ public final class EncodeAndQuantizeFilter extends TokenFilter {
   private final List<String> fs = new LinkedList<>();
   private int tokenCount = 0;
 
-  EncodeAndQuantizeFilter(TokenStream input, int q) {
+  FakeWordsEncodeAndQuantizeFilter(TokenStream input, int q) {
     super(input);
     this.q = q;
   }

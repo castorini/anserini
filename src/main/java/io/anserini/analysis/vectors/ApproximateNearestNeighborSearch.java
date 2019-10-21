@@ -1,7 +1,7 @@
 package io.anserini.analysis.vectors;
 
 import io.anserini.analysis.vectors.fw.FakeWordsEncoderAnalyzer;
-import io.anserini.analysis.vectors.lexlsh.LexicalLSHAnalyzer;
+import io.anserini.analysis.vectors.lexlsh.LexicalLshAnalyzer;
 import io.anserini.util.AnalyzerUtils;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;
@@ -25,7 +25,7 @@ import java.util.Set;
 
 import static org.apache.lucene.search.BooleanClause.Occur.SHOULD;
 
-public class NearestVector {
+public class ApproximateNearestNeighborSearch {
 
   private static final String FW = "fw";
   private static final String LEXLSH = "lexlsh";
@@ -70,7 +70,7 @@ public class NearestVector {
 
   public static void main(String[] args) throws Exception {
 
-    NearestVector.Args indexArgs = new NearestVector.Args();
+    ApproximateNearestNeighborSearch.Args indexArgs = new ApproximateNearestNeighborSearch.Args();
     CmdLineParser parser = new CmdLineParser(indexArgs, ParserProperties.defaults().withUsageWidth(90));
 
     try {
@@ -78,7 +78,7 @@ public class NearestVector {
     } catch (CmdLineException e) {
       System.err.println(e.getMessage());
       parser.printUsage(System.err);
-      System.err.println("Example: " + NearestVector.class.getSimpleName() +
+      System.err.println("Example: " + ApproximateNearestNeighborSearch.class.getSimpleName() +
           parser.printExample(OptionHandlerFilter.REQUIRED));
       return;
     }
@@ -86,11 +86,11 @@ public class NearestVector {
     if (indexArgs.encoding.equalsIgnoreCase(FW)) {
       vectorAnalyzer = new FakeWordsEncoderAnalyzer(indexArgs.q);
     } else if (indexArgs.encoding.equalsIgnoreCase(LEXLSH)) {
-      vectorAnalyzer = new LexicalLSHAnalyzer(indexArgs.decimals, indexArgs.ngrams, indexArgs.hashCount,
+      vectorAnalyzer = new LexicalLshAnalyzer(indexArgs.decimals, indexArgs.ngrams, indexArgs.hashCount,
           indexArgs.bucketCount, indexArgs.hashSetSize);
     } else {
       parser.printUsage(System.err);
-      System.err.println("Example: " + NearestVector.class.getSimpleName() +
+      System.err.println("Example: " + ApproximateNearestNeighborSearch.class.getSimpleName() +
           parser.printExample(OptionHandlerFilter.REQUIRED));
       return;
     }
