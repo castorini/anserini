@@ -45,7 +45,7 @@ JSearcher = autoclass('io.anserini.search.SimpleSearcher')
 class JIndexHelpers:
     
     def JArgs():
-        args = autoclass('io.anserini.index.IndexCollection$Args')()
+        args = autoclass('io.anserini.index.IndexArgs')()
         args.storeRawDocs = True ## to store raw text as an option
         args.dryRun = True ## So that indexing will be skipped
         return args
