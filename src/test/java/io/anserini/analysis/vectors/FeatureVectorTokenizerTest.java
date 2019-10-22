@@ -32,65 +32,65 @@ public class FeatureVectorTokenizerTest {
 
   @Test
   public void testTokenizeWithSpaces() throws Exception {
-      StringReader reader = new StringReader("0.10 0.20 0.30 0.40");
-      Tokenizer stream = new FeatureVectorsTokenizer();
-      stream.setReader(reader);
-      stream.reset();
-      List<String> expectedTokens = new LinkedList<>();
-      expectedTokens.add("0.10");
-      expectedTokens.add("0.20");
-      expectedTokens.add("0.30");
-      expectedTokens.add("0.40");
-      int i = 0;
-      while (stream.incrementToken()) {
-          CharTermAttribute charTermAttribute = stream.getAttribute(CharTermAttribute.class);
-          String token = new String(charTermAttribute.buffer(), 0, charTermAttribute.length());
-          assertEquals(expectedTokens.get(i), token);
-          i++;
-      }
-      stream.close();
+    StringReader reader = new StringReader("0.10 0.20 0.30 0.40");
+    Tokenizer stream = new FeatureVectorsTokenizer();
+    stream.setReader(reader);
+    stream.reset();
+    List<String> expectedTokens = new LinkedList<>();
+    expectedTokens.add("0.10");
+    expectedTokens.add("0.20");
+    expectedTokens.add("0.30");
+    expectedTokens.add("0.40");
+    int i = 0;
+    while (stream.incrementToken()) {
+      CharTermAttribute charTermAttribute = stream.getAttribute(CharTermAttribute.class);
+      String token = new String(charTermAttribute.buffer(), 0, charTermAttribute.length());
+      assertEquals(expectedTokens.get(i), token);
+      i++;
+    }
+    stream.close();
   }
 
   @Test
   public void testTokenizeWithCommas() throws Exception {
-      StringReader reader = new StringReader("0.10,-0.20,0.30,0.40");
-      Tokenizer stream = new FeatureVectorsTokenizer();
-      stream.setReader(reader);
-      stream.reset();
-      List<String> expectedTokens = new LinkedList<>();
-      expectedTokens.add("0.10");
-      expectedTokens.add("-0.20");
-      expectedTokens.add("0.30");
-      expectedTokens.add("0.40");
-      int i = 0;
-      while (stream.incrementToken()) {
-          CharTermAttribute charTermAttribute = stream.getAttribute(CharTermAttribute.class);
-          String token = new String(charTermAttribute.buffer(), 0, charTermAttribute.length());
-          assertEquals(expectedTokens.get(i), token);
-          i++;
-      }
-      stream.close();
+    StringReader reader = new StringReader("0.10,-0.20,0.30,0.40");
+    Tokenizer stream = new FeatureVectorsTokenizer();
+    stream.setReader(reader);
+    stream.reset();
+    List<String> expectedTokens = new LinkedList<>();
+    expectedTokens.add("0.10");
+    expectedTokens.add("-0.20");
+    expectedTokens.add("0.30");
+    expectedTokens.add("0.40");
+    int i = 0;
+    while (stream.incrementToken()) {
+      CharTermAttribute charTermAttribute = stream.getAttribute(CharTermAttribute.class);
+      String token = new String(charTermAttribute.buffer(), 0, charTermAttribute.length());
+      assertEquals(expectedTokens.get(i), token);
+      i++;
+    }
+    stream.close();
   }
 
   @Test
   public void testTokenizeWithCommasAndSpaces() throws Exception {
-      StringReader reader = new StringReader("0.10, -0.20, 0.30, 0.40");
-      Tokenizer stream = new FeatureVectorsTokenizer();
-      stream.setReader(reader);
-      stream.reset();
-      List<String> expectedTokens = new LinkedList<>();
-      expectedTokens.add("0.10");
-      expectedTokens.add("-0.20");
-      expectedTokens.add("0.30");
-      expectedTokens.add("0.40");
-      int i = 0;
-      while (stream.incrementToken()) {
-          CharTermAttribute charTermAttribute = stream.getAttribute(CharTermAttribute.class);
-          String token = new String(charTermAttribute.buffer(), 0, charTermAttribute.length());
-          assertEquals(expectedTokens.get(i), token);
-          i++;
-      }
-      stream.close();
+    StringReader reader = new StringReader("0.10, -0.20, 0.30, 0.40");
+    Tokenizer stream = new FeatureVectorsTokenizer();
+    stream.setReader(reader);
+    stream.reset();
+    List<String> expectedTokens = new LinkedList<>();
+    expectedTokens.add("0.10");
+    expectedTokens.add("-0.20");
+    expectedTokens.add("0.30");
+    expectedTokens.add("0.40");
+    int i = 0;
+    while (stream.incrementToken()) {
+      CharTermAttribute charTermAttribute = stream.getAttribute(CharTermAttribute.class);
+      String token = new String(charTermAttribute.buffer(), 0, charTermAttribute.length());
+      assertEquals(expectedTokens.get(i), token);
+      i++;
+    }
+    stream.close();
   }
 
 }

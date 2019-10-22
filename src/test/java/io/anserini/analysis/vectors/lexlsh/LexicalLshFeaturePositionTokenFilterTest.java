@@ -31,48 +31,48 @@ import static org.junit.Assert.assertEquals;
  */
 public class LexicalLshFeaturePositionTokenFilterTest {
 
-    @Test
-    public void testFiltering() throws Exception {
-        StringReader reader = new StringReader("-0.10 0.20 0.30 0.40");
-        Tokenizer stream = new FeatureVectorsTokenizer();
-        stream.setReader(reader);
-        LexicalLshFeaturePositionTokenFilter filter = new LexicalLshFeaturePositionTokenFilter(stream);
-        filter.reset();
-        List<String> expectedTokens = new LinkedList<>();
-        expectedTokens.add("1_-0.10");
-        expectedTokens.add("2_0.20");
-        expectedTokens.add("3_0.30");
-        expectedTokens.add("4_0.40");
-        int i = 0;
-        while (filter.incrementToken()) {
-          CharTermAttribute charTermAttribute = filter.getAttribute(CharTermAttribute.class);
-          String token = new String(charTermAttribute.buffer(), 0, charTermAttribute.length());
-          assertEquals(expectedTokens.get(i), token);
-          i++;
-        }
-        filter.close();
+  @Test
+  public void testFiltering() throws Exception {
+    StringReader reader = new StringReader("-0.10 0.20 0.30 0.40");
+    Tokenizer stream = new FeatureVectorsTokenizer();
+    stream.setReader(reader);
+    LexicalLshFeaturePositionTokenFilter filter = new LexicalLshFeaturePositionTokenFilter(stream);
+    filter.reset();
+    List<String> expectedTokens = new LinkedList<>();
+    expectedTokens.add("1_-0.10");
+    expectedTokens.add("2_0.20");
+    expectedTokens.add("3_0.30");
+    expectedTokens.add("4_0.40");
+    int i = 0;
+    while (filter.incrementToken()) {
+      CharTermAttribute charTermAttribute = filter.getAttribute(CharTermAttribute.class);
+      String token = new String(charTermAttribute.buffer(), 0, charTermAttribute.length());
+      assertEquals(expectedTokens.get(i), token);
+      i++;
     }
+    filter.close();
+  }
 
-    @Test
-    public void testFilteringWithOffset() throws Exception {
-        StringReader reader = new StringReader("-0.104123 0.20435 0.3042366 0.41243241");
-        Tokenizer stream = new FeatureVectorsTokenizer();
-        stream.setReader(reader);
-        LexicalLshFeaturePositionTokenFilter filter = new LexicalLshFeaturePositionTokenFilter(stream, 2);
-        filter.reset();
-        List<String> expectedTokens = new LinkedList<>();
-        expectedTokens.add("1_-104123");
-        expectedTokens.add("2_20435");
-        expectedTokens.add("3_3042366");
-        expectedTokens.add("4_41243241");
-        int i = 0;
-        while (filter.incrementToken()) {
-            CharTermAttribute charTermAttribute = filter.getAttribute(CharTermAttribute.class);
-            String token = new String(charTermAttribute.buffer(), 0, charTermAttribute.length());
-            assertEquals(expectedTokens.get(i), token);
-            i++;
-        }
-        filter.close();
+  @Test
+  public void testFilteringWithOffset() throws Exception {
+    StringReader reader = new StringReader("-0.104123 0.20435 0.3042366 0.41243241");
+    Tokenizer stream = new FeatureVectorsTokenizer();
+    stream.setReader(reader);
+    LexicalLshFeaturePositionTokenFilter filter = new LexicalLshFeaturePositionTokenFilter(stream, 2);
+    filter.reset();
+    List<String> expectedTokens = new LinkedList<>();
+    expectedTokens.add("1_-104123");
+    expectedTokens.add("2_20435");
+    expectedTokens.add("3_3042366");
+    expectedTokens.add("4_41243241");
+    int i = 0;
+    while (filter.incrementToken()) {
+      CharTermAttribute charTermAttribute = filter.getAttribute(CharTermAttribute.class);
+      String token = new String(charTermAttribute.buffer(), 0, charTermAttribute.length());
+      assertEquals(expectedTokens.get(i), token);
+      i++;
     }
+    filter.close();
+  }
 
 }

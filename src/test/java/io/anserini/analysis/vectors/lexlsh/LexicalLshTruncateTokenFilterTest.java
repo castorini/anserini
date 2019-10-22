@@ -31,26 +31,26 @@ import static org.junit.Assert.assertEquals;
  */
 public class LexicalLshTruncateTokenFilterTest {
 
-    @Test
-    public void testFiltering() throws Exception {
-        StringReader reader = new StringReader("0.10123 0.20412412 -0.3042141 0.4123123");
-        Tokenizer stream = new WhitespaceTokenizer();
-        stream.setReader(reader);
-        LexicalLshTruncateTokenFilter filter = new LexicalLshTruncateTokenFilter(stream, 3);
-        filter.reset();
-        List<String> expectedTokens = new LinkedList<>();
-        expectedTokens.add("0.101");
-        expectedTokens.add("0.204");
-        expectedTokens.add("-0.304");
-        expectedTokens.add("0.412");
-        int i = 0;
-        while (filter.incrementToken()) {
-            CharTermAttribute charTermAttribute = filter.getAttribute(CharTermAttribute.class);
-            String token = new String(charTermAttribute.buffer(), 0, charTermAttribute.length());
-            assertEquals(expectedTokens.get(i), token);
-            i++;
-        }
-        filter.close();
+  @Test
+  public void testFiltering() throws Exception {
+    StringReader reader = new StringReader("0.10123 0.20412412 -0.3042141 0.4123123");
+    Tokenizer stream = new WhitespaceTokenizer();
+    stream.setReader(reader);
+    LexicalLshTruncateTokenFilter filter = new LexicalLshTruncateTokenFilter(stream, 3);
+    filter.reset();
+    List<String> expectedTokens = new LinkedList<>();
+    expectedTokens.add("0.101");
+    expectedTokens.add("0.204");
+    expectedTokens.add("-0.304");
+    expectedTokens.add("0.412");
+    int i = 0;
+    while (filter.incrementToken()) {
+      CharTermAttribute charTermAttribute = filter.getAttribute(CharTermAttribute.class);
+      String token = new String(charTermAttribute.buffer(), 0, charTermAttribute.length());
+      assertEquals(expectedTokens.get(i), token);
+      i++;
     }
+    filter.close();
+  }
 
 }
