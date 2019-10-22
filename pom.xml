@@ -139,7 +139,7 @@
             </program>
             <program>
               <mainClass>io.anserini.analysis.vectors.ApproximateNearestNeighborSearch</mainClass>
-              <id>NearestVector</id>
+              <id>ApproximateNearestNeighborSearch</id>
             </program>
           </programs>
         </configuration>
