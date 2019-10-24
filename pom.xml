@@ -133,6 +133,14 @@
               <mainClass>io.anserini.index.IndexUtils</mainClass>
               <id>IndexUtils</id>
             </program>
+            <program>
+              <mainClass>io.anserini.analysis.vectors.IndexVectors</mainClass>
+              <id>IndexVectors</id>
+            </program>
+            <program>
+              <mainClass>io.anserini.analysis.vectors.ApproximateNearestNeighborSearch</mainClass>
+              <id>ApproximateNearestNeighborSearch</id>
+            </program>
           </programs>
         </configuration>
       </plugin>
@@ -228,11 +236,6 @@
     <dependency>
       <groupId>org.apache.lucene</groupId>
       <artifactId>lucene-core</artifactId>
-      <version>${lucene.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.lucene</groupId>
-      <artifactId>lucene-benchmark</artifactId>
       <version>${lucene.version}</version>
     </dependency>
     <dependency> <!-- needed only for org.apache.lucene.search.CheckHits: candidate for cleanup -->
