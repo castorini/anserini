@@ -238,11 +238,6 @@
       <artifactId>lucene-core</artifactId>
       <version>${lucene.version}</version>
     </dependency>
-    <dependency>
-      <groupId>org.apache.lucene</groupId>
-      <artifactId>lucene-benchmark</artifactId>
-      <version>${lucene.version}</version>
-    </dependency>
     <dependency> <!-- needed only for org.apache.lucene.search.CheckHits: candidate for cleanup -->
       <groupId>org.apache.lucene</groupId>
       <artifactId>lucene-test-framework</artifactId>
