@@ -62,7 +62,7 @@ reading index at glove300-fw
 top 10 neighbors of 'italy' (3502ms): [rome, spain, greece, portugal, bulgaria, italian, romania, europe, belgium, italy]
 ```
 
-## "Lexical LSHL Encoding
+## "Lexical LSH" Encoding
 
 Index:
 
