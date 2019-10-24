@@ -1,16 +1,23 @@
-# Approximate Nearest Neighbor
-How to use
-==========
-Anserini can be used to index and search dense vectors using either _"fake words"_ or _"lexical LSH"_ encodings.
+# Approximate Nearest-Neighbor Search
 
-Fake Words Encoding
-==========
-1. split an input vector `v` into separate tokens `f_i`, one for each feature
-2. quantize the value `r_i` of each _feature token_ `f_i` by a (configurable) integer factor `q`, `int t_i = r_i * q` 
-3. create `t_i` fake word tokens with the same text value `f_i`
+With the advent of deep learning and neural approaches to both natural language processing and information retrieval, there is frequently the need to perform approximate nearest-neighbor search on dense vectors.
+However, Lucene is built around inverted indexes of a document collection’s (sparse) term–document matrix, which is incompatible with the lower-dimensional dense vectors that are common in deep learning applications.
+
+To address this gap, we propose techniques that repurpose Lucene's indexing and search pipeline for this task.
+That is, show how to perform approximate nearest-neighbor search on arbitrary dense vectors _directly in Lucene_.
+Admittedly, our solutions lack elegance (i.e., they're a bit janky), but they get the job done.
+We demonstrate finding similar word embedding vectors (word2vec and GloVe) as a sample application.
+
+Anserini provides implementations of two different techniques: _"fake words"_ or _"lexical LSH"_ encodings.
+
+## Fake Words Encoding
+
+1. split an input vector _v_ into separate tokens _f_<sub>i</sub>, one for each feature
+2. quantize the value _r_<sub>i</sub> of each _feature token_ _f_<sub>i</sub> by a (configurable) integer factor _q_, `int` _t_<sub>i</sub> = _r_<sub>i</sub> * _q_ 
+3. create _t_<sub>i</sub> fake word tokens with the same text value `_f_<sub>i</sub>
  
-Lexical LSH Encoding
-==========
+## Lexical LSH Encoding
+
 1. split an input vector `v` into separate tokens `f_i`, one for each feature
 2. truncate the value `r_i` of each _feature token_ `f_i` up until the first decimal place
 3. add a _feature index_ prefix to each value `r_i` (e.g. token _0.1_ of feature at column 2 becomes _2_0.1_)
