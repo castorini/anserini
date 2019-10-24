@@ -7,7 +7,7 @@ topic_root: src/main/resources/topics-and-qrels/
 qrels_root: src/main/resources/topics-and-qrels/
 ranking_root:
 generator: LuceneDocumentGenerator
-threads: 40
+threads: 1
 index_options:
   - -storePositions
   - -storeDocvectors
