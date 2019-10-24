@@ -9,11 +9,11 @@ Admittedly, our solutions lack elegance (i.e., they're a bit janky), but they ge
 We demonstrate finding similar word embedding vectors (word2vec and GloVe) as a sample application.
 
 Anserini provides implementations of two different techniques: _"fake words"_ or _"lexical LSH"_ encodings.
-
 Additional details, please consult:
 
 + Tommaso Teofili and Jimmy Lin. [Lucene for Approximate Nearest-Neighbors Search on Arbitrary Dense Vectors](https://arxiv.org/abs/1910.10208) _arXiv:1910.10208_, October 2019.
 
+Our paper actually describes a third technique using Lucene's built-in k-d trees, but the results are so terrible that the implementaiton is not worth including.
 Also, check our [Colab demo](https://colab.research.google.com/drive/1PBrAlthWslK4DBeyMC_GA84vYo00OiYn).
 
 ## Overview of Techniques
