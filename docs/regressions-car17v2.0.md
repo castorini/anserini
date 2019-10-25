@@ -8,7 +8,7 @@ Typical indexing command:
 
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection CarCollection \
--generator LuceneDocumentGenerator -threads 40 -input /path/to/car17v2.0 -index \
+-generator LuceneDocumentGenerator -threads 1 -input /path/to/car17v2.0 -index \
 lucene-index.car17v2.0.pos+docvectors+rawdocs -storePositions -storeDocvectors \
 -storeRawDocs >& log.car17v2.0.pos+docvectors+rawdocs &
 ```
