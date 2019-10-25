@@ -315,7 +315,7 @@
     <dependency>
       <groupId>it.unimi.dsi</groupId>
       <artifactId>fastutil</artifactId>
-      <version>6.5.6</version>
+      <version>8.3.0</version>
     </dependency>
     <dependency>
       <groupId>org.wikiclean</groupId>
