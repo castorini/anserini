@@ -284,7 +284,7 @@ public class DataModel {
     builder.append(getIndex_command());
     builder.append(" -collection ").append(getCollection());
     builder.append(" -input ").append("/path/to/"+collection).append(" \\\n");
-    builder.append(" -index ").append("lucene-index."+getName()+".pos+docvectors"+(containRawDocs ? "+rawdocs" : "")).append(" \\\n");
+    builder.append(" -index ").append("lucene-index."+getName()+".pos+docvectors"+(containRawDocs ? "+rawdocs" : ""));
     builder.append(" -generator ").append(getGenerator());
     builder.append(" -threads ").append(getThreads()).append(" \\\n");
     for (String option : getIndex_options()) {

@@ -9,8 +9,7 @@ Indexing the Tweets2013 collection:
 
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection TweetCollection -input /path/to/mb13 \
- -index lucene-index.mb13.pos+docvectors+rawdocs \
- -generator TweetGenerator -threads 44 \
+ -index lucene-index.mb13.pos+docvectors+rawdocs -generator TweetGenerator -threads 44 \
  -storePositions -storeDocvectors -storeRawDocs -uniqueDocid -optimize -tweet.keepUrls -tweet.stemming >& log.mb13.pos+docvectors+rawdocs &
 ```
 

@@ -10,8 +10,7 @@ Typical indexing command:
 
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection TrecCollection -input /path/to/ntcir8-zh \
- -index lucene-index.ntcir8-zh.pos+docvectors+rawdocs \
- -generator LuceneDocumentGenerator -threads 16 \
+ -index lucene-index.ntcir8-zh.pos+docvectors+rawdocs -generator LuceneDocumentGenerator -threads 16 \
  -storePositions -storeDocvectors -storeRawDocs -language zh -uniqueDocid -optimize >& log.ntcir8-zh.pos+docvectors+rawdocs &
 ```
 

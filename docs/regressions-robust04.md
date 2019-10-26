@@ -6,8 +6,7 @@ Typical indexing command:
 
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection TrecCollection -input /path/to/robust04 \
- -index lucene-index.robust04.pos+docvectors+rawdocs \
- -generator JsoupGenerator -threads 16 \
+ -index lucene-index.robust04.pos+docvectors+rawdocs -generator JsoupGenerator -threads 16 \
  -storePositions -storeDocvectors -storeRawDocs >& log.robust04.pos+docvectors+rawdocs &
 ```
 

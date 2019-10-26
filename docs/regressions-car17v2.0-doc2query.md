@@ -13,8 +13,7 @@ Typical indexing command:
 
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection JsonCollection -input /path/to/car17v2.0-doc2query \
- -index lucene-index.car17v2.0-doc2query.pos+docvectors+rawdocs \
- -generator LuceneDocumentGenerator -threads 30 \
+ -index lucene-index.car17v2.0-doc2query.pos+docvectors+rawdocs -generator LuceneDocumentGenerator -threads 30 \
  -storePositions -storeDocvectors -storeRawDocs >& log.car17v2.0-doc2query.pos+docvectors+rawdocs &
 ```
 

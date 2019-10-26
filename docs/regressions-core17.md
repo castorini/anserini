@@ -6,8 +6,7 @@ Typical indexing command:
 
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection NewYorkTimesCollection -input /path/to/core17 \
- -index lucene-index.core17.pos+docvectors+rawdocs \
- -generator JsoupGenerator -threads 16 \
+ -index lucene-index.core17.pos+docvectors+rawdocs -generator JsoupGenerator -threads 16 \
  -storePositions -storeDocvectors -storeRawDocs >& log.core17.pos+docvectors+rawdocs &
 ```
 

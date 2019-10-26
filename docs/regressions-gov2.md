@@ -6,8 +6,7 @@ Typical indexing command:
 
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection TrecwebCollection -input /path/to/gov2 \
- -index lucene-index.gov2.pos+docvectors+rawdocs \
- -generator JsoupGenerator -threads 44 \
+ -index lucene-index.gov2.pos+docvectors+rawdocs -generator JsoupGenerator -threads 44 \
  -storePositions -storeDocvectors -storeRawDocs >& log.gov2.pos+docvectors+rawdocs &
 ```
 

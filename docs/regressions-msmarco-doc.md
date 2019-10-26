@@ -9,8 +9,7 @@ Typical indexing command:
 
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection TrecCollection -input /path/to/msmarco-doc \
- -index lucene-index.msmarco-doc.pos+docvectors+rawdocs \
- -generator LuceneDocumentGenerator -threads 1 \
+ -index lucene-index.msmarco-doc.pos+docvectors+rawdocs -generator LuceneDocumentGenerator -threads 1 \
  -storePositions -storeDocvectors -storeRawDocs >& log.msmarco-doc.pos+docvectors+rawdocs &
 ```
 
