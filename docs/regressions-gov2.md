@@ -5,10 +5,10 @@
 Typical indexing command:
 
 ```
-nohup sh target/appassembler/bin/IndexCollection -collection TrecwebCollection \
--generator JsoupGenerator -threads 44 -input /path/to/gov2 -index \
-lucene-index.gov2.pos+docvectors+rawdocs -storePositions -storeDocvectors \
--storeRawDocs >& log.gov2.pos+docvectors+rawdocs &
+nohup sh target/appassembler/bin/IndexCollection -collection TrecwebCollection -input /path/to/gov2 \
+ -index lucene-index.gov2.pos+docvectors+rawdocs \
+ -generator JsoupGenerator -threads 44 \
+ -storePositions -storeDocvectors -storeRawDocs >& log.gov2.pos+docvectors+rawdocs &
 ```
 
 The directory `/path/to/gov2/` should be the root directory of Gov2 collection, i.e., `ls /path/to/gov2/` should bring up a bunch of subdirectories, `GX000` to `GX272`.
@@ -29,29 +29,65 @@ Topics and qrels are stored in `src/main/resources/topics-and-qrels/`, downloade
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.gov2.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.701-750.txt -output run.gov2.bm25.topics.701-750.txt -bm25 &
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.gov2.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.751-800.txt -output run.gov2.bm25.topics.751-800.txt -bm25 &
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.gov2.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.801-850.txt -output run.gov2.bm25.topics.801-850.txt -bm25 &
+nohup target/appassembler/bin/SearchCollection -index lucene-index.gov2.pos+docvectors+rawdocs \
+ -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.701-750.txt \
+ -bm25 -output run.gov2.bm25.topics.701-750.txt &
+nohup target/appassembler/bin/SearchCollection -index lucene-index.gov2.pos+docvectors+rawdocs \
+ -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.751-800.txt \
+ -bm25 -output run.gov2.bm25.topics.751-800.txt &
+nohup target/appassembler/bin/SearchCollection -index lucene-index.gov2.pos+docvectors+rawdocs \
+ -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.801-850.txt \
+ -bm25 -output run.gov2.bm25.topics.801-850.txt &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.gov2.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.701-750.txt -output run.gov2.bm25+rm3.topics.701-750.txt -bm25 -rm3 &
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.gov2.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.751-800.txt -output run.gov2.bm25+rm3.topics.751-800.txt -bm25 -rm3 &
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.gov2.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.801-850.txt -output run.gov2.bm25+rm3.topics.801-850.txt -bm25 -rm3 &
+nohup target/appassembler/bin/SearchCollection -index lucene-index.gov2.pos+docvectors+rawdocs \
+ -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.701-750.txt \
+ -bm25 -rm3 -output run.gov2.bm25+rm3.topics.701-750.txt &
+nohup target/appassembler/bin/SearchCollection -index lucene-index.gov2.pos+docvectors+rawdocs \
+ -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.751-800.txt \
+ -bm25 -rm3 -output run.gov2.bm25+rm3.topics.751-800.txt &
+nohup target/appassembler/bin/SearchCollection -index lucene-index.gov2.pos+docvectors+rawdocs \
+ -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.801-850.txt \
+ -bm25 -rm3 -output run.gov2.bm25+rm3.topics.801-850.txt &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.gov2.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.701-750.txt -output run.gov2.bm25+ax.topics.701-750.txt -bm25 -axiom -axiom.beta 0.1 -rerankCutoff 20 -axiom.deterministic &
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.gov2.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.751-800.txt -output run.gov2.bm25+ax.topics.751-800.txt -bm25 -axiom -axiom.beta 0.1 -rerankCutoff 20 -axiom.deterministic &
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.gov2.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.801-850.txt -output run.gov2.bm25+ax.topics.801-850.txt -bm25 -axiom -axiom.beta 0.1 -rerankCutoff 20 -axiom.deterministic &
+nohup target/appassembler/bin/SearchCollection -index lucene-index.gov2.pos+docvectors+rawdocs \
+ -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.701-750.txt \
+ -bm25 -axiom -axiom.beta 0.1 -rerankCutoff 20 -axiom.deterministic -output run.gov2.bm25+ax.topics.701-750.txt &
+nohup target/appassembler/bin/SearchCollection -index lucene-index.gov2.pos+docvectors+rawdocs \
+ -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.751-800.txt \
+ -bm25 -axiom -axiom.beta 0.1 -rerankCutoff 20 -axiom.deterministic -output run.gov2.bm25+ax.topics.751-800.txt &
+nohup target/appassembler/bin/SearchCollection -index lucene-index.gov2.pos+docvectors+rawdocs \
+ -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.801-850.txt \
+ -bm25 -axiom -axiom.beta 0.1 -rerankCutoff 20 -axiom.deterministic -output run.gov2.bm25+ax.topics.801-850.txt &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.gov2.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.701-750.txt -output run.gov2.ql.topics.701-750.txt -ql &
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.gov2.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.751-800.txt -output run.gov2.ql.topics.751-800.txt -ql &
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.gov2.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.801-850.txt -output run.gov2.ql.topics.801-850.txt -ql &
+nohup target/appassembler/bin/SearchCollection -index lucene-index.gov2.pos+docvectors+rawdocs \
+ -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.701-750.txt \
+ -ql -output run.gov2.ql.topics.701-750.txt &
+nohup target/appassembler/bin/SearchCollection -index lucene-index.gov2.pos+docvectors+rawdocs \
+ -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.751-800.txt \
+ -ql -output run.gov2.ql.topics.751-800.txt &
+nohup target/appassembler/bin/SearchCollection -index lucene-index.gov2.pos+docvectors+rawdocs \
+ -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.801-850.txt \
+ -ql -output run.gov2.ql.topics.801-850.txt &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.gov2.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.701-750.txt -output run.gov2.ql+rm3.topics.701-750.txt -ql -rm3 &
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.gov2.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.751-800.txt -output run.gov2.ql+rm3.topics.751-800.txt -ql -rm3 &
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.gov2.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.801-850.txt -output run.gov2.ql+rm3.topics.801-850.txt -ql -rm3 &
+nohup target/appassembler/bin/SearchCollection -index lucene-index.gov2.pos+docvectors+rawdocs \
+ -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.701-750.txt \
+ -ql -rm3 -output run.gov2.ql+rm3.topics.701-750.txt &
+nohup target/appassembler/bin/SearchCollection -index lucene-index.gov2.pos+docvectors+rawdocs \
+ -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.751-800.txt \
+ -ql -rm3 -output run.gov2.ql+rm3.topics.751-800.txt &
+nohup target/appassembler/bin/SearchCollection -index lucene-index.gov2.pos+docvectors+rawdocs \
+ -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.801-850.txt \
+ -ql -rm3 -output run.gov2.ql+rm3.topics.801-850.txt &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.gov2.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.701-750.txt -output run.gov2.ql+ax.topics.701-750.txt -ql -axiom -rerankCutoff 20 -axiom.beta 0.1 -axiom.deterministic &
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.gov2.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.751-800.txt -output run.gov2.ql+ax.topics.751-800.txt -ql -axiom -rerankCutoff 20 -axiom.beta 0.1 -axiom.deterministic &
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.gov2.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.801-850.txt -output run.gov2.ql+ax.topics.801-850.txt -ql -axiom -rerankCutoff 20 -axiom.beta 0.1 -axiom.deterministic &
+nohup target/appassembler/bin/SearchCollection -index lucene-index.gov2.pos+docvectors+rawdocs \
+ -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.701-750.txt \
+ -ql -axiom -rerankCutoff 20 -axiom.beta 0.1 -axiom.deterministic -output run.gov2.ql+ax.topics.701-750.txt &
+nohup target/appassembler/bin/SearchCollection -index lucene-index.gov2.pos+docvectors+rawdocs \
+ -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.751-800.txt \
+ -ql -axiom -rerankCutoff 20 -axiom.beta 0.1 -axiom.deterministic -output run.gov2.ql+ax.topics.751-800.txt &
+nohup target/appassembler/bin/SearchCollection -index lucene-index.gov2.pos+docvectors+rawdocs \
+ -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.801-850.txt \
+ -ql -axiom -rerankCutoff 20 -axiom.beta 0.1 -axiom.deterministic -output run.gov2.ql+ax.topics.801-850.txt &
 
 ```
 

@@ -283,15 +283,15 @@ public class DataModel {
     builder.append("nohup sh ");
     builder.append(getIndex_command());
     builder.append(" -collection ").append(getCollection());
+    builder.append(" -input ").append("/path/to/"+collection).append(" \\\n");
+    builder.append(" -index ").append("lucene-index."+getName()+".pos+docvectors"+(containRawDocs ? "+rawdocs" : "")).append(" \\\n");
     builder.append(" -generator ").append(getGenerator());
-    builder.append(" -threads ").append(getThreads());
-    builder.append(" -input ").append("/path/to/"+collection);
-    builder.append(" -index ").append("lucene-index."+getName()+".pos+docvectors"+(containRawDocs ? "+rawdocs" : ""));
+    builder.append(" -threads ").append(getThreads()).append(" \\\n");
     for (String option : getIndex_options()) {
       builder.append(" ").append(option);
     }
     builder.append(String.format(" >& log.%s.pos+docvectors%s &", collection, containRawDocs ? "+rawdocs" : ""));
-    return WordUtils.wrap(builder.toString(), 80, " \\\n", false);
+    return builder.toString();
   }
 
   public String generateRankingCommand(String collection) {
@@ -306,10 +306,9 @@ public class DataModel {
       for (Topic topic : getTopics()) {
         builder.append("nohup ");
         builder.append(getSearch_command());
+        builder.append(" ").append("-index").append(" ").append("lucene-index."+collection+".pos+docvectors"+(containRawDocs ? "+rawdocs" : "")).append(" \\\n");
         builder.append(" ").append("-topicreader").append(" ").append(getTopic_reader());
-        builder.append(" ").append("-index").append(" ").append("lucene-index."+collection+".pos+docvectors"+(containRawDocs ? "+rawdocs" : ""));
-        builder.append(" ").append("-topics").append(" ").append(Paths.get(getTopic_root(), topic.getPath()).toString());
-        builder.append(" ").append("-output").append(" ").append("run."+collection+"."+model.getName()+"."+topic.getPath());
+        builder.append(" ").append("-topics").append(" ").append(Paths.get(getTopic_root(), topic.getPath()).toString()).append(" \\\n");
         if (getSearch_options() != null) {
           for (String option : getSearch_options()) {
             builder.append(" ").append(option);
@@ -320,6 +319,7 @@ public class DataModel {
             builder.append(" ").append(option);
           }
         }
+        builder.append(" ").append("-output").append(" ").append("run."+collection+"."+model.getName()+"."+topic.getPath());
         builder.append(" &"); // nohup
         builder.append("\n");
       }

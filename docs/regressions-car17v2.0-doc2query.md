@@ -12,12 +12,10 @@ For more complete instructions on how to run end-to-end experiments, refer to [t
 Typical indexing command:
 
 ```
-nohup sh target/appassembler/bin/IndexCollection -collection JsonCollection \
--generator LuceneDocumentGenerator -threads 30 -input \
-/path/to/car17v2.0-doc2query -index \
-lucene-index.car17v2.0-doc2query.pos+docvectors+rawdocs -storePositions \
--storeDocvectors -storeRawDocs >& log.car17v2.0-doc2query.pos+docvectors+rawdocs \
-&
+nohup sh target/appassembler/bin/IndexCollection -collection JsonCollection -input /path/to/car17v2.0-doc2query \
+ -index lucene-index.car17v2.0-doc2query.pos+docvectors+rawdocs \
+ -generator LuceneDocumentGenerator -threads 30 \
+ -storePositions -storeDocvectors -storeRawDocs >& log.car17v2.0-doc2query.pos+docvectors+rawdocs &
 ```
 
 The directory `/path/to/car17v2.0-doc2query` should be the root directory of Complex Answer Retrieval (CAR) paragraph corpus (v2.0) that has been augmented with the Doc2query expansions, i.e., `collection_jsonl_expanded_topk10/` as described in [this page](experiments-doc2query.md).
@@ -36,17 +34,29 @@ Specifically, this is the section-level passage retrieval task with automatic gr
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-nohup target/appassembler/bin/SearchCollection -topicreader Car -index lucene-index.car17v2.0-doc2query.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.car17v2.0.benchmarkY1test.txt -output run.car17v2.0-doc2query.bm25.topics.car17v2.0.benchmarkY1test.txt -bm25 &
+nohup target/appassembler/bin/SearchCollection -index lucene-index.car17v2.0-doc2query.pos+docvectors+rawdocs \
+ -topicreader Car -topics src/main/resources/topics-and-qrels/topics.car17v2.0.benchmarkY1test.txt \
+ -bm25 -output run.car17v2.0-doc2query.bm25.topics.car17v2.0.benchmarkY1test.txt &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Car -index lucene-index.car17v2.0-doc2query.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.car17v2.0.benchmarkY1test.txt -output run.car17v2.0-doc2query.bm25+rm3.topics.car17v2.0.benchmarkY1test.txt -bm25 -rm3 &
+nohup target/appassembler/bin/SearchCollection -index lucene-index.car17v2.0-doc2query.pos+docvectors+rawdocs \
+ -topicreader Car -topics src/main/resources/topics-and-qrels/topics.car17v2.0.benchmarkY1test.txt \
+ -bm25 -rm3 -output run.car17v2.0-doc2query.bm25+rm3.topics.car17v2.0.benchmarkY1test.txt &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Car -index lucene-index.car17v2.0-doc2query.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.car17v2.0.benchmarkY1test.txt -output run.car17v2.0-doc2query.bm25+ax.topics.car17v2.0.benchmarkY1test.txt -bm25 -axiom -rerankCutoff 20 -axiom.deterministic &
+nohup target/appassembler/bin/SearchCollection -index lucene-index.car17v2.0-doc2query.pos+docvectors+rawdocs \
+ -topicreader Car -topics src/main/resources/topics-and-qrels/topics.car17v2.0.benchmarkY1test.txt \
+ -bm25 -axiom -rerankCutoff 20 -axiom.deterministic -output run.car17v2.0-doc2query.bm25+ax.topics.car17v2.0.benchmarkY1test.txt &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Car -index lucene-index.car17v2.0-doc2query.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.car17v2.0.benchmarkY1test.txt -output run.car17v2.0-doc2query.ql.topics.car17v2.0.benchmarkY1test.txt -ql &
+nohup target/appassembler/bin/SearchCollection -index lucene-index.car17v2.0-doc2query.pos+docvectors+rawdocs \
+ -topicreader Car -topics src/main/resources/topics-and-qrels/topics.car17v2.0.benchmarkY1test.txt \
+ -ql -output run.car17v2.0-doc2query.ql.topics.car17v2.0.benchmarkY1test.txt &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Car -index lucene-index.car17v2.0-doc2query.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.car17v2.0.benchmarkY1test.txt -output run.car17v2.0-doc2query.ql+rm3.topics.car17v2.0.benchmarkY1test.txt -ql -rm3 &
+nohup target/appassembler/bin/SearchCollection -index lucene-index.car17v2.0-doc2query.pos+docvectors+rawdocs \
+ -topicreader Car -topics src/main/resources/topics-and-qrels/topics.car17v2.0.benchmarkY1test.txt \
+ -ql -rm3 -output run.car17v2.0-doc2query.ql+rm3.topics.car17v2.0.benchmarkY1test.txt &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Car -index lucene-index.car17v2.0-doc2query.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.car17v2.0.benchmarkY1test.txt -output run.car17v2.0-doc2query.ql+ax.topics.car17v2.0.benchmarkY1test.txt -ql -axiom -rerankCutoff 20 -axiom.deterministic &
+nohup target/appassembler/bin/SearchCollection -index lucene-index.car17v2.0-doc2query.pos+docvectors+rawdocs \
+ -topicreader Car -topics src/main/resources/topics-and-qrels/topics.car17v2.0.benchmarkY1test.txt \
+ -ql -axiom -rerankCutoff 20 -axiom.deterministic -output run.car17v2.0-doc2query.ql+ax.topics.car17v2.0.benchmarkY1test.txt &
 
 ```
 

@@ -45,7 +45,7 @@ index_stats:
 topics:
   - name: "[TREC 2005 Robust Track Topics](http://trec.nist.gov/data/robust/05/05.50.topics.txt)"
     path: topics.robust05.txt
-    qrel: qrels.robust2005.txt
+    qrel: qrels.robust05.txt
 models:
   - name: bm25
     display: BM25

@@ -8,10 +8,10 @@ For more complete instructions on how to run end-to-end experiments, refer to [t
 Typical indexing command:
 
 ```
-nohup sh target/appassembler/bin/IndexCollection -collection TrecCollection \
--generator LuceneDocumentGenerator -threads 1 -input /path/to/msmarco-doc -index \
-lucene-index.msmarco-doc.pos+docvectors+rawdocs -storePositions -storeDocvectors \
--storeRawDocs >& log.msmarco-doc.pos+docvectors+rawdocs &
+nohup sh target/appassembler/bin/IndexCollection -collection TrecCollection -input /path/to/msmarco-doc \
+ -index lucene-index.msmarco-doc.pos+docvectors+rawdocs \
+ -generator LuceneDocumentGenerator -threads 1 \
+ -storePositions -storeDocvectors -storeRawDocs >& log.msmarco-doc.pos+docvectors+rawdocs &
 ```
 
 The directory `/path/to/msmarco-doc/` should be a directory containing the official document collection (a single file), in TREC format.
@@ -26,21 +26,37 @@ The regression experiments here evaluate on the 5193 dev set questions; see [thi
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-nohup target/appassembler/bin/SearchCollection -topicreader TsvInt -index lucene-index.msmarco-doc.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt -output run.msmarco-doc.bm25-default.topics.msmarco-doc.dev.txt -bm25 &
+nohup target/appassembler/bin/SearchCollection -index lucene-index.msmarco-doc.pos+docvectors+rawdocs \
+ -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
+ -bm25 -output run.msmarco-doc.bm25-default.topics.msmarco-doc.dev.txt &
 
-nohup target/appassembler/bin/SearchCollection -topicreader TsvInt -index lucene-index.msmarco-doc.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt -output run.msmarco-doc.bm25-default+rm3.topics.msmarco-doc.dev.txt -bm25 -rm3 &
+nohup target/appassembler/bin/SearchCollection -index lucene-index.msmarco-doc.pos+docvectors+rawdocs \
+ -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
+ -bm25 -rm3 -output run.msmarco-doc.bm25-default+rm3.topics.msmarco-doc.dev.txt &
 
-nohup target/appassembler/bin/SearchCollection -topicreader TsvInt -index lucene-index.msmarco-doc.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt -output run.msmarco-doc.bm25-default+ax.topics.msmarco-doc.dev.txt -bm25 -axiom -rerankCutoff 20 -axiom.deterministic &
+nohup target/appassembler/bin/SearchCollection -index lucene-index.msmarco-doc.pos+docvectors+rawdocs \
+ -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
+ -bm25 -axiom -rerankCutoff 20 -axiom.deterministic -output run.msmarco-doc.bm25-default+ax.topics.msmarco-doc.dev.txt &
 
-nohup target/appassembler/bin/SearchCollection -topicreader TsvInt -index lucene-index.msmarco-doc.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt -output run.msmarco-doc.bm25-default+prf.topics.msmarco-doc.dev.txt -bm25 -bm25prf &
+nohup target/appassembler/bin/SearchCollection -index lucene-index.msmarco-doc.pos+docvectors+rawdocs \
+ -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
+ -bm25 -bm25prf -output run.msmarco-doc.bm25-default+prf.topics.msmarco-doc.dev.txt &
 
-nohup target/appassembler/bin/SearchCollection -topicreader TsvInt -index lucene-index.msmarco-doc.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt -output run.msmarco-doc.bm25-tuned.topics.msmarco-doc.dev.txt -bm25 -k1 3.44 -b 0.87 &
+nohup target/appassembler/bin/SearchCollection -index lucene-index.msmarco-doc.pos+docvectors+rawdocs \
+ -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
+ -bm25 -k1 3.44 -b 0.87 -output run.msmarco-doc.bm25-tuned.topics.msmarco-doc.dev.txt &
 
-nohup target/appassembler/bin/SearchCollection -topicreader TsvInt -index lucene-index.msmarco-doc.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt -output run.msmarco-doc.bm25-tuned+rm3.topics.msmarco-doc.dev.txt -bm25 -k1 3.44 -b 0.87 -rm3 &
+nohup target/appassembler/bin/SearchCollection -index lucene-index.msmarco-doc.pos+docvectors+rawdocs \
+ -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
+ -bm25 -k1 3.44 -b 0.87 -rm3 -output run.msmarco-doc.bm25-tuned+rm3.topics.msmarco-doc.dev.txt &
 
-nohup target/appassembler/bin/SearchCollection -topicreader TsvInt -index lucene-index.msmarco-doc.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt -output run.msmarco-doc.bm25-tuned+ax.topics.msmarco-doc.dev.txt -bm25 -k1 3.44 -b 0.87 -axiom -rerankCutoff 20 -axiom.deterministic &
+nohup target/appassembler/bin/SearchCollection -index lucene-index.msmarco-doc.pos+docvectors+rawdocs \
+ -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
+ -bm25 -k1 3.44 -b 0.87 -axiom -rerankCutoff 20 -axiom.deterministic -output run.msmarco-doc.bm25-tuned+ax.topics.msmarco-doc.dev.txt &
 
-nohup target/appassembler/bin/SearchCollection -topicreader TsvInt -index lucene-index.msmarco-doc.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt -output run.msmarco-doc.bm25-tuned+prf.topics.msmarco-doc.dev.txt -bm25 -k1 3.44 -b 0.87 -bm25prf &
+nohup target/appassembler/bin/SearchCollection -index lucene-index.msmarco-doc.pos+docvectors+rawdocs \
+ -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
+ -bm25 -k1 3.44 -b 0.87 -bm25prf -output run.msmarco-doc.bm25-tuned+prf.topics.msmarco-doc.dev.txt &
 
 ```
 

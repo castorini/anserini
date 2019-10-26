@@ -44,8 +44,8 @@ index_stats:
   total terms: 174540872
 topics:
   - name: "[TREC 2004 Robust Track Topics](http://trec.nist.gov/data/robust/04.testset.gz)"
-    path: topics.robust04.301-450.601-700.txt
-    qrel: qrels.robust2004.txt
+    path: topics.robust04.txt
+    qrel: qrels.robust04.txt
 models:
   - name: bm25
     display: BM25

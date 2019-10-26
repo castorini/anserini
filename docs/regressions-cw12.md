@@ -5,10 +5,10 @@
 Typical indexing command:
 
 ```
-nohup sh target/appassembler/bin/IndexCollection -collection ClueWeb12Collection \
--generator JsoupGenerator -threads 44 -input /path/to/cw12 -index \
-lucene-index.cw12.pos+docvectors+rawdocs -storePositions -storeDocvectors \
--storeRawDocs >& log.cw12.pos+docvectors+rawdocs &
+nohup sh target/appassembler/bin/IndexCollection -collection ClueWeb12Collection -input /path/to/cw12 \
+ -index lucene-index.cw12.pos+docvectors+rawdocs \
+ -generator JsoupGenerator -threads 44 \
+ -storePositions -storeDocvectors -storeRawDocs >& log.cw12.pos+docvectors+rawdocs &
 ```
 
 The directory `/path/to/cw12/` should be the root directory of ClueWeb12 collection, i.e., `/path/to/cw12/` should contain
@@ -28,17 +28,33 @@ Topics and qrels are stored in `src/main/resources/topics-and-qrels/`, downloade
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-nohup target/appassembler/bin/SearchCollection -topicreader Webxml -index lucene-index.cw12.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt -output run.cw12.bm25.topics.web.201-250.txt -bm25 &
-nohup target/appassembler/bin/SearchCollection -topicreader Webxml -index lucene-index.cw12.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.web.251-300.txt -output run.cw12.bm25.topics.web.251-300.txt -bm25 &
+nohup target/appassembler/bin/SearchCollection -index lucene-index.cw12.pos+docvectors+rawdocs \
+ -topicreader Webxml -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt \
+ -bm25 -output run.cw12.bm25.topics.web.201-250.txt &
+nohup target/appassembler/bin/SearchCollection -index lucene-index.cw12.pos+docvectors+rawdocs \
+ -topicreader Webxml -topics src/main/resources/topics-and-qrels/topics.web.251-300.txt \
+ -bm25 -output run.cw12.bm25.topics.web.251-300.txt &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Webxml -index lucene-index.cw12.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt -output run.cw12.bm25+rm3.topics.web.201-250.txt -bm25 -rm3 &
-nohup target/appassembler/bin/SearchCollection -topicreader Webxml -index lucene-index.cw12.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.web.251-300.txt -output run.cw12.bm25+rm3.topics.web.251-300.txt -bm25 -rm3 &
+nohup target/appassembler/bin/SearchCollection -index lucene-index.cw12.pos+docvectors+rawdocs \
+ -topicreader Webxml -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt \
+ -bm25 -rm3 -output run.cw12.bm25+rm3.topics.web.201-250.txt &
+nohup target/appassembler/bin/SearchCollection -index lucene-index.cw12.pos+docvectors+rawdocs \
+ -topicreader Webxml -topics src/main/resources/topics-and-qrels/topics.web.251-300.txt \
+ -bm25 -rm3 -output run.cw12.bm25+rm3.topics.web.251-300.txt &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Webxml -index lucene-index.cw12.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt -output run.cw12.ql.topics.web.201-250.txt -ql &
-nohup target/appassembler/bin/SearchCollection -topicreader Webxml -index lucene-index.cw12.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.web.251-300.txt -output run.cw12.ql.topics.web.251-300.txt -ql &
+nohup target/appassembler/bin/SearchCollection -index lucene-index.cw12.pos+docvectors+rawdocs \
+ -topicreader Webxml -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt \
+ -ql -output run.cw12.ql.topics.web.201-250.txt &
+nohup target/appassembler/bin/SearchCollection -index lucene-index.cw12.pos+docvectors+rawdocs \
+ -topicreader Webxml -topics src/main/resources/topics-and-qrels/topics.web.251-300.txt \
+ -ql -output run.cw12.ql.topics.web.251-300.txt &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Webxml -index lucene-index.cw12.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt -output run.cw12.ql+rm3.topics.web.201-250.txt -ql -rm3 &
-nohup target/appassembler/bin/SearchCollection -topicreader Webxml -index lucene-index.cw12.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.web.251-300.txt -output run.cw12.ql+rm3.topics.web.251-300.txt -ql -rm3 &
+nohup target/appassembler/bin/SearchCollection -index lucene-index.cw12.pos+docvectors+rawdocs \
+ -topicreader Webxml -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt \
+ -ql -rm3 -output run.cw12.ql+rm3.topics.web.201-250.txt &
+nohup target/appassembler/bin/SearchCollection -index lucene-index.cw12.pos+docvectors+rawdocs \
+ -topicreader Webxml -topics src/main/resources/topics-and-qrels/topics.web.251-300.txt \
+ -ql -rm3 -output run.cw12.ql+rm3.topics.web.251-300.txt &
 
 ```
 

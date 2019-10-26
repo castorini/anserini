@@ -5,11 +5,10 @@
 Typical indexing command:
 
 ```
-nohup sh target/appassembler/bin/IndexCollection -collection \
-WashingtonPostCollection -generator WapoGenerator -threads 16 -input \
-/path/to/core18 -index lucene-index.core18.pos+docvectors+rawdocs \
--storePositions -storeDocvectors -storeRawDocs >& \
-log.core18.pos+docvectors+rawdocs &
+nohup sh target/appassembler/bin/IndexCollection -collection WashingtonPostCollection -input /path/to/core18 \
+ -index lucene-index.core18.pos+docvectors+rawdocs \
+ -generator WapoGenerator -threads 16 \
+ -storePositions -storeDocvectors -storeRawDocs >& log.core18.pos+docvectors+rawdocs &
 ```
 
 The directory `/path/to/core18/` should be the root directory of TREC Core2018 collection, i.e., `ls /path/to/core18/`
@@ -27,17 +26,29 @@ Topics and qrels are stored in `src/main/resources/topics-and-qrels/`, downloade
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.core18.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.core18.txt -output run.core18.bm25.topics.core18.txt -bm25 &
+nohup target/appassembler/bin/SearchCollection -index lucene-index.core18.pos+docvectors+rawdocs \
+ -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.core18.txt \
+ -bm25 -output run.core18.bm25.topics.core18.txt &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.core18.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.core18.txt -output run.core18.bm25+rm3.topics.core18.txt -bm25 -rm3 &
+nohup target/appassembler/bin/SearchCollection -index lucene-index.core18.pos+docvectors+rawdocs \
+ -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.core18.txt \
+ -bm25 -rm3 -output run.core18.bm25+rm3.topics.core18.txt &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.core18.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.core18.txt -output run.core18.bm25+ax.topics.core18.txt -bm25 -axiom -rerankCutoff 20 -axiom.deterministic &
+nohup target/appassembler/bin/SearchCollection -index lucene-index.core18.pos+docvectors+rawdocs \
+ -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.core18.txt \
+ -bm25 -axiom -rerankCutoff 20 -axiom.deterministic -output run.core18.bm25+ax.topics.core18.txt &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.core18.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.core18.txt -output run.core18.ql.topics.core18.txt -ql &
+nohup target/appassembler/bin/SearchCollection -index lucene-index.core18.pos+docvectors+rawdocs \
+ -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.core18.txt \
+ -ql -output run.core18.ql.topics.core18.txt &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.core18.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.core18.txt -output run.core18.ql+rm3.topics.core18.txt -ql -rm3 &
+nohup target/appassembler/bin/SearchCollection -index lucene-index.core18.pos+docvectors+rawdocs \
+ -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.core18.txt \
+ -ql -rm3 -output run.core18.ql+rm3.topics.core18.txt &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.core18.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.core18.txt -output run.core18.ql+ax.topics.core18.txt -ql -axiom -rerankCutoff 20 -axiom.deterministic &
+nohup target/appassembler/bin/SearchCollection -index lucene-index.core18.pos+docvectors+rawdocs \
+ -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.core18.txt \
+ -ql -axiom -rerankCutoff 20 -axiom.deterministic -output run.core18.ql+ax.topics.core18.txt &
 
 ```
 

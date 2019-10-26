@@ -9,11 +9,10 @@ We build the index directly from the raw LDC data: `data/xin_cmn/xin_cmn_200[2-5
 Typical indexing command:
 
 ```
-nohup sh target/appassembler/bin/IndexCollection -collection TrecCollection \
--generator LuceneDocumentGenerator -threads 16 -input /path/to/ntcir8-zh -index \
-lucene-index.ntcir8-zh.pos+docvectors+rawdocs -storePositions -storeDocvectors \
--storeRawDocs -language zh -uniqueDocid -optimize >& \
-log.ntcir8-zh.pos+docvectors+rawdocs &
+nohup sh target/appassembler/bin/IndexCollection -collection TrecCollection -input /path/to/ntcir8-zh \
+ -index lucene-index.ntcir8-zh.pos+docvectors+rawdocs \
+ -generator LuceneDocumentGenerator -threads 16 \
+ -storePositions -storeDocvectors -storeRawDocs -language zh -uniqueDocid -optimize >& log.ntcir8-zh.pos+docvectors+rawdocs &
 ```
 
 The directory `/path/to/ntcir8-zh/` should be a directory containing the collection, 48 gzipped files matching the pattern `xin_cmn_200[2-5]*` from LDC2007T38.
@@ -28,7 +27,9 @@ The regression experiments here evaluate on the 73 questions.
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-nohup target/appassembler/bin/SearchCollection -topicreader TsvString -index lucene-index.ntcir8-zh.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.ntcir8zh.eval.txt -output run.ntcir8-zh.bm25.topics.ntcir8zh.eval.txt -language zh -bm25 &
+nohup target/appassembler/bin/SearchCollection -index lucene-index.ntcir8-zh.pos+docvectors+rawdocs \
+ -topicreader TsvString -topics src/main/resources/topics-and-qrels/topics.ntcir8zh.eval.txt \
+ -language zh -bm25 -output run.ntcir8-zh.bm25.topics.ntcir8zh.eval.txt &
 
 ```
 

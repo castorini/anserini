@@ -5,10 +5,10 @@
 Typical indexing command:
 
 ```
-nohup sh target/appassembler/bin/IndexCollection -collection TrecwebCollection \
--generator JsoupGenerator -threads 16 -input /path/to/wt10g -index \
-lucene-index.wt10g.pos+docvectors+rawdocs -storePositions -storeDocvectors \
--storeRawDocs >& log.wt10g.pos+docvectors+rawdocs &
+nohup sh target/appassembler/bin/IndexCollection -collection TrecwebCollection -input /path/to/wt10g \
+ -index lucene-index.wt10g.pos+docvectors+rawdocs \
+ -generator JsoupGenerator -threads 16 \
+ -storePositions -storeDocvectors -storeRawDocs >& log.wt10g.pos+docvectors+rawdocs &
 ```
 
 The directory `/path/to/wt10g/` should be the root directory of Wt10g collection, containing a bunch of subdirectories, `WTX001` to `WTX104`.
@@ -27,17 +27,29 @@ Topics and qrels are stored in `src/main/resources/topics-and-qrels/`, downloade
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.wt10g.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.451-550.txt -output run.wt10g.bm25.topics.451-550.txt -bm25 &
+nohup target/appassembler/bin/SearchCollection -index lucene-index.wt10g.pos+docvectors+rawdocs \
+ -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.451-550.txt \
+ -bm25 -output run.wt10g.bm25.topics.451-550.txt &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.wt10g.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.451-550.txt -output run.wt10g.bm25+rm3.topics.451-550.txt -bm25 -rm3 &
+nohup target/appassembler/bin/SearchCollection -index lucene-index.wt10g.pos+docvectors+rawdocs \
+ -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.451-550.txt \
+ -bm25 -rm3 -output run.wt10g.bm25+rm3.topics.451-550.txt &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.wt10g.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.451-550.txt -output run.wt10g.bm25+ax.topics.451-550.txt -bm25 -axiom -axiom.beta 0.1 -rerankCutoff 20 -axiom.deterministic &
+nohup target/appassembler/bin/SearchCollection -index lucene-index.wt10g.pos+docvectors+rawdocs \
+ -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.451-550.txt \
+ -bm25 -axiom -axiom.beta 0.1 -rerankCutoff 20 -axiom.deterministic -output run.wt10g.bm25+ax.topics.451-550.txt &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.wt10g.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.451-550.txt -output run.wt10g.ql.topics.451-550.txt -ql &
+nohup target/appassembler/bin/SearchCollection -index lucene-index.wt10g.pos+docvectors+rawdocs \
+ -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.451-550.txt \
+ -ql -output run.wt10g.ql.topics.451-550.txt &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.wt10g.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.451-550.txt -output run.wt10g.ql+rm3.topics.451-550.txt -ql -rm3 &
+nohup target/appassembler/bin/SearchCollection -index lucene-index.wt10g.pos+docvectors+rawdocs \
+ -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.451-550.txt \
+ -ql -rm3 -output run.wt10g.ql+rm3.topics.451-550.txt &
 
-nohup target/appassembler/bin/SearchCollection -topicreader Trec -index lucene-index.wt10g.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.451-550.txt -output run.wt10g.ql+ax.topics.451-550.txt -ql -axiom -axiom.beta 0.1 -rerankCutoff 20 -axiom.deterministic &
+nohup target/appassembler/bin/SearchCollection -index lucene-index.wt10g.pos+docvectors+rawdocs \
+ -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.451-550.txt \
+ -ql -axiom -axiom.beta 0.1 -rerankCutoff 20 -axiom.deterministic -output run.wt10g.ql+ax.topics.451-550.txt &
 
 ```
 
