@@ -43,7 +43,10 @@ public class CarCollection extends DocumentCollection<CarCollection.Document> {
     return new Segment(p);
   }
 
-  public class Segment extends FileSegment<CarCollection.Document> {
+  /**
+   * An individual file in {@code CarCollection}.
+   */
+  public static class Segment extends FileSegment<CarCollection.Document> {
     private final FileInputStream stream;
     private final Iterator<Data.Paragraph> iter;
 

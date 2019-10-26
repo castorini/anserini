@@ -22,7 +22,7 @@ Click "Open in Playground" and you'll be able to replicate our baselines from th
 
 Main dependencies:
 
-+ Anserini was recently upgraded to Java 11 at commit [`17b702d`](https://github.com/castorini/anserini/commit/17b702d9c3c0971e04eb8386ab83bf2fb2630714) (7/11/2019) from Java 8.
++ Anserini was upgraded to Java 11 at commit [`17b702d`](https://github.com/castorini/anserini/commit/17b702d9c3c0971e04eb8386ab83bf2fb2630714) (7/11/2019) from Java 8.
 Maven 3.3+ is also required.
 + Anserini was upgraded to Lucene 8.0 as of commit [`75e36f9`](https://github.com/castorini/anserini/commit/75e36f97f7037d1ceb20fa9c91582eac5e974131) (6/12/2019); prior to that, the toolkit uses Lucene 7.6.
 Based on [preliminary experiments](docs/lucene7-vs-lucene8.md), query evaluation latency has been much improved in Lucene 8.
@@ -75,6 +75,7 @@ Note that these regressions capture the "out of the box" experience, based on [_
 + [Regressions for the MS MARCO Passage Task](docs/regressions-msmarco-passage.md)
 + [Regressions for the MS MARCO Passage Task with Doc2query expansion](docs/regressions-msmarco-passage-doc2query.md)
 + [Regressions for the MS MARCO Document Task](docs/regressions-msmarco-doc.md)
++ [Regressions for NTCIR-8 ACLIA (IR4QA subtask, Chinese monolingual)](docs/regressions-ntcir8-zh.md)
 
 Other experiments:
 

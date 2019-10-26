@@ -7,15 +7,16 @@ topic_root: src/main/resources/topics-and-qrels/
 qrels_root: src/main/resources/topics-and-qrels/
 ranking_root:
 generator: LuceneDocumentGenerator
-threads: 40
+threads: 1
 index_options:
   - -storePositions
   - -storeDocvectors
   - -storeRawDocs
 topic_reader: Car
 input_roots:
-  - /tuna1/
-  - /scratch2/
+  - /tuna1/      # on tuna
+  - /store/      # on orca
+  - /scratch2/   # on damiano
 input: collections/car/paragraphCorpus.v2.0/
 index_path: indexes/lucene-index.car17v2.0.pos+docvectors+rawdocs
 collection: CarCollection

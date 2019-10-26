@@ -78,8 +78,7 @@ public class NewYorkTimesCollection extends DocumentCollection<NewYorkTimesColle
    * This class works for both compressed <code>tgz</code> files or uncompressed <code>xml</code>
    * files.
    */
-  public class Segment extends FileSegment<NewYorkTimesCollection.Document>{
-
+  public static class Segment extends FileSegment<NewYorkTimesCollection.Document>{
     private final NewYorkTimesCollection.Parser parser = new NewYorkTimesCollection.Parser();
     private TarArchiveInputStream tarInput = null;
     private ArchiveEntry nextEntry = null;
@@ -162,12 +161,12 @@ public class NewYorkTimesCollection extends DocumentCollection<NewYorkTimesColle
   // We intentionally segregate the Anserini NewYorkTimesDocument from the parsed document below.
 
   /**
-   * Raw container class for a document from New York Times Annotated Corpus. This was originally
-   * distributed as part of the corpus as a class called {@code NYTCorpusDocument}.
+   * Raw container class for a document from <a href="https://catalog.ldc.upenn.edu/products/LDC2008T19">New York Times Annotated Corpus</a>.
+   * This was originally distributed as part of the corpus as a class called {@code NYTCorpusDocument}.
    *
    * @author Evan Sandhaus
    */
-  public class RawDocument {
+  public static class RawDocument {
     /**
      * This field specifies the location on nytimes.com of the article. When
      * present, this URL is preferred to the URL field on articles published on
@@ -1621,12 +1620,12 @@ public class NewYorkTimesCollection extends DocumentCollection<NewYorkTimesColle
   }
 
   /**
-   * Parser for a document from New York Times Annotated Corpus. This was originally distributed
-   * as part of the corpus as a class called {@code NYTCorpusDocumentParser}.
+   * Parser for a document from <a href="https://catalog.ldc.upenn.edu/products/LDC2008T19">New York Times Annotated Corpus</a>.
+   * This was originally distributed as part of the corpus as a class called {@code NYTCorpusDocumentParser}.
    *
    * @author Evan Sandhaus
    */
-  public class Parser {
+  public static class Parser {
     /** NITF Constant */
     private static final String CORRECTION_TEXT = "correction_text";
 

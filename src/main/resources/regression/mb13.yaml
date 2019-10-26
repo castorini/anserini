@@ -8,8 +8,9 @@ qrels_root: src/main/resources/topics-and-qrels/
 index_root:
 ranking_root:
 input_roots:
-  - /tuna1/
-  - /scratch2/
+  - /tuna1/      # on tuna
+  - /store/      # on orca
+  - /scratch2/   # on damiano
 input: collections/twitter/Tweets2013-corpus/data/
 index_path: indexes/lucene-index.mb13.pos+docvectors+rawdocs # path to the existing index, used in regression test if `--index` option is absent
 collection: TweetCollection

@@ -14,8 +14,9 @@ index_options:
   - -storeRawDocs
 topic_reader: Trec
 input_roots:
-  - /tuna1/
-  - /scratch2/
+  - /tuna1/      # on tuna
+  - /store/      # on orca
+  - /scratch2/   # on damiano
 input: collections/newswire/NYTcorpus/
 index_path: indexes/lucene-index.core17.pos+docvectors+rawdocs # path to the existing index, used in regression test if `--index` option is absent
 collection: NewYorkTimesCollection
