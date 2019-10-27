@@ -19,8 +19,8 @@ For additional details, see explanation of [common indexing options](common-inde
 
 Topics and qrels are stored in `src/main/resources/topics-and-qrels/`, downloaded from NIST:
 
-+ `topics.robust05.txt`: [Hard Topics of Robust04 (TREC 2005 Robust Track)](http://trec.nist.gov/data/robust/05/05.50.topics.txt)
-+ `qrels.robust2005.txt`: [qrels (TREC 2005 Robust Track)](http://trec.nist.gov/data/robust/05/TREC2005.qrels.txt)
++ `topics.robust05.txt`: [topics for the TREC 2005 Robust Track (Hard Topics of Robust04)](http://trec.nist.gov/data/robust/05/05.50.topics.txt)
++ `qrels.robust205.txt`: [qrels for the TREC 2005 Robust Track (Hard Topics of Robust04)](http://trec.nist.gov/data/robust/05/TREC2005.qrels.txt)
 
 After indexing has completed, you should be able to perform retrieval as follows:
 

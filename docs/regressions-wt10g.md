@@ -19,54 +19,52 @@ For additional details, see explanation of [common indexing options](common-inde
 
 Topics and qrels are stored in `src/main/resources/topics-and-qrels/`, downloaded from NIST:
 
-+ `topics.451-500.txt`: [Topics 451-500 (TREC-9 Web Track)](http://trec.nist.gov/data/topics_eng/topics.451-500.gz)
-+ `topics.501-550.txt`: [Topics 501-550 (TREC 2001 Web Track)](http://trec.nist.gov/data/topics_eng/topics.501-550.txt)
-+ `qrels.451-500.txt`: [qrels (TREC-9 Web Track)](http://trec.nist.gov/data/qrels_eng/qrels.trec9.main_web.gz)
-+ `qrels.501-550.txt`: [qrels (TREC 2001 Web Track)](http://trec.nist.gov/data/qrels_eng/adhoc_qrels.txt)
++ `topics.adhoc.451-550.txt`: topics for the [TREC-9 Web Track](http://trec.nist.gov/data/topics_eng/topics.451-500.gz) and the [TREC 2001 Web Track](http://trec.nist.gov/data/topics_eng/topics.501-550.txt)
++ `qrels.adhoc.451-550.txt`: qrels for the [TREC-9 Web Track](http://trec.nist.gov/data/qrels_eng/qrels.trec9.main_web.gz) and the [TREC 2001 Web Track](http://trec.nist.gov/data/qrels_eng/adhoc_qrels.txt)
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
 nohup target/appassembler/bin/SearchCollection -index lucene-index.wt10g.pos+docvectors+rawdocs \
- -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.451-550.txt \
- -bm25 -output run.wt10g.bm25.topics.451-550.txt &
+ -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.adhoc.451-550.txt \
+ -bm25 -output run.wt10g.bm25.topics.adhoc.451-550.txt &
 
 nohup target/appassembler/bin/SearchCollection -index lucene-index.wt10g.pos+docvectors+rawdocs \
- -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.451-550.txt \
- -bm25 -rm3 -output run.wt10g.bm25+rm3.topics.451-550.txt &
+ -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.adhoc.451-550.txt \
+ -bm25 -rm3 -output run.wt10g.bm25+rm3.topics.adhoc.451-550.txt &
 
 nohup target/appassembler/bin/SearchCollection -index lucene-index.wt10g.pos+docvectors+rawdocs \
- -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.451-550.txt \
- -bm25 -axiom -axiom.beta 0.1 -rerankCutoff 20 -axiom.deterministic -output run.wt10g.bm25+ax.topics.451-550.txt &
+ -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.adhoc.451-550.txt \
+ -bm25 -axiom -axiom.beta 0.1 -rerankCutoff 20 -axiom.deterministic -output run.wt10g.bm25+ax.topics.adhoc.451-550.txt &
 
 nohup target/appassembler/bin/SearchCollection -index lucene-index.wt10g.pos+docvectors+rawdocs \
- -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.451-550.txt \
- -ql -output run.wt10g.ql.topics.451-550.txt &
+ -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.adhoc.451-550.txt \
+ -ql -output run.wt10g.ql.topics.adhoc.451-550.txt &
 
 nohup target/appassembler/bin/SearchCollection -index lucene-index.wt10g.pos+docvectors+rawdocs \
- -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.451-550.txt \
- -ql -rm3 -output run.wt10g.ql+rm3.topics.451-550.txt &
+ -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.adhoc.451-550.txt \
+ -ql -rm3 -output run.wt10g.ql+rm3.topics.adhoc.451-550.txt &
 
 nohup target/appassembler/bin/SearchCollection -index lucene-index.wt10g.pos+docvectors+rawdocs \
- -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.451-550.txt \
- -ql -axiom -axiom.beta 0.1 -rerankCutoff 20 -axiom.deterministic -output run.wt10g.ql+ax.topics.451-550.txt &
+ -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.adhoc.451-550.txt \
+ -ql -axiom -axiom.beta 0.1 -rerankCutoff 20 -axiom.deterministic -output run.wt10g.ql+ax.topics.adhoc.451-550.txt &
 
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```
-eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.451-550.txt run.wt10g.bm25.topics.451-550.txt
+eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.adhoc.451-550.txt run.wt10g.bm25.topics.adhoc.451-550.txt
 
-eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.451-550.txt run.wt10g.bm25+rm3.topics.451-550.txt
+eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.adhoc.451-550.txt run.wt10g.bm25+rm3.topics.adhoc.451-550.txt
 
-eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.451-550.txt run.wt10g.bm25+ax.topics.451-550.txt
+eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.adhoc.451-550.txt run.wt10g.bm25+ax.topics.adhoc.451-550.txt
 
-eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.451-550.txt run.wt10g.ql.topics.451-550.txt
+eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.adhoc.451-550.txt run.wt10g.ql.topics.adhoc.451-550.txt
 
-eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.451-550.txt run.wt10g.ql+rm3.topics.451-550.txt
+eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.adhoc.451-550.txt run.wt10g.ql+rm3.topics.adhoc.451-550.txt
 
-eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.451-550.txt run.wt10g.ql+ax.topics.451-550.txt
+eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.adhoc.451-550.txt run.wt10g.ql+ax.topics.adhoc.451-550.txt
 
 ```
 
