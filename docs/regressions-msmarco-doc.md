@@ -19,7 +19,7 @@ For additional details, see explanation of [common indexing options](common-inde
 
 ## Retrieval
 
-Topics and qrels are stored in `src/main/resources/topics-and-qrels/`.
+Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/main/resources/topics-and-qrels/).
 The regression experiments here evaluate on the 5193 dev set questions; see [this page](experiments-msmarco-doc.md) for more details.
 
 After indexing has completed, you should be able to perform retrieval as follows:

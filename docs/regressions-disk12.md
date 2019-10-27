@@ -16,14 +16,14 @@ For additional details, see explanation of [common indexing options](common-inde
 
 ## Retrieval
 
-Topics and qrels are stored in `src/main/resources/topics-and-qrels/`, downloaded from NIST:
+Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/main/resources/topics-and-qrels/), downloaded from NIST:
 
-+ `topics.adhoc.51-100.txt`: [topics for the TREC-1 Ad Hoc Track (Topics 51-100)](http://trec.nist.gov/data/topics_eng/topics.51-100.gz)
-+ `topics.adhoc.101-150.txt`: [topics for the TREC-2 Ad Hoc Track (Topics 101-150)](http://trec.nist.gov/data/topics_eng/topics.101-150.gz)
-+ `topics.adhoc.151-200.txt`: [topics for the TREC-3 Ad Hoc Track (Topics 151-200)](http://trec.nist.gov/data/topics_eng/topics.151-200.gz)
-+ `qrels.adhoc.51-100.txt`: [qrels for the TREC-1 Ad Hoc Track (Topics 51-100)](http://trec.nist.gov/data/qrels_eng/qrels.51-100.disk1.disk2.parts1-5.tar.gz)
-+ `qrels.adhoc.101-150.txt`: [qrels for the TREC-2 Ad Hoc Track (Topics 101-150)](http://trec.nist.gov/data/qrels_eng/qrels.101-150.disk1.disk2.parts1-5.tar.gz)
-+ `qrels.adhoc.151-200.txt`: [qrels for the TREC-3 Ad Hoc Track (Topics 151-200)](http://trec.nist.gov/data/qrels_eng/qrels.151-200.201-250.disks1-3.all.tar.gz)
++ [`topics.adhoc.51-100.txt`](../src/main/resources/topics-and-qrels/topics.adhoc.51-100.txt): [topics for the TREC-1 Ad Hoc Track (Topics 51-100)](http://trec.nist.gov/data/topics_eng/topics.51-100.gz)
++ [`topics.adhoc.101-150.txt`](../src/main/resources/topics-and-qrels/topics.adhoc.101-150.txt): [topics for the TREC-2 Ad Hoc Track (Topics 101-150)](http://trec.nist.gov/data/topics_eng/topics.101-150.gz)
++ [`topics.adhoc.151-200.txt`](../src/main/resources/topics-and-qrels/topics.adhoc.151-200.txt): [topics for the TREC-3 Ad Hoc Track (Topics 151-200)](http://trec.nist.gov/data/topics_eng/topics.151-200.gz)
++ [`qrels.adhoc.51-100.txt`](../src/main/resources/topics-and-qrels/qrels.adhoc.51-100.txt): [qrels for the TREC-1 Ad Hoc Track (Topics 51-100)](http://trec.nist.gov/data/qrels_eng/qrels.51-100.disk1.disk2.parts1-5.tar.gz)
++ [`qrels.adhoc.101-150.txt`](../src/main/resources/topics-and-qrels/qrels.adhoc.101-150.txt): [qrels for the TREC-2 Ad Hoc Track (Topics 101-150)](http://trec.nist.gov/data/qrels_eng/qrels.101-150.disk1.disk2.parts1-5.tar.gz)
++ [`qrels.adhoc.151-200.txt`](../src/main/resources/topics-and-qrels/qrels.adhoc.151-200.txt): [qrels for the TREC-3 Ad Hoc Track (Topics 151-200)](http://trec.nist.gov/data/qrels_eng/qrels.151-200.201-250.disks1-3.all.tar.gz)
 
 After indexing has completed, you should be able to perform retrieval as follows:
 

@@ -16,16 +16,16 @@ For additional details, see explanation of [common indexing options](common-inde
 
 ## Retrieval
 
-Topics and qrels are stored in `src/main/resources/topics-and-qrels/`, downloaded from NIST:
+Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/main/resources/topics-and-qrels/), downloaded from NIST:
 
-+ `topics.web.1-50.txt`: [Topics 1-50 (TREC 2009 Web Track)](http://trec.nist.gov/data/web/09/wt09.topics.full.xml)
-+ `topics.web.51-100.txt`: [Topics 51-100 (TREC 2010 Web Track)](http://trec.nist.gov/data/web/10/wt2010-topics.xml)
-+ `topics.web.101-150.txt`: [Topics 101-150 (TREC 2011 Web Track)](http://trec.nist.gov/data/web/11/full-topics.xml)
-+ `topics.web.151-200.txt`: [Topics 151-200 (TREC 2012 Web Track)](http://trec.nist.gov/data/web/12/full-topics.xml)
-+ `qrels.web.1-50.txt`: [adhoc prels for category B runs for Topics 1-50 (TREC 2009 Web Track)](http://trec.nist.gov/data/web/09/prels.catB.1-50.gz)
-+ `qrels.web.51-100.txt`: [adhoc qrels for Topics 51-100 (TREC 2010 Web Track)](http://trec.nist.gov/data/web/10/10.adhoc-qrels.final)
-+ `qrels.web.101-150.txt`: [adhoc qrels for Topics 101-150 (TREC 2011 Web Track)](http://trec.nist.gov/data/web/11/qrels.adhoc)
-+ `qrels.web.151-200.txt`: [adhoc qrels for Topics 151-200 (TREC 2012 Web Track)](http://trec.nist.gov/data/web/12/qrels.adhoc)
++ [`topics.web.1-50.txt`](../src/main/resources/topics-and-qrels/): [Topics 1-50 (TREC 2009 Web Track)](http://trec.nist.gov/data/web/09/wt09.topics.full.xml)
++ [`topics.web.51-100.txt`](../src/main/resources/topics-and-qrels/): [Topics 51-100 (TREC 2010 Web Track)](http://trec.nist.gov/data/web/10/wt2010-topics.xml)
++ [`topics.web.101-150.txt`](../src/main/resources/topics-and-qrels/): [Topics 101-150 (TREC 2011 Web Track)](http://trec.nist.gov/data/web/11/full-topics.xml)
++ [`topics.web.151-200.txt`](../src/main/resources/topics-and-qrels/): [Topics 151-200 (TREC 2012 Web Track)](http://trec.nist.gov/data/web/12/full-topics.xml)
++ [`qrels.web.1-50.txt`](../src/main/resources/topics-and-qrels/): [adhoc prels for category B runs for Topics 1-50 (TREC 2009 Web Track)](http://trec.nist.gov/data/web/09/prels.catB.1-50.gz)
++ [`qrels.web.51-100.txt`](../src/main/resources/topics-and-qrels/): [adhoc qrels for Topics 51-100 (TREC 2010 Web Track)](http://trec.nist.gov/data/web/10/10.adhoc-qrels.final)
++ [`qrels.web.101-150.txt`](../src/main/resources/topics-and-qrels/): [adhoc qrels for Topics 101-150 (TREC 2011 Web Track)](http://trec.nist.gov/data/web/11/qrels.adhoc)
++ [`qrels.web.151-200.txt`](../src/main/resources/topics-and-qrels/): [adhoc qrels for Topics 151-200 (TREC 2012 Web Track)](http://trec.nist.gov/data/web/12/qrels.adhoc)
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
