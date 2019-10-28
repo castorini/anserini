@@ -26,10 +26,10 @@ For additional details, see explanation of [common indexing options](common-inde
 
 Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/main/resources/topics-and-qrels/), downloaded from NIST:
 
-+ [`topics.microblog2013.txt`](../src/main/resources/topics-and-qrels/): [TREC 2013 Microblog Track](https://trec.nist.gov/data/microblog/2013/topics.MB111-170.txt)
-+ [`topics.microblog2014.txt`](../src/main/resources/topics-and-qrels/): [TREC 2014 Microblog Track](https://trec.nist.gov/data/microblog/2014/topics.MB171-225.txt)
-+ [`qrels.microblog2013.txt`](../src/main/resources/topics-and-qrels/): [Qrels for TREC 2013 Microblog Track](https://trec.nist.gov/data/microblog/2013/qrels.txt)
-+ [`qrels.microblog2014.txt`](../src/main/resources/topics-and-qrels/): [Qrels for TREC 2014 Microblog Track](https://trec.nist.gov/data/microblog/2014/qrels2014.txt)
++ [`topics.microblog2013.txt`](../src/main/resources/topics-and-qrels/topics.microblog2013.txt): [TREC 2013 Microblog Track](https://trec.nist.gov/data/microblog/2013/topics.MB111-170.txt)
++ [`topics.microblog2014.txt`](../src/main/resources/topics-and-qrels/topics.microblog2014.txt): [TREC 2014 Microblog Track](https://trec.nist.gov/data/microblog/2014/topics.MB171-225.txt)
++ [`qrels.microblog2013.txt`](../src/main/resources/topics-and-qrels/qrels.microblog2013.txt): [Qrels for TREC 2013 Microblog Track](https://trec.nist.gov/data/microblog/2013/qrels.txt)
++ [`qrels.microblog2014.txt`](../src/main/resources/topics-and-qrels/qrels.microblog2014.txt): [Qrels for TREC 2014 Microblog Track](https://trec.nist.gov/data/microblog/2014/qrels2014.txt)
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
@@ -107,13 +107,13 @@ With the above commands, you should be able to replicate the following results:
 
 MAP                                     | BM25      | +RM3      | +Ax       | QL        | +RM3      | +Ax       |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-[TREC 2013 Microblog Track Topics](http://trec.nist.gov/data/microblog2013.html)| 0.2371    | 0.2513    | 0.2855    | 0.2602    | 0.2911    | 0.3152    |
-[TREC 2014 Microblog Track Topics](http://trec.nist.gov/data/microblog2014.html)| 0.3931    | 0.4374    | 0.4796    | 0.4181    | 0.4676    | 0.4965    |
+[TREC 2013 Microblog Track Topics](../src/main/resources/topics-and-qrels/topics.microblog2013.txt)| 0.2371    | 0.2513    | 0.2855    | 0.2602    | 0.2911    | 0.3152    |
+[TREC 2014 Microblog Track Topics](../src/main/resources/topics-and-qrels/topics.microblog2014.txt)| 0.3931    | 0.4374    | 0.4796    | 0.4181    | 0.4676    | 0.4965    |
 
 
 P30                                     | BM25      | +RM3      | +Ax       | QL        | +RM3      | +Ax       |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-[TREC 2013 Microblog Track Topics](http://trec.nist.gov/data/microblog2013.html)| 0.4339    | 0.4411    | 0.4728    | 0.4561    | 0.4906    | 0.5078    |
-[TREC 2014 Microblog Track Topics](http://trec.nist.gov/data/microblog2014.html)| 0.6212    | 0.6442    | 0.6648    | 0.6430    | 0.6533    | 0.6727    |
+[TREC 2013 Microblog Track Topics](../src/main/resources/topics-and-qrels/topics.microblog2013.txt)| 0.4339    | 0.4411    | 0.4728    | 0.4561    | 0.4906    | 0.5078    |
+[TREC 2014 Microblog Track Topics](../src/main/resources/topics-and-qrels/topics.microblog2014.txt)| 0.6212    | 0.6442    | 0.6648    | 0.6430    | 0.6533    | 0.6727    |
 
 

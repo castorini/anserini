@@ -43,7 +43,7 @@ index_stats:
   documents (non-empty): 528030
   total terms: 174540872
 topics:
-  - name: "[TREC 2004 Robust Track Topics](http://trec.nist.gov/data/robust/04.testset.gz)"
+  - name: "[TREC 2004 Robust Track Topics](../src/main/resources/topics-and-qrels/topics.robust04.txt)"
     path: topics.robust04.txt
     qrel: qrels.robust04.txt
 models:

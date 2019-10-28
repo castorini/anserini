@@ -30,10 +30,10 @@ index_stats:
   total terms: 2099082204
 topic_reader: Microblog
 topics:
-  - name: "[TREC 2013 Microblog Track Topics](http://trec.nist.gov/data/microblog2013.html)"
+  - name: "[TREC 2013 Microblog Track Topics](../src/main/resources/topics-and-qrels/topics.microblog2013.txt)"
     path: topics.microblog2013.txt
     qrel: qrels.microblog2013.txt
-  - name: "[TREC 2014 Microblog Track Topics](http://trec.nist.gov/data/microblog2014.html)"
+  - name: "[TREC 2014 Microblog Track Topics](../src/main/resources/topics-and-qrels/topics.microblog2014.txt)"
     path: topics.microblog2014.txt
     qrel: qrels.microblog2014.txt
 evals:
