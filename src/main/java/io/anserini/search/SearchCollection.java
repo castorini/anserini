@@ -41,8 +41,10 @@ import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.CharArraySet;
 import org.apache.lucene.analysis.ar.ArabicAnalyzer;
+import org.apache.lucene.analysis.bn.BengaliAnalyzer;
 import org.apache.lucene.analysis.cjk.CJKAnalyzer;
 import org.apache.lucene.analysis.fr.FrenchAnalyzer;
+import org.apache.lucene.analysis.hi.HindiAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.LongPoint;
 import org.apache.lucene.index.DirectoryReader;
@@ -226,6 +228,10 @@ public final class SearchCollection implements Closeable {
       analyzer = new ArabicAnalyzer();
     } else if (args.language.equals("fr")) {
       analyzer = new FrenchAnalyzer();
+    } else if (args.language.equals("hi")) {
+      analyzer = new HindiAnalyzer();
+    } else if (args.language.equals("bn")) {
+      analyzer = new BengaliAnalyzer();
     } else {
       // Default to English
       analyzer = args.keepstop ?

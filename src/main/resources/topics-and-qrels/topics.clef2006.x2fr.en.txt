@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<topics>
+<topic lang="en">
+<identifier>301-AH</identifier>
+<title>Nestlé Brands</title>
+<description>What brands are marketed by Nestlé around the world?</description>
+<narrative>Relevant articles will report the name of goods marketed globally by Nestlé or by companies belonging to the Nestlé group. In the second case, the document must make clear reference to the parent company.</narrative>
+</topic>
+<topic lang="en">
+<identifier>302-AH</identifier>
+<title>Consumer Boycotts</title>
+<description>Find documents that describe or discuss the impact of consumer boycotts.</description>
+<narrative>Relevant documents will report discussions or points of view on the efficacy of consumer boycotts. The moral issues involved in such boycotts are also of relevance. Only consumer boycotts are relevant, political boycotts must be ignored.</narrative>
+</topic>
+<topic lang="en">
+<identifier>303-AH</identifier>
+<title>Italian paintings</title>
+<description>Find information on places where Italian paintings or drawings are exhibited or on show to the public.</description>
+<narrative>Relevant documents will report the locations of permanent or temporary exhibitions of Italian paintings anywhere in the world. Information on where single paintings or drawings by Italian artists are on public view in museums, art galleries, or similar, is also of interest. The information provided must be sufficient to identify the exact location, e.g. the name of a city or country is not sufficient.</narrative>
+</topic>
+<topic lang="en">
+<identifier>304-AH</identifier>
+<title>World Heritage Sites</title>
+<description>Give the names and/or location of places that have been designated as UNESCO World Heritage Sites of outstanding beauty or importance.</description>
+<narrative>Relevant documents must mention the name and/or geographical location of monuments, cities or places that have been officially designated by UNESCO as World Heritage sites of outstanding beauty or importance. Discussions on potential or candidate sites are not relevant. It must be clear from the document that the official UNESCO status is involved.</narrative>
+</topic>
+<topic lang="en">
+<identifier>305-AH</identifier>
+<title>Oil Prices</title>
+<description>What is the current price of oil?</description>
+<narrative>Only documents giving the current oil price are relevant, i.e. the price when the document was written. References to oil prices in the past or predictions for price changes in the future are not relevant.</narrative>
+</topic>
+<topic lang="en">
+<identifier>306-AH</identifier>
+<title>ETA Activities in France</title>
+<description>Find documents reporting activities of the Basque terrorist group ETA in France.</description>
+<narrative>Only documents describing activities of the Basque terrorist group ETA in French territory, whether armed, political, financial, or other, are relevant. ETA activities in Spain are not relevant.</narrative>
+</topic>
+<topic lang="en">
+<identifier>307-AH</identifier>
+<title>Films Set in Scotland</title>
+<description>Find any information about films whose action is set in Scotland.</description>
+<narrative>Relevant documents must mention films whose action is set in Scotland. Films filmed in Scotland, but set elsewhere are not relevant. Plays such as «Macbeth» are not relevant, but their filmed versions are. Documentary films that include scenes in Scotland are also of interest.</narrative>
+</topic>
+<topic lang="en">
+<identifier>308-AH</identifier>
+<title>Solar Eclipse</title>
+<description>Find documents reporting whole or partial eclipses of the sun.</description>
+<narrative>Any documents providing any kind of information on solar eclipse are relevant. Documents about moon eclipses or planetary movements are not relevant.</narrative>
+</topic>
+<topic lang="en">
+<identifier>309-AH</identifier>
+<title>&#147;Hard&#148; Drugs</title>
+<description>What are the dangers to health of illegal &#147;hard&#148; drugs, such as heroin and cocaine, as opposed to &#147;soft&#148; drugs?</description>
+<narrative>Relevant documents must provide information on the medical risks involved in the illegal use of and dependence on hard drugs. Information on problems resulting from the use of "soft" drugs is not relevant.</narrative>
+</topic>
+<topic lang="en">
+<identifier>310-AH</identifier>
+<title>Treatment of Industrial Waste</title>
+<description>Find documents that describe methods used to treat or dispose of industrial waste.</description>
+<narrative>Documents must mention not only the different ways of treating industrial waste (e.g. incinerators, recycling of waste products), but must also indicate the country, city or region where the method is employed.</narrative>
+</topic>
+<topic lang="en">
+<identifier>311-AH</identifier>
+<title>Unemployment in Europe</title>
+<description>Find information and figures on the level of unemployment in European countries.</description>
+<narrative>Relevant documents must discuss the problem of unemployment in one or more European nations. Documents must also provide some figures indicating unemployment rates.</narrative>
+</topic>
+<topic lang="en">
+<identifier>312-AH</identifier>
+<title>Dog Attacks</title>
+<description>What are the consequences of dogs' attacking people?</description>
+<narrative>Relevant documents describe the consequences of incidents in which a human being has been attacked by a dog, e.g. the kinds of injuries caused and/or the sorts of sanctions that may be applied to the owner of the dog.</narrative>
+</topic>
+<topic lang="en">
+<identifier>313-AH</identifier>
+<title>Centenary Celebrations</title>
+<description>Find documents reporting the celebration of the 100th anniversary of any event?</description>
+<narrative>Relevant documents will contain information on the 100th anniversary of the birth or death of a famous person or the 100th anniversary of a significant historic event.</narrative>
+</topic>
+<topic lang="en">
+<identifier>314-AH</identifier>
+<title>Endangered Species</title>
+<description>What measures are taken in Europe to protect animals or plants in risk of extinction?</description>
+<narrative>Relevant documents will discuss measures taken to safeguard animal or plant species in risk of extinction.</narrative>
+</topic>
+<topic lang="en">
+<identifier>315-AH</identifier>
+<title>Doping in Sports</title>
+<description>In what sports are drugs used illegally?</description>
+<narrative>Find documents that report specific cases in which a professional sportsperson has been accused of using drugs to improve their performance.</narrative>
+</topic>
+<topic lang="en">
+<identifier>316-AH</identifier>
+<title>Strikes</title>
+<description>Who is on strike and why?</description>
+<narrative>Find documents that report specific cases of strikes anywhere in the world. The documents must provide specific information on the causes of the strike and the objectives that the strikers hope to achieve by their industrial action. Only documents that discuss actual strikes are relevant; information on possible future strikes is not pertinent.</narrative>
+</topic>
+<topic lang="en">
+<identifier>317-AH</identifier>
+<title>Anti-cancer Drugs</title>
+<description>Find information on the clinical and experimental effects of drugs and other medical treatments against cancer.</description>
+<narrative>Find documents that contain information on clinical or experimental results related to the development or testing of anti-cancer drugs or treatments, including hormone therapy, chemotherapy and immunotherapy.</narrative>
+</topic>
+<topic lang="en">
+<identifier>318-AH</identifier>
+<title>Sex Education</title>
+<description>Is sex education provided in European schools?</description>
+<narrative>Find documents which give some information on sex education in schools in Europe. Relevant documents may report on the reasons for introducing this subject into the classroom, or include discussions pro and contra sex education as part of the school curriculum.</narrative>
+</topic>
+<topic lang="en">
+<identifier>319-AH</identifier>
+<title>Global Opium Production</title>
+<description>Find information on the cultivation and/or production of opium worldwide.</description>
+<narrative>Relevant documents will give information on either the cultivation of the opium poppy or the production of opium and opium derivates. Both illegal and legal opium production is of interest.</narrative>
+</topic>
+<topic lang="en">
+<identifier>320-AH</identifier>
+<title>Energy Crises</title>
+<description>Find information on any kind of energy or fuel shortage.</description>
+<narrative>Relevant documents must mention where the energy crisis occurred and state the causes.</narrative>
+</topic>
+<topic lang="en">
+<identifier>321-AH</identifier>
+<title>The Talibans in Afghanistan</title>
+<description>Find information on the beliefs and practices of the Islamic Taliban movement in Afghanistan.</description>
+<narrative>Relevant documents will provide information on the Taliban movement in Afghanistan and their beliefs and practices. Of particular interest are reports of the Taliban's treatment of women.</narrative>
+</topic>
+<topic lang="en">
+<identifier>322-AH</identifier>
+<title>Atomic Energy</title>
+<description>Find documents in favour or against the employment of atomic energy for peaceful purposes.</description>
+<narrative>Relevant documents must provide general arguments pro or contra the use of the atomic energy for peaceful purposes. Reports on specific accidents or disasters involving atomic energy are not of interest unless they also include a general discussion.</narrative>
+</topic>
+<topic lang="en">
+<identifier>323-AH</identifier>
+<title>Tightening Visa Requirements</title>
+<description>Find documents which provide information on the tightening of visa restrictions and immigration laws.</description>
+<narrative>Relevant documents must give information on countries that have recently made their immigration rules and visa regulations more restrictive. Also of interest are discussions on countries that are now considering implementing restrictions of this type.</narrative>
+</topic>
+<topic lang="en">
+<identifier>324-AH</identifier>
+<title>Supermodels</title>
+<description>Find names of internationally famous top models.</description>
+<narrative>Supermodels are defined as fashion models who have been so successful that they have attained the status of celebrity. Relevant documents will provide the names of famous supermodels. It must be clear from the document that the person named is regarded as internationally famous.</narrative>
+</topic>
+<topic lang="en">
+<identifier>325-AH</identifier>
+<title>Student Fees</title>
+<description>Find documents which discuss the introduction or the raising of university tuition fees for students.</description>
+<narrative>Relevant documents must provide some information on the introduction of or increases in university fees. Of interest are the costs of both graduate and undergraduate courses.</narrative>
+</topic>
+<topic lang="en">
+<identifier>326-AH</identifier>
+<title>Emmy International Awards</title>
+<description>Find information on the winners in any category of the 1995 Emmy Awards for excellence in international television programming.</description>
+<narrative>Each year the International Academy of Television Arts &amp; Sciences  presents the International Emmy Award to the best television programs produced outside the U.S. Relevant documents will provide the name of the winner(s) in any or all categories.</narrative>
+</topic>
+<topic lang="en">
+<identifier>327-AH</identifier>
+<title>Earthquakes in Mexico City</title>
+<description>Find documents that provide details on the impact of or the damage caused by earthquakes in Mexico City in 1995.</description>
+<narrative>Relevant document should contain some information on earthquakes in Mexico City in 1995, such as their magnitude, damages caused, panic of the inhabitants, etc. Documents on earthquakes in other places in Mexico are not relevant unless the seismic impact was also felt in Mexico City.</narrative>
+</topic>
+<topic lang="en">
+<identifier>328-AH</identifier>
+<title>Iraqi Kurds and Turkey</title>
+<description>Find documents that provide details of military actions by the Turkish army in the Iraqi Kurdish zone.</description>
+<narrative>Relevant docs will report on actions by the Turkish army in the Kurdish zone of Northern Iraq. Documents that give general information on relationships between the Turks and the Kurds are not relevant.</narrative>
+</topic>
+<topic lang="en">
+<identifier>329-AH</identifier>
+<title>Consequences if Charles and Diana Divorce</title>
+<description>Will a divorce between Prince Charles and Princess Diana of Wales have constitutional consequences?</description>
+<narrative>Only documents that discuss possible constitutional consequences as a result of a divorce between the Prince and Princess of Wales are relevant.</narrative>
+</topic>
+<topic lang="en">
+<identifier>330-AH</identifier>
+<title>Films with Keanu Reeves</title>
+<description>Find the title of movies starring Keanu Reaves.</description>
+<narrative>Relevant documents will mention the title of the movies in which Keanu Reaves has appeared. Only films that have already been released are relevant. Films in the making are not of interest. It must be clear that Reeves was an actor in the film and not the producer or director.</narrative>
+</topic>
+<topic lang="en">
+<identifier>331-AH</identifier>
+<title>Zedillo's Economic Policies</title>
+<description>Find information on the economic policies of Ernesto Zedillo, President of Mexico.</description>
+<narrative>Relevant documents will discuss President Ernesto Zedillo's economic and finance policies. Of particular interest are documents discussing the devaluation of Mexico's currency. Documents that only mention Zedillo as responsible for the financial crisis in Mexico without giving details on his actions are not relevant.</narrative>
+</topic>
+<topic lang="en">
+<identifier>333-AH</identifier>
+<title>Trial of Paul Touvier</title>
+<description>Find information on the trial of the French war criminal, Paul Touvier.</description>
+<narrative>Relevant documents will provide information on the trial of Paul Touvier. Touvier was tried and found guilty of crimes against humanity committed during World War II.</narrative>
+</topic>
+<topic lang="en">
+<identifier>334-AH</identifier>
+<title>Election of George W. Bush</title>
+<description>Who did George W. Bush defeat when he was elected as Governor of Texas in 1994?</description>
+<narrative>Relevant documents will give the results of the election for the governorship of Texas in 1994. Only documents that give the name of the incumbent Democrat who was defeated by Bush are pertinent.</narrative>
+</topic>
+<topic lang="en">
+<identifier>335-AH</identifier>
+<title>Labour after John Smith</title>
+<description>What was the effect on Britain's Labour Party of the death of John Smith?</description>
+<narrative>Documents should discuss or speculate on the future of the British Labour Party after the death of its leader John Smith in 1994. Of particular interest are details on the struggle for power between the various currents in the party and the battle between the candidates for leadership.</narrative>
+</topic>
+<topic lang="en">
+<identifier>336-AH</identifier>
+<title>NBA Labour Conflicts</title>
+<description>Find information on the labour conflicts that plagued the NBA during 1994 and 1995.</description>
+<narrative>Relevant labour conflicts include a strike of the referees, a threatened player strike, and a lockout by the team's owner.</narrative>
+</topic>
+<topic lang="en">
+<identifier>337-AH</identifier>
+<title>Civil War in the Yemen</title>
+<description>Any information on the Yemeni Civil War in 1994 is of interest.</description>
+<narrative>Documents will discuss the attempted secession of Southern Yemen from the Republic of Yemen and the short civil war that ensued.</narrative>
+</topic>
+<topic lang="en">
+<identifier>338-AH</identifier>
+<title>Carlos' Extradition and Trial</title>
+<description>Find information on the extradition and trial of the terrorist known as &#147;Carlos the Jackal&#148;.</description>
+<narrative>Documents should report the extradition of the terrorist known as &#147;Carlos the Jackal&#148; from Sudan and his trial in France. Reports on his activities without mention of either his extradition or trial are not relevant.</narrative>
+</topic>
+<topic lang="en">
+<identifier>339-AH</identifier>
+<title>Sinn Fein and the Anglo-Irish Declaration</title>
+<description>What was the reaction of Sinn Fein to the Anglo-Irish Declaration in 1993?</description>
+<narrative>Documents should report the reaction of Sinn Fein to the joint Declaration of the British and Irish governments made in December 1993 concerning the future of Northern Ireland.</narrative>
+</topic>
+<topic lang="en">
+<identifier>340-AH</identifier>
+<title>New Quebec Premier</title>
+<description>Who was elected as Premier of Quebec in September 1994?</description>
+<narrative>Relevant document will provide the name of the new head of government of Quebec, elected in September 1994. Pre-election speculations concerning the possible winner are not relevant.</narrative>
+</topic>
+<topic lang="en">
+<identifier>341-AH</identifier>
+<title>Theft of &#147;The Scream&#148;</title>
+<description>Find information on the stealing of the painting &#147;The Scream&#148; from Norway's National Gallery in Oslo.</description>
+<narrative>Documents must be about the theft of the painting in Oslo in February 1994. General information about the painting or the artist is not of interest.</narrative>
+</topic>
+<topic lang="en">
+<identifier>342-AH</identifier>
+<title>Four Weddings and a Funeral</title>
+<description>Find reports of the success of the comedy film &#147;Four Weddings and a Funeral&#148;.</description>
+<narrative>Relevant documents must provide details on the success or popularity of this film. Documents about the plot aren't relevant.</narrative>
+</topic>
+<topic lang="en">
+<identifier>343-AH</identifier>
+<title>South African National Party</title>
+<description>Look for information about the campaign and results of the National Party in the 1994 South African elections.</description>
+<narrative>Relevant documents must report on the campaign of the National Party, its attempts to reach new voters, and its results in the first South African multiracial elections. Details about the history of the party aren't relevant.</narrative>
+</topic>
+<topic lang="en">
+<identifier>344-AH</identifier>
+<title>Brazil vs. Sweden World Cup Semifinals</title>
+<description>Find documents about the semi-final match between Brazil and Sweden in the 1994 Football World Cup.</description>
+<narrative>Any information on this match is of interest, e.g. pre-game build-ups, descriptions of the match, reports of the final score. Reports on a match in earlier rounds between Brazil and Sweden are not relevant.</narrative>
+</topic>
+<topic lang="en">
+<identifier>345-AH</identifier>
+<title>Cross-country Skiing at the Olympic Games.</title>
+<description>Who won a cross-country skiing event at the Olympic Games in 1994?</description>
+<narrative>Documents must mention the name and the nationality of at least one winner of the cross-country skiing events at the Olympic Games in 1994. Documents that indicate only the name of a winning team without giving the names of the individual skiers will not be considered relevant.</narrative>
+</topic>
+<topic lang="en">
+<identifier>346-AH</identifier>
+<title>Grand Slam Winners</title>
+<description>Who won a tennis Grand Slam Tournament event in 1995?</description>
+<narrative>Relevant documents must report both the name and nationality of at least one of the winners of a tennis Grand Slam event in 1995.</narrative>
+</topic>
+<topic lang="en">
+<identifier>347-AH</identifier>
+<title>Best Picture Oscar 1994</title>
+<description>Who won the Oscar for Best Picture in 1994?</description>
+<narrative>Documents must report both the name of the director and the name of the film that won the Best Picture award.</narrative>
+</topic>
+<topic lang="en">
+<identifier>348-AH</identifier>
+<title>Yann Piat's Assassination</title>
+<description>Find documents discussing the assassination of the French right wing politician Mme Yann Piat in 1994.</description>
+<narrative>Relevant documents will contain details on the assassination of Yann Piat near her home in Toulon in 1994.</narrative>
+</topic>
+<topic lang="en">
+<identifier>349-AH</identifier>
+<title>Nixon's Death</title>
+<description>Find documents that report the final illness and demise of Richard Nixon in 1994.</description>
+<narrative>Relevant documents must discuss the cause of Nixon's final illness and/or report on his death.</narrative>
+</topic>
+<topic lang="en">
+<identifier>350-AH</identifier>
+<title>Ayrton Senna's Death.</title>
+<description>Find documents that describe Ayrton Senna's fatal accident on the Imola circuit in 1994.</description>
+<narrative>Documents must report the circumstances of the death of the Grand Prix driver Ayrton Senna on the Imola Circuit in 1994.</narrative>
+</topic>
+</topics>
