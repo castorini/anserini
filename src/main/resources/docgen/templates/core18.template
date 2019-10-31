@@ -8,7 +8,7 @@ Typical indexing command:
 ${index_cmds}
 ```
 
-The directory `/path/to/core18/` should be the root directory of TREC Core2018 collection, i.e., `ls /path/to/core18/`
+The directory `/path/to/core18/` should be the root directory of the [TREC Washington Post Corpus](https://trec.nist.gov/data/wapost/), i.e., `ls /path/to/core18/`
 should bring up a single JSON file.
 
 For additional details, see explanation of [common indexing options](common-indexing-options.md).
@@ -17,8 +17,8 @@ For additional details, see explanation of [common indexing options](common-inde
 
 Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/main/resources/topics-and-qrels/), downloaded from NIST:
 
-+ [`topics.core18.txt`](../src/main/resources/topics-and-qrels/topics.core18.txt): [50 test topics](https://trec.nist.gov/data/core/topics2018.txt)
-+ [`qrels.core18.txt`](../src/main/resources/topics-and-qrels/qrels.core18.txt): [Judgments produced by NIST assessors](https://trec.nist.gov/data/core/qrels2018.txt)
++ [`topics.core18.txt`](../src/main/resources/topics-and-qrels/topics.core18.txt): [topics for the TREC 2018 Common Core Track](https://trec.nist.gov/data/core/topics2018.txt)
++ [`qrels.core18.txt`](../src/main/resources/topics-and-qrels/qrels.core18.txt): [qrels for the TREC 2018 Common Core Track](https://trec.nist.gov/data/core/qrels2018.txt)
 
 After indexing has completed, you should be able to perform retrieval as follows:
 

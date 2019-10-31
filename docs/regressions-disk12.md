@@ -1,4 +1,4 @@
-# Anserini: Regressions for Disks 1 &amp; 2
+# Anserini: Regressions for [TIPSTER Disks 1 &amp; 2](https://catalog.ldc.upenn.edu/LDC93T3A)
 
 ## Indexing
 
@@ -10,7 +10,7 @@ nohup sh target/appassembler/bin/IndexCollection -collection TrecCollection -inp
  -storePositions -storeDocvectors -storeRawDocs >& log.disk12.pos+docvectors+rawdocs &
 ```
 
-The directory `/path/to/disk12/` should be the root directory of Disks 1 &amp; 2, i.e., `ls /path/to/disk12/` should bring up subdirectories like `doe`, `wsj`.
+The directory `/path/to/disk12/` should be the root directory of [TIPSTER Disks 1 &amp; 2](https://catalog.ldc.upenn.edu/LDC93T3A), i.e., `ls /path/to/disk12/` should bring up subdirectories like `doe`, `wsj`.
 
 For additional details, see explanation of [common indexing options](common-indexing-options.md).
 

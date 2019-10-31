@@ -25,13 +25,13 @@ index_stats:
   documents (non-empty): 50220159
   total terms: 31302554269
 topics:
-  - name: "[TREC 2010 Web Track (Topics 51-100)](http://trec.nist.gov/data/web/10/wt2010-topics.xml)"
+  - name: "[TREC 2010 Web Track (Topics 51-100)](../src/main/resources/topics-and-qrels/topics.web.51-100.txt)"
     path: topics.web.51-100.txt
     qrel: qrels.web.51-100.txt
-  - name: "[TREC 2011 Web Track (Topics 101-150)](http://trec.nist.gov/data/web/11/full-topics.xml)"
+  - name: "[TREC 2011 Web Track (Topics 101-150)](../src/main/resources/topics-and-qrels/topics.web.101-150.txt)"
     path: topics.web.101-150.txt
     qrel: qrels.web.101-150.txt
-  - name: "[TREC 2012 Web Track (Topics 151-200)](http://trec.nist.gov/data/web/12/full-topics.xml)"
+  - name: "[TREC 2012 Web Track (Topics 151-200)](../src/main/resources/topics-and-qrels/topics.web.151-200.txt)"
     path: topics.web.151-200.txt
     qrel: qrels.web.151-200.txt
 evals:
