@@ -1,5 +1,7 @@
 # Anserini: Regressions for [Disks 4 &amp; 5](https://trec.nist.gov/data_disks.html) (Robust04)
 
+The exact configuration for these regressions are stored in [this YAML file](../src/main/resources/regression/robust04.yaml).
+
 ## Indexing
 
 Typical indexing command:
@@ -12,6 +14,7 @@ The directory `/path/to/disk45/` should be the root directory of [Disks 4 &amp; 
 Note that Anserini ignores the `cr` folder when indexing, which is the standard configuration.
 
 For additional details, see explanation of [common indexing options](common-indexing-options.md).
+
 
 ## Retrieval
 
@@ -32,11 +35,13 @@ Evaluation can be performed using `trec_eval`:
 ${eval_cmds}
 ```
 
+
 ## Effectiveness
 
 With the above commands, you should be able to replicate the following results:
 
 ${effectiveness}
+
 
 ## Replication Log
 

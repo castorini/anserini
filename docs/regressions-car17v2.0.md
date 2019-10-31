@@ -20,8 +20,8 @@ For additional details, see explanation of [common indexing options](common-inde
 
 The "benchmarkY1-test" topics and qrels (v2.0) are stored in [`src/main/resources/topics-and-qrels/`](../src/main/resources/topics-and-qrels/), downloaded from [the CAR website](http://trec-car.cs.unh.edu/datareleases/):
 
-+ [`topics.car17v2.0.benchmarkY1test.txt`](../src/main/resources/topics-and-qrels/)
-+ [`qrels.car17v2.0.benchmarkY1test.txt`](../src/main/resources/topics-and-qrels/)
++ [`topics.car17v2.0.benchmarkY1test.txt`](../src/main/resources/topics-and-qrels/topics.car17v2.0.benchmarkY1test.txt)
++ [`qrels.car17v2.0.benchmarkY1test.txt`](../src/main/resources/topics-and-qrels/qrels.car17v2.0.benchmarkY1test.txt)
 
 Specifically, this is the section-level passage retrieval task with automatic ground truth.
 
@@ -77,11 +77,11 @@ With the above commands, you should be able to replicate the following results:
 
 MAP                                     | BM25      | +RM3      | +Ax       | QL        | +RM3      | +Ax       |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-[TREC 2017 CAR: benchmarkY1test (v2.0)](http://trec-car.cs.unh.edu/datareleases/)| 0.1545    | 0.1286    | 0.1364    | 0.1371    | 0.1080    | 0.1077    |
+[TREC 2017 CAR: benchmarkY1test (v2.0)](../src/main/resources/topics-and-qrels/topics.car17v2.0.benchmarkY1test.txt)| 0.1545    | 0.1286    | 0.1364    | 0.1371    | 0.1080    | 0.1077    |
 
 
 RECIP_RANK                              | BM25      | +RM3      | +Ax       | QL        | +RM3      | +Ax       |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-[TREC 2017 CAR: benchmarkY1test (v2.0)](http://trec-car.cs.unh.edu/datareleases/)| 0.2321    | 0.1927    | 0.1978    | 0.2013    | 0.1598    | 0.1588    |
+[TREC 2017 CAR: benchmarkY1test (v2.0)](../src/main/resources/topics-and-qrels/topics.car17v2.0.benchmarkY1test.txt)| 0.2321    | 0.1927    | 0.1978    | 0.2013    | 0.1598    | 0.1588    |
 
 
