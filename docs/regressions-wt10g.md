@@ -10,7 +10,7 @@ nohup sh target/appassembler/bin/IndexCollection -collection TrecwebCollection -
  -storePositions -storeDocvectors -storeRawDocs >& log.wt10g.pos+docvectors+rawdocs &
 ```
 
-The directory `/path/to/wt10g/` should be the root directory of Wt10g collection, containing a bunch of subdirectories, `WTX001` to `WTX104`.
+The directory `/path/to/wt10g/` should be the root directory of the [Wt10g collection](http://ir.dcs.gla.ac.uk/test_collections/wt10g.html), containing a bunch of subdirectories, `WTX001` to `WTX104`.
 
 For additional details, see explanation of [common indexing options](common-indexing-options.md).
 

@@ -10,7 +10,7 @@ nohup sh target/appassembler/bin/IndexCollection -collection TrecwebCollection -
  -storePositions -storeDocvectors -storeRawDocs >& log.gov2.pos+docvectors+rawdocs &
 ```
 
-The directory `/path/to/gov2/` should be the root directory of Gov2 collection, i.e., `ls /path/to/gov2/` should bring up a bunch of subdirectories, `GX000` to `GX272`.
+The directory `/path/to/gov2/` should be the root directory of the [Gov2 collection](http://ir.dcs.gla.ac.uk/test_collections/gov2-summary.htm), i.e., `ls /path/to/gov2/` should bring up a bunch of subdirectories, `GX000` to `GX272`.
 
 For additional details, see explanation of [common indexing options](common-indexing-options.md).
 
