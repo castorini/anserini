@@ -1,5 +1,8 @@
 # Anserini: Regressions for the [New York Times](https://catalog.ldc.upenn.edu/LDC2008T19) ([Core17](https://trec-core.github.io/2017/))
 
+This page describes regressions for the TREC 2017 Common Core Track, which uses the [New York Times Annotated Corpus](https://catalog.ldc.upenn.edu/LDC2008T19).
+The exact configuration for these regressions are stored in [this YAML file](../src/main/resources/regression/core17.yaml).
+
 ## Indexing
 
 Typical indexing command:

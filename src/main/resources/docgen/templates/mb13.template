@@ -1,5 +1,8 @@
 # Anserini: Regressions for Tweets2013 (MB13 &amp; MB14)
 
+This page describes regressions for the Microblog Tracks from TREC 2013 and 2014 using the Tweets2013 collection.
+The exact configuration for these regressions are stored in [this YAML file](../src/main/resources/regression/mb13.yaml).
+
 ## Indexing
 
 Note that the Tweets2013 collection is distributed as a list of tweet ids that you have to download yourself, so the

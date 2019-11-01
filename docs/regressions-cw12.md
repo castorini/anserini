@@ -1,5 +1,8 @@
 # Anserini: Regressions for [ClueWeb12](http://lemurproject.org/clueweb12.php/)
 
+This page describes regressions for the Web Tracks from TREC 2013 and 2014 using the (full) [ClueWeb12 collection](http://lemurproject.org/clueweb12.php/).
+The exact configuration for these regressions are stored in [this YAML file](../src/main/resources/regression/cw12.yaml).
+
 ## Indexing
 
 Typical indexing command:
@@ -10,7 +13,7 @@ nohup sh target/appassembler/bin/IndexCollection -collection ClueWeb12Collection
  -storePositions -storeDocvectors -storeRawDocs >& log.cw12.pos+docvectors+rawdocs &
 ```
 
-The directory `/path/to/cw12/` should be the root directory of the [ClueWeb12 collection](http://lemurproject.org/clueweb12.php/), i.e., `/path/to/cw12/` should contain `Disk1`, `Disk2`, `Disk3`, `Disk4`.
+The directory `/path/to/cw12/` should be the root directory of the (full) [ClueWeb12 collection](http://lemurproject.org/clueweb12.php/), i.e., `/path/to/cw12/` should contain `Disk1`, `Disk2`, `Disk3`, `Disk4`.
 
 For additional details, see explanation of [common indexing options](common-indexing-options.md).
 

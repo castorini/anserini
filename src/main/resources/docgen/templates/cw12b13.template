@@ -1,5 +1,8 @@
 # Anserini: Regressions for [ClueWeb12-B13](http://lemurproject.org/clueweb12/ClueWeb12-CreateB13.php)
 
+This page describes regressions for the Web Tracks from TREC 2013 and 2014 using the [ClueWeb12-B13 collection](http://lemurproject.org/clueweb12/ClueWeb12-CreateB13.php).
+The exact configuration for these regressions are stored in [this YAML file](../src/main/resources/regression/cw12b13.yaml).
+
 ## Indexing
 
 Typical indexing command:

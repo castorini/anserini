@@ -1,5 +1,8 @@
 # Anserini: Regressions for [TIPSTER Disks 1 &amp; 2](https://catalog.ldc.upenn.edu/LDC93T3A)
 
+This page describes regressions for ad hoc topics from the early TRECs, which use [TIPSTER Disks 1 &amp; 2](https://catalog.ldc.upenn.edu/LDC93T3A).
+The exact configuration for these regressions are stored in [this YAML file](../src/main/resources/regression/disk12.yaml).
+
 ## Indexing
 
 Typical indexing command:
@@ -18,12 +21,12 @@ For additional details, see explanation of [common indexing options](common-inde
 
 Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/main/resources/topics-and-qrels/), downloaded from NIST:
 
-+ [`topics.adhoc.51-100.txt`](../src/main/resources/topics-and-qrels/topics.adhoc.51-100.txt): [topics for the TREC-1 Ad Hoc Track (Topics 51-100)](http://trec.nist.gov/data/topics_eng/topics.51-100.gz)
-+ [`topics.adhoc.101-150.txt`](../src/main/resources/topics-and-qrels/topics.adhoc.101-150.txt): [topics for the TREC-2 Ad Hoc Track (Topics 101-150)](http://trec.nist.gov/data/topics_eng/topics.101-150.gz)
-+ [`topics.adhoc.151-200.txt`](../src/main/resources/topics-and-qrels/topics.adhoc.151-200.txt): [topics for the TREC-3 Ad Hoc Track (Topics 151-200)](http://trec.nist.gov/data/topics_eng/topics.151-200.gz)
-+ [`qrels.adhoc.51-100.txt`](../src/main/resources/topics-and-qrels/qrels.adhoc.51-100.txt): [qrels for the TREC-1 Ad Hoc Track (Topics 51-100)](http://trec.nist.gov/data/qrels_eng/qrels.51-100.disk1.disk2.parts1-5.tar.gz)
-+ [`qrels.adhoc.101-150.txt`](../src/main/resources/topics-and-qrels/qrels.adhoc.101-150.txt): [qrels for the TREC-2 Ad Hoc Track (Topics 101-150)](http://trec.nist.gov/data/qrels_eng/qrels.101-150.disk1.disk2.parts1-5.tar.gz)
-+ [`qrels.adhoc.151-200.txt`](../src/main/resources/topics-and-qrels/qrels.adhoc.151-200.txt): [qrels for the TREC-3 Ad Hoc Track (Topics 151-200)](http://trec.nist.gov/data/qrels_eng/qrels.151-200.201-250.disks1-3.all.tar.gz)
++ [`topics.adhoc.51-100.txt`](../src/main/resources/topics-and-qrels/topics.adhoc.51-100.txt): [TREC-1 Ad Hoc Topics 51-100](http://trec.nist.gov/data/topics_eng/topics.51-100.gz)
++ [`topics.adhoc.101-150.txt`](../src/main/resources/topics-and-qrels/topics.adhoc.101-150.txt): [TREC-2 Ad Hoc Topics 101-150](http://trec.nist.gov/data/topics_eng/topics.101-150.gz)
++ [`topics.adhoc.151-200.txt`](../src/main/resources/topics-and-qrels/topics.adhoc.151-200.txt): [TREC-3 Ad Hoc Topics 151-200](http://trec.nist.gov/data/topics_eng/topics.151-200.gz)
++ [`qrels.adhoc.51-100.txt`](../src/main/resources/topics-and-qrels/qrels.adhoc.51-100.txt): [qrels for TREC-1 Ad Hoc Topics 51-100](http://trec.nist.gov/data/qrels_eng/qrels.51-100.disk1.disk2.parts1-5.tar.gz)
++ [`qrels.adhoc.101-150.txt`](../src/main/resources/topics-and-qrels/qrels.adhoc.101-150.txt): [qrels for TREC-2 Ad Hoc Topics 101-150](http://trec.nist.gov/data/qrels_eng/qrels.101-150.disk1.disk2.parts1-5.tar.gz)
++ [`qrels.adhoc.151-200.txt`](../src/main/resources/topics-and-qrels/qrels.adhoc.151-200.txt): [qrels for TREC-3 Ad Hoc Topics 151-200](http://trec.nist.gov/data/qrels_eng/qrels.151-200.201-250.disks1-3.all.tar.gz)
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
@@ -125,15 +128,15 @@ With the above commands, you should be able to replicate the following results:
 
 MAP                                     | BM25      | +RM3      | +Ax       | QL        | +RM3      | +Ax       |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-[TREC-1 Ad Hoc Track (Topics 51-100)](../src/main/resources/topics-and-qrels/topics.adhoc.51-100.txt)| 0.2273    | 0.2634    | 0.2640    | 0.2189    | 0.2435    | 0.2501    |
-[TREC-2 Ad Hoc Track (Topics 101-150)](../src/main/resources/topics-and-qrels/topics.adhoc.101-150.txt)| 0.2010    | 0.2587    | 0.2722    | 0.2015    | 0.2442    | 0.2593    |
-[TREC-3 Ad Hoc Track (Topics 151-200)](../src/main/resources/topics-and-qrels/topics.adhoc.151-200.txt)| 0.2580    | 0.3390    | 0.3318    | 0.2518    | 0.3042    | 0.3103    |
+[TREC-1 Ad Hoc Topics 51-100](../src/main/resources/topics-and-qrels/topics.adhoc.51-100.txt)| 0.2273    | 0.2634    | 0.2640    | 0.2189    | 0.2435    | 0.2501    |
+[TREC-2 Ad Hoc Topics 101-150](../src/main/resources/topics-and-qrels/topics.adhoc.101-150.txt)| 0.2010    | 0.2587    | 0.2722    | 0.2015    | 0.2442    | 0.2593    |
+[TREC-3 Ad Hoc Topics 151-200](../src/main/resources/topics-and-qrels/topics.adhoc.151-200.txt)| 0.2580    | 0.3390    | 0.3318    | 0.2518    | 0.3042    | 0.3103    |
 
 
 P30                                     | BM25      | +RM3      | +Ax       | QL        | +RM3      | +Ax       |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-[TREC-1 Ad Hoc Track (Topics 51-100)](../src/main/resources/topics-and-qrels/topics.adhoc.51-100.txt)| 0.4533    | 0.4800    | 0.5067    | 0.4520    | 0.4627    | 0.4953    |
-[TREC-2 Ad Hoc Track (Topics 101-150)](../src/main/resources/topics-and-qrels/topics.adhoc.101-150.txt)| 0.4280    | 0.4593    | 0.4753    | 0.4207    | 0.4420    | 0.4740    |
-[TREC-3 Ad Hoc Track (Topics 151-200)](../src/main/resources/topics-and-qrels/topics.adhoc.151-200.txt)| 0.4740    | 0.5273    | 0.5100    | 0.4580    | 0.4913    | 0.5167    |
+[TREC-1 Ad Hoc Topics 51-100](../src/main/resources/topics-and-qrels/topics.adhoc.51-100.txt)| 0.4533    | 0.4800    | 0.5067    | 0.4520    | 0.4627    | 0.4953    |
+[TREC-2 Ad Hoc Topics 101-150](../src/main/resources/topics-and-qrels/topics.adhoc.101-150.txt)| 0.4280    | 0.4593    | 0.4753    | 0.4207    | 0.4420    | 0.4740    |
+[TREC-3 Ad Hoc Topics 151-200](../src/main/resources/topics-and-qrels/topics.adhoc.151-200.txt)| 0.4740    | 0.5273    | 0.5100    | 0.4580    | 0.4913    | 0.5167    |
 
 
