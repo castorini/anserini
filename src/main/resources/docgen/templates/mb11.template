@@ -1,7 +1,7 @@
 # Anserini: Regressions for Tweets2011 (MB11 &amp; MB12)
 
 This page describes regressions for the Microblog Tracks from TREC 2011 and 2012 using the Tweets2011 collection.
-The exact configuration for these regressions are stored in [this YAML file](../src/main/resources/regression/mb11.yaml).
+The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/mb11.yaml).
 
 ## Indexing
 

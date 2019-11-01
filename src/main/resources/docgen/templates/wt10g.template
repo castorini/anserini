@@ -1,7 +1,7 @@
 # Anserini: Regressions for [Wt10g](http://ir.dcs.gla.ac.uk/test_collections/wt10g.html)
 
 This page describes regressions for the TREC-9 Web Track and the TREC 2001 Web Track, which uses the [Wt10g collection](http://ir.dcs.gla.ac.uk/test_collections/wt10g.html).
-The exact configuration for these regressions are stored in [this YAML file](../src/main/resources/regression/wt10g.yaml).
+The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/wt10g.yaml).
 
 ## Indexing
 

@@ -1,7 +1,7 @@
 # Anserini: Regressions for [TIPSTER Disks 1 &amp; 2](https://catalog.ldc.upenn.edu/LDC93T3A)
 
 This page describes regressions for ad hoc topics from the early TRECs, which use [TIPSTER Disks 1 &amp; 2](https://catalog.ldc.upenn.edu/LDC93T3A).
-The exact configuration for these regressions are stored in [this YAML file](../src/main/resources/regression/disk12.yaml).
+The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/disk12.yaml).
 
 ## Indexing
 

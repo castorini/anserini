@@ -1,7 +1,7 @@
 # Anserini: Regressions for [Disks 4 &amp; 5](https://trec.nist.gov/data_disks.html) (Robust04)
 
 This page describes regressions for the TREC 2004 Robust Track, which uses [TREC Disks 4 &amp; 5](https://trec.nist.gov/data_disks.html).
-The exact configuration for these regressions are stored in [this YAML file](../src/main/resources/regression/robust04.yaml).
+The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/robust04.yaml).
 
 ## Indexing
 

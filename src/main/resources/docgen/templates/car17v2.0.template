@@ -1,6 +1,7 @@
 # Anserini: Regressions for [CAR17](http://trec-car.cs.unh.edu/) (v2.0)
 
 This page documents regression experiments for the [TREC 2017 Complex Answer Retrieval (CAR)](http://trec-car.cs.unh.edu/) section-level passage retrieval task (v2.0).
+The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/car17v2.0.yaml).
 
 ## Indexing
 

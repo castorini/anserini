@@ -1,7 +1,7 @@
 # Anserini: Regressions for the [Washington Post](https://trec.nist.gov/data/wapost/) ([Core18](https://trec-core.github.io/2018/))
 
 This page describes regressions for the TREC 2018 Common Core Track, which uses the [TREC Washington Post Corpus](https://trec.nist.gov/data/wapost/).
-The exact configuration for these regressions are stored in [this YAML file](../src/main/resources/regression/core18.yaml).
+The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/core18.yaml).
 
 ## Indexing
 
