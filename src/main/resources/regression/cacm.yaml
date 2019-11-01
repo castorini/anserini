@@ -4,11 +4,11 @@ index_command: target/appassembler/bin/IndexCollection
 index_utils_command: target/appassembler/bin/IndexUtils
 search_command: target/appassembler/bin/SearchCollection
 ranking_root:
-topic_root: Anserini-data/CACM/
-qrels_root: Anserini-data/CACM/
+topic_root: src/main/resources/topics-and-qrels/
+qrels_root: src/main/resources/topics-and-qrels/
 input_roots:
   - ""
-input: Anserini-data/CACM/corpus/uncompressed
+input: src/main/resources/cacm/collection
 index_path: "" # path to the existing index, used in regression test if `--index` option is absent
 index_stats:
   documents: 3204

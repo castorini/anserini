@@ -1,0 +1,644 @@
+<DOC>
+<DOCNO> 1 </DOCNO>
+
+
+ What articles exist which deal with TSS (Time Sharing System), an
+operating system for IBM computers?
+
+ 
+</DOC>
+<DOC>
+<DOCNO> 2 </DOCNO>
+
+
+ I am interested in articles written either by Prieve or Udo Pooch
+
+Prieve, B.
+Pooch, U.
+
+ 
+</DOC>
+<DOC>
+<DOCNO> 3 </DOCNO>
+
+
+ Intermediate languages used in construction of multi-targeted compilers; TCOLL
+
+ 
+</DOC>
+<DOC>
+<DOCNO> 4 </DOCNO>
+
+
+ I'm interested in mechanisms for communicating between disjoint processes,
+possibly, but not exclusively, in a distributed environment.  I would
+rather see descriptions of complete mechanisms, with or without implementations,
+as opposed to theoretical work on the abstract problem.  Remote procedure
+calls and message-passing are examples of my interests.
+
+
+</DOC>
+<DOC>
+<DOCNO> 5 </DOCNO>
+
+
+ I'd like papers on design and implementation of editing interfaces,
+window-managers, command interpreters, etc.  The essential issues are
+human interface design, with views on improvements to user efficiency,
+effectiveness and satisfaction.
+
+
+ 
+</DOC>
+<DOC>
+<DOCNO> 6 </DOCNO>
+
+
+ Interested in articles on robotics, motion planning particularly the
+geometric and combinatorial aspects.  We are not interested in the
+dynamics of arm motion.
+
+ 
+</DOC>
+<DOC>
+<DOCNO> 7 </DOCNO>
+
+
+ I am interested in distributed algorithms - concurrent programs in
+which processes communicate and synchronize by using message passing.
+Areas of particular interest include fault-tolerance and techniques
+for understanding the correctness of these algorithms.
+
+ 
+</DOC>
+<DOC>
+<DOCNO> 8 </DOCNO>
+
+
+ Addressing schemes for resources in networks; resource addressing in
+network operating systems
+
+ 
+</DOC>
+<DOC>
+<DOCNO> 9 </DOCNO>
+
+
+ Security considerations in local networks, network operating systems,
+and distributed systems.
+
+ 
+</DOC>
+<DOC>
+<DOCNO> 10 </DOCNO>
+
+
+ Parallel languages; languages for parallel computation
+
+ 
+</DOC>
+<DOC>
+<DOCNO> 11 </DOCNO>
+
+
+ SETL, Very High Level Languages
+
+
+ 
+</DOC>
+<DOC>
+<DOCNO> 12 </DOCNO>
+
+
+ portable operating systems
+
+ 
+</DOC>
+<DOC>
+<DOCNO> 13 </DOCNO>
+
+
+ code optimization for space efficiency
+
+ 
+</DOC>
+<DOC>
+<DOCNO> 14 </DOCNO>
+
+
+ find all discussions of optimal implementations of sort algorithms for
+database management applications
+
+ 
+</DOC>
+<DOC>
+<DOCNO> 15 </DOCNO>
+
+
+ Find all discussions of horizontal microcode optimization with special
+emphasis on optimization of loops and global optimization.
+
+ 
+</DOC>
+<DOC>
+<DOCNO> 16 </DOCNO>
+
+
+ find all descriptions of file handling in operating systems based on
+multiple processes and message passing.
+
+ 
+</DOC>
+<DOC>
+<DOCNO> 17 </DOCNO>
+
+
+ Optimization of intermediate and machine code
+
+ 
+</DOC>
+<DOC>
+<DOCNO> 18 </DOCNO>
+
+
+ Languages and compilers for parallel processors, especially highly
+horizontal microcoded machines; code compaction
+
+ 
+</DOC>
+<DOC>
+<DOCNO> 19 </DOCNO>
+
+
+ Parallel algorithms
+
+
+ 
+</DOC>
+<DOC>
+<DOCNO> 20 </DOCNO>
+
+
+ Graph theoretic algorithms applicable to sparse matrices
+
+ 
+</DOC>
+<DOC>
+<DOCNO> 21 </DOCNO>
+
+
+ computational complexity, intractability, class-complete reductions,
+algorithms and efficiency
+
+ 
+</DOC>
+<DOC>
+<DOCNO> 22 </DOCNO>
+
+
+ I am interested in hidden-line and hidden-surface algorithms for
+cylinders, toroids, spheres, and cones.  This is a rather specialized
+topic in computer graphics.
+
+ 
+</DOC>
+<DOC>
+<DOCNO> 23 </DOCNO>
+
+
+ Distributed computing structures and algorithms
+
+ 
+</DOC>
+<DOC>
+<DOCNO> 24 </DOCNO>
+
+
+ Applied stochastic processes
+
+ 
+</DOC>
+<DOC>
+<DOCNO> 25 </DOCNO>
+
+
+ Performance evaluation and modelling of computer systems
+
+ 
+</DOC>
+<DOC>
+<DOCNO> 26 </DOCNO>
+
+
+ Concurrency control mechanisms in operating systems
+
+  
+</DOC>
+<DOC>
+<DOCNO> 27 </DOCNO>
+
+
+ Memory management aspects of operating systems
+
+ 
+</DOC>
+<DOC>
+<DOCNO> 28 </DOCNO>
+
+
+ Any information on packet radio networks.  Of particular interest are
+algorithms for packet routing, and for dealing with changes in
+network topography.  I am not interested in the hardware used in the
+network.
+
+ 
+</DOC>
+<DOC>
+<DOCNO> 29 </DOCNO>
+
+
+ Number-theoretic algorithms, especially involving prime number series,
+sieves, and Chinese Remainder theorem.
+
+ 
+</DOC>
+<DOC>
+<DOCNO> 30 </DOCNO>
+
+
+ Articles on text formatting systems, including "what you see is what you
+get" systems.  Examples: t/nroff, scribe, bravo.
+
+ 
+</DOC>
+<DOC>
+<DOCNO> 31 </DOCNO>
+
+
+ I'd like to find articles describing the use of singular value decomposition
+in digital image processing.  Applications include finding approximations
+to the original image and restoring images that are subject to noise. An
+article on the subject is H. Andrews and C. Patterson "Outer product
+expansions and their uses in digital image processing", American Mathematical
+
+Andrews, H.
+Patterson, C.
+
+ 
+</DOC>
+<DOC>
+<DOCNO> 32 </DOCNO>
+
+
+ I'd like to find articles describing graph algorithms that are based on
+the eigenvalue decomposition (or singular value decomposition) of the
+ajacency matrix for the graph.  I'm especially interested in any heuristic
+algorithms for graph coloring and graph isomorphism using this method.
+
+ 
+</DOC>
+<DOC>
+<DOCNO> 33 </DOCNO>
+
+
+ Articles about the sensitivity of the eigenvalue decomposition of real
+matrices, in particular, zero-one matrices.  I'm especially interested in
+the separation of eigenspaces corresponding to distinct eigenvalues.
+Articles on the subject:
+C. Davis and W. Kahn, "The rotation of eigenvectors by a permutation:,
+SIAM J. Numerical Analysis, vol. 7, no. 1 (1970); G. Stewart, "Error
+bounds for approximate invariant subspaces of closed linear operators",
+SIAM J. Numerical Analysis., Vol. 8, no. 4 (1971).
+
+Davis, C.
+Kahn, W.
+Stewart, G.
+
+ 
+</DOC>
+<DOC>
+<DOCNO> 34 </DOCNO>
+
+
+ Currently interested in isolation of root of polynomial; there is an old
+more recent material.
+
+Heindel, L.
+
+ 
+</DOC>
+<DOC>
+<DOCNO> 35 </DOCNO>
+
+
+ Probabilistic algorithms especially those dealing with algebraic and
+symbolic manipulation.  Some examples:
+Rabiin, "Probabilistic algorithm on finite field", SIAM
+Waztch, "Probabilistic testing of polynomial identities", SIAM
+
+Rabin,M.
+
+ 
+</DOC>
+<DOC>
+<DOCNO> 36 </DOCNO>
+
+
+ Fast algorithm for context-free language recognition or parsing
+
+
+</DOC>
+<DOC>
+<DOCNO> 37 </DOCNO>
+
+
+ Articles describing the relationship between data types and concurrency
+(e.g. what is the type of a process?  when is a synchronization attempt 
+between two processes "type correct"?  in a message-passing system is there
+any notion of the types of messages?--i.e. any way to check that the sender
+of the message and the receiver are both treating the bit stream as some
+particular type)
+
+
+</DOC>
+<DOC>
+<DOCNO> 38 </DOCNO>
+
+
+ What is the type of a module?	(I don't want the entire literature on
+Abstract Data Types here, but I'm not sure how to phrase this to avoid it.
+I'm interested in questions about how one can check that a module "matches"
+contexts in which it is used.)
+
+
+</DOC>
+<DOC>
+<DOCNO> 39 </DOCNO>
+
+
+ What does type compatibility mean in languages that allow programmer
+defined types?  (You might want to restrict this to "extensible" languages
+that allow definition of abstract data types or programmer-supplied
+definitions of operators like *, +.)
+
+
+</DOC>
+<DOC>
+<DOCNO> 40 </DOCNO>
+
+
+ List all articles dealing with data types in the following languages:
+that are referenced frequently in papers on the above languages (e.g. catch
+any languages with interesting type structures that I might have missed).
+
+
+</DOC>
+<DOC>
+<DOCNO> 41 </DOCNO>
+
+
+ Theory of distributed systems and databases.  Subtopics of special
+interest include reliability and fault-tolerance in distributed systems,
+atomicity, distributed transactions, synchronization algorithms, 
+resource allocation; lower bounds and models for asynchronous parallel
+systems.  Also theory of communicating processes and protocols.   
+
+     P. Box 2158 Yale Station, New Haven, Conn.  06520
+
+</DOC>
+<DOC>
+<DOCNO> 42 </DOCNO>
+
+
+ Computer performance evaluation techniques using pattern recognition
+and clustering.
+
+     LA    70803
+
+</DOC>
+<DOC>
+<DOCNO> 43 </DOCNO>
+
+
+ Analysis and perception of shape by humans and computers.  Shape
+descriptions, shape recognition by computer.  Two-dimensional shapes.
+Measures of circularity.  Shape matching.
+
+
+</DOC>
+<DOC>
+<DOCNO> 44 </DOCNO>
+
+
+ Texture analysis by computer.	Digitized texture analysis.  Texture
+synthesis. Perception of texture.
+
+
+</DOC>
+<DOC>
+<DOCNO> 45 </DOCNO>
+
+
+ The use of operations research models to optimize information system
+performance.  This includes fine tuning decisions such as secondary index
+selection, file reorganization, and distributed databases.
+
+
+</DOC>
+<DOC>
+<DOCNO> 46 </DOCNO>
+
+
+ The application of fuzzy subset theory to clustering and information
+retrieval problems.  This includes performance evaluation and automatic
+indexing considerations.
+
+
+</DOC>
+<DOC>
+<DOCNO> 47 </DOCNO>
+
+
+ The use of Bayesian decision models to optimize information retrieval
+system performance.  This includes stopping rules to determine when a
+user should cease scanning the output of a retrieval search.
+
+
+</DOC>
+<DOC>
+<DOCNO> 48 </DOCNO>
+
+
+ The use of computer science principles (e.g. data structures, 
+numerical methods) in generating optimization (e.g. linear programming)
+algorithms.  This includes issues of the Khachian (Russian, ellipsoidal)
+algorithm and complexity of such algorithms.
+
+
+</DOC>
+<DOC>
+<DOCNO> 49 </DOCNO>
+
+
+ The role of information retrieval in knowledge based systems
+(i.e., expert systems).
+
+
+</DOC>
+<DOC>
+<DOCNO> 50 </DOCNO>
+
+
+ Parallel processors in information retrieval
+
+
+</DOC>
+<DOC>
+<DOCNO> 51 </DOCNO>
+
+
+ Parallel processors and paging algorithms
+
+
+</DOC>
+<DOC>
+<DOCNO> 52 </DOCNO>
+
+
+ Modelling and simulation in agricultural ecosystems.
+
+
+</DOC>
+<DOC>
+<DOCNO> 53 </DOCNO>
+
+
+ mathematical induction, group theory, integers modulo m,
+probability, binomial coefficients, binomial theorem, homomorphism,
+morphism, transitivity, relations, relation matrix.
+
+     Syracuse University, 313 Link Hall, Syracuse, N. 13210
+
+</DOC>
+<DOC>
+<DOCNO> 54 </DOCNO>
+
+
+ Semantics of programming languages, including abstract specifications
+of data types, denotational semantics, and proofs of correctness.
+
+Hoare, A.
+Dijkstra, E.
+
+ University of Massachusetts, Amherst, MA 01003
+
+</DOC>
+<DOC>
+<DOCNO> 55 </DOCNO>
+
+
+ Anything dealing with star height of regular languages or regular
+expressions or regular events.
+
+
+</DOC>
+<DOC>
+<DOCNO> 56 </DOCNO>
+
+
+ Articles relation the algebraic theory of semigroups and monoids
+to the study of automata and regular languages.
+
+
+</DOC>
+<DOC>
+<DOCNO> 57 </DOCNO>
+
+
+ Abstracts of articles:
+    J. Backus, "Can programming be liberated from the Von Neumann style?
+               A functional style and its algebra of programs", CACM 21
+    Re Millo, R. Lipton, A. Perlis, letter to ACM Forum, CACM 22
+	       (1979), 629-630
+
+Backus, J.
+De Millo, R.
+Lipton, R.
+Perlis, A.
+
+
+</DOC>
+<DOC>
+<DOCNO> 58 </DOCNO>
+
+
+ Algorithms or statistical packages for ANOVA, regression using least
+squares or generalized linear models.  System design, capabilities,
+statistical formula are of interest.  Student's t test, Wilcoxon and
+sign tests, multivariate and univariate components can be included.
+
+
+</DOC>
+<DOC>
+<DOCNO> 59 </DOCNO>
+
+
+ Dictionary construction and accessing methods for fast retrieval
+of words or lexical items or morphologically related information.
+Hashing or indexing methods are usually applied to English spelling or
+natural language problems.
+
+
+</DOC>
+<DOC>
+<DOCNO> 60 </DOCNO>
+
+
+ Hardware and software relating to database management systems.
+Database packages, back end computers, special associative hardware
+with microcomputers attached to disk heads or things like RAP, 
+relational or network (CODASYL) or hierarchical models, systems
+like SYSTEM R, IMS, ADABAS, TOTAL, etc.
+
+
+</DOC>
+<DOC>
+<DOCNO> 61 </DOCNO>
+
+
+ Information retrieval articles by Gerard Salton or others about clustering,
+bibliographic coupling, use of citations or co-citations, the vector
+space model, Boolean search methods using inverted files, feedback, etc.
+
+Salton, G.
+
+
+</DOC>
+<DOC>
+<DOCNO> 62 </DOCNO>
+
+
+ Results relating parallel complexity theory (both for PRAM's and
+uniform circuits).
+
+
+</DOC>
+<DOC>
+<DOCNO> 63 </DOCNO>
+
+
+ Algorithms for parallel computation, and especially comparisons
+between parallel and sequential algorithms.
+
+
+</DOC>
+<DOC>
+<DOCNO> 64 </DOCNO>
+
+
+ List all articles on EL1 and ECL (EL1 may be given as EL/1; I don't
+remember how they did it.
+
+
+</DOC>
+
