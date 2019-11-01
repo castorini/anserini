@@ -3,6 +3,9 @@
 This page documents regression experiments for the MS MARCO Passage Ranking Task, which is integrated into Anserini's regression testing framework.
 For more complete instructions on how to run end-to-end experiments, refer to [this page](experiments-msmarco-passage.md).
 
+The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/msmarco-passage.yaml).
+Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/msmarco-passage.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+
 ## Indexing
 
 Typical indexing command:

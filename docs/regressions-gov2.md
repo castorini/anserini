@@ -2,6 +2,7 @@
 
 This page describes regressions for the Terabyte Tracks from TREC 2004 to 2006, which uses the [Gov2 collection](http://ir.dcs.gla.ac.uk/test_collections/gov2-summary.htm).
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/gov2.yaml).
+Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/gov2.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
 
 ## Indexing
 
