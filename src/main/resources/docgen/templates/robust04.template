@@ -17,7 +17,6 @@ Note that Anserini ignores the `cr` folder when indexing, which is the standard 
 
 For additional details, see explanation of [common indexing options](common-indexing-options.md).
 
-
 ## Retrieval
 
 Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/main/resources/topics-and-qrels/), downloaded from NIST:
@@ -37,13 +36,11 @@ Evaluation can be performed using `trec_eval`:
 ${eval_cmds}
 ```
 
-
 ## Effectiveness
 
 With the above commands, you should be able to replicate the following results:
 
 ${effectiveness}
-
 
 ## Replication Log
 

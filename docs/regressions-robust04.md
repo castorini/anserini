@@ -19,7 +19,6 @@ Note that Anserini ignores the `cr` folder when indexing, which is the standard 
 
 For additional details, see explanation of [common indexing options](common-indexing-options.md).
 
-
 ## Retrieval
 
 Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/main/resources/topics-and-qrels/), downloaded from NIST:
@@ -73,7 +72,6 @@ eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrel
 
 ```
 
-
 ## Effectiveness
 
 With the above commands, you should be able to replicate the following results:
@@ -86,7 +84,6 @@ MAP                                     | BM25      | +RM3      | +Ax       | QL
 P30                                     | BM25      | +RM3      | +Ax       | QL        | +RM3      | +Ax       |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
 [TREC 2004 Robust Track Topics](../src/main/resources/topics-and-qrels/topics.robust04.txt)| 0.3102    | 0.3365    | 0.3333    | 0.3079    | 0.3232    | 0.3229    |
-
 
 
 
