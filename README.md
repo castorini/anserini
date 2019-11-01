@@ -17,10 +17,14 @@ In turn, you'll be recognized as a [contributor](https://github.com/castorini/an
 
 ## Getting Started
 
-A zero effort way to try out Anserini is to look at our online [colab demo](https://colab.research.google.com/drive/1s44ylhEkXDzqNgkJSyXDYetGIxO9TWZn)!
-Click "Open in Playground" and you'll be able to replicate our baselines from the TREC 2004 Robust Track just from the browser!
+A zero effort way to try out Anserini is to look at our online colab demos:
 
-Main dependencies:
++ [Anserini Robust04 demo](https://colab.research.google.com/drive/1s44ylhEkXDzqNgkJSyXDYetGIxO9TWZn) (Java)
++ [Pyserini Robust04 demo](https://colab.research.google.com/drive/1GOCyWyYW_fwJMKy5FVWdYHEC2IlvpqZN) (Python interface to Anserini)
+
+Click "Open in Playground" and you'll be able to replicate our results!
+
+If you want to build Anserini itself, then start by verifying the main dependencies:
 
 + Anserini was upgraded to Java 11 at commit [`17b702d`](https://github.com/castorini/anserini/commit/17b702d9c3c0971e04eb8386ab83bf2fb2630714) (7/11/2019) from Java 8.
 Maven 3.3+ is also required.
@@ -58,7 +62,7 @@ Each collection is associated with [regression tests](docs/regressions.md) for r
 Note that these regressions capture the "out of the box" experience, based on [_default_ parameter settings](https://github.com/castorini/Anserini/blob/master/src/main/java/io/anserini/search/SearchArgs.java).
 
 + [Regressions for Disks 1 &amp; 2](docs/regressions-disk12.md)
-+ [Regressions for Disks 4 &amp; 5 (Robust04)](docs/regressions-robust04.md) [[Colab demo](https://colab.research.google.com/drive/1s44ylhEkXDzqNgkJSyXDYetGIxO9TWZn)]
++ [Regressions for Disks 4 &amp; 5 (Robust04)](docs/regressions-robust04.md)
 + [Regressions for AQUAINT (Robust05)](docs/regressions-robust05.md)
 + [Regressions for the New York Times (Core17)](docs/regressions-core17.md)
 + [Regressions for the Washington Post (Core18)](docs/regressions-core18.md)
