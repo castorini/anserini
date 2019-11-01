@@ -43,9 +43,9 @@ index_stats:
   documents (non-empty): 1688291
   total terms: 752790242
 topics:
-  - name: "Wt10g: Topics 451-550"
-    path: topics.451-550.txt
-    qrel: qrels.451-550.txt
+  - name: "[Wt10g (Topics 451-550)](../src/main/resources/topics-and-qrels/topics.adhoc.451-550.txt)"
+    path: topics.adhoc.451-550.txt
+    qrel: qrels.adhoc.451-550.txt
 models:
   - name: bm25
     display: BM25
