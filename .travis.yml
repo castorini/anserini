@@ -11,6 +11,7 @@ cache:
 before_install:
   - pip install Cython
   - pip install pyjnius
+  - pip install PyYAML
 install: true
 script:
   - mvn clean package appassembler:assemble
