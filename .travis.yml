@@ -1,4 +1,10 @@
+dist: bionic
 language: java
+jdk:
+  - oraclejdk11
+language: python
+python:
+  - "3.6"  
 cache:
   directories:
   - "$HOME/.cache"
@@ -7,9 +13,6 @@ before_install:
   - pip install --user cython --upgrade Cython
   - pip install --user pyjnius --upgrade pyjnius
 install: true
-dist: trusty
-jdk:
-  - oraclejdk11
 script:
   - mvn clean package appassembler:assemble
   - find target/appassembler/bin/ -type f -exec sed -i 's/-Xmx.*G/-Xmx2G/g' {} \;
