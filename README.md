@@ -19,8 +19,8 @@ In turn, you'll be recognized as a [contributor](https://github.com/castorini/an
 
 A zero effort way to try out Anserini is to look at our online colab demos:
 
-+ [Anserini Robust04 demo](https://colab.research.google.com/drive/1s44ylhEkXDzqNgkJSyXDYetGIxO9TWZn) (Java)
-+ [Pyserini Robust04 demo](https://colab.research.google.com/drive/1GOCyWyYW_fwJMKy5FVWdYHEC2IlvpqZN) (Python interface to Anserini)
++ [Anserini Robust04 demo (Java)](https://colab.research.google.com/drive/1s44ylhEkXDzqNgkJSyXDYetGIxO9TWZn) [[GitHub copy](https://github.com/castorini/anserini-notebooks/blob/master/anserini_robust04_demo.ipynb)]
++ [Pyserini Robust04 demo (Python interface to Anserini)](https://colab.research.google.com/drive/1GOCyWyYW_fwJMKy5FVWdYHEC2IlvpqZN) [[GitHub copy](https://github.com/castorini/anserini-notebooks/blob/master/pyserini_robust04_demo.ipynb)]
 
 Click "Open in Playground" and you'll be able to replicate our results!
 
