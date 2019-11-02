@@ -141,6 +141,10 @@
               <mainClass>io.anserini.analysis.vectors.ApproximateNearestNeighborSearch</mainClass>
               <id>ApproximateNearestNeighborSearch</id>
             </program>
+            <program>
+              <mainClass>io.anserini.analysis.vectors.ApproximateNearestNeighborEval</mainClass>
+              <id>ApproximateNearestNeighborEval</id>
+            </program>
           </programs>
         </configuration>
       </plugin>
