@@ -9,9 +9,8 @@ cache:
   directories:
   - "$HOME/.cache"
 before_install:
-  - pip install --user pip --upgrade pip
-  - pip install --user cython --upgrade Cython
-  - pip install --user pyjnius --upgrade pyjnius
+  - pip install Cython
+  - pip install pyjnius
 install: true
 script:
   - mvn clean package appassembler:assemble
