@@ -61,7 +61,7 @@ public class ApproximateNearestNeighborSearch {
     @Option(name = "-depth", metaVar = "[int]", usage = "retrieval depth")
     public int depth = 10;
 
-    @Option(name = "-lexlsh.n", metaVar = "[int]", usage = "ngrams")
+    @Option(name = "-lexlsh.n", metaVar = "[int]", usage = "n-grams")
     public int ngrams = 2;
 
     @Option(name = "-lexlsh.d", metaVar = "[int]", usage = "decimals")
@@ -140,6 +140,11 @@ public class ApproximateNearestNeighborSearch {
     for (String token : AnalyzerUtils.tokenize(vectorAnalyzer, sb.toString())) {
       simQuery.add(new Term(IndexVectors.FIELD_VECTOR, token));
     }
+    if (indexArgs.encoding.equalsIgnoreCase(LEXLSH)) {
+      simQuery.setHighFreqMinimumNumberShouldMatch(6);
+      simQuery.setLowFreqMinimumNumberShouldMatch(6);
+    }
+
     long start = System.currentTimeMillis();
 
     TopDocs topDocs = searcher.search(simQuery, indexArgs.depth);
