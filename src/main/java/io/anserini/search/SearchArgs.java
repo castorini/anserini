@@ -261,9 +261,6 @@ public class SearchArgs {
   @Option(name = "-axiom.index", usage = "path to the external index for generating the reranking doucments pool")
   public String axiom_index = null;
 
-  @Option(name = "-model", metaVar = "[file]", required = false, usage = "ranklib model file")
-  public String model = "";
-
   @Option(name = "-qid_queries", metaVar = "[file]", usage="query id - query mapping file")
   public String qid_queries = "";
 }
