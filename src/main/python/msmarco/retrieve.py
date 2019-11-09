@@ -53,7 +53,7 @@ if __name__ == '__main__':
 
         with open(args.output, 'w') as fout:
             start_time = time.time()
-            for line_number, line in enumerate(open(args.qid_queries)):
+            for line_number, line in enumerate(open(args.qid_queries, 'r', encoding='utf8')):
                 qid, query = line.strip().split('\t')
                 hits = searcher.search(query.encode('utf8'), int(args.hits))
                 if line_number % 100 == 0:
