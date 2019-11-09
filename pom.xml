@@ -334,6 +334,12 @@
       <groupId>org.wikiclean</groupId>
       <artifactId>wikiclean</artifactId>
       <version>1.1</version>
+      <exclusions>
+        <exclusion>
+          <groupId>edu.stanford.nlp</groupId>
+          <artifactId>stanford-corenlp</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency> <!-- needed for CBZip2InputStream -->
       <groupId>org.apache.ant</groupId>
