@@ -6,15 +6,10 @@ Anserini
 [![PyPI](https://img.shields.io/pypi/v/pyserini)](https://pypi.org/project/pyserini/)
 [![LICENSE](https://img.shields.io/badge/license-Apache-blue.svg?style=flat)](https://www.apache.org/licenses/LICENSE-2.0)
 
-Anserini is an open-source information retrieval toolkit built on Lucene that aims to bridge the gap between academic information retrieval research and the practice of building real-world search applications. 
-This effort grew out of [a reproducibility study of various open-source retrieval engines in 2016](https://cs.uwaterloo.ca/~jimmylin/publications/Lin_etal_ECIR2016.pdf) (Lin et al., ECIR 2016). 
+Anserini is an open-source information retrieval toolkit built on Lucene that aims to bridge the gap between academic information retrieval research and the practice of building real-world search applications.
+Among other goals, our effort aims to be [the opposite of this](http://phdcomics.com/comics/archive.php?comicid=1689).
+Anserini grew out of [a reproducibility study of various open-source retrieval engines in 2016](https://cs.uwaterloo.ca/~jimmylin/publications/Lin_etal_ECIR2016.pdf) (Lin et al., ECIR 2016). 
 See [Yang et al. (SIGIR 2017)](https://dl.acm.org/authorize?N47337) and [Yang et al. (JDIQ 2018)](https://dl.acm.org/citation.cfm?doid=3289400.3239571) for overviews.
-
-If you've found Anserini to be helpful, we have a simple request for you to contribute back.
-In the course of replicating baseline results on standard test collections, please let us know if you're successful by sending us a pull request with a simple note, like what appears at the bottom of [the Robust04 page](docs/regressions-robust04.md).
-Replicability is important to us, and we'd like to know about successes as well as failures.
-Since the regression documentation is auto-generated, pull requests should be sent against the [raw templates](https://github.com/castorini/anserini/tree/master/src/main/resources/docgen/templates).
-In turn, you'll be recognized as a [contributor](https://github.com/castorini/anserini/graphs/contributors).
 
 ## Getting Started
 
@@ -101,6 +96,16 @@ See [this page](docs/additional.md) for additional documentation.
 + Use Anserini in Python via [Pyserini](docs/pyserini.md)!
 + Anserini integrates with SolrCloud via [Solrini](docs/solrini.md)!
 + Anserini integrates with Elasticsearch via [Elasterini](docs/elastirini.md)!
+
+## How Can I Contribute?
+
+If you've found Anserini to be helpful, we have a simple request for you to contribute back.
+In the course of replicating baseline results on standard test collections, please let us know if you're successful by sending us a pull request with a simple note, like what appears at the bottom of [the Robust04 page](docs/regressions-robust04.md).
+Replicability is important to us, and we'd like to know about successes as well as failures.
+Since the regression documentation is auto-generated, pull requests should be sent against the [raw templates](https://github.com/castorini/anserini/tree/master/src/main/resources/docgen/templates).
+In turn, you'll be recognized as a [contributor](https://github.com/castorini/anserini/graphs/contributors).
+
+Beyond that, there are always [open issues](https://github.com/castorini/anserini/issues) we would appreciate help on!
 
 ## Release History
 
