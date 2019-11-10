@@ -5,6 +5,7 @@ Anserini
 [![Maven Central](https://img.shields.io/maven-central/v/io.anserini/anserini)](https://search.maven.org/search?q=a:anserini)
 [![PyPI](https://img.shields.io/pypi/v/pyserini)](https://pypi.org/project/pyserini/)
 [![LICENSE](https://img.shields.io/badge/license-Apache-blue.svg?style=flat)](https://www.apache.org/licenses/LICENSE-2.0)
+[![codecov](https://codecov.io/gh/castorini/anserini/branch/master/graph/badge.svg)](https://codecov.io/gh/castorini/anserini)
 
 Anserini is an open-source information retrieval toolkit built on Lucene that aims to bridge the gap between academic information retrieval research and the practice of building real-world search applications.
 Among other goals, our effort aims to be [the opposite of this](http://phdcomics.com/comics/archive.php?comicid=1689).
