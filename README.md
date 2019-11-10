@@ -13,7 +13,7 @@ See [Yang et al. (SIGIR 2017)](https://dl.acm.org/authorize?N47337) and [Yang et
 
 ## Getting Started
 
-A zero effort way to try out Anserini is to look at our online colab demos:
+A low-effort way to try out Anserini is to look at our online colab demos:
 
 + [Anserini Robust04 demo (Java)](https://colab.research.google.com/drive/1s44ylhEkXDzqNgkJSyXDYetGIxO9TWZn) [[GitHub copy](https://github.com/castorini/anserini-notebooks/blob/master/anserini_robust04_demo.ipynb)]
 + [Pyserini Robust04 demo (Python interface to Anserini)](https://colab.research.google.com/drive/1wiDOnjsPMZzrleQF-GnE5W6VsF7biuXH) [[GitHub copy](https://github.com/castorini/anserini-notebooks/blob/master/pyserini_robust04_demo.ipynb)]
