@@ -19,4 +19,5 @@ script:
   - mkdir -p src/main/resources/cacm/collection && tar xvfz src/main/resources/cacm/cacm.tar.gz -C src/main/resources/cacm/collection
   - cd eval && tar xvfz trec_eval.9.0.4.tar.gz && cd trec_eval.9.0.4 && make && cd .. && cd ..
   - python src/main/python/run_regression.py --collection cacm --index --fail_eval
- 
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
