@@ -93,7 +93,7 @@ See [this page](docs/additional.md) for additional documentation.
 
 ## Integrations
 
-+ Use Anserini in Python via [Pyserini](docs/pyserini.md)!
++ Use Anserini in Python via [Pyserini](https://github.com/castorini/pyserini)!
 + Anserini integrates with SolrCloud via [Solrini](docs/solrini.md)!
 + Anserini integrates with Elasticsearch via [Elasterini](docs/elastirini.md)!
 
