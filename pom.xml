@@ -311,8 +311,8 @@
       <version>2.4</version>
     </dependency>
     <dependency>
-      <groupId>it.unimi.dsi</groupId>
-      <artifactId>fastutil</artifactId>
+      <groupId>io.anserini</groupId>
+      <artifactId>anserini-fastutil</artifactId>
       <version>6.5.6</version>
     </dependency>
     <dependency>
