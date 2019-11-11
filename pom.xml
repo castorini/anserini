@@ -72,6 +72,15 @@
   </distributionManagement>
 
   <build>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <excludes>
+          <exclude>cacm/**/*</exclude>
+        </excludes>
+      </resource>
+    </resources>
+
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -233,6 +242,25 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>0.8.2</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>prepare-agent</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>report</id>
+            <phase>test</phase>
+            <goals>
+              <goal>report</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
 
@@ -263,21 +291,6 @@
       <groupId>org.elasticsearch.client</groupId>
       <artifactId>elasticsearch-rest-high-level-client</artifactId>
       <version>7.0.0</version>
-    </dependency>
-    <dependency>
-      <groupId>org.elasticsearch.client</groupId>
-      <artifactId>elasticsearch-rest-client</artifactId>
-      <version>7.0.0</version>
-    </dependency>
-    <dependency>
-      <groupId>org.elasticsearch</groupId>
-      <artifactId>elasticsearch</artifactId>
-      <version>7.0.0</version>
-    </dependency>
-    <dependency>
-      <groupId>edu.umass.ciir</groupId>
-      <artifactId>RankLib</artifactId>
-      <version>2.1</version>
     </dependency>
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
@@ -317,14 +330,20 @@
       <version>2.4</version>
     </dependency>
     <dependency>
-      <groupId>it.unimi.dsi</groupId>
-      <artifactId>fastutil</artifactId>
+      <groupId>io.anserini</groupId>
+      <artifactId>anserini-fastutil</artifactId>
       <version>6.5.6</version>
     </dependency>
     <dependency>
       <groupId>org.wikiclean</groupId>
       <artifactId>wikiclean</artifactId>
       <version>1.1</version>
+      <exclusions>
+        <exclusion>
+          <groupId>edu.stanford.nlp</groupId>
+          <artifactId>stanford-corenlp</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency> <!-- needed for CBZip2InputStream -->
       <groupId>org.apache.ant</groupId>
