@@ -28,50 +28,50 @@ import java.util.TreeMap;
  * Topic reader for the XML format used in the NTCIR We Want Web (WWW) Tracks.
  * Please cite the following papers if the NTCIR WWW test collections are used
  * in a publication.
- *
+ * <p>
  * http://research.nii.ac.jp/ntcir/workshop/OnlineProceedings13/pdf/ntcir/01-NTCIR13-OV-WWW-LuoC.pdf
  * http://research.nii.ac.jp/ntcir/workshop/OnlineProceedings14/pdf/ntcir/01-NTCIR14-OV-WWW-MaoJ.pdf
  */
 public class NtcirTopicReader extends TopicReader<Integer> {
-    public NtcirTopicReader(Path topicFile) {
-        super(topicFile);
+  public NtcirTopicReader(Path topicFile) {
+    super(topicFile);
+  }
+
+  @Override
+  public SortedMap<Integer, Map<String, String>> read(BufferedReader bRdr) throws IOException {
+    /**
+     * There are no narratives in NTCIR WWW topics, so this method returns
+     * a map whose keys are description and title only.
+     */
+
+    SortedMap<Integer, Map<String, String>> map = new TreeMap<>();
+    Map<String, String> fields = new HashMap<>();
+
+    String number = "";
+    String query = "";
+    String description = "";
+    String line;
+
+    while ((line = bRdr.readLine()) != null) {
+      line = line.trim();
+      if (line.startsWith("<qid")) {
+        number = line.substring(5, line.length() - 6).trim();
+      }
+      if (line.startsWith("<content>") && line.endsWith("</content>")) {
+        query = line.substring(9, line.length() - 10).trim();
+        fields.put("title", query);
+      }
+
+      if (line.startsWith("<description>") && line.endsWith("</description>")) {
+        description = line.substring(13, line.length() - 14).trim();
+        fields.put("description", description);
+      }
+
+      if (line.startsWith("</query>")) {
+        map.put(Integer.valueOf(number), fields);
+        fields = new HashMap<>();
+      }
     }
-
-    @Override
-    public SortedMap<Integer, Map<String, String>> read(BufferedReader bRdr) throws IOException {
-        /**
-         * There are no narratives in NTCIR WWW topics, so this method returns
-         * a map whose keys are description and title only.
-         */
-
-        SortedMap<Integer, Map<String, String>> map = new TreeMap<>();
-        Map<String, String> fields = new HashMap<>();
-
-        String number = "";
-        String query = "";
-        String description = "";
-        String line;
-
-        while ((line = bRdr.readLine()) != null) {
-            line = line.trim();
-            if (line.startsWith("<qid")) {
-                number = line.substring(5, line.length() - 6).trim();
-            }
-            if (line.startsWith("<content>") && line.endsWith("</content>")) {
-                query = line.substring(9, line.length() - 10).trim();
-                fields.put("title", query);
-            }
-
-            if (line.startsWith("<description>") && line.endsWith("</description>")) {
-                description = line.substring(13, line.length() - 14).trim();
-                fields.put("description", description);
-            }
-
-            if (line.startsWith("</query>")) {
-                map.put(Integer.valueOf(number), fields);
-                fields = new HashMap<>();
-            }
-        }
-        return map;
-    }
+    return map;
+  }
 }
