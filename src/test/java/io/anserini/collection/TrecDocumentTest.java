@@ -20,7 +20,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Iterator;
 import java.util.concurrent.atomic.AtomicInteger;
