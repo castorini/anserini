@@ -1,6 +1,6 @@
 Anserini
 ========
-[![Generic badge](https://img.shields.io/badge/Lucene-v8.0.0-yellow.svg)](https://archive.apache.org/dist/lucene/java/8.0.0/)
+[![Generic badge](https://img.shields.io/badge/Lucene-v8.3.0-green.svg)](https://archive.apache.org/dist/lucene/java/8.0.0/)
 [![Build Status](https://travis-ci.org/castorini/anserini.svg?branch=master)](https://travis-ci.org/castorini/Anserini)
 [![Maven Central](https://img.shields.io/maven-central/v/io.anserini/anserini)](https://search.maven.org/search?q=a:anserini)
 [![PyPI](https://img.shields.io/pypi/v/pyserini)](https://pypi.org/project/pyserini/)
