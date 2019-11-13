@@ -16,7 +16,6 @@ install: true
 script:
   - mvn clean package appassembler:assemble
   - find target/appassembler/bin/ -type f -exec sed -i 's/-Xmx.*G/-Xmx2G/g' {} \;
-  - mkdir -p src/main/resources/cacm/collection && tar xfz src/main/resources/cacm/cacm.tar.gz -C src/main/resources/cacm/collection
   - cd eval && tar xvfz trec_eval.9.0.4.tar.gz && cd trec_eval.9.0.4 && make && cd .. && cd ..
   - python src/main/python/run_regression.py --collection cacm --index --fail_eval
 after_success:
