@@ -38,16 +38,16 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * A dataset document collection for the CORE dataset.
- * See <a href="https://core.ac.uk/services/dataset/">source</a> for details
+ * A document collection in the
+ * <a href="https://core.ac.uk/services/dataset/">CORE Dataset</code>
+ * format of research outputs.
  * This class reads all <code>.json.xz</code> files in the input directory.
- * Inside each file is a JSON objects, each per line (not actually valid Json String)
- * Example of JSON objects, each per line (not actually valid Json String):
+ * Inside each file should be a bunch of JSON objects, each per line:
+ *
  * <pre>
  * {"id": "doc1", "contents": "this is the contents 1."}
  * {"id": "doc2", "contents": "this is the contents 2."}
  * </pre>
- *
  */
 public class CoreCollection extends DocumentCollection<CoreCollection.Document> {
   private static final Logger LOG = LogManager.getLogger(CoreCollection.class);
