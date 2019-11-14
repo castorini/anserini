@@ -39,7 +39,7 @@ import java.util.Set;
 
 /**
  * A document collection in the
- * <a href="https://core.ac.uk/services/dataset/">CORE Dataset</code>
+ * <a href="https://core.ac.uk/services/dataset/">CORE Dataset</a>
  * format of research outputs.
  * This class reads all <code>.json.xz</code> files in the input directory.
  * Inside each file should be a bunch of JSON objects, each per line:
