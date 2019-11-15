@@ -16,8 +16,6 @@
 
 package io.anserini.integration;
 
-import io.anserini.eval.Eval;
-import io.anserini.eval.EvalArgs;
 import io.anserini.index.IndexArgs;
 import io.anserini.index.IndexCollection;
 import io.anserini.search.SearchArgs;
@@ -33,8 +31,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.file.Paths;
@@ -47,7 +47,7 @@ import java.util.List;
 public abstract class EndToEndTest extends LuceneTestCase {
   protected IndexArgs indexCollectionArgs = new IndexArgs();
   protected SearchArgs searchArgs = new SearchArgs();
-  protected EvalArgs evalArgs = new EvalArgs();
+  //protected EvalArgs evalArgs = new EvalArgs();
 
   protected String dataDirPath;
   protected String dataDirPrefix = "src/test/resources/sample_docs/";
@@ -59,7 +59,7 @@ public abstract class EndToEndTest extends LuceneTestCase {
   protected String searchOutputPrefix = "e2eTestSearch";
   protected String qrelsDirPrefix = "src/test/resources/sample_qrels/";
   protected String[] evalMetrics = new String[]{"map"};
-
+  protected String[] referenceRunOutput;
 
   // These are the sources of truth
   protected int fieldNormStatusTotalFields;
@@ -69,11 +69,8 @@ public abstract class EndToEndTest extends LuceneTestCase {
   protected int storedFieldStatusTotalDocCounts;
   protected int storedFieldStatusTotFields;
 
-  // Eval
-  protected float evalMetricValue;
-
   // init the class variables here
-  protected abstract void init();
+  protected abstract void init() throws Exception;
 
   @Override
   @Before
@@ -179,7 +176,7 @@ public abstract class EndToEndTest extends LuceneTestCase {
       SearchCollection searcher = new SearchCollection(searchArgs);
       searcher.runTopics();
       searcher.close();
-      checkRankingResults();
+      checkRankingResults(searchArgs.output);
     } catch (Exception e) {
       System.out.println("Test Searching failed: ");
       e.printStackTrace();
@@ -187,36 +184,22 @@ public abstract class EndToEndTest extends LuceneTestCase {
     }
   }
 
-  protected void checkRankingResults() {
+  protected void checkRankingResults(String output) throws IOException {
+    BufferedReader br = new BufferedReader(new FileReader(output));
 
-  }
-
-  protected void setEvalArgs() {
-    // required
-    evalArgs.runPath = this.searchOutputPrefix+this.topicReader;
-    evalArgs.qrelPath = this.qrelsDirPrefix+this.topicReader;
-    evalArgs.longDocids = false;
-    evalArgs.asc = false;
-  }
-
-  protected void testEval() throws Exception {
-    setEvalArgs();
-    try {
-      Eval.setAllMetrics(this.evalMetrics);
-      Eval.eval(evalArgs.runPath, evalArgs.qrelPath, evalArgs.longDocids, evalArgs.asc);
-      assertEquals(Eval.getAllEvals().get(this.evalMetrics[0]).aggregated,
-          this.evalMetricValue, 0.001);
-    } catch (Exception e) {
-      System.out.println("Test Eval failed");
-      e.printStackTrace();
-      fail();
+    int cnt = 0;
+    String s;
+    while ((s = br.readLine()) != null) {
+      assertEquals(referenceRunOutput[cnt], s);
+      cnt++;
     }
+
+    assertEquals(cnt, referenceRunOutput.length);
   }
 
   @Test
   public void testAll() throws Exception {
     testIndexing();
     testSearching();
-    testEval();
   }
 }

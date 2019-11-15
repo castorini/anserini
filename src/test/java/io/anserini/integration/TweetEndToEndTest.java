@@ -35,21 +35,9 @@ public class TweetEndToEndTest extends EndToEndTest {
     termIndexStatusTotPos = 24 + 3 * storedFieldStatusTotalDocCounts;
     storedFieldStatusTotFields = 12;  // 4 tweets * (1 id + 1 text + 1 raw)
 
-    // The search output should be as follows (for Lucene 7.5):
-    // 1 Q0 5 1 1.167100 Anserini
-    // 1 Q0 3 2 0.693100 Anserini
-
-    // Qrels are at src/test/resources/sample_qrels/Microblog
-    // 1 0 1 0
-    // 1 0 3 1
-    // 1 0 5 0
-    // 1 0 6 0
-    // 1 0 8 1
-    // 1 0 10 1
-    evalMetricValue = (float) (0.0/1 + 1.0/2)/3.0f;
-    // 2 retrieved docs in total: note that querytweettime filters 1 rel tweet.
-    // 1st retrieved doc is not relevant, 2nd retrieved doc is relelevant,
-    // and there are 3 relevant docs in qrels.
+    referenceRunOutput = new String[] {
+        "1 Q0 5 1 0.614300 Anserini",
+        "1 Q0 3 2 0.364800 Anserini" };
   }
 
   @Override
@@ -62,11 +50,5 @@ public class TweetEndToEndTest extends EndToEndTest {
   protected void setSearchArgs() {
     super.setSearchArgs();
     searchArgs.searchtweets = true;
-  }
-
-  @Override
-  protected void setEvalArgs() {
-    super.setEvalArgs();
-    evalArgs.longDocids = true;
   }
 }
