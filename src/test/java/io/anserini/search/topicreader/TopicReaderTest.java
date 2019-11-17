@@ -27,7 +27,7 @@ import static org.junit.Assert.assertEquals;
 public class TopicReaderTest {
 
   @Test
-  public void test() throws IOException {
+  public void test1() throws IOException {
     SortedMap<Integer, Map<String, String>> topics;
 
     topics = TopicReader.getTopics(TopicReader.Topics.ROBUST04);
@@ -65,5 +65,28 @@ public class TopicReaderTest {
 
     assertEquals(825, (int) topics.lastKey());
     assertEquals("ethanol and food prices", topics.get(topics.lastKey()).get("title"));
+  }
+
+  @Test
+  public void test2() throws IOException {
+    SortedMap<Integer, Map<String, String>> topics;
+
+    topics = TopicReader.getTopics(TopicReader.Topics.MSMARCO_DOC_DEV);
+
+    assertEquals(5193, topics.keySet().size());
+    assertEquals(2, (int) topics.firstKey());
+    assertEquals("androgen receptor define", topics.get(topics.firstKey()).get("title"));
+
+    assertEquals(1102400, (int) topics.lastKey());
+    assertEquals("why do bears hibernate", topics.get(topics.lastKey()).get("title"));
+
+    topics = TopicReader.getTopics(TopicReader.Topics.MSMARCO_PASSAGE_DEV_SUBSET);
+
+    assertEquals(6980, topics.keySet().size());
+    assertEquals(2, (int) topics.firstKey());
+    assertEquals("Androgen receptor define", topics.get(topics.firstKey()).get("title"));
+
+    assertEquals(1102400, (int) topics.lastKey());
+    assertEquals("why do bears hibernate", topics.get(topics.lastKey()).get("title"));
   }
 }
