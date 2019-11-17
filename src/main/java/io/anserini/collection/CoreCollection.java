@@ -121,7 +121,7 @@ public class CoreCollection extends DocumentCollection<CoreCollection.Document> 
 
       json.fields().forEachRemaining( e -> {
         if ("coreId".equals(e.getKey())) {
-          this.id = json.get("coreId").asText();
+          this.id = (json.get("doi").asText().equals("null")) ? json.get("coreId").asText() : json.get("doi").asText();
         } else if ("abstract".equals(e.getKey())) {
           this.contents = json.get("title").asText() + "\n" + json.get("abstract").asText();
         } else {

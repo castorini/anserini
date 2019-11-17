@@ -41,6 +41,7 @@ public class CoreDocumentTest extends DocumentTest {
     String doc =
       "{" +
       "  \"coreId\": \"coreDoc1\"," +
+      "  \"doi\": null," +
       "  \"title\": \"this is the title 1\"," +
       "  \"abstract\": \"this is the abstract 1\"," +
       "  \"field1\": \"doc1 field1 content\"," +
@@ -48,6 +49,7 @@ public class CoreDocumentTest extends DocumentTest {
       "}\n" +
       "{ " +
       "  \"coreId\": \"coreDoc2\"," +
+      "  \"doi\": \"doi2\"," +
       "  \"title\": \"this is the title 2\"," +
       "  \"abstract\": \"this is the abstract 2\"," +
       "  \"field1\": \"doc2 field1 content\"," +
@@ -58,6 +60,7 @@ public class CoreDocumentTest extends DocumentTest {
 
     HashMap<String, String> doc1 = new HashMap<>();
     doc1.put("coreId", "coreDoc1");
+    doc1.put("doi", "null");
     doc1.put("title", "this is the title 1");
     doc1.put("abstract", "this is the abstract 1");
     doc1.put("field1", "doc1 field1 content");
@@ -65,6 +68,7 @@ public class CoreDocumentTest extends DocumentTest {
     expected.add(doc1);
     HashMap<String, String> doc2 = new HashMap<>();
     doc2.put("coreId", "coreDoc2");
+    doc2.put("doi", "doi2");
     doc2.put("title", "this is the title 2");
     doc2.put("abstract", "this is the abstract 2");
     doc2.put("field1", "doc2 field1 content");
@@ -102,7 +106,7 @@ public class CoreDocumentTest extends DocumentTest {
       int j = 0;
       while (iter.hasNext()) {
         CoreCollection.Document parsed = iter.next();
-        assertEquals(parsed.id(), expected.get(j).get("coreId"));
+        assertEquals(parsed.id(), ((expected.get(j).get("doi").equals("null")) ? expected.get(j).get("coreId") : expected.get(j).get("doi")));
         assertEquals(parsed.content(), expected.get(j).get("title") + "\n" + expected.get(j).get("abstract"));
         for (Map.Entry<String, String> e : parsed.fields().entrySet()) {
           assertEquals(e.getValue(), expected.get(j).get(e.getKey()));
