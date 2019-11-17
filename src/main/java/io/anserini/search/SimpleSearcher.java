@@ -199,7 +199,11 @@ public class SimpleSearcher implements Closeable {
     return search(query, queryTokens, q, k, t);
   }
 
-  public Map<String, Result[]> batchSearch(List<String> queries, List<String> qids, int k, long t, int threads) throws IOException {
+  public Map<String, Result[]> batchSearch(List<String> queries, List<String> qids, int k, int threads) {
+    return batchSearch(queries, qids, k, -1, threads);
+  }
+
+  public Map<String, Result[]> batchSearch(List<String> queries, List<String> qids, int k, long t, int threads) {
     ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(threads);
     ConcurrentHashMap<String, Result[]> results = new ConcurrentHashMap<>();
 
