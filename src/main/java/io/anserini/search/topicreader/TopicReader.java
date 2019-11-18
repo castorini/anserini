@@ -69,7 +69,9 @@ public abstract class TopicReader<K> {
     ROBUST04(TrecTopicReader.class, "topics-and-qrels/topics.robust04.txt"),
     ROBUST05(TrecTopicReader.class, "topics-and-qrels/topics.robust05.txt"),
     CORE17(TrecTopicReader.class, "topics-and-qrels/topics.core17.txt"),
-    CORE18(TrecTopicReader.class, "topics-and-qrels/topics.core18.txt");
+    CORE18(TrecTopicReader.class, "topics-and-qrels/topics.core18.txt"),
+    MSMARCO_DOC_DEV(TsvIntTopicReader.class,"topics-and-qrels/topics.msmarco-doc.dev.txt"),
+    MSMARCO_PASSAGE_DEV_SUBSET(TsvIntTopicReader.class, "topics-and-qrels/topics.msmarco-passage.dev-subset.txt");
 
     public final String path;
     public final Class readerClass;
