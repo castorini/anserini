@@ -31,6 +31,7 @@ import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.LeafReader;
+import org.apache.lucene.index.MultiTerms;
 import org.apache.lucene.index.PostingsEnum;
 import org.apache.lucene.index.SlowCodecReaderWrapper;
 import org.apache.lucene.index.Term;
@@ -74,7 +75,7 @@ public class IndexerTest extends LuceneTestCase {
     IndexWriter writer = new IndexWriter(dir, config);
 
     FieldType textOptions = new FieldType();
-    textOptions.setIndexOptions(IndexOptions.DOCS_AND_FREQS);
+    textOptions.setIndexOptions(IndexOptions.DOCS_AND_FREQS_AND_POSITIONS);
     textOptions.setStored(true);
     textOptions.setTokenized(true);
     textOptions.setStoreTermVectors(true);
@@ -129,11 +130,27 @@ public class IndexerTest extends LuceneTestCase {
       // This is the current term in the dictionary.
       String token = bytesRef.utf8ToString();
       Term term = new Term("text", token);
-      System.out.print(token + " (df = " + reader.docFreq(term) + "):");
 
-      PostingsEnum postingsEnum = leafReader.postings(term);
+      PostingsEnum postingsEnum;
+
+      System.out.print(token + " (df = " + reader.docFreq(term) + "):");
+      postingsEnum = leafReader.postings(term);
       while (postingsEnum.nextDoc() != DocIdSetIterator.NO_MORE_DOCS) {
         System.out.print(String.format(" (%s, %s)", postingsEnum.docID(), postingsEnum.freq()));
+      }
+      System.out.println("");
+
+      // From test case at:
+      // https://github.com/apache/lucene-solr/blob/master/lucene/core/src/test/org/apache/lucene/index/TestPostingsOffsets.java
+      System.out.print(token + " (df = " + reader.docFreq(term) + "):");
+      postingsEnum = MultiTerms.getTermPostingsEnum(reader, "text", bytesRef);
+      while (postingsEnum.nextDoc() != DocIdSetIterator.NO_MORE_DOCS) {
+        System.out.print(String.format(" (%s, %s)", postingsEnum.docID(), postingsEnum.freq()));
+        System.out.print(" [");
+        for (int j=0; j<postingsEnum.freq(); j++) {
+          System.out.print((j != 0 ? ", " : "") + postingsEnum.nextPosition());
+        }
+        System.out.print("]");
       }
       System.out.println("");
 
