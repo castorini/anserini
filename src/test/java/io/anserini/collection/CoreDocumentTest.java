@@ -106,7 +106,8 @@ public class CoreDocumentTest extends DocumentTest {
       int j = 0;
       while (iter.hasNext()) {
         CoreCollection.Document parsed = iter.next();
-        assertEquals(parsed.id(), ((expected.get(j).get("doi").equals("null")) ? expected.get(j).get("coreId") : expected.get(j).get("doi")));
+        assertEquals(parsed.id(), ((expected.get(j).get("doi").equals("null")) ? expected.get(j).get("coreId") :
+                "doi:"+expected.get(j).get("doi")));
         assertEquals(parsed.content(), expected.get(j).get("title") + "\n" + expected.get(j).get("abstract"));
         for (Map.Entry<String, String> e : parsed.fields().entrySet()) {
           assertEquals(e.getValue(), expected.get(j).get(e.getKey()));
