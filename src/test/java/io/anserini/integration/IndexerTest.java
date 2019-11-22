@@ -16,6 +16,7 @@
 
 package io.anserini.integration;
 
+import io.anserini.index.IndexReaderUtils;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.codecs.FieldsProducer;
@@ -82,17 +83,17 @@ public class IndexerTest extends LuceneTestCase {
     textOptions.setStoreTermVectorPositions(true);
 
     Document doc1 = new Document();
-    doc1.add(new StringField("docid", "doc1", Field.Store.YES));
+    doc1.add(new StringField("id", "doc1", Field.Store.YES));
     doc1.add(new Field("text", "here is some text here is some more text", textOptions));
     writer.addDocument(doc1);
 
     Document doc2 = new Document();
-    doc2.add(new StringField("docid", "doc2", Field.Store.YES));
+    doc2.add(new StringField("id", "doc2", Field.Store.YES));
     doc2.add(new Field("text", "more text", textOptions));
     writer.addDocument(doc2);
 
     Document doc3 = new Document();
-    doc3.add(new StringField("docid", "doc3", Field.Store.YES));
+    doc3.add(new StringField("id", "doc3", Field.Store.YES));
     doc3.add(new Field("text", "here is a test", textOptions));
     writer.addDocument(doc3);
 
@@ -270,7 +271,7 @@ public class IndexerTest extends LuceneTestCase {
     int numDocs = reader.numDocs();
     // Iterate through the document vectors
     for (int i=0; i<numDocs; i++) {
-      String docid = reader.document(i).getField("docid").stringValue();
+      String docid = reader.document(i).getField("id").stringValue();
       System.out.println(reader.document(i));
       System.out.println(i+ ": " + docid);
       Terms terms = reader.getTermVector(i, "text");
@@ -295,6 +296,20 @@ public class IndexerTest extends LuceneTestCase {
         System.out.println(term + " " + tf + " " + (rs.scoreDocs.length == 0 ? Float.NaN : rs.scoreDocs[0].score));
       }
     }
+  }
+
+  @Test
+  public void testDocidConversion() throws Exception {
+    Directory dir = FSDirectory.open(tempDir1);
+    IndexReader reader = DirectoryReader.open(dir);
+
+    assertEquals("doc1", IndexReaderUtils.convertLuceneDocidToDocid(reader, 0));
+    assertEquals("doc2", IndexReaderUtils.convertLuceneDocidToDocid(reader, 1));
+    assertEquals("doc3", IndexReaderUtils.convertLuceneDocidToDocid(reader, 2));
+
+    assertEquals(0, IndexReaderUtils.convertDocidToLuceneDocid(reader, "doc1"));
+    assertEquals(1, IndexReaderUtils.convertDocidToLuceneDocid(reader, "doc2"));
+    assertEquals(2, IndexReaderUtils.convertDocidToLuceneDocid(reader, "doc3"));
   }
 
   @Test
