@@ -119,11 +119,12 @@ public class SimpleSearcher implements Closeable {
     }
 
     this.reader = DirectoryReader.open(FSDirectory.open(indexPath));
-    this.similarity = new LMDirichletSimilarity(1000.0f);
+    this.similarity = new BM25Similarity(0.9f, 0.4f);
     this.analyzer = new EnglishAnalyzer();
     this.searchtweets = false;
     this.isRerank = false;
-    setDefaultReranker();
+    cascade = new RerankerCascade();
+    cascade.add(new ScoreTiesAdjusterReranker());
   }
 
   public void setSearchTweets(boolean flag) {
@@ -141,18 +142,18 @@ public class SimpleSearcher implements Closeable {
     }
   }
 
+  public void unsetRM3Reranker() {
+    this.isRerank = false;
+    cascade = new RerankerCascade();
+    cascade.add(new ScoreTiesAdjusterReranker());
+  }
+
   public void setRM3Reranker() {
     setRM3Reranker(10, 10, 0.5f, false);
   }
 
   public void setRM3Reranker(int fbTerms, int fbDocs, float originalQueryWeight) {
     setRM3Reranker(fbTerms, fbDocs, originalQueryWeight, false);
-  }
-
-  public void setDefaultReranker() {
-    isRerank = false;
-    cascade = new RerankerCascade();
-    cascade.add(new ScoreTiesAdjusterReranker());
   }
 
   public void setRM3Reranker(int fbTerms, int fbDocs, float originalQueryWeight, boolean rm3_outputQuery) {
@@ -164,30 +165,18 @@ public class SimpleSearcher implements Closeable {
 
   public void setLMDirichletSimilarity(float mu) {
     this.similarity = new LMDirichletSimilarity(mu);
-  }
 
-  public void setLMJelinekMercerSimilarity(float lambda) {
-    this.similarity = new LMJelinekMercerSimilarity(lambda);
+    // We need to re-initialize the searcher
+    searcher = new IndexSearcher(reader);
+    searcher.setSimilarity(similarity);
   }
 
   public void setBM25Similarity(float k1, float b) {
     this.similarity = new BM25Similarity(k1, b);
-  }
 
-  public void setDFRSimilarity(float c) {
-    this.similarity = new DFRSimilarity(new BasicModelIn(), new AfterEffectL(), new NormalizationH2(c));
-  }
-
-  public void setIBSimilarity(float c) {
-    this.similarity = new IBSimilarity(new DistributionSPL(), new LambdaDF(), new NormalizationH2(c));
-  }
-
-  public void setF2ExpSimilarity(float s) {
-    this.similarity = new AxiomaticF2EXP(s);
-  }
-
-  public void setF2LogSimilarity(float s) {
-    this.similarity = new AxiomaticF2LOG(s);
+    // We need to re-initialize the searcher
+    searcher = new IndexSearcher(reader);
+    searcher.setSimilarity(similarity);
   }
 
   @Override
@@ -210,7 +199,11 @@ public class SimpleSearcher implements Closeable {
     return search(query, queryTokens, q, k, t);
   }
 
-  public Map<String, Result[]> batchSearch(List<String> queries, List<String> qids, int k, long t, int threads) throws IOException {
+  public Map<String, Result[]> batchSearch(List<String> queries, List<String> qids, int k, int threads) {
+    return batchSearch(queries, qids, k, -1, threads);
+  }
+
+  public Map<String, Result[]> batchSearch(List<String> queries, List<String> qids, int k, long t, int threads) {
     ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(threads);
     ConcurrentHashMap<String, Result[]> results = new ConcurrentHashMap<>();
 

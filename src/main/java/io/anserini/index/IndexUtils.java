@@ -16,7 +16,6 @@
 
 package io.anserini.index;
 
-import edu.stanford.nlp.simple.Sentence;
 import io.anserini.index.generator.LuceneDocumentGenerator;
 import io.anserini.index.generator.TweetGenerator;
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
@@ -127,9 +126,6 @@ public class IndexUtils {
 
     @Option(name = "-dumpTransformedDoc", metaVar = "docid", usage = "dumps transformed document (if stored in the index)")
     String transformedDoc;
-
-    @Option(name = "-dumpSentences", metaVar = "docid", usage = "splits the fetched document into sentences (if stored in the index)")
-    String sentDoc;
 
     @Option(name = "-convertDocidToLuceneDocid", metaVar = "docid", usage = "converts a collection lookupDocid to a Lucene internal lookupDocid")
     String lookupDocid;
@@ -450,19 +446,6 @@ public class IndexUtils {
     return doc.stringValue();
   }
 
-  public List<Sentence> getSentDocument(String docid) throws IOException, NotStoredException {
-    String toSplit;
-    try {
-      toSplit = getTransformedDocument(docid);
-    } catch (NotStoredException e) {
-      String rawDoc = getRawDocument(docid);
-      org.jsoup.nodes.Document jDoc = Jsoup.parse(rawDoc);
-      toSplit = jDoc.text();
-    }
-    edu.stanford.nlp.simple.Document doc = new edu.stanford.nlp.simple.Document(toSplit);
-    return doc.sentences();
-  }
-
   public int convertDocidToLuceneDocid(String docid) throws IOException {
     IndexSearcher searcher = new IndexSearcher(reader);
 
@@ -538,12 +521,6 @@ public class IndexUtils {
 
     if (args.transformedDoc != null) {
       System.out.println(util.getTransformedDocument(args.transformedDoc));
-    }
-
-    if (args.sentDoc != null) {
-      for (Sentence sent: util.getSentDocument(args.sentDoc)){
-        System.out.println(sent);
-      }
     }
 
     if (args.lookupDocid != null) {

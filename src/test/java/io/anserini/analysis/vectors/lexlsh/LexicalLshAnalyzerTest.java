@@ -26,8 +26,8 @@ import org.apache.lucene.index.Term;
 import org.apache.lucene.queries.CommonTermsQuery;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.TopDocs;
+import org.apache.lucene.store.ByteBuffersDirectory;
 import org.apache.lucene.store.Directory;
-import org.apache.lucene.store.RAMDirectory;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -53,7 +53,7 @@ public class LexicalLshAnalyzerTest {
 
     for (String text : texts) {
       LexicalLshAnalyzer analyzer = new LexicalLshAnalyzer();
-      Directory directory = new RAMDirectory();
+      Directory directory = new ByteBuffersDirectory();
       IndexWriter writer = new IndexWriter(directory, new IndexWriterConfig(analyzer));
       DirectoryReader reader = null;
       try {
@@ -77,7 +77,7 @@ public class LexicalLshAnalyzerTest {
   @Test
   public void testBinaryIndexAndSearch() throws Exception {
     LexicalLshAnalyzer analyzer = new LexicalLshAnalyzer();
-    Directory directory = new RAMDirectory();
+    Directory directory = new ByteBuffersDirectory();
     IndexWriter writer = new IndexWriter(directory, new IndexWriterConfig(analyzer));
     DirectoryReader reader = null;
     try {
