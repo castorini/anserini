@@ -1,5 +1,9 @@
 # Anserini: Regressions for [AQUAINT](https://tac.nist.gov//data/data_desc.html#AQUAINT) (Robust05)
 
+This page describes regressions for the TREC 2005 Robust Track, which uses the [AQUAINT collection](https://tac.nist.gov//data/data_desc.html#AQUAINT).
+The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/robust05.yaml).
+Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/robust05.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+
 ## Indexing
 
 Typical indexing command:
@@ -8,16 +12,16 @@ Typical indexing command:
 ${index_cmds}
 ```
 
-The directory `/path/to/aquaint/` should be the root directory of AQUAINT collection; under subdirectory `disk1/` there should be `NYT/` and under subdirectory `disk2/` there should be `APW/` and `XIE/`.
+The directory `/path/to/aquaint/` should be the root directory of the [AQUAINT collection](https://tac.nist.gov//data/data_desc.html#AQUAINT); under subdirectory `disk1/` there should be `NYT/` and under subdirectory `disk2/` there should be `APW/` and `XIE/`.
 
 For additional details, see explanation of [common indexing options](common-indexing-options.md).
 
 ## Retrieval
 
-Topics and qrels are stored in `src/main/resources/topics-and-qrels/`, downloaded from NIST:
+Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/main/resources/topics-and-qrels/), downloaded from NIST:
 
-+ `topics.robust05.txt`: [Hard Topics of Robust04 (TREC 2005 Robust Track)](http://trec.nist.gov/data/robust/05/05.50.topics.txt)
-+ `qrels.robust2005.txt`: [qrels (TREC 2005 Robust Track)](http://trec.nist.gov/data/robust/05/TREC2005.qrels.txt)
++ [`topics.robust05.txt`](../src/main/resources/topics-and-qrels/topics.robust05.txt): [topics for the TREC 2005 Robust Track (Hard Topics of Robust04)](http://trec.nist.gov/data/robust/05/05.50.topics.txt)
++ [`qrels.robust05.txt`](../src/main/resources/topics-and-qrels/qrels.robust05.txt): [qrels for the TREC 2005 Robust Track (Hard Topics of Robust04)](http://trec.nist.gov/data/robust/05/TREC2005.qrels.txt)
 
 After indexing has completed, you should be able to perform retrieval as follows:
 

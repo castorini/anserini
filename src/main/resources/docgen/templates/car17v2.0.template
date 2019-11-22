@@ -1,6 +1,8 @@
 # Anserini: Regressions for [CAR17](http://trec-car.cs.unh.edu/) (v2.0)
 
 This page documents regression experiments for the [TREC 2017 Complex Answer Retrieval (CAR)](http://trec-car.cs.unh.edu/) section-level passage retrieval task (v2.0).
+The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/car17v2.0.yaml).
+Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/car17v2.0.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
 
 ## Indexing
 
@@ -16,10 +18,10 @@ For additional details, see explanation of [common indexing options](common-inde
 
 ## Retrieval
 
-The "benchmarkY1-test" topics and qrels (v2.0) are stored in `src/main/resources/topics-and-qrels/`, downloaded from [the CAR website](http://trec-car.cs.unh.edu/datareleases/):
+The "benchmarkY1-test" topics and qrels (v2.0) are stored in [`src/main/resources/topics-and-qrels/`](../src/main/resources/topics-and-qrels/), downloaded from [the CAR website](http://trec-car.cs.unh.edu/datareleases/):
 
-+ `topics.car17v2.0.benchmarkY1test.txt`
-+ `qrels.car17v2.0.benchmarkY1test.txt`
++ [`topics.car17v2.0.benchmarkY1test.txt`](../src/main/resources/topics-and-qrels/topics.car17v2.0.benchmarkY1test.txt)
++ [`qrels.car17v2.0.benchmarkY1test.txt`](../src/main/resources/topics-and-qrels/qrels.car17v2.0.benchmarkY1test.txt)
 
 Specifically, this is the section-level passage retrieval task with automatic ground truth.
 
