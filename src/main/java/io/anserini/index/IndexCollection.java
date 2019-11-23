@@ -66,6 +66,7 @@ import org.kohsuke.args4j.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Constructor;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -602,7 +603,8 @@ public final class IndexCollection {
     this.generatorClass = Class.forName("io.anserini.index.generator." + args.generatorClass);
     this.collectionClass = Class.forName("io.anserini.collection." + args.collectionClass);
 
-    collection = (DocumentCollection) this.collectionClass.newInstance();
+    // There's only one constructor, so this is safe-ish... skipping any sort of error checking.
+    collection = (DocumentCollection) this.collectionClass.getDeclaredConstructors()[0].newInstance();
     collection.setCollectionPath(collectionPath);
 
     if (args.whitelist != null) {

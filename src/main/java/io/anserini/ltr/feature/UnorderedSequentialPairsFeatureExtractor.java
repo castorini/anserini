@@ -92,9 +92,9 @@ public class UnorderedSequentialPairsFeatureExtractor<T> implements FeatureExtra
 
   /**
    * Method will dictate which pairs of tokens we will count for
-   * can be overriden for different implementations, ei consecutive pairs, or all
+   * can be overridden for different implementations, ei consecutive pairs, or all
    * pairs
-   * @param queryTokens
+   * @param queryTokens query tokens
    */
   protected void populateQueryMaps(List<String> queryTokens) {
     // Construct a count map and a map of phrase pair x y, x->y
