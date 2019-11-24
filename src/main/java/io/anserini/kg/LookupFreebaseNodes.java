@@ -91,8 +91,9 @@ public class LookupFreebaseNodes implements Closeable {
   }
 
   /**
-   * Prints all known facts about a particular mid.
+   * Returns document corresponding to a particular mid.
    * @param mid subject mid
+   * @return Document corresponding to the mid
    * @throws IOException on error
    */
   public Document lookupMid(String mid) throws IOException {
@@ -118,6 +119,7 @@ public class LookupFreebaseNodes implements Closeable {
    * Full text search over textual labels of nodes.
    * @param q query string
    * @param numHits hits to return
+   * @return array of results
    * @throws Exception on error
    */
   public Result[] search(String q, int numHits) throws Exception {

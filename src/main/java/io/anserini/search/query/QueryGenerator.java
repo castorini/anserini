@@ -49,7 +49,5 @@ public abstract class QueryGenerator {
     return list;
   }
   
-  public Query buildQuery(String field, Analyzer analyzer, String queryText) {
-    throw new UnsupportedOperationException();
-  }
+  public abstract Query buildQuery(String field, Analyzer analyzer, String queryText);
 }
