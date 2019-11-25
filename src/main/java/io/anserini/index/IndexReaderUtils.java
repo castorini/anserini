@@ -115,7 +115,7 @@ public class IndexReaderUtils {
 
     List<Posting> postingsList = new ArrayList<>();
     while (postingsEnum.nextDoc() != DocIdSetIterator.NO_MORE_DOCS) {
-      postingsList.add(new Posting(postingsEnum.docID(), postingsEnum.freq()));
+      postingsList.add(new Posting(postingsEnum));
     }
 
     return postingsList;

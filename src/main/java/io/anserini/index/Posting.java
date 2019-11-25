@@ -16,6 +16,10 @@
 
 package io.anserini.index;
 
+import org.apache.lucene.index.PostingsEnum;
+
+import java.io.IOException;
+
 /*
  Basic Posting class used to construct postings lists in IndexReaderUtils
  */
@@ -23,12 +27,17 @@ package io.anserini.index;
 public class Posting {
     private int docId;
     private int termFreq;
+    private int[] positions;
 
     public Posting() {}
 
-    public Posting(int docId, int termFreq) {
-        this.docId = docId;
-        this.termFreq = termFreq;
+    public Posting(PostingsEnum postingsEnum) throws IOException {
+        this.docId = postingsEnum.docID();
+        this.termFreq = postingsEnum.freq();
+        this.positions = new int[this.termFreq];
+        for (int j=0; j < this.termFreq; j++) {
+            this.positions[j] = postingsEnum.nextPosition();
+        }
     }
 
     public int getTF() {
@@ -37,5 +46,9 @@ public class Posting {
 
     public int getDocid() {
         return this.docId;
+    }
+
+    public int[] getPositions() {
+        return this.positions;
     }
 }
