@@ -21,6 +21,7 @@ A low-effort way to try out Anserini is to look at our online colab demos:
 + [Pyserini Robust04 demo (Python interface to Anserini)](https://colab.research.google.com/drive/1wiDOnjsPMZzrleQF-GnE5W6VsF7biuXH) [[GitHub copy](https://github.com/castorini/anserini-notebooks/blob/master/pyserini_robust04_demo.ipynb)]
 
 Click "Open in Playground" and you'll be able to replicate our results!
+For convenience, we've pre-generated a few common indexes, available to download [here](https://git.uwaterloo.ca/jimmylin/anserini-indexes).
 
 If you want to build Anserini itself, then start by verifying the main dependencies:
 
