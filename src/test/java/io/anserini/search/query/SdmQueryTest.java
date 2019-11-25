@@ -14,10 +14,8 @@
  * limitations under the License.
  */
 
-package io.anserini.search;
+package io.anserini.search.query;
 
-import io.anserini.search.query.BagOfWordsQueryGenerator;
-import io.anserini.search.query.SdmQueryGenerator;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.document.Document;
