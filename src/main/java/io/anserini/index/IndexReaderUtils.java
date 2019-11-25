@@ -87,27 +87,40 @@ public class IndexReaderUtils {
     return in;
   }
 
-  public static void printTermCounts(IndexReader reader, String termStr) throws IOException, ParseException {
+  public static Map<String, String> getTermCounts(IndexReader reader, String termStr) throws IOException, ParseException {
     EnglishAnalyzer ea = new EnglishAnalyzer(CharArraySet.EMPTY_SET);
     QueryParser qp = new QueryParser(LuceneDocumentGenerator.FIELD_BODY, ea);
     TermQuery q = (TermQuery)qp.parse(termStr);
     Term t = q.getTerm();
 
-    System.out.println("raw term:             " + termStr);
-    System.out.println("stemmed term:         " + q.toString(LuceneDocumentGenerator.FIELD_BODY));
-    System.out.println("collection frequency: " + reader.totalTermFreq(t));
-    System.out.println("document frequency:   " + reader.docFreq(t));
+    Map<String, String> termInfo = Map.ofEntries(
+            Map.entry("rawTerm", termStr),
+            Map.entry("stemmedTerm", q.toString(LuceneDocumentGenerator.FIELD_BODY)),
+            Map.entry("collectionFreq", String.valueOf(reader.totalTermFreq(t))),
+            Map.entry("docFreq", String.valueOf(reader.docFreq(t)))
+    );
 
-    PostingsEnum postingsEnum = MultiTerms.getTermPostingsEnum(reader, LuceneDocumentGenerator.FIELD_BODY, t.bytes());
-    System.out.println("postings:\n");
-    while (postingsEnum.nextDoc() != DocIdSetIterator.NO_MORE_DOCS) {
-      System.out.printf("\t%s, %s\n", postingsEnum.docID(), postingsEnum.freq());
-    }
+    return termInfo;
   }
 
-  public static void printDocumentVector(IndexReader reader, String docid) throws IOException, NotStoredException {
-    Terms terms = reader.getTermVector(convertDocidToLuceneDocid(reader, docid),
-            LuceneDocumentGenerator.FIELD_BODY);
+  public static Map<Integer, Integer> getPostingsList(IndexReader reader, String termStr) throws IOException, ParseException {
+    EnglishAnalyzer ea = new EnglishAnalyzer(CharArraySet.EMPTY_SET);
+    QueryParser qp = new QueryParser(LuceneDocumentGenerator.FIELD_BODY, ea);
+    TermQuery q = (TermQuery)qp.parse(termStr);
+    Term t = q.getTerm();
+
+    PostingsEnum postingsEnum = MultiTerms.getTermPostingsEnum(reader, LuceneDocumentGenerator.FIELD_BODY, t.bytes());
+
+    Map<Integer, Integer> postingsMap = new HashMap<>();
+    while (postingsEnum.nextDoc() != DocIdSetIterator.NO_MORE_DOCS) {
+      postingsMap.put(postingsEnum.docID(), postingsEnum.freq());
+    }
+
+    return postingsMap;
+  }
+
+  public static Map<String, Long> getDocumentVector(IndexReader reader, String docid) throws IOException, NotStoredException {
+    Terms terms = reader.getTermVector(convertDocidToLuceneDocid(reader, docid), LuceneDocumentGenerator.FIELD_BODY);
     if (terms == null) {
       throw new NotStoredException("Document vector not stored!");
     }
@@ -115,9 +128,13 @@ public class IndexReaderUtils {
     if (te == null) {
       throw new NotStoredException("Document vector not stored!");
     }
+
+    Map<String, Long> docVector = new HashMap<>();
     while ((te.next()) != null) {
-      System.out.println(te.term().utf8ToString() + " " + te.totalTermFreq());
+      docVector.put(te.term().utf8ToString(), te.totalTermFreq());
     }
+
+    return docVector;
   }
 
   public static void dumpDocumentVectors(IndexReader reader, String reqDocidsPath, DocumentVectorWeight weight) throws IOException {
