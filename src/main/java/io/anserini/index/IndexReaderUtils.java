@@ -24,12 +24,19 @@ import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
 import org.apache.commons.compress.compressors.gzip.GzipCompressorOutputStream;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.lucene.analysis.CharArraySet;
+import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.IndexableField;
 import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.index.MultiTerms;
+import org.apache.lucene.index.PostingsEnum;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.index.Terms;
 import org.apache.lucene.index.TermsEnum;
+import org.apache.lucene.queryparser.classic.ParseException;
+import org.apache.lucene.queryparser.classic.QueryParser;
+import org.apache.lucene.search.DocIdSetIterator;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
@@ -53,11 +60,16 @@ import java.util.Map;
 
 import static java.util.stream.Collectors.joining;
 
-
 public class IndexReaderUtils {
   private static final Logger LOG = LogManager.getLogger(IndexUtils.class);
 
   public enum DocumentVectorWeight {NONE, TF_IDF}
+
+  public static class NotStoredException extends Exception {
+    public NotStoredException(String message) {
+      super(message);
+    }
+  }
 
   public static InputStream getReadFileStream(String path) throws IOException {
     InputStream fin = Files.newInputStream(Paths.get(path), StandardOpenOption.READ);
@@ -73,6 +85,39 @@ public class IndexReaderUtils {
       return zipIn;
     }
     return in;
+  }
+
+  public static void printTermCounts(IndexReader reader, String termStr) throws IOException, ParseException {
+    EnglishAnalyzer ea = new EnglishAnalyzer(CharArraySet.EMPTY_SET);
+    QueryParser qp = new QueryParser(LuceneDocumentGenerator.FIELD_BODY, ea);
+    TermQuery q = (TermQuery)qp.parse(termStr);
+    Term t = q.getTerm();
+
+    System.out.println("raw term:             " + termStr);
+    System.out.println("stemmed term:         " + q.toString(LuceneDocumentGenerator.FIELD_BODY));
+    System.out.println("collection frequency: " + reader.totalTermFreq(t));
+    System.out.println("document frequency:   " + reader.docFreq(t));
+
+    PostingsEnum postingsEnum = MultiTerms.getTermPostingsEnum(reader, LuceneDocumentGenerator.FIELD_BODY, t.bytes());
+    System.out.println("postings:\n");
+    while (postingsEnum.nextDoc() != DocIdSetIterator.NO_MORE_DOCS) {
+      System.out.printf("\t%s, %s\n", postingsEnum.docID(), postingsEnum.freq());
+    }
+  }
+
+  public static void printDocumentVector(IndexReader reader, String docid) throws IOException, NotStoredException {
+    Terms terms = reader.getTermVector(convertDocidToLuceneDocid(reader, docid),
+            LuceneDocumentGenerator.FIELD_BODY);
+    if (terms == null) {
+      throw new NotStoredException("Document vector not stored!");
+    }
+    TermsEnum te = terms.iterator();
+    if (te == null) {
+      throw new NotStoredException("Document vector not stored!");
+    }
+    while ((te.next()) != null) {
+      System.out.println(te.term().utf8ToString() + " " + te.totalTermFreq());
+    }
   }
 
   public static void dumpDocumentVectors(IndexReader reader, String reqDocidsPath, DocumentVectorWeight weight) throws IOException {
