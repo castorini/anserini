@@ -56,6 +56,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.HashMap;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Map;
 
 import static java.util.stream.Collectors.joining;
@@ -103,7 +105,7 @@ public class IndexReaderUtils {
     return termInfo;
   }
 
-  public static Map<Integer, Integer> getPostingsList(IndexReader reader, String termStr) throws IOException, ParseException {
+  public static List<Posting> getPostingsList(IndexReader reader, String termStr) throws IOException, ParseException {
     EnglishAnalyzer ea = new EnglishAnalyzer(CharArraySet.EMPTY_SET);
     QueryParser qp = new QueryParser(LuceneDocumentGenerator.FIELD_BODY, ea);
     TermQuery q = (TermQuery)qp.parse(termStr);
@@ -111,12 +113,12 @@ public class IndexReaderUtils {
 
     PostingsEnum postingsEnum = MultiTerms.getTermPostingsEnum(reader, LuceneDocumentGenerator.FIELD_BODY, t.bytes());
 
-    Map<Integer, Integer> postingsMap = new HashMap<>();
+    List<Posting> postingsList = new ArrayList<>();
     while (postingsEnum.nextDoc() != DocIdSetIterator.NO_MORE_DOCS) {
-      postingsMap.put(postingsEnum.docID(), postingsEnum.freq());
+      postingsList.add(new Posting(postingsEnum.docID(), postingsEnum.freq()));
     }
 
-    return postingsMap;
+    return postingsList;
   }
 
   public static Map<String, Long> getDocumentVector(IndexReader reader, String docid) throws IOException, NotStoredException {
