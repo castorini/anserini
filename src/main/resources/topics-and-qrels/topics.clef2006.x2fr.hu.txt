@@ -1,0 +1,49 @@
+301-AH	Nestlé márkák
+302-AH	Fogyasztói bojkott
+303-AH	Olasz (itáliai) festmények
+304-AH	A világörökség részei
+305-AH	Olajárak
+306-AH	ETA-tevékenységek Franciaországban
+307-AH	Skóciában játszódó filmek
+308-AH	Napfogyatkozás
+309-AH	Keménydrogok
+310-AH	Az ipari hulladék kezelése
+311-AH	Munkanélküliség Európában
+312-AH	Kutyatámadások
+313-AH	Centenáriumi ünnepségek
+314-AH	Veszélyeztetett fajok
+315-AH	Doppingolás a sportban
+316-AH	Sztrájkok
+317-AH	Rák elleni orvosi beavatkozások
+318-AH	Szexuális nevelés
+319-AH	Ópiumtermelés
+320-AH	Energiaválságok
+321-AH	Tálibok Afganisztánban
+322-AH	Atomenergia
+323-AH	Szigorodó vízumkötelezettség
+324-AH	Topmodellek
+325-AH	Egyetemi tandíj
+326-AH	Nemzetközi Emmy-díjak
+327-AH	Mexikóvárosi földrengések
+328-AH	Az iraki kurdok és Törökország
+329-AH	Károly herceg és Diana válásának következményei
+330-AH	Filmek Keanu Reeves-zel
+331-AH	Zedillo gazdaságpolitikája
+333-AH	Paul Touvier pere
+334-AH	George W. Bush megválasztása
+335-AH	A brit Munkáspárt John Smith után
+336-AH	Munkaügyi konfliktusok az NBA-ben
+337-AH	Polgárháború Jemenben
+338-AH	Carlos kiadatása és pere
+339-AH	A Sinn Fein és a Downing Street-i nyilatkozat
+340-AH	Új miniszterelnök Quebecben
+341-AH	A Sikoly ellopása
+342-AH	Négy esküvő és egy temetés
+343-AH	A dél-afrikai Nemzeti Párt
+344-AH	Brazil-svéd elődöntő
+345-AH	Sífutás az Olimpián
+346-AH	Grand Slam-győztesek
+347-AH	1994-es Oscar a legjobb filmért
+348-AH	A Yann Piat elleni merénylet
+349-AH	Nixon halála
+350-AH	Ayrton Senna halála

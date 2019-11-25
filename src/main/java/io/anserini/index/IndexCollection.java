@@ -49,6 +49,8 @@ import org.apache.lucene.analysis.bn.BengaliAnalyzer;
 import org.apache.lucene.analysis.cjk.CJKAnalyzer;
 import org.apache.lucene.analysis.fr.FrenchAnalyzer;
 import org.apache.lucene.analysis.hi.HindiAnalyzer;
+import org.apache.lucene.analysis.es.SpanishAnalyzer;
+import org.apache.lucene.analysis.de.GermanAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.*;
 import org.apache.lucene.search.similarities.BM25Similarity;
@@ -677,6 +679,8 @@ public final class IndexCollection {
       final FrenchAnalyzer frenchAnalyzer = new FrenchAnalyzer();
       final HindiAnalyzer hindiAnalyzer = new HindiAnalyzer();
       final BengaliAnalyzer bengaliAnalyzer = new BengaliAnalyzer();
+      final GermanAnalyzer germanAnalyzer = new GermanAnalyzer();
+      final SpanishAnalyzer spanishAnalyzer = new SpanishAnalyzer();
       final EnglishStemmingAnalyzer analyzer = args.keepStopwords ?
           new EnglishStemmingAnalyzer(args.stemmer, CharArraySet.EMPTY_SET) : new EnglishStemmingAnalyzer(args.stemmer);
       final TweetAnalyzer tweetAnalyzer = new TweetAnalyzer(args.tweetStemming);
@@ -693,6 +697,10 @@ public final class IndexCollection {
         config = new IndexWriterConfig(hindiAnalyzer);
       } else if (args.language.equals("bn")) {
         config = new IndexWriterConfig(bengaliAnalyzer);
+      } else if (args.language.equals("de")) {
+        config = new IndexWriterConfig(germanAnalyzer);
+      } else if (args.language.equals("es")) {
+        config = new IndexWriterConfig(spanishAnalyzer);
       } else {
         config = new IndexWriterConfig(analyzer);
       }
