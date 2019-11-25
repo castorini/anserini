@@ -16,7 +16,6 @@
 
 package io.anserini.index;
 
-import edu.stanford.nlp.simple.Sentence;
 import io.anserini.index.generator.LuceneDocumentGenerator;
 import io.anserini.index.generator.TweetGenerator;
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
@@ -87,8 +86,8 @@ import static java.util.stream.Collectors.joining;
 public class IndexUtils {
   private static final Logger LOG = LogManager.getLogger(IndexUtils.class);
 
-  enum Compression { NONE, GZ, BZ2, ZIP }
-  enum DocVectorWeight {NONE, TF_IDF}
+  public enum Compression { NONE, GZ, BZ2, ZIP }
+  public enum DocumentVectorWeight {NONE, TF_IDF}
 
   public static final class Args {
     @Option(name = "-index", metaVar = "[Path]", required = true, usage = "index path")
@@ -108,7 +107,7 @@ public class IndexUtils {
 
     @Option(name = "-docVectorWeight", metaVar = "[str]",
             usage = "the weight for dumped document vector(s), NONE or TF_IDF")
-    DocVectorWeight docVectorWeight;
+    DocumentVectorWeight docVectorWeight;
 
     @Option(name = "-dumpAllDocids", usage = "dumps all docids in sorted order. For non-tweet collection the order is " +
             "in ascending of String docid; For tweets collection the order is in descending of Long tweet id" +
@@ -127,9 +126,6 @@ public class IndexUtils {
 
     @Option(name = "-dumpTransformedDoc", metaVar = "docid", usage = "dumps transformed document (if stored in the index)")
     String transformedDoc;
-
-    @Option(name = "-dumpSentences", metaVar = "docid", usage = "splits the fetched document into sentences (if stored in the index)")
-    String sentDoc;
 
     @Option(name = "-convertDocidToLuceneDocid", metaVar = "docid", usage = "converts a collection lookupDocid to a Lucene internal lookupDocid")
     String lookupDocid;
@@ -220,7 +216,7 @@ public class IndexUtils {
     }
   }
 
-  public void dumpDocumentVectors(String reqDocidsPath, DocVectorWeight weight) throws IOException {
+  public void dumpDocumentVectors(String reqDocidsPath, DocumentVectorWeight weight) throws IOException {
     String outFileName = weight == null ? reqDocidsPath+".docvector.tar.gz" : reqDocidsPath+".docvector." + weight +".tar.gz";
     LOG.info("Start dump document vectors with weight " + weight);
 
@@ -450,19 +446,6 @@ public class IndexUtils {
     return doc.stringValue();
   }
 
-  public List<Sentence> getSentDocument(String docid) throws IOException, NotStoredException {
-    String toSplit;
-    try {
-      toSplit = getTransformedDocument(docid);
-    } catch (NotStoredException e) {
-      String rawDoc = getRawDocument(docid);
-      org.jsoup.nodes.Document jDoc = Jsoup.parse(rawDoc);
-      toSplit = jDoc.text();
-    }
-    edu.stanford.nlp.simple.Document doc = new edu.stanford.nlp.simple.Document(toSplit);
-    return doc.sentences();
-  }
-
   public int convertDocidToLuceneDocid(String docid) throws IOException {
     IndexSearcher searcher = new IndexSearcher(reader);
 
@@ -515,7 +498,7 @@ public class IndexUtils {
 
     if (args.docVectors != null) {
       if (args.docVectorWeight == null) {
-        args.docVectorWeight = DocVectorWeight.NONE;
+        args.docVectorWeight = DocumentVectorWeight.NONE;
       }
       util.dumpDocumentVectors(args.docVectors, args.docVectorWeight);
     }
@@ -538,12 +521,6 @@ public class IndexUtils {
 
     if (args.transformedDoc != null) {
       System.out.println(util.getTransformedDocument(args.transformedDoc));
-    }
-
-    if (args.sentDoc != null) {
-      for (Sentence sent: util.getSentDocument(args.sentDoc)){
-        System.out.println(sent);
-      }
     }
 
     if (args.lookupDocid != null) {

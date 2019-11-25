@@ -70,6 +70,7 @@ import org.kohsuke.args4j.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Constructor;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -149,7 +150,12 @@ public final class IndexCollection {
                 .getDeclaredConstructor(IndexArgs.class, Counters.class)
                 .newInstance(args, counters);
 
+        // We keep track of two separate counts: the total count of documents in this file segment (cnt),
+        // and the number of documents in this current "batch" (batch). We update the global counter every
+        // 10k documents: this is so that we get intermediate updates, which is informative if a collection
+        // has only one file segment; see https://github.com/castorini/anserini/issues/683
         int cnt = 0;
+        int batch = 0;
 
         @SuppressWarnings("unchecked")
         FileSegment<SourceDocument> segment =
@@ -194,7 +200,17 @@ public final class IndexCollection {
             }
           }
           cnt++;
+          batch++;
+
+          // And the counts from this batch, reset batch counter.
+          if (batch % 10000 == 0) {
+            counters.indexed.addAndGet(batch);
+            batch = 0;
+          }
         }
+
+        // Add the remaining documents.
+        counters.indexed.addAndGet(batch);
 
         int skipped = segment.getSkippedCount();
         if (skipped > 0) {
@@ -212,7 +228,6 @@ public final class IndexCollection {
 
         LOG.info(inputFile.getParent().getFileName().toString() + File.separator +
             inputFile.getFileName().toString() + ": " + cnt + " docs added.");
-        counters.indexed.addAndGet(cnt);
       } catch (Exception e) {
         LOG.error(Thread.currentThread().getName() + ": Unexpected Exception:", e);
       } finally {
@@ -592,7 +607,8 @@ public final class IndexCollection {
     this.generatorClass = Class.forName("io.anserini.index.generator." + args.generatorClass);
     this.collectionClass = Class.forName("io.anserini.collection." + args.collectionClass);
 
-    collection = (DocumentCollection) this.collectionClass.newInstance();
+    // There's only one constructor, so this is safe-ish... skipping any sort of error checking.
+    collection = (DocumentCollection) this.collectionClass.getDeclaredConstructors()[0].newInstance();
     collection.setCollectionPath(collectionPath);
 
     if (args.whitelist != null) {
@@ -721,7 +737,7 @@ public final class IndexCollection {
     final List segmentPaths = collection.discover(collection.getCollectionPath());
 
     final int segmentCnt = segmentPaths.size();
-    LOG.info(segmentCnt + " files found in " + collectionPath.toString());
+    LOG.info(segmentCnt + (segmentCnt == 1 ? " file" : " files" ) + " found in " + collectionPath.toString());
     for (int i = 0; i < segmentCnt; i++) {
       if (args.solr) {
         executor.execute(new SolrIndexerThread(collection, (Path) segmentPaths.get(i)));
@@ -737,8 +753,12 @@ public final class IndexCollection {
     try {
       // Wait for existing tasks to terminate
       while (!executor.awaitTermination(1, TimeUnit.MINUTES)) {
-        LOG.info(String.format("%.2f percent completed",
-            (double) executor.getCompletedTaskCount() / segmentCnt * 100.0d));
+        if (segmentCnt == 1) {
+          LOG.info(String.format("%d documents indexed", counters.indexed.get()));
+        } else {
+          LOG.info(String.format("%.2f percent of file segments completed, %d documents indexed",
+              (double) executor.getCompletedTaskCount() / segmentCnt * 100.0d, counters.indexed.get()));
+        }
       }
     } catch (InterruptedException ie) {
       // (Re-)Cancel if current thread also interrupted

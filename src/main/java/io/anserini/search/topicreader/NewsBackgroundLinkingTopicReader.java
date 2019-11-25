@@ -120,18 +120,18 @@ public class NewsBackgroundLinkingTopicReader extends TopicReader<Integer> {
    * For TREC2018 News Track Background linking task, the query string is actually a document id.
    * In order to make sense of the query we extract the top terms with higher tf-idf scores from the
    * raw document of that docId from the index.
-   * @param reader Index reader
+   * @param reader index reader
    * @param docid the query docid
+   * @param paragraph paragraph
    * @param k how many terms will be picked from the query document
    * @param isWeighted whether to include terms' tf-idf score as their weights
    * @param qc Query Constructor
    * @param analyzer Analyzer
    * @return Strings constructed query strings
-   * @throws IOException any io exception
-   * @throws QueryNodeException query construction errors
+   * @throws IOException any IO exception
    */
   public static List<String> generateQueryString(IndexReader reader, String docid, boolean paragraph, int k,
-     boolean isWeighted, SearchCollection.QueryConstructor qc, Analyzer analyzer) throws IOException, QueryNodeException {
+     boolean isWeighted, SearchCollection.QueryConstructor qc, Analyzer analyzer) throws IOException {
     List<String> queryStrings = new ArrayList<>();
     IndexableField rawDocStr = reader.document(convertDocidToLuceneDocid(reader, docid)).getField(FIELD_RAW);
     if (rawDocStr == null) {

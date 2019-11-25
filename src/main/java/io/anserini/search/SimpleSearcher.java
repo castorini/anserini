@@ -92,6 +92,7 @@ public class SimpleSearcher implements Closeable {
       new Sort(SortField.FIELD_SCORE,
           new SortField(TweetGenerator.StatusField.ID_LONG.name, SortField.Type.LONG, true));
   private static final Logger LOG = LogManager.getLogger(SimpleSearcher.class);
+
   private final IndexReader reader;
   private Similarity similarity;
   private Analyzer analyzer;
@@ -101,7 +102,7 @@ public class SimpleSearcher implements Closeable {
 
   private IndexSearcher searcher = null;
 
-  protected class Result {
+  public class Result {
     public String docid;
     public int ldocid;
     public float score;
@@ -123,11 +124,12 @@ public class SimpleSearcher implements Closeable {
     }
 
     this.reader = DirectoryReader.open(FSDirectory.open(indexPath));
-    this.similarity = new LMDirichletSimilarity(1000.0f);
+    this.similarity = new BM25Similarity(0.9f, 0.4f);
     this.analyzer = new EnglishAnalyzer();
     this.searchtweets = false;
     this.isRerank = false;
-    setDefaultReranker();
+    cascade = new RerankerCascade();
+    cascade.add(new ScoreTiesAdjusterReranker());
   }
 
   public void setSearchTweets(boolean flag) {
@@ -153,18 +155,18 @@ public class SimpleSearcher implements Closeable {
     }
   }
 
+  public void unsetRM3Reranker() {
+    this.isRerank = false;
+    cascade = new RerankerCascade();
+    cascade.add(new ScoreTiesAdjusterReranker());
+  }
+
   public void setRM3Reranker() {
     setRM3Reranker(10, 10, 0.5f, false);
   }
 
   public void setRM3Reranker(int fbTerms, int fbDocs, float originalQueryWeight) {
     setRM3Reranker(fbTerms, fbDocs, originalQueryWeight, false);
-  }
-
-  public void setDefaultReranker() {
-    isRerank = false;
-    cascade = new RerankerCascade();
-    cascade.add(new ScoreTiesAdjusterReranker());
   }
 
   public void setRM3Reranker(int fbTerms, int fbDocs, float originalQueryWeight, boolean rm3_outputQuery) {
@@ -176,30 +178,18 @@ public class SimpleSearcher implements Closeable {
 
   public void setLMDirichletSimilarity(float mu) {
     this.similarity = new LMDirichletSimilarity(mu);
-  }
 
-  public void setLMJelinekMercerSimilarity(float lambda) {
-    this.similarity = new LMJelinekMercerSimilarity(lambda);
+    // We need to re-initialize the searcher
+    searcher = new IndexSearcher(reader);
+    searcher.setSimilarity(similarity);
   }
 
   public void setBM25Similarity(float k1, float b) {
     this.similarity = new BM25Similarity(k1, b);
-  }
 
-  public void setDFRSimilarity(float c) {
-    this.similarity = new DFRSimilarity(new BasicModelIn(), new AfterEffectL(), new NormalizationH2(c));
-  }
-
-  public void setIBSimilarity(float c) {
-    this.similarity = new IBSimilarity(new DistributionSPL(), new LambdaDF(), new NormalizationH2(c));
-  }
-
-  public void setF2ExpSimilarity(float s) {
-    this.similarity = new AxiomaticF2EXP(s);
-  }
-
-  public void setF2LogSimilarity(float s) {
-    this.similarity = new AxiomaticF2LOG(s);
+    // We need to re-initialize the searcher
+    searcher = new IndexSearcher(reader);
+    searcher.setSimilarity(similarity);
   }
 
   @Override
@@ -207,22 +197,11 @@ public class SimpleSearcher implements Closeable {
     reader.close();
   }
 
-  public Result[] search(String q) throws IOException {
-    return search(q, 10);
+  public Map<String, Result[]> batchSearch(List<String> queries, List<String> qids, int k, int threads) {
+    return batchSearch(queries, qids, k, -1, threads);
   }
 
-  public Result[] search(String q, int k) throws IOException {
-    return search(q, k, -1);
-  }
-
-  public Result[] search(String q, int k, long t) throws IOException {
-    Query query = new BagOfWordsQueryGenerator().buildQuery(LuceneDocumentGenerator.FIELD_BODY, analyzer, q);
-    List<String> queryTokens = AnalyzerUtils.tokenize(analyzer, q);
-
-    return search(query, queryTokens, q, k, t);
-  }
-
-  public Map<String, Result[]> batchSearch(List<String> queries, List<String> qids, int k, long t, int threads) throws IOException {
+  public Map<String, Result[]> batchSearch(List<String> queries, List<String> qids, int k, long t, int threads) {
     ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(threads);
     ConcurrentHashMap<String, Result[]> results = new ConcurrentHashMap<>();
 
@@ -242,7 +221,7 @@ public class SimpleSearcher implements Closeable {
         Long lineNumber = index.incrementAndGet();
         if (lineNumber % 100 == 0) {
           double timePerQuery = (double) (System.nanoTime() - startTime) / (lineNumber + 1) / 1e9;
-          System.out.format("Retrieving query " + lineNumber + " (%.3f s/query)\n", timePerQuery);
+          LOG.info(String.format("Retrieving query " + lineNumber + " (%.3f s/query)\n", timePerQuery));
         }
       });
     }
@@ -270,6 +249,21 @@ public class SimpleSearcher implements Closeable {
     return results;
   }
 
+  public Result[] search(String q) throws IOException {
+    return search(q, 10);
+  }
+
+  public Result[] search(String q, int k) throws IOException {
+    return search(q, k, -1);
+  }
+
+  public Result[] search(String q, int k, long t) throws IOException {
+    Query query = new BagOfWordsQueryGenerator().buildQuery(LuceneDocumentGenerator.FIELD_BODY, analyzer, q);
+    List<String> queryTokens = AnalyzerUtils.tokenize(analyzer, q);
+
+    return search(query, queryTokens, q, k, t);
+  }
+
   protected Result[] search(Query query, List<String> queryTokens, String queryString, int k, long t) throws IOException {
     // Initialize an index searcher only once
     if (searcher == null) {
@@ -282,7 +276,7 @@ public class SimpleSearcher implements Closeable {
     searchArgs.hits = k;
     searchArgs.searchtweets = searchtweets;
 
-    TopDocs rs = new TopDocs(new TotalHits(0, TotalHits.Relation.EQUAL_TO), new ScoreDoc[]{});
+    TopDocs rs;
     RerankerContext context;
     if (searchtweets) {
       if (t > 0) {
@@ -302,7 +296,7 @@ public class SimpleSearcher implements Closeable {
       }
     } else {
       rs = searcher.search(query, isRerank ? searchArgs.rerankcutoff : k, BREAK_SCORE_TIES_BY_DOCID, true);
-        context = new RerankerContext<>(searcher, null, query, null, queryString, queryTokens, null, searchArgs);
+      context = new RerankerContext<>(searcher, null, query, null, queryString, queryTokens, null, searchArgs);
     }
 
     ScoredDocuments hits = cascade.run(ScoredDocuments.fromTopDocs(rs, searcher), context);
