@@ -98,10 +98,10 @@ public class BM25FeatureExtractor<T> implements FeatureExtractor<T> {
    * the formula used:
    * sum ( IDF(qi) * (df(qi,D) * (k+1)) / (df(qi,D) + k * (1-b + b*|D| / avgFL))
    * IDF and avgFL computation are described above.
-   * @param doc
-   * @param terms
-   * @param context
-   * @return
+   * @param doc document
+   * @param terms terms
+   * @param context reranker context
+   * @return BM25 score
    */
   @Override
   public float extract(Document doc, Terms terms, RerankerContext<T> context) {

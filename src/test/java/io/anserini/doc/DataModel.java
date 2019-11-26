@@ -17,7 +17,6 @@
 package io.anserini.doc;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.text.WordUtils;
 
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -29,7 +28,6 @@ import java.util.Set;
 
 public class DataModel {
   private String name;
-  private String display;
   private String index_command;
   private String index_utils_command;
   private String search_command;

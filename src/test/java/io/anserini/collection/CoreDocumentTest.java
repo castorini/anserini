@@ -1,5 +1,3 @@
-package io.anserini.collection;
-
 /**
  * Anserini: A Lucene toolkit for replicable information retrieval research
  *
@@ -15,6 +13,8 @@ package io.anserini.collection;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+package io.anserini.collection;
 
 import org.apache.tools.ant.filters.StringInputStream;
 import org.junit.Before;
