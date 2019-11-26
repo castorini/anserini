@@ -18,18 +18,24 @@ package io.anserini.util;
 
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.index.Terms;
+import org.apache.lucene.index.LeafReader;
+import org.apache.lucene.index.LeafReaderContext;
+import org.apache.lucene.index.NumericDocValues;
+import org.apache.lucene.search.DocIdSetIterator;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.SmallFloat;
-import org.kohsuke.args4j.*;
+import org.kohsuke.args4j.CmdLineException;
+import org.kohsuke.args4j.CmdLineParser;
+import org.kohsuke.args4j.Option;
+import org.kohsuke.args4j.ParserProperties;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.nio.file.Paths;
 
-public class ExtractDocumentLengths {
+public class ExtractNorms {
 
   public static class Args {
     @Option(name = "-index", metaVar = "[path]", required = true, usage = "Lucene index")
@@ -55,22 +61,13 @@ public class ExtractDocumentLengths {
     IndexReader reader = DirectoryReader.open(dir);
 
     PrintStream out = new PrintStream(new FileOutputStream(new File(myArgs.output)));
-
-    int numDocs = reader.numDocs();
-    out.println("docid\tdoc_length\tunique_term_count\tlossy_doc_length\tlossy_unique_term_count");
-    for (int i = 0; i < numDocs; i++) {
-      Terms terms = reader.getTermVector(i, "contents");
-      if (terms == null) {
-        throw new Exception("Term vectors not available!");
+    out.println("docid\tnorm");
+    for (LeafReaderContext context : reader.leaves()) {
+      LeafReader leafReader = context.reader();
+      NumericDocValues docValues = leafReader.getNormValues("contents");
+      while (docValues.nextDoc() != DocIdSetIterator.NO_MORE_DOCS) {
+        out.println(String.format("%d\t%d", docValues.docID() + context.docBase, SmallFloat.byte4ToInt((byte) docValues.longValue())));
       }
-      long exactDoclength = terms.getSumTotalTermFreq();
-      long exactTermCount = terms.size();
-      // Uses Lucene's method of encoding an integer into a byte, and the decoding it again.
-      // This is what what BM25Similarity basically does.
-      // See https://github.com/apache/lucene-solr/blob/master/lucene/core/src/java/org/apache/lucene/search/similarities/BM25Similarity.java
-      int lossyDoclength = SmallFloat.byte4ToInt(SmallFloat.intToByte4((int) exactDoclength));
-      int lossyTermCount = SmallFloat.byte4ToInt(SmallFloat.intToByte4((int) exactTermCount));
-      out.println(String.format("%d\t%d\t%d\t%d\t%d", i, exactDoclength, exactTermCount, lossyDoclength, lossyTermCount));
     }
     out.close();
   }

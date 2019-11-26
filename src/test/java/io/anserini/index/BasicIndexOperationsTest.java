@@ -20,7 +20,9 @@ import io.anserini.IndexerTestBase;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.LeafReader;
+import org.apache.lucene.index.MultiReader;
 import org.apache.lucene.index.MultiTerms;
+import org.apache.lucene.index.NumericDocValues;
 import org.apache.lucene.index.PostingsEnum;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.index.Terms;
@@ -45,29 +47,19 @@ public class BasicIndexOperationsTest extends IndexerTestBase {
   // A very simple example of how to iterate through terms in an index and dump out postings.
   private void dumpPostings(IndexReader reader) throws IOException {
     // This is how you iterate through terms in the postings list.
-    LeafReader leafReader = reader.leaves().get(0).reader();
-    TermsEnum termsEnum = leafReader.terms("contents").iterator();
+    TermsEnum termsEnum = MultiTerms.getTerms(reader, "contents").iterator();
     BytesRef bytesRef = termsEnum.next();
     while (bytesRef != null) {
       // This is the current term in the dictionary.
       String token = bytesRef.utf8ToString();
       Term term = new Term("contents", token);
 
-      PostingsEnum postingsEnum;
-
-      System.out.print(token + " (df = " + reader.docFreq(term) + "):");
-      postingsEnum = leafReader.postings(term);
-      while (postingsEnum.nextDoc() != DocIdSetIterator.NO_MORE_DOCS) {
-        System.out.print(String.format(" (%s, %s)", postingsEnum.docID(), postingsEnum.freq()));
-      }
-      System.out.println("");
-
       // How to dump out positional info as well, from test case at:
       // https://github.com/apache/lucene-solr/blob/master/lucene/core/src/test/org/apache/lucene/index/TestPostingsOffsets.java
       System.out.print(token + " (df = " + reader.docFreq(term) + "):");
-      postingsEnum = MultiTerms.getTermPostingsEnum(reader, "contents", bytesRef);
+      PostingsEnum postingsEnum = MultiTerms.getTermPostingsEnum(reader, "contents", bytesRef);
       while (postingsEnum.nextDoc() != DocIdSetIterator.NO_MORE_DOCS) {
-        System.out.print(String.format(" (%s, %s)", postingsEnum.docID(), postingsEnum.freq()));
+        System.out.print(String.format(" (%d, %d)", postingsEnum.docID(), postingsEnum.freq()));
         System.out.print(" [");
         for (int j=0; j<postingsEnum.freq(); j++) {
           System.out.print((j != 0 ? ", " : "") + postingsEnum.nextPosition());
@@ -77,6 +69,12 @@ public class BasicIndexOperationsTest extends IndexerTestBase {
       System.out.println("");
 
       bytesRef = termsEnum.next();
+    }
+
+    LeafReader leafReader = reader.leaves().get(0).reader();
+    NumericDocValues docValues = leafReader.getNormValues("contents");
+    while (docValues.nextDoc() != DocIdSetIterator.NO_MORE_DOCS) {
+      System.out.println(String.format("%d:  %d", docValues.docID(), docValues.longValue()));
     }
   }
 
