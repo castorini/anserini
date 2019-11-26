@@ -78,6 +78,9 @@ public class ExtractDocumentLengths {
       int lossyTermCount = SmallFloat.byte4ToInt(SmallFloat.intToByte4((int) exactTermCount));
       out.println(String.format("%d\t%d\t%d\t%d\t%d", i, exactDoclength, exactTermCount, lossyDoclength, lossyTermCount));
     }
+    out.flush();
     out.close();
+    reader.close();
+    dir.close();
   }
 }
