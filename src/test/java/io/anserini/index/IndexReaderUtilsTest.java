@@ -19,10 +19,20 @@ package io.anserini.index;
 import io.anserini.IndexerTestBase;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.index.MultiTerms;
+import org.apache.lucene.index.Term;
+import org.apache.lucene.index.Terms;
+import org.apache.lucene.index.TermsEnum;
+import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.TermQuery;
+import org.apache.lucene.search.TopDocs;
+import org.apache.lucene.search.similarities.BM25Similarity;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
+import org.apache.lucene.util.BytesRef;
 import org.junit.Test;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -101,6 +111,53 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
     assertEquals(1, postingsList.get(1).getTF());
     assertEquals(1, postingsList.get(1).getDocid());
     assertArrayEquals(new int[] {1}, postingsList.get(1).getPositions());
+  }
+
+  @Test
+  public void computeAllTermBM25Weights() throws Exception {
+    Directory dir = FSDirectory.open(tempDir1);
+    IndexReader reader = DirectoryReader.open(dir);
+
+    // The complete term/doc matrix
+    Map<String, Map<String, Float>> termDocMatrix = new HashMap<>();
+
+    // We're going to iterate through all the terms in the dictionary to build the term/doc matrix
+    Terms terms = MultiTerms.getTerms(reader, "contents");
+    TermsEnum termsEnum = terms.iterator();
+    BytesRef text;
+    while ((text = termsEnum.next()) != null) {
+      String term = text.utf8ToString();
+      System.out.println(term);
+
+      IndexSearcher searcher = new IndexSearcher(reader);
+      searcher.setSimilarity(new BM25Similarity());
+
+      TopDocs rs = searcher.search(new TermQuery(new Term("contents", term)), 3);
+      for (int i=0; i<rs.scoreDocs.length; i++) {
+        String docid = reader.document(rs.scoreDocs[i].doc).getField("id").stringValue();
+        System.out.println(docid + " " + rs.scoreDocs[i].score);
+        if (!termDocMatrix.containsKey(term))
+          termDocMatrix.put(term, new HashMap<>());
+        termDocMatrix.get(term).put(docid, rs.scoreDocs[i].score);
+      }
+    }
+
+    int numDocs = reader.numDocs();
+    // Iterate through the document vectors, and verify that we have the same values as in the term/doc matrix
+    for (int i=0; i<numDocs; i++) {
+      Terms termVector = reader.getTermVector(i, "contents");
+      String docid = IndexReaderUtils.convertLuceneDocidToDocid(reader, i);
+      System.out.println(reader.document(i) + " " + docid);
+
+      // For this document, iterate through the terms.
+      termsEnum = termVector.iterator();
+      while ((text = termsEnum.next()) != null) {
+        String term = text.utf8ToString();
+        float weight = IndexReaderUtils.getBM25TermWeight(reader, docid, term);
+        System.out.println(term + " " + weight);
+        assertEquals(termDocMatrix.get(term).get(docid), weight, 10e-6);
+      }
+    }
   }
 
   @Test

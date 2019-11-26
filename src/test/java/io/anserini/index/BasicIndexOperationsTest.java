@@ -20,13 +20,16 @@ import io.anserini.IndexerTestBase;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.LeafReader;
+import org.apache.lucene.index.LeafReaderContext;
 import org.apache.lucene.index.MultiTerms;
+import org.apache.lucene.index.NumericDocValues;
 import org.apache.lucene.index.PostingsEnum;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.index.Terms;
 import org.apache.lucene.index.TermsEnum;
 import org.apache.lucene.search.BooleanClause;
 import org.apache.lucene.search.BooleanQuery;
+import org.apache.lucene.search.ConstantScoreQuery;
 import org.apache.lucene.search.DocIdSetIterator;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
@@ -36,38 +39,31 @@ import org.apache.lucene.search.similarities.BM25Similarity;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.BytesRef;
+import org.apache.lucene.util.SmallFloat;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class BasicIndexOperationsTest extends IndexerTestBase {
 
   // A very simple example of how to iterate through terms in an index and dump out postings.
   private void dumpPostings(IndexReader reader) throws IOException {
     // This is how you iterate through terms in the postings list.
-    LeafReader leafReader = reader.leaves().get(0).reader();
-    TermsEnum termsEnum = leafReader.terms("contents").iterator();
+    TermsEnum termsEnum = MultiTerms.getTerms(reader, "contents").iterator();
     BytesRef bytesRef = termsEnum.next();
     while (bytesRef != null) {
       // This is the current term in the dictionary.
       String token = bytesRef.utf8ToString();
       Term term = new Term("contents", token);
 
-      PostingsEnum postingsEnum;
-
-      System.out.print(token + " (df = " + reader.docFreq(term) + "):");
-      postingsEnum = leafReader.postings(term);
-      while (postingsEnum.nextDoc() != DocIdSetIterator.NO_MORE_DOCS) {
-        System.out.print(String.format(" (%s, %s)", postingsEnum.docID(), postingsEnum.freq()));
-      }
-      System.out.println("");
-
       // How to dump out positional info as well, from test case at:
       // https://github.com/apache/lucene-solr/blob/master/lucene/core/src/test/org/apache/lucene/index/TestPostingsOffsets.java
       System.out.print(token + " (df = " + reader.docFreq(term) + "):");
-      postingsEnum = MultiTerms.getTermPostingsEnum(reader, "contents", bytesRef);
+      PostingsEnum postingsEnum = MultiTerms.getTermPostingsEnum(reader, "contents", bytesRef);
       while (postingsEnum.nextDoc() != DocIdSetIterator.NO_MORE_DOCS) {
-        System.out.print(String.format(" (%s, %s)", postingsEnum.docID(), postingsEnum.freq()));
+        System.out.print(String.format(" (%d, %d)", postingsEnum.docID(), postingsEnum.freq()));
         System.out.print(" [");
         for (int j=0; j<postingsEnum.freq(); j++) {
           System.out.print((j != 0 ? ", " : "") + postingsEnum.nextPosition());
@@ -78,6 +74,26 @@ public class BasicIndexOperationsTest extends IndexerTestBase {
 
       bytesRef = termsEnum.next();
     }
+  }
+
+  @Test
+  public void readNorms() throws Exception {
+    Directory dir = FSDirectory.open(tempDir1);
+    IndexReader reader = DirectoryReader.open(dir);
+
+    Map<Integer, Integer> norms = new HashMap<>();
+    for (LeafReaderContext context : reader.leaves()) {
+      LeafReader leafReader = context.reader();
+      NumericDocValues docValues = leafReader.getNormValues("contents");
+      while (docValues.nextDoc() != DocIdSetIterator.NO_MORE_DOCS) {
+        norms.put(docValues.docID() + context.docBase, SmallFloat.byte4ToInt((byte) docValues.longValue()));
+      }
+    }
+
+    assertEquals(3, norms.size());
+    assertEquals(7, (int) norms.get(0));
+    assertEquals(2, (int) norms.get(1));
+    assertEquals(2, (int) norms.get(2));
   }
 
   @Test
@@ -205,16 +221,16 @@ public class BasicIndexOperationsTest extends IndexerTestBase {
 
         // The way to compute the BM25 score is to issue a query with the exact docid and the
         // term in question, and look at the retrieval score.
-        Query filterQuery = new TermQuery(new Term("id", docid)); // the docid
-        Query termQuery =  new TermQuery(new Term("contents", term));    // the term
-        BooleanQuery.Builder builder = new BooleanQuery.Builder();   // must have both
+        Query filterQuery = new ConstantScoreQuery(new TermQuery(new Term("id", docid)));     // the docid
+        Query termQuery = new TermQuery(new Term("contents", term));  // the term
+        BooleanQuery.Builder builder = new BooleanQuery.Builder();        // must have both
         builder.add(filterQuery, BooleanClause.Occur.MUST);
         builder.add(termQuery, BooleanClause.Occur.MUST);
         Query finalQuery = builder.build();
         TopDocs rs = searcher.search(finalQuery, 1);                 // issue the query
 
         // The BM25 weight is the maxScore
-        System.out.println(term + " " + tf + " " + (rs.scoreDocs.length == 0 ? Float.NaN : rs.scoreDocs[0].score));
+        System.out.println(term + " " + tf + " " + (rs.scoreDocs.length == 0 ? Float.NaN : rs.scoreDocs[0].score - 1));
       }
     }
   }
