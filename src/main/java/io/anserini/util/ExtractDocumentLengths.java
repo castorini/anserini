@@ -66,7 +66,7 @@ public class ExtractDocumentLengths {
       long exactDoclength = terms.getSumTotalTermFreq();
       long exactTermCount = terms.size();
       // Uses Lucene's method of encoding an integer into a byte, and the decoding it again.
-      // This is what what BM25Similarity basically does.
+      // This matches the norm encoding in BM25Similarity:
       // See https://github.com/apache/lucene-solr/blob/master/lucene/core/src/java/org/apache/lucene/search/similarities/BM25Similarity.java
       int lossyDoclength = SmallFloat.byte4ToInt(SmallFloat.intToByte4((int) exactDoclength));
       int lossyTermCount = SmallFloat.byte4ToInt(SmallFloat.intToByte4((int) exactTermCount));
