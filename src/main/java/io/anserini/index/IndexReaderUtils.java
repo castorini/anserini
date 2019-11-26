@@ -125,6 +125,11 @@ public class IndexReaderUtils {
     return in;
   }
 
+  public static IndexReader getReader(String path) throws IOException {
+    Directory dir = FSDirectory.open(Paths.get(path));
+    return DirectoryReader.open(dir);
+  }
+
   public static String analyzeTerm(IndexReader reader, String termStr) throws IOException, ParseException {
     EnglishAnalyzer ea = new EnglishAnalyzer(CharArraySet.EMPTY_SET);
     QueryParser qp = new QueryParser(LuceneDocumentGenerator.FIELD_BODY, ea);

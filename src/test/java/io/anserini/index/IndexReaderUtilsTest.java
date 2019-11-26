@@ -113,7 +113,6 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
     assertArrayEquals(new int[] {1}, postingsList.get(1).getPositions());
   }
 
-
   @Test
   public void computeAllTermBM25Weights() throws Exception {
     Directory dir = FSDirectory.open(tempDir1);
