@@ -21,7 +21,6 @@ import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.LeafReader;
 import org.apache.lucene.index.LeafReaderContext;
-import org.apache.lucene.index.MultiReader;
 import org.apache.lucene.index.MultiTerms;
 import org.apache.lucene.index.NumericDocValues;
 import org.apache.lucene.index.PostingsEnum;
@@ -30,6 +29,7 @@ import org.apache.lucene.index.Terms;
 import org.apache.lucene.index.TermsEnum;
 import org.apache.lucene.search.BooleanClause;
 import org.apache.lucene.search.BooleanQuery;
+import org.apache.lucene.search.ConstantScoreQuery;
 import org.apache.lucene.search.DocIdSetIterator;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
@@ -221,16 +221,16 @@ public class BasicIndexOperationsTest extends IndexerTestBase {
 
         // The way to compute the BM25 score is to issue a query with the exact docid and the
         // term in question, and look at the retrieval score.
-        Query filterQuery = new TermQuery(new Term("id", docid)); // the docid
-        Query termQuery =  new TermQuery(new Term("contents", term));    // the term
-        BooleanQuery.Builder builder = new BooleanQuery.Builder();   // must have both
+        Query filterQuery = new ConstantScoreQuery(new TermQuery(new Term("id", docid)));     // the docid
+        Query termQuery = new TermQuery(new Term("contents", term));  // the term
+        BooleanQuery.Builder builder = new BooleanQuery.Builder();        // must have both
         builder.add(filterQuery, BooleanClause.Occur.MUST);
         builder.add(termQuery, BooleanClause.Occur.MUST);
         Query finalQuery = builder.build();
         TopDocs rs = searcher.search(finalQuery, 1);                 // issue the query
 
         // The BM25 weight is the maxScore
-        System.out.println(term + " " + tf + " " + (rs.scoreDocs.length == 0 ? Float.NaN : rs.scoreDocs[0].score));
+        System.out.println(term + " " + tf + " " + (rs.scoreDocs.length == 0 ? Float.NaN : rs.scoreDocs[0].score - 1));
       }
     }
   }

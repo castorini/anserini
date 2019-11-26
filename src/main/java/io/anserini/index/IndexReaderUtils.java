@@ -27,6 +27,7 @@ import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.CharArraySet;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.document.Document;
+import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexableField;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.MultiTerms;
@@ -36,12 +37,18 @@ import org.apache.lucene.index.Terms;
 import org.apache.lucene.index.TermsEnum;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.queryparser.classic.QueryParser;
+import org.apache.lucene.search.BooleanClause;
+import org.apache.lucene.search.BooleanQuery;
+import org.apache.lucene.search.ConstantScoreQuery;
 import org.apache.lucene.search.DocIdSetIterator;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.TopDocs;
+import org.apache.lucene.search.similarities.BM25Similarity;
+import org.apache.lucene.store.Directory;
+import org.apache.lucene.store.FSDirectory;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -174,6 +181,32 @@ public class IndexReaderUtils {
     }
 
     return docVector;
+  }
+
+  /**
+   * Computes the BM25 weight of a term in a particular document.
+   * @param reader index reader
+   * @param docid external collection docid
+   * @param term term (prior to analysis)
+   * @return BM25 weight of the term in the specified document
+   * @throws IOException if error encountered during query
+   */
+  public static float getBM25TermWeight(IndexReader reader, String docid, String term) throws IOException {
+    IndexSearcher searcher = new IndexSearcher(reader);
+    searcher.setSimilarity(new BM25Similarity());
+
+    // The way to compute the BM25 score is to issue a query with the exact docid and the
+    // term in question, and look at the retrieval score.
+    Query filterQuery = new ConstantScoreQuery(new TermQuery(new Term(LuceneDocumentGenerator.FIELD_ID, docid)));
+    Query termQuery = new TermQuery(new Term(LuceneDocumentGenerator.FIELD_BODY, term));
+    BooleanQuery.Builder builder = new BooleanQuery.Builder();
+    builder.add(filterQuery, BooleanClause.Occur.MUST);
+    builder.add(termQuery, BooleanClause.Occur.MUST);
+    Query finalQuery = builder.build();
+    TopDocs rs = searcher.search(finalQuery, 1);
+
+    // The BM25 weight is the score of the first (and only) hit, but remember to remove 1 for the ConstantScoreQuery
+    return rs.scoreDocs.length == 0 ? Float.NaN : rs.scoreDocs[0].score - 1;
   }
 
   public static void dumpDocumentVectors(IndexReader reader, String reqDocidsPath, DocumentVectorWeight weight) throws IOException {
