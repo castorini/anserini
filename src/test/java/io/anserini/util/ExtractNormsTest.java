@@ -21,6 +21,8 @@ import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.BufferedReader;
@@ -31,19 +33,31 @@ import java.util.List;
 import java.util.Random;
 
 public class ExtractNormsTest extends IndexerTestBase {
+  private static final Random rand = new Random();
+  private String randomFileName;
+
+  @Before
+  @Override
+  public void setUp() throws Exception {
+    super.setUp();
+    randomFileName = "norms" + rand.nextInt();
+  }
+
+  @After
+  @Override
+  public void tearDown() throws Exception {
+    super.tearDown();
+    Files.delete(Paths.get(randomFileName));
+  }
 
   @Test
   public void test() throws Exception {
-    Random rand = new Random();
-    int r = rand.nextInt();
-    ExtractNorms.main(new String[] {"-index", tempDir1.toString(), "-output", "doclengths" + r});
+    ExtractNorms.main(new String[] {"-index", tempDir1.toString(), "-output", randomFileName});
 
-    List<String> lines = Files.readAllLines(Paths.get("doclengths" + r));
+    List<String> lines = Files.readAllLines(Paths.get(randomFileName));
     assertEquals(4, lines.size());
     assertEquals("0\t7", lines.get(1));
     assertEquals("1\t2", lines.get(2));
     assertEquals("2\t2", lines.get(3));
-
-    Files.delete(Paths.get("doclengths" + r));
   }
 }

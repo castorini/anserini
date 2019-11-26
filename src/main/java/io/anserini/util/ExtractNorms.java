@@ -77,6 +77,9 @@ public class ExtractNorms {
             SmallFloat.byte4ToInt((byte) docValues.longValue())));
       }
     }
+    out.flush();
     out.close();
+    reader.close();
+    dir.close();
   }
 }
