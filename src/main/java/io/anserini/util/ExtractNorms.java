@@ -35,6 +35,10 @@ import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.nio.file.Paths;
 
+/**
+ * Utility for extracting the norm of every document in the index. With Lucene's BM25 implementation, the norm
+ * is the document length under Lucene's lossy compression scheme that encodes an integer into a byte.
+ */
 public class ExtractNorms {
 
   public static class Args {
@@ -65,8 +69,12 @@ public class ExtractNorms {
     for (LeafReaderContext context : reader.leaves()) {
       LeafReader leafReader = context.reader();
       NumericDocValues docValues = leafReader.getNormValues("contents");
+      if (docValues == null) {
+        throw new Exception("Norms do not appear to have been indexed!");
+      }
       while (docValues.nextDoc() != DocIdSetIterator.NO_MORE_DOCS) {
-        out.println(String.format("%d\t%d", docValues.docID() + context.docBase, SmallFloat.byte4ToInt((byte) docValues.longValue())));
+        out.println(String.format("%d\t%d", docValues.docID() + context.docBase,
+            SmallFloat.byte4ToInt((byte) docValues.longValue())));
       }
     }
     out.close();
