@@ -111,10 +111,6 @@
               <id>IndexCollection</id>
             </program>
             <program>
-              <mainClass>io.anserini.util.MapCollections</mainClass>
-              <id>MapCollections</id>
-            </program>
-            <program>
               <mainClass>io.anserini.search.SearchCollection</mainClass>
               <id>SearchCollection</id>
             </program>
@@ -132,11 +128,11 @@
             </program>
             <program>
                <mainClass>io.anserini.util.ExtractDocumentLengths</mainClass>
-               <id>DocLen</id>
+               <id>ExtractDocumentLengths</id>
             </program>
             <program>
-              <mainClass>io.anserini.eval.Eval</mainClass>
-              <id>Eval</id>
+               <mainClass>io.anserini.util.ExtractNorms</mainClass>
+               <id>ExtractNorms</id>
             </program>
             <program>
               <mainClass>io.anserini.index.IndexUtils</mainClass>
