@@ -33,37 +33,27 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
     Directory dir = FSDirectory.open(tempDir1);
     IndexReader reader = DirectoryReader.open(dir);
 
-    Map<String, String> termCountMap;
+    Map<String, Long> termCountMap;
 
     termCountMap = IndexReaderUtils.getTermCounts(reader, "here");
-    assertEquals("here", termCountMap.get("rawTerm"));
-    assertEquals("here", termCountMap.get("stemmedTerm"));
-    assertEquals("3", termCountMap.get("collectionFreq"));
-    assertEquals("2", termCountMap.get("docFreq"));
+    assertEquals(Long.valueOf(3), termCountMap.get("collectionFreq"));
+    assertEquals(Long.valueOf(2), termCountMap.get("docFreq"));
 
     termCountMap = IndexReaderUtils.getTermCounts(reader, "more");
-    assertEquals("more", termCountMap.get("rawTerm"));
-    assertEquals("more", termCountMap.get("stemmedTerm"));
-    assertEquals("2", termCountMap.get("collectionFreq"));
-    assertEquals("2", termCountMap.get("docFreq"));
+    assertEquals(Long.valueOf(2), termCountMap.get("collectionFreq"));
+    assertEquals(Long.valueOf(2), termCountMap.get("docFreq"));
 
     termCountMap = IndexReaderUtils.getTermCounts(reader, "some");
-    assertEquals("some", termCountMap.get("rawTerm"));
-    assertEquals("some", termCountMap.get("stemmedTerm"));
-    assertEquals("2", termCountMap.get("collectionFreq"));
-    assertEquals("1", termCountMap.get("docFreq"));
+    assertEquals(Long.valueOf(2), termCountMap.get("collectionFreq"));
+    assertEquals(Long.valueOf(1), termCountMap.get("docFreq"));
 
     termCountMap = IndexReaderUtils.getTermCounts(reader, "test");
-    assertEquals("test", termCountMap.get("rawTerm"));
-    assertEquals("test", termCountMap.get("stemmedTerm"));
-    assertEquals("1", termCountMap.get("collectionFreq"));
-    assertEquals("1", termCountMap.get("docFreq"));
+    assertEquals(Long.valueOf(1), termCountMap.get("collectionFreq"));
+    assertEquals(Long.valueOf(1), termCountMap.get("docFreq"));
 
     termCountMap = IndexReaderUtils.getTermCounts(reader, "text");
-    assertEquals("text", termCountMap.get("rawTerm"));
-    assertEquals("text", termCountMap.get("stemmedTerm"));
-    assertEquals("3", termCountMap.get("collectionFreq"));
-    assertEquals("2", termCountMap.get("docFreq"));
+    assertEquals(Long.valueOf(3), termCountMap.get("collectionFreq"));
+    assertEquals(Long.valueOf(2), termCountMap.get("docFreq"));
   }
 
   @Test
@@ -71,7 +61,7 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
     Directory dir = FSDirectory.open(tempDir1);
     IndexReader reader = DirectoryReader.open(dir);
 
-    List<Posting> postingsList;
+    List<IndexReaderUtils.Posting> postingsList;
 
     // here: (0, 2) [0, 4] (2, 1) [0]
     postingsList = IndexReaderUtils.getPostingsList(reader, "here");

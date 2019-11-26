@@ -73,6 +73,35 @@ public class IndexReaderUtils {
     }
   }
 
+  public static class Posting {
+    private int docId;
+    private int termFreq;
+    private int[] positions;
+
+    public Posting() {}
+
+    public Posting(PostingsEnum postingsEnum) throws IOException {
+      this.docId = postingsEnum.docID();
+      this.termFreq = postingsEnum.freq();
+      this.positions = new int[this.termFreq];
+      for (int j=0; j < this.termFreq; j++) {
+        this.positions[j] = postingsEnum.nextPosition();
+      }
+    }
+
+    public int getTF() {
+      return this.termFreq;
+    }
+
+    public int getDocid() {
+      return this.docId;
+    }
+
+    public int[] getPositions() {
+      return this.positions;
+    }
+  }
+
   public static InputStream getReadFileStream(String path) throws IOException {
     InputStream fin = Files.newInputStream(Paths.get(path), StandardOpenOption.READ);
     BufferedInputStream in = new BufferedInputStream(fin);
@@ -89,17 +118,25 @@ public class IndexReaderUtils {
     return in;
   }
 
-  public static Map<String, String> getTermCounts(IndexReader reader, String termStr) throws IOException, ParseException {
+  public static String analyzeTerm(IndexReader reader, String termStr) throws IOException, ParseException {
     EnglishAnalyzer ea = new EnglishAnalyzer(CharArraySet.EMPTY_SET);
     QueryParser qp = new QueryParser(LuceneDocumentGenerator.FIELD_BODY, ea);
-    TermQuery q = (TermQuery)qp.parse(termStr);
+    TermQuery q = (TermQuery) qp.parse(termStr);
     Term t = q.getTerm();
 
-    Map<String, String> termInfo = Map.ofEntries(
-            Map.entry("rawTerm", termStr),
-            Map.entry("stemmedTerm", q.toString(LuceneDocumentGenerator.FIELD_BODY)),
-            Map.entry("collectionFreq", String.valueOf(reader.totalTermFreq(t))),
-            Map.entry("docFreq", String.valueOf(reader.docFreq(t)))
+    // Return stemmed form
+    return q.toString(LuceneDocumentGenerator.FIELD_BODY);
+  }
+
+  public static Map<String, Long> getTermCounts(IndexReader reader, String termStr) throws IOException, ParseException {
+    EnglishAnalyzer ea = new EnglishAnalyzer(CharArraySet.EMPTY_SET);
+    QueryParser qp = new QueryParser(LuceneDocumentGenerator.FIELD_BODY, ea);
+    TermQuery q = (TermQuery) qp.parse(termStr);
+    Term t = q.getTerm();
+
+    Map<String, Long> termInfo = Map.ofEntries(
+        Map.entry("collectionFreq", reader.totalTermFreq(t)),
+        Map.entry("docFreq", Long.valueOf(reader.docFreq(t)))
     );
 
     return termInfo;
@@ -108,7 +145,7 @@ public class IndexReaderUtils {
   public static List<Posting> getPostingsList(IndexReader reader, String termStr) throws IOException, ParseException {
     EnglishAnalyzer ea = new EnglishAnalyzer(CharArraySet.EMPTY_SET);
     QueryParser qp = new QueryParser(LuceneDocumentGenerator.FIELD_BODY, ea);
-    TermQuery q = (TermQuery)qp.parse(termStr);
+    TermQuery q = (TermQuery) qp.parse(termStr);
     Term t = q.getTerm();
 
     PostingsEnum postingsEnum = MultiTerms.getTermPostingsEnum(reader, LuceneDocumentGenerator.FIELD_BODY, t.bytes());
