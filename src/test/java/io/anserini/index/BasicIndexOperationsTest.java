@@ -20,6 +20,7 @@ import io.anserini.IndexerTestBase;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.LeafReader;
+import org.apache.lucene.index.LeafReaderContext;
 import org.apache.lucene.index.MultiReader;
 import org.apache.lucene.index.MultiTerms;
 import org.apache.lucene.index.NumericDocValues;
@@ -38,9 +39,12 @@ import org.apache.lucene.search.similarities.BM25Similarity;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.BytesRef;
+import org.apache.lucene.util.SmallFloat;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class BasicIndexOperationsTest extends IndexerTestBase {
 
@@ -70,12 +74,26 @@ public class BasicIndexOperationsTest extends IndexerTestBase {
 
       bytesRef = termsEnum.next();
     }
+  }
 
-    LeafReader leafReader = reader.leaves().get(0).reader();
-    NumericDocValues docValues = leafReader.getNormValues("contents");
-    while (docValues.nextDoc() != DocIdSetIterator.NO_MORE_DOCS) {
-      System.out.println(String.format("%d:  %d", docValues.docID(), docValues.longValue()));
+  @Test
+  public void readNorms() throws Exception {
+    Directory dir = FSDirectory.open(tempDir1);
+    IndexReader reader = DirectoryReader.open(dir);
+
+    Map<Integer, Integer> norms = new HashMap<>();
+    for (LeafReaderContext context : reader.leaves()) {
+      LeafReader leafReader = context.reader();
+      NumericDocValues docValues = leafReader.getNormValues("contents");
+      while (docValues.nextDoc() != DocIdSetIterator.NO_MORE_DOCS) {
+        norms.put(docValues.docID() + context.docBase, SmallFloat.byte4ToInt((byte) docValues.longValue()));
+      }
     }
+
+    assertEquals(3, norms.size());
+    assertEquals(7, (int) norms.get(0));
+    assertEquals(2, (int) norms.get(1));
+    assertEquals(2, (int) norms.get(2));
   }
 
   @Test
