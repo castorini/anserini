@@ -37,7 +37,7 @@ nohup target/appassembler/bin/SearchCollection -index lucene-index.fire12-en.pos
 Evaluation can be performed using `trec_eval`:
 
 ```
-eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.fire12en.176-225.txt run.fire12-en.bm25.topics.fire12en.176-225.txt
+eval/trec_eval.9.0.4/trec_eval -m map -m P.20 -m ndcg_cut.20 src/main/resources/topics-and-qrels/qrels.fire12en.176-225.txt run.fire12-en.bm25.topics.fire12en.176-225.txt
 
 ```
 
@@ -50,8 +50,13 @@ MAP                                     | BM25      |
 [FIRE2012 (English monolingual)](http://isical.ac.in/~fire/2012/adhoc.html)| 0.3713    |
 
 
-P30                                     | BM25      |
+P20                                     | BM25      |
 :---------------------------------------|-----------|
-[FIRE2012 (English monolingual)](http://isical.ac.in/~fire/2012/adhoc.html)| 0.4560    |
+[FIRE2012 (English monolingual)](http://isical.ac.in/~fire/2012/adhoc.html)| 0.4970    |
+
+
+NDCG20                                  | BM25      |
+:---------------------------------------|-----------|
+[FIRE2012 (English monolingual)](http://isical.ac.in/~fire/2012/adhoc.html)| 0.5420    |
 
 

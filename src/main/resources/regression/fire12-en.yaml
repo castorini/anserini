@@ -29,10 +29,18 @@ evals:
     can_combine: true
   - command: eval/trec_eval.9.0.4/trec_eval
     params:
-      - -m P.30
+      - -m P.20
     separator: "\t"
     parse_index: 2
-    metric: p30
+    metric: p20
+    metric_precision: 4
+    can_combine: true
+  - command: eval/trec_eval.9.0.4/trec_eval
+    params:
+      - -m ndcg_cut.20
+    separator: "\t"
+    parse_index: 2
+    metric: ndcg20
     metric_precision: 4
     can_combine: true
 input_roots:
@@ -57,5 +65,7 @@ models:
     results:
       map:
         - 0.3713
-      p30:
-        - 0.4560
+      p20:
+        - 0.4970
+      ndcg20:
+        - 0.5420
