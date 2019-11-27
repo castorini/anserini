@@ -1,0 +1,49 @@
+301-AH	Nestlé Brands
+302-AH	Consumer Boycotts
+303-AH	Italian paintings
+304-AH	World Heritage Sites
+305-AH	Oil Prices
+306-AH	ETA Activities in France
+307-AH	Films Set in Scotland
+308-AH	Solar Eclipse
+309-AH	Hard Drugs
+310-AH	Treatment of Industrial Waste
+311-AH	Unemployment in Europe
+312-AH	Dog Attacks
+313-AH	Centenary Celebrations
+314-AH	Endangered Species
+315-AH	Doping in Sports
+316-AH	Strikes
+317-AH	Anti-cancer Drugs
+318-AH	Sex Education
+319-AH	Global Opium Production
+320-AH	Energy Crises
+321-AH	The Talibans in Afghanistan
+322-AH	Atomic Energy
+323-AH	Tightening Visa Requirements
+324-AH	Supermodels
+325-AH	Student Fees
+326-AH	Emmy International Awards
+327-AH	Earthquakes in Mexico City
+328-AH	Iraqi Kurds and Turkey
+329-AH	Consequences if Charles and Diana Divorce
+330-AH	Films with Keanu Reeves
+331-AH	Zedillo's Economic Policies
+333-AH	Trial of Paul Touvier
+334-AH	Election of George W. Bush
+335-AH	Labour after John Smith
+336-AH	NBA Labour Conflicts
+337-AH	Civil War in the Yemen
+338-AH	Carlos' Extradition and Trial
+339-AH	Sinn Fein and the Anglo-Irish Declaration
+340-AH	New Quebec Premier
+341-AH	Theft of The Scream
+342-AH	Four Weddings and a Funeral
+343-AH	South African National Party
+344-AH	Brazil vs. Sweden World Cup Semifinals
+345-AH	Cross-country Skiing at the Olympic Games.
+346-AH	Grand Slam Winners
+347-AH	Best Picture Oscar 1994
+348-AH	Yann Piat's Assassination
+349-AH	Nixon's Death
+350-AH	Ayrton Senna's Death.
