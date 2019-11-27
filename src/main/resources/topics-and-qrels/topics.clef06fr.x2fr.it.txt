@@ -1,0 +1,49 @@
+301-AH	Marchi Nestlé
+302-AH	Boicottaggi da parte dei consumatori
+303-AH	Dipinti italiani
+304-AH	Siti UNESCO
+305-AH	Prezzo della benzina
+306-AH	Attività dell'ETA in Francia
+307-AH	Film ambientati in Scozia
+308-AH	Eclissi solari
+309-AH	Droghe pesanti
+310-AH	Trattamento dei rifiuti industriali
+311-AH	Disoccupazione in Europa
+312-AH	Attacchi di cani
+313-AH	Centenari celebrati
+314-AH	Specie in pericolo di estinzione
+315-AH	Doping nello sport
+316-AH	Scioperi
+317-AH	Farmaci anti-cancro
+318-AH	Educazione sessuale
+319-AH	Coltivazioni d'oppio
+320-AH	Crisi energetiche
+321-AH	Talebani in Afghanistan
+322-AH	Energia atomica
+323-AH	Restrizioni sui visti
+324-AH	Vittime di fulmini
+325-AH	Tasse universitarie
+326-AH	Vincitori Premi Emmy International
+327-AH	Terremoti a Città del Messico
+328-AH	Turchia e curdi iracheni
+329-AH	Conseguenze di un divorzio tra Carlo e Diana
+330-AH	Film con Keanu Reeves
+331-AH	Politica economica di Zedillo
+333-AH	Processo a Paul Touvier
+334-AH	Elezione di George W. Bush
+335-AH	Il dopo-Smith nel Partito Laburista
+336-AH	Vertenza salari NBA
+337-AH	Guerra civile nello Yemen
+338-AH	Estradizione e processo di Carlos
+339-AH	Lo Sinn Fein e la dichiarazione anglo-irlandese
+340-AH	Nuovo premier del Quebec
+341-AH	Furto del Grido
+342-AH	Quattro matrimoni e un funerale
+343-AH	Partito Nazionale Sudafricano
+344-AH	Brasile  Svezia (semifinale Campionati Mondiali di calcio 1994)
+345-AH	Sci di fondo ai Giochi Olimpici Invernali
+346-AH	Vincitori a tornei del Grande Slam
+347-AH	Oscar per il miglior film del 1994
+348-AH	Assassinio di Yann Piat
+349-AH	Morte di Nixon
+350-AH	L'incidente mortale di Ayrton Senna
