@@ -32,9 +32,13 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.ar.ArabicAnalyzer;
+import org.apache.lucene.analysis.bn.BengaliAnalyzer;
 import org.apache.lucene.analysis.cjk.CJKAnalyzer;
 import org.apache.lucene.analysis.fr.FrenchAnalyzer;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;
+import org.apache.lucene.analysis.hi.HindiAnalyzer;
+import org.apache.lucene.analysis.de.GermanAnalyzer;
+import org.apache.lucene.analysis.es.SpanishAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.LongPoint;
 import org.apache.lucene.index.DirectoryReader;
@@ -130,6 +134,14 @@ public class SimpleSearcher implements Closeable {
       this.analyzer = new ArabicAnalyzer();
     } else if (language.equals("fr")) {
       this.analyzer = new FrenchAnalyzer();
+    } else if (language.equals("hi")) {
+      this.analyzer = new HindiAnalyzer();
+    } else if (language.equals("bn")) {
+      this.analyzer = new BengaliAnalyzer();
+    } else if (language.equals("de")) {
+      this.analyzer = new GermanAnalyzer();
+    } else if (language.equals("es")) {
+      this.analyzer = new SpanishAnalyzer();
     }
   }
 

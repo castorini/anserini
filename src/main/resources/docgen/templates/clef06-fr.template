@@ -1,0 +1,42 @@
+# Anserini: Regressions for [CLEF2006 Monolingual French](http://www.clef-initiative.eu/edition/clef2006)
+
+This page documents regression experiments for [CLEF2006 monolingual French topics)](http://www.clef-initiative.eu/edition/clef2006).
+The description of the document collection can be found in the [CLEF corpus page](http://www.clef-initiative.eu/dataset/corpus).
+
+The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/clef06-fr.yaml).
+Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/celf06-fr.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+
+## Indexing
+
+Typical indexing command:
+
+```
+${index_cmds}
+```
+
+The directory `/path/to/clef06-fr/` should be a directory containing the collection (the format is jsonline format).
+
+For additional details, see explanation of [common indexing options](common-indexing-options.md).
+
+## Retrieval
+
+Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/main/resources/topics-and-qrels/).
+The regression experiments here evaluate on the 49 questions.
+
+After indexing has completed, you should be able to perform retrieval as follows:
+
+```
+${ranking_cmds}
+```
+
+Evaluation can be performed using `trec_eval`:
+
+```
+${eval_cmds}
+```
+
+## Effectiveness
+
+With the above commands, you should be able to replicate the following results:
+
+${effectiveness}
