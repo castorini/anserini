@@ -24,6 +24,7 @@ import org.junit.Test;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 
 public class ExtractNormsTest extends IndexerTestBase {
@@ -46,16 +47,11 @@ public class ExtractNormsTest extends IndexerTestBase {
 
   @Test
   public void test() throws Exception {
+    // See: https://github.com/castorini/anserini/issues/903
+    Locale.setDefault(Locale.US);
     ExtractNorms.main(new String[] {"-index", tempDir1.toString(), "-output", randomFileName});
 
     List<String> lines = Files.readAllLines(Paths.get(randomFileName));
-
-    // This seems to be a flaky test case (non-deterministically breaks)...
-    // Printing out the lines for debugging purposes.
-    for (String line: lines) {
-      System.out.println(line);
-    }
-
     assertEquals(4, lines.size());
     assertEquals("0\t7", lines.get(1));
     assertEquals("1\t2", lines.get(2));
