@@ -17,16 +17,10 @@
 package io.anserini.util;
 
 import io.anserini.IndexerTestBase;
-import org.apache.lucene.index.DirectoryReader;
-import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.store.Directory;
-import org.apache.lucene.store.FSDirectory;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
@@ -55,6 +49,13 @@ public class ExtractNormsTest extends IndexerTestBase {
     ExtractNorms.main(new String[] {"-index", tempDir1.toString(), "-output", randomFileName});
 
     List<String> lines = Files.readAllLines(Paths.get(randomFileName));
+
+    // This seems to be a flaky test case (non-deterministically breaks)...
+    // Printing out the lines for debugging purposes.
+    for (String line: lines) {
+      System.out.println(line);
+    }
+
     assertEquals(4, lines.size());
     assertEquals("0\t7", lines.get(1));
     assertEquals("1\t2", lines.get(2));

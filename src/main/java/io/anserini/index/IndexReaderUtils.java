@@ -16,7 +16,9 @@
 
 package io.anserini.index;
 
+import io.anserini.analysis.EnglishStemmingAnalyzer;
 import io.anserini.index.generator.LuceneDocumentGenerator;
+import io.anserini.analysis.AnalyzerUtils;
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveOutputStream;
 import org.apache.commons.compress.compressors.bzip2.BZip2CompressorInputStream;
@@ -24,6 +26,7 @@ import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
 import org.apache.commons.compress.compressors.gzip.GzipCompressorOutputStream;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.CharArraySet;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.document.Document;
@@ -69,24 +72,31 @@ import java.util.Map;
 
 import static java.util.stream.Collectors.joining;
 
+/**
+ * Class containing a bunch of static helper methods for accessing a Lucene inverted index.
+ * This class provides a lot of functionality that is exposed in Python via Pyserini.
+ */
 public class IndexReaderUtils {
   private static final Logger LOG = LogManager.getLogger(IndexUtils.class);
+  // The default analyzer used in indexing.
+  private static final Analyzer DEFAULT_ANALYZER = IndexCollection.DEFAULT_ANALYZER;
 
   public enum DocumentVectorWeight {NONE, TF_IDF}
 
-  public static class NotStoredException extends Exception {
-    public NotStoredException(String message) {
-      super(message);
-    }
-  }
-
+  /**
+   * An individual posting in a postings list. Note that this class is used primarily for inspecting the index, and
+   * not meant for actual searching.
+   */
   public static class Posting {
     private int docId;
     private int termFreq;
     private int[] positions;
 
-    public Posting() {}
-
+    /**
+     * Constructor wrapping a {@link PostingsEnum} from Lucene.
+     * @param postingsEnum posting from Lucene
+     * @throws IOException if error encountered reading information from the posting
+     */
     public Posting(PostingsEnum postingsEnum) throws IOException {
       this.docId = postingsEnum.docID();
       this.termFreq = postingsEnum.freq();
@@ -96,14 +106,26 @@ public class IndexReaderUtils {
       }
     }
 
+    /**
+     * Returns the term frequency stored in this posting.
+     * @return the term frequency stored in this posting
+     */
     public int getTF() {
       return this.termFreq;
     }
 
+    /**
+     * Returns the internal Lucene docid associated with this posting.
+     * @return the internal Lucene docid associated with this posting
+     */
     public int getDocid() {
       return this.docId;
     }
 
+    /**
+     * Returns the positions in the document where this term is found.
+     * @return the positions in the document where this term is found
+     */
     public int[] getPositions() {
       return this.positions;
     }
@@ -125,19 +147,41 @@ public class IndexReaderUtils {
     return in;
   }
 
+  /**
+   * Creates an {@link IndexReader} given a path.
+   * @param path index path
+   * @return index reader
+   * @throws IOException if any errors are encountered
+   */
   public static IndexReader getReader(String path) throws IOException {
     Directory dir = FSDirectory.open(Paths.get(path));
     return DirectoryReader.open(dir);
   }
 
-  public static String analyzeTerm(IndexReader reader, String termStr) throws IOException, ParseException {
-    EnglishAnalyzer ea = new EnglishAnalyzer(CharArraySet.EMPTY_SET);
-    QueryParser qp = new QueryParser(LuceneDocumentGenerator.FIELD_BODY, ea);
-    TermQuery q = (TermQuery) qp.parse(termStr);
-    Term t = q.getTerm();
+  /**
+   * Feeds a term through the {@link EnglishStemmingAnalyzer} and returns the stemmed form.
+   * If the input is a multi-token string, returns the first token.
+   * @param term term
+   * @return stemmed form of the term or <code>null</code> if error encountered
+   */
+  public static String analyzeTerm(String term) {
+    return analyzeTerm(term, DEFAULT_ANALYZER);
+  }
 
-    // Return stemmed form
-    return q.toString(LuceneDocumentGenerator.FIELD_BODY);
+  /**
+   * Feeds a term through an analyzer and returns the stemmed form.
+   * If the input is a multi-token string, returns the first token.
+   * @param term term
+   * @param analyzer analyzer to use
+   * @return stemmed form of the term or <code>null</code> if error encountered
+   */
+  public static String analyzeTerm(String term, Analyzer analyzer) {
+    List<String> tokens = AnalyzerUtils.tokenize(analyzer, term);
+    if (tokens == null || tokens.size() == 0) {
+      return null;
+    }
+
+    return tokens.get(0);
   }
 
   public static Map<String, Long> getTermCounts(IndexReader reader, String termStr) throws IOException, ParseException {
@@ -170,6 +214,14 @@ public class IndexReaderUtils {
     return postingsList;
   }
 
+  /**
+   * Returns the document vector for a particular document as a map of terms to term frequencies.
+   * @param reader index reader
+   * @param docid collection docid
+   * @return the document vector for a particular document as a map of terms to term frequencies
+   * @throws IOException if error encountered during query
+   * @throws NotStoredException if the term vector is not stored
+   */
   public static Map<String, Long> getDocumentVector(IndexReader reader, String docid) throws IOException, NotStoredException {
     Terms terms = reader.getTermVector(convertDocidToLuceneDocid(reader, docid), LuceneDocumentGenerator.FIELD_BODY);
     if (terms == null) {
@@ -189,9 +241,9 @@ public class IndexReaderUtils {
   }
 
   /**
-   * Computes the BM25 weight of a term in a particular document.
+   * Computes the BM25 weight of a term (prior to analysis) in a particular document.
    * @param reader index reader
-   * @param docid external collection docid
+   * @param docid collection docid
    * @param term term (prior to analysis)
    * @return BM25 weight of the term in the specified document
    * @throws IOException if error encountered during query
@@ -309,28 +361,54 @@ public class IndexReaderUtils {
     LOG.info("Document Vectors are output to: " + outFileName);
   }
 
-  public static int convertDocidToLuceneDocid(IndexReader reader, String docid) throws IOException {
-    IndexSearcher searcher = new IndexSearcher(reader);
+  /**
+   * Converts a collection docid to a Lucene internal docid
+   * @param reader index reader
+   * @param docid collection docid
+   * @return corresponding Lucene internal docid, or -1 if docid not found
+   */
+  public static int convertDocidToLuceneDocid(IndexReader reader, String docid) {
+    try {
+      IndexSearcher searcher = new IndexSearcher(reader);
+      Query q = new TermQuery(new Term(LuceneDocumentGenerator.FIELD_ID, docid));
+      TopDocs rs = searcher.search(q, 1);
+      ScoreDoc[] hits = rs.scoreDocs;
 
-    Query q = new TermQuery(new Term(LuceneDocumentGenerator.FIELD_ID, docid));
-    TopDocs rs = searcher.search(q, 1);
-    ScoreDoc[] hits = rs.scoreDocs;
+      if (hits == null || hits.length == 0) {
+        // Silently eat the error and return -1
+        return -1;
+      }
 
-    if (hits == null || hits.length == 0) {
-      LOG.warn(String.format("Docid %s not found!", docid));
+      return hits[0].doc;
+    } catch (IOException e) {
+      // Silently eat the error and return -1
       return -1;
     }
-
-    return hits[0].doc;
   }
 
-  public static String convertLuceneDocidToDocid(IndexReader reader, int docid) throws IOException {
-    Document d = reader.document(docid);
-    IndexableField doc = d.getField(LuceneDocumentGenerator.FIELD_ID);
-    if (doc == null) {
-      // Really shouldn't happen!
-      throw new RuntimeException();
+  /**
+   * Converts a Lucene internal docid to a collection docid
+   * @param reader index reader
+   * @param docid Lucene internal docid
+   * @return corresponding collection docid, or <code>null</code> if not found.
+   */
+  public static String convertLuceneDocidToDocid(IndexReader reader, int docid) {
+    if (docid >= reader.maxDoc())
+      return null;
+
+    try {
+      Document d = reader.document(docid);
+      if (d == null) {
+        return null;
+      }
+      IndexableField doc = d.getField(LuceneDocumentGenerator.FIELD_ID);
+      if (doc == null) {
+        // Really shouldn't happen! Index not properly built?
+        return null;
+      }
+      return doc.stringValue();
+    } catch (IOException e) {
+      return null;
     }
-    return doc.stringValue();
   }
 }

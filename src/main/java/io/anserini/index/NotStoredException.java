@@ -14,18 +14,13 @@
  * limitations under the License.
  */
 
-package io.anserini.search.query;
+package io.anserini.index;
 
-import io.anserini.analysis.AnalyzerUtils;
-import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.search.Query;
-
-import java.util.List;
-
-public abstract class QueryGenerator {
-  static public List<String> tokenize(Analyzer analyzer, String s) {
-    return AnalyzerUtils.tokenize(analyzer, s);
+/**
+ * An exception denoting that information necessary for reading something out of the index was not stored.
+ */
+public class NotStoredException extends Exception {
+  public NotStoredException(String message) {
+    super(message);
   }
-  
-  public abstract Query buildQuery(String field, Analyzer analyzer, String queryText);
 }

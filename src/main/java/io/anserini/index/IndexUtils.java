@@ -134,12 +134,6 @@ public class IndexUtils {
     int lookupLuceneDocid;
   }
 
-  public class NotStoredException extends Exception {
-    public NotStoredException(String message) {
-      super(message);
-    }
-  }
-
   private final FSDirectory directory;
   private final DirectoryReader reader;
 
