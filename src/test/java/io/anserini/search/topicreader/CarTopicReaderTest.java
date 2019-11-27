@@ -17,7 +17,7 @@
 package io.anserini.search.topicreader;
 
 import io.anserini.analysis.EnglishStemmingAnalyzer;
-import io.anserini.util.AnalyzerUtils;
+import io.anserini.analysis.AnalyzerUtils;
 import org.apache.lucene.analysis.Analyzer;
 import org.junit.Test;
 

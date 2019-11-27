@@ -26,7 +26,7 @@ import io.anserini.search.SearchArgs;
 import io.anserini.search.query.BagOfWordsQueryGenerator;
 import io.anserini.search.topicreader.MicroblogTopicReader;
 import io.anserini.search.topicreader.TopicReader;
-import io.anserini.util.AnalyzerUtils;
+import io.anserini.analysis.AnalyzerUtils;
 import io.anserini.util.Qrels;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

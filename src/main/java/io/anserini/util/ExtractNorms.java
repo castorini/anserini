@@ -16,6 +16,7 @@
 
 package io.anserini.util;
 
+import io.anserini.index.NotStoredException;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.LeafReader;
@@ -70,7 +71,7 @@ public class ExtractNorms {
       LeafReader leafReader = context.reader();
       NumericDocValues docValues = leafReader.getNormValues("contents");
       if (docValues == null) {
-        throw new Exception("Norms do not appear to have been indexed!");
+        throw new NotStoredException("Norms do not appear to have been indexed!");
       }
       while (docValues.nextDoc() != DocIdSetIterator.NO_MORE_DOCS) {
         out.println(String.format("%d\t%d", docValues.docID() + context.docBase,
