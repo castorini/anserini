@@ -11,10 +11,9 @@ Note that this page is automatically generated from [this template](../src/main/
 Typical indexing command:
 
 ```
-nohup sh target/appassembler/bin/IndexCollection -collection TrecCollection \
--generator LuceneDocumentGenerator -threads 16 -input /path/to/fire12-en -index \
-lucene-index.fire12-en.pos+docvectors+rawdocs -storePositions -storeDocvectors \
--storeRawDocs -language en >& log.fire12-en.pos+docvectors+rawdocs &
+nohup sh target/appassembler/bin/IndexCollection -collection TrecCollection -input /path/to/fire12-en \
+ -index lucene-index.fire12-en.pos+docvectors+rawdocs -generator LuceneDocumentGenerator -threads 16 \
+ -storePositions -storeDocvectors -storeRawDocs -language en >& log.fire12-en.pos+docvectors+rawdocs &
 ```
 
 The directory `/path/to/fire12-en/` should be a directory containing the collection, containing `en_BDNews24` and `en_TheTelegraph_2001-2010` directories.
@@ -29,7 +28,9 @@ The regression experiments here evaluate on the 50 questions.
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-nohup target/appassembler/bin/SearchCollection -topicreader TsvString -index lucene-index.fire12-en.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.fire12en.176-225.txt -output run.fire12-en.bm25.topics.fire12en.176-225.txt -language en -bm25 &
+nohup target/appassembler/bin/SearchCollection -index lucene-index.fire12-en.pos+docvectors+rawdocs \
+ -topicreader TsvString -topics src/main/resources/topics-and-qrels/topics.fire12en.176-225.txt \
+ -language en -bm25 -output run.fire12-en.bm25.topics.fire12en.176-225.txt &
 
 ```
 
@@ -46,11 +47,11 @@ With the above commands, you should be able to replicate the following results:
 
 MAP                                     | BM25      |
 :---------------------------------------|-----------|
-[FIRE2012 (English monolingual)](http://isical.ac.in/~fire/2012/adhoc.html)| 0.3867    |
+[FIRE2012 (English monolingual)](http://isical.ac.in/~fire/2012/adhoc.html)| 0.3713    |
 
 
 P30                                     | BM25      |
 :---------------------------------------|-----------|
-[FIRE2012 (English monolingual)](http://isical.ac.in/~fire/2012/adhoc.html)| 0.3920    |
+[FIRE2012 (English monolingual)](http://isical.ac.in/~fire/2012/adhoc.html)| 0.4560    |
 
 

@@ -11,10 +11,9 @@ Note that this page is automatically generated from [this template](../src/main/
 Typical indexing command:
 
 ```
-nohup sh target/appassembler/bin/IndexCollection -collection TrecCollection \
--generator LuceneDocumentGenerator -threads 16 -input /path/to/fire12-hi -index \
-lucene-index.fire12-hi.pos+docvectors+rawdocs -storePositions -storeDocvectors \
--storeRawDocs -language hi >& log.fire12-hi.pos+docvectors+rawdocs &
+nohup sh target/appassembler/bin/IndexCollection -collection TrecCollection -input /path/to/fire12-hi \
+ -index lucene-index.fire12-hi.pos+docvectors+rawdocs -generator LuceneDocumentGenerator -threads 16 \
+ -storePositions -storeDocvectors -storeRawDocs -language hi >& log.fire12-hi.pos+docvectors+rawdocs &
 ```
 
 The directory `/path/to/fire12-hi/` should be a directory containing the collection, containing `hi_AmarUjala` and `hi_NavbharatTimes` directories.
@@ -29,7 +28,9 @@ The regression experiments here evaluate on the 50 questions.
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-nohup target/appassembler/bin/SearchCollection -topicreader TsvString -index lucene-index.fire12-hi.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.fire12hi.176-225.txt -output run.fire12-hi.bm25.topics.fire12hi.176-225.txt -language hi -bm25 &
+nohup target/appassembler/bin/SearchCollection -index lucene-index.fire12-hi.pos+docvectors+rawdocs \
+ -topicreader TsvString -topics src/main/resources/topics-and-qrels/topics.fire12hi.176-225.txt \
+ -language hi -bm25 -output run.fire12-hi.bm25.topics.fire12hi.176-225.txt &
 
 ```
 

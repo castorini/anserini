@@ -1,5 +1,5 @@
 ---
-name: fire12-hi
+name: fire12-bn
 index_command: target/appassembler/bin/IndexCollection
 index_utils_command: target/appassembler/bin/IndexUtils
 search_command: target/appassembler/bin/SearchCollection

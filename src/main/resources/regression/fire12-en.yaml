@@ -39,7 +39,7 @@ input_roots:
   - /tuna1/      # on tuna
   - /store/      # on orca
   - /scratch2/   # on damiano
-input: collections/fire/hindi/en.docs.2011
+input: collections/fire/english/en.docs.2011
 index_path: indexes/lucene-index.fire12-en.pos+docvectors+rawdocs
 index_stats:
   documents: 392577
