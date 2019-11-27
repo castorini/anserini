@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.anserini.util;
+package io.anserini.analysis;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;

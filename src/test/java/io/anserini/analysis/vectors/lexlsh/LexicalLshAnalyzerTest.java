@@ -16,7 +16,7 @@
 
 package io.anserini.analysis.vectors.lexlsh;
 
-import io.anserini.util.AnalyzerUtils;
+import io.anserini.analysis.AnalyzerUtils;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.TextField;
