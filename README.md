@@ -74,6 +74,11 @@ Note that these regressions capture the "out of the box" experience, based on [_
 + [Regressions for the MS MARCO Passage Task with Doc2query expansion](docs/regressions-msmarco-passage-doc2query.md)
 + [Regressions for the MS MARCO Document Task](docs/regressions-msmarco-doc.md)
 + [Regressions for NTCIR-8 ACLIA (IR4QA subtask, Chinese monolingual)](docs/regressions-ntcir8-zh.md)
++ [Regressions for CLEF2006 Monolingual French](docs/regressions-clef06-fr.md)
++ [Regressions for TREC2002 Monolingual Arabic](docs/regressions-trec02-ar.md)
++ [Regressions for FIRE 2012 Monolingual Bengali](docs/regressions-fire12-bn.md)
++ [Regressions for FIRE 2012 Monolingual Hindi](docs/regressions-fire12-hi.md)
++ [Regressions for FIRE 2012 Monolingual English](docs/regressions-fire12-en.md)
 
 Other experiments:
 

@@ -11,10 +11,9 @@ Note that this page is automatically generated from [this template](../src/main/
 Typical indexing command:
 
 ```
-nohup sh target/appassembler/bin/IndexCollection -collection JsonCollection \
--generator LuceneDocumentGenerator -threads 16 -input /path/to/clef06-fr -index \
-lucene-index.clef06-fr.pos+docvectors+rawdocs -storePositions -storeDocvectors \
--storeRawDocs -language fr >& log.clef06-fr.pos+docvectors+rawdocs &
+nohup sh target/appassembler/bin/IndexCollection -collection JsonCollection -input /path/to/clef06-fr \
+ -index lucene-index.clef06-fr.pos+docvectors+rawdocs -generator LuceneDocumentGenerator -threads 16 \
+ -storePositions -storeDocvectors -storeRawDocs -language fr >& log.clef06-fr.pos+docvectors+rawdocs &
 ```
 
 The directory `/path/to/clef06-fr/` should be a directory containing the collection (the format is jsonline format).
@@ -29,7 +28,9 @@ The regression experiments here evaluate on the 49 questions.
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-nohup target/appassembler/bin/SearchCollection -topicreader TsvString -index lucene-index.clef06-fr.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.clef06fr.mono.fr.txt -output run.clef06-fr.bm25.topics.clef06fr.mono.fr.txt -language fr -bm25 &
+nohup target/appassembler/bin/SearchCollection -index lucene-index.clef06-fr.pos+docvectors+rawdocs \
+ -topicreader TsvString -topics src/main/resources/topics-and-qrels/topics.clef06fr.mono.fr.txt \
+ -language fr -bm25 -output run.clef06-fr.bm25.topics.clef06fr.mono.fr.txt &
 
 ```
 

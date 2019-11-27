@@ -11,10 +11,9 @@ Note that this page is automatically generated from [this template](../src/main/
 Typical indexing command:
 
 ```
-nohup sh target/appassembler/bin/IndexCollection -collection JsonCollection \
--generator LuceneDocumentGenerator -threads 16 -input /path/to/trec02-ar -index \
-lucene-index.trec02-ar.pos+docvectors+rawdocs -storePositions -storeDocvectors \
--storeRawDocs -language ar >& log.trec02-ar.pos+docvectors+rawdocs &
+nohup sh target/appassembler/bin/IndexCollection -collection JsonCollection -input /path/to/trec02-ar \
+ -index lucene-index.trec02-ar.pos+docvectors+rawdocs -generator LuceneDocumentGenerator -threads 16 \
+ -storePositions -storeDocvectors -storeRawDocs -language ar >& log.trec02-ar.pos+docvectors+rawdocs &
 ```
 
 The directory `/path/to/trec02-ar/` should be a directory containing the collection, 2337 gzipped files from LDC2007T38.
@@ -29,7 +28,9 @@ The regression experiments here evaluate on the 50 questions.
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-nohup target/appassembler/bin/SearchCollection -topicreader TsvString -index lucene-index.trec02-ar.pos+docvectors+rawdocs -topics src/main/resources/topics-and-qrels/topics.trec02ar.mono.ar.txt -output run.trec02-ar.bm25.topics.trec02ar.mono.ar.txt -language ar -bm25 &
+nohup target/appassembler/bin/SearchCollection -index lucene-index.trec02-ar.pos+docvectors+rawdocs \
+ -topicreader TsvString -topics src/main/resources/topics-and-qrels/topics.trec02ar.mono.ar.txt \
+ -language ar -bm25 -output run.trec02-ar.bm25.topics.trec02ar.mono.ar.txt &
 
 ```
 

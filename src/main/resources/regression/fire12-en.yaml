@@ -29,24 +29,32 @@ evals:
     can_combine: true
   - command: eval/trec_eval.9.0.4/trec_eval
     params:
-      - -m P.30
+      - -m P.20
     separator: "\t"
     parse_index: 2
-    metric: p30
+    metric: p20
+    metric_precision: 4
+    can_combine: true
+  - command: eval/trec_eval.9.0.4/trec_eval
+    params:
+      - -m ndcg_cut.20
+    separator: "\t"
+    parse_index: 2
+    metric: ndcg20
     metric_precision: 4
     can_combine: true
 input_roots:
   - /tuna1/      # on tuna
   - /store/      # on orca
   - /scratch2/   # on damiano
-input: collections/fire/hindi/en.docs.2011
+input: collections/fire/english/en.docs.2011
 index_path: indexes/lucene-index.fire12-en.pos+docvectors+rawdocs
 index_stats:
   documents: 392577
   documents (non-empty): 392577
   total terms: 115311163  
 topics:
-  - name: "[FIRE2012 (English monolingual)](http://isical.ac.in/~fire/2012/adhoc.html)"
+  - name: "[FIRE 2012 (English monolingual)](http://isical.ac.in/~fire/2012/adhoc.html)"
     path: topics.fire12en.176-225.txt
     qrel: qrels.fire12en.176-225.txt
 models:
@@ -57,5 +65,7 @@ models:
     results:
       map:
         - 0.3713
-      p30:
-        - 0.4560
+      p20:
+        - 0.4970
+      ndcg20:
+        - 0.5420

@@ -3,7 +3,7 @@
 This page documents regression experiments for [FIRE 2012 Ad-hoc retrieval (Monolingual Bengali topic)](http://isical.ac.in/~fire/2012/adhoc.html).
 The document collection can be found in [FIRE 2012 data page](http://fire.irsi.res.in/fire/static/data).
 
-The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/fire-bn.yaml).
+The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/fire12-bn.yaml).
 Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/fire12-bn.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
 
 ## Indexing
