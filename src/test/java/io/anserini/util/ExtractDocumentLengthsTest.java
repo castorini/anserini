@@ -24,6 +24,7 @@ import org.junit.Test;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 
 public class ExtractDocumentLengthsTest extends IndexerTestBase {
@@ -46,6 +47,8 @@ public class ExtractDocumentLengthsTest extends IndexerTestBase {
 
   @Test
   public void test() throws Exception {
+    // See: https://github.com/castorini/anserini/issues/903
+    Locale.setDefault(Locale.US);
     ExtractDocumentLengths.main(new String[] {"-index", tempDir1.toString(), "-output", randomFileName});
 
     List<String> lines = Files.readAllLines(Paths.get(randomFileName));
