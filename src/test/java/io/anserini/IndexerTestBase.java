@@ -84,6 +84,8 @@ public class IndexerTestBase extends LuceneTestCase {
     writer.commit();
     writer.forceMerge(1);
     writer.close();
+
+    dir.close();
   }
 
   @Before
