@@ -18,13 +18,8 @@ package io.anserini.search.query;
 
 import io.anserini.analysis.AnalyzerUtils;
 import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.TokenStream;
-import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.apache.lucene.search.Query;
 
-import java.io.IOException;
-import java.io.StringReader;
-import java.util.ArrayList;
 import java.util.List;
 
 public abstract class QueryGenerator {
