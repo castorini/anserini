@@ -93,7 +93,7 @@ P_30                  	all	0.3102
 
 ## Indexing and Retrieval: MS MARCO Passage
 
-We can replicate the [BM25 Baselines on MS MARCO (Passage)](experiments-msmarco-passage.md) in a similar way.
+We can replicate the [BM25 Baselines on MS MARCO (Passage)](experiments-msmarco-passage.md) results in a similar way.
 First, set up the proper schema using [this config](../src/main/resources/elasticsearch/index-config.msmarco-passage.json):
 
 ```bash
