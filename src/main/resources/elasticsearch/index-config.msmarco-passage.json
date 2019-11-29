@@ -1,0 +1,32 @@
+{
+  "mappings": {
+    "properties": {
+      "id": {
+        "type": "keyword"
+      },
+      "contents": {
+        "type": "text",
+        "store": false,
+        "index": true,
+        "analyzer": "english"
+      },
+      "raw": {
+        "type": "text",
+        "store": true,
+        "index": false
+      }
+    }
+  },
+  "settings": {
+    "index": {
+      "refresh_interval": "60s",
+      "similarity": {
+        "default": {
+          "type": "BM25",
+          "k1": "0.82",
+          "b": "0.68"
+        }
+      }
+    }
+  }
+}
