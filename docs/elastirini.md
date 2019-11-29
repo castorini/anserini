@@ -89,11 +89,12 @@ To evaluate effectiveness:
 $ eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust04.txt run.es.robust04.bm25.topics.robust04.txt
 map                   	all	0.2531
 P_30                  	all	0.3102
+```
 
 ## Indexing and Retrieval: MS MARCO Passage
 
 We can replicate the [BM25 Baselines on MS MARCO (Passage)](experiments-msmarco-passage.md) in a similar way.
-First, set up the proper schema:
+First, set up the proper schema using [this config](../src/main/resources/elasticsearch/index-config.msmarco-passage.json):
 
 ```bash
 cat src/main/resources/elasticsearch/index-config.msmarco-passage.json \
