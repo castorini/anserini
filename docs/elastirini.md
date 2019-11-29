@@ -25,7 +25,7 @@ sed -i 's/ES_JAVA_OPTS: "-Xmx256m -Xms256m"/ES_JAVA_OPTS: "-Xmx1g -Xms512m"/' do
 If you are on MacOS:
 
 ```
-sed -i '' 's/ES_JAVA_OPTS: "-Xmx256m -Xms256m"/ES_JAVA_OPTS: "-Xmx1g -Xms512m"/' docker-compose.yml
+sed -i '' 's/ES_JAVA_OPTS: "-Xmx256m -Xms256m"/ES_JAVA_OPTS: "-Xmx2g -Xms512m"/' docker-compose.yml
 ```
 
 To increase Logstash's heap size:
@@ -68,7 +68,8 @@ curl --user elastic:changeme -XPUT -H 'Content-Type: application/json' 'localhos
                   "match_mapping_type":"string",
                   "mapping":{
                     "type":"text",
-                    "analyzer":"english"
+                    "analyzer":"english",
+                    "fielddata": true
                   }
                 }
               }
@@ -130,14 +131,14 @@ You can also run the following command to replicate Anserini BM25 retrieval:
 
 ```
 sh target/appassembler/bin/SearchElastic -topicreader Trec -es.index robust04 \
-  -topics src/main/resources/topics-and-qrels/topics.robust04.301-450.601-700.txt \
-  -output run.es.robust04.bm25.topics.robust04.301-450.601-700.txt
+  -topics src/main/resources/topics-and-qrels/topics.robust04.txt \
+  -output run.es.robust04.bm25.topics.robust04.txt
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```
-eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust2004.txt run.es.robust04.bm25.topics.robust04.301-450.601-700.txt
+eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust04.txt run.es.robust04.bm25.topics.robust04.txt
 ```
 # Elasticsearch on MSMARCO(Passage)
 For Msmarco-passage data preparation, check Anserini: [BM25 Baselines on MS MARCO (Passage)](https://github.com/castorini/anserini/blob/master/docs/experiments-msmarco-passage.md). Similarly, there are three steps:
