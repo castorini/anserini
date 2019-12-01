@@ -50,7 +50,7 @@ public abstract class TopicReader<K> {
    * elaboration, the "title" key is used to hold the "query".
    *
    * @return a sorted map of ids to topics
-   * @throws IOException
+   * @throws IOException if error encountered reading topics
    */
   public SortedMap<K, Map<String, String>> read() throws IOException {
     InputStream topics = Files.newInputStream(topicFile, StandardOpenOption.READ);
@@ -81,6 +81,7 @@ public abstract class TopicReader<K> {
     }
   }
 
+  @SuppressWarnings("unchecked")
   public static <K> SortedMap<K, Map<String, String>> getTopics(Topics topics) {
     try {
       InputStream inputStream = TopicReader.class.getClassLoader().getResourceAsStream(topics.path);

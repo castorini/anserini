@@ -14,10 +14,11 @@ This module requires 2 parameters (collection name and collection path) as input
  further collection information based on "index_options" below, which is in json format.
 
 More details can be found here:
+
+
 https://github.com/castorini/anserini/blob/master/docs/solrini.md
 
 '''
-
 
 # Options for the different supported collections.
 index_options = {
@@ -42,6 +43,7 @@ index_options = {
         "qrel_path":"src/main/resources/topics-and-qrels/qrels.robust04.txt"
     }
 }
+
 
 # read_file_into_list works with trec_eval() to extract actual MAP, P_30 results from "this_is_temp_file.txt" file
 def read_file_into_list(keywords):
@@ -135,6 +137,7 @@ class SolrClient:
         print("searching complete")
 
 
+
     def trec_eval(self,qrel_path, output_path):
         print("\nWe start trec_eval: \n")
         command = "eval/trec_eval.9.0.4/trec_eval -m map -m P.30 {} {}".format(qrel_path,output_path)
@@ -203,5 +206,6 @@ if __name__ == "__main__":
     if (solr_off == "True"): 
         print("Turn off Solr server")
         solr.stop_server()  
+
 
     

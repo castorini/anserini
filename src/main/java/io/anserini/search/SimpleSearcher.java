@@ -17,6 +17,8 @@
 package io.anserini.search;
 
 import io.anserini.analysis.TweetAnalyzer;
+import io.anserini.index.IndexCollection;
+import io.anserini.index.IndexReaderUtils;
 import io.anserini.index.generator.LuceneDocumentGenerator;
 import io.anserini.index.generator.TweetGenerator;
 import io.anserini.rerank.RerankerCascade;
@@ -25,14 +27,18 @@ import io.anserini.rerank.ScoredDocuments;
 import io.anserini.rerank.lib.Rm3Reranker;
 import io.anserini.rerank.lib.ScoreTiesAdjusterReranker;
 import io.anserini.search.query.BagOfWordsQueryGenerator;
-import io.anserini.util.AnalyzerUtils;
+import io.anserini.analysis.AnalyzerUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.ar.ArabicAnalyzer;
+import org.apache.lucene.analysis.bn.BengaliAnalyzer;
 import org.apache.lucene.analysis.cjk.CJKAnalyzer;
 import org.apache.lucene.analysis.fr.FrenchAnalyzer;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;
+import org.apache.lucene.analysis.hi.HindiAnalyzer;
+import org.apache.lucene.analysis.de.GermanAnalyzer;
+import org.apache.lucene.analysis.es.SpanishAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.LongPoint;
 import org.apache.lucene.index.DirectoryReader;
@@ -43,23 +49,11 @@ import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.BoostQuery;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
-import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.Sort;
 import org.apache.lucene.search.SortField;
 import org.apache.lucene.search.TopDocs;
-import org.apache.lucene.search.TotalHits;
-import org.apache.lucene.search.similarities.AfterEffectL;
-import org.apache.lucene.search.similarities.AxiomaticF2EXP;
-import org.apache.lucene.search.similarities.AxiomaticF2LOG;
 import org.apache.lucene.search.similarities.BM25Similarity;
-import org.apache.lucene.search.similarities.BasicModelIn;
-import org.apache.lucene.search.similarities.DFRSimilarity;
-import org.apache.lucene.search.similarities.DistributionSPL;
-import org.apache.lucene.search.similarities.IBSimilarity;
 import org.apache.lucene.search.similarities.LMDirichletSimilarity;
-import org.apache.lucene.search.similarities.LMJelinekMercerSimilarity;
-import org.apache.lucene.search.similarities.LambdaDF;
-import org.apache.lucene.search.similarities.NormalizationH2;
 import org.apache.lucene.search.similarities.Similarity;
 import org.apache.lucene.store.FSDirectory;
 
@@ -88,6 +82,7 @@ public class SimpleSearcher implements Closeable {
       new Sort(SortField.FIELD_SCORE,
           new SortField(TweetGenerator.StatusField.ID_LONG.name, SortField.Type.LONG, true));
   private static final Logger LOG = LogManager.getLogger(SimpleSearcher.class);
+
   private final IndexReader reader;
   private Similarity similarity;
   private Analyzer analyzer;
@@ -97,7 +92,7 @@ public class SimpleSearcher implements Closeable {
 
   private IndexSearcher searcher = null;
 
-  protected class Result {
+  public class Result {
     public String docid;
     public int ldocid;
     public float score;
@@ -120,7 +115,7 @@ public class SimpleSearcher implements Closeable {
 
     this.reader = DirectoryReader.open(FSDirectory.open(indexPath));
     this.similarity = new BM25Similarity(0.9f, 0.4f);
-    this.analyzer = new EnglishAnalyzer();
+    this.analyzer = IndexCollection.DEFAULT_ANALYZER;
     this.searchtweets = false;
     this.isRerank = false;
     cascade = new RerankerCascade();
@@ -139,6 +134,14 @@ public class SimpleSearcher implements Closeable {
       this.analyzer = new ArabicAnalyzer();
     } else if (language.equals("fr")) {
       this.analyzer = new FrenchAnalyzer();
+    } else if (language.equals("hi")) {
+      this.analyzer = new HindiAnalyzer();
+    } else if (language.equals("bn")) {
+      this.analyzer = new BengaliAnalyzer();
+    } else if (language.equals("de")) {
+      this.analyzer = new GermanAnalyzer();
+    } else if (language.equals("es")) {
+      this.analyzer = new SpanishAnalyzer();
     }
   }
 
@@ -184,21 +187,6 @@ public class SimpleSearcher implements Closeable {
     reader.close();
   }
 
-  public Result[] search(String q) throws IOException {
-    return search(q, 10);
-  }
-
-  public Result[] search(String q, int k) throws IOException {
-    return search(q, k, -1);
-  }
-
-  public Result[] search(String q, int k, long t) throws IOException {
-    Query query = new BagOfWordsQueryGenerator().buildQuery(LuceneDocumentGenerator.FIELD_BODY, analyzer, q);
-    List<String> queryTokens = AnalyzerUtils.tokenize(analyzer, q);
-
-    return search(query, queryTokens, q, k, t);
-  }
-
   public Map<String, Result[]> batchSearch(List<String> queries, List<String> qids, int k, int threads) {
     return batchSearch(queries, qids, k, -1, threads);
   }
@@ -223,7 +211,7 @@ public class SimpleSearcher implements Closeable {
         Long lineNumber = index.incrementAndGet();
         if (lineNumber % 100 == 0) {
           double timePerQuery = (double) (System.nanoTime() - startTime) / (lineNumber + 1) / 1e9;
-          System.out.format("Retrieving query " + lineNumber + " (%.3f s/query)\n", timePerQuery);
+          LOG.info(String.format("Retrieving query " + lineNumber + " (%.3f s/query)\n", timePerQuery));
         }
       });
     }
@@ -251,6 +239,21 @@ public class SimpleSearcher implements Closeable {
     return results;
   }
 
+  public Result[] search(String q) throws IOException {
+    return search(q, 10);
+  }
+
+  public Result[] search(String q, int k) throws IOException {
+    return search(q, k, -1);
+  }
+
+  public Result[] search(String q, int k, long t) throws IOException {
+    Query query = new BagOfWordsQueryGenerator().buildQuery(LuceneDocumentGenerator.FIELD_BODY, analyzer, q);
+    List<String> queryTokens = AnalyzerUtils.tokenize(analyzer, q);
+
+    return search(query, queryTokens, q, k, t);
+  }
+
   protected Result[] search(Query query, List<String> queryTokens, String queryString, int k, long t) throws IOException {
     // Initialize an index searcher only once
     if (searcher == null) {
@@ -263,7 +266,7 @@ public class SimpleSearcher implements Closeable {
     searchArgs.hits = k;
     searchArgs.searchtweets = searchtweets;
 
-    TopDocs rs = new TopDocs(new TotalHits(0, TotalHits.Relation.EQUAL_TO), new ScoreDoc[]{});
+    TopDocs rs;
     RerankerContext context;
     if (searchtweets) {
       if (t > 0) {
@@ -283,7 +286,7 @@ public class SimpleSearcher implements Closeable {
       }
     } else {
       rs = searcher.search(query, isRerank ? searchArgs.rerankcutoff : k, BREAK_SCORE_TIES_BY_DOCID, true);
-        context = new RerankerContext<>(searcher, null, query, null, queryString, queryTokens, null, searchArgs);
+      context = new RerankerContext<>(searcher, null, query, null, queryString, queryTokens, null, searchArgs);
     }
 
     ScoredDocuments hits = cascade.run(ScoredDocuments.fromTopDocs(rs, searcher), context);
@@ -319,15 +322,67 @@ public class SimpleSearcher implements Closeable {
     return search(query, queryTokens, q, k, -1);
   }
 
-  public String doc(int ldocid) {
-    Document doc;
+  /**
+   * Fetches the Lucene {@link Document} based on an internal Lucene docid.
+   * @param ldocid internal Lucene docid
+   * @return corresponding Lucene {@link Document}
+   */
+  public Document doc(int ldocid) {
     try {
-      doc = reader.document(ldocid);
+      if (ldocid >= reader.maxDoc())
+        return null;
+
+      return reader.document(ldocid);
     } catch (IOException e) {
+      return null;
+    }
+  }
+
+  /**
+   * Fetches the Lucene {@link Document} based on a collection docid.
+   * @param docid collection docid
+   * @return corresponding Lucene {@link Document}
+   */
+  public Document doc(String docid) {
+    try {
+      int ldocid = IndexReaderUtils.convertDocidToLuceneDocid(reader, docid);
+      if (ldocid == -1)
+        return null;
+
+      return reader.document(ldocid);
+    } catch (IOException e) {
+      return null;
+    }
+  }
+
+  /**
+   * Returns the raw contents of a document based on an internal Lucene docid.
+   * @param ldocid internal Lucene docid
+   * @return raw contents of the document
+   */
+  public String getContents(int ldocid) {
+    Document doc = doc(ldocid);
+    if (doc == null) {
       return null;
     }
 
     IndexableField field = doc.getField(LuceneDocumentGenerator.FIELD_RAW);
     return field == null ? null : field.stringValue();
   }
+
+  /**
+   * Returns the raw contents of a document based on a collection docid.
+   * @param docid collection docid
+   * @return raw contents of the document
+   */
+  public String getContents(String docid) {
+    Document doc = doc(docid);
+    if (doc == null) {
+      return null;
+    }
+
+    IndexableField field = doc.getField(LuceneDocumentGenerator.FIELD_RAW);
+    return field == null ? null : field.stringValue();
+  }
+
 }
