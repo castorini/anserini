@@ -14,21 +14,13 @@
  * limitations under the License.
  */
 
-package io.anserini.util.mapper;
+package io.anserini.index;
 
-import io.anserini.collection.SourceDocument;
-import io.anserini.util.MapCollections;
-
-public abstract class DocumentMapper {
-  protected MapCollections.Args args;
-
-  public DocumentMapper(MapCollections.Args args) {
-    this.args = args;
+/**
+ * An exception denoting that information necessary for reading something out of the index was not stored.
+ */
+public class NotStoredException extends Exception {
+  public NotStoredException(String message) {
+    super(message);
   }
-
-  public abstract void setContext(DocumentMapperContext context);
-
-  public abstract void process(SourceDocument doc, DocumentMapperContext context);
-
-  public abstract void printResult(long durationMillis);
 }

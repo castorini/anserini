@@ -1,0 +1,49 @@
+301-AH	Marcas da Nestlé
+302-AH	Boicotes de consumidores
+303-AH	Pinturas italianas
+304-AH	Património Mundial
+305-AH	Preço do petróleo
+306-AH	Actividades da ETA em França
+307-AH	Filmes passados na Escócia
+308-AH	Eclipse solar
+309-AH	Drogas duras
+310-AH	Tratamento de resíduos industriais
+311-AH	Desemprego na Europa
+312-AH	Ataques de cães a seres humanos
+313-AH	Celebrações de centenários
+314-AH	Espécies em vias de extinção
+315-AH	Doping no esporte
+316-AH	Greves
+317-AH	Medicamentos contra o cancro
+318-AH	Educação sexual
+319-AH	Produção global de ópio
+320-AH	Crises energéticas
+321-AH	Os Taliban no Afganistão
+322-AH	Energia atómica
+323-AH	Reforçando o controlo de vistos
+324-AH	Top models
+325-AH	Mensalidades universitárias
+326-AH	Prémios Emmy Internacional
+327-AH	Terramotos na Cidade do México
+328-AH	Curdos iraquianos e a Turquia
+329-AH	Consequências do divórcio de Carlos e Diana
+330-AH	Filmes com Keanu Reeves
+331-AH	Política económica de Zedillo
+333-AH	Julgamento de Paul Touvier
+334-AH	Eleição de George W. Bush
+335-AH	O Partido Trabalhista após John Smith
+336-AH	Conflitos laborais na NBA
+337-AH	Guerra civil no Iémene
+338-AH	Extradição e julgamento de Carlos
+339-AH	Sinn Fein e a Declaração Anglo-Irlandesa
+340-AH	Novo primiê do Québeque
+341-AH	Roubo d'«O Grito»
+342-AH	«Quatro Casamentos e um Funeral»
+343-AH	Partido Nacional sul-africano
+344-AH	Brasil-Suécia nas semifinais do Campeonato do Mundo
+345-AH	Esqui cross country nos Jogos Olímpicos
+346-AH	Vencedores de provas do Grand Slam
+347-AH	Óscar do Melhor Filme 1994
+348-AH	Assassinato de Yann Piat
+349-AH	Morte de Nixon
+350-AH	Morte de Ayrton Senna

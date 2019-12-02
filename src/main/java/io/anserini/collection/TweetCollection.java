@@ -24,7 +24,6 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
-import io.anserini.util.JsonParser;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -44,6 +43,7 @@ import java.util.Locale;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.OptionalDouble;
+import java.util.OptionalInt;
 import java.util.OptionalLong;
 import java.util.zip.GZIPInputStream;
 
@@ -98,7 +98,7 @@ public class TweetCollection extends DocumentCollection<TweetCollection.Document
         throw new ParseException("IOException in parseJson", 0);
       }
 
-      if (JsonParser.isFieldAvailable(tweetObj.getDelete())) {
+      if (isFieldAvailable(tweetObj.getDelete())) {
         throw new ParseException("Ignore deleted tweets", 0);
       }
 
@@ -117,21 +117,21 @@ public class TweetCollection extends DocumentCollection<TweetCollection.Document
         throw e;
       }
 
-      if (JsonParser.isFieldAvailable(tweetObj.getInReplyToStatusId())) {
+      if (isFieldAvailable(tweetObj.getInReplyToStatusId())) {
         bufferedRecord.inReplyToStatusId = tweetObj.getInReplyToStatusId();
       } else {
         bufferedRecord.inReplyToStatusId = OptionalLong.empty();
       }
 
-      if (JsonParser.isFieldAvailable(tweetObj.getInReplyToUserId())) {
+      if (isFieldAvailable(tweetObj.getInReplyToUserId())) {
         bufferedRecord.inReplyToUserId = tweetObj.getInReplyToUserId();
       } else {
         bufferedRecord.inReplyToUserId = OptionalLong.empty();
       }
 
-      if (JsonParser.isFieldAvailable(tweetObj.getRetweetedStatus())) {
+      if (isFieldAvailable(tweetObj.getRetweetedStatus())) {
         bufferedRecord.retweetStatusId = tweetObj.getRetweetedStatus().get().getId();
-        if (JsonParser.isFieldAvailable(tweetObj.getRetweetedStatus().get().getUser())) {
+        if (isFieldAvailable(tweetObj.getRetweetedStatus().get().getUser())) {
           bufferedRecord.retweetUserId = tweetObj.getRetweetedStatus().get().getUser().get().getId();
         } else {
           bufferedRecord.retweetUserId = OptionalLong.empty();
@@ -143,8 +143,8 @@ public class TweetCollection extends DocumentCollection<TweetCollection.Document
         bufferedRecord.retweetCount = OptionalLong.empty();
       }
 
-      if (JsonParser.isFieldAvailable(tweetObj.getCoordinates()) &&
-              JsonParser.isFieldAvailable(tweetObj.getCoordinates().get().getCoordinates()) &&
+      if (isFieldAvailable(tweetObj.getCoordinates()) &&
+              isFieldAvailable(tweetObj.getCoordinates().get().getCoordinates()) &&
               tweetObj.getCoordinates().get().getCoordinates().get().size() >= 2) {
         bufferedRecord.longitude = tweetObj.getCoordinates().get().getCoordinates().get().get(0);
         bufferedRecord.latitude = tweetObj.getCoordinates().get().getCoordinates().get().get(1);
@@ -153,7 +153,7 @@ public class TweetCollection extends DocumentCollection<TweetCollection.Document
         bufferedRecord.longitude = OptionalDouble.empty();
       }
 
-      if (JsonParser.isFieldAvailable(tweetObj.getLang())) {
+      if (isFieldAvailable(tweetObj.getLang())) {
         bufferedRecord.lang = tweetObj.getLang();
       } else {
         bufferedRecord.lang = Optional.empty();
@@ -164,13 +164,13 @@ public class TweetCollection extends DocumentCollection<TweetCollection.Document
       bufferedRecord.statusesCount = tweetObj.getUser().getStatusesCount();
       bufferedRecord.screenName = tweetObj.getUser().getScreenName();
 
-      if (JsonParser.isFieldAvailable(tweetObj.getUser().getName())) {
+      if (isFieldAvailable(tweetObj.getUser().getName())) {
         bufferedRecord.name = tweetObj.getUser().getName();
       } else {
         bufferedRecord.name = Optional.empty();
       }
 
-      if (JsonParser.isFieldAvailable(tweetObj.getUser().getProfileImageUrl())) {
+      if (isFieldAvailable(tweetObj.getUser().getProfileImageUrl())) {
         bufferedRecord.profileImageUrl = tweetObj.getUser().getProfileImageUrl();
       } else {
         bufferedRecord.profileImageUrl = Optional.empty();
@@ -178,6 +178,23 @@ public class TweetCollection extends DocumentCollection<TweetCollection.Document
 
       bufferedRecord.jsonString = json;
       bufferedRecord.jsonObject = tweetObj;
+    }
+
+    private boolean isFieldAvailable(Object field) {
+      if (field == null) {
+        return false;
+      }
+      boolean isPresent;
+      if (field.getClass() == OptionalLong.class) {
+        isPresent = ((OptionalLong)field).isPresent();
+      } else if (field.getClass() == OptionalDouble.class) {
+        isPresent = ((OptionalDouble)field).isPresent();
+      } else if (field.getClass() == OptionalInt.class) {
+        isPresent = ((OptionalInt)field).isPresent();
+      } else {
+        isPresent = ((Optional)field).isPresent();
+      }
+      return isPresent;
     }
   }
 
