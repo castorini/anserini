@@ -19,8 +19,12 @@ import argparse
 import math
 import os
 import requests
+import time
 
 from subprocess import call, Popen, PIPE
+
+# Note that this class is specifically written with REST API requests instead of the
+# Elasticsearch client eliminate an additional dependency
 
 class ElasticsearchClient:
     def __init__(self):
@@ -44,7 +48,7 @@ class ElasticsearchClient:
             return True
 
     def does_index_exist(self, collection):
-        # First make sure ES is alive:
+        # Make sure ES is alive:
         if self.is_alive():
             try:
                 response = requests.get('http://localhost:9200/{}'.format(collection))
@@ -57,7 +61,7 @@ class ElasticsearchClient:
             raise Exception('ES does not appear to be alive!')
 
     def delete_index(self, collection):
-        # First make sure the index exists:
+        # Make sure the index exists:
         if self.does_index_exist(collection):
             try:
                 response = requests.request('DELETE', url='http://localhost:9200/{}'.format(collection))
@@ -70,7 +74,7 @@ class ElasticsearchClient:
             raise Exception('The index {} does not appear to exist!'.format(collection))
 
     def create_index(self, collection):
-        # First make sure the index does not exist:
+        # Make sure the index does not exist:
         if not self.does_index_exist(collection):
             filename = 'src/main/resources/elasticsearch/index-config.{}.json'.format(collection)
             if not os.path.exists(filename):
@@ -93,7 +97,7 @@ class ElasticsearchClient:
             raise Exception('The index {} already exists!'.format(collection))
 
     def insert_docs(self, collection, path):
-        print('Inserting documents from {} into {}'.format(path, collection))
+        print('Inserting documents from {} into {}... '.format(path, collection))
         # TODO: abstract this into an external config instead of hard-coded.
         command = ''
         if collection == 'robust04':
@@ -149,6 +153,7 @@ if __name__ == '__main__':
     parser.add_argument('--insert-docs', default='', type=str, metavar='collection', help='insert documents into index')
     parser.add_argument('--input', default='', type=str, metavar='directory', help='location of documents to insert into index')
     parser.add_argument('--evaluate', default='', type=str, metavar='collection', help='search and evaluate on collection')
+    parser.add_argument('--regression', default='', type=str, metavar='collection', help='run end-to-end regression')
 
     args = parser.parse_args()
     es = ElasticsearchClient()
@@ -184,3 +189,17 @@ if __name__ == '__main__':
             es.insert_docs(args.insert_docs, args.input)
     elif args.evaluate:
         es.evaluate(args.evaluate)
+    elif args.regression:
+        if not args.input:
+            raise Exception('Location of corpus not specified (use --input)!')
+        if not es.is_alive():
+            raise Exception('Elasticsearch does not appear to be alive!')
+        if es.does_index_exist(args.regression):
+            print('Index {} already exists: deleting and recreating.'.format(args.regression))
+            es.delete_index(args.regression)
+            es.create_index(args.regression)
+        es.insert_docs(args.regression, args.input)
+        print('Document ingestion complete. Sleeping now for 60s')
+        time.sleep(60)
+        print('Waking up!')
+        es.evaluate(args.regression)
