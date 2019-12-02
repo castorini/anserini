@@ -28,8 +28,6 @@ import org.apache.lucene.analysis.miscellaneous.ASCIIFoldingFilter;
 import org.apache.lucene.analysis.miscellaneous.SetKeywordMarkerFilter;
 import org.apache.lucene.analysis.standard.StandardTokenizer;
 
-/* ASCIIFoldingFilter is used for accent folding. This will normalize the characters
-    * with accent such as Latin characters, which enhances the search */
 public final class FreebaseAnalyzer extends StopwordAnalyzerBase {
   private final CharArraySet stemExclusionSet;
 
@@ -57,6 +55,7 @@ public final class FreebaseAnalyzer extends StopwordAnalyzerBase {
     result = new LowerCaseFilter(result);
     result = new StopFilter(result, this.stopwords);
     result = new ASCIIFoldingFilter(result);
+
     if(!this.stemExclusionSet.isEmpty()) {
       result = new SetKeywordMarkerFilter(result, this.stemExclusionSet);
     }

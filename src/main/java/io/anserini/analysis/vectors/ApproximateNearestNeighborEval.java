@@ -19,7 +19,7 @@ import com.google.common.collect.Sets;
 import io.anserini.analysis.vectors.fw.FakeWordsEncoderAnalyzer;
 import io.anserini.analysis.vectors.lexlsh.LexicalLshAnalyzer;
 import io.anserini.search.topicreader.TrecTopicReader;
-import io.anserini.util.AnalyzerUtils;
+import io.anserini.analysis.AnalyzerUtils;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;

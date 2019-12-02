@@ -16,6 +16,7 @@
 
 package io.anserini.util;
 
+import io.anserini.index.NotStoredException;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.Terms;
@@ -29,6 +30,12 @@ import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.nio.file.Paths;
 
+/**
+ * Utility for extracting the document length and the number of unique terms from every document in the index,
+ * using the indexed term vector (if available in the index). Outputs both the exact values and the value under
+ * Lucene's lossy compression scheme that encodes an integer into a byte. With Lucene's BM25 implementation,
+ * the lossy document length should be exactly the same as the stored norm of a document.
+ */
 public class ExtractDocumentLengths {
 
   public static class Args {
@@ -57,17 +64,24 @@ public class ExtractDocumentLengths {
     PrintStream out = new PrintStream(new FileOutputStream(new File(myArgs.output)));
 
     int numDocs = reader.numDocs();
-    out.println("luceneID\tcount\tuniquecount\tlossycount");
+    out.println("docid\tdoc_length\tunique_term_count\tlossy_doc_length\tlossy_unique_term_count");
     for (int i = 0; i < numDocs; i++) {
       Terms terms = reader.getTermVector(i, "contents");
-      if(terms == null) {
-        out.println(i + "\t" + 0 + "\t" + 0 + "\t" + 0);
-        continue;
+      if (terms == null) {
+        throw new NotStoredException("Term vectors not available!");
       }
-      long total = terms.getSumTotalTermFreq();
-      long length = SmallFloat.longToInt4(total);
-      out.println(i + "\t" + total + "\t" + terms.size() + "\t" + length) ;
+      long exactDoclength = terms.getSumTotalTermFreq();
+      long exactTermCount = terms.size();
+      // Uses Lucene's method of encoding an integer into a byte, and the decoding it again.
+      // This matches the norm encoding in BM25Similarity:
+      // See https://github.com/apache/lucene-solr/blob/master/lucene/core/src/java/org/apache/lucene/search/similarities/BM25Similarity.java
+      int lossyDoclength = SmallFloat.byte4ToInt(SmallFloat.intToByte4((int) exactDoclength));
+      int lossyTermCount = SmallFloat.byte4ToInt(SmallFloat.intToByte4((int) exactTermCount));
+      out.println(String.format("%d\t%d\t%d\t%d\t%d", i, exactDoclength, exactTermCount, lossyDoclength, lossyTermCount));
     }
+    out.flush();
     out.close();
+    reader.close();
+    dir.close();
   }
 }

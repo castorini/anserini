@@ -86,8 +86,8 @@ import static java.util.stream.Collectors.joining;
 public class IndexUtils {
   private static final Logger LOG = LogManager.getLogger(IndexUtils.class);
 
-  enum Compression { NONE, GZ, BZ2, ZIP }
-  enum DocVectorWeight {NONE, TF_IDF}
+  public enum Compression { NONE, GZ, BZ2, ZIP }
+  public enum DocumentVectorWeight {NONE, TF_IDF}
 
   public static final class Args {
     @Option(name = "-index", metaVar = "[Path]", required = true, usage = "index path")
@@ -107,7 +107,7 @@ public class IndexUtils {
 
     @Option(name = "-docVectorWeight", metaVar = "[str]",
             usage = "the weight for dumped document vector(s), NONE or TF_IDF")
-    DocVectorWeight docVectorWeight;
+    DocumentVectorWeight docVectorWeight;
 
     @Option(name = "-dumpAllDocids", usage = "dumps all docids in sorted order. For non-tweet collection the order is " +
             "in ascending of String docid; For tweets collection the order is in descending of Long tweet id" +
@@ -132,12 +132,6 @@ public class IndexUtils {
 
     @Option(name = "-convertLuceneDocidToDocid", metaVar = "docid", usage = "converts to a Lucene internal lookupDocid to a collection lookupDocid ")
     int lookupLuceneDocid;
-  }
-
-  public class NotStoredException extends Exception {
-    public NotStoredException(String message) {
-      super(message);
-    }
   }
 
   private final FSDirectory directory;
@@ -216,7 +210,7 @@ public class IndexUtils {
     }
   }
 
-  public void dumpDocumentVectors(String reqDocidsPath, DocVectorWeight weight) throws IOException {
+  public void dumpDocumentVectors(String reqDocidsPath, DocumentVectorWeight weight) throws IOException {
     String outFileName = weight == null ? reqDocidsPath+".docvector.tar.gz" : reqDocidsPath+".docvector." + weight +".tar.gz";
     LOG.info("Start dump document vectors with weight " + weight);
 
@@ -498,7 +492,7 @@ public class IndexUtils {
 
     if (args.docVectors != null) {
       if (args.docVectorWeight == null) {
-        args.docVectorWeight = DocVectorWeight.NONE;
+        args.docVectorWeight = DocumentVectorWeight.NONE;
       }
       util.dumpDocumentVectors(args.docVectors, args.docVectorWeight);
     }

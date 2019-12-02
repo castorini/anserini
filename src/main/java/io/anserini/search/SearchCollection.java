@@ -34,15 +34,19 @@ import io.anserini.search.similarity.AccurateBM25Similarity;
 import io.anserini.search.similarity.TaggedSimilarity;
 import io.anserini.search.topicreader.NewsBackgroundLinkingTopicReader;
 import io.anserini.search.topicreader.TopicReader;
-import io.anserini.util.AnalyzerUtils;
+import io.anserini.analysis.AnalyzerUtils;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.CharArraySet;
 import org.apache.lucene.analysis.ar.ArabicAnalyzer;
+import org.apache.lucene.analysis.bn.BengaliAnalyzer;
 import org.apache.lucene.analysis.cjk.CJKAnalyzer;
 import org.apache.lucene.analysis.fr.FrenchAnalyzer;
+import org.apache.lucene.analysis.hi.HindiAnalyzer;
+import org.apache.lucene.analysis.de.GermanAnalyzer;
+import org.apache.lucene.analysis.es.SpanishAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.LongPoint;
 import org.apache.lucene.index.DirectoryReader;
@@ -226,6 +230,14 @@ public final class SearchCollection implements Closeable {
       analyzer = new ArabicAnalyzer();
     } else if (args.language.equals("fr")) {
       analyzer = new FrenchAnalyzer();
+    } else if (args.language.equals("hi")) {
+      analyzer = new HindiAnalyzer();
+    } else if (args.language.equals("bn")) {
+      analyzer = new BengaliAnalyzer();
+    } else if (args.language.equals("de")) {
+      analyzer = new GermanAnalyzer();
+    } else if (args.language.equals("es")) {
+      analyzer = new SpanishAnalyzer();
     } else {
       // Default to English
       analyzer = args.keepstop ?
