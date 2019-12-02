@@ -16,6 +16,7 @@ limitations under the License.
 '''
 
 import argparse
+import logging
 import math
 import os
 import requests
@@ -25,6 +26,12 @@ from subprocess import call, Popen, PIPE
 
 # Note that this class is specifically written with REST API requests instead of the
 # Elasticsearch client eliminate an additional dependency
+
+logger = logging.getLogger('run_es_regression')
+ch = logging.StreamHandler()
+ch.setFormatter(logging.Formatter('%(asctime)s %(levelname)s - %(message)s'))
+logger.addHandler(ch)
+logger.setLevel(logging.INFO)
 
 class ElasticsearchClient:
     def __init__(self):
@@ -36,7 +43,7 @@ class ElasticsearchClient:
         if process.returncode == 0: # success
             return output.decode('utf8')
         else:
-            raise RuntimeError("Command {0} running unsuccessfully".format(command))
+            raise RuntimeError('Error running shell comand: {}'.format(command))
 
     def is_alive(self):
         try:
@@ -61,6 +68,7 @@ class ElasticsearchClient:
             raise Exception('ES does not appear to be alive!')
 
     def delete_index(self, collection):
+        logger.info('Deleting index {}...'.format(collection))
         # Make sure the index exists:
         if self.does_index_exist(collection):
             try:
@@ -71,25 +79,25 @@ class ElasticsearchClient:
             else:
                 return True
         else:
-            raise Exception('The index {} does not appear to exist!'.format(collection))
+            raise Exception('The index {} does not exist!'.format(collection))
 
     def create_index(self, collection):
+        logger.info('Creating index {}...'.format(collection))
         # Make sure the index does not exist:
         if not self.does_index_exist(collection):
             filename = 'src/main/resources/elasticsearch/index-config.{}.json'.format(collection)
             if not os.path.exists(filename):
                 raise Exception('No config found in src/main/resources/elasticsearch/ for {}!'.format(collection))
-            print('Using config for {} at {}:'.format(collection, filename))
+            logger.info('Using index config for {} at {}'.format(collection, filename))
             file = open(filename, mode='r')
             json = file.read()
             file.close()
-            print(json)
             try:
                 response = requests.request('PUT', url='http://localhost:9200/{}'.format(collection),
                                             data=json, headers={'Content-type': 'application/json'})
                 response.raise_for_status()
             except:
-                print(response)
+                logger.info(response)
                 return False
             else:
                 return True
@@ -97,7 +105,9 @@ class ElasticsearchClient:
             raise Exception('The index {} already exists!'.format(collection))
 
     def insert_docs(self, collection, path):
-        print('Inserting documents from {} into {}... '.format(path, collection))
+        logger.info('Inserting documents from {} into {}... '.format(path, collection))
+        if not self.does_index_exist(collection):
+            raise Exception('The index {} does not exist!'.format(collection))
         # TODO: abstract this into an external config instead of hard-coded.
         command = ''
         if collection == 'robust04':
@@ -106,11 +116,10 @@ class ElasticsearchClient:
                       path + ' -storePositions -storeDocvectors -storeRawDocs'
         else:
             raise Exception('Unknown collection: {}'.format(collection))
-        print('Running indexing command: ' + command)
+        logger.info('Running indexing command: ' + command)
         return self.run_shell_command(command)
 
     def evaluate(self, collection):
-        print('Running BM25 regression on {}...'.format(collection))
         # TODO: abstract this into an external config instead of hard-coded.
         command = ''
         if collection == 'robust04':
@@ -119,9 +128,9 @@ class ElasticsearchClient:
                       '-output run.es.robust04.bm25.topics.robust04.txt'
         else:
             raise Exception('Unknown collection: {}'.format(collection))
-        print('Retrieval command: ' + command)
+        logger.info('Retrieval command: ' + command)
         output = self.run_shell_command(command)
-        print('Retrieval complete!')
+        logger.info('Retrieval complete!')
 
         if collection == 'robust04':
             command = 'eval/trec_eval.9.0.4/trec_eval -m map -m P.30 ' + \
@@ -129,16 +138,15 @@ class ElasticsearchClient:
         else:
             raise Exception('Unknown collection: {}'.format(collection))
 
-        print('Evaluation command: ' + command)
+        logger.info('Evaluation command: ' + command)
         output = self.run_shell_command(command)
-        print(output)
         ap = float(output.split('\n')[0].split('\t')[2])
 
         if collection == 'robust04':
             if math.isclose(ap, 0.2531):
-                print('[SUCESS] {} MAP verified as expected!'.format(ap))
+                logger.info('[SUCESS] {} MAP verified as expected!'.format(ap))
             else:
-                print('[FAIL] {} MAP, 0.2531 MAP expected!'.format(ap))
+                logger.info('[FAIL] {} MAP, 0.2531 MAP expected!'.format(ap))
         else:
             raise Exception('Unknown collection: {}'.format(collection))
 
@@ -159,29 +167,27 @@ if __name__ == '__main__':
     es = ElasticsearchClient()
 
     if args.ping:
-        print('Pinging local Elastic search instance...')
+        logger.info('Pinging Elasticsearch instance...')
         if es.is_alive():
-            print('... appears to alive! :)')
+            logger.info('... appears to alive! :)')
         else:
-            print('... appears to dead! :(')
+            logger.info('... appears to dead! :(')
     elif args.check_index_exists:
-        print('Checking if index {} exists...'.format(args.check_index_exists))
+        logger.info('Checking if index {} exists...'.format(args.check_index_exists))
         if es.does_index_exist(args.check_index_exists):
-            print('... yes indeed!')
+            logger.info('... yes indeed!')
         else:
-            print('... appears not.')
+            logger.info('... appears not.')
     elif args.delete_index:
-        print('Deleting index {}...'.format(args.delete_index))
         if es.delete_index(args.delete_index):
-            print('... successful!')
+            logger.info('... successful!')
         else:
-            print('... failed!')
+            logger.info('... failed!')
     elif args.create_index:
-        print('Creating index {}...'.format(args.create_index))
         if es.create_index(args.create_index):
-            print('... successful!')
+            logger.info('... successful!')
         else:
-            print('... failed!')
+            logger.info('... failed!')
     elif args.insert_docs:
         if not args.input:
             raise Exception('Location of corpus not specified (use --input)!')
@@ -190,16 +196,17 @@ if __name__ == '__main__':
     elif args.evaluate:
         es.evaluate(args.evaluate)
     elif args.regression:
+        logger.info('Running BM25 regression on {}...'.format(args.regression))
         if not args.input:
             raise Exception('Location of corpus not specified (use --input)!')
         if not es.is_alive():
             raise Exception('Elasticsearch does not appear to be alive!')
         if es.does_index_exist(args.regression):
-            print('Index {} already exists: deleting and recreating.'.format(args.regression))
+            logger.info('Index {} already exists: deleting and recreating.'.format(args.regression))
             es.delete_index(args.regression)
-            es.create_index(args.regression)
+        es.create_index(args.regression)
         es.insert_docs(args.regression, args.input)
-        print('Document ingestion complete. Sleeping now for 60s')
+        logger.info('Document ingestion complete. Sleeping now for 60s...')
         time.sleep(60)
-        print('Waking up!')
+        logger.info('Waking up!')
         es.evaluate(args.regression)
