@@ -25,7 +25,6 @@ public class IndexVectorsTest {
   @Test
   public void indexFWTest() throws Exception {
     createIndex("target/idx-sample-fw", "fw");
-    return;
   }
 
   @Test
