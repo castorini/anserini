@@ -37,22 +37,40 @@ class ElasticsearchClient:
     def __init__(self):
         pass
 
-    def run_shell_command(self, command):
+    def run_shell_command(self, command, echo=False, capture=False):
         process = Popen(command, shell=True, stdout=PIPE)
-        output, err = process.communicate()
-        if process.returncode == 0: # success
-            return output.decode('utf8')
+
+        if not echo:
+            output, err = process.communicate()
+            if process.returncode == 0: # success
+                if capture == False: return process.returncode
+                else: return output.decode('utf8').split('\n')
+            else:
+                raise RuntimeError('Error running shell comand: {}'.format(command))
         else:
-            raise RuntimeError('Error running shell comand: {}'.format(command))
+            arr = []
+            # Modified from https://fabianlee.org/2019/09/15/python-getting-live-output-from-subprocess-using-poll/
+            while True:
+                output = process.stdout.readline()
+                if process.poll() is not None: break
+                if output:
+                    logger.info('subprocess - ' + output.decode('utf8').strip())
+                    if capture: arr.append(output.decode('utf8').strip())
+            # Make sure we read the output completely
+            while True:
+                output = process.stdout.readline()
+                if not output: break
+                logger.info('subprocess - ' + output.decode('utf8').strip())
+                if capture: arr.append(output.decode('utf8').strip())
+            if capture: return arr
+            else: return process.returncode
 
     def is_alive(self):
         try:
             response = requests.get('http://localhost:9200/')
             response.raise_for_status()
-        except:
-            return False
-        else:
-            return True
+        except: return False
+        else: return True
 
     def does_index_exist(self, collection):
         # Make sure ES is alive:
@@ -60,12 +78,9 @@ class ElasticsearchClient:
             try:
                 response = requests.get('http://localhost:9200/{}'.format(collection))
                 response.raise_for_status()
-            except:
-                return False
-            else:
-                return True
-        else:
-            raise Exception('ES does not appear to be alive!')
+            except: return False
+            else: return True
+        else: raise Exception('ES does not appear to be alive!')
 
     def delete_index(self, collection):
         logger.info('Deleting index {}...'.format(collection))
@@ -74,12 +89,9 @@ class ElasticsearchClient:
             try:
                 response = requests.request('DELETE', url='http://localhost:9200/{}'.format(collection))
                 response.raise_for_status()
-            except:
-                return False
-            else:
-                return True
-        else:
-            raise Exception('The index {} does not exist!'.format(collection))
+            except: return False
+            else: return True
+        else: raise Exception('The index {} does not exist!'.format(collection))
 
     def create_index(self, collection):
         logger.info('Creating index {}...'.format(collection))
@@ -114,10 +126,14 @@ class ElasticsearchClient:
             command = 'sh target/appassembler/bin/IndexCollection -collection TrecCollection ' + \
                       '-generator JsoupGenerator -es -es.index robust04 -threads 16 -input ' + \
                       path + ' -storePositions -storeDocvectors -storeRawDocs'
+        elif collection == 'msmarco-passage':
+            command = 'sh target/appassembler/bin/IndexCollection -collection JsonCollection ' + \
+                      '-generator JsoupGenerator -es -es.index msmarco-passage -threads 9 -input ' + \
+                      path + ' -storePositions -storeDocvectors -storeRawDocs'
         else:
             raise Exception('Unknown collection: {}'.format(collection))
         logger.info('Running indexing command: ' + command)
-        return self.run_shell_command(command)
+        return self.run_shell_command(command, echo=True)
 
     def evaluate(self, collection):
         # TODO: abstract this into an external config instead of hard-coded.
@@ -126,29 +142,37 @@ class ElasticsearchClient:
             command = 'sh target/appassembler/bin/SearchElastic -topicreader Trec -es.index robust04 ' + \
                       '-topics src/main/resources/topics-and-qrels/topics.robust04.txt ' + \
                       '-output run.es.robust04.bm25.topics.robust04.txt'
+        elif collection == 'msmarco-passage':
+            command = 'sh target/appassembler/bin/SearchElastic -topicreader TsvString -es.index msmarco-passage ' + \
+                      '-topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt ' + \
+                      '-output run.es.msmacro-passage.txt'
         else:
             raise Exception('Unknown collection: {}'.format(collection))
+
         logger.info('Retrieval command: ' + command)
-        output = self.run_shell_command(command)
+        output = self.run_shell_command(command, echo=True)
         logger.info('Retrieval complete!')
 
         if collection == 'robust04':
             command = 'eval/trec_eval.9.0.4/trec_eval -m map -m P.30 ' + \
                       'src/main/resources/topics-and-qrels/qrels.robust04.txt run.es.robust04.bm25.topics.robust04.txt'
+        elif collection == 'msmarco-passage':
+            command = 'eval/trec_eval.9.0.4/trec_eval -c -mrecall.1000 -mmap ' + \
+                      'src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt run.es.msmacro-passage.txt'
         else:
             raise Exception('Unknown collection: {}'.format(collection))
 
         logger.info('Evaluation command: ' + command)
-        output = self.run_shell_command(command)
-        ap = float(output.split('\n')[0].split('\t')[2])
+        output = self.run_shell_command(command, capture=True)
+        ap = float(output[0].split('\t')[2])
 
-        if collection == 'robust04':
-            if math.isclose(ap, 0.2531):
-                logger.info('[SUCESS] {} MAP verified as expected!'.format(ap))
-            else:
-                logger.info('[FAIL] {} MAP, 0.2531 MAP expected!'.format(ap))
-        else:
-            raise Exception('Unknown collection: {}'.format(collection))
+        expected = 0
+        if collection == 'robust04': expected = 0.2531
+        elif collection == 'msmarco-passage': expected = 0.1956
+        else: raise Exception('Unknown collection: {}'.format(collection))
+
+        if math.isclose(ap, expected): logger.info('[SUCESS] {} MAP verified as expected!'.format(ap))
+        else: logger.info('[FAILED] {} MAP, expected {} MAP!'.format(ap, expected))
 
 
 
