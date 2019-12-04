@@ -117,6 +117,8 @@ class ElasticsearchClient:
 
     def insert_docs(self, collection, path):
         logger.info('Inserting documents from {} into {}... '.format(path, collection))
+        if not os.path.exists(args.input):
+            raise Exception('{} does not exist!'.format(args.input))
         if not self.does_index_exist(collection):
             raise Exception('The index {} does not exist!'.format(collection))
         # TODO: abstract this into an external config instead of hard-coded.
@@ -229,6 +231,8 @@ if __name__ == '__main__':
             es.delete_index(args.regression)
         es.create_index(args.regression)
         es.insert_docs(args.regression, args.input)
+        # Documents ingested into ES are not immediately searchable. There are lots of 'refresh' options
+        # to control the visibility behavior, but the simplest solution is just to wait for a bit...
         logger.info('Document ingestion complete. Sleeping now for 60s...')
         time.sleep(60)
         logger.info('Waking up!')
