@@ -179,7 +179,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Program for running Elasticsearch regressions.')
     parser.add_argument('--ping', action='store_true', default=False, help='ping ES and exit')
     parser.add_argument('--check-index-exists', default='', type=str, metavar='collection', help='check if index exists')
-    parser.add_argument('--delete-index', default='', type=str, metavar='collection', help='check if index exists')
+    parser.add_argument('--delete-index', default='', type=str, metavar='collection', help='deletes index')
     parser.add_argument('--create-index', default='', type=str, metavar='collection', help='creates index')
     parser.add_argument('--insert-docs', default='', type=str, metavar='collection', help='insert documents into index')
     parser.add_argument('--input', default='', type=str, metavar='directory', help='location of documents to insert into index')
