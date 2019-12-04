@@ -2,55 +2,16 @@
 
 Anserini provides code for indexing into an ELK stack, thus providing interoperable support existing test collections.
 
-## Deploying ELK stack locally
+## Deploying Elasticsearch Locally
 
-We use [docker-elk](https://github.com/deviantony/docker-elk) to set up the ELK stack locally.
-
-Before we start, make sure you have Docker and Docker Compose installed and running.
-
-First, we clone the repository and switch into the directory.
+Simple instructions for installing and running Elasticsearch can be found [here](http://elastic.co/start).
+Basically, it's as simple as downloading the correct distribution for your platform, unpacking it, and running:
 
 ```
-git clone https://github.com/deviantony/docker-elk.git && cd docker-elk
+bin/elasticsearch
 ```
 
-Depending on the documents you are indexing, you probably also have to increase the ELK stack's heap size in `docker-compose.yml`:
-
-To increase Elasticsearch's heap size:
-
-```
-sed -i 's/ES_JAVA_OPTS: "-Xmx256m -Xms256m"/ES_JAVA_OPTS: "-Xmx1g -Xms512m"/' docker-compose.yml
-```
-
-If you are on MacOS:
-
-```
-sed -i '' 's/ES_JAVA_OPTS: "-Xmx256m -Xms256m"/ES_JAVA_OPTS: "-Xmx1g -Xms512m"/' docker-compose.yml
-```
-
-To increase Logstash's heap size:
-
-```
-sed -i 's/LS_JAVA_OPTS: "-Xmx256m -Xms256m"/LS_JAVA_OPTS: "-Xmx1g -Xms512m"/' docker-compose.yml
-```
-
-If you are on MacOS:
-
-```
-sed -i '' 's/LS_JAVA_OPTS: "-Xmx256m -Xms256m"/LS_JAVA_OPTS: "-Xmx1g -Xms512m"/' docker-compose.yml
-```
-
-Note `-Xmx` is the maximum memory that can be allocated, and `-Xms` is the initial memory allocated. You can specify these values as needed.
-
-You can further specify general configurations for any of the ELK components by changing the file `[name]/config/[name].yml`. For instance, to further specify the configuration of Elasticsearch, you can make changes to `elasticsearch/config/elasticsearch.yml`.
-
-Then, we can build and start the Docker containers for the ELK stack to run.
-
-`docker-compose up`
-
-If at some point one of the ELK components is failing for some reason, or if you have changed its configurations while the containers are running, try restarting it. For instance, to restart Kibana:
-
-`docker-compose restart kibana`
+If you want to install Kibana, it's just another distribution to unpack and a similarly simple command.
 
 ## Indexing and Retrieval: Robust04
 

@@ -101,9 +101,8 @@ class ElasticsearchClient:
             if not os.path.exists(filename):
                 raise Exception('No config found in src/main/resources/elasticsearch/ for {}!'.format(collection))
             logger.info('Using index config for {} at {}'.format(collection, filename))
-            file = open(filename, mode='r')
-            json = file.read()
-            file.close()
+            with open(filename, mode='r') as file:
+                json = file.read()
             try:
                 response = requests.request('PUT', url='http://localhost:9200/{}'.format(collection),
                                             data=json, headers={'Content-type': 'application/json'})
