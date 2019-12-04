@@ -72,4 +72,23 @@ public class TrecTopicReaderTest {
     assertEquals("স্যাটানিক ভার্সেস বিতর্ক", topics.get(topics.lastKey()).get("title"));
   }
 
+  @Test
+  public void test4() throws IOException {
+    // Note that this file has a formatting error - make sure we can handle it.
+    TopicReader<Integer> reader = new TrecTopicReader(
+        Paths.get("src/main/resources/topics-and-qrels/topics.fire12hi.176-225.txt"));
+
+    SortedMap<Integer, Map<String, String>> topics = reader.read();
+
+    assertEquals(50, topics.keySet().size());
+    assertEquals(176, (int) topics.firstKey());
+    assertEquals("वाई एस आर रेड्डी की मौत", topics.get(topics.firstKey()).get("title"));
+
+    assertEquals("2002 नेटवेस्ट शृंखला का परिणाम", topics.get(200).get("title"));
+    assertEquals("इराक का प्रथम चुनाव", topics.get(201).get("title"));
+
+    assertEquals(225, (int) topics.lastKey());
+    assertEquals("सेटेनिक वर्सेज विवाद", topics.get(topics.lastKey()).get("title"));
+  }
+
 }

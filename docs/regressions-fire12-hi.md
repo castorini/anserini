@@ -50,16 +50,16 @@ With the above commands, you should be able to replicate the following results:
 
 MAP                                     | BM25      |
 :---------------------------------------|-----------|
-[FIRE 2012 (Monolingual Hindi)](https://www.isical.ac.in/~fire/2012/adhoc.html)| 0.3893    |
+[FIRE 2012 (Monolingual Hindi)](https://www.isical.ac.in/~fire/2012/adhoc.html)| 0.3867    |
 
 
 P20                                     | BM25      |
 :---------------------------------------|-----------|
-[FIRE 2012 (Monolingual Hindi)](https://www.isical.ac.in/~fire/2012/adhoc.html)| 0.4490    |
+[FIRE 2012 (Monolingual Hindi)](https://www.isical.ac.in/~fire/2012/adhoc.html)| 0.4470    |
 
 
 NDCG20                                  | BM25      |
 :---------------------------------------|-----------|
-[FIRE 2012 (Monolingual Hindi)](https://www.isical.ac.in/~fire/2012/adhoc.html)| 0.5354    |
+[FIRE 2012 (Monolingual Hindi)](https://www.isical.ac.in/~fire/2012/adhoc.html)| 0.5310    |
 
 
