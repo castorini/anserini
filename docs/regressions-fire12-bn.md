@@ -1,6 +1,6 @@
-# Anserini: Regressions for [FIRE 2012 Monolingual Bengali](http://isical.ac.in/~fire/2012/adhoc.html)
+# Anserini: Regressions for [FIRE 2012 Monolingual Bengali](https://www.isical.ac.in/~fire/2012/adhoc.html)
 
-This page documents regression experiments for [FIRE 2012 Ad-hoc retrieval (Monolingual Bengali topic)](http://isical.ac.in/~fire/2012/adhoc.html).
+This page documents regression experiments for [FIRE 2012 Ad-hoc retrieval (Monolingual Bengali)](https://www.isical.ac.in/~fire/2012/adhoc.html).
 The document collection can be found in [FIRE 2012 data page](http://fire.irsi.res.in/fire/static/data).
 
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/fire12-bn.yaml).
@@ -17,6 +17,7 @@ nohup sh target/appassembler/bin/IndexCollection -collection TrecCollection -inp
 ```
 
 The directory `/path/to/fire12-bn/` should be a directory containing the collection, containing `bn_ABP` and `bn_BDNews24` directories.
+There should be 500,122 documents in total.
 
 For additional details, see explanation of [common indexing options](common-indexing-options.md).
 
@@ -47,16 +48,16 @@ With the above commands, you should be able to replicate the following results:
 
 MAP                                     | BM25      |
 :---------------------------------------|-----------|
-[FIRE 2012 (Bengali monolingual)](http://isical.ac.in/~fire/2012/adhoc.html)| 0.2881    |
+[FIRE 2012 (Monolingual Bengali)](https://www.isical.ac.in/~fire/2012/adhoc.html)| 0.2881    |
 
 
 P20                                     | BM25      |
 :---------------------------------------|-----------|
-[FIRE 2012 (Bengali monolingual)](http://isical.ac.in/~fire/2012/adhoc.html)| 0.3740    |
+[FIRE 2012 (Monolingual Bengali)](https://www.isical.ac.in/~fire/2012/adhoc.html)| 0.3740    |
 
 
 NDCG20                                  | BM25      |
 :---------------------------------------|-----------|
-[FIRE 2012 (Bengali monolingual)](http://isical.ac.in/~fire/2012/adhoc.html)| 0.4261    |
+[FIRE 2012 (Monolingual Bengali)](https://www.isical.ac.in/~fire/2012/adhoc.html)| 0.4261    |
 
 

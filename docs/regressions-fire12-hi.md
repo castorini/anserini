@@ -1,6 +1,6 @@
-# Anserini: Regressions for [FIRE 2012 Monolingual Hindi](http://isical.ac.in/~fire/2012/adhoc.html)
+# Anserini: Regressions for [FIRE 2012 Monolingual Hindi](https://www.isical.ac.in/~fire/2012/adhoc.html)
 
-This page documents regression experiments for [FIRE 2012 Ad-hoc retrieval (Monolingual Hindi topic)](http://isical.ac.in/~fire/2012/adhoc.html).
+This page documents regression experiments for [FIRE 2012 Ad-hoc retrieval (Monolingual Hindi)](https://www.isical.ac.in/~fire/2012/adhoc.html).
 The document collection can be found in [FIRE 2012 data page](http://fire.irsi.res.in/fire/static/data).
 
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/fire12-hi.yaml).
@@ -17,6 +17,7 @@ nohup sh target/appassembler/bin/IndexCollection -collection TrecCollection -inp
 ```
 
 The directory `/path/to/fire12-hi/` should be a directory containing the collection, containing `hi_AmarUjala` and `hi_NavbharatTimes` directories.
+There should be 331,599 documents in total.
 
 For additional details, see explanation of [common indexing options](common-indexing-options.md).
 
@@ -47,16 +48,16 @@ With the above commands, you should be able to replicate the following results:
 
 MAP                                     | BM25      |
 :---------------------------------------|-----------|
-[FIRE 2012 (Hindi monolingual)](http://isical.ac.in/~fire/2012/adhoc.html)| 0.3893    |
+[FIRE 2012 (Monolingual Hindi)](https://www.isical.ac.in/~fire/2012/adhoc.html)| 0.3893    |
 
 
 P20                                     | BM25      |
 :---------------------------------------|-----------|
-[FIRE 2012 (Hindi monolingual)](http://isical.ac.in/~fire/2012/adhoc.html)| 0.4490    |
+[FIRE 2012 (Monolingual Hindi)](https://www.isical.ac.in/~fire/2012/adhoc.html)| 0.4490    |
 
 
 NDCG20                                  | BM25      |
 :---------------------------------------|-----------|
-[FIRE 2012 (Hindi monolingual)](http://isical.ac.in/~fire/2012/adhoc.html)| 0.5354    |
+[FIRE 2012 (Monolingual Hindi)](https://www.isical.ac.in/~fire/2012/adhoc.html)| 0.5354    |
 
 

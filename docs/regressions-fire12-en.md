@@ -1,6 +1,6 @@
-# Anserini: Regressions for [FIRE 2012 Monolingual English](http://isical.ac.in/~fire/2012/adhoc.html)
+# Anserini: Regressions for [FIRE 2012 Monolingual English](https://www.isical.ac.in/~fire/2012/adhoc.html)
 
-This page documents regression experiments for [FIRE 2012 Ad-hoc retrieval (Monolingual English topic)](http://isical.ac.in/~fire/2012/adhoc.html).
+This page documents regression experiments for [FIRE 2012 Ad-hoc retrieval (Monolingual English)](https://www.isical.ac.in/~fire/2012/adhoc.html).
 The document collection can be found in [FIRE 2012 data page](http://fire.irsi.res.in/fire/static/data).
 
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/fire12-en.yaml).
@@ -17,6 +17,7 @@ nohup sh target/appassembler/bin/IndexCollection -collection TrecCollection -inp
 ```
 
 The directory `/path/to/fire12-en/` should be a directory containing the collection, containing `en_BDNews24` and `en_TheTelegraph_2001-2010` directories.
+There should be 392,577 documents in total.
 
 For additional details, see explanation of [common indexing options](common-indexing-options.md).
 
@@ -47,16 +48,16 @@ With the above commands, you should be able to replicate the following results:
 
 MAP                                     | BM25      |
 :---------------------------------------|-----------|
-[FIRE 2012 (English monolingual)](http://isical.ac.in/~fire/2012/adhoc.html)| 0.3713    |
+[FIRE 2012 (Monolingual English)](https://www.isical.ac.in/~fire/2012/adhoc.html)| 0.3713    |
 
 
 P20                                     | BM25      |
 :---------------------------------------|-----------|
-[FIRE 2012 (English monolingual)](http://isical.ac.in/~fire/2012/adhoc.html)| 0.4970    |
+[FIRE 2012 (Monolingual English)](https://www.isical.ac.in/~fire/2012/adhoc.html)| 0.4970    |
 
 
 NDCG20                                  | BM25      |
 :---------------------------------------|-----------|
-[FIRE 2012 (English monolingual)](http://isical.ac.in/~fire/2012/adhoc.html)| 0.5420    |
+[FIRE 2012 (Monolingual English)](https://www.isical.ac.in/~fire/2012/adhoc.html)| 0.5420    |
 
 
