@@ -29,7 +29,7 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```
 nohup target/appassembler/bin/SearchCollection -index lucene-index.fire12-en.pos+docvectors+rawdocs \
- -topicreader TsvString -topics src/main/resources/topics-and-qrels/topics.fire12en.176-225.txt \
+ -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.fire12en.176-225.txt \
  -language en -bm25 -output run.fire12-en.bm25.topics.fire12en.176-225.txt &
 
 ```

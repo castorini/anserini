@@ -66,12 +66,25 @@ public class TrecTopicReader extends TopicReader<Integer> {
     SortedMap<Integer, Map<String, String>> map = new TreeMap<>();
     StringBuilder sb;
     try {
-      while (null!=(sb=read(bRdr,"<top>",null,false,false))) {
+
+      // Note that TREC topics begin with <top> (e.g., Robust04), but FIRE topics begin with a language code,
+      // e.g., <top lang='bn'>, we we only search for the prefix '<top'
+      while (null!=(sb=read(bRdr,"<top",null,false,false))) {
         Map<String,String> fields = new HashMap<>();
-        // id
+        // Read the topic id
         sb = read(bRdr,"<num>",null,true,false);
+
+        // Note that TREC topics are numbered like '<num> Number: 301'
         int k = sb.indexOf(":");
-        String id = sb.substring(k+1).trim();
+        String id = null;
+        if (k != -1) {
+          id = sb.substring(k+1).trim();
+        } else {
+          // But, FIRE topics are numbered like '<num>176</num>', so we need to deal with both variants.
+          k = sb.indexOf(">");
+          id = sb.substring(k+1).trim();
+        }
+
         // title
         sb = read(bRdr,"<title>",null,true,false);
         k = sb.indexOf(":");

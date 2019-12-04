@@ -29,7 +29,7 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```
 nohup target/appassembler/bin/SearchCollection -index lucene-index.fire12-hi.pos+docvectors+rawdocs \
- -topicreader TsvString -topics src/main/resources/topics-and-qrels/topics.fire12hi.176-225.txt \
+ -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.fire12hi.176-225.txt \
  -language hi -bm25 -output run.fire12-hi.bm25.topics.fire12hi.176-225.txt &
 
 ```
@@ -47,16 +47,16 @@ With the above commands, you should be able to replicate the following results:
 
 MAP                                     | BM25      |
 :---------------------------------------|-----------|
-[FIRE 2012 (Hindi monolingual)](http://isical.ac.in/~fire/2012/adhoc.html)| 0.3867    |
+[FIRE 2012 (Hindi monolingual)](http://isical.ac.in/~fire/2012/adhoc.html)| 0.3893    |
 
 
 P20                                     | BM25      |
 :---------------------------------------|-----------|
-[FIRE 2012 (Hindi monolingual)](http://isical.ac.in/~fire/2012/adhoc.html)| 0.4470    |
+[FIRE 2012 (Hindi monolingual)](http://isical.ac.in/~fire/2012/adhoc.html)| 0.4490    |
 
 
 NDCG20                                  | BM25      |
 :---------------------------------------|-----------|
-[FIRE 2012 (Hindi monolingual)](http://isical.ac.in/~fire/2012/adhoc.html)| 0.5310    |
+[FIRE 2012 (Hindi monolingual)](http://isical.ac.in/~fire/2012/adhoc.html)| 0.5354    |
 
 
