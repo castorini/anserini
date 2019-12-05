@@ -36,6 +36,11 @@ public class IndexArgs {
   @Option(name = "-generator", required = true, usage = "document generator in io.anserini.index.generator")
   public String generatorClass;
 
+  // optional general arguments
+  @Option(name = "-verboseIndexingThreads",
+      usage = "Logging for each indexing thread; can be noisy if collection has many small file segments.")
+  public boolean verboseIndexingThreads = false;
+
   // optional arguments
 
   @Option(name = "-index", metaVar = "[Path]", forbids = {"-solr", "-es"}, usage = "index path")
@@ -155,7 +160,4 @@ public class IndexArgs {
 
   @Option(name = "-shard.current", usage = "the current shard number to produce (indexed from 0)")
   public int shardCurrent = -1;
-
-  @Option(name = "-dryRun", usage = "performs all analysis steps except Lucene / Solr indexing")
-  public boolean dryRun = false;
 }

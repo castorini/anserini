@@ -135,12 +135,14 @@ public final class IndexCollection {
     final private Path inputFile;
     final private IndexWriter writer;
     final private DocumentCollection collection;
+    final private boolean verbose;
     private FileSegment fileSegment;
 
-    private LocalIndexerThread(IndexWriter writer, DocumentCollection collection, Path inputFile) throws IOException {
+    private LocalIndexerThread(IndexWriter writer, DocumentCollection collection, Path inputFile, boolean verbose) {
       this.writer = writer;
       this.collection = collection;
       this.inputFile = inputFile;
+      this.verbose = verbose;
       setName(inputFile.getFileName().toString());
     }
 
@@ -195,12 +197,10 @@ public final class IndexCollection {
             continue;
           }
 
-          if (!args.dryRun) {
-            if (args.uniqueDocid) {
-              writer.updateDocument(new Term("id", d.id()), doc);
-            } else {
-              writer.addDocument(doc);
-            }
+          if (args.uniqueDocid) {
+            writer.updateDocument(new Term("id", d.id()), doc);
+          } else {
+            writer.addDocument(doc);
           }
           cnt++;
           batch++;
@@ -229,8 +229,10 @@ public final class IndexCollection {
               inputFile.getFileName().toString() + ": error iterating through segment.");
         }
 
-        LOG.info(inputFile.getParent().getFileName().toString() + File.separator +
-            inputFile.getFileName().toString() + ": " + cnt + " docs added.");
+        if (verbose) {
+          LOG.info(inputFile.getParent().getFileName().toString() + File.separator +
+              inputFile.getFileName().toString() + ": " + cnt + " docs added.");
+        }
       } catch (Exception e) {
         LOG.error(Thread.currentThread().getName() + ": Unexpected Exception:", e);
       } finally {
@@ -247,15 +249,16 @@ public final class IndexCollection {
   }
 
   private final class SolrIndexerThread implements Runnable {
-
     private final Path input;
     private final DocumentCollection collection;
     private final List<SolrInputDocument> buffer = new ArrayList<>(args.solrBatch);
+    private final boolean verbose;
     private FileSegment fileSegment;
 
-    private SolrIndexerThread(DocumentCollection collection, Path input) {
+    private SolrIndexerThread(DocumentCollection collection, Path input, boolean verbose) {
       this.input = input;
       this.collection = collection;
+      this.verbose = verbose;
     }
 
     @Override
@@ -348,7 +351,9 @@ public final class IndexCollection {
           LOG.error(input.getParent().getFileName().toString() + File.separator + input.getFileName().toString() + ": error iterating through segment.");
         }
 
-        LOG.info(input.getParent().getFileName().toString() + File.separator + input.getFileName().toString() + ": " + cnt + " docs added.");
+        if (verbose) {
+          LOG.info(input.getParent().getFileName().toString() + File.separator + input.getFileName().toString() + ": " + cnt + " docs added.");
+        }
         counters.indexed.addAndGet(cnt);
       } catch (Exception e) {
         LOG.error(Thread.currentThread().getName() + ": Unexpected Exception:", e);
@@ -370,9 +375,7 @@ public final class IndexCollection {
         SolrClient solrClient = null;
         try {
           solrClient = solrPool.borrowObject();
-          if (!args.dryRun) {
-            solrClient.add(args.solrIndex, buffer, args.solrCommitWithin * 1000);
-          }
+          solrClient.add(args.solrIndex, buffer, args.solrCommitWithin * 1000);
           buffer.clear();
         } catch (Exception e) {
           LOG.error("Error flushing documents to Solr", e);
@@ -392,13 +395,15 @@ public final class IndexCollection {
   private final class ESIndexerThread implements Runnable {
     private final Path input;
     private final DocumentCollection collection;
+    private final boolean verbose;
     private BulkRequest bulkRequest;
     private FileSegment fileSegment;
 
-    private ESIndexerThread(DocumentCollection collection, Path input) {
+    private ESIndexerThread(DocumentCollection collection, Path input, boolean verbose) {
       this.input = input;
       this.collection = collection;
       this.bulkRequest = new BulkRequest();
+      this.verbose = verbose;
     }
 
     @Override
@@ -498,7 +503,9 @@ public final class IndexCollection {
           LOG.error(input.getParent().getFileName().toString() + File.separator + input.getFileName().toString() + ": error iterating through segment.");
         }
 
-        LOG.info(input.getParent().getFileName().toString() + File.separator + input.getFileName().toString() + ": " + cnt + " docs added.");
+        if (verbose) {
+          LOG.info(input.getParent().getFileName().toString() + File.separator + input.getFileName().toString() + ": " + cnt + " docs added.");
+        }
         counters.indexed.addAndGet(cnt);
       } catch (Exception e) {
         LOG.error(Thread.currentThread().getName() + ": Unexpected Exception:", e);
@@ -522,11 +529,7 @@ public final class IndexCollection {
       RestHighLevelClient esClient = null;
       try {
         esClient = esPool.borrowObject();
-        if (!args.dryRun) {
-          // synchronous
-          // TODO parse the response returned by this
-          esClient.bulk(bulkRequest, RequestOptions.DEFAULT);
-        }
+        esClient.bulk(bulkRequest, RequestOptions.DEFAULT);
         bulkRequest = new BulkRequest();
       } catch (Exception e) {
         LOG.error("Error sending bulk requests to Elasticsearch", e);
@@ -542,7 +545,6 @@ public final class IndexCollection {
     }
   }
 
-
   private final IndexArgs args;
   private final Path collectionPath;
   private final Set whitelistDocids;
@@ -557,8 +559,9 @@ public final class IndexCollection {
   public IndexCollection(IndexArgs args) throws Exception {
     this.args = args;
 
+    LOG.info("Starting indexer...");
+    LOG.info("============ Loading Parameters ============");
     LOG.info("DocumentCollection path: " + args.input);
-    LOG.info("Index path: " + args.index);
     LOG.info("CollectionClass: " + args.collectionClass);
     LOG.info("Generator: " + args.generatorClass);
     LOG.info("Threads: " + args.threads);
@@ -570,26 +573,28 @@ public final class IndexCollection {
     LOG.info("Store raw docs? " + args.storeRawDocs);
     LOG.info("Optimize (merge segments)? " + args.optimize);
     LOG.info("Whitelist: " + args.whitelist);
-    LOG.info("Solr? " + args.solr);
+
     if (args.solr) {
+      LOG.info("Indexing into Solr...");
       LOG.info("Solr batch size: " + args.solrBatch);
       LOG.info("Solr commitWithin: " + args.solrCommitWithin);
       LOG.info("Solr index: " + args.solrIndex);
       LOG.info("Solr ZooKeeper URL: " + args.zkUrl);
       LOG.info("SolrClient pool size: " + args.solrPoolSize);
-    }
-    LOG.info("Elasticsearch? " + args.es);
-    if (args.es) {
+    } else if (args.es) {
+      LOG.info("Indexing into Elasticsearch...");
       LOG.info("Elasticsearch batch size: " + args.esBatch);
       LOG.info("Elasticsearch index: " + args.esIndex);
       LOG.info("Elasticsearch hostname: " + args.esHostname);
       LOG.info("Elasticsearch host port: " + args.esPort);
-      LOG.info("ELK stack user: " + args.esUser);
       LOG.info("Elasticsearch client connect timeout (in ms): " + args.esConnectTimeout);
       LOG.info("Elasticsearch client socket timeout (in ms): " + args.esSocketTimeout);
       LOG.info("Elasticsearch pool size: " + args.esPoolSize);
+      LOG.info("Elasticsearch user: " + args.esUser);
+    } else {
+      LOG.info("Directly building Lucene indexes...");
+      LOG.info("Index path: " + args.index);
     }
-    LOG.info("Dry run (no index created)? " + args.dryRun);
 
     if (args.index == null && !args.solr && !args.es) {
       throw new IllegalArgumentException("Must specify one of -index, -solr, or -es");
@@ -683,15 +688,14 @@ public final class IndexCollection {
 
   public void run() throws IOException {
     final long start = System.nanoTime();
-    LOG.info("Starting indexer...");
+    LOG.info("============ Indexing Collection ============");
 
     int numThreads = args.threads;
 
     IndexWriter writer = null;
 
     // Used for LocalIndexThread
-    if (indexPath != null && !args.dryRun) {
-
+    if (indexPath != null) {
       final Directory dir = FSDirectory.open(indexPath);
       final CJKAnalyzer chineseAnalyzer = new CJKAnalyzer();
       final ArabicAnalyzer arabicAnalyzer = new ArabicAnalyzer();
@@ -703,6 +707,7 @@ public final class IndexCollection {
       final EnglishStemmingAnalyzer analyzer = args.keepStopwords ?
           new EnglishStemmingAnalyzer(args.stemmer, CharArraySet.EMPTY_SET) : new EnglishStemmingAnalyzer(args.stemmer);
       final TweetAnalyzer tweetAnalyzer = new TweetAnalyzer(args.tweetStemming);
+
       final IndexWriterConfig config;
       if (args.collectionClass.equals("TweetCollection")) {
         config = new IndexWriterConfig(tweetAnalyzer);
@@ -738,16 +743,20 @@ public final class IndexCollection {
 
     final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(numThreads);
     final List segmentPaths = collection.discover(collection.getCollectionPath());
+    LOG.info("Thread pool with " + numThreads + " threads initialized.");
 
     final int segmentCnt = segmentPaths.size();
-    LOG.info(segmentCnt + (segmentCnt == 1 ? " file" : " files" ) + " found in " + collectionPath.toString());
+    LOG.info(String.format("%,d %s found in %s", segmentCnt,
+        (segmentCnt == 1 ? "file" : "files" ), collectionPath.toString()));
+    LOG.info("Starting to index...");
+
     for (int i = 0; i < segmentCnt; i++) {
       if (args.solr) {
-        executor.execute(new SolrIndexerThread(collection, (Path) segmentPaths.get(i)));
+        executor.execute(new SolrIndexerThread(collection, (Path) segmentPaths.get(i), args.verboseIndexingThreads));
       } else if (args.es) {
-        executor.execute(new ESIndexerThread(collection, (Path) segmentPaths.get(i)));
+        executor.execute(new ESIndexerThread(collection, (Path) segmentPaths.get(i), args.verboseIndexingThreads));
       } else {
-        executor.execute(new LocalIndexerThread(writer, collection, (Path) segmentPaths.get(i)));
+        executor.execute(new LocalIndexerThread(writer, collection, (Path) segmentPaths.get(i), args.verboseIndexingThreads));
       }
     }
 
@@ -759,7 +768,7 @@ public final class IndexCollection {
         if (segmentCnt == 1) {
           LOG.info(String.format("%d documents indexed", counters.indexed.get()));
         } else {
-          LOG.info(String.format("%.2f percent of file segments completed, %d documents indexed",
+          LOG.info(String.format("%.2f%% of files completed, %,d documents indexed",
               (double) executor.getCompletedTaskCount() / segmentCnt * 100.0d, counters.indexed.get()));
         }
       }
@@ -780,16 +789,14 @@ public final class IndexCollection {
     if (args.solr || args.es) {
       numIndexed = counters.indexed.get();
     } else {
-      numIndexed = args.dryRun ? counters.indexed.get() : writer.getDocStats().maxDoc;
+      numIndexed = writer.getDocStats().maxDoc;
     }
 
     // Do a final commit
     if (args.solr) {
       try {
         SolrClient client = solrPool.borrowObject();
-        if (!args.dryRun) {
-          client.commit(args.solrIndex);
-        }
+        client.commit(args.solrIndex);
         // Needed for orderly shutdown so the SolrClient executor does not delay main thread exit
         solrPool.returnObject(client);
         solrPool.close();
@@ -825,7 +832,8 @@ public final class IndexCollection {
       LOG.warn("Unexpected difference between number of indexed documents and index maxDoc.");
     }
 
-    LOG.info("# Final Counter Values");
+    LOG.info(String.format("Indexing Complete! %,d documents indexed", numIndexed));
+    LOG.info("============ Final Counter Values ============");
     LOG.info(String.format("indexed:     %,12d", counters.indexed.get()));
     LOG.info(String.format("empty:       %,12d", counters.empty.get()));
     LOG.info(String.format("unindexed:   %,12d", counters.unindexed.get()));
