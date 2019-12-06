@@ -564,8 +564,6 @@ public final class IndexCollection {
   public IndexCollection(IndexArgs args) throws Exception {
     this.args = args;
 
-    LOG.info("Starting indexer...");
-
     if (args.verbose) {
       // If verbose logging enabled, changed default log level to DEBUG so we get per-thread logging messages.
       Configurator.setRootLevel(Level.DEBUG);
@@ -579,6 +577,7 @@ public final class IndexCollection {
       LOG.info("Setting log level to " + Level.INFO);
     }
 
+    LOG.info("Starting indexer...");
     LOG.info("============ Loading Parameters ============");
     LOG.info("DocumentCollection path: " + args.input);
     LOG.info("CollectionClass: " + args.collectionClass);
@@ -760,12 +759,12 @@ public final class IndexCollection {
     }
 
     final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(numThreads);
-    final List segmentPaths = collection.discover(collection.getCollectionPath());
     LOG.info("Thread pool with " + numThreads + " threads initialized.");
 
+    LOG.info("Initializing collection in " + collectionPath.toString());
+    final List segmentPaths = collection.discover(collection.getCollectionPath());
     final int segmentCnt = segmentPaths.size();
-    LOG.info(String.format("%,d %s found in %s", segmentCnt,
-        (segmentCnt == 1 ? "file" : "files" ), collectionPath.toString()));
+    LOG.info(String.format("%,d %s found", segmentCnt, (segmentCnt == 1 ? "file" : "files" )));
     LOG.info("Starting to index...");
 
     for (int i = 0; i < segmentCnt; i++) {
@@ -853,8 +852,8 @@ public final class IndexCollection {
     LOG.info(String.format("Indexing Complete! %,d documents indexed", numIndexed));
     LOG.info("============ Final Counter Values ============");
     LOG.info(String.format("indexed:     %,12d", counters.indexed.get()));
-    LOG.info(String.format("empty:       %,12d", counters.empty.get()));
     LOG.info(String.format("unindexable: %,12d", counters.unindexable.get()));
+    LOG.info(String.format("empty:       %,12d", counters.empty.get()));
     LOG.info(String.format("skipped:     %,12d", counters.skipped.get()));
     LOG.info(String.format("errors:      %,12d", counters.errors.get()));
 
