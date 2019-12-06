@@ -37,9 +37,14 @@ public class IndexArgs {
   public String generatorClass;
 
   // optional general arguments
-  @Option(name = "-verboseIndexingThreads",
-      usage = "Logging for each indexing thread; can be noisy if collection has many small file segments.")
-  public boolean verboseIndexingThreads = false;
+
+  @Option(name = "-verbose", forbids = {"-quiet"},
+      usage = "Enables verbose logging for each indexing thread; can be noisy if collection has many small file segments.")
+  public boolean verbose = false;
+
+  @Option(name = "-quiet", forbids = {"-verbose"},
+      usage = "Turns off all logging.")
+  public boolean quiet = false;
 
   // optional arguments
 

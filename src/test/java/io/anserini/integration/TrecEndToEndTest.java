@@ -25,6 +25,14 @@ public class TrecEndToEndTest extends EndToEndTest {
     generator = "Jsoup";
     topicReader = "Trec";
 
+    docCount = 3;
+
+    counterIndexed = 3;
+    counterEmpty = 0;
+    counterUnindexable = 0;
+    counterSkipped = 0;
+    counterErrors = 0;
+
     fieldNormStatusTotalFields = 1;  // text
     termIndexStatusTermCount = 12;   // Note that standard analyzer ignores stopwords; includes docids.
     termIndexStatusTotFreq = 17;

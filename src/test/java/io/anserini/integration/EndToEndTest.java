@@ -22,6 +22,8 @@ import io.anserini.search.SearchArgs;
 import io.anserini.search.SearchCollection;
 import org.apache.commons.io.FileUtils;
 import org.apache.lucene.index.CheckIndex;
+import org.apache.lucene.index.DirectoryReader;
+import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.IOUtils;
@@ -68,6 +70,13 @@ public abstract class EndToEndTest extends LuceneTestCase {
   protected int termIndexStatusTotPos;
   protected int storedFieldStatusTotalDocCounts;
   protected int storedFieldStatusTotFields;
+  protected int docCount;
+
+  protected int counterIndexed;
+  protected int counterEmpty;
+  protected int counterUnindexable;
+  protected int counterSkipped;
+  protected int counterErrors;
 
   // init the class variables here
   protected abstract void init() throws Exception;
@@ -87,9 +96,22 @@ public abstract class EndToEndTest extends LuceneTestCase {
     super.tearDown();
   }
 
+  protected void checkCounters(IndexCollection.Counters counters) {
+    assertEquals(counterIndexed, counters.indexed.get());
+    assertEquals(counterEmpty, counters.empty.get());
+    assertEquals(counterUnindexable, counters.unindexable.get());
+    assertEquals(counterSkipped, counters.skipped.get());
+    assertEquals(counterErrors, counters.errors.get());
+  }
+
   protected void checkIndex() throws IOException {
     ByteArrayOutputStream bos = new ByteArrayOutputStream(1024);
     Directory dir = FSDirectory.open(Paths.get(this.indexOutputPrefix+this.collectionClass));
+
+    IndexReader reader = DirectoryReader.open(dir);
+    assertEquals(docCount, reader.maxDoc());
+    reader.close();
+
     CheckIndex checker = new CheckIndex(dir);
     checker.setInfoStream(new PrintStream(bos, false, IOUtils.UTF_8));
     if (VERBOSE) checker.setInfoStream(System.out);
@@ -142,12 +164,14 @@ public abstract class EndToEndTest extends LuceneTestCase {
     indexCollectionArgs.storeTransformedDocs = true;
     indexCollectionArgs.storeRawDocs = true;
     indexCollectionArgs.optimize = true;
+    indexCollectionArgs.quiet = true;
   }
 
   protected void testIndexing() throws Exception {
     setIndexingArgs();
     try {
-      new IndexCollection(indexCollectionArgs).run();
+      IndexCollection.Counters counters = new IndexCollection(indexCollectionArgs).run();
+      checkCounters(counters);
       checkIndex();
     } catch (Exception e) {
       System.out.println("Test Indexing failed");

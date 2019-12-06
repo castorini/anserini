@@ -41,19 +41,26 @@ import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.CredentialsProvider;
 import org.apache.http.impl.client.BasicCredentialsProvider;
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.config.Configurator;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.CharArraySet;
 import org.apache.lucene.analysis.ar.ArabicAnalyzer;
 import org.apache.lucene.analysis.bn.BengaliAnalyzer;
 import org.apache.lucene.analysis.cjk.CJKAnalyzer;
+import org.apache.lucene.analysis.de.GermanAnalyzer;
+import org.apache.lucene.analysis.es.SpanishAnalyzer;
 import org.apache.lucene.analysis.fr.FrenchAnalyzer;
 import org.apache.lucene.analysis.hi.HindiAnalyzer;
-import org.apache.lucene.analysis.es.SpanishAnalyzer;
-import org.apache.lucene.analysis.de.GermanAnalyzer;
 import org.apache.lucene.document.Document;
-import org.apache.lucene.index.*;
+import org.apache.lucene.index.ConcurrentMergeScheduler;
+import org.apache.lucene.index.DocValuesType;
+import org.apache.lucene.index.IndexWriter;
+import org.apache.lucene.index.IndexWriterConfig;
+import org.apache.lucene.index.IndexableField;
+import org.apache.lucene.index.Term;
 import org.apache.lucene.search.similarities.BM25Similarity;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
@@ -67,15 +74,21 @@ import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.XContentFactory;
-import org.kohsuke.args4j.*;
+import org.kohsuke.args4j.CmdLineException;
+import org.kohsuke.args4j.CmdLineParser;
+import org.kohsuke.args4j.OptionHandlerFilter;
+import org.kohsuke.args4j.ParserProperties;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Constructor;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -107,13 +120,6 @@ public final class IndexCollection {
     public AtomicLong empty = new AtomicLong();
 
     /**
-     * Counter for unindexed documents. These are cases where the {@link SourceDocument} returned
-     * by {@link FileSegment} is {@code null} or the {@link LuceneDocumentGenerator}
-     * returned {@code null}. These are not necessarily errors.
-     */
-    public AtomicLong unindexed = new AtomicLong();
-
-    /**
      * Counter for unindexable documents. These are cases where {@link SourceDocument#indexable()}
      * returns false.
      */
@@ -135,14 +141,12 @@ public final class IndexCollection {
     final private Path inputFile;
     final private IndexWriter writer;
     final private DocumentCollection collection;
-    final private boolean verbose;
     private FileSegment fileSegment;
 
-    private LocalIndexerThread(IndexWriter writer, DocumentCollection collection, Path inputFile, boolean verbose) {
+    private LocalIndexerThread(IndexWriter writer, DocumentCollection collection, Path inputFile) {
       this.writer = writer;
       this.collection = collection;
       this.inputFile = inputFile;
-      this.verbose = verbose;
       setName(inputFile.getFileName().toString());
     }
 
@@ -189,9 +193,9 @@ public final class IndexCollection {
           @SuppressWarnings("unchecked")
           Document doc = generator.createDocument(d);
           if (doc == null) {
-            counters.unindexed.incrementAndGet();
             continue;
           }
+
           if (whitelistDocids != null && !whitelistDocids.contains(d.id())) {
             counters.skipped.incrementAndGet();
             continue;
@@ -217,10 +221,10 @@ public final class IndexCollection {
 
         int skipped = segment.getSkippedCount();
         if (skipped > 0) {
+          // When indexing tweets, this is normal, because there are delete messages that are skipped over.
           counters.skipped.addAndGet(skipped);
           LOG.warn(inputFile.getParent().getFileName().toString() + File.separator +
-              inputFile.getFileName().toString() + ": " + skipped +
-              " docs skipped.");
+              inputFile.getFileName().toString() + ": " + skipped + " docs skipped.");
         }
 
         if (segment.getErrorStatus()) {
@@ -229,10 +233,9 @@ public final class IndexCollection {
               inputFile.getFileName().toString() + ": error iterating through segment.");
         }
 
-        if (verbose) {
-          LOG.info(inputFile.getParent().getFileName().toString() + File.separator +
-              inputFile.getFileName().toString() + ": " + cnt + " docs added.");
-        }
+        // Log at the debug level because this can be quite noisy if there are lots of file segments.
+        LOG.debug(inputFile.getParent().getFileName().toString() + File.separator +
+            inputFile.getFileName().toString() + ": " + cnt + " docs added.");
       } catch (Exception e) {
         LOG.error(Thread.currentThread().getName() + ": Unexpected Exception:", e);
       } finally {
@@ -252,13 +255,11 @@ public final class IndexCollection {
     private final Path input;
     private final DocumentCollection collection;
     private final List<SolrInputDocument> buffer = new ArrayList<>(args.solrBatch);
-    private final boolean verbose;
     private FileSegment fileSegment;
 
-    private SolrIndexerThread(DocumentCollection collection, Path input, boolean verbose) {
+    private SolrIndexerThread(DocumentCollection collection, Path input) {
       this.input = input;
       this.collection = collection;
-      this.verbose = verbose;
     }
 
     @Override
@@ -299,9 +300,9 @@ public final class IndexCollection {
           @SuppressWarnings("unchecked")
           Document document = generator.createDocument(sourceDocument);
           if (document == null) {
-            counters.unindexed.incrementAndGet();
             continue;
           }
+
           if (whitelistDocids != null && !whitelistDocids.contains(sourceDocument.id())) {
             counters.skipped.incrementAndGet();
             continue;
@@ -342,18 +343,21 @@ public final class IndexCollection {
 
         int skipped = segment.getSkippedCount();
         if (skipped > 0) {
+          // When indexing tweets, this is normal, because there are delete messages that are skipped over.
           counters.skipped.addAndGet(skipped);
-          LOG.warn(input.getParent().getFileName().toString() + File.separator + input.getFileName().toString() + ": " + skipped + " docs skipped.");
+          LOG.warn(input.getParent().getFileName().toString() + File.separator +
+              input.getFileName().toString() + ": " + skipped + " docs skipped.");
         }
 
         if (segment.getErrorStatus()) {
           counters.errors.incrementAndGet();
-          LOG.error(input.getParent().getFileName().toString() + File.separator + input.getFileName().toString() + ": error iterating through segment.");
+          LOG.error(input.getParent().getFileName().toString() + File.separator +
+              input.getFileName().toString() + ": error iterating through segment.");
         }
 
-        if (verbose) {
-          LOG.info(input.getParent().getFileName().toString() + File.separator + input.getFileName().toString() + ": " + cnt + " docs added.");
-        }
+        // Log at the debug level because this can be quite noisy if there are lots of file segments.
+        LOG.info(input.getParent().getFileName().toString() + File.separator +
+            input.getFileName().toString() + ": " + cnt + " docs added.");
         counters.indexed.addAndGet(cnt);
       } catch (Exception e) {
         LOG.error(Thread.currentThread().getName() + ": Unexpected Exception:", e);
@@ -395,15 +399,13 @@ public final class IndexCollection {
   private final class ESIndexerThread implements Runnable {
     private final Path input;
     private final DocumentCollection collection;
-    private final boolean verbose;
     private BulkRequest bulkRequest;
     private FileSegment fileSegment;
 
-    private ESIndexerThread(DocumentCollection collection, Path input, boolean verbose) {
+    private ESIndexerThread(DocumentCollection collection, Path input) {
       this.input = input;
       this.collection = collection;
       this.bulkRequest = new BulkRequest();
-      this.verbose = verbose;
     }
 
     @Override
@@ -445,9 +447,9 @@ public final class IndexCollection {
           @SuppressWarnings("unchecked")
           Document document = generator.createDocument(sourceDocument);
           if (document == null) {
-            counters.unindexed.incrementAndGet();
             continue;
           }
+
           if (whitelistDocids != null && !whitelistDocids.contains(sourceDocument.id())) {
             counters.skipped.incrementAndGet();
             continue;
@@ -494,18 +496,21 @@ public final class IndexCollection {
 
         int skipped = segment.getSkippedCount();
         if (skipped > 0) {
+          // When indexing tweets, this is normal, because there are delete messages that are skipped over.
           counters.skipped.addAndGet(skipped);
-          LOG.warn(input.getParent().getFileName().toString() + File.separator + input.getFileName().toString() + ": " + skipped + " docs skipped.");
+          LOG.warn(input.getParent().getFileName().toString() + File.separator +
+              input.getFileName().toString() + ": " + skipped + " docs skipped.");
         }
 
         if (segment.getErrorStatus()) {
           counters.errors.incrementAndGet();
-          LOG.error(input.getParent().getFileName().toString() + File.separator + input.getFileName().toString() + ": error iterating through segment.");
+          LOG.error(input.getParent().getFileName().toString() + File.separator +
+              input.getFileName().toString() + ": error iterating through segment.");
         }
 
-        if (verbose) {
-          LOG.info(input.getParent().getFileName().toString() + File.separator + input.getFileName().toString() + ": " + cnt + " docs added.");
-        }
+        // Log at the debug level because this can be quite noisy if there are lots of file segments.
+        LOG.info(input.getParent().getFileName().toString() + File.separator +
+            input.getFileName().toString() + ": " + cnt + " docs added.");
         counters.indexed.addAndGet(cnt);
       } catch (Exception e) {
         LOG.error(Thread.currentThread().getName() + ": Unexpected Exception:", e);
@@ -558,6 +563,17 @@ public final class IndexCollection {
 
   public IndexCollection(IndexArgs args) throws Exception {
     this.args = args;
+
+    if (args.verbose) {
+      // If verbose logging enabled, changed default log level to DEBUG so we get per-thread logging messages.
+      Configurator.setRootLevel(Level.DEBUG);
+    } if (args.quiet) {
+      // If quiet mode enabled, only report warnings and above.
+      Configurator.setRootLevel(Level.WARN);
+    } else {
+      // Otherwise, we get the standard set of log messages.
+      Configurator.setRootLevel(Level.INFO);
+    }
 
     LOG.info("Starting indexer...");
     LOG.info("============ Loading Parameters ============");
@@ -686,12 +702,11 @@ public final class IndexCollection {
     }
   }
 
-  public void run() throws IOException {
+  public Counters run() throws IOException {
     final long start = System.nanoTime();
     LOG.info("============ Indexing Collection ============");
 
     int numThreads = args.threads;
-
     IndexWriter writer = null;
 
     // Used for LocalIndexThread
@@ -752,11 +767,11 @@ public final class IndexCollection {
 
     for (int i = 0; i < segmentCnt; i++) {
       if (args.solr) {
-        executor.execute(new SolrIndexerThread(collection, (Path) segmentPaths.get(i), args.verboseIndexingThreads));
+        executor.execute(new SolrIndexerThread(collection, (Path) segmentPaths.get(i)));
       } else if (args.es) {
-        executor.execute(new ESIndexerThread(collection, (Path) segmentPaths.get(i), args.verboseIndexingThreads));
+        executor.execute(new ESIndexerThread(collection, (Path) segmentPaths.get(i)));
       } else {
-        executor.execute(new LocalIndexerThread(writer, collection, (Path) segmentPaths.get(i), args.verboseIndexingThreads));
+        executor.execute(new LocalIndexerThread(writer, collection, (Path) segmentPaths.get(i)));
       }
     }
 
@@ -836,7 +851,6 @@ public final class IndexCollection {
     LOG.info("============ Final Counter Values ============");
     LOG.info(String.format("indexed:     %,12d", counters.indexed.get()));
     LOG.info(String.format("empty:       %,12d", counters.empty.get()));
-    LOG.info(String.format("unindexed:   %,12d", counters.unindexed.get()));
     LOG.info(String.format("unindexable: %,12d", counters.unindexable.get()));
     LOG.info(String.format("skipped:     %,12d", counters.skipped.get()));
     LOG.info(String.format("errors:      %,12d", counters.errors.get()));
@@ -844,6 +858,8 @@ public final class IndexCollection {
     final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
     LOG.info(String.format("Total %,d documents indexed in %s", numIndexed,
         DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss")));
+
+    return counters;
   }
 
   public static void main(String[] args) throws Exception {
