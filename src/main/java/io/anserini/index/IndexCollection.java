@@ -864,7 +864,7 @@ public final class IndexCollection {
 
   public static void main(String[] args) throws Exception {
     IndexArgs indexCollectionArgs = new IndexArgs();
-    CmdLineParser parser = new CmdLineParser(indexCollectionArgs, ParserProperties.defaults().withUsageWidth(90));
+    CmdLineParser parser = new CmdLineParser(indexCollectionArgs, ParserProperties.defaults().withUsageWidth(100));
 
     try {
       parser.parseArgument(args);
