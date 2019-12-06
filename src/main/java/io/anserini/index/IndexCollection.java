@@ -356,7 +356,7 @@ public final class IndexCollection {
         }
 
         // Log at the debug level because this can be quite noisy if there are lots of file segments.
-        LOG.info(input.getParent().getFileName().toString() + File.separator +
+        LOG.debug(input.getParent().getFileName().toString() + File.separator +
             input.getFileName().toString() + ": " + cnt + " docs added.");
         counters.indexed.addAndGet(cnt);
       } catch (Exception e) {
@@ -509,7 +509,7 @@ public final class IndexCollection {
         }
 
         // Log at the debug level because this can be quite noisy if there are lots of file segments.
-        LOG.info(input.getParent().getFileName().toString() + File.separator +
+        LOG.debug(input.getParent().getFileName().toString() + File.separator +
             input.getFileName().toString() + ": " + cnt + " docs added.");
         counters.indexed.addAndGet(cnt);
       } catch (Exception e) {
@@ -564,18 +564,21 @@ public final class IndexCollection {
   public IndexCollection(IndexArgs args) throws Exception {
     this.args = args;
 
+    LOG.info("Starting indexer...");
+
     if (args.verbose) {
       // If verbose logging enabled, changed default log level to DEBUG so we get per-thread logging messages.
       Configurator.setRootLevel(Level.DEBUG);
-    } if (args.quiet) {
+      LOG.info("Setting log level to " + Level.DEBUG);
+    } else if (args.quiet) {
       // If quiet mode enabled, only report warnings and above.
       Configurator.setRootLevel(Level.WARN);
     } else {
       // Otherwise, we get the standard set of log messages.
       Configurator.setRootLevel(Level.INFO);
+      LOG.info("Setting log level to " + Level.INFO);
     }
 
-    LOG.info("Starting indexer...");
     LOG.info("============ Loading Parameters ============");
     LOG.info("DocumentCollection path: " + args.input);
     LOG.info("CollectionClass: " + args.collectionClass);
