@@ -396,6 +396,26 @@ public final class IndexCollection {
     }
   }
 
+  private class SolrClientFactory extends BasePooledObjectFactory<SolrClient> {
+    @Override
+    public SolrClient create() {
+      return new CloudSolrClient.Builder(Splitter.on(',').splitToList(args.zkUrl), Optional.of(args.zkChroot))
+          .withConnectionTimeout(TIMEOUT)
+          .withSocketTimeout(TIMEOUT)
+          .build();
+    }
+
+    @Override
+    public PooledObject<SolrClient> wrap(SolrClient solrClient) {
+      return new DefaultPooledObject<>(solrClient);
+    }
+
+    @Override
+    public void destroyObject(PooledObject<SolrClient> pooled) throws Exception {
+      pooled.getObject().close();
+    }
+  }
+
   private final class ESIndexerThread implements Runnable {
     private final Path input;
     private final DocumentCollection collection;
@@ -550,6 +570,29 @@ public final class IndexCollection {
     }
   }
 
+  private class ESClientFactory extends BasePooledObjectFactory<RestHighLevelClient> {
+    @Override
+    public RestHighLevelClient create() {
+      final CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
+      credentialsProvider.setCredentials(AuthScope.ANY, new UsernamePasswordCredentials(args.esUser, args.esPassword));
+      return new RestHighLevelClient(
+          RestClient.builder(new HttpHost(args.esHostname, args.esPort, "http"))
+              .setHttpClientConfigCallback(builder -> builder.setDefaultCredentialsProvider(credentialsProvider))
+              .setRequestConfigCallback(builder -> builder.setConnectTimeout(args.esConnectTimeout).setSocketTimeout(args.esSocketTimeout))
+      );
+    }
+
+    @Override
+    public PooledObject<RestHighLevelClient> wrap(RestHighLevelClient esClient) {
+      return new DefaultPooledObject<>(esClient);
+    }
+
+    @Override
+    public void destroyObject(PooledObject<RestHighLevelClient> pooled) throws Exception {
+      pooled.getObject().close();
+    }
+  }
+
   private final IndexArgs args;
   private final Path collectionPath;
   private final Set whitelistDocids;
@@ -657,51 +700,6 @@ public final class IndexCollection {
     }
 
     this.counters = new Counters();
-  }
-
-  private class SolrClientFactory extends BasePooledObjectFactory<SolrClient> {
-
-    @Override
-    public SolrClient create() {
-      return new CloudSolrClient.Builder(Splitter.on(',').splitToList(args.zkUrl), Optional.of(args.zkChroot))
-          .withConnectionTimeout(TIMEOUT)
-          .withSocketTimeout(TIMEOUT)
-          .build();
-    }
-
-    @Override
-    public PooledObject<SolrClient> wrap(SolrClient solrClient) {
-      return new DefaultPooledObject<>(solrClient);
-    }
-
-    @Override
-    public void destroyObject(PooledObject<SolrClient> pooled) throws Exception {
-      pooled.getObject().close();
-    }
-  }
-
-  private class ESClientFactory extends BasePooledObjectFactory<RestHighLevelClient> {
-
-    @Override
-    public RestHighLevelClient create() {
-      final CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
-      credentialsProvider.setCredentials(AuthScope.ANY, new UsernamePasswordCredentials(args.esUser, args.esPassword));
-      return new RestHighLevelClient(
-          RestClient.builder(new HttpHost(args.esHostname, args.esPort, "http"))
-              .setHttpClientConfigCallback(builder -> builder.setDefaultCredentialsProvider(credentialsProvider))
-              .setRequestConfigCallback(builder -> builder.setConnectTimeout(args.esConnectTimeout).setSocketTimeout(args.esSocketTimeout))
-      );
-    }
-
-    @Override
-    public PooledObject<RestHighLevelClient> wrap(RestHighLevelClient esClient) {
-      return new DefaultPooledObject<>(esClient);
-    }
-
-    @Override
-    public void destroyObject(PooledObject<RestHighLevelClient> pooled) throws Exception {
-      pooled.getObject().close();
-    }
   }
 
   public Counters run() throws IOException {
