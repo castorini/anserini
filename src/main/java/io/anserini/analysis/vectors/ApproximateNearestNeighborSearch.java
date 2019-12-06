@@ -80,7 +80,10 @@ public class ApproximateNearestNeighborSearch {
     public int q = 60;
 
     @Option(name = "-cutoff", metaVar = "[float]", usage = "tf cutoff factor")
-    public float cutoff = 0.1f;
+    public float cutoff = 0.2f;
+
+    @Option(name = "-msm", metaVar = "[int]", usage = "minimum should match")
+    public int msm = 0;
   }
 
   public static void main(String[] args) throws Exception {
@@ -140,9 +143,9 @@ public class ApproximateNearestNeighborSearch {
     for (String token : AnalyzerUtils.tokenize(vectorAnalyzer, sb.toString())) {
       simQuery.add(new Term(IndexVectors.FIELD_VECTOR, token));
     }
-    if (indexArgs.encoding.equalsIgnoreCase(LEXLSH)) {
-      simQuery.setHighFreqMinimumNumberShouldMatch(6);
-      simQuery.setLowFreqMinimumNumberShouldMatch(6);
+    if (indexArgs.msm > 0) {
+      simQuery.setHighFreqMinimumNumberShouldMatch(indexArgs.msm);
+      simQuery.setLowFreqMinimumNumberShouldMatch(indexArgs.msm);
     }
 
     long start = System.currentTimeMillis();

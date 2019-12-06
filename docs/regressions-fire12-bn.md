@@ -1,7 +1,7 @@
-# Anserini: Regressions for [FIRE 2012 Monolingual Bengali](http://isical.ac.in/~fire/2012/adhoc.html)
+# Anserini: Regressions for [FIRE 2012 Monolingual Bengali](https://www.isical.ac.in/~fire/2012/adhoc.html)
 
-This page documents regression experiments for [FIRE 2012 Ad-hoc retrieval (Monolingual Bengali topic)](http://isical.ac.in/~fire/2012/adhoc.html).
-The document collection can be found in [FIRE 2012 data page](http://fire.irsi.res.in/fire/static/data).
+This page documents regression experiments for [FIRE 2012 ad hoc retrieval (Monolingual Bengali)](https://www.isical.ac.in/~fire/2012/adhoc.html).
+The document collection can be found in [FIRE data page](http://fire.irsi.res.in/fire/static/data).
 
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/fire12-bn.yaml).
 Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/fire12-bn.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
@@ -17,19 +17,22 @@ nohup sh target/appassembler/bin/IndexCollection -collection TrecCollection -inp
 ```
 
 The directory `/path/to/fire12-bn/` should be a directory containing the collection, containing `bn_ABP` and `bn_BDNews24` directories.
+There should be 500,122 documents in total.
 
 For additional details, see explanation of [common indexing options](common-indexing-options.md).
 
 ## Retrieval
 
-Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/main/resources/topics-and-qrels/).
-The regression experiments here evaluate on the 50 questions.
+Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/main/resources/topics-and-qrels/), downloaded from the [FIRE data page](http://fire.irsi.res.in/fire/static/data):
+
++ [`topics.fire12bn.176-225.txt`](../src/main/resources/topics-and-qrels/topics.fire12bn.176-225.txt): topics for FIRE 2012 Monolingual Bengali (176 to 225)
++ [`qrels.fire12bn.176-225.txt`](../src/main/resources/topics-and-qrels/qrels.fire12bn.176-225.txt): qrels (version II) for FIRE 2012 Monolingual Bengali (176 to 225)
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
 nohup target/appassembler/bin/SearchCollection -index lucene-index.fire12-bn.pos+docvectors+rawdocs \
- -topicreader TsvString -topics src/main/resources/topics-and-qrels/topics.fire12bn.176-225.txt \
+ -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.fire12bn.176-225.txt \
  -language bn -bm25 -output run.fire12-bn.bm25.topics.fire12bn.176-225.txt &
 
 ```
@@ -47,16 +50,16 @@ With the above commands, you should be able to replicate the following results:
 
 MAP                                     | BM25      |
 :---------------------------------------|-----------|
-[FIRE 2012 (Bengali monolingual)](http://isical.ac.in/~fire/2012/adhoc.html)| 0.2881    |
+[FIRE 2012 (Monolingual Bengali)](https://www.isical.ac.in/~fire/2012/adhoc.html)| 0.2881    |
 
 
 P20                                     | BM25      |
 :---------------------------------------|-----------|
-[FIRE 2012 (Bengali monolingual)](http://isical.ac.in/~fire/2012/adhoc.html)| 0.3740    |
+[FIRE 2012 (Monolingual Bengali)](https://www.isical.ac.in/~fire/2012/adhoc.html)| 0.3740    |
 
 
 NDCG20                                  | BM25      |
 :---------------------------------------|-----------|
-[FIRE 2012 (Bengali monolingual)](http://isical.ac.in/~fire/2012/adhoc.html)| 0.4261    |
+[FIRE 2012 (Monolingual Bengali)](https://www.isical.ac.in/~fire/2012/adhoc.html)| 0.4261    |
 
 

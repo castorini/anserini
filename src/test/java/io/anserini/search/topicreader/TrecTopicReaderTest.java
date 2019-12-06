@@ -28,7 +28,22 @@ import static org.junit.Assert.assertEquals;
 public class TrecTopicReaderTest {
 
   @Test
-  public void test() throws IOException {
+  public void test1() throws IOException {
+    TopicReader<Integer> reader = new TrecTopicReader(
+        Paths.get("src/main/resources/topics-and-qrels/topics.robust04.txt"));
+
+    SortedMap<Integer, Map<String, String>> topics = reader.read();
+
+    assertEquals(250, topics.keySet().size());
+    assertEquals(301, (int) topics.firstKey());
+    assertEquals("International Organized Crime", topics.get(topics.firstKey()).get("title"));
+
+    assertEquals(700, (int) topics.lastKey());
+    assertEquals("gasoline tax U.S.", topics.get(topics.lastKey()).get("title"));
+  }
+
+  @Test
+  public void test2() throws IOException {
     TopicReader<Integer> reader = new TrecTopicReader(
         Paths.get("src/main/resources/topics-and-qrels/topics.core18.txt"));
 
@@ -41,4 +56,39 @@ public class TrecTopicReaderTest {
     assertEquals(825, (int) topics.lastKey());
     assertEquals("ethanol and food prices", topics.get(topics.lastKey()).get("title"));
   }
+
+  @Test
+  public void test3() throws IOException {
+    TopicReader<Integer> reader = new TrecTopicReader(
+        Paths.get("src/main/resources/topics-and-qrels/topics.fire12bn.176-225.txt"));
+
+    SortedMap<Integer, Map<String, String>> topics = reader.read();
+
+    assertEquals(50, topics.keySet().size());
+    assertEquals(176, (int) topics.firstKey());
+    assertEquals("ওয়াই এস আর রেড্ডির মৃত্যু", topics.get(topics.firstKey()).get("title"));
+
+    assertEquals(225, (int) topics.lastKey());
+    assertEquals("স্যাটানিক ভার্সেস বিতর্ক", topics.get(topics.lastKey()).get("title"));
+  }
+
+  @Test
+  public void test4() throws IOException {
+    // Note that this file has a formatting error - make sure we can handle it.
+    TopicReader<Integer> reader = new TrecTopicReader(
+        Paths.get("src/main/resources/topics-and-qrels/topics.fire12hi.176-225.txt"));
+
+    SortedMap<Integer, Map<String, String>> topics = reader.read();
+
+    assertEquals(50, topics.keySet().size());
+    assertEquals(176, (int) topics.firstKey());
+    assertEquals("वाई एस आर रेड्डी की मौत", topics.get(topics.firstKey()).get("title"));
+
+    assertEquals("2002 नेटवेस्ट शृंखला का परिणाम", topics.get(200).get("title"));
+    assertEquals("इराक का प्रथम चुनाव", topics.get(201).get("title"));
+
+    assertEquals(225, (int) topics.lastKey());
+    assertEquals("सेटेनिक वर्सेज विवाद", topics.get(topics.lastKey()).get("title"));
+  }
+
 }
