@@ -198,6 +198,15 @@ public class IndexReaderUtils {
     return termInfo;
   }
 
+  /**
+   * Returns iterator pointing to the first term in index
+   * @param reader index reader
+   * @throws IOException if error encountered during access to index
+   */
+  public static TermsEnum getTermIterator(IndexReader reader) throws IOException {
+    return MultiTerms.getTerms(reader, "contents").iterator();
+  }
+
   public static List<Posting> getPostingsList(IndexReader reader, String termStr) throws IOException, ParseException {
     EnglishAnalyzer ea = new EnglishAnalyzer(CharArraySet.EMPTY_SET);
     QueryParser qp = new QueryParser(LuceneDocumentGenerator.FIELD_BODY, ea);

@@ -21,10 +21,12 @@ import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.MultiTerms;
+import org.apache.lucene.index.PostingsEnum;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.index.Terms;
 import org.apache.lucene.index.TermsEnum;
 import org.apache.lucene.queryparser.classic.ParseException;
+import org.apache.lucene.search.DocIdSetIterator;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.TopDocs;
@@ -77,6 +79,36 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
     termCountMap = IndexReaderUtils.getTermCounts(reader, "text");
     assertEquals(Long.valueOf(3), termCountMap.get("collectionFreq"));
     assertEquals(Long.valueOf(2), termCountMap.get("docFreq"));
+  }
+
+  @Test
+  public void testIterateThroughTerms() throws Exception {
+    Directory dir = FSDirectory.open(tempDir1);
+    IndexReader reader = DirectoryReader.open(dir);
+
+    TermsEnum iter = IndexReaderUtils.getTermIterator(reader);
+    BytesRef bytesRef = iter.next();
+    while (bytesRef != null) {
+      // This is the current term in the dictionary.
+      String token = bytesRef.utf8ToString();
+      Term term = new Term("contents", token);
+
+      // How to dump out positional info as well, from test case at:
+      // https://github.com/apache/lucene-solr/blob/master/lucene/core/src/test/org/apache/lucene/index/TestPostingsOffsets.java
+      System.out.print(token + " (df = " + reader.docFreq(term) + "):");
+      PostingsEnum postingsEnum = MultiTerms.getTermPostingsEnum(reader, "contents", bytesRef);
+      while (postingsEnum.nextDoc() != DocIdSetIterator.NO_MORE_DOCS) {
+        System.out.print(String.format(" (%d, %d)", postingsEnum.docID(), postingsEnum.freq()));
+        System.out.print(" [");
+        for (int j=0; j<postingsEnum.freq(); j++) {
+          System.out.print((j != 0 ? ", " : "") + postingsEnum.nextPosition());
+        }
+        System.out.print("]");
+      }
+      System.out.println("");
+
+      bytesRef = iter.next();
+    }
   }
 
   @Test
