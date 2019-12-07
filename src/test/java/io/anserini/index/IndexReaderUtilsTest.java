@@ -47,8 +47,8 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
     assertEquals("citi", IndexReaderUtils.analyzeTerm("city buses"));
 
     // Shouldn't change the term
-    assertEquals("city", IndexReaderUtils.analyzeTerm("city", new WhitespaceAnalyzer()));
-    assertEquals("city", IndexReaderUtils.analyzeTerm("city buses", new WhitespaceAnalyzer()));
+    assertEquals("city", IndexReaderUtils.analyzeTermWithAnalyzer("city", new WhitespaceAnalyzer()));
+    assertEquals("city", IndexReaderUtils.analyzeTermWithAnalyzer("city buses", new WhitespaceAnalyzer()));
   }
 
   @Test

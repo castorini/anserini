@@ -165,7 +165,7 @@ public class IndexReaderUtils {
    * @return stemmed form of the term or <code>null</code> if error encountered
    */
   public static String analyzeTerm(String term) {
-    return analyzeTerm(term, DEFAULT_ANALYZER);
+    return analyzeTermWithAnalyzer(term, DEFAULT_ANALYZER);
   }
 
   /**
@@ -175,7 +175,7 @@ public class IndexReaderUtils {
    * @param analyzer analyzer to use
    * @return stemmed form of the term or <code>null</code> if error encountered
    */
-  public static String analyzeTerm(String term, Analyzer analyzer) {
+  public static String analyzeTermWithAnalyzer(String term, Analyzer analyzer) {
     List<String> tokens = AnalyzerUtils.tokenize(analyzer, term);
     if (tokens == null || tokens.size() == 0) {
       return null;
