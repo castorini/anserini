@@ -87,28 +87,78 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
     IndexReader reader = DirectoryReader.open(dir);
 
     TermsEnum iter = IndexReaderUtils.getTermIterator(reader);
-    BytesRef bytesRef = iter.next();
-    while (bytesRef != null) {
-      // This is the current term in the dictionary.
-      String token = bytesRef.utf8ToString();
-      Term term = new Term("contents", token);
+    BytesRef bytesRef;
+    PostingsEnum postingsEnum;
 
-      // How to dump out positional info as well, from test case at:
-      // https://github.com/apache/lucene-solr/blob/master/lucene/core/src/test/org/apache/lucene/index/TestPostingsOffsets.java
-      System.out.print(token + " (df = " + reader.docFreq(term) + "):");
-      PostingsEnum postingsEnum = MultiTerms.getTermPostingsEnum(reader, "contents", bytesRef);
-      while (postingsEnum.nextDoc() != DocIdSetIterator.NO_MORE_DOCS) {
-        System.out.print(String.format(" (%d, %d)", postingsEnum.docID(), postingsEnum.freq()));
-        System.out.print(" [");
-        for (int j=0; j<postingsEnum.freq(); j++) {
-          System.out.print((j != 0 ? ", " : "") + postingsEnum.nextPosition());
-        }
-        System.out.print("]");
-      }
-      System.out.println("");
+    // here
+    bytesRef = iter.next();
+    assertEquals(2, reader.docFreq(new Term("contents", bytesRef.utf8ToString())));
 
-      bytesRef = iter.next();
-    }
+    postingsEnum = MultiTerms.getTermPostingsEnum(reader, "contents", bytesRef);
+    assertEquals(0, postingsEnum.nextDoc());
+    assertEquals(0, postingsEnum.docID());
+    assertEquals(2, postingsEnum.freq());
+    assertEquals(0, postingsEnum.nextPosition());
+    assertEquals(4, postingsEnum.nextPosition());
+    assertEquals(2, postingsEnum.nextDoc());
+    assertEquals(2, postingsEnum.docID());
+    assertEquals(1, postingsEnum.freq());
+    assertEquals(0, postingsEnum.nextPosition());
+    assertEquals(DocIdSetIterator.NO_MORE_DOCS, postingsEnum.nextDoc());
+
+    // more
+    bytesRef = iter.next();
+    assertEquals(2, reader.docFreq(new Term("contents", bytesRef.utf8ToString())));
+
+    postingsEnum = MultiTerms.getTermPostingsEnum(reader, "contents", bytesRef);
+    assertEquals(0, postingsEnum.nextDoc());
+    assertEquals(0, postingsEnum.docID());
+    assertEquals(1, postingsEnum.freq());
+    assertEquals(7, postingsEnum.nextPosition());
+    assertEquals(1, postingsEnum.nextDoc());
+    assertEquals(1, postingsEnum.docID());
+    assertEquals(1, postingsEnum.freq());
+    assertEquals(0, postingsEnum.nextPosition());
+    assertEquals(DocIdSetIterator.NO_MORE_DOCS, postingsEnum.nextDoc());
+
+    // some
+    bytesRef = iter.next();
+    assertEquals(1, reader.docFreq(new Term("contents", bytesRef.utf8ToString())));
+
+    postingsEnum = MultiTerms.getTermPostingsEnum(reader, "contents", bytesRef);
+    assertEquals(0, postingsEnum.nextDoc());
+    assertEquals(0, postingsEnum.docID());
+    assertEquals(2, postingsEnum.freq());
+    assertEquals(2, postingsEnum.nextPosition());
+    assertEquals(6, postingsEnum.nextPosition());
+    assertEquals(DocIdSetIterator.NO_MORE_DOCS, postingsEnum.nextDoc());
+
+    // test
+    bytesRef = iter.next();
+    assertEquals(1, reader.docFreq(new Term("contents", bytesRef.utf8ToString())));
+
+    postingsEnum = MultiTerms.getTermPostingsEnum(reader, "contents", bytesRef);
+    assertEquals(2, postingsEnum.nextDoc());
+    assertEquals(2, postingsEnum.docID());
+    assertEquals(1, postingsEnum.freq());
+    assertEquals(3, postingsEnum.nextPosition());
+    assertEquals(DocIdSetIterator.NO_MORE_DOCS, postingsEnum.nextDoc());
+
+    // text
+    bytesRef = iter.next();
+    assertEquals(2, reader.docFreq(new Term("contents", bytesRef.utf8ToString())));
+
+    postingsEnum = MultiTerms.getTermPostingsEnum(reader, "contents", bytesRef);
+    assertEquals(0, postingsEnum.nextDoc());
+    assertEquals(0, postingsEnum.docID());
+    assertEquals(2, postingsEnum.freq());
+    assertEquals(3, postingsEnum.nextPosition());
+    assertEquals(8, postingsEnum.nextPosition());
+    assertEquals(1, postingsEnum.nextDoc());
+    assertEquals(1, postingsEnum.docID());
+    assertEquals(1, postingsEnum.freq());
+    assertEquals(1, postingsEnum.nextPosition());
+    assertEquals(DocIdSetIterator.NO_MORE_DOCS, postingsEnum.nextDoc());
   }
 
   @Test

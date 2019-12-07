@@ -199,7 +199,7 @@ public class IndexReaderUtils {
   }
 
   /**
-   * Returns iterator pointing to the first term in index
+   * Returns iterator over all terms in the collection.
    * @param reader index reader
    * @throws IOException if error encountered during access to index
    */
