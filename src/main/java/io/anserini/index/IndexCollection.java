@@ -43,10 +43,15 @@ import org.apache.http.client.CredentialsProvider;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.CharArraySet;
 import org.apache.lucene.analysis.ar.ArabicAnalyzer;
+import org.apache.lucene.analysis.bn.BengaliAnalyzer;
 import org.apache.lucene.analysis.cjk.CJKAnalyzer;
 import org.apache.lucene.analysis.fr.FrenchAnalyzer;
+import org.apache.lucene.analysis.hi.HindiAnalyzer;
+import org.apache.lucene.analysis.es.SpanishAnalyzer;
+import org.apache.lucene.analysis.de.GermanAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.*;
 import org.apache.lucene.search.similarities.BM25Similarity;
@@ -82,6 +87,8 @@ public final class IndexCollection {
   private static final Logger LOG = LogManager.getLogger(IndexCollection.class);
 
   private static final int TIMEOUT = 600 * 1000;
+  // This is the default analyzer used, unless another stemming algorithm or language is specified.
+  public static final Analyzer DEFAULT_ANALYZER = new EnglishStemmingAnalyzer("porter");
 
   // When duplicates of these fields are attempted to be indexed in Solr, they are ignored. This allows some fields to be multi-valued, but not others.
   // Stored vs. indexed vs. doc values vs. multi-valued vs. ... are controlled via config, rather than code, in Solr.
@@ -689,6 +696,10 @@ public final class IndexCollection {
       final CJKAnalyzer chineseAnalyzer = new CJKAnalyzer();
       final ArabicAnalyzer arabicAnalyzer = new ArabicAnalyzer();
       final FrenchAnalyzer frenchAnalyzer = new FrenchAnalyzer();
+      final HindiAnalyzer hindiAnalyzer = new HindiAnalyzer();
+      final BengaliAnalyzer bengaliAnalyzer = new BengaliAnalyzer();
+      final GermanAnalyzer germanAnalyzer = new GermanAnalyzer();
+      final SpanishAnalyzer spanishAnalyzer = new SpanishAnalyzer();
       final EnglishStemmingAnalyzer analyzer = args.keepStopwords ?
           new EnglishStemmingAnalyzer(args.stemmer, CharArraySet.EMPTY_SET) : new EnglishStemmingAnalyzer(args.stemmer);
       final TweetAnalyzer tweetAnalyzer = new TweetAnalyzer(args.tweetStemming);
@@ -701,6 +712,14 @@ public final class IndexCollection {
         config = new IndexWriterConfig(arabicAnalyzer);
       } else if (args.language.equals("fr")) {
         config = new IndexWriterConfig(frenchAnalyzer);
+      } else if (args.language.equals("hi")) {
+        config = new IndexWriterConfig(hindiAnalyzer);
+      } else if (args.language.equals("bn")) {
+        config = new IndexWriterConfig(bengaliAnalyzer);
+      } else if (args.language.equals("de")) {
+        config = new IndexWriterConfig(germanAnalyzer);
+      } else if (args.language.equals("es")) {
+        config = new IndexWriterConfig(spanishAnalyzer);
       } else {
         config = new IndexWriterConfig(analyzer);
       }

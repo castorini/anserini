@@ -1,6 +1,6 @@
 # Anserini: Regressions for [MS MARCO](https://github.com/microsoft/MSMARCO-Passage-Ranking) (Passage Expansion)
 
-This page documents regression experiments for the MS MARCO Passage Ranking Task with Doc2query expansions, as proposed in the following paper:
+This page documents regression experiments for the MS MARCO Passage Ranking Task with doc2query expansions, as proposed in the following paper:
 
 + Rodrigo Nogueira, Wei Yang, Jimmy Lin, Kyunghyun Cho. [Document Expansion by Query Prediction.](https://arxiv.org/abs/1904.08375) _arxiv:1904.08375_
 

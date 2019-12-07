@@ -19,7 +19,7 @@ import com.google.common.collect.Sets;
 import io.anserini.analysis.vectors.fw.FakeWordsEncoderAnalyzer;
 import io.anserini.analysis.vectors.lexlsh.LexicalLshAnalyzer;
 import io.anserini.search.topicreader.TrecTopicReader;
-import io.anserini.util.AnalyzerUtils;
+import io.anserini.analysis.AnalyzerUtils;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
@@ -85,7 +85,7 @@ public class ApproximateNearestNeighborEval {
     public int bucketCount = 300;
 
     @Option(name = "-fw.q", metaVar = "[int]", usage = "quantization factor")
-    public int q = 20;
+    public int q = 60;
 
     @Option(name = "-cutoff", metaVar = "[float]", usage = "tf cutoff factor")
     public float cutoff = 0.15f;
@@ -149,8 +149,8 @@ public class ApproximateNearestNeighborEval {
     Collection<Map<String, String>> values = read.values();
     for (Map<String, String> topic : values) {
       for (String word : AnalyzerUtils.tokenize(standardAnalyzer, topic.get("title"))) {
-        Set<String> truth = nearestVector(wordVectors, word, indexArgs.topN);
         if (wordVectors.containsKey(word)) {
+          Set<String> truth = nearestVector(wordVectors, word, indexArgs.topN);
           try {
             float[] vector = wordVectors.get(word);
             StringBuilder sb = new StringBuilder();
@@ -187,6 +187,9 @@ public class ApproximateNearestNeighborEval {
             double localRecall = intersection / (double) truth.size();
             recall += localRecall;
             queryCount++;
+            if (queryCount == indexArgs.samples) {
+              break;
+            }
           } catch (IOException e) {
             System.err.println("search for '" + word + "' failed " + e.getLocalizedMessage());
           }

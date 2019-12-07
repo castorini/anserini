@@ -16,6 +16,7 @@
 
 package io.anserini.util;
 
+import io.anserini.index.NotStoredException;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.Terms;
@@ -67,7 +68,7 @@ public class ExtractDocumentLengths {
     for (int i = 0; i < numDocs; i++) {
       Terms terms = reader.getTermVector(i, "contents");
       if (terms == null) {
-        throw new Exception("Term vectors not available!");
+        throw new NotStoredException("Term vectors not available!");
       }
       long exactDoclength = terms.getSumTotalTermFreq();
       long exactTermCount = terms.size();
@@ -78,6 +79,9 @@ public class ExtractDocumentLengths {
       int lossyTermCount = SmallFloat.byte4ToInt(SmallFloat.intToByte4((int) exactTermCount));
       out.println(String.format("%d\t%d\t%d\t%d\t%d", i, exactDoclength, exactTermCount, lossyDoclength, lossyTermCount));
     }
+    out.flush();
     out.close();
+    reader.close();
+    dir.close();
   }
 }

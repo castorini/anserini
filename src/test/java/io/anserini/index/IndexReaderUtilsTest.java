@@ -17,12 +17,16 @@
 package io.anserini.index;
 
 import io.anserini.IndexerTestBase;
+import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.MultiTerms;
+import org.apache.lucene.index.PostingsEnum;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.index.Terms;
 import org.apache.lucene.index.TermsEnum;
+import org.apache.lucene.queryparser.classic.ParseException;
+import org.apache.lucene.search.DocIdSetIterator;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.TopDocs;
@@ -37,6 +41,17 @@ import java.util.List;
 import java.util.Map;
 
 public class IndexReaderUtilsTest extends IndexerTestBase {
+
+  @Test
+  public void testAnalyzer() throws ParseException {
+    // EnglishAnalyzer by default.
+    assertEquals("citi", IndexReaderUtils.analyzeTerm("city"));
+    assertEquals("citi", IndexReaderUtils.analyzeTerm("city buses"));
+
+    // Shouldn't change the term
+    assertEquals("city", IndexReaderUtils.analyzeTermWithAnalyzer("city", new WhitespaceAnalyzer()));
+    assertEquals("city", IndexReaderUtils.analyzeTermWithAnalyzer("city buses", new WhitespaceAnalyzer()));
+  }
 
   @Test
   public void testTermCounts() throws Exception {
@@ -64,6 +79,36 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
     termCountMap = IndexReaderUtils.getTermCounts(reader, "text");
     assertEquals(Long.valueOf(3), termCountMap.get("collectionFreq"));
     assertEquals(Long.valueOf(2), termCountMap.get("docFreq"));
+  }
+
+  @Test
+  public void testIterateThroughTerms() throws Exception {
+    Directory dir = FSDirectory.open(tempDir1);
+    IndexReader reader = DirectoryReader.open(dir);
+
+    TermsEnum iter = IndexReaderUtils.getTermIterator(reader);
+    BytesRef bytesRef = iter.next();
+    while (bytesRef != null) {
+      // This is the current term in the dictionary.
+      String token = bytesRef.utf8ToString();
+      Term term = new Term("contents", token);
+
+      // How to dump out positional info as well, from test case at:
+      // https://github.com/apache/lucene-solr/blob/master/lucene/core/src/test/org/apache/lucene/index/TestPostingsOffsets.java
+      System.out.print(token + " (df = " + reader.docFreq(term) + "):");
+      PostingsEnum postingsEnum = MultiTerms.getTermPostingsEnum(reader, "contents", bytesRef);
+      while (postingsEnum.nextDoc() != DocIdSetIterator.NO_MORE_DOCS) {
+        System.out.print(String.format(" (%d, %d)", postingsEnum.docID(), postingsEnum.freq()));
+        System.out.print(" [");
+        for (int j=0; j<postingsEnum.freq(); j++) {
+          System.out.print((j != 0 ? ", " : "") + postingsEnum.nextPosition());
+        }
+        System.out.print("]");
+      }
+      System.out.println("");
+
+      bytesRef = iter.next();
+    }
   }
 
   @Test
@@ -190,14 +235,15 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
     Directory dir = FSDirectory.open(tempDir1);
     IndexReader reader = DirectoryReader.open(dir);
 
-    System.out.println("Converting Lucene Docids...");
-
     assertEquals("doc1", IndexReaderUtils.convertLuceneDocidToDocid(reader, 0));
     assertEquals("doc2", IndexReaderUtils.convertLuceneDocidToDocid(reader, 1));
     assertEquals("doc3", IndexReaderUtils.convertLuceneDocidToDocid(reader, 2));
+    assertEquals(null, IndexReaderUtils.convertLuceneDocidToDocid(reader, 42));
 
     assertEquals(0, IndexReaderUtils.convertDocidToLuceneDocid(reader, "doc1"));
     assertEquals(1, IndexReaderUtils.convertDocidToLuceneDocid(reader, "doc2"));
     assertEquals(2, IndexReaderUtils.convertDocidToLuceneDocid(reader, "doc3"));
+    assertEquals(-1, IndexReaderUtils.convertDocidToLuceneDocid(reader, "doc42"));
+
   }
 }
