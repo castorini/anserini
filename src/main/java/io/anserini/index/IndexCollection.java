@@ -781,7 +781,7 @@ public final class IndexCollection {
       // Wait for existing tasks to terminate
       while (!executor.awaitTermination(1, TimeUnit.MINUTES)) {
         if (segmentCnt == 1) {
-          LOG.info(String.format("%d documents indexed", counters.indexed.get()));
+          LOG.info(String.format("%,d documents indexed", counters.indexed.get()));
         } else {
           LOG.info(String.format("%.2f%% of files completed, %,d documents indexed",
               (double) executor.getCompletedTaskCount() / segmentCnt * 100.0d, counters.indexed.get()));
