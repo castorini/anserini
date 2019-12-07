@@ -1,6 +1,6 @@
-# Anserini: Regressions for [CAR17](http://trec-car.cs.unh.edu/) (v2.0) + Doc2query
+# Anserini: Regressions for [CAR17](http://trec-car.cs.unh.edu/) (v2.0) + doc2query
 
-This page documents regression experiments for the [TREC 2017 Complex Answer Retrieval (CAR)](http://trec-car.cs.unh.edu/) section-level passage retrieval task (v2.0), with Doc2query expansions, as proposed in the following paper:
+This page documents regression experiments for the [TREC 2017 Complex Answer Retrieval (CAR)](http://trec-car.cs.unh.edu/) section-level passage retrieval task (v2.0), with doc2query expansions, as proposed in the following paper:
 
 + Rodrigo Nogueira, Wei Yang, Jimmy Lin, Kyunghyun Cho. [Document Expansion by Query Prediction.](https://arxiv.org/abs/1904.08375) _arxiv:1904.08375_
 
@@ -18,7 +18,7 @@ Typical indexing command:
 ${index_cmds}
 ```
 
-The directory `/path/to/car17v2.0-doc2query` should be the root directory of Complex Answer Retrieval (CAR) paragraph corpus (v2.0) that has been augmented with the Doc2query expansions, i.e., `collection_jsonl_expanded_topk10/` as described in [this page](experiments-doc2query.md).
+The directory `/path/to/car17v2.0-doc2query` should be the root directory of Complex Answer Retrieval (CAR) paragraph corpus (v2.0) that has been augmented with the doc2query expansions, i.e., `collection_jsonl_expanded_topk10/` as described in [this page](experiments-doc2query.md).
 
 For additional details, see explanation of [common indexing options](common-indexing-options.md).
 

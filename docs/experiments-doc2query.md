@@ -1,11 +1,16 @@
-# Anserini: Doc2query Experiments
+# Anserini: doc2query Experiments
 
-This page describes how to replicate the document expansion experiments in following paper:
+This page describes how to replicate the doc2query document expansion experiments in following paper:
 
 + Rodrigo Nogueira, Wei Yang, Jimmy Lin, Kyunghyun Cho. [Document Expansion by Query Prediction.](https://arxiv.org/abs/1904.08375) _arxiv:1904.08375_
 
+The basic idea is to train a model, that when given an input document, generates questions that the document might answer (or more broadly, queries for which the document might be relevant).
+These predicted questions (or queries) are then appended to the original documents, which are then indexed as before.
+
 For a complete "from scratch" replication (in particularly, training the seq2seq model), see [this code repo](https://github.com/nyu-dl/dl4ir-doc2query).
 Here, we run through how to replicate the BM25+Doc2query condition with our copy of the predicted queries.
+
+Note that [docTTTTTquery](experiments-docTTTTTquery.md) is an improved version of the doc2query model.
 
 ## MS MARCO Passage Ranking
 
