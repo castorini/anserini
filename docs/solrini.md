@@ -81,7 +81,7 @@ We've verified that these instructions can be straightforwardly adapted to work 
 sh target/appassembler/bin/IndexCollection -collection WashingtonPostCollection -generator WapoGenerator \
    -threads 8 -input /path/to/WashingtonPost \
    -solr -solr.index core18 -solr.zkUrl localhost:9983 \
-   -storePositions -storeDocvectors -storeRawDocs
+   -storePositions -storeDocvectors -storeTransformedDocs
 ```
 
 Make sure `core18` collection is created and `/path/to/WashingtonPost` is updated with the appropriate path.
