@@ -41,19 +41,26 @@ import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.CredentialsProvider;
 import org.apache.http.impl.client.BasicCredentialsProvider;
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.config.Configurator;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.CharArraySet;
 import org.apache.lucene.analysis.ar.ArabicAnalyzer;
 import org.apache.lucene.analysis.bn.BengaliAnalyzer;
 import org.apache.lucene.analysis.cjk.CJKAnalyzer;
+import org.apache.lucene.analysis.de.GermanAnalyzer;
+import org.apache.lucene.analysis.es.SpanishAnalyzer;
 import org.apache.lucene.analysis.fr.FrenchAnalyzer;
 import org.apache.lucene.analysis.hi.HindiAnalyzer;
-import org.apache.lucene.analysis.es.SpanishAnalyzer;
-import org.apache.lucene.analysis.de.GermanAnalyzer;
 import org.apache.lucene.document.Document;
-import org.apache.lucene.index.*;
+import org.apache.lucene.index.ConcurrentMergeScheduler;
+import org.apache.lucene.index.DocValuesType;
+import org.apache.lucene.index.IndexWriter;
+import org.apache.lucene.index.IndexWriterConfig;
+import org.apache.lucene.index.IndexableField;
+import org.apache.lucene.index.Term;
 import org.apache.lucene.search.similarities.BM25Similarity;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
@@ -67,15 +74,21 @@ import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.XContentFactory;
-import org.kohsuke.args4j.*;
+import org.kohsuke.args4j.CmdLineException;
+import org.kohsuke.args4j.CmdLineParser;
+import org.kohsuke.args4j.OptionHandlerFilter;
+import org.kohsuke.args4j.ParserProperties;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Constructor;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -107,13 +120,6 @@ public final class IndexCollection {
     public AtomicLong empty = new AtomicLong();
 
     /**
-     * Counter for unindexed documents. These are cases where the {@link SourceDocument} returned
-     * by {@link FileSegment} is {@code null} or the {@link LuceneDocumentGenerator}
-     * returned {@code null}. These are not necessarily errors.
-     */
-    public AtomicLong unindexed = new AtomicLong();
-
-    /**
      * Counter for unindexable documents. These are cases where {@link SourceDocument#indexable()}
      * returns false.
      */
@@ -137,7 +143,7 @@ public final class IndexCollection {
     final private DocumentCollection collection;
     private FileSegment fileSegment;
 
-    private LocalIndexerThread(IndexWriter writer, DocumentCollection collection, Path inputFile) throws IOException {
+    private LocalIndexerThread(IndexWriter writer, DocumentCollection collection, Path inputFile) {
       this.writer = writer;
       this.collection = collection;
       this.inputFile = inputFile;
@@ -187,20 +193,18 @@ public final class IndexCollection {
           @SuppressWarnings("unchecked")
           Document doc = generator.createDocument(d);
           if (doc == null) {
-            counters.unindexed.incrementAndGet();
             continue;
           }
+
           if (whitelistDocids != null && !whitelistDocids.contains(d.id())) {
             counters.skipped.incrementAndGet();
             continue;
           }
 
-          if (!args.dryRun) {
-            if (args.uniqueDocid) {
-              writer.updateDocument(new Term("id", d.id()), doc);
-            } else {
-              writer.addDocument(doc);
-            }
+          if (args.uniqueDocid) {
+            writer.updateDocument(new Term("id", d.id()), doc);
+          } else {
+            writer.addDocument(doc);
           }
           cnt++;
           batch++;
@@ -217,10 +221,10 @@ public final class IndexCollection {
 
         int skipped = segment.getSkippedCount();
         if (skipped > 0) {
+          // When indexing tweets, this is normal, because there are delete messages that are skipped over.
           counters.skipped.addAndGet(skipped);
           LOG.warn(inputFile.getParent().getFileName().toString() + File.separator +
-              inputFile.getFileName().toString() + ": " + skipped +
-              " docs skipped.");
+              inputFile.getFileName().toString() + ": " + skipped + " docs skipped.");
         }
 
         if (segment.getErrorStatus()) {
@@ -229,7 +233,8 @@ public final class IndexCollection {
               inputFile.getFileName().toString() + ": error iterating through segment.");
         }
 
-        LOG.info(inputFile.getParent().getFileName().toString() + File.separator +
+        // Log at the debug level because this can be quite noisy if there are lots of file segments.
+        LOG.debug(inputFile.getParent().getFileName().toString() + File.separator +
             inputFile.getFileName().toString() + ": " + cnt + " docs added.");
       } catch (Exception e) {
         LOG.error(Thread.currentThread().getName() + ": Unexpected Exception:", e);
@@ -247,7 +252,6 @@ public final class IndexCollection {
   }
 
   private final class SolrIndexerThread implements Runnable {
-
     private final Path input;
     private final DocumentCollection collection;
     private final List<SolrInputDocument> buffer = new ArrayList<>(args.solrBatch);
@@ -296,9 +300,9 @@ public final class IndexCollection {
           @SuppressWarnings("unchecked")
           Document document = generator.createDocument(sourceDocument);
           if (document == null) {
-            counters.unindexed.incrementAndGet();
             continue;
           }
+
           if (whitelistDocids != null && !whitelistDocids.contains(sourceDocument.id())) {
             counters.skipped.incrementAndGet();
             continue;
@@ -339,16 +343,21 @@ public final class IndexCollection {
 
         int skipped = segment.getSkippedCount();
         if (skipped > 0) {
+          // When indexing tweets, this is normal, because there are delete messages that are skipped over.
           counters.skipped.addAndGet(skipped);
-          LOG.warn(input.getParent().getFileName().toString() + File.separator + input.getFileName().toString() + ": " + skipped + " docs skipped.");
+          LOG.warn(input.getParent().getFileName().toString() + File.separator +
+              input.getFileName().toString() + ": " + skipped + " docs skipped.");
         }
 
         if (segment.getErrorStatus()) {
           counters.errors.incrementAndGet();
-          LOG.error(input.getParent().getFileName().toString() + File.separator + input.getFileName().toString() + ": error iterating through segment.");
+          LOG.error(input.getParent().getFileName().toString() + File.separator +
+              input.getFileName().toString() + ": error iterating through segment.");
         }
 
-        LOG.info(input.getParent().getFileName().toString() + File.separator + input.getFileName().toString() + ": " + cnt + " docs added.");
+        // Log at the debug level because this can be quite noisy if there are lots of file segments.
+        LOG.debug(input.getParent().getFileName().toString() + File.separator +
+            input.getFileName().toString() + ": " + cnt + " docs added.");
         counters.indexed.addAndGet(cnt);
       } catch (Exception e) {
         LOG.error(Thread.currentThread().getName() + ": Unexpected Exception:", e);
@@ -370,9 +379,7 @@ public final class IndexCollection {
         SolrClient solrClient = null;
         try {
           solrClient = solrPool.borrowObject();
-          if (!args.dryRun) {
-            solrClient.add(args.solrIndex, buffer, args.solrCommitWithin * 1000);
-          }
+          solrClient.add(args.solrIndex, buffer, args.solrCommitWithin * 1000);
           buffer.clear();
         } catch (Exception e) {
           LOG.error("Error flushing documents to Solr", e);
@@ -386,6 +393,26 @@ public final class IndexCollection {
           }
         }
       }
+    }
+  }
+
+  private class SolrClientFactory extends BasePooledObjectFactory<SolrClient> {
+    @Override
+    public SolrClient create() {
+      return new CloudSolrClient.Builder(Splitter.on(',').splitToList(args.zkUrl), Optional.of(args.zkChroot))
+          .withConnectionTimeout(TIMEOUT)
+          .withSocketTimeout(TIMEOUT)
+          .build();
+    }
+
+    @Override
+    public PooledObject<SolrClient> wrap(SolrClient solrClient) {
+      return new DefaultPooledObject<>(solrClient);
+    }
+
+    @Override
+    public void destroyObject(PooledObject<SolrClient> pooled) throws Exception {
+      pooled.getObject().close();
     }
   }
 
@@ -440,9 +467,9 @@ public final class IndexCollection {
           @SuppressWarnings("unchecked")
           Document document = generator.createDocument(sourceDocument);
           if (document == null) {
-            counters.unindexed.incrementAndGet();
             continue;
           }
+
           if (whitelistDocids != null && !whitelistDocids.contains(sourceDocument.id())) {
             counters.skipped.incrementAndGet();
             continue;
@@ -489,16 +516,21 @@ public final class IndexCollection {
 
         int skipped = segment.getSkippedCount();
         if (skipped > 0) {
+          // When indexing tweets, this is normal, because there are delete messages that are skipped over.
           counters.skipped.addAndGet(skipped);
-          LOG.warn(input.getParent().getFileName().toString() + File.separator + input.getFileName().toString() + ": " + skipped + " docs skipped.");
+          LOG.warn(input.getParent().getFileName().toString() + File.separator +
+              input.getFileName().toString() + ": " + skipped + " docs skipped.");
         }
 
         if (segment.getErrorStatus()) {
           counters.errors.incrementAndGet();
-          LOG.error(input.getParent().getFileName().toString() + File.separator + input.getFileName().toString() + ": error iterating through segment.");
+          LOG.error(input.getParent().getFileName().toString() + File.separator +
+              input.getFileName().toString() + ": error iterating through segment.");
         }
 
-        LOG.info(input.getParent().getFileName().toString() + File.separator + input.getFileName().toString() + ": " + cnt + " docs added.");
+        // Log at the debug level because this can be quite noisy if there are lots of file segments.
+        LOG.debug(input.getParent().getFileName().toString() + File.separator +
+            input.getFileName().toString() + ": " + cnt + " docs added.");
         counters.indexed.addAndGet(cnt);
       } catch (Exception e) {
         LOG.error(Thread.currentThread().getName() + ": Unexpected Exception:", e);
@@ -522,11 +554,7 @@ public final class IndexCollection {
       RestHighLevelClient esClient = null;
       try {
         esClient = esPool.borrowObject();
-        if (!args.dryRun) {
-          // synchronous
-          // TODO parse the response returned by this
-          esClient.bulk(bulkRequest, RequestOptions.DEFAULT);
-        }
+        esClient.bulk(bulkRequest, RequestOptions.DEFAULT);
         bulkRequest = new BulkRequest();
       } catch (Exception e) {
         LOG.error("Error sending bulk requests to Elasticsearch", e);
@@ -542,6 +570,28 @@ public final class IndexCollection {
     }
   }
 
+  private class ESClientFactory extends BasePooledObjectFactory<RestHighLevelClient> {
+    @Override
+    public RestHighLevelClient create() {
+      final CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
+      credentialsProvider.setCredentials(AuthScope.ANY, new UsernamePasswordCredentials(args.esUser, args.esPassword));
+      return new RestHighLevelClient(
+          RestClient.builder(new HttpHost(args.esHostname, args.esPort, "http"))
+              .setHttpClientConfigCallback(builder -> builder.setDefaultCredentialsProvider(credentialsProvider))
+              .setRequestConfigCallback(builder -> builder.setConnectTimeout(args.esConnectTimeout).setSocketTimeout(args.esSocketTimeout))
+      );
+    }
+
+    @Override
+    public PooledObject<RestHighLevelClient> wrap(RestHighLevelClient esClient) {
+      return new DefaultPooledObject<>(esClient);
+    }
+
+    @Override
+    public void destroyObject(PooledObject<RestHighLevelClient> pooled) throws Exception {
+      pooled.getObject().close();
+    }
+  }
 
   private final IndexArgs args;
   private final Path collectionPath;
@@ -557,8 +607,22 @@ public final class IndexCollection {
   public IndexCollection(IndexArgs args) throws Exception {
     this.args = args;
 
+    if (args.verbose) {
+      // If verbose logging enabled, changed default log level to DEBUG so we get per-thread logging messages.
+      Configurator.setRootLevel(Level.DEBUG);
+      LOG.info("Setting log level to " + Level.DEBUG);
+    } else if (args.quiet) {
+      // If quiet mode enabled, only report warnings and above.
+      Configurator.setRootLevel(Level.WARN);
+    } else {
+      // Otherwise, we get the standard set of log messages.
+      Configurator.setRootLevel(Level.INFO);
+      LOG.info("Setting log level to " + Level.INFO);
+    }
+
+    LOG.info("Starting indexer...");
+    LOG.info("============ Loading Parameters ============");
     LOG.info("DocumentCollection path: " + args.input);
-    LOG.info("Index path: " + args.index);
     LOG.info("CollectionClass: " + args.collectionClass);
     LOG.info("Generator: " + args.generatorClass);
     LOG.info("Threads: " + args.threads);
@@ -570,26 +634,28 @@ public final class IndexCollection {
     LOG.info("Store raw docs? " + args.storeRawDocs);
     LOG.info("Optimize (merge segments)? " + args.optimize);
     LOG.info("Whitelist: " + args.whitelist);
-    LOG.info("Solr? " + args.solr);
+
     if (args.solr) {
+      LOG.info("Indexing into Solr...");
       LOG.info("Solr batch size: " + args.solrBatch);
       LOG.info("Solr commitWithin: " + args.solrCommitWithin);
       LOG.info("Solr index: " + args.solrIndex);
       LOG.info("Solr ZooKeeper URL: " + args.zkUrl);
       LOG.info("SolrClient pool size: " + args.solrPoolSize);
-    }
-    LOG.info("Elasticsearch? " + args.es);
-    if (args.es) {
+    } else if (args.es) {
+      LOG.info("Indexing into Elasticsearch...");
       LOG.info("Elasticsearch batch size: " + args.esBatch);
       LOG.info("Elasticsearch index: " + args.esIndex);
       LOG.info("Elasticsearch hostname: " + args.esHostname);
       LOG.info("Elasticsearch host port: " + args.esPort);
-      LOG.info("ELK stack user: " + args.esUser);
       LOG.info("Elasticsearch client connect timeout (in ms): " + args.esConnectTimeout);
       LOG.info("Elasticsearch client socket timeout (in ms): " + args.esSocketTimeout);
       LOG.info("Elasticsearch pool size: " + args.esPoolSize);
+      LOG.info("Elasticsearch user: " + args.esUser);
+    } else {
+      LOG.info("Directly building Lucene indexes...");
+      LOG.info("Index path: " + args.index);
     }
-    LOG.info("Dry run (no index created)? " + args.dryRun);
 
     if (args.index == null && !args.solr && !args.es) {
       throw new IllegalArgumentException("Must specify one of -index, -solr, or -es");
@@ -636,62 +702,15 @@ public final class IndexCollection {
     this.counters = new Counters();
   }
 
-  private class SolrClientFactory extends BasePooledObjectFactory<SolrClient> {
-
-    @Override
-    public SolrClient create() {
-      return new CloudSolrClient.Builder(Splitter.on(',').splitToList(args.zkUrl), Optional.of(args.zkChroot))
-          .withConnectionTimeout(TIMEOUT)
-          .withSocketTimeout(TIMEOUT)
-          .build();
-    }
-
-    @Override
-    public PooledObject<SolrClient> wrap(SolrClient solrClient) {
-      return new DefaultPooledObject<>(solrClient);
-    }
-
-    @Override
-    public void destroyObject(PooledObject<SolrClient> pooled) throws Exception {
-      pooled.getObject().close();
-    }
-  }
-
-  private class ESClientFactory extends BasePooledObjectFactory<RestHighLevelClient> {
-
-    @Override
-    public RestHighLevelClient create() {
-      final CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
-      credentialsProvider.setCredentials(AuthScope.ANY, new UsernamePasswordCredentials(args.esUser, args.esPassword));
-      return new RestHighLevelClient(
-          RestClient.builder(new HttpHost(args.esHostname, args.esPort, "http"))
-              .setHttpClientConfigCallback(builder -> builder.setDefaultCredentialsProvider(credentialsProvider))
-              .setRequestConfigCallback(builder -> builder.setConnectTimeout(args.esConnectTimeout).setSocketTimeout(args.esSocketTimeout))
-      );
-    }
-
-    @Override
-    public PooledObject<RestHighLevelClient> wrap(RestHighLevelClient esClient) {
-      return new DefaultPooledObject<>(esClient);
-    }
-
-    @Override
-    public void destroyObject(PooledObject<RestHighLevelClient> pooled) throws Exception {
-      pooled.getObject().close();
-    }
-  }
-
-  public void run() throws IOException {
+  public Counters run() throws IOException {
     final long start = System.nanoTime();
-    LOG.info("Starting indexer...");
+    LOG.info("============ Indexing Collection ============");
 
     int numThreads = args.threads;
-
     IndexWriter writer = null;
 
     // Used for LocalIndexThread
-    if (indexPath != null && !args.dryRun) {
-
+    if (indexPath != null) {
       final Directory dir = FSDirectory.open(indexPath);
       final CJKAnalyzer chineseAnalyzer = new CJKAnalyzer();
       final ArabicAnalyzer arabicAnalyzer = new ArabicAnalyzer();
@@ -703,6 +722,7 @@ public final class IndexCollection {
       final EnglishStemmingAnalyzer analyzer = args.keepStopwords ?
           new EnglishStemmingAnalyzer(args.stemmer, CharArraySet.EMPTY_SET) : new EnglishStemmingAnalyzer(args.stemmer);
       final TweetAnalyzer tweetAnalyzer = new TweetAnalyzer(args.tweetStemming);
+
       final IndexWriterConfig config;
       if (args.collectionClass.equals("TweetCollection")) {
         config = new IndexWriterConfig(tweetAnalyzer);
@@ -737,10 +757,14 @@ public final class IndexCollection {
     }
 
     final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(numThreads);
-    final List segmentPaths = collection.discover(collection.getCollectionPath());
+    LOG.info("Thread pool with " + numThreads + " threads initialized.");
 
+    LOG.info("Initializing collection in " + collectionPath.toString());
+    final List segmentPaths = collection.discover(collection.getCollectionPath());
     final int segmentCnt = segmentPaths.size();
-    LOG.info(segmentCnt + (segmentCnt == 1 ? " file" : " files" ) + " found in " + collectionPath.toString());
+    LOG.info(String.format("%,d %s found", segmentCnt, (segmentCnt == 1 ? "file" : "files" )));
+    LOG.info("Starting to index...");
+
     for (int i = 0; i < segmentCnt; i++) {
       if (args.solr) {
         executor.execute(new SolrIndexerThread(collection, (Path) segmentPaths.get(i)));
@@ -757,9 +781,9 @@ public final class IndexCollection {
       // Wait for existing tasks to terminate
       while (!executor.awaitTermination(1, TimeUnit.MINUTES)) {
         if (segmentCnt == 1) {
-          LOG.info(String.format("%d documents indexed", counters.indexed.get()));
+          LOG.info(String.format("%,d documents indexed", counters.indexed.get()));
         } else {
-          LOG.info(String.format("%.2f percent of file segments completed, %d documents indexed",
+          LOG.info(String.format("%.2f%% of files completed, %,d documents indexed",
               (double) executor.getCompletedTaskCount() / segmentCnt * 100.0d, counters.indexed.get()));
         }
       }
@@ -780,16 +804,14 @@ public final class IndexCollection {
     if (args.solr || args.es) {
       numIndexed = counters.indexed.get();
     } else {
-      numIndexed = args.dryRun ? counters.indexed.get() : writer.getDocStats().maxDoc;
+      numIndexed = writer.getDocStats().maxDoc;
     }
 
     // Do a final commit
     if (args.solr) {
       try {
         SolrClient client = solrPool.borrowObject();
-        if (!args.dryRun) {
-          client.commit(args.solrIndex);
-        }
+        client.commit(args.solrIndex);
         // Needed for orderly shutdown so the SolrClient executor does not delay main thread exit
         solrPool.returnObject(client);
         solrPool.close();
@@ -825,22 +847,24 @@ public final class IndexCollection {
       LOG.warn("Unexpected difference between number of indexed documents and index maxDoc.");
     }
 
-    LOG.info("# Final Counter Values");
+    LOG.info(String.format("Indexing Complete! %,d documents indexed", numIndexed));
+    LOG.info("============ Final Counter Values ============");
     LOG.info(String.format("indexed:     %,12d", counters.indexed.get()));
-    LOG.info(String.format("empty:       %,12d", counters.empty.get()));
-    LOG.info(String.format("unindexed:   %,12d", counters.unindexed.get()));
     LOG.info(String.format("unindexable: %,12d", counters.unindexable.get()));
+    LOG.info(String.format("empty:       %,12d", counters.empty.get()));
     LOG.info(String.format("skipped:     %,12d", counters.skipped.get()));
     LOG.info(String.format("errors:      %,12d", counters.errors.get()));
 
     final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
     LOG.info(String.format("Total %,d documents indexed in %s", numIndexed,
         DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss")));
+
+    return counters;
   }
 
   public static void main(String[] args) throws Exception {
     IndexArgs indexCollectionArgs = new IndexArgs();
-    CmdLineParser parser = new CmdLineParser(indexCollectionArgs, ParserProperties.defaults().withUsageWidth(90));
+    CmdLineParser parser = new CmdLineParser(indexCollectionArgs, ParserProperties.defaults().withUsageWidth(100));
 
     try {
       parser.parseArgument(args);
