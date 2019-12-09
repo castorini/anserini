@@ -21,7 +21,12 @@ import math
 import os
 import requests
 import time
+<<<<<<< HEAD
 import regression_utils
+=======
+
+from subprocess import call, Popen, PIPE
+>>>>>>> Solr integration test script
 
 logger = logging.getLogger('run_solr_regression')
 ch = logging.StreamHandler()
