@@ -86,79 +86,36 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
     Directory dir = FSDirectory.open(tempDir1);
     IndexReader reader = DirectoryReader.open(dir);
 
-    TermsEnum iter = IndexReaderUtils.getTermIterator(reader);
-    BytesRef bytesRef;
-    PostingsEnum postingsEnum;
+    IndexReaderUtils.IndexTerm iter = IndexReaderUtils.getTermIterator(reader);
 
     // here
-    bytesRef = iter.next();
-    assertEquals(2, reader.docFreq(new Term("contents", bytesRef.utf8ToString())));
-
-    postingsEnum = MultiTerms.getTermPostingsEnum(reader, "contents", bytesRef);
-    assertEquals(0, postingsEnum.nextDoc());
-    assertEquals(0, postingsEnum.docID());
-    assertEquals(2, postingsEnum.freq());
-    assertEquals(0, postingsEnum.nextPosition());
-    assertEquals(4, postingsEnum.nextPosition());
-    assertEquals(2, postingsEnum.nextDoc());
-    assertEquals(2, postingsEnum.docID());
-    assertEquals(1, postingsEnum.freq());
-    assertEquals(0, postingsEnum.nextPosition());
-    assertEquals(DocIdSetIterator.NO_MORE_DOCS, postingsEnum.nextDoc());
+    assertEquals("here", iter.getTerm());
+    assertEquals(2, iter.getDF());
+    assertEquals(3, iter.getTotalTF());
 
     // more
-    bytesRef = iter.next();
-    assertEquals(2, reader.docFreq(new Term("contents", bytesRef.utf8ToString())));
-
-    postingsEnum = MultiTerms.getTermPostingsEnum(reader, "contents", bytesRef);
-    assertEquals(0, postingsEnum.nextDoc());
-    assertEquals(0, postingsEnum.docID());
-    assertEquals(1, postingsEnum.freq());
-    assertEquals(7, postingsEnum.nextPosition());
-    assertEquals(1, postingsEnum.nextDoc());
-    assertEquals(1, postingsEnum.docID());
-    assertEquals(1, postingsEnum.freq());
-    assertEquals(0, postingsEnum.nextPosition());
-    assertEquals(DocIdSetIterator.NO_MORE_DOCS, postingsEnum.nextDoc());
+    iter = iter.getNextTerm();
+    assertEquals("more", iter.getTerm());
+    assertEquals(2, iter.getDF());
+    assertEquals(2, iter.getTotalTF());
 
     // some
-    bytesRef = iter.next();
-    assertEquals(1, reader.docFreq(new Term("contents", bytesRef.utf8ToString())));
-
-    postingsEnum = MultiTerms.getTermPostingsEnum(reader, "contents", bytesRef);
-    assertEquals(0, postingsEnum.nextDoc());
-    assertEquals(0, postingsEnum.docID());
-    assertEquals(2, postingsEnum.freq());
-    assertEquals(2, postingsEnum.nextPosition());
-    assertEquals(6, postingsEnum.nextPosition());
-    assertEquals(DocIdSetIterator.NO_MORE_DOCS, postingsEnum.nextDoc());
+    iter = iter.getNextTerm();
+    assertEquals("some", iter.getTerm());
+    assertEquals(1, iter.getDF());
+    assertEquals(2, iter.getTotalTF());
 
     // test
-    bytesRef = iter.next();
-    assertEquals(1, reader.docFreq(new Term("contents", bytesRef.utf8ToString())));
-
-    postingsEnum = MultiTerms.getTermPostingsEnum(reader, "contents", bytesRef);
-    assertEquals(2, postingsEnum.nextDoc());
-    assertEquals(2, postingsEnum.docID());
-    assertEquals(1, postingsEnum.freq());
-    assertEquals(3, postingsEnum.nextPosition());
-    assertEquals(DocIdSetIterator.NO_MORE_DOCS, postingsEnum.nextDoc());
+    iter = iter.getNextTerm();
+    assertEquals("test", iter.getTerm());
+    assertEquals(1, iter.getDF());
+    assertEquals(1, iter.getTotalTF());
 
     // text
-    bytesRef = iter.next();
-    assertEquals(2, reader.docFreq(new Term("contents", bytesRef.utf8ToString())));
-
-    postingsEnum = MultiTerms.getTermPostingsEnum(reader, "contents", bytesRef);
-    assertEquals(0, postingsEnum.nextDoc());
-    assertEquals(0, postingsEnum.docID());
-    assertEquals(2, postingsEnum.freq());
-    assertEquals(3, postingsEnum.nextPosition());
-    assertEquals(8, postingsEnum.nextPosition());
-    assertEquals(1, postingsEnum.nextDoc());
-    assertEquals(1, postingsEnum.docID());
-    assertEquals(1, postingsEnum.freq());
-    assertEquals(1, postingsEnum.nextPosition());
-    assertEquals(DocIdSetIterator.NO_MORE_DOCS, postingsEnum.nextDoc());
+    iter = iter.getNextTerm();
+    assertEquals("text", iter.getTerm());
+    assertEquals(2, iter.getDF());
+    assertEquals(3, iter.getTotalTF());
   }
 
   @Test

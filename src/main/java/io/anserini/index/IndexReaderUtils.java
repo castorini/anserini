@@ -52,6 +52,7 @@ import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.search.similarities.BM25Similarity;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
+import org.apache.lucene.util.BytesRef;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -131,6 +132,55 @@ public class IndexReaderUtils {
     }
   }
 
+  public static class IndexTerm {
+    private TermsEnum curTerm;
+    private BytesRef nextTerm;
+
+    /**
+     * Constructor wrapping a {@link TermsEnum} from Lucene.
+     */
+    public IndexTerm(TermsEnum term) throws IOException {
+      this.curTerm = term;
+      this.nextTerm = term.next();
+    }
+
+    /**
+     * Returns the number of documents containing the current term.
+     * @return the number of documents containing the current term.
+     * @throws IOException
+     */
+    public int getDF() throws IOException {
+      return this.curTerm.docFreq();
+    }
+
+    /**
+     * Returns the string representation of the current term.
+     * @return the string representation of the current term
+     * @throws IOException
+     */
+    public String getTerm() throws IOException {
+      return this.curTerm.term().utf8ToString();
+    }
+
+    /**
+     * Returns the total number of occurrences of the current term across all documents.
+     * @return the total number of occurrences of the current term across all documents
+     * @throws IOException
+     */
+    public long getTotalTF() throws IOException {
+      return this.curTerm.totalTermFreq();
+    }
+
+    /**
+     * Returns the next term.
+     * @return IndexTerm from next term
+     * @throws IOException
+     */
+    public IndexTerm getNextTerm() throws IOException {
+      return new IndexTerm(this.curTerm);
+    }
+  }
+
   public static InputStream getReadFileStream(String path) throws IOException {
     InputStream fin = Files.newInputStream(Paths.get(path), StandardOpenOption.READ);
     BufferedInputStream in = new BufferedInputStream(fin);
@@ -201,10 +251,11 @@ public class IndexReaderUtils {
   /**
    * Returns iterator over all terms in the collection.
    * @param reader index reader
+   * @return IndexTerm wrapper over TermsEnum
    * @throws IOException if error encountered during access to index
    */
-  public static TermsEnum getTermIterator(IndexReader reader) throws IOException {
-    return MultiTerms.getTerms(reader, "contents").iterator();
+  public static IndexTerm getTermIterator(IndexReader reader) throws IOException {
+    return new IndexTerm(MultiTerms.getTerms(reader, "contents").iterator());
   }
 
   public static List<Posting> getPostingsList(IndexReader reader, String termStr) throws IOException, ParseException {
