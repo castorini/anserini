@@ -25,6 +25,14 @@ public class TweetEndToEndTest extends EndToEndTest {
     generator = "Tweet";
     topicReader = "Microblog";
 
+    docCount = 4;
+
+    counterIndexed = 4;
+    counterEmpty = 0;
+    counterUnindexable = 0;
+    counterSkipped = 5;
+    counterErrors = 0;
+
     fieldNormStatusTotalFields = 1; // text
 
     // We set that retweets and the tweets with ids larger than tweetMaxId will NOT be indexed!
@@ -40,6 +48,14 @@ public class TweetEndToEndTest extends EndToEndTest {
         "1 Q0 3 2 0.364800 Anserini" };
   }
 
+  // Note that in the test cases, we have:
+  // {... "id":1,"id_str":"1","text":"RT This is a Retweet and will NOT NOT be indexed!" ... }
+  // {... "id":10,"id_str":"10","text":"This tweet won't be indexed since the maxId is 9" ... }
+  //
+  // src/test/resources/sample_docs/tweets/tweets1: 5 JSON objects, 2 deletes
+  // src/test/resources/sample_docs/tweets/tweets2: 4 JSON objects, 1 deletes
+  //
+  // Thus, there should be a total of 4 documents indexed: 9 objects - 5 skipped
   @Override
   protected void setIndexingArgs() {
     super.setIndexingArgs();
