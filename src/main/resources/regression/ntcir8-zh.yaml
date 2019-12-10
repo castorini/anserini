@@ -56,7 +56,7 @@ index_stats:
   documents (non-empty): 308832
   total terms: 134618634  # on Mac, I seem to get this value instead: 134618027 (no idea why)
 topics:
-  - name: "[NTCIR-8 ACLIA (IR4QA subtask, Chinese monolingual)](../src/main/resources/topics-and-qrels/topics.ntcir8zh.eval.txt)"
+  - name: "[NTCIR-8 ACLIA (IR4QA subtask, Monolingual Chinese)](../src/main/resources/topics-and-qrels/topics.ntcir8zh.eval.txt)"
     path: topics.ntcir8zh.eval.txt
     qrel: qrels.ntcir8.eval.txt
 models:
