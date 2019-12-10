@@ -91,14 +91,13 @@ public class SearchArgs {
     "the top documents from the initial round ranking.")
   public int rerankcutoff = 50;
 
-  @Option(name = "-runtag", metaVar = "[tag]", required = false, usage = "runtag")
+  @Option(name = "-runtag", metaVar = "[tag]", usage = "runtag")
   public String runtag = null;
 
-  @Option(name = "-ql", usage = "use query likelihood scoring model")
-  public boolean ql = false;
+  // query likelihood with Dirichlet smoothing
 
-  @Option(name = "-mu", handler = StringArrayOptionHandler.class, usage = "Dirichlet smoothing parameter")
-  public String[] mu = new String[] {"1000"};
+  @Option(name = "-qld", usage = "ranking model: query likelihood with Dirichlet smoothing")
+  public boolean qld = false;
 
   // Why this value? We want to pick a value that corresponds to what the community generally considers to be "good".
   // Zhai and Lafferty (SIGIR 2001) write "the optimal value of mu appears to have a wide range (500-10000) and
@@ -107,20 +106,23 @@ public class SearchArgs {
   // mention query-likelihood as a retrieval model. The UMass overview paper from TREC 2004 mentions setting mu
   // to 1000; incidentally, this is the first mention of what the community would later call RM3. So, this setting
   // seems reasonable and does not contradict Zhai and Lafferty.
+  @Option(name = "-qld.mu", handler = StringArrayOptionHandler.class, usage = "qld: mu smoothing parameter")
+  public String[] qld_mu = new String[] {"1000"};
 
-  @Option(name = "-qld", usage = "use query likelihood Dirichlet scoring model")
-  public boolean qld = false;
+  // query likelihood with Jelinek Mercer
 
-  @Option(name = "-qljm", usage = "use query likelihood Jelinek Mercer scoring model")
+  @Option(name = "-qljm", usage = "ranking model: query likelihood with Jelinek-Mercer smoothing")
   public boolean qljm = false;
 
-  @Option(name = "-qljm.lambda", handler = StringArrayOptionHandler.class, usage = "Jelinek Mercer smoothing parameter")
+  @Option(name = "-qljm.lambda", handler = StringArrayOptionHandler.class, usage = "qljm: lambda smoothing parameter")
   public String[] qljm_lambda = new String[] {"0.1"};
 
-  @Option(name = "-bm25", usage = "use BM25 scoring model")
+  // BM25
+
+  @Option(name = "-bm25", usage = "ranking model: BM25")
   public boolean bm25 = false;
 
-  @Option(name = "-bm25.accurate", usage = "use BM25 scoring model")
+  @Option(name = "-bm25.accurate", usage = "BM25: use accurate document lengths")
   public boolean bm25Accurate = false;
 
   // BM25 parameters: Robertson et al. (TREC 4) propose the range of 1.0-2.0 for k1 and 0.6-0.75 for b, with k1 = 1.2
@@ -130,12 +132,12 @@ public class SearchArgs {
   // the danger of (inadvertently) training on test data. These settings are used in the ATIRE system and also in
   // Lin et al. (ECIR 2016).
 
-  @Option(name = "-k1", handler = StringArrayOptionHandler.class, usage = "BM25 k1 parameter")
-  public String[] k1 = new String[] {"0.9"};
+  @Option(name = "-bm25.k1", handler = StringArrayOptionHandler.class, usage = "BM25: k1 parameter")
+  public String[] bm25_k1 = new String[] {"0.9"};
 
-  @Option(name = "-b", handler = StringArrayOptionHandler.class, usage = "BM25 b parameter")
-  public String[] b = new String[] {"0.4"};
-  
+  @Option(name = "-bm25.b", handler = StringArrayOptionHandler.class, usage = "BM25: b parameter")
+  public String[] bm25_b = new String[] {"0.4"};
+
   @Option(name = "-inl2", usage = "use I(n)L2 scoring model")
   public boolean inl2 = false;
   

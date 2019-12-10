@@ -53,7 +53,7 @@ public class MultiThreadingSearchTest extends EndToEndTest {
   protected void setSearchArgs() {
     super.setSearchArgs();
     searchArgs.bm25 = true;
-    searchArgs.b = new String[] {"0.2", "0.8"};
+    searchArgs.bm25_b = new String[] {"0.2", "0.8"};
   }
 
   protected void checkRankingResults(String output) throws IOException {
@@ -66,8 +66,8 @@ public class MultiThreadingSearchTest extends EndToEndTest {
        "1 Q0 WSJ_1 3 0.067100 Anserini"}
     };
 
-    for (int i = 0; i < searchArgs.b.length; i++) {
-      String fname = output + "_k1=" + searchArgs.k1[0] + ",b=" + searchArgs.b[i];
+    for (int i = 0; i < searchArgs.bm25_b.length; i++) {
+      String fname = output + "_k1=" + searchArgs.bm25_k1[0] + ",b=" + searchArgs.bm25_b[i];
 
       BufferedReader br = new BufferedReader(new FileReader(fname));
       int cnt = 0;
@@ -82,8 +82,8 @@ public class MultiThreadingSearchTest extends EndToEndTest {
   @After
   @Override
   public void tearDown() throws Exception {
-    for (String b : searchArgs.b) {
-      new File(searchArgs.output+"_k1="+searchArgs.k1[0]+",b="+b).delete();
+    for (String b : searchArgs.bm25_b) {
+      new File(searchArgs.output+"_k1="+searchArgs.bm25_k1[0]+",b="+b).delete();
     }
     super.tearDown();
   }

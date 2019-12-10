@@ -130,11 +130,14 @@ public final class SearchCollection implements Closeable {
   private final IndexReader reader;
   private final Analyzer analyzer;
   private List<TaggedSimilarity> similarities;
+  private Map<String, RerankerCascade> cascades;
   private final boolean isRerank;
+
   public enum QueryConstructor {
     BagOfTerms,
     SequentialDependenceModel
   }
+
   private final QueryConstructor qc;
   
   private final class SearcherThread<K> extends Thread {
@@ -164,9 +167,13 @@ public final class SearchCollection implements Closeable {
     @Override
     public void run() {
       try {
-        LOG.info("[Start] Ranking with similarity: " + taggedSimilarity.similarity.toString());
+        String id = String.format("ranker: %s%s", taggedSimilarity.similarity.toString(),
+            cascadeTag.isEmpty() ?  "" : ", reranker: " + cascadeTag);
+
+        LOG.info("[Start] " + id);
+
+        int cnt = 0;
         final long start = System.nanoTime();
-        if (!cascadeTag.isEmpty()) LOG.info("ReRanking with: " + cascadeTag);
         PrintWriter out = new PrintWriter(Files.newBufferedWriter(Paths.get(outputPath), StandardCharsets.US_ASCII));
         for (Map.Entry<K, Map<String, String>> entry : topics.entrySet()) {
           K qid = entry.getKey();
@@ -192,12 +199,17 @@ public final class SearchCollection implements Closeable {
             out.println(String.format(Locale.US, "%s Q0 %s %d %f %s", qid,
                 docs.documents[i].getField(FIELD_ID).stringValue(), (i + 1), docs.scores[i], runTag));
           }
+          cnt++;
+          if (cnt % 100 == 0) {
+            LOG.info(String.format("%d queries processed", cnt));
+          }
         }
         out.flush();
         out.close();
         final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
-        LOG.info("[Finished] Ranking with similarity: " + taggedSimilarity.similarity.toString());
-        LOG.info("Run " + topics.size() + " topics searched in "
+
+        LOG.info("[End] " + id);
+        LOG.info(topics.size() + " topics processed in "
             + DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss"));
       } catch (Exception e) {
         LOG.error(Thread.currentThread().getName() + ": Unexpected Exception:", e);
@@ -213,7 +225,8 @@ public final class SearchCollection implements Closeable {
       throw new IllegalArgumentException(args.index + " does not exist or is not a directory.");
     }
 
-    LOG.info("Reading index at " + indexPath);
+    LOG.info("============ Initializing Searcher ============");
+    LOG.info("Index: " + indexPath);
     if (args.inmem) {
       this.reader = DirectoryReader.open(MMapDirectory.open(indexPath));
     } else {
@@ -222,33 +235,43 @@ public final class SearchCollection implements Closeable {
 
     // Are we searching tweets?
     if (args.searchtweets) {
-      LOG.info("Search Tweets");
+      LOG.info("Searching tweets? true");
       analyzer = new TweetAnalyzer();
     } else if (args.language.equals("zh")) {
       analyzer = new CJKAnalyzer();
+      LOG.info("Language: zh");
     } else if (args.language.equals("ar")) {
       analyzer = new ArabicAnalyzer();
+      LOG.info("Language: ar");
     } else if (args.language.equals("fr")) {
       analyzer = new FrenchAnalyzer();
+      LOG.info("Language: fr");
     } else if (args.language.equals("hi")) {
       analyzer = new HindiAnalyzer();
+      LOG.info("Language: hi");
     } else if (args.language.equals("bn")) {
       analyzer = new BengaliAnalyzer();
+      LOG.info("Language: bn");
     } else if (args.language.equals("de")) {
       analyzer = new GermanAnalyzer();
+      LOG.info("Language: de");
     } else if (args.language.equals("es")) {
       analyzer = new SpanishAnalyzer();
+      LOG.info("Language: es");
     } else {
       // Default to English
       analyzer = args.keepstop ?
           new EnglishStemmingAnalyzer(args.stemmer, CharArraySet.EMPTY_SET) : new EnglishStemmingAnalyzer(args.stemmer);
+      LOG.info("Language: en");
+      LOG.info("Stemmer: " + args.stemmer);
+      LOG.info("Keep stopwords? " + args.keepstop);
     }
 
     if (args.sdm) {
-      LOG.info("Use Sequential Dependence Model query");
+      LOG.info("QueryConstructor: SequentialDependenceModel");
       qc = QueryConstructor.SequentialDependenceModel;
     } else {
-      LOG.info("Use Bag of Terms query");
+      LOG.info("QueryConstructor: BagOfTerms");
       qc = QueryConstructor.BagOfTerms;
     }
   
@@ -263,8 +286,8 @@ public final class SearchCollection implements Closeable {
   public List<TaggedSimilarity> constructSimilarities() {
     // Figure out which scoring model to use.
     List<TaggedSimilarity> similarities = new ArrayList<>();
-    if (args.ql || args.qld) {
-      for (String mu : args.mu) {
+    if (args.qld) {
+      for (String mu : args.qld_mu) {
         similarities.add(new TaggedSimilarity(new LMDirichletSimilarity(Float.valueOf(mu)), "mu="+mu));
       }
     } else if (args.qljm) {
@@ -272,14 +295,14 @@ public final class SearchCollection implements Closeable {
         similarities.add(new TaggedSimilarity(new LMJelinekMercerSimilarity(Float.valueOf(lambda)), "lambda=" + lambda));
       }
     } else if (args.bm25) {
-      for (String k1 : args.k1) {
-        for (String b : args.b) {
+      for (String k1 : args.bm25_k1) {
+        for (String b : args.bm25_b) {
           similarities.add(new TaggedSimilarity(new BM25Similarity(Float.valueOf(k1), Float.valueOf(b)), "k1="+k1+",b="+b));
         }
       }
     } else if (args.bm25Accurate) {
-      for (String k1 : args.k1) {
-        for (String b : args.b) {
+      for (String k1 : args.bm25_k1) {
+        for (String b : args.bm25_b) {
           similarities.add(new TaggedSimilarity(new AccurateBM25Similarity(Float.valueOf(k1), Float.valueOf(b)), "k1="+k1+",b="+b));
         }
       }
@@ -309,7 +332,6 @@ public final class SearchCollection implements Closeable {
     Map<String, RerankerCascade> cascades = new HashMap<>();
     // Set up the ranking cascade.
     if (args.rm3) {
-      LOG.info("Rerank with RM3");
       for (String fbTerms : args.rm3_fbTerms) {
         for (String fbDocs : args.rm3_fbDocs) {
           for (String originalQueryWeight : args.rm3_originalQueryWeight) {
@@ -341,7 +363,7 @@ public final class SearchCollection implements Closeable {
           }
         }
       }
-    }else if (args.bm25prf) {
+    } else if (args.bm25prf) {
         for (String fbTerms : args.bm25prf_fbTerms) {
             for (String fbDocs : args.bm25prf_fbDocs) {
                 for (String k1 : args.bm25prf_k1) {
@@ -359,9 +381,7 @@ public final class SearchCollection implements Closeable {
                 }
             }
         }
-    }
-
-    else {
+    } else {
       RerankerCascade cascade = new RerankerCascade();
       cascade.add(new ScoreTiesAdjusterReranker());
       cascades.put("", cascade);
@@ -390,22 +410,27 @@ public final class SearchCollection implements Closeable {
     }
   
     final String runTag = args.runtag == null ? "Anserini" : args.runtag;
+    LOG.info("runtag: " + runTag);
+
     final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(args.threads);
     this.similarities = constructSimilarities();
-    Map<String, RerankerCascade> cascades = constructRerankerCascades();
-    for (TaggedSimilarity taggedSimilarity : this.similarities) {
+    this.cascades = constructRerankerCascades();
+    LOG.info("============ Launching Search Threads ============");
+
+    for (TaggedSimilarity taggedSimilarity : similarities) {
       for (Map.Entry<String, RerankerCascade> cascade : cascades.entrySet()) {
-        final String outputPath = (this.similarities.size()+cascades.size())>2 ?
-            args.output+"_"+ taggedSimilarity.tag+(cascade.getKey().isEmpty()?"":",")+cascade.getKey() : args.output;
+        final String outputPath = (similarities.size() + cascades.size()) > 2 ?
+            args.output + "_" + taggedSimilarity.tag + (cascade.getKey().isEmpty() ? "" : "," ) + cascade.getKey() : args.output;
         if (args.skipexists && new File(outputPath).exists()) {
-          LOG.info("Skipping True: "+outputPath);
+          LOG.info("Run already exists, skipping: " + outputPath);
           continue;
         }
-        executor.execute(new SearcherThread<K>(reader, topics, taggedSimilarity, cascade.getKey(), cascade.getValue(),
-            outputPath, runTag));
+        executor.execute(new SearcherThread<>(reader, topics, taggedSimilarity,
+            cascade.getKey(), cascade.getValue(), outputPath, runTag));
       }
     }
     executor.shutdown();
+
     try {
       // Wait for existing tasks to terminate
       while (!executor.awaitTermination(1, TimeUnit.MINUTES)) {}
@@ -555,7 +580,7 @@ public final class SearchCollection implements Closeable {
 
   public static void main(String[] args) throws Exception {
     SearchArgs searchArgs = new SearchArgs();
-    CmdLineParser parser = new CmdLineParser(searchArgs, ParserProperties.defaults().withUsageWidth(90));
+    CmdLineParser parser = new CmdLineParser(searchArgs, ParserProperties.defaults().withUsageWidth(100));
 
     try {
       parser.parseArgument(args);
