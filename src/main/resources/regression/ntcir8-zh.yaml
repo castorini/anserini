@@ -31,10 +31,18 @@ evals:
     can_combine: true
   - command: eval/trec_eval.9.0.4/trec_eval
     params:
-      - -m P.30
+      - -m P.20
     separator: "\t"
     parse_index: 2
-    metric: p30
+    metric: p20
+    metric_precision: 4
+    can_combine: true
+  - command: eval/trec_eval.9.0.4/trec_eval
+    params:
+      - -m ndcg_cut.20
+    separator: "\t"
+    parse_index: 2
+    metric: ndcg20
     metric_precision: 4
     can_combine: true
 input_roots:
@@ -48,7 +56,7 @@ index_stats:
   documents (non-empty): 308832
   total terms: 134618634  # on Mac, I seem to get this value instead: 134618027 (no idea why)
 topics:
-  - name: "[NTCIR-8 ACLIA (IR4QA subtask, Chinese monolingual)](http://research.nii.ac.jp/ntcir/ntcir-ws8/ws-en.html)"
+  - name: "[NTCIR-8 ACLIA (IR4QA subtask, Chinese monolingual)](../src/main/resources/topics-and-qrels/topics.ntcir8zh.eval.txt)"
     path: topics.ntcir8zh.eval.txt
     qrel: qrels.ntcir8.eval.txt
 models:
@@ -59,5 +67,7 @@ models:
     results:
       map:
         - 0.4014
-      p30:
-        - 0.3365
+      p20:
+        - 0.3849
+      ndcg20:
+        - 0.4757
