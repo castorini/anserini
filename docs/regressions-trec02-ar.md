@@ -41,7 +41,7 @@ nohup target/appassembler/bin/SearchCollection -index lucene-index.trec02-ar.pos
 Evaluation can be performed using `trec_eval`:
 
 ```
-eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.trec02ar.txt run.trec02-ar.bm25.topics.trec02ar-ar.txt
+eval/trec_eval.9.0.4/trec_eval -m map -m P.20 -m ndcg_cut.20 src/main/resources/topics-and-qrels/qrels.trec02ar.txt run.trec02-ar.bm25.topics.trec02ar-ar.txt
 
 ```
 
@@ -54,8 +54,13 @@ MAP                                     | BM25      |
 [TREC 2002 (Monolingual Arabic)](../src/main/resources/topics-and-qrels/topics.trec02ar-ar.txt)| 0.2932    |
 
 
-P30                                     | BM25      |
+P20                                     | BM25      |
 :---------------------------------------|-----------|
-[TREC 2002 (Monolingual Arabic)](../src/main/resources/topics-and-qrels/topics.trec02ar-ar.txt)| 0.3313    |
+[TREC 2002 (Monolingual Arabic)](../src/main/resources/topics-and-qrels/topics.trec02ar-ar.txt)| 0.3610    |
+
+
+NDCG20                                  | BM25      |
+:---------------------------------------|-----------|
+[TREC 2002 (Monolingual Arabic)](../src/main/resources/topics-and-qrels/topics.trec02ar-ar.txt)| 0.4056    |
 
 
