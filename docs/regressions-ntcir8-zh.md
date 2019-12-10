@@ -41,12 +41,7 @@ nohup target/appassembler/bin/SearchCollection -index lucene-index.ntcir8-zh.pos
 Evaluation can be performed using `trec_eval`:
 
 ```
-<<<<<<< HEAD
-eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.ntcir8.eval.txt run.ntcir8-zh.bm25.topics.ntcir8zh.eval.txt
-=======
 eval/trec_eval.9.0.4/trec_eval -m map -m P.20 -m ndcg_cut.20 src/main/resources/topics-and-qrels/qrels.ntcir8.eval.txt run.ntcir8-zh.bm25.topics.ntcir8zh.eval.txt
-
->>>>>>> master
 ```
 
 ## Effectiveness
@@ -65,10 +60,4 @@ P20                                     | BM25      |
 
 NDCG20                                  | BM25      |
 :---------------------------------------|-----------|
-<<<<<<< HEAD
-[NTCIR-8 ACLIA (IR4QA subtask, Chinese monolingual)](http://research.nii.ac.jp/ntcir/ntcir-ws8/ws-en.html)| 0.3365    |
-=======
 [NTCIR-8 ACLIA (IR4QA subtask, Monolingual Chinese)](../src/main/resources/topics-and-qrels/topics.ntcir8zh.eval.txt)| 0.4757    |
-
-
->>>>>>> master

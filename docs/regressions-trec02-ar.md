@@ -34,25 +34,14 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```
 nohup target/appassembler/bin/SearchCollection -index lucene-index.trec02-ar.pos+docvectors+rawdocs \
-<<<<<<< HEAD
- -topicreader TsvString -topics src/main/resources/topics-and-qrels/topics.trec02ar.mono.ar.txt \
- -language ar -bm25 -output run.trec02-ar.bm25.topics.trec02ar.mono.ar.txt &
-=======
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.trec02ar-ar.txt \
  -language ar -bm25 -output run.trec02-ar.bm25.topics.trec02ar-ar.txt &
-
->>>>>>> master
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```
-<<<<<<< HEAD
-eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.trec02ar.txt run.trec02-ar.bm25.topics.trec02ar.mono.ar.txt
-=======
 eval/trec_eval.9.0.4/trec_eval -m map -m P.20 -m ndcg_cut.20 src/main/resources/topics-and-qrels/qrels.trec02ar.txt run.trec02-ar.bm25.topics.trec02ar-ar.txt
-
->>>>>>> master
 ```
 
 ## Effectiveness
@@ -71,10 +60,4 @@ P20                                     | BM25      |
 
 NDCG20                                  | BM25      |
 :---------------------------------------|-----------|
-<<<<<<< HEAD
-[TREC2002 (Arabic monolingual)](../src/main/resources/topics-and-qrels/topics.trec02ar.momo.ar.txt)| 0.3313    |
-=======
 [TREC 2002 (Monolingual Arabic)](../src/main/resources/topics-and-qrels/topics.trec02ar-ar.txt)| 0.4056    |
-
-
->>>>>>> master

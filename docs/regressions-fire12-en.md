@@ -58,10 +58,4 @@ P20                                     | BM25      |
 
 NDCG20                                  | BM25      |
 :---------------------------------------|-----------|
-<<<<<<< HEAD
-[FIRE 2012 (Monolingual English)](https://www.isical.ac.in/~fire/2012/adhoc.html)| 0.5420    |
-=======
 [FIRE 2012 (Monolingual English)](../src/main/resources/topics-and-qrels/topics.fire12en.176-225.txt)| 0.5420    |
-
-
->>>>>>> master

@@ -40,12 +40,7 @@ nohup target/appassembler/bin/SearchCollection -index lucene-index.clef06-fr.pos
 Evaluation can be performed using `trec_eval`:
 
 ```
-<<<<<<< HEAD
-eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.clef06fr.txt run.clef06-fr.bm25.topics.clef06fr.mono.fr.txt
-=======
 eval/trec_eval.9.0.4/trec_eval -m map -m P.20 -m ndcg_cut.20 src/main/resources/topics-and-qrels/qrels.clef06fr.txt run.clef06-fr.bm25.topics.clef06fr.mono.fr.txt
-
->>>>>>> master
 ```
 
 ## Effectiveness
@@ -64,10 +59,4 @@ P20                                     | BM25      |
 
 NDCG20                                  | BM25      |
 :---------------------------------------|-----------|
-<<<<<<< HEAD
-[CLEF2006 (French monolingual)](http://www.clef-initiative.eu/edition/clef2006)| 0.2735    |
-=======
 [CLEF 2006 (Monolingual French)](../src/main/resources/topics-and-qrels/topics.clef06fr.mono.fr.txt)| 0.4458    |
-
-
->>>>>>> master
