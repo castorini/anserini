@@ -1,7 +1,7 @@
 # Anserini: Regressions for [CLEF2006 Monolingual French](http://www.clef-initiative.eu/edition/clef2006)
 
-This page documents regression experiments for [CLEF2006 monolingual French topics)](http://www.clef-initiative.eu/edition/clef2006).
-The description of the document collection can be found in the [CLEF corpus page](http://www.clef-initiative.eu/dataset/corpus).
+This page documents regression experiments for monolingual French document retrieval as part of [CLEF 2006 Multilingual Document Retrieval (Ad Hoc) Track)](http://www.clef-initiative.eu/edition/clef2006).
+The description of the document collection can be found on the [CLEF test suites pages](http://www.clef-initiative.eu/dataset/corpus).
 
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/clef06-fr.yaml).
 Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/celf06-fr.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
@@ -16,14 +16,18 @@ nohup sh target/appassembler/bin/IndexCollection -collection JsonCollection -inp
  -storePositions -storeDocvectors -storeRawDocs -language fr >& log.clef06-fr.pos+docvectors+rawdocs &
 ```
 
-The directory `/path/to/clef06-fr/` should be a directory containing the collection (the format is jsonline format).
+The collection comprises news articles from ATS (SDA) and Le Monde totaling 177,452 documents.
+Since the original distribution is in a format that's slightly different from standard TREC collections, we used a [../src/main/python/clir/document_preprocess.py](preprocessing script) to convert the collection into Anserini's JSON line format (we also applied a bit of light data cleaning using a script that since been lost; if you have problems replicating our results, get in touch directly).
+The directory `/path/to/clef06-fr/` should point to the location of the processed collection.
 
 For additional details, see explanation of [common indexing options](common-indexing-options.md).
 
 ## Retrieval
 
-Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/main/resources/topics-and-qrels/).
-The regression experiments here evaluate on the 49 questions.
+Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/main/resources/topics-and-qrels/), from the [CLEF test suites pages](http://www.clef-initiative.eu/dataset/corpus):
+
++ [`topics.clef06fr.mono.fr.txt`](../src/main/resources/topics-and-qrels/topics.clef06fr.mono.fr.txt): CLEF 2006 ad hoc track topics in French
++ [`qrels.clef06fr.txt`](../src/main/resources/topics-and-qrels/qrels.clef06fr.txt): CLEF 2006 ad hoc track French relevance judgements
 
 After indexing has completed, you should be able to perform retrieval as follows:
 
@@ -47,11 +51,11 @@ With the above commands, you should be able to replicate the following results:
 
 MAP                                     | BM25      |
 :---------------------------------------|-----------|
-[CLEF2006 (French monolingual)](http://www.clef-initiative.eu/edition/clef2006)| 0.3111    |
+[CLEF 2006 (Monolingual French)](../src/main/resources/topics-and-qrels/topics.clef06fr.mono.fr.txt)| 0.3111    |
 
 
 P30                                     | BM25      |
 :---------------------------------------|-----------|
-[CLEF2006 (French monolingual)](http://www.clef-initiative.eu/edition/clef2006)| 0.2735    |
+[CLEF 2006 (Monolingual French)](../src/main/resources/topics-and-qrels/topics.clef06fr.mono.fr.txt)| 0.2735    |
 
 

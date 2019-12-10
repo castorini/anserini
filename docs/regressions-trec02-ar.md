@@ -1,7 +1,7 @@
 # Anserini: Regressions for [TREC 2002 Monolingual Arabic](https://trec.nist.gov/pubs/trec11/t11_proceedings.html)
 
 This page documents regression experiments for monolingual Arabic document retrieval as part of the [TREC 2002 CLIR Track](https://trec.nist.gov/pubs/trec11/t11_proceedings.html).
-The description of the document collection can be found in the [TREC data page](https://trec.nist.gov/data/docs_noneng.html): Agence France Presse (AFP) Arabic newswire, from [LDC2001T55 (Arabic Newswire Part 1)](https://catalog.ldc.upenn.edu/LDC2001T55).
+The description of the document collection can be found on the [TREC data page](https://trec.nist.gov/data/docs_noneng.html): Agence France Presse (AFP) Arabic newswire, from [LDC2001T55 (Arabic Newswire Part 1)](https://catalog.ldc.upenn.edu/LDC2001T55).
 
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/trec02-ar.yaml).
 Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/trec02-ar.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
