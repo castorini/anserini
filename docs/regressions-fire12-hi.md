@@ -48,14 +48,20 @@ With the above commands, you should be able to replicate the following results:
 
 MAP                                     | BM25      |
 :---------------------------------------|-----------|
-[FIRE 2012 (Monolingual Hindi)](https://www.isical.ac.in/~fire/2012/adhoc.html)| 0.3867    |
+[FIRE 2012 (Monolingual Hindi)](../src/main/resources/topics-and-qrels/topics.fire12en.176-225.txt)| 0.3867    |
 
 
 P20                                     | BM25      |
 :---------------------------------------|-----------|
-[FIRE 2012 (Monolingual Hindi)](https://www.isical.ac.in/~fire/2012/adhoc.html)| 0.4470    |
+[FIRE 2012 (Monolingual Hindi)](../src/main/resources/topics-and-qrels/topics.fire12en.176-225.txt)| 0.4470    |
 
 
 NDCG20                                  | BM25      |
 :---------------------------------------|-----------|
+<<<<<<< HEAD
 [FIRE 2012 (Monolingual Hindi)](https://www.isical.ac.in/~fire/2012/adhoc.html)| 0.5310    |
+=======
+[FIRE 2012 (Monolingual Hindi)](../src/main/resources/topics-and-qrels/topics.fire12en.176-225.txt)| 0.5310    |
+
+
+>>>>>>> master
