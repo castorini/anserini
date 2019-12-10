@@ -140,6 +140,11 @@ public class TrecTopicReader extends TopicReader<Integer> {
         fields.put("title", title);
         fields.put("description", description);
         fields.put("narrative", narrative);
+
+        // CLIR topics, e.g., TREC 2002 Monolingual Arabic, may have a prefix, e.g., "AR26".
+        // This is a hack around that:
+        id = id.replaceAll("[^0-9]", "");
+
         map.put(Integer.valueOf(id), fields);
       }
     } finally {

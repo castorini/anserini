@@ -1,4 +1,4 @@
-# Anserini: BM25 Baselines on [MS MARCO (Document)](https://github.com/microsoft/TREC-2019-Deep-Learning)
+# Anserini: BM25 Baselines on [MS MARCO Doc Retrieval Task](https://github.com/microsoft/TREC-2019-Deep-Learning)
 
 This page contains instructions for running BM25 baselines on the MS MARCO *document* ranking task.
 Note that there is a separate [MS MARCO *passage* ranking task](experiments-msmarco-passage.md).
