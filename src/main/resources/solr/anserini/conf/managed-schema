@@ -517,8 +517,8 @@
   <!-- "raw" is stored but not searchable. -->
   <field name="raw" type="text_general" indexed="false" stored="true" multiValued="false" />
   
-  <!-- "contents" searchable but not stored. -->
-  <field name="contents" type="text_en_anserini" indexed="true" stored="false" multiValued="false" />
+  <!-- "contents" are stored and searchable. -->
+  <field name="contents" type="text_en_anserini" indexed="true" stored="true" multiValued="false" />
 
   <!-- Anserini WashingtonPost Fields -->
   <field name="author" type="string" />

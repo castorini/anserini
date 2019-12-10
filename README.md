@@ -1,26 +1,24 @@
 Anserini
 ========
-[![Generic badge](https://img.shields.io/badge/Lucene-v8.0.0-yellow.svg)](https://archive.apache.org/dist/lucene/java/8.0.0/)
 [![Build Status](https://travis-ci.org/castorini/anserini.svg?branch=master)](https://travis-ci.org/castorini/Anserini)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.anserini/anserini/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.anserini/anserini)
-[![LICENSE](https://img.shields.io/badge/license-Apache-blue.svg?style=flat-square)](./LICENSE)
+[![codecov](https://codecov.io/gh/castorini/anserini/branch/master/graph/badge.svg)](https://codecov.io/gh/castorini/anserini)
+[![Generic badge](https://img.shields.io/badge/Lucene-v8.3.0-brightgreen.svg)](https://archive.apache.org/dist/lucene/java/8.3.0/)
+[![Maven Central](https://img.shields.io/maven-central/v/io.anserini/anserini?color=brightgreen)](https://search.maven.org/search?q=a:anserini)
+[![PyPI](https://img.shields.io/pypi/v/pyserini?color=brightgreen)](https://pypi.org/project/pyserini/)
+[![LICENSE](https://img.shields.io/badge/license-Apache-blue.svg?style=flat)](https://www.apache.org/licenses/LICENSE-2.0)
+[![doi](http://img.shields.io/badge/doi-10.1145%2F3239571-blue.svg?style=flat)](https://doi.org/10.1145/3239571)
 
-Anserini is an open-source information retrieval toolkit built on Lucene that aims to bridge the gap between academic information retrieval research and the practice of building real-world search applications. 
-This effort grew out of [a reproducibility study of various open-source retrieval engines in 2016](https://cs.uwaterloo.ca/~jimmylin/publications/Lin_etal_ECIR2016.pdf) (Lin et al., ECIR 2016). 
+Anserini is an open-source information retrieval toolkit built on Lucene that aims to bridge the gap between academic information retrieval research and the practice of building real-world search applications.
+Among other goals, our effort aims to be [the opposite of this](http://phdcomics.com/comics/archive.php?comicid=1689).
+Anserini grew out of [a reproducibility study of various open-source retrieval engines in 2016](https://cs.uwaterloo.ca/~jimmylin/publications/Lin_etal_ECIR2016.pdf) (Lin et al., ECIR 2016). 
 See [Yang et al. (SIGIR 2017)](https://dl.acm.org/authorize?N47337) and [Yang et al. (JDIQ 2018)](https://dl.acm.org/citation.cfm?doid=3289400.3239571) for overviews.
-
-If you've found Anserini to be helpful, we have a simple request for you to contribute back.
-In the course of replicating baseline results on standard test collections, please let us know if you're successful by sending us a pull request with a simple note, like what appears at the bottom of [the Robust04 page](docs/regressions-robust04.md).
-Replicability is important to us, and we'd like to know about successes as well as failures.
-Since the regression documentation is auto-generated, pull requests should be sent against the [raw templates](https://github.com/castorini/anserini/tree/master/src/main/resources/docgen/templates).
-In turn, you'll be recognized as a [contributor](https://github.com/castorini/anserini/graphs/contributors).
 
 ## Getting Started
 
-A zero effort way to try out Anserini is to look at our online [colab demo](https://colab.research.google.com/drive/1s44ylhEkXDzqNgkJSyXDYetGIxO9TWZn)!
-Click "Open in Playground" and you'll be able to replicate our baselines from the TREC 2004 Robust Track just from the browser!
+A low-effort way to try out Anserini is to look at our [online notebooks](https://github.com/castorini/anserini-notebooks), which will allow you to get started with just a few clicks.
+For convenience, we've pre-built a few common indexes, available to download [here](https://git.uwaterloo.ca/jimmylin/anserini-indexes).
 
-Main dependencies:
+If you want to build Anserini itself, then start by verifying the main dependencies:
 
 + Anserini was upgraded to Java 11 at commit [`17b702d`](https://github.com/castorini/anserini/commit/17b702d9c3c0971e04eb8386ab83bf2fb2630714) (7/11/2019) from Java 8.
 Maven 3.3+ is also required.
@@ -58,7 +56,7 @@ Each collection is associated with [regression tests](docs/regressions.md) for r
 Note that these regressions capture the "out of the box" experience, based on [_default_ parameter settings](https://github.com/castorini/Anserini/blob/master/src/main/java/io/anserini/search/SearchArgs.java).
 
 + [Regressions for Disks 1 &amp; 2](docs/regressions-disk12.md)
-+ [Regressions for Disks 4 &amp; 5 (Robust04)](docs/regressions-robust04.md) [[Colab demo](https://colab.research.google.com/drive/1s44ylhEkXDzqNgkJSyXDYetGIxO9TWZn)]
++ [Regressions for Disks 4 &amp; 5 (Robust04)](docs/regressions-robust04.md)
 + [Regressions for AQUAINT (Robust05)](docs/regressions-robust05.md)
 + [Regressions for the New York Times (Core17)](docs/regressions-core17.md)
 + [Regressions for the Washington Post (Core18)](docs/regressions-core18.md)
@@ -71,18 +69,25 @@ Note that these regressions capture the "out of the box" experience, based on [_
 + [Regressions for Tweets2013 (MB13 &amp; MB14)](docs/regressions-mb13.md)
 + [Regressions for Complex Answer Retrieval v1.5 (CAR17)](docs/regressions-car17v1.5.md)
 + [Regressions for Complex Answer Retrieval v2.0 (CAR17)](docs/regressions-car17v2.0.md)
-+ [Regressions for Complex Answer Retrieval v2.0 (CAR17) with Doc2query expansion](docs/regressions-car17v2.0-doc2query.md)
-+ [Regressions for the MS MARCO Passage Task](docs/regressions-msmarco-passage.md)
-+ [Regressions for the MS MARCO Passage Task with Doc2query expansion](docs/regressions-msmarco-passage-doc2query.md)
-+ [Regressions for the MS MARCO Document Task](docs/regressions-msmarco-doc.md)
-+ [Regressions for NTCIR-8 ACLIA (IR4QA subtask, Chinese monolingual)](docs/regressions-ntcir8-zh.md)
++ [Regressions for Complex Answer Retrieval v2.0 (CAR17) with doc2query expansion](docs/regressions-car17v2.0-doc2query.md)
++ [Regressions for the MS MARCO Passage Retrieval Task](docs/regressions-msmarco-passage.md)
++ [Regressions for the MS MARCO Passage Retrieval Task with doc2query expansion](docs/regressions-msmarco-passage-doc2query.md)
++ [Regressions for the MS MARCO Passage Retrieval Task with docTTTTTquery expansion](docs/regressions-msmarco-passage-docTTTTTquery.md)
++ [Regressions for the MS MARCO Document Retrieval](docs/regressions-msmarco-doc.md)
++ [Regressions for NTCIR-8 ACLIA (IR4QA subtask, Monolingual Chinese)](docs/regressions-ntcir8-zh.md)
++ [Regressions for CLEF 2006 Monolingual French](docs/regressions-clef06-fr.md)
++ [Regressions for TREC 2002 Monolingual Arabic](docs/regressions-trec02-ar.md)
++ [Regressions for FIRE 2012 Monolingual Bengali](docs/regressions-fire12-bn.md)
++ [Regressions for FIRE 2012 Monolingual Hindi](docs/regressions-fire12-hi.md)
++ [Regressions for FIRE 2012 Monolingual English](docs/regressions-fire12-en.md)
 
 Other experiments:
 
 + [Replicating "Neural Hype" Experiments](docs/experiments-forum2018.md)
-+ [Guide to running BM25 baselines on the MS MARCO Passage Task](docs/experiments-msmarco-passage.md)
-+ [Guide to running BM25 baselines on the MS MARCO Document Task](docs/experiments-msmarco-doc.md)
-+ [Guide to replicating document expansion by query prediction (Doc2query) results](docs/experiments-doc2query.md)
++ [Guide to running BM25 baselines on the MS MARCO Passage Retrieval Task](docs/experiments-msmarco-passage.md)
++ [Guide to running BM25 baselines on the MS MARCO Document Retrieval Task](docs/experiments-msmarco-doc.md)
++ [Guide to replicating doc2query results](docs/experiments-doc2query.md)
++ [Guide to replicating docTTTTTquery results](docs/experiments-docTTTTTquery.md)
 + [Guide to running experiments on the AI2 Open Research Corpus](docs/experiments-openresearch.md)
 + [Experiments from Yang et al. (JDIQ 2018)](docs/experiments-jdiq2018.md)
 + Runbooks for TREC 2018: [[Anserini group](docs/runbook-trec2018-anserini.md)] [[h2oloo group](docs/runbook-trec2018-h2oloo.md)]
@@ -93,9 +98,19 @@ See [this page](docs/additional.md) for additional documentation.
 
 ## Integrations
 
-+ Use Anserini in Python via [Pyserini](docs/pyserini.md)!
++ Use Anserini in Python via [Pyserini](https://github.com/castorini/pyserini)!
 + Anserini integrates with SolrCloud via [Solrini](docs/solrini.md)!
 + Anserini integrates with Elasticsearch via [Elasterini](docs/elastirini.md)!
+
+## How Can I Contribute?
+
+If you've found Anserini to be helpful, we have a simple request for you to contribute back.
+In the course of replicating baseline results on standard test collections, please let us know if you're successful by sending us a pull request with a simple note, like what appears at the bottom of [the Robust04 page](docs/regressions-robust04.md).
+Replicability is important to us, and we'd like to know about successes as well as failures.
+Since the regression documentation is auto-generated, pull requests should be sent against the [raw templates](https://github.com/castorini/anserini/tree/master/src/main/resources/docgen/templates).
+In turn, you'll be recognized as a [contributor](https://github.com/castorini/anserini/graphs/contributors).
+
+Beyond that, there are always [open issues](https://github.com/castorini/anserini/issues) we would appreciate help on!
 
 ## Release History
 

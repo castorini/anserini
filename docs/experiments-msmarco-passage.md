@@ -1,4 +1,4 @@
-# Anserini: BM25 Baselines on [MS MARCO (Passage)](https://github.com/microsoft/MSMARCO-Passage-Ranking)
+# Anserini: BM25 Baselines on [MS MARCO Passage Retrieval](https://github.com/microsoft/MSMARCO-Passage-Ranking)
 
 This page contains instructions for running BM25 baselines on the MS MARCO *passage* ranking task.
 Note that there is a separate [MS MARCO *document* ranking task](experiments-msmarco-doc.md).
@@ -121,7 +121,7 @@ Average precision and recall@1000 are the two metrics we care about the most.
 
 Note that this figure differs slightly from the value reported in [Document Expansion by Query Prediction](https://arxiv.org/abs/1904.08375), which uses the Anserini (system-wide) default of `k1=0.9`, `b=0.4`.
 
-Tuning was accomplished with the `tune_bm25.py` script, using the queries found [here](https://github.com/castorini/Anserini-data/tree/master/MSMARCO).
+Tuning was accomplished with the [`tune_bm25.py`](../src/main/python/msmarco/tune_bm25.py) script, using the queries found [here](https://github.com/castorini/Anserini-data/tree/master/MSMARCO); the basic approach is grid search of parameter values in tenth increments.
 There are five different sets of 10k samples (using the `shuf` command).
 We tuned on each individual set and then averaged parameter values across all five sets (this has the effect of regularization).
 Note that we optimized recall@1000 since Anserini output serves as input to later stage rerankers (e.g., based on BERT), and we want to maximize the number of relevant documents the rerankers have to work with.

@@ -17,7 +17,7 @@ package io.anserini.analysis.vectors;
 
 import io.anserini.analysis.vectors.fw.FakeWordsEncoderAnalyzer;
 import io.anserini.analysis.vectors.lexlsh.LexicalLshAnalyzer;
-import io.anserini.util.AnalyzerUtils;
+import io.anserini.analysis.AnalyzerUtils;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
@@ -61,7 +61,7 @@ public class ApproximateNearestNeighborSearch {
     @Option(name = "-depth", metaVar = "[int]", usage = "retrieval depth")
     public int depth = 10;
 
-    @Option(name = "-lexlsh.n", metaVar = "[int]", usage = "ngrams")
+    @Option(name = "-lexlsh.n", metaVar = "[int]", usage = "n-grams")
     public int ngrams = 2;
 
     @Option(name = "-lexlsh.d", metaVar = "[int]", usage = "decimals")
@@ -80,7 +80,10 @@ public class ApproximateNearestNeighborSearch {
     public int q = 60;
 
     @Option(name = "-cutoff", metaVar = "[float]", usage = "tf cutoff factor")
-    public float cutoff = 0.1f;
+    public float cutoff = 0.2f;
+
+    @Option(name = "-msm", metaVar = "[int]", usage = "minimum should match")
+    public int msm = 0;
   }
 
   public static void main(String[] args) throws Exception {
@@ -140,6 +143,11 @@ public class ApproximateNearestNeighborSearch {
     for (String token : AnalyzerUtils.tokenize(vectorAnalyzer, sb.toString())) {
       simQuery.add(new Term(IndexVectors.FIELD_VECTOR, token));
     }
+    if (indexArgs.msm > 0) {
+      simQuery.setHighFreqMinimumNumberShouldMatch(indexArgs.msm);
+      simQuery.setLowFreqMinimumNumberShouldMatch(indexArgs.msm);
+    }
+
     long start = System.currentTimeMillis();
 
     TopDocs topDocs = searcher.search(simQuery, indexArgs.depth);

@@ -25,7 +25,7 @@ index_stats:
   documents (non-empty): 29791059
   total terms: 1249754054
 topics:
-  - name: "[TREC 2017 CAR: benchmarkY1test (v2.0)](http://trec-car.cs.unh.edu/datareleases/)"
+  - name: "[TREC 2017 CAR: benchmarkY1test (v2.0)](../src/main/resources/topics-and-qrels/topics.car17v2.0.benchmarkY1test.txt)"
     path: topics.car17v2.0.benchmarkY1test.txt
     qrel: qrels.car17v2.0.benchmarkY1test.txt
 evals:

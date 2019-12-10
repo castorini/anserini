@@ -25,7 +25,7 @@ index_stats:
   documents (non-empty): 595030
   total terms: 318219945
 topics:
-  - name: "[TREC 2018 Common Core Track Topics](https://trec.nist.gov/data/core/topics2018.txt)"
+  - name: "[TREC 2018 Common Core Track Topics](../src/main/resources/topics-and-qrels/topics.core18.txt)"
     path: topics.core18.txt
     qrel: qrels.core18.txt
 evals:

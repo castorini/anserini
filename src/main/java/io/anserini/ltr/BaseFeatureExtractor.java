@@ -18,7 +18,7 @@ package io.anserini.ltr;
 
 import io.anserini.ltr.feature.FeatureExtractors;
 import io.anserini.rerank.RerankerContext;
-import io.anserini.util.AnalyzerUtils;
+import io.anserini.analysis.AnalyzerUtils;
 import io.anserini.util.Qrels;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

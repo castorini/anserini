@@ -3,11 +3,18 @@
 The following change log details commits to regression tests that alter effectiveness and the addition of new regression tests.
 This documentation is useful for figuring why results may have changed over time.
 
+### November 27, 2019
+
++ commit [`411618`](https://github.com/castorini/anserini/commit/4116188e327b92469da8c53e35f9c88fd28b88b6) (11/27/2019)
++ commit [`b9264d`](https://github.com/castorini/anserini/commit/b9264da049c355f8cc8d304f0d799b4435011f43) (11/27/2019)
+
+Added regressions for TREC 2002 (Arabic), CLEF 2006 (French), and FIRE 2012 (English, Bengali and Hindi).
+
 ### October 11, 2019
 
 + commit [`445bb45`](https://github.com/castorini/anserini/commit/445bb458da825c9919d7a4e92de5ce87c929af7d) (10/11/2019)
 
-Add regressions for NTCIR-8 ACLIA (IR4QA subtask, Chinese monolingual).
+Add regressions for NTCIR-8 ACLIA (IR4QA subtask, Monolingual Chinese).
 
 ### September 5, 2019
 

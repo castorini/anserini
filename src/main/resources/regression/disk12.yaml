@@ -42,15 +42,15 @@ index_stats:
   documents (non-empty): 741675
   total terms: 217199327
 topics:
-  - name: "[TREC-1 Ad Hoc Track: Topics 51-100](http://trec.nist.gov/data/topics_eng/topics.51-100.gz)"
-    path: topics.51-100.txt
-    qrel: qrels.51-100.txt
-  - name: "[TREC-2 Ad Hoc Track: Topics 101-150](http://trec.nist.gov/data/topics_eng/topics.101-150.gz)"
-    path: topics.101-150.txt
-    qrel: qrels.101-150.txt
-  - name: "[TREC-3 Ad Hoc Track: Topics 151-200](http://trec.nist.gov/data/topics_eng/topics.151-200.gz)"
-    path: topics.151-200.txt
-    qrel: qrels.151-200.txt
+  - name: "[TREC-1 Ad Hoc Topics 51-100](../src/main/resources/topics-and-qrels/topics.adhoc.51-100.txt)"
+    path: topics.adhoc.51-100.txt
+    qrel: qrels.adhoc.51-100.txt
+  - name: "[TREC-2 Ad Hoc Topics 101-150](../src/main/resources/topics-and-qrels/topics.adhoc.101-150.txt)"
+    path: topics.adhoc.101-150.txt
+    qrel: qrels.adhoc.101-150.txt
+  - name: "[TREC-3 Ad Hoc Topics 151-200](../src/main/resources/topics-and-qrels/topics.adhoc.151-200.txt)"
+    path: topics.adhoc.151-200.txt
+    qrel: qrels.adhoc.151-200.txt
 models:
   - name: bm25
     display: BM25
