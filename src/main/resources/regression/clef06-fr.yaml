@@ -29,24 +29,32 @@ evals:
     can_combine: true
   - command: eval/trec_eval.9.0.4/trec_eval
     params:
-      - -m P.30
+      - -m P.20
     separator: "\t"
     parse_index: 2
-    metric: p30
+    metric: p20
+    metric_precision: 4
+    can_combine: true
+  - command: eval/trec_eval.9.0.4/trec_eval
+    params:
+      - -m ndcg_cut.20
+    separator: "\t"
+    parse_index: 2
+    metric: ndcg20
     metric_precision: 4
     can_combine: true
 input_roots:
   - /tuna1/      # on tuna
   - /store/      # on orca
   - /scratch2/   # on damiano
-input: collections/clir/fr
+input: collections/newswire/clir/clef2006-fr.json
 index_path: indexes/lucene-index.clef06-fr.pos+docvectors+rawdocs
 index_stats:
   documents: 171109
   documents (non-empty): 171109
   total terms: 34352833  
 topics:
-  - name: "[CLEF2006 (French monolingual)](http://www.clef-initiative.eu/edition/clef2006)"
+  - name: "[CLEF 2006 (Monolingual French)](../src/main/resources/topics-and-qrels/topics.clef06fr.mono.fr.txt)"
     path: topics.clef06fr.mono.fr.txt
     qrel: qrels.clef06fr.txt
 models:
@@ -57,5 +65,7 @@ models:
     results:
       map:
         - 0.3111
-      p30:
-        - 0.2735
+      p20:
+        - 0.3184
+      ndcg20:
+        - 0.4458
