@@ -1,6 +1,6 @@
-# Anserini: Regressions for [TREC2002 Monolingual Arabic](https://trec.nist.gov/pubs/trec11/t11_proceedings.html)
+# Anserini: Regressions for [TREC 2002 Monolingual Arabic](https://trec.nist.gov/pubs/trec11/t11_proceedings.html)
 
-This page documents regression experiments for [TREC2002 Arabic monolingual topics)](https://trec.nist.gov/pubs/trec11/t11_proceedings.html).
+This page documents regression experiments for monolingual Arabic retrieval as part of the [TREC 2002 CLIR Track](https://trec.nist.gov/pubs/trec11/t11_proceedings.html).
 The description of the document collection can be found in the [TREC data page](https://trec.nist.gov/data/docs_noneng.html): Agence France Presse (AFP) Arabic newswire, from [LDC2001T55 (Arabic Newswire Part 1)](https://catalog.ldc.upenn.edu/LDC2001T55).
 
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/trec02-ar.yaml).
@@ -16,7 +16,9 @@ nohup sh target/appassembler/bin/IndexCollection -collection TrecCollection -inp
  -storePositions -storeDocvectors -storeRawDocs -language ar >& log.trec02-ar.pos+docvectors+rawdocs &
 ```
 
-The directory `/path/to/trec02-ar/` should be a directory containing the collection, 2337 gzipped files from LDC2007T38.
+Inside the LDC2007T38 distribution, there should be a directory named `transcripts`, which contains 2,337 gzipped files in 7 directories, `1994` ... `2000`.
+The path above `/path/to/trec02-ar/` should point to this `transcripts/` directory.
+The collection contains 383,872 documents.
 
 For additional details, see explanation of [common indexing options](common-indexing-options.md).
 
@@ -47,11 +49,11 @@ With the above commands, you should be able to replicate the following results:
 
 MAP                                     | BM25      |
 :---------------------------------------|-----------|
-[TREC2002 (Arabic monolingual)](../src/main/resources/topics-and-qrels/topics.trec02ar.momo.ar.txt)| 0.2932    |
+[TREC 2002 (Monolingual Arabic)](../src/main/resources/topics-and-qrels/topics.trec02ar.mono.ar.txt)| 0.2932    |
 
 
 P30                                     | BM25      |
 :---------------------------------------|-----------|
-[TREC2002 (Arabic monolingual)](../src/main/resources/topics-and-qrels/topics.trec02ar.momo.ar.txt)| 0.3313    |
+[TREC 2002 (Monolingual Arabic)](../src/main/resources/topics-and-qrels/topics.trec02ar.mono.ar.txt)| 0.3313    |
 
 

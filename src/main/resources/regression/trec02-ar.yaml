@@ -46,7 +46,7 @@ index_stats:
   documents (non-empty): 383872
   total terms: 62378088  
 topics:
-  - name: "[TREC2002 (Arabic monolingual)](../src/main/resources/topics-and-qrels/topics.trec02ar.momo.ar.txt)"
+  - name: "[TREC 2002 (Monolingual Arabic)](../src/main/resources/topics-and-qrels/topics.trec02ar.mono.ar.txt)"
     path: topics.trec02ar.mono.ar.txt
     qrel: qrels.trec02ar.txt
 models:
