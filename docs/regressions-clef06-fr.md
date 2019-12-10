@@ -31,14 +31,12 @@ After indexing has completed, you should be able to perform retrieval as follows
 nohup target/appassembler/bin/SearchCollection -index lucene-index.clef06-fr.pos+docvectors+rawdocs \
  -topicreader TsvString -topics src/main/resources/topics-and-qrels/topics.clef06fr.mono.fr.txt \
  -language fr -bm25 -output run.clef06-fr.bm25.topics.clef06fr.mono.fr.txt &
-
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```
 eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.clef06fr.txt run.clef06-fr.bm25.topics.clef06fr.mono.fr.txt
-
 ```
 
 ## Effectiveness
@@ -53,5 +51,3 @@ MAP                                     | BM25      |
 P30                                     | BM25      |
 :---------------------------------------|-----------|
 [CLEF2006 (French monolingual)](http://www.clef-initiative.eu/edition/clef2006)| 0.2735    |
-
-

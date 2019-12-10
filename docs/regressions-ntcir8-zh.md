@@ -32,14 +32,12 @@ After indexing has completed, you should be able to perform retrieval as follows
 nohup target/appassembler/bin/SearchCollection -index lucene-index.ntcir8-zh.pos+docvectors+rawdocs \
  -topicreader TsvString -topics src/main/resources/topics-and-qrels/topics.ntcir8zh.eval.txt \
  -language zh -bm25 -output run.ntcir8-zh.bm25.topics.ntcir8zh.eval.txt &
-
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```
 eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.ntcir8.eval.txt run.ntcir8-zh.bm25.topics.ntcir8zh.eval.txt
-
 ```
 
 ## Effectiveness
@@ -54,5 +52,3 @@ MAP                                     | BM25      |
 P30                                     | BM25      |
 :---------------------------------------|-----------|
 [NTCIR-8 ACLIA (IR4QA subtask, Chinese monolingual)](http://research.nii.ac.jp/ntcir/ntcir-ws8/ws-en.html)| 0.3365    |
-
-
