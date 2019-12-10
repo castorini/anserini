@@ -91,4 +91,19 @@ public class TrecTopicReaderTest {
     assertEquals("सेटेनिक वर्सेज विवाद", topics.get(topics.lastKey()).get("title"));
   }
 
+  @Test
+  public void test5() throws IOException {
+    TopicReader<Integer> reader = new TrecTopicReader(
+        Paths.get("src/main/resources/topics-and-qrels/topics.trec02ar-ar.txt"));
+
+    SortedMap<Integer, Map<String, String>> topics = reader.read();
+
+    assertEquals(50, topics.keySet().size());
+    assertEquals(26, (int) topics.firstKey());
+    assertEquals("مجلس المقاومة الوطني الكردستاني", topics.get(topics.firstKey()).get("title"));
+
+    assertEquals(75, (int) topics.lastKey());
+    assertEquals("فيروسات الكمبيوتر في الوطن العربي", topics.get(topics.lastKey()).get("title"));
+  }
+
 }
