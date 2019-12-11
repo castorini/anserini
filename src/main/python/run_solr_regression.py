@@ -68,6 +68,7 @@ class SolrClient:
     def create_index(self, collection):
         # Make sure the index does not exist:
         if not self.does_index_exist(collection):
+            self.upload_configs()
             command = 'solrini/bin/solr create -n anserini -c {}'.format(collection)
             logger.info('Creating index {} command: {}'.format(collection, command))
             output = regression_utils.run_shell_command(command, logger, echo=True)
@@ -90,6 +91,14 @@ class SolrClient:
             raise Exception('Unknown collection: {}'.format(collection))
         logger.info('Running indexing command: ' + command)
         return regression_utils.run_shell_command(command, logger, echo=True)
+
+    def upload_configs(self):
+        os.chdir('src/main/resources/solr')
+        command = './solr.sh ../../../../solrini localhost:9983'
+        logger.info('Uploading configs command: ' + command)
+        output = regression_utils.run_shell_command(command, logger, echo=True)
+        os.chdir('../../../..')
+        logger.info('Uploading complete!')
 
     def evaluate(self, collection):
         if not self.does_index_exist(collection):
