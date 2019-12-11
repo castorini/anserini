@@ -53,7 +53,6 @@ nohup target/appassembler/bin/SearchCollection -index lucene-index.car17v2.0.pos
 nohup target/appassembler/bin/SearchCollection -index lucene-index.car17v2.0.pos+docvectors+rawdocs \
  -topicreader Car -topics src/main/resources/topics-and-qrels/topics.car17v2.0.benchmarkY1test.txt \
  -ql -axiom -rerankCutoff 20 -axiom.deterministic -output run.car17v2.0.ql+ax.topics.car17v2.0.benchmarkY1test.txt &
-
 ```
 
 Evaluation can be performed using `trec_eval`:
@@ -70,7 +69,6 @@ eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recip_rank src/main/resources/top
 eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recip_rank src/main/resources/topics-and-qrels/qrels.car17v2.0.benchmarkY1test.txt run.car17v2.0.ql+rm3.topics.car17v2.0.benchmarkY1test.txt
 
 eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recip_rank src/main/resources/topics-and-qrels/qrels.car17v2.0.benchmarkY1test.txt run.car17v2.0.ql+ax.topics.car17v2.0.benchmarkY1test.txt
-
 ```
 
 ## Effectiveness
@@ -85,5 +83,3 @@ MAP                                     | BM25      | +RM3      | +Ax       | QL
 RECIP_RANK                              | BM25      | +RM3      | +Ax       | QL        | +RM3      | +Ax       |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
 [TREC 2017 CAR: benchmarkY1test (v2.0)](../src/main/resources/topics-and-qrels/topics.car17v2.0.benchmarkY1test.txt)| 0.2321    | 0.1927    | 0.1978    | 0.2013    | 0.1598    | 0.1588    |
-
-
