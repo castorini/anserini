@@ -63,6 +63,7 @@ class SolrClient:
     def create_index(self, collection):
         # Make sure the index does not exist:
         if not self.does_index_exist(collection):
+            # Re-upload configsets to Solr's internal Zookeeper
             self.upload_configs()
             command = 'solrini/bin/solr create -n anserini -c {}'.format(collection)
             logger.info('Creating index {} command: {}'.format(collection, command))
@@ -89,6 +90,9 @@ class SolrClient:
 
     def upload_configs(self):
         os.chdir('src/main/resources/solr')
+        command = 'rm -rf anserini/conf/lang anserini-twitter/conf/lang'
+        logger.info('Deleting existed configs command: ' + command)
+        output = regression_utils.run_shell_command(command, logger, echo=True)
         command = './solr.sh ../../../../solrini localhost:9983'
         logger.info('Uploading configs command: ' + command)
         output = regression_utils.run_shell_command(command, logger, echo=True)
