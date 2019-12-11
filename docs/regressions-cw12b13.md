@@ -71,7 +71,6 @@ nohup target/appassembler/bin/SearchCollection -index lucene-index.cw12b13.pos+d
 nohup target/appassembler/bin/SearchCollection -index lucene-index.cw12b13.pos+docvectors+rawdocs \
  -topicreader Webxml -topics src/main/resources/topics-and-qrels/topics.web.251-300.txt \
  -ql -axiom -rerankCutoff 20 -axiom.deterministic -axiom.beta 0.1 -output run.cw12b13.ql+ax.topics.web.251-300.txt &
-
 ```
 
 Evaluation can be performed using `trec_eval` and `gdeval.pl`:
@@ -106,7 +105,6 @@ eval/gdeval.pl src/main/resources/topics-and-qrels/qrels.web.201-250.txt run.cw1
 eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.web.201-250.txt run.cw12b13.ql+ax.topics.web.201-250.txt
 eval/gdeval.pl src/main/resources/topics-and-qrels/qrels.web.251-300.txt run.cw12b13.ql+ax.topics.web.251-300.txt
 eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.web.251-300.txt run.cw12b13.ql+ax.topics.web.251-300.txt
-
 ```
 
 ## Effectiveness
@@ -135,8 +133,6 @@ ERR20                                   | BM25      | +RM3      | +Ax       | QL
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
 [TREC 2013 Web Track (Topics 201-250)](../src/main/resources/topics-and-qrels/topics.web.201-250.txt)| 0.0838    | 0.0753    | 0.0941    | 0.0768    | 0.0553    | 0.0780    |
 [TREC 2014 Web Track (Topics 251-300)](../src/main/resources/topics-and-qrels/topics.web.251-300.txt)| 0.1201    | 0.1066    | 0.0928    | 0.1092    | 0.0928    | 0.0900    |
-
-
 
 ## Replication Log
 

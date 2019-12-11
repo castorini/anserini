@@ -52,7 +52,6 @@ nohup target/appassembler/bin/SearchCollection -index lucene-index.core17.pos+do
 nohup target/appassembler/bin/SearchCollection -index lucene-index.core17.pos+docvectors+rawdocs \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.core17.txt \
  -ql -axiom -rerankCutoff 20 -axiom.deterministic -output run.core17.ql+ax.topics.core17.txt &
-
 ```
 
 Evaluation can be performed using `trec_eval`:
@@ -69,7 +68,6 @@ eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrel
 eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.core17.txt run.core17.ql+rm3.topics.core17.txt
 
 eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.core17.txt run.core17.ql+ax.topics.core17.txt
-
 ```
 
 ## Effectiveness
@@ -84,8 +82,6 @@ MAP                                     | BM25      | +RM3      | +Ax       | QL
 P30                                     | BM25      | +RM3      | +Ax       | QL        | +RM3      | +Ax       |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
 [TREC 2017 Common Core Track Topics](../src/main/resources/topics-and-qrels/topics.core17.txt)| 0.4293    | 0.5093    | 0.4980    | 0.4467    | 0.4827    | 0.4953    |
-
-
 
 ## Replication Log
 
