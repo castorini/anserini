@@ -98,9 +98,9 @@ python src/main/python/run_solr_regression.py --ping
 # Check if core18 exists
 python src/main/python/run_solr_regression.py --check-index-exists core18
 # Create core18 if it does not exist
-python src/main/python/run_solr_regression.py --delete-index core18
-# Delete core18 if it exists
 python src/main/python/run_solr_regression.py --create-index core18
+# Delete core18 if it exists
+python src/main/python/run_solr_regression.py --delete-index core18
 # Insert documents from /path/to/WashingtonPost into core18
 python src/main/python/run_solr_regression.py --insert-docs core18 --input /path/to/WashingtonPost
 # Search and evaluate on core18
@@ -109,4 +109,3 @@ python src/main/python/run_solr_regression.py --evaluate core18
 # Run end to end
 python src/main/python/run_solr_regression.py --regression core18 --input /path/to/WashingtonPost
 ```
-
