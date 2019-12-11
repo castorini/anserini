@@ -52,7 +52,6 @@ nohup target/appassembler/bin/SearchCollection -index lucene-index.robust04.pos+
 nohup target/appassembler/bin/SearchCollection -index lucene-index.robust04.pos+docvectors+rawdocs \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.robust04.txt \
  -ql -axiom -rerankCutoff 20 -axiom.deterministic -output run.robust04.ql+ax.topics.robust04.txt &
-
 ```
 
 Evaluation can be performed using `trec_eval`:
@@ -69,7 +68,6 @@ eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrel
 eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust04.txt run.robust04.ql+rm3.topics.robust04.txt
 
 eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust04.txt run.robust04.ql+ax.topics.robust04.txt
-
 ```
 
 ## Effectiveness
@@ -84,8 +82,6 @@ MAP                                     | BM25      | +RM3      | +Ax       | QL
 P30                                     | BM25      | +RM3      | +Ax       | QL        | +RM3      | +Ax       |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
 [TREC 2004 Robust Track Topics](../src/main/resources/topics-and-qrels/topics.robust04.txt)| 0.3102    | 0.3365    | 0.3333    | 0.3079    | 0.3232    | 0.3229    |
-
-
 
 ## Replication Log
 

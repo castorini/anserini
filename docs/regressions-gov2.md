@@ -91,7 +91,6 @@ nohup target/appassembler/bin/SearchCollection -index lucene-index.gov2.pos+docv
 nohup target/appassembler/bin/SearchCollection -index lucene-index.gov2.pos+docvectors+rawdocs \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.terabyte06.801-850.txt \
  -ql -axiom -rerankCutoff 20 -axiom.beta 0.1 -axiom.deterministic -output run.gov2.ql+ax.topics.terabyte06.801-850.txt &
-
 ```
 
 Evaluation can be performed using `trec_eval`:
@@ -120,7 +119,6 @@ eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrel
 eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.terabyte04.701-750.txt run.gov2.ql+ax.topics.terabyte04.701-750.txt
 eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.terabyte05.751-800.txt run.gov2.ql+ax.topics.terabyte05.751-800.txt
 eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.terabyte06.801-850.txt run.gov2.ql+ax.topics.terabyte06.801-850.txt
-
 ```
 
 ## Effectiveness
@@ -139,5 +137,3 @@ P30                                     | BM25      | +RM3      | +Ax       | QL
 [TREC 2004 Terabyte Track (Topics 701-750)](../src/main/resources/topics-and-qrels/topics.terabyte04.701-750.txt)| 0.4864    | 0.5190    | 0.4993    | 0.4755    | 0.4925    | 0.4932    |
 [TREC 2005 Terabyte Track (Topics 751-800)](../src/main/resources/topics-and-qrels/topics.terabyte05.751-800.txt)| 0.5540    | 0.5920    | 0.5933    | 0.5347    | 0.5620    | 0.5840    |
 [TREC 2006 Terabyte Track (Topics 801-850)](../src/main/resources/topics-and-qrels/topics.terabyte06.801-850.txt)| 0.4907    | 0.5160    | 0.5033    | 0.4720    | 0.4847    | 0.4920    |
-
-

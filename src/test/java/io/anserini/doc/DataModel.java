@@ -323,14 +323,12 @@ public class DataModel {
       }
       builder.append("\n");
     }
-    builder.delete(builder.lastIndexOf("\n"), builder.length());
 
-    return builder.toString();
+    return builder.toString().trim();
   }
 
   public String generateEvalCommand(String collection) {
-    String allCommandsStr = "";
-    Set<String> allEvalCommands = new HashSet<>();
+    StringBuilder builder = new StringBuilder();
     for (Model model : getModels()) {
       for (Topic topic : getTopics()) {
         Map<String, Map<String, List<String>>> combinedEvalCmd = new HashMap<>();
@@ -351,19 +349,19 @@ public class DataModel {
             combinedEvalCmd.get(evalCmd).putIfAbsent(evalCmdResidual, new ArrayList<>());
             combinedEvalCmd.get(evalCmd).get(evalCmdResidual).add(evalCmdOption);
           } else {
-            allCommandsStr += evalCmd + evalCmdOption + evalCmdResidual;
+            builder.append(evalCmd + evalCmdOption + evalCmdResidual);
           }
         }
         for (Map.Entry<String, Map<String, List<String>>> entry : combinedEvalCmd.entrySet()) {
           for (Map.Entry<String, List<String>> innerEntry : entry.getValue().entrySet()) {
-            allCommandsStr += entry.getKey() + String.join("", innerEntry.getValue()) + innerEntry.getKey();
+            builder.append(entry.getKey() + String.join("", innerEntry.getValue()) + innerEntry.getKey());
           }
         }
       }
-      allCommandsStr += "\n";
+      builder.append("\n");
     }
 
-    return allCommandsStr.substring(0, allCommandsStr.lastIndexOf("\n"));
+    return builder.toString().trim();
   }
 
   public String generateEffectiveness(String collection) {
@@ -393,8 +391,7 @@ public class DataModel {
       }
       builder.append("\n\n");
     }
-    builder.delete(builder.lastIndexOf("\n"), builder.length());
 
-    return builder.toString();
+    return builder.toString().trim();
   }
 }
