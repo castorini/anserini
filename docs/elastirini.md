@@ -91,7 +91,7 @@ map                   	all	0.1956
 recall_1000           	all	0.8573
 ```
 
-## Elasticsearch integration test
+## Elasticsearch Integration Test
 
 We have an end-to-end integration testing script `run_es_regression.py` for [Robust04](regressions-robust04.md) and [MS MARCO passage](regressions-msmarco-passage.md). Its functionalities are described below.
 
