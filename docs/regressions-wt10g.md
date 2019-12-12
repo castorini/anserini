@@ -51,7 +51,6 @@ nohup target/appassembler/bin/SearchCollection -index lucene-index.wt10g.pos+doc
 nohup target/appassembler/bin/SearchCollection -index lucene-index.wt10g.pos+docvectors+rawdocs \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.adhoc.451-550.txt \
  -ql -axiom -axiom.beta 0.1 -rerankCutoff 20 -axiom.deterministic -output run.wt10g.ql+ax.topics.adhoc.451-550.txt &
-
 ```
 
 Evaluation can be performed using `trec_eval`:
@@ -68,7 +67,6 @@ eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrel
 eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.adhoc.451-550.txt run.wt10g.ql+rm3.topics.adhoc.451-550.txt
 
 eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.adhoc.451-550.txt run.wt10g.ql+ax.topics.adhoc.451-550.txt
-
 ```
 
 ## Effectiveness
@@ -83,5 +81,3 @@ MAP                                     | BM25      | +RM3      | +Ax       | QL
 P30                                     | BM25      | +RM3      | +Ax       | QL        | +RM3      | +Ax       |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
 [Wt10g (Topics 451-550)](../src/main/resources/topics-and-qrels/topics.adhoc.451-550.txt)| 0.2214    | 0.2398    | 0.2483    | 0.2180    | 0.2310    | 0.2514    |
-
-

@@ -38,7 +38,7 @@ if __name__ == '__main__':
     params_file = args.params
 
     # This can be hard coded.
-    topics_file = 'src/main/resources/topics-and-qrels/topics.robust04.301-450.601-700.txt'
+    topics_file = 'src/main/resources/topics-and-qrels/topics.robust04.txt'
 
     # Load folds.
     with open(folds_file) as f:

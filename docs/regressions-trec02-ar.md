@@ -36,14 +36,12 @@ After indexing has completed, you should be able to perform retrieval as follows
 nohup target/appassembler/bin/SearchCollection -index lucene-index.trec02-ar.pos+docvectors+rawdocs \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.trec02ar-ar.txt \
  -language ar -bm25 -output run.trec02-ar.bm25.topics.trec02ar-ar.txt &
-
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```
 eval/trec_eval.9.0.4/trec_eval -m map -m P.20 -m ndcg_cut.20 src/main/resources/topics-and-qrels/qrels.trec02ar.txt run.trec02-ar.bm25.topics.trec02ar-ar.txt
-
 ```
 
 ## Effectiveness
@@ -63,5 +61,3 @@ P20                                     | BM25      |
 NDCG20                                  | BM25      |
 :---------------------------------------|-----------|
 [TREC 2002 (Monolingual Arabic)](../src/main/resources/topics-and-qrels/topics.trec02ar-ar.txt)| 0.4056    |
-
-

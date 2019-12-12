@@ -65,14 +65,14 @@ You can also run the following command to replicate Anserini BM25 retrieval:
 ```
 sh target/appassembler/bin/SearchSolr -topicreader Trec \
   -solr.index robust04 -solr.zkUrl localhost:9983 \
-  -topics src/main/resources/topics-and-qrels/topics.robust04.301-450.601-700.txt \
-  -output run.solr.robust04.bm25.topics.robust04.301-450.601-700.txt
+  -topics src/main/resources/topics-and-qrels/topics.robust04.txt \
+  -output run.solr.robust04.bm25.topics.robust04.txt
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```
-eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust2004.txt run.solr.robust04.bm25.topics.robust04.301-450.601-700.txt
+eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust04.txt run.solr.robust04.bm25.topics.robust04.txt
 ```
 
 We've verified that these instructions can be straightforwardly adapted to work with [Washington Post](regressions-core18.md):
@@ -81,9 +81,31 @@ We've verified that these instructions can be straightforwardly adapted to work 
 sh target/appassembler/bin/IndexCollection -collection WashingtonPostCollection -generator WapoGenerator \
    -threads 8 -input /path/to/WashingtonPost \
    -solr -solr.index core18 -solr.zkUrl localhost:9983 \
-   -storePositions -storeDocvectors -storeRawDocs
+   -storePositions -storeDocvectors -storeTransformedDocs
 ```
 
 Make sure `core18` collection is created and `/path/to/WashingtonPost` is updated with the appropriate path.
 
 Other collections can be indexed by substituting the appropriate parameters; see each collection's [experiment docs](https://github.com/castorini/anserini/tree/master/docs).
+
+## Solr integration test
+
+We have an end-to-end integration testing script `run_solr_regression.py` for [Washington Post](regressions-core18.md). Its functionalities are described below.
+
+```
+# Check if Solr server is on
+python src/main/python/run_solr_regression.py --ping
+# Check if core18 exists
+python src/main/python/run_solr_regression.py --check-index-exists core18
+# Create core18 if it does not exist
+python src/main/python/run_solr_regression.py --create-index core18
+# Delete core18 if it exists
+python src/main/python/run_solr_regression.py --delete-index core18
+# Insert documents from /path/to/WashingtonPost into core18
+python src/main/python/run_solr_regression.py --insert-docs core18 --input /path/to/WashingtonPost
+# Search and evaluate on core18
+python src/main/python/run_solr_regression.py --evaluate core18
+
+# Run end to end
+python src/main/python/run_solr_regression.py --regression core18 --input /path/to/WashingtonPost
+```
