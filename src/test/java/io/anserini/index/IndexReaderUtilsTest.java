@@ -39,6 +39,7 @@ import org.junit.Test;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Iterator;
 
 public class IndexReaderUtilsTest extends IndexerTestBase {
 
@@ -86,36 +87,49 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
     Directory dir = FSDirectory.open(tempDir1);
     IndexReader reader = DirectoryReader.open(dir);
 
-    IndexReaderUtils.IndexTerm iter = IndexReaderUtils.getTermIterator(reader);
+    Iterator<IndexReaderUtils.IndexTerm> iter = IndexReaderUtils.getTerms(reader);
+    IndexReaderUtils.IndexTerm term;
 
     // here
-    assertEquals("here", iter.getTerm());
-    assertEquals(2, iter.getDF());
-    assertEquals(3, iter.getTotalTF());
+    if (iter.hasNext()) {
+      term = iter.next();
+      assertEquals("here", term.getTerm());
+      assertEquals(2, term.getDF());
+      assertEquals(3, term.getTotalTF());
+    }
 
     // more
-    iter = iter.getNextTerm();
-    assertEquals("more", iter.getTerm());
-    assertEquals(2, iter.getDF());
-    assertEquals(2, iter.getTotalTF());
+    if (iter.hasNext()) {
+      term = iter.next();
+      assertEquals("more", term.getTerm());
+      assertEquals(2, term.getDF());
+      assertEquals(2, term.getTotalTF());
+    }
 
     // some
-    iter = iter.getNextTerm();
-    assertEquals("some", iter.getTerm());
-    assertEquals(1, iter.getDF());
-    assertEquals(2, iter.getTotalTF());
+    if (iter.hasNext()) {
+      term = iter.next();
+      assertEquals("some", term.getTerm());
+      assertEquals(1, term.getDF());
+      assertEquals(2, term.getTotalTF());
+    }
 
     // test
-    iter = iter.getNextTerm();
-    assertEquals("test", iter.getTerm());
-    assertEquals(1, iter.getDF());
-    assertEquals(1, iter.getTotalTF());
+    if (iter.hasNext()) {
+      term = iter.next();
+      assertEquals("test", term.getTerm());
+      assertEquals(1, term.getDF());
+      assertEquals(1, term.getTotalTF());
+    }
 
-    // text
-    iter = iter.getNextTerm();
-    assertEquals("text", iter.getTerm());
-    assertEquals(2, iter.getDF());
-    assertEquals(3, iter.getTotalTF());
+    if (iter.hasNext()) {
+      term = iter.next();
+      assertEquals("text", term.getTerm());
+      assertEquals(2, term.getDF());
+      assertEquals(3, term.getTotalTF());
+    }
+
+    assertEquals(false, iter.hasNext());
   }
 
   @Test

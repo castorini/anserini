@@ -70,6 +70,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Iterator;
 
 import static java.util.stream.Collectors.joining;
 
@@ -133,51 +134,42 @@ public class IndexReaderUtils {
   }
 
   public static class IndexTerm {
-    private TermsEnum curTerm;
-    private BytesRef nextTerm;
+    private int docFreq;
+    private String term;
+    private long totalTermFreq;
 
     /**
      * Constructor wrapping a {@link TermsEnum} from Lucene.
+     * @throws IOException
      */
     public IndexTerm(TermsEnum term) throws IOException {
-      this.curTerm = term;
-      this.nextTerm = term.next();
+      this.docFreq = term.docFreq();
+      this.term = term.term().utf8ToString();
+      this.totalTermFreq = term.totalTermFreq();
     }
 
     /**
      * Returns the number of documents containing the current term.
      * @return the number of documents containing the current term.
-     * @throws IOException
      */
-    public int getDF() throws IOException {
-      return this.curTerm.docFreq();
+    public int getDF() {
+      return this.docFreq;
     }
 
     /**
      * Returns the string representation of the current term.
      * @return the string representation of the current term
-     * @throws IOException
      */
-    public String getTerm() throws IOException {
-      return this.curTerm.term().utf8ToString();
+    public String getTerm() {
+      return this.term;
     }
 
     /**
      * Returns the total number of occurrences of the current term across all documents.
      * @return the total number of occurrences of the current term across all documents
-     * @throws IOException
      */
-    public long getTotalTF() throws IOException {
-      return this.curTerm.totalTermFreq();
-    }
-
-    /**
-     * Returns the next term.
-     * @return IndexTerm from next term
-     * @throws IOException
-     */
-    public IndexTerm getNextTerm() throws IOException {
-      return new IndexTerm(this.curTerm);
+    public long getTotalTF() {
+      return this.totalTermFreq;
     }
   }
 
@@ -251,11 +243,47 @@ public class IndexReaderUtils {
   /**
    * Returns iterator over all terms in the collection.
    * @param reader index reader
-   * @return IndexTerm wrapper over TermsEnum
+   * @return iterator over IndexTerm
    * @throws IOException if error encountered during access to index
    */
-  public static IndexTerm getTermIterator(IndexReader reader) throws IOException {
-    return new IndexTerm(MultiTerms.getTerms(reader, "contents").iterator());
+  public static Iterator<IndexTerm> getTerms(IndexReader reader) throws IOException {
+    return new Iterator<IndexTerm>() {
+      private TermsEnum curTerm = MultiTerms.getTerms(reader, "contents").iterator();
+      private BytesRef bytesRef = null;
+
+      @Override
+      public boolean hasNext() {
+        try {
+          // Make sure iterator is positioned.
+          if (this.bytesRef == null) {
+            return true;
+          }
+
+          BytesRef originalPos = BytesRef.deepCopyOf(this.bytesRef);
+          if (this.curTerm.next() == null) {
+            return false;
+          }
+          else {
+            // Move curTerm back to original position.
+            return this.curTerm.seekExact(originalPos);
+          }
+        }
+        catch (IOException e) {
+          return false;
+        }
+      }
+
+      @Override
+      public IndexTerm next() {
+        try {
+          this.bytesRef = this.curTerm.next();
+          return new IndexTerm(this.curTerm);
+        }
+        catch (IOException e) {
+          return null;
+        }
+      }
+    };
   }
 
   public static List<Posting> getPostingsList(IndexReader reader, String termStr) throws IOException, ParseException {
