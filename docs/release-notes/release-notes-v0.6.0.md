@@ -75,5 +75,5 @@ Sorted by number of commits, [according to GitHub](https://github.com/castorini/
 + Charles Wu ([charW](https://github.com/charW))
 + Matteo Catena ([catenamatteo](https://github.com/catenamatteo))
 + Andrew Yates ([andrewyates](https://github.com/andrewyates))
-+ Antonio Mallia ([Antonio Mallia](https://github.com/amallia))
++ Antonio Mallia ([amallia](https://github.com/amallia))
 + Horatiu Lazu ([MathBunny](https://github.com/MathBunny))
