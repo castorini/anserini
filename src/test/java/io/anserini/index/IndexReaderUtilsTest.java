@@ -21,10 +21,12 @@ import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.MultiTerms;
+import org.apache.lucene.index.PostingsEnum;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.index.Terms;
 import org.apache.lucene.index.TermsEnum;
 import org.apache.lucene.queryparser.classic.ParseException;
+import org.apache.lucene.search.DocIdSetIterator;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.TopDocs;
@@ -37,6 +39,7 @@ import org.junit.Test;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Iterator;
 
 public class IndexReaderUtilsTest extends IndexerTestBase {
 
@@ -47,8 +50,8 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
     assertEquals("citi", IndexReaderUtils.analyzeTerm("city buses"));
 
     // Shouldn't change the term
-    assertEquals("city", IndexReaderUtils.analyzeTerm("city", new WhitespaceAnalyzer()));
-    assertEquals("city", IndexReaderUtils.analyzeTerm("city buses", new WhitespaceAnalyzer()));
+    assertEquals("city", IndexReaderUtils.analyzeTermWithAnalyzer("city", new WhitespaceAnalyzer()));
+    assertEquals("city", IndexReaderUtils.analyzeTermWithAnalyzer("city buses", new WhitespaceAnalyzer()));
   }
 
   @Test
@@ -77,6 +80,56 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
     termCountMap = IndexReaderUtils.getTermCounts(reader, "text");
     assertEquals(Long.valueOf(3), termCountMap.get("collectionFreq"));
     assertEquals(Long.valueOf(2), termCountMap.get("docFreq"));
+  }
+
+  @Test
+  public void testIterateThroughTerms() throws Exception {
+    Directory dir = FSDirectory.open(tempDir1);
+    IndexReader reader = DirectoryReader.open(dir);
+
+    Iterator<IndexReaderUtils.IndexTerm> iter = IndexReaderUtils.getTerms(reader);
+    IndexReaderUtils.IndexTerm term;
+
+    // here
+    if (iter.hasNext()) {
+      term = iter.next();
+      assertEquals("here", term.getTerm());
+      assertEquals(2, term.getDF());
+      assertEquals(3, term.getTotalTF());
+    }
+
+    // more
+    if (iter.hasNext()) {
+      term = iter.next();
+      assertEquals("more", term.getTerm());
+      assertEquals(2, term.getDF());
+      assertEquals(2, term.getTotalTF());
+    }
+
+    // some
+    if (iter.hasNext()) {
+      term = iter.next();
+      assertEquals("some", term.getTerm());
+      assertEquals(1, term.getDF());
+      assertEquals(2, term.getTotalTF());
+    }
+
+    // test
+    if (iter.hasNext()) {
+      term = iter.next();
+      assertEquals("test", term.getTerm());
+      assertEquals(1, term.getDF());
+      assertEquals(1, term.getTotalTF());
+    }
+
+    if (iter.hasNext()) {
+      term = iter.next();
+      assertEquals("text", term.getTerm());
+      assertEquals(2, term.getDF());
+      assertEquals(3, term.getTotalTF());
+    }
+
+    assertEquals(false, iter.hasNext());
   }
 
   @Test
