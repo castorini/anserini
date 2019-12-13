@@ -27,6 +27,7 @@ import io.anserini.search.topicreader.MicroblogTopicReader;
 import io.anserini.search.topicreader.TopicReader;
 import io.anserini.search.topicreader.TrecTopicReader;
 import io.anserini.search.topicreader.WebxmlTopicReader;
+import io.anserini.search.topicreader.TsvIntTopicReader;
 
 /**
  * Tests that Arguments for the {@link FeatureExtractorCli} can be parsed.
@@ -57,14 +58,22 @@ public class FeatureExtractionArgsTest {
     Assert.assertEquals(MicroblogTopicReader.class, topicReaderForCollection.getClass());
   }
 
+  @Test
+  public void checkThatTopicReaderForMSMarcoCollectionCanBeCreated() throws Exception {
+    FeatureExtractionArgs args = createFeatureExtractionArgsWithCollection("msmarco");
+    TopicReader<Integer> topicReaderForCollection = args.buildTopicReaderForCollection();
+
+    Assert.assertEquals(TsvIntTopicReader.class, topicReaderForCollection.getClass());
+  }
+
   private static FeatureExtractionArgs createFeatureExtractionArgsWithCollection(String collection) throws CmdLineException {
     String[] args = createProgramArgsWithCollection(collection);
     return parseFeatureExtractionArgs(args);
   }
 
   private static String[] createProgramArgsWithCollection(String collection) {
-    return new String[] { "-index", "example-index-arg", "-qrel", "example-qrel-arg", "-topic", "example-topic-arg",
-        "-out", "example-out-arg", "-collection", collection };
+    return new String[] { "-index", "example-index-arg", "-qrels", "example-qrels-arg", "-topics", "example-topics-arg",
+        "-output", "example-output-arg", "-collection", collection };
   }
 
   private static FeatureExtractionArgs parseFeatureExtractionArgs(String[] args) throws CmdLineException {

@@ -21,6 +21,7 @@ import io.anserini.search.topicreader.MicroblogTopicReader;
 import io.anserini.search.topicreader.TopicReader;
 import io.anserini.search.topicreader.TrecTopicReader;
 import io.anserini.search.topicreader.WebxmlTopicReader;
+import io.anserini.search.topicreader.TsvIntTopicReader;
 import io.anserini.util.Qrels;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -50,16 +51,16 @@ public class FeatureExtractorCli {
     @Option(name = "-index", metaVar = "[path]", required = true, usage = "Lucene index directory")
     public String indexDir;
 
-    @Option(name = "-qrel", metaVar = "[path]", required = true, usage = "Qrel File")
-    public String qrelFile;
+    @Option(name = "-qrels", metaVar = "[path]", required = true, usage = "Qrels File")
+    public String qrelsFile;
 
-    @Option(name = "-topic", metaVar = "[path]", required = true, usage = "Topic File")
+    @Option(name = "-topics", metaVar = "[path]", required = true, usage = "Topics File")
     public String topicsFile;
 
-    @Option(name = "-out", metaVar = "[path]", required = true, usage = "Output File")
+    @Option(name = "-output", metaVar = "[path]", required = true, usage = "Output File")
     public String outputFile;
 
-    @Option(name = "-collection", metaVar = "[path]", required = true, usage = "[clueweb|gov2|twitter]")
+    @Option(name = "-collection", metaVar = "[path]", required = true, usage = "[clueweb|gov2|twitter|msmarco]")
     public String collection;
 
     @Option(name = "-extractors", metaVar = "[path]", required = false, usage = "FeatureExtractors File")
@@ -73,6 +74,8 @@ public class FeatureExtractorCli {
         return (TopicReader<K>) new TrecTopicReader(Paths.get(topicsFile));
       } else if ("twitter".equals(collection)) {
         return (TopicReader<K>) new MicroblogTopicReader(Paths.get(topicsFile));
+      } else if ("msmarco".equals(collection)) {
+        return (TopicReader<K>) new TsvIntTopicReader(Paths.get(topicsFile));
       }
 
       throw new RuntimeException("Unrecognized collection " + collection);
@@ -84,6 +87,8 @@ public class FeatureExtractorCli {
         return new WebFeatureExtractor(reader, qrels, topics, extractors);
       } else if ("twitter".equals(collection)) {
         return (BaseFeatureExtractor<K>) new TwitterFeatureExtractor(reader, qrels, (Map<Integer, Map<String, String>>) topics, extractors);
+      } else if ("msmarco".equals(collection)) {
+        return (BaseFeatureExtractor<K>) new MSMarcoFeatureExtractor(reader, qrels, (Map<Integer, Map<String, String>>) topics, extractors);
       }
 
       throw new RuntimeException("Unrecognized collection " + collection);
@@ -92,7 +97,7 @@ public class FeatureExtractorCli {
 
   /**
    * requires the user to supply the index directory and also the directory containing the qrels and topics
-   * @param args  indexDir, qrelFile, topicFile, outputFile
+   * @param args  indexDir, qrelsFile, topicsFile, outputFile
    */
   public static<K> void main(String args[]) throws Exception {
 
@@ -109,7 +114,7 @@ public class FeatureExtractorCli {
 
     Directory indexDirectory = FSDirectory.open(Paths.get(parsedArgs.indexDir));
     IndexReader reader = DirectoryReader.open(indexDirectory);
-    Qrels qrels = new Qrels(parsedArgs.qrelFile);
+    Qrels qrels = new Qrels(parsedArgs.qrelsFile);
 
     FeatureExtractors extractors = null;
     if (parsedArgs.extractors != null) {
