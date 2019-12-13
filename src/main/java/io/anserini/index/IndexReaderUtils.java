@@ -262,13 +262,11 @@ public class IndexReaderUtils {
           BytesRef originalPos = BytesRef.deepCopyOf(this.bytesRef);
           if (this.curTerm.next() == null) {
             return false;
-          }
-          else {
+          } else {
             // Move curTerm back to original position.
             return this.curTerm.seekExact(originalPos);
           }
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
           return false;
         }
       }
@@ -278,8 +276,7 @@ public class IndexReaderUtils {
         try {
           this.bytesRef = this.curTerm.next();
           return new IndexTerm(this.curTerm);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
           return null;
         }
       }
