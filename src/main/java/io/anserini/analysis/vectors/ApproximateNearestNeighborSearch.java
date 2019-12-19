@@ -26,6 +26,7 @@ import org.apache.lucene.queries.CommonTermsQuery;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
+import org.apache.lucene.search.TopScoreDocCollector;
 import org.apache.lucene.search.similarities.ClassicSimilarity;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
@@ -80,10 +81,10 @@ public class ApproximateNearestNeighborSearch {
     public int q = 60;
 
     @Option(name = "-cutoff", metaVar = "[float]", usage = "tf cutoff factor")
-    public float cutoff = 0.2f;
+    public float cutoff = 0.999f;
 
-    @Option(name = "-msm", metaVar = "[int]", usage = "minimum should match")
-    public int msm = 0;
+    @Option(name = "-msm", metaVar = "[float]", usage = "minimum should match")
+    public float msm = 0f;
   }
 
   public static void main(String[] args) throws Exception {
@@ -150,11 +151,12 @@ public class ApproximateNearestNeighborSearch {
 
     long start = System.currentTimeMillis();
 
-    TopDocs topDocs = searcher.search(simQuery, indexArgs.depth);
+    TopScoreDocCollector results = TopScoreDocCollector.create(indexArgs.depth, Integer.MAX_VALUE);
+    searcher.search(simQuery, results);
 
     long time = System.currentTimeMillis() - start;
     Set<String> observations = new HashSet<>();
-    for (ScoreDoc sd : topDocs.scoreDocs) {
+    for (ScoreDoc sd : results.topDocs().scoreDocs) {
       Document document = reader.document(sd.doc);
       String wordValue = document.get(IndexVectors.FIELD_WORD);
       observations.add(wordValue);
