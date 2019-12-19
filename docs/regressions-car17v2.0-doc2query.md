@@ -1,6 +1,6 @@
-# Anserini: Regressions for [CAR17](http://trec-car.cs.unh.edu/) (v2.0) + Doc2query
+# Anserini: Regressions for [CAR17](http://trec-car.cs.unh.edu/) (v2.0) + doc2query
 
-This page documents regression experiments for the [TREC 2017 Complex Answer Retrieval (CAR)](http://trec-car.cs.unh.edu/) section-level passage retrieval task (v2.0), with Doc2query expansions, as proposed in the following paper:
+This page documents regression experiments for the [TREC 2017 Complex Answer Retrieval (CAR)](http://trec-car.cs.unh.edu/) section-level passage retrieval task (v2.0), with doc2query expansions, as proposed in the following paper:
 
 + Rodrigo Nogueira, Wei Yang, Jimmy Lin, Kyunghyun Cho. [Document Expansion by Query Prediction.](https://arxiv.org/abs/1904.08375) _arxiv:1904.08375_
 
@@ -20,7 +20,7 @@ nohup sh target/appassembler/bin/IndexCollection -collection JsonCollection -inp
  -storePositions -storeDocvectors -storeRawDocs >& log.car17v2.0-doc2query.pos+docvectors+rawdocs &
 ```
 
-The directory `/path/to/car17v2.0-doc2query` should be the root directory of Complex Answer Retrieval (CAR) paragraph corpus (v2.0) that has been augmented with the Doc2query expansions, i.e., `collection_jsonl_expanded_topk10/` as described in [this page](experiments-doc2query.md).
+The directory `/path/to/car17v2.0-doc2query` should be the root directory of Complex Answer Retrieval (CAR) paragraph corpus (v2.0) that has been augmented with the doc2query expansions, i.e., `collection_jsonl_expanded_topk10/` as described in [this page](experiments-doc2query.md).
 
 For additional details, see explanation of [common indexing options](common-indexing-options.md).
 
@@ -59,7 +59,6 @@ nohup target/appassembler/bin/SearchCollection -index lucene-index.car17v2.0-doc
 nohup target/appassembler/bin/SearchCollection -index lucene-index.car17v2.0-doc2query.pos+docvectors+rawdocs \
  -topicreader Car -topics src/main/resources/topics-and-qrels/topics.car17v2.0.benchmarkY1test.txt \
  -ql -axiom -rerankCutoff 20 -axiom.deterministic -output run.car17v2.0-doc2query.ql+ax.topics.car17v2.0.benchmarkY1test.txt &
-
 ```
 
 Evaluation can be performed using `trec_eval`:
@@ -76,7 +75,6 @@ eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recip_rank src/main/resources/top
 eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recip_rank src/main/resources/topics-and-qrels/qrels.car17v2.0.benchmarkY1test.txt run.car17v2.0-doc2query.ql+rm3.topics.car17v2.0.benchmarkY1test.txt
 
 eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recip_rank src/main/resources/topics-and-qrels/qrels.car17v2.0.benchmarkY1test.txt run.car17v2.0-doc2query.ql+ax.topics.car17v2.0.benchmarkY1test.txt
-
 ```
 
 ## Effectiveness
@@ -91,5 +89,3 @@ MAP                                     | BM25      | +RM3      | +Ax       | QL
 RECIP_RANK                              | BM25      | +RM3      | +Ax       | QL        | +RM3      | +Ax       |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
 [TREC 2017 CAR: benchmarkY1test (v2.0)](../src/main/resources/topics-and-qrels/topics.car17v2.0.benchmarkY1test.txt)| 0.2750    | 0.2275    | 0.2186    | 0.2653    | 0.2156    | 0.1981    |
-
-

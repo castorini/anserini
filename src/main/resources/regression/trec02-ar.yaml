@@ -17,7 +17,7 @@ index_options:
   - -language ar
 search_options:
   - -language ar
-topic_reader: TsvString
+topic_reader: Trec
 evals:
   - command: eval/trec_eval.9.0.4/trec_eval
     params:
@@ -29,10 +29,18 @@ evals:
     can_combine: true
   - command: eval/trec_eval.9.0.4/trec_eval
     params:
-      - -m P.30
+      - -m P.20
     separator: "\t"
     parse_index: 2
-    metric: p30
+    metric: p20
+    metric_precision: 4
+    can_combine: true
+  - command: eval/trec_eval.9.0.4/trec_eval
+    params:
+      - -m ndcg_cut.20
+    separator: "\t"
+    parse_index: 2
+    metric: ndcg20
     metric_precision: 4
     can_combine: true
 input_roots:
@@ -46,8 +54,8 @@ index_stats:
   documents (non-empty): 383872
   total terms: 62378088  
 topics:
-  - name: "[TREC2002 (Arabic monolingual)](../src/main/resources/topics-and-qrels/topics.trec02ar.momo.ar.txt)"
-    path: topics.trec02ar.mono.ar.txt
+  - name: "[TREC 2002 (Monolingual Arabic)](../src/main/resources/topics-and-qrels/topics.trec02ar-ar.txt)"
+    path: topics.trec02ar-ar.txt
     qrel: qrels.trec02ar.txt
 models:
   - name: bm25
@@ -57,5 +65,7 @@ models:
     results:
       map:
         - 0.2932
-      p30:
-        - 0.3313
+      p20:
+        - 0.3610
+      ndcg20:
+        - 0.4056

@@ -17,7 +17,7 @@ index_options:
   - -language hi
 search_options:
   - -language hi
-topic_reader: TsvString
+topic_reader: Trec
 evals:
   - command: eval/trec_eval.9.0.4/trec_eval
     params:
@@ -54,7 +54,7 @@ index_stats:
   documents (non-empty): 331599
   total terms: 57038417  
 topics:
-  - name: "[FIRE 2012 (Hindi monolingual)](http://isical.ac.in/~fire/2012/adhoc.html)"
+  - name: "[FIRE 2012 (Monolingual Hindi)](../src/main/resources/topics-and-qrels/topics.fire12en.176-225.txt)"
     path: topics.fire12hi.176-225.txt
     qrel: qrels.fire12hi.176-225.txt
 models:

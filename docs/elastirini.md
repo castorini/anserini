@@ -2,55 +2,23 @@
 
 Anserini provides code for indexing into an ELK stack, thus providing interoperable support existing test collections.
 
-## Deploying ELK stack locally
+## Deploying Elasticsearch Locally
 
-We use [docker-elk](https://github.com/deviantony/docker-elk) to set up the ELK stack locally.
+From the [Elasticsearch](http://elastic.co/start), download the correct distribution for you platform to the `anserini/` directory. 
 
-Before we start, make sure you have Docker and Docker Compose installed and running.
-
-First, we clone the repository and switch into the directory.
+Unpacking:
 
 ```
-git clone https://github.com/deviantony/docker-elk.git && cd docker-elk
+mkdir elastirini && tar -zxvf elasticsearch*.tar.gz -C elastirini --strip-components=1
 ```
 
-Depending on the documents you are indexing, you probably also have to increase the ELK stack's heap size in `docker-compose.yml`:
-
-To increase Elasticsearch's heap size:
+Start running:
 
 ```
-sed -i 's/ES_JAVA_OPTS: "-Xmx256m -Xms256m"/ES_JAVA_OPTS: "-Xmx1g -Xms512m"/' docker-compose.yml
+elastirini/bin/elasticsearch
 ```
 
-If you are on MacOS:
-
-```
-sed -i '' 's/ES_JAVA_OPTS: "-Xmx256m -Xms256m"/ES_JAVA_OPTS: "-Xmx1g -Xms512m"/' docker-compose.yml
-```
-
-To increase Logstash's heap size:
-
-```
-sed -i 's/LS_JAVA_OPTS: "-Xmx256m -Xms256m"/LS_JAVA_OPTS: "-Xmx1g -Xms512m"/' docker-compose.yml
-```
-
-If you are on MacOS:
-
-```
-sed -i '' 's/LS_JAVA_OPTS: "-Xmx256m -Xms256m"/LS_JAVA_OPTS: "-Xmx1g -Xms512m"/' docker-compose.yml
-```
-
-Note `-Xmx` is the maximum memory that can be allocated, and `-Xms` is the initial memory allocated. You can specify these values as needed.
-
-You can further specify general configurations for any of the ELK components by changing the file `[name]/config/[name].yml`. For instance, to further specify the configuration of Elasticsearch, you can make changes to `elasticsearch/config/elasticsearch.yml`.
-
-Then, we can build and start the Docker containers for the ELK stack to run.
-
-`docker-compose up`
-
-If at some point one of the ELK components is failing for some reason, or if you have changed its configurations while the containers are running, try restarting it. For instance, to restart Kibana:
-
-`docker-compose restart kibana`
+If you want to install Kibana, it's just another distribution to unpack and a similarly simple command.
 
 ## Indexing and Retrieval: Robust04
 
@@ -121,4 +89,26 @@ Evaluation:
 $ ./eval/trec_eval.9.0.4/trec_eval -c -mrecall.1000 -mmap src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt run.es.msmacro-passage.txt
 map                   	all	0.1956
 recall_1000           	all	0.8573
+```
+
+## Elasticsearch Integration Test
+
+We have an end-to-end integration testing script `run_es_regression.py` for [Robust04](regressions-robust04.md) and [MS MARCO passage](regressions-msmarco-passage.md). Its functionalities are described below.
+
+```
+# Check if Elasticsearch server is on
+python src/main/python/run_es_regression.py --ping
+# Check if collection exists
+python src/main/python/run_es_regression.py --check-index-exists [collection]
+# Create collection if it does not exist
+python src/main/python/run_es_regression.py --create-index [collection]
+# Delete collection if it exists
+python src/main/python/run_es_regression.py --delete-index [collection]
+# Insert documents from input directory into collection
+python src/main/python/run_es_regression.py --insert-docs [collection] --input [directory]
+# Search and evaluate on collection
+python src/main/python/run_es_regression.py --evaluate [collection]
+
+# Run end to end
+python src/main/python/run_es_regression.py --regression [collection] --input [directory]
 ```

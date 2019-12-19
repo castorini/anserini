@@ -32,6 +32,14 @@ public class MultiThreadingSearchTest extends EndToEndTest {
     generator = "Jsoup";
     topicReader = "Trec";
 
+    docCount = 3;
+
+    counterIndexed = 3;
+    counterEmpty = 0;
+    counterUnindexable = 0;
+    counterSkipped = 0;
+    counterErrors = 0;
+
     fieldNormStatusTotalFields = 1; // text
     termIndexStatusTermCount = 12; // Please note that standard analyzer ignores stopwords.
                                    // Also, this includes docids

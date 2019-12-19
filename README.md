@@ -69,13 +69,14 @@ Note that these regressions capture the "out of the box" experience, based on [_
 + [Regressions for Tweets2013 (MB13 &amp; MB14)](docs/regressions-mb13.md)
 + [Regressions for Complex Answer Retrieval v1.5 (CAR17)](docs/regressions-car17v1.5.md)
 + [Regressions for Complex Answer Retrieval v2.0 (CAR17)](docs/regressions-car17v2.0.md)
-+ [Regressions for Complex Answer Retrieval v2.0 (CAR17) with Doc2query expansion](docs/regressions-car17v2.0-doc2query.md)
-+ [Regressions for the MS MARCO Passage Task](docs/regressions-msmarco-passage.md)
-+ [Regressions for the MS MARCO Passage Task with Doc2query expansion](docs/regressions-msmarco-passage-doc2query.md)
-+ [Regressions for the MS MARCO Document Task](docs/regressions-msmarco-doc.md)
-+ [Regressions for NTCIR-8 ACLIA (IR4QA subtask, Chinese monolingual)](docs/regressions-ntcir8-zh.md)
-+ [Regressions for CLEF2006 Monolingual French](docs/regressions-clef06-fr.md)
-+ [Regressions for TREC2002 Monolingual Arabic](docs/regressions-trec02-ar.md)
++ [Regressions for Complex Answer Retrieval v2.0 (CAR17) with doc2query expansion](docs/regressions-car17v2.0-doc2query.md)
++ [Regressions for the MS MARCO Passage Retrieval Task](docs/regressions-msmarco-passage.md)
++ [Regressions for the MS MARCO Passage Retrieval Task with doc2query expansion](docs/regressions-msmarco-passage-doc2query.md)
++ [Regressions for the MS MARCO Passage Retrieval Task with docTTTTTquery expansion](docs/regressions-msmarco-passage-docTTTTTquery.md)
++ [Regressions for the MS MARCO Document Retrieval](docs/regressions-msmarco-doc.md)
++ [Regressions for NTCIR-8 ACLIA (IR4QA subtask, Monolingual Chinese)](docs/regressions-ntcir8-zh.md)
++ [Regressions for CLEF 2006 Monolingual French](docs/regressions-clef06-fr.md)
++ [Regressions for TREC 2002 Monolingual Arabic](docs/regressions-trec02-ar.md)
 + [Regressions for FIRE 2012 Monolingual Bengali](docs/regressions-fire12-bn.md)
 + [Regressions for FIRE 2012 Monolingual Hindi](docs/regressions-fire12-hi.md)
 + [Regressions for FIRE 2012 Monolingual English](docs/regressions-fire12-en.md)
@@ -83,9 +84,10 @@ Note that these regressions capture the "out of the box" experience, based on [_
 Other experiments:
 
 + [Replicating "Neural Hype" Experiments](docs/experiments-forum2018.md)
-+ [Guide to running BM25 baselines on the MS MARCO Passage Task](docs/experiments-msmarco-passage.md)
-+ [Guide to running BM25 baselines on the MS MARCO Document Task](docs/experiments-msmarco-doc.md)
-+ [Guide to replicating document expansion by query prediction (Doc2query) results](docs/experiments-doc2query.md)
++ [Guide to running BM25 baselines on the MS MARCO Passage Retrieval Task](docs/experiments-msmarco-passage.md)
++ [Guide to running BM25 baselines on the MS MARCO Document Retrieval Task](docs/experiments-msmarco-doc.md)
++ [Guide to replicating doc2query results](docs/experiments-doc2query.md)
++ [Guide to replicating docTTTTTquery results](docs/experiments-docTTTTTquery.md)
 + [Guide to running experiments on the AI2 Open Research Corpus](docs/experiments-openresearch.md)
 + [Experiments from Yang et al. (JDIQ 2018)](docs/experiments-jdiq2018.md)
 + Runbooks for TREC 2018: [[Anserini group](docs/runbook-trec2018-anserini.md)] [[h2oloo group](docs/runbook-trec2018-h2oloo.md)]
@@ -112,6 +114,7 @@ Beyond that, there are always [open issues](https://github.com/castorini/anserin
 
 ## Release History
 
++ v0.7.0: December 13, 2019 [[Release Notes](docs/release-notes/release-notes-v0.7.0.md)]
 + v0.6.0: September 6, 2019 [[Release Notes](docs/release-notes/release-notes-v0.6.0.md)][[Known Issues](docs/known-issues/known-issues-v0.6.0.md)]
 + v0.5.1: June 11, 2019 [[Release Notes](docs/release-notes/release-notes-v0.5.1.md)]
 + v0.5.0: June 5, 2019 [[Release Notes](docs/release-notes/release-notes-v0.5.0.md)]
