@@ -16,10 +16,10 @@
 package io.anserini.analysis.vectors;
 
 import com.google.common.collect.Sets;
+import io.anserini.analysis.AnalyzerUtils;
 import io.anserini.analysis.vectors.fw.FakeWordsEncoderAnalyzer;
 import io.anserini.analysis.vectors.lexlsh.LexicalLshAnalyzer;
 import io.anserini.search.topicreader.TrecTopicReader;
-import io.anserini.analysis.AnalyzerUtils;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
@@ -28,7 +28,7 @@ import org.apache.lucene.index.Term;
 import org.apache.lucene.queries.CommonTermsQuery;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.ScoreDoc;
-import org.apache.lucene.search.TopDocs;
+import org.apache.lucene.search.TopScoreDocCollector;
 import org.apache.lucene.search.similarities.ClassicSimilarity;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
@@ -67,7 +67,7 @@ public class ApproximateNearestNeighborEval {
     public int depth = 10;
 
     @Option(name = "-samples", metaVar = "[int]", usage = "no. of samples")
-    public int samples = 100;
+    public int samples = Integer.MAX_VALUE;
 
     @Option(name = "-lexlsh.n", metaVar = "[int]", usage = "n-grams")
     public int ngrams = 2;
@@ -88,10 +88,10 @@ public class ApproximateNearestNeighborEval {
     public int q = 60;
 
     @Option(name = "-cutoff", metaVar = "[float]", usage = "tf cutoff factor")
-    public float cutoff = 0.15f;
+    public float cutoff = 0.999f;
 
-    @Option(name = "-msm", metaVar = "[int]", usage = "minimum should match")
-    public int msm = 0;
+    @Option(name = "-msm", metaVar = "[float]", usage = "minimum should match")
+    public float msm = 0;
   }
 
   public static void main(String[] args) throws Exception {
@@ -144,56 +144,53 @@ public class ApproximateNearestNeighborEval {
     double time = 0d;
     System.out.println("evaluating at retrieval depth: " + indexArgs.depth);
     TrecTopicReader trecTopicReader = new TrecTopicReader(indexArgs.topicsPath);
-    SortedMap<Integer, Map<String, String>> read = trecTopicReader.read();
+    Collection<String> words = new LinkedList<>();
+    trecTopicReader.read().values().forEach(e -> words.addAll(AnalyzerUtils.tokenize(standardAnalyzer, e.get("title"))));
     int queryCount = 0;
-    Collection<Map<String, String>> values = read.values();
-    for (Map<String, String> topic : values) {
-      for (String word : AnalyzerUtils.tokenize(standardAnalyzer, topic.get("title"))) {
-        if (wordVectors.containsKey(word)) {
-          Set<String> truth = nearestVector(wordVectors, word, indexArgs.topN);
-          try {
-            float[] vector = wordVectors.get(word);
-            StringBuilder sb = new StringBuilder();
-            for (double fv : vector) {
-              if (sb.length() > 0) {
-                sb.append(' ');
-              }
-              sb.append(fv);
+    for (String word : words) {
+      if (wordVectors.containsKey(word)) {
+        Set<String> truth = nearestVector(wordVectors, word, indexArgs.topN);
+        try {
+          float[] vector = wordVectors.get(word);
+          StringBuilder sb = new StringBuilder();
+          for (double fv : vector) {
+            if (sb.length() > 0) {
+              sb.append(' ');
             }
-            String fvString = sb.toString();
-
-            CommonTermsQuery simQuery = new CommonTermsQuery(SHOULD, SHOULD, indexArgs.cutoff);
-            if (indexArgs.msm > 0) {
-              simQuery.setHighFreqMinimumNumberShouldMatch(indexArgs.msm);
-              simQuery.setLowFreqMinimumNumberShouldMatch(indexArgs.msm);
-            }
-            for (String token : AnalyzerUtils.tokenize(vectorAnalyzer, fvString)) {
-              simQuery.add(new Term(IndexVectors.FIELD_VECTOR, token));
-            }
-
-            long start = System.currentTimeMillis();
-
-            TopDocs topDocs = searcher.search(simQuery, indexArgs.depth);
-
-            long qt = System.currentTimeMillis() - start;
-            time += qt;
-            Set<String> observations = new HashSet<>();
-            for (ScoreDoc sd : topDocs.scoreDocs) {
-              Document document = reader.document(sd.doc);
-              String wordValue = document.get(IndexVectors.FIELD_WORD);
-              observations.add(wordValue);
-            }
-            double intersection = Sets.intersection(truth, observations).size();
-            double localRecall = intersection / (double) truth.size();
-            recall += localRecall;
-            queryCount++;
-            if (queryCount == indexArgs.samples) {
-              break;
-            }
-          } catch (IOException e) {
-            System.err.println("search for '" + word + "' failed " + e.getLocalizedMessage());
+            sb.append(fv);
           }
+          String fvString = sb.toString();
+
+          CommonTermsQuery simQuery = new CommonTermsQuery(SHOULD, SHOULD, indexArgs.cutoff);
+          if (indexArgs.msm > 0) {
+            simQuery.setLowFreqMinimumNumberShouldMatch(indexArgs.msm);
+          }
+          for (String token : AnalyzerUtils.tokenize(vectorAnalyzer, fvString)) {
+            simQuery.add(new Term(IndexVectors.FIELD_VECTOR, token));
+          }
+
+          long start = System.currentTimeMillis();
+
+          TopScoreDocCollector results = TopScoreDocCollector.create(indexArgs.depth, Integer.MAX_VALUE);
+          searcher.search(simQuery, results);
+
+          time += System.currentTimeMillis() - start;
+          Set<String> observations = new HashSet<>();
+          for (ScoreDoc sd : results.topDocs().scoreDocs) {
+            Document document = reader.document(sd.doc);
+            String wordValue = document.get(IndexVectors.FIELD_WORD);
+            observations.add(wordValue);
+          }
+          double intersection = Sets.intersection(truth, observations).size();
+          double localRecall = intersection / (double) truth.size();
+          recall += localRecall;
+          queryCount++;
+        } catch (IOException e) {
+          System.err.println("search for '" + word + "' failed " + e.getLocalizedMessage());
         }
+      }
+      if (queryCount >= indexArgs.samples) {
+        break;
       }
     }
     recall /= queryCount;
