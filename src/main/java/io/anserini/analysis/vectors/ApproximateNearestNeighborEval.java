@@ -1,18 +1,19 @@
 /**
  * Anserini: A Lucene toolkit for replicable information retrieval research
- * <p>
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package io.anserini.analysis.vectors;
 
 import com.google.common.collect.Sets;
@@ -20,6 +21,8 @@ import io.anserini.analysis.AnalyzerUtils;
 import io.anserini.analysis.vectors.fw.FakeWordsEncoderAnalyzer;
 import io.anserini.analysis.vectors.lexlsh.LexicalLshAnalyzer;
 import io.anserini.search.topicreader.TrecTopicReader;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
@@ -43,6 +46,7 @@ import java.util.*;
 import static org.apache.lucene.search.BooleanClause.Occur.SHOULD;
 
 public class ApproximateNearestNeighborEval {
+  private static final Logger LOG = LogManager.getLogger(ApproximateNearestNeighborEval.class);
 
   private static final String FW = "fw";
   private static final String LEXLSH = "lexlsh";
@@ -95,7 +99,6 @@ public class ApproximateNearestNeighborEval {
   }
 
   public static void main(String[] args) throws Exception {
-
     ApproximateNearestNeighborEval.Args indexArgs = new ApproximateNearestNeighborEval.Args();
     CmdLineParser parser = new CmdLineParser(indexArgs, ParserProperties.defaults().withUsageWidth(90));
 
@@ -121,16 +124,16 @@ public class ApproximateNearestNeighborEval {
       return;
     }
 
-    System.out.printf("loading model %s\n", indexArgs.input);
+    LOG.info(String.format("Loading model %s", indexArgs.input));
 
-    Map<String, float[]> wordVectors = IndexVectors.readTxtModel(indexArgs.input);
+    Map<String, float[]> wordVectors = IndexVectors.readGloVe(indexArgs.input);
 
     Path indexDir = indexArgs.path;
     if (!Files.exists(indexDir)) {
       Files.createDirectories(indexDir);
     }
 
-    System.out.printf("reading index at %s\n", indexArgs.path);
+    LOG.info(String.format("Reading index at %s", indexArgs.path));
 
     Directory d = FSDirectory.open(indexDir);
     DirectoryReader reader = DirectoryReader.open(d);
@@ -142,7 +145,7 @@ public class ApproximateNearestNeighborEval {
     StandardAnalyzer standardAnalyzer = new StandardAnalyzer();
     double recall = 0;
     double time = 0d;
-    System.out.println("evaluating at retrieval depth: " + indexArgs.depth);
+    LOG.info("Evaluating at retrieval depth: " + indexArgs.depth);
     TrecTopicReader trecTopicReader = new TrecTopicReader(indexArgs.topicsPath);
     Collection<String> words = new LinkedList<>();
     trecTopicReader.read().values().forEach(e -> words.addAll(AnalyzerUtils.tokenize(standardAnalyzer, e.get("title"))));
@@ -170,11 +173,10 @@ public class ApproximateNearestNeighborEval {
           }
 
           long start = System.currentTimeMillis();
-
           TopScoreDocCollector results = TopScoreDocCollector.create(indexArgs.depth, Integer.MAX_VALUE);
           searcher.search(simQuery, results);
-
           time += System.currentTimeMillis() - start;
+
           Set<String> observations = new HashSet<>();
           for (ScoreDoc sd : results.topDocs().scoreDocs) {
             Document document = reader.document(sd.doc);
@@ -196,20 +198,19 @@ public class ApproximateNearestNeighborEval {
     recall /= queryCount;
     time /= queryCount;
 
-    System.out.printf("R@%s: %s\n", indexArgs.depth, recall);
-    System.out.printf("avg query time: %s ms\n", time);
+    LOG.info(String.format("R@%d: %.4f", indexArgs.depth, recall));
+    LOG.info(String.format("avg query time: %s ms", time));
 
     reader.close();
     d.close();
-
   }
 
   /**
-   * calculate nearest topN words for a given input word
+   * Calculate the nearest <i>N</i> words for a given input word.
    *
    * @param vectors vectors, keyed by word
    * @param word    the input word
-   * @param topN    the no. of similar word vectors to output
+   * @param topN    the number of similar word vectors to output
    * @return the {@code topN} similar words of the input word
    */
   private static Set<String> nearestVector(Map<String, float[]> vectors, String word, int topN) {

@@ -1,24 +1,28 @@
 /**
  * Anserini: A Lucene toolkit for replicable information retrieval research
- * <p>
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package io.anserini.analysis.vectors;
 
 import io.anserini.analysis.vectors.fw.FakeWordsEncoderAnalyzer;
 import io.anserini.analysis.vectors.lexlsh.LexicalLshAnalyzer;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.time.DurationFormatUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.miscellaneous.PerFieldAnalyzerWrapper;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
@@ -39,9 +43,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class IndexVectors {
+  private static final Logger LOG = LogManager.getLogger(IndexVectors.class);
 
   static final String FIELD_WORD = "word";
   static final String FIELD_VECTOR = "vector";
@@ -79,7 +85,6 @@ public class IndexVectors {
   }
 
   public static void main(String[] args) throws Exception {
-
     IndexVectors.Args indexArgs = new IndexVectors.Args();
     CmdLineParser parser = new CmdLineParser(indexArgs, ParserProperties.defaults().withUsageWidth(90));
 
@@ -105,16 +110,17 @@ public class IndexVectors {
       return;
     }
 
-    System.out.printf("loading model %s\n", indexArgs.input);
+    final long start = System.nanoTime();
+    LOG.info(String.format("Loading model %s", indexArgs.input));
 
-    Map<String, float[]> wordVectors = readTxtModel(indexArgs.input);
+    Map<String, float[]> wordVectors = readGloVe(indexArgs.input);
 
     Path indexDir = indexArgs.path;
     if (!Files.exists(indexDir)) {
       Files.createDirectories(indexDir);
     }
 
-    System.out.printf("creating index at %s\n", indexArgs.path);
+    LOG.info(String.format("Creating index at %s...", indexArgs.path));
 
     Directory d = FSDirectory.open(indexDir);
     Map<String, Analyzer> map = new HashMap<>();
@@ -142,7 +148,7 @@ public class IndexVectors {
         indexWriter.addDocument(doc);
         int cur = cnt.incrementAndGet();
         if (cur % 100000 == 0) {
-          System.out.printf("%s words added\n", cnt);
+          LOG.info(String.format("%s words added", cnt));
         }
       } catch (IOException e) {
         System.err.println("Error while indexing: " + e.getLocalizedMessage());
@@ -150,14 +156,19 @@ public class IndexVectors {
     }
 
     indexWriter.commit();
-    System.out.printf("%s words indexed\n", cnt.get());
+    LOG.info(String.format("%s words indexed", cnt.get()));
     long space = FileUtils.sizeOfDirectory(indexDir.toFile()) / (1024L * 1024L);
-    System.out.printf("index size: %dMB\n", space);
+    LOG.info(String.format("Index size: %dMB", space));
     indexWriter.close();
     d.close();
+
+    final long durationMillis =
+        TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
+    LOG.info(String.format("Total time: %s",
+        DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss")));
   }
 
-  static Map<String, float[]> readTxtModel(File input) throws IOException {
+  static Map<String, float[]> readGloVe(File input) throws IOException {
     Map<String, float[]> vectors = new HashMap<>();
     for (String line : IOUtils.readLines(new FileReader(input))) {
       String[] s = line.split(" ");
