@@ -1,6 +1,6 @@
 # Approximate Nearest-Neighbor Search
 
-With the advent of deep learning and neural approaches to both natural language processing and information retrieval, there is frequently the need to perform approximate nearest-neighbor search on dense vectors.
+With the advent of deep learning and neural approaches to both natural language processing and information retrieval, there is frequently the need to perform approximate nearest-neighbor search on arbitrary dense vectors.
 However, Lucene is built around inverted indexes of a document collection's (sparse) term–document matrix, which is incompatible with the lower-dimensional dense vectors that are common in deep learning applications.
 
 To address this gap, we propose techniques that repurpose Lucene's indexing and search pipeline for this task.
