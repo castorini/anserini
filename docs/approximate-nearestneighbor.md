@@ -72,7 +72,7 @@ Reading index at glove300-fw
 Search time: 417ms
 ```
 
-Evaluate recall at retrival depth=100:
+Evaluate recall at retrieval depth=100:
 
 ```bash
 $ target/appassembler/bin/ApproximateNearestNeighborEval -input glove.6B.300d.txt -path glove300-fw/ \
@@ -122,7 +122,7 @@ Reading index at glove300-ll
 Search time: 525ms
 ```
 
-Evaluate recall at retrival depth=100:
+Evaluate recall at retrieval depth=100:
 
 ```bash
 $ target/appassembler/bin/ApproximateNearestNeighborEval -input glove.6B.300d.txt -path glove300-ll/ \
