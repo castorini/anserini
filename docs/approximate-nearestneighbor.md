@@ -55,11 +55,11 @@ Search:
 
 ```bash
 $ anserini/target/appassembler/bin/ApproximateNearestNeighborSearch -input glove.6B.300d.txt -path glove300-fw \
-  -encoding fw -fw.q 60 -word italy -cutoff 0.2
+  -encoding fw -fw.q 60 -word italy
 
 loading model glove.6B.300d.txt
 reading index at glove300-fw
-top 10 neighbors of 'italy' (3502ms): [rome, spain, greece, portugal, bulgaria, italian, romania, europe, belgium, italy]
+top 10 neighbors of 'italy' (628ms): [rome, spain, greece, portugal, bulgaria, italian, romania, europe, belgium, italy]
 ```
 
 Evaluate recall at _depth=100_ with 100 samples:
@@ -70,8 +70,8 @@ $ anserini/target/appassembler/bin/ApproximateNearestNeighborEval -input glove.6
 loading model glove.6B.300d.txt
 reading index at glove300-fw
 evaluating at retrieval depth: 100
-R@100: 0.9402985074626868
-avg query time: 192.3208955223881 ms
+R@100: 0.9660000000000001
+avg query time: 254.52 ms
 ```
 
 ## "Lexical LSH" Encoding
@@ -94,10 +94,10 @@ Search:
 
 ```bash
 $ anserini/target/appassembler/bin/ApproximateNearestNeighborSearch -input glove.6B.300d.txt \
-  -path glove300-ll -encoding lexlsh -word italy -cutoff 0.2
+  -path glove300-ll -encoding lexlsh -word italy
 loading model glove.6B.300d.txt
 reading index at glove300-ll
-top 10 neighbors of 'italy' (3799ms): [rome, venice, switzerland, portugal, padua, bologna, italian, sicily, milan, italy]
+top 10 neighbors of 'italy' (689ms): [rome, venice, switzerland, portugal, padua, bologna, italian, sicily, milan, italy]
 ```
 
 Evaluate recall at _depth=100_ with 100 samples:
@@ -108,6 +108,6 @@ $ anserini/target/appassembler/bin/ApproximateNearestNeighborEval -input glove.6
 loading model glove.6B.300d.txt
 reading index at glove300-ll
 evaluating at retrieval depth: 100
-R@100: 0.9037313432835827
+R@100: 0.8750000000000003
 avg query time: 351.686567164179 ms
 ```
