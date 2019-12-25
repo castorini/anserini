@@ -72,7 +72,8 @@ Reading index at glove300-fw
 Search time: 417ms
 ```
 
-Evaluate recall at _depth=100_ with 100 samples:
+Evaluate recall at retrival depth=100:
+
 ```bash
 $ target/appassembler/bin/ApproximateNearestNeighborEval -input glove.6B.300d.txt -path glove300-fw/ \
    -encoding fw -fw.q 60 -topics src/main/resources/topics-and-qrels/topics.robust04.txt -samples 100 -depth 100
@@ -121,7 +122,7 @@ Reading index at glove300-ll
 Search time: 525ms
 ```
 
-Evaluate recall at _depth=100_ with 100 samples:
+Evaluate recall at retrival depth=100:
 
 ```bash
 $ target/appassembler/bin/ApproximateNearestNeighborEval -input glove.6B.300d.txt -path glove300-ll/ \
