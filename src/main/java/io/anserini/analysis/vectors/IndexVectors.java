@@ -1,4 +1,4 @@
-/**
+/*
  * Anserini: A Lucene toolkit for replicable information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,8 +21,6 @@ import io.anserini.analysis.vectors.lexlsh.LexicalLshAnalyzer;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.time.DurationFormatUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.miscellaneous.PerFieldAnalyzerWrapper;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
@@ -34,7 +32,11 @@ import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
-import org.kohsuke.args4j.*;
+import org.kohsuke.args4j.CmdLineException;
+import org.kohsuke.args4j.CmdLineParser;
+import org.kohsuke.args4j.Option;
+import org.kohsuke.args4j.OptionHandlerFilter;
+import org.kohsuke.args4j.ParserProperties;
 
 import java.io.File;
 import java.io.FileReader;
@@ -47,8 +49,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class IndexVectors {
-  private static final Logger LOG = LogManager.getLogger(IndexVectors.class);
-
   static final String FIELD_WORD = "word";
   static final String FIELD_VECTOR = "vector";
 
@@ -111,7 +111,7 @@ public class IndexVectors {
     }
 
     final long start = System.nanoTime();
-    LOG.info(String.format("Loading model %s", indexArgs.input));
+    System.out.println(String.format("Loading model %s", indexArgs.input));
 
     Map<String, float[]> wordVectors = readGloVe(indexArgs.input);
 
@@ -120,7 +120,7 @@ public class IndexVectors {
       Files.createDirectories(indexDir);
     }
 
-    LOG.info(String.format("Creating index at %s...", indexArgs.path));
+    System.out.println(String.format("Creating index at %s...", indexArgs.path));
 
     Directory d = FSDirectory.open(indexDir);
     Map<String, Analyzer> map = new HashMap<>();
@@ -148,7 +148,7 @@ public class IndexVectors {
         indexWriter.addDocument(doc);
         int cur = cnt.incrementAndGet();
         if (cur % 100000 == 0) {
-          LOG.info(String.format("%s words added", cnt));
+          System.out.println(String.format("%s words added", cnt));
         }
       } catch (IOException e) {
         System.err.println("Error while indexing: " + e.getLocalizedMessage());
@@ -156,15 +156,15 @@ public class IndexVectors {
     }
 
     indexWriter.commit();
-    LOG.info(String.format("%s words indexed", cnt.get()));
+    System.out.println(String.format("%s words indexed", cnt.get()));
     long space = FileUtils.sizeOfDirectory(indexDir.toFile()) / (1024L * 1024L);
-    LOG.info(String.format("Index size: %dMB", space));
+    System.out.println(String.format("Index size: %dMB", space));
     indexWriter.close();
     d.close();
 
     final long durationMillis =
         TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
-    LOG.info(String.format("Total time: %s",
+    System.out.println(String.format("Total time: %s",
         DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss")));
   }
 

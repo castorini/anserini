@@ -1,4 +1,4 @@
-/**
+/*
  * Anserini: A Lucene toolkit for replicable information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,11 +16,9 @@
 
 package io.anserini.analysis.vectors;
 
+import io.anserini.analysis.AnalyzerUtils;
 import io.anserini.analysis.vectors.fw.FakeWordsEncoderAnalyzer;
 import io.anserini.analysis.vectors.lexlsh.LexicalLshAnalyzer;
-import io.anserini.analysis.AnalyzerUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
@@ -32,20 +30,20 @@ import org.apache.lucene.search.TopScoreDocCollector;
 import org.apache.lucene.search.similarities.ClassicSimilarity;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
-import org.kohsuke.args4j.*;
+import org.kohsuke.args4j.CmdLineException;
+import org.kohsuke.args4j.CmdLineParser;
+import org.kohsuke.args4j.Option;
+import org.kohsuke.args4j.OptionHandlerFilter;
+import org.kohsuke.args4j.ParserProperties;
 
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 import static org.apache.lucene.search.BooleanClause.Occur.SHOULD;
 
 public class ApproximateNearestNeighborSearch {
-  private static final Logger LOG = LogManager.getLogger(ApproximateNearestNeighborSearch.class);
-
   private static final String FW = "fw";
   private static final String LEXLSH = "lexlsh";
 
@@ -116,7 +114,7 @@ public class ApproximateNearestNeighborSearch {
       return;
     }
 
-    LOG.info(String.format("Loading model %s", indexArgs.input));
+    System.out.println(String.format("Loading model %s", indexArgs.input));
 
     Map<String, float[]> wordVectors = IndexVectors.readGloVe(indexArgs.input);
 
@@ -125,7 +123,7 @@ public class ApproximateNearestNeighborSearch {
       Files.createDirectories(indexDir);
     }
 
-    LOG.info(String.format("Reading index at %s", indexArgs.path));
+    System.out.println(String.format("Reading index at %s", indexArgs.path));
 
     Directory d = FSDirectory.open(indexDir);
     DirectoryReader reader = DirectoryReader.open(d);
@@ -156,16 +154,16 @@ public class ApproximateNearestNeighborSearch {
     searcher.search(simQuery, results);
     long time = System.currentTimeMillis() - start;
 
-    LOG.info(String.format("%d nearest neighbors of '%s':", indexArgs.depth, indexArgs.word));
+    System.out.println(String.format("%d nearest neighbors of '%s':", indexArgs.depth, indexArgs.word));
 
     int rank = 1;
     for (ScoreDoc sd : results.topDocs().scoreDocs) {
       Document document = reader.document(sd.doc);
       String word = document.get(IndexVectors.FIELD_WORD);
-      LOG.info(String.format("%d. %s (%.3f)", rank, word, sd.score));
+      System.out.println(String.format("%d. %s (%.3f)", rank, word, sd.score));
       rank++;
     }
-    LOG.info(String.format("Search time: %dms", time));
+    System.out.println(String.format("Search time: %dms", time));
 
     reader.close();
     d.close();

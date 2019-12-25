@@ -1,4 +1,4 @@
-/**
+/*
  * Anserini: A Lucene toolkit for replicable information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,8 +21,6 @@ import io.anserini.analysis.AnalyzerUtils;
 import io.anserini.analysis.vectors.fw.FakeWordsEncoderAnalyzer;
 import io.anserini.analysis.vectors.lexlsh.LexicalLshAnalyzer;
 import io.anserini.search.topicreader.TrecTopicReader;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
@@ -35,19 +33,26 @@ import org.apache.lucene.search.TopScoreDocCollector;
 import org.apache.lucene.search.similarities.ClassicSimilarity;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
-import org.kohsuke.args4j.*;
+import org.kohsuke.args4j.CmdLineException;
+import org.kohsuke.args4j.CmdLineParser;
+import org.kohsuke.args4j.Option;
+import org.kohsuke.args4j.OptionHandlerFilter;
+import org.kohsuke.args4j.ParserProperties;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.*;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 import static org.apache.lucene.search.BooleanClause.Occur.SHOULD;
 
 public class ApproximateNearestNeighborEval {
-  private static final Logger LOG = LogManager.getLogger(ApproximateNearestNeighborEval.class);
-
   private static final String FW = "fw";
   private static final String LEXLSH = "lexlsh";
 
@@ -124,7 +129,7 @@ public class ApproximateNearestNeighborEval {
       return;
     }
 
-    LOG.info(String.format("Loading model %s", indexArgs.input));
+    System.out.println(String.format("Loading model %s", indexArgs.input));
 
     Map<String, float[]> wordVectors = IndexVectors.readGloVe(indexArgs.input);
 
@@ -133,7 +138,7 @@ public class ApproximateNearestNeighborEval {
       Files.createDirectories(indexDir);
     }
 
-    LOG.info(String.format("Reading index at %s", indexArgs.path));
+    System.out.println(String.format("Reading index at %s", indexArgs.path));
 
     Directory d = FSDirectory.open(indexDir);
     DirectoryReader reader = DirectoryReader.open(d);
@@ -145,7 +150,7 @@ public class ApproximateNearestNeighborEval {
     StandardAnalyzer standardAnalyzer = new StandardAnalyzer();
     double recall = 0;
     double time = 0d;
-    LOG.info("Evaluating at retrieval depth: " + indexArgs.depth);
+    System.out.println("Evaluating at retrieval depth: " + indexArgs.depth);
     TrecTopicReader trecTopicReader = new TrecTopicReader(indexArgs.topicsPath);
     Collection<String> words = new LinkedList<>();
     trecTopicReader.read().values().forEach(e -> words.addAll(AnalyzerUtils.tokenize(standardAnalyzer, e.get("title"))));
@@ -198,8 +203,8 @@ public class ApproximateNearestNeighborEval {
     recall /= queryCount;
     time /= queryCount;
 
-    LOG.info(String.format("R@%d: %.4f", indexArgs.depth, recall));
-    LOG.info(String.format("avg query time: %s ms", time));
+    System.out.println(String.format("R@%d: %.4f", indexArgs.depth, recall));
+    System.out.println(String.format("avg query time: %s ms", time));
 
     reader.close();
     d.close();
