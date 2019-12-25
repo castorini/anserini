@@ -4,12 +4,12 @@ With the advent of deep learning and neural approaches to both natural language 
 However, Lucene is built around inverted indexes of a document collection's (sparse) term–document matrix, which is incompatible with the lower-dimensional dense vectors that are common in deep learning applications.
 
 To address this gap, we propose techniques that repurpose Lucene's indexing and search pipeline for this task.
-That is, show how to perform approximate nearest-neighbor search on arbitrary dense vectors _directly in Lucene_.
+That is, we show how to perform approximate nearest-neighbor search on arbitrary dense vectors _directly in Lucene_.
 Admittedly, our solutions lack elegance (i.e., they're a bit janky), but they get the job done.
-We demonstrate finding similar word embedding vectors (word2vec and GloVe) as a sample application.
+We demonstrate finding similar word embedding vectors (specifically, [GloVe](https://nlp.stanford.edu/projects/glove/)) as a sample application.
 
 Anserini provides implementations of two different techniques: _"fake words"_ or _"lexical LSH"_ encodings.
-Additional details, please consult:
+For additional details, please consult:
 
 + Tommaso Teofili and Jimmy Lin. [Lucene for Approximate Nearest-Neighbors Search on Arbitrary Dense Vectors](https://arxiv.org/abs/1910.10208) _arXiv:1910.10208_, October 2019.
 
@@ -21,16 +21,16 @@ Also, check our [Colab demo](https://colab.research.google.com/drive/1PBrAlthWsl
 ### "Fake Words" Encoding
 
 1. Split an input vector _v_ into separate tokens _f_<sub>i</sub>, one for each feature.
-2. Quantize the value _r_<sub>i</sub> of each _feature token_ _f_<sub>i</sub> by a (configurable) integer factor _q_, (int) _t_<sub>i</sub> = _r_<sub>i</sub> * _q_.
+2. Quantize the value _r_<sub>i</sub> of each _feature token_ _f_<sub>i</sub> by a (configurable) integer factor _q_, (int) _t_<sub>i</sub> = _r_<sub>i</sub> × _q_.
 3. Create _t_<sub>i</sub> fake word tokens with the same text value _f_<sub>i</sub>.
  
 ### "Lexical LSH" Encoding
 
 1. Split an input vector _v_ into separate tokens _f_<sub>i</sub>, one for each feature.
-2. Truncate the value _r_<sub>i</sub> of each _feature token_ _f_<sub>i</sub> up until the first decimal place.
+2. Truncate the value _r_<sub>i</sub> of each _feature token_ _f_<sub>i</sub> up to the first decimal place.
 3. Add a _feature index_ prefix to each value _r_<sub>i</sub> (e.g., token 0.1 of feature at column 2 becomes `2_0.1`).
-4. Optionally aggregate _feature tokens_ in n-grams.
-5. Pass the feature / n-gram tokens to a LSH filter (Lucene `MinHashFilter`).
+4. Optionally aggregate _feature tokens_ to form _n_-grams.
+5. Pass the feature or _n_-gram tokens to Lucene's LSH filter (`MinHashFilter`).
 
 ## How to Use
 
