@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package io.anserini.analysis.vectors;
+package io.anserini.ann;
 
-import io.anserini.analysis.vectors.fw.FakeWordsEncoderAnalyzer;
-import io.anserini.analysis.vectors.lexlsh.LexicalLshAnalyzer;
+import io.anserini.ann.fw.FakeWordsEncoderAnalyzer;
+import io.anserini.ann.lexlsh.LexicalLshAnalyzer;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.time.DurationFormatUtils;

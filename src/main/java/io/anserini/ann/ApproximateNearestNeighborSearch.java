@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package io.anserini.analysis.vectors;
+package io.anserini.ann;
 
 import io.anserini.analysis.AnalyzerUtils;
-import io.anserini.analysis.vectors.fw.FakeWordsEncoderAnalyzer;
-import io.anserini.analysis.vectors.lexlsh.LexicalLshAnalyzer;
+import io.anserini.ann.fw.FakeWordsEncoderAnalyzer;
+import io.anserini.ann.lexlsh.LexicalLshAnalyzer;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
