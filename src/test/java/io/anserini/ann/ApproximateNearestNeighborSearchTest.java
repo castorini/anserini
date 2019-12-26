@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.anserini.analysis.vectors;
+package io.anserini.ann;
 
 import org.junit.Test;
 
