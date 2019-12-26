@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.anserini.analysis.vectors.lexlsh;
+package io.anserini.ann.lexlsh;
 
-import io.anserini.analysis.vectors.FeatureVectorsTokenizer;
+import io.anserini.ann.FeatureVectorsTokenizer;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenFilter;
 import org.apache.lucene.analysis.TokenStream;

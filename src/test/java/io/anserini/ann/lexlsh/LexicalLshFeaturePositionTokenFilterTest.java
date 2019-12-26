@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package io.anserini.analysis.vectors.lexlsh;
+package io.anserini.ann.lexlsh;
 
-import io.anserini.analysis.vectors.FeatureVectorsTokenizer;
+import io.anserini.ann.FeatureVectorsTokenizer;
 import org.apache.lucene.analysis.Tokenizer;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.junit.Test;

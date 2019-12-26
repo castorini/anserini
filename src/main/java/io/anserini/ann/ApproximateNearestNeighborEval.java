@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package io.anserini.analysis.vectors;
+package io.anserini.ann;
 
 import com.google.common.collect.Sets;
 import io.anserini.analysis.AnalyzerUtils;
-import io.anserini.analysis.vectors.fw.FakeWordsEncoderAnalyzer;
-import io.anserini.analysis.vectors.lexlsh.LexicalLshAnalyzer;
+import io.anserini.ann.fw.FakeWordsEncoderAnalyzer;
+import io.anserini.ann.lexlsh.LexicalLshAnalyzer;
 import io.anserini.search.topicreader.TrecTopicReader;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
