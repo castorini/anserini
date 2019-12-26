@@ -96,11 +96,12 @@ Other experiments:
 
 See [this page](docs/additional.md) for additional documentation.
 
-## Integrations
+## Other Features
 
-+ Use Anserini in Python via [Pyserini](https://github.com/castorini/pyserini)!
-+ Anserini integrates with SolrCloud via [Solrini](docs/solrini.md)!
-+ Anserini integrates with Elasticsearch via [Elasterini](docs/elastirini.md)!
++ Use Anserini in Python via [Pyserini](https://github.com/castorini/pyserini)
++ Anserini integrates with SolrCloud via [Solrini](docs/solrini.md)
++ Anserini integrates with Elasticsearch via [Elasterini](docs/elastirini.md)
++ Anserini supports [approximate nearest-neighbor search](docs/approximate-nearestneighbor.md) on arbitrary dense vectors with Lucene
 
 ## How Can I Contribute?
 
