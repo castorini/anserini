@@ -1,4 +1,4 @@
-/**
+/*
  * Anserini: A Lucene toolkit for replicable information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -86,8 +86,8 @@ public class IndexReaderUtils {
   public enum DocumentVectorWeight {NONE, TF_IDF}
 
   /**
-   * An individual posting in a postings list. Note that this class is used primarily for inspecting the index, and
-   * not meant for actual searching.
+   * An individual posting in a postings list. Note that this class is used primarily for inspecting
+   * the index, and not meant for actual searching.
    */
   public static class Posting {
     private int docId;
@@ -133,6 +133,10 @@ public class IndexReaderUtils {
     }
   }
 
+  /**
+   * A term from the index. Note that this class is used primarily for inspecting the index, not
+   * meant for actual searching.
+   */
   public static class IndexTerm {
     private int docFreq;
     private String term;
@@ -140,7 +144,8 @@ public class IndexReaderUtils {
 
     /**
      * Constructor wrapping a {@link TermsEnum} from Lucene.
-     * @throws IOException
+     * @param term Lucene {@link TermsEnum} to wrap
+     * @throws IOException if any errors are encountered
      */
     public IndexTerm(TermsEnum term) throws IOException {
       this.docFreq = term.docFreq();
@@ -150,7 +155,7 @@ public class IndexReaderUtils {
 
     /**
      * Returns the number of documents containing the current term.
-     * @return the number of documents containing the current term.
+     * @return the number of documents containing the current term
      */
     public int getDF() {
       return this.docFreq;
@@ -283,13 +288,15 @@ public class IndexReaderUtils {
     };
   }
 
-  public static List<Posting> getPostingsList(IndexReader reader, String termStr) throws IOException, ParseException {
+  public static List<Posting> getPostingsList(IndexReader reader, String termStr)
+      throws IOException, ParseException {
     EnglishAnalyzer ea = new EnglishAnalyzer(CharArraySet.EMPTY_SET);
     QueryParser qp = new QueryParser(LuceneDocumentGenerator.FIELD_BODY, ea);
     TermQuery q = (TermQuery) qp.parse(termStr);
     Term t = q.getTerm();
 
-    PostingsEnum postingsEnum = MultiTerms.getTermPostingsEnum(reader, LuceneDocumentGenerator.FIELD_BODY, t.bytes());
+    PostingsEnum postingsEnum = MultiTerms.getTermPostingsEnum(reader,
+        LuceneDocumentGenerator.FIELD_BODY, t.bytes());
 
     List<Posting> postingsList = new ArrayList<>();
     while (postingsEnum.nextDoc() != DocIdSetIterator.NO_MORE_DOCS) {

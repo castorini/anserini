@@ -1,4 +1,4 @@
-/**
+/*
  * Anserini: A Lucene toolkit for replicable information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,8 +16,8 @@
 
 package io.anserini.search.topicreader;
 
-import io.anserini.analysis.EnglishStemmingAnalyzer;
 import io.anserini.analysis.AnalyzerUtils;
+import io.anserini.analysis.EnglishStemmingAnalyzer;
 import org.apache.lucene.analysis.Analyzer;
 import org.junit.Test;
 
