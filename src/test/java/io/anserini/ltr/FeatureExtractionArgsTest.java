@@ -1,4 +1,4 @@
-/**
+/*
  * Anserini: A Lucene toolkit for replicable information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,17 +16,16 @@
 
 package io.anserini.ltr;
 
-import org.junit.Assert;
-import org.junit.Test;
-import org.kohsuke.args4j.CmdLineException;
-import org.kohsuke.args4j.CmdLineParser;
-import org.kohsuke.args4j.ParserProperties;
-
 import io.anserini.ltr.FeatureExtractorCli.FeatureExtractionArgs;
 import io.anserini.search.topicreader.MicroblogTopicReader;
 import io.anserini.search.topicreader.TopicReader;
 import io.anserini.search.topicreader.TrecTopicReader;
 import io.anserini.search.topicreader.WebxmlTopicReader;
+import org.junit.Assert;
+import org.junit.Test;
+import org.kohsuke.args4j.CmdLineException;
+import org.kohsuke.args4j.CmdLineParser;
+import org.kohsuke.args4j.ParserProperties;
 
 /**
  * Tests that Arguments for the {@link FeatureExtractorCli} can be parsed.

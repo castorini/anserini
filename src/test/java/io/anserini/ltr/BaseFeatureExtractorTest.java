@@ -1,4 +1,4 @@
-/**
+/*
  * Anserini: A Lucene toolkit for replicable information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,11 +16,11 @@
 
 package io.anserini.ltr;
 
+import io.anserini.analysis.AnalyzerUtils;
 import io.anserini.index.generator.LuceneDocumentGenerator;
 import io.anserini.ltr.feature.FeatureExtractor;
 import io.anserini.ltr.feature.FeatureExtractors;
 import io.anserini.rerank.RerankerContext;
-import io.anserini.analysis.AnalyzerUtils;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.document.Document;

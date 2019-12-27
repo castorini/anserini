@@ -1,4 +1,4 @@
-/**
+/*
  * Anserini: A Lucene toolkit for replicable information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,6 +16,7 @@
 
 package io.anserini.search;
 
+import io.anserini.analysis.AnalyzerUtils;
 import io.anserini.analysis.TweetAnalyzer;
 import io.anserini.index.IndexCollection;
 import io.anserini.index.IndexReaderUtils;
@@ -27,18 +28,17 @@ import io.anserini.rerank.ScoredDocuments;
 import io.anserini.rerank.lib.Rm3Reranker;
 import io.anserini.rerank.lib.ScoreTiesAdjusterReranker;
 import io.anserini.search.query.BagOfWordsQueryGenerator;
-import io.anserini.analysis.AnalyzerUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.ar.ArabicAnalyzer;
 import org.apache.lucene.analysis.bn.BengaliAnalyzer;
 import org.apache.lucene.analysis.cjk.CJKAnalyzer;
-import org.apache.lucene.analysis.fr.FrenchAnalyzer;
-import org.apache.lucene.analysis.en.EnglishAnalyzer;
-import org.apache.lucene.analysis.hi.HindiAnalyzer;
 import org.apache.lucene.analysis.de.GermanAnalyzer;
+import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.analysis.es.SpanishAnalyzer;
+import org.apache.lucene.analysis.fr.FrenchAnalyzer;
+import org.apache.lucene.analysis.hi.HindiAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.LongPoint;
 import org.apache.lucene.index.DirectoryReader;
@@ -64,8 +64,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CompletionException;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;

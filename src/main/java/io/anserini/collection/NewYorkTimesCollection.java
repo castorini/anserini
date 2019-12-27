@@ -1,4 +1,4 @@
-/**
+/*
  * Anserini: A Lucene toolkit for replicable information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -50,9 +50,8 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Set;
-import java.util.stream.Stream;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * An instance of the <a href="https://catalog.ldc.upenn.edu/products/LDC2008T19">New York Times

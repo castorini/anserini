@@ -1,4 +1,4 @@
-/**
+/*
  * Anserini: A Lucene toolkit for replicable information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -33,7 +33,6 @@ import org.apache.lucene.index.IndexOptions;
 import org.apache.lucene.util.BytesRef;
 import org.jsoup.Jsoup;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 

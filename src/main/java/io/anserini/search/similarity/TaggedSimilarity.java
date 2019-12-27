@@ -1,4 +1,4 @@
-/**
+/*
  * Anserini: A Lucene toolkit for replicable information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,11 +18,11 @@ package io.anserini.search.similarity;
 
 import org.apache.lucene.search.similarities.Similarity;
 
-/*
-* TaggedSimilarity wraps Lucene's Similarity with an optional String tag.
-* The tag will be used as part of the output file name if multiple search parameters are given.
-* See @see #SearchCollection
-*/
+/**
+ * TaggedSimilarity wraps Lucene's Similarity with an optional String tag.
+ * The tag will be used as part of the output file name if multiple search parameters are given.
+ * See @see #SearchCollection
+ */
 public class TaggedSimilarity {
   public Similarity similarity;
   public String tag; // params tag. use similarity.toString() if one needs more info (e.g. model name + params)
