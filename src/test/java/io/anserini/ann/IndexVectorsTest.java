@@ -15,7 +15,6 @@
  */
 package io.anserini.ann;
 
-import io.anserini.ann.IndexVectors;
 import org.junit.Test;
 
 /**

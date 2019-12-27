@@ -1,4 +1,4 @@
-/**
+/*
  * Anserini: A Lucene toolkit for replicable information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,11 +19,11 @@ package io.anserini.search.topicreader;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
+import io.anserini.analysis.AnalyzerUtils;
 import io.anserini.collection.WashingtonPostCollection;
 import io.anserini.index.generator.LuceneDocumentGenerator;
 import io.anserini.index.generator.WapoGenerator;
 import io.anserini.search.SearchCollection;
-import io.anserini.analysis.AnalyzerUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.index.IndexReader;
@@ -52,8 +52,8 @@ import java.util.regex.Pattern;
 import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_BODY;
 import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_RAW;
 
-/*
-Topic reader for TREC2018 news track background linking task
+/**
+ * Topic reader for TREC2018 news track background linking task
  */
 public class NewsBackgroundLinkingTopicReader extends TopicReader<Integer> {
   public NewsBackgroundLinkingTopicReader(Path topicFile) {
