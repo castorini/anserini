@@ -4,11 +4,18 @@ Anserini provides code for indexing into an ELK stack, thus providing interopera
 
 ## Deploying Elasticsearch Locally
 
-Simple instructions for installing and running Elasticsearch can be found [here](http://elastic.co/start).
-Basically, it's as simple as downloading the correct distribution for your platform, unpacking it, and running:
+From the [Elasticsearch](http://elastic.co/start), download the correct distribution for you platform to the `anserini/` directory. 
+
+Unpacking:
 
 ```
-bin/elasticsearch
+mkdir elastirini && tar -zxvf elasticsearch*.tar.gz -C elastirini --strip-components=1
+```
+
+Start running:
+
+```
+elastirini/bin/elasticsearch
 ```
 
 If you want to install Kibana, it's just another distribution to unpack and a similarly simple command.
@@ -82,4 +89,26 @@ Evaluation:
 $ ./eval/trec_eval.9.0.4/trec_eval -c -mrecall.1000 -mmap src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt run.es.msmacro-passage.txt
 map                   	all	0.1956
 recall_1000           	all	0.8573
+```
+
+## Elasticsearch Integration Test
+
+We have an end-to-end integration testing script `run_es_regression.py` for [Robust04](regressions-robust04.md) and [MS MARCO passage](regressions-msmarco-passage.md). Its functionalities are described below.
+
+```
+# Check if Elasticsearch server is on
+python src/main/python/run_es_regression.py --ping
+# Check if collection exists
+python src/main/python/run_es_regression.py --check-index-exists [collection]
+# Create collection if it does not exist
+python src/main/python/run_es_regression.py --create-index [collection]
+# Delete collection if it exists
+python src/main/python/run_es_regression.py --delete-index [collection]
+# Insert documents from input directory into collection
+python src/main/python/run_es_regression.py --insert-docs [collection] --input [directory]
+# Search and evaluate on collection
+python src/main/python/run_es_regression.py --evaluate [collection]
+
+# Run end to end
+python src/main/python/run_es_regression.py --regression [collection] --input [directory]
 ```

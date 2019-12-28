@@ -79,7 +79,6 @@ nohup target/appassembler/bin/SearchCollection -index lucene-index.mb13.pos+docv
 nohup target/appassembler/bin/SearchCollection -index lucene-index.mb13.pos+docvectors+rawdocs \
  -topicreader Microblog -topics src/main/resources/topics-and-qrels/topics.microblog2014.txt \
  -searchtweets -ql -axiom -axiom.beta 1.0 -rerankCutoff 20 -axiom.deterministic -output run.mb13.ql+ax.topics.microblog2014.txt &
-
 ```
 
 Evaluation can be performed using `trec_eval`:
@@ -102,7 +101,6 @@ eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrel
 
 eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.microblog2013.txt run.mb13.ql+ax.topics.microblog2013.txt
 eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.microblog2014.txt run.mb13.ql+ax.topics.microblog2014.txt
-
 ```
 
 ## Effectiveness
@@ -119,5 +117,3 @@ P30                                     | BM25      | +RM3      | +Ax       | QL
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
 [TREC 2013 Microblog Track Topics](../src/main/resources/topics-and-qrels/topics.microblog2013.txt)| 0.4339    | 0.4411    | 0.4728    | 0.4561    | 0.4906    | 0.5078    |
 [TREC 2014 Microblog Track Topics](../src/main/resources/topics-and-qrels/topics.microblog2014.txt)| 0.6212    | 0.6442    | 0.6648    | 0.6430    | 0.6533    | 0.6727    |
-
-

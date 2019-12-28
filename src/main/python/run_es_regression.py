@@ -21,8 +21,7 @@ import math
 import os
 import requests
 import time
-
-from subprocess import call, Popen, PIPE
+import regression_utils
 
 # Note that this class is specifically written with REST API requests instead of the
 # Elasticsearch client eliminate an additional dependency
@@ -36,34 +35,6 @@ logger.setLevel(logging.INFO)
 class ElasticsearchClient:
     def __init__(self):
         pass
-
-    def run_shell_command(self, command, echo=False, capture=False):
-        process = Popen(command, shell=True, stdout=PIPE)
-
-        if not echo:
-            output, err = process.communicate()
-            if process.returncode == 0: # success
-                if capture == False: return process.returncode
-                else: return output.decode('utf8').split('\n')
-            else:
-                raise RuntimeError('Error running shell comand: {}'.format(command))
-        else:
-            arr = []
-            # Modified from https://fabianlee.org/2019/09/15/python-getting-live-output-from-subprocess-using-poll/
-            while True:
-                output = process.stdout.readline()
-                if process.poll() is not None: break
-                if output:
-                    logger.info('subprocess - ' + output.decode('utf8').strip())
-                    if capture: arr.append(output.decode('utf8').strip())
-            # Make sure we read the output completely
-            while True:
-                output = process.stdout.readline()
-                if not output: break
-                logger.info('subprocess - ' + output.decode('utf8').strip())
-                if capture: arr.append(output.decode('utf8').strip())
-            if capture: return arr
-            else: return process.returncode
 
     def is_alive(self):
         try:
@@ -134,9 +105,11 @@ class ElasticsearchClient:
         else:
             raise Exception('Unknown collection: {}'.format(collection))
         logger.info('Running indexing command: ' + command)
-        return self.run_shell_command(command, echo=True)
+        return regression_utils.run_shell_command(command, logger, echo=True)
 
     def evaluate(self, collection):
+        if not self.does_index_exist(collection):
+            raise Exception('The index {} does not exist!'.format(collection))
         # TODO: abstract this into an external config instead of hard-coded.
         command = ''
         if collection == 'robust04':
@@ -151,7 +124,7 @@ class ElasticsearchClient:
             raise Exception('Unknown collection: {}'.format(collection))
 
         logger.info('Retrieval command: ' + command)
-        output = self.run_shell_command(command, echo=True)
+        output = regression_utils.run_shell_command(command, logger, echo=True)
         logger.info('Retrieval complete!')
 
         if collection == 'robust04':
@@ -164,7 +137,7 @@ class ElasticsearchClient:
             raise Exception('Unknown collection: {}'.format(collection))
 
         logger.info('Evaluation command: ' + command)
-        output = self.run_shell_command(command, capture=True)
+        output = regression_utils.run_shell_command(command, logger, capture=True)
         ap = float(output[0].split('\t')[2])
 
         expected = 0

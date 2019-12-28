@@ -59,7 +59,6 @@ nohup target/appassembler/bin/SearchCollection -index lucene-index.msmarco-doc.p
 nohup target/appassembler/bin/SearchCollection -index lucene-index.msmarco-doc.pos+docvectors+rawdocs \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
  -bm25 -k1 3.44 -b 0.87 -bm25prf -output run.msmarco-doc.bm25-tuned+prf.topics.msmarco-doc.dev.txt &
-
 ```
 
 Evaluation can be performed using `trec_eval`:
@@ -80,7 +79,6 @@ eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.1000 -c src/main/resources/to
 eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt run.msmarco-doc.bm25-tuned+ax.topics.msmarco-doc.dev.txt
 
 eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt run.msmarco-doc.bm25-tuned+prf.topics.msmarco-doc.dev.txt
-
 ```
 
 ## Effectiveness
@@ -95,8 +93,6 @@ MAP                                     | BM25 (Default)| +RM3      | +Ax       
 R@1000                                  | BM25 (Default)| +RM3      | +Ax       | +PRF      | BM25 (Tuned)| +RM3      | +Ax       | +PRF      |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
 [MS MARCO Document Ranking: Dev Queries](https://github.com/microsoft/TREC-2019-Deep-Learning)| 0.8856    | 0.8785    | 0.8369    | 0.8471    | 0.9326    | 0.9320    | 0.9264    | 0.8758    |
-
-
 
 The setting "default" refers the default BM25 settings of `k1=0.9`, `b=0.4`, while "tuned" refers to the tuned setting of `k1=3.44`, `b=0.87`.
 See [this page](experiments-msmarco-doc.md) for more details.

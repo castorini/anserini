@@ -60,7 +60,6 @@ nohup target/appassembler/bin/SearchCollection -index lucene-index.msmarco-passa
 nohup target/appassembler/bin/SearchCollection -index lucene-index.msmarco-passage.pos+docvectors+rawdocs \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
  -bm25 -k1 0.82 -b 0.68 -bm25prf -output run.msmarco-passage.bm25-tuned+prf.topics.msmarco-passage.dev-subset.txt &
-
 ```
 
 Evaluation can be performed using `trec_eval`:
@@ -81,7 +80,6 @@ eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.1000 -c src/main/resources/to
 eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt run.msmarco-passage.bm25-tuned+ax.topics.msmarco-passage.dev-subset.txt
 
 eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt run.msmarco-passage.bm25-tuned+prf.topics.msmarco-passage.dev-subset.txt
-
 ```
 
 ## Effectiveness
@@ -96,8 +94,6 @@ MAP                                     | BM25 (Default)| +RM3      | +Ax       
 R@1000                                  | BM25 (Default)| +RM3      | +Ax       | +PRF      | BM25 (Tuned)| +RM3      | +Ax       | +PRF      |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
 [MS MARCO Passage Ranking: Dev Queries](https://github.com/microsoft/MSMARCO-Passage-Ranking)| 0.8526    | 0.8606    | 0.8747    | 0.8537    | 0.8573    | 0.8687    | 0.8809    | 0.8561    |
-
-
 
 The setting "default" refers the default BM25 settings of `k1=0.9`, `b=0.4`, while "tuned" refers to the tuned setting of `k1=0.82`, `b=0.68`.
 See [this page](experiments-msmarco-passage.md) for more details.

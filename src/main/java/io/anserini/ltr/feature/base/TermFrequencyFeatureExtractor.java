@@ -1,4 +1,4 @@
-/**
+/*
  * Anserini: A Lucene toolkit for replicable information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -31,7 +31,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Computes the sum of termfrequencies for each query token
+ * Computes the sum of term frequencies for each query token.
  */
 public class TermFrequencyFeatureExtractor<T> implements FeatureExtractor<T> {
   private static final Logger LOG = LogManager.getLogger(TermFrequencyFeatureExtractor.class);

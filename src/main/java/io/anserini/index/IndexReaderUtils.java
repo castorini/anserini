@@ -1,4 +1,4 @@
-/**
+/*
  * Anserini: A Lucene toolkit for replicable information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -52,6 +52,7 @@ import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.search.similarities.BM25Similarity;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
+import org.apache.lucene.util.BytesRef;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -69,6 +70,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Iterator;
 
 import static java.util.stream.Collectors.joining;
 
@@ -84,8 +86,8 @@ public class IndexReaderUtils {
   public enum DocumentVectorWeight {NONE, TF_IDF}
 
   /**
-   * An individual posting in a postings list. Note that this class is used primarily for inspecting the index, and
-   * not meant for actual searching.
+   * An individual posting in a postings list. Note that this class is used primarily for inspecting
+   * the index, and not meant for actual searching.
    */
   public static class Posting {
     private int docId;
@@ -131,6 +133,51 @@ public class IndexReaderUtils {
     }
   }
 
+  /**
+   * A term from the index. Note that this class is used primarily for inspecting the index, not
+   * meant for actual searching.
+   */
+  public static class IndexTerm {
+    private int docFreq;
+    private String term;
+    private long totalTermFreq;
+
+    /**
+     * Constructor wrapping a {@link TermsEnum} from Lucene.
+     * @param term Lucene {@link TermsEnum} to wrap
+     * @throws IOException if any errors are encountered
+     */
+    public IndexTerm(TermsEnum term) throws IOException {
+      this.docFreq = term.docFreq();
+      this.term = term.term().utf8ToString();
+      this.totalTermFreq = term.totalTermFreq();
+    }
+
+    /**
+     * Returns the number of documents containing the current term.
+     * @return the number of documents containing the current term
+     */
+    public int getDF() {
+      return this.docFreq;
+    }
+
+    /**
+     * Returns the string representation of the current term.
+     * @return the string representation of the current term
+     */
+    public String getTerm() {
+      return this.term;
+    }
+
+    /**
+     * Returns the total number of occurrences of the current term across all documents.
+     * @return the total number of occurrences of the current term across all documents
+     */
+    public long getTotalTF() {
+      return this.totalTermFreq;
+    }
+  }
+
   public static InputStream getReadFileStream(String path) throws IOException {
     InputStream fin = Files.newInputStream(Paths.get(path), StandardOpenOption.READ);
     BufferedInputStream in = new BufferedInputStream(fin);
@@ -165,7 +212,7 @@ public class IndexReaderUtils {
    * @return stemmed form of the term or <code>null</code> if error encountered
    */
   public static String analyzeTerm(String term) {
-    return analyzeTerm(term, DEFAULT_ANALYZER);
+    return analyzeTermWithAnalyzer(term, DEFAULT_ANALYZER);
   }
 
   /**
@@ -175,7 +222,7 @@ public class IndexReaderUtils {
    * @param analyzer analyzer to use
    * @return stemmed form of the term or <code>null</code> if error encountered
    */
-  public static String analyzeTerm(String term, Analyzer analyzer) {
+  public static String analyzeTermWithAnalyzer(String term, Analyzer analyzer) {
     List<String> tokens = AnalyzerUtils.tokenize(analyzer, term);
     if (tokens == null || tokens.size() == 0) {
       return null;
@@ -198,13 +245,58 @@ public class IndexReaderUtils {
     return termInfo;
   }
 
-  public static List<Posting> getPostingsList(IndexReader reader, String termStr) throws IOException, ParseException {
+  /**
+   * Returns iterator over all terms in the collection.
+   * @param reader index reader
+   * @return iterator over IndexTerm
+   * @throws IOException if error encountered during access to index
+   */
+  public static Iterator<IndexTerm> getTerms(IndexReader reader) throws IOException {
+    return new Iterator<IndexTerm>() {
+      private TermsEnum curTerm = MultiTerms.getTerms(reader, "contents").iterator();
+      private BytesRef bytesRef = null;
+
+      @Override
+      public boolean hasNext() {
+        try {
+          // Make sure iterator is positioned.
+          if (this.bytesRef == null) {
+            return true;
+          }
+
+          BytesRef originalPos = BytesRef.deepCopyOf(this.bytesRef);
+          if (this.curTerm.next() == null) {
+            return false;
+          } else {
+            // Move curTerm back to original position.
+            return this.curTerm.seekExact(originalPos);
+          }
+        } catch (IOException e) {
+          return false;
+        }
+      }
+
+      @Override
+      public IndexTerm next() {
+        try {
+          this.bytesRef = this.curTerm.next();
+          return new IndexTerm(this.curTerm);
+        } catch (IOException e) {
+          return null;
+        }
+      }
+    };
+  }
+
+  public static List<Posting> getPostingsList(IndexReader reader, String termStr)
+      throws IOException, ParseException {
     EnglishAnalyzer ea = new EnglishAnalyzer(CharArraySet.EMPTY_SET);
     QueryParser qp = new QueryParser(LuceneDocumentGenerator.FIELD_BODY, ea);
     TermQuery q = (TermQuery) qp.parse(termStr);
     Term t = q.getTerm();
 
-    PostingsEnum postingsEnum = MultiTerms.getTermPostingsEnum(reader, LuceneDocumentGenerator.FIELD_BODY, t.bytes());
+    PostingsEnum postingsEnum = MultiTerms.getTermPostingsEnum(reader,
+        LuceneDocumentGenerator.FIELD_BODY, t.bytes());
 
     List<Posting> postingsList = new ArrayList<>();
     while (postingsEnum.nextDoc() != DocIdSetIterator.NO_MORE_DOCS) {

@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.anserini</groupId>
   <artifactId>anserini</artifactId>
-  <version>0.6.1-SNAPSHOT</version>
+  <version>0.7.1-SNAPSHOT</version>
   <name>Anserini</name>
   <description>An information retrieval toolkit built on Lucene</description>
   <url>http://anserini.io/</url>
@@ -139,15 +139,15 @@
               <id>IndexUtils</id>
             </program>
             <program>
-              <mainClass>io.anserini.analysis.vectors.IndexVectors</mainClass>
+              <mainClass>io.anserini.ann.IndexVectors</mainClass>
               <id>IndexVectors</id>
             </program>
             <program>
-              <mainClass>io.anserini.analysis.vectors.ApproximateNearestNeighborSearch</mainClass>
+              <mainClass>io.anserini.ann.ApproximateNearestNeighborSearch</mainClass>
               <id>ApproximateNearestNeighborSearch</id>
             </program>
             <program>
-              <mainClass>io.anserini.analysis.vectors.ApproximateNearestNeighborEval</mainClass>
+              <mainClass>io.anserini.ann.ApproximateNearestNeighborEval</mainClass>
               <id>ApproximateNearestNeighborEval</id>
             </program>
           </programs>

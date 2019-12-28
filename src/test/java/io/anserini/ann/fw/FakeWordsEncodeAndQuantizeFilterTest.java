@@ -1,4 +1,4 @@
-/**
+/*
  * Anserini: A Lucene toolkit for replicable information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package io.anserini.analysis.vectors.lexlsh;
+package io.anserini.ann.fw;
 
+import io.anserini.ann.FeatureVectorsTokenizer;
 import org.apache.lucene.analysis.Tokenizer;
-import org.apache.lucene.analysis.core.WhitespaceTokenizer;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.junit.Test;
 
@@ -28,22 +28,44 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 
 /**
- * Tests for {@link LexicalLshTruncateTokenFilter}
+ * Tests for {@link FakeWordsEncodeAndQuantizeFilter}
  */
-public class LexicalLshTruncateTokenFilterTest {
+public class FakeWordsEncodeAndQuantizeFilterTest {
 
   @Test
   public void testFiltering() throws Exception {
-    StringReader reader = new StringReader("0.10123 0.20412412 -0.3042141 0.4123123");
-    Tokenizer stream = new WhitespaceTokenizer();
+    StringReader reader = new StringReader("-0.10 0.20 0.30 0.40");
+    Tokenizer stream = new FeatureVectorsTokenizer();
     stream.setReader(reader);
-    LexicalLshTruncateTokenFilter filter = new LexicalLshTruncateTokenFilter(stream, 3);
+    FakeWordsEncodeAndQuantizeFilter filter = new FakeWordsEncodeAndQuantizeFilter(stream, 20);
     filter.reset();
     List<String> expectedTokens = new LinkedList<>();
-    expectedTokens.add("0.101");
-    expectedTokens.add("0.204");
-    expectedTokens.add("-0.304");
-    expectedTokens.add("0.412");
+    expectedTokens.add("_"); // quantization leads to zero
+    expectedTokens.add("f2"); // quantization leads to 4 tokens
+    expectedTokens.add("f2");
+    expectedTokens.add("f2");
+    expectedTokens.add("f2");
+    expectedTokens.add("f3"); // quantization leads to 6 tokens
+    expectedTokens.add("f3");
+    expectedTokens.add("f3");
+    expectedTokens.add("f3");
+    expectedTokens.add("f3");
+    expectedTokens.add("f3");
+    expectedTokens.add("f4"); // quantization leads to 16 tokens
+    expectedTokens.add("f4");
+    expectedTokens.add("f4");
+    expectedTokens.add("f4");
+    expectedTokens.add("f4");
+    expectedTokens.add("f4");
+    expectedTokens.add("f4");
+    expectedTokens.add("f4");
+    expectedTokens.add("f4");
+    expectedTokens.add("f4");
+    expectedTokens.add("f4");
+    expectedTokens.add("f4");
+    expectedTokens.add("f4");
+    expectedTokens.add("f4");
+    expectedTokens.add("f4");
     int i = 0;
     while (filter.incrementToken()) {
       CharTermAttribute charTermAttribute = filter.getAttribute(CharTermAttribute.class);

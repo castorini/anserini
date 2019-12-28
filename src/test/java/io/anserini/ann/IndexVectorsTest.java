@@ -13,33 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.anserini.analysis.vectors;
+package io.anserini.ann;
 
 import org.junit.Test;
 
 /**
- * Tests for {@link ApproximateNearestNeighborEval}
+ * Tests for {@link IndexVectors}
  */
-public class ApproximateNearestNeighborEvalTest {
+public class IndexVectorsTest {
 
   @Test
-  public void evalFWTest() throws Exception {
-    String path = "target/idx-sample-fw";
-    String encoding = "fw";
-    IndexVectorsTest.createIndex(path, encoding);
-    String[] args = new String[]{"-encoding", encoding, "-input", "src/test/resources/mini-word-vectors.txt", "-path",
-        path, "-topics", "src/test/resources/sample_topics/Trec"};
-    ApproximateNearestNeighborEval.main(args);
+  public void indexFWTest() throws Exception {
+    createIndex("target/idx-sample-fw", "fw");
   }
 
   @Test
-  public void evalLLTest() throws Exception {
-    String path = "target/idx-sample-ll";
-    String encoding = "lexlsh";
-    IndexVectorsTest.createIndex(path, encoding);
-    String[] args = new String[]{"-encoding", encoding, "-input", "src/test/resources/mini-word-vectors.txt", "-path",
-        path, "-topics", "src/test/resources/sample_topics/Trec"};
-    ApproximateNearestNeighborEval.main(args);
+  public void indexLLTest() throws Exception {
+    createIndex("target/idx-sample-ll", "lexlsh");
   }
+
+  static void createIndex(String path, String encoding) throws Exception {
+    String[] args = new String[]{"-encoding", encoding, "-input", "src/test/resources/mini-word-vectors.txt", "-path",
+        path};
+    IndexVectors.main(args);
+  }
+
 
 }

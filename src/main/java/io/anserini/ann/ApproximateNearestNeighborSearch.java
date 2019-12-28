@@ -1,23 +1,24 @@
-/**
+/*
  * Anserini: A Lucene toolkit for replicable information retrieval research
- * <p>
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.anserini.analysis.vectors;
 
-import io.anserini.analysis.vectors.fw.FakeWordsEncoderAnalyzer;
-import io.anserini.analysis.vectors.lexlsh.LexicalLshAnalyzer;
+package io.anserini.ann;
+
 import io.anserini.analysis.AnalyzerUtils;
+import io.anserini.ann.fw.FakeWordsEncoderAnalyzer;
+import io.anserini.ann.lexlsh.LexicalLshAnalyzer;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
@@ -25,23 +26,24 @@ import org.apache.lucene.index.Term;
 import org.apache.lucene.queries.CommonTermsQuery;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.ScoreDoc;
-import org.apache.lucene.search.TopDocs;
+import org.apache.lucene.search.TopScoreDocCollector;
 import org.apache.lucene.search.similarities.ClassicSimilarity;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
-import org.kohsuke.args4j.*;
+import org.kohsuke.args4j.CmdLineException;
+import org.kohsuke.args4j.CmdLineParser;
+import org.kohsuke.args4j.Option;
+import org.kohsuke.args4j.OptionHandlerFilter;
+import org.kohsuke.args4j.ParserProperties;
 
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 import static org.apache.lucene.search.BooleanClause.Occur.SHOULD;
 
 public class ApproximateNearestNeighborSearch {
-
   private static final String FW = "fw";
   private static final String LEXLSH = "lexlsh";
 
@@ -80,14 +82,13 @@ public class ApproximateNearestNeighborSearch {
     public int q = 60;
 
     @Option(name = "-cutoff", metaVar = "[float]", usage = "tf cutoff factor")
-    public float cutoff = 0.2f;
+    public float cutoff = 0.999f;
 
-    @Option(name = "-msm", metaVar = "[int]", usage = "minimum should match")
-    public int msm = 0;
+    @Option(name = "-msm", metaVar = "[float]", usage = "minimum should match")
+    public float msm = 0f;
   }
 
   public static void main(String[] args) throws Exception {
-
     ApproximateNearestNeighborSearch.Args indexArgs = new ApproximateNearestNeighborSearch.Args();
     CmdLineParser parser = new CmdLineParser(indexArgs, ParserProperties.defaults().withUsageWidth(90));
 
@@ -113,16 +114,16 @@ public class ApproximateNearestNeighborSearch {
       return;
     }
 
-    System.out.printf("loading model %s\n", indexArgs.input);
+    System.out.println(String.format("Loading model %s", indexArgs.input));
 
-    Map<String, float[]> wordVectors = IndexVectors.readTxtModel(indexArgs.input);
+    Map<String, float[]> wordVectors = IndexVectors.readGloVe(indexArgs.input);
 
     Path indexDir = indexArgs.path;
     if (!Files.exists(indexDir)) {
       Files.createDirectories(indexDir);
     }
 
-    System.out.printf("reading index at %s\n", indexArgs.path);
+    System.out.println(String.format("Reading index at %s", indexArgs.path));
 
     Directory d = FSDirectory.open(indexDir);
     DirectoryReader reader = DirectoryReader.open(d);
@@ -149,22 +150,22 @@ public class ApproximateNearestNeighborSearch {
     }
 
     long start = System.currentTimeMillis();
-
-    TopDocs topDocs = searcher.search(simQuery, indexArgs.depth);
-
+    TopScoreDocCollector results = TopScoreDocCollector.create(indexArgs.depth, Integer.MAX_VALUE);
+    searcher.search(simQuery, results);
     long time = System.currentTimeMillis() - start;
-    Set<String> observations = new HashSet<>();
-    for (ScoreDoc sd : topDocs.scoreDocs) {
-      Document document = reader.document(sd.doc);
-      String wordValue = document.get(IndexVectors.FIELD_WORD);
-      observations.add(wordValue);
-    }
 
-    System.out.printf("top %d neighbors of '%s' (%dms): %s\n", indexArgs.depth, indexArgs.word, time, observations.toString());
+    System.out.println(String.format("%d nearest neighbors of '%s':", indexArgs.depth, indexArgs.word));
+
+    int rank = 1;
+    for (ScoreDoc sd : results.topDocs().scoreDocs) {
+      Document document = reader.document(sd.doc);
+      String word = document.get(IndexVectors.FIELD_WORD);
+      System.out.println(String.format("%d. %s (%.3f)", rank, word, sd.score));
+      rank++;
+    }
+    System.out.println(String.format("Search time: %dms", time));
 
     reader.close();
     d.close();
-
   }
-
 }

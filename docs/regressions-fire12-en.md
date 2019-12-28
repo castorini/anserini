@@ -34,14 +34,12 @@ After indexing has completed, you should be able to perform retrieval as follows
 nohup target/appassembler/bin/SearchCollection -index lucene-index.fire12-en.pos+docvectors+rawdocs \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.fire12en.176-225.txt \
  -language en -bm25 -output run.fire12-en.bm25.topics.fire12en.176-225.txt &
-
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```
 eval/trec_eval.9.0.4/trec_eval -m map -m P.20 -m ndcg_cut.20 src/main/resources/topics-and-qrels/qrels.fire12en.176-225.txt run.fire12-en.bm25.topics.fire12en.176-225.txt
-
 ```
 
 ## Effectiveness
@@ -61,5 +59,3 @@ P20                                     | BM25      |
 NDCG20                                  | BM25      |
 :---------------------------------------|-----------|
 [FIRE 2012 (Monolingual English)](../src/main/resources/topics-and-qrels/topics.fire12en.176-225.txt)| 0.5420    |
-
-

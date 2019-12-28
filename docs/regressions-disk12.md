@@ -91,7 +91,6 @@ nohup target/appassembler/bin/SearchCollection -index lucene-index.disk12.pos+do
 nohup target/appassembler/bin/SearchCollection -index lucene-index.disk12.pos+docvectors+rawdocs \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.adhoc.151-200.txt \
  -ql -axiom -rerankCutoff 20 -axiom.deterministic -output run.disk12.ql+ax.topics.adhoc.151-200.txt &
-
 ```
 
 Evaluation can be performed using `trec_eval`:
@@ -120,7 +119,6 @@ eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrel
 eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.adhoc.51-100.txt run.disk12.ql+ax.topics.adhoc.51-100.txt
 eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.adhoc.101-150.txt run.disk12.ql+ax.topics.adhoc.101-150.txt
 eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.adhoc.151-200.txt run.disk12.ql+ax.topics.adhoc.151-200.txt
-
 ```
 
 ## Effectiveness
@@ -139,5 +137,3 @@ P30                                     | BM25      | +RM3      | +Ax       | QL
 [TREC-1 Ad Hoc Topics 51-100](../src/main/resources/topics-and-qrels/topics.adhoc.51-100.txt)| 0.4533    | 0.4800    | 0.5067    | 0.4520    | 0.4627    | 0.4953    |
 [TREC-2 Ad Hoc Topics 101-150](../src/main/resources/topics-and-qrels/topics.adhoc.101-150.txt)| 0.4280    | 0.4593    | 0.4753    | 0.4207    | 0.4420    | 0.4740    |
 [TREC-3 Ad Hoc Topics 151-200](../src/main/resources/topics-and-qrels/topics.adhoc.151-200.txt)| 0.4740    | 0.5273    | 0.5100    | 0.4580    | 0.4913    | 0.5167    |
-
-
