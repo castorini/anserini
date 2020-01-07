@@ -250,6 +250,16 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
   }
 
   @Test
+  public void testRawDoc() throws Exception {
+    Directory dir = FSDirectory.open(tempDir1);
+    IndexReader reader = DirectoryReader.open(dir);
+
+    assertEquals("here is some text here is some more text", IndexReaderUtils.getRawDocument(reader, "doc1"));
+    assertEquals("more texts", IndexReaderUtils.getRawDocument(reader, "doc2"));
+    assertEquals("here is a test", IndexReaderUtils.getRawDocument(reader, "doc3"));
+  }
+
+  @Test
   public void testDocidConversion() throws Exception {
     Directory dir = FSDirectory.open(tempDir1);
     IndexReader reader = DirectoryReader.open(dir);
