@@ -1,4 +1,4 @@
-/**
+/*
  * Anserini: A Lucene toolkit for replicable information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -102,8 +102,8 @@ public class OrderedSequentialPairsFeatureExtractor<T> implements FeatureExtract
 
   /**
    * Method is used to determine which pairs we will count for,
-   * implementation can be overriden for other features that are computed similarly
-   * @param queryTokens
+   * implementation can be overridden for other features that are computed similarly
+   * @param queryTokens query tokens
    */
   protected void populateQueryPairMap(List<String> queryTokens) {
     // Construct a count map and a map of phrase pair x y, x->y

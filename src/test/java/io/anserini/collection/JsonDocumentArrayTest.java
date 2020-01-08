@@ -1,4 +1,4 @@
-/**
+/*
  * Anserini: A Lucene toolkit for replicable information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,6 +21,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.concurrent.atomic.AtomicInteger;
 
 // A file in a JsonCollection can either be:
@@ -64,7 +65,8 @@ public class JsonDocumentArrayTest extends DocumentTest {
     JsonCollection collection = new JsonCollection();
     int j = 0;
     for (int i = 0; i < rawFiles.size(); i++) {
-      BaseFileSegment<JsonCollection.Document> iter = collection.createFileSegment(rawFiles.get(i));
+      Iterator<JsonCollection.Document> iter =
+              collection.createFileSegment(rawFiles.get(i)).iterator();
       while (iter.hasNext()) {
         JsonCollection.Document parsed = iter.next();
         assertEquals(parsed.id(), expected.get(j).get("id"));
@@ -80,7 +82,8 @@ public class JsonDocumentArrayTest extends DocumentTest {
   public void testStreamIteration() {
     JsonCollection collection = new JsonCollection();
     try {
-      BaseFileSegment<JsonCollection.Document> iter = collection.createFileSegment(rawFiles.get(0));
+      Iterator<JsonCollection.Document> iter =
+              collection.createFileSegment(rawFiles.get(0)).iterator();
       AtomicInteger cnt = new AtomicInteger();
       iter.forEachRemaining(d -> cnt.incrementAndGet());
       assertEquals(2, cnt.get());

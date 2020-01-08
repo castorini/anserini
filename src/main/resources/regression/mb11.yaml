@@ -8,8 +8,9 @@ qrels_root: src/main/resources/topics-and-qrels/
 index_root:
 ranking_root:
 input_roots:
-  - /tuna1/
-  - /scratch2/
+  - /tuna1/      # on tuna
+  - /store/      # on orca
+  - /scratch2/   # on damiano
 input: collections/twitter/Tweets2011-corpus/json.gold/
 index_path: indexes/lucene-index.mb11.pos+docvectors+rawdocs # path to the existing index, used in regression test if `--index` option is absent
 collection: TweetCollection
@@ -28,10 +29,10 @@ index_stats:
   total terms: 175050212
 topic_reader: Microblog
 topics:
-  - name: "[TREC 2011 Microblog Track Topics](http://trec.nist.gov/data/microblog2011.html)"
+  - name: "[TREC 2011 Microblog Track Topics](../src/main/resources/topics-and-qrels/topics.microblog2011.txt)"
     path: topics.microblog2011.txt
     qrel: qrels.microblog2011.txt
-  - name: "[TREC 2012 Microblog Track Topics](http://trec.nist.gov/data/microblog2012.html)"
+  - name: "[TREC 2012 Microblog Track Topics](../src/main/resources/topics-and-qrels/topics.microblog2012.txt)"
     path: topics.microblog2012.txt
     qrel: qrels.microblog2012.txt
 evals:

@@ -1,4 +1,4 @@
-/**
+/*
  * Anserini: A Lucene toolkit for replicable information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,7 +24,7 @@ import java.io.IOException;
 import java.util.Arrays;
 
 /**
- * Tests that BM25 score is computed according to our forumla
+ * Tests that BM25 score is computed according to our formula
  */
 public class BM25FeatureExtractorTest extends BaseFeatureExtractorTest<Integer> {
   // Test the BM25 extractor with 2 settings of k and b

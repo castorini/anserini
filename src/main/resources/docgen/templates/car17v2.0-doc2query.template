@@ -1,0 +1,50 @@
+# Anserini: Regressions for [CAR17](http://trec-car.cs.unh.edu/) (v2.0) + doc2query
+
+This page documents regression experiments for the [TREC 2017 Complex Answer Retrieval (CAR)](http://trec-car.cs.unh.edu/) section-level passage retrieval task (v2.0), with doc2query expansions, as proposed in the following paper:
+
++ Rodrigo Nogueira, Wei Yang, Jimmy Lin, Kyunghyun Cho. [Document Expansion by Query Prediction.](https://arxiv.org/abs/1904.08375) _arxiv:1904.08375_
+
+These experiments are integrated into Anserini's regression testing framework.
+For more complete instructions on how to run end-to-end experiments, refer to [this page](experiments-doc2query.md).
+
+The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/car17v2.0-doc2query.yaml).
+Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/car17v2.0-doc2query.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+
+## Indexing
+
+Typical indexing command:
+
+```
+${index_cmds}
+```
+
+The directory `/path/to/car17v2.0-doc2query` should be the root directory of Complex Answer Retrieval (CAR) paragraph corpus (v2.0) that has been augmented with the doc2query expansions, i.e., `collection_jsonl_expanded_topk10/` as described in [this page](experiments-doc2query.md).
+
+For additional details, see explanation of [common indexing options](common-indexing-options.md).
+
+## Retrieval
+
+The "benchmarkY1-test" topics and qrels (v2.0) are stored in [`src/main/resources/topics-and-qrels/`](../src/main/resources/topics-and-qrels/), downloaded from [the CAR website](http://trec-car.cs.unh.edu/datareleases/):
+
++ [`topics.car17v2.0.benchmarkY1test.txt`](../src/main/resources/topics-and-qrels/topics.car17v2.0.benchmarkY1test.txt)
++ [`qrels.car17v2.0.benchmarkY1test.txt`](../src/main/resources/topics-and-qrels/qrels.car17v2.0.benchmarkY1test.txt)
+
+Specifically, this is the section-level passage retrieval task with automatic ground truth.
+
+After indexing has completed, you should be able to perform retrieval as follows:
+
+```
+${ranking_cmds}
+```
+
+Evaluation can be performed using `trec_eval`:
+
+```
+${eval_cmds}
+```
+
+## Effectiveness
+
+With the above commands, you should be able to replicate the following results:
+
+${effectiveness}

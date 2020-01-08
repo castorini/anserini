@@ -1,4 +1,4 @@
-/**
+/*
  * Anserini: A Lucene toolkit for replicable information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,7 +24,7 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-public class CarTopicReader extends TopicReader {
+public class CarTopicReader extends TopicReader<String> {
 
   public CarTopicReader(Path topicFile) {
     super(topicFile);

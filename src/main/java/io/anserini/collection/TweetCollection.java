@@ -1,4 +1,4 @@
-/**
+/*
  * Anserini: A Lucene toolkit for replicable information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,7 +24,6 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
-import io.anserini.util.JsonParser;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -44,38 +43,34 @@ import java.util.Locale;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.OptionalDouble;
+import java.util.OptionalInt;
 import java.util.OptionalLong;
 import java.util.zip.GZIPInputStream;
 
 /**
- * Class representing an instance of a Twitter collection.
+ * A collection of tweets.
  */
-public class TweetCollection extends DocumentCollection
-    implements SegmentProvider<TweetCollection.Document> {
-
+public class TweetCollection extends DocumentCollection<TweetCollection.Document> {
   private static final Logger LOG = LogManager.getLogger(TweetCollection.class);
 
   @Override
-  public List<Path> getFileSegmentPaths() {
-    return super.discover();
+  public FileSegment<TweetCollection.Document> createFileSegment(Path p) throws IOException {
+    return new Segment(p);
   }
 
-  @Override
-  public FileSegment createFileSegment(Path p) throws IOException {
-    return new FileSegment(p);
-  }
-
-  public class FileSegment extends BaseFileSegment<Document> {
-
+  /**
+   * A file containing multiple tweets.
+   */
+  public static class Segment extends FileSegment<TweetCollection.Document> {
     private static final String DATE_FORMAT = "E MMM dd HH:mm:ss ZZZZZ yyyy"; // "Fri Mar 29 11:03:41 +0000 2013"
 
-    protected FileSegment(Path path) throws IOException {
-      this.path = path;
+    protected Segment(Path path) throws IOException {
+      super(path);
       this.bufferedReader = null;
       String fileName = path.toString();
       if (fileName.endsWith(".gz")) { //.gz
         InputStream stream = new GZIPInputStream(
-            Files.newInputStream(path, StandardOpenOption.READ), BUFFER_SIZE);
+                Files.newInputStream(path, StandardOpenOption.READ), BUFFER_SIZE);
         bufferedReader = new BufferedReader(new InputStreamReader(stream, StandardCharsets.UTF_8));
       } else { // plain text file
         bufferedReader = new BufferedReader(new FileReader(fileName));
@@ -83,7 +78,7 @@ public class TweetCollection extends DocumentCollection
     }
 
     @Override
-    public void readNext() throws IOException {
+    public void readNext() throws IOException, NoSuchElementException, ParseException {
       String nextRecord = bufferedReader.readLine();
       if (nextRecord == null) {
         throw new NoSuchElementException();
@@ -91,7 +86,7 @@ public class TweetCollection extends DocumentCollection
       parseJson(nextRecord);
     }
 
-    private void parseJson(String json) {
+    private void parseJson(String json) throws ParseException {
       ObjectMapper mapper = new ObjectMapper();
       Document.TweetObject tweetObj = null;
       try {
@@ -100,11 +95,11 @@ public class TweetCollection extends DocumentCollection
                 .registerModule(new Jdk8Module()) // Deserialize Java 8 Optional: http://www.baeldung.com/jackson-optional
                 .readValue(json, Document.TweetObject.class);
       } catch (IOException e) {
-        throw new RuntimeException(e);
+        throw new ParseException("IOException in parseJson", 0);
       }
 
-      if (JsonParser.isFieldAvailable(tweetObj.getDelete())) {
-        throw new RuntimeException("Ignore deleted tweets");
+      if (isFieldAvailable(tweetObj.getDelete())) {
+        throw new ParseException("Ignore deleted tweets", 0);
       }
 
       bufferedRecord = new TweetCollection.Document();
@@ -119,24 +114,24 @@ public class TweetCollection extends DocumentCollection
       } catch (ParseException e) {
         bufferedRecord.timestampMs = OptionalLong.of(-1L);
         bufferedRecord.epoch = OptionalLong.of(-1L);
-        throw new RuntimeException(e);
+        throw e;
       }
 
-      if (JsonParser.isFieldAvailable(tweetObj.getInReplyToStatusId())) {
+      if (isFieldAvailable(tweetObj.getInReplyToStatusId())) {
         bufferedRecord.inReplyToStatusId = tweetObj.getInReplyToStatusId();
       } else {
         bufferedRecord.inReplyToStatusId = OptionalLong.empty();
       }
 
-      if (JsonParser.isFieldAvailable(tweetObj.getInReplyToUserId())) {
+      if (isFieldAvailable(tweetObj.getInReplyToUserId())) {
         bufferedRecord.inReplyToUserId = tweetObj.getInReplyToUserId();
       } else {
         bufferedRecord.inReplyToUserId = OptionalLong.empty();
       }
 
-      if (JsonParser.isFieldAvailable(tweetObj.getRetweetedStatus())) {
+      if (isFieldAvailable(tweetObj.getRetweetedStatus())) {
         bufferedRecord.retweetStatusId = tweetObj.getRetweetedStatus().get().getId();
-        if (JsonParser.isFieldAvailable(tweetObj.getRetweetedStatus().get().getUser())) {
+        if (isFieldAvailable(tweetObj.getRetweetedStatus().get().getUser())) {
           bufferedRecord.retweetUserId = tweetObj.getRetweetedStatus().get().getUser().get().getId();
         } else {
           bufferedRecord.retweetUserId = OptionalLong.empty();
@@ -148,8 +143,8 @@ public class TweetCollection extends DocumentCollection
         bufferedRecord.retweetCount = OptionalLong.empty();
       }
 
-      if (JsonParser.isFieldAvailable(tweetObj.getCoordinates()) &&
-              JsonParser.isFieldAvailable(tweetObj.getCoordinates().get().getCoordinates()) &&
+      if (isFieldAvailable(tweetObj.getCoordinates()) &&
+              isFieldAvailable(tweetObj.getCoordinates().get().getCoordinates()) &&
               tweetObj.getCoordinates().get().getCoordinates().get().size() >= 2) {
         bufferedRecord.longitude = tweetObj.getCoordinates().get().getCoordinates().get().get(0);
         bufferedRecord.latitude = tweetObj.getCoordinates().get().getCoordinates().get().get(1);
@@ -158,7 +153,7 @@ public class TweetCollection extends DocumentCollection
         bufferedRecord.longitude = OptionalDouble.empty();
       }
 
-      if (JsonParser.isFieldAvailable(tweetObj.getLang())) {
+      if (isFieldAvailable(tweetObj.getLang())) {
         bufferedRecord.lang = tweetObj.getLang();
       } else {
         bufferedRecord.lang = Optional.empty();
@@ -169,13 +164,13 @@ public class TweetCollection extends DocumentCollection
       bufferedRecord.statusesCount = tweetObj.getUser().getStatusesCount();
       bufferedRecord.screenName = tweetObj.getUser().getScreenName();
 
-      if (JsonParser.isFieldAvailable(tweetObj.getUser().getName())) {
+      if (isFieldAvailable(tweetObj.getUser().getName())) {
         bufferedRecord.name = tweetObj.getUser().getName();
       } else {
         bufferedRecord.name = Optional.empty();
       }
 
-      if (JsonParser.isFieldAvailable(tweetObj.getUser().getProfileImageUrl())) {
+      if (isFieldAvailable(tweetObj.getUser().getProfileImageUrl())) {
         bufferedRecord.profileImageUrl = tweetObj.getUser().getProfileImageUrl();
       } else {
         bufferedRecord.profileImageUrl = Optional.empty();
@@ -184,10 +179,27 @@ public class TweetCollection extends DocumentCollection
       bufferedRecord.jsonString = json;
       bufferedRecord.jsonObject = tweetObj;
     }
+
+    private boolean isFieldAvailable(Object field) {
+      if (field == null) {
+        return false;
+      }
+      boolean isPresent;
+      if (field.getClass() == OptionalLong.class) {
+        isPresent = ((OptionalLong)field).isPresent();
+      } else if (field.getClass() == OptionalDouble.class) {
+        isPresent = ((OptionalDouble)field).isPresent();
+      } else if (field.getClass() == OptionalInt.class) {
+        isPresent = ((OptionalInt)field).isPresent();
+      } else {
+        isPresent = ((Optional)field).isPresent();
+      }
+      return isPresent;
+    }
   }
 
   /**
-   * A Twitter document (status).
+   * A tweet (i.e., status).
    */
   public static class Document implements SourceDocument {
     // Required fields

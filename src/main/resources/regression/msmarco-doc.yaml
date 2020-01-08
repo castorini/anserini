@@ -14,7 +14,7 @@ index_options:
   - -storePositions
   - -storeDocvectors
   - -storeRawDocs
-topic_reader: Tsv
+topic_reader: TsvInt
 evals:
   - command: eval/trec_eval.9.0.4/trec_eval
     params:
@@ -35,8 +35,9 @@ evals:
     metric_precision: 4
     can_combine: true
 input_roots:
-  - /tuna1/
-  - /scratch2/
+  - /tuna1/      # on tuna
+  - /store/      # on orca
+  - /scratch2/   # on damiano
 input: collections/msmarco/doc/
 index_path: indexes/lucene-index.msmarco-doc.pos+docvectors+rawdocs
 index_stats:
@@ -48,8 +49,8 @@ topics:
     path: topics.msmarco-doc.dev.txt
     qrel: qrels.msmarco-doc.dev.txt
 models:
-  - name: bm25
-    display: BM25
+  - name: bm25-default
+    display: BM25 (Default)
     params:
       - -bm25
     results:
@@ -57,7 +58,7 @@ models:
         - 0.2310
       R@1000:
         - 0.8856
-  - name: bm25+rm3
+  - name: bm25-default+rm3
     display: +RM3
     params:
       - -bm25
@@ -67,3 +68,74 @@ models:
         - 0.1632
       R@1000:
         - 0.8785
+  - name: bm25-default+ax
+    display: +Ax
+    params:
+      - -bm25
+      - -axiom
+      - -rerankCutoff 20
+      - -axiom.deterministic
+    results:
+      map:
+        - 0.1147
+      R@1000:
+        - 0.8369
+  - name: bm25-default+prf
+    display: +PRF
+    params:
+      - -bm25
+      - -bm25prf
+    results:
+      map:
+        - 0.1357
+      R@1000:
+        - 0.8471
+  - name: bm25-tuned
+    display: BM25 (Tuned)
+    params:
+      - -bm25
+      - -k1 3.44
+      - -b 0.87
+    results:
+      map:
+        - 0.2788
+      R@1000:
+        - 0.9326
+  - name: bm25-tuned+rm3
+    display: +RM3
+    params:
+      - -bm25
+      - -k1 3.44
+      - -b 0.87
+      - -rm3
+    results:
+      map:
+        - 0.2289
+      R@1000:
+        - 0.9320
+  - name: bm25-tuned+ax
+    display: +Ax
+    params:
+      - -bm25
+      - -k1 3.44
+      - -b 0.87
+      - -axiom
+      - -rerankCutoff 20
+      - -axiom.deterministic
+    results:
+      map:
+        - 0.1895
+      R@1000:
+        - 0.9264
+  - name: bm25-tuned+prf
+    display: +PRF
+    params:
+      - -bm25
+      - -k1 3.44
+      - -b 0.87
+      - -bm25prf
+    results:
+      map:
+        - 0.1559
+      R@1000:
+        - 0.8758

@@ -14,7 +14,7 @@ index_options:
   - -storePositions
   - -storeDocvectors
   - -storeRawDocs
-topic_reader: Tsv
+topic_reader: TsvInt
 evals:
   - command: eval/trec_eval.9.0.4/trec_eval
     params:
@@ -35,8 +35,9 @@ evals:
     metric_precision: 4
     can_combine: true
 input_roots:
-  - /tuna1/
-  - /scratch2/
+  - /tuna1/      # on tuna
+  - /store/      # on orca
+  - /scratch2/   # on damiano
 input: collections/msmarco/passage/
 index_path: indexes/lucene-index.msmarco-passage.pos+docvectors+rawdocs
 index_stats:
@@ -67,6 +68,28 @@ models:
         - 0.1661
       R@1000:
         - 0.8606
+  - name: bm25-default+ax
+    display: +Ax
+    params:
+      - -bm25
+      - -axiom
+      - -rerankCutoff 20
+      - -axiom.deterministic
+    results:
+      map:
+        - 0.1625
+      R@1000:
+        - 0.8747
+  - name: bm25-default+prf
+    display: +PRF
+    params:
+      - -bm25
+      - -bm25prf
+    results:
+      map:
+        - 0.1520
+      R@1000:
+        - 0.8537
   - name: bm25-tuned
     display: BM25 (Tuned)
     params:
@@ -90,3 +113,29 @@ models:
         - 0.1762
       R@1000:
         - 0.8687
+  - name: bm25-tuned+ax
+    display: +Ax
+    params:
+      - -bm25
+      - -k1 0.82
+      - -b 0.68
+      - -axiom
+      - -rerankCutoff 20
+      - -axiom.deterministic
+    results:
+      map:
+        - 0.1699
+      R@1000:
+        - 0.8809
+  - name: bm25-tuned+prf
+    display: +PRF
+    params:
+      - -bm25
+      - -k1 0.82
+      - -b 0.68
+      - -bm25prf
+    results:
+      map:
+        - 0.1582
+      R@1000:
+        - 0.8561

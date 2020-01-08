@@ -1,0 +1,71 @@
+---
+name: clef06-fr
+index_command: target/appassembler/bin/IndexCollection
+index_utils_command: target/appassembler/bin/IndexUtils
+search_command: target/appassembler/bin/SearchCollection
+topic_root: src/main/resources/topics-and-qrels/
+qrels_root: src/main/resources/topics-and-qrels/
+index_root:
+ranking_root:
+collection: JsonCollection
+generator: LuceneDocumentGenerator
+threads: 16
+index_options:
+  - -storePositions
+  - -storeDocvectors
+  - -storeRawDocs
+  - -language fr
+search_options:
+  - -language fr
+topic_reader: TsvString
+evals:
+  - command: eval/trec_eval.9.0.4/trec_eval
+    params:
+      - -m map
+    separator: "\t"
+    parse_index: 2
+    metric: map
+    metric_precision: 4
+    can_combine: true
+  - command: eval/trec_eval.9.0.4/trec_eval
+    params:
+      - -m P.20
+    separator: "\t"
+    parse_index: 2
+    metric: p20
+    metric_precision: 4
+    can_combine: true
+  - command: eval/trec_eval.9.0.4/trec_eval
+    params:
+      - -m ndcg_cut.20
+    separator: "\t"
+    parse_index: 2
+    metric: ndcg20
+    metric_precision: 4
+    can_combine: true
+input_roots:
+  - /tuna1/      # on tuna
+  - /store/      # on orca
+  - /scratch2/   # on damiano
+input: collections/newswire/clir/clef2006-fr.json
+index_path: indexes/lucene-index.clef06-fr.pos+docvectors+rawdocs
+index_stats:
+  documents: 171109
+  documents (non-empty): 171109
+  total terms: 34352833  
+topics:
+  - name: "[CLEF 2006 (Monolingual French)](../src/main/resources/topics-and-qrels/topics.clef06fr.mono.fr.txt)"
+    path: topics.clef06fr.mono.fr.txt
+    qrel: qrels.clef06fr.txt
+models:
+  - name: bm25
+    display: BM25
+    params:
+      - -bm25
+    results:
+      map:
+        - 0.3111
+      p20:
+        - 0.3184
+      ndcg20:
+        - 0.4458

@@ -62,13 +62,13 @@ class Evaluation(object):
             if process.returncode == 0:
                 try:
                     if i == 0:
-                        o = open( output_path, 'w')
+                        o = open(output_path, 'w')
                     else:
-                        o = open( output_path, 'a')
+                        o = open(output_path, 'a')
                     if 'trec_eval' in qrel_program:
-                        o.write(stdout)
+                        o.write(stdout.decode("utf-8"))
                     elif 'gdeval' in qrel_program:
-                        for line in stdout.split('\n')[1:-1]:
+                        for line in stdout.decode("utf-8").split('\n')[1:-1]:
                             line = line.strip()
                             if line:
                                 row = line.split(',')

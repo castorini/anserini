@@ -1,4 +1,4 @@
-/**
+/*
  * Anserini: A Lucene toolkit for replicable information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,9 +16,9 @@
 
 package io.anserini.ltr;
 
+import io.anserini.analysis.AnalyzerUtils;
 import io.anserini.ltr.feature.FeatureExtractors;
 import io.anserini.rerank.RerankerContext;
-import io.anserini.util.AnalyzerUtils;
 import io.anserini.util.Qrels;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -136,7 +136,7 @@ abstract public class BaseFeatureExtractor<K> {
         for (String qid : qrels.getQids()) {
             // Construct the reranker context
             LOG.debug(String.format("Constructing context for QID: %s", qid));
-            String queryText = topics.get((K)qid).get("title");
+            String queryText = topics.get(Integer.parseInt(qid)).get("title");
             Query q = null;
 
             // We will not be checking for nulls here because the input should be correct,

@@ -1,4 +1,4 @@
-/**
+/*
  * Anserini: A Lucene toolkit for replicable information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,7 +20,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class TrecDocumentTest extends DocumentTest {
@@ -42,35 +43,44 @@ public class TrecDocumentTest extends DocumentTest {
         "get this\n" +
         " right\n" +
         "</TEXT>\n" +
+        // This is the NTCIR-8 variant
+        "</DOC>\n" +
+        "<DOC id=\"doc2\">\n" +
+        "<TEXT>\n" +
+        "here is some text.\n" +
+        "</TEXT>\n" +
         "</DOC>\n";
 
     rawFiles.add(createFile(doc));
 
-    HashMap<String, String> doc1 = new HashMap<>();
-    doc1.put("id", "AP-0001");
-    // ONLY "<TEXT>", "<HEADLINE>", "<TITLE>", "<HL>", "<HEAD>",
-    // "<TTL>", "<DD>", "<DATE>", "<LP>", "<LEADPARA>" will be included
-    doc1.put("content", "<HEAD>This is head and should be included</HEAD>\n" +
-        "<HEADLINE>This is headline and should be included</HEADLINE>\n" +
-        "<TEXT>\n" +
-        "Hopefully we\n" +
-        "get this\n" +
-        "right\n" +
-        "</TEXT>");
-    expected.add(doc1);
+    expected.add(Map.of("id", "AP-0001",
+        // ONLY "<TEXT>", "<HEADLINE>", "<TITLE>", "<HL>", "<HEAD>",
+        // "<TTL>", "<DD>", "<DATE>", "<LP>", "<LEADPARA>" will be included
+        "content", "<HEAD>This is head and should be included</HEAD>\n" +
+            "<HEADLINE>This is headline and should be included</HEADLINE>\n" +
+            "<TEXT>\n" +
+            "Hopefully we\n" +
+            "get this\n" +
+            "right\n" +
+            "</TEXT>"));
+
+    expected.add(Map.of("id", "doc2",
+        "content", "<TEXT>\nhere is some text.\n</TEXT>"));
   }
 
   @Test
   public void test() throws Exception {
     TrecCollection collection = new TrecCollection();
-    for (int i = 0; i < rawFiles.size(); i++) {
-      BaseFileSegment<TrecCollection.Document> iter = collection.createFileSegment(rawFiles.get(i));
-      while (iter.hasNext()) {
-        TrecCollection.Document parsed = iter.next();
-        assertEquals(parsed.id(), expected.get(i).get("id"));
-        assertEquals(parsed.content(), expected.get(i).get("content"));
-      }
-    }
+    Iterator<TrecCollection.Document> iter = collection.createFileSegment(rawFiles.get(0)).iterator();
+    TrecCollection.Document parsed = iter.next();
+    assertEquals(expected.get(0).get("id"), parsed.id());
+    assertEquals(expected.get(0).get("content"), parsed.content());
+
+    parsed = iter.next();
+    assertEquals(expected.get(1).get("id"), parsed.id());
+    assertEquals(expected.get(1).get("content"), parsed.content());
+
+    assertEquals(false, iter.hasNext());
   }
 
   // Tests if the iterator is behaving properly. If it is, we shouldn't have any issues running into
@@ -79,10 +89,10 @@ public class TrecDocumentTest extends DocumentTest {
   public void testStreamIteration() {
     TrecCollection collection = new TrecCollection();
     try {
-      BaseFileSegment<TrecCollection.Document> iter = collection.createFileSegment(rawFiles.get(0));
+      Iterator<TrecCollection.Document> iter = collection.createFileSegment(rawFiles.get(0)).iterator();
       AtomicInteger cnt = new AtomicInteger();
       iter.forEachRemaining(d -> cnt.incrementAndGet());
-      assertEquals(1, cnt.get());
+      assertEquals(2, cnt.get());
     } catch (IOException e) {
       throw new RuntimeException(e);
     }

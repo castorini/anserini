@@ -1,7 +1,8 @@
-# Anserini: Experiments on [MS MARCO (Passage)](https://github.com/microsoft/MSMARCO-Passage-Ranking)
+# Anserini: BM25 Baselines on [MS MARCO Passage Retrieval](https://github.com/microsoft/MSMARCO-Passage-Ranking)
 
-This page contains basic instructions for getting started on the MS MARCO *passage* ranking task.
+This page contains instructions for running BM25 baselines on the MS MARCO *passage* ranking task.
 Note that there is a separate [MS MARCO *document* ranking task](experiments-msmarco-doc.md).
+We also have a [separate page](experiments-doc2query.md) describing document expansion experiments (Doc2query) for this task.
 
 ## Data Prep
 
@@ -51,8 +52,9 @@ The output queries file should contain 6980 lines.
 We can now retrieve this smaller set of queries:
 
 ```
-python ./src/main/python/msmarco/retrieve.py --hits 1000 --index msmarco-passage/lucene-index-msmarco \
- --qid_queries msmarco-passage/queries.dev.small.tsv --output msmarco-passage/run.dev.small.tsv
+python ./src/main/python/msmarco/retrieve.py --hits 1000 --threads 1 \
+ --index msmarco-passage/lucene-index-msmarco --qid_queries msmarco-passage/queries.dev.small.tsv \
+ --output msmarco-passage/run.dev.small.tsv
 ```
 
 Note that by default, the above script uses BM25 with tuned parameters `k1=0.82`, `b=0.68` (more details below).
@@ -60,13 +62,17 @@ The option `-hits` specifies the of documents per query to be retrieved.
 Thus, the output file should have approximately 6980 * 1000 = 6.9M lines. 
 
 Retrieval speed will vary by machine:
-On a modern desktop with an SSD, we can get ~0.06 s/query (taking about seven minutes).
+On a modern desktop with an SSD, we can get ~0.06 s/query (taking about seven minutes). We can also perform multithreaded retrieval by changing the `--threads` argument.
+
 Alternatively, we can run the same script implemented in Java, which is a bit faster:
 
 ```
-./target/appassembler/bin/SearchMsmarco  -hits 1000 -index msmarco-passage/lucene-index-msmarco \
- -qid_queries msmarco-passage/queries.dev.small.tsv -output msmarco-passage/run.dev.small.tsv
+./target/appassembler/bin/SearchMsmarco  -hits 1000 -threads 1 \
+ -index msmarco-passage/lucene-index-msmarco -qid_queries msmarco-passage/queries.dev.small.tsv \
+ -output msmarco-passage/run.dev.small.tsv
 ```
+
+Similarly, we can perform multithreaded retrieval by changing the `-threads` argument.
 
 Finally, we can evaluate the retrieved documents using this the official MS MARCO evaluation script: 
 
@@ -115,10 +121,10 @@ Average precision and recall@1000 are the two metrics we care about the most.
 
 Note that this figure differs slightly from the value reported in [Document Expansion by Query Prediction](https://arxiv.org/abs/1904.08375), which uses the Anserini (system-wide) default of `k1=0.9`, `b=0.4`.
 
-Tuning was accomplished with the `tune_bm25.py` script, using the queries found [here](https://github.com/castorini/Anserini-data/tree/master/MSMARCO).
-There are five different sets of 10k samples (from the `shuf` command).
-We tune on each individual set and then average parameter values across all five sets (this has the effect of regularization).
-Note that we are currently optimizing recall@1000 since Anserini output will serve as input to later stage rerankers (e.g., based on BERT), and we want to maximize the number of relevant documents the rerankers have to work with.
+Tuning was accomplished with the [`tune_bm25.py`](../src/main/python/msmarco/tune_bm25.py) script, using the queries found [here](https://github.com/castorini/Anserini-data/tree/master/MSMARCO); the basic approach is grid search of parameter values in tenth increments.
+There are five different sets of 10k samples (using the `shuf` command).
+We tuned on each individual set and then averaged parameter values across all five sets (this has the effect of regularization).
+Note that we optimized recall@1000 since Anserini output serves as input to later stage rerankers (e.g., based on BERT), and we want to maximize the number of relevant documents the rerankers have to work with.
 The tuned parameters using this method are `k1=0.82`, `b=0.68`.
 
 Here's the comparison between the Anserini default and tuned parameters:
@@ -137,3 +143,10 @@ Setting                     | MRR@10 | MAP    | Recall@1000 |
 :---------------------------|-------:|-------:|------------:|
 Default (`k1=0.9`, `b=0.4`) | 0.1839 | 0.1925 | 0.8526
 Tuned (`k1=0.82`, `b=0.72`) | 0.1875 | 0.1956 | 0.8578
+
+
+
+## Replication Log
+
++ Results replicated by [@ronakice](https://github.com/ronakice) on 2019-08-12 (commit [`5b29d16`](https://github.com/castorini/anserini/commit/5b29d1654abc5e8a014c2230da990ab2f91fb340))
++ Results replicated by [@MathBunny](https://github.com/MathBunny) on 2019-08-12 (commit [`5b29d16`](https://github.com/castorini/anserini/commit/5b29d1654abc5e8a014c2230da990ab2f91fb340))

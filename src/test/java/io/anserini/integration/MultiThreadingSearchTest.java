@@ -1,4 +1,4 @@
-/**
+/*
  * Anserini: A Lucene toolkit for replicable information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,10 +16,12 @@
 
 package io.anserini.integration;
 
-import io.anserini.eval.Eval;
 import org.junit.After;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 
 public class MultiThreadingSearchTest extends EndToEndTest {
 
@@ -30,6 +32,14 @@ public class MultiThreadingSearchTest extends EndToEndTest {
     generator = "Jsoup";
     topicReader = "Trec";
 
+    docCount = 3;
+
+    counterIndexed = 3;
+    counterEmpty = 0;
+    counterUnindexable = 0;
+    counterSkipped = 0;
+    counterErrors = 0;
+
     fieldNormStatusTotalFields = 1; // text
     termIndexStatusTermCount = 12; // Please note that standard analyzer ignores stopwords.
                                    // Also, this includes docids
@@ -39,36 +49,41 @@ public class MultiThreadingSearchTest extends EndToEndTest {
     termIndexStatusTotPos = 16 + storedFieldStatusTotalDocCounts;
     storedFieldStatusTotFields = 9;  // 3 docs * (1 id + 1 text + 1 raw)
   }
-  
+
   protected void setSearchArgs() {
     super.setSearchArgs();
     searchArgs.bm25 = true;
     searchArgs.b = new String[] {"0.2", "0.8"};
   }
-  
-  protected void testEval() throws Exception {
-    setEvalArgs();
-    float[] res = new float[]{0.8333f, 0.5833f};
-    try {
-      Eval.setAllMetrics(this.evalMetrics);
-      for (int i = 0; i < searchArgs.b.length; i++) {
-        System.out.println(evalArgs.runPath+"_k1="+searchArgs.k1[0]+",b="+searchArgs.b[i]);
-        Eval.eval(evalArgs.runPath+"_k1="+searchArgs.k1[0]+",b="+searchArgs.b[i], evalArgs.qrelPath, evalArgs.longDocids, evalArgs.asc);
-        assertEquals(Eval.getAllEvals().get(this.evalMetrics[0]).aggregated,
-            res[i], 0.001);
+
+  protected void checkRankingResults(String output) throws IOException {
+    String[][] multiReferenceOutput = new String[][] {
+      {"1 Q0 DOC222 1 0.346600 Anserini",
+       "1 Q0 TREC_DOC_1 2 0.325400 Anserini",
+       "1 Q0 WSJ_1 3 0.069500 Anserini"},
+      {"1 Q0 TREC_DOC_1 1 0.350900 Anserini",
+       "1 Q0 DOC222 2 0.336600 Anserini",
+       "1 Q0 WSJ_1 3 0.067100 Anserini"}
+    };
+
+    for (int i = 0; i < searchArgs.b.length; i++) {
+      String fname = output + "_k1=" + searchArgs.k1[0] + ",b=" + searchArgs.b[i];
+
+      BufferedReader br = new BufferedReader(new FileReader(fname));
+      int cnt = 0;
+      String s;
+      while ((s = br.readLine()) != null) {
+        assertEquals(multiReferenceOutput[i][cnt], s);
+        cnt++;
       }
-    } catch (Exception e) {
-      System.out.println("Test Eval failed");
-      e.printStackTrace();
-      fail();
     }
   }
-  
+
   @After
   @Override
   public void tearDown() throws Exception {
     for (String b : searchArgs.b) {
-      new File(evalArgs.runPath+"_k1="+searchArgs.k1[0]+",b="+b).delete();
+      new File(searchArgs.output+"_k1="+searchArgs.k1[0]+",b="+b).delete();
     }
     super.tearDown();
   }

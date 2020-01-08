@@ -1,26 +1,33 @@
 Anserini
 ========
-[![Generic badge](https://img.shields.io/badge/Lucene-v8.0.0-yellow.svg)](https://archive.apache.org/dist/lucene/java/8.0.0/)
 [![Build Status](https://travis-ci.org/castorini/anserini.svg?branch=master)](https://travis-ci.org/castorini/Anserini)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.anserini/anserini/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.anserini/anserini)
-[![LICENSE](https://img.shields.io/badge/license-Apache-blue.svg?style=flat-square)](./LICENSE)
+[![codecov](https://codecov.io/gh/castorini/anserini/branch/master/graph/badge.svg)](https://codecov.io/gh/castorini/anserini)
+[![Generic badge](https://img.shields.io/badge/Lucene-v8.3.0-brightgreen.svg)](https://archive.apache.org/dist/lucene/java/8.3.0/)
+[![Maven Central](https://img.shields.io/maven-central/v/io.anserini/anserini?color=brightgreen)](https://search.maven.org/search?q=a:anserini)
+[![PyPI](https://img.shields.io/pypi/v/pyserini?color=brightgreen)](https://pypi.org/project/pyserini/)
+[![LICENSE](https://img.shields.io/badge/license-Apache-blue.svg?style=flat)](https://www.apache.org/licenses/LICENSE-2.0)
+[![doi](http://img.shields.io/badge/doi-10.1145%2F3239571-blue.svg?style=flat)](https://doi.org/10.1145/3239571)
 
-Anserini is an open-source information retrieval toolkit built on Lucene that aims to bridge the gap between academic information retrieval research and the practice of building real-world search applications. 
-This effort grew out of [a reproducibility study of various open-source retrieval engines in 2016](https://cs.uwaterloo.ca/~jimmylin/publications/Lin_etal_ECIR2016.pdf) (Lin et al., ECIR 2016). 
+Anserini is an open-source information retrieval toolkit built on Lucene that aims to bridge the gap between academic information retrieval research and the practice of building real-world search applications.
+Among other goals, our effort aims to be [the opposite of this](http://phdcomics.com/comics/archive.php?comicid=1689).
+Anserini grew out of [a reproducibility study of various open-source retrieval engines in 2016](https://cs.uwaterloo.ca/~jimmylin/publications/Lin_etal_ECIR2016.pdf) (Lin et al., ECIR 2016). 
 See [Yang et al. (SIGIR 2017)](https://dl.acm.org/authorize?N47337) and [Yang et al. (JDIQ 2018)](https://dl.acm.org/citation.cfm?doid=3289400.3239571) for overviews.
 
-Anserini was upgraded to Lucene 8.0 as of commit [`75e36f9`](https://github.com/castorini/anserini/commit/75e36f97f7037d1ceb20fa9c91582eac5e974131) (6/12/2019); prior to that, the toolkit uses Lucene 7.6.
+## Getting Started
+
+A low-effort way to try out Anserini is to look at our [online notebooks](https://github.com/castorini/anserini-notebooks), which will allow you to get started with just a few clicks.
+For convenience, we've pre-built a few common indexes, available to download [here](https://git.uwaterloo.ca/jimmylin/anserini-indexes).
+
+If you want to build Anserini itself, then start by verifying the main dependencies:
+
++ Anserini was upgraded to Java 11 at commit [`17b702d`](https://github.com/castorini/anserini/commit/17b702d9c3c0971e04eb8386ab83bf2fb2630714) (7/11/2019) from Java 8.
+Maven 3.3+ is also required.
++ Anserini was upgraded to Lucene 8.0 as of commit [`75e36f9`](https://github.com/castorini/anserini/commit/75e36f97f7037d1ceb20fa9c91582eac5e974131) (6/12/2019); prior to that, the toolkit uses Lucene 7.6.
 Based on [preliminary experiments](docs/lucene7-vs-lucene8.md), query evaluation latency has been much improved in Lucene 8.
 As a result of this upgrade, results of all regressions have changed slightly.
 To replicate old results from Lucene 7.6, use [v0.5.1](https://github.com/castorini/anserini/releases).
 
-## Getting Started
-
-Anserini currently uses Java 8 (note that there are [known issues with Java 10 and Java 11](https://github.com/castorini/Anserini/issues/445)) and Maven 3.3+.
-Oracle JVM is necessary to replicate our regression results; there are known issues with OpenJDK (see [this](https://github.com/castorini/Anserini/pull/590) and [this](https://github.com/castorini/Anserini/issues/592)).
-We are planning an upgrade to a more recent JDK (see [#710](https://github.com/castorini/anserini/issues/710)).
-
-Build using Maven:
+After cloning our repo, build using Maven:
 
 ```
 mvn clean package appassembler:assemble
@@ -62,86 +69,54 @@ Note that these regressions capture the "out of the box" experience, based on [_
 + [Regressions for Tweets2013 (MB13 &amp; MB14)](docs/regressions-mb13.md)
 + [Regressions for Complex Answer Retrieval v1.5 (CAR17)](docs/regressions-car17v1.5.md)
 + [Regressions for Complex Answer Retrieval v2.0 (CAR17)](docs/regressions-car17v2.0.md)
-+ [Regressions for the MS MARCO Passage Task](docs/regressions-msmarco-passage.md)
-+ [Regressions for the MS MARCO Document Task](docs/regressions-msmarco-doc.md)
++ [Regressions for Complex Answer Retrieval v2.0 (CAR17) with doc2query expansion](docs/regressions-car17v2.0-doc2query.md)
++ [Regressions for the MS MARCO Passage Retrieval Task](docs/regressions-msmarco-passage.md)
++ [Regressions for the MS MARCO Passage Retrieval Task with doc2query expansion](docs/regressions-msmarco-passage-doc2query.md)
++ [Regressions for the MS MARCO Passage Retrieval Task with docTTTTTquery expansion](docs/regressions-msmarco-passage-docTTTTTquery.md)
++ [Regressions for the MS MARCO Document Retrieval](docs/regressions-msmarco-doc.md)
++ [Regressions for NTCIR-8 ACLIA (IR4QA subtask, Monolingual Chinese)](docs/regressions-ntcir8-zh.md)
++ [Regressions for CLEF 2006 Monolingual French](docs/regressions-clef06-fr.md)
++ [Regressions for TREC 2002 Monolingual Arabic](docs/regressions-trec02-ar.md)
++ [Regressions for FIRE 2012 Monolingual Bengali](docs/regressions-fire12-bn.md)
++ [Regressions for FIRE 2012 Monolingual Hindi](docs/regressions-fire12-hi.md)
++ [Regressions for FIRE 2012 Monolingual English](docs/regressions-fire12-en.md)
 
 Other experiments:
 
-+ [Guide to running experiments on the MS MARCO Passage Task](docs/experiments-msmarco-passage.md)
-+ [Guide to running experiments on the MS MARCO Document Task](docs/experiments-msmarco-doc.md)
-+ [Guide to running Experiments on the AI2 Open Research Corpus](docs/experiments-openresearch.md)
++ [Replicating "Neural Hype" Experiments](docs/experiments-forum2018.md)
++ [Guide to running BM25 baselines on the MS MARCO Passage Retrieval Task](docs/experiments-msmarco-passage.md)
++ [Guide to running BM25 baselines on the MS MARCO Document Retrieval Task](docs/experiments-msmarco-doc.md)
++ [Guide to replicating doc2query results](docs/experiments-doc2query.md)
++ [Guide to replicating docTTTTTquery results](docs/experiments-docTTTTTquery.md)
++ [Guide to running experiments on the AI2 Open Research Corpus](docs/experiments-openresearch.md)
 + [Experiments from Yang et al. (JDIQ 2018)](docs/experiments-jdiq2018.md)
-+ [Experiments from Lin (SIGIR Forum 2018)](docs/experiments-forum2018.md)
 + Runbooks for TREC 2018: [[Anserini group](docs/runbook-trec2018-anserini.md)] [[h2oloo group](docs/runbook-trec2018-h2oloo.md)]
 + Runbook for [ECIR 2019 paper on axiomatic semantic term matching](docs/runbook-ecir2019-axiomatic.md)
 + Runbook for [ECIR 2019 paper on cross-collection relevance feedback](docs/runbook-ecir2019-ccrf.md)
 
-## Additional Documentation
+See [this page](docs/additional.md) for additional documentation.
 
-+ [Axiomatic Reranking](docs/axiom-reranking.md)
-+ `IndexUtils` is a utility to interact with an index using the command line (e.g., print index statistics). Refer to `target/appassembler/bin/IndexUtils -h` for more details.
-+ `MapCollections` is a generic mapper framework for processing a document collection in parallel. Developers can write their own mappers for different tasks: one simple example is `CountDocumentMapper` which counts the number of documents in a collection:
+## Other Features
 
-   ```
-   target/appassembler/bin/MapCollections -collection ClueWeb09Collection \
-     -threads 16 -input ~/collections/web/ClueWeb09b/ClueWeb09_English_1/ \
-     -mapper CountDocumentMapper -context CountDocumentMapperContext
-   ```
++ Use Anserini in Python via [Pyserini](https://github.com/castorini/pyserini)
++ Anserini integrates with SolrCloud via [Solrini](docs/solrini.md)
++ Anserini integrates with Elasticsearch via [Elasterini](docs/elastirini.md)
++ Anserini supports [approximate nearest-neighbor search](docs/approximate-nearestneighbor.md) on arbitrary dense vectors with Lucene
 
-## Python Integration
+## How Can I Contribute?
 
-Anserini was designed with Python integration in mind, for connecting with popular deep learning toolkits such as PyTorch. This is accomplished via [pyjnius](https://github.com/kivy/pyjnius). The `SimpleSearcher` class provides a simple Python/Java bridge, shown below:
+If you've found Anserini to be helpful, we have a simple request for you to contribute back.
+In the course of replicating baseline results on standard test collections, please let us know if you're successful by sending us a pull request with a simple note, like what appears at the bottom of [the Robust04 page](docs/regressions-robust04.md).
+Replicability is important to us, and we'd like to know about successes as well as failures.
+Since the regression documentation is auto-generated, pull requests should be sent against the [raw templates](https://github.com/castorini/anserini/tree/master/src/main/resources/docgen/templates).
+In turn, you'll be recognized as a [contributor](https://github.com/castorini/anserini/graphs/contributors).
 
-```
-import sys
-sys.path += ['src/main/python']
-from pyjnius_setup import configure_classpath
-configure_classpath()
-
-from jnius import autoclass
-JString = autoclass('java.lang.String')
-JSearcher = autoclass('io.anserini.search.SimpleSearcher')
-
-searcher = JSearcher(JString('lucene-index.robust04.pos+docvectors+rawdocs'))
-hits = searcher.search(JString('hubble space telescope'))
-
-# the docid of the 1st hit
-hits[0].docid
-
-# the internal Lucene docid of the 1st hit
-hits[0].ldocid
-
-# the score of the 1st hit
-hits[0].score
-
-# the full document of the 1st hit
-hits[0].content
-```
-
-Optionally, a path to Anserini root directory can be specified for scripts outside of Anserini:
-```
-anserini_root = {path/to/anserini}
-
-import os, sys
-sys.path += [os.path.join(anserini_root, 'src/main/python')]
-
-from pyjnius_setup import configure_classpath
-configure_classpath(anserini_root)
-...
-```
-
-## Solr Integration
-
-Anserini provides code for indexing into SolrCloud, thus providing interoperable support for test collections wiith local Lucene indexes and Solr indexes.
-See [this page](docs/solrini.md) for more details.
-
-## Elasticsearch Integration
-
-Anserini integration with Elastic search is coming soon!
-See [Issues 633](https://github.com/castorini/anserini/issues/633).
+Beyond that, there are always [open issues](https://github.com/castorini/anserini/issues) we would appreciate help on!
 
 ## Release History
 
++ v0.7.0: December 13, 2019 [[Release Notes](docs/release-notes/release-notes-v0.7.0.md)]
++ v0.6.0: September 6, 2019 [[Release Notes](docs/release-notes/release-notes-v0.6.0.md)][[Known Issues](docs/known-issues/known-issues-v0.6.0.md)]
 + v0.5.1: June 11, 2019 [[Release Notes](docs/release-notes/release-notes-v0.5.1.md)]
 + v0.5.0: June 5, 2019 [[Release Notes](docs/release-notes/release-notes-v0.5.0.md)]
 + v0.4.0: March 4, 2019 [[Release Notes](docs/release-notes/release-notes-v0.4.0.md)]

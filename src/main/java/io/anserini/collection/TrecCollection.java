@@ -1,4 +1,4 @@
-/**
+/*
  * Anserini: A Lucene toolkit for replicable information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -31,43 +31,61 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
+import java.text.ParseException;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.zip.GZIPInputStream;
 
 /**
- * A classic TREC <i>ad hoc</i> document collection.
+ * <p>A classic TREC <i>ad hoc</i> document collection.</p>
+ *
+ * <p>This class handles a collection comprising files containing documents of the form:</p>
+ *
+ * <pre>
+ * &lt;DOC&gt;
+ * &lt;DOCNO&gt;doc1&lt;/DOCNO&gt;
+ * &lt;TEXT&gt;
+ * ...
+ * &lt;/TEXT&gt;
+ * &lt;/DOC&gt;
+ * </pre>
+ *
+ * <p>This class also handles the following alternative format (e.g., for NTCIR-8 ACLIA):</p>
+ * <pre>
+ * &lt;DOC id="doc1"&gt;
+ * &lt;TEXT&gt;
+ * ...
+ * &lt;/TEXT&gt;
+ * &lt;/DOC&gt;
+ * </pre>
+ *
+ * <p>In both cases, compressed files are transparently handled.</p>
  */
-public class TrecCollection extends DocumentCollection
-    implements SegmentProvider<TrecCollection.Document> {
-
+public class TrecCollection extends DocumentCollection<TrecCollection.Document> {
   private static final Logger LOG = LogManager.getLogger(TrecCollection.class);
 
-  @Override
-  public List<Path> getFileSegmentPaths() {
-    Set<String> skippedFilePrefix = new HashSet<>(Arrays.asList("readme"));
-    Set<String> skippedDirs = new HashSet<>(Arrays.asList("cr", "dtd", "dtds"));
-
-    return discover(path, skippedFilePrefix, EMPTY_SET,
-        EMPTY_SET, EMPTY_SET, skippedDirs);
+  public TrecCollection(){
+    this.skippedFilePrefix = new HashSet<>(Arrays.asList("readme"));
+    this.skippedDir = new HashSet<>(Arrays.asList("cr", "dtd", "dtds"));
   }
 
   @Override
   public FileSegment<Document> createFileSegment(Path p) throws IOException {
-    return new FileSegment<>(p);
+    return new Segment<>(p);
   }
 
   /**
-   * A file in a classic TREC <i>ad hoc</i> document collection.
+   * A file in a classic TREC <i>ad hoc</i> document collection, typically containing multiple documents.
    *
    * @param <T> type of the document
    */
-  public static class FileSegment<T extends Document> extends BaseFileSegment<T> {
-    @SuppressWarnings("unchecked")
-    public FileSegment(Path path) throws IOException {
-      this.path = path;
+  public static class Segment<T extends Document> extends FileSegment<T>{
+    private static final Pattern ID_PATTERN = Pattern.compile(".*id=\\\"([^\\\"]+)\\\".*");
+
+    protected Segment(Path path) throws IOException {
+      super(path);
       this.bufferedReader = null;
       String fileName = path.toString();
       if (fileName.matches("(?i:.*?\\.\\d*z$)")) { // .z .0z .1z .2z
@@ -85,7 +103,7 @@ public class TrecCollection extends DocumentCollection
     }
 
     @Override
-    public void readNext() throws IOException {
+    public void readNext() throws IOException, ParseException {
       readNextRecord(bufferedReader);
     }
 
@@ -97,21 +115,30 @@ public class TrecCollection extends DocumentCollection
       String line;
       while ((line=reader.readLine()) != null) {
         line = line.trim();
-        if (line.startsWith(Document.DOC)) {
+
+        // Also handle the variant case where docid is an attributed of the <DOC> tag, e.g., <DOC id="abc">
+        // The NTCIR-8 ACLIA task, which uses LDC2007T38, is organized in this way.
+        if (line.startsWith(Document.DOC) || line.startsWith("<DOC ")) {
           found = true;
-          // continue to read DOCNO
-          while ((line = reader.readLine()) != null) {
-            if (line.startsWith(Document.DOCNO)) {
+
+          Matcher matcher = ID_PATTERN.matcher(line);
+          if (matcher.matches()) {
+            // Handle cases like <DOC id="abc">
+            builder.append(Document.DOCNO).append(matcher.group(1)).append(Document.TERMINATING_DOCNO);
+          } else {
+            // Continue to read DOCNO as normal.
+            while ((line = reader.readLine()) != null) {
+              if (line.startsWith(Document.DOCNO)) {
+                builder.append(line).append('\n');
+                break;
+              }
+            }
+            while (builder.indexOf(Document.TERMINATING_DOCNO) == -1) {
+              line = reader.readLine();
+              if (line == null) break;
               builder.append(line).append('\n');
-              break;
             }
           }
-          while (builder.indexOf(Document.TERMINATING_DOCNO) == -1) {
-            line = reader.readLine();
-            if (line == null) break;
-            builder.append(line).append('\n');
-          }
-          continue;
         }
 
         if (found) {

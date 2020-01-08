@@ -1,4 +1,4 @@
-/**
+/*
  * Anserini: A Lucene toolkit for replicable information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -62,14 +62,15 @@ public class EnglishStemmingAnalyzer extends StopwordAnalyzerBase {
     result = new EnglishPossessiveFilter(result);
     result = new LowerCaseFilter(result);
     result = new StopFilter(result, this.stopwords);
+
     if (!this.stemExclusionSet.isEmpty()) {
-      result = new SetKeywordMarkerFilter((TokenStream)result, this.stemExclusionSet);
+      result = new SetKeywordMarkerFilter(result, this.stemExclusionSet);
     }
     
     if (this.stemmer.compareToIgnoreCase("porter") == 0 || this.stemmer.compareToIgnoreCase("p") == 0) {
-      result = new PorterStemFilter((TokenStream)result);
+      result = new PorterStemFilter(result);
     } else if (this.stemmer.compareToIgnoreCase("krovetz") == 0 || this.stemmer.compareToIgnoreCase("k") == 0) {
-      result = new KStemFilter((TokenStream)result);
+      result = new KStemFilter(result);
     }
     
     return new TokenStreamComponents(source, result);

@@ -19,10 +19,11 @@ import argparse
 import time
 
 # Pyjnius setup
+anserini_root='.'
 import sys
 sys.path += ['src/main/python']
-from pyjnius_setup import configure_classpath
-configure_classpath()
+from pyserini.setup import configure_classpath
+configure_classpath(anserini_root)
 
 from jnius import autoclass
 JString = autoclass('java.lang.String')
@@ -31,6 +32,7 @@ JSearcher = autoclass('io.anserini.search.SimpleSearcher')
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Retrieve Open Research Passages.')
     parser.add_argument('--qid_queries', required=True, default='', help='query id - query mapping file')
+    parser.add_argument('--valid_docs', default='', help='valid doc ids file')
     parser.add_argument('--output', required=True, default='', help='output filee')
     parser.add_argument('--index', required=True, default='', help='index path')
     parser.add_argument('--hits', default=10, type=int, help='number of hits to retrieve')
@@ -43,6 +45,11 @@ if __name__ == '__main__':
     parser.add_argument('--originalQueryWeight', default=0.5, type=float, help='RM3 parameter: weight to assign to the original query')
 
     args = parser.parse_args()
+
+    data_type = 'oc'
+    if args.valid_docs:
+      data_type = 'pd'
+      valid_docs = set(open(args.valid_docs).read().strip().split('\n'))
 
     searcher = JSearcher(JString(args.index))
     searcher.setBM25Similarity(args.k1, args.b)
@@ -67,9 +74,9 @@ if __name__ == '__main__':
           rank = 0
           for i in range(len(hits)):
               doc_id = hits[i].docid
-              # We skip the doc that originated the query.
-              if doc_id == query_id:
-                  continue
+              # We skip the doc that originated the query, we also skipped the doc that doesn't in valid docs.
+              if data_type == 'oc' and doc_id == query_id or data_type == 'pd' and (doc_id == query_id or doc_id not in valid_docs):
+                    continue
               fout.write('{} Q0 {} {} {} Anserini\n'.format(
                   query_id, doc_id, rank + 1, hits[i].score))
               rank += 1

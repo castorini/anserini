@@ -2,33 +2,33 @@
 models:
   ql:
     name: ql
-    fixed_params: "-inmem -skipexists"
+    fixed_params: "-inmem -skipexists -ql"
     params:
       mu:
         type: int
         lower: 0
         upper: 10000
-        pace: 250
+        pace: 100
     expected:
       robust04:
         map:
-          best_avg: 0.2514
-          oracles_per_topic: 0.2721
-          2-fold: 0.2509
-          5-fold: 0.2486
+          best_avg: 0.2520
+          oracles_per_topic: 0.2767
+          2-fold: 0.2520
+          5-fold: 0.2499
         P_20:
-          best_avg: 0.3610
-          oracles_per_topic: 0.4008
-          2-fold: 0.3610
-          5-fold: 0.3573
+          best_avg: 0.3627
+          oracles_per_topic: 0.4088
+          2-fold: 0.3616
+          5-fold: 0.3607
         ndcg20:
-          best_avg: 0.41022
-          oracles_per_topic: 0.45820
-          2-fold: 0.4083
-          5-fold: 0.4059
+          best_avg: 0.4127
+          oracles_per_topic: 0.4659
+          2-fold: 0.4112
+          5-fold: 0.4088
   bm25:
     name: bm25
-    fixed_params: "-inmem -skipexists"
+    fixed_params: "-inmem -skipexists -bm25"
     params:
       k1:
         type: float
@@ -44,9 +44,9 @@ models:
       robust04:
         map:
           best_avg: 0.2543
-          oracles_per_topic: 0.2935
+          oracles_per_topic: 0.2936
           2-fold: 0.2539
-          5-fold: 0.2530
+          5-fold: 0.2531
         P_20:
           best_avg: 0.3631
           oracles_per_topic: 0.4424
@@ -55,169 +55,97 @@ models:
         ndcg20:
           best_avg: 0.41862
           oracles_per_topic: 0.5031
-          2-fold: 0.4144
-          5-fold: 0.4160
-  axiom:
-    name: axiom
-    fixed_params: "-inmem -skipexists -axiom.n 30 -axiom.deterministic -rerankCutoff 50"
-    params:
-      axiom.r:
-        type: int
-        lower: 1
-        upper: 50
-        pace: 1
-      axiom.top:
-        type: int
-        lower: 1
-        upper: 50
-        pace: 1
-      axiom.beta:
-        type: float
-        lower: 0
-        upper: 1
-        pace: 0.1
-    expected:
-      robust04:
-        map:
-          best_avg: 0.2967
-          oracles_per_topic: 0.4024
-          2-fold: 0.2897
-          5-fold: 0.2914
-        P_20:
-          best_avg: 0.3924
-          oracles_per_topic: 0.5651
-          2-fold: 0.3877
-          5-fold: 0.3854
-        ndcg20:
-          best_avg: 0.44386
-          oracles_per_topic: 0.6262
-          2-fold: 0.4371
-          5-fold: 0.4326
+          2-fold: 0.4146
+          5-fold: 0.4148
   bm25+axiom:
-    name: axiom
-    fixed_params: "-inmem -skipexists -axiom.n 30 -axiom.deterministic -rerankCutoff 50"
+    name: bm25+axiom
+    fixed_params: "-inmem -skipexists -bm25 -axiom -axiom.n 30 -axiom.deterministic -rerankCutoff 50"
     params:
       k1:
         type: float
-        lower: 0.9
-        upper: 0.9
+        lower: 0.8
+        upper: 0.8
         pace: 0.1
       b:
         type: float
-        lower: 0
-        upper: 0.5
-        pace: 0.1
+        lower: 0.5
+        upper: 0.6
+        pace: 0.05
       axiom.r:
         type: int
-        lower: 1
-        upper: 50
-        pace: 1
+        lower: 5
+        upper: 20
+        pace: 5
       axiom.top:
         type: int
-        lower: 1
+        lower: 5
         upper: 50
-        pace: 1
+        pace: 5
       axiom.beta:
         type: float
-        lower: 0
-        upper: 0.5
-        pace: 0.1
+        lower: 0.3
+        upper: 0.4
+        pace: 0.05
     expected:
       robust04:
         map:
-          best_avg: 0.2983
-          oracles_per_topic: 0.4168
-          2-fold: 0.2933
-          5-fold: 0.2920
+          best_avg: 0.2984
+          oracles_per_topic: 0.3612
+          2-fold: 0.2940
+          5-fold: 0.2950
         P_20:
-          best_avg: 0.3932
-          oracles_per_topic: 0.5841
-          2-fold: 0.3821
-          5-fold: 0.3856
+          best_avg: 0.3918
+          oracles_per_topic: 0.4900
+          2-fold: 0.3801
+          5-fold: 0.3868
         ndcg20:
-          best_avg: 0.44498
-          oracles_per_topic: 0.64720
-          2-fold: 0.4282
-          5-fold: 0.4302
-  rm3:
-    name: rm3
-    fixed_params: "-inmem -skipexists -rerankCutoff 50"
-    params:
-      rm3.fbTerms:
-        type: int
-        lower: 1
-        upper: 50
-        pace: 1
-      rm3.fbDocs:
-        type: int
-        lower: 1
-        upper: 50
-        pace: 1
-      rm3.originalQueryWeight:
-        type: float
-        lower: 0
-        upper: 1
-        pace: 0.1
-    expected:
-      robust04:
-        map:
-          best_avg: 0.3017
-          oracles_per_topic: 0.4153
-          2-fold: 0.2943
-          5-fold: 0.2982
-        P_20:
-          best_avg: 0.4016
-          oracles_per_topic: 0.5709
-          2-fold: 0.3940
-          5-fold: 0.3947
-        ndcg20:
-          best_avg: 0.44877
-          oracles_per_topic: 0.6332
-          2-fold: 0.4411
-          5-fold: 0.4412
+          best_avg: 0.4399
+          oracles_per_topic: 0.5506
+          2-fold: 0.4322
+          5-fold: 0.4323
   bm25+rm3:
-    name: rm3
-    fixed_params: "-inmem -skipexists -rerankCutoff 50"
+    name: bm25+rm3
+    fixed_params: "-inmem -skipexists -bm25 -rm3 -rerankCutoff 50"
     params:
       k1:
         type: float
-        lower: 0.9
-        upper: 0.9
-        pace: 0.1
+        lower: 0.60
+        upper: 0.75
+        pace: 0.05
       b:
         type: float
-        lower: 0
-        upper: 0.5
-        pace: 0.1
+        lower: 0.55
+        upper: 0.75
+        pace: 0.05
       rm3.fbTerms:
         type: int
-        lower: 1
-        upper: 50
-        pace: 1
+        lower: 45
+        upper: 105
+        pace: 5
       rm3.fbDocs:
         type: int
-        lower: 1
-        upper: 50
-        pace: 1
+        lower: 5
+        upper: 20
+        pace: 5
       rm3.originalQueryWeight:
         type: float
-        lower: 0
-        upper: 1
-        pace: 0.1
+        lower: 0.20
+        upper: 0.30
+        pace: 0.05
     expected:
       robust04:
         map:
-          best_avg: 0.3058
-          oracles_per_topic: 0.4375
-          2-fold: 0.2987
-          5-fold: 0.3033
+          best_avg: 0.3094
+          oracles_per_topic: 0.3742
+          2-fold: 0.3043
+          5-fold: 0.3021
         P_20:
-          best_avg: 0.4024
-          oracles_per_topic: 0.5994
-          2-fold: 0.3913
-          5-fold: 0.3937
+          best_avg: 0.4030
+          oracles_per_topic: 0.4996
+          2-fold: 0.3927
+          5-fold: 0.3921
         ndcg20:
-          best_avg: 0.44979
-          oracles_per_topic: 0.6653
-          2-fold: 0.4321
-          5-fold: 0.4426
+          best_avg: 0.4471
+          oracles_per_topic: 0.5579
+          2-fold: 0.4351
+          5-fold: 0.4332

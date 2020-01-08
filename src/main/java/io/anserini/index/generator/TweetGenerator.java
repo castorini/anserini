@@ -1,4 +1,4 @@
-/**
+/*
  * Anserini: A Lucene toolkit for replicable information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,6 +20,7 @@ import com.twitter.twittertext.Extractor;
 import com.twitter.twittertext.TwitterTextParseResults;
 import com.twitter.twittertext.TwitterTextParser;
 import io.anserini.collection.TweetCollection;
+import io.anserini.index.IndexArgs;
 import io.anserini.index.IndexCollection;
 import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
 import org.apache.logging.log4j.LogManager;
@@ -74,7 +75,7 @@ public class TweetGenerator extends LuceneDocumentGenerator<TweetCollection.Docu
     }
   }
 
-  public TweetGenerator(IndexCollection.Args args,
+  public TweetGenerator(IndexArgs args,
                         IndexCollection.Counters counters) throws IOException{
     super(args, counters);
 

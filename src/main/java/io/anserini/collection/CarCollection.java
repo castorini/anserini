@@ -1,4 +1,4 @@
-/**
+/*
  * Anserini: A Lucene toolkit for replicable information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,7 +23,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Iterator;
 
 /**
  * A document collection for the TREC Complex Answer Retrieval (CAR) Track.
@@ -32,34 +34,32 @@ import java.util.*;
  * Since a collection is assumed to be in a directory, place the <code>cbor</code> file in
  * a directory prior to indexing.
  */
-public class CarCollection extends DocumentCollection
-    implements SegmentProvider<CarCollection.Document> {
+public class CarCollection extends DocumentCollection<CarCollection.Document> {
 
-  @Override
-  public List<Path> getFileSegmentPaths() {
-    Set<String> allowedFileSuffix = new HashSet<>(Arrays.asList(".cbor"));
-
-    return discover(path, EMPTY_SET, EMPTY_SET, EMPTY_SET,
-        allowedFileSuffix, EMPTY_SET);
+  public CarCollection(){
+    this.allowedFileSuffix = new HashSet<>(Arrays.asList(".cbor"));
   }
 
   @Override
-  public FileSegment createFileSegment(Path p) throws IOException {
-    return new FileSegment(p);
+  public FileSegment<CarCollection.Document> createFileSegment(Path p) throws IOException {
+    return new Segment(p);
   }
 
-  public class FileSegment extends BaseFileSegment<Document> {
+  /**
+   * An individual file in {@code CarCollection}.
+   */
+  public static class Segment extends FileSegment<CarCollection.Document> {
     private final FileInputStream stream;
     private final Iterator<Data.Paragraph> iter;
 
-    protected FileSegment(Path path) throws IOException {
-      this.path = path;
+    protected Segment(Path path) throws IOException {
+      super(path);
       stream = new FileInputStream(new File(path.toString()));
       iter = DeserializeData.iterableParagraphs(stream).iterator();
     }
 
     @Override
-    public void readNext() throws IOException {
+    public void readNext() {
       System.setProperty("file.encoding", "UTF-8");
       Data.Paragraph p;
       p = iter.next();

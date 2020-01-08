@@ -1,0 +1,93 @@
+---
+name: msmarco-passage-doc2query
+index_command: target/appassembler/bin/IndexCollection
+index_utils_command: target/appassembler/bin/IndexUtils
+search_command: target/appassembler/bin/SearchCollection
+topic_root: src/main/resources/topics-and-qrels/
+qrels_root: src/main/resources/topics-and-qrels/
+index_root:
+ranking_root:
+collection: JsonCollection
+generator: LuceneDocumentGenerator
+threads: 9
+index_options:
+  - -storePositions
+  - -storeDocvectors
+  - -storeRawDocs
+topic_reader: TsvInt
+evals:
+  - command: eval/trec_eval.9.0.4/trec_eval
+    params:
+      - -m map
+      - -c
+    separator: "\t"
+    parse_index: 2
+    metric: map
+    metric_precision: 4
+    can_combine: true
+  - command: eval/trec_eval.9.0.4/trec_eval
+    params:
+      - -m recall.1000
+      - -c
+    separator: "\t"
+    parse_index: 2
+    metric: R@1000
+    metric_precision: 4
+    can_combine: true
+input_roots:
+  - /tuna1/      # on tuna
+  - /store/      # on orca
+  - /scratch2/   # on damiano
+input: collections/msmarco/passage-expanded-topk10
+index_path: indexes/lucene-index.msmarco-passage-doc2query.pos+docvectors+rawdocs
+index_stats:
+  documents: 8841823
+  documents (non-empty): 8841823
+  total terms: 739691803
+topics:
+  - name: "[MS MARCO Passage Ranking: Dev Queries](https://github.com/microsoft/MSMARCO-Passage-Ranking)"
+    path: topics.msmarco-passage.dev-subset.txt
+    qrel: qrels.msmarco-passage.dev-subset.txt
+models:
+  - name: bm25-default
+    display: BM25 (Default)
+    params:
+      - -bm25
+    results:
+      map:
+        - 0.2270
+      R@1000:
+        - 0.8900
+  - name: bm25-default+rm3
+    display: +RM3
+    params:
+      - -bm25
+      - -rm3
+    results:
+      map:
+        - 0.2028
+      R@1000:
+        - 0.8916
+  - name: bm25-tuned
+    display: BM25 (Tuned)
+    params:
+      - -bm25
+      - -k1 0.82
+      - -b 0.68
+    results:
+      map:
+        - 0.2293
+      R@1000:
+        - 0.8911
+  - name: bm25-tuned+rm3
+    display: +RM3
+    params:
+      - -bm25
+      - -k1 0.82
+      - -b 0.68
+      - -rm3
+    results:
+      map:
+        - 0.2077
+      R@1000:
+        - 0.8957

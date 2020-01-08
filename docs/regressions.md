@@ -9,16 +9,6 @@ The regression script `src/main/python/run_regression.py` runs end-to-end regres
 
 We keep a [change log](regressions-log.md) whenever effectiveness changes or when new regressions are added.
 
-## Requirements
-
-Python>=2.6 or Python>=3.5
-
-```
-pip install -r src/main/python/requirements.txt
-```
-
-Note that Oracle JVM is necessary to replicate our regression results; there are known issues with OpenJDK (see [this](https://github.com/castorini/Anserini/pull/590) and [this](https://github.com/castorini/Anserini/issues/592)).
-
 ## Invocations
 
 tl;dr - Copy and paste the following lines into console on `tuna` to run the regressions without building indexes from scratch:
@@ -43,7 +33,10 @@ nohup python src/main/python/run_regression.py --collection car17v1.5 >& log.car
 nohup python src/main/python/run_regression.py --collection car17v2.0 >& log.car17v2.0 &
 
 nohup python src/main/python/run_regression.py --collection msmarco-passage >& log.msmarco-passage &
+nohup python src/main/python/run_regression.py --collection msmarco-passage-doc2query >& log.msmarco-passage-doc2query &
 nohup python src/main/python/run_regression.py --collection msmarco-doc >& log.msmarco-doc &
+
+nohup python src/main/python/run_regression.py --collection ntcir8-zh >& log.ntcir8-zh &
 ```
 
 Copy and paste the following lines into console on `tuna` to run the regressions from the raw collection, which includes building indexes from scratch (note difference is the additional `--index` option):
@@ -68,7 +61,10 @@ nohup python src/main/python/run_regression.py --index --collection car17v1.5 >&
 nohup python src/main/python/run_regression.py --index --collection car17v2.0 >& log.car17v2.0 &
 
 nohup python src/main/python/run_regression.py --index --collection msmarco-passage >& log.msmarco-passage &
+nohup python src/main/python/run_regression.py --index --collection msmarco-passage-doc2query >& log.msmarco-passage-doc2query &
 nohup python src/main/python/run_regression.py --index --collection msmarco-doc >& log.msmarco-doc &
+
+nohup python src/main/python/run_regression.py --index --collection ntcir8-zh >& log.ntcir8-zh &
 ```
 
 Watch out: the full `cw12` regress takes a couple days to run and generates a 12TB index!

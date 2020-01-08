@@ -1,4 +1,4 @@
-/**
+/*
  * Anserini: A Lucene toolkit for replicable information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,9 +17,9 @@
 package io.anserini.collection;
 
 /**
- * A raw document from a collection. A source document is explicitly distinguish a from a Lucene
- * {@link org.apache.lucene.document.Document}, which is the Lucene representation that can be
- * directly inserted into an index.
+ * A raw document from a collection. A {@code SourceDocument} is explicitly distinguish a from a
+ * Lucene {@link org.apache.lucene.document.Document}, which is the Lucene representation that
+ * can be directly inserted into an index.
  */
 public interface SourceDocument {
   /**

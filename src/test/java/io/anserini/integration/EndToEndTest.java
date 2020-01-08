@@ -1,4 +1,4 @@
-/**
+/*
  * Anserini: A Lucene toolkit for replicable information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,13 +16,14 @@
 
 package io.anserini.integration;
 
-import io.anserini.eval.Eval;
-import io.anserini.eval.EvalArgs;
+import io.anserini.index.IndexArgs;
 import io.anserini.index.IndexCollection;
 import io.anserini.search.SearchArgs;
 import io.anserini.search.SearchCollection;
 import org.apache.commons.io.FileUtils;
 import org.apache.lucene.index.CheckIndex;
+import org.apache.lucene.index.DirectoryReader;
+import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.IOUtils;
@@ -32,8 +33,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.file.Paths;
@@ -44,9 +47,9 @@ import java.util.List;
 // Subclasses inherit and special to different collections.
 @TestRuleLimitSysouts.Limit(bytes=20000)
 public abstract class EndToEndTest extends LuceneTestCase {
-  protected IndexCollection.Args indexCollectionArgs = new IndexCollection.Args();
+  protected IndexArgs indexCollectionArgs = new IndexArgs();
   protected SearchArgs searchArgs = new SearchArgs();
-  protected EvalArgs evalArgs = new EvalArgs();
+  //protected EvalArgs evalArgs = new EvalArgs();
 
   protected String dataDirPath;
   protected String dataDirPrefix = "src/test/resources/sample_docs/";
@@ -58,7 +61,7 @@ public abstract class EndToEndTest extends LuceneTestCase {
   protected String searchOutputPrefix = "e2eTestSearch";
   protected String qrelsDirPrefix = "src/test/resources/sample_qrels/";
   protected String[] evalMetrics = new String[]{"map"};
-
+  protected String[] referenceRunOutput;
 
   // These are the sources of truth
   protected int fieldNormStatusTotalFields;
@@ -67,12 +70,16 @@ public abstract class EndToEndTest extends LuceneTestCase {
   protected int termIndexStatusTotPos;
   protected int storedFieldStatusTotalDocCounts;
   protected int storedFieldStatusTotFields;
+  protected int docCount;
 
-  // Eval
-  protected float evalMetricValue;
+  protected int counterIndexed;
+  protected int counterEmpty;
+  protected int counterUnindexable;
+  protected int counterSkipped;
+  protected int counterErrors;
 
   // init the class variables here
-  protected abstract void init();
+  protected abstract void init() throws Exception;
 
   @Override
   @Before
@@ -89,9 +96,22 @@ public abstract class EndToEndTest extends LuceneTestCase {
     super.tearDown();
   }
 
+  protected void checkCounters(IndexCollection.Counters counters) {
+    assertEquals(counterIndexed, counters.indexed.get());
+    assertEquals(counterEmpty, counters.empty.get());
+    assertEquals(counterUnindexable, counters.unindexable.get());
+    assertEquals(counterSkipped, counters.skipped.get());
+    assertEquals(counterErrors, counters.errors.get());
+  }
+
   protected void checkIndex() throws IOException {
     ByteArrayOutputStream bos = new ByteArrayOutputStream(1024);
     Directory dir = FSDirectory.open(Paths.get(this.indexOutputPrefix+this.collectionClass));
+
+    IndexReader reader = DirectoryReader.open(dir);
+    assertEquals(docCount, reader.maxDoc());
+    reader.close();
+
     CheckIndex checker = new CheckIndex(dir);
     checker.setInfoStream(new PrintStream(bos, false, IOUtils.UTF_8));
     if (VERBOSE) checker.setInfoStream(System.out);
@@ -144,12 +164,14 @@ public abstract class EndToEndTest extends LuceneTestCase {
     indexCollectionArgs.storeTransformedDocs = true;
     indexCollectionArgs.storeRawDocs = true;
     indexCollectionArgs.optimize = true;
+    indexCollectionArgs.quiet = true;
   }
 
   protected void testIndexing() throws Exception {
     setIndexingArgs();
     try {
-      new IndexCollection(indexCollectionArgs).run();
+      IndexCollection.Counters counters = new IndexCollection(indexCollectionArgs).run();
+      checkCounters(counters);
       checkIndex();
     } catch (Exception e) {
       System.out.println("Test Indexing failed");
@@ -178,7 +200,7 @@ public abstract class EndToEndTest extends LuceneTestCase {
       SearchCollection searcher = new SearchCollection(searchArgs);
       searcher.runTopics();
       searcher.close();
-      checkRankingResults();
+      checkRankingResults(searchArgs.output);
     } catch (Exception e) {
       System.out.println("Test Searching failed: ");
       e.printStackTrace();
@@ -186,36 +208,22 @@ public abstract class EndToEndTest extends LuceneTestCase {
     }
   }
 
-  protected void checkRankingResults() {
+  protected void checkRankingResults(String output) throws IOException {
+    BufferedReader br = new BufferedReader(new FileReader(output));
 
-  }
-
-  protected void setEvalArgs() {
-    // required
-    evalArgs.runPath = this.searchOutputPrefix+this.topicReader;
-    evalArgs.qrelPath = this.qrelsDirPrefix+this.topicReader;
-    evalArgs.longDocids = false;
-    evalArgs.asc = false;
-  }
-
-  protected void testEval() throws Exception {
-    setEvalArgs();
-    try {
-      Eval.setAllMetrics(this.evalMetrics);
-      Eval.eval(evalArgs.runPath, evalArgs.qrelPath, evalArgs.longDocids, evalArgs.asc);
-      assertEquals(Eval.getAllEvals().get(this.evalMetrics[0]).aggregated,
-          this.evalMetricValue, 0.001);
-    } catch (Exception e) {
-      System.out.println("Test Eval failed");
-      e.printStackTrace();
-      fail();
+    int cnt = 0;
+    String s;
+    while ((s = br.readLine()) != null) {
+      assertEquals(referenceRunOutput[cnt], s);
+      cnt++;
     }
+
+    assertEquals(cnt, referenceRunOutput.length);
   }
 
   @Test
   public void testAll() throws Exception {
     testIndexing();
     testSearching();
-    testEval();
   }
 }

@@ -1,4 +1,4 @@
-/**
+/*
  * Anserini: A Lucene toolkit for replicable information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -30,9 +30,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
+import java.util.NoSuchElementException;
 
 /**
  * A JSON document collection.
@@ -66,29 +65,28 @@ import java.util.Set;
  * </pre>
  *
  */
-public class JsonCollection extends DocumentCollection
-    implements SegmentProvider<JsonCollection.Document> {
+public class JsonCollection extends DocumentCollection<JsonCollection.Document> {
   private static final Logger LOG = LogManager.getLogger(JsonCollection.class);
 
-  @Override
-  public List<Path> getFileSegmentPaths() {
-    Set<String> allowedFileSuffix = new HashSet<>(Arrays.asList(".json"));
-
-    return discover(path, EMPTY_SET, EMPTY_SET, EMPTY_SET,
-        allowedFileSuffix, EMPTY_SET);
+  public JsonCollection(){
+    this.allowedFileSuffix = new HashSet<>(Arrays.asList(".json", ".jsonl"));
   }
 
   @Override
-  public FileSegment createFileSegment(Path p) throws IOException {
-    return new FileSegment(p);
+  public FileSegment<JsonCollection.Document> createFileSegment(Path p) throws IOException {
+    return new Segment(p);
   }
 
-  public class FileSegment extends BaseFileSegment<Document> {
+  /**
+   * A file in a JSON collection, typically containing multiple documents.
+   */
+  public static class Segment extends FileSegment<JsonCollection.Document> {
     private JsonNode node = null;
     private Iterator<JsonNode> iter = null; // iterator for JSON document array
     private MappingIterator<JsonNode> iterator; // iterator for JSON line objects
 
-    protected FileSegment(Path path) throws IOException {
+    protected Segment(Path path) throws IOException {
+      super(path);
       bufferedReader = new BufferedReader(new FileReader(path.toString()));
       ObjectMapper mapper = new ObjectMapper();
       iterator = mapper.readerFor(JsonNode.class).readValues(bufferedReader);
@@ -101,21 +99,9 @@ public class JsonCollection extends DocumentCollection
     }
 
     @Override
-    public boolean hasNext() {
-      if (nextRecordStatus == Status.ERROR) {
-        return false;
-      } else if (nextRecordStatus == Status.SKIPPED) {
-        return true;
-      }
-
-      if (bufferedRecord != null) {
-        return true;
-      } else if (atEOF) {
-        return false;
-      }
-
+    public void readNext() throws NoSuchElementException {
       if (node == null) {
-        return false;
+        throw new NoSuchElementException("JsonNode is empty");
       } else if (node.isObject()) {
         bufferedRecord = new JsonCollection.Document(node);
         if (iterator.hasNext()) { // if bufferedReader contains JSON line objects, we parse the next JSON into node
@@ -128,18 +114,13 @@ public class JsonCollection extends DocumentCollection
           JsonNode json = iter.next();
           bufferedRecord = new JsonCollection.Document(node);
         } else {
-          return false;
+          throw new NoSuchElementException("Reached end of JsonNode iterator");
         }
       } else {
         LOG.error("Error: invalid JsonNode type");
-        return false;
+        throw new NoSuchElementException("Invalid JsonNode type");
       }
-
-      return bufferedRecord != null;
     }
-
-    @Override
-    public void readNext() {}
   }
 
   /**

@@ -1,4 +1,4 @@
-/**
+/*
  * Anserini: A Lucene toolkit for replicable information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,43 +22,37 @@ import org.apache.logging.log4j.Logger;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.List;
+import java.text.ParseException;
 
 /**
  * A classic TREC web collection (e.g., Gov2).
  */
-public class TrecwebCollection extends DocumentCollection
-    implements SegmentProvider<TrecwebCollection.Document> {
+public class TrecwebCollection extends DocumentCollection<TrecwebCollection.Document> {
 
   private static final Logger LOG = LogManager.getLogger(TrecwebCollection.class);
 
   @Override
   public FileSegment<Document> createFileSegment(Path p) throws IOException {
-    return new FileSegment<>(p);
-  }
-
-  @Override
-  public List<Path> getFileSegmentPaths() {
-    return discover(path, EMPTY_SET, EMPTY_SET,
-        EMPTY_SET, EMPTY_SET, EMPTY_SET);
+    return new Segment<>(p);
   }
 
   /**
-   * A file in a TREC web collection (e.g., Gov2).
+   * A file in a TREC web collection (e.g., Gov2), typically containing multiple documents.
    *
    * @param <T> type of the document
    */
-  public static class FileSegment<T extends Document> extends TrecCollection.FileSegment<T> {
-    public FileSegment(Path path) throws IOException {
+  public static class Segment<T extends Document> extends TrecCollection.Segment<T> {
+
+    protected Segment(Path path) throws IOException {
       super(path);
     }
 
     @Override
-    public void readNext() throws IOException {
-      readNextRecord(bufferedReader);
+    public void readNext() throws IOException, ParseException {
+        readNextRecord(bufferedReader);
     }
 
-    private void readNextRecord(BufferedReader reader) throws IOException {
+    private void readNextRecord(BufferedReader reader) throws IOException, ParseException {
       StringBuilder builder = new StringBuilder();
       boolean found = false;
 
@@ -82,25 +76,25 @@ public class TrecwebCollection extends DocumentCollection
     }
 
     @SuppressWarnings("unchecked")
-    private void parseRecord(StringBuilder builder) {
+    private void parseRecord(StringBuilder builder) throws ParseException {
       int i = builder.indexOf(Document.DOCNO);
-      if (i == -1) throw new RuntimeException("cannot find start tag " + Document.DOCNO);
+      if (i == -1) throw new ParseException("cannot find start tag " + Document.DOCNO, 0);
 
-      if (i != 0) throw new RuntimeException("should start with " + Document.DOCNO);
+      if (i != 0) throw new ParseException("should start with " + Document.DOCNO, 0);
 
       int j = builder.indexOf(Document.TERMINATING_DOCNO);
-      if (j == -1) throw new RuntimeException("cannot find end tag " + Document.TERMINATING_DOCNO);
+      if (j == -1) throw new ParseException("cannot find end tag " + Document.TERMINATING_DOCNO, 0);
 
       bufferedRecord = (T) new Document();
       bufferedRecord.id = builder.substring(i + Document.DOCNO.length(), j).trim();
 
       i = builder.indexOf(Document.DOCHDR);
-      if (i == -1) throw new RuntimeException("cannot find header tag " + Document.DOCHDR);
+      if (i == -1) throw new ParseException("cannot find header tag " + Document.DOCHDR, 0);
 
       j = builder.indexOf(Document.TERMINATING_DOCHDR);
-      if (j == -1) throw new RuntimeException("cannot find end tag " + Document.TERMINATING_DOCHDR);
+      if (j == -1) throw new ParseException("cannot find end tag " + Document.TERMINATING_DOCHDR, 0);
 
-      if (j < i) throw new RuntimeException(Document.TERMINATING_DOCHDR + " comes before " + Document.DOCHDR);
+      if (j < i) throw new ParseException(Document.TERMINATING_DOCHDR + " comes before " + Document.DOCHDR, 0);
 
       bufferedRecord.content = builder.substring(j + Document.TERMINATING_DOCHDR.length()).trim();
     }

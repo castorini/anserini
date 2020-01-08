@@ -1,4 +1,4 @@
-/**
+/*
  * Anserini: A Lucene toolkit for replicable information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,17 +19,16 @@ package io.anserini.search.topicreader;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
+import io.anserini.analysis.AnalyzerUtils;
 import io.anserini.collection.WashingtonPostCollection;
 import io.anserini.index.generator.LuceneDocumentGenerator;
 import io.anserini.index.generator.WapoGenerator;
 import io.anserini.search.SearchCollection;
-import io.anserini.util.AnalyzerUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexableField;
 import org.apache.lucene.index.Term;
-import org.apache.lucene.queryparser.flexible.core.QueryNodeException;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
@@ -53,8 +52,8 @@ import java.util.regex.Pattern;
 import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_BODY;
 import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_RAW;
 
-/*
-Topic reader for TREC2018 news track background linking task
+/**
+ * Topic reader for TREC2018 news track background linking task
  */
 public class NewsBackgroundLinkingTopicReader extends TopicReader<Integer> {
   public NewsBackgroundLinkingTopicReader(Path topicFile) {
@@ -120,18 +119,18 @@ public class NewsBackgroundLinkingTopicReader extends TopicReader<Integer> {
    * For TREC2018 News Track Background linking task, the query string is actually a document id.
    * In order to make sense of the query we extract the top terms with higher tf-idf scores from the
    * raw document of that docId from the index.
-   * @param reader Index reader
+   * @param reader index reader
    * @param docid the query docid
+   * @param paragraph paragraph
    * @param k how many terms will be picked from the query document
    * @param isWeighted whether to include terms' tf-idf score as their weights
    * @param qc Query Constructor
    * @param analyzer Analyzer
    * @return Strings constructed query strings
-   * @throws IOException any io exception
-   * @throws QueryNodeException query construction errors
+   * @throws IOException any IO exception
    */
   public static List<String> generateQueryString(IndexReader reader, String docid, boolean paragraph, int k,
-     boolean isWeighted, SearchCollection.QueryConstructor qc, Analyzer analyzer) throws IOException, QueryNodeException {
+     boolean isWeighted, SearchCollection.QueryConstructor qc, Analyzer analyzer) throws IOException {
     List<String> queryStrings = new ArrayList<>();
     IndexableField rawDocStr = reader.document(convertDocidToLuceneDocid(reader, docid)).getField(FIELD_RAW);
     if (rawDocStr == null) {

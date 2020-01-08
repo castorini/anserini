@@ -1,4 +1,4 @@
-/**
+/*
  * Anserini: A Lucene toolkit for replicable information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -36,6 +36,9 @@ public class SearchArgs {
   // optional arguments
   @Option(name = "-threads", metaVar = "[Number]", usage = "Number of Threads")
   public int threads = 1;
+
+  @Option(name = "-language", usage = "Analyzer Language")
+  public String language = "en";
   
   @Option(name = "-inmem", usage = "Boolean switch to read index in memory")
   public Boolean inmem = false;
@@ -66,7 +69,11 @@ public class SearchArgs {
   @Option(name = "-backgroundlinking.weighted", usage = "Boolean switch to construct boosted query for TREC News Track Background " +
       "Linking task. The terms scores are their tf-idf score from the query document")
   public boolean backgroundlinking_weighted = false;
-  
+
+  @Option(name = "-backgroundlinking.datefilter", usage = "Boolean switch to filter out articles published after topic article " +
+      "for the TREC News Track Background Linking task.")
+  public boolean backgroundlinking_datefilter = false;
+
   @Option(name = "-stemmer", usage = "Stemmer: one of the following porter,krovetz,none. Default porter")
   public String stemmer = "porter";
   
@@ -112,6 +119,9 @@ public class SearchArgs {
 
   @Option(name = "-bm25", usage = "use BM25 scoring model")
   public boolean bm25 = false;
+
+  @Option(name = "-bm25.accurate", usage = "use BM25 scoring model")
+  public boolean bm25Accurate = false;
 
   // BM25 parameters: Robertson et al. (TREC 4) propose the range of 1.0-2.0 for k1 and 0.6-0.75 for b, with k1 = 1.2
   // and b = 0.75 being a very common setting. Empirically, these values don't work very well for modern collections.
@@ -189,6 +199,35 @@ public class SearchArgs {
       usage = "RM3 parameter: print original and expanded queries")
   public boolean rm3_outputQuery = false;
 
+  // BM25PRF Options
+
+  @Option(name = "-bm25prf", usage = "use bm25PRF query expansion model")
+  public boolean bm25prf = false;
+
+  @Option(name = "-bm25prf.fbTerms", handler = StringArrayOptionHandler.class,
+          usage = "bm25PRF parameter: number of expansion terms")
+  public String[] bm25prf_fbTerms = new String[] {"20"};
+
+  @Option(name = "-bm25prf.fbDocs", handler = StringArrayOptionHandler.class,
+          usage = "bm25PRF parameter: number of documents")
+  public String[] bm25prf_fbDocs = new String[] {"10"};
+
+  @Option(name = "-bm25prf.k1", handler = StringArrayOptionHandler.class,
+          usage = "bm25PRF parameter: k1")
+  public String[] bm25prf_k1 = new String[] {"0.9"};
+
+  @Option(name = "-bm25prf.b", handler = StringArrayOptionHandler.class,
+          usage = "bm25PRF parameter: b")
+  public String[] bm25prf_b = new String[] {"0.4"};
+
+  @Option(name = "-bm25prf.newTermWeight", handler = StringArrayOptionHandler.class,
+          usage = "bm25PRF parameter: weight to assign to the expansion terms")
+  public String[] bm25prf_newTermWeight = new String[] {"0.2"};
+
+  @Option(name = "-bm25prf.outputQuery",
+          usage = "bm25PRF parameter: print original and expanded queries")
+  public boolean bm25prf_outputQuery = false;
+
   // Axiomatic semantic matching matching options.
 
   @Option(name = "-axiom", usage = "use Axiomatic query expansion model for the reranking")
@@ -221,9 +260,6 @@ public class SearchArgs {
 
   @Option(name = "-axiom.index", usage = "path to the external index for generating the reranking doucments pool")
   public String axiom_index = null;
-
-  @Option(name = "-model", metaVar = "[file]", required = false, usage = "ranklib model file")
-  public String model = "";
 
   @Option(name = "-qid_queries", metaVar = "[file]", usage="query id - query mapping file")
   public String qid_queries = "";

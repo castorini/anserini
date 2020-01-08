@@ -1,4 +1,4 @@
-/**
+/*
  * Anserini: A Lucene toolkit for replicable information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,6 +16,7 @@
 
 package io.anserini.search;
 
+import io.anserini.analysis.AnalyzerUtils;
 import io.anserini.analysis.EnglishStemmingAnalyzer;
 import io.anserini.analysis.TweetAnalyzer;
 import io.anserini.index.generator.TweetGenerator;
@@ -24,20 +25,28 @@ import io.anserini.rerank.RerankerCascade;
 import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.ScoredDocuments;
 import io.anserini.rerank.lib.AxiomReranker;
+import io.anserini.rerank.lib.BM25PrfReranker;
 import io.anserini.rerank.lib.NewsBackgroundLinkingReranker;
 import io.anserini.rerank.lib.Rm3Reranker;
 import io.anserini.rerank.lib.ScoreTiesAdjusterReranker;
 import io.anserini.search.query.BagOfWordsQueryGenerator;
 import io.anserini.search.query.SdmQueryGenerator;
+import io.anserini.search.similarity.AccurateBM25Similarity;
 import io.anserini.search.similarity.TaggedSimilarity;
 import io.anserini.search.topicreader.NewsBackgroundLinkingTopicReader;
 import io.anserini.search.topicreader.TopicReader;
-import io.anserini.util.AnalyzerUtils;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.CharArraySet;
+import org.apache.lucene.analysis.ar.ArabicAnalyzer;
+import org.apache.lucene.analysis.bn.BengaliAnalyzer;
+import org.apache.lucene.analysis.cjk.CJKAnalyzer;
+import org.apache.lucene.analysis.de.GermanAnalyzer;
+import org.apache.lucene.analysis.es.SpanishAnalyzer;
+import org.apache.lucene.analysis.fr.FrenchAnalyzer;
+import org.apache.lucene.analysis.hi.HindiAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.LongPoint;
 import org.apache.lucene.index.DirectoryReader;
@@ -215,7 +224,22 @@ public final class SearchCollection implements Closeable {
     if (args.searchtweets) {
       LOG.info("Search Tweets");
       analyzer = new TweetAnalyzer();
+    } else if (args.language.equals("zh")) {
+      analyzer = new CJKAnalyzer();
+    } else if (args.language.equals("ar")) {
+      analyzer = new ArabicAnalyzer();
+    } else if (args.language.equals("fr")) {
+      analyzer = new FrenchAnalyzer();
+    } else if (args.language.equals("hi")) {
+      analyzer = new HindiAnalyzer();
+    } else if (args.language.equals("bn")) {
+      analyzer = new BengaliAnalyzer();
+    } else if (args.language.equals("de")) {
+      analyzer = new GermanAnalyzer();
+    } else if (args.language.equals("es")) {
+      analyzer = new SpanishAnalyzer();
     } else {
+      // Default to English
       analyzer = args.keepstop ?
           new EnglishStemmingAnalyzer(args.stemmer, CharArraySet.EMPTY_SET) : new EnglishStemmingAnalyzer(args.stemmer);
     }
@@ -228,7 +252,7 @@ public final class SearchCollection implements Closeable {
       qc = QueryConstructor.BagOfTerms;
     }
   
-    isRerank = args.rm3 || args.axiom;
+    isRerank = args.rm3 || args.axiom || args.bm25prf;
   }
 
   @Override
@@ -236,7 +260,7 @@ public final class SearchCollection implements Closeable {
     reader.close();
   }
   
-  public List<TaggedSimilarity> constructSimiliries() {
+  public List<TaggedSimilarity> constructSimilarities() {
     // Figure out which scoring model to use.
     List<TaggedSimilarity> similarities = new ArrayList<>();
     if (args.ql || args.qld) {
@@ -251,6 +275,12 @@ public final class SearchCollection implements Closeable {
       for (String k1 : args.k1) {
         for (String b : args.b) {
           similarities.add(new TaggedSimilarity(new BM25Similarity(Float.valueOf(k1), Float.valueOf(b)), "k1="+k1+",b="+b));
+        }
+      }
+    } else if (args.bm25Accurate) {
+      for (String k1 : args.k1) {
+        for (String b : args.b) {
+          similarities.add(new TaggedSimilarity(new AccurateBM25Similarity(Float.valueOf(k1), Float.valueOf(b)), "k1="+k1+",b="+b));
         }
       }
     } else if (args.inl2) {
@@ -311,7 +341,27 @@ public final class SearchCollection implements Closeable {
           }
         }
       }
-    } else {
+    }else if (args.bm25prf) {
+        for (String fbTerms : args.bm25prf_fbTerms) {
+            for (String fbDocs : args.bm25prf_fbDocs) {
+                for (String k1 : args.bm25prf_k1) {
+                    for (String b : args.bm25prf_b) {
+                        for (String newTermWeight : args.bm25prf_newTermWeight) {
+                            RerankerCascade cascade = new RerankerCascade();
+                            cascade.add(new BM25PrfReranker(analyzer, FIELD_BODY, Integer.valueOf(fbTerms),
+                                    Integer.valueOf(fbDocs), Float.valueOf(k1), Float.valueOf(b), Float.valueOf(newTermWeight),
+                                    args.bm25prf_outputQuery));
+                            cascade.add(new ScoreTiesAdjusterReranker());
+                            String tag = "bm25prf.fbTerms:" + fbTerms + ",fbDocs:" + fbDocs + ",bm25prf.k1:" + k1 + ",bm25prf.b:" + b + ",bm25prf.newTermWeight:" + newTermWeight;
+                            cascades.put(tag, cascade);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    else {
       RerankerCascade cascade = new RerankerCascade();
       cascade.add(new ScoreTiesAdjusterReranker());
       cascades.put("", cascade);
@@ -334,13 +384,14 @@ public final class SearchCollection implements Closeable {
             .getConstructor(Path.class).newInstance(topicsFilePath);
         topics.putAll(tr.read());
       } catch (Exception e) {
+        e.printStackTrace();
         throw new IllegalArgumentException("Unable to load topic reader: " + args.topicReader);
       }
     }
   
     final String runTag = args.runtag == null ? "Anserini" : args.runtag;
     final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(args.threads);
-    this.similarities = constructSimiliries();
+    this.similarities = constructSimilarities();
     Map<String, RerankerCascade> cascades = constructRerankerCascades();
     for (TaggedSimilarity taggedSimilarity : this.similarities) {
       for (Map.Entry<String, RerankerCascade> cascade : cascades.entrySet()) {

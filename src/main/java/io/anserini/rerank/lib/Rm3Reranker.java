@@ -1,4 +1,4 @@
-/**
+/*
  * Anserini: A Lucene toolkit for replicable information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,7 +19,7 @@ package io.anserini.rerank.lib;
 import io.anserini.rerank.Reranker;
 import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.ScoredDocuments;
-import io.anserini.util.AnalyzerUtils;
+import io.anserini.analysis.AnalyzerUtils;
 import io.anserini.util.FeatureVector;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

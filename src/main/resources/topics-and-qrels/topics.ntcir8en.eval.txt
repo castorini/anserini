@@ -1,0 +1,73 @@
+ACLIA2-CS-0002	What is the relationship between the movie "Riding Alone for Thousands of Miles" and ZHANG Yimou?
+ACLIA2-CS-0005	What is the definition of Aging Society?
+ACLIA2-CS-0006	What is the relationship between Bali bombings and Bin Laden?
+ACLIA2-CS-0009	Where will Olympics Game 2008 be held?
+ACLIA2-CS-0012	What is the virus of SARS?
+ACLIA2-CS-0015	Where will Expo 2010 be held?
+ACLIA2-CS-0016	Why does China want to import technology to build Shanghai Maglev Railway?
+ACLIA2-CS-0018	What is the Six-Party Talks?
+ACLIA2-CS-0019	What is the definition of obesity?
+ACLIA2-CS-0023	Why does the bird flu threat to humans?
+ACLIA2-CS-0026	What is the relationship between Liu Guoliang and the men's table tennis team of China?
+ACLIA2-CS-0028	Which organization declares Nobel Prize in Literature?
+ACLIA2-CS-0029	What is the relationship of Yong-Bo Li and the Chinese badminton team?
+ACLIA2-CS-0030	Please list the impression series of Zhang Yimou.
+ACLIA2-CS-0032	What is the relationship between Liu Xiang and Johnson?
+ACLIA2-CS-0033	Please list the events related to the Taliban and the United States
+ACLIA2-CS-0035	Please list the events related to the movie "Initials D".
+ACLIA2-CS-0036	Please list the movies in which Zhao Wei participated.
+ACLIA2-CS-0038	What is the relationship between Xia Yu and Yuan Quan?
+ACLIA2-CS-0039	Please list the new year films made by Feng Xiaogang.
+ACLIA2-CS-0040	What is the relationship between Guo Jingjing and Wu Minxia?
+ACLIA2-CS-0041	Who is the 2004 US Presidential Democratic candidate?
+ACLIA2-CS-0042	What is the interrelationship between the petroleum industry and wars?
+ACLIA2-CS-0043	What economic impact might Olympic Games have on host countries?
+ACLIA2-CS-0044	How ultraviolet light might threaten human health?
+ACLIA2-CS-0045	When did Arafat pass away?
+ACLIA2-CS-0046	Which year was Macau's return to China?
+ACLIA2-CS-0047	Who is David Ho(Da-i Ho)?
+ACLIA2-CS-0048	Who is Sean Chen(Chen Shin-An)?
+ACLIA2-CS-0049	Who is Lung Yingtai?
+ACLIA2-CS-0051	What does "DINK" represent?
+ACLIA2-CS-0052	What is cholesterol?
+ACLIA2-CS-0053	What is "Thangka"?
+ACLIA2-CS-0054	What happened on the day of 7 July 2005 London Underground bombings?
+ACLIA2-CS-0056	what is the disputes about China-Russia eastern border agreement?
+ACLIA2-CS-0057	What is the disputes between China and Japan for the undersea natural gas field in the East China Sea?
+ACLIA2-CS-0058	Why did the Boxing Day Tsunami cause serious damage and deaths along the coasts of Indonesia, Sri Lanka, India, and Thailand?
+ACLIA2-CS-0059	What is the reason that 2003 invasion of Iraq was led by the US?
+ACLIA2-CS-0061	Which company is Terry Guo (Tai-Ming Guo) president of?
+ACLIA2-CS-0062	Who was the President of the United States when Cheney served as Vice President?
+ACLIA2-CS-0063	Who served as the Head of the PLO Negotiation Affairs Department, and Minister of Negotiations in Prime Minister Qureia's first cabinet?
+ACLIA2-CS-0064	How was al-Zarqawi involved in the Japanese hostage incident in Iraq?
+ACLIA2-CS-0065	Describe the relationship between Brazil and China, which have jointly launched an earth resources satellite.
+ACLIA2-CS-0066	What is the relationship between two Russian politicians, Kasianov and Putin?
+ACLIA2-CS-0067	What is the relationship between the UK and the euro?
+ACLIA2-CS-0068	When was the Kyoto Protocol enforced?
+ACLIA2-CS-0069	Who is Masatoshi Koshiba?
+ACLIA2-CS-0070	Who is Koichi Tanaka?
+ACLIA2-CS-0071	Who is Chen Shui-Bian?
+ACLIA2-CS-0072	What are embryonic stem cells?
+ACLIA2-CS-0073	What is Hansen's disease?
+ACLIA2-CS-0074	Where are Japan's Northern Territories located?
+ACLIA2-CS-0075	Which countries have borders in the Kashimir region?
+ACLIA2-CS-0076	Where is the Gaza Strip located?
+ACLIA2-CS-0077	What was the BSE incident?
+ACLIA2-CS-0078	What are the characteristics of the largest earthquake that occurred off the coast of Sumatra, Indonesia?
+ACLIA2-CS-0080	Describe the Iraq War, which started in March 2003 and was fought between regular military forces. 
+ACLIA2-CS-0082	Why did Japan's dispatch of the Self-Defense Force to Iraq trigger a debate over amendment of the Japanese Constitution?
+ACLIA2-CS-0083	Why did the Argentine economic crisis occur?
+ACLIA2-CS-0084	Why did France vote against the EU Constitution?
+ACLIA2-CS-0085	Why did oil prices rise sharply in 2004?
+ACLIA2-CS-0087	What is the relationship between sleep and health?
+ACLIA2-CS-0090	What is the relationship between the Straits of Malacca and the Japanese people?
+ACLIA2-CS-0091	What links are there between Japan and the reconstruction of Iraq?
+ACLIA2-CS-0092	What is the important issues of the Negotiation between India and Pakistan?
+ACLIA2-CS-0093	What is the contributions of Three Gorges Dam?
+ACLIA2-CS-0094	Could you please give short descriptions to the Salt Lake Winter Olympic Games of 2002?
+ACLIA2-CS-0095	Why had SARS reports expanded rapidly from 2003?
+ACLIA2-CS-0096	Why is Iraq War a political tipping point to President Bush?
+ACLIA2-CS-0097	Why did China make a bid to host the 2008 Summer Olympics? 
+ACLIA2-CS-0098	Why did armed Chechens hold eight hundred hostages in Moscow theater in 2002? 
+ACLIA2-CS-0099	Why did China implement the Renminbi exchange rate reform in July 2005?
+ACLIA2-CS-0100	Why did U.S. troops occupy Baghdad?

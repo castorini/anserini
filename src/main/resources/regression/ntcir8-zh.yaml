@@ -1,0 +1,73 @@
+---
+name: ntcir8-zh
+index_command: target/appassembler/bin/IndexCollection
+index_utils_command: target/appassembler/bin/IndexUtils
+search_command: target/appassembler/bin/SearchCollection
+topic_root: src/main/resources/topics-and-qrels/
+qrels_root: src/main/resources/topics-and-qrels/
+index_root:
+ranking_root:
+collection: TrecCollection
+generator: LuceneDocumentGenerator
+threads: 16
+index_options:
+  - -storePositions
+  - -storeDocvectors
+  - -storeRawDocs
+  - -language zh
+  - -uniqueDocid
+  - -optimize # we need this, because without, "documents (non-empty)" would be non-deterministic, failing regression.
+search_options:
+  - -language zh
+topic_reader: TsvString
+evals:
+  - command: eval/trec_eval.9.0.4/trec_eval
+    params:
+      - -m map
+    separator: "\t"
+    parse_index: 2
+    metric: map
+    metric_precision: 4
+    can_combine: true
+  - command: eval/trec_eval.9.0.4/trec_eval
+    params:
+      - -m P.20
+    separator: "\t"
+    parse_index: 2
+    metric: p20
+    metric_precision: 4
+    can_combine: true
+  - command: eval/trec_eval.9.0.4/trec_eval
+    params:
+      - -m ndcg_cut.20
+    separator: "\t"
+    parse_index: 2
+    metric: ndcg20
+    metric_precision: 4
+    can_combine: true
+input_roots:
+  - /tuna1/      # on tuna
+  - /store/      # on orca
+  - /scratch2/   # on damiano
+input: collections/newswire/clir/ntcir.zh/ntcir8-zh/
+index_path: indexes/lucene-index.ntcir8-zh.pos+docvectors+rawdocs
+index_stats:
+  documents: 308832
+  documents (non-empty): 308832
+  total terms: 134618634  # on Mac, I seem to get this value instead: 134618027 (no idea why)
+topics:
+  - name: "[NTCIR-8 ACLIA (IR4QA subtask, Monolingual Chinese)](../src/main/resources/topics-and-qrels/topics.ntcir8zh.eval.txt)"
+    path: topics.ntcir8zh.eval.txt
+    qrel: qrels.ntcir8.eval.txt
+models:
+  - name: bm25
+    display: BM25
+    params:
+      - -bm25
+    results:
+      map:
+        - 0.4014
+      p20:
+        - 0.3849
+      ndcg20:
+        - 0.4757

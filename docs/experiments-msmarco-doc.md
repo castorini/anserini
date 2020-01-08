@@ -1,6 +1,6 @@
-# Anserini: Experiments on [MS MARCO (Document)](https://github.com/microsoft/TREC-2019-Deep-Learning)
+# Anserini: BM25 Baselines on [MS MARCO Doc Retrieval Task](https://github.com/microsoft/TREC-2019-Deep-Learning)
 
-This page contains basic instructions for getting started on the MS MARCO *document* ranking task.
+This page contains instructions for running BM25 baselines on the MS MARCO *document* ranking task.
 Note that there is a separate [MS MARCO *passage* ranking task](experiments-msmarco-passage.md).
 
 ## Data Prep
@@ -94,9 +94,6 @@ map                   	all	0.2308
 Let's compare to the baselines provided by Microsoft (note that to be fair, we restrict evaluation to top 100 hits per topic):
 
 ```
-$ wget https://msmarco.blob.core.windows.net/msmarcoranking/msmarco-docdev-top100.gz -P msmarco-doc
-$ gunzip msmarco-doc/msmarco-docdev-top100.gz
-
 $ eval/trec_eval.9.0.4/trec_eval -c -mmap -M 100 msmarco-doc/msmarco-docdev-qrels.tsv msmarco-doc/msmarco-docdev-top100
 map                   	all	0.2219
 
@@ -108,4 +105,27 @@ We see that "out of the box" Anserini is already better!
 
 ## BM25 Tuning
 
-TODO: BM25 Parameter Tuning
+It is well known that BM25 parameter tuning is important.
+The above instructions use the Anserini (system-wide) default of `k1=0.9`, `b=0.4`.
+
+Let's try to do better!
+We tuned BM25 using the queries found [here](https://github.com/castorini/Anserini-data/tree/master/MSMARCO): these are five different sets of 10k samples from the training queries (using the `shuf` command).
+Tuning was performed on each individual set (grid search, in tenth increments) and then we averaged parameter values across all five sets (this has the effect of regularization).
+Here, we optimized for average precision (AP).
+The tuned parameters using this approach are `k1=3.44`, `b=0.87`.
+
+To perform a run with these parameters, issue the following command:
+
+```
+target/appassembler/bin/SearchCollection -topicreader Tsv -index lucene-index.msmarco-doc.pos+docvectors+rawdocs \
+ -topics msmarco-doc/msmarco-docdev-queries.tsv -output run.msmarco-doc.dev.bm25.tuned.txt -bm25 -k1 3.44 -b 0.87
+```
+
+Here's the comparison between the Anserini default and tuned parameters:
+
+Setting                     | AP     | Recall@1000 |
+:---------------------------|-------:|------------:|
+Default (`k1=0.9`, `b=0.4`) | 0.2310 | 0.8856
+Tuned (`k1=3.44`, `b=0.87`) | 0.2788 | 0.9326
+
+As expected, BM25 tuning makes a big difference!

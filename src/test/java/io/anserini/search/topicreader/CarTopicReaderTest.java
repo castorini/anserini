@@ -1,4 +1,4 @@
-/**
+/*
  * Anserini: A Lucene toolkit for replicable information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,8 +16,8 @@
 
 package io.anserini.search.topicreader;
 
+import io.anserini.analysis.AnalyzerUtils;
 import io.anserini.analysis.EnglishStemmingAnalyzer;
-import io.anserini.util.AnalyzerUtils;
 import org.apache.lucene.analysis.Analyzer;
 import org.junit.Test;
 
@@ -33,7 +33,7 @@ public class CarTopicReaderTest {
 
   @Test
   public void test() throws IOException {
-    TopicReader reader = new CarTopicReader(
+    TopicReader<String> reader = new CarTopicReader(
         Paths.get("src/main/resources/topics-and-qrels/topics.car17v2.0.benchmarkY1test.txt"));
 
     SortedMap<String, Map<String, String>> topics = reader.read();

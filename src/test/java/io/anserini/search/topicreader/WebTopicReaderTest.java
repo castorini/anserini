@@ -1,4 +1,4 @@
-/**
+/*
  * Anserini: A Lucene toolkit for replicable information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -29,7 +29,7 @@ public class WebTopicReaderTest {
 
   @Test
   public void test() throws IOException {
-    TopicReader reader = new WebTopicReader(
+    TopicReader<Integer> reader = new WebTopicReader(
         Paths.get("src/main/resources/topics-and-qrels/topics.terabyte05.efficiency.txt"));
 
     SortedMap<Integer, Map<String, String>> topics = reader.read();

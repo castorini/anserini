@@ -1,4 +1,4 @@
-/**
+/*
  * Anserini: A Lucene toolkit for replicable information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -72,50 +72,48 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.zip.GZIPInputStream;
+import java.util.NoSuchElementException;
 
 /**
  * An instance of the <a href="https://www.lemurproject.org/clueweb12.php/">ClueWeb12 collection</a>.
  * This can be used to read the complete ClueWeb12 collection or the smaller ClueWeb12-B13 subset.
  */
-public class ClueWeb12Collection extends DocumentCollection
-    implements SegmentProvider<ClueWeb12Collection.Document> {
+public class ClueWeb12Collection extends DocumentCollection<ClueWeb12Collection.Document> {
   private static final Logger LOG = LogManager.getLogger(ClueWeb12Collection.class);
 
-  @Override
-  public List<Path> getFileSegmentPaths() {
-    Set<String> allowedFileSuffix = new HashSet<>(Arrays.asList(".warc.gz"));
-    Set<String> skippedDirs = new HashSet<>(Arrays.asList("OtherData"));
-
-    return discover(path, EMPTY_SET, EMPTY_SET, EMPTY_SET, allowedFileSuffix, skippedDirs);
+  public ClueWeb12Collection(){
+    this.allowedFileSuffix = new HashSet<>(Arrays.asList(".warc.gz"));
+    this.skippedDir = new HashSet<>(Arrays.asList("OtherData"));
   }
 
   @Override
-  public FileSegment createFileSegment(Path p) throws IOException {
-    return new FileSegment(p);
+  public FileSegment<ClueWeb12Collection.Document> createFileSegment(Path p) throws IOException {
+    return new Segment(p);
   }
 
-  public FileSegment createFileSegment(String raw) {
-    return new FileSegment(raw);
+  public FileSegment<ClueWeb12Collection.Document> createFileSegment(String raw) {
+    return new Segment(raw);
   }
 
   /**
    * An individual WARC in the <a href="https://www.lemurproject.org/clueweb12.php/">ClueWeb12 collection</a>.
    */
-  public static class FileSegment extends BaseFileSegment<Document> {
+  public static class Segment extends FileSegment<ClueWeb12Collection.Document> {
     protected DataInputStream stream;
 
-    protected FileSegment(Path path) throws IOException {
-      super.path = path;
+    protected Segment(Path path) throws IOException {
+      super(path);
       this.stream = new DataInputStream(
-          new GZIPInputStream(Files.newInputStream(path, StandardOpenOption.READ)));
+              new GZIPInputStream(Files.newInputStream(path, StandardOpenOption.READ)));
     }
 
-    protected FileSegment(String raw) {
+    protected Segment(String raw) {
+      super(null);
       this.stream = new DataInputStream(new StringInputStream(raw));
     }
 
     @Override
-    public void readNext() throws IOException {
+    public void readNext() throws IOException, NoSuchElementException {
       bufferedRecord = readNextWarcRecord(stream, Document.WARC_VERSION);
     }
 
@@ -138,7 +136,7 @@ public class ClueWeb12Collection extends DocumentCollection
     public static Document readNextWarcRecord(DataInputStream in, String version)
         throws IOException {
       StringBuilder recordHeader = new StringBuilder();
-      byte[] recordContent = ClueWeb09Collection.FileSegment.readNextRecord(in, recordHeader, version);
+      byte[] recordContent = ClueWeb09Collection.Segment.readNextRecord(in, recordHeader, version);
       if (recordContent == null) {
         return null;
       }

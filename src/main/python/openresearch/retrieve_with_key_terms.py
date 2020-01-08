@@ -6,10 +6,11 @@ import argparse
 import time
 
 # Pyjnius setup
+anserini_root='.'
 import sys
 sys.path += ['src/main/python']
-from pyjnius_setup import configure_classpath
-configure_classpath()
+from pyserini.setup import configure_classpath
+configure_classpath(anserini_root)
 
 from jnius import autoclass
 JString = autoclass('java.lang.String')
@@ -17,7 +18,8 @@ JSearcher = autoclass('io.anserini.search.SimpleSearcher')
 
 
 def update_query_with_key_terms(query, whoosh_searcher):
-    title, abstract = query.split(' [SEP] ')
+    title, abstract = query.split(' [Abstract]: ')
+    title = title.replace('[Title]: ', '')
     title_key_terms = ' '.join([t for t,_ in whoosh_searcher.key_terms_from_text('title', title, numterms=3)])
     abstract_key_terms = ' '.join([t for t,_ in whoosh_searcher.key_terms_from_text('abstract', abstract)])
     return title_key_terms + " " + abstract_key_terms
@@ -26,6 +28,7 @@ def update_query_with_key_terms(query, whoosh_searcher):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Retrieve Open Research Passages.')
     parser.add_argument('--qid_queries', required=True, default='', help='query id - query mapping file')
+    parser.add_argument('--valid_docs', default='', help='valid doc ids file')
     parser.add_argument('--output', required=True, default='', help='output filee')
     parser.add_argument('--index', required=True, default='', help='index path')
     parser.add_argument('--whoosh_index', required=True, default='', help='whoosh index path')
@@ -38,6 +41,11 @@ if __name__ == '__main__':
     parser.add_argument('--originalQueryWeight', default=0.5, type=float, help='RM3 parameter: weight to assign to the original query')
 
     args = parser.parse_args()
+
+    data_type = 'oc'
+    if args.valid_docs:
+      data_type = 'pd'
+      valid_docs = set(open(args.valid_docs).read().strip().split('\n'))
 
     searcher = JSearcher(JString(args.index))
     searcher.setBM25Similarity(args.k1, args.b)
@@ -70,8 +78,8 @@ if __name__ == '__main__':
           rank = 0
           for i in range(len(hits)):
               doc_id = hits[i].docid
-              # We skip the doc that originated the query.
-              if doc_id == query_id:
+              # We skip the doc that originated the query, we also skipped the doc that doesn't in valid docs.
+              if data_type == 'oc' and doc_id == query_id or data_type == 'pd' and (doc_id == query_id or doc_id not in valid_docs):
                   continue
               fout.write('{} Q0 {} {} {} Anserini\n'.format(
                   query_id, doc_id, rank + 1, hits[i].score))

@@ -1,4 +1,4 @@
-/**
+/*
  * Anserini: A Lucene toolkit for replicable information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Iterator;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class WikipediaArticleTest extends DocumentTest {
@@ -94,7 +95,7 @@ public class WikipediaArticleTest extends DocumentTest {
   @Test
   public void test() throws IOException {
     WikipediaCollection collection = new WikipediaCollection();
-    BaseFileSegment<WikipediaCollection.Document> iter = collection.createFileSegment(rawFiles.get(0));
+    Iterator<WikipediaCollection.Document> iter = collection.createFileSegment(rawFiles.get(0)).iterator();
     while (iter.hasNext()) {
       WikipediaCollection.Document parsed = iter.next();
       assertEquals(parsed.id(), "Wiktionary:Welcome, newcomers");
@@ -108,7 +109,8 @@ public class WikipediaArticleTest extends DocumentTest {
   public void testStreamIteration() {
     WikipediaCollection collection = new WikipediaCollection();
     try {
-      BaseFileSegment<WikipediaCollection.Document> iter = collection.createFileSegment(rawFiles.get(0));
+      Iterator<WikipediaCollection.Document> iter =
+              collection.createFileSegment(rawFiles.get(0)).iterator();
       AtomicInteger cnt = new AtomicInteger();
       iter.forEachRemaining(d -> cnt.incrementAndGet());
       assertEquals(1, cnt.get());

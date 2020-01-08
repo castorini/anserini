@@ -1,0 +1,110 @@
+---
+name: car17v2.0-doc2query
+index_command: target/appassembler/bin/IndexCollection
+index_utils_command: target/appassembler/bin/IndexUtils
+search_command: target/appassembler/bin/SearchCollection
+topic_root: src/main/resources/topics-and-qrels/
+qrels_root: src/main/resources/topics-and-qrels/
+ranking_root:
+generator: LuceneDocumentGenerator
+threads: 30
+index_options:
+  - -storePositions
+  - -storeDocvectors
+  - -storeRawDocs
+topic_reader: Car
+input_roots:
+  - /tuna1/      # on tuna
+  - /store/      # on orca
+  - /scratch2/   # on damiano
+input: collections/car/paragraphCorpus.v2.0-expanded-topk10/
+index_path: indexes/lucene-index.car17v2.0-doc2query.pos+docvectors+rawdocs
+collection: JsonCollection
+index_stats:
+  documents: 29794697
+  documents (non-empty): 29794694
+  total terms: 2541082416
+topics:
+  - name: "[TREC 2017 CAR: benchmarkY1test (v2.0)](../src/main/resources/topics-and-qrels/topics.car17v2.0.benchmarkY1test.txt)"
+    path: topics.car17v2.0.benchmarkY1test.txt
+    qrel: qrels.car17v2.0.benchmarkY1test.txt
+evals:
+  - command: eval/trec_eval.9.0.4/trec_eval
+    params:
+      - -c -m map  # -c: average over all queries in qrels - this is critical here
+    separator: "\t"
+    parse_index: 2
+    metric: map
+    metric_precision: 4
+    can_combine: true
+  - command: eval/trec_eval.9.0.4/trec_eval
+    params:
+      - -c -m recip_rank
+    separator: "\t"
+    parse_index: 2
+    metric: recip_rank
+    metric_precision: 4
+    can_combine: true
+models:
+  - name: bm25
+    display: BM25
+    params:
+      - -bm25
+    results:
+      map:
+        - 0.1807
+      recip_rank:
+        - 0.2750
+  - name: bm25+rm3
+    display: +RM3
+    params:
+      - -bm25
+      - -rm3
+    results:
+      map:
+        - 0.1521
+      recip_rank:
+        - 0.2275
+  - name: bm25+ax
+    display: +Ax
+    params:
+      - -bm25
+      - -axiom
+      - -rerankCutoff 20
+      - -axiom.deterministic
+    results:
+      map:
+        - 0.1470
+      recip_rank:
+        - 0.2186
+  - name: ql
+    display: QL
+    params:
+      - -ql
+    results:
+      map:
+        - 0.1752
+      recip_rank:
+        - 0.2653
+  - name: ql+rm3
+    display: +RM3
+    params:
+      - -ql
+      - -rm3
+    results:
+      map:
+        - 0.1453
+      recip_rank:
+        - 0.2156
+  - name: ql+ax
+    display: +Ax
+    params:
+      - -ql
+      - -axiom
+      - -rerankCutoff 20
+      - -axiom.deterministic
+    results:
+      map:
+        - 0.1339
+      recip_rank:
+        - 0.1981

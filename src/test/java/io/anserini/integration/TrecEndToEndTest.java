@@ -1,4 +1,4 @@
-/**
+/*
  * Anserini: A Lucene toolkit for replicable information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,11 +19,19 @@ package io.anserini.integration;
 public class TrecEndToEndTest extends EndToEndTest {
 
   @Override
-  protected void init() {
+  protected void init() throws Exception {
     dataDirPath = "trec";
     collectionClass = "Trec";
     generator = "Jsoup";
     topicReader = "Trec";
+
+    docCount = 3;
+
+    counterIndexed = 3;
+    counterEmpty = 0;
+    counterUnindexable = 0;
+    counterSkipped = 0;
+    counterErrors = 0;
 
     fieldNormStatusTotalFields = 1;  // text
     termIndexStatusTermCount = 12;   // Note that standard analyzer ignores stopwords; includes docids.
@@ -33,15 +41,9 @@ public class TrecEndToEndTest extends EndToEndTest {
     termIndexStatusTotPos = 16 + storedFieldStatusTotalDocCounts;
     storedFieldStatusTotFields = 9;  // 3 docs * (1 id + 1 text + 1 raw)
 
-    // The search output should be as follows (for Lucene 7.5):
-    // 1 Q0 DOC222 1 0.652100 Anserini
-    // 1 Q0 TREC_DOC_1 2 0.633500 Anserini
-    // 1 Q0 WSJ_1 3 0.130400 Anserini
-
-    // Qrels are at src/test/resources/sample_qrels/Trec
-    // 1 0 TREC_DOC_1 0
-    // 1 0 DOC222 1
-    // 1 0 WSJ_1 1
-    evalMetricValue = (float) (1.0/1.0 + 2.0/3)/2.0f;
+    referenceRunOutput = new String[] {
+      "1 Q0 DOC222 1 0.343200 Anserini",
+      "1 Q0 TREC_DOC_1 2 0.333400 Anserini",
+      "1 Q0 WSJ_1 3 0.068700 Anserini" };
   }
 }

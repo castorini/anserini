@@ -1,4 +1,4 @@
-/**
+/*
  * Anserini: A Lucene toolkit for replicable information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,6 +25,14 @@ public class TweetEndToEndTest extends EndToEndTest {
     generator = "Tweet";
     topicReader = "Microblog";
 
+    docCount = 4;
+
+    counterIndexed = 4;
+    counterEmpty = 0;
+    counterUnindexable = 0;
+    counterSkipped = 5;
+    counterErrors = 0;
+
     fieldNormStatusTotalFields = 1; // text
 
     // We set that retweets and the tweets with ids larger than tweetMaxId will NOT be indexed!
@@ -35,23 +43,19 @@ public class TweetEndToEndTest extends EndToEndTest {
     termIndexStatusTotPos = 24 + 3 * storedFieldStatusTotalDocCounts;
     storedFieldStatusTotFields = 12;  // 4 tweets * (1 id + 1 text + 1 raw)
 
-    // The search output should be as follows (for Lucene 7.5):
-    // 1 Q0 5 1 1.167100 Anserini
-    // 1 Q0 3 2 0.693100 Anserini
-
-    // Qrels are at src/test/resources/sample_qrels/Microblog
-    // 1 0 1 0
-    // 1 0 3 1
-    // 1 0 5 0
-    // 1 0 6 0
-    // 1 0 8 1
-    // 1 0 10 1
-    evalMetricValue = (float) (0.0/1 + 1.0/2)/3.0f;
-    // 2 retrieved docs in total: note that querytweettime filters 1 rel tweet.
-    // 1st retrieved doc is not relevant, 2nd retrieved doc is relelevant,
-    // and there are 3 relevant docs in qrels.
+    referenceRunOutput = new String[] {
+        "1 Q0 5 1 0.614300 Anserini",
+        "1 Q0 3 2 0.364800 Anserini" };
   }
 
+  // Note that in the test cases, we have:
+  // {... "id":1,"id_str":"1","text":"RT This is a Retweet and will NOT NOT be indexed!" ... }
+  // {... "id":10,"id_str":"10","text":"This tweet won't be indexed since the maxId is 9" ... }
+  //
+  // src/test/resources/sample_docs/tweets/tweets1: 5 JSON objects, 2 deletes
+  // src/test/resources/sample_docs/tweets/tweets2: 4 JSON objects, 1 deletes
+  //
+  // Thus, there should be a total of 4 documents indexed: 9 objects - 5 skipped
   @Override
   protected void setIndexingArgs() {
     super.setIndexingArgs();
@@ -62,11 +66,5 @@ public class TweetEndToEndTest extends EndToEndTest {
   protected void setSearchArgs() {
     super.setSearchArgs();
     searchArgs.searchtweets = true;
-  }
-
-  @Override
-  protected void setEvalArgs() {
-    super.setEvalArgs();
-    evalArgs.longDocids = true;
   }
 }
