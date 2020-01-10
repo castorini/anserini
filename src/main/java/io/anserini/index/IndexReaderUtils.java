@@ -333,6 +333,25 @@ public class IndexReaderUtils {
   }
 
   /**
+   * Returns the raw document given its collection docid.
+   * @param reader index reader
+   * @param docid collection docid
+   * @return the raw document given its collection docid, or <code>null</code> if not found.
+   */
+  public static String getRawDocument(IndexReader reader, String docid) {
+    try {
+      Document rawDoc = reader.document(convertDocidToLuceneDocid(reader, docid));
+
+      if (rawDoc == null) {
+        return null;
+      }
+      return rawDoc.get(LuceneDocumentGenerator.FIELD_RAW);
+    } catch (IOException e) {
+      return null;
+    }
+  }
+
+  /**
    * Computes the BM25 weight of a term (prior to analysis) in a particular document.
    * @param reader index reader
    * @param docid collection docid
