@@ -3,7 +3,7 @@
 **Release date: January 9, 2020**
 
 + Added hook to fetch raw documents in `IndexReaderUtils`.
-+ Fixed bug that prevented Pyjnius from directly reading topics from jar,
++ Fixed bug that prevented Pyjnius from directly reading topics from jar.
 + Cleanup of approximate nearest-neighbor search functionality, moved into dedicated package `io.anserini.ann`.
 
 ## Contributors (This Release)
