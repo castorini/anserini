@@ -38,19 +38,19 @@ nohup target/appassembler/bin/SearchCollection -index lucene-index.wt10g.pos+doc
 
 nohup target/appassembler/bin/SearchCollection -index lucene-index.wt10g.pos+docvectors+rawdocs \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.adhoc.451-550.txt \
- -bm25 -axiom -axiom.beta 0.1 -rerankCutoff 20 -axiom.deterministic -output run.wt10g.bm25+ax.topics.adhoc.451-550.txt &
+ -bm25 -rerankCutoff 20 -axiom -axiom.beta 0.1 -axiom.deterministic -output run.wt10g.bm25+ax.topics.adhoc.451-550.txt &
 
 nohup target/appassembler/bin/SearchCollection -index lucene-index.wt10g.pos+docvectors+rawdocs \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.adhoc.451-550.txt \
- -ql -output run.wt10g.ql.topics.adhoc.451-550.txt &
+ -qld -output run.wt10g.ql.topics.adhoc.451-550.txt &
 
 nohup target/appassembler/bin/SearchCollection -index lucene-index.wt10g.pos+docvectors+rawdocs \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.adhoc.451-550.txt \
- -ql -rm3 -output run.wt10g.ql+rm3.topics.adhoc.451-550.txt &
+ -qld -rm3 -output run.wt10g.ql+rm3.topics.adhoc.451-550.txt &
 
 nohup target/appassembler/bin/SearchCollection -index lucene-index.wt10g.pos+docvectors+rawdocs \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.adhoc.451-550.txt \
- -ql -axiom -axiom.beta 0.1 -rerankCutoff 20 -axiom.deterministic -output run.wt10g.ql+ax.topics.adhoc.451-550.txt &
+ -qld -rerankCutoff 20 -axiom -axiom.beta 0.1 -axiom.deterministic -output run.wt10g.ql+ax.topics.adhoc.451-550.txt &
 ```
 
 Evaluation can be performed using `trec_eval`:
