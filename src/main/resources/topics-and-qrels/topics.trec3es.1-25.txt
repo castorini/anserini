@@ -3,21 +3,21 @@
 <num> Number: SP1
 
 
-<title>  Topic:  Oposición Mexicana al TLC
+<title>  Topic:  OposiciÃ³n Mexicana al TLC
 
 <desc> Description:
 
-Documento contendrá información sobre oposición en México
+Documento contendrÃ¡ informaciÃ³n sobre oposiciÃ³n en MÃ©xico
 al tratado de libre comercio norteamericano.
 
 
 <narr>
 
-Oposición al TLC en el gobierno mexicano, en medios comerciales,
-y en el sector privado.  Dificultará esta oposición la
-implementación plena del TLC?  Documento debe incluir nombres
-de compañías opuestas al TLC con razones y sectores específicos
-económicos y empresariales de oposición.
+OposiciÃ³n al TLC en el gobierno mexicano, en medios comerciales,
+y en el sector privado.  DificultarÃ¡ esta oposiciÃ³n la
+implementaciÃ³n plena del TLC?  Documento debe incluir nombres
+de compaÃ±Ã­as opuestas al TLC con razones y sectores especÃ­ficos
+econÃ³micos y empresariales de oposiciÃ³n.
 
 
 </top>
@@ -27,27 +27,27 @@ económicos y empresariales de oposición.
 <num> Number:  SP2
 
 
-<title>  Topic:  Efectos sobre la situación política en
-                 México después del asesinato de Colosio
+<title>  Topic:  Efectos sobre la situaciÃ³n polÃ­tica en
+                 MÃ©xico despuÃ©s del asesinato de Colosio
 
 
 <desc> Description:
 
 Influencia del asesinato de Colosio sobre las elecciones
-presidenciales mexicanas.  Reacción en México y en
-círculos internacionales.
+presidenciales mexicanas.  ReacciÃ³n en MÃ©xico y en
+cÃ­rculos internacionales.
 
 
 <narr>
 
 El asesinato del candidato presidencial Luis Donaldo Colosio
-tendrá influencia importante en las próximas elecciones
-presidenciales en México.  Cuáles son los efectos principales
-en México y en el exterior?  El documento debe contener
-ejemplos específicos de areas afectados por el asesinato,
-especialmente en sectores económicos y políticos,
-criterios para mombrar nuevo candidato, y regiones en México
-más afectadas.
+tendrÃ¡ influencia importante en las prÃ³ximas elecciones
+presidenciales en MÃ©xico.  CuÃ¡les son los efectos principales
+en MÃ©xico y en el exterior?  El documento debe contener
+ejemplos especÃ­ficos de areas afectados por el asesinato,
+especialmente en sectores econÃ³micos y polÃ­ticos,
+criterios para mombrar nuevo candidato, y regiones en MÃ©xico
+mÃ¡s afectadas.
 
 
 </top>
@@ -57,23 +57,23 @@ más afectadas.
 <num> Number:  SP3
 
 
-<title>  Topic:  Polución en el Distrito Federal de México
+<title>  Topic:  PoluciÃ³n en el Distrito Federal de MÃ©xico
 
 <desc> Description:
 
-Efectos de la contaminación del aire en el DF y medidas para
-mejorar la situación.  Causas de la contaminación atmosférica
-en la capital del país.
+Efectos de la contaminaciÃ³n del aire en el DF y medidas para
+mejorar la situaciÃ³n.  Causas de la contaminaciÃ³n atmosfÃ©rica
+en la capital del paÃ­s.
 
 
 <narr>
 
-La polución del aire en la capital de México es un problema
-que necesita acción urgente.  Sectores públicos y
+La poluciÃ³n del aire en la capital de MÃ©xico es un problema
+que necesita acciÃ³n urgente.  Sectores pÃºblicos y
 privados deben tomar medidas para proteger la salud y el
-bienestar del pueblo.  Cuáles son estas medidas para reversar
-la degradación del medio ambiente?  Documento debe listar
-medidas para enmendar la situación y cuánto costará.
+bienestar del pueblo.  CuÃ¡les son estas medidas para reversar
+la degradaciÃ³n del medio ambiente?  Documento debe listar
+medidas para enmendar la situaciÃ³n y cuÃ¡nto costarÃ¡.
 
 
 </top>
@@ -87,15 +87,15 @@ medidas para enmendar la situación y cuánto costará.
 
 <desc> Description:
 
-Qué importancia tiene la Organización de los Estados Americanos
-para México? Cuál es el papel de la OEA en la política exterior
+QuÃ© importancia tiene la OrganizaciÃ³n de los Estados Americanos
+para MÃ©xico? CuÃ¡l es el papel de la OEA en la polÃ­tica exterior
 mexicana?
 
 
 <narr>
 
-Documento debe incluir ejemplos de la influencia de México en la
-OEA e indicar como la política externa mexicana ha sido influido
+Documento debe incluir ejemplos de la influencia de MÃ©xico en la
+OEA e indicar como la polÃ­tica externa mexicana ha sido influido
 por la OEA.
 
 
@@ -106,22 +106,22 @@ por la OEA.
 <num> Number:  SP5
 
 
-<title>  Topic:  Maquiladoras en la economía mexicana
+<title>  Topic:  Maquiladoras en la economÃ­a mexicana
 
 <desc> Description:
 
-Éxitos y faltas en la industria maquiladora de Mexico.  Pueden
-las maquiladoras ayudar el proceso de harmonización de las
-economías de México y los Estados Unidos?
+Ã‰xitos y faltas en la industria maquiladora de Mexico.  Pueden
+las maquiladoras ayudar el proceso de harmonizaciÃ³n de las
+economÃ­as de MÃ©xico y los Estados Unidos?
 
 
 <narr>
 
 La industria maquiladora, especialmente a largo de la frontera
-entre Mexico y los Estados Unidos, ha ayudado las economías
+entre Mexico y los Estados Unidos, ha ayudado las economÃ­as
 de ambos paises.  Documento debe mostrar como las maquiladoras
-han producido crescimento económico, incluyendo detalles de
-casos de éxito y también sectores donde este sistema ha
+han producido crescimento econÃ³mico, incluyendo detalles de
+casos de Ã©xito y tambiÃ©n sectores donde este sistema ha
 fracasado.
 
 
@@ -132,22 +132,22 @@ fracasado.
 <num> Number:  SP6
 
 
-<title>  Topic:  Manejo de desechos tóxicos industriales en México
+<title>  Topic:  Manejo de desechos tÃ³xicos industriales en MÃ©xico
 
 <desc> Description:
 
-El manejo de residuos tóxicos industriales en México es importante
-para proteger el medio ambiente y el pueblo mexicano.  Cuáles son
-las medidas que México ha empleado para regular este problema?
+El manejo de residuos tÃ³xicos industriales en MÃ©xico es importante
+para proteger el medio ambiente y el pueblo mexicano.  CuÃ¡les son
+las medidas que MÃ©xico ha empleado para regular este problema?
 
 
 <narr>
 
 Documento debe discutir el problema de desechos toxicas generados
-por industrias en México.  Debe incluir medidas, regulaciones y
-leyes adoptadas por México para manejar este problema.  Ejemplos
-de manejo exitoso y también de falta de éxito en limpiar desechos
-tóxicos deben ser incluidos.
+por industrias en MÃ©xico.  Debe incluir medidas, regulaciones y
+leyes adoptadas por MÃ©xico para manejar este problema.  Ejemplos
+de manejo exitoso y tambiÃ©n de falta de Ã©xito en limpiar desechos
+tÃ³xicos deben ser incluidos.
 
 
 </top>
@@ -157,24 +157,24 @@ tóxicos deben ser incluidos.
 <num> Number: SP7
 
 
-<title>  Topic:  Las relaciones entre Cuba y Mexico han sido sólidas
-                 a pesar del aislamento internacional de la régimen
+<title>  Topic:  Las relaciones entre Cuba y Mexico han sido sÃ³lidas
+                 a pesar del aislamento internacional de la rÃ©gimen
                  de Fidel Castro
 
 
 <desc> Description:
 
-Aunque la régimen de Fidel Castro ha encontrado aislado de grande
-parte de la comunidad internacional relaciones con México han
-continuado sólidas.  Porqué ha occurido este fenómeno y
-cuáles son ejemplos y resultados de este política?
+Aunque la rÃ©gimen de Fidel Castro ha encontrado aislado de grande
+parte de la comunidad internacional relaciones con MÃ©xico han
+continuado sÃ³lidas.  PorquÃ© ha occurido este fenÃ³meno y
+cuÃ¡les son ejemplos y resultados de este polÃ­tica?
 
 
 <narr>
 
-Documento debe analisar la relación entre Cuba y México, dando
-ejemplos y resultados de esta política de amistad en las relaciones
-de México con otros paises, sobretodo con los Estados Unidos.
+Documento debe analisar la relaciÃ³n entre Cuba y MÃ©xico, dando
+ejemplos y resultados de esta polÃ­tica de amistad en las relaciones
+de MÃ©xico con otros paises, sobretodo con los Estados Unidos.
 
 
 </top>
@@ -190,7 +190,7 @@ de México con otros paises, sobretodo con los Estados Unidos.
 <desc> Description:
 
 El control de inmigrantes ilegales Mexicanos en los Estados Unidos ha
-sido problema difícil en relaciones norteamericanas con México.
+sido problema difÃ­cil en relaciones norteamericanas con MÃ©xico.
 
 
 
@@ -199,7 +199,7 @@ sido problema difícil en relaciones norteamericanas con México.
 Documento debe discutir este problema y debe incluir esfuerzos de
 ambos paises a cerrar las puertas a inmigrantes indocumentados.
 Los dos paises deben hacer frente a los problemas resultantes de
-estes indocumentados.  Cómo se puede hacer y cuáles medidas,
+estes indocumentados.  CÃ³mo se puede hacer y cuÃ¡les medidas,
 regulaciones y leyes deben ser adoptadas?
 
 
@@ -210,22 +210,22 @@ regulaciones y leyes deben ser adoptadas?
 <num> Number:  SP9
 
 
-<title>  Topic:  La frontera entre Guatemala y México es el local de
+<title>  Topic:  La frontera entre Guatemala y MÃ©xico es el local de
                  varios problemas bilaterales
 
 <desc> Description:
 
 Mucho de la frontera guatemalteco-mexicana es mal guardado y
-varios problemas bilaterales han ocurrido allí.
+varios problemas bilaterales han ocurrido allÃ­.
 
 
 <narr>
 
-Inmigración ilegal, contrabando, y narcotrafico son problemas
-recurrentes a lo largo de la frontera entre México y Guatemala.
+InmigraciÃ³n ilegal, contrabando, y narcotrafico son problemas
+recurrentes a lo largo de la frontera entre MÃ©xico y Guatemala.
 El documento debe describir ejemplos de estes problemas y
 otros que afectan las relaciones entre estes paises vecinos.
-También debe incluir soluciones posibles.
+TambiÃ©n debe incluir soluciones posibles.
 
 
 </top>
@@ -235,22 +235,22 @@ También debe incluir soluciones posibles.
 <num>  Number:  SP10
 
 
-<title>  Topic:  México es importante país de tránsito
-                 en la guerra antinarcótica
+<title>  Topic:  MÃ©xico es importante paÃ­s de trÃ¡nsito
+                 en la guerra antinarcÃ³tica
 
 <desc> Description:
 
-México es importante para los narcotraficantes de Colombia
-y Perú como punto de entrada para los Estados Unidos.  Como
-se usan México como país de tránsito?
+MÃ©xico es importante para los narcotraficantes de Colombia
+y PerÃº como punto de entrada para los Estados Unidos.  Como
+se usan MÃ©xico como paÃ­s de trÃ¡nsito?
 
 
 <narr>
 
-Documento debe indicar métodos empleados por narcotraficantes
-para utilizar México como país de tránsito para hacer llegar
+Documento debe indicar mÃ©todos empleados por narcotraficantes
+para utilizar MÃ©xico como paÃ­s de trÃ¡nsito para hacer llegar
 las drogas ilegales a los Estados Unidos.  Debe incluir ejemplos
-y locales específicos y medidas para impedir esta actividad.
+y locales especÃ­ficos y medidas para impedir esta actividad.
 
 
 </top>
@@ -260,16 +260,16 @@ y locales específicos y medidas para impedir esta actividad.
 <num>  Number:  SP11
 
 
-<title>  Topic:  Derechos a las aguas de los ríos en la región
+<title>  Topic:  Derechos a las aguas de los rÃ­os en la regiÃ³n
                  fronteriza entre Mexico y los Estados Unidos
 
 <desc> Description:
 
-Un problema difícil en las relaciones bilaterales de México
-y los EU ha sido la utilización de las aguas de los ríos
+Un problema difÃ­cil en las relaciones bilaterales de MÃ©xico
+y los EU ha sido la utilizaciÃ³n de las aguas de los rÃ­os
 fronterizos.  El agua potable es esencial para la vida.
-Problemas territoriales, legales, ecológicos, y comerciales
-en relación a los ríos fronterizos han perturbado las
+Problemas territoriales, legales, ecolÃ³gicos, y comerciales
+en relaciÃ³n a los rÃ­os fronterizos han perturbado las
 relaciones bilaterales.
 
 
@@ -278,7 +278,7 @@ relaciones bilaterales.
 Documento debe discutir el problema de aguas fluviales entre
 los Estados Unidos y Mexico.  Las varias dificultades
 resultantes de este problema causan otras problemas.  El
-documento debe describir el problema básico y los
+documento debe describir el problema bÃ¡sico y los
 problemas resultantes, dando ejemplos, areas afectados, y
 soluciones sugeridas.
 
@@ -291,22 +291,22 @@ soluciones sugeridas.
 
 
 <title>  Topic:  Es el Partido Revolucionaro Institucional
-                 antidemocrático?
+                 antidemocrÃ¡tico?
 
 <desc> Description:
 
-Muchos dicen que México tiene sólo un partido político
-(el PRI) y no puede ser denominado democracía.  Hay
-indicaciones para suportar o refutar esta hipótesis?
+Muchos dicen que MÃ©xico tiene sÃ³lo un partido polÃ­tico
+(el PRI) y no puede ser denominado democracÃ­a.  Hay
+indicaciones para suportar o refutar esta hipÃ³tesis?
 
 
 <narr>
 
-El documento debe analizar el panorama político en México,
-incluyendo el sistema electoral, dando ejemplos de democracía
-y el papel de los partidos políticos.  Debe incluir
-opiniones en favor y en contra sobre el PRI y democracía en
-México.
+El documento debe analizar el panorama polÃ­tico en MÃ©xico,
+incluyendo el sistema electoral, dando ejemplos de democracÃ­a
+y el papel de los partidos polÃ­ticos.  Debe incluir
+opiniones en favor y en contra sobre el PRI y democracÃ­a en
+MÃ©xico.
 
 
 </top>
@@ -316,25 +316,25 @@ México.
 <num> Number:  SP13
 
 
-<title>  Topic:  El enfrentamiento del Ejército Mexicano con
+<title>  Topic:  El enfrentamiento del EjÃ©rcito Mexicano con
                  posibles guerrilleros en Chiapas
 
 <desc> Description:
 
 Guerrilleros armados de la Frente Zapatista de subcomandante
-Marcos chocaron con el Ejército Mexicano en el estado
-de Chiapas en el sur de México.  Hubo también rumores de
-campos de entrenamiento.  La motivación y alcance de la
-fuerza guerrillera son importantes para México durante este
-período quando el país empieza a implementar el TLC y
+Marcos chocaron con el EjÃ©rcito Mexicano en el estado
+de Chiapas en el sur de MÃ©xico.  Hubo tambiÃ©n rumores de
+campos de entrenamiento.  La motivaciÃ³n y alcance de la
+fuerza guerrillera son importantes para MÃ©xico durante este
+perÃ­odo quando el paÃ­s empieza a implementar el TLC y
 con las elecciones presidenciales.
 
 
 <narr>
 
-El documento debe contener información sobre los guerrilleros en
-Chiapas, con dados sobre sus armas, areas de acción, motivos,
-nombres y números de guerrilleros, y grupos que los ayudan.
+El documento debe contener informaciÃ³n sobre los guerrilleros en
+Chiapas, con dados sobre sus armas, areas de acciÃ³n, motivos,
+nombres y nÃºmeros de guerrilleros, y grupos que los ayudan.
 
 
 </top>
@@ -345,20 +345,20 @@ nombres y números de guerrilleros, y grupos que los ayudan.
 
 
 <title>  Topic:  El monopolio petrolero PEMEX tiene mucha
-                 influencia en México
+                 influencia en MÃ©xico
 
 <desc> Description:
 
-PEMEX es una entidad muy poderosa en México.  En qué manera ha
-PEMEX desempeñado su papel y cómo puede mejorar su desempeño?
+PEMEX es una entidad muy poderosa en MÃ©xico.  En quÃ© manera ha
+PEMEX desempeÃ±ado su papel y cÃ³mo puede mejorar su desempeÃ±o?
 
 
 <narr>
 
-El documents debe analizar el desempeño de PEMEX, dando
+El documents debe analizar el desempeÃ±o de PEMEX, dando
 medidas para mejorarlo.  Las medidas pueden ser legislativas,
-económicas, técnicas, y otras.  El documento puede contener
-críticas de PEMEX y sugestiones para reorganizar y
+econÃ³micas, tÃ©cnicas, y otras.  El documento puede contener
+crÃ­ticas de PEMEX y sugestiones para reorganizar y
 revitalizar el monopolio.
 
 
@@ -374,17 +374,17 @@ revitalizar el monopolio.
 
 <desc> Description:
 
-La disputa sobre la pesca en aguas territoriales ha dañado
-relaciones entre los E.U. y México y ha resultado en la
-captura de barcos pesqueros.  La pesca de atún y de
+La disputa sobre la pesca en aguas territoriales ha daÃ±ado
+relaciones entre los E.U. y MÃ©xico y ha resultado en la
+captura de barcos pesqueros.  La pesca de atÃºn y de
 camarones ha sido al frente de la disputa.  Los E.U. han
-impuesto embargo sobre México.
+impuesto embargo sobre MÃ©xico.
 
 
 <narr>
 
 El documento debe describir los incidentes y comentar sobre el
-daño a los relaciones bilaterales.  Debe incluir medidas
+daÃ±o a los relaciones bilaterales.  Debe incluir medidas
 tomados por ambos paises para resolver la disputa.  Expectativas
 para el futuro pueden ser dadas.
 
@@ -396,25 +396,25 @@ para el futuro pueden ser dadas.
 <num>  Number:   SP16
 
 
-<title>  Topic:   México tiene interés en varias
-                  agrupaciones económicas latinoamericanas
+<title>  Topic:   MÃ©xico tiene interÃ©s en varias
+                  agrupaciones econÃ³micas latinoamericanas
                   como MERCOSUR y CARICOM
 
 <desc> Description:
 
-El TLC ha sido el centro de atención in México pero
-hay también interés en otras agrupaciones económicas
+El TLC ha sido el centro de atenciÃ³n in MÃ©xico pero
+hay tambiÃ©n interÃ©s en otras agrupaciones econÃ³micas
 latinoamericanas Como MERCOSUR, el Pacto Andino, CARICOM,
-y el Mercado Común Centroamericano.
+y el Mercado ComÃºn Centroamericano.
 
 
 <narr>
 
-El documento debe contener información sobre el interés de
-México en varias agrupaciones económicas latinoamericanas
+El documento debe contener informaciÃ³n sobre el interÃ©s de
+MÃ©xico en varias agrupaciones econÃ³micas latinoamericanas
 como MERCOSUR, el Pacto Andino, CARICOM, y el MCCA.  Aunque
-el interés mexicano sea mínimo, el documento debe nombrar las
-agrupaciones y el grado de interés, con sectores específicos,
+el interÃ©s mexicano sea mÃ­nimo, el documento debe nombrar las
+agrupaciones y el grado de interÃ©s, con sectores especÃ­ficos,
 si posible.
 
 
@@ -429,16 +429,16 @@ si posible.
 
 <desc> Description:
 
-       La BMV es parte importante de la vida económica y
-financiera de México.  Cómo opera la BMV?
+       La BMV es parte importante de la vida econÃ³mica y
+financiera de MÃ©xico.  CÃ³mo opera la BMV?
 
 
 <narr>
        El documento debe describir las actividades de la BMV,
 incluyendo las leyes y regulaciones sobre la bolsa.  La
-estructura y la organización de la BMV son también importantes
+estructura y la organizaciÃ³n de la BMV son tambiÃ©n importantes
 para su efectividad.  El documento puede criticar la BMV e incluir
-medidas para hacerla más efectiva.
+medidas para hacerla mÃ¡s efectiva.
 
 
 </top>
@@ -448,7 +448,7 @@ medidas para hacerla más efectiva.
 <num> Number: SP18
 
 
-<title>  Topic: Influencia de compañías extranjeras
+<title>  Topic: Influencia de compaÃ±Ã­as extranjeras
 
 
 <desc> Description: Muchas empresas extranjeras tienen presencia en
@@ -456,11 +456,11 @@ la industria automotriz mexicana.  El documento debe describir el papel
 y el futuro de estas empresas extranjeras en la industria mexicana.
 
 
-<narr> Narrative: Compañías extranjeras como Nissan, General Motors,
+<narr> Narrative: CompaÃ±Ã­as extranjeras como Nissan, General Motors,
 Ford, Chrysler, Volkswagen, y otras son importantes en la industria
 automotriz mexicana.  Para ser relevante el documento debe incluir los
-nombres y nacionalidades de las empresas extranjeras, información
-sobre su participación en México, y perspectivas para el futuro.
+nombres y nacionalidades de las empresas extranjeras, informaciÃ³n
+sobre su participaciÃ³n en MÃ©xico, y perspectivas para el futuro.
 
 
 </top>
@@ -470,17 +470,17 @@ sobre su participación en México, y perspectivas para el futuro.
 <num> Number: SP19
 
 
-<title>  Topic: Epidemia de cólera en México
+<title>  Topic: Epidemia de cÃ³lera en MÃ©xico
 
 
-<desc> Description: En 1993 hubo una epidemia de cólera en muchas
-partes de México.  El documento debe especificar donde los casos se
+<desc> Description: En 1993 hubo una epidemia de cÃ³lera en muchas
+partes de MÃ©xico.  El documento debe especificar donde los casos se
 registraron y medidas adoptadas para controlar la enfermedad.
 
 
-<narr> Narrative:  El brote de cólera en México ocurrió en grande
-parte del país.  Para ser relevante el documento debe indicar donde se
-registraron los casos, como la enfermedad fué diseminada, y las
+<narr> Narrative:  El brote de cÃ³lera en MÃ©xico ocurriÃ³ en grande
+parte del paÃ­s.  Para ser relevante el documento debe indicar donde se
+registraron los casos, como la enfermedad fuÃ© diseminada, y las
 medidas adoptadas para controlar la epidemia.
 
 
@@ -491,7 +491,7 @@ medidas adoptadas para controlar la epidemia.
 <num> Number: SP20
 
 
-<title>  Topic: El papel del Bancomext en la vida económica de México
+<title>  Topic: El papel del Bancomext en la vida econÃ³mica de MÃ©xico
 
 
 <desc> Description: El Bancomext trabaja con muchas industrias
@@ -500,8 +500,8 @@ indicar el papel del Bancomext.
 
 
 <narr>  Narrative:  El documento debe analizar el papel que Bancomext
-representa en las varias industrias nacionales en México.  Debe
-incluir el sector industrial específico y también la manera en que el
+representa en las varias industrias nacionales en MÃ©xico.  Debe
+incluir el sector industrial especÃ­fico y tambiÃ©n la manera en que el
 Bancomext trabaja conese sector.
 
 
@@ -512,16 +512,16 @@ Bancomext trabaja conese sector.
 <num> Number: SP21
 
 
-<title>  Topic: La crisis en el sector textil en México
+<title>  Topic: La crisis en el sector textil en MÃ©xico
 
 
-<desc> Description: Una profunda desaceleración de la industria textil
+<desc> Description: Una profunda desaceleraciÃ³n de la industria textil
 amenaza empleo en ese sector industrial mexicano.
 
 
 <narr> Narrative:  El documento debe describir el problema de
-desempleo en la industria textil en México y debe dar números de
-empleos perdidos en ese sector en recientes años.
+desempleo en la industria textil en MÃ©xico y debe dar nÃºmeros de
+empleos perdidos en ese sector en recientes aÃ±os.
 
 
 </top>
@@ -531,18 +531,18 @@ empleos perdidos en ese sector en recientes años.
 <num> Number: SP22
 
 
-<title>  Topic: Recientes niveles de inflación mexicana
+<title>  Topic: Recientes niveles de inflaciÃ³n mexicana
 
 
-<desc> Description: El proceso inflacionario en México ha sido seguido
-ciudadosamente en recientes años.  Para ser relevante el documento debe
-incluir el nivel de inflación para un período específico con
+<desc> Description: El proceso inflacionario en MÃ©xico ha sido seguido
+ciudadosamente en recientes aÃ±os.  Para ser relevante el documento debe
+incluir el nivel de inflaciÃ³n para un perÃ­odo especÃ­fico con
 perspectivas futuras.
 
 
 <narr>  Narrative: El documento debe dar la tasa inflacionaria
-nacional para un período específico durante los últimos años en
-México.  Debe también incluir pronósticos de tasas inflacionarias
+nacional para un perÃ­odo especÃ­fico durante los Ãºltimos aÃ±os en
+MÃ©xico.  Debe tambiÃ©n incluir pronÃ³sticos de tasas inflacionarias
 futuras y medidas para restringirlas.
 
 
@@ -553,22 +553,22 @@ futuras y medidas para restringirlas.
 <num> Number: SP23
 
 
-<title>  Topic: Inversión Extranjera en México
+<title>  Topic: InversiÃ³n Extranjera en MÃ©xico
 
 <desc> Description:
 
-La inversión en México del exterior ha tomado varias formas.  El
-documento debe describir la inversión extranjera en la economía
-mexicana, su forma y su crecimiento o disminución.
+La inversiÃ³n en MÃ©xico del exterior ha tomado varias formas.  El
+documento debe describir la inversiÃ³n extranjera en la economÃ­a
+mexicana, su forma y su crecimiento o disminuciÃ³n.
 
 
 <narr>
 
-Para ser relevante el documento debe distinguir el tipo de inversión
-foránea -- privada o pública; directa o indirecta; de dinero o bienes;
-u otra -- y a cual industria mexicana se destina la inversión.  Debe
-también indicar el crecimiento o disminución de la inversión y el país
-de donde viene la inversión.
+Para ser relevante el documento debe distinguir el tipo de inversiÃ³n
+forÃ¡nea -- privada o pÃºblica; directa o indirecta; de dinero o bienes;
+u otra -- y a cual industria mexicana se destina la inversiÃ³n.  Debe
+tambiÃ©n indicar el crecimiento o disminuciÃ³n de la inversiÃ³n y el paÃ­s
+de donde viene la inversiÃ³n.
 
 
 </top>
@@ -578,17 +578,17 @@ de donde viene la inversión.
 <num> Number: SP24
 
 
-<title>  Topic: Prevención de SIDA en México
+<title>  Topic: PrevenciÃ³n de SIDA en MÃ©xico
 
-<desc> Description: Ha crecido el número de los casos del SIDA en
-México durante esta década.  Lentamente el país ha montado un programa
+<desc> Description: Ha crecido el nÃºmero de los casos del SIDA en
+MÃ©xico durante esta dÃ©cada.  Lentamente el paÃ­s ha montado un programa
 para controlar la enfermedad.  El documento debe describir las medidas
-de prevención de SIDA adoptadas en México.
+de prevenciÃ³n de SIDA adoptadas en MÃ©xico.
 
 
 <narr>
 
-México ha establecido el Consejo Nacional para Prevención del SIDA
+MÃ©xico ha establecido el Consejo Nacional para PrevenciÃ³n del SIDA
 (CONASIDA).  El documento debe especificar las medidas adoptadas por
 CONASIDA y otros grupos mexicanos contra esta enfermedad incurable.
 
@@ -600,20 +600,20 @@ CONASIDA y otros grupos mexicanos contra esta enfermedad incurable.
 <num> Number:  SP25
 
 
-<title>  Topic: Programa de Privatización de Empresas Públicas
+<title>  Topic: Programa de PrivatizaciÃ³n de Empresas PÃºblicas
                 Mexicanas
 
 <desc> Description:
 
-El programa mexicano de privatización es considerado uno de los más
-exitosos en América Latina.  El documento debe describir el proceso de
-privatización de empresas públicas en México.
+El programa mexicano de privatizaciÃ³n es considerado uno de los mÃ¡s
+exitosos en AmÃ©rica Latina.  El documento debe describir el proceso de
+privatizaciÃ³n de empresas pÃºblicas en MÃ©xico.
 
 
 <narr>
 
-Para ser relevante el documento debe mencionar la empresa pública
-mexicana privatizada, incluyendo resultados y pronósticos de otros
+Para ser relevante el documento debe mencionar la empresa pÃºblica
+mexicana privatizada, incluyendo resultados y pronÃ³sticos de otros
 sectores que pueden ser privatizados.
 
 
