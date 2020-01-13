@@ -1,0 +1,621 @@
+<top>
+
+<num> Number: SP1
+
+
+<title>  Topic:  Oposición Mexicana al TLC
+
+<desc> Description:
+
+Documento contendrá información sobre oposición en México
+al tratado de libre comercio norteamericano.
+
+
+<narr>
+
+Oposición al TLC en el gobierno mexicano, en medios comerciales,
+y en el sector privado.  Dificultará esta oposición la
+implementación plena del TLC?  Documento debe incluir nombres
+de compañías opuestas al TLC con razones y sectores específicos
+económicos y empresariales de oposición.
+
+
+</top>
+
+<top>
+
+<num> Number:  SP2
+
+
+<title>  Topic:  Efectos sobre la situación política en
+                 México después del asesinato de Colosio
+
+
+<desc> Description:
+
+Influencia del asesinato de Colosio sobre las elecciones
+presidenciales mexicanas.  Reacción en México y en
+círculos internacionales.
+
+
+<narr>
+
+El asesinato del candidato presidencial Luis Donaldo Colosio
+tendrá influencia importante en las próximas elecciones
+presidenciales en México.  Cuáles son los efectos principales
+en México y en el exterior?  El documento debe contener
+ejemplos específicos de areas afectados por el asesinato,
+especialmente en sectores económicos y políticos,
+criterios para mombrar nuevo candidato, y regiones en México
+más afectadas.
+
+
+</top>
+
+<top>
+
+<num> Number:  SP3
+
+
+<title>  Topic:  Polución en el Distrito Federal de México
+
+<desc> Description:
+
+Efectos de la contaminación del aire en el DF y medidas para
+mejorar la situación.  Causas de la contaminación atmosférica
+en la capital del país.
+
+
+<narr>
+
+La polución del aire en la capital de México es un problema
+que necesita acción urgente.  Sectores públicos y
+privados deben tomar medidas para proteger la salud y el
+bienestar del pueblo.  Cuáles son estas medidas para reversar
+la degradación del medio ambiente?  Documento debe listar
+medidas para enmendar la situación y cuánto costará.
+
+
+</top>
+
+<top>
+
+<num> Number:  SP4
+
+
+<title>  Topic:  Papel de Mexico en la OEA
+
+<desc> Description:
+
+Qué importancia tiene la Organización de los Estados Americanos
+para México? Cuál es el papel de la OEA en la política exterior
+mexicana?
+
+
+<narr>
+
+Documento debe incluir ejemplos de la influencia de México en la
+OEA e indicar como la política externa mexicana ha sido influido
+por la OEA.
+
+
+</top>
+
+<top>
+
+<num> Number:  SP5
+
+
+<title>  Topic:  Maquiladoras en la economía mexicana
+
+<desc> Description:
+
+Éxitos y faltas en la industria maquiladora de Mexico.  Pueden
+las maquiladoras ayudar el proceso de harmonización de las
+economías de México y los Estados Unidos?
+
+
+<narr>
+
+La industria maquiladora, especialmente a largo de la frontera
+entre Mexico y los Estados Unidos, ha ayudado las economías
+de ambos paises.  Documento debe mostrar como las maquiladoras
+han producido crescimento económico, incluyendo detalles de
+casos de éxito y también sectores donde este sistema ha
+fracasado.
+
+
+</top>
+
+<top>
+
+<num> Number:  SP6
+
+
+<title>  Topic:  Manejo de desechos tóxicos industriales en México
+
+<desc> Description:
+
+El manejo de residuos tóxicos industriales en México es importante
+para proteger el medio ambiente y el pueblo mexicano.  Cuáles son
+las medidas que México ha empleado para regular este problema?
+
+
+<narr>
+
+Documento debe discutir el problema de desechos toxicas generados
+por industrias en México.  Debe incluir medidas, regulaciones y
+leyes adoptadas por México para manejar este problema.  Ejemplos
+de manejo exitoso y también de falta de éxito en limpiar desechos
+tóxicos deben ser incluidos.
+
+
+</top>
+
+<top>
+
+<num> Number: SP7
+
+
+<title>  Topic:  Las relaciones entre Cuba y Mexico han sido sólidas
+                 a pesar del aislamento internacional de la régimen
+                 de Fidel Castro
+
+
+<desc> Description:
+
+Aunque la régimen de Fidel Castro ha encontrado aislado de grande
+parte de la comunidad internacional relaciones con México han
+continuado sólidas.  Porqué ha occurido este fenómeno y
+cuáles son ejemplos y resultados de este política?
+
+
+<narr>
+
+Documento debe analisar la relación entre Cuba y México, dando
+ejemplos y resultados de esta política de amistad en las relaciones
+de México con otros paises, sobretodo con los Estados Unidos.
+
+
+</top>
+
+<top>
+
+<num> Number:  SP8
+
+
+<title>  Topic:  El problema de inmigrantes ilegales mexicanos en los
+                 Estados Unidos
+
+<desc> Description:
+
+El control de inmigrantes ilegales Mexicanos en los Estados Unidos ha
+sido problema difícil en relaciones norteamericanas con México.
+
+
+
+<narr>
+
+Documento debe discutir este problema y debe incluir esfuerzos de
+ambos paises a cerrar las puertas a inmigrantes indocumentados.
+Los dos paises deben hacer frente a los problemas resultantes de
+estes indocumentados.  Cómo se puede hacer y cuáles medidas,
+regulaciones y leyes deben ser adoptadas?
+
+
+</top>
+
+<top>
+
+<num> Number:  SP9
+
+
+<title>  Topic:  La frontera entre Guatemala y México es el local de
+                 varios problemas bilaterales
+
+<desc> Description:
+
+Mucho de la frontera guatemalteco-mexicana es mal guardado y
+varios problemas bilaterales han ocurrido allí.
+
+
+<narr>
+
+Inmigración ilegal, contrabando, y narcotrafico son problemas
+recurrentes a lo largo de la frontera entre México y Guatemala.
+El documento debe describir ejemplos de estes problemas y
+otros que afectan las relaciones entre estes paises vecinos.
+También debe incluir soluciones posibles.
+
+
+</top>
+
+<top>
+
+<num>  Number:  SP10
+
+
+<title>  Topic:  México es importante país de tránsito
+                 en la guerra antinarcótica
+
+<desc> Description:
+
+México es importante para los narcotraficantes de Colombia
+y Perú como punto de entrada para los Estados Unidos.  Como
+se usan México como país de tránsito?
+
+
+<narr>
+
+Documento debe indicar métodos empleados por narcotraficantes
+para utilizar México como país de tránsito para hacer llegar
+las drogas ilegales a los Estados Unidos.  Debe incluir ejemplos
+y locales específicos y medidas para impedir esta actividad.
+
+
+</top>
+
+<top>
+
+<num>  Number:  SP11
+
+
+<title>  Topic:  Derechos a las aguas de los ríos en la región
+                 fronteriza entre Mexico y los Estados Unidos
+
+<desc> Description:
+
+Un problema difícil en las relaciones bilaterales de México
+y los EU ha sido la utilización de las aguas de los ríos
+fronterizos.  El agua potable es esencial para la vida.
+Problemas territoriales, legales, ecológicos, y comerciales
+en relación a los ríos fronterizos han perturbado las
+relaciones bilaterales.
+
+
+<narr>
+
+Documento debe discutir el problema de aguas fluviales entre
+los Estados Unidos y Mexico.  Las varias dificultades
+resultantes de este problema causan otras problemas.  El
+documento debe describir el problema básico y los
+problemas resultantes, dando ejemplos, areas afectados, y
+soluciones sugeridas.
+
+
+</top>
+
+<top>
+
+<num> Number:  SP12
+
+
+<title>  Topic:  Es el Partido Revolucionaro Institucional
+                 antidemocrático?
+
+<desc> Description:
+
+Muchos dicen que México tiene sólo un partido político
+(el PRI) y no puede ser denominado democracía.  Hay
+indicaciones para suportar o refutar esta hipótesis?
+
+
+<narr>
+
+El documento debe analizar el panorama político en México,
+incluyendo el sistema electoral, dando ejemplos de democracía
+y el papel de los partidos políticos.  Debe incluir
+opiniones en favor y en contra sobre el PRI y democracía en
+México.
+
+
+</top>
+
+<top>
+
+<num> Number:  SP13
+
+
+<title>  Topic:  El enfrentamiento del Ejército Mexicano con
+                 posibles guerrilleros en Chiapas
+
+<desc> Description:
+
+Guerrilleros armados de la Frente Zapatista de subcomandante
+Marcos chocaron con el Ejército Mexicano en el estado
+de Chiapas en el sur de México.  Hubo también rumores de
+campos de entrenamiento.  La motivación y alcance de la
+fuerza guerrillera son importantes para México durante este
+período quando el país empieza a implementar el TLC y
+con las elecciones presidenciales.
+
+
+<narr>
+
+El documento debe contener información sobre los guerrilleros en
+Chiapas, con dados sobre sus armas, areas de acción, motivos,
+nombres y números de guerrilleros, y grupos que los ayudan.
+
+
+</top>
+
+<top>
+
+<num> Number:  SP14
+
+
+<title>  Topic:  El monopolio petrolero PEMEX tiene mucha
+                 influencia en México
+
+<desc> Description:
+
+PEMEX es una entidad muy poderosa en México.  En qué manera ha
+PEMEX desempeñado su papel y cómo puede mejorar su desempeño?
+
+
+<narr>
+
+El documents debe analizar el desempeño de PEMEX, dando
+medidas para mejorarlo.  Las medidas pueden ser legislativas,
+económicas, técnicas, y otras.  El documento puede contener
+críticas de PEMEX y sugestiones para reorganizar y
+revitalizar el monopolio.
+
+
+</top>
+
+<top>
+
+<num> Number:  SP15
+
+
+<title>  Topic: La disputa sobre la pesca ha ocasionado la
+                captura de barcos de pesca de los Estados Unidos.
+
+<desc> Description:
+
+La disputa sobre la pesca en aguas territoriales ha dañado
+relaciones entre los E.U. y México y ha resultado en la
+captura de barcos pesqueros.  La pesca de atún y de
+camarones ha sido al frente de la disputa.  Los E.U. han
+impuesto embargo sobre México.
+
+
+<narr>
+
+El documento debe describir los incidentes y comentar sobre el
+daño a los relaciones bilaterales.  Debe incluir medidas
+tomados por ambos paises para resolver la disputa.  Expectativas
+para el futuro pueden ser dadas.
+
+
+</top>
+
+<top>
+
+<num>  Number:   SP16
+
+
+<title>  Topic:   México tiene interés en varias
+                  agrupaciones económicas latinoamericanas
+                  como MERCOSUR y CARICOM
+
+<desc> Description:
+
+El TLC ha sido el centro de atención in México pero
+hay también interés en otras agrupaciones económicas
+latinoamericanas Como MERCOSUR, el Pacto Andino, CARICOM,
+y el Mercado Común Centroamericano.
+
+
+<narr>
+
+El documento debe contener información sobre el interés de
+México en varias agrupaciones económicas latinoamericanas
+como MERCOSUR, el Pacto Andino, CARICOM, y el MCCA.  Aunque
+el interés mexicano sea mínimo, el documento debe nombrar las
+agrupaciones y el grado de interés, con sectores específicos,
+si posible.
+
+
+</top>
+
+<top>
+
+<num> Number: SP17
+
+
+<title>  Topic: Operaciones de la BMV.
+
+<desc> Description:
+
+       La BMV es parte importante de la vida económica y
+financiera de México.  Cómo opera la BMV?
+
+
+<narr>
+       El documento debe describir las actividades de la BMV,
+incluyendo las leyes y regulaciones sobre la bolsa.  La
+estructura y la organización de la BMV son también importantes
+para su efectividad.  El documento puede criticar la BMV e incluir
+medidas para hacerla más efectiva.
+
+
+</top>
+
+<top>
+
+<num> Number: SP18
+
+
+<title>  Topic: Influencia de compañías extranjeras
+
+
+<desc> Description: Muchas empresas extranjeras tienen presencia en
+la industria automotriz mexicana.  El documento debe describir el papel
+y el futuro de estas empresas extranjeras en la industria mexicana.
+
+
+<narr> Narrative: Compañías extranjeras como Nissan, General Motors,
+Ford, Chrysler, Volkswagen, y otras son importantes en la industria
+automotriz mexicana.  Para ser relevante el documento debe incluir los
+nombres y nacionalidades de las empresas extranjeras, información
+sobre su participación en México, y perspectivas para el futuro.
+
+
+</top>
+
+<top>
+
+<num> Number: SP19
+
+
+<title>  Topic: Epidemia de cólera en México
+
+
+<desc> Description: En 1993 hubo una epidemia de cólera en muchas
+partes de México.  El documento debe especificar donde los casos se
+registraron y medidas adoptadas para controlar la enfermedad.
+
+
+<narr> Narrative:  El brote de cólera en México ocurrió en grande
+parte del país.  Para ser relevante el documento debe indicar donde se
+registraron los casos, como la enfermedad fué diseminada, y las
+medidas adoptadas para controlar la epidemia.
+
+
+</top>
+
+<top>
+
+<num> Number: SP20
+
+
+<title>  Topic: El papel del Bancomext en la vida económica de México
+
+
+<desc> Description: El Bancomext trabaja con muchas industrias
+mexicanas.  Para ser relevante el documento debe nombrar la industria e
+indicar el papel del Bancomext.
+
+
+<narr>  Narrative:  El documento debe analizar el papel que Bancomext
+representa en las varias industrias nacionales en México.  Debe
+incluir el sector industrial específico y también la manera en que el
+Bancomext trabaja conese sector.
+
+
+</top>
+
+<top>
+
+<num> Number: SP21
+
+
+<title>  Topic: La crisis en el sector textil en México
+
+
+<desc> Description: Una profunda desaceleración de la industria textil
+amenaza empleo en ese sector industrial mexicano.
+
+
+<narr> Narrative:  El documento debe describir el problema de
+desempleo en la industria textil en México y debe dar números de
+empleos perdidos en ese sector en recientes años.
+
+
+</top>
+
+<top>
+
+<num> Number: SP22
+
+
+<title>  Topic: Recientes niveles de inflación mexicana
+
+
+<desc> Description: El proceso inflacionario en México ha sido seguido
+ciudadosamente en recientes años.  Para ser relevante el documento debe
+incluir el nivel de inflación para un período específico con
+perspectivas futuras.
+
+
+<narr>  Narrative: El documento debe dar la tasa inflacionaria
+nacional para un período específico durante los últimos años en
+México.  Debe también incluir pronósticos de tasas inflacionarias
+futuras y medidas para restringirlas.
+
+
+</top>
+
+<top>
+
+<num> Number: SP23
+
+
+<title>  Topic: Inversión Extranjera en México
+
+<desc> Description:
+
+La inversión en México del exterior ha tomado varias formas.  El
+documento debe describir la inversión extranjera en la economía
+mexicana, su forma y su crecimiento o disminución.
+
+
+<narr>
+
+Para ser relevante el documento debe distinguir el tipo de inversión
+foránea -- privada o pública; directa o indirecta; de dinero o bienes;
+u otra -- y a cual industria mexicana se destina la inversión.  Debe
+también indicar el crecimiento o disminución de la inversión y el país
+de donde viene la inversión.
+
+
+</top>
+
+<top>
+
+<num> Number: SP24
+
+
+<title>  Topic: Prevención de SIDA en México
+
+<desc> Description: Ha crecido el número de los casos del SIDA en
+México durante esta década.  Lentamente el país ha montado un programa
+para controlar la enfermedad.  El documento debe describir las medidas
+de prevención de SIDA adoptadas en México.
+
+
+<narr>
+
+México ha establecido el Consejo Nacional para Prevención del SIDA
+(CONASIDA).  El documento debe especificar las medidas adoptadas por
+CONASIDA y otros grupos mexicanos contra esta enfermedad incurable.
+
+
+</top>
+
+<top>
+
+<num> Number:  SP25
+
+
+<title>  Topic: Programa de Privatización de Empresas Públicas
+                Mexicanas
+
+<desc> Description:
+
+El programa mexicano de privatización es considerado uno de los más
+exitosos en América Latina.  El documento debe describir el proceso de
+privatización de empresas públicas en México.
+
+
+<narr>
+
+Para ser relevante el documento debe mencionar la empresa pública
+mexicana privatizada, incluyendo resultados y pronósticos de otros
+sectores que pueden ser privatizados.
+
+
+</top>
+

@@ -1,0 +1,47 @@
+# Anserini: Regressions for [TREC-3 Monolingual Spanish](https://trec.nist.gov/pubs/trec3/t3_proceedings.html)
+
+This page documents regression experiments for [TREC-3 ad hoc retrieval (Monolingual Spanish)](https://trec.nist.gov/pubs/trec3/t3_proceedings.html).
+The description of the document collection can be found on the [TREC data page](https://trec.nist.gov/data/docs_noneng.html).
+
+The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/trec3-es.yaml).
+Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/trec3-es.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+
+## Indexing
+
+Typical indexing command:
+
+```
+${index_cmds}
+```
+
+The collection comprises the Mexican newspaper El Norte, from [LDC2000T51 (TREC Spanish)](https://catalog.ldc.upenn.edu/LDC2000T51).
+Inside the LDC2000T51 distribution, there should be a directory named `infosel_data`, which contains 194 files.
+The path above `/path/to/trec4-es/` should point to this `infosel_data/` directory.
+The collection contains 57,868 documents.
+
+For additional details, see explanation of [common indexing options](common-indexing-options.md).
+
+## Retrieval
+
+Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/main/resources/topics-and-qrels/), downloaded from NIST's page for [non-English topics](https://trec.nist.gov/data/topics_noneng/index.html) and [non-English relevance judgments](https://trec.nist.gov/data/qrels_noneng/index.html):
+
++ [`topics.trec3es.1-25.txt`](../src/main/resources/topics-and-qrels/topics.trec3es.1-25.txt): TREC-3 Spanish track topics (1 to 25)
++ [`qrels.trec3es.1-25.txt`](../src/main/resources/topics-and-qrels/qrels.trec3es.1-25.txt): qrels for TREC-3 Spanish track (1 to 25)
+
+After indexing has completed, you should be able to perform retrieval as follows:
+
+```
+${ranking_cmds}
+```
+
+Evaluation can be performed using `trec_eval`:
+
+```
+${eval_cmds}
+```
+
+## Effectiveness
+
+With the above commands, you should be able to replicate the following results:
+
+${effectiveness}

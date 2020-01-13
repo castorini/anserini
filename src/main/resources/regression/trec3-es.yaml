@@ -1,0 +1,71 @@
+---
+name: trec3-es
+index_command: target/appassembler/bin/IndexCollection
+index_utils_command: target/appassembler/bin/IndexUtils
+search_command: target/appassembler/bin/SearchCollection
+topic_root: src/main/resources/topics-and-qrels/
+qrels_root: src/main/resources/topics-and-qrels/
+index_root:
+ranking_root:
+collection: TrecCollection
+generator: LuceneDocumentGenerator
+threads: 16
+index_options:
+  - -storePositions
+  - -storeDocvectors
+  - -storeRawDocs
+  - -language es
+search_options:
+  - -language es
+topic_reader: Trec
+evals:
+  - command: eval/trec_eval.9.0.4/trec_eval
+    params:
+      - -m map
+    separator: "\t"
+    parse_index: 2
+    metric: map
+    metric_precision: 4
+    can_combine: true
+  - command: eval/trec_eval.9.0.4/trec_eval
+    params:
+      - -m P.20
+    separator: "\t"
+    parse_index: 2
+    metric: p20
+    metric_precision: 4
+    can_combine: true
+  - command: eval/trec_eval.9.0.4/trec_eval
+    params:
+      - -m ndcg_cut.20
+    separator: "\t"
+    parse_index: 2
+    metric: ndcg20
+    metric_precision: 4
+    can_combine: true
+input_roots:
+  - /tuna1/      # on tuna
+  - /store/      # on orca
+  - /scratch2/   # on damiano
+input: collections/trec_spanish/infosel_data/
+index_path: indexes/lucene-index.trec3-es.pos+docvectors+rawdocs
+index_stats:
+  documents: 57868
+  documents (non-empty): 57868
+  total terms: 19840017  
+topics:
+  - name: "[TREC-3 (Monolingual Spanish)](../src/main/resources/topics-and-qrels/topics.trec4es.1-25.txt)"
+    path: topics.trec3es.1-25.txt
+    qrel: qrels.trec3es.1-25.txt
+models:
+  - name: bm25
+    display: BM25
+    params:
+      - -bm25
+    results:
+      map:
+        - 0.3676
+      p20:
+        - 0.574
+      ndcg20:
+        - 0.5956
