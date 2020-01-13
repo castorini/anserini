@@ -85,7 +85,7 @@ And the output should be like this:
 
 ```
 #####################
-MRR @10: 0.18741227770955546
+MRR @10: 0.18810410697230137
 QueriesRanked: 6980
 #####################
 ```
@@ -111,8 +111,8 @@ And run the `trec_eval` tool:
 The output should be:
 
 ```
-map                   	all	0.1957
-recall_1000           	all	0.8573
+map                   	all	0.1965
+recall_1000           	all	0.8614
 ```
 
 Average precision and recall@1000 are the two metrics we care about the most.
@@ -131,11 +131,19 @@ Here's the comparison between the Anserini default and tuned parameters:
 
 Setting                     | MRR@10 | MAP    | Recall@1000 |
 :---------------------------|-------:|-------:|------------:|
+Default (`k1=0.9`, `b=0.4`) | 0.1854 | 0.1942 | 0.8575
+Tuned (`k1=0.82`, `b=0.68`) | 0.1881 | 0.1965 | 0.8614
+
+Anserini experienced an issue with character encodings when indexing MSMARCO text that was fixed after commit [`3a2203e`](https://github.com/castorini/anserini/commit/3a2203e2c287b5714af6b9cac303c9c5dc7d5d60) (1/13/2020); slightly improving effectiveness.
+
+Effectiveness numbers with Lucene 8.0 (v0.6.0 to v0.7.1) with improper character encodings are below.
+
+Setting                     | MRR@10 | MAP    | Recall@1000 |
+:---------------------------|-------:|-------:|------------:|
 Default (`k1=0.9`, `b=0.4`) | 0.1840 | 0.1926 | 0.8526
 Tuned (`k1=0.82`, `b=0.68`) | 0.1874 | 0.1957 | 0.8573
 
-Anserini was upgraded to Lucene 8.0 as of commit [`75e36f9`](https://github.com/castorini/anserini/commit/75e36f97f7037d1ceb20fa9c91582eac5e974131) (6/12/2019); prior to that, the toolkit uses Lucene 7.6.
-The above results are based on Lucene 8.0, but Lucene 7.6 results can be replicated with [v0.5.1](https://github.com/castorini/anserini/releases);
+Lucene 7.6 results can be replicated with [v0.5.1](https://github.com/castorini/anserini/releases);
 the effectiveness differences are very small.
 For convenience, here are the effectiveness numbers with Lucene 7.6 (v0.5.1):
 
@@ -143,7 +151,6 @@ Setting                     | MRR@10 | MAP    | Recall@1000 |
 :---------------------------|-------:|-------:|------------:|
 Default (`k1=0.9`, `b=0.4`) | 0.1839 | 0.1925 | 0.8526
 Tuned (`k1=0.82`, `b=0.72`) | 0.1875 | 0.1956 | 0.8578
-
 
 
 ## Replication Log
