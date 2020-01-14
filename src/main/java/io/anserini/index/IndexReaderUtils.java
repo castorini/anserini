@@ -206,29 +206,22 @@ public class IndexReaderUtils {
   }
 
   /**
-   * Feeds a term through the {@link EnglishStemmingAnalyzer} and returns the stemmed form.
-   * If the input is a multi-token string, returns the first token.
-   * @param term term
-   * @return stemmed form of the term or <code>null</code> if error encountered
+   * Feeds a string through the {@link EnglishStemmingAnalyzer} and returns the list of stemmed tokens.
+   * @param text input string
+   * @return list of stemmed tokens
    */
-  public static String analyzeTerm(String term) {
-    return analyzeTermWithAnalyzer(term, DEFAULT_ANALYZER);
+  public static List<String> analyze(String text) {
+    return analyzeWithAnalyzer(text, DEFAULT_ANALYZER);
   }
 
   /**
-   * Feeds a term through an analyzer and returns the stemmed form.
-   * If the input is a multi-token string, returns the first token.
-   * @param term term
+   * Feeds a string through an analyzer and returns the list of stemmed tokens.
+   * @param text input string
    * @param analyzer analyzer to use
-   * @return stemmed form of the term or <code>null</code> if error encountered
+   * @return list of stemmed tokens
    */
-  public static String analyzeTermWithAnalyzer(String term, Analyzer analyzer) {
-    List<String> tokens = AnalyzerUtils.tokenize(analyzer, term);
-    if (tokens == null || tokens.size() == 0) {
-      return null;
-    }
-
-    return tokens.get(0);
+  public static List<String> analyzeWithAnalyzer(String text, Analyzer analyzer) {
+    return AnalyzerUtils.tokenize(analyzer, text);
   }
 
   public static Map<String, Long> getTermCounts(IndexReader reader, String termStr) throws IOException, ParseException {
