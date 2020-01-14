@@ -44,12 +44,12 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
   @Test
   public void testAnalyzer() throws ParseException {
     // EnglishAnalyzer by default.
-    assertEquals("citi", IndexReaderUtils.analyzeTerm("city"));
-    assertEquals("citi", IndexReaderUtils.analyzeTerm("city buses"));
+    assertEquals("citi", String.join(" ", IndexReaderUtils.analyze("city")));
+    assertEquals("citi buse", String.join(" ", IndexReaderUtils.analyze("city buses")));
 
     // Shouldn't change the term
-    assertEquals("city", IndexReaderUtils.analyzeTermWithAnalyzer("city", new WhitespaceAnalyzer()));
-    assertEquals("city", IndexReaderUtils.analyzeTermWithAnalyzer("city buses", new WhitespaceAnalyzer()));
+    assertEquals("city", String.join(" ", IndexReaderUtils.analyzeWithAnalyzer("city", new WhitespaceAnalyzer())));
+    assertEquals("city buses", String.join(" ", IndexReaderUtils.analyzeWithAnalyzer("city buses", new WhitespaceAnalyzer())));
   }
 
   @Test
