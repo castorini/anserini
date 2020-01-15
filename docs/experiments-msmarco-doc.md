@@ -123,3 +123,7 @@ Default (`k1=0.9`, `b=0.4`) | 0.2310 | 0.8856
 Tuned (`k1=3.44`, `b=0.87`) | 0.2788 | 0.9326
 
 As expected, BM25 tuning makes a big difference!
+
+## Replication Log
+
++ Results replicated by [@edwinzhng](https://github.com/edwinzhng) on 2020-01-14 (commit [`3964169`](https://github.com/castorini/anserini/commit/3964169bf82a3783f9298907d9794f0bddf306f0))
