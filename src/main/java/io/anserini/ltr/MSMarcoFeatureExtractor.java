@@ -105,7 +105,7 @@ public class MSMarcoFeatureExtractor extends BaseFeatureExtractor<Integer>  {
     @Override
     protected Query parseQuery(String queryText) {
         try {
-            return this.parser.parse(queryText);
+            return this.parser.parse(QueryParser.escape(queryText));
         } catch (ParseException e) {
             LOG.error(String.format(
                     "Unable to parse query for query text %s, error %s",
