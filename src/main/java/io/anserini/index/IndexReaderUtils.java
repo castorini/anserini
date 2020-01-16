@@ -1,4 +1,4 @@
-/**
+/*
  * Anserini: A Lucene toolkit for replicable information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -86,8 +86,8 @@ public class IndexReaderUtils {
   public enum DocumentVectorWeight {NONE, TF_IDF}
 
   /**
-   * An individual posting in a postings list. Note that this class is used primarily for inspecting the index, and
-   * not meant for actual searching.
+   * An individual posting in a postings list. Note that this class is used primarily for inspecting
+   * the index, and not meant for actual searching.
    */
   public static class Posting {
     private int docId;
@@ -133,6 +133,10 @@ public class IndexReaderUtils {
     }
   }
 
+  /**
+   * A term from the index. Note that this class is used primarily for inspecting the index, not
+   * meant for actual searching.
+   */
   public static class IndexTerm {
     private int docFreq;
     private String term;
@@ -140,7 +144,8 @@ public class IndexReaderUtils {
 
     /**
      * Constructor wrapping a {@link TermsEnum} from Lucene.
-     * @throws IOException
+     * @param term Lucene {@link TermsEnum} to wrap
+     * @throws IOException if any errors are encountered
      */
     public IndexTerm(TermsEnum term) throws IOException {
       this.docFreq = term.docFreq();
@@ -150,7 +155,7 @@ public class IndexReaderUtils {
 
     /**
      * Returns the number of documents containing the current term.
-     * @return the number of documents containing the current term.
+     * @return the number of documents containing the current term
      */
     public int getDF() {
       return this.docFreq;
@@ -201,29 +206,22 @@ public class IndexReaderUtils {
   }
 
   /**
-   * Feeds a term through the {@link EnglishStemmingAnalyzer} and returns the stemmed form.
-   * If the input is a multi-token string, returns the first token.
-   * @param term term
-   * @return stemmed form of the term or <code>null</code> if error encountered
+   * Feeds a string through the {@link EnglishStemmingAnalyzer} and returns the list of stemmed tokens.
+   * @param text input string
+   * @return list of stemmed tokens
    */
-  public static String analyzeTerm(String term) {
-    return analyzeTermWithAnalyzer(term, DEFAULT_ANALYZER);
+  public static List<String> analyze(String text) {
+    return analyzeWithAnalyzer(text, DEFAULT_ANALYZER);
   }
 
   /**
-   * Feeds a term through an analyzer and returns the stemmed form.
-   * If the input is a multi-token string, returns the first token.
-   * @param term term
+   * Feeds a string through an analyzer and returns the list of stemmed tokens.
+   * @param text input string
    * @param analyzer analyzer to use
-   * @return stemmed form of the term or <code>null</code> if error encountered
+   * @return list of stemmed tokens
    */
-  public static String analyzeTermWithAnalyzer(String term, Analyzer analyzer) {
-    List<String> tokens = AnalyzerUtils.tokenize(analyzer, term);
-    if (tokens == null || tokens.size() == 0) {
-      return null;
-    }
-
-    return tokens.get(0);
+  public static List<String> analyzeWithAnalyzer(String text, Analyzer analyzer) {
+    return AnalyzerUtils.tokenize(analyzer, text);
   }
 
   public static Map<String, Long> getTermCounts(IndexReader reader, String termStr) throws IOException, ParseException {
@@ -283,13 +281,15 @@ public class IndexReaderUtils {
     };
   }
 
-  public static List<Posting> getPostingsList(IndexReader reader, String termStr) throws IOException, ParseException {
+  public static List<Posting> getPostingsList(IndexReader reader, String termStr)
+      throws IOException, ParseException {
     EnglishAnalyzer ea = new EnglishAnalyzer(CharArraySet.EMPTY_SET);
     QueryParser qp = new QueryParser(LuceneDocumentGenerator.FIELD_BODY, ea);
     TermQuery q = (TermQuery) qp.parse(termStr);
     Term t = q.getTerm();
 
-    PostingsEnum postingsEnum = MultiTerms.getTermPostingsEnum(reader, LuceneDocumentGenerator.FIELD_BODY, t.bytes());
+    PostingsEnum postingsEnum = MultiTerms.getTermPostingsEnum(reader,
+        LuceneDocumentGenerator.FIELD_BODY, t.bytes());
 
     List<Posting> postingsList = new ArrayList<>();
     while (postingsEnum.nextDoc() != DocIdSetIterator.NO_MORE_DOCS) {
@@ -323,6 +323,25 @@ public class IndexReaderUtils {
     }
 
     return docVector;
+  }
+
+  /**
+   * Returns the raw document given its collection docid.
+   * @param reader index reader
+   * @param docid collection docid
+   * @return the raw document given its collection docid, or <code>null</code> if not found.
+   */
+  public static String getRawDocument(IndexReader reader, String docid) {
+    try {
+      Document rawDoc = reader.document(convertDocidToLuceneDocid(reader, docid));
+
+      if (rawDoc == null) {
+        return null;
+      }
+      return rawDoc.get(LuceneDocumentGenerator.FIELD_RAW);
+    } catch (IOException e) {
+      return null;
+    }
   }
 
   /**

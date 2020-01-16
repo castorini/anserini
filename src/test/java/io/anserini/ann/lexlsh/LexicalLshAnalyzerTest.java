@@ -14,10 +14,9 @@
  * limitations under the License.
  */
 
-package io.anserini.analysis.vectors.fw;
+package io.anserini.ann.lexlsh;
 
 import io.anserini.analysis.AnalyzerUtils;
-import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.TextField;
@@ -40,11 +39,45 @@ import java.util.List;
 import static org.apache.lucene.search.BooleanClause.Occur.SHOULD;
 import static org.junit.Assert.assertEquals;
 
-public class FakeWordsEncoderAnalyzerTest {
+/**
+ * Tests for {@link LexicalLshAnalyzer}
+ */
+public class LexicalLshAnalyzerTest {
 
   @Test
-  public void testBinaryFVIndexAndSearch() throws Exception {
-    FakeWordsEncoderAnalyzer analyzer = new FakeWordsEncoderAnalyzer(30);
+  public void testTextIndexAndSearch() throws Exception {
+    String fieldName = "text";
+    String[] texts = new String[]{
+        "0.1,0.3,0.5,0.7,0.11,0.13,0.17,0.19,0.23,0.29",
+        "0.111 0.3333 0.4445 0.5755 0.1551131 0.12131233 0.155557 0.1123219 0.6623 0.429"
+    };
+
+    for (String text : texts) {
+      LexicalLshAnalyzer analyzer = new LexicalLshAnalyzer();
+      Directory directory = new ByteBuffersDirectory();
+      IndexWriter writer = new IndexWriter(directory, new IndexWriterConfig(analyzer));
+      DirectoryReader reader = null;
+      try {
+        Document document = new Document();
+        document.add(new TextField(fieldName, text, Field.Store.YES));
+        writer.addDocument(document);
+        writer.commit();
+
+        reader = DirectoryReader.open(writer);
+        assertSimQuery(analyzer, fieldName, text, reader);
+      } finally {
+        if (reader != null) {
+          reader.close();
+        }
+        writer.close();
+        directory.close();
+      }
+    }
+  }
+
+  @Test
+  public void testBinaryIndexAndSearch() throws Exception {
+    LexicalLshAnalyzer analyzer = new LexicalLshAnalyzer();
     Directory directory = new ByteBuffersDirectory();
     IndexWriter writer = new IndexWriter(directory, new IndexWriterConfig(analyzer));
     DirectoryReader reader = null;
@@ -81,7 +114,7 @@ public class FakeWordsEncoderAnalyzerTest {
     }
   }
 
-  private void assertSimQuery(Analyzer analyzer, String fieldName, String text, DirectoryReader reader) throws IOException {
+  private void assertSimQuery(LexicalLshAnalyzer analyzer, String fieldName, String text, DirectoryReader reader) throws IOException {
     IndexSearcher searcher = new IndexSearcher(reader);
     CommonTermsQuery simQuery = new CommonTermsQuery(SHOULD, SHOULD, 1);
     for (String token : AnalyzerUtils.tokenize(analyzer, text)) {

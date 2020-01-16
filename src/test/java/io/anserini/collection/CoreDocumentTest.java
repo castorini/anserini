@@ -1,4 +1,4 @@
-/**
+/*
  * Anserini: A Lucene toolkit for replicable information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -44,6 +44,8 @@ public class CoreDocumentTest extends DocumentTest {
       "  \"doi\": null," +
       "  \"title\": \"this is the title 1\"," +
       "  \"abstract\": \"this is the abstract 1\"," +
+      "  \"topics\": [\"Topic 1\", \"Other\"]," +
+      "  \"year\": 2020," +
       "  \"field1\": \"doc1 field1 content\"," +
       "  \"field2\": \"doc1 field2 content\"" +
       "}\n" +
@@ -52,6 +54,8 @@ public class CoreDocumentTest extends DocumentTest {
       "  \"doi\": \"doi2\"," +
       "  \"title\": \"this is the title 2\"," +
       "  \"abstract\": \"this is the abstract 2\"," +
+      "  \"topics\": [\"Topic 2\", \"Other\"]," +
+      "  \"year\": 2010," +
       "  \"field1\": \"doc2 field1 content\"," +
       "  \"field2\": \"doc2 field2 content\"" +
       "}";
@@ -63,6 +67,8 @@ public class CoreDocumentTest extends DocumentTest {
     doc1.put("doi", "null");
     doc1.put("title", "this is the title 1");
     doc1.put("abstract", "this is the abstract 1");
+    doc1.put("topics", "Topic 1::Other");
+    doc1.put("year", "2020");
     doc1.put("field1", "doc1 field1 content");
     doc1.put("field2", "doc1 field2 content");
     expected.add(doc1);
@@ -71,6 +77,8 @@ public class CoreDocumentTest extends DocumentTest {
     doc2.put("doi", "doi2");
     doc2.put("title", "this is the title 2");
     doc2.put("abstract", "this is the abstract 2");
+    doc2.put("topics", "Topic 2::Other");
+    doc2.put("year", "2010");
     doc2.put("field1", "doc2 field1 content");
     doc2.put("field2", "doc2 field2 content");
     expected.add(doc2);

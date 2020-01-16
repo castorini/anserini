@@ -1,4 +1,4 @@
-/**
+/*
  * Anserini: A Lucene toolkit for replicable information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,6 +27,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.SortedMap;
 
@@ -37,8 +38,6 @@ import java.util.SortedMap;
  */
 public abstract class TopicReader<K> {
   protected Path topicFile;
-
-  public TopicReader() {}
 
   public TopicReader(Path topicFile) {
     this.topicFile = topicFile;
@@ -65,22 +64,12 @@ public abstract class TopicReader<K> {
 
   abstract public SortedMap<K, Map<String, String>> read(BufferedReader bRdr) throws IOException;
 
-  public enum Topics {
-    ROBUST04(TrecTopicReader.class, "topics-and-qrels/topics.robust04.txt"),
-    ROBUST05(TrecTopicReader.class, "topics-and-qrels/topics.robust05.txt"),
-    CORE17(TrecTopicReader.class, "topics-and-qrels/topics.core17.txt"),
-    CORE18(TrecTopicReader.class, "topics-and-qrels/topics.core18.txt"),
-    MSMARCO_DOC_DEV(TsvIntTopicReader.class,"topics-and-qrels/topics.msmarco-doc.dev.txt"),
-    MSMARCO_PASSAGE_DEV_SUBSET(TsvIntTopicReader.class, "topics-and-qrels/topics.msmarco-passage.dev-subset.txt");
-
-    public final String path;
-    public final Class readerClass;
-    Topics(Class c, String path) {
-      this.readerClass = c;
-      this.path = path;
-    }
-  }
-
+  /**
+   * Returns a standard set of evaluation topics.
+   * @param topics topics
+   * @param <K> type of topic id
+   * @return a set of evaluation topics
+   */
   @SuppressWarnings("unchecked")
   public static <K> SortedMap<K, Map<String, String>> getTopics(Topics topics) {
     try {
@@ -96,5 +85,25 @@ public abstract class TopicReader<K> {
     } catch (Exception e) {
       return null;
     }
+  }
+
+  /**
+   * Returns a standard set of evaluation topics, with strings as topic ids. This method is
+   * primarily meant for calling from Python via Pyjnius. The conversion to string topic ids
+   * is necessary because Pyjnius has trouble with generics.
+   * @param topics topics
+   * @return a set of evaluation topics, with strings as topic ids
+   */
+  public static Map<String, Map<String, String>> getTopicsWithStringIds(Topics topics) {
+    SortedMap<?, Map<String, String>> originalTopics = getTopics(topics);
+    if (originalTopics == null)
+      return null;
+
+    Map<String, Map<String, String>> t = new HashMap<>();
+    for (Object key : originalTopics.keySet()) {
+      t.put(key.toString(), originalTopics.get(key));
+    }
+
+    return t;
   }
 }

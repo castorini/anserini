@@ -31,14 +31,13 @@ On a modern desktop with an SSD, indexing takes around 40 minutes.
 The final log lines should look something like this:
 
 ```
-2019-06-09 09:32:35,233 INFO  [main] index.IndexCollection (IndexCollection.java:623) - # Final Counter Values
-2019-06-09 09:32:35,233 INFO  [main] index.IndexCollection (IndexCollection.java:624) - indexed:        3,213,835
-2019-06-09 09:32:35,233 INFO  [main] index.IndexCollection (IndexCollection.java:625) - empty:                  0
-2019-06-09 09:32:35,234 INFO  [main] index.IndexCollection (IndexCollection.java:626) - unindexed:              0
-2019-06-09 09:32:35,234 INFO  [main] index.IndexCollection (IndexCollection.java:627) - unindexable:            0
-2019-06-09 09:32:35,234 INFO  [main] index.IndexCollection (IndexCollection.java:628) - skipped:                0
-2019-06-09 09:32:35,234 INFO  [main] index.IndexCollection (IndexCollection.java:629) - errors:                 0
-2019-06-09 09:32:35,238 INFO  [main] index.IndexCollection (IndexCollection.java:632) - Total 3,213,835 documents indexed in 00:39:07
+2020-01-14 16:36:30,954 INFO  [main] index.IndexCollection (IndexCollection.java:851) - ============ Final Counter Values ============
+2020-01-14 16:36:30,955 INFO  [main] index.IndexCollection (IndexCollection.java:852) - indexed:        3,213,835
+2020-01-14 16:36:30,955 INFO  [main] index.IndexCollection (IndexCollection.java:853) - unindexable:            0
+2020-01-14 16:36:30,955 INFO  [main] index.IndexCollection (IndexCollection.java:854) - empty:                  0
+2020-01-14 16:36:30,955 INFO  [main] index.IndexCollection (IndexCollection.java:855) - skipped:                0
+2020-01-14 16:36:30,955 INFO  [main] index.IndexCollection (IndexCollection.java:856) - errors:                 0
+2020-01-14 16:36:30,961 INFO  [main] index.IndexCollection (IndexCollection.java:859) - Total 3,213,835 documents indexed in 00:45:32
 ```
 
 ## Retrieving and Evaluating the Dev set
@@ -73,7 +72,7 @@ In this guide, to save time, we are only going to perform retrieval on the dev q
 This can be accomplished as follows:
 
 ```
-target/appassembler/bin/SearchCollection -topicreader Tsv -index lucene-index.msmarco-doc.pos+docvectors+rawdocs \
+target/appassembler/bin/SearchCollection -topicreader TsvString -index lucene-index.msmarco-doc.pos+docvectors+rawdocs \
  -topics msmarco-doc/msmarco-docdev-queries.tsv -output msmarco-doc/run.msmarco-doc.dev.bm25.txt -bm25
 ```
 
@@ -81,14 +80,9 @@ On a modern desktop with an SSD, the run takes around 12 minutes.
 After the run completes, we can evaluate with `trec_eval`:
 
 ```
-$ eval/trec_eval.9.0.4/trec_eval -c msmarco-doc/msmarco-docdev-qrels.tsv msmarco-doc/run.msmarco-doc.dev.bm25.txt
-runid                 	all	Anserini
-num_q                 	all	5193
-num_ret               	all	5191674
-num_rel               	all	5193
-num_rel_ret           	all	4599
-map                   	all	0.2308
-...
+$ eval/trec_eval.9.0.4/trec_eval -c -mmap -mrecall.1000 msmarco-doc/msmarco-docdev-qrels.tsv msmarco-doc/run.msmarco-doc.dev.bm25.txt
+map                   	all	0.2310
+recall_1000           	all	0.8856
 ```
 
 Let's compare to the baselines provided by Microsoft (note that to be fair, we restrict evaluation to top 100 hits per topic):
@@ -98,7 +92,7 @@ $ eval/trec_eval.9.0.4/trec_eval -c -mmap -M 100 msmarco-doc/msmarco-docdev-qrel
 map                   	all	0.2219
 
 $ eval/trec_eval.9.0.4/trec_eval -c -mmap -M 100 msmarco-doc/msmarco-docdev-qrels.tsv msmarco-doc/run.msmarco-doc.dev.bm25.txt
-map                   	all	0.2301
+map                   	all	0.2303
 ```
 
 We see that "out of the box" Anserini is already better!
@@ -117,7 +111,7 @@ The tuned parameters using this approach are `k1=3.44`, `b=0.87`.
 To perform a run with these parameters, issue the following command:
 
 ```
-target/appassembler/bin/SearchCollection -topicreader Tsv -index lucene-index.msmarco-doc.pos+docvectors+rawdocs \
+target/appassembler/bin/SearchCollection -topicreader TsvString -index lucene-index.msmarco-doc.pos+docvectors+rawdocs \
  -topics msmarco-doc/msmarco-docdev-queries.tsv -output run.msmarco-doc.dev.bm25.tuned.txt -bm25 -k1 3.44 -b 0.87
 ```
 
@@ -129,3 +123,7 @@ Default (`k1=0.9`, `b=0.4`) | 0.2310 | 0.8856
 Tuned (`k1=3.44`, `b=0.87`) | 0.2788 | 0.9326
 
 As expected, BM25 tuning makes a big difference!
+
+## Replication Log
+
++ Results replicated by [@edwinzhng](https://github.com/edwinzhng) on 2020-01-14 (commit [`3964169`](https://github.com/castorini/anserini/commit/3964169bf82a3783f9298907d9794f0bddf306f0))

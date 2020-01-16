@@ -96,11 +96,12 @@ Other experiments:
 
 See [this page](docs/additional.md) for additional documentation.
 
-## Integrations
+## Other Features
 
-+ Use Anserini in Python via [Pyserini](https://github.com/castorini/pyserini)!
-+ Anserini integrates with SolrCloud via [Solrini](docs/solrini.md)!
-+ Anserini integrates with Elasticsearch via [Elasterini](docs/elastirini.md)!
++ Use Anserini in Python via [Pyserini](https://github.com/castorini/pyserini)
++ Anserini integrates with SolrCloud via [Solrini](docs/solrini.md)
++ Anserini integrates with Elasticsearch via [Elasterini](docs/elastirini.md)
++ Anserini supports [approximate nearest-neighbor search](docs/approximate-nearestneighbor.md) on arbitrary dense vectors with Lucene
 
 ## How Can I Contribute?
 
@@ -114,6 +115,7 @@ Beyond that, there are always [open issues](https://github.com/castorini/anserin
 
 ## Release History
 
++ v0.7.1: January 9, 2020 [[Release Notes](docs/release-notes/release-notes-v0.7.1.md)]
 + v0.7.0: December 13, 2019 [[Release Notes](docs/release-notes/release-notes-v0.7.0.md)]
 + v0.6.0: September 6, 2019 [[Release Notes](docs/release-notes/release-notes-v0.6.0.md)][[Known Issues](docs/known-issues/known-issues-v0.6.0.md)]
 + v0.5.1: June 11, 2019 [[Release Notes](docs/release-notes/release-notes-v0.5.1.md)]

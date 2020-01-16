@@ -1,4 +1,4 @@
-/**
+/*
  * Anserini: A Lucene toolkit for replicable information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,12 +21,10 @@ import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.MultiTerms;
-import org.apache.lucene.index.PostingsEnum;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.index.Terms;
 import org.apache.lucene.index.TermsEnum;
 import org.apache.lucene.queryparser.classic.ParseException;
-import org.apache.lucene.search.DocIdSetIterator;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.TopDocs;
@@ -37,21 +35,21 @@ import org.apache.lucene.util.BytesRef;
 import org.junit.Test;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Iterator;
 
 public class IndexReaderUtilsTest extends IndexerTestBase {
 
   @Test
   public void testAnalyzer() throws ParseException {
     // EnglishAnalyzer by default.
-    assertEquals("citi", IndexReaderUtils.analyzeTerm("city"));
-    assertEquals("citi", IndexReaderUtils.analyzeTerm("city buses"));
+    assertEquals("citi", String.join(" ", IndexReaderUtils.analyze("city")));
+    assertEquals("citi buse", String.join(" ", IndexReaderUtils.analyze("city buses")));
 
     // Shouldn't change the term
-    assertEquals("city", IndexReaderUtils.analyzeTermWithAnalyzer("city", new WhitespaceAnalyzer()));
-    assertEquals("city", IndexReaderUtils.analyzeTermWithAnalyzer("city buses", new WhitespaceAnalyzer()));
+    assertEquals("city", String.join(" ", IndexReaderUtils.analyzeWithAnalyzer("city", new WhitespaceAnalyzer())));
+    assertEquals("city buses", String.join(" ", IndexReaderUtils.analyzeWithAnalyzer("city buses", new WhitespaceAnalyzer())));
   }
 
   @Test
@@ -249,6 +247,16 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
     documentVector = IndexReaderUtils.getDocumentVector(reader, "doc3");
     assertEquals(Long.valueOf(1), documentVector.get("here"));
     assertEquals(Long.valueOf(1), documentVector.get("test"));
+  }
+
+  @Test
+  public void testRawDoc() throws Exception {
+    Directory dir = FSDirectory.open(tempDir1);
+    IndexReader reader = DirectoryReader.open(dir);
+
+    assertEquals("here is some text here is some more text", IndexReaderUtils.getRawDocument(reader, "doc1"));
+    assertEquals("more texts", IndexReaderUtils.getRawDocument(reader, "doc2"));
+    assertEquals("here is a test", IndexReaderUtils.getRawDocument(reader, "doc3"));
   }
 
   @Test

@@ -1,4 +1,4 @@
-/**
+/*
  * Anserini: A Lucene toolkit for replicable information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -28,10 +28,10 @@ import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 import java.util.Iterator;
+import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Set;
 
 /**
  * <p>A static collection of documents, comprised of one or more {@link FileSegment}s.

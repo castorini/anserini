@@ -1,4 +1,4 @@
-/**
+/*
  * Anserini: A Lucene toolkit for replicable information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,12 +15,6 @@
  */
 
 package io.anserini.ltr;
-
-import org.junit.Assert;
-import org.junit.Test;
-import org.kohsuke.args4j.CmdLineException;
-import org.kohsuke.args4j.CmdLineParser;
-import org.kohsuke.args4j.ParserProperties;
 
 import io.anserini.ltr.FeatureExtractorCli.FeatureExtractionArgs;
 import io.anserini.search.topicreader.MicroblogTopicReader;

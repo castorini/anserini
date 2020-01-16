@@ -1,4 +1,4 @@
-/**
+/*
  * Anserini: A Lucene toolkit for replicable information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,23 +19,23 @@ package io.anserini.collection;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.MappingIterator;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.tukaani.xz.XZInputStream;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
-import java.io.InputStreamReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.NoSuchElementException;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
+import java.util.NoSuchElementException;
+import java.util.StringJoiner;
 
 /**
  * A document collection in the
@@ -45,8 +45,8 @@ import java.util.Set;
  * Inside each file should be a bunch of JSON objects, each per line:
  *
  * <pre>
- * {"id": "doc1", "contents": "this is the contents 1."}
- * {"id": "doc2", "contents": "this is the contents 2."}
+ * {"id": "doc1", "contents": "this is the contents 1.", "year": 2019, "topics": ["topic 1"]}
+ * {"id": "doc2", "contents": "this is the contents 2.", "year": 2020, "topics": ["topic 2"]}
  * </pre>
  */
 public class CoreCollection extends DocumentCollection<CoreCollection.Document> {
@@ -125,6 +125,13 @@ public class CoreCollection extends DocumentCollection<CoreCollection.Document> 
                   "doi:" + json.get("doi").asText();
         } else if ("abstract".equals(e.getKey())) {
           this.contents = json.get("title").asText() + "\n" + json.get("abstract").asText();
+        } else if (e.getValue() instanceof ArrayNode) {
+          ArrayNode arrayField = (ArrayNode) e.getValue();
+          StringJoiner sj = new StringJoiner("::");
+          arrayField.elements().forEachRemaining( arrayElement -> {
+            sj.add(arrayElement.asText());
+          });
+          this.fields.put(e.getKey(), sj.toString());
         } else {
           this.fields.put(e.getKey(), e.getValue().asText());
         }

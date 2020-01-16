@@ -1,4 +1,4 @@
-/**
+/*
  * Anserini: A Lucene toolkit for replicable information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -51,7 +51,6 @@ import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_BODY;
 import static io.anserini.search.SearchCollection.BREAK_SCORE_TIES_BY_DOCID;
 import static io.anserini.search.SearchCollection.BREAK_SCORE_TIES_BY_TWEETID;
 
-
 class BM25PrfSimilarity extends BM25Similarity {
 
   BM25PrfSimilarity(float k1, float b) {
@@ -64,7 +63,6 @@ class BM25PrfSimilarity extends BM25Similarity {
     return 1;
   }
 }
-
 
 public class BM25PrfReranker implements Reranker {
   private static final Logger LOG = LogManager.getLogger(BM25PrfReranker.class);
