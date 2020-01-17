@@ -22,7 +22,7 @@ import argparse
 def convert_collection(args):
     print('Converting collection...')
     file_index = 0
-    with open(args.collection_path) as f:
+    with open(args.collection_path, encoding='utf-8') as f:
         for i, line in enumerate(f):
             doc_id, doc_text = line.rstrip().split('\t')
 
@@ -30,7 +30,7 @@ def convert_collection(args):
                 if i > 0:
                     output_jsonl_file.close()
                 output_path = os.path.join(args.output_folder, 'docs{:02d}.json'.format(file_index))
-                output_jsonl_file = open(output_path, 'w')
+                output_jsonl_file = open(output_path, 'w', encoding='utf-8', newline='\n')
                 file_index += 1
             output_dict = {'id': doc_id, 'contents': doc_text}
             output_jsonl_file.write(json.dumps(output_dict) + '\n')
