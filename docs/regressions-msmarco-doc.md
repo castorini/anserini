@@ -38,7 +38,7 @@ nohup target/appassembler/bin/SearchCollection -index lucene-index.msmarco-doc.p
 
 nohup target/appassembler/bin/SearchCollection -index lucene-index.msmarco-doc.pos+docvectors+rawdocs \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
- -bm25 -axiom -rerankCutoff 20 -axiom.deterministic -output run.msmarco-doc.bm25-default+ax.topics.msmarco-doc.dev.txt &
+ -bm25 -axiom -axiom.deterministic -rerankCutoff 20 -output run.msmarco-doc.bm25-default+ax.topics.msmarco-doc.dev.txt &
 
 nohup target/appassembler/bin/SearchCollection -index lucene-index.msmarco-doc.pos+docvectors+rawdocs \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
@@ -54,7 +54,7 @@ nohup target/appassembler/bin/SearchCollection -index lucene-index.msmarco-doc.p
 
 nohup target/appassembler/bin/SearchCollection -index lucene-index.msmarco-doc.pos+docvectors+rawdocs \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
- -bm25 -bm25.k1 3.44 -bm25.b 0.87 -rerankCutoff 20 -axiom -axiom.deterministic -output run.msmarco-doc.bm25-tuned+ax.topics.msmarco-doc.dev.txt &
+ -bm25 -bm25.k1 3.44 -bm25.b 0.87 -axiom -axiom.deterministic -rerankCutoff 20 -output run.msmarco-doc.bm25-tuned+ax.topics.msmarco-doc.dev.txt &
 
 nohup target/appassembler/bin/SearchCollection -index lucene-index.msmarco-doc.pos+docvectors+rawdocs \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \

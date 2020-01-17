@@ -83,9 +83,9 @@ models:
     display: +Ax
     params:
       - -bm25
-      - -rerankCutoff 20
       - -axiom
       - -axiom.deterministic
+      - -rerankCutoff 20
     results:
       map:
         - 0.2640
@@ -126,9 +126,9 @@ models:
     display: +Ax
     params:
       - -qld
-      - -rerankCutoff 20
       - -axiom
       - -axiom.deterministic
+      - -rerankCutoff 20
     results:
       map:
         - 0.2501

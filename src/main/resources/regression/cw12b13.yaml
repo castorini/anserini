@@ -100,10 +100,10 @@ models:
     display: +Ax
     params:
       - -bm25
-      - -rerankCutoff 20
       - -axiom
       - -axiom.deterministic
       - -axiom.beta 0.1
+      - -rerankCutoff 20
     results:
       map:
         - 0.0435
@@ -156,10 +156,10 @@ models:
     display: +Ax
     params:
       - -qld
-      - -rerankCutoff 20
       - -axiom
       - -axiom.deterministic
       - -axiom.beta 0.1
+      - -rerankCutoff 20
     results:
       map:
         - 0.0358

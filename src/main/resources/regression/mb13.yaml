@@ -84,10 +84,10 @@ models:
     params:
       - -searchtweets
       - -bm25
-      - -rerankCutoff 20
       - -axiom
       - -axiom.beta 1.0
       - -axiom.deterministic
+      - -rerankCutoff 20
     results:
       map:
         - 0.2855
@@ -125,10 +125,10 @@ models:
     params:
       - -searchtweets
       - -qld
-      - -rerankCutoff 20
       - -axiom
       - -axiom.beta 1.0
       - -axiom.deterministic
+      - -rerankCutoff 20
     results:
       map:
         - 0.3152

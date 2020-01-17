@@ -56,13 +56,13 @@ nohup target/appassembler/bin/SearchCollection -index lucene-index.cw09b.pos+doc
 
 nohup target/appassembler/bin/SearchCollection -index lucene-index.cw09b.pos+docvectors+rawdocs \
  -topicreader Webxml -topics src/main/resources/topics-and-qrels/topics.web.51-100.txt \
- -bm25 -rerankCutoff 20 -axiom -axiom.deterministic -axiom.beta 0.1 -output run.cw09b.bm25+ax.topics.web.51-100.txt &
+ -bm25 -axiom -axiom.deterministic -axiom.beta 0.1 -rerankCutoff 20 -output run.cw09b.bm25+ax.topics.web.51-100.txt &
 nohup target/appassembler/bin/SearchCollection -index lucene-index.cw09b.pos+docvectors+rawdocs \
  -topicreader Webxml -topics src/main/resources/topics-and-qrels/topics.web.101-150.txt \
- -bm25 -rerankCutoff 20 -axiom -axiom.deterministic -axiom.beta 0.1 -output run.cw09b.bm25+ax.topics.web.101-150.txt &
+ -bm25 -axiom -axiom.deterministic -axiom.beta 0.1 -rerankCutoff 20 -output run.cw09b.bm25+ax.topics.web.101-150.txt &
 nohup target/appassembler/bin/SearchCollection -index lucene-index.cw09b.pos+docvectors+rawdocs \
  -topicreader Webxml -topics src/main/resources/topics-and-qrels/topics.web.151-200.txt \
- -bm25 -rerankCutoff 20 -axiom -axiom.deterministic -axiom.beta 0.1 -output run.cw09b.bm25+ax.topics.web.151-200.txt &
+ -bm25 -axiom -axiom.deterministic -axiom.beta 0.1 -rerankCutoff 20 -output run.cw09b.bm25+ax.topics.web.151-200.txt &
 
 nohup target/appassembler/bin/SearchCollection -index lucene-index.cw09b.pos+docvectors+rawdocs \
  -topicreader Webxml -topics src/main/resources/topics-and-qrels/topics.web.51-100.txt \
@@ -86,13 +86,13 @@ nohup target/appassembler/bin/SearchCollection -index lucene-index.cw09b.pos+doc
 
 nohup target/appassembler/bin/SearchCollection -index lucene-index.cw09b.pos+docvectors+rawdocs \
  -topicreader Webxml -topics src/main/resources/topics-and-qrels/topics.web.51-100.txt \
- -qld -rerankCutoff 20 -axiom -axiom.deterministic -axiom.beta 0.1 -output run.cw09b.ql+ax.topics.web.51-100.txt &
+ -qld -axiom -axiom.deterministic -axiom.beta 0.1 -rerankCutoff 20 -output run.cw09b.ql+ax.topics.web.51-100.txt &
 nohup target/appassembler/bin/SearchCollection -index lucene-index.cw09b.pos+docvectors+rawdocs \
  -topicreader Webxml -topics src/main/resources/topics-and-qrels/topics.web.101-150.txt \
- -qld -rerankCutoff 20 -axiom -axiom.deterministic -axiom.beta 0.1 -output run.cw09b.ql+ax.topics.web.101-150.txt &
+ -qld -axiom -axiom.deterministic -axiom.beta 0.1 -rerankCutoff 20 -output run.cw09b.ql+ax.topics.web.101-150.txt &
 nohup target/appassembler/bin/SearchCollection -index lucene-index.cw09b.pos+docvectors+rawdocs \
  -topicreader Webxml -topics src/main/resources/topics-and-qrels/topics.web.151-200.txt \
- -qld -rerankCutoff 20 -axiom -axiom.deterministic -axiom.beta 0.1 -output run.cw09b.ql+ax.topics.web.151-200.txt &
+ -qld -axiom -axiom.deterministic -axiom.beta 0.1 -rerankCutoff 20 -output run.cw09b.ql+ax.topics.web.151-200.txt &
 ```
 
 Evaluation can be performed using `trec_eval` and `gdeval.pl`:

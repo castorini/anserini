@@ -54,10 +54,10 @@ nohup target/appassembler/bin/SearchCollection -index lucene-index.mb11.pos+docv
 
 nohup target/appassembler/bin/SearchCollection -index lucene-index.mb11.pos+docvectors+rawdocs \
  -topicreader Microblog -topics src/main/resources/topics-and-qrels/topics.microblog2011.txt \
- -searchtweets -bm25 -rerankCutoff 20 -axiom -axiom.beta 1.0 -axiom.deterministic -output run.mb11.bm25+ax.topics.microblog2011.txt &
+ -searchtweets -bm25 -axiom -axiom.beta 1.0 -axiom.deterministic -rerankCutoff 20 -output run.mb11.bm25+ax.topics.microblog2011.txt &
 nohup target/appassembler/bin/SearchCollection -index lucene-index.mb11.pos+docvectors+rawdocs \
  -topicreader Microblog -topics src/main/resources/topics-and-qrels/topics.microblog2012.txt \
- -searchtweets -bm25 -rerankCutoff 20 -axiom -axiom.beta 1.0 -axiom.deterministic -output run.mb11.bm25+ax.topics.microblog2012.txt &
+ -searchtweets -bm25 -axiom -axiom.beta 1.0 -axiom.deterministic -rerankCutoff 20 -output run.mb11.bm25+ax.topics.microblog2012.txt &
 
 nohup target/appassembler/bin/SearchCollection -index lucene-index.mb11.pos+docvectors+rawdocs \
  -topicreader Microblog -topics src/main/resources/topics-and-qrels/topics.microblog2011.txt \
@@ -75,10 +75,10 @@ nohup target/appassembler/bin/SearchCollection -index lucene-index.mb11.pos+docv
 
 nohup target/appassembler/bin/SearchCollection -index lucene-index.mb11.pos+docvectors+rawdocs \
  -topicreader Microblog -topics src/main/resources/topics-and-qrels/topics.microblog2011.txt \
- -searchtweets -qld -rerankCutoff 20 -axiom -axiom.beta 1.0 -axiom.deterministic -output run.mb11.ql+ax.topics.microblog2011.txt &
+ -searchtweets -qld -axiom -axiom.beta 1.0 -axiom.deterministic -rerankCutoff 20 -output run.mb11.ql+ax.topics.microblog2011.txt &
 nohup target/appassembler/bin/SearchCollection -index lucene-index.mb11.pos+docvectors+rawdocs \
  -topicreader Microblog -topics src/main/resources/topics-and-qrels/topics.microblog2012.txt \
- -searchtweets -qld -rerankCutoff 20 -axiom -axiom.beta 1.0 -axiom.deterministic -output run.mb11.ql+ax.topics.microblog2012.txt &
+ -searchtweets -qld -axiom -axiom.beta 1.0 -axiom.deterministic -rerankCutoff 20 -output run.mb11.ql+ax.topics.microblog2012.txt &
 ```
 
 Evaluation can be performed using `trec_eval`:

@@ -72,9 +72,9 @@ models:
     display: +Ax
     params:
       - -bm25
-      - -rerankCutoff 20
       - -axiom
       - -axiom.deterministic
+      - -rerankCutoff 20
     results:
       map:
         - 0.1625
@@ -119,9 +119,9 @@ models:
       - -bm25
       - -bm25.k1 0.82
       - -bm25.b 0.68
-      - -rerankCutoff 20
       - -axiom
       - -axiom.deterministic
+      - -rerankCutoff 20
     results:
       map:
         - 0.1699

@@ -38,7 +38,7 @@ nohup target/appassembler/bin/SearchCollection -index lucene-index.robust05.pos+
 
 nohup target/appassembler/bin/SearchCollection -index lucene-index.robust05.pos+docvectors+rawdocs \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.robust05.txt \
- -bm25 -rerankCutoff 20 -axiom -axiom.deterministic -output run.robust05.bm25+ax.topics.robust05.txt &
+ -bm25 -axiom -axiom.deterministic -rerankCutoff 20 -output run.robust05.bm25+ax.topics.robust05.txt &
 
 nohup target/appassembler/bin/SearchCollection -index lucene-index.robust05.pos+docvectors+rawdocs \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.robust05.txt \
@@ -50,7 +50,7 @@ nohup target/appassembler/bin/SearchCollection -index lucene-index.robust05.pos+
 
 nohup target/appassembler/bin/SearchCollection -index lucene-index.robust05.pos+docvectors+rawdocs \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.robust05.txt \
- -qld -rerankCutoff 20 -axiom -axiom.deterministic -output run.robust05.ql+ax.topics.robust05.txt &
+ -qld -axiom -axiom.deterministic -rerankCutoff 20 -output run.robust05.ql+ax.topics.robust05.txt &
 ```
 
 Evaluation can be performed using `trec_eval`:

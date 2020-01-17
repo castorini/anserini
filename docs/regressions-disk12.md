@@ -54,13 +54,13 @@ nohup target/appassembler/bin/SearchCollection -index lucene-index.disk12.pos+do
 
 nohup target/appassembler/bin/SearchCollection -index lucene-index.disk12.pos+docvectors+rawdocs \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.adhoc.51-100.txt \
- -bm25 -rerankCutoff 20 -axiom -axiom.deterministic -output run.disk12.bm25+ax.topics.adhoc.51-100.txt &
+ -bm25 -axiom -axiom.deterministic -rerankCutoff 20 -output run.disk12.bm25+ax.topics.adhoc.51-100.txt &
 nohup target/appassembler/bin/SearchCollection -index lucene-index.disk12.pos+docvectors+rawdocs \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.adhoc.101-150.txt \
- -bm25 -rerankCutoff 20 -axiom -axiom.deterministic -output run.disk12.bm25+ax.topics.adhoc.101-150.txt &
+ -bm25 -axiom -axiom.deterministic -rerankCutoff 20 -output run.disk12.bm25+ax.topics.adhoc.101-150.txt &
 nohup target/appassembler/bin/SearchCollection -index lucene-index.disk12.pos+docvectors+rawdocs \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.adhoc.151-200.txt \
- -bm25 -rerankCutoff 20 -axiom -axiom.deterministic -output run.disk12.bm25+ax.topics.adhoc.151-200.txt &
+ -bm25 -axiom -axiom.deterministic -rerankCutoff 20 -output run.disk12.bm25+ax.topics.adhoc.151-200.txt &
 
 nohup target/appassembler/bin/SearchCollection -index lucene-index.disk12.pos+docvectors+rawdocs \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.adhoc.51-100.txt \
@@ -84,13 +84,13 @@ nohup target/appassembler/bin/SearchCollection -index lucene-index.disk12.pos+do
 
 nohup target/appassembler/bin/SearchCollection -index lucene-index.disk12.pos+docvectors+rawdocs \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.adhoc.51-100.txt \
- -qld -rerankCutoff 20 -axiom -axiom.deterministic -output run.disk12.ql+ax.topics.adhoc.51-100.txt &
+ -qld -axiom -axiom.deterministic -rerankCutoff 20 -output run.disk12.ql+ax.topics.adhoc.51-100.txt &
 nohup target/appassembler/bin/SearchCollection -index lucene-index.disk12.pos+docvectors+rawdocs \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.adhoc.101-150.txt \
- -qld -rerankCutoff 20 -axiom -axiom.deterministic -output run.disk12.ql+ax.topics.adhoc.101-150.txt &
+ -qld -axiom -axiom.deterministic -rerankCutoff 20 -output run.disk12.ql+ax.topics.adhoc.101-150.txt &
 nohup target/appassembler/bin/SearchCollection -index lucene-index.disk12.pos+docvectors+rawdocs \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.adhoc.151-200.txt \
- -qld -rerankCutoff 20 -axiom -axiom.deterministic -output run.disk12.ql+ax.topics.adhoc.151-200.txt &
+ -qld -axiom -axiom.deterministic -rerankCutoff 20 -output run.disk12.ql+ax.topics.adhoc.151-200.txt &
 ```
 
 Evaluation can be performed using `trec_eval`:

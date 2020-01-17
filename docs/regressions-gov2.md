@@ -54,13 +54,13 @@ nohup target/appassembler/bin/SearchCollection -index lucene-index.gov2.pos+docv
 
 nohup target/appassembler/bin/SearchCollection -index lucene-index.gov2.pos+docvectors+rawdocs \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.terabyte04.701-750.txt \
- -bm25 -rerankCutoff 20 -axiom -axiom.beta 0.1 -axiom.deterministic -output run.gov2.bm25+ax.topics.terabyte04.701-750.txt &
+ -bm25 -axiom -axiom.beta 0.1 -axiom.deterministic -rerankCutoff 20 -output run.gov2.bm25+ax.topics.terabyte04.701-750.txt &
 nohup target/appassembler/bin/SearchCollection -index lucene-index.gov2.pos+docvectors+rawdocs \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.terabyte05.751-800.txt \
- -bm25 -rerankCutoff 20 -axiom -axiom.beta 0.1 -axiom.deterministic -output run.gov2.bm25+ax.topics.terabyte05.751-800.txt &
+ -bm25 -axiom -axiom.beta 0.1 -axiom.deterministic -rerankCutoff 20 -output run.gov2.bm25+ax.topics.terabyte05.751-800.txt &
 nohup target/appassembler/bin/SearchCollection -index lucene-index.gov2.pos+docvectors+rawdocs \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.terabyte06.801-850.txt \
- -bm25 -rerankCutoff 20 -axiom -axiom.beta 0.1 -axiom.deterministic -output run.gov2.bm25+ax.topics.terabyte06.801-850.txt &
+ -bm25 -axiom -axiom.beta 0.1 -axiom.deterministic -rerankCutoff 20 -output run.gov2.bm25+ax.topics.terabyte06.801-850.txt &
 
 nohup target/appassembler/bin/SearchCollection -index lucene-index.gov2.pos+docvectors+rawdocs \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.terabyte04.701-750.txt \
@@ -84,13 +84,13 @@ nohup target/appassembler/bin/SearchCollection -index lucene-index.gov2.pos+docv
 
 nohup target/appassembler/bin/SearchCollection -index lucene-index.gov2.pos+docvectors+rawdocs \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.terabyte04.701-750.txt \
- -qld -rerankCutoff 20 -axiom -axiom.beta 0.1 -axiom.deterministic -output run.gov2.ql+ax.topics.terabyte04.701-750.txt &
+ -qld -axiom -axiom.beta 0.1 -axiom.deterministic -rerankCutoff 20 -output run.gov2.ql+ax.topics.terabyte04.701-750.txt &
 nohup target/appassembler/bin/SearchCollection -index lucene-index.gov2.pos+docvectors+rawdocs \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.terabyte05.751-800.txt \
- -qld -rerankCutoff 20 -axiom -axiom.beta 0.1 -axiom.deterministic -output run.gov2.ql+ax.topics.terabyte05.751-800.txt &
+ -qld -axiom -axiom.beta 0.1 -axiom.deterministic -rerankCutoff 20 -output run.gov2.ql+ax.topics.terabyte05.751-800.txt &
 nohup target/appassembler/bin/SearchCollection -index lucene-index.gov2.pos+docvectors+rawdocs \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.terabyte06.801-850.txt \
- -qld -rerankCutoff 20 -axiom -axiom.beta 0.1 -axiom.deterministic -output run.gov2.ql+ax.topics.terabyte06.801-850.txt &
+ -qld -axiom -axiom.beta 0.1 -axiom.deterministic -rerankCutoff 20 -output run.gov2.ql+ax.topics.terabyte06.801-850.txt &
 ```
 
 Evaluation can be performed using `trec_eval`:
