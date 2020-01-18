@@ -4,12 +4,15 @@ import io.anserini.index.generator.LuceneDocumentGenerator;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.LeafReader;
+import org.apache.lucene.index.LeafReaderContext;
+import org.apache.lucene.index.NumericDocValues;
 import org.apache.lucene.index.PostingsEnum;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.index.TermsEnum;
 import org.apache.lucene.search.DocIdSetIterator;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.BytesRef;
+import org.apache.lucene.util.SmallFloat;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
@@ -30,6 +33,9 @@ public class DumpLuceneIndex {
 
     @Option(name = "-docidOutput", metaVar = "[file]", required = true, usage = "docid output")
     public String docidOutput = "";
+
+    @Option(name = "-lengthsOutput", metaVar = "[file]", required = true, usage = "lengths output")
+    public String lengthsOutput = "";
 
     @Option(name = "-index", metaVar = "[path]", required = true, usage = "index path")
     public String index = "";
@@ -52,8 +58,9 @@ public class DumpLuceneIndex {
     }
 
     IndexReader reader = DirectoryReader.open(FSDirectory.open(Paths.get(args.index)));
-    FileOutputStream fileOut = new FileOutputStream(args.postingsOutput);
 
+    System.out.println("Writing postings...");
+    FileOutputStream fileOut = new FileOutputStream(args.postingsOutput);
     int cnt = 0;
     // This is how you iterate through terms in the postings list.
     LeafReader leafReader = reader.leaves().get(0).reader();
@@ -113,6 +120,18 @@ public class DumpLuceneIndex {
       docidOut.write((reader.document(i).getField(LuceneDocumentGenerator.FIELD_ID).stringValue() +  "\n").getBytes());
     }
     docidOut.close();
+    System.out.println("Done!");
+
+    System.out.println("Writing doclengths...");
+    FileOutputStream lengthsOut = new FileOutputStream(args.lengthsOutput);
+    for (LeafReaderContext context : reader.leaves()) {
+      leafReader = context.reader();
+      NumericDocValues docValues = leafReader.getNormValues("contents");
+      while (docValues.nextDoc() != DocIdSetIterator.NO_MORE_DOCS) {
+        lengthsOut.write(((docValues.docID() + context.docBase) + "\t" + SmallFloat.byte4ToInt((byte) docValues.longValue()) + "\n").getBytes());
+      }
+    }
+    lengthsOut.close();
     System.out.println("Done!");
 
     reader.close();
