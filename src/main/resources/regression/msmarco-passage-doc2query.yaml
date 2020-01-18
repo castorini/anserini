@@ -72,8 +72,8 @@ models:
     display: BM25 (Tuned)
     params:
       - -bm25
-      - -k1 0.82
-      - -b 0.68
+      - -bm25.k1 0.82
+      - -bm25.b 0.68
     results:
       map:
         - 0.2293
@@ -83,8 +83,8 @@ models:
     display: +RM3
     params:
       - -bm25
-      - -k1 0.82
-      - -b 0.68
+      - -bm25.k1 0.82
+      - -bm25.b 0.68
       - -rm3
     results:
       map:

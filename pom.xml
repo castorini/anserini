@@ -101,6 +101,8 @@
         <version>2.0.0</version>
         <configuration>
           <extraJvmArguments>-Xms512M -Xmx31G</extraJvmArguments>
+          <repositoryLayout>flat</repositoryLayout>
+          <useWildcardClassPath>true</useWildcardClassPath>
           <programs>
             <program>
               <mainClass>io.anserini.ltr.FeatureExtractorCli</mainClass>
