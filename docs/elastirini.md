@@ -112,3 +112,7 @@ python src/main/python/run_es_regression.py --evaluate [collection]
 # Run end to end
 python src/main/python/run_es_regression.py --regression [collection] --input [directory]
 ```
+
+## Replication Log
+
++ Results replicated by [@edwinzhng](https://github.com/edwinzhng) on 2020-01-18 (commit [`90c5be8`](https://github.com/castorini/anserini/commit/90c5be8723ba167118d04f16068501f87d7ce1ce)) for MS MARCO Passage
