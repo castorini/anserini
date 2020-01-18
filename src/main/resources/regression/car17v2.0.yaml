@@ -70,8 +70,8 @@ models:
     params:
       - -bm25
       - -axiom
-      - -rerankCutoff 20
       - -axiom.deterministic
+      - -rerankCutoff 20
     results:
       map:
         - 0.1364 
@@ -80,7 +80,7 @@ models:
   - name: ql
     display: QL
     params:
-      - -ql
+      - -qld
     results:
       map:
         - 0.1371
@@ -89,7 +89,7 @@ models:
   - name: ql+rm3
     display: +RM3
     params:
-      - -ql
+      - -qld
       - -rm3
     results:
       map:
@@ -99,10 +99,10 @@ models:
   - name: ql+ax
     display: +Ax
     params:
-      - -ql
+      - -qld
       - -axiom
-      - -rerankCutoff 20
       - -axiom.deterministic
+      - -rerankCutoff 20
     results:
       map:
         - 0.1077

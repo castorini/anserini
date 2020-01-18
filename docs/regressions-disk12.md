@@ -54,43 +54,43 @@ nohup target/appassembler/bin/SearchCollection -index lucene-index.disk12.pos+do
 
 nohup target/appassembler/bin/SearchCollection -index lucene-index.disk12.pos+docvectors+rawdocs \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.adhoc.51-100.txt \
- -bm25 -axiom -rerankCutoff 20 -axiom.deterministic -output run.disk12.bm25+ax.topics.adhoc.51-100.txt &
+ -bm25 -axiom -axiom.deterministic -rerankCutoff 20 -output run.disk12.bm25+ax.topics.adhoc.51-100.txt &
 nohup target/appassembler/bin/SearchCollection -index lucene-index.disk12.pos+docvectors+rawdocs \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.adhoc.101-150.txt \
- -bm25 -axiom -rerankCutoff 20 -axiom.deterministic -output run.disk12.bm25+ax.topics.adhoc.101-150.txt &
+ -bm25 -axiom -axiom.deterministic -rerankCutoff 20 -output run.disk12.bm25+ax.topics.adhoc.101-150.txt &
 nohup target/appassembler/bin/SearchCollection -index lucene-index.disk12.pos+docvectors+rawdocs \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.adhoc.151-200.txt \
- -bm25 -axiom -rerankCutoff 20 -axiom.deterministic -output run.disk12.bm25+ax.topics.adhoc.151-200.txt &
+ -bm25 -axiom -axiom.deterministic -rerankCutoff 20 -output run.disk12.bm25+ax.topics.adhoc.151-200.txt &
 
 nohup target/appassembler/bin/SearchCollection -index lucene-index.disk12.pos+docvectors+rawdocs \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.adhoc.51-100.txt \
- -ql -output run.disk12.ql.topics.adhoc.51-100.txt &
+ -qld -output run.disk12.ql.topics.adhoc.51-100.txt &
 nohup target/appassembler/bin/SearchCollection -index lucene-index.disk12.pos+docvectors+rawdocs \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.adhoc.101-150.txt \
- -ql -output run.disk12.ql.topics.adhoc.101-150.txt &
+ -qld -output run.disk12.ql.topics.adhoc.101-150.txt &
 nohup target/appassembler/bin/SearchCollection -index lucene-index.disk12.pos+docvectors+rawdocs \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.adhoc.151-200.txt \
- -ql -output run.disk12.ql.topics.adhoc.151-200.txt &
+ -qld -output run.disk12.ql.topics.adhoc.151-200.txt &
 
 nohup target/appassembler/bin/SearchCollection -index lucene-index.disk12.pos+docvectors+rawdocs \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.adhoc.51-100.txt \
- -ql -rm3 -output run.disk12.ql+rm3.topics.adhoc.51-100.txt &
+ -qld -rm3 -output run.disk12.ql+rm3.topics.adhoc.51-100.txt &
 nohup target/appassembler/bin/SearchCollection -index lucene-index.disk12.pos+docvectors+rawdocs \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.adhoc.101-150.txt \
- -ql -rm3 -output run.disk12.ql+rm3.topics.adhoc.101-150.txt &
+ -qld -rm3 -output run.disk12.ql+rm3.topics.adhoc.101-150.txt &
 nohup target/appassembler/bin/SearchCollection -index lucene-index.disk12.pos+docvectors+rawdocs \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.adhoc.151-200.txt \
- -ql -rm3 -output run.disk12.ql+rm3.topics.adhoc.151-200.txt &
+ -qld -rm3 -output run.disk12.ql+rm3.topics.adhoc.151-200.txt &
 
 nohup target/appassembler/bin/SearchCollection -index lucene-index.disk12.pos+docvectors+rawdocs \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.adhoc.51-100.txt \
- -ql -axiom -rerankCutoff 20 -axiom.deterministic -output run.disk12.ql+ax.topics.adhoc.51-100.txt &
+ -qld -axiom -axiom.deterministic -rerankCutoff 20 -output run.disk12.ql+ax.topics.adhoc.51-100.txt &
 nohup target/appassembler/bin/SearchCollection -index lucene-index.disk12.pos+docvectors+rawdocs \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.adhoc.101-150.txt \
- -ql -axiom -rerankCutoff 20 -axiom.deterministic -output run.disk12.ql+ax.topics.adhoc.101-150.txt &
+ -qld -axiom -axiom.deterministic -rerankCutoff 20 -output run.disk12.ql+ax.topics.adhoc.101-150.txt &
 nohup target/appassembler/bin/SearchCollection -index lucene-index.disk12.pos+docvectors+rawdocs \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.adhoc.151-200.txt \
- -ql -axiom -rerankCutoff 20 -axiom.deterministic -output run.disk12.ql+ax.topics.adhoc.151-200.txt &
+ -qld -axiom -axiom.deterministic -rerankCutoff 20 -output run.disk12.ql+ax.topics.adhoc.151-200.txt &
 ```
 
 Evaluation can be performed using `trec_eval`:

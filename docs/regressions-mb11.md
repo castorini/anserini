@@ -54,31 +54,31 @@ nohup target/appassembler/bin/SearchCollection -index lucene-index.mb11.pos+docv
 
 nohup target/appassembler/bin/SearchCollection -index lucene-index.mb11.pos+docvectors+rawdocs \
  -topicreader Microblog -topics src/main/resources/topics-and-qrels/topics.microblog2011.txt \
- -searchtweets -bm25 -axiom -axiom.beta 1.0 -rerankCutoff 20 -axiom.deterministic -output run.mb11.bm25+ax.topics.microblog2011.txt &
+ -searchtweets -bm25 -axiom -axiom.beta 1.0 -axiom.deterministic -rerankCutoff 20 -output run.mb11.bm25+ax.topics.microblog2011.txt &
 nohup target/appassembler/bin/SearchCollection -index lucene-index.mb11.pos+docvectors+rawdocs \
  -topicreader Microblog -topics src/main/resources/topics-and-qrels/topics.microblog2012.txt \
- -searchtweets -bm25 -axiom -axiom.beta 1.0 -rerankCutoff 20 -axiom.deterministic -output run.mb11.bm25+ax.topics.microblog2012.txt &
+ -searchtweets -bm25 -axiom -axiom.beta 1.0 -axiom.deterministic -rerankCutoff 20 -output run.mb11.bm25+ax.topics.microblog2012.txt &
 
 nohup target/appassembler/bin/SearchCollection -index lucene-index.mb11.pos+docvectors+rawdocs \
  -topicreader Microblog -topics src/main/resources/topics-and-qrels/topics.microblog2011.txt \
- -searchtweets -ql -output run.mb11.ql.topics.microblog2011.txt &
+ -searchtweets -qld -output run.mb11.ql.topics.microblog2011.txt &
 nohup target/appassembler/bin/SearchCollection -index lucene-index.mb11.pos+docvectors+rawdocs \
  -topicreader Microblog -topics src/main/resources/topics-and-qrels/topics.microblog2012.txt \
- -searchtweets -ql -output run.mb11.ql.topics.microblog2012.txt &
+ -searchtweets -qld -output run.mb11.ql.topics.microblog2012.txt &
 
 nohup target/appassembler/bin/SearchCollection -index lucene-index.mb11.pos+docvectors+rawdocs \
  -topicreader Microblog -topics src/main/resources/topics-and-qrels/topics.microblog2011.txt \
- -searchtweets -ql -rm3 -output run.mb11.ql+rm3.topics.microblog2011.txt &
+ -searchtweets -qld -rm3 -output run.mb11.ql+rm3.topics.microblog2011.txt &
 nohup target/appassembler/bin/SearchCollection -index lucene-index.mb11.pos+docvectors+rawdocs \
  -topicreader Microblog -topics src/main/resources/topics-and-qrels/topics.microblog2012.txt \
- -searchtweets -ql -rm3 -output run.mb11.ql+rm3.topics.microblog2012.txt &
+ -searchtweets -qld -rm3 -output run.mb11.ql+rm3.topics.microblog2012.txt &
 
 nohup target/appassembler/bin/SearchCollection -index lucene-index.mb11.pos+docvectors+rawdocs \
  -topicreader Microblog -topics src/main/resources/topics-and-qrels/topics.microblog2011.txt \
- -searchtweets -ql -axiom -axiom.beta 1.0 -rerankCutoff 20 -axiom.deterministic -output run.mb11.ql+ax.topics.microblog2011.txt &
+ -searchtweets -qld -axiom -axiom.beta 1.0 -axiom.deterministic -rerankCutoff 20 -output run.mb11.ql+ax.topics.microblog2011.txt &
 nohup target/appassembler/bin/SearchCollection -index lucene-index.mb11.pos+docvectors+rawdocs \
  -topicreader Microblog -topics src/main/resources/topics-and-qrels/topics.microblog2012.txt \
- -searchtweets -ql -axiom -axiom.beta 1.0 -rerankCutoff 20 -axiom.deterministic -output run.mb11.ql+ax.topics.microblog2012.txt &
+ -searchtweets -qld -axiom -axiom.beta 1.0 -axiom.deterministic -rerankCutoff 20 -output run.mb11.ql+ax.topics.microblog2012.txt &
 ```
 
 Evaluation can be performed using `trec_eval`:

@@ -39,19 +39,19 @@ nohup target/appassembler/bin/SearchCollection -index lucene-index.robust04.pos+
 
 nohup target/appassembler/bin/SearchCollection -index lucene-index.robust04.pos+docvectors+rawdocs \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.robust04.txt \
- -bm25 -axiom -rerankCutoff 20 -axiom.deterministic -output run.robust04.bm25+ax.topics.robust04.txt &
+ -bm25 -axiom -axiom.deterministic -rerankCutoff 20 -output run.robust04.bm25+ax.topics.robust04.txt &
 
 nohup target/appassembler/bin/SearchCollection -index lucene-index.robust04.pos+docvectors+rawdocs \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.robust04.txt \
- -ql -output run.robust04.ql.topics.robust04.txt &
+ -qld -output run.robust04.ql.topics.robust04.txt &
 
 nohup target/appassembler/bin/SearchCollection -index lucene-index.robust04.pos+docvectors+rawdocs \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.robust04.txt \
- -ql -rm3 -output run.robust04.ql+rm3.topics.robust04.txt &
+ -qld -rm3 -output run.robust04.ql+rm3.topics.robust04.txt &
 
 nohup target/appassembler/bin/SearchCollection -index lucene-index.robust04.pos+docvectors+rawdocs \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.robust04.txt \
- -ql -axiom -rerankCutoff 20 -axiom.deterministic -output run.robust04.ql+ax.topics.robust04.txt &
+ -qld -axiom -axiom.deterministic -rerankCutoff 20 -output run.robust04.ql+ax.topics.robust04.txt &
 ```
 
 Evaluation can be performed using `trec_eval`:

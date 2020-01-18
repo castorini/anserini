@@ -73,8 +73,8 @@ models:
     params:
       - -bm25
       - -axiom
-      - -rerankCutoff 20
       - -axiom.deterministic
+      - -rerankCutoff 20
     results:
       map:
         - 0.1147
@@ -94,8 +94,8 @@ models:
     display: BM25 (Tuned)
     params:
       - -bm25
-      - -k1 3.44
-      - -b 0.87
+      - -bm25.k1 3.44
+      - -bm25.b 0.87
     results:
       map:
         - 0.2788
@@ -105,8 +105,8 @@ models:
     display: +RM3
     params:
       - -bm25
-      - -k1 3.44
-      - -b 0.87
+      - -bm25.k1 3.44
+      - -bm25.b 0.87
       - -rm3
     results:
       map:
@@ -117,11 +117,11 @@ models:
     display: +Ax
     params:
       - -bm25
-      - -k1 3.44
-      - -b 0.87
+      - -bm25.k1 3.44
+      - -bm25.b 0.87
       - -axiom
-      - -rerankCutoff 20
       - -axiom.deterministic
+      - -rerankCutoff 20
     results:
       map:
         - 0.1895
@@ -131,8 +131,8 @@ models:
     display: +PRF
     params:
       - -bm25
-      - -k1 3.44
-      - -b 0.87
+      - -bm25.k1 3.44
+      - -bm25.b 0.87
       - -bm25prf
     results:
       map:

@@ -38,11 +38,11 @@ nohup target/appassembler/bin/SearchCollection -index lucene-index.msmarco-passa
 
 nohup target/appassembler/bin/SearchCollection -index lucene-index.msmarco-passage-docTTTTTquery.pos+docvectors+rawdocs \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
- -bm25 -k1 0.82 -b 0.68 -output run.msmarco-passage-docTTTTTquery.bm25-tuned.topics.msmarco-passage.dev-subset.txt &
+ -bm25 -bm25.k1 0.82 -bm25.b 0.68 -output run.msmarco-passage-docTTTTTquery.bm25-tuned.topics.msmarco-passage.dev-subset.txt &
 
 nohup target/appassembler/bin/SearchCollection -index lucene-index.msmarco-passage-docTTTTTquery.pos+docvectors+rawdocs \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
- -bm25 -k1 0.82 -b 0.68 -rm3 -output run.msmarco-passage-docTTTTTquery.bm25-tuned+rm3.topics.msmarco-passage.dev-subset.txt &
+ -bm25 -bm25.k1 0.82 -bm25.b 0.68 -rm3 -output run.msmarco-passage-docTTTTTquery.bm25-tuned+rm3.topics.msmarco-passage.dev-subset.txt &
 ```
 
 Evaluation can be performed using `trec_eval`:
