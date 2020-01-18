@@ -31,8 +31,8 @@ if __name__ == '__main__':
             query_id, _, _, _ = line.rstrip().split('\t')
             qrels.add(query_id)
 
-    with open(args.output_queries, 'w') as fout:
-        with open(args.queries) as f:
+    with open(args.output_queries, 'w', encoding='utf-8', newline='\n') as fout:
+        with open(args.queries, encoding='utf-8') as f:
             for line in f:
                 query_id, _ = line.rstrip().split('\t')
                 if query_id in qrels:

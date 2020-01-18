@@ -40,19 +40,19 @@ nohup target/appassembler/bin/SearchCollection -index lucene-index.car17v1.5.pos
 
 nohup target/appassembler/bin/SearchCollection -index lucene-index.car17v1.5.pos+docvectors+rawdocs \
  -topicreader Car -topics src/main/resources/topics-and-qrels/topics.car17v1.5.benchmarkY1test.txt \
- -bm25 -axiom -rerankCutoff 20 -axiom.deterministic -output run.car17v1.5.bm25+ax.topics.car17v1.5.benchmarkY1test.txt &
+ -bm25 -axiom -axiom.deterministic -rerankCutoff 20 -output run.car17v1.5.bm25+ax.topics.car17v1.5.benchmarkY1test.txt &
 
 nohup target/appassembler/bin/SearchCollection -index lucene-index.car17v1.5.pos+docvectors+rawdocs \
  -topicreader Car -topics src/main/resources/topics-and-qrels/topics.car17v1.5.benchmarkY1test.txt \
- -ql -output run.car17v1.5.ql.topics.car17v1.5.benchmarkY1test.txt &
+ -qld -output run.car17v1.5.ql.topics.car17v1.5.benchmarkY1test.txt &
 
 nohup target/appassembler/bin/SearchCollection -index lucene-index.car17v1.5.pos+docvectors+rawdocs \
  -topicreader Car -topics src/main/resources/topics-and-qrels/topics.car17v1.5.benchmarkY1test.txt \
- -ql -rm3 -output run.car17v1.5.ql+rm3.topics.car17v1.5.benchmarkY1test.txt &
+ -qld -rm3 -output run.car17v1.5.ql+rm3.topics.car17v1.5.benchmarkY1test.txt &
 
 nohup target/appassembler/bin/SearchCollection -index lucene-index.car17v1.5.pos+docvectors+rawdocs \
  -topicreader Car -topics src/main/resources/topics-and-qrels/topics.car17v1.5.benchmarkY1test.txt \
- -ql -axiom -rerankCutoff 20 -axiom.deterministic -output run.car17v1.5.ql+ax.topics.car17v1.5.benchmarkY1test.txt &
+ -qld -axiom -axiom.deterministic -rerankCutoff 20 -output run.car17v1.5.ql+ax.topics.car17v1.5.benchmarkY1test.txt &
 ```
 
 Evaluation can be performed using `trec_eval`:

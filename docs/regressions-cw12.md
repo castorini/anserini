@@ -46,17 +46,17 @@ nohup target/appassembler/bin/SearchCollection -index lucene-index.cw12.pos+docv
 
 nohup target/appassembler/bin/SearchCollection -index lucene-index.cw12.pos+docvectors+rawdocs \
  -topicreader Webxml -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt \
- -ql -output run.cw12.ql.topics.web.201-250.txt &
+ -qld -output run.cw12.ql.topics.web.201-250.txt &
 nohup target/appassembler/bin/SearchCollection -index lucene-index.cw12.pos+docvectors+rawdocs \
  -topicreader Webxml -topics src/main/resources/topics-and-qrels/topics.web.251-300.txt \
- -ql -output run.cw12.ql.topics.web.251-300.txt &
+ -qld -output run.cw12.ql.topics.web.251-300.txt &
 
 nohup target/appassembler/bin/SearchCollection -index lucene-index.cw12.pos+docvectors+rawdocs \
  -topicreader Webxml -topics src/main/resources/topics-and-qrels/topics.web.201-250.txt \
- -ql -rm3 -output run.cw12.ql+rm3.topics.web.201-250.txt &
+ -qld -rm3 -output run.cw12.ql+rm3.topics.web.201-250.txt &
 nohup target/appassembler/bin/SearchCollection -index lucene-index.cw12.pos+docvectors+rawdocs \
  -topicreader Webxml -topics src/main/resources/topics-and-qrels/topics.web.251-300.txt \
- -ql -rm3 -output run.cw12.ql+rm3.topics.web.251-300.txt &
+ -qld -rm3 -output run.cw12.ql+rm3.topics.web.251-300.txt &
 ```
 
 Evaluation can be performed using `trec_eval` and `gdeval.pl`:
