@@ -39,19 +39,19 @@ nohup target/appassembler/bin/SearchCollection -index lucene-index.core17.pos+do
 
 nohup target/appassembler/bin/SearchCollection -index lucene-index.core17.pos+docvectors+rawdocs \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.core17.txt \
- -bm25 -axiom -rerankCutoff 20 -axiom.deterministic -output run.core17.bm25+ax.topics.core17.txt &
+ -bm25 -axiom -axiom.deterministic -rerankCutoff 20 -output run.core17.bm25+ax.topics.core17.txt &
 
 nohup target/appassembler/bin/SearchCollection -index lucene-index.core17.pos+docvectors+rawdocs \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.core17.txt \
- -ql -output run.core17.ql.topics.core17.txt &
+ -qld -output run.core17.ql.topics.core17.txt &
 
 nohup target/appassembler/bin/SearchCollection -index lucene-index.core17.pos+docvectors+rawdocs \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.core17.txt \
- -ql -rm3 -output run.core17.ql+rm3.topics.core17.txt &
+ -qld -rm3 -output run.core17.ql+rm3.topics.core17.txt &
 
 nohup target/appassembler/bin/SearchCollection -index lucene-index.core17.pos+docvectors+rawdocs \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.core17.txt \
- -ql -axiom -rerankCutoff 20 -axiom.deterministic -output run.core17.ql+ax.topics.core17.txt &
+ -qld -axiom -axiom.deterministic -rerankCutoff 20 -output run.core17.ql+ax.topics.core17.txt &
 ```
 
 Evaluation can be performed using `trec_eval`:

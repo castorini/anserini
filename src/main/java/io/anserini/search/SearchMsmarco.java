@@ -141,6 +141,8 @@ public class SearchMsmarco {
         }
       }
     }
+
+    searcher.close();
     out.flush();
     out.close();
 
