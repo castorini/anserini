@@ -87,3 +87,4 @@ P30                                     | BM25      | +RM3      | +Ax       | QL
 
 + Results replicated by [@chriskamphuis](https://github.com/chriskamphuis) on 2018-12-18 (commit [`a15235`](https://github.com/castorini/Anserini/commit/a152359435ac6ae694b39f561343bba5eed8fdc9))
 + Results replicated by [@infinitecold](https://github.com/infinitecold) on 2019-09-08 (commit [`a1892ae`](https://github.com/castorini/anserini/commit/a1892aec726efe55111a7bc501ab0914afab3a30))
++ Results replicated by [@JMMackenzie](https://github.com/JMMackenzie) on 2020-01-21 (commit [`f63cd22`](https://github.com/castorini/anserini/commit/f63cd2275fa5a9d4da2d17e5f983a3308e8b50ce))
