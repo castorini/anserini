@@ -147,11 +147,17 @@ public class JsonCollection extends DocumentCollection<JsonCollection.Document> 
 
     @Override
     public String id() {
+      if (id == null) {
+        throw new RuntimeException("JSON document has no \"id\" field");
+      }
       return id;
     }
 
     @Override
     public String content() {
+      if (contents == null) {
+        throw new RuntimeException("JSON document has no \"contents\" field");
+      }
       return contents;
     }
 
