@@ -129,6 +129,10 @@
               <id>SearchMsmarco</id>
             </program>
             <program>
+               <mainClass>io.anserini.util.DumpAnalyzedQueries</mainClass>
+               <id>DumpAnalyzedQueries</id>
+            </program>
+            <program>
                <mainClass>io.anserini.util.ExtractDocumentLengths</mainClass>
                <id>ExtractDocumentLengths</id>
             </program>
