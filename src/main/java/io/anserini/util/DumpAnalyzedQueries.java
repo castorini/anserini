@@ -67,10 +67,10 @@ public class DumpAnalyzedQueries {
       // Can we infer the TopicReader?
       Class<? extends TopicReader> clazz = TopicReader.getTopicReaderByFile(args.topicsFile.toString());
       if (clazz != null) {
-        System.out.println(String.format("Inferring %s has TopicReader class %s", args.topicsFile, clazz));
+        System.out.println(String.format("Inferring %s has TopicReader class %s.", args.topicsFile, clazz));
       } else {
         // If not, get it from the command-line argument.
-        System.out.println(String.format("Unable to infer TopicReader class for %s, using specified class %s",
+        System.out.println(String.format("Unable to infer TopicReader class for %s, using specified class %s.",
             args.topicsFile, args.topicReader));
         if (args.topicReader == null) {
           System.err.println("Must specify TopicReader with -topicreader!");
@@ -83,7 +83,7 @@ public class DumpAnalyzedQueries {
       tr = (TopicReader<?>) clazz.getConstructor(Path.class).newInstance(args.topicsFile);
     } catch (Exception e) {
       e.printStackTrace();
-      throw new IllegalArgumentException("Unable to load topic reader: " + args.topicReader);
+      throw new IllegalArgumentException("Unable to load TopicReader: " + args.topicReader);
     }
 
     SortedMap<?, Map<String, String>> topics = tr.read();
@@ -94,5 +94,7 @@ public class DumpAnalyzedQueries {
       out.write((entry.getKey() + "\t" + StringUtils.join(tokens, " ") + "\n").getBytes());
     }
     out.close();
+
+    System.out.println("Done!");
   }
 }
