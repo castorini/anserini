@@ -27,6 +27,16 @@ import static org.junit.Assert.assertNotNull;
 public class TopicReaderTest {
 
   @Test
+  public void testTypelookup() {
+    assertEquals(TrecTopicReader.class,
+        TopicReader.getTopicReaderByFile("src/main/resources/topics-and-qrels/topics.robust04.txt"));
+    assertEquals(TrecTopicReader.class,
+        TopicReader.getTopicReaderByFile("topics.robust04.txt"));
+    assertEquals(null,
+        TopicReader.getTopicReaderByFile("topics.unknown.txt"));
+  }
+
+  @Test
   public void testNewswireTopics() {
     SortedMap<Integer, Map<String, String>> topics;
 
