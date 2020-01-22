@@ -31,10 +31,12 @@ import java.io.PrintStream;
 import java.nio.file.Paths;
 
 /**
- * Utility for extracting the document length and the number of unique terms from every document in the index,
- * using the indexed term vector (if available in the index). Outputs both the exact values and the value under
- * Lucene's lossy compression scheme that encodes an integer into a byte. With Lucene's BM25 implementation,
- * the lossy document length should be exactly the same as the stored norm of a document.
+ * Utility for extracting the document length and the number of unique terms from every document in the index using the
+ * indexed term vector. Outputs both the exact values and the value under Lucene's lossy compression scheme that encodes
+ * an integer into a byte. With Lucene's BM25 implementation, the lossy document length should be exactly the same as
+ * the stored norm of a document. Note that the term vector <i>must</i> be indexed in order for this utility to work;
+ * otherwise, there is no other way to recover the <i>exact</i> document length (with Lucene's default BM25
+ * implementation).
  */
 public class ExtractDocumentLengths {
 

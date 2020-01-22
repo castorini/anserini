@@ -39,7 +39,7 @@ import java.util.SortedMap;
 public abstract class TopicReader<K> {
   protected Path topicFile;
 
-  // Holds mappings from known topic files to corresponding topic reader type
+  // Holds mappings from known topic files to corresponding TopicReader class.
   static private final Map<String, Class<? extends TopicReader>> TOPIC_FILE_TO_TYPE = Map.ofEntries(
       Map.entry("topics.adhoc.51-100.txt", TrecTopicReader.class),
       Map.entry("topics.adhoc.101-150.txt", TrecTopicReader.class),
@@ -80,7 +80,7 @@ public abstract class TopicReader<K> {
    * @return the {@link TopicReader} class corresponding to a known topics file, or <code>null</code> if unknown.
    */
   public static Class<? extends TopicReader> getTopicReaderByFile(String file) {
-    // If we're giving something that looks like a path with directories, pull out only the file name at the end.
+    // If we're given something that looks like a path with directories, pull out only the file name at the end.
     if (file.contains("/")) {
       String[] parts = file.split("/");
       file = parts[parts.length-1];
@@ -120,6 +120,7 @@ public abstract class TopicReader<K> {
 
   /**
    * Returns a standard set of evaluation topics.
+   *
    * @param topics topics
    * @param <K> type of topic id
    * @return a set of evaluation topics
@@ -145,6 +146,7 @@ public abstract class TopicReader<K> {
    * Returns a standard set of evaluation topics, with strings as topic ids. This method is
    * primarily meant for calling from Python via Pyjnius. The conversion to string topic ids
    * is necessary because Pyjnius has trouble with generics.
+   *
    * @param topics topics
    * @return a set of evaluation topics, with strings as topic ids
    */

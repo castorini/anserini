@@ -37,8 +37,8 @@ import java.io.PrintStream;
 import java.nio.file.Paths;
 
 /**
- * Utility for extracting the norm of every document in the index. With Lucene's BM25 implementation, the norm
- * is the document length under Lucene's lossy compression scheme that encodes an integer into a byte.
+ * Utility for extracting the norm of every document in the index. With Lucene's BM25 implementation, the norm is the
+ * document length under Lucene's lossy compression scheme that encodes an integer into a byte.
  */
 public class ExtractNorms {
 
