@@ -23,7 +23,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
-import org.kohsuke.args4j.OptionHandlerFilter;
 import org.kohsuke.args4j.ParserProperties;
 
 import java.io.FileOutputStream;
@@ -34,9 +33,12 @@ import java.util.Map;
 import java.util.SortedMap;
 
 /**
- * Utility to dump out analyzed queries (i.e., "title" of topics).
+ * Utility to dump out query terms that have analyzed with Anserini's default Lucene Analyzer, EnglishStemmingAnalyzer
+ * with Porter stemming. Query terms are taken from the "title" of topics. Output is a TSV file, with (topic id,
+ * analyzed query) tuples; the analyzed query comprises space-delimited tokens.
  */
 public class DumpAnalyzedQueries {
+
   public static class Args {
     @Option(name = "-topicreader", metaVar = "[class]", usage = "topic reader")
     public String topicReader = null;
@@ -58,7 +60,6 @@ public class DumpAnalyzedQueries {
     } catch (CmdLineException e) {
       System.err.println(e.getMessage());
       parser.printUsage(System.err);
-      System.err.println("Example: DumpAnalyzedQueries " + parser.printExample(OptionHandlerFilter.REQUIRED));
       return;
     }
 
@@ -77,7 +78,8 @@ public class DumpAnalyzedQueries {
           System.exit(-1);
         }
 
-        clazz = (Class<? extends TopicReader>) Class.forName("io.anserini.search.topicreader." + args.topicReader + "TopicReader");
+        clazz = (Class<? extends TopicReader>) Class.forName(
+            "io.anserini.search.topicreader." + args.topicReader + "TopicReader");
       }
 
       tr = (TopicReader<?>) clazz.getConstructor(Path.class).newInstance(args.topicsFile);
