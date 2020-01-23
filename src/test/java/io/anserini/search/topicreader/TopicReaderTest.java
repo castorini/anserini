@@ -27,11 +27,13 @@ import static org.junit.Assert.assertNotNull;
 public class TopicReaderTest {
 
   @Test
-  public void testTypelookup() {
+  public void testTopicReaderClassLookup() {
     assertEquals(TrecTopicReader.class,
         TopicReader.getTopicReaderByFile("src/main/resources/topics-and-qrels/topics.robust04.txt"));
     assertEquals(TrecTopicReader.class,
         TopicReader.getTopicReaderByFile("topics.robust04.txt"));
+
+    // Unknown TopicReader class.
     assertEquals(null,
         TopicReader.getTopicReaderByFile("topics.unknown.txt"));
   }
