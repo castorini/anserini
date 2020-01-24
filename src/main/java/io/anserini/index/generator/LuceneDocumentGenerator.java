@@ -153,21 +153,6 @@ public class LuceneDocumentGenerator<T extends SourceDocument> {
     // Currently we just use all the settings of the main "content" field.
     if (src instanceof MultifieldSourceDocument) {
       ((MultifieldSourceDocument) src).fields().forEach((k, v) -> {
-        FieldType type = new FieldType();
-
-        type.setStored(args.storeTransformedDocs);
-
-        if (args.storeDocvectors) {
-          type.setStoreTermVectors(true);
-          type.setStoreTermVectorPositions(true);
-        }
-
-        if (args.storePositions) {
-          type.setIndexOptions(IndexOptions.DOCS_AND_FREQS_AND_POSITIONS);
-        } else {
-          type.setIndexOptions(IndexOptions.DOCS_AND_FREQS);
-        }
-
         document.add(new Field(k, v, fieldType));
       });
     }
