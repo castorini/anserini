@@ -47,7 +47,8 @@ public class CoreDocumentTest extends DocumentTest {
       "  \"topics\": [\"Topic 1\", \"Other\"]," +
       "  \"year\": 2020," +
       "  \"field1\": \"doc1 field1 content\"," +
-      "  \"field2\": \"doc1 field2 content\"" +
+      "  \"field2\": \"doc1 field2 content\"," +
+      "  \"nested_field\": {\"doc1key1\": \"doc1value1\", \"doc1key2\": \"doc1value2\"}" +
       "}\n" +
       "{ " +
       "  \"coreId\": \"coreDoc2\"," +
@@ -57,7 +58,8 @@ public class CoreDocumentTest extends DocumentTest {
       "  \"topics\": [\"Topic 2\", \"Other\"]," +
       "  \"year\": 2010," +
       "  \"field1\": \"doc2 field1 content\"," +
-      "  \"field2\": \"doc2 field2 content\"" +
+      "  \"field2\": \"doc2 field2 content\"," +
+      "  \"nested_field\": {\"doc2key1\": \"doc2value1\", \"doc2key2\": \"doc2value2\"}" +
       "}";
 
     rawFiles.add(createTmpFile(doc));
@@ -71,6 +73,9 @@ public class CoreDocumentTest extends DocumentTest {
     doc1.put("year", "2020");
     doc1.put("field1", "doc1 field1 content");
     doc1.put("field2", "doc1 field2 content");
+    doc1.put("nested_field", "doc1key1::doc1value1::doc1key2::doc1value2");
+    doc1.put("doc1key1", "doc1value1");
+    doc1.put("doc1key2", "doc1value2");
     expected.add(doc1);
     HashMap<String, String> doc2 = new HashMap<>();
     doc2.put("coreId", "coreDoc2");
@@ -81,6 +86,9 @@ public class CoreDocumentTest extends DocumentTest {
     doc2.put("year", "2010");
     doc2.put("field1", "doc2 field1 content");
     doc2.put("field2", "doc2 field2 content");
+    doc2.put("nested_field", "doc2key1::doc2value1::doc2key2::doc2value2");
+    doc2.put("doc2key1", "doc2value1");
+    doc2.put("doc2key2", "doc2value2");
     expected.add(doc2);
   }
 
