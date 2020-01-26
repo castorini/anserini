@@ -69,7 +69,7 @@ public class CoreDocumentTest extends DocumentTest {
     doc1.put("doi", "null");
     doc1.put("title", "this is the title 1");
     doc1.put("abstract", "this is the abstract 1");
-    doc1.put("topics", "Topic 1::Other");
+    doc1.put("topics", "Topic 1 :: Other");
     doc1.put("year", "2020");
     doc1.put("field1", "doc1 field1 content");
     doc1.put("field2", "doc1 field2 content");
@@ -82,7 +82,7 @@ public class CoreDocumentTest extends DocumentTest {
     doc2.put("doi", "doi2");
     doc2.put("title", "this is the title 2");
     doc2.put("abstract", "this is the abstract 2");
-    doc2.put("topics", "Topic 2::Other");
+    doc2.put("topics", "Topic 2 :: Other");
     doc2.put("year", "2010");
     doc2.put("field1", "doc2 field1 content");
     doc2.put("field2", "doc2 field2 content");
