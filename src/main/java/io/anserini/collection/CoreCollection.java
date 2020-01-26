@@ -20,6 +20,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.MappingIterator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.tukaani.xz.XZInputStream;
@@ -127,10 +128,22 @@ public class CoreCollection extends DocumentCollection<CoreCollection.Document> 
           this.contents = json.get("title").asText() + "\n" + json.get("abstract").asText();
         } else if (e.getValue() instanceof ArrayNode) {
           ArrayNode arrayField = (ArrayNode) e.getValue();
-          StringJoiner sj = new StringJoiner("::");
-          arrayField.elements().forEachRemaining( arrayElement -> {
+          StringJoiner sj = new StringJoiner(" :: ");
+          arrayField.elements().forEachRemaining(arrayElement -> {
             sj.add(arrayElement.asText());
           });
+          this.fields.put(e.getKey(), sj.toString());
+        } else if (e.getValue() instanceof ObjectNode) {
+          ObjectNode nestedField = (ObjectNode) e.getValue();
+          StringJoiner sj = new StringJoiner(" :: ");
+          Iterator<Map.Entry<String, JsonNode>> items = nestedField.fields();
+          while (items.hasNext()) {
+            Map.Entry<String, JsonNode> item = items.next();
+            if (item.getKey() != "id") {
+              this.fields.put(item.getKey(), item.getValue().asText());
+            }
+            sj.add(item.getKey() + " -> " + item.getValue().asText());
+          }
           this.fields.put(e.getKey(), sj.toString());
         } else {
           this.fields.put(e.getKey(), e.getValue().asText());
