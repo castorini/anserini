@@ -127,7 +127,7 @@ public class CoreCollection extends DocumentCollection<CoreCollection.Document> 
           this.contents = json.get("title").asText() + "\n" + json.get("abstract").asText();
         } else if (e.getValue() instanceof ArrayNode) {
           ArrayNode arrayField = (ArrayNode) e.getValue();
-          StringJoiner sj = new StringJoiner("::");
+          StringJoiner sj = new StringJoiner(" :: ");
           arrayField.elements().forEachRemaining( arrayElement -> {
             sj.add(arrayElement.asText());
           });
