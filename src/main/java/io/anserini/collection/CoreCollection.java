@@ -135,15 +135,14 @@ public class CoreCollection extends DocumentCollection<CoreCollection.Document> 
           this.fields.put(e.getKey(), sj.toString());
         } else if (e.getValue() instanceof ObjectNode) {
           ObjectNode nestedField = (ObjectNode) e.getValue();
-          StringJoiner sj = new StringJoiner("::");
+          StringJoiner sj = new StringJoiner(" :: ");
           Iterator<Map.Entry<String, JsonNode>> items = nestedField.fields();
           while (items.hasNext()) {
             Map.Entry<String, JsonNode> item = items.next();
             if (item.getKey() != "id") {
               this.fields.put(item.getKey(), item.getValue().asText());
             }
-            sj.add(item.getKey());
-            sj.add(item.getValue().asText());
+            sj.add(item.getKey() + " -> " + item.getValue().asText());
           }
           this.fields.put(e.getKey(), sj.toString());
         } else {
