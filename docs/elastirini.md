@@ -76,6 +76,8 @@ sh target/appassembler/bin/IndexCollection -collection JsonCollection -generator
  -es -es.index msmarco-passage -threads 9 -input /path/to/msmarco-passage -storePositions -storeDocvectors -storeRawDocs
 ```
 
+We may need to wait a few minutes after indexing for the index to catch up before performing retrieval, otherwise wrong evaluation metrics are returned.
+
 Retrieval:
 
 ```bash
@@ -115,6 +117,5 @@ python src/main/python/run_es_regression.py --regression [collection] --input [d
 
 ## Replication Log
 
-+ Results replicated by [@edwinzhng](https://github.com/edwinzhng) on 2020-01-18 (commit [`90c5be8`](https://github.com/castorini/anserini/commit/90c5be8723ba167118d04f16068501f87d7ce1ce)) for [MS MARCO Passage](experiments-msmarco-passage.md)
 + Results replicated by [@nikhilro](https://github.com/nikhilro) on 2020-01-26 (commit [`d5ee069`](https://github.com/castorini/anserini/commit/d5ee069399e6a306d7685bda756c1f19db721156)) for both [MS MARCO Passage](experiments-msmarco-passage.md) and [Robust04](regressions-robust04.md)
-
++ Results replicated by [@edwinzhng](https://github.com/edwinzhng) on 2020-01-26 (commit [`7b76dfb`](https://github.com/castorini/anserini/commit/7b76dfbea7e0c01a3a5dc13e74f54852c780ec9b)) for both [MS MARCO Passage](experiments-msmarco-passage.md) and [Robust04](regressions-robust04.md)
