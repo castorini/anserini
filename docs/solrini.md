@@ -109,3 +109,7 @@ python src/main/python/run_solr_regression.py --evaluate core18
 # Run end to end
 python src/main/python/run_solr_regression.py --regression core18 --input /path/to/WashingtonPost
 ```
+
+## Replication Log
+
++ Results replicated by [@nikhilro](https://github.com/nikhilro) on 2020-01-26 (commit [`1882d84`](https://github.com/castorini/anserini/commit/1882d84236b13cd4673d2d8fa91003438eea2d82)) for both [Washington Post](regressions-core18.md) and [Robust04](regressions-robust04.md)
