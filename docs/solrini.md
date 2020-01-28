@@ -113,3 +113,4 @@ python src/main/python/run_solr_regression.py --regression core18 --input /path/
 ## Replication Log
 
 + Results replicated by [@nikhilro](https://github.com/nikhilro) on 2020-01-26 (commit [`1882d84`](https://github.com/castorini/anserini/commit/1882d84236b13cd4673d2d8fa91003438eea2d82)) for both [Washington Post](regressions-core18.md) and [Robust04](regressions-robust04.md)
++ Results replicated by [@edwinzhng](https://github.com/edwinzhng) on 2020-01-28 (commit [`a79cb62`](https://github.com/castorini/anserini/commit/a79cb62a57a059113a6c3b1523b582b89dccf0a1)) for both [Washington Post](regressions-core18.md) and [Robust04](regressions-robust04.md)
