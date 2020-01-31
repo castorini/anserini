@@ -139,6 +139,10 @@
             <program>
                <mainClass>io.anserini.util.ExtractNorms</mainClass>
                <id>ExtractNorms</id>
+						</program>
+						<program>
+               <mainClass>io.anserini.util.ExtractAverageDocumentLength</mainClass>
+               <id>ExtractAverageDocumentLength</id>
             </program>
             <program>
               <mainClass>io.anserini.index.IndexUtils</mainClass>
