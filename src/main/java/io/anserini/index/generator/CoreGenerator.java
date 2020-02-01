@@ -20,9 +20,12 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.NullNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import io.anserini.analysis.NonStemmingAnalyzer;
 import io.anserini.collection.CoreCollection;
 import io.anserini.index.IndexArgs;
 import io.anserini.index.IndexCollection;
+import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.FieldType;
@@ -33,6 +36,7 @@ import org.apache.lucene.document.StringField;
 import org.apache.lucene.index.IndexOptions;
 import org.apache.lucene.util.BytesRef;
 
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -79,15 +83,18 @@ public class CoreGenerator extends LuceneDocumentGenerator<CoreCollection.Docume
     CoreField.DOI.name,
     CoreField.OAI.name,
     CoreField.IDENTIFIERS.name,
-    CoreField.AUTHORS.name,
-    CoreField.CONTRIBUTORS.name,
     CoreField.DATE_PUBLISHED.name,
-    CoreField.PUBLISHER.name,
     CoreField.DOWNLOAD_URL.name,
-    CoreField.JOURNALS.name,
-    CoreField.LANGUAGE.name,
     CoreField.RELATIONS.name,
     CoreField.FULL_TEXT_IDENTIFIER.name));
+
+  public static final List<String> FIELDS_WITHOUT_STEMMING = new ArrayList<>(Arrays.asList(
+    CoreField.IDENTIFIERS.name,
+    CoreField.AUTHORS.name,
+    CoreField.CONTRIBUTORS.name,
+    CoreField.PUBLISHER.name,
+    CoreField.JOURNALS.name,
+    CoreField.LANGUAGE.name));
 
   public CoreGenerator(IndexArgs args, IndexCollection.Counters counters) {
     super(args, counters);
@@ -134,11 +141,25 @@ public class CoreGenerator extends LuceneDocumentGenerator<CoreCollection.Docume
 
     coreDoc.jsonFields().forEach((k, v) -> {
       String fieldString = jsonNodeToString(v);
-      
-      if (STRING_FIELD_NAMES.contains(k)
-      ) {
-        // index field without analyzing
+
+      if (STRING_FIELD_NAMES.contains(k)) {
+        // index field as single token
         doc.add(new StringField(k, fieldString, Field.Store.YES));
+      } else if (FIELDS_WITHOUT_STEMMING.contains(k)) {
+        // index field without stemming but store original string value
+        FieldType nonStemmedType = new FieldType(fieldType);
+        nonStemmedType.setStored(true);
+
+        // token stream to be indexed
+        Analyzer nonStemmingAnalyzer = new NonStemmingAnalyzer();
+        StringReader reader = new StringReader(fieldString);
+        TokenStream stream = nonStemmingAnalyzer.tokenStream(null, reader);
+        
+        Field field = new Field(k, fieldString, nonStemmedType);
+        field.setTokenStream(stream);
+        doc.add(field);
+ 
+        nonStemmingAnalyzer.close();
       } else if (k == CoreField.YEAR.name) {
         if (fieldString != "") {
           // index as numeric value to allow range queries
@@ -154,7 +175,7 @@ public class CoreGenerator extends LuceneDocumentGenerator<CoreCollection.Docume
     return doc;
   }
 
-  private static String jsonNodeToString(JsonNode node) {
+  static String jsonNodeToString(JsonNode node) {
     if (node instanceof ArrayNode) {
       ArrayNode arrayField = (ArrayNode) node;
 

@@ -86,19 +86,19 @@ public class CoreDocumentTest extends DocumentTest {
 
     ObjectMapper mapper = new ObjectMapper();
     Map<String, JsonNode> doc1ExpectedJsonFields = new HashMap<>();
-    doc1ExpectedJsonFields.put("doi", NullNode.getInstance());
-    doc1ExpectedJsonFields.put("title", TextNode.valueOf("this is the title 1"));
-    doc1ExpectedJsonFields.put("topics", mapper.createArrayNode().add("Topic 1").add("Other"));
     doc1ExpectedJsonFields.put("year", IntNode.valueOf(2020));
-    doc1ExpectedJsonFields.put("nested_field", mapper.createObjectNode().put("doc1key1", "doc1value1"));
+    doc1ExpectedJsonFields.put("topics", mapper.createArrayNode().add("Topic 1").add("Other"));
+    doc1ExpectedJsonFields.put("title", TextNode.valueOf("this is the title 1"));
+    doc1ExpectedJsonFields.put("enrichments", mapper.createObjectNode().put("doc1key1", "doc1value1"));
+    doc1ExpectedJsonFields.put("doi", NullNode.getInstance());
     expectedJsonFields.add(doc1ExpectedJsonFields);
 
     Map<String, JsonNode> doc2ExpectedJsonFields = new HashMap<>();
-    doc2ExpectedJsonFields.put("doi", TextNode.valueOf("doi2"));
-    doc2ExpectedJsonFields.put("title", TextNode.valueOf("this is the title 2"));
-    doc2ExpectedJsonFields.put("topics", mapper.createArrayNode().add("Topic 2").add("Other"));
     doc2ExpectedJsonFields.put("year", IntNode.valueOf(2022));
-    doc2ExpectedJsonFields.put("nested_field", mapper.createObjectNode().put("doc2key1", "doc2value1"));
+    doc2ExpectedJsonFields.put("topics", mapper.createArrayNode().add("Topic 2").add("Other"));
+    doc2ExpectedJsonFields.put("title", TextNode.valueOf("this is the title 2"));
+    doc2ExpectedJsonFields.put("enrichments", mapper.createObjectNode().put("doc2key1", "doc2value1"));
+    doc2ExpectedJsonFields.put("doi", TextNode.valueOf("doi2"));
     expectedJsonFields.add(doc2ExpectedJsonFields);
   }
 
@@ -117,6 +117,7 @@ public class CoreDocumentTest extends DocumentTest {
       }
       out.finish();
       out.close();
+      in.close();
     } catch (IOException e) {}
     return tmpPath;
   }
@@ -131,10 +132,10 @@ public class CoreDocumentTest extends DocumentTest {
       int j = 0;
       while (iter.hasNext()) {
         CoreCollection.Document parsed = iter.next();
-        assertEquals(parsed.id(), ((expected.get(j).get("doi").equals("null")) ? expected.get(j).get("coreId") :
-                "doi:"+expected.get(j).get("doi")));
-        assertEquals(parsed.content(), expected.get(j).get("title") + "\n" + expected.get(j).get("abstract"));
-        assertEquals(parsed.jsonFields(), expectedJsonFields.get(j));
+        assertEquals(((expected.get(j).get("doi").equals("null")) ? expected.get(j).get("coreId")
+          : "doi:" + expected.get(j).get("doi")), parsed.id());
+        assertEquals(expected.get(j).get("title") + "\n" + expected.get(j).get("abstract"), parsed.content());
+        assertEquals(expectedJsonFields.get(j), parsed.jsonFields());
         j++;
       }
     }

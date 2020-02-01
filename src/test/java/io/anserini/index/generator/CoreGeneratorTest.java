@@ -21,6 +21,7 @@ import com.fasterxml.jackson.databind.node.IntNode;
 import com.fasterxml.jackson.databind.node.NullNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.node.TextNode;
+import io.anserini.analysis.NonStemmingAnalyzer;
 import io.anserini.collection.CoreCollection;
 import io.anserini.index.IndexArgs;
 import io.anserini.index.IndexCollection;
@@ -30,6 +31,8 @@ import org.apache.lucene.document.StringField;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
+
+import java.io.StringReader;
 
 import static org.junit.Assert.assertEquals;
 
@@ -98,9 +101,19 @@ public class CoreGeneratorTest {
     // null field value
     assertEquals(doc.getField(CoreGenerator.CoreField.DOWNLOAD_URL.name).stringValue(), "");
 
-    // make sure specified fields are stored without analyzing
+    // make sure specified fields are stored as single tokens
     CoreGenerator.STRING_FIELD_NAMES.forEach(field -> {
       assertEquals(StringField.class, doc.getField(field).getClass());
+    });
+
+    // make sure specified fields are stored without stemming
+    CoreGenerator.FIELDS_WITHOUT_STEMMING.forEach(field -> {
+      assertEquals(new NonStemmingAnalyzer().tokenStream(null,
+        new StringReader(CoreGenerator.jsonNodeToString(coreDoc.jsonFields().get(field)))),
+        doc.getField(field).tokenStream(null, null));
+
+      assertEquals(CoreGenerator.jsonNodeToString(coreDoc.jsonFields().get(field)),
+        doc.getField(field).stringValue());
     });
 
     // make sure year is stored as numeric
