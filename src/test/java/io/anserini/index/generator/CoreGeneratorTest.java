@@ -38,6 +38,7 @@ import static org.junit.Assert.assertEquals;
 
 public class CoreGeneratorTest {
   CoreCollection.Document coreDoc;
+  Document doc;
 
   @Mock
   IndexCollection.Counters counters;
@@ -72,13 +73,13 @@ public class CoreGeneratorTest {
           .set("confidence", NullNode.getInstance())));
 
     coreDoc = new CoreCollection.Document(coreJsonObj);
+
+    CoreGenerator generator = new CoreGenerator(new IndexArgs(), counters);
+    doc = generator.createDocument(coreDoc);
   }
 
   @Test
-  public void testGenerator() throws Exception {
-    CoreGenerator generator = new CoreGenerator(new IndexArgs(), counters);
-    Document doc = generator.createDocument(coreDoc);
-
+  public void testJsonStringParsing() throws Exception {
     // test proper id and contents field generated from CoreCollection
     assertEquals("doi:doi_text", doc.getField(CoreGenerator.FIELD_ID).stringValue());
     assertEquals("every startup ever\nmachine learning blockchain quantum vr",
@@ -100,7 +101,10 @@ public class CoreGeneratorTest {
 
     // null field value
     assertEquals(doc.getField(CoreGenerator.CoreField.DOWNLOAD_URL.name).stringValue(), "");
+  }
 
+  @Test
+  public void testDocumentFields() throws Exception {
     // make sure specified fields are stored as single tokens
     CoreGenerator.STRING_FIELD_NAMES.forEach(field -> {
       assertEquals(StringField.class, doc.getField(field).getClass());
