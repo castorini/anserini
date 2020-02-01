@@ -19,8 +19,6 @@ package io.anserini.collection;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.MappingIterator;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.tukaani.xz.XZInputStream;
@@ -36,7 +34,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.NoSuchElementException;
-import java.util.StringJoiner;
 
 /**
  * A document collection in the
@@ -97,7 +94,6 @@ public class CoreCollection extends DocumentCollection<CoreCollection.Document> 
         }
       } else if (node.isArray()) {
         if (iter != null && iter.hasNext()) {
-          JsonNode json = iter.next();
           bufferedRecord = new CoreCollection.Document(node);
         } else {
           throw new NoSuchElementException("Reached end of JsonNode iterator");
@@ -112,13 +108,13 @@ public class CoreCollection extends DocumentCollection<CoreCollection.Document> 
   /**
    * A document in a JSON collection.
    */
-  public static class Document implements MultifieldSourceDocument {
+  public static class Document implements SourceDocument {
     private String id;
     private String contents;
-    private Map<String, String> fields;
+    private Map<String, JsonNode> jsonFields;
 
     public Document(JsonNode json) {
-      this.fields = new HashMap<>();
+      this.jsonFields = new HashMap<>();
 
       json.fields().forEachRemaining( e -> {
         if ("coreId".equals(e.getKey())) {
@@ -126,27 +122,8 @@ public class CoreCollection extends DocumentCollection<CoreCollection.Document> 
                   "doi:" + json.get("doi").asText();
         } else if ("abstract".equals(e.getKey())) {
           this.contents = json.get("title").asText() + "\n" + json.get("abstract").asText();
-        } else if (e.getValue() instanceof ArrayNode) {
-          ArrayNode arrayField = (ArrayNode) e.getValue();
-          StringJoiner sj = new StringJoiner(" :: ");
-          arrayField.elements().forEachRemaining(arrayElement -> {
-            sj.add(arrayElement.asText());
-          });
-          this.fields.put(e.getKey(), sj.toString());
-        } else if (e.getValue() instanceof ObjectNode) {
-          ObjectNode nestedField = (ObjectNode) e.getValue();
-          StringJoiner sj = new StringJoiner(" :: ");
-          Iterator<Map.Entry<String, JsonNode>> items = nestedField.fields();
-          while (items.hasNext()) {
-            Map.Entry<String, JsonNode> item = items.next();
-            if (item.getKey() != "id") {
-              this.fields.put(item.getKey(), item.getValue().asText());
-            }
-            sj.add(item.getKey() + " -> " + item.getValue().asText());
-          }
-          this.fields.put(e.getKey(), sj.toString());
         } else {
-          this.fields.put(e.getKey(), e.getValue().asText());
+          jsonFields.put(e.getKey(), e.getValue());
         }
       });
     }
@@ -166,9 +143,8 @@ public class CoreCollection extends DocumentCollection<CoreCollection.Document> 
       return true;
     }
 
-    @Override
-    public Map<String, String> fields() {
-      return fields;
+    public Map<String, JsonNode> jsonFields() {
+      return jsonFields;
     }
   }
 }

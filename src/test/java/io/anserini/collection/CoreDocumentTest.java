@@ -16,6 +16,11 @@
 
 package io.anserini.collection;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.IntNode;
+import com.fasterxml.jackson.databind.node.NullNode;
+import com.fasterxml.jackson.databind.node.TextNode;
 import org.apache.tools.ant.filters.StringInputStream;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,12 +32,15 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class CoreDocumentTest extends DocumentTest {
+  List<Map<String, JsonNode>> expectedJsonFields;
 
   @Before
   public void setUp() throws Exception {
@@ -46,9 +54,7 @@ public class CoreDocumentTest extends DocumentTest {
       "  \"abstract\": \"this is the abstract 1\"," +
       "  \"topics\": [\"Topic 1\", \"Other\"]," +
       "  \"year\": 2020," +
-      "  \"field1\": \"doc1 field1 content\"," +
-      "  \"field2\": \"doc1 field2 content\"," +
-      "  \"nested_field\": {\"doc1key1\": \"doc1value1\", \"doc1key2\": \"doc1value2\"}" +
+      "  \"nested_field\": {\"doc1key1\": \"doc1value1\"}" +
       "}\n" +
       "{ " +
       "  \"coreId\": \"coreDoc2\"," +
@@ -56,10 +62,8 @@ public class CoreDocumentTest extends DocumentTest {
       "  \"title\": \"this is the title 2\"," +
       "  \"abstract\": \"this is the abstract 2\"," +
       "  \"topics\": [\"Topic 2\", \"Other\"]," +
-      "  \"year\": 2010," +
-      "  \"field1\": \"doc2 field1 content\"," +
-      "  \"field2\": \"doc2 field2 content\"," +
-      "  \"nested_field\": {\"doc2key1\": \"doc2value1\", \"doc2key2\": \"doc2value2\"}" +
+      "  \"year\": 2022," +
+      "  \"nested_field\": {\"doc2key1\": \"doc2value1\"}" +
       "}";
 
     rawFiles.add(createTmpFile(doc));
@@ -69,27 +73,33 @@ public class CoreDocumentTest extends DocumentTest {
     doc1.put("doi", "null");
     doc1.put("title", "this is the title 1");
     doc1.put("abstract", "this is the abstract 1");
-    doc1.put("topics", "Topic 1 :: Other");
-    doc1.put("year", "2020");
-    doc1.put("field1", "doc1 field1 content");
-    doc1.put("field2", "doc1 field2 content");
-    doc1.put("nested_field", "doc1key1 -> doc1value1 :: doc1key2 -> doc1value2");
-    doc1.put("doc1key1", "doc1value1");
-    doc1.put("doc1key2", "doc1value2");
     expected.add(doc1);
+
     HashMap<String, String> doc2 = new HashMap<>();
     doc2.put("coreId", "coreDoc2");
     doc2.put("doi", "doi2");
     doc2.put("title", "this is the title 2");
     doc2.put("abstract", "this is the abstract 2");
-    doc2.put("topics", "Topic 2 :: Other");
-    doc2.put("year", "2010");
-    doc2.put("field1", "doc2 field1 content");
-    doc2.put("field2", "doc2 field2 content");
-    doc2.put("nested_field", "doc2key1 -> doc2value1 :: doc2key2 -> doc2value2");
-    doc2.put("doc2key1", "doc2value1");
-    doc2.put("doc2key2", "doc2value2");
     expected.add(doc2);
+
+    expectedJsonFields = new ArrayList<>();
+
+    ObjectMapper mapper = new ObjectMapper();
+    Map<String, JsonNode> doc1ExpectedJsonFields = new HashMap<>();
+    doc1ExpectedJsonFields.put("doi", NullNode.getInstance());
+    doc1ExpectedJsonFields.put("title", TextNode.valueOf("this is the title 1"));
+    doc1ExpectedJsonFields.put("topics", mapper.createArrayNode().add("Topic 1").add("Other"));
+    doc1ExpectedJsonFields.put("year", IntNode.valueOf(2020));
+    doc1ExpectedJsonFields.put("nested_field", mapper.createObjectNode().put("doc1key1", "doc1value1"));
+    expectedJsonFields.add(doc1ExpectedJsonFields);
+
+    Map<String, JsonNode> doc2ExpectedJsonFields = new HashMap<>();
+    doc2ExpectedJsonFields.put("doi", TextNode.valueOf("doi2"));
+    doc2ExpectedJsonFields.put("title", TextNode.valueOf("this is the title 2"));
+    doc2ExpectedJsonFields.put("topics", mapper.createArrayNode().add("Topic 2").add("Other"));
+    doc2ExpectedJsonFields.put("year", IntNode.valueOf(2022));
+    doc2ExpectedJsonFields.put("nested_field", mapper.createObjectNode().put("doc2key1", "doc2value1"));
+    expectedJsonFields.add(doc2ExpectedJsonFields);
   }
 
   private Path createTmpFile(String doc) {
@@ -115,7 +125,6 @@ public class CoreDocumentTest extends DocumentTest {
   public void test() throws IOException {
     CoreCollection collection = new CoreCollection();
 
-
     for (int i = 0; i < rawFiles.size(); i++) {
       Iterator<CoreCollection.Document> iter =
               collection.createFileSegment(rawFiles.get(i)).iterator();
@@ -125,9 +134,7 @@ public class CoreDocumentTest extends DocumentTest {
         assertEquals(parsed.id(), ((expected.get(j).get("doi").equals("null")) ? expected.get(j).get("coreId") :
                 "doi:"+expected.get(j).get("doi")));
         assertEquals(parsed.content(), expected.get(j).get("title") + "\n" + expected.get(j).get("abstract"));
-        for (Map.Entry<String, String> e : parsed.fields().entrySet()) {
-          assertEquals(e.getValue(), expected.get(j).get(e.getKey()));
-        }
+        assertEquals(parsed.jsonFields(), expectedJsonFields.get(j));
         j++;
       }
     }
