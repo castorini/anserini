@@ -54,7 +54,7 @@ public class CoreDocumentTest extends DocumentTest {
       "  \"abstract\": \"this is the abstract 1\"," +
       "  \"topics\": [\"Topic 1\", \"Other\"]," +
       "  \"year\": 2020," +
-      "  \"nested_field\": {\"doc1key1\": \"doc1value1\"}" +
+      "  \"enrichments\": {\"doc1key1\": \"doc1value1\"}" +
       "}\n" +
       "{ " +
       "  \"coreId\": \"coreDoc2\"," +
@@ -63,7 +63,7 @@ public class CoreDocumentTest extends DocumentTest {
       "  \"abstract\": \"this is the abstract 2\"," +
       "  \"topics\": [\"Topic 2\", \"Other\"]," +
       "  \"year\": 2022," +
-      "  \"nested_field\": {\"doc2key1\": \"doc2value1\"}" +
+      "  \"enrichments\": {\"doc2key1\": \"doc2value1\"}" +
       "}";
 
     rawFiles.add(createTmpFile(doc));

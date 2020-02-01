@@ -123,7 +123,7 @@ public class CoreCollection extends DocumentCollection<CoreCollection.Document> 
         } else if ("abstract".equals(e.getKey())) {
           this.contents = json.get("title").asText() + "\n" + json.get("abstract").asText();
         } else {
-          jsonFields.put(e.getKey(), e.getValue());
+          this.jsonFields.put(e.getKey(), e.getValue());
         }
       });
     }

@@ -387,5 +387,10 @@
       <artifactId>wdtk-dumpfiles</artifactId>
       <version>0.10.0</version>
     </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-all</artifactId>
+      <version>1.10.19</version>
+    </dependency>
   </dependencies>
 </project>

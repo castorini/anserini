@@ -18,6 +18,7 @@ package io.anserini.index.generator;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.NullNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.anserini.collection.CoreCollection;
 import io.anserini.index.IndexArgs;
@@ -32,6 +33,8 @@ import org.apache.lucene.document.StringField;
 import org.apache.lucene.index.IndexOptions;
 import org.apache.lucene.util.BytesRef;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -45,7 +48,7 @@ public class CoreGenerator extends LuceneDocumentGenerator<CoreCollection.Docume
   public static final String FIELD_BODY = "contents";
   public static final String FIELD_RAW = "raw";
 
-  public enum CoreField {
+  public static enum CoreField {
     DOI("doi"),
     OAI("oai"),
     IDENTIFIERS("identifiers"),
@@ -71,6 +74,20 @@ public class CoreGenerator extends LuceneDocumentGenerator<CoreCollection.Docume
       name = s;
     }
   }
+
+  public static final List<String> STRING_FIELD_NAMES = new ArrayList<>(Arrays.asList(
+    CoreField.DOI.name,
+    CoreField.OAI.name,
+    CoreField.IDENTIFIERS.name,
+    CoreField.AUTHORS.name,
+    CoreField.CONTRIBUTORS.name,
+    CoreField.DATE_PUBLISHED.name,
+    CoreField.PUBLISHER.name,
+    CoreField.DOWNLOAD_URL.name,
+    CoreField.JOURNALS.name,
+    CoreField.LANGUAGE.name,
+    CoreField.RELATIONS.name,
+    CoreField.FULL_TEXT_IDENTIFIER.name));
 
   public CoreGenerator(IndexArgs args, IndexCollection.Counters counters) {
     super(args, counters);
@@ -118,30 +135,18 @@ public class CoreGenerator extends LuceneDocumentGenerator<CoreCollection.Docume
     coreDoc.jsonFields().forEach((k, v) -> {
       String fieldString = jsonNodeToString(v);
       
-      if (List.of(
-        CoreField.DOI.name,
-        CoreField.OAI.name,
-        CoreField.IDENTIFIERS.name,
-        CoreField.AUTHORS.name,
-        CoreField.CONTRIBUTORS.name,
-        CoreField.DATE_PUBLISHED.name,
-        CoreField.PUBLISHER.name,
-        CoreField.DOWNLOAD_URL.name,
-        CoreField.JOURNALS.name,
-        CoreField.LANGUAGE.name,
-        CoreField.RELATIONS.name,
-        CoreField.FULL_TEXT_IDENTIFIER.name).contains(k)
+      if (STRING_FIELD_NAMES.contains(k)
       ) {
-        // index field without stemming
+        // index field without analyzing
         doc.add(new StringField(k, fieldString, Field.Store.YES));
       } else if (k == CoreField.YEAR.name) {
-        if (fieldString != "null") {
+        if (fieldString != "") {
           // index as numeric value to allow range queries
           doc.add(new IntPoint(k, Integer.parseInt(fieldString)));
         }
         doc.add(new StoredField(k, fieldString));
       } else {
-        // default to normal Field with stemming
+        // default to normal Field with tokenization and stemming
         doc.add(new Field(k, fieldString, fieldType));
       }
     });
@@ -152,6 +157,12 @@ public class CoreGenerator extends LuceneDocumentGenerator<CoreCollection.Docume
   private static String jsonNodeToString(JsonNode node) {
     if (node instanceof ArrayNode) {
       ArrayNode arrayField = (ArrayNode) node;
+
+      // handle empty array
+      if (!arrayField.elements().hasNext()) {
+        return "[]";
+      }
+
       StringJoiner sj = new StringJoiner(" :: ");
 
       // recursively parse array fields
@@ -162,6 +173,12 @@ public class CoreGenerator extends LuceneDocumentGenerator<CoreCollection.Docume
       return sj.toString();
     } else if (node instanceof ObjectNode) {
       ObjectNode nestedField = (ObjectNode) node;
+
+      // handle empty object
+      if (!nestedField.fields().hasNext()) {
+        return "{}";
+      }
+
       StringJoiner sj = new StringJoiner(" :: ");
       Iterator<Map.Entry<String, JsonNode>> items = nestedField.fields();
 
@@ -173,6 +190,8 @@ public class CoreGenerator extends LuceneDocumentGenerator<CoreCollection.Docume
       }
 
       return sj.toString();
+    } else if (node instanceof NullNode) {
+      return "";
     } else {
       return node.asText();
     }
