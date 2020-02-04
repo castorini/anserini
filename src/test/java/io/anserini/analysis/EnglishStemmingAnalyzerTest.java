@@ -17,6 +17,7 @@
 package io.anserini.analysis;
 
 import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.analysis.CharArraySet;
 import org.junit.Test;
 
 import java.util.List;
@@ -48,4 +49,20 @@ public class EnglishStemmingAnalyzerTest {
     assertEquals("schedule", tokens.get(3));
   }
 
+  @Test
+  public void testNoStopwordsNoStemming() {
+    Analyzer analyzer = new EnglishStemmingAnalyzer(CharArraySet.EMPTY_SET);
+    List<String> tokens = AnalyzerUtils.tokenize(analyzer, "this should not do stemming and should have stopwords");
+
+    assertEquals(9, tokens.size());
+    assertEquals("this", tokens.get(0));
+    assertEquals("should", tokens.get(1));
+    assertEquals("not", tokens.get(2));
+    assertEquals("do", tokens.get(3));
+    assertEquals("stemming", tokens.get(4));
+    assertEquals("and", tokens.get(5));
+    assertEquals("should", tokens.get(6));
+    assertEquals("have", tokens.get(7));
+    assertEquals("stopwords", tokens.get(8));
+  }
 }
