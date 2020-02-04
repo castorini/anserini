@@ -20,11 +20,12 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.NullNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import io.anserini.analysis.NonStemmingAnalyzer;
+import io.anserini.analysis.EnglishStemmingAnalyzer;
 import io.anserini.collection.CoreCollection;
 import io.anserini.index.IndexArgs;
 import io.anserini.index.IndexCollection;
 import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.analysis.CharArraySet;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
@@ -151,7 +152,7 @@ public class CoreGenerator extends LuceneDocumentGenerator<CoreCollection.Docume
         nonStemmedType.setStored(true);
 
         // token stream to be indexed
-        Analyzer nonStemmingAnalyzer = new NonStemmingAnalyzer();
+        Analyzer nonStemmingAnalyzer = new EnglishStemmingAnalyzer(CharArraySet.EMPTY_SET);
         StringReader reader = new StringReader(fieldString);
         TokenStream stream = nonStemmingAnalyzer.tokenStream(null, reader);
         
