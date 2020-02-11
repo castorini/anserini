@@ -84,7 +84,6 @@ public class CoreGenerator extends LuceneDocumentGenerator<CoreCollection.Docume
     CoreField.DOI.name,
     CoreField.OAI.name,
     CoreField.IDENTIFIERS.name,
-    CoreField.DATE_PUBLISHED.name,
     CoreField.DOWNLOAD_URL.name,
     CoreField.RELATIONS.name,
     CoreField.FULL_TEXT_IDENTIFIER.name));
@@ -142,6 +141,13 @@ public class CoreGenerator extends LuceneDocumentGenerator<CoreCollection.Docume
 
     coreDoc.jsonFields().forEach((k, v) -> {
       String fieldString = jsonNodeToString(v);
+      
+      // causes indexing to fail on Solr due to inconsistent formatting
+      // because Solr infers the field type to be Long instead of String
+      // not worth trying to parse/normalize all dates at the moment
+      if (k == CoreField.DATE_PUBLISHED.name) {
+        return;
+      }
 
       if (STRING_FIELD_NAMES.contains(k)) {
         // index field as single token
