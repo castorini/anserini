@@ -75,7 +75,7 @@ Evaluation can be performed using `trec_eval`:
 eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust04.txt run.solr.robust04.bm25.topics.robust04.txt
 ```
 
-We've verified that these instructions can be straightforwardly adapted to work with [Washington Post](regressions-core18.md):
+These instructions can be straightforwardly adapted to work with the [TREC Washington Post Corpus](regressions-core18.md):
 
 ```
 sh target/appassembler/bin/IndexCollection -collection WashingtonPostCollection -generator WapoGenerator \
@@ -86,29 +86,41 @@ sh target/appassembler/bin/IndexCollection -collection WashingtonPostCollection 
 
 Make sure `core18` collection is created and `/path/to/WashingtonPost` is updated with the appropriate path.
 
-Other collections can be indexed by substituting the appropriate parameters; see each collection's [experiment docs](https://github.com/castorini/anserini/tree/master/docs).
+Solrini has also been verified to work with the [MS MARCO Passage Retrieval Corpus](experiments-msmarco-passage.md).
+There should be no major issues with other collections that are supported by Anserini, but we have not tested them.
 
 ## Solr integration test
 
-We have an end-to-end integration testing script `run_solr_regression.py` for [Washington Post](regressions-core18.md). Its functionalities are described below.
+We have an end-to-end integration testing script `run_solr_regression.py`.
+See example usage for `core18` below:
 
-```
+```bash
 # Check if Solr server is on
 python src/main/python/run_solr_regression.py --ping
+
 # Check if core18 exists
 python src/main/python/run_solr_regression.py --check-index-exists core18
+
 # Create core18 if it does not exist
 python src/main/python/run_solr_regression.py --create-index core18
+
 # Delete core18 if it exists
 python src/main/python/run_solr_regression.py --delete-index core18
+
 # Insert documents from /path/to/WashingtonPost into core18
 python src/main/python/run_solr_regression.py --insert-docs core18 --input /path/to/WashingtonPost
+
 # Search and evaluate on core18
 python src/main/python/run_solr_regression.py --evaluate core18
+```
 
-# Run end to end
+To run end-to-end, issue the following command:
+
+```bash
 python src/main/python/run_solr_regression.py --regression core18 --input /path/to/WashingtonPost
 ```
+
+The regression script has been verified to work for `robust04`, `core18`, and `msmarco-passage`.
 
 ## Replication Log
 
