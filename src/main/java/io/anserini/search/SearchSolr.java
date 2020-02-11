@@ -201,8 +201,8 @@ public final class SearchSolr implements Closeable {
     SolrQuery solrq = new SolrQuery();
     solrq.set("df", "contents");
     solrq.set("fl", "* score");
-    // Remove double quotes in query since they are special syntax in Solr query parser
-    solrq.setQuery(queryString.replace("\"", ""));
+    // Remove some characters in query which are special syntax in Solr query parser
+    solrq.setQuery(queryString.replaceAll("[+=&|<>!(){}~*?:/\"\\^\\-\\[\\]\\\\]", " "));
     solrq.setRows(args.hits);
     solrq.setSort(SortClause.desc("score"));
     solrq.addSort(SortClause.asc(FIELD_ID));
