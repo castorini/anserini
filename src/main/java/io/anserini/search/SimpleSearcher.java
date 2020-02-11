@@ -62,6 +62,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletionException;
@@ -188,10 +190,14 @@ public class SimpleSearcher implements Closeable {
   }
 
   public Map<String, Result[]> batchSearch(List<String> queries, List<String> qids, int k, int threads) {
-    return batchSearch(queries, qids, k, -1, threads);
+    return batchSearch(queries, qids, k, -1, threads, new HashMap<>());
   }
 
-  public Map<String, Result[]> batchSearch(List<String> queries, List<String> qids, int k, long t, int threads) {
+  public Map<String, Result[]> batchSearchFields(List<String> queries, List<String> qids, int k, int threads, Map<String, Float> fields) {
+    return batchSearch(queries, qids, k, -1, threads, fields);
+  }
+
+  public Map<String, Result[]> batchSearch(List<String> queries, List<String> qids, int k, long t, int threads, Map<String, Float> fields) {
     ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(threads);
     ConcurrentHashMap<String, Result[]> results = new ConcurrentHashMap<>();
 
@@ -203,7 +209,11 @@ public class SimpleSearcher implements Closeable {
       String qid = qids.get(q);
       executor.execute(() -> {
         try {
-          results.put(qid, search(query, k, t));
+          if (fields.size() > 0) {
+            results.put(qid, searchFields(query, fields, k, t));
+          } else {
+            results.put(qid, search(query, k, t));
+          }
         } catch (IOException e) {
           throw new CompletionException(e);
         }
@@ -235,7 +245,7 @@ public class SimpleSearcher implements Closeable {
       throw new RuntimeException("queryCount = " + queryCnt +
               " is not equal to completedTaskCount =  " + executor.getCompletedTaskCount());
     }
-    
+
     return results;
   }
 
@@ -304,19 +314,26 @@ public class SimpleSearcher implements Closeable {
     return results;
   }
 
+  public Result[] searchFields(String q, Map<String, Float> fields, int k) throws IOException {
+    return searchFields(q, fields, k, -1);
+  }
+
   // searching both the defaults contents fields and another field with weight boost
-  // this is used for MS MACRO experiments with query expansion.
-  // TODO: "fields" should probably changed to a map of fields to boosts for extensibility
-  public Result[] searchFields(String q, String f, float boost, int k) throws IOException {
+  // this is used for MS MARCO experiments with document expansion.
+  public Result[] searchFields(String q, Map<String, Float> fields, int k, long t) throws IOException {
     IndexSearcher searcher = new IndexSearcher(reader);
     searcher.setSimilarity(similarity);
 
     Query queryContents = new BagOfWordsQueryGenerator().buildQuery(LuceneDocumentGenerator.FIELD_BODY, analyzer, q);
-    Query queryField = new BagOfWordsQueryGenerator().buildQuery(f, analyzer, q);
-    BooleanQuery query = new BooleanQuery.Builder()
-        .add(queryContents, BooleanClause.Occur.SHOULD)
-        .add(new BoostQuery(queryField, boost), BooleanClause.Occur.SHOULD).build();
+    BooleanQuery.Builder queryBuilder = new BooleanQuery.Builder()
+        .add(queryContents, BooleanClause.Occur.SHOULD);
 
+    for (Map.Entry<String, Float> entry : fields.entrySet()) {
+      Query queryField = new BagOfWordsQueryGenerator().buildQuery(entry.getKey(), analyzer, q);
+      queryBuilder.add(new BoostQuery(queryField, entry.getValue()), BooleanClause.Occur.SHOULD);
+    }
+
+    BooleanQuery query = queryBuilder.build();
     List<String> queryTokens = AnalyzerUtils.tokenize(analyzer, q);
 
     return search(query, queryTokens, q, k, -1);
