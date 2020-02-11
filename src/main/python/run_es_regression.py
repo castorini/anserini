@@ -119,7 +119,7 @@ class ElasticsearchClient:
         elif collection == 'msmarco-passage':
             command = 'sh target/appassembler/bin/SearchElastic -topicreader TsvString -es.index msmarco-passage ' + \
                       '-topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt ' + \
-                      '-output run.es.msmacro-passage.txt'
+                      '-output run.es.msmarco-passage.txt'
         else:
             raise Exception('Unknown collection: {}'.format(collection))
 
@@ -132,7 +132,7 @@ class ElasticsearchClient:
                       'src/main/resources/topics-and-qrels/qrels.robust04.txt run.es.robust04.bm25.topics.robust04.txt'
         elif collection == 'msmarco-passage':
             command = 'eval/trec_eval.9.0.4/trec_eval -c -mrecall.1000 -mmap ' + \
-                      'src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt run.es.msmacro-passage.txt'
+                      'src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt run.es.msmarco-passage.txt'
         else:
             raise Exception('Unknown collection: {}'.format(collection))
 
