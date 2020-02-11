@@ -38,7 +38,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 
 public class IndexerTestBase extends LuceneTestCase {
-  protected static Path tempDir1;
+  protected Path tempDir1;
 
   // A very simple example of how to build an index.
   private void buildTestIndex() throws IOException {
