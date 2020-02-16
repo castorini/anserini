@@ -81,6 +81,9 @@ public class TrecDocumentTest {
 
     assertEquals(1, paths.size());
     TrecCollection.Segment segment = new TrecCollection.Segment<>(paths.get(0));
+    assertEquals("src/test/resources/sample_docs/trec/collection1/segment1.txt",
+        segment.getSegmentPath().toString());
+
     Iterator<TrecCollection.Document> iter = segment.iterator();
 
     TrecCollection.Document parsed = iter.next();
@@ -97,6 +100,9 @@ public class TrecDocumentTest {
   public void testSingleSegment() throws Exception {
     TrecCollection.Segment segment =
         new TrecCollection.Segment<>(Paths.get("src/test/resources/sample_docs/trec/collection1/segment1.txt"));
+    assertEquals("src/test/resources/sample_docs/trec/collection1/segment1.txt",
+        segment.getSegmentPath().toString());
+
     Iterator<TrecCollection.Document> iter = segment.iterator();
 
     TrecCollection.Document parsed = iter.next();
