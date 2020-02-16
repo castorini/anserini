@@ -38,8 +38,11 @@ import java.util.NoSuchElementException;
  * this makes the class a more generic class for indexing other types of the files, e.g. plain text files.
  */
 public class HtmlCollection extends DocumentCollection<HtmlCollection.Document> {
-
   private static final Logger LOG = LogManager.getLogger(HtmlCollection.class);
+
+  public HtmlCollection(Path path) {
+    this.path = path;
+  }
 
   @Override
   public FileSegment<HtmlCollection.Document> createFileSegment(Path p) throws IOException {
@@ -53,7 +56,7 @@ public class HtmlCollection extends DocumentCollection<HtmlCollection.Document> 
     private TarArchiveInputStream inputStream = null;
     private ArchiveEntry nextEntry = null;
 
-    protected Segment(Path path) throws IOException {
+    public Segment(Path path) throws IOException {
       super(path);
       this.bufferedReader = null;
       if (path.toString().endsWith(".tgz") || path.toString().endsWith(".tar.gz")) {

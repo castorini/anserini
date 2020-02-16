@@ -19,6 +19,7 @@ package io.anserini.collection;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -72,7 +73,26 @@ public class TrecDocumentTest {
     assertFalse(segmentIter.hasNext());
   }
 
-  // Test iteration over a single segment.
+  // Test iteration over a single segment, with path supplied by getSegmentPaths.
+  @Test @SuppressWarnings("unchecked")
+  public void testSegmentPaths() throws Exception {
+    TrecCollection collection = new TrecCollection(Paths.get("src/test/resources/sample_docs/trec/collection1"));
+    List<Path> paths = collection.getSegmentPaths();
+
+    assertEquals(1, paths.size());
+    TrecCollection.Segment segment = new TrecCollection.Segment<>(paths.get(0));
+    Iterator<TrecCollection.Document> iter = segment.iterator();
+
+    TrecCollection.Document parsed = iter.next();
+    assertEquals(expected.get(0).get("id"), parsed.id());
+    assertEquals(expected.get(0).get("content"), parsed.content());
+
+    parsed = iter.next();
+    assertEquals(expected.get(1).get("id"), parsed.id());
+    assertEquals(expected.get(1).get("content"), parsed.content());
+  }
+
+  // Test iteration over a single segment, created manually.
   @Test @SuppressWarnings("unchecked")
   public void testSingleSegment() throws Exception {
     TrecCollection.Segment segment =
