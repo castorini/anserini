@@ -93,7 +93,7 @@ public class ClueWeb12DocumentTest extends DocumentTest {
 
   @Test
   public void test() {
-    ClueWeb12Collection collection = new ClueWeb12Collection();
+    ClueWeb12Collection collection = new ClueWeb12Collection(tmpPath);
     for (int i = 0; i < rawDocs.size(); i++) {
       Iterator<ClueWeb12Collection.Document> iter = collection.createFileSegment(rawDocs.get(i)).iterator();
       while (iter.hasNext()) {
@@ -108,7 +108,7 @@ public class ClueWeb12DocumentTest extends DocumentTest {
   // NoSuchElementExceptions.
   @Test
   public void testStreamIteration() {
-    ClueWeb12Collection collection = new ClueWeb12Collection();
+    ClueWeb12Collection collection = new ClueWeb12Collection(tmpPath);
     FileSegment<ClueWeb12Collection.Document> segment = collection.createFileSegment(rawDocs.get(0) + rawDocs.get(1));
     Iterator<ClueWeb12Collection.Document> iter = segment.iterator();
     AtomicInteger cnt = new AtomicInteger();

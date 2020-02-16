@@ -94,7 +94,7 @@ public class WikipediaArticleTest extends DocumentTest {
 
   @Test
   public void test() throws IOException {
-    WikipediaCollection collection = new WikipediaCollection();
+    WikipediaCollection collection = new WikipediaCollection(tmpPath);
     Iterator<WikipediaCollection.Document> iter = collection.createFileSegment(rawFiles.get(0)).iterator();
     while (iter.hasNext()) {
       WikipediaCollection.Document parsed = iter.next();
@@ -107,7 +107,7 @@ public class WikipediaArticleTest extends DocumentTest {
   // NoSuchElementExceptions.
   @Test
   public void testStreamIteration() {
-    WikipediaCollection collection = new WikipediaCollection();
+    WikipediaCollection collection = new WikipediaCollection(tmpPath);
     try {
       Iterator<WikipediaCollection.Document> iter =
               collection.createFileSegment(rawFiles.get(0)).iterator();

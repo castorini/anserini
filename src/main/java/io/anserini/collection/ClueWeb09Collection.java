@@ -52,8 +52,6 @@
 
 package io.anserini.collection;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.apache.tools.ant.filters.StringInputStream;
 
 import java.io.DataInput;
@@ -69,7 +67,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -81,9 +78,9 @@ import java.util.zip.GZIPInputStream;
  * This can be used to read the complete ClueWeb09 collection or the smaller ClueWeb09b subset.
  */
 public class ClueWeb09Collection extends DocumentCollection<ClueWeb09Collection.Document> {
-  private static final Logger LOG = LogManager.getLogger(ClueWeb09Collection.class);
 
-  public ClueWeb09Collection(){
+  public ClueWeb09Collection(Path path) {
+    this.path = path;
     this.allowedFileSuffix = new HashSet<>(Arrays.asList(".warc.gz"));
   }
 

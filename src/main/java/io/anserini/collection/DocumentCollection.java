@@ -101,7 +101,7 @@ public abstract class DocumentCollection<T extends SourceDocument> implements It
     List<Path> paths = discover(this.path);
     Iterator<Path> pathsIterator = paths.iterator();
 
-    return new Iterator<FileSegment<T>>(){
+    return new Iterator<>(){
       Path segmentPath;
       FileSegment<T> segment;
 
@@ -141,11 +141,17 @@ public abstract class DocumentCollection<T extends SourceDocument> implements It
     };
   }
 
+  /**
+   * Returns the paths in the collection.
+   *
+   * @return paths in the collection
+   */
   public List<Path> getSegmentPaths() {
     return discover(this.path);
   }
 
-  private final List<Path> discover(Path p) {
+  // Private method for walking a path.
+  private List<Path> discover(Path p) {
     final List<Path> paths = new ArrayList<>();
 
     FileVisitor<Path> fv = new SimpleFileVisitor<>() {

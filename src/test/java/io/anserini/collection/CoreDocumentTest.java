@@ -124,7 +124,7 @@ public class CoreDocumentTest extends DocumentTest {
 
   @Test
   public void test() throws IOException {
-    CoreCollection collection = new CoreCollection();
+    CoreCollection collection = new CoreCollection(tmpPath);
 
     for (int i = 0; i < rawFiles.size(); i++) {
       Iterator<CoreCollection.Document> iter =
@@ -145,7 +145,7 @@ public class CoreDocumentTest extends DocumentTest {
   // NoSuchElementExceptions.
   @Test
   public void testStreamIteration() {
-    CoreCollection collection = new CoreCollection();
+    CoreCollection collection = new CoreCollection(tmpPath);
     try {
       Iterator<CoreCollection.Document> iter =
               collection.createFileSegment(rawFiles.get(0)).iterator();
