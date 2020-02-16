@@ -20,7 +20,7 @@ public class TrecEndToEndWhitelistTest extends EndToEndTest {
 
   @Override
   protected void init() throws Exception {
-    dataDirPath = "trec";
+    dataDirPath = "trec/collection2";
     collectionClass = "Trec";
     generator = "Jsoup";
     topicReader = "Trec";
@@ -48,7 +48,7 @@ public class TrecEndToEndWhitelistTest extends EndToEndTest {
   @Override
   protected void setIndexingArgs() {
     super.setIndexingArgs();
-    indexCollectionArgs.whitelist = "src/test/resources/sample_docs/trec/whitelist.txt";
+    indexCollectionArgs.whitelist = "src/test/resources/sample_docs/trec/collection2/whitelist.txt";
     // With a whitelist, we're only indexing DOC222
   }
 }

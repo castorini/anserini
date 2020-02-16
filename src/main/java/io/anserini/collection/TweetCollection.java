@@ -53,6 +53,10 @@ import java.util.zip.GZIPInputStream;
 public class TweetCollection extends DocumentCollection<TweetCollection.Document> {
   private static final Logger LOG = LogManager.getLogger(TweetCollection.class);
 
+  public TweetCollection(Path path) {
+    this.path = path;
+  }
+
   @Override
   public FileSegment<TweetCollection.Document> createFileSegment(Path p) throws IOException {
     return new Segment(p);
