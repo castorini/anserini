@@ -53,6 +53,7 @@ public class TrecDocumentTest {
   @Test
   public void testEntireCollection() {
     TrecCollection collection = new TrecCollection(Paths.get("src/test/resources/sample_docs/trec/collection1"));
+    assertEquals("src/test/resources/sample_docs/trec/collection1", collection.getCollectionPath().toString());
 
     // Iterator over FileSegments:
     Iterator<FileSegment<TrecCollection.Document>> segmentIter = collection.iterator();

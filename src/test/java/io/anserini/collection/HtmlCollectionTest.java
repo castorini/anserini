@@ -33,7 +33,7 @@ public class HtmlCollectionTest {
 
   @Test
   public void testCompressedCACM1() {
-    HtmlCollection collection = new HtmlCollection(Paths.get("src/main/resources/cacm/collection-tarball"));
+    HtmlCollection collection = new HtmlCollection(Paths.get("src/main/resources/cacm/"));
     Iterator<FileSegment<HtmlCollection.Document>> segmentIter = collection.iterator();
     Iterator<HtmlCollection.Document> docIter = segmentIter.next().iterator();
 
@@ -46,7 +46,7 @@ public class HtmlCollectionTest {
 
   @Test
   public void testCompressedCACM2() throws IOException {
-    HtmlCollection collection = new HtmlCollection(Paths.get("src/main/resources/cacm/collection-tarball"));
+    HtmlCollection collection = new HtmlCollection(Paths.get("src/main/resources/cacm/"));
     List<Path> paths = collection.getSegmentPaths();
 
     assertEquals(1, paths.size());
@@ -54,24 +54,6 @@ public class HtmlCollectionTest {
 
     AtomicInteger cnt = new AtomicInteger();
     docIter.forEachRemaining(d -> cnt.getAndIncrement());
-    assertEquals(3204, cnt.get());
-  }
-
-  @Test
-  public void testUncompressedCACM1() {
-    HtmlCollection collection = new HtmlCollection(Paths.get("src/main/resources/cacm/collection"));
-    Iterator<FileSegment<HtmlCollection.Document>> segmentIter = collection.iterator();
-
-    AtomicInteger cnt = new AtomicInteger();
-    segmentIter.forEachRemaining(segment -> {
-      cnt.getAndIncrement();
-      Iterator<HtmlCollection.Document> docIter = segment.iterator();
-      // Advance the single document in each iterator:
-      docIter.next();
-      assertFalse(docIter.hasNext());
-    });
-
-    // Since each file is in its own segment, we should have 3204 segments.
     assertEquals(3204, cnt.get());
   }
 

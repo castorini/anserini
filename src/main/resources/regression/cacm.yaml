@@ -8,7 +8,7 @@ topic_root: src/main/resources/topics-and-qrels/
 qrels_root: src/main/resources/topics-and-qrels/
 input_roots:
   - ""
-input: src/main/resources/cacm/collection
+input: src/main/resources/cacm/
 index_path: "" # path to the existing index, used in regression test if `--index` option is absent
 index_stats:
   documents: 3204
