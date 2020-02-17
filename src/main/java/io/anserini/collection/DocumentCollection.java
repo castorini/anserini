@@ -75,15 +75,6 @@ public abstract class DocumentCollection<T extends SourceDocument> implements It
   protected Set<String> skippedDir = new HashSet<>();
 
   /**
-   * Sets the path of the collection.
-   *
-   * @param path path of the collection
-   */
-  public final void setCollectionPath(Path path) {
-    this.path = path;
-  }
-
-  /**
    * Returns the path of the collection.
    *
    * @return path of the collection
@@ -110,7 +101,7 @@ public abstract class DocumentCollection<T extends SourceDocument> implements It
     List<Path> paths = discover(this.path);
     Iterator<Path> pathsIterator = paths.iterator();
 
-    return new Iterator<FileSegment<T>>(){
+    return new Iterator<>(){
       Path segmentPath;
       FileSegment<T> segment;
 
@@ -151,15 +142,19 @@ public abstract class DocumentCollection<T extends SourceDocument> implements It
   }
 
   /**
-   * Used internally by implementations to walk a path and collect file segments.
+   * Returns the paths in the collection.
    *
-   * @param p path to walk
-   * @return result of walking the specified path according to the collection-specific constraints
+   * @return paths in the collection
    */
-  public final List<Path> discover(Path p) {
+  public List<Path> getSegmentPaths() {
+    return discover(this.path);
+  }
+
+  // Private method for walking a path.
+  private List<Path> discover(Path p) {
     final List<Path> paths = new ArrayList<>();
 
-    FileVisitor<Path> fv = new SimpleFileVisitor<Path>() {
+    FileVisitor<Path> fv = new SimpleFileVisitor<>() {
       @Override
       public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
         Path name = file.getFileName();

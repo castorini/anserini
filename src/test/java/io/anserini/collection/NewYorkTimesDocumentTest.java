@@ -79,7 +79,7 @@ public class NewYorkTimesDocumentTest extends DocumentTest {
 
   @Test
   public void test() throws IOException {
-    NewYorkTimesCollection collection = new NewYorkTimesCollection();
+    NewYorkTimesCollection collection = new NewYorkTimesCollection(tmpPath);
     Iterator<NewYorkTimesCollection.Document> iter = collection.createFileSegment(rawFiles.get(0)).iterator();
     AtomicInteger cnt = new AtomicInteger();
     while (iter.hasNext()) {
@@ -98,7 +98,7 @@ public class NewYorkTimesDocumentTest extends DocumentTest {
   // NoSuchElementExceptions.
   @Test
   public void testStreamIteration() {
-    NewYorkTimesCollection collection = new NewYorkTimesCollection();
+    NewYorkTimesCollection collection = new NewYorkTimesCollection(tmpPath);
     try {
       FileSegment<NewYorkTimesCollection.Document> segment = collection.createFileSegment(rawFiles.get(0));
       Iterator<NewYorkTimesCollection.Document> iter = segment.iterator();

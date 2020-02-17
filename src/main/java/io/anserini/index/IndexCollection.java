@@ -604,6 +604,7 @@ public final class IndexCollection {
   private ObjectPool<SolrClient> solrPool;
   private ObjectPool<RestHighLevelClient> esPool;
 
+  @SuppressWarnings("unchecked")
   public IndexCollection(IndexArgs args) throws Exception {
     this.args = args;
 
@@ -676,9 +677,8 @@ public final class IndexCollection {
     this.generatorClass = Class.forName("io.anserini.index.generator." + args.generatorClass);
     this.collectionClass = Class.forName("io.anserini.collection." + args.collectionClass);
 
-    // There's only one constructor, so this is safe-ish... skipping any sort of error checking.
-    collection = (DocumentCollection) this.collectionClass.getDeclaredConstructors()[0].newInstance();
-    collection.setCollectionPath(collectionPath);
+    // Initialize the collection.
+    collection = (DocumentCollection) this.collectionClass.getConstructor(Path.class).newInstance(collectionPath);
 
     if (args.whitelist != null) {
       List<String> lines = FileUtils.readLines(new File(args.whitelist), "utf-8");
@@ -760,7 +760,7 @@ public final class IndexCollection {
     LOG.info("Thread pool with " + numThreads + " threads initialized.");
 
     LOG.info("Initializing collection in " + collectionPath.toString());
-    final List segmentPaths = collection.discover(collection.getCollectionPath());
+    final List segmentPaths = collection.getSegmentPaths();
     final int segmentCnt = segmentPaths.size();
     LOG.info(String.format("%,d %s found", segmentCnt, (segmentCnt == 1 ? "file" : "files" )));
     LOG.info("Starting to index...");

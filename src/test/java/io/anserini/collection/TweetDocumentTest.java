@@ -69,7 +69,7 @@ public class TweetDocumentTest extends DocumentTest {
 
   @Test
   public void test() throws Exception {
-    TweetCollection collection = new TweetCollection();
+    TweetCollection collection = new TweetCollection(tmpPath);
     FileSegment<TweetCollection.Document> segment = collection.createFileSegment(rawFiles.get(0));
     Iterator<TweetCollection.Document> iter = segment.iterator();
     AtomicInteger cnt = new AtomicInteger();
@@ -91,7 +91,7 @@ public class TweetDocumentTest extends DocumentTest {
   // NoSuchElementExceptions.
   @Test
   public void testStreamIteration() {
-    TweetCollection collection = new TweetCollection();
+    TweetCollection collection = new TweetCollection(tmpPath);
     try {
       FileSegment<TweetCollection.Document> segment = collection.createFileSegment(rawFiles.get(0));
       Iterator<TweetCollection.Document> iter = segment.iterator();

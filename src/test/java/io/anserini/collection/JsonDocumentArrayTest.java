@@ -62,7 +62,7 @@ public class JsonDocumentArrayTest extends DocumentTest {
 
   @Test
   public void test() throws IOException {
-    JsonCollection collection = new JsonCollection();
+    JsonCollection collection = new JsonCollection(tmpPath);
     int j = 0;
     for (int i = 0; i < rawFiles.size(); i++) {
       Iterator<JsonCollection.Document> iter =
@@ -80,7 +80,7 @@ public class JsonDocumentArrayTest extends DocumentTest {
   // NoSuchElementExceptions.
   @Test
   public void testStreamIteration() {
-    JsonCollection collection = new JsonCollection();
+    JsonCollection collection = new JsonCollection(tmpPath);
     try {
       Iterator<JsonCollection.Document> iter =
               collection.createFileSegment(rawFiles.get(0)).iterator();

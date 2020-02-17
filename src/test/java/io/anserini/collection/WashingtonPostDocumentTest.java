@@ -73,7 +73,7 @@ public class WashingtonPostDocumentTest extends DocumentTest {
 
   @Test
   public void test() throws Exception {
-    WashingtonPostCollection collection = new WashingtonPostCollection();
+    WashingtonPostCollection collection = new WashingtonPostCollection(tmpPath);
     for (int i = 0; i < rawFiles.size(); i++) {
       Iterator<WashingtonPostCollection.Document> iter = collection.createFileSegment(rawFiles.get(i)).iterator();
       while (iter.hasNext()) {
@@ -92,7 +92,7 @@ public class WashingtonPostDocumentTest extends DocumentTest {
   // NoSuchElementExceptions.
   @Test
   public void testStreamIteration() {
-    WashingtonPostCollection collection = new WashingtonPostCollection();
+    WashingtonPostCollection collection = new WashingtonPostCollection(tmpPath);
     try {
       Iterator<WashingtonPostCollection.Document> iter = collection.createFileSegment(rawFiles.get(0)).iterator();
       AtomicInteger cnt = new AtomicInteger();

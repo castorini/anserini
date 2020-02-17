@@ -82,7 +82,7 @@ public class TrecwebDocumentTest extends DocumentTest {
 
   @Test
   public void test() throws Exception {
-    TrecwebCollection collection = new TrecwebCollection();
+    TrecwebCollection collection = new TrecwebCollection(tmpPath);
     FileSegment<TrecwebCollection.Document> segment = collection.createFileSegment(rawFiles.get(0));
     Iterator<TrecwebCollection.Document> iter = segment.iterator();
     AtomicInteger cnt = new AtomicInteger();
@@ -101,7 +101,7 @@ public class TrecwebDocumentTest extends DocumentTest {
   // NoSuchElementExceptions.
   @Test
   public void testStreamIteration() {
-    TrecwebCollection collection = new TrecwebCollection();
+    TrecwebCollection collection = new TrecwebCollection(tmpPath);
     try {
       FileSegment<TrecwebCollection.Document> segment = collection.createFileSegment(rawFiles.get(0));
       Iterator<TrecwebCollection.Document> iter = segment.iterator();
