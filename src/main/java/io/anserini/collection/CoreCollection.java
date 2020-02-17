@@ -50,7 +50,8 @@ import java.util.NoSuchElementException;
 public class CoreCollection extends DocumentCollection<CoreCollection.Document> {
   private static final Logger LOG = LogManager.getLogger(CoreCollection.class);
 
-  public CoreCollection(){
+  public CoreCollection(Path path){
+    this.path = path;
     this.allowedFileSuffix = new HashSet<>(Arrays.asList(".json.xz"));
   }
 

@@ -68,7 +68,8 @@ import java.util.NoSuchElementException;
 public class JsonCollection extends DocumentCollection<JsonCollection.Document> {
   private static final Logger LOG = LogManager.getLogger(JsonCollection.class);
 
-  public JsonCollection(){
+  public JsonCollection(Path path){
+    this.path = path;
     this.allowedFileSuffix = new HashSet<>(Arrays.asList(".json", ".jsonl"));
   }
 

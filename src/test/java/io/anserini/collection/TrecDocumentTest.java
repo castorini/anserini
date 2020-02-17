@@ -19,40 +19,22 @@ package io.anserini.collection;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class TrecDocumentTest extends DocumentTest {
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+
+public class TrecDocumentTest {
+  private List<Map<String, String>> expected = new ArrayList<>();
 
   @Before
   public void setUp() throws Exception {
-    super.setUp();
-
-    String doc = "<DOC>\n" +
-        "<DOCNO> AP-0001 </DOCNO>\n" +
-        "<FILEID>field id test and should NOT be included</FILEID>\n" +
-        "<FIRST>first test and should NOT be included</FIRST>\n" +
-        "<SECOND>second test and should NOT be included</SECOND>\n" +
-        "<HEAD>This is head and should be included</HEAD>\n" +
-        "<HEADLINE>This is headline and should be included</HEADLINE>\n" +
-        "<DATELINE>AP</DATELINE>\n" +
-        "<TEXT>\n" +
-        "   Hopefully we \n" +
-        "get this\n" +
-        " right\n" +
-        "</TEXT>\n" +
-        // This is the NTCIR-8 variant
-        "</DOC>\n" +
-        "<DOC id=\"doc2\">\n" +
-        "<TEXT>\n" +
-        "here is some text.\n" +
-        "</TEXT>\n" +
-        "</DOC>\n";
-
-    rawFiles.add(createFile(doc));
-
     expected.add(Map.of("id", "AP-0001",
         // ONLY "<TEXT>", "<HEADLINE>", "<TITLE>", "<HL>", "<HEAD>",
         // "<TTL>", "<DD>", "<DATE>", "<LP>", "<LEADPARA>" will be included
@@ -69,9 +51,61 @@ public class TrecDocumentTest extends DocumentTest {
   }
 
   @Test
-  public void test() throws Exception {
-    TrecCollection collection = new TrecCollection();
-    Iterator<TrecCollection.Document> iter = collection.createFileSegment(rawFiles.get(0)).iterator();
+  public void testEntireCollection() {
+    TrecCollection collection = new TrecCollection(Paths.get("src/test/resources/sample_docs/trec/collection1"));
+    assertEquals("src/test/resources/sample_docs/trec/collection1", collection.getCollectionPath().toString());
+
+    // Iterator over FileSegments:
+    Iterator<FileSegment<TrecCollection.Document>> segmentIter = collection.iterator();
+    // Iterator over documents in the first FileSegment:
+    Iterator<TrecCollection.Document> docIter = segmentIter.next().iterator();
+
+    TrecCollection.Document parsed = docIter.next();
+    assertEquals(expected.get(0).get("id"), parsed.id());
+    assertEquals(expected.get(0).get("content"), parsed.content());
+
+    parsed = docIter.next();
+    assertEquals(expected.get(1).get("id"), parsed.id());
+    assertEquals(expected.get(1).get("content"), parsed.content());
+
+    // No more documents in this segment.
+    assertFalse(docIter.hasNext());
+    // No more FileSegments in this collection.
+    assertFalse(segmentIter.hasNext());
+  }
+
+  // Test iteration over a single segment, with path supplied by getSegmentPaths.
+  @Test @SuppressWarnings("unchecked")
+  public void testSegmentPaths() throws Exception {
+    TrecCollection collection = new TrecCollection(Paths.get("src/test/resources/sample_docs/trec/collection1"));
+    List<Path> paths = collection.getSegmentPaths();
+
+    assertEquals(1, paths.size());
+    TrecCollection.Segment segment = new TrecCollection.Segment<>(paths.get(0));
+    assertEquals("src/test/resources/sample_docs/trec/collection1/segment1.txt",
+        segment.getSegmentPath().toString());
+
+    Iterator<TrecCollection.Document> iter = segment.iterator();
+
+    TrecCollection.Document parsed = iter.next();
+    assertEquals(expected.get(0).get("id"), parsed.id());
+    assertEquals(expected.get(0).get("content"), parsed.content());
+
+    parsed = iter.next();
+    assertEquals(expected.get(1).get("id"), parsed.id());
+    assertEquals(expected.get(1).get("content"), parsed.content());
+  }
+
+  // Test iteration over a single segment, created manually.
+  @Test @SuppressWarnings("unchecked")
+  public void testSingleSegment() throws Exception {
+    TrecCollection.Segment segment =
+        new TrecCollection.Segment<>(Paths.get("src/test/resources/sample_docs/trec/collection1/segment1.txt"));
+    assertEquals("src/test/resources/sample_docs/trec/collection1/segment1.txt",
+        segment.getSegmentPath().toString());
+
+    Iterator<TrecCollection.Document> iter = segment.iterator();
+
     TrecCollection.Document parsed = iter.next();
     assertEquals(expected.get(0).get("id"), parsed.id());
     assertEquals(expected.get(0).get("content"), parsed.content());
@@ -83,18 +117,24 @@ public class TrecDocumentTest extends DocumentTest {
     assertEquals(false, iter.hasNext());
   }
 
-  // Tests if the iterator is behaving properly. If it is, we shouldn't have any issues running into
-  // NoSuchElementExceptions.
   @Test
-  public void testStreamIteration() {
-    TrecCollection collection = new TrecCollection();
-    try {
-      Iterator<TrecCollection.Document> iter = collection.createFileSegment(rawFiles.get(0)).iterator();
-      AtomicInteger cnt = new AtomicInteger();
-      iter.forEachRemaining(d -> cnt.incrementAndGet());
-      assertEquals(2, cnt.get());
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
+  public void testFileSegmentStreamIteration() throws Exception {
+    TrecCollection collection = new TrecCollection(Paths.get("src/test/resources/sample_docs/trec/collection1"));
+
+    Iterator<FileSegment<TrecCollection.Document>> iter = collection.iterator();
+    AtomicInteger cnt = new AtomicInteger();
+    iter.forEachRemaining(d -> cnt.incrementAndGet());
+    assertEquals(1, cnt.get());
+  }
+
+  @Test @SuppressWarnings("unchecked")
+  public void testSingleSegmentStreamIteration() throws Exception {
+    TrecCollection.Segment segment =
+        new TrecCollection.Segment<>(Paths.get("src/test/resources/sample_docs/trec/collection1/segment1.txt"));
+
+    Iterator<TrecCollection.Document> iter = segment.iterator();
+    AtomicInteger cnt = new AtomicInteger();
+    iter.forEachRemaining(d -> cnt.incrementAndGet());
+    assertEquals(2, cnt.get());
   }
 }

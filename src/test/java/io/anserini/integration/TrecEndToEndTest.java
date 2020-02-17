@@ -20,7 +20,7 @@ public class TrecEndToEndTest extends EndToEndTest {
 
   @Override
   protected void init() throws Exception {
-    dataDirPath = "trec";
+    dataDirPath = "trec/collection2";
     collectionClass = "Trec";
     generator = "Jsoup";
     topicReader = "Trec";

@@ -36,7 +36,8 @@ import java.util.Iterator;
  */
 public class CarCollection extends DocumentCollection<CarCollection.Document> {
 
-  public CarCollection(){
+  public CarCollection(Path path) {
+    this.path = path;
     this.allowedFileSuffix = new HashSet<>(Arrays.asList(".cbor"));
   }
 

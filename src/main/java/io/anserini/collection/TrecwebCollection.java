@@ -16,9 +16,6 @@
 
 package io.anserini.collection;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -29,7 +26,9 @@ import java.text.ParseException;
  */
 public class TrecwebCollection extends DocumentCollection<TrecwebCollection.Document> {
 
-  private static final Logger LOG = LogManager.getLogger(TrecwebCollection.class);
+  public TrecwebCollection(Path path) {
+    this.path = path;
+  }
 
   @Override
   public FileSegment<Document> createFileSegment(Path p) throws IOException {
@@ -43,7 +42,7 @@ public class TrecwebCollection extends DocumentCollection<TrecwebCollection.Docu
    */
   public static class Segment<T extends Document> extends TrecCollection.Segment<T> {
 
-    protected Segment(Path path) throws IOException {
+    public Segment(Path path) throws IOException {
       super(path);
     }
 

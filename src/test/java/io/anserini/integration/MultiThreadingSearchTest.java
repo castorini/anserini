@@ -27,7 +27,7 @@ public class MultiThreadingSearchTest extends EndToEndTest {
 
   @Override
   protected void init() {
-    dataDirPath = "trec";
+    dataDirPath = "trec/collection2";
     collectionClass = "Trec";
     generator = "Jsoup";
     topicReader = "Trec";
