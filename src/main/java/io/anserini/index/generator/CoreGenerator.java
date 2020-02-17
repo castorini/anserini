@@ -105,7 +105,7 @@ public class CoreGenerator extends LuceneDocumentGenerator<CoreCollection.Docume
     String id = coreDoc.id();
     String content = coreDoc.content();
 
-    if (content.trim().isEmpty()) {
+    if (content == null || content.trim().isEmpty()) {
       counters.empty.incrementAndGet();
       return null;
     }
