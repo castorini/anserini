@@ -52,7 +52,7 @@ public class JsonCollectionErrorCheckingTest extends DocumentTest {
     );
 
     for (HashMap.Entry<String, String> entry : jsonBlobs.entrySet()) {
-      JsonCollection collection = new JsonCollection();
+      JsonCollection collection = new JsonCollection(tmpPath);
       fileSegments.put(entry.getKey(), collection.createFileSegment(createFile(entry.getValue())));
     }
   }

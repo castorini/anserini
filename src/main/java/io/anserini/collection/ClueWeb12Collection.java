@@ -52,8 +52,6 @@
 
 package io.anserini.collection;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.apache.tools.ant.filters.StringInputStream;
 
 import java.io.DataInput;
@@ -68,20 +66,19 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.zip.GZIPInputStream;
-import java.util.NoSuchElementException;
 
 /**
  * An instance of the <a href="https://www.lemurproject.org/clueweb12.php/">ClueWeb12 collection</a>.
  * This can be used to read the complete ClueWeb12 collection or the smaller ClueWeb12-B13 subset.
  */
 public class ClueWeb12Collection extends DocumentCollection<ClueWeb12Collection.Document> {
-  private static final Logger LOG = LogManager.getLogger(ClueWeb12Collection.class);
 
-  public ClueWeb12Collection(){
+  public ClueWeb12Collection(Path path) {
+    this.path = path;
     this.allowedFileSuffix = new HashSet<>(Arrays.asList(".warc.gz"));
     this.skippedDir = new HashSet<>(Arrays.asList("OtherData"));
   }

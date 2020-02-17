@@ -62,7 +62,8 @@ import java.util.stream.Stream;
 public class NewYorkTimesCollection extends DocumentCollection<NewYorkTimesCollection.Document> {
   private static final Logger LOG = LogManager.getLogger(NewYorkTimesCollection.class);
 
-  public NewYorkTimesCollection(){
+  public NewYorkTimesCollection(Path path) {
+    this.path = path;
     this.allowedFileSuffix = new HashSet<>(Arrays.asList(".xml", ".tgz"));
   }
 

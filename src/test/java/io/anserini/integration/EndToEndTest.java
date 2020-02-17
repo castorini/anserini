@@ -174,7 +174,7 @@ public abstract class EndToEndTest extends LuceneTestCase {
       checkCounters(counters);
       checkIndex();
     } catch (Exception e) {
-      System.out.println("Test Indexing failed");
+      e.printStackTrace();
       fail();
     }
   }
