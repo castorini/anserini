@@ -39,10 +39,8 @@ import org.jbibtex.Value;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.StringJoiner;
 
 /**
  * Converts a {@link BibtexCollection.Document} into a Lucene {@link Document}, ready to be indexed.
@@ -51,6 +49,7 @@ public class BibtexGenerator extends LuceneDocumentGenerator<BibtexCollection.Do
   public static final String FIELD_ID = "id";
   public static final String FIELD_BODY = "contents";
   public static final String FIELD_RAW = "raw";
+  public static final String FIELD_TYPE = "type";
 
   public static enum BibtexField {
     DOI("doi"),
@@ -101,10 +100,11 @@ public class BibtexGenerator extends LuceneDocumentGenerator<BibtexCollection.Do
   }
 
   @Override
-  public Document createDocument(BibtexCollection.Document coreDoc) {
-    String id = coreDoc.id();
-    String content = coreDoc.content();
-    BibTeXEntry bibtexEntry = coreDoc.bibtexEntry();
+  public Document createDocument(BibtexCollection.Document bibtexDoc) {
+    String id = bibtexDoc.id();
+    String content = bibtexDoc.content();
+    String type = bibtexDoc.type();
+    BibTeXEntry bibtexEntry = bibtexDoc.bibtexEntry();
 
     if (content == null || content.trim().isEmpty()) {
       counters.empty.incrementAndGet();
@@ -117,6 +117,8 @@ public class BibtexGenerator extends LuceneDocumentGenerator<BibtexCollection.Do
     doc.add(new StringField(FIELD_ID, id, Field.Store.YES));
     // This is needed to break score ties by docid.
     doc.add(new SortedDocValuesField(FIELD_ID, new BytesRef(id)));
+    // Store the collection type
+    doc.add(new StringField(FIELD_TYPE, type, Field.Store.YES));
 
     if (args.storeRawDocs) {
       doc.add(new StoredField(FIELD_RAW, content));
@@ -144,6 +146,13 @@ public class BibtexGenerator extends LuceneDocumentGenerator<BibtexCollection.Do
       String fieldKey = fieldEntry.getKey().toString();
       String fieldValue = fieldEntry.getValue().toUserString();
 
+      // causes indexing to fail on Solr due to inconsistent formatting
+      // because Solr infers the field type to be number instead of String
+      // not worth trying to parse/normalize all numbers at the moment
+      if (fieldKey.equals(BibtexField.NUMBER.name)) {
+        continue;
+      }
+
       if (STRING_FIELD_NAMES.contains(fieldKey)) {
         // index field as single token
         doc.add(new StringField(fieldKey, fieldValue, Field.Store.YES));
@@ -162,14 +171,12 @@ public class BibtexGenerator extends LuceneDocumentGenerator<BibtexCollection.Do
         doc.add(field);
  
         nonStemmingAnalyzer.close();
-      } else if (fieldKey == BibtexField.YEAR.name) {
+      } else if (fieldKey.equals(BibtexField.YEAR.name)) {
         if (fieldValue != "") {
           // index as numeric value to allow range queries
           doc.add(new IntPoint(fieldKey, Integer.parseInt(fieldValue)));
         }
         doc.add(new StoredField(fieldKey, fieldValue));
-      } else if (fieldKey == BibtexField.NUMBER.name) {
-        doc.add(new Field("number__", fieldValue, fieldType));
       } else {
         // default to normal Field with tokenization and stemming
         doc.add(new Field(fieldKey, fieldValue, fieldType));

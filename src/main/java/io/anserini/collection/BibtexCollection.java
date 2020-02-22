@@ -25,6 +25,7 @@ import org.jbibtex.Key;
 import org.jbibtex.Value;
 import org.jbibtex.ObjectResolutionException;
 import org.jbibtex.ParseException;
+import org.jbibtex.StringValue;
 import org.jbibtex.TokenMgrException;
 
 import java.io.BufferedReader;
@@ -36,7 +37,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.NoSuchElementException;
-import java.util.StringJoiner;
 
 /**
  * A BibTex document collection.
@@ -78,7 +78,6 @@ public class BibtexCollection extends DocumentCollection<BibtexCollection.Docume
         throw new IOException(e);
       }
       Map<Key, BibTeXEntry> entryMap = database.getEntries();
-      LOG.warn(database.getStrings().toString());
       iterator = entryMap.entrySet().iterator();
     }
 
@@ -86,12 +85,7 @@ public class BibtexCollection extends DocumentCollection<BibtexCollection.Docume
     public void readNext() throws NoSuchElementException {
       if (iterator.hasNext()) {
         Map.Entry<Key, BibTeXEntry> entry = iterator.next();
-        StringJoiner construct = new StringJoiner(", ");
-        for (Map.Entry<Key, Value> e : entry.getValue().getFields().entrySet()) {
-          construct.add(e.getKey() + "= " + e.getValue().toUserString());
-        }
-        String bibtexString = construct.toString();
-        bufferedRecord = new BibtexCollection.Document(entry, bibtexString);
+        bufferedRecord = new BibtexCollection.Document(entry);
       } else {
         throw new NoSuchElementException("Reached end of BibtexDatabase Entries iterator");
       }
@@ -104,17 +98,26 @@ public class BibtexCollection extends DocumentCollection<BibtexCollection.Docume
   public static class Document implements SourceDocument {
     private String id;
     private String contents;
+    private String type;
     private BibTeXEntry bibtexEntry;
 
-    public Document(Map.Entry<Key, BibTeXEntry> entry, String bibtexString) {
+    public Document(Map.Entry<Key, BibTeXEntry> entry) {
       id = entry.getKey().toString();
-      contents = bibtexString;
+      Map<Key, Value> bibtexFields = entry.getValue().getFields();
+      String doctitle = bibtexFields.getOrDefault(new Key("title"), new StringValue("", StringValue.Style.QUOTED)).toUserString();
+      String docAbstract = bibtexFields.getOrDefault(new Key("abstract"), new StringValue("", StringValue.Style.QUOTED)).toUserString();
+      contents = doctitle + ". " + docAbstract;
+      type = entry.getValue().getType().toString();
       bibtexEntry = entry.getValue();
     }
 
     @Override
     public String id() {
       return id;
+    }
+
+    public String type() {
+      return type;
     }
 
     @Override
