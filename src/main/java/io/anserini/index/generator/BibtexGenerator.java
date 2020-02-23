@@ -53,24 +53,16 @@ public class BibtexGenerator extends LuceneDocumentGenerator<BibtexCollection.Do
 
   public static enum BibtexField {
     DOI("doi"),
-    OAI("oai"),
-    IDENTIFIERS("identifiers"),
     TITLE("title"),
-    AUTHORS("authors"),
-    ENRICHMENTS("enrichments"),
-    CONTRIBUTORS("contributors"),
-    DATE_PUBLISHED("datePublished"),
+    AUTHOR("author"),
     PUBLISHER("publisher"),
-    DOWNLOAD_URL("downloadUrl"),
-    JOURNALS("journals"),
-    LANGUAGE("language"),
-    RELATIONS("relations"),
+    JOURNAL("journal"),
     YEAR("year"),
-    TOPICS("topics"),
-    SUBJECTS("subjects"),
-    FULL_TEXT("fullText"),
-    FULL_TEXT_IDENTIFIER("fullTextIdentifier"),
-    NUMBER("number");
+    NUMBER("number"),
+    URL("url"),
+    BOOKTITLE("booktitle"),
+    ADDRESS("address"),
+    EDITOR("editor");
 
     public final String name;
 
@@ -81,19 +73,15 @@ public class BibtexGenerator extends LuceneDocumentGenerator<BibtexCollection.Do
 
   public static final List<String> STRING_FIELD_NAMES = new ArrayList<>(Arrays.asList(
     BibtexField.DOI.name,
-    BibtexField.OAI.name,
-    BibtexField.IDENTIFIERS.name,
-    BibtexField.DOWNLOAD_URL.name,
-    BibtexField.RELATIONS.name,
-    BibtexField.FULL_TEXT_IDENTIFIER.name));
+    BibtexField.URL.name));
 
   public static final List<String> FIELDS_WITHOUT_STEMMING = new ArrayList<>(Arrays.asList(
-    BibtexField.IDENTIFIERS.name,
-    BibtexField.AUTHORS.name,
-    BibtexField.CONTRIBUTORS.name,
+    BibtexField.BOOKTITLE.name,
+    BibtexField.AUTHOR.name,
     BibtexField.PUBLISHER.name,
-    BibtexField.JOURNALS.name,
-    BibtexField.LANGUAGE.name));
+    BibtexField.JOURNAL.name, 
+    BibtexField.ADDRESS.name,
+    BibtexField.EDITOR.name));
 
   public BibtexGenerator(IndexArgs args, IndexCollection.Counters counters) {
     super(args, counters);
@@ -117,7 +105,7 @@ public class BibtexGenerator extends LuceneDocumentGenerator<BibtexCollection.Do
     doc.add(new StringField(FIELD_ID, id, Field.Store.YES));
     // This is needed to break score ties by docid.
     doc.add(new SortedDocValuesField(FIELD_ID, new BytesRef(id)));
-    // Store the collection type
+    // Store the collection's bibtex type
     doc.add(new StringField(FIELD_TYPE, type, Field.Store.YES));
 
     if (args.storeRawDocs) {
