@@ -61,7 +61,7 @@ public class CoreCollection extends DocumentCollection<CoreCollection.Document> 
   }
 
   /**
-   * A file in a JSON collection, typically containing multiple documents.
+   * A file in a Core collection, typically containing multiple documents.
    */
   public static class Segment extends FileSegment<CoreCollection.Document> {
     private JsonNode node = null;
@@ -107,7 +107,7 @@ public class CoreCollection extends DocumentCollection<CoreCollection.Document> 
   }
 
   /**
-   * A document in a JSON collection.
+   * A document in a Core collection.
    */
   public static class Document implements SourceDocument {
     private String id;

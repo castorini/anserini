@@ -396,5 +396,10 @@
       <artifactId>mockito-all</artifactId>
       <version>1.10.19</version>
     </dependency>
+    <dependency>
+      <groupId>org.jbibtex</groupId>
+      <artifactId>jbibtex</artifactId>
+      <version>1.0.17</version>
+    </dependency>
   </dependencies>
 </project>
