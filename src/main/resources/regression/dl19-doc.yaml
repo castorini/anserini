@@ -72,7 +72,7 @@ index_stats:
   documents (non-empty): 3213835
   total terms: 2748636047
 topics:
-  - name: "[DL19 (Document)](https://trec.nist.gov/data/deep2019.html)"
+  - name: "[DL19 (Doc)](https://trec.nist.gov/data/deep2019.html)"
     path: topics.dl19-doc.txt
     qrel: qrels.dl19-doc.txt
 models:
