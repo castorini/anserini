@@ -83,7 +83,9 @@ Note that these regressions capture the "out of the box" experience, based on [_
 + [Regressions for FIRE 2012 Monolingual Hindi](docs/regressions-fire12-hi.md)
 + [Regressions for FIRE 2012 Monolingual English](docs/regressions-fire12-en.md)
 
-Other experiments:
+Note that [regression tests](docs/regressions.md) (i.e., all links above) specifically refer to experiments that work automatically with our [`run_regression.py`](src/main/python/run_regression.py) script.
+This script executes experiments end to end and verifies effectiveness numbers without requiring any human intervention.
+We provide additional documentation below; the experiments they describe, however, require manual copying and pasting of commands into a shell to replicate our results:
 
 + [Replicating "Neural Hype" Experiments](docs/experiments-forum2018.md)
 + [Guide to running BM25 baselines on the MS MARCO Passage Retrieval Task](docs/experiments-msmarco-passage.md)
