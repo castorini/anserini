@@ -31,12 +31,22 @@ nohup python src/main/python/run_regression.py --collection cw12 >& log.cw12 &
 
 nohup python src/main/python/run_regression.py --collection car17v1.5 >& log.car17v1.5 &
 nohup python src/main/python/run_regression.py --collection car17v2.0 >& log.car17v2.0 &
+nohup python src/main/python/run_regression.py --collection car17v2.0-doc2query >& log.car17v2.0-doc2query &
 
 nohup python src/main/python/run_regression.py --collection msmarco-passage >& log.msmarco-passage &
 nohup python src/main/python/run_regression.py --collection msmarco-passage-doc2query >& log.msmarco-passage-doc2query &
+nohup python src/main/python/run_regression.py --collection msmarco-passage-docTTTTTquery >& log.msmarco-passage-docTTTTTquery &
 nohup python src/main/python/run_regression.py --collection msmarco-doc >& log.msmarco-doc &
 
+nohup python src/main/python/run_regression.py --collection dl19-passage >& log.dl19-passage &
+nohup python src/main/python/run_regression.py --collection dl19-doc >& log.dl19-doc &
+
 nohup python src/main/python/run_regression.py --collection ntcir8-zh >& log.ntcir8-zh &
+nohup python src/main/python/run_regression.py --collection clef06-fr >& log.clef06-fr &
+nohup python src/main/python/run_regression.py --collection trec02-ar >& log.trec02-ar &
+nohup python src/main/python/run_regression.py --collection fire12-bn >& log.fire12-bn &
+nohup python src/main/python/run_regression.py --collection fire12-hi >& log.fire12-hi &
+nohup python src/main/python/run_regression.py --collection fire12-en >& log.fire12-en &
 ```
 
 Copy and paste the following lines into console on `tuna` to run the regressions from the raw collection, which includes building indexes from scratch (note difference is the additional `--index` option):
@@ -59,12 +69,22 @@ nohup python src/main/python/run_regression.py --index --collection cw12 >& log.
 
 nohup python src/main/python/run_regression.py --index --collection car17v1.5 >& log.car17v1.5 &
 nohup python src/main/python/run_regression.py --index --collection car17v2.0 >& log.car17v2.0 &
+nohup python src/main/python/run_regression.py --index --collection car17v2.0-doc2query >& log.car17v2.0-doc2query &
 
 nohup python src/main/python/run_regression.py --index --collection msmarco-passage >& log.msmarco-passage &
 nohup python src/main/python/run_regression.py --index --collection msmarco-passage-doc2query >& log.msmarco-passage-doc2query &
+nohup python src/main/python/run_regression.py --index --collection msmarco-passage-docTTTTTquery >& log.msmarco-passage-docTTTTTquery &
 nohup python src/main/python/run_regression.py --index --collection msmarco-doc >& log.msmarco-doc &
 
+nohup python src/main/python/run_regression.py --index --collection dl19-passage >& log.dl19-passage &
+nohup python src/main/python/run_regression.py --index --collection dl19-doc >& log.dl19-doc &
+
 nohup python src/main/python/run_regression.py --index --collection ntcir8-zh >& log.ntcir8-zh &
+nohup python src/main/python/run_regression.py --index --collection clef06-fr >& log.clef06-fr &
+nohup python src/main/python/run_regression.py --index --collection trec02-ar >& log.trec02-ar &
+nohup python src/main/python/run_regression.py --index --collection fire12-bn >& log.fire12-bn &
+nohup python src/main/python/run_regression.py --index --collection fire12-hi >& log.fire12-hi &
+nohup python src/main/python/run_regression.py --index --collection fire12-en >& log.fire12-en &
 ```
 
 Watch out: the full `cw12` regress takes a couple days to run and generates a 12TB index!
