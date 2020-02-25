@@ -74,6 +74,7 @@ Note that these regressions capture the "out of the box" experience, based on [_
 + [Regressions for the MS MARCO Passage Retrieval Task with doc2query expansion](docs/regressions-msmarco-passage-doc2query.md)
 + [Regressions for the MS MARCO Passage Retrieval Task with docTTTTTquery expansion](docs/regressions-msmarco-passage-docTTTTTquery.md)
 + [Regressions for the MS MARCO Document Retrieval](docs/regressions-msmarco-doc.md)
++ [Regressions for the TREC 2019 Deep Learning Track (Document Ranking Task)](docs/regressions-dl19-doc.md)
 + [Regressions for NTCIR-8 ACLIA (IR4QA subtask, Monolingual Chinese)](docs/regressions-ntcir8-zh.md)
 + [Regressions for CLEF 2006 Monolingual French](docs/regressions-clef06-fr.md)
 + [Regressions for TREC 2002 Monolingual Arabic](docs/regressions-trec02-ar.md)
