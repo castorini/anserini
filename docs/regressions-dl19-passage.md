@@ -2,10 +2,10 @@
 
 This page documents experiments, integrated into Anserini's regression testing framework, for the TREC 2019 Deep Learning Track (Passage Ranking Task) on the MS MARCO document collection using relevance judgments from NIST.
 Note that the NIST relevance judgments provide far more relevant documents per topic, unlike the "sparse" judgments provided by Microsoft (these are sometimes called "dense" judgments to emphasize this contrast).
-For additional instructions on working with MS MARCO document collection, refer to [this page](experiments-msmarco-doc.md).
+For additional instructions on working with MS MARCO document collection, refer to [this page](experiments-msmarco-passage.md).
 
-The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/dl19-doc.yaml).
-Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/dl19-doc.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/dl19-passage.yaml).
+Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/dl19-passage.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
 
 ## Indexing
 
@@ -17,7 +17,7 @@ nohup sh target/appassembler/bin/IndexCollection -collection JsonCollection -inp
  -storePositions -storeDocvectors -storeRawDocs >& log.dl19-passage.pos+docvectors+rawdocs &
 ```
 
-The directory `/path/to/msmarco-doc/` should be a directory containing the official document collection (a single file), in TREC format.
+The directory `/path/to/msmarco-passage/` should be a directory containing the official document collection (a single file), in TREC format.
 
 For additional details, see explanation of [common indexing options](common-indexing-options.md).
 
@@ -111,5 +111,5 @@ R@1000                                  | BM25 (Default)| +RM3      | +Ax       
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
 [DL19 (Passage)](https://trec.nist.gov/data/deep2019.html)| 0.7389    | 0.7882    | 0.8129    | 0.7845    | 0.7384    | 0.7762    | 0.8094    | 0.7894    |
 
-The setting "default" refers the default BM25 settings of `k1=0.9`, `b=0.4`, while "tuned" refers to the tuned setting of `k1=3.44`, `b=0.87` (see [this page](experiments-msmarco-doc.md) for more details about tuning).
+The setting "default" refers the default BM25 settings of `k1=0.9`, `b=0.4`, while "tuned" refers to the tuned setting of `k1=0.82`, `b=0.68` (see [this page](experiments-msmarco-passage.md) for more details about tuning).
 
