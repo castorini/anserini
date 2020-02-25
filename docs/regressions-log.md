@@ -3,6 +3,13 @@
 The following change log details commits to regression tests that alter effectiveness and the addition of new regression tests.
 This documentation is useful for figuring why results may have changed over time.
 
+### Febrary 25, 2029
+
++ commit [`a62004`](https://github.com/castorini/anserini/commit/a62004b9179f6fa8a8e50e30008d3f8bc8f9d234) (02/25/2020)
++ commit [`0d42d3`](https://github.com/castorini/anserini/commit/0d42d309b7d0b2b4827fadd6d8bde39fa6bcd4cd) (02/25/2020)
+
+Added regressions for the TREC 2019 Deep Learning Track, both document and passage ranking task.
+
 ### November 27, 2019
 
 + commit [`411618`](https://github.com/castorini/anserini/commit/4116188e327b92469da8c53e35f9c88fd28b88b6) (11/27/2019)
