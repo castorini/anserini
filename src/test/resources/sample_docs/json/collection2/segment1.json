@@ -1,0 +1,10 @@
+[
+  {
+    "id": "doc1",
+    "contents": "this is the contents 1."
+  },
+  {
+    "id": "doc2",
+    "contents": "this is the contents 2."
+  }
+]
