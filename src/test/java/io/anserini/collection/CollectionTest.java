@@ -59,7 +59,6 @@ public abstract class CollectionTest<T extends SourceDocument> extends LuceneTes
       FileSegment<T> segment = segmentIter.next();
 
       assertTrue(segmentPaths.contains(segment.getSegmentPath()));
-      System.out.println(segment.getSegmentPath());
 
       int docCount = 0;
       for (T doc : segment) {
@@ -67,7 +66,6 @@ public abstract class CollectionTest<T extends SourceDocument> extends LuceneTes
         docCount++;
       }
 
-      System.out.println("Segment " + segment.getSegmentPath() + " has " + docCount + " docs");
       assertEquals((int) segmentDocCounts.get(segment.getSegmentPath()), docCount);
 
     }
@@ -81,9 +79,7 @@ public abstract class CollectionTest<T extends SourceDocument> extends LuceneTes
 
     for (Path path : segmentPaths) {
       FileSegment<T> segment = collection.createFileSegment(path);
-
       assertTrue(segmentPaths.contains(segment.getSegmentPath()));
-      System.out.println(segment.getSegmentPath());
 
       int docCount = 0;
       for (T doc : segment) {
@@ -91,9 +87,7 @@ public abstract class CollectionTest<T extends SourceDocument> extends LuceneTes
         docCount++;
       }
 
-      System.out.println("Segment " + segment.getSegmentPath() + " has " + docCount + " docs");
       assertEquals((int) segmentDocCounts.get(segment.getSegmentPath()), docCount);
-
     }
   }
 

@@ -20,7 +20,6 @@ import org.junit.Before;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashMap;
 import java.util.Map;
 
 // A file in a JsonCollection can either be:
@@ -29,34 +28,26 @@ import java.util.Map;
 // (3) JSON Lines (i.e., one JSON object per line)
 //
 // This is the test case for (1)
-public class JsonDocumentObjectTest extends CollectionTest<JsonCollection.Document> {
+public class JsonDocumentObjectTest extends JsonCollectionTest {
   @Before
   public void setUp() throws Exception {
     super.setUp();
 
     collectionPath = Paths.get("src/test/resources/sample_docs/json/collection1");
+    collection = new JsonCollection(collectionPath);
 
-    Path p1 = Paths.get("src/test/resources/sample_docs/json/collection1/doc1.json");
-    Path p2 = Paths.get("src/test/resources/sample_docs/json/collection1/doc2.json");
+    Path segment1 = Paths.get("src/test/resources/sample_docs/json/collection1/doc1.json");
+    Path segment2 = Paths.get("src/test/resources/sample_docs/json/collection1/doc2.json");
 
-    segmentPaths.add(p1);
-    segmentDocCounts.put(p1, 1);
-    segmentPaths.add(p2);
-    segmentDocCounts.put(p2, 1);
+    segmentPaths.add(segment1);
+    segmentDocCounts.put(segment1, 1);
+    segmentPaths.add(segment2);
+    segmentDocCounts.put(segment2, 1);
 
     totalSegments = 2;
     totalDocs = 2;
 
-    collection = new JsonCollection(Paths.get("src/test/resources/sample_docs/json/collection1"));
-
     expected.put("doc1", Map.of("id", "doc1","content", "contents of document 1."));
     expected.put("doc2", Map.of("id", "doc2","content", "Some more \"blah\" text in document2!"));
-  }
-
-  @Override
-  void checkDocument(SourceDocument doc, Map<String, String> expected) {
-    assertTrue(doc.indexable());
-    assertEquals(expected.get("id"), doc.id());
-    assertEquals(expected.get("content"), doc.content());
   }
 }

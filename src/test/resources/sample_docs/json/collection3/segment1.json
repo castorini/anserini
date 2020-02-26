@@ -1,0 +1,12 @@
+{
+  "id": "doc1",
+  "contents": "this is the contents 1.",
+  "field1": "doc1 field1 content",
+  "field2": "doc1 field2 content"
+}
+{
+  "id": "doc2",
+  "contents": "this is the contents 2.",
+  "field1": "doc2 field1 content",
+  "field2": "doc2 field2 content"
+}
