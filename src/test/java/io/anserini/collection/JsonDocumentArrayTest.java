@@ -20,8 +20,11 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 // A file in a JsonCollection can either be:
@@ -30,65 +33,24 @@ import java.util.concurrent.atomic.AtomicInteger;
 // (3) JSON Lines (i.e., one JSON object per line)
 //
 // This is the test case for (2)
-public class JsonDocumentArrayTest extends DocumentTest {
+public class JsonDocumentArrayTest extends JsonCollectionTest {
 
   @Before
   public void setUp() throws Exception {
     super.setUp();
 
-    String doc =
-      "[\n" +
-      "  {\n" +
-      "    \"id\": \"doc1\",\n" +
-      "    \"contents\": \"this is the contents 1.\"\n" +
-      "  },\n" +
-      "  {\n" +
-      "    \"id\": \"doc2\",\n" +
-      "    \"contents\": \"this is the contents 2.\"\n" +
-      "  }\n" +
-      "]";
+    collectionPath = Paths.get("src/test/resources/sample_docs/json/collection2");
+    collection = new JsonCollection(collectionPath);
 
-    rawFiles.add(createFile(doc));
+    Path segment1 = Paths.get("src/test/resources/sample_docs/json/collection2/segment1.json");
 
-    HashMap<String, String> doc1 = new HashMap<>();
-    doc1.put("id", "doc1");
-    doc1.put("content", "this is the contents 1.");
-    expected.add(doc1);
-    HashMap<String, String> doc2 = new HashMap<>();
-    doc2.put("id", "doc2");
-    doc2.put("content", "this is the contents 2.");
-    expected.add(doc2);
-  }
+    segmentPaths.add(segment1);
+    segmentDocCounts.put(segment1, 2);
 
-  @Test
-  public void test() throws IOException {
-    JsonCollection collection = new JsonCollection(tmpPath);
-    int j = 0;
-    for (int i = 0; i < rawFiles.size(); i++) {
-      Iterator<JsonCollection.Document> iter =
-              collection.createFileSegment(rawFiles.get(i)).iterator();
-      while (iter.hasNext()) {
-        JsonCollection.Document parsed = iter.next();
-        assertEquals(parsed.id(), expected.get(j).get("id"));
-        assertEquals(parsed.content(), expected.get(j).get("content"));
-        j++;
-      }
-    }
-  }
+    totalSegments = 1;
+    totalDocs = 2;
 
-  // Tests if the iterator is behaving properly. If it is, we shouldn't have any issues running into
-  // NoSuchElementExceptions.
-  @Test
-  public void testStreamIteration() {
-    JsonCollection collection = new JsonCollection(tmpPath);
-    try {
-      Iterator<JsonCollection.Document> iter =
-              collection.createFileSegment(rawFiles.get(0)).iterator();
-      AtomicInteger cnt = new AtomicInteger();
-      iter.forEachRemaining(d -> cnt.incrementAndGet());
-      assertEquals(2, cnt.get());
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
+    expected.put("doc1", Map.of("id", "doc1","content", "this is the contents 1."));
+    expected.put("doc2", Map.of("id", "doc2","content", "this is the contents 2."));
   }
 }
