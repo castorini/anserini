@@ -31,13 +31,17 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public abstract class CollectionTest<T extends SourceDocument> extends LuceneTestCase {
-  protected Path collectionPath;
-  protected Set<Path> segmentPaths;
-  protected Map<Path, Integer> segmentDocCounts;
-  protected DocumentCollection<T> collection;
-  protected int totalSegments;
-  protected int totalDocs;
-  protected Map<String, Map<String, String>> expected;
+  Path collectionPath;
+  DocumentCollection<T> collection;
+
+  Set<Path> segmentPaths; // Set of segment paths; set because there's no guarantee on iteration order.
+  Map<Path, Integer> segmentDocCounts; // Map holding the number of expected documents in each segment.
+
+  int totalSegments; // Total number of expected segments.
+  int totalDocs; // Total number of expected documents.
+
+  // Holds the ground truth. Outer key is the docid, map is custom data based on subclass.
+  Map<String, Map<String, String>> expected;
 
   @Before
   public void setUp() throws Exception {
@@ -49,6 +53,7 @@ public abstract class CollectionTest<T extends SourceDocument> extends LuceneTes
   }
 
   @Test
+  // Iterate through collection using built-in iterators.
   public void testIterateCollection() {
     if (collection == null)
       return;
@@ -73,10 +78,12 @@ public abstract class CollectionTest<T extends SourceDocument> extends LuceneTes
   }
 
   @Test
+  // Iterate through collection, but we're going to explicitly create segments.
   public void testManualSegmentInitialization() throws IOException {
     if (collection == null)
       return;
 
+    assertEquals(segmentPaths.size(), collection.getSegmentPaths().size());
     for (Path path : segmentPaths) {
       FileSegment<T> segment = collection.createFileSegment(path);
       assertTrue(segmentPaths.contains(segment.getSegmentPath()));
@@ -92,6 +99,7 @@ public abstract class CollectionTest<T extends SourceDocument> extends LuceneTes
   }
 
   @Test
+  // Iterate through the entire collection using Java's stream processing capabilities.
   public void testStreamIteration() {
     if (collection == null)
       return;
