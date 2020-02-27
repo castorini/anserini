@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nitf SYSTEM "http://www.nitf.org/IPTC/NITF/3.3/specification/dtd/nitf-3-3.dtd">
+<nitf version="-//IPTC//DTD NITF 3.3//EN" change.time="19:30" change.date="June 10, 2005">
+<head>
+<title>Article Title</title>
+<meta name="slug" content="foo"/>
+<meta name="publication_day_of_month" content="1"/>
+<meta name="publication_month" content="2"/>
+<meta name="publication_year" content="2007"/>
+<meta name="publication_day_of_week" content="Thursday"/>
+<docdata>
+<doc-id id-string="12345678"/>
+<doc.copyright year="2007" holder="The New York Times"/>
+</docdata>
+</head>
+<body>
+<body.head>
+<hedline>
+<hl1>Article Title</hl1>
+</hedline>
+<byline class="print_byline">By Some One; Compiled by Another Person</byline>
+<byline class="normalized_byline">One, Some</byline>
+<abstract>
+<p>Article abstract.</p>
+</abstract>
+</body.head>
+<body.content>
+<block class="lead_paragraph">
+<p>First paragraph.</p>
+</block>
+<block class="full_text">
+<p>First paragraph.</p>
+<p>Second paragraph.</p>
+</block>
+</body.content>
+</body>
+</nitf>
