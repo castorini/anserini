@@ -17,106 +17,43 @@
 package io.anserini.collection;
 
 import org.junit.Before;
-import org.junit.Test;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Map;
 
-public class TrecwebDocumentTest extends DocumentTest {
+public class TrecwebDocumentTest extends DocumentCollectionTest<TrecwebCollection.Document> {
 
   @Before
   public void setUp() throws Exception {
     super.setUp();
 
-    String doc = "<DOC>\n" +
-        "<DOCNO> WEB-0001 </DOCNO>\n" +
-        "<DOCHDR>DOCHDR will NOT be \n" +
-        " included</DOCHDR>\n" +
-        "<html>Wh at ever here will be parsed \n" +
-        " <br> asdf <div>\n" +
-        "</html>\n" +
-        "</DOC>\n" +
+    collectionPath = Paths.get("src/test/resources/sample_docs/trecweb/collection1");
+    collection = new TrecwebCollection(collectionPath);
 
-        // Test for incomplete tags, should skip this document and continue
-        "<DOC>\n" +
-        "WEB-0002 </DOCNO>\n" +
-        "<DOCHDR>DOCHDR will NOT be \n" +
-        " included</DOCHDR>\n" +
-        "<html>Wh at ever here will be parsed \n" +
-        " <br> asdf <div>\n" +
-        "</html>\n" +
-        "</DOC>\n" +
+    Path segment1 = Paths.get("src/test/resources/sample_docs/trecweb/collection1/segment1.txt");
 
-        // This document should be parsed
-        "<DOC>\n" +
-        "<DOCNO> WEB-0003 </DOCNO>\n" +
-        "<DOCHDR>DOCHDR will NOT be \n" +
-        " included</DOCHDR>\n" +
-        "<html>Wh at ever here will be parsed \n" +
-        " <br> asdf <div>\n" +
-        "</html>\n" +
-        "</DOC>\n";
+    segmentPaths.add(segment1);
+    segmentDocCounts.put(segment1, 2);
 
-    rawFiles.add(createFile(doc));
+    totalSegments = 1;
+    totalDocs = 2;
 
-    HashMap<String, String> doc1 = new HashMap<>();
-    doc1.put("id", "WEB-0001");
-    // <DOCHDR> Will NOT be included
-    doc1.put("content", "<html>Wh at ever here will be parsed\n" +
-        "<br> asdf <div>\n" +
-        "</html>");
-    doc1.put("indexable", "true");
-    expected.add(doc1);
+    expected.put("WEB-0001",
+      Map.of("id", "WEB-0001",
+        // <DOCHDR> Will NOT be included
+        "content", "<html>Wh at ever here will be parsed\n<br> asdf <div>\n</html>"));
 
-    HashMap<String, String> doc3 = new HashMap<>();
-    doc3.put("id", "WEB-0003");
-    // <DOCHDR> Will NOT be included
-    doc3.put("content", "<html>Wh at ever here will be parsed\n" +
-            "<br> asdf <div>\n" +
-            "</html>");
-    doc3.put("indexable", "true");
-    expected.add(doc3);
+    expected.put("WEB-0003",
+      Map.of("id", "WEB-0003",
+        // <DOCHDR> Will NOT be included
+        "content", "<html>Wh at ever here will be parsed\n<br> asdf <div>\n</html>"));
   }
 
-  @Test
-  public void test() throws Exception {
-    TrecwebCollection collection = new TrecwebCollection(tmpPath);
-    FileSegment<TrecwebCollection.Document> segment = collection.createFileSegment(rawFiles.get(0));
-    Iterator<TrecwebCollection.Document> iter = segment.iterator();
-    AtomicInteger cnt = new AtomicInteger();
-    while (iter.hasNext()){
-      TrecwebCollection.Document parsed = iter.next();
-      int i = cnt.getAndIncrement();
-      assertEquals(parsed.id(), expected.get(i).get("id"));
-      assertEquals(parsed.content(), expected.get(i).get("content"));
-    }
-    assertEquals(2, cnt.get());
-    assertEquals(1, segment.getSkippedCount());
-    assertEquals(false, segment.getErrorStatus());
-  }
-
-  // Tests if the iterator is behaving properly. If it is, we shouldn't have any issues running into
-  // NoSuchElementExceptions.
-  @Test
-  public void testStreamIteration() {
-    TrecwebCollection collection = new TrecwebCollection(tmpPath);
-    try {
-      FileSegment<TrecwebCollection.Document> segment = collection.createFileSegment(rawFiles.get(0));
-      Iterator<TrecwebCollection.Document> iter = segment.iterator();
-      AtomicInteger cnt = new AtomicInteger();
-      iter.forEachRemaining(d -> {
-        int i = cnt.getAndIncrement();
-        assertEquals(d.id(), expected.get(i).get("id"));
-        assertEquals(d.content(), expected.get(i).get("content"));
-        assertEquals(String.valueOf(d.indexable()), expected.get(i).get("indexable"));
-      });
-      assertEquals(2, cnt.get());
-      assertEquals(1, segment.getSkippedCount());
-      assertEquals(false, segment.getErrorStatus());
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
+  @Override
+  void checkDocument(SourceDocument doc, Map<String, String> expected) {
+    assertTrue(doc.indexable());
+    assertEquals(expected.get("id"), doc.id());
+    assertEquals(expected.get("content"), doc.content());
   }
 }

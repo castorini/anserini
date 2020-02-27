@@ -1,0 +1,26 @@
+<DOC>
+<DOCNO> WEB-0001 </DOCNO>
+<DOCHDR>DOCHDR will NOT be 
+ included</DOCHDR>
+<html>Wh at ever here will be parsed 
+ <br> asdf <div>
+</html>
+</DOC>
+<!-- Test for incomplete tags, should skip this document and continue -->
+<DOC>
+WEB-0002 </DOCNO>
+<DOCHDR>DOCHDR will NOT be 
+ included</DOCHDR>
+<html>Wh at ever here will be parsed 
+ <br> asdf <div>
+</html>
+</DOC>
+<!-- This document should be parsed -->
+<DOC>
+<DOCNO> WEB-0003 </DOCNO>
+<DOCHDR>DOCHDR will NOT be 
+ included</DOCHDR>
+<html>Wh at ever here will be parsed 
+ <br> asdf <div>
+</html>
+</DOC>
