@@ -22,6 +22,7 @@ import java.nio.file.Paths;
 import java.util.Map;
 
 public class NewYorkTimesDocumentTest extends DocumentCollectionTest<NewYorkTimesCollection.Document> {
+
   @Before
   public void setUp() throws Exception {
     super.setUp();
@@ -39,10 +40,10 @@ public class NewYorkTimesDocumentTest extends DocumentCollectionTest<NewYorkTime
 
     expected.put("12345678",
         Map.of("id", "12345678",
-              "content", "Article Title\nArticle abstract.\nFirst paragraph.\nSecond paragraph.",
-              "headline", "Article Title",
-              "abstract", "Article abstract.",
-              "body", "First paragraph.\nSecond paragraph."));
+            "content", "Article Title\nArticle abstract.\nFirst paragraph.\nSecond paragraph.",
+            "headline", "Article Title",
+            "abstract", "Article abstract.",
+            "body", "First paragraph.\nSecond paragraph."));
   }
 
   @Override
