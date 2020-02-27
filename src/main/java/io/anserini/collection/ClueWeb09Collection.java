@@ -53,6 +53,7 @@
 package io.anserini.collection;
 
 import org.apache.tools.ant.filters.StringInputStream;
+import org.eclipse.jetty.util.IO;
 
 import java.io.DataInput;
 import java.io.DataInputStream;
@@ -89,10 +90,6 @@ public class ClueWeb09Collection extends DocumentCollection<ClueWeb09Collection.
     return new Segment(p);
   }
 
-  public FileSegment<ClueWeb09Collection.Document> createFileSegment(String raw) {
-    return new Segment(raw);
-  }
-
   /**
    * An individual WARC in the <a href="https://www.lemurproject.org/clueweb09.php/">ClueWeb09 collection</a>.
    */
@@ -123,11 +120,15 @@ public class ClueWeb09Collection extends DocumentCollection<ClueWeb09Collection.
     }
 
     @Override
-    public void close() throws IOException {
-      if (stream != null) {
-        stream.close();
+    public void close() {
+      try {
+        if (stream != null) {
+          stream.close();
+        }
+        super.close();
+      } catch (IOException e) {
+        // There's really nothing to be done, so just silently eat the exception.
       }
-      super.close();
     }
 
     /**

@@ -88,10 +88,6 @@ public class ClueWeb12Collection extends DocumentCollection<ClueWeb12Collection.
     return new Segment(p);
   }
 
-  public FileSegment<ClueWeb12Collection.Document> createFileSegment(String raw) {
-    return new Segment(raw);
-  }
-
   /**
    * An individual WARC in the <a href="https://www.lemurproject.org/clueweb12.php/">ClueWeb12 collection</a>.
    */
@@ -100,8 +96,7 @@ public class ClueWeb12Collection extends DocumentCollection<ClueWeb12Collection.
 
     protected Segment(Path path) throws IOException {
       super(path);
-      this.stream = new DataInputStream(
-              new GZIPInputStream(Files.newInputStream(path, StandardOpenOption.READ)));
+      this.stream = new DataInputStream(new GZIPInputStream(Files.newInputStream(path, StandardOpenOption.READ)));
     }
 
     protected Segment(String raw) {
@@ -115,11 +110,15 @@ public class ClueWeb12Collection extends DocumentCollection<ClueWeb12Collection.
     }
 
     @Override
-    public void close() throws IOException {
-      if (stream != null) {
-        stream.close();
+    public void close() {
+      try {
+        if (stream != null) {
+          stream.close();
+        }
+        super.close();
+      } catch (IOException e) {
+        // There's really nothing to be done, so just silently eat the exception.
       }
-      super.close();
     }
 
     /**

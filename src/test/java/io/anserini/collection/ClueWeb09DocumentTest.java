@@ -19,107 +19,53 @@ package io.anserini.collection;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class ClueWeb09DocumentTest extends DocumentTest {
+public class ClueWeb09DocumentTest extends DocumentCollectionTest<ClueWeb09Collection.Document> {
 
   @Before
   public void setUp() throws Exception {
     super.setUp();
 
-    // WARC-Type: warcinfo is not indexable
-    rawDocs.add(
-        "WARC/0.18\n" +
-        "WARC-Type: warcinfo\n" +
-        "WARC-Date: 2009-03-65T08:43:19-0800\n" +
-        "WARC-Record-ID: <urn:uuid:11111111-2222-3333-4444-555555555555>\n" +
-        "Content-Type: application/warc-fields\n" +
-        "Content-Length: 219\n" +
-        "\n" +
-        "software: Nutch 1.0-dev (modified for clueweb09)\n" +
-        "isPartOf: clueweb09-en\n" +
-        "description: clueweb09 crawl with WARC output\n" +
-        "format: WARC file version 0.18\n" +
-        "conformsTo: http://www.archive.org/documents/WarcFileFormat-0.18.html\n");
+    collectionPath = Paths.get("src/test/resources/sample_docs/cw09/collection1");
+    collection = new ClueWeb09Collection(collectionPath);
 
-    rawDocs.add(
-        "WARC/0.18\n" +
-        "WARC-Type: response\n" +
-        "WARC-Target-URI: http://clueweb09.test.com/\n" +
-        "WARC-Warcinfo-ID: 993d3969-9643-4934-b1c6-68d4dbe55b83\n" +
-        "WARC-Date: 2009-03-65T08:43:19-0800\n" +
-        "WARC-Record-ID: <urn:uuid:6f12f095-18a8-4415-8f04-ec2477be81d5>\n" +
-        "WARC-TREC-ID: clueweb09-az0000-00-00000\n" +
-        "Content-Type: application/http;msgtype=response\n" +
-        "WARC-Identified-Payload-Type: \n" +
-        "Content-Length: 345\n" + // The Content-Length MUST match the length of the record!!!
-        "\n" +
-        "HTTP/1.1 200 OK\n" +
-        "Content-Type: text/html\n" +
-        "Date: Tue, 13 Jan 2009 18:05:10 GMT\n" +
-        "Pragma: no-cache\n" +
-        "Cache-Control: no-cache, must-revalidate\n" +
-        "X-Powered-By: PHP/4.4.8\n" +
-        "Server: WebServerX\n" +
-        "Connection: close\n" +
-        "Last-Modified: Tue, 13 Jan 2009 18:05:10 GMT\n" +
-        "Expires: Mon, 20 Dec 1998 01:00:00 GMT\n" +
-        "Content-Length: 49\n" +
-        "\n" +
-        "<html>\n" +
-        "whatever here will be included\n" +
-        "</html>\n");
+    Path segment1 = Paths.get("src/test/resources/sample_docs/cw09/collection1/segment1.warc.gz");
 
-    HashMap<String, String> doc1 = new HashMap<>();
-    doc1.put("id", null);
-    doc1.put("content", "software: Nutch 1.0-dev (modified for clueweb09)\n" +
-        "isPartOf: clueweb09-en\n" +
-        "description: clueweb09 crawl with WARC output\n" +
-        "format: WARC file version 0.18\n" +
-        "conformsTo: http://www.archive.org/documents/WarcFileFormat-0.18.html");
-    doc1.put("indexable", "false");
-    expected.add(doc1);
+    segmentPaths.add(segment1);
+    segmentDocCounts.put(segment1, 2);
 
-    HashMap<String, String> doc2 = new HashMap<>();
-    doc2.put("id", "clueweb09-az0000-00-00000");
-    doc2.put("content", "\n<html>\n" +
-        "whatever here will be included\n" +
-        "</html>");
-    doc2.put("indexable", "true");
-    expected.add(doc2);
+    totalSegments = 1;
+    totalDocs = 2;
+
+    // Note special key "null" to handle special case.
+    expected.put("null",
+        Map.of("id", "null","content",
+            "software: Nutch 1.0-dev (modified for clueweb09)\n" +
+                "isPartOf: clueweb09-en\n" +
+                "description: clueweb09 crawl with WARC output\n" +
+                "format: WARC file version 0.18\n" +
+                "conformsTo: http://www.archive.org/documents/WarcFileFormat-0.18.html"));
+
+    expected.put("clueweb09-az0000-00-00000",
+        Map.of("id", "clueweb09-az0000-00-00000",
+            "content", "\n<html>\nwhatever here will be included\n</html>"));
   }
 
-  @Test
-  public void test() {
-    ClueWeb09Collection collection = new ClueWeb09Collection(tmpPath);
-    for (int i = 0; i < rawDocs.size(); i++) {
-      Iterator<ClueWeb09Collection.Document> iter =
-              collection.createFileSegment(rawDocs.get(i)).iterator();
-      while (iter.hasNext()) {
-        ClueWeb09Collection.Document parsed = iter.next();
-        assertEquals(parsed.id(), expected.get(i).get("id"));
-        assertEquals(parsed.content(), expected.get(i).get("content"));
-        assertEquals(String.valueOf(parsed.indexable()), expected.get(i).get("indexable"));
-      }
+  @Override
+  void checkDocument(SourceDocument doc, Map<String, String> expected) {
+    if (doc.id() == null) {
+      assertFalse(doc.indexable());
+    } else {
+      assertTrue(doc.indexable());
+      assertEquals(expected.get("id"), doc.id());
     }
-  }
-
-  // Tests if the iterator is behaving properly. If it is, we shouldn't have any issues running into
-  // NoSuchElementExceptions.
-  @Test
-  public void testStreamIteration() {
-    ClueWeb09Collection collection = new ClueWeb09Collection(tmpPath);
-    FileSegment<ClueWeb09Collection.Document> segment = collection.createFileSegment(rawDocs.get(0) + rawDocs.get(1));
-    Iterator<ClueWeb09Collection.Document> iter = segment.iterator();
-    AtomicInteger cnt = new AtomicInteger();
-    iter.forEachRemaining(d -> {
-      int i = cnt.getAndIncrement();
-      assertEquals(d.id(), expected.get(i).get("id"));
-      assertEquals(d.content(), expected.get(i).get("content"));
-      assertEquals(String.valueOf(d.indexable()), expected.get(i).get("indexable"));
-    });
-    assertEquals(2, cnt.get());
+    assertEquals(expected.get("content"), doc.content());
   }
 }

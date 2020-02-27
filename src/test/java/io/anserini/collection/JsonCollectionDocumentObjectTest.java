@@ -17,40 +17,37 @@
 package io.anserini.collection;
 
 import org.junit.Before;
-import org.junit.Test;
 
-import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
 
 // A file in a JsonCollection can either be:
 // (1) A single JSON object (i.e., a single document)
 // (2) An array of JSON objects
 // (3) JSON Lines (i.e., one JSON object per line)
 //
-// This is the test case for (2)
-public class JsonDocumentArrayTest extends JsonCollectionTest {
-
+// This is the test case for (1)
+public class JsonCollectionDocumentObjectTest extends JsonCollectionTest {
   @Before
   public void setUp() throws Exception {
     super.setUp();
 
-    collectionPath = Paths.get("src/test/resources/sample_docs/json/collection2");
+    collectionPath = Paths.get("src/test/resources/sample_docs/json/collection1");
     collection = new JsonCollection(collectionPath);
 
-    Path segment1 = Paths.get("src/test/resources/sample_docs/json/collection2/segment1.json");
+    Path segment1 = Paths.get("src/test/resources/sample_docs/json/collection1/doc1.json");
+    Path segment2 = Paths.get("src/test/resources/sample_docs/json/collection1/doc2.json");
 
     segmentPaths.add(segment1);
-    segmentDocCounts.put(segment1, 2);
+    segmentDocCounts.put(segment1, 1);
+    segmentPaths.add(segment2);
+    segmentDocCounts.put(segment2, 1);
 
-    totalSegments = 1;
+    totalSegments = 2;
     totalDocs = 2;
 
-    expected.put("doc1", Map.of("id", "doc1","content", "this is the contents 1."));
-    expected.put("doc2", Map.of("id", "doc2","content", "this is the contents 2."));
+    expected.put("doc1", Map.of("id", "doc1","content", "contents of document 1."));
+    expected.put("doc2", Map.of("id", "doc2","content", "Some more \"blah\" text in document2!"));
   }
 }
