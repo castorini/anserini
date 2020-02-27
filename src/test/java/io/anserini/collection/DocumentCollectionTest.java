@@ -30,7 +30,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public abstract class CollectionTest<T extends SourceDocument> extends LuceneTestCase {
+public abstract class DocumentCollectionTest<T extends SourceDocument> extends LuceneTestCase {
   Path collectionPath;
   DocumentCollection<T> collection;
 
@@ -90,6 +90,7 @@ public abstract class CollectionTest<T extends SourceDocument> extends LuceneTes
 
       int docCount = 0;
       for (T doc : segment) {
+        assertTrue(expected.containsKey(doc.id()));
         checkDocument(doc, expected.get(doc.id()));
         docCount++;
       }
@@ -109,6 +110,7 @@ public abstract class CollectionTest<T extends SourceDocument> extends LuceneTes
 
     collection.iterator().forEachRemaining(d -> {
       d.iterator().forEachRemaining(doc -> {
+        assertTrue(expected.containsKey(doc.id()));
         checkDocument(doc, expected.get(doc.id()));
         docCnt.incrementAndGet();
       });

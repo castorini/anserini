@@ -18,7 +18,7 @@ package io.anserini.collection;
 
 import java.util.Map;
 
-public class JsonCollectionTest extends CollectionTest<JsonCollection.Document> {
+public abstract class JsonCollectionTest extends DocumentCollectionTest<JsonCollection.Document> {
   @Override
   void checkDocument(SourceDocument doc, Map<String, String> expected) {
     assertTrue(doc.indexable());
