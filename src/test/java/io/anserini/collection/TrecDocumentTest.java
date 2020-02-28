@@ -39,11 +39,10 @@ public class TrecDocumentTest extends DocumentCollectionTest<TrecCollection.Docu
     totalSegments = 1;
     totalDocs = 2;
 
-    expected.put("AP-0001",
-        Map.of("id", "AP-0001",
+    expected.put("AP-0001", Map.of("id", "AP-0001","content",
         // ONLY "<TEXT>", "<HEADLINE>", "<TITLE>", "<HL>", "<HEAD>",
         // "<TTL>", "<DD>", "<DATE>", "<LP>", "<LEADPARA>" will be included
-        "content", "<HEAD>This is head and should be included</HEAD>\n" +
+        "<HEAD>This is head and should be included</HEAD>\n" +
             "<HEADLINE>This is headline and should be included</HEADLINE>\n" +
             "<TEXT>\n" +
             "Hopefully we\n" +

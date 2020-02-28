@@ -75,11 +75,15 @@ public abstract class FileSegment<T extends SourceDocument> implements Iterable<
   }
 
   @Override
-  public void close() throws IOException {
+  public void close() {
     atEOF = true;
     bufferedRecord = null;
     if (bufferedReader != null) {
-      bufferedReader.close();
+      try {
+        bufferedReader.close();
+      } catch (IOException e) {
+        // There's really nothing to be done, so just silently eat the exception.
+      }
     }
   }
 
@@ -102,7 +106,7 @@ public abstract class FileSegment<T extends SourceDocument> implements Iterable<
    */
   @Override
   public final Iterator<T> iterator(){
-    return new Iterator<T>(){
+    return new Iterator<>(){
       @Override
       public T next() throws NoSuchElementException {
         if (error) {

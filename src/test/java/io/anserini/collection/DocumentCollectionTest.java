@@ -59,6 +59,7 @@ public abstract class DocumentCollectionTest<T extends SourceDocument> extends L
       return;
 
     Iterator<FileSegment<T>> segmentIter = collection.iterator();
+    assertNotNull(segmentIter);
     for (int i=0; i<segmentPaths.size(); i++) {
       assertTrue(segmentIter.hasNext());
       FileSegment<T> segment = segmentIter.next();
@@ -67,12 +68,18 @@ public abstract class DocumentCollectionTest<T extends SourceDocument> extends L
 
       int docCount = 0;
       for (T doc : segment) {
-        checkDocument(doc, expected.get(doc.id()));
+        // This is a special case for ClueWeb collections, where the id can be null.
+        if (doc.id() == null) {
+          checkDocument(doc, expected.get("null"));
+        } else {
+          assertTrue(expected.containsKey(doc.id()));
+          checkDocument(doc, expected.get(doc.id()));
+        }
         docCount++;
       }
 
       assertEquals((int) segmentDocCounts.get(segment.getSegmentPath()), docCount);
-
+      segment.close();
     }
     assertFalse(segmentIter.hasNext());
   }
@@ -90,12 +97,18 @@ public abstract class DocumentCollectionTest<T extends SourceDocument> extends L
 
       int docCount = 0;
       for (T doc : segment) {
-        assertTrue(expected.containsKey(doc.id()));
-        checkDocument(doc, expected.get(doc.id()));
+        // This is a special case for ClueWeb collections, where the id can be null.
+        if (doc.id() == null) {
+          checkDocument(doc, expected.get("null"));
+        } else {
+          assertTrue(expected.containsKey(doc.id()));
+          checkDocument(doc, expected.get(doc.id()));
+        }
         docCount++;
       }
 
       assertEquals((int) segmentDocCounts.get(segment.getSegmentPath()), docCount);
+      segment.close();
     }
   }
 
@@ -110,8 +123,13 @@ public abstract class DocumentCollectionTest<T extends SourceDocument> extends L
 
     collection.iterator().forEachRemaining(d -> {
       d.iterator().forEachRemaining(doc -> {
-        assertTrue(expected.containsKey(doc.id()));
-        checkDocument(doc, expected.get(doc.id()));
+        // This is a special case for ClueWeb collections, where the id can be null.
+        if (doc.id() == null) {
+          checkDocument(doc, expected.get("null"));
+        } else {
+          assertTrue(expected.containsKey(doc.id()));
+          checkDocument(doc, expected.get(doc.id()));
+        }
         docCnt.incrementAndGet();
       });
       segmentCnt.incrementAndGet();

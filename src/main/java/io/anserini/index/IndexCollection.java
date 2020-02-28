@@ -239,13 +239,8 @@ public final class IndexCollection {
       } catch (Exception e) {
         LOG.error(Thread.currentThread().getName() + ": Unexpected Exception:", e);
       } finally {
-        // clean up resources
-        try {
-          if (fileSegment != null){
+        if (fileSegment != null) {
             fileSegment.close();
-          }
-        } catch (IOException io) {
-          LOG.error("IOException closing segment: " + io.getMessage());
         }
       }
     }
@@ -362,16 +357,10 @@ public final class IndexCollection {
       } catch (Exception e) {
         LOG.error(Thread.currentThread().getName() + ": Unexpected Exception:", e);
       } finally {
-        // clean up resources
-        try {
-          if (fileSegment != null){
-            fileSegment.close();
-          }
-        } catch (IOException io) {
-          LOG.error("IOException closing segment: " + io.getMessage());
+        if (fileSegment != null) {
+          fileSegment.close();
         }
       }
-
     }
 
     private void flush() {
@@ -535,13 +524,8 @@ public final class IndexCollection {
       } catch (Exception e) {
         LOG.error(Thread.currentThread().getName() + ": Unexpected Exception:", e);
       } finally {
-        // clean up resources
-        try {
-          if (fileSegment != null){
-            fileSegment.close();
-          }
-        } catch (IOException io) {
-          LOG.error("IOException closing segment: " + io.getMessage());
+        if (fileSegment != null){
+          fileSegment.close();
         }
       }
     }

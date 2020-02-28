@@ -39,15 +39,15 @@ public class TrecwebDocumentTest extends DocumentCollectionTest<TrecwebCollectio
     totalSegments = 1;
     totalDocs = 2;
 
+    // Note, <DOCHDR> Will NOT be included.
     expected.put("WEB-0001",
-      Map.of("id", "WEB-0001",
-        // <DOCHDR> Will NOT be included
-        "content", "<html>Wh at ever here will be parsed\n<br> asdf <div>\n</html>"));
+        Map.of("id", "WEB-0001",
+            "content", "<html>Wh at ever here will be parsed\n<br> asdf <div>\n</html>"));
 
+    // Note, <DOCHDR> Will NOT be included.
     expected.put("WEB-0003",
       Map.of("id", "WEB-0003",
-        // <DOCHDR> Will NOT be included
-        "content", "<html>Wh at ever here will be parsed\n<br> asdf <div>\n</html>"));
+          "content", "<html>Wh at ever here will be parsed\n<br> asdf <div>\n</html>"));
   }
 
   @Override
