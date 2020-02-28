@@ -35,7 +35,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 // This is the test case for (3)
 //
 // Note that we're testing the multifield capability here and only here, since the codepath is shared.
-public class JsonLineObjectTest extends JsonCollectionTest {
+public class JsonCollectionLineObjectTest extends JsonCollectionTest {
 
   @Before
   public void setUp() throws Exception {

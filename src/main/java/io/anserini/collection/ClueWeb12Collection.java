@@ -52,8 +52,6 @@
 
 package io.anserini.collection;
 
-import org.apache.tools.ant.filters.StringInputStream;
-
 import java.io.DataInput;
 import java.io.DataInputStream;
 import java.io.DataOutput;
@@ -62,9 +60,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -79,17 +75,13 @@ public class ClueWeb12Collection extends DocumentCollection<ClueWeb12Collection.
 
   public ClueWeb12Collection(Path path) {
     this.path = path;
-    this.allowedFileSuffix = new HashSet<>(Arrays.asList(".warc.gz"));
-    this.skippedDir = new HashSet<>(Arrays.asList("OtherData"));
+    this.allowedFileSuffix = Set.of(".warc.gz");
+    this.skippedDir = Set.of("OtherData");
   }
 
   @Override
   public FileSegment<ClueWeb12Collection.Document> createFileSegment(Path p) throws IOException {
     return new Segment(p);
-  }
-
-  public FileSegment<ClueWeb12Collection.Document> createFileSegment(String raw) {
-    return new Segment(raw);
   }
 
   /**
@@ -100,13 +92,7 @@ public class ClueWeb12Collection extends DocumentCollection<ClueWeb12Collection.
 
     protected Segment(Path path) throws IOException {
       super(path);
-      this.stream = new DataInputStream(
-              new GZIPInputStream(Files.newInputStream(path, StandardOpenOption.READ)));
-    }
-
-    protected Segment(String raw) {
-      super(null);
-      this.stream = new DataInputStream(new StringInputStream(raw));
+      this.stream = new DataInputStream(new GZIPInputStream(Files.newInputStream(path, StandardOpenOption.READ)));
     }
 
     @Override
@@ -115,11 +101,15 @@ public class ClueWeb12Collection extends DocumentCollection<ClueWeb12Collection.
     }
 
     @Override
-    public void close() throws IOException {
-      if (stream != null) {
-        stream.close();
+    public void close() {
+      try {
+        if (stream != null) {
+          stream.close();
+        }
+        super.close();
+      } catch (IOException e) {
+        // There's really nothing to be done, so just silently eat the exception.
       }
-      super.close();
     }
 
     /**
