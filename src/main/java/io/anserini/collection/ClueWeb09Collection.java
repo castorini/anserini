@@ -52,9 +52,6 @@
 
 package io.anserini.collection;
 
-import org.apache.tools.ant.filters.StringInputStream;
-import org.eclipse.jetty.util.IO;
-
 import java.io.DataInput;
 import java.io.DataInputStream;
 import java.io.DataOutput;
@@ -64,9 +61,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
@@ -82,7 +77,7 @@ public class ClueWeb09Collection extends DocumentCollection<ClueWeb09Collection.
 
   public ClueWeb09Collection(Path path) {
     this.path = path;
-    this.allowedFileSuffix = new HashSet<>(Arrays.asList(".warc.gz"));
+    this.allowedFileSuffix = Set.of(".warc.gz");
   }
 
   @Override
@@ -105,13 +100,7 @@ public class ClueWeb09Collection extends DocumentCollection<ClueWeb09Collection.
 
     protected Segment(Path path) throws IOException {
       super(path);
-      this.stream = new DataInputStream(
-              new GZIPInputStream(Files.newInputStream(path, StandardOpenOption.READ)));
-    }
-
-    protected Segment(String raw) {
-      super(null);
-      this.stream = new DataInputStream(new StringInputStream(raw));
+      this.stream = new DataInputStream(new GZIPInputStream(Files.newInputStream(path, StandardOpenOption.READ)));
     }
 
     @Override
