@@ -17,14 +17,12 @@
 package io.anserini.index;
 
 import io.anserini.analysis.EnglishStemmingAnalyzer;
-import io.anserini.index.generator.LuceneDocumentGenerator;
 import io.anserini.analysis.AnalyzerUtils;
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveOutputStream;
 import org.apache.commons.compress.compressors.bzip2.BZip2CompressorInputStream;
 import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
 import org.apache.commons.compress.compressors.gzip.GzipCompressorOutputStream;
-import org.apache.jute.Index;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
@@ -227,7 +225,7 @@ public class IndexReaderUtils {
 
   public static Map<String, Long> getTermCounts(IndexReader reader, String termStr) throws IOException, ParseException {
     EnglishAnalyzer ea = new EnglishAnalyzer(CharArraySet.EMPTY_SET);
-    QueryParser qp = new QueryParser(IndexArgs.FIELD_BODY, ea);
+    QueryParser qp = new QueryParser(IndexArgs.CONTENTS, ea);
     TermQuery q = (TermQuery) qp.parse(termStr);
     Term t = q.getTerm();
 
@@ -285,11 +283,11 @@ public class IndexReaderUtils {
   public static List<Posting> getPostingsList(IndexReader reader, String termStr)
       throws IOException, ParseException {
     EnglishAnalyzer ea = new EnglishAnalyzer(CharArraySet.EMPTY_SET);
-    QueryParser qp = new QueryParser(IndexArgs.FIELD_BODY, ea);
+    QueryParser qp = new QueryParser(IndexArgs.CONTENTS, ea);
     TermQuery q = (TermQuery) qp.parse(termStr);
     Term t = q.getTerm();
 
-    PostingsEnum postingsEnum = MultiTerms.getTermPostingsEnum(reader, IndexArgs.FIELD_BODY, t.bytes());
+    PostingsEnum postingsEnum = MultiTerms.getTermPostingsEnum(reader, IndexArgs.CONTENTS, t.bytes());
 
     List<Posting> postingsList = new ArrayList<>();
     while (postingsEnum.nextDoc() != DocIdSetIterator.NO_MORE_DOCS) {
@@ -308,7 +306,7 @@ public class IndexReaderUtils {
    * @throws NotStoredException if the term vector is not stored
    */
   public static Map<String, Long> getDocumentVector(IndexReader reader, String docid) throws IOException, NotStoredException {
-    Terms terms = reader.getTermVector(convertDocidToLuceneDocid(reader, docid), IndexArgs.FIELD_BODY);
+    Terms terms = reader.getTermVector(convertDocidToLuceneDocid(reader, docid), IndexArgs.CONTENTS);
     if (terms == null) {
       throw new NotStoredException("Document vector not stored!");
     }
@@ -338,7 +336,7 @@ public class IndexReaderUtils {
       if (rawDoc == null) {
         return null;
       }
-      return rawDoc.get(IndexArgs.FIELD_RAW);
+      return rawDoc.get(IndexArgs.RAW);
     } catch (IOException e) {
       return null;
     }
@@ -358,8 +356,8 @@ public class IndexReaderUtils {
 
     // The way to compute the BM25 score is to issue a query with the exact docid and the
     // term in question, and look at the retrieval score.
-    Query filterQuery = new ConstantScoreQuery(new TermQuery(new Term(IndexArgs.FIELD_ID, docid)));
-    Query termQuery = new TermQuery(new Term(IndexArgs.FIELD_BODY, term));
+    Query filterQuery = new ConstantScoreQuery(new TermQuery(new Term(IndexArgs.ID, docid)));
+    Query termQuery = new TermQuery(new Term(IndexArgs.CONTENTS, term));
     BooleanQuery.Builder builder = new BooleanQuery.Builder();
     builder.add(filterQuery, BooleanClause.Occur.MUST);
     builder.add(termQuery, BooleanClause.Occur.MUST);
@@ -383,7 +381,7 @@ public class IndexReaderUtils {
 
     Map<Term, Integer> docFreqMap = new HashMap<>();
 
-    int numNonEmptyDocs = reader.getDocCount(IndexArgs.FIELD_BODY);
+    int numNonEmptyDocs = reader.getDocCount(IndexArgs.CONTENTS);
 
     String docid;
     int counter = 0;
@@ -396,7 +394,7 @@ public class IndexReaderUtils {
       }
 
       // get term frequency
-      Terms terms = reader.getTermVector(internalDocid, IndexArgs.FIELD_BODY);
+      Terms terms = reader.getTermVector(internalDocid, IndexArgs.CONTENTS);
       if (terms == null) {
         // We do not throw exception here because there are some
         //  collections in which part of documents don't have document vectors
@@ -416,7 +414,7 @@ public class IndexReaderUtils {
       // iterate every term and write and store in Map
       Map<String, String> docVectors = new HashMap<>();
       while ((te.next()) != null) {
-        term = new Term(IndexArgs.FIELD_BODY, te.term());
+        term = new Term(IndexArgs.CONTENTS, te.term());
         freq = te.totalTermFreq();
 
         switch (weight) {
@@ -474,7 +472,7 @@ public class IndexReaderUtils {
   public static int convertDocidToLuceneDocid(IndexReader reader, String docid) {
     try {
       IndexSearcher searcher = new IndexSearcher(reader);
-      Query q = new TermQuery(new Term(IndexArgs.FIELD_ID, docid));
+      Query q = new TermQuery(new Term(IndexArgs.ID, docid));
       TopDocs rs = searcher.search(q, 1);
       ScoreDoc[] hits = rs.scoreDocs;
 
@@ -505,7 +503,7 @@ public class IndexReaderUtils {
       if (d == null) {
         return null;
       }
-      IndexableField doc = d.getField(IndexArgs.FIELD_ID);
+      IndexableField doc = d.getField(IndexArgs.ID);
       if (doc == null) {
         // Really shouldn't happen! Index not properly built?
         return null;

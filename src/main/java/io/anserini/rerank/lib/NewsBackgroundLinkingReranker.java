@@ -32,8 +32,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static io.anserini.index.IndexArgs.FIELD_BODY;
-import static io.anserini.index.IndexArgs.FIELD_ID;
+import static io.anserini.index.IndexArgs.CONTENTS;
+import static io.anserini.index.IndexArgs.ID;
 import static io.anserini.index.generator.WashingtonPostGenerator.WashingtonPostField.PUBLISHED_DATE;
 
 /*
@@ -50,7 +50,7 @@ public class NewsBackgroundLinkingReranker implements Reranker {
     
     List<Map<String, Long>> docsVectorsMap = new ArrayList<>();
     for (int i = 0; i < docs.documents.length; i++) {
-      String docid = docs.documents[i].getField(FIELD_ID).stringValue();
+      String docid = docs.documents[i].getField(ID).stringValue();
       docsVectorsMap.add(convertDocVectorToMap(reader, docid));
     }
     
@@ -107,7 +107,7 @@ public class NewsBackgroundLinkingReranker implements Reranker {
     Map<String, Long> m = new HashMap<>();
     try {
       Terms terms = reader.getTermVector(
-          NewsBackgroundLinkingTopicReader.convertDocidToLuceneDocid(reader, docid), FIELD_BODY);
+          NewsBackgroundLinkingTopicReader.convertDocidToLuceneDocid(reader, docid), CONTENTS);
       TermsEnum it = terms.iterator();
       while (it.next() != null) {
         String term = it.term().utf8ToString();

@@ -73,10 +73,10 @@ public class WashingtonPostGenerator extends LuceneDocumentGenerator<WashingtonP
     }
 
     Document doc = new Document();
-    doc.add(new StringField(IndexArgs.FIELD_ID, id, Field.Store.YES));
+    doc.add(new StringField(IndexArgs.ID, id, Field.Store.YES));
 
     // This is needed to break score ties by docid.
-    doc.add(new SortedDocValuesField(IndexArgs.FIELD_ID, new BytesRef(id)));
+    doc.add(new SortedDocValuesField(IndexArgs.ID, new BytesRef(id)));
     doc.add(new LongPoint(WashingtonPostField.PUBLISHED_DATE.name, src.getPublishDate()));
     doc.add(new StoredField(WashingtonPostField.PUBLISHED_DATE.name, src.getPublishDate()));
 
@@ -114,7 +114,7 @@ public class WashingtonPostGenerator extends LuceneDocumentGenerator<WashingtonP
     });
 
     if (args.storeRawDocs) { // store the raw json string as one single field
-      doc.add(new StoredField(IndexArgs.FIELD_RAW, src.getContent()));
+      doc.add(new StoredField(IndexArgs.RAW, src.getContent()));
     }
 
     FieldType fieldType = new FieldType();
@@ -134,7 +134,7 @@ public class WashingtonPostGenerator extends LuceneDocumentGenerator<WashingtonP
       fieldType.setIndexOptions(IndexOptions.DOCS_AND_FREQS);
     }
 
-    doc.add(new Field(IndexArgs.FIELD_BODY, contentBuilder.toString(), fieldType));
+    doc.add(new Field(IndexArgs.CONTENTS, contentBuilder.toString(), fieldType));
 
     return doc;
   }

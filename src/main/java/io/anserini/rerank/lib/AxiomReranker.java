@@ -17,7 +17,6 @@
 package io.anserini.rerank.lib;
 
 import io.anserini.index.IndexArgs;
-import io.anserini.index.generator.LuceneDocumentGenerator;
 import io.anserini.index.generator.TweetGenerator;
 import io.anserini.rerank.Reranker;
 import io.anserini.rerank.RerankerContext;
@@ -257,7 +256,7 @@ public class AxiomReranker<T> implements Reranker<T> {
       return searcher.search(new DocValuesFieldExistsQuery(TweetGenerator.TweetField.ID_LONG.name), reader.maxDoc(),
           BREAK_SCORE_TIES_BY_TWEETID).scoreDocs;
     }
-    return searcher.search(new DocValuesFieldExistsQuery(IndexArgs.FIELD_ID), reader.maxDoc(),
+    return searcher.search(new DocValuesFieldExistsQuery(IndexArgs.ID), reader.maxDoc(),
         BREAK_SCORE_TIES_BY_DOCID).scoreDocs;
   }
 
@@ -331,7 +330,7 @@ public class AxiomReranker<T> implements Reranker<T> {
         while (docidSet.size() < targetSize) {
           if (AxiomReranker.externalDocidsCache != null) {
             String docid = AxiomReranker.externalDocidsCache.get(random.nextInt(AxiomReranker.externalDocidsCache.size()));
-            Query q = new TermQuery(new Term(IndexArgs.FIELD_ID, docid));
+            Query q = new TermQuery(new Term(IndexArgs.ID, docid));
             TopDocs rs = searcher.search(q, 1);
             docidSet.add(rs.scoreDocs[0].doc);
           } else {
@@ -374,7 +373,7 @@ public class AxiomReranker<T> implements Reranker<T> {
     }
     Map<String, Set<Integer>> termDocidSets = new HashMap<>();
     for (int docid : docIds) {
-      Terms terms = reader.getTermVector(docid, IndexArgs.FIELD_BODY);
+      Terms terms = reader.getTermVector(docid, IndexArgs.CONTENTS);
       if (terms == null) {
         LOG.warn("Document vector not stored for docid: " + docid);
         continue;
@@ -464,7 +463,7 @@ public class AxiomReranker<T> implements Reranker<T> {
     List<PriorityQueue<Pair<String, Double>>> allTermScoresPQ = new ArrayList<>();
     for (Map.Entry<String, Integer> q : queryTermsCounts.entrySet()) {
       String queryTerm = q.getKey();
-      long df = reader.docFreq(new Term(IndexArgs.FIELD_BODY, queryTerm));
+      long df = reader.docFreq(new Term(IndexArgs.CONTENTS, queryTerm));
       if (df == 0L) {
         continue;
       }

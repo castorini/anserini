@@ -219,7 +219,7 @@ public class Rm3Reranker implements Reranker {
         //
         // With both values, we obtained effectiveness pretty close to the old values with the
         // custom stopwords list.
-        int df = reader.docFreq(new Term(IndexArgs.FIELD_BODY, term));
+        int df = reader.docFreq(new Term(IndexArgs.CONTENTS, term));
         float ratio = (float) df / numDocs;
         if (tweetsearch) {
           if (numDocs > 100000000) { // Probably Tweets2013

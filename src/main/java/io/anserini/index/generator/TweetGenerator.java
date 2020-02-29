@@ -148,7 +148,7 @@ public class TweetGenerator extends LuceneDocumentGenerator<TweetCollection.Docu
     }
 
     Document doc = new Document();
-    doc.add(new StringField(IndexArgs.FIELD_ID, id, Field.Store.YES));
+    doc.add(new StringField(IndexArgs.ID, id, Field.Store.YES));
 
     // We need this to break scoring ties.
     doc.add(new LongPoint(TweetField.ID_LONG.name, tweetDoc.getIdLong()));
@@ -180,7 +180,7 @@ public class TweetGenerator extends LuceneDocumentGenerator<TweetCollection.Docu
     );
 
     if (args.storeRawDocs) { // store the raw json string as one single field
-      doc.add(new StoredField(IndexArgs.FIELD_RAW, tweetDoc.getJsonString()));
+      doc.add(new StoredField(IndexArgs.RAW, tweetDoc.getJsonString()));
     }
 
     FieldType fieldType = new FieldType();
@@ -200,7 +200,7 @@ public class TweetGenerator extends LuceneDocumentGenerator<TweetCollection.Docu
       fieldType.setIndexOptions(IndexOptions.DOCS_AND_FREQS);
     }
 
-    doc.add(new Field(IndexArgs.FIELD_BODY, text, fieldType));
+    doc.add(new Field(IndexArgs.CONTENTS, text, fieldType));
 
     return doc;
   }

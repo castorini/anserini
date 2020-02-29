@@ -17,7 +17,6 @@
 package io.anserini.ltr;
 
 import io.anserini.index.IndexArgs;
-import io.anserini.index.generator.TweetGenerator;
 import io.anserini.ltr.feature.FeatureExtractors;
 import io.anserini.rerank.Reranker;
 import io.anserini.rerank.RerankerContext;
@@ -51,13 +50,13 @@ public class TwitterFeatureReranker implements Reranker<Integer> {
     for (int i = 0; i < docs.documents.length; i++) {
       Terms terms = null;
       try {
-        terms = reader.getTermVector(docs.ids[i], IndexArgs.FIELD_BODY);
+        terms = reader.getTermVector(docs.ids[i], IndexArgs.CONTENTS);
       } catch (IOException e) {
         continue;
       }
 
       int qid = context.getQueryId();
-      String docid = docs.documents[i].getField(IndexArgs.FIELD_ID).stringValue();
+      String docid = docs.documents[i].getField(IndexArgs.ID).stringValue();
 
       out.print(qrels.getRelevanceGrade(qid, docid));
       out.print(" qid:" + qid);

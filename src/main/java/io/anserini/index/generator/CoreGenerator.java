@@ -24,6 +24,7 @@ import io.anserini.analysis.EnglishStemmingAnalyzer;
 import io.anserini.collection.CoreCollection;
 import io.anserini.index.IndexArgs;
 import io.anserini.index.IndexCollection;
+import org.apache.jute.Index;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.CharArraySet;
 import org.apache.lucene.analysis.TokenStream;
@@ -47,11 +48,8 @@ import java.util.StringJoiner;
  * Converts a {@link CoreCollection.Document} into a Lucene {@link Document}, ready to be indexed.
  */
 public class CoreGenerator extends LuceneDocumentGenerator<CoreCollection.Document> {
-  public static final String FIELD_ID = "id";
-  public static final String FIELD_BODY = "contents";
-  public static final String FIELD_RAW = "raw";
 
-  public static enum CoreField {
+  public enum CoreField {
     DOI("doi"),
     OAI("oai"),
     IDENTIFIERS("identifiers"),
@@ -111,12 +109,12 @@ public class CoreGenerator extends LuceneDocumentGenerator<CoreCollection.Docume
     Document doc = new Document();
 
     // Store the collection docid.
-    doc.add(new StringField(FIELD_ID, id, Field.Store.YES));
+    doc.add(new StringField(IndexArgs.ID, id, Field.Store.YES));
     // This is needed to break score ties by docid.
-    doc.add(new SortedDocValuesField(FIELD_ID, new BytesRef(id)));
+    doc.add(new SortedDocValuesField(IndexArgs.ID, new BytesRef(id)));
 
     if (args.storeRawDocs) {
-      doc.add(new StoredField(FIELD_RAW, content));
+      doc.add(new StoredField(IndexArgs.RAW, content));
     }
 
     FieldType fieldType = new FieldType();
@@ -135,7 +133,7 @@ public class CoreGenerator extends LuceneDocumentGenerator<CoreCollection.Docume
       fieldType.setIndexOptions(IndexOptions.DOCS_AND_FREQS);
     }
 
-    doc.add(new Field(FIELD_BODY, content, fieldType));
+    doc.add(new Field(IndexArgs.CONTENTS, content, fieldType));
 
     coreDoc.jsonFields().forEach((k, v) -> {
       String fieldString = jsonNodeToString(v);

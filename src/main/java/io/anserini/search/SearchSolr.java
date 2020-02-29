@@ -144,7 +144,7 @@ public final class SearchSolr implements Closeable {
            */
           for (int i = 0; i < docs.documents.length; i++) {
             out.println(String.format(Locale.US, "%s Q0 %s %d %f %s", qid,
-                    docs.documents[i].getField(IndexArgs.FIELD_ID).stringValue(), (i + 1), docs.scores[i], runTag));
+                    docs.documents[i].getField(IndexArgs.ID).stringValue(), (i + 1), docs.scores[i], runTag));
           }
         }
         out.flush();
@@ -204,7 +204,7 @@ public final class SearchSolr implements Closeable {
     solrq.setQuery(queryString.replaceAll("[+=&|<>!(){}~*?:/\"\\^\\-\\[\\]\\\\]", " "));
     solrq.setRows(args.hits);
     solrq.setSort(SortClause.desc("score"));
-    solrq.addSort(SortClause.asc(IndexArgs.FIELD_ID));
+    solrq.addSort(SortClause.asc(IndexArgs.ID));
 
     try {
       QueryResponse response = client.query(args.solrIndex, solrq);

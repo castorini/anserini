@@ -162,7 +162,7 @@ public final class SearchElastic implements Closeable {
            */
           for (int i = 0; i < docs.documents.length; i++) {
             out.println(String.format(Locale.US, "%s Q0 %s %d %f %s", qid,
-                    docs.documents[i].getField(IndexArgs.FIELD_ID).stringValue(), (i + 1), docs.scores[i], runTag));
+                    docs.documents[i].getField(IndexArgs.ID).stringValue(), (i + 1), docs.scores[i], runTag));
           }
         }
         out.flush();
@@ -236,7 +236,7 @@ public final class SearchElastic implements Closeable {
     sourceBuilder.query(query);
     sourceBuilder.size(args.hits);
     sourceBuilder.sort(new ScoreSortBuilder().order(SortOrder.DESC));
-    sourceBuilder.sort(new FieldSortBuilder(IndexArgs.FIELD_ID).order(SortOrder.ASC));
+    sourceBuilder.sort(new FieldSortBuilder(IndexArgs.ID).order(SortOrder.ASC));
     searchRequest.source(sourceBuilder);
 
     try {

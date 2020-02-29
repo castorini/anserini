@@ -129,7 +129,7 @@ public class NewsBackgroundLinkingTopicReader extends TopicReader<Integer> {
   public static List<String> generateQueryString(IndexReader reader, String docid, boolean paragraph, int k,
      boolean isWeighted, SearchCollection.QueryConstructor qc, Analyzer analyzer) throws IOException {
     List<String> queryStrings = new ArrayList<>();
-    IndexableField rawDocStr = reader.document(convertDocidToLuceneDocid(reader, docid)).getField(IndexArgs.FIELD_RAW);
+    IndexableField rawDocStr = reader.document(convertDocidToLuceneDocid(reader, docid)).getField(IndexArgs.RAW);
     if (rawDocStr == null) {
       throw new RuntimeException("Raw documents not stored and Unfortunately SDM query for News Background Linking " +
           "task needs to read the raw document to full construct the query string");
@@ -167,7 +167,7 @@ public class NewsBackgroundLinkingTopicReader extends TopicReader<Integer> {
         );
         termsMap.forEach((term, count) -> {
           try {
-            double tfIdf = count * Math.log((1.0f + docCount) / reader.docFreq(new Term(IndexArgs.FIELD_BODY, term)));
+            double tfIdf = count * Math.log((1.0f + docCount) / reader.docFreq(new Term(IndexArgs.CONTENTS, term)));
             termsTfIdfPQ.add(Pair.of(term, tfIdf));
           } catch (IOException e) {
             e.printStackTrace();
@@ -190,7 +190,7 @@ public class NewsBackgroundLinkingTopicReader extends TopicReader<Integer> {
   public static int convertDocidToLuceneDocid(IndexReader reader, String docid) throws IOException {
     IndexSearcher searcher = new IndexSearcher(reader);
     
-    Query q = new TermQuery(new Term(IndexArgs.FIELD_ID, docid));
+    Query q = new TermQuery(new Term(IndexArgs.ID, docid));
     TopDocs rs = searcher.search(q, 1);
     ScoreDoc[] hits = rs.scoreDocs;
     

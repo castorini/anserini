@@ -20,9 +20,14 @@ import org.kohsuke.args4j.Option;
 
 public class IndexArgs {
 
-  public static final String FIELD_RAW = "raw";
-  public static final String FIELD_BODY = "contents";
-  public static final String FIELD_ID = "id";
+  // This is the name of the field in the Lucene document where the docid is stored.
+  public static final String ID = "id";
+
+  // This is the name of the field in the Lucene document that should be searched by default.
+  public static final String CONTENTS = "contents";
+
+  // This is the name of the field in the Lucene document where the raw document is stored.
+  public static final String RAW = "raw";
 
   private static final int TIMEOUT = 600 * 1000;
 

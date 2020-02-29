@@ -83,9 +83,9 @@ public class ScoredDocuments {
       float score = (float) d.getFieldValue("score");
 
       // Store the collection docid.
-      document.add(new StringField(IndexArgs.FIELD_ID, id, Field.Store.YES));
+      document.add(new StringField(IndexArgs.ID, id, Field.Store.YES));
       // This is needed to break score ties by docid.
-      document.add(new SortedDocValuesField(IndexArgs.FIELD_ID, new BytesRef(id)));
+      document.add(new SortedDocValuesField(IndexArgs.ID, new BytesRef(id)));
       scoredDocs.documents[i] = document;
       scoredDocs.scores[i] = score;
       scoredDocs.ids[i] = i; // no internal Lucene ID available, use index as placeholder
@@ -116,9 +116,9 @@ public class ScoredDocuments {
       float score = hit.getScore();
 
       // Store the collection docid.
-      document.add(new StringField(IndexArgs.FIELD_ID, id, Field.Store.YES));
+      document.add(new StringField(IndexArgs.ID, id, Field.Store.YES));
       // This is needed to break score ties by docid.
-      document.add(new SortedDocValuesField(IndexArgs.FIELD_ID, new BytesRef(id)));
+      document.add(new SortedDocValuesField(IndexArgs.ID, new BytesRef(id)));
       scoredDocs.documents[i] = document;
       scoredDocs.scores[i] = score;
       scoredDocs.ids[i] = i; // no internal Lucene ID available, use index as placeholder

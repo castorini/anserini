@@ -21,7 +21,6 @@ import io.anserini.analysis.TweetAnalyzer;
 import io.anserini.index.IndexArgs;
 import io.anserini.index.IndexCollection;
 import io.anserini.index.IndexReaderUtils;
-import io.anserini.index.generator.LuceneDocumentGenerator;
 import io.anserini.index.generator.TweetGenerator;
 import io.anserini.rerank.RerankerCascade;
 import io.anserini.rerank.RerankerContext;
@@ -79,7 +78,7 @@ import java.util.concurrent.atomic.AtomicLong;
  */
 public class SimpleSearcher implements Closeable {
   public static final Sort BREAK_SCORE_TIES_BY_DOCID =
-      new Sort(SortField.FIELD_SCORE, new SortField(IndexArgs.FIELD_ID, SortField.Type.STRING_VAL));
+      new Sort(SortField.FIELD_SCORE, new SortField(IndexArgs.ID, SortField.Type.STRING_VAL));
   public static final Sort BREAK_SCORE_TIES_BY_TWEETID =
       new Sort(SortField.FIELD_SCORE,
           new SortField(TweetGenerator.TweetField.ID_LONG.name, SortField.Type.LONG, true));
@@ -164,7 +163,7 @@ public class SimpleSearcher implements Closeable {
   public void setRM3Reranker(int fbTerms, int fbDocs, float originalQueryWeight, boolean rm3_outputQuery) {
     isRerank = true;
     cascade = new RerankerCascade();
-    cascade.add(new Rm3Reranker(this.analyzer, IndexArgs.FIELD_BODY, fbTerms, fbDocs, originalQueryWeight, rm3_outputQuery));
+    cascade.add(new Rm3Reranker(this.analyzer, IndexArgs.CONTENTS, fbTerms, fbDocs, originalQueryWeight, rm3_outputQuery));
     cascade.add(new ScoreTiesAdjusterReranker());
   }
 
@@ -258,7 +257,7 @@ public class SimpleSearcher implements Closeable {
   }
 
   public Result[] search(String q, int k, long t) throws IOException {
-    Query query = new BagOfWordsQueryGenerator().buildQuery(IndexArgs.FIELD_BODY, analyzer, q);
+    Query query = new BagOfWordsQueryGenerator().buildQuery(IndexArgs.CONTENTS, analyzer, q);
     List<String> queryTokens = AnalyzerUtils.tokenize(analyzer, q);
 
     return search(query, queryTokens, q, k, t);
@@ -304,8 +303,8 @@ public class SimpleSearcher implements Closeable {
     Result[] results = new Result[hits.ids.length];
     for (int i = 0; i < hits.ids.length; i++) {
       Document doc = hits.documents[i];
-      String docid = doc.getField(IndexArgs.FIELD_ID).stringValue();
-      IndexableField field = doc.getField(IndexArgs.FIELD_RAW);
+      String docid = doc.getField(IndexArgs.ID).stringValue();
+      IndexableField field = doc.getField(IndexArgs.RAW);
       String content = field == null ? null : field.stringValue();
 
       results[i] = new Result(docid, hits.ids[i], hits.scores[i], content);
@@ -324,7 +323,7 @@ public class SimpleSearcher implements Closeable {
     IndexSearcher searcher = new IndexSearcher(reader);
     searcher.setSimilarity(similarity);
 
-    Query queryContents = new BagOfWordsQueryGenerator().buildQuery(IndexArgs.FIELD_BODY, analyzer, q);
+    Query queryContents = new BagOfWordsQueryGenerator().buildQuery(IndexArgs.CONTENTS, analyzer, q);
     BooleanQuery.Builder queryBuilder = new BooleanQuery.Builder()
         .add(queryContents, BooleanClause.Occur.SHOULD);
 
@@ -383,7 +382,7 @@ public class SimpleSearcher implements Closeable {
       return null;
     }
 
-    IndexableField field = doc.getField(IndexArgs.FIELD_RAW);
+    IndexableField field = doc.getField(IndexArgs.RAW);
     return field == null ? null : field.stringValue();
   }
 
@@ -398,7 +397,7 @@ public class SimpleSearcher implements Closeable {
       return null;
     }
 
-    IndexableField field = doc.getField(IndexArgs.FIELD_RAW);
+    IndexableField field = doc.getField(IndexArgs.RAW);
     return field == null ? null : field.stringValue();
   }
 

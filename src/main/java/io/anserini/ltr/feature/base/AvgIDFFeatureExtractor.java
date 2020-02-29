@@ -17,7 +17,6 @@
 package io.anserini.ltr.feature.base;
 
 import io.anserini.index.IndexArgs;
-import io.anserini.index.generator.LuceneDocumentGenerator;
 import io.anserini.ltr.feature.FeatureExtractor;
 import io.anserini.rerank.RerankerContext;
 import org.apache.logging.log4j.LogManager;
@@ -53,7 +52,7 @@ public class AvgIDFFeatureExtractor<T> implements FeatureExtractor<T> {
 
     long numDocs = reader.numDocs() - reader.numDeletedDocs();
     try {
-      float sumIdf = sumIdf(reader, context.getQueryTokens(), numDocs, IndexArgs.FIELD_BODY);
+      float sumIdf = sumIdf(reader, context.getQueryTokens(), numDocs, IndexArgs.CONTENTS);
       return sumIdf / (float) context.getQueryTokens().size();
     } catch (IOException e) {
       LOG.warn("Error computing AvgIdf, returning 0");

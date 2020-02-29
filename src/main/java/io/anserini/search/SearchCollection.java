@@ -117,7 +117,7 @@ import java.util.concurrent.TimeUnit;
  */
 public final class SearchCollection implements Closeable {
   public static final Sort BREAK_SCORE_TIES_BY_DOCID =
-      new Sort(SortField.FIELD_SCORE, new SortField(IndexArgs.FIELD_ID, SortField.Type.STRING_VAL));
+      new Sort(SortField.FIELD_SCORE, new SortField(IndexArgs.ID, SortField.Type.STRING_VAL));
   public static final Sort BREAK_SCORE_TIES_BY_TWEETID =
       new Sort(SortField.FIELD_SCORE,
           new SortField(TweetGenerator.TweetField.ID_LONG.name, SortField.Type.LONG, true));
@@ -195,7 +195,7 @@ public final class SearchCollection implements Closeable {
            */
           for (int i = 0; i < docs.documents.length; i++) {
             out.println(String.format(Locale.US, "%s Q0 %s %d %f %s", qid,
-                docs.documents[i].getField(IndexArgs.FIELD_ID).stringValue(), (i + 1), docs.scores[i], runTag));
+                docs.documents[i].getField(IndexArgs.ID).stringValue(), (i + 1), docs.scores[i], runTag));
           }
           cnt++;
           if (cnt % 100 == 0) {
@@ -334,7 +334,7 @@ public final class SearchCollection implements Closeable {
         for (String fbDocs : args.rm3_fbDocs) {
           for (String originalQueryWeight : args.rm3_originalQueryWeight) {
             RerankerCascade cascade = new RerankerCascade();
-            cascade.add(new Rm3Reranker(analyzer, IndexArgs.FIELD_BODY, Integer.valueOf(fbTerms),
+            cascade.add(new Rm3Reranker(analyzer, IndexArgs.CONTENTS, Integer.valueOf(fbTerms),
                 Integer.valueOf(fbDocs), Float.valueOf(originalQueryWeight), args.rm3_outputQuery));
             cascade.add(new ScoreTiesAdjusterReranker());
             String tag = "rm3.fbTerms:"+fbTerms+",rm3.fbDocs:"+fbDocs+",rm3.originalQueryWeight:"+originalQueryWeight;
@@ -349,7 +349,7 @@ public final class SearchCollection implements Closeable {
             for (String top : args.axiom_top) {
               for (String seed : args.axiom_seed) {
                 RerankerCascade cascade = new RerankerCascade();
-                cascade.add(new AxiomReranker(args.index, args.axiom_index, IndexArgs.FIELD_BODY,
+                cascade.add(new AxiomReranker(args.index, args.axiom_index, IndexArgs.CONTENTS,
                     args.axiom_deterministic, Integer.valueOf(seed), Integer.valueOf(r),
                     Integer.valueOf(n), Float.valueOf(beta), Integer.valueOf(top),
                     args.axiom_docids, args.axiom_outputQuery, args.searchtweets));
@@ -368,7 +368,7 @@ public final class SearchCollection implements Closeable {
                     for (String b : args.bm25prf_b) {
                         for (String newTermWeight : args.bm25prf_newTermWeight) {
                             RerankerCascade cascade = new RerankerCascade();
-                            cascade.add(new BM25PrfReranker(analyzer, IndexArgs.FIELD_BODY, Integer.valueOf(fbTerms),
+                            cascade.add(new BM25PrfReranker(analyzer, IndexArgs.CONTENTS, Integer.valueOf(fbTerms),
                                     Integer.valueOf(fbDocs), Float.valueOf(k1), Float.valueOf(b), Float.valueOf(newTermWeight),
                                     args.bm25prf_outputQuery));
                             cascade.add(new ScoreTiesAdjusterReranker());
@@ -444,9 +444,9 @@ public final class SearchCollection implements Closeable {
       throws IOException {
     Query query = null;
     if (qc == QueryConstructor.SequentialDependenceModel) {
-      query = new SdmQueryGenerator(args.sdm_tw, args.sdm_ow, args.sdm_uw).buildQuery(IndexArgs.FIELD_BODY, analyzer, queryString);
+      query = new SdmQueryGenerator(args.sdm_tw, args.sdm_ow, args.sdm_uw).buildQuery(IndexArgs.CONTENTS, analyzer, queryString);
     } else {
-      query = new BagOfWordsQueryGenerator().buildQuery(IndexArgs.FIELD_BODY, analyzer, queryString);
+      query = new BagOfWordsQueryGenerator().buildQuery(IndexArgs.CONTENTS, analyzer, queryString);
     }
 
     TopDocs rs = new TopDocs(new TotalHits(0, TotalHits.Relation.EQUAL_TO), new ScoreDoc[]{});
@@ -478,11 +478,11 @@ public final class SearchCollection implements Closeable {
     for (String queryStr : queryList) {
       Query q = null;
       if (qc == QueryConstructor.SequentialDependenceModel) {
-        q = new SdmQueryGenerator(args.sdm_tw, args.sdm_ow, args.sdm_uw).buildQuery(IndexArgs.FIELD_BODY, analyzer, queryStr);
+        q = new SdmQueryGenerator(args.sdm_tw, args.sdm_ow, args.sdm_uw).buildQuery(IndexArgs.CONTENTS, analyzer, queryStr);
       } else {
         // DO NOT use BagOfWordsQueryGenerator here!!!!
         // Because the actual query strings are extracted from tokenized document!!!
-        q = new StandardQueryParser().parse(queryStr, IndexArgs.FIELD_BODY);
+        q = new StandardQueryParser().parse(queryStr, IndexArgs.CONTENTS);
       }
       Query filter = new TermInSetQuery(WashingtonPostGenerator.WashingtonPostField.KICKER.name, new BytesRef("Opinions"), new BytesRef("Letters to the Editor"), new BytesRef("The Post's View")
 //          new Term(WapoGenerator.WapoField.KICKER.name, "Opinions"),
@@ -546,9 +546,9 @@ public final class SearchCollection implements Closeable {
   public<K> ScoredDocuments searchTweets(IndexSearcher searcher, K qid, String queryString, long t, RerankerCascade cascade) throws IOException {
     Query keywordQuery;
     if (qc == QueryConstructor.SequentialDependenceModel) {
-      keywordQuery = new SdmQueryGenerator(args.sdm_tw, args.sdm_ow, args.sdm_uw).buildQuery(IndexArgs.FIELD_BODY, analyzer, queryString);
+      keywordQuery = new SdmQueryGenerator(args.sdm_tw, args.sdm_ow, args.sdm_uw).buildQuery(IndexArgs.CONTENTS, analyzer, queryString);
     } else {
-      keywordQuery = new BagOfWordsQueryGenerator().buildQuery(IndexArgs.FIELD_BODY, analyzer, queryString);
+      keywordQuery = new BagOfWordsQueryGenerator().buildQuery(IndexArgs.CONTENTS, analyzer, queryString);
     }
     List<String> queryTokens = AnalyzerUtils.tokenize(analyzer, queryString);
 

@@ -110,12 +110,12 @@ public class WebFeatureExtractor extends BaseFeatureExtractor {
 
   @Override
   protected String getIdField() {
-    return IndexArgs.FIELD_ID;
+    return IndexArgs.ID;
   }
 
   @Override
   protected String getTermVectorField() {
-    return IndexArgs.FIELD_BODY;
+    return IndexArgs.CONTENTS;
   }
 
   public static FeatureExtractors getDefaultExtractors() {

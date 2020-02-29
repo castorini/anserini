@@ -157,7 +157,7 @@ public class BM25PrfReranker implements Reranker {
       if (term.matches("[0-9]+")) continue;
 
       try {
-        int df = reader.docFreq(new Term(IndexArgs.FIELD_BODY, term));
+        int df = reader.docFreq(new Term(IndexArgs.CONTENTS, term));
         int dfRel = 0;
 
         for (int i = 0; i < numRelDocs; i++) {
@@ -180,7 +180,7 @@ public class BM25PrfReranker implements Reranker {
 
     for (String term : originalTerms) {
       try {
-        int df = reader.docFreq(new Term(IndexArgs.FIELD_BODY, term));
+        int df = reader.docFreq(new Term(IndexArgs.CONTENTS, term));
         int dfRel = 0;
 
         for (int i = 0; i < numRelDocs; i++) {
