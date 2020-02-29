@@ -1,0 +1,41 @@
+E17-1003:
+  abstract_html: Neural networks with attention have proven effective for many natural
+    language processing tasks. In this paper, we develop attention mechanisms for
+    uncertainty detection. In particular, we generalize standardly used attention
+    mechanisms by introducing external attention and sequence-preserving attention.
+    These novel architectures differ from standard approaches in that they use external
+    resources to compute attention weights and preserve sequence information. We compare
+    them to other configurations along different dimensions of attention. Our novel
+    architectures set the new state of the art on a Wikipedia benchmark dataset and
+    perform similar to the state-of-the-art model on a biomedical benchmark which
+    uses a large set of linguistic features.
+  address: Valencia, Spain
+  author:
+  - first: Heike
+    full: Heike Adel
+    id: heike-adel
+    last: Adel
+  - first: Hinrich
+    full: "Hinrich Sch\xFCtze"
+    id: hinrich-schutze
+    last: "Sch\xFCtze"
+  author_string: "Heike Adel, Hinrich Sch\xFCtze"
+  bibkey: adel-schutze-2017-exploring
+  bibtype: inproceedings
+  booktitle: 'Proceedings of the 15th Conference of the European Chapter of the Association
+    for Computational Linguistics: Volume 1, Long Papers'
+  booktitle_html: 'Proceedings of the 15th Conference of the <span class="acl-fixed-case">E</span>uropean
+    Chapter of the Association for Computational Linguistics: Volume 1, Long Papers'
+  month: April
+  page_first: '22'
+  page_last: '34'
+  pages: "22\u201334"
+  paper_id: '3'
+  parent_volume_id: E17-1
+  pdf: https://www.aclweb.org/anthology/E17-1003.pdf
+  publisher: Association for Computational Linguistics
+  thumbnail: https://www.aclweb.org/anthology/thumb/E17-1003.jpg
+  title: Exploring Different Dimensions of Attention for Uncertainty Detection
+  title_html: Exploring Different Dimensions of Attention for Uncertainty Detection
+  url: https://www.aclweb.org/anthology/E17-1003
+  year: '2017'

@@ -16,29 +16,31 @@
 
 package io.anserini.collection;
 
-import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import org.jbibtex.Key;
 import org.jbibtex.Value;
 import org.junit.Before;
-import org.junit.Test;
 
-public class BibtexDocumentTest extends DocumentTest {
-  Path bibtexFilePath;
-
+public class BibtexDocumentTest extends DocumentCollectionTest<BibtexCollection.Document> {
   @Before
   public void setUp() throws Exception {
     super.setUp();
 
-    String root = System.getProperty("user.dir");
-    bibtexFilePath = Paths.get(root + "/src/test/resources/sample-acl.bib");
-    
+    collectionPath = Paths.get("src/test/resources/sample_docs/bib/acl");
+    collection = new BibtexCollection(collectionPath);
+
+    Path segment1 = Paths.get("src/test/resources/sample_docs/bib/acl/segment1.bib");
+
+    segmentPaths.add(segment1);
+    segmentDocCounts.put(segment1, 3);
+
+    totalSegments = 1;
+    totalDocs = 3;
+
     HashMap<String, String> doc1 = new HashMap<>();
     doc1.put("id", "article-id");
     doc1.put("type", "article");
@@ -51,7 +53,7 @@ public class BibtexDocumentTest extends DocumentTest {
     doc1.put("url", "https://www.aclweb.org/anthology/J85-2005");
     doc1.put("pages", "155--169");
     doc1.put("contents", "this is the title. ");
-    expected.add(doc1);
+    expected.put("article-id", doc1);
 
     HashMap<String, String> doc2 = new HashMap<>();
     doc2.put("id", "inproceedings-id");
@@ -68,7 +70,7 @@ public class BibtexDocumentTest extends DocumentTest {
     doc2.put("pages", "38--43");
     doc2.put("abstract", "this is the abstract");
     doc2.put("contents", "this is the title. this is the abstract");
-    expected.add(doc2);
+    expected.put("inproceedings-id", doc2);
 
     HashMap<String, String> doc3 = new HashMap<>();
     doc3.put("id", "proceedings-id");
@@ -81,51 +83,28 @@ public class BibtexDocumentTest extends DocumentTest {
     doc3.put("publisher", "this is the publisher");
     doc3.put("url", "https://www.aclweb.org/anthology/E85-1000");
     doc3.put("contents", "this is the title. ");
-    expected.add(doc3);
-
+    expected.put("proceedings-id", doc3);
   }
 
-  @Test
-  public void test() throws IOException {
-    BibtexCollection collection = new BibtexCollection(bibtexFilePath);
+  @Override
+  void checkDocument(SourceDocument doc, Map<String, String> expected) {
+    assertTrue(doc.indexable());
 
-    Iterator<BibtexCollection.Document> iter = collection.createFileSegment(bibtexFilePath).iterator();
-    int j = 0;
-    while (iter.hasNext()) {
-        BibtexCollection.Document parsed = iter.next();
-        Map<Key, Value> parsedFields = parsed.bibtexEntry().getFields(); 
-        for (Map.Entry<String, String> entry: expected.get(j).entrySet()) {
-            String expected_key = entry.getKey();
-            String expected_value = entry.getValue();
-            if (expected_key.equals("id")) {
-                assertEquals(expected_value, parsed.id());
-            } else if (expected_key.equals("type")) {
-                assertEquals(expected_value, parsed.type());
-            } else if (expected_key.equals("contents")) {
-                assertEquals(expected_value, parsed.content());
-            } else {
-                Value parsedValue = parsedFields.get(new Key(expected_key));
-                assertNotNull(parsedValue);
-                assertEquals(expected_value, parsedValue.toUserString());
-            }
-        }
-        j++;
-    }
-  }
-
-  // Tests if the iterator is behaving properly. If it is, we shouldn't have any issues running into
-  // NoSuchElementExceptions.
-  @Test
-  public void testStreamIteration() {
-    BibtexCollection collection = new BibtexCollection(bibtexFilePath);
-    try {
-      Iterator<BibtexCollection.Document> iter =
-              collection.createFileSegment(bibtexFilePath).iterator();
-      AtomicInteger cnt = new AtomicInteger();
-      iter.forEachRemaining(d -> cnt.incrementAndGet());
-      assertEquals(3, cnt.get());
-    } catch (IOException e) {
-      throw new RuntimeException(e);
+    Map<Key, Value> parsedFields = ((BibtexCollection.Document) doc).bibtexEntry().getFields();
+    for (Map.Entry<String, String> entry : expected.entrySet()) {
+      String expectedKey = entry.getKey();
+      String expectedValue = entry.getValue();
+      if (expectedKey.equals("id")) {
+        assertEquals(expectedValue, doc.id());
+      } else if (expectedKey.equals("type")) {
+        assertEquals(expectedValue, ((BibtexCollection.Document) doc).type());
+      } else if (expectedKey.equals("contents")) {
+        assertEquals(expectedValue, doc.content());
+      } else {
+        Value parsedValue = parsedFields.get(new Key(expectedKey));
+        assertNotNull(parsedValue);
+        assertEquals(expectedValue, parsedValue.toUserString());
+      }
     }
   }
 }

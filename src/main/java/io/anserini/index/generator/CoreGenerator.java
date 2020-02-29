@@ -38,8 +38,6 @@ import org.apache.lucene.index.IndexOptions;
 import org.apache.lucene.util.BytesRef;
 
 import java.io.StringReader;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -80,21 +78,21 @@ public class CoreGenerator extends LuceneDocumentGenerator<CoreCollection.Docume
     }
   }
 
-  public static final List<String> STRING_FIELD_NAMES = new ArrayList<>(Arrays.asList(
+  public static final List<String> STRING_FIELD_NAMES = List.of(
     CoreField.DOI.name,
     CoreField.OAI.name,
     CoreField.IDENTIFIERS.name,
     CoreField.DOWNLOAD_URL.name,
     CoreField.RELATIONS.name,
-    CoreField.FULL_TEXT_IDENTIFIER.name));
+    CoreField.FULL_TEXT_IDENTIFIER.name);
 
-  public static final List<String> FIELDS_WITHOUT_STEMMING = new ArrayList<>(Arrays.asList(
+  public static final List<String> FIELDS_WITHOUT_STEMMING = List.of(
     CoreField.IDENTIFIERS.name,
     CoreField.AUTHORS.name,
     CoreField.CONTRIBUTORS.name,
     CoreField.PUBLISHER.name,
     CoreField.JOURNALS.name,
-    CoreField.LANGUAGE.name));
+    CoreField.LANGUAGE.name);
 
   public CoreGenerator(IndexArgs args, IndexCollection.Counters counters) {
     super(args, counters);
