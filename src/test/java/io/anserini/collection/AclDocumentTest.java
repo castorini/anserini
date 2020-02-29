@@ -37,51 +37,60 @@ public class AclDocumentTest extends DocumentCollectionTest<AclCollection.Docume
     segmentPaths.add(segment1);
     segmentPaths.add(segment2);
 
-    segmentDocCounts.put(segment1, 1);
+    segmentDocCounts.put(segment1, 2);
     segmentDocCounts.put(segment2, 1);
 
     totalSegments = 2;
-    totalDocs = 2;
+    totalDocs = 3;
 
-    HashMap<String, String> docC00 = new HashMap<>();
-    docC00.put("id", "C00-1003");
-    docC00.put("authors", "Ion Androutsopoulos Robert Dale");
-    docC00.put("author_string", "Ion Androutsopoulos, Robert Dale");
-    docC00.put("bibkey", "androutsopoulos-dale-2000-selectional");
-    docC00.put("bibtype", "inproceedings");
-    docC00.put("booktitle", "COLING 2000 Volume 1: The 18th International Conference on Computational Linguistics");
-    docC00.put("paper_id", "3");
-    docC00.put("parent_volume_id", "C00-1");
-    docC00.put("pdf", "https://www.aclweb.org/anthology/C00-1003.pdf");
-    docC00.put("thumbnail", "https://www.aclweb.org/anthology/thumb/C00-1003.jpg");
-    docC00.put("title", "Selectional Restrictions in HPSG");
-    docC00.put("url", "https://www.aclweb.org/anthology/C00-1003");
-    docC00.put("contents", "Selectional Restrictions in HPSG ");
-    docC00.put("sigs", "");
-    docC00.put("venues", "COLING");
-    expected.put("C00-1003", docC00);
+    HashMap<String, String> doc1 = new HashMap<>();
+    doc1.put("id", "C00-1003");
+    doc1.put("authors", "Ion Androutsopoulos Robert Dale");
+    doc1.put("author_string", "Ion Androutsopoulos, Robert Dale");
+    doc1.put("bibkey", "androutsopoulos-dale-2000-selectional");
+    doc1.put("bibtype", "inproceedings");
+    doc1.put("booktitle", "COLING 2000 Volume 1: The 18th International Conference on Computational Linguistics");
+    doc1.put("paper_id", "3");
+    doc1.put("parent_volume_id", "C00-1");
+    doc1.put("pdf", "https://www.aclweb.org/anthology/C00-1003.pdf");
+    doc1.put("thumbnail", "https://www.aclweb.org/anthology/thumb/C00-1003.jpg");
+    doc1.put("title", "Selectional Restrictions in HPSG");
+    doc1.put("url", "https://www.aclweb.org/anthology/C00-1003");
+    doc1.put("contents", "Selectional Restrictions in HPSG ");
+    doc1.put("sigs", "");
+    doc1.put("venues", "COLING");
+    expected.put("C00-1003", doc1);
 
-    HashMap<String, String> docE17 = new HashMap<>();
-    docE17.put("id", "E17-1003");
-    docE17.put("address", "Valencia, Spain");
-    docE17.put("authors", "Heike Adel Hinrich Schütze");
-    docE17.put("author_string", "Heike Adel, Hinrich Schütze");
-    docE17.put("bibkey", "adel-schutze-2017-exploring");
-    docE17.put("bibtype", "inproceedings");
-    docE17.put("booktitle", "Proceedings of the 15th Conference of the European Chapter of the Association " +
+    HashMap<String, String> doc2 = new HashMap<>();
+    doc2.put("id", "C00-1007");
+    doc2.put("authors", "Srinivas Bangalore Owen Rambow");
+    doc2.put("title", "Exploiting a Probabilistic Hierarchical Model for Generation");
+    doc2.put("contents", "Exploiting a Probabilistic Hierarchical Model for Generation ");
+    doc2.put("sigs", "");
+    doc2.put("venues", "COLING");
+    expected.put("C00-1007", doc2);
+
+    HashMap<String, String> doc3 = new HashMap<>();
+    doc3.put("id", "E17-1003");
+    doc3.put("address", "Valencia, Spain");
+    doc3.put("authors", "Heike Adel Hinrich Schütze");
+    doc3.put("author_string", "Heike Adel, Hinrich Schütze");
+    doc3.put("bibkey", "adel-schutze-2017-exploring");
+    doc3.put("bibtype", "inproceedings");
+    doc3.put("booktitle", "Proceedings of the 15th Conference of the European Chapter of the Association " +
       "for Computational Linguistics: Volume 1, Long Papers");
-    docE17.put("month", "April");
-    docE17.put("year", "2017");
-    docE17.put("page_first", "22");
-    docE17.put("page_last", "34");
-    docE17.put("paper_id", "3");
-    docE17.put("parent_volume_id", "E17-1");
-    docE17.put("pdf", "https://www.aclweb.org/anthology/E17-1003.pdf");
-    docE17.put("publisher", "Association for Computational Linguistics");
-    docE17.put("thumbnail", "https://www.aclweb.org/anthology/thumb/E17-1003.jpg");
-    docE17.put("title", "Exploring Different Dimensions of Attention for Uncertainty Detection");
-    docE17.put("url", "https://www.aclweb.org/anthology/E17-1003");
-    docE17.put("contents", "Exploring Different Dimensions of Attention for Uncertainty Detection " +
+    doc3.put("month", "April");
+    doc3.put("year", "2017");
+    doc3.put("page_first", "22");
+    doc3.put("page_last", "34");
+    doc3.put("paper_id", "3");
+    doc3.put("parent_volume_id", "E17-1");
+    doc3.put("pdf", "https://www.aclweb.org/anthology/E17-1003.pdf");
+    doc3.put("publisher", "Association for Computational Linguistics");
+    doc3.put("thumbnail", "https://www.aclweb.org/anthology/thumb/E17-1003.jpg");
+    doc3.put("title", "Exploring Different Dimensions of Attention for Uncertainty Detection");
+    doc3.put("url", "https://www.aclweb.org/anthology/E17-1003");
+    doc3.put("contents", "Exploring Different Dimensions of Attention for Uncertainty Detection " +
       "Neural networks with attention have proven effective for many natural " +
       "language processing tasks. In this paper, we develop attention mechanisms for " +
       "uncertainty detection. In particular, we generalize standardly used attention " +
@@ -92,9 +101,9 @@ public class AclDocumentTest extends DocumentCollectionTest<AclCollection.Docume
       "architectures set the new state of the art on a Wikipedia benchmark dataset and " +
       "perform similar to the state-of-the-art model on a biomedical benchmark which " +
       "uses a large set of linguistic features.");
-    docE17.put("sigs", "");
-    docE17.put("venues", "EACL");
-    expected.put("E17-1003", docE17);
+    doc3.put("sigs", "");
+    doc3.put("venues", "EACL");
+    expected.put("E17-1003", doc3);
   }
 
   @Override

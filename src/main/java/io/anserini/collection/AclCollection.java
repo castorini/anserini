@@ -68,43 +68,38 @@ public class AclCollection extends DocumentCollection<AclCollection.Document> {
    * A file in a YAML collection for ACL papers containing multiple entires.
    */
   public class Segment extends FileSegment<AclCollection.Document> {
-    private JsonNode node = null;
-    private Iterator<JsonNode> iter = null; // iterator for JSON document array
-    private MappingIterator<JsonNode> iterator; // iterator for JSON line objects
+    private Map.Entry<String, JsonNode> nodeEntry = null;
+    private Iterator<Map.Entry<String, JsonNode>> iter = null; // iterator for JSON document object
 
     protected Segment(Path path) throws IOException {
       super(path);
+
+      // read YAML file into JsonNode format
       bufferedReader = new BufferedReader(new FileReader(path.toString()));
       ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-      iterator = mapper.readerFor(JsonNode.class).readValues(bufferedReader);
+      MappingIterator<JsonNode> iterator =
+        mapper.readerFor(JsonNode.class).readValues(bufferedReader);
+
       if (iterator.hasNext()) {
-        node = iterator.next();
-        if (node.isArray()) {
-          iter = node.elements();
+        JsonNode root = iterator.next();
+        iter = root.fields();
+        if (iter.hasNext()) {
+          nodeEntry = iter.next();
         }
       }
     }
 
     @Override
     public void readNext() throws NoSuchElementException {
-      if (node == null) {
+      if (nodeEntry == null) {
         throw new NoSuchElementException("JsonNode is empty");
-      } else if (node.isObject()) {
-        bufferedRecord = new AclCollection.Document(node);
-        if (iterator.hasNext()) {
-          node = iterator.next();
+      } else {
+        bufferedRecord = new AclCollection.Document(nodeEntry);
+        if (iter.hasNext()) {
+          nodeEntry = iter.next();
         } else {
           atEOF = true; // there is no more JSON object in the bufferedReader
         }
-      } else if (node.isArray()) {
-        if (iter != null && iter.hasNext()) {
-          bufferedRecord = new AclCollection.Document(node);
-        } else {
-          throw new NoSuchElementException("Reached end of JsonNode iterator");
-        }
-      } else {
-        LOG.error("Error: invalid JsonNode type");
-        throw new NoSuchElementException("Invalid JsonNode type");
       }
     }
   }
@@ -121,10 +116,9 @@ public class AclCollection extends DocumentCollection<AclCollection.Document> {
     private List<String> venues;
     private List<String> sigs;
 
-    public Document(JsonNode json) {
-      Map.Entry<String, JsonNode> paperEntry = json.fields().next();
-      id = paperEntry.getKey();
-      paper = paperEntry.getValue();
+    public Document(Map.Entry<String, JsonNode> jsonEntry) {
+      id = jsonEntry.getKey();
+      paper = jsonEntry.getValue();
       contents = getOrDefault(paper, "title") + " " + getOrDefault(paper, "abstract_html");
 
       // Process author facets
