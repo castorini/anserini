@@ -18,7 +18,7 @@ package io.anserini.index.generator;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import io.anserini.analysis.EnglishStemmingAnalyzer;
-import io.anserini.collection.AclCollection;
+import io.anserini.collection.AclAnthologyCollection;
 import io.anserini.index.IndexArgs;
 import io.anserini.index.IndexCollection;
 import org.apache.lucene.analysis.Analyzer;
@@ -35,19 +35,17 @@ import org.apache.lucene.index.IndexOptions;
 import org.apache.lucene.util.BytesRef;
 
 import java.io.StringReader;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
- * Converts a {@link AclCollection.Document} into a Lucene {@link Document}, ready to be indexed.
+ * Converts a {@link AclAnthologyCollection.Document} into a Lucene {@link Document}, ready to be indexed.
  */
-public class AclGenerator extends LuceneDocumentGenerator<AclCollection.Document> {
+public class AclAnthologyGenerator extends LuceneDocumentGenerator<AclAnthologyCollection.Document> {
   public static final String FIELD_ID = "id";
   public static final String FIELD_BODY = "contents";
   public static final String FIELD_RAW = "raw";
 
-  public static enum AclField {
+  public static enum AclAnthologyField {
     ADDRESS("address"),
     AUTHOR_STRING("author_string"),
     BIBKEY("bibkey"),
@@ -66,35 +64,35 @@ public class AclGenerator extends LuceneDocumentGenerator<AclCollection.Document
 
     public final String name;
 
-    AclField(String s) {
+    AclAnthologyField(String s) {
       name = s;
     }
   }
 
-  public static final List<String> STRING_FIELD_NAMES = new ArrayList<>(Arrays.asList(
-    AclField.ADDRESS.name,
-    AclField.BIBKEY.name,
-    AclField.BIBTYPE.name,
-    AclField.PDF.name,
-    AclField.URL.name,
-    AclField.THUMBNAIL.name));
+  public static final List<String> STRING_FIELD_NAMES = List.of(
+    AclAnthologyField.ADDRESS.name,
+    AclAnthologyField.BIBKEY.name,
+    AclAnthologyField.BIBTYPE.name,
+    AclAnthologyField.PDF.name,
+    AclAnthologyField.URL.name,
+    AclAnthologyField.THUMBNAIL.name);
 
-  public static final List<String> NUMERIC_FIELD_NAMES = new ArrayList<>(Arrays.asList(
-    AclField.YEAR.name,
-    AclField.PAGE_FIRST.name,
-    AclField.PAGE_LAST.name));
-  
-  public static final List<String> FIELDS_WITHOUT_STEMMING = new ArrayList<>(Arrays.asList(
-    AclField.AUTHOR_STRING.name,
-    AclField.PUBLISHER.name,
-    AclField.MONTH.name));
-  
-  public AclGenerator(IndexArgs args, IndexCollection.Counters counters) {
+  public static final List<String> NUMERIC_FIELD_NAMES = List.of(
+    AclAnthologyField.YEAR.name,
+    AclAnthologyField.PAGE_FIRST.name,
+    AclAnthologyField.PAGE_LAST.name);
+
+  public static final List<String> FIELDS_WITHOUT_STEMMING = List.of(
+    AclAnthologyField.AUTHOR_STRING.name,
+    AclAnthologyField.PUBLISHER.name,
+    AclAnthologyField.MONTH.name);
+
+  public AclAnthologyGenerator(IndexArgs args, IndexCollection.Counters counters) {
     super(args, counters);
   }
 
   @Override
-  public Document createDocument(AclCollection.Document aclDoc) {
+  public Document createDocument(AclAnthologyCollection.Document aclDoc) {
     String id = aclDoc.id();
     String content = aclDoc.content();
 
@@ -170,19 +168,19 @@ public class AclGenerator extends LuceneDocumentGenerator<AclCollection.Document
     });
 
     // index authors
-    aclDoc.authors().forEach(author -> {
-      doc.add(new StringField("authors", author, Field.Store.YES));
-    });
+    aclDoc.authors().forEach(author ->
+      doc.add(new StringField("authors", author, Field.Store.YES))
+    );
 
     // index SIGs
-    aclDoc.sigs().forEach(sig -> {
-      doc.add(new StringField("sigs", sig, Field.Store.YES));
-    });
+    aclDoc.sigs().forEach(sig ->
+      doc.add(new StringField("sigs", sig, Field.Store.YES))
+    );
 
     // index venues
-    aclDoc.venues().forEach(venue -> {
-      doc.add(new StringField("venues", venue, Field.Store.YES));
-    });
+    aclDoc.venues().forEach(venue ->
+      doc.add(new StringField("venues", venue, Field.Store.YES))
+    );
 
     return doc;
   }

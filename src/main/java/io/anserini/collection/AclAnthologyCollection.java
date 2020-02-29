@@ -32,23 +32,22 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.Set;
 
 /**
  * A YAML document collection for the ACL anthology.
  */
-public class AclCollection extends DocumentCollection<AclCollection.Document> {
+public class AclAnthologyCollection extends DocumentCollection<AclAnthologyCollection.Document> {
   private JsonNode volumes;
-  private static final Logger LOG = LogManager.getLogger(AclCollection.class);
+  private static final Logger LOG = LogManager.getLogger(AclAnthologyCollection.class);
 
-  public AclCollection(Path path) {
+  public AclAnthologyCollection(Path path) {
     this.path = Paths.get(path.toString(), "/papers"); // Path containing files to iterate
-    this.allowedFileSuffix = new HashSet<>(Arrays.asList(".yaml"));
+    this.allowedFileSuffix = Set.of(".yaml");
 
     ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
     try {
@@ -60,14 +59,14 @@ public class AclCollection extends DocumentCollection<AclCollection.Document> {
   }
 
   @Override
-  public FileSegment<AclCollection.Document> createFileSegment(Path p) throws IOException {
+  public FileSegment<AclAnthologyCollection.Document> createFileSegment(Path p) throws IOException {
     return new Segment(p);
   }
 
   /**
    * A file in a YAML collection for ACL papers containing multiple entires.
    */
-  public class Segment extends FileSegment<AclCollection.Document> {
+  public class Segment extends FileSegment<AclAnthologyCollection.Document> {
     private Map.Entry<String, JsonNode> nodeEntry = null;
     private Iterator<Map.Entry<String, JsonNode>> iter = null; // iterator for JSON document object
 
@@ -77,8 +76,7 @@ public class AclCollection extends DocumentCollection<AclCollection.Document> {
       // read YAML file into JsonNode format
       bufferedReader = new BufferedReader(new FileReader(path.toString()));
       ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-      MappingIterator<JsonNode> iterator =
-        mapper.readerFor(JsonNode.class).readValues(bufferedReader);
+      MappingIterator<JsonNode> iterator = mapper.readerFor(JsonNode.class).readValues(bufferedReader);
 
       if (iterator.hasNext()) {
         JsonNode root = iterator.next();
@@ -94,7 +92,7 @@ public class AclCollection extends DocumentCollection<AclCollection.Document> {
       if (nodeEntry == null) {
         throw new NoSuchElementException("JsonNode is empty");
       } else {
-        bufferedRecord = new AclCollection.Document(nodeEntry);
+        bufferedRecord = new AclAnthologyCollection.Document(nodeEntry);
         if (iter.hasNext()) {
           nodeEntry = iter.next();
         } else {
@@ -123,31 +121,26 @@ public class AclCollection extends DocumentCollection<AclCollection.Document> {
 
       // Process author facets
       authors = new ArrayList<>();
-
       if (paper.has("author")) {
         ArrayNode authorNode = (ArrayNode) paper.get("author");
-        authorNode.elements().forEachRemaining(node -> {
-          authors.add(((ObjectNode) node).get("full").asText());
-        });
+        authorNode.elements().forEachRemaining(node ->
+          authors.add(((ObjectNode) node).get("full").asText())
+        );
       }
 
       // Retrieve parent volume metadata
       String parentVolumeId = paper.get("parent_volume_id").asText();
-      volume = AclCollection.this.volumes.get(parentVolumeId);
+      volume = AclAnthologyCollection.this.volumes.get(parentVolumeId);
 
       // Process venue facets
       venues = new ArrayList<>();
       ArrayNode venuesNode = (ArrayNode) volume.get("venues");
-      venuesNode.elements().forEachRemaining(node -> {
-        venues.add(node.asText());
-      });
+      venuesNode.elements().forEachRemaining(node -> venues.add(node.asText()));
 
       // Process SIG facets
       sigs = new ArrayList<>();
       ArrayNode sigsNode = (ArrayNode) volume.get("sigs");
-      sigsNode.elements().forEachRemaining(node -> {
-        sigs.add(node.asText());
-      });
+      sigsNode.elements().forEachRemaining(node -> sigs.add(node.asText()));
     }
 
     @Override

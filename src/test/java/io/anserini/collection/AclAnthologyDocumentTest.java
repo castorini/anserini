@@ -23,13 +23,13 @@ import java.util.Map;
 
 import org.junit.Before;
 
-public class AclDocumentTest extends DocumentCollectionTest<AclCollection.Document> {
+public class AclAnthologyDocumentTest extends DocumentCollectionTest<AclAnthologyCollection.Document> {
   @Before
   public void setUp() throws Exception {
     super.setUp();
 
     collectionPath = Paths.get("src/test/resources/sample_docs/acl/");
-    collection = new AclCollection(collectionPath);
+    collection = new AclAnthologyCollection(collectionPath);
 
     Path segment1 = Paths.get("src/test/resources/sample_docs/acl/papers/segment1.yaml");
     Path segment2 = Paths.get("src/test/resources/sample_docs/acl/papers/segment2.yaml");
@@ -108,7 +108,7 @@ public class AclDocumentTest extends DocumentCollectionTest<AclCollection.Docume
 
   @Override
   void checkDocument(SourceDocument doc, Map<String, String> expected) {
-    AclCollection.Document aclDoc = (AclCollection.Document) doc;
+    AclAnthologyCollection.Document aclDoc = (AclAnthologyCollection.Document) doc;
     assertTrue(aclDoc.indexable());
 
     for (Map.Entry<String, String> entry : expected.entrySet()) {

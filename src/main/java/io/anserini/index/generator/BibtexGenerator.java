@@ -37,8 +37,6 @@ import org.jbibtex.Key;
 import org.jbibtex.Value;
 
 import java.io.StringReader;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -71,17 +69,17 @@ public class BibtexGenerator extends LuceneDocumentGenerator<BibtexCollection.Do
     }
   }
 
-  public static final List<String> STRING_FIELD_NAMES = new ArrayList<>(Arrays.asList(
+  public static final List<String> STRING_FIELD_NAMES = List.of(
     BibtexField.DOI.name,
-    BibtexField.URL.name));
+    BibtexField.URL.name);
 
-  public static final List<String> FIELDS_WITHOUT_STEMMING = new ArrayList<>(Arrays.asList(
+  public static final List<String> FIELDS_WITHOUT_STEMMING = List.of(
     BibtexField.BOOKTITLE.name,
     BibtexField.AUTHOR.name,
     BibtexField.PUBLISHER.name,
-    BibtexField.JOURNAL.name, 
+    BibtexField.JOURNAL.name,
     BibtexField.ADDRESS.name,
-    BibtexField.EDITOR.name));
+    BibtexField.EDITOR.name);
 
   public BibtexGenerator(IndexArgs args, IndexCollection.Counters counters) {
     super(args, counters);
@@ -153,11 +151,11 @@ public class BibtexGenerator extends LuceneDocumentGenerator<BibtexCollection.Do
         Analyzer nonStemmingAnalyzer = new EnglishStemmingAnalyzer(CharArraySet.EMPTY_SET);
         StringReader reader = new StringReader(fieldValue);
         TokenStream stream = nonStemmingAnalyzer.tokenStream(null, reader);
-        
+
         Field field = new Field(fieldKey, fieldValue, nonStemmedType);
         field.setTokenStream(stream);
         doc.add(field);
- 
+
         nonStemmingAnalyzer.close();
       } else if (fieldKey.equals(BibtexField.YEAR.name)) {
         if (fieldValue != "") {
