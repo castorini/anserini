@@ -33,6 +33,7 @@ pushd src/main/resources/solr && ./solr.sh ../../../../solrini localhost:9983 &&
    
 Solr should now be available at [http://localhost:8983/](http://localhost:8983/) for browsing.
 
+The Solr index schema can also be modified using the [Schema API](https://lucene.apache.org/solr/guide/8_3/schema-api.html). This is useful for specifying field types and other properties including multiValued fields.
 
 ## Indexing into SolrCloud from Anserini
 

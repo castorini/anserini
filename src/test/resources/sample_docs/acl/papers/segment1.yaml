@@ -1,0 +1,25 @@
+C00-1003:
+  author:
+  - first: Ion
+    full: Ion Androutsopoulos
+    id: ion-androutsopoulos
+    last: Androutsopoulos
+  - first: Robert
+    full: Robert Dale
+    id: robert-dale
+    last: Dale
+  author_string: Ion Androutsopoulos, Robert Dale
+  bibkey: androutsopoulos-dale-2000-selectional
+  bibtype: inproceedings
+  booktitle: 'COLING 2000 Volume 1: The 18th International Conference on Computational
+    Linguistics'
+  booktitle_html: '<span class="acl-fixed-case">COLING</span> 2000 Volume 1: The 18th
+    International Conference on Computational Linguistics'
+  paper_id: '3'
+  parent_volume_id: C00-1
+  pdf: https://www.aclweb.org/anthology/C00-1003.pdf
+  thumbnail: https://www.aclweb.org/anthology/thumb/C00-1003.jpg
+  title: Selectional Restrictions in HPSG
+  title_html: Selectional Restrictions in <span class="acl-fixed-case">HPSG</span>
+  url: https://www.aclweb.org/anthology/C00-1003
+  year: '2000'

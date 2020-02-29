@@ -17,15 +17,10 @@
 package io.anserini.collection;
 
 import org.junit.Before;
-import org.junit.Test;
 
-import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class ClueWeb09DocumentTest extends DocumentCollectionTest<ClueWeb09Collection.Document> {
 
@@ -46,7 +41,7 @@ public class ClueWeb09DocumentTest extends DocumentCollectionTest<ClueWeb09Colle
 
     // Note special key "null" to handle special case.
     expected.put("null",
-        Map.of("id", "null","content",
+        Map.of("id", "null", "content",
             "software: Nutch 1.0-dev (modified for clueweb09)\n" +
                 "isPartOf: clueweb09-en\n" +
                 "description: clueweb09 crawl with WARC output\n" +

@@ -88,6 +88,7 @@ public class WikipediaArticleTest extends DocumentTest {
         tmpOut.write(buffer, 0, n);
       }
       tmpOut.close();
+      in.close();
     } catch (IOException e) {}
     return tmpPath;
   }

@@ -17,15 +17,10 @@
 package io.anserini.collection;
 
 import org.junit.Before;
-import org.junit.Test;
 
-import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
 
 // A file in a JsonCollection can either be:
 // (1) A single JSON object (i.e., a single document)
@@ -50,7 +45,7 @@ public class JsonCollectionDocumentArrayTest extends JsonCollectionTest {
     totalSegments = 1;
     totalDocs = 2;
 
-    expected.put("doc1", Map.of("id", "doc1","content", "this is the contents 1."));
-    expected.put("doc2", Map.of("id", "doc2","content", "this is the contents 2."));
+    expected.put("doc1", Map.of("id", "doc1", "content", "this is the contents 1."));
+    expected.put("doc2", Map.of("id", "doc2", "content", "this is the contents 2."));
   }
 }
