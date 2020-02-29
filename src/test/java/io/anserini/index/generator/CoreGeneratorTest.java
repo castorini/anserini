@@ -81,11 +81,11 @@ public class CoreGeneratorTest {
   }
 
   @Test
-  public void testJsonStringParsing() throws Exception {
+  public void testJsonStringParsing() {
     // test proper id and contents field generated from CoreCollection
-    assertEquals("doi:doi_text", doc.getField(CoreGenerator.FIELD_ID).stringValue());
+    assertEquals("doi:doi_text", doc.getField(IndexArgs.ID).stringValue());
     assertEquals("every startup ever\nmachine learning blockchain quantum vr",
-      doc.getField(CoreGenerator.FIELD_BODY).stringValue());
+      doc.getField(IndexArgs.CONTENTS).stringValue());
 
     // integer field value
     assertEquals(2020, doc.getField(CoreGenerator.CoreField.YEAR.name).numericValue());
@@ -106,11 +106,9 @@ public class CoreGeneratorTest {
   }
 
   @Test
-  public void testDocumentFields() throws Exception {
+  public void testDocumentFields() {
     // make sure specified fields are stored as single tokens
-    CoreGenerator.STRING_FIELD_NAMES.forEach(field -> {
-      assertEquals(StringField.class, doc.getField(field).getClass());
-    });
+    CoreGenerator.STRING_FIELD_NAMES.forEach(field -> assertEquals(StringField.class, doc.getField(field).getClass()));
 
     // make sure specified fields are stored without stemming
     Analyzer nonStemmingAnalyzer = new EnglishStemmingAnalyzer(CharArraySet.EMPTY_SET);
