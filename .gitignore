@@ -33,3 +33,7 @@ src/main/resources/topics-and-qrels/qrels.mb13.all.txt
 # vscode related files
 .settings
 .factorypath
+
+# elastirini and solrini installation
+solrini/
+elastirini/

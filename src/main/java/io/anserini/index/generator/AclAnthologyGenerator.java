@@ -16,8 +16,9 @@
 
 package io.anserini.index.generator;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import io.anserini.analysis.EnglishStemmingAnalyzer;
-import io.anserini.collection.BibtexCollection;
+import io.anserini.collection.AclAnthology;
 import io.anserini.index.IndexArgs;
 import io.anserini.index.IndexCollection;
 import org.apache.lucene.analysis.Analyzer;
@@ -32,65 +33,68 @@ import org.apache.lucene.document.StoredField;
 import org.apache.lucene.document.StringField;
 import org.apache.lucene.index.IndexOptions;
 import org.apache.lucene.util.BytesRef;
-import org.jbibtex.BibTeXEntry;
-import org.jbibtex.Key;
-import org.jbibtex.Value;
 
 import java.io.StringReader;
 import java.util.List;
-import java.util.Map;
 
 /**
- * Converts a {@link BibtexCollection.Document} into a Lucene {@link Document}, ready to be indexed.
+ * Converts a {@link AclAnthology.Document} into a Lucene {@link Document}, ready to be indexed.
  */
-public class BibtexGenerator extends LuceneDocumentGenerator<BibtexCollection.Document> {
+public class AclAnthologyGenerator extends LuceneDocumentGenerator<AclAnthology.Document> {
   public static final String FIELD_ID = "id";
   public static final String FIELD_BODY = "contents";
   public static final String FIELD_RAW = "raw";
-  public static final String FIELD_TYPE = "type";
 
-  public static enum BibtexField {
-    DOI("doi"),
-    TITLE("title"),
-    AUTHOR("author"),
-    PUBLISHER("publisher"),
-    JOURNAL("journal"),
-    YEAR("year"),
-    NUMBER("number"),
-    URL("url"),
-    BOOKTITLE("booktitle"),
+  public static enum AclAnthologyField {
     ADDRESS("address"),
-    EDITOR("editor");
+    AUTHOR_STRING("author_string"),
+    BIBKEY("bibkey"),
+    BIBTYPE("bibtype"),
+    BOOKTITLE("booktitle"),
+    PDF("pdf"),
+    URL("url"),
+    THUMBNAIL("thumbnail"),
+    TITLE("title"),
+    ABSTRACT_HTML("abstract_html"),
+    PUBLISHER("publisher"),
+    MONTH("month"),
+    YEAR("year"),
+    PAGE_FIRST("page_first"),
+    PAGE_LAST("page_last");
 
     public final String name;
 
-    BibtexField(String s) {
+    AclAnthologyField(String s) {
       name = s;
     }
   }
 
   public static final List<String> STRING_FIELD_NAMES = List.of(
-    BibtexField.DOI.name,
-    BibtexField.URL.name);
+    AclAnthologyField.ADDRESS.name,
+    AclAnthologyField.BIBKEY.name,
+    AclAnthologyField.BIBTYPE.name,
+    AclAnthologyField.PDF.name,
+    AclAnthologyField.URL.name,
+    AclAnthologyField.THUMBNAIL.name);
+
+  public static final List<String> NUMERIC_FIELD_NAMES = List.of(
+    AclAnthologyField.YEAR.name,
+    AclAnthologyField.PAGE_FIRST.name,
+    AclAnthologyField.PAGE_LAST.name);
 
   public static final List<String> FIELDS_WITHOUT_STEMMING = List.of(
-    BibtexField.BOOKTITLE.name,
-    BibtexField.AUTHOR.name,
-    BibtexField.PUBLISHER.name,
-    BibtexField.JOURNAL.name,
-    BibtexField.ADDRESS.name,
-    BibtexField.EDITOR.name);
+    AclAnthologyField.AUTHOR_STRING.name,
+    AclAnthologyField.PUBLISHER.name,
+    AclAnthologyField.MONTH.name);
 
-  public BibtexGenerator(IndexArgs args, IndexCollection.Counters counters) {
+  public AclAnthologyGenerator(IndexArgs args, IndexCollection.Counters counters) {
     super(args, counters);
   }
 
   @Override
-  public Document createDocument(BibtexCollection.Document bibtexDoc) {
-    String id = bibtexDoc.id();
-    String content = bibtexDoc.content();
-    String type = bibtexDoc.type();
-    BibTeXEntry bibtexEntry = bibtexDoc.bibtexEntry();
+  public Document createDocument(AclAnthology.Document aclDoc) {
+    String id = aclDoc.id();
+    String content = aclDoc.content();
 
     if (content == null || content.trim().isEmpty()) {
       counters.empty.incrementAndGet();
@@ -103,8 +107,6 @@ public class BibtexGenerator extends LuceneDocumentGenerator<BibtexCollection.Do
     doc.add(new StringField(FIELD_ID, id, Field.Store.YES));
     // This is needed to break score ties by docid.
     doc.add(new SortedDocValuesField(FIELD_ID, new BytesRef(id)));
-    // Store the collection's bibtex type
-    doc.add(new StringField(FIELD_TYPE, type, Field.Store.YES));
 
     if (args.storeRawDocs) {
       doc.add(new StoredField(FIELD_RAW, content));
@@ -128,46 +130,57 @@ public class BibtexGenerator extends LuceneDocumentGenerator<BibtexCollection.Do
 
     doc.add(new Field(FIELD_BODY, content, fieldType));
 
-    for (Map.Entry<Key, Value> fieldEntry : bibtexEntry.getFields().entrySet()) {
-      String fieldKey = fieldEntry.getKey().toString();
-      String fieldValue = fieldEntry.getValue().toUserString();
+    // used to store original field valuees
+    FieldType storedFieldType = new FieldType(fieldType);
+    storedFieldType.setStored(true);
 
-      // causes indexing to fail on Solr due to inconsistent formatting
-      // because Solr infers the field type to be number instead of String
-      // not worth trying to parse/normalize all numbers at the moment
-      if (fieldKey.equals(BibtexField.NUMBER.name)) {
-        continue;
-      }
+    // index individual paper fields
+    aclDoc.paper().fieldNames().forEachRemaining(key -> {
+      JsonNode value = aclDoc.paper().get(key);
+      String fieldString = value.asText();
 
-      if (STRING_FIELD_NAMES.contains(fieldKey)) {
+      if (STRING_FIELD_NAMES.contains(key)) {
         // index field as single token
-        doc.add(new StringField(fieldKey, fieldValue, Field.Store.YES));
-      } else if (FIELDS_WITHOUT_STEMMING.contains(fieldKey)) {
-        // index field without stemming but store original string value
-        FieldType nonStemmedType = new FieldType(fieldType);
-        nonStemmedType.setStored(true);
-
+        doc.add(new StringField(key, fieldString, Field.Store.YES));
+      } else if (NUMERIC_FIELD_NAMES.contains(key)) {
+        try {
+          // index as numeric value to allow range queries
+          doc.add(new IntPoint(key, Integer.parseInt(fieldString)));
+        } catch (Exception e) {
+          // do nothing, integer parsing failed
+        }
+        doc.add(new StoredField(key, fieldString));
+      } else if (FIELDS_WITHOUT_STEMMING.contains(key)) {
         // token stream to be indexed
         Analyzer nonStemmingAnalyzer = new EnglishStemmingAnalyzer(CharArraySet.EMPTY_SET);
-        StringReader reader = new StringReader(fieldValue);
+        StringReader reader = new StringReader(fieldString);
         TokenStream stream = nonStemmingAnalyzer.tokenStream(null, reader);
 
-        Field field = new Field(fieldKey, fieldValue, nonStemmedType);
+        Field field = new Field(key, fieldString, storedFieldType);
         field.setTokenStream(stream);
         doc.add(field);
 
         nonStemmingAnalyzer.close();
-      } else if (fieldKey.equals(BibtexField.YEAR.name)) {
-        if (fieldValue != "") {
-          // index as numeric value to allow range queries
-          doc.add(new IntPoint(fieldKey, Integer.parseInt(fieldValue)));
-        }
-        doc.add(new StoredField(fieldKey, fieldValue));
       } else {
         // default to normal Field with tokenization and stemming
-        doc.add(new Field(fieldKey, fieldValue, fieldType));
+        doc.add(new Field(key, fieldString, storedFieldType));
       }
-    }
+    });
+
+    // index authors
+    aclDoc.authors().forEach(author ->
+      doc.add(new StringField("authors", author, Field.Store.YES))
+    );
+
+    // index SIGs
+    aclDoc.sigs().forEach(sig ->
+      doc.add(new StringField("sigs", sig, Field.Store.YES))
+    );
+
+    // index venues
+    aclDoc.venues().forEach(venue ->
+      doc.add(new StringField("venues", venue, Field.Store.YES))
+    );
 
     return doc;
   }
