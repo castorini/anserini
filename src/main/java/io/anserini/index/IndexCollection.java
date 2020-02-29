@@ -26,7 +26,7 @@ import io.anserini.collection.DocumentCollection;
 import io.anserini.collection.FileSegment;
 import io.anserini.collection.SourceDocument;
 import io.anserini.index.generator.LuceneDocumentGenerator;
-import io.anserini.index.generator.WapoGenerator;
+import io.anserini.index.generator.WashingtonPostGenerator;
 import io.anserini.search.similarity.AccurateBM25Similarity;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.time.DurationFormatUtils;
@@ -105,7 +105,8 @@ public final class IndexCollection {
 
   // When duplicates of these fields are attempted to be indexed in Solr, they are ignored. This allows some fields to be multi-valued, but not others.
   // Stored vs. indexed vs. doc values vs. multi-valued vs. ... are controlled via config, rather than code, in Solr.
-  private static final List<String> IGNORED_DUPLICATE_FIELDS = Lists.newArrayList(WapoGenerator.WapoField.PUBLISHED_DATE.name);
+  private static final List<String> IGNORED_DUPLICATE_FIELDS =
+      Lists.newArrayList(WashingtonPostGenerator.WashingtonPostField.PUBLISHED_DATE.name);
 
   public final class Counters {
     /**

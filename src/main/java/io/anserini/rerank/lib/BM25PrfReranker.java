@@ -16,6 +16,7 @@
 
 package io.anserini.rerank.lib;
 
+import io.anserini.index.IndexArgs;
 import io.anserini.rerank.Reranker;
 import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.ScoredDocuments;
@@ -47,7 +48,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_BODY;
 import static io.anserini.search.SearchCollection.BREAK_SCORE_TIES_BY_DOCID;
 import static io.anserini.search.SearchCollection.BREAK_SCORE_TIES_BY_TWEETID;
 
@@ -157,7 +157,7 @@ public class BM25PrfReranker implements Reranker {
       if (term.matches("[0-9]+")) continue;
 
       try {
-        int df = reader.docFreq(new Term(FIELD_BODY, term));
+        int df = reader.docFreq(new Term(IndexArgs.FIELD_BODY, term));
         int dfRel = 0;
 
         for (int i = 0; i < numRelDocs; i++) {
@@ -180,7 +180,7 @@ public class BM25PrfReranker implements Reranker {
 
     for (String term : originalTerms) {
       try {
-        int df = reader.docFreq(new Term(FIELD_BODY, term));
+        int df = reader.docFreq(new Term(IndexArgs.FIELD_BODY, term));
         int dfRel = 0;
 
         for (int i = 0; i < numRelDocs; i++) {

@@ -21,8 +21,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import io.anserini.analysis.AnalyzerUtils;
 import io.anserini.collection.WashingtonPostCollection;
-import io.anserini.index.generator.LuceneDocumentGenerator;
-import io.anserini.index.generator.WapoGenerator;
+import io.anserini.index.IndexArgs;
+import io.anserini.index.generator.WashingtonPostGenerator;
 import io.anserini.search.SearchCollection;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.lucene.analysis.Analyzer;
@@ -48,9 +48,6 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_BODY;
-import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_RAW;
 
 /**
  * Topic reader for TREC2018 news track background linking task
@@ -132,7 +129,7 @@ public class NewsBackgroundLinkingTopicReader extends TopicReader<Integer> {
   public static List<String> generateQueryString(IndexReader reader, String docid, boolean paragraph, int k,
      boolean isWeighted, SearchCollection.QueryConstructor qc, Analyzer analyzer) throws IOException {
     List<String> queryStrings = new ArrayList<>();
-    IndexableField rawDocStr = reader.document(convertDocidToLuceneDocid(reader, docid)).getField(FIELD_RAW);
+    IndexableField rawDocStr = reader.document(convertDocidToLuceneDocid(reader, docid)).getField(IndexArgs.FIELD_RAW);
     if (rawDocStr == null) {
       throw new RuntimeException("Raw documents not stored and Unfortunately SDM query for News Background Linking " +
           "task needs to read the raw document to full construct the query string");
@@ -170,7 +167,7 @@ public class NewsBackgroundLinkingTopicReader extends TopicReader<Integer> {
         );
         termsMap.forEach((term, count) -> {
           try {
-            double tfIdf = count * Math.log((1.0f + docCount) / reader.docFreq(new Term(FIELD_BODY, term)));
+            double tfIdf = count * Math.log((1.0f + docCount) / reader.docFreq(new Term(IndexArgs.FIELD_BODY, term)));
             termsTfIdfPQ.add(Pair.of(term, tfIdf));
           } catch (IOException e) {
             e.printStackTrace();
@@ -193,7 +190,7 @@ public class NewsBackgroundLinkingTopicReader extends TopicReader<Integer> {
   public static int convertDocidToLuceneDocid(IndexReader reader, String docid) throws IOException {
     IndexSearcher searcher = new IndexSearcher(reader);
     
-    Query q = new TermQuery(new Term(LuceneDocumentGenerator.FIELD_ID, docid));
+    Query q = new TermQuery(new Term(IndexArgs.FIELD_ID, docid));
     TopDocs rs = searcher.search(q, 1);
     ScoreDoc[] hits = rs.scoreDocs;
     
@@ -233,15 +230,15 @@ public class NewsBackgroundLinkingTopicReader extends TopicReader<Integer> {
         if (contentObj.getType().isPresent() && contentObj.getContent().isPresent()) {
           contentObj.getType().ifPresent(type -> {
             contentObj.getContent().ifPresent(content -> {
-              if (WapoGenerator.CONTENT_TYPE_TAG.contains(type)) {
-                contentBuilder.append(WapoGenerator.removeTags(content)).append("\n");
+              if (WashingtonPostGenerator.CONTENT_TYPE_TAG.contains(type)) {
+                contentBuilder.append(WashingtonPostGenerator.removeTags(content)).append("\n");
               }
             });
           });
         }
         contentObj.getFullCaption().ifPresent(caption -> {
           String fullCaption = contentObj.getFullCaption().get();
-          contentBuilder.append(WapoGenerator.removeTags(fullCaption)).append("\n");
+          contentBuilder.append(WashingtonPostGenerator.removeTags(fullCaption)).append("\n");
         });
       }
     });
@@ -258,8 +255,8 @@ public class NewsBackgroundLinkingTopicReader extends TopicReader<Integer> {
         if (contentObj.getType().isPresent() && contentObj.getContent().isPresent()) {
           contentObj.getType().ifPresent(type -> {
             contentObj.getContent().ifPresent(content -> {
-              if (WapoGenerator.CONTENT_TYPE_TAG.contains(type)) {
-                String sanityContent = WapoGenerator.removeTags(content);
+              if (WashingtonPostGenerator.CONTENT_TYPE_TAG.contains(type)) {
+                String sanityContent = WashingtonPostGenerator.removeTags(content);
                 if (sanityContent.trim().length() > 0) {
                   paragraphs.add(sanityContent);
                 }

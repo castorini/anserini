@@ -32,9 +32,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_BODY;
-import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_ID;
-import static io.anserini.index.generator.WapoGenerator.WapoField.PUBLISHED_DATE;
+import static io.anserini.index.IndexArgs.FIELD_BODY;
+import static io.anserini.index.IndexArgs.FIELD_ID;
+import static io.anserini.index.generator.WashingtonPostGenerator.WashingtonPostField.PUBLISHED_DATE;
 
 /*
 * TREC News Track Background Linking task postprocessing.

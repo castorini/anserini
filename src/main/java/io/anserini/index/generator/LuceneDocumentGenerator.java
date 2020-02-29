@@ -42,10 +42,6 @@ import org.apache.lucene.util.BytesRef;
 public class LuceneDocumentGenerator<T extends SourceDocument> {
   private static final Logger LOG = LogManager.getLogger(LuceneDocumentGenerator.class);
 
-  public static final String FIELD_RAW = "raw";
-  public static final String FIELD_BODY = "contents";
-  public static final String FIELD_ID = "id";
-
   private final StringTransform transform;
 
   protected IndexCollection.Counters counters;
@@ -123,12 +119,12 @@ public class LuceneDocumentGenerator<T extends SourceDocument> {
     final Document document = new Document();
 
     // Store the collection docid.
-    document.add(new StringField(FIELD_ID, id, Field.Store.YES));
+    document.add(new StringField(IndexArgs.FIELD_ID, id, Field.Store.YES));
     // This is needed to break score ties by docid.
-    document.add(new SortedDocValuesField(FIELD_ID, new BytesRef(id)));
+    document.add(new SortedDocValuesField(IndexArgs.FIELD_ID, new BytesRef(id)));
 
     if (args.storeRawDocs) {
-      document.add(new StoredField(FIELD_RAW, src.content()));
+      document.add(new StoredField(IndexArgs.FIELD_RAW, src.content()));
     }
 
     FieldType fieldType = new FieldType();
@@ -147,7 +143,7 @@ public class LuceneDocumentGenerator<T extends SourceDocument> {
       fieldType.setIndexOptions(IndexOptions.DOCS_AND_FREQS);
     }
 
-    document.add(new Field(FIELD_BODY, contents, fieldType));
+    document.add(new Field(IndexArgs.FIELD_BODY, contents, fieldType));
 
     // If this document has other fields, then we want to index it also.
     // Currently we just use all the settings of the main "content" field.

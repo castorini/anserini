@@ -16,6 +16,7 @@
 
 package io.anserini.rerank;
 
+import io.anserini.index.IndexArgs;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.StringField;
@@ -29,7 +30,6 @@ import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
 
 import java.io.IOException;
-import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_ID;
 
 /**
  * ScoredDocuments object that converts TopDocs from the searcher into an Anserini format
@@ -83,9 +83,9 @@ public class ScoredDocuments {
       float score = (float) d.getFieldValue("score");
 
       // Store the collection docid.
-      document.add(new StringField(FIELD_ID, id, Field.Store.YES));
+      document.add(new StringField(IndexArgs.FIELD_ID, id, Field.Store.YES));
       // This is needed to break score ties by docid.
-      document.add(new SortedDocValuesField(FIELD_ID, new BytesRef(id)));
+      document.add(new SortedDocValuesField(IndexArgs.FIELD_ID, new BytesRef(id)));
       scoredDocs.documents[i] = document;
       scoredDocs.scores[i] = score;
       scoredDocs.ids[i] = i; // no internal Lucene ID available, use index as placeholder
@@ -116,9 +116,9 @@ public class ScoredDocuments {
       float score = hit.getScore();
 
       // Store the collection docid.
-      document.add(new StringField(FIELD_ID, id, Field.Store.YES));
+      document.add(new StringField(IndexArgs.FIELD_ID, id, Field.Store.YES));
       // This is needed to break score ties by docid.
-      document.add(new SortedDocValuesField(FIELD_ID, new BytesRef(id)));
+      document.add(new SortedDocValuesField(IndexArgs.FIELD_ID, new BytesRef(id)));
       scoredDocs.documents[i] = document;
       scoredDocs.scores[i] = score;
       scoredDocs.ids[i] = i; // no internal Lucene ID available, use index as placeholder

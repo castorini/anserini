@@ -16,6 +16,7 @@
 
 package io.anserini.ltr;
 
+import io.anserini.index.IndexArgs;
 import io.anserini.index.generator.LuceneDocumentGenerator;
 import io.anserini.ltr.feature.FeatureExtractors;
 import io.anserini.rerank.Reranker;
@@ -60,9 +61,9 @@ public class WebCollectionLtrDataGenerator implements Reranker<Integer> {
     LOG.info("Beginning rerank");
     for (int i =0; i < docs.documents.length; i++ ) {
       try {
-        Terms terms = reader.getTermVector(docs.ids[i], LuceneDocumentGenerator.FIELD_BODY);
+        Terms terms = reader.getTermVector(docs.ids[i], IndexArgs.FIELD_BODY);
         float[] features = this.extractorChain.extractAll(documents[i], terms, context);
-        String docId = documents[i].get(LuceneDocumentGenerator.FIELD_ID);
+        String docId = documents[i].get(IndexArgs.FIELD_ID);
         // QREL 0 in this case, will be assigned if needed later
         //qid
         BaseFeatureExtractor.writeFeatureVector(out, qid, this.qrels.getRelevanceGrade(qid, docId), docId,  features);

@@ -20,8 +20,6 @@ import io.anserini.collection.WashingtonPostCollection;
 import io.anserini.collection.WashingtonPostCollection.Document.WashingtonPostObject;
 import io.anserini.index.IndexArgs;
 import io.anserini.index.IndexCollection;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.FieldType;
@@ -39,17 +37,10 @@ import java.util.List;
 /**
  * Converts a {@link WashingtonPostCollection.Document} into a Lucene {@link Document}, ready to be indexed.
  */
-public class WapoGenerator extends LuceneDocumentGenerator<WashingtonPostCollection.Document> {
-  private static final Logger LOG = LogManager.getLogger(WapoGenerator.class);
-
-  public static final String FIELD_RAW = "raw";
-  public static final String FIELD_BODY = "contents";
-  public static final String FIELD_ID = "id";
-
-  private static final String PATTERN = "<.+>";
+public class WashingtonPostGenerator extends LuceneDocumentGenerator<WashingtonPostCollection.Document> {
   public static final List<String> CONTENT_TYPE_TAG = Arrays.asList("sanitized_html", "tweet");
 
-  public enum WapoField {
+  public enum WashingtonPostField {
     AUTHOR("author"),
     ARTICLE_URL("article_url"),
     PUBLISHED_DATE("published_date"),
@@ -59,12 +50,12 @@ public class WapoGenerator extends LuceneDocumentGenerator<WashingtonPostCollect
 
     public final String name;
   
-    WapoField(String s) {
+    WashingtonPostField(String s) {
       name = s;
     }
   }
   
-  public WapoGenerator(IndexArgs args, IndexCollection.Counters counters) {
+  public WashingtonPostGenerator(IndexArgs args, IndexCollection.Counters counters) {
     super(args, counters);
   }
   
@@ -73,36 +64,33 @@ public class WapoGenerator extends LuceneDocumentGenerator<WashingtonPostCollect
   }
 
   @Override
-  public Document createDocument(WashingtonPostCollection.Document wapoDoc) {
-    String id = wapoDoc.id();
+  public Document createDocument(WashingtonPostCollection.Document src) {
+    String id = src.id();
 
-    if (wapoDoc.content().trim().isEmpty()) {
+    if (src.content().trim().isEmpty()) {
       counters.empty.incrementAndGet();
       return null;
     }
 
     Document doc = new Document();
-    doc.add(new StringField(FIELD_ID, id, Field.Store.YES));
+    doc.add(new StringField(IndexArgs.FIELD_ID, id, Field.Store.YES));
+
     // This is needed to break score ties by docid.
-    doc.add(new SortedDocValuesField(FIELD_ID, new BytesRef(id)));
-    doc.add(new LongPoint(WapoField.PUBLISHED_DATE.name, wapoDoc.getPublishDate()));
-    doc.add(new StoredField(WapoField.PUBLISHED_DATE.name, wapoDoc.getPublishDate()));
-    wapoDoc.getAuthor().ifPresent(author -> {
-      doc.add(new StringField(WapoField.AUTHOR.name, author, Field.Store.NO));
-    });
-    wapoDoc.getArticleUrl().ifPresent(url -> {
-      doc.add(new StringField(WapoField.ARTICLE_URL.name, url, Field.Store.NO));
-    });
-    wapoDoc.getTitle().ifPresent(title -> {
-      doc.add(new StringField(WapoField.TITLE.name, title, Field.Store.NO));
-    });
+    doc.add(new SortedDocValuesField(IndexArgs.FIELD_ID, new BytesRef(id)));
+    doc.add(new LongPoint(WashingtonPostField.PUBLISHED_DATE.name, src.getPublishDate()));
+    doc.add(new StoredField(WashingtonPostField.PUBLISHED_DATE.name, src.getPublishDate()));
+
+    src.getAuthor().ifPresent(author ->
+        doc.add(new StringField(WashingtonPostField.AUTHOR.name, author, Field.Store.NO)));
+    src.getArticleUrl().ifPresent(url ->
+        doc.add(new StringField(WashingtonPostField.ARTICLE_URL.name, url, Field.Store.NO)));
+    src.getTitle().ifPresent(title ->
+        doc.add(new StringField(WashingtonPostField.TITLE.name, title, Field.Store.NO)));
 
     StringBuilder contentBuilder = new StringBuilder();
-    wapoDoc.getTitle().ifPresent(title -> {
-      contentBuilder.append(title).append("\n");
-    });
+    src.getTitle().ifPresent(title -> contentBuilder.append(title).append("\n"));
 
-    wapoDoc.getObj().getContents().ifPresent(contents -> {
+    src.getObj().getContents().ifPresent(contents -> {
       for (WashingtonPostObject.Content contentObj : contents) {
         if (contentObj == null) continue;
         if (contentObj.getType().isPresent() && contentObj.getContent().isPresent()) {
@@ -111,7 +99,7 @@ public class WapoGenerator extends LuceneDocumentGenerator<WashingtonPostCollect
               if (CONTENT_TYPE_TAG.contains(type)) {
                 contentBuilder.append(removeTags(content)).append("\n");
               } else if (type.compareToIgnoreCase("kicker") == 0) {
-                doc.add(new StringField(WapoField.KICKER.name, content, Field.Store.NO));
+                doc.add(new StringField(WashingtonPostField.KICKER.name, content, Field.Store.NO));
                 contentBuilder.append(content).append("\n");
               }
             });
@@ -119,14 +107,14 @@ public class WapoGenerator extends LuceneDocumentGenerator<WashingtonPostCollect
         }
         contentObj.getFullCaption().ifPresent(caption -> {
           String fullCaption = contentObj.getFullCaption().get();
-          doc.add(new StringField(WapoField.FULL_CAPTION.name, fullCaption, Field.Store.NO));
+          doc.add(new StringField(WashingtonPostField.FULL_CAPTION.name, fullCaption, Field.Store.NO));
           contentBuilder.append(removeTags(fullCaption)).append("\n");
         });
       }
     });
 
     if (args.storeRawDocs) { // store the raw json string as one single field
-      doc.add(new StoredField(FIELD_RAW, wapoDoc.getContent()));
+      doc.add(new StoredField(IndexArgs.FIELD_RAW, src.getContent()));
     }
 
     FieldType fieldType = new FieldType();
@@ -146,7 +134,7 @@ public class WapoGenerator extends LuceneDocumentGenerator<WashingtonPostCollect
       fieldType.setIndexOptions(IndexOptions.DOCS_AND_FREQS);
     }
 
-    doc.add(new Field(FIELD_BODY, contentBuilder.toString(), fieldType));
+    doc.add(new Field(IndexArgs.FIELD_BODY, contentBuilder.toString(), fieldType));
 
     return doc;
   }

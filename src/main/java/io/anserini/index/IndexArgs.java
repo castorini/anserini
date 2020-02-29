@@ -20,6 +20,10 @@ import org.kohsuke.args4j.Option;
 
 public class IndexArgs {
 
+  public static final String FIELD_RAW = "raw";
+  public static final String FIELD_BODY = "contents";
+  public static final String FIELD_ID = "id";
+
   private static final int TIMEOUT = 600 * 1000;
 
   // required arguments

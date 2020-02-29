@@ -16,6 +16,7 @@
 
 package io.anserini.ltr.feature.base;
 
+import io.anserini.index.IndexArgs;
 import io.anserini.index.generator.LuceneDocumentGenerator;
 import io.anserini.ltr.feature.FeatureExtractor;
 import io.anserini.rerank.RerankerContext;
@@ -117,7 +118,7 @@ public class BM25FeatureExtractor<T> implements FeatureExtractor<T> {
 
     IndexReader reader = context.getIndexSearcher().getIndexReader();
     long maxDocs = reader.numDocs();
-    long sumTotalTermFreq = getSumTermFrequency(reader, LuceneDocumentGenerator.FIELD_BODY);
+    long sumTotalTermFreq = getSumTermFrequency(reader, IndexArgs.FIELD_BODY);
     // Compute by iterating
     long docSize  = 0L;
 
@@ -125,7 +126,7 @@ public class BM25FeatureExtractor<T> implements FeatureExtractor<T> {
     // the term vector here is only a partial term vector that treats this as if we only have 1 document in the index
     Map<String, Integer> docFreqMap = null;
     try {
-      docFreqMap = getDocFreqs(reader, context.getQueryTokens(), LuceneDocumentGenerator.FIELD_BODY);
+      docFreqMap = getDocFreqs(reader, context.getQueryTokens(), IndexArgs.FIELD_BODY);
     } catch (IOException e) {
       LOG.warn("Unable to retrieve document frequencies.");
       docFreqMap = new HashMap<>();

@@ -16,6 +16,7 @@
 
 package io.anserini.ltr.feature.twitter;
 
+import io.anserini.index.IndexArgs;
 import io.anserini.index.generator.TweetGenerator;
 import io.anserini.ltr.feature.FeatureExtractor;
 import io.anserini.rerank.RerankerContext;
@@ -25,7 +26,7 @@ import org.apache.lucene.index.Terms;
 public class LinkCount implements FeatureExtractor {
   @Override
   public float extract(Document doc, Terms terms, RerankerContext context) {
-    final String str = doc.getField(TweetGenerator.FIELD_BODY).stringValue();
+    final String str = doc.getField(IndexArgs.FIELD_BODY).stringValue();
     final String matchStr = "http://";
 
     int lastIndex = 0;

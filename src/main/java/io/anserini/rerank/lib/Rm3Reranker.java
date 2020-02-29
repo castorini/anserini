@@ -16,6 +16,7 @@
 
 package io.anserini.rerank.lib;
 
+import io.anserini.index.IndexArgs;
 import io.anserini.rerank.Reranker;
 import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.ScoredDocuments;
@@ -42,7 +43,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_BODY;
 import static io.anserini.search.SearchCollection.BREAK_SCORE_TIES_BY_DOCID;
 import static io.anserini.search.SearchCollection.BREAK_SCORE_TIES_BY_TWEETID;
 
@@ -219,7 +219,7 @@ public class Rm3Reranker implements Reranker {
         //
         // With both values, we obtained effectiveness pretty close to the old values with the
         // custom stopwords list.
-        int df = reader.docFreq(new Term(FIELD_BODY, term));
+        int df = reader.docFreq(new Term(IndexArgs.FIELD_BODY, term));
         float ratio = (float) df / numDocs;
         if (tweetsearch) {
           if (numDocs > 100000000) { // Probably Tweets2013

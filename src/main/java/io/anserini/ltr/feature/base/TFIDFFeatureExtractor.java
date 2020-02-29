@@ -16,6 +16,7 @@
 
 package io.anserini.ltr.feature.base;
 
+import io.anserini.index.IndexArgs;
 import io.anserini.index.generator.LuceneDocumentGenerator;
 import io.anserini.ltr.feature.FeatureExtractor;
 import io.anserini.rerank.RerankerContext;
@@ -49,7 +50,7 @@ public class TFIDFFeatureExtractor<T> implements FeatureExtractor<T> {
     long numDocs =  reader.numDocs();
     for (Object queryToken : context.getQueryTokens()) {
       try {
-        docFreqs.put((String)queryToken, reader.docFreq(new Term(LuceneDocumentGenerator.FIELD_BODY, (String)queryToken)));
+        docFreqs.put((String)queryToken, reader.docFreq(new Term(IndexArgs.FIELD_BODY, (String)queryToken)));
       } catch (IOException e) {
         LOG.error("Error trying to read document frequency");
         docFreqs.put((String)queryToken, 0);

@@ -16,6 +16,7 @@
 
 package io.anserini.ltr.feature.base;
 
+import io.anserini.index.IndexArgs;
 import io.anserini.index.generator.LuceneDocumentGenerator;
 import io.anserini.ltr.feature.FeatureExtractor;
 import io.anserini.rerank.RerankerContext;
@@ -71,7 +72,7 @@ public class SCQFeatureExtractor<T> implements FeatureExtractor<T> {
       this.lastComputedScore = 0.0f;
 
       try {
-        float sumScq = sumSCQ(reader, context.getQueryTokens(), LuceneDocumentGenerator.FIELD_BODY);
+        float sumScq = sumSCQ(reader, context.getQueryTokens(), IndexArgs.FIELD_BODY);
         this.lastComputedScore = sumScq / context.getQueryTokens().size();
       } catch (IOException e) {
         this.lastComputedScore = 0.0f;
