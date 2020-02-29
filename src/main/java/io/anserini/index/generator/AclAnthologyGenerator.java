@@ -18,7 +18,7 @@ package io.anserini.index.generator;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import io.anserini.analysis.EnglishStemmingAnalyzer;
-import io.anserini.collection.AclAnthologyCollection;
+import io.anserini.collection.AclAnthology;
 import io.anserini.index.IndexArgs;
 import io.anserini.index.IndexCollection;
 import org.apache.lucene.analysis.Analyzer;
@@ -38,9 +38,9 @@ import java.io.StringReader;
 import java.util.List;
 
 /**
- * Converts a {@link AclAnthologyCollection.Document} into a Lucene {@link Document}, ready to be indexed.
+ * Converts a {@link AclAnthology.Document} into a Lucene {@link Document}, ready to be indexed.
  */
-public class AclAnthologyGenerator extends LuceneDocumentGenerator<AclAnthologyCollection.Document> {
+public class AclAnthologyGenerator extends LuceneDocumentGenerator<AclAnthology.Document> {
   public static final String FIELD_ID = "id";
   public static final String FIELD_BODY = "contents";
   public static final String FIELD_RAW = "raw";
@@ -92,7 +92,7 @@ public class AclAnthologyGenerator extends LuceneDocumentGenerator<AclAnthologyC
   }
 
   @Override
-  public Document createDocument(AclAnthologyCollection.Document aclDoc) {
+  public Document createDocument(AclAnthology.Document aclDoc) {
     String id = aclDoc.id();
     String content = aclDoc.content();
 

@@ -41,11 +41,11 @@ import java.util.Set;
 /**
  * A YAML document collection for the ACL anthology.
  */
-public class AclAnthologyCollection extends DocumentCollection<AclAnthologyCollection.Document> {
+public class AclAnthology extends DocumentCollection<AclAnthology.Document> {
   private JsonNode volumes;
-  private static final Logger LOG = LogManager.getLogger(AclAnthologyCollection.class);
+  private static final Logger LOG = LogManager.getLogger(AclAnthology.class);
 
-  public AclAnthologyCollection(Path path) {
+  public AclAnthology(Path path) {
     this.path = Paths.get(path.toString(), "/papers"); // Path containing files to iterate
     this.allowedFileSuffix = Set.of(".yaml");
 
@@ -59,14 +59,14 @@ public class AclAnthologyCollection extends DocumentCollection<AclAnthologyColle
   }
 
   @Override
-  public FileSegment<AclAnthologyCollection.Document> createFileSegment(Path p) throws IOException {
+  public FileSegment<AclAnthology.Document> createFileSegment(Path p) throws IOException {
     return new Segment(p);
   }
 
   /**
    * A file in a YAML collection for ACL papers containing multiple entires.
    */
-  public class Segment extends FileSegment<AclAnthologyCollection.Document> {
+  public class Segment extends FileSegment<AclAnthology.Document> {
     private Map.Entry<String, JsonNode> nodeEntry = null;
     private Iterator<Map.Entry<String, JsonNode>> iter = null; // iterator for JSON document object
 
@@ -92,7 +92,7 @@ public class AclAnthologyCollection extends DocumentCollection<AclAnthologyColle
       if (nodeEntry == null) {
         throw new NoSuchElementException("JsonNode is empty");
       } else {
-        bufferedRecord = new AclAnthologyCollection.Document(nodeEntry);
+        bufferedRecord = new AclAnthology.Document(nodeEntry);
         if (iter.hasNext()) {
           nodeEntry = iter.next();
         } else {
@@ -130,7 +130,7 @@ public class AclAnthologyCollection extends DocumentCollection<AclAnthologyColle
 
       // Retrieve parent volume metadata
       String parentVolumeId = paper.get("parent_volume_id").asText();
-      volume = AclAnthologyCollection.this.volumes.get(parentVolumeId);
+      volume = AclAnthology.this.volumes.get(parentVolumeId);
 
       // Process venue facets
       venues = new ArrayList<>();
