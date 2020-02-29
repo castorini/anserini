@@ -10,19 +10,19 @@ Set up Solr locally by following the instructions for setting up a single-node S
 
 First, clone the ACL anthology repository containing the raw XML data:
 
-```
+```bash
 git clone git@github.com:acl-org/acl-anthology.git
 ```
  
 Next, navigate to the `acl-anthology` folder and install dependencies (with Python 3.7+):
 
-```
-pip install -r requirements.txt
+```bash
+pip install -r bin/requirements.txt
 ```
 
 Generate cleaned YAML data (again with Python 3.7+):
 
-```
+```bash
 python bin/create_hugo_yaml.py
 ```
 
