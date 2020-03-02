@@ -59,6 +59,7 @@ public class CoreGeneratorTest {
     coreJsonObj.set("contributors", mapper.createArrayNode());
     coreJsonObj.set("publisher", NullNode.getInstance());
     coreJsonObj.set("datePublished", TextNode.valueOf("2020-01-01"));
+    coreJsonObj.set("pdfHashValue", TextNode.valueOf("abc"));
     coreJsonObj.set("downloadUrl", NullNode.getInstance());
     coreJsonObj.set("topics", mapper.createArrayNode().add("Machine Learning").add("Blockchain"));
     coreJsonObj.set("subjects", mapper.createArrayNode().add("Quantum").add("VR"));
@@ -81,47 +82,38 @@ public class CoreGeneratorTest {
   }
 
   @Test
-  public void testJsonStringParsing() {
+  public void testDocumentFields() throws Exception {
     // test proper id and contents field generated from CoreCollection
-    assertEquals("doi:doi_text", doc.getField(IndexArgs.ID).stringValue());
-    assertEquals("every startup ever\nmachine learning blockchain quantum vr",
-      doc.getField(IndexArgs.CONTENTS).stringValue());
+    assertEquals("doi_text", doc.getField(IndexArgs.ID).stringValue());
+    assertEquals("every startup ever machine learning blockchain quantum vr",
+      doc.getField(IndexArgs.CONTENTS));
 
     // integer field value
     assertEquals(2020, doc.getField(CoreGenerator.CoreField.YEAR.name).numericValue());
 
-    // array field values for empty, single, multiple
-    assertEquals("[]", doc.getField(CoreGenerator.CoreField.IDENTIFIERS.name).stringValue());
+    // array field values
+    assertEquals("", doc.getField(CoreGenerator.CoreField.IDENTIFIERS.name).stringValue());
     assertEquals("journal", doc.getField(CoreGenerator.CoreField.JOURNALS.name).stringValue());
-    assertEquals("Elon Musk :: Mark Zuckerberg", doc.getField(CoreGenerator.CoreField.AUTHORS.name).stringValue());
-
-    // object field values for empty, simple, multiple nested
-    assertEquals("{}", doc.getField(CoreGenerator.CoreField.LANGUAGE.name).stringValue());
-    assertEquals("{ sample -> text }", doc.getField(CoreGenerator.CoreField.RELATIONS.name).stringValue());
-    assertEquals("{ references -> [] } :: { documentType -> { type ->  } :: { confidence ->  } }",
-      doc.getField(CoreGenerator.CoreField.ENRICHMENTS.name).stringValue());
 
     // null field value
-    assertEquals(doc.getField(CoreGenerator.CoreField.DOWNLOAD_URL.name).stringValue(), "");
-  }
+    assertEquals("", doc.getField(CoreGenerator.CoreField.DOWNLOAD_URL.name).stringValue());
 
-  @Test
-  public void testDocumentFields() {
     // make sure specified fields are stored as single tokens
-    CoreGenerator.STRING_FIELD_NAMES.forEach(field -> assertEquals(StringField.class, doc.getField(field).getClass()));
+    CoreGenerator.STRING_FIELD_NAMES.forEach(field ->
+      assertEquals(StringField.class, doc.getField(field).getClass())
+    );
 
     // make sure specified fields are stored without stemming
     Analyzer nonStemmingAnalyzer = new EnglishStemmingAnalyzer(CharArraySet.EMPTY_SET);
     CoreGenerator.FIELDS_WITHOUT_STEMMING.forEach(field -> {
-      assertEquals(nonStemmingAnalyzer.tokenStream(null,
-        new StringReader(CoreGenerator.jsonNodeToString(coreDoc.jsonFields().get(field)))),
-        doc.getField(field).tokenStream(null, null));
+      String fieldString = coreDoc.jsonNode().get(field).toString();
+      fieldString.replace("[", "").replace("]", "");
 
-      assertEquals(CoreGenerator.jsonNodeToString(coreDoc.jsonFields().get(field)),
-        doc.getField(field).stringValue());
+      assertEquals(nonStemmingAnalyzer.tokenStream(null, new StringReader(fieldString)),
+        doc.getField(field).tokenStream(null, null));
     });
     nonStemmingAnalyzer.close();
-  
+
     // make sure year is stored as numeric
     assertEquals(IntPoint.class, doc.getField(CoreGenerator.CoreField.YEAR.name).getClass());
   }

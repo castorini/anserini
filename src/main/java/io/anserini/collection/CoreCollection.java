@@ -29,10 +29,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.file.Path;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.NoSuchElementException;
 
 /**
@@ -52,7 +50,7 @@ public class CoreCollection extends DocumentCollection<CoreCollection.Document> 
 
   public CoreCollection(Path path){
     this.path = path;
-    this.allowedFileSuffix = new HashSet<>(Arrays.asList(".json.xz"));
+    this.allowedFileSuffix = new HashSet<>(Arrays.asList(".json.xz", "json"));
   }
 
   @Override
@@ -70,8 +68,15 @@ public class CoreCollection extends DocumentCollection<CoreCollection.Document> 
 
     protected Segment(Path path) throws IOException {
       super(path);
-      bufferedReader = new BufferedReader(new InputStreamReader(
-              new XZInputStream(new FileInputStream(path.toString()))));
+
+      if (path.endsWith(".xz")) {
+        bufferedReader = new BufferedReader(new InputStreamReader(
+          new XZInputStream(new FileInputStream(path.toString()))));
+      } else {
+        bufferedReader = new BufferedReader(new InputStreamReader(
+          new FileInputStream(path.toString())));
+      }
+
       ObjectMapper mapper = new ObjectMapper();
       iterator = mapper.readerFor(JsonNode.class).readValues(bufferedReader);
       if (iterator.hasNext()) {
@@ -112,21 +117,13 @@ public class CoreCollection extends DocumentCollection<CoreCollection.Document> 
   public static class Document implements SourceDocument {
     private String id;
     private String contents;
-    private Map<String, JsonNode> jsonFields;
+    private JsonNode jsonNode;
 
     public Document(JsonNode json) {
-      this.jsonFields = new HashMap<>();
-
-      json.fields().forEachRemaining( e -> {
-        if ("coreId".equals(e.getKey())) {
-          this.id = (json.get("doi").asText().equals("null")) ? json.get("coreId").asText() :
-                  "doi:" + json.get("doi").asText();
-        } else if ("abstract".equals(e.getKey())) {
-          this.contents = json.get("title").asText() + "\n" + json.get("abstract").asText();
-        } else {
-          this.jsonFields.put(e.getKey(), e.getValue());
-        }
-      });
+      id = (json.get("doi").asText().equals("null")) ?
+        json.get("coreId").asText() : json.get("doi").asText();
+      contents = getJsonString(json, "title") + " " + getJsonString(json, "abstract");
+      jsonNode = json;
     }
 
     @Override
@@ -144,8 +141,15 @@ public class CoreCollection extends DocumentCollection<CoreCollection.Document> 
       return true;
     }
 
-    public Map<String, JsonNode> jsonFields() {
-      return jsonFields;
+    public JsonNode jsonNode() {
+      return jsonNode;
+    }
+
+    public String getJsonString(JsonNode json, String key) {
+      if (!json.has(key) || json.get(key).asText() == "null") {
+        return "";
+      }
+      return json.get(key).asText();
     }
   }
 }
