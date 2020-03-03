@@ -17,143 +17,87 @@
 package io.anserini.collection;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.IntNode;
-import com.fasterxml.jackson.databind.node.NullNode;
-import com.fasterxml.jackson.databind.node.TextNode;
-import org.apache.tools.ant.filters.StringInputStream;
 import org.junit.Before;
-import org.junit.Test;
-import org.tukaani.xz.LZMA2Options;
-import org.tukaani.xz.XZOutputStream;
 
-import java.io.BufferedOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
+import java.nio.file.Paths;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
 
-public class CoreDocumentTest extends DocumentTest {
+public class CoreDocumentTest extends DocumentCollectionTest<CoreCollection.Document> {
   List<Map<String, JsonNode>> expectedJsonFields;
 
   @Before
   public void setUp() throws Exception {
     super.setUp();
 
-    String doc =
-      "{" +
-      "  \"coreId\": \"coreDoc1\"," +
-      "  \"doi\": null," +
-      "  \"title\": \"this is the title 1\"," +
-      "  \"abstract\": \"this is the abstract 1\"," +
-      "  \"topics\": [\"Topic 1\", \"Other\"]," +
-      "  \"year\": 2020," +
-      "  \"enrichments\": {\"doc1key1\": \"doc1value1\"}" +
-      "}\n" +
-      "{ " +
-      "  \"coreId\": \"coreDoc2\"," +
-      "  \"doi\": \"doi2\"," +
-      "  \"title\": \"this is the title 2\"," +
-      "  \"abstract\": \"this is the abstract 2\"," +
-      "  \"topics\": [\"Topic 2\", \"Other\"]," +
-      "  \"year\": 2022," +
-      "  \"enrichments\": {\"doc2key1\": \"doc2value1\"}" +
-      "}";
+    collectionPath = Paths.get("src/test/resources/sample_docs/core/");
+    collection = new CoreCollection(collectionPath);
 
-    rawFiles.add(createTmpFile(doc));
+    Path segment1 = Paths.get("src/test/resources/sample_docs/core/segment1.json.xz");
+    Path segment2 = Paths.get("src/test/resources/sample_docs/core/segment2.json");
+
+    segmentPaths.add(segment1);
+    segmentPaths.add(segment2);
+    segmentDocCounts.put(segment1, 2);
+    segmentDocCounts.put(segment2, 1);
+
+    totalSegments = 2;
+    totalDocs = 3;
 
     HashMap<String, String> doc1 = new HashMap<>();
-    doc1.put("coreId", "coreDoc1");
-    doc1.put("doi", "null");
+    doc1.put("id", "coreDoc1");
     doc1.put("title", "this is the title 1");
     doc1.put("abstract", "this is the abstract 1");
-    expected.add(doc1);
+    expected.put("coreDoc1", doc1);
 
     HashMap<String, String> doc2 = new HashMap<>();
-    doc2.put("coreId", "coreDoc2");
-    doc2.put("doi", "doi2");
+    doc2.put("id", "doi2");
     doc2.put("title", "this is the title 2");
     doc2.put("abstract", "this is the abstract 2");
-    expected.add(doc2);
+    expected.put("doi2", doc2);
 
-    expectedJsonFields = new ArrayList<>();
-
-    ObjectMapper mapper = new ObjectMapper();
-    Map<String, JsonNode> doc1ExpectedJsonFields = new HashMap<>();
-    doc1ExpectedJsonFields.put("year", IntNode.valueOf(2020));
-    doc1ExpectedJsonFields.put("topics", mapper.createArrayNode().add("Topic 1").add("Other"));
-    doc1ExpectedJsonFields.put("title", TextNode.valueOf("this is the title 1"));
-    doc1ExpectedJsonFields.put("enrichments", mapper.createObjectNode().put("doc1key1", "doc1value1"));
-    doc1ExpectedJsonFields.put("doi", NullNode.getInstance());
-    expectedJsonFields.add(doc1ExpectedJsonFields);
-
-    Map<String, JsonNode> doc2ExpectedJsonFields = new HashMap<>();
-    doc2ExpectedJsonFields.put("year", IntNode.valueOf(2022));
-    doc2ExpectedJsonFields.put("topics", mapper.createArrayNode().add("Topic 2").add("Other"));
-    doc2ExpectedJsonFields.put("title", TextNode.valueOf("this is the title 2"));
-    doc2ExpectedJsonFields.put("enrichments", mapper.createObjectNode().put("doc2key1", "doc2value1"));
-    doc2ExpectedJsonFields.put("doi", TextNode.valueOf("doi2"));
-    expectedJsonFields.add(doc2ExpectedJsonFields);
+    HashMap<String, String> doc3 = new HashMap<>();
+    doc3.put("id", "fullCoreDoc");
+    doc3.put("title", "Full CORE doc");
+    doc3.put("abstract", "");
+    doc3.put("doi", "");
+    doc3.put("oai", "");
+    doc3.put("identifiers", "");
+    doc3.put("authors", "");
+    doc3.put("enrichments", "");
+    doc3.put("contributors", "");
+    doc3.put("datePublished", "");
+    doc3.put("abstract", "");
+    doc3.put("downloadUrl", "");
+    doc3.put("fullTextIdentifier", "");
+    doc3.put("pdfHashValue", "");
+    doc3.put("publisher", "");
+    doc3.put("rawRecordXml", "");
+    doc3.put("journals", "");
+    doc3.put("language", "");
+    doc3.put("relations", "");
+    doc3.put("year", "");
+    doc3.put("topics", "");
+    doc3.put("subjects", "");
+    doc3.put("fullText", "");
+    expected.put("fullCoreDoc", doc3);
   }
 
-  private Path createTmpFile(String doc) {
-    Path tmpPath = null;
-    try {
-      tmpPath = createTempFile();
-      OutputStream fout = Files.newOutputStream(tmpPath);
-      BufferedOutputStream tmpOut = new BufferedOutputStream(fout);
-      XZOutputStream out = new XZOutputStream(tmpOut, new LZMA2Options());
-      StringInputStream in = new StringInputStream(doc);
-      final byte[] buffer = new byte[2048];
-      int n = 0;
-      while (-1 != (n = in.read(buffer))) {
-        out.write(buffer, 0, n);
+  @Override
+  void checkDocument(SourceDocument doc, Map<String, String> expected) {
+    CoreCollection.Document coreDoc = (CoreCollection.Document) doc;    
+    for (Map.Entry<String, String> entry : expected.entrySet()) {
+      String expectedKey = entry.getKey();
+      String expectedValue = entry.getValue();
+      if (expectedKey.equals("id")) {
+        assertEquals(expectedValue, coreDoc.id());
+      } else if (expectedKey.equals("contents")) {
+        assertEquals(expected.get("title") + " " + expected.get("abstract"), coreDoc.content());
+      } else {
+        assert(coreDoc.jsonNode().has(expectedKey));
       }
-      out.finish();
-      out.close();
-      in.close();
-    } catch (IOException e) {}
-    return tmpPath;
-  }
-
-  @Test
-  public void test() throws IOException {
-    CoreCollection collection = new CoreCollection(tmpPath);
-
-    for (int i = 0; i < rawFiles.size(); i++) {
-      Iterator<CoreCollection.Document> iter =
-              collection.createFileSegment(rawFiles.get(i)).iterator();
-      int j = 0;
-      while (iter.hasNext()) {
-        CoreCollection.Document parsed = iter.next();
-        assertEquals(((expected.get(j).get("doi").equals("null")) ? expected.get(j).get("coreId")
-          : "doi:" + expected.get(j).get("doi")), parsed.id());
-        assertEquals(expected.get(j).get("title") + "\n" + expected.get(j).get("abstract"), parsed.content());
-        assertEquals(expectedJsonFields.get(j), parsed.jsonFields());
-        j++;
-      }
-    }
-  }
-
-  // Tests if the iterator is behaving properly. If it is, we shouldn't have any issues running into
-  // NoSuchElementExceptions.
-  @Test
-  public void testStreamIteration() {
-    CoreCollection collection = new CoreCollection(tmpPath);
-    try {
-      Iterator<CoreCollection.Document> iter =
-              collection.createFileSegment(rawFiles.get(0)).iterator();
-      AtomicInteger cnt = new AtomicInteger();
-      iter.forEachRemaining(d -> cnt.incrementAndGet());
-      assertEquals(2, cnt.get());
-    } catch (IOException e) {
-      throw new RuntimeException(e);
     }
   }
 }

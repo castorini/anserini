@@ -35,6 +35,8 @@ Solr should now be available at [http://localhost:8983/](http://localhost:8983/)
 
 The Solr index schema can also be modified using the [Schema API](https://lucene.apache.org/solr/guide/8_3/schema-api.html). This is useful for specifying field types and other properties including multiValued fields.
 
+Scripts for setting up specific Solr index schemas can be found in the [src/main/resources/solr/setup/](../src/main/resources/solr/setup/) folder.
+
 ## Indexing into SolrCloud from Anserini
 
 We can use Anserini as a common "frontend" for indexing into SolrCloud, thus supporting the same range of test collections that's already included in Anserini (when directly building local Lucene indexes).

@@ -6,7 +6,7 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
     "name":"authors",
     "type":"string",
     "stored":true,
-    "multiValued":trues
+    "multiValued":true
   },
   "add-field":{
     "name":"sigs",
