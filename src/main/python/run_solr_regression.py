@@ -81,7 +81,7 @@ class SolrClient:
         command = ''
         if collection == 'core18':
             command = 'sh target/appassembler/bin/IndexCollection -collection WashingtonPostCollection ' + \
-                      '-generator WapoGenerator -solr -solr.index core18 -solr.zkUrl localhost:9983 ' + \
+                      '-generator WashingtonPostGenerator -solr -solr.index core18 -solr.zkUrl localhost:9983 ' + \
                       '-threads 8 -input ' + path + ' -storePositions -storeDocvectors -storeTransformedDocs'
         elif collection == 'robust04':
             command = 'sh target/appassembler/bin/IndexCollection -collection TrecCollection ' + \
