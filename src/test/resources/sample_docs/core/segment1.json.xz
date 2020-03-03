@@ -1,0 +1,18 @@
+{
+  "coreId": "coreDoc1",
+  "doi": null,
+  "title": "this is the title 1",
+  "abstract": "this is the abstract 1",
+  "topics": ["Topic 1", "Other"],
+  "year": 2020,
+  "enrichments": {"doc1key1": "doc1value1"}
+}
+{
+  "coreId": "coreDoc2",
+  "doi": "doi2",
+  "title": "this is the title 2",
+  "abstract": "this is the abstract 2",
+  "topics": ["Topic 2", "Other"],
+  "year": 2022,
+  "enrichments": {"doc2key1": "doc2value1"}
+}
