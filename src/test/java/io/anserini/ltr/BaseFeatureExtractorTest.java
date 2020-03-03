@@ -17,7 +17,7 @@
 package io.anserini.ltr;
 
 import io.anserini.analysis.AnalyzerUtils;
-import io.anserini.index.generator.LuceneDocumentGenerator;
+import io.anserini.index.IndexArgs;
 import io.anserini.ltr.feature.FeatureExtractor;
 import io.anserini.ltr.feature.FeatureExtractors;
 import io.anserini.rerank.RerankerContext;
@@ -52,7 +52,7 @@ import java.util.Random;
  * This class will contain setup and teardown code for testing feature extractors
  */
 abstract public class BaseFeatureExtractorTest<T> extends LuceneTestCase {
-  protected static final String TEST_FIELD_NAME = LuceneDocumentGenerator.FIELD_BODY;
+  protected static final String TEST_FIELD_NAME = IndexArgs.CONTENTS;
   protected static final Analyzer TEST_ANALYZER = new EnglishAnalyzer();
   protected static final QueryParser TEST_PARSER = new QueryParser(TEST_FIELD_NAME, TEST_ANALYZER);
   protected static final String DEFAULT_QID = "1";

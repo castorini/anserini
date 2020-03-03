@@ -16,7 +16,7 @@
 
 package io.anserini.ltr.feature.base;
 
-import io.anserini.index.generator.LuceneDocumentGenerator;
+import io.anserini.index.IndexArgs;
 import io.anserini.ltr.feature.FeatureExtractor;
 import io.anserini.rerank.RerankerContext;
 import org.apache.lucene.document.Document;
@@ -77,7 +77,7 @@ public class SimplifiedClarityFeatureExtractor<T> implements FeatureExtractor<T>
       try {
         this.lastComputedScore = sumSC(context.getIndexSearcher().getIndexReader(),
                 queryCountMap, context.getQueryTokens().size(),
-                LuceneDocumentGenerator.FIELD_BODY);
+                IndexArgs.CONTENTS);
       } catch (IOException e) {
         this.lastComputedScore = 0.0f;
       }

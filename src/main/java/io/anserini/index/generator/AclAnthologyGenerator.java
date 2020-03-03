@@ -21,6 +21,7 @@ import io.anserini.analysis.EnglishStemmingAnalyzer;
 import io.anserini.collection.AclAnthology;
 import io.anserini.index.IndexArgs;
 import io.anserini.index.IndexCollection;
+import org.apache.jute.Index;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.CharArraySet;
 import org.apache.lucene.analysis.TokenStream;
@@ -41,11 +42,8 @@ import java.util.List;
  * Converts a {@link AclAnthology.Document} into a Lucene {@link Document}, ready to be indexed.
  */
 public class AclAnthologyGenerator extends LuceneDocumentGenerator<AclAnthology.Document> {
-  public static final String FIELD_ID = "id";
-  public static final String FIELD_BODY = "contents";
-  public static final String FIELD_RAW = "raw";
 
-  public static enum AclAnthologyField {
+  private enum AclAnthologyField {
     ADDRESS("address"),
     AUTHOR_STRING("author_string"),
     BIBKEY("bibkey"),
@@ -104,12 +102,12 @@ public class AclAnthologyGenerator extends LuceneDocumentGenerator<AclAnthology.
     Document doc = new Document();
 
     // Store the collection docid.
-    doc.add(new StringField(FIELD_ID, id, Field.Store.YES));
+    doc.add(new StringField(IndexArgs.ID, id, Field.Store.YES));
     // This is needed to break score ties by docid.
-    doc.add(new SortedDocValuesField(FIELD_ID, new BytesRef(id)));
+    doc.add(new SortedDocValuesField(IndexArgs.ID, new BytesRef(id)));
 
     if (args.storeRawDocs) {
-      doc.add(new StoredField(FIELD_RAW, content));
+      doc.add(new StoredField(IndexArgs.RAW, content));
     }
 
     FieldType fieldType = new FieldType();
@@ -128,7 +126,7 @@ public class AclAnthologyGenerator extends LuceneDocumentGenerator<AclAnthology.
       fieldType.setIndexOptions(IndexOptions.DOCS_AND_FREQS);
     }
 
-    doc.add(new Field(FIELD_BODY, content, fieldType));
+    doc.add(new Field(IndexArgs.CONTENTS, content, fieldType));
 
     // used to store original field valuees
     FieldType storedFieldType = new FieldType(fieldType);
