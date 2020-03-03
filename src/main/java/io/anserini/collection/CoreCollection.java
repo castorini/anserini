@@ -28,10 +28,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.file.Path;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.Set;
 
 /**
  * A document collection in the
@@ -50,7 +49,7 @@ public class CoreCollection extends DocumentCollection<CoreCollection.Document> 
 
   public CoreCollection(Path path){
     this.path = path;
-    this.allowedFileSuffix = new HashSet<>(Arrays.asList(".json.xz", "json"));
+    this.allowedFileSuffix = Set.of(".json.xz", "json");
   }
 
   @Override
@@ -120,9 +119,9 @@ public class CoreCollection extends DocumentCollection<CoreCollection.Document> 
     private JsonNode jsonNode;
 
     public Document(JsonNode json) {
-      id = (json.get("doi").asText().equals("null")) ?
-        json.get("coreId").asText() : json.get("doi").asText();
-      contents = getJsonString(json, "title") + " " + getJsonString(json, "abstract");
+      id = (getJsonValue(json, "doi").equals("")) ?
+        getJsonValue(json, "coreId") : getJsonValue(json, "doi");
+      contents = getJsonValue(json, "title") + " " + getJsonValue(json, "abstract");
       jsonNode = json;
     }
 
@@ -145,7 +144,7 @@ public class CoreCollection extends DocumentCollection<CoreCollection.Document> 
       return jsonNode;
     }
 
-    public String getJsonString(JsonNode json, String key) {
+    public String getJsonValue(JsonNode json, String key) {
       if (!json.has(key) || json.get(key).asText() == "null") {
         return "";
       }

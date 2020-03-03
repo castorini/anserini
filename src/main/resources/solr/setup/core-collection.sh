@@ -61,4 +61,4 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
     "type":"string",
     "stored":true
   }
-}' http://localhost:8983/solr/$1/schema
+}' http://localhost:8983/solr/"$1"/schema

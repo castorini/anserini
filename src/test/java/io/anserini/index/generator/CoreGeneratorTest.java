@@ -86,7 +86,7 @@ public class CoreGeneratorTest {
     // test proper id and contents field generated from CoreCollection
     assertEquals("doi_text", doc.getField(IndexArgs.ID).stringValue());
     assertEquals("every startup ever machine learning blockchain quantum vr",
-      doc.getField(IndexArgs.CONTENTS));
+      doc.getField(IndexArgs.CONTENTS).stringValue());
 
     // integer field value
     assertEquals(2020, doc.getField(CoreGenerator.CoreField.YEAR.name).numericValue());
