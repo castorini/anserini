@@ -93,6 +93,7 @@ We provide additional documentation below; the experiments they describe, howeve
 + [Guide to replicating doc2query results](docs/experiments-doc2query.md)
 + [Guide to replicating docTTTTTquery results](docs/experiments-docTTTTTquery.md)
 + [Guide to running experiments on the AI2 Open Research Corpus](docs/experiments-openresearch.md)
++ [Guide to running baselines on the TREC News Background Linking Task](docs/experiments-background-linking.md)
 + [Experiments from Yang et al. (JDIQ 2018)](docs/experiments-jdiq2018.md)
 + Runbooks for TREC 2018: [[Anserini group](docs/runbook-trec2018-anserini.md)] [[h2oloo group](docs/runbook-trec2018-h2oloo.md)]
 + Runbook for [ECIR 2019 paper on axiomatic semantic term matching](docs/runbook-ecir2019-axiomatic.md)
