@@ -314,6 +314,20 @@ public class IndexReaderUtils {
     }
   }
 
+  // These are bindings for Pyserini to work, because Pyjnius can't seem to distinguish overloaded methods.
+  // jnius.JavaException: No methods matching your arguments
+  public static List<Posting> getPostingsListForUnanalyzedTerm(IndexReader reader, String term) {
+    return getPostingsList(reader, term, true);
+  }
+
+  public static List<Posting> getPostingsListForAnalyzedTerm(IndexReader reader, String term) {
+    return getPostingsList(reader, term, false);
+  }
+
+  public static List<Posting> getPostingsListWithAnalyzer(IndexReader reader, String term, Analyzer analyzer) {
+    return getPostingsList(reader, term, analyzer);
+  }
+
   /**
    * Returns the document vector for a particular document as a map of terms to term frequencies.
    * @param reader index reader
