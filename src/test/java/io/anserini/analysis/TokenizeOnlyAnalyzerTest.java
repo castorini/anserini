@@ -7,10 +7,10 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-public class TokenizeAnalyzerTest {
+public class TokenizeOnlyAnalyzerTest {
   @Test
   public void test1() {
-    Analyzer analyzer = new TokenizeAnalyzer();
+    Analyzer analyzer = new TokenizeOnlyAnalyzer();
     List<String> tokens = AnalyzerUtils.tokenize(analyzer, "city buses are running on schedule");
 
     assertEquals(6, tokens.size());
