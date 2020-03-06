@@ -41,6 +41,9 @@ nohup python src/main/python/run_regression.py --collection msmarco-doc >& log.m
 nohup python src/main/python/run_regression.py --collection dl19-passage >& log.dl19-passage &
 nohup python src/main/python/run_regression.py --collection dl19-doc >& log.dl19-doc &
 
+nohup python src/main/python/run_regression.py --collection backgroundlinking18 >& log.backgroundlinking18 &
+nohup python src/main/python/run_regression.py --collection backgroundlinking19 >& log.backgroundlinking19 &
+
 nohup python src/main/python/run_regression.py --collection ntcir8-zh >& log.ntcir8-zh &
 nohup python src/main/python/run_regression.py --collection clef06-fr >& log.clef06-fr &
 nohup python src/main/python/run_regression.py --collection trec02-ar >& log.trec02-ar &
@@ -78,6 +81,9 @@ nohup python src/main/python/run_regression.py --index --collection msmarco-doc 
 
 nohup python src/main/python/run_regression.py --index --collection dl19-passage >& log.dl19-passage &
 nohup python src/main/python/run_regression.py --index --collection dl19-doc >& log.dl19-doc &
+
+nohup python src/main/python/run_regression.py --index --collection backgroundlinking18 >& log.backgroundlinking18 &
+nohup python src/main/python/run_regression.py --index --collection backgroundlinking19 >& log.backgroundlinking19 &
 
 nohup python src/main/python/run_regression.py --index --collection ntcir8-zh >& log.ntcir8-zh &
 nohup python src/main/python/run_regression.py --index --collection clef06-fr >& log.clef06-fr &
