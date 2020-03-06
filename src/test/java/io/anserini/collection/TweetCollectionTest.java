@@ -17,17 +17,12 @@
 package io.anserini.collection;
 
 import org.junit.Before;
-import org.junit.Test;
 
-import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
 
-public class TweetDocumentTest extends DocumentCollectionTest<TweetCollection.Document> {
+public class TweetCollectionTest extends DocumentCollectionTest<TweetCollection.Document> {
 
   @Before
   public void setUp() throws Exception {

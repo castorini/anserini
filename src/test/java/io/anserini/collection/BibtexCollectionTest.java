@@ -25,7 +25,7 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
-public class BibtexDocumentTest extends DocumentCollectionTest<BibtexCollection.Document> {
+public class BibtexCollectionTest extends DocumentCollectionTest<BibtexCollection.Document> {
   @Before
   public void setUp() throws Exception {
     super.setUp();

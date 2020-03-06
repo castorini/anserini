@@ -23,7 +23,7 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AclAnthologyDocumentTest extends DocumentCollectionTest<AclAnthology.Document> {
+public class AclAnthologyTest extends DocumentCollectionTest<AclAnthology.Document> {
   @Before
   public void setUp() throws Exception {
     super.setUp();
