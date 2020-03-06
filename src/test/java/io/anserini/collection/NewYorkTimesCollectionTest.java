@@ -21,7 +21,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
 
-public class NewYorkTimesDocumentTest extends DocumentCollectionTest<NewYorkTimesCollection.Document> {
+public class NewYorkTimesCollectionTest extends DocumentCollectionTest<NewYorkTimesCollection.Document> {
 
   @Before
   public void setUp() throws Exception {
