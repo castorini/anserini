@@ -84,7 +84,7 @@ public class FakeWordsEncoderAnalyzerTest {
   private void assertSimQuery(Analyzer analyzer, String fieldName, String text, DirectoryReader reader) throws IOException {
     IndexSearcher searcher = new IndexSearcher(reader);
     CommonTermsQuery simQuery = new CommonTermsQuery(SHOULD, SHOULD, 1);
-    for (String token : AnalyzerUtils.tokenize(analyzer, text)) {
+    for (String token : AnalyzerUtils.analyze(analyzer, text)) {
       simQuery.add(new Term(fieldName, token));
     }
     TopDocs topDocs = searcher.search(simQuery, 1);

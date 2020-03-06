@@ -204,25 +204,6 @@ public class IndexReaderUtils {
     return DirectoryReader.open(dir);
   }
 
-  /**
-   * Feeds a string through the {@link EnglishStemmingAnalyzer} and returns the list of stemmed tokens.
-   * @param text input string
-   * @return list of stemmed tokens
-   */
-  public static List<String> analyze(String text) {
-    return analyzeWithAnalyzer(text, DEFAULT_ANALYZER);
-  }
-
-  /**
-   * Feeds a string through an analyzer and returns the list of stemmed tokens.
-   * @param text input string
-   * @param analyzer analyzer to use
-   * @return list of stemmed tokens
-   */
-  public static List<String> analyzeWithAnalyzer(String text, Analyzer analyzer) {
-    return AnalyzerUtils.tokenize(analyzer, text);
-  }
-
   public static Map<String, Long> getTermCounts(IndexReader reader, String termStr) throws IOException, ParseException {
     EnglishAnalyzer ea = new EnglishAnalyzer(CharArraySet.EMPTY_SET);
     QueryParser qp = new QueryParser(IndexArgs.CONTENTS, ea);
@@ -280,21 +261,71 @@ public class IndexReaderUtils {
     };
   }
 
-  public static List<Posting> getPostingsList(IndexReader reader, String termStr)
-      throws IOException, ParseException {
-    EnglishAnalyzer ea = new EnglishAnalyzer(CharArraySet.EMPTY_SET);
-    QueryParser qp = new QueryParser(IndexArgs.CONTENTS, ea);
-    TermQuery q = (TermQuery) qp.parse(termStr);
-    Term t = q.getTerm();
+  /**
+   * Returns the postings list for an unanalyzed term. That is, the method analyzes the term before looking up its
+   * postings list.
+   *
+   * @param reader index reader
+   * @param term unanalyzed term
+   * @return the postings list for an unanalyzed term
+   */
+  public static List<Posting> getPostingsList(IndexReader reader, String term) {
+    return _getPostingsList(reader, AnalyzerUtils.analyze(term).get(0));
+  }
 
-    PostingsEnum postingsEnum = MultiTerms.getTermPostingsEnum(reader, IndexArgs.CONTENTS, t.bytes());
+  /**
+   * Returns the postings list for a term.
+   *
+   * @param reader index reader
+   * @param term term
+   * @param analyze whether or not the method should analyze the term first
+   * @return the postings list for a term
+   */
+  public static List<Posting> getPostingsList(IndexReader reader, String term, boolean analyze) {
+    return _getPostingsList(reader, analyze ? AnalyzerUtils.analyze(term).get(0) : term);
+  }
 
-    List<Posting> postingsList = new ArrayList<>();
-    while (postingsEnum.nextDoc() != DocIdSetIterator.NO_MORE_DOCS) {
-      postingsList.add(new Posting(postingsEnum));
+  /**
+   * Returns the postings list for a term after analysis with a specific analyzer.
+   *
+   * @param reader index reader
+   * @param term term
+   * @param analyzer analyzer
+   * @return the postings list for an unanalyzed term
+   */
+  public static List<Posting> getPostingsList(IndexReader reader, String term, Analyzer analyzer) {
+    return _getPostingsList(reader, AnalyzerUtils.analyze(analyzer, term).get(0));
+  }
+
+  // Internal helper: takes the analyzed form in all cases.
+  private static List<Posting> _getPostingsList(IndexReader reader, String analyzedTerm) {
+    try {
+      Term t = new Term(IndexArgs.CONTENTS, analyzedTerm);
+      PostingsEnum postingsEnum = MultiTerms.getTermPostingsEnum(reader, IndexArgs.CONTENTS, t.bytes());
+
+      List<Posting> postingsList = new ArrayList<>();
+      while (postingsEnum.nextDoc() != DocIdSetIterator.NO_MORE_DOCS) {
+        postingsList.add(new Posting(postingsEnum));
+      }
+
+      return postingsList;
+    } catch (Exception e) {
+      return null;
     }
+  }
 
-    return postingsList;
+  // These are bindings for Pyserini to work, because Pyjnius can't seem to distinguish overloaded methods.
+  // jnius.JavaException: No methods matching your arguments
+  public static List<Posting> getPostingsListForUnanalyzedTerm(IndexReader reader, String term) {
+    return getPostingsList(reader, term, true);
+  }
+
+  public static List<Posting> getPostingsListForAnalyzedTerm(IndexReader reader, String term) {
+    return getPostingsList(reader, term, false);
+  }
+
+  public static List<Posting> getPostingsListWithAnalyzer(IndexReader reader, String term, Analyzer analyzer) {
+    return getPostingsList(reader, term, analyzer);
   }
 
   /**

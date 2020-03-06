@@ -130,7 +130,7 @@ public class DumpTweetsLtrData {
       Query q = builder.build();
 
       TopDocs rs = searcher.search(q, args.hits);
-      List<String> queryTokens = AnalyzerUtils.tokenize(new TweetAnalyzer(), queryString);
+      List<String> queryTokens = AnalyzerUtils.analyze(new TweetAnalyzer(), queryString);
 
       RerankerContext<Integer> context = new RerankerContext<>(searcher, Integer.parseInt(queryString), query, null,
           queryString, queryTokens, filter, null);

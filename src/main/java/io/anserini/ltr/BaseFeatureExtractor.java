@@ -142,7 +142,7 @@ abstract public class BaseFeatureExtractor<K> {
             // We will not be checking for nulls here because the input should be correct,
             // and if not it signals other issues
             q = parseQuery(queryText);
-            List<String> queryTokens = AnalyzerUtils.tokenize(queryAnalyzer, queryText);
+            List<String> queryTokens = AnalyzerUtils.analyze(queryAnalyzer, queryText);
             // Construct the reranker context
             RerankerContext<K> context = new RerankerContext<>(searcher, (K)qid,
                     q, null, queryText,

@@ -92,7 +92,7 @@ public class DumpAnalyzedQueries {
 
     FileOutputStream out = new FileOutputStream(args.output);
     for (Map.Entry<?, Map<String, String>> entry : topics.entrySet()) {
-      List<String> tokens = AnalyzerUtils.tokenize(IndexCollection.DEFAULT_ANALYZER, entry.getValue().get("title"));
+      List<String> tokens = AnalyzerUtils.analyze(IndexCollection.DEFAULT_ANALYZER, entry.getValue().get("title"));
       out.write((entry.getKey() + "\t" + StringUtils.join(tokens, " ") + "\n").getBytes());
     }
     out.close();

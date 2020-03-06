@@ -58,7 +58,7 @@ public class IndexerTestBase extends LuceneTestCase {
     textOptions.setStoreTermVectorPositions(true);
 
     Document doc1 = new Document();
-    String doc1Text = "here is some text here is some more text";
+    String doc1Text = "here is some text here is some more text. city.";
     doc1.add(new StringField("id", "doc1", Field.Store.YES));
     doc1.add(new SortedDocValuesField("id", new BytesRef("doc1".getBytes())));
     doc1.add(new Field("contents", doc1Text , textOptions));

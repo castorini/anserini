@@ -108,6 +108,10 @@ public class SimpleSearcher implements Closeable {
   }
 
   public SimpleSearcher(String indexDir) throws IOException {
+    this(indexDir, IndexCollection.DEFAULT_ANALYZER);
+  }
+
+  public SimpleSearcher(String indexDir, Analyzer analyzer) throws IOException {
     Path indexPath = Paths.get(indexDir);
 
     if (!Files.exists(indexPath) || !Files.isDirectory(indexPath) || !Files.isReadable(indexPath)) {
@@ -116,7 +120,7 @@ public class SimpleSearcher implements Closeable {
 
     this.reader = DirectoryReader.open(FSDirectory.open(indexPath));
     this.similarity = new BM25Similarity(0.9f, 0.4f);
-    this.analyzer = IndexCollection.DEFAULT_ANALYZER;
+    this.analyzer = analyzer;
     this.searchtweets = false;
     this.isRerank = false;
     cascade = new RerankerCascade();
@@ -126,6 +130,14 @@ public class SimpleSearcher implements Closeable {
   public void setSearchTweets(boolean flag) {
      this.searchtweets = flag;
      this.analyzer = flag? new TweetAnalyzer(true) : new EnglishAnalyzer();
+  }
+
+  public void setAnalyzer(Analyzer analyzer) {
+    this.analyzer = analyzer;
+  }
+
+  public Analyzer getAnalyzer(){
+    return this.analyzer;
   }
 
   public void setLanguage(String language) {
@@ -258,7 +270,7 @@ public class SimpleSearcher implements Closeable {
 
   public Result[] search(String q, int k, long t) throws IOException {
     Query query = new BagOfWordsQueryGenerator().buildQuery(IndexArgs.CONTENTS, analyzer, q);
-    List<String> queryTokens = AnalyzerUtils.tokenize(analyzer, q);
+    List<String> queryTokens = AnalyzerUtils.analyze(analyzer, q);
 
     return search(query, queryTokens, q, k, t);
   }
@@ -333,7 +345,7 @@ public class SimpleSearcher implements Closeable {
     }
 
     BooleanQuery query = queryBuilder.build();
-    List<String> queryTokens = AnalyzerUtils.tokenize(analyzer, q);
+    List<String> queryTokens = AnalyzerUtils.analyze(analyzer, q);
 
     return search(query, queryTokens, q, k, -1);
   }
