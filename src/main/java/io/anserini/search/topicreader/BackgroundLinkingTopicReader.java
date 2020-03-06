@@ -52,8 +52,8 @@ import java.util.regex.Pattern;
 /**
  * Topic reader for TREC2018 news track background linking task
  */
-public class NewsBackgroundLinkingTopicReader extends TopicReader<Integer> {
-  public NewsBackgroundLinkingTopicReader(Path topicFile) {
+public class BackgroundLinkingTopicReader extends TopicReader<Integer> {
+  public BackgroundLinkingTopicReader(Path topicFile) {
     super(topicFile);
   }
 
@@ -61,12 +61,11 @@ public class NewsBackgroundLinkingTopicReader extends TopicReader<Integer> {
       Pattern.compile("<top(.*?)</top>", Pattern.DOTALL);
   private static final Pattern NUM_PATTERN =
       Pattern.compile("<num> Number: (\\d+) </num>", Pattern.DOTALL);
-  // TREC 2011 topics uses <title> tag
   private static final Pattern DOCID_PATTERN =
       Pattern.compile("<docid>\\s*(.*?)\\s*</docid>", Pattern.DOTALL);
-  // TREC 2012 topics use <query> tag
   private static final Pattern URL_PATTERN =
-      Pattern.compile("<url>\\s*(.*?)\\s*</url>", Pattern.DOTALL);
+      Pattern.compile("<url>\\s*(.*?)\\s*</?url>", Pattern.DOTALL);
+  // Note that some TREC 2018 topics don't properly close the </url> tags.
 
   /**
    * @return SortedMap where keys are query/topic IDs and values are title portions of the topics
@@ -96,7 +95,8 @@ public class NewsBackgroundLinkingTopicReader extends TopicReader<Integer> {
         }
         fields.put("title", m.group(1));
       }
-      if (line.startsWith("<url>") && line.endsWith("</url>")) {
+      if (line.startsWith("<url>") && (line.endsWith("</url>") || line.endsWith("<url>"))) {
+        // Note that some TREC 2018 topics don't properly close the </url> tags.
         m = URL_PATTERN.matcher(line);
         if (!m.find()) {
           throw new IOException("Error parsing " + line);

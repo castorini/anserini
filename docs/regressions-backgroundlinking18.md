@@ -30,16 +30,16 @@ After indexing has completed, you should be able to perform retrieval as follows
 
 ```
 nohup target/appassembler/bin/SearchCollection -index lucene-index.backgroundlinking18.pos+docvectors+rawdocs \
- -topicreader NewsBackgroundLinking -topics src/main/resources/topics-and-qrels/topics.backgroundlinking18.txt \
- -searchnewsbackground -backgroundlinking.k 100 -bm25 -hits 100 -output run.backgroundlinking18.bm25.topics.backgroundlinking18.txt &
+ -topicreader BackgroundLinking -topics src/main/resources/topics-and-qrels/topics.backgroundlinking18.txt \
+ -backgroundlinking -backgroundlinking.k 100 -bm25 -hits 100 -output run.backgroundlinking18.bm25.topics.backgroundlinking18.txt &
 
 nohup target/appassembler/bin/SearchCollection -index lucene-index.backgroundlinking18.pos+docvectors+rawdocs \
- -topicreader NewsBackgroundLinking -topics src/main/resources/topics-and-qrels/topics.backgroundlinking18.txt \
- -searchnewsbackground -backgroundlinking.k 100 -bm25 -rm3 -hits 100 -output run.backgroundlinking18.bm25+rm3.topics.backgroundlinking18.txt &
+ -topicreader BackgroundLinking -topics src/main/resources/topics-and-qrels/topics.backgroundlinking18.txt \
+ -backgroundlinking -backgroundlinking.k 100 -bm25 -rm3 -hits 100 -output run.backgroundlinking18.bm25+rm3.topics.backgroundlinking18.txt &
 
 nohup target/appassembler/bin/SearchCollection -index lucene-index.backgroundlinking18.pos+docvectors+rawdocs \
- -topicreader NewsBackgroundLinking -topics src/main/resources/topics-and-qrels/topics.backgroundlinking18.txt \
- -searchnewsbackground -backgroundlinking.datefilter -backgroundlinking.k 100 -bm25 -rm3 -hits 100 -output run.backgroundlinking18.bm25+rm3+df.topics.backgroundlinking18.txt &
+ -topicreader BackgroundLinking -topics src/main/resources/topics-and-qrels/topics.backgroundlinking18.txt \
+ -backgroundlinking -backgroundlinking.datefilter -backgroundlinking.k 100 -bm25 -rm3 -hits 100 -output run.backgroundlinking18.bm25+rm3+df.topics.backgroundlinking18.txt &
 ```
 
 Evaluation can be performed using `trec_eval`:
