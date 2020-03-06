@@ -53,7 +53,7 @@ public class ExtractDocumentLengthsTest extends IndexerTestBase {
 
     List<String> lines = Files.readAllLines(Paths.get(randomFileName));
     assertEquals(4, lines.size());
-    assertEquals("0\t7\t4\t7\t4", lines.get(1));
+    assertEquals("0\t8\t5\t8\t5", lines.get(1));
     assertEquals("1\t2\t2\t2\t2", lines.get(2));
     assertEquals("2\t2\t2\t2\t2", lines.get(3));
   }

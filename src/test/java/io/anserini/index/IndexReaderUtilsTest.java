@@ -17,14 +17,14 @@
 package io.anserini.index;
 
 import io.anserini.IndexerTestBase;
-import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
+import io.anserini.analysis.AnalyzerUtils;
+import io.anserini.analysis.EnglishStemmingAnalyzer;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.MultiTerms;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.index.Terms;
 import org.apache.lucene.index.TermsEnum;
-import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.TopDocs;
@@ -40,17 +40,6 @@ import java.util.List;
 import java.util.Map;
 
 public class IndexReaderUtilsTest extends IndexerTestBase {
-
-  @Test
-  public void testAnalyzer() throws ParseException {
-    // EnglishAnalyzer by default.
-    assertEquals("citi", String.join(" ", IndexReaderUtils.analyze("city")));
-    assertEquals("citi buse", String.join(" ", IndexReaderUtils.analyze("city buses")));
-
-    // Shouldn't change the term
-    assertEquals("city", String.join(" ", IndexReaderUtils.analyzeWithAnalyzer("city", new WhitespaceAnalyzer())));
-    assertEquals("city buses", String.join(" ", IndexReaderUtils.analyzeWithAnalyzer("city buses", new WhitespaceAnalyzer())));
-  }
 
   @Test
   public void testTermCounts() throws Exception {
@@ -88,50 +77,48 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
     Iterator<IndexReaderUtils.IndexTerm> iter = IndexReaderUtils.getTerms(reader);
     IndexReaderUtils.IndexTerm term;
 
-    // here
-    if (iter.hasNext()) {
-      term = iter.next();
-      assertEquals("here", term.getTerm());
-      assertEquals(2, term.getDF());
-      assertEquals(3, term.getTotalTF());
-    }
+    term = iter.next();
+    assertEquals("citi", term.getTerm());
+    assertEquals(1, term.getDF());
+    assertEquals(1, term.getTotalTF());
 
-    // more
-    if (iter.hasNext()) {
-      term = iter.next();
-      assertEquals("more", term.getTerm());
-      assertEquals(2, term.getDF());
-      assertEquals(2, term.getTotalTF());
-    }
+    term = iter.next();
+    assertEquals("here", term.getTerm());
+    assertEquals(2, term.getDF());
+    assertEquals(3, term.getTotalTF());
 
-    // some
-    if (iter.hasNext()) {
-      term = iter.next();
-      assertEquals("some", term.getTerm());
-      assertEquals(1, term.getDF());
-      assertEquals(2, term.getTotalTF());
-    }
+    term = iter.next();
+    assertEquals("more", term.getTerm());
+    assertEquals(2, term.getDF());
+    assertEquals(2, term.getTotalTF());
 
-    // test
-    if (iter.hasNext()) {
-      term = iter.next();
-      assertEquals("test", term.getTerm());
-      assertEquals(1, term.getDF());
-      assertEquals(1, term.getTotalTF());
-    }
+    term = iter.next();
+    assertEquals("some", term.getTerm());
+    assertEquals(1, term.getDF());
+    assertEquals(2, term.getTotalTF());
 
-    if (iter.hasNext()) {
-      term = iter.next();
-      assertEquals("text", term.getTerm());
-      assertEquals(2, term.getDF());
-      assertEquals(3, term.getTotalTF());
-    }
+    term = iter.next();
+    assertEquals("test", term.getTerm());
+    assertEquals(1, term.getDF());
+    assertEquals(1, term.getTotalTF());
+
+    term = iter.next();
+    assertEquals("text", term.getTerm());
+    assertEquals(2, term.getDF());
+    assertEquals(3, term.getTotalTF());
 
     assertEquals(false, iter.hasNext());
   }
 
   @Test
-  public void testPostingsLists() throws Exception {
+  public void testPostingsNonExistings() throws Exception {
+    Directory dir = FSDirectory.open(tempDir1);
+    IndexReader reader = DirectoryReader.open(dir);
+    assertEquals(null, IndexReaderUtils.getPostingsList(reader, "asxe"));
+  }
+
+  @Test
+  public void testPostingsLists1() throws Exception {
     Directory dir = FSDirectory.open(tempDir1);
     IndexReader reader = DirectoryReader.open(dir);
 
@@ -167,6 +154,13 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
     assertEquals(2, postingsList.get(0).getDocid());
     assertArrayEquals(new int[] {3}, postingsList.get(0).getPositions());
 
+    // tests: (2, 1) [3]
+    // Note that 'tests' and 'test' both stem to the same string.
+    postingsList = IndexReaderUtils.getPostingsList(reader, "tests");
+    assertEquals(1, postingsList.get(0).getTF());
+    assertEquals(2, postingsList.get(0).getDocid());
+    assertArrayEquals(new int[] {3}, postingsList.get(0).getPositions());
+
     // text: (0, 2) [3, 8] (1, 1) [1]
     postingsList = IndexReaderUtils.getPostingsList(reader, "text");
     assertEquals(2, postingsList.get(0).getTF());
@@ -175,6 +169,51 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
     assertEquals(1, postingsList.get(1).getTF());
     assertEquals(1, postingsList.get(1).getDocid());
     assertArrayEquals(new int[] {1}, postingsList.get(1).getPositions());
+  }
+
+  @Test
+  public void testPostingsLists2() throws Exception {
+    Directory dir = FSDirectory.open(tempDir1);
+    IndexReader reader = DirectoryReader.open(dir);
+
+    List<IndexReaderUtils.Posting> postingsList;
+
+    // Analyze the term, by default
+    postingsList = IndexReaderUtils.getPostingsList(reader, "city");
+    assertEquals(1, postingsList.get(0).getTF());
+    assertEquals(0, postingsList.get(0).getDocid());
+    assertArrayEquals(new int[] {9}, postingsList.get(0).getPositions());
+
+    // Sanity check.
+    assertNull(IndexReaderUtils.getPostingsList(reader, "citz"));
+
+    // Tell method to analyze *explicitly*:
+    postingsList = IndexReaderUtils.getPostingsList(reader, "city", true);
+    assertEquals(1, postingsList.get(0).getTF());
+    assertEquals(0, postingsList.get(0).getDocid());
+    assertArrayEquals(new int[] {9}, postingsList.get(0).getPositions());
+
+    // Tell method to analyze *explicitly*:
+    postingsList = IndexReaderUtils.getPostingsList(reader, "city", IndexCollection.DEFAULT_ANALYZER);
+    assertEquals(1, postingsList.get(0).getTF());
+    assertEquals(0, postingsList.get(0).getDocid());
+    assertArrayEquals(new int[] {9}, postingsList.get(0).getPositions());
+
+    // Tell method to analyze *explicitly*, but pass in mismatched analyzer:
+    assertNull(IndexReaderUtils.getPostingsList(reader, "city", new EnglishStemmingAnalyzer("krovetz")));
+
+    // Tell method *not* to analyze:
+    postingsList = IndexReaderUtils.getPostingsList(reader, "citi", false);
+    assertEquals(1, postingsList.get(0).getTF());
+    assertEquals(0, postingsList.get(0).getDocid());
+    assertArrayEquals(new int[] {9}, postingsList.get(0).getPositions());
+
+    // Tell method *not* to analyze:
+    postingsList = IndexReaderUtils.getPostingsList(reader,
+        AnalyzerUtils.analyze("city").get(0), false);
+    assertEquals(1, postingsList.get(0).getTF());
+    assertEquals(0, postingsList.get(0).getDocid());
+    assertArrayEquals(new int[] {9}, postingsList.get(0).getPositions());
   }
 
   @Test
@@ -237,6 +276,7 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
     assertEquals(Long.valueOf(1), documentVector.get("more"));
     assertEquals(Long.valueOf(2), documentVector.get("some"));
     assertEquals(Long.valueOf(2), documentVector.get("text"));
+    assertEquals(Long.valueOf(1), documentVector.get("citi"));
 
     System.out.println("doc2");
     documentVector = IndexReaderUtils.getDocumentVector(reader, "doc2");
@@ -254,7 +294,7 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
     Directory dir = FSDirectory.open(tempDir1);
     IndexReader reader = DirectoryReader.open(dir);
 
-    assertEquals("here is some text here is some more text", IndexReaderUtils.getRawDocument(reader, "doc1"));
+    assertEquals("here is some text here is some more text. city.", IndexReaderUtils.getRawDocument(reader, "doc1"));
     assertEquals("more texts", IndexReaderUtils.getRawDocument(reader, "doc2"));
     assertEquals("here is a test", IndexReaderUtils.getRawDocument(reader, "doc3"));
   }

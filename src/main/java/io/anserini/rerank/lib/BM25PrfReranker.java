@@ -95,7 +95,7 @@ public class BM25PrfReranker implements Reranker {
     BM25Similarity originalSimilarity = (BM25Similarity) searcher.getSimilarity();
     searcher.setSimilarity(new BM25PrfSimilarity(k1, b));
     IndexReader reader = searcher.getIndexReader();
-    List<String> originalQueryTerms = AnalyzerUtils.tokenize(analyzer, context.getQueryText());
+    List<String> originalQueryTerms = AnalyzerUtils.analyze(analyzer, context.getQueryText());
 
     PrfFeatures fv = expandQuery(originalQueryTerms, docs, reader);
     Query newQuery = fv.toQuery();

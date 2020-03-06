@@ -141,7 +141,7 @@ public class BackgroundLinkingTopicReader extends TopicReader<Integer> {
       queryStrings.add(getRawContents(rawDocStr.stringValue()));
     }
     for (int i = 0; i < queryStrings.size(); i++) {
-      List<String> queryTokens = AnalyzerUtils.tokenize(analyzer, queryStrings.get(i));
+      List<String> queryTokens = AnalyzerUtils.analyze(analyzer, queryStrings.get(i));
       if (qc == SearchCollection.QueryConstructor.SequentialDependenceModel) {
         String queryString = String.join(" ", queryTokens.subList(0, Math.min(queryTokens.size(), k)));
         queryStrings.set(i, queryString);

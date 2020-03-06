@@ -105,7 +105,7 @@ abstract public class BaseFeatureExtractorTest<T> extends LuceneTestCase {
         TEST_PARSER.parse(queryText),
         null,
         queryText,
-        AnalyzerUtils.tokenize(TEST_ANALYZER, queryText),
+        AnalyzerUtils.analyze(TEST_ANALYZER, queryText),
         null, null);
       return context;
     } catch (ParseException e) {
