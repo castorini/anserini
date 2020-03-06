@@ -114,7 +114,7 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
   public void testPostingsNonExistings() throws Exception {
     Directory dir = FSDirectory.open(tempDir1);
     IndexReader reader = DirectoryReader.open(dir);
-    assertEquals(null, IndexReaderUtils.getPostingsList(reader, "asxe"));
+    assertNull(IndexReaderUtils.getPostingsList(reader, "asxe"));
   }
 
   @Test

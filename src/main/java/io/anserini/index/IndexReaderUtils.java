@@ -298,9 +298,9 @@ public class IndexReaderUtils {
   }
 
   // Internal helper: takes the analyzed form in all cases.
-  private static List<Posting> _getPostingsList(IndexReader reader, String raw) {
+  private static List<Posting> _getPostingsList(IndexReader reader, String analyzedTerm) {
     try {
-      Term t = new Term(IndexArgs.CONTENTS, raw);
+      Term t = new Term(IndexArgs.CONTENTS, analyzedTerm);
       PostingsEnum postingsEnum = MultiTerms.getTermPostingsEnum(reader, IndexArgs.CONTENTS, t.bytes());
 
       List<Posting> postingsList = new ArrayList<>();
