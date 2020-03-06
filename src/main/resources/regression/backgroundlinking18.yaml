@@ -12,7 +12,7 @@ index_options:
   - -storePositions
   - -storeDocvectors
   - -storeRawDocs
-topic_reader: NewsBackgroundLinking
+topic_reader: BackgroundLinking
 input_roots:
   - /tuna1/      # on tuna
   - /store/      # on orca
@@ -49,7 +49,7 @@ models:
   - name: bm25
     display: BM25
     params:
-      - -searchnewsbackground -backgroundlinking.k 100 -bm25 -hits 100
+      - -backgroundlinking -backgroundlinking.k 100 -bm25 -hits 100
     results:
       AP:
         - 0.2490
@@ -58,7 +58,7 @@ models:
   - name: bm25+rm3
     display: +RM3
     params:
-      - -searchnewsbackground -backgroundlinking.k 100 -bm25 -rm3 -hits 100
+      - -backgroundlinking -backgroundlinking.k 100 -bm25 -rm3 -hits 100
     results:
       AP:
         - 0.2642
@@ -67,7 +67,7 @@ models:
   - name: bm25+rm3+df
     display: +RM3+DF
     params:
-      - -searchnewsbackground -backgroundlinking.datefilter -backgroundlinking.k 100 -bm25 -rm3 -hits 100
+      - -backgroundlinking -backgroundlinking.datefilter -backgroundlinking.k 100 -bm25 -rm3 -hits 100
     results:
       AP:
         - 0.2692

@@ -34,7 +34,7 @@ import io.anserini.search.query.BagOfWordsQueryGenerator;
 import io.anserini.search.query.SdmQueryGenerator;
 import io.anserini.search.similarity.AccurateBM25Similarity;
 import io.anserini.search.similarity.TaggedSimilarity;
-import io.anserini.search.topicreader.NewsBackgroundLinkingTopicReader;
+import io.anserini.search.topicreader.BackgroundLinkingTopicReader;
 import io.anserini.search.topicreader.TopicReader;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.apache.logging.log4j.LogManager;
@@ -179,7 +179,7 @@ public final class SearchCollection implements Closeable {
           ScoredDocuments docs;
           if (args.searchtweets) {
             docs = searchTweets(this.searcher, qid, queryString, Long.parseLong(entry.getValue().get("time")), cascade);
-          } else if (args.searchnewsbackground) {
+          } else if (args.backgroundlinking) {
             docs = searchBackgroundLinking(this.searcher, qid, queryString, cascade);
           } else{
             docs = search(this.searcher, qid, queryString, cascade);
@@ -472,7 +472,7 @@ public final class SearchCollection implements Closeable {
       args.backgroundlinking_weighted = false;
     }
     queryDocID = queryString;
-    List<String> queryList = NewsBackgroundLinkingTopicReader.generateQueryString(reader, queryDocID,
+    List<String> queryList = BackgroundLinkingTopicReader.generateQueryString(reader, queryDocID,
         args.backgroundlinking_paragraph, args.backgroundlinking_k, args.backgroundlinking_weighted, qc, analyzer);
     List<ScoredDocuments> allRes = new ArrayList<>();
     for (String queryStr : queryList) {
@@ -484,11 +484,10 @@ public final class SearchCollection implements Closeable {
         // Because the actual query strings are extracted from tokenized document!!!
         q = new StandardQueryParser().parse(queryStr, IndexArgs.CONTENTS);
       }
-      Query filter = new TermInSetQuery(WashingtonPostGenerator.WashingtonPostField.KICKER.name, new BytesRef("Opinions"), new BytesRef("Letters to the Editor"), new BytesRef("The Post's View")
-//          new Term(WapoGenerator.WapoField.KICKER.name, "Opinions"),
-//          new Term(WapoGenerator.WapoField.KICKER.name, "Letters to the Editor"),
-//          new Term(WapoGenerator.WapoField.KICKER.name, "The Post's View")
-      );
+
+      Query filter = new TermInSetQuery(WashingtonPostGenerator.WashingtonPostField.KICKER.name,
+          new BytesRef("Opinions"), new BytesRef("Letters to the Editor"), new BytesRef("The Post's View"));
+
       BooleanQuery.Builder builder = new BooleanQuery.Builder();
       builder.add(filter, BooleanClause.Occur.MUST_NOT);
       builder.add(q, BooleanClause.Occur.MUST);
