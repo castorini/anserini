@@ -458,7 +458,7 @@ public final class SearchCollection implements Closeable {
       }
     }
 
-    List<String> queryTokens = AnalyzerUtils.tokenize(analyzer, queryString);
+    List<String> queryTokens = AnalyzerUtils.analyze(analyzer, queryString);
     RerankerContext context = new RerankerContext<>(searcher, qid, query, null, queryString, queryTokens, null, args);
 
     return cascade.run(ScoredDocuments.fromTopDocs(rs, searcher), context);
@@ -549,7 +549,7 @@ public final class SearchCollection implements Closeable {
     } else {
       keywordQuery = new BagOfWordsQueryGenerator().buildQuery(IndexArgs.CONTENTS, analyzer, queryString);
     }
-    List<String> queryTokens = AnalyzerUtils.tokenize(analyzer, queryString);
+    List<String> queryTokens = AnalyzerUtils.analyze(analyzer, queryString);
 
     // Do not consider the tweets with tweet ids that are beyond the queryTweetTime
     // <querytweettime> tag contains the timestamp of the query in terms of the

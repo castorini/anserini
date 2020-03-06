@@ -270,7 +270,7 @@ public class SimpleSearcher implements Closeable {
 
   public Result[] search(String q, int k, long t) throws IOException {
     Query query = new BagOfWordsQueryGenerator().buildQuery(IndexArgs.CONTENTS, analyzer, q);
-    List<String> queryTokens = AnalyzerUtils.tokenize(analyzer, q);
+    List<String> queryTokens = AnalyzerUtils.analyze(analyzer, q);
 
     return search(query, queryTokens, q, k, t);
   }
@@ -345,7 +345,7 @@ public class SimpleSearcher implements Closeable {
     }
 
     BooleanQuery query = queryBuilder.build();
-    List<String> queryTokens = AnalyzerUtils.tokenize(analyzer, q);
+    List<String> queryTokens = AnalyzerUtils.analyze(analyzer, q);
 
     return search(query, queryTokens, q, k, -1);
   }

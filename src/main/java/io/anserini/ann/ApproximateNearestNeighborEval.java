@@ -153,7 +153,7 @@ public class ApproximateNearestNeighborEval {
     System.out.println("Evaluating at retrieval depth: " + indexArgs.depth);
     TrecTopicReader trecTopicReader = new TrecTopicReader(indexArgs.topicsPath);
     Collection<String> words = new LinkedList<>();
-    trecTopicReader.read().values().forEach(e -> words.addAll(AnalyzerUtils.tokenize(standardAnalyzer, e.get("title"))));
+    trecTopicReader.read().values().forEach(e -> words.addAll(AnalyzerUtils.analyze(standardAnalyzer, e.get("title"))));
     int queryCount = 0;
     for (String word : words) {
       if (wordVectors.containsKey(word)) {
@@ -173,7 +173,7 @@ public class ApproximateNearestNeighborEval {
           if (indexArgs.msm > 0) {
             simQuery.setLowFreqMinimumNumberShouldMatch(indexArgs.msm);
           }
-          for (String token : AnalyzerUtils.tokenize(vectorAnalyzer, fvString)) {
+          for (String token : AnalyzerUtils.analyze(vectorAnalyzer, fvString)) {
             simQuery.add(new Term(IndexVectors.FIELD_VECTOR, token));
           }
 

@@ -32,7 +32,7 @@ import java.util.List;
 public class BagOfWordsQueryGenerator extends QueryGenerator {
   @Override
   public Query buildQuery(String field, Analyzer analyzer, String queryText) {
-    List<String> tokens = AnalyzerUtils.tokenize(analyzer, queryText);
+    List<String> tokens = AnalyzerUtils.analyze(analyzer, queryText);
   
     BooleanQuery.Builder builder = new BooleanQuery.Builder();
     for (String t : tokens) {
