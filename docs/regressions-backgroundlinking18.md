@@ -1,0 +1,67 @@
+# Anserini: Regressions for [TREC 2018 News Background Linking](http://trec-news.org/)
+
+This page describes regressions for the background linking task in the [TREC 2018 News Track](http://trec-news.org/).
+The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/backgroundlinking18.yaml).
+Note that this page is automatically generated from [this template](../src/main/resources/docgen/templates/backgroundlinking18.template) as part of Anserini's regression pipeline, so do not modify this page directly; modify the template instead.
+
+## Indexing
+
+Typical indexing command:
+
+```
+nohup sh target/appassembler/bin/IndexCollection -collection WashingtonPostCollection -input /path/to/backgroundlinking18 \
+ -index lucene-index.backgroundlinking18.pos+docvectors+rawdocs -generator WashingtonPostGenerator -threads 1 \
+ -storePositions -storeDocvectors -storeRawDocs >& log.backgroundlinking18.pos+docvectors+rawdocs &
+```
+
+The directory `/path/to/core18/` should be the root directory of the [TREC Washington Post Corpus](https://trec.nist.gov/data/wapost/), i.e., `ls /path/to/core18/`
+should bring up a single JSON file.
+
+For additional details, see explanation of [common indexing options](common-indexing-options.md).
+
+## Retrieval
+
+Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/main/resources/topics-and-qrels/), downloaded from NIST:
+
++ [`topics.backgroundlinking18.txt`](../src/main/resources/topics-and-qrels/topics.backgroundlinking18.txt): [topics for the background linking task of the TREC 2018 News Track](https://trec.nist.gov/data/news/2018/newsir18-topics.txt)
++ [`qrels.backgroundlinking18.txt`](../src/main/resources/topics-and-qrels/qrels.backgroundlinking18.txt): [qrels for the background linking task of the TREC 2018 News Track](https://trec.nist.gov/data/news/2018/bqrels.exp-gains.txt)
+
+After indexing has completed, you should be able to perform retrieval as follows:
+
+```
+nohup target/appassembler/bin/SearchCollection -index lucene-index.backgroundlinking18.pos+docvectors+rawdocs \
+ -topicreader NewsBackgroundLinking -topics src/main/resources/topics-and-qrels/topics.backgroundlinking18.txt \
+ -searchnewsbackground -backgroundlinking.k 100 -bm25 -hits 100 -output run.backgroundlinking18.bm25.topics.backgroundlinking18.txt &
+
+nohup target/appassembler/bin/SearchCollection -index lucene-index.backgroundlinking18.pos+docvectors+rawdocs \
+ -topicreader NewsBackgroundLinking -topics src/main/resources/topics-and-qrels/topics.backgroundlinking18.txt \
+ -searchnewsbackground -backgroundlinking.k 100 -bm25 -rm3 -hits 100 -output run.backgroundlinking18.bm25+rm3.topics.backgroundlinking18.txt &
+
+nohup target/appassembler/bin/SearchCollection -index lucene-index.backgroundlinking18.pos+docvectors+rawdocs \
+ -topicreader NewsBackgroundLinking -topics src/main/resources/topics-and-qrels/topics.backgroundlinking18.txt \
+ -searchnewsbackground -backgroundlinking.datefilter -backgroundlinking.k 100 -bm25 -rm3 -hits 100 -output run.backgroundlinking18.bm25+rm3+df.topics.backgroundlinking18.txt &
+```
+
+Evaluation can be performed using `trec_eval`:
+
+```
+eval/trec_eval.9.0.4/trec_eval -c -M1000 -m ndcg_cut.5 -c -M1000 -m map src/main/resources/topics-and-qrels/qrels.backgroundlinking18.txt run.backgroundlinking18.bm25.topics.backgroundlinking18.txt
+
+eval/trec_eval.9.0.4/trec_eval -c -M1000 -m ndcg_cut.5 -c -M1000 -m map src/main/resources/topics-and-qrels/qrels.backgroundlinking18.txt run.backgroundlinking18.bm25+rm3.topics.backgroundlinking18.txt
+
+eval/trec_eval.9.0.4/trec_eval -c -M1000 -m ndcg_cut.5 -c -M1000 -m map src/main/resources/topics-and-qrels/qrels.backgroundlinking18.txt run.backgroundlinking18.bm25+rm3+df.topics.backgroundlinking18.txt
+```
+
+## Effectiveness
+
+With the above commands, you should be able to replicate the following results:
+
+NCDG@5                                  | BM25      | +RM3      | +RM3+DF   |
+:---------------------------------------|-----------|-----------|-----------|
+[TREC 2018 Topics](../src/main/resources/topics-and-qrels/topics.backgroundlinking18.txt)| 0.3293    | 0.3526    | 0.4171    |
+
+
+AP                                      | BM25      | +RM3      | +RM3+DF   |
+:---------------------------------------|-----------|-----------|-----------|
+[TREC 2018 Topics](../src/main/resources/topics-and-qrels/topics.backgroundlinking18.txt)| 0.2490    | 0.2642    | 0.2692    |
+

@@ -76,6 +76,8 @@ Note that these regressions capture the "out of the box" experience, based on [_
 + [Regressions for the MS MARCO Document Retrieval](docs/regressions-msmarco-doc.md)
 + [Regressions for the TREC 2019 Deep Learning Track (Passage Ranking Task)](docs/regressions-dl19-passage.md)
 + [Regressions for the TREC 2019 Deep Learning Track (Document Ranking Task)](docs/regressions-dl19-doc.md)
++ [Regressions for the TREC 2018 News Track (Background Linking Task)](docs/backgroundlinking18.md)
++ [Regressions for the TREC 2019 News Track (Background Linking Task)](docs/backgroundlinking19.md)
 + [Regressions for NTCIR-8 ACLIA (IR4QA subtask, Monolingual Chinese)](docs/regressions-ntcir8-zh.md)
 + [Regressions for CLEF 2006 Monolingual French](docs/regressions-clef06-fr.md)
 + [Regressions for TREC 2002 Monolingual Arabic](docs/regressions-trec02-ar.md)
@@ -93,7 +95,6 @@ We provide additional documentation below; the experiments they describe, howeve
 + [Guide to replicating doc2query results](docs/experiments-doc2query.md)
 + [Guide to replicating docTTTTTquery results](docs/experiments-docTTTTTquery.md)
 + [Guide to running experiments on the AI2 Open Research Corpus](docs/experiments-openresearch.md)
-+ [Guide to running baselines on the TREC News Background Linking Task](docs/experiments-background-linking.md)
 + [Experiments from Yang et al. (JDIQ 2018)](docs/experiments-jdiq2018.md)
 + Runbooks for TREC 2018: [[Anserini group](docs/runbook-trec2018-anserini.md)] [[h2oloo group](docs/runbook-trec2018-h2oloo.md)]
 + Runbook for [ECIR 2019 paper on axiomatic semantic term matching](docs/runbook-ecir2019-axiomatic.md)
