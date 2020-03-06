@@ -16,6 +16,8 @@
 
 package io.anserini.collection;
 
+import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.HashMap;
 
 import org.junit.Before;
@@ -23,49 +25,25 @@ import org.junit.Test;
 
 // A file in a JsonCollection might not have the required fields that
 // we expect. This tests whether the appropriate error is thrown.
-public class JsonCollectionErrorCheckingTest extends DocumentTest {
-  protected HashMap<String, FileSegment<JsonCollection.Document>> fileSegments = 
-    new HashMap<String, FileSegment<JsonCollection.Document>>();
+public class JsonCollectionErrorCheckingTest {
+  private JsonCollection collection;
 
   @Before
   public void setUp() throws Exception {
-    super.setUp();
-
-    HashMap<String, String> jsonBlobs = new HashMap<String, String>();
-
-    jsonBlobs.put(
-      "idMissing", 
-      "[\n" +
-      "  {\n" +
-      "    \"contents\": \"doc1\"\n" +
-      "  }\n" +
-      "]"
-    );
-
-    jsonBlobs.put(
-      "contentMissing",
-      "[\n" +
-      "  {\n" +
-      "    \"id\": \"doc2\"\n" +
-      "  }\n" +
-      "]"
-    );
-
-    for (HashMap.Entry<String, String> entry : jsonBlobs.entrySet()) {
-      JsonCollection collection = new JsonCollection(tmpPath);
-      fileSegments.put(entry.getKey(), collection.createFileSegment(createFile(entry.getValue())));
-    }
+    collection = new JsonCollection(Paths.get("src/test/resources/sample_docs/json/collection_errors"));
   }
 
   @Test(expected = RuntimeException.class)
-  public void missingFieldExceptionForContent() {
-    JsonCollection.Document parsed = fileSegments.get("contentMissing").iterator().next();
-    parsed.content();
+  public void missingIdField() throws IOException {
+    JsonCollection.Document parsed = collection.createFileSegment(
+        Paths.get("src/test/resources/sample_docs/json/collection_errors/id_missing.json")).iterator().next();
+    parsed.id();
   }
   
   @Test(expected = RuntimeException.class)
-  public void missingFieldExceptionForId() {
-    JsonCollection.Document parsed = fileSegments.get("idMissing").iterator().next();
-    parsed.id();
+  public void missingContentField() throws IOException {
+    JsonCollection.Document parsed = collection.createFileSegment(
+        Paths.get("src/test/resources/sample_docs/json/collection_errors/contents_missing.json")).iterator().next();
+    parsed.content();
   }
 }
