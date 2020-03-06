@@ -141,7 +141,7 @@ public class ApproximateNearestNeighborSearch {
       sb.append(fv);
     }
     CommonTermsQuery simQuery = new CommonTermsQuery(SHOULD, SHOULD, indexArgs.cutoff);
-    for (String token : AnalyzerUtils.tokenize(vectorAnalyzer, sb.toString())) {
+    for (String token : AnalyzerUtils.analyze(vectorAnalyzer, sb.toString())) {
       simQuery.add(new Term(IndexVectors.FIELD_VECTOR, token));
     }
     if (indexArgs.msm > 0) {

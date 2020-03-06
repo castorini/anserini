@@ -55,7 +55,7 @@ public class SdmQueryGenerator extends QueryGenerator {
   */
   @Override
   public Query buildQuery(String field, Analyzer analyzer, String queryText) {
-    List<String> tokens = AnalyzerUtils.tokenize(analyzer, queryText);
+    List<String> tokens = AnalyzerUtils.analyze(analyzer, queryText);
     
     BooleanQuery.Builder termsBuilder = new BooleanQuery.Builder();
     if (tokens.size() == 1) {

@@ -11,7 +11,7 @@ public class TokenizeOnlyAnalyzerTest {
   @Test
   public void test1() {
     Analyzer analyzer = new TokenizeOnlyAnalyzer();
-    List<String> tokens = AnalyzerUtils.tokenize(analyzer, "city buses are running on schedule");
+    List<String> tokens = AnalyzerUtils.analyze(analyzer, "city buses are running on schedule");
 
     assertEquals(6, tokens.size());
     assertEquals("city", tokens.get(0));

@@ -28,7 +28,7 @@ public class EnglishStemmingAnalyzerTest {
   @Test
   public void test1() {
     Analyzer analyzer = new EnglishStemmingAnalyzer("porter");
-    List<String> tokens = AnalyzerUtils.tokenize(analyzer, "city buses are running on schedule");
+    List<String> tokens = AnalyzerUtils.analyze(analyzer, "city buses are running on schedule");
 
     assertEquals(4, tokens.size());
     assertEquals("citi", tokens.get(0));
@@ -40,7 +40,7 @@ public class EnglishStemmingAnalyzerTest {
   @Test
   public void test2() {
     Analyzer analyzer = new EnglishStemmingAnalyzer("krovetz");
-    List<String> tokens = AnalyzerUtils.tokenize(analyzer, "city buses are running on schedule");
+    List<String> tokens = AnalyzerUtils.analyze(analyzer, "city buses are running on schedule");
 
     assertEquals(4, tokens.size());
     assertEquals("city", tokens.get(0));
@@ -50,9 +50,21 @@ public class EnglishStemmingAnalyzerTest {
   }
 
   @Test
+  public void test3() {
+    // Default is porter
+    List<String> tokens = AnalyzerUtils.analyze("city buses are running on schedule");
+
+    assertEquals(4, tokens.size());
+    assertEquals("citi", tokens.get(0));
+    assertEquals("buse", tokens.get(1));
+    assertEquals("run", tokens.get(2));
+    assertEquals("schedul", tokens.get(3));
+  }
+
+  @Test
   public void testNoStopwordsNoStemming() {
     Analyzer analyzer = new EnglishStemmingAnalyzer(CharArraySet.EMPTY_SET);
-    List<String> tokens = AnalyzerUtils.tokenize(analyzer, "this should not do stemming and should have stopwords");
+    List<String> tokens = AnalyzerUtils.analyze(analyzer, "this should not do stemming and should have stopwords");
 
     assertEquals(9, tokens.size());
     assertEquals("this", tokens.get(0));

@@ -17,8 +17,7 @@
 package io.anserini.search.topicreader;
 
 import io.anserini.analysis.AnalyzerUtils;
-import io.anserini.analysis.EnglishStemmingAnalyzer;
-import org.apache.lucene.analysis.Analyzer;
+import io.anserini.index.IndexCollection;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -47,8 +46,7 @@ public class CarTopicReaderTest {
     assertEquals("Yellowstone National Park/Recreation", query);
 
     // Make sure that the slash is properly tokenized.
-    Analyzer analyzer = new EnglishStemmingAnalyzer("porter");
-    List<String> tokens =  AnalyzerUtils.tokenize(analyzer, query);
+    List<String> tokens =  AnalyzerUtils.analyze(IndexCollection.DEFAULT_ANALYZER, query);
     assertEquals(4, tokens.size());
     assertEquals("recreat", tokens.get(3));
   }
