@@ -16,7 +16,7 @@ We keep a [change log](regressions-log.md) whenever effectiveness changes or whe
 ## The Anserini Replicability Promise
 
 It is the highest priority of the project to ensure that all regression experiments are replicable _all the time_.
-That means, anyone with the document collection should be able to replicate _exactly_ the effectiveness scores we report in our regression documentation pages.
+This means that anyone with the document collection should be able to replicate _exactly_ the effectiveness scores we report in our regression documentation pages.
 
 We hold this ideal in such high esteem and are so dedicated to replicability that if you discover a broken regression before we do, Jimmy Lin will buy you a beverage of choice (coffee, beer, etc.) at the next event you see him (e.g., SIGIR, TREC, etc.).
 
