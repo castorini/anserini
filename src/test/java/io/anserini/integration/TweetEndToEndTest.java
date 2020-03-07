@@ -20,7 +20,7 @@ public class TweetEndToEndTest extends EndToEndTest {
 
   @Override
   protected void init() {
-    dataDirPath = "tweets";
+    dataDirPath = "tweets/collection1";
     collectionClass = "Tweet";
     generator = "Tweet";
     topicReader = "Microblog";
