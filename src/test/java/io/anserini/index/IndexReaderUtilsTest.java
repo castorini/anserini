@@ -18,7 +18,7 @@ package io.anserini.index;
 
 import io.anserini.IndexerTestBase;
 import io.anserini.analysis.AnalyzerUtils;
-import io.anserini.analysis.EnglishStemmingAnalyzer;
+import io.anserini.analysis.DefaultEnglishAnalyzer;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.MultiTerms;
@@ -200,7 +200,8 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
     assertArrayEquals(new int[] {9}, postingsList.get(0).getPositions());
 
     // Tell method to analyze *explicitly*, but pass in mismatched analyzer:
-    assertNull(IndexReaderUtils.getPostingsList(reader, "city", new EnglishStemmingAnalyzer("krovetz")));
+    assertNull(IndexReaderUtils.getPostingsList(reader, "city",
+        DefaultEnglishAnalyzer.newStemmingInstance("krovetz")));
 
     // Tell method *not* to analyze:
     postingsList = IndexReaderUtils.getPostingsList(reader, "citi", false);

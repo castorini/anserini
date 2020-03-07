@@ -10,7 +10,7 @@ import static org.junit.Assert.assertEquals;
 public class TokenizeOnlyAnalyzerTest {
   @Test
   public void test1() {
-    Analyzer analyzer = new TokenizeOnlyAnalyzer();
+    Analyzer analyzer = DefaultEnglishAnalyzer.newNonStemmingInstance();
     List<String> tokens = AnalyzerUtils.analyze(analyzer, "city buses are running on schedule");
 
     assertEquals(6, tokens.size());
