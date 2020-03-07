@@ -28,7 +28,7 @@ In turn, you'll be recognized as a [contributor](https://github.com/castorini/an
 ## Invocations
 
 Internally at Waterloo, `tuna.cs.uwaterloo.ca` is used for the development of Anserini and is set up to run the regression experiments.
-However, anyone can run these regressions scripts also, with minor changes to the `input_roots` section of the [YAML file](../src/main/resources/regression/robust04.yaml) to tell the regression script where to find the collection.
+However, anyone can run these regressions also, with only minor changes to the `input_roots` section of the [YAML file](../src/main/resources/regression/robust04.yaml) to tell the regression script where to find the collection.
 
 Copy and paste the following lines into console on `tuna` to run the regressions without building indexes from scratch:
 
