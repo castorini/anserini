@@ -17,11 +17,10 @@
 package io.anserini.index.generator;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import io.anserini.analysis.EnglishStemmingAnalyzer;
+import io.anserini.analysis.DefaultEnglishAnalyzer;
 import io.anserini.collection.CoreCollection;
 import io.anserini.index.IndexArgs;
 import io.anserini.index.IndexCollection;
-import org.apache.jute.Index;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.CharArraySet;
 import org.apache.lucene.analysis.TokenStream;
@@ -157,7 +156,7 @@ public class CoreGenerator extends LuceneDocumentGenerator<CoreCollection.Docume
       nonStemmedType.setStored(true);
 
       // token stream to be indexed
-      Analyzer nonStemmingAnalyzer = new EnglishStemmingAnalyzer(CharArraySet.EMPTY_SET);
+      Analyzer nonStemmingAnalyzer = DefaultEnglishAnalyzer.newNonStemmingInstance(CharArraySet.EMPTY_SET);
       TokenStream stream = nonStemmingAnalyzer.tokenStream(null, new StringReader(value.asText()));
       Field field = new Field(key, valueText, nonStemmedType);
       field.setTokenStream(stream);

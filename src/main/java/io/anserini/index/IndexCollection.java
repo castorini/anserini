@@ -20,7 +20,7 @@ import com.google.common.base.Charsets;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import com.google.common.hash.Hashing;
-import io.anserini.analysis.EnglishStemmingAnalyzer;
+import io.anserini.analysis.DefaultEnglishAnalyzer;
 import io.anserini.analysis.TweetAnalyzer;
 import io.anserini.collection.DocumentCollection;
 import io.anserini.collection.FileSegment;
@@ -101,7 +101,7 @@ public final class IndexCollection {
 
   private static final int TIMEOUT = 600 * 1000;
   // This is the default analyzer used, unless another stemming algorithm or language is specified.
-  public static final Analyzer DEFAULT_ANALYZER = new EnglishStemmingAnalyzer("porter");
+  public static final Analyzer DEFAULT_ANALYZER = DefaultEnglishAnalyzer.newDefaultInstance();
 
   // When duplicates of these fields are attempted to be indexed in Solr, they are ignored. This allows some fields to be multi-valued, but not others.
   // Stored vs. indexed vs. doc values vs. multi-valued vs. ... are controlled via config, rather than code, in Solr.
@@ -704,8 +704,9 @@ public final class IndexCollection {
       final BengaliAnalyzer bengaliAnalyzer = new BengaliAnalyzer();
       final GermanAnalyzer germanAnalyzer = new GermanAnalyzer();
       final SpanishAnalyzer spanishAnalyzer = new SpanishAnalyzer();
-      final EnglishStemmingAnalyzer analyzer = args.keepStopwords ?
-          new EnglishStemmingAnalyzer(args.stemmer, CharArraySet.EMPTY_SET) : new EnglishStemmingAnalyzer(args.stemmer);
+      final DefaultEnglishAnalyzer analyzer = args.keepStopwords ?
+          DefaultEnglishAnalyzer.newStemmingInstance(args.stemmer, CharArraySet.EMPTY_SET) :
+          DefaultEnglishAnalyzer.newStemmingInstance(args.stemmer);
       final TweetAnalyzer tweetAnalyzer = new TweetAnalyzer(args.tweetStemming);
 
       final IndexWriterConfig config;
