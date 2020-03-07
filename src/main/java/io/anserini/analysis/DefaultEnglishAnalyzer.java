@@ -34,14 +34,14 @@ public class DefaultEnglishAnalyzer extends StopwordAnalyzerBase {
   private final String stemmer;
   private final CharArraySet stemExclusionSet = CharArraySet.EMPTY_SET;
 
-  // Constructors are private - use static factor methods to construct.
+  // Constructors are private - use static factory methods to construct.
   private DefaultEnglishAnalyzer(String stemmer, CharArraySet stopwords) {
     super(stopwords);
     this.stem = true;
     this.stemmer = stemmer;
   }
 
-  // Constructors are private - use static factor methods to construct.
+  // Constructors are private - use static factory methods to construct.
   private DefaultEnglishAnalyzer(CharArraySet stopwords) {
     super(stopwords);
     this.stem = false;
