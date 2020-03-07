@@ -14,29 +14,18 @@
  * limitations under the License.
  */
 
-package io.anserini.search.similarity;
+package io.anserini.search;
 
-import org.apache.lucene.search.similarities.Similarity;
+import org.junit.Test;
 
-/**
- * TaggedSimilarity wraps Lucene's Similarity with an optional String tag.
- * The tag will be used as part of the output file name if multiple search parameters are given.
- * See @see #SearchCollection
- */
-public class TaggedSimilarity {
-  private Similarity similarity;
-  private String tag;
-  
-  public TaggedSimilarity(Similarity similarity, String tag) {
-    this.similarity = similarity;
-    this.tag = tag;
-  }
+import static org.junit.Assert.assertEquals;
 
-  public Similarity getSimilarity() {
-    return similarity;
-  }
+public class SearchArgsTest {
+  @Test
+  public void test1() {
+    SearchArgs args = new SearchArgs();
 
-  public String getTag() {
-    return tag;
+    assertEquals("rm3:fbTerms=10,fbDocs=10,originalQueryWeight=0.5",
+        SearchArgs.formatRM3Tag(args.rm3_fbTerms[0], args.rm3_fbDocs[0], args.rm3_originalQueryWeight[0]));
   }
 }

@@ -67,7 +67,7 @@ public class MultiThreadingSearchTest extends EndToEndTest {
     };
 
     for (int i = 0; i < searchArgs.bm25_b.length; i++) {
-      String fname = output + "_k1=" + searchArgs.bm25_k1[0] + ",b=" + searchArgs.bm25_b[i];
+      String fname = String.format("%s_bm25:k1=%s,b=%s", output, searchArgs.bm25_k1[0], searchArgs.bm25_b[i]);
 
       BufferedReader br = new BufferedReader(new FileReader(fname));
       int cnt = 0;

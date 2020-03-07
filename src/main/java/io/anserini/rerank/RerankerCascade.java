@@ -24,6 +24,19 @@ import java.util.List;
  */
 public class RerankerCascade {
   final List<Reranker> rerankers = new ArrayList<>();
+  private String tag;
+
+  public RerankerCascade(String tag) {
+    this.tag = tag;
+  }
+
+  public RerankerCascade() {
+    this("");
+  }
+
+  public String getTag() {
+    return tag;
+  }
 
   /**
    * Adds a reranker to this cascade.
