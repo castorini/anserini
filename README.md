@@ -52,7 +52,7 @@ cd ndeval && make
 ## Anserini Regression Experiments
 
 Anserini is designed to support experiments on various standard IR test collections out of the box.
-The following runs are backed by [rigorous end-to-end regression tests](docs/regressions.md) with [`run_regression.py`](src/main/python/run_regression.py) and [the Anserini replicability promise](docs/regressions.md).
+The following experiments are backed by [rigorous end-to-end regression tests](docs/regressions.md) with [`run_regression.py`](src/main/python/run_regression.py) and [the Anserini replicability promise](docs/regressions.md).
 For the most part, these runs are based on [_default_ parameter settings](https://github.com/castorini/Anserini/blob/master/src/main/java/io/anserini/search/SearchArgs.java).
 
 + [Regressions for Disks 1 &amp; 2](docs/regressions-disk12.md)
