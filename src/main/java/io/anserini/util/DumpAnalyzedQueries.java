@@ -33,7 +33,7 @@ import java.util.Map;
 import java.util.SortedMap;
 
 /**
- * Utility to dump out query terms that have analyzed with Anserini's default Lucene Analyzer, EnglishStemmingAnalyzer
+ * Utility to dump out query terms that have analyzed with Anserini's default Lucene Analyzer, DefaultEnglishAnalyzer
  * with Porter stemming. Query terms are taken from the "title" of topics. Output is a TSV file, with (topic id,
  * analyzed query) tuples; the analyzed query comprises space-delimited tokens.
  */
