@@ -67,7 +67,7 @@ if __name__ == '__main__':
         queries = []
         result_dict = {}
 
-        for line_number, line in enumerate(open(args.qid_queries)):
+        for line_number, line in enumerate(open(args.qid_queries, 'r', encoding='utf8')):
             qid, query = line.strip().split('\t')
             qids.append(qid)
             queries.append(query)
