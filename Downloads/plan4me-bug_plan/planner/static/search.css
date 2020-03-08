@@ -1,0 +1,12 @@
+body {
+    background-image: url(background.png);
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+    line-height: 300%;
+}
+
+#logo {
+    width: 200px;
+    height: 200px;
+}

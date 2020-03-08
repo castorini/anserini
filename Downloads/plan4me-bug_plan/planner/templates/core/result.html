@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Plan4me</title>
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'css_images/result.css' %}">
+        <meta charset="utf-8">
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    </head>
+
+    <body>
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        <!-------------------------------------------------------------->
+        <div class="container-fluid">
+            <h1>Search Results:</h1>
+            <div class="row">
+                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                    <h2>Restaurants: </h2>
+                    {% for each_res in restaurants %}
+                        <p>{{ each_res.name }}</p>
+
+                        <br><p>=====================================</p>
+                    {% endfor %}
+                </div>
+                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                    <h2>Hotels: </h2>
+                    {% for each_hotel in hotels %}
+                        <p>{{ each_hotel.name }}</p>
+
+                        <br><p>=====================================</p>
+                    {% endfor %}
+                </div>
+                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                    <h2>Events: </h2>
+                    {% for each_event in events %}
+                        {% for each_key, each_value in each_event.items %}
+                            <p>{{ each_value }}</p>
+                        {% endfor %}
+                        <br><p>=====================================</p>
+                    {% endfor %}
+                    <!--<p>{{ events }}</p>-->
+                </div>
+            </div>
+        </div>
+        <!---
+        <h1>Search Results:</h1>
+        <div class="container" >
+            <div class="col-*-*">
+                <h2>{{ restaurants }}</h2>
+            </div>
+            <div class="col-*-*">
+                <h2>{{ hotels }}</h2>
+            </div>
+            <div class="col-*-*">
+                <h2>{{ events }}</h2>
+            </div>
+        </div>
+        {% for entry in posts %}
+            <br><h1>{{ entry }}</h1>
+        {% endfor %}-->
+    </body>
+</html>

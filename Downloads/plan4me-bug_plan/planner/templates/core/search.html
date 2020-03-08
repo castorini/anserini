@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Plan4me</title>
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'search.css' %}">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+        <!-- jQuery -->
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+
+        <!-- Fengyuan Chen's Datepicker -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.min.css" integrity="sha256-b88RdwbRJEzRx95nCuuva+hO5ExvXXnpX+78h8DjyOE=" crossorigin="anonymous" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.min.js" integrity="sha256-/7FLTdzP6CfC1VBAj/rsp3Rinuuu9leMRGd354hvk0k=" crossorigin="anonymous"></script>
+
+    </head>
+    <body>
+        <img src="{% static 'logo.png' %}" id="logo"><br/>
+        <form method="post" id="user-input" novalidate>
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+            {{ form.source.errors }}
+            {{ form.source }}
+            <p>
+                {{ form.city.label_tag }}
+                {{ form.city.errors }}
+                {{ form.city }}
+            </p>
+            <p>
+                {{ form.date_from.label_tag }}
+                {{ form.date_from.errors }}
+                {{ form.date_from }}
+            </p>
+            <p>
+                {{ form.date_to.label_tag }}
+                {{ form.date_to.errors }}
+                {{ form.date_to }}
+            </p>
+            <p>
+                {{ form.min_budget.label_tag }}
+                {{ form.min_budget.errors }}
+                {{ form.min_budget }}
+            </p>
+            <p>
+                {{ form.max_budget.label_tag }}
+                {{ form.max_budget.errors }}
+                {{ form.max_budget }}
+            </p>
+            <p>
+                {{ form.keywords.label_tag }}
+                {{ form.keywords.errors }}
+                {{ form.keywords }}
+            </p>
+            <button type="submit">Submit</button>
+        </form>
+    </body>
+</html>
+    

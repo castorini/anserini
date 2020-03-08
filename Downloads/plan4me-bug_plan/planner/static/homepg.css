@@ -1,0 +1,36 @@
+body {
+    background-image: url(background.png);
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+
+}
+.centered {
+    position: absolute; 
+    top: 20% ;
+    font-size: 70px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: black;
+    font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+    letter-spacing: 2px;
+  }
+  .bottom {
+      position: absolute;
+      font-size:30px;
+      transform:translate(-50%,-50%);
+      color:black;
+      font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+      top:60%;
+      left:50%;
+      background-color: #c0c0c0;
+      padding:10px;
+      border-radius: 20px;
+
+  }
+
+img {initial-letter-align: 100%;
+max-width: 100%;
+max-height: 100%; }
+title{font-weight: bolder;
+text-underline-position: below;}
+a{color: black;}
