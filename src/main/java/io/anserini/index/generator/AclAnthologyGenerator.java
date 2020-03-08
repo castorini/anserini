@@ -17,11 +17,10 @@
 package io.anserini.index.generator;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import io.anserini.analysis.EnglishStemmingAnalyzer;
+import io.anserini.analysis.DefaultEnglishAnalyzer;
 import io.anserini.collection.AclAnthology;
 import io.anserini.index.IndexArgs;
 import io.anserini.index.IndexCollection;
-import org.apache.jute.Index;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.CharArraySet;
 import org.apache.lucene.analysis.TokenStream;
@@ -150,7 +149,7 @@ public class AclAnthologyGenerator extends LuceneDocumentGenerator<AclAnthology.
         doc.add(new StoredField(key, fieldString));
       } else if (FIELDS_WITHOUT_STEMMING.contains(key)) {
         // token stream to be indexed
-        Analyzer nonStemmingAnalyzer = new EnglishStemmingAnalyzer(CharArraySet.EMPTY_SET);
+        Analyzer nonStemmingAnalyzer = DefaultEnglishAnalyzer.newNonStemmingInstance(CharArraySet.EMPTY_SET);
         StringReader reader = new StringReader(fieldString);
         TokenStream stream = nonStemmingAnalyzer.tokenStream(null, reader);
 

@@ -25,7 +25,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CoreDocumentTest extends DocumentCollectionTest<CoreCollection.Document> {
+public class CoreCollectionTest extends DocumentCollectionTest<CoreCollection.Document> {
   List<Map<String, JsonNode>> expectedJsonFields;
 
   @Before

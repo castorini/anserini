@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package io.anserini.collection;
 
 import org.junit.Before;
@@ -21,16 +22,15 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
 
-public class NewYorkTimesDocumentTest extends DocumentCollectionTest<NewYorkTimesCollection.Document> {
-
+public class WikipediaCollectionTest extends DocumentCollectionTest<WikipediaCollection.Document> {
   @Before
   public void setUp() throws Exception {
     super.setUp();
 
-    collectionPath = Paths.get("src/test/resources/sample_docs/nyt/collection1");
-    collection = new NewYorkTimesCollection(collectionPath);
+    collectionPath = Paths.get("src/test/resources/sample_docs/wikipedia/collection1/");
+    collection = new WikipediaCollection(collectionPath);
 
-    Path segment1 = Paths.get("src/test/resources/sample_docs/nyt/collection1/segment1.xml");
+    Path segment1 = Paths.get("src/test/resources/sample_docs/wikipedia/collection1/articles.xml.bz2");
 
     segmentPaths.add(segment1);
     segmentDocCounts.put(segment1, 1);
@@ -38,23 +38,15 @@ public class NewYorkTimesDocumentTest extends DocumentCollectionTest<NewYorkTime
     totalSegments = 1;
     totalDocs = 1;
 
-    expected.put("12345678",
-        Map.of("id", "12345678",
-            "content", "Article Title\nArticle abstract.\nFirst paragraph.\nSecond paragraph.",
-            "headline", "Article Title",
-            "abstract", "Article abstract.",
-            "body", "First paragraph.\nSecond paragraph."));
+    expected.put("Wiktionary:Welcome, newcomers",
+        Map.of("id", "Wiktionary:Welcome, newcomers",
+            "content", "Wiktionary:Welcome, newcomers.\nthis is the   real content"));
   }
 
   @Override
   void checkDocument(SourceDocument doc, Map<String, String> expected) {
-    NewYorkTimesCollection.Document nyt = (NewYorkTimesCollection.Document) doc;
-
     assertTrue(doc.indexable());
-    assertEquals(expected.get("id"), nyt.id());
-    assertEquals(expected.get("content"), nyt.content());
-    assertEquals(expected.get("headline"), nyt.getRawDocument().getHeadline());
-    assertEquals(expected.get("abstract"), nyt.getRawDocument().getArticleAbstract());
-    assertEquals(expected.get("body"), nyt.getRawDocument().getBody());
+    assertEquals(expected.get("id"), doc.id());
+    assertEquals(expected.get("content"), doc.content());
   }
 }

@@ -21,7 +21,7 @@ import com.fasterxml.jackson.databind.node.IntNode;
 import com.fasterxml.jackson.databind.node.NullNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.node.TextNode;
-import io.anserini.analysis.EnglishStemmingAnalyzer;
+import io.anserini.analysis.DefaultEnglishAnalyzer;
 import io.anserini.collection.CoreCollection;
 import io.anserini.index.IndexArgs;
 import io.anserini.index.IndexCollection;
@@ -104,7 +104,7 @@ public class CoreGeneratorTest {
     );
 
     // make sure specified fields are stored without stemming
-    Analyzer nonStemmingAnalyzer = new EnglishStemmingAnalyzer(CharArraySet.EMPTY_SET);
+    Analyzer nonStemmingAnalyzer = DefaultEnglishAnalyzer.newNonStemmingInstance(CharArraySet.EMPTY_SET);
     CoreGenerator.FIELDS_WITHOUT_STEMMING.forEach(field -> {
       String fieldString = coreDoc.jsonNode().get(field).toString();
       fieldString.replace("[", "").replace("]", "");

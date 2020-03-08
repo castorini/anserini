@@ -16,7 +16,6 @@
 
 package io.anserini.index;
 
-import io.anserini.analysis.EnglishStemmingAnalyzer;
 import io.anserini.analysis.AnalyzerUtils;
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveOutputStream;
