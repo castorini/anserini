@@ -1,17 +1,36 @@
 # Anserini Regression Experiments
 
-Internally at Waterloo, `tuna.cs.uwaterloo.ca` is used for the development of Anserini and is set up to run the regression experiments described here.
-The regression script `src/main/python/run_regression.py` runs end-to-end regression experiments for various collections, which includes:
+Regression experiments in Anserini are hooked into a rigorous end-to-end regression framework driven by the [`run_regression.py`](../src/main/python/run_regression.py) script.
+This script executes experiments end to end and verifies effectiveness numbers without requiring any human intervention.
+Specifically, the script includes:
 
 + Building the index from scratch.
 + Running all retrieval runs in Anserini documentation.
-+ Verifying results against effectiveness figures stored in `src/main/resources/regression/`.
++ Verifying results against effectiveness figures stored in [`src/main/resources/regression/`](../src/main/resources/regression/).
 
+Furthermore, the regression documentation pages are auto-generated based on [raw templates](../src/main/resources/docgen/templates).
+
+Internally at Waterloo, we are continuously running these regression tests to ensure that new commits do not break any existing experimental runs (see below).
 We keep a [change log](regressions-log.md) whenever effectiveness changes or when new regressions are added.
+
+## The Anserini Replicability Promise
+
+It is the highest priority of the project to ensure that all regression experiments are replicable _all the time_.
+This means that anyone with the document collection should be able to replicate _exactly_ the effectiveness scores we report in our regression documentation pages.
+
+We hold this ideal in such high esteem and are so dedicated to replicability that if you discover a broken regression before we do, Jimmy Lin will buy you a beverage of choice (coffee, beer, etc.) at the next event you see him (e.g., SIGIR, TREC, etc.).
+
+Here's how you can help:
+In the course of replicating one of our results, please let us know you've been successful by sending a pull request with a simple note, like what appears at the bottom of [the Robust04 page](regressions-robust04.md).
+Since the regression documentation is auto-generated, pull requests should be sent against the [raw templates](../src/main/resources/docgen/templates).
+In turn, you'll be recognized as a [contributor](https://github.com/castorini/anserini/graphs/contributors).
 
 ## Invocations
 
-tl;dr - Copy and paste the following lines into console on `tuna` to run the regressions without building indexes from scratch:
+Internally at Waterloo, `tuna.cs.uwaterloo.ca` is used for the development of Anserini and is set up to run the regression experiments.
+However, anyone can run these regressions also, with only minor changes to the `input_roots` section of the [YAML file](../src/main/resources/regression/robust04.yaml) to tell the regression script where to find the collection.
+
+Copy and paste the following lines into console on `tuna` to run the regressions without building indexes from scratch:
 
 ```
 nohup python src/main/python/run_regression.py --collection disk12 >& log.disk12 &
