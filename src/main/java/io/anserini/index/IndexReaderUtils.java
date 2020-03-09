@@ -205,13 +205,17 @@ public class IndexReaderUtils {
 
   public static Map<String, Long> getTermCounts(IndexReader reader, String termStr) throws IOException, ParseException {
     EnglishAnalyzer ea = new EnglishAnalyzer(CharArraySet.EMPTY_SET);
-    QueryParser qp = new QueryParser(IndexArgs.CONTENTS, ea);
+    return getTermCounts(reader, termStr, ea);
+  }
+
+  public static Map<String, Long> getTermCounts(IndexReader reader, String termStr, Analyzer analyzer) throws IOException, ParseException {
+    QueryParser qp = new QueryParser(IndexArgs.CONTENTS, analyzer);
     TermQuery q = (TermQuery) qp.parse(termStr);
     Term t = q.getTerm();
 
     Map<String, Long> termInfo = Map.ofEntries(
-        Map.entry("collectionFreq", reader.totalTermFreq(t)),
-        Map.entry("docFreq", Long.valueOf(reader.docFreq(t)))
+      Map.entry("collectionFreq", reader.totalTermFreq(t)),
+      Map.entry("docFreq", Long.valueOf(reader.docFreq(t)))
     );
 
     return termInfo;
