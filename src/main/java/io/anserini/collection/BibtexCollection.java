@@ -61,7 +61,7 @@ public class BibtexCollection extends DocumentCollection<BibtexCollection.Docume
     private Iterator<Map.Entry<Key, BibTeXEntry>> iterator = null; // iterator for JSON document array
     private BibTeXDatabase database;
 
-    protected Segment(Path path) throws IOException {
+    public Segment(Path path) throws IOException {
       super(path);
       bufferedReader = new BufferedReader(new FileReader(path.toString()));
       BibTeXParser bibtexParser;
