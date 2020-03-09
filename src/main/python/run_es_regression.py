@@ -104,7 +104,7 @@ class ElasticsearchClient:
                       path + ' -storePositions -storeDocvectors -storeRawDocs'
         elif collection == 'core18':
             command = 'sh target/appassembler/bin/IndexCollection -collection WashingtonPostCollection ' + \
-                      '-generator JsoupGenerator -es -es.index core18 -threads 8 -input ' + \
+                      '-generator WashingtonPostGenerator -es -es.index core18 -threads 8 -input ' + \
                       path + ' -storePositions -storeDocvectors -storeTransformedDocs'
         else:
             raise Exception('Unknown collection: {}'.format(collection))
@@ -154,7 +154,6 @@ class ElasticsearchClient:
         expected = 0
         if collection == 'robust04': expected = 0.2531
         elif collection == 'msmarco-passage': expected = 0.1956
-        # TODO: current core18 AP value 0.2401 does not match the expected value 0.2495.
         elif collection == 'core18': expected = 0.2495
         else: raise Exception('Unknown collection: {}'.format(collection))
 
