@@ -17,6 +17,7 @@
 package io.anserini.index;
 
 import io.anserini.analysis.AnalyzerUtils;
+import io.anserini.analysis.DefaultEnglishAnalyzer;
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveOutputStream;
 import org.apache.commons.compress.compressors.bzip2.BZip2CompressorInputStream;
@@ -25,8 +26,6 @@ import org.apache.commons.compress.compressors.gzip.GzipCompressorOutputStream;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.CharArraySet;
-import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexableField;
@@ -204,14 +203,18 @@ public class IndexReaderUtils {
   }
 
   public static Map<String, Long> getTermCounts(IndexReader reader, String termStr) throws IOException, ParseException {
-    EnglishAnalyzer ea = new EnglishAnalyzer(CharArraySet.EMPTY_SET);
-    QueryParser qp = new QueryParser(IndexArgs.CONTENTS, ea);
+    DefaultEnglishAnalyzer ea = DefaultEnglishAnalyzer.newDefaultInstance();
+    return getTermCountsWithAnalyzer(reader, termStr, ea);
+  }
+
+  public static Map<String, Long> getTermCountsWithAnalyzer(IndexReader reader, String termStr, Analyzer analyzer) throws IOException, ParseException {
+    QueryParser qp = new QueryParser(IndexArgs.CONTENTS, analyzer);
     TermQuery q = (TermQuery) qp.parse(termStr);
     Term t = q.getTerm();
 
     Map<String, Long> termInfo = Map.ofEntries(
-        Map.entry("collectionFreq", reader.totalTermFreq(t)),
-        Map.entry("docFreq", Long.valueOf(reader.docFreq(t)))
+      Map.entry("collectionFreq", reader.totalTermFreq(t)),
+      Map.entry("docFreq", Long.valueOf(reader.docFreq(t)))
     );
 
     return termInfo;

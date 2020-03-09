@@ -70,6 +70,35 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
   }
 
   @Test
+  public void testTermCountsWithAnalyzer() throws Exception {
+    Directory dir = FSDirectory.open(tempDir1);
+    IndexReader reader = DirectoryReader.open(dir);
+    DefaultEnglishAnalyzer analyzer = DefaultEnglishAnalyzer.newDefaultInstance();
+
+    Map<String, Long> termCountMap;
+
+    termCountMap = IndexReaderUtils.getTermCountsWithAnalyzer(reader, "here", analyzer);
+    assertEquals(Long.valueOf(3), termCountMap.get("collectionFreq"));
+    assertEquals(Long.valueOf(2), termCountMap.get("docFreq"));
+
+    termCountMap = IndexReaderUtils.getTermCountsWithAnalyzer(reader, "more", analyzer);
+    assertEquals(Long.valueOf(2), termCountMap.get("collectionFreq"));
+    assertEquals(Long.valueOf(2), termCountMap.get("docFreq"));
+
+    termCountMap = IndexReaderUtils.getTermCountsWithAnalyzer(reader, "some", analyzer);
+    assertEquals(Long.valueOf(2), termCountMap.get("collectionFreq"));
+    assertEquals(Long.valueOf(1), termCountMap.get("docFreq"));
+
+    termCountMap = IndexReaderUtils.getTermCountsWithAnalyzer(reader, "test", analyzer);
+    assertEquals(Long.valueOf(1), termCountMap.get("collectionFreq"));
+    assertEquals(Long.valueOf(1), termCountMap.get("docFreq"));
+
+    termCountMap = IndexReaderUtils.getTermCountsWithAnalyzer(reader, "text", analyzer);
+    assertEquals(Long.valueOf(3), termCountMap.get("collectionFreq"));
+    assertEquals(Long.valueOf(2), termCountMap.get("docFreq"));
+  }
+
+  @Test
   public void testIterateThroughTerms() throws Exception {
     Directory dir = FSDirectory.open(tempDir1);
     IndexReader reader = DirectoryReader.open(dir);
