@@ -93,9 +93,44 @@ map                   	all	0.1956
 recall_1000           	all	0.8573
 ```
 
+## Indexing and Retrieval: Core18
+
+We can replicate the [TREC Washington Post Corpus](regressions-core18.md) results in a similar way.
+First, set up the proper schema using [this config](../src/main/resources/elasticsearch/index-config.core18.json):
+
+```bash
+cat src/main/resources/elasticsearch/index-config.core18.json \
+ | curl --user elastic:changeme -XPUT -H 'Content-Type: application/json' 'localhost:9200/core18' -d @-
+```
+
+Indexing:
+
+```bash
+sh target/appassembler/bin/IndexCollection -collection WashingtonPostCollection -generator WashingtonPostGenerator \
+ -es -es.index core18 -threads 8 -input /path/to/WashingtonPost -storePositions -storeDocvectors -storeTransformedDocs
+```
+
+We may need to wait a few minutes after indexing for the index to catch up before performing retrieval, otherwise wrong evaluation metrics are returned.
+
+Retrieval:
+
+```bash
+sh target/appassembler/bin/SearchElastic -topicreader Trec -es.index core18 \
+  -topics src/main/resources/topics-and-qrels/topics.core18.txt \
+  -output run.es.core18.bm25.topics.core18.txt
+```
+
+Evaluation:
+
+```bash
+$ eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.core18.txt run.es.core18.bm25.topics.core18.txt
+map                   	all	0.2495
+recall_1000           	all	0.3567
+```
+
 ## Elasticsearch Integration Test
 
-We have an end-to-end integration testing script `run_es_regression.py` for [Robust04](regressions-robust04.md) and [MS MARCO passage](regressions-msmarco-passage.md). Its functionalities are described below.
+We have an end-to-end integration testing script `run_es_regression.py` for [Core18](regressions-core18.md), [Robust04](regressions-robust04.md) and [MS MARCO passage](regressions-msmarco-passage.md). Its functionalities are described below.
 
 ```
 # Check if Elasticsearch server is on
