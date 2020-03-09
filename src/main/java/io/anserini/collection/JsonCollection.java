@@ -86,7 +86,7 @@ public class JsonCollection extends DocumentCollection<JsonCollection.Document> 
     private Iterator<JsonNode> iter = null; // iterator for JSON document array
     private MappingIterator<JsonNode> iterator; // iterator for JSON line objects
 
-    protected Segment(Path path) throws IOException {
+    public Segment(Path path) throws IOException {
       super(path);
       bufferedReader = new BufferedReader(new FileReader(path.toString()));
       ObjectMapper mapper = new ObjectMapper();
