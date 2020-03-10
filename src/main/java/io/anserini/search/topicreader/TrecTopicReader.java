@@ -84,7 +84,6 @@ public class TrecTopicReader extends TopicReader<Integer> {
           id = sb.substring(k + 1).trim();
         }
 
-
         // title
         sb = read(bRdr, "<title>", null, true, false);
         sb = read(bRdr, "<desc>", sb, false, true);
