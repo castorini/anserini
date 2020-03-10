@@ -64,7 +64,7 @@ public class TopicReaderTest {
     assertEquals(151, (int) topics.firstKey());
     assertEquals("Coping with overcrowded prisons", topics.get(topics.firstKey()).get("title"));
     assertEquals(200, (int) topics.lastKey());
-    assertEquals("Impact of foreign textile imports on U.S.", topics.get(topics.lastKey()).get("title"));
+    assertEquals("Impact of foreign textile imports on U.S. textile industry", topics.get(topics.lastKey()).get("title"));
 
     topics = TopicReader.getTopics(Topics.ROBUST04);
     assertNotNull(topics);
@@ -119,7 +119,7 @@ public class TopicReaderTest {
     assertNotNull(topics);
     assertEquals(50, topics.size());
     assertEquals("Coping with overcrowded prisons", topics.get("151").get("title"));
-    assertEquals("Impact of foreign textile imports on U.S.", topics.get("200").get("title"));
+    assertEquals("Impact of foreign textile imports on U.S. textile industry", topics.get("200").get("title"));
 
     topics = TopicReader.getTopicsWithStringIds(Topics.ROBUST04);
     assertNotNull(topics);
