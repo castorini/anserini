@@ -1,0 +1,242 @@
+{
+  "replace-field": {
+    "name":"_root_",
+    "type":"string",
+    "docValues":false,
+    "indexed":true,
+    "stored":false
+  },
+  "replace-field": {
+    "name":"_text_",
+    "type":"text_general",
+    "multiValued":true,
+    "indexed":true,
+    "stored":false
+  },
+  "replace-field": {
+    "name":"_version_",
+    "type":"plong",
+    "indexed":false,
+    "stored":false
+  },
+  "replace-field": {
+    "name":"abstract",
+    "type":"text_general"
+  },
+  "replace-field": {
+    "name":"abstract_html",
+    "type":"text_general"
+  },
+  "replace-field": {
+    "name":"address",
+    "type":"text_general"
+  },
+  "replace-field": {
+    "name":"article_url",
+    "type":"string"
+  },
+  "replace-field": {
+    "name":"author",
+    "type":"string"
+  },
+  "replace-field": {
+    "name":"author_string",
+    "type":"text_general"
+  },
+  "replace-field": {
+    "name":"authors",
+    "type":"string",
+    "multiValued":true,
+    "stored":true
+  },
+  "replace-field": {
+    "name":"bibkey",
+    "type":"text_general"
+  },
+  "replace-field": {
+    "name":"bibtype",
+    "type":"text_general"
+  },
+  "replace-field": {
+    "name":"booktitle",
+    "type":"text_general"
+  },
+  "replace-field": {
+    "name":"booktitle_html",
+    "type":"text_general"
+  },
+  "replace-field": {
+    "name":"contents",
+    "type":"text_en_anserini",
+    "multiValued":false,
+    "indexed":true,
+    "stored":true
+  },
+  "replace-field": {
+    "name":"contributors",
+    "type":"text_general"
+  },
+  "replace-field": {
+    "name":"doi",
+    "type":"text_general"
+  },
+  "replace-field": {
+    "name":"editor",
+    "type":"text_general"
+  },
+  "replace-field": {
+    "name":"enrichments",
+    "type":"text_general"
+  },
+  "replace-field": {
+    "name":"fullCaption",
+    "type":"text_en",
+    "multiValued":true
+  },
+  "replace-field": {
+    "name":"id",
+    "type":"string",
+    "multiValued":false,
+    "indexed":true,
+    "required":true,
+    "stored":true
+  },
+  "replace-field": {
+    "name":"identifiers",
+    "type":"text_general"
+  },
+  "replace-field": {
+    "name":"isbn",
+    "type":"text_general"
+  },
+  "replace-field": {
+    "name":"issue",
+    "type":"plongs"
+  },
+  "replace-field": {
+    "name":"journal",
+    "type":"text_general"
+  },
+  "replace-field": {
+    "name":"journals",
+    "type":"text_general"
+  },
+  "replace-field": {
+    "name":"kicker",
+    "type":"string"
+  },
+  "replace-field": {
+    "name":"month",
+    "type":"text_general"
+  },
+  "replace-field": {
+    "name":"note",
+    "type":"text_general"
+  },
+  "replace-field": {
+    "name":"notnumber",
+    "type":"plongs"
+  },
+  "replace-field": {
+    "name":"number",
+    "type":"plongs"
+  },
+  "replace-field": {
+    "name":"page_first",
+    "type":"text_general"
+  },
+  "replace-field": {
+    "name":"page_last",
+    "type":"text_general"
+  },
+  "replace-field": {
+    "name":"pages",
+    "type":"string",
+    "stored":true,
+    "docValues":false
+  },
+  "replace-field": {
+    "name":"paper_id",
+    "type":"plongs"
+  },
+  "replace-field": {
+    "name":"parent_volume_id",
+    "type":"text_general"
+  },
+  "replace-field": {
+    "name":"pdf",
+    "type":"text_general"
+  },
+  "replace-field": {
+    "name":"published_date",
+    "type":"plong"
+  },
+  "replace-field": {
+    "name":"publisher",
+    "type":"text_general"
+  },
+  "replace-field": {
+    "name":"raw",
+    "type":"text_general",
+    "multiValued":false,
+    "indexed":false,
+    "stored":true
+  },
+  "replace-field": {
+    "name":"relations",
+    "type":"text_general"
+  },
+  "replace-field": {
+    "name":"shortbooktitle",
+    "type":"text_general"
+  },
+  "replace-field": {
+    "name":"sigs",
+    "type":"string",
+    "multiValued":true,
+    "stored":true
+  },
+  "replace-field": {
+    "name":"subjects",
+    "type":"text_general"
+  },
+  "replace-field": {
+    "name":"thumbnail",
+    "type":"text_general"
+  },
+  "replace-field": {
+    "name":"title",
+    "type":"text_en"
+  },
+  "replace-field": {
+    "name":"title_html",
+    "type":"text_general"
+  },
+  "replace-field": {
+    "name":"topics",
+    "type":"text_general"
+  },
+  "replace-field": {
+    "name":"type",
+    "type":"text_general"
+  },
+  "replace-field": {
+    "name":"url",
+    "type":"text_general"
+  },
+  "replace-field": {
+    "name":"venues",
+    "type":"string",
+    "multiValued":true,
+    "stored":true
+  },
+  "replace-field": {
+    "name":"volume",
+    "type":"plongs"
+  },
+  "replace-field": {
+    "name":"year",
+    "type":"text_general"
+  }
+}
+

@@ -35,7 +35,12 @@ Solr should now be available at [http://localhost:8983/](http://localhost:8983/)
 
 The Solr index schema can also be modified using the [Schema API](https://lucene.apache.org/solr/guide/8_3/schema-api.html). This is useful for specifying field types and other properties including multiValued fields.
 
-Scripts for setting up specific Solr index schemas can be found in the [src/main/resources/solr/setup/](../src/main/resources/solr/setup/) folder.
+While anserini provides some default config, schema updates for setting up individual Solr collections can be found in the [src/main/resources/solr/schemas/](../src/main/resources/solr/schemas/) folder. In addition, there is convenience scripts in [src/main/resources/solr/setup/](../src/main/resources/solr/setup/] to run them. Example usage for a Solr collection that is in CORE format:
+
+```bash
+sh src/main/resources/solr/setup/core-collection.sh [CORE_COLLECTION_NAME]
+```
+
 
 ## Indexing into SolrCloud from Anserini
 

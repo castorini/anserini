@@ -52,6 +52,8 @@ Modify the `acl` Solr schema to allow multiValued fields for facets and set expl
 sh src/main/resources/solr/setup/acl-anthology.sh
 ```
 
+curl -X POST -H 'Content-type:application/json' --data-binary @src/main/resources/solr/schemas/acl-anthology.json http://localhost:8983/solr/acl/schema
+
 Run the Solr indexing command for `acl`:
 
 ```
