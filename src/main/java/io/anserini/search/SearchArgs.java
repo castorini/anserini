@@ -54,9 +54,8 @@ public class SearchArgs {
       "index created by IndexCollection -collection TweetCollection")
   public Boolean searchtweets = false;
   
-  @Option(name = "-searchnewsbackground", usage = "Whether the search for News Track Background Linking Task " +
-      "index created by IndexCollection -collection WashingtonPostCollection")
-  public Boolean searchnewsbackground = false;
+  @Option(name = "-backgroundlinking", usage = "performs the background linking task as part of the TREC News Track")
+  public Boolean backgroundlinking = false;
   
   @Option(name = "-backgroundlinking.paragraph", usage = "construct one query string from each paragraph of the query document. " +
       "The results will be a round-robin combination of the results from running these paragraph queries")

@@ -29,7 +29,6 @@ import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -96,9 +95,7 @@ public class SearchMsmarco {
     }
 
     Map<String, Float> fields = new HashMap<>();
-    retrieveArgs.fields.forEach((key, value) -> {
-      fields.put(key, Float.valueOf(value));
-    });
+    retrieveArgs.fields.forEach((key, value) -> fields.put(key, Float.valueOf(value)));
 
     long totalStartTime = System.nanoTime();
 

@@ -17,10 +17,11 @@
 package io.anserini.search;
 
 import io.anserini.analysis.AnalyzerUtils;
-import io.anserini.analysis.EnglishStemmingAnalyzer;
+import io.anserini.analysis.DefaultEnglishAnalyzer;
 import io.anserini.analysis.TweetAnalyzer;
+import io.anserini.index.IndexArgs;
 import io.anserini.index.generator.TweetGenerator;
-import io.anserini.index.generator.WapoGenerator;
+import io.anserini.index.generator.WashingtonPostGenerator;
 import io.anserini.rerank.RerankerCascade;
 import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.ScoredDocuments;
@@ -33,7 +34,7 @@ import io.anserini.search.query.BagOfWordsQueryGenerator;
 import io.anserini.search.query.SdmQueryGenerator;
 import io.anserini.search.similarity.AccurateBM25Similarity;
 import io.anserini.search.similarity.TaggedSimilarity;
-import io.anserini.search.topicreader.NewsBackgroundLinkingTopicReader;
+import io.anserini.search.topicreader.BackgroundLinkingTopicReader;
 import io.anserini.search.topicreader.TopicReader;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.apache.logging.log4j.LogManager;
@@ -103,9 +104,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_BODY;
-import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_ID;
-
 /*
 * Entry point of the Retrieval.
 * More advanced usage: one can provide multiple parameters to ranking models so that
@@ -119,10 +117,10 @@ import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_ID;
  */
 public final class SearchCollection implements Closeable {
   public static final Sort BREAK_SCORE_TIES_BY_DOCID =
-      new Sort(SortField.FIELD_SCORE, new SortField(FIELD_ID, SortField.Type.STRING_VAL));
+      new Sort(SortField.FIELD_SCORE, new SortField(IndexArgs.ID, SortField.Type.STRING_VAL));
   public static final Sort BREAK_SCORE_TIES_BY_TWEETID =
       new Sort(SortField.FIELD_SCORE,
-          new SortField(TweetGenerator.StatusField.ID_LONG.name, SortField.Type.LONG, true));
+          new SortField(TweetGenerator.TweetField.ID_LONG.name, SortField.Type.LONG, true));
 
   private static final Logger LOG = LogManager.getLogger(SearchCollection.class);
 
@@ -181,7 +179,7 @@ public final class SearchCollection implements Closeable {
           ScoredDocuments docs;
           if (args.searchtweets) {
             docs = searchTweets(this.searcher, qid, queryString, Long.parseLong(entry.getValue().get("time")), cascade);
-          } else if (args.searchnewsbackground) {
+          } else if (args.backgroundlinking) {
             docs = searchBackgroundLinking(this.searcher, qid, queryString, cascade);
           } else{
             docs = search(this.searcher, qid, queryString, cascade);
@@ -197,7 +195,7 @@ public final class SearchCollection implements Closeable {
            */
           for (int i = 0; i < docs.documents.length; i++) {
             out.println(String.format(Locale.US, "%s Q0 %s %d %f %s", qid,
-                docs.documents[i].getField(FIELD_ID).stringValue(), (i + 1), docs.scores[i], runTag));
+                docs.documents[i].getField(IndexArgs.ID).stringValue(), (i + 1), docs.scores[i], runTag));
           }
           cnt++;
           if (cnt % 100 == 0) {
@@ -261,7 +259,8 @@ public final class SearchCollection implements Closeable {
     } else {
       // Default to English
       analyzer = args.keepstop ?
-          new EnglishStemmingAnalyzer(args.stemmer, CharArraySet.EMPTY_SET) : new EnglishStemmingAnalyzer(args.stemmer);
+          DefaultEnglishAnalyzer.newStemmingInstance(args.stemmer, CharArraySet.EMPTY_SET) :
+          DefaultEnglishAnalyzer.newStemmingInstance(args.stemmer);
       LOG.info("Language: en");
       LOG.info("Stemmer: " + args.stemmer);
       LOG.info("Keep stopwords? " + args.keepstop);
@@ -336,7 +335,7 @@ public final class SearchCollection implements Closeable {
         for (String fbDocs : args.rm3_fbDocs) {
           for (String originalQueryWeight : args.rm3_originalQueryWeight) {
             RerankerCascade cascade = new RerankerCascade();
-            cascade.add(new Rm3Reranker(analyzer, FIELD_BODY, Integer.valueOf(fbTerms),
+            cascade.add(new Rm3Reranker(analyzer, IndexArgs.CONTENTS, Integer.valueOf(fbTerms),
                 Integer.valueOf(fbDocs), Float.valueOf(originalQueryWeight), args.rm3_outputQuery));
             cascade.add(new ScoreTiesAdjusterReranker());
             String tag = "rm3.fbTerms:"+fbTerms+",rm3.fbDocs:"+fbDocs+",rm3.originalQueryWeight:"+originalQueryWeight;
@@ -351,7 +350,7 @@ public final class SearchCollection implements Closeable {
             for (String top : args.axiom_top) {
               for (String seed : args.axiom_seed) {
                 RerankerCascade cascade = new RerankerCascade();
-                cascade.add(new AxiomReranker(args.index, args.axiom_index, FIELD_BODY,
+                cascade.add(new AxiomReranker(args.index, args.axiom_index, IndexArgs.CONTENTS,
                     args.axiom_deterministic, Integer.valueOf(seed), Integer.valueOf(r),
                     Integer.valueOf(n), Float.valueOf(beta), Integer.valueOf(top),
                     args.axiom_docids, args.axiom_outputQuery, args.searchtweets));
@@ -370,7 +369,7 @@ public final class SearchCollection implements Closeable {
                     for (String b : args.bm25prf_b) {
                         for (String newTermWeight : args.bm25prf_newTermWeight) {
                             RerankerCascade cascade = new RerankerCascade();
-                            cascade.add(new BM25PrfReranker(analyzer, FIELD_BODY, Integer.valueOf(fbTerms),
+                            cascade.add(new BM25PrfReranker(analyzer, IndexArgs.CONTENTS, Integer.valueOf(fbTerms),
                                     Integer.valueOf(fbDocs), Float.valueOf(k1), Float.valueOf(b), Float.valueOf(newTermWeight),
                                     args.bm25prf_outputQuery));
                             cascade.add(new ScoreTiesAdjusterReranker());
@@ -446,9 +445,9 @@ public final class SearchCollection implements Closeable {
       throws IOException {
     Query query = null;
     if (qc == QueryConstructor.SequentialDependenceModel) {
-      query = new SdmQueryGenerator(args.sdm_tw, args.sdm_ow, args.sdm_uw).buildQuery(FIELD_BODY, analyzer, queryString);
+      query = new SdmQueryGenerator(args.sdm_tw, args.sdm_ow, args.sdm_uw).buildQuery(IndexArgs.CONTENTS, analyzer, queryString);
     } else {
-      query = new BagOfWordsQueryGenerator().buildQuery(FIELD_BODY, analyzer, queryString);
+      query = new BagOfWordsQueryGenerator().buildQuery(IndexArgs.CONTENTS, analyzer, queryString);
     }
 
     TopDocs rs = new TopDocs(new TotalHits(0, TotalHits.Relation.EQUAL_TO), new ScoreDoc[]{});
@@ -460,7 +459,7 @@ public final class SearchCollection implements Closeable {
       }
     }
 
-    List<String> queryTokens = AnalyzerUtils.tokenize(analyzer, queryString);
+    List<String> queryTokens = AnalyzerUtils.analyze(analyzer, queryString);
     RerankerContext context = new RerankerContext<>(searcher, qid, query, null, queryString, queryTokens, null, args);
 
     return cascade.run(ScoredDocuments.fromTopDocs(rs, searcher), context);
@@ -474,23 +473,22 @@ public final class SearchCollection implements Closeable {
       args.backgroundlinking_weighted = false;
     }
     queryDocID = queryString;
-    List<String> queryList = NewsBackgroundLinkingTopicReader.generateQueryString(reader, queryDocID,
+    List<String> queryList = BackgroundLinkingTopicReader.generateQueryString(reader, queryDocID,
         args.backgroundlinking_paragraph, args.backgroundlinking_k, args.backgroundlinking_weighted, qc, analyzer);
     List<ScoredDocuments> allRes = new ArrayList<>();
     for (String queryStr : queryList) {
       Query q = null;
       if (qc == QueryConstructor.SequentialDependenceModel) {
-        q = new SdmQueryGenerator(args.sdm_tw, args.sdm_ow, args.sdm_uw).buildQuery(FIELD_BODY, analyzer, queryStr);
+        q = new SdmQueryGenerator(args.sdm_tw, args.sdm_ow, args.sdm_uw).buildQuery(IndexArgs.CONTENTS, analyzer, queryStr);
       } else {
         // DO NOT use BagOfWordsQueryGenerator here!!!!
         // Because the actual query strings are extracted from tokenized document!!!
-        q = new StandardQueryParser().parse(queryStr, FIELD_BODY);
+        q = new StandardQueryParser().parse(queryStr, IndexArgs.CONTENTS);
       }
-      Query filter = new TermInSetQuery(WapoGenerator.WapoField.KICKER.name, new BytesRef("Opinions"), new BytesRef("Letters to the Editor"), new BytesRef("The Post's View")
-//          new Term(WapoGenerator.WapoField.KICKER.name, "Opinions"),
-//          new Term(WapoGenerator.WapoField.KICKER.name, "Letters to the Editor"),
-//          new Term(WapoGenerator.WapoField.KICKER.name, "The Post's View")
-      );
+
+      Query filter = new TermInSetQuery(WashingtonPostGenerator.WashingtonPostField.KICKER.name,
+          new BytesRef("Opinions"), new BytesRef("Letters to the Editor"), new BytesRef("The Post's View"));
+
       BooleanQuery.Builder builder = new BooleanQuery.Builder();
       builder.add(filter, BooleanClause.Occur.MUST_NOT);
       builder.add(q, BooleanClause.Occur.MUST);
@@ -548,16 +546,16 @@ public final class SearchCollection implements Closeable {
   public<K> ScoredDocuments searchTweets(IndexSearcher searcher, K qid, String queryString, long t, RerankerCascade cascade) throws IOException {
     Query keywordQuery;
     if (qc == QueryConstructor.SequentialDependenceModel) {
-      keywordQuery = new SdmQueryGenerator(args.sdm_tw, args.sdm_ow, args.sdm_uw).buildQuery(FIELD_BODY, analyzer, queryString);
+      keywordQuery = new SdmQueryGenerator(args.sdm_tw, args.sdm_ow, args.sdm_uw).buildQuery(IndexArgs.CONTENTS, analyzer, queryString);
     } else {
-      keywordQuery = new BagOfWordsQueryGenerator().buildQuery(FIELD_BODY, analyzer, queryString);
+      keywordQuery = new BagOfWordsQueryGenerator().buildQuery(IndexArgs.CONTENTS, analyzer, queryString);
     }
-    List<String> queryTokens = AnalyzerUtils.tokenize(analyzer, queryString);
+    List<String> queryTokens = AnalyzerUtils.analyze(analyzer, queryString);
 
     // Do not consider the tweets with tweet ids that are beyond the queryTweetTime
     // <querytweettime> tag contains the timestamp of the query in terms of the
     // chronologically nearest tweet id within the corpus
-    Query filter = LongPoint.newRangeQuery(TweetGenerator.StatusField.ID_LONG.name, 0L, t);
+    Query filter = LongPoint.newRangeQuery(TweetGenerator.TweetField.ID_LONG.name, 0L, t);
     BooleanQuery.Builder builder = new BooleanQuery.Builder();
     builder.add(filter, BooleanClause.Occur.FILTER);
     builder.add(keywordQuery, BooleanClause.Occur.MUST);

@@ -17,8 +17,8 @@
 package io.anserini.ltr;
 
 import io.anserini.analysis.TweetAnalyzer;
-import io.anserini.index.generator.TweetGenerator;
-import io.anserini.index.generator.TweetGenerator.StatusField;
+import io.anserini.index.IndexArgs;
+import io.anserini.index.generator.TweetGenerator.TweetField;
 import io.anserini.ltr.feature.FeatureExtractors;
 import io.anserini.ltr.feature.OrderedSequentialPairsFeatureExtractor;
 import io.anserini.ltr.feature.UnigramFeatureExtractor;
@@ -116,12 +116,12 @@ public class TwitterFeatureExtractor extends BaseFeatureExtractor<Integer> {
 
   @Override
   protected String getIdField() {
-    return TweetGenerator.FIELD_ID;
+    return IndexArgs.ID;
   }
 
   @Override
   protected String getTermVectorField() {
-    return TweetGenerator.FIELD_BODY;
+    return IndexArgs.CONTENTS;
   }
 
   public static FeatureExtractors getDefaultExtractors() {
@@ -138,16 +138,16 @@ public class TwitterFeatureExtractor extends BaseFeatureExtractor<Integer> {
     return new HashSet<>(Arrays.asList(
         getIdField(),
         getTermVectorField(),
-        StatusField.FOLLOWERS_COUNT.name,
-        StatusField.FRIENDS_COUNT.name,
-        StatusField.IN_REPLY_TO_STATUS_ID.name)
+        TweetField.FOLLOWERS_COUNT.name,
+        TweetField.FRIENDS_COUNT.name,
+        TweetField.IN_REPLY_TO_STATUS_ID.name)
     );
   }
 
   @Override
   protected Query parseQuery(String queryText) {
     LOG.debug(String.format("Parsing query: %s", queryText) );
-    return new BagOfWordsQueryGenerator().buildQuery(TweetGenerator.FIELD_BODY, new TweetAnalyzer(), queryText);
+    return new BagOfWordsQueryGenerator().buildQuery(IndexArgs.CONTENTS, new TweetAnalyzer(), queryText);
   }
 
   @Override

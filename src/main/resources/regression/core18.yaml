@@ -6,8 +6,8 @@ search_command: target/appassembler/bin/SearchCollection
 topic_root: src/main/resources/topics-and-qrels/
 qrels_root: src/main/resources/topics-and-qrels/
 ranking_root:
-generator: WapoGenerator
-threads: 16
+generator: WashingtonPostGenerator
+threads: 1
 index_options:
   - -storePositions
   - -storeDocvectors

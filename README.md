@@ -49,11 +49,11 @@ Before using `ndeval`, compile it as follows:
 cd ndeval && make
 ```
 
-## Running Standard IR Experiments
+## Anserini Regression Experiments
 
-Anserini is designed to support experiments on various standard TREC collections out of the box.
-Each collection is associated with [regression tests](docs/regressions.md) for replicability.
-Note that these regressions capture the "out of the box" experience, based on [_default_ parameter settings](https://github.com/castorini/Anserini/blob/master/src/main/java/io/anserini/search/SearchArgs.java).
+Anserini is designed to support experiments on various standard IR test collections out of the box.
+The following experiments are backed by [rigorous end-to-end regression tests](docs/regressions.md) with [`run_regression.py`](src/main/python/run_regression.py) and [the Anserini replicability promise](docs/regressions.md).
+For the most part, these runs are based on [_default_ parameter settings](https://github.com/castorini/Anserini/blob/master/src/main/java/io/anserini/search/SearchArgs.java).
 
 + [Regressions for Disks 1 &amp; 2](docs/regressions-disk12.md)
 + [Regressions for Disks 4 &amp; 5 (Robust04)](docs/regressions-robust04.md)
@@ -76,6 +76,8 @@ Note that these regressions capture the "out of the box" experience, based on [_
 + [Regressions for the MS MARCO Document Retrieval](docs/regressions-msmarco-doc.md)
 + [Regressions for the TREC 2019 Deep Learning Track (Passage Ranking Task)](docs/regressions-dl19-passage.md)
 + [Regressions for the TREC 2019 Deep Learning Track (Document Ranking Task)](docs/regressions-dl19-doc.md)
++ [Regressions for the TREC 2018 News Track (Background Linking Task)](docs/regressions-backgroundlinking18.md)
++ [Regressions for the TREC 2019 News Track (Background Linking Task)](docs/regressions-backgroundlinking19.md)
 + [Regressions for NTCIR-8 ACLIA (IR4QA subtask, Monolingual Chinese)](docs/regressions-ntcir8-zh.md)
 + [Regressions for CLEF 2006 Monolingual French](docs/regressions-clef06-fr.md)
 + [Regressions for TREC 2002 Monolingual Arabic](docs/regressions-trec02-ar.md)
@@ -83,9 +85,10 @@ Note that these regressions capture the "out of the box" experience, based on [_
 + [Regressions for FIRE 2012 Monolingual Hindi](docs/regressions-fire12-hi.md)
 + [Regressions for FIRE 2012 Monolingual English](docs/regressions-fire12-en.md)
 
-Note that [regression tests](docs/regressions.md) (i.e., all links above) specifically refer to experiments that work automatically with our [`run_regression.py`](src/main/python/run_regression.py) script.
-This script executes experiments end to end and verifies effectiveness numbers without requiring any human intervention.
-We provide additional documentation below; the experiments they describe, however, require manual copying and pasting of commands into a shell to replicate our results:
+## Additional Documentation
+
+The experiments described below are not associated with rigorous end-to-end regression testing and thus provide a lower standard of replicability.
+For the most part, manual copying and pasting of commands into a shell is required to replicate our results:
 
 + [Replicating "Neural Hype" Experiments](docs/experiments-forum2018.md)
 + [Guide to running BM25 baselines on the MS MARCO Passage Retrieval Task](docs/experiments-msmarco-passage.md)

@@ -18,9 +18,9 @@ package io.anserini.search;
 
 import io.anserini.analysis.AnalyzerUtils;
 import io.anserini.analysis.TweetAnalyzer;
+import io.anserini.index.IndexArgs;
 import io.anserini.index.IndexCollection;
 import io.anserini.index.IndexReaderUtils;
-import io.anserini.index.generator.LuceneDocumentGenerator;
 import io.anserini.index.generator.TweetGenerator;
 import io.anserini.rerank.RerankerCascade;
 import io.anserini.rerank.RerankerContext;
@@ -62,7 +62,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -79,10 +78,10 @@ import java.util.concurrent.atomic.AtomicLong;
  */
 public class SimpleSearcher implements Closeable {
   public static final Sort BREAK_SCORE_TIES_BY_DOCID =
-      new Sort(SortField.FIELD_SCORE, new SortField(LuceneDocumentGenerator.FIELD_ID, SortField.Type.STRING_VAL));
+      new Sort(SortField.FIELD_SCORE, new SortField(IndexArgs.ID, SortField.Type.STRING_VAL));
   public static final Sort BREAK_SCORE_TIES_BY_TWEETID =
       new Sort(SortField.FIELD_SCORE,
-          new SortField(TweetGenerator.StatusField.ID_LONG.name, SortField.Type.LONG, true));
+          new SortField(TweetGenerator.TweetField.ID_LONG.name, SortField.Type.LONG, true));
   private static final Logger LOG = LogManager.getLogger(SimpleSearcher.class);
 
   private final IndexReader reader;
@@ -109,6 +108,10 @@ public class SimpleSearcher implements Closeable {
   }
 
   public SimpleSearcher(String indexDir) throws IOException {
+    this(indexDir, IndexCollection.DEFAULT_ANALYZER);
+  }
+
+  public SimpleSearcher(String indexDir, Analyzer analyzer) throws IOException {
     Path indexPath = Paths.get(indexDir);
 
     if (!Files.exists(indexPath) || !Files.isDirectory(indexPath) || !Files.isReadable(indexPath)) {
@@ -117,7 +120,7 @@ public class SimpleSearcher implements Closeable {
 
     this.reader = DirectoryReader.open(FSDirectory.open(indexPath));
     this.similarity = new BM25Similarity(0.9f, 0.4f);
-    this.analyzer = IndexCollection.DEFAULT_ANALYZER;
+    this.analyzer = analyzer;
     this.searchtweets = false;
     this.isRerank = false;
     cascade = new RerankerCascade();
@@ -127,6 +130,14 @@ public class SimpleSearcher implements Closeable {
   public void setSearchTweets(boolean flag) {
      this.searchtweets = flag;
      this.analyzer = flag? new TweetAnalyzer(true) : new EnglishAnalyzer();
+  }
+
+  public void setAnalyzer(Analyzer analyzer) {
+    this.analyzer = analyzer;
+  }
+
+  public Analyzer getAnalyzer(){
+    return this.analyzer;
   }
 
   public void setLanguage(String language) {
@@ -164,7 +175,7 @@ public class SimpleSearcher implements Closeable {
   public void setRM3Reranker(int fbTerms, int fbDocs, float originalQueryWeight, boolean rm3_outputQuery) {
     isRerank = true;
     cascade = new RerankerCascade();
-    cascade.add(new Rm3Reranker(this.analyzer, LuceneDocumentGenerator.FIELD_BODY, fbTerms, fbDocs, originalQueryWeight, rm3_outputQuery));
+    cascade.add(new Rm3Reranker(this.analyzer, IndexArgs.CONTENTS, fbTerms, fbDocs, originalQueryWeight, rm3_outputQuery));
     cascade.add(new ScoreTiesAdjusterReranker());
   }
 
@@ -190,14 +201,18 @@ public class SimpleSearcher implements Closeable {
   }
 
   public Map<String, Result[]> batchSearch(List<String> queries, List<String> qids, int k, int threads) {
-    return batchSearch(queries, qids, k, -1, threads, new HashMap<>());
+    return batchSearchFields(queries, qids, k, -1, threads, new HashMap<>());
+  }
+
+  public Map<String, Result[]> batchSearch(List<String> queries, List<String> qids, int k, long t, int threads) {
+    return batchSearchFields(queries, qids, k, t, threads, new HashMap<>());
   }
 
   public Map<String, Result[]> batchSearchFields(List<String> queries, List<String> qids, int k, int threads, Map<String, Float> fields) {
-    return batchSearch(queries, qids, k, -1, threads, fields);
+    return batchSearchFields(queries, qids, k, -1, threads, fields);
   }
 
-  public Map<String, Result[]> batchSearch(List<String> queries, List<String> qids, int k, long t, int threads, Map<String, Float> fields) {
+  public Map<String, Result[]> batchSearchFields(List<String> queries, List<String> qids, int k, long t, int threads, Map<String, Float> fields) {
     ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(threads);
     ConcurrentHashMap<String, Result[]> results = new ConcurrentHashMap<>();
 
@@ -258,8 +273,8 @@ public class SimpleSearcher implements Closeable {
   }
 
   public Result[] search(String q, int k, long t) throws IOException {
-    Query query = new BagOfWordsQueryGenerator().buildQuery(LuceneDocumentGenerator.FIELD_BODY, analyzer, q);
-    List<String> queryTokens = AnalyzerUtils.tokenize(analyzer, q);
+    Query query = new BagOfWordsQueryGenerator().buildQuery(IndexArgs.CONTENTS, analyzer, q);
+    List<String> queryTokens = AnalyzerUtils.analyze(analyzer, q);
 
     return search(query, queryTokens, q, k, t);
   }
@@ -283,7 +298,7 @@ public class SimpleSearcher implements Closeable {
         // Do not consider the tweets with tweet ids that are beyond the queryTweetTime
         // <querytweettime> tag contains the timestamp of the query in terms of the
         // chronologically nearest tweet id within the corpus
-        Query filter = LongPoint.newRangeQuery(TweetGenerator.StatusField.ID_LONG.name, 0L, t);
+        Query filter = LongPoint.newRangeQuery(TweetGenerator.TweetField.ID_LONG.name, 0L, t);
         BooleanQuery.Builder builder = new BooleanQuery.Builder();
         builder.add(filter, BooleanClause.Occur.FILTER);
         builder.add(query, BooleanClause.Occur.MUST);
@@ -304,8 +319,8 @@ public class SimpleSearcher implements Closeable {
     Result[] results = new Result[hits.ids.length];
     for (int i = 0; i < hits.ids.length; i++) {
       Document doc = hits.documents[i];
-      String docid = doc.getField(LuceneDocumentGenerator.FIELD_ID).stringValue();
-      IndexableField field = doc.getField(LuceneDocumentGenerator.FIELD_RAW);
+      String docid = doc.getField(IndexArgs.ID).stringValue();
+      IndexableField field = doc.getField(IndexArgs.RAW);
       String content = field == null ? null : field.stringValue();
 
       results[i] = new Result(docid, hits.ids[i], hits.scores[i], content);
@@ -324,7 +339,7 @@ public class SimpleSearcher implements Closeable {
     IndexSearcher searcher = new IndexSearcher(reader);
     searcher.setSimilarity(similarity);
 
-    Query queryContents = new BagOfWordsQueryGenerator().buildQuery(LuceneDocumentGenerator.FIELD_BODY, analyzer, q);
+    Query queryContents = new BagOfWordsQueryGenerator().buildQuery(IndexArgs.CONTENTS, analyzer, q);
     BooleanQuery.Builder queryBuilder = new BooleanQuery.Builder()
         .add(queryContents, BooleanClause.Occur.SHOULD);
 
@@ -334,7 +349,7 @@ public class SimpleSearcher implements Closeable {
     }
 
     BooleanQuery query = queryBuilder.build();
-    List<String> queryTokens = AnalyzerUtils.tokenize(analyzer, q);
+    List<String> queryTokens = AnalyzerUtils.analyze(analyzer, q);
 
     return search(query, queryTokens, q, k, -1);
   }
@@ -383,7 +398,7 @@ public class SimpleSearcher implements Closeable {
       return null;
     }
 
-    IndexableField field = doc.getField(LuceneDocumentGenerator.FIELD_RAW);
+    IndexableField field = doc.getField(IndexArgs.RAW);
     return field == null ? null : field.stringValue();
   }
 
@@ -398,7 +413,7 @@ public class SimpleSearcher implements Closeable {
       return null;
     }
 
-    IndexableField field = doc.getField(LuceneDocumentGenerator.FIELD_RAW);
+    IndexableField field = doc.getField(IndexArgs.RAW);
     return field == null ? null : field.stringValue();
   }
 

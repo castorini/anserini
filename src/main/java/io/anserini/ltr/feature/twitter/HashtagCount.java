@@ -16,7 +16,7 @@
 
 package io.anserini.ltr.feature.twitter;
 
-import io.anserini.index.generator.TweetGenerator;
+import io.anserini.index.IndexArgs;
 import io.anserini.ltr.feature.FeatureExtractor;
 import io.anserini.rerank.RerankerContext;
 import org.apache.lucene.document.Document;
@@ -26,7 +26,7 @@ public class HashtagCount implements FeatureExtractor {
 
   @Override
   public float extract(Document doc, Terms terms, RerankerContext context) {
-    String str = doc.getField(TweetGenerator.FIELD_BODY).stringValue();
+    String str = doc.getField(IndexArgs.CONTENTS).stringValue();
     final String matchStr = "#";
 
     int lastIndex = 0;
