@@ -2,15 +2,17 @@
 
 **Release date: March 11, 2020**
 
-+ Added support for CORE collections, bibtex collections, and the ACL Anthology.
-+ Added regressions for the background linking task in TREC 2018 and 2019.
++ Added collection and Lucene generator support for CORE collections, bibtex collections, and the ACL Anthology.
++ Added basic Solrini support for CORE collections, bibtex collections, and the ACL Anthology.
++ Added regressions for the background linking task in the News Tracks from TREC 2018 and 2019.
 + Added regressions for the TREC 2019 Deep Learning Track.
 + Augmented methods in `SimpleSearcher` and `IndexReaderUtils` with support for a custom `Analyzer`.
++ Exposed additional hooks in `SimpleSearcher` and `IndexReaderUtils` for Pyserini.
 + Refactored initialization methods in the renamed `DefaultEnglishAnalyzer`.
 + Clarified documentation about what "regression tests" mean and introduced the Anserini replicability promise.
 + Gathered all Lucene field names from different locations into `IndexArgs`.
-+ Improved structure of unit test cases for collection classes.
-+ Improved support for Solrini and Elasterini: both support `robust04`, `core18`, and `msmarco-passage` now.
++ Improved the structure of unit test cases for collection classes.
++ Improved support for Solrini and Elasterini: both now support `robust04`, `core18`, and `msmarco-passage`.
 
 ## Contributors (This Release)
 
