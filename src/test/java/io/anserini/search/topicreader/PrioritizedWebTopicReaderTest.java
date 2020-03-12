@@ -10,11 +10,11 @@ import java.util.SortedMap;
 
 import org.junit.Test;
 
-public class PrioritisedWebTopicReaderTest {
+public class PrioritizedWebTopicReaderTest {
   @Test
   public void testMillionQueryTopics3() throws IOException {
     Path resource = Paths.get("src/main/resources/topics-and-qrels/topics.mq.20001-60000.txt");
-    TopicReader<Integer> reader = new PrioritisedWebTopicReader(resource);
+    TopicReader<Integer> reader = new PrioritizedWebTopicReader(resource);
     
     SortedMap<Integer, Map<String, String>> topics = reader.read();
     

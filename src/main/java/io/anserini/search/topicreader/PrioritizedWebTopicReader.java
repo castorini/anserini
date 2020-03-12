@@ -10,9 +10,9 @@ import java.util.TreeMap;
 
 import org.apache.commons.lang3.StringUtils;
 
-public class PrioritisedWebTopicReader extends TopicReader<Integer> {
+public class PrioritizedWebTopicReader extends TopicReader<Integer> {
 
-  public PrioritisedWebTopicReader(Path topicFile) {
+  public PrioritizedWebTopicReader(Path topicFile) {
     super(topicFile);
   }
   
