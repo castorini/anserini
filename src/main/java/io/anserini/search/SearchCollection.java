@@ -17,7 +17,7 @@
 package io.anserini.search;
 
 import io.anserini.analysis.AnalyzerUtils;
-import io.anserini.analysis.EnglishStemmingAnalyzer;
+import io.anserini.analysis.DefaultEnglishAnalyzer;
 import io.anserini.analysis.TweetAnalyzer;
 import io.anserini.index.IndexArgs;
 import io.anserini.index.generator.TweetGenerator;
@@ -246,7 +246,8 @@ public final class SearchCollection implements Closeable {
     } else {
       // Default to English
       analyzer = args.keepstop ?
-          new EnglishStemmingAnalyzer(args.stemmer, CharArraySet.EMPTY_SET) : new EnglishStemmingAnalyzer(args.stemmer);
+          DefaultEnglishAnalyzer.newStemmingInstance(args.stemmer, CharArraySet.EMPTY_SET) :
+          DefaultEnglishAnalyzer.newStemmingInstance(args.stemmer);
       LOG.info("Language: en");
       LOG.info("Stemmer: " + args.stemmer);
       LOG.info("Keep stopwords? " + args.keepstop);

@@ -1,0 +1,3 @@
+{"id_str":"123456789","text":"this is the tweet contents.","user":{"screen_name":"foo","name":"foo","profile_image_url":"foo","followers_count":1,"friends_count":1,"statuses_count":1},"created_at":"Fri Feb 01 10:56:07 +0000 2018"}
+{"delete":{"status":{"id":123456788,"user_id":123456788,"id_str":"123456788","user_id_str":"123456788"}}}
+{"created_at":"Thu Feb 28 08:00:00 +0000 2013","id":123456787,"id_str":"123456787","text":"this is the tweet contents, iteration should not have stopped.","source":"web","truncated":false,"user":{"id":123456787,"id_str":"123456787","name":"User Name","screen_name":"UserName", "followers_count":0,"friends_count":0,"statuses_count":0,"created_at":"Thu Feb 21 13:59:38 +0000 2013"},"favorited":false,"retweeted":false,"filter_level":"medium"}

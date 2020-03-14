@@ -53,7 +53,7 @@ public class CarCollection extends DocumentCollection<CarCollection.Document> {
     private final FileInputStream stream;
     private final Iterator<Data.Paragraph> iter;
 
-    protected Segment(Path path) throws IOException {
+    public Segment(Path path) throws IOException {
       super(path);
       stream = new FileInputStream(new File(path.toString()));
       iter = DeserializeData.iterableParagraphs(stream).iterator();

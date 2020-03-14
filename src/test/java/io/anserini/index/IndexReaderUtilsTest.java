@@ -18,7 +18,7 @@ package io.anserini.index;
 
 import io.anserini.IndexerTestBase;
 import io.anserini.analysis.AnalyzerUtils;
-import io.anserini.analysis.EnglishStemmingAnalyzer;
+import io.anserini.analysis.DefaultEnglishAnalyzer;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.MultiTerms;
@@ -65,6 +65,35 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
     assertEquals(Long.valueOf(1), termCountMap.get("docFreq"));
 
     termCountMap = IndexReaderUtils.getTermCounts(reader, "text");
+    assertEquals(Long.valueOf(3), termCountMap.get("collectionFreq"));
+    assertEquals(Long.valueOf(2), termCountMap.get("docFreq"));
+  }
+
+  @Test
+  public void testTermCountsWithAnalyzer() throws Exception {
+    Directory dir = FSDirectory.open(tempDir1);
+    IndexReader reader = DirectoryReader.open(dir);
+    DefaultEnglishAnalyzer analyzer = DefaultEnglishAnalyzer.newDefaultInstance();
+
+    Map<String, Long> termCountMap;
+
+    termCountMap = IndexReaderUtils.getTermCountsWithAnalyzer(reader, "here", analyzer);
+    assertEquals(Long.valueOf(3), termCountMap.get("collectionFreq"));
+    assertEquals(Long.valueOf(2), termCountMap.get("docFreq"));
+
+    termCountMap = IndexReaderUtils.getTermCountsWithAnalyzer(reader, "more", analyzer);
+    assertEquals(Long.valueOf(2), termCountMap.get("collectionFreq"));
+    assertEquals(Long.valueOf(2), termCountMap.get("docFreq"));
+
+    termCountMap = IndexReaderUtils.getTermCountsWithAnalyzer(reader, "some", analyzer);
+    assertEquals(Long.valueOf(2), termCountMap.get("collectionFreq"));
+    assertEquals(Long.valueOf(1), termCountMap.get("docFreq"));
+
+    termCountMap = IndexReaderUtils.getTermCountsWithAnalyzer(reader, "test", analyzer);
+    assertEquals(Long.valueOf(1), termCountMap.get("collectionFreq"));
+    assertEquals(Long.valueOf(1), termCountMap.get("docFreq"));
+
+    termCountMap = IndexReaderUtils.getTermCountsWithAnalyzer(reader, "text", analyzer);
     assertEquals(Long.valueOf(3), termCountMap.get("collectionFreq"));
     assertEquals(Long.valueOf(2), termCountMap.get("docFreq"));
   }
@@ -200,7 +229,8 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
     assertArrayEquals(new int[] {9}, postingsList.get(0).getPositions());
 
     // Tell method to analyze *explicitly*, but pass in mismatched analyzer:
-    assertNull(IndexReaderUtils.getPostingsList(reader, "city", new EnglishStemmingAnalyzer("krovetz")));
+    assertNull(IndexReaderUtils.getPostingsList(reader, "city",
+        DefaultEnglishAnalyzer.newStemmingInstance("krovetz")));
 
     // Tell method *not* to analyze:
     postingsList = IndexReaderUtils.getPostingsList(reader, "citi", false);

@@ -201,14 +201,18 @@ public class SimpleSearcher implements Closeable {
   }
 
   public Map<String, Result[]> batchSearch(List<String> queries, List<String> qids, int k, int threads) {
-    return batchSearch(queries, qids, k, -1, threads, new HashMap<>());
+    return batchSearchFields(queries, qids, k, -1, threads, new HashMap<>());
+  }
+
+  public Map<String, Result[]> batchSearch(List<String> queries, List<String> qids, int k, long t, int threads) {
+    return batchSearchFields(queries, qids, k, t, threads, new HashMap<>());
   }
 
   public Map<String, Result[]> batchSearchFields(List<String> queries, List<String> qids, int k, int threads, Map<String, Float> fields) {
-    return batchSearch(queries, qids, k, -1, threads, fields);
+    return batchSearchFields(queries, qids, k, -1, threads, fields);
   }
 
-  public Map<String, Result[]> batchSearch(List<String> queries, List<String> qids, int k, long t, int threads, Map<String, Float> fields) {
+  public Map<String, Result[]> batchSearchFields(List<String> queries, List<String> qids, int k, long t, int threads, Map<String, Float> fields) {
     ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(threads);
     ConcurrentHashMap<String, Result[]> results = new ConcurrentHashMap<>();
 

@@ -22,7 +22,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
 
-public class TrecDocumentTest extends DocumentCollectionTest<TrecCollection.Document> {
+public class TrecCollectionTest extends DocumentCollectionTest<TrecCollection.Document> {
 
   @Before
   public void setUp() throws Exception {

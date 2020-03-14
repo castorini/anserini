@@ -70,7 +70,7 @@ public class AclAnthology extends DocumentCollection<AclAnthology.Document> {
     private Map.Entry<String, JsonNode> nodeEntry = null;
     private Iterator<Map.Entry<String, JsonNode>> iter = null; // iterator for JSON document object
 
-    protected Segment(Path path) throws IOException {
+    public Segment(Path path) throws IOException {
       super(path);
 
       // read YAML file into JsonNode format

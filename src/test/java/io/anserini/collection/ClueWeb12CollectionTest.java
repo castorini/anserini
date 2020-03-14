@@ -22,16 +22,16 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
 
-public class ClueWeb09DocumentTest extends DocumentCollectionTest<ClueWeb09Collection.Document> {
+public class ClueWeb12CollectionTest extends DocumentCollectionTest<ClueWeb12Collection.Document> {
 
   @Before
   public void setUp() throws Exception {
     super.setUp();
 
-    collectionPath = Paths.get("src/test/resources/sample_docs/cw09/collection1");
-    collection = new ClueWeb09Collection(collectionPath);
+    collectionPath = Paths.get("src/test/resources/sample_docs/cw12/collection1");
+    collection = new ClueWeb12Collection(collectionPath);
 
-    Path segment1 = Paths.get("src/test/resources/sample_docs/cw09/collection1/segment1.warc.gz");
+    Path segment1 = Paths.get("src/test/resources/sample_docs/cw12/collection1/segment1.warc.gz");
 
     segmentPaths.add(segment1);
     segmentDocCounts.put(segment1, 2);
@@ -41,7 +41,7 @@ public class ClueWeb09DocumentTest extends DocumentCollectionTest<ClueWeb09Colle
 
     // Note special key "null" to handle special case.
     expected.put("null",
-        Map.of("id", "null", "content",
+        Map.of("id", "null","content",
             "software: Nutch 1.0-dev (modified for clueweb09)\n" +
                 "isPartOf: clueweb09-en\n" +
                 "description: clueweb09 crawl with WARC output\n" +
@@ -50,7 +50,7 @@ public class ClueWeb09DocumentTest extends DocumentCollectionTest<ClueWeb09Colle
 
     expected.put("clueweb09-az0000-00-00000",
         Map.of("id", "clueweb09-az0000-00-00000",
-            "content", "\n<html>\nwhatever here will be included\n</html>"));
+            "content", "<html>\nwhatever here will be included\n</html>"));
   }
 
   @Override

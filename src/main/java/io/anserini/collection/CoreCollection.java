@@ -65,7 +65,7 @@ public class CoreCollection extends DocumentCollection<CoreCollection.Document> 
     private Iterator<JsonNode> iter = null; // iterator for JSON document array
     private MappingIterator<JsonNode> iterator; // iterator for JSON line objects
 
-    protected Segment(Path path) throws IOException {
+    public Segment(Path path) throws IOException {
       super(path);
 
       if (path.endsWith(".xz")) {

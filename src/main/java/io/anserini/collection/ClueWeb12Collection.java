@@ -90,7 +90,7 @@ public class ClueWeb12Collection extends DocumentCollection<ClueWeb12Collection.
   public static class Segment extends FileSegment<ClueWeb12Collection.Document> {
     protected DataInputStream stream;
 
-    protected Segment(Path path) throws IOException {
+    public Segment(Path path) throws IOException {
       super(path);
       this.stream = new DataInputStream(new GZIPInputStream(Files.newInputStream(path, StandardOpenOption.READ)));
     }

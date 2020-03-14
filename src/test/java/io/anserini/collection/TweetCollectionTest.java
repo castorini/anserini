@@ -22,16 +22,16 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
 
-public class TrecwebDocumentTest extends DocumentCollectionTest<TrecwebCollection.Document> {
+public class TweetCollectionTest extends DocumentCollectionTest<TweetCollection.Document> {
 
   @Before
   public void setUp() throws Exception {
     super.setUp();
 
-    collectionPath = Paths.get("src/test/resources/sample_docs/trecweb/collection1");
-    collection = new TrecwebCollection(collectionPath);
+    collectionPath = Paths.get("src/test/resources/sample_docs/tweets/collection2");
+    collection = new TweetCollection(collectionPath);
 
-    Path segment1 = Paths.get("src/test/resources/sample_docs/trecweb/collection1/segment1.txt");
+    Path segment1 = Paths.get("src/test/resources/sample_docs/tweets/collection2/tweets.jsonl");
 
     segmentPaths.add(segment1);
     segmentDocCounts.put(segment1, 2);
@@ -39,15 +39,17 @@ public class TrecwebDocumentTest extends DocumentCollectionTest<TrecwebCollectio
     totalSegments = 1;
     totalDocs = 2;
 
-    // Note, <DOCHDR> Will NOT be included.
-    expected.put("WEB-0001",
-        Map.of("id", "WEB-0001",
-            "content", "<html>Wh at ever here will be parsed\n<br> asdf <div>\n</html>"));
+    expected.put("123456789",
+        Map.of("id", "123456789",
+            "content", "this is the tweet contents.",
+            "screen_name", "foo",
+            "timestamp_ms", "1517482567000"));
 
-    // Note, <DOCHDR> Will NOT be included.
-    expected.put("WEB-0003",
-      Map.of("id", "WEB-0003",
-          "content", "<html>Wh at ever here will be parsed\n<br> asdf <div>\n</html>"));
+    expected.put("123456787",
+        Map.of("id", "123456787",
+            "content", "this is the tweet contents, iteration should not have stopped." ,
+            "screen_name", "UserName",
+            "timestamp_ms", "1362038400000"));
   }
 
   @Override
@@ -55,5 +57,8 @@ public class TrecwebDocumentTest extends DocumentCollectionTest<TrecwebCollectio
     assertTrue(doc.indexable());
     assertEquals(expected.get("id"), doc.id());
     assertEquals(expected.get("content"), doc.content());
+    assertEquals(expected.get("screen_name"), ((TweetCollection.Document) doc).getScreenName());
+    assertEquals((long) Long.valueOf(expected.get("timestamp_ms")),
+        ((TweetCollection.Document) doc).getTimestampMs().getAsLong());
   }
 }
