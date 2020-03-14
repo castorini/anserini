@@ -19,7 +19,7 @@ package io.anserini.integration;
 public class TrecEndToEndWhitelistTest extends EndToEndTest {
 
   @Override
-  protected void init() throws Exception {
+  protected void init() {
     dataDirPath = "trec/collection2";
     collectionClass = "Trec";
     generator = "Jsoup";
@@ -40,9 +40,10 @@ public class TrecEndToEndWhitelistTest extends EndToEndTest {
     termIndexStatusTotPos = 7;
     storedFieldStatusTotFields = 3;
 
-    referenceRunOutput = new String[] {
+    testQueries.put("bm25", createDefaultSearchArgs().bm25());
+    referenceRunOutput.put("bm25", new String[]{
         "1 Q0 DOC222 1 0.372700 Anserini"
-    };
+    });
   }
 
   @Override

@@ -269,4 +269,21 @@ public class SearchArgs {
 
   @Option(name = "-qid_queries", metaVar = "[file]", usage = "query id - query mapping file")
   public String qid_queries = "";
+
+  // These are convenience methods to support a fluent, method-chaining style of progrmaming.
+  public SearchArgs bm25() {
+    this.bm25 = true;
+    return this;
+  }
+
+  public SearchArgs qld() {
+    this.qld = true;
+    return this;
+  }
+
+  public SearchArgs searchTweets() {
+    this.searchtweets = true;
+    return this;
+  }
+
 }

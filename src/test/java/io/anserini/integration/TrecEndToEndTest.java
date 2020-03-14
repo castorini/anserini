@@ -19,7 +19,7 @@ package io.anserini.integration;
 public class TrecEndToEndTest extends EndToEndTest {
 
   @Override
-  protected void init() throws Exception {
+  protected void init() {
     dataDirPath = "trec/collection2";
     collectionClass = "Trec";
     generator = "Jsoup";
@@ -41,9 +41,16 @@ public class TrecEndToEndTest extends EndToEndTest {
     termIndexStatusTotPos = 16 + storedFieldStatusTotalDocCounts;
     storedFieldStatusTotFields = 9;  // 3 docs * (1 id + 1 text + 1 raw)
 
-    referenceRunOutput = new String[] {
-      "1 Q0 DOC222 1 0.343200 Anserini",
-      "1 Q0 TREC_DOC_1 2 0.333400 Anserini",
-      "1 Q0 WSJ_1 3 0.068700 Anserini" };
+    testQueries.put("bm25", createDefaultSearchArgs().bm25());
+    referenceRunOutput.put("bm25", new String[]{
+        "1 Q0 DOC222 1 0.343200 Anserini",
+        "1 Q0 TREC_DOC_1 2 0.333400 Anserini",
+        "1 Q0 WSJ_1 3 0.068700 Anserini"});
+
+    testQueries.put("qld", createDefaultSearchArgs().qld());
+    referenceRunOutput.put("qld", new String[]{
+        "1 Q0 DOC222 1 0.002500 Anserini",
+        "1 Q0 TREC_DOC_1 2 0.001700 Anserini",
+        "1 Q0 WSJ_1 3 0.000000 Anserini"});
   }
 }

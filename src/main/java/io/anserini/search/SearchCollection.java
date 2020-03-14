@@ -370,7 +370,7 @@ public final class SearchCollection implements Closeable {
         }
       }
     } else {
-      RerankerCascade cascade = new RerankerCascade("");
+      RerankerCascade cascade = new RerankerCascade("default");
       cascade.add(new ScoreTiesAdjusterReranker());
       cascades.add(cascade);
     }

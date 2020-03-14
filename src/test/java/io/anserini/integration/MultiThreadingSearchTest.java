@@ -16,14 +16,19 @@
 
 package io.anserini.integration;
 
+import io.anserini.search.SearchArgs;
 import org.junit.After;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MultiThreadingSearchTest extends EndToEndTest {
+
+  private List<File> cleanup = new ArrayList<>();
 
   @Override
   protected void init() {
@@ -48,15 +53,13 @@ public class MultiThreadingSearchTest extends EndToEndTest {
     // 16 positions for text fields, plus 1 for each document because of id
     termIndexStatusTotPos = 16 + storedFieldStatusTotalDocCounts;
     storedFieldStatusTotFields = 9;  // 3 docs * (1 id + 1 text + 1 raw)
-  }
 
-  protected void setSearchArgs() {
-    super.setSearchArgs();
-    searchArgs.bm25 = true;
+    SearchArgs searchArgs = createDefaultSearchArgs().bm25();
     searchArgs.bm25_b = new String[] {"0.2", "0.8"};
+    testQueries.put("bm25", searchArgs);
   }
 
-  protected void checkRankingResults(String output) throws IOException {
+  protected void checkRankingResults(String key, String output) throws IOException {
     String[][] multiReferenceOutput = new String[][] {
       {"1 Q0 DOC222 1 0.346600 Anserini",
        "1 Q0 TREC_DOC_1 2 0.325400 Anserini",
@@ -66,8 +69,9 @@ public class MultiThreadingSearchTest extends EndToEndTest {
        "1 Q0 WSJ_1 3 0.067100 Anserini"}
     };
 
-    for (int i = 0; i < searchArgs.bm25_b.length; i++) {
-      String fname = String.format("%s_bm25:k1=%s,b=%s", output, searchArgs.bm25_k1[0], searchArgs.bm25_b[i]);
+    for (int i = 0; i < testQueries.get(key).bm25_b.length; i++) {
+      String fname = String.format("%s_bm25:k1=%s,b=%s", output, testQueries.get(key).bm25_k1[0],
+          testQueries.get(key).bm25_b[i]);
 
       BufferedReader br = new BufferedReader(new FileReader(fname));
       int cnt = 0;
@@ -76,14 +80,17 @@ public class MultiThreadingSearchTest extends EndToEndTest {
         assertEquals(multiReferenceOutput[i][cnt], s);
         cnt++;
       }
+
+      // Add the file to the cleanup list
+      cleanup.add(new File(fname));
     }
   }
 
   @After
   @Override
   public void tearDown() throws Exception {
-    for (String b : searchArgs.bm25_b) {
-      new File(searchArgs.output+"_k1="+searchArgs.bm25_k1[0]+",b="+b).delete();
+    for (File file : cleanup) {
+      file.delete();
     }
     super.tearDown();
   }
