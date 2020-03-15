@@ -52,5 +52,35 @@ public class TrecEndToEndTest extends EndToEndTest {
         "1 Q0 DOC222 1 0.002500 Anserini",
         "1 Q0 TREC_DOC_1 2 0.001700 Anserini",
         "1 Q0 WSJ_1 3 0.000000 Anserini"});
+
+    testQueries.put("qljm", createDefaultSearchArgs().qljm());
+    referenceRunOutput.put("qljm", new String[]{
+        "1 Q0 DOC222 1 4.872300 Anserini",
+        "1 Q0 TREC_DOC_1 2 4.619100 Anserini",
+        "1 Q0 WSJ_1 3 1.658200 Anserini"});
+
+    testQueries.put("inl2", createDefaultSearchArgs().inl2());
+    referenceRunOutput.put("inl2", new String[]{
+        "1 Q0 TREC_DOC_1 1 0.133200 Anserini",
+        "1 Q0 DOC222 2 0.126100 Anserini",
+        "1 Q0 WSJ_1 3 0.021100 Anserini"});
+
+    testQueries.put("spl", createDefaultSearchArgs().spl());
+    referenceRunOutput.put("spl", new String[]{
+        "1 Q0 DOC222 1 0.446100 Anserini",
+        "1 Q0 TREC_DOC_1 2 0.355000 Anserini",
+        "1 Q0 WSJ_1 3 0.115900 Anserini"});
+
+    testQueries.put("f2exp", createDefaultSearchArgs().f2exp());
+    referenceRunOutput.put("f2exp", new String[]{
+        "1 Q0 DOC222 1 1.434700 Anserini",
+        "1 Q0 TREC_DOC_1 2 1.269600 Anserini",
+        "1 Q0 WSJ_1 3 0.536200 Anserini"});
+
+    testQueries.put("f2log", createDefaultSearchArgs().f2log());
+    referenceRunOutput.put("f2log", new String[]{
+        "1 Q0 DOC222 1 0.548500 Anserini",
+        "1 Q0 TREC_DOC_1 2 0.523100 Anserini",
+        "1 Q0 WSJ_1 3 0.139500 Anserini"});
   }
 }

@@ -207,7 +207,7 @@ public final class SearchCollection implements Closeable {
     Path indexPath = Paths.get(args.index);
 
     if (!Files.exists(indexPath) || !Files.isDirectory(indexPath) || !Files.isReadable(indexPath)) {
-      throw new IllegalArgumentException(args.index + " does not exist or is not a directory.");
+      throw new IllegalArgumentException(String.format("Index path '%s' does not exist or is not a directory.", args.index));
     }
 
     LOG.info("============ Initializing Searcher ============");
@@ -588,7 +588,17 @@ public final class SearchCollection implements Closeable {
     }
 
     final long start = System.nanoTime();
-    SearchCollection searcher = new SearchCollection(searchArgs);
+    SearchCollection searcher;
+
+    // We're at top-level already inside a main; makes no sense to propagate exceptions further, so reformat the
+    // except messages and display on console.
+    try {
+      searcher = new SearchCollection(searchArgs);
+    } catch (IllegalArgumentException e1) {
+      System.err.println(e1.getMessage());
+      return;
+    }
+
     searcher.runTopics();
     searcher.close();
     final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);

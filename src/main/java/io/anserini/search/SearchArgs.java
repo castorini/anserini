@@ -93,32 +93,13 @@ public class SearchArgs {
   @Option(name = "-runtag", metaVar = "[tag]", usage = "runtag")
   public String runtag = null;
 
-  // query likelihood with Dirichlet smoothing
-
-  @Option(name = "-qld", usage = "ranking model: query likelihood with Dirichlet smoothing")
-  public boolean qld = false;
-
-  // Why this value? We want to pick a value that corresponds to what the community generally considers to be "good".
-  // Zhai and Lafferty (SIGIR 2001) write "the optimal value of mu appears to have a wide range (500-10000) and
-  // usually is around 2,000. A large value is 'safer', especially for long verbose queries." We might consider
-  // additional evidence from TREC papers: the UMass TREC overview papers from 2002 and 2003 don't specifically
-  // mention query-likelihood as a retrieval model. The UMass overview paper from TREC 2004 mentions setting mu
-  // to 1000; incidentally, this is the first mention of what the community would later call RM3. So, this setting
-  // seems reasonable and does not contradict Zhai and Lafferty.
-  @Option(name = "-qld.mu", handler = StringArrayOptionHandler.class, usage = "qld: mu smoothing parameter")
-  public String[] qld_mu = new String[]{"1000"};
-
-  // query likelihood with Jelinek Mercer
-
-  @Option(name = "-qljm", usage = "ranking model: query likelihood with Jelinek-Mercer smoothing")
-  public boolean qljm = false;
-
-  @Option(name = "-qljm.lambda", handler = StringArrayOptionHandler.class, usage = "qljm: lambda smoothing parameter")
-  public String[] qljm_lambda = new String[]{"0.1"};
-
+  // ----
   // BM25
+  // ----
 
-  @Option(name = "-bm25", usage = "ranking model: BM25")
+  @Option(name = "-bm25",
+      forbids = {"-qld", "-qljm", "-inl2", "-spl", "-f2exp", "-f2log"},
+      usage = "ranking model: BM25")
   public boolean bm25 = false;
 
   @Option(name = "-bm25.accurate", usage = "BM25: use accurate document lengths")
@@ -137,25 +118,65 @@ public class SearchArgs {
   @Option(name = "-bm25.b", handler = StringArrayOptionHandler.class, usage = "BM25: b parameter")
   public String[] bm25_b = new String[]{"0.4"};
 
-  @Option(name = "-inl2", usage = "use I(n)L2 scoring model")
+  // -----------------------------------------
+  // query likelihood with Dirichlet smoothing
+  // -----------------------------------------
+
+  @Option(name = "-qld",
+      forbids = {"-bm25", "-qljm", "-inl2", "-spl", "-f2exp", "-f2log"},
+      usage = "ranking model: query likelihood with Dirichlet smoothing")
+  public boolean qld = false;
+
+  // Why this value? We want to pick a value that corresponds to what the community generally considers to be "good".
+  // Zhai and Lafferty (SIGIR 2001) write "the optimal value of mu appears to have a wide range (500-10000) and
+  // usually is around 2,000. A large value is 'safer', especially for long verbose queries." We might consider
+  // additional evidence from TREC papers: the UMass TREC overview papers from 2002 and 2003 don't specifically
+  // mention query-likelihood as a retrieval model. The UMass overview paper from TREC 2004 mentions setting mu
+  // to 1000; incidentally, this is the first mention of what the community would later call RM3. So, this setting
+  // seems reasonable and does not contradict Zhai and Lafferty.
+
+  @Option(name = "-qld.mu", handler = StringArrayOptionHandler.class, usage = "qld: mu smoothing parameter")
+  public String[] qld_mu = new String[]{"1000"};
+
+  // ----------------------------------------------
+  // query likelihood with Jelinek-Mercer smoothing
+  // ----------------------------------------------
+
+  @Option(name = "-qljm",
+      forbids = {"-bm25", "-qld", "-inl2", "-spl", "-f2exp", "-f2log"},
+      usage = "ranking model: query likelihood with Jelinek-Mercer smoothing")
+  public boolean qljm = false;
+
+  @Option(name = "-qljm.lambda", handler = StringArrayOptionHandler.class, usage = "qljm: lambda smoothing parameter")
+  public String[] qljm_lambda = new String[]{"0.1"};
+
+  @Option(name = "-inl2",
+      forbids = {"bm25", "-qld", "-qljm", "-spl", "-f2exp", "-f2log"},
+      usage = "use I(n)L2 scoring model")
   public boolean inl2 = false;
 
   @Option(name = "-inl2.c", metaVar = "[value]", usage = "I(n)L2 c parameter")
   public String[] inl2_c = new String[]{"0.1"};
 
-  @Option(name = "-spl", usage = "use SPL scoring model")
+  @Option(name = "-spl",
+      forbids = {"bm25", "-qld", "-qljm", "-inl2", "-spl", "-f2exp", "-f2log"},
+      usage = "use SPL scoring model")
   public boolean spl = false;
 
   @Option(name = "-spl.c", metaVar = "[value]", usage = "SPL c parameter")
   public String[] spl_c = new String[]{"0.1"};
 
-  @Option(name = "-f2exp", usage = "use F2Exp scoring model")
+  @Option(name = "-f2exp",
+      forbids = {"bm25", "-qld", "-qljm", "-inl2", "-spl", "-f2log"},
+      usage = "use F2Exp scoring model")
   public boolean f2exp = false;
 
   @Option(name = "-f2exp.s", metaVar = "[value]", usage = "F2Exp s parameter")
   public String[] f2exp_s = new String[]{"0.5"};
 
-  @Option(name = "-f2log", usage = "use F2Log scoring model")
+  @Option(name = "-f2log",
+      forbids = {"bm25", "-qld", "-qljm", "-inl2", "-spl", "-f2exp"},
+      usage = "use F2Log scoring model")
   public boolean f2log = false;
 
   @Option(name = "-f2log.s", metaVar = "[value]", usage = "F2Log s parameter")
@@ -270,14 +291,88 @@ public class SearchArgs {
   @Option(name = "-qid_queries", metaVar = "[file]", usage = "query id - query mapping file")
   public String qid_queries = "";
 
-  // These are convenience methods to support a fluent, method-chaining style of progrmaming.
+  // These are convenience methods to support a fluent, method-chaining style of programming.
   public SearchArgs bm25() {
     this.bm25 = true;
+    this.qld = false;
+    this.qljm = false;
+    this.inl2 = false;
+    this.spl = false;
+    this.f2exp = false;
+    this.f2log = false;
+
     return this;
   }
 
   public SearchArgs qld() {
+    this.bm25 = false;
     this.qld = true;
+    this.qljm = false;
+    this.inl2 = false;
+    this.spl = false;
+    this.f2exp = false;
+    this.f2log = false;
+
+    return this;
+  }
+
+  public SearchArgs qljm() {
+    this.bm25 = false;
+    this.qld = false;
+    this.qljm = true;
+    this.inl2 = false;
+    this.spl = false;
+    this.f2exp = false;
+    this.f2log = false;
+
+    return this;
+  }
+
+  public SearchArgs inl2() {
+    this.bm25 = false;
+    this.qld = false;
+    this.qljm = false;
+    this.inl2 = true;
+    this.spl = false;
+    this.f2exp = false;
+    this.f2log = false;
+
+    return this;
+  }
+
+  public SearchArgs spl() {
+    this.bm25 = false;
+    this.qld = false;
+    this.qljm = false;
+    this.inl2 = false;
+    this.spl = true;
+    this.f2exp = false;
+    this.f2log = false;
+
+    return this;
+  }
+
+  public SearchArgs f2exp() {
+    this.bm25 = false;
+    this.qld = false;
+    this.qljm = false;
+    this.inl2 = false;
+    this.spl = false;
+    this.f2exp = true;
+    this.f2log = false;
+
+    return this;
+  }
+
+  public SearchArgs f2log() {
+    this.bm25 = false;
+    this.qld = false;
+    this.qljm = false;
+    this.inl2 = false;
+    this.spl = false;
+    this.f2exp = false;
+    this.f2log = true;
+
     return this;
   }
 
