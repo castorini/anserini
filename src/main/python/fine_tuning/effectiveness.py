@@ -48,7 +48,7 @@ class Effectiveness(object):
         all_results = {}
         for metric_dir in os.listdir(os.path.join(output_root, self.eval_files_root)):
             for fn in os.listdir(os.path.join(output_root, self.eval_files_root, metric_dir)):
-                model, model_params = fn.split('_')
+                model, model_params = fn.split('_', 1)
                 output_fn = model+'_'+metric_dir
                 if not os.path.exists(output_fn):
                     if output_fn not in all_results:

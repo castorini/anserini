@@ -154,7 +154,7 @@ public final class SearchCollection implements Closeable {
     @Override
     public void run() {
       try {
-        String id = String.format("ranker = %s, reranker = %s", taggedSimilarity.getTag(), cascade.getTag());
+        String id = String.format("ranker: %s, reranker: %s", taggedSimilarity.getTag(), cascade.getTag());
         LOG.info("[Start] " + id);
 
         int cnt = 0;
@@ -172,7 +172,7 @@ public final class SearchCollection implements Closeable {
             docs = search(this.searcher, qid, queryString, cascade);
           }
 
-          /**
+          /*
            * the first column is the topic number.
            * the second column is currently unused and should always be "Q0".
            * the third column is the official document identifier of the retrieved document.
@@ -272,43 +272,49 @@ public final class SearchCollection implements Closeable {
   private List<TaggedSimilarity> constructSimilarities() {
     List<TaggedSimilarity> similarities = new ArrayList<>();
 
-    if (args.qld) {
-      for (String mu : args.qld_mu) {
-        similarities.add(new TaggedSimilarity(new LMDirichletSimilarity(Float.valueOf(mu)),
-            String.format("qld:mu=%s", mu)));
-      }
-    } else if (args.qljm) {
-      for (String lambda : args.qljm_lambda) {
-        similarities.add(new TaggedSimilarity(new LMJelinekMercerSimilarity(Float.valueOf(lambda)), "qljm:lambda=" + lambda));
-      }
-    } else if (args.bm25) {
+    if (args.bm25) {
       for (String k1 : args.bm25_k1) {
         for (String b : args.bm25_b) {
           similarities.add(new TaggedSimilarity(new BM25Similarity(Float.valueOf(k1), Float.valueOf(b)),
-              String.format("bm25:k1=%s,b=%s", k1, b)));
+              String.format("bm25(k1=%s,b=%s)", k1, b)));
         }
       }
     } else if (args.bm25Accurate) {
       for (String k1 : args.bm25_k1) {
         for (String b : args.bm25_b) {
-          similarities.add(new TaggedSimilarity(new AccurateBM25Similarity(Float.valueOf(k1), Float.valueOf(b)), "BM25accurate:k1=" + k1 + ",b=" + b));
+          similarities.add(new TaggedSimilarity(new AccurateBM25Similarity(Float.valueOf(k1), Float.valueOf(b)),
+              String.format("bm25accurate(k1=%s,b=%s)", k1, b)));
         }
+      }
+    } else if (args.qld) {
+      for (String mu : args.qld_mu) {
+        similarities.add(new TaggedSimilarity(new LMDirichletSimilarity(Float.valueOf(mu)),
+            String.format("qld(mu=%s)", mu)));
+      }
+    } else if (args.qljm) {
+      for (String lambda : args.qljm_lambda) {
+        similarities.add(new TaggedSimilarity(new LMJelinekMercerSimilarity(Float.valueOf(lambda)),
+            String.format("qllm(lambda=%s)", lambda)));
       }
     } else if (args.inl2) {
       for (String c : args.inl2_c) {
-        similarities.add(new TaggedSimilarity(new DFRSimilarity(new BasicModelIn(), new AfterEffectL(), new NormalizationH2(Float.valueOf(c))), "InL2:c=" + c));
+        similarities.add(new TaggedSimilarity(
+            new DFRSimilarity(new BasicModelIn(), new AfterEffectL(), new NormalizationH2(Float.valueOf(c))),
+            String.format("inl2(c=%s)", c)));
       }
     } else if (args.spl) {
       for (String c : args.spl_c) {
-        similarities.add(new TaggedSimilarity(new IBSimilarity(new DistributionSPL(), new LambdaDF(), new NormalizationH2(Float.valueOf(c))), "SPL:c=" + c));
+        similarities.add(new TaggedSimilarity(
+            new IBSimilarity(new DistributionSPL(), new LambdaDF(), new NormalizationH2(Float.valueOf(c))),
+            String.format("spl(c=%s)", c)));
       }
     } else if (args.f2exp) {
       for (String s : args.f2exp_s) {
-        similarities.add(new TaggedSimilarity(new AxiomaticF2EXP(Float.valueOf(s)), "F2EXP:s=" + s));
+        similarities.add(new TaggedSimilarity(new AxiomaticF2EXP(Float.valueOf(s)), String.format("f2exp(s=%s)", s)));
       }
     } else if (args.f2log) {
       for (String s : args.f2log_s) {
-        similarities.add(new TaggedSimilarity(new AxiomaticF2LOG(Float.valueOf(s)), "F2LOG:s=" + s));
+        similarities.add(new TaggedSimilarity(new AxiomaticF2LOG(Float.valueOf(s)), String.format("f2log(s=%s)", s)));
       }
     } else {
       throw new IllegalArgumentException("Error: Must specify scoring model!");
@@ -323,8 +329,9 @@ public final class SearchCollection implements Closeable {
       for (String fbTerms : args.rm3_fbTerms) {
         for (String fbDocs : args.rm3_fbDocs) {
           for (String originalQueryWeight : args.rm3_originalQueryWeight) {
-            RerankerCascade cascade = new RerankerCascade(
-                SearchArgs.formatRM3Tag(fbTerms, fbDocs, originalQueryWeight));
+            String tag = String.format("rm3(fbTerms=%s,fbDocs=%s,originalQueryWeight=%s)",
+                fbTerms, fbDocs, originalQueryWeight);
+            RerankerCascade cascade = new RerankerCascade(tag);
             cascade.add(new Rm3Reranker(analyzer, IndexArgs.CONTENTS, Integer.valueOf(fbTerms),
                 Integer.valueOf(fbDocs), Float.valueOf(originalQueryWeight), args.rm3_outputQuery));
             cascade.add(new ScoreTiesAdjusterReranker());
@@ -338,7 +345,7 @@ public final class SearchCollection implements Closeable {
           for (String beta : args.axiom_beta) {
             for (String top : args.axiom_top) {
               for (String seed : args.axiom_seed) {
-                String tag = "axiom.seed:" + seed + ",axiom.r:" + r + ",axiom.n:" + n + ",axiom.beta:" + beta + ",axiom.top:" + top;
+                String tag = String.format("ax(seed=%s,r=%s,n=%s,beta=%s,top=%s)", seed, r, n, beta, top);
                 RerankerCascade cascade = new RerankerCascade(tag);
                 cascade.add(new AxiomReranker(args.index, args.axiom_index, IndexArgs.CONTENTS,
                     args.axiom_deterministic, Integer.valueOf(seed), Integer.valueOf(r),
@@ -357,7 +364,8 @@ public final class SearchCollection implements Closeable {
           for (String k1 : args.bm25prf_k1) {
             for (String b : args.bm25prf_b) {
               for (String newTermWeight : args.bm25prf_newTermWeight) {
-                String tag = "bm25prf.fbTerms:" + fbTerms + ",fbDocs:" + fbDocs + ",bm25prf.k1:" + k1 + ",bm25prf.b:" + b + ",bm25prf.newTermWeight:" + newTermWeight;
+                String tag = String.format("bm25prf(fbTerms=%s,fbDocs=%s,k1=%s,b=%s,newTermWeight=%s)",
+                    fbTerms, fbDocs, k1, b, newTermWeight);
                 RerankerCascade cascade = new RerankerCascade(tag);
                 cascade.add(new BM25PrfReranker(analyzer, IndexArgs.CONTENTS, Integer.valueOf(fbTerms),
                     Integer.valueOf(fbDocs), Float.valueOf(k1), Float.valueOf(b), Float.valueOf(newTermWeight),
@@ -412,10 +420,8 @@ public final class SearchCollection implements Closeable {
 
         if (similarities.size() == 1 && cascades.size() == 1) {
           outputPath = args.output;
-        } else if (cascades.size() > 1) {
-          outputPath = String.format("%s_%s_%s", args.output, taggedSimilarity.getTag(), cascade.getTag());
         } else {
-          outputPath = String.format("%s_%s", args.output, taggedSimilarity.getTag());
+          outputPath = String.format("%s_%s_%s", args.output, taggedSimilarity.getTag(), cascade.getTag());
         }
 
         if (args.skipexists && new File(outputPath).exists()) {

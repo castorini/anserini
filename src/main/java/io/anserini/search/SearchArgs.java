@@ -93,9 +93,9 @@ public class SearchArgs {
   @Option(name = "-runtag", metaVar = "[tag]", usage = "runtag")
   public String runtag = null;
 
-  // ----
-  // BM25
-  // ----
+  // -------------------
+  // ranking model: bm25
+  // -------------------
 
   @Option(name = "-bm25",
       forbids = {"-qld", "-qljm", "-inl2", "-spl", "-f2exp", "-f2log"},
@@ -118,9 +118,9 @@ public class SearchArgs {
   @Option(name = "-bm25.b", handler = StringArrayOptionHandler.class, usage = "BM25: b parameter")
   public String[] bm25_b = new String[]{"0.4"};
 
-  // -----------------------------------------
-  // query likelihood with Dirichlet smoothing
-  // -----------------------------------------
+  // --------------------------------------------------------
+  // ranking model: query likelihood with Dirichlet smoothing
+  // --------------------------------------------------------
 
   @Option(name = "-qld",
       forbids = {"-bm25", "-qljm", "-inl2", "-spl", "-f2exp", "-f2log"},
@@ -138,9 +138,9 @@ public class SearchArgs {
   @Option(name = "-qld.mu", handler = StringArrayOptionHandler.class, usage = "qld: mu smoothing parameter")
   public String[] qld_mu = new String[]{"1000"};
 
-  // ----------------------------------------------
-  // query likelihood with Jelinek-Mercer smoothing
-  // ----------------------------------------------
+  // -------------------------------------------------------------
+  // ranking model: query likelihood with Jelinek-Mercer smoothing
+  // -------------------------------------------------------------
 
   @Option(name = "-qljm",
       forbids = {"-bm25", "-qld", "-inl2", "-spl", "-f2exp", "-f2log"},
@@ -194,7 +194,11 @@ public class SearchArgs {
   @Option(name = "-sdm.uw", metaVar = "[value]", usage = "unordered window weight in sdm")
   public float sdm_uw = 0.05f;
 
-  // RM3 Options: Anserini uses the same default options as in Indri.
+  // --------------------------
+  // query expansion model: rm3
+  // --------------------------
+
+  // Anserini uses the same default options as in Indri.
   // As of v5.13, the defaults in Indri are, from src/RMExpander.cpp:
   //
   //   int fbDocs = _param.get( "fbDocs" , 10 );
@@ -221,12 +225,9 @@ public class SearchArgs {
       usage = "RM3 parameter: print original and expanded queries")
   public boolean rm3_outputQuery = false;
 
-  // Constructs a "tag" like "rm3:fbTerms=10,fbDocs=10,originalQueryWeight=0.5" describing RM3 settings.
-  static public String formatRM3Tag(String fbTerms, String fbDocs, String originalQueryWeight) {
-    return String.format("rm3:fbTerms=%s,fbDocs=%s,originalQueryWeight=%s", fbTerms, fbDocs, originalQueryWeight);
-  }
-
-  // BM25PRF Options
+  // ------------------------------
+  // query expansion model: bm25prf
+  // ------------------------------
 
   @Option(name = "-bm25prf", usage = "use bm25PRF query expansion model")
   public boolean bm25prf = false;
@@ -255,7 +256,9 @@ public class SearchArgs {
       usage = "bm25PRF parameter: print original and expanded queries")
   public boolean bm25prf_outputQuery = false;
 
-  // Axiomatic semantic matching matching options.
+  // --------------------------------------------------
+  // query expansion model: axiomatic semantic matching
+  // --------------------------------------------------
 
   @Option(name = "-axiom", usage = "use Axiomatic query expansion model for the reranking")
   public boolean axiom = false;

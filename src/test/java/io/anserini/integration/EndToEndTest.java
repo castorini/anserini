@@ -212,7 +212,6 @@ public abstract class EndToEndTest extends LuceneTestCase {
   }
 
   protected void checkRankingResults(String key, String output) throws IOException {
-    System.err.println("##### testing " + key);
     BufferedReader br = new BufferedReader(new FileReader(output));
     String[] ref = referenceRunOutput.get(key);
 

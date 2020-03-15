@@ -100,7 +100,7 @@ public class DumpTweetsLtrData {
     }
 
     PrintStream out = new PrintStream(new FileOutputStream(new File(args.output)));
-    RerankerCascade cascade = new RerankerCascade();
+    RerankerCascade cascade = new RerankerCascade("default");
     cascade.add(new TweetsLtrDataGenerator(out, qrels, extractors));
   
     SortedMap<Integer, Map<String, String>> topics = new TreeMap<>();

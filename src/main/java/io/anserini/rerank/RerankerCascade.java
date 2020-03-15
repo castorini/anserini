@@ -30,10 +30,6 @@ public class RerankerCascade {
     this.tag = tag;
   }
 
-  public RerankerCascade() {
-    this("");
-  }
-
   public String getTag() {
     return tag;
   }
