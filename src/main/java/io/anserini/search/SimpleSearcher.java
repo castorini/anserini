@@ -160,7 +160,7 @@ public class SimpleSearcher implements Closeable {
 
   public void unsetRM3Reranker() {
     this.isRerank = false;
-    cascade = new RerankerCascade("default");
+    cascade = new RerankerCascade();
     cascade.add(new ScoreTiesAdjusterReranker());
   }
 
