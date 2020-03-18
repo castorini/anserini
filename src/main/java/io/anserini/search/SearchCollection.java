@@ -294,7 +294,7 @@ public final class SearchCollection implements Closeable {
     } else if (args.qljm) {
       for (String lambda : args.qljm_lambda) {
         similarities.add(new TaggedSimilarity(new LMJelinekMercerSimilarity(Float.valueOf(lambda)),
-            String.format("qllm(lambda=%s)", lambda)));
+            String.format("qljm(lambda=%s)", lambda)));
       }
     } else if (args.inl2) {
       for (String c : args.inl2_c) {
@@ -378,7 +378,7 @@ public final class SearchCollection implements Closeable {
         }
       }
     } else {
-      RerankerCascade cascade = new RerankerCascade("default");
+      RerankerCascade cascade = new RerankerCascade();
       cascade.add(new ScoreTiesAdjusterReranker());
       cascades.add(cascade);
     }

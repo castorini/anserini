@@ -123,7 +123,7 @@ public class SimpleSearcher implements Closeable {
     this.analyzer = analyzer;
     this.searchtweets = false;
     this.isRerank = false;
-    cascade = new RerankerCascade("default");
+    cascade = new RerankerCascade();
     cascade.add(new ScoreTiesAdjusterReranker());
   }
 

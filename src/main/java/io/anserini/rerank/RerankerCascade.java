@@ -26,6 +26,10 @@ public class RerankerCascade {
   final List<Reranker> rerankers = new ArrayList<>();
   private String tag;
 
+  public RerankerCascade() {
+    this("default");
+  }
+
   public RerankerCascade(String tag) {
     this.tag = tag;
   }
