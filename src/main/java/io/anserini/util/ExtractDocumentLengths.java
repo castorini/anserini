@@ -66,6 +66,9 @@ public class ExtractDocumentLengths {
     PrintStream out = new PrintStream(new FileOutputStream(new File(myArgs.output)));
 
     int numDocs = reader.numDocs();
+    long lossyTotalTerms = 0;
+    long exactTotalTerms = 0;
+
     out.println("docid\tdoc_length\tunique_term_count\tlossy_doc_length\tlossy_unique_term_count");
     for (int i = 0; i < numDocs; i++) {
       Terms terms = reader.getTermVector(i, "contents");
@@ -80,7 +83,14 @@ public class ExtractDocumentLengths {
       int lossyDoclength = SmallFloat.byte4ToInt(SmallFloat.intToByte4((int) exactDoclength));
       int lossyTermCount = SmallFloat.byte4ToInt(SmallFloat.intToByte4((int) exactTermCount));
       out.println(String.format("%d\t%d\t%d\t%d\t%d", i, exactDoclength, exactTermCount, lossyDoclength, lossyTermCount));
+      lossyTotalTerms += lossyDoclength;
+      exactTotalTerms += exactDoclength;
     }
+
+    System.out.println("Total number of terms in collection (sum of doclengths):");
+    System.out.println("Lossy: " + lossyTotalTerms);
+    System.out.println("Exact: " + exactTotalTerms);
+
     out.flush();
     out.close();
     reader.close();
