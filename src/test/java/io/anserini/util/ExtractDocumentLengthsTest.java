@@ -21,6 +21,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
@@ -30,6 +32,19 @@ import java.util.Random;
 public class ExtractDocumentLengthsTest extends IndexerTestBase {
   private static final Random rand = new Random();
   private String randomFileName;
+
+  private final ByteArrayOutputStream out = new ByteArrayOutputStream();
+  private PrintStream save;
+
+  private void redirectStdout() {
+    save = System.out;
+    out.reset();
+    System.setOut(new PrintStream(out));
+  }
+
+  private void restoreStdout() {
+    System.setOut(save);
+  }
 
   @Before
   @Override
@@ -49,7 +64,12 @@ public class ExtractDocumentLengthsTest extends IndexerTestBase {
   public void test() throws Exception {
     // See: https://github.com/castorini/anserini/issues/903
     Locale.setDefault(Locale.US);
+    redirectStdout();
     ExtractDocumentLengths.main(new String[] {"-index", tempDir1.toString(), "-output", randomFileName});
+    restoreStdout();
+
+    assertEquals("Total number of terms in collection (sum of doclengths):\nLossy: 12\nExact: 12\n",
+        out.toString());
 
     List<String> lines = Files.readAllLines(Paths.get(randomFileName));
     assertEquals(4, lines.size());

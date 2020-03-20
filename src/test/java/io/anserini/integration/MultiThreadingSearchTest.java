@@ -153,6 +153,7 @@ public class MultiThreadingSearchTest extends EndToEndTest {
         assertEquals(groundTruthRuns.get(run)[cnt], s);
         cnt++;
       }
+      assertEquals(cnt, groundTruthRuns.get(run).length);
 
       // Add the file to the cleanup list.
       cleanup.add(runfile);

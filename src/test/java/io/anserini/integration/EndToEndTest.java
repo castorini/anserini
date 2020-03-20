@@ -85,6 +85,7 @@ public abstract class EndToEndTest extends LuceneTestCase {
   public void setUp() throws Exception {
     super.setUp();
     init();
+    testIndexing();
   }
 
   @After
@@ -196,7 +197,8 @@ public abstract class EndToEndTest extends LuceneTestCase {
     return searchArgs;
   }
 
-  protected void testSearching() {
+  @Test
+  public void testSearching() {
     try {
       for (Map.Entry<String, SearchArgs> entry : testQueries.entrySet()) {
         SearchCollection searcher = new SearchCollection(entry.getValue());
@@ -223,11 +225,5 @@ public abstract class EndToEndTest extends LuceneTestCase {
     }
 
     assertEquals(cnt, ref.length);
-  }
-
-  @Test
-  public void testAll() {
-    testIndexing();
-    testSearching();
   }
 }
