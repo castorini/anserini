@@ -38,10 +38,11 @@ import org.junit.Before;
 import java.io.IOException;
 import java.nio.file.Path;
 
-public class IndexerTestBase extends LuceneTestCase {
+public class IndexerWithEmptyDocumentTestBase extends LuceneTestCase {
   protected Path tempDir1;
 
   // A very simple example of how to build an index.
+  // Creates an index similar to IndexerTestBase, but adds an empty document to test error handling.
   private void buildTestIndex() throws IOException {
     Directory dir = FSDirectory.open(tempDir1);
 
@@ -81,6 +82,14 @@ public class IndexerTestBase extends LuceneTestCase {
     doc3.add(new Field(IndexArgs.CONTENTS, doc3Text, textOptions));
     doc3.add(new StoredField(IndexArgs.RAW, doc3Text));
     writer.addDocument(doc3);
+
+    Document doc4 = new Document();
+    String doc4Text = "";
+    doc4.add(new StringField(IndexArgs.ID, "doc4", Field.Store.YES));
+    doc4.add(new SortedDocValuesField(IndexArgs.ID, new BytesRef("doc4".getBytes())));
+    doc4.add(new Field(IndexArgs.CONTENTS, doc4Text, textOptions));
+    doc4.add(new StoredField(IndexArgs.RAW, doc4Text));
+    writer.addDocument(doc4);
 
     writer.commit();
     writer.forceMerge(1);

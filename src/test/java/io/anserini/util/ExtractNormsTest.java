@@ -17,6 +17,7 @@
 package io.anserini.util;
 
 import io.anserini.IndexerTestBase;
+import io.anserini.IndexerWithEmptyDocumentTestBase;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,7 +28,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 
-public class ExtractNormsTest extends IndexerTestBase {
+public class ExtractNormsTest extends IndexerWithEmptyDocumentTestBase {
   private static final Random rand = new Random();
   private String randomFileName;
 
@@ -52,9 +53,10 @@ public class ExtractNormsTest extends IndexerTestBase {
     ExtractNorms.main(new String[] {"-index", tempDir1.toString(), "-output", randomFileName});
 
     List<String> lines = Files.readAllLines(Paths.get(randomFileName));
-    assertEquals(4, lines.size());
+    assertEquals(5, lines.size());
     assertEquals("0\t8", lines.get(1));
     assertEquals("1\t2", lines.get(2));
     assertEquals("2\t2", lines.get(3));
+    assertEquals("3\t0", lines.get(4));
   }
 }
