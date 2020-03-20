@@ -174,7 +174,7 @@ public class SimpleSearcher implements Closeable {
 
   public void setRM3Reranker(int fbTerms, int fbDocs, float originalQueryWeight, boolean rm3_outputQuery) {
     isRerank = true;
-    cascade = new RerankerCascade();
+    cascade = new RerankerCascade("rm3");
     cascade.add(new Rm3Reranker(this.analyzer, IndexArgs.CONTENTS, fbTerms, fbDocs, originalQueryWeight, rm3_outputQuery));
     cascade.add(new ScoreTiesAdjusterReranker());
   }

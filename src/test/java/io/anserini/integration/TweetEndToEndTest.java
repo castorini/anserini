@@ -16,6 +16,10 @@
 
 package io.anserini.integration;
 
+import io.anserini.search.SearchArgs;
+
+import java.util.Map;
+
 public class TweetEndToEndTest extends EndToEndTest {
 
   @Override
@@ -43,9 +47,10 @@ public class TweetEndToEndTest extends EndToEndTest {
     termIndexStatusTotPos = 24 + 3 * storedFieldStatusTotalDocCounts;
     storedFieldStatusTotFields = 12;  // 4 tweets * (1 id + 1 text + 1 raw)
 
-    referenceRunOutput = new String[] {
+    testQueries.put("bm25", createDefaultSearchArgs().bm25().searchTweets());
+    referenceRunOutput.put("bm25", new String[] {
         "1 Q0 5 1 0.614300 Anserini",
-        "1 Q0 3 2 0.364800 Anserini" };
+        "1 Q0 3 2 0.364800 Anserini" });
   }
 
   // Note that in the test cases, we have:
@@ -60,11 +65,5 @@ public class TweetEndToEndTest extends EndToEndTest {
   protected void setIndexingArgs() {
     super.setIndexingArgs();
     indexCollectionArgs.tweetMaxId = 9L;
-  }
-
-  @Override
-  protected void setSearchArgs() {
-    super.setSearchArgs();
-    searchArgs.searchtweets = true;
   }
 }

@@ -24,11 +24,19 @@ import org.apache.lucene.search.similarities.Similarity;
  * See @see #SearchCollection
  */
 public class TaggedSimilarity {
-  public Similarity similarity;
-  public String tag; // params tag. use similarity.toString() if one needs more info (e.g. model name + params)
+  private Similarity similarity;
+  private String tag;
   
   public TaggedSimilarity(Similarity similarity, String tag) {
     this.similarity = similarity;
     this.tag = tag;
+  }
+
+  public Similarity getSimilarity() {
+    return similarity;
+  }
+
+  public String getTag() {
+    return tag;
   }
 }

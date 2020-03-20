@@ -55,7 +55,7 @@ class XFoldValidate(object):
             # if it is a directory containing effectiveness
             # for a metric, do x-fold cv for the metric
             for fn in os.listdir(eval_dir):
-                model, param = fn.split('_')
+                model, param = fn.split('_', 1)
                 if model not in avg_performances:
                     avg_performances[model] = {}
 
