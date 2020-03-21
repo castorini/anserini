@@ -58,6 +58,8 @@ public class ExtractDocumentLengths {
     } catch (CmdLineException e) {
       System.err.println(e.getMessage());
       parser.printUsage(System.err);
+      System.err.println(String.format("Example: %s %s",
+          ExtractDocumentLengths.class.getSimpleName(), parser.printExample(OptionHandlerFilter.REQUIRED)));
       return;
     }
 

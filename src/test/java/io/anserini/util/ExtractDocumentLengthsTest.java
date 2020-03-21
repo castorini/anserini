@@ -16,14 +16,12 @@
 
 package io.anserini.util;
 
-import io.anserini.IndexerTestBase;
 import io.anserini.IndexerWithEmptyDocumentTestBase;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
+import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
@@ -33,19 +31,6 @@ import java.util.Random;
 public class ExtractDocumentLengthsTest extends IndexerWithEmptyDocumentTestBase {
   private static final Random rand = new Random();
   private String randomFileName;
-
-  private final ByteArrayOutputStream out = new ByteArrayOutputStream();
-  private PrintStream save;
-
-  private void redirectStdout() {
-    save = System.out;
-    out.reset();
-    System.setOut(new PrintStream(out));
-  }
-
-  private void restoreStdout() {
-    System.setOut(save);
-  }
 
   @Before
   @Override
@@ -58,7 +43,18 @@ public class ExtractDocumentLengthsTest extends IndexerWithEmptyDocumentTestBase
   @Override
   public void tearDown() throws Exception {
     super.tearDown();
-    Files.delete(Paths.get(randomFileName));
+    if (new File(randomFileName).exists()) {
+      Files.delete(Paths.get(randomFileName));
+    }
+  }
+
+  @Test
+  public void testEmptyArgs() throws Exception {
+    redirectStderr();
+    ExtractDocumentLengths.main(new String[] {});
+    restoreStderr();
+
+    assertTrue(redirectedStderr.toString().startsWith("Option \"-index\" is required"));
   }
 
   @Test
@@ -66,11 +62,13 @@ public class ExtractDocumentLengthsTest extends IndexerWithEmptyDocumentTestBase
     // See: https://github.com/castorini/anserini/issues/903
     Locale.setDefault(Locale.US);
     redirectStdout();
+    redirectStderr(); // redirecting to be quiet
     ExtractDocumentLengths.main(new String[] {"-index", tempDir1.toString(), "-output", randomFileName});
     restoreStdout();
+    restoreStderr();
 
     assertEquals("Total number of terms in collection (sum of doclengths):\nLossy: 12\nExact: 12\n",
-        out.toString());
+        redirectedStdout.toString());
 
     List<String> lines = Files.readAllLines(Paths.get(randomFileName));
     assertEquals(5, lines.size());

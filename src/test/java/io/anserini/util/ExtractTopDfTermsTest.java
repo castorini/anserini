@@ -28,7 +28,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 
-public class ExtractNormsTest extends IndexerWithEmptyDocumentTestBase {
+public class ExtractTopDfTermsTest extends IndexerWithEmptyDocumentTestBase {
   private static final Random rand = new Random();
   private String randomFileName;
 
@@ -36,7 +36,7 @@ public class ExtractNormsTest extends IndexerWithEmptyDocumentTestBase {
   @Override
   public void setUp() throws Exception {
     super.setUp();
-    randomFileName = "norms" + rand.nextInt();
+    randomFileName = "df" + rand.nextInt();
   }
 
   @After
@@ -51,25 +51,40 @@ public class ExtractNormsTest extends IndexerWithEmptyDocumentTestBase {
   @Test
   public void testEmptyArgs() throws Exception {
     redirectStderr();
-    ExtractNorms.main(new String[] {});
+    ExtractTopDfTerms.main(new String[] {});
     restoreStderr();
 
     assertTrue(redirectedStderr.toString().startsWith("Option \"-index\" is required"));
   }
 
   @Test
-  public void test() throws Exception {
+  public void test1() throws Exception {
     // See: https://github.com/castorini/anserini/issues/903
     Locale.setDefault(Locale.US);
     redirectStdout(); // redirecting to be quiet
-    ExtractNorms.main(new String[] {"-index", tempDir1.toString(), "-output", randomFileName});
+    ExtractTopDfTerms.main(new String[] {"-index", tempDir1.toString(), "-output", randomFileName});
     restoreStdout();
 
     List<String> lines = Files.readAllLines(Paths.get(randomFileName));
-    assertEquals(5, lines.size());
-    assertEquals("0\t8", lines.get(1));
-    assertEquals("1\t2", lines.get(2));
-    assertEquals("2\t2", lines.get(3));
-    assertEquals("3\t0", lines.get(4));
+    assertEquals(6, lines.size());
+    assertEquals("citi\t1\t4\t0.25", lines.get(0));
+    assertEquals("some\t1\t4\t0.25", lines.get(1));
+    assertEquals("test\t1\t4\t0.25", lines.get(2));
+    assertEquals("here\t2\t4\t0.5", lines.get(3));
+    assertEquals("more\t2\t4\t0.5", lines.get(4));
+    assertEquals("text\t2\t4\t0.5", lines.get(5));
+  }
+
+  @Test
+  public void test2() throws Exception {
+    // See: https://github.com/castorini/anserini/issues/903
+    Locale.setDefault(Locale.US);
+    redirectStdout(); // redirecting to be quiet
+    ExtractTopDfTerms.main(new String[] {"-index", tempDir1.toString(), "-output", randomFileName, "-k", "1"});
+    restoreStdout();
+
+    List<String> lines = Files.readAllLines(Paths.get(randomFileName));
+    assertEquals(1, lines.size());
+    assertEquals("text\t2\t4\t0.5", lines.get(0));
   }
 }

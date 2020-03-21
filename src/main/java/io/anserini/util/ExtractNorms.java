@@ -29,6 +29,7 @@ import org.apache.lucene.util.SmallFloat;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
+import org.kohsuke.args4j.OptionHandlerFilter;
 import org.kohsuke.args4j.ParserProperties;
 
 import java.io.File;
@@ -59,6 +60,8 @@ public class ExtractNorms {
     } catch (CmdLineException e) {
       System.err.println(e.getMessage());
       parser.printUsage(System.err);
+      System.err.println(String.format("Example: %s %s",
+          ExtractNorms.class.getSimpleName(), parser.printExample(OptionHandlerFilter.REQUIRED)));
       return;
     }
 
