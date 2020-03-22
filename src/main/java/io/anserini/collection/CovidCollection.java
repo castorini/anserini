@@ -120,7 +120,7 @@ public class CovidCollection extends DocumentCollection<CovidCollection.Document
         try {
           String fullTextJson = new String(Files.readAllBytes(
             Paths.get(CovidCollection.this.path.toString() + fullTextPath)));
-          contents += "; " + fullTextJson;
+          contents += "\n " + fullTextJson;
         } catch (IOException e) {
           LOG.error("Error parsing file at " + fullTextPath);
         }
