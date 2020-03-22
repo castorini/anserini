@@ -63,7 +63,8 @@ public class IndexerTestBase extends LuceneTestCase {
     doc1.add(new StringField(IndexArgs.ID, "doc1", Field.Store.YES));
     doc1.add(new SortedDocValuesField(IndexArgs.ID, new BytesRef("doc1".getBytes())));
     doc1.add(new Field(IndexArgs.CONTENTS, doc1Text , textOptions));
-    doc1.add(new StoredField(IndexArgs.RAW, doc1Text));
+    // specifically demonstrate how "contents" and "raw" might diverge:
+    doc1.add(new StoredField(IndexArgs.RAW, String.format("{\"contents\": \"%s\"}", doc1Text)));
     writer.addDocument(doc1);
 
     Document doc2 = new Document();
@@ -71,7 +72,8 @@ public class IndexerTestBase extends LuceneTestCase {
     doc2.add(new StringField(IndexArgs.ID, "doc2", Field.Store.YES));
     doc2.add(new SortedDocValuesField(IndexArgs.ID, new BytesRef("doc2".getBytes())));
     doc2.add(new Field(IndexArgs.CONTENTS, doc2Text, textOptions));  // Note plural, to test stemming
-    doc2.add(new StoredField(IndexArgs.RAW, doc2Text));
+    // specifically demonstrate how "contents" and "raw" might diverge:
+    doc2.add(new StoredField(IndexArgs.RAW, String.format("{\"contents\": \"%s\"}", doc2Text)));
     writer.addDocument(doc2);
 
     Document doc3 = new Document();
@@ -79,7 +81,8 @@ public class IndexerTestBase extends LuceneTestCase {
     doc3.add(new StringField(IndexArgs.ID, "doc3", Field.Store.YES));
     doc3.add(new SortedDocValuesField(IndexArgs.ID, new BytesRef("doc3".getBytes())));
     doc3.add(new Field(IndexArgs.CONTENTS, doc3Text, textOptions));
-    doc3.add(new StoredField(IndexArgs.RAW, doc3Text));
+    // specifically demonstrate how "contents" and "raw" might diverge:
+    doc3.add(new StoredField(IndexArgs.RAW, String.format("{\"contents\": \"%s\"}", doc3Text)));
     writer.addDocument(doc3);
 
     writer.commit();
