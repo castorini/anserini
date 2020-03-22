@@ -39,14 +39,14 @@ We can index titles and abstracts only with `CovidCollection`, as follows:
 sh target/appassembler/bin/IndexCollection \
   -collection CovidCollection -generator CovidGenerator \
   -threads 8 -input "${DATA_DIR}" \
-  -index "${DATA_DIR}"/lucene-index-covid-20200320 \
+  -index "${DATA_DIR}"/lucene-index-covid-"${DATE}" \
   -storePositions -storeDocvectors -storeRawDocs -storeTransformedDocs
 ```
 
 The output message should be something like this:
 
 ```bash
-2020-03-22 16:55:00,711 INFO  [main] index.IndexCollection (IndexCollection.java:845) - Total 44,145 documents indexed in 00:01:07
+2020-03-22 18:58:33,021 INFO  [main] index.IndexCollection (IndexCollection.java:845) - Total 44,145 documents indexed in 00:01:05
 ```
 
 The `contents` field of each Lucene document is a concatenation of the article's title and abstract.
@@ -60,15 +60,15 @@ We can index the full text, with  `CovidFullTextCollection`, as follows:
 sh target/appassembler/bin/IndexCollection \
   -collection CovidFullTextCollection -generator CovidGenerator \
   -threads 8 -input "${DATA_DIR}" \
-  -index "${DATA_DIR}"/lucene-index-covid-full-text-20200320 \
+  -index "${DATA_DIR}"/lucene-index-covid-full-text-"${DATE}" \
   -storePositions -storeDocvectors -storeRawDocs -storeTransformedDocs
 ```
 
 The output message should be something like this:
 
 ```bash
-2020-03-22 16:55:00,711 INFO  [main] index.IndexCollection (IndexCollection.java:845) - Total 44,145 documents indexed in 00:01:07
-  ```
+2020-03-22 19:04:49,120 INFO  [main] index.IndexCollection (IndexCollection.java:845) - Total 44,155 documents indexed in 00:05:32
+```
 
 The `contents` field of each Lucene document is a concatenation of the article's title and abstract, and the full text JSON (if available).
 
@@ -80,14 +80,14 @@ We can build a paragraph index with `CovidParagraphCollection`, as follows:
 sh target/appassembler/bin/IndexCollection \
   -collection CovidParagraphCollection -generator CovidGenerator \
   -threads 8 -input "${DATA_DIR}" \
-  -index "${DATA_DIR}"/lucene-index-covid-paragraph-20200320 \
+  -index "${DATA_DIR}"/lucene-index-covid-paragraph-"${DATE}" \
   -storePositions -storeDocvectors -storeRawDocs -storeTransformedDocs
 ```
 
 The output message should be something like this:
 
 ```bash
-2020-03-22 15:24:49,305 INFO  [main] index.IndexCollection (IndexCollection.java:845) - Total 1,096,241 documents indexed in 00:11:35
+2020-03-22 19:21:50,365 INFO  [main] index.IndexCollection (IndexCollection.java:845) - Total 1,096,241 documents indexed in 00:14:21
 ```
 
 In this configuration, the indexer creates multiple Lucene Documents for each source article:
