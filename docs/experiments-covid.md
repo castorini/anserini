@@ -25,18 +25,52 @@ ls "${DATA_DIR}"/*.tar.gz | xargs -I {} tar -zxvf {} -C "${DATA_DIR}"
 # tar -zxvf "${DATA_DIR}"/biorxiv_medrxiv.tar.gz -C "${DATA_DIR}"
 ```
 
-We can now index these docs as a `CovidCollection` using Anserini:
+We can now index these docs as using Anserini; we have three versions:
 
-```bash
-sh target/appassembler/bin/IndexCollection \
-  -collection CovidCollection -generator CovidGenerator \
-  -threads 8 -input "${DATA_DIR}" \
-  -index "${DATA_DIR}"/lucene-index-covid \
-  -storePositions -storeDocvectors -storeRawDocs -storeTransformedDocs
-```
+* `CovidCollection` which adds `title` + `abstract` to Lucene Document's `content`
 
-The output message should be something like this:
+  ```bash
+  sh target/appassembler/bin/IndexCollection \
+    -collection CovidCollection -generator CovidGenerator \
+    -threads 8 -input "${DATA_DIR}" \
+    -index "${DATA_DIR}"/lucene-index-covid \
+    -storePositions -storeDocvectors -storeRawDocs -storeTransformedDocs
+  ```
 
-```bash
-2020-03-22 15:24:49,305 INFO  [main] index.IndexCollection (IndexCollection.java:845) - Total 1,096,241 documents indexed in 00:11:35
-```
+  The output message should be something like this:
+
+  ```bash
+  2020-03-22 16:55:00,711 INFO  [main] index.IndexCollection (IndexCollection.java:845) - Total 44,145 documents indexed in 00:01:07
+  ```
+
+* `CovidFullTextCollection` which adds `title` + `abstract` + `full json text` to Lucene Document's `content`
+
+  ```bash
+  sh target/appassembler/bin/IndexCollection \
+    -collection CovidFullTextCollection -generator CovidGenerator \
+    -threads 8 -input "${DATA_DIR}" \
+    -index "${DATA_DIR}"/lucene-index-covid-full-text \
+    -storePositions -storeDocvectors -storeRawDocs -storeTransformedDocs
+  ```
+
+  The output message should be something like this:
+
+  ```bash
+  2020-03-22 16:55:00,711 INFO  [main] index.IndexCollection (IndexCollection.java:845) - Total 44,145 documents indexed in 00:01:07
+  ```
+
+* `CovidParagraphCollection` which adds `title` + `abstract` + `paragraph number x` to Lucene Document's `content`. And there will be multiple Lucene Documents for each record. Specifically, one for each paragraph in the full text for the record, hence `paragraph number x`.
+
+  ```bash
+  sh target/appassembler/bin/IndexCollection \
+    -collection CovidParagraphCollection -generator CovidGenerator \
+    -threads 8 -input "${DATA_DIR}" \
+    -index "${DATA_DIR}"/lucene-index-covid-paragraph \
+    -storePositions -storeDocvectors -storeRawDocs -storeTransformedDocs
+  ```
+
+  The output message should be something like this:
+
+  ```bash
+  2020-03-22 15:24:49,305 INFO  [main] index.IndexCollection (IndexCollection.java:845) - Total 1,096,241 documents indexed in 00:11:35
+  ```
