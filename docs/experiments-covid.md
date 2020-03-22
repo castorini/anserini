@@ -19,7 +19,7 @@ wget https://ai2-semanticscholar-cord-19.s3-us-west-2.amazonaws.com/"${DATE}"/bi
 wget https://ai2-semanticscholar-cord-19.s3-us-west-2.amazonaws.com/"${DATE}"/metadata.csv -P "${DATA_DIR}"
 
 ls "${DATA_DIR}"/*.tar.gz | xargs -I {} tar -zxvf {} -C "${DATA_DIR}"
-# If the above doesn't work due to cross compatibility issues with xargs, untar all folders individually
+# If the above doesn't work due to cross-OS compatibility issues with xargs, untar all folders individually
 # tar -zxvf "${DATA_DIR}"/comm_use_subset.tar.gz -C "${DATA_DIR}"
 # tar -zxvf "${DATA_DIR}"/noncomm_use_subset.tar.gz -C "${DATA_DIR}"
 # tar -zxvf "${DATA_DIR}"/custom_license.tar.gz -C "${DATA_DIR}"
