@@ -8,7 +8,7 @@ The latest distribution available is from 2020/03/20.
 First, download the data:
 
 ```bash
-DATE=20200320
+DATE=2020-03-20
 DATA_DIR=./covid-"${DATE}"
 mkdir "${DATA_DIR}"
 
