@@ -75,6 +75,7 @@ public class CovidGenerator extends LuceneDocumentGenerator<CovidCollection.Docu
   public Document createDocument(CovidCollection.Document covidDoc) {
     String id = covidDoc.id();
     String content = covidDoc.content();
+    String raw = covidDoc.raw();
 
     if (content == null || content.trim().isEmpty()) {
       counters.empty.incrementAndGet();
@@ -89,7 +90,7 @@ public class CovidGenerator extends LuceneDocumentGenerator<CovidCollection.Docu
     doc.add(new SortedDocValuesField(IndexArgs.ID, new BytesRef(id)));
 
     if (args.storeRawDocs) {
-      doc.add(new StoredField(IndexArgs.RAW, content));
+      doc.add(new StoredField(IndexArgs.RAW, raw));
     }
 
     FieldType fieldType = new FieldType();

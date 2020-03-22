@@ -24,6 +24,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.file.Files;
@@ -32,6 +33,9 @@ import java.nio.file.Paths;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Set;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * A document collection for the CORD-19 dataset provided by Semantic Scholar.
@@ -56,6 +60,9 @@ public class CovidCollection extends DocumentCollection<CovidCollection.Document
     CSVParser csvParser = null;
     private CSVRecord record = null;
     private Iterator<CSVRecord> iterator = null; // iterator for CSV records
+    private String recordFullText = "";
+    private Iterator<JsonNode> paragraphIterator = null; // iterator for paragraphs in a CSV record
+    private Integer paragraphNumber = 0;
 
     public Segment(Path path) throws IOException {
       super(path);
@@ -75,17 +82,36 @@ public class CovidCollection extends DocumentCollection<CovidCollection.Document
 
     @Override
     public void readNext() throws NoSuchElementException {
-      if (record == null) {
-        throw new NoSuchElementException("Record is empty");
-      } else {
-        bufferedRecord = new CovidCollection.Document(record);
-        if (iterator.hasNext()) { // if CSV contains more lines, we parse the next record
-          record = iterator.next();
+      if (paragraphIterator != null && paragraphIterator.hasNext()) { // if the record contains more paragraphs, we parse them
+        String paragraph = paragraphIterator.next().get("text").asText();
+        paragraphNumber += 1;
+        bufferedRecord = new CovidCollection.Document(record, recordFullText, paragraph, paragraphNumber);
+      } else if (iterator.hasNext()) { // if CSV contains more lines, we parse the next record
+        record = iterator.next();
+        if (record.get("has_full_text").contains("True")) {
+          String[] hashes = record.get("sha").split(";");
+          String fullTextPath = "/" + record.get("full_text_file") + "/" + hashes[hashes.length - 1].strip() + ".json";
+          try {
+            String recordFullTextPath = CovidCollection.this.path.toString() + fullTextPath;
+            recordFullText = new String(Files.readAllBytes(Paths.get(recordFullTextPath)));
+            FileReader recordFullTextFileReader = new FileReader(recordFullTextPath);
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode recordJsonNode = mapper.readerFor(JsonNode.class).readTree(recordFullTextFileReader);
+            paragraphIterator = recordJsonNode.get("body_text").elements(); 
+            
+          } catch (IOException e) {
+            LOG.error("Error parsing file at " + fullTextPath + "\n" + e.getMessage());
+          }
         } else {
-          atEOF = true; // there is no more JSON object in the bufferedReader
+          paragraphIterator = null;
+          recordFullText = "";
         }
-      }
+        paragraphNumber = 0;
+        bufferedRecord = new CovidCollection.Document(record, recordFullText);
+    } else {
+      throw new NoSuchElementException("Reached end of CSVRecord Entries Iterator");
     }
+  }
 
     @Override
     public void close() {
@@ -105,26 +131,25 @@ public class CovidCollection extends DocumentCollection<CovidCollection.Document
    */
   public class Document implements SourceDocument {
     private String id;
-    private String contents;
+    private String content;
+    private String raw;
     private CSVRecord record;
 
-    public Document(CSVRecord record) {
-      id = Long.toString(record.getRecordNumber());
-      contents = record.toString();
-      this.record = record;
-
-      // index full text into raw contents
-      if (record.get("has_full_text").contains("True")) {
-        String[] hashes = record.get("sha").split(";");
-        String fullTextPath = "/" + record.get("full_text_file") + "/" + hashes[hashes.length - 1].strip() + ".json";
-        try {
-          String fullTextJson = new String(Files.readAllBytes(
-            Paths.get(CovidCollection.this.path.toString() + fullTextPath)));
-          contents += "\n " + fullTextJson;
-        } catch (IOException e) {
-          LOG.error("Error parsing file at " + fullTextPath);
-        }
+    public Document(CSVRecord record, String recordFullText, String paragraph, Integer paragraphNumber) {
+      if (paragraphNumber == 0) {
+        id = Long.toString(record.getRecordNumber());
+      } else {
+        id = Long.toString(record.getRecordNumber()) + "." + String.format("%04d", paragraphNumber);
       }
+      content = record.get("title").replace("\n", " ");
+      content += record.get("abstract").isEmpty() ? "" : "\n" + record.get("abstract");
+      content += paragraph.isEmpty() ? "" : "\n" + paragraph;
+      this.raw = recordFullText;
+      this.record = record;
+    }
+
+    public Document(CSVRecord record, String recordFullText) {
+      this(record, recordFullText, "", 0);
     }
 
     @Override
@@ -134,7 +159,11 @@ public class CovidCollection extends DocumentCollection<CovidCollection.Document
 
     @Override
     public String content() {
-      return contents;
+      return content;
+    }
+
+    public String raw() {
+      return raw;
     }
 
     @Override
