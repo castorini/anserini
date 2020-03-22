@@ -48,5 +48,6 @@ public class WikipediaCollectionTest extends DocumentCollectionTest<WikipediaCol
     assertTrue(doc.indexable());
     assertEquals(expected.get("id"), doc.id());
     assertEquals(expected.get("content"), doc.content());
+    assertEquals(expected.get("content"), doc.raw());
   }
 }
