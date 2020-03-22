@@ -110,11 +110,12 @@ public class CovidCollection extends DocumentCollection<CovidCollection.Document
       content += record.get("abstract").isEmpty() ? "" : "\n" + record.get("abstract");
       this.record = record;
 
-      String fullTextJson = getFullTextJson(record, CovidCollection.this.path.toString());
-      if (!fullTextJson.isEmpty()) {
+      String fullTextJson = getFullTextJson(CovidCollection.this.path.toString());
+      if (fullTextJson != null) {
         raw = fullTextJson;
       } else {
-        raw = record.toString();
+        String recordJson = getRecordJson();
+        raw = recordJson == null ? "" : recordJson;
       }
     }
   }

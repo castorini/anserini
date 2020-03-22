@@ -16,6 +16,8 @@
 
 package io.anserini.collection;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.csv.CSVRecord;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -31,22 +33,32 @@ public abstract class CovidCollectionDocument implements SourceDocument {
   protected String raw;
   protected CSVRecord record;
 
-  protected final String getFullTextJson(CSVRecord record, String basePath) {
+  protected final String getFullTextJson(String basePath) {
     if (!record.get("has_full_text").contains("True")) {
-      return "";
+      return null;
     }
 
     String[] hashes = record.get("sha").split(";");
     String fullTextPath = "/" + record.get("full_text_file") + "/" + hashes[hashes.length - 1].strip() + ".json";
+    String fullTextJson = null;
     try {
-      String fullTextJson = new String(Files.readAllBytes(
+      fullTextJson = new String(Files.readAllBytes(
         Paths.get(basePath + fullTextPath)));
-      return fullTextJson;
     } catch (IOException e) {
       LOG.error("Error parsing file at " + fullTextPath);
     }
+    return fullTextJson;
+  }
 
-    return "";
+  protected final String getRecordJson() {
+    String recordString = null;
+    ObjectMapper objectMapper = new ObjectMapper();
+    try {
+      recordString = objectMapper.writeValueAsString(record.toMap());
+    } catch (JsonProcessingException e) {
+      LOG.error("Error writing record to JSON " + record.toString());
+    }
+    return recordString;
   }
 
   @Override
