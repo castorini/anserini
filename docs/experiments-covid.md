@@ -29,11 +29,11 @@ ls "${DATA_DIR}"/*.tar.gz | xargs -I {} tar -zxvf {} -C "${DATA_DIR}"
 ## Indexing
 
 We can now index this corpus using Anserini.
-Currently, we have implemented three differen variants:
+Currently, we have implemented three different variants:
 
 ### Title + Abstract
 
-We can titles and abstracts only with `CovidCollection`, as follows:
+We can index titles and abstracts only with `CovidCollection`, as follows:
 
 ```bash
 sh target/appassembler/bin/IndexCollection \
@@ -92,9 +92,11 @@ The output message should be something like this:
 
 In this configuration, the indexer creates multiple Lucene Documents for each source article:
 
++ `docid`: title + abstract
 + `docid.00001`: title + abstract + 1st paragraph
 + `docid.00002`: title + abstract + 2nd paragraph
 + `docid.00003`: title + abstract + 3rd paragraph
 + ...
 
-The suffix of the docid, `.XXXXX` identifies which paragraph is being indexed.
+The suffix of the `docid`, `.XXXXX` identifies which paragraph is being indexed.
+The original raw JSON full text is stored in the `raw` field of `docid` (without the suffix).
