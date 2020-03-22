@@ -320,13 +320,23 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
   }
 
   @Test
-  public void testRawDoc() throws Exception {
+  public void testRawContents() throws Exception {
     Directory dir = FSDirectory.open(tempDir1);
     IndexReader reader = DirectoryReader.open(dir);
 
-    assertEquals("here is some text here is some more text. city.", IndexReaderUtils.getRawDocument(reader, "doc1"));
-    assertEquals("more texts", IndexReaderUtils.getRawDocument(reader, "doc2"));
-    assertEquals("here is a test", IndexReaderUtils.getRawDocument(reader, "doc3"));
+    assertEquals("{\"contents\": \"here is some text here is some more text. city.\"}", IndexReaderUtils.getRawContents(reader, "doc1"));
+    assertEquals("{\"contents\": \"more texts\"}", IndexReaderUtils.getRawContents(reader, "doc2"));
+    assertEquals("{\"contents\": \"here is a test\"}", IndexReaderUtils.getRawContents(reader, "doc3"));
+  }
+
+  @Test
+  public void testIndexedContents() throws Exception {
+    Directory dir = FSDirectory.open(tempDir1);
+    IndexReader reader = DirectoryReader.open(dir);
+
+    assertEquals("here is some text here is some more text. city.", IndexReaderUtils.getIndexedContents(reader, "doc1"));
+    assertEquals("more texts", IndexReaderUtils.getIndexedContents(reader, "doc2"));
+    assertEquals("here is a test", IndexReaderUtils.getIndexedContents(reader, "doc3"));
   }
 
   @Test

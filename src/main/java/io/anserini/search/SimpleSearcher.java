@@ -93,17 +93,25 @@ public class SimpleSearcher implements Closeable {
 
   private IndexSearcher searcher = null;
 
+  /**
+   * This class is meant to serve as the bridge between Anserini and Pyserini.
+   * Note that we are adopting Python naming conventions here on purpose.
+   */
   public class Result {
     public String docid;
-    public int ldocid;
+    public int lucene_docid;
     public float score;
-    public String content;
+    public String contents;
+    public String raw;
+    public Document lucene_document;
 
-    public Result(String docid, int ldocid, float score, String content) {
+    public Result(String docid, int lucene_docid, float score, String contents, String raw, Document lucene_document) {
       this.docid = docid;
-      this.ldocid = ldocid;
+      this.lucene_docid = lucene_docid;
       this.score = score;
-      this.content = content;
+      this.contents = contents;
+      this.raw = raw;
+      this.lucene_document = lucene_document;
     }
   }
 
@@ -320,10 +328,15 @@ public class SimpleSearcher implements Closeable {
     for (int i = 0; i < hits.ids.length; i++) {
       Document doc = hits.documents[i];
       String docid = doc.getField(IndexArgs.ID).stringValue();
-      IndexableField field = doc.getField(IndexArgs.RAW);
-      String content = field == null ? null : field.stringValue();
 
-      results[i] = new Result(docid, hits.ids[i], hits.scores[i], content);
+      IndexableField field;
+      field = doc.getField(IndexArgs.CONTENTS);
+      String contents = field == null ? null : field.stringValue();
+
+      field = doc.getField(IndexArgs.RAW);
+      String raw = field == null ? null : field.stringValue();
+
+      results[i] = new Result(docid, hits.ids[i], hits.scores[i], contents, raw, doc);
     }
 
     return results;
@@ -356,6 +369,7 @@ public class SimpleSearcher implements Closeable {
 
   /**
    * Fetches the Lucene {@link Document} based on an internal Lucene docid.
+   *
    * @param ldocid internal Lucene docid
    * @return corresponding Lucene {@link Document}
    */
@@ -372,6 +386,7 @@ public class SimpleSearcher implements Closeable {
 
   /**
    * Fetches the Lucene {@link Document} based on a collection docid.
+   *
    * @param docid collection docid
    * @return corresponding Lucene {@link Document}
    */
@@ -388,11 +403,44 @@ public class SimpleSearcher implements Closeable {
   }
 
   /**
+   * Returns the indexed contents of a document based on an internal Lucene docid.
+   *
+   * @param ldocid internal Lucene docid
+   * @return indexed contents of the document
+   */
+  public String getIndexedContents(int ldocid) {
+    Document doc = doc(ldocid);
+    if (doc == null) {
+      return null;
+    }
+
+    IndexableField field = doc.getField(IndexArgs.CONTENTS);
+    return field == null ? null : field.stringValue();
+  }
+
+  /**
+   * Returns the indexed contents of a document based on a collection docid.
+   *
+   * @param docid collection docid
+   * @return indexed contents of the document
+   */
+  public String getIndexedContents(String docid) {
+    Document doc = doc(docid);
+    if (doc == null) {
+      return null;
+    }
+
+    IndexableField field = doc.getField(IndexArgs.CONTENTS);
+    return field == null ? null : field.stringValue();
+  }
+
+  /**
    * Returns the raw contents of a document based on an internal Lucene docid.
+   *
    * @param ldocid internal Lucene docid
    * @return raw contents of the document
    */
-  public String getContents(int ldocid) {
+  public String getRawContents(int ldocid) {
     Document doc = doc(ldocid);
     if (doc == null) {
       return null;
@@ -404,10 +452,11 @@ public class SimpleSearcher implements Closeable {
 
   /**
    * Returns the raw contents of a document based on a collection docid.
+   *
    * @param docid collection docid
    * @return raw contents of the document
    */
-  public String getContents(String docid) {
+  public String getRawContents(String docid) {
     Document doc = doc(docid);
     if (doc == null) {
       return null;
