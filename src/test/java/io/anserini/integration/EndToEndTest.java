@@ -41,15 +41,16 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 // This automatically tests indexing, retrieval, and evaluation from end to end.
 // Subclasses inherit and special to different collections.
-@TestRuleLimitSysouts.Limit(bytes=20000)
+@TestRuleLimitSysouts.Limit(bytes = 20000)
 public abstract class EndToEndTest extends LuceneTestCase {
   protected IndexArgs indexCollectionArgs = new IndexArgs();
-  protected SearchArgs searchArgs = new SearchArgs();
-  //protected EvalArgs evalArgs = new EvalArgs();
+  protected Map<String, SearchArgs> testQueries = new HashMap<>();
 
   protected String dataDirPath;
   protected String dataDirPrefix = "src/test/resources/sample_docs/";
@@ -59,9 +60,7 @@ public abstract class EndToEndTest extends LuceneTestCase {
   protected String topicDirPrefix = "src/test/resources/sample_topics/";
   protected String topicReader;
   protected String searchOutputPrefix = "e2eTestSearch";
-  protected String qrelsDirPrefix = "src/test/resources/sample_qrels/";
-  protected String[] evalMetrics = new String[]{"map"};
-  protected String[] referenceRunOutput;
+  protected Map<String, String[]> referenceRunOutput = new HashMap<>();
 
   // These are the sources of truth
   protected int fieldNormStatusTotalFields;
@@ -86,13 +85,14 @@ public abstract class EndToEndTest extends LuceneTestCase {
   public void setUp() throws Exception {
     super.setUp();
     init();
+    testIndexing();
   }
 
   @After
   @Override
   public void tearDown() throws Exception {
-    FileUtils.deleteDirectory(new File(this.indexOutputPrefix+this.collectionClass));
-    new File(this.searchOutputPrefix+this.topicReader).delete();
+    FileUtils.deleteDirectory(new File(this.indexOutputPrefix + this.collectionClass));
+    new File(this.searchOutputPrefix + this.topicReader).delete();
     super.tearDown();
   }
 
@@ -106,7 +106,7 @@ public abstract class EndToEndTest extends LuceneTestCase {
 
   protected void checkIndex() throws IOException {
     ByteArrayOutputStream bos = new ByteArrayOutputStream(1024);
-    Directory dir = FSDirectory.open(Paths.get(this.indexOutputPrefix+this.collectionClass));
+    Directory dir = FSDirectory.open(Paths.get(this.indexOutputPrefix + this.collectionClass));
 
     IndexReader reader = DirectoryReader.open(dir);
     assertEquals(docCount, reader.maxDoc());
@@ -152,11 +152,11 @@ public abstract class EndToEndTest extends LuceneTestCase {
 
   protected void setIndexingArgs() {
     // required
-    indexCollectionArgs.collectionClass = this.collectionClass+"Collection";
-    indexCollectionArgs.generatorClass = this.generator+"Generator";
+    indexCollectionArgs.collectionClass = this.collectionClass + "Collection";
+    indexCollectionArgs.generatorClass = this.generator + "Generator";
     indexCollectionArgs.threads = 2;
-    indexCollectionArgs.input = this.dataDirPrefix+this.dataDirPath;
-    indexCollectionArgs.index = this.indexOutputPrefix+this.collectionClass;
+    indexCollectionArgs.input = this.dataDirPrefix + this.dataDirPath;
+    indexCollectionArgs.index = this.indexOutputPrefix + this.collectionClass;
 
     //optional
     indexCollectionArgs.storePositions = true;
@@ -167,7 +167,7 @@ public abstract class EndToEndTest extends LuceneTestCase {
     indexCollectionArgs.quiet = true;
   }
 
-  protected void testIndexing() throws Exception {
+  protected void testIndexing() {
     setIndexingArgs();
     try {
       IndexCollection.Counters counters = new IndexCollection(indexCollectionArgs).run();
@@ -179,28 +179,33 @@ public abstract class EndToEndTest extends LuceneTestCase {
     }
   }
 
-  protected void setSearchArgs() {
+  protected SearchArgs createDefaultSearchArgs() {
+    SearchArgs searchArgs = new SearchArgs();
     // required
-    searchArgs.index = this.indexOutputPrefix+this.collectionClass;
-    searchArgs.topics = new String[]{this.topicDirPrefix+this.topicReader};
-    searchArgs.output = this.searchOutputPrefix+this.topicReader;
+    searchArgs.index = this.indexOutputPrefix + this.collectionClass;
+    searchArgs.topics = new String[]{this.topicDirPrefix + this.topicReader};
+    searchArgs.output = this.searchOutputPrefix + this.topicReader;
     searchArgs.topicReader = this.topicReader;
     searchArgs.bm25 = true;
 
-    //optional
+    // optional
     searchArgs.topicfield = "title";
     searchArgs.searchtweets = false;
     searchArgs.hits = 1000;
     searchArgs.keepstop = false;
+
+    return searchArgs;
   }
 
-  protected<K> void testSearching() {
-    setSearchArgs();
+  @Test
+  public void testSearching() {
     try {
-      SearchCollection searcher = new SearchCollection(searchArgs);
-      searcher.runTopics();
-      searcher.close();
-      checkRankingResults(searchArgs.output);
+      for (Map.Entry<String, SearchArgs> entry : testQueries.entrySet()) {
+        SearchCollection searcher = new SearchCollection(entry.getValue());
+        searcher.runTopics();
+        searcher.close();
+        checkRankingResults(entry.getKey(), entry.getValue().output);
+      }
     } catch (Exception e) {
       System.out.println("Test Searching failed: ");
       e.printStackTrace();
@@ -208,22 +213,17 @@ public abstract class EndToEndTest extends LuceneTestCase {
     }
   }
 
-  protected void checkRankingResults(String output) throws IOException {
+  protected void checkRankingResults(String key, String output) throws IOException {
     BufferedReader br = new BufferedReader(new FileReader(output));
+    String[] ref = referenceRunOutput.get(key);
 
     int cnt = 0;
     String s;
     while ((s = br.readLine()) != null) {
-      assertEquals(referenceRunOutput[cnt], s);
+      assertEquals(ref[cnt], s);
       cnt++;
     }
 
-    assertEquals(cnt, referenceRunOutput.length);
-  }
-
-  @Test
-  public void testAll() throws Exception {
-    testIndexing();
-    testSearching();
+    assertEquals(cnt, ref.length);
   }
 }

@@ -16,6 +16,7 @@
 
 package io.anserini.util;
 
+import io.anserini.index.IndexArgs;
 import io.anserini.index.NotStoredException;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
@@ -57,6 +58,8 @@ public class ExtractDocumentLengths {
     } catch (CmdLineException e) {
       System.err.println(e.getMessage());
       parser.printUsage(System.err);
+      System.err.println(String.format("Example: %s %s",
+          ExtractDocumentLengths.class.getSimpleName(), parser.printExample(OptionHandlerFilter.REQUIRED)));
       return;
     }
 
@@ -66,12 +69,20 @@ public class ExtractDocumentLengths {
     PrintStream out = new PrintStream(new FileOutputStream(new File(myArgs.output)));
 
     int numDocs = reader.numDocs();
+    long lossyTotalTerms = 0;
+    long exactTotalTerms = 0;
+
     out.println("docid\tdoc_length\tunique_term_count\tlossy_doc_length\tlossy_unique_term_count");
     for (int i = 0; i < numDocs; i++) {
-      Terms terms = reader.getTermVector(i, "contents");
+      Terms terms = reader.getTermVector(i, IndexArgs.CONTENTS);
       if (terms == null) {
-        throw new NotStoredException("Term vectors not available!");
+        // It could be the case that TermVectors weren't stored when constructing the index, or we're just missing a
+        // TermVector for a zero-length document. Warn, but don't throw exception.
+        System.err.println(String.format("Warning: TermVector not available for docid %d.", i));
+        out.println(String.format("%d\t0\t0\t0\t0", i));
+        continue;
       }
+
       long exactDoclength = terms.getSumTotalTermFreq();
       long exactTermCount = terms.size();
       // Uses Lucene's method of encoding an integer into a byte, and the decoding it again.
@@ -80,7 +91,14 @@ public class ExtractDocumentLengths {
       int lossyDoclength = SmallFloat.byte4ToInt(SmallFloat.intToByte4((int) exactDoclength));
       int lossyTermCount = SmallFloat.byte4ToInt(SmallFloat.intToByte4((int) exactTermCount));
       out.println(String.format("%d\t%d\t%d\t%d\t%d", i, exactDoclength, exactTermCount, lossyDoclength, lossyTermCount));
+      lossyTotalTerms += lossyDoclength;
+      exactTotalTerms += exactDoclength;
     }
+
+    System.out.println("Total number of terms in collection (sum of doclengths):");
+    System.out.println("Lossy: " + lossyTotalTerms);
+    System.out.println("Exact: " + exactTotalTerms);
+
     out.flush();
     out.close();
     reader.close();

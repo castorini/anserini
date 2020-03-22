@@ -133,6 +133,10 @@
                <id>DumpAnalyzedQueries</id>
             </program>
             <program>
+               <mainClass>io.anserini.util.ExtractAverageDocumentLength</mainClass>
+               <id>ExtractAverageDocumentLength</id>
+            </program>
+            <program>
                <mainClass>io.anserini.util.ExtractDocumentLengths</mainClass>
                <id>ExtractDocumentLengths</id>
             </program>
@@ -141,8 +145,8 @@
                <id>ExtractNorms</id>
             </program>
             <program>
-               <mainClass>io.anserini.util.ExtractAverageDocumentLength</mainClass>
-               <id>ExtractAverageDocumentLength</id>
+               <mainClass>io.anserini.util.ExtractTopDfTerms</mainClass>
+               <id>ExtractTopDfTerms</id>
             </program>
             <program>
               <mainClass>io.anserini.index.IndexUtils</mainClass>

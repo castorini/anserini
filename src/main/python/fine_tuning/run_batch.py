@@ -100,7 +100,7 @@ def batch_eval(collection_yaml, models_yaml, output_root):
             this_para = (
                 [os.path.join(collection_yaml['anserini_root'], eval['command']+' '+eval['params'])],
                 os.path.join(collection_yaml['anserini_root'], collection_yaml['qrels_root'], collection_yaml['qrel']),
-                run_file_path,
+                f"'{run_file_path}'",  # Make sure the filename is quoted
                 eval_output
             )
             all_params.append(this_para)
