@@ -81,16 +81,21 @@ public class CovidParagraphCollection extends DocumentCollection<CovidParagraphC
 
     @Override
     public void readNext() throws NoSuchElementException {
-      if (paragraphIterator != null && paragraphIterator.hasNext()) { // if the record contains more paragraphs, we parse them
+      if (paragraphIterator != null && paragraphIterator.hasNext()) {
+        // if the record contains more paragraphs, we parse them
         String paragraph = paragraphIterator.next().get("text").asText();
         paragraphNumber += 1;
         bufferedRecord = new CovidParagraphCollection.Document(record, paragraph, paragraphNumber);
-      } else if (iterator.hasNext()) { // if CSV contains more lines, we parse the next record
+      } else if (iterator.hasNext()) {
+        // if CSV contains more lines, we parse the next record
         record = iterator.next();
         String recordFullText = "";
+
+        // get paragraphs from ful text file
         if (record.get("has_full_text").contains("True")) {
           String[] hashes = record.get("sha").split(";");
           String fullTextPath = "/" + record.get("full_text_file") + "/" + hashes[hashes.length - 1].strip() + ".json";
+
           try {
             String recordFullTextPath = CovidParagraphCollection.this.path.toString() + fullTextPath;
             recordFullText = new String(Files.readAllBytes(Paths.get(recordFullTextPath)));
@@ -104,6 +109,7 @@ public class CovidParagraphCollection extends DocumentCollection<CovidParagraphC
         } else {
           paragraphIterator = null;
         }
+
         paragraphNumber = 0;
         bufferedRecord = new CovidParagraphCollection.Document(record, recordFullText);
     } else {
@@ -127,21 +133,18 @@ public class CovidParagraphCollection extends DocumentCollection<CovidParagraphC
   /**
    * A document in a CORD-19 collection.
    */
-  public class Document implements SourceDocument {
-    private String id;
-    private String content;
-    private String raw;
-    private CSVRecord record;
-
+  public class Document extends CovidCollectionDocument {
     public Document(CSVRecord record, String paragraph, Integer paragraphNumber, String recordFullText) {
       if (paragraphNumber == 0) {
         id = Long.toString(record.getRecordNumber());
       } else {
         id = Long.toString(record.getRecordNumber()) + "." + String.format("%05d", paragraphNumber);
       }
+
       content = record.get("title").replace("\n", " ");
       content += record.get("abstract").isEmpty() ? "" : "\n" + record.get("abstract");
       content += paragraph.isEmpty() ? "" : "\n" + paragraph;
+
       this.raw = recordFullText;
       this.record = record;
     }
@@ -152,29 +155,6 @@ public class CovidParagraphCollection extends DocumentCollection<CovidParagraphC
 
     public Document(CSVRecord record, String recordFullText) {
       this(record, "", 0, recordFullText);
-    }
-
-    @Override
-    public String id() {
-      return id;
-    }
-
-    @Override
-    public String content() {
-      return content;
-    }
-
-    public String raw() {
-      return raw;
-    }
-
-    @Override
-    public boolean indexable() {
-      return true;
-    }
-
-    public CSVRecord record() {
-      return record;
     }
   }
 }

@@ -17,7 +17,7 @@
 package io.anserini.index.generator;
 
 import io.anserini.analysis.DefaultEnglishAnalyzer;
-import io.anserini.collection.CovidCollection;
+import io.anserini.collection.CovidCollectionDocument;
 import io.anserini.index.IndexArgs;
 import io.anserini.index.IndexCollection;
 import org.apache.logging.log4j.LogManager;
@@ -38,9 +38,9 @@ import org.apache.lucene.util.BytesRef;
 import java.io.StringReader;
 
 /**
- * Converts a {@link CovidCollection.Document} into a Lucene {@link Document}, ready to be indexed.
+ * Converts a {@link CovidCollectionDocument} into a Lucene {@link Document}, ready to be indexed.
  */
-public class CovidGenerator extends LuceneDocumentGenerator<CovidCollection.Document> {
+public class CovidGenerator extends LuceneDocumentGenerator<CovidCollectionDocument> {
   private static final Logger LOG = LogManager.getLogger(CovidGenerator.class);
 
   public enum CovidField {
@@ -72,7 +72,7 @@ public class CovidGenerator extends LuceneDocumentGenerator<CovidCollection.Docu
   }
 
   @Override
-  public Document createDocument(CovidCollection.Document covidDoc) {
+  public Document createDocument(CovidCollectionDocument covidDoc) {
     String id = covidDoc.id();
     String content = covidDoc.content();
     String raw = covidDoc.raw();

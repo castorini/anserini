@@ -103,60 +103,19 @@ public class CovidCollection extends DocumentCollection<CovidCollection.Document
   /**
    * A document in a CORD-19 collection.
    */
-  public class Document implements SourceDocument {
-    private String id;
-    private String content;
-    private String raw;
-    private CSVRecord record;
-
+  public class Document extends CovidCollectionDocument {
     public Document(CSVRecord record) {
       id = Long.toString(record.getRecordNumber());
       content = record.get("title").replace("\n", " ");
       content += record.get("abstract").isEmpty() ? "" : "\n" + record.get("abstract");
       this.record = record;
 
-      String fullTextJson = "";
-      // index full text into raw content
-      if (record.get("has_full_text").contains("True")) {
-        String[] hashes = record.get("sha").split(";");
-        String fullTextPath = "/" + record.get("full_text_file") + "/" + hashes[hashes.length - 1].strip() + ".json";
-        try {
-          fullTextJson = new String(Files.readAllBytes(
-            Paths.get(CovidCollection.this.path.toString() + fullTextPath)));
-        } catch (IOException e) {
-          LOG.error("Error parsing file at " + fullTextPath);
-          raw = record.toString();
-        }
-      }
-
+      String fullTextJson = getFullTextJson(record, CovidCollection.this.path.toString());
       if (!fullTextJson.isEmpty()) {
         raw = fullTextJson;
       } else {
         raw = record.toString();
       }
-    }
-
-    @Override
-    public String id() {
-      return id;
-    }
-
-    @Override
-    public String content() {
-      return content;
-    }
-
-    @Override
-    public boolean indexable() {
-      return true;
-    }
-
-    public String raw() {
-      return raw;
-    }
-
-    public CSVRecord record() {
-      return record;
     }
   }
 }
