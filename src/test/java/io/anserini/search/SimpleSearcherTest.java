@@ -17,7 +17,9 @@
 package io.anserini.search;
 
 import io.anserini.IndexerTestBase;
+import io.anserini.index.IndexArgs;
 import io.anserini.search.SimpleSearcher.Result;
+import org.apache.lucene.document.Document;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -28,37 +30,7 @@ import java.util.Map;
 public class SimpleSearcherTest extends IndexerTestBase {
 
   @Test
-  public void test1() throws Exception {
-    SimpleSearcher searcher = new SimpleSearcher(super.tempDir1.toString());
-    Result[] results;
-
-    results = searcher.search("text", 1);
-    assertEquals(1, results.length);
-    assertEquals("doc1", results[0].docid);
-    assertEquals(0, results[0].ldocid);
-    assertEquals(0.2883000075817108f, results[0].score, 10e-6);
-    assertEquals("here is some text here is some more text. city.", results[0].content);
-
-    results = searcher.search("text");
-    assertEquals(2, results.length);
-    assertEquals("doc1", results[0].docid);
-    assertEquals(0, results[0].ldocid);
-    assertEquals("doc2", results[1].docid);
-    assertEquals(1, results[1].ldocid);
-    assertEquals(0.2883000075817108f, results[0].score, 10e-6);
-    assertEquals(0.2732999920845032f, results[1].score, 10e-6);
-
-    results = searcher.search("test");
-    assertEquals(1, results.length);
-    assertEquals("doc3", results[0].docid);
-    assertEquals(2, results[0].ldocid);
-    assertEquals(0.5702000260353088f, results[0].score, 10e-6);
-
-    searcher.close();
-  }
-
-  @Test
-  public void test2() throws Exception {
+  public void testGetDoc() throws Exception {
     SimpleSearcher searcher = new SimpleSearcher(super.tempDir1.toString());
 
     assertEquals("here is some text here is some more text. city.",
@@ -81,29 +53,90 @@ public class SimpleSearcherTest extends IndexerTestBase {
   }
 
   @Test
-  public void test3() throws Exception {
+  public void testGetContents() throws Exception {
     SimpleSearcher searcher = new SimpleSearcher(super.tempDir1.toString());
 
-    assertEquals("here is some text here is some more text. city.", searcher.getContents(0));
-    assertEquals("more texts", searcher.getContents(1));
-    assertEquals("here is a test", searcher.getContents(2));
+    assertEquals("here is some text here is some more text. city.", searcher.getIndexedContents(0));
+    assertEquals("more texts", searcher.getIndexedContents(1));
+    assertEquals("here is a test", searcher.getIndexedContents(2));
     assertEquals(null, searcher.doc(3));
 
-    assertEquals("here is some text here is some more text. city.", searcher.getContents("doc1"));
-    assertEquals("more texts", searcher.getContents("doc2"));
-    assertEquals("here is a test", searcher.getContents("doc3"));
-    assertEquals(null, searcher.getContents("doc42"));
+    assertEquals("here is some text here is some more text. city.", searcher.getIndexedContents("doc1"));
+    assertEquals("more texts", searcher.getIndexedContents("doc2"));
+    assertEquals("here is a test", searcher.getIndexedContents("doc3"));
+    assertEquals(null, searcher.getIndexedContents("doc42"));
 
     searcher.close();
   }
 
   @Test
-  public void testSearch() throws Exception {
+  public void testGetRaw() throws Exception {
     SimpleSearcher searcher = new SimpleSearcher(super.tempDir1.toString());
 
+    assertEquals("{\"contents\": \"here is some text here is some more text. city.\"}", searcher.getRawContents(0));
+    assertEquals("{\"contents\": \"more texts\"}", searcher.getRawContents(1));
+    assertEquals("{\"contents\": \"here is a test\"}", searcher.getRawContents(2));
+    assertEquals(null, searcher.doc(3));
+
+    assertEquals("{\"contents\": \"here is some text here is some more text. city.\"}", searcher.getRawContents("doc1"));
+    assertEquals("{\"contents\": \"more texts\"}", searcher.getRawContents("doc2"));
+    assertEquals("{\"contents\": \"here is a test\"}", searcher.getRawContents("doc3"));
+    assertEquals(null, searcher.getIndexedContents("doc42"));
+
+    searcher.close();
+  }
+
+  @Test
+  public void testSearch1() throws Exception {
+    SimpleSearcher searcher = new SimpleSearcher(super.tempDir1.toString());
+
+    Document doc;
     SimpleSearcher.Result[] hits = searcher.search("test", 10);
     assertEquals(1, hits.length);
     assertEquals("doc3", hits[0].docid);
+    assertEquals(2, hits[0].lucene_docid);
+    assertEquals(0.5702000f, hits[0].score, 10e-6);
+    assertEquals("here is a test", hits[0].contents);
+    assertEquals("{\"contents\": \"here is a test\"}", hits[0].raw);
+
+    // We can fetch the exact same information from the raw Lucene document also.
+    assertEquals("doc3",
+        hits[0].lucene_document.getField(IndexArgs.ID).stringValue());
+    assertEquals("here is a test",
+        hits[0].lucene_document.getField(IndexArgs.CONTENTS).stringValue());
+    assertEquals("{\"contents\": \"here is a test\"}",
+        hits[0].lucene_document.getField(IndexArgs.RAW).stringValue());
+
+    searcher.close();
+  }
+
+  @Test
+  public void testSearch2() throws Exception {
+    SimpleSearcher searcher = new SimpleSearcher(super.tempDir1.toString());
+    Result[] results;
+
+    results = searcher.search("text", 1);
+    assertEquals(1, results.length);
+    assertEquals("doc1", results[0].docid);
+    assertEquals(0, results[0].lucene_docid);
+    assertEquals(0.28830000f, results[0].score, 10e-6);
+    assertEquals("here is some text here is some more text. city.", results[0].contents);
+    assertEquals("{\"contents\": \"here is some text here is some more text. city.\"}", results[0].raw);
+
+    results = searcher.search("text");
+    assertEquals(2, results.length);
+    assertEquals("doc1", results[0].docid);
+    assertEquals(0, results[0].lucene_docid);
+    assertEquals("doc2", results[1].docid);
+    assertEquals(1, results[1].lucene_docid);
+    assertEquals(0.28830000f, results[0].score, 10e-6);
+    assertEquals(0.27329999f, results[1].score, 10e-6);
+
+    results = searcher.search("test");
+    assertEquals(1, results.length);
+    assertEquals("doc3", results[0].docid);
+    assertEquals(2, results[0].lucene_docid);
+    assertEquals(0.5702000f, results[0].score, 10e-6);
 
     searcher.close();
   }

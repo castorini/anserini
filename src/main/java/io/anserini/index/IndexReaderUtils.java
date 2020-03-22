@@ -332,6 +332,7 @@ public class IndexReaderUtils {
 
   /**
    * Returns the document vector for a particular document as a map of terms to term frequencies.
+   *
    * @param reader index reader
    * @param docid collection docid
    * @return the document vector for a particular document as a map of terms to term frequencies
@@ -357,12 +358,13 @@ public class IndexReaderUtils {
   }
 
   /**
-   * Returns the raw document given its collection docid.
+   * Returns the raw contents of a document based on an internal Lucene docid.
+   *
    * @param reader index reader
    * @param docid collection docid
-   * @return the raw document given its collection docid, or <code>null</code> if not found.
+   * @return raw contents of a document
    */
-  public static String getRawDocument(IndexReader reader, String docid) {
+  public static String getRawContents(IndexReader reader, String docid) {
     try {
       Document rawDoc = reader.document(convertDocidToLuceneDocid(reader, docid));
 
@@ -376,7 +378,28 @@ public class IndexReaderUtils {
   }
 
   /**
+   * Returns the indexed contents of a document based on a collection docid.
+   *
+   * @param reader index reader
+   * @param docid collection docid
+   * @return indexed contents of a document
+   */
+  public static String getIndexedContents(IndexReader reader, String docid) {
+    try {
+      Document rawDoc = reader.document(convertDocidToLuceneDocid(reader, docid));
+
+      if (rawDoc == null) {
+        return null;
+      }
+      return rawDoc.get(IndexArgs.CONTENTS);
+    } catch (IOException e) {
+      return null;
+    }
+  }
+
+  /**
    * Computes the BM25 weight of a term (prior to analysis) in a particular document.
+   *
    * @param reader index reader
    * @param docid collection docid
    * @param term term (prior to analysis)
@@ -498,6 +521,7 @@ public class IndexReaderUtils {
 
   /**
    * Converts a collection docid to a Lucene internal docid
+   *
    * @param reader index reader
    * @param docid collection docid
    * @return corresponding Lucene internal docid, or -1 if docid not found
@@ -523,6 +547,7 @@ public class IndexReaderUtils {
 
   /**
    * Converts a Lucene internal docid to a collection docid
+   *
    * @param reader index reader
    * @param docid Lucene internal docid
    * @return corresponding collection docid, or <code>null</code> if not found.
