@@ -95,7 +95,7 @@ public class BibtexCollection extends DocumentCollection<BibtexCollection.Docume
   /**
    * A document in a Bibtex collection.
    */
-  public static class Document implements SourceDocument {
+  public static class Document extends SourceDocument {
     private String id;
     private String contents;
     private String type;
