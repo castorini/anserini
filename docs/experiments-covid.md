@@ -1,6 +1,8 @@
 # Anserini: Experiments on [COVID-19 Open Research Dataset](https://pages.semanticscholar.org/coronavirus-research)
 
-This document describes the steps to index the [COVID-19 Open Research Dataset](https://pages.semanticscholar.org/coronavirus-research)
+This document describes the steps to index the [COVID-19 Open Research Dataset](https://pages.semanticscholar.org/coronavirus-research) from AI2.
+If you don't want to bother building the indexes yourself, we have pre-built indexes that you can directly download (see below).
+If you want a very low cost way to get started, check out our [Colab demo using the Title + Abstract Index](https://colab.research.google.com/drive/1mrapJp6-RIB-3u6FaJVa4WEwFdEBOcTe).
 
 ## Data Prep
 
@@ -29,7 +31,13 @@ ls "${DATA_DIR}"/*.tar.gz | xargs -I {} tar -zxvf {} -C "${DATA_DIR}"
 ## Indexing
 
 We can now index this corpus using Anserini.
-Currently, we have implemented three different variants:
+Currently, we have implemented three different variants, described below.
+For a sense of how these different methods stack up, refer to the following paper:
+
++ Jimmy Lin. [Is Searching Full Text More Effective Than Searching Abstracts?](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-10-46) BMC Bioinformatics, 10:46 (3 February 2009).
+
+The tl;dr &mdash; we'd recommend getting started with title + abstract index since it's the smallest in size and easiest to manipulate. Paragraph indexing is likely to be more effective (i.e., better search results), but a bit more difficult to manipulate since some deduping is required to post-process the raw hits (since multiple paragraphs from the same article might be retrieved).
+The full-text index overly biases long documents and isn't really effective; this condition is included here only for completeness.
 
 ### Title + Abstract
 
@@ -50,7 +58,7 @@ The output message should be something like this:
 ```
 
 The `contents` field of each Lucene document is a concatenation of the article's title and abstract.
-
+If you don't want to build the index yourself, you can download a pre-built copy [here](https://www.dropbox.com/s/uvjwgy4re2myq5s/lucene-index-covid-2020-03-20.tar.gz?dl=0).
 
 ### Full-Text
 
