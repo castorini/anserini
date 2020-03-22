@@ -60,7 +60,6 @@ public class CovidCollection extends DocumentCollection<CovidCollection.Document
     CSVParser csvParser = null;
     private CSVRecord record = null;
     private Iterator<CSVRecord> iterator = null; // iterator for CSV records
-    private String recordFullText = "";
     private Iterator<JsonNode> paragraphIterator = null; // iterator for paragraphs in a CSV record
     private Integer paragraphNumber = 0;
 
@@ -85,9 +84,10 @@ public class CovidCollection extends DocumentCollection<CovidCollection.Document
       if (paragraphIterator != null && paragraphIterator.hasNext()) { // if the record contains more paragraphs, we parse them
         String paragraph = paragraphIterator.next().get("text").asText();
         paragraphNumber += 1;
-        bufferedRecord = new CovidCollection.Document(record, recordFullText, paragraph, paragraphNumber);
+        bufferedRecord = new CovidCollection.Document(record, paragraph, paragraphNumber);
       } else if (iterator.hasNext()) { // if CSV contains more lines, we parse the next record
         record = iterator.next();
+        String recordFullText = "";
         if (record.get("has_full_text").contains("True")) {
           String[] hashes = record.get("sha").split(";");
           String fullTextPath = "/" + record.get("full_text_file") + "/" + hashes[hashes.length - 1].strip() + ".json";
@@ -97,14 +97,12 @@ public class CovidCollection extends DocumentCollection<CovidCollection.Document
             FileReader recordFullTextFileReader = new FileReader(recordFullTextPath);
             ObjectMapper mapper = new ObjectMapper();
             JsonNode recordJsonNode = mapper.readerFor(JsonNode.class).readTree(recordFullTextFileReader);
-            paragraphIterator = recordJsonNode.get("body_text").elements(); 
-            
+            paragraphIterator = recordJsonNode.get("body_text").elements();
           } catch (IOException e) {
             LOG.error("Error parsing file at " + fullTextPath + "\n" + e.getMessage());
           }
         } else {
           paragraphIterator = null;
-          recordFullText = "";
         }
         paragraphNumber = 0;
         bufferedRecord = new CovidCollection.Document(record, recordFullText);
@@ -135,7 +133,7 @@ public class CovidCollection extends DocumentCollection<CovidCollection.Document
     private String raw;
     private CSVRecord record;
 
-    public Document(CSVRecord record, String recordFullText, String paragraph, Integer paragraphNumber) {
+    public Document(CSVRecord record, String paragraph, Integer paragraphNumber, String recordFullText) {
       if (paragraphNumber == 0) {
         id = Long.toString(record.getRecordNumber());
       } else {
@@ -148,8 +146,12 @@ public class CovidCollection extends DocumentCollection<CovidCollection.Document
       this.record = record;
     }
 
+    public Document(CSVRecord record, String paragraph, Integer paragraphNumber) {
+      this(record, paragraph, paragraphNumber, "");
+    }
+
     public Document(CSVRecord record, String recordFullText) {
-      this(record, recordFullText, "", 0);
+      this(record, "", 0, recordFullText);
     }
 
     @Override

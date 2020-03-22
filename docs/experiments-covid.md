@@ -38,5 +38,5 @@ sh target/appassembler/bin/IndexCollection \
 The output message should be something like this:
 
 ```bash
-2020-03-22 00:04:40,382 INFO  [main] index.IndexCollection (IndexCollection.java:845) - Total 44,220 documents indexed in 00:05:06
+2020-03-22 15:24:49,305 INFO  [main] index.IndexCollection (IndexCollection.java:845) - Total 1,096,241 documents indexed in 00:11:35
 ```
