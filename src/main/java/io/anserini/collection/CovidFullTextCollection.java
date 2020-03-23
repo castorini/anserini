@@ -36,23 +36,23 @@ import java.util.Set;
 /**
  * A document collection for the CORD-19 dataset provided by Semantic Scholar.
  */
-public class CovidCollection extends DocumentCollection<CovidCollection.Document> {
-  private static final Logger LOG = LogManager.getLogger(CovidCollection.class);
+public class CovidFullTextCollection extends DocumentCollection<CovidFullTextCollection.Document> {
+  private static final Logger LOG = LogManager.getLogger(CovidFullTextCollection.class);
 
-  public CovidCollection(Path path){
+  public CovidFullTextCollection(Path path){
     this.path = path;
     this.allowedFileSuffix = Set.of(".csv");
   }
 
   @Override
-  public FileSegment<CovidCollection.Document> createFileSegment(Path p) throws IOException {
+  public FileSegment<CovidFullTextCollection.Document> createFileSegment(Path p) throws IOException {
     return new Segment(p);
   }
 
   /**
    * A file containing a single CSV document.
    */
-  public class Segment extends FileSegment<CovidCollection.Document> {
+  public class Segment extends FileSegment<CovidFullTextCollection.Document> {
     CSVParser csvParser = null;
     private CSVRecord record = null;
     private Iterator<CSVRecord> iterator = null; // iterator for CSV records
@@ -78,7 +78,7 @@ public class CovidCollection extends DocumentCollection<CovidCollection.Document
       if (record == null) {
         throw new NoSuchElementException("Record is empty");
       } else {
-        bufferedRecord = new CovidCollection.Document(record);
+        bufferedRecord = new CovidFullTextCollection.Document(record);
         if (iterator.hasNext()) { // if CSV contains more lines, we parse the next record
           record = iterator.next();
         } else {
@@ -110,8 +110,9 @@ public class CovidCollection extends DocumentCollection<CovidCollection.Document
       content += record.get("abstract").isEmpty() ? "" : "\n" + record.get("abstract");
       this.record = record;
 
-      String fullTextJson = getFullTextJson(CovidCollection.this.path.toString());
+      String fullTextJson = getFullTextJson(CovidFullTextCollection.this.path.toString());
       if (fullTextJson != null) {
+        content += fullTextJson.isEmpty() ? "" : "\n " + fullTextJson;
         raw = fullTextJson;
       } else {
         String recordJson = getRecordJson();

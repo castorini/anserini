@@ -21,20 +21,29 @@ package io.anserini.collection;
  * Lucene {@link org.apache.lucene.document.Document}, which is the Lucene representation that
  * can be directly inserted into an index.
  */
-public interface SourceDocument {
+public abstract class SourceDocument {
   /**
    * Returns the unique identifier of the document.
    *
    * @return the unique identifier of the document
    */
-  String id();
+  public abstract String id();
+
+  /**
+   * Returns the content of the document to be searched.
+   *
+   * @return the content of the document to be searched
+   */
+  public abstract String content();
 
   /**
    * Returns the raw content of the document.
    *
    * @return the raw content of the document
    */
-  String content();
+  public String raw() {
+    return content();
+  };
 
   /**
    * Returns whether this document is meant to be indexed. Certain collections (e.g., ClueWeb)
@@ -42,5 +51,5 @@ public interface SourceDocument {
    *
    * @return <code>true</code> if this document is meant to be indexed
    */
-  boolean indexable();
+  public abstract boolean indexable();
 }

@@ -17,7 +17,7 @@
 package io.anserini.index.generator;
 
 import io.anserini.analysis.DefaultEnglishAnalyzer;
-import io.anserini.collection.CovidCollection;
+import io.anserini.collection.CovidCollectionDocument;
 import io.anserini.index.IndexArgs;
 import io.anserini.index.IndexCollection;
 import org.apache.logging.log4j.LogManager;
@@ -38,9 +38,9 @@ import org.apache.lucene.util.BytesRef;
 import java.io.StringReader;
 
 /**
- * Converts a {@link CovidCollection.Document} into a Lucene {@link Document}, ready to be indexed.
+ * Converts a {@link CovidCollectionDocument} into a Lucene {@link Document}, ready to be indexed.
  */
-public class CovidGenerator extends LuceneDocumentGenerator<CovidCollection.Document> {
+public class CovidGenerator extends LuceneDocumentGenerator<CovidCollectionDocument> {
   private static final Logger LOG = LogManager.getLogger(CovidGenerator.class);
 
   public enum CovidField {
@@ -72,9 +72,10 @@ public class CovidGenerator extends LuceneDocumentGenerator<CovidCollection.Docu
   }
 
   @Override
-  public Document createDocument(CovidCollection.Document covidDoc) {
+  public Document createDocument(CovidCollectionDocument covidDoc) {
     String id = covidDoc.id();
     String content = covidDoc.content();
+    String raw = covidDoc.raw();
 
     if (content == null || content.trim().isEmpty()) {
       counters.empty.incrementAndGet();
@@ -89,7 +90,7 @@ public class CovidGenerator extends LuceneDocumentGenerator<CovidCollection.Docu
     doc.add(new SortedDocValuesField(IndexArgs.ID, new BytesRef(id)));
 
     if (args.storeRawDocs) {
-      doc.add(new StoredField(IndexArgs.RAW, content));
+      doc.add(new StoredField(IndexArgs.RAW, raw));
     }
 
     FieldType fieldType = new FieldType();
@@ -136,7 +137,7 @@ public class CovidGenerator extends LuceneDocumentGenerator<CovidCollection.Docu
     // parse year published
     try {
       doc.add(new IntPoint(CovidField.YEAR.name, Integer.parseInt(
-        covidDoc.record().get(CovidField.PUBLISH_TIME.name).replace("-", " ").split("-")[0].strip())));
+        covidDoc.record().get(CovidField.PUBLISH_TIME.name).strip().substring(0, 4))));
     } catch(Exception e) {
       // can't parse year
     }
