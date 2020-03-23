@@ -41,7 +41,7 @@ public class ClueWeb12CollectionTest extends DocumentCollectionTest<ClueWeb12Col
 
     // Note special key "null" to handle special case.
     expected.put("null",
-        Map.of("id", "null","content",
+        Map.of("id", "null","raw",
             "software: Nutch 1.0-dev (modified for clueweb09)\n" +
                 "isPartOf: clueweb09-en\n" +
                 "description: clueweb09 crawl with WARC output\n" +
@@ -50,18 +50,19 @@ public class ClueWeb12CollectionTest extends DocumentCollectionTest<ClueWeb12Col
 
     expected.put("clueweb09-az0000-00-00000",
         Map.of("id", "clueweb09-az0000-00-00000",
-            "content", "<html>\nwhatever here will be included\n</html>"));
+            "raw", "<html>\nwhatever here will be included\n</html>"));
   }
 
   @Override
   void checkDocument(SourceDocument doc, Map<String, String> expected) {
     if (doc.id() == null) {
       assertFalse(doc.indexable());
+      assertEquals(expected.get("raw"), doc.raw());
     } else {
       assertTrue(doc.indexable());
       assertEquals(expected.get("id"), doc.id());
+      assertEquals(JsoupStringTransform.SINGLETON.apply(expected.get("raw")), doc.content());
+      assertEquals(expected.get("raw"), doc.raw());
     }
-    assertEquals(expected.get("content"), doc.content());
-    assertEquals(expected.get("content"), doc.raw());
   }
 }
