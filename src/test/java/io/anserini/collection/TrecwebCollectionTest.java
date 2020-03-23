@@ -42,19 +42,19 @@ public class TrecwebCollectionTest extends DocumentCollectionTest<TrecwebCollect
     // Note, <DOCHDR> Will NOT be included.
     expected.put("WEB-0001",
         Map.of("id", "WEB-0001",
-            "content", "<html>Wh at ever here will be parsed\n<br> asdf <div>\n</html>"));
+            "raw", "<html>Wh at ever here will be parsed\n<br> asdf <div>\n</html>"));
 
     // Note, <DOCHDR> Will NOT be included.
     expected.put("WEB-0003",
       Map.of("id", "WEB-0003",
-          "content", "<html>Wh at ever here will be parsed\n<br> asdf <div>\n</html>"));
+          "raw", "<html>Wh at ever here will be parsed\n<br> asdf <div>\n</html>"));
   }
 
   @Override
   void checkDocument(SourceDocument doc, Map<String, String> expected) {
     assertTrue(doc.indexable());
     assertEquals(expected.get("id"), doc.id());
-    assertEquals(expected.get("content"), doc.content());
-    assertEquals(expected.get("content"), doc.raw());
+    assertEquals(JsoupStringTransform.SINGLETON.apply(expected.get("raw")), doc.content());
+    assertEquals(expected.get("raw"), doc.raw());
   }
 }

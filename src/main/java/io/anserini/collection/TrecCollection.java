@@ -17,8 +17,6 @@
 package io.anserini.collection;
 
 import org.apache.commons.compress.compressors.z.ZCompressorInputStream;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -64,8 +62,6 @@ import java.util.zip.GZIPInputStream;
  * <p>In both cases, compressed files are transparently handled.</p>
  */
 public class TrecCollection extends DocumentCollection<TrecCollection.Document> {
-  private static final Logger LOG = LogManager.getLogger(TrecCollection.class);
-
   public TrecCollection(Path path) {
     this.path = path;
     this.skippedFilePrefix = new HashSet<>(Arrays.asList("readme"));
@@ -198,8 +194,6 @@ public class TrecCollection extends DocumentCollection<TrecCollection.Document> 
     protected static final String DOC = "<DOC>";
     protected static final String TERMINATING_DOC = "</DOC>";
 
-    protected final int BUFFER_SIZE = 1 << 16; // 64K
-
     private static final String[] startTags = {"<TEXT>", "<HEADLINE>", "<TITLE>", "<HL>", "<HEAD>",
         "<TTL>", "<DD>", "<DATE>", "<LP>", "<LEADPARA>"
     };
@@ -217,6 +211,16 @@ public class TrecCollection extends DocumentCollection<TrecCollection.Document> 
 
     @Override
     public String content() {
+      try {
+        return JsoupStringTransform.SINGLETON.apply(content).trim();
+      } catch (Exception e) {
+        // If there's an exception, just eat it and return empty contents.
+        return "";
+      }
+    }
+
+    @Override
+    public String raw() {
       return content;
     }
 

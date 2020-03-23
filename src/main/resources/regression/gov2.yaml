@@ -14,7 +14,7 @@ input: collections/web/gov2/gov2-corpus/
 index_path: indexes/lucene-index.gov2.pos+docvectors+rawdocs # path to the existing index, used in regression test if `--index` option is absent
 collection: TrecwebCollection
 threads: 44
-generator: JsoupGenerator
+generator: DefaultLuceneDocumentGenerator
 index_options:
   - -storePositions
   - -storeDocvectors

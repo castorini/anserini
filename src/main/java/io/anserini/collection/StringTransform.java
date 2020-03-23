@@ -14,16 +14,13 @@
  * limitations under the License.
  */
 
-package io.anserini.index.transform;
+package io.anserini.collection;
 
-import org.jsoup.Jsoup;
+import java.util.function.UnaryOperator;
 
 /**
- * String transform that uses Jsoup to extract plain text out of HTML documents.
+ * Represents a string-to-string transformation. In the context of the indexing pipeline, this
+ * class is used to, for example, clean HTML documents into plain text documents.
  */
-public class JsoupStringTransform extends StringTransform {
-  @Override
-  public String apply(String s) {
-    return Jsoup.parse(s).text();
-  }
+public abstract class StringTransform implements UnaryOperator<String> {
 }

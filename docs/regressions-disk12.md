@@ -10,7 +10,7 @@ Typical indexing command:
 
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection TrecCollection -input /path/to/disk12 \
- -index lucene-index.disk12.pos+docvectors+rawdocs -generator JsoupGenerator -threads 16 \
+ -index lucene-index.disk12.pos+docvectors+rawdocs -generator DefaultLuceneDocumentGenerator -threads 16 \
  -storePositions -storeDocvectors -storeRawDocs >& log.disk12.pos+docvectors+rawdocs &
 ```
 

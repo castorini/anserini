@@ -45,9 +45,9 @@ public class IndexArgs {
       usage = "Collection class in package 'io.anserini.collection'.")
   public String collectionClass;
 
-  @Option(name = "-generator", metaVar = "[class]", required = true,
+  @Option(name = "-generator", metaVar = "[class]",
       usage = "Document generator class in package 'io.anserini.index.generator'.")
-  public String generatorClass;
+  public String generatorClass = "DefaultLuceneDocumentGenerator";
 
   // optional general arguments
 

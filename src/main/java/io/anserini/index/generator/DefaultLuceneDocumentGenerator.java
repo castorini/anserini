@@ -20,7 +20,6 @@ import io.anserini.collection.MultifieldSourceDocument;
 import io.anserini.collection.SourceDocument;
 import io.anserini.index.IndexArgs;
 import io.anserini.index.IndexCollection;
-import io.anserini.collection.StringTransform;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.document.Document;
@@ -34,15 +33,11 @@ import org.apache.lucene.util.BytesRef;
 
 /**
  * Converts a {@link SourceDocument} into a Lucene {@link Document}, ready to be indexed.
- * Prior to the creation of the Lucene document, this class will apply an optional
- * {@link StringTransform} to, for example, clean HTML document.
  *
  * @param <T> type of the source document
  */
-public class LuceneDocumentGenerator<T extends SourceDocument> {
-  private static final Logger LOG = LogManager.getLogger(LuceneDocumentGenerator.class);
-
-  private final StringTransform transform;
+public class DefaultLuceneDocumentGenerator<T extends SourceDocument> extends LuceneDocumentGenerator<T> {
+  private static final Logger LOG = LogManager.getLogger(DefaultLuceneDocumentGenerator.class);
 
   protected IndexCollection.Counters counters;
   protected IndexArgs args;
@@ -50,18 +45,7 @@ public class LuceneDocumentGenerator<T extends SourceDocument> {
   /**
    * Default constructor.
    */
-  public LuceneDocumentGenerator() {
-    this.transform = null;
-  }
-
-  /**
-   * Constructor to specify optional {@link StringTransform}.
-   *
-   * @param transform string transform to apply
-   */
-  public LuceneDocumentGenerator(StringTransform transform) {
-    this.transform = transform;
-  }
+  public DefaultLuceneDocumentGenerator() {}
 
   /**
    * Constructor with config and counters
@@ -69,22 +53,7 @@ public class LuceneDocumentGenerator<T extends SourceDocument> {
    * @param args configuration arguments
    * @param counters counters
    */
-  public LuceneDocumentGenerator(IndexArgs args, IndexCollection.Counters counters) {
-    this.transform = null;
-    config(args);
-    setCounters(counters);
-  }
-
-  /**
-   * Constructor with config and counters
-   *
-   * @param transform string transform to apply
-   * @param args configuration arguments
-   * @param counters counters
-   */
-  public LuceneDocumentGenerator(StringTransform transform, IndexArgs args,
-      IndexCollection.Counters counters) {
-    this.transform = transform;
+  public DefaultLuceneDocumentGenerator(IndexArgs args, IndexCollection.Counters counters) {
     config(args);
     setCounters(counters);
   }
@@ -99,16 +68,7 @@ public class LuceneDocumentGenerator<T extends SourceDocument> {
 
   public Document createDocument(T src) {
     String id = src.id();
-    String contents;
-
-    try {
-      // If there's a transform, use it.
-      contents = transform != null ? transform.apply(src.content()) : src.content();
-    } catch (Exception e) {
-      LOG.error("Error extracting document text, skipping document: " + id, e);
-      counters.errors.incrementAndGet();
-      return null;
-    }
+    String contents = src.content();
 
     if (contents.trim().length() == 0) {
       counters.empty.incrementAndGet();

@@ -18,7 +18,7 @@ package io.anserini.index.generator;
 
 import io.anserini.index.IndexArgs;
 import io.anserini.index.IndexCollection;
-import io.anserini.index.transform.JsoupStringTransform;
+import io.anserini.collection.JsoupStringTransform;
 
 public class JsoupGenerator extends LuceneDocumentGenerator {
   public JsoupGenerator() {

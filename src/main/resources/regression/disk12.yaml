@@ -7,7 +7,7 @@ topic_root: src/main/resources/topics-and-qrels/
 qrels_root: src/main/resources/topics-and-qrels/
 ranking_root:
 collection: TrecCollection
-generator: JsoupGenerator
+generator: DefaultLuceneDocumentGenerator
 threads: 16
 index_options:
   - -storePositions
