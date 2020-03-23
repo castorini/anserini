@@ -8,7 +8,7 @@ qrels_root: src/main/resources/topics-and-qrels/
 index_root:
 ranking_root:
 collection: TrecCollection
-generator: LuceneDocumentGenerator
+generator: DefaultLuceneDocumentGenerator
 threads: 16
 index_options:
   - -storePositions

@@ -17,7 +17,7 @@ index_stats:
   total terms: 320968
 
 collection: HtmlCollection
-generator: JsoupGenerator
+generator: DefaultLuceneDocumentGenerator
 threads: 8
 index_options:
   - -storePositions

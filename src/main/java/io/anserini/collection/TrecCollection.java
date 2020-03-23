@@ -179,7 +179,7 @@ public class TrecCollection extends DocumentCollection<TrecCollection.Document> 
 
       bufferedRecord = (T) new Document();
       bufferedRecord.id = builder.substring(i + Document.DOCNO.length(), j).trim();
-      bufferedRecord.content = builder.substring(j + Document.TERMINATING_DOCNO.length()).trim();
+      bufferedRecord.raw = builder.substring(j + Document.TERMINATING_DOCNO.length()).trim();
     }
   }
 
@@ -202,7 +202,7 @@ public class TrecCollection extends DocumentCollection<TrecCollection.Document> 
     };
 
     protected String id;
-    protected String content;
+    protected String raw;
 
     @Override
     public String id() {
@@ -212,7 +212,7 @@ public class TrecCollection extends DocumentCollection<TrecCollection.Document> 
     @Override
     public String content() {
       try {
-        return JsoupStringTransform.SINGLETON.apply(content).trim();
+        return JsoupStringTransform.SINGLETON.apply(raw).trim();
       } catch (Exception e) {
         // If there's an exception, just eat it and return empty contents.
         return "";
@@ -221,7 +221,7 @@ public class TrecCollection extends DocumentCollection<TrecCollection.Document> 
 
     @Override
     public String raw() {
-      return content;
+      return raw;
     }
 
     @Override

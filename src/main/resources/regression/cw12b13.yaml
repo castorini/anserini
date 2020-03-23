@@ -13,7 +13,7 @@ input_roots:
 input: collections/web/ClueWeb12-B13/
 index_path: indexes/lucene-index.cw12b13.pos+docvectors+rawdocs # path to the existing index, used in regression test if `--index` option is absent
 collection: ClueWeb12Collection
-generator: JsoupGenerator
+generator: DefaultLuceneDocumentGenerator
 threads: 44
 index_options:
   - -storePositions
