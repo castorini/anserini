@@ -137,7 +137,7 @@ public class CovidGenerator extends LuceneDocumentGenerator<CovidCollectionDocum
     // parse year published
     try {
       doc.add(new IntPoint(CovidField.YEAR.name, Integer.parseInt(
-        covidDoc.record().get(CovidField.PUBLISH_TIME.name).replace("-", " ").split("-")[0].strip())));
+        covidDoc.record().get(CovidField.PUBLISH_TIME.name).strip().substring(0, 4))));
     } catch(Exception e) {
       // can't parse year
     }
