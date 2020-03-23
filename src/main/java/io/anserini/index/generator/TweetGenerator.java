@@ -46,8 +46,11 @@ import java.util.List;
 /**
  * Converts a {@link TweetCollection.Document} into a Lucene {@link Document}, ready to be indexed.
  */
-public class TweetGenerator extends LuceneDocumentGenerator<TweetCollection.Document> {
+public class TweetGenerator implements LuceneDocumentGenerator<TweetCollection.Document> {
   private static final Logger LOG = LogManager.getLogger(TweetGenerator.class);
+
+  private IndexCollection.Counters counters;
+  private IndexArgs args;
 
   private LongOpenHashSet deletes = null;
 
@@ -73,7 +76,8 @@ public class TweetGenerator extends LuceneDocumentGenerator<TweetCollection.Docu
   }
 
   public TweetGenerator(IndexArgs args, IndexCollection.Counters counters) throws IOException {
-    super(args, counters);
+    this.args = args;
+    this.counters = counters;
 
     if (!args.tweetDeletedIdsFile.isEmpty()) {
       deletes = new LongOpenHashSet();

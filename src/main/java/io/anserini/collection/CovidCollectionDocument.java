@@ -26,7 +26,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-public abstract class CovidCollectionDocument extends SourceDocument {
+public abstract class CovidCollectionDocument implements SourceDocument {
   private static final Logger LOG = LogManager.getLogger(CovidCollectionDocument.class);
   protected String id;
   protected String content;

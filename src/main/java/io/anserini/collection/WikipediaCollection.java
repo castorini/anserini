@@ -90,7 +90,7 @@ public class WikipediaCollection extends DocumentCollection<WikipediaCollection.
   /**
    * A Wikipedia article. The article title serves as the id.
    */
-  public static class Document extends SourceDocument {
+  public static class Document implements SourceDocument {
     private final String title;
     private final String contents;
 
@@ -106,6 +106,11 @@ public class WikipediaCollection extends DocumentCollection<WikipediaCollection.
 
     @Override
     public String content() {
+      return contents;
+    }
+
+    @Override
+    public String raw() {
       return contents;
     }
 

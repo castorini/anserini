@@ -202,7 +202,7 @@ public class TweetCollection extends DocumentCollection<TweetCollection.Document
   /**
    * A tweet (i.e., status).
    */
-  public static class Document extends SourceDocument {
+  public static class Document implements SourceDocument {
     // Required fields
     protected String screenName;
     protected int followersCount;
@@ -264,6 +264,11 @@ public class TweetCollection extends DocumentCollection<TweetCollection.Document
 
     @Override
     public String content() {
+      return text;
+    }
+
+    @Override
+    public String raw() {
       return text;
     }
 

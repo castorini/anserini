@@ -43,8 +43,11 @@ import java.util.Map;
 /**
  * Converts a {@link BibtexCollection.Document} into a Lucene {@link Document}, ready to be indexed.
  */
-public class BibtexGenerator extends LuceneDocumentGenerator<BibtexCollection.Document> {
+public class BibtexGenerator implements LuceneDocumentGenerator<BibtexCollection.Document> {
   public static final String TYPE = "type";
+
+  private IndexCollection.Counters counters;
+  private IndexArgs args;
 
   public enum BibtexField {
     DOI("doi"),
@@ -79,7 +82,8 @@ public class BibtexGenerator extends LuceneDocumentGenerator<BibtexCollection.Do
     BibtexField.EDITOR.name);
 
   public BibtexGenerator(IndexArgs args, IndexCollection.Counters counters) {
-    super(args, counters);
+    this.args = args;
+    this.counters = counters;
   }
 
   @Override

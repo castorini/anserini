@@ -40,7 +40,9 @@ import java.util.List;
 /**
  * Converts a {@link AclAnthology.Document} into a Lucene {@link Document}, ready to be indexed.
  */
-public class AclAnthologyGenerator extends LuceneDocumentGenerator<AclAnthology.Document> {
+public class AclAnthologyGenerator implements LuceneDocumentGenerator<AclAnthology.Document> {
+  private IndexCollection.Counters counters;
+  private IndexArgs args;
 
   private enum AclAnthologyField {
     ADDRESS("address"),
@@ -85,7 +87,8 @@ public class AclAnthologyGenerator extends LuceneDocumentGenerator<AclAnthology.
     AclAnthologyField.MONTH.name);
 
   public AclAnthologyGenerator(IndexArgs args, IndexCollection.Counters counters) {
-    super(args, counters);
+    this.args = args;
+    this.counters = counters;
   }
 
   @Override

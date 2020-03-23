@@ -40,7 +40,9 @@ import java.util.List;
 /**
  * Converts a {@link CoreCollection.Document} into a Lucene {@link Document}, ready to be indexed.
  */
-public class CoreGenerator extends LuceneDocumentGenerator<CoreCollection.Document> {
+public class CoreGenerator implements LuceneDocumentGenerator<CoreCollection.Document> {
+  private IndexCollection.Counters counters;
+  private IndexArgs args;
 
   public enum CoreField {
     DOI("doi"),
@@ -89,7 +91,8 @@ public class CoreGenerator extends LuceneDocumentGenerator<CoreCollection.Docume
     CoreField.LANGUAGE.name);
 
   public CoreGenerator(IndexArgs args, IndexCollection.Counters counters) {
-    super(args, counters);
+    this.args = args;
+    this.counters = counters;
   }
 
   @Override

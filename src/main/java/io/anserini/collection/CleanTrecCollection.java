@@ -9,11 +9,12 @@ public class CleanTrecCollection extends TrecCollection {
   }
 
   @Override
+  @SuppressWarnings("unchecked")
   public FileSegment<TrecCollection.Document> createFileSegment(Path p) throws IOException {
-    return new Segment(p);
+    return (FileSegment<TrecCollection.Document>) new Segment(p);
   }
 
-  public static class Segment<T extends Document> extends TrecCollection.Segment<T> {
+  public static class Segment extends TrecCollection.Segment {
     public Segment(Path path) throws IOException {
       super(path);
     }

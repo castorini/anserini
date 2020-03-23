@@ -40,8 +40,11 @@ import java.io.StringReader;
 /**
  * Converts a {@link CovidCollectionDocument} into a Lucene {@link Document}, ready to be indexed.
  */
-public class CovidGenerator extends LuceneDocumentGenerator<CovidCollectionDocument> {
+public class CovidGenerator implements LuceneDocumentGenerator<CovidCollectionDocument> {
   private static final Logger LOG = LogManager.getLogger(CovidGenerator.class);
+
+  private IndexCollection.Counters counters;
+  private IndexArgs args;
 
   public enum CovidField {
     SHA("sha"),
@@ -68,7 +71,8 @@ public class CovidGenerator extends LuceneDocumentGenerator<CovidCollectionDocum
   }
 
   public CovidGenerator(IndexArgs args, IndexCollection.Counters counters) {
-    super(args, counters);
+    this.args = args;
+    this.counters = counters;
   }
 
   @Override

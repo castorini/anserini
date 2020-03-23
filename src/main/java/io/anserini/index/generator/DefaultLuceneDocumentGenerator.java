@@ -36,9 +36,7 @@ import org.apache.lucene.util.BytesRef;
  *
  * @param <T> type of the source document
  */
-public class DefaultLuceneDocumentGenerator<T extends SourceDocument> extends LuceneDocumentGenerator<T> {
-  private static final Logger LOG = LogManager.getLogger(DefaultLuceneDocumentGenerator.class);
-
+public class DefaultLuceneDocumentGenerator<T extends SourceDocument> implements LuceneDocumentGenerator<T> {
   protected IndexCollection.Counters counters;
   protected IndexArgs args;
 
@@ -54,18 +52,11 @@ public class DefaultLuceneDocumentGenerator<T extends SourceDocument> extends Lu
    * @param counters counters
    */
   public DefaultLuceneDocumentGenerator(IndexArgs args, IndexCollection.Counters counters) {
-    config(args);
-    setCounters(counters);
-  }
-
-  public void config(IndexArgs args) {
     this.args = args;
-  }
-
-  public void setCounters(IndexCollection.Counters counters) {
     this.counters = counters;
   }
 
+  @Override
   public Document createDocument(T src) {
     String id = src.id();
     String contents = src.content();

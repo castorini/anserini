@@ -95,7 +95,7 @@ public class BibtexCollection extends DocumentCollection<BibtexCollection.Docume
   /**
    * A document in a Bibtex collection.
    */
-  public static class Document extends SourceDocument {
+  public static class Document implements SourceDocument {
     private String id;
     private String contents;
     private String type;
@@ -122,6 +122,11 @@ public class BibtexCollection extends DocumentCollection<BibtexCollection.Docume
 
     @Override
     public String content() {
+      return contents;
+    }
+
+    @Override
+    public String raw() {
       return contents;
     }
 

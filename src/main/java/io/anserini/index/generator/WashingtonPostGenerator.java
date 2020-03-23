@@ -37,8 +37,11 @@ import java.util.List;
 /**
  * Converts a {@link WashingtonPostCollection.Document} into a Lucene {@link Document}, ready to be indexed.
  */
-public class WashingtonPostGenerator extends LuceneDocumentGenerator<WashingtonPostCollection.Document> {
+public class WashingtonPostGenerator implements LuceneDocumentGenerator<WashingtonPostCollection.Document> {
   public static final List<String> CONTENT_TYPE_TAG = Arrays.asList("sanitized_html", "tweet");
+
+  private IndexCollection.Counters counters;
+  private IndexArgs args;
 
   public enum WashingtonPostField {
     AUTHOR("author"),
@@ -56,7 +59,8 @@ public class WashingtonPostGenerator extends LuceneDocumentGenerator<WashingtonP
   }
   
   public WashingtonPostGenerator(IndexArgs args, IndexCollection.Counters counters) {
-    super(args, counters);
+    this.args = args;
+    this.counters = counters;
   }
   
   public static String removeTags(String content) {

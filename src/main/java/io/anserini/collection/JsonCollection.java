@@ -163,6 +163,14 @@ public class JsonCollection extends DocumentCollection<JsonCollection.Document> 
     }
 
     @Override
+    public String raw() {
+      if (contents == null) {
+        throw new RuntimeException("JSON document has no \"contents\" field");
+      }
+      return contents;
+    }
+
+    @Override
     public boolean indexable() {
       return true;
     }

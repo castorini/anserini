@@ -190,7 +190,7 @@ public class TrecCollection extends DocumentCollection<TrecCollection.Document> 
   /**
    * A document in a classic TREC <i>ad hoc</i> document collection.
    */
-  public static class Document extends SourceDocument {
+  public static class Document implements SourceDocument {
 
     protected static final String DOCNO = "<DOCNO>";
     protected static final String TERMINATING_DOCNO = "</DOCNO>";
