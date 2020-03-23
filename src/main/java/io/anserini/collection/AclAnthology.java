@@ -105,7 +105,7 @@ public class AclAnthology extends DocumentCollection<AclAnthology.Document> {
   /**
    * A document in a JSON collection.
    */
-  public class Document implements SourceDocument {
+  public class Document extends SourceDocument {
     private String id;
     private String contents;
     private JsonNode paper;
