@@ -171,7 +171,7 @@ public class IndexVectors {
   static Map<String, float[]> readGloVe(File input) throws IOException {
     Map<String, float[]> vectors = new HashMap<>();
     for (String line : IOUtils.readLines(new FileReader(input))) {
-      String[] s = line.split(" ");
+      String[] s = line.split("\\s+");
       if (s.length > 2) {
         String key = s[0];
         float[] vector = new float[s.length - 1];
