@@ -345,7 +345,7 @@ public class ClueWeb09Collection extends DocumentCollection<ClueWeb09Collection.
    * A document from the <a href="https://www.lemurproject.org/clueweb09.php/">ClueWeb09 collection</a>.
    * This class derives from tools provided by CMU for reading the ClueWeb09 collection.
    */
-  public static class Document implements SourceDocument {
+  public static class Document extends SourceDocument {
     public static final String WARC_VERSION = "WARC/0.18";
     protected final static String NEWLINE = "\n";
 

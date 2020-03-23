@@ -100,6 +100,7 @@ public class BibtexCollectionTest extends DocumentCollectionTest<BibtexCollectio
         assertEquals(expectedValue, ((BibtexCollection.Document) doc).type());
       } else if (expectedKey.equals("contents")) {
         assertEquals(expectedValue, doc.content());
+        assertEquals(expectedValue, doc.raw());
       } else {
         Value parsedValue = parsedFields.get(new Key(expectedKey));
         assertNotNull(parsedValue);
