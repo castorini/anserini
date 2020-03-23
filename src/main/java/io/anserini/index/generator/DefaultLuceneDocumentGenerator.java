@@ -19,9 +19,6 @@ package io.anserini.index.generator;
 import io.anserini.collection.MultifieldSourceDocument;
 import io.anserini.collection.SourceDocument;
 import io.anserini.index.IndexArgs;
-import io.anserini.index.IndexCollection;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.FieldType;
@@ -37,33 +34,24 @@ import org.apache.lucene.util.BytesRef;
  * @param <T> type of the source document
  */
 public class DefaultLuceneDocumentGenerator<T extends SourceDocument> implements LuceneDocumentGenerator<T> {
-  protected IndexCollection.Counters counters;
   protected IndexArgs args;
-
-  /**
-   * Default constructor.
-   */
-  public DefaultLuceneDocumentGenerator() {}
 
   /**
    * Constructor with config and counters
    *
    * @param args configuration arguments
-   * @param counters counters
    */
-  public DefaultLuceneDocumentGenerator(IndexArgs args, IndexCollection.Counters counters) {
+  public DefaultLuceneDocumentGenerator(IndexArgs args) {
     this.args = args;
-    this.counters = counters;
   }
 
   @Override
-  public Document createDocument(T src) {
+  public Document createDocument(T src) throws GeneratorExpection {
     String id = src.id();
     String contents = src.content();
 
     if (contents.trim().length() == 0) {
-      counters.empty.incrementAndGet();
-      return null;
+      throw new EmptyDocumentException();
     }
 
     // Make a new, empty document.

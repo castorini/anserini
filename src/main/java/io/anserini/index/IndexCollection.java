@@ -25,7 +25,10 @@ import io.anserini.analysis.TweetAnalyzer;
 import io.anserini.collection.DocumentCollection;
 import io.anserini.collection.FileSegment;
 import io.anserini.collection.SourceDocument;
+import io.anserini.index.generator.EmptyDocumentException;
+import io.anserini.index.generator.InvalidDocumentException;
 import io.anserini.index.generator.LuceneDocumentGenerator;
+import io.anserini.index.generator.SkippedDocumentException;
 import io.anserini.index.generator.WashingtonPostGenerator;
 import io.anserini.search.similarity.AccurateBM25Similarity;
 import org.apache.commons.io.FileUtils;
@@ -152,13 +155,11 @@ public final class IndexCollection {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public void run() {
       try {
-        @SuppressWarnings("unchecked")
-        LuceneDocumentGenerator generator =
-            (LuceneDocumentGenerator) generatorClass
-                .getDeclaredConstructor(IndexArgs.class, Counters.class)
-                .newInstance(args, counters);
+        LuceneDocumentGenerator generator = (LuceneDocumentGenerator)
+            generatorClass.getDeclaredConstructor(IndexArgs.class).newInstance(args);
 
         // We keep track of two separate counts: the total count of documents in this file segment (cnt),
         // and the number of documents in this current "batch" (batch). We update the global counter every
@@ -167,15 +168,11 @@ public final class IndexCollection {
         int cnt = 0;
         int batch = 0;
 
-        @SuppressWarnings("unchecked")
-        FileSegment<SourceDocument> segment =
-            (FileSegment) collection.createFileSegment(inputFile);
+        FileSegment<SourceDocument> segment = collection.createFileSegment(inputFile);
         // in order to call close() and clean up resources in case of exception
         this.fileSegment = segment;
 
-        for (Object document : segment) {
-          SourceDocument d = (SourceDocument) document;
-
+        for (SourceDocument d : segment) {
           if (!d.indexable()) {
             counters.unindexable.incrementAndGet();
             continue;
@@ -190,10 +187,17 @@ public final class IndexCollection {
             }
           }
 
-          // Yes, we know what we're doing here.
-          @SuppressWarnings("unchecked")
-          Document doc = generator.createDocument(d);
-          if (doc == null) {
+          Document doc;
+          try {
+            doc = generator.createDocument(d);
+          } catch (EmptyDocumentException e1) {
+            counters.empty.incrementAndGet();
+            continue;
+          } catch (SkippedDocumentException e2) {
+            counters.skipped.incrementAndGet();
+            continue;
+          } catch (InvalidDocumentException e3) {
+            counters.errors.incrementAndGet();
             continue;
           }
 
@@ -292,10 +296,11 @@ public final class IndexCollection {
             }
           }
 
-          // Yes, we know what we're doing here.
-          @SuppressWarnings("unchecked")
-          Document document = generator.createDocument(sourceDocument);
-          if (document == null) {
+          Document document;
+          try {
+            document = generator.createDocument(sourceDocument);
+          } catch (EmptyDocumentException e) {
+            counters.empty.incrementAndGet();
             continue;
           }
 
@@ -453,10 +458,11 @@ public final class IndexCollection {
             }
           }
 
-          // Yes, we know what we're doing here.
-          @SuppressWarnings("unchecked")
-          Document document = generator.createDocument(sourceDocument);
-          if (document == null) {
+          Document document;
+          try {
+            document = generator.createDocument(sourceDocument);
+          } catch (EmptyDocumentException e) {
+            counters.empty.incrementAndGet();
             continue;
           }
 

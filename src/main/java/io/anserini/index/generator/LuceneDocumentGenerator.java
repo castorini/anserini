@@ -40,5 +40,5 @@ import org.apache.lucene.util.BytesRef;
  * @param <T> type of the source document
  */
 public interface LuceneDocumentGenerator<T extends SourceDocument> {
-  Document createDocument(T src);
+  Document createDocument(T src) throws GeneratorExpection;
 }

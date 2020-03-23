@@ -49,7 +49,6 @@ import java.util.List;
 public class TweetGenerator implements LuceneDocumentGenerator<TweetCollection.Document> {
   private static final Logger LOG = LogManager.getLogger(TweetGenerator.class);
 
-  private IndexCollection.Counters counters;
   private IndexArgs args;
 
   private LongOpenHashSet deletes = null;
@@ -75,9 +74,8 @@ public class TweetGenerator implements LuceneDocumentGenerator<TweetCollection.D
     }
   }
 
-  public TweetGenerator(IndexArgs args, IndexCollection.Counters counters) throws IOException {
+  public TweetGenerator(IndexArgs args) throws IOException {
     this.args = args;
-    this.counters = counters;
 
     if (!args.tweetDeletedIdsFile.isEmpty()) {
       deletes = new LongOpenHashSet();
@@ -108,18 +106,18 @@ public class TweetGenerator implements LuceneDocumentGenerator<TweetCollection.D
   }
 
   @Override
-  public Document createDocument(TweetCollection.Document tweetDoc) {
+  public Document createDocument(TweetCollection.Document tweetDoc) throws GeneratorExpection {
     String id = tweetDoc.id();
 
     if (tweetDoc.content().trim().isEmpty()) {
-      counters.empty.incrementAndGet();
-      return null;
+      throw new EmptyDocumentException();
     }
+
     final TwitterTextParseResults result = TwitterTextParser.parseTweet(tweetDoc.content().trim());
     if (!result.isValid) {
-      counters.errors.incrementAndGet();
-      return null;
+      throw new InvalidDocumentException();
     }
+
     String text = tweetDoc.content().trim().substring(result.validTextRange.start, result.validTextRange.end);
 
     if (!args.tweetKeepUrls) {
@@ -129,26 +127,23 @@ public class TweetGenerator implements LuceneDocumentGenerator<TweetCollection.D
         text = text.replaceAll(url, "");
       }
     }
+
     text = text.trim();
     if (text.isEmpty()) {
-      counters.empty.incrementAndGet();
-      return null;
+      throw new EmptyDocumentException();
     }
 
     // Skip deletes tweetids.
     if (deletes != null && deletes.contains(id)) {
-      counters.skipped.incrementAndGet();
-      return null;
+      throw new SkippedDocumentException();
     }
 
     if (tweetDoc.getIdLong() > args.tweetMaxId) {
-      counters.skipped.incrementAndGet();
-      return null;
+      throw new SkippedDocumentException();
     }
 
     if (!args.tweetKeepRetweets && tweetDoc.getRetweetedStatusId().isPresent()) {
-      counters.skipped.incrementAndGet();
-      return null;
+      throw new SkippedDocumentException();
     }
 
     Document doc = new Document();
@@ -158,30 +153,27 @@ public class TweetGenerator implements LuceneDocumentGenerator<TweetCollection.D
     doc.add(new LongPoint(TweetField.ID_LONG.name, tweetDoc.getIdLong()));
     doc.add(new NumericDocValuesField(TweetField.ID_LONG.name, tweetDoc.getIdLong()));
 
-    tweetDoc.getEpoch().ifPresent( epoch ->
-      doc.add(new LongPoint(TweetField.EPOCH.name, epoch)) );
+    tweetDoc.getEpoch().ifPresent(epoch -> doc.add(new LongPoint(TweetField.EPOCH.name, epoch)));
     doc.add(new StringField(TweetField.SCREEN_NAME.name, tweetDoc.getScreenName(), Field.Store.NO));
     doc.add(new IntPoint(TweetField.FRIENDS_COUNT.name, tweetDoc.getFollowersCount()));
     doc.add(new IntPoint(TweetField.FOLLOWERS_COUNT.name, tweetDoc.getFriendsCount()));
     doc.add(new IntPoint(TweetField.STATUSES_COUNT.name, tweetDoc.getStatusesCount()));
 
-    tweetDoc.getInReplyToStatusId().ifPresent( rid -> {
+    tweetDoc.getInReplyToStatusId().ifPresent(rid -> {
       doc.add(new LongPoint(TweetField.IN_REPLY_TO_STATUS_ID.name, rid));
-      tweetDoc.getInReplyToUserId().ifPresent( ruid ->
-        doc.add(new LongPoint(TweetField.IN_REPLY_TO_USER_ID.name, ruid)) );
+      tweetDoc.getInReplyToUserId().ifPresent(ruid ->
+        doc.add(new LongPoint(TweetField.IN_REPLY_TO_USER_ID.name, ruid)));
     });
 
-    tweetDoc.getRetweetedStatusId().ifPresent( rid -> {
+    tweetDoc.getRetweetedStatusId().ifPresent(rid -> {
       doc.add(new LongPoint(TweetField.RETWEETED_STATUS_ID.name, rid));
-      tweetDoc.getRetweetedUserId().ifPresent( ruid ->
-        doc.add(new LongPoint(TweetField.RETWEETED_USER_ID.name, ruid)) );
-      tweetDoc.getRetweetCount().ifPresent( rc ->
-        doc.add(new LongPoint(TweetField.RETWEET_COUNT.name, rc)) );
+      tweetDoc.getRetweetedUserId().ifPresent(ruid ->
+        doc.add(new LongPoint(TweetField.RETWEETED_USER_ID.name, ruid)));
+      tweetDoc.getRetweetCount().ifPresent(rc ->
+        doc.add(new LongPoint(TweetField.RETWEET_COUNT.name, rc)));
     });
 
-    tweetDoc.getLang().ifPresent( lang ->
-      doc.add(new StringField(TweetField.LANG.name, lang, Field.Store.NO))
-    );
+    tweetDoc.getLang().ifPresent(lang -> doc.add(new StringField(TweetField.LANG.name, lang, Field.Store.NO)));
 
     if (args.storeRawDocs) { // store the raw json string as one single field
       doc.add(new StoredField(IndexArgs.RAW, tweetDoc.getJsonString()));

@@ -40,7 +40,6 @@ import java.util.List;
 public class WashingtonPostGenerator implements LuceneDocumentGenerator<WashingtonPostCollection.Document> {
   public static final List<String> CONTENT_TYPE_TAG = Arrays.asList("sanitized_html", "tweet");
 
-  private IndexCollection.Counters counters;
   private IndexArgs args;
 
   public enum WashingtonPostField {
@@ -58,9 +57,8 @@ public class WashingtonPostGenerator implements LuceneDocumentGenerator<Washingt
     }
   }
   
-  public WashingtonPostGenerator(IndexArgs args, IndexCollection.Counters counters) {
+  public WashingtonPostGenerator(IndexArgs args) {
     this.args = args;
-    this.counters = counters;
   }
   
   public static String removeTags(String content) {
@@ -68,12 +66,11 @@ public class WashingtonPostGenerator implements LuceneDocumentGenerator<Washingt
   }
 
   @Override
-  public Document createDocument(WashingtonPostCollection.Document src) {
+  public Document createDocument(WashingtonPostCollection.Document src) throws GeneratorExpection {
     String id = src.id();
 
     if (src.content().trim().isEmpty()) {
-      counters.empty.incrementAndGet();
-      return null;
+      throw new EmptyDocumentException();
     }
 
     Document doc = new Document();
