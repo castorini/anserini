@@ -41,9 +41,9 @@ The full-text index overly biases long documents and isn't really effective; thi
 
 If you don't want to build the index yourself, you can download a pre-built copies here:
 
-+ [Title + Abstract](https://www.dropbox.com/s/uvjwgy4re2myq5s/lucene-index-covid-2020-03-20.tar.gz?dl=0).
-+ [Full-Text](https://www.dropbox.com/s/w74nmpmvdgw7o00/lucene-index-covid-full-text-2020-03-20.tar.gz?dl=0).
-+ [Paragraph](https://www.dropbox.com/s/evnhj2ylo02m03f/lucene-index-covid-paragraph-2020-03-20.tar.gz?dl=0).
++ [Title + Abstract](https://www.dropbox.com/s/uvjwgy4re2myq5s/lucene-index-covid-2020-03-20.tar.gz?dl=0)
++ [Full-Text](https://www.dropbox.com/s/w74nmpmvdgw7o00/lucene-index-covid-full-text-2020-03-20.tar.gz?dl=0)
++ [Paragraph](https://www.dropbox.com/s/evnhj2ylo02m03f/lucene-index-covid-paragraph-2020-03-20.tar.gz?dl=0)
 
 ### Title + Abstract
 
