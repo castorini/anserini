@@ -11,7 +11,7 @@ Note that this page is automatically generated from [this template](../src/main/
 Typical indexing command:
 
 ```
-nohup sh target/appassembler/bin/IndexCollection -collection TrecCollection -input /path/to/fire12-hi \
+nohup sh target/appassembler/bin/IndexCollection -collection CleanTrecCollection -input /path/to/fire12-hi \
  -index lucene-index.fire12-hi.pos+docvectors+rawdocs -generator DefaultLuceneDocumentGenerator -threads 16 \
  -storePositions -storeDocvectors -storeRawDocs -language hi >& log.fire12-hi.pos+docvectors+rawdocs &
 ```

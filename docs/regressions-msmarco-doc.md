@@ -11,7 +11,7 @@ Note that this page is automatically generated from [this template](../src/main/
 Typical indexing command:
 
 ```
-nohup sh target/appassembler/bin/IndexCollection -collection TrecCollection -input /path/to/msmarco-doc \
+nohup sh target/appassembler/bin/IndexCollection -collection CleanTrecCollection -input /path/to/msmarco-doc \
  -index lucene-index.msmarco-doc.pos+docvectors+rawdocs -generator DefaultLuceneDocumentGenerator -threads 1 \
  -storePositions -storeDocvectors -storeRawDocs >& log.msmarco-doc.pos+docvectors+rawdocs &
 ```

@@ -16,7 +16,6 @@
 
 package io.anserini.collection;
 
-import io.anserini.collection.StringTransform;
 import org.jsoup.Jsoup;
 
 /**

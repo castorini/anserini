@@ -177,9 +177,13 @@ public class TrecCollection extends DocumentCollection<TrecCollection.Document> 
       int j = builder.indexOf(Document.TERMINATING_DOCNO);
       if (j == -1) throw new RuntimeException("cannot find end tag " + Document.TERMINATING_DOCNO);
 
-      bufferedRecord = (T) new Document();
+      bufferedRecord = (T) createNewDocument();
       bufferedRecord.id = builder.substring(i + Document.DOCNO.length(), j).trim();
       bufferedRecord.raw = builder.substring(j + Document.TERMINATING_DOCNO.length()).trim();
+    }
+
+    protected Document createNewDocument() {
+      return new Document();
     }
   }
 
@@ -215,6 +219,7 @@ public class TrecCollection extends DocumentCollection<TrecCollection.Document> 
         return JsoupStringTransform.SINGLETON.apply(raw).trim();
       } catch (Exception e) {
         // If there's an exception, just eat it and return empty contents.
+        System.err.println("ERROR.");
         return "";
       }
     }

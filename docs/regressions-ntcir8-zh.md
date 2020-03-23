@@ -11,7 +11,7 @@ Note that this page is automatically generated from [this template](../src/main/
 Typical indexing command:
 
 ```
-nohup sh target/appassembler/bin/IndexCollection -collection TrecCollection -input /path/to/ntcir8-zh \
+nohup sh target/appassembler/bin/IndexCollection -collection CleanTrecCollection -input /path/to/ntcir8-zh \
  -index lucene-index.ntcir8-zh.pos+docvectors+rawdocs -generator DefaultLuceneDocumentGenerator -threads 16 \
  -storePositions -storeDocvectors -storeRawDocs -language zh -uniqueDocid -optimize >& log.ntcir8-zh.pos+docvectors+rawdocs &
 ```

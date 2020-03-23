@@ -12,7 +12,7 @@ Note that this page is automatically generated from [this template](../src/main/
 Typical indexing command:
 
 ```
-nohup sh target/appassembler/bin/IndexCollection -collection TrecCollection -input /path/to/dl19-doc \
+nohup sh target/appassembler/bin/IndexCollection -collection CleanTrecCollection -input /path/to/dl19-doc \
  -index lucene-index.msmacro-doc.pos+docvectors+rawdocs -generator DefaultLuceneDocumentGenerator -threads 1 \
  -storePositions -storeDocvectors -storeRawDocs >& log.dl19-doc.pos+docvectors+rawdocs &
 ```
