@@ -38,7 +38,7 @@ public class MultiThreadingSearchTest extends EndToEndTest {
   protected void init() {
     dataDirPath = "trec/collection2";
     collectionClass = "Trec";
-    generator = "Jsoup";
+    generator = "DefaultLuceneDocument";
     topicReader = "Trec";
 
     docCount = 3;

@@ -13,7 +13,7 @@ Typical indexing command:
 
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection JsonCollection -input /path/to/dl19-passage \
- -index lucene-index.msmarco-passage.pos+docvectors+rawdocs -generator LuceneDocumentGenerator -threads 9 \
+ -index lucene-index.msmarco-passage.pos+docvectors+rawdocs -generator DefaultLuceneDocumentGenerator -threads 9 \
  -storePositions -storeDocvectors -storeRawDocs >& log.dl19-passage.pos+docvectors+rawdocs &
 ```
 

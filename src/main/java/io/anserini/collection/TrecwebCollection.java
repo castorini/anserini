@@ -95,7 +95,7 @@ public class TrecwebCollection extends DocumentCollection<TrecwebCollection.Docu
 
       if (j < i) throw new ParseException(Document.TERMINATING_DOCHDR + " comes before " + Document.DOCHDR, 0);
 
-      bufferedRecord.content = builder.substring(j + Document.TERMINATING_DOCHDR.length()).trim();
+      bufferedRecord.raw = builder.substring(j + Document.TERMINATING_DOCHDR.length()).trim();
     }
   }
 

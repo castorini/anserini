@@ -12,7 +12,7 @@ Typical indexing command:
 
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection JsonCollection -input /path/to/clef06-fr \
- -index lucene-index.clef06-fr.pos+docvectors+rawdocs -generator LuceneDocumentGenerator -threads 16 \
+ -index lucene-index.clef06-fr.pos+docvectors+rawdocs -generator DefaultLuceneDocumentGenerator -threads 16 \
  -storePositions -storeDocvectors -storeRawDocs -language fr >& log.clef06-fr.pos+docvectors+rawdocs &
 ```
 

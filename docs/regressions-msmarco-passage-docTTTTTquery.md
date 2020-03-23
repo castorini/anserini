@@ -12,7 +12,7 @@ Typical indexing command:
 
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection JsonCollection -input /path/to/msmarco-passage-docTTTTTquery \
- -index lucene-index.msmarco-passage-docTTTTTquery.pos+docvectors+rawdocs -generator LuceneDocumentGenerator -threads 9 \
+ -index lucene-index.msmarco-passage-docTTTTTquery.pos+docvectors+rawdocs -generator DefaultLuceneDocumentGenerator -threads 9 \
  -storePositions -storeDocvectors -storeRawDocs >& log.msmarco-passage-docTTTTTquery.pos+docvectors+rawdocs &
 ```
 
