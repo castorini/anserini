@@ -18,15 +18,15 @@ package io.anserini.collection;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.jbibtex.BibTeXParser;
 import org.jbibtex.BibTeXDatabase;
 import org.jbibtex.BibTeXEntry;
+import org.jbibtex.BibTeXParser;
 import org.jbibtex.Key;
-import org.jbibtex.Value;
 import org.jbibtex.ObjectResolutionException;
 import org.jbibtex.ParseException;
 import org.jbibtex.StringValue;
 import org.jbibtex.TokenMgrException;
+import org.jbibtex.Value;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

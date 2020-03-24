@@ -60,6 +60,8 @@ import java.util.zip.GZIPInputStream;
  * </pre>
  *
  * <p>In both cases, compressed files are transparently handled.</p>
+ *
+ * <p>This collection calls the {@link JsoupStringTransform} to remove tags in the document content.</p>
  */
 public class TrecCollection extends DocumentCollection<TrecCollection.Document> {
   public TrecCollection(Path path) {
@@ -191,7 +193,6 @@ public class TrecCollection extends DocumentCollection<TrecCollection.Document> 
    * A document in a classic TREC <i>ad hoc</i> document collection.
    */
   public static class Document implements SourceDocument {
-
     protected static final String DOCNO = "<DOCNO>";
     protected static final String TERMINATING_DOCNO = "</DOCNO>";
 

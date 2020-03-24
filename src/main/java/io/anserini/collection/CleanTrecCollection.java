@@ -1,20 +1,41 @@
+/*
+ * Anserini: A Lucene toolkit for replicable information retrieval research
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package io.anserini.collection;
 
 import java.io.IOException;
 import java.nio.file.Path;
 
-public class CleanTrecCollection extends TrecCollection {
+/**
+ * <p>A classic TREC <i>ad hoc</i> document collection.
+ * Unlike {@link TrecCollection}, this collection assumes that the document contents are already "clean" and thus
+ * does <i>not</i> call {@link JsoupStringTransform} to remove tags.
+ * </p>
+ */
+public class CleanTrecCollection extends DocumentCollection<CleanTrecCollection.Document> {
   public CleanTrecCollection(Path path) {
-    super(path);
+    this.path = path;
   }
 
   @Override
-  @SuppressWarnings("unchecked")
-  public FileSegment<TrecCollection.Document> createFileSegment(Path p) throws IOException {
-    return (FileSegment<TrecCollection.Document>) new Segment(p);
+  public FileSegment<Document> createFileSegment(Path p) throws IOException {
+    return new Segment<>(p);
   }
 
-  public static class Segment extends TrecCollection.Segment {
+  public static class Segment<T extends Document> extends TrecCollection.Segment<T> {
     public Segment(Path path) throws IOException {
       super(path);
     }
