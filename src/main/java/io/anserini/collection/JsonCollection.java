@@ -155,7 +155,7 @@ public class JsonCollection extends DocumentCollection<JsonCollection.Document> 
     }
 
     @Override
-    public String content() {
+    public String contents() {
       if (contents == null) {
         throw new RuntimeException("JSON document has no \"contents\" field");
       }

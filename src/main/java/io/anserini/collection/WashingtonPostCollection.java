@@ -128,7 +128,7 @@ public class WashingtonPostCollection extends DocumentCollection<WashingtonPostC
     }
 
     @Override
-    public String content() {
+    public String contents() {
       return content;
     }
 

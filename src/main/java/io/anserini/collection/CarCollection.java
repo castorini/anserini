@@ -91,7 +91,7 @@ public class CarCollection extends DocumentCollection<CarCollection.Document> {
     }
 
     @Override
-    public String content() {
+    public String contents() {
       return paragraph;
     }
 

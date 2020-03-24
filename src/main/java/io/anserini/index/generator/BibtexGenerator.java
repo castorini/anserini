@@ -89,7 +89,7 @@ public class BibtexGenerator implements LuceneDocumentGenerator<BibtexCollection
   @Override
   public Document createDocument(BibtexCollection.Document bibtexDoc) {
     String id = bibtexDoc.id();
-    String content = bibtexDoc.content();
+    String content = bibtexDoc.contents();
     String type = bibtexDoc.type();
     BibTeXEntry bibtexEntry = bibtexDoc.bibtexEntry();
 

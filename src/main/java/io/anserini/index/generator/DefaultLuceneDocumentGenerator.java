@@ -48,7 +48,7 @@ public class DefaultLuceneDocumentGenerator<T extends SourceDocument> implements
   @Override
   public Document createDocument(T src) throws GeneratorExpection {
     String id = src.id();
-    String contents = src.content();
+    String contents = src.contents();
 
     if (contents.trim().length() == 0) {
       throw new EmptyDocumentException();
@@ -63,7 +63,7 @@ public class DefaultLuceneDocumentGenerator<T extends SourceDocument> implements
     document.add(new SortedDocValuesField(IndexArgs.ID, new BytesRef(id)));
 
     if (args.storeRawDocs) {
-      document.add(new StoredField(IndexArgs.RAW, src.content()));
+      document.add(new StoredField(IndexArgs.RAW, src.contents()));
     }
 
     FieldType fieldType = new FieldType();

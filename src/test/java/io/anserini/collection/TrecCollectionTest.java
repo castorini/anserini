@@ -58,7 +58,7 @@ public class TrecCollectionTest extends DocumentCollectionTest<TrecCollection.Do
   void checkDocument(SourceDocument doc, Map<String, String> expected) {
     assertTrue(doc.indexable());
     assertEquals(expected.get("id"), doc.id());
-    assertEquals(JsoupStringTransform.SINGLETON.apply(expected.get("raw")), doc.content());
+    assertEquals(JsoupStringTransform.SINGLETON.apply(expected.get("raw")), doc.contents());
     assertEquals(expected.get("raw"), doc.raw());
   }
 }

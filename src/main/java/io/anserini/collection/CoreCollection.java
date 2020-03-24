@@ -131,7 +131,7 @@ public class CoreCollection extends DocumentCollection<CoreCollection.Document> 
     }
 
     @Override
-    public String content() {
+    public String contents() {
       return contents;
     }
 

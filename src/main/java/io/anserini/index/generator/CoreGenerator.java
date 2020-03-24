@@ -98,7 +98,7 @@ public class CoreGenerator implements LuceneDocumentGenerator<CoreCollection.Doc
   @Override
   public Document createDocument(CoreCollection.Document coreDoc) {
     String id = coreDoc.id();
-    String content = coreDoc.content();
+    String content = coreDoc.contents();
 
     if (content == null || content.trim().isEmpty()) {
       counters.empty.incrementAndGet();

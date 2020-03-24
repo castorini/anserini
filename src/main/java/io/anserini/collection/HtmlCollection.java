@@ -125,7 +125,7 @@ public class HtmlCollection extends DocumentCollection<HtmlCollection.Document> 
     }
 
     @Override
-    public String content() {
+    public String contents() {
       try {
         return JsoupStringTransform.SINGLETON.apply(raw).trim();
       } catch (Exception e) {

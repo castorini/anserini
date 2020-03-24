@@ -69,7 +69,7 @@ public class WashingtonPostGenerator implements LuceneDocumentGenerator<Washingt
   public Document createDocument(WashingtonPostCollection.Document src) throws GeneratorExpection {
     String id = src.id();
 
-    if (src.content().trim().isEmpty()) {
+    if (src.contents().trim().isEmpty()) {
       throw new EmptyDocumentException();
     }
 

@@ -30,11 +30,11 @@ public interface SourceDocument {
   String id();
 
   /**
-   * Returns the content of the document to be searched.
+   * Returns the contents of the document to be searched.
    *
-   * @return the content of the document to be searched
+   * @return the contents of the document to be searched
    */
-  String content();
+  String contents();
 
   /**
    * Returns the raw content of the document.

@@ -94,7 +94,7 @@ public class CoreCollectionTest extends DocumentCollectionTest<CoreCollection.Do
       if (expectedKey.equals("id")) {
         assertEquals(expectedValue, coreDoc.id());
       } else if (expectedKey.equals("contents")) {
-        assertEquals(expected.get("title") + " " + expected.get("abstract"), coreDoc.content());
+        assertEquals(expected.get("title") + " " + expected.get("abstract"), coreDoc.contents());
         assertEquals(expected.get("title") + " " + expected.get("abstract"), coreDoc.raw());
       } else {
         assert(coreDoc.jsonNode().has(expectedKey));

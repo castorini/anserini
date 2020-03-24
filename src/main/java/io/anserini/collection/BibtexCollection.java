@@ -121,7 +121,7 @@ public class BibtexCollection extends DocumentCollection<BibtexCollection.Docume
     }
 
     @Override
-    public String content() {
+    public String contents() {
       return contents;
     }
 

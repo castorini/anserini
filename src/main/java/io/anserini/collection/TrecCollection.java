@@ -215,7 +215,7 @@ public class TrecCollection extends DocumentCollection<TrecCollection.Document> 
     }
 
     @Override
-    public String content() {
+    public String contents() {
       try {
         return JsoupStringTransform.SINGLETON.apply(raw).trim();
       } catch (Exception e) {

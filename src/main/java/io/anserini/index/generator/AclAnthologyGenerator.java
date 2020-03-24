@@ -94,7 +94,7 @@ public class AclAnthologyGenerator implements LuceneDocumentGenerator<AclAntholo
   @Override
   public Document createDocument(AclAnthology.Document aclDoc) {
     String id = aclDoc.id();
-    String content = aclDoc.content();
+    String content = aclDoc.contents();
 
     if (content == null || content.trim().isEmpty()) {
       counters.empty.incrementAndGet();

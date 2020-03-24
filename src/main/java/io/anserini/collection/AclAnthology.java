@@ -152,7 +152,7 @@ public class AclAnthology extends DocumentCollection<AclAnthology.Document> {
     }
 
     @Override
-    public String content() {
+    public String contents() {
       if (contents == null) {
         throw new RuntimeException("JSON document has no \"contents\" field");
       }

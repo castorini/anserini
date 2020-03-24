@@ -61,7 +61,7 @@ public class ClueWeb12CollectionTest extends DocumentCollectionTest<ClueWeb12Col
     } else {
       assertTrue(doc.indexable());
       assertEquals(expected.get("id"), doc.id());
-      assertEquals(JsoupStringTransform.SINGLETON.apply(expected.get("raw")), doc.content());
+      assertEquals(JsoupStringTransform.SINGLETON.apply(expected.get("raw")), doc.contents());
       assertEquals(expected.get("raw"), doc.raw());
     }
   }

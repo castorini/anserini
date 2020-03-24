@@ -144,7 +144,7 @@ public class NewYorkTimesCollection extends DocumentCollection<NewYorkTimesColle
     }
 
     @Override
-    public String content() {
+    public String contents() {
       return contents;
     }
 

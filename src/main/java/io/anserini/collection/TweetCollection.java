@@ -263,7 +263,7 @@ public class TweetCollection extends DocumentCollection<TweetCollection.Document
     }
 
     @Override
-    public String content() {
+    public String contents() {
       return text;
     }
 

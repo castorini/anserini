@@ -105,7 +105,7 @@ public class WikipediaCollection extends DocumentCollection<WikipediaCollection.
     }
 
     @Override
-    public String content() {
+    public String contents() {
       return contents;
     }
 

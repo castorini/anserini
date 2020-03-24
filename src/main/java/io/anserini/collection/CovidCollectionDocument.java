@@ -67,18 +67,18 @@ public abstract class CovidCollectionDocument implements SourceDocument {
   }
 
   @Override
-  public String content() {
+  public String contents() {
     return content;
-  }
-
-  @Override
-  public boolean indexable() {
-    return true;
   }
 
   @Override
   public String raw() {
     return raw;
+  }
+
+  @Override
+  public boolean indexable() {
+    return true;
   }
 
   public CSVRecord record() {

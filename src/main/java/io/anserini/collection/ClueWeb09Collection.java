@@ -376,7 +376,7 @@ public class ClueWeb09Collection extends DocumentCollection<ClueWeb09Collection.
     }
 
     @Override
-    public String content() {
+    public String contents() {
       return JsoupStringTransform.SINGLETON.apply(getContent());
     }
 

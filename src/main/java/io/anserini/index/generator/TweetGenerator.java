@@ -109,16 +109,16 @@ public class TweetGenerator implements LuceneDocumentGenerator<TweetCollection.D
   public Document createDocument(TweetCollection.Document tweetDoc) throws GeneratorExpection {
     String id = tweetDoc.id();
 
-    if (tweetDoc.content().trim().isEmpty()) {
+    if (tweetDoc.contents().trim().isEmpty()) {
       throw new EmptyDocumentException();
     }
 
-    final TwitterTextParseResults result = TwitterTextParser.parseTweet(tweetDoc.content().trim());
+    final TwitterTextParseResults result = TwitterTextParser.parseTweet(tweetDoc.contents().trim());
     if (!result.isValid) {
       throw new InvalidDocumentException();
     }
 
-    String text = tweetDoc.content().trim().substring(result.validTextRange.start, result.validTextRange.end);
+    String text = tweetDoc.contents().trim().substring(result.validTextRange.start, result.validTextRange.end);
 
     if (!args.tweetKeepUrls) {
       final Extractor extractor = new Extractor();

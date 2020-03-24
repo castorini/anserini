@@ -78,7 +78,7 @@ public class CovidGenerator implements LuceneDocumentGenerator<CovidCollectionDo
   @Override
   public Document createDocument(CovidCollectionDocument covidDoc) {
     String id = covidDoc.id();
-    String content = covidDoc.content();
+    String content = covidDoc.contents();
     String raw = covidDoc.raw();
 
     if (content == null || content.trim().isEmpty()) {
