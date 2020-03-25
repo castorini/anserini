@@ -11,7 +11,7 @@ Typical indexing command:
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection TrecCollection -input /path/to/disk12 \
  -index lucene-index.disk12.pos+docvectors+rawdocs -generator DefaultLuceneDocumentGenerator -threads 16 \
- -storePositions -storeDocvectors -storeRawDocs >& log.disk12.pos+docvectors+rawdocs &
+ -storePositions -storeDocvectors -storeRaw >& log.disk12.pos+docvectors+rawdocs &
 ```
 
 The directory `/path/to/disk12/` should be the root directory of [TIPSTER Disks 1 &amp; 2](https://catalog.ldc.upenn.edu/LDC93T3A), i.e., `ls /path/to/disk12/` should bring up subdirectories like `doe`, `wsj`.

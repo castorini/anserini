@@ -13,7 +13,7 @@ Typical indexing command:
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection CleanTrecCollection -input /path/to/fire12-bn \
  -index lucene-index.fire12-bn.pos+docvectors+rawdocs -generator DefaultLuceneDocumentGenerator -threads 16 \
- -storePositions -storeDocvectors -storeRawDocs -language bn >& log.fire12-bn.pos+docvectors+rawdocs &
+ -storePositions -storeDocvectors -storeRaw -language bn >& log.fire12-bn.pos+docvectors+rawdocs &
 ```
 
 The directory `/path/to/fire12-bn/` should be a directory containing the collection, containing `bn_ABP` and `bn_BDNews24` directories.

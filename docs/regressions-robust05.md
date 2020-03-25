@@ -11,7 +11,7 @@ Typical indexing command:
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection TrecCollection -input /path/to/robust05 \
  -index lucene-index.robust05.pos+docvectors+rawdocs -generator DefaultLuceneDocumentGenerator -threads 16 \
- -storePositions -storeDocvectors -storeRawDocs >& log.robust05.pos+docvectors+rawdocs &
+ -storePositions -storeDocvectors -storeRaw >& log.robust05.pos+docvectors+rawdocs &
 ```
 
 The directory `/path/to/aquaint/` should be the root directory of the [AQUAINT collection](https://tac.nist.gov//data/data_desc.html#AQUAINT); under subdirectory `disk1/` there should be `NYT/` and under subdirectory `disk2/` there should be `APW/` and `XIE/`.

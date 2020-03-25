@@ -62,12 +62,12 @@ public class DefaultLuceneDocumentGenerator<T extends SourceDocument> implements
     // This is needed to break score ties by docid.
     document.add(new SortedDocValuesField(IndexArgs.ID, new BytesRef(id)));
 
-    if (args.storeRawDocs) {
+    if (args.storeRaw) {
       document.add(new StoredField(IndexArgs.RAW, src.contents()));
     }
 
     FieldType fieldType = new FieldType();
-    fieldType.setStored(args.storeTransformedDocs);
+    fieldType.setStored(args.storeContents);
 
     // Are we storing document vectors?
     if (args.storeDocvectors) {

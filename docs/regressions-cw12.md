@@ -11,7 +11,7 @@ Typical indexing command:
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection ClueWeb12Collection -input /path/to/cw12 \
  -index lucene-index.cw12.pos+docvectors+rawdocs -generator DefaultLuceneDocumentGenerator -threads 44 \
- -storePositions -storeDocvectors -storeRawDocs >& log.cw12.pos+docvectors+rawdocs &
+ -storePositions -storeDocvectors -storeRaw >& log.cw12.pos+docvectors+rawdocs &
 ```
 
 The directory `/path/to/cw12/` should be the root directory of the (full) [ClueWeb12 collection](http://lemurproject.org/clueweb12.php/), i.e., `/path/to/cw12/` should contain `Disk1`, `Disk2`, `Disk3`, `Disk4`.

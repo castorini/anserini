@@ -73,13 +73,13 @@ public class IndexArgs {
       usage = "Boolean switch to store document vectors; needed for (pseudo) relevance feedback.")
   public boolean storeDocvectors = false;
 
-  @Option(name = "-storeTransformedDocs",
-      usage = "Boolean switch to store transformed document text.")
-  public boolean storeTransformedDocs = false;
+  @Option(name = "-storeContents",
+      usage = "Boolean switch to store document contents.")
+  public boolean storeContents = false;
 
-  @Option(name = "-storeRawDocs",
-      usage = "Boolean switch to store raw document text.")
-  public boolean storeRawDocs = false;
+  @Option(name = "-storeRaw",
+      usage = "Boolean switch to store raw source documents.")
+  public boolean storeRaw = false;
 
   @Option(name = "-optimize",
       usage = "Boolean switch to optimize index (i.e., force merge) into a single segment; costly for large collections.")

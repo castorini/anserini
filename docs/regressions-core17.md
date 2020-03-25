@@ -11,7 +11,7 @@ Typical indexing command:
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection NewYorkTimesCollection -input /path/to/core17 \
  -index lucene-index.core17.pos+docvectors+rawdocs -generator DefaultLuceneDocumentGenerator -threads 16 \
- -storePositions -storeDocvectors -storeRawDocs >& log.core17.pos+docvectors+rawdocs &
+ -storePositions -storeDocvectors -storeRaw >& log.core17.pos+docvectors+rawdocs &
 ```
 
 The directory `/path/to/nyt_corpus/` should be the root directory of the [New York Times Annotated Corpus](https://catalog.ldc.upenn.edu/LDC2008T19), i.e., `ls /path/to/nyt_corpus/`

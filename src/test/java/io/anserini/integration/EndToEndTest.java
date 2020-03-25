@@ -88,8 +88,8 @@ public abstract class EndToEndTest extends LuceneTestCase {
     testIndexing();
   }
 
-  @After
   @Override
+  @After
   public void tearDown() throws Exception {
     FileUtils.deleteDirectory(new File(this.indexOutputPrefix + this.collectionClass));
     new File(this.searchOutputPrefix + this.topicReader).delete();
@@ -161,8 +161,8 @@ public abstract class EndToEndTest extends LuceneTestCase {
     //optional
     indexCollectionArgs.storePositions = true;
     indexCollectionArgs.storeDocvectors = true;
-    indexCollectionArgs.storeTransformedDocs = true;
-    indexCollectionArgs.storeRawDocs = true;
+    indexCollectionArgs.storeContents = true;
+    indexCollectionArgs.storeRaw = true;
     indexCollectionArgs.optimize = true;
     indexCollectionArgs.quiet = true;
   }

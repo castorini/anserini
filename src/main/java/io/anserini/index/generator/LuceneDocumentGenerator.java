@@ -16,26 +16,11 @@
 
 package io.anserini.index.generator;
 
-import io.anserini.collection.MultifieldSourceDocument;
 import io.anserini.collection.SourceDocument;
-import io.anserini.index.IndexArgs;
-import io.anserini.index.IndexCollection;
-import io.anserini.collection.StringTransform;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.apache.lucene.document.Document;
-import org.apache.lucene.document.Field;
-import org.apache.lucene.document.FieldType;
-import org.apache.lucene.document.SortedDocValuesField;
-import org.apache.lucene.document.StoredField;
-import org.apache.lucene.document.StringField;
-import org.apache.lucene.index.IndexOptions;
-import org.apache.lucene.util.BytesRef;
 
 /**
  * Converts a {@link SourceDocument} into a Lucene {@link Document}, ready to be indexed.
- * Prior to the creation of the Lucene document, this class will apply an optional
- * {@link StringTransform} to, for example, clean HTML document.
  *
  * @param <T> type of the source document
  */

@@ -11,14 +11,14 @@ input_roots:
   - /store/      # on orca
   - /scratch2/   # on damiano
 input: collections/web/ClueWeb12/
-index_path: indexes/lucene-index.cw12.pos+docvectors+rawdocs # path to the existing index, used in regression test if `--index` option is absent
+index_path: indexes/lucene-index.cw12.pos+docvectors+raw
 collection: ClueWeb12Collection
 generator: DefaultLuceneDocumentGenerator
 threads: 44
 index_options:
   - -storePositions
   - -storeDocvectors
-  - -storeRawDocs
+  - -storeRaw
 topic_reader: Webxml
 index_stats:
   documents: 731705088

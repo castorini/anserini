@@ -11,7 +11,7 @@ Typical indexing command:
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection WashingtonPostCollection -input /path/to/backgroundlinking19 \
  -index lucene-index.backgroundlinking19.pos+docvectors+rawdocs -generator WashingtonPostGenerator -threads 1 \
- -storePositions -storeDocvectors -storeRawDocs >& log.backgroundlinking19.pos+docvectors+rawdocs &
+ -storePositions -storeDocvectors -storeRaw >& log.backgroundlinking19.pos+docvectors+rawdocs &
 ```
 
 The directory `/path/to/core18/` should be the root directory of the [TREC Washington Post Corpus](https://trec.nist.gov/data/wapost/), i.e., `ls /path/to/core18/`

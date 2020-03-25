@@ -13,7 +13,7 @@ Typical indexing command:
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection CleanTrecCollection -input /path/to/ntcir8-zh \
  -index lucene-index.ntcir8-zh.pos+docvectors+rawdocs -generator DefaultLuceneDocumentGenerator -threads 16 \
- -storePositions -storeDocvectors -storeRawDocs -language zh -uniqueDocid -optimize >& log.ntcir8-zh.pos+docvectors+rawdocs &
+ -storePositions -storeDocvectors -storeRaw -language zh -uniqueDocid -optimize >& log.ntcir8-zh.pos+docvectors+rawdocs &
 ```
 
 The collection comprises Xinhua articles from 2002-2005, totaling 308,845 documents, from [LDC2007T38: Chinese Gigaword Third Edition](https://catalog.ldc.upenn.edu/LDC2007T38).

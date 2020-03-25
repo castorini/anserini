@@ -107,12 +107,12 @@ public class BibtexGenerator implements LuceneDocumentGenerator<BibtexCollection
     // Store the collection's bibtex type
     doc.add(new StringField(TYPE, type, Field.Store.YES));
 
-    if (args.storeRawDocs) {
+    if (args.storeRaw) {
       doc.add(new StoredField(IndexArgs.RAW, content));
     }
 
     FieldType fieldType = new FieldType();
-    fieldType.setStored(args.storeTransformedDocs);
+    fieldType.setStored(args.storeContents);
 
     // Are we storing document vectors?
     if (args.storeDocvectors) {

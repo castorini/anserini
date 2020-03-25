@@ -11,7 +11,7 @@ Typical indexing command:
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection CarCollection -input /path/to/car17v1.5 \
  -index lucene-index.car17v1.5.pos+docvectors+rawdocs -generator DefaultLuceneDocumentGenerator -threads 1 \
- -storePositions -storeDocvectors -storeRawDocs >& log.car17v1.5.pos+docvectors+rawdocs &
+ -storePositions -storeDocvectors -storeRaw >& log.car17v1.5.pos+docvectors+rawdocs &
 ```
 
 The directory `/path/to/car17v1.5` should be the root directory of Complex Answer Retrieval (CAR) paragraph corpus (v1.5), which can be downloaded [here](http://trec-car.cs.unh.edu/datareleases/).

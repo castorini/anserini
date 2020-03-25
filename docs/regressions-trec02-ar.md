@@ -13,7 +13,7 @@ Typical indexing command:
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection CleanTrecCollection -input /path/to/trec02-ar \
  -index lucene-index.trec02-ar.pos+docvectors+rawdocs -generator DefaultLuceneDocumentGenerator -threads 16 \
- -storePositions -storeDocvectors -storeRawDocs -language ar >& log.trec02-ar.pos+docvectors+rawdocs &
+ -storePositions -storeDocvectors -storeRaw -language ar >& log.trec02-ar.pos+docvectors+rawdocs &
 ```
 
 The collection comprises Agence France Presse (AFP) Arabic newswire, from [LDC2001T55 (Arabic Newswire Part 1)](https://catalog.ldc.upenn.edu/LDC2001T55).

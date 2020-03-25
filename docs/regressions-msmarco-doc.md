@@ -13,7 +13,7 @@ Typical indexing command:
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection CleanTrecCollection -input /path/to/msmarco-doc \
  -index lucene-index.msmarco-doc.pos+docvectors+rawdocs -generator DefaultLuceneDocumentGenerator -threads 1 \
- -storePositions -storeDocvectors -storeRawDocs >& log.msmarco-doc.pos+docvectors+rawdocs &
+ -storePositions -storeDocvectors -storeRaw >& log.msmarco-doc.pos+docvectors+rawdocs &
 ```
 
 The directory `/path/to/msmarco-doc/` should be a directory containing the official document collection (a single file), in TREC format.

@@ -19,7 +19,6 @@ package io.anserini.index.generator;
 import io.anserini.collection.WashingtonPostCollection;
 import io.anserini.collection.WashingtonPostCollection.Document.WashingtonPostObject;
 import io.anserini.index.IndexArgs;
-import io.anserini.index.IndexCollection;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.FieldType;
@@ -114,13 +113,13 @@ public class WashingtonPostGenerator implements LuceneDocumentGenerator<Washingt
       }
     });
 
-    if (args.storeRawDocs) { // store the raw json string as one single field
+    if (args.storeRaw) { // store the raw json string as one single field
       doc.add(new StoredField(IndexArgs.RAW, src.getContent()));
     }
 
     FieldType fieldType = new FieldType();
 
-    fieldType.setStored(args.storeTransformedDocs);
+    fieldType.setStored(args.storeContents);
 
     // Are we storing document vectors?
     if (args.storeDocvectors) {

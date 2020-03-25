@@ -14,7 +14,7 @@ Typical indexing command:
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection JsonCollection -input /path/to/dl19-passage \
  -index lucene-index.msmarco-passage.pos+docvectors+rawdocs -generator DefaultLuceneDocumentGenerator -threads 9 \
- -storePositions -storeDocvectors -storeRawDocs >& log.dl19-passage.pos+docvectors+rawdocs &
+ -storePositions -storeDocvectors -storeRaw >& log.dl19-passage.pos+docvectors+rawdocs &
 ```
 
 The directory `/path/to/msmarco-passage/` should be a directory containing `jsonl` files converted from the official passage collection, which is in `tsv` format.

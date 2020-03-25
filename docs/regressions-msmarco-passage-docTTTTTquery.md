@@ -13,7 +13,7 @@ Typical indexing command:
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection JsonCollection -input /path/to/msmarco-passage-docTTTTTquery \
  -index lucene-index.msmarco-passage-docTTTTTquery.pos+docvectors+rawdocs -generator DefaultLuceneDocumentGenerator -threads 9 \
- -storePositions -storeDocvectors -storeRawDocs >& log.msmarco-passage-docTTTTTquery.pos+docvectors+rawdocs &
+ -storePositions -storeDocvectors -storeRaw >& log.msmarco-passage-docTTTTTquery.pos+docvectors+rawdocs &
 ```
 
 The directory `/path/to/msmarco-passage/` should be a directory containing `jsonl` files converted from the official passage collection, appended with the docTTTTTquery expansions.

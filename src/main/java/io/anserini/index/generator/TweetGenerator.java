@@ -21,7 +21,6 @@ import com.twitter.twittertext.TwitterTextParseResults;
 import com.twitter.twittertext.TwitterTextParser;
 import io.anserini.collection.TweetCollection;
 import io.anserini.index.IndexArgs;
-import io.anserini.index.IndexCollection;
 import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -175,13 +174,13 @@ public class TweetGenerator implements LuceneDocumentGenerator<TweetCollection.D
 
     tweetDoc.getLang().ifPresent(lang -> doc.add(new StringField(TweetField.LANG.name, lang, Field.Store.NO)));
 
-    if (args.storeRawDocs) { // store the raw json string as one single field
+    if (args.storeRaw) { // store the raw json string as one single field
       doc.add(new StoredField(IndexArgs.RAW, tweetDoc.getJsonString()));
     }
 
     FieldType fieldType = new FieldType();
 
-    fieldType.setStored(args.storeTransformedDocs);
+    fieldType.setStored(args.storeContents);
 
     // Are we storing document vectors?
     if (args.storeDocvectors) {

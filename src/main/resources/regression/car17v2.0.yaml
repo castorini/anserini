@@ -11,14 +11,14 @@ threads: 1
 index_options:
   - -storePositions
   - -storeDocvectors
-  - -storeRawDocs
+  - -storeRaw
 topic_reader: Car
 input_roots:
   - /tuna1/      # on tuna
   - /store/      # on orca
   - /scratch2/   # on damiano
 input: collections/car/paragraphCorpus.v2.0/
-index_path: indexes/lucene-index.car17v2.0.pos+docvectors+rawdocs
+index_path: indexes/lucene-index.car17v2.0.pos+docvectors+raw
 collection: CarCollection
 index_stats:
   documents: 29794689

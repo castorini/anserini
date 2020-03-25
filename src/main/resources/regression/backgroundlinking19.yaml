@@ -11,7 +11,7 @@ threads: 1
 index_options:
   - -storePositions
   - -storeDocvectors
-  - -storeRawDocs
+  - -storeRaw
 topic_reader: BackgroundLinking
 input_roots:
   - /tuna1/      # on tuna

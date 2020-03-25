@@ -11,14 +11,14 @@ threads: 16
 index_options:
   - -storePositions
   - -storeDocvectors
-  - -storeRawDocs
+  - -storeRaw
 topic_reader: Trec
 input_roots:
   - /tuna1/      # on tuna
   - /store/      # on orca
   - /scratch2/   # on damiano
 input: collections/newswire/NYTcorpus/
-index_path: indexes/lucene-index.core17.pos+docvectors+rawdocs # path to the existing index, used in regression test if `--index` option is absent
+index_path: indexes/lucene-index.core17.pos+docvectors+raw
 collection: NewYorkTimesCollection
 index_stats:
   documents: 1855650

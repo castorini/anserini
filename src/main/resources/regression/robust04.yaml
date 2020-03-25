@@ -13,7 +13,7 @@ threads: 16
 index_options:
   - -storePositions
   - -storeDocvectors
-  - -storeRawDocs
+  - -storeRaw
 topic_reader: Trec
 evals:
   - command: eval/trec_eval.9.0.4/trec_eval
@@ -37,7 +37,7 @@ input_roots:
   - /store/      # on orca
   - /scratch2/   # on damiano
 input: collections/newswire/disk45/
-index_path: indexes/lucene-index.robust04.pos+docvectors+rawdocs # path to the existing index, used in regression test if `--index` option is absent
+index_path: indexes/lucene-index.robust04.pos+docvectors+raw
 index_stats:
   documents: 528030
   documents (non-empty): 528030

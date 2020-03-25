@@ -112,12 +112,12 @@ public class CoreGenerator implements LuceneDocumentGenerator<CoreCollection.Doc
     // This is needed to break score ties by docid.
     doc.add(new SortedDocValuesField(IndexArgs.ID, new BytesRef(id)));
 
-    if (args.storeRawDocs) {
+    if (args.storeRaw) {
       doc.add(new StoredField(IndexArgs.RAW, content));
     }
 
     FieldType fieldType = new FieldType();
-    fieldType.setStored(args.storeTransformedDocs);
+    fieldType.setStored(args.storeContents);
 
     // Are we storing document vectors?
     if (args.storeDocvectors) {

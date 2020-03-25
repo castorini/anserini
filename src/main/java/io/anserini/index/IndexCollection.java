@@ -622,8 +622,8 @@ public final class IndexCollection {
     LOG.info("Keep stopwords? " + args.keepStopwords);
     LOG.info("Store positions? " + args.storePositions);
     LOG.info("Store docvectors? " + args.storeDocvectors);
-    LOG.info("Store transformed docs? " + args.storeTransformedDocs);
-    LOG.info("Store raw docs? " + args.storeRawDocs);
+    LOG.info("Store contents? " + args.storeContents);
+    LOG.info("Store raw source documents? " + args.storeRaw);
     LOG.info("Optimize (merge segments)? " + args.optimize);
     LOG.info("Whitelist: " + args.whitelist);
 
