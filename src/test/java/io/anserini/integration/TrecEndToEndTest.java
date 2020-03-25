@@ -16,22 +16,25 @@
 
 package io.anserini.integration;
 
+import io.anserini.collection.TrecCollection;
+import io.anserini.index.IndexArgs;
+import io.anserini.index.generator.JsoupGenerator;
+
 public class TrecEndToEndTest extends EndToEndTest {
+  @Override
+  protected IndexArgs getIndexArgs() {
+    IndexArgs indexArgs = createDefaultIndexArgs();
+
+    indexArgs.input = "src/test/resources/sample_docs/trec/collection2";
+    indexArgs.collectionClass = TrecCollection.class.getSimpleName();
+    indexArgs.generatorClass = JsoupGenerator.class.getSimpleName();
+
+    return indexArgs;
+  }
 
   @Override
-  protected void init() {
-    dataDirPath = "trec/collection2";
-    collectionClass = "Trec";
-    generator = "Jsoup";
-    topicReader = "Trec";
-
+  protected void setCheckIndexGroundTruth() {
     docCount = 3;
-
-    counterIndexed = 3;
-    counterEmpty = 0;
-    counterUnindexable = 0;
-    counterSkipped = 0;
-    counterErrors = 0;
 
     fieldNormStatusTotalFields = 1;  // text
     termIndexStatusTermCount = 12;   // Note that standard analyzer ignores stopwords; includes docids.
@@ -40,6 +43,12 @@ public class TrecEndToEndTest extends EndToEndTest {
     // 16 positions for text fields, plus 1 for each document because of id
     termIndexStatusTotPos = 16 + storedFieldStatusTotalDocCounts;
     storedFieldStatusTotFields = 9;  // 3 docs * (1 id + 1 text + 1 raw)
+  }
+
+  @Override
+  protected void setSearchGroundTruth() {
+    topicReader = "Trec";
+    topicFile = "src/test/resources/sample_topics/Trec";
 
     testQueries.put("bm25", createDefaultSearchArgs().bm25());
     referenceRunOutput.put("bm25", new String[]{

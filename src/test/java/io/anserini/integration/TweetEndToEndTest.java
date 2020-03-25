@@ -16,26 +16,34 @@
 
 package io.anserini.integration;
 
-import io.anserini.search.SearchArgs;
-
-import java.util.Map;
+import io.anserini.collection.TweetCollection;
+import io.anserini.index.IndexArgs;
+import io.anserini.index.generator.TweetGenerator;
 
 public class TweetEndToEndTest extends EndToEndTest {
+  // Note that in the test cases, we have:
+  // {... "id":1,"id_str":"1","text":"RT This is a Retweet and will NOT NOT be indexed!" ... }
+  // {... "id":10,"id_str":"10","text":"This tweet won't be indexed since the maxId is 9" ... }
+  //
+  // src/test/resources/sample_docs/tweets/tweets1: 5 JSON objects, 2 deletes
+  // src/test/resources/sample_docs/tweets/tweets2: 4 JSON objects, 1 deletes
+  //
+  // Thus, there should be a total of 4 documents indexed: 9 objects - 5 skipped
+  @Override
+  protected IndexArgs getIndexArgs() {
+    IndexArgs indexArgs = createDefaultIndexArgs();
+
+    indexArgs.input = "src/test/resources/sample_docs/tweets/collection1";
+    indexArgs.collectionClass = TweetCollection.class.getSimpleName();
+    indexArgs.generatorClass = TweetGenerator.class.getSimpleName();
+    indexArgs.tweetMaxId = 9L;
+
+    return indexArgs;
+  }
 
   @Override
-  protected void init() {
-    dataDirPath = "tweets/collection1";
-    collectionClass = "Tweet";
-    generator = "Tweet";
-    topicReader = "Microblog";
-
+  protected void setCheckIndexGroundTruth() {
     docCount = 4;
-
-    counterIndexed = 4;
-    counterEmpty = 0;
-    counterUnindexable = 0;
-    counterSkipped = 5;
-    counterErrors = 0;
 
     fieldNormStatusTotalFields = 1; // text
 
@@ -46,24 +54,16 @@ public class TweetEndToEndTest extends EndToEndTest {
     // 24 positions for text fields, plus 3 for each document because of id, screen_name and lang
     termIndexStatusTotPos = 24 + 3 * storedFieldStatusTotalDocCounts;
     storedFieldStatusTotFields = 12;  // 4 tweets * (1 id + 1 text + 1 raw)
+  }
+
+  @Override
+  protected void setSearchGroundTruth() {
+    topicReader = "Microblog";
+    topicFile = "src/test/resources/sample_topics/Microblog";
 
     testQueries.put("bm25", createDefaultSearchArgs().bm25().searchTweets());
     referenceRunOutput.put("bm25", new String[] {
         "1 Q0 5 1 0.614300 Anserini",
         "1 Q0 3 2 0.364800 Anserini" });
-  }
-
-  // Note that in the test cases, we have:
-  // {... "id":1,"id_str":"1","text":"RT This is a Retweet and will NOT NOT be indexed!" ... }
-  // {... "id":10,"id_str":"10","text":"This tweet won't be indexed since the maxId is 9" ... }
-  //
-  // src/test/resources/sample_docs/tweets/tweets1: 5 JSON objects, 2 deletes
-  // src/test/resources/sample_docs/tweets/tweets2: 4 JSON objects, 1 deletes
-  //
-  // Thus, there should be a total of 4 documents indexed: 9 objects - 5 skipped
-  @Override
-  protected void setIndexingArgs() {
-    super.setIndexingArgs();
-    indexCollectionArgs.tweetMaxId = 9L;
   }
 }
