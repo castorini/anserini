@@ -52,8 +52,7 @@ public class MultiThreadingSearchTest extends EndToEndTest {
     docCount = 3;
 
     fieldNormStatusTotalFields = 1; // text
-    termIndexStatusTermCount = 12; // Please note that standard analyzer ignores stopwords.
-    // Also, this includes docids
+    termIndexStatusTermCount = 12; // default analyzer ignores stopwords; this includes docids
     termIndexStatusTotFreq = 17;  //
     storedFieldStatusTotalDocCounts = 3;
     // 16 positions for text fields, plus 1 for each document because of id
