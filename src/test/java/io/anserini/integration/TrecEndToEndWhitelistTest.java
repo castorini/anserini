@@ -16,22 +16,25 @@
 
 package io.anserini.integration;
 
+import io.anserini.collection.TrecCollection;
+import io.anserini.index.generator.JsoupGenerator;
+
 public class TrecEndToEndWhitelistTest extends EndToEndTest {
+  @Override
+  protected void setIndexingArgs() {
+    dataDirPath = "trec/collection2";
+    collectionClass = TrecCollection.class.getSimpleName();
+    generator = JsoupGenerator.class.getSimpleName();
+    topicReader = "Trec";
+    topicFile = "src/test/resources/sample_topics/Trec";
+
+    whitelist = "src/test/resources/sample_docs/trec/collection2/whitelist.txt";
+    // With a whitelist, we're only indexing DOC222
+  }
 
   @Override
-  protected void init() {
-    dataDirPath = "trec/collection2";
-    collectionClass = "Trec";
-    generator = "Jsoup";
-    topicReader = "Trec";
-
+  protected void setCheckIndexGroundTruth() {
     docCount = 1;
-
-    counterIndexed = 1;
-    counterEmpty = 0;
-    counterUnindexable = 0;
-    counterSkipped = 2;
-    counterErrors = 0;
 
     fieldNormStatusTotalFields = 1;  // text
     termIndexStatusTermCount = 5;   // Note that standard analyzer ignores stopwords; includes docids.
@@ -39,17 +42,13 @@ public class TrecEndToEndWhitelistTest extends EndToEndTest {
     storedFieldStatusTotalDocCounts = 1;
     termIndexStatusTotPos = 7;
     storedFieldStatusTotFields = 3;
+  }
 
+  @Override
+  protected void setSearchGroundTruth() {
     testQueries.put("bm25", createDefaultSearchArgs().bm25());
     referenceRunOutput.put("bm25", new String[]{
         "1 Q0 DOC222 1 0.372700 Anserini"
     });
-  }
-
-  @Override
-  protected void setIndexingArgs() {
-    super.setIndexingArgs();
-    indexCollectionArgs.whitelist = "src/test/resources/sample_docs/trec/collection2/whitelist.txt";
-    // With a whitelist, we're only indexing DOC222
   }
 }

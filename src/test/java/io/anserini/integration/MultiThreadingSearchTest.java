@@ -16,6 +16,8 @@
 
 package io.anserini.integration;
 
+import io.anserini.collection.TrecCollection;
+import io.anserini.index.generator.JsoupGenerator;
 import io.anserini.search.SearchArgs;
 import org.junit.After;
 
@@ -30,34 +32,34 @@ import java.util.Map;
 import java.util.Set;
 
 public class MultiThreadingSearchTest extends EndToEndTest {
-  private List<File> cleanup = new ArrayList<>();
   private Map<String, Set<String>> runsForQuery = new HashMap<>();
   private Map<String, String[]> groundTruthRuns = new HashMap<>();
 
   @Override
-  protected void init() {
+  protected void setIndexingArgs() {
     dataDirPath = "trec/collection2";
-    collectionClass = "Trec";
-    generator = "Jsoup";
+    collectionClass = TrecCollection.class.getSimpleName();
+    generator = JsoupGenerator.class.getSimpleName();
     topicReader = "Trec";
+    topicFile = "src/test/resources/sample_topics/Trec";
+  }
 
+  @Override
+  protected void setCheckIndexGroundTruth() {
     docCount = 3;
-
-    counterIndexed = 3;
-    counterEmpty = 0;
-    counterUnindexable = 0;
-    counterSkipped = 0;
-    counterErrors = 0;
 
     fieldNormStatusTotalFields = 1; // text
     termIndexStatusTermCount = 12; // Please note that standard analyzer ignores stopwords.
-                                   // Also, this includes docids
+    // Also, this includes docids
     termIndexStatusTotFreq = 17;  //
     storedFieldStatusTotalDocCounts = 3;
     // 16 positions for text fields, plus 1 for each document because of id
     termIndexStatusTotPos = 16 + storedFieldStatusTotalDocCounts;
     storedFieldStatusTotFields = 9;  // 3 docs * (1 id + 1 text + 1 raw)
+  }
 
+  @Override
+  protected void setSearchGroundTruth() {
     SearchArgs searchArgs;
 
     searchArgs = createDefaultSearchArgs().bm25();
@@ -158,14 +160,5 @@ public class MultiThreadingSearchTest extends EndToEndTest {
       // Add the file to the cleanup list.
       cleanup.add(runfile);
     }
-  }
-
-  @After
-  @Override
-  public void tearDown() throws Exception {
-    for (File file : cleanup) {
-      file.delete();
-    }
-    super.tearDown();
   }
 }
