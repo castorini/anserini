@@ -17,16 +17,19 @@
 package io.anserini.integration;
 
 import io.anserini.collection.TrecCollection;
+import io.anserini.index.IndexArgs;
 import io.anserini.index.generator.JsoupGenerator;
 
 public class TrecEndToEndTest extends EndToEndTest {
   @Override
-  protected void setIndexingArgs() {
-    dataDirPath = "trec/collection2";
-    collectionClass = TrecCollection.class.getSimpleName();
-    generator = JsoupGenerator.class.getSimpleName();
-    topicReader = "Trec";
-    topicFile = "src/test/resources/sample_topics/Trec";
+  protected IndexArgs getIndexArgs() {
+    IndexArgs indexArgs = createDefaultIndexArgs();
+
+    indexArgs.input = "src/test/resources/sample_docs/trec/collection2";
+    indexArgs.collectionClass = TrecCollection.class.getSimpleName();
+    indexArgs.generatorClass = JsoupGenerator.class.getSimpleName();
+
+    return indexArgs;
   }
 
   @Override
@@ -44,6 +47,9 @@ public class TrecEndToEndTest extends EndToEndTest {
 
   @Override
   protected void setSearchGroundTruth() {
+    topicReader = "Trec";
+    topicFile = "src/test/resources/sample_topics/Trec";
+
     testQueries.put("bm25", createDefaultSearchArgs().bm25());
     referenceRunOutput.put("bm25", new String[]{
         "1 Q0 DOC222 1 0.343200 Anserini",

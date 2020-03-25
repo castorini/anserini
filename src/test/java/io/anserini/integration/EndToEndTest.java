@@ -56,19 +56,6 @@ public abstract class EndToEndTest extends LuceneTestCase {
   protected Map<String, SearchArgs> testQueries = new HashMap<>();
 
   protected String indexPath;
-  protected String dataDirPath;
-  protected String dataDirPrefix = "src/test/resources/sample_docs/";
-  protected String collectionClass;
-  protected String generator;
-  protected String whitelist = null;
-  protected long tweetMaxId = -1;
-
-  protected boolean storePositions = true;
-  protected boolean storeDocvectors = true;
-  protected boolean storeTransformedDocs = true;
-  protected boolean storeRawDocs = true;
-  protected boolean optimize = true;
-  protected boolean quiet = true;
 
   protected String topicReader;
   protected String topicFile;
@@ -97,47 +84,48 @@ public abstract class EndToEndTest extends LuceneTestCase {
 
     cleanup.clear();
 
-    // Set the indexing args. Subclasses will override this method and change their own settings.
-    setIndexingArgs();
+    // Subclasses will override this method and change their own settings.
+    IndexArgs indexArgs = getIndexArgs();
 
+    // Note, since we want to test end-to-end, we're going to generate command-line parameters to feed back into main.
     List<String> args = new ArrayList<>(List.of(
-        "-index", this.indexPath,
-        "-input", this.dataDirPrefix + this.dataDirPath,
+        "-index", indexPath,
+        "-input", indexArgs.input,
         "-threads", "2",
-        "-collection", this.collectionClass,
-        "-generator", this.generator));
+        "-collection", indexArgs.collectionClass,
+        "-generator", indexArgs.generatorClass));
 
-    if (this.tweetMaxId != -1) {
+    if (indexArgs.tweetMaxId != Long.MAX_VALUE) {
       args.add("-tweet.maxId");
-      args.add(this.tweetMaxId + "");
+      args.add(indexArgs.tweetMaxId + "");
     }
 
-    if (this.whitelist != null) {
+    if (indexArgs.whitelist != null) {
       args.add("-whitelist");
-      args.add(this.whitelist);
+      args.add(indexArgs.whitelist);
     }
 
-    if (this.storePositions) {
+    if (indexArgs.storePositions) {
       args.add("-storePositions");
     }
 
-    if (this.storeDocvectors) {
+    if (indexArgs.storeDocvectors) {
       args.add("-storeDocvectors");
     }
 
-    if (this.storeTransformedDocs) {
+    if (indexArgs.storeTransformedDocs) {
       args.add("-storeTransformedDocs");
     }
 
-    if (this.storeRawDocs) {
+    if (indexArgs.storeRawDocs) {
       args.add("-storeRawDocs");
     }
 
-    if (this.optimize) {
+    if (indexArgs.optimize) {
       args.add("-optimize");
     }
 
-    if (this.quiet) {
+    if (indexArgs.quiet) {
       args.add("-quiet");
     }
 
@@ -145,7 +133,20 @@ public abstract class EndToEndTest extends LuceneTestCase {
   }
 
   // Set the indexing args. Subclasses will override this method and change their own settings.
-  abstract void setIndexingArgs();
+  abstract IndexArgs getIndexArgs();
+
+  protected IndexArgs createDefaultIndexArgs() {
+    IndexArgs args = new IndexArgs();
+
+    args.storePositions = true;
+    args.storeDocvectors = true;
+    args.storeTransformedDocs = true;
+    args.storeRawDocs = true;
+    args.optimize = true;
+    args.quiet = true;
+
+    return args;
+  }
 
   @After
   @Override

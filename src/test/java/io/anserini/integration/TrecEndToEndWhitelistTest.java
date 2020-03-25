@@ -17,19 +17,21 @@
 package io.anserini.integration;
 
 import io.anserini.collection.TrecCollection;
+import io.anserini.index.IndexArgs;
 import io.anserini.index.generator.JsoupGenerator;
 
 public class TrecEndToEndWhitelistTest extends EndToEndTest {
   @Override
-  protected void setIndexingArgs() {
-    dataDirPath = "trec/collection2";
-    collectionClass = TrecCollection.class.getSimpleName();
-    generator = JsoupGenerator.class.getSimpleName();
-    topicReader = "Trec";
-    topicFile = "src/test/resources/sample_topics/Trec";
+  protected IndexArgs getIndexArgs() {
+    IndexArgs indexArgs = createDefaultIndexArgs();
 
-    whitelist = "src/test/resources/sample_docs/trec/collection2/whitelist.txt";
+    indexArgs.input = "src/test/resources/sample_docs/trec/collection2";
+    indexArgs.collectionClass = TrecCollection.class.getSimpleName();
+    indexArgs.generatorClass = JsoupGenerator.class.getSimpleName();
+    indexArgs.whitelist = "src/test/resources/sample_docs/trec/collection2/whitelist.txt";
     // With a whitelist, we're only indexing DOC222
+
+    return indexArgs;
   }
 
   @Override
@@ -46,6 +48,9 @@ public class TrecEndToEndWhitelistTest extends EndToEndTest {
 
   @Override
   protected void setSearchGroundTruth() {
+    topicReader = "Trec";
+    topicFile = "src/test/resources/sample_topics/Trec";
+
     testQueries.put("bm25", createDefaultSearchArgs().bm25());
     referenceRunOutput.put("bm25", new String[]{
         "1 Q0 DOC222 1 0.372700 Anserini"

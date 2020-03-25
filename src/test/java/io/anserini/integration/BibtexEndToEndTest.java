@@ -17,18 +17,21 @@
 package io.anserini.integration;
 
 import io.anserini.collection.BibtexCollection;
+import io.anserini.index.IndexArgs;
 import io.anserini.index.generator.BibtexGenerator;
 
 import java.util.Map;
 
 public class BibtexEndToEndTest extends EndToEndTest {
   @Override
-  protected void setIndexingArgs() {
-    dataDirPath = "bib/acl";
-    collectionClass = BibtexCollection.class.getSimpleName();
-    generator = BibtexGenerator.class.getSimpleName();
-    topicReader = "TsvInt";
-    topicFile = "src/test/resources/sample_topics/bibtex_topics.tsv";
+  protected IndexArgs getIndexArgs() {
+    IndexArgs indexArgs = createDefaultIndexArgs();
+
+    indexArgs.input = "src/test/resources/sample_docs/bib/acl";
+    indexArgs.collectionClass = BibtexCollection.class.getSimpleName();
+    indexArgs.generatorClass = BibtexGenerator.class.getSimpleName();
+
+    return indexArgs;
   }
 
   @Override
@@ -55,6 +58,9 @@ public class BibtexEndToEndTest extends EndToEndTest {
 
   @Override
   protected void setSearchGroundTruth() {
+    topicReader = "TsvInt";
+    topicFile = "src/test/resources/sample_topics/bibtex_topics.tsv";
+
     testQueries.put("bm25", createDefaultSearchArgs().bm25());
     referenceRunOutput.put("bm25", new String[]{
         "1 Q0 article-id 1 0.073800 Anserini",

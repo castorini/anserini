@@ -17,6 +17,7 @@
 package io.anserini.integration;
 
 import io.anserini.collection.TweetCollection;
+import io.anserini.index.IndexArgs;
 import io.anserini.index.generator.TweetGenerator;
 
 public class TweetEndToEndTest extends EndToEndTest {
@@ -29,13 +30,15 @@ public class TweetEndToEndTest extends EndToEndTest {
   //
   // Thus, there should be a total of 4 documents indexed: 9 objects - 5 skipped
   @Override
-  protected void setIndexingArgs() {
-    dataDirPath = "tweets/collection1";
-    collectionClass = TweetCollection.class.getSimpleName();
-    generator = TweetGenerator.class.getSimpleName();
-    topicReader = "Microblog";
-    topicFile = "src/test/resources/sample_topics/Microblog";
-    tweetMaxId = 9L;
+  protected IndexArgs getIndexArgs() {
+    IndexArgs indexArgs = createDefaultIndexArgs();
+
+    indexArgs.input = "src/test/resources/sample_docs/tweets/collection1";
+    indexArgs.collectionClass = TweetCollection.class.getSimpleName();
+    indexArgs.generatorClass = TweetGenerator.class.getSimpleName();
+    indexArgs.tweetMaxId = 9L;
+
+    return indexArgs;
   }
 
   @Override
@@ -55,6 +58,9 @@ public class TweetEndToEndTest extends EndToEndTest {
 
   @Override
   protected void setSearchGroundTruth() {
+    topicReader = "Microblog";
+    topicFile = "src/test/resources/sample_topics/Microblog";
+
     testQueries.put("bm25", createDefaultSearchArgs().bm25().searchTweets());
     referenceRunOutput.put("bm25", new String[] {
         "1 Q0 5 1 0.614300 Anserini",

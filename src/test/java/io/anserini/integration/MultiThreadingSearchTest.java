@@ -17,6 +17,7 @@
 package io.anserini.integration;
 
 import io.anserini.collection.TrecCollection;
+import io.anserini.index.IndexArgs;
 import io.anserini.index.generator.JsoupGenerator;
 import io.anserini.search.SearchArgs;
 import org.junit.After;
@@ -36,12 +37,14 @@ public class MultiThreadingSearchTest extends EndToEndTest {
   private Map<String, String[]> groundTruthRuns = new HashMap<>();
 
   @Override
-  protected void setIndexingArgs() {
-    dataDirPath = "trec/collection2";
-    collectionClass = TrecCollection.class.getSimpleName();
-    generator = JsoupGenerator.class.getSimpleName();
-    topicReader = "Trec";
-    topicFile = "src/test/resources/sample_topics/Trec";
+  protected IndexArgs getIndexArgs() {
+    IndexArgs indexArgs = createDefaultIndexArgs();
+
+    indexArgs.input = "src/test/resources/sample_docs/trec/collection2";
+    indexArgs.collectionClass = TrecCollection.class.getSimpleName();
+    indexArgs.generatorClass = JsoupGenerator.class.getSimpleName();
+
+    return indexArgs;
   }
 
   @Override
@@ -60,6 +63,9 @@ public class MultiThreadingSearchTest extends EndToEndTest {
 
   @Override
   protected void setSearchGroundTruth() {
+    topicReader = "Trec";
+    topicFile = "src/test/resources/sample_topics/Trec";
+
     SearchArgs searchArgs;
 
     searchArgs = createDefaultSearchArgs().bm25();
