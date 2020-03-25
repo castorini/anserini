@@ -46,7 +46,6 @@ import java.util.Map;
 public class BibtexGenerator implements LuceneDocumentGenerator<BibtexCollection.Document> {
   public static final String TYPE = "type";
 
-  private IndexCollection.Counters counters;
   private IndexArgs args;
 
   public enum BibtexField {
@@ -81,21 +80,19 @@ public class BibtexGenerator implements LuceneDocumentGenerator<BibtexCollection
     BibtexField.ADDRESS.name,
     BibtexField.EDITOR.name);
 
-  public BibtexGenerator(IndexArgs args, IndexCollection.Counters counters) {
+  public BibtexGenerator(IndexArgs args) {
     this.args = args;
-    this.counters = counters;
   }
 
   @Override
-  public Document createDocument(BibtexCollection.Document bibtexDoc) {
+  public Document createDocument(BibtexCollection.Document bibtexDoc) throws GeneratorExpection {
     String id = bibtexDoc.id();
     String content = bibtexDoc.contents();
     String type = bibtexDoc.type();
     BibTeXEntry bibtexEntry = bibtexDoc.bibtexEntry();
 
     if (content == null || content.trim().isEmpty()) {
-      counters.empty.incrementAndGet();
-      return null;
+      throw new EmptyDocumentException();
     }
 
     Document doc = new Document();
