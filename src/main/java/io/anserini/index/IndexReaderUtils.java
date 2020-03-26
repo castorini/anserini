@@ -358,41 +358,55 @@ public class IndexReaderUtils {
   }
 
   /**
-   * Returns the raw contents of a document based on an internal Lucene docid.
+   * Fetches the Lucene {@link Document} based on a collection docid.
+   * The method is named to be consistent with Lucene's {@link IndexReader#document(int)}, contra Java's standard
+   * method naming conventions.
    *
    * @param reader index reader
    * @param docid collection docid
-   * @return raw contents of a document
+   * @return corresponding Lucene {@link Document}
    */
-  public static String getRawContents(IndexReader reader, String docid) {
+  public static Document document(IndexReader reader, String docid) {
     try {
-      Document rawDoc = reader.document(convertDocidToLuceneDocid(reader, docid));
-
-      if (rawDoc == null) {
-        return null;
-      }
-      return rawDoc.get(IndexArgs.RAW);
-    } catch (IOException e) {
+      return reader.document(IndexReaderUtils.convertDocidToLuceneDocid(reader, docid));
+    } catch (Exception e) {
+      // Eat any exceptions and just return null.
       return null;
     }
   }
 
   /**
-   * Returns the indexed contents of a document based on a collection docid.
+   * Returns the "raw" field of a document based on a collection docid.
+   * The method is named to be consistent with Lucene's {@link IndexReader#document(int)}, contra Java's standard
+   * method naming conventions.
    *
    * @param reader index reader
    * @param docid collection docid
-   * @return indexed contents of a document
+   * @return the "raw" field the document
    */
-  public static String getIndexedContents(IndexReader reader, String docid) {
+  public static String documentRaw(IndexReader reader, String docid) {
     try {
-      Document rawDoc = reader.document(convertDocidToLuceneDocid(reader, docid));
+      return reader.document(convertDocidToLuceneDocid(reader, docid)).get(IndexArgs.RAW);
+    } catch (Exception e) {
+      // Eat any exceptions and just return null.
+      return null;
+    }
+  }
 
-      if (rawDoc == null) {
-        return null;
-      }
-      return rawDoc.get(IndexArgs.CONTENTS);
-    } catch (IOException e) {
+  /**
+   * Returns the "contents" field of a document based on a collection docid.
+   * The method is named to be consistent with Lucene's {@link IndexReader#document(int)}, contra Java's standard
+   * method naming conventions.
+   *
+   * @param reader index reader
+   * @param docid collection docid
+   * @return the "contents" field the document
+   */
+  public static String documentContents(IndexReader reader, String docid) {
+    try {
+      return reader.document(convertDocidToLuceneDocid(reader, docid)).get(IndexArgs.CONTENTS);
+    } catch (Exception e) {
+      // Eat any exceptions and just return null.
       return null;
     }
   }
@@ -452,15 +466,15 @@ public class IndexReaderUtils {
       // get term frequency
       Terms terms = reader.getTermVector(internalDocid, IndexArgs.CONTENTS);
       if (terms == null) {
-        // We do not throw exception here because there are some
-        //  collections in which part of documents don't have document vectors
-        LOG.warn("Document vector not stored for doc " + docid);
+        // Don't throw exception here because there are some collections
+        // where some documents don't have document vectors stored.
+        LOG.warn("Document vector not stored for document " + docid);
         continue;
       }
 
       TermsEnum te = terms.iterator();
       if (te == null) {
-        LOG.warn("Document vector not stored for doc " + docid);
+        LOG.warn("Document vector not stored for document " + docid);
         continue;
       }
 
@@ -557,17 +571,9 @@ public class IndexReaderUtils {
       return null;
 
     try {
-      Document d = reader.document(docid);
-      if (d == null) {
-        return null;
-      }
-      IndexableField doc = d.getField(IndexArgs.ID);
-      if (doc == null) {
-        // Really shouldn't happen! Index not properly built?
-        return null;
-      }
-      return doc.stringValue();
+      return reader.document(docid).get(IndexArgs.ID);
     } catch (IOException e) {
+      // Eat any exceptions and just return null.
       return null;
     }
   }
