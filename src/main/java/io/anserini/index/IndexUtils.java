@@ -44,10 +44,8 @@ import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.DocIdSetIterator;
 import org.apache.lucene.search.DocValuesFieldExistsQuery;
 import org.apache.lucene.search.IndexSearcher;
-import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TermQuery;
-import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.FSDirectory;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
@@ -194,7 +192,7 @@ public class IndexUtils {
   }
 
   public void printDocumentVector(String docid) throws IOException, NotStoredException {
-    Terms terms = reader.getTermVector(convertDocidToLuceneDocid(docid), IndexArgs.CONTENTS);
+    Terms terms = reader.getTermVector(IndexReaderUtils.convertDocidToLuceneDocid(reader, docid), IndexArgs.CONTENTS);
     if (terms == null) {
       throw new NotStoredException("Document vector not stored!");
     }
@@ -227,7 +225,7 @@ public class IndexUtils {
     while ((docid = bRdr.readLine()) != null) {
       counter++;
 
-      int internalDocid = convertDocidToLuceneDocid(docid);
+      int internalDocid = IndexReaderUtils.convertDocidToLuceneDocid(reader, docid);
       if (internalDocid == -1) {
         continue;
       }
@@ -345,7 +343,7 @@ public class IndexUtils {
   }
 
   public String getRawDocument(String docid) throws IOException, NotStoredException {
-    Document d = reader.document(convertDocidToLuceneDocid(docid));
+    Document d = reader.document(IndexReaderUtils.convertDocidToLuceneDocid(reader, docid));
     IndexableField doc = d.getField(IndexArgs.RAW);
     if (doc == null) {
       throw new NotStoredException("Raw documents not stored!");
@@ -382,7 +380,7 @@ public class IndexUtils {
       @Override
       public void run() {
         try {
-          Document d = reader.document(convertDocidToLuceneDocid(docid));
+          Document d = reader.document(IndexReaderUtils.convertDocidToLuceneDocid(reader, docid));
           IndexableField doc = d.getField(IndexArgs.RAW);
           if (doc == null) {
             LOG.error("Raw documents not stored: " + docid);
@@ -425,40 +423,6 @@ public class IndexUtils {
     }
 
     LOG.info(String.format("Raw documents are output to: %s", outputDir));
-  }
-
-  public String getTransformedDocument(String docid) throws IOException, NotStoredException {
-    Document d = reader.document(convertDocidToLuceneDocid(docid));
-    IndexableField doc = d.getField(IndexArgs.CONTENTS);
-    if (doc == null) {
-      throw new NotStoredException("Transformed documents not stored!");
-    }
-    return doc.stringValue();
-  }
-
-  public int convertDocidToLuceneDocid(String docid) throws IOException {
-    IndexSearcher searcher = new IndexSearcher(reader);
-
-    Query q = new TermQuery(new Term(IndexArgs.ID, docid));
-    TopDocs rs = searcher.search(q, 1);
-    ScoreDoc[] hits = rs.scoreDocs;
-
-    if (hits == null || hits.length == 0) {
-      LOG.warn(String.format("Docid %s not found!", docid));
-      return -1;
-    }
-
-    return hits[0].doc;
-  }
-
-  public String convertLuceneDocidToDocid(int docid) throws IOException {
-    Document d = reader.document(docid);
-    IndexableField doc = d.getField(IndexArgs.ID);
-    if (doc == null) {
-      // Really shouldn't happen!
-      throw new RuntimeException();
-    }
-    return doc.stringValue();
   }
 
   public static void main(String[] argv) throws Exception{
@@ -507,18 +471,6 @@ public class IndexUtils {
 
     if (args.rawDocsWithDocid != null) {
       util.dumpRawDocuments(args.rawDocs, true);
-    }
-
-    if (args.transformedDoc != null) {
-      System.out.println(util.getTransformedDocument(args.transformedDoc));
-    }
-
-    if (args.lookupDocid != null) {
-      System.out.println(util.convertDocidToLuceneDocid(args.lookupDocid));
-    }
-
-    if (args.lookupLuceneDocid > 0) {
-      System.out.println(util.convertLuceneDocidToDocid(args.lookupLuceneDocid));
     }
   }
 }

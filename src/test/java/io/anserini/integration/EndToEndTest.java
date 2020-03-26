@@ -61,7 +61,7 @@ public abstract class EndToEndTest extends LuceneTestCase {
   protected String topicFile;
   protected String searchOutputPrefix = "e2eTestSearch";
   protected Map<String, String[]> referenceRunOutput = new HashMap<>();
-  protected Map<Integer, Map<String, String>> documentContents = new HashMap<>();
+  protected Map<String, Map<String, String>> documents = new HashMap<>();
 
   // These are the sources of truth
   protected int fieldNormStatusTotalFields;
@@ -172,11 +172,12 @@ public abstract class EndToEndTest extends LuceneTestCase {
     IndexReader reader = DirectoryReader.open(dir);
     assertEquals(docCount, reader.maxDoc());
 
-    for (Map.Entry<Integer, Map<String, String>> entry : documentContents.entrySet()) {
-      String collectionDocid = IndexReaderUtils.convertLuceneDocidToDocid(reader, entry.getKey());
-      assertEquals(entry.getValue().get("id"), collectionDocid);
-      assertEquals(entry.getValue().get("raw"), IndexReaderUtils.getRawContents(reader, collectionDocid));
-      assertEquals(entry.getValue().get("contents"), IndexReaderUtils.getIndexedContents(reader, collectionDocid));
+    for (int i=0; i<reader.maxDoc(); i++) {
+      String collectionDocid = IndexReaderUtils.convertLuceneDocidToDocid(reader, i);
+      assertEquals(documents.get(collectionDocid).get("raw"),
+          IndexReaderUtils.documentRaw(reader, collectionDocid));
+      assertEquals(documents.get(collectionDocid).get("contents"),
+          IndexReaderUtils.documentContents(reader, collectionDocid));
     }
     reader.close();
 

@@ -19,6 +19,8 @@ package io.anserini.integration;
 import io.anserini.collection.TrecCollection;
 import io.anserini.index.IndexArgs;
 
+import java.util.Map;
+
 public class TrecEndToEndTest extends EndToEndTest {
   @Override
   protected IndexArgs getIndexArgs() {
@@ -33,6 +35,36 @@ public class TrecEndToEndTest extends EndToEndTest {
   @Override
   protected void setCheckIndexGroundTruth() {
     docCount = 3;
+    documents.put("TREC_DOC_1", Map.of(
+        "contents", "This is head very simple text",
+        "raw", "<HEAD>This is head</HEAD>\n" +
+            "<TEXT>\n" +
+            "very simple\n" +
+            "text\n" +
+            "</TEXT>"));
+    documents.put("WSJ_1", Map.of(
+        "contents", "head text 01/30/03 content",
+        "raw", "<HL>\n" +
+            "head text\n" +
+            "</HL>\n" +
+            "<DATE>\n" +
+            "01/30/03\n" +
+            "</DATE>\n" +
+            "<LP>\n" +
+            "content\n" +
+            "</LP>\n" +
+            "<TEXT>\n" +
+            "</TEXT>"));
+    documents.put("DOC222", Map.of(
+        "contents", "HEAD simple enough text text text",
+        "raw", "<HEAD>HEAD</HEAD>\n" +
+            "<TEXT>\n" +
+            "simple\n" +
+            "enough\n" +
+            "text\n" +
+            "text\n" +
+            "text\n" +
+            "</TEXT>"));
 
     fieldNormStatusTotalFields = 1;  // text
     termIndexStatusTermCount = 12;   // Note that standard analyzer ignores stopwords; includes docids.
