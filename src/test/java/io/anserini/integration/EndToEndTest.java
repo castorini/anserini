@@ -175,9 +175,9 @@ public abstract class EndToEndTest extends LuceneTestCase {
     for (int i=0; i<reader.maxDoc(); i++) {
       String collectionDocid = IndexReaderUtils.convertLuceneDocidToDocid(reader, i);
       assertEquals(documents.get(collectionDocid).get("raw"),
-          IndexReaderUtils.getDocumentContents(reader, collectionDocid));
-      assertEquals(documents.get(collectionDocid).get("contents"),
           IndexReaderUtils.getDocumentRaw(reader, collectionDocid));
+      assertEquals(documents.get(collectionDocid).get("contents"),
+          IndexReaderUtils.getDocumentContents(reader, collectionDocid));
     }
     reader.close();
 
