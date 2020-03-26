@@ -106,7 +106,7 @@ def construct_indexing_command(yaml_data, args):
         '-threads', str(threads),
         '-input', collection_path,
         '-index', 'lucene-index.{0}.pos+docvectors{1}'
-            .format(yaml_data['name'], '+rawdocs' if '-storeRawDocs' in yaml_data['index_options'] else '')
+            .format(yaml_data['name'], '+raw' if '-storeRaw' in yaml_data['index_options'] else '')
     ]
     index_command.extend(yaml_data['index_options'])
     return index_command
