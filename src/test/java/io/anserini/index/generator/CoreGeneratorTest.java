@@ -77,7 +77,7 @@ public class CoreGeneratorTest {
 
     coreDoc = new CoreCollection.Document(coreJsonObj);
 
-    CoreGenerator generator = new CoreGenerator(new IndexArgs(), counters);
+    CoreGenerator generator = new CoreGenerator(new IndexArgs());
     doc = generator.createDocument(coreDoc);
   }
 

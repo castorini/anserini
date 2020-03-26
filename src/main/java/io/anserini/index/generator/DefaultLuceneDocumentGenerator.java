@@ -63,7 +63,7 @@ public class DefaultLuceneDocumentGenerator<T extends SourceDocument> implements
     document.add(new SortedDocValuesField(IndexArgs.ID, new BytesRef(id)));
 
     if (args.storeRaw) {
-      document.add(new StoredField(IndexArgs.RAW, src.contents()));
+      document.add(new StoredField(IndexArgs.RAW, src.raw()));
     }
 
     FieldType fieldType = new FieldType();

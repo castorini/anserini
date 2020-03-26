@@ -41,7 +41,6 @@ import java.util.List;
  * Converts a {@link AclAnthology.Document} into a Lucene {@link Document}, ready to be indexed.
  */
 public class AclAnthologyGenerator implements LuceneDocumentGenerator<AclAnthology.Document> {
-  private IndexCollection.Counters counters;
   private IndexArgs args;
 
   private enum AclAnthologyField {
@@ -86,19 +85,17 @@ public class AclAnthologyGenerator implements LuceneDocumentGenerator<AclAntholo
     AclAnthologyField.PUBLISHER.name,
     AclAnthologyField.MONTH.name);
 
-  public AclAnthologyGenerator(IndexArgs args, IndexCollection.Counters counters) {
+  public AclAnthologyGenerator(IndexArgs args) {
     this.args = args;
-    this.counters = counters;
   }
 
   @Override
-  public Document createDocument(AclAnthology.Document aclDoc) {
+  public Document createDocument(AclAnthology.Document aclDoc) throws GeneratorExpection {
     String id = aclDoc.id();
     String content = aclDoc.contents();
 
     if (content == null || content.trim().isEmpty()) {
-      counters.empty.incrementAndGet();
-      return null;
+      throw new EmptyDocumentException();
     }
 
     Document doc = new Document();

@@ -41,7 +41,6 @@ import java.util.List;
  * Converts a {@link CoreCollection.Document} into a Lucene {@link Document}, ready to be indexed.
  */
 public class CoreGenerator implements LuceneDocumentGenerator<CoreCollection.Document> {
-  private IndexCollection.Counters counters;
   private IndexArgs args;
 
   public enum CoreField {
@@ -90,19 +89,17 @@ public class CoreGenerator implements LuceneDocumentGenerator<CoreCollection.Doc
     CoreField.JOURNALS.name,
     CoreField.LANGUAGE.name);
 
-  public CoreGenerator(IndexArgs args, IndexCollection.Counters counters) {
+  public CoreGenerator(IndexArgs args) {
     this.args = args;
-    this.counters = counters;
   }
 
   @Override
-  public Document createDocument(CoreCollection.Document coreDoc) {
+  public Document createDocument(CoreCollection.Document coreDoc) throws GeneratorExpection {
     String id = coreDoc.id();
     String content = coreDoc.contents();
 
     if (content == null || content.trim().isEmpty()) {
-      counters.empty.incrementAndGet();
-      return null;
+      throw new EmptyDocumentException();
     }
 
     Document doc = new Document();
