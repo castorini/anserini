@@ -64,7 +64,7 @@ public class AclAnthology extends DocumentCollection<AclAnthology.Document> {
   }
 
   /**
-   * A file in a YAML collection for ACL papers containing multiple entires.
+   * A file in a YAML collection for ACL papers containing multiple entries.
    */
   public class Segment extends FileSegment<AclAnthology.Document> {
     private Map.Entry<String, JsonNode> nodeEntry = null;
