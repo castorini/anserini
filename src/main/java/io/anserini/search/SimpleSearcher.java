@@ -386,102 +386,89 @@ public class SimpleSearcher implements Closeable {
 
   /**
    * Fetches the Lucene {@link Document} based on an internal Lucene docid.
+   * The method is named to be consistent with Lucene's {@link IndexReader#document(int)}, contra Java's standard
+   * method naming conventions.
    *
    * @param ldocid internal Lucene docid
    * @return corresponding Lucene {@link Document}
    */
-  public Document doc(int ldocid) {
+  public Document document(int ldocid) {
     try {
-      if (ldocid >= reader.maxDoc())
-        return null;
-
       return reader.document(ldocid);
-    } catch (IOException e) {
+    } catch (Exception e) {
+      // Eat any exceptions and just return null.
       return null;
     }
   }
 
   /**
    * Fetches the Lucene {@link Document} based on a collection docid.
+   * The method is named to be consistent with Lucene's {@link IndexReader#document(int)}, contra Java's standard
+   * method naming conventions.
    *
    * @param docid collection docid
    * @return corresponding Lucene {@link Document}
    */
-  public Document doc(String docid) {
-    try {
-      int ldocid = IndexReaderUtils.convertDocidToLuceneDocid(reader, docid);
-      if (ldocid == -1) {
-        return null;
-      }
-
-      return reader.document(ldocid);
-    } catch (IOException e) {
-      return null;
-    }
+  public Document document(String docid) {
+    return IndexReaderUtils.document(reader, docid);
   }
 
   /**
    * Returns the "contents" field of a document based on an internal Lucene docid.
+   * The method is named to be consistent with Lucene's {@link IndexReader#document(int)}, contra Java's standard
+   * method naming conventions.
    *
    * @param ldocid internal Lucene docid
    * @return the "contents" field the document
    */
-  public String getDocumentContents(int ldocid) {
-    Document doc = doc(ldocid);
-    if (doc == null) {
+  public String documentContents(int ldocid) {
+    try {
+      return reader.document(ldocid).get(IndexArgs.CONTENTS);
+    } catch (Exception e) {
+      // Eat any exceptions and just return null.
       return null;
     }
-
-    IndexableField field = doc.getField(IndexArgs.CONTENTS);
-    return field == null ? null : field.stringValue();
   }
 
   /**
    * Returns the "contents" field of a document based on a collection docid.
+   * The method is named to be consistent with Lucene's {@link IndexReader#document(int)}, contra Java's standard
+   * method naming conventions.
    *
    * @param docid collection docid
    * @return the "contents" field the document
    */
-  public String getDocumentContents(String docid) {
-    Document doc = doc(docid);
-    if (doc == null) {
-      return null;
-    }
-
-    IndexableField field = doc.getField(IndexArgs.CONTENTS);
-    return field == null ? null : field.stringValue();
+  public String documentContents(String docid) {
+    return IndexReaderUtils.documentContents(reader, docid);
   }
 
   /**
    * Returns the "raw" field of a document based on an internal Lucene docid.
+   * The method is named to be consistent with Lucene's {@link IndexReader#document(int)}, contra Java's standard
+   * method naming conventions.
    *
    * @param ldocid internal Lucene docid
    * @return the "raw" field the document
    */
-  public String getDocumentRaw(int ldocid) {
-    Document doc = doc(ldocid);
-    if (doc == null) {
+  public String documentRaw(int ldocid) {
+    try {
+      return reader.document(ldocid).get(IndexArgs.RAW);
+    } catch (Exception e) {
+      // Eat any exceptions and just return null.
       return null;
     }
-
-    IndexableField field = doc.getField(IndexArgs.RAW);
-    return field == null ? null : field.stringValue();
   }
 
   /**
    * Returns the "raw" field of a document based on a collection docid.
+   * The method is named to be consistent with Lucene's {@link IndexReader#document(int)}, contra Java's standard
+   * method naming conventions.
    *
    * @param docid collection docid
    * @return the "raw" field the document
    */
-  public String getDocumentRaw(String docid) {
-    Document doc = doc(docid);
-    if (doc == null) {
-      return null;
-    }
-
-    IndexableField field = doc.getField(IndexArgs.RAW);
-    return field == null ? null : field.stringValue();
+  public String documentRaw(String docid) {
+    return IndexReaderUtils.documentRaw(reader, docid);
   }
 
 }

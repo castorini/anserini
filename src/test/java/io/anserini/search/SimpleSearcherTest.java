@@ -33,20 +33,20 @@ public class SimpleSearcherTest extends IndexerTestBase {
     SimpleSearcher searcher = new SimpleSearcher(super.tempDir1.toString());
 
     assertEquals("here is some text here is some more text. city.",
-        searcher.doc(0).getField("contents").stringValue());
+        searcher.document(0).getField("contents").stringValue());
     assertEquals("more texts",
-        searcher.doc(1).getField("contents").stringValue());
+        searcher.document(1).getField("contents").stringValue());
     assertEquals("here is a test",
-        searcher.doc(2).getField("contents").stringValue());
-    assertNull(searcher.doc(3));
+        searcher.document(2).getField("contents").stringValue());
+    assertNull(searcher.document(3));
 
     assertEquals("here is some text here is some more text. city.",
-        searcher.doc("doc1").getField("contents").stringValue());
+        searcher.document("doc1").getField("contents").stringValue());
     assertEquals("more texts",
-        searcher.doc("doc2").getField("contents").stringValue());
+        searcher.document("doc2").getField("contents").stringValue());
     assertEquals("here is a test",
-        searcher.doc("doc3").getField("contents").stringValue());
-    assertNull(searcher.doc(3));
+        searcher.document("doc3").getField("contents").stringValue());
+    assertNull(searcher.document(3));
 
     searcher.close();
   }
@@ -56,16 +56,20 @@ public class SimpleSearcherTest extends IndexerTestBase {
     SimpleSearcher searcher = new SimpleSearcher(super.tempDir1.toString());
 
     assertEquals("here is some text here is some more text. city.",
-        searcher.getDocumentContents(0));
-    assertEquals("more texts", searcher.getDocumentContents(1));
-    assertEquals("here is a test", searcher.getDocumentContents(2));
-    assertNull(searcher.doc(3));
+        searcher.documentContents(0));
+    assertEquals("more texts",
+        searcher.documentContents(1));
+    assertEquals("here is a test",
+        searcher.documentContents(2));
+    assertNull(searcher.document(3));
 
     assertEquals("here is some text here is some more text. city.",
-        searcher.getDocumentContents("doc1"));
-    assertEquals("more texts", searcher.getDocumentContents("doc2"));
-    assertEquals("here is a test", searcher.getDocumentContents("doc3"));
-    assertNull(searcher.getDocumentContents("doc42"));
+        searcher.documentContents("doc1"));
+    assertEquals("more texts",
+        searcher.documentContents("doc2"));
+    assertEquals("here is a test",
+        searcher.documentContents("doc3"));
+    assertNull(searcher.documentContents("doc42"));
 
     searcher.close();
   }
@@ -75,16 +79,20 @@ public class SimpleSearcherTest extends IndexerTestBase {
     SimpleSearcher searcher = new SimpleSearcher(super.tempDir1.toString());
 
     assertEquals("{\"contents\": \"here is some text here is some more text. city.\"}",
-        searcher.getDocumentRaw(0));
-    assertEquals("{\"contents\": \"more texts\"}", searcher.getDocumentRaw(1));
-    assertEquals("{\"contents\": \"here is a test\"}", searcher.getDocumentRaw(2));
-    assertNull(searcher.doc(3));
+        searcher.documentRaw(0));
+    assertEquals("{\"contents\": \"more texts\"}",
+        searcher.documentRaw(1));
+    assertEquals("{\"contents\": \"here is a test\"}",
+        searcher.documentRaw(2));
+    assertNull(searcher.document(3));
 
     assertEquals("{\"contents\": \"here is some text here is some more text. city.\"}",
-        searcher.getDocumentRaw("doc1"));
-    assertEquals("{\"contents\": \"more texts\"}", searcher.getDocumentRaw("doc2"));
-    assertEquals("{\"contents\": \"here is a test\"}", searcher.getDocumentRaw("doc3"));
-    assertNull(searcher.getDocumentContents("doc42"));
+        searcher.documentRaw("doc1"));
+    assertEquals("{\"contents\": \"more texts\"}",
+        searcher.documentRaw("doc2"));
+    assertEquals("{\"contents\": \"here is a test\"}",
+        searcher.documentRaw("doc3"));
+    assertNull(searcher.documentContents("doc42"));
 
     searcher.close();
   }
