@@ -36,17 +36,16 @@ public class BibtexEndToEndTest extends EndToEndTest {
 
   @Override
   protected void setCheckIndexGroundTruth() {
-    documentContents.put(0, Map.of("id", "article-id",
+    docCount = 3;
+    documents.put("article-id", Map.of(
         "contents", "this is the title. ",
         "raw", "this is the title. "));
-    documentContents.put(1, Map.of("id", "inproceedings-id",
+    documents.put("inproceedings-id", Map.of(
         "contents", "this is the title. this is the abstract",
         "raw", "this is the title. this is the abstract"));
-    documentContents.put(2, Map.of("id", "proceedings-id",
+    documents.put("proceedings-id", Map.of(
         "contents", "this is the title. ",
         "raw", "this is the title. "));
-
-    docCount = 3;
 
     fieldNormStatusTotalFields = 12;
     termIndexStatusTermCount = 42;
