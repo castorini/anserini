@@ -358,13 +358,33 @@ public class IndexReaderUtils {
   }
 
   /**
-   * Returns the raw contents of a document based on an internal Lucene docid.
+   * Fetches the Lucene {@link Document} based on a collection docid.
    *
    * @param reader index reader
    * @param docid collection docid
-   * @return raw contents of a document
+   * @return corresponding Lucene {@link Document}
    */
-  public static String getRawContents(IndexReader reader, String docid) {
+  public static Document doc(IndexReader reader, String docid) {
+    try {
+      int ldocid = IndexReaderUtils.convertDocidToLuceneDocid(reader, docid);
+      if (ldocid == -1) {
+        return null;
+      }
+
+      return reader.document(ldocid);
+    } catch (IOException e) {
+      return null;
+    }
+  }
+
+  /**
+   * Returns the "raw" field of a document based on a collection docid.
+   *
+   * @param reader index reader
+   * @param docid collection docid
+   * @return the "raw" field the document
+   */
+  public static String getDocumentRaw(IndexReader reader, String docid) {
     try {
       Document rawDoc = reader.document(convertDocidToLuceneDocid(reader, docid));
 
@@ -378,13 +398,13 @@ public class IndexReaderUtils {
   }
 
   /**
-   * Returns the indexed contents of a document based on a collection docid.
+   * Returns the "contents" field of a document based on a collection docid.
    *
    * @param reader index reader
    * @param docid collection docid
-   * @return indexed contents of a document
+   * @return the "contents" field the document
    */
-  public static String getIndexedContents(IndexReader reader, String docid) {
+  public static String getDocumentContents(IndexReader reader, String docid) {
     try {
       Document rawDoc = reader.document(convertDocidToLuceneDocid(reader, docid));
 

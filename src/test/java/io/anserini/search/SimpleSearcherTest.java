@@ -19,7 +19,6 @@ package io.anserini.search;
 import io.anserini.IndexerTestBase;
 import io.anserini.index.IndexArgs;
 import io.anserini.search.SimpleSearcher.Result;
-import org.apache.lucene.document.Document;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -39,7 +38,7 @@ public class SimpleSearcherTest extends IndexerTestBase {
         searcher.doc(1).getField("contents").stringValue());
     assertEquals("here is a test",
         searcher.doc(2).getField("contents").stringValue());
-    assertEquals(null, searcher.doc(3));
+    assertNull(searcher.doc(3));
 
     assertEquals("here is some text here is some more text. city.",
         searcher.doc("doc1").getField("contents").stringValue());
@@ -47,7 +46,7 @@ public class SimpleSearcherTest extends IndexerTestBase {
         searcher.doc("doc2").getField("contents").stringValue());
     assertEquals("here is a test",
         searcher.doc("doc3").getField("contents").stringValue());
-    assertEquals(null, searcher.doc(3));
+    assertNull(searcher.doc(3));
 
     searcher.close();
   }
@@ -56,15 +55,17 @@ public class SimpleSearcherTest extends IndexerTestBase {
   public void testGetContents() throws Exception {
     SimpleSearcher searcher = new SimpleSearcher(super.tempDir1.toString());
 
-    assertEquals("here is some text here is some more text. city.", searcher.getIndexedContents(0));
-    assertEquals("more texts", searcher.getIndexedContents(1));
-    assertEquals("here is a test", searcher.getIndexedContents(2));
-    assertEquals(null, searcher.doc(3));
+    assertEquals("here is some text here is some more text. city.",
+        searcher.getDocumentContents(0));
+    assertEquals("more texts", searcher.getDocumentContents(1));
+    assertEquals("here is a test", searcher.getDocumentContents(2));
+    assertNull(searcher.doc(3));
 
-    assertEquals("here is some text here is some more text. city.", searcher.getIndexedContents("doc1"));
-    assertEquals("more texts", searcher.getIndexedContents("doc2"));
-    assertEquals("here is a test", searcher.getIndexedContents("doc3"));
-    assertEquals(null, searcher.getIndexedContents("doc42"));
+    assertEquals("here is some text here is some more text. city.",
+        searcher.getDocumentContents("doc1"));
+    assertEquals("more texts", searcher.getDocumentContents("doc2"));
+    assertEquals("here is a test", searcher.getDocumentContents("doc3"));
+    assertNull(searcher.getDocumentContents("doc42"));
 
     searcher.close();
   }
@@ -73,15 +74,17 @@ public class SimpleSearcherTest extends IndexerTestBase {
   public void testGetRaw() throws Exception {
     SimpleSearcher searcher = new SimpleSearcher(super.tempDir1.toString());
 
-    assertEquals("{\"contents\": \"here is some text here is some more text. city.\"}", searcher.getRawContents(0));
-    assertEquals("{\"contents\": \"more texts\"}", searcher.getRawContents(1));
-    assertEquals("{\"contents\": \"here is a test\"}", searcher.getRawContents(2));
-    assertEquals(null, searcher.doc(3));
+    assertEquals("{\"contents\": \"here is some text here is some more text. city.\"}",
+        searcher.getDocumentRaw(0));
+    assertEquals("{\"contents\": \"more texts\"}", searcher.getDocumentRaw(1));
+    assertEquals("{\"contents\": \"here is a test\"}", searcher.getDocumentRaw(2));
+    assertNull(searcher.doc(3));
 
-    assertEquals("{\"contents\": \"here is some text here is some more text. city.\"}", searcher.getRawContents("doc1"));
-    assertEquals("{\"contents\": \"more texts\"}", searcher.getRawContents("doc2"));
-    assertEquals("{\"contents\": \"here is a test\"}", searcher.getRawContents("doc3"));
-    assertEquals(null, searcher.getIndexedContents("doc42"));
+    assertEquals("{\"contents\": \"here is some text here is some more text. city.\"}",
+        searcher.getDocumentRaw("doc1"));
+    assertEquals("{\"contents\": \"more texts\"}", searcher.getDocumentRaw("doc2"));
+    assertEquals("{\"contents\": \"here is a test\"}", searcher.getDocumentRaw("doc3"));
+    assertNull(searcher.getDocumentContents("doc42"));
 
     searcher.close();
   }
@@ -90,7 +93,6 @@ public class SimpleSearcherTest extends IndexerTestBase {
   public void testSearch1() throws Exception {
     SimpleSearcher searcher = new SimpleSearcher(super.tempDir1.toString());
 
-    Document doc;
     SimpleSearcher.Result[] hits = searcher.search("test", 10);
     assertEquals(1, hits.length);
     assertEquals("doc3", hits[0].docid);

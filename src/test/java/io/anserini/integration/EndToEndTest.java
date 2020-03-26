@@ -175,8 +175,8 @@ public abstract class EndToEndTest extends LuceneTestCase {
     for (Map.Entry<Integer, Map<String, String>> entry : documentContents.entrySet()) {
       String collectionDocid = IndexReaderUtils.convertLuceneDocidToDocid(reader, entry.getKey());
       assertEquals(entry.getValue().get("id"), collectionDocid);
-      assertEquals(entry.getValue().get("raw"), IndexReaderUtils.getRawContents(reader, collectionDocid));
-      assertEquals(entry.getValue().get("contents"), IndexReaderUtils.getIndexedContents(reader, collectionDocid));
+      assertEquals(entry.getValue().get("raw"), IndexReaderUtils.getDocumentRaw(reader, collectionDocid));
+      assertEquals(entry.getValue().get("contents"), IndexReaderUtils.getDocumentContents(reader, collectionDocid));
     }
     reader.close();
 

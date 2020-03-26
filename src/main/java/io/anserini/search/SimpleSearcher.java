@@ -183,7 +183,8 @@ public class SimpleSearcher implements Closeable {
   public void setRM3Reranker(int fbTerms, int fbDocs, float originalQueryWeight, boolean rm3_outputQuery) {
     isRerank = true;
     cascade = new RerankerCascade("rm3");
-    cascade.add(new Rm3Reranker(this.analyzer, IndexArgs.CONTENTS, fbTerms, fbDocs, originalQueryWeight, rm3_outputQuery));
+    cascade.add(new Rm3Reranker(this.analyzer, IndexArgs.CONTENTS,
+        fbTerms, fbDocs, originalQueryWeight, rm3_outputQuery));
     cascade.add(new ScoreTiesAdjusterReranker());
   }
 
@@ -216,11 +217,20 @@ public class SimpleSearcher implements Closeable {
     return batchSearchFields(queries, qids, k, t, threads, new HashMap<>());
   }
 
-  public Map<String, Result[]> batchSearchFields(List<String> queries, List<String> qids, int k, int threads, Map<String, Float> fields) {
+  public Map<String, Result[]> batchSearchFields(List<String> queries, List<String> qids, int k, int threads,
+                                                 Map<String, Float> fields) {
     return batchSearchFields(queries, qids, k, -1, threads, fields);
   }
 
-  public Map<String, Result[]> batchSearchFields(List<String> queries, List<String> qids, int k, long t, int threads, Map<String, Float> fields) {
+  public Map<String, Result[]> batchSearchFields(List<String> queries, List<String> qids, int k, long t, int threads,
+                                                 Map<String, Float> fields) {
+    // Create the IndexSearcher here, if needed. We do it here because if we leave the creation to the search
+    // method, we might end up with a race condition as multiple threads try to concurrently create the IndexSearcher.
+    if (searcher == null) {
+      searcher = new IndexSearcher(reader);
+      searcher.setSimilarity(similarity);
+    }
+
     ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(threads);
     ConcurrentHashMap<String, Result[]> results = new ConcurrentHashMap<>();
 
@@ -287,8 +297,9 @@ public class SimpleSearcher implements Closeable {
     return search(query, queryTokens, q, k, t);
   }
 
-  protected Result[] search(Query query, List<String> queryTokens, String queryString, int k, long t) throws IOException {
-    // Initialize an index searcher only once
+  protected Result[] search(Query query, List<String> queryTokens, String queryString, int k,
+                            long t) throws IOException {
+    // Create an IndexSearch only once. Note that the object is thread safe.
     if (searcher == null) {
       searcher = new IndexSearcher(reader);
       searcher.setSimilarity(similarity);
@@ -311,15 +322,21 @@ public class SimpleSearcher implements Closeable {
         builder.add(filter, BooleanClause.Occur.FILTER);
         builder.add(query, BooleanClause.Occur.MUST);
         Query compositeQuery = builder.build();
-        rs = searcher.search(compositeQuery, isRerank ? searchArgs.rerankcutoff : k, BREAK_SCORE_TIES_BY_TWEETID, true);
-        context = new RerankerContext<>(searcher, null, compositeQuery, null, queryString, queryTokens, filter, searchArgs);
+        rs = searcher.search(compositeQuery, isRerank ? searchArgs.rerankcutoff :
+            k, BREAK_SCORE_TIES_BY_TWEETID, true);
+        context = new RerankerContext<>(searcher, null, compositeQuery, null,
+            queryString, queryTokens, filter, searchArgs);
       } else {
-        rs = searcher.search(query, isRerank ? searchArgs.rerankcutoff : k, BREAK_SCORE_TIES_BY_TWEETID, true);
-        context = new RerankerContext<>(searcher, null, query, null, queryString, queryTokens, null, searchArgs);
+        rs = searcher.search(query,
+            isRerank ? searchArgs.rerankcutoff : k, BREAK_SCORE_TIES_BY_TWEETID, true);
+        context = new RerankerContext<>(searcher, null, query, null,
+            queryString, queryTokens, null, searchArgs);
       }
     } else {
-      rs = searcher.search(query, isRerank ? searchArgs.rerankcutoff : k, BREAK_SCORE_TIES_BY_DOCID, true);
-      context = new RerankerContext<>(searcher, null, query, null, queryString, queryTokens, null, searchArgs);
+      rs = searcher.search(query,
+          isRerank ? searchArgs.rerankcutoff : k, BREAK_SCORE_TIES_BY_DOCID, true);
+      context = new RerankerContext<>(searcher, null, query, null,
+          queryString, queryTokens, null, searchArgs);
     }
 
     ScoredDocuments hits = cascade.run(ScoredDocuments.fromTopDocs(rs, searcher), context);
@@ -393,8 +410,9 @@ public class SimpleSearcher implements Closeable {
   public Document doc(String docid) {
     try {
       int ldocid = IndexReaderUtils.convertDocidToLuceneDocid(reader, docid);
-      if (ldocid == -1)
+      if (ldocid == -1) {
         return null;
+      }
 
       return reader.document(ldocid);
     } catch (IOException e) {
@@ -403,12 +421,12 @@ public class SimpleSearcher implements Closeable {
   }
 
   /**
-   * Returns the indexed contents of a document based on an internal Lucene docid.
+   * Returns the "contents" field of a document based on an internal Lucene docid.
    *
    * @param ldocid internal Lucene docid
-   * @return indexed contents of the document
+   * @return the "contents" field the document
    */
-  public String getIndexedContents(int ldocid) {
+  public String getDocumentContents(int ldocid) {
     Document doc = doc(ldocid);
     if (doc == null) {
       return null;
@@ -419,12 +437,12 @@ public class SimpleSearcher implements Closeable {
   }
 
   /**
-   * Returns the indexed contents of a document based on a collection docid.
+   * Returns the "contents" field of a document based on a collection docid.
    *
    * @param docid collection docid
-   * @return indexed contents of the document
+   * @return the "contents" field the document
    */
-  public String getIndexedContents(String docid) {
+  public String getDocumentContents(String docid) {
     Document doc = doc(docid);
     if (doc == null) {
       return null;
@@ -435,12 +453,12 @@ public class SimpleSearcher implements Closeable {
   }
 
   /**
-   * Returns the raw contents of a document based on an internal Lucene docid.
+   * Returns the "raw" field of a document based on an internal Lucene docid.
    *
    * @param ldocid internal Lucene docid
-   * @return raw contents of the document
+   * @return the "raw" field the document
    */
-  public String getRawContents(int ldocid) {
+  public String getDocumentRaw(int ldocid) {
     Document doc = doc(ldocid);
     if (doc == null) {
       return null;
@@ -451,12 +469,12 @@ public class SimpleSearcher implements Closeable {
   }
 
   /**
-   * Returns the raw contents of a document based on a collection docid.
+   * Returns the "raw" field of a document based on a collection docid.
    *
    * @param docid collection docid
-   * @return raw contents of the document
+   * @return the "raw" field the document
    */
-  public String getRawContents(String docid) {
+  public String getDocumentRaw(String docid) {
     Document doc = doc(docid);
     if (doc == null) {
       return null;
