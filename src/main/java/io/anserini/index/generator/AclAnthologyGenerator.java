@@ -106,7 +106,7 @@ public class AclAnthologyGenerator implements LuceneDocumentGenerator<AclAntholo
     doc.add(new SortedDocValuesField(IndexArgs.ID, new BytesRef(id)));
 
     if (args.storeRaw) {
-      doc.add(new StoredField(IndexArgs.RAW, content));
+      doc.add(new StoredField(IndexArgs.RAW, aclDoc.raw()));
     }
 
     FieldType fieldType = new FieldType();

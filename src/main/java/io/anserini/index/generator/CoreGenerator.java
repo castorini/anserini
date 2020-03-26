@@ -110,7 +110,7 @@ public class CoreGenerator implements LuceneDocumentGenerator<CoreCollection.Doc
     doc.add(new SortedDocValuesField(IndexArgs.ID, new BytesRef(id)));
 
     if (args.storeRaw) {
-      doc.add(new StoredField(IndexArgs.RAW, content));
+      doc.add(new StoredField(IndexArgs.RAW, coreDoc.raw()));
     }
 
     FieldType fieldType = new FieldType();

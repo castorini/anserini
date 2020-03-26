@@ -105,7 +105,7 @@ public class BibtexGenerator implements LuceneDocumentGenerator<BibtexCollection
     doc.add(new StringField(TYPE, type, Field.Store.YES));
 
     if (args.storeRaw) {
-      doc.add(new StoredField(IndexArgs.RAW, content));
+      doc.add(new StoredField(IndexArgs.RAW, bibtexDoc.raw()));
     }
 
     FieldType fieldType = new FieldType();
