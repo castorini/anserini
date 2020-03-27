@@ -90,7 +90,7 @@ For the most part, these runs are based on [_default_ parameter settings](https:
 The experiments described below are not associated with rigorous end-to-end regression testing and thus provide a lower standard of replicability.
 For the most part, manual copying and pasting of commands into a shell is required to replicate our results:
 
-+ [Experiments on COVID-19 Open Research Dataset](docs/experiments-covid.md)
++ [Working with AI2's COVID-19 Open Research Dataset](docs/experiments-covid.md)
 + [Replicating "Neural Hype" Experiments](docs/experiments-forum2018.md)
 + [Guide to running BM25 baselines on the MS MARCO Passage Retrieval Task](docs/experiments-msmarco-passage.md)
 + [Guide to running BM25 baselines on the MS MARCO Document Retrieval Task](docs/experiments-msmarco-doc.md)
