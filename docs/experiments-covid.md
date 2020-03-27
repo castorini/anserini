@@ -33,7 +33,7 @@ ls "${DATA_DIR}"/*.tar.gz | xargs -I {} tar -zxvf {} -C "${DATA_DIR}"
 # tar -zxvf "${DATA_DIR}"/biorxiv_medrxiv.tar.gz -C "${DATA_DIR}"
 ```
 
-## Indexing
+## Building Local Lucene Indexes
 
 We can now index this corpus using Anserini.
 Currently, we have implemented three different variants, described below.
@@ -118,3 +118,54 @@ In this configuration, the indexer creates multiple Lucene Documents for each so
 
 The suffix of the `docid`, `.XXXXX` identifies which paragraph is being indexed.
 The original raw JSON full text is stored in the `raw` field of `docid` (without the suffix).
+
+
+## Indexing into Solr
+
+From the Solr [archives](https://archive.apache.org/dist/lucene/solr/), download the Solr (non `-src`) version that matches Anserini's [Lucene version](https://github.com/castorini/anserini/blob/master/pom.xml#L36) to the `anserini/` directory.
+
+Extract the archive:
+
+```bash
+mkdir solrini && tar -zxvf solr*.tgz -C solrini --strip-components=1
+```
+
+Start Solr (adjust memory usage with `-m` as appropriate):
+
+```
+solrini/bin/solr start -c -m 8G
+```
+
+Run the Solr bootstrap script to copy the Anserini JAR into Solr's classpath and upload the configsets to Solr's internal ZooKeeper:
+
+```
+pushd src/main/resources/solr && ./solr.sh ../../../../solrini localhost:9983 && popd
+```
+
+Solr should now be available at [http://localhost:8983/](http://localhost:8983/) for browsing.
+
+Next, create the collection:
+
+```
+solrini/bin/solr create -n anserini -c covid
+```
+
+Adjust the schema:
+
+```
+curl -X POST -H 'Content-type:application/json' --data-binary @src/main/resources/solr/schemas/covid.json http://localhost:8983/solr/covid/schema
+```
+
+We can now index into Solr:
+
+```
+DATE=2020-03-20
+DATA_DIR=./covid-"${DATE}"
+
+sh target/appassembler/bin/IndexCollection -collection CovidCollection -generator CovidGenerator \
+   -threads 8 -input "${DATA_DIR}" \
+   -solr -solr.index covid -solr.zkUrl localhost:9983 \
+   -storePositions -storeDocvectors -storeTransformedDocs
+```
+
+Once indexing is complete, you can query in Solr at [`http://localhost:8983/solr/#/covid/query`](http://localhost:8983/solr/#/covid/query).
