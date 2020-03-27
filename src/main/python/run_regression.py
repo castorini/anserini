@@ -99,13 +99,16 @@ def construct_indexing_command(yaml_data, args):
     else:
         threads = yaml_data['threads']
 
+    if not os.path.exists('indexes'):
+        os.makedirs('indexes')
+
     index_command = [
         os.path.join(yaml_data['root'], yaml_data['index_command']),
         '-collection', yaml_data['collection'],
         '-generator', yaml_data['generator'],
         '-threads', str(threads),
         '-input', collection_path,
-        '-index', 'lucene-index.{0}.pos+docvectors{1}'
+        '-index', 'indexes/lucene-index.{0}.pos+docvectors{1}'
             .format(yaml_data['name'], '+raw' if '-storeRaw' in yaml_data['index_options'] else '')
     ]
     index_command.extend(yaml_data['index_options'])
