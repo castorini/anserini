@@ -127,7 +127,7 @@ public class JsonCollection extends DocumentCollection<JsonCollection.Document> 
   /**
    * A document in a JSON collection.
    */
-  public static class Document implements MultifieldSourceDocument {
+  public static class Document extends MultifieldSourceDocument {
     private String id;
     private String contents;
     private Map<String, String> fields;

@@ -332,6 +332,7 @@ public class IndexReaderUtils {
 
   /**
    * Returns the document vector for a particular document as a map of terms to term frequencies.
+   *
    * @param reader index reader
    * @param docid collection docid
    * @return the document vector for a particular document as a map of terms to term frequencies
@@ -357,26 +358,62 @@ public class IndexReaderUtils {
   }
 
   /**
-   * Returns the raw document given its collection docid.
+   * Fetches the Lucene {@link Document} based on a collection docid.
+   * The method is named to be consistent with Lucene's {@link IndexReader#document(int)}, contra Java's standard
+   * method naming conventions.
+   *
    * @param reader index reader
    * @param docid collection docid
-   * @return the raw document given its collection docid, or <code>null</code> if not found.
+   * @return corresponding Lucene {@link Document}
    */
-  public static String getRawDocument(IndexReader reader, String docid) {
+  public static Document document(IndexReader reader, String docid) {
     try {
-      Document rawDoc = reader.document(convertDocidToLuceneDocid(reader, docid));
+      return reader.document(IndexReaderUtils.convertDocidToLuceneDocid(reader, docid));
+    } catch (Exception e) {
+      // Eat any exceptions and just return null.
+      return null;
+    }
+  }
 
-      if (rawDoc == null) {
-        return null;
-      }
-      return rawDoc.get(IndexArgs.RAW);
-    } catch (IOException e) {
+  /**
+   * Returns the "raw" field of a document based on a collection docid.
+   * The method is named to be consistent with Lucene's {@link IndexReader#document(int)}, contra Java's standard
+   * method naming conventions.
+   *
+   * @param reader index reader
+   * @param docid collection docid
+   * @return the "raw" field the document
+   */
+  public static String documentRaw(IndexReader reader, String docid) {
+    try {
+      return reader.document(convertDocidToLuceneDocid(reader, docid)).get(IndexArgs.RAW);
+    } catch (Exception e) {
+      // Eat any exceptions and just return null.
+      return null;
+    }
+  }
+
+  /**
+   * Returns the "contents" field of a document based on a collection docid.
+   * The method is named to be consistent with Lucene's {@link IndexReader#document(int)}, contra Java's standard
+   * method naming conventions.
+   *
+   * @param reader index reader
+   * @param docid collection docid
+   * @return the "contents" field the document
+   */
+  public static String documentContents(IndexReader reader, String docid) {
+    try {
+      return reader.document(convertDocidToLuceneDocid(reader, docid)).get(IndexArgs.CONTENTS);
+    } catch (Exception e) {
+      // Eat any exceptions and just return null.
       return null;
     }
   }
 
   /**
    * Computes the BM25 weight of a term (prior to analysis) in a particular document.
+   *
    * @param reader index reader
    * @param docid collection docid
    * @param term term (prior to analysis)
@@ -429,15 +466,15 @@ public class IndexReaderUtils {
       // get term frequency
       Terms terms = reader.getTermVector(internalDocid, IndexArgs.CONTENTS);
       if (terms == null) {
-        // We do not throw exception here because there are some
-        //  collections in which part of documents don't have document vectors
-        LOG.warn("Document vector not stored for doc " + docid);
+        // Don't throw exception here because there are some collections
+        // where some documents don't have document vectors stored.
+        LOG.warn("Document vector not stored for document " + docid);
         continue;
       }
 
       TermsEnum te = terms.iterator();
       if (te == null) {
-        LOG.warn("Document vector not stored for doc " + docid);
+        LOG.warn("Document vector not stored for document " + docid);
         continue;
       }
 
@@ -498,6 +535,7 @@ public class IndexReaderUtils {
 
   /**
    * Converts a collection docid to a Lucene internal docid
+   *
    * @param reader index reader
    * @param docid collection docid
    * @return corresponding Lucene internal docid, or -1 if docid not found
@@ -523,6 +561,7 @@ public class IndexReaderUtils {
 
   /**
    * Converts a Lucene internal docid to a collection docid
+   *
    * @param reader index reader
    * @param docid Lucene internal docid
    * @return corresponding collection docid, or <code>null</code> if not found.
@@ -532,17 +571,9 @@ public class IndexReaderUtils {
       return null;
 
     try {
-      Document d = reader.document(docid);
-      if (d == null) {
-        return null;
-      }
-      IndexableField doc = d.getField(IndexArgs.ID);
-      if (doc == null) {
-        // Really shouldn't happen! Index not properly built?
-        return null;
-      }
-      return doc.stringValue();
+      return reader.document(docid).get(IndexArgs.ID);
     } catch (IOException e) {
+      // Eat any exceptions and just return null.
       return null;
     }
   }

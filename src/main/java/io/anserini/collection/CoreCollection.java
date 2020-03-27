@@ -113,7 +113,7 @@ public class CoreCollection extends DocumentCollection<CoreCollection.Document> 
   /**
    * A document in a Core collection.
    */
-  public static class Document implements SourceDocument {
+  public static class Document extends SourceDocument {
     private String id;
     private String contents;
     private JsonNode jsonNode;

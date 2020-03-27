@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.anserini</groupId>
   <artifactId>anserini</artifactId>
-  <version>0.7.3-SNAPSHOT</version>
+  <version>0.8.2-SNAPSHOT</version>
   <name>Anserini</name>
   <description>An information retrieval toolkit built on Lucene</description>
   <url>http://anserini.io/</url>
@@ -133,6 +133,10 @@
                <id>DumpAnalyzedQueries</id>
             </program>
             <program>
+               <mainClass>io.anserini.util.ExtractAverageDocumentLength</mainClass>
+               <id>ExtractAverageDocumentLength</id>
+            </program>
+            <program>
                <mainClass>io.anserini.util.ExtractDocumentLengths</mainClass>
                <id>ExtractDocumentLengths</id>
             </program>
@@ -141,8 +145,8 @@
                <id>ExtractNorms</id>
             </program>
             <program>
-               <mainClass>io.anserini.util.ExtractAverageDocumentLength</mainClass>
-               <id>ExtractAverageDocumentLength</id>
+               <mainClass>io.anserini.util.ExtractTopDfTerms</mainClass>
+               <id>ExtractTopDfTerms</id>
             </program>
             <program>
               <mainClass>io.anserini.index.IndexUtils</mainClass>
@@ -400,6 +404,11 @@
       <groupId>org.jbibtex</groupId>
       <artifactId>jbibtex</artifactId>
       <version>1.0.17</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-csv</artifactId>
+      <version>1.8</version>
     </dependency>
   </dependencies>
 </project>
