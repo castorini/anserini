@@ -220,7 +220,6 @@ public class TrecCollection extends DocumentCollection<TrecCollection.Document> 
         return JsoupStringTransform.SINGLETON.apply(raw).trim();
       } catch (Exception e) {
         // If there's an exception, just eat it and return empty contents.
-        System.err.println("ERROR.");
         return "";
       }
     }
