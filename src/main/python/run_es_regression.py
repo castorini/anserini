@@ -96,16 +96,16 @@ class ElasticsearchClient:
         command = ''
         if collection == 'robust04':
             command = 'sh target/appassembler/bin/IndexCollection -collection TrecCollection ' + \
-                      '-generator JsoupGenerator -es -es.index robust04 -threads 16 -input ' + \
-                      path + ' -storePositions -storeDocvectors -storeRawDocs'
+                      '-generator DefaultLuceneDocumentGenerator -es -es.index robust04 -threads 16 -input ' + \
+                      path + ' -storePositions -storeDocvectors -storeRaw'
         elif collection == 'msmarco-passage':
             command = 'sh target/appassembler/bin/IndexCollection -collection JsonCollection ' + \
-                      '-generator JsoupGenerator -es -es.index msmarco-passage -threads 9 -input ' + \
-                      path + ' -storePositions -storeDocvectors -storeRawDocs'
+                      '-generator DefaultLuceneDocumentGenerator -es -es.index msmarco-passage -threads 9 -input ' + \
+                      path + ' -storePositions -storeDocvectors -storeRaw'
         elif collection == 'core18':
             command = 'sh target/appassembler/bin/IndexCollection -collection WashingtonPostCollection ' + \
                       '-generator WashingtonPostGenerator -es -es.index core18 -threads 8 -input ' + \
-                      path + ' -storePositions -storeDocvectors -storeTransformedDocs'
+                      path + ' -storePositions -storeDocvectors -storeContents'
         else:
             raise Exception('Unknown collection: {}'.format(collection))
         logger.info('Running indexing command: ' + command)

@@ -56,7 +56,7 @@ Run the Solr indexing command for `robust04`:
 sh target/appassembler/bin/IndexCollection -collection TrecCollection -generator JsoupGenerator \
   -threads 8 -input /path/to/robust04 \
   -solr -solr.index robust04 -solr.zkUrl localhost:9983 \
-  -storePositions -storeDocvectors -storeRawDocs
+  -storePositions -storeDocvectors -storeRaw
 ```
 
 Make sure `/path/to/robust04` is updated with the appropriate path.
@@ -84,7 +84,7 @@ These instructions can be straightforwardly adapted to work with the [TREC Washi
 sh target/appassembler/bin/IndexCollection -collection WashingtonPostCollection -generator WapoGenerator \
    -threads 8 -input /path/to/WashingtonPost \
    -solr -solr.index core18 -solr.zkUrl localhost:9983 \
-   -storePositions -storeDocvectors -storeTransformedDocs
+   -storePositions -storeDocvectors -storeContents
 ```
 
 Make sure `core18` collection is created and `/path/to/WashingtonPost` is updated with the appropriate path.
