@@ -1,8 +1,13 @@
-# Anserini: Experiments on [COVID-19 Open Research Dataset](https://pages.semanticscholar.org/coronavirus-research)
+# Working with the [COVID-19 Open Research Dataset](https://pages.semanticscholar.org/coronavirus-research)
 
-This document describes the steps to index the [COVID-19 Open Research Dataset](https://pages.semanticscholar.org/coronavirus-research) from AI2.
+This document describes the steps to index the [COVID-19 Open Research Dataset (CORD-19)](https://pages.semanticscholar.org/coronavirus-research) from AI2.
 If you don't want to bother building the indexes yourself, we have pre-built indexes that you can directly download (see below).
-If you want a very low cost way to get started, check out our [Colab demo using the Title + Abstract Index](https://colab.research.google.com/drive/1mrapJp6-RIB-3u6FaJVa4WEwFdEBOcTe) and [another Colab demo that demonstrates integration with SciBERT](https://colab.research.google.com/drive/1L_yWXM4tOhZsHpMDNIIux-hfp1-pW3RL).
+
+For a very low cost way to get started, check out our Colab demos, also available from [here](https://github.com/castorini/anserini-notebooks):
+
++ [Colab demo using the title + abstract index](https://colab.research.google.com/drive/1mrapJp6-RIB-3u6FaJVa4WEwFdEBOcTe)
++ [Colab demo using the paragraph index](https://colab.research.google.com/drive/1VvUR8P2CZvmdwC_J3AvRH5GvtMld8_zN)
++ [Colab demo that demonstrates integration with SciBERT](https://colab.research.google.com/drive/1L_yWXM4tOhZsHpMDNIIux-hfp1-pW3RL)
 
 ## Data Prep
 
