@@ -1,59 +1,68 @@
-#!/usr/bin/env sh
-
-# Set specific field types and multiValued field properties in Solr schema
-curl -X POST -H 'Content-type:application/json' --data-binary '{
-  "replace-field":{
+{
+  "add-field": {
     "name":"authors",
     "type":"string",
     "stored":true,
     "multiValued":true
   },
-  "replace-field":{
+  "add-field": {
     "name":"source_x",
     "type":"string",
     "stored":true,
     "docValues": true
   },
-  "replace-field":{
+  "add-field": {
     "name":"pmcid",
     "type":"string",
     "stored":true,
     "docValues": true
   },
-  "replace-field":{
+  "add-field": {
     "name":"pubmed_id",
     "type":"string",
     "stored":true,
     "docValues": true
   },
-  "replace-field":{
+  "add-field": {
     "name":"publish_time",
     "type":"string",
     "stored":true,
     "docValues":true
   },
-  "replace-field":{
+  "add-field": {
     "name":"doi",
     "type":"string",
     "stored":true,
     "docValues":true
   },
-  "replace-field":{
+  "add-field": {
     "name":"journal",
     "type":"string",
     "stored":true,
     "docValues":true
   },
-  "replace-field":{
+  "add-field": {
+    "name":"license",
+    "type":"string",
+    "stored":true,
+    "docValues":true
+  },
+  "add-field": {
     "name":"sha",
     "type":"string",
     "stored":true,
     "docValues":true
   },
-  "replace-field":{
+  "add-field": {
+    "name":"url",
+    "type":"string",
+    "stored":true,
+    "docValues":true
+  },
+  "add-field": {
     "name":"year",
     "type":"pint",
     "stored":true,
     "docValues":true
   }
-}' http://localhost:8983/solr/covid/schema
+}

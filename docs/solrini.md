@@ -30,12 +30,18 @@ Run the Solr bootstrap script to copy the Anserini JAR into Solr's classpath and
 ```
 pushd src/main/resources/solr && ./solr.sh ../../../../solrini localhost:9983 && popd
 ```
-   
+
 Solr should now be available at [http://localhost:8983/](http://localhost:8983/) for browsing.
 
 The Solr index schema can also be modified using the [Schema API](https://lucene.apache.org/solr/guide/8_3/schema-api.html). This is useful for specifying field types and other properties including multiValued fields.
 
-Scripts for setting up specific Solr index schemas can be found in the [src/main/resources/solr/setup/](../src/main/resources/solr/setup/) folder.
+Schemas for setting up specific Solr index schemas can be found in the [src/main/resources/solr/schemas/](../src/main/resources/solr/schemas/) folder.
+
+To set the schema, we can make a request to the Schema API:
+
+```
+curl -X POST -H 'Content-type:application/json' --data-binary @src/main/resources/solr/schemas/SCHEMA_NAME.json http://localhost:8983/solr/COLLECTION_NAME/schema
+```
 
 ## Indexing into SolrCloud from Anserini
 
