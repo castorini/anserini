@@ -15,7 +15,7 @@ The latest distribution available is from 2020/03/20.
 First, download the data:
 
 ```bash
-DATE=2020-03-20
+DATE=2020-03-27
 DATA_DIR=./covid-"${DATE}"
 mkdir "${DATA_DIR}"
 
@@ -150,16 +150,23 @@ Next, create the collection:
 solrini/bin/solr create -n anserini -c covid
 ```
 
-Adjust the schema:
+Adjust the schema (if there are errors, follow the instructions below and come back):
 
 ```
 curl -X POST -H 'Content-type:application/json' --data-binary @src/main/resources/solr/schemas/covid.json http://localhost:8983/solr/covid/schema
 ```
 
+*Note:* if there are errors from field conflicts, you'll need to reset the configset and recreate the collection (select [All] for the fields to replace):
+```
+solrini/bin/solr delete -c covid
+pushd src/main/resources/solr && ./solr.sh ../../../../solrini localhost:9983 && popd
+solrini/bin/solr create -n anserini -c covid
+```
+
 We can now index into Solr:
 
 ```
-DATE=2020-03-20
+DATE=2020-03-27
 DATA_DIR=./covid-"${DATE}"
 
 sh target/appassembler/bin/IndexCollection -collection CovidCollection -generator CovidGenerator \
