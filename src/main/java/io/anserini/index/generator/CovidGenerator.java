@@ -57,8 +57,10 @@ public class CovidGenerator extends LuceneDocumentGenerator<CovidCollectionDocum
     YEAR("year"),
     PMC_ID("pmcid"),
     PUBMED_ID("pubmed_id"),
+    LICENSE("license"),
     MICROSOFT_ID("Microsoft Academic Paper ID"),
-    WHO("WHO #Covidence");
+    WHO("WHO #Covidence"),
+    URL("url");
 
     public final String name;
 
@@ -130,6 +132,10 @@ public class CovidGenerator extends LuceneDocumentGenerator<CovidCollectionDocum
       covidDoc.record().get(CovidField.MICROSOFT_ID.name), Field.Store.YES));
     doc.add(new StringField(CovidField.PUBLISH_TIME.name,
       covidDoc.record().get(CovidField.PUBLISH_TIME.name), Field.Store.YES));
+    doc.add(new StringField(CovidField.LICENSE.name,
+      covidDoc.record().get(CovidField.LICENSE.name), Field.Store.YES));
+    doc.add(new StringField(CovidField.URL.name,
+      covidDoc.record().get(CovidField.URL.name), Field.Store.YES));
 
     // non-stemmed fields
     addAuthors(doc, covidDoc.record().get(CovidField.AUTHORS.name), fieldType);
