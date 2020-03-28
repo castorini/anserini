@@ -14,7 +14,7 @@ If you don't want to build the index yourself, you can download a pre-built copi
 | Type | Version | Size | Link| Checksum |
 |:-----|:--------|:-----|:----|:---------|
 | Title + Abstract | 2020-03-27 | 1.1G | [[Dropbox]](https://www.dropbox.com/s/j1epbu4ufunbbzv/lucene-index-covid-2020-03-27.tar.gz?dl=0) | `c5f7247e921c80f41ac6b54ff38eb229`
-| Title + Abstract | 2020-03-20 | 984M | [[Dropbox]](https://www.dropbox.com/s/uvjwgy4re2myq5s/lucene-index-covid-2020-03-20.tar.gz?dl=0) | `281c632034643665d52a544fed23807a`
+| Title + Abstract | 2020-03-20 | 1.0G | [[Dropbox]](https://www.dropbox.com/s/uvjwgy4re2myq5s/lucene-index-covid-2020-03-20.tar.gz?dl=0) | `281c632034643665d52a544fed23807a`
 | Full-Text | 2020-03-27 | 2.9G | [[Dropbox]](https://www.dropbox.com/s/hjsf7qldn4t10vm/lucene-index-covid-full-text-2020-03-27.tar.gz?dl=0) | `3c126344f9711720e6cf627c9bc415eb`
 | Full-Text | 2020-03-20 | 2.6G | [[Dropbox]](https://www.dropbox.com/s/w74nmpmvdgw7o00/lucene-index-covid-full-text-2020-03-20.tar.gz?dl=0) | `30cae90b85fa8f1b53acaa62413756e3`
 | Paragraph | 2020-03-27 | 3.1G| [[Dropbox]](https://www.dropbox.com/s/o95pehyzem0yalp/lucene-index-covid-paragraph-2020-03-27.tar.gz?dl=0) | `8e02de859317918af4829c6188a89086`
