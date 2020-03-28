@@ -1,13 +1,27 @@
 # Working with the [COVID-19 Open Research Dataset](https://pages.semanticscholar.org/coronavirus-research)
 
-This document describes the steps to index the [COVID-19 Open Research Dataset (CORD-19)](https://pages.semanticscholar.org/coronavirus-research) from AI2.
-If you don't want to bother building the indexes yourself, we have pre-built indexes that you can directly download (see below).
-
-For a very low cost way to get started, check out our Colab demos, also available from [here](https://github.com/castorini/anserini-notebooks):
+This document describes various tools for working with the [COVID-19 Open Research Dataset (CORD-19)](https://pages.semanticscholar.org/coronavirus-research) (2020/03/27 version) from the [Allen Institute for AI](https://allenai.org/).
+For an easy way to get started, check out our Colab demos, also available [here](https://github.com/castorini/anserini-notebooks):
 
 + [Colab demo using the title + abstract index](https://colab.research.google.com/drive/1mrapJp6-RIB-3u6FaJVa4WEwFdEBOcTe)
 + [Colab demo using the paragraph index](https://colab.research.google.com/drive/1VvUR8P2CZvmdwC_J3AvRH5GvtMld8_zN)
 + [Colab demo that demonstrates integration with SciBERT](https://colab.research.google.com/drive/1L_yWXM4tOhZsHpMDNIIux-hfp1-pW3RL)
+
+We provide instructions on how to build Lucene indexes for the collection using Anserini below, but if you don't want to bother building the indexes yourself, we have pre-built indexes that you can directly download:
+
+If you don't want to build the index yourself, you can download a pre-built copies here:
+
+| Type | Version | Size | Link| Checksum |
+|:-----|:--------|:-----|:----|:---------|
+| Title + Abstract | 2020-03-27 | 1.1G | [[Dropbox]](https://www.dropbox.com/s/j1epbu4ufunbbzv/lucene-index-covid-2020-03-27.tar.gz?dl=0) | `c5f7247e921c80f41ac6b54ff38eb229`
+| Title + Abstract | 2020-03-20 | 984M | [[Dropbox]](https://www.dropbox.com/s/uvjwgy4re2myq5s/lucene-index-covid-2020-03-20.tar.gz?dl=0) | `281c632034643665d52a544fed23807a`
+| Full-Text | 2020-03-27 | 2.9G | [[Dropbox]](https://www.dropbox.com/s/hjsf7qldn4t10vm/lucene-index-covid-full-text-2020-03-27.tar.gz?dl=0) | `3c126344f9711720e6cf627c9bc415eb`
+| Full-Text | 2020-03-20 | 2.6G | [[Dropbox]](https://www.dropbox.com/s/w74nmpmvdgw7o00/lucene-index-covid-full-text-2020-03-20.tar.gz?dl=0) | `30cae90b85fa8f1b53acaa62413756e3`
+| Paragraph | 2020-03-27 | 3.1G| [[Dropbox]](https://www.dropbox.com/s/o95pehyzem0yalp/lucene-index-covid-paragraph-2020-03-27.tar.gz?dl=0) | `8e02de859317918af4829c6188a89086`
+| Paragraph | 2020-03-20 | 2.9G| [[Dropbox]](https://www.dropbox.com/s/evnhj2ylo02m03f/lucene-index-covid-paragraph-2020-03-20.tar.gz?dl=0) | `4c78e9ede690dbfac13e25e634c70ae4`
+
+"Size" refers to the output of `ls -lh`, "Version" refers to the dataset release date from AI2.
+For our answer to the question, "which one should I use?" see below.
 
 ## Data Prep
 
@@ -43,12 +57,6 @@ For a sense of how these different methods stack up, refer to the following pape
 
 The tl;dr &mdash; we'd recommend getting started with title + abstract index since it's the smallest in size and easiest to manipulate. Paragraph indexing is likely to be more effective (i.e., better search results), but a bit more difficult to manipulate since some deduping is required to post-process the raw hits (since multiple paragraphs from the same article might be retrieved).
 The full-text index overly biases long documents and isn't really effective; this condition is included here only for completeness.
-
-If you don't want to build the index yourself, you can download a pre-built copies here:
-
-+ [Title + Abstract](https://www.dropbox.com/s/uvjwgy4re2myq5s/lucene-index-covid-2020-03-20.tar.gz?dl=0)
-+ [Full-Text](https://www.dropbox.com/s/w74nmpmvdgw7o00/lucene-index-covid-full-text-2020-03-20.tar.gz?dl=0)
-+ [Paragraph](https://www.dropbox.com/s/evnhj2ylo02m03f/lucene-index-covid-paragraph-2020-03-20.tar.gz?dl=0)
 
 ### Title + Abstract
 
