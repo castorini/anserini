@@ -18,7 +18,7 @@ input_roots:
   - /store/      # on orca
   - /scratch2/   # on damiano
 input: collections/newswire/WashingtonPost.v2/data/
-index_path: lucene-index.core18.pos+docvectors+rawdocs # path to the existing index, used in regression test if `--index` option is absent
+index_path: indexes/lucene-index.core18.pos+docvectors+raw
 collection: WashingtonPostCollection
 index_stats:
   documents: 595037
