@@ -52,6 +52,9 @@
 
 package io.anserini.collection;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.DataInput;
 import java.io.DataInputStream;
 import java.io.DataOutput;
@@ -159,6 +162,8 @@ public class ClueWeb12Collection extends DocumentCollection<ClueWeb12Collection.
    * originally developed for reading ClueWeb09 was subsequently adapted for reading ClueWeb12.
    */
   public static class Document extends ClueWeb09Collection.Document {
+    private static final Logger LOG = LogManager.getLogger(Document.class);
+
     public static final String WARC_VERSION = "WARC/1.0";
 
     @Override
@@ -168,7 +173,12 @@ public class ClueWeb12Collection extends DocumentCollection<ClueWeb12Collection.
 
     @Override
     public String contents() {
-      return JsoupStringTransform.SINGLETON.apply(getContent());
+      try {
+        return JsoupStringTransform.SINGLETON.apply(getContent());
+      } catch (Exception e) {
+        LOG.error("Error extracting contents from raw document: " + id());
+        throw new InvalidContentsException();
+      }
     }
 
     @Override
