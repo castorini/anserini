@@ -91,6 +91,10 @@ class SolrClient:
             command = 'sh target/appassembler/bin/IndexCollection -collection JsonCollection ' + \
                       '-generator JsoupGenerator -solr -solr.index msmarco-passage -solr.zkUrl localhost:9983 ' + \
                       '-threads 8 -input ' + path + ' -storePositions -storeDocvectors -storeRawDocs'
+        elif collection == 'msmarco-doc':
+            command = 'sh target/appassembler/bin/IndexCollection -collection JsonCollection ' + \
+                      '-generator JsoupGenerator -solr -solr.index msmarco-doc -solr.zkUrl localhost:9983 ' + \
+                      '-threads 8 -input ' + path + ' -storePositions -storeDocvectors -storeRawDocs'
         else:
             raise Exception('Unknown collection: {}'.format(collection))
         logger.info('Running indexing command: ' + command)
@@ -123,6 +127,10 @@ class SolrClient:
             command = 'sh target/appassembler/bin/SearchSolr -topicreader TsvString -solr.index msmarco-passage ' + \
                       '-solr.zkUrl localhost:9983 -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt ' + \
                       '-output run.solr.msmarco-passage.txt'
+        elif collection == 'msmarco-doc':
+            command = 'sh target/appassembler/bin/SearchSolr -topicreader TsvString -solr.index msmarco-doc ' + \
+                      '-solr.zkUrl localhost:9983 -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev-subset.txt ' + \
+                      '-output run.solr.msmarco-doc.txt'
         else:
             raise Exception('Unknown collection: {}'.format(collection))
 
@@ -139,6 +147,9 @@ class SolrClient:
         elif collection == 'msmarco-passage':
             command = 'eval/trec_eval.9.0.4/trec_eval  -c -mrecall.1000 -mmap ' + \
                       'src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt run.solr.msmarco-passage.txt'
+        elif collection == 'msmarco-doc':
+            command = 'eval/trec_eval.9.0.4/trec_eval  -c -mrecall.1000 -mmap ' + \
+                      'src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev-subset.txt run.solr.msmarco-doc.txt'
         else:
             raise Exception('Unknown collection: {}'.format(collection))
 
