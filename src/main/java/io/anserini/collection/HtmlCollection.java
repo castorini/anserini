@@ -100,7 +100,7 @@ public class HtmlCollection extends DocumentCollection<HtmlCollection.Document> 
   /**
    * A generic document in {@code HtmlCollection}.
    */
-  public static class Document implements SourceDocument {
+  public static class Document extends SourceDocument {
     private String id;
     private String contents;
 

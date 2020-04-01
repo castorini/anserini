@@ -57,6 +57,7 @@ public class TweetCollectionTest extends DocumentCollectionTest<TweetCollection.
     assertTrue(doc.indexable());
     assertEquals(expected.get("id"), doc.id());
     assertEquals(expected.get("content"), doc.content());
+    assertEquals(expected.get("content"), doc.raw());
     assertEquals(expected.get("screen_name"), ((TweetCollection.Document) doc).getScreenName());
     assertEquals((long) Long.valueOf(expected.get("timestamp_ms")),
         ((TweetCollection.Document) doc).getTimestampMs().getAsLong());

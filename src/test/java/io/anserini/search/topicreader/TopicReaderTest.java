@@ -182,6 +182,32 @@ public class TopicReaderTest {
     assertEquals(850, (int) topics.lastKey());
     assertEquals("Mississippi River flood", topics.get(topics.lastKey()).get("title"));
 
+    topics = TopicReader.getTopics(Topics.TREC2007_MILLION_QUERY);
+    assertNotNull(topics);
+    assertEquals(10000, topics.keySet().size());
+    assertEquals(1, (int) topics.firstKey());
+    assertEquals("after school program evaluation", topics.get(topics.firstKey()).get("title").trim());
+    assertEquals(10000, (int) topics.lastKey());
+    assertEquals("californa mission", topics.get(topics.lastKey()).get("title").trim());
+
+    topics = TopicReader.getTopics(Topics.TREC2008_MILLION_QUERY);
+    assertNotNull(topics);
+    assertEquals(10000, topics.keySet().size());
+    assertEquals(10001, (int) topics.firstKey());
+    assertEquals("comparability of pay analyses", topics.get(topics.firstKey()).get("title").trim());
+    assertEquals(20000, (int) topics.lastKey());
+    assertEquals("manchester city hall", topics.get(topics.lastKey()).get("title").trim());
+
+    topics = TopicReader.getTopics(Topics.TREC2009_MILLION_QUERY);
+    assertNotNull(topics);
+    assertEquals(40000, topics.keySet().size());
+    assertEquals(20001, (int) topics.firstKey());
+    assertEquals("obama family tree", topics.get(topics.firstKey()).get("title").trim());
+    assertEquals("1", topics.get(topics.firstKey()).get("priority").trim());
+    assertEquals(60000, (int) topics.lastKey());
+    assertEquals("bird shingles", topics.get(topics.lastKey()).get("title").trim());
+    assertEquals("4", topics.get(topics.lastKey()).get("priority").trim());
+
     topics = TopicReader.getTopics(Topics.TREC2010_WEB);
     assertNotNull(topics);
     assertEquals(50, topics.size());
@@ -250,6 +276,26 @@ public class TopicReaderTest {
     assertEquals(50, topics.size());
     assertEquals("Kudzu Pueraria lobata", topics.get("801").get("title"));
     assertEquals("Mississippi River flood", topics.get("850").get("title"));
+
+    topics = TopicReader.getTopicsWithStringIds(Topics.TREC2007_MILLION_QUERY);
+    assertNotNull(topics);
+    assertEquals(10000, topics.keySet().size());
+    assertEquals("after school program evaluation", topics.get("1").get("title").trim());
+    assertEquals("californa mission", topics.get("10000").get("title").trim());
+
+    topics = TopicReader.getTopicsWithStringIds(Topics.TREC2008_MILLION_QUERY);
+    assertNotNull(topics);
+    assertEquals(10000, topics.keySet().size());
+    assertEquals("comparability of pay analyses", topics.get("10001").get("title").trim());
+    assertEquals("manchester city hall", topics.get("20000").get("title").trim());
+
+    topics = TopicReader.getTopicsWithStringIds(Topics.TREC2009_MILLION_QUERY);
+    assertNotNull(topics);
+    assertEquals(40000, topics.keySet().size());
+    assertEquals("obama family tree", topics.get("20001").get("title").trim());
+    assertEquals("1", topics.get("20001").get("priority").trim());
+    assertEquals("bird shingles", topics.get("60000").get("title").trim());
+    assertEquals("4", topics.get("60000").get("priority").trim());
 
     topics = TopicReader.getTopicsWithStringIds(Topics.TREC2010_WEB);
     assertNotNull(topics);

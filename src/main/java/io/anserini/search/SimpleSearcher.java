@@ -93,17 +93,25 @@ public class SimpleSearcher implements Closeable {
 
   private IndexSearcher searcher = null;
 
+  /**
+   * This class is meant to serve as the bridge between Anserini and Pyserini.
+   * Note that we are adopting Python naming conventions here on purpose.
+   */
   public class Result {
     public String docid;
-    public int ldocid;
+    public int lucene_docid;
     public float score;
-    public String content;
+    public String contents;
+    public String raw;
+    public Document lucene_document;
 
-    public Result(String docid, int ldocid, float score, String content) {
+    public Result(String docid, int lucene_docid, float score, String contents, String raw, Document lucene_document) {
       this.docid = docid;
-      this.ldocid = ldocid;
+      this.lucene_docid = lucene_docid;
       this.score = score;
-      this.content = content;
+      this.contents = contents;
+      this.raw = raw;
+      this.lucene_document = lucene_document;
     }
   }
 
@@ -174,8 +182,9 @@ public class SimpleSearcher implements Closeable {
 
   public void setRM3Reranker(int fbTerms, int fbDocs, float originalQueryWeight, boolean rm3_outputQuery) {
     isRerank = true;
-    cascade = new RerankerCascade();
-    cascade.add(new Rm3Reranker(this.analyzer, IndexArgs.CONTENTS, fbTerms, fbDocs, originalQueryWeight, rm3_outputQuery));
+    cascade = new RerankerCascade("rm3");
+    cascade.add(new Rm3Reranker(this.analyzer, IndexArgs.CONTENTS,
+        fbTerms, fbDocs, originalQueryWeight, rm3_outputQuery));
     cascade.add(new ScoreTiesAdjusterReranker());
   }
 
@@ -208,11 +217,20 @@ public class SimpleSearcher implements Closeable {
     return batchSearchFields(queries, qids, k, t, threads, new HashMap<>());
   }
 
-  public Map<String, Result[]> batchSearchFields(List<String> queries, List<String> qids, int k, int threads, Map<String, Float> fields) {
+  public Map<String, Result[]> batchSearchFields(List<String> queries, List<String> qids, int k, int threads,
+                                                 Map<String, Float> fields) {
     return batchSearchFields(queries, qids, k, -1, threads, fields);
   }
 
-  public Map<String, Result[]> batchSearchFields(List<String> queries, List<String> qids, int k, long t, int threads, Map<String, Float> fields) {
+  public Map<String, Result[]> batchSearchFields(List<String> queries, List<String> qids, int k, long t, int threads,
+                                                 Map<String, Float> fields) {
+    // Create the IndexSearcher here, if needed. We do it here because if we leave the creation to the search
+    // method, we might end up with a race condition as multiple threads try to concurrently create the IndexSearcher.
+    if (searcher == null) {
+      searcher = new IndexSearcher(reader);
+      searcher.setSimilarity(similarity);
+    }
+
     ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(threads);
     ConcurrentHashMap<String, Result[]> results = new ConcurrentHashMap<>();
 
@@ -279,8 +297,9 @@ public class SimpleSearcher implements Closeable {
     return search(query, queryTokens, q, k, t);
   }
 
-  protected Result[] search(Query query, List<String> queryTokens, String queryString, int k, long t) throws IOException {
-    // Initialize an index searcher only once
+  protected Result[] search(Query query, List<String> queryTokens, String queryString, int k,
+                            long t) throws IOException {
+    // Create an IndexSearch only once. Note that the object is thread safe.
     if (searcher == null) {
       searcher = new IndexSearcher(reader);
       searcher.setSimilarity(similarity);
@@ -303,15 +322,21 @@ public class SimpleSearcher implements Closeable {
         builder.add(filter, BooleanClause.Occur.FILTER);
         builder.add(query, BooleanClause.Occur.MUST);
         Query compositeQuery = builder.build();
-        rs = searcher.search(compositeQuery, isRerank ? searchArgs.rerankcutoff : k, BREAK_SCORE_TIES_BY_TWEETID, true);
-        context = new RerankerContext<>(searcher, null, compositeQuery, null, queryString, queryTokens, filter, searchArgs);
+        rs = searcher.search(compositeQuery, isRerank ? searchArgs.rerankcutoff :
+            k, BREAK_SCORE_TIES_BY_TWEETID, true);
+        context = new RerankerContext<>(searcher, null, compositeQuery, null,
+            queryString, queryTokens, filter, searchArgs);
       } else {
-        rs = searcher.search(query, isRerank ? searchArgs.rerankcutoff : k, BREAK_SCORE_TIES_BY_TWEETID, true);
-        context = new RerankerContext<>(searcher, null, query, null, queryString, queryTokens, null, searchArgs);
+        rs = searcher.search(query,
+            isRerank ? searchArgs.rerankcutoff : k, BREAK_SCORE_TIES_BY_TWEETID, true);
+        context = new RerankerContext<>(searcher, null, query, null,
+            queryString, queryTokens, null, searchArgs);
       }
     } else {
-      rs = searcher.search(query, isRerank ? searchArgs.rerankcutoff : k, BREAK_SCORE_TIES_BY_DOCID, true);
-      context = new RerankerContext<>(searcher, null, query, null, queryString, queryTokens, null, searchArgs);
+      rs = searcher.search(query,
+          isRerank ? searchArgs.rerankcutoff : k, BREAK_SCORE_TIES_BY_DOCID, true);
+      context = new RerankerContext<>(searcher, null, query, null,
+          queryString, queryTokens, null, searchArgs);
     }
 
     ScoredDocuments hits = cascade.run(ScoredDocuments.fromTopDocs(rs, searcher), context);
@@ -320,10 +345,15 @@ public class SimpleSearcher implements Closeable {
     for (int i = 0; i < hits.ids.length; i++) {
       Document doc = hits.documents[i];
       String docid = doc.getField(IndexArgs.ID).stringValue();
-      IndexableField field = doc.getField(IndexArgs.RAW);
-      String content = field == null ? null : field.stringValue();
 
-      results[i] = new Result(docid, hits.ids[i], hits.scores[i], content);
+      IndexableField field;
+      field = doc.getField(IndexArgs.CONTENTS);
+      String contents = field == null ? null : field.stringValue();
+
+      field = doc.getField(IndexArgs.RAW);
+      String raw = field == null ? null : field.stringValue();
+
+      results[i] = new Result(docid, hits.ids[i], hits.scores[i], contents, raw, doc);
     }
 
     return results;
@@ -356,65 +386,89 @@ public class SimpleSearcher implements Closeable {
 
   /**
    * Fetches the Lucene {@link Document} based on an internal Lucene docid.
+   * The method is named to be consistent with Lucene's {@link IndexReader#document(int)}, contra Java's standard
+   * method naming conventions.
+   *
    * @param ldocid internal Lucene docid
    * @return corresponding Lucene {@link Document}
    */
-  public Document doc(int ldocid) {
+  public Document document(int ldocid) {
     try {
-      if (ldocid >= reader.maxDoc())
-        return null;
-
       return reader.document(ldocid);
-    } catch (IOException e) {
+    } catch (Exception e) {
+      // Eat any exceptions and just return null.
       return null;
     }
   }
 
   /**
    * Fetches the Lucene {@link Document} based on a collection docid.
+   * The method is named to be consistent with Lucene's {@link IndexReader#document(int)}, contra Java's standard
+   * method naming conventions.
+   *
    * @param docid collection docid
    * @return corresponding Lucene {@link Document}
    */
-  public Document doc(String docid) {
-    try {
-      int ldocid = IndexReaderUtils.convertDocidToLuceneDocid(reader, docid);
-      if (ldocid == -1)
-        return null;
-
-      return reader.document(ldocid);
-    } catch (IOException e) {
-      return null;
-    }
+  public Document document(String docid) {
+    return IndexReaderUtils.document(reader, docid);
   }
 
   /**
-   * Returns the raw contents of a document based on an internal Lucene docid.
+   * Returns the "contents" field of a document based on an internal Lucene docid.
+   * The method is named to be consistent with Lucene's {@link IndexReader#document(int)}, contra Java's standard
+   * method naming conventions.
+   *
    * @param ldocid internal Lucene docid
-   * @return raw contents of the document
+   * @return the "contents" field the document
    */
-  public String getContents(int ldocid) {
-    Document doc = doc(ldocid);
-    if (doc == null) {
+  public String documentContents(int ldocid) {
+    try {
+      return reader.document(ldocid).get(IndexArgs.CONTENTS);
+    } catch (Exception e) {
+      // Eat any exceptions and just return null.
       return null;
     }
-
-    IndexableField field = doc.getField(IndexArgs.RAW);
-    return field == null ? null : field.stringValue();
   }
 
   /**
-   * Returns the raw contents of a document based on a collection docid.
+   * Returns the "contents" field of a document based on a collection docid.
+   * The method is named to be consistent with Lucene's {@link IndexReader#document(int)}, contra Java's standard
+   * method naming conventions.
+   *
    * @param docid collection docid
-   * @return raw contents of the document
+   * @return the "contents" field the document
    */
-  public String getContents(String docid) {
-    Document doc = doc(docid);
-    if (doc == null) {
+  public String documentContents(String docid) {
+    return IndexReaderUtils.documentContents(reader, docid);
+  }
+
+  /**
+   * Returns the "raw" field of a document based on an internal Lucene docid.
+   * The method is named to be consistent with Lucene's {@link IndexReader#document(int)}, contra Java's standard
+   * method naming conventions.
+   *
+   * @param ldocid internal Lucene docid
+   * @return the "raw" field the document
+   */
+  public String documentRaw(int ldocid) {
+    try {
+      return reader.document(ldocid).get(IndexArgs.RAW);
+    } catch (Exception e) {
+      // Eat any exceptions and just return null.
       return null;
     }
+  }
 
-    IndexableField field = doc.getField(IndexArgs.RAW);
-    return field == null ? null : field.stringValue();
+  /**
+   * Returns the "raw" field of a document based on a collection docid.
+   * The method is named to be consistent with Lucene's {@link IndexReader#document(int)}, contra Java's standard
+   * method naming conventions.
+   *
+   * @param docid collection docid
+   * @return the "raw" field the document
+   */
+  public String documentRaw(String docid) {
+    return IndexReaderUtils.documentRaw(reader, docid);
   }
 
 }

@@ -1,4 +1,4 @@
-/**
+/*
  * Anserini: A Lucene toolkit for replicable information retrieval research
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,16 +16,26 @@
 
 package io.anserini.util;
 
+import io.anserini.index.IndexArgs;
+import io.anserini.index.NotStoredException;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.LeafReader;
+import org.apache.lucene.index.LeafReaderContext;
+import org.apache.lucene.index.NumericDocValues;
+import org.apache.lucene.search.DocIdSetIterator;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
+import org.apache.lucene.util.SmallFloat;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
+import org.kohsuke.args4j.OptionHandlerFilter;
 import org.kohsuke.args4j.ParserProperties;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
 import java.nio.file.Paths;
 
 public class ExtractAverageDocumentLength {
@@ -33,6 +43,9 @@ public class ExtractAverageDocumentLength {
   public static class Args {
     @Option(name = "-index", metaVar = "[path]", required = true, usage = "Lucene index")
     String index;
+
+    @Option(name = "-field", metaVar = "[name]", usage = "field")
+    String field = IndexArgs.CONTENTS;
   }
 
   public static void main(String[] args) throws Exception {
@@ -41,20 +54,46 @@ public class ExtractAverageDocumentLength {
 
     try {
       parser.parseArgument(args);
-    } catch (
-      CmdLineException e) {
+    } catch (CmdLineException e) {
       System.err.println(e.getMessage());
       parser.printUsage(System.err);
+      System.err.println(String.format("Example: %s %s",
+          ExtractAverageDocumentLength.class.getSimpleName(), parser.printExample(OptionHandlerFilter.REQUIRED)));
       return;
     }
 
     Directory dir = FSDirectory.open(Paths.get(myArgs.index));
     IndexReader reader = DirectoryReader.open(dir);
-    if (reader.leaves().size() == 1) {
-      LeafReader leafReader = reader.leaves().get(0).reader();
-      System.out.println((float)leafReader.getSumTotalTermFreq("contents")/(float)leafReader.getDocCount("contents"));
-    } else {
-      throw new RuntimeException("There should be only one leaf, index the collection using the -optimize flag");
+    if (reader.leaves().size() != 1) {
+      System.err.println("There should be only one leaf, index the collection using the -optimize flag.");
+      return;
     }
+
+    LeafReader leafReader = reader.leaves().get(0).reader();
+    System.out.println("# Exact avg doclength");
+    System.out.println("SumTotalTermFreq: " + leafReader.getSumTotalTermFreq(myArgs.field));
+    System.out.println("DocCount:         " + leafReader.getDocCount(myArgs.field));
+    System.out.println("avg doclength:    " +
+        ((float) leafReader.getSumTotalTermFreq(myArgs.field) / (float) leafReader.getDocCount(myArgs.field)));
+
+    long sumDoclengths = 0;
+    for (LeafReaderContext context : reader.leaves()) {
+      leafReader = context.reader();
+      NumericDocValues docValues = leafReader.getNormValues(myArgs.field);
+      if (docValues == null) {
+        throw new NotStoredException("Norms do not appear to have been indexed!");
+      }
+      while (docValues.nextDoc() != DocIdSetIterator.NO_MORE_DOCS) {
+        sumDoclengths += SmallFloat.byte4ToInt((byte) docValues.longValue());
+      }
+    }
+
+    System.out.println("\n# Lossy avg doclength, based on sum of norms (lossy doclength) of each doc");
+    System.out.println("SumTotalTermFreq: " + sumDoclengths);
+    System.out.println("DocCount:         " + leafReader.getDocCount(myArgs.field));
+    System.out.println("avg doclength:    " + ((float) sumDoclengths / (float) leafReader.getDocCount(myArgs.field)));
+
+    reader.close();
+    dir.close();
   }
 }

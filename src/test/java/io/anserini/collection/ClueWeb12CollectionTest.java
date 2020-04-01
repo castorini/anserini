@@ -62,5 +62,6 @@ public class ClueWeb12CollectionTest extends DocumentCollectionTest<ClueWeb12Col
       assertEquals(expected.get("id"), doc.id());
     }
     assertEquals(expected.get("content"), doc.content());
+    assertEquals(expected.get("content"), doc.raw());
   }
 }
