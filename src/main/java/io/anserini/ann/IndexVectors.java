@@ -49,14 +49,14 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class IndexVectors {
-  static final String FIELD_WORD = "word";
-  static final String FIELD_VECTOR = "vector";
+  public static final String FIELD_WORD = "word";
+  public static final String FIELD_VECTOR = "vector";
 
-  private static final String FW = "fw";
-  private static final String LEXLSH = "lexlsh";
+  public static final String FW = "fw";
+  public static final String LEXLSH = "lexlsh";
 
   public static final class Args {
-    @Option(name = "-input", metaVar = "[file]", required = true, usage = "word vectors model")
+    @Option(name = "-input", metaVar = "[file]", required = true, usage = "vectors model")
     public File input;
 
     @Option(name = "-path", metaVar = "[path]", required = true, usage = "index path")
@@ -64,6 +64,9 @@ public class IndexVectors {
 
     @Option(name = "-encoding", metaVar = "[word]", required = true, usage = "encoding must be one of {fw, lexlsh}")
     public String encoding;
+
+    @Option(name="-stored", metaVar = "[boolean]", usage = "store vectors")
+    public boolean stored;
 
     @Option(name = "-lexlsh.n", metaVar = "[int]", usage = "ngrams")
     public int ngrams = 2;
@@ -81,7 +84,7 @@ public class IndexVectors {
     public int bucketCount = 300;
 
     @Option(name = "-fw.q", metaVar = "[int]", usage = "quantization factor")
-    public int q = 60;
+    public int q = FakeWordsEncoderAnalyzer.DEFAULT_Q;
   }
 
   public static void main(String[] args) throws Exception {
@@ -143,7 +146,7 @@ public class IndexVectors {
         }
         sb.append(fv);
       }
-      doc.add(new TextField(FIELD_VECTOR, sb.toString(), Field.Store.NO));
+      doc.add(new TextField(FIELD_VECTOR, sb.toString(), indexArgs.stored ? Field.Store.YES : Field.Store.NO));
       try {
         indexWriter.addDocument(doc);
         int cur = cnt.incrementAndGet();
