@@ -34,12 +34,13 @@ public abstract class CovidCollectionDocument extends SourceDocument {
   protected CSVRecord record;
 
   protected final String getFullTextJson(String basePath) {
-    if (!record.get("has_full_text").contains("True")) {
+    if (!record.get("has_pdf_parse").contains("True")) {
       return null;
     }
 
     String[] hashes = record.get("sha").split(";");
-    String fullTextPath = "/" + record.get("full_text_file") + "/" + hashes[hashes.length - 1].strip() + ".json";
+    String fullTextPath = "/" + record.get("full_text_file") + "/pdf_json/" +
+      hashes[hashes.length - 1].strip() + ".json";
     String fullTextJson = null;
     try {
       fullTextJson = new String(Files.readAllBytes(

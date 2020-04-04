@@ -105,7 +105,7 @@ public class CovidFullTextCollection extends DocumentCollection<CovidFullTextCol
    */
   public class Document extends CovidCollectionDocument {
     public Document(CSVRecord record) {
-      id = Long.toString(record.getRecordNumber());
+      id = record.get("cord_uid");
       content = record.get("title").replace("\n", " ");
       content += record.get("abstract").isEmpty() ? "" : "\n" + record.get("abstract");
       this.record = record;
