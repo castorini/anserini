@@ -49,7 +49,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class IndexVectors {
-  public static final String FIELD_WORD = "word";
+  public static final String FIELD_ID = "id";
   public static final String FIELD_VECTOR = "vector";
 
   public static final String FW = "fw";
@@ -63,7 +63,7 @@ public class IndexVectors {
     public Path path;
 
     @Option(name = "-encoding", metaVar = "[word]", required = true, usage = "encoding must be one of {fw, lexlsh}")
-    public String encoding;
+    public String encoding = FW;
 
     @Option(name="-stored", metaVar = "[boolean]", usage = "store vectors")
     public boolean stored;
@@ -116,7 +116,7 @@ public class IndexVectors {
     final long start = System.nanoTime();
     System.out.println(String.format("Loading model %s", indexArgs.input));
 
-    Map<String, float[]> wordVectors = readGloVe(indexArgs.input);
+    Map<String, float[]> vectors = readGloVe(indexArgs.input);
 
     Path indexDir = indexArgs.path;
     if (!Files.exists(indexDir)) {
@@ -134,10 +134,10 @@ public class IndexVectors {
     IndexWriter indexWriter = new IndexWriter(d, conf);
     final AtomicInteger cnt = new AtomicInteger();
 
-    for (Map.Entry<String, float[]> entry : wordVectors.entrySet()) {
+    for (Map.Entry<String, float[]> entry : vectors.entrySet()) {
       Document doc = new Document();
 
-      doc.add(new StringField(FIELD_WORD, entry.getKey(), Field.Store.YES));
+      doc.add(new StringField(FIELD_ID, entry.getKey(), Field.Store.YES));
       float[] vector = entry.getValue();
       StringBuilder sb = new StringBuilder();
       for (double fv : vector) {
@@ -151,7 +151,7 @@ public class IndexVectors {
         indexWriter.addDocument(doc);
         int cur = cnt.incrementAndGet();
         if (cur % 100000 == 0) {
-          System.out.println(String.format("%s words added", cnt));
+          System.out.println(String.format("%s docs added", cnt));
         }
       } catch (IOException e) {
         System.err.println("Error while indexing: " + e.getLocalizedMessage());
@@ -159,7 +159,7 @@ public class IndexVectors {
     }
 
     indexWriter.commit();
-    System.out.println(String.format("%s words indexed", cnt.get()));
+    System.out.println(String.format("%s docs indexed", cnt.get()));
     long space = FileUtils.sizeOfDirectory(indexDir.toFile()) / (1024L * 1024L);
     System.out.println(String.format("Index size: %dMB", space));
     indexWriter.close();

@@ -40,16 +40,16 @@ import org.apache.lucene.store.FSDirectory;
 
 import static org.apache.lucene.search.BooleanClause.Occur.SHOULD;
 
-public class ANNSearcher {
+public class SimpleNearestNeighborSearcher {
 
   private final Analyzer analyzer;
   private final IndexSearcher searcher;
 
-  public ANNSearcher(String path) throws IOException {
+  public SimpleNearestNeighborSearcher(String path) throws IOException {
     this(path, IndexVectors.FW);
   }
 
-  public ANNSearcher(String path, String encoding) throws IOException {
+  public SimpleNearestNeighborSearcher(String path, String encoding) throws IOException {
     Directory d = FSDirectory.open(Paths.get(path));
     DirectoryReader reader = DirectoryReader.open(d);
     searcher = new IndexSearcher(reader);
@@ -63,9 +63,9 @@ public class ANNSearcher {
     }
   }
 
-  public NearestNeighbors[] annSearch(String word, int k) throws IOException {
-    List<NearestNeighbors> results = new ArrayList<>();
-    TopDocs wordDocs = searcher.search(new TermQuery(new Term(IndexVectors.FIELD_WORD, word)), k);
+  public Result[][] search(String word, int k) throws IOException {
+    List<Result[]> results = new ArrayList<>();
+    TopDocs wordDocs = searcher.search(new TermQuery(new Term(IndexVectors.FIELD_ID, word)), k);
 
     for (ScoreDoc scoreDoc : wordDocs.scoreDocs) {
       Document doc = searcher.doc(scoreDoc.doc);
@@ -76,53 +76,26 @@ public class ANNSearcher {
         simQuery.add(new Term(IndexVectors.FIELD_VECTOR, token));
       }
       TopDocs nearest = searcher.search(simQuery, k);
-      NearestNeighbors.Neighbor[] neighbors = new NearestNeighbors.Neighbor[nearest.scoreDocs.length];
+      Result[] neighbors = new Result[nearest.scoreDocs.length];
       int i = 0;
       for (ScoreDoc nn : nearest.scoreDocs) {
         Document ndoc = searcher.doc(nn.doc);
-        neighbors[i] = new NearestNeighbors.Neighbor(ndoc.get(IndexVectors.FIELD_WORD), nn.score);
+        neighbors[i] = new Result(ndoc.get(IndexVectors.FIELD_ID), nn.score);
         i++;
       }
-      results.add(new NearestNeighbors(doc.get(IndexVectors.FIELD_WORD), neighbors));
+      results.add(neighbors);
     }
-    return results.toArray(new NearestNeighbors[0]);
+    return results.toArray(new Result[0][0]);
   }
 
-  public static class NearestNeighbors {
+  public static class Result {
 
     public final String id;
-    public final Neighbor[] neighbors;
+    public final float score;
 
-    private NearestNeighbors(String id, Neighbor[] neighbors) {
+    private Result(String id, float score) {
       this.id = id;
-      this.neighbors = neighbors;
-    }
-
-    public static class Neighbor {
-
-      public final String id;
-      public final float score;
-
-      private Neighbor(String id, float score) {
-        this.id = id;
-        this.score = score;
-      }
-
-      @Override
-      public String toString() {
-        return "Neighbor{" +
-            "id='" + id + '\'' +
-            ", score=" + score +
-            '}';
-      }
-    }
-
-    @Override
-    public String toString() {
-      return "NearestNeighbors{" +
-          "id='" + id + '\'' +
-          ", neighbors=" + Arrays.toString(neighbors) +
-          '}';
+      this.score = score;
     }
   }
 }

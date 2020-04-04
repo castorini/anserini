@@ -21,27 +21,27 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-public class ANNSearcherTest {
+public class SimpleNearestNeighborSearcherTest {
 
   @Test
   public void testSearchingFW() throws Exception {
     String idxPath = "target/ast" + System.currentTimeMillis();
     IndexVectorsTest.createIndex(idxPath, "fw", true);
-    ANNSearcher annSearcher = new ANNSearcher(idxPath);
-    ANNSearcher.NearestNeighbors[] results = annSearcher.annSearch("text", 2);
+    SimpleNearestNeighborSearcher simpleNearestNeighborSearcher = new SimpleNearestNeighborSearcher(idxPath);
+    SimpleNearestNeighborSearcher.Result[][] results = simpleNearestNeighborSearcher.search("text", 2);
     assertNotNull(results);
     assertEquals(1, results.length);
-    assertEquals(2, results[0].neighbors.length);
+    assertEquals(2, results[0].length);
   }
 
   @Test
   public void testSearchingLL() throws Exception {
     String idxPath = "target/ast" + System.currentTimeMillis();
     IndexVectorsTest.createIndex(idxPath, "lexlsh", true);
-    ANNSearcher annSearcher = new ANNSearcher(idxPath, "lexlsh");
-    ANNSearcher.NearestNeighbors[] results = annSearcher.annSearch("text", 2);
+    SimpleNearestNeighborSearcher simpleNearestNeighborSearcher = new SimpleNearestNeighborSearcher(idxPath, "lexlsh");
+    SimpleNearestNeighborSearcher.Result[][] results = simpleNearestNeighborSearcher.search("text", 2);
     assertNotNull(results);
     assertEquals(1, results.length);
-    assertEquals(1, results[0].neighbors.length);
+    assertEquals(1, results[0].length);
   }
 }

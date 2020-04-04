@@ -41,7 +41,6 @@ import org.kohsuke.args4j.ParserProperties;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.Map;
@@ -143,7 +142,7 @@ public class ApproximateNearestNeighborSearch {
 
     Collection<String> vectors = new LinkedList<>();
     if (indexArgs.stored) {
-      TopDocs topDocs = searcher.search(new TermQuery(new Term(IndexVectors.FIELD_WORD, indexArgs.word)), indexArgs.depth);
+      TopDocs topDocs = searcher.search(new TermQuery(new Term(IndexVectors.FIELD_ID, indexArgs.word)), indexArgs.depth);
       for (ScoreDoc scoreDoc : topDocs.scoreDocs) {
         vectors.add(reader.document(scoreDoc.doc).get(IndexVectors.FIELD_VECTOR));
       }
@@ -188,7 +187,7 @@ public class ApproximateNearestNeighborSearch {
       int rank = 1;
       for (ScoreDoc sd : results.topDocs().scoreDocs) {
         Document document = reader.document(sd.doc);
-        String word = document.get(IndexVectors.FIELD_WORD);
+        String word = document.get(IndexVectors.FIELD_ID);
         System.out.println(String.format("%d. %s (%.3f)", rank, word, sd.score));
         rank++;
       }
