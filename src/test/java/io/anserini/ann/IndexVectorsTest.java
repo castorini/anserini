@@ -15,6 +15,9 @@
  */
 package io.anserini.ann;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import org.junit.Test;
 
 /**
@@ -24,18 +27,36 @@ public class IndexVectorsTest {
 
   @Test
   public void indexFWTest() throws Exception {
-    createIndex("target/idx-sample-fw", "fw");
+    createIndex("target/idx-sample-fw" + System.currentTimeMillis(), "fw", false);
+  }
+
+  @Test
+  public void indexFWStoredTest() throws Exception {
+    createIndex("target/idx-sample-fw" + System.currentTimeMillis(), "fw", false);
   }
 
   @Test
   public void indexLLTest() throws Exception {
-    createIndex("target/idx-sample-ll", "lexlsh");
+    createIndex("target/idx-sample-ll" + System.currentTimeMillis(), "lexlsh", false);
   }
 
-  static void createIndex(String path, String encoding) throws Exception {
-    String[] args = new String[]{"-encoding", encoding, "-input", "src/test/resources/mini-word-vectors.txt", "-path",
-        path};
-    IndexVectors.main(args);
+  @Test
+  public void indexLLStoredTest() throws Exception {
+    createIndex("target/idx-sample-ll" + System.currentTimeMillis(), "lexlsh", false);
+  }
+
+  public static void createIndex(String path, String encoding, boolean stored) throws Exception {
+    List<String> args = new LinkedList<>();
+    args.add("-encoding");
+    args.add(encoding);
+    args.add("-input");
+    args.add("src/test/resources/mini-word-vectors.txt");
+    args.add("-path");
+    args.add(path);
+    if (stored) {
+      args.add("-stored");
+    }
+    IndexVectors.main(args.toArray(new String[0]));
   }
 
 
