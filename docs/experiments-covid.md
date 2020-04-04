@@ -1,6 +1,6 @@
 # Working with the [COVID-19 Open Research Dataset](https://pages.semanticscholar.org/coronavirus-research)
 
-This document describes various tools for working with the [COVID-19 Open Research Dataset (CORD-19)](https://pages.semanticscholar.org/coronavirus-research) (2020/03/27 version) from the [Allen Institute for AI](https://allenai.org/).
+This document describes various tools for working with the [COVID-19 Open Research Dataset (CORD-19)](https://pages.semanticscholar.org/coronavirus-research) from the [Allen Institute for AI](https://allenai.org/).
 For an easy way to get started, check out our Colab demos, also available [here](https://github.com/castorini/anserini-notebooks):
 
 + [Colab demo using the title + abstract index](https://colab.research.google.com/drive/1mrapJp6-RIB-3u6FaJVa4WEwFdEBOcTe)
@@ -13,10 +13,13 @@ If you don't want to build the index yourself, you can download a pre-built copi
 
 | Type | Version | Size | Link| Checksum |
 |:-----|:--------|:-----|:----|:---------|
+| Title + Abstract | 2020-04-03 | 1.1G | [[Dropbox]](https://www.dropbox.com/s/d6v9fensyi7q3gb/lucene-index-covid-2020-04-03.tar.gz?dl=0) | `5d0d222e746d522a75f94240f5ab9f23`
 | Title + Abstract | 2020-03-27 | 1.1G | [[Dropbox]](https://www.dropbox.com/s/j1epbu4ufunbbzv/lucene-index-covid-2020-03-27.tar.gz?dl=0) | `c5f7247e921c80f41ac6b54ff38eb229`
 | Title + Abstract | 2020-03-20 | 1.0G | [[Dropbox]](https://www.dropbox.com/s/uvjwgy4re2myq5s/lucene-index-covid-2020-03-20.tar.gz?dl=0) | `281c632034643665d52a544fed23807a`
+| Full-Text | 2020-04-03 | 3.0G | [[Dropbox]](https://www.dropbox.com/s/abhuqks7aa1xs79/lucene-index-covid-full-text-2020-04-03.tar.gz?dl=0) | `9aafb86fec39e0882bd9ef0688d7a9cc`
 | Full-Text | 2020-03-27 | 2.9G | [[Dropbox]](https://www.dropbox.com/s/hjsf7qldn4t10vm/lucene-index-covid-full-text-2020-03-27.tar.gz?dl=0) | `3c126344f9711720e6cf627c9bc415eb`
 | Full-Text | 2020-03-20 | 2.6G | [[Dropbox]](https://www.dropbox.com/s/w74nmpmvdgw7o00/lucene-index-covid-full-text-2020-03-20.tar.gz?dl=0) | `30cae90b85fa8f1b53acaa62413756e3`
+| Paragraph | 2020-04-03 | 3.1G| [[Dropbox]](https://www.dropbox.com/s/rfzxrrstwlck4wh/lucene-index-covid-paragraph-2020-04-03.tar.gz?dl=0) | `523894cfb52fc51c4202e76af79e1b10`
 | Paragraph | 2020-03-27 | 3.1G| [[Dropbox]](https://www.dropbox.com/s/o95pehyzem0yalp/lucene-index-covid-paragraph-2020-03-27.tar.gz?dl=0) | `8e02de859317918af4829c6188a89086`
 | Paragraph | 2020-03-20 | 2.9G| [[Dropbox]](https://www.dropbox.com/s/evnhj2ylo02m03f/lucene-index-covid-paragraph-2020-03-20.tar.gz?dl=0) | `4c78e9ede690dbfac13e25e634c70ae4`
 
@@ -25,7 +28,7 @@ For our answer to the question, "which one should I use?" see below.
 
 ## Data Prep
 
-The latest distribution available is from 2020/03/20.
+The latest distribution available is from 2020/04/03.
 First, download the data:
 
 ```bash
