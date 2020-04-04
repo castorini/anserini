@@ -29,7 +29,7 @@ The latest distribution available is from 2020/03/20.
 First, download the data:
 
 ```bash
-DATE=2020-03-27
+DATE=2020-04-03
 DATA_DIR=./covid-"${DATE}"
 mkdir "${DATA_DIR}"
 
@@ -174,7 +174,7 @@ solrini/bin/solr create -n anserini -c covid
 We can now index into Solr:
 
 ```
-DATE=2020-03-27
+DATE=2020-04-03
 DATA_DIR=./covid-"${DATE}"
 
 sh target/appassembler/bin/IndexCollection -collection CovidCollection -generator CovidGenerator \
