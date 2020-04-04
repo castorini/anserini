@@ -185,7 +185,7 @@ public class ApproximateNearestNeighborEval {
           Set<String> observations = new HashSet<>();
           for (ScoreDoc sd : results.topDocs().scoreDocs) {
             Document document = reader.document(sd.doc);
-            String wordValue = document.get(IndexVectors.FIELD_WORD);
+            String wordValue = document.get(IndexVectors.FIELD_ID);
             observations.add(wordValue);
           }
           double intersection = Sets.intersection(truth, observations).size();
