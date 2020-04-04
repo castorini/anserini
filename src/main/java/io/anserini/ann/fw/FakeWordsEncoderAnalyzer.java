@@ -31,7 +31,7 @@ public class FakeWordsEncoderAnalyzer extends Analyzer {
 
   static final String REMOVE_IT = "_";
 
-  private static final int DEFAULT_Q = 60;
+  public static final int DEFAULT_Q = 80;
 
   private final int q;
 

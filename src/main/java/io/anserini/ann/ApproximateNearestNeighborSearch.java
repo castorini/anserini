@@ -26,6 +26,8 @@ import org.apache.lucene.index.Term;
 import org.apache.lucene.queries.CommonTermsQuery;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.ScoreDoc;
+import org.apache.lucene.search.TermQuery;
+import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.search.TopScoreDocCollector;
 import org.apache.lucene.search.similarities.ClassicSimilarity;
 import org.apache.lucene.store.Directory;
@@ -39,6 +41,8 @@ import org.kohsuke.args4j.ParserProperties;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Collection;
+import java.util.LinkedList;
 import java.util.Map;
 
 import static org.apache.lucene.search.BooleanClause.Occur.SHOULD;
@@ -48,7 +52,7 @@ public class ApproximateNearestNeighborSearch {
   private static final String LEXLSH = "lexlsh";
 
   public static final class Args {
-    @Option(name = "-input", metaVar = "[file]", required = true, usage = "word vectors model")
+    @Option(name = "-input", metaVar = "[file]", usage = "vectors model")
     public File input;
 
     @Option(name = "-path", metaVar = "[path]", required = true, usage = "index path")
@@ -56,6 +60,9 @@ public class ApproximateNearestNeighborSearch {
 
     @Option(name = "-word", metaVar = "[word]", required = true, usage = "input word")
     public String word;
+
+    @Option(name="-stored", metaVar = "[boolean]", usage = "fetch stored vectors from index")
+    public boolean stored;
 
     @Option(name = "-encoding", metaVar = "[word]", required = true, usage = "encoding must be one of {fw, lexlsh}")
     public String encoding;
@@ -114,9 +121,10 @@ public class ApproximateNearestNeighborSearch {
       return;
     }
 
-    System.out.println(String.format("Loading model %s", indexArgs.input));
-
-    Map<String, float[]> wordVectors = IndexVectors.readGloVe(indexArgs.input);
+    if (!indexArgs.stored && indexArgs.input == null) {
+      System.err.println("Either -path or -stored args must be set");
+      return;
+    }
 
     Path indexDir = indexArgs.path;
     if (!Files.exists(indexDir)) {
@@ -132,39 +140,59 @@ public class ApproximateNearestNeighborSearch {
       searcher.setSimilarity(new ClassicSimilarity());
     }
 
-    float[] vector = wordVectors.get(indexArgs.word);
-    StringBuilder sb = new StringBuilder();
-    for (double fv : vector) {
-      if (sb.length() > 0) {
-        sb.append(' ');
+    Collection<String> vectors = new LinkedList<>();
+    if (indexArgs.stored) {
+      TopDocs topDocs = searcher.search(new TermQuery(new Term(IndexVectors.FIELD_ID, indexArgs.word)), indexArgs.depth);
+      for (ScoreDoc scoreDoc : topDocs.scoreDocs) {
+        vectors.add(reader.document(scoreDoc.doc).get(IndexVectors.FIELD_VECTOR));
       }
-      sb.append(fv);
-    }
-    CommonTermsQuery simQuery = new CommonTermsQuery(SHOULD, SHOULD, indexArgs.cutoff);
-    for (String token : AnalyzerUtils.analyze(vectorAnalyzer, sb.toString())) {
-      simQuery.add(new Term(IndexVectors.FIELD_VECTOR, token));
-    }
-    if (indexArgs.msm > 0) {
-      simQuery.setHighFreqMinimumNumberShouldMatch(indexArgs.msm);
-      simQuery.setLowFreqMinimumNumberShouldMatch(indexArgs.msm);
+    } else {
+      System.out.println(String.format("Loading model %s", indexArgs.input));
+
+      Map<String, float[]> wordVectors = IndexVectors.readGloVe(indexArgs.input);
+
+      if (wordVectors.containsKey(indexArgs.word)) {
+        float[] vector = wordVectors.get(indexArgs.word);
+        StringBuilder sb = new StringBuilder();
+        for (double fv : vector) {
+          if (sb.length() > 0) {
+            sb.append(' ');
+          }
+          sb.append(fv);
+        }
+        String vectorString = sb.toString();
+        vectors.add(vectorString);
+      }
     }
 
-    long start = System.currentTimeMillis();
-    TopScoreDocCollector results = TopScoreDocCollector.create(indexArgs.depth, Integer.MAX_VALUE);
-    searcher.search(simQuery, results);
-    long time = System.currentTimeMillis() - start;
+    for (String vectorString : vectors) {
+      float msm = indexArgs.msm;
+      float cutoff = indexArgs.cutoff;
+      CommonTermsQuery simQuery = new CommonTermsQuery(SHOULD, SHOULD, cutoff);
+      for (String token : AnalyzerUtils.analyze(vectorAnalyzer, vectorString)) {
+        simQuery.add(new Term(IndexVectors.FIELD_VECTOR, token));
+      }
+      if (msm > 0) {
+        simQuery.setHighFreqMinimumNumberShouldMatch(msm);
+        simQuery.setLowFreqMinimumNumberShouldMatch(msm);
+      }
 
-    System.out.println(String.format("%d nearest neighbors of '%s':", indexArgs.depth, indexArgs.word));
+      long start = System.currentTimeMillis();
+      TopScoreDocCollector results = TopScoreDocCollector.create(indexArgs.depth, Integer.MAX_VALUE);
+      searcher.search(simQuery, results);
+      long time = System.currentTimeMillis() - start;
 
-    int rank = 1;
-    for (ScoreDoc sd : results.topDocs().scoreDocs) {
-      Document document = reader.document(sd.doc);
-      String word = document.get(IndexVectors.FIELD_WORD);
-      System.out.println(String.format("%d. %s (%.3f)", rank, word, sd.score));
-      rank++;
+      System.out.println(String.format("%d nearest neighbors of '%s':", indexArgs.depth, indexArgs.word));
+
+      int rank = 1;
+      for (ScoreDoc sd : results.topDocs().scoreDocs) {
+        Document document = reader.document(sd.doc);
+        String word = document.get(IndexVectors.FIELD_ID);
+        System.out.println(String.format("%d. %s (%.3f)", rank, word, sd.score));
+        rank++;
+      }
+      System.out.println(String.format("Search time: %dms", time));
     }
-    System.out.println(String.format("Search time: %dms", time));
-
     reader.close();
     d.close();
   }
