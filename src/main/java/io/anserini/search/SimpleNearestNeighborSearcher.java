@@ -70,7 +70,7 @@ public class SimpleNearestNeighborSearcher {
     for (ScoreDoc scoreDoc : wordDocs.scoreDocs) {
       Document doc = searcher.doc(scoreDoc.doc);
       String vector = doc.get(IndexVectors.FIELD_VECTOR);
-      CommonTermsQuery simQuery = new CommonTermsQuery(SHOULD, SHOULD, 0);
+      CommonTermsQuery simQuery = new CommonTermsQuery(SHOULD, SHOULD, 0.9999f);
       List<String> tokens = AnalyzerUtils.analyze(analyzer, vector);
       for (String token : tokens) {
         simQuery.add(new Term(IndexVectors.FIELD_VECTOR, token));
