@@ -411,6 +411,35 @@ public class IndexReaderUtils {
     }
   }
 
+
+  /**
+   * Returns the Lucene document based on some field beside its unique collection docid. For example, scientific
+   * articles might have DOIs.
+   *
+   * @param reader index reader
+   * @param field field
+   * @param query id to search
+   * @return the Lucene document
+   */
+  public static Document documentByField(IndexReader reader, String field, String query) {
+    try {
+      IndexSearcher searcher = new IndexSearcher(reader);
+      Query q = new TermQuery(new Term(field, query));
+      TopDocs rs = searcher.search(q, 1);
+      ScoreDoc[] hits = rs.scoreDocs;
+
+      if (hits == null || hits.length == 0) {
+        // Silently eat the error and return -1
+        return null;
+      }
+
+      return reader.document(hits[0].doc);
+    } catch (IOException e) {
+      // Silently eat the error and return null
+      return null;
+    }
+  }
+
   /**
    * Computes the BM25 weight of a term (prior to analysis) in a particular document.
    *
