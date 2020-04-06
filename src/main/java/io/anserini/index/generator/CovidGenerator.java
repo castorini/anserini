@@ -54,7 +54,6 @@ public class CovidGenerator implements LuceneDocumentGenerator<CovidCollectionDo
     AUTHORS("authors"),
     AUTHOR_STRING("author_string"),
     ABSTRACT("abstract"),
-    TITLE_ABSTRACT("title_abstract"),
     JOURNAL("journal"),
     PUBLISH_TIME("publish_time"),
     YEAR("year"),
@@ -120,8 +119,6 @@ public class CovidGenerator implements LuceneDocumentGenerator<CovidCollectionDo
     // normal fields
     doc.add(new Field(CovidField.TITLE.name, covidDoc.record().get(CovidField.TITLE.name), fieldType));
     doc.add(new Field(CovidField.ABSTRACT.name, covidDoc.record().get(CovidField.ABSTRACT.name), fieldType));
-    doc.add(new Field(CovidField.TITLE_ABSTRACT.name, covidDoc.record().get(CovidField.TITLE.name) + " " +
-      covidDoc.record().get(CovidField.ABSTRACT.name), fieldType));
 
     // string fields
     doc.add(new StringField(CovidField.SHA.name, covidDoc.record().get(CovidField.SHA.name), Field.Store.YES));

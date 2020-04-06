@@ -90,11 +90,11 @@ public class CovidParagraphCollection extends DocumentCollection<CovidParagraphC
         record = iterator.next();
         String recordFullText = "";
 
-        // get paragraphs from ful text file
-        if (record.get("has_full_text").contains("True")) {
+        // get paragraphs from full text file
+        if (record.get("has_pdf_parse").contains("True")) {
           String[] hashes = record.get("sha").split(";");
-          String fullTextPath = "/" + record.get("full_text_file") + "/" + hashes[hashes.length - 1].strip() + ".json";
-
+          String fullTextPath = "/" + record.get("full_text_file") + "/pdf_json/" +
+            hashes[hashes.length - 1].strip() + ".json";
           try {
             String recordFullTextPath = CovidParagraphCollection.this.path.toString() + fullTextPath;
             recordFullText = new String(Files.readAllBytes(Paths.get(recordFullTextPath)));
@@ -135,9 +135,9 @@ public class CovidParagraphCollection extends DocumentCollection<CovidParagraphC
   public class Document extends CovidCollectionDocument {
     public Document(CSVRecord record, String paragraph, Integer paragraphNumber, String recordFullText) {
       if (paragraphNumber == 0) {
-        id = Long.toString(record.getRecordNumber());
+        id = record.get("cord_uid");
       } else {
-        id = Long.toString(record.getRecordNumber()) + "." + String.format("%05d", paragraphNumber);
+        id = record.get("cord_uid") + "." + String.format("%05d", paragraphNumber);
       }
 
       content = record.get("title").replace("\n", " ");

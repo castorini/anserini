@@ -32,7 +32,7 @@ import org.apache.lucene.analysis.shingle.ShingleFilter;
  */
 public class LexicalLshAnalyzer extends Analyzer {
 
-  private static final int DEFAULT_SHINGLE_SIZE = 5;
+  private static final int DEFAULT_SHINGLE_SIZE = 2;
   private static final int DEFAULT_DECIMALS = 1;
 
   private final int min;
