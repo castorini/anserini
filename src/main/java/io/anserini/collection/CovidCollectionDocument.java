@@ -26,7 +26,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-public abstract class CovidCollectionDocument extends SourceDocument {
+public abstract class CovidCollectionDocument implements SourceDocument {
   private static final Logger LOG = LogManager.getLogger(CovidCollectionDocument.class);
   protected String id;
   protected String content;
@@ -34,12 +34,13 @@ public abstract class CovidCollectionDocument extends SourceDocument {
   protected CSVRecord record;
 
   protected final String getFullTextJson(String basePath) {
-    if (!record.get("has_full_text").contains("True")) {
+    if (!record.get("has_pdf_parse").contains("True")) {
       return null;
     }
 
     String[] hashes = record.get("sha").split(";");
-    String fullTextPath = "/" + record.get("full_text_file") + "/" + hashes[hashes.length - 1].strip() + ".json";
+    String fullTextPath = "/" + record.get("full_text_file") + "/pdf_json/" +
+      hashes[hashes.length - 1].strip() + ".json";
     String fullTextJson = null;
     try {
       fullTextJson = new String(Files.readAllBytes(
@@ -67,18 +68,18 @@ public abstract class CovidCollectionDocument extends SourceDocument {
   }
 
   @Override
-  public String content() {
+  public String contents() {
     return content;
-  }
-
-  @Override
-  public boolean indexable() {
-    return true;
   }
 
   @Override
   public String raw() {
     return raw;
+  }
+
+  @Override
+  public boolean indexable() {
+    return true;
   }
 
   public CSVRecord record() {

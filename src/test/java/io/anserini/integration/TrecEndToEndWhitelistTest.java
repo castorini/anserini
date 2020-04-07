@@ -18,7 +18,6 @@ package io.anserini.integration;
 
 import io.anserini.collection.TrecCollection;
 import io.anserini.index.IndexArgs;
-import io.anserini.index.generator.JsoupGenerator;
 
 import java.util.Map;
 
@@ -29,7 +28,6 @@ public class TrecEndToEndWhitelistTest extends EndToEndTest {
 
     indexArgs.input = "src/test/resources/sample_docs/trec/collection2";
     indexArgs.collectionClass = TrecCollection.class.getSimpleName();
-    indexArgs.generatorClass = JsoupGenerator.class.getSimpleName();
     indexArgs.whitelist = "src/test/resources/sample_docs/trec/collection2/whitelist.txt";
     // With a whitelist, we're only indexing DOC222
 

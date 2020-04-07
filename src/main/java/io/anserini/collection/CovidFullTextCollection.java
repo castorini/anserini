@@ -26,9 +26,7 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Set;
@@ -105,7 +103,7 @@ public class CovidFullTextCollection extends DocumentCollection<CovidFullTextCol
    */
   public class Document extends CovidCollectionDocument {
     public Document(CSVRecord record) {
-      id = Long.toString(record.getRecordNumber());
+      id = record.get("cord_uid");
       content = record.get("title").replace("\n", " ");
       content += record.get("abstract").isEmpty() ? "" : "\n" + record.get("abstract");
       this.record = record;

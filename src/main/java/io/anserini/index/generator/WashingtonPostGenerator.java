@@ -19,7 +19,6 @@ package io.anserini.index.generator;
 import io.anserini.collection.WashingtonPostCollection;
 import io.anserini.collection.WashingtonPostCollection.Document.WashingtonPostObject;
 import io.anserini.index.IndexArgs;
-import io.anserini.index.IndexCollection;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.FieldType;
@@ -37,8 +36,10 @@ import java.util.List;
 /**
  * Converts a {@link WashingtonPostCollection.Document} into a Lucene {@link Document}, ready to be indexed.
  */
-public class WashingtonPostGenerator extends LuceneDocumentGenerator<WashingtonPostCollection.Document> {
+public class WashingtonPostGenerator implements LuceneDocumentGenerator<WashingtonPostCollection.Document> {
   public static final List<String> CONTENT_TYPE_TAG = Arrays.asList("sanitized_html", "tweet");
+
+  private IndexArgs args;
 
   public enum WashingtonPostField {
     AUTHOR("author"),
@@ -55,8 +56,8 @@ public class WashingtonPostGenerator extends LuceneDocumentGenerator<WashingtonP
     }
   }
   
-  public WashingtonPostGenerator(IndexArgs args, IndexCollection.Counters counters) {
-    super(args, counters);
+  public WashingtonPostGenerator(IndexArgs args) {
+    this.args = args;
   }
   
   public static String removeTags(String content) {
@@ -64,12 +65,11 @@ public class WashingtonPostGenerator extends LuceneDocumentGenerator<WashingtonP
   }
 
   @Override
-  public Document createDocument(WashingtonPostCollection.Document src) {
+  public Document createDocument(WashingtonPostCollection.Document src) throws GeneratorException {
     String id = src.id();
 
-    if (src.content().trim().isEmpty()) {
-      counters.empty.incrementAndGet();
-      return null;
+    if (src.contents().trim().isEmpty()) {
+      throw new EmptyDocumentException();
     }
 
     Document doc = new Document();
@@ -113,13 +113,13 @@ public class WashingtonPostGenerator extends LuceneDocumentGenerator<WashingtonP
       }
     });
 
-    if (args.storeRawDocs) { // store the raw json string as one single field
+    if (args.storeRaw) { // store the raw json string as one single field
       doc.add(new StoredField(IndexArgs.RAW, src.getContent()));
     }
 
     FieldType fieldType = new FieldType();
 
-    fieldType.setStored(args.storeTransformedDocs);
+    fieldType.setStored(args.storeContents);
 
     // Are we storing document vectors?
     if (args.storeDocvectors) {

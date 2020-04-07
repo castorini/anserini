@@ -11,7 +11,7 @@ collections:
       index_options:
         - -storePositions
         - -storeDocvectors
-        - -storeRawDocs
+        - -storeRaw
       collection: TrecCollection
       generator: JsoupGenerator
       topic_reader: Trec
@@ -44,7 +44,7 @@ collections:
       index_options:
         - -storePositions
         - -storeDocvectors
-        - -storeRawDocs
+        - -storeRaw
       collection: ClueWeb09Collection
       generator: JsoupGenerator
       topic_reader: Webxml

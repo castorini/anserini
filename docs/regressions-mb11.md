@@ -14,7 +14,7 @@ Indexing the Tweets2011 collection:
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection TweetCollection -input /path/to/mb11 \
  -index lucene-index.mb11.pos+docvectors+rawdocs -generator TweetGenerator -threads 44 \
- -storePositions -storeDocvectors -storeRawDocs -uniqueDocid -tweet.keepUrls -tweet.stemming >& log.mb11.pos+docvectors+rawdocs &
+ -storePositions -storeDocvectors -storeRaw -uniqueDocid -tweet.keepUrls -tweet.stemming >& log.mb11.pos+docvectors+rawdocs &
 ```
 
 More available indexing options:

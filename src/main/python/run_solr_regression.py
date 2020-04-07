@@ -82,19 +82,28 @@ class SolrClient:
         if collection == 'core18':
             command = 'sh target/appassembler/bin/IndexCollection -collection WashingtonPostCollection ' + \
                       '-generator WashingtonPostGenerator -solr -solr.index core18 -solr.zkUrl localhost:9983 ' + \
-                      '-threads 8 -input ' + path + ' -storePositions -storeDocvectors -storeTransformedDocs'
+                      '-threads 8 -input ' + path + ' -storePositions -storeDocvectors -storeContents'
         elif collection == 'robust04':
             command = 'sh target/appassembler/bin/IndexCollection -collection TrecCollection ' + \
-                      '-generator JsoupGenerator -solr -solr.index robust04 -solr.zkUrl localhost:9983 ' + \
-                      '-threads 8 -input ' + path + ' -storePositions -storeDocvectors -storeRawDocs'
+                      '-generator DefaultLuceneDocumentGenerator -solr -solr.index robust04 -solr.zkUrl localhost:9983 ' + \
+                      '-threads 8 -input ' + path + ' -storePositions -storeDocvectors -storeRaw'
         elif collection == 'msmarco-passage':
             command = 'sh target/appassembler/bin/IndexCollection -collection JsonCollection ' + \
+<<<<<<< HEAD
                       '-generator JsoupGenerator -solr -solr.index msmarco-passage -solr.zkUrl localhost:9983 ' + \
                       '-threads 8 -input ' + path + ' -storePositions -storeDocvectors -storeRawDocs'
         elif collection == 'msmarco-doc':
             command = 'sh target/appassembler/bin/IndexCollection -collection TrecCollection ' + \
                       '-generator LuceneDocumentGenerator -solr -solr.index msmarco-doc -solr.zkUrl localhost:9983 ' + \
                       '-threads 8 -input ' + path + ' -storePositions -storeDocvectors -storeRawDocs'
+=======
+                      '-generator DefaultLuceneDocumentGenerator -solr -solr.index msmarco-passage -solr.zkUrl localhost:9983 ' + \
+                      '-threads 8 -input ' + path + ' -storePositions -storeDocvectors -storeRaw'
+        elif collection == 'msmarco-doc':
+            command = 'sh target/appassembler/bin/IndexCollection -collection TrecCollection ' + \
+                      '-generator DefaultLuceneDocumentGenerator -solr -solr.index msmarco-doc -solr.zkUrl localhost:9983 ' + \
+                      '-threads 8 -input ' + path + ' -storePositions -storeDocvectors -storeRaw'
+>>>>>>> 9a28a098dfd85366be29a6feb385c9e2493f988c
         else:
             raise Exception('Unknown collection: {}'.format(collection))
         logger.info('Running indexing command: ' + command)

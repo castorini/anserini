@@ -48,7 +48,7 @@ public class TrecwebCollection extends DocumentCollection<TrecwebCollection.Docu
 
     @Override
     public void readNext() throws IOException, ParseException {
-        readNextRecord(bufferedReader);
+      readNextRecord(bufferedReader);
     }
 
     private void readNextRecord(BufferedReader reader) throws IOException, ParseException {
@@ -95,7 +95,7 @@ public class TrecwebCollection extends DocumentCollection<TrecwebCollection.Docu
 
       if (j < i) throw new ParseException(Document.TERMINATING_DOCHDR + " comes before " + Document.DOCHDR, 0);
 
-      bufferedRecord.content = builder.substring(j + Document.TERMINATING_DOCHDR.length()).trim();
+      bufferedRecord.raw = builder.substring(j + Document.TERMINATING_DOCHDR.length()).trim();
     }
   }
 
@@ -103,9 +103,7 @@ public class TrecwebCollection extends DocumentCollection<TrecwebCollection.Docu
    * A document from a classic TREC web collection (e.g., Gov2).
    */
   public static class Document extends TrecCollection.Document {
-
     private static final String DOCHDR = "<DOCHDR>";
     private static final String TERMINATING_DOCHDR = "</DOCHDR>";
-
   }
 }

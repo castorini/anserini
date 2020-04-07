@@ -16,15 +16,8 @@
 
 package io.anserini.index.generator;
 
-import io.anserini.index.IndexArgs;
-import io.anserini.index.IndexCollection;
-import io.anserini.index.transform.JsoupStringTransform;
-
-public class JsoupGenerator extends LuceneDocumentGenerator {
-  public JsoupGenerator() {
-    super(new JsoupStringTransform());
-  }
-  public JsoupGenerator(IndexArgs args, IndexCollection.Counters counters) {
-    super(new JsoupStringTransform(), args, counters);
-  }
+/**
+ * The root class of all exceptions that indicate abnormal behavior by {@link LuceneDocumentGenerator}.
+ */
+public class GeneratorException extends Exception {
 }

@@ -40,8 +40,11 @@ import java.io.StringReader;
 /**
  * Converts a {@link CovidCollectionDocument} into a Lucene {@link Document}, ready to be indexed.
  */
-public class CovidGenerator extends LuceneDocumentGenerator<CovidCollectionDocument> {
+public class CovidGenerator implements LuceneDocumentGenerator<CovidCollectionDocument> {
   private static final Logger LOG = LogManager.getLogger(CovidGenerator.class);
+
+  private IndexCollection.Counters counters;
+  private IndexArgs args;
 
   public enum CovidField {
     SHA("sha"),
@@ -51,7 +54,6 @@ public class CovidGenerator extends LuceneDocumentGenerator<CovidCollectionDocum
     AUTHORS("authors"),
     AUTHOR_STRING("author_string"),
     ABSTRACT("abstract"),
-    TITLE_ABSTRACT("title_abstract"),
     JOURNAL("journal"),
     PUBLISH_TIME("publish_time"),
     YEAR("year"),
@@ -70,13 +72,14 @@ public class CovidGenerator extends LuceneDocumentGenerator<CovidCollectionDocum
   }
 
   public CovidGenerator(IndexArgs args, IndexCollection.Counters counters) {
-    super(args, counters);
+    this.args = args;
+    this.counters = counters;
   }
 
   @Override
   public Document createDocument(CovidCollectionDocument covidDoc) {
     String id = covidDoc.id();
-    String content = covidDoc.content();
+    String content = covidDoc.contents();
     String raw = covidDoc.raw();
 
     if (content == null || content.trim().isEmpty()) {
@@ -91,12 +94,12 @@ public class CovidGenerator extends LuceneDocumentGenerator<CovidCollectionDocum
     // This is needed to break score ties by docid.
     doc.add(new SortedDocValuesField(IndexArgs.ID, new BytesRef(id)));
 
-    if (args.storeRawDocs) {
+    if (args.storeRaw) {
       doc.add(new StoredField(IndexArgs.RAW, raw));
     }
 
     FieldType fieldType = new FieldType();
-    fieldType.setStored(args.storeTransformedDocs);
+    fieldType.setStored(args.storeContents);
 
     // Are we storing document vectors?
     if (args.storeDocvectors) {
@@ -116,8 +119,6 @@ public class CovidGenerator extends LuceneDocumentGenerator<CovidCollectionDocum
     // normal fields
     doc.add(new Field(CovidField.TITLE.name, covidDoc.record().get(CovidField.TITLE.name), fieldType));
     doc.add(new Field(CovidField.ABSTRACT.name, covidDoc.record().get(CovidField.ABSTRACT.name), fieldType));
-    doc.add(new Field(CovidField.TITLE_ABSTRACT.name, covidDoc.record().get(CovidField.TITLE.name) + " " +
-      covidDoc.record().get(CovidField.ABSTRACT.name), fieldType));
 
     // string fields
     doc.add(new StringField(CovidField.SHA.name, covidDoc.record().get(CovidField.SHA.name), Field.Store.YES));
