@@ -66,7 +66,7 @@ sh target/appassembler/bin/IndexCollection \
   -collection CovidCollection -generator CovidGenerator \
   -threads 8 -input "${DATA_DIR}" \
   -index "${DATA_DIR}"/lucene-index-covid-"${DATE}" \
-  -storePositions -storeDocvectors -storeRawDocs -storeTransformedDocs
+  -storePositions -storeDocvectors -storeContents -storeRaw
 ```
 
 The output message should be something like this:
@@ -79,14 +79,14 @@ The `contents` field of each Lucene document is a concatenation of the article's
 
 ### Full-Text
 
-We can index the full text, with  `CovidFullTextCollection`, as follows:
+We can index the full text, with `CovidFullTextCollection`, as follows:
 
 ```bash
 sh target/appassembler/bin/IndexCollection \
   -collection CovidFullTextCollection -generator CovidGenerator \
   -threads 8 -input "${DATA_DIR}" \
   -index "${DATA_DIR}"/lucene-index-covid-full-text-"${DATE}" \
-  -storePositions -storeDocvectors -storeRawDocs -storeTransformedDocs
+  -storePositions -storeDocvectors -storeContents -storeRaw
 ```
 
 The output message should be something like this:
@@ -106,7 +106,7 @@ sh target/appassembler/bin/IndexCollection \
   -collection CovidParagraphCollection -generator CovidGenerator \
   -threads 8 -input "${DATA_DIR}" \
   -index "${DATA_DIR}"/lucene-index-covid-paragraph-"${DATE}" \
-  -storePositions -storeDocvectors -storeRawDocs -storeTransformedDocs
+  -storePositions -storeDocvectors -storeContents -storeRaw
 ```
 
 The output message should be something like this:

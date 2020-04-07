@@ -11,9 +11,9 @@ Note that this page is automatically generated from [this template](../src/main/
 Typical indexing command:
 
 ```
-nohup sh target/appassembler/bin/IndexCollection -collection TrecCollection -input /path/to/fire12-hi \
- -index lucene-index.fire12-hi.pos+docvectors+rawdocs -generator LuceneDocumentGenerator -threads 16 \
- -storePositions -storeDocvectors -storeRawDocs -language hi >& log.fire12-hi.pos+docvectors+rawdocs &
+nohup sh target/appassembler/bin/IndexCollection -collection CleanTrecCollection -input /path/to/fire12-hi \
+ -index lucene-index.fire12-hi.pos+docvectors+rawdocs -generator DefaultLuceneDocumentGenerator -threads 16 \
+ -storePositions -storeDocvectors -storeRaw -language hi >& log.fire12-hi.pos+docvectors+rawdocs &
 ```
 
 The directory `/path/to/fire12-hi/` should be a directory containing the collection, containing `hi_AmarUjala` and `hi_NavbharatTimes` directories.

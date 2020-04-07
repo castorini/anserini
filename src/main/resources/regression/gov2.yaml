@@ -11,14 +11,14 @@ input_roots:
   - /store/      # on orca
   - /scratch2/   # on damiano
 input: collections/web/gov2/gov2-corpus/
-index_path: indexes/lucene-index.gov2.pos+docvectors+rawdocs # path to the existing index, used in regression test if `--index` option is absent
+index_path: indexes/lucene-index.gov2.pos+docvectors+raw
 collection: TrecwebCollection
 threads: 44
-generator: JsoupGenerator
+generator: DefaultLuceneDocumentGenerator
 index_options:
   - -storePositions
   - -storeDocvectors
-  - -storeRawDocs
+  - -storeRaw
 topic_reader: Trec
 evals:
   - command: eval/trec_eval.9.0.4/trec_eval

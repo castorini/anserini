@@ -43,6 +43,6 @@ public class JsonCollectionErrorCheckingTest {
   public void missingContentField() throws IOException {
     JsonCollection.Document parsed = collection.createFileSegment(
         Paths.get("src/test/resources/sample_docs/json/collection_errors/contents_missing.json")).iterator().next();
-    parsed.content();
+    parsed.contents();
   }
 }

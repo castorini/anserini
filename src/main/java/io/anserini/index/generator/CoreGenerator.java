@@ -20,7 +20,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import io.anserini.analysis.DefaultEnglishAnalyzer;
 import io.anserini.collection.CoreCollection;
 import io.anserini.index.IndexArgs;
-import io.anserini.index.IndexCollection;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.CharArraySet;
 import org.apache.lucene.analysis.TokenStream;
@@ -40,7 +39,8 @@ import java.util.List;
 /**
  * Converts a {@link CoreCollection.Document} into a Lucene {@link Document}, ready to be indexed.
  */
-public class CoreGenerator extends LuceneDocumentGenerator<CoreCollection.Document> {
+public class CoreGenerator implements LuceneDocumentGenerator<CoreCollection.Document> {
+  private IndexArgs args;
 
   public enum CoreField {
     DOI("doi"),
@@ -88,18 +88,17 @@ public class CoreGenerator extends LuceneDocumentGenerator<CoreCollection.Docume
     CoreField.JOURNALS.name,
     CoreField.LANGUAGE.name);
 
-  public CoreGenerator(IndexArgs args, IndexCollection.Counters counters) {
-    super(args, counters);
+  public CoreGenerator(IndexArgs args) {
+    this.args = args;
   }
 
   @Override
-  public Document createDocument(CoreCollection.Document coreDoc) {
+  public Document createDocument(CoreCollection.Document coreDoc) throws GeneratorException {
     String id = coreDoc.id();
-    String content = coreDoc.content();
+    String content = coreDoc.contents();
 
     if (content == null || content.trim().isEmpty()) {
-      counters.empty.incrementAndGet();
-      return null;
+      throw new EmptyDocumentException();
     }
 
     Document doc = new Document();
@@ -109,12 +108,12 @@ public class CoreGenerator extends LuceneDocumentGenerator<CoreCollection.Docume
     // This is needed to break score ties by docid.
     doc.add(new SortedDocValuesField(IndexArgs.ID, new BytesRef(id)));
 
-    if (args.storeRawDocs) {
-      doc.add(new StoredField(IndexArgs.RAW, content));
+    if (args.storeRaw) {
+      doc.add(new StoredField(IndexArgs.RAW, coreDoc.raw()));
     }
 
     FieldType fieldType = new FieldType();
-    fieldType.setStored(args.storeTransformedDocs);
+    fieldType.setStored(args.storeContents);
 
     // Are we storing document vectors?
     if (args.storeDocvectors) {

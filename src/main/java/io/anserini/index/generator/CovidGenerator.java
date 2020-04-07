@@ -40,8 +40,11 @@ import java.io.StringReader;
 /**
  * Converts a {@link CovidCollectionDocument} into a Lucene {@link Document}, ready to be indexed.
  */
-public class CovidGenerator extends LuceneDocumentGenerator<CovidCollectionDocument> {
+public class CovidGenerator implements LuceneDocumentGenerator<CovidCollectionDocument> {
   private static final Logger LOG = LogManager.getLogger(CovidGenerator.class);
+
+  private IndexCollection.Counters counters;
+  private IndexArgs args;
 
   public enum CovidField {
     SHA("sha"),
@@ -69,13 +72,14 @@ public class CovidGenerator extends LuceneDocumentGenerator<CovidCollectionDocum
   }
 
   public CovidGenerator(IndexArgs args, IndexCollection.Counters counters) {
-    super(args, counters);
+    this.args = args;
+    this.counters = counters;
   }
 
   @Override
   public Document createDocument(CovidCollectionDocument covidDoc) {
     String id = covidDoc.id();
-    String content = covidDoc.content();
+    String content = covidDoc.contents();
     String raw = covidDoc.raw();
 
     if (content == null || content.trim().isEmpty()) {
@@ -90,12 +94,12 @@ public class CovidGenerator extends LuceneDocumentGenerator<CovidCollectionDocum
     // This is needed to break score ties by docid.
     doc.add(new SortedDocValuesField(IndexArgs.ID, new BytesRef(id)));
 
-    if (args.storeRawDocs) {
+    if (args.storeRaw) {
       doc.add(new StoredField(IndexArgs.RAW, raw));
     }
 
     FieldType fieldType = new FieldType();
-    fieldType.setStored(args.storeTransformedDocs);
+    fieldType.setStored(args.storeContents);
 
     // Are we storing document vectors?
     if (args.storeDocvectors) {

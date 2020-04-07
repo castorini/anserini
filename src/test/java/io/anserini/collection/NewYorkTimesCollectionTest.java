@@ -52,7 +52,7 @@ public class NewYorkTimesCollectionTest extends DocumentCollectionTest<NewYorkTi
 
     assertTrue(doc.indexable());
     assertEquals(expected.get("id"), nyt.id());
-    assertEquals(expected.get("content"), nyt.content());
+    assertEquals(expected.get("content"), nyt.contents());
     assertEquals(expected.get("content"), nyt.raw());
     assertEquals(expected.get("headline"), nyt.getRawDocument().getHeadline());
     assertEquals(expected.get("abstract"), nyt.getRawDocument().getArticleAbstract());

@@ -100,9 +100,9 @@ public class HtmlCollection extends DocumentCollection<HtmlCollection.Document> 
   /**
    * A generic document in {@code HtmlCollection}.
    */
-  public static class Document extends SourceDocument {
+  public static class Document implements SourceDocument {
     private String id;
-    private String contents;
+    private String raw;
 
     public Document(BufferedReader bRdr, String fileName) {
       StringBuilder sb = new StringBuilder();
@@ -111,7 +111,7 @@ public class HtmlCollection extends DocumentCollection<HtmlCollection.Document> 
         while ((line = bRdr.readLine()) != null) {
           sb.append(line).append("\n");
         }
-        this.contents = sb.toString();
+        this.raw = sb.toString();
         this.id = fileName;
       } catch (IOException e) {
         LOG.error("Error process file " + fileName);
@@ -125,8 +125,18 @@ public class HtmlCollection extends DocumentCollection<HtmlCollection.Document> 
     }
 
     @Override
-    public String content() {
-      return contents;
+    public String contents() {
+      try {
+        return JsoupStringTransform.SINGLETON.apply(raw).trim();
+      } catch (Exception e) {
+        // If there's an exception, just eat it and return empty contents.
+        return "";
+      }
+    }
+
+    @Override
+    public String raw() {
+      return raw;
     }
 
     @Override

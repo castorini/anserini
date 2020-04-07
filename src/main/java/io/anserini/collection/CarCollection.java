@@ -76,7 +76,7 @@ public class CarCollection extends DocumentCollection<CarCollection.Document> {
    * The paraID serves as the id.
    * See <a href="http://trec-car.cs.unh.edu/datareleases/">this reference</a> for details.
    */
-  public static class Document extends SourceDocument {
+  public static class Document implements SourceDocument {
     private final String paraID;
     private final String paragraph;
 
@@ -91,7 +91,12 @@ public class CarCollection extends DocumentCollection<CarCollection.Document> {
     }
 
     @Override
-    public String content() {
+    public String contents() {
+      return paragraph;
+    }
+
+    @Override
+    public String raw() {
       return paragraph;
     }
 

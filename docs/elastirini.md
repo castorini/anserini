@@ -40,7 +40,7 @@ Here, instead of passing in `-index` (to index with Lucene directly), we use `-e
 
 ```bash
 sh target/appassembler/bin/IndexCollection -collection TrecCollection -generator JsoupGenerator \
- -es -es.index robust04 -threads 16 -input /path/to/disk45 -storePositions -storeDocvectors -storeRawDocs
+ -es -es.index robust04 -threads 16 -input /path/to/disk45 -storePositions -storeDocvectors -storeRaw
 ```
 
 We can then run the following command to replicate Anserini BM25 retrieval:
@@ -73,7 +73,7 @@ Indexing:
 
 ```bash
 sh target/appassembler/bin/IndexCollection -collection JsonCollection -generator JsoupGenerator \
- -es -es.index msmarco-passage -threads 9 -input /path/to/msmarco-passage -storePositions -storeDocvectors -storeRawDocs
+ -es -es.index msmarco-passage -threads 9 -input /path/to/msmarco-passage -storePositions -storeDocvectors -storeRaw
 ```
 
 We may need to wait a few minutes after indexing for the index to catch up before performing retrieval, otherwise wrong evaluation metrics are returned.
@@ -107,7 +107,7 @@ Indexing:
 
 ```bash
 sh target/appassembler/bin/IndexCollection -collection WashingtonPostCollection -generator WashingtonPostGenerator \
- -es -es.index core18 -threads 8 -input /path/to/WashingtonPost -storePositions -storeDocvectors -storeTransformedDocs
+ -es -es.index core18 -threads 8 -input /path/to/WashingtonPost -storePositions -storeDocvectors -storeContents
 ```
 
 We may need to wait a few minutes after indexing for the index to catch up before performing retrieval, otherwise wrong evaluation metrics are returned.
