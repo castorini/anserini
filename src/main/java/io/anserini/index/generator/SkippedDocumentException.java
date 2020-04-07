@@ -19,6 +19,6 @@ package io.anserini.index.generator;
 /**
  * Exception indicating that a document has been skipped by a {@link LuceneDocumentGenerator}.
  */
-public class SkippedDocumentException  extends GeneratorExpection {
+public class SkippedDocumentException  extends GeneratorException {
 }
 

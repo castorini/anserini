@@ -20,7 +20,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import io.anserini.analysis.DefaultEnglishAnalyzer;
 import io.anserini.collection.CoreCollection;
 import io.anserini.index.IndexArgs;
-import io.anserini.index.IndexCollection;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.CharArraySet;
 import org.apache.lucene.analysis.TokenStream;
@@ -94,7 +93,7 @@ public class CoreGenerator implements LuceneDocumentGenerator<CoreCollection.Doc
   }
 
   @Override
-  public Document createDocument(CoreCollection.Document coreDoc) throws GeneratorExpection {
+  public Document createDocument(CoreCollection.Document coreDoc) throws GeneratorException {
     String id = coreDoc.id();
     String content = coreDoc.contents();
 

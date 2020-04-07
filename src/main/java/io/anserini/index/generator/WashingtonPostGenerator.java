@@ -65,7 +65,7 @@ public class WashingtonPostGenerator implements LuceneDocumentGenerator<Washingt
   }
 
   @Override
-  public Document createDocument(WashingtonPostCollection.Document src) throws GeneratorExpection {
+  public Document createDocument(WashingtonPostCollection.Document src) throws GeneratorException {
     String id = src.id();
 
     if (src.contents().trim().isEmpty()) {

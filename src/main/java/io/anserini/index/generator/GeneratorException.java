@@ -19,5 +19,5 @@ package io.anserini.index.generator;
 /**
  * The root class of all exceptions that indicate abnormal behavior by {@link LuceneDocumentGenerator}.
  */
-public class GeneratorExpection extends Exception {
+public class GeneratorException extends Exception {
 }

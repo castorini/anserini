@@ -19,7 +19,6 @@ package io.anserini.index.generator;
 import io.anserini.analysis.DefaultEnglishAnalyzer;
 import io.anserini.collection.BibtexCollection;
 import io.anserini.index.IndexArgs;
-import io.anserini.index.IndexCollection;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.CharArraySet;
 import org.apache.lucene.analysis.TokenStream;
@@ -85,7 +84,7 @@ public class BibtexGenerator implements LuceneDocumentGenerator<BibtexCollection
   }
 
   @Override
-  public Document createDocument(BibtexCollection.Document bibtexDoc) throws GeneratorExpection {
+  public Document createDocument(BibtexCollection.Document bibtexDoc) throws GeneratorException {
     String id = bibtexDoc.id();
     String content = bibtexDoc.contents();
     String type = bibtexDoc.type();

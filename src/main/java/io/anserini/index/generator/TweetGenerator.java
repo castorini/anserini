@@ -105,7 +105,7 @@ public class TweetGenerator implements LuceneDocumentGenerator<TweetCollection.D
   }
 
   @Override
-  public Document createDocument(TweetCollection.Document tweetDoc) throws GeneratorExpection {
+  public Document createDocument(TweetCollection.Document tweetDoc) throws GeneratorException {
     String id = tweetDoc.id();
 
     if (tweetDoc.contents().trim().isEmpty()) {

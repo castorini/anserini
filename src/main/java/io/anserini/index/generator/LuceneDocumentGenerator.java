@@ -25,5 +25,5 @@ import org.apache.lucene.document.Document;
  * @param <T> type of the source document
  */
 public interface LuceneDocumentGenerator<T extends SourceDocument> {
-  Document createDocument(T src) throws GeneratorExpection;
+  Document createDocument(T src) throws GeneratorException;
 }

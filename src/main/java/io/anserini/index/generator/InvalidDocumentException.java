@@ -20,5 +20,5 @@ package io.anserini.index.generator;
  * Exception indicating that an error has been encountered by the {@link LuceneDocumentGenerator} when processing a
  * source document.
  */
-public class InvalidDocumentException  extends GeneratorExpection {
+public class InvalidDocumentException  extends GeneratorException {
 }

@@ -20,7 +20,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import io.anserini.analysis.DefaultEnglishAnalyzer;
 import io.anserini.collection.AclAnthology;
 import io.anserini.index.IndexArgs;
-import io.anserini.index.IndexCollection;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.CharArraySet;
 import org.apache.lucene.analysis.TokenStream;
@@ -90,7 +89,7 @@ public class AclAnthologyGenerator implements LuceneDocumentGenerator<AclAntholo
   }
 
   @Override
-  public Document createDocument(AclAnthology.Document aclDoc) throws GeneratorExpection {
+  public Document createDocument(AclAnthology.Document aclDoc) throws GeneratorException {
     String id = aclDoc.id();
     String content = aclDoc.contents();
 

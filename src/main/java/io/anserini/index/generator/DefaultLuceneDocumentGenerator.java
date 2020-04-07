@@ -47,7 +47,7 @@ public class DefaultLuceneDocumentGenerator<T extends SourceDocument> implements
   }
 
   @Override
-  public Document createDocument(T src) throws GeneratorExpection {
+  public Document createDocument(T src) throws GeneratorException {
     String id = src.id();
     String contents;
 
