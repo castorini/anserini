@@ -110,7 +110,7 @@ public class WashingtonPostCollection extends DocumentCollection<WashingtonPostC
   /**
    * A document from the <a href="https://trec.nist.gov/data/wapost/">TREC Washington Post Corpus</a>.
    */
-  public static class Document extends SourceDocument {
+  public static class Document implements SourceDocument {
     private static final Logger LOG = LogManager.getLogger(Document.class);
 
     // Required fields
@@ -128,7 +128,12 @@ public class WashingtonPostCollection extends DocumentCollection<WashingtonPostC
     }
 
     @Override
-    public String content() {
+    public String contents() {
+      return content;
+    }
+
+    @Override
+    public String raw() {
       return content;
     }
 

@@ -24,7 +24,6 @@ import com.fasterxml.jackson.databind.node.TextNode;
 import io.anserini.analysis.DefaultEnglishAnalyzer;
 import io.anserini.collection.CoreCollection;
 import io.anserini.index.IndexArgs;
-import io.anserini.index.IndexCollection;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.CharArraySet;
 import org.apache.lucene.document.Document;
@@ -32,18 +31,14 @@ import org.apache.lucene.document.IntPoint;
 import org.apache.lucene.document.StringField;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
 
 import java.io.StringReader;
 
 import static org.junit.Assert.assertEquals;
 
 public class CoreGeneratorTest {
-  CoreCollection.Document coreDoc;
-  Document doc;
-
-  @Mock
-  IndexCollection.Counters counters;
+  private CoreCollection.Document coreDoc;
+  private Document doc;
 
   @Before
   public void setUp() throws Exception {
@@ -77,12 +72,12 @@ public class CoreGeneratorTest {
 
     coreDoc = new CoreCollection.Document(coreJsonObj);
 
-    CoreGenerator generator = new CoreGenerator(new IndexArgs(), counters);
+    CoreGenerator generator = new CoreGenerator(new IndexArgs());
     doc = generator.createDocument(coreDoc);
   }
 
   @Test
-  public void testDocumentFields() throws Exception {
+  public void testDocumentFields() {
     // test proper id and contents field generated from CoreCollection
     assertEquals("doi_text", doc.getField(IndexArgs.ID).stringValue());
     assertEquals("every startup ever machine learning blockchain quantum vr",
@@ -107,7 +102,6 @@ public class CoreGeneratorTest {
     Analyzer nonStemmingAnalyzer = DefaultEnglishAnalyzer.newNonStemmingInstance(CharArraySet.EMPTY_SET);
     CoreGenerator.FIELDS_WITHOUT_STEMMING.forEach(field -> {
       String fieldString = coreDoc.jsonNode().get(field).toString();
-      fieldString.replace("[", "").replace("]", "");
 
       assertEquals(nonStemmingAnalyzer.tokenStream(null, new StringReader(fieldString)),
         doc.getField(field).tokenStream(null, null));

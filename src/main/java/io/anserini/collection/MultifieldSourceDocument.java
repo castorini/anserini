@@ -18,7 +18,7 @@ package io.anserini.collection;
 
 import java.util.Map;
 
-public abstract class MultifieldSourceDocument extends SourceDocument {
+public abstract class MultifieldSourceDocument implements SourceDocument {
   /**
    * Returns a map of fields associated with this document.
    *

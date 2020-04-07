@@ -1,0 +1,12 @@
+<DOC>
+<DOCNO>doc1</DOCNO>
+<TEXT>
+here is a bit of text, and the <p>tags should not be removed.</p>
+</TEXT>
+</DOC>
+<!-- This doc below is the NTCIR-8 variant -->
+<DOC id="doc2">
+<TEXT>
+here is some text.
+</TEXT>
+</DOC>

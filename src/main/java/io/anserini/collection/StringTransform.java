@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.anserini.index.transform;
+package io.anserini.collection;
 
 import java.util.function.UnaryOperator;
 

@@ -14,16 +14,11 @@
  * limitations under the License.
  */
 
-package io.anserini.index.transform;
-
-import org.jsoup.Jsoup;
+package io.anserini.index.generator;
 
 /**
- * String transform that uses Jsoup to extract plain text out of HTML documents.
+ * Exception indicating that a document has been skipped by a {@link LuceneDocumentGenerator}.
  */
-public class JsoupStringTransform extends StringTransform {
-  @Override
-  public String apply(String s) {
-    return Jsoup.parse(s).text();
-  }
+public class SkippedDocumentException  extends GeneratorException {
 }
+

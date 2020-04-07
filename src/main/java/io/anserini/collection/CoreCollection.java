@@ -113,7 +113,7 @@ public class CoreCollection extends DocumentCollection<CoreCollection.Document> 
   /**
    * A document in a Core collection.
    */
-  public static class Document extends SourceDocument {
+  public static class Document implements SourceDocument {
     private String id;
     private String contents;
     private JsonNode jsonNode;
@@ -131,7 +131,12 @@ public class CoreCollection extends DocumentCollection<CoreCollection.Document> 
     }
 
     @Override
-    public String content() {
+    public String contents() {
+      return contents;
+    }
+
+    @Override
+    public String raw() {
       return contents;
     }
 

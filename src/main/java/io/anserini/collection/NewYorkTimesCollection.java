@@ -128,7 +128,7 @@ public class NewYorkTimesCollection extends DocumentCollection<NewYorkTimesColle
    * A document from the <a href="https://catalog.ldc.upenn.edu/products/LDC2008T19">New York Times
    * Annotated Corpus</a>.
    */
-  public static class Document extends SourceDocument {
+  public static class Document implements SourceDocument {
     private final RawDocument raw;
     private String id;
     private String contents;
@@ -144,7 +144,12 @@ public class NewYorkTimesCollection extends DocumentCollection<NewYorkTimesColle
     }
 
     @Override
-    public String content() {
+    public String contents() {
+      return contents;
+    }
+
+    @Override
+    public String raw() {
       return contents;
     }
 
