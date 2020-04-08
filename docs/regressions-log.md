@@ -3,9 +3,20 @@
 The following change log details commits to regression tests that alter effectiveness and the addition of new regression tests.
 This documentation is useful for figuring why results may have changed over time.
 
+### April 7, 2020
+
++ commit [`9a28a0`](https://github.com/castorini/anserini/commit/9a28a098dfd85366be29a6feb385c9e2493f988c) (04/07/2020)
+
+Regression for Core17 (New York Times) changed as the result of a bug fix.
+Previously, the `NewYorkTimesCollection` was indexed with `JsoupGenerator` as the generator, which assumes that the input is HTML (or XML) and removes tags.
+However, this was unnecessary, because the collection implementation already removes tags internally.
+As a result, angle brackets in the text were interpreted as tags and removed.
+Fixing this bug increased the number of terms in the collection (and a document that was previously empty before is no longer empty).
+However, effectiveness decreased slightly.
+
 ### March 6, 2020
 
-+ commit [`a62004`](https://github.com/castorini/anserini/commit/10ff01a429bbfca196c8a012f1577b09ea476d8a) (03/06/2020)
++ commit [`10ff01`](https://github.com/castorini/anserini/commit/10ff01a429bbfca196c8a012f1577b09ea476d8a) (03/06/2020)
 
 Added regressions for background linking task from the TREC 2018 and 2019 News Tracks.
 
