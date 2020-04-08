@@ -202,7 +202,7 @@ public class TweetCollection extends DocumentCollection<TweetCollection.Document
   /**
    * A tweet (i.e., status).
    */
-  public static class Document extends SourceDocument {
+  public static class Document implements SourceDocument {
     // Required fields
     protected String screenName;
     protected int followersCount;
@@ -235,35 +235,18 @@ public class TweetCollection extends DocumentCollection<TweetCollection.Document
       super();
     }
 
-    public Document fromTSV(String tsv) {
-      String[] columns = tsv.split("\t");
-
-      if (columns.length < 4) {
-        System.err.println("error parsing: " + tsv);
-        return null;
-      }
-
-      id = columns[0];
-      idLong = Long.parseLong(columns[0]);
-      screenName = columns[1];
-      createdAt = columns[2];
-
-      StringBuilder b = new StringBuilder();
-      for (int i = 3; i < columns.length; i++) {
-        b.append(columns[i] + " ");
-      }
-      text = b.toString().trim();
-
-      return this;
-    }
-
     @Override
     public String id() {
       return id;
     }
 
     @Override
-    public String content() {
+    public String contents() {
+      return text;
+    }
+
+    @Override
+    public String raw() {
       return text;
     }
 

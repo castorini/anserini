@@ -59,5 +59,5 @@ sh target/appassembler/bin/IndexCollection \
   -collection AclAnthology -generator AclAnthologyGenerator \
   -threads 8 -input /path/to/acl-anthology/build/data/ \
   -solr -solr.index acl -solr.zkUrl localhost:9983 \
-  -storePositions -storeDocvectors -storeRawDocs -storeTransformedDocs
+  -storePositions -storeDocvectors -storeContents -storeRaw
 ```

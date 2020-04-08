@@ -18,15 +18,15 @@ package io.anserini.collection;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.jbibtex.BibTeXParser;
 import org.jbibtex.BibTeXDatabase;
 import org.jbibtex.BibTeXEntry;
+import org.jbibtex.BibTeXParser;
 import org.jbibtex.Key;
-import org.jbibtex.Value;
 import org.jbibtex.ObjectResolutionException;
 import org.jbibtex.ParseException;
 import org.jbibtex.StringValue;
 import org.jbibtex.TokenMgrException;
+import org.jbibtex.Value;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -95,7 +95,7 @@ public class BibtexCollection extends DocumentCollection<BibtexCollection.Docume
   /**
    * A document in a Bibtex collection.
    */
-  public static class Document extends SourceDocument {
+  public static class Document implements SourceDocument {
     private String id;
     private String contents;
     private String type;
@@ -121,7 +121,12 @@ public class BibtexCollection extends DocumentCollection<BibtexCollection.Docume
     }
 
     @Override
-    public String content() {
+    public String contents() {
+      return contents;
+    }
+
+    @Override
+    public String raw() {
       return contents;
     }
 

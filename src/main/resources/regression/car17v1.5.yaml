@@ -6,19 +6,19 @@ search_command: target/appassembler/bin/SearchCollection
 topic_root: src/main/resources/topics-and-qrels/
 qrels_root: src/main/resources/topics-and-qrels/
 ranking_root:
-generator: LuceneDocumentGenerator
+generator: DefaultLuceneDocumentGenerator
 threads: 1
 index_options:
   - -storePositions
   - -storeDocvectors
-  - -storeRawDocs
+  - -storeRaw
 topic_reader: Car
 input_roots:
   - /tuna1/      # on tuna
   - /store/      # on orca
   - /scratch2/   # on damiano
 input: collections/car/paragraphCorpus.v1.5/
-index_path: indexes/lucene-index.car17v1.5.pos+docvectors+rawdocs # path to the existing index, used in regression test if `--index` option is absent
+index_path: indexes/lucene-index.car17v1.5.pos+docvectors+raw
 collection: CarCollection
 index_stats:
   documents: 29678360
