@@ -7,11 +7,11 @@ This documentation is useful for figuring why results may have changed over time
 
 + commit [`9a28a0`](https://github.com/castorini/anserini/commit/9a28a098dfd85366be29a6feb385c9e2493f988c) (04/07/2020)
 
-Regression for Core17 (New York Times) changed as the result of a bug fix.
-Previously, the `NewYorkTimesCollection` was indexed with `JsoupGenerator` as the generator, which assumes that the input is HTML (or XML) and removes tags.
+Regression results for Core17 (New York Times) changed as the result of a bug fix.
+Previously, Core17 used the `NewYorkTimesCollection` and was indexed with `JsoupGenerator` as the generator, which assumes that the input is HTML (or XML) and removes tags.
 However, this was unnecessary, because the collection implementation already removes tags internally.
 As a result, angle brackets in the text were interpreted as tags and removed.
-Fixing this bug increased the number of terms in the collection (and a document that was previously empty before is no longer empty).
+Fixing this bug increased the number of terms in the collection (and a document that was previously empty is no longer empty).
 However, effectiveness decreased slightly.
 
 ### March 6, 2020
