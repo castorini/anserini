@@ -21,7 +21,7 @@ input: collections/newswire/WashingtonPost.v2/data/
 index_path: indexes/lucene-index.core18.pos+docvectors+raw
 collection: WashingtonPostCollection
 index_stats:
-  documents: 595037
+  documents: 595031
   documents (non-empty): 595030
   total terms: 318219945
 topics:

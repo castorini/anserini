@@ -411,7 +411,6 @@ public class IndexReaderUtils {
     }
   }
 
-
   /**
    * Returns the Lucene document based on some field beside its unique collection docid. For example, scientific
    * articles might have DOIs.
