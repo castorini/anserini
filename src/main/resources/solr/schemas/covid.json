@@ -64,5 +64,23 @@
     "type":"pint",
     "stored":true,
     "docValues":true
+  },
+  "add-field": {
+    "name":"outcomes_vocab",
+    "type":"string",
+    "stored":true,
+    "multiValued":true
+  },
+  "add-field": {
+    "name":"population_vocab",
+    "type":"string",
+    "stored":true,
+    "multiValued":true
+  },
+  "add-field": {
+    "name":"interventions_vocab",
+    "type":"string",
+    "stored":true,
+    "multiValued":true
   }
 }

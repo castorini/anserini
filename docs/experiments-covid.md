@@ -179,7 +179,7 @@ DATA_DIR=./covid-"${DATE}"
 sh target/appassembler/bin/IndexCollection -collection CovidCollection -generator CovidGenerator \
    -threads 8 -input "${DATA_DIR}" \
    -solr -solr.index covid -solr.zkUrl localhost:9983 \
-   -storePositions -storeDocvectors -storeTransformedDocs
+   -storePositions -storeDocvectors -storeContents -storeRaw
 ```
 
 Once indexing is complete, you can query in Solr at [`http://localhost:8983/solr/#/covid/query`](http://localhost:8983/solr/#/covid/query).
