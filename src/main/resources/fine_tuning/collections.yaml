@@ -7,7 +7,7 @@ index_roots:
 collections:
     robust04:
       name: robust04
-      index_path: lucene-index.robust04.pos+docvectors+rawdocs
+      index_path: indexes/lucene-index.robust04.pos+docvectors+raw
       index_options:
         - -storePositions
         - -storeDocvectors
