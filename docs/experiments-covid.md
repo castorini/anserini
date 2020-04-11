@@ -13,9 +13,9 @@ If you don't want to build the index yourself, you can download the latest pre-b
 
 | Type | Version | Size | Link| Checksum |
 |:-----|:--------|:-----|:----|:---------|
-| Title + Abstract | 2020-04-10 | 1.3G | [[Dropbox]](https://www.dropbox.com/s/j55t617yhvmegy8/lucene-index-covid-2020-04-10.tar.gz) | `ec239d56498c0e7b74e3b41e1ce5d42a`
-| Full-Text | 2020-04-10 | 3.6G | [[Dropbox]](https://www.dropbox.com/s/gtq2c3xq81mjowk/lucene-index-covid-full-text-2020-04-10.tar.gz) | `401a6f5583b0f05340c73fbbeb3279c8`
-| Paragraph | 2020-04-10 | 3.6G| [[Dropbox]](https://www.dropbox.com/s/ivk87journyajw3/lucene-index-covid-paragraph-2020-04-10.tar.gz) | `8b87a2c55bc0a15b87f11e796860216a`
+| Title + Abstract | 2020-04-10 | 1.2G | [[Dropbox]](https://www.dropbox.com/s/j55t617yhvmegy8/lucene-index-covid-2020-04-10.tar.gz) | `ec239d56498c0e7b74e3b41e1ce5d42a`
+| Full-Text | 2020-04-10 | 3.3G | [[Dropbox]](https://www.dropbox.com/s/gtq2c3xq81mjowk/lucene-index-covid-full-text-2020-04-10.tar.gz) | `401a6f5583b0f05340c73fbbeb3279c8`
+| Paragraph | 2020-04-10 | 3.4G| [[Dropbox]](https://www.dropbox.com/s/ivk87journyajw3/lucene-index-covid-paragraph-2020-04-10.tar.gz) | `8b87a2c55bc0a15b87f11e796860216a`
 
 "Size" refers to the output of `ls -lh`, "Version" refers to the dataset release date from AI2.
 For our answer to the question, "which one should I use?" see below.
@@ -190,15 +190,15 @@ All versions of pre-built indexes:
 
 | Type | Version | Size | Link| Checksum |
 |:-----|:--------|:-----|:----|:---------|
-| Title + Abstract | 2020-04-10 | 1.3G | [[Dropbox]](https://www.dropbox.com/s/j55t617yhvmegy8/lucene-index-covid-2020-04-10.tar.gz) | `ec239d56498c0e7b74e3b41e1ce5d42a`
+| Title + Abstract | 2020-04-10 | 1.2G | [[Dropbox]](https://www.dropbox.com/s/j55t617yhvmegy8/lucene-index-covid-2020-04-10.tar.gz) | `ec239d56498c0e7b74e3b41e1ce5d42a`
 | Title + Abstract | 2020-04-03 | 1.1G | [[Dropbox]](https://www.dropbox.com/s/d6v9fensyi7q3gb/lucene-index-covid-2020-04-03.tar.gz) | `5d0d222e746d522a75f94240f5ab9f23`
 | Title + Abstract | 2020-03-27 | 1.1G | [[Dropbox]](https://www.dropbox.com/s/j1epbu4ufunbbzv/lucene-index-covid-2020-03-27.tar.gz) | `c5f7247e921c80f41ac6b54ff38eb229`
 | Title + Abstract | 2020-03-20 | 1.0G | [[Dropbox]](https://www.dropbox.com/s/uvjwgy4re2myq5s/lucene-index-covid-2020-03-20.tar.gz) | `281c632034643665d52a544fed23807a`
-| Full-Text | 2020-04-10 | 3.6G | [[Dropbox]](https://www.dropbox.com/s/gtq2c3xq81mjowk/lucene-index-covid-full-text-2020-04-10.tar.gz) | `401a6f5583b0f05340c73fbbeb3279c8`
+| Full-Text | 2020-04-10 | 3.3G | [[Dropbox]](https://www.dropbox.com/s/gtq2c3xq81mjowk/lucene-index-covid-full-text-2020-04-10.tar.gz) | `401a6f5583b0f05340c73fbbeb3279c8`
 | Full-Text | 2020-04-03 | 3.0G | [[Dropbox]](https://www.dropbox.com/s/abhuqks7aa1xs79/lucene-index-covid-full-text-2020-04-03.tar.gz) | `9aafb86fec39e0882bd9ef0688d7a9cc`
 | Full-Text | 2020-03-27 | 2.9G | [[Dropbox]](https://www.dropbox.com/s/hjsf7qldn4t10vm/lucene-index-covid-full-text-2020-03-27.tar.gz) | `3c126344f9711720e6cf627c9bc415eb`
 | Full-Text | 2020-03-20 | 2.6G | [[Dropbox]](https://www.dropbox.com/s/w74nmpmvdgw7o00/lucene-index-covid-full-text-2020-03-20.tar.gz) | `30cae90b85fa8f1b53acaa62413756e3`
-| Paragraph | 2020-04-10 | 3.6G| [[Dropbox]](https://www.dropbox.com/s/ivk87journyajw3/lucene-index-covid-paragraph-2020-04-10.tar.gz) | `8b87a2c55bc0a15b87f11e796860216a`
+| Paragraph | 2020-04-10 | 3.4G| [[Dropbox]](https://www.dropbox.com/s/ivk87journyajw3/lucene-index-covid-paragraph-2020-04-10.tar.gz) | `8b87a2c55bc0a15b87f11e796860216a`
 | Paragraph | 2020-04-03 | 3.1G| [[Dropbox]](https://www.dropbox.com/s/rfzxrrstwlck4wh/lucene-index-covid-paragraph-2020-04-03.tar.gz) | `523894cfb52fc51c4202e76af79e1b10`
 | Paragraph | 2020-03-27 | 3.1G| [[Dropbox]](https://www.dropbox.com/s/o95pehyzem0yalp/lucene-index-covid-paragraph-2020-03-27.tar.gz) | `8e02de859317918af4829c6188a89086`
 | Paragraph | 2020-03-20 | 2.9G| [[Dropbox]](https://www.dropbox.com/s/evnhj2ylo02m03f/lucene-index-covid-paragraph-2020-03-20.tar.gz) | `4c78e9ede690dbfac13e25e634c70ae4`
