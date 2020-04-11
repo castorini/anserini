@@ -12,7 +12,7 @@ Previously, Core17 used the `NewYorkTimesCollection` and was indexed with `Jsoup
 However, this was unnecessary, because the collection implementation already removes tags internally.
 As a result, angle brackets in the text were interpreted as tags and removed.
 Fixing this bug increased the number of terms in the collection (and a document that was previously empty is no longer empty).
-However, effectiveness decreased slightly.
+However, effectiveness of `bm25+ax` and `ql+ax` decreased slightly; `bm25`/`bm25+rm3` and `ql`/`ql+rm3` remain unchanged.
 
 ### March 6, 2020
 
