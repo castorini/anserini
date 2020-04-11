@@ -13,9 +13,9 @@ If you don't want to build the index yourself, you can download the latest pre-b
 
 | Type | Version | Size | Link| Checksum |
 |:-----|:--------|:-----|:----|:---------|
-| Title + Abstract | 2020-04-03 | 1.1G | [[Dropbox]](https://www.dropbox.com/s/d6v9fensyi7q3gb/lucene-index-covid-2020-04-03.tar.gz?dl=0) | `5d0d222e746d522a75f94240f5ab9f23`
-| Full-Text | 2020-04-03 | 3.0G | [[Dropbox]](https://www.dropbox.com/s/abhuqks7aa1xs79/lucene-index-covid-full-text-2020-04-03.tar.gz?dl=0) | `9aafb86fec39e0882bd9ef0688d7a9cc`
-| Paragraph | 2020-04-03 | 3.1G| [[Dropbox]](https://www.dropbox.com/s/rfzxrrstwlck4wh/lucene-index-covid-paragraph-2020-04-03.tar.gz?dl=0) | `523894cfb52fc51c4202e76af79e1b10`
+| Title + Abstract | 2020-04-10 | 1.3G | [[Dropbox]](https://www.dropbox.com/s/j55t617yhvmegy8/lucene-index-covid-2020-04-10.tar.gz) | `ec239d56498c0e7b74e3b41e1ce5d42a`
+| Full-Text | 2020-04-10 | 3.6G | [[Dropbox]](https://www.dropbox.com/s/gtq2c3xq81mjowk/lucene-index-covid-full-text-2020-04-10.tar.gz) | `401a6f5583b0f05340c73fbbeb3279c8`
+| Paragraph | 2020-04-10 | 3.6G| [[Dropbox]](https://www.dropbox.com/s/ivk87journyajw3/lucene-index-covid-paragraph-2020-04-10.tar.gz) | `8b87a2c55bc0a15b87f11e796860216a`
 
 "Size" refers to the output of `ls -lh`, "Version" refers to the dataset release date from AI2.
 For our answer to the question, "which one should I use?" see below.
@@ -28,7 +28,7 @@ The latest distribution available is from 2020/04/03.
 First, download the data:
 
 ```bash
-DATE=2020-04-03
+DATE=2020-04-10
 DATA_DIR=./covid-"${DATE}"
 mkdir "${DATA_DIR}"
 
@@ -66,13 +66,13 @@ sh target/appassembler/bin/IndexCollection \
   -collection CovidCollection -generator CovidGenerator \
   -threads 8 -input "${DATA_DIR}" \
   -index "${DATA_DIR}"/lucene-index-covid-"${DATE}" \
-  -storePositions -storeDocvectors -storeContents -storeRaw
+  -storePositions -storeDocvectors -storeContents -storeRaw > log.covid.${DATE}.txt
 ```
 
 The output message should be something like this:
 
 ```bash
-2020-03-22 18:58:33,021 INFO  [main] index.IndexCollection (IndexCollection.java:845) - Total 44,145 documents indexed in 00:01:05
+2020-04-10 21:11:39,825 INFO  [main] index.IndexCollection (IndexCollection.java:879) - Total 51,069 documents indexed in 00:01:12
 ```
 
 The `contents` field of each Lucene document is a concatenation of the article's title and abstract.
@@ -86,13 +86,13 @@ sh target/appassembler/bin/IndexCollection \
   -collection CovidFullTextCollection -generator CovidGenerator \
   -threads 8 -input "${DATA_DIR}" \
   -index "${DATA_DIR}"/lucene-index-covid-full-text-"${DATE}" \
-  -storePositions -storeDocvectors -storeContents -storeRaw
+  -storePositions -storeDocvectors -storeContents -storeRaw  > log.covid-full-text.${DATE}.txt
 ```
 
 The output message should be something like this:
 
 ```bash
-2020-03-22 19:04:49,120 INFO  [main] index.IndexCollection (IndexCollection.java:845) - Total 44,155 documents indexed in 00:05:32
+2020-04-10 21:17:24,625 INFO  [main] index.IndexCollection (IndexCollection.java:879) - Total 51,071 documents indexed in 00:05:00
 ```
 
 The `contents` field of each Lucene document is a concatenation of the article's title and abstract, and the full text JSON (if available).
@@ -106,13 +106,13 @@ sh target/appassembler/bin/IndexCollection \
   -collection CovidParagraphCollection -generator CovidGenerator \
   -threads 8 -input "${DATA_DIR}" \
   -index "${DATA_DIR}"/lucene-index-covid-paragraph-"${DATE}" \
-  -storePositions -storeDocvectors -storeContents -storeRaw
+  -storePositions -storeDocvectors -storeContents -storeRaw > log.covid-paragraph.${DATE}.txt
 ```
 
 The output message should be something like this:
 
 ```bash
-2020-03-22 19:21:50,365 INFO  [main] index.IndexCollection (IndexCollection.java:845) - Total 1,096,241 documents indexed in 00:14:21
+2020-04-10 21:30:21,760 INFO  [main] index.IndexCollection (IndexCollection.java:879) - Total 1,412,648 documents indexed in 00:10:21
 ```
 
 In this configuration, the indexer creates multiple Lucene Documents for each source article:
@@ -190,13 +190,16 @@ All versions of pre-built indexes:
 
 | Type | Version | Size | Link| Checksum |
 |:-----|:--------|:-----|:----|:---------|
-| Title + Abstract | 2020-04-03 | 1.1G | [[Dropbox]](https://www.dropbox.com/s/d6v9fensyi7q3gb/lucene-index-covid-2020-04-03.tar.gz?dl=0) | `5d0d222e746d522a75f94240f5ab9f23`
-| Title + Abstract | 2020-03-27 | 1.1G | [[Dropbox]](https://www.dropbox.com/s/j1epbu4ufunbbzv/lucene-index-covid-2020-03-27.tar.gz?dl=0) | `c5f7247e921c80f41ac6b54ff38eb229`
-| Title + Abstract | 2020-03-20 | 1.0G | [[Dropbox]](https://www.dropbox.com/s/uvjwgy4re2myq5s/lucene-index-covid-2020-03-20.tar.gz?dl=0) | `281c632034643665d52a544fed23807a`
-| Full-Text | 2020-04-03 | 3.0G | [[Dropbox]](https://www.dropbox.com/s/abhuqks7aa1xs79/lucene-index-covid-full-text-2020-04-03.tar.gz?dl=0) | `9aafb86fec39e0882bd9ef0688d7a9cc`
-| Full-Text | 2020-03-27 | 2.9G | [[Dropbox]](https://www.dropbox.com/s/hjsf7qldn4t10vm/lucene-index-covid-full-text-2020-03-27.tar.gz?dl=0) | `3c126344f9711720e6cf627c9bc415eb`
-| Full-Text | 2020-03-20 | 2.6G | [[Dropbox]](https://www.dropbox.com/s/w74nmpmvdgw7o00/lucene-index-covid-full-text-2020-03-20.tar.gz?dl=0) | `30cae90b85fa8f1b53acaa62413756e3`
-| Paragraph | 2020-04-03 | 3.1G| [[Dropbox]](https://www.dropbox.com/s/rfzxrrstwlck4wh/lucene-index-covid-paragraph-2020-04-03.tar.gz?dl=0) | `523894cfb52fc51c4202e76af79e1b10`
-| Paragraph | 2020-03-27 | 3.1G| [[Dropbox]](https://www.dropbox.com/s/o95pehyzem0yalp/lucene-index-covid-paragraph-2020-03-27.tar.gz?dl=0) | `8e02de859317918af4829c6188a89086`
-| Paragraph | 2020-03-20 | 2.9G| [[Dropbox]](https://www.dropbox.com/s/evnhj2ylo02m03f/lucene-index-covid-paragraph-2020-03-20.tar.gz?dl=0) | `4c78e9ede690dbfac13e25e634c70ae4`
+| Title + Abstract | 2020-04-10 | 1.3G | [[Dropbox]](https://www.dropbox.com/s/j55t617yhvmegy8/lucene-index-covid-2020-04-10.tar.gz) | `ec239d56498c0e7b74e3b41e1ce5d42a`
+| Title + Abstract | 2020-04-03 | 1.1G | [[Dropbox]](https://www.dropbox.com/s/d6v9fensyi7q3gb/lucene-index-covid-2020-04-03.tar.gz) | `5d0d222e746d522a75f94240f5ab9f23`
+| Title + Abstract | 2020-03-27 | 1.1G | [[Dropbox]](https://www.dropbox.com/s/j1epbu4ufunbbzv/lucene-index-covid-2020-03-27.tar.gz) | `c5f7247e921c80f41ac6b54ff38eb229`
+| Title + Abstract | 2020-03-20 | 1.0G | [[Dropbox]](https://www.dropbox.com/s/uvjwgy4re2myq5s/lucene-index-covid-2020-03-20.tar.gz) | `281c632034643665d52a544fed23807a`
+| Full-Text | 2020-04-10 | 3.6G | [[Dropbox]](https://www.dropbox.com/s/gtq2c3xq81mjowk/lucene-index-covid-full-text-2020-04-10.tar.gz) | `401a6f5583b0f05340c73fbbeb3279c8`
+| Full-Text | 2020-04-03 | 3.0G | [[Dropbox]](https://www.dropbox.com/s/abhuqks7aa1xs79/lucene-index-covid-full-text-2020-04-03.tar.gz) | `9aafb86fec39e0882bd9ef0688d7a9cc`
+| Full-Text | 2020-03-27 | 2.9G | [[Dropbox]](https://www.dropbox.com/s/hjsf7qldn4t10vm/lucene-index-covid-full-text-2020-03-27.tar.gz) | `3c126344f9711720e6cf627c9bc415eb`
+| Full-Text | 2020-03-20 | 2.6G | [[Dropbox]](https://www.dropbox.com/s/w74nmpmvdgw7o00/lucene-index-covid-full-text-2020-03-20.tar.gz) | `30cae90b85fa8f1b53acaa62413756e3`
+| Paragraph | 2020-04-10 | 3.6G| [[Dropbox]](https://www.dropbox.com/s/ivk87journyajw3/lucene-index-covid-paragraph-2020-04-10.tar.gz) | `8b87a2c55bc0a15b87f11e796860216a`
+| Paragraph | 2020-04-03 | 3.1G| [[Dropbox]](https://www.dropbox.com/s/rfzxrrstwlck4wh/lucene-index-covid-paragraph-2020-04-03.tar.gz) | `523894cfb52fc51c4202e76af79e1b10`
+| Paragraph | 2020-03-27 | 3.1G| [[Dropbox]](https://www.dropbox.com/s/o95pehyzem0yalp/lucene-index-covid-paragraph-2020-03-27.tar.gz) | `8e02de859317918af4829c6188a89086`
+| Paragraph | 2020-03-20 | 2.9G| [[Dropbox]](https://www.dropbox.com/s/evnhj2ylo02m03f/lucene-index-covid-paragraph-2020-03-20.tar.gz) | `4c78e9ede690dbfac13e25e634c70ae4`
 
