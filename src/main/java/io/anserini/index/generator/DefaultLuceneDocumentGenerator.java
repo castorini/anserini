@@ -37,6 +37,9 @@ import org.apache.lucene.util.BytesRef;
 public class DefaultLuceneDocumentGenerator<T extends SourceDocument> implements LuceneDocumentGenerator<T> {
   protected IndexArgs args;
 
+  protected DefaultLuceneDocumentGenerator() {
+  }
+
   /**
    * Constructor with config and counters
    *

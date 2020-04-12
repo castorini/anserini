@@ -36,10 +36,7 @@ import java.util.List;
 /**
  * Converts a {@link WashingtonPostCollection.Document} into a Lucene {@link Document}, ready to be indexed.
  */
-public class WashingtonPostGenerator implements LuceneDocumentGenerator<WashingtonPostCollection.Document> {
-  public static final List<String> CONTENT_TYPE_TAG = Arrays.asList("sanitized_html", "tweet");
-
-  private IndexArgs args;
+public class WashingtonPostGenerator extends DefaultLuceneDocumentGenerator<WashingtonPostCollection.Document> {
 
   public enum WashingtonPostField {
     AUTHOR("author"),
@@ -55,28 +52,17 @@ public class WashingtonPostGenerator implements LuceneDocumentGenerator<Washingt
       name = s;
     }
   }
-  
-  public WashingtonPostGenerator(IndexArgs args) {
-    this.args = args;
-  }
-  
-  public static String removeTags(String content) {
-    return Jsoup.parse(content).text();
-  }
 
+  public WashingtonPostGenerator(IndexArgs args) {
+    super.args = args;
+  }
+  
   @Override
   public Document createDocument(WashingtonPostCollection.Document src) throws GeneratorException {
-    String id = src.id();
+    // Use the superclass to create a document with all the default fields.
+    Document doc = super.createDocument(src);
 
-    if (src.contents().trim().isEmpty()) {
-      throw new EmptyDocumentException();
-    }
-
-    Document doc = new Document();
-    doc.add(new StringField(IndexArgs.ID, id, Field.Store.YES));
-
-    // This is needed to break score ties by docid.
-    doc.add(new SortedDocValuesField(IndexArgs.ID, new BytesRef(id)));
+    // Add additional fields that are specialized for the Washington Post
     doc.add(new LongPoint(WashingtonPostField.PUBLISHED_DATE.name, src.getPublishDate()));
     doc.add(new StoredField(WashingtonPostField.PUBLISHED_DATE.name, src.getPublishDate()));
 
@@ -87,54 +73,15 @@ public class WashingtonPostGenerator implements LuceneDocumentGenerator<Washingt
     src.getTitle().ifPresent(title ->
         doc.add(new StringField(WashingtonPostField.TITLE.name, title, Field.Store.NO)));
 
-    StringBuilder contentBuilder = new StringBuilder();
-    src.getTitle().ifPresent(title -> contentBuilder.append(title).append("\n"));
-
-    src.getObj().getContents().ifPresent(contents -> {
-      for (WashingtonPostObject.Content contentObj : contents) {
-        if (contentObj == null) continue;
-        if (contentObj.getType().isPresent() && contentObj.getContent().isPresent()) {
-          contentObj.getType().ifPresent(type -> {
-            contentObj.getContent().ifPresent(content -> {
-              if (CONTENT_TYPE_TAG.contains(type)) {
-                contentBuilder.append(removeTags(content)).append("\n");
-              } else if (type.compareToIgnoreCase("kicker") == 0) {
-                doc.add(new StringField(WashingtonPostField.KICKER.name, content, Field.Store.NO));
-                contentBuilder.append(content).append("\n");
-              }
-            });
-          });
-        }
-        contentObj.getFullCaption().ifPresent(caption -> {
-          String fullCaption = contentObj.getFullCaption().get();
-          doc.add(new StringField(WashingtonPostField.FULL_CAPTION.name, fullCaption, Field.Store.NO));
-          contentBuilder.append(removeTags(fullCaption)).append("\n");
-        });
-      }
-    });
-
-    if (args.storeRaw) { // store the raw json string as one single field
-      doc.add(new StoredField(IndexArgs.RAW, src.getContent()));
+    if (src.getKicker() != null) {
+      doc.add(new StringField(WashingtonPostGenerator.WashingtonPostField.KICKER.name,
+          src.getKicker(), Field.Store.NO));
     }
 
-    FieldType fieldType = new FieldType();
-
-    fieldType.setStored(args.storeContents);
-
-    // Are we storing document vectors?
-    if (args.storeDocvectors) {
-      fieldType.setStoreTermVectors(true);
-      fieldType.setStoreTermVectorPositions(true);
+    if (src.getFullCaption() != null) {
+      doc.add(new StringField(WashingtonPostGenerator.WashingtonPostField.FULL_CAPTION.name,
+          src.getFullCaption(), Field.Store.NO));
     }
-
-    // Are we building a "positional" or "count" index?
-    if (args.storePositions) {
-      fieldType.setIndexOptions(IndexOptions.DOCS_AND_FREQS_AND_POSITIONS);
-    } else {
-      fieldType.setIndexOptions(IndexOptions.DOCS_AND_FREQS);
-    }
-
-    doc.add(new Field(IndexArgs.CONTENTS, contentBuilder.toString(), fieldType));
 
     return doc;
   }
