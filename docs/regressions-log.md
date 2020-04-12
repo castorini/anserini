@@ -3,6 +3,20 @@
 The following change log details commits to regression tests that alter effectiveness and the addition of new regression tests.
 This documentation is useful for figuring why results may have changed over time.
 
+### April 12, 2020
+
++ commit [`35f9f8`](https://github.com/castorini/anserini/commit/35f9f82f13fa4ab9b6fba494044cc7d5a3915b02) (04/12/2020)
+
+Regression results for Core18 (Washington Post) changed as the result of refactoring to conform to clarified definition of `contents()` and `raw()` in `SourceDocument`, per [Issue #1048](https://github.com/castorini/anserini/issues/1048).
+Previously, both `contents()` and `raw()` returned the raw JSON, and the `WashingtonPostGenerator` extracted the article contents for indexing.
+Now, `raw()` returns the raw JSON and `contents()` returns the extracted article contents for indexing (i.e., the logic for parsing the JSON has been moved from `WashingtonPostGenerator` into the collection itself).
+This conforms to the principle that every collection should "know" how to parse its own contents.
+
+Regression values went down slightly for `Ax` as a result of this refactoring.
+The difference is that, before, the "empty document check" was performed on the JSON, so it never triggered (since the JSON was never empty).
+With this new processing logic, the "empty document check" is performed on `contents()` (hence, the parsed article contents), and so the number of empty documents is now accurate (there are six basic on the current parsing logic).
+Based on this and the below, it seems that `Ax` is very sensitive to tiny changes.
+
 ### April 7, 2020
 
 + commit [`9a28a0`](https://github.com/castorini/anserini/commit/9a28a098dfd85366be29a6feb385c9e2493f988c) (04/07/2020)
