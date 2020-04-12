@@ -395,6 +395,22 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
   }
 
   @Test
+  public void testGetDocumentByField() throws Exception {
+    Directory dir = FSDirectory.open(tempDir1);
+    IndexReader reader = DirectoryReader.open(dir);
+
+    assertEquals("{\"contents\": \"here is some text here is some more text. city.\"}",
+        IndexReaderUtils.documentByField(reader, "id","doc1").get("raw"));
+    assertEquals("{\"contents\": \"more texts\"}",
+        IndexReaderUtils.documentByField(reader, "id", "doc2").get("raw"));
+    assertEquals("{\"contents\": \"here is a test\"}",
+        IndexReaderUtils.documentByField(reader, "id", "doc3").get("raw"));
+
+    reader.close();
+    dir.close();
+  }
+
+  @Test
   public void testDocidConversion() throws Exception {
     Directory dir = FSDirectory.open(tempDir1);
     IndexReader reader = DirectoryReader.open(dir);
