@@ -117,7 +117,7 @@ public class AclAnthologyTest extends DocumentCollectionTest<AclAnthology.Docume
       if (expectedKey.equals("id")) {
         assertEquals(expectedValue, aclDoc.id());
       } else if (expectedKey.equals("contents")) {
-        assertEquals(expectedValue, aclDoc.content());
+        assertEquals(expectedValue, aclDoc.contents());
         assertEquals(expectedValue, doc.raw());
       } else if (expectedKey.equals("authors")) {
         assertEquals(expectedValue, String.join(" ", aclDoc.authors()));

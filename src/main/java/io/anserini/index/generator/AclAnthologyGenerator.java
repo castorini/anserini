@@ -20,7 +20,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import io.anserini.analysis.DefaultEnglishAnalyzer;
 import io.anserini.collection.AclAnthology;
 import io.anserini.index.IndexArgs;
-import io.anserini.index.IndexCollection;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.CharArraySet;
 import org.apache.lucene.analysis.TokenStream;
@@ -40,7 +39,8 @@ import java.util.List;
 /**
  * Converts a {@link AclAnthology.Document} into a Lucene {@link Document}, ready to be indexed.
  */
-public class AclAnthologyGenerator extends LuceneDocumentGenerator<AclAnthology.Document> {
+public class AclAnthologyGenerator implements LuceneDocumentGenerator<AclAnthology.Document> {
+  private IndexArgs args;
 
   private enum AclAnthologyField {
     ADDRESS("address"),
@@ -84,18 +84,17 @@ public class AclAnthologyGenerator extends LuceneDocumentGenerator<AclAnthology.
     AclAnthologyField.PUBLISHER.name,
     AclAnthologyField.MONTH.name);
 
-  public AclAnthologyGenerator(IndexArgs args, IndexCollection.Counters counters) {
-    super(args, counters);
+  public AclAnthologyGenerator(IndexArgs args) {
+    this.args = args;
   }
 
   @Override
-  public Document createDocument(AclAnthology.Document aclDoc) {
+  public Document createDocument(AclAnthology.Document aclDoc) throws GeneratorException {
     String id = aclDoc.id();
-    String content = aclDoc.content();
+    String content = aclDoc.contents();
 
     if (content == null || content.trim().isEmpty()) {
-      counters.empty.incrementAndGet();
-      return null;
+      throw new EmptyDocumentException();
     }
 
     Document doc = new Document();
@@ -105,12 +104,12 @@ public class AclAnthologyGenerator extends LuceneDocumentGenerator<AclAnthology.
     // This is needed to break score ties by docid.
     doc.add(new SortedDocValuesField(IndexArgs.ID, new BytesRef(id)));
 
-    if (args.storeRawDocs) {
-      doc.add(new StoredField(IndexArgs.RAW, content));
+    if (args.storeRaw) {
+      doc.add(new StoredField(IndexArgs.RAW, aclDoc.raw()));
     }
 
     FieldType fieldType = new FieldType();
-    fieldType.setStored(args.storeTransformedDocs);
+    fieldType.setStored(args.storeContents);
 
     // Are we storing document vectors?
     if (args.storeDocvectors) {

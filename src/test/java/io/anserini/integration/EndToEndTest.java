@@ -113,12 +113,12 @@ public abstract class EndToEndTest extends LuceneTestCase {
       args.add("-storeDocvectors");
     }
 
-    if (indexArgs.storeTransformedDocs) {
-      args.add("-storeTransformedDocs");
+    if (indexArgs.storeContents) {
+      args.add("-storeContents");
     }
 
-    if (indexArgs.storeRawDocs) {
-      args.add("-storeRawDocs");
+    if (indexArgs.storeRaw) {
+      args.add("-storeRaw");
     }
 
     if (indexArgs.optimize) {
@@ -140,16 +140,16 @@ public abstract class EndToEndTest extends LuceneTestCase {
 
     args.storePositions = true;
     args.storeDocvectors = true;
-    args.storeTransformedDocs = true;
-    args.storeRawDocs = true;
+    args.storeContents = true;
+    args.storeRaw = true;
     args.optimize = true;
     args.quiet = true;
 
     return args;
   }
 
-  @After
   @Override
+  @After
   public void tearDown() throws Exception {
     // Clean up the index.
     FileUtils.deleteDirectory(new File(indexPath));

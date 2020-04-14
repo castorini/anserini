@@ -19,6 +19,8 @@ package io.anserini.search;
 import io.anserini.IndexerTestBase;
 import io.anserini.index.IndexArgs;
 import io.anserini.search.SimpleSearcher.Result;
+import org.apache.lucene.index.Term;
+import org.apache.lucene.search.TermQuery;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -147,6 +149,21 @@ public class SimpleSearcherTest extends IndexerTestBase {
     assertEquals("doc3", results[0].docid);
     assertEquals(2, results[0].lucene_docid);
     assertEquals(0.5702000f, results[0].score, 10e-6);
+
+    searcher.close();
+  }
+
+  @Test
+  public void testSearchCustomQuery() throws Exception {
+    // Test the ability to pass in an arbitrary Lucene query.
+    SimpleSearcher searcher = new SimpleSearcher(super.tempDir1.toString());
+
+    SimpleSearcher.Result[] hits = searcher.search(new TermQuery(new Term(IndexArgs.ID, "doc3")), 10);
+    assertEquals(1, hits.length);
+    assertEquals("doc3", hits[0].docid);
+    assertEquals(2, hits[0].lucene_docid);
+    assertEquals("here is a test", hits[0].contents);
+    assertEquals("{\"contents\": \"here is a test\"}", hits[0].raw);
 
     searcher.close();
   }

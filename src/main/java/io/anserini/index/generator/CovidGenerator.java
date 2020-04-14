@@ -16,12 +16,11 @@
 
 package io.anserini.index.generator;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import io.anserini.analysis.DefaultEnglishAnalyzer;
 import io.anserini.collection.CovidCollectionDocument;
+import io.anserini.collection.CovidTrialstreamerCollection;
 import io.anserini.index.IndexArgs;
-import io.anserini.index.IndexCollection;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.CharArraySet;
 import org.apache.lucene.analysis.TokenStream;
@@ -40,8 +39,8 @@ import java.io.StringReader;
 /**
  * Converts a {@link CovidCollectionDocument} into a Lucene {@link Document}, ready to be indexed.
  */
-public class CovidGenerator extends LuceneDocumentGenerator<CovidCollectionDocument> {
-  private static final Logger LOG = LogManager.getLogger(CovidGenerator.class);
+public class CovidGenerator implements LuceneDocumentGenerator<CovidCollectionDocument> {
+  private IndexArgs args;
 
   public enum CovidField {
     SHA("sha"),
@@ -68,19 +67,30 @@ public class CovidGenerator extends LuceneDocumentGenerator<CovidCollectionDocum
     }
   }
 
-  public CovidGenerator(IndexArgs args, IndexCollection.Counters counters) {
-    super(args, counters);
+  public enum TrialstreamerField {
+    OUTCOMES_VOCAB("outcomes_vocab"),
+    POPULATION_VOCAB("population_vocab"),
+    INTERVENTIONS_VOCAB("interventions_vocab");
+
+    public final String name;
+
+    TrialstreamerField(String s) {
+      name = s;
+    }
+  }
+
+  public CovidGenerator(IndexArgs args) {
+    this.args = args;
   }
 
   @Override
-  public Document createDocument(CovidCollectionDocument covidDoc) {
+  public Document createDocument(CovidCollectionDocument covidDoc) throws GeneratorException {
     String id = covidDoc.id();
-    String content = covidDoc.content();
+    String content = covidDoc.contents();
     String raw = covidDoc.raw();
 
     if (content == null || content.trim().isEmpty()) {
-      counters.empty.incrementAndGet();
-      return null;
+      throw new EmptyDocumentException();
     }
 
     Document doc = new Document();
@@ -90,12 +100,12 @@ public class CovidGenerator extends LuceneDocumentGenerator<CovidCollectionDocum
     // This is needed to break score ties by docid.
     doc.add(new SortedDocValuesField(IndexArgs.ID, new BytesRef(id)));
 
-    if (args.storeRawDocs) {
+    if (args.storeRaw) {
       doc.add(new StoredField(IndexArgs.RAW, raw));
     }
 
     FieldType fieldType = new FieldType();
-    fieldType.setStored(args.storeTransformedDocs);
+    fieldType.setStored(args.storeContents);
 
     // Are we storing document vectors?
     if (args.storeDocvectors) {
@@ -134,6 +144,14 @@ public class CovidGenerator extends LuceneDocumentGenerator<CovidCollectionDocum
     doc.add(new StringField(CovidField.URL.name,
       covidDoc.record().get(CovidField.URL.name), Field.Store.YES));
 
+    if (covidDoc instanceof CovidTrialstreamerCollection.Document) {
+      CovidTrialstreamerCollection.Document tsDoc = (CovidTrialstreamerCollection.Document) covidDoc;
+      JsonNode facets = tsDoc.facets();
+      addTrialstreamerFacet(doc, TrialstreamerField.OUTCOMES_VOCAB.name, facets);
+      addTrialstreamerFacet(doc, TrialstreamerField.POPULATION_VOCAB.name, facets);
+      addTrialstreamerFacet(doc, TrialstreamerField.INTERVENTIONS_VOCAB.name, facets);
+    }
+  
     // non-stemmed fields
     addAuthors(doc, covidDoc.record().get(CovidField.AUTHORS.name), fieldType);
 
@@ -170,6 +188,13 @@ public class CovidGenerator extends LuceneDocumentGenerator<CovidCollectionDocum
       processedName += splitNames[i].strip() + " ";
     }
     return processedName.strip();
+  }
+
+  // indexes a list of facets from the trialstreamer COVID trials dataset
+  private void addTrialstreamerFacet(Document doc, String key, JsonNode facets) {
+    for (JsonNode value : facets.get(key)) {
+      doc.add(new StringField(key, value.asText(), Field.Store.YES));
+    }
   }
 
   // index field without stemming but store original string value

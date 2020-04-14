@@ -39,7 +39,7 @@ public class TrecCollectionTest extends DocumentCollectionTest<TrecCollection.Do
     totalSegments = 1;
     totalDocs = 2;
 
-    expected.put("AP-0001", Map.of("id", "AP-0001","content",
+    expected.put("AP-0001", Map.of("id", "AP-0001","raw",
         // ONLY "<TEXT>", "<HEADLINE>", "<TITLE>", "<HL>", "<HEAD>",
         // "<TTL>", "<DD>", "<DATE>", "<LP>", "<LEADPARA>" will be included
         "<HEAD>This is head and should be included</HEAD>\n" +
@@ -51,14 +51,14 @@ public class TrecCollectionTest extends DocumentCollectionTest<TrecCollection.Do
             "</TEXT>"));
 
     expected.put("doc2",
-        Map.of("id", "doc2","content", "<TEXT>\nhere is some text.\n</TEXT>"));
+        Map.of("id", "doc2","raw", "<TEXT>\nhere is some text.\n</TEXT>"));
   }
 
   @Override
   void checkDocument(SourceDocument doc, Map<String, String> expected) {
     assertTrue(doc.indexable());
     assertEquals(expected.get("id"), doc.id());
-    assertEquals(expected.get("content"), doc.content());
-    assertEquals(expected.get("content"), doc.raw());
+    assertEquals(JsoupStringTransform.SINGLETON.apply(expected.get("raw")), doc.contents());
+    assertEquals(expected.get("raw"), doc.raw());
   }
 }

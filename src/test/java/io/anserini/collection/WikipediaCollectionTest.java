@@ -47,7 +47,7 @@ public class WikipediaCollectionTest extends DocumentCollectionTest<WikipediaCol
   void checkDocument(SourceDocument doc, Map<String, String> expected) {
     assertTrue(doc.indexable());
     assertEquals(expected.get("id"), doc.id());
-    assertEquals(expected.get("content"), doc.content());
+    assertEquals(expected.get("content"), doc.contents());
     assertEquals(expected.get("content"), doc.raw());
   }
 }

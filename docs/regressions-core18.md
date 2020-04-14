@@ -11,7 +11,7 @@ Typical indexing command:
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection WashingtonPostCollection -input /path/to/core18 \
  -index lucene-index.core18.pos+docvectors+rawdocs -generator WashingtonPostGenerator -threads 1 \
- -storePositions -storeDocvectors -storeRawDocs >& log.core18.pos+docvectors+rawdocs &
+ -storePositions -storeDocvectors -storeRaw >& log.core18.pos+docvectors+rawdocs &
 ```
 
 The directory `/path/to/core18/` should be the root directory of the [TREC Washington Post Corpus](https://trec.nist.gov/data/wapost/), i.e., `ls /path/to/core18/`
@@ -76,12 +76,12 @@ With the above commands, you should be able to replicate the following results:
 
 MAP                                     | BM25      | +RM3      | +Ax       | QL        | +RM3      | +Ax       |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-[TREC 2018 Common Core Track Topics](../src/main/resources/topics-and-qrels/topics.core18.txt)| 0.2495    | 0.3135    | 0.2925    | 0.2526    | 0.3073    | 0.2966    |
+[TREC 2018 Common Core Track Topics](../src/main/resources/topics-and-qrels/topics.core18.txt)| 0.2495    | 0.3135    | 0.2841    | 0.2526    | 0.3073    | 0.2919    |
 
 
 P30                                     | BM25      | +RM3      | +Ax       | QL        | +RM3      | +Ax       |
 :---------------------------------------|-----------|-----------|-----------|-----------|-----------|-----------|
-[TREC 2018 Common Core Track Topics](../src/main/resources/topics-and-qrels/topics.core18.txt)| 0.3567    | 0.4200    | 0.4027    | 0.3653    | 0.4000    | 0.4060    |
+[TREC 2018 Common Core Track Topics](../src/main/resources/topics-and-qrels/topics.core18.txt)| 0.3567    | 0.4200    | 0.3947    | 0.3653    | 0.4000    | 0.4020    |
 
 ## Replication Log
 

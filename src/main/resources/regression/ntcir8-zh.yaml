@@ -7,13 +7,13 @@ topic_root: src/main/resources/topics-and-qrels/
 qrels_root: src/main/resources/topics-and-qrels/
 index_root:
 ranking_root:
-collection: TrecCollection
-generator: LuceneDocumentGenerator
+collection: CleanTrecCollection
+generator: DefaultLuceneDocumentGenerator
 threads: 16
 index_options:
   - -storePositions
   - -storeDocvectors
-  - -storeRawDocs
+  - -storeRaw
   - -language zh
   - -uniqueDocid
   - -optimize # we need this, because without, "documents (non-empty)" would be non-deterministic, failing regression.
@@ -50,7 +50,7 @@ input_roots:
   - /store/      # on orca
   - /scratch2/   # on damiano
 input: collections/newswire/clir/ntcir.zh/ntcir8-zh/
-index_path: indexes/lucene-index.ntcir8-zh.pos+docvectors+rawdocs
+index_path: indexes/lucene-index.ntcir8-zh.pos+docvectors+raw
 index_stats:
   documents: 308832
   documents (non-empty): 308832

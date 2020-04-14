@@ -18,7 +18,6 @@ package io.anserini.integration;
 
 import io.anserini.collection.TrecCollection;
 import io.anserini.index.IndexArgs;
-import io.anserini.index.generator.JsoupGenerator;
 
 import java.util.Map;
 
@@ -29,7 +28,6 @@ public class TrecEndToEndTest extends EndToEndTest {
 
     indexArgs.input = "src/test/resources/sample_docs/trec/collection2";
     indexArgs.collectionClass = TrecCollection.class.getSimpleName();
-    indexArgs.generatorClass = JsoupGenerator.class.getSimpleName();
 
     return indexArgs;
   }
