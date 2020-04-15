@@ -73,9 +73,6 @@ public class CovidParagraphCollection extends DocumentCollection<CovidParagraphC
         .withTrim());
 
       iterator = csvParser.iterator();
-      if (iterator.hasNext()) {
-        record = iterator.next();
-      }
     }
 
     @Override
