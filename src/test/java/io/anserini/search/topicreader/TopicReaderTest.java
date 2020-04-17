@@ -33,6 +33,11 @@ public class TopicReaderTest {
     assertEquals(TrecTopicReader.class,
         TopicReader.getTopicReaderByFile("topics.robust04.txt"));
 
+    assertEquals(CovidTopicReader.class,
+        TopicReader.getTopicReaderByFile("src/main/resources/topics-and-qrels/topics.covid-round1.xml"));
+    assertEquals(CovidTopicReader.class,
+        TopicReader.getTopicReaderByFile("topics.covid-round1.xml"));
+
     // Unknown TopicReader class.
     assertEquals(null,
         TopicReader.getTopicReaderByFile("topics.unknown.txt"));
@@ -572,4 +577,47 @@ public class TopicReaderTest {
     assertEquals("YSR Reddy death", topics.get("176").get("title"));
     assertEquals("Satanic Verses controversy", topics.get("225").get("title"));
   }
+
+  @Test
+  public void testCovidTopics() {
+    Map<String, Map<String, String>> topics;
+
+    topics = TopicReader.getTopics(Topics.COVID_ROUND1);
+
+    assertEquals(30, topics.keySet().size());
+
+    assertEquals("coronavirus origin", topics.get(1).get("query"));
+    assertEquals("what is the origin of COVID-19", topics.get(1).get("question"));
+    assertEquals("seeking range of information about the SARS-CoV-2 virus's origin, " +
+            "including its evolution, animal source, and first transmission into humans",
+        topics.get(1).get("narrative"));
+
+    assertEquals("coronavirus remdesivir", topics.get(30).get("query"));
+    assertEquals("is remdesivir an effective treatment for COVID-19", topics.get(30).get("question"));
+    assertEquals(
+        "seeking specific information on clinical outcomes in COVID-19 patients treated with remdesivir",
+        topics.get(30).get("narrative"));
+  }
+
+  @Test
+  public void testCovidTopics_TopicIdsAsStrings() {
+    Map<String, Map<String, String>> topics;
+
+    topics = TopicReader.getTopicsWithStringIds(Topics.COVID_ROUND1);
+
+    assertEquals(30, topics.keySet().size());
+
+    assertEquals("coronavirus origin", topics.get("1").get("query"));
+    assertEquals("what is the origin of COVID-19", topics.get("1").get("question"));
+    assertEquals("seeking range of information about the SARS-CoV-2 virus's origin, " +
+            "including its evolution, animal source, and first transmission into humans",
+        topics.get("1").get("narrative"));
+
+    assertEquals("coronavirus remdesivir", topics.get("30").get("query"));
+    assertEquals("is remdesivir an effective treatment for COVID-19", topics.get("30").get("question"));
+    assertEquals(
+        "seeking specific information on clinical outcomes in COVID-19 patients treated with remdesivir",
+        topics.get("30").get("narrative"));
+  }
+
 }
