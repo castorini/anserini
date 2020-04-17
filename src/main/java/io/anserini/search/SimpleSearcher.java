@@ -414,7 +414,7 @@ public class SimpleSearcher implements Closeable {
   }
 
   /**
-   * Fetches the Lucene {@link Document} based on a collection docid.
+   * Returns the Lucene {@link Document} based on a collection docid.
    * The method is named to be consistent with Lucene's {@link IndexReader#document(int)}, contra Java's standard
    * method naming conventions.
    *
@@ -423,6 +423,20 @@ public class SimpleSearcher implements Closeable {
    */
   public Document document(String docid) {
     return IndexReaderUtils.document(reader, docid);
+  }
+
+  /**
+   * Fetches the Lucene {@link Document} based on some field other than its unique collection docid.
+   * For example, scientific articles might have DOIs.
+   * The method is named to be consistent with Lucene's {@link IndexReader#document(int)}, contra Java's standard
+   * method naming conventions.
+   *
+   * @param field field
+   * @param id unique id
+   * @return corresponding Lucene {@link Document} based on the value of a specific field
+   */
+  public Document documentByField(String field, String id) {
+    return IndexReaderUtils.documentByField(reader, field, id);
   }
 
   /**
