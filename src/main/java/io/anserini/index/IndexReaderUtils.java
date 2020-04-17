@@ -394,7 +394,7 @@ public class IndexReaderUtils {
       ScoreDoc[] hits = rs.scoreDocs;
 
       if (hits == null || hits.length == 0) {
-        // Silently eat the error and return -1
+        // Either the id doesn't exist or there are multiple documents with the same id. In both cases, return null.
         return null;
       }
 
