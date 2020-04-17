@@ -16,6 +16,7 @@
 
 package io.anserini.search.query;
 
+import com.google.common.collect.Lists;
 import io.anserini.analysis.AnalyzerUtils;
 import io.anserini.index.IndexArgs;
 import org.apache.lucene.analysis.Analyzer;
@@ -30,11 +31,39 @@ import org.apache.lucene.search.TermQuery;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class Covid19QueryGenerator extends QueryGenerator {
-  private final String COVID_NAMES = "(COVID-?19|2019-?nCov|SARS-?COV-?2?|corona ?virus)";
-  private Pattern COVID_PATTERN = Pattern.compile(".*" + COVID_NAMES + ".*", Pattern.CASE_INSENSITIVE);
+  private static final String COVID_NAMES = "(COVID-?19|2019-?nCov|SARS-?COV-?2?|corona ?virus)";
+  private static final Pattern COVID_PATTERN = Pattern.compile(".*" + COVID_NAMES + ".*", Pattern.CASE_INSENSITIVE);
+
+  private static final String[] BOILERPLATE_PATTERNS = new String[] {
+      "tell me about",
+      "(is|are) there",
+      "what (type|kind|types|kinds) of",
+      "what do we know (about)?",
+      "what is known (about)?",
+      "what do we know about",
+      "what [a-z]+ (is|are) there (on|about|for|related to|related)?",
+      "what (is|are)",
+      "how (does|do|are|have|has|can|might|will)",
+      "(I am |I'm )?(looking|searching|seeking|desiring).*?(documents|information|pages|knowledge|data|numbers|figures|studies|results) (on|of|about|for|related to|related)?",
+      "(I am |I'm )?(looking|searching|seeking|desiring)( (for|about|on))?",
+      "how (far|long|wide|narrow|tall|short) (does|do|can)",
+      "(what|when|where|why|how|which) ",
+  };
+
+  private static final String BOILERPLATE;
+  static {
+     BOILERPLATE = "(?i)^(" +
+        Lists.newArrayList(BOILERPLATE_PATTERNS).stream().collect(Collectors.joining("|")) + ")";
+  }
+
   private BagOfWordsQueryGenerator bowQueryGenerator = new BagOfWordsQueryGenerator();
+
+  public String removeBoilerplate(String q) {
+    return q.replaceAll(BOILERPLATE, "").trim();
+  }
 
   public boolean isCovidQuery(String q) {
     return COVID_PATTERN.matcher(q).matches();
@@ -42,6 +71,9 @@ public class Covid19QueryGenerator extends QueryGenerator {
 
   @Override
   public Query buildQuery(String field, Analyzer analyzer, String queryText) {
+    // Remove boilerplate
+    queryText = removeBoilerplate(queryText);
+
     // If query doesn't contain variants of COVID-19, then just pass through with BoW generator.
     if (!isCovidQuery(queryText)) {
       return bowQueryGenerator.buildQuery(field, analyzer, queryText);
