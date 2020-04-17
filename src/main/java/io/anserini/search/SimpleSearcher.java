@@ -28,6 +28,7 @@ import io.anserini.rerank.ScoredDocuments;
 import io.anserini.rerank.lib.Rm3Reranker;
 import io.anserini.rerank.lib.ScoreTiesAdjusterReranker;
 import io.anserini.search.query.BagOfWordsQueryGenerator;
+import io.anserini.search.query.QueryGenerator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
@@ -299,6 +300,12 @@ public class SimpleSearcher implements Closeable {
   }
 
   public Result[] search(Query query, int k) throws IOException {
+    return search(query, null, null, k, -1);
+  }
+
+  public Result[] search(QueryGenerator generator, String q, int k) throws IOException {
+    Query query = generator.buildQuery(IndexArgs.CONTENTS, analyzer, q);
+
     return search(query, null, null, k, -1);
   }
 
