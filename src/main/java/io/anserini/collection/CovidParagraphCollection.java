@@ -88,10 +88,17 @@ public class CovidParagraphCollection extends DocumentCollection<CovidParagraphC
         String recordFullText = "";
 
         // get paragraphs from full text file
-        if (record.get("has_pdf_parse").contains("True")) {
+        String fullTextPath = null;
+        if (record.get("has_pmc_xml_parse").contains("True")) {
+          fullTextPath = "/" + record.get("full_text_file") + "/pmc_json/" +
+          record.get("pmcid") + ".xml.json";
+        } else if (record.get("has_pdf_parse").contains("True")) {
           String[] hashes = record.get("sha").split(";");
-          String fullTextPath = "/" + record.get("full_text_file") + "/pdf_json/" +
+          fullTextPath = "/" + record.get("full_text_file") + "/pdf_json/" +
             hashes[hashes.length - 1].strip() + ".json";
+        }
+
+        if (fullTextPath != null){
           try {
             String recordFullTextPath = CovidParagraphCollection.this.path.toString() + fullTextPath;
             recordFullText = new String(Files.readAllBytes(Paths.get(recordFullTextPath)));
