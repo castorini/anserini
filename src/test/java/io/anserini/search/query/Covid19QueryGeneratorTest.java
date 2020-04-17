@@ -91,4 +91,29 @@ public class Covid19QueryGeneratorTest {
     assertTrue(queryGenerator.isCovidQuery("the Corona Virus incubation period"));
     assertFalse(queryGenerator.isCovidQuery("I like to drink Corona beers"));
   }
+
+  @Test
+  public void testRemoveBoilerplate() {
+    Analyzer analyzer = IndexCollection.DEFAULT_ANALYZER;
+    Covid19QueryGenerator queryGenerator = new Covid19QueryGenerator();
+    Query query;
+
+    query = queryGenerator.buildQuery(IndexArgs.CONTENTS, analyzer,
+        "I'm looking for information about the incubation period of COVID-19?");
+    assertEquals(
+        "contents:incub contents:period (contents:\"covid 19\" | contents:\"2019 ncov\" | contents:\"sar cov 2\")",
+        query.toString());
+
+    assertEquals("the incubation period of COVID-19?",
+        queryGenerator.removeBoilerplate("I'm looking for information about the incubation period of COVID-19?"));
+    assertEquals("the incubation period of COVID-19?",
+        queryGenerator.removeBoilerplate("What do we know about the incubation period of COVID-19?"));
+    assertEquals("the incubation period of COVID-19?",
+        queryGenerator.removeBoilerplate("What is known about the incubation period of COVID-19?"));
+
+    // Make sure pattern is non-greedy.
+    assertEquals("the incubation period of COVID-19 and related information?",
+        queryGenerator.removeBoilerplate("I'm looking for information about the incubation period of COVID-19 and related information?"));
+
+  }
 }
