@@ -1,0 +1,154 @@
+<topics task="COVIDSearch 2020" batch="1">
+  <topic number="1">
+    <query>coronavirus origin</query>
+    <question>what is the origin of COVID-19</question>
+    <narrative>seeking range of information about the SARS-CoV-2 virus's origin, including its evolution, animal source, and first transmission into humans</narrative>
+  </topic>
+  <topic number="2">
+    <query>coronavirus response to weather changes</query>
+    <question>how does the coronavirus respond to changes in the weather</question>
+    <narrative>seeking range of information about the SARS-CoV-2 virus viability in different weather/climate conditions as well as information related to transmission of the virus in different climate conditions</narrative>
+  </topic>
+  <topic number="3">
+    <query>coronavirus immunity</query>
+    <question>will SARS-CoV2 infected people develop immunity? Is cross protection possible?</question>
+    <narrative>seeking studies of immunity developed due to infection with SARS-CoV2 or cross protection gained due to infection with other coronavirus types</narrative>
+  </topic>
+  <topic number="4">
+    <query>how do people die from the coronavirus</query>
+    <question>what causes death from Covid-19?</question>
+    <narrative>Studies looking at mechanisms of death from Covid-19.</narrative>
+  </topic>
+  <topic number="5">
+    <query>animal models of COVID-19</query>
+    <question>what drugs have been active against SARS-CoV or SARS-CoV-2 in animal studies?</question>
+    <narrative>Papers that describe the results  of testing drugs that bind to spike proteins of the virus or any other drugs in any animal models. Papers about SARS-CoV-2 infection in cell culture assays are also relevant.</narrative>
+  </topic>
+  <topic number="6">
+    <query>coronavirus test rapid testing</query>
+    <question>what types of rapid testing for Covid-19 have been developed?</question>
+    <narrative>Looking for studies identifying ways to diagnose Covid-19 more rapidly.</narrative>
+  </topic>
+  <topic number="7">
+    <query>serological tests for coronavirus</query>
+    <question>are there serological tests that detect antibodies to coronavirus?</question>
+    <narrative>Looking for assays that measure immune response to COVID-19 that will help determine past infection and subsequent possible immunity.</narrative>
+  </topic>
+  <topic number="8">
+    <query>coronavirus under reporting</query>
+    <question>how has lack of testing availability led to underreporting of true incidence of Covid-19?</question>
+    <narrative>Looking for studies answering questions of impact of lack of complete testing for Covid-19 on incidence and prevalence of Covid-19.</narrative>
+  </topic>
+  <topic number="9">
+    <query>coronavirus in Canada</query>
+    <question>how has COVID-19 affected Canada</question>
+    <narrative>seeking data related to infections (confirm, suspected, and projected) and health outcomes (symptoms, hospitalization, intensive care, mortality)</narrative>
+  </topic>
+  <topic number="10">
+    <query>coronavirus social distancing impact</query>
+    <question>has social distancing had an impact on slowing the spread of COVID-19?</question>
+    <narrative>seeking specific information on studies that have measured COVID-19's transmission in one or more social distancing (or non-social distancing) approaches</narrative>
+  </topic>
+  <topic number="11">
+    <query>coronavirus hospital rationing</query>
+    <question>what are the guidelines for triaging patients infected with coronavirus?</question>
+    <narrative>Seeking information on any guidelines for prioritizing COVID-19 patients infected with coronavirus based on demographics, clinical signs, serology and other tests.</narrative>
+  </topic>
+  <topic number="12">
+    <query>coronavirus quarantine</query>
+    <question>what are best practices in hospitals and at home in maintaining quarantine?</question>
+    <narrative>Seeking information on best practices for activities and duration of quarantine for those exposed and/ infected to COVID-19 virus.</narrative>
+  </topic>
+  <topic number="13">
+    <query>how does coronavirus spread</query>
+    <question>what are the transmission routes of coronavirus?</question>
+    <narrative>Looking for information on all possible ways to contract COVID-19 from people, animals and objects</narrative>
+  </topic>
+  <topic number="14">
+    <query>coronavirus super spreaders</query>
+    <question>what evidence is there related to COVID-19 super spreaders</question>
+    <narrative>seeking range of information related to the number and proportion of super spreaders, their patterns of behavior that lead to spread, and potential prevention strategies targeted specifically toward super spreaders</narrative>
+  </topic>
+  <topic number="15">
+    <query>coronavirus outside body</query>
+    <question>how long can the coronavirus live outside the body</question>
+    <narrative>seeking range of information on the SARS-CoV-2's virus's survival in different environments (surfaces, liquids, etc.) outside the human body while still being viable for transmission to another human</narrative>
+  </topic>
+  <topic number="16">
+    <query>how long does coronavirus survive on surfaces</query>
+    <question>how long does coronavirus remain stable  on surfaces?</question>
+    <narrative>Studies of time SARS-CoV-2 remains stable after being deposited from an infected person on everyday surfaces in a household or hospital setting, such as through coughing or touching objects.</narrative>
+  </topic>
+  <topic number="17">
+    <query>coronavirus clinical trials</query>
+    <question>are there any clinical trials available for the coronavirus</question>
+    <narrative>seeking specific COVID-19 clinical trials ranging from trials in recruitment to completed trials with results</narrative>
+  </topic>
+  <topic number="18">
+    <query>masks prevent coronavirus</query>
+    <question>what are the best masks for preventing infection by Covid-19?</question>
+    <narrative>What types of masks should or should not be used to prevent infection by Covid-19?</narrative>
+  </topic>
+  <topic number="19">
+    <query>what alcohol sanitizer kills coronavirus</query>
+    <question>what type of hand sanitizer is needed to destroy Covid-19?</question>
+    <narrative>Studies assessing chemicals and their concentrations needed to destroy the Covid-19 virus.</narrative>
+  </topic>
+  <topic number="20">
+    <query>coronavirus and ACE inhibitors</query>
+    <question>are patients taking Angiotensin-converting enzyme inhibitors (ACE) at increased risk for COVID-19?</question>
+    <narrative>Looking for information on interactions between  coronavirus and  angiotensin converting enzyme 2 (ACE2) receptors, risk for patients taking these medications, and recommendations for these patients.</narrative>
+  </topic>
+  <topic number="21">
+    <query>coronavirus mortality</query>
+    <question>what are the mortality rates overall and in specific populations</question>
+    <narrative>Seeking  information on COVID-19 fatality rates in different countries and in different population groups based on gender, blood types, or other factors</narrative>
+  </topic>
+  <topic number="22">
+    <query>coronavirus heart impacts</query>
+    <question>are cardiac complications likely in patients with COVID-19?</question>
+    <narrative>Seeking information on the types, frequency and mechanisms of cardiac complications caused by coronavirus.</narrative>
+  </topic>
+  <topic number="23">
+    <query>coronavirus hypertension</query>
+    <question>what kinds of complications related to COVID-19 are associated with hypertension?</question>
+    <narrative>seeking specific outcomes that hypertensive  (any type) patients are more/less likely to face if infected with the virus</narrative>
+  </topic>
+  <topic number="24">
+    <query>coronavirus diabetes</query>
+    <question>what kinds of complications related to COVID-19 are associated with diabetes</question>
+    <narrative>seeking specific outcomes that diabetic (any type) patients are more/less likely to face if infected with the virus</narrative>
+  </topic>
+  <topic number="25">
+    <query>coronavirus biomarkers</query>
+    <question>which biomarkers predict the severe clinical course of 2019-nCOV infection?</question>
+    <narrative>Looking for information on biomarkers that predict disease outcomes in people infected with coronavirus, specifically those that predict severe and fatal outcomes.</narrative>
+  </topic>
+  <topic number="26">
+    <query>coronavirus early symptoms</query>
+    <question>what are the initial symptoms of Covid-19?</question>
+    <narrative>Studies of patients and the first clinical manifestations they develop upon active infection?</narrative>
+  </topic>
+  <topic number="27">
+    <query>coronavirus asymptomatic</query>
+    <question>what is known about those infected with Covid-19 but are asymptomatic?</question>
+    <narrative>Studies of people who are known to be infected with Covid-19 but show no symptoms?</narrative>
+  </topic>
+  <topic number="28">
+    <query>coronavirus hydroxychloroquine</query>
+    <question>what evidence is there for the value of hydroxychloroquine in treating Covid-19?</question>
+    <narrative>Basic science or clinical studies assessing the benefit and harms of treating Covid-19 with hydroxychloroquine.</narrative>
+  </topic>
+  <topic number="29">
+    <query>coronavirus drug repurposing</query>
+    <question>which SARS-CoV-2 proteins-human proteins interactions indicate potential for drug targets. Are there approved drugs that can be repurposed based on this information?</question>
+    <narrative>Seeking information about protein-protein interactions for any of the SARS-CoV-2  structural proteins that represent a promising therapeutic target,  and the drug  molecules that may inhibit the virus and the host cell receptors at entry step.</narrative>
+  </topic>
+  <topic number="30">
+    <query>coronavirus remdesivir</query>
+    <question>is remdesivir an effective treatment for COVID-19</question>
+    <narrative>seeking specific information on clinical outcomes in COVID-19 patients treated with remdesivir</narrative>
+  </topic>
+</topics>
+
+
