@@ -18,10 +18,10 @@ package io.anserini.search;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import io.anserini.analysis.AnalyzerUtils;
+import io.anserini.ann.ApproximateNearestNeighborSearch;
 import io.anserini.ann.IndexVectors;
 import io.anserini.ann.fw.FakeWordsEncoderAnalyzer;
 import io.anserini.ann.lexlsh.LexicalLshAnalyzer;
@@ -40,6 +40,10 @@ import org.apache.lucene.store.FSDirectory;
 
 import static org.apache.lucene.search.BooleanClause.Occur.SHOULD;
 
+/**
+ * Convenience class to leverage Anserini {@link ApproximateNearestNeighborSearch} capabilities from code (e.g. Pyserini)
+ * rather than command line. It assumes index has been created with {@code -stored} option enabled.
+ */
 public class SimpleNearestNeighborSearcher {
 
   private final Analyzer analyzer;
@@ -63,9 +67,34 @@ public class SimpleNearestNeighborSearcher {
     }
   }
 
-  public Result[][] search(String word, int k) throws IOException {
+  /**
+   * Search for nearest neighbors of a certain document, given its identifier
+   *
+   * @param id the input document identifier
+   * @param d  the number of nearest neighbors to retrieve
+   * @return an array of nearest neighbors
+   * @throws IOException
+   */
+  public Result[] search(String id, int d) throws IOException {
+    Result[][] neighbors = multisearch(id, 1, d);
+    return neighbors.length > 0 ? neighbors[0] : new Result[0];
+  }
+
+  /**
+   * Search for multiple nearest neighbors of documents having the same identifier
+   *
+   * @param id documents' identifier
+   * @param k  the number of nearest neighbors to retrieve for each document with the given id
+   * @return an array of nearest neighbors for each matching document
+   * @throws IOException
+   */
+  public Result[][] multisearch(String id, int k) throws IOException {
+    return multisearch(id, Integer.MAX_VALUE, k);
+  }
+
+  protected Result[][] multisearch(String id, int k, int d) throws IOException {
     List<Result[]> results = new ArrayList<>();
-    TopDocs wordDocs = searcher.search(new TermQuery(new Term(IndexVectors.FIELD_ID, word)), k);
+    TopDocs wordDocs = searcher.search(new TermQuery(new Term(IndexVectors.FIELD_ID, id)), k);
 
     for (ScoreDoc scoreDoc : wordDocs.scoreDocs) {
       Document doc = searcher.doc(scoreDoc.doc);
@@ -75,7 +104,7 @@ public class SimpleNearestNeighborSearcher {
       for (String token : tokens) {
         simQuery.add(new Term(IndexVectors.FIELD_VECTOR, token));
       }
-      TopDocs nearest = searcher.search(simQuery, k);
+      TopDocs nearest = searcher.search(simQuery, d);
       Result[] neighbors = new Result[nearest.scoreDocs.length];
       int i = 0;
       for (ScoreDoc nn : nearest.scoreDocs) {
