@@ -16,7 +16,6 @@
 
 package io.anserini.search.query;
 
-import com.google.common.collect.Lists;
 import io.anserini.analysis.AnalyzerUtils;
 import io.anserini.index.IndexArgs;
 import org.apache.lucene.analysis.Analyzer;
@@ -37,7 +36,7 @@ public class Covid19QueryGenerator extends QueryGenerator {
   private static final String COVID_NAMES = "(COVID-?19|2019-?nCov|SARS-?COV-?2?|corona ?virus)";
   private static final Pattern COVID_PATTERN = Pattern.compile(".*" + COVID_NAMES + ".*", Pattern.CASE_INSENSITIVE);
 
-  private static final String[] BOILERPLATE_PATTERNS = new String[] {
+  private static final List<String> BOILERPLATE_PATTERNS = List.of(
       "tell me about",
       "(is|are) there",
       "what (type|kind|types|kinds) of",
@@ -50,19 +49,17 @@ public class Covid19QueryGenerator extends QueryGenerator {
       "(I am |I'm )?(looking|searching|seeking|desiring).*?(documents|information|pages|knowledge|data|numbers|figures|studies|results) (on|of|about|for|related to|related)?",
       "(I am |I'm )?(looking|searching|seeking|desiring)( (for|about|on))?",
       "how (far|long|wide|narrow|tall|short) (does|do|can)",
-      "(what|when|where|why|how|which) ",
-  };
+      "(what|when|where|why|how|which) ");
+  private static final String BOILERPLATE_REGEXP;
 
-  private static final String BOILERPLATE;
   static {
-     BOILERPLATE = "(?i)^(" +
-        Lists.newArrayList(BOILERPLATE_PATTERNS).stream().collect(Collectors.joining("|")) + ")";
+     BOILERPLATE_REGEXP = "(?i)^(" + BOILERPLATE_PATTERNS.stream().collect(Collectors.joining("|")) + ")";
   }
 
   private BagOfWordsQueryGenerator bowQueryGenerator = new BagOfWordsQueryGenerator();
 
   public String removeBoilerplate(String q) {
-    return q.replaceAll(BOILERPLATE, "").trim();
+    return q.replaceAll(BOILERPLATE_REGEXP, "").trim();
   }
 
   public boolean isCovidQuery(String q) {
