@@ -52,7 +52,8 @@ public enum Topics {
   TREC2002_AR(TrecTopicReader.class, "topics-and-qrels/topics.trec02ar-ar.txt"),
   FIRE2012_BN(TrecTopicReader.class, "topics-and-qrels/topics.fire12bn.176-225.txt"),
   FIRE2012_HI(TrecTopicReader.class, "topics-and-qrels/topics.fire12hi.176-225.txt"),
-  FIRE2012_EN(TrecTopicReader.class, "topics-and-qrels/topics.fire12en.176-225.txt");
+  FIRE2012_EN(TrecTopicReader.class, "topics-and-qrels/topics.fire12en.176-225.txt"),
+  COVID_ROUND1(CovidTopicReader.class, "topics-and-qrels/topics.covid-round1.xml");
 
   public final String path;
   public final Class readerClass;
