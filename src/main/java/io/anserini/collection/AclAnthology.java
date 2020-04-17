@@ -17,10 +17,10 @@
 package io.anserini.collection;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.MappingIterator;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -105,7 +105,7 @@ public class AclAnthology extends DocumentCollection<AclAnthology.Document> {
   /**
    * A document in a JSON collection.
    */
-  public class Document extends SourceDocument {
+  public class Document implements SourceDocument {
     private String id;
     private String contents;
     private JsonNode paper;
@@ -152,7 +152,15 @@ public class AclAnthology extends DocumentCollection<AclAnthology.Document> {
     }
 
     @Override
-    public String content() {
+    public String contents() {
+      if (contents == null) {
+        throw new RuntimeException("JSON document has no \"contents\" field");
+      }
+      return contents;
+    }
+
+    @Override
+    public String raw() {
       if (contents == null) {
         throw new RuntimeException("JSON document has no \"contents\" field");
       }

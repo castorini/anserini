@@ -7,13 +7,13 @@ topic_root: src/main/resources/topics-and-qrels/
 qrels_root: src/main/resources/topics-and-qrels/
 index_root:
 ranking_root:
-collection: TrecCollection
-generator: LuceneDocumentGenerator
+collection: CleanTrecCollection
+generator: DefaultLuceneDocumentGenerator
 threads: 16
 index_options:
   - -storePositions
   - -storeDocvectors
-  - -storeRawDocs
+  - -storeRaw
   - -language en
 search_options:
   - -language en
@@ -48,7 +48,7 @@ input_roots:
   - /store/      # on orca
   - /scratch2/   # on damiano
 input: collections/fire/english/en.docs.2011
-index_path: indexes/lucene-index.fire12-en.pos+docvectors+rawdocs
+index_path: indexes/lucene-index.fire12-en.pos+docvectors+raw
 index_stats:
   documents: 392577
   documents (non-empty): 392577

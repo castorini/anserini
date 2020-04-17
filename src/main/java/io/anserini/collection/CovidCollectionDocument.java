@@ -26,7 +26,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-public abstract class CovidCollectionDocument extends SourceDocument {
+public abstract class CovidCollectionDocument implements SourceDocument {
   private static final Logger LOG = LogManager.getLogger(CovidCollectionDocument.class);
   protected String id;
   protected String content;
@@ -68,18 +68,18 @@ public abstract class CovidCollectionDocument extends SourceDocument {
   }
 
   @Override
-  public String content() {
+  public String contents() {
     return content;
-  }
-
-  @Override
-  public boolean indexable() {
-    return true;
   }
 
   @Override
   public String raw() {
     return raw;
+  }
+
+  @Override
+  public boolean indexable() {
+    return true;
   }
 
   public CSVRecord record() {

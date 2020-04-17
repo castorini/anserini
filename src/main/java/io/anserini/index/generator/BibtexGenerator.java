@@ -19,7 +19,6 @@ package io.anserini.index.generator;
 import io.anserini.analysis.DefaultEnglishAnalyzer;
 import io.anserini.collection.BibtexCollection;
 import io.anserini.index.IndexArgs;
-import io.anserini.index.IndexCollection;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.CharArraySet;
 import org.apache.lucene.analysis.TokenStream;
@@ -43,8 +42,10 @@ import java.util.Map;
 /**
  * Converts a {@link BibtexCollection.Document} into a Lucene {@link Document}, ready to be indexed.
  */
-public class BibtexGenerator extends LuceneDocumentGenerator<BibtexCollection.Document> {
+public class BibtexGenerator implements LuceneDocumentGenerator<BibtexCollection.Document> {
   public static final String TYPE = "type";
+
+  private IndexArgs args;
 
   public enum BibtexField {
     DOI("doi"),
@@ -78,20 +79,19 @@ public class BibtexGenerator extends LuceneDocumentGenerator<BibtexCollection.Do
     BibtexField.ADDRESS.name,
     BibtexField.EDITOR.name);
 
-  public BibtexGenerator(IndexArgs args, IndexCollection.Counters counters) {
-    super(args, counters);
+  public BibtexGenerator(IndexArgs args) {
+    this.args = args;
   }
 
   @Override
-  public Document createDocument(BibtexCollection.Document bibtexDoc) {
+  public Document createDocument(BibtexCollection.Document bibtexDoc) throws GeneratorException {
     String id = bibtexDoc.id();
-    String content = bibtexDoc.content();
+    String content = bibtexDoc.contents();
     String type = bibtexDoc.type();
     BibTeXEntry bibtexEntry = bibtexDoc.bibtexEntry();
 
     if (content == null || content.trim().isEmpty()) {
-      counters.empty.incrementAndGet();
-      return null;
+      throw new EmptyDocumentException();
     }
 
     Document doc = new Document();
@@ -103,12 +103,12 @@ public class BibtexGenerator extends LuceneDocumentGenerator<BibtexCollection.Do
     // Store the collection's bibtex type
     doc.add(new StringField(TYPE, type, Field.Store.YES));
 
-    if (args.storeRawDocs) {
-      doc.add(new StoredField(IndexArgs.RAW, content));
+    if (args.storeRaw) {
+      doc.add(new StoredField(IndexArgs.RAW, bibtexDoc.raw()));
     }
 
     FieldType fieldType = new FieldType();
-    fieldType.setStored(args.storeTransformedDocs);
+    fieldType.setStored(args.storeContents);
 
     // Are we storing document vectors?
     if (args.storeDocvectors) {

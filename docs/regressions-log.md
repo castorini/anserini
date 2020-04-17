@@ -3,9 +3,34 @@
 The following change log details commits to regression tests that alter effectiveness and the addition of new regression tests.
 This documentation is useful for figuring why results may have changed over time.
 
+### April 12, 2020
+
++ commit [`35f9f8`](https://github.com/castorini/anserini/commit/35f9f82f13fa4ab9b6fba494044cc7d5a3915b02) (04/12/2020)
+
+Regression results for Core18 (Washington Post) changed due to refactoring to conform to clarified definitions of `contents()` and `raw()` in `SourceDocument`, per [Issue #1048](https://github.com/castorini/anserini/issues/1048).
+Previously, both `contents()` and `raw()` returned the raw JSON, and the `WashingtonPostGenerator` extracted the article contents for indexing.
+Now, `raw()` returns the raw JSON and `contents()` returns the extracted article contents for indexing (i.e., the logic for parsing the JSON has been moved from `WashingtonPostGenerator` into the collection itself).
+This conforms to the principle that every collection should "know" how to parse its own contents.
+
+Regression values went down slightly for `Ax` as a result of this refactoring.
+The difference is that, before, the "empty document check" was performed on the JSON, so it never triggered (since the JSON was never empty).
+With this new processing logic, the "empty document check" is performed on `contents()` (hence, the parsed article contents), and so the number of empty documents is now accurate (there are six based on the current parsing logic).
+From these changes and those below, it seems that `Ax` is very sensitive to tiny collection differences.
+
+### April 7, 2020
+
++ commit [`9a28a0`](https://github.com/castorini/anserini/commit/9a28a098dfd85366be29a6feb385c9e2493f988c) (04/07/2020)
+
+Regression results for Core17 (New York Times) changed as the result of a bug fix.
+Previously, Core17 used the `NewYorkTimesCollection` and was indexed with `JsoupGenerator` as the generator, which assumes that the input is HTML (or XML) and removes tags.
+However, this was unnecessary, because the collection implementation already removes tags internally.
+As a result, angle brackets in the text were interpreted as tags and removed.
+Fixing this bug increased the number of terms in the collection (and a document that was previously empty is no longer empty).
+However, effectiveness of `bm25+ax` and `ql+ax` decreased slightly; `bm25`/`bm25+rm3` and `ql`/`ql+rm3` remain unchanged.
+
 ### March 6, 2020
 
-+ commit [`a62004`](https://github.com/castorini/anserini/commit/10ff01a429bbfca196c8a012f1577b09ea476d8a) (03/06/2020)
++ commit [`10ff01`](https://github.com/castorini/anserini/commit/10ff01a429bbfca196c8a012f1577b09ea476d8a) (03/06/2020)
 
 Added regressions for background linking task from the TREC 2018 and 2019 News Tracks.
 

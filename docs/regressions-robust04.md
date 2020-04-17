@@ -10,8 +10,8 @@ Typical indexing command:
 
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection TrecCollection -input /path/to/robust04 \
- -index lucene-index.robust04.pos+docvectors+rawdocs -generator JsoupGenerator -threads 16 \
- -storePositions -storeDocvectors -storeRawDocs >& log.robust04.pos+docvectors+rawdocs &
+ -index lucene-index.robust04.pos+docvectors+rawdocs -generator DefaultLuceneDocumentGenerator -threads 16 \
+ -storePositions -storeDocvectors -storeRaw >& log.robust04.pos+docvectors+rawdocs &
 ```
 
 The directory `/path/to/disk45/` should be the root directory of [TREC Disks 4 &amp; 5](https://trec.nist.gov/data_disks.html); inside each there should be subdirectories like `ft`, `fr94`.

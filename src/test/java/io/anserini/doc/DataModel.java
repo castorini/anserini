@@ -271,7 +271,7 @@ public class DataModel {
   public String generateIndexingCommand(String collection) {
     boolean containRawDocs = false;
     for (String option : getIndex_options()) {
-      if (option.contains("-storeRawDocs")) {
+      if (option.contains("-storeRaw")) {
         containRawDocs = true;
       }
     }
@@ -293,7 +293,7 @@ public class DataModel {
   public String generateRankingCommand(String collection) {
     boolean containRawDocs = false;
     for (String option : getIndex_options()) {
-      if (option.contains("-storeRawDocs")) {
+      if (option.contains("-storeRaw")) {
         containRawDocs = true;
       }
     }

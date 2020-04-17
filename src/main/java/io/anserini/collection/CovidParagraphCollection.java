@@ -16,6 +16,8 @@
 
 package io.anserini.collection;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
@@ -33,9 +35,6 @@ import java.nio.file.Paths;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Set;
-
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * A document collection for the CORD-19 dataset provided by Semantic Scholar.
@@ -74,9 +73,6 @@ public class CovidParagraphCollection extends DocumentCollection<CovidParagraphC
         .withTrim());
 
       iterator = csvParser.iterator();
-      if (iterator.hasNext()) {
-        record = iterator.next();
-      }
     }
 
     @Override

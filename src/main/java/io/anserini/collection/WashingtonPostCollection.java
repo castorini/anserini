@@ -26,8 +26,12 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
+import io.anserini.index.generator.WashingtonPostGenerator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.lucene.document.Field;
+import org.apache.lucene.document.StringField;
+import org.jsoup.Jsoup;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -103,15 +107,15 @@ public class WashingtonPostCollection extends DocumentCollection<WashingtonPostC
       bufferedRecord.articleUrl = wapoObj.getArticleUrl();
       bufferedRecord.author = wapoObj.getAuthor();
       bufferedRecord.obj = wapoObj;
-      bufferedRecord.content = record;
+      bufferedRecord.raw = record;
     }
   }
 
   /**
    * A document from the <a href="https://trec.nist.gov/data/wapost/">TREC Washington Post Corpus</a>.
    */
-  public static class Document extends SourceDocument {
-    private static final Logger LOG = LogManager.getLogger(Document.class);
+  public static class Document implements SourceDocument {
+    public static final List<String> CONTENT_TYPE_TAG = Arrays.asList("sanitized_html", "tweet");
 
     // Required fields
     protected String id;
@@ -119,8 +123,15 @@ public class WashingtonPostCollection extends DocumentCollection<WashingtonPostC
     protected Optional<String> author;
     protected long publishDate;
     protected Optional<String> title;
-    protected String content;
+    protected String raw;
     protected WashingtonPostObject obj;
+
+    protected String fullCaption = null;
+    protected String kicker = null;
+
+    private String removeTags(String content) {
+      return Jsoup.parse(content).text();
+    }
 
     @Override
     public String id() {
@@ -128,15 +139,53 @@ public class WashingtonPostCollection extends DocumentCollection<WashingtonPostC
     }
 
     @Override
-    public String content() {
-      return content;
+    public String contents() {
+      StringBuilder contentBuilder = new StringBuilder();
+      getTitle().ifPresent(title -> contentBuilder.append(title).append("\n"));
+
+      getObj().getContents().ifPresent(contents -> {
+        for (WashingtonPostObject.Content contentObj : contents) {
+          if (contentObj == null) continue;
+          if (contentObj.getType().isPresent() && contentObj.getContent().isPresent()) {
+            contentObj.getType().ifPresent(type -> {
+              contentObj.getContent().ifPresent(content -> {
+                if (CONTENT_TYPE_TAG.contains(type)) {
+                  contentBuilder.append(removeTags(content)).append("\n");
+                } else if (type.compareToIgnoreCase("kicker") == 0) {
+                  kicker = content;
+                  contentBuilder.append(content).append("\n");
+                }
+              });
+            });
+          }
+          contentObj.getFullCaption().ifPresent(caption -> {
+            fullCaption = contentObj.getFullCaption().get();
+            contentBuilder.append(removeTags(fullCaption)).append("\n");
+          });
+        }
+      });
+
+      return contentBuilder.toString();
+    }
+
+    @Override
+    public String raw() {
+      return raw;
     }
 
     @Override
     public boolean indexable() {
       return true;
     }
-  
+
+    public String getFullCaption() {
+      return fullCaption;
+    }
+
+    public String getKicker() {
+      return kicker;
+    }
+
     public Optional<String> getArticleUrl() {
       return articleUrl;
     }
@@ -151,10 +200,6 @@ public class WashingtonPostCollection extends DocumentCollection<WashingtonPostC
   
     public Optional<String> getTitle() {
       return title;
-    }
-  
-    public String getContent() {
-      return content;
     }
   
     public WashingtonPostObject getObj() {
