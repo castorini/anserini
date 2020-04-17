@@ -35,20 +35,28 @@ public class SimpleSearcherTest extends IndexerTestBase {
     SimpleSearcher searcher = new SimpleSearcher(super.tempDir1.toString());
 
     assertEquals("here is some text here is some more text. city.",
-        searcher.document(0).getField("contents").stringValue());
-    assertEquals("more texts",
-        searcher.document(1).getField("contents").stringValue());
-    assertEquals("here is a test",
-        searcher.document(2).getField("contents").stringValue());
+        searcher.document(0).get("contents"));
+    assertEquals("more texts", searcher.document(1).get("contents"));
+    assertEquals("here is a test", searcher.document(2).get("contents"));
     assertNull(searcher.document(3));
 
     assertEquals("here is some text here is some more text. city.",
-        searcher.document("doc1").getField("contents").stringValue());
-    assertEquals("more texts",
-        searcher.document("doc2").getField("contents").stringValue());
-    assertEquals("here is a test",
-        searcher.document("doc3").getField("contents").stringValue());
+        searcher.document("doc1").get("contents"));
+    assertEquals("more texts", searcher.document("doc2").get("contents"));
+    assertEquals("here is a test", searcher.document("doc3").get("contents"));
     assertNull(searcher.document(3));
+
+    searcher.close();
+  }
+
+  @Test
+  public void testGetDocByField() throws Exception {
+    SimpleSearcher searcher = new SimpleSearcher(super.tempDir1.toString());
+
+    assertEquals("here is some text here is some more text. city.",
+        searcher.documentByField("id", "doc1").get("contents"));
+    assertEquals("more texts", searcher.documentByField("id", "doc2").get("contents"));
+    assertEquals("here is a test", searcher.documentByField("id", "doc3").get("contents"));
 
     searcher.close();
   }
