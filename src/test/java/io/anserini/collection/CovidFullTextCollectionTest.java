@@ -23,43 +23,52 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CovidParagraphCollectionTest extends DocumentCollectionTest<CovidParagraphCollection.Document> {
+public class CovidFullTextCollectionTest extends DocumentCollectionTest<CovidFullTextCollection.Document> {
 
   @Before
   public void setUp() throws Exception {
     super.setUp();
 
     collectionPath = Paths.get("src/test/resources/sample_docs/covid/sample1");
-    collection = new CovidParagraphCollection(collectionPath);
+    collection = new CovidFullTextCollection(collectionPath);
 
     Path segment = Paths.get("src/test/resources/sample_docs/covid/sample1/metadata.csv");
 
     segmentPaths.add(segment);
-    segmentDocCounts.put(segment, 43);
+    segmentDocCounts.put(segment, 2);
 
     totalSegments = 1;
-    totalDocs = 43;
+    totalDocs = 2;
 
     HashMap<String, String> doc1 = new HashMap<>();
     doc1.put("id", "xqhn0vbp");
+    doc1.put("contents_starts_with", "Airborne rhinovirus detection and effect of ultraviolet irradiation");
+    doc1.put("contents_ends_with", "The pre-publication history for this paper can be accessed here:\n");
+    doc1.put("contents_length", "22834");
+    doc1.put("raw_length", "80042");
     expected.put("xqhn0vbp", doc1);
-
-    for (int i=1; i<totalDocs; i++) {
-      String id = String.format("xqhn0vbp.%05d", i);
-      HashMap<String, String> doc = new HashMap<>();
-      doc.put("id", id);
-      expected.put(id, doc);
-    }
 
     HashMap<String, String> doc2 = new HashMap<>();
     doc2.put("id", "28wrp74k");
+    doc2.put("contents_starts_with", "SARS and Population Health Technology");
+    doc2.put("contents_ends_with", "The need for critical evaluation of all of these technologies is stressed.");
+    doc2.put("contents_length", "1264");
+    doc2.put("raw_length", "1711");
     expected.put("28wrp74k", doc2);
   }
 
   @Override
   void checkDocument(SourceDocument doc, Map<String, String> expected) {
-    CovidParagraphCollection.Document covidDoc = (CovidParagraphCollection.Document) doc;
+    CovidFullTextCollection.Document covidDoc = (CovidFullTextCollection.Document) doc;
 
     assertEquals(expected.get("id"), covidDoc.id());
+    assertTrue(covidDoc.contents().startsWith(expected.get("contents_starts_with")));
+    assertTrue(covidDoc.contents().endsWith(expected.get("contents_ends_with")));
+    assertEquals(Integer.parseInt(expected.get("contents_length")), covidDoc.contents().length());
+
+    // Make sure raw() is a JSON, and check length.
+    assertTrue(covidDoc.raw().startsWith("{"));
+    assertTrue(covidDoc.raw().endsWith("}"));
+    assertEquals(Integer.parseInt(expected.get("raw_length")), covidDoc.raw().length());
   }
 }

@@ -37,17 +37,26 @@ public class CovidCollectionTest extends DocumentCollectionTest<CovidCollection.
     Path segment = Paths.get("src/test/resources/sample_docs/covid/sample1/metadata.csv");
 
     segmentPaths.add(segment);
-    segmentDocCounts.put(segment, 1);
+    segmentDocCounts.put(segment, 2);
 
     totalSegments = 1;
-    totalDocs = 1;
+    totalDocs = 2;
 
     HashMap<String, String> doc1 = new HashMap<>();
     doc1.put("id", "xqhn0vbp");
     doc1.put("contents_starts_with", "Airborne rhinovirus detection and effect of ultraviolet irradiation");
     doc1.put("contents_ends_with", "cannot distinguish UV inactivated virus from infectious viral particles.");
     doc1.put("contents_length", "1803");
+    doc1.put("raw_length", "80042");
     expected.put("xqhn0vbp", doc1);
+
+    HashMap<String, String> doc2 = new HashMap<>();
+    doc2.put("id", "28wrp74k");
+    doc2.put("contents_starts_with", "SARS and Population Health Technology");
+    doc2.put("contents_ends_with", "The need for critical evaluation of all of these technologies is stressed.");
+    doc2.put("contents_length", "1264");
+    doc2.put("raw_length", "1711");
+    expected.put("28wrp74k", doc2);
   }
 
   @Override
@@ -58,5 +67,10 @@ public class CovidCollectionTest extends DocumentCollectionTest<CovidCollection.
     assertTrue(covidDoc.contents().startsWith(expected.get("contents_starts_with")));
     assertTrue(covidDoc.contents().endsWith(expected.get("contents_ends_with")));
     assertEquals(Integer.parseInt(expected.get("contents_length")), covidDoc.contents().length());
+
+    // Make sure raw() is a JSON, and check length.
+    assertTrue(covidDoc.raw().startsWith("{"));
+    assertTrue(covidDoc.raw().endsWith("}"));
+    assertEquals(Integer.parseInt(expected.get("raw_length")), covidDoc.raw().length());
   }
 }
