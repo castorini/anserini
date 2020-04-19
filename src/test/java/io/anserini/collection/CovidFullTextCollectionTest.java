@@ -35,11 +35,13 @@ public class CovidFullTextCollectionTest extends DocumentCollectionTest<CovidFul
     Path segment = Paths.get("src/test/resources/sample_docs/covid/sample1/metadata.csv");
 
     segmentPaths.add(segment);
-    segmentDocCounts.put(segment, 2);
+    segmentDocCounts.put(segment, 3);
 
     totalSegments = 1;
-    totalDocs = 2;
+    totalDocs = 3;
 
+    // In the 2020/04/10 version, has_pdf_parse=TRUE, has_pmc_xml_parse=TRUE
+    // Should use has_pmc_xml_parse (preferred).
     HashMap<String, String> doc1 = new HashMap<>();
     doc1.put("id", "xqhn0vbp");
     doc1.put("contents_starts_with", "Airborne rhinovirus detection and effect of ultraviolet irradiation");
@@ -48,6 +50,8 @@ public class CovidFullTextCollectionTest extends DocumentCollectionTest<CovidFul
     doc1.put("raw_length", "80042");
     expected.put("xqhn0vbp", doc1);
 
+    // In the 2020/04/10 version, has_pdf_parse=FALSE, has_pmc_xml_parse=FALSE
+    // No full text.
     HashMap<String, String> doc2 = new HashMap<>();
     doc2.put("id", "28wrp74k");
     doc2.put("contents_starts_with", "SARS and Population Health Technology");
@@ -55,6 +59,17 @@ public class CovidFullTextCollectionTest extends DocumentCollectionTest<CovidFul
     doc2.put("contents_length", "1264");
     doc2.put("raw_length", "1711");
     expected.put("28wrp74k", doc2);
+
+    // In the 2020/04/10 version, has_pdf_parse=TRUE, has_pmc_xml_parse=FALSE
+    // Should back off to pdf_parse.
+    HashMap<String, String> doc3 = new HashMap<>();
+    doc3.put("id", "a8cps3ko");
+    // This particular entry doesn't have an abstract in the CSV
+    doc3.put("contents_starts_with", "Beyond Picomolar Affinities:");
+    doc3.put("contents_ends_with", "Copyright 2005 Americal Chemical Society. ");
+    doc3.put("contents_length", "33583");
+    doc3.put("raw_length", "191753");
+    expected.put("a8cps3ko", doc3);
   }
 
   @Override
