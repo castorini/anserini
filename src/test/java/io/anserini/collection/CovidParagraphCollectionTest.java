@@ -35,23 +35,44 @@ public class CovidParagraphCollectionTest extends DocumentCollectionTest<CovidPa
     Path segment = Paths.get("src/test/resources/sample_docs/covid/sample1/metadata.csv");
 
     segmentPaths.add(segment);
-    segmentDocCounts.put(segment, 42);
+    segmentDocCounts.put(segment, 76);
 
     totalSegments = 1;
-    totalDocs = 42;
+    totalDocs = 76;
 
+    // In the 2020/04/10 version, has_pdf_parse=TRUE, has_pmc_xml_parse=TRUE
+    // Should use has_pmc_xml_parse (preferred).
     HashMap<String, String> doc1 = new HashMap<>();
     doc1.put("id", "xqhn0vbp");
     expected.put("xqhn0vbp", doc1);
 
-    for (int i=1; i<totalDocs; i++) {
+    // has paragraphs 1 ... 41
+    for (int i=1; i<42; i++) {
       String id = String.format("xqhn0vbp.%05d", i);
       HashMap<String, String> doc = new HashMap<>();
       doc.put("id", id);
       expected.put(id, doc);
     }
-    //"xqhn0vbp.00001"
 
+    // In the 2020/04/10 version, has_pdf_parse=FALSE, has_pmc_xml_parse=FALSE
+    // No full text.
+    HashMap<String, String> doc2 = new HashMap<>();
+    doc2.put("id", "28wrp74k");
+    expected.put("28wrp74k", doc2);
+
+    // In the 2020/04/10 version, has_pdf_parse=TRUE, has_pmc_xml_parse=FALSE
+    // Should back off to pdf_parse.
+    HashMap<String, String> doc3 = new HashMap<>();
+    doc3.put("id", "a8cps3ko");
+    expected.put("a8cps3ko", doc3);
+
+    // has paragraphs 1 ... 32
+    for (int i=1; i<33; i++) {
+      String id = String.format("a8cps3ko.%05d", i);
+      HashMap<String, String> doc = new HashMap<>();
+      doc.put("id", id);
+      expected.put(id, doc);
+    }
   }
 
   @Override

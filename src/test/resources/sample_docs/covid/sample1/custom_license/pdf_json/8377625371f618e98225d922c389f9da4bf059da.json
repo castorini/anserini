@@ -1,0 +1,5274 @@
+{
+    "paper_id": "8377625371f618e98225d922c389f9da4bf059da",
+    "metadata": {
+        "title": "Beyond Picomolar Affinities: Quantitative Aspects of Noncovalent and Covalent Binding of Drugs to Proteins",
+        "authors": [
+            {
+                "first": "Adam",
+                "middle": [
+                    "J T"
+                ],
+                "last": "Smith",
+                "suffix": "",
+                "affiliation": {},
+                "email": ""
+            },
+            {
+                "first": "Xiyun",
+                "middle": [],
+                "last": "Zhang",
+                "suffix": "",
+                "affiliation": {},
+                "email": ""
+            },
+            {
+                "first": "\u2022",
+                "middle": [],
+                "last": "",
+                "suffix": "",
+                "affiliation": {},
+                "email": ""
+            },
+            {
+                "first": "Andrew",
+                "middle": [
+                    "G"
+                ],
+                "last": "Leach",
+                "suffix": "",
+                "affiliation": {},
+                "email": ""
+            },
+            {
+                "first": "K",
+                "middle": [
+                    "N"
+                ],
+                "last": "Houk",
+                "suffix": "",
+                "affiliation": {},
+                "email": ""
+            }
+        ]
+    },
+    "abstract": [],
+    "body_text": [
+        {
+            "text": "More than half a century ago, Linus Pauling wrote: \"enzymes are molecules that are complementary in structure to the activated complexes of the reactions that they catalyze, \u00b7\u00b7\u00b7, [rather than] entering into reactions.\" 1 This model has had a profound impact on drug design. Structure-based drug design usually involves the conceptualization and synthesis of molecules that have shapes and binding surfaces that are highly complementary to a protein receptor or enzyme binding site. 2, 3 The goal is to achieve high binding affinity and selectivity. A drug must also have appropriate ADMET properties, but affinity is the first step.",
+            "cite_spans": [],
+            "ref_spans": [],
+            "section": "Introduction"
+        },
+        {
+            "text": "Affinity and selectivity are generally improved by ensuring more perfect geometric and noncovalent interactions with a binding site. Crystal structures of a protein-ligand complex suggest structural modifications to better occupy a hydrophobic pocket. Such modifications can improve potency from the millimolar to the nanomolar range, 4 and have helped lead to clinically approved compounds such as the HIV protease inhibitor nelfinavir. 5, 6 Kuntz et al. have shown that small molecule affinity for protein binding sites resulting from noncovalent interactions generally peaks at 10 picomolar (10 \u221211 M), corresponding to \u0394G binding of 15 kcal/mol. 7 In contrast, binding constants for enzymes with transition states correspond to average \u0394 G binding of 22 kcal/mol, and up to 38 kcal/mol-many orders of magnitude stronger than can be attributed to noncovalent factors alone. 8, 9 Earlier studies in our group have shown how these and other data point to the generality of covalent and partial covalent bonding in transition states of enzyme-catalyzed reactions. 8, 9 This strength of binding may be achieved by fully covalent bonding such as Schiff base or acylenzyme intermediate formation, but partial covalent bonds that take place in general acid/base catalysis and interactions with metal cofactors can partially share electrons with the substrate or other reactants such as water molecules in the transition state. 9",
+            "cite_spans": [
+                {
+                    "start": 443,
+                    "end": 455,
+                    "text": "Kuntz et al.",
+                    "ref_id": null
+                },
+                {
+                    "start": 877,
+                    "end": 879,
+                    "text": "8,",
+                    "ref_id": "BIBREF7"
+                },
+                {
+                    "start": 880,
+                    "end": 881,
+                    "text": "9",
+                    "ref_id": "BIBREF8"
+                },
+                {
+                    "start": 1064,
+                    "end": 1066,
+                    "text": "8,",
+                    "ref_id": "BIBREF7"
+                },
+                {
+                    "start": 1067,
+                    "end": 1068,
+                    "text": "9",
+                    "ref_id": "BIBREF8"
+                }
+            ],
+            "ref_spans": [],
+            "section": "Introduction"
+        },
+        {
+            "text": "The harnessing of such strong covalent interactions could help provide the high potency that is needed at early stages of drug development. There has been a tendency to avoid covalent drugs, going back to studies in the early 1970s demonstrating hepatotoxicity as a result of covalent binding of compounds such as [ 14 C]bromobenzene and acetaminophen. 10, 11 At the same time, however, there are many examples of highly successful covalently acting drugs on the market, from proton pump inhibitors omeprazole and related compounds, 12, 13 to the entire class of \u03b2-lactam antibiotics. 14 The toxicity attributed to covalent binding is not an inherent feature of these interactions, per se, but rather a result of the specific spectrum of off-target modifications that may be made by the drug or even by metabolites of drugs whose primary mechanism of action is noncovalent. 15, 16 Advances in chemical biology, along with bioinformatics data analysis methods, are increasingly able to unravel which covalent modifications are tolerable and which are toxic, suggesting a reevaluation of the role of covalent binding in drugs and drug leads. [16] [17] [18] [19] In this Perspective, the limits achievable by noncovalent binding in enzyme-inhibitor complexes, and the greater affinity achieved by covalent bonding of the drug to the receptor, are discussed. Selected examples of covalently acting drugs will be presented (for more comprehensive reviews see references 20, 21 ) , as well as opportunities for their future structure-based design with advances in molecular modeling or screening with target-specific libraries.",
+            "cite_spans": [
+                {
+                    "start": 874,
+                    "end": 877,
+                    "text": "15,",
+                    "ref_id": "BIBREF14"
+                },
+                {
+                    "start": 878,
+                    "end": 880,
+                    "text": "16",
+                    "ref_id": "BIBREF15"
+                },
+                {
+                    "start": 1140,
+                    "end": 1144,
+                    "text": "[16]",
+                    "ref_id": "BIBREF15"
+                },
+                {
+                    "start": 1145,
+                    "end": 1149,
+                    "text": "[17]",
+                    "ref_id": "BIBREF16"
+                },
+                {
+                    "start": 1150,
+                    "end": 1154,
+                    "text": "[18]",
+                    "ref_id": "BIBREF17"
+                },
+                {
+                    "start": 1155,
+                    "end": 1159,
+                    "text": "[19]",
+                    "ref_id": "BIBREF18"
+                },
+                {
+                    "start": 1465,
+                    "end": 1468,
+                    "text": "20,",
+                    "ref_id": "BIBREF19"
+                },
+                {
+                    "start": 1469,
+                    "end": 1473,
+                    "text": "21 )",
+                    "ref_id": "BIBREF20"
+                }
+            ],
+            "ref_spans": [],
+            "section": "Introduction"
+        },
+        {
+            "text": "Drug-receptor binding has been discussed in terms of an equation for \u0394G binding that is sometimes referred to as the \"master equation\": 22",
+            "cite_spans": [],
+            "ref_spans": [],
+            "section": "Factors Involved in Ligand-Receptor Binding"
+        },
+        {
+            "text": "\u0394G solvent encompasses the desolvation of both ligand and receptor upon complex formation; this often involves favorable removal of hydrophobic molecules from aqueous solution and displacement of water molecules that would otherwise be held in a pocket in the protein.",
+            "cite_spans": [],
+            "ref_spans": [],
+            "section": "Factors Involved in Ligand-Receptor Binding"
+        },
+        {
+            "text": "\u0394G int is the interaction free energy involving direct contact of ligand with protein, and includes noncovalent interactions such as van der Waals interactions, electrostatic interactions, and hydrogen bonds. These can further improve the binding, but generally only to 15 kcal/mol, according to the study by Kuntz et al. 7 The few cases which exceed the maximal noncovalent binding of 15 kcal/mol include the biotin-avidin and biotin-streptavidin complexes. 7, 23 In these cases, the high affinity is believed to be due to enhanced hydrogen-bonding cooperativity, among other things. 24, 25 A small molecule host-guest complex with such a large affinity has also recently been reported. 26 \u0394G conf and \u0394G motion represent unfavorable terms for conformational strain and entropy loss upon complexation, respectively. These two factors are important to include but their calculation is difficult to quantify; nevertheless, research in these areas is active. 27, 28 In this Perspective, relative magnitudes and limits of \u0394G binding are discussed, with a focus on how they might be enhanced in order to lead to more potent compounds for the inhibition of therapeutically relevant targets.",
+            "cite_spans": [
+                {
+                    "start": 309,
+                    "end": 323,
+                    "text": "Kuntz et al. 7",
+                    "ref_id": null
+                }
+            ],
+            "ref_spans": [],
+            "section": "Factors Involved in Ligand-Receptor Binding"
+        },
+        {
+            "text": "Previously, we surveyed the aqueous binding constants for all types of organic and protein hosts, including cyclodextrins, various synthetic organic hosts, albumins, antibodies, enzymes, and other nonenzymatic drug receptors. 8 The binding constants fall into three regions ( Figure  1 ): weak-binding, medium-binding, and strong-binding. The weak-binding region corresponds to binding constants in the decimolar to hundreds of micromolar range (log K a of 1-4) and covers cyclodextrins and synthetic hosts binding organic guests, catalytic antibodies and enzymes binding their substrates, and albumins binding organic ligands. The medium-binding region corresponds to binding constants in the micromolar to nanomolar range (log K a of 6-9) and contains antibody-antigen complexes (including antibody-small molecule and antibody-biomolecule complexes), catalytic antibody-TS (transition state) complexes, receptor-drug complexes, and enzyme-inhibitor complexes. The strong-binding region is for the enzyme-TS complexes, whose proficiencies suggest binding constants in the subpicomolar range (log K a values of 16\u00b14).",
+            "cite_spans": [],
+            "ref_spans": [
+                {
+                    "start": 276,
+                    "end": 285,
+                    "text": "Figure  1",
+                    "ref_id": "FIGREF2"
+                }
+            ],
+            "section": "Distributions of Experimental Binding Constants: The 15 kcal/mol Limit of Noncovalent Binding Energy"
+        },
+        {
+            "text": "As shown in Figure 2 , a rough correlation between log K a and \u0394SASA (\u00c5 2 ) is found for all the complexes in the weak-and medium-binding systems. 8, 9 This suggests that weak to medium bindings are strongly influenced by desolvation of hydrophobic surfaces and bringing them together upon binding. A linear fit gives a slope of 0.011, corresponding to a \u03b3 value of 0.007 kcal/mol/\u00c5 2 in the equation \u0394G = \u03b3\u0394SASA. 8 Other noncovalent factors including van der Waals, hydrogen bonding, and electrostatic interactions, which are commonly involved in the binding process, contribute variations of as much as 3 orders of magnitude from this rough correlation. 8 These noncovalent interactions appear to achieve an upper limit for association constants, K a s, of ~10 11 . 7 With this limit in mind, it is sensible that most commercial drugs or prospective drug candidates which rely merely on noncovalent binding interactions have a binding strength in the sub-nanomolar to nanomolar range.",
+            "cite_spans": [
+                {
+                    "start": 147,
+                    "end": 149,
+                    "text": "8,",
+                    "ref_id": "BIBREF7"
+                },
+                {
+                    "start": 150,
+                    "end": 151,
+                    "text": "9",
+                    "ref_id": "BIBREF8"
+                }
+            ],
+            "ref_spans": [
+                {
+                    "start": 12,
+                    "end": 20,
+                    "text": "Figure 2",
+                    "ref_id": "FIGREF3"
+                }
+            ],
+            "section": "Distributions of Experimental Binding Constants: The 15 kcal/mol Limit of Noncovalent Binding Energy"
+        },
+        {
+            "text": "The Kuntz et al. survey of experimental data on 160 of the strongest-binding drugs and inhibitors to receptors and enzymes was referred to earlier. 7 It indicates that the binding energies of small molecules increase by about 1.5 kcal/mol with each non-hydrogen atom. 7 There is a 15 kcal/mol maximum affinity of drugs and inhibitors to receptors and enzymes, and for ligands that contain more than 10 non-hydrogen atoms, the binding energy increases very little. While up to 21 kcal/mol binding has been observed for a few cases, 92% of cases from the Kuntz et al. studies have binding energies of 15 kcal/mol or less. Their analysis of the dominant interactions suggests that van der Waals interactions, solvation and desolvation contribute to the binding affinities across the entire set of ligands. It is noteworthy that the outliers that bound unusually strongly include metal ions, covalently attached ligands, and a few well-known complexes such as biotin-avidin. In addition, the 15 kcal/mol maximum affinity (K a = 10 11 M \u22121 ) of drugs with receptors has also been noted by Gilli et al. ",
+            "cite_spans": [
+                {
+                    "start": 1084,
+                    "end": 1096,
+                    "text": "Gilli et al.",
+                    "ref_id": null
+                }
+            ],
+            "ref_spans": [],
+            "section": "Distributions of Experimental Binding Constants: The 15 kcal/mol Limit of Noncovalent Binding Energy"
+        },
+        {
+            "text": "Enzymes are exceptional catalysts that have evolved naturally over millions of years. A quantitative measurement of enzyme catalysis is proficiency, defined by Wolfenden as K tx Figure 1 ) is much greater than expected from noncovalent interactions. We have proposed that such exceptional binding is a result of covalent or partial covalent bond formation. This may involve the formation of an intermediate covalently bound to the enzyme or cofactor, proton transfer (general acid/base catalysis and possibly low-barrier hydrogen bonds) occurring in the transition state, or bonding to metal cations in the transition state. 9",
+            "cite_spans": [],
+            "ref_spans": [
+                {
+                    "start": 178,
+                    "end": 186,
+                    "text": "Figure 1",
+                    "ref_id": "FIGREF2"
+                }
+            ],
+            "section": "Covalent Interactions with Transition States as the Origins of Enzyme Proficiency"
+        },
+        {
+            "text": "As discussed above and in previous publications, 7-9, 29, 30 noncovalent interactions are likely to contribute no more than 15 kcal/mol for binding, corresponding to a binding constant of 10 11 M \u22121 , for typical small molecules binding to proteins. The twenty-four Wolfenden enzymes with known proficiencies 31, 33, 34 were divided into two groups using 10 11 M \u22121 as the dividing line. 9 Twenty-one enzymes (88%) had proficiencies over 10 11 M \u22121 and only three enzymes had proficiencies below 10 11 M \u22121 . 9 A literature survey of the catalytic mechanisms of the twenty-four enzymes showed that catalysis of the twenty-one enzymes with proficiencies over 10 11 M \u22121 all involve partial covalent bond-breaking or bond-forming processes, often general acid/base catalysis, as well as the participation of metals and organic cofactors. 9 Our use of the terms covalent bonding or covalent catalysis does not require irreversible binding, but only the formation of partial bonds. Catalysis of two of the enzymes, chorismate mutase and cyclophilin, with proficiencies below 10 11 M \u22121 involves hydrogen bonds and electrostatic interactions that are noncovalent in nature. 9, 35, 36 The remaining enzyme, carbonic anhydrase, with a proficiency of 10 9 M \u22121 , involves general acid/base catalysis and metal binding. 9, 37 This demonstrates that covalent catalysis is not excluded from the low proficiency class, as there is no real limit to how weak covalent forces can be, but it is not necessary to achieve the modest acceleration therein. This survey emphasizes that enzymes with proficiencies over 10 11 M \u22121 always involve some type of covalent catalysis. 9",
+            "cite_spans": [],
+            "ref_spans": [],
+            "section": "Covalent Interactions with Transition States as the Origins of Enzyme Proficiency"
+        },
+        {
+            "text": "While the covalent hypothesis has been checked with twenty-four enzymes with known proficiencies, this is a tiny number compared to the tens of thousands of enzymes with unknown proficiencies. To establish the proficiencies of more enzymes, the twenty-four k uncat values measured by Wolfenden were used to estimate k uncat values for related reactions. 9 For example, the rates of amide hydrolysis or glycolysis fluctuate across a small range. Therefore, the available k uncat values were employed to estimate the proficiencies of enzymes that catalyze related reactions. By this method, the proficiencies of 1017 enzymes were estimated. 9 These results show that 97% of the enzymes have proficiencies over 10 11 M \u22121, and therefore involve covalent catalysis. 9",
+            "cite_spans": [
+                {
+                    "start": 639,
+                    "end": 640,
+                    "text": "9",
+                    "ref_id": "BIBREF8"
+                }
+            ],
+            "ref_spans": [],
+            "section": "Covalent Interactions with Transition States as the Origins of Enzyme Proficiency"
+        },
+        {
+            "text": "The binding constants of 507 antibody-antigen complexes (excluding catalytic antibodies) from our survey, 8 160 enzyme-inhibitor complexes from Kuntz's study, 7 and 1017 enzyme-TS complexes from our proficiency estimation were compared. 9 The results are shown in Figure 3 . 9 The naturally evolved antibodies show micromolar binding constant, K a = 10 6\u00b12 M \u22121 , while enzyme-inhibitor complexes exhibit nanomolar binding constant, K a = 10 9\u00b12 M \u22121 , both of which are well within the domain of noncovalent binding. Enzyme-TS complexes achieve femtomolar binding, K a = 10 16\u00b14 M \u22121 , which must originate from covalent interactions. The 15 kcal/mol dichotomy between noncovalent binding of antigens by antibodies and inhibitors by enzymes and covalent binding of transition states by enzymes is apparent. 9",
+            "cite_spans": [
+                {
+                    "start": 237,
+                    "end": 238,
+                    "text": "9",
+                    "ref_id": "BIBREF8"
+                }
+            ],
+            "ref_spans": [
+                {
+                    "start": 264,
+                    "end": 272,
+                    "text": "Figure 3",
+                    "ref_id": "FIGREF4"
+                }
+            ],
+            "section": "Covalent Interactions with Transition States as the Origins of Enzyme Proficiency"
+        },
+        {
+            "text": "In summary, proficiency greater than 10 11 M \u22121 signals covalent or partially covalent catalysis by enzymes. When we refer to \"covalent catalysis\" we include electrophilic catalysis such as the participation of metals, nucleophilic catalysis such as Schiff base formation, general acid/ base catalysis, or the covalent participation of cofactors. Most enzymes perform covalent catalysis, employing different mechanisms to those available in aqueous solution. Proficiency or binding affinity of 10 11 M \u22121 is found empirically to be the usual limit of noncovalent binding comprised of hydrogen bonds, electrostatics, van der Waals interactions, and hydrophobic effects. 7-9, 29, 30",
+            "cite_spans": [],
+            "ref_spans": [],
+            "section": "Covalent Interactions with Transition States as the Origins of Enzyme Proficiency"
+        },
+        {
+            "text": "The development of a new drug can cost about a billion dollars and take almost 13 years from development to approval. 38 The first step is often to find a \"hit\", a drug-like molecule with detectable affinity for a clinically relevant target. Presently, there are various strategies for finding a hit, including the use of natural products, 39, 40 high-throughput screening, 41 virtual screening or rational design, 42, 43 or a combination of techniques. The second step is the optimization of the hit to generate a lead compound with increased affinity and selectivity.",
+            "cite_spans": [],
+            "ref_spans": [],
+            "section": "Potential Quantitive Advantages of Covalent Enzyme Inhibitors and Covalent Drugs"
+        },
+        {
+            "text": "Optimization of hits normally improves their potency by 100-1000 fold, which corresponds to 2.8-4.2 kcal/mol binding energy. After optimization, the lead compounds are typically expected to achieve nano-to picomolar binding affinity, which corresponds to 12.6-16.8 kcal/ mol binding energy. Valid hits are below or around micromolar inhibitors and contribute at least two-thirds of the net binding energy of fully optimized lead compounds. Because of the ultimate importance of finding a highly potent hit, huge drug-like compound libraries have been built within companies or provided by chemical vendors to allow their identification. 44 Subsequent optimization is against other, non-efficacy parameters such as physical and ADMET properties.",
+            "cite_spans": [],
+            "ref_spans": [],
+            "section": "Potential Quantitive Advantages of Covalent Enzyme Inhibitors and Covalent Drugs"
+        },
+        {
+            "text": "For drug lead compounds, a K i of 1 nM-within the realm of the strongest noncovalent binding -is considered quite good by consensus. Is there an advantage to exploit covalent interactions in search of sub-picomolar affinities? The answer depends upon the importance of the drug's residence time in their binding sites. 45, 46 Generally, drugs exert their effects when they are bound to their receptors, and therefore anything that keeps them bound longer is seen as beneficial. This has both kinetic and thermodynamic components. Kinetics and thermodynamics of a simple one-step binding and one-step dissociation mechanism are related by the expression for the inhibition equilibrium constant, K i = k off /k on . This is related to the occupancy time for such a drug complex by the half life of occupancy, t 1/2 = 0.693/k off . 46 The expressions for the equilibrium constants and half lives of complexes that involve an induced fit mechanism are slightly more complicated but similar. 46 The rate constant for association of antibodies with their haptens has been determined to be in the region of 10 6 to 10 7 M \u22121 s \u22121 . 47 Using this range for k on , and 1 nM as a hypothetical K i , the half life for first order decomposition of the enzyme/inhibitor complex would be between 1.2 and 12 minutes. Results at this level are very sensitive, however, and a modest change of K i to 5 nM produces a new range of half-lives of 14 to 140 seconds. As K i gets smaller, corresponding to stronger binding, the k off rates get slower, and the occupancy time is longer. The k off rate is also determined by the barrier to dissociation of the drug from the receptor, and this represents another way of optimizing residence times.",
+            "cite_spans": [
+                {
+                    "start": 829,
+                    "end": 831,
+                    "text": "46",
+                    "ref_id": "BIBREF46"
+                },
+                {
+                    "start": 987,
+                    "end": 989,
+                    "text": "46",
+                    "ref_id": "BIBREF46"
+                }
+            ],
+            "ref_spans": [],
+            "section": "Potential Quantitive Advantages of Covalent Enzyme Inhibitors and Covalent Drugs"
+        },
+        {
+            "text": "If inhibitors could capture enough TS binding affinity to reliably give K i s of 1 pM, this would change the half life range to 19 to 190 hours. For comparison, half lives of 12 drugs and drug candidates have been measured to be between 8 minutes and 40 hours. 45 Covalent interactions can lead to long dissociation half lives, as in the case of finasteride, which forms a covalent bond with the NADPH cofactor in the active site of the steroid 5\u03b1-reductase enzyme as treatment for benign prostatic hyperplasia. 48 The half life for dissociation of this complex is greater than 30 days. 45 Noncovalent interactions can also lead to long dissociation half lives, as with natural protease inhibitors with half lives of up to 4 months. 46 The increased half lives of drug binding represent a way to achieve what Schramm has termed the \"ultimate physiological goal,\" where efficacy is maintained until the target is physically replaced by the body. 49 The benefits of long residency times would be seen in reduced dosages, resulting in fewer drug-drug interactions and less off-target toxicity due to the lower concentration of free drug in serum (assuming that the covalent interactions are not able to contribute to off-target effects). 45, 46 Another way to address the place of covalent interactions in pharmaceutical agents is through the analyses of which small molecules make the best drugs. This question is of fundamental importance for drug discovery. In recent years, databases of successful compounds have been the subject of intense statistical scrutiny in attempts to discern any empirical metrics by which candidate molecules can be judged. 50-52 A number of trends have emerged, including a premium on a high potency to molecular weight ratio. 50 In order to design lead compounds that meet this and other criteria, our analysis and hypothesis suggest the use of covalent bonds.",
+            "cite_spans": [
+                {
+                    "start": 512,
+                    "end": 514,
+                    "text": "48",
+                    "ref_id": "BIBREF48"
+                },
+                {
+                    "start": 733,
+                    "end": 735,
+                    "text": "46",
+                    "ref_id": "BIBREF46"
+                },
+                {
+                    "start": 945,
+                    "end": 947,
+                    "text": "49",
+                    "ref_id": "BIBREF49"
+                },
+                {
+                    "start": 1235,
+                    "end": 1238,
+                    "text": "45,",
+                    "ref_id": "BIBREF45"
+                },
+                {
+                    "start": 1239,
+                    "end": 1241,
+                    "text": "46",
+                    "ref_id": "BIBREF46"
+                }
+            ],
+            "ref_spans": [],
+            "section": "Potential Quantitive Advantages of Covalent Enzyme Inhibitors and Covalent Drugs"
+        },
+        {
+            "text": "With the strength of covalent interactions ensuring high potency, more effort could be placed on optimizing moieties for ADMET and specificity properties.",
+            "cite_spans": [],
+            "ref_spans": [],
+            "section": "Potential Quantitive Advantages of Covalent Enzyme Inhibitors and Covalent Drugs"
+        },
+        {
+            "text": "Covalent approaches are also of utility for bringing challenging biological targets into the range of small molecule inhibitors. Many biologically important molecules are large and well structured and therefore may distribute interactions over a broad surface; each interaction need only contribute a small amount of binding to generate a large cumulative affinity. This is not easily matched by small molecules with acceptable ADMET properties. For such molecules, every interaction must count as there will only be a limited number available. A covalent interaction can provide the binding energy needed to compete. Such challenges are presented by protein-protein and protein-DNA interactions but also by enzymes that process proteins such as kinases and proteases. It is not coincidental that known kinase inhibitors bind at the ATP pocket rather at the binding site of the protein substrate despite the daunting challenges that competition with ATP presents in terms of selectivity. 53",
+            "cite_spans": [],
+            "ref_spans": [],
+            "section": "Potential Quantitive Advantages of Covalent Enzyme Inhibitors and Covalent Drugs"
+        },
+        {
+            "text": "A recent example of inhibiting the interaction of the thyroid hormone receptor and coregulator proteins demonstrates that even this challenging area may be made more amenable by use of a covalent interaction. 54 In this instance, it is suggested that the requisite \u03b1,\u03b2-unsaturated ketone is liberated at the protein by Mannich elimination of a \u03b2-amino ketone. The irreversible inhibitor then reacts with a specific surface cysteine residue making this compound act as a mechanism based inhibitor.",
+            "cite_spans": [],
+            "ref_spans": [],
+            "section": "Potential Quantitive Advantages of Covalent Enzyme Inhibitors and Covalent Drugs"
+        },
+        {
+            "text": "An area of particular current interest, particularly in the area of cancer therapy is that of HDAC inhibitors. 55 These enzymes catclyze the deacetylation of histones which are involved in the control of access to nuclear DNA. The active site is an 11\u00c5 long tube with a zinc ion at the active site at the far end. The tube like nature of this active site limits the surface area available for non-covalent interactions without also capitalizing on interactions with the surface surrounding the entrance to the binding site which is used by the enzyme to selectively bind its protein substrate. Small molecules with the same shape, surface area and even increased lipophilicity as the recently approved vorinostat show dramatic drops in binding when the covalent metal binding hydroxamate group is removed. 56",
+            "cite_spans": [],
+            "ref_spans": [],
+            "section": "Potential Quantitive Advantages of Covalent Enzyme Inhibitors and Covalent Drugs"
+        },
+        {
+            "text": "These latter two examples highlight a key challenge for covalent inhibitors -achieveing selectivity. Reaction with any free cysteine or any zinc containing enzyme would be catastrophic in vivo. While the covalent interaction can confer potency, the remainder of the molecule must be used to judiciously control selectivity through non-covalent interactions. Ideally, this involves them being involved in the initial molecular recognition which is followed by covalent bond formation. This may require careful selection of a suitable reactive group (a number of these so-called \"warheads\" and the type of interactions they make have been mentioned) followed by tuning of the reactivity of the moiety that will form the covalent bond. The kinetics of the binding event as well as the strength of the interaction finally achieved must both be examined carefully during the design and optimization of covalent inhibitors.",
+            "cite_spans": [],
+            "ref_spans": [],
+            "section": "Potential Quantitive Advantages of Covalent Enzyme Inhibitors and Covalent Drugs"
+        },
+        {
+            "text": "The proposal of using covalent interactions is implicit in the rational design of inhibitors that are transition state analogues. Drugs that have been classified as TSAs include the anticancer agent pentostatin (deoxycoformycin), 57 the HIV protease inhibitor saquinavir, 58 and the influenza drugs oseltamivir, and zanamivir. 59 As we have shown, the vast majority of enzymes involve covalent or partially covalent interactions to effect such strong binding affinities to transition states. By employing covalent interactions, the inhibition constants of TSAs could in principle become comparable to the TS binding constants, K tx . Unfortunately, this has not proven to be the case. The field has a history of nearly 40 years, 60 yet even the best TSAs have K i s in the picomolar range. 61-63 A previous comparison of 8 enzymes' K tx s to the K i s of their TSAs showed that, while K tx s are between 10 \u221211 and 10 \u221224 , the K i s are only between 10 \u22126 and 10 \u221212 . 63 The question of why TSAs are not able to take full advantage of the binding affinity reflected in K tx constants has been put down to two main problems: 1) imperfect TS analogy in terms of geometry and electrostatics, and 2) an inherent inability of a ground state to reproduce certain of these parameters such as partial bonds and hyperpolarized states. 63 Since then, however, the perception of promise has waned, to the extent that a more recent review of irreversible protease inhibitors notes with dismay that, \"A strong bias against irreversible inhibitors exists in the pharmaceutical industry, and it is an uphill battle to get irreversible inhibitors considered as potential clinical candidates.\" 70 However, many frequently used and non-toxic drugs were found to be irreversible inhibitors long after their use, such as penicillin 14 and aspirin. 71 This indicates that drugs acting in this manner should not be dismissed out of hand. As discussed in the Introduction to this Perspective, the outlook for covalent drugs may be more favorable in the near future.",
+            "cite_spans": [
+                {
+                    "start": 1328,
+                    "end": 1330,
+                    "text": "63",
+                    "ref_id": "BIBREF63"
+                }
+            ],
+            "ref_spans": [],
+            "section": "Selected Examples of Covalent Inhibitors and Drugs: Transition State Analogues, Irreversible and Reversible Binders, and Metal-Coordinators"
+        },
+        {
+            "text": "Great effort has also been devoted to the development of reversible covalent inhibitors, especially for proteases, which by their nature have a nucleophilic residue already primed for addition. 67, 70, 72, 73 Inhibitors of this kind usually have an electrophilic functional group such as an aldehyde which can reversibly form a hemiacetal with, for example, serine hydroxyl or cysteine thiol groups. The reversible nature of boronic ester formation has also been exploited to replace aldehydes in such an inhibitor, and this has led to the clinically approved compound bortezomib, which is being used as a treatment for multiple myeloma. 74, 75 Formation of reversible covalent bonds increases the binding affinity to proteases by 10-1000 times. 73 Although much work has been devoted to the design of reversible covalent inhibitors of serine proteases, translation of this information into marketable drugs has proven difficult. 76 Metabolic instability, low selectivity, and slow kinetics of binding have been invoked as explanations. 76 However, Andrews et al. have shown that reactive 5,5-trans-lactams can have their pharmacokinetic profile tuned to make acceptable drug candidates. 77 Removing the entire electrophilic isostere drops the affinity from the picomolar to nanomolar range, indicating the importance of the reactive species for binding. 73",
+            "cite_spans": [],
+            "ref_spans": [],
+            "section": "Selected Examples of Covalent Inhibitors and Drugs: Transition State Analogues, Irreversible and Reversible Binders, and Metal-Coordinators"
+        },
+        {
+            "text": "The use of metals in pharmaceutical pursuits has abundant precedent, with compounds known to interact with DNA and enzymes. 78-81 The potential of metal ions to form covalent and ionic bonds makes them appealing, and already several prominent compounds that either contain a metal themselves-such as the antineoplastic agent cisplatin 82 -or interact with a metal complexed by their target-such as the antihypertensive angiotensin converting enzyme inhibitor captopril 83 -have proven to be successful drugs. As with TSAs, however, these inhibitors do not appear to have access to the full strength of covalent interactions that produces sub-picomolar K i s. The reasons for this are likely to be the same as those for the inadequacies of TSAs, especially an inability to reproduce a hyperpolarized transition state with a stable ground state. Metals are still an exciting prospect for therapeutic compounds, since both thermodynamic and kinetic benefits have been observed. In a class of zinc-chelating inhibitors which complex with the active site Ser and His of serine proteases, inclusion of the zinc was found to give an added 4-7 kcal/mol of binding affinity, raising the binding constant by 3 to 5 orders of magnitude. 78 This led to K i s in the tens of picomolar to nanomolar range, but these compounds also exhibited relatively long half lives for the EI complex, from 11 to 32 hours. These compounds can also be highly specific, with the best ones having K i s four orders of magnitude smaller for tryptase compared to two other serine proteases trypsin and thrombin. 78",
+            "cite_spans": [],
+            "ref_spans": [],
+            "section": "Selected Examples of Covalent Inhibitors and Drugs: Transition State Analogues, Irreversible and Reversible Binders, and Metal-Coordinators"
+        },
+        {
+            "text": "The strength of binding afforded by covalent drugs may not be advantageous in all cases and for all targets. Specifically, it has been suggested that infectious disease targets may replicate too quickly for the increased residence time of covalent drugs to be a factor. 45 However, others see bacterial, viral, and parasitic diseases as a golden opportunity for irreversible inhibitor design, in part because the drug is only administered for a short period of time, thereby reducing any off-target toxicity. 70 Viral proteases have been recognized as excellent drug targets because they are essential for the virus to replicate, provide an opportunity for specificity by their exogenous origins, and their mechanism-based inhibitors are believed to be less susceptible to resistance since they target the catalytically essential residues. 84, 85 Transition state analogues such as saquinavir are anti-HIV protease drugs, 58 and a covalently acting SARS coronavirus 3CL protease inhibitor has also shown promising efficacy. 86",
+            "cite_spans": [],
+            "ref_spans": [],
+            "section": "Prospects for the Design of Covalent Drugs"
+        },
+        {
+            "text": "While covalently acting drugs do represent a path towards \"ultimate physiological\" inhibition, 49 the benefits of this will have to be evaluated on a case-by-case basis. They appear to be excellent candidates for blocking protein-protein interactions, 87 but may be less ideal for other targets. For example, while G-protein coupled receptors represent a significant proportion of drug targets, 88 they are subject to a trafficking process by which they are internalized from their place in the cell membrane and either recycled back or degraded. 89 This turnover may make some GPCRs unattractive candidates for covalent drugs, yet the anticoagulant clopidogrel (Plavix\u00ae) acts by irreversible inhibition of the P2Y 12 GPCR on platelets. 90 As noted earlier, some enzyme-TS binding that uses covalent interactions does not achieve binding constants that exceed those that are readily attained by non-covalent interactions. In such cases (which may be numerous) it is unreasonable to expect that even inhibitors that also use covalent bonds might achieve substantially tighter binding.",
+            "cite_spans": [],
+            "ref_spans": [],
+            "section": "Prospects for the Design of Covalent Drugs"
+        },
+        {
+            "text": "If it is decided that a particular target is suited to covalent inhibition, there are a variety of developing tools, both experimental and computational, for arriving at such an inhibitor. Cravatt and colleagues have reviewed the use of active site-directed covalent probes, or activity based probes, for activity based protein profiling. 91, 92 In ABPP, a covalently interacting core group based on the mechanism of a given enzyme may be used, for example, to probe the proteomic phenotype of that enzyme subtype in disease states or to assign a function to an unclassified protein. 93, 94 In the field of enzyme inhibitors, ABPP has been used to investigate the selectivity profiles of covalently acting inhibitors such as bortezomib. 95 The ABPs would form an ideal nucleus for the creation of a structure-based, target-specific compound library for screening, 96 as has been done for a family of quinic acid derivatives that coordinate with a calcium ion among other groups in the binding site of E-selectin. 97 Similar libraries could be created with metal-chelating groups such as sulfonamides to access the strong binding potential of metal-enzyme interactions. The ABP or metal would help ensure potency by virtue of covalent or partially covalent interactions, allowing for a concerted focus on specificity through optimization of the rest of the molecule.",
+            "cite_spans": [
+                {
+                    "start": 584,
+                    "end": 587,
+                    "text": "93,",
+                    "ref_id": "BIBREF93"
+                },
+                {
+                    "start": 588,
+                    "end": 590,
+                    "text": "94",
+                    "ref_id": "BIBREF94"
+                },
+                {
+                    "start": 737,
+                    "end": 739,
+                    "text": "95",
+                    "ref_id": "BIBREF95"
+                }
+            ],
+            "ref_spans": [],
+            "section": "Prospects for the Design of Covalent Drugs"
+        },
+        {
+            "text": "Computational chemistry tools such as SkelGen 98 and BOMB 99 can be used to grow functional groups off of a covalently interacting group in silico and evaluate their binding energies to provide another route to rational design. Covalent docking programs are also being developed, 100 and it may be that the binding orientations of covalently interacting drugs are easier to predict given the constraint of a known interaction at the binding site. Combined quantum mechanical/molecular mechanical calculations have been used to calculate the preferred binding orientation of a covalent inhibitor of fatty acid amide hydrolase, URB524. 101 Pure quantum mechanics methods have been used to calculate the reactivities of substituted nitriles with thiols, which was shown to correlate with the formation of covalent adducts with an active site cysteine residue of cathepsin K. 102 All of these tools would be equally applicable to fully covalent interactions and partial covalent interactions such as metal chelation. Although the prospect of a rationally designed, covalently interacting core with subsequent optimization of specificity has been mentioned, these two steps need not occur in that order. The reverse has already been done for both antibodies and small molecules. 103, 104 In these cases, rational design of covalent bond formation came after specificity was ensured by working with a pre-optimized antibody, in one case, and a known drug scaffold in the other.",
+            "cite_spans": [],
+            "ref_spans": [],
+            "section": "Prospects for the Design of Covalent Drugs"
+        },
+        {
+            "text": "Pauling's finding that enzymes provide binding by complementing the shapes and characteristics of transition states provides the principles for the design of reversible noncovalent inhibitors in the pharmaceutical industry. The aim of this perspective article has been to present and discuss the limit of noncovalent binding and our recent discovery about the origins of the enormous catalytic acceleration that is usually manifested in enzyme catalysis. 8, 9 While complementarity proposed by Pauling can account for acceleration up to 11 orders of magnitude, most enzymes exceed that proficiency. Enzymes with proficiency > 10 11 M \u22121 achieve > 15 kcal/mol of \"transition state binding\" not merely by a concatenation of noncovalent effects but by partial covalent bond formation between enzyme or cofactor and transition state, involving a change in mechanism from that in aqueous solution. The involvement of partially covalent bonds does not require that a proficient enzyme form an actual covalent intermediate with a substrate. The bonding can be partially covalent or ionic, such as in cases of a metal ion associated with the enzyme coordinating with the substrate. Or it can be partly covalent, such as in cases of proton transfer between enzyme and substrate (general acid/base catalysis).",
+            "cite_spans": [],
+            "ref_spans": [],
+            "section": "Conclusions"
+        },
+        {
+            "text": "The discussion has illustrated that noncovalent interactions can be approximated by estimating surface area of the small ligands. In order to design drug-like inhibitors with very high receptor affinities, covalent interactions have to be considered. While these interactions alone do not automatically lead to sub-picomolar binding affinities, K i s of this magnitude cannot be achieved without them. The goal of this perspective has been to emphasize the potential role of covalent bonding in rational drug design. Summary of the typical binding constants for host-guest complexes. For each class, the binding distribution is represented by an idealized normal distribution. Each curve is normalized to have the same area, the maximum occurs at the average value of K a , and the standard deviation is used to set the width of the curve. Reprinted with permission from reference 9 . Copyright 2005 Americal Chemical Society. ",
+            "cite_spans": [],
+            "ref_spans": [],
+            "section": "Conclusions"
+        }
+    ],
+    "bib_entries": {
+        "BIBREF0": {
+            "ref_id": "b0",
+            "title": "The Nature of Forces Between Large Molecules of Biological Interest",
+            "authors": [
+                {
+                    "first": "L",
+                    "middle": [],
+                    "last": "Pauling",
+                    "suffix": ""
+                }
+            ],
+            "year": 1948,
+            "venue": "Nature",
+            "volume": "161",
+            "issn": "",
+            "pages": "707--709",
+            "other_ids": {}
+        },
+        "BIBREF1": {
+            "ref_id": "b1",
+            "title": "Structural Biology and Drug Discovery",
+            "authors": [
+                {
+                    "first": "M",
+                    "middle": [],
+                    "last": "Congreve",
+                    "suffix": ""
+                },
+                {
+                    "first": "C",
+                    "middle": [
+                        "W"
+                    ],
+                    "last": "Murray",
+                    "suffix": ""
+                },
+                {
+                    "first": "T",
+                    "middle": [
+                        "L"
+                    ],
+                    "last": "Blundell",
+                    "suffix": ""
+                }
+            ],
+            "year": 2005,
+            "venue": "Drug Discov Today",
+            "volume": "10",
+            "issn": "13",
+            "pages": "895--907",
+            "other_ids": {}
+        },
+        "BIBREF2": {
+            "ref_id": "b2",
+            "title": "Recent Applications of Protein Crystallography and Structure-Guided Drug Design",
+            "authors": [
+                {
+                    "first": "S",
+                    "middle": [
+                        "P"
+                    ],
+                    "last": "Williams",
+                    "suffix": ""
+                },
+                {
+                    "first": "L",
+                    "middle": [
+                        "F"
+                    ],
+                    "last": "Kuyper",
+                    "suffix": ""
+                },
+                {
+                    "first": "K",
+                    "middle": [
+                        "H"
+                    ],
+                    "last": "Pearce",
+                    "suffix": ""
+                }
+            ],
+            "year": 2005,
+            "venue": "Curr Opin Chem Biol",
+            "volume": "9",
+            "issn": "4",
+            "pages": "371--380",
+            "other_ids": {}
+        },
+        "BIBREF3": {
+            "ref_id": "b3",
+            "title": "Identification of Novel p38alpha MAP Kinase Inhibitors Using Fragment-Based Lead Generation",
+            "authors": [
+                {
+                    "first": "A",
+                    "middle": [
+                        "L"
+                    ],
+                    "last": "Gill",
+                    "suffix": ""
+                },
+                {
+                    "first": "M",
+                    "middle": [],
+                    "last": "Frederickson",
+                    "suffix": ""
+                },
+                {
+                    "first": "A",
+                    "middle": [],
+                    "last": "Cleasby",
+                    "suffix": ""
+                },
+                {
+                    "first": "S",
+                    "middle": [
+                        "J"
+                    ],
+                    "last": "Woodhead",
+                    "suffix": ""
+                },
+                {
+                    "first": "M",
+                    "middle": [
+                        "G"
+                    ],
+                    "last": "Carr",
+                    "suffix": ""
+                },
+                {
+                    "first": "A",
+                    "middle": [
+                        "J"
+                    ],
+                    "last": "Woodhead",
+                    "suffix": ""
+                },
+                {
+                    "first": "M",
+                    "middle": [
+                        "T"
+                    ],
+                    "last": "Walker",
+                    "suffix": ""
+                },
+                {
+                    "first": "M",
+                    "middle": [
+                        "S"
+                    ],
+                    "last": "Congreve",
+                    "suffix": ""
+                },
+                {
+                    "first": "L",
+                    "middle": [
+                        "A"
+                    ],
+                    "last": "Devine",
+                    "suffix": ""
+                },
+                {
+                    "first": "D",
+                    "middle": [],
+                    "last": "Tisi",
+                    "suffix": ""
+                },
+                {
+                    "first": "M",
+                    "middle": [],
+                    "last": "O&apos;reilly",
+                    "suffix": ""
+                },
+                {
+                    "first": "L",
+                    "middle": [
+                        "C"
+                    ],
+                    "last": "Seavers",
+                    "suffix": ""
+                },
+                {
+                    "first": "D",
+                    "middle": [
+                        "J"
+                    ],
+                    "last": "Davis",
+                    "suffix": ""
+                },
+                {
+                    "first": "J",
+                    "middle": [],
+                    "last": "Curry",
+                    "suffix": ""
+                },
+                {
+                    "first": "R",
+                    "middle": [],
+                    "last": "Anthony",
+                    "suffix": ""
+                },
+                {
+                    "first": "A",
+                    "middle": [],
+                    "last": "Padova",
+                    "suffix": ""
+                },
+                {
+                    "first": "C",
+                    "middle": [
+                        "W"
+                    ],
+                    "last": "Murray",
+                    "suffix": ""
+                },
+                {
+                    "first": "R",
+                    "middle": [
+                        "A"
+                    ],
+                    "last": "Carr",
+                    "suffix": ""
+                },
+                {
+                    "first": "H",
+                    "middle": [],
+                    "last": "Jhoti",
+                    "suffix": ""
+                }
+            ],
+            "year": 2005,
+            "venue": "J Med Chem",
+            "volume": "48",
+            "issn": "2",
+            "pages": "414--426",
+            "other_ids": {}
+        },
+        "BIBREF4": {
+            "ref_id": "b4",
+            "title": "Viracept (Nelfinavir Mesylate, AG1343): a Potent, Orally Bioavailable Inhibitor of HIV-1 Protease",
+            "authors": [
+                {
+                    "first": "S",
+                    "middle": [
+                        "W"
+                    ],
+                    "last": "Kaldor",
+                    "suffix": ""
+                },
+                {
+                    "first": "V",
+                    "middle": [
+                        "J"
+                    ],
+                    "last": "Kalish",
+                    "suffix": ""
+                },
+                {
+                    "first": "J",
+                    "middle": [
+                        "F"
+                    ],
+                    "last": "Davies",
+                    "suffix": ""
+                },
+                {
+                    "first": "B",
+                    "middle": [
+                        "V"
+                    ],
+                    "last": "Shetty",
+                    "suffix": ""
+                },
+                {
+                    "first": "J",
+                    "middle": [
+                        "E"
+                    ],
+                    "last": "Fritz",
+                    "suffix": ""
+                },
+                {
+                    "first": "K",
+                    "middle": [],
+                    "last": "Appelt",
+                    "suffix": ""
+                },
+                {
+                    "first": "J",
+                    "middle": [
+                        "A"
+                    ],
+                    "last": "Burgess",
+                    "suffix": ""
+                },
+                {
+                    "first": "K",
+                    "middle": [
+                        "M"
+                    ],
+                    "last": "Campanale",
+                    "suffix": ""
+                },
+                {
+                    "first": "N",
+                    "middle": [
+                        "Y"
+                    ],
+                    "last": "Chirgadze",
+                    "suffix": ""
+                },
+                {
+                    "first": "D",
+                    "middle": [
+                        "K"
+                    ],
+                    "last": "Clawson",
+                    "suffix": ""
+                },
+                {
+                    "first": "B",
+                    "middle": [
+                        "A"
+                    ],
+                    "last": "Dressman",
+                    "suffix": ""
+                },
+                {
+                    "first": "S",
+                    "middle": [
+                        "D"
+                    ],
+                    "last": "Hatch",
+                    "suffix": ""
+                },
+                {
+                    "first": "D",
+                    "middle": [
+                        "A"
+                    ],
+                    "last": "Khalil",
+                    "suffix": ""
+                },
+                {
+                    "first": "M",
+                    "middle": [
+                        "B"
+                    ],
+                    "last": "Kosa",
+                    "suffix": ""
+                },
+                {
+                    "first": "P",
+                    "middle": [
+                        "P"
+                    ],
+                    "last": "Lubbehusen",
+                    "suffix": ""
+                },
+                {
+                    "first": "M",
+                    "middle": [
+                        "A"
+                    ],
+                    "last": "Muesing",
+                    "suffix": ""
+                },
+                {
+                    "first": "A",
+                    "middle": [
+                        "K"
+                    ],
+                    "last": "Patick",
+                    "suffix": ""
+                },
+                {
+                    "first": "S",
+                    "middle": [
+                        "H"
+                    ],
+                    "last": "Reich",
+                    "suffix": ""
+                },
+                {
+                    "first": "K",
+                    "middle": [
+                        "S"
+                    ],
+                    "last": "Su",
+                    "suffix": ""
+                },
+                {
+                    "first": "J",
+                    "middle": [
+                        "H"
+                    ],
+                    "last": "Tatlock",
+                    "suffix": ""
+                }
+            ],
+            "year": 1997,
+            "venue": "J Med Chem",
+            "volume": "40",
+            "issn": "24",
+            "pages": "3979--3985",
+            "other_ids": {}
+        },
+        "BIBREF5": {
+            "ref_id": "b5",
+            "title": "Protein Structure-Based Design of Potent Orally Bioavailable, Nonpeptide Inhibitors of Human Immunodeficiency Virus Protease",
+            "authors": [
+                {
+                    "first": "S",
+                    "middle": [
+                        "H"
+                    ],
+                    "last": "Reich",
+                    "suffix": ""
+                },
+                {
+                    "first": "M",
+                    "middle": [],
+                    "last": "Melnick",
+                    "suffix": ""
+                },
+                {
+                    "first": "J",
+                    "middle": [
+                        "F"
+                    ],
+                    "last": "Davies",
+                    "suffix": ""
+                },
+                {
+                    "first": "K",
+                    "middle": [],
+                    "last": "Appelt",
+                    "suffix": ""
+                },
+                {
+                    "first": "K",
+                    "middle": [
+                        "K"
+                    ],
+                    "last": "Lewis",
+                    "suffix": ""
+                },
+                {
+                    "first": "M",
+                    "middle": [
+                        "A"
+                    ],
+                    "last": "Fuhry",
+                    "suffix": ""
+                },
+                {
+                    "first": "M",
+                    "middle": [],
+                    "last": "Pino",
+                    "suffix": ""
+                },
+                {
+                    "first": "A",
+                    "middle": [
+                        "J"
+                    ],
+                    "last": "Trippe",
+                    "suffix": ""
+                },
+                {
+                    "first": "D",
+                    "middle": [],
+                    "last": "Nguyen",
+                    "suffix": ""
+                },
+                {
+                    "first": "H",
+                    "middle": [],
+                    "last": "Dawson",
+                    "suffix": ""
+                }
+            ],
+            "year": 1995,
+            "venue": "Proc Natl Acad Sci",
+            "volume": "92",
+            "issn": "8",
+            "pages": "3298--3302",
+            "other_ids": {}
+        },
+        "BIBREF6": {
+            "ref_id": "b6",
+            "title": "The Maximal Affinity of Ligands",
+            "authors": [
+                {
+                    "first": "I",
+                    "middle": [
+                        "D"
+                    ],
+                    "last": "Kuntz",
+                    "suffix": ""
+                },
+                {
+                    "first": "K",
+                    "middle": [],
+                    "last": "Chen",
+                    "suffix": ""
+                },
+                {
+                    "first": "K",
+                    "middle": [
+                        "A"
+                    ],
+                    "last": "Sharp",
+                    "suffix": ""
+                },
+                {
+                    "first": "P",
+                    "middle": [
+                        "A"
+                    ],
+                    "last": "Kollman",
+                    "suffix": ""
+                }
+            ],
+            "year": 1999,
+            "venue": "Proc Natl Acad Sci U S A",
+            "volume": "96",
+            "issn": "18",
+            "pages": "9997--10002",
+            "other_ids": {}
+        },
+        "BIBREF7": {
+            "ref_id": "b7",
+            "title": "Binding Affinities of Host-Guest, Protein-Ligand, and Protein-Transition-State Complexes",
+            "authors": [
+                {
+                    "first": "K",
+                    "middle": [
+                        "N"
+                    ],
+                    "last": "Houk",
+                    "suffix": ""
+                },
+                {
+                    "first": "A",
+                    "middle": [
+                        "G"
+                    ],
+                    "last": "Leach",
+                    "suffix": ""
+                },
+                {
+                    "first": "S",
+                    "middle": [
+                        "P"
+                    ],
+                    "last": "Kim",
+                    "suffix": ""
+                },
+                {
+                    "first": "X",
+                    "middle": [],
+                    "last": "Zhang",
+                    "suffix": ""
+                }
+            ],
+            "year": 2003,
+            "venue": "Angew Chem Int Ed Engl",
+            "volume": "42",
+            "issn": "40",
+            "pages": "4872--4897",
+            "other_ids": {}
+        },
+        "BIBREF8": {
+            "ref_id": "b8",
+            "title": "Why Enzymes Are Proficient Catalysts: Beyond the Pauling Paradigm",
+            "authors": [
+                {
+                    "first": "X",
+                    "middle": [],
+                    "last": "Zhang",
+                    "suffix": ""
+                },
+                {
+                    "first": "K",
+                    "middle": [
+                        "N"
+                    ],
+                    "last": "Houk",
+                    "suffix": ""
+                }
+            ],
+            "year": 2005,
+            "venue": "Acc Chem Res",
+            "volume": "38",
+            "issn": "5",
+            "pages": "379--85",
+            "other_ids": {}
+        },
+        "BIBREF9": {
+            "ref_id": "b9",
+            "title": "Possible Mechanism of Liver Necrosis Caused by Aromatic Organic Compounds",
+            "authors": [
+                {
+                    "first": "B",
+                    "middle": [
+                        "B"
+                    ],
+                    "last": "Brodie",
+                    "suffix": ""
+                },
+                {
+                    "first": "W",
+                    "middle": [
+                        "D"
+                    ],
+                    "last": "Reid",
+                    "suffix": ""
+                },
+                {
+                    "first": "A",
+                    "middle": [
+                        "K"
+                    ],
+                    "last": "Cho",
+                    "suffix": ""
+                },
+                {
+                    "first": "G",
+                    "middle": [],
+                    "last": "Sipes",
+                    "suffix": ""
+                },
+                {
+                    "first": "G",
+                    "middle": [],
+                    "last": "Krishna",
+                    "suffix": ""
+                },
+                {
+                    "first": "J",
+                    "middle": [
+                        "R"
+                    ],
+                    "last": "Gillette",
+                    "suffix": ""
+                }
+            ],
+            "year": 1971,
+            "venue": "Proc Natl Acad Sci U S A",
+            "volume": "68",
+            "issn": "1",
+            "pages": "160--164",
+            "other_ids": {}
+        },
+        "BIBREF10": {
+            "ref_id": "b10",
+            "title": "Acetaminophen-Induced Hepatic Necrosis. II. Role of Covalent Binding In Vivo",
+            "authors": [
+                {
+                    "first": "D",
+                    "middle": [
+                        "J"
+                    ],
+                    "last": "Jollow",
+                    "suffix": ""
+                },
+                {
+                    "first": "J",
+                    "middle": [
+                        "R"
+                    ],
+                    "last": "Mitchell",
+                    "suffix": ""
+                },
+                {
+                    "first": "W",
+                    "middle": [
+                        "Z"
+                    ],
+                    "last": "Potter",
+                    "suffix": ""
+                },
+                {
+                    "first": "D",
+                    "middle": [
+                        "C"
+                    ],
+                    "last": "Davis",
+                    "suffix": ""
+                },
+                {
+                    "first": "J",
+                    "middle": [
+                        "R"
+                    ],
+                    "last": "Gillette",
+                    "suffix": ""
+                },
+                {
+                    "first": "B",
+                    "middle": [
+                        "B"
+                    ],
+                    "last": "Brodie",
+                    "suffix": ""
+                }
+            ],
+            "year": 1973,
+            "venue": "J Pharmacol Exp Ther",
+            "volume": "187",
+            "issn": "1",
+            "pages": "195--202",
+            "other_ids": {}
+        },
+        "BIBREF11": {
+            "ref_id": "b11",
+            "title": "The Mechanism of Action of the Gastric Acid Secretion Inhibitor Omeprazole",
+            "authors": [
+                {
+                    "first": "P",
+                    "middle": [],
+                    "last": "Lindberg",
+                    "suffix": ""
+                },
+                {
+                    "first": "P",
+                    "middle": [],
+                    "last": "Nordberg",
+                    "suffix": ""
+                },
+                {
+                    "first": "T",
+                    "middle": [],
+                    "last": "Alminger",
+                    "suffix": ""
+                },
+                {
+                    "first": "A",
+                    "middle": [],
+                    "last": "Brandstrom",
+                    "suffix": ""
+                },
+                {
+                    "first": "B",
+                    "middle": [],
+                    "last": "Wallmark",
+                    "suffix": ""
+                }
+            ],
+            "year": 1986,
+            "venue": "J Med Chem",
+            "volume": "29",
+            "issn": "8",
+            "pages": "1327--1329",
+            "other_ids": {}
+        },
+        "BIBREF12": {
+            "ref_id": "b12",
+            "title": "Selective Inhibition of the Gastric H + ,K( + )-ATPase by Omeprazole and Related Compounds",
+            "authors": [
+                {
+                    "first": "P",
+                    "middle": [],
+                    "last": "Lorentzon",
+                    "suffix": ""
+                },
+                {
+                    "first": "A",
+                    "middle": [],
+                    "last": "Bayati",
+                    "suffix": ""
+                },
+                {
+                    "first": "H",
+                    "middle": [],
+                    "last": "Lee",
+                    "suffix": ""
+                },
+                {
+                    "first": "K",
+                    "middle": [],
+                    "last": "Andersson",
+                    "suffix": ""
+                }
+            ],
+            "year": 1997,
+            "venue": "Ann N Y Acad Sci",
+            "volume": "834",
+            "issn": "",
+            "pages": "592--599",
+            "other_ids": {}
+        },
+        "BIBREF13": {
+            "ref_id": "b13",
+            "title": "Penicillin-Binding Proteins and the Mechanism of Action of Beta-Lactam Antibiotics",
+            "authors": [
+                {
+                    "first": "D",
+                    "middle": [
+                        "J"
+                    ],
+                    "last": "Waxman",
+                    "suffix": ""
+                },
+                {
+                    "first": "J",
+                    "middle": [
+                        "L"
+                    ],
+                    "last": "Strominger",
+                    "suffix": ""
+                }
+            ],
+            "year": 1983,
+            "venue": "Annu Rev Biochem",
+            "volume": "52",
+            "issn": "",
+            "pages": "825--869",
+            "other_ids": {}
+        },
+        "BIBREF14": {
+            "ref_id": "b14",
+            "title": "Future of Toxicology-Metabolic Activation and Drug Design: Challenges and Opportunities in Chemical Toxicology",
+            "authors": [
+                {
+                    "first": "T",
+                    "middle": [
+                        "A"
+                    ],
+                    "last": "Baillie",
+                    "suffix": ""
+                }
+            ],
+            "year": 2006,
+            "venue": "Chem Res Toxicol",
+            "volume": "19",
+            "issn": "7",
+            "pages": "889--893",
+            "other_ids": {}
+        },
+        "BIBREF15": {
+            "ref_id": "b15",
+            "title": "Protein Damage by Reactive Electrophiles: Targets and Consequences",
+            "authors": [
+                {
+                    "first": "D",
+                    "middle": [
+                        "C"
+                    ],
+                    "last": "Liebler",
+                    "suffix": ""
+                }
+            ],
+            "year": 2008,
+            "venue": "Chem Res Toxicol",
+            "volume": "21",
+            "issn": "1",
+            "pages": "117--128",
+            "other_ids": {}
+        },
+        "BIBREF16": {
+            "ref_id": "b16",
+            "title": "Cytosolic and Nuclear Protein Targets of Thiol-Reactive Electrophiles",
+            "authors": [
+                {
+                    "first": "M",
+                    "middle": [
+                        "K"
+                    ],
+                    "last": "Dennehy",
+                    "suffix": ""
+                },
+                {
+                    "first": "K",
+                    "middle": [
+                        "A"
+                    ],
+                    "last": "Richards",
+                    "suffix": ""
+                },
+                {
+                    "first": "G",
+                    "middle": [
+                        "R"
+                    ],
+                    "last": "Wernke",
+                    "suffix": ""
+                },
+                {
+                    "first": "Y",
+                    "middle": [],
+                    "last": "Shyr",
+                    "suffix": ""
+                },
+                {
+                    "first": "D",
+                    "middle": [
+                        "C"
+                    ],
+                    "last": "Liebler",
+                    "suffix": ""
+                }
+            ],
+            "year": 2006,
+            "venue": "Chem Res Toxicol",
+            "volume": "19",
+            "issn": "1",
+            "pages": "20--29",
+            "other_ids": {}
+        },
+        "BIBREF17": {
+            "ref_id": "b17",
+            "title": "Global Network Analysis of Phenotypic Effects: Protein Networks and Toxicity Modulation in Saccharomyces cerevisiae",
+            "authors": [
+                {
+                    "first": "M",
+                    "middle": [
+                        "R"
+                    ],
+                    "last": "Said",
+                    "suffix": ""
+                },
+                {
+                    "first": "T",
+                    "middle": [
+                        "J"
+                    ],
+                    "last": "Begley",
+                    "suffix": ""
+                },
+                {
+                    "first": "A",
+                    "middle": [
+                        "V"
+                    ],
+                    "last": "Oppenheim",
+                    "suffix": ""
+                },
+                {
+                    "first": "D",
+                    "middle": [
+                        "A"
+                    ],
+                    "last": "Lauffenburger",
+                    "suffix": ""
+                },
+                {
+                    "first": "L",
+                    "middle": [
+                        "D"
+                    ],
+                    "last": "Samson",
+                    "suffix": ""
+                }
+            ],
+            "year": 2004,
+            "venue": "Proc Natl Acad Sci U S A",
+            "volume": "101",
+            "issn": "52",
+            "pages": "18006--18011",
+            "other_ids": {}
+        },
+        "BIBREF18": {
+            "ref_id": "b18",
+            "title": "Toxicological Evaluation of Thiol-Reactive Compounds Identified Using a LA Assay to Detect Reactive Molecules by Nuclear Magnetic Resonance",
+            "authors": [
+                {
+                    "first": "J",
+                    "middle": [
+                        "R"
+                    ],
+                    "last": "Huth",
+                    "suffix": ""
+                },
+                {
+                    "first": "D",
+                    "middle": [],
+                    "last": "Song",
+                    "suffix": ""
+                },
+                {
+                    "first": "R",
+                    "middle": [
+                        "R"
+                    ],
+                    "last": "Mendoza",
+                    "suffix": ""
+                },
+                {
+                    "first": "C",
+                    "middle": [
+                        "L"
+                    ],
+                    "last": "Black-Schaefer",
+                    "suffix": ""
+                },
+                {
+                    "first": "J",
+                    "middle": [
+                        "C"
+                    ],
+                    "last": "Mack",
+                    "suffix": ""
+                },
+                {
+                    "first": "S",
+                    "middle": [
+                        "A"
+                    ],
+                    "last": "Dorwin",
+                    "suffix": ""
+                },
+                {
+                    "first": "U",
+                    "middle": [
+                        "S"
+                    ],
+                    "last": "Ladror",
+                    "suffix": ""
+                },
+                {
+                    "first": "J",
+                    "middle": [
+                        "M"
+                    ],
+                    "last": "Severin",
+                    "suffix": ""
+                },
+                {
+                    "first": "K",
+                    "middle": [
+                        "A"
+                    ],
+                    "last": "Walter",
+                    "suffix": ""
+                },
+                {
+                    "first": "D",
+                    "middle": [
+                        "M"
+                    ],
+                    "last": "Bartley",
+                    "suffix": ""
+                },
+                {
+                    "first": "P",
+                    "middle": [
+                        "J"
+                    ],
+                    "last": "Hajduk",
+                    "suffix": ""
+                }
+            ],
+            "year": 2007,
+            "venue": "Chem Res Toxicol",
+            "volume": "20",
+            "issn": "12",
+            "pages": "1752--1759",
+            "other_ids": {}
+        },
+        "BIBREF19": {
+            "ref_id": "b19",
+            "title": "Recent Progress in the Design of Suicide Enzyme Inhibitors",
+            "authors": [
+                {
+                    "first": "B",
+                    "middle": [
+                        "W"
+                    ],
+                    "last": "Metcalf",
+                    "suffix": ""
+                }
+            ],
+            "year": null,
+            "venue": "Ann Rep Med Chem",
+            "volume": "1981",
+            "issn": "",
+            "pages": "289--297",
+            "other_ids": {}
+        },
+        "BIBREF20": {
+            "ref_id": "b20",
+            "title": "Mechanistic Basis of Enzyme-Targeted Drugs",
+            "authors": [
+                {
+                    "first": "J",
+                    "middle": [
+                        "G"
+                    ],
+                    "last": "Robertson",
+                    "suffix": ""
+                }
+            ],
+            "year": 2005,
+            "venue": "Biochemistry",
+            "volume": "44",
+            "issn": "15",
+            "pages": "5561--5571",
+            "other_ids": {}
+        },
+        "BIBREF22": {
+            "ref_id": "b22",
+            "title": "Computational Methods to Predict Binding Free Energy in Ligand-Receptor Complexes",
+            "authors": [
+                {
+                    "first": "M",
+                    "middle": [
+                        "A"
+                    ],
+                    "last": "Murcko",
+                    "suffix": ""
+                }
+            ],
+            "year": 1995,
+            "venue": "J Med Chem",
+            "volume": "38",
+            "issn": "26",
+            "pages": "4953--4967",
+            "other_ids": {}
+        },
+        "BIBREF23": {
+            "ref_id": "b23",
+            "title": "Crystallographic and Thermodynamic Comparison of Natural and Synthetic Ligands Bound to Streptavidin",
+            "authors": [
+                {
+                    "first": "P",
+                    "middle": [
+                        "C"
+                    ],
+                    "last": "Weber",
+                    "suffix": ""
+                },
+                {
+                    "first": "J",
+                    "middle": [
+                        "J"
+                    ],
+                    "last": "Wendoloski",
+                    "suffix": ""
+                },
+                {
+                    "first": "M",
+                    "middle": [
+                        "W"
+                    ],
+                    "last": "Pantoliano",
+                    "suffix": ""
+                },
+                {
+                    "first": "F",
+                    "middle": [
+                        "R"
+                    ],
+                    "last": "Salemme",
+                    "suffix": ""
+                }
+            ],
+            "year": 1992,
+            "venue": "J Am Chem Soc",
+            "volume": "114",
+            "issn": "",
+            "pages": "3197--3200",
+            "other_ids": {}
+        },
+        "BIBREF24": {
+            "ref_id": "b24",
+            "title": "The Origins of Femtomolar Protein-Ligand Binding: Hydrogen-Bond Cooperativity and Desolvation Energetics in the Biotin-(Strept)Avidin Binding Site",
+            "authors": [
+                {
+                    "first": "J",
+                    "middle": [],
+                    "last": "Dechancie",
+                    "suffix": ""
+                },
+                {
+                    "first": "K",
+                    "middle": [
+                        "N"
+                    ],
+                    "last": "Houk",
+                    "suffix": ""
+                }
+            ],
+            "year": 2007,
+            "venue": "J Am Chem Soc",
+            "volume": "129",
+            "issn": "17",
+            "pages": "5419--5429",
+            "other_ids": {}
+        },
+        "BIBREF25": {
+            "ref_id": "b25",
+            "title": "Theoretical Study of Cooperativity in Biotin",
+            "authors": [
+                {
+                    "first": "Y",
+                    "middle": [],
+                    "last": "Lei",
+                    "suffix": ""
+                },
+                {
+                    "first": "H",
+                    "middle": [],
+                    "last": "Li",
+                    "suffix": ""
+                },
+                {
+                    "first": "R",
+                    "middle": [],
+                    "last": "Zhang",
+                    "suffix": ""
+                },
+                {
+                    "first": "S",
+                    "middle": [],
+                    "last": "Han",
+                    "suffix": ""
+                }
+            ],
+            "year": 2007,
+            "venue": "J Phys Chem B",
+            "volume": "111",
+            "issn": "51",
+            "pages": "14370--14377",
+            "other_ids": {}
+        },
+        "BIBREF26": {
+            "ref_id": "b26",
+            "title": "A Synthetic Host-Guest System Achieves Avidin-Biotin Affinity by Overcoming Enthalpy-Entropy Compensation",
+            "authors": [
+                {
+                    "first": "M",
+                    "middle": [
+                        "V"
+                    ],
+                    "last": "Rekharsky",
+                    "suffix": ""
+                },
+                {
+                    "first": "T",
+                    "middle": [],
+                    "last": "Mori",
+                    "suffix": ""
+                },
+                {
+                    "first": "C",
+                    "middle": [],
+                    "last": "Yang",
+                    "suffix": ""
+                },
+                {
+                    "first": "Y",
+                    "middle": [
+                        "H"
+                    ],
+                    "last": "Ko",
+                    "suffix": ""
+                },
+                {
+                    "first": "N",
+                    "middle": [],
+                    "last": "Selvapalam",
+                    "suffix": ""
+                },
+                {
+                    "first": "H",
+                    "middle": [],
+                    "last": "Kim",
+                    "suffix": ""
+                },
+                {
+                    "first": "D",
+                    "middle": [],
+                    "last": "Sobransingh",
+                    "suffix": ""
+                },
+                {
+                    "first": "A",
+                    "middle": [
+                        "E"
+                    ],
+                    "last": "Kaifer",
+                    "suffix": ""
+                },
+                {
+                    "first": "S",
+                    "middle": [],
+                    "last": "Liu",
+                    "suffix": ""
+                },
+                {
+                    "first": "L",
+                    "middle": [],
+                    "last": "Isaacs",
+                    "suffix": ""
+                },
+                {
+                    "first": "W",
+                    "middle": [],
+                    "last": "Chen",
+                    "suffix": ""
+                },
+                {
+                    "first": "S",
+                    "middle": [],
+                    "last": "Moghaddam",
+                    "suffix": ""
+                },
+                {
+                    "first": "M",
+                    "middle": [
+                        "K"
+                    ],
+                    "last": "Gilson",
+                    "suffix": ""
+                },
+                {
+                    "first": "K",
+                    "middle": [],
+                    "last": "Kim",
+                    "suffix": ""
+                },
+                {
+                    "first": "Y",
+                    "middle": [],
+                    "last": "Inoue",
+                    "suffix": ""
+                }
+            ],
+            "year": 2007,
+            "venue": "Proc Natl Acad Sci",
+            "volume": "104",
+            "issn": "52",
+            "pages": "20737--20742",
+            "other_ids": {}
+        },
+        "BIBREF27": {
+            "ref_id": "b27",
+            "title": "New and Fast Statistical-Thermodynamic Method for Computation of Protein-Ligand Binding Entropy Substantially Improves Docking Accuracy",
+            "authors": [
+                {
+                    "first": "A",
+                    "middle": [
+                        "M"
+                    ],
+                    "last": "Ruvinsky",
+                    "suffix": ""
+                },
+                {
+                    "first": "A",
+                    "middle": [
+                        "V"
+                    ],
+                    "last": "Kozintsev",
+                    "suffix": ""
+                }
+            ],
+            "year": 2005,
+            "venue": "J Comput Chem",
+            "volume": "26",
+            "issn": "11",
+            "pages": "1089--1095",
+            "other_ids": {}
+        },
+        "BIBREF28": {
+            "ref_id": "b28",
+            "title": "Contribution of Conformer Focusing to the Uncertainty in Predicting Free Energies for Protein-Ligand Binding",
+            "authors": [
+                {
+                    "first": "J",
+                    "middle": [],
+                    "last": "Tirado-Rives",
+                    "suffix": ""
+                },
+                {
+                    "first": "W",
+                    "middle": [
+                        "L"
+                    ],
+                    "last": "Jorgensen",
+                    "suffix": ""
+                }
+            ],
+            "year": 2006,
+            "venue": "J Med Chem",
+            "volume": "49",
+            "issn": "20",
+            "pages": "5880--5884",
+            "other_ids": {}
+        },
+        "BIBREF29": {
+            "ref_id": "b29",
+            "title": "Enthalpy-Entropy Compensation in Drug-Receptor Binding",
+            "authors": [
+                {
+                    "first": "P",
+                    "middle": [],
+                    "last": "Gilli",
+                    "suffix": ""
+                },
+                {
+                    "first": "V",
+                    "middle": [],
+                    "last": "Ferretti",
+                    "suffix": ""
+                },
+                {
+                    "first": "G",
+                    "middle": [],
+                    "last": "Gilli",
+                    "suffix": ""
+                },
+                {
+                    "first": "P",
+                    "middle": [
+                        "A"
+                    ],
+                    "last": "Borea",
+                    "suffix": ""
+                }
+            ],
+            "year": 1994,
+            "venue": "J Phys Chem",
+            "volume": "98",
+            "issn": "",
+            "pages": "1515--1518",
+            "other_ids": {}
+        },
+        "BIBREF30": {
+            "ref_id": "b30",
+            "title": "Can Thermodynamic Measurements of Receptor Binding Yield Information on Drug Affinity and Efficacy?",
+            "authors": [
+                {
+                    "first": "P",
+                    "middle": [
+                        "A"
+                    ],
+                    "last": "Borea",
+                    "suffix": ""
+                },
+                {
+                    "first": "A",
+                    "middle": [],
+                    "last": "Dalpiaz",
+                    "suffix": ""
+                },
+                {
+                    "first": "K",
+                    "middle": [],
+                    "last": "Varani",
+                    "suffix": ""
+                },
+                {
+                    "first": "P",
+                    "middle": [],
+                    "last": "Gilli",
+                    "suffix": ""
+                },
+                {
+                    "first": "G",
+                    "middle": [],
+                    "last": "Gilli",
+                    "suffix": ""
+                }
+            ],
+            "year": 2000,
+            "venue": "Biochem Pharmacol",
+            "volume": "60",
+            "issn": "11",
+            "pages": "1549--1556",
+            "other_ids": {}
+        },
+        "BIBREF31": {
+            "ref_id": "b31",
+            "title": "Catalytic Proficiency: The Unusual Case of OMP Decarboxylase",
+            "authors": [
+                {
+                    "first": "B",
+                    "middle": [
+                        "G"
+                    ],
+                    "last": "Miller",
+                    "suffix": ""
+                },
+                {
+                    "first": "R",
+                    "middle": [],
+                    "last": "Wolfenden",
+                    "suffix": ""
+                }
+            ],
+            "year": 2002,
+            "venue": "Annu Rev Biochem",
+            "volume": "71",
+            "issn": "",
+            "pages": "847--885",
+            "other_ids": {}
+        },
+        "BIBREF32": {
+            "ref_id": "b32",
+            "title": "The Enzyme Information System in",
+            "authors": [
+                {
+                    "first": "J",
+                    "middle": [],
+                    "last": "Barthelmes",
+                    "suffix": ""
+                },
+                {
+                    "first": "C",
+                    "middle": [],
+                    "last": "Ebeling",
+                    "suffix": ""
+                },
+                {
+                    "first": "A",
+                    "middle": [],
+                    "last": "Chang",
+                    "suffix": ""
+                },
+                {
+                    "first": "I",
+                    "middle": [],
+                    "last": "Schomburg",
+                    "suffix": ""
+                },
+                {
+                    "first": "D",
+                    "middle": [],
+                    "last": "Schomburg",
+                    "suffix": ""
+                },
+                {
+                    "first": "",
+                    "middle": [],
+                    "last": "Brenda",
+                    "suffix": ""
+                }
+            ],
+            "year": 2007,
+            "venue": "",
+            "volume": "35",
+            "issn": "",
+            "pages": "511--514",
+            "other_ids": {}
+        },
+        "BIBREF33": {
+            "ref_id": "b33",
+            "title": "The Rate of Hydrolysis of Phosphomonoester Dianions and the Exceptional Catalytic Proficiencies of Protein and Inositol Phosphatases",
+            "authors": [
+                {
+                    "first": "C",
+                    "middle": [],
+                    "last": "Lad",
+                    "suffix": ""
+                },
+                {
+                    "first": "N",
+                    "middle": [
+                        "H"
+                    ],
+                    "last": "Williams",
+                    "suffix": ""
+                },
+                {
+                    "first": "R",
+                    "middle": [],
+                    "last": "Wolfenden",
+                    "suffix": ""
+                }
+            ],
+            "year": 2003,
+            "venue": "Proc Natl Acad Sci U S A",
+            "volume": "100",
+            "issn": "10",
+            "pages": "5607--5610",
+            "other_ids": {}
+        },
+        "BIBREF34": {
+            "ref_id": "b34",
+            "title": "The Rate of Spontaneous Decarboxylation of Amino Acids",
+            "authors": [
+                {
+                    "first": "M",
+                    "middle": [
+                        "J"
+                    ],
+                    "last": "Snider",
+                    "suffix": ""
+                },
+                {
+                    "first": "R",
+                    "middle": [],
+                    "last": "Wolfenden",
+                    "suffix": ""
+                }
+            ],
+            "year": 2000,
+            "venue": "J Am Chem Soc",
+            "volume": "122",
+            "issn": "46",
+            "pages": "11507--11508",
+            "other_ids": {}
+        },
+        "BIBREF35": {
+            "ref_id": "b35",
+            "title": "Enzymatic Catalysis of the Peptidyl-Prolyl Bond Rotation: Are Transition State Formation and Enzyme Dynamics Directly Linked?",
+            "authors": [
+                {
+                    "first": "J",
+                    "middle": [],
+                    "last": "Fangh\u00e4nel",
+                    "suffix": ""
+                }
+            ],
+            "year": 2003,
+            "venue": "Angew Chem Int Ed Engl",
+            "volume": "42",
+            "issn": "5",
+            "pages": "490--492",
+            "other_ids": {}
+        },
+        "BIBREF36": {
+            "ref_id": "b36",
+            "title": "Reaction Mechanism of Chorismate Mutase Studied by the Combined Potentials of Quantum Mechanics and Molecular Mechanics",
+            "authors": [
+                {
+                    "first": "Y",
+                    "middle": [
+                        "S"
+                    ],
+                    "last": "Lee",
+                    "suffix": ""
+                },
+                {
+                    "first": "S",
+                    "middle": [
+                        "E"
+                    ],
+                    "last": "Worthington",
+                    "suffix": ""
+                },
+                {
+                    "first": "M",
+                    "middle": [],
+                    "last": "Krauss",
+                    "suffix": ""
+                },
+                {
+                    "first": "B",
+                    "middle": [
+                        "R"
+                    ],
+                    "last": "Brooks",
+                    "suffix": ""
+                }
+            ],
+            "year": 2002,
+            "venue": "J Phys Chem B",
+            "volume": "106",
+            "issn": "",
+            "pages": "12059--12065",
+            "other_ids": {}
+        },
+        "BIBREF37": {
+            "ref_id": "b37",
+            "title": "New Insights into the Mechanistic Details of the Carbonic Anhydrase Cycle as Derived From the Model System",
+            "authors": [
+                {
+                    "first": "M",
+                    "middle": [],
+                    "last": "Mauksch",
+                    "suffix": ""
+                },
+                {
+                    "first": "M",
+                    "middle": [],
+                    "last": "Brauer",
+                    "suffix": ""
+                },
+                {
+                    "first": "J",
+                    "middle": [],
+                    "last": "Weston",
+                    "suffix": ""
+                },
+                {
+                    "first": "Anders",
+                    "middle": [
+                        "E"
+                    ],
+                    "last": "",
+                    "suffix": ""
+                }
+            ],
+            "year": 2001,
+            "venue": "ChemBioChem",
+            "volume": "2",
+            "issn": "",
+            "pages": "190--198",
+            "other_ids": {}
+        },
+        "BIBREF38": {
+            "ref_id": "b38",
+            "title": "Can the Pharmaceutical Industry Reduce Attrition Rates?",
+            "authors": [
+                {
+                    "first": "I",
+                    "middle": [],
+                    "last": "Kola",
+                    "suffix": ""
+                },
+                {
+                    "first": "J",
+                    "middle": [],
+                    "last": "Landis",
+                    "suffix": ""
+                }
+            ],
+            "year": 2004,
+            "venue": "Nat Rev Drug Discov",
+            "volume": "3",
+            "issn": "8",
+            "pages": "711--715",
+            "other_ids": {}
+        },
+        "BIBREF39": {
+            "ref_id": "b39",
+            "title": "Lessons from Natural Molecules",
+            "authors": [
+                {
+                    "first": "J",
+                    "middle": [],
+                    "last": "Clardy",
+                    "suffix": ""
+                },
+                {
+                    "first": "C",
+                    "middle": [],
+                    "last": "Walsh",
+                    "suffix": ""
+                }
+            ],
+            "year": 2004,
+            "venue": "Nature",
+            "volume": "432",
+            "issn": "7019",
+            "pages": "829--837",
+            "other_ids": {}
+        },
+        "BIBREF40": {
+            "ref_id": "b40",
+            "title": "Nature's Pharmaceuticals: Natural Products From Plants Remain at the Core of Modern Medicinal Chemistry. Today's Chemist at",
+            "authors": [
+                {
+                    "first": "M",
+                    "middle": [
+                        "S"
+                    ],
+                    "last": "Lesney",
+                    "suffix": ""
+                }
+            ],
+            "year": 2004,
+            "venue": "Work",
+            "volume": "",
+            "issn": "",
+            "pages": "26--32",
+            "other_ids": {}
+        },
+        "BIBREF41": {
+            "ref_id": "b41",
+            "title": "High-Throughput Drug Discovery: What Can We Expect From HTS?",
+            "authors": [
+                {
+                    "first": "P",
+                    "middle": [],
+                    "last": "Gribbon",
+                    "suffix": ""
+                },
+                {
+                    "first": "A",
+                    "middle": [],
+                    "last": "Sewing",
+                    "suffix": ""
+                }
+            ],
+            "year": 2005,
+            "venue": "Drug Discov Today",
+            "volume": "10",
+            "issn": "1",
+            "pages": "17--22",
+            "other_ids": {}
+        },
+        "BIBREF42": {
+            "ref_id": "b42",
+            "title": "Virtual Screening and its Integration With Modern Drug Design Technologies",
+            "authors": [
+                {
+                    "first": "R",
+                    "middle": [
+                        "V"
+                    ],
+                    "last": "Guido",
+                    "suffix": ""
+                },
+                {
+                    "first": "G",
+                    "middle": [],
+                    "last": "Oliva",
+                    "suffix": ""
+                },
+                {
+                    "first": "A",
+                    "middle": [
+                        "D"
+                    ],
+                    "last": "Andricopulo",
+                    "suffix": ""
+                }
+            ],
+            "year": 2008,
+            "venue": "Curr Med Chem",
+            "volume": "15",
+            "issn": "1",
+            "pages": "37--46",
+            "other_ids": {}
+        },
+        "BIBREF43": {
+            "ref_id": "b43",
+            "title": "Lead Discovery Using Molecular Docking",
+            "authors": [
+                {
+                    "first": "B",
+                    "middle": [
+                        "K"
+                    ],
+                    "last": "Shoichet",
+                    "suffix": ""
+                },
+                {
+                    "first": "S",
+                    "middle": [
+                        "L"
+                    ],
+                    "last": "Mcgovern",
+                    "suffix": ""
+                },
+                {
+                    "first": "B",
+                    "middle": [],
+                    "last": "Wei",
+                    "suffix": ""
+                },
+                {
+                    "first": "J",
+                    "middle": [
+                        "J"
+                    ],
+                    "last": "Irwin",
+                    "suffix": ""
+                }
+            ],
+            "year": 2002,
+            "venue": "Curr Opin Chem Biol",
+            "volume": "6",
+            "issn": "4",
+            "pages": "439--446",
+            "other_ids": {}
+        },
+        "BIBREF44": {
+            "ref_id": "b44",
+            "title": "Fragment-Based Drug Discovery",
+            "authors": [
+                {
+                    "first": "D",
+                    "middle": [
+                        "A"
+                    ],
+                    "last": "Erlanson",
+                    "suffix": ""
+                },
+                {
+                    "first": "R",
+                    "middle": [
+                        "S"
+                    ],
+                    "last": "Mcdowell",
+                    "suffix": ""
+                },
+                {
+                    "first": "O",
+                    "middle": [],
+                    "last": "&apos;brien",
+                    "suffix": ""
+                },
+                {
+                    "first": "T",
+                    "middle": [],
+                    "last": "",
+                    "suffix": ""
+                }
+            ],
+            "year": 2004,
+            "venue": "J Med Chem",
+            "volume": "47",
+            "issn": "14",
+            "pages": "3463--3482",
+            "other_ids": {}
+        },
+        "BIBREF45": {
+            "ref_id": "b45",
+            "title": "Drug-Target Residence Time and its Implications for Lead Optimization",
+            "authors": [
+                {
+                    "first": "R",
+                    "middle": [
+                        "A"
+                    ],
+                    "last": "Copeland",
+                    "suffix": ""
+                },
+                {
+                    "first": "D",
+                    "middle": [
+                        "L"
+                    ],
+                    "last": "Pompliano",
+                    "suffix": ""
+                },
+                {
+                    "first": "T",
+                    "middle": [
+                        "D"
+                    ],
+                    "last": "Meek",
+                    "suffix": ""
+                }
+            ],
+            "year": 2006,
+            "venue": "Nat Rev Drug Discov",
+            "volume": "5",
+            "issn": "9",
+            "pages": "730--739",
+            "other_ids": {}
+        },
+        "BIBREF46": {
+            "ref_id": "b46",
+            "title": "Residence Time of Receptor-Ligand Complexes and Its Effect on Biological Function",
+            "authors": [
+                {
+                    "first": "P",
+                    "middle": [
+                        "J"
+                    ],
+                    "last": "Tummino",
+                    "suffix": ""
+                },
+                {
+                    "first": "R",
+                    "middle": [
+                        "A"
+                    ],
+                    "last": "Copeland",
+                    "suffix": ""
+                }
+            ],
+            "year": 2008,
+            "venue": "Biochemistry",
+            "volume": "47",
+            "issn": "",
+            "pages": "5481--5492",
+            "other_ids": {}
+        },
+        "BIBREF47": {
+            "ref_id": "b47",
+            "title": "Kinetic Maturation of an Immune Response",
+            "authors": [
+                {
+                    "first": "J",
+                    "middle": [],
+                    "last": "Foote",
+                    "suffix": ""
+                },
+                {
+                    "first": "C",
+                    "middle": [],
+                    "last": "Milstein",
+                    "suffix": ""
+                }
+            ],
+            "year": 1991,
+            "venue": "Nature",
+            "volume": "352",
+            "issn": "6335",
+            "pages": "530--532",
+            "other_ids": {}
+        },
+        "BIBREF48": {
+            "ref_id": "b48",
+            "title": "Mechanism-Based Inhibition of Human Steroid 5 -Reductase by Finasteride: Enzyme-Catalyzed Formation of NADP-Dihydrofinasteride, a Potent Bisubstrate Analog Inhibitor",
+            "authors": [
+                {
+                    "first": "H",
+                    "middle": [
+                        "G"
+                    ],
+                    "last": "Bull",
+                    "suffix": ""
+                },
+                {
+                    "first": "M",
+                    "middle": [],
+                    "last": "Garcia-Calvo",
+                    "suffix": ""
+                },
+                {
+                    "first": "S",
+                    "middle": [],
+                    "last": "Andersson",
+                    "suffix": ""
+                },
+                {
+                    "first": "W",
+                    "middle": [
+                        "F"
+                    ],
+                    "last": "Baginsky",
+                    "suffix": ""
+                },
+                {
+                    "first": "H",
+                    "middle": [
+                        "K"
+                    ],
+                    "last": "Chan",
+                    "suffix": ""
+                },
+                {
+                    "first": "D",
+                    "middle": [
+                        "E"
+                    ],
+                    "last": "Ellsworth",
+                    "suffix": ""
+                },
+                {
+                    "first": "R",
+                    "middle": [
+                        "R"
+                    ],
+                    "last": "Miller",
+                    "suffix": ""
+                },
+                {
+                    "first": "R",
+                    "middle": [
+                        "A"
+                    ],
+                    "last": "Stearns",
+                    "suffix": ""
+                },
+                {
+                    "first": "R",
+                    "middle": [
+                        "K"
+                    ],
+                    "last": "Bakshi",
+                    "suffix": ""
+                },
+                {
+                    "first": "G",
+                    "middle": [
+                        "H"
+                    ],
+                    "last": "Rasmusson",
+                    "suffix": ""
+                },
+                {
+                    "first": "R",
+                    "middle": [
+                        "L"
+                    ],
+                    "last": "Tolman",
+                    "suffix": ""
+                },
+                {
+                    "first": "R",
+                    "middle": [
+                        "W"
+                    ],
+                    "last": "Myers",
+                    "suffix": ""
+                },
+                {
+                    "first": "J",
+                    "middle": [
+                        "W"
+                    ],
+                    "last": "Kozarich",
+                    "suffix": ""
+                },
+                {
+                    "first": "G",
+                    "middle": [
+                        "S"
+                    ],
+                    "last": "Harris",
+                    "suffix": ""
+                }
+            ],
+            "year": 1996,
+            "venue": "J Am Chem Soc",
+            "volume": "118",
+            "issn": "",
+            "pages": "2359--2365",
+            "other_ids": {}
+        },
+        "BIBREF49": {
+            "ref_id": "b49",
+            "title": "Achieving the Ultimate Physiological Goal in Transition State Analogue Inhibitors for Purine Nucleoside Phosphorylase",
+            "authors": [
+                {
+                    "first": "A",
+                    "middle": [],
+                    "last": "Lewandowicz",
+                    "suffix": ""
+                },
+                {
+                    "first": "P",
+                    "middle": [
+                        "C"
+                    ],
+                    "last": "Tyler",
+                    "suffix": ""
+                },
+                {
+                    "first": "G",
+                    "middle": [
+                        "B"
+                    ],
+                    "last": "Evans",
+                    "suffix": ""
+                },
+                {
+                    "first": "R",
+                    "middle": [
+                        "H"
+                    ],
+                    "last": "Furneaux",
+                    "suffix": ""
+                },
+                {
+                    "first": "V",
+                    "middle": [
+                        "L"
+                    ],
+                    "last": "Schramm",
+                    "suffix": ""
+                }
+            ],
+            "year": 2003,
+            "venue": "J Biol Chem",
+            "volume": "278",
+            "issn": "34",
+            "pages": "31465--31468",
+            "other_ids": {}
+        },
+        "BIBREF50": {
+            "ref_id": "b50",
+            "title": "Ligand Efficiency Indices as Guideposts for Drug Discovery",
+            "authors": [
+                {
+                    "first": "C",
+                    "middle": [],
+                    "last": "Abad-Zapatero",
+                    "suffix": ""
+                },
+                {
+                    "first": "J",
+                    "middle": [
+                        "T"
+                    ],
+                    "last": "Metz",
+                    "suffix": ""
+                }
+            ],
+            "year": 2005,
+            "venue": "Drug Discov Today",
+            "volume": "10",
+            "issn": "7",
+            "pages": "464--469",
+            "other_ids": {}
+        },
+        "BIBREF51": {
+            "ref_id": "b51",
+            "title": "Can We Learn to Distinguish Between \"Drug-Like\" and \"Nondrug-Like\" Molecules?",
+            "authors": [
+                {
+                    "first": "A",
+                    "middle": [],
+                    "last": "Ajay",
+                    "suffix": ""
+                },
+                {
+                    "first": "W",
+                    "middle": [
+                        "P"
+                    ],
+                    "last": "Walters",
+                    "suffix": ""
+                },
+                {
+                    "first": "M",
+                    "middle": [
+                        "A"
+                    ],
+                    "last": "Murcko",
+                    "suffix": ""
+                }
+            ],
+            "year": 1998,
+            "venue": "J Med Chem",
+            "volume": "41",
+            "issn": "18",
+            "pages": "3314--3324",
+            "other_ids": {}
+        },
+        "BIBREF52": {
+            "ref_id": "b52",
+            "title": "Experimental and Computational Approaches to Estimate Solubility and Permeability in Drug Discovery and Developmental Settings",
+            "authors": [
+                {
+                    "first": "C",
+                    "middle": [
+                        "A"
+                    ],
+                    "last": "Lipinski",
+                    "suffix": ""
+                },
+                {
+                    "first": "F",
+                    "middle": [],
+                    "last": "Lombardo",
+                    "suffix": ""
+                },
+                {
+                    "first": "B",
+                    "middle": [
+                        "W"
+                    ],
+                    "last": "Dominy",
+                    "suffix": ""
+                },
+                {
+                    "first": "P",
+                    "middle": [
+                        "J"
+                    ],
+                    "last": "Feeney",
+                    "suffix": ""
+                }
+            ],
+            "year": 1997,
+            "venue": "Adv Drug Delivery Rev",
+            "volume": "23",
+            "issn": "",
+            "pages": "3--25",
+            "other_ids": {}
+        },
+        "BIBREF53": {
+            "ref_id": "b53",
+            "title": "Protein Kinase Inhibitors: Insights into Drug Design from Structure",
+            "authors": [
+                {
+                    "first": "Mem",
+                    "middle": [],
+                    "last": "Noble",
+                    "suffix": ""
+                },
+                {
+                    "first": "J",
+                    "middle": [
+                        "A"
+                    ],
+                    "last": "Endicott",
+                    "suffix": ""
+                },
+                {
+                    "first": "L",
+                    "middle": [
+                        "N"
+                    ],
+                    "last": "Johnson",
+                    "suffix": ""
+                }
+            ],
+            "year": 2004,
+            "venue": "Science",
+            "volume": "303",
+            "issn": "",
+            "pages": "1800--1805",
+            "other_ids": {}
+        },
+        "BIBREF54": {
+            "ref_id": "b54",
+            "title": "Discovery of Small Molecule Inhibitors of the Interaction of the Thyroid Hormone Receptor with Transcriptional Regulators",
+            "authors": [
+                {
+                    "first": "L",
+                    "middle": [
+                        "A"
+                    ],
+                    "last": "Arnold",
+                    "suffix": ""
+                },
+                {
+                    "first": "E",
+                    "middle": [],
+                    "last": "Est\u00e9banez-Perpi\u00f1\u00e1",
+                    "suffix": ""
+                },
+                {
+                    "first": "M",
+                    "middle": [],
+                    "last": "Togashi",
+                    "suffix": ""
+                },
+                {
+                    "first": "N",
+                    "middle": [],
+                    "last": "Jouravel",
+                    "suffix": ""
+                },
+                {
+                    "first": "A",
+                    "middle": [],
+                    "last": "Shelat",
+                    "suffix": ""
+                },
+                {
+                    "first": "A",
+                    "middle": [
+                        "C"
+                    ],
+                    "last": "Mcreynolds",
+                    "suffix": ""
+                },
+                {
+                    "first": "E",
+                    "middle": [],
+                    "last": "Mar",
+                    "suffix": ""
+                },
+                {
+                    "first": "P",
+                    "middle": [],
+                    "last": "Nguyen",
+                    "suffix": ""
+                },
+                {
+                    "first": "J",
+                    "middle": [
+                        "D"
+                    ],
+                    "last": "Baxter",
+                    "suffix": ""
+                },
+                {
+                    "first": "R",
+                    "middle": [
+                        "J"
+                    ],
+                    "last": "Fletterick",
+                    "suffix": ""
+                },
+                {
+                    "first": "P",
+                    "middle": [],
+                    "last": "Webb",
+                    "suffix": ""
+                },
+                {
+                    "first": "R",
+                    "middle": [
+                        "K"
+                    ],
+                    "last": "Guy",
+                    "suffix": ""
+                }
+            ],
+            "year": 2005,
+            "venue": "J Biol Chem",
+            "volume": "280",
+            "issn": "",
+            "pages": "43048--43055",
+            "other_ids": {}
+        },
+        "BIBREF55": {
+            "ref_id": "b55",
+            "title": "Progress in Medicinal Chemistry",
+            "authors": [
+                {
+                    "first": "M",
+                    "middle": [],
+                    "last": "K\u00f6rner",
+                    "suffix": ""
+                },
+                {
+                    "first": "U",
+                    "middle": [],
+                    "last": "Tibes",
+                    "suffix": ""
+                }
+            ],
+            "year": 2008,
+            "venue": "",
+            "volume": "40",
+            "issn": "",
+            "pages": "205--280",
+            "other_ids": {}
+        },
+        "BIBREF56": {
+            "ref_id": "b56",
+            "title": "Novel Inhibitors of Human Histone Deacetylases: Design, Synthesis, Enzyme Inhibition, and Cancer Cell Growth Inhibition of SAHA-based Non-hydroxyamates",
+            "authors": [
+                {
+                    "first": "T",
+                    "middle": [],
+                    "last": "Suzuki",
+                    "suffix": ""
+                },
+                {
+                    "first": "Y",
+                    "middle": [],
+                    "last": "Nagano",
+                    "suffix": ""
+                },
+                {
+                    "first": "A",
+                    "middle": [],
+                    "last": "Kouketsu",
+                    "suffix": ""
+                },
+                {
+                    "first": "A",
+                    "middle": [],
+                    "last": "Matsuura",
+                    "suffix": ""
+                },
+                {
+                    "first": "S",
+                    "middle": [],
+                    "last": "Maruyama",
+                    "suffix": ""
+                },
+                {
+                    "first": "M",
+                    "middle": [],
+                    "last": "Kurotaki",
+                    "suffix": ""
+                },
+                {
+                    "first": "H",
+                    "middle": [],
+                    "last": "Nakagawa",
+                    "suffix": ""
+                },
+                {
+                    "first": "N",
+                    "middle": [],
+                    "last": "Miyata",
+                    "suffix": ""
+                }
+            ],
+            "year": 2005,
+            "venue": "J Med Chem",
+            "volume": "48",
+            "issn": "",
+            "pages": "1019--1032",
+            "other_ids": {}
+        },
+        "BIBREF57": {
+            "ref_id": "b57",
+            "title": "Tight-Binding Inhibitors--IV. Inhibition of Adenosine Deaminases by Various Inhibitors",
+            "authors": [
+                {
+                    "first": "R",
+                    "middle": [
+                        "P"
+                    ],
+                    "last": "Agarwal",
+                    "suffix": ""
+                },
+                {
+                    "first": "T",
+                    "middle": [],
+                    "last": "Spector",
+                    "suffix": ""
+                },
+                {
+                    "first": "R",
+                    "middle": [
+                        "E"
+                    ],
+                    "last": "Parks",
+                    "suffix": ""
+                }
+            ],
+            "year": 1977,
+            "venue": "Biochem Pharmacol",
+            "volume": "26",
+            "issn": "5",
+            "pages": "359--367",
+            "other_ids": {}
+        },
+        "BIBREF58": {
+            "ref_id": "b58",
+            "title": "Rational Design of Peptide-Based HIV Proteinase Inhibitors",
+            "authors": [
+                {
+                    "first": "N",
+                    "middle": [
+                        "A"
+                    ],
+                    "last": "Roberts",
+                    "suffix": ""
+                },
+                {
+                    "first": "J",
+                    "middle": [
+                        "A"
+                    ],
+                    "last": "Martin",
+                    "suffix": ""
+                },
+                {
+                    "first": "D",
+                    "middle": [],
+                    "last": "Kinchington",
+                    "suffix": ""
+                },
+                {
+                    "first": "A",
+                    "middle": [
+                        "V"
+                    ],
+                    "last": "Broadhurst",
+                    "suffix": ""
+                },
+                {
+                    "first": "J",
+                    "middle": [
+                        "C"
+                    ],
+                    "last": "Craig",
+                    "suffix": ""
+                },
+                {
+                    "first": "I",
+                    "middle": [
+                        "B"
+                    ],
+                    "last": "Duncan",
+                    "suffix": ""
+                },
+                {
+                    "first": "S",
+                    "middle": [
+                        "A"
+                    ],
+                    "last": "Galpin",
+                    "suffix": ""
+                },
+                {
+                    "first": "B",
+                    "middle": [
+                        "K"
+                    ],
+                    "last": "Handa",
+                    "suffix": ""
+                },
+                {
+                    "first": "J",
+                    "middle": [],
+                    "last": "Kay",
+                    "suffix": ""
+                },
+                {
+                    "first": "A",
+                    "middle": [],
+                    "last": "Krohn",
+                    "suffix": ""
+                }
+            ],
+            "year": 1990,
+            "venue": "Science",
+            "volume": "248",
+            "issn": "4953",
+            "pages": "358--361",
+            "other_ids": {}
+        },
+        "BIBREF59": {
+            "ref_id": "b59",
+            "title": "Rational Design of Potent Sialidase-Based Inhibitors of Influenza Virus Replication",
+            "authors": [
+                {
+                    "first": "M",
+                    "middle": [],
+                    "last": "Von Itzstein",
+                    "suffix": ""
+                },
+                {
+                    "first": "W",
+                    "middle": [
+                        "Y"
+                    ],
+                    "last": "Wu",
+                    "suffix": ""
+                },
+                {
+                    "first": "G",
+                    "middle": [
+                        "B"
+                    ],
+                    "last": "Kok",
+                    "suffix": ""
+                },
+                {
+                    "first": "M",
+                    "middle": [
+                        "S"
+                    ],
+                    "last": "Pegg",
+                    "suffix": ""
+                },
+                {
+                    "first": "J",
+                    "middle": [
+                        "C"
+                    ],
+                    "last": "Dyason",
+                    "suffix": ""
+                },
+                {
+                    "first": "Jin",
+                    "middle": [
+                        "B"
+                    ],
+                    "last": "Van Phan",
+                    "suffix": ""
+                },
+                {
+                    "first": "T",
+                    "middle": [],
+                    "last": "Smythe",
+                    "suffix": ""
+                },
+                {
+                    "first": "M",
+                    "middle": [
+                        "L"
+                    ],
+                    "last": "White",
+                    "suffix": ""
+                },
+                {
+                    "first": "H",
+                    "middle": [
+                        "F"
+                    ],
+                    "last": "Oliver",
+                    "suffix": ""
+                },
+                {
+                    "first": "S",
+                    "middle": [
+                        "W"
+                    ],
+                    "last": "",
+                    "suffix": ""
+                }
+            ],
+            "year": 1993,
+            "venue": "Nature",
+            "volume": "363",
+            "issn": "6428",
+            "pages": "418--423",
+            "other_ids": {}
+        },
+        "BIBREF60": {
+            "ref_id": "b60",
+            "title": "Transition State Analogues for Enzyme Catalysis",
+            "authors": [
+                {
+                    "first": "R",
+                    "middle": [],
+                    "last": "Wolfenden",
+                    "suffix": ""
+                }
+            ],
+            "year": 1969,
+            "venue": "Nature",
+            "volume": "223",
+            "issn": "5207",
+            "pages": "704--705",
+            "other_ids": {}
+        },
+        "BIBREF61": {
+            "ref_id": "b61",
+            "title": "Origin of Tight Binding of a Near-Perfect Transition-State Analogue by Cytidine Deaminase: Implications for Enzyme Catalysis",
+            "authors": [
+                {
+                    "first": "H",
+                    "middle": [],
+                    "last": "Guo",
+                    "suffix": ""
+                },
+                {
+                    "first": "N",
+                    "middle": [],
+                    "last": "Rao",
+                    "suffix": ""
+                },
+                {
+                    "first": "Q",
+                    "middle": [],
+                    "last": "Xu",
+                    "suffix": ""
+                },
+                {
+                    "first": "H",
+                    "middle": [],
+                    "last": "Guo",
+                    "suffix": ""
+                }
+            ],
+            "year": 2005,
+            "venue": "J Am Chem Soc",
+            "volume": "127",
+            "issn": "9",
+            "pages": "3191--3197",
+            "other_ids": {}
+        },
+        "BIBREF62": {
+            "ref_id": "b62",
+            "title": "Conformational Aspects of Inhibitor Design: Enzyme-Substrate Interactions in the Transition State",
+            "authors": [
+                {
+                    "first": "R",
+                    "middle": [],
+                    "last": "Wolfenden",
+                    "suffix": ""
+                }
+            ],
+            "year": 1999,
+            "venue": "Bioorg Med Chem",
+            "volume": "7",
+            "issn": "5",
+            "pages": "647--652",
+            "other_ids": {}
+        },
+        "BIBREF63": {
+            "ref_id": "b63",
+            "title": "Binding Energy and Catalysis: The Implications for Transition-State Analogs and Catalytic Antibodies",
+            "authors": [
+                {
+                    "first": "M",
+                    "middle": [
+                        "M"
+                    ],
+                    "last": "Mader",
+                    "suffix": ""
+                },
+                {
+                    "first": "P",
+                    "middle": [
+                        "A"
+                    ],
+                    "last": "Bartlett",
+                    "suffix": ""
+                }
+            ],
+            "year": 1997,
+            "venue": "Chem Rev",
+            "volume": "97",
+            "issn": "5",
+            "pages": "1281--1302",
+            "other_ids": {}
+        },
+        "BIBREF64": {
+            "ref_id": "b64",
+            "title": "Quantum Chemistry in Drug Design",
+            "authors": [
+                {
+                    "first": "W",
+                    "middle": [
+                        "G"
+                    ],
+                    "last": "Richards",
+                    "suffix": ""
+                }
+            ],
+            "year": 1988,
+            "venue": "Pure & Appl Chem",
+            "volume": "60",
+            "issn": "2",
+            "pages": "227--279",
+            "other_ids": {}
+        },
+        "BIBREF65": {
+            "ref_id": "b65",
+            "title": "Enzymatic Transition State Theory and Transition State Analogue Design",
+            "authors": [
+                {
+                    "first": "V",
+                    "middle": [
+                        "L"
+                    ],
+                    "last": "Schramm",
+                    "suffix": ""
+                }
+            ],
+            "year": 2007,
+            "venue": "J Biol Chem",
+            "volume": "282",
+            "issn": "39",
+            "pages": "28297--28300",
+            "other_ids": {}
+        },
+        "BIBREF66": {
+            "ref_id": "b66",
+            "title": "A Quantum Mechanics/Molecular Mechanics Study of the Reaction Mechanism of the Hepatitis C Virus NS3 Protease with the NS5A/5B Substrate",
+            "authors": [
+                {
+                    "first": "C",
+                    "middle": [],
+                    "last": "Oliva",
+                    "suffix": ""
+                },
+                {
+                    "first": "A",
+                    "middle": [],
+                    "last": "Rodriguez",
+                    "suffix": ""
+                },
+                {
+                    "first": "M",
+                    "middle": [],
+                    "last": "Gonzalez",
+                    "suffix": ""
+                },
+                {
+                    "first": "W",
+                    "middle": [],
+                    "last": "Yang",
+                    "suffix": ""
+                }
+            ],
+            "year": 2007,
+            "venue": "Proteins",
+            "volume": "66",
+            "issn": "2",
+            "pages": "444--455",
+            "other_ids": {}
+        },
+        "BIBREF67": {
+            "ref_id": "b67",
+            "title": "Synthetic Inhibitors of Elastase",
+            "authors": [
+                {
+                    "first": "P",
+                    "middle": [
+                        "D"
+                    ],
+                    "last": "Edwards",
+                    "suffix": ""
+                },
+                {
+                    "first": "P",
+                    "middle": [
+                        "R"
+                    ],
+                    "last": "Bernstein",
+                    "suffix": ""
+                }
+            ],
+            "year": 1994,
+            "venue": "Med Res Rev",
+            "volume": "14",
+            "issn": "2",
+            "pages": "127--194",
+            "other_ids": {}
+        },
+        "BIBREF68": {
+            "ref_id": "b68",
+            "title": "The Rational Design of Suicide Substrates of Amine Oxidases",
+            "authors": [
+                {
+                    "first": "M",
+                    "middle": [
+                        "G"
+                    ],
+                    "last": "Palfreyman",
+                    "suffix": ""
+                },
+                {
+                    "first": "I",
+                    "middle": [
+                        "A"
+                    ],
+                    "last": "Mcdonald",
+                    "suffix": ""
+                },
+                {
+                    "first": "P",
+                    "middle": [],
+                    "last": "Bey",
+                    "suffix": ""
+                },
+                {
+                    "first": "C",
+                    "middle": [],
+                    "last": "Danzin",
+                    "suffix": ""
+                },
+                {
+                    "first": "M",
+                    "middle": [],
+                    "last": "Zreika",
+                    "suffix": ""
+                },
+                {
+                    "first": "G",
+                    "middle": [
+                        "A"
+                    ],
+                    "last": "Lyles",
+                    "suffix": ""
+                },
+                {
+                    "first": "J",
+                    "middle": [
+                        "R"
+                    ],
+                    "last": "Fozard",
+                    "suffix": ""
+                }
+            ],
+            "year": 1986,
+            "venue": "Biochem Soc Trans",
+            "volume": "14",
+            "issn": "2",
+            "pages": "410--413",
+            "other_ids": {}
+        },
+        "BIBREF69": {
+            "ref_id": "b69",
+            "title": "Suicide Enzyme Inhibitors as Potential Drugs",
+            "authors": [
+                {
+                    "first": "A",
+                    "middle": [],
+                    "last": "Sjoerdsma",
+                    "suffix": ""
+                }
+            ],
+            "year": 1981,
+            "venue": "Clin Pharmacol Ther",
+            "volume": "30",
+            "issn": "1",
+            "pages": "3--22",
+            "other_ids": {}
+        },
+        "BIBREF70": {
+            "ref_id": "b70",
+            "title": "Irreversible Inhibitors of Serine, Cysteine, and Threonine Proteases",
+            "authors": [
+                {
+                    "first": "J",
+                    "middle": [
+                        "C"
+                    ],
+                    "last": "Powers",
+                    "suffix": ""
+                },
+                {
+                    "first": "J",
+                    "middle": [
+                        "L"
+                    ],
+                    "last": "Asgian",
+                    "suffix": ""
+                },
+                {
+                    "first": "O",
+                    "middle": [
+                        "D"
+                    ],
+                    "last": "Ekici",
+                    "suffix": ""
+                },
+                {
+                    "first": "K",
+                    "middle": [
+                        "E"
+                    ],
+                    "last": "James",
+                    "suffix": ""
+                }
+            ],
+            "year": 2002,
+            "venue": "Chem Rev",
+            "volume": "102",
+            "issn": "12",
+            "pages": "4639--4750",
+            "other_ids": {}
+        },
+        "BIBREF71": {
+            "ref_id": "b71",
+            "title": "Acetylation of Prostaglandin Endoperoxide Synthetase with Acetylsalicylic Acid",
+            "authors": [
+                {
+                    "first": "F",
+                    "middle": [
+                        "J"
+                    ],
+                    "last": "Van Der Ouderaa",
+                    "suffix": ""
+                },
+                {
+                    "first": "M",
+                    "middle": [],
+                    "last": "Buytenhek",
+                    "suffix": ""
+                },
+                {
+                    "first": "D",
+                    "middle": [
+                        "H"
+                    ],
+                    "last": "Nugteren",
+                    "suffix": ""
+                },
+                {
+                    "first": "D",
+                    "middle": [
+                        "A"
+                    ],
+                    "last": "Van Dorp",
+                    "suffix": ""
+                }
+            ],
+            "year": 1980,
+            "venue": "Eur J Biochem",
+            "volume": "109",
+            "issn": "",
+            "pages": "1--8",
+            "other_ids": {}
+        },
+        "BIBREF72": {
+            "ref_id": "b72",
+            "title": "Inhibition of Thrombin and Trypsin by Tripeptide Aldehydes",
+            "authors": [
+                {
+                    "first": "S",
+                    "middle": [],
+                    "last": "Bajusz",
+                    "suffix": ""
+                },
+                {
+                    "first": "E",
+                    "middle": [],
+                    "last": "Barabas",
+                    "suffix": ""
+                },
+                {
+                    "first": "P",
+                    "middle": [],
+                    "last": "Tolnay",
+                    "suffix": ""
+                },
+                {
+                    "first": "E",
+                    "middle": [],
+                    "last": "Szell",
+                    "suffix": ""
+                },
+                {
+                    "first": "D",
+                    "middle": [],
+                    "last": "Bagdy",
+                    "suffix": ""
+                }
+            ],
+            "year": 1978,
+            "venue": "Int J Pept Protein Res",
+            "volume": "12",
+            "issn": "4",
+            "pages": "217--221",
+            "other_ids": {}
+        },
+        "BIBREF73": {
+            "ref_id": "b73",
+            "title": "Protease Inhibitors: Current Status and Future Prospects",
+            "authors": [
+                {
+                    "first": "D",
+                    "middle": [],
+                    "last": "Leung",
+                    "suffix": ""
+                },
+                {
+                    "first": "G",
+                    "middle": [],
+                    "last": "Abbenante",
+                    "suffix": ""
+                },
+                {
+                    "first": "D",
+                    "middle": [
+                        "P"
+                    ],
+                    "last": "Fairlie",
+                    "suffix": ""
+                }
+            ],
+            "year": 2000,
+            "venue": "J Med Chem",
+            "volume": "43",
+            "issn": "3",
+            "pages": "305--341",
+            "other_ids": {}
+        },
+        "BIBREF74": {
+            "ref_id": "b74",
+            "title": "United States Food and Drug Administration Approval Summary: Bortezomib for the Treatment of Progressive Multiple Myeloma After One Prior Therapy",
+            "authors": [
+                {
+                    "first": "R",
+                    "middle": [
+                        "C"
+                    ],
+                    "last": "Kane",
+                    "suffix": ""
+                },
+                {
+                    "first": "A",
+                    "middle": [
+                        "T"
+                    ],
+                    "last": "Farrell",
+                    "suffix": ""
+                },
+                {
+                    "first": "R",
+                    "middle": [],
+                    "last": "Sridhara",
+                    "suffix": ""
+                },
+                {
+                    "first": "R",
+                    "middle": [],
+                    "last": "Pazdur",
+                    "suffix": ""
+                }
+            ],
+            "year": 2006,
+            "venue": "Clin Cancer Res",
+            "volume": "12",
+            "issn": "10",
+            "pages": "2955--2960",
+            "other_ids": {}
+        },
+        "BIBREF75": {
+            "ref_id": "b75",
+            "title": "Bortezomib: Proteasome Inhibition as an Effective Anticancer Therapy",
+            "authors": [
+                {
+                    "first": "P",
+                    "middle": [
+                        "G"
+                    ],
+                    "last": "Richardson",
+                    "suffix": ""
+                },
+                {
+                    "first": "C",
+                    "middle": [],
+                    "last": "Mitsiades",
+                    "suffix": ""
+                },
+                {
+                    "first": "T",
+                    "middle": [],
+                    "last": "Hideshima",
+                    "suffix": ""
+                },
+                {
+                    "first": "K",
+                    "middle": [
+                        "C"
+                    ],
+                    "last": "Anderson",
+                    "suffix": ""
+                }
+            ],
+            "year": 2006,
+            "venue": "Annu Rev Med",
+            "volume": "57",
+            "issn": "",
+            "pages": "33--47",
+            "other_ids": {}
+        },
+        "BIBREF76": {
+            "ref_id": "b76",
+            "title": "Noncovalent Serine Protease Inhibitors",
+            "authors": [
+                {
+                    "first": "P",
+                    "middle": [
+                        "E"
+                    ],
+                    "last": "Sanderson",
+                    "suffix": ""
+                },
+                {
+                    "first": "",
+                    "middle": [],
+                    "last": "Small",
+                    "suffix": ""
+                }
+            ],
+            "year": 1999,
+            "venue": "Med Res Rev",
+            "volume": "19",
+            "issn": "2",
+            "pages": "179--197",
+            "other_ids": {}
+        },
+        "BIBREF77": {
+            "ref_id": "b77",
+            "title": "The Design of Potent, Non-Peptidic Inhibitors of Hepatitis C Protease",
+            "authors": [
+                {
+                    "first": "D",
+                    "middle": [
+                        "M"
+                    ],
+                    "last": "Andrews",
+                    "suffix": ""
+                },
+                {
+                    "first": "H",
+                    "middle": [
+                        "M"
+                    ],
+                    "last": "Chaignot",
+                    "suffix": ""
+                },
+                {
+                    "first": "B",
+                    "middle": [
+                        "A"
+                    ],
+                    "last": "Coomber",
+                    "suffix": ""
+                },
+                {
+                    "first": "M",
+                    "middle": [
+                        "D"
+                    ],
+                    "last": "Dowle",
+                    "suffix": ""
+                },
+                {
+                    "first": "S",
+                    "middle": [
+                        "L"
+                    ],
+                    "last": "Hind",
+                    "suffix": ""
+                },
+                {
+                    "first": "M",
+                    "middle": [
+                        "R"
+                    ],
+                    "last": "Johnson",
+                    "suffix": ""
+                },
+                {
+                    "first": "P",
+                    "middle": [
+                        "S"
+                    ],
+                    "last": "Jones",
+                    "suffix": ""
+                },
+                {
+                    "first": "G",
+                    "middle": [],
+                    "last": "Mills",
+                    "suffix": ""
+                },
+                {
+                    "first": "A",
+                    "middle": [],
+                    "last": "Patikis",
+                    "suffix": ""
+                },
+                {
+                    "first": "T",
+                    "middle": [
+                        "J"
+                    ],
+                    "last": "Pateman",
+                    "suffix": ""
+                },
+                {
+                    "first": "J",
+                    "middle": [
+                        "E"
+                    ],
+                    "last": "Robinson",
+                    "suffix": ""
+                },
+                {
+                    "first": "M",
+                    "middle": [
+                        "J"
+                    ],
+                    "last": "Slater",
+                    "suffix": ""
+                },
+                {
+                    "first": "N",
+                    "middle": [],
+                    "last": "Trivedi",
+                    "suffix": ""
+                }
+            ],
+            "year": 2003,
+            "venue": "Eur J Med Chem",
+            "volume": "38",
+            "issn": "4",
+            "pages": "339--343",
+            "other_ids": {}
+        },
+        "BIBREF78": {
+            "ref_id": "b78",
+            "title": "A Novel Approach to Serine Protease Inhibition: Kinetic Characterization of Inhibitors Whose Potencies and Selectivities are Dramatically Enhanced by Zinc(II)",
+            "authors": [
+                {
+                    "first": "J",
+                    "middle": [
+                        "W"
+                    ],
+                    "last": "Janc",
+                    "suffix": ""
+                },
+                {
+                    "first": "J",
+                    "middle": [
+                        "M"
+                    ],
+                    "last": "Clark",
+                    "suffix": ""
+                },
+                {
+                    "first": "R",
+                    "middle": [
+                        "L"
+                    ],
+                    "last": "Warne",
+                    "suffix": ""
+                },
+                {
+                    "first": "K",
+                    "middle": [
+                        "C"
+                    ],
+                    "last": "Elrod",
+                    "suffix": ""
+                },
+                {
+                    "first": "B",
+                    "middle": [
+                        "A"
+                    ],
+                    "last": "Katz",
+                    "suffix": ""
+                },
+                {
+                    "first": "W",
+                    "middle": [
+                        "R"
+                    ],
+                    "last": "Moore",
+                    "suffix": ""
+                }
+            ],
+            "year": 2000,
+            "venue": "Biochemistry",
+            "volume": "39",
+            "issn": "16",
+            "pages": "4792--4800",
+            "other_ids": {}
+        },
+        "BIBREF79": {
+            "ref_id": "b79",
+            "title": "Metal Complexes as Enzyme Inhibitors",
+            "authors": [
+                {
+                    "first": "A",
+                    "middle": [
+                        "Y"
+                    ],
+                    "last": "Louie",
+                    "suffix": ""
+                },
+                {
+                    "first": "T",
+                    "middle": [
+                        "J"
+                    ],
+                    "last": "Meade",
+                    "suffix": ""
+                }
+            ],
+            "year": 1999,
+            "venue": "Chem Rev",
+            "volume": "99",
+            "issn": "9",
+            "pages": "2711--2734",
+            "other_ids": {}
+        },
+        "BIBREF80": {
+            "ref_id": "b80",
+            "title": "So rich is the subject of medicinal inorganic chemistry that the entire issue of",
+            "authors": [],
+            "year": null,
+            "venue": "Chem. Rev. containing reference",
+            "volume": "79",
+            "issn": "9",
+            "pages": "",
+            "other_ids": {}
+        },
+        "BIBREF81": {
+            "ref_id": "b81",
+            "title": "Basis for Design and Development of Platinum (IV) Anticancer Complexes",
+            "authors": [
+                {
+                    "first": "M",
+                    "middle": [
+                        "D"
+                    ],
+                    "last": "Hall",
+                    "suffix": ""
+                },
+                {
+                    "first": "H",
+                    "middle": [
+                        "R"
+                    ],
+                    "last": "Mellor",
+                    "suffix": ""
+                },
+                {
+                    "first": "R",
+                    "middle": [],
+                    "last": "Callaghan",
+                    "suffix": ""
+                },
+                {
+                    "first": "T",
+                    "middle": [
+                        "W"
+                    ],
+                    "last": "Hambley",
+                    "suffix": ""
+                }
+            ],
+            "year": 2007,
+            "venue": "J Med Chem",
+            "volume": "50",
+            "issn": "15",
+            "pages": "3403--3411",
+            "other_ids": {}
+        },
+        "BIBREF82": {
+            "ref_id": "b82",
+            "title": "Diamminodichloroplatinum in the Chemotherapy of Testicular Tumors",
+            "authors": [
+                {
+                    "first": "D",
+                    "middle": [
+                        "J"
+                    ],
+                    "last": "Higby",
+                    "suffix": ""
+                },
+                {
+                    "first": "H",
+                    "middle": [
+                        "J"
+                    ],
+                    "last": "Wallace",
+                    "suffix": ""
+                },
+                {
+                    "first": "Albert",
+                    "middle": [
+                        "D"
+                    ],
+                    "last": "Holland",
+                    "suffix": ""
+                },
+                {
+                    "first": "J",
+                    "middle": [
+                        "F"
+                    ],
+                    "last": "",
+                    "suffix": ""
+                }
+            ],
+            "year": 1974,
+            "venue": "J Urol",
+            "volume": "112",
+            "issn": "1",
+            "pages": "100--104",
+            "other_ids": {}
+        },
+        "BIBREF83": {
+            "ref_id": "b83",
+            "title": "Rational Design and Biochemical Utility of Specific Inhibitors of Angiotensin-Converting Enzyme",
+            "authors": [
+                {
+                    "first": "D",
+                    "middle": [
+                        "W"
+                    ],
+                    "last": "Cushman",
+                    "suffix": ""
+                },
+                {
+                    "first": "M",
+                    "middle": [
+                        "A"
+                    ],
+                    "last": "Ondetti",
+                    "suffix": ""
+                },
+                {
+                    "first": "E",
+                    "middle": [
+                        "M"
+                    ],
+                    "last": "Gordon",
+                    "suffix": ""
+                },
+                {
+                    "first": "S",
+                    "middle": [],
+                    "last": "Natarajan",
+                    "suffix": ""
+                },
+                {
+                    "first": "D",
+                    "middle": [
+                        "S"
+                    ],
+                    "last": "Karanewsky",
+                    "suffix": ""
+                },
+                {
+                    "first": "J",
+                    "middle": [],
+                    "last": "Krapcho",
+                    "suffix": ""
+                },
+                {
+                    "first": "E",
+                    "middle": [
+                        "W"
+                    ],
+                    "last": "Petrillo",
+                    "suffix": ""
+                }
+            ],
+            "year": 1987,
+            "venue": "J Cardiovasc Pharmacol",
+            "volume": "10",
+            "issn": "7",
+            "pages": "17--30",
+            "other_ids": {}
+        },
+        "BIBREF84": {
+            "ref_id": "b84",
+            "title": "Viral Proteinases: Targets of Opportunity",
+            "authors": [
+                {
+                    "first": "C",
+                    "middle": [
+                        "M"
+                    ],
+                    "last": "Byrd",
+                    "suffix": ""
+                },
+                {
+                    "first": "D",
+                    "middle": [
+                        "E"
+                    ],
+                    "last": "Hruby",
+                    "suffix": ""
+                }
+            ],
+            "year": 2006,
+            "venue": "Drug Dev Res",
+            "volume": "67",
+            "issn": "",
+            "pages": "501--510",
+            "other_ids": {}
+        },
+        "BIBREF85": {
+            "ref_id": "b85",
+            "title": "Antiviral Drug Discovery Targeting to Viral Proteases",
+            "authors": [
+                {
+                    "first": "J",
+                    "middle": [
+                        "T"
+                    ],
+                    "last": "Hsu",
+                    "suffix": ""
+                },
+                {
+                    "first": "H",
+                    "middle": [
+                        "C"
+                    ],
+                    "last": "Wang",
+                    "suffix": ""
+                },
+                {
+                    "first": "G",
+                    "middle": [
+                        "W"
+                    ],
+                    "last": "Chen",
+                    "suffix": ""
+                },
+                {
+                    "first": "S",
+                    "middle": [
+                        "R"
+                    ],
+                    "last": "Shih",
+                    "suffix": ""
+                }
+            ],
+            "year": 2006,
+            "venue": "Curr Pharm Des",
+            "volume": "12",
+            "issn": "11",
+            "pages": "1301--1314",
+            "other_ids": {}
+        },
+        "BIBREF86": {
+            "ref_id": "b86",
+            "title": "Synthesis, Crystal Structure, Structure-Activity Relationships, and Antiviral Activity of a Potent SARS Coronavirus 3CL Protease Inhibitor",
+            "authors": [
+                {
+                    "first": "S",
+                    "middle": [],
+                    "last": "Yang",
+                    "suffix": ""
+                },
+                {
+                    "first": "S",
+                    "middle": [
+                        "J"
+                    ],
+                    "last": "Chen",
+                    "suffix": ""
+                },
+                {
+                    "first": "M",
+                    "middle": [
+                        "F"
+                    ],
+                    "last": "Hsu",
+                    "suffix": ""
+                },
+                {
+                    "first": "J",
+                    "middle": [
+                        "D"
+                    ],
+                    "last": "Wu",
+                    "suffix": ""
+                },
+                {
+                    "first": "C",
+                    "middle": [
+                        "T"
+                    ],
+                    "last": "Tseng",
+                    "suffix": ""
+                },
+                {
+                    "first": "Y",
+                    "middle": [
+                        "F"
+                    ],
+                    "last": "Liu",
+                    "suffix": ""
+                },
+                {
+                    "first": "H",
+                    "middle": [
+                        "C"
+                    ],
+                    "last": "Chen",
+                    "suffix": ""
+                },
+                {
+                    "first": "C",
+                    "middle": [
+                        "W"
+                    ],
+                    "last": "Kuo",
+                    "suffix": ""
+                },
+                {
+                    "first": "C",
+                    "middle": [
+                        "S"
+                    ],
+                    "last": "Wu",
+                    "suffix": ""
+                },
+                {
+                    "first": "L",
+                    "middle": [
+                        "W"
+                    ],
+                    "last": "Chang",
+                    "suffix": ""
+                },
+                {
+                    "first": "W",
+                    "middle": [
+                        "C"
+                    ],
+                    "last": "Chen",
+                    "suffix": ""
+                },
+                {
+                    "first": "S",
+                    "middle": [
+                        "Y"
+                    ],
+                    "last": "Liao",
+                    "suffix": ""
+                },
+                {
+                    "first": "T",
+                    "middle": [
+                        "Y"
+                    ],
+                    "last": "Chang",
+                    "suffix": ""
+                },
+                {
+                    "first": "H",
+                    "middle": [
+                        "H"
+                    ],
+                    "last": "Hung",
+                    "suffix": ""
+                },
+                {
+                    "first": "H",
+                    "middle": [
+                        "L"
+                    ],
+                    "last": "Shr",
+                    "suffix": ""
+                },
+                {
+                    "first": "C",
+                    "middle": [
+                        "Y"
+                    ],
+                    "last": "Liu",
+                    "suffix": ""
+                },
+                {
+                    "first": "Y",
+                    "middle": [
+                        "A"
+                    ],
+                    "last": "Huang",
+                    "suffix": ""
+                },
+                {
+                    "first": "L",
+                    "middle": [
+                        "Y"
+                    ],
+                    "last": "Chang",
+                    "suffix": ""
+                },
+                {
+                    "first": "J",
+                    "middle": [
+                        "C"
+                    ],
+                    "last": "Hsu",
+                    "suffix": ""
+                },
+                {
+                    "first": "C",
+                    "middle": [
+                        "J"
+                    ],
+                    "last": "Peters",
+                    "suffix": ""
+                },
+                {
+                    "first": "A",
+                    "middle": [
+                        "H"
+                    ],
+                    "last": "Wang",
+                    "suffix": ""
+                },
+                {
+                    "first": "M",
+                    "middle": [
+                        "C"
+                    ],
+                    "last": "Hsu",
+                    "suffix": ""
+                }
+            ],
+            "year": 2006,
+            "venue": "J Med Chem",
+            "volume": "49",
+            "issn": "16",
+            "pages": "4971--4980",
+            "other_ids": {}
+        },
+        "BIBREF87": {
+            "ref_id": "b87",
+            "title": "Covalent Modification as a Strategy to Block Protein-Protein Interactions With Small-Molecule Drugs",
+            "authors": [
+                {
+                    "first": "J",
+                    "middle": [
+                        "C"
+                    ],
+                    "last": "Way",
+                    "suffix": ""
+                }
+            ],
+            "year": 2000,
+            "venue": "Curr Opin Chem Biol",
+            "volume": "4",
+            "issn": "1",
+            "pages": "40--46",
+            "other_ids": {}
+        },
+        "BIBREF88": {
+            "ref_id": "b88",
+            "title": "How Many Drug Targets Are There?",
+            "authors": [
+                {
+                    "first": "J",
+                    "middle": [
+                        "P"
+                    ],
+                    "last": "Overington",
+                    "suffix": ""
+                },
+                {
+                    "first": "B",
+                    "middle": [],
+                    "last": "Al-Lazikani",
+                    "suffix": ""
+                },
+                {
+                    "first": "A",
+                    "middle": [
+                        "L"
+                    ],
+                    "last": "Hopkins",
+                    "suffix": ""
+                }
+            ],
+            "year": 2006,
+            "venue": "Nat Rev Drug Discov",
+            "volume": "5",
+            "issn": "12",
+            "pages": "993--996",
+            "other_ids": {}
+        },
+        "BIBREF89": {
+            "ref_id": "b89",
+            "title": "The Ins and Outs of G Protein-Coupled Receptor Trafficking",
+            "authors": [
+                {
+                    "first": "A",
+                    "middle": [],
+                    "last": "Marchese",
+                    "suffix": ""
+                },
+                {
+                    "first": "C",
+                    "middle": [],
+                    "last": "Chen",
+                    "suffix": ""
+                },
+                {
+                    "first": "Y",
+                    "middle": [
+                        "M"
+                    ],
+                    "last": "Kim",
+                    "suffix": ""
+                },
+                {
+                    "first": "J",
+                    "middle": [
+                        "L"
+                    ],
+                    "last": "Benovic",
+                    "suffix": ""
+                }
+            ],
+            "year": 2003,
+            "venue": "Trends Biochem Sci",
+            "volume": "28",
+            "issn": "7",
+            "pages": "369--376",
+            "other_ids": {}
+        },
+        "BIBREF90": {
+            "ref_id": "b90",
+            "title": "Biology and Pharmacology of the Platelet P2Y12 Receptor",
+            "authors": [
+                {
+                    "first": "R",
+                    "middle": [
+                        "F"
+                    ],
+                    "last": "Storey",
+                    "suffix": ""
+                }
+            ],
+            "year": 2006,
+            "venue": "Curr Pharm Des",
+            "volume": "12",
+            "issn": "10",
+            "pages": "1255--1259",
+            "other_ids": {}
+        },
+        "BIBREF91": {
+            "ref_id": "b91",
+            "title": "Protein-Reactive Natural Products",
+            "authors": [
+                {
+                    "first": "C",
+                    "middle": [],
+                    "last": "Drahl",
+                    "suffix": ""
+                },
+                {
+                    "first": "B",
+                    "middle": [
+                        "F"
+                    ],
+                    "last": "Cravatt",
+                    "suffix": ""
+                },
+                {
+                    "first": "E",
+                    "middle": [
+                        "J"
+                    ],
+                    "last": "Sorensen",
+                    "suffix": ""
+                }
+            ],
+            "year": 2005,
+            "venue": "Angew Chem Int Ed Engl",
+            "volume": "44",
+            "issn": "36",
+            "pages": "5788--5809",
+            "other_ids": {}
+        },
+        "BIBREF92": {
+            "ref_id": "b92",
+            "title": "Mechanism-Based Profiling of Enzyme Families",
+            "authors": [
+                {
+                    "first": "M",
+                    "middle": [
+                        "J"
+                    ],
+                    "last": "Evans",
+                    "suffix": ""
+                },
+                {
+                    "first": "B",
+                    "middle": [
+                        "F"
+                    ],
+                    "last": "Cravatt",
+                    "suffix": ""
+                }
+            ],
+            "year": 2006,
+            "venue": "Chem Rev",
+            "volume": "106",
+            "issn": "8",
+            "pages": "3279--3301",
+            "other_ids": {}
+        },
+        "BIBREF93": {
+            "ref_id": "b93",
+            "title": "Enzyme Activity Profiles of the Secreted and Membrane Proteome that Depict Cancer Cell Invasiveness",
+            "authors": [
+                {
+                    "first": "N",
+                    "middle": [],
+                    "last": "Jessani",
+                    "suffix": ""
+                },
+                {
+                    "first": "Y",
+                    "middle": [],
+                    "last": "Liu",
+                    "suffix": ""
+                },
+                {
+                    "first": "M",
+                    "middle": [],
+                    "last": "Humphrey",
+                    "suffix": ""
+                },
+                {
+                    "first": "B",
+                    "middle": [
+                        "F"
+                    ],
+                    "last": "Cravatt",
+                    "suffix": ""
+                }
+            ],
+            "year": 2002,
+            "venue": "Proc Natl Acad Sci U S A",
+            "volume": "99",
+            "issn": "16",
+            "pages": "10335--10340",
+            "other_ids": {}
+        },
+        "BIBREF94": {
+            "ref_id": "b94",
+            "title": "Class Assignment of Sequence-Unrelated Members of Enzyme Superfamilies by Activity-Based Protein Profiling",
+            "authors": [
+                {
+                    "first": "N",
+                    "middle": [],
+                    "last": "Jessani",
+                    "suffix": ""
+                },
+                {
+                    "first": "J",
+                    "middle": [
+                        "A"
+                    ],
+                    "last": "Young",
+                    "suffix": ""
+                },
+                {
+                    "first": "S",
+                    "middle": [
+                        "L"
+                    ],
+                    "last": "Diaz",
+                    "suffix": ""
+                },
+                {
+                    "first": "M",
+                    "middle": [
+                        "P"
+                    ],
+                    "last": "Patricelli",
+                    "suffix": ""
+                },
+                {
+                    "first": "A",
+                    "middle": [],
+                    "last": "Varki",
+                    "suffix": ""
+                },
+                {
+                    "first": "B",
+                    "middle": [
+                        "F"
+                    ],
+                    "last": "Cravatt",
+                    "suffix": ""
+                }
+            ],
+            "year": 2005,
+            "venue": "Angew Chem Int Ed Engl",
+            "volume": "44",
+            "issn": "16",
+            "pages": "2400--2403",
+            "other_ids": {}
+        },
+        "BIBREF95": {
+            "ref_id": "b95",
+            "title": "Activity Probe for In Vivo Profiling of the Specificity of Proteasome Inhibitor Bortezomib",
+            "authors": [
+                {
+                    "first": "C",
+                    "middle": [
+                        "R"
+                    ],
+                    "last": "Berkers",
+                    "suffix": ""
+                },
+                {
+                    "first": "M",
+                    "middle": [],
+                    "last": "Verdoes",
+                    "suffix": ""
+                },
+                {
+                    "first": "E",
+                    "middle": [],
+                    "last": "Lichtman",
+                    "suffix": ""
+                },
+                {
+                    "first": "E",
+                    "middle": [],
+                    "last": "Fiebiger",
+                    "suffix": ""
+                },
+                {
+                    "first": "B",
+                    "middle": [
+                        "M"
+                    ],
+                    "last": "Kessler",
+                    "suffix": ""
+                },
+                {
+                    "first": "K",
+                    "middle": [
+                        "C"
+                    ],
+                    "last": "Anderson",
+                    "suffix": ""
+                },
+                {
+                    "first": "H",
+                    "middle": [
+                        "L"
+                    ],
+                    "last": "Ploegh",
+                    "suffix": ""
+                },
+                {
+                    "first": "H",
+                    "middle": [],
+                    "last": "Ovaa",
+                    "suffix": ""
+                },
+                {
+                    "first": "P",
+                    "middle": [
+                        "J"
+                    ],
+                    "last": "Galardy",
+                    "suffix": ""
+                }
+            ],
+            "year": 2005,
+            "venue": "Nat Methods",
+            "volume": "2",
+            "issn": "5",
+            "pages": "357--362",
+            "other_ids": {}
+        },
+        "BIBREF96": {
+            "ref_id": "b96",
+            "title": "Structure-Based Development of Target-Specific Compound Libraries",
+            "authors": [
+                {
+                    "first": "A",
+                    "middle": [
+                        "J"
+                    ],
+                    "last": "Orry",
+                    "suffix": ""
+                },
+                {
+                    "first": "R",
+                    "middle": [
+                        "A"
+                    ],
+                    "last": "Abagyan",
+                    "suffix": ""
+                },
+                {
+                    "first": "C",
+                    "middle": [
+                        "N"
+                    ],
+                    "last": "Cavasotto",
+                    "suffix": ""
+                }
+            ],
+            "year": 2006,
+            "venue": "Drug Discov Today",
+            "volume": "11",
+            "issn": "5-6",
+            "pages": "261--266",
+            "other_ids": {}
+        },
+        "BIBREF97": {
+            "ref_id": "b97",
+            "title": "Quinic Acid Derivatives as Sialyl Lewis(x)-Mimicking Selectin Inhibitors: Design, Synthesis, and Crystal Structure in Complex With E-Selectin",
+            "authors": [
+                {
+                    "first": "N",
+                    "middle": [],
+                    "last": "Kaila",
+                    "suffix": ""
+                },
+                {
+                    "first": "W",
+                    "middle": [
+                        "S"
+                    ],
+                    "last": "Somers",
+                    "suffix": ""
+                },
+                {
+                    "first": "B",
+                    "middle": [
+                        "E"
+                    ],
+                    "last": "Thomas",
+                    "suffix": ""
+                },
+                {
+                    "first": "P",
+                    "middle": [],
+                    "last": "Thakker",
+                    "suffix": ""
+                },
+                {
+                    "first": "K",
+                    "middle": [],
+                    "last": "Janz",
+                    "suffix": ""
+                },
+                {
+                    "first": "S",
+                    "middle": [],
+                    "last": "Debernardo",
+                    "suffix": ""
+                },
+                {
+                    "first": "S",
+                    "middle": [],
+                    "last": "Tam",
+                    "suffix": ""
+                },
+                {
+                    "first": "W",
+                    "middle": [
+                        "J"
+                    ],
+                    "last": "Moore",
+                    "suffix": ""
+                },
+                {
+                    "first": "R",
+                    "middle": [],
+                    "last": "Yang",
+                    "suffix": ""
+                },
+                {
+                    "first": "W",
+                    "middle": [],
+                    "last": "Wrona",
+                    "suffix": ""
+                },
+                {
+                    "first": "P",
+                    "middle": [
+                        "W"
+                    ],
+                    "last": "Bedard",
+                    "suffix": ""
+                },
+                {
+                    "first": "D",
+                    "middle": [],
+                    "last": "Crommie",
+                    "suffix": ""
+                },
+                {
+                    "first": "J",
+                    "middle": [
+                        "C"
+                    ],
+                    "last": "Keith",
+                    "suffix": ""
+                },
+                {
+                    "first": "D",
+                    "middle": [
+                        "H"
+                    ],
+                    "last": "Tsao",
+                    "suffix": ""
+                },
+                {
+                    "first": "J",
+                    "middle": [
+                        "C"
+                    ],
+                    "last": "Alvarez",
+                    "suffix": ""
+                },
+                {
+                    "first": "H",
+                    "middle": [],
+                    "last": "Ni",
+                    "suffix": ""
+                },
+                {
+                    "first": "E",
+                    "middle": [],
+                    "last": "Marchese",
+                    "suffix": ""
+                },
+                {
+                    "first": "J",
+                    "middle": [
+                        "T"
+                    ],
+                    "last": "Patton",
+                    "suffix": ""
+                },
+                {
+                    "first": "J",
+                    "middle": [
+                        "L"
+                    ],
+                    "last": "Magnani",
+                    "suffix": ""
+                },
+                {
+                    "first": "R",
+                    "middle": [
+                        "T"
+                    ],
+                    "last": "Camphausen",
+                    "suffix": ""
+                }
+            ],
+            "year": 2005,
+            "venue": "J Med Chem",
+            "volume": "48",
+            "issn": "13",
+            "pages": "4346--4357",
+            "other_ids": {}
+        },
+        "BIBREF98": {
+            "ref_id": "b98",
+            "title": "Generation and Selection of Novel Estrogen Receptor Ligands Using the De Novo Structure-Based Design Tool, SkelGen",
+            "authors": [
+                {
+                    "first": "S",
+                    "middle": [],
+                    "last": "Firth-Clark",
+                    "suffix": ""
+                },
+                {
+                    "first": "H",
+                    "middle": [
+                        "M"
+                    ],
+                    "last": "Willems",
+                    "suffix": ""
+                },
+                {
+                    "first": "A",
+                    "middle": [],
+                    "last": "Williams",
+                    "suffix": ""
+                },
+                {
+                    "first": "W",
+                    "middle": [],
+                    "last": "Harris",
+                    "suffix": ""
+                }
+            ],
+            "year": 2006,
+            "venue": "J Chem Inf Model",
+            "volume": "46",
+            "issn": "2",
+            "pages": "642--647",
+            "other_ids": {}
+        },
+        "BIBREF99": {
+            "ref_id": "b99",
+            "title": "From Docking False-Positive to Active Anti-HIV Agent",
+            "authors": [
+                {
+                    "first": "G",
+                    "middle": [],
+                    "last": "Barreiro",
+                    "suffix": ""
+                },
+                {
+                    "first": "J",
+                    "middle": [
+                        "T"
+                    ],
+                    "last": "Kim",
+                    "suffix": ""
+                },
+                {
+                    "first": "C",
+                    "middle": [
+                        "R"
+                    ],
+                    "last": "Guimaraes",
+                    "suffix": ""
+                },
+                {
+                    "first": "C",
+                    "middle": [
+                        "M"
+                    ],
+                    "last": "Bailey",
+                    "suffix": ""
+                },
+                {
+                    "first": "R",
+                    "middle": [
+                        "A"
+                    ],
+                    "last": "Domaoal",
+                    "suffix": ""
+                },
+                {
+                    "first": "L",
+                    "middle": [],
+                    "last": "Wang",
+                    "suffix": ""
+                },
+                {
+                    "first": "K",
+                    "middle": [
+                        "S"
+                    ],
+                    "last": "Anderson",
+                    "suffix": ""
+                },
+                {
+                    "first": "W",
+                    "middle": [
+                        "L"
+                    ],
+                    "last": "Jorgensen",
+                    "suffix": ""
+                }
+            ],
+            "year": 2007,
+            "venue": "J Med Chem",
+            "volume": "50",
+            "issn": "22",
+            "pages": "5324--5329",
+            "other_ids": {}
+        },
+        "BIBREF100": {
+            "ref_id": "b100",
+            "title": "Discovery of Small Molecule Inhibitors of Ubiquitin-Like Poxvirus Proteinase I7L Using Homology Modeling and Covalent Docking Approaches",
+            "authors": [
+                {
+                    "first": "V",
+                    "middle": [],
+                    "last": "Katritch",
+                    "suffix": ""
+                },
+                {
+                    "first": "C",
+                    "middle": [
+                        "M"
+                    ],
+                    "last": "Byrd",
+                    "suffix": ""
+                },
+                {
+                    "first": "V",
+                    "middle": [],
+                    "last": "Tseitin",
+                    "suffix": ""
+                },
+                {
+                    "first": "D",
+                    "middle": [],
+                    "last": "Dai",
+                    "suffix": ""
+                },
+                {
+                    "first": "E",
+                    "middle": [],
+                    "last": "Raush",
+                    "suffix": ""
+                },
+                {
+                    "first": "M",
+                    "middle": [],
+                    "last": "Totrov",
+                    "suffix": ""
+                },
+                {
+                    "first": "R",
+                    "middle": [],
+                    "last": "Abagyan",
+                    "suffix": ""
+                },
+                {
+                    "first": "R",
+                    "middle": [],
+                    "last": "Jordan",
+                    "suffix": ""
+                },
+                {
+                    "first": "D",
+                    "middle": [
+                        "E"
+                    ],
+                    "last": "Hruby",
+                    "suffix": ""
+                }
+            ],
+            "year": 2007,
+            "venue": "J Comput Aided Mol Des",
+            "volume": "21",
+            "issn": "",
+            "pages": "549--558",
+            "other_ids": {}
+        },
+        "BIBREF101": {
+            "ref_id": "b101",
+            "title": "Identification of Productive Inhibitor Binding Orientation in Fatty Acid Amide Hydrolase (FAAH) by QM/MM Mechanistic Modelling",
+            "authors": [
+                {
+                    "first": "A",
+                    "middle": [],
+                    "last": "Lodola",
+                    "suffix": ""
+                },
+                {
+                    "first": "M",
+                    "middle": [],
+                    "last": "Mor",
+                    "suffix": ""
+                },
+                {
+                    "first": "S",
+                    "middle": [],
+                    "last": "Rivara",
+                    "suffix": ""
+                },
+                {
+                    "first": "C",
+                    "middle": [],
+                    "last": "Christov",
+                    "suffix": ""
+                },
+                {
+                    "first": "G",
+                    "middle": [],
+                    "last": "Tarzia",
+                    "suffix": ""
+                },
+                {
+                    "first": "D",
+                    "middle": [],
+                    "last": "Piomelli",
+                    "suffix": ""
+                },
+                {
+                    "first": "A",
+                    "middle": [
+                        "J"
+                    ],
+                    "last": "Mulholland",
+                    "suffix": ""
+                }
+            ],
+            "year": 2008,
+            "venue": "Chem Commun (Camb)",
+            "volume": "2",
+            "issn": "",
+            "pages": "214--216",
+            "other_ids": {}
+        },
+        "BIBREF102": {
+            "ref_id": "b102",
+            "title": "A Generally Applicable Method for Assessing the Electrophilicity and Reactivity of Diverse Nitrile-Containing Compounds",
+            "authors": [
+                {
+                    "first": "R",
+                    "middle": [
+                        "M"
+                    ],
+                    "last": "Oballa",
+                    "suffix": ""
+                },
+                {
+                    "first": "J",
+                    "middle": [
+                        "F"
+                    ],
+                    "last": "Truchon",
+                    "suffix": ""
+                },
+                {
+                    "first": "C",
+                    "middle": [
+                        "I"
+                    ],
+                    "last": "Bayly",
+                    "suffix": ""
+                },
+                {
+                    "first": "N",
+                    "middle": [],
+                    "last": "Chauret",
+                    "suffix": ""
+                },
+                {
+                    "first": "S",
+                    "middle": [],
+                    "last": "Day",
+                    "suffix": ""
+                },
+                {
+                    "first": "S",
+                    "middle": [],
+                    "last": "Crane",
+                    "suffix": ""
+                },
+                {
+                    "first": "C",
+                    "middle": [],
+                    "last": "Berthelette",
+                    "suffix": ""
+                }
+            ],
+            "year": 2007,
+            "venue": "Bioorg Med Chem Lett",
+            "volume": "17",
+            "issn": "4",
+            "pages": "998--1002",
+            "other_ids": {}
+        },
+        "BIBREF103": {
+            "ref_id": "b103",
+            "title": "Antibodies with Infinite Affinity",
+            "authors": [
+                {
+                    "first": "A",
+                    "middle": [
+                        "J"
+                    ],
+                    "last": "Chmura",
+                    "suffix": ""
+                },
+                {
+                    "first": "M",
+                    "middle": [
+                        "S"
+                    ],
+                    "last": "Orton",
+                    "suffix": ""
+                },
+                {
+                    "first": "C",
+                    "middle": [
+                        "F"
+                    ],
+                    "last": "Meares",
+                    "suffix": ""
+                }
+            ],
+            "year": 2001,
+            "venue": "Proc Natl Acad Sci U S A",
+            "volume": "98",
+            "issn": "15",
+            "pages": "8480--8484",
+            "other_ids": {}
+        },
+        "BIBREF104": {
+            "ref_id": "b104",
+            "title": "Structural Bioinformatics-Based Design of Selective, Irreversible Kinase Inhibitors",
+            "authors": [
+                {
+                    "first": "M",
+                    "middle": [
+                        "S"
+                    ],
+                    "last": "Cohen",
+                    "suffix": ""
+                },
+                {
+                    "first": "C",
+                    "middle": [],
+                    "last": "Zhang",
+                    "suffix": ""
+                },
+                {
+                    "first": "K",
+                    "middle": [
+                        "M"
+                    ],
+                    "last": "Shokat",
+                    "suffix": ""
+                },
+                {
+                    "first": "J",
+                    "middle": [],
+                    "last": "Taunton",
+                    "suffix": ""
+                }
+            ],
+            "year": 2005,
+            "venue": "Science",
+            "volume": "308",
+            "issn": "5726",
+            "pages": "1318--1321",
+            "other_ids": {}
+        }
+    },
+    "ref_entries": {
+        "FIGREF0": {
+            "text": ", which they explained by entropy-enthalpy compensation. 29, 30 Combining our survey 8 with those of Kuntz et al. 7 and Gilli et al. ,29, 30 the strength of binding of drugs and inhibitors to receptors and enzymes rarely exceeds 15 kcal/mol by noncovalent binding interactions (log K a <11). 9",
+            "latex": null,
+            "type": "figure"
+        },
+        "FIGREF1": {
+            "text": "tx \u22121 = (k cat /K M /)k uncat . 31 Proficiency has been interpreted as the hypothetical equilibrium constant for conversion of the transition state (TS) of the uncatalyzed reaction plus the enzyme, both in water, into the enzyme-TS complex-the apparent binding constant of the TS to the enzyme. This interpretation of the proficiency is somewhat controversial but the conclusions about enzymes that show particularly high proficiencies and about how enzyme transition state binding compares to general non-covalent interactions drawn below do not depend on the exact numerical interpretation of these values. While abundant k cat and K M values have been measured and are available in the BRENDA enzyme database, 32 few k uncat values have been documented due to the slow rates of the uncatalyzed reactions in water. Additionally, many enzyme-catalyzed reactions do not have an equivalent in pure aqueous solution; redox reactions are good examples of this. Wolfenden and coworkers have measured the k uncat of twenty-four hydrolases, isomerases, and lyases, 31, 33, 34 which enabled plotting of the binding constant data for enzyme-TS complexes, shown in Figure 1. 9 The 10 16 average binding constant (",
+            "latex": null,
+            "type": "figure"
+        },
+        "FIGREF2": {
+            "text": "Figure 1.",
+            "latex": null,
+            "type": "figure"
+        },
+        "FIGREF3": {
+            "text": "Plot of log K a versus buried solvent accessible surface area (\u0394SASA). Reprinted with permission from reference 9 . Copyright 2005 Americal Chemical Society.",
+            "latex": null,
+            "type": "figure"
+        },
+        "FIGREF4": {
+            "text": "Frequency plot of association constant for 507 antibody-antigen complexes, 160 enzymeinhibitor complexes, and 1017 measurements of enzyme-transition state complex. Reprinted with permission from reference 9 . Copyright 2005 Americal Chemical Society.",
+            "latex": null,
+            "type": "figure"
+        }
+    },
+    "back_matter": [
+        {
+            "text": "We thank the National Institute of General Medical Sciences, National Institutes of Health, and the National Science Foundation for financial support of this research.",
+            "cite_spans": [],
+            "ref_spans": [],
+            "section": "Acknowledgements"
+        },
+        {
+            "text": "Adam J. T. Smith is a graduate student in the lab of Prof. K. N. Houk at the University of",
+            "cite_spans": [],
+            "ref_spans": [],
+            "section": "Biographies"
+        }
+    ]
+}
