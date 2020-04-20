@@ -235,7 +235,7 @@ if __name__ == '__main__':
     parser.add_argument('--n', dest='parallelism', type=int, default=4, help='number of parallel threads for ranking')
     parser.add_argument('--fail_eval', dest='fail_eval', action='store_true',
                         help='fail when any run does not match expected effectiveness')
-    parser.add_argument('--output_root', default='runs.regression', help='output directory of all results')
+    parser.add_argument('--output_root', default='runs', help='output directory of all results')
 
     parser.add_argument('--indexing_threads', type=int, default=-1, help='override number of indexing threads from YAML')
     parser.add_argument('--collection_path', default='', help='override collection input path from YAML')
