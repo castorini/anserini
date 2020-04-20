@@ -119,15 +119,15 @@ class ElasticsearchClient:
         if collection == 'robust04':
             command = 'sh target/appassembler/bin/SearchElastic -topicreader Trec -es.index robust04 ' + \
                       '-topics src/main/resources/topics-and-qrels/topics.robust04.txt ' + \
-                      '-output run.es.robust04.bm25.topics.robust04.txt'
+                      '-output runs/run.es.robust04.bm25.topics.robust04.txt'
         elif collection == 'msmarco-passage':
             command = 'sh target/appassembler/bin/SearchElastic -topicreader TsvString -es.index msmarco-passage ' + \
                       '-topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt ' + \
-                      '-output run.es.msmarco-passage.txt'
+                      '-output runs/run.es.msmarco-passage.txt'
         elif collection == 'core18':
             command = 'sh target/appassembler/bin/SearchElastic -topicreader Trec -es.index core18 ' + \
                       '-topics src/main/resources/topics-and-qrels/topics.core18.txt ' + \
-                      '-output run.es.core18.bm25.topics.core18.txt'
+                      '-output runs/run.es.core18.bm25.topics.core18.txt'
         else:
             raise Exception('Unknown collection: {}'.format(collection))
 
@@ -137,13 +137,13 @@ class ElasticsearchClient:
 
         if collection == 'robust04':
             command = 'eval/trec_eval.9.0.4/trec_eval -m map -m P.30 ' + \
-                      'src/main/resources/topics-and-qrels/qrels.robust04.txt run.es.robust04.bm25.topics.robust04.txt'
+                      'src/main/resources/topics-and-qrels/qrels.robust04.txt runs/run.es.robust04.bm25.topics.robust04.txt'
         elif collection == 'msmarco-passage':
             command = 'eval/trec_eval.9.0.4/trec_eval -c -mrecall.1000 -mmap ' + \
-                      'src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt run.es.msmarco-passage.txt'
+                      'src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.es.msmarco-passage.txt'
         elif collection == 'core18':
             command = 'eval/trec_eval.9.0.4/trec_eval -m map -m P.30 ' + \
-                      'src/main/resources/topics-and-qrels/qrels.core18.txt run.es.core18.bm25.topics.core18.txt'
+                      'src/main/resources/topics-and-qrels/qrels.core18.txt runs/run.es.core18.bm25.topics.core18.txt'
         else:
             raise Exception('Unknown collection: {}'.format(collection))
 
