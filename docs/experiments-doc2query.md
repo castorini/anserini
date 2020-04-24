@@ -48,8 +48,8 @@ We can then reindex the collection:
 
 ```
 sh ./target/appassembler/bin/IndexCollection -collection JsonCollection \
- -generator LuceneDocumentGenerator -threads 9 -input msmarco-passage/collection_jsonl_expanded_topk10 \
- -index msmarco-passage/lucene-index-msmarco-expanded-topk10 -storePositions -storeDocvectors -storeRawDocs
+ -generator DefaultLuceneDocumentGenerator -threads 9 -input msmarco-passage/collection_jsonl_expanded_topk10 \
+ -index msmarco-passage/lucene-index-msmarco-expanded-topk10 -storePositions -storeDocvectors -storeRaw
 ```
 
 And run retrieval (same as above):
@@ -134,7 +134,7 @@ We can then index the expanded documents:
 
 ```
 sh target/appassembler/bin/IndexCollection -collection JsonCollection \
- -generator LuceneDocumentGenerator -threads 30 -input trec_car/collection_jsonl_expanded_topk10 \
+ -generator DefaultLuceneDocumentGenerator -threads 30 -input trec_car/collection_jsonl_expanded_topk10 \
  -index trec_car/lucene-index.car17v2.0
 ```
 

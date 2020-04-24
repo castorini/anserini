@@ -32,7 +32,7 @@ We can now index these docs as a `JsonCollection` using Anserini:
 ```
 sh ./target/appassembler/bin/IndexCollection -collection JsonCollection \
  -generator DefaultLuceneDocumentGenerator -threads 9 -input msmarco-passage/collection_jsonl \
- -index msmarco-passage/lucene-index-msmarco -storePositions -storeDocvectors -storeRawDocs 
+ -index msmarco-passage/lucene-index-msmarco -storePositions -storeDocvectors -storeRaw 
 ```
 
 Upon completion, we should have an index with 8,841,823 documents.

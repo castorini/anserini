@@ -22,8 +22,8 @@ Build the index with the following command:
 
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection TrecCollection \
- -generator LuceneDocumentGenerator -threads 1 -input msmarco-doc/collection \
- -index lucene-index.msmarco-doc.pos+docvectors+rawdocs -storePositions -storeDocvectors -storeRawDocs \
+ -generator DefaultLuceneDocumentGenerator -threads 1 -input msmarco-doc/collection \
+ -index lucene-index.msmarco-doc.pos+docvectors+rawdocs -storePositions -storeDocvectors -storeRaw \
  >& log.msmarco-doc.pos+docvectors+rawdocs &
 ```
 
