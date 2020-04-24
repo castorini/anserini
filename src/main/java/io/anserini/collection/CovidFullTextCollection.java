@@ -105,12 +105,15 @@ public class CovidFullTextCollection extends DocumentCollection<CovidFullTextCol
    */
   public class Document extends CovidCollectionDocument {
     public Document(CSVRecord record) {
+      this.record = record;
+
       id = record.get("cord_uid");
       content = record.get("title").replace("\n", " ");
       content += record.get("abstract").isEmpty() ? "" : "\n" + record.get("abstract");
-      this.record = record;
 
       String fullTextJson = getFullTextJson(CovidFullTextCollection.this.path.toString());
+      raw = buildRawJson(fullTextJson);
+
       if (fullTextJson != null) {
         // For the contents(), we're going to gather up all the text in body_text
         try {
@@ -125,11 +128,6 @@ public class CovidFullTextCollection extends DocumentCollection<CovidFullTextCol
         } catch (IOException e) {
           LOG.error("Error parsing file at " + CovidFullTextCollection.this.path.toString() + "\n" + e.getMessage());
         }
-
-        raw = fullTextJson;
-      } else {
-        String recordJson = getRecordJson();
-        raw = recordJson == null ? "" : recordJson;
       }
     }
   }

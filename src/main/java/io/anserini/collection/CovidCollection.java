@@ -103,18 +103,14 @@ public class CovidCollection extends DocumentCollection<CovidCollection.Document
    */
   public class Document extends CovidCollectionDocument {
     public Document(CSVRecord record) {
+      this.record = record;
+
       id = record.get("cord_uid");
       content = record.get("title").replace("\n", " ");
       content += record.get("abstract").isEmpty() ? "" : "\n" + record.get("abstract");
-      this.record = record;
 
       String fullTextJson = getFullTextJson(CovidCollection.this.path.toString());
-      if (fullTextJson != null) {
-        raw = fullTextJson;
-      } else {
-        String recordJson = getRecordJson();
-        raw = recordJson == null ? "" : recordJson;
-      }
+      raw = buildRawJson(fullTextJson);
     }
   }
 }
