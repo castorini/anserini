@@ -138,6 +138,8 @@ public class CovidParagraphCollection extends DocumentCollection<CovidParagraphC
    */
   public class Document extends CovidCollectionDocument {
     public Document(CSVRecord record, String paragraph, Integer paragraphNumber, String recordFullText) {
+      this.record = record;
+
       if (paragraphNumber == 0) {
         id = record.get("cord_uid");
       } else {
@@ -148,8 +150,7 @@ public class CovidParagraphCollection extends DocumentCollection<CovidParagraphC
       content += record.get("abstract").isEmpty() ? "" : "\n" + record.get("abstract");
       content += paragraph.isEmpty() ? "" : "\n" + paragraph;
 
-      this.raw = recordFullText;
-      this.record = record;
+      raw = buildRawJson(recordFullText);
     }
 
     public Document(CSVRecord record, String paragraph, Integer paragraphNumber) {
