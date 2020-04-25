@@ -92,7 +92,7 @@ class SolrClient:
                       '-generator DefaultLuceneDocumentGenerator -solr -solr.index msmarco-passage -solr.zkUrl localhost:9983 ' + \
                       '-threads 8 -input ' + path + ' -storePositions -storeDocvectors -storeRaw'
         elif collection == 'msmarco-doc':
-            command = 'sh target/appassembler/bin/IndexCollection -collection TrecCollection ' + \
+            command = 'sh target/appassembler/bin/IndexCollection -collection CleanTrecCollection ' + \
                       '-generator DefaultLuceneDocumentGenerator -solr -solr.index msmarco-doc -solr.zkUrl localhost:9983 ' + \
                       '-threads 8 -input ' + path + ' -storePositions -storeDocvectors -storeRaw'
         else:
