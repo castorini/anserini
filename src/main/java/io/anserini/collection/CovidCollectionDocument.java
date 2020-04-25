@@ -18,6 +18,7 @@ package io.anserini.collection;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.commons.csv.CSVRecord;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -65,6 +66,25 @@ public abstract class CovidCollectionDocument implements SourceDocument {
       LOG.error("Error writing record to JSON " + record.toString());
     }
     return recordString;
+  }
+
+  protected final String buildRawJson(String fullTextJson) {
+    String recordJson = getRecordJson();
+    ObjectMapper mapper = new ObjectMapper();
+    ObjectNode rawJsonNode = mapper.createObjectNode();
+
+    if (fullTextJson != null) {
+      try {
+        rawJsonNode = (ObjectNode) mapper.readTree(fullTextJson);
+      } catch (Exception e) {
+        fullTextJson = null;
+      }
+    }
+
+    rawJsonNode.put("cord_uid", record.get("cord_uid"));
+    rawJsonNode.put("has_full_text", fullTextJson != null);
+    rawJsonNode.put("csv_metadata", recordJson);
+    return rawJsonNode.toString();
   }
 
   @Override

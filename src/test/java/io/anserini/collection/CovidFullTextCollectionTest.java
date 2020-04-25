@@ -16,6 +16,8 @@
 
 package io.anserini.collection;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 
 import java.nio.file.Path;
@@ -47,7 +49,9 @@ public class CovidFullTextCollectionTest extends DocumentCollectionTest<CovidFul
     doc1.put("contents_starts_with", "Airborne rhinovirus detection and effect of ultraviolet irradiation");
     doc1.put("contents_ends_with", "The pre-publication history for this paper can be accessed here:\n");
     doc1.put("contents_length", "22834");
-    doc1.put("raw_length", "80042");
+    doc1.put("has_full_text", "true");
+    doc1.put("metadata_length", "2426");
+    doc1.put("raw_length", "48090");
     expected.put("xqhn0vbp", doc1);
 
     // In the 2020/04/10 version, has_pdf_parse=FALSE, has_pmc_xml_parse=FALSE
@@ -57,7 +61,9 @@ public class CovidFullTextCollectionTest extends DocumentCollectionTest<CovidFul
     doc2.put("contents_starts_with", "SARS and Population Health Technology");
     doc2.put("contents_ends_with", "The need for critical evaluation of all of these technologies is stressed.");
     doc2.put("contents_length", "1264");
-    doc2.put("raw_length", "1711");
+    doc2.put("has_full_text", "false");
+    doc2.put("metadata_length", "1797");
+    doc2.put("raw_length", "1858");
     expected.put("28wrp74k", doc2);
 
     // In the 2020/04/10 version, has_pdf_parse=TRUE, has_pmc_xml_parse=FALSE
@@ -68,7 +74,9 @@ public class CovidFullTextCollectionTest extends DocumentCollectionTest<CovidFul
     doc3.put("contents_starts_with", "Beyond Picomolar Affinities:");
     doc3.put("contents_ends_with", "Copyright 2005 Americal Chemical Society. ");
     doc3.put("contents_length", "33583");
-    doc3.put("raw_length", "191753");
+    doc3.put("has_full_text", "true");
+    doc3.put("metadata_length", "724");
+    doc3.put("raw_length", "94712");
     expected.put("a8cps3ko", doc3);
   }
 
@@ -81,9 +89,17 @@ public class CovidFullTextCollectionTest extends DocumentCollectionTest<CovidFul
     assertTrue(covidDoc.contents().endsWith(expected.get("contents_ends_with")));
     assertEquals(Integer.parseInt(expected.get("contents_length")), covidDoc.contents().length());
 
-    // Make sure raw() is a JSON, and check length.
-    assertTrue(covidDoc.raw().startsWith("{"));
-    assertTrue(covidDoc.raw().endsWith("}"));
+    // Make sure raw() is a JSON containing proper fields, and check length.
+    ObjectMapper mapper = new ObjectMapper();
+    try {
+      JsonNode jsonNode = mapper.readTree(covidDoc.raw());
+      assertEquals(expected.get("id"), jsonNode.get("cord_uid").asText());
+      assertEquals(expected.get("has_full_text"), jsonNode.get("has_full_text").asText());
+      assertEquals(Integer.parseInt(expected.get("metadata_length")),
+        jsonNode.get("csv_metadata").toString().length());
+    } catch (Exception e) {
+      assertTrue("Failed to parse raw JSON", false);
+    }
     assertEquals(Integer.parseInt(expected.get("raw_length")), covidDoc.raw().length());
   }
 }
