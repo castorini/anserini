@@ -358,7 +358,7 @@ public class IndexReaderUtils {
   }
 
   /**
-   * Fetches the Lucene {@link Document} based on a collection docid.
+   * Returns the Lucene {@link Document} based on a collection docid.
    * The method is named to be consistent with Lucene's {@link IndexReader#document(int)}, contra Java's standard
    * method naming conventions.
    *
@@ -371,6 +371,36 @@ public class IndexReaderUtils {
       return reader.document(IndexReaderUtils.convertDocidToLuceneDocid(reader, docid));
     } catch (Exception e) {
       // Eat any exceptions and just return null.
+      return null;
+    }
+  }
+
+  /**
+   * Fetches the Lucene {@link Document} based on some field other than its unique collection docid.
+   * For example, scientific articles might have DOIs.
+   * The method is named to be consistent with Lucene's {@link IndexReader#document(int)}, contra Java's standard
+   * method naming conventions.
+   *
+   * @param reader index reader
+   * @param field field
+   * @param id unique id
+   * @return corresponding Lucene {@link Document} based on the value of a specific field
+   */
+  public static Document documentByField(IndexReader reader, String field, String id) {
+    try {
+      IndexSearcher searcher = new IndexSearcher(reader);
+      Query q = new TermQuery(new Term(field, id));
+      TopDocs rs = searcher.search(q, 1);
+      ScoreDoc[] hits = rs.scoreDocs;
+
+      if (hits == null || hits.length == 0) {
+        // Either the id doesn't exist or there are multiple documents with the same id. In both cases, return null.
+        return null;
+      }
+
+      return reader.document(hits[0].doc);
+    } catch (IOException e) {
+      // Silently eat the error and return null
       return null;
     }
   }

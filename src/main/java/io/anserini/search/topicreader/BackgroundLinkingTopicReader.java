@@ -34,6 +34,7 @@ import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.TopDocs;
+import org.jsoup.Jsoup;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -217,7 +218,11 @@ public class BackgroundLinkingTopicReader extends TopicReader<Integer> {
     }
     return wapoObj;
   }
-  
+
+  private static String removeTags(String content) {
+    return Jsoup.parse(content).text();
+  }
+
   private static String getRawContents(String record) {
     WashingtonPostCollection.Document.WashingtonPostObject wapoObj = getWapoObj(record);
     
@@ -230,15 +235,15 @@ public class BackgroundLinkingTopicReader extends TopicReader<Integer> {
         if (contentObj.getType().isPresent() && contentObj.getContent().isPresent()) {
           contentObj.getType().ifPresent(type -> {
             contentObj.getContent().ifPresent(content -> {
-              if (WashingtonPostGenerator.CONTENT_TYPE_TAG.contains(type)) {
-                contentBuilder.append(WashingtonPostGenerator.removeTags(content)).append("\n");
+              if (WashingtonPostCollection.Document.CONTENT_TYPE_TAG.contains(type)) {
+                contentBuilder.append(removeTags(content)).append("\n");
               }
             });
           });
         }
         contentObj.getFullCaption().ifPresent(caption -> {
           String fullCaption = contentObj.getFullCaption().get();
-          contentBuilder.append(WashingtonPostGenerator.removeTags(fullCaption)).append("\n");
+          contentBuilder.append(removeTags(fullCaption)).append("\n");
         });
       }
     });
@@ -255,8 +260,8 @@ public class BackgroundLinkingTopicReader extends TopicReader<Integer> {
         if (contentObj.getType().isPresent() && contentObj.getContent().isPresent()) {
           contentObj.getType().ifPresent(type -> {
             contentObj.getContent().ifPresent(content -> {
-              if (WashingtonPostGenerator.CONTENT_TYPE_TAG.contains(type)) {
-                String sanityContent = WashingtonPostGenerator.removeTags(content);
+              if (WashingtonPostCollection.Document.CONTENT_TYPE_TAG.contains(type)) {
+                String sanityContent = removeTags(content);
                 if (sanityContent.trim().length() > 0) {
                   paragraphs.add(sanityContent);
                 }

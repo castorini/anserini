@@ -48,8 +48,8 @@ We can then reindex the collection:
 
 ```
 sh ./target/appassembler/bin/IndexCollection -collection JsonCollection \
- -generator LuceneDocumentGenerator -threads 9 -input msmarco-passage/collection_jsonl_expanded_topk10 \
- -index msmarco-passage/lucene-index-msmarco-expanded-topk10 -storePositions -storeDocvectors -storeRawDocs
+ -generator DefaultLuceneDocumentGenerator -threads 9 -input msmarco-passage/collection_jsonl_expanded_topk10 \
+ -index msmarco-passage/lucene-index-msmarco-expanded-topk10 -storePositions -storeDocvectors -storeRaw
 ```
 
 And run retrieval (same as above):
@@ -134,7 +134,7 @@ We can then index the expanded documents:
 
 ```
 sh target/appassembler/bin/IndexCollection -collection JsonCollection \
- -generator LuceneDocumentGenerator -threads 30 -input trec_car/collection_jsonl_expanded_topk10 \
+ -generator DefaultLuceneDocumentGenerator -threads 30 -input trec_car/collection_jsonl_expanded_topk10 \
  -index trec_car/lucene-index.car17v2.0
 ```
 
@@ -168,3 +168,4 @@ TREC CAR corpus v2.0 in this experiment instead of corpus v1.5 used in the paper
 + Results replicated by [@justram](https://github.com/justram) on 2019-08-09 (commit [`5f098f`](https://github.com/justram/Anserini/commit/5f098f23527611bca1224149bc2d155adce1e48))
 + Results replicated by [@ronakice](https://github.com/ronakice) on 2019-08-13 (commit [`5b29d16`](https://github.com/castorini/anserini/commit/5b29d1654abc5e8a014c2230da990ab2f91fb340))
 + Results replicated by [@edwinzhng](https://github.com/edwinzhng) on 2020-01-08 (commit [`5cc923d`](https://github.com/castorini/anserini/commit/5cc923d5c02777d8b25df32ff2e2a59be5badfdd))
++ Results replicated by [@HangCui0510](https://github.com/HangCui0510) on 2020-04-23 (commit [`0ae567d`](https://github.com/castorini/anserini/commit/0ae567df5c8a70ac211efd958c9ca1ff609ff782))

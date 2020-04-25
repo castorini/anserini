@@ -16,6 +16,7 @@
 
 package io.anserini.search.query;
 
+import io.anserini.index.IndexCollection;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.search.BooleanQuery;
@@ -29,7 +30,7 @@ import static org.junit.Assert.assertTrue;
 public class BagOfWordsQueryGeneratorTest {
   @Test
   public void test1() {
-    Analyzer analyzer = new EnglishAnalyzer();
+    Analyzer analyzer = IndexCollection.DEFAULT_ANALYZER;
     QueryGenerator queryGenerator = new BagOfWordsQueryGenerator();
     Query query = queryGenerator.buildQuery("contents", analyzer, "sample query");
 
@@ -46,7 +47,7 @@ public class BagOfWordsQueryGeneratorTest {
 
   @Test
   public void test2() {
-    Analyzer analyzer = new EnglishAnalyzer();
+    Analyzer analyzer = IndexCollection.DEFAULT_ANALYZER;
     QueryGenerator queryGenerator = new BagOfWordsQueryGenerator();
     Query query = queryGenerator.buildQuery("contents", analyzer, "Mary had a little lamb");
 

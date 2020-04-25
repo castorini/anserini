@@ -19,6 +19,8 @@ package io.anserini.search;
 import io.anserini.IndexerTestBase;
 import io.anserini.index.IndexArgs;
 import io.anserini.search.SimpleSearcher.Result;
+import org.apache.lucene.index.Term;
+import org.apache.lucene.search.TermQuery;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -33,20 +35,28 @@ public class SimpleSearcherTest extends IndexerTestBase {
     SimpleSearcher searcher = new SimpleSearcher(super.tempDir1.toString());
 
     assertEquals("here is some text here is some more text. city.",
-        searcher.document(0).getField("contents").stringValue());
-    assertEquals("more texts",
-        searcher.document(1).getField("contents").stringValue());
-    assertEquals("here is a test",
-        searcher.document(2).getField("contents").stringValue());
+        searcher.document(0).get("contents"));
+    assertEquals("more texts", searcher.document(1).get("contents"));
+    assertEquals("here is a test", searcher.document(2).get("contents"));
     assertNull(searcher.document(3));
 
     assertEquals("here is some text here is some more text. city.",
-        searcher.document("doc1").getField("contents").stringValue());
-    assertEquals("more texts",
-        searcher.document("doc2").getField("contents").stringValue());
-    assertEquals("here is a test",
-        searcher.document("doc3").getField("contents").stringValue());
+        searcher.document("doc1").get("contents"));
+    assertEquals("more texts", searcher.document("doc2").get("contents"));
+    assertEquals("here is a test", searcher.document("doc3").get("contents"));
     assertNull(searcher.document(3));
+
+    searcher.close();
+  }
+
+  @Test
+  public void testGetDocByField() throws Exception {
+    SimpleSearcher searcher = new SimpleSearcher(super.tempDir1.toString());
+
+    assertEquals("here is some text here is some more text. city.",
+        searcher.documentByField("id", "doc1").get("contents"));
+    assertEquals("more texts", searcher.documentByField("id", "doc2").get("contents"));
+    assertEquals("here is a test", searcher.documentByField("id", "doc3").get("contents"));
 
     searcher.close();
   }
@@ -147,6 +157,21 @@ public class SimpleSearcherTest extends IndexerTestBase {
     assertEquals("doc3", results[0].docid);
     assertEquals(2, results[0].lucene_docid);
     assertEquals(0.5702000f, results[0].score, 10e-6);
+
+    searcher.close();
+  }
+
+  @Test
+  public void testSearchCustomQuery() throws Exception {
+    // Test the ability to pass in an arbitrary Lucene query.
+    SimpleSearcher searcher = new SimpleSearcher(super.tempDir1.toString());
+
+    SimpleSearcher.Result[] hits = searcher.search(new TermQuery(new Term(IndexArgs.ID, "doc3")), 10);
+    assertEquals(1, hits.length);
+    assertEquals("doc3", hits[0].docid);
+    assertEquals(2, hits[0].lucene_docid);
+    assertEquals("here is a test", hits[0].contents);
+    assertEquals("{\"contents\": \"here is a test\"}", hits[0].raw);
 
     searcher.close();
   }
