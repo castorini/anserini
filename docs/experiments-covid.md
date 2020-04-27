@@ -159,7 +159,7 @@ solrini/bin/solr create -n anserini -c cord19
 Adjust the schema (if there are errors, follow the instructions below and come back):
 
 ```
-curl -X POST -H 'Content-type:application/json' --data-binary @src/main/resources/solr/schemas/covid.json http://localhost:8983/solr/covid/schema
+curl -X POST -H 'Content-type:application/json' --data-binary @src/main/resources/solr/schemas/covid.json http://localhost:8983/solr/cord19/schema
 ```
 
 _Note:_ if there are errors from field conflicts, you'll need to reset the configset and recreate the collection (select [All] for the fields to replace):
