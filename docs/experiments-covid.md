@@ -167,7 +167,7 @@ _Note:_ if there are errors from field conflicts, you'll need to reset the confi
 ```
 solrini/bin/solr delete -c cord19
 pushd src/main/resources/solr && ./solr.sh ../../../../solrini localhost:9983 && popd
-solrini/bin/solr create -n anserini -c cord19
+solrini/bin/solr create -n anserini -c cord19 
 ```
 
 We can now index into Solr:
