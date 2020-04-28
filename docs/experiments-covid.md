@@ -182,7 +182,7 @@ sh target/appassembler/bin/IndexCollection -collection CovidCollection -generato
    -storePositions -storeDocvectors -storeContents -storeRaw
 ```
 
-Once indexing is complete, you can query in Solr at [`http://localhost:8983/solr/#/covrd19/query`](http://localhost:8983/solr/#/covid/query).
+Once indexing is complete, you can query in Solr at [`http://localhost:8983/solr/#/cord19/query`](http://localhost:8983/solr/#/cord19/query).
 
 ## Pre-Built Indexes (All Versions)
 
