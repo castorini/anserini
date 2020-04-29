@@ -16,6 +16,8 @@
 
 package io.anserini.collection;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
@@ -103,18 +105,29 @@ public class CovidFullTextCollection extends DocumentCollection<CovidFullTextCol
    */
   public class Document extends CovidCollectionDocument {
     public Document(CSVRecord record) {
+      this.record = record;
+
       id = record.get("cord_uid");
       content = record.get("title").replace("\n", " ");
       content += record.get("abstract").isEmpty() ? "" : "\n" + record.get("abstract");
-      this.record = record;
 
       String fullTextJson = getFullTextJson(CovidFullTextCollection.this.path.toString());
+      raw = buildRawJson(fullTextJson);
+
       if (fullTextJson != null) {
-        content += fullTextJson.isEmpty() ? "" : "\n " + fullTextJson;
-        raw = fullTextJson;
-      } else {
-        String recordJson = getRecordJson();
-        raw = recordJson == null ? "" : recordJson;
+        // For the contents(), we're going to gather up all the text in body_text
+        try {
+          ObjectMapper mapper = new ObjectMapper();
+          JsonNode recordJsonNode = mapper.readerFor(JsonNode.class).readTree(fullTextJson);
+          Iterator<JsonNode> paragraphIterator = recordJsonNode.get("body_text").elements();
+
+          while (paragraphIterator.hasNext()) {
+            JsonNode node = paragraphIterator.next();
+            content += "\n" + node.get("text").asText();
+          }
+        } catch (IOException e) {
+          LOG.error("Error parsing file at " + CovidFullTextCollection.this.path.toString() + "\n" + e.getMessage());
+        }
       }
     }
   }

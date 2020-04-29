@@ -22,8 +22,8 @@ Build the index with the following command:
 
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection TrecCollection \
- -generator LuceneDocumentGenerator -threads 1 -input msmarco-doc/collection \
- -index lucene-index.msmarco-doc.pos+docvectors+rawdocs -storePositions -storeDocvectors -storeRawDocs \
+ -generator DefaultLuceneDocumentGenerator -threads 1 -input msmarco-doc/collection \
+ -index lucene-index.msmarco-doc.pos+docvectors+rawdocs -storePositions -storeDocvectors -storeRaw \
  >& log.msmarco-doc.pos+docvectors+rawdocs &
 ```
 
@@ -129,3 +129,8 @@ As expected, BM25 tuning makes a big difference!
 + Results replicated by [@edwinzhng](https://github.com/edwinzhng) on 2020-01-14 (commit [`3964169`](https://github.com/castorini/anserini/commit/3964169bf82a3783f9298907d9794f0bddf306f0))
 + Results replicated by [@nikhilro](https://github.com/nikhilro) on 2020-01-21 (commit [`631589e`](https://github.com/castorini/anserini/commit/631589e9e08326373f46555e007e6c302c19126d))
 + Results replicated by [@yuki617](https://github.com/yuki617) on 2020-03-29 (commit [`074723c`](https://github.com/castorini/anserini/commit/074723cbb10660fb9be2bfe6325739ab5fe0dd8d))
++ Results replicated by [@HangCui0510](https://github.com/HangCui0510) on 2020-04-23 (commit [`0ae567d`](https://github.com/castorini/anserini/commit/0ae567df5c8a70ac211efd958c9ca1ff609ff782))
++ Results replicated by [@x65han](https://github.com/x65han) on 2020-04-25 (commit [`f5496b9`](https://github.com/x65han/anserini/commit/f5496b905246084070f959e59626c6323210c3f2))
++ Results replicated by [@y276lin](https://github.com/y276lin) on 2020-04-26 (commit [`8f48f8e`](https://github.com/castorini/anserini/commit/8f48f8e40a37e5f6b5910a3a3b5c050a0f9be914))
++ Results replicated by [@stephaniewhoo](http://github.com/stephaniewhoo) on 202
+0-04-26 (commit [`8f48f8e`](https://github.com/castorini/anserini/commit/8f48f8e40a37e5f6b5910a3a3b5c050a0f9be94)

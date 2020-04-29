@@ -25,14 +25,14 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CovidCollectionTest extends DocumentCollectionTest<CovidCollection.Document> {
+public class CovidFullTextCollectionTest extends DocumentCollectionTest<CovidFullTextCollection.Document> {
 
   @Before
   public void setUp() throws Exception {
     super.setUp();
 
     collectionPath = Paths.get("src/test/resources/sample_docs/covid/sample1");
-    collection = new CovidCollection(collectionPath);
+    collection = new CovidFullTextCollection(collectionPath);
 
     Path segment = Paths.get("src/test/resources/sample_docs/covid/sample1/metadata.csv");
 
@@ -47,8 +47,8 @@ public class CovidCollectionTest extends DocumentCollectionTest<CovidCollection.
     HashMap<String, String> doc1 = new HashMap<>();
     doc1.put("id", "xqhn0vbp");
     doc1.put("contents_starts_with", "Airborne rhinovirus detection and effect of ultraviolet irradiation");
-    doc1.put("contents_ends_with", "cannot distinguish UV inactivated virus from infectious viral particles.");
-    doc1.put("contents_length", "1803");
+    doc1.put("contents_ends_with", "The pre-publication history for this paper can be accessed here:\n");
+    doc1.put("contents_length", "22834");
     doc1.put("has_full_text", "true");
     doc1.put("metadata_length", "2426");
     doc1.put("raw_length", "48090");
@@ -71,9 +71,9 @@ public class CovidCollectionTest extends DocumentCollectionTest<CovidCollection.
     HashMap<String, String> doc3 = new HashMap<>();
     doc3.put("id", "a8cps3ko");
     // This particular entry doesn't have an abstract in the CSV
-    doc3.put("contents_starts_with", "Beyond Picomolar Affinities: Quantitative Aspects of Noncovalent and Covalent Binding of Drugs to Proteins");
-    doc3.put("contents_ends_with", "Beyond Picomolar Affinities: Quantitative Aspects of Noncovalent and Covalent Binding of Drugs to Proteins");
-    doc3.put("contents_length", "106");
+    doc3.put("contents_starts_with", "Beyond Picomolar Affinities:");
+    doc3.put("contents_ends_with", "Copyright 2005 Americal Chemical Society. ");
+    doc3.put("contents_length", "33583");
     doc3.put("has_full_text", "true");
     doc3.put("metadata_length", "724");
     doc3.put("raw_length", "94712");
@@ -82,7 +82,7 @@ public class CovidCollectionTest extends DocumentCollectionTest<CovidCollection.
 
   @Override
   void checkDocument(SourceDocument doc, Map<String, String> expected) {
-    CovidCollection.Document covidDoc = (CovidCollection.Document) doc;
+    CovidFullTextCollection.Document covidDoc = (CovidFullTextCollection.Document) doc;
 
     assertEquals(expected.get("id"), covidDoc.id());
     assertTrue(covidDoc.contents().startsWith(expected.get("contents_starts_with")));

@@ -37,3 +37,12 @@ src/main/resources/topics-and-qrels/qrels.mb13.all.txt
 # elastirini and solrini installation
 solrini/
 elastirini/
+
+# default directory where runs go
+runs/
+
+# default directory where logs go
+logs/
+
+# default output location of "Neural Hype" experiments: https://github.com/castorini/anserini/blob/master/docs/experiments-forum2018.md
+fine_tuning_results/
