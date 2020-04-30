@@ -89,6 +89,13 @@ public class CovidGenerator implements LuceneDocumentGenerator<CovidCollectionDo
     String content = covidDoc.contents();
     String raw = covidDoc.raw();
 
+    // See https://github.com/castorini/anserini/issues/1127
+    // Corner cases are hard-coded now; if this gets out of hand we should consider implementing a "blacklist" feature
+    // and store these ids externally. Note we use startsWidth here to handle the paragraph indexes as well.
+    if (id.startsWith("ij3ncdb") || id.startsWith("hwjkbpqp")) {
+      throw new SkippedDocumentException();
+    }
+
     if (content == null || content.trim().isEmpty()) {
       throw new EmptyDocumentException();
     }
