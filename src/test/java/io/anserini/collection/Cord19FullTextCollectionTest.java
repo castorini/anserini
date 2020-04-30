@@ -31,10 +31,10 @@ public class Cord19FullTextCollectionTest extends DocumentCollectionTest<Cord19F
   public void setUp() throws Exception {
     super.setUp();
 
-    collectionPath = Paths.get("src/test/resources/sample_docs/covid/sample1");
+    collectionPath = Paths.get("src/test/resources/sample_docs/cord19/sample1");
     collection = new Cord19FullTextCollection(collectionPath);
 
-    Path segment = Paths.get("src/test/resources/sample_docs/covid/sample1/metadata.csv");
+    Path segment = Paths.get("src/test/resources/sample_docs/cord19/sample1/metadata.csv");
 
     segmentPaths.add(segment);
     segmentDocCounts.put(segment, 3);

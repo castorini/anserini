@@ -200,7 +200,7 @@ We can now index into Solr:
 DATE=2020-04-24
 DATA_DIR=./cord19-"${DATE}"
 
-sh target/appassembler/bin/IndexCollection -collection CovidCollection -generator CovidGenerator \
+sh target/appassembler/bin/IndexCollection -collection Cord19AbstractCollection -generator Cord19Generator \
    -threads 8 -input "${DATA_DIR}" \
    -solr -solr.index cord19 -solr.zkUrl localhost:9983 \
    -storePositions -storeDocvectors -storeContents -storeRaw
