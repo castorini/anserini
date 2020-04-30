@@ -3,9 +3,9 @@
 This document describes various tools for working with the [COVID-19 Open Research Dataset (CORD-19)](https://pages.semanticscholar.org/coronavirus-research) from the [Allen Institute for AI](https://allenai.org/).
 For an easy way to get started, check out our Colab demos, also available [here](https://github.com/castorini/anserini-notebooks):
 
-+ [Colab demo using the title + abstract index](https://colab.research.google.com/drive/1mrapJp6-RIB-3u6FaJVa4WEwFdEBOcTe)
-+ [Colab demo using the paragraph index](https://colab.research.google.com/drive/1VvUR8P2CZvmdwC_J3AvRH5GvtMld8_zN)
-+ [Colab demo that demonstrates integration with SciBERT](https://colab.research.google.com/github/castorini/anserini-notebooks/blob/master/Pyserini%2BSciBERT_on_COVID_19_Demo.ipynb)
++ [Colab demo using the title + abstract index](https://github.com/castorini/anserini-notebooks/blob/master/pyserini_covid19_default.ipynb)
++ [Colab demo using the paragraph index](https://github.com/castorini/anserini-notebooks/blob/master/pyserini_covid19_paragraph.ipynb)
++ [Colab demo that demonstrates integration with SciBERT](https://github.com/castorini/anserini-notebooks/blob/master/Pyserini+SciBERT_on_COVID_19_Demo.ipynb)
 
 We provide instructions on how to build Lucene indexes for the collection using Anserini below, but if you don't want to bother building the indexes yourself, we have pre-built indexes that you can directly download:
 
@@ -56,6 +56,9 @@ For a sense of how these different methods stack up, refer to the following pape
 
 The tl;dr &mdash; we'd recommend getting started with title + abstract index since it's the smallest in size and easiest to manipulate. Paragraph indexing is likely to be more effective (i.e., better search results), but a bit more difficult to manipulate since some deduping is required to post-process the raw hits (since multiple paragraphs from the same article might be retrieved).
 The full-text index overly biases long documents and isn't really effective; this condition is included here only for completeness.
+
+Note that as of commit [`f3a236c`](https://github.com/castorini/anserini/commit/f3a236ce3310c9ca06b7ff2bd846e62163996abd) (2020/04/30), the indexer ignores two articles, with `cord_uid` `ij3ncdb` and `hwjkbpqp`; see [#1127](https://github.com/castorini/anserini/issues/1127) for explanation.
+
 
 ### Title + Abstract
 
