@@ -25,14 +25,14 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CovidFullTextCollectionTest extends DocumentCollectionTest<CovidFullTextCollection.Document> {
+public class Cord19AbstractCollectionTest extends DocumentCollectionTest<Cord19AbstractCollection.Document> {
 
   @Before
   public void setUp() throws Exception {
     super.setUp();
 
     collectionPath = Paths.get("src/test/resources/sample_docs/covid/sample1");
-    collection = new CovidFullTextCollection(collectionPath);
+    collection = new Cord19AbstractCollection(collectionPath);
 
     Path segment = Paths.get("src/test/resources/sample_docs/covid/sample1/metadata.csv");
 
@@ -47,8 +47,8 @@ public class CovidFullTextCollectionTest extends DocumentCollectionTest<CovidFul
     HashMap<String, String> doc1 = new HashMap<>();
     doc1.put("id", "xqhn0vbp");
     doc1.put("contents_starts_with", "Airborne rhinovirus detection and effect of ultraviolet irradiation");
-    doc1.put("contents_ends_with", "The pre-publication history for this paper can be accessed here:\n");
-    doc1.put("contents_length", "22834");
+    doc1.put("contents_ends_with", "cannot distinguish UV inactivated virus from infectious viral particles.");
+    doc1.put("contents_length", "1803");
     doc1.put("has_full_text", "true");
     doc1.put("metadata_length", "2426");
     doc1.put("raw_length", "48090");
@@ -71,9 +71,9 @@ public class CovidFullTextCollectionTest extends DocumentCollectionTest<CovidFul
     HashMap<String, String> doc3 = new HashMap<>();
     doc3.put("id", "a8cps3ko");
     // This particular entry doesn't have an abstract in the CSV
-    doc3.put("contents_starts_with", "Beyond Picomolar Affinities:");
-    doc3.put("contents_ends_with", "Copyright 2005 Americal Chemical Society. ");
-    doc3.put("contents_length", "33583");
+    doc3.put("contents_starts_with", "Beyond Picomolar Affinities: Quantitative Aspects of Noncovalent and Covalent Binding of Drugs to Proteins");
+    doc3.put("contents_ends_with", "Beyond Picomolar Affinities: Quantitative Aspects of Noncovalent and Covalent Binding of Drugs to Proteins");
+    doc3.put("contents_length", "106");
     doc3.put("has_full_text", "true");
     doc3.put("metadata_length", "724");
     doc3.put("raw_length", "94712");
@@ -82,7 +82,7 @@ public class CovidFullTextCollectionTest extends DocumentCollectionTest<CovidFul
 
   @Override
   void checkDocument(SourceDocument doc, Map<String, String> expected) {
-    CovidFullTextCollection.Document covidDoc = (CovidFullTextCollection.Document) doc;
+    Cord19AbstractCollection.Document covidDoc = (Cord19AbstractCollection.Document) doc;
 
     assertEquals(expected.get("id"), covidDoc.id());
     assertTrue(covidDoc.contents().startsWith(expected.get("contents_starts_with")));

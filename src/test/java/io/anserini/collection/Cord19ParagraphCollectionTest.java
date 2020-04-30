@@ -23,14 +23,14 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CovidParagraphCollectionTest extends DocumentCollectionTest<CovidParagraphCollection.Document> {
+public class Cord19ParagraphCollectionTest extends DocumentCollectionTest<Cord19ParagraphCollection.Document> {
 
   @Before
   public void setUp() throws Exception {
     super.setUp();
 
     collectionPath = Paths.get("src/test/resources/sample_docs/covid/sample1");
-    collection = new CovidParagraphCollection(collectionPath);
+    collection = new Cord19ParagraphCollection(collectionPath);
 
     Path segment = Paths.get("src/test/resources/sample_docs/covid/sample1/metadata.csv");
 
@@ -77,7 +77,7 @@ public class CovidParagraphCollectionTest extends DocumentCollectionTest<CovidPa
 
   @Override
   void checkDocument(SourceDocument doc, Map<String, String> expected) {
-    CovidParagraphCollection.Document covidDoc = (CovidParagraphCollection.Document) doc;
+    Cord19ParagraphCollection.Document covidDoc = (Cord19ParagraphCollection.Document) doc;
 
     assertEquals(expected.get("id"), covidDoc.id());
   }

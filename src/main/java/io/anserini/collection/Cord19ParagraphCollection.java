@@ -39,23 +39,23 @@ import java.util.Set;
 /**
  * A document collection for the CORD-19 dataset provided by Semantic Scholar.
  */
-public class CovidParagraphCollection extends DocumentCollection<CovidParagraphCollection.Document> {
-  private static final Logger LOG = LogManager.getLogger(CovidParagraphCollection.class);
+public class Cord19ParagraphCollection extends DocumentCollection<Cord19ParagraphCollection.Document> {
+  private static final Logger LOG = LogManager.getLogger(Cord19ParagraphCollection.class);
 
-  public CovidParagraphCollection(Path path){
+  public Cord19ParagraphCollection(Path path){
     this.path = path;
     this.allowedFileSuffix = Set.of(".csv");
   }
 
   @Override
-  public FileSegment<CovidParagraphCollection.Document> createFileSegment(Path p) throws IOException {
+  public FileSegment<Cord19ParagraphCollection.Document> createFileSegment(Path p) throws IOException {
     return new Segment(p);
   }
 
   /**
    * A file containing a single CSV document.
    */
-  public class Segment extends FileSegment<CovidParagraphCollection.Document> {
+  public class Segment extends FileSegment<Cord19ParagraphCollection.Document> {
     CSVParser csvParser = null;
     private CSVRecord record = null;
     private Iterator<CSVRecord> iterator = null; // iterator for CSV records
@@ -81,7 +81,7 @@ public class CovidParagraphCollection extends DocumentCollection<CovidParagraphC
         // if the record contains more paragraphs, we parse them
         String paragraph = paragraphIterator.next().get("text").asText();
         paragraphNumber += 1;
-        bufferedRecord = new CovidParagraphCollection.Document(record, paragraph, paragraphNumber);
+        bufferedRecord = new Cord19ParagraphCollection.Document(record, paragraph, paragraphNumber);
       } else if (iterator.hasNext()) {
         // if CSV contains more lines, we parse the next record
         record = iterator.next();
@@ -100,7 +100,7 @@ public class CovidParagraphCollection extends DocumentCollection<CovidParagraphC
 
         if (fullTextPath != null){
           try {
-            String recordFullTextPath = CovidParagraphCollection.this.path.toString() + fullTextPath;
+            String recordFullTextPath = Cord19ParagraphCollection.this.path.toString() + fullTextPath;
             recordFullText = new String(Files.readAllBytes(Paths.get(recordFullTextPath)));
             FileReader recordFullTextFileReader = new FileReader(recordFullTextPath);
             ObjectMapper mapper = new ObjectMapper();
@@ -114,7 +114,7 @@ public class CovidParagraphCollection extends DocumentCollection<CovidParagraphC
         }
 
         paragraphNumber = 0;
-        bufferedRecord = new CovidParagraphCollection.Document(record, recordFullText);
+        bufferedRecord = new Cord19ParagraphCollection.Document(record, recordFullText);
     } else {
       throw new NoSuchElementException("Reached end of CSVRecord Entries Iterator");
     }
@@ -136,7 +136,7 @@ public class CovidParagraphCollection extends DocumentCollection<CovidParagraphC
   /**
    * A document in a CORD-19 collection.
    */
-  public class Document extends CovidCollectionDocument {
+  public class Document extends Cord19BaseDocument {
     public Document(CSVRecord record, String paragraph, Integer paragraphNumber, String recordFullText) {
       this.record = record;
 
