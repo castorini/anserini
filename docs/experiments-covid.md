@@ -3,9 +3,9 @@
 This document describes various tools for working with the [COVID-19 Open Research Dataset (CORD-19)](https://pages.semanticscholar.org/coronavirus-research) from the [Allen Institute for AI](https://allenai.org/).
 For an easy way to get started, check out our Colab demos, also available [here](https://github.com/castorini/anserini-notebooks):
 
-+ [Colab demo using the title + abstract index](https://colab.research.google.com/drive/1mrapJp6-RIB-3u6FaJVa4WEwFdEBOcTe)
-+ [Colab demo using the paragraph index](https://colab.research.google.com/drive/1VvUR8P2CZvmdwC_J3AvRH5GvtMld8_zN)
-+ [Colab demo that demonstrates integration with SciBERT](https://colab.research.google.com/github/castorini/anserini-notebooks/blob/master/Pyserini%2BSciBERT_on_COVID_19_Demo.ipynb)
++ [Colab demo using the title + abstract index](https://github.com/castorini/anserini-notebooks/blob/master/pyserini_covid19_default.ipynb)
++ [Colab demo using the paragraph index](https://github.com/castorini/anserini-notebooks/blob/master/pyserini_covid19_paragraph.ipynb)
++ [Colab demo that demonstrates integration with SciBERT](https://github.com/castorini/anserini-notebooks/blob/master/Pyserini+SciBERT_on_COVID_19_Demo.ipynb)
 
 We provide instructions on how to build Lucene indexes for the collection using Anserini below, but if you don't want to bother building the indexes yourself, we have pre-built indexes that you can directly download:
 
@@ -57,62 +57,86 @@ For a sense of how these different methods stack up, refer to the following pape
 The tl;dr &mdash; we'd recommend getting started with title + abstract index since it's the smallest in size and easiest to manipulate. Paragraph indexing is likely to be more effective (i.e., better search results), but a bit more difficult to manipulate since some deduping is required to post-process the raw hits (since multiple paragraphs from the same article might be retrieved).
 The full-text index overly biases long documents and isn't really effective; this condition is included here only for completeness.
 
+Note that as of commit [`f3a236c`](https://github.com/castorini/anserini/commit/f3a236ce3310c9ca06b7ff2bd846e62163996abd) (2020/04/30), the indexer ignores two articles, with `cord_uid` `ij3ncdb` and `hwjkbpqp`; see [#1127](https://github.com/castorini/anserini/issues/1127) for explanation.
+
+
 ### Title + Abstract
 
-We can index titles and abstracts only with `CovidCollection`, as follows:
+We can index titles and abstracts only with `Cord19AbstractCollection`, as follows:
 
 ```bash
 sh target/appassembler/bin/IndexCollection \
-  -collection CovidCollection -generator CovidGenerator \
+  -collection Cord19AbstractCollection -generator Cord19Generator \
   -threads 8 -input "${DATA_DIR}" \
   -index "${DATA_DIR}"/lucene-index-cord19-abstract-"${DATE}" \
-  -storePositions -storeDocvectors -storeContents -storeRaw > log.cord19-abstract.${DATE}.txt
+  -storePositions -storeDocvectors -storeContents -storeRaw -optimize > log.cord19-abstract.${DATE}.txt
 ```
 
-The output message should be something like this:
+The log should end with something like this:
 
 ```bash
-2020-04-25 09:22:40,284 INFO  [main] index.IndexCollection (IndexCollection.java:879) - Total 57,356 documents indexed in 00:01:13
+2020-04-30 10:17:23,004 INFO  [main] index.IndexCollection (IndexCollection.java:870) - Indexing Complete! 57,354 documents indexed
+2020-04-30 10:17:23,004 INFO  [main] index.IndexCollection (IndexCollection.java:871) - ============ Final Counter Values ============
+2020-04-30 10:17:23,005 INFO  [main] index.IndexCollection (IndexCollection.java:872) - indexed:           57,354
+2020-04-30 10:17:23,005 INFO  [main] index.IndexCollection (IndexCollection.java:873) - unindexable:            0
+2020-04-30 10:17:23,005 INFO  [main] index.IndexCollection (IndexCollection.java:874) - empty:                 10
+2020-04-30 10:17:23,005 INFO  [main] index.IndexCollection (IndexCollection.java:875) - skipped:                2
+2020-04-30 10:17:23,005 INFO  [main] index.IndexCollection (IndexCollection.java:876) - errors:                 0
+2020-04-30 10:17:23,010 INFO  [main] index.IndexCollection (IndexCollection.java:879) - Total 57,354 documents indexed in 00:01:25
 ```
 
 The `contents` field of each Lucene document is a concatenation of the article's title and abstract.
 
 ### Full-Text
 
-We can index the full text, with `CovidFullTextCollection`, as follows:
+We can index the full text, with `Cord19FullTextCollection`, as follows:
 
 ```bash
 sh target/appassembler/bin/IndexCollection \
-  -collection CovidFullTextCollection -generator CovidGenerator \
+  -collection Cord19FullTextCollection -generator Cord19Generator \
   -threads 8 -input "${DATA_DIR}" \
   -index "${DATA_DIR}"/lucene-index-cord19-full-text-"${DATE}" \
-  -storePositions -storeDocvectors -storeContents -storeRaw  > log.cord19-full-text.${DATE}.txt
+  -storePositions -storeDocvectors -storeContents -storeRaw -optimize > log.cord19-full-text.${DATE}.txt
 ```
 
-The output message should be something like this:
+The log should end with something like this:
 
 ```bash
-2020-04-25 09:27:31,978 INFO  [main] index.IndexCollection (IndexCollection.java:879) - Total 57,359 documents indexed in 00:04:42
+2020-04-30 10:22:54,556 INFO  [main] index.IndexCollection (IndexCollection.java:870) - Indexing Complete! 57,357 documents indexed
+2020-04-30 10:22:54,557 INFO  [main] index.IndexCollection (IndexCollection.java:871) - ============ Final Counter Values ============
+2020-04-30 10:22:54,557 INFO  [main] index.IndexCollection (IndexCollection.java:872) - indexed:           57,357
+2020-04-30 10:22:54,557 INFO  [main] index.IndexCollection (IndexCollection.java:873) - unindexable:            0
+2020-04-30 10:22:54,557 INFO  [main] index.IndexCollection (IndexCollection.java:874) - empty:                  7
+2020-04-30 10:22:54,557 INFO  [main] index.IndexCollection (IndexCollection.java:875) - skipped:                2
+2020-04-30 10:22:54,557 INFO  [main] index.IndexCollection (IndexCollection.java:876) - errors:                 0
+2020-04-30 10:22:54,562 INFO  [main] index.IndexCollection (IndexCollection.java:879) - Total 57,357 documents indexed in 00:04:54
 ```
 
 The `contents` field of each Lucene document is a concatenation of the article's title and abstract, and the full text JSON (if available).
 
 ### Paragraph
 
-We can build a paragraph index with `CovidParagraphCollection`, as follows:
+We can build a paragraph index with `Cord19ParagraphCollection`, as follows:
 
 ```bash
 sh target/appassembler/bin/IndexCollection \
-  -collection CovidParagraphCollection -generator CovidGenerator \
+  -collection Cord19ParagraphCollection -generator Cord19Generator \
   -threads 8 -input "${DATA_DIR}" \
   -index "${DATA_DIR}"/lucene-index-cord19-paragraph-"${DATE}" \
-  -storePositions -storeDocvectors -storeContents -storeRaw > log.cord19-paragraph.${DATE}.txt
+  -storePositions -storeDocvectors -storeContents -storeRaw -optimize > log.cord19-paragraph.${DATE}.txt
 ```
 
-The output message should be something like this:
+The log should end with something like this:
 
 ```bash
-2020-04-25 09:43:40,546 INFO  [main] index.IndexCollection (IndexCollection.java:879) - Total 1,689,378 documents indexed in 00:15:51
+2020-04-30 10:40:14,455 INFO  [main] index.IndexCollection (IndexCollection.java:870) - Indexing Complete! 1,679,960 documents indexed
+2020-04-30 10:40:14,455 INFO  [main] index.IndexCollection (IndexCollection.java:871) - ============ Final Counter Values ============
+2020-04-30 10:40:14,455 INFO  [main] index.IndexCollection (IndexCollection.java:872) - indexed:        1,679,960
+2020-04-30 10:40:14,455 INFO  [main] index.IndexCollection (IndexCollection.java:873) - unindexable:            0
+2020-04-30 10:40:14,456 INFO  [main] index.IndexCollection (IndexCollection.java:874) - empty:                 10
+2020-04-30 10:40:14,456 INFO  [main] index.IndexCollection (IndexCollection.java:875) - skipped:            9,418
+2020-04-30 10:40:14,456 INFO  [main] index.IndexCollection (IndexCollection.java:876) - errors:                 0
+2020-04-30 10:40:14,461 INFO  [main] index.IndexCollection (IndexCollection.java:879) - Total 1,679,960 documents indexed in 00:15:46
 ```
 
 In this configuration, the indexer creates multiple Lucene Documents for each source article:
@@ -176,7 +200,7 @@ We can now index into Solr:
 DATE=2020-04-24
 DATA_DIR=./cord19-"${DATE}"
 
-sh target/appassembler/bin/IndexCollection -collection CovidCollection -generator CovidGenerator \
+sh target/appassembler/bin/IndexCollection -collection Cord19AbstractCollection -generator Cord19Generator \
    -threads 8 -input "${DATA_DIR}" \
    -solr -solr.index cord19 -solr.zkUrl localhost:9983 \
    -storePositions -storeDocvectors -storeContents -storeRaw
