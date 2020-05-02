@@ -92,7 +92,8 @@ public class Cord19Generator implements LuceneDocumentGenerator<Cord19BaseDocume
     // See https://github.com/castorini/anserini/issues/1127
     // Corner cases are hard-coded now; if this gets out of hand we should consider implementing a "blacklist" feature
     // and store these ids externally. Note we use startsWidth here to handle the paragraph indexes as well.
-    if (id.startsWith("ij3ncdb") || id.startsWith("hwjkbpqp")) {
+    if (id.startsWith("ij3ncdb6") || id.startsWith("hwjkbpqp") ||
+        id.startsWith("1vimqhdp") || id.startsWith("gvh0wdxn")) {
       throw new SkippedDocumentException();
     }
 
