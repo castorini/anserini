@@ -11,11 +11,11 @@ We provide instructions on how to build Lucene indexes for the collection using 
 
 If you don't want to build the index yourself, you can download the latest pre-built copies here:
 
-| Type | Version | Size | Link| Checksum |
-|:-----|:--------|:-----|:----|:---------|
-| Abstract | 2020-04-24 | 1.3G | [[Dropbox]](https://www.dropbox.com/s/ntfg6ykr3ed3acn/lucene-index-cord19-abstract-2020-04-24.tar.gz) | `93540ae00e166ee433db7531e1bb51c8`
-| Full-Text | 2020-04-24 | 2.4G | [[Dropbox]](https://www.dropbox.com/s/twb1defsb19ss4x/lucene-index-cord19-full-text-2020-04-24.tar.gz) | `fa927b0fc9cf1cd382413039cdc7b736`
-| Paragraph | 2020-04-24 | 5.0G| [[Dropbox]](https://www.dropbox.com/s/xg2b4aapjvmx3ve/lucene-index-cord19-paragraph-2020-04-24.tar.gz) | `7c6de6298e0430b8adb3e03310db32d8`
+| Version    | Type      | Size  | Link | Checksum |
+|:-----------|:----------|:------|:-----|:---------|
+| 2020-05-01 | Abstract  |  1.2G | [[Dropbox]](https://www.dropbox.com/s/wxjoe4g71zt5za2/lucene-index-cord19-abstract-2020-05-01.tar.gz) | `a06e71a98a68d31148cb0e97e70a2ee1`
+| 2020-05-01 | Full-Text |  2.4G | [[Dropbox]](https://www.dropbox.com/s/di27r5o2g5kat5k/lucene-index-cord19-full-text-2020-05-01.tar.gz) | `e7eca1b976cdf2cd80e908c9ac2263cb`
+| 2020-05-01 | Paragraph |  3.6G | [[Dropbox]](https://www.dropbox.com/s/6ib71scm925mclk/lucene-index-cord19-paragraph-2020-05-01.tar.gz) | `8f9321757a03985ac1c1952b2fff2c7d`
 
 "Size" refers to the output of `ls -lh`, "Version" refers to the dataset release date from AI2.
 For our answer to the question, "which one should I use?" see below.
@@ -24,11 +24,11 @@ We've kept around older versions of the index for archival purposes &mdash; scro
 
 ## Data Prep
 
-The latest distribution available is from 2020/04/24.
+The latest distribution available is from 2020/05/01.
 First, download the data:
 
 ```bash
-DATE=2020-04-24
+DATE=2020-05-01
 DATA_DIR=./cord19-"${DATE}"
 mkdir "${DATA_DIR}"
 
@@ -36,6 +36,7 @@ wget https://ai2-semanticscholar-cord-19.s3-us-west-2.amazonaws.com/latest/comm_
 wget https://ai2-semanticscholar-cord-19.s3-us-west-2.amazonaws.com/latest/noncomm_use_subset.tar.gz -P "${DATA_DIR}"
 wget https://ai2-semanticscholar-cord-19.s3-us-west-2.amazonaws.com/latest/custom_license.tar.gz -P "${DATA_DIR}"
 wget https://ai2-semanticscholar-cord-19.s3-us-west-2.amazonaws.com/latest/biorxiv_medrxiv.tar.gz -P "${DATA_DIR}"
+wget https://ai2-semanticscholar-cord-19.s3-us-west-2.amazonaws.com/latest/arxiv.tar.gz -P "${DATA_DIR}"
 wget https://ai2-semanticscholar-cord-19.s3-us-west-2.amazonaws.com/latest/metadata.csv -P "${DATA_DIR}"
 
 ls "${DATA_DIR}"/*.tar.gz | xargs -I {} tar -zxvf {} -C "${DATA_DIR}"
@@ -44,6 +45,7 @@ ls "${DATA_DIR}"/*.tar.gz | xargs -I {} tar -zxvf {} -C "${DATA_DIR}"
 # tar -zxvf "${DATA_DIR}"/noncomm_use_subset.tar.gz -C "${DATA_DIR}"
 # tar -zxvf "${DATA_DIR}"/custom_license.tar.gz -C "${DATA_DIR}"
 # tar -zxvf "${DATA_DIR}"/biorxiv_medrxiv.tar.gz -C "${DATA_DIR}"
+# tar -zxvf "${DATA_DIR}"/arxiv.tar.gz -C "${DATA_DIR}"
 ```
 
 ## Building Local Lucene Indexes
@@ -75,14 +77,14 @@ sh target/appassembler/bin/IndexCollection \
 The log should end with something like this:
 
 ```bash
-2020-04-30 10:17:23,004 INFO  [main] index.IndexCollection (IndexCollection.java:870) - Indexing Complete! 57,354 documents indexed
-2020-04-30 10:17:23,004 INFO  [main] index.IndexCollection (IndexCollection.java:871) - ============ Final Counter Values ============
-2020-04-30 10:17:23,005 INFO  [main] index.IndexCollection (IndexCollection.java:872) - indexed:           57,354
-2020-04-30 10:17:23,005 INFO  [main] index.IndexCollection (IndexCollection.java:873) - unindexable:            0
-2020-04-30 10:17:23,005 INFO  [main] index.IndexCollection (IndexCollection.java:874) - empty:                 10
-2020-04-30 10:17:23,005 INFO  [main] index.IndexCollection (IndexCollection.java:875) - skipped:                2
-2020-04-30 10:17:23,005 INFO  [main] index.IndexCollection (IndexCollection.java:876) - errors:                 0
-2020-04-30 10:17:23,010 INFO  [main] index.IndexCollection (IndexCollection.java:879) - Total 57,354 documents indexed in 00:01:25
+2020-05-02 00:39:00,495 INFO  [main] index.IndexCollection (IndexCollection.java:870) - Indexing Complete! 59,873 documents indexed
+2020-05-02 00:39:00,495 INFO  [main] index.IndexCollection (IndexCollection.java:871) - ============ Final Counter Values ============
+2020-05-02 00:39:00,495 INFO  [main] index.IndexCollection (IndexCollection.java:872) - indexed:           59,873
+2020-05-02 00:39:00,495 INFO  [main] index.IndexCollection (IndexCollection.java:873) - unindexable:            0
+2020-05-02 00:39:00,496 INFO  [main] index.IndexCollection (IndexCollection.java:874) - empty:                 10
+2020-05-02 00:39:00,496 INFO  [main] index.IndexCollection (IndexCollection.java:875) - skipped:                4
+2020-05-02 00:39:00,496 INFO  [main] index.IndexCollection (IndexCollection.java:876) - errors:                 0
+2020-05-02 00:39:00,501 INFO  [main] index.IndexCollection (IndexCollection.java:879) - Total 59,873 documents indexed in 00:01:42
 ```
 
 The `contents` field of each Lucene document is a concatenation of the article's title and abstract.
@@ -102,14 +104,14 @@ sh target/appassembler/bin/IndexCollection \
 The log should end with something like this:
 
 ```bash
-2020-04-30 10:22:54,556 INFO  [main] index.IndexCollection (IndexCollection.java:870) - Indexing Complete! 57,357 documents indexed
-2020-04-30 10:22:54,557 INFO  [main] index.IndexCollection (IndexCollection.java:871) - ============ Final Counter Values ============
-2020-04-30 10:22:54,557 INFO  [main] index.IndexCollection (IndexCollection.java:872) - indexed:           57,357
-2020-04-30 10:22:54,557 INFO  [main] index.IndexCollection (IndexCollection.java:873) - unindexable:            0
-2020-04-30 10:22:54,557 INFO  [main] index.IndexCollection (IndexCollection.java:874) - empty:                  7
-2020-04-30 10:22:54,557 INFO  [main] index.IndexCollection (IndexCollection.java:875) - skipped:                2
-2020-04-30 10:22:54,557 INFO  [main] index.IndexCollection (IndexCollection.java:876) - errors:                 0
-2020-04-30 10:22:54,562 INFO  [main] index.IndexCollection (IndexCollection.java:879) - Total 57,357 documents indexed in 00:04:54
+2020-05-02 00:43:57,736 INFO  [main] index.IndexCollection (IndexCollection.java:870) - Indexing Complete! 59,876 documents indexed
+2020-05-02 00:43:57,737 INFO  [main] index.IndexCollection (IndexCollection.java:871) - ============ Final Counter Values ============
+2020-05-02 00:43:57,737 INFO  [main] index.IndexCollection (IndexCollection.java:872) - indexed:           59,876
+2020-05-02 00:43:57,737 INFO  [main] index.IndexCollection (IndexCollection.java:873) - unindexable:            0
+2020-05-02 00:43:57,737 INFO  [main] index.IndexCollection (IndexCollection.java:874) - empty:                  7
+2020-05-02 00:43:57,737 INFO  [main] index.IndexCollection (IndexCollection.java:875) - skipped:                4
+2020-05-02 00:43:57,738 INFO  [main] index.IndexCollection (IndexCollection.java:876) - errors:                 0
+2020-05-02 00:43:57,743 INFO  [main] index.IndexCollection (IndexCollection.java:879) - Total 59,876 documents indexed in 00:04:56
 ```
 
 The `contents` field of each Lucene document is a concatenation of the article's title and abstract, and the full text JSON (if available).
@@ -129,14 +131,14 @@ sh target/appassembler/bin/IndexCollection \
 The log should end with something like this:
 
 ```bash
-2020-04-30 10:40:14,455 INFO  [main] index.IndexCollection (IndexCollection.java:870) - Indexing Complete! 1,679,960 documents indexed
-2020-04-30 10:40:14,455 INFO  [main] index.IndexCollection (IndexCollection.java:871) - ============ Final Counter Values ============
-2020-04-30 10:40:14,455 INFO  [main] index.IndexCollection (IndexCollection.java:872) - indexed:        1,679,960
-2020-04-30 10:40:14,455 INFO  [main] index.IndexCollection (IndexCollection.java:873) - unindexable:            0
-2020-04-30 10:40:14,456 INFO  [main] index.IndexCollection (IndexCollection.java:874) - empty:                 10
-2020-04-30 10:40:14,456 INFO  [main] index.IndexCollection (IndexCollection.java:875) - skipped:            9,418
-2020-04-30 10:40:14,456 INFO  [main] index.IndexCollection (IndexCollection.java:876) - errors:                 0
-2020-04-30 10:40:14,461 INFO  [main] index.IndexCollection (IndexCollection.java:879) - Total 1,679,960 documents indexed in 00:15:46
+2020-05-02 00:57:30,039 INFO  [main] index.IndexCollection (IndexCollection.java:870) - Indexing Complete! 1,758,168 documents indexed
+2020-05-02 00:57:30,039 INFO  [main] index.IndexCollection (IndexCollection.java:871) - ============ Final Counter Values ============
+2020-05-02 00:57:30,040 INFO  [main] index.IndexCollection (IndexCollection.java:872) - indexed:        1,758,168
+2020-05-02 00:57:30,040 INFO  [main] index.IndexCollection (IndexCollection.java:873) - unindexable:            0
+2020-05-02 00:57:30,040 INFO  [main] index.IndexCollection (IndexCollection.java:874) - empty:                 10
+2020-05-02 00:57:30,040 INFO  [main] index.IndexCollection (IndexCollection.java:875) - skipped:           13,516
+2020-05-02 00:57:30,040 INFO  [main] index.IndexCollection (IndexCollection.java:876) - errors:                 0
+2020-05-02 00:57:30,044 INFO  [main] index.IndexCollection (IndexCollection.java:879) - Total 1,758,168 documents indexed in 00:13:31
 ```
 
 In this configuration, the indexer creates multiple Lucene Documents for each source article:
@@ -197,7 +199,7 @@ solrini/bin/solr create -n anserini -c cord19
 We can now index into Solr:
 
 ```
-DATE=2020-04-24
+DATE=2020-05-01
 DATA_DIR=./cord19-"${DATE}"
 
 sh target/appassembler/bin/IndexCollection -collection Cord19AbstractCollection -generator Cord19Generator \
@@ -212,24 +214,27 @@ Once indexing is complete, you can query in Solr at [`http://localhost:8983/solr
 
 All versions of pre-built indexes:
 
-| Type | Version | Size | Link| Checksum |
-|:-----|:--------|:-----|:----|:---------|
-| Abstract | 2020-04-24 | 1.3G | [[Dropbox]](https://www.dropbox.com/s/ntfg6ykr3ed3acn/lucene-index-cord19-abstract-2020-04-24.tar.gz) | `93540ae00e166ee433db7531e1bb51c8`
-| Abstract | 2020-04-17 | 1.2G | [[Dropbox]](https://www.dropbox.com/s/xogxcrvyx75vxoj/lucene-index-covid-2020-04-17.tar.gz) | `d57b17eadb1b44fc336b4121c139a598`
-| Abstract | 2020-04-10 | 1.2G | [[Dropbox]](https://www.dropbox.com/s/j55t617yhvmegy8/lucene-index-covid-2020-04-10.tar.gz) | `ec239d56498c0e7b74e3b41e1ce5d42a`
-| Abstract | 2020-04-03 | 1.1G | [[Dropbox]](https://www.dropbox.com/s/d6v9fensyi7q3gb/lucene-index-covid-2020-04-03.tar.gz) | `5d0d222e746d522a75f94240f5ab9f23`
-| Abstract | 2020-03-27 | 1.1G | [[Dropbox]](https://www.dropbox.com/s/j1epbu4ufunbbzv/lucene-index-covid-2020-03-27.tar.gz) | `c5f7247e921c80f41ac6b54ff38eb229`
-| Abstract | 2020-03-20 | 1.0G | [[Dropbox]](https://www.dropbox.com/s/uvjwgy4re2myq5s/lucene-index-covid-2020-03-20.tar.gz) | `281c632034643665d52a544fed23807a`
-| Full-Text | 2020-04-24 | 2.4G | [[Dropbox]](https://www.dropbox.com/s/twb1defsb19ss4x/lucene-index-cord19-full-text-2020-04-24.tar.gz) | `fa927b0fc9cf1cd382413039cdc7b736`
-| Full-Text | 2020-04-17 | 2.2G | [[Dropbox]](https://www.dropbox.com/s/gs054ecxna5xm0f/lucene-index-covid-full-text-2020-04-17.tar.gz) | `677546e0a1b7855a48eee8b6fbd7d7af`
-| Full-Text | 2020-04-10 | 3.3G | [[Dropbox]](https://www.dropbox.com/s/gtq2c3xq81mjowk/lucene-index-covid-full-text-2020-04-10.tar.gz) | `401a6f5583b0f05340c73fbbeb3279c8`
-| Full-Text | 2020-04-03 | 3.0G | [[Dropbox]](https://www.dropbox.com/s/abhuqks7aa1xs79/lucene-index-covid-full-text-2020-04-03.tar.gz) | `9aafb86fec39e0882bd9ef0688d7a9cc`
-| Full-Text | 2020-03-27 | 2.9G | [[Dropbox]](https://www.dropbox.com/s/hjsf7qldn4t10vm/lucene-index-covid-full-text-2020-03-27.tar.gz) | `3c126344f9711720e6cf627c9bc415eb`
-| Full-Text | 2020-03-20 | 2.6G | [[Dropbox]](https://www.dropbox.com/s/w74nmpmvdgw7o00/lucene-index-covid-full-text-2020-03-20.tar.gz) | `30cae90b85fa8f1b53acaa62413756e3`
-| Paragraph | 2020-04-24 | 5.0G| [[Dropbox]](https://www.dropbox.com/s/xg2b4aapjvmx3ve/lucene-index-cord19-paragraph-2020-04-24.tar.gz) | `7c6de6298e0430b8adb3e03310db32d8`
-| Paragraph | 2020-04-17 | 4.7G| [[Dropbox]](https://www.dropbox.com/s/u3a0z53pdaxekfe/lucene-index-covid-paragraph-2020-04-17.tar.gz) | `c11e46230b744a46747f84e49acc9c2b`
-| Paragraph | 2020-04-10 | 3.4G| [[Dropbox]](https://www.dropbox.com/s/ivk87journyajw3/lucene-index-covid-paragraph-2020-04-10.tar.gz) | `8b87a2c55bc0a15b87f11e796860216a`
-| Paragraph | 2020-04-03 | 3.1G| [[Dropbox]](https://www.dropbox.com/s/rfzxrrstwlck4wh/lucene-index-covid-paragraph-2020-04-03.tar.gz) | `523894cfb52fc51c4202e76af79e1b10`
-| Paragraph | 2020-03-27 | 3.1G| [[Dropbox]](https://www.dropbox.com/s/o95pehyzem0yalp/lucene-index-covid-paragraph-2020-03-27.tar.gz) | `8e02de859317918af4829c6188a89086`
-| Paragraph | 2020-03-20 | 2.9G| [[Dropbox]](https://www.dropbox.com/s/evnhj2ylo02m03f/lucene-index-covid-paragraph-2020-03-20.tar.gz) | `4c78e9ede690dbfac13e25e634c70ae4`
+| Version    | Type      | Size  | Link | Checksum |
+|:-----------|:----------|:------|:-----|:---------|
+| 2020-05-01 | Abstract  |  1.2G | [[Dropbox]](https://www.dropbox.com/s/wxjoe4g71zt5za2/lucene-index-cord19-abstract-2020-05-01.tar.gz)  | `a06e71a98a68d31148cb0e97e70a2ee1`
+| 2020-05-01 | Full-Text |  2.4G | [[Dropbox]](https://www.dropbox.com/s/di27r5o2g5kat5k/lucene-index-cord19-full-text-2020-05-01.tar.gz) | `e7eca1b976cdf2cd80e908c9ac2263cb`
+| 2020-05-01 | Paragraph |  3.6G | [[Dropbox]](https://www.dropbox.com/s/6ib71scm925mclk/lucene-index-cord19-paragraph-2020-05-01.tar.gz) | `8f9321757a03985ac1c1952b2fff2c7d`
+| 2020-04-24 | Abstract  |  1.3G | [[Dropbox]](https://www.dropbox.com/s/ntfg6ykr3ed3acn/lucene-index-cord19-abstract-2020-04-24.tar.gz)  | `93540ae00e166ee433db7531e1bb51c8`
+| 2020-04-24 | Full-Text |  2.4G | [[Dropbox]](https://www.dropbox.com/s/twb1defsb19ss4x/lucene-index-cord19-full-text-2020-04-24.tar.gz) | `fa927b0fc9cf1cd382413039cdc7b736`
+| 2020-04-24 | Paragraph |  5.0G | [[Dropbox]](https://www.dropbox.com/s/xg2b4aapjvmx3ve/lucene-index-cord19-paragraph-2020-04-24.tar.gz) | `7c6de6298e0430b8adb3e03310db32d8`
+| 2020-04-17 | Abstract  |  1.2G | [[Dropbox]](https://www.dropbox.com/s/xogxcrvyx75vxoj/lucene-index-covid-2020-04-17.tar.gz)            | `d57b17eadb1b44fc336b4121c139a598`
+| 2020-04-17 | Full-Text |  2.2G | [[Dropbox]](https://www.dropbox.com/s/gs054ecxna5xm0f/lucene-index-covid-full-text-2020-04-17.tar.gz)  | `677546e0a1b7855a48eee8b6fbd7d7af`
+| 2020-04-17 | Paragraph |  4.7G | [[Dropbox]](https://www.dropbox.com/s/u3a0z53pdaxekfe/lucene-index-covid-paragraph-2020-04-17.tar.gz)  | `c11e46230b744a46747f84e49acc9c2b`
+| 2020-04-10 | Abstract  |  1.2G | [[Dropbox]](https://www.dropbox.com/s/j55t617yhvmegy8/lucene-index-covid-2020-04-10.tar.gz)            | `ec239d56498c0e7b74e3b41e1ce5d42a`
+| 2020-04-10 | Full-Text |  3.3G | [[Dropbox]](https://www.dropbox.com/s/gtq2c3xq81mjowk/lucene-index-covid-full-text-2020-04-10.tar.gz)  | `401a6f5583b0f05340c73fbbeb3279c8`
+| 2020-04-10 | Paragraph |  3.4G | [[Dropbox]](https://www.dropbox.com/s/ivk87journyajw3/lucene-index-covid-paragraph-2020-04-10.tar.gz)  | `8b87a2c55bc0a15b87f11e796860216a`
+| 2020-04-03 | Abstract  |  1.1G | [[Dropbox]](https://www.dropbox.com/s/d6v9fensyi7q3gb/lucene-index-covid-2020-04-03.tar.gz)            | `5d0d222e746d522a75f94240f5ab9f23`
+| 2020-04-03 | Full-Text |  3.0G | [[Dropbox]](https://www.dropbox.com/s/abhuqks7aa1xs79/lucene-index-covid-full-text-2020-04-03.tar.gz)  | `9aafb86fec39e0882bd9ef0688d7a9cc`
+| 2020-04-03 | Paragraph |  3.1G | [[Dropbox]](https://www.dropbox.com/s/rfzxrrstwlck4wh/lucene-index-covid-paragraph-2020-04-03.tar.gz)  | `523894cfb52fc51c4202e76af79e1b10`
+| 2020-03-27 | Abstract  |  1.1G | [[Dropbox]](https://www.dropbox.com/s/j1epbu4ufunbbzv/lucene-index-covid-2020-03-27.tar.gz)            | `c5f7247e921c80f41ac6b54ff38eb229`
+| 2020-03-27 | Full-Text |  2.9G | [[Dropbox]](https://www.dropbox.com/s/hjsf7qldn4t10vm/lucene-index-covid-full-text-2020-03-27.tar.gz)  | `3c126344f9711720e6cf627c9bc415eb`
+| 2020-03-27 | Paragraph |  3.1G | [[Dropbox]](https://www.dropbox.com/s/o95pehyzem0yalp/lucene-index-covid-paragraph-2020-03-27.tar.gz)  | `8e02de859317918af4829c6188a89086`
+| 2020-03-20 | Abstract  |  1.0G | [[Dropbox]](https://www.dropbox.com/s/uvjwgy4re2myq5s/lucene-index-covid-2020-03-20.tar.gz)            | `281c632034643665d52a544fed23807a`
+| 2020-03-20 | Full-Text |  2.6G | [[Dropbox]](https://www.dropbox.com/s/w74nmpmvdgw7o00/lucene-index-covid-full-text-2020-03-20.tar.gz)  | `30cae90b85fa8f1b53acaa62413756e3`
+| 2020-03-20 | Paragraph |  2.9G | [[Dropbox]](https://www.dropbox.com/s/evnhj2ylo02m03f/lucene-index-covid-paragraph-2020-03-20.tar.gz)  | `4c78e9ede690dbfac13e25e634c70ae4`
 
