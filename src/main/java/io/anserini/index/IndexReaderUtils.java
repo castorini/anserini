@@ -202,15 +202,15 @@ public class IndexReaderUtils {
     return DirectoryReader.open(dir);
   }
 
-  public static Map<String, Long> getTermCounts(IndexReader reader, String termStr) throws IOException, ParseException {
+  public static Map<String, Long> getTermCounts(IndexReader reader, String termStr)
+      throws IOException {
     DefaultEnglishAnalyzer ea = DefaultEnglishAnalyzer.newDefaultInstance();
     return getTermCountsWithAnalyzer(reader, termStr, ea);
   }
 
-  public static Map<String, Long> getTermCountsWithAnalyzer(IndexReader reader, String termStr, Analyzer analyzer) throws IOException, ParseException {
-    QueryParser qp = new QueryParser(IndexArgs.CONTENTS, analyzer);
-    TermQuery q = (TermQuery) qp.parse(termStr);
-    Term t = q.getTerm();
+  public static Map<String, Long> getTermCountsWithAnalyzer(IndexReader reader, String termStr, Analyzer analyzer)
+      throws IOException {
+    Term t = new Term(IndexArgs.CONTENTS, AnalyzerUtils.analyze(analyzer, termStr).get(0));
 
     Map<String, Long> termInfo = Map.ofEntries(
       Map.entry("collectionFreq", reader.totalTermFreq(t)),
@@ -227,7 +227,7 @@ public class IndexReaderUtils {
    * @throws IOException if error encountered during access to index
    */
   public static Iterator<IndexTerm> getTerms(IndexReader reader) throws IOException {
-    return new Iterator<IndexTerm>() {
+    return new Iterator<>() {
       private TermsEnum curTerm = MultiTerms.getTerms(reader, "contents").iterator();
       private BytesRef bytesRef = null;
 
