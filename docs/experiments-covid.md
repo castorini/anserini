@@ -45,6 +45,7 @@ ls "${DATA_DIR}"/*.tar.gz | xargs -I {} tar -zxvf {} -C "${DATA_DIR}"
 # tar -zxvf "${DATA_DIR}"/noncomm_use_subset.tar.gz -C "${DATA_DIR}"
 # tar -zxvf "${DATA_DIR}"/custom_license.tar.gz -C "${DATA_DIR}"
 # tar -zxvf "${DATA_DIR}"/biorxiv_medrxiv.tar.gz -C "${DATA_DIR}"
+# tar -zxvf "${DATA_DIR}"/arxiv.tar.gz -C "${DATA_DIR}"
 ```
 
 ## Building Local Lucene Indexes
