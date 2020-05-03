@@ -16,6 +16,8 @@
 
 package io.anserini.collection;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
@@ -34,23 +36,23 @@ import java.util.Set;
 /**
  * A document collection for the CORD-19 dataset provided by Semantic Scholar.
  */
-public class CovidCollection extends DocumentCollection<CovidCollection.Document> {
-  private static final Logger LOG = LogManager.getLogger(CovidCollection.class);
+public class Cord19FullTextCollection extends DocumentCollection<Cord19FullTextCollection.Document> {
+  private static final Logger LOG = LogManager.getLogger(Cord19FullTextCollection.class);
 
-  public CovidCollection(Path path){
+  public Cord19FullTextCollection(Path path){
     this.path = path;
     this.allowedFileSuffix = Set.of(".csv");
   }
 
   @Override
-  public FileSegment<CovidCollection.Document> createFileSegment(Path p) throws IOException {
+  public FileSegment<Cord19FullTextCollection.Document> createFileSegment(Path p) throws IOException {
     return new Segment(p);
   }
 
   /**
    * A file containing a single CSV document.
    */
-  public class Segment extends FileSegment<CovidCollection.Document> {
+  public class Segment extends FileSegment<Cord19FullTextCollection.Document> {
     CSVParser csvParser = null;
     private CSVRecord record = null;
     private Iterator<CSVRecord> iterator = null; // iterator for CSV records
@@ -76,7 +78,7 @@ public class CovidCollection extends DocumentCollection<CovidCollection.Document
       if (record == null) {
         throw new NoSuchElementException("Record is empty");
       } else {
-        bufferedRecord = new CovidCollection.Document(record);
+        bufferedRecord = new Cord19FullTextCollection.Document(record);
         if (iterator.hasNext()) { // if CSV contains more lines, we parse the next record
           record = iterator.next();
         } else {
@@ -101,7 +103,7 @@ public class CovidCollection extends DocumentCollection<CovidCollection.Document
   /**
    * A document in a CORD-19 collection.
    */
-  public class Document extends CovidCollectionDocument {
+  public class Document extends Cord19BaseDocument {
     public Document(CSVRecord record) {
       this.record = record;
 
@@ -109,8 +111,24 @@ public class CovidCollection extends DocumentCollection<CovidCollection.Document
       content = record.get("title").replace("\n", " ");
       content += record.get("abstract").isEmpty() ? "" : "\n" + record.get("abstract");
 
-      String fullTextJson = getFullTextJson(CovidCollection.this.path.toString());
+      String fullTextJson = getFullTextJson(Cord19FullTextCollection.this.path.toString());
       raw = buildRawJson(fullTextJson);
+
+      if (fullTextJson != null) {
+        // For the contents(), we're going to gather up all the text in body_text
+        try {
+          ObjectMapper mapper = new ObjectMapper();
+          JsonNode recordJsonNode = mapper.readerFor(JsonNode.class).readTree(fullTextJson);
+          Iterator<JsonNode> paragraphIterator = recordJsonNode.get("body_text").elements();
+
+          while (paragraphIterator.hasNext()) {
+            JsonNode node = paragraphIterator.next();
+            content += "\n" + node.get("text").asText();
+          }
+        } catch (IOException e) {
+          LOG.error("Error parsing file at " + Cord19FullTextCollection.this.path.toString() + "\n" + e.getMessage());
+        }
+      }
     }
   }
 }
