@@ -180,20 +180,20 @@ Solr should now be available at [http://localhost:8983/](http://localhost:8983/)
 Next, create the collection:
 
 ```
-solrini/bin/solr create -n anserini -c covid
+solrini/bin/solr create -n anserini -c cord19
 ```
 
 Adjust the schema (if there are errors, follow the instructions below and come back):
 
 ```
-curl -X POST -H 'Content-type:application/json' --data-binary @src/main/resources/solr/schemas/covid.json http://localhost:8983/solr/covid/schema
+curl -X POST -H 'Content-type:application/json' --data-binary @src/main/resources/solr/schemas/covid.json http://localhost:8983/solr/cord19/schema
 ```
 
 *Note:* if there are errors from field conflicts, you'll need to reset the configset and recreate the collection (select [All] for the fields to replace):
 ```
-solrini/bin/solr delete -c covid
+solrini/bin/solr delete -c cord19
 pushd src/main/resources/solr && ./solr.sh ../../../../solrini localhost:9983 && popd
-solrini/bin/solr create -n anserini -c covid
+solrini/bin/solr create -n anserini -c cord19
 ```
 
 We can now index into Solr:
@@ -204,11 +204,11 @@ DATA_DIR=./cord19-"${DATE}"
 
 sh target/appassembler/bin/IndexCollection -collection Cord19AbstractCollection -generator Cord19Generator \
    -threads 8 -input "${DATA_DIR}" \
-   -solr -solr.index covid -solr.zkUrl localhost:9983 \
+   -solr -solr.index cord19 -solr.zkUrl localhost:9983 \
    -storePositions -storeDocvectors -storeContents -storeRaw
 ```
 
-Once indexing is complete, you can query in Solr at [`http://localhost:8983/solr/#/covid/query`](http://localhost:8983/solr/#/cord19/query).
+Once indexing is complete, you can query in Solr at [`http://localhost:8983/solr/#/cord19/query`](http://localhost:8983/solr/#/cord19/query).
 
 ## Pre-Built Indexes (All Versions)
 
