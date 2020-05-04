@@ -162,7 +162,10 @@ public final class SearchCollection implements Closeable {
         PrintWriter out = new PrintWriter(Files.newBufferedWriter(Paths.get(outputPath), StandardCharsets.US_ASCII));
         for (Map.Entry<K, Map<String, String>> entry : topics.entrySet()) {
           K qid = entry.getKey();
-          String queryString = entry.getValue().get(args.topicfield);
+          String queryString = "";
+          for (String singleField : args.topicfield) {
+            queryString += " " + entry.getValue().get(singleField);
+          }
           ScoredDocuments docs;
           if (args.searchtweets) {
             docs = searchTweets(this.searcher, qid, queryString, Long.parseLong(entry.getValue().get("time")), cascade);

@@ -43,9 +43,10 @@ public class SearchArgs {
   @Option(name = "-inmem", usage = "Boolean switch to read index in memory")
   public Boolean inmem = false;
 
-  @Option(name = "-topicfield", usage = "Which field of the query should be used, default \"title\"." +
+  @Option(name = "-topicfield", handler = StringArrayOptionHandler.class,
+      usage = "Which field(s) of the query should be used, default \"title\"." +
       " For TREC ad hoc topics, description or narrative can be used.")
-  public String topicfield = "title";
+  public String[] topicfield = new String[]{"title"};
 
   @Option(name = "-skipexists", usage = "When enabled, will skip if the run file exists")
   public Boolean skipexists = false;
