@@ -63,25 +63,29 @@ public class TwentynewsgroupsCollection extends DocumentCollection<Twentynewsgro
       String Keywords = "";
       String Organization = "";
       String s = "";
+
       while ((record = bufferedReader.readLine())!=null){
             String parts[] = record.split(" ", 2);
-            if (record.startsWith("From: ")){     
-                From = parts[1];
-            }else if (record.startsWith("Subject: ")){
-                Subject = parts[1];
-            }else if (record.startsWith("Keywords: ")){
-                Keywords = parts[1];
-            }else if (record.startsWith("Organization: ")){
-                Organization = parts[1];
+
+            if (record.startsWith("From: ")) {     
+              From = parts[1];
+            } else if (record.startsWith("Subject: ")) {
+              Subject = parts[1];
+            } else if (record.startsWith("Keywords: ")) {
+              Keywords = parts[1];
+            } else if (record.startsWith("Organization: ")) {
+              Organization = parts[1];
             }
-            if (s!=""){
-                s = s+"\n"+record;
-            }else{
-                s = record;
+
+            if (s!="") {
+              s = s+"\n"+record;
+            } else {
+              s = record;
             }
       }
+      
       if (s == "") {
-            throw new NoSuchElementException();
+        throw new NoSuchElementException();
       }
       this.bufferedRecord = new TwentynewsgroupsCollection.Document(this.ID,From,Subject,Keywords,Organization,s);
     }
