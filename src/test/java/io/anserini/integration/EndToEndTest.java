@@ -241,7 +241,7 @@ public abstract class EndToEndTest extends LuceneTestCase {
     searchArgs.bm25 = true;
 
     // optional
-    searchArgs.topicfield = "title";
+    searchArgs.topicfield = new String[]{"title"};
     searchArgs.searchtweets = false;
     searchArgs.hits = 1000;
     searchArgs.keepstop = false;
