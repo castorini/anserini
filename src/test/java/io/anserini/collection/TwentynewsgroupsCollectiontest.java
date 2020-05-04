@@ -22,13 +22,13 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
 
-public class TwentyNewsgroupsCollectionTest extends DocumentCollectionTest<TwentyNewsgroupsCollection.Document> {
+public class TwentynewsgroupsCollectionTest extends DocumentCollectionTest<TwentynewsgroupsCollection.Document> {
   @Before
   public void setUp() throws Exception {
     super.setUp();
 
     collectionPath = Paths.get("src/test/resources/sample_docs/twentynews/collection1/");
-    collection = new TwentyNewsgroupsCollection(collectionPath);
+    collection = new TwentynewsgroupsCollection(collectionPath);
 
     Path segment1 = Paths.get("src/test/resources/sample_docs/twentynews/collection1/82757");
 
@@ -49,7 +49,7 @@ public class TwentyNewsgroupsCollectionTest extends DocumentCollectionTest<Twent
 
   @Override
   void checkDocument(SourceDocument doc, Map<String, String> expected) {
-    TwentyNewsgroupsCollection.Document Twentynewsgroups = (TwentyNewsgroupsCollection.Document) doc;
+    TwentynewsgroupsCollection.Document Twentynewsgroups = (TwentynewsgroupsCollection.Document) doc;
     assertTrue(doc.indexable());
     assertEquals(expected.get("Id"), doc.id());
     assertEquals(expected.get("From"), Twentynewsgroups.From());

@@ -28,14 +28,14 @@ import java.util.NoSuchElementException;
  * The collection contains 18846 documents, 20 different news sets,each corresponding to a different topic. 
  * stored in plain text format. The collection is 14MB compressed, 35.9MB uncompressed.
  */
-public class TwentyNewsgroupsCollection extends DocumentCollection<TwentyNewsgroupsCollection.Document> {
+public class TwentynewsgroupsCollection extends DocumentCollection<TwentynewsgroupsCollection.Document> {
 
-  public TwentyNewsgroupsCollection(Path path){
+  public TwentynewsgroupsCollection(Path path){
     this.path = path;
   }
 
   @Override
-  public FileSegment<TwentyNewsgroupsCollection.Document> createFileSegment(Path p) throws IOException {
+  public FileSegment<TwentynewsgroupsCollection.Document> createFileSegment(Path p) throws IOException {
     return new Segment(p);
   }
 
@@ -83,7 +83,7 @@ public class TwentyNewsgroupsCollection extends DocumentCollection<TwentyNewsgro
       if (s == "") {
             throw new NoSuchElementException();
       }
-      this.bufferedRecord = new TwentyNewsgroupsCollection.Document(this.ID,From,Subject,Keywords,Organization,s);
+      this.bufferedRecord = new TwentynewsgroupsCollection.Document(this.ID,From,Subject,Keywords,Organization,s);
     }
 
   }
