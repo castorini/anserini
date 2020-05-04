@@ -37,23 +37,23 @@ import java.util.Set;
 /**
  * A document collection for the Trialstreamer dataset modelled after CORD-19.
  */
-public class CovidTrialstreamerCollection extends DocumentCollection<CovidTrialstreamerCollection.Document> {
-  private static final Logger LOG = LogManager.getLogger(CovidTrialstreamerCollection.class);
+public class TrialstreamerCollection extends DocumentCollection<TrialstreamerCollection.Document> {
+  private static final Logger LOG = LogManager.getLogger(TrialstreamerCollection.class);
 
-  public CovidTrialstreamerCollection(Path path){
+  public TrialstreamerCollection(Path path){
     this.path = path;
     this.allowedFileSuffix = Set.of(".csv");
   }
 
   @Override
-  public FileSegment<CovidTrialstreamerCollection.Document> createFileSegment(Path p) throws IOException {
+  public FileSegment<TrialstreamerCollection.Document> createFileSegment(Path p) throws IOException {
     return new Segment(p);
   }
 
   /**
    * A file containing a single CSV document.
    */
-  public class Segment extends FileSegment<CovidTrialstreamerCollection.Document> {
+  public class Segment extends FileSegment<TrialstreamerCollection.Document> {
     CSVParser csvParser = null;
     private CSVRecord record = null;
     private Iterator<CSVRecord> iterator = null; // iterator for CSV records
@@ -79,7 +79,7 @@ public class CovidTrialstreamerCollection extends DocumentCollection<CovidTrials
       if (record == null) {
         throw new NoSuchElementException("Record is empty");
       } else {
-        bufferedRecord = new CovidTrialstreamerCollection.Document(record);
+        bufferedRecord = new TrialstreamerCollection.Document(record);
         if (iterator.hasNext()) { // if CSV contains more lines, we parse the next record
           record = iterator.next();
         } else {
@@ -104,7 +104,7 @@ public class CovidTrialstreamerCollection extends DocumentCollection<CovidTrials
   /**
    * A document in a CORD-19 collection.
    */
-  public class Document extends CovidCollectionDocument {
+  public class Document extends Cord19BaseDocument {
     private JsonNode facets;
 
     public Document(CSVRecord record) {
@@ -113,7 +113,7 @@ public class CovidTrialstreamerCollection extends DocumentCollection<CovidTrials
       content += record.get("abstract").isEmpty() ? "" : "\n" + record.get("abstract");
       this.record = record;
 
-      String fullTextJson = getFullTextJson(CovidTrialstreamerCollection.this.path.toString());
+      String fullTextJson = getFullTextJson(TrialstreamerCollection.this.path.toString());
       if (fullTextJson != null) {
         raw = fullTextJson;
         StringReader fullTextReader = new StringReader(fullTextJson);
