@@ -22,13 +22,13 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
 
-public class TwentynewsgroupsCollectiontest extends DocumentCollectionTest<TwentynewsgroupsCollection.Document> {
+public class TwentyNewsgroupsCollectionTest extends DocumentCollectionTest<TwentyNewsgroupsCollection.Document> {
   @Before
   public void setUp() throws Exception {
     super.setUp();
 
     collectionPath = Paths.get("src/test/resources/sample_docs/twentynews/collection1/");
-    collection = new TwentynewsgroupsCollection(collectionPath);
+    collection = new TwentyNewsgroupsCollection(collectionPath);
 
     Path segment1 = Paths.get("src/test/resources/sample_docs/twentynews/collection1/82757");
 
@@ -40,6 +40,7 @@ public class TwentynewsgroupsCollectiontest extends DocumentCollectionTest<Twent
 
     expected.put("82757",
         Map.of("Id", "82757",
+            "From","dsoconne@quads.uchicago.edu (Daniel S OConnell)",
             "Subject", "Re: Religion and homosexuality",
             "Keywords","being liberal",
             "Organization","University of Chicago",
@@ -48,12 +49,12 @@ public class TwentynewsgroupsCollectiontest extends DocumentCollectionTest<Twent
 
   @Override
   void checkDocument(SourceDocument doc, Map<String, String> expected) {
-    TwentynewsgroupsCollection.Document Twentynewsgroups = (TwentynewsgroupsCollection.Document) doc;
+    TwentyNewsgroupsCollection.Document Twentynewsgroups = (TwentyNewsgroupsCollection.Document) doc;
     assertTrue(doc.indexable());
     assertEquals(expected.get("Id"), doc.id());
     assertEquals(expected.get("From"), Twentynewsgroups.From());
     assertEquals(expected.get("Subject"), Twentynewsgroups.Subject());
-    assertEquals(expected.get("Keyword"), Twentynewsgroups.Keyword());
+    assertEquals(expected.get("Keywords"), Twentynewsgroups.Keywords());
     assertEquals(expected.get("Organization"), Twentynewsgroups.Organization());
     assertEquals(expected.get("Content"), doc.contents());
     assertEquals(expected.get("Content"), doc.raw());
