@@ -27,16 +27,15 @@ import org.apache.lucene.search.DisjunctionMaxQuery;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.TermQuery;
 
-import java.util.ArrayList;
+import java.util.Set;
 import java.util.List;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class StopwordsRemovedQueryGenerator extends QueryGenerator {
 
   // stopword list from 
   // https://github.com/igorbrigadir/stopwords/edit/master/en/galago_inquery.txt
-  private static String [] = {
+  private static final Set<String> STOPWORDS = Set.of(
     "a", "about", "above", "according", "across", "after", "afterwards", "again", 
     "against", "albeit", "all", "almost", "alone", "along", "already", "also", "although", 
     "always", "am", "among", "amongst", "an", "and", "another", "any", "anybody", "anyhow", 
@@ -83,7 +82,7 @@ public class StopwordsRemovedQueryGenerator extends QueryGenerator {
     "whoever", "whole", "whom", "whomever", "whomsoever", "whose", "whosoever", "why", "will", 
     "wilt", "with", "within", "without", "worse", "worst", "would", "wow", "ye", "year", "yet", 
     "yippee", "you", "your", "yours", "yourself", "yourselves"
-  };
+  );
   
 
   @Override
@@ -92,7 +91,7 @@ public class StopwordsRemovedQueryGenerator extends QueryGenerator {
     List<String> tokens = AnalyzerUtils.analyze(analyzer, queryText);
     BooleanQuery.Builder builder = new BooleanQuery.Builder();
     for (String t : tokens) {
-      if (arr.contains(t)){ // ignore stopwords 
+      if (STOPWORDS.contains(t)){ // ignore stopwords 
         continue;
       }
       builder.add(new TermQuery(new Term(field, t)), BooleanClause.Occur.SHOULD);
