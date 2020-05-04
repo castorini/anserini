@@ -87,11 +87,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -648,6 +644,7 @@ public final class IndexCollection {
     LOG.info("Threads: " + args.threads);
     LOG.info("Stemmer: " + args.stemmer);
     LOG.info("Keep stopwords? " + args.keepStopwords);
+    LOG.info("Stopwords:  " + args.stopwords);
     LOG.info("Store positions? " + args.storePositions);
     LOG.info("Store docvectors? " + args.storeDocvectors);
     LOG.info("Store document \"contents\" field? " + args.storeContents);
@@ -738,9 +735,16 @@ public final class IndexCollection {
       final BengaliAnalyzer bengaliAnalyzer = new BengaliAnalyzer();
       final GermanAnalyzer germanAnalyzer = new GermanAnalyzer();
       final SpanishAnalyzer spanishAnalyzer = new SpanishAnalyzer();
-      final DefaultEnglishAnalyzer analyzer = args.keepStopwords ?
-          DefaultEnglishAnalyzer.newStemmingInstance(args.stemmer, CharArraySet.EMPTY_SET) :
-          DefaultEnglishAnalyzer.newStemmingInstance(args.stemmer);
+      final DefaultEnglishAnalyzer analyzer;
+      if (args.keepStopwords) {
+        analyzer = DefaultEnglishAnalyzer.newStemmingInstance(args.stemmer, CharArraySet.EMPTY_SET);
+      } else if (args.stopwords != null) {
+        final List<String> stopWords = FileUtils.readLines(new File(args.stopwords), "utf-8");
+        final CharArraySet stopWordsSet = new CharArraySet(stopWords, false);
+        analyzer = DefaultEnglishAnalyzer.newStemmingInstance(args.stemmer, CharArraySet.unmodifiableSet(stopWordsSet));
+      } else {
+        analyzer = DefaultEnglishAnalyzer.newStemmingInstance(args.stemmer);
+      }
       final TweetAnalyzer tweetAnalyzer = new TweetAnalyzer(args.tweetStemming);
 
       final IndexWriterConfig config;
