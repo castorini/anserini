@@ -89,6 +89,10 @@ public class IndexArgs {
       usage = "Boolean switch to keep stopwords.")
   public boolean keepStopwords = false;
 
+  @Option(name = "-stopwords", metaVar = "[file]", forbids = "-keepStopwords",
+      usage = "Path to file with stopwords.")
+  public String stopwords = null;
+
   @Option(name = "-stemmer", metaVar = "[stemmer]",
       usage = "Stemmer: one of the following {porter, krovetz, none}; defaults to 'porter'.")
   public String stemmer = "porter";

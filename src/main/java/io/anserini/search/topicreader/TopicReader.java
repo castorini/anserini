@@ -71,7 +71,8 @@ public abstract class TopicReader<K> {
       Map.entry("topics.fire12bn.176-225.txt", TrecTopicReader.class),
       Map.entry("topics.fire12hi.176-225.txt", TrecTopicReader.class),
       Map.entry("topics.fire12en.176-225.txt", TrecTopicReader.class),
-      Map.entry("topics.covid-round1.xml", CovidTopicReader.class)
+      Map.entry("topics.covid-round1.xml", CovidTopicReader.class),
+      Map.entry("topics.covid-round2.xml", CovidTopicReader.class)
   );
 
   /**
