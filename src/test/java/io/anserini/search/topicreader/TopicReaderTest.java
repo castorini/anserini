@@ -597,6 +597,10 @@ public class TopicReaderTest {
     assertEquals(
         "seeking specific information on clinical outcomes in COVID-19 patients treated with remdesivir",
         topics.get(30).get("narrative"));
+
+    topics = TopicReader.getTopics(Topics.COVID_ROUND2);
+
+    assertEquals(35, topics.keySet().size());
   }
 
   @Test
@@ -618,6 +622,9 @@ public class TopicReaderTest {
     assertEquals(
         "seeking specific information on clinical outcomes in COVID-19 patients treated with remdesivir",
         topics.get("30").get("narrative"));
-  }
 
+    topics = TopicReader.getTopicsWithStringIds(Topics.COVID_ROUND2);
+
+    assertEquals(35, topics.keySet().size());
+  }
 }
