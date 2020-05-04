@@ -18,10 +18,8 @@ package io.anserini.search.query;
 
 import io.anserini.index.IndexCollection;
 import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.PhraseQuery;
 import org.apache.lucene.search.Query;
-import org.apache.lucene.search.TermQuery;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

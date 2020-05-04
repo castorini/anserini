@@ -19,12 +19,13 @@ package io.anserini.search.query;
 import io.anserini.analysis.AnalyzerUtils;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.index.Term;
-import org.apache.lucene.search.*;
+import org.apache.lucene.search.PhraseQuery;
+import org.apache.lucene.search.Query;
 
 import java.util.List;
 
 /*
- * Bag of Terms query builder
+ * Phrase query generator
  */
 public class PhraseQueryGenerator extends QueryGenerator {
   @Override
