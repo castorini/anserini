@@ -55,6 +55,9 @@ public class SearchArgs {
       "index created by IndexCollection -collection TweetCollection")
   public Boolean searchtweets = false;
 
+  @Option(name = "-queryconstructor", usage = "specify which query generator to be used ")
+  public String queryconstructor = "BagOfTerms";
+
   @Option(name = "-backgroundlinking", usage = "performs the background linking task as part of the TREC News Track")
   public Boolean backgroundlinking = false;
 
