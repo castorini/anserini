@@ -19,7 +19,9 @@ package io.anserini.search;
 import io.anserini.IndexerTestBase;
 import io.anserini.index.IndexArgs;
 import io.anserini.search.SimpleSearcher.Result;
+import io.anserini.search.query.PhraseQueryGenerator;
 import org.apache.lucene.index.Term;
+import org.apache.lucene.search.Query;
 import org.apache.lucene.search.TermQuery;
 import org.junit.Test;
 
@@ -245,6 +247,14 @@ public class SimpleSearcherTest extends IndexerTestBase {
     assertEquals(1, hits.get("query_contents").length);
     assertEquals("doc3", hits.get("query_contents")[0].docid);
 
+    searcher.close();
+  }
+
+  @Test
+  public void testPhraseDf() throws Exception {
+    SimpleSearcher searcher = new SimpleSearcher(super.tempDir1.toString());
+    assertEquals(searcher.phraseDf("some more"), 1);
+    assertEquals(searcher.phraseDf("more"), 2);
     searcher.close();
   }
 }
