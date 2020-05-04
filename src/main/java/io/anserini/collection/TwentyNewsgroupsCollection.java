@@ -24,9 +24,10 @@ import java.nio.file.Path;
 import java.util.NoSuchElementException;
 
 /**
- * An instance of the <a href="http://people.csail.mit.edu/jrennie/20Newsgroups">20 Newsgroup by date</a>.
- * The collection contains 18846 documents, 20 different news sets,each corresponding to a different topic. 
- * stored in plain text format. The collection is 14MB compressed, 35.9MB uncompressed.
+ * An instance of the <a href="http://people.csail.mit.edu/jrennie/20Newsgroups">20 Newsgroup</a>.
+ * The collection contains 18846 documents, 20 different news sets,each corresponding to a different topic.
+ * The dataset version we use is the 20news-by-date one which is sorted by date.
+ * stored in plain text format. The collection is 14.5MB compressed, 35.9MB uncompressed.
  */
 public class TwentyNewsgroupsCollection extends DocumentCollection<TwentyNewsgroupsCollection.Document> {
 
@@ -40,8 +41,8 @@ public class TwentyNewsgroupsCollection extends DocumentCollection<TwentyNewsgro
   }
 
   /**
-   * A file containing one document from the <a href="http://people.csail.mit.edu/jrennie/20Newsgroups">20 Newsgroup by date</a>.
-   * The file Name which is the Id of that document.
+   * A file containing one document from the <a href="http://people.csail.mit.edu/jrennie/20Newsgroups">20 Newsgroup</a>.
+   * The file Name which is the id of that document.
    */
   public static class Segment extends FileSegment<Document> {
     private String fileName;
@@ -65,23 +66,23 @@ public class TwentyNewsgroupsCollection extends DocumentCollection<TwentyNewsgro
       String contents = "";
 
       while ((record = bufferedReader.readLine())!=null){
-            String parts[] = record.split(" ", 2);
+        String parts[] = record.split(" ", 2);
 
-            if (record.startsWith("From: ")) {     
-              from = parts[1];
-            } else if (record.startsWith("Subject: ")) {
-              subject = parts[1];
-            } else if (record.startsWith("Keywords: ")) {
-              keywords = parts[1];
-            } else if (record.startsWith("Organization: ")) {
-              organization = parts[1];
-            }
+        if (record.startsWith("From: ")) {
+          from = parts[1];
+        } else if (record.startsWith("Subject: ")) {
+          subject = parts[1];
+        } else if (record.startsWith("Keywords: ")) {
+          keywords = parts[1];
+        } else if (record.startsWith("Organization: ")) {
+          organization = parts[1];
+        }
 
-            if (contents!="") {
-              contents = contents+"\n"+record;
-            } else {
-              contents = record;
-            }
+        if (contents!="") {
+          contents = contents+"\n"+record;
+        } else {
+          contents = record;
+        }
       }
       
       if (contents == "") {
@@ -92,7 +93,7 @@ public class TwentyNewsgroupsCollection extends DocumentCollection<TwentyNewsgro
 
   }
   /**
-   * A document from the <a href="http://people.csail.mit.edu/jrennie/20Newsgroups">20 Newsgroup by date</a>.
+   * A document from the <a href="http://people.csail.mit.edu/jrennie/20Newsgroups">20 Newsgroup</a>.
    */
   public static class Document implements SourceDocument {
     protected String id;
