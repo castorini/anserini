@@ -94,9 +94,11 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.concurrent.Executors;
@@ -162,7 +164,16 @@ public final class SearchCollection implements Closeable {
         PrintWriter out = new PrintWriter(Files.newBufferedWriter(Paths.get(outputPath), StandardCharsets.US_ASCII));
         for (Map.Entry<K, Map<String, String>> entry : topics.entrySet()) {
           K qid = entry.getKey();
-          String queryString = entry.getValue().get(args.topicfield);
+
+          String queryString = "";
+          if (args.topicfield.contains("+")) {
+            for (String field : args.topicfield.split("\\+")) {
+              queryString += " " + entry.getValue().get(field);
+            }
+          } else {
+            queryString = entry.getValue().get(args.topicfield);
+          }
+
           ScoredDocuments docs;
           if (args.searchtweets) {
             docs = searchTweets(this.searcher, qid, queryString, Long.parseLong(entry.getValue().get("time")), cascade);
@@ -172,6 +183,9 @@ public final class SearchCollection implements Closeable {
             docs = search(this.searcher, qid, queryString, cascade);
           }
 
+          // For removing duplicate docids.
+          Set<String> docids = new HashSet<>();
+
           /*
            * the first column is the topic number.
            * the second column is currently unused and should always be "Q0".
@@ -180,9 +194,27 @@ public final class SearchCollection implements Closeable {
            * the fifth column shows the score (integer or floating point) that generated the ranking.
            * the sixth column is called the "run tag" and should be a unique identifier for your
            */
+          int rank = 1;
           for (int i = 0; i < docs.documents.length; i++) {
-            out.println(String.format(Locale.US, "%s Q0 %s %d %f %s", qid,
-                docs.documents[i].getField(IndexArgs.ID).stringValue(), (i + 1), docs.scores[i], runTag));
+            String docid = docs.documents[i].get(IndexArgs.ID);
+
+            if (args.strip_segment_id) {
+              docid = docid.split("\\.")[0];
+            }
+
+            if (docids.contains(docid))
+              continue;
+
+            out.println(String.format(Locale.US, "%s Q0 %s %d %f %s",
+                qid, docid, rank, docs.scores[i], runTag));
+
+            // Note that this option is set to false by default because duplicate documents usually indicate some
+            // underlying indexing issues, and we don't want to just eat errors silently.
+            if (args.removedups) {
+              docids.add(docid);
+            }
+
+            rank++;
           }
           cnt++;
           if (cnt % 100 == 0) {
