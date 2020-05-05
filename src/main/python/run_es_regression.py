@@ -32,6 +32,7 @@ ch.setFormatter(logging.Formatter('%(asctime)s %(levelname)s - %(message)s'))
 logger.addHandler(ch)
 logger.setLevel(logging.INFO)
 
+
 class ElasticsearchClient:
     def __init__(self):
         pass
@@ -40,38 +41,51 @@ class ElasticsearchClient:
         try:
             response = requests.get('http://localhost:9200/')
             response.raise_for_status()
-        except: return False
-        else: return True
+        except:
+            return False
+        else:
+            return True
 
     def does_index_exist(self, collection):
         # Make sure ES is alive:
         if self.is_alive():
             try:
-                response = requests.get('http://localhost:9200/{}'.format(collection))
+                response = requests.get(
+                    'http://localhost:9200/{}'.format(collection))
                 response.raise_for_status()
-            except: return False
-            else: return True
-        else: raise Exception('ES does not appear to be alive!')
+            except:
+                return False
+            else:
+                return True
+        else:
+            raise Exception('ES does not appear to be alive!')
 
     def delete_index(self, collection):
         logger.info('Deleting index {}...'.format(collection))
         # Make sure the index exists:
         if self.does_index_exist(collection):
             try:
-                response = requests.request('DELETE', url='http://localhost:9200/{}'.format(collection))
+                response = requests.request(
+                    'DELETE', url='http://localhost:9200/{}'.format(collection))
                 response.raise_for_status()
-            except: return False
-            else: return True
-        else: raise Exception('The index {} does not exist!'.format(collection))
+            except:
+                return False
+            else:
+                return True
+        else:
+            raise Exception('The index {} does not exist!'.format(collection))
 
     def create_index(self, collection):
         logger.info('Creating index {}...'.format(collection))
         # Make sure the index does not exist:
         if not self.does_index_exist(collection):
-            filename = 'src/main/resources/elasticsearch/index-config.{}.json'.format(collection)
+            filename = 'src/main/resources/elasticsearch/index-config.{}.json'.format(
+                collection)
             if not os.path.exists(filename):
-                raise Exception('No config found in src/main/resources/elasticsearch/ for {}!'.format(collection))
-            logger.info('Using index config for {} at {}'.format(collection, filename))
+                raise Exception(
+                    'No config found in src/main/resources/elasticsearch/ for {}!'.format(collection))
+            logger.info('Using index config for {} at {}'.format(
+                collection, filename))
             with open(filename, mode='r') as file:
                 json = file.read()
             try:
@@ -87,7 +101,8 @@ class ElasticsearchClient:
             raise Exception('The index {} already exists!'.format(collection))
 
     def insert_docs(self, collection, path):
-        logger.info('Inserting documents from {} into {}... '.format(path, collection))
+        logger.info(
+            'Inserting documents from {} into {}... '.format(path, collection))
         if not os.path.exists(args.input):
             raise Exception('{} does not exist!'.format(args.input))
         if not self.does_index_exist(collection):
@@ -106,6 +121,10 @@ class ElasticsearchClient:
             command = 'sh target/appassembler/bin/IndexCollection -collection WashingtonPostCollection ' + \
                       '-generator WashingtonPostGenerator -es -es.index core18 -threads 8 -input ' + \
                       path + ' -storePositions -storeDocvectors -storeContents'
+        elif collection == 'msmarco-doc':
+            command = 'sh target/appassembler/bin/IndexCollection -collection CleanTrecCollection ' + \
+                      '-generator DefaultLuceneDocumentGenerator -es -es.index msmarco-doc -threads 1 -input ' + \
+                      path + ' -storePositions -storeDocvectors -storeRaw'
         else:
             raise Exception('Unknown collection: {}'.format(collection))
         logger.info('Running indexing command: ' + command)
@@ -128,6 +147,10 @@ class ElasticsearchClient:
             command = 'sh target/appassembler/bin/SearchElastic -topicreader Trec -es.index core18 ' + \
                       '-topics src/main/resources/topics-and-qrels/topics.core18.txt ' + \
                       '-output runs/run.es.core18.bm25.topics.core18.txt'
+        elif collection == 'msmarco-doc':
+            command = 'sh target/appassembler/bin/SearchElastic -topicreader TsvInt -es.index msmarco-doc ' + \
+                      '-topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt ' + \
+                      '-output runs/run.es.msmarco-doc.txt'
         else:
             raise Exception('Unknown collection: {}'.format(collection))
 
@@ -144,34 +167,55 @@ class ElasticsearchClient:
         elif collection == 'core18':
             command = 'eval/trec_eval.9.0.4/trec_eval -m map -m P.30 ' + \
                       'src/main/resources/topics-and-qrels/qrels.core18.txt runs/run.es.core18.bm25.topics.core18.txt'
+        elif collection == 'msmarco-doc':
+            command = 'eval/trec_eval.9.0.4/trec_eval -c -mrecall.1000 -mmap ' + \
+                      'src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.es.msmarco-doc.txt'
         else:
             raise Exception('Unknown collection: {}'.format(collection))
 
         logger.info('Evaluation command: ' + command)
-        output = regression_utils.run_shell_command(command, logger, capture=True)
+        output = regression_utils.run_shell_command(
+            command, logger, capture=True)
         ap = float(output[0].split('\t')[2])
 
         expected = 0
-        if collection == 'robust04': expected = 0.2531
-        elif collection == 'msmarco-passage': expected = 0.1956
-        elif collection == 'core18': expected = 0.2495
-        else: raise Exception('Unknown collection: {}'.format(collection))
+        if collection == 'robust04':
+            expected = 0.2531
+        elif collection == 'msmarco-passage':
+            expected = 0.1956
+        elif collection == 'core18':
+            expected = 0.2495
+        elif collection == 'msmarco-doc':
+            expected = 0.2308
+        else:
+            raise Exception('Unknown collection: {}'.format(collection))
 
-        if math.isclose(ap, expected): logger.info('[SUCESS] {} MAP verified as expected!'.format(ap))
-        else: logger.info('[FAILED] {} MAP, expected {} MAP!'.format(ap, expected))
-
+        if math.isclose(ap, expected):
+            logger.info('[SUCESS] {} MAP verified as expected!'.format(ap))
+        else:
+            logger.info(
+                '[FAILED] {} MAP, expected {} MAP!'.format(ap, expected))
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Program for running Elasticsearch regressions.')
-    parser.add_argument('--ping', action='store_true', default=False, help='ping ES and exit')
-    parser.add_argument('--check-index-exists', default='', type=str, metavar='collection', help='check if index exists')
-    parser.add_argument('--delete-index', default='', type=str, metavar='collection', help='deletes index')
-    parser.add_argument('--create-index', default='', type=str, metavar='collection', help='creates index')
-    parser.add_argument('--insert-docs', default='', type=str, metavar='collection', help='insert documents into index')
-    parser.add_argument('--input', default='', type=str, metavar='directory', help='location of documents to insert into index')
-    parser.add_argument('--evaluate', default='', type=str, metavar='collection', help='search and evaluate on collection')
-    parser.add_argument('--regression', default='', type=str, metavar='collection', help='run end-to-end regression')
+    parser = argparse.ArgumentParser(
+        description='Program for running Elasticsearch regressions.')
+    parser.add_argument('--ping', action='store_true',
+                        default=False, help='ping ES and exit')
+    parser.add_argument('--check-index-exists', default='', type=str,
+                        metavar='collection', help='check if index exists')
+    parser.add_argument('--delete-index', default='', type=str,
+                        metavar='collection', help='deletes index')
+    parser.add_argument('--create-index', default='', type=str,
+                        metavar='collection', help='creates index')
+    parser.add_argument('--insert-docs', default='', type=str,
+                        metavar='collection', help='insert documents into index')
+    parser.add_argument('--input', default='', type=str, metavar='directory',
+                        help='location of documents to insert into index')
+    parser.add_argument('--evaluate', default='', type=str,
+                        metavar='collection', help='search and evaluate on collection')
+    parser.add_argument('--regression', default='', type=str,
+                        metavar='collection', help='run end-to-end regression')
 
     args = parser.parse_args()
     es = ElasticsearchClient()
@@ -183,7 +227,8 @@ if __name__ == '__main__':
         else:
             logger.info('... appears to dead! :(')
     elif args.check_index_exists:
-        logger.info('Checking if index {} exists...'.format(args.check_index_exists))
+        logger.info('Checking if index {} exists...'.format(
+            args.check_index_exists))
         if es.does_index_exist(args.check_index_exists):
             logger.info('... yes indeed!')
         else:
@@ -212,7 +257,8 @@ if __name__ == '__main__':
         if not es.is_alive():
             raise Exception('Elasticsearch does not appear to be alive!')
         if es.does_index_exist(args.regression):
-            logger.info('Index {} already exists: deleting and recreating.'.format(args.regression))
+            logger.info(
+                'Index {} already exists: deleting and recreating.'.format(args.regression))
             es.delete_index(args.regression)
         es.create_index(args.regression)
         es.insert_docs(args.regression, args.input)
