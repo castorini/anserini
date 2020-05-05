@@ -583,7 +583,6 @@ public class TopicReaderTest {
     Map<String, Map<String, String>> topics;
 
     topics = TopicReader.getTopics(Topics.COVID_ROUND1);
-
     assertEquals(30, topics.keySet().size());
 
     assertEquals("coronavirus origin", topics.get(1).get("query"));
@@ -599,8 +598,19 @@ public class TopicReaderTest {
         topics.get(30).get("narrative"));
 
     topics = TopicReader.getTopics(Topics.COVID_ROUND2);
-
     assertEquals(35, topics.keySet().size());
+
+    assertEquals("coronavirus remdesivir", topics.get(30).get("query"));
+
+    topics = TopicReader.getTopics(Topics.COVID_ROUND1_UDEL);
+    assertEquals(30, topics.keySet().size());
+
+    assertEquals("coronavirus remdesivir remdesivir effective treatment COVID-19", topics.get(30).get("query"));
+
+    topics = TopicReader.getTopics(Topics.COVID_ROUND2_UDEL);
+    assertEquals(35, topics.keySet().size());
+
+    assertEquals("coronavirus public datasets public datasets COVID-19", topics.get(35).get("query"));
   }
 
   @Test
@@ -624,7 +634,18 @@ public class TopicReaderTest {
         topics.get("30").get("narrative"));
 
     topics = TopicReader.getTopicsWithStringIds(Topics.COVID_ROUND2);
-
     assertEquals(35, topics.keySet().size());
+
+    assertEquals("coronavirus remdesivir", topics.get("30").get("query"));
+
+    topics = TopicReader.getTopicsWithStringIds(Topics.COVID_ROUND1_UDEL);
+    assertEquals(30, topics.keySet().size());
+
+    assertEquals("coronavirus remdesivir remdesivir effective treatment COVID-19", topics.get("30").get("query"));
+
+    topics = TopicReader.getTopicsWithStringIds(Topics.COVID_ROUND2_UDEL);
+    assertEquals(35, topics.keySet().size());
+
+    assertEquals("coronavirus public datasets public datasets COVID-19", topics.get("35").get("query"));
   }
 }
