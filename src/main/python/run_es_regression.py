@@ -1,10 +1,13 @@
 # -*- coding: utf-8 -*-
 '''
 Anserini: A Lucene toolkit for replicable information retrieval research
+
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
+
 http://www.apache.org/licenses/LICENSE-2.0
+
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -166,7 +169,7 @@ class ElasticsearchClient:
         elif collection == 'msmarco-doc': expected = 0.2308
         else: raise Exception('Unknown collection: {}'.format(collection))
 
-        if math.isclose(ap, expected): logger.info('[SUCCESS] {} MAP verified as expected!'.format(ap))
+        if math.isclose(ap, expected): logger.info('[SUCESS] {} MAP verified as expected!'.format(ap))
         else: logger.info('[FAILED] {} MAP, expected {} MAP!'.format(ap, expected))
 
 
