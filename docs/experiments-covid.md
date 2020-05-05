@@ -5,7 +5,7 @@ Here, we focus on running retrieval experiments; for basic instructions on build
 
 ## Round 1
 
-tl;dr - here are the runs that can be easily replicated with Anserini, from pre-built indexes available [here](https://github.com/castorini/anserini/blob/trec-covid-baselines/docs/experiments-cord19.md#pre-built-indexes-all-versions):
+tl;dr - here are the runs that can be easily replicated with Anserini, from pre-built indexes available [here](experiments-cord19.md#pre-built-indexes-all-versions):
 
 |    | index     | field(s)                 | nDCG@10 | Recall@1000 |
 |---:|:----------|:-------------------------|--------:|------------:|
