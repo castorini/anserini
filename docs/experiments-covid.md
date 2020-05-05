@@ -3,9 +3,9 @@
 This document describes various baselines for the [TREC-COVID Challenge](https://ir.nist.gov/covidSubmit/), which uses the [COVID-19 Open Research Dataset (CORD-19)](https://pages.semanticscholar.org/coronavirus-research) from the [Allen Institute for AI](https://allenai.org/).
 Here, we focus on running retrieval experiments; for basic instructions on building Anserini indexes, see [this page](experiments-cord19.md).
 
-## Round 1 Runs
+## Round 1
 
-tl;dr - here are the runs that can be easily replicated with Anserini:
+tl;dr - here are the runs that can be easily replicated with Anserini, from pre-built indexes available [here](https://github.com/castorini/anserini/blob/trec-covid-baselines/docs/experiments-cord19.md#pre-built-indexes-all-versions):
 
 |    | index     | field(s)                 | ndcg@10 |
 |---:|:----------|:-------------------------|--------:|
@@ -27,7 +27,9 @@ tl;dr - here are the runs that can be easily replicated with Anserini:
 | 16 | -         | reciprocal rank fusion(3, 8, 13)  | 0.5716 |
 | 17 | -         | reciprocal rank fusion(5, 10, 15) | 0.6019 |
 
-The "query (UDel)" condition represents the query generator from run [`udel_fang_run3`](https://ir.nist.gov/covidSubmit/archive/round1/udel_fang_run3.pdf), contributed to the repo as part of commit [`0d4bcd5`](https://github.com/castorini/anserini/commit/0d4bcd55370295ff72605d718dbab5be40d246d9)
+The "query (UDel)" condition represents the query generator from run [`udel_fang_run3`](https://ir.nist.gov/covidSubmit/archive/round1/udel_fang_run3.pdf), contributed to the repo as part of commit [`0d4bcd5`](https://github.com/castorini/anserini/commit/0d4bcd55370295ff72605d718dbab5be40d246d9).
+Ablation analyses by [lukuang](https://github.com/lukuang) revealed that the query generator provides the greatest contribution, and results above exceed `udel_fang_run3` (thus making exact replication unnecessary).
+
 For reference, the best automatic run is run [`sab20.1.meta.docs`](https://ir.nist.gov/covidSubmit/archive/round1/sab20.1.meta.docs.pdf) with NDCG@10 0.6080.
 
 Caveats:
