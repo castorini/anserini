@@ -1,13 +1,10 @@
 # -*- coding: utf-8 -*-
 '''
 Anserini: A Lucene toolkit for replicable information retrieval research
-
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
-
 http://www.apache.org/licenses/LICENSE-2.0
-
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -106,6 +103,10 @@ class ElasticsearchClient:
             command = 'sh target/appassembler/bin/IndexCollection -collection WashingtonPostCollection ' + \
                       '-generator WashingtonPostGenerator -es -es.index core18 -threads 8 -input ' + \
                       path + ' -storePositions -storeDocvectors -storeContents'
+        elif collection == 'msmarco-doc':
+             command = 'sh target/appassembler/bin/IndexCollection -collection CleanTrecCollection ' + \
+                       '-generator DefaultLuceneDocumentGenerator -es -es.index msmarco-doc -threads 1 -input ' + \
+                       path + ' -storePositions -storeDocvectors -storeRaw'
         else:
             raise Exception('Unknown collection: {}'.format(collection))
         logger.info('Running indexing command: ' + command)
@@ -128,6 +129,10 @@ class ElasticsearchClient:
             command = 'sh target/appassembler/bin/SearchElastic -topicreader Trec -es.index core18 ' + \
                       '-topics src/main/resources/topics-and-qrels/topics.core18.txt ' + \
                       '-output runs/run.es.core18.bm25.topics.core18.txt'
+        elif collection == 'msmarco-doc':
+             command = 'sh target/appassembler/bin/SearchElastic -topicreader TsvInt -es.index msmarco-doc ' + \
+                       '-topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt ' + \
+                       '-output runs/run.es.msmarco-doc.txt'
         else:
             raise Exception('Unknown collection: {}'.format(collection))
 
@@ -144,6 +149,9 @@ class ElasticsearchClient:
         elif collection == 'core18':
             command = 'eval/trec_eval.9.0.4/trec_eval -m map -m P.30 ' + \
                       'src/main/resources/topics-and-qrels/qrels.core18.txt runs/run.es.core18.bm25.topics.core18.txt'
+        elif collection == 'msmarco-doc':
+             command = 'eval/trec_eval.9.0.4/trec_eval -c -mrecall.1000 -mmap ' + \
+                       'src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.es.msmarco-doc.txt'
         else:
             raise Exception('Unknown collection: {}'.format(collection))
 
@@ -155,9 +163,10 @@ class ElasticsearchClient:
         if collection == 'robust04': expected = 0.2531
         elif collection == 'msmarco-passage': expected = 0.1956
         elif collection == 'core18': expected = 0.2495
+        elif collection == 'msmarco-doc': expected = 0.2308
         else: raise Exception('Unknown collection: {}'.format(collection))
 
-        if math.isclose(ap, expected): logger.info('[SUCESS] {} MAP verified as expected!'.format(ap))
+        if math.isclose(ap, expected): logger.info('[SUCCESS] {} MAP verified as expected!'.format(ap))
         else: logger.info('[FAILED] {} MAP, expected {} MAP!'.format(ap, expected))
 
 
