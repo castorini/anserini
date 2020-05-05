@@ -7,30 +7,38 @@ Here, we focus on running retrieval experiments; for basic instructions on build
 
 tl;dr - here are the runs that can be easily replicated with Anserini, from pre-built indexes available [here](https://github.com/castorini/anserini/blob/trec-covid-baselines/docs/experiments-cord19.md#pre-built-indexes-all-versions):
 
-|    | index     | field(s)                 | ndcg@10 |
-|---:|:----------|:-------------------------|--------:|
-|  1 | abstract  | query                    |  0.4100 |
-|  2 | abstract  | question                 |  0.5179 |
-|  3 | abstract  | query+question           |  0.5514 |
-|  4 | abstract  | query+question+narrative |  0.5294 |
-|  5 | abstract  | query (UDel)             |  0.5824 |
-|  6 | full-text | query                    |  0.3900 |
-|  7 | full-text | question                 |  0.3439 |
-|  8 | full-text | query+question           |  0.4064 |
-|  9 | full-text | query+question+narrative |  0.3280 |
-| 10 | full-text | query (UDel)             |  0.5407 |
-| 11 | paragraph | query                    |  0.4302 |
-| 12 | paragraph | question                 |  0.4410 |
-| 13 | paragraph | query+question           |  0.5450 |
-| 14 | paragraph | query+question+narrative |  0.4899 |
-| 15 | paragraph | query (UDel)             |  0.5544 |
-| 16 | -         | reciprocal rank fusion(3, 8, 13)  | 0.5716 |
-| 17 | -         | reciprocal rank fusion(5, 10, 15) | 0.6019 |
+|    | index     | field(s)                 | nDCG@10 | Recall@1000 |
+|---:|:----------|:-------------------------|--------:|------------:|
+|  1 | abstract  | query                    |  0.4100 | 0.5279 |
+|  2 | abstract  | question                 |  0.5179 | 0.6313 |
+|  3 | abstract  | query+question           |  0.5514 | 0.6989 |
+|  4 | abstract  | query+question+narrative |  0.5294 | 0.6929 |
+|  5 | abstract  | query (UDel)             |  0.5824 | 0.6927 |
+|  6 | full-text | query                    |  0.3900 | 0.6277 |
+|  7 | full-text | question                 |  0.3439 | 0.6389 |
+|  8 | full-text | query+question           |  0.4064 | 0.6714 |
+|  9 | full-text | query+question+narrative |  0.3280 | 0.6591 |
+| 10 | full-text | query (UDel)             |  0.5407 | 0.7214 |
+| 11 | paragraph | query                    |  0.4302 | 0.4327 |
+| 12 | paragraph | question                 |  0.4410 | 0.5111 |
+| 13 | paragraph | query+question           |  0.5450 | 0.5743 |
+| 14 | paragraph | query+question+narrative |  0.4899 | 0.5918 |
+| 15 | paragraph | query (UDel)             |  0.5544 | 0.5640 |
+| 16 | -         | reciprocal rank fusion(3, 8, 13)  | 0.5716 | 0.8117 |
+| 17 | -         | reciprocal rank fusion(5, 10, 15) | 0.6019 | 0.8121 |
 
 The "query (UDel)" condition represents the query generator from run [`udel_fang_run3`](https://ir.nist.gov/covidSubmit/archive/round1/udel_fang_run3.pdf), contributed to the repo as part of commit [`0d4bcd5`](https://github.com/castorini/anserini/commit/0d4bcd55370295ff72605d718dbab5be40d246d9).
 Ablation analyses by [lukuang](https://github.com/lukuang) revealed that the query generator provides the greatest contribution, and results above exceed `udel_fang_run3` (thus making exact replication unnecessary).
 
-For reference, the best automatic run is run [`sab20.1.meta.docs`](https://ir.nist.gov/covidSubmit/archive/round1/sab20.1.meta.docs.pdf) with NDCG@10 0.6080.
+For reference, the best automatic run is run [`sab20.1.meta.docs`](https://ir.nist.gov/covidSubmit/archive/round1/sab20.1.meta.docs.pdf) with nDCG@10 0.6080.
+
+Why report nDCG@10 and Recall@1000?
+The first is one of the metrics used by the organizers.
+Given the pool depth of seven, nDCG@10 should be okay-ish, from the perspective of missing judgments, and nDCG is better than P@k since it captures relevance grades.
+Average precision is _not_ included intentionally because of the shallow judgment pool, and hence likely to be very noisy.
+Recall@1000 captures the upper bound potential of downstream rerankers.
+Note that recall under the paragraph index isn't very good because of duplicates.
+Multiple paragraphs from the same article are retrieved, and duplicates are discarded; we start with top 1k hits, but end up with far fewer results per topic.
 
 Caveats:
 
