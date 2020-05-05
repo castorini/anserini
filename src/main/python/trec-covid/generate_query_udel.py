@@ -110,9 +110,16 @@ if __name__ == '__main__':
             elif q.tag == 'question':
                 question = q.text.strip()
                 new += [w.text for w in nlp(question).ents]
+
+        tags_to_be_removed = []
         for q in topic:
             if q.tag == 'query':
                 q.text = ' '.join(new)
+            else:
+                tags_to_be_removed.append(q)
+
+        for tag in tags_to_be_removed:
+            topic.remove(tag)
 
     with open(args.output_file,'wb') as f:
         f.write(etree.tostring(root))
