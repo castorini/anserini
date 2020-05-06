@@ -390,26 +390,6 @@ public class SimpleSearcher implements Closeable {
   }
 
   /**
-   * Constructs a phrase query and uses the TotalHitCountCollector to find the number of documents
-   * containing the phrase.
-   *
-   * @param phrase
-   * @return Number of document containing phrase
-   * @throws IOException
-   */
-  public int phraseDf(String phrase) throws IOException {
-    PhraseQueryGenerator generator = new PhraseQueryGenerator();
-    Query query = generator.buildQuery(IndexArgs.CONTENTS, analyzer, phrase);
-    TotalHitCountCollector totalHitCountCollector = new TotalHitCountCollector();
-    if (searcher == null) {
-      searcher = new IndexSearcher(reader);
-      searcher.setSimilarity(similarity);
-    }
-    searcher.search(query, totalHitCountCollector);
-    return totalHitCountCollector.getTotalHits();
-  }
-
-  /**
    * Fetches the Lucene {@link Document} based on an internal Lucene docid.
    * The method is named to be consistent with Lucene's {@link IndexReader#document(int)}, contra Java's standard
    * method naming conventions.
