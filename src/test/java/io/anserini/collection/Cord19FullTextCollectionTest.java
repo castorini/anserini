@@ -50,8 +50,8 @@ public class Cord19FullTextCollectionTest extends DocumentCollectionTest<Cord19F
     doc1.put("contents_ends_with", "The pre-publication history for this paper can be accessed here:\n");
     doc1.put("contents_length", "22834");
     doc1.put("has_full_text", "true");
-    doc1.put("metadata_length", "2426");
-    doc1.put("raw_length", "48090");
+    doc1.put("metadata_length", "2352");
+    doc1.put("raw_length", "48016");
     expected.put("xqhn0vbp", doc1);
 
     // In the 2020/04/10 version, has_pdf_parse=FALSE, has_pmc_xml_parse=FALSE
@@ -62,8 +62,8 @@ public class Cord19FullTextCollectionTest extends DocumentCollectionTest<Cord19F
     doc2.put("contents_ends_with", "The need for critical evaluation of all of these technologies is stressed.");
     doc2.put("contents_length", "1264");
     doc2.put("has_full_text", "false");
-    doc2.put("metadata_length", "1797");
-    doc2.put("raw_length", "1858");
+    doc2.put("metadata_length", "1711");
+    doc2.put("raw_length", "1772");
     expected.put("28wrp74k", doc2);
 
     // In the 2020/04/10 version, has_pdf_parse=TRUE, has_pmc_xml_parse=FALSE
@@ -75,8 +75,8 @@ public class Cord19FullTextCollectionTest extends DocumentCollectionTest<Cord19F
     doc3.put("contents_ends_with", "Copyright 2005 Americal Chemical Society. ");
     doc3.put("contents_length", "33583");
     doc3.put("has_full_text", "true");
-    doc3.put("metadata_length", "724");
-    doc3.put("raw_length", "94712");
+    doc3.put("metadata_length", "650");
+    doc3.put("raw_length", "94638");
     expected.put("a8cps3ko", doc3);
   }
 

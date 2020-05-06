@@ -26,6 +26,7 @@ import org.apache.logging.log4j.Logger;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Map;
 
 public abstract class Cord19BaseDocument implements SourceDocument {
   private static final Logger LOG = LogManager.getLogger(Cord19BaseDocument.class);
@@ -69,7 +70,6 @@ public abstract class Cord19BaseDocument implements SourceDocument {
   }
 
   protected final String buildRawJson(String fullTextJson) {
-    String recordJson = getRecordJson();
     ObjectMapper mapper = new ObjectMapper();
     ObjectNode rawJsonNode = mapper.createObjectNode();
 
@@ -83,7 +83,13 @@ public abstract class Cord19BaseDocument implements SourceDocument {
 
     rawJsonNode.put("cord_uid", record.get("cord_uid"));
     rawJsonNode.put("has_full_text", fullTextJson != null);
-    rawJsonNode.put("csv_metadata", recordJson);
+
+    ObjectNode csvMetadaNode = mapper.createObjectNode();
+    for (Map.Entry<String, String> entry : record.toMap().entrySet()) {
+      csvMetadaNode.put(entry.getKey(), entry.getValue());
+    }
+
+    rawJsonNode.put("csv_metadata", csvMetadaNode);
     return rawJsonNode.toString();
   }
 
