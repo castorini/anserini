@@ -7,7 +7,7 @@ Here, we focus on running retrieval experiments; for basic instructions on build
 
 tl;dr - here are the runs that can be easily replicated with Anserini, from pre-built indexes available [here](experiments-cord19.md#pre-built-indexes-all-versions):
 
-|    | index     | field(s)                 | nDCG@10 | Recall@1000 | Download |
+|    | index     | field(s)                 | nDCG@10 | Recall@1000 | run file |
 |---:|:----------|:-------------------------|--------:|------------:|----------|
 |  1 | abstract  | query+question           |  0.3522 | 0.6601 | [[download]](https://www.dropbox.com/s/duimcackueph2co/anserini.covid-r2.abstract.qq.bm25.txt.gz)
 |  2 | abstract  | query (UDel)             |  0.3781 | 0.6485 | [[download]](https://www.dropbox.com/s/n9yfssge5asez74/anserini.covid-r2.abstract.qdel.bm25.txt.gz)
