@@ -224,7 +224,7 @@ public class IndexReaderUtils {
    */
   public static Map<String, Long> getTermCountsWithAnalyzer(IndexReader reader, String termStr, Analyzer analyzer)
       throws IOException {
-    if(AnalyzerUtils.analyze(analyzer, termStr).size() > 1) {
+    if (AnalyzerUtils.analyze(analyzer, termStr).size() > 1) {
       Query query = new PhraseQueryGenerator().buildQuery(IndexArgs.CONTENTS, analyzer, termStr);
       IndexSearcher searcher = new IndexSearcher(reader);
       TotalHitCountCollector totalHitCountCollector = new TotalHitCountCollector();
@@ -233,6 +233,7 @@ public class IndexReaderUtils {
         Map.entry("docFreq", (long) totalHitCountCollector.getTotalHits())
       );
     }
+
     Term t = new Term(IndexArgs.CONTENTS, AnalyzerUtils.analyze(analyzer, termStr).get(0));
     Map<String, Long> termInfo = Map.ofEntries(
       Map.entry("collectionFreq", reader.totalTermFreq(t)),

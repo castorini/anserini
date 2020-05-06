@@ -68,6 +68,9 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
     assertEquals(Long.valueOf(3), termCountMap.get("collectionFreq"));
     assertEquals(Long.valueOf(2), termCountMap.get("docFreq"));
 
+    termCountMap = IndexReaderUtils.getTermCounts(reader, "some text");
+    assertEquals(Long.valueOf(1), termCountMap.get("docFreq"));
+
     reader.close();
     dir.close();
   }
