@@ -249,12 +249,4 @@ public class SimpleSearcherTest extends IndexerTestBase {
 
     searcher.close();
   }
-
-  @Test
-  public void testPhraseDf() throws Exception {
-    SimpleSearcher searcher = new SimpleSearcher(super.tempDir1.toString());
-    assertEquals(searcher.phraseDf("some more"), 1);
-    assertEquals(searcher.phraseDf("more"), 2);
-    searcher.close();
-  }
 }
