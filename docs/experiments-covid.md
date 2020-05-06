@@ -124,7 +124,7 @@ eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec src/main/resources/topics-a
 eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec src/main/resources/topics-and-qrels/qrels.covid-round1.txt runs/anserini.covid-r2.paragraph.qdel.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
 ```
 
-To generate the fusion run:
+Here are the Python commands to generate the fusion runs, using [`trectools`](https://github.com/joaopalotti/trectools) (v0.0.43):
 
 ```python
 from trectools import TrecRun, TrecEval, fusion
@@ -268,7 +268,7 @@ eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec src/main/resources/topics-a
 eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec src/main/resources/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.paragraph.query-udel.bm25.txt | grep 'ndcg_cut_10 '
 ```
 
-Here are the Python commands to generate the fusion runs, using [`trectools`](https://github.com/joaopalotti/trectools):
+Here are the Python commands to generate the fusion runs, using [`trectools`](https://github.com/joaopalotti/trectools) (v0.0.43):
 
 ```python
 from trectools import TrecRun, TrecEval, fusion
