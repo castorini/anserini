@@ -25,6 +25,7 @@ tl;dr - here are the runs that can be easily replicated with Anserini, from pre-
 + The above runs **do not** conform to NIST's residual collection guidelines. That is, those runs **include** documents from the round 1 qrels. If you use these runs as the basis for reranking, you **must** make sure you conform to the [official round 2 guidelines](https://ir.nist.gov/covidSubmit/round2.html) from NIST. The reason for keeping documents from round 1 is so that it is possible to know the score distribution of relevant and non-relevant documents with respect to the new corpus.
 + The above runs provide 10k hits for each topic. A cautionary note: our experience is that choosing the top _k_ documents to rerank has a large impact on end-to-end effectiveness. Reranking the top 100 seems to provide higher precision than top 1000, but the likely tradeoff is lower recall (although with such shallow pools currently, it's hard to tell). It is very likely the case that you _don't_ want to rerank all 10k hits.
 
+Exact commands for replicating these runs are found [further down on this page](experiments-covid.md#round-2-replication-commands).
 
 ## Round 1
 
@@ -73,6 +74,7 @@ TODO:
 + Run query expansion.
 + Run different fusion techniques.
 
+Exact commands for replicating these runs are found [further down on this page](experiments-covid.md#round-1-replication-commands).
 
 ## Round 2: Replication Commands
 
