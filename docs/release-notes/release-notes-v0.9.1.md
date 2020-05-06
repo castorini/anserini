@@ -2,10 +2,10 @@
 
 **Release date: May 6, 2020**
 
-+ Integrates metadata from CSV with JSON of full-text articles in CORD-19.
++ Integrated metadata from CSV with JSON of full-text articles in CORD-19.
 + Renamed `Covid*` to `Cord19*` to more accurately name of corpus.
 + Updated support for CORD-19, up through data drop of 2020/05/01.
-+ Added manual backlist to skip outlier articles in CORD-19.
++ Added manual blacklist to skip outlier articles in CORD-19.
 + Added query generator (and output queries) from University of Delaware for TREC-COVID (round 1).
 + Added instructions for generating baseline runs for TREC-COVID (round 1).
 + Added topics for TREC-COVID (round 2).
