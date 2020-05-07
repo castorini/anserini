@@ -30,6 +30,8 @@ def load_qrels(path: str) -> Dict[str, Set[str]]:
             qrels[query_id].add(doc_id)
             if i % 1000000 == 0:
                 print('Loading qrels {}'.format(i))
+
+    print('Loading qrels completed')
     return qrels
 
 
@@ -54,6 +56,10 @@ def load_run(path: str) -> Dict[str, List[str]]:
     return sorted_run
 
 
+def print_divider():
+    print('\n--------------------- \n')
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description='measure the percentage of judged documents at various '
@@ -69,6 +75,7 @@ if __name__ == "__main__":
 
     qrels = load_qrels(args.qrels)
     run = load_run(args.run)
+    print_divider()
 
     for max_rank in args.cutoffs:
         percentage_judged = 0
@@ -81,4 +88,5 @@ if __name__ == "__main__":
         percentage_judged /= max(1, len(run))
         print(f'judged@{max_rank}: {percentage_judged}')
 
+    print_divider()
     print('Done')
