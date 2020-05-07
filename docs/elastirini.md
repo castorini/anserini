@@ -128,6 +128,40 @@ map                   	all	0.2495
 recall_1000           	all	0.3567
 ```
 
+## Indexing and Retrieval: MS MARCO Document
+
+We can replicate the [BM25 Baselines on MS MARCO (Doc)](experiments-msmarco-doc.md) results in a similar way.
+First, set up the proper schema using [this config](../src/main/resources/elasticsearch/index-config.msmarco-doc.json):
+
+```bash
+cat src/main/resources/elasticsearch/index-config.msmarco-doc.json \
+ | curl --user elastic:changeme -XPUT -H 'Content-Type: application/json' 'localhost:9200/msmarco-doc' -d @-
+```
+
+Indexing:
+
+```bash
+sh target/appassembler/bin/IndexCollection -collection CleanTrecCollection -generator DefaultLuceneDocumentGenerator \
+ -es -es.index msmarco-doc -threads 1 -input /path/to/msmarco-doc -storePositions -storeDocvectors -storeRaw
+```
+
+We may need to wait a few minutes after indexing for the index to catch up before performing retrieval, otherwise wrong evaluation metrics are returned.
+
+Retrieval:
+
+```bash
+sh target/appassembler/bin/SearchElastic -topicreader TsvInt -es.index msmarco-doc \
+ -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt -output run.es.msmacro-doc.txt
+```
+
+Evaluation:
+
+```bash
+$ ./eval/trec_eval.9.0.4/trec_eval -c -mrecall.1000 -mmap src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt run.es.msmacro-doc.txt
+map                   	all	0.2308
+recall_1000           	all	0.8856
+```
+
 ## Elasticsearch Integration Test
 
 We have an end-to-end integration testing script `run_es_regression.py` for [Core18](regressions-core18.md), [Robust04](regressions-robust04.md) and [MS MARCO passage](regressions-msmarco-passage.md). Its functionalities are described below.
