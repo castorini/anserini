@@ -57,7 +57,7 @@ def main():
                 if counts[qid] >= args.k:
                     if check_score:
                         if score == prev_score:
-                            print (f'Warning: scores of {qid} does not strickly decrease at {docid}')
+                            print (f'Warning: scores of {qid} do not strickly decrease at {docid}')
                         check_score = False
                         continue
                     else: 
