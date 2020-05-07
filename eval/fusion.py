@@ -23,7 +23,7 @@ class FusionMethod(enum.Enum):
     COMBO_SUM = 'COMBO_SUM'
 
 
-def gen_trec_run_list(paths: List[str]) -> List[TrecRun]:
+def load_trec_runs(paths: List[str]) -> List[TrecRun]:
     print(f'Loading {len(paths)} runs')
     return [TrecRun(path) for path in paths]
 
@@ -53,7 +53,7 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    trec_runs = gen_trec_run_list(args.runs)
+    trec_runs = load_trec_runs(args.runs)
     perform_fusion(args.method, trec_runs, args.out)
 
     print(f'Fusion successful -> {args.out}')
