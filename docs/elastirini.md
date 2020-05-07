@@ -164,7 +164,7 @@ recall_1000           	all	0.8856
 
 ## Elasticsearch Integration Test
 
-We have an end-to-end integration testing script `run_es_regression.py` for [Core18](regressions-core18.md), [Robust04](regressions-robust04.md) and [MS MARCO passage](regressions-msmarco-passage.md). Its functionalities are described below.
+We have an end-to-end integration testing script `run_es_regression.py` for [Core18](regressions-core18.md), [Robust04](regressions-robust04.md), [MS MARCO passage](regressions-msmarco-passage.md) and [MS MARCO document](regressions-msmarco-doc.md). Its functionalities are described below.
 
 ```
 # Check if Elasticsearch server is on
