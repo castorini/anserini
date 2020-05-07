@@ -18,46 +18,56 @@ import argparse
 from collections import defaultdict
 
 
-def read_qrels(qrel_file):
-    qrels = defaultdict(set)
-    with open(qrel_file) as f:
+def read_qrels(qrels):
+    judged_docids = defaultdict(set)
+    with open(qrels) as f:
         for line in f:
             cols = line.split()
             qid = cols[0]
             docid = cols[2]
-            qrels[qid].add(docid)
-    return qrels
+            judged_docids[qid].add(docid)
+    return judged_docids
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('qrel_file')
-    parser.add_argument('src_run_file')
-    parser.add_argument('dest_run_file')
+    parser.add_argument('--qrels', type=str, metavar='qrels', help='qrels', required=True)
+    parser.add_argument('--input', type=str, metavar='run', help='input run', required=True)
+    parser.add_argument('--output', type=str, metavar='run', help='output run', required=True)
     parser.add_argument(
         '--k', type=int, default=1000,
         help='the number of results to keep per-topic'
     )
     args=parser.parse_args()
 
-    qrels = read_qrels(args.qrel_file)
+    judged_docids = read_qrels(args.qrels)
     counts = defaultdict(int)
-    with open(args.dest_run_file, 'w') as of:
-        with open(args.src_run_file) as f:
-            for line in f:
+
+    prev_score = None
+    check_score = True
+    with open(args.output, 'w') as output_f:
+        with open(args.input) as input_f:
+            for line in input_f:
                 cols = line.split()
                 qid = cols[0]
+                docid = cols[2]
+                score = float(cols[4])
+                tag = cols[5]
 
                 if counts[qid] >= args.k:
-                    continue
-                docid = cols[2]
+                    if check_score:
+                        if score == prev_score:
+                            print (f'Warning: scores of {qid} does not strickly decrease at {docid}')
+                        check_score = False
+                        continue
+                    else: 
+                        continue
 
-                if (
-                    qid not in qrels
-                    or docid not in qrels[qid]
-                ):
+                if qid not in judged_docids or docid not in judged_docids[qid]:
                     counts[qid] += 1
-                    of.write(line)
+                    prev_score = float(cols[4])
+                    check_score = True
+                    output_f.write(f'{qid} Q0 {docid} {counts[qid]} {score} {tag}\n')
 
 
 if __name__=='__main__':
