@@ -28,8 +28,7 @@ def load_qrels(path: str) -> Dict[str, Set[str]]:
             line = ' '.join(line.split())
             query_id, _, doc_id, relevance = line.rstrip().split(' ')
             qrels[query_id].add(doc_id)
-            if i % 1000000 == 0:
-                print('Loading qrels {}'.format(i))
+
     return qrels
 
 
@@ -81,4 +80,4 @@ if __name__ == "__main__":
         percentage_judged /= max(1, len(run))
         print(f'judged@{max_rank}: {percentage_judged}')
 
-    print('Done')
+    print('\nDone')
