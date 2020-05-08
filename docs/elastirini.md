@@ -39,7 +39,7 @@ Now, we can start indexing through Elastirini.
 Here, instead of passing in `-index` (to index with Lucene directly), we use `-es` for Elasticsearch:
 
 ```bash
-sh target/appassembler/bin/IndexCollection -collection TrecCollection -generator JsoupGenerator \
+sh target/appassembler/bin/IndexCollection -collection TrecCollection -generator DefaultLuceneDocumentGenerator \
  -es -es.index robust04 -threads 16 -input /path/to/disk45 -storePositions -storeDocvectors -storeRaw
 ```
 
@@ -48,13 +48,13 @@ We can then run the following command to replicate Anserini BM25 retrieval:
 ```bash
 sh target/appassembler/bin/SearchElastic -topicreader Trec -es.index robust04 \
   -topics src/main/resources/topics-and-qrels/topics.robust04.txt \
-  -output run.es.robust04.bm25.topics.robust04.txt
+  -output runs/run.es.robust04.bm25.topics.robust04.txt
 ```
 
 To evaluate effectiveness:
 
 ```bash
-$ eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust04.txt run.es.robust04.bm25.topics.robust04.txt
+$ eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust04.txt runs/run.es.robust04.bm25.topics.robust04.txt
 map                   	all	0.2531
 P_30                  	all	0.3102
 ```
@@ -72,7 +72,7 @@ cat src/main/resources/elasticsearch/index-config.msmarco-passage.json \
 Indexing:
 
 ```bash
-sh target/appassembler/bin/IndexCollection -collection JsonCollection -generator JsoupGenerator \
+sh target/appassembler/bin/IndexCollection -collection JsonCollection -generator DefaultLuceneDocumentGenerator \
  -es -es.index msmarco-passage -threads 9 -input /path/to/msmarco-passage -storePositions -storeDocvectors -storeRaw
 ```
 
@@ -82,13 +82,13 @@ Retrieval:
 
 ```bash
 sh target/appassembler/bin/SearchElastic -topicreader TsvString -es.index msmarco-passage \
- -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt -output run.es.msmacro-passage.txt
+ -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt -output runs/run.es.msmacro-passage.txt
 ```
 
 Evaluation:
 
 ```bash
-$ ./eval/trec_eval.9.0.4/trec_eval -c -mrecall.1000 -mmap src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt run.es.msmacro-passage.txt
+$ ./eval/trec_eval.9.0.4/trec_eval -c -mrecall.1000 -mmap src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.es.msmacro-passage.txt
 map                   	all	0.1956
 recall_1000           	all	0.8573
 ```
@@ -117,13 +117,13 @@ Retrieval:
 ```bash
 sh target/appassembler/bin/SearchElastic -topicreader Trec -es.index core18 \
   -topics src/main/resources/topics-and-qrels/topics.core18.txt \
-  -output run.es.core18.bm25.topics.core18.txt
+  -output runs/run.es.core18.bm25.topics.core18.txt
 ```
 
 Evaluation:
 
 ```bash
-$ eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.core18.txt run.es.core18.bm25.topics.core18.txt
+$ eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.core18.txt runs/run.es.core18.bm25.topics.core18.txt
 map                   	all	0.2495
 recall_1000           	all	0.3567
 ```
@@ -151,13 +151,13 @@ Retrieval:
 
 ```bash
 sh target/appassembler/bin/SearchElastic -topicreader TsvInt -es.index msmarco-doc \
- -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt -output run.es.msmacro-doc.txt
+ -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt -output runs/run.es.msmacro-doc.txt
 ```
 
 Evaluation:
 
 ```bash
-$ ./eval/trec_eval.9.0.4/trec_eval -c -mrecall.1000 -mmap src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt run.es.msmacro-doc.txt
+$ ./eval/trec_eval.9.0.4/trec_eval -c -mrecall.1000 -mmap src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.es.msmacro-doc.txt
 map                   	all	0.2308
 recall_1000           	all	0.8856
 ```
