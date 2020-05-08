@@ -19,6 +19,10 @@ package io.anserini.search.query;
 import org.apache.lucene.search.BooleanClause;
 import org.apache.lucene.search.BooleanQuery;
 
+/**
+ * Class for exposing query building blocks for Pyserini. As Pyserini has trouble creating objects of classes that are
+ * defined in other classes. It is possible to retrieve objects of such classes through here.
+ */
 public class QueryGeneratorUtils {
   static BooleanQuery.Builder getBooleanQueryBuilder() {
     return new BooleanQuery.Builder();
