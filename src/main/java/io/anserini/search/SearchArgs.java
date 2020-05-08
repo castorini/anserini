@@ -30,10 +30,13 @@ public class SearchArgs {
   @Option(name = "-output", metaVar = "[file]", required = true, usage = "output file")
   public String output;
 
-  @Option(name = "-topicreader", required = true, usage = "define how to read the topic(query) file: one of [Trec|Webxml]")
+  @Option(name = "-topicreader", required = true, usage = "TopicReader to use.")
   public String topicReader;
 
   // optional arguments
+  @Option(name = "-querygenerator", usage = "QueryGenerator to use.")
+  public String queryGenerator = "BagOfWordsQueryGenerator";
+
   @Option(name = "-threads", metaVar = "[Number]", usage = "Number of Threads")
   public int threads = 1;
 
