@@ -38,18 +38,21 @@ tl;dr - here are the runs that can be easily replicated with Anserini, from pre-
 |  3 | abstract  | query+question                    |  0.5514 | 0.9833 | 0.6989 |
 |  4 | abstract  | query+question+narrative          |  0.5294 | 0.9333 | 0.6929 |
 |  5 | abstract  | query (UDel)                      |  0.5824 | 0.9567 | 0.6927 |
-|  6 | full-text | query                             |  0.3900 | 0.7433 | 0.6277 |
-|  7 | full-text | question                          |  0.3439 | 0.9267 | 0.6389 |
-|  8 | full-text | query+question                    |  0.4064 | 0.9367 | 0.6714 |
-|  9 | full-text | query+question+narrative          |  0.3280 | 0.7567 | 0.6591 |
-| 10 | full-text | query (UDel)                      |  0.5407 | 0.9067 | 0.7214 |
-| 11 | paragraph | query                             |  0.4302 | 0.8400 | 0.4327 |
-| 12 | paragraph | question                          |  0.4410 | 0.9167 | 0.5111 |
-| 13 | paragraph | query+question                    |  0.5450 | 0.9733 | 0.5743 |
-| 14 | paragraph | query+question+narrative          |  0.4899 | 0.8967 | 0.5918 |
-| 15 | paragraph | query (UDel)                      |  0.5544 | 0.9200 | 0.5640 |
-| 16 | -         | reciprocal rank fusion(3, 8, 13)  |  0.5716 | 0.9867 | 0.8117 |
-| 17 | -         | reciprocal rank fusion(5, 10, 15) |  0.6019 | 0.9733 | 0.8121 |
+|  6 | abstract  | `Covid19QueryGenerator`           |  0.4520 | 0.6500 | 0.5061 |
+|  7 | full-text | query                             |  0.3900 | 0.7433 | 0.6277 |
+|  8 | full-text | question                          |  0.3439 | 0.9267 | 0.6389 |
+|  9 | full-text | query+question                    |  0.4064 | 0.9367 | 0.6714 |
+| 10 | full-text | query+question+narrative          |  0.3280 | 0.7567 | 0.6591 |
+| 11 | full-text | query (UDel)                      |  0.5407 | 0.9067 | 0.7214 |
+| 12 | full-text | `Covid19QueryGenerator`           |  0.2434 | 0.5233 | 0.5692 |
+| 13 | paragraph | query                             |  0.4302 | 0.8400 | 0.4327 |
+| 14 | paragraph | question                          |  0.4410 | 0.9167 | 0.5111 |
+| 15 | paragraph | query+question                    |  0.5450 | 0.9733 | 0.5743 |
+| 16 | paragraph | query+question+narrative          |  0.4899 | 0.8967 | 0.5918 |
+| 17 | paragraph | query (UDel)                      |  0.5544 | 0.9200 | 0.5640 |
+| 18 | paragraph | `Covid19QueryGenerator`           |  0.3180 | 0.5333 | 0.3552 |
+| 19 | -         | reciprocal rank fusion(3, 9, 15)  |  0.5716 | 0.9867 | 0.8117 |
+| 20 | -         | reciprocal rank fusion(5, 11, 17) |  0.6019 | 0.9733 | 0.8121 |
 
 **IMPORTANT NOTE:** These results **cannot** be replicated using the indexer at `HEAD` because the indexing code has changed since the time the above indexes were generated.
 The results are only replicable with the state of the indexer at the time of submission of TREC-COVID round 1 (which were conducted with the above indexes).
@@ -197,6 +200,10 @@ target/appassembler/bin/SearchCollection -index lucene-index-covid-2020-04-10 \
 target/appassembler/bin/SearchCollection -index lucene-index-covid-2020-04-10 \
  -topicreader Covid -topics src/main/resources/topics-and-qrels/topics.covid-round1-udel.xml -topicfield query -removedups \
  -bm25 -output runs/run.covid-r1.abstract.query-udel.bm25.txt
+
+target/appassembler/bin/SearchCollection -index lucene-index-covid-2020-04-10 \
+ -topicreader Covid -topics src/main/resources/topics-and-qrels/topics.covid-round1.xml -topicfield query -querygenerator Covid19QueryGenerator -removedups \
+ -bm25 -output runs/run.covid-r1.abstract.query-covid19.bm25.txt
 ```
 
 Here are the commands to evaluate results on the abstract index:
@@ -207,12 +214,14 @@ eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec src/main/resources/topics-a
 eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec src/main/resources/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.abstract.query+question.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
 eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec src/main/resources/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.abstract.query+question+narrative.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
 eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec src/main/resources/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.abstract.query-udel.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
+eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec src/main/resources/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.abstract.query-covid19.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
 
 python eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/run.covid-r1.abstract.query.bm25.txt
 python eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/run.covid-r1.abstract.question.bm25.txt
 python eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/run.covid-r1.abstract.query+question.bm25.txt
 python eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/run.covid-r1.abstract.query+question+narrative.bm25.txt
 python eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/run.covid-r1.abstract.query-udel.bm25.txt
+python eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/run.covid-r1.abstract.query-covid19.bm25.txt
 ```
 
 Here are the commands to generate the runs on the full-text index:
@@ -241,6 +250,10 @@ target/appassembler/bin/SearchCollection -index lucene-index-covid-full-text-202
 target/appassembler/bin/SearchCollection -index lucene-index-covid-full-text-2020-04-10 \
  -topicreader Covid -topics src/main/resources/topics-and-qrels/topics.covid-round1-udel.xml -topicfield query -removedups \
  -bm25 -output runs/run.covid-r1.full-text.query-udel.bm25.txt
+
+target/appassembler/bin/SearchCollection -index lucene-index-covid-full-text-2020-04-10 \
+ -topicreader Covid -topics src/main/resources/topics-and-qrels/topics.covid-round1.xml -topicfield query -querygenerator Covid19QueryGenerator -removedups \
+ -bm25 -output runs/run.covid-r1.full-text.query-covid19.bm25.txt
 ```
 
 Here are the commands to evaluate results on the full-text index:
@@ -251,12 +264,14 @@ eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec src/main/resources/topics-a
 eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec src/main/resources/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.full-text.query+question.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
 eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec src/main/resources/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.full-text.query+question+narrative.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
 eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec src/main/resources/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.full-text.query-udel.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
+eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec src/main/resources/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.full-text.query-covid19.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
 
 python eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/run.covid-r1.full-text.query.bm25.txt
 python eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/run.covid-r1.full-text.question.bm25.txt
 python eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/run.covid-r1.full-text.query+question.bm25.txt
 python eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/run.covid-r1.full-text.query+question+narrative.bm25.txt
 python eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/run.covid-r1.full-text.query-udel.bm25.txt
+python eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/run.covid-r1.full-text.query-covid19.bm25.txt
 ```
 
 Here are the commands to generate the runs on the paragraph index:
@@ -285,6 +300,10 @@ target/appassembler/bin/SearchCollection -index lucene-index-covid-paragraph-202
 target/appassembler/bin/SearchCollection -index lucene-index-covid-paragraph-2020-04-10 \
  -topicreader Covid -topics src/main/resources/topics-and-qrels/topics.covid-round1-udel.xml -topicfield query -removedups -strip_segment_id \
  -bm25 -output runs/run.covid-r1.paragraph.query-udel.bm25.txt
+
+target/appassembler/bin/SearchCollection -index lucene-index-covid-paragraph-2020-04-10 \
+ -topicreader Covid -topics src/main/resources/topics-and-qrels/topics.covid-round1.xml -topicfield query -querygenerator Covid19QueryGenerator -removedups -strip_segment_id \
+ -bm25 -output runs/run.covid-r1.paragraph.query-covid19.bm25.txt
 ```
 
 Here are the commands to evaluate results on the paragraph index:
@@ -295,12 +314,14 @@ eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec src/main/resources/topics-a
 eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec src/main/resources/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.paragraph.query+question.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
 eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec src/main/resources/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.paragraph.query+question+narrative.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
 eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec src/main/resources/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.paragraph.query-udel.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
+eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec src/main/resources/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.paragraph.query-covid19.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
 
 python eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/run.covid-r1.paragraph.query.bm25.txt
 python eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/run.covid-r1.paragraph.question.bm25.txt
 python eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/run.covid-r1.paragraph.query+question.bm25.txt
 python eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/run.covid-r1.paragraph.query+question+narrative.bm25.txt
 python eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/run.covid-r1.paragraph.query-udel.bm25.txt
+python eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/run.covid-r1.paragraph.query-covid19.bm25.txt
 ```
 
 Here are the Python commands to generate the fusion runs, using [`trectools`](https://github.com/joaopalotti/trectools) (v0.0.43):
