@@ -19,7 +19,9 @@ package io.anserini.search;
 import io.anserini.IndexerTestBase;
 import io.anserini.index.IndexArgs;
 import io.anserini.search.SimpleSearcher.Result;
+import io.anserini.search.query.PhraseQueryGenerator;
 import org.apache.lucene.index.Term;
+import org.apache.lucene.search.Query;
 import org.apache.lucene.search.TermQuery;
 import org.junit.Test;
 

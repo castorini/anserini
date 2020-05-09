@@ -25,16 +25,16 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CovidCollectionTest extends DocumentCollectionTest<CovidCollection.Document> {
+public class Cord19AbstractCollectionTest extends DocumentCollectionTest<Cord19AbstractCollection.Document> {
 
   @Before
   public void setUp() throws Exception {
     super.setUp();
 
-    collectionPath = Paths.get("src/test/resources/sample_docs/covid/sample1");
-    collection = new CovidCollection(collectionPath);
+    collectionPath = Paths.get("src/test/resources/sample_docs/cord19/sample1");
+    collection = new Cord19AbstractCollection(collectionPath);
 
-    Path segment = Paths.get("src/test/resources/sample_docs/covid/sample1/metadata.csv");
+    Path segment = Paths.get("src/test/resources/sample_docs/cord19/sample1/metadata.csv");
 
     segmentPaths.add(segment);
     segmentDocCounts.put(segment, 3);
@@ -50,8 +50,8 @@ public class CovidCollectionTest extends DocumentCollectionTest<CovidCollection.
     doc1.put("contents_ends_with", "cannot distinguish UV inactivated virus from infectious viral particles.");
     doc1.put("contents_length", "1803");
     doc1.put("has_full_text", "true");
-    doc1.put("metadata_length", "2426");
-    doc1.put("raw_length", "48090");
+    doc1.put("metadata_length", "2352");
+    doc1.put("raw_length", "48016");
     expected.put("xqhn0vbp", doc1);
 
     // In the 2020/04/10 version, has_pdf_parse=FALSE, has_pmc_xml_parse=FALSE
@@ -62,8 +62,8 @@ public class CovidCollectionTest extends DocumentCollectionTest<CovidCollection.
     doc2.put("contents_ends_with", "The need for critical evaluation of all of these technologies is stressed.");
     doc2.put("contents_length", "1264");
     doc2.put("has_full_text", "false");
-    doc2.put("metadata_length", "1797");
-    doc2.put("raw_length", "1858");
+    doc2.put("metadata_length", "1711");
+    doc2.put("raw_length", "1772");
     expected.put("28wrp74k", doc2);
 
     // In the 2020/04/10 version, has_pdf_parse=TRUE, has_pmc_xml_parse=FALSE
@@ -75,14 +75,14 @@ public class CovidCollectionTest extends DocumentCollectionTest<CovidCollection.
     doc3.put("contents_ends_with", "Beyond Picomolar Affinities: Quantitative Aspects of Noncovalent and Covalent Binding of Drugs to Proteins");
     doc3.put("contents_length", "106");
     doc3.put("has_full_text", "true");
-    doc3.put("metadata_length", "724");
-    doc3.put("raw_length", "94712");
+    doc3.put("metadata_length", "650");
+    doc3.put("raw_length", "94638");
     expected.put("a8cps3ko", doc3);
   }
 
   @Override
   void checkDocument(SourceDocument doc, Map<String, String> expected) {
-    CovidCollection.Document covidDoc = (CovidCollection.Document) doc;
+    Cord19AbstractCollection.Document covidDoc = (Cord19AbstractCollection.Document) doc;
 
     assertEquals(expected.get("id"), covidDoc.id());
     assertTrue(covidDoc.contents().startsWith(expected.get("contents_starts_with")));
@@ -95,8 +95,10 @@ public class CovidCollectionTest extends DocumentCollectionTest<CovidCollection.
       JsonNode jsonNode = mapper.readTree(covidDoc.raw());
       assertEquals(expected.get("id"), jsonNode.get("cord_uid").asText());
       assertEquals(expected.get("has_full_text"), jsonNode.get("has_full_text").asText());
+      assertEquals(true, jsonNode.get("csv_metadata").isObject());
       assertEquals(Integer.parseInt(expected.get("metadata_length")),
-        jsonNode.get("csv_metadata").toString().length());
+          jsonNode.get("csv_metadata").toString().length());
+
     } catch (Exception e) {
       assertTrue("Failed to parse raw JSON", false);
     }

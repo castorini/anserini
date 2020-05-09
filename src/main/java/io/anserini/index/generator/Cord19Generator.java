@@ -18,8 +18,8 @@ package io.anserini.index.generator;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import io.anserini.analysis.DefaultEnglishAnalyzer;
-import io.anserini.collection.CovidCollectionDocument;
-import io.anserini.collection.CovidTrialstreamerCollection;
+import io.anserini.collection.Cord19BaseDocument;
+import io.anserini.collection.TrialstreamerCollection;
 import io.anserini.index.IndexArgs;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.CharArraySet;
@@ -37,9 +37,9 @@ import org.apache.lucene.util.BytesRef;
 import java.io.StringReader;
 
 /**
- * Converts a {@link CovidCollectionDocument} into a Lucene {@link Document}, ready to be indexed.
+ * Converts a {@link Cord19BaseDocument} into a Lucene {@link Document}, ready to be indexed.
  */
-public class CovidGenerator implements LuceneDocumentGenerator<CovidCollectionDocument> {
+public class Cord19Generator implements LuceneDocumentGenerator<Cord19BaseDocument> {
   private IndexArgs args;
 
   public enum CovidField {
@@ -79,15 +79,23 @@ public class CovidGenerator implements LuceneDocumentGenerator<CovidCollectionDo
     }
   }
 
-  public CovidGenerator(IndexArgs args) {
+  public Cord19Generator(IndexArgs args) {
     this.args = args;
   }
 
   @Override
-  public Document createDocument(CovidCollectionDocument covidDoc) throws GeneratorException {
+  public Document createDocument(Cord19BaseDocument covidDoc) throws GeneratorException {
     String id = covidDoc.id();
     String content = covidDoc.contents();
     String raw = covidDoc.raw();
+
+    // See https://github.com/castorini/anserini/issues/1127
+    // Corner cases are hard-coded now; if this gets out of hand we should consider implementing a "blacklist" feature
+    // and store these ids externally. Note we use startsWidth here to handle the paragraph indexes as well.
+    if (id.startsWith("ij3ncdb6") || id.startsWith("hwjkbpqp") ||
+        id.startsWith("1vimqhdp") || id.startsWith("gvh0wdxn")) {
+      throw new SkippedDocumentException();
+    }
 
     if (content == null || content.trim().isEmpty()) {
       throw new EmptyDocumentException();
@@ -144,8 +152,8 @@ public class CovidGenerator implements LuceneDocumentGenerator<CovidCollectionDo
     doc.add(new StringField(CovidField.URL.name,
       covidDoc.record().get(CovidField.URL.name), Field.Store.YES));
 
-    if (covidDoc instanceof CovidTrialstreamerCollection.Document) {
-      CovidTrialstreamerCollection.Document tsDoc = (CovidTrialstreamerCollection.Document) covidDoc;
+    if (covidDoc instanceof TrialstreamerCollection.Document) {
+      TrialstreamerCollection.Document tsDoc = (TrialstreamerCollection.Document) covidDoc;
       JsonNode facets = tsDoc.facets();
       addTrialstreamerFacet(doc, TrialstreamerField.OUTCOMES_VOCAB.name, facets);
       addTrialstreamerFacet(doc, TrialstreamerField.POPULATION_VOCAB.name, facets);

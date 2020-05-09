@@ -30,10 +30,13 @@ public class SearchArgs {
   @Option(name = "-output", metaVar = "[file]", required = true, usage = "output file")
   public String output;
 
-  @Option(name = "-topicreader", required = true, usage = "define how to read the topic(query) file: one of [Trec|Webxml]")
+  @Option(name = "-topicreader", required = true, usage = "TopicReader to use.")
   public String topicReader;
 
   // optional arguments
+  @Option(name = "-querygenerator", usage = "QueryGenerator to use.")
+  public String queryGenerator = "BagOfWordsQueryGenerator";
+
   @Option(name = "-threads", metaVar = "[Number]", usage = "Number of Threads")
   public int threads = 1;
 
@@ -46,6 +49,14 @@ public class SearchArgs {
   @Option(name = "-topicfield", usage = "Which field of the query should be used, default \"title\"." +
       " For TREC ad hoc topics, description or narrative can be used.")
   public String topicfield = "title";
+
+  // Note that this option is set to false by default because duplicate documents usually indicate some underlying
+  // indexing issues, and we don't want to just eat errors silently.
+  @Option(name = "-removedups", usage = "Remove duplicate docids when writing final run output.")
+  public Boolean removedups = false;
+
+  @Option(name = "-strip_segment_id", usage = "Remove the .XXXXX suffix used to denote different segments from an document")
+  public Boolean strip_segment_id = false;
 
   @Option(name = "-skipexists", usage = "When enabled, will skip if the run file exists")
   public Boolean skipexists = false;

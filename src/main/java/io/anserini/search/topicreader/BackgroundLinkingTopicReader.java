@@ -122,13 +122,13 @@ public class BackgroundLinkingTopicReader extends TopicReader<Integer> {
    * @param paragraph paragraph
    * @param k how many terms will be picked from the query document
    * @param isWeighted whether to include terms' tf-idf score as their weights
-   * @param qc Query Constructor
+   * @param sdm whether or not we're using sdm
    * @param analyzer Analyzer
    * @return Strings constructed query strings
    * @throws IOException any IO exception
    */
   public static List<String> generateQueryString(IndexReader reader, String docid, boolean paragraph, int k,
-     boolean isWeighted, SearchCollection.QueryConstructor qc, Analyzer analyzer) throws IOException {
+     boolean isWeighted, boolean sdm, Analyzer analyzer) throws IOException {
     List<String> queryStrings = new ArrayList<>();
     IndexableField rawDocStr = reader.document(convertDocidToLuceneDocid(reader, docid)).getField(IndexArgs.RAW);
     if (rawDocStr == null) {
@@ -143,7 +143,7 @@ public class BackgroundLinkingTopicReader extends TopicReader<Integer> {
     }
     for (int i = 0; i < queryStrings.size(); i++) {
       List<String> queryTokens = AnalyzerUtils.analyze(analyzer, queryStrings.get(i));
-      if (qc == SearchCollection.QueryConstructor.SequentialDependenceModel) {
+      if (sdm) {
         String queryString = String.join(" ", queryTokens.subList(0, Math.min(queryTokens.size(), k)));
         queryStrings.set(i, queryString);
       } else {

@@ -30,7 +30,7 @@ import io.anserini.rerank.lib.BM25PrfReranker;
 import io.anserini.rerank.lib.NewsBackgroundLinkingReranker;
 import io.anserini.rerank.lib.Rm3Reranker;
 import io.anserini.rerank.lib.ScoreTiesAdjusterReranker;
-import io.anserini.search.query.BagOfWordsQueryGenerator;
+import io.anserini.search.query.QueryGenerator;
 import io.anserini.search.query.SdmQueryGenerator;
 import io.anserini.search.similarity.AccurateBM25Similarity;
 import io.anserini.search.similarity.TaggedSimilarity;
@@ -94,9 +94,11 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.concurrent.Executors;
@@ -121,13 +123,6 @@ public final class SearchCollection implements Closeable {
   private List<TaggedSimilarity> similarities;
   private List<RerankerCascade> cascades;
   private final boolean isRerank;
-
-  public enum QueryConstructor {
-    BagOfTerms,
-    SequentialDependenceModel
-  }
-
-  private final QueryConstructor qc;
 
   private final class SearcherThread<K> extends Thread {
     final private IndexReader reader;
@@ -162,7 +157,16 @@ public final class SearchCollection implements Closeable {
         PrintWriter out = new PrintWriter(Files.newBufferedWriter(Paths.get(outputPath), StandardCharsets.US_ASCII));
         for (Map.Entry<K, Map<String, String>> entry : topics.entrySet()) {
           K qid = entry.getKey();
-          String queryString = entry.getValue().get(args.topicfield);
+
+          String queryString = "";
+          if (args.topicfield.contains("+")) {
+            for (String field : args.topicfield.split("\\+")) {
+              queryString += " " + entry.getValue().get(field);
+            }
+          } else {
+            queryString = entry.getValue().get(args.topicfield);
+          }
+
           ScoredDocuments docs;
           if (args.searchtweets) {
             docs = searchTweets(this.searcher, qid, queryString, Long.parseLong(entry.getValue().get("time")), cascade);
@@ -172,6 +176,9 @@ public final class SearchCollection implements Closeable {
             docs = search(this.searcher, qid, queryString, cascade);
           }
 
+          // For removing duplicate docids.
+          Set<String> docids = new HashSet<>();
+
           /*
            * the first column is the topic number.
            * the second column is currently unused and should always be "Q0".
@@ -180,9 +187,27 @@ public final class SearchCollection implements Closeable {
            * the fifth column shows the score (integer or floating point) that generated the ranking.
            * the sixth column is called the "run tag" and should be a unique identifier for your
            */
+          int rank = 1;
           for (int i = 0; i < docs.documents.length; i++) {
-            out.println(String.format(Locale.US, "%s Q0 %s %d %f %s", qid,
-                docs.documents[i].getField(IndexArgs.ID).stringValue(), (i + 1), docs.scores[i], runTag));
+            String docid = docs.documents[i].get(IndexArgs.ID);
+
+            if (args.strip_segment_id) {
+              docid = docid.split("\\.")[0];
+            }
+
+            if (docids.contains(docid))
+              continue;
+
+            out.println(String.format(Locale.US, "%s Q0 %s %d %f %s",
+                qid, docid, rank, docs.scores[i], runTag));
+
+            // Note that this option is set to false by default because duplicate documents usually indicate some
+            // underlying indexing issues, and we don't want to just eat errors silently.
+            if (args.removedups) {
+              docids.add(docid);
+            }
+
+            rank++;
           }
           cnt++;
           if (cnt % 100 == 0) {
@@ -251,14 +276,6 @@ public final class SearchCollection implements Closeable {
       LOG.info("Language: en");
       LOG.info("Stemmer: " + args.stemmer);
       LOG.info("Keep stopwords? " + args.keepstop);
-    }
-
-    if (args.sdm) {
-      LOG.info("QueryConstructor: SequentialDependenceModel");
-      qc = QueryConstructor.SequentialDependenceModel;
-    } else {
-      LOG.info("QueryConstructor: BagOfTerms");
-      qc = QueryConstructor.BagOfTerms;
     }
 
     isRerank = args.rm3 || args.axiom || args.bm25prf;
@@ -448,10 +465,18 @@ public final class SearchCollection implements Closeable {
   public <K> ScoredDocuments search(IndexSearcher searcher, K qid, String queryString, RerankerCascade cascade)
       throws IOException {
     Query query = null;
-    if (qc == QueryConstructor.SequentialDependenceModel) {
+
+    if (args.sdm) {
       query = new SdmQueryGenerator(args.sdm_tw, args.sdm_ow, args.sdm_uw).buildQuery(IndexArgs.CONTENTS, analyzer, queryString);
     } else {
-      query = new BagOfWordsQueryGenerator().buildQuery(IndexArgs.CONTENTS, analyzer, queryString);
+      try {
+        QueryGenerator generator = (QueryGenerator) Class.forName("io.anserini.search.query." + args.queryGenerator)
+            .getConstructor().newInstance();
+        query = generator.buildQuery(IndexArgs.CONTENTS, analyzer, queryString);
+      } catch (Exception e) {
+        e.printStackTrace();
+        throw new IllegalArgumentException("Unable to load QueryGenerator: " + args.topicReader);
+      }
     }
 
     TopDocs rs = new TopDocs(new TotalHits(0, TotalHits.Relation.EQUAL_TO), new ScoreDoc[]{});
@@ -473,16 +498,16 @@ public final class SearchCollection implements Closeable {
       throws IOException, QueryNodeException {
     Query query = null;
     String queryDocID = null;
-    if (qc == QueryConstructor.SequentialDependenceModel) {
+    if (args.sdm) {
       args.backgroundlinking_weighted = false;
     }
     queryDocID = queryString;
     List<String> queryList = BackgroundLinkingTopicReader.generateQueryString(reader, queryDocID,
-        args.backgroundlinking_paragraph, args.backgroundlinking_k, args.backgroundlinking_weighted, qc, analyzer);
+        args.backgroundlinking_paragraph, args.backgroundlinking_k, args.backgroundlinking_weighted, args.sdm, analyzer);
     List<ScoredDocuments> allRes = new ArrayList<>();
     for (String queryStr : queryList) {
       Query q = null;
-      if (qc == QueryConstructor.SequentialDependenceModel) {
+      if (args.sdm) {
         q = new SdmQueryGenerator(args.sdm_tw, args.sdm_ow, args.sdm_uw).buildQuery(IndexArgs.CONTENTS, analyzer, queryStr);
       } else {
         // DO NOT use BagOfWordsQueryGenerator here!!!!
@@ -549,10 +574,17 @@ public final class SearchCollection implements Closeable {
 
   public <K> ScoredDocuments searchTweets(IndexSearcher searcher, K qid, String queryString, long t, RerankerCascade cascade) throws IOException {
     Query keywordQuery;
-    if (qc == QueryConstructor.SequentialDependenceModel) {
+    if (args.sdm) {
       keywordQuery = new SdmQueryGenerator(args.sdm_tw, args.sdm_ow, args.sdm_uw).buildQuery(IndexArgs.CONTENTS, analyzer, queryString);
     } else {
-      keywordQuery = new BagOfWordsQueryGenerator().buildQuery(IndexArgs.CONTENTS, analyzer, queryString);
+      try {
+        QueryGenerator generator = (QueryGenerator) Class.forName("io.anserini.search.query." + args.queryGenerator)
+            .getConstructor().newInstance();
+        keywordQuery = generator.buildQuery(IndexArgs.CONTENTS, analyzer, queryString);
+      } catch (Exception e) {
+        e.printStackTrace();
+        throw new IllegalArgumentException("Unable to load QueryGenerator: " + args.topicReader);
+      }
     }
     List<String> queryTokens = AnalyzerUtils.analyze(analyzer, queryString);
 
