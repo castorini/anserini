@@ -18,6 +18,7 @@ package io.anserini.index;
 
 import io.anserini.analysis.AnalyzerUtils;
 import io.anserini.analysis.DefaultEnglishAnalyzer;
+import io.anserini.search.query.PhraseQueryGenerator;
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveOutputStream;
 import org.apache.commons.compress.compressors.bzip2.BZip2CompressorInputStream;
@@ -28,24 +29,22 @@ import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
-import org.apache.lucene.index.IndexableField;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.MultiTerms;
 import org.apache.lucene.index.PostingsEnum;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.index.Terms;
 import org.apache.lucene.index.TermsEnum;
-import org.apache.lucene.queryparser.classic.ParseException;
-import org.apache.lucene.queryparser.classic.QueryParser;
-import org.apache.lucene.search.BooleanClause;
-import org.apache.lucene.search.BooleanQuery;
-import org.apache.lucene.search.ConstantScoreQuery;
 import org.apache.lucene.search.DocIdSetIterator;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
-import org.apache.lucene.search.ScoreDoc;
+import org.apache.lucene.search.TotalHitCountCollector;
 import org.apache.lucene.search.TermQuery;
+import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.TopDocs;
+import org.apache.lucene.search.ScoreDoc;
+import org.apache.lucene.search.ConstantScoreQuery;
+import org.apache.lucene.search.BooleanClause;
 import org.apache.lucene.search.similarities.BM25Similarity;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
@@ -202,21 +201,44 @@ public class IndexReaderUtils {
     return DirectoryReader.open(dir);
   }
 
-  public static Map<String, Long> getTermCounts(IndexReader reader, String termStr) throws IOException, ParseException {
+  /**
+   * Get count information on a term or a phrase
+   * @param reader IndexReader
+   * @param termStr String to investigate
+   * @return The df (+cf if only one term) of the phrase using default analyzer
+   * @throws IOException
+   */
+  public static Map<String, Long> getTermCounts(IndexReader reader, String termStr)
+      throws IOException {
     DefaultEnglishAnalyzer ea = DefaultEnglishAnalyzer.newDefaultInstance();
     return getTermCountsWithAnalyzer(reader, termStr, ea);
   }
 
-  public static Map<String, Long> getTermCountsWithAnalyzer(IndexReader reader, String termStr, Analyzer analyzer) throws IOException, ParseException {
-    QueryParser qp = new QueryParser(IndexArgs.CONTENTS, analyzer);
-    TermQuery q = (TermQuery) qp.parse(termStr);
-    Term t = q.getTerm();
+  /**
+   * Get count information on a term or a phrase
+   * @param reader IndexReader
+   * @param termStr String to investigate
+   * @param analyzer Analyzer to use
+   * @return The df (+cf if only one term) of the phrase
+   * @throws IOException
+   */
+  public static Map<String, Long> getTermCountsWithAnalyzer(IndexReader reader, String termStr, Analyzer analyzer)
+      throws IOException {
+    if (AnalyzerUtils.analyze(analyzer, termStr).size() > 1) {
+      Query query = new PhraseQueryGenerator().buildQuery(IndexArgs.CONTENTS, analyzer, termStr);
+      IndexSearcher searcher = new IndexSearcher(reader);
+      TotalHitCountCollector totalHitCountCollector = new TotalHitCountCollector();
+      searcher.search(query, totalHitCountCollector);
+      return Map.ofEntries(
+        Map.entry("docFreq", (long) totalHitCountCollector.getTotalHits())
+      );
+    }
 
+    Term t = new Term(IndexArgs.CONTENTS, AnalyzerUtils.analyze(analyzer, termStr).get(0));
     Map<String, Long> termInfo = Map.ofEntries(
       Map.entry("collectionFreq", reader.totalTermFreq(t)),
       Map.entry("docFreq", Long.valueOf(reader.docFreq(t)))
     );
-
     return termInfo;
   }
 
@@ -227,7 +249,7 @@ public class IndexReaderUtils {
    * @throws IOException if error encountered during access to index
    */
   public static Iterator<IndexTerm> getTerms(IndexReader reader) throws IOException {
-    return new Iterator<IndexTerm>() {
+    return new Iterator<>() {
       private TermsEnum curTerm = MultiTerms.getTerms(reader, "contents").iterator();
       private BytesRef bytesRef = null;
 

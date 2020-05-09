@@ -31,6 +31,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.client.HttpAsyncResponseConsumerFactory;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestHighLevelClient;
@@ -72,6 +73,14 @@ public final class SearchElastic implements Closeable {
   private static final int TIMEOUT = 600 * 1000;
   private final Args args;
   private RestHighLevelClient client;
+
+  private static final RequestOptions COMMON_OPTIONS;
+  static {
+    RequestOptions.Builder builder = RequestOptions.DEFAULT.toBuilder();
+    builder.setHttpAsyncResponseConsumerFactory(
+      new HttpAsyncResponseConsumerFactory.HeapBufferedResponseConsumerFactory(1024 * 1024 * 1024));
+    COMMON_OPTIONS = builder.build();
+  }
 
   public static final class Args {
 
@@ -240,7 +249,7 @@ public final class SearchElastic implements Closeable {
     searchRequest.source(sourceBuilder);
 
     try {
-      SearchResponse searchResponse = client.search(searchRequest, RequestOptions.DEFAULT);
+      SearchResponse searchResponse = client.search(searchRequest, COMMON_OPTIONS);
       results = searchResponse.getHits();
     } catch (Exception e) {
       LOG.error("Exception during ES query: ", e);
@@ -287,7 +296,7 @@ public final class SearchElastic implements Closeable {
     searchRequest.source(sourceBuilder);
 
     try {
-      SearchResponse searchResponse = client.search(searchRequest, RequestOptions.DEFAULT);
+      SearchResponse searchResponse = client.search(searchRequest, COMMON_OPTIONS);
       results = searchResponse.getHits();
     } catch (Exception e) {
       LOG.error("Exception during ES query: ", e);
