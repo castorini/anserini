@@ -207,8 +207,8 @@ public class SimpleSearcher implements Closeable {
 
    public int getTotalNumDocuments(){
      if (searcher == null) {
-      searcher = new IndexSearcher(reader);
-    }
+       searcher = new IndexSearcher(reader);
+      }
      return searcher.getIndexReader().maxDoc();
    }
 

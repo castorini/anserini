@@ -253,7 +253,6 @@ public class SimpleSearcherTest extends IndexerTestBase {
   @Test
   public void testTotalNumDocuments() throws Exception {
     SimpleSearcher searcher = new SimpleSearcher(super.tempDir1.toString());
-    assertEquals(3,searcher.getTotalNumDocuments());
-
+    assertEquals(3 ,searcher.getTotalNumDocuments());
   }
 }
