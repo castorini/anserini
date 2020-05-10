@@ -162,3 +162,5 @@ Tuned (`k1=0.82`, `b=0.72`) | 0.1875 | 0.1956 | 0.8578
 + Results replicated by [@y276lin](https://github.com/y276lin) on 2020-04-26 (commit [`8f48f8e`](https://github.com/castorini/anserini/commit/8f48f8e40a37e5f6b5910a3a3b5c050a0f9be914))
 + Results replicated by [@stephaniewhoo](http://github.com/stephaniewhoo) on 2020-04-26 (commit [`8f48f8e`](https://github.com/castorini/anserini/commit/8f48f8e40a37e5f6b5910a3a3b5c050a0f9be914))
 + Results replicated by [@eiston](http://github.com/eiston) on 2020-05-04 (commit [`dd84a5a`](https://github.com/castorini/anserini/commit/dd84a5a514700365d9aa4a1ea988107372515f33))
++ Results replicated by [@rohilg](http://github.com/rohilg) on 2020-05-09 (commit [`20ee950`](https://github.com/castorini/anserini/commit/20ee950fbdc5cc9ce1c993911cbca4fcbfa86d02))
++ Results replicated by [@wongalvis14](https://github.com/wongalvis14) on 2020-05-09 (commit [`ebac5d6`](https://github.com/castorini/anserini/commit/ebac5d62f2e626e0a48c83dad79bddba60cadcf5))
