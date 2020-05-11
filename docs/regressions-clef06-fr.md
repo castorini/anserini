@@ -12,8 +12,8 @@ Typical indexing command:
 
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection JsonCollection -input /path/to/clef06-fr \
- -index lucene-index.clef06-fr.pos+docvectors+rawdocs -generator DefaultLuceneDocumentGenerator -threads 16 \
- -storePositions -storeDocvectors -storeRaw -language fr >& log.clef06-fr.pos+docvectors+rawdocs &
+ -index indexes/lucene-index.clef06-fr.pos+docvectors+raw -generator DefaultLuceneDocumentGenerator -threads 16 \
+ -storePositions -storeDocvectors -storeRaw -language fr >& logs/log.clef06-fr.pos+docvectors+rawdocs &
 ```
 
 The collection comprises news articles from ATS (SDA) and Le Monde totaling 177,452 documents.
@@ -32,7 +32,7 @@ Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/m
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-nohup target/appassembler/bin/SearchCollection -index lucene-index.clef06-fr.pos+docvectors+rawdocs \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.clef06-fr.pos+docvectors+raw \
  -topicreader TsvString -topics src/main/resources/topics-and-qrels/topics.clef06fr.mono.fr.txt \
  -language fr -bm25 -output run.clef06-fr.bm25.topics.clef06fr.mono.fr.txt &
 ```

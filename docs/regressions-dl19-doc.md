@@ -13,8 +13,8 @@ Typical indexing command:
 
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection CleanTrecCollection -input /path/to/dl19-doc \
- -index lucene-index.msmacro-doc.pos+docvectors+rawdocs -generator DefaultLuceneDocumentGenerator -threads 1 \
- -storePositions -storeDocvectors -storeRaw >& log.dl19-doc.pos+docvectors+rawdocs &
+ -index indexes/lucene-index.msmarco-doc.pos+docvectors+raw -generator DefaultLuceneDocumentGenerator -threads 1 \
+ -storePositions -storeDocvectors -storeRaw >& logs/log.dl19-doc.pos+docvectors+rawdocs &
 ```
 
 The directory `/path/to/msmarco-doc/` should be a directory containing the official document collection (a single file), in TREC format.
@@ -30,35 +30,35 @@ The original data can be found [here](https://trec.nist.gov/data/deep2019.html).
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-nohup target/appassembler/bin/SearchCollection -index lucene-index.dl19-doc.pos+docvectors+rawdocs \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-doc.pos+docvectors+raw \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
  -bm25 -output run.dl19-doc.bm25-default.topics.dl19-doc.txt &
 
-nohup target/appassembler/bin/SearchCollection -index lucene-index.dl19-doc.pos+docvectors+rawdocs \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-doc.pos+docvectors+raw \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
  -bm25 -rm3 -output run.dl19-doc.bm25-default+rm3.topics.dl19-doc.txt &
 
-nohup target/appassembler/bin/SearchCollection -index lucene-index.dl19-doc.pos+docvectors+rawdocs \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-doc.pos+docvectors+raw \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
  -bm25 -axiom -axiom.deterministic -rerankCutoff 20 -output run.dl19-doc.bm25-default+ax.topics.dl19-doc.txt &
 
-nohup target/appassembler/bin/SearchCollection -index lucene-index.dl19-doc.pos+docvectors+rawdocs \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-doc.pos+docvectors+raw \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
  -bm25 -bm25prf -output run.dl19-doc.bm25-default+prf.topics.dl19-doc.txt &
 
-nohup target/appassembler/bin/SearchCollection -index lucene-index.dl19-doc.pos+docvectors+rawdocs \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-doc.pos+docvectors+raw \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
  -bm25 -bm25.k1 3.44 -bm25.b 0.87 -output run.dl19-doc.bm25-tuned.topics.dl19-doc.txt &
 
-nohup target/appassembler/bin/SearchCollection -index lucene-index.dl19-doc.pos+docvectors+rawdocs \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-doc.pos+docvectors+raw \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
  -bm25 -bm25.k1 3.44 -bm25.b 0.87 -rm3 -output run.dl19-doc.bm25-tuned+rm3.topics.dl19-doc.txt &
 
-nohup target/appassembler/bin/SearchCollection -index lucene-index.dl19-doc.pos+docvectors+rawdocs \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-doc.pos+docvectors+raw \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
  -bm25 -bm25.k1 3.44 -bm25.b 0.87 -axiom -axiom.deterministic -rerankCutoff 20 -output run.dl19-doc.bm25-tuned+ax.topics.dl19-doc.txt &
 
-nohup target/appassembler/bin/SearchCollection -index lucene-index.dl19-doc.pos+docvectors+rawdocs \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-doc.pos+docvectors+raw \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl19-doc.txt \
  -bm25 -bm25.k1 3.44 -bm25.b 0.87 -bm25prf -output run.dl19-doc.bm25-tuned+prf.topics.dl19-doc.txt &
 ```

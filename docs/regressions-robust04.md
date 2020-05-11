@@ -10,8 +10,8 @@ Typical indexing command:
 
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection TrecCollection -input /path/to/robust04 \
- -index lucene-index.robust04.pos+docvectors+rawdocs -generator DefaultLuceneDocumentGenerator -threads 16 \
- -storePositions -storeDocvectors -storeRaw >& log.robust04.pos+docvectors+rawdocs &
+ -index indexes/lucene-index.robust04.pos+docvectors+raw -generator DefaultLuceneDocumentGenerator -threads 16 \
+ -storePositions -storeDocvectors -storeRaw >& logs/log.robust04.pos+docvectors+rawdocs &
 ```
 
 The directory `/path/to/disk45/` should be the root directory of [TREC Disks 4 &amp; 5](https://trec.nist.gov/data_disks.html); inside each there should be subdirectories like `ft`, `fr94`.
@@ -29,27 +29,27 @@ Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/m
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-nohup target/appassembler/bin/SearchCollection -index lucene-index.robust04.pos+docvectors+rawdocs \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.robust04.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.robust04.txt \
  -bm25 -output run.robust04.bm25.topics.robust04.txt &
 
-nohup target/appassembler/bin/SearchCollection -index lucene-index.robust04.pos+docvectors+rawdocs \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.robust04.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.robust04.txt \
  -bm25 -rm3 -output run.robust04.bm25+rm3.topics.robust04.txt &
 
-nohup target/appassembler/bin/SearchCollection -index lucene-index.robust04.pos+docvectors+rawdocs \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.robust04.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.robust04.txt \
  -bm25 -axiom -axiom.deterministic -rerankCutoff 20 -output run.robust04.bm25+ax.topics.robust04.txt &
 
-nohup target/appassembler/bin/SearchCollection -index lucene-index.robust04.pos+docvectors+rawdocs \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.robust04.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.robust04.txt \
  -qld -output run.robust04.ql.topics.robust04.txt &
 
-nohup target/appassembler/bin/SearchCollection -index lucene-index.robust04.pos+docvectors+rawdocs \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.robust04.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.robust04.txt \
  -qld -rm3 -output run.robust04.ql+rm3.topics.robust04.txt &
 
-nohup target/appassembler/bin/SearchCollection -index lucene-index.robust04.pos+docvectors+rawdocs \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.robust04.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.robust04.txt \
  -qld -axiom -axiom.deterministic -rerankCutoff 20 -output run.robust04.ql+ax.topics.robust04.txt &
 ```
