@@ -34,10 +34,8 @@ def main():
     parser.add_argument('--qrels', type=str, metavar='qrels', help='qrels', required=True)
     parser.add_argument('--input', type=str, metavar='run', help='input run', required=True)
     parser.add_argument('--output', type=str, metavar='run', help='output run', required=True)
-    parser.add_argument(
-        '--k', type=int, default=1000,
-        help='the number of results to keep per-topic'
-    )
+    parser.add_argument('--runtag', type=str, default=None, metavar='runtag', help='run tag')
+    parser.add_argument('--k', type=int, default=1000, help='the number of results to keep per-topic')
     args=parser.parse_args()
 
     judged_docids = read_qrels(args.qrels)
@@ -53,6 +51,9 @@ def main():
                 docid = cols[2]
                 score = float(cols[4])
                 tag = cols[5]
+
+                if args.runtag is not None:
+                    tag = args.runtag
 
                 if counts[qid] >= args.k:
                     if check_score:
