@@ -21,7 +21,7 @@ There's no need to uncompress the file, as Anserini can directly index gzipped f
 Build the index with the following command:
 
 ```
-nohup sh target/appassembler/bin/IndexCollection -collection TrecCollection \
+nohup sh target/appassembler/bin/IndexCollection -collection CleanTrecCollection \
  -generator DefaultLuceneDocumentGenerator -threads 1 -input msmarco-doc/collection \
  -index lucene-index.msmarco-doc.pos+docvectors+rawdocs -storePositions -storeDocvectors -storeRaw \
  >& log.msmarco-doc.pos+docvectors+rawdocs &
@@ -72,7 +72,7 @@ In this guide, to save time, we are only going to perform retrieval on the dev q
 This can be accomplished as follows:
 
 ```
-target/appassembler/bin/SearchCollection -topicreader TsvString -index lucene-index.msmarco-doc.pos+docvectors+rawdocs \
+target/appassembler/bin/SearchCollection -topicreader TsvInt -index lucene-index.msmarco-doc.pos+docvectors+rawdocs \
  -topics msmarco-doc/msmarco-docdev-queries.tsv -output msmarco-doc/run.msmarco-doc.dev.bm25.txt -bm25
 ```
 
