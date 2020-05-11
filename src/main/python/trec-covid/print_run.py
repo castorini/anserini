@@ -28,6 +28,10 @@ run = utils.load_run(args.run)
 metadata = load_metadata(args.metadata)
 
 for query_id, (query, question) in queries.items():
+    if query_id not in run:
+        print(f'>> Missing query_id: {query_id}')
+        continue
+
     print(f'query id: {query_id} | query: {query} | question: {question}')
     output = 'rank | doc_id | title'
     if args.abstract:
