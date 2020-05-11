@@ -1,4 +1,4 @@
-## Indexing and Retrieving a Custom Collection with Anserini
+# Indexing and Retrieving a Custom Collection with Anserini
 
 Anserini supports indexing and retrieving a custom collection. 
 
