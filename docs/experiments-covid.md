@@ -141,24 +141,14 @@ python eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.
 python eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/anserini.covid-r2.paragraph.qdel.bm25.txt
 ```
 
-Here are the Python commands to generate the fusion runs, using [`trectools`](https://github.com/joaopalotti/trectools) (v0.0.43):
+We've written a convenience script to generate fusion runs that wraps [`trectools`](https://github.com/joaopalotti/trectools) (v0.0.43):
 
-```python
-from trectools import TrecRun, TrecEval, fusion
+```bash
+python src/main/python/fusion.py --method RRF --out runs/anserini.covid-r2.fusion1.txt \
+ --runs runs/anserini.covid-r2.abstract.qq.bm25.txt runs/anserini.covid-r2.full-text.qq.bm25.txt runs/anserini.covid-r2.paragraph.qq.bm25.txt
 
-r1 = TrecRun("runs/anserini.covid-r2.abstract.qq.bm25.txt")
-r2 = TrecRun("runs/anserini.covid-r2.full-text.qq.bm25.txt")
-r3 = TrecRun("runs/anserini.covid-r2.paragraph.qq.bm25.txt")
-
-fused_run = fusion.reciprocal_rank_fusion([r1,r2,r3])
-fused_run.print_subset("runs/anserini.covid-r2.fusion1.txt", topics=fused_run.topics())
-
-r4 = TrecRun("runs/anserini.covid-r2.abstract.qdel.bm25.txt")
-r5 = TrecRun("runs/anserini.covid-r2.full-text.qdel.bm25.txt")
-r6 = TrecRun("runs/anserini.covid-r2.paragraph.qdel.bm25.txt")
-
-fused_run = fusion.reciprocal_rank_fusion([r4,r5,r6])
-fused_run.print_subset("runs/anserini.covid-r2.fusion2.txt", topics=fused_run.topics())
+python src/main/python/fusion.py --method RRF --out runs/anserini.covid-r2.fusion2.txt \
+ --runs runs/anserini.covid-r2.abstract.qdel.bm25.txt runs/anserini.covid-r2.full-text.qdel.bm25.txt runs/anserini.covid-r2.paragraph.qdel.bm25.txt
 ```
 
 And to evalute the fusion runs:
@@ -324,24 +314,14 @@ python eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.
 python eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/run.covid-r1.paragraph.query-covid19.bm25.txt
 ```
 
-Here are the Python commands to generate the fusion runs, using [`trectools`](https://github.com/joaopalotti/trectools) (v0.0.43):
+We've written a convenience script to generate fusion runs that wraps [`trectools`](https://github.com/joaopalotti/trectools) (v0.0.43):
 
-```python
-from trectools import TrecRun, TrecEval, fusion
+```bash
+python src/main/python/fusion.py --method RRF --out runs/run.covid-r1.fusion1.txt \
+ --runs runs/run.covid-r1.abstract.query+question.bm25.txt runs/run.covid-r1.full-text.query+question.bm25.txt runs/run.covid-r1.paragraph.query+question.bm25.txt
 
-r1 = TrecRun("runs/run.covid-r1.abstract.query+question.bm25.txt")
-r2 = TrecRun("runs/run.covid-r1.full-text.query+question.bm25.txt")
-r3 = TrecRun("runs/run.covid-r1.paragraph.query+question.bm25.txt")
-
-fused_run = fusion.reciprocal_rank_fusion([r1,r2,r3])
-fused_run.print_subset("runs/run.covid-r1.fusion1.txt", topics=fused_run.topics())
-
-r4 = TrecRun("runs/run.covid-r1.abstract.query-udel.bm25.txt")
-r5 = TrecRun("runs/run.covid-r1.full-text.query-udel.bm25.txt")
-r6 = TrecRun("runs/run.covid-r1.paragraph.query-udel.bm25.txt")
-
-fused_run = fusion.reciprocal_rank_fusion([r4,r5,r6])
-fused_run.print_subset("runs/run.covid-r1.fusion2.txt", topics=fused_run.topics())
+python src/main/python/fusion.py --method RRF --out runs/run.covid-r1.fusion2.txt \
+ --runs runs/run.covid-r1.abstract.query-udel.bm25.txt runs/run.covid-r1.full-text.query-udel.bm25.txt runs/run.covid-r1.paragraph.query-udel.bm25.txt
 ```
 
 And to evalute the fusion runs:
