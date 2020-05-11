@@ -52,7 +52,7 @@ def main():
                 score = float(cols[4])
                 tag = cols[5]
 
-                if args.runtag is not None:
+                if args.runtag:
                     tag = args.runtag
 
                 if counts[qid] >= args.k:
