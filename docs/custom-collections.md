@@ -40,7 +40,7 @@ If you are looking to build a search pipeline with such collection, you might wa
 
 <b>Run the indexing step from the [MS MARCO pipeline](https://github.com/castorini/anserini/blob/master/docs/experiments-msmarco-passage.md)</b>
 * This step resembles below line in above documentation. 
-    > index the docs as a JsonCollection using Anserini
+    > We can now index these docs as a `JsonCollection` using Anserini: 
     
 * That is, you would use an indexing command such as below, 
     
