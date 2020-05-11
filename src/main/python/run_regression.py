@@ -56,8 +56,8 @@ def get_index_path(yaml_data):
     index_path = yaml_data['index_path']
     if not index_path or not os.path.exists(index_path):
         for input_root in yaml_data['input_roots']:
-            if os.path.exists(os.path.join(input_root, yaml_data['index_path'])):
-                index_path = os.path.join(input_root, yaml_data['index_path'])
+            index_path = os.path.join(input_root, yaml_data['index_path'])
+            if os.path.exists(index_path):
                 break
     return index_path
 
