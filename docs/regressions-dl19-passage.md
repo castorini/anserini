@@ -13,8 +13,8 @@ Typical indexing command:
 
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection JsonCollection -input /path/to/dl19-passage \
- -index lucene-index.msmarco-passage.pos+docvectors+rawdocs -generator DefaultLuceneDocumentGenerator -threads 9 \
- -storePositions -storeDocvectors -storeRaw >& log.dl19-passage.pos+docvectors+rawdocs &
+ -index indexes/lucene-index.msmarco-passage.pos+docvectors+raw -generator DefaultLuceneDocumentGenerator -threads 9 \
+ -storePositions -storeDocvectors -storeRaw >& logs/log.dl19-passage.pos+docvectors+rawdocs &
 ```
 
 The directory `/path/to/msmarco-passage/` should be a directory containing `jsonl` files converted from the official passage collection, which is in `tsv` format.
@@ -31,35 +31,35 @@ The original data can be found [here](https://trec.nist.gov/data/deep2019.html).
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-nohup target/appassembler/bin/SearchCollection -index lucene-index.dl19-passage.pos+docvectors+rawdocs \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-passage.pos+docvectors+raw \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl19-passage.txt \
  -bm25 -output run.dl19-passage.bm25-default.topics.dl19-passage.txt &
 
-nohup target/appassembler/bin/SearchCollection -index lucene-index.dl19-passage.pos+docvectors+rawdocs \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-passage.pos+docvectors+raw \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl19-passage.txt \
  -bm25 -rm3 -output run.dl19-passage.bm25-default+rm3.topics.dl19-passage.txt &
 
-nohup target/appassembler/bin/SearchCollection -index lucene-index.dl19-passage.pos+docvectors+rawdocs \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-passage.pos+docvectors+raw \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl19-passage.txt \
  -bm25 -axiom -axiom.deterministic -rerankCutoff 20 -output run.dl19-passage.bm25-default+ax.topics.dl19-passage.txt &
 
-nohup target/appassembler/bin/SearchCollection -index lucene-index.dl19-passage.pos+docvectors+rawdocs \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-passage.pos+docvectors+raw \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl19-passage.txt \
  -bm25 -bm25prf -output run.dl19-passage.bm25-default+prf.topics.dl19-passage.txt &
 
-nohup target/appassembler/bin/SearchCollection -index lucene-index.dl19-passage.pos+docvectors+rawdocs \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-passage.pos+docvectors+raw \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl19-passage.txt \
  -bm25 -bm25.k1 0.82 -bm25.b 0.68 -output run.dl19-passage.bm25-tuned.topics.dl19-passage.txt &
 
-nohup target/appassembler/bin/SearchCollection -index lucene-index.dl19-passage.pos+docvectors+rawdocs \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-passage.pos+docvectors+raw \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl19-passage.txt \
  -bm25 -bm25.k1 0.82 -bm25.b 0.68 -rm3 -output run.dl19-passage.bm25-tuned+rm3.topics.dl19-passage.txt &
 
-nohup target/appassembler/bin/SearchCollection -index lucene-index.dl19-passage.pos+docvectors+rawdocs \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-passage.pos+docvectors+raw \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl19-passage.txt \
  -bm25 -bm25.k1 0.82 -bm25.b 0.68 -axiom -axiom.deterministic -rerankCutoff 20 -output run.dl19-passage.bm25-tuned+ax.topics.dl19-passage.txt &
 
-nohup target/appassembler/bin/SearchCollection -index lucene-index.dl19-passage.pos+docvectors+rawdocs \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-passage.pos+docvectors+raw \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl19-passage.txt \
  -bm25 -bm25.k1 0.82 -bm25.b 0.68 -bm25prf -output run.dl19-passage.bm25-tuned+prf.topics.dl19-passage.txt &
 ```

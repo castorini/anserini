@@ -12,8 +12,8 @@ Typical indexing command:
 
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection JsonCollection -input /path/to/msmarco-passage \
- -index lucene-index.msmarco-passage.pos+docvectors+rawdocs -generator DefaultLuceneDocumentGenerator -threads 9 \
- -storePositions -storeDocvectors -storeRaw >& log.msmarco-passage.pos+docvectors+rawdocs &
+ -index indexes/lucene-index.msmarco-passage.pos+docvectors+raw -generator DefaultLuceneDocumentGenerator -threads 9 \
+ -storePositions -storeDocvectors -storeRaw >& logs/log.msmarco-passage.pos+docvectors+rawdocs &
 ```
 
 The directory `/path/to/msmarco-passage/` should be a directory containing `jsonl` files converted from the official passage collection, which is in `tsv` format.
@@ -29,35 +29,35 @@ The regression experiments here evaluate on the 6980 dev set questions; see [thi
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-nohup target/appassembler/bin/SearchCollection -index lucene-index.msmarco-passage.pos+docvectors+rawdocs \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-passage.pos+docvectors+raw \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
  -bm25 -output run.msmarco-passage.bm25-default.topics.msmarco-passage.dev-subset.txt &
 
-nohup target/appassembler/bin/SearchCollection -index lucene-index.msmarco-passage.pos+docvectors+rawdocs \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-passage.pos+docvectors+raw \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
  -bm25 -rm3 -output run.msmarco-passage.bm25-default+rm3.topics.msmarco-passage.dev-subset.txt &
 
-nohup target/appassembler/bin/SearchCollection -index lucene-index.msmarco-passage.pos+docvectors+rawdocs \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-passage.pos+docvectors+raw \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
  -bm25 -axiom -axiom.deterministic -rerankCutoff 20 -output run.msmarco-passage.bm25-default+ax.topics.msmarco-passage.dev-subset.txt &
 
-nohup target/appassembler/bin/SearchCollection -index lucene-index.msmarco-passage.pos+docvectors+rawdocs \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-passage.pos+docvectors+raw \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
  -bm25 -bm25prf -output run.msmarco-passage.bm25-default+prf.topics.msmarco-passage.dev-subset.txt &
 
-nohup target/appassembler/bin/SearchCollection -index lucene-index.msmarco-passage.pos+docvectors+rawdocs \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-passage.pos+docvectors+raw \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
  -bm25 -bm25.k1 0.82 -bm25.b 0.68 -output run.msmarco-passage.bm25-tuned.topics.msmarco-passage.dev-subset.txt &
 
-nohup target/appassembler/bin/SearchCollection -index lucene-index.msmarco-passage.pos+docvectors+rawdocs \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-passage.pos+docvectors+raw \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
  -bm25 -bm25.k1 0.82 -bm25.b 0.68 -rm3 -output run.msmarco-passage.bm25-tuned+rm3.topics.msmarco-passage.dev-subset.txt &
 
-nohup target/appassembler/bin/SearchCollection -index lucene-index.msmarco-passage.pos+docvectors+rawdocs \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-passage.pos+docvectors+raw \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
  -bm25 -bm25.k1 0.82 -bm25.b 0.68 -axiom -axiom.deterministic -rerankCutoff 20 -output run.msmarco-passage.bm25-tuned+ax.topics.msmarco-passage.dev-subset.txt &
 
-nohup target/appassembler/bin/SearchCollection -index lucene-index.msmarco-passage.pos+docvectors+rawdocs \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-passage.pos+docvectors+raw \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
  -bm25 -bm25.k1 0.82 -bm25.b 0.68 -bm25prf -output run.msmarco-passage.bm25-tuned+prf.topics.msmarco-passage.dev-subset.txt &
 ```
