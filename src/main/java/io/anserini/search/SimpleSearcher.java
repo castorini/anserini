@@ -154,8 +154,10 @@ public class SimpleSearcher implements Closeable {
       throw new IllegalArgumentException(indexDir + " does not exist or is not a directory.");
     }
 
+    SearchArgs defaults = new SearchArgs();
+
     this.reader = DirectoryReader.open(FSDirectory.open(indexPath));
-    this.similarity = new BM25Similarity(0.9f, 0.4f);
+    this.similarity = new BM25Similarity(Float.parseFloat(defaults.bm25_k1[0]), Float.parseFloat(defaults.bm25_b[0]));
     this.analyzer = analyzer;
     this.isRerank = false;
     cascade = new RerankerCascade();
@@ -195,7 +197,9 @@ public class SimpleSearcher implements Closeable {
   }
 
   public void setRM3Reranker() {
-    setRM3Reranker(10, 10, 0.5f, false);
+    SearchArgs defaults = new SearchArgs();
+
+    setRM3Reranker(Integer.parseInt(defaults.rm3_fbTerms[0]), 10, 0.5f, false);
   }
 
   public void setRM3Reranker(int fbTerms, int fbDocs, float originalQueryWeight) {
@@ -539,7 +543,7 @@ public class SimpleSearcher implements Closeable {
 
       Map<String, Result[]> allResults = searcher.batchSearch(queries, qids, searchArgs.hits, searchArgs.threads);
 
-      // We iterate though, in natural object order.
+      // We iterate through, in natural object order.
       for (Object id : topics.keySet()) {
         Result[] results = allResults.get(id.toString());
 
