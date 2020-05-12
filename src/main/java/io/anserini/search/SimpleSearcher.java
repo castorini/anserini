@@ -68,6 +68,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -102,8 +103,11 @@ public class SimpleSearcher implements Closeable {
     @Option(name = "-rm3", usage = "Flag to use RM3.")
     public Boolean useRM3 = false;
 
-    @Option(name = "-hits", metaVar = "[number]", usage = "max number of hits to return")
+    @Option(name = "-hits", metaVar = "[number]", usage = "Max number of hits to return.")
     public int hits = 1000;
+
+    @Option(name = "-threads", metaVar = "[number]", usage = "Number of threads to use.")
+    public int threads = 1;
   }
 
   private IndexReader reader;
@@ -276,7 +280,7 @@ public class SimpleSearcher implements Closeable {
         Long lineNumber = index.incrementAndGet();
         if (lineNumber % 100 == 0) {
           double timePerQuery = (double) (System.nanoTime() - startTime) / (lineNumber + 1) / 1e9;
-          LOG.info(String.format("Retrieving query " + lineNumber + " (%.3f s/query)\n", timePerQuery));
+          LOG.info(String.format("Retrieving query " + lineNumber + " (%.3f s/query)", timePerQuery));
         }
       });
     }
@@ -514,15 +518,38 @@ public class SimpleSearcher implements Closeable {
       searcher.setRM3Reranker();
     }
 
-    for (Object id : topics.keySet()) {
-      LOG.info(String.format("Running topic %s", id));
-      Result[] results = searcher.search(topics.get(id).get("title"), 1000);
+    if (searchArgs.threads == 1) {
+      for (Object id : topics.keySet()) {
+        LOG.info(String.format("Running topic %s", id));
+        Result[] results = searcher.search(topics.get(id).get("title"), searchArgs.hits);
 
-      for (int i=0; i<results.length; i++) {
-        out.println(String.format(Locale.US, "%s Q0 %s %d %f Anserini",
-            id, results[i].docid, (i+1), results[i].score));
+        for (int i = 0; i < results.length; i++) {
+          out.println(String.format(Locale.US, "%s Q0 %s %d %f Anserini",
+              id, results[i].docid, (i + 1), results[i].score));
+        }
+      }
+    } else {
+      List<String> qids = new ArrayList<>();
+      List<String> queries = new ArrayList<>();
+
+      for (Object id : topics.keySet()) {
+        qids.add(id.toString());
+        queries.add(topics.get(id).get("title"));
+      }
+
+      Map<String, Result[]> allResults = searcher.batchSearch(queries, qids, searchArgs.hits, searchArgs.threads);
+
+      // We iterate though, in natural object order.
+      for (Object id : topics.keySet()) {
+        Result[] results = allResults.get(id.toString());
+
+        for (int i = 0; i < results.length; i++) {
+          out.println(String.format(Locale.US, "%s Q0 %s %d %f Anserini",
+              id, results[i].docid, (i + 1), results[i].score));
+        }
       }
     }
+
     out.close();
 
     final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
