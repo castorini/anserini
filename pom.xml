@@ -133,6 +133,10 @@
               <id>SimpleSearcher</id>
             </program>
             <program>
+              <mainClass>io.anserini.search.SimpleTweetSearcher</mainClass>
+              <id>SimpleTweetSearcher</id>
+            </program>
+            <program>
                <mainClass>io.anserini.util.DumpAnalyzedQueries</mainClass>
                <id>DumpAnalyzedQueries</id>
             </program>

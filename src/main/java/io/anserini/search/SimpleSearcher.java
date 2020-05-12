@@ -17,11 +17,9 @@
 package io.anserini.search;
 
 import io.anserini.analysis.AnalyzerUtils;
-import io.anserini.analysis.TweetAnalyzer;
 import io.anserini.index.IndexArgs;
 import io.anserini.index.IndexCollection;
 import io.anserini.index.IndexReaderUtils;
-import io.anserini.index.generator.TweetGenerator;
 import io.anserini.rerank.RerankerCascade;
 import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.ScoredDocuments;
@@ -38,12 +36,10 @@ import org.apache.lucene.analysis.ar.ArabicAnalyzer;
 import org.apache.lucene.analysis.bn.BengaliAnalyzer;
 import org.apache.lucene.analysis.cjk.CJKAnalyzer;
 import org.apache.lucene.analysis.de.GermanAnalyzer;
-import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.analysis.es.SpanishAnalyzer;
 import org.apache.lucene.analysis.fr.FrenchAnalyzer;
 import org.apache.lucene.analysis.hi.HindiAnalyzer;
 import org.apache.lucene.document.Document;
-import org.apache.lucene.document.LongPoint;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexableField;
@@ -91,9 +87,6 @@ import java.util.concurrent.atomic.AtomicLong;
 public class SimpleSearcher implements Closeable {
   public static final Sort BREAK_SCORE_TIES_BY_DOCID =
       new Sort(SortField.FIELD_SCORE, new SortField(IndexArgs.ID, SortField.Type.STRING_VAL));
-  public static final Sort BREAK_SCORE_TIES_BY_TWEETID =
-      new Sort(SortField.FIELD_SCORE,
-          new SortField(TweetGenerator.TweetField.ID_LONG.name, SortField.Type.LONG, true));
   private static final Logger LOG = LogManager.getLogger(SimpleSearcher.class);
 
   public static final class Args {
@@ -109,18 +102,14 @@ public class SimpleSearcher implements Closeable {
     @Option(name = "-rm3", usage = "Flag to use RM3.")
     public Boolean useRM3 = false;
 
-    @Option(name = "-searchtweets", usage = "Flag to search tweets.")
-    public Boolean searchtweets = false;
-
     @Option(name = "-hits", metaVar = "[number]", usage = "max number of hits to return")
     public int hits = 1000;
   }
 
-  private final IndexReader reader;
+  private IndexReader reader;
   private Similarity similarity;
   private Analyzer analyzer;
   private RerankerCascade cascade;
-  private boolean searchtweets;
   private boolean isRerank;
 
   private IndexSearcher searcher = null;
@@ -147,6 +136,9 @@ public class SimpleSearcher implements Closeable {
     }
   }
 
+  protected SimpleSearcher() {
+  }
+
   public SimpleSearcher(String indexDir) throws IOException {
     this(indexDir, IndexCollection.DEFAULT_ANALYZER);
   }
@@ -161,15 +153,9 @@ public class SimpleSearcher implements Closeable {
     this.reader = DirectoryReader.open(FSDirectory.open(indexPath));
     this.similarity = new BM25Similarity(0.9f, 0.4f);
     this.analyzer = analyzer;
-    this.searchtweets = false;
     this.isRerank = false;
     cascade = new RerankerCascade();
     cascade.add(new ScoreTiesAdjusterReranker());
-  }
-
-  public void setSearchTweets(boolean flag) {
-     this.searchtweets = flag;
-     this.analyzer = flag ? new TweetAnalyzer() : IndexCollection.DEFAULT_ANALYZER;
   }
 
   public void setAnalyzer(Analyzer analyzer) {
@@ -241,11 +227,11 @@ public class SimpleSearcher implements Closeable {
    *
    * @return the number of documents in total
    */
-
    public int getTotalNumDocuments(){
      if (searcher == null) {
        searcher = new IndexSearcher(reader);
-      }
+     }
+
      return searcher.getIndexReader().maxDoc();
    }
 
@@ -255,19 +241,10 @@ public class SimpleSearcher implements Closeable {
   }
 
   public Map<String, Result[]> batchSearch(List<String> queries, List<String> qids, int k, int threads) {
-    return batchSearchFields(queries, qids, k, -1, threads, new HashMap<>());
-  }
-
-  public Map<String, Result[]> batchSearch(List<String> queries, List<String> qids, int k, long t, int threads) {
-    return batchSearchFields(queries, qids, k, t, threads, new HashMap<>());
+    return batchSearchFields(queries, qids, k, threads, new HashMap<>());
   }
 
   public Map<String, Result[]> batchSearchFields(List<String> queries, List<String> qids, int k, int threads,
-                                                 Map<String, Float> fields) {
-    return batchSearchFields(queries, qids, k, -1, threads, fields);
-  }
-
-  public Map<String, Result[]> batchSearchFields(List<String> queries, List<String> qids, int k, long t, int threads,
                                                  Map<String, Float> fields) {
     // Create the IndexSearcher here, if needed. We do it here because if we leave the creation to the search
     // method, we might end up with a race condition as multiple threads try to concurrently create the IndexSearcher.
@@ -288,9 +265,9 @@ public class SimpleSearcher implements Closeable {
       executor.execute(() -> {
         try {
           if (fields.size() > 0) {
-            results.put(qid, searchFields(query, fields, k, t));
+            results.put(qid, searchFields(query, fields, k));
           } else {
-            results.put(qid, search(query, k, t));
+            results.put(qid, search(query, k));
           }
         } catch (IOException e) {
           throw new CompletionException(e);
@@ -332,28 +309,23 @@ public class SimpleSearcher implements Closeable {
   }
 
   public Result[] search(String q, int k) throws IOException {
-    return search(q, k, -1);
-  }
-
-  public Result[] search(String q, int k, long t) throws IOException {
     Query query = new BagOfWordsQueryGenerator().buildQuery(IndexArgs.CONTENTS, analyzer, q);
     List<String> queryTokens = AnalyzerUtils.analyze(analyzer, q);
 
-    return search(query, queryTokens, q, k, t);
+    return search(query, queryTokens, q, k);
   }
 
   public Result[] search(Query query, int k) throws IOException {
-    return search(query, null, null, k, -1);
+    return search(query, null, null, k);
   }
 
   public Result[] search(QueryGenerator generator, String q, int k) throws IOException {
     Query query = generator.buildQuery(IndexArgs.CONTENTS, analyzer, q);
 
-    return search(query, null, null, k, -1);
+    return search(query, null, null, k);
   }
 
-  protected Result[] search(Query query, List<String> queryTokens, String queryString, int k,
-                            long t) throws IOException {
+  protected Result[] search(Query query, List<String> queryTokens, String queryString, int k) throws IOException {
     // Create an IndexSearch only once. Note that the object is thread safe.
     if (searcher == null) {
       searcher = new IndexSearcher(reader);
@@ -363,36 +335,12 @@ public class SimpleSearcher implements Closeable {
     SearchArgs searchArgs = new SearchArgs();
     searchArgs.arbitraryScoreTieBreak = false;
     searchArgs.hits = k;
-    searchArgs.searchtweets = searchtweets;
 
     TopDocs rs;
     RerankerContext context;
-    if (searchtweets) {
-      if (t > 0) {
-        // Do not consider the tweets with tweet ids that are beyond the queryTweetTime
-        // <querytweettime> tag contains the timestamp of the query in terms of the
-        // chronologically nearest tweet id within the corpus
-        Query filter = LongPoint.newRangeQuery(TweetGenerator.TweetField.ID_LONG.name, 0L, t);
-        BooleanQuery.Builder builder = new BooleanQuery.Builder();
-        builder.add(filter, BooleanClause.Occur.FILTER);
-        builder.add(query, BooleanClause.Occur.MUST);
-        Query compositeQuery = builder.build();
-        rs = searcher.search(compositeQuery, isRerank ? searchArgs.rerankcutoff :
-            k, BREAK_SCORE_TIES_BY_TWEETID, true);
-        context = new RerankerContext<>(searcher, null, compositeQuery, null,
-            queryString, queryTokens, filter, searchArgs);
-      } else {
-        rs = searcher.search(query,
-            isRerank ? searchArgs.rerankcutoff : k, BREAK_SCORE_TIES_BY_TWEETID, true);
-        context = new RerankerContext<>(searcher, null, query, null,
-            queryString, queryTokens, null, searchArgs);
-      }
-    } else {
-      rs = searcher.search(query,
-          isRerank ? searchArgs.rerankcutoff : k, BREAK_SCORE_TIES_BY_DOCID, true);
-      context = new RerankerContext<>(searcher, null, query, null,
+    rs = searcher.search(query, isRerank ? searchArgs.rerankcutoff : k, BREAK_SCORE_TIES_BY_DOCID, true);
+    context = new RerankerContext<>(searcher, null, query, null,
           queryString, queryTokens, null, searchArgs);
-    }
 
     ScoredDocuments hits = cascade.run(ScoredDocuments.fromTopDocs(rs, searcher), context);
 
@@ -414,13 +362,9 @@ public class SimpleSearcher implements Closeable {
     return results;
   }
 
-  public Result[] searchFields(String q, Map<String, Float> fields, int k) throws IOException {
-    return searchFields(q, fields, k, -1);
-  }
-
   // searching both the defaults contents fields and another field with weight boost
   // this is used for MS MARCO experiments with document expansion.
-  public Result[] searchFields(String q, Map<String, Float> fields, int k, long t) throws IOException {
+  public Result[] searchFields(String q, Map<String, Float> fields, int k) throws IOException {
     IndexSearcher searcher = new IndexSearcher(reader);
     searcher.setSimilarity(similarity);
 
@@ -436,7 +380,7 @@ public class SimpleSearcher implements Closeable {
     BooleanQuery query = queryBuilder.build();
     List<String> queryTokens = AnalyzerUtils.analyze(analyzer, q);
 
-    return search(query, queryTokens, q, k, -1);
+    return search(query, queryTokens, q, k);
   }
 
   /**
@@ -570,20 +514,9 @@ public class SimpleSearcher implements Closeable {
       searcher.setRM3Reranker();
     }
 
-    if (searchArgs.searchtweets) {
-      searcher.setSearchTweets(true);
-    }
-
     for (Object id : topics.keySet()) {
       LOG.info(String.format("Running topic %s", id));
-      Result[] results;
-
-      if (searchArgs.searchtweets) {
-        long t = Long.parseLong(topics.get(id).get("time"));
-        results = searcher.search(topics.get(id).get("title"), 1000, t);
-      } else {
-        results = searcher.search(topics.get(id).get("title"), 1000);
-      }
+      Result[] results = searcher.search(topics.get(id).get("title"), 1000);
 
       for (int i=0; i<results.length; i++) {
         out.println(String.format(Locale.US, "%s Q0 %s %d %f Anserini",
