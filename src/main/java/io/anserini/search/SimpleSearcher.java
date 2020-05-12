@@ -28,8 +28,9 @@ import io.anserini.rerank.ScoredDocuments;
 import io.anserini.rerank.lib.Rm3Reranker;
 import io.anserini.rerank.lib.ScoreTiesAdjusterReranker;
 import io.anserini.search.query.BagOfWordsQueryGenerator;
-import io.anserini.search.query.PhraseQueryGenerator;
 import io.anserini.search.query.QueryGenerator;
+import io.anserini.search.topicreader.TopicReader;
+import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
@@ -46,20 +47,36 @@ import org.apache.lucene.document.LongPoint;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexableField;
-import org.apache.lucene.search.*;
+import org.apache.lucene.search.BooleanClause;
+import org.apache.lucene.search.BooleanQuery;
+import org.apache.lucene.search.BoostQuery;
+import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.Query;
+import org.apache.lucene.search.Sort;
+import org.apache.lucene.search.SortField;
+import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.search.similarities.BM25Similarity;
 import org.apache.lucene.search.similarities.LMDirichletSimilarity;
 import org.apache.lucene.search.similarities.Similarity;
 import org.apache.lucene.store.FSDirectory;
+import org.kohsuke.args4j.CmdLineException;
+import org.kohsuke.args4j.CmdLineParser;
+import org.kohsuke.args4j.Option;
+import org.kohsuke.args4j.OptionHandlerFilter;
+import org.kohsuke.args4j.ParserProperties;
 
 import java.io.Closeable;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.SortedMap;
 import java.util.concurrent.CompletionException;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
@@ -78,6 +95,26 @@ public class SimpleSearcher implements Closeable {
       new Sort(SortField.FIELD_SCORE,
           new SortField(TweetGenerator.TweetField.ID_LONG.name, SortField.Type.LONG, true));
   private static final Logger LOG = LogManager.getLogger(SimpleSearcher.class);
+
+  public static final class Args {
+    @Option(name = "-index", metaVar = "[path]", required = true, usage = "Path to Lucene index.")
+    public String index;
+
+    @Option(name = "-topics", metaVar = "[file]", required = true, usage = "Topics file.")
+    public String topics;
+
+    @Option(name = "-output", metaVar = "[file]", required = true, usage = "Output run file.")
+    public String output;
+
+    @Option(name = "-rm3", usage = "Flag to use RM3.")
+    public Boolean useRM3 = false;
+
+    @Option(name = "-searchtweets", usage = "Flag to search tweets.")
+    public Boolean searchtweets = false;
+
+    @Option(name = "-hits", metaVar = "[number]", usage = "max number of hits to return")
+    public int hits = 1000;
+  }
 
   private final IndexReader reader;
   private Similarity similarity;
@@ -98,7 +135,7 @@ public class SimpleSearcher implements Closeable {
     public float score;
     public String contents;
     public String raw;
-    public Document lucene_document;
+    public Document lucene_document; // Since this is for Python access, we're using Python naming conventions.
 
     public Result(String docid, int lucene_docid, float score, String contents, String raw, Document lucene_document) {
       this.docid = docid;
@@ -132,7 +169,7 @@ public class SimpleSearcher implements Closeable {
 
   public void setSearchTweets(boolean flag) {
      this.searchtweets = flag;
-     this.analyzer = flag? new TweetAnalyzer(true) : new EnglishAnalyzer();
+     this.analyzer = flag ? new TweetAnalyzer() : IndexCollection.DEFAULT_ANALYZER;
   }
 
   public void setAnalyzer(Analyzer analyzer) {
@@ -503,4 +540,59 @@ public class SimpleSearcher implements Closeable {
     return IndexReaderUtils.documentRaw(reader, docid);
   }
 
+  // Note that this class is primarily meant to be used by automated regression scripts, not humans!
+  // tl;dr - Do not use this class for running experiments. Use SearchCollection instead!
+  //
+  // SimpleSearcher is the main class that exposes search functionality for Pyserini (in Python).
+  // As such, it has a different code path than SearchCollection, the preferred entry point for running experiments
+  // from Java. The main method here exposes only barebone options, primarily designed to verify that results from
+  // SimpleSearcher are *exactly* the same as SearchCollection (e.g., via automated regression scripts).
+  public static void main(String[] args) throws Exception {
+    Args searchArgs = new Args();
+    CmdLineParser parser = new CmdLineParser(searchArgs, ParserProperties.defaults().withUsageWidth(100));
+
+    try {
+      parser.parseArgument(args);
+    } catch (CmdLineException e) {
+      System.err.println(e.getMessage());
+      parser.printUsage(System.err);
+      System.err.println("Example: SimpleSearcher" + parser.printExample(OptionHandlerFilter.REQUIRED));
+      return;
+    }
+
+    final long start = System.nanoTime();
+    SimpleSearcher searcher = new SimpleSearcher(searchArgs.index);
+    SortedMap<Object, Map<String, String>> topics = TopicReader.getTopicsByFile(searchArgs.topics);
+
+    PrintWriter out = new PrintWriter(Files.newBufferedWriter(Paths.get(searchArgs.output), StandardCharsets.US_ASCII));
+
+    if (searchArgs.useRM3) {
+      searcher.setRM3Reranker();
+    }
+
+    if (searchArgs.searchtweets) {
+      searcher.setSearchTweets(true);
+    }
+
+    for (Object id : topics.keySet()) {
+      LOG.info(String.format("Running topic %s", id));
+      Result[] results;
+
+      if (searchArgs.searchtweets) {
+        long t = Long.parseLong(topics.get(id).get("time"));
+        results = searcher.search(topics.get(id).get("title"), 1000, t);
+      } else {
+        results = searcher.search(topics.get(id).get("title"), 1000);
+      }
+
+      for (int i=0; i<results.length; i++) {
+        out.println(String.format(Locale.US, "%s Q0 %s %d %f Anserini",
+            id, results[i].docid, (i+1), results[i].score));
+      }
+    }
+    out.close();
+
+    final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
+    LOG.info("Total run time: " + DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss"));
+  }
 }
