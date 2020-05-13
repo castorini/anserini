@@ -111,80 +111,11 @@ public class SimpleTweetSearcher extends SimpleSearcher implements Closeable {
     public int hits = 1000;
   }
 
-  private IndexReader reader;
-  private Similarity similarity;
-  private Analyzer analyzer;
-  private RerankerCascade cascade;
-  private boolean isRerank;
-
-  private IndexSearcher searcher = null;
-
   protected SimpleTweetSearcher() {
   }
 
   public SimpleTweetSearcher(String indexDir) throws IOException {
-    this(indexDir, new TweetAnalyzer());
-  }
-
-  public SimpleTweetSearcher(String indexDir, Analyzer analyzer) throws IOException {
-    Path indexPath = Paths.get(indexDir);
-
-    if (!Files.exists(indexPath) || !Files.isDirectory(indexPath) || !Files.isReadable(indexPath)) {
-      throw new IllegalArgumentException(indexDir + " does not exist or is not a directory.");
-    }
-
-    this.reader = DirectoryReader.open(FSDirectory.open(indexPath));
-    this.similarity = new BM25Similarity(0.9f, 0.4f);
-    this.analyzer = analyzer;
-    this.isRerank = false;
-    cascade = new RerankerCascade();
-    cascade.add(new ScoreTiesAdjusterReranker());
-  }
-
-  public void setAnalyzer(Analyzer analyzer) {
-    this.analyzer = analyzer;
-  }
-
-  public Analyzer getAnalyzer(){
-    return this.analyzer;
-  }
-
-  public void unsetRM3Reranker() {
-    this.isRerank = false;
-    cascade = new RerankerCascade();
-    cascade.add(new ScoreTiesAdjusterReranker());
-  }
-
-  public void setRM3Reranker() {
-    setRM3Reranker(10, 10, 0.5f, false);
-  }
-
-  public void setRM3Reranker(int fbTerms, int fbDocs, float originalQueryWeight) {
-    setRM3Reranker(fbTerms, fbDocs, originalQueryWeight, false);
-  }
-
-  public void setRM3Reranker(int fbTerms, int fbDocs, float originalQueryWeight, boolean rm3_outputQuery) {
-    isRerank = true;
-    cascade = new RerankerCascade("rm3");
-    cascade.add(new Rm3Reranker(this.analyzer, IndexArgs.CONTENTS,
-        fbTerms, fbDocs, originalQueryWeight, rm3_outputQuery));
-    cascade.add(new ScoreTiesAdjusterReranker());
-  }
-
-  public void setLMDirichletSimilarity(float mu) {
-    this.similarity = new LMDirichletSimilarity(mu);
-
-    // We need to re-initialize the searcher
-    searcher = new IndexSearcher(reader);
-    searcher.setSimilarity(similarity);
-  }
-
-  public void setBM25Similarity(float k1, float b) {
-    this.similarity = new BM25Similarity(k1, b);
-
-    // We need to re-initialize the searcher
-    searcher = new IndexSearcher(reader);
-    searcher.setSimilarity(similarity);
+    super(indexDir, new TweetAnalyzer());
   }
 
   @Override
@@ -279,7 +210,6 @@ public class SimpleTweetSearcher extends SimpleSearcher implements Closeable {
     }
 
     for (Object id : topics.keySet()) {
-      LOG.info(String.format("Running topic %s", id));
       long t = Long.parseLong(topics.get(id).get("time"));
       Result[] results = searcher.searchTweets(topics.get(id).get("title"), 1000, t);
 

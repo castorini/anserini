@@ -83,7 +83,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * Class that exposes basic search functionality, designed specifically to provide the bridge between Java and Python
- * via pyjnius.
+ * via Pyjnius.
  */
 public class SimpleSearcher implements Closeable {
   public static final Sort BREAK_SCORE_TIES_BY_DOCID =
@@ -110,13 +110,13 @@ public class SimpleSearcher implements Closeable {
     public int threads = 1;
   }
 
-  private IndexReader reader;
-  private Similarity similarity;
-  private Analyzer analyzer;
-  private RerankerCascade cascade;
-  private boolean isRerank;
+  protected IndexReader reader;
+  protected Similarity similarity;
+  protected Analyzer analyzer;
+  protected RerankerCascade cascade;
+  protected boolean isRerank;
 
-  private IndexSearcher searcher = null;
+  protected IndexSearcher searcher = null;
 
   /**
    * This class is meant to serve as the bridge between Anserini and Pyserini.
@@ -526,7 +526,6 @@ public class SimpleSearcher implements Closeable {
 
     if (searchArgs.threads == 1) {
       for (Object id : topics.keySet()) {
-        LOG.info(String.format("Running topic %s", id));
         Result[] results = searcher.search(topics.get(id).get("title"), searchArgs.hits);
 
         for (int i = 0; i < results.length; i++) {
