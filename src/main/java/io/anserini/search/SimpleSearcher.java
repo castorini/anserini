@@ -17,19 +17,18 @@
 package io.anserini.search;
 
 import io.anserini.analysis.AnalyzerUtils;
-import io.anserini.analysis.TweetAnalyzer;
 import io.anserini.index.IndexArgs;
 import io.anserini.index.IndexCollection;
 import io.anserini.index.IndexReaderUtils;
-import io.anserini.index.generator.TweetGenerator;
 import io.anserini.rerank.RerankerCascade;
 import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.ScoredDocuments;
 import io.anserini.rerank.lib.Rm3Reranker;
 import io.anserini.rerank.lib.ScoreTiesAdjusterReranker;
 import io.anserini.search.query.BagOfWordsQueryGenerator;
-import io.anserini.search.query.PhraseQueryGenerator;
 import io.anserini.search.query.QueryGenerator;
+import io.anserini.search.topicreader.TopicReader;
+import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
@@ -37,29 +36,44 @@ import org.apache.lucene.analysis.ar.ArabicAnalyzer;
 import org.apache.lucene.analysis.bn.BengaliAnalyzer;
 import org.apache.lucene.analysis.cjk.CJKAnalyzer;
 import org.apache.lucene.analysis.de.GermanAnalyzer;
-import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.analysis.es.SpanishAnalyzer;
 import org.apache.lucene.analysis.fr.FrenchAnalyzer;
 import org.apache.lucene.analysis.hi.HindiAnalyzer;
 import org.apache.lucene.document.Document;
-import org.apache.lucene.document.LongPoint;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexableField;
-import org.apache.lucene.search.*;
+import org.apache.lucene.search.BooleanClause;
+import org.apache.lucene.search.BooleanQuery;
+import org.apache.lucene.search.BoostQuery;
+import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.Query;
+import org.apache.lucene.search.Sort;
+import org.apache.lucene.search.SortField;
+import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.search.similarities.BM25Similarity;
 import org.apache.lucene.search.similarities.LMDirichletSimilarity;
 import org.apache.lucene.search.similarities.Similarity;
 import org.apache.lucene.store.FSDirectory;
+import org.kohsuke.args4j.CmdLineException;
+import org.kohsuke.args4j.CmdLineParser;
+import org.kohsuke.args4j.Option;
+import org.kohsuke.args4j.OptionHandlerFilter;
+import org.kohsuke.args4j.ParserProperties;
 
 import java.io.Closeable;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.SortedMap;
 import java.util.concurrent.CompletionException;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
@@ -69,24 +83,40 @@ import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * Class that exposes basic search functionality, designed specifically to provide the bridge between Java and Python
- * via pyjnius.
+ * via Pyjnius.
  */
 public class SimpleSearcher implements Closeable {
   public static final Sort BREAK_SCORE_TIES_BY_DOCID =
       new Sort(SortField.FIELD_SCORE, new SortField(IndexArgs.ID, SortField.Type.STRING_VAL));
-  public static final Sort BREAK_SCORE_TIES_BY_TWEETID =
-      new Sort(SortField.FIELD_SCORE,
-          new SortField(TweetGenerator.TweetField.ID_LONG.name, SortField.Type.LONG, true));
   private static final Logger LOG = LogManager.getLogger(SimpleSearcher.class);
 
-  private final IndexReader reader;
-  private Similarity similarity;
-  private Analyzer analyzer;
-  private RerankerCascade cascade;
-  private boolean searchtweets;
-  private boolean isRerank;
+  public static final class Args {
+    @Option(name = "-index", metaVar = "[path]", required = true, usage = "Path to Lucene index.")
+    public String index;
 
-  private IndexSearcher searcher = null;
+    @Option(name = "-topics", metaVar = "[file]", required = true, usage = "Topics file.")
+    public String topics;
+
+    @Option(name = "-output", metaVar = "[file]", required = true, usage = "Output run file.")
+    public String output;
+
+    @Option(name = "-rm3", usage = "Flag to use RM3.")
+    public Boolean useRM3 = false;
+
+    @Option(name = "-hits", metaVar = "[number]", usage = "Max number of hits to return.")
+    public int hits = 1000;
+
+    @Option(name = "-threads", metaVar = "[number]", usage = "Number of threads to use.")
+    public int threads = 1;
+  }
+
+  protected IndexReader reader;
+  protected Similarity similarity;
+  protected Analyzer analyzer;
+  protected RerankerCascade cascade;
+  protected boolean isRerank;
+
+  protected IndexSearcher searcher = null;
 
   /**
    * This class is meant to serve as the bridge between Anserini and Pyserini.
@@ -98,7 +128,7 @@ public class SimpleSearcher implements Closeable {
     public float score;
     public String contents;
     public String raw;
-    public Document lucene_document;
+    public Document lucene_document; // Since this is for Python access, we're using Python naming conventions.
 
     public Result(String docid, int lucene_docid, float score, String contents, String raw, Document lucene_document) {
       this.docid = docid;
@@ -108,6 +138,9 @@ public class SimpleSearcher implements Closeable {
       this.raw = raw;
       this.lucene_document = lucene_document;
     }
+  }
+
+  protected SimpleSearcher() {
   }
 
   public SimpleSearcher(String indexDir) throws IOException {
@@ -121,18 +154,14 @@ public class SimpleSearcher implements Closeable {
       throw new IllegalArgumentException(indexDir + " does not exist or is not a directory.");
     }
 
+    SearchArgs defaults = new SearchArgs();
+
     this.reader = DirectoryReader.open(FSDirectory.open(indexPath));
-    this.similarity = new BM25Similarity(0.9f, 0.4f);
+    this.similarity = new BM25Similarity(Float.parseFloat(defaults.bm25_k1[0]), Float.parseFloat(defaults.bm25_b[0]));
     this.analyzer = analyzer;
-    this.searchtweets = false;
     this.isRerank = false;
     cascade = new RerankerCascade();
     cascade.add(new ScoreTiesAdjusterReranker());
-  }
-
-  public void setSearchTweets(boolean flag) {
-     this.searchtweets = flag;
-     this.analyzer = flag? new TweetAnalyzer(true) : new EnglishAnalyzer();
   }
 
   public void setAnalyzer(Analyzer analyzer) {
@@ -168,7 +197,9 @@ public class SimpleSearcher implements Closeable {
   }
 
   public void setRM3Reranker() {
-    setRM3Reranker(10, 10, 0.5f, false);
+    SearchArgs defaults = new SearchArgs();
+
+    setRM3Reranker(Integer.parseInt(defaults.rm3_fbTerms[0]), 10, 0.5f, false);
   }
 
   public void setRM3Reranker(int fbTerms, int fbDocs, float originalQueryWeight) {
@@ -220,19 +251,10 @@ public class SimpleSearcher implements Closeable {
   }
 
   public Map<String, Result[]> batchSearch(List<String> queries, List<String> qids, int k, int threads) {
-    return batchSearchFields(queries, qids, k, -1, threads, new HashMap<>());
-  }
-
-  public Map<String, Result[]> batchSearch(List<String> queries, List<String> qids, int k, long t, int threads) {
-    return batchSearchFields(queries, qids, k, t, threads, new HashMap<>());
+    return batchSearchFields(queries, qids, k, threads, new HashMap<>());
   }
 
   public Map<String, Result[]> batchSearchFields(List<String> queries, List<String> qids, int k, int threads,
-                                                 Map<String, Float> fields) {
-    return batchSearchFields(queries, qids, k, -1, threads, fields);
-  }
-
-  public Map<String, Result[]> batchSearchFields(List<String> queries, List<String> qids, int k, long t, int threads,
                                                  Map<String, Float> fields) {
     // Create the IndexSearcher here, if needed. We do it here because if we leave the creation to the search
     // method, we might end up with a race condition as multiple threads try to concurrently create the IndexSearcher.
@@ -253,9 +275,9 @@ public class SimpleSearcher implements Closeable {
       executor.execute(() -> {
         try {
           if (fields.size() > 0) {
-            results.put(qid, searchFields(query, fields, k, t));
+            results.put(qid, searchFields(query, fields, k));
           } else {
-            results.put(qid, search(query, k, t));
+            results.put(qid, search(query, k));
           }
         } catch (IOException e) {
           throw new CompletionException(e);
@@ -264,7 +286,7 @@ public class SimpleSearcher implements Closeable {
         Long lineNumber = index.incrementAndGet();
         if (lineNumber % 100 == 0) {
           double timePerQuery = (double) (System.nanoTime() - startTime) / (lineNumber + 1) / 1e9;
-          LOG.info(String.format("Retrieving query " + lineNumber + " (%.3f s/query)\n", timePerQuery));
+          LOG.info(String.format("Retrieving query " + lineNumber + " (%.3f s/query)", timePerQuery));
         }
       });
     }
@@ -297,28 +319,23 @@ public class SimpleSearcher implements Closeable {
   }
 
   public Result[] search(String q, int k) throws IOException {
-    return search(q, k, -1);
-  }
-
-  public Result[] search(String q, int k, long t) throws IOException {
     Query query = new BagOfWordsQueryGenerator().buildQuery(IndexArgs.CONTENTS, analyzer, q);
     List<String> queryTokens = AnalyzerUtils.analyze(analyzer, q);
 
-    return search(query, queryTokens, q, k, t);
+    return search(query, queryTokens, q, k);
   }
 
   public Result[] search(Query query, int k) throws IOException {
-    return search(query, null, null, k, -1);
+    return search(query, null, null, k);
   }
 
   public Result[] search(QueryGenerator generator, String q, int k) throws IOException {
     Query query = generator.buildQuery(IndexArgs.CONTENTS, analyzer, q);
 
-    return search(query, null, null, k, -1);
+    return search(query, null, null, k);
   }
 
-  protected Result[] search(Query query, List<String> queryTokens, String queryString, int k,
-                            long t) throws IOException {
+  protected Result[] search(Query query, List<String> queryTokens, String queryString, int k) throws IOException {
     // Create an IndexSearch only once. Note that the object is thread safe.
     if (searcher == null) {
       searcher = new IndexSearcher(reader);
@@ -328,36 +345,12 @@ public class SimpleSearcher implements Closeable {
     SearchArgs searchArgs = new SearchArgs();
     searchArgs.arbitraryScoreTieBreak = false;
     searchArgs.hits = k;
-    searchArgs.searchtweets = searchtweets;
 
     TopDocs rs;
     RerankerContext context;
-    if (searchtweets) {
-      if (t > 0) {
-        // Do not consider the tweets with tweet ids that are beyond the queryTweetTime
-        // <querytweettime> tag contains the timestamp of the query in terms of the
-        // chronologically nearest tweet id within the corpus
-        Query filter = LongPoint.newRangeQuery(TweetGenerator.TweetField.ID_LONG.name, 0L, t);
-        BooleanQuery.Builder builder = new BooleanQuery.Builder();
-        builder.add(filter, BooleanClause.Occur.FILTER);
-        builder.add(query, BooleanClause.Occur.MUST);
-        Query compositeQuery = builder.build();
-        rs = searcher.search(compositeQuery, isRerank ? searchArgs.rerankcutoff :
-            k, BREAK_SCORE_TIES_BY_TWEETID, true);
-        context = new RerankerContext<>(searcher, null, compositeQuery, null,
-            queryString, queryTokens, filter, searchArgs);
-      } else {
-        rs = searcher.search(query,
-            isRerank ? searchArgs.rerankcutoff : k, BREAK_SCORE_TIES_BY_TWEETID, true);
-        context = new RerankerContext<>(searcher, null, query, null,
-            queryString, queryTokens, null, searchArgs);
-      }
-    } else {
-      rs = searcher.search(query,
-          isRerank ? searchArgs.rerankcutoff : k, BREAK_SCORE_TIES_BY_DOCID, true);
-      context = new RerankerContext<>(searcher, null, query, null,
+    rs = searcher.search(query, isRerank ? searchArgs.rerankcutoff : k, BREAK_SCORE_TIES_BY_DOCID, true);
+    context = new RerankerContext<>(searcher, null, query, null,
           queryString, queryTokens, null, searchArgs);
-    }
 
     ScoredDocuments hits = cascade.run(ScoredDocuments.fromTopDocs(rs, searcher), context);
 
@@ -379,13 +372,9 @@ public class SimpleSearcher implements Closeable {
     return results;
   }
 
-  public Result[] searchFields(String q, Map<String, Float> fields, int k) throws IOException {
-    return searchFields(q, fields, k, -1);
-  }
-
   // searching both the defaults contents fields and another field with weight boost
   // this is used for MS MARCO experiments with document expansion.
-  public Result[] searchFields(String q, Map<String, Float> fields, int k, long t) throws IOException {
+  public Result[] searchFields(String q, Map<String, Float> fields, int k) throws IOException {
     IndexSearcher searcher = new IndexSearcher(reader);
     searcher.setSimilarity(similarity);
 
@@ -401,7 +390,7 @@ public class SimpleSearcher implements Closeable {
     BooleanQuery query = queryBuilder.build();
     List<String> queryTokens = AnalyzerUtils.analyze(analyzer, q);
 
-    return search(query, queryTokens, q, k, -1);
+    return search(query, queryTokens, q, k);
   }
 
   /**
@@ -505,4 +494,70 @@ public class SimpleSearcher implements Closeable {
     return IndexReaderUtils.documentRaw(reader, docid);
   }
 
+  // Note that this class is primarily meant to be used by automated regression scripts, not humans!
+  // tl;dr - Do not use this class for running experiments. Use SearchCollection instead!
+  //
+  // SimpleSearcher is the main class that exposes search functionality for Pyserini (in Python).
+  // As such, it has a different code path than SearchCollection, the preferred entry point for running experiments
+  // from Java. The main method here exposes only barebone options, primarily designed to verify that results from
+  // SimpleSearcher are *exactly* the same as SearchCollection (e.g., via automated regression scripts).
+  public static void main(String[] args) throws Exception {
+    Args searchArgs = new Args();
+    CmdLineParser parser = new CmdLineParser(searchArgs, ParserProperties.defaults().withUsageWidth(100));
+
+    try {
+      parser.parseArgument(args);
+    } catch (CmdLineException e) {
+      System.err.println(e.getMessage());
+      parser.printUsage(System.err);
+      System.err.println("Example: SimpleSearcher" + parser.printExample(OptionHandlerFilter.REQUIRED));
+      return;
+    }
+
+    final long start = System.nanoTime();
+    SimpleSearcher searcher = new SimpleSearcher(searchArgs.index);
+    SortedMap<Object, Map<String, String>> topics = TopicReader.getTopicsByFile(searchArgs.topics);
+
+    PrintWriter out = new PrintWriter(Files.newBufferedWriter(Paths.get(searchArgs.output), StandardCharsets.US_ASCII));
+
+    if (searchArgs.useRM3) {
+      searcher.setRM3Reranker();
+    }
+
+    if (searchArgs.threads == 1) {
+      for (Object id : topics.keySet()) {
+        Result[] results = searcher.search(topics.get(id).get("title"), searchArgs.hits);
+
+        for (int i = 0; i < results.length; i++) {
+          out.println(String.format(Locale.US, "%s Q0 %s %d %f Anserini",
+              id, results[i].docid, (i + 1), results[i].score));
+        }
+      }
+    } else {
+      List<String> qids = new ArrayList<>();
+      List<String> queries = new ArrayList<>();
+
+      for (Object id : topics.keySet()) {
+        qids.add(id.toString());
+        queries.add(topics.get(id).get("title"));
+      }
+
+      Map<String, Result[]> allResults = searcher.batchSearch(queries, qids, searchArgs.hits, searchArgs.threads);
+
+      // We iterate through, in natural object order.
+      for (Object id : topics.keySet()) {
+        Result[] results = allResults.get(id.toString());
+
+        for (int i = 0; i < results.length; i++) {
+          out.println(String.format(Locale.US, "%s Q0 %s %d %f Anserini",
+              id, results[i].docid, (i + 1), results[i].score));
+        }
+      }
+    }
+
+    out.close();
+
+    final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
+    LOG.info("Total run time: " + DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss"));
+  }
 }
