@@ -200,15 +200,17 @@ public class SimpleSearcher implements Closeable {
   }
 
   /**
-   * Returns the number of documents in the provided index file. Used to expose the total number of documents in Pyserini
+   * Returns the number of documents in the index.
    *
-   * @return the number of documents in total
+   * @return the number of documents in the index
    */
-
    public int getTotalNumDocuments(){
+     // Create an IndexSearch only once. Note that the object is thread safe.
      if (searcher == null) {
        searcher = new IndexSearcher(reader);
-      }
+       searcher.setSimilarity(similarity);
+     }
+
      return searcher.getIndexReader().maxDoc();
    }
 
