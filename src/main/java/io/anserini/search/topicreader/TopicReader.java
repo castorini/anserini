@@ -83,7 +83,7 @@ public abstract class TopicReader<K> {
    * @param file topics file
    * @return the {@link TopicReader} class corresponding to a known topics file, or <code>null</code> if unknown.
    */
-  public static Class<? extends TopicReader> getTopicReaderByFile(String file) {
+  public static Class<? extends TopicReader> getTopicReaderClassByFile(String file) {
     // If we're given something that looks like a path with directories, pull out only the file name at the end.
     if (file.contains("/")) {
       String[] parts = file.split("/");
@@ -141,6 +141,26 @@ public abstract class TopicReader<K> {
       TopicReader<K> reader = (TopicReader<K>) ctors[0].newInstance(Paths.get("."));
       return reader.read(raw);
 
+    } catch (Exception e) {
+      return null;
+    }
+  }
+
+  /**
+   * Returns evaluation topics, automatically trying to infer its type and format.
+   *
+   * @param file topics file
+   * @param <K> type of topic id
+   * @return a set of evaluation topics
+   */
+  @SuppressWarnings("unchecked")
+  public static <K> SortedMap<K, Map<String, String>> getTopicsByFile(String file) {
+    try {
+      // Get the constructor
+      Constructor[] ctors = getTopicReaderClassByFile(file).getDeclaredConstructors();
+      // The one we want is always the zero-th one; pass in a dummy Path.
+      TopicReader<K> reader = (TopicReader<K>) ctors[0].newInstance(Paths.get(file));
+      return reader.read();
     } catch (Exception e) {
       return null;
     }
