@@ -493,11 +493,15 @@ public class IndexReaderUtils {
    */
   public static float getBM25TermWeight(IndexReader reader, String docid, String term, float k1, float b)
       throws IOException {
+    // We compute the BM25 score by issuing a single-term query with an additional filter clause that restricts
+    // consideration to only the docid in question, and then returning the retrieval score.
+    //
+    // This implementation is inefficient, but as the advantage of using the existing Lucene similarity, which means
+    // that we don't need to copy the scoring function and keep it in sync wrt code updates.
+
     IndexSearcher searcher = new IndexSearcher(reader);
     searcher.setSimilarity(new BM25Similarity(k1, b));
 
-    // The way to compute the BM25 score is to issue a query with the exact docid and the
-    // term in question, and look at the retrieval score.
     Query filterQuery = new ConstantScoreQuery(new TermQuery(new Term(IndexArgs.ID, docid)));
     Query termQuery = new TermQuery(new Term(IndexArgs.CONTENTS, term));
     BooleanQuery.Builder builder = new BooleanQuery.Builder();
@@ -506,21 +510,60 @@ public class IndexReaderUtils {
     Query finalQuery = builder.build();
     TopDocs rs = searcher.search(finalQuery, 1);
 
-    // The BM25 weight is the score of the first (and only) hit, but remember to remove 1 for the ConstantScoreQuery
-    return rs.scoreDocs.length == 0 ? Float.NaN : rs.scoreDocs[0].score - 1;
+    // The BM25 weight is the score of the first (and only) hit, but remember to remove 1 for the ConstantScoreQuery.
+    // If we get zero results, indicates that term isn't found in the document.
+    return rs.scoreDocs.length == 0 ? 0 : rs.scoreDocs[0].score - 1;
   }
 
+  /**
+   * Computes the BM25 score of a document with respect to a query. Assumes default BM25 parameter settings and
+   * Anserini's default analyzer.
+   *
+   * @param reader index reader
+   * @param docid docid of the document to score
+   * @param q query
+   * @return the score of the document with respect to the query
+   * @throws IOException if error encountered during query
+   */
   public static float computeQueryDocumentScore(IndexReader reader, String docid, String q) throws IOException {
     return computeQueryDocumentScore(reader, docid, q, new BM25Similarity(), IndexCollection.DEFAULT_ANALYZER);
   }
 
+  /**
+   * Computes the score of a document with respect to a query given a scoring function. Assumes Anserini's default
+   * analyzer.
+   *
+   * @param reader index reader
+   * @param docid docid of the document to score
+   * @param q query
+   * @param similarity scoring function
+   * @return the score of the document with respect to the query
+   * @throws IOException if error encountered during query
+   */
   public static float computeQueryDocumentScore(IndexReader reader, String docid, String q, Similarity similarity)
       throws IOException {
     return computeQueryDocumentScore(reader, docid, q, similarity, IndexCollection.DEFAULT_ANALYZER);
   }
 
+  /**
+   * Computes the score of a document with respect to a query given a scoring function and an analyzer.
+   *
+   * @param reader index reader
+   * @param docid docid of the document to score
+   * @param q query
+   * @param similarity scoring function
+   * @param analyzer analyzer to use
+   * @return the score of the document with respect to the query
+   * @throws IOException if error encountered during query
+   */
   public static float computeQueryDocumentScore(IndexReader reader, String docid, String q,
                                                 Similarity similarity, Analyzer analyzer) throws IOException {
+    // We compute the query-document score by issuing the query with an additional filter clause that restricts
+    // consideration to only the docid in question, and then returning the retrieval score.
+    //
+    // This implementation is inefficient, but as the advantage of using the existing Lucene similarity, which means
+    // that we don't need to copy the scoring function and keep it in sync wrt code updates.
+
     IndexSearcher searcher = new IndexSearcher(reader);
     searcher.setSimilarity(similarity);
 
@@ -534,8 +577,12 @@ public class IndexReaderUtils {
 
     TopDocs rs = searcher.search(finalQuery, 1);
 
+    // We want the score of the first (and only) hit, but remember to remove 1 for the ConstantScoreQuery.
+    // If we get zero results, indicates that term isn't found in the document.
     return rs.scoreDocs.length == 0 ? 0 : rs.scoreDocs[0].score - 1;
   }
+
+  // TODO: Write a variant of computeQueryDocumentScore that takes a set of documents.
 
   public static void dumpDocumentVectors(IndexReader reader, String reqDocidsPath, DocumentVectorWeight weight) throws IOException {
     String outFileName = weight == null ? reqDocidsPath+".docvector.tar.gz" : reqDocidsPath+".docvector." + weight +".tar.gz";

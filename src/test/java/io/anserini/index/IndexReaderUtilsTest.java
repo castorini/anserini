@@ -449,16 +449,19 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
     IndexReader reader = DirectoryReader.open(dir);
     Similarity similarity = new BM25Similarity(0.9f, 0.4f);
 
+    // A bunch of test queries...
     String[] queries = {"text city", "text", "city"};
 
     for (String query: queries) {
       SimpleSearcher.Result[] results = searcher.search(query);
 
+      // Strategy is to loop over the results, compute query-document score individually, and compare.
       for (int i = 0; i < results.length; i++) {
         float score = IndexReaderUtils.computeQueryDocumentScore(reader, results[i].docid, query, similarity);
         assertEquals(score, results[i].score, 10e-5);
       }
 
+      // This is hard coded - doc3 isn't retrieved by any of the queries.
       assertEquals(0.0f,
           IndexReaderUtils.computeQueryDocumentScore(reader, "doc3", query, similarity), 10e-6);
     }
