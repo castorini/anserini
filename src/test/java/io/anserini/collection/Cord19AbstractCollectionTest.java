@@ -42,41 +42,40 @@ public class Cord19AbstractCollectionTest extends DocumentCollectionTest<Cord19A
     totalSegments = 1;
     totalDocs = 3;
 
-    // In the 2020/04/10 version, has_pdf_parse=TRUE, has_pmc_xml_parse=TRUE
-    // Should use has_pmc_xml_parse (preferred).
+    // Should use pmc_json_files (preferred).
     HashMap<String, String> doc1 = new HashMap<>();
     doc1.put("id", "xqhn0vbp");
     doc1.put("contents_starts_with", "Airborne rhinovirus detection and effect of ultraviolet irradiation");
     doc1.put("contents_ends_with", "cannot distinguish UV inactivated virus from infectious viral particles.");
     doc1.put("contents_length", "1803");
     doc1.put("has_full_text", "true");
-    doc1.put("metadata_length", "2352");
-    doc1.put("raw_length", "48016");
+    doc1.put("metadata_length", "2416");
+    doc1.put("raw_length", "48080");
     expected.put("xqhn0vbp", doc1);
 
-    // In the 2020/04/10 version, has_pdf_parse=FALSE, has_pmc_xml_parse=FALSE
     // No full text.
     HashMap<String, String> doc2 = new HashMap<>();
-    doc2.put("id", "28wrp74k");
-    doc2.put("contents_starts_with", "SARS and Population Health Technology");
-    doc2.put("contents_ends_with", "The need for critical evaluation of all of these technologies is stressed.");
-    doc2.put("contents_length", "1264");
+    doc2.put("id", "ipllfog3");
+    doc2.put("contents_starts_with", "SARS, Mars and chocolate bars");
+    doc2.put("contents_ends_with", "SARS, Mars and chocolate bars");
+    doc2.put("contents_length", "29");
     doc2.put("has_full_text", "false");
-    doc2.put("metadata_length", "1711");
-    doc2.put("raw_length", "1772");
-    expected.put("28wrp74k", doc2);
+    doc2.put("metadata_length", "428");
+    doc2.put("raw_length", "489");
+    expected.put("ipllfog3", doc2);
 
-    // In the 2020/04/10 version, has_pdf_parse=TRUE, has_pmc_xml_parse=FALSE
-    // Should back off to pdf_parse.
+    // Should back off to pdf_json_files since there are no pmc_json_files.
     HashMap<String, String> doc3 = new HashMap<>();
     doc3.put("id", "a8cps3ko");
     // This particular entry doesn't have an abstract in the CSV
-    doc3.put("contents_starts_with", "Beyond Picomolar Affinities: Quantitative Aspects of Noncovalent and Covalent Binding of Drugs to Proteins");
-    doc3.put("contents_ends_with", "Beyond Picomolar Affinities: Quantitative Aspects of Noncovalent and Covalent Binding of Drugs to Proteins");
+    doc3.put("contents_starts_with",
+        "Beyond Picomolar Affinities: Quantitative Aspects of Noncovalent and Covalent Binding of Drugs to Proteins");
+    doc3.put("contents_ends_with",
+        "Beyond Picomolar Affinities: Quantitative Aspects of Noncovalent and Covalent Binding of Drugs to Proteins");
     doc3.put("contents_length", "106");
     doc3.put("has_full_text", "true");
-    doc3.put("metadata_length", "650");
-    doc3.put("raw_length", "94638");
+    doc3.put("metadata_length", "675");
+    doc3.put("raw_length", "94663");
     expected.put("a8cps3ko", doc3);
   }
 
@@ -96,8 +95,7 @@ public class Cord19AbstractCollectionTest extends DocumentCollectionTest<Cord19A
       assertEquals(expected.get("id"), jsonNode.get("cord_uid").asText());
       assertEquals(expected.get("has_full_text"), jsonNode.get("has_full_text").asText());
       assertEquals(true, jsonNode.get("csv_metadata").isObject());
-      assertEquals(Integer.parseInt(expected.get("metadata_length")),
-          jsonNode.get("csv_metadata").toString().length());
+      assertEquals(Integer.parseInt(expected.get("metadata_length")), jsonNode.get("csv_metadata").toString().length());
 
     } catch (Exception e) {
       assertTrue("Failed to parse raw JSON", false);
