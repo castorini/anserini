@@ -37,13 +37,10 @@ public abstract class Cord19BaseDocument implements SourceDocument {
 
   protected final String getFullTextJson(String basePath) {
     String fullTextPath = null;
-    if (record.get("has_pmc_xml_parse").contains("True")) {
-      fullTextPath = "/" + record.get("full_text_file") + "/pmc_json/" +
-      record.get("pmcid") + ".xml.json";
-    } else if (record.get("has_pdf_parse").contains("True")) {
-      String[] hashes = record.get("sha").split(";");
-      fullTextPath = "/" + record.get("full_text_file") + "/pdf_json/" +
-        hashes[hashes.length - 1].strip() + ".json";
+    if (!record.get("pmc_json_files").isEmpty()) {
+      fullTextPath = "/" + record.get("pmc_json_files").split(";")[0];
+    } else if (!record.get("pdf_json_files").isEmpty()) {
+      fullTextPath = "/" + record.get("pdf_json_files").split(";")[0];
     } else {
       return null;
     }
@@ -89,7 +86,7 @@ public abstract class Cord19BaseDocument implements SourceDocument {
       csvMetadaNode.put(entry.getKey(), entry.getValue());
     }
 
-    rawJsonNode.put("csv_metadata", csvMetadaNode);
+    rawJsonNode.set("csv_metadata", csvMetadaNode);
     return rawJsonNode.toString();
   }
 
