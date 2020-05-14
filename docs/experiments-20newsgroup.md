@@ -30,10 +30,29 @@ Now you should see train & test merged into one folder in `20-newsgroup/20news-b
 
 # Indexing
 
+To index train & test together:
 ```
 sh target/appassembler/bin/IndexCollection -collection TwentyNewsgroupsCollection \
  -input 20-newsgroup/20news-bydate \
  -index 20-newsgroup/lucene-index.20newsgroup.pos+docvectors+raw \
+ -generator DefaultLuceneDocumentGenerator -threads 2 \
+ -storePositions -storeDocvectors -storeRaw
+```
+
+To index the train set:
+```
+sh target/appassembler/bin/IndexCollection -collection TwentyNewsgroupsCollection \
+ -input 20-newsgroup/20news-bydate-train \
+ -index 20-newsgroup/lucene-index.20newsgroup.train.pos+docvectors+raw \
+ -generator DefaultLuceneDocumentGenerator -threads 2 \
+ -storePositions -storeDocvectors -storeRaw
+```
+
+To index the test set:
+```
+sh target/appassembler/bin/IndexCollection -collection TwentyNewsgroupsCollection \
+ -input 20-newsgroup/20news-bydate-test \
+ -index 20-newsgroup/lucene-index.20newsgroup.test.pos+docvectors+raw \
  -generator DefaultLuceneDocumentGenerator -threads 2 \
  -storePositions -storeDocvectors -storeRaw
 ```
