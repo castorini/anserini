@@ -56,8 +56,8 @@ public class Cord19Generator implements LuceneDocumentGenerator<Cord19BaseDocume
     PMC_ID("pmcid"),
     PUBMED_ID("pubmed_id"),
     LICENSE("license"),
-    MICROSOFT_ID("Microsoft Academic Paper ID"),
-    WHO("WHO #Covidence"),
+    MICROSOFT_ID("mag_id"),
+    WHO("who_covidence_id"),
     URL("url");
 
     public final String name;
