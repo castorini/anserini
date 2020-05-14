@@ -35,12 +35,30 @@ mb11_topics = 'src/main/resources/topics-and-qrels/topics.microblog2011.txt'
 # Raw data for verification: array of arrays
 # Each top level array contains commands whose outputs should be *identical*
 # Note that spacing is intentional to make command easy to read.
-groups = [ [ f'{sc_command} -index {robust04_index} -topicreader Trec -topics {robust04_topics} -bm25            -output', \
+groups = [ \
+           # Does not explicitly set similarity in SimpleSearcher, defaults to -bm25, default parameters, tests threading.
+           [ f'{sc_command} -index {robust04_index} -topicreader Trec -topics {robust04_topics} -bm25            -output', \
              f'{ss_command} -index {robust04_index}                   -topics {robust04_topics}                  -output', \
              f'{ss_command} -index {robust04_index}                   -topics {robust04_topics}       -threads 4 -output' ], \
            [ f'{sc_command} -index {robust04_index} -topicreader Trec -topics {robust04_topics} -bm25 -rm3            -output', \
              f'{ss_command} -index {robust04_index}                   -topics {robust04_topics}       -rm3            -output', \
              f'{ss_command} -index {robust04_index}                   -topics {robust04_topics}       -rm3 -threads 4 -output' ], \
+           # Explicitly set -bm25, which takes different code path than omitting the arg.
+           [ f'{sc_command} -index {robust04_index} -topicreader Trec -topics {robust04_topics} -bm25 -output', \
+             f'{ss_command} -index {robust04_index}                   -topics {robust04_topics} -bm25 -output' ], \
+           [ f'{sc_command} -index {robust04_index} -topicreader Trec -topics {robust04_topics} -bm25 -bm25.k1 0.8 -bm25.b 0.2 -output', \
+             f'{ss_command} -index {robust04_index}                   -topics {robust04_topics} -bm25 -bm25.k1 0.8 -bm25.b 0.2 -output' ], \
+           # Explicitly set -ql.
+           [ f'{sc_command} -index {robust04_index} -topicreader Trec -topics {robust04_topics} -qld -output', \
+             f'{ss_command} -index {robust04_index}                   -topics {robust04_topics} -qld -output' ], \
+           [ f'{sc_command} -index {robust04_index} -topicreader Trec -topics {robust04_topics} -qld -qld.mu 100 -output', \
+             f'{ss_command} -index {robust04_index}                   -topics {robust04_topics} -qld -qld.mu 100 -output' ], \
+           # Explicitly set RM3 parameters.
+           [ f'{sc_command} -index {robust04_index} -topicreader Trec -topics {robust04_topics} -bm25 -rm3 -rm3.fbTerms 15 -rm3.fbDocs 5 -rm3.originalQueryWeight 0.2 -output', \
+             f'{ss_command} -index {robust04_index}                   -topics {robust04_topics} -bm25 -rm3 -rm3.fbTerms 15 -rm3.fbDocs 5 -rm3.originalQueryWeight 0.2 -output' ], \
+           [ f'{sc_command} -index {robust04_index} -topicreader Trec -topics {robust04_topics} -qld -rm3 -rm3.fbTerms 15 -rm3.fbDocs 5 -rm3.originalQueryWeight 0.2 -output', \
+             f'{ss_command} -index {robust04_index}                   -topics {robust04_topics} -qld -rm3 -rm3.fbTerms 15 -rm3.fbDocs 5 -rm3.originalQueryWeight 0.2 -output' ], \
+           # Tests SimpleTweetSearcher.
            [ f'{sc_command} -index {mb11_index} -topicreader Microblog -topics {mb11_topics} -bm25 -searchtweets -output', \
              f'{st_command} -index {mb11_index}                        -topics {mb11_topics}                     -output'], \
            [ f'{sc_command} -index {mb11_index} -topicreader Microblog -topics {mb11_topics} -bm25 -rm3 -searchtweets -output', \
