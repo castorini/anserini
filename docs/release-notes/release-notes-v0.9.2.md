@@ -23,7 +23,6 @@ Sorted by number of commits:
 + Alex Dou ([YimingDou](https://github.com/YimingDou))
 + Chris Kamphuis ([Chriskamphuis](https://github.com/Chriskamphuis))
 + Edwin Zhang ([edwinzhng](https://github.com/edwinzhng))
-+ Johnson Han ([x65han](https://github.com/x65han))
 + Kuang Lu ([lukuang](https://github.com/lukuang))
 + Rohil Gupta ([rohilG](https://github.com/rohilG))
 + egzhdt ([egzhdt](https://github.com/egzhdt))
