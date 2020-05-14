@@ -26,6 +26,7 @@ import org.apache.commons.compress.archivers.tar.TarArchiveOutputStream;
 import org.apache.commons.compress.compressors.bzip2.BZip2CompressorInputStream;
 import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
 import org.apache.commons.compress.compressors.gzip.GzipCompressorOutputStream;
+import org.apache.jute.Index;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
@@ -79,8 +80,6 @@ import static java.util.stream.Collectors.joining;
  */
 public class IndexReaderUtils {
   private static final Logger LOG = LogManager.getLogger(IndexUtils.class);
-  // The default analyzer used in indexing.
-  private static final Analyzer DEFAULT_ANALYZER = IndexCollection.DEFAULT_ANALYZER;
 
   public enum DocumentVectorWeight {NONE, TF_IDF}
 
@@ -213,8 +212,8 @@ public class IndexReaderUtils {
    */
   public static Map<String, Long> getTermCounts(IndexReader reader, String termStr)
       throws IOException {
-    DefaultEnglishAnalyzer ea = DefaultEnglishAnalyzer.newDefaultInstance();
-    return getTermCountsWithAnalyzer(reader, termStr, ea);
+    Analyzer analyzer = IndexCollection.DEFAULT_ANALYZER;
+    return getTermCountsWithAnalyzer(reader, termStr, analyzer);
   }
 
   /**
@@ -467,32 +466,32 @@ public class IndexReaderUtils {
   }
 
   /**
-   * Computes the BM25 weight of an unanalyzed term in a particular document (with Anserini default parameters).
+   * Computes the BM25 weight of an analyzed term in a particular document (with Anserini default parameters).
    *
    * @param reader index reader
    * @param docid collection docid
-   * @param term unanalyzed term
+   * @param term analyzed term
    * @return BM25 weight of the term in the specified document
    * @throws IOException if error encountered during query
    */
-  public static float getBM25TermWeight(IndexReader reader, String docid, String term) throws IOException {
+  public static float getBM25AnalyzedTermWeight(IndexReader reader, String docid, String term) throws IOException {
     SearchArgs args = new SearchArgs();
-    return getBM25TermWeightWithParameters(reader, docid, term,
+    return getBM25AnalyzedTermWeightWithParameters(reader, docid, term,
         Float.parseFloat(args.bm25_k1[0]), Float.parseFloat(args.bm25_b[0]));
   }
 
   /**
-   * Computes the BM25 weight of an unanalyzed term in a particular document.
+   * Computes the BM25 weight of an analyzed term in a particular document.
    *
    * @param reader index reader
    * @param docid collection docid
-   * @param term unanalyzed term
+   * @param term analyzed term
    * @param k1 k1 setting for BM25
    * @param b b setting for BM25
    * @return BM25 weight of the term in the specified document
    * @throws IOException if error encountered during query
    */
-  public static float getBM25TermWeightWithParameters(IndexReader reader, String docid, String term, float k1, float b)
+  public static float getBM25AnalyzedTermWeightWithParameters(IndexReader reader, String docid, String term, float k1, float b)
       throws IOException {
     // We compute the BM25 score by issuing a single-term query with an additional filter clause that restricts
     // consideration to only the docid in question, and then returning the retrieval score.
@@ -517,6 +516,40 @@ public class IndexReaderUtils {
   }
 
   /**
+   * Computes the BM25 weight of an unanalyzed term in a particular document (with Anserini default parameters).
+   *
+   * @param reader index reader
+   * @param docid collection docid
+   * @param term analyzed term
+   * @return BM25 weight of the term in the specified document
+   * @throws IOException if error encountered during query
+   */
+  public static float getBM25UnanalyzedTermWeight(IndexReader reader, String docid, String term) throws IOException {
+    SearchArgs args = new SearchArgs();
+    return getBM25UnanalyzedTermWeightWithParameters(reader, docid, term, IndexCollection.DEFAULT_ANALYZER,
+        Float.parseFloat(args.bm25_k1[0]), Float.parseFloat(args.bm25_b[0]));
+  }
+
+  /**
+   * Computes the BM25 weight of an unanalyzed term in a particular document.
+   *
+   * @param reader index reader
+   * @param docid collection docid
+   * @param term unanalyzed term
+   * @param analyzer analyzer
+   * @param k1 k1 setting for BM25
+   * @param b b setting for BM25
+   * @return BM25 weight of the term in the specified document
+   * @throws IOException if error encountered during query
+   */
+  public static float getBM25UnanalyzedTermWeightWithParameters(IndexReader reader, String docid, String term,
+                                                                Analyzer analyzer, float k1, float b)
+      throws IOException {
+    String analyzed = AnalyzerUtils.analyze(analyzer, term).get(0);
+    return getBM25AnalyzedTermWeightWithParameters(reader, docid, analyzed, k1, b);
+  }
+
+  /**
    * Computes the BM25 score of a document with respect to a query. Assumes default BM25 parameter settings and
    * Anserini's default analyzer.
    *
@@ -527,7 +560,8 @@ public class IndexReaderUtils {
    * @throws IOException if error encountered during query
    */
   public static float computeQueryDocumentScore(IndexReader reader, String docid, String q) throws IOException {
-    return computeQueryDocumentScore(reader, docid, q, new BM25Similarity(), IndexCollection.DEFAULT_ANALYZER);
+    return computeQueryDocumentScoreWithSimilarityAndAnalyzer(reader, docid, q,
+        new BM25Similarity(), IndexCollection.DEFAULT_ANALYZER);
   }
 
   /**
@@ -541,9 +575,11 @@ public class IndexReaderUtils {
    * @return the score of the document with respect to the query
    * @throws IOException if error encountered during query
    */
-  public static float computeQueryDocumentScore(IndexReader reader, String docid, String q, Similarity similarity)
+  public static float computeQueryDocumentScoreWithSimilarity(
+      IndexReader reader, String docid, String q, Similarity similarity)
       throws IOException {
-    return computeQueryDocumentScore(reader, docid, q, similarity, IndexCollection.DEFAULT_ANALYZER);
+    return computeQueryDocumentScoreWithSimilarityAndAnalyzer(reader, docid, q, similarity,
+        IndexCollection.DEFAULT_ANALYZER);
   }
 
   /**
@@ -557,8 +593,9 @@ public class IndexReaderUtils {
    * @return the score of the document with respect to the query
    * @throws IOException if error encountered during query
    */
-  public static float computeQueryDocumentScore(IndexReader reader, String docid, String q,
-                                                Similarity similarity, Analyzer analyzer) throws IOException {
+  public static float computeQueryDocumentScoreWithSimilarityAndAnalyzer(
+      IndexReader reader, String docid, String q, Similarity similarity, Analyzer analyzer)
+      throws IOException {
     // We compute the query-document score by issuing the query with an additional filter clause that restricts
     // consideration to only the docid in question, and then returning the retrieval score.
     //
