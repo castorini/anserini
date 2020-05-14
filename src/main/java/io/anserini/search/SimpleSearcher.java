@@ -69,6 +69,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -100,8 +101,32 @@ public class SimpleSearcher implements Closeable {
     @Option(name = "-output", metaVar = "[file]", required = true, usage = "Output run file.")
     public String output;
 
+    @Option(name = "-bm25", usage = "Flag to use BM25.", forbids = {"-ql"})
+    public Boolean useBM25 = true;
+
+    @Option(name = "-bm25.k1", usage = "BM25 k1 value.", forbids = {"-ql"})
+    public float bm25_k1 = 0.9f;
+
+    @Option(name = "-bm25.b", usage = "BM25 b value.", forbids = {"-ql"})
+    public float bm25_b = 0.4f;
+
+    @Option(name = "-qld", usage = "Flag to use query-likelihood with Dirichlet smoothing.", forbids={"-bm25"})
+    public Boolean useQL = false;
+
+    @Option(name = "-qld.mu", usage = "Dirichlet smoothing parameter value for query-likelihood.", forbids={"-bm25"})
+    public float ql_mu = 1000.0f;
+
     @Option(name = "-rm3", usage = "Flag to use RM3.")
     public Boolean useRM3 = false;
+
+    @Option(name = "-rm3.fbTerms", usage = "RM3 parameter: number of expansion terms")
+    public int rm3_fbTerms = 10;
+
+    @Option(name = "-rm3.fbDocs", usage = "RM3 parameter: number of documents")
+    public int rm3_fbDocs = 10;
+
+    @Option(name = "-rm3.originalQueryWeight", usage = "RM3 parameter: weight to assign to the original query")
+    public float rm3_originalQueryWeight = 0.5f;
 
     @Option(name = "-hits", metaVar = "[number]", usage = "Max number of hits to return.")
     public int hits = 1000;
@@ -198,8 +223,8 @@ public class SimpleSearcher implements Closeable {
 
   public void setRM3Reranker() {
     SearchArgs defaults = new SearchArgs();
-
-    setRM3Reranker(Integer.parseInt(defaults.rm3_fbTerms[0]), 10, 0.5f, false);
+    setRM3Reranker(Integer.parseInt(defaults.rm3_fbTerms[0]), Integer.parseInt(defaults.rm3_fbDocs[0]),
+        Float.parseFloat(defaults.rm3_originalQueryWeight[0]), false);
   }
 
   public void setRM3Reranker(int fbTerms, int fbDocs, float originalQueryWeight) {
@@ -519,9 +544,26 @@ public class SimpleSearcher implements Closeable {
     SortedMap<Object, Map<String, String>> topics = TopicReader.getTopicsByFile(searchArgs.topics);
 
     PrintWriter out = new PrintWriter(Files.newBufferedWriter(Paths.get(searchArgs.output), StandardCharsets.US_ASCII));
+    List<String> argsAsList = Arrays.asList(args);
+
+    // Test a separate code path, where we specify BM25 explicitly, which is different from not specifying it at all.
+    if (argsAsList.contains("-bm25")) {
+      LOG.info("Testing code path of explicitly setting BM25.");
+      searcher.setBM25Similarity(searchArgs.bm25_k1, searchArgs.bm25_b);
+    } else if (searchArgs.useQL){
+      LOG.info("Testing code path of explicitly setting QL.");
+      searcher.setLMDirichletSimilarity(searchArgs.ql_mu);
+    }
 
     if (searchArgs.useRM3) {
-      searcher.setRM3Reranker();
+      if (argsAsList.contains("-rm3.fbTerms") || argsAsList.contains("-rm3.fbTerms") ||
+          argsAsList.contains("-rm3.originalQueryWeight")) {
+        LOG.info("Testing code path of explicitly setting RM3 parameters.");
+        searcher.setRM3Reranker(searchArgs.rm3_fbTerms, searchArgs.rm3_fbDocs, searchArgs.rm3_originalQueryWeight);
+      } else {
+        LOG.info("Testing code path of default RM3 parameters.");
+        searcher.setRM3Reranker();
+      }
     }
 
     if (searchArgs.threads == 1) {
