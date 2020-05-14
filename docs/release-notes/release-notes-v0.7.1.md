@@ -63,6 +63,6 @@ Sorted by number of commits, [according to GitHub](https://github.com/castorini/
 + Matteo Catena ([catenamatteo](https://github.com/catenamatteo))
 + Andrew Yates ([andrewyates](https://github.com/andrewyates))
 + Antonio Mallia ([amallia](https://github.com/amallia))
-+ Alireza Mirzaeiyan ([alirezamirzaeiyan](https://github.com/alirezamirzaeiyan))
++ Alireza Mirzaeiyan ([amirzaeiyan](https://github.com/amirzaeiyan))
 + Horatiu Lazu ([MathBunny](https://github.com/MathBunny))
 + Joel Mackenzie ([JMMackenzie](https://github.com/JMMackenzie))
