@@ -477,7 +477,8 @@ public class IndexReaderUtils {
    */
   public static float getBM25TermWeight(IndexReader reader, String docid, String term) throws IOException {
     SearchArgs args = new SearchArgs();
-    return getBM25TermWeight(reader, docid, term, Float.parseFloat(args.bm25_k1[0]), Float.parseFloat(args.bm25_b[0]));
+    return getBM25TermWeightWithParameters(reader, docid, term,
+        Float.parseFloat(args.bm25_k1[0]), Float.parseFloat(args.bm25_b[0]));
   }
 
   /**
@@ -491,7 +492,7 @@ public class IndexReaderUtils {
    * @return BM25 weight of the term in the specified document
    * @throws IOException if error encountered during query
    */
-  public static float getBM25TermWeight(IndexReader reader, String docid, String term, float k1, float b)
+  public static float getBM25TermWeightWithParameters(IndexReader reader, String docid, String term, float k1, float b)
       throws IOException {
     // We compute the BM25 score by issuing a single-term query with an additional filter clause that restricts
     // consideration to only the docid in question, and then returning the retrieval score.
