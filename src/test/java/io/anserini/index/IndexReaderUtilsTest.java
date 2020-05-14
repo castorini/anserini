@@ -19,6 +19,8 @@ package io.anserini.index;
 import io.anserini.IndexerTestBase;
 import io.anserini.analysis.AnalyzerUtils;
 import io.anserini.analysis.DefaultEnglishAnalyzer;
+import io.anserini.search.SearchArgs;
+import io.anserini.search.SimpleSearcher;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.MultiTerms;
@@ -29,11 +31,13 @@ import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.search.similarities.BM25Similarity;
+import org.apache.lucene.search.similarities.Similarity;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.BytesRef;
 import org.junit.Test;
 
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -272,6 +276,9 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
 
   @Test
   public void computeAllTermBM25Weights() throws Exception {
+    SearchArgs args = new SearchArgs();
+    Similarity similarity = new BM25Similarity(Float.parseFloat(args.bm25_k1[0]), Float.parseFloat(args.bm25_b[0]));
+
     Directory dir = FSDirectory.open(tempDir1);
     IndexReader reader = DirectoryReader.open(dir);
 
@@ -286,7 +293,7 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
       String term = text.utf8ToString();
 
       IndexSearcher searcher = new IndexSearcher(reader);
-      searcher.setSimilarity(new BM25Similarity());
+      searcher.setSimilarity(similarity);
 
       TopDocs rs = searcher.search(new TermQuery(new Term("contents", term)), 3);
       for (int i=0; i<rs.scoreDocs.length; i++) {
@@ -430,6 +437,31 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
     assertEquals(1, IndexReaderUtils.convertDocidToLuceneDocid(reader, "doc2"));
     assertEquals(2, IndexReaderUtils.convertDocidToLuceneDocid(reader, "doc3"));
     assertEquals(-1, IndexReaderUtils.convertDocidToLuceneDocid(reader, "doc42"));
+
+    reader.close();
+    dir.close();
+  }
+
+  @Test
+  public void testComputeQueryDocumentScore() throws Exception {
+    SimpleSearcher searcher = new SimpleSearcher(tempDir1.toString());
+    Directory dir = FSDirectory.open(tempDir1);
+    IndexReader reader = DirectoryReader.open(dir);
+    Similarity similarity = new BM25Similarity(0.9f, 0.4f);
+
+    String[] queries = {"text city", "text", "city"};
+
+    for (String query: queries) {
+      SimpleSearcher.Result[] results = searcher.search(query);
+
+      for (int i = 0; i < results.length; i++) {
+        float score = IndexReaderUtils.computeQueryDocumentScore(reader, results[i].docid, query, similarity);
+        assertEquals(score, results[i].score, 10e-5);
+      }
+
+      assertEquals(0.0f,
+          IndexReaderUtils.computeQueryDocumentScore(reader, "doc3", query, similarity), 10e-6);
+    }
 
     reader.close();
     dir.close();

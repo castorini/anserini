@@ -18,6 +18,8 @@ package io.anserini.index;
 
 import io.anserini.analysis.AnalyzerUtils;
 import io.anserini.analysis.DefaultEnglishAnalyzer;
+import io.anserini.search.SearchArgs;
+import io.anserini.search.query.BagOfWordsQueryGenerator;
 import io.anserini.search.query.PhraseQueryGenerator;
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveOutputStream;
@@ -46,6 +48,7 @@ import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.ConstantScoreQuery;
 import org.apache.lucene.search.BooleanClause;
 import org.apache.lucene.search.similarities.BM25Similarity;
+import org.apache.lucene.search.similarities.Similarity;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.BytesRef;
@@ -464,17 +467,34 @@ public class IndexReaderUtils {
   }
 
   /**
-   * Computes the BM25 weight of a term (prior to analysis) in a particular document.
+   * Computes the BM25 weight of an unanalyzed term in a particular document (with Anserini default parameters).
    *
    * @param reader index reader
    * @param docid collection docid
-   * @param term term (prior to analysis)
+   * @param term unanalyzed term
    * @return BM25 weight of the term in the specified document
    * @throws IOException if error encountered during query
    */
   public static float getBM25TermWeight(IndexReader reader, String docid, String term) throws IOException {
+    SearchArgs args = new SearchArgs();
+    return getBM25TermWeight(reader, docid, term, Float.parseFloat(args.bm25_k1[0]), Float.parseFloat(args.bm25_b[0]));
+  }
+
+  /**
+   * Computes the BM25 weight of an unanalyzed term in a particular document.
+   *
+   * @param reader index reader
+   * @param docid collection docid
+   * @param term unanalyzed term
+   * @param k1 k1 setting for BM25
+   * @param b b setting for BM25
+   * @return BM25 weight of the term in the specified document
+   * @throws IOException if error encountered during query
+   */
+  public static float getBM25TermWeight(IndexReader reader, String docid, String term, float k1, float b)
+      throws IOException {
     IndexSearcher searcher = new IndexSearcher(reader);
-    searcher.setSimilarity(new BM25Similarity());
+    searcher.setSimilarity(new BM25Similarity(k1, b));
 
     // The way to compute the BM25 score is to issue a query with the exact docid and the
     // term in question, and look at the retrieval score.
@@ -488,6 +508,33 @@ public class IndexReaderUtils {
 
     // The BM25 weight is the score of the first (and only) hit, but remember to remove 1 for the ConstantScoreQuery
     return rs.scoreDocs.length == 0 ? Float.NaN : rs.scoreDocs[0].score - 1;
+  }
+
+  public static float computeQueryDocumentScore(IndexReader reader, String docid, String q) throws IOException {
+    return computeQueryDocumentScore(reader, docid, q, new BM25Similarity(), IndexCollection.DEFAULT_ANALYZER);
+  }
+
+  public static float computeQueryDocumentScore(IndexReader reader, String docid, String q, Similarity similarity)
+      throws IOException {
+    return computeQueryDocumentScore(reader, docid, q, similarity, IndexCollection.DEFAULT_ANALYZER);
+  }
+
+  public static float computeQueryDocumentScore(IndexReader reader, String docid, String q,
+                                                Similarity similarity, Analyzer analyzer) throws IOException {
+    IndexSearcher searcher = new IndexSearcher(reader);
+    searcher.setSimilarity(similarity);
+
+    Query query = new BagOfWordsQueryGenerator().buildQuery(IndexArgs.CONTENTS, analyzer, q);
+
+    Query filterQuery = new ConstantScoreQuery(new TermQuery(new Term(IndexArgs.ID, docid)));
+    BooleanQuery.Builder builder = new BooleanQuery.Builder();
+    builder.add(filterQuery, BooleanClause.Occur.MUST);
+    builder.add(query, BooleanClause.Occur.MUST);
+    Query finalQuery = builder.build();
+
+    TopDocs rs = searcher.search(finalQuery, 1);
+
+    return rs.scoreDocs.length == 0 ? 0 : rs.scoreDocs[0].score - 1;
   }
 
   public static void dumpDocumentVectors(IndexReader reader, String reqDocidsPath, DocumentVectorWeight weight) throws IOException {
