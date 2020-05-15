@@ -17,7 +17,6 @@
 package io.anserini.index;
 
 import io.anserini.analysis.AnalyzerUtils;
-import io.anserini.analysis.DefaultEnglishAnalyzer;
 import io.anserini.search.SearchArgs;
 import io.anserini.search.query.BagOfWordsQueryGenerator;
 import io.anserini.search.query.PhraseQueryGenerator;
@@ -26,7 +25,6 @@ import org.apache.commons.compress.archivers.tar.TarArchiveOutputStream;
 import org.apache.commons.compress.compressors.bzip2.BZip2CompressorInputStream;
 import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
 import org.apache.commons.compress.compressors.gzip.GzipCompressorOutputStream;
-import org.apache.jute.Index;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;

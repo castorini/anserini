@@ -21,7 +21,6 @@ import io.anserini.analysis.AnalyzerUtils;
 import io.anserini.analysis.DefaultEnglishAnalyzer;
 import io.anserini.search.SearchArgs;
 import io.anserini.search.SimpleSearcher;
-import org.apache.jute.Index;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.MultiTerms;
