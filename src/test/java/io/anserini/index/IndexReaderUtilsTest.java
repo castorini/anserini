@@ -37,7 +37,6 @@ import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.BytesRef;
 import org.junit.Test;
 
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -314,10 +313,36 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
       termsEnum = termVector.iterator();
       while ((text = termsEnum.next()) != null) {
         String term = text.utf8ToString();
-        float weight = IndexReaderUtils.getBM25TermWeight(reader, docid, term);
+        float weight = IndexReaderUtils.getBM25AnalyzedTermWeight(reader, docid, term);
         assertEquals(termDocMatrix.get(term).get(docid), weight, 10e-6);
       }
     }
+
+    reader.close();
+    dir.close();
+  }
+
+  @Test
+  public void computeBM25Weights() throws Exception {
+    SearchArgs args = new SearchArgs();
+
+    Directory dir = FSDirectory.open(tempDir1);
+    IndexReader reader = DirectoryReader.open(dir);
+
+    assertEquals(0.43400, IndexReaderUtils.getBM25UnanalyzedTermWeightWithParameters(reader, "doc1",
+        "city", IndexCollection.DEFAULT_ANALYZER,0.9f, 0.4f), 10e-5);
+    assertEquals(0.43400, IndexReaderUtils.getBM25AnalyzedTermWeightWithParameters(reader, "doc1",
+        "citi", 0.9f, 0.4f), 10e-5);
+
+    assertEquals(0.0f, IndexReaderUtils.getBM25UnanalyzedTermWeightWithParameters(reader, "doc2",
+        "city", IndexCollection.DEFAULT_ANALYZER,0.9f, 0.4f), 10e-5);
+    assertEquals(0.0f, IndexReaderUtils.getBM25AnalyzedTermWeightWithParameters(reader, "doc2",
+        "citi", 0.9f, 0.4f), 10e-5);
+
+    assertEquals(0.570250, IndexReaderUtils.getBM25UnanalyzedTermWeightWithParameters(reader, "doc3",
+        "test", IndexCollection.DEFAULT_ANALYZER,0.9f, 0.4f), 10e-5);
+    assertEquals(0.570250, IndexReaderUtils.getBM25AnalyzedTermWeightWithParameters(reader, "doc3",
+        "test", 0.9f, 0.4f), 10e-5);
 
     reader.close();
     dir.close();
@@ -457,13 +482,14 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
 
       // Strategy is to loop over the results, compute query-document score individually, and compare.
       for (int i = 0; i < results.length; i++) {
-        float score = IndexReaderUtils.computeQueryDocumentScore(reader, results[i].docid, query, similarity);
+        float score = IndexReaderUtils.computeQueryDocumentScoreWithSimilarity(
+            reader, results[i].docid, query, similarity);
         assertEquals(score, results[i].score, 10e-5);
       }
 
       // This is hard coded - doc3 isn't retrieved by any of the queries.
-      assertEquals(0.0f,
-          IndexReaderUtils.computeQueryDocumentScore(reader, "doc3", query, similarity), 10e-6);
+      assertEquals(0.0f, IndexReaderUtils.computeQueryDocumentScoreWithSimilarity(
+              reader, "doc3", query, similarity), 10e-6);
     }
 
     reader.close();
