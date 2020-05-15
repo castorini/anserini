@@ -19,46 +19,24 @@ package io.anserini.search;
 import io.anserini.analysis.AnalyzerUtils;
 import io.anserini.analysis.TweetAnalyzer;
 import io.anserini.index.IndexArgs;
-import io.anserini.index.IndexCollection;
-import io.anserini.index.IndexReaderUtils;
 import io.anserini.index.generator.TweetGenerator;
-import io.anserini.rerank.RerankerCascade;
 import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.ScoredDocuments;
-import io.anserini.rerank.lib.Rm3Reranker;
-import io.anserini.rerank.lib.ScoreTiesAdjusterReranker;
 import io.anserini.search.query.BagOfWordsQueryGenerator;
-import io.anserini.search.query.QueryGenerator;
 import io.anserini.search.topicreader.TopicReader;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.ar.ArabicAnalyzer;
-import org.apache.lucene.analysis.bn.BengaliAnalyzer;
-import org.apache.lucene.analysis.cjk.CJKAnalyzer;
-import org.apache.lucene.analysis.de.GermanAnalyzer;
-import org.apache.lucene.analysis.en.EnglishAnalyzer;
-import org.apache.lucene.analysis.es.SpanishAnalyzer;
-import org.apache.lucene.analysis.fr.FrenchAnalyzer;
-import org.apache.lucene.analysis.hi.HindiAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.LongPoint;
-import org.apache.lucene.index.DirectoryReader;
-import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexableField;
 import org.apache.lucene.search.BooleanClause;
 import org.apache.lucene.search.BooleanQuery;
-import org.apache.lucene.search.BoostQuery;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.Sort;
 import org.apache.lucene.search.SortField;
 import org.apache.lucene.search.TopDocs;
-import org.apache.lucene.search.similarities.BM25Similarity;
-import org.apache.lucene.search.similarities.LMDirichletSimilarity;
-import org.apache.lucene.search.similarities.Similarity;
-import org.apache.lucene.store.FSDirectory;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
@@ -70,19 +48,12 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.SortedMap;
-import java.util.concurrent.CompletionException;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * Class that exposes basic search functionality, designed specifically to provide the bridge between Java and Python
@@ -154,7 +125,7 @@ public class SimpleTweetSearcher extends SimpleSearcher implements Closeable {
     builder.add(filter, BooleanClause.Occur.FILTER);
     builder.add(query, BooleanClause.Occur.MUST);
     Query compositeQuery = builder.build();
-    rs = searcher.search(compositeQuery, isRerank ? searchArgs.rerankcutoff :
+    rs = searcher.search(compositeQuery, useRM3 ? searchArgs.rerankcutoff :
         k, BREAK_SCORE_TIES_BY_TWEETID, true);
     context = new RerankerContext<>(searcher, null, compositeQuery, null,
         queryString, queryTokens, filter, searchArgs);
@@ -206,7 +177,7 @@ public class SimpleTweetSearcher extends SimpleSearcher implements Closeable {
     PrintWriter out = new PrintWriter(Files.newBufferedWriter(Paths.get(searchArgs.output), StandardCharsets.US_ASCII));
 
     if (searchArgs.useRM3) {
-      searcher.setRM3Reranker();
+      searcher.setRM3();
     }
 
     for (Object id : topics.keySet()) {

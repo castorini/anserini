@@ -558,8 +558,10 @@ public class IndexReaderUtils {
    * @throws IOException if error encountered during query
    */
   public static float computeQueryDocumentScore(IndexReader reader, String docid, String q) throws IOException {
+    SearchArgs args = new SearchArgs();
     return computeQueryDocumentScoreWithSimilarityAndAnalyzer(reader, docid, q,
-        new BM25Similarity(), IndexCollection.DEFAULT_ANALYZER);
+        new BM25Similarity(Float.parseFloat(args.bm25_k1[0]), Float.parseFloat(args.bm25_b[0])),
+        IndexCollection.DEFAULT_ANALYZER);
   }
 
   /**

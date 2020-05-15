@@ -139,7 +139,7 @@ public class SimpleSearcher implements Closeable {
   protected Similarity similarity;
   protected Analyzer analyzer;
   protected RerankerCascade cascade;
-  protected boolean isRerank;
+  protected boolean useRM3;
 
   protected IndexSearcher searcher = null;
 
@@ -184,7 +184,7 @@ public class SimpleSearcher implements Closeable {
     this.reader = DirectoryReader.open(FSDirectory.open(indexPath));
     this.similarity = new BM25Similarity(Float.parseFloat(defaults.bm25_k1[0]), Float.parseFloat(defaults.bm25_b[0]));
     this.analyzer = analyzer;
-    this.isRerank = false;
+    this.useRM3 = false;
     cascade = new RerankerCascade();
     cascade.add(new ScoreTiesAdjusterReranker());
   }
@@ -215,31 +215,35 @@ public class SimpleSearcher implements Closeable {
     }
   }
 
-  public void unsetRM3Reranker() {
-    this.isRerank = false;
+  public boolean useRM3() {
+    return useRM3;
+  }
+
+  public void unsetRM3() {
+    this.useRM3 = false;
     cascade = new RerankerCascade();
     cascade.add(new ScoreTiesAdjusterReranker());
   }
 
-  public void setRM3Reranker() {
+  public void setRM3() {
     SearchArgs defaults = new SearchArgs();
-    setRM3Reranker(Integer.parseInt(defaults.rm3_fbTerms[0]), Integer.parseInt(defaults.rm3_fbDocs[0]),
+    setRM3(Integer.parseInt(defaults.rm3_fbTerms[0]), Integer.parseInt(defaults.rm3_fbDocs[0]),
         Float.parseFloat(defaults.rm3_originalQueryWeight[0]), false);
   }
 
-  public void setRM3Reranker(int fbTerms, int fbDocs, float originalQueryWeight) {
-    setRM3Reranker(fbTerms, fbDocs, originalQueryWeight, false);
+  public void setRM3(int fbTerms, int fbDocs, float originalQueryWeight) {
+    setRM3(fbTerms, fbDocs, originalQueryWeight, false);
   }
 
-  public void setRM3Reranker(int fbTerms, int fbDocs, float originalQueryWeight, boolean rm3_outputQuery) {
-    isRerank = true;
+  public void setRM3(int fbTerms, int fbDocs, float originalQueryWeight, boolean rm3_outputQuery) {
+    useRM3 = true;
     cascade = new RerankerCascade("rm3");
     cascade.add(new Rm3Reranker(this.analyzer, IndexArgs.CONTENTS,
         fbTerms, fbDocs, originalQueryWeight, rm3_outputQuery));
     cascade.add(new ScoreTiesAdjusterReranker());
   }
 
-  public void setLMDirichletSimilarity(float mu) {
+  public void setQLD(float mu) {
     this.similarity = new LMDirichletSimilarity(mu);
 
     // We need to re-initialize the searcher
@@ -247,12 +251,16 @@ public class SimpleSearcher implements Closeable {
     searcher.setSimilarity(similarity);
   }
 
-  public void setBM25Similarity(float k1, float b) {
+  public void setBM25(float k1, float b) {
     this.similarity = new BM25Similarity(k1, b);
 
     // We need to re-initialize the searcher
     searcher = new IndexSearcher(reader);
     searcher.setSimilarity(similarity);
+  }
+
+  public Similarity getSimilarity() {
+    return similarity;
   }
 
   /**
@@ -373,7 +381,7 @@ public class SimpleSearcher implements Closeable {
 
     TopDocs rs;
     RerankerContext context;
-    rs = searcher.search(query, isRerank ? searchArgs.rerankcutoff : k, BREAK_SCORE_TIES_BY_DOCID, true);
+    rs = searcher.search(query, useRM3 ? searchArgs.rerankcutoff : k, BREAK_SCORE_TIES_BY_DOCID, true);
     context = new RerankerContext<>(searcher, null, query, null,
           queryString, queryTokens, null, searchArgs);
 
@@ -549,20 +557,20 @@ public class SimpleSearcher implements Closeable {
     // Test a separate code path, where we specify BM25 explicitly, which is different from not specifying it at all.
     if (argsAsList.contains("-bm25")) {
       LOG.info("Testing code path of explicitly setting BM25.");
-      searcher.setBM25Similarity(searchArgs.bm25_k1, searchArgs.bm25_b);
+      searcher.setBM25(searchArgs.bm25_k1, searchArgs.bm25_b);
     } else if (searchArgs.useQL){
       LOG.info("Testing code path of explicitly setting QL.");
-      searcher.setLMDirichletSimilarity(searchArgs.ql_mu);
+      searcher.setQLD(searchArgs.ql_mu);
     }
 
     if (searchArgs.useRM3) {
       if (argsAsList.contains("-rm3.fbTerms") || argsAsList.contains("-rm3.fbTerms") ||
           argsAsList.contains("-rm3.originalQueryWeight")) {
         LOG.info("Testing code path of explicitly setting RM3 parameters.");
-        searcher.setRM3Reranker(searchArgs.rm3_fbTerms, searchArgs.rm3_fbDocs, searchArgs.rm3_originalQueryWeight);
+        searcher.setRM3(searchArgs.rm3_fbTerms, searchArgs.rm3_fbDocs, searchArgs.rm3_originalQueryWeight);
       } else {
         LOG.info("Testing code path of default RM3 parameters.");
-        searcher.setRM3Reranker();
+        searcher.setRM3();
       }
     }
 
