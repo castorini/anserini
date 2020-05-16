@@ -31,7 +31,7 @@ def remove_folder(directory: str) -> None:
         shutil.rmtree(directory)
 
 
-def merge(paths: List[str], out: str) -> None:
+def prune_and_merge(paths: List[str], out: str) -> None:
     remove_folder(out)
     mkdir_if_not_exist(out)
 
@@ -50,8 +50,7 @@ def merge(paths: List[str], out: str) -> None:
     for category in categories:
         mkdir_if_not_exist(os.path.join(out, category))
 
-    master_id = 0
-    # Copy over docs
+    new_doc_id = 0
     num_docs_copied = 0
     for path in paths:
         for root, _, files in os.walk(path, topdown=False):
@@ -63,15 +62,15 @@ def merge(paths: List[str], out: str) -> None:
 
                 from_path = os.path.join(root, doc_id)
                 # assign new unique doc id
-                to_path = os.path.join(root, f'{master_id}')
+                to_path = os.path.join(root, f'{new_doc_id}')
                 # copy to merged folder
-                new_path = os.path.join(out, category, f'{master_id}')
+                new_path = os.path.join(out, category, f'{new_doc_id}')
                 shutil.copyfile(from_path, new_path)
                 shutil.move(from_path, to_path)
-                master_id += 1
+                new_doc_id += 1
 
     print(to_path)
-    print(f"Copied over {num_docs_copied} docs")
+    print(f"Processed {num_docs_copied} docs")
 
 
 if __name__ == "__main__":
@@ -85,6 +84,6 @@ if __name__ == "__main__":
                         default="./20news", required=False, help='the output path of the merged folder')
 
     args = parser.parse_args()
-    merge(args.paths, args.out)
+    prune_and_merge(args.paths, args.out)
 
-    print(f'Merge done -> {args.out}')
+    print(f'Prune & Merge done -> {args.out}')
