@@ -76,7 +76,7 @@ def prune_and_merge(paths: List[str], out: str) -> None:
 if __name__ == "__main__":
     # Prune: re-name docs starting from 0 to avoid two docs with the same id
     parser = argparse.ArgumentParser(
-        description='prune and merge the 20-newsgroup train & test set')
+        description='prune and merge the 20 newsgroups train & test set')
 
     parser.add_argument('--paths', type=str, nargs='+',
                         default=[], required=True, help='paths to train/test folders')
