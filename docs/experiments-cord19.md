@@ -29,7 +29,7 @@ First, download the data:
 
 ```bash
 DATE=2020-05-12
-DATA_DIR=./cord19-"${DATE}"
+DATA_DIR=./collections/cord19-"${DATE}"
 mkdir "${DATA_DIR}"
 
 wget https://ai2-semanticscholar-cord-19.s3-us-west-2.amazonaws.com/latest/document_parses.tar.gz -P "${DATA_DIR}"
@@ -47,8 +47,10 @@ For a sense of how these different methods stack up, refer to the following pape
 
 + Jimmy Lin. [Is Searching Full Text More Effective Than Searching Abstracts?](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-10-46) BMC Bioinformatics, 10:46 (3 February 2009).
 
-The tl;dr &mdash; we'd recommend getting started with title + abstract index since it's the smallest in size and easiest to manipulate. Paragraph indexing is likely to be more effective (i.e., better search results), but a bit more difficult to manipulate since some deduping is required to post-process the raw hits (since multiple paragraphs from the same article might be retrieved).
+The tl;dr &mdash; we'd recommend getting started with abstract index since it's the smallest in size and easiest to manipulate. Paragraph indexing is likely to be more effective (i.e., better search results), but a bit more difficult to manipulate since some deduping is required to post-process the raw hits (since multiple paragraphs from the same article might be retrieved).
 The full-text index overly biases long documents and isn't really effective; this condition is included here only for completeness.
+
+Note that as of TREC-COVID Round 1, there is some evidence that the abstract index is more effective for search, see results of experiments [here](experiments-covid.md).
 
 ### Abstract
 
@@ -58,8 +60,8 @@ We can index abstracts (and titles, of course) with `Cord19AbstractCollection`, 
 sh target/appassembler/bin/IndexCollection \
   -collection Cord19AbstractCollection -generator Cord19Generator \
   -threads 8 -input "${DATA_DIR}" \
-  -index "${DATA_DIR}"/lucene-index-cord19-abstract-"${DATE}" \
-  -storePositions -storeDocvectors -storeContents -storeRaw -optimize > log.cord19-abstract.${DATE}.txt
+  -index indexes/lucene-index-cord19-abstract-"${DATE}" \
+  -storePositions -storeDocvectors -storeContents -storeRaw -optimize > logs/log.cord19-abstract.${DATE}.txt
 ```
 
 The log should end with something like this:
@@ -85,8 +87,8 @@ We can index the full text, with `Cord19FullTextCollection`, as follows:
 sh target/appassembler/bin/IndexCollection \
   -collection Cord19FullTextCollection -generator Cord19Generator \
   -threads 8 -input "${DATA_DIR}" \
-  -index "${DATA_DIR}"/lucene-index-cord19-full-text-"${DATE}" \
-  -storePositions -storeDocvectors -storeContents -storeRaw -optimize > log.cord19-full-text.${DATE}.txt
+  -index indexes/lucene-index-cord19-full-text-"${DATE}" \
+  -storePositions -storeDocvectors -storeContents -storeRaw -optimize > logs/log.cord19-full-text.${DATE}.txt
 ```
 
 The log should end with something like this:
@@ -112,8 +114,8 @@ We can build a paragraph index with `Cord19ParagraphCollection`, as follows:
 sh target/appassembler/bin/IndexCollection \
   -collection Cord19ParagraphCollection -generator Cord19Generator \
   -threads 8 -input "${DATA_DIR}" \
-  -index "${DATA_DIR}"/lucene-index-cord19-paragraph-"${DATE}" \
-  -storePositions -storeDocvectors -storeContents -storeRaw -optimize > log.cord19-paragraph.${DATE}.txt
+  -index indexes/lucene-index-cord19-paragraph-"${DATE}" \
+  -storePositions -storeDocvectors -storeContents -storeRaw -optimize > logs/log.cord19-paragraph.${DATE}.txt
 ```
 
 The log should end with something like this:

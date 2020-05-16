@@ -33,7 +33,7 @@ Sorted by number of commits:
 + Vera Lin ([y276lin](https://github.com/y276lin))
 + niazarak ([niazarak](https://github.com/niazarak))
 + Stephanie Hu ([stephaniewhoo](https://github.com/stephaniewhoo))
-+ Wei Pang ([niazarak](https://github.com/niazarak))
++ Wei Pang ([weipang142857](https://github.com/weipang142857))
 
 ## All Contributors
 
@@ -81,7 +81,7 @@ Sorted by number of commits, [according to GitHub](https://github.com/castorini/
 + Joel Mackenzie ([JMMackenzie](https://github.com/JMMackenzie))
 + Vera Lin ([y276lin](https://github.com/y276lin))
 + Johnson Han ([x65han](https://github.com/x65han))
-+ Wei Pang ([niazarak](https://github.com/niazarak))
++ Wei Pang ([weipang142857](https://github.com/weipang142857))
 + Ruifan Yu ([tiddler](https://github.com/tiddler))
 + Stephanie Hu ([stephaniewhoo](https://github.com/stephaniewhoo))
 + Leonid Boytsov ([searchivarius](https://github.com/searchivarius))
@@ -95,7 +95,7 @@ Sorted by number of commits, [according to GitHub](https://github.com/castorini/
 + Charles Wu ([charW](https://github.com/charW))
 + Matteo Catena ([catenamatteo](https://github.com/catenamatteo))
 + Andrew Yates ([andrewyates](https://github.com/andrewyates))
-+ Alireza Mirzaeiyan ([alirezamirzaeiyan](https://github.com/alirezamirzaeiyan))
++ Alireza Mirzaeiyan ([amirzaeiyan](https://github.com/amirzaeiyan))
 + Antonio Mallia ([amallia](https://github.com/amallia))
 + Horatiu Lazu ([MathBunny](https://github.com/MathBunny))
 + Edward Li ([LuKuuu](https://github.com/LuKuuu))
