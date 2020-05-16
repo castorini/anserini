@@ -1,6 +1,6 @@
-# Anserini: Twenty Newsgroup
+# Anserini: 20-Newsgroup
 
-This page contains instruction for Twenty News Group
+This page contains instructions for how to index the 20-Newsgroup dataset.
 
 ## Data Prep
 
@@ -21,9 +21,11 @@ ls 20-newsgroup/20news-bydate-test
 ls 20-newsgroup/20news-bydate-train
 ```
 
-We need to merge them into one folder:
+There are docs with the same id in different categories.
+For example, doc `123` can exists in `misc.forsale` & `sci.crypt` even if the two docs have different text. Hence we need prune the dataset by ensuring each doc has a unique id.
+To prune and merge them into one folder:
 ```
-python src/main/python/20-newsgroup/merge_train_and_test.py --paths 20-newsgroup/20news-bydate-test 20-newsgroup/20news-bydate-train --out 20-newsgroup/20news-bydate
+python src/main/python/20-newsgroup/prune_and_merge.py --paths 20-newsgroup/20news-bydate-test 20-newsgroup/20news-bydate-train --out 20-newsgroup/20news-bydate
 ```
 
 Now you should see train & test merged into one folder in `20-newsgroup/20news-bydate/`.

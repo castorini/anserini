@@ -50,6 +50,8 @@ def merge(paths: List[str], out: str) -> None:
     for category in categories:
         mkdir_if_not_exist(os.path.join(out, category))
 
+    
+    master_id = 0
     # Copy over docs
     num_docs_copied = 0
     for path in paths:
@@ -59,16 +61,26 @@ def merge(paths: List[str], out: str) -> None:
                     print(f'Copy in progress: {num_docs_copied}/{num_docs}')
                 num_docs_copied += 1
                 category = root.split('/')[-1]
-                from_path = os.path.join(root, doc_id)
-                to_path = os.path.join(out, category, doc_id)
-                shutil.copyfile(from_path, to_path)
 
+                from_path = os.path.join(root, doc_id)
+                # assign new unique doc id
+                to_path = os.path.join(root, f'{master_id}')
+                # copy to merged folder
+                new_path = os.path.join(out, category, f'{master_id}')
+                shutil.copyfile(from_path, new_path)
+                shutil.move(from_path, to_path)
+                master_id += 1
+
+
+    print(to_path)
     print(f"Copied over {num_docs_copied} docs")
 
 
 if __name__ == "__main__":
+    # Prune: re-name docs starting from 0 to avoid two docs with the same id
     parser = argparse.ArgumentParser(
-        description='merge the train and test set 20 newsgroup')
+        description='prune and merge the 20-newsgroup train & test set')
+    
     parser.add_argument('--paths', type=str, nargs='+',
                         default=[], required=True, help='paths to train/test folders')
     parser.add_argument('--out', type=str,
