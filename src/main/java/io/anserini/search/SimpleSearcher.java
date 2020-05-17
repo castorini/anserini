@@ -84,7 +84,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * Class that exposes basic search functionality, designed specifically to provide the bridge between Java and Python
- * via Pyjnius.
+ * via pyjnius.
  */
 public class SimpleSearcher implements Closeable {
   public static final Sort BREAK_SCORE_TIES_BY_DOCID =
@@ -139,7 +139,7 @@ public class SimpleSearcher implements Closeable {
   protected Similarity similarity;
   protected Analyzer analyzer;
   protected RerankerCascade cascade;
-  protected boolean isRerank;
+  protected boolean useRM3;
 
   protected IndexSearcher searcher = null;
 
@@ -168,10 +168,23 @@ public class SimpleSearcher implements Closeable {
   protected SimpleSearcher() {
   }
 
+  /**
+   * Creates a {@code SimpleSearcher}.
+   *
+   * @param indexDir index directory
+   * @throws IOException if errors encountered during initialization
+   */
   public SimpleSearcher(String indexDir) throws IOException {
     this(indexDir, IndexCollection.DEFAULT_ANALYZER);
   }
 
+  /**
+   * Creates a {@code SimpleSearcher} with a specified analyzer.
+   *
+   * @param indexDir index directory
+   * @param analyzer analyzer to use
+   * @throws IOException if errors encountered during initialization
+   */
   public SimpleSearcher(String indexDir, Analyzer analyzer) throws IOException {
     Path indexPath = Paths.get(indexDir);
 
@@ -182,21 +195,37 @@ public class SimpleSearcher implements Closeable {
     SearchArgs defaults = new SearchArgs();
 
     this.reader = DirectoryReader.open(FSDirectory.open(indexPath));
+    // Default to using BM25.
     this.similarity = new BM25Similarity(Float.parseFloat(defaults.bm25_k1[0]), Float.parseFloat(defaults.bm25_b[0]));
     this.analyzer = analyzer;
-    this.isRerank = false;
+    this.useRM3 = false;
     cascade = new RerankerCascade();
     cascade.add(new ScoreTiesAdjusterReranker());
   }
 
+  /**
+   * Sets the analyzer used.
+   *
+   * @param analyzer analyzer to use
+   */
   public void setAnalyzer(Analyzer analyzer) {
     this.analyzer = analyzer;
   }
 
+  /**
+   * Returns the analyzer used.
+   *
+   * @return analyzed used
+   */
   public Analyzer getAnalyzer(){
     return this.analyzer;
   }
 
+  /**
+   * Sets the language.
+   *
+   * @param language language
+   */
   public void setLanguage(String language) {
     if (language.equals("zh")) {
       this.analyzer = new CJKAnalyzer();
@@ -215,31 +244,66 @@ public class SimpleSearcher implements Closeable {
     }
   }
 
-  public void unsetRM3Reranker() {
-    this.isRerank = false;
+  /**
+   * Returns whether or not RM3 query expansion is being performed.
+   *
+   * @return whether or not RM3 query expansion is being performed
+   */
+  public boolean useRM3() {
+    return useRM3;
+  }
+
+  /**
+   * Disables RM3 query expansion.
+   */
+  public void unsetRM3() {
+    this.useRM3 = false;
     cascade = new RerankerCascade();
     cascade.add(new ScoreTiesAdjusterReranker());
   }
 
-  public void setRM3Reranker() {
+  /**
+   * Enables RM3 query expansion with default parameters.
+   */
+  public void setRM3() {
     SearchArgs defaults = new SearchArgs();
-    setRM3Reranker(Integer.parseInt(defaults.rm3_fbTerms[0]), Integer.parseInt(defaults.rm3_fbDocs[0]),
+    setRM3(Integer.parseInt(defaults.rm3_fbTerms[0]), Integer.parseInt(defaults.rm3_fbDocs[0]),
         Float.parseFloat(defaults.rm3_originalQueryWeight[0]), false);
   }
 
-  public void setRM3Reranker(int fbTerms, int fbDocs, float originalQueryWeight) {
-    setRM3Reranker(fbTerms, fbDocs, originalQueryWeight, false);
+  /**
+   * Enables RM3 query expansion with default parameters.
+   *
+   * @param fbTerms number of expansion terms
+   * @param fbDocs number of expansion documents
+   * @param originalQueryWeight weight to assign to the original query
+   */
+  public void setRM3(int fbTerms, int fbDocs, float originalQueryWeight) {
+    setRM3(fbTerms, fbDocs, originalQueryWeight, false);
   }
 
-  public void setRM3Reranker(int fbTerms, int fbDocs, float originalQueryWeight, boolean rm3_outputQuery) {
-    isRerank = true;
+  /**
+   * Enables RM3 query expansion with default parameters.
+   *
+   * @param fbTerms number of expansion terms
+   * @param fbDocs number of expansion documents
+   * @param originalQueryWeight weight to assign to the original query
+   * @param outputQuery flag to print original and expanded queries
+   */
+  public void setRM3(int fbTerms, int fbDocs, float originalQueryWeight, boolean outputQuery) {
+    useRM3 = true;
     cascade = new RerankerCascade("rm3");
     cascade.add(new Rm3Reranker(this.analyzer, IndexArgs.CONTENTS,
-        fbTerms, fbDocs, originalQueryWeight, rm3_outputQuery));
+        fbTerms, fbDocs, originalQueryWeight, outputQuery));
     cascade.add(new ScoreTiesAdjusterReranker());
   }
 
-  public void setLMDirichletSimilarity(float mu) {
+  /**
+   * Specifies use of query likelihood with Dirichlet smoothing as the scoring function.
+   *
+   * @param mu mu smoothing parameter
+   */
+  public void setQLD(float mu) {
     this.similarity = new LMDirichletSimilarity(mu);
 
     // We need to re-initialize the searcher
@@ -247,12 +311,27 @@ public class SimpleSearcher implements Closeable {
     searcher.setSimilarity(similarity);
   }
 
-  public void setBM25Similarity(float k1, float b) {
+  /**
+   * Specifies use of BM25 as the scoring function.
+   *
+   * @param k1 k1 parameter
+   * @param b b parameter
+   */
+  public void setBM25(float k1, float b) {
     this.similarity = new BM25Similarity(k1, b);
 
     // We need to re-initialize the searcher
     searcher = new IndexSearcher(reader);
     searcher.setSimilarity(similarity);
+  }
+
+  /**
+   * Returns the {@link Similarity} (i.e., scoring function) currently being used.
+   *
+   * @return the {@link Similarity} currently being used
+   */
+  public Similarity getSimilarity() {
+    return similarity;
   }
 
   /**
@@ -270,15 +349,43 @@ public class SimpleSearcher implements Closeable {
      return searcher.getIndexReader().maxDoc();
    }
 
+  /**
+   * Closes this searcher.
+   */
   @Override
   public void close() throws IOException {
-    reader.close();
+    try {
+      reader.close();
+    } catch (Exception e) {
+      // Eat any exceptions.
+      return;
+    }
   }
 
+  /**
+   * Searches the collection using multiple threads.
+   *
+   * @param queries list of queries
+   * @param qids list of unique query ids
+   * @param k number of hits
+   * @param threads number of threads
+   * @return a map of query id to search results
+   */
   public Map<String, Result[]> batchSearch(List<String> queries, List<String> qids, int k, int threads) {
     return batchSearchFields(queries, qids, k, threads, new HashMap<>());
   }
 
+  /**
+   * Searches both the default contents fields and additional fields with specified boost weights using multiple
+   * threads. Batch version of {@link #searchFields(String, Map, int)}.
+   *
+   * @param queries list of queries
+   * @param qids list of unique query ids
+   * @param k number of hits
+   * @param threads number of threads
+   * @param fields map of additional fields with weights
+   * @return a map of query id to search results
+   */
   public Map<String, Result[]> batchSearchFields(List<String> queries, List<String> qids, int k, int threads,
                                                  Map<String, Float> fields) {
     // Create the IndexSearcher here, if needed. We do it here because if we leave the creation to the search
@@ -339,10 +446,25 @@ public class SimpleSearcher implements Closeable {
     return results;
   }
 
+  /**
+   * Searches the collection, returning 10 hits by default.
+   *
+   * @param q query
+   * @return array of search results
+   * @throws IOException if error encountered during search
+   */
   public Result[] search(String q) throws IOException {
     return search(q, 10);
   }
 
+  /**
+   * Searches the collection, returning a specified number of hits.
+   *
+   * @param q query
+   * @param k number of hits
+   * @return array of search results
+   * @throws IOException if error encountered during search
+   */
   public Result[] search(String q, int k) throws IOException {
     Query query = new BagOfWordsQueryGenerator().buildQuery(IndexArgs.CONTENTS, analyzer, q);
     List<String> queryTokens = AnalyzerUtils.analyze(analyzer, q);
@@ -350,16 +472,34 @@ public class SimpleSearcher implements Closeable {
     return search(query, queryTokens, q, k);
   }
 
+  /**
+   * Searches the collection with a pre-constructed Lucene {@link Query}.
+   *
+   * @param query Lucene query
+   * @param k number of hits
+   * @return array of search results
+   * @throws IOException if error encountered during search
+   */
   public Result[] search(Query query, int k) throws IOException {
     return search(query, null, null, k);
   }
 
+  /**
+   * Searches the collection with a specified {@link QueryGenerator}.
+   *
+   * @param generator query generator
+   * @param q query
+   * @param k number of hits
+   * @return array of search results
+   * @throws IOException if error encountered during search
+   */
   public Result[] search(QueryGenerator generator, String q, int k) throws IOException {
     Query query = generator.buildQuery(IndexArgs.CONTENTS, analyzer, q);
 
     return search(query, null, null, k);
   }
 
+  // internal implementation
   protected Result[] search(Query query, List<String> queryTokens, String queryString, int k) throws IOException {
     // Create an IndexSearch only once. Note that the object is thread safe.
     if (searcher == null) {
@@ -373,7 +513,7 @@ public class SimpleSearcher implements Closeable {
 
     TopDocs rs;
     RerankerContext context;
-    rs = searcher.search(query, isRerank ? searchArgs.rerankcutoff : k, BREAK_SCORE_TIES_BY_DOCID, true);
+    rs = searcher.search(query, useRM3 ? searchArgs.rerankcutoff : k, BREAK_SCORE_TIES_BY_DOCID, true);
     context = new RerankerContext<>(searcher, null, query, null,
           queryString, queryTokens, null, searchArgs);
 
@@ -397,9 +537,17 @@ public class SimpleSearcher implements Closeable {
     return results;
   }
 
-  // searching both the defaults contents fields and another field with weight boost
-  // this is used for MS MARCO experiments with document expansion.
+  /**
+   * Searches both the default contents fields and additional fields with specified boost weights.
+   *
+   * @param q query
+   * @param fields map of additional fields with weights
+   * @param k number of hits
+   * @return array of search results
+   * @throws IOException if error encountered during search
+   */
   public Result[] searchFields(String q, Map<String, Float> fields, int k) throws IOException {
+    // Note that this is used for MS MARCO experiments with document expansion.
     IndexSearcher searcher = new IndexSearcher(reader);
     searcher.setSimilarity(similarity);
 
@@ -549,20 +697,20 @@ public class SimpleSearcher implements Closeable {
     // Test a separate code path, where we specify BM25 explicitly, which is different from not specifying it at all.
     if (argsAsList.contains("-bm25")) {
       LOG.info("Testing code path of explicitly setting BM25.");
-      searcher.setBM25Similarity(searchArgs.bm25_k1, searchArgs.bm25_b);
+      searcher.setBM25(searchArgs.bm25_k1, searchArgs.bm25_b);
     } else if (searchArgs.useQL){
       LOG.info("Testing code path of explicitly setting QL.");
-      searcher.setLMDirichletSimilarity(searchArgs.ql_mu);
+      searcher.setQLD(searchArgs.ql_mu);
     }
 
     if (searchArgs.useRM3) {
       if (argsAsList.contains("-rm3.fbTerms") || argsAsList.contains("-rm3.fbTerms") ||
           argsAsList.contains("-rm3.originalQueryWeight")) {
         LOG.info("Testing code path of explicitly setting RM3 parameters.");
-        searcher.setRM3Reranker(searchArgs.rm3_fbTerms, searchArgs.rm3_fbDocs, searchArgs.rm3_originalQueryWeight);
+        searcher.setRM3(searchArgs.rm3_fbTerms, searchArgs.rm3_fbDocs, searchArgs.rm3_originalQueryWeight);
       } else {
         LOG.info("Testing code path of default RM3 parameters.");
-        searcher.setRM3Reranker();
+        searcher.setRM3();
       }
     }
 

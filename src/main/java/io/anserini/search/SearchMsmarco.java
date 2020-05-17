@@ -100,11 +100,11 @@ public class SearchMsmarco {
     long totalStartTime = System.nanoTime();
 
     SimpleSearcher searcher = new SimpleSearcher(retrieveArgs.index);
-    searcher.setBM25Similarity(retrieveArgs.k1, retrieveArgs.b);
+    searcher.setBM25(retrieveArgs.k1, retrieveArgs.b);
     System.out.println("Initializing BM25, setting k1=" + retrieveArgs.k1 + " and b=" + retrieveArgs.b + "");
 
     if (retrieveArgs.rm3) {
-      searcher.setRM3Reranker(retrieveArgs.fbTerms, retrieveArgs.fbDocs, retrieveArgs.originalQueryWeight);
+      searcher.setRM3(retrieveArgs.fbTerms, retrieveArgs.fbDocs, retrieveArgs.originalQueryWeight);
       System.out.println("Initializing RM3, setting fbTerms=" + retrieveArgs.fbTerms + ", fbDocs=" + retrieveArgs.fbDocs
               + " and originalQueryWeight=" + retrieveArgs.originalQueryWeight);
     }
