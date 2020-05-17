@@ -225,7 +225,7 @@ public class SearchArgs {
   public String[] rm3_fbTerms = new String[]{"10"};
 
   @Option(name = "-rm3.fbDocs", handler = StringArrayOptionHandler.class,
-      usage = "RM3 parameter: number of documents")
+      usage = "RM3 parameter: number of expansion documents")
   public String[] rm3_fbDocs = new String[]{"10"};
 
   @Option(name = "-rm3.originalQueryWeight", handler = StringArrayOptionHandler.class,
@@ -233,7 +233,7 @@ public class SearchArgs {
   public String[] rm3_originalQueryWeight = new String[]{"0.5"};
 
   @Option(name = "-rm3.outputQuery",
-      usage = "RM3 parameter: print original and expanded queries")
+      usage = "RM3 parameter: flag to print original and expanded queries")
   public boolean rm3_outputQuery = false;
 
   // ------------------------------
