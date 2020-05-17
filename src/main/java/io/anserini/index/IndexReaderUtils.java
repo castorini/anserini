@@ -353,16 +353,23 @@ public class IndexReaderUtils {
   }
 
   /**
-   * Returns the document vector for a particular document as a map of terms to term frequencies.
+   * Returns the document vector for a particular document as a map of terms to term frequencies. Note that this
+   * method explicitly returns {@code null} if the document does not exist (as opposed to an empty map), so that the
+   * caller is explicitly forced to handle this case.
    *
    * @param reader index reader
    * @param docid collection docid
-   * @return the document vector for a particular document as a map of terms to term frequencies
+   * @return the document vector for a particular document as a map of terms to term frequencies or {@code null} if
+   * document does not exist.
    * @throws IOException if error encountered during query
    * @throws NotStoredException if the term vector is not stored
    */
   public static Map<String, Long> getDocumentVector(IndexReader reader, String docid) throws IOException, NotStoredException {
-    Terms terms = reader.getTermVector(convertDocidToLuceneDocid(reader, docid), IndexArgs.CONTENTS);
+    int ldocid = convertDocidToLuceneDocid(reader, docid);
+    if (ldocid == -1) {
+      return null;
+    }
+    Terms terms = reader.getTermVector(ldocid, IndexArgs.CONTENTS);
     if (terms == null) {
       throw new NotStoredException("Document vector not stored!");
     }
