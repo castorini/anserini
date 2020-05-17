@@ -4,7 +4,7 @@ This page contains instructions for how to index the [20 Newsgroups dataset](htt
 
 ## Data Prep
 
-There are many versions of 20 Newsgroup the dataset available on the web, we're specifically going to use [this one](http://qwone.com/~jason/20Newsgroups/).
+There are many versions of the 20 Newsgroups dataset available on the web, we're specifically going to use [this one](http://qwone.com/~jason/20Newsgroups/) (the "bydate" version).
 We're going to use `collections/20newsgroups/` as the working directory.
 First, we need to download and extract the dataset:
 
@@ -25,8 +25,8 @@ ls collections/20newsgroups/20news-bydate-train
 
 There are docs with the same id in different categories.
 For example, doc `123` exists in `misc.forsale` and `sci.crypt`, with different texts.
-Hence, we need clean the dataset by ensuring each doc has a unique id.
-To prune and merge them into one folder:
+Since we assume unique docids when building an index, we need to clean the the dataset first.
+To prune and merge both train and test splits into one folder:
 
 ```bash
 python src/main/python/20newsgroups/prune_and_merge.py \
@@ -71,7 +71,7 @@ sh target/appassembler/bin/IndexCollection -collection TwentyNewsgroupsCollectio
 Indexing should take just a few seconds.
 For reference, the number of docs indexed should be exactly as follows:
 
-|               | # of docs | pre-build index |
+|               | # of docs | pre-built index |
 |---------------|----------:|-----------------|
 | Train         |    11,314 | [[download](https://www.dropbox.com/s/npg5eovr92h5k7w/lucene-index.20newsgroups.train.tar.gz)]
 | Test          |     7,532 | [[download](https://www.dropbox.com/s/aptj8hz9wti3qaf/lucene-index.20newsgroups.test.tar.gz)]
