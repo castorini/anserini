@@ -370,6 +370,9 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
     assertEquals(Long.valueOf(1), documentVector.get("here"));
     assertEquals(Long.valueOf(1), documentVector.get("test"));
 
+    // Invalid docid.
+    assertTrue(IndexReaderUtils.getDocumentVector(reader, "foo") == null);
+
     reader.close();
     dir.close();
   }
