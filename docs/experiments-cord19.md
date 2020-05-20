@@ -24,7 +24,7 @@ We've kept around older versions of the index for archival purposes &mdash; scro
 
 ## Data Prep
 
-The latest distribution available is from 2020/05/12.
+The latest distribution available is from 2020/05/19.
 First, download the data:
 
 ```bash
