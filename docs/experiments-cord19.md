@@ -13,9 +13,9 @@ If you don't want to build the index yourself, you can download the latest pre-b
 
 | Version    | Type      | Size  | Link | Checksum |
 |:-----------|:----------|:------|:-----|:---------|
-| 2020-05-12 | Abstract  |  1.7G | [[Dropbox]](https://www.dropbox.com/s/3ld34ms35zfb4m9/lucene-index-cord19-abstract-2020-05-19.tar.gz)  | `37bb97d0c41d650ba8e135fd75ae8fd8`
-| 2020-05-12 | Full-Text |  3.3G | [[Dropbox]](https://www.dropbox.com/s/qih3tjsir3xulrn/lucene-index-cord19-full-text-2020-05-19.tar.gz) | `f5711915a66cd2b511e0fb8d03e4c325`
-| 2020-05-12 | Paragraph |  4.9G | [[Dropbox]](https://www.dropbox.com/s/7z8szogu5neuhqe/lucene-index-cord19-paragraph-2020-05-19.tar.gz) | `012ab1f804382b2275c433a74d7d31f2`
+| 2020-05-19 | Abstract  |  1.7G | [[Dropbox]](https://www.dropbox.com/s/3ld34ms35zfb4m9/lucene-index-cord19-abstract-2020-05-19.tar.gz)  | `37bb97d0c41d650ba8e135fd75ae8fd8`
+| 2020-05-19 | Full-Text |  3.3G | [[Dropbox]](https://www.dropbox.com/s/qih3tjsir3xulrn/lucene-index-cord19-full-text-2020-05-19.tar.gz) | `f5711915a66cd2b511e0fb8d03e4c325`
+| 2020-05-19 | Paragraph |  4.9G | [[Dropbox]](https://www.dropbox.com/s/7z8szogu5neuhqe/lucene-index-cord19-paragraph-2020-05-19.tar.gz) | `012ab1f804382b2275c433a74d7d31f2`
 
 "Size" refers to the output of `ls -lh`, "Version" refers to the dataset release date from AI2.
 For our answer to the question, "which one should I use?" see below.
@@ -206,9 +206,9 @@ All versions of pre-built indexes:
 
 | Version    | Type      | Size  | Link | Checksum |
 |:-----------|:----------|:------|:-----|:---------|
-| 2020-05-12 | Abstract  |  1.7G | [[Dropbox]](https://www.dropbox.com/s/3ld34ms35zfb4m9/lucene-index-cord19-abstract-2020-05-19.tar.gz)  | `37bb97d0c41d650ba8e135fd75ae8fd8`
-| 2020-05-12 | Full-Text |  3.3G | [[Dropbox]](https://www.dropbox.com/s/qih3tjsir3xulrn/lucene-index-cord19-full-text-2020-05-19.tar.gz) | `f5711915a66cd2b511e0fb8d03e4c325`
-| 2020-05-12 | Paragraph |  4.9G | [[Dropbox]](https://www.dropbox.com/s/7z8szogu5neuhqe/lucene-index-cord19-paragraph-2020-05-19.tar.gz) | `012ab1f804382b2275c433a74d7d31f2`
+| 2020-05-19 | Abstract  |  1.7G | [[Dropbox]](https://www.dropbox.com/s/3ld34ms35zfb4m9/lucene-index-cord19-abstract-2020-05-19.tar.gz)  | `37bb97d0c41d650ba8e135fd75ae8fd8`
+| 2020-05-19 | Full-Text |  3.3G | [[Dropbox]](https://www.dropbox.com/s/qih3tjsir3xulrn/lucene-index-cord19-full-text-2020-05-19.tar.gz) | `f5711915a66cd2b511e0fb8d03e4c325`
+| 2020-05-19 | Paragraph |  4.9G | [[Dropbox]](https://www.dropbox.com/s/7z8szogu5neuhqe/lucene-index-cord19-paragraph-2020-05-19.tar.gz) | `012ab1f804382b2275c433a74d7d31f2`
 | 2020-05-12 | Abstract  |  1.3G | [[Dropbox]](https://www.dropbox.com/s/jbgvryz6njbfzzp/lucene-index-cord19-abstract-2020-05-12.tar.gz)  | `dfd09e70cd672bbe15a63437351e1f74`
 | 2020-05-12 | Full-Text |  2.5G | [[Dropbox]](https://www.dropbox.com/s/2ip7ldupwtbq3pb/lucene-index-cord19-full-text-2020-05-12.tar.gz) | `5b914e8ae579195185cf28a60051236d`
 | 2020-05-12 | Paragraph |  3.6G | [[Dropbox]](https://www.dropbox.com/s/s3bylw97cf0t2wq/lucene-index-cord19-paragraph-2020-05-12.tar.gz) | `a2cb36762078ef9373f0ddaf52618e7f`
