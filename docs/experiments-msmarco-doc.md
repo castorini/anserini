@@ -10,8 +10,6 @@ First, we need to download and extract the MS MARCO document dataset:
 
 ```
 mkdir collections/msmarco-doc
-mkdir logs/msmarco-doc
-mkdir runs/msmarco-doc
 mkdir indexes/msmarco-doc
 
 wget https://msmarco.blob.core.windows.net/msmarcoranking/msmarco-docs.trec.gz -P collections/msmarco-doc
@@ -26,7 +24,7 @@ Build the index with the following command:
 nohup sh target/appassembler/bin/IndexCollection -collection CleanTrecCollection \
  -generator DefaultLuceneDocumentGenerator -threads 1 -input collections/msmarco-doc \
  -index indexes/msmarco-doc/lucene-index.msmarco-doc.pos+docvectors+rawdocs -storePositions -storeDocvectors -storeRaw \
- >& logs/msmarco-doc/log.msmarco-doc.pos+docvectors+rawdocs &
+ >& logs/log.msmarco-doc.pos+docvectors+rawdocs &
 ```
 
 On a modern desktop with an SSD, indexing takes around 40 minutes.
@@ -76,7 +74,7 @@ This can be accomplished as follows:
 
 ```
 target/appassembler/bin/SearchCollection -topicreader TsvInt -index indexes/msmarco-doc/lucene-index.msmarco-doc.pos+docvectors+rawdocs \
- -topics collections/msmarco-doc/queries-and-qrels/msmarco-docdev-queries.tsv -output runs/msmarco-doc/run.msmarco-doc.dev.bm25.txt -bm25
+ -topics collections/msmarco-doc/queries-and-qrels/msmarco-docdev-queries.tsv -output runs/run.msmarco-doc.dev.bm25.txt -bm25
 ```
 
 On a modern desktop with an SSD, the run takes around 12 minutes.
@@ -94,7 +92,7 @@ Let's compare to the baselines provided by Microsoft (note that to be fair, we r
 $ eval/trec_eval.9.0.4/trec_eval -c -mmap -M 100 collections/msmarco-doc/queries-and-qrels/msmarco-docdev-qrels.tsv collections/msmarco-doc/msmarco-docdev-top100
 map                   	all	0.2219
 
-$ eval/trec_eval.9.0.4/trec_eval -c -mmap -M 100 collections/msmarco-doc/queries-and-qrels/msmarco-docdev-qrels.tsv runs/msmarco-doc/run.msmarco-doc.dev.bm25.txt
+$ eval/trec_eval.9.0.4/trec_eval -c -mmap -M 100 collections/msmarco-doc/queries-and-qrels/msmarco-docdev-qrels.tsv runs/run.msmarco-doc.dev.bm25.txt
 map                   	all	0.2303
 ```
 
@@ -115,7 +113,7 @@ To perform a run with these parameters, issue the following command:
 
 ```
 target/appassembler/bin/SearchCollection -topicreader TsvString -index indexes/msmarco-doc/lucene-index.msmarco-doc.pos+docvectors+rawdocs \
- -topics collections/msmarco-doc/queries-and-qrels/msmarco-docdev-queries.tsv -output runs/msmarco-doc/run.msmarco-doc.dev.bm25.tuned.txt -bm25 -bm25.k1 3.44 -bm25.b 0.87
+ -topics collections/msmarco-doc/queries-and-qrels/msmarco-docdev-queries.tsv -output runs/run.msmarco-doc.dev.bm25.tuned.txt -bm25 -bm25.k1 3.44 -bm25.b 0.87
 ```
 
 Here's the comparison between the Anserini default and tuned parameters:

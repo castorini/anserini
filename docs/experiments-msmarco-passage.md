@@ -11,9 +11,7 @@ First, we need to download and extract the MS MARCO passage dataset:
 
 ```
 mkdir collections/msmarco-passage
-mkdir logs/msmarco-passage
 mkdir indexes/msmarco-passage
-mkdir runs/msmarco-passage
 
 wget https://msmarco.blob.core.windows.net/msmarcoranking/collectionandqueries.tar.gz -P collections/msmarco-passage
 tar -xzvf collections/msmarco-passage/collectionandqueries.tar.gz -C collections/msmarco-passage
@@ -57,7 +55,7 @@ We can now retrieve this smaller set of queries:
 ```
 python ./src/main/python/msmarco/retrieve.py --hits 1000 --threads 1 \
  --index indexes/msmarco-passage/lucene-index-msmarco --qid_queries collections/msmarco-passage/queries.dev.small.tsv \
- --output runs/msmarco-passage/run.dev.small.tsv
+ --output runs/run.msmarco-passage.dev.small.tsv
 ```
 
 Note that by default, the above script uses BM25 with tuned parameters `k1=0.82`, `b=0.68` (more details below).
@@ -72,7 +70,7 @@ Alternatively, we can run the same script implemented in Java, which is a bit fa
 ```
 ./target/appassembler/bin/SearchMsmarco  -hits 1000 -threads 1 \
  -index indexes/msmarco-passage/lucene-index-msmarco -qid_queries collections/msmarco-passage/queries.dev.small.tsv \
- -output runs/msmarco-passage/run.dev.small.tsv
+ -output runs/run.msmarco-passage.dev.small.tsv
 ```
 
 Similarly, we can perform multithreaded retrieval by changing the `-threads` argument.
@@ -81,7 +79,7 @@ Finally, we can evaluate the retrieved documents using this the official MS MARC
 
 ```
 python ./src/main/python/msmarco/msmarco_eval.py \
- collections/msmarco-passage/qrels.dev.small.tsv runs/msmarco-passage/run.dev.small.tsv
+ collections/msmarco-passage/qrels.dev.small.tsv runs/run.msmarco-passage.dev.small.tsv
 ```
 
 And the output should be like this:
@@ -98,7 +96,7 @@ For that we first need to convert runs and qrels files to the TREC format:
 
 ```
 python ./src/main/python/msmarco/convert_msmarco_to_trec_run.py \
- --input_run runs/msmarco-passage/run.dev.small.tsv --output_run runs/msmarco-passage/run.dev.small.trec
+ --input_run runs/run.msmarco-passage.dev.small.tsv --output_run runs/run.msmarco-passage.dev.small.trec
 
 python ./src/main/python/msmarco/convert_msmarco_to_trec_qrels.py \
  --input_qrels collections/msmarco-passage/qrels.dev.small.tsv --output_qrels collections/msmarco-passage/qrels.dev.small.trec
@@ -108,7 +106,7 @@ And run the `trec_eval` tool:
 
 ```
 ./eval/trec_eval.9.0.4/trec_eval -c -mrecall.1000 -mmap \
- collections/msmarco-passage/qrels.dev.small.trec runs/msmarco-passage/run.dev.small.trec
+ collections/msmarco-passage/qrels.dev.small.trec runs/run.msmarco-passage.dev.small.trec
 ```
 
 The output should be:
