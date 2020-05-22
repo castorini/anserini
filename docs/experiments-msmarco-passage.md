@@ -10,10 +10,11 @@ We're going to use `msmarco-passage/` as the working directory.
 First, we need to download and extract the MS MARCO passage dataset:
 
 ```
-mkdir msmarco-passage
+mkdir collections/msmarco-passage
+mkdir indexes/msmarco-passage
 
-wget https://msmarco.blob.core.windows.net/msmarcoranking/collectionandqueries.tar.gz -P msmarco-passage
-tar -xzvf msmarco-passage/collectionandqueries.tar.gz -C msmarco-passage
+wget https://msmarco.blob.core.windows.net/msmarcoranking/collectionandqueries.tar.gz -P collections/msmarco-passage
+tar -xzvf collections/msmarco-passage/collectionandqueries.tar.gz -C collections/msmarco-passage
 ```
 
 To confirm, `collectionandqueries.tar.gz` should have MD5 checksum of `31644046b18952c1386cd4564ba2ae69`.
@@ -22,17 +23,17 @@ Next, we need to convert the MS MARCO tsv collection into Anserini's jsonl files
 
 ```
 python ./src/main/python/msmarco/convert_collection_to_jsonl.py \
- --collection_path msmarco-passage/collection.tsv --output_folder msmarco-passage/collection_jsonl
+ --collection_path collections/msmarco-passage/collection.tsv --output_folder collections/msmarco-passage/collection_jsonl
 ```
 
-The above script should generate 9 jsonl files in `msmarco-passage/collection_jsonl`, each with 1M lines (except for the last one, which should have 841,823 lines).
+The above script should generate 9 jsonl files in `collections/msmarco-passage/collection_jsonl`, each with 1M lines (except for the last one, which should have 841,823 lines).
 
 We can now index these docs as a `JsonCollection` using Anserini:
 
 ```
 sh ./target/appassembler/bin/IndexCollection -collection JsonCollection \
- -generator DefaultLuceneDocumentGenerator -threads 9 -input msmarco-passage/collection_jsonl \
- -index msmarco-passage/lucene-index-msmarco -storePositions -storeDocvectors -storeRaw 
+ -generator DefaultLuceneDocumentGenerator -threads 9 -input collections/msmarco-passage/collection_jsonl \
+ -index indexes/msmarco-passage/lucene-index-msmarco -storePositions -storeDocvectors -storeRaw 
 ```
 
 Upon completion, we should have an index with 8,841,823 documents.
@@ -43,8 +44,8 @@ The indexing speed may vary... on a modern desktop with an SSD, indexing takes l
 Since queries of the set are too many (+100k), it would take a long time to retrieve all of them. To speed this up, we use only the queries that are in the qrels file: 
 
 ```
-python ./src/main/python/msmarco/filter_queries.py --qrels msmarco-passage/qrels.dev.small.tsv \
- --queries msmarco-passage/queries.dev.tsv --output_queries msmarco-passage/queries.dev.small.tsv
+python ./src/main/python/msmarco/filter_queries.py --qrels collections/msmarco-passage/qrels.dev.small.tsv \
+ --queries msmarco-passage/queries.dev.tsv --output_queries collections/msmarco-passage/queries.dev.small.tsv
 ```
 
 The output queries file should contain 6980 lines.
@@ -53,8 +54,8 @@ We can now retrieve this smaller set of queries:
 
 ```
 python ./src/main/python/msmarco/retrieve.py --hits 1000 --threads 1 \
- --index msmarco-passage/lucene-index-msmarco --qid_queries msmarco-passage/queries.dev.small.tsv \
- --output msmarco-passage/run.dev.small.tsv
+ --index indexes/msmarco-passage/lucene-index-msmarco --qid_queries collections/msmarco-passage/queries.dev.small.tsv \
+ --output runs/run.msmarco-passage.dev.small.tsv
 ```
 
 Note that by default, the above script uses BM25 with tuned parameters `k1=0.82`, `b=0.68` (more details below).
@@ -68,8 +69,8 @@ Alternatively, we can run the same script implemented in Java, which is a bit fa
 
 ```
 ./target/appassembler/bin/SearchMsmarco  -hits 1000 -threads 1 \
- -index msmarco-passage/lucene-index-msmarco -qid_queries msmarco-passage/queries.dev.small.tsv \
- -output msmarco-passage/run.dev.small.tsv
+ -index indexes/msmarco-passage/lucene-index-msmarco -qid_queries collections/msmarco-passage/queries.dev.small.tsv \
+ -output runs/run.msmarco-passage.dev.small.tsv
 ```
 
 Similarly, we can perform multithreaded retrieval by changing the `-threads` argument.
@@ -78,7 +79,7 @@ Finally, we can evaluate the retrieved documents using this the official MS MARC
 
 ```
 python ./src/main/python/msmarco/msmarco_eval.py \
- msmarco-passage/qrels.dev.small.tsv msmarco-passage/run.dev.small.tsv
+ collections/msmarco-passage/qrels.dev.small.tsv runs/run.msmarco-passage.dev.small.tsv
 ```
 
 And the output should be like this:
@@ -95,17 +96,17 @@ For that we first need to convert runs and qrels files to the TREC format:
 
 ```
 python ./src/main/python/msmarco/convert_msmarco_to_trec_run.py \
- --input_run msmarco-passage/run.dev.small.tsv --output_run msmarco-passage/run.dev.small.trec
+ --input_run runs/run.msmarco-passage.dev.small.tsv --output_run runs/run.msmarco-passage.dev.small.trec
 
 python ./src/main/python/msmarco/convert_msmarco_to_trec_qrels.py \
- --input_qrels msmarco-passage/qrels.dev.small.tsv --output_qrels msmarco-passage/qrels.dev.small.trec
+ --input_qrels collections/msmarco-passage/qrels.dev.small.tsv --output_qrels collections/msmarco-passage/qrels.dev.small.trec
 ```
 
 And run the `trec_eval` tool:
 
 ```
 ./eval/trec_eval.9.0.4/trec_eval -c -mrecall.1000 -mmap \
- msmarco-passage/qrels.dev.small.trec msmarco-passage/run.dev.small.trec
+ collections/msmarco-passage/qrels.dev.small.trec runs/run.msmarco-passage.dev.small.trec
 ```
 
 The output should be:
@@ -166,3 +167,4 @@ Tuned (`k1=0.82`, `b=0.72`) | 0.1875 | 0.1956 | 0.8578
 + Results replicated by [@wongalvis14](https://github.com/wongalvis14) on 2020-05-09 (commit [`ebac5d6`](https://github.com/castorini/anserini/commit/ebac5d62f2e626e0a48c83dad79bddba60cadcf5))
 + Results replicated by [@YimingDou](https://github.com/YimingDou) on 2020-05-14 (commit [`3b0a642`](https://github.com/castorini/anserini/commit/3b0a6420e49863d9fe5908cf6e99582eb2d2882e))
 + Results replicated by [@richard3983](https://github.com/richard3983) on 2020-05-14 (commit [`a65646f`](https://github.com/castorini/anserini/commit/a65646fe203bf5c9c32189a56082d6f4d3bc340d))
++ Results replicated by [@MXueguang](https://github.com/MXueguang) on 2020-05-20 (commit [`3b2751e`](https://github.com/castorini/anserini/commit/3b2751e2d02a9d530e1c3d30b91083faeece8982))
