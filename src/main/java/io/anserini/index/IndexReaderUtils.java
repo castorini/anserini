@@ -30,8 +30,6 @@ import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
-import org.apache.lucene.index.FieldInfo;
-import org.apache.lucene.index.FieldInfos;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.MultiTerms;
 import org.apache.lucene.index.PostingsEnum;
@@ -787,12 +785,6 @@ public class IndexReaderUtils {
       indexStats.put("non_empty_documents", reader.getDocCount(IndexArgs.CONTENTS));
       indexStats.put("unique_terms", terms.size());
       indexStats.put("total_terms", reader.getSumTotalTermFreq(IndexArgs.CONTENTS));
-
-      FieldInfos fieldInfos = FieldInfos.getMergedFieldInfos(reader);
-      for (FieldInfo fi : fieldInfos) {
-        indexStats.put(fi.name, "indexOption: " + fi.getIndexOptions() +
-            ", hasVectors: " + fi.hasVectors());
-      }
     } catch (IOException e) {
       // Eat any exceptions and just return null.
       return null;
