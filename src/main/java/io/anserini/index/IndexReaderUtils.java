@@ -784,9 +784,9 @@ public class IndexReaderUtils {
       Terms terms = MultiTerms.getTerms(reader, IndexArgs.CONTENTS);
 
       indexStats.put("documents", reader.numDocs());
-      indexStats.put("documents (non-empty)", reader.getDocCount(IndexArgs.CONTENTS));
-      indexStats.put("unique terms", terms.size());
-      indexStats.put("total terms", reader.getSumTotalTermFreq(IndexArgs.CONTENTS));
+      indexStats.put("non_empty_documents", reader.getDocCount(IndexArgs.CONTENTS));
+      indexStats.put("unique_terms", terms.size());
+      indexStats.put("total_terms", reader.getSumTotalTermFreq(IndexArgs.CONTENTS));
 
       FieldInfos fieldInfos = FieldInfos.getMergedFieldInfos(reader);
       for (FieldInfo fi : fieldInfos) {

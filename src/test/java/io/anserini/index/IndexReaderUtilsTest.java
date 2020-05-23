@@ -505,7 +505,7 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
     IndexReader reader = DirectoryReader.open(dir);
 
     assertEquals(3, IndexReaderUtils.getIndexStats(reader).get("documents"));
-    assertEquals(Long.valueOf(6), IndexReaderUtils.getIndexStats(reader).get("unique terms"));
+    assertEquals(Long.valueOf(6), IndexReaderUtils.getIndexStats(reader).get("unique_terms"));
 
     reader.close();
     dir.close();
