@@ -498,4 +498,16 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
     reader.close();
     dir.close();
   }
+
+  @Test
+  public void testGetIndexStats() throws Exception {
+    Directory dir = FSDirectory.open(tempDir1);
+    IndexReader reader = DirectoryReader.open(dir);
+
+    assertEquals(3, IndexReaderUtils.getIndexStats(reader).get("documents"));
+    assertEquals(Long.valueOf(6), IndexReaderUtils.getIndexStats(reader).get("unique_terms"));
+
+    reader.close();
+    dir.close();
+  }
 }
