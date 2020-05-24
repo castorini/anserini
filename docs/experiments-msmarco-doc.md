@@ -89,7 +89,7 @@ recall_1000           	all	0.8856
 Let's compare to the baselines provided by Microsoft (note that to be fair, we restrict evaluation to top 100 hits per topic):
 
 ```
-$ eval/trec_eval.9.0.4/trec_eval -c -mmap -M 100 collections/msmarco-doc/queries-and-qrels/msmarco-docdev-qrels.tsv collections/msmarco-doc/msmarco-docdev-top100
+$ eval/trec_eval.9.0.4/trec_eval -c -mmap -M 100 collections/msmarco-doc/queries-and-qrels/msmarco-docdev-qrels.tsv collections/msmarco-doc/queries-and-qrels/msmarco-docdev-top100
 map                   	all	0.2219
 
 $ eval/trec_eval.9.0.4/trec_eval -c -mmap -M 100 collections/msmarco-doc/queries-and-qrels/msmarco-docdev-qrels.tsv runs/run.msmarco-doc.dev.bm25.txt
