@@ -53,10 +53,11 @@ public class Cord19Generator implements LuceneDocumentGenerator<Cord19BaseDocume
     JOURNAL("journal"),
     PUBLISH_TIME("publish_time"),
     YEAR("year"),
+    LICENSE("license"),
     PMC_ID("pmcid"),
     PUBMED_ID("pubmed_id"),
-    LICENSE("license"),
     MICROSOFT_ID("mag_id"),
+    S2_ID("s2_id"),
     WHO("who_covidence_id"),
     URL("url");
 
@@ -145,12 +146,15 @@ public class Cord19Generator implements LuceneDocumentGenerator<Cord19BaseDocume
       covidDoc.record().get(CovidField.PUBMED_ID.name), Field.Store.YES));
     doc.add(new StringField(CovidField.MICROSOFT_ID.name,
       covidDoc.record().get(CovidField.MICROSOFT_ID.name), Field.Store.YES));
+    doc.add(new StringField(CovidField.S2_ID.name,
+      covidDoc.record().get(CovidField.S2_ID.name), Field.Store.YES));
     doc.add(new StringField(CovidField.PUBLISH_TIME.name,
       covidDoc.record().get(CovidField.PUBLISH_TIME.name), Field.Store.YES));
     doc.add(new StringField(CovidField.LICENSE.name,
       covidDoc.record().get(CovidField.LICENSE.name), Field.Store.YES));
+    // default to first URL in metadata
     doc.add(new StringField(CovidField.URL.name,
-      covidDoc.record().get(CovidField.URL.name), Field.Store.YES));
+      covidDoc.record().get(CovidField.URL.name).split("; ")[0], Field.Store.YES));
 
     if (covidDoc instanceof TrialstreamerCollection.Document) {
       TrialstreamerCollection.Document tsDoc = (TrialstreamerCollection.Document) covidDoc;
