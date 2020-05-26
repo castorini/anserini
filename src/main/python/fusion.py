@@ -32,15 +32,15 @@ def load_trec_runs(paths: List[str]) -> List[TrecRun]:
     return [TrecRun(path) for path in paths]
 
 
-def perform_fusion(method: FusionMethod, runs: List[TrecRun], output_path: str) -> None:
+def perform_fusion(method: FusionMethod, runs: List[TrecRun], output_path: str, max_docs: int) -> None:
     print('Performing fusion ->', method)
 
     if method == FusionMethod.RRF:
-        fused_run = fusion.reciprocal_rank_fusion(runs)
+        fused_run = fusion.reciprocal_rank_fusion(runs, max_docs=10000)
         fused_run.print_subset(output_path, topics=fused_run.topics())
     elif method == FusionMethod.COMBO_SUM:
         with open(output_path, 'w+') as f:
-            fusion.combos(runs, strategy="sum", output=f)
+            fusion.combos(runs, strategy="sum", max_docs=max_docs, output=f)
     else:
         raise Exception(f'The requested method {method} is not implemented.')
 
@@ -54,10 +54,12 @@ if __name__ == "__main__":
                         default=[], required=True, help='a list of run files')
     parser.add_argument('--out', type=str,
                         default="fused.txt", required=False, help='the output path of the fused run')
+    parser.add_argument('--max_docs', type=int,
+                        default=1000, required=False, help='maximum of hits')
 
     args = parser.parse_args()
 
     trec_runs = load_trec_runs(args.runs)
-    perform_fusion(args.method, trec_runs, args.out)
+    perform_fusion(args.method, trec_runs, args.out, args.max_docs)
 
     print(f'Fusion successful -> {args.out}')
