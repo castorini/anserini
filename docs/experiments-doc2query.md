@@ -1,6 +1,6 @@
 # Anserini: doc2query Experiments
 
-This page describes how to replicate the doc2query document expansion experiments in following paper:
+This page describes how to replicate the doc2query document expansion experiments in the following paper:
 
 + Rodrigo Nogueira, Wei Yang, Jimmy Lin, Kyunghyun Cho. [Document Expansion by Query Prediction.](https://arxiv.org/abs/1904.08375) _arxiv:1904.08375_
 
@@ -20,8 +20,8 @@ Before going through this guide, it is recommended that you [replicate our BM25 
 To start, grab the predicted queries:
 
 ```
-wget https://www.dropbox.com/s/709q495d9hohcmh/pred-test_topk10.tar.gz -P msmarco-passage
-tar -xzvf msmarco-passage/pred-test_topk10.tar.gz -C msmarco-passage
+wget https://www.dropbox.com/s/709q495d9hohcmh/pred-test_topk10.tar.gz -P collections/msmarco-passage
+tar -xzvf collections/msmarco-passage/pred-test_topk10.tar.gz -C collections/msmarco-passage
 ```
 
 To confirm, `pred-test_topk10.tar.gz` should have an MD5 checksum of `241608d4d12a0bc595bed2aff0f56ea3`.
@@ -29,8 +29,8 @@ To confirm, `pred-test_topk10.tar.gz` should have an MD5 checksum of `241608d4d1
 Check out the file:
 
 ```
-$ wc msmarco-passage/pred-test_topk10.txt
- 8841823 536446170 2962345659 msmarco-passage/pred-test_topk10.txt
+$ wc collections/msmarco-passage/pred-test_topk10.txt
+  8841823 536425855 2962345659 collections/msmarco-passage/pred-test_topk10.txt
 ```
 
 These are the predicted queries based on our seq2seq model, based on top _k_ sampling with 10 samples for each document in the corpus.
@@ -40,38 +40,38 @@ Now let's create a new document collection by concatenating the predicted querie
 
 ```
 python src/main/python/msmarco/augment_collection_with_predictions.py \
-  --collection_path msmarco-passage/collection.tsv --output_folder msmarco-passage/collection_jsonl_expanded_topk10 \
-  --predictions msmarco-passage/pred-test_topk10.txt --stride 1
+ --collection_path collections/msmarco-passage/collection.tsv --output_folder collections/msmarco-passage/collection_jsonl_expanded_topk10 \
+ --predictions collections/msmarco-passage/pred-test_topk10.txt --stride 1
 ```
 
 We can then reindex the collection:
 
 ```
 sh ./target/appassembler/bin/IndexCollection -collection JsonCollection \
- -generator DefaultLuceneDocumentGenerator -threads 9 -input msmarco-passage/collection_jsonl_expanded_topk10 \
- -index msmarco-passage/lucene-index-msmarco-expanded-topk10 -storePositions -storeDocvectors -storeRaw
+ -generator DefaultLuceneDocumentGenerator -threads 9 -input collections/msmarco-passage/collection_jsonl_expanded_topk10 \
+ -index indexes/msmarco-passage/lucene-index-msmarco-expanded-topk10 -storePositions -storeDocvectors -storeRaw
 ```
 
 And run retrieval (same as above):
 
 ```
-python ./src/main/python/msmarco/retrieve.py --hits 1000 --index msmarco-passage/lucene-index-msmarco-expanded-topk10 \
- --qid_queries msmarco-passage/queries.dev.small.tsv --output msmarco-passage/run.dev.small.expanded-topk10.tsv
+python ./src/main/python/msmarco/retrieve.py --hits 1000 --index indexes/msmarco-passage/lucene-index-msmarco-expanded-topk10 \
+ --qid_queries collections/msmarco-passage/queries.dev.small.tsv --output runs/run.msmarco-passage.dev.small.expanded-topk10.tsv
 ```
 
 Alternatively, we can run the same script implemented in Java, which is a bit faster:
 
 ```
 ./target/appassembler/bin/SearchMsmarco  -hits 1000 -threads 1 \
- -index msmarco-passage/lucene-index-msmarco-expanded-topk10 -qid_queries msmarco-passage/queries.dev.small.tsv \
- -output msmarco-passage/run.dev.small.expanded-topk10.tsv
+ -index indexes/msmarco-passage/lucene-index-msmarco-expanded-topk10 -qid_queries collections/msmarco-passage/queries.dev.small.tsv \
+ -output runs/run.msmarco-passage.dev.small.expanded-topk10.tsv
 ```
 
 Finally, to evaluate:
 
 ```
 python ./src/main/python/msmarco/msmarco_eval.py \
- msmarco-passage/qrels.dev.small.tsv msmarco-passage/run.dev.small.expanded-topk10.tsv
+ collections/msmarco-passage/qrels.dev.small.tsv runs/run.msmarco-passage.dev.small.expanded-topk10.tsv
 ```
 
 The output should be:
@@ -104,13 +104,14 @@ We will now describe how to reproduce the TREC CAR results of our model BM25+doc
 
 To start, download the TREC CAR dataset and the predicted queries:
 ```
-mkdir trec_car
+mkdir collections/trec_car
+mkdir indexes/trec_car
 
-wget http://trec-car.cs.unh.edu/datareleases/v2.0/paragraphCorpus.v2.0.tar.xz -P trec_car
-wget https://storage.googleapis.com/neuralresearcher_data/doc2query/data/aligned5/pred-test_topk10.tar.gz -P trec_car
+wget http://trec-car.cs.unh.edu/datareleases/v2.0/paragraphCorpus.v2.0.tar.xz -P collections/trec_car
+wget https://storage.googleapis.com/neuralresearcher_data/doc2query/data/aligned5/pred-test_topk10.tar.gz -P collections/trec_car
 
-tar -xf trec_car/paragraphCorpus.v2.0.tar.xz -C trec_car
-tar -xf trec_car/pred-test_topk10.tar.gz -C trec_car
+tar -xf collections/trec_car/paragraphCorpus.v2.0.tar.xz -C collections/trec_car
+tar -xf collections/trec_car/pred-test_topk10.tar.gz -C collections/trec_car
 ```
 
 To confirm, `paragraphCorpus.v2.0.tar.xz` should have an MD5 checksum of `a404e9256d763ddcacc3da1e34de466a` and
@@ -123,9 +124,9 @@ Now let's create a new document collection by concatenating the predicted querie
 
 ```
 python src/main/python/trec_car/augment_collection_with_predictions.py \
- --collection_path trec_car/paragraphCorpus/dedup.articles-paragraphs.cbor \
- --output_folder trec_car/collection_jsonl_expanded_topk10 \
- --predictions trec_car/pred-test_topk10.txt --stride 1
+ --collection_path collections/trec_car/paragraphCorpus/dedup.articles-paragraphs.cbor \
+ --output_folder collections/trec_car/collection_jsonl_expanded_topk10 \
+ --predictions collections/trec_car/pred-test_topk10.txt --stride 1
 ```
 
 This augmentation process might take 2-3 hours.
@@ -134,24 +135,24 @@ We can then index the expanded documents:
 
 ```
 sh target/appassembler/bin/IndexCollection -collection JsonCollection \
- -generator DefaultLuceneDocumentGenerator -threads 30 -input trec_car/collection_jsonl_expanded_topk10 \
- -index trec_car/lucene-index.car17v2.0
+ -generator DefaultLuceneDocumentGenerator -threads 30 -input collections/trec_car/collection_jsonl_expanded_topk10 \
+ -index indexes/trec_car/lucene-index.car17v2.0
 ```
 
 And retrieve the test queries:
 
 ```
 sh target/appassembler/bin/SearchCollection -topicreader Car \
- -index trec_car/lucene-index.car17v2.0 \
+ -index indexes/trec_car/lucene-index.car17v2.0 \
  -topics src/main/resources/topics-and-qrels/topics.car17v2.0.benchmarkY1test.txt \
- -output trec_car/run.car17v2.0.bm25.topics.car17v2.0.benchmarkY1test.txt -bm25
+ -output runs/run.car17v2.0.bm25.topics.car17v2.0.benchmarkY1test.txt -bm25
 ```
 
 Evaluation is performed with `trec_eval`:
 ```
 eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recip_rank \
  src/main/resources/topics-and-qrels/qrels.car17v2.0.benchmarkY1test.txt \
- trec_car/run.car17v2.0.bm25.topics.car17v2.0.benchmarkY1test.txt
+ runs/run.car17v2.0.bm25.topics.car17v2.0.benchmarkY1test.txt
 ```
 
 With the above commands, you should be able to replicate the following results:
@@ -160,7 +161,7 @@ map                   	all	0.1807
 recip_rank            	all	0.2750
 ```
 
-Note that this MAP is sligtly higher than the arXiv paper (0.178) because we used
+Note that this MAP is slightly higher than the arXiv paper (0.178) because we used
 TREC CAR corpus v2.0 in this experiment instead of corpus v1.5 used in the paper.
 
 ## Replication Log
@@ -169,3 +170,4 @@ TREC CAR corpus v2.0 in this experiment instead of corpus v1.5 used in the paper
 + Results replicated by [@ronakice](https://github.com/ronakice) on 2019-08-13 (commit [`5b29d16`](https://github.com/castorini/anserini/commit/5b29d1654abc5e8a014c2230da990ab2f91fb340))
 + Results replicated by [@edwinzhng](https://github.com/edwinzhng) on 2020-01-08 (commit [`5cc923d`](https://github.com/castorini/anserini/commit/5cc923d5c02777d8b25df32ff2e2a59be5badfdd))
 + Results replicated by [@HangCui0510](https://github.com/HangCui0510) on 2020-04-23 (commit [`0ae567d`](https://github.com/castorini/anserini/commit/0ae567df5c8a70ac211efd958c9ca1ff609ff782))
++ Results replicated by [@kelvin-jiang](https://github.com/kelvin-jiang) on 2020-05-25 (commit [`b6e0367`](https://github.com/castorini/anserini/commit/b6e0367ef4e2b4fce9d81c8397ef1188e35971e7))
