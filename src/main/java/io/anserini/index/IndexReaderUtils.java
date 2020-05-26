@@ -768,4 +768,27 @@ public class IndexReaderUtils {
       return null;
     }
   }
+
+  /**
+   * Returns index statistics
+   *
+   * @param reader index reader
+   * @return Index statistics as a map of statistic's name to statistic.
+   * @throws IOException
+   */
+  public static Map<String, Object> getIndexStats(IndexReader reader) throws IOException {
+    Map<String, Object> indexStats = new HashMap<String, Object>();
+    try {
+      Terms terms = MultiTerms.getTerms(reader, IndexArgs.CONTENTS);
+
+      indexStats.put("documents", reader.numDocs());
+      indexStats.put("non_empty_documents", reader.getDocCount(IndexArgs.CONTENTS));
+      indexStats.put("unique_terms", terms.size());
+      indexStats.put("total_terms", reader.getSumTotalTermFreq(IndexArgs.CONTENTS));
+    } catch (IOException e) {
+      // Eat any exceptions and just return null.
+      return null;
+    }
+    return indexStats;
+  }
 }
