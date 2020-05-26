@@ -8,7 +8,7 @@
 + Added ability to fetch index stats in `IndexReaderUtils`.
 + Added indexing guide for 20 Newsgroups.
 + Improved repository layout with subdirectories.
-+ Improved error handling when fetching non-existing doc vectors in `IndexReaderUtils`.
++ Improved error handling when fetching non-existent doc vectors in `IndexReaderUtils`.
 + Refactored methods for fetching {query,term}-document weights in `IndexReaderUtils`.
 + Refactored `SimplerSearcher` to improve consistency in method names.
 
