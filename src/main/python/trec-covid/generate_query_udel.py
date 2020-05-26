@@ -27,9 +27,8 @@ if __name__ == '__main__':
 
     # general settings
     parser.add_argument('--anserini_root', default='', help='Anserini path')
-    parser.add_argument('--output_file', help='output path for the query')
     parser.add_argument(
-        '--round', default='1', choices=['1', '2'],
+        '--round', default='1', choices=['1', '2', '3'],
         help='which round the query file should be generated for'
     )
     args = parser.parse_args()
@@ -100,6 +99,13 @@ if __name__ == '__main__':
         original_query_file_name
     )
 
+    output_query_file_name = f'topics.covid-round{args.round}-udel.xml'
+    output_query_file = os.path.join(
+        args.anserini_root,
+        'src/main/resources/topics-and-qrels',
+        output_query_file_name
+    )
+
     root = etree.parse(original_query_file).getroot()
     for topic in root:
         qid = topic.attrib['number']
@@ -121,6 +127,6 @@ if __name__ == '__main__':
         for tag in tags_to_be_removed:
             topic.remove(tag)
 
-    with open(args.output_file,'wb') as f:
+    with open(output_query_file,'wb') as f:
         f.write(etree.tostring(root))
 
