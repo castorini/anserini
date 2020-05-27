@@ -131,7 +131,9 @@ Exact commands for replicating these runs are found [further down on this page](
 
 Here are the replication commands for the individual runs:
 
-```
+```bash
+# abstract index
+
 cat src/main/resources/topics-and-qrels/qrels.covid-round1.txt src/main/resources/topics-and-qrels/qrels.covid-round2.txt > src/main/resources/topics-and-qrels/qrels.covid-round12.txt
 
 wget https://www.dropbox.com/s/3ld34ms35zfb4m9/lucene-index-cord19-abstract-2020-05-19.tar.gz
@@ -154,6 +156,8 @@ python eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.
 cut -d ' ' -f 1 runs/anserini.covid-r3.abstract.qq.bm25.txt | sort | uniq | wc
 cut -d ' ' -f 1 runs/anserini.covid-r3.abstract.qdel.bm25.txt | sort | uniq | wc
 
+# full-text index
+
 wget https://www.dropbox.com/s/qih3tjsir3xulrn/lucene-index-cord19-full-text-2020-05-19.tar.gz
 tar xvfz lucene-index-cord19-full-text-2020-05-19.tar.gz -C indexes
 
@@ -173,6 +177,8 @@ python eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.
 
 cut -d ' ' -f 1 runs/anserini.covid-r3.full-text.qq.bm25.txt | sort | uniq | wc
 cut -d ' ' -f 1 runs/anserini.covid-r3.full-text.qdel.bm25.txt | sort | uniq | wc
+
+# paragraph index
 
 wget https://www.dropbox.com/s/7z8szogu5neuhqe/lucene-index-cord19-paragraph-2020-05-19.tar.gz
 tar xvfz lucene-index-cord19-paragraph-2020-05-19.tar.gz -C indexes
