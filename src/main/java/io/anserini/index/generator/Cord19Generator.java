@@ -138,7 +138,6 @@ public class Cord19Generator implements LuceneDocumentGenerator<Cord19BaseDocume
     // string fields
     doc.add(new StringField(CovidField.SHA.name, covidDoc.record().get(CovidField.SHA.name), Field.Store.YES));
     doc.add(new StringField(CovidField.DOI.name, covidDoc.record().get(CovidField.DOI.name), Field.Store.YES));
-    doc.add(new StringField(CovidField.SOURCE.name, covidDoc.record().get(CovidField.SOURCE.name), Field.Store.YES));
     doc.add(new StringField(CovidField.JOURNAL.name, covidDoc.record().get(CovidField.JOURNAL.name), Field.Store.YES));
     doc.add(new StringField(CovidField.WHO.name, covidDoc.record().get(CovidField.WHO.name), Field.Store.YES));
     doc.add(new StringField(CovidField.PMC_ID.name, covidDoc.record().get(CovidField.PMC_ID.name), Field.Store.YES));
@@ -152,6 +151,7 @@ public class Cord19Generator implements LuceneDocumentGenerator<Cord19BaseDocume
       covidDoc.record().get(CovidField.PUBLISH_TIME.name), Field.Store.YES));
     doc.add(new StringField(CovidField.LICENSE.name,
       covidDoc.record().get(CovidField.LICENSE.name), Field.Store.YES));
+
     // default to first URL in metadata
     doc.add(new StringField(CovidField.URL.name,
       covidDoc.record().get(CovidField.URL.name).split("; ")[0], Field.Store.YES));
@@ -166,6 +166,10 @@ public class Cord19Generator implements LuceneDocumentGenerator<Cord19BaseDocume
   
     // non-stemmed fields
     addAuthors(doc, covidDoc.record().get(CovidField.AUTHORS.name), fieldType);
+
+    for (String source : covidDoc.record().get(CovidField.SOURCE.name).split(";")) {
+      addNonStemmedField(doc, CovidField.SOURCE.name, source.strip(), fieldType);
+    }
 
     // parse year published
     try {
