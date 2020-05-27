@@ -1,4 +1,4 @@
-## Title: Ingesting CORD-19 into Solr and Blacklight
+## Ingesting CORD-19 into Solr and Blacklight
 To begin, ensure that you have:
 
 - Ruby 2.6.5, and Ruby on Rails 6.0+ installed.
