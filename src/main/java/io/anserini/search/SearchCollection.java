@@ -364,8 +364,15 @@ public final class SearchCollection implements Closeable {
       for (String fbTerms : args.rm3_fbTerms) {
         for (String fbDocs : args.rm3_fbDocs) {
           for (String originalQueryWeight : args.rm3_originalQueryWeight) {
-            String tag = String.format("rm3(fbTerms=%s,fbDocs=%s,originalQueryWeight=%s)",
+            String tag;
+            if (this.args.rfQrels != null){
+              tag = String.format("rm3Rf(fbTerms=%s,originalQueryWeight=%s)",
+                fbTerms, originalQueryWeight);
+            } else{
+              tag = String.format("rm3(fbTerms=%s,fbDocs=%s,originalQueryWeight=%s)",
                 fbTerms, fbDocs, originalQueryWeight);
+            }
+
             RerankerCascade cascade = new RerankerCascade(tag);
             cascade.add(new Rm3Reranker(analyzer, IndexArgs.CONTENTS, Integer.valueOf(fbTerms),
                 Integer.valueOf(fbDocs), Float.valueOf(originalQueryWeight), args.rm3_outputQuery));
@@ -380,7 +387,12 @@ public final class SearchCollection implements Closeable {
           for (String beta : args.axiom_beta) {
             for (String top : args.axiom_top) {
               for (String seed : args.axiom_seed) {
-                String tag = String.format("ax(seed=%s,r=%s,n=%s,beta=%s,top=%s)", seed, r, n, beta, top);
+                String tag;
+                if (this.args.rfQrels != null){
+                  tag = String.format("axRf(seed=%s,n=%s,beta=%s,top=%s)", seed, n, beta, top)
+                } else{
+                  tag = String.format("ax(seed=%s,r=%s,n=%s,beta=%s,top=%s)", seed, r, n, beta, top);
+                }
                 RerankerCascade cascade = new RerankerCascade(tag);
                 cascade.add(new AxiomReranker(args.index, args.axiom_index, IndexArgs.CONTENTS,
                     args.axiom_deterministic, Integer.valueOf(seed), Integer.valueOf(r),
@@ -399,8 +411,14 @@ public final class SearchCollection implements Closeable {
           for (String k1 : args.bm25prf_k1) {
             for (String b : args.bm25prf_b) {
               for (String newTermWeight : args.bm25prf_newTermWeight) {
-                String tag = String.format("bm25prf(fbTerms=%s,fbDocs=%s,k1=%s,b=%s,newTermWeight=%s)",
+                String tag;
+                if (this.args.rfQrels != null){
+                  tag = String.format("bm25prf(fbTerms=%s,k1=%s,b=%s,newTermWeight=%s)",
+                    fbTerms, k1, b, newTermWeight);
+                } else{
+                  tag = String.format("bm25prf(fbTerms=%s,fbDocs=%s,k1=%s,b=%s,newTermWeight=%s)",
                     fbTerms, fbDocs, k1, b, newTermWeight);
+                }
                 RerankerCascade cascade = new RerankerCascade(tag);
                 cascade.add(new BM25PrfReranker(analyzer, IndexArgs.CONTENTS, Integer.valueOf(fbTerms),
                     Integer.valueOf(fbDocs), Float.valueOf(k1), Float.valueOf(b), Float.valueOf(newTermWeight),
@@ -422,6 +440,11 @@ public final class SearchCollection implements Closeable {
   }
 
   private void readRelDocsFromQrels(String qrels) throws IOException {
+    LOG.info("============ Initializing Searcher ============");
+    LOG.info("qrels: " + qrels);
+    if (!Files.exists(qrels) || !Files.isRegularFile(qrels) || !Files.isReadable(qrels)) {
+        throw new IllegalArgumentException("Qrels file : " + qrels + " does not exist or is not a (readable) file.");
+    }
     Map<String, Map<String, Integer>> relDocs = new HashMap<String, Map<String, Integer>> ();
     InputStream fin = Files.newInputStream(Paths.get(qrels), StandardOpenOption.READ);
     BufferedInputStream in = new BufferedInputStream(fin);
@@ -475,8 +498,6 @@ public final class SearchCollection implements Closeable {
     final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(args.threads);
     this.similarities = constructSimilarities();
     this.cascades = constructRerankers();
-
-    
 
     LOG.info("============ Launching Search Threads ============");
 
