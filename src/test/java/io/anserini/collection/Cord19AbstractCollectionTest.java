@@ -74,8 +74,8 @@ public class Cord19AbstractCollectionTest extends DocumentCollectionTest<Cord19A
         "Beyond Picomolar Affinities: Quantitative Aspects of Noncovalent and Covalent Binding of Drugs to Proteins");
     doc3.put("contents_length", "106");
     doc3.put("has_full_text", "true");
-    doc3.put("metadata_length", "675");
-    doc3.put("raw_length", "94663");
+    doc3.put("metadata_length", "694");
+    doc3.put("raw_length", "94682");
     expected.put("a8cps3ko", doc3);
   }
 

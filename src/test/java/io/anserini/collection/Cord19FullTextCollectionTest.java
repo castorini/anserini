@@ -72,8 +72,8 @@ public class Cord19FullTextCollectionTest extends DocumentCollectionTest<Cord19F
     doc3.put("contents_ends_with", "Copyright 2005 Americal Chemical Society. ");
     doc3.put("contents_length", "33583");
     doc3.put("has_full_text", "true");
-    doc3.put("metadata_length", "675");
-    doc3.put("raw_length", "94663");
+    doc3.put("metadata_length", "694");
+    doc3.put("raw_length", "94682");
     expected.put("a8cps3ko", doc3);
   }
 
