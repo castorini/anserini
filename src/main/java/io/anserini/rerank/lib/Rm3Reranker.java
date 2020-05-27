@@ -75,7 +75,8 @@ public class Rm3Reranker implements Reranker {
 
     FeatureVector qfv = FeatureVector.fromTerms(AnalyzerUtils.analyze(analyzer, context.getQueryText())).scaleToUnitL1Norm();
 
-    FeatureVector rm = estimateRelevanceModel(docs, reader, context.getSearchArgs().searchtweets);
+    boolean useRf = (context.getSearchArgs().rfQrels != null);
+    FeatureVector rm = estimateRelevanceModel(docs, reader, context.getSearchArgs().searchtweets, useRf);
 
     rm = FeatureVector.interpolate(qfv, rm, originalQueryWeight);
 
@@ -124,11 +125,16 @@ public class Rm3Reranker implements Reranker {
     return ScoredDocuments.fromTopDocs(rs, searcher);
   }
 
-  private FeatureVector estimateRelevanceModel(ScoredDocuments docs, IndexReader reader, boolean tweetsearch) {
+  private FeatureVector estimateRelevanceModel(ScoredDocuments docs, IndexReader reader, boolean tweetsearch, boolean useRf) {
     FeatureVector f = new FeatureVector();
 
     Set<String> vocab = new HashSet<>();
-    int numdocs = docs.documents.length < fbDocs ? docs.documents.length : fbDocs;
+    if (useRf){
+      int numdocs = docs.documents.length;
+    }
+    else{
+      int numdocs = docs.documents.length < fbDocs ? docs.documents.length : fbDocs;
+    }
     FeatureVector[] docvectors = new FeatureVector[numdocs];
 
     for (int i = 0; i < numdocs; i++) {

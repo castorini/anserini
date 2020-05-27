@@ -97,7 +97,8 @@ public class BM25PrfReranker implements Reranker {
     IndexReader reader = searcher.getIndexReader();
     List<String> originalQueryTerms = AnalyzerUtils.analyze(analyzer, context.getQueryText());
 
-    PrfFeatures fv = expandQuery(originalQueryTerms, docs, reader);
+    boolean useRf = (context.getSearchArgs().rfQrels != null);
+    PrfFeatures fv = expandQuery(originalQueryTerms, docs, reader, useRf);
     Query newQuery = fv.toQuery();
 
     if (this.outputQuery) {
@@ -127,13 +128,17 @@ public class BM25PrfReranker implements Reranker {
     return ScoredDocuments.fromTopDocs(rs, searcher);
   }
 
-  private PrfFeatures expandQuery(List<String> originalTerms, ScoredDocuments docs, IndexReader reader) {
+  private PrfFeatures expandQuery(List<String> originalTerms, ScoredDocuments docs, IndexReader reader, boolean useRf) {
     PrfFeatures newFeatures = new PrfFeatures();
 
     Set<String> vocab = new HashSet<>();
 
     Map<Integer, Set<String>> docToTermsMap = new HashMap<>();
-    int numRelDocs = docs.documents.length < fbDocs ? docs.documents.length : fbDocs;
+    if (useRf){
+      int numRelDocs = docs.documents.length;
+    } else {
+      int numRelDocs = docs.documents.length < fbDocs ? docs.documents.length : fbDocs;
+    }
     int numDocs = reader.numDocs();
 
     for (int i = 0; i < numRelDocs; i++) {
