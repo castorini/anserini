@@ -37,6 +37,7 @@ import io.anserini.search.similarity.TaggedSimilarity;
 import io.anserini.search.topicreader.BackgroundLinkingTopicReader;
 import io.anserini.search.topicreader.TopicReader;
 import org.apache.commons.lang3.time.DurationFormatUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
@@ -88,7 +89,12 @@ import java.io.Closeable;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.BufferedReader;
+import java.io.BufferedInputStream;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.StandardOpenOption;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -98,6 +104,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.HashMap;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -169,7 +176,7 @@ public final class SearchCollection implements Closeable {
             queryString = entry.getValue().get(args.topicfield);
           }
 
-          ScoredDocuments queryRelDocs;
+          ScoredDocuments queryRelDocs = null;
           if (relScoredDocs != null){
             queryRelDocs = relScoredDocs.get(qid);
           }
@@ -414,9 +421,10 @@ public final class SearchCollection implements Closeable {
     return cascades;
   }
 
-  private readRelDocsFromQrels(String qrels) throws IOException(){
-    Map<String, Map<String, int>> relDocs = new HashMap<String, Map<String, int>> ();
-    InputStream in = getReadFileStream(qrels);
+  private void readRelDocsFromQrels(String qrels) throws IOException {
+    Map<String, Map<String, Integer>> relDocs = new HashMap<String, Map<String, Integer>> ();
+    InputStream fin = Files.newInputStream(Paths.get(qrels), StandardOpenOption.READ);
+    BufferedInputStream in = new BufferedInputStream(fin);
     BufferedReader bRdr = new BufferedReader(new InputStreamReader(in));
     for (String line : IOUtils.readLines(bRdr)) {
       String[] cols = line.split("\\s+"); 
@@ -424,19 +432,19 @@ public final class SearchCollection implements Closeable {
       if (rel > 0){
         String qid = cols[0];
         String fbDocid = cols[2];
-        Map<String, int> queryRelDocs = relDocs.get(qid);
+        Map<String, Integer> queryRelDocs = relDocs.get(qid);
         if (queryRelDocs == null){
-          queryRelDocs = new HashMap<String, int>();
+          queryRelDocs = new HashMap<String, Integer>();
           relDocs.put(qid, queryRelDocs);
         }
-        queryRelDocs.put(fbDocid, rel);
+        queryRelDocs.put(fbDocid, Integer.valueOf(rel));
       }
     }
 
     this.relScoredDocs = new HashMap<String, ScoredDocuments>();
-    for (Map.Entry<String, Map<String, int>> q : relDocs.entrySet()) {
+    for (Map.Entry<String, Map<String, Integer>> q : relDocs.entrySet()) {
       String qid = q.getKey();
-      Map<String, int> queryRelDocs = q.getValue();
+      Map<String, Integer> queryRelDocs = q.getValue();
       this.relScoredDocs.put(qid, ScoredDocuments.fromRelDocs(queryRelDocs, this.reader));
     }
 
@@ -533,7 +541,7 @@ public final class SearchCollection implements Closeable {
 
     RerankerContext context = new RerankerContext<>(searcher, qid, query, null, queryString, queryTokens, null, args);
     ScoredDocuments scoredFbDocs; 
-    if ( isRerank && (queryRelDocs == null)) {
+    if ( isRerank && queryRelDocs == null && args.rfQrels != null) {
       scoredFbDocs = queryRelDocs;
     } else {
       scoredFbDocs = ScoredDocuments.fromTopDocs(rs, searcher);
@@ -584,7 +592,7 @@ public final class SearchCollection implements Closeable {
       RerankerContext context = new RerankerContext<>(searcher, qid, query, queryDocID, queryStr, queryTokens, null, args);
 
       ScoredDocuments scoredFbDocs; 
-      if ( isRerank && (queryRelDocs == null)) {
+      if ( isRerank && queryRelDocs == null && args.rfQrels != null) {
         scoredFbDocs = queryRelDocs;
       } else {
         scoredFbDocs = ScoredDocuments.fromTopDocs(rs, searcher);
@@ -664,7 +672,7 @@ public final class SearchCollection implements Closeable {
 
     RerankerContext context = new RerankerContext<>(searcher, qid, keywordQuery, null, queryString, queryTokens, filter, args);
     ScoredDocuments scoredFbDocs; 
-    if ( isRerank && (queryRelDocs == null)) {
+    if ( isRerank && queryRelDocs == null && args.rfQrels != null) {
       scoredFbDocs = queryRelDocs;
     } else {
       scoredFbDocs = ScoredDocuments.fromTopDocs(rs, searcher);

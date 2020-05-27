@@ -17,11 +17,15 @@
 package io.anserini.rerank;
 
 import io.anserini.index.IndexArgs;
+import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.index.Term;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.StringField;
 import org.apache.lucene.document.SortedDocValuesField;
 import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.Query;
+import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.util.BytesRef;
 import org.apache.solr.common.SolrDocument;
@@ -29,6 +33,7 @@ import org.apache.solr.common.SolrDocumentList;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
 
+import java.util.Map;
 import java.io.IOException;
 
 /**
@@ -127,7 +132,7 @@ public class ScoredDocuments {
     return scoredDocs;
   }
 
-  public static ScoredDocuments fromRelDocs(Map<String, int> queryRelDocs, IndexReader reader) {
+  public static ScoredDocuments fromRelDocs(Map<String, Integer> queryRelDocs, IndexReader reader) throws IOException {
     ScoredDocuments scoredDocs = new ScoredDocuments();
   
     int length = queryRelDocs.size();
@@ -136,7 +141,9 @@ public class ScoredDocuments {
     scoredDocs.ids = new int[length];
     scoredDocs.scores = new float[length];
 
-    for (Map.Entry<String, int> relDocScorePair : queryRelDocs.entrySet()) {
+    IndexSearcher searcher;
+    int i = 0;
+    for (Map.Entry<String, Integer> relDocScorePair : queryRelDocs.entrySet()) {
       String externalDocid = relDocScorePair.getKey();
       searcher = new IndexSearcher(reader);
       Query q = new TermQuery(new Term(IndexArgs.ID, externalDocid));
@@ -148,8 +155,9 @@ public class ScoredDocuments {
         scoredDocs.documents[i] = null;
       }
 
-      scoredDocs.scores[i] = relDocScorePair.getValue();
+      scoredDocs.scores[i] = relDocScorePair.getValue().intValue();
       scoredDocs.ids[i] = rs.scoreDocs[0].doc;
+      i ++;
     }
 
     return scoredDocs;
