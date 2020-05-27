@@ -389,7 +389,7 @@ public final class SearchCollection implements Closeable {
               for (String seed : args.axiom_seed) {
                 String tag;
                 if (this.args.rfQrels != null){
-                  tag = String.format("axRf(seed=%s,n=%s,beta=%s,top=%s)", seed, n, beta, top)
+                  tag = String.format("axRf(seed=%s,n=%s,beta=%s,top=%s)", seed, n, beta, top);
                 } else{
                   tag = String.format("ax(seed=%s,r=%s,n=%s,beta=%s,top=%s)", seed, r, n, beta, top);
                 }
@@ -442,8 +442,9 @@ public final class SearchCollection implements Closeable {
   private void readRelDocsFromQrels(String qrels) throws IOException {
     LOG.info("============ Initializing Searcher ============");
     LOG.info("qrels: " + qrels);
-    if (!Files.exists(qrels) || !Files.isRegularFile(qrels) || !Files.isReadable(qrels)) {
-        throw new IllegalArgumentException("Qrels file : " + qrels + " does not exist or is not a (readable) file.");
+    Path qrelsFilePath = Paths.get(qrels);
+    if (!Files.exists(qrelsFilePath) || !Files.isRegularFile(qrelsFilePath) || !Files.isReadable(qrelsFilePath)) {
+        throw new IllegalArgumentException("Qrels file : " + qrelsFilePath + " does not exist or is not a (readable) file.");
     }
     Map<String, Map<String, Integer>> relDocs = new HashMap<String, Map<String, Integer>> ();
     InputStream fin = Files.newInputStream(Paths.get(qrels), StandardOpenOption.READ);
