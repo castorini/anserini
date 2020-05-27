@@ -190,7 +190,7 @@ We can now index into Solr:
 
 ```
 DATE=2020-05-19
-DATA_DIR=./cord19-"${DATE}"
+DATA_DIR=./collections/cord19-"${DATE}"
 
 sh target/appassembler/bin/IndexCollection -collection Cord19AbstractCollection -generator Cord19Generator \
    -threads 8 -input "${DATA_DIR}" \
