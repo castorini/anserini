@@ -123,6 +123,7 @@ public final class SearchCollection implements Closeable {
   private List<TaggedSimilarity> similarities;
   private List<RerankerCascade> cascades;
   private final boolean isRerank;
+  private Map<String, PriorityQueue<Pair<String, int>>> relDocs;
 
   private final class SearcherThread<K> extends Thread {
     final private IndexReader reader;
@@ -132,6 +133,17 @@ public final class SearchCollection implements Closeable {
     final private RerankerCascade cascade;
     final private String outputPath;
     final private String runTag;
+
+    private class RelDocComparator implements Comparator<Pair<String, int>> {
+      public int compare(Pair<String, int> a, Pair<String, int> b) {
+        int cmp = Integer.compare(b.getRight(), a.getRight());
+        if (cmp == 0) {
+          return a.getLeft().compareToIgnoreCase(b.getLeft());
+        } else {
+          return cmp;
+        }
+      }
+    }
 
     private SearcherThread(IndexReader reader, SortedMap<K, Map<String, String>> topics, TaggedSimilarity taggedSimilarity,
                            RerankerCascade cascade, String outputPath, String runTag) {
@@ -279,6 +291,32 @@ public final class SearchCollection implements Closeable {
     }
 
     isRerank = args.rm3 || args.axiom || args.bm25prf;
+
+    if (this.isRerank && args.rf_qrels != null){
+      int maxFbDocs = 0; // get the maximun number of fb documents so we know how many to get internal docid for
+      if (args.rm3){
+        int rm3FbDocs;
+        for (String fbDocs : args.rm3_fbDocs) {
+          rm3FbDocs = Integer.valueOf(fbDocs);
+          maxFbDocs = Math.max(rm3FbDocs, maxFbDocs);
+        }
+      } else if (args.axiom){
+        int axiomFbDocs; 
+        for (String fbDocs : args.axiom_r) {
+          axiomFbDocs = Integer.valueOf(fbDocs);
+          maxFbDocs = Math.max(axiomFbDocs, maxFbDocs);
+        }
+      } else if (args.bm25prf){
+        int bm25prfFbDocs; 
+        for (String fbDocs : args.bm25prf_fbDocs){
+          bm25prfFbDocs = Integer.valueOf(fbDocs);
+          maxFbDocs = Math.max(bm25prfFbDocs, maxFbDocs);
+        }
+      }
+
+      readRelDocsFromQrels(args.rf_qrels, maxFbDocs);      
+    }
+
   }
 
   @Override
@@ -403,6 +441,27 @@ public final class SearchCollection implements Closeable {
     return cascades;
   }
 
+  private readRelDocsFromQrels(qrels, maxFbDocs) throws IOException(){
+    this.relDocs = new HashMap<String, PriorityQueue<>(new RelDocComparator())> ();
+    InputStream in = getReadFileStream(qrels);
+    BufferedReader bRdr = new BufferedReader(new InputStreamReader(in));
+    Map <String, Prioriity<Pair<>>>
+    for (String line : IOUtils.readLines(bRdr)) {
+      String[] cols = line.split("\\s+"); 
+      int rel = Integer.valueOf(cols[3]);
+      if (rel > 0){
+        String qid = cols[0];
+        String fbDocid = cols[2];
+        PriorityQueue<Pair<String, int>> queryRelDocs = relDocs.get(qid);
+        if (queryRelDocs == null){
+          queryRelDocs = new PriorityQueue<>(new RelDocComparator());
+          relDocs.put(qid, queryRelDocs);
+        }
+        queryRelDocs.add(Pair.of(fbDocid, rel));
+      }
+    }
+  } 
+
   @SuppressWarnings("unchecked")
   public <K> void runTopics() throws IOException {
     TopicReader<K> tr;
@@ -428,6 +487,8 @@ public final class SearchCollection implements Closeable {
     final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(args.threads);
     this.similarities = constructSimilarities();
     this.cascades = constructRerankers();
+
+    
 
     LOG.info("============ Launching Search Threads ============");
 
