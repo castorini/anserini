@@ -24,11 +24,11 @@ We've kept around older versions of the index for archival purposes &mdash; scro
 
 ## Data Prep
 
-The latest distribution available is from 2020/05/19.
+The latest distribution available is from 2020/05/26.
 First, download the data:
 
 ```bash
-DATE=2020-05-19
+DATE=2020-05-26
 DATA_DIR=./collections/cord19-"${DATE}"
 mkdir "${DATA_DIR}"
 
@@ -67,14 +67,14 @@ sh target/appassembler/bin/IndexCollection \
 The log should end with something like this:
 
 ```bash
-2020-05-20 15:17:52,877 INFO  [main] index.IndexCollection (IndexCollection.java:874) - Indexing Complete! 128,465 documents indexed
-2020-05-20 15:17:52,878 INFO  [main] index.IndexCollection (IndexCollection.java:875) - ============ Final Counter Values ============
-2020-05-20 15:17:52,878 INFO  [main] index.IndexCollection (IndexCollection.java:876) - indexed:          128,465
-2020-05-20 15:17:52,878 INFO  [main] index.IndexCollection (IndexCollection.java:877) - unindexable:            0
-2020-05-20 15:17:52,878 INFO  [main] index.IndexCollection (IndexCollection.java:878) - empty:                 23
-2020-05-20 15:17:52,878 INFO  [main] index.IndexCollection (IndexCollection.java:879) - skipped:                4
-2020-05-20 15:17:52,878 INFO  [main] index.IndexCollection (IndexCollection.java:880) - errors:                 0
-2020-05-20 15:17:52,885 INFO  [main] index.IndexCollection (IndexCollection.java:883) - Total 128,465 documents indexed in 00:02:22
+2020-05-27 11:17:25,530 INFO  [main] index.IndexCollection (IndexCollection.java:874) - Indexing Complete! 134,176 documents indexed
+2020-05-27 11:17:25,531 INFO  [main] index.IndexCollection (IndexCollection.java:875) - ============ Final Counter Values ============
+2020-05-27 11:17:25,531 INFO  [main] index.IndexCollection (IndexCollection.java:876) - indexed:          134,176
+2020-05-27 11:17:25,531 INFO  [main] index.IndexCollection (IndexCollection.java:877) - unindexable:            0
+2020-05-27 11:17:25,531 INFO  [main] index.IndexCollection (IndexCollection.java:878) - empty:                 24
+2020-05-27 11:17:25,531 INFO  [main] index.IndexCollection (IndexCollection.java:879) - skipped:                6
+2020-05-27 11:17:25,531 INFO  [main] index.IndexCollection (IndexCollection.java:880) - errors:                 0
+2020-05-27 11:17:25,535 INFO  [main] index.IndexCollection (IndexCollection.java:883) - Total 134,176 documents indexed in 00:02:14
 ```
 
 The `contents` field of each Lucene document is a concatenation of the article's title and abstract.
@@ -94,14 +94,14 @@ sh target/appassembler/bin/IndexCollection \
 The log should end with something like this:
 
 ```bash
-2020-05-20 15:25:02,182 INFO  [main] index.IndexCollection (IndexCollection.java:874) - Indexing Complete! 128,465 documents indexed
-2020-05-20 15:25:02,184 INFO  [main] index.IndexCollection (IndexCollection.java:875) - ============ Final Counter Values ============
-2020-05-20 15:25:02,184 INFO  [main] index.IndexCollection (IndexCollection.java:876) - indexed:          128,465
-2020-05-20 15:25:02,184 INFO  [main] index.IndexCollection (IndexCollection.java:877) - unindexable:            0
-2020-05-20 15:25:02,184 INFO  [main] index.IndexCollection (IndexCollection.java:878) - empty:                 23
-2020-05-20 15:25:02,184 INFO  [main] index.IndexCollection (IndexCollection.java:879) - skipped:                4
-2020-05-20 15:25:02,184 INFO  [main] index.IndexCollection (IndexCollection.java:880) - errors:                 0
-2020-05-20 15:25:02,188 INFO  [main] index.IndexCollection (IndexCollection.java:883) - Total 128,465 documents indexed in 00:06:19
+2020-05-27 11:24:30,636 INFO  [main] index.IndexCollection (IndexCollection.java:874) - Indexing Complete! 134,176 documents indexed
+2020-05-27 11:24:30,637 INFO  [main] index.IndexCollection (IndexCollection.java:875) - ============ Final Counter Values ============
+2020-05-27 11:24:30,637 INFO  [main] index.IndexCollection (IndexCollection.java:876) - indexed:          134,176
+2020-05-27 11:24:30,637 INFO  [main] index.IndexCollection (IndexCollection.java:877) - unindexable:            0
+2020-05-27 11:24:30,637 INFO  [main] index.IndexCollection (IndexCollection.java:878) - empty:                 24
+2020-05-27 11:24:30,637 INFO  [main] index.IndexCollection (IndexCollection.java:879) - skipped:                6
+2020-05-27 11:24:30,638 INFO  [main] index.IndexCollection (IndexCollection.java:880) - errors:                 0
+2020-05-27 11:24:30,642 INFO  [main] index.IndexCollection (IndexCollection.java:883) - Total 134,176 documents indexed in 00:06:42
 ```
 
 The `contents` field of each Lucene document is a concatenation of the article's title and abstract, and the full text JSON (if available).
@@ -121,14 +121,14 @@ sh target/appassembler/bin/IndexCollection \
 The log should end with something like this:
 
 ```bash
-2020-05-20 15:46:22,654 INFO  [main] index.IndexCollection (IndexCollection.java:874) - Indexing Complete! 2,297,201 documents indexed
-2020-05-20 15:46:22,655 INFO  [main] index.IndexCollection (IndexCollection.java:875) - ============ Final Counter Values ============
-2020-05-20 15:46:22,655 INFO  [main] index.IndexCollection (IndexCollection.java:876) - indexed:        2,297,201
-2020-05-20 15:46:22,655 INFO  [main] index.IndexCollection (IndexCollection.java:877) - unindexable:            0
-2020-05-20 15:46:22,655 INFO  [main] index.IndexCollection (IndexCollection.java:878) - empty:                 23
-2020-05-20 15:46:22,655 INFO  [main] index.IndexCollection (IndexCollection.java:879) - skipped:            1,666
-2020-05-20 15:46:22,656 INFO  [main] index.IndexCollection (IndexCollection.java:880) - errors:                 0
-2020-05-20 15:46:22,660 INFO  [main] index.IndexCollection (IndexCollection.java:883) - Total 2,297,201 documents indexed in 00:18:42
+2020-05-27 11:44:03,071 INFO  [main] index.IndexCollection (IndexCollection.java:874) - Indexing Complete! 2,353,190 documents indexed
+2020-05-27 11:44:03,071 INFO  [main] index.IndexCollection (IndexCollection.java:875) - ============ Final Counter Values ============
+2020-05-27 11:44:03,071 INFO  [main] index.IndexCollection (IndexCollection.java:876) - indexed:        2,353,190
+2020-05-27 11:44:03,071 INFO  [main] index.IndexCollection (IndexCollection.java:877) - unindexable:            0
+2020-05-27 11:44:03,071 INFO  [main] index.IndexCollection (IndexCollection.java:878) - empty:                 24
+2020-05-27 11:44:03,071 INFO  [main] index.IndexCollection (IndexCollection.java:879) - skipped:            2,660
+2020-05-27 11:44:03,072 INFO  [main] index.IndexCollection (IndexCollection.java:880) - errors:                 0
+2020-05-27 11:44:03,076 INFO  [main] index.IndexCollection (IndexCollection.java:883) - Total 2,353,190 documents indexed in 00:18:05
 ```
 
 In this configuration, the indexer creates multiple Lucene Documents for each source article:
@@ -189,7 +189,7 @@ solrini/bin/solr create -n anserini -c cord19
 We can now index into Solr:
 
 ```
-DATE=2020-05-19
+DATE=2020-05-26
 DATA_DIR=./cord19-"${DATE}"
 
 sh target/appassembler/bin/IndexCollection -collection Cord19AbstractCollection -generator Cord19Generator \
@@ -236,5 +236,4 @@ All versions of pre-built indexes:
 
 ## Known Issues
 
-2020-05-19
-- Missing URLs for several articles due to a known issue with the CORD-19 dataset release
++ Version of 2020-05-19: Missing URLs for several articles due to a known issue with the CORD-19 dataset release.
