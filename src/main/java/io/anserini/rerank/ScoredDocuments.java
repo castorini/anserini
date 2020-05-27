@@ -126,4 +126,33 @@ public class ScoredDocuments {
 
     return scoredDocs;
   }
+
+  public static ScoredDocuments fromRelDocs(Map<String, int> queryRelDocs, IndexReader reader) {
+    ScoredDocuments scoredDocs = new ScoredDocuments();
+  
+    int length = queryRelDocs.size();
+
+    scoredDocs.documents = new Document[length];
+    scoredDocs.ids = new int[length];
+    scoredDocs.scores = new float[length];
+
+    for (Map.Entry<String, int> relDocScorePair : queryRelDocs.entrySet()) {
+      String externalDocid = relDocScorePair.getKey();
+      searcher = new IndexSearcher(reader);
+      Query q = new TermQuery(new Term(IndexArgs.ID, externalDocid));
+      TopDocs rs = searcher.search(q, 1);
+      try {
+        scoredDocs.documents[i] = searcher.doc(rs.scoreDocs[0].doc);
+      } catch (IOException e) {
+        e.printStackTrace();
+        scoredDocs.documents[i] = null;
+      }
+
+      scoredDocs.scores[i] = relDocScorePair.getValue();
+      scoredDocs.ids[i] = rs.scoreDocs[0].doc;
+    }
+
+    return scoredDocs;
+  }
+
 }

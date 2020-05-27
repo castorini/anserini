@@ -101,8 +101,8 @@ public class SearchArgs {
       "the top documents from the initial round ranking.")
   public int rerankcutoff = 50;
 
-  @Option(name = "-rf_qrels", metaVar = "[file]", usage = "qrels file ued for relevance feedback")
-  public String rf_qrels = null;
+  @Option(name = "-rfQrels", metaVar = "[file]", usage = "qrels file ued for relevance feedback")
+  public String rfQrels = null;
 
   @Option(name = "-runtag", metaVar = "[tag]", usage = "runtag")
   public String runtag = null;
