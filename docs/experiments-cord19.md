@@ -239,4 +239,4 @@ All versions of pre-built indexes:
 
 ## Known Issues
 
-+ Version of 2020-05-19: Missing URLs for several articles due to a known issue with the CORD-19 dataset release.
++ Release of 2020/05/19: Missing URLs for several articles due to a known issue with the CORD-19 dataset release.
