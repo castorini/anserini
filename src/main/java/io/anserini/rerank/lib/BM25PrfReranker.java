@@ -134,10 +134,11 @@ public class BM25PrfReranker implements Reranker {
     Set<String> vocab = new HashSet<>();
 
     Map<Integer, Set<String>> docToTermsMap = new HashMap<>();
+    int numRelDocs;
     if (useRf){
-      int numRelDocs = docs.documents.length;
+      numRelDocs = docs.documents.length;
     } else {
-      int numRelDocs = docs.documents.length < fbDocs ? docs.documents.length : fbDocs;
+      numRelDocs = docs.documents.length < fbDocs ? docs.documents.length : fbDocs;
     }
     int numDocs = reader.numDocs();
 

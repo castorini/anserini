@@ -129,11 +129,12 @@ public class Rm3Reranker implements Reranker {
     FeatureVector f = new FeatureVector();
 
     Set<String> vocab = new HashSet<>();
+    int numdocs;
     if (useRf){
-      int numdocs = docs.documents.length;
+      numdocs = docs.documents.length;
     }
     else{
-      int numdocs = docs.documents.length < fbDocs ? docs.documents.length : fbDocs;
+      numdocs = docs.documents.length < fbDocs ? docs.documents.length : fbDocs;
     }
     FeatureVector[] docvectors = new FeatureVector[numdocs];
 
