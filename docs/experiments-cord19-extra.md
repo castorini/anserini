@@ -66,7 +66,7 @@ We can now index into Solr:
 
 ```
 DATE=2020-05-26
-DATA_DIR=./cord19-"${DATE}"
+DATA_DIR=./collections/cord19-"${DATE}"
 
 sh target/appassembler/bin/IndexCollection -collection Cord19AbstractCollection -generator Cord19Generator \
    -threads 8 -input "${DATA_DIR}" \
@@ -83,7 +83,7 @@ Once the approriate ruby and ruby on rails version is installed, navigate to a d
 cd ..
 git clone https://github.com/castorini/gooselight2.git
 ```
-Then navigate into the `gooselight2/covid` directory, and run the following commands:
+Then navigate into the `gooselight2/covid` directory, and run the following commands, if a `yarn` error occurs with `rails db:migrate` run `yarn install --check-files` to update yarn:
 
 ```
 bundle install
