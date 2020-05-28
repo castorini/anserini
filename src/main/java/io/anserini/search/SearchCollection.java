@@ -178,7 +178,7 @@ public final class SearchCollection implements Closeable {
 
           ScoredDocuments queryRelDocs = null;
           if (relScoredDocs != null){
-            queryRelDocs = relScoredDocs.get(qid);
+            queryRelDocs = relScoredDocs.get(qid.toString());
           }
           ScoredDocuments docs;
           if (args.searchtweets) {
@@ -440,7 +440,7 @@ public final class SearchCollection implements Closeable {
   }
 
   private void readRelDocsFromQrels(String qrels) throws IOException {
-    LOG.info("============ Initializing Searcher ============");
+    LOG.info("============ Loading qrels ============");
     LOG.info("qrels: " + qrels);
     Path qrelsFilePath = Paths.get(qrels);
     if (!Files.exists(qrelsFilePath) || !Files.isRegularFile(qrelsFilePath) || !Files.isReadable(qrelsFilePath)) {
@@ -553,9 +553,9 @@ public final class SearchCollection implements Closeable {
     TopDocs rs = new TopDocs(new TotalHits(0, TotalHits.Relation.EQUAL_TO), new ScoreDoc[]{});
     if (!isRerank || (args.rerankcutoff > 0 && args.rfQrels == null) || (args.rfQrels != null && queryRelDocs == null)) {
       if (args.arbitraryScoreTieBreak) {// Figure out how to break the scoring ties.
-        rs = searcher.search(query, isRerank ? args.rerankcutoff : args.hits);
+        rs = searcher.search(query, (isRerank && args.rfQrels == null) ? args.rerankcutoff : args.hits);
       } else {
-        rs = searcher.search(query, isRerank ? args.rerankcutoff : args.hits, BREAK_SCORE_TIES_BY_DOCID, true);
+        rs = searcher.search(query, (isRerank && args.rfQrels == null) ? args.rerankcutoff : args.hits, BREAK_SCORE_TIES_BY_DOCID, true);
       }
     }
 
@@ -610,9 +610,9 @@ public final class SearchCollection implements Closeable {
       TopDocs rs = new TopDocs(new TotalHits(0, TotalHits.Relation.EQUAL_TO), new ScoreDoc[]{});
       if (!isRerank || (args.rerankcutoff > 0 && args.rfQrels == null) || (args.rfQrels != null && queryRelDocs == null)) {
         if (args.arbitraryScoreTieBreak) {// Figure out how to break the scoring ties.
-          rs = searcher.search(query, isRerank ? args.rerankcutoff : args.hits);
+          rs = searcher.search(query, (isRerank && args.rfQrels == null) ? args.rerankcutoff : args.hits);
         } else {
-          rs = searcher.search(query, isRerank ? args.rerankcutoff : args.hits, BREAK_SCORE_TIES_BY_DOCID, true);
+          rs = searcher.search(query, (isRerank && args.rfQrels == null) ? args.rerankcutoff : args.hits, BREAK_SCORE_TIES_BY_DOCID, true);
         }
       }
 
@@ -698,9 +698,10 @@ public final class SearchCollection implements Closeable {
     TopDocs rs = new TopDocs(new TotalHits(0, TotalHits.Relation.EQUAL_TO), new ScoreDoc[]{});
     if (!isRerank || (args.rerankcutoff > 0 && args.rfQrels == null) || (args.rfQrels != null && queryRelDocs == null)) {
       if (args.arbitraryScoreTieBreak) {// Figure out how to break the scoring ties.
-        rs = searcher.search(compositeQuery, isRerank ? args.rerankcutoff : args.hits);
+        rs = searcher.search(compositeQuery, (isRerank && args.rfQrels == null) ? args.rerankcutoff : args.hits);
       } else {
-        rs = searcher.search(compositeQuery, isRerank ? args.rerankcutoff : args.hits, BREAK_SCORE_TIES_BY_TWEETID, true);
+        rs = searcher.search(compositeQuery, (isRerank && args.rfQrels == null) ? args.rerankcutoff : args.hits, 
+                             BREAK_SCORE_TIES_BY_TWEETID, true);
       }
     }
 
