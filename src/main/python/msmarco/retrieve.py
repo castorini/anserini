@@ -1,26 +1,22 @@
-# -*- coding: utf-8 -*-
-'''
-Anserini: A Lucene toolkit for replicable information retrieval research
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-'''
+#
+# Pyserini: Python interface to the Anserini IR toolkit built on Lucene
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 
 import argparse
 import time
-
-# Pyserini setup
 import os, sys
-sys.path += ['src/main/python']
+
 from pyserini.search import pysearch
 
 if __name__ == '__main__':
@@ -43,10 +39,10 @@ if __name__ == '__main__':
     total_start_time = time.time()
 
     searcher = pysearch.SimpleSearcher(args.index)
-    searcher.set_bm25_similarity(float(args.k1), float(args.b))
+    searcher.set_bm25(float(args.k1), float(args.b))
     print('Initializing BM25, setting k1={} and b={}'.format(args.k1, args.b), flush=True)
     if args.rm3:
-        searcher.set_rm3_reranker(args.fbTerms, args.fbDocs, args.originalQueryWeight)
+        searcher.set_rm3(args.fbTerms, args.fbDocs, args.originalQueryWeight)
         print('Initializing RM3, setting fbTerms={}, fbDocs={} and originalQueryWeight={}'.format(args.fbTerms, args.fbDocs, args.originalQueryWeight), flush=True)
 
     if args.threads == 1:
@@ -55,7 +51,7 @@ if __name__ == '__main__':
             start_time = time.time()
             for line_number, line in enumerate(open(args.qid_queries, 'r', encoding='utf8')):
                 qid, query = line.strip().split('\t')
-                hits = searcher.search(query.encode('utf8'), int(args.hits))
+                hits = searcher.search(query, int(args.hits))
                 if line_number % 100 == 0:
                     time_per_query = (time.time() - start_time) / (line_number + 1)
                     print('Retrieving query {} ({:0.3f} s/query)'.format(line_number, time_per_query), flush=True)
