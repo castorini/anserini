@@ -551,7 +551,7 @@ public final class SearchCollection implements Closeable {
     }
 
     TopDocs rs = new TopDocs(new TotalHits(0, TotalHits.Relation.EQUAL_TO), new ScoreDoc[]{});
-    if (!isRerank || args.rerankcutoff > 0 || args.rfQrels != null) {
+    if (!isRerank || (args.rerankcutoff > 0 && args.rfQrels == null) || (args.rfQrels != null && queryRelDocs == null)) {
       if (args.arbitraryScoreTieBreak) {// Figure out how to break the scoring ties.
         rs = searcher.search(query, isRerank ? args.rerankcutoff : args.hits);
       } else {
@@ -563,8 +563,14 @@ public final class SearchCollection implements Closeable {
 
     RerankerContext context = new RerankerContext<>(searcher, qid, query, null, queryString, queryTokens, null, args);
     ScoredDocuments scoredFbDocs; 
-    if ( isRerank && queryRelDocs == null && args.rfQrels != null) {
-      scoredFbDocs = queryRelDocs;
+    if ( isRerank && args.rfQrels != null) {
+      if (queryRelDocs != null){
+        scoredFbDocs = queryRelDocs;
+      } else{//if no relevant documents, only perform score based tie breaker next
+        scoredFbDocs = ScoredDocuments.fromTopDocs(rs, searcher);
+        cascade = new RerankerCascade();
+        cascade.add(new ScoreTiesAdjusterReranker());
+      }
     } else {
       scoredFbDocs = ScoredDocuments.fromTopDocs(rs, searcher);
     }
@@ -602,7 +608,7 @@ public final class SearchCollection implements Closeable {
       query = builder.build();
 
       TopDocs rs = new TopDocs(new TotalHits(0, TotalHits.Relation.EQUAL_TO), new ScoreDoc[]{});
-      if (!isRerank || args.rerankcutoff > 0 || args.rfQrels != null) {
+      if (!isRerank || (args.rerankcutoff > 0 && args.rfQrels == null) || (args.rfQrels != null && queryRelDocs == null)) {
         if (args.arbitraryScoreTieBreak) {// Figure out how to break the scoring ties.
           rs = searcher.search(query, isRerank ? args.rerankcutoff : args.hits);
         } else {
@@ -614,8 +620,14 @@ public final class SearchCollection implements Closeable {
       RerankerContext context = new RerankerContext<>(searcher, qid, query, queryDocID, queryStr, queryTokens, null, args);
 
       ScoredDocuments scoredFbDocs; 
-      if ( isRerank && queryRelDocs == null && args.rfQrels != null) {
-        scoredFbDocs = queryRelDocs;
+      if ( isRerank && args.rfQrels != null) {
+        if (queryRelDocs != null){
+          scoredFbDocs = queryRelDocs;
+        } else{//if no relevant documents, only perform score based tie breaker next
+          scoredFbDocs = ScoredDocuments.fromTopDocs(rs, searcher);
+          cascade = new RerankerCascade();
+          cascade.add(new ScoreTiesAdjusterReranker());
+        }
       } else {
         scoredFbDocs = ScoredDocuments.fromTopDocs(rs, searcher);
       }
@@ -684,7 +696,7 @@ public final class SearchCollection implements Closeable {
 
 
     TopDocs rs = new TopDocs(new TotalHits(0, TotalHits.Relation.EQUAL_TO), new ScoreDoc[]{});
-    if (!isRerank || args.rerankcutoff > 0 || args.rfQrels != null) {
+    if (!isRerank || (args.rerankcutoff > 0 && args.rfQrels == null) || (args.rfQrels != null && queryRelDocs == null)) {
       if (args.arbitraryScoreTieBreak) {// Figure out how to break the scoring ties.
         rs = searcher.search(compositeQuery, isRerank ? args.rerankcutoff : args.hits);
       } else {
@@ -694,8 +706,14 @@ public final class SearchCollection implements Closeable {
 
     RerankerContext context = new RerankerContext<>(searcher, qid, keywordQuery, null, queryString, queryTokens, filter, args);
     ScoredDocuments scoredFbDocs; 
-    if ( isRerank && queryRelDocs == null && args.rfQrels != null) {
-      scoredFbDocs = queryRelDocs;
+    if ( isRerank && args.rfQrels != null) {
+      if (queryRelDocs != null) {
+        scoredFbDocs = queryRelDocs;
+      } else{//if no relevant documents, only perform score based tie breaker next
+        scoredFbDocs = ScoredDocuments.fromTopDocs(rs, searcher);
+        cascade = new RerankerCascade();
+        cascade.add(new ScoreTiesAdjusterReranker());
+      }
     } else {
       scoredFbDocs = ScoredDocuments.fromTopDocs(rs, searcher);
     }
