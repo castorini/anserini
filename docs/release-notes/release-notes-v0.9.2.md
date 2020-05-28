@@ -87,7 +87,7 @@ Sorted by number of commits, [according to GitHub](https://github.com/castorini/
 + niazarak ([niazarak](https://github.com/niazarak))
 + Kevin Xu ([kevinxyc1](https://github.com/kevinxyc1))
 + Matt Yang ([justram](https://github.com/justram))
-+ Kelvin Jiang ([infinitecold](https://github.com/infinitecold))
++ Kelvin Jiang ([kelvin-jiang](https://github.com/kelvin-jiang))
 + Guy Rosin ([guyrosin](https://github.com/guyrosin))
 + Eiston Wei ([eiston](https://github.com/eiston))
 + egzhbdt ([egzhbdt](https://github.com/egzhbdt))

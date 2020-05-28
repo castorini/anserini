@@ -58,7 +58,7 @@ Sorted by number of commits, [according to GitHub](https://github.com/castorini/
 + Petek Yıldız ([ptkyldz](https://github.com/ptkyldz))
 + Maik Fröbe ([mam10eks](https://github.com/mam10eks))
 + Matt Yang ([justram](https://github.com/justram))
-+ Kelvin Jiang ([infinitecold](https://github.com/infinitecold))
++ Kelvin Jiang ([kelvin-jiang](https://github.com/kelvin-jiang))
 + Charles Wu ([charW](https://github.com/charW))
 + Matteo Catena ([catenamatteo](https://github.com/catenamatteo))
 + Andrew Yates ([andrewyates](https://github.com/andrewyates))
