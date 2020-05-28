@@ -413,7 +413,7 @@ public final class SearchCollection implements Closeable {
               for (String newTermWeight : args.bm25prf_newTermWeight) {
                 String tag;
                 if (this.args.rfQrels != null){
-                  tag = String.format("bm25prf(fbTerms=%s,k1=%s,b=%s,newTermWeight=%s)",
+                  tag = String.format("bm25Rf(fbTerms=%s,k1=%s,b=%s,newTermWeight=%s)",
                     fbTerms, k1, b, newTermWeight);
                 } else{
                   tag = String.format("bm25prf(fbTerms=%s,fbDocs=%s,k1=%s,b=%s,newTermWeight=%s)",
@@ -566,7 +566,7 @@ public final class SearchCollection implements Closeable {
     if ( isRerank && args.rfQrels != null) {
       if (queryRelDocs != null){
         scoredFbDocs = queryRelDocs;
-      } else{//if no relevant documents, only perform score based tie breaker next
+      } else{//if no relevant documents, only perform score based tie breaking next
         scoredFbDocs = ScoredDocuments.fromTopDocs(rs, searcher);
         cascade = new RerankerCascade();
         cascade.add(new ScoreTiesAdjusterReranker());
@@ -623,7 +623,7 @@ public final class SearchCollection implements Closeable {
       if ( isRerank && args.rfQrels != null) {
         if (queryRelDocs != null){
           scoredFbDocs = queryRelDocs;
-        } else{//if no relevant documents, only perform score based tie breaker next
+        } else{//if no relevant documents, only perform score based tie breaking next
           scoredFbDocs = ScoredDocuments.fromTopDocs(rs, searcher);
           cascade = new RerankerCascade();
           cascade.add(new ScoreTiesAdjusterReranker());
@@ -709,7 +709,7 @@ public final class SearchCollection implements Closeable {
     if ( isRerank && args.rfQrels != null) {
       if (queryRelDocs != null) {
         scoredFbDocs = queryRelDocs;
-      } else{//if no relevant documents, only perform score based tie breaker next
+      } else{//if no relevant documents, only perform score based tie breaking next
         scoredFbDocs = ScoredDocuments.fromTopDocs(rs, searcher);
         cascade = new RerankerCascade();
         cascade.add(new ScoreTiesAdjusterReranker());
