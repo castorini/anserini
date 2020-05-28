@@ -57,7 +57,7 @@ if __name__ == '__main__':
 
     with open(args.output, 'w') as fout:
         start_time = time.time()
-        for line_number, line in tqdm(enumerate(open(args.qid_queries))):
+        for line_number, line in tqdm(enumerate(open(args.qid_queries, encoding='utf-8'))):
             query_id, query = line.strip().split('\t')
             # We return one more result because it is almost certain that we will
             # retrieve the document that originated the query.
