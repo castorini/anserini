@@ -9,7 +9,7 @@ We also have a [separate page](experiments-doc2query.md) describing document exp
 We're going to use `msmarco-passage/` as the working directory.
 First, we need to download and extract the MS MARCO passage dataset:
 
-```
+```bash
 mkdir collections/msmarco-passage
 mkdir indexes/msmarco-passage
 
@@ -21,8 +21,8 @@ To confirm, `collectionandqueries.tar.gz` should have MD5 checksum of `31644046b
 
 Next, we need to convert the MS MARCO tsv collection into Anserini's jsonl files (which have one json object per line):
 
-```
-python ./src/main/python/msmarco/convert_collection_to_jsonl.py \
+```bash
+python src/main/python/msmarco/convert_collection_to_jsonl.py \
  --collection_path collections/msmarco-passage/collection.tsv --output_folder collections/msmarco-passage/collection_jsonl
 ```
 
@@ -30,8 +30,8 @@ The above script should generate 9 jsonl files in `collections/msmarco-passage/c
 
 We can now index these docs as a `JsonCollection` using Anserini:
 
-```
-sh ./target/appassembler/bin/IndexCollection -collection JsonCollection \
+```bash
+sh target/appassembler/bin/IndexCollection -collection JsonCollection \
  -generator DefaultLuceneDocumentGenerator -threads 9 -input collections/msmarco-passage/collection_jsonl \
  -index indexes/msmarco-passage/lucene-index-msmarco -storePositions -storeDocvectors -storeRaw 
 ```
@@ -43,17 +43,17 @@ The indexing speed may vary... on a modern desktop with an SSD, indexing takes l
 
 Since queries of the set are too many (+100k), it would take a long time to retrieve all of them. To speed this up, we use only the queries that are in the qrels file: 
 
-```
-python ./src/main/python/msmarco/filter_queries.py --qrels collections/msmarco-passage/qrels.dev.small.tsv \
- --queries msmarco-passage/queries.dev.tsv --output_queries collections/msmarco-passage/queries.dev.small.tsv
+```bash
+python src/main/python/msmarco/filter_queries.py --qrels collections/msmarco-passage/qrels.dev.small.tsv \
+ --queries collections/msmarco-passage/queries.dev.tsv --output_queries collections/msmarco-passage/queries.dev.small.tsv
 ```
 
 The output queries file should contain 6980 lines.
 
 We can now retrieve this smaller set of queries:
 
-```
-python ./src/main/python/msmarco/retrieve.py --hits 1000 --threads 1 \
+```bash
+python src/main/python/msmarco/retrieve.py --hits 1000 --threads 1 \
  --index indexes/msmarco-passage/lucene-index-msmarco --qid_queries collections/msmarco-passage/queries.dev.small.tsv \
  --output runs/run.msmarco-passage.dev.small.tsv
 ```
@@ -67,8 +67,8 @@ On a modern desktop with an SSD, we can get ~0.06 s/query (taking about seven mi
 
 Alternatively, we can run the same script implemented in Java, which is a bit faster:
 
-```
-./target/appassembler/bin/SearchMsmarco  -hits 1000 -threads 1 \
+```bash
+sh target/appassembler/bin/SearchMsmarco  -hits 1000 -threads 1 \
  -index indexes/msmarco-passage/lucene-index-msmarco -qid_queries collections/msmarco-passage/queries.dev.small.tsv \
  -output runs/run.msmarco-passage.dev.small.tsv
 ```
@@ -77,8 +77,8 @@ Similarly, we can perform multithreaded retrieval by changing the `-threads` arg
 
 Finally, we can evaluate the retrieved documents using this the official MS MARCO evaluation script: 
 
-```
-python ./src/main/python/msmarco/msmarco_eval.py \
+```bash
+python src/main/python/msmarco/msmarco_eval.py \
  collections/msmarco-passage/qrels.dev.small.tsv runs/run.msmarco-passage.dev.small.tsv
 ```
 
@@ -94,18 +94,18 @@ QueriesRanked: 6980
 We can also use the official TREC evaluation tool, `trec_eval`, to compute other metrics than MRR@10. 
 For that we first need to convert runs and qrels files to the TREC format:
 
-```
-python ./src/main/python/msmarco/convert_msmarco_to_trec_run.py \
+```bash
+python src/main/python/msmarco/convert_msmarco_to_trec_run.py \
  --input_run runs/run.msmarco-passage.dev.small.tsv --output_run runs/run.msmarco-passage.dev.small.trec
 
-python ./src/main/python/msmarco/convert_msmarco_to_trec_qrels.py \
+python src/main/python/msmarco/convert_msmarco_to_trec_qrels.py \
  --input_qrels collections/msmarco-passage/qrels.dev.small.tsv --output_qrels collections/msmarco-passage/qrels.dev.small.trec
 ```
 
 And run the `trec_eval` tool:
 
-```
-./eval/trec_eval.9.0.4/trec_eval -c -mrecall.1000 -mmap \
+```bash
+eval/trec_eval.9.0.4/trec_eval -c -mrecall.1000 -mmap \
  collections/msmarco-passage/qrels.dev.small.trec runs/run.msmarco-passage.dev.small.trec
 ```
 
@@ -144,8 +144,6 @@ Setting                     | MRR@10 | MAP    | Recall@1000 |
 :---------------------------|-------:|-------:|------------:|
 Default (`k1=0.9`, `b=0.4`) | 0.1839 | 0.1925 | 0.8526
 Tuned (`k1=0.82`, `b=0.72`) | 0.1875 | 0.1956 | 0.8578
-
-
 
 ## Replication Log
 
