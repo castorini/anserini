@@ -56,7 +56,9 @@ public enum Topics {
   COVID_ROUND1(CovidTopicReader.class, "topics-and-qrels/topics.covid-round1.xml"),
   COVID_ROUND1_UDEL(CovidTopicReader.class, "topics-and-qrels/topics.covid-round1-udel.xml"),
   COVID_ROUND2(CovidTopicReader.class, "topics-and-qrels/topics.covid-round2.xml"),
-  COVID_ROUND2_UDEL(CovidTopicReader.class, "topics-and-qrels/topics.covid-round2-udel.xml");
+  COVID_ROUND2_UDEL(CovidTopicReader.class, "topics-and-qrels/topics.covid-round2-udel.xml"),
+  COVID_ROUND3(CovidTopicReader.class, "topics-and-qrels/topics.covid-round3.xml"),
+  COVID_ROUND3_UDEL(CovidTopicReader.class, "topics-and-qrels/topics.covid-round3-udel.xml");
 
   public final String path;
   public final Class readerClass;
