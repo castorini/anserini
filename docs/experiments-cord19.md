@@ -142,64 +142,6 @@ In this configuration, the indexer creates multiple Lucene Documents for each so
 The suffix of the `docid`, `.XXXXX` identifies which paragraph is being indexed.
 The original raw JSON full text is stored in the `raw` field of `docid` (without the suffix).
 
-
-## Indexing into Solr
-
-From the Solr [archives](https://archive.apache.org/dist/lucene/solr/), download the Solr (non `-src`) version that matches Anserini's [Lucene version](https://github.com/castorini/anserini/blob/master/pom.xml#L36) to the `anserini/` directory.
-
-Extract the archive:
-
-```bash
-mkdir solrini && tar -zxvf solr*.tgz -C solrini --strip-components=1
-```
-
-Start Solr (adjust memory usage with `-m` as appropriate):
-
-```
-solrini/bin/solr start -c -m 8G
-```
-
-Run the Solr bootstrap script to copy the Anserini JAR into Solr's classpath and upload the configsets to Solr's internal ZooKeeper:
-
-```
-pushd src/main/resources/solr && ./solr.sh ../../../../solrini localhost:9983 && popd
-```
-
-Solr should now be available at [http://localhost:8983/](http://localhost:8983/) for browsing.
-
-Next, create the collection:
-
-```
-solrini/bin/solr create -n anserini -c cord19
-```
-
-Adjust the schema (if there are errors, follow the instructions below and come back):
-
-```
-curl -X POST -H 'Content-type:application/json' --data-binary @src/main/resources/solr/schemas/covid.json http://localhost:8983/solr/cord19/schema
-```
-
-*Note:* if there are errors from field conflicts, you'll need to reset the configset and recreate the collection (select [All] for the fields to replace):
-```
-solrini/bin/solr delete -c cord19
-pushd src/main/resources/solr && ./solr.sh ../../../../solrini localhost:9983 && popd
-solrini/bin/solr create -n anserini -c cord19
-```
-
-We can now index into Solr:
-
-```
-DATE=2020-05-26
-DATA_DIR=./cord19-"${DATE}"
-
-sh target/appassembler/bin/IndexCollection -collection Cord19AbstractCollection -generator Cord19Generator \
-   -threads 8 -input "${DATA_DIR}" \
-   -solr -solr.index cord19 -solr.zkUrl localhost:9983 \
-   -storePositions -storeDocvectors -storeContents -storeRaw
-```
-
-Once indexing is complete, you can query in Solr at [`http://localhost:8983/solr/#/cord19/query`](http://localhost:8983/solr/#/cord19/query).
-
 ## Pre-Built Indexes (All Versions)
 
 All versions of pre-built indexes:
