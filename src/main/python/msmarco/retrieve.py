@@ -24,9 +24,9 @@ if __name__ == '__main__':
     parser.add_argument('--qid_queries', required=True, default='', help='query id - query mapping file')
     parser.add_argument('--output', required=True, default='', help='output filee')
     parser.add_argument('--index', required=True, default='', help='index path')
-    parser.add_argument('--hits', default=10, help='number of hits to retrieve')
-    parser.add_argument('--k1', default=0.82, help='BM25 k1 parameter')
-    parser.add_argument('--b', default=0.68, help='BM25 b parameter')
+    parser.add_argument('--hits', default=10, type=int, help='number of hits to retrieve')
+    parser.add_argument('--k1', default=0.82, type=float, help='BM25 k1 parameter')
+    parser.add_argument('--b', default=0.68, type=float, help='BM25 b parameter')
     # See our MS MARCO documentation to understand how these parameter values were tuned.
     parser.add_argument('--rm3', action='store_true', default=False, help='use RM3')
     parser.add_argument('--fbTerms', default=10, type=int, help='RM3 parameter: number of expansion terms')
@@ -39,7 +39,7 @@ if __name__ == '__main__':
     total_start_time = time.time()
 
     searcher = pysearch.SimpleSearcher(args.index)
-    searcher.set_bm25(float(args.k1), float(args.b))
+    searcher.set_bm25(args.k1, args.b)
     print('Initializing BM25, setting k1={} and b={}'.format(args.k1, args.b), flush=True)
     if args.rm3:
         searcher.set_rm3(args.fbTerms, args.fbDocs, args.originalQueryWeight)
@@ -51,7 +51,7 @@ if __name__ == '__main__':
             start_time = time.time()
             for line_number, line in enumerate(open(args.qid_queries, 'r', encoding='utf8')):
                 qid, query = line.strip().split('\t')
-                hits = searcher.search(query, int(args.hits))
+                hits = searcher.search(query, args.hits)
                 if line_number % 100 == 0:
                     time_per_query = (time.time() - start_time) / (line_number + 1)
                     print('Retrieving query {} ({:0.3f} s/query)'.format(line_number, time_per_query), flush=True)
@@ -68,7 +68,7 @@ if __name__ == '__main__':
             qids.append(qid)
             queries.append(query)
 
-        results = searcher.batch_search(queries, qids, args.hits, -1, args.threads)
+        results = searcher.batch_search(queries, qids, args.hits, args.threads)
 
         with open(args.output, 'w') as fout:
             for qid in qids:
