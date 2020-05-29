@@ -67,7 +67,7 @@ sh target/appassembler/bin/IndexCollection -collection Cord19AbstractCollection 
 
 Once indexing is complete, you can query in Solr at [`http://localhost:8983/solr/#/cord19/query`](http://localhost:8983/solr/#/cord19/query).
 
-Once we've completed the indexing, we can stand up an instance of [Blacklight](https://projectblacklight.org/) to provide a nice search interface; this is exactly the same instance that runs our basic (non-neural) [Covidex](https://basic.covidex.ai/).
+Next, we can stand up an instance of [Blacklight](https://projectblacklight.org/) to provide a nice search interface; this is exactly the same instance that runs our basic (non-neural) [Covidex](https://basic.covidex.ai/).
 
 To begin, ensure that you have Ruby 2.6.5+ and Ruby on Rails 6.0+ installed.
 
