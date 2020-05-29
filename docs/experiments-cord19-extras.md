@@ -126,4 +126,14 @@ sh target/appassembler/bin/IndexCollection -collection Cord19ParagraphCollection
 ```
 We are now able to get visualizations from Kibana at [`http://localhost:5601`](http://localhost:5601)
 
+### Navigating Kibana
+
+First, from Kibana home tab, connect to the ElasticSearch index that we have created above (or Settings tab -> Kibana -> Index Patterns -> Create Index Patterns).
+
+Provide the index pattern `cord19*`, and use `publish_time` as the Time Filter field name. You can optionally give this index pattern a custom ID.
+
+Then you can navigate to the Discover tab to run text-based search, or navigate to the Visualize tab to create diagrams and charts. 
+
 ## Replication Log
+
++ Results replicated by [@adamyy](https://github.com/adamyy) on 2020-05-29 (commit [`2947a16`](https://github.com/castorini/anserini/commit/2947a1622efae35637b83e321aba8e6fccd43489)) for [CORD-19](experiments-cord19.md) with Kibana and Blacklight
