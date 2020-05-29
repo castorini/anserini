@@ -43,13 +43,8 @@ The indexing speed may vary... on a modern desktop with an SSD, indexing takes l
 
 Since queries of the set are too many (+100k), it would take a long time to retrieve all of them. To speed this up, we use only the queries that are in the qrels file: 
 
-<<<<<<< HEAD
 ```bash
 python src/main/python/msmarco/filter_queries.py --qrels collections/msmarco-passage/qrels.dev.small.tsv \
-=======
-```
-python ./src/main/python/msmarco/filter_queries.py --qrels collections/msmarco-passage/qrels.dev.small.tsv \
->>>>>>> Replication for BM25 Baselines on MS MARCO Passage Retrieval and MS MARCO Doc Retrieval Task
  --queries collections/msmarco-passage/queries.dev.tsv --output_queries collections/msmarco-passage/queries.dev.small.tsv
 ```
 
