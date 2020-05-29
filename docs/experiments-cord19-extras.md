@@ -136,4 +136,4 @@ Then you can navigate to the Discover tab to run text-based search, or navigate 
 
 ## Replication Log
 
-+ Confirmed by [@adamyy](https://github.com/adamyy) on 2020-05-29 (commit [`2947a16`](https://github.com/castorini/anserini/commit/2947a1622efae35637b83e321aba8e6fccd43489)) that these instructions work for [CORD-19](experiments-cord19.md) release of 2020/05/27
++ Confirmed by [@adamyy](https://github.com/adamyy) on 2020-05-29 (commit [`2947a16`](https://github.com/castorini/anserini/commit/2947a1622efae35637b83e321aba8e6fccd43489)) that these instructions work for CORD-19 release of 2020/05/26
