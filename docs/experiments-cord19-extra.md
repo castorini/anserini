@@ -92,3 +92,74 @@ rails s
 ```
 
 The rails should now be avaliable on http://localhost:3000
+
+## Ingesting CORD-19 into ElasticSearch and Kibana
+
+## Getting the data
+The latest distribution of cord19 available is from 2020/05/26.
+First, download the data:
+
+```bash
+DATE=2020-05-26
+DATA_DIR=./collections/cord19-"${DATE}"
+mkdir "${DATA_DIR}"
+
+wget https://ai2-semanticscholar-cord-19.s3-us-west-2.amazonaws.com/latest/document_parses.tar.gz -P "${DATA_DIR}"
+wget https://ai2-semanticscholar-cord-19.s3-us-west-2.amazonaws.com/latest/metadata.csv -P "${DATA_DIR}"
+
+ls "${DATA_DIR}"/document_parses.tar.gz | xargs -I {} tar -zxvf {} -C "${DATA_DIR}"
+rm "${DATA_DIR}"/document_parses.tar.gz
+```
+
+## Indexing into ElasticSearch
+
+From the [Elasticsearch](http://elastic.co/start), download the correct distribution for you platform to the `anserini/` directory. 
+
+Deploying ElasticSearch:
+
+Unpacking:
+
+```
+mkdir elastirini && tar -zxvf elasticsearch*.tar.gz -C elastirini --strip-components=1
+```
+
+Start running:
+
+```
+elastirini/bin/elasticsearch
+```
+
+Deploying Kibana: 
+
+Unpacking:
+
+```
+tar -zxvf kibana*.tar.gz -C elastirini --strip-components=1
+```
+
+Start running:
+
+```
+elastirini/bin/kibana
+```
+
+First, set up the proper schema using [this config](../src/main/resources/elasticsearch/index-config.cord19.json):
+
+```bash
+cat src/main/resources/elasticsearch/index-config.cord19.json \
+ | curl --user elastic:changeme -XPUT -H 'Content-Type: application/json' 'localhost:9200/cord19' -d @-
+```
+
+Indexing (Abstract, Full-Text, Paragraph):
+
+```bash
+sh target/appassembler/bin/IndexCollection -collection Cord19AbstractCollection -generator Cord19Generator \
+ -es -es.index cord19 -threads 8 -input path/to/cord19 -storePositions -storeDocvectors -storeContents -storeRaw
+
+sh target/appassembler/bin/IndexCollection -collection Cord19FullTextCollection -generator Cord19Generator \
+ -es -es.index cord19 -threads 8 -input path/to/cord19 -storePositions -storeDocvectors -storeContents -storeRaw
+
+sh target/appassembler/bin/IndexCollection -collection Cord19ParagraphCollection -generator Cord19Generator \
+ -es -es.index cord19 -threads 8 -input path/to/cord19 -storePositions -storeDocvectors -storeContents -storeRaw
+```
+We are now able to get visualizations from Kibana at: http://localhost:5601
