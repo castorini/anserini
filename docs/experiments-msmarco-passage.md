@@ -43,8 +43,13 @@ The indexing speed may vary... on a modern desktop with an SSD, indexing takes l
 
 Since queries of the set are too many (+100k), it would take a long time to retrieve all of them. To speed this up, we use only the queries that are in the qrels file: 
 
+<<<<<<< HEAD
 ```bash
 python src/main/python/msmarco/filter_queries.py --qrels collections/msmarco-passage/qrels.dev.small.tsv \
+=======
+```
+python ./src/main/python/msmarco/filter_queries.py --qrels collections/msmarco-passage/qrels.dev.small.tsv \
+>>>>>>> Replication for BM25 Baselines on MS MARCO Passage Retrieval and MS MARCO Doc Retrieval Task
  --queries collections/msmarco-passage/queries.dev.tsv --output_queries collections/msmarco-passage/queries.dev.small.tsv
 ```
 
@@ -169,3 +174,4 @@ Tuned (`k1=0.82`, `b=0.72`) | 0.1875 | 0.1956 | 0.8578
 + Results replicated by [@shaneding](https://github.com/shaneding) on 2020-05-23 (commit [`b6e0367`](https://github.com/castorini/anserini/commit/b6e0367ef4e2b4fce9d81c8397ef1188e35971e7))
 + Results replicated by [@adamyy](https://github.com/adamyy) on 2020-05-28 (commit [`94893f1`](https://github.com/castorini/anserini/commit/94893f170e047d77c3ef5b8b995d7fbdd13f4298))
 + Results replicated by [@kelvin-jiang](https://github.com/kelvin-jiang) on 2020-05-28 (commit [`d55531a`](https://github.com/castorini/anserini/commit/d55531a738d2cf9e14c376d798d2de4bd3020b6b))
++ Results replicated by [@TianchengY](https://github.com/TianchengY) on 2020-05-28 (commit [`2947a16`](https://github.com/castorini/anserini/commit/2947a1622efae35637b83e321aba8e6fccd43489))
