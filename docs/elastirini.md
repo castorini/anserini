@@ -162,43 +162,6 @@ map                   	all	0.2308
 recall_1000           	all	0.8856
 ```
 
-## Kibana Visualizations: CORD-19
-
-Deploying Kibana: From the [Elasticsearch](http://elastic.co/start), download the correct distribution for you platform to the `anserini/` directory. 
-
-Unpacking:
-
-```
-tar -zxvf kibana*.tar.gz -C elastirini --strip-components=1
-```
-
-Start running:
-
-```
-elastirini/bin/kibana
-```
-
-First, set up the proper schema using [this config](../src/main/resources/elasticsearch/index-config.cord19.json):
-
-```bash
-cat src/main/resources/elasticsearch/index-config.cord19.json \
- | curl --user elastic:changeme -XPUT -H 'Content-Type: application/json' 'localhost:9200/cord19' -d @-
-```
-
-Indexing (Abstract, Full-Text, Paragraph):
-
-```bash
-sh target/appassembler/bin/IndexCollection -collection Cord19AbstractCollection -generator Cord19Generator \
- -es -es.index cord19 -threads 8 -input path/to/cord19 -storePositions -storeDocvectors -storeContents -storeRaw
-
-sh target/appassembler/bin/IndexCollection -collection Cord19FullTextCollection -generator Cord19Generator \
- -es -es.index cord19 -threads 8 -input path/to/cord19 -storePositions -storeDocvectors -storeContents -storeRaw
-
-sh target/appassembler/bin/IndexCollection -collection Cord19ParagraphCollection -generator Cord19Generator \
- -es -es.index cord19 -threads 8 -input path/to/cord19 -storePositions -storeDocvectors -storeContents -storeRaw
-```
-We are now able to get visualizations from Kibana at: http://localhost:5601
-
 ## Elasticsearch Integration Test
 
 We have an end-to-end integration testing script `run_es_regression.py` for [Core18](regressions-core18.md), [Robust04](regressions-robust04.md), [MS MARCO passage](regressions-msmarco-passage.md) and [MS MARCO document](regressions-msmarco-doc.md). Its functionalities are described below.
