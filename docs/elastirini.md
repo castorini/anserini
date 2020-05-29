@@ -154,6 +154,8 @@ sh target/appassembler/bin/SearchElastic -topicreader TsvInt -es.index msmarco-d
  -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt -output runs/run.es.msmacro-doc.txt
 ```
 
+This can take potentially longer than `SearchCollection` with Lucene indexes.
+
 Evaluation:
 
 ```bash
