@@ -1,23 +1,12 @@
-## Ingesting CORD-19 into Solr and Blacklight
-To begin, ensure that you have:
+# Ingesting CORD-19 into Solr and Blacklight
 
-- Ruby 2.6.5, and Ruby on Rails 6.0+ installed.
+This document describes how to ingest the [COVID-19 Open Research Dataset (CORD-19)](https://pages.semanticscholar.org/coronavirus-research) from the [Allen Institute for AI](https://allenai.org/) into Solr and Elasticsearch.
+If you want to build or download Lucene indexes for CORD-19, see [this guide](experiments-cord19.md).
 
-## Getting the data
-The latest distribution of cord19 available is from 2020/05/26.
-First, download the data:
+## Getting the Data
 
-```bash
-DATE=2020-05-26
-DATA_DIR=./collections/cord19-"${DATE}"
-mkdir "${DATA_DIR}"
-
-wget https://ai2-semanticscholar-cord-19.s3-us-west-2.amazonaws.com/latest/document_parses.tar.gz -P "${DATA_DIR}"
-wget https://ai2-semanticscholar-cord-19.s3-us-west-2.amazonaws.com/latest/metadata.csv -P "${DATA_DIR}"
-
-ls "${DATA_DIR}"/document_parses.tar.gz | xargs -I {} tar -zxvf {} -C "${DATA_DIR}"
-rm "${DATA_DIR}"/document_parses.tar.gz
-```
+Follow the instructions [here](experiments-cord19.md) to get access to the data.
+This version of the guide has been verified to work with the version of 2020/05/26.
 
 ## Indexing into Solr
 
@@ -77,6 +66,11 @@ sh target/appassembler/bin/IndexCollection -collection Cord19AbstractCollection 
 Once indexing is complete, you can query in Solr at [`http://localhost:8983/solr/#/cord19/query`](http://localhost:8983/solr/#/cord19/query).
 
 ## Starting the Rails app:
+
+To begin, ensure that you have:
+
+- Ruby 2.6.5, and Ruby on Rails 6.0+ installed.
+
 Once the approriate ruby and ruby on rails version is installed, navigate to a directory outside of anserini and clone the gooselight repo (frontend for Cord19 Solr indexes):
 
 ```
@@ -163,3 +157,5 @@ sh target/appassembler/bin/IndexCollection -collection Cord19ParagraphCollection
  -es -es.index cord19 -threads 8 -input path/to/cord19 -storePositions -storeDocvectors -storeContents -storeRaw
 ```
 We are now able to get visualizations from Kibana at: http://localhost:5601
+
+## Replication Log
