@@ -68,8 +68,7 @@ if __name__ == "__main__":
                         help='Space-separate list of cutoffs. '
                              'E.g.: --cutoffs 5 10 20')
     parser.add_argument('-q', action='store_true', dest='print_topic',
-                        help='In addition to summary evaluation,'
-                             'give evaluation for each query/topic')
+                        help='In addition to summary evaluation, give evaluation for each query/topic')
 
     args = parser.parse_args()
 
