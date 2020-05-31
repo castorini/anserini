@@ -67,6 +67,9 @@ if __name__ == "__main__":
                         default=[5, 10, 20, 30],
                         help='Space-separate list of cutoffs. '
                              'E.g.: --cutoffs 5 10 20')
+    parser.add_argument('-q', action='store_true', dest='print_topic',
+                        help='In addition to summary evaluation,'
+                             'give evaluation for each query/topic')
 
     args = parser.parse_args()
 
@@ -79,9 +82,12 @@ if __name__ == "__main__":
         for query_id, doc_ids in run.items():
             doc_ids = doc_ids[:max_rank]
             n_judged = len(set(doc_ids).intersection(qrels[query_id]))
-            percentage_judged += n_judged / len(doc_ids)
+            percentage_judged_per_topic = n_judged / len(doc_ids)
+            if args.print_topic:
+                print(f'judged_cut_{max_rank}\t{query_id}\t{percentage_judged_per_topic:.4f}')
+            percentage_judged += percentage_judged_per_topic
 
         percentage_judged /= max(1, len(run))
-        print(f'judged@{max_rank}: {percentage_judged}')
+        print(f'judged_cut_{max_rank}\tall\t{percentage_judged:.4f}')
 
     print('\nDone')
