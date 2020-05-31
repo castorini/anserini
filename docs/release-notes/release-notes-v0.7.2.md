@@ -67,7 +67,7 @@ Sorted by number of commits, [according to GitHub](https://github.com/castorini/
 + Maik Fröbe ([mam10eks](https://github.com/mam10eks))
 + Kevin Xu ([kevinxyc1](https://github.com/kevinxyc1))
 + Matt Yang ([justram](https://github.com/justram))
-+ Kelvin Jiang ([infinitecold](https://github.com/infinitecold))
++ Kelvin Jiang ([kelvin-jiang](https://github.com/kelvin-jiang))
 + Guy Rosin ([guyrosin](https://github.com/guyrosin))
 + Charles Wu ([charW](https://github.com/charW))
 + Matteo Catena ([catenamatteo](https://github.com/catenamatteo))

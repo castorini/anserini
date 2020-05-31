@@ -91,6 +91,7 @@ The experiments described below are not associated with rigorous end-to-end regr
 For the most part, manual copying and pasting of commands into a shell is required to replicate our results:
 
 + [Working with AI2's COVID-19 Open Research Dataset](docs/experiments-cord19.md)
++ [Ingesting AI2's COVID-19 Open Research Dataset into Solr and Elasticsearch](docs/experiments-cord19-extras.md)
 + [Baselines for the TREC-COVID Challenge](docs/experiments-covid.md)
 + [Working with the 20 Newsgroups Dataset](docs/experiments-20newsgroups.md)
 + [Replicating "Neural Hype" Experiments](docs/experiments-forum2018.md)

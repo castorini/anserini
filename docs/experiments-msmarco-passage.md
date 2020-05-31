@@ -9,7 +9,7 @@ We also have a [separate page](experiments-doc2query.md) describing document exp
 We're going to use `msmarco-passage/` as the working directory.
 First, we need to download and extract the MS MARCO passage dataset:
 
-```
+```bash
 mkdir collections/msmarco-passage
 mkdir indexes/msmarco-passage
 
@@ -21,8 +21,8 @@ To confirm, `collectionandqueries.tar.gz` should have MD5 checksum of `31644046b
 
 Next, we need to convert the MS MARCO tsv collection into Anserini's jsonl files (which have one json object per line):
 
-```
-python ./src/main/python/msmarco/convert_collection_to_jsonl.py \
+```bash
+python src/main/python/msmarco/convert_collection_to_jsonl.py \
  --collection_path collections/msmarco-passage/collection.tsv --output_folder collections/msmarco-passage/collection_jsonl
 ```
 
@@ -30,8 +30,8 @@ The above script should generate 9 jsonl files in `collections/msmarco-passage/c
 
 We can now index these docs as a `JsonCollection` using Anserini:
 
-```
-sh ./target/appassembler/bin/IndexCollection -collection JsonCollection \
+```bash
+sh target/appassembler/bin/IndexCollection -collection JsonCollection \
  -generator DefaultLuceneDocumentGenerator -threads 9 -input collections/msmarco-passage/collection_jsonl \
  -index indexes/msmarco-passage/lucene-index-msmarco -storePositions -storeDocvectors -storeRaw 
 ```
@@ -43,17 +43,17 @@ The indexing speed may vary... on a modern desktop with an SSD, indexing takes l
 
 Since queries of the set are too many (+100k), it would take a long time to retrieve all of them. To speed this up, we use only the queries that are in the qrels file: 
 
-```
-python ./src/main/python/msmarco/filter_queries.py --qrels collections/msmarco-passage/qrels.dev.small.tsv \
- --queries msmarco-passage/queries.dev.tsv --output_queries collections/msmarco-passage/queries.dev.small.tsv
+```bash
+python src/main/python/msmarco/filter_queries.py --qrels collections/msmarco-passage/qrels.dev.small.tsv \
+ --queries collections/msmarco-passage/queries.dev.tsv --output_queries collections/msmarco-passage/queries.dev.small.tsv
 ```
 
 The output queries file should contain 6980 lines.
 
 We can now retrieve this smaller set of queries:
 
-```
-python ./src/main/python/msmarco/retrieve.py --hits 1000 --threads 1 \
+```bash
+python src/main/python/msmarco/retrieve.py --hits 1000 --threads 1 \
  --index indexes/msmarco-passage/lucene-index-msmarco --qid_queries collections/msmarco-passage/queries.dev.small.tsv \
  --output runs/run.msmarco-passage.dev.small.tsv
 ```
@@ -67,8 +67,8 @@ On a modern desktop with an SSD, we can get ~0.06 s/query (taking about seven mi
 
 Alternatively, we can run the same script implemented in Java, which is a bit faster:
 
-```
-./target/appassembler/bin/SearchMsmarco  -hits 1000 -threads 1 \
+```bash
+sh target/appassembler/bin/SearchMsmarco  -hits 1000 -threads 1 \
  -index indexes/msmarco-passage/lucene-index-msmarco -qid_queries collections/msmarco-passage/queries.dev.small.tsv \
  -output runs/run.msmarco-passage.dev.small.tsv
 ```
@@ -77,8 +77,8 @@ Similarly, we can perform multithreaded retrieval by changing the `-threads` arg
 
 Finally, we can evaluate the retrieved documents using this the official MS MARCO evaluation script: 
 
-```
-python ./src/main/python/msmarco/msmarco_eval.py \
+```bash
+python src/main/python/msmarco/msmarco_eval.py \
  collections/msmarco-passage/qrels.dev.small.tsv runs/run.msmarco-passage.dev.small.tsv
 ```
 
@@ -94,18 +94,18 @@ QueriesRanked: 6980
 We can also use the official TREC evaluation tool, `trec_eval`, to compute other metrics than MRR@10. 
 For that we first need to convert runs and qrels files to the TREC format:
 
-```
-python ./src/main/python/msmarco/convert_msmarco_to_trec_run.py \
+```bash
+python src/main/python/msmarco/convert_msmarco_to_trec_run.py \
  --input_run runs/run.msmarco-passage.dev.small.tsv --output_run runs/run.msmarco-passage.dev.small.trec
 
-python ./src/main/python/msmarco/convert_msmarco_to_trec_qrels.py \
+python src/main/python/msmarco/convert_msmarco_to_trec_qrels.py \
  --input_qrels collections/msmarco-passage/qrels.dev.small.tsv --output_qrels collections/msmarco-passage/qrels.dev.small.trec
 ```
 
 And run the `trec_eval` tool:
 
-```
-./eval/trec_eval.9.0.4/trec_eval -c -mrecall.1000 -mmap \
+```bash
+eval/trec_eval.9.0.4/trec_eval -c -mrecall.1000 -mmap \
  collections/msmarco-passage/qrels.dev.small.trec runs/run.msmarco-passage.dev.small.trec
 ```
 
@@ -145,8 +145,6 @@ Setting                     | MRR@10 | MAP    | Recall@1000 |
 Default (`k1=0.9`, `b=0.4`) | 0.1839 | 0.1925 | 0.8526
 Tuned (`k1=0.82`, `b=0.72`) | 0.1875 | 0.1956 | 0.8578
 
-
-
 ## Replication Log
 
 + Results replicated by [@ronakice](https://github.com/ronakice) on 2019-08-12 (commit [`5b29d16`](https://github.com/castorini/anserini/commit/5b29d1654abc5e8a014c2230da990ab2f91fb340))
@@ -159,7 +157,7 @@ Tuned (`k1=0.82`, `b=0.72`) | 0.1875 | 0.1956 | 0.8578
 + Results replicated by [@yuki617](https://github.com/yuki617) on 2020-03-29 (commit [`074723c`](https://github.com/castorini/anserini/commit/074723cbb10660fb9be2bfe6325739ab5fe0dd8d))
 + Results replicated by [@weipang142857](https://github.com/weipang142857) on 2020-04-20 (commit [`074723c`](https://github.com/castorini/anserini/commit/074723cbb10660fb9be2bfe6325739ab5fe0dd8d))
 + Results replicated by [@HangCui0510](https://github.com/HangCui0510) on 2020-04-23 (commit [`0ae567d`](https://github.com/castorini/anserini/commit/0ae567df5c8a70ac211efd958c9ca1ff609ff782))
-+ Results replicated by [@x65han](https://github.com/x65han) on 2020-04-25 (commit [`f5496b9`](https://github.com/x65han/anserini/commit/f5496b905246084070f959e59626c6323210c3f2))
++ Results replicated by [@x65han](https://github.com/x65han) on 2020-04-25 (commit [`f5496b9`](https://github.com/castorini/anserini/commit/f5496b905246084070f959e59626c6323210c3f2))
 + Results replicated by [@y276lin](https://github.com/y276lin) on 2020-04-26 (commit [`8f48f8e`](https://github.com/castorini/anserini/commit/8f48f8e40a37e5f6b5910a3a3b5c050a0f9be914))
 + Results replicated by [@stephaniewhoo](http://github.com/stephaniewhoo) on 2020-04-26 (commit [`8f48f8e`](https://github.com/castorini/anserini/commit/8f48f8e40a37e5f6b5910a3a3b5c050a0f9be914))
 + Results replicated by [@eiston](http://github.com/eiston) on 2020-05-04 (commit [`dd84a5a`](https://github.com/castorini/anserini/commit/dd84a5a514700365d9aa4a1ea988107372515f33))
@@ -169,3 +167,7 @@ Tuned (`k1=0.82`, `b=0.72`) | 0.1875 | 0.1956 | 0.8578
 + Results replicated by [@richard3983](https://github.com/richard3983) on 2020-05-14 (commit [`a65646f`](https://github.com/castorini/anserini/commit/a65646fe203bf5c9c32189a56082d6f4d3bc340d))
 + Results replicated by [@MXueguang](https://github.com/MXueguang) on 2020-05-20 (commit [`3b2751e`](https://github.com/castorini/anserini/commit/3b2751e2d02a9d530e1c3d30b91083faeece8982))
 + Results replicated by [@shaneding](https://github.com/shaneding) on 2020-05-23 (commit [`b6e0367`](https://github.com/castorini/anserini/commit/b6e0367ef4e2b4fce9d81c8397ef1188e35971e7))
++ Results replicated by [@adamyy](https://github.com/adamyy) on 2020-05-28 (commit [`94893f1`](https://github.com/castorini/anserini/commit/94893f170e047d77c3ef5b8b995d7fbdd13f4298))
++ Results replicated by [@kelvin-jiang](https://github.com/kelvin-jiang) on 2020-05-28 (commit [`d55531a`](https://github.com/castorini/anserini/commit/d55531a738d2cf9e14c376d798d2de4bd3020b6b))
++ Results replicated by [@TianchengY](https://github.com/TianchengY) on 2020-05-28 (commit [`2947a16`](https://github.com/castorini/anserini/commit/2947a1622efae35637b83e321aba8e6fccd43489))
+
