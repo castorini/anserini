@@ -309,9 +309,13 @@ public class AxiomReranker<T> implements Reranker<T> {
     Set<Integer> docidSet;
     long targetSize;
     if (useRf) {
-       docidSet = new HashSet<>(Arrays.asList(ArrayUtils.toObject(
-        Arrays.copyOfRange(docs.ids, 0, docs.ids.length))));
-       targetSize = docidSet.size() * this.N;
+      docidSet = new HashSet<>();
+      for (int i = 0; i < docs.ids.length; i++){
+        if (docs.scores[i] > 0){
+          docidSet.add(docs.ids[i]);
+        }
+      }
+      targetSize = docidSet.size() * this.N;
     } else{
       docidSet = new HashSet<>(Arrays.asList(ArrayUtils.toObject(
         Arrays.copyOfRange(docs.ids, 0, Math.min(this.R, docs.ids.length)))));

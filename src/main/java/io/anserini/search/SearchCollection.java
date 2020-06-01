@@ -130,7 +130,8 @@ public final class SearchCollection implements Closeable {
   private List<TaggedSimilarity> similarities;
   private List<RerankerCascade> cascades;
   private final boolean isRerank;
-  private Map<String, ScoredDocuments> relScoredDocs;
+  private Map<String, ScoredDocuments> qrels;
+  private Set<String> queriesWithRel; 
 
   private final class SearcherThread<K> extends Thread {
     final private IndexReader reader;
@@ -142,7 +143,7 @@ public final class SearchCollection implements Closeable {
     final private String runTag;
 
     private SearcherThread(IndexReader reader, SortedMap<K, Map<String, String>> topics, TaggedSimilarity taggedSimilarity,
-                           RerankerCascade cascade, Map<String, ScoredDocuments> relScoredDocs, String outputPath, 
+                           RerankerCascade cascade, Map<String, ScoredDocuments> qrels, String outputPath, 
                            String runTag) {
       this.reader = reader;
       this.topics = topics;
@@ -176,17 +177,22 @@ public final class SearchCollection implements Closeable {
             queryString = entry.getValue().get(args.topicfield);
           }
 
-          ScoredDocuments queryRelDocs = null;
-          if (relScoredDocs != null){
-            queryRelDocs = relScoredDocs.get(qid.toString());
+          ScoredDocuments queryQrels = null;
+          boolean hasRelDocs = false;
+          String qidString = qid.toString();
+          if (qrels != null){
+            queryQrels = qrels.get(qidString);
+            if (queriesWithRel.contains(qidString)) {
+              hasRelDocs = true;
+            }
           }
           ScoredDocuments docs;
           if (args.searchtweets) {
-            docs = searchTweets(this.searcher, qid, queryString, Long.parseLong(entry.getValue().get("time")), cascade, queryRelDocs);
+            docs = searchTweets(this.searcher, qid, queryString, Long.parseLong(entry.getValue().get("time")), cascade, queryQrels, hasRelDocs);
           } else if (args.backgroundlinking) {
-            docs = searchBackgroundLinking(this.searcher, qid, queryString, cascade, queryRelDocs);
+            docs = searchBackgroundLinking(this.searcher, qid, queryString, cascade, queryQrels, hasRelDocs);
           } else {
-            docs = search(this.searcher, qid, queryString, cascade, queryRelDocs);
+            docs = search(this.searcher, qid, queryString, cascade, queryQrels, hasRelDocs);
           }
 
           // For removing duplicate docids.
@@ -294,7 +300,7 @@ public final class SearchCollection implements Closeable {
     isRerank = args.rm3 || args.axiom || args.bm25prf;
 
     if (this.isRerank && args.rf_qrels != null){
-      readRelDocsFromQrels(args.rf_qrels);      
+      loadQrels(args.rf_qrels);      
     }
 
   }
@@ -439,37 +445,39 @@ public final class SearchCollection implements Closeable {
     return cascades;
   }
 
-  private void readRelDocsFromQrels(String qrels) throws IOException {
+  private void loadQrels(String rf_qrels) throws IOException {
     LOG.info("============ Loading qrels ============");
-    LOG.info("qrels: " + qrels);
-    Path qrelsFilePath = Paths.get(qrels);
-    if (!Files.exists(qrelsFilePath) || !Files.isRegularFile(qrelsFilePath) || !Files.isReadable(qrelsFilePath)) {
-        throw new IllegalArgumentException("Qrels file : " + qrelsFilePath + " does not exist or is not a (readable) file.");
+    LOG.info("rf_qrels: " + rf_qrels);
+    Path rfQrelsFilePath = Paths.get(rf_qrels);
+    if (!Files.exists(rfQrelsFilePath) || !Files.isRegularFile(rfQrelsFilePath) || !Files.isReadable(rfQrelsFilePath)) {
+        throw new IllegalArgumentException("Qrels file : " + rfQrelsFilePath + " does not exist or is not a (readable) file.");
     }
-    Map<String, Map<String, Integer>> relDocs = new HashMap<>();
-    InputStream fin = Files.newInputStream(Paths.get(qrels), StandardOpenOption.READ);
+    Map<String, Map<String, Integer>> qrelsDocs = new HashMap<>();
+    this.queriesWithRel = new HashSet<>();
+    InputStream fin = Files.newInputStream(Paths.get(rf_qrels), StandardOpenOption.READ);
     BufferedInputStream in = new BufferedInputStream(fin);
-    BufferedReader bRdr = new BufferedReader(new InputStreamReader(in));
-    for (String line : IOUtils.readLines(bRdr)) {
+    BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+    for (String line : IOUtils.readLines(reader)) {
       String[] cols = line.split("\\s+"); 
       int rel = Integer.valueOf(cols[3]);
-      if (rel > 0){
-        String qid = cols[0];
-        String fbDocid = cols[2];
-        Map<String, Integer> queryRelDocs = relDocs.get(qid);
-        if (queryRelDocs == null){
-          queryRelDocs = new HashMap<String, Integer>();
-          relDocs.put(qid, queryRelDocs);
-        }
-        queryRelDocs.put(fbDocid, Integer.valueOf(rel));
+      String qid = cols[0];
+      if (rel > 0) {
+        this.queriesWithRel.add(qid);
       }
+      String fbDocid = cols[2];
+      Map<String, Integer> queryQrelsDocs = qrelsDocs.get(qid);
+      if (queryQrelsDocs == null){
+        queryQrelsDocs = new HashMap<>();
+        qrelsDocs.put(qid, queryQrelsDocs);
+      }
+      queryQrelsDocs.put(fbDocid, Integer.valueOf(rel));
     }
 
-    this.relScoredDocs = new HashMap<String, ScoredDocuments>();
-    for (Map.Entry<String, Map<String, Integer>> q : relDocs.entrySet()) {
+    this.qrels = new HashMap<>();
+    for (Map.Entry<String, Map<String, Integer>> q : qrelsDocs.entrySet()) {
       String qid = q.getKey();
-      Map<String, Integer> queryRelDocs = q.getValue();
-      this.relScoredDocs.put(qid, ScoredDocuments.fromRelDocs(queryRelDocs, this.reader));
+      Map<String, Integer> queryQrelsDocs = q.getValue();
+      this.qrels.put(qid, ScoredDocuments.fromQrels(queryQrelsDocs, this.reader));
     }
 
   } 
@@ -516,7 +524,7 @@ public final class SearchCollection implements Closeable {
           LOG.info("Run already exists, skipping: " + outputPath);
           continue;
         }
-        executor.execute(new SearcherThread<>(reader, topics, taggedSimilarity, cascade, this.relScoredDocs, outputPath, runTag));
+        executor.execute(new SearcherThread<>(reader, topics, taggedSimilarity, cascade, this.qrels, outputPath, runTag));
       }
     }
     executor.shutdown();
@@ -533,8 +541,8 @@ public final class SearchCollection implements Closeable {
     }
   }
 
-  public <K> ScoredDocuments search(IndexSearcher searcher, K qid, String queryString, RerankerCascade cascade, ScoredDocuments queryRelDocs)
-      throws IOException {
+  public <K> ScoredDocuments search(IndexSearcher searcher, K qid, String queryString, RerankerCascade cascade, ScoredDocuments queryQrels,
+                                    boolean hasRelDocs) throws IOException {
     Query query = null;
 
     if (args.sdm) {
@@ -551,7 +559,7 @@ public final class SearchCollection implements Closeable {
     }
 
     TopDocs rs = new TopDocs(new TotalHits(0, TotalHits.Relation.EQUAL_TO), new ScoreDoc[]{});
-    if (!isRerank || (args.rerankcutoff > 0 && args.rf_qrels == null) || (args.rf_qrels != null && queryRelDocs == null)) {
+    if (!isRerank || (args.rerankcutoff > 0 && args.rf_qrels == null) || (args.rf_qrels != null && !hasRelDocs)) {
       if (args.arbitraryScoreTieBreak) {// Figure out how to break the scoring ties.
         rs = searcher.search(query, (isRerank && args.rf_qrels == null) ? args.rerankcutoff : args.hits);
       } else {
@@ -564,9 +572,10 @@ public final class SearchCollection implements Closeable {
     RerankerContext context = new RerankerContext<>(searcher, qid, query, null, queryString, queryTokens, null, args);
     ScoredDocuments scoredFbDocs; 
     if ( isRerank && args.rf_qrels != null) {
-      if (queryRelDocs != null){
-        scoredFbDocs = queryRelDocs;
+      if (hasRelDocs){
+        scoredFbDocs = queryQrels;
       } else{//if no relevant documents, only perform score based tie breaking next
+        LOG.info("No relevant documents for " + qid.toString());
         scoredFbDocs = ScoredDocuments.fromTopDocs(rs, searcher);
         cascade = new RerankerCascade();
         cascade.add(new ScoreTiesAdjusterReranker());
@@ -579,7 +588,7 @@ public final class SearchCollection implements Closeable {
   }
 
   public <K> ScoredDocuments searchBackgroundLinking(IndexSearcher searcher, K qid, String queryString, RerankerCascade cascade, 
-                                                     ScoredDocuments queryRelDocs) throws IOException, QueryNodeException {
+                                                     ScoredDocuments queryQrels, boolean hasRelDocs) throws IOException, QueryNodeException {
     Query query = null;
     String queryDocID = null;
     if (args.sdm) {
@@ -608,7 +617,7 @@ public final class SearchCollection implements Closeable {
       query = builder.build();
 
       TopDocs rs = new TopDocs(new TotalHits(0, TotalHits.Relation.EQUAL_TO), new ScoreDoc[]{});
-      if (!isRerank || (args.rerankcutoff > 0 && args.rf_qrels == null) || (args.rf_qrels != null && queryRelDocs == null)) {
+      if (!isRerank || (args.rerankcutoff > 0 && args.rf_qrels == null) || (args.rf_qrels != null && !hasRelDocs)) {
         if (args.arbitraryScoreTieBreak) {// Figure out how to break the scoring ties.
           rs = searcher.search(query, (isRerank && args.rf_qrels == null) ? args.rerankcutoff : args.hits);
         } else {
@@ -621,8 +630,8 @@ public final class SearchCollection implements Closeable {
 
       ScoredDocuments scoredFbDocs; 
       if ( isRerank && args.rf_qrels != null) {
-        if (queryRelDocs != null){
-          scoredFbDocs = queryRelDocs;
+        if (hasRelDocs){
+          scoredFbDocs = queryQrels;
         } else{//if no relevant documents, only perform score based tie breaking next
           scoredFbDocs = ScoredDocuments.fromTopDocs(rs, searcher);
           cascade = new RerankerCascade();
@@ -669,7 +678,7 @@ public final class SearchCollection implements Closeable {
   }
 
   public <K> ScoredDocuments searchTweets(IndexSearcher searcher, K qid, String queryString, long t, RerankerCascade cascade, 
-                                          ScoredDocuments queryRelDocs) throws IOException {
+                                          ScoredDocuments queryQrels, boolean hasRelDocs) throws IOException {
     Query keywordQuery;
     if (args.sdm) {
       keywordQuery = new SdmQueryGenerator(args.sdm_tw, args.sdm_ow, args.sdm_uw).buildQuery(IndexArgs.CONTENTS, analyzer, queryString);
@@ -696,7 +705,7 @@ public final class SearchCollection implements Closeable {
 
 
     TopDocs rs = new TopDocs(new TotalHits(0, TotalHits.Relation.EQUAL_TO), new ScoreDoc[]{});
-    if (!isRerank || (args.rerankcutoff > 0 && args.rf_qrels == null) || (args.rf_qrels != null && queryRelDocs == null)) {
+    if (!isRerank || (args.rerankcutoff > 0 && args.rf_qrels == null) || (args.rf_qrels != null && !hasRelDocs)) {
       if (args.arbitraryScoreTieBreak) {// Figure out how to break the scoring ties.
         rs = searcher.search(compositeQuery, (isRerank && args.rf_qrels == null) ? args.rerankcutoff : args.hits);
       } else {
@@ -708,8 +717,8 @@ public final class SearchCollection implements Closeable {
     RerankerContext context = new RerankerContext<>(searcher, qid, keywordQuery, null, queryString, queryTokens, filter, args);
     ScoredDocuments scoredFbDocs; 
     if ( isRerank && args.rf_qrels != null) {
-      if (queryRelDocs != null) {
-        scoredFbDocs = queryRelDocs;
+      if (hasRelDocs) {
+        scoredFbDocs = queryQrels;
       } else{//if no relevant documents, only perform score based tie breaking next
         scoredFbDocs = ScoredDocuments.fromTopDocs(rs, searcher);
         cascade = new RerankerCascade();

@@ -30,9 +30,15 @@ import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.util.BytesRef;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
 
+
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Map;
 import java.io.IOException;
 
@@ -40,6 +46,7 @@ import java.io.IOException;
  * ScoredDocuments object that converts TopDocs from the searcher into an Anserini format
  */
 public class ScoredDocuments {
+  private static final Logger LOG = LogManager.getLogger(ScoredDocuments.class);
   // Array of document objects
   public Document[] documents;
   // The docIds as used by the index reader
@@ -132,33 +139,41 @@ public class ScoredDocuments {
     return scoredDocs;
   }
 
-  public static ScoredDocuments fromRelDocs(Map<String, Integer> queryRelDocs, IndexReader reader) throws IOException {
+  public static ScoredDocuments fromQrels(Map<String, Integer> qrels, IndexReader reader) throws IOException {
     ScoredDocuments scoredDocs = new ScoredDocuments();
-  
-    int length = queryRelDocs.size();
 
-    scoredDocs.documents = new Document[length];
-    scoredDocs.ids = new int[length];
-    scoredDocs.scores = new float[length];
+    List<Document> documentList = new ArrayList<>();
+    List<Integer> idList = new ArrayList<>();
+    List<Float> scoreList = new ArrayList<>();
 
     IndexSearcher searcher;
     int i = 0;
-    for (Map.Entry<String, Integer> relDocScorePair : queryRelDocs.entrySet()) {
-      String externalDocid = relDocScorePair.getKey();
+    for (Map.Entry<String, Integer> qrelsDocScorePair : qrels.entrySet()) {
+      String externalDocid = qrelsDocScorePair.getKey();
       searcher = new IndexSearcher(reader);
       Query q = new TermQuery(new Term(IndexArgs.ID, externalDocid));
       TopDocs rs = searcher.search(q, 1);
       try {
-        scoredDocs.documents[i] = searcher.doc(rs.scoreDocs[0].doc);
+        documentList.add(searcher.doc(rs.scoreDocs[0].doc));
+        idList.add(rs.scoreDocs[0].doc);
+        scoreList.add(Float.valueOf(qrelsDocScorePair.getValue().floatValue()));
+        i++;
       } catch (IOException e) {
         e.printStackTrace();
-        scoredDocs.documents[i] = null;
+        documentList.add(null);
+      } catch (ArrayIndexOutOfBoundsException e){
+        // e.printStackTrace();
+        LOG.warn("Cannot find document " + externalDocid);
       }
-
-      scoredDocs.scores[i] = relDocScorePair.getValue().intValue();
-      scoredDocs.ids[i] = rs.scoreDocs[0].doc;
-      i ++;
     }
+
+    int length = documentList.size();
+    scoredDocs.documents = new Document[length];
+    scoredDocs.ids = new int[length];
+    scoredDocs.scores = new float[length];
+    scoredDocs.documents = documentList.toArray(scoredDocs.documents);
+    scoredDocs.ids = ArrayUtils.toPrimitive(idList.toArray(new Integer[length]));
+    scoredDocs.scores = ArrayUtils.toPrimitive(scoreList.toArray(new Float[length]), Float.NaN);
 
     return scoredDocs;
   }

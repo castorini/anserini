@@ -144,6 +144,9 @@ public class BM25PrfReranker implements Reranker {
 
     for (int i = 0; i < numRelDocs; i++) {
       try {
+        if (useRf && docs.scores[i] <= 0){
+          continue;
+        }
         Terms terms = reader.getTermVector(docs.ids[i], field);
         Set<String> termsStr = getTermsStr(terms);
         docToTermsMap.put(docs.ids[i], termsStr);

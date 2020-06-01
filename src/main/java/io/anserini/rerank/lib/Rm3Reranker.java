@@ -40,6 +40,8 @@ import org.apache.lucene.util.BytesRef;
 
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -136,16 +138,20 @@ public class Rm3Reranker implements Reranker {
     else {
       numdocs = docs.documents.length < fbDocs ? docs.documents.length : fbDocs;
     }
-    FeatureVector[] docvectors = new FeatureVector[numdocs];
 
+    List<FeatureVector> docvectors = new ArrayList<>();
+    List<Float> docScores = new ArrayList<>();
     for (int i = 0; i < numdocs; i++) {
+      if (useRf && docs.scores[i] <= .0) {
+        continue;
+      }
       try {
         FeatureVector docVector = createdFeatureVector(
             reader.getTermVector(docs.ids[i], field), reader, tweetsearch);
         docVector.pruneToSize(fbTerms);
-
         vocab.addAll(docVector.getFeatures());
-        docvectors[i] = docVector;
+        docvectors.add(docVector);
+        docScores.add(Float.valueOf(docs.scores[i]));
       } catch (IOException e) {
         e.printStackTrace();
         // Just return empty feature vector.
@@ -154,19 +160,19 @@ public class Rm3Reranker implements Reranker {
     }
 
     // Precompute the norms once and cache results.
-    float[] norms = new float[docvectors.length];
-    for (int i = 0; i < docvectors.length; i++) {
-      norms[i] = (float) docvectors[i].computeL1Norm();
+    float[] norms = new float[docvectors.size()];
+    for (int i = 0; i < docvectors.size(); i++) {
+      norms[i] = (float) docvectors.get(i).computeL1Norm();
     }
 
     for (String term : vocab) {
       float fbWeight = 0.0f;
-      for (int i = 0; i < docvectors.length; i++) {
+      for (int i = 0; i < docvectors.size(); i++) {
         // Avoids zero-length feedback documents, which causes division by zero when computing term weights.
         // Zero-length feedback documents occur (e.g., with CAR17) when a document has only terms 
         // that accents (which are indexed, but not selected for feedback).
         if (norms[i] > 0.001f) {
-          fbWeight += (docvectors[i].getFeatureWeight(term) / norms[i]) * docs.scores[i];
+          fbWeight += (docvectors.get(i).getFeatureWeight(term) / norms[i]) * docScores.get(i);
         }
       }
       f.addFeatureWeight(term, fbWeight);
