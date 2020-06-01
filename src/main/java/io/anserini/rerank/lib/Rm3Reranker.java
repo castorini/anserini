@@ -130,10 +130,10 @@ public class Rm3Reranker implements Reranker {
 
     Set<String> vocab = new HashSet<>();
     int numdocs;
-    if (useRf){
+    if (useRf) {
       numdocs = docs.documents.length;
     }
-    else{
+    else {
       numdocs = docs.documents.length < fbDocs ? docs.documents.length : fbDocs;
     }
     FeatureVector[] docvectors = new FeatureVector[numdocs];

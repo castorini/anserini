@@ -446,7 +446,7 @@ public final class SearchCollection implements Closeable {
     if (!Files.exists(qrelsFilePath) || !Files.isRegularFile(qrelsFilePath) || !Files.isReadable(qrelsFilePath)) {
         throw new IllegalArgumentException("Qrels file : " + qrelsFilePath + " does not exist or is not a (readable) file.");
     }
-    Map<String, Map<String, Integer>> relDocs = new HashMap<String, Map<String, Integer>> ();
+    Map<String, Map<String, Integer>> relDocs = new HashMap<>();
     InputStream fin = Files.newInputStream(Paths.get(qrels), StandardOpenOption.READ);
     BufferedInputStream in = new BufferedInputStream(fin);
     BufferedReader bRdr = new BufferedReader(new InputStreamReader(in));
