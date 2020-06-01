@@ -293,8 +293,8 @@ public final class SearchCollection implements Closeable {
 
     isRerank = args.rm3 || args.axiom || args.bm25prf;
 
-    if (this.isRerank && args.rfQrels != null){
-      readRelDocsFromQrels(args.rfQrels);      
+    if (this.isRerank && args.rf_qrels != null){
+      readRelDocsFromQrels(args.rf_qrels);      
     }
 
   }
@@ -365,7 +365,7 @@ public final class SearchCollection implements Closeable {
         for (String fbDocs : args.rm3_fbDocs) {
           for (String originalQueryWeight : args.rm3_originalQueryWeight) {
             String tag;
-            if (this.args.rfQrels != null){
+            if (this.args.rf_qrels != null){
               tag = String.format("rm3Rf(fbTerms=%s,originalQueryWeight=%s)",
                 fbTerms, originalQueryWeight);
             } else{
@@ -388,7 +388,7 @@ public final class SearchCollection implements Closeable {
             for (String top : args.axiom_top) {
               for (String seed : args.axiom_seed) {
                 String tag;
-                if (this.args.rfQrels != null){
+                if (this.args.rf_qrels != null){
                   tag = String.format("axRf(seed=%s,n=%s,beta=%s,top=%s)", seed, n, beta, top);
                 } else{
                   tag = String.format("ax(seed=%s,r=%s,n=%s,beta=%s,top=%s)", seed, r, n, beta, top);
@@ -412,7 +412,7 @@ public final class SearchCollection implements Closeable {
             for (String b : args.bm25prf_b) {
               for (String newTermWeight : args.bm25prf_newTermWeight) {
                 String tag;
-                if (this.args.rfQrels != null){
+                if (this.args.rf_qrels != null){
                   tag = String.format("bm25Rf(fbTerms=%s,k1=%s,b=%s,newTermWeight=%s)",
                     fbTerms, k1, b, newTermWeight);
                 } else{
@@ -551,11 +551,11 @@ public final class SearchCollection implements Closeable {
     }
 
     TopDocs rs = new TopDocs(new TotalHits(0, TotalHits.Relation.EQUAL_TO), new ScoreDoc[]{});
-    if (!isRerank || (args.rerankcutoff > 0 && args.rfQrels == null) || (args.rfQrels != null && queryRelDocs == null)) {
+    if (!isRerank || (args.rerankcutoff > 0 && args.rf_qrels == null) || (args.rf_qrels != null && queryRelDocs == null)) {
       if (args.arbitraryScoreTieBreak) {// Figure out how to break the scoring ties.
-        rs = searcher.search(query, (isRerank && args.rfQrels == null) ? args.rerankcutoff : args.hits);
+        rs = searcher.search(query, (isRerank && args.rf_qrels == null) ? args.rerankcutoff : args.hits);
       } else {
-        rs = searcher.search(query, (isRerank && args.rfQrels == null) ? args.rerankcutoff : args.hits, BREAK_SCORE_TIES_BY_DOCID, true);
+        rs = searcher.search(query, (isRerank && args.rf_qrels == null) ? args.rerankcutoff : args.hits, BREAK_SCORE_TIES_BY_DOCID, true);
       }
     }
 
@@ -563,7 +563,7 @@ public final class SearchCollection implements Closeable {
 
     RerankerContext context = new RerankerContext<>(searcher, qid, query, null, queryString, queryTokens, null, args);
     ScoredDocuments scoredFbDocs; 
-    if ( isRerank && args.rfQrels != null) {
+    if ( isRerank && args.rf_qrels != null) {
       if (queryRelDocs != null){
         scoredFbDocs = queryRelDocs;
       } else{//if no relevant documents, only perform score based tie breaking next
@@ -608,11 +608,11 @@ public final class SearchCollection implements Closeable {
       query = builder.build();
 
       TopDocs rs = new TopDocs(new TotalHits(0, TotalHits.Relation.EQUAL_TO), new ScoreDoc[]{});
-      if (!isRerank || (args.rerankcutoff > 0 && args.rfQrels == null) || (args.rfQrels != null && queryRelDocs == null)) {
+      if (!isRerank || (args.rerankcutoff > 0 && args.rf_qrels == null) || (args.rf_qrels != null && queryRelDocs == null)) {
         if (args.arbitraryScoreTieBreak) {// Figure out how to break the scoring ties.
-          rs = searcher.search(query, (isRerank && args.rfQrels == null) ? args.rerankcutoff : args.hits);
+          rs = searcher.search(query, (isRerank && args.rf_qrels == null) ? args.rerankcutoff : args.hits);
         } else {
-          rs = searcher.search(query, (isRerank && args.rfQrels == null) ? args.rerankcutoff : args.hits, BREAK_SCORE_TIES_BY_DOCID, true);
+          rs = searcher.search(query, (isRerank && args.rf_qrels == null) ? args.rerankcutoff : args.hits, BREAK_SCORE_TIES_BY_DOCID, true);
         }
       }
 
@@ -620,7 +620,7 @@ public final class SearchCollection implements Closeable {
       RerankerContext context = new RerankerContext<>(searcher, qid, query, queryDocID, queryStr, queryTokens, null, args);
 
       ScoredDocuments scoredFbDocs; 
-      if ( isRerank && args.rfQrels != null) {
+      if ( isRerank && args.rf_qrels != null) {
         if (queryRelDocs != null){
           scoredFbDocs = queryRelDocs;
         } else{//if no relevant documents, only perform score based tie breaking next
@@ -696,18 +696,18 @@ public final class SearchCollection implements Closeable {
 
 
     TopDocs rs = new TopDocs(new TotalHits(0, TotalHits.Relation.EQUAL_TO), new ScoreDoc[]{});
-    if (!isRerank || (args.rerankcutoff > 0 && args.rfQrels == null) || (args.rfQrels != null && queryRelDocs == null)) {
+    if (!isRerank || (args.rerankcutoff > 0 && args.rf_qrels == null) || (args.rf_qrels != null && queryRelDocs == null)) {
       if (args.arbitraryScoreTieBreak) {// Figure out how to break the scoring ties.
-        rs = searcher.search(compositeQuery, (isRerank && args.rfQrels == null) ? args.rerankcutoff : args.hits);
+        rs = searcher.search(compositeQuery, (isRerank && args.rf_qrels == null) ? args.rerankcutoff : args.hits);
       } else {
-        rs = searcher.search(compositeQuery, (isRerank && args.rfQrels == null) ? args.rerankcutoff : args.hits, 
+        rs = searcher.search(compositeQuery, (isRerank && args.rf_qrels == null) ? args.rerankcutoff : args.hits, 
                              BREAK_SCORE_TIES_BY_TWEETID, true);
       }
     }
 
     RerankerContext context = new RerankerContext<>(searcher, qid, keywordQuery, null, queryString, queryTokens, filter, args);
     ScoredDocuments scoredFbDocs; 
-    if ( isRerank && args.rfQrels != null) {
+    if ( isRerank && args.rf_qrels != null) {
       if (queryRelDocs != null) {
         scoredFbDocs = queryRelDocs;
       } else{//if no relevant documents, only perform score based tie breaking next

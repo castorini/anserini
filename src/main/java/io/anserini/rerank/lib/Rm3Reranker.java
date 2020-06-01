@@ -75,7 +75,7 @@ public class Rm3Reranker implements Reranker {
 
     FeatureVector qfv = FeatureVector.fromTerms(AnalyzerUtils.analyze(analyzer, context.getQueryText())).scaleToUnitL1Norm();
 
-    boolean useRf = (context.getSearchArgs().rfQrels != null);
+    boolean useRf = (context.getSearchArgs().rf_qrels != null);
     FeatureVector rm = estimateRelevanceModel(docs, reader, context.getSearchArgs().searchtweets, useRf);
 
     rm = FeatureVector.interpolate(qfv, rm, originalQueryWeight);

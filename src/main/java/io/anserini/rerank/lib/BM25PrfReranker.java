@@ -97,7 +97,7 @@ public class BM25PrfReranker implements Reranker {
     IndexReader reader = searcher.getIndexReader();
     List<String> originalQueryTerms = AnalyzerUtils.analyze(analyzer, context.getQueryText());
 
-    boolean useRf = (context.getSearchArgs().rfQrels != null);
+    boolean useRf = (context.getSearchArgs().rf_qrels != null);
     PrfFeatures fv = expandQuery(originalQueryTerms, docs, reader, useRf);
     Query newQuery = fv.toQuery();
 

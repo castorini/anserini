@@ -305,10 +305,10 @@ public class AxiomReranker<T> implements Reranker<T> {
    */
   private Set<Integer> selectDocs(ScoredDocuments docs, RerankerContext<T> context)
     throws IOException {
-    boolean useRf = (context.getSearchArgs().rfQrels != null);
+    boolean useRf = (context.getSearchArgs().rf_qrels != null);
     Set<Integer> docidSet;
     long targetSize;
-    if (useRf){
+    if (useRf) {
        docidSet = new HashSet<>(Arrays.asList(ArrayUtils.toObject(
         Arrays.copyOfRange(docs.ids, 0, docs.ids.length))));
        targetSize = docidSet.size() * this.N;
