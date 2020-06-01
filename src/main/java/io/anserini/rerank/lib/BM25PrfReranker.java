@@ -156,6 +156,8 @@ public class BM25PrfReranker implements Reranker {
       }
     }
 
+    numRelDocs = docToTermsMap.size();
+
     Set<String> originalTermsSet = new HashSet<>(originalTerms);
 
     // Add New Terms
@@ -169,8 +171,8 @@ public class BM25PrfReranker implements Reranker {
         int df = reader.docFreq(new Term(IndexArgs.CONTENTS, term));
         int dfRel = 0;
 
-        for (int i = 0; i < numRelDocs; i++) {
-          Set<String> terms = docToTermsMap.get(docs.ids[i]);
+        for (Map.Entry<Integer, Set<String>> entry : docToTermsMap.entrySet()) {
+          Set<String> terms = entry.getValue();
           if (terms.contains(term)) {
             dfRel++;
           }
@@ -192,8 +194,8 @@ public class BM25PrfReranker implements Reranker {
         int df = reader.docFreq(new Term(IndexArgs.CONTENTS, term));
         int dfRel = 0;
 
-        for (int i = 0; i < numRelDocs; i++) {
-          Set<String> terms = docToTermsMap.get(docs.ids[i]);
+        for (Map.Entry<Integer, Set<String>> entry : docToTermsMap.entrySet()) {
+          Set<String> terms = entry.getValue();
           if (terms.contains(term)) {
             dfRel++;
           }
