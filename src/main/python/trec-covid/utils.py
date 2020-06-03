@@ -42,7 +42,7 @@ def load_run(path):
     run = collections.OrderedDict()
     with open(path) as f:
         for line in tqdm(f):
-            query_id, _, doc_title, rank, _, _ = line.split(' ')
+            query_id, _, doc_title, rank, _, _ = line.split()
             if query_id not in run:
                 run[query_id] = []
             run[query_id].append((doc_title, int(rank)))
