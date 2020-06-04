@@ -30,6 +30,8 @@ import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
+import org.apache.lucene.index.FieldInfo;
+import org.apache.lucene.index.FieldInfos;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.MultiTerms;
 import org.apache.lucene.index.PostingsEnum;
@@ -770,13 +772,12 @@ public class IndexReaderUtils {
   }
 
   /**
-   * Returns index statistics
+   * Returns index statistics.
    *
    * @param reader index reader
-   * @return Index statistics as a map of statistic's name to statistic.
-   * @throws IOException
+   * @return map from name of statistic to its value
    */
-  public static Map<String, Object> getIndexStats(IndexReader reader) throws IOException {
+  public static Map<String, Object> getIndexStats(IndexReader reader) {
     Map<String, Object> indexStats = new HashMap<String, Object>();
     try {
       Terms terms = MultiTerms.getTerms(reader, IndexArgs.CONTENTS);
@@ -790,5 +791,39 @@ public class IndexReaderUtils {
       return null;
     }
     return indexStats;
+  }
+
+  /**
+   * Returns {@code FieldInfo} for indexed fields.
+   *
+   * @param reader index reader
+   * @return map from name of field to its {@code FieldInfo}
+   */
+  public static Map<String, FieldInfo> getFieldInfo(IndexReader reader) throws IOException {
+    Map<String, FieldInfo> fields = new HashMap<>();
+
+    FieldInfos fieldInfos = FieldInfos.getMergedFieldInfos(reader);
+    for (FieldInfo fi : fieldInfos) {
+      fields.put(fi.name, fi);
+    }
+
+    return fields;
+  }
+
+  /**
+   * Returns string summary of {@code FieldInfo} for indexed fields.
+   *
+   * @param reader index reader
+   * @return map from name of field to its {@code FieldInfo} string summary
+   */
+  public static Map<String, String>  getFieldInfoDescription(IndexReader reader) throws IOException {
+    Map<String, String> description = new HashMap<>();
+
+    FieldInfos fieldInfos = FieldInfos.getMergedFieldInfos(reader);
+    for (FieldInfo fi : fieldInfos) {
+      description.put(fi.name, "(" + "indexOption: " + fi.getIndexOptions() + ", hasVectors: " + fi.hasVectors() + ")");
+    }
+
+    return description;
   }
 }

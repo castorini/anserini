@@ -22,6 +22,8 @@ import io.anserini.analysis.DefaultEnglishAnalyzer;
 import io.anserini.search.SearchArgs;
 import io.anserini.search.SimpleSearcher;
 import org.apache.lucene.index.DirectoryReader;
+import org.apache.lucene.index.FieldInfo;
+import org.apache.lucene.index.FieldInfos;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.MultiTerms;
 import org.apache.lucene.index.Term;
@@ -506,6 +508,36 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
 
     assertEquals(3, IndexReaderUtils.getIndexStats(reader).get("documents"));
     assertEquals(Long.valueOf(6), IndexReaderUtils.getIndexStats(reader).get("unique_terms"));
+
+    reader.close();
+    dir.close();
+  }
+
+  @Test
+  public void testGetFieldInfo() throws Exception {
+    Directory dir = FSDirectory.open(tempDir1);
+    IndexReader reader = DirectoryReader.open(dir);
+
+    Map<String, FieldInfo> fields = IndexReaderUtils.getFieldInfo(reader);
+    assertTrue(fields.containsKey("id"));
+    assertTrue(fields.containsKey("contents"));
+    assertTrue(fields.containsKey("raw"));
+    assertEquals(3, fields.size());
+
+    reader.close();
+    dir.close();
+  }
+
+  @Test
+  public void testGetFieldInfoDescription() throws Exception {
+    Directory dir = FSDirectory.open(tempDir1);
+    IndexReader reader = DirectoryReader.open(dir);
+
+    Map<String, String> fields = IndexReaderUtils.getFieldInfoDescription(reader);
+    assertEquals("(indexOption: DOCS, hasVectors: false)", fields.get("id"));
+    assertEquals("(indexOption: DOCS_AND_FREQS_AND_POSITIONS, hasVectors: true)", fields.get("contents"));
+    assertEquals("(indexOption: NONE, hasVectors: false)", fields.get("raw"));
+    assertEquals(3, fields.size());
 
     reader.close();
     dir.close();
