@@ -150,10 +150,6 @@
                <id>ExtractTopDfTerms</id>
             </program>
             <program>
-              <mainClass>io.anserini.index.IndexUtils</mainClass>
-              <id>IndexUtils</id>
-            </program>
-            <program>
               <mainClass>io.anserini.ann.IndexVectors</mainClass>
               <id>IndexVectors</id>
             </program>

@@ -20,13 +20,6 @@ import io.anserini.analysis.AnalyzerUtils;
 import io.anserini.search.SearchArgs;
 import io.anserini.search.query.BagOfWordsQueryGenerator;
 import io.anserini.search.query.PhraseQueryGenerator;
-import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
-import org.apache.commons.compress.archivers.tar.TarArchiveOutputStream;
-import org.apache.commons.compress.compressors.bzip2.BZip2CompressorInputStream;
-import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
-import org.apache.commons.compress.compressors.gzip.GzipCompressorOutputStream;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
@@ -38,62 +31,48 @@ import org.apache.lucene.index.PostingsEnum;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.index.Terms;
 import org.apache.lucene.index.TermsEnum;
+import org.apache.lucene.search.BooleanClause;
+import org.apache.lucene.search.BooleanQuery;
+import org.apache.lucene.search.ConstantScoreQuery;
 import org.apache.lucene.search.DocIdSetIterator;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
-import org.apache.lucene.search.TotalHitCountCollector;
-import org.apache.lucene.search.TermQuery;
-import org.apache.lucene.search.BooleanQuery;
-import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.search.ScoreDoc;
-import org.apache.lucene.search.ConstantScoreQuery;
-import org.apache.lucene.search.BooleanClause;
+import org.apache.lucene.search.TermQuery;
+import org.apache.lucene.search.TopDocs;
+import org.apache.lucene.search.TotalHitCountCollector;
 import org.apache.lucene.search.similarities.BM25Similarity;
 import org.apache.lucene.search.similarities.Similarity;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.BytesRef;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
-import java.util.HashMap;
-import java.util.List;
 import java.util.ArrayList;
-import java.util.Map;
+import java.util.HashMap;
 import java.util.Iterator;
-
-import static java.util.stream.Collectors.joining;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Class containing a bunch of static helper methods for accessing a Lucene inverted index.
  * This class provides a lot of functionality that is exposed in Python via Pyserini.
  */
 public class IndexReaderUtils {
-  private static final Logger LOG = LogManager.getLogger(IndexUtils.class);
-
-  public enum DocumentVectorWeight {NONE, TF_IDF}
 
   /**
    * An individual posting in a postings list. Note that this class is used primarily for inspecting
    * the index, and not meant for actual searching.
    */
   public static class Posting {
-    private int docId;
-    private int termFreq;
-    private int[] positions;
+    private final int docId;
+    private final int termFreq;
+    private final int[] positions;
 
     /**
      * Constructor wrapping a {@link PostingsEnum} from Lucene.
+     *
      * @param postingsEnum posting from Lucene
      * @throws IOException if error encountered reading information from the posting
      */
@@ -108,6 +87,7 @@ public class IndexReaderUtils {
 
     /**
      * Returns the term frequency stored in this posting.
+     *
      * @return the term frequency stored in this posting
      */
     public int getTF() {
@@ -116,6 +96,7 @@ public class IndexReaderUtils {
 
     /**
      * Returns the internal Lucene docid associated with this posting.
+     *
      * @return the internal Lucene docid associated with this posting
      */
     public int getDocid() {
@@ -124,6 +105,7 @@ public class IndexReaderUtils {
 
     /**
      * Returns the positions in the document where this term is found.
+     *
      * @return the positions in the document where this term is found
      */
     public int[] getPositions() {
@@ -132,16 +114,17 @@ public class IndexReaderUtils {
   }
 
   /**
-   * A term from the index. Note that this class is used primarily for inspecting the index, not
-   * meant for actual searching.
+   * A term from the index. Note that this class is used primarily for inspecting the index, not meant for actual
+   * searching.
    */
   public static class IndexTerm {
-    private int docFreq;
-    private String term;
-    private long totalTermFreq;
+    private final int docFreq;
+    private final String term;
+    private final long totalTermFreq;
 
     /**
      * Constructor wrapping a {@link TermsEnum} from Lucene.
+     *
      * @param term Lucene {@link TermsEnum} to wrap
      * @throws IOException if any errors are encountered
      */
@@ -153,6 +136,7 @@ public class IndexReaderUtils {
 
     /**
      * Returns the number of documents containing the current term.
+     *
      * @return the number of documents containing the current term
      */
     public int getDF() {
@@ -161,6 +145,7 @@ public class IndexReaderUtils {
 
     /**
      * Returns the string representation of the current term.
+     *
      * @return the string representation of the current term
      */
     public String getTerm() {
@@ -169,6 +154,7 @@ public class IndexReaderUtils {
 
     /**
      * Returns the total number of occurrences of the current term across all documents.
+     *
      * @return the total number of occurrences of the current term across all documents
      */
     public long getTotalTF() {
@@ -176,24 +162,9 @@ public class IndexReaderUtils {
     }
   }
 
-  public static InputStream getReadFileStream(String path) throws IOException {
-    InputStream fin = Files.newInputStream(Paths.get(path), StandardOpenOption.READ);
-    BufferedInputStream in = new BufferedInputStream(fin);
-    if (path.endsWith(".bz2")) {
-      BZip2CompressorInputStream bzIn = new BZip2CompressorInputStream(in);
-      return bzIn;
-    } else if (path.endsWith(".gz")) {
-      GzipCompressorInputStream gzIn = new GzipCompressorInputStream(in);
-      return gzIn;
-    } else if (path.endsWith(".zip")) {
-      GzipCompressorInputStream zipIn = new GzipCompressorInputStream(in);
-      return zipIn;
-    }
-    return in;
-  }
-
   /**
    * Creates an {@link IndexReader} given a path.
+   *
    * @param path index path
    * @return index reader
    * @throws IOException if any errors are encountered
@@ -204,11 +175,12 @@ public class IndexReaderUtils {
   }
 
   /**
-   * Get count information on a term or a phrase
-   * @param reader IndexReader
-   * @param termStr String to investigate
-   * @return The df (+cf if only one term) of the phrase using default analyzer
-   * @throws IOException
+   * Returns count information on a term or a phrase.
+   *
+   * @param reader index reader
+   * @param termStr term
+   * @return df (+cf if only one term) of the phrase using default analyzer
+   * @throws IOException if error encountered during access to index
    */
   public static Map<String, Long> getTermCounts(IndexReader reader, String termStr)
       throws IOException {
@@ -217,12 +189,13 @@ public class IndexReaderUtils {
   }
 
   /**
-   * Get count information on a term or a phrase
-   * @param reader IndexReader
-   * @param termStr String to investigate
-   * @param analyzer Analyzer to use
-   * @return The df (+cf if only one term) of the phrase
-   * @throws IOException
+   * Returns count information on a term or a phrase.
+   *
+   * @param reader index reader
+   * @param termStr term
+   * @param analyzer analyzer to use
+   * @return df (+cf if only one term) of the phrase
+   * @throws IOException if error encountered during access to index
    */
   public static Map<String, Long> getTermCountsWithAnalyzer(IndexReader reader, String termStr, Analyzer analyzer)
       throws IOException {
@@ -239,20 +212,21 @@ public class IndexReaderUtils {
     Term t = new Term(IndexArgs.CONTENTS, AnalyzerUtils.analyze(analyzer, termStr).get(0));
     Map<String, Long> termInfo = Map.ofEntries(
       Map.entry("collectionFreq", reader.totalTermFreq(t)),
-      Map.entry("docFreq", Long.valueOf(reader.docFreq(t)))
+      Map.entry("docFreq", (long) reader.docFreq(t))
     );
     return termInfo;
   }
 
   /**
    * Returns iterator over all terms in the collection.
+   *
    * @param reader index reader
    * @return iterator over IndexTerm
    * @throws IOException if error encountered during access to index
    */
   public static Iterator<IndexTerm> getTerms(IndexReader reader) throws IOException {
     return new Iterator<>() {
-      private TermsEnum curTerm = MultiTerms.getTerms(reader, "contents").iterator();
+      private final TermsEnum curTerm = MultiTerms.getTerms(reader, "contents").iterator();
       private BytesRef bytesRef = null;
 
       @Override
@@ -389,9 +363,8 @@ public class IndexReaderUtils {
   }
 
   /**
-   * Returns the Lucene {@link Document} based on a collection docid.
-   * The method is named to be consistent with Lucene's {@link IndexReader#document(int)}, contra Java's standard
-   * method naming conventions.
+   * Returns the Lucene {@link Document} based on a collection docid. The method is named to be consistent with Lucene's
+   * {@link IndexReader#document(int)}, contra Java's standard method naming conventions.
    *
    * @param reader index reader
    * @param docid collection docid
@@ -407,10 +380,9 @@ public class IndexReaderUtils {
   }
 
   /**
-   * Fetches the Lucene {@link Document} based on some field other than its unique collection docid.
-   * For example, scientific articles might have DOIs.
-   * The method is named to be consistent with Lucene's {@link IndexReader#document(int)}, contra Java's standard
-   * method naming conventions.
+   * Fetches the Lucene {@link Document} based on some field other than its unique collection docid. For example,
+   * scientific articles might have DOIs. The method is named to be consistent with Lucene's
+   * {@link IndexReader#document(int)}, contra Java's standard method naming conventions.
    *
    * @param reader index reader
    * @param field field
@@ -437,9 +409,8 @@ public class IndexReaderUtils {
   }
 
   /**
-   * Returns the "raw" field of a document based on a collection docid.
-   * The method is named to be consistent with Lucene's {@link IndexReader#document(int)}, contra Java's standard
-   * method naming conventions.
+   * Returns the "raw" field of a document based on a collection docid. The method is named to be consistent with
+   * Lucene's {@link IndexReader#document(int)}, contra Java's standard method naming conventions.
    *
    * @param reader index reader
    * @param docid collection docid
@@ -455,9 +426,8 @@ public class IndexReaderUtils {
   }
 
   /**
-   * Returns the "contents" field of a document based on a collection docid.
-   * The method is named to be consistent with Lucene's {@link IndexReader#document(int)}, contra Java's standard
-   * method naming conventions.
+   * Returns the "contents" field of a document based on a collection docid. The method is named to be consistent with
+   * Lucene's {@link IndexReader#document(int)}, contra Java's standard method naming conventions.
    *
    * @param reader index reader
    * @param docid collection docid
@@ -631,103 +601,8 @@ public class IndexReaderUtils {
 
   // TODO: Write a variant of computeQueryDocumentScore that takes a set of documents.
 
-  public static void dumpDocumentVectors(IndexReader reader, String reqDocidsPath, DocumentVectorWeight weight) throws IOException {
-    String outFileName = weight == null ? reqDocidsPath+".docvector.tar.gz" : reqDocidsPath+".docvector." + weight +".tar.gz";
-    LOG.info("Start dump document vectors with weight " + weight);
-
-    InputStream in = getReadFileStream(reqDocidsPath);
-    BufferedReader bRdr = new BufferedReader(new InputStreamReader(in));
-    FileOutputStream fOut = new FileOutputStream(new File(outFileName));
-    BufferedOutputStream bOut = new BufferedOutputStream(fOut);
-    GzipCompressorOutputStream gzOut = new GzipCompressorOutputStream(bOut);
-    TarArchiveOutputStream tOut = new TarArchiveOutputStream(gzOut);
-
-    Map<Term, Integer> docFreqMap = new HashMap<>();
-
-    int numNonEmptyDocs = reader.getDocCount(IndexArgs.CONTENTS);
-
-    String docid;
-    int counter = 0;
-    while ((docid = bRdr.readLine()) != null) {
-      counter++;
-
-      int internalDocid = convertDocidToLuceneDocid(reader, docid);
-      if (internalDocid == -1) {
-        continue;
-      }
-
-      // get term frequency
-      Terms terms = reader.getTermVector(internalDocid, IndexArgs.CONTENTS);
-      if (terms == null) {
-        // Don't throw exception here because there are some collections
-        // where some documents don't have document vectors stored.
-        LOG.warn("Document vector not stored for document " + docid);
-        continue;
-      }
-
-      TermsEnum te = terms.iterator();
-      if (te == null) {
-        LOG.warn("Document vector not stored for document " + docid);
-        continue;
-      }
-
-      Term term;
-      long freq;
-
-      // iterate every term and write and store in Map
-      Map<String, String> docVectors = new HashMap<>();
-      while ((te.next()) != null) {
-        term = new Term(IndexArgs.CONTENTS, te.term());
-        freq = te.totalTermFreq();
-
-        switch (weight) {
-          case NONE:
-            docVectors.put(term.bytes().utf8ToString(), String.valueOf(freq));
-            break;
-
-          case TF_IDF:
-            int docFreq;
-            if (docFreqMap.containsKey(term)) {
-              docFreq = docFreqMap.get(term);
-            } else {
-              try {
-                docFreq = reader.docFreq(term);
-              } catch (Exception e) {
-                LOG.error("Cannot find term " + term.toString() + " in indexing file.");
-                continue;
-              }
-              docFreqMap.put(term, docFreq);
-            }
-            float tfIdf = (float) (freq * Math.log(numNonEmptyDocs * 1.0 / docFreq));
-            docVectors.put(term.bytes().utf8ToString(), String.format("%.6f", tfIdf));
-            break;
-        }
-      }
-
-      // Count size and write
-      byte[] bytesOut = docVectors.entrySet()
-              .stream()
-              .map(e -> e.getKey()+" "+e.getValue())
-              .collect(joining("\n"))
-              .getBytes(StandardCharsets.UTF_8);
-
-      TarArchiveEntry tarEntry = new TarArchiveEntry(new File(docid));
-      tarEntry.setSize(bytesOut.length + String.format("<DOCNO>%s</DOCNO>\n", docid).length());
-      tOut.putArchiveEntry(tarEntry);
-      tOut.write(String.format("<DOCNO>%s</DOCNO>\n", docid).getBytes());
-      tOut.write(bytesOut);
-      tOut.closeArchiveEntry();
-
-      if (counter % 100000 == 0) {
-        LOG.info(counter + " files have been dumped.");
-      }
-    }
-    tOut.close();
-    LOG.info("Document Vectors are output to: " + outFileName);
-  }
-
   /**
-   * Converts a collection docid to a Lucene internal docid
+   * Converts a collection docid to a Lucene internal docid.
    *
    * @param reader index reader
    * @param docid collection docid
@@ -753,7 +628,7 @@ public class IndexReaderUtils {
   }
 
   /**
-   * Converts a Lucene internal docid to a collection docid
+   * Converts a Lucene internal docid to a collection docid.
    *
    * @param reader index reader
    * @param docid Lucene internal docid
@@ -778,7 +653,7 @@ public class IndexReaderUtils {
    * @return map from name of statistic to its value
    */
   public static Map<String, Object> getIndexStats(IndexReader reader) {
-    Map<String, Object> indexStats = new HashMap<String, Object>();
+    Map<String, Object> indexStats = new HashMap<>();
     try {
       Terms terms = MultiTerms.getTerms(reader, IndexArgs.CONTENTS);
 
@@ -799,7 +674,7 @@ public class IndexReaderUtils {
    * @param reader index reader
    * @return map from name of field to its {@code FieldInfo}
    */
-  public static Map<String, FieldInfo> getFieldInfo(IndexReader reader) throws IOException {
+  public static Map<String, FieldInfo> getFieldInfo(IndexReader reader) {
     Map<String, FieldInfo> fields = new HashMap<>();
 
     FieldInfos fieldInfos = FieldInfos.getMergedFieldInfos(reader);
@@ -816,7 +691,7 @@ public class IndexReaderUtils {
    * @param reader index reader
    * @return map from name of field to its {@code FieldInfo} string summary
    */
-  public static Map<String, String>  getFieldInfoDescription(IndexReader reader) throws IOException {
+  public static Map<String, String>  getFieldInfoDescription(IndexReader reader) {
     Map<String, String> description = new HashMap<>();
 
     FieldInfos fieldInfos = FieldInfos.getMergedFieldInfos(reader);
