@@ -23,7 +23,6 @@ import io.anserini.search.SearchArgs;
 import io.anserini.search.SimpleSearcher;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.FieldInfo;
-import org.apache.lucene.index.FieldInfos;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.MultiTerms;
 import org.apache.lucene.index.Term;
@@ -39,9 +38,12 @@ import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.BytesRef;
 import org.junit.Test;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class IndexReaderUtilsTest extends IndexerTestBase {
@@ -542,4 +544,28 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
     reader.close();
     dir.close();
   }
+
+  @Test
+  public void testMain() throws Exception {
+    // See: https://github.com/castorini/anserini/issues/903
+    Locale.setDefault(Locale.US);
+
+    final ByteArrayOutputStream redirectedStdout = new ByteArrayOutputStream();
+    PrintStream savedStdout = System.out;
+    redirectedStdout.reset();
+    System.setOut(new PrintStream(redirectedStdout));
+
+    IndexReaderUtils.main(new String[] {"-index", tempDir1.toString(), "-stats"});
+    System.setOut(savedStdout);
+
+    String groundTruthOutput = "Index statistics\n" +
+        "----------------\n" +
+        "documents:             3\n" +
+        "documents (non-empty): 3\n" +
+        "unique terms:          6\n" +
+        "total terms:           12\n";
+
+    assertEquals(groundTruthOutput, redirectedStdout.toString());
+  }
+
 }
