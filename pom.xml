@@ -130,6 +130,10 @@
               <id>SimpleTweetSearcher</id>
             </program>
             <program>
+              <mainClass>io.anserini.index.IndexReaderUtils</mainClass>
+              <id>IndexReaderUtils</id>
+            </program>
+            <program>
                <mainClass>io.anserini.util.DumpAnalyzedQueries</mainClass>
                <id>DumpAnalyzedQueries</id>
             </program>

@@ -46,7 +46,12 @@ import org.apache.lucene.search.similarities.Similarity;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.BytesRef;
+import org.kohsuke.args4j.CmdLineException;
+import org.kohsuke.args4j.CmdLineParser;
+import org.kohsuke.args4j.Option;
+import org.kohsuke.args4j.ParserProperties;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -700,5 +705,42 @@ public class IndexReaderUtils {
     }
 
     return description;
+  }
+
+  public static final class Args {
+    @Option(name = "-index", metaVar = "[Path]", required = true, usage = "index path")
+    String index;
+
+    @Option(name = "-stats", usage = "print index statistics")
+    boolean stats;
+  }
+
+  public static void main(String[] argv) throws Exception{
+    Args args = new Args();
+    CmdLineParser parser = new CmdLineParser(args, ParserProperties.defaults().withUsageWidth(90));
+    try {
+      parser.parseArgument(argv);
+    } catch (CmdLineException e) {
+      System.err.println(e.getMessage());
+      parser.printUsage(System.err);
+      return;
+    }
+
+    Directory directory = FSDirectory.open(new File(args.index).toPath());
+    IndexReader reader = DirectoryReader.open(directory);
+
+    if (args.stats) {
+      Terms terms = MultiTerms.getTerms(reader, IndexArgs.CONTENTS);
+
+      System.out.println("Index statistics");
+      System.out.println("----------------");
+      System.out.println("documents:             " + reader.numDocs());
+      System.out.println("documents (non-empty): " + reader.getDocCount(IndexArgs.CONTENTS));
+      System.out.println("unique terms:          " + terms.size());
+      System.out.println("total terms:           " + reader.getSumTotalTermFreq(IndexArgs.CONTENTS));
+    }
+
+    reader.close();
+    directory.close();
   }
 }
