@@ -707,6 +707,8 @@ public class IndexReaderUtils {
     return description;
   }
 
+  // This is needed by src/main/python/run_regression.py
+
   public static final class Args {
     @Option(name = "-index", metaVar = "[Path]", required = true, usage = "index path")
     String index;
