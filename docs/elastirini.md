@@ -154,6 +154,8 @@ sh target/appassembler/bin/SearchElastic -topicreader TsvInt -es.index msmarco-d
  -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt -output runs/run.es.msmacro-doc.txt
 ```
 
+This can take potentially longer than `SearchCollection` with Lucene indexes.
+
 Evaluation:
 
 ```bash
@@ -161,43 +163,6 @@ $ ./eval/trec_eval.9.0.4/trec_eval -c -mrecall.1000 -mmap src/main/resources/top
 map                   	all	0.2308
 recall_1000           	all	0.8856
 ```
-
-## Kibana Visualizations: CORD-19
-
-Deploying Kibana: From the [Elasticsearch](http://elastic.co/start), download the correct distribution for you platform to the `anserini/` directory. 
-
-Unpacking:
-
-```
-tar -zxvf kibana*.tar.gz -C elastirini --strip-components=1
-```
-
-Start running:
-
-```
-elastirini/bin/kibana
-```
-
-First, set up the proper schema using [this config](../src/main/resources/elasticsearch/index-config.cord19.json):
-
-```bash
-cat src/main/resources/elasticsearch/index-config.cord19.json \
- | curl --user elastic:changeme -XPUT -H 'Content-Type: application/json' 'localhost:9200/cord19' -d @-
-```
-
-Indexing (Abstract, Full-Text, Paragraph):
-
-```bash
-sh target/appassembler/bin/IndexCollection -collection Cord19AbstractCollection -generator Cord19Generator \
- -es -es.index cord19 -threads 8 -input path/to/cord19 -storePositions -storeDocvectors -storeContents -storeRaw
-
-sh target/appassembler/bin/IndexCollection -collection Cord19FullTextCollection -generator Cord19Generator \
- -es -es.index cord19 -threads 8 -input path/to/cord19 -storePositions -storeDocvectors -storeContents -storeRaw
-
-sh target/appassembler/bin/IndexCollection -collection Cord19ParagraphCollection -generator Cord19Generator \
- -es -es.index cord19 -threads 8 -input path/to/cord19 -storePositions -storeDocvectors -storeContents -storeRaw
-```
-We are now able to get visualizations from Kibana at: http://localhost:5601
 
 ## Elasticsearch Integration Test
 
@@ -227,3 +192,6 @@ python src/main/python/run_es_regression.py --regression [collection] --input [d
 + Results replicated by [@edwinzhng](https://github.com/edwinzhng) on 2020-01-26 (commit [`7b76dfb`](https://github.com/castorini/anserini/commit/7b76dfbea7e0c01a3a5dc13e74f54852c780ec9b)) for both [MS MARCO Passage](experiments-msmarco-passage.md) and [Robust04](regressions-robust04.md)
 + Results replicated by [@HangCui0510](https://github.com/HangCui0510) on 2020-04-29 (commit [`07a9b05`](https://github.com/castorini/anserini/commit/07a9b053173637e15be79de4e7fce4d5a93d04fe)) for [MS Marco Passage](regressions-msmarco-passage.md), [Robust04](regressions-robust04.md) and [core18](regressions-core18.md) using end-to-end [`run_es_regression`](../src/main/python/run_es_regression.py)
 + Results replicated by [@shaneding](https://github.com/shaneding) on 2020-05-25 (commit [`1de3274`](https://github.com/castorini/anserini/commit/1de3274b057a63382534c5277ffcd772c3fc0d43)) for [MS Marco Passage](regressions-msmarco-passage.md)
++ Results replicated by [@adamyy](https://github.com/adamyy) on 2020-05-29 (commit [`94893f1`](https://github.com/castorini/anserini/commit/94893f170e047d77c3ef5b8b995d7fbdd13f4298)) for [MS MARCO Passage](regressions-msmarco-passage.md), [MS MARCO Document](experiments-msmarco-doc.md)
++ Results replicated by [@YimingDou](https://github.com/YimingDou) on 2020-05-29 (commit [`2947a16`](https://github.com/castorini/anserini/commit/2947a1622efae35637b83e321aba8e6fccd43489)) for [MS MARCO Passage](regressions-msmarco-passage.md)
+

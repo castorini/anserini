@@ -17,18 +17,11 @@
 
   <developers>
     <developer>
-      <name>Jimmy Lin</name>
-      <id>lintool</id>
-      <email>jimmylin@uwaterloo.ca</email>
-      <organization>University of Waterloo</organization>
-      <url>https://cs.uwaterloo.ca/~jimmylin/</url>
-    </developer>
-    <developer>
-      <name>Peilin Yang</name>
-      <id>Peilin-Yang</id>
-      <email>yangpeilyn@gmail.com</email>
-      <organization>Twitter, Inc.</organization>
-      <url>https://peilin-yang.github.io/</url>
+      <name>Anserini Gaggle</name>
+      <id>anserini.gaggle</id>
+      <email>anserini.gaggle@gmail.com</email>
+      <organization>The Anserini Gaggle</organization>
+      <url>http://anserini.io/</url>
     </developer>
   </developers>
 

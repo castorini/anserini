@@ -305,10 +305,22 @@ public class AxiomReranker<T> implements Reranker<T> {
    */
   private Set<Integer> selectDocs(ScoredDocuments docs, RerankerContext<T> context)
     throws IOException {
-    Set<Integer> docidSet = new HashSet<>(Arrays.asList(ArrayUtils.toObject(
-      Arrays.copyOfRange(docs.ids, 0, Math.min(this.R, docs.ids.length)))));
-    long targetSize = this.R * this.N;
-
+    boolean useRf = (context.getSearchArgs().rf_qrels != null);
+    Set<Integer> docidSet;
+    long targetSize;
+    if (useRf) {
+      docidSet = new HashSet<>();
+      for (int i = 0; i < docs.ids.length; i++){
+        if (docs.scores[i] > 0){
+          docidSet.add(docs.ids[i]);
+        }
+      }
+      targetSize = docidSet.size() * this.N;
+    } else{
+      docidSet = new HashSet<>(Arrays.asList(ArrayUtils.toObject(
+        Arrays.copyOfRange(docs.ids, 0, Math.min(this.R, docs.ids.length)))));
+      targetSize = this.R * this.N;
+    }
     if (docidSet.size() < targetSize) {
       IndexReader reader;
       IndexSearcher searcher;

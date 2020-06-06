@@ -27,6 +27,21 @@ tl;dr - here are the runs that can be easily replicated with Anserini, from pre-
 
 Exact commands for replicating these runs are found [further down on this page](experiments-covid.md#round-3-replication-commands).
 
+The final runs submitted to NIST, after removing judgments from round 1 and round 2, are as follows:
+
+| group | runtag | run file | checksum |
+|:------|:-------|:---------|:---------|
+| `anserini` | `r3.fusion1` | [[download](https://www.dropbox.com/s/ypoe9tgwef17rak/anserini.final-r3.fusion1.txt)] | `c1caf63a9c3b02f0b12e233112fc79a6` |
+| `anserini` | `r3.fusion2` | [[download](https://www.dropbox.com/s/uvfrssp6nw2v2jl/anserini.final-r3.fusion2.txt)] | `12679197846ed77306ecb2ca7895b011` |
+| `anserini` | `r3.rf`      | [[download](https://www.dropbox.com/s/2wrg7ceaca3n7ac/anserini.final-r3.rf.txt)]      | `7192a08c5275b59d5ef18395917ff694` |
+
+We resolved the issue from round 2 where the final submitted runs have less than 1000 hits per topic.
+The final run `r3.rf` represents code in [PR #1236](https://github.com/castorini/anserini/pull/1236): abstract index, UDel query generator, BM25+RM3 relevance feedback (100 feedback terms).
+Merge of the PR into master is pending confirmation that all previous regression tests pass.
+
+Exact commands for replicating these runs are found [further down on this page](experiments-covid.md#round-3-replication-commands).
+
+
 ## Round 2
 
 tl;dr - here are the runs that can be easily replicated with Anserini, from pre-built indexes available [here](experiments-cord19.md#pre-built-indexes-all-versions):
@@ -218,6 +233,16 @@ python eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.
 
 cut -d ' ' -f 1 runs/anserini.covid-r3.paragraph.qq.bm25.txt | sort | uniq | wc
 cut -d ' ' -f 1 runs/anserini.covid-r3.paragraph.qdel.bm25.txt | sort | uniq | wc
+```
+
+To prepare the final runs for submission (removing judgments from round 1 and round 2):
+
+```bash
+python src/main/python/trec-covid/remove_judged_docids.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round12.txt \
+ --input runs/anserini.covid-r3.fusion1.txt --output runs/anserini.final-r3.fusion1.txt --runtag r3.fusion1
+
+python src/main/python/trec-covid/remove_judged_docids.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round12.txt \
+ --input runs/anserini.covid-r3.fusion2.txt --output runs/anserini.final-r3.fusion2.txt --runtag r3.fusion2
 ```
 
 ## Round 2: Replication Commands
