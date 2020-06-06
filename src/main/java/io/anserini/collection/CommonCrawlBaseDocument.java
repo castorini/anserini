@@ -17,7 +17,7 @@
 package io.anserini.collection;
 
 /**
- * A raw document from a collection. A {@code CommonCrawlDocument} is explicitly distinguish a from a
+ * A raw document from a collection. A {@code CommonCrawlBaseDocument} is explicitly distinguish a from a
  * Lucene {@link org.apache.lucene.document.Document}, which is the Lucene representation that
  * can be directly inserted into an index.
  */

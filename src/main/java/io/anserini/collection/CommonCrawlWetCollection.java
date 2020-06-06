@@ -350,9 +350,8 @@ public class CommonCrawlWetCollection extends DocumentCollection<CommonCrawlWetC
 
 
   /**
-   *
-   * A document from the <a href="https://commoncrawl.org/the-data/get-started/#WET-Format/">CommonCrawl WET collection</a>.
-   *
+   * A document from the <a href="https://commoncrawl.org/the-data/get-started/#WET-Format/">
+   *   CommonCrawl WET collection</a>.
    */
   public static class Document implements CommonCrawlBaseDocument {
     private static final Logger LOG = LogManager.getLogger(Document.class);
