@@ -587,91 +587,53 @@ public final class SearchCollection implements Closeable {
     return cascade.run(scoredFbDocs, context);
   }
 
-  public <K> ScoredDocuments searchBackgroundLinking(IndexSearcher searcher, K qid, String queryString, RerankerCascade cascade, 
+  public <K> ScoredDocuments searchBackgroundLinking(IndexSearcher searcher, K qid, String docid, RerankerCascade cascade,
                                                      ScoredDocuments queryQrels, boolean hasRelDocs) throws IOException, QueryNodeException {
-    Query query = null;
-    String queryDocID = null;
+    String queryStr =
+        BackgroundLinkingTopicReader.generateQueryString(reader, docid, args.backgroundlinking_k, analyzer);
 
-    queryDocID = queryString;
-    List<String> queryList = new ArrayList<>();
-    queryList.add(
-        BackgroundLinkingTopicReader.generateQueryString(reader, queryDocID, args.backgroundlinking_k, analyzer));
-    List<ScoredDocuments> allRes = new ArrayList<>();
+    // DO NOT use BagOfWordsQueryGenerator here!!!!
+    // Because the actual query strings are extracted from tokenized document!!!
+    Query docQuery = new StandardQueryParser().parse(queryStr, IndexArgs.CONTENTS);
 
-    for (String queryStr : queryList) {
-      Query q = null;
+    Query filter = new TermInSetQuery(WashingtonPostGenerator.WashingtonPostField.KICKER.name,
+        new BytesRef("Opinions"), new BytesRef("Letters to the Editor"), new BytesRef("The Post's View"));
 
-      // DO NOT use BagOfWordsQueryGenerator here!!!!
-      // Because the actual query strings are extracted from tokenized document!!!
-      q = new StandardQueryParser().parse(queryStr, IndexArgs.CONTENTS);
+    BooleanQuery.Builder builder = new BooleanQuery.Builder();
+    builder.add(filter, BooleanClause.Occur.MUST_NOT);
+    builder.add(docQuery, BooleanClause.Occur.MUST);
+    Query query = builder.build();
 
-      Query filter = new TermInSetQuery(WashingtonPostGenerator.WashingtonPostField.KICKER.name,
-          new BytesRef("Opinions"), new BytesRef("Letters to the Editor"), new BytesRef("The Post's View"));
-
-      BooleanQuery.Builder builder = new BooleanQuery.Builder();
-      builder.add(filter, BooleanClause.Occur.MUST_NOT);
-      builder.add(q, BooleanClause.Occur.MUST);
-      query = builder.build();
-
-      TopDocs rs = new TopDocs(new TotalHits(0, TotalHits.Relation.EQUAL_TO), new ScoreDoc[]{});
-      if (!isRerank || (args.rerankcutoff > 0 && args.rf_qrels == null) || (args.rf_qrels != null && !hasRelDocs)) {
-        if (args.arbitraryScoreTieBreak) {// Figure out how to break the scoring ties.
-          rs = searcher.search(query, (isRerank && args.rf_qrels == null) ? args.rerankcutoff : args.hits);
-        } else {
-          rs = searcher.search(query, (isRerank && args.rf_qrels == null) ? args.rerankcutoff : args.hits, BREAK_SCORE_TIES_BY_DOCID, true);
-        }
-      }
-
-      List<String> queryTokens = Arrays.asList(queryStr.split(" "));
-      RerankerContext context = new RerankerContext<>(searcher, qid, query, queryDocID, queryStr, queryTokens, null, args);
-
-      ScoredDocuments scoredFbDocs; 
-      if ( isRerank && args.rf_qrels != null) {
-        if (hasRelDocs){
-          scoredFbDocs = queryQrels;
-        } else{//if no relevant documents, only perform score based tie breaking next
-          scoredFbDocs = ScoredDocuments.fromTopDocs(rs, searcher);
-          cascade = new RerankerCascade();
-          cascade.add(new ScoreTiesAdjusterReranker());
-        }
+    TopDocs rs = new TopDocs(new TotalHits(0, TotalHits.Relation.EQUAL_TO), new ScoreDoc[]{});
+    if (!isRerank || (args.rerankcutoff > 0 && args.rf_qrels == null) || (args.rf_qrels != null && !hasRelDocs)) {
+      if (args.arbitraryScoreTieBreak) {// Figure out how to break the scoring ties.
+        rs = searcher.search(query, (isRerank && args.rf_qrels == null) ? args.rerankcutoff : args.hits);
       } else {
-        scoredFbDocs = ScoredDocuments.fromTopDocs(rs, searcher);
+        rs = searcher.search(query, (isRerank && args.rf_qrels == null) ? args.rerankcutoff : args.hits, BREAK_SCORE_TIES_BY_DOCID, true);
       }
-      allRes.add(cascade.run(scoredFbDocs, context));
     }
 
-    // Finally do a round-robin picking
-    int totalSize = 0;
-    float[] scoresOfFirst = new float[allRes.size()];
-    for (int i = 0; i < allRes.size(); i++) {
-      totalSize += allRes.get(i).documents.length;
-      scoresOfFirst[i] = allRes.get(i).scores.length > 0 ? allRes.get(i).scores[0] : Float.NEGATIVE_INFINITY;
-    }
-    totalSize = Math.min(args.hits, totalSize);
+    List<String> queryTokens = Arrays.asList(queryStr.split(" "));
+    RerankerContext context = new RerankerContext<>(searcher, qid, query, docid, queryStr, queryTokens, null, args);
 
-    ScoredDocuments scoredDocs = new ScoredDocuments();
-    scoredDocs.documents = new Document[totalSize];
-    scoredDocs.ids = new int[totalSize];
-    scoredDocs.scores = new float[totalSize];
-
-    int rowIdx = 0;
-    int idx = 0;
-    while (idx < totalSize) {
-      for (int i = 0; i < allRes.size(); i++) {
-        if (rowIdx < allRes.get(i).documents.length) {
-          scoredDocs.documents[idx] = allRes.get(i).documents[rowIdx];
-          scoredDocs.ids[idx] = allRes.get(i).ids[rowIdx];
-          scoredDocs.scores[idx] = args.hits - idx;
-          idx++;
-        }
+    ScoredDocuments scoredDocs;
+    if ( isRerank && args.rf_qrels != null) {
+      if (hasRelDocs){
+        scoredDocs = queryQrels;
+      } else{//if no relevant documents, only perform score based tie breaking next
+        scoredDocs = ScoredDocuments.fromTopDocs(rs, searcher);
+        cascade = new RerankerCascade();
+        cascade.add(new ScoreTiesAdjusterReranker());
       }
-      rowIdx++;
+    } else {
+      scoredDocs = ScoredDocuments.fromTopDocs(rs, searcher);
     }
+
+    ScoredDocuments docs = cascade.run(scoredDocs, context);
 
     NewsBackgroundLinkingReranker postProcessor = new NewsBackgroundLinkingReranker();
-    RerankerContext context = new RerankerContext<>(searcher, qid, null, queryDocID, null, null, null, args);
-    scoredDocs = postProcessor.rerank(scoredDocs, context);
-    return scoredDocs;
+    context = new RerankerContext<>(searcher, qid, null, docid, null, null, null, args);
+    return postProcessor.rerank(docs, context);
   }
 
   public <K> ScoredDocuments searchTweets(IndexSearcher searcher, K qid, String queryString, long t, RerankerCascade cascade, 
