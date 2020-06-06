@@ -192,7 +192,7 @@ public final class SearchCollection implements Closeable {
           if (args.searchtweets) {
             docs = searchTweets(this.searcher, qid, queryString, Long.parseLong(entry.getValue().get("time")), cascade, queryQrels, hasRelDocs);
           } else if (args.backgroundlinking) {
-            docs = searchBackgroundLinking(this.searcher, qid, queryString, cascade, queryQrels, hasRelDocs);
+            docs = searchBackgroundLinking(this.searcher, qid, queryString, cascade);
           } else {
             docs = search(this.searcher, qid, queryString, cascade, queryQrels, hasRelDocs);
           }
@@ -590,51 +590,42 @@ public final class SearchCollection implements Closeable {
   }
 
   public <K> ScoredDocuments searchBackgroundLinking(IndexSearcher searcher, K qid, String docid,
-                                                     RerankerCascade cascade, ScoredDocuments queryQrels,
-                                                     boolean hasRelDocs) throws IOException, QueryNodeException {
+                                                     RerankerCascade cascade) throws IOException {
     // We extract a list of analyzed terms from the document, so we just join them together and use the
     // StandardQueryParser.
     List<String> terms = BackgroundLinkingTopicReader.extractTerms(reader, docid, args.backgroundlinking_k, analyzer);
-    Query docQuery = new StandardQueryParser().parse(StringUtils.join(terms, " "), IndexArgs.CONTENTS);
+    Query docQuery;
+    try {
+      docQuery = new StandardQueryParser().parse(StringUtils.join(terms, " "), IndexArgs.CONTENTS);
+    } catch (QueryNodeException e) {
+      throw new RuntimeException("Unable to create a Lucene query comprised of terms extracted from query document!");
+    }
 
-    Query filter = new TermInSetQuery(WashingtonPostGenerator.WashingtonPostField.KICKER.name,
-        new BytesRef("Opinions"), new BytesRef("Letters to the Editor"), new BytesRef("The Post's View"));
+    // Per track guidelines: no opinion or editorials. Filter out articles of these types.
+    Query filter = new TermInSetQuery(
+        WashingtonPostGenerator.WashingtonPostField.KICKER.name, new BytesRef("Opinions"),
+        new BytesRef("Letters to the Editor"), new BytesRef("The Post's View"));
 
     BooleanQuery.Builder builder = new BooleanQuery.Builder();
     builder.add(filter, BooleanClause.Occur.MUST_NOT);
     builder.add(docQuery, BooleanClause.Occur.MUST);
     Query query = builder.build();
 
-    TopDocs rs = new TopDocs(new TotalHits(0, TotalHits.Relation.EQUAL_TO), new ScoreDoc[]{});
-    if (!isRerank || (args.rerankcutoff > 0 && args.rf_qrels == null) || (args.rf_qrels != null && !hasRelDocs)) {
-      if (args.arbitraryScoreTieBreak) {
-        rs = searcher.search(query, (isRerank && args.rf_qrels == null) ? args.rerankcutoff : args.hits);
-      } else {
-        rs = searcher.search(query, (isRerank && args.rf_qrels == null) ? args.rerankcutoff :
-            args.hits, BREAK_SCORE_TIES_BY_DOCID, true);
-      }
+    TopDocs rs;
+    if (args.arbitraryScoreTieBreak) {
+      rs = searcher.search(query, (isRerank && args.rf_qrels == null) ? args.rerankcutoff : args.hits);
+    } else {
+      rs = searcher.search(query, (isRerank && args.rf_qrels == null) ? args.rerankcutoff :
+          args.hits, BREAK_SCORE_TIES_BY_DOCID, true);
     }
 
     RerankerContext context = new RerankerContext<>(searcher, qid, query, docid,
         StringUtils.join(", ", terms), terms, null, args);
 
-    ScoredDocuments scoredDocs;
-    if ( isRerank && args.rf_qrels != null) {
-      if (hasRelDocs){
-        scoredDocs = queryQrels;
-      } else{
-        scoredDocs = ScoredDocuments.fromTopDocs(rs, searcher);
-        cascade = new RerankerCascade();
-        cascade.add(new ScoreTiesAdjusterReranker());
-      }
-    } else {
-      scoredDocs = ScoredDocuments.fromTopDocs(rs, searcher);
-    }
-
-    ScoredDocuments docs = cascade.run(scoredDocs, context);
+    ScoredDocuments docs = cascade.run(ScoredDocuments.fromTopDocs(rs, searcher), context);
 
     NewsBackgroundLinkingReranker postProcessor = new NewsBackgroundLinkingReranker();
-    context = new RerankerContext<>(searcher, qid, null, docid, null, null, null, args);
+
     return postProcessor.rerank(docs, context);
   }
 
