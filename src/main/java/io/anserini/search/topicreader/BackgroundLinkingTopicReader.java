@@ -117,77 +117,55 @@ public class BackgroundLinkingTopicReader extends TopicReader<Integer> {
    * For TREC2018 News Track Background linking task, the query string is actually a document id.
    * In order to make sense of the query we extract the top terms with higher tf-idf scores from the
    * raw document of that docId from the index.
-   * @param reader index reader
-   * @param docid the query docid
-   * @param paragraph paragraph
-   * @param k how many terms will be picked from the query document
-   * @param isWeighted whether to include terms' tf-idf score as their weights
-   * @param sdm whether or not we're using sdm
-   * @param analyzer Analyzer
-   * @return Strings constructed query strings
-   * @throws IOException any IO exception
    */
-  public static List<String> generateQueryString(IndexReader reader, String docid, boolean paragraph, int k,
-     boolean isWeighted, boolean sdm, Analyzer analyzer) throws IOException {
-    List<String> queryStrings = new ArrayList<>();
+  public static String generateQueryString(IndexReader reader, String docid, int k, Analyzer analyzer)
+      throws IOException {
     IndexableField rawDocStr = reader.document(convertDocidToLuceneDocid(reader, docid)).getField(IndexArgs.RAW);
     if (rawDocStr == null) {
       throw new RuntimeException("Raw documents not stored and Unfortunately SDM query for News Background Linking " +
           "task needs to read the raw document to full construct the query string");
     }
-    if (paragraph) {
-      queryStrings = getParagraphs(rawDocStr.stringValue());
-      queryStrings = queryStrings.subList(0, Math.min(5, queryStrings.size()));
-    } else {
-      queryStrings.add(getRawContents(rawDocStr.stringValue()));
-    }
-    for (int i = 0; i < queryStrings.size(); i++) {
-      List<String> queryTokens = AnalyzerUtils.analyze(analyzer, queryStrings.get(i));
-      if (sdm) {
-        String queryString = String.join(" ", queryTokens.subList(0, Math.min(queryTokens.size(), k)));
-        queryStrings.set(i, queryString);
-      } else {
-        class ScoreComparator implements Comparator<Pair<String, Double>> {
-          public int compare(Pair<String, Double> a, Pair<String, Double> b) {
-            int cmp = Double.compare(b.getRight(), a.getRight());
-            if (cmp == 0) {
-              return a.getLeft().compareToIgnoreCase(b.getLeft());
-            } else {
-              return cmp;
-            }
-          }
+
+    String queryString = getRawContents(rawDocStr.stringValue());
+    List<String> queryTokens = AnalyzerUtils.analyze(analyzer, queryString);
+
+    class ScoreComparator implements Comparator<Pair<String, Double>> {
+      public int compare(Pair<String, Double> a, Pair<String, Double> b) {
+        int cmp = Double.compare(b.getRight(), a.getRight());
+        if (cmp == 0) {
+          return a.getLeft().compareToIgnoreCase(b.getLeft());
+        } else {
+          return cmp;
         }
-    
-        PriorityQueue<Pair<String, Double>> termsTfIdfPQ = new PriorityQueue<>(new ScoreComparator());
-        long docCount = reader.numDocs();
-        Map<String, Integer> termsMap = new HashMap<>();
-        queryTokens.forEach(token -> {
-          if ((token.length() >= 2) && (token.matches("[a-z]+")))
-            termsMap.merge(token, 1, Math::addExact);
-          }
-        );
-        termsMap.forEach((term, count) -> {
-          try {
-            double tfIdf = count * Math.log((1.0f + docCount) / reader.docFreq(new Term(IndexArgs.CONTENTS, term)));
-            termsTfIdfPQ.add(Pair.of(term, tfIdf));
-          } catch (IOException e) {
-            e.printStackTrace();
-          }
-        });
-        String constructedQueryStr = "";
-        for (int j = 0; j < Math.min(termsTfIdfPQ.size(), k); j++) {
-          Pair<String, Double> termScores = termsTfIdfPQ.poll();
-          constructedQueryStr += termScores.getKey() + (isWeighted ? String.format("^%f ", termScores.getValue()) : " ");
-        }
-        queryStrings.set(i, constructedQueryStr);
       }
-      System.out.println(String.format("Query %d: %s", i, queryStrings.get(i)));
     }
     
-    return queryStrings;
+    PriorityQueue<Pair<String, Double>> termsTfIdfPQ = new PriorityQueue<>(new ScoreComparator());
+    long docCount = reader.numDocs();
+    Map<String, Integer> termsMap = new HashMap<>();
+    queryTokens.forEach(token -> {
+      if ((token.length() >= 2) && (token.matches("[a-z]+")))
+        termsMap.merge(token, 1, Math::addExact);
+      }
+    );
+
+    termsMap.forEach((term, count) -> {
+      try {
+        double tfIdf = count * Math.log((1.0f + docCount) / reader.docFreq(new Term(IndexArgs.CONTENTS, term)));
+        termsTfIdfPQ.add(Pair.of(term, tfIdf));
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+    });
+    String constructedQueryStr = "";
+    for (int j = 0; j < Math.min(termsTfIdfPQ.size(), k); j++) {
+      Pair<String, Double> termScores = termsTfIdfPQ.poll();
+      constructedQueryStr += termScores.getKey() + " ";
+    }
+
+    return constructedQueryStr;
   }
-  
-  
+
   public static int convertDocidToLuceneDocid(IndexReader reader, String docid) throws IOException {
     IndexSearcher searcher = new IndexSearcher(reader);
     

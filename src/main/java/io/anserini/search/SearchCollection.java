@@ -591,22 +591,19 @@ public final class SearchCollection implements Closeable {
                                                      ScoredDocuments queryQrels, boolean hasRelDocs) throws IOException, QueryNodeException {
     Query query = null;
     String queryDocID = null;
-    if (args.sdm) {
-      args.backgroundlinking_weighted = false;
-    }
+
     queryDocID = queryString;
-    List<String> queryList = BackgroundLinkingTopicReader.generateQueryString(reader, queryDocID,
-        args.backgroundlinking_paragraph, args.backgroundlinking_k, args.backgroundlinking_weighted, args.sdm, analyzer);
+    List<String> queryList = new ArrayList<>();
+    queryList.add(
+        BackgroundLinkingTopicReader.generateQueryString(reader, queryDocID, args.backgroundlinking_k, analyzer));
     List<ScoredDocuments> allRes = new ArrayList<>();
+
     for (String queryStr : queryList) {
       Query q = null;
-      if (args.sdm) {
-        q = new SdmQueryGenerator(args.sdm_tw, args.sdm_ow, args.sdm_uw).buildQuery(IndexArgs.CONTENTS, analyzer, queryStr);
-      } else {
-        // DO NOT use BagOfWordsQueryGenerator here!!!!
-        // Because the actual query strings are extracted from tokenized document!!!
-        q = new StandardQueryParser().parse(queryStr, IndexArgs.CONTENTS);
-      }
+
+      // DO NOT use BagOfWordsQueryGenerator here!!!!
+      // Because the actual query strings are extracted from tokenized document!!!
+      q = new StandardQueryParser().parse(queryStr, IndexArgs.CONTENTS);
 
       Query filter = new TermInSetQuery(WashingtonPostGenerator.WashingtonPostField.KICKER.name,
           new BytesRef("Opinions"), new BytesRef("Letters to the Editor"), new BytesRef("The Post's View"));
