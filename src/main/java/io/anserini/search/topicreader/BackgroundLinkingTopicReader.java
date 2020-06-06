@@ -115,19 +115,17 @@ public class BackgroundLinkingTopicReader extends TopicReader<Integer> {
   }
   
   /**
-   * For TREC2018 News Track Background linking task, the query string is actually a document id.
-   * In order to make sense of the query we extract the top terms with higher tf-idf scores from the
-   * raw document of that docId from the index.
+   * Extracts the top <i>k</i> terms from document in terms of tf-idf.
    */
-  public static String generateQueryString(IndexReader reader, String docid, int k, Analyzer analyzer)
+  public static List<String> extractTerms(IndexReader reader, String docid, int k, Analyzer analyzer)
       throws IOException {
-    IndexableField rawDocStr = reader.document(IndexReaderUtils.convertDocidToLuceneDocid(reader, docid)).getField(IndexArgs.RAW);
-    if (rawDocStr == null) {
-      throw new RuntimeException("Raw documents not stored and Unfortunately SDM query for News Background Linking " +
-          "task needs to read the raw document to full construct the query string");
+    IndexableField rawField = reader.document(
+        IndexReaderUtils.convertDocidToLuceneDocid(reader, docid)).getField(IndexArgs.RAW);
+    if (rawField == null) {
+      throw new RuntimeException("Raw documents not stored!");
     }
 
-    String queryString = getRawContents(rawDocStr.stringValue());
+    String queryString = getRawContents(rawField.stringValue());
     List<String> queryTokens = AnalyzerUtils.analyze(analyzer, queryString);
 
     class ScoreComparator implements Comparator<Pair<String, Double>> {
@@ -158,13 +156,14 @@ public class BackgroundLinkingTopicReader extends TopicReader<Integer> {
         e.printStackTrace();
       }
     });
-    String constructedQueryStr = "";
+
+    List<String> extractedTerms = new ArrayList<>();
     for (int j = 0; j < Math.min(termsTfIdfPQ.size(), k); j++) {
       Pair<String, Double> termScores = termsTfIdfPQ.poll();
-      constructedQueryStr += termScores.getKey() + " ";
+      extractedTerms.add(termScores.getKey());
     }
 
-    return constructedQueryStr;
+    return extractedTerms;
   }
 
   private static String getRawContents(String record) {
@@ -176,9 +175,7 @@ public class BackgroundLinkingTopicReader extends TopicReader<Integer> {
           .registerModule(new Jdk8Module()) // Deserialize Java 8 Optional: http://www.baeldung.com/jackson-optional
           .readValue(record, WashingtonPostCollection.Document.WashingtonPostObject.class);
     } catch (IOException e) {
-      // For current dataset, we can make sure all record has unique id and
-      // published date. So we just simply throw an RuntimeException
-      // here in case future data may bring up this issue
+      // Something is wrong... abort!
       throw new RuntimeException(e);
     }
 

@@ -20,6 +20,7 @@ import io.anserini.analysis.AnalyzerUtils;
 import io.anserini.analysis.DefaultEnglishAnalyzer;
 import io.anserini.analysis.TweetAnalyzer;
 import io.anserini.index.IndexArgs;
+import io.anserini.index.IndexReaderUtils;
 import io.anserini.index.generator.TweetGenerator;
 import io.anserini.index.generator.WashingtonPostGenerator;
 import io.anserini.rerank.RerankerCascade;
@@ -36,6 +37,7 @@ import io.anserini.search.similarity.AccurateBM25Similarity;
 import io.anserini.search.similarity.TaggedSimilarity;
 import io.anserini.search.topicreader.BackgroundLinkingTopicReader;
 import io.anserini.search.topicreader.TopicReader;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
@@ -49,10 +51,10 @@ import org.apache.lucene.analysis.de.GermanAnalyzer;
 import org.apache.lucene.analysis.es.SpanishAnalyzer;
 import org.apache.lucene.analysis.fr.FrenchAnalyzer;
 import org.apache.lucene.analysis.hi.HindiAnalyzer;
-import org.apache.lucene.document.Document;
 import org.apache.lucene.document.LongPoint;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.index.IndexableField;
 import org.apache.lucene.queryparser.flexible.core.QueryNodeException;
 import org.apache.lucene.queryparser.flexible.standard.StandardQueryParser;
 import org.apache.lucene.search.BooleanClause;
@@ -587,14 +589,13 @@ public final class SearchCollection implements Closeable {
     return cascade.run(scoredFbDocs, context);
   }
 
-  public <K> ScoredDocuments searchBackgroundLinking(IndexSearcher searcher, K qid, String docid, RerankerCascade cascade,
-                                                     ScoredDocuments queryQrels, boolean hasRelDocs) throws IOException, QueryNodeException {
-    String queryStr =
-        BackgroundLinkingTopicReader.generateQueryString(reader, docid, args.backgroundlinking_k, analyzer);
-
-    // DO NOT use BagOfWordsQueryGenerator here!!!!
-    // Because the actual query strings are extracted from tokenized document!!!
-    Query docQuery = new StandardQueryParser().parse(queryStr, IndexArgs.CONTENTS);
+  public <K> ScoredDocuments searchBackgroundLinking(IndexSearcher searcher, K qid, String docid,
+                                                     RerankerCascade cascade, ScoredDocuments queryQrels,
+                                                     boolean hasRelDocs) throws IOException, QueryNodeException {
+    // We extract a list of analyzed terms from the document, so we just join them together and use the
+    // StandardQueryParser.
+    List<String> terms = BackgroundLinkingTopicReader.extractTerms(reader, docid, args.backgroundlinking_k, analyzer);
+    Query docQuery = new StandardQueryParser().parse(StringUtils.join(terms, " "), IndexArgs.CONTENTS);
 
     Query filter = new TermInSetQuery(WashingtonPostGenerator.WashingtonPostField.KICKER.name,
         new BytesRef("Opinions"), new BytesRef("Letters to the Editor"), new BytesRef("The Post's View"));
@@ -606,21 +607,22 @@ public final class SearchCollection implements Closeable {
 
     TopDocs rs = new TopDocs(new TotalHits(0, TotalHits.Relation.EQUAL_TO), new ScoreDoc[]{});
     if (!isRerank || (args.rerankcutoff > 0 && args.rf_qrels == null) || (args.rf_qrels != null && !hasRelDocs)) {
-      if (args.arbitraryScoreTieBreak) {// Figure out how to break the scoring ties.
+      if (args.arbitraryScoreTieBreak) {
         rs = searcher.search(query, (isRerank && args.rf_qrels == null) ? args.rerankcutoff : args.hits);
       } else {
-        rs = searcher.search(query, (isRerank && args.rf_qrels == null) ? args.rerankcutoff : args.hits, BREAK_SCORE_TIES_BY_DOCID, true);
+        rs = searcher.search(query, (isRerank && args.rf_qrels == null) ? args.rerankcutoff :
+            args.hits, BREAK_SCORE_TIES_BY_DOCID, true);
       }
     }
 
-    List<String> queryTokens = Arrays.asList(queryStr.split(" "));
-    RerankerContext context = new RerankerContext<>(searcher, qid, query, docid, queryStr, queryTokens, null, args);
+    RerankerContext context = new RerankerContext<>(searcher, qid, query, docid,
+        StringUtils.join(", ", terms), terms, null, args);
 
     ScoredDocuments scoredDocs;
     if ( isRerank && args.rf_qrels != null) {
       if (hasRelDocs){
         scoredDocs = queryQrels;
-      } else{//if no relevant documents, only perform score based tie breaking next
+      } else{
         scoredDocs = ScoredDocuments.fromTopDocs(rs, searcher);
         cascade = new RerankerCascade();
         cascade.add(new ScoreTiesAdjusterReranker());

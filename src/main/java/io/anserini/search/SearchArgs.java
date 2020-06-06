@@ -65,7 +65,7 @@ public class SearchArgs {
       "index created by IndexCollection -collection TweetCollection")
   public Boolean searchtweets = false;
 
-  @Option(name = "-backgroundlinking", forbids = {"-sdmd"},
+  @Option(name = "-backgroundlinking", forbids = {"-sdm", "-rf.qrels"},
       usage = "performs the background linking task as part of the TREC News Track")
   public Boolean backgroundlinking = false;
 
