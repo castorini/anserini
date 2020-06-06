@@ -22,6 +22,7 @@ import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import io.anserini.analysis.AnalyzerUtils;
 import io.anserini.collection.WashingtonPostCollection;
 import io.anserini.index.IndexArgs;
+import io.anserini.index.IndexReaderUtils;
 import io.anserini.index.generator.WashingtonPostGenerator;
 import io.anserini.search.SearchCollection;
 import org.apache.commons.lang3.tuple.Pair;
@@ -120,7 +121,7 @@ public class BackgroundLinkingTopicReader extends TopicReader<Integer> {
    */
   public static String generateQueryString(IndexReader reader, String docid, int k, Analyzer analyzer)
       throws IOException {
-    IndexableField rawDocStr = reader.document(convertDocidToLuceneDocid(reader, docid)).getField(IndexArgs.RAW);
+    IndexableField rawDocStr = reader.document(IndexReaderUtils.convertDocidToLuceneDocid(reader, docid)).getField(IndexArgs.RAW);
     if (rawDocStr == null) {
       throw new RuntimeException("Raw documents not stored and Unfortunately SDM query for News Background Linking " +
           "task needs to read the raw document to full construct the query string");
@@ -166,23 +167,9 @@ public class BackgroundLinkingTopicReader extends TopicReader<Integer> {
     return constructedQueryStr;
   }
 
-  public static int convertDocidToLuceneDocid(IndexReader reader, String docid) throws IOException {
-    IndexSearcher searcher = new IndexSearcher(reader);
-    
-    Query q = new TermQuery(new Term(IndexArgs.ID, docid));
-    TopDocs rs = searcher.search(q, 1);
-    ScoreDoc[] hits = rs.scoreDocs;
-    
-    if (hits == null) {
-      throw new RuntimeException("Docid not found!");
-    }
-    
-    return hits[0].doc;
-  }
-  
-  private static WashingtonPostCollection.Document.WashingtonPostObject getWapoObj(String record) {
+  private static String getRawContents(String record) {
+    WashingtonPostCollection.Document.WashingtonPostObject wapoObj;
     ObjectMapper mapper = new ObjectMapper();
-    WashingtonPostCollection.Document.WashingtonPostObject wapoObj = null;
     try {
       wapoObj = mapper
           .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES) // Ignore unrecognized properties
@@ -194,18 +181,9 @@ public class BackgroundLinkingTopicReader extends TopicReader<Integer> {
       // here in case future data may bring up this issue
       throw new RuntimeException(e);
     }
-    return wapoObj;
-  }
 
-  private static String removeTags(String content) {
-    return Jsoup.parse(content).text();
-  }
-
-  private static String getRawContents(String record) {
-    WashingtonPostCollection.Document.WashingtonPostObject wapoObj = getWapoObj(record);
-    
     StringBuilder contentBuilder = new StringBuilder();
-    contentBuilder.append(wapoObj.getTitle()).append("\n\n");
+    contentBuilder.append(wapoObj.getTitle()).append("\n");
     
     wapoObj.getContents().ifPresent(contents -> {
       for (WashingtonPostCollection.Document.WashingtonPostObject.Content contentObj : contents) {
@@ -214,47 +192,18 @@ public class BackgroundLinkingTopicReader extends TopicReader<Integer> {
           contentObj.getType().ifPresent(type -> {
             contentObj.getContent().ifPresent(content -> {
               if (WashingtonPostCollection.Document.CONTENT_TYPE_TAG.contains(type)) {
-                contentBuilder.append(removeTags(content)).append("\n");
+                contentBuilder.append(Jsoup.parse(content).text()).append("\n");
               }
             });
           });
         }
         contentObj.getFullCaption().ifPresent(caption -> {
           String fullCaption = contentObj.getFullCaption().get();
-          contentBuilder.append(removeTags(fullCaption)).append("\n");
+          contentBuilder.append(Jsoup.parse(fullCaption).text()).append("\n");
         });
       }
     });
     
     return contentBuilder.toString();
-  }
-  
-  private static List<String> getParagraphs(String record) {
-    List<String> paragraphs = new ArrayList<>();
-    WashingtonPostCollection.Document.WashingtonPostObject wapoObj = getWapoObj(record);
-    wapoObj.getContents().ifPresent(contents -> {
-      for (WashingtonPostCollection.Document.WashingtonPostObject.Content contentObj : contents) {
-        if (contentObj == null) continue;
-        if (contentObj.getType().isPresent() && contentObj.getContent().isPresent()) {
-          contentObj.getType().ifPresent(type -> {
-            contentObj.getContent().ifPresent(content -> {
-              if (WashingtonPostCollection.Document.CONTENT_TYPE_TAG.contains(type)) {
-                String sanityContent = removeTags(content);
-                if (sanityContent.trim().length() > 0) {
-                  paragraphs.add(sanityContent);
-                }
-              }
-            });
-          });
-        }
-      }
-    });
-    paragraphs.sort(new Comparator<String>() {
-      @Override
-      public int compare(String o1, String o2) {
-        return o2.length() - o1.length();
-      }
-    });
-    return paragraphs;
   }
 }
