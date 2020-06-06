@@ -74,25 +74,25 @@ import java.util.Set;
 import java.util.zip.GZIPInputStream;
 
 /**
- * A collection of WET files from CommonCrawl (https://commoncrawl.org/the-data/get-started/#WET-Format).
- * This can be used to read the CommonCrawl WET files
+ * A collection of WARC files from CommonCrawl (https://commoncrawl.org/the-data/get-started/#WARC-Format).
+ * This can be used to read the CommonCrawl WARC files
  */
-public class CommonCrawlWetCollection extends DocumentCollection<CommonCrawlWetCollection.Document> {
+public class CommonCrawlWarcCollection extends DocumentCollection<CommonCrawlWarcCollection.Document> {
 
-  public CommonCrawlWetCollection(Path path) {
+  public CommonCrawlWarcCollection(Path path) {
     this.path = path;
-    this.allowedFileSuffix = Set.of(".warc.wet.gz");
+    this.allowedFileSuffix = Set.of(".warc.gz");
   }
 
   @Override
-  public FileSegment<CommonCrawlWetCollection.Document> createFileSegment(Path p) throws IOException {
+  public FileSegment<CommonCrawlWarcCollection.Document> createFileSegment(Path p) throws IOException {
     return new Segment(p);
   }
 
   /**
    * An individual WARC in CommonCrawl.
    */
-  public static class Segment extends FileSegment<CommonCrawlWetCollection.Document> {
+  public static class Segment extends FileSegment<CommonCrawlWarcCollection.Document> {
     private static final byte MASK_THREE_BYTE_CHAR = (byte) (0xE0);
     private static final byte MASK_TWO_BYTE_CHAR = (byte) (0xC0);
     private static final byte MASK_TOPMOST_BIT = (byte) (0x80);
@@ -245,6 +245,7 @@ public class CommonCrawlWetCollection extends DocumentCollection<CommonCrawlWetC
       // make sure we get the content length here
       int contentLength = -1;
       boolean foundContentLength = false;
+      //boolean foundContentType = false;
       while (inHeader && ((line = readLineFromInputStream(in)) != null)) {
         if ((line.trim().length() == 0) && foundContentLength) {
           inHeader = false;
@@ -331,8 +332,6 @@ public class CommonCrawlWetCollection extends DocumentCollection<CommonCrawlWetC
           retRecord.setWarcDate(thisValue);
         } else if (thisKey.equals("WARC-Record-ID")) {
           retRecord.setWarcUUID(thisValue);
-        } else if (thisKey.equals("WARC-Refers-To")) {
-          retRecord.setWarcRefersToUUID(thisValue);
         } else if (thisKey.equals("Content-Type")) {
           retRecord.setWarcContentType(thisValue);
         } else {
@@ -348,10 +347,10 @@ public class CommonCrawlWetCollection extends DocumentCollection<CommonCrawlWetC
   }
 
 
-
   /**
    *
-   * A document from the <a href="https://commoncrawl.org/the-data/get-started/#WET-Format/">CommonCrawl WET collection</a>.
+   * A document from the <a href="https://commoncrawl.org/the-data/get-started/#WARC-Format/">
+   * CommonCrawl WARC collection</a>.
    *
    */
   public static class Document implements CommonCrawlBaseDocument {
@@ -395,7 +394,12 @@ public class CommonCrawlWetCollection extends DocumentCollection<CommonCrawlWetC
 
     @Override
     public String contents() {
-      return getContent();
+      try {
+        return JsoupStringTransform.SINGLETON.apply(getContent());
+      } catch (Exception e) {
+        LOG.error("Error extracting contents from raw document: " + id());
+        throw new InvalidContentsException();
+      }
     }
 
     @Override
@@ -405,7 +409,7 @@ public class CommonCrawlWetCollection extends DocumentCollection<CommonCrawlWetC
 
     @Override
     public boolean indexable() {
-      return "conversion".equals(getHeaderRecordType());
+      return "response".equals(getHeaderRecordType());
     }
 
     /**
@@ -482,14 +486,6 @@ public class CommonCrawlWetCollection extends DocumentCollection<CommonCrawlWetC
       warcHeader.UUID = UUID;
     }
 
-    /**
-     * Sets the WARC Refers To uuid string
-     *
-     * @param UUID uuid string
-     */
-    public void setWarcRefersToUUID(String UUID) {
-      warcHeader.RefersToUUID = UUID;
-    }
 
     /**
      * Adds a key/value pair to a WARC header. This is needed to filter out known keys.
@@ -506,9 +502,6 @@ public class CommonCrawlWetCollection extends DocumentCollection<CommonCrawlWetC
         return;
       }
       if (key.equals("WARC-Record-ID")) {
-        return;
-      }
-      if (key.equals("WARC-Refers-To")) {
         return;
       }
       if (key.equals("Content-Type")) {
@@ -627,7 +620,7 @@ public class CommonCrawlWetCollection extends DocumentCollection<CommonCrawlWetC
     }
 
     public String getDocid() {
-      return warcHeader.RefersToUUID;
+      return warcHeader.UUID;
     }
 
     public String getURL() {
@@ -635,7 +628,10 @@ public class CommonCrawlWetCollection extends DocumentCollection<CommonCrawlWetC
     }
 
     public String getContent() {
-      return getContentUTF8();
+      String str = getContentUTF8();
+      int i = str.indexOf("\n<");
+
+      return str.substring(i + 1);
     }
 
     /**
@@ -653,7 +649,6 @@ public class CommonCrawlWetCollection extends DocumentCollection<CommonCrawlWetC
     public class WarcHeader {
       public String contentType = "";
       public String UUID = "";
-      public String RefersToUUID = "";
       public String dateString = "";
       public String recordType = "";
       public HashMap<String, String> metadata = new HashMap<String, String>();
@@ -673,7 +668,6 @@ public class CommonCrawlWetCollection extends DocumentCollection<CommonCrawlWetC
       public WarcHeader(Document.WarcHeader o) {
         this.contentType = o.contentType;
         this.UUID = o.UUID;
-        this.RefersToUUID = o.RefersToUUID;
         this.dateString = o.dateString;
         this.recordType = o.recordType;
         this.metadata.putAll(o.metadata);
@@ -689,7 +683,6 @@ public class CommonCrawlWetCollection extends DocumentCollection<CommonCrawlWetC
       public void write(DataOutput out) throws IOException {
         out.writeUTF(contentType);
         out.writeUTF(UUID);
-        out.writeUTF(RefersToUUID);
         out.writeUTF(dateString);
         out.writeUTF(recordType);
         out.writeInt(metadata.size());
@@ -711,7 +704,6 @@ public class CommonCrawlWetCollection extends DocumentCollection<CommonCrawlWetC
       public void readFields(DataInput in) throws IOException {
         contentType = in.readUTF();
         UUID = in.readUTF();
-        RefersToUUID = in.readUTF();
         dateString = in.readUTF();
         recordType = in.readUTF();
         metadata.clear();
@@ -735,7 +727,6 @@ public class CommonCrawlWetCollection extends DocumentCollection<CommonCrawlWetC
         retBuffer.append("WARC-Date: " + dateString + NEWLINE);
 
         retBuffer.append("WARC-Record-ID: " + UUID + NEWLINE);
-        retBuffer.append("WARC-Refers-To: " + UUID + NEWLINE);
         Iterator<Map.Entry<String, String>> metadataIterator = metadata.entrySet().iterator();
         while (metadataIterator.hasNext()) {
           Map.Entry<String, String> thisEntry = metadataIterator.next();
