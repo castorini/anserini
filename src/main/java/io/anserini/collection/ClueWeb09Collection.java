@@ -243,9 +243,8 @@ public class ClueWeb09Collection extends DocumentCollection<ClueWeb09Collection.
       // then read to the first newline
       // make sure we get the content length here
       int contentLength = -1;
-      boolean foundContentLength = false;
-      while (!foundContentLength && inHeader && ((line = readLineFromInputStream(in)) != null)) {
-        if ((line.trim().length() == 0) && foundContentLength) {
+      while (inHeader && ((line = readLineFromInputStream(in)) != null)) {
+        if (line.trim().length() == 0) {
           inHeader = false;
         } else {
           headerBuffer.append(line);
@@ -253,7 +252,6 @@ public class ClueWeb09Collection extends DocumentCollection<ClueWeb09Collection.
           String[] thisHeaderPieceParts = line.split(":", 2);
           if (thisHeaderPieceParts.length == 2) {
             if (thisHeaderPieceParts[0].toLowerCase(Locale.US).startsWith("content-length")) {
-              foundContentLength = true;
               try {
                 contentLength = Integer.parseInt(thisHeaderPieceParts[1].trim());
               } catch (NumberFormatException nfEx) {
@@ -616,10 +614,10 @@ public class ClueWeb09Collection extends DocumentCollection<ClueWeb09Collection.
 
     public String getContent() {
       String str = getContentUTF8();
-      int i = str.indexOf("Content-Length:");
-      int j = str.indexOf("\n", i);
+      
+      int k = str.indexOf("<");
 
-      return str.substring(j + 1);
+      return k != -1 ? str.substring(k, str.length()-1) : str.substring(0, str.length()-1);
     }
 
     /**

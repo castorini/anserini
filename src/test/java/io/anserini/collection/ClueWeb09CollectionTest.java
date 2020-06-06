@@ -50,7 +50,7 @@ public class ClueWeb09CollectionTest extends DocumentCollectionTest<ClueWeb09Col
 
     expected.put("clueweb09-az0000-00-00000",
         Map.of("id", "clueweb09-az0000-00-00000",
-            "raw", "\n<html>\nwhatever here will be included\n</html>"));
+            "raw", "<html>\nwhatever here will be included\n</html>"));
   }
 
   @Override

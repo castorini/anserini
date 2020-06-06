@@ -554,13 +554,10 @@ public class ClueWeb12Collection extends DocumentCollection<ClueWeb12Collection.
 
     public String getContent() {
       String str = getContentUTF8();
-      int i = str.indexOf("Content-Length:");
-      int j = str.indexOf("\n", i);
-
       // Get rid of HTTP headers. Look for the first '<'.
-      int k = str.indexOf("<", j);
+      int k = str.indexOf("<");
 
-      return k != -1 ? str.substring(k) : str.substring(j + 1);
+      return k != -1 ? str.substring(k, str.length()-1) : str.substring(0, str.length()-1);
     }
   }
 }
