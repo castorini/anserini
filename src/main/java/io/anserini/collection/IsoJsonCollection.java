@@ -69,9 +69,66 @@ import java.util.NoSuchElementException;
  *
  */
 
-public class IsoJsonCollection extends JsonCollection{
-  public IsoJsonCollection(Path path) {
-    super(path);
+public class IsoJsonCollection extends DocumentCollection<IsoJsonCollection.Document>{
+  private static final Logger LOG = LogManager.getLogger(JsonCollection.class);
+
+  /*public IsoJsonCollection(Path path){
+    super(path)
+  }*/
+  public IsoJsonCollection(Path path){
+    this.path = path;
+    this.allowedFileSuffix = new HashSet<>(Arrays.asList(".json", ".jsonl"));
+  }
+
+  @Override
+  public FileSegment<IsoJsonCollection.Document> createFileSegment(Path p) throws IOException {
+    return new Segment(p);
+  }
+
+  /**
+   * A file in a JSON collection, typically containing multiple documents.
+   */
+  public static class Segment extends FileSegment<IsoJsonCollection.Document> {
+    private JsonNode node = null;
+    private Iterator<JsonNode> iter = null; // iterator for JSON document array
+    private MappingIterator<JsonNode> iterator; // iterator for JSON line objects
+
+    public Segment(Path path) throws IOException {
+      super(path);
+      bufferedReader = new BufferedReader(new FileReader(path.toString()));
+      ObjectMapper mapper = new ObjectMapper();
+      iterator = mapper.readerFor(JsonNode.class).readValues(bufferedReader);
+      if (iterator.hasNext()) {
+        node = iterator.next();
+        if (node.isArray()) {
+          iter = node.elements();
+        }
+      }
+    }
+
+    @Override
+    public void readNext() throws NoSuchElementException {
+      if (node == null) {
+        throw new NoSuchElementException("JsonNode is empty");
+      } else if (node.isObject()) {
+        bufferedRecord = new IsoJsonCollection.Document(node);
+        if (iterator.hasNext()) { // if bufferedReader contains JSON line objects, we parse the next JSON into node
+          node = iterator.next();
+        } else {
+          atEOF = true; // there is no more JSON object in the bufferedReader
+        }
+      } else if (node.isArray()) {
+        if (iter != null && iter.hasNext()) {
+          JsonNode json = iter.next();
+          bufferedRecord = new IsoJsonCollection.Document(node);
+        } else {
+          throw new NoSuchElementException("Reached end of JsonNode iterator");
+        }
+      } else {
+        LOG.error("Error: invalid JsonNode type");
+        throw new NoSuchElementException("Invalid JsonNode type");
+      }
+    }
   }
 
   public static class Document extends MultifieldSourceDocument {

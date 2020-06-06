@@ -29,7 +29,7 @@ import java.util.Map;
 // (3) JSON Lines (i.e., one JSON object per line)
 //
 // This is the test case for (2)
-public class IsoJsonCollectionDocumentArrayTest extends JsonCollectionTest {
+public class IsoJsonCollectionDocumentArrayTest extends IsoJsonCollectionTest {
 
   @Before
   public void setUp() throws Exception {
@@ -46,7 +46,7 @@ public class IsoJsonCollectionDocumentArrayTest extends JsonCollectionTest {
     totalSegments = 1;
     totalDocs = 2;
 
-    expected.put("doc1", Map.of("id", "doc1", "content", "this is the title 1.\nthis is the abstract 1."));
-    expected.put("doc2", Map.of("id", "doc2", "content", "this is the title 2.\nthis is the abstract 2."));
+    expected.put("doc1", Map.of("id", "doc1", "content", "this is the abstract 1.\nthis is the title 1.\n"));
+    expected.put("doc2", Map.of("id", "doc2", "content", "this is the abstract 2.\nthis is the title 2.\n"));
   }
 }
