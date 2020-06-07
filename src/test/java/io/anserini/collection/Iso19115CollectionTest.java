@@ -20,7 +20,7 @@ public class Iso19115CollectionTest extends DocumentCollectionTest<Iso19115Colle
     totalSegments = 1;
     totalDocs = 1;
 
-    expected.put("12958", Map.of("id", "12958", "title", "Test title", "abstract", "Test abstract"));
+    expected.put("12957", Map.of("id", "12957", "title", "Test title", "abstract", "Test abstract"));
   }
 
   @Override

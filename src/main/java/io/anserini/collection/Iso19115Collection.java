@@ -88,17 +88,13 @@ public class Iso19115Collection extends DocumentCollection<Iso19115Collection.Do
     protected String abstractContent;
 
     public Document(JsonNode json) {
-      json.fields().forEachRemaining( e -> {
-        if ("id".equals(e.getKey())) {
-          this.id = json.get("id").asText();
-        } else if ("title".equals(e.getKey())) {
-          this.title = json.get("title").asText();
-        } else if ("abstract".equals(e.getKey())) {
-          this.abstractContent = json.get("abstract").asText();
-        } else {
-          throw new RuntimeException("JSON document contains illegal fields");
-        }
-      });
+      // extracting the fields from the ISO19115 file
+      String identifier = json.get("gmd:MD_Metadata").get("gmd:fileIdentifier").get("gco:CharacterString").asText();
+      this.id = identifier.substring(0,identifier.length() - 8);
+      this.title = json.get("gmd:MD_Metadata").get("gmd:identificationInfo").get("gmd:MD_DataIdentification").get("gmd:citation")
+                   .get("gmd:CI_Citation").get("gmd:title").get("gco:CharacterString").asText();
+      this.abstractContent = json.get("gmd:MD_Metadata").get("gmd:identificationInfo").get("gmd:MD_DataIdentification")
+                             .get("gmd:abstract").get("gco:CharacterString").asText();
     }
 
     @Override
