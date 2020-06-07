@@ -29,18 +29,18 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class IsoCollection extends DocumentCollection<IsoCollection.Document>{
-  public IsoCollection(Path path){
+public class Iso19115Collection extends DocumentCollection<Iso19115Collection.Document>{
+  public Iso19115Collection(Path path){
     this.path = path;
     this.allowedFileSuffix = new HashSet<>(Arrays.asList(".json", ".jsonl"));
   }
 
   @Override
-  public FileSegment<IsoCollection.Document> createFileSegment(Path p) throws IOException{
+  public FileSegment<Iso19115Collection.Document> createFileSegment(Path p) throws IOException{
     return new Segment(p);
   }
 
-  public static class Segment extends FileSegment<IsoCollection.Document> {
+  public static class Segment extends FileSegment<Iso19115Collection.Document> {
     private JsonNode node = null;
     private Iterator<JsonNode> iter = null;
     private MappingIterator<JsonNode> iterator;
@@ -63,7 +63,7 @@ public class IsoCollection extends DocumentCollection<IsoCollection.Document>{
       if (node == null){
         throw new NoSuchElementException("JsonNode is empty");
       } else if (node.isObject()) {
-        bufferedRecord = new IsoCollection.Document(node);
+        bufferedRecord = new Iso19115Collection.Document(node);
         if(iterator.hasNext()) {
           node = iterator.next();
         } else {
@@ -72,7 +72,7 @@ public class IsoCollection extends DocumentCollection<IsoCollection.Document>{
       } else if (node.isArray()) {
         if (iter != null && iter.hasNext()) {
           JsonNode json = iter.next();
-          bufferedRecord = new IsoCollection.Document(node);
+          bufferedRecord = new Iso19115Collection.Document(node);
         } else {
           throw new NoSuchElementException("Reached end of JsonNode iterator");
         }
@@ -85,7 +85,7 @@ public class IsoCollection extends DocumentCollection<IsoCollection.Document>{
   public static class Document implements SourceDocument{
     protected String id;
     protected String title;
-    protected String abstract_;
+    protected String abstractContent;
 
     public Document(JsonNode json) {
       json.fields().forEachRemaining( e -> {
@@ -94,7 +94,7 @@ public class IsoCollection extends DocumentCollection<IsoCollection.Document>{
         } else if ("title".equals(e.getKey())) {
           this.title = json.get("title").asText();
         } else if ("abstract".equals(e.getKey())) {
-          this.abstract_ = json.get("abstract").asText();
+          this.abstractContent = json.get("abstract").asText();
         } else {
           throw new RuntimeException("JSON document contains illegal fields");
         }
@@ -108,12 +108,12 @@ public class IsoCollection extends DocumentCollection<IsoCollection.Document>{
 
     @Override
     public String contents() {
-      return abstract_;
+      return abstractContent;
     }
 
     @Override
     public String raw() {
-      return title + "\n" + abstract_;
+      return title + "\n" + abstractContent;
     }
 
     public String getTitle() {
@@ -121,7 +121,7 @@ public class IsoCollection extends DocumentCollection<IsoCollection.Document>{
     }
 
     public String getAbstract() {
-      return abstract_;
+      return abstractContent;
     }
 
     @Override

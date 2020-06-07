@@ -1,6 +1,6 @@
 package io.anserini.index.generator;
 
-import io.anserini.collection.IsoCollection;
+import io.anserini.collection.Iso19115Collection;
 import io.anserini.index.IndexArgs;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
@@ -12,7 +12,7 @@ import org.apache.lucene.index.IndexOptions;
 
 import org.apache.lucene.util.BytesRef;
 
-public class IsoGenerator implements LuceneDocumentGenerator<IsoCollection.Document>{
+public class Iso19115Generator implements LuceneDocumentGenerator<Iso19115Collection.Document>{
   protected IndexArgs args;
 
   // constants for storing
@@ -28,30 +28,30 @@ public class IsoGenerator implements LuceneDocumentGenerator<IsoCollection.Docum
     }
   }
 
-  public IsoGenerator(IndexArgs args) {
+  public Iso19115Generator(IndexArgs args) {
     this.args = args;
   }
 
-  public Document createDocument(IsoCollection.Document isoDoc) throws GeneratorException {
-    String id = isoDoc.id();
+  public Document createDocument(Iso19115Collection.Document doc) throws GeneratorException {
+    String id = doc.id();
 
     // handling empty doc
-    if (isoDoc.contents().trim().isEmpty()) {
+    if (doc.contents().trim().isEmpty()) {
       throw new EmptyDocumentException();
     }
 
     // creating the Lucene Document
-    Document doc = new Document();
+    Document document = new Document();
 
     // adding fields to the document
-    doc.add(new StringField(IndexArgs.ID, id, Field.Store.YES));
+    document.add(new StringField(IndexArgs.ID, id, Field.Store.YES));
     // This is needed to break score ties by docid.
-    doc.add(new SortedDocValuesField(IndexArgs.ID, new BytesRef(id)));
-    doc.add(new StoredField(IsoField.TITLE.name, isoDoc.getTitle()));
-    doc.add(new StoredField(IsoField.ABSTRACT.name, isoDoc.getAbstract()));
+    document.add(new SortedDocValuesField(IndexArgs.ID, new BytesRef(id)));
+    document.add(new StoredField(IsoField.TITLE.name, doc.getTitle()));
+    document.add(new StoredField(IsoField.ABSTRACT.name, doc.getAbstract()));
 
     if (args.storeRaw) {
-      doc.add(new StoredField(IndexArgs.RAW, isoDoc.raw()));
+      document.add(new StoredField(IndexArgs.RAW, doc.raw()));
     }
 
     FieldType fieldType = new FieldType();
@@ -67,6 +67,6 @@ public class IsoGenerator implements LuceneDocumentGenerator<IsoCollection.Docum
     } else {
       fieldType.setIndexOptions(IndexOptions.DOCS_AND_FREQS);
     }
-    return doc;
+    return document;
   }
 }

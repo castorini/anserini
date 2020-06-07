@@ -22,7 +22,7 @@ def convert_collection(args):
         title = json_object["gmd:MD_Metadata"]["gmd:identificationInfo"]["gmd:MD_DataIdentification"]["gmd:citation"]["gmd:CI_Citation"]["gmd:title"]["gco:CharacterString"]
         abstract = json_object["gmd:MD_Metadata"]["gmd:identificationInfo"]["gmd:MD_DataIdentification"]["gmd:abstract"]["gco:CharacterString"]
         # writing the new json to output.json
-        new_json = {"id": id, "title":title,"abstract": abstract}
+        new_json = {"id": id, "title":title,"contents": abstract}
         #new_json = {"id": id,"contents": abstract}
         output_jsonl_file.write(json.dumps(new_json) + '\n')
         document_count += 1
@@ -35,7 +35,7 @@ def convert_collection(args):
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='''Converts iso19115 files to Anserini jsonl files.''')
+    parser = argparse.ArgumentParser(description='Converts iso19115 files to Anserini jsonl files.')
     parser.add_argument('--collection_path', required=True, help='iso19115 collection file')
     parser.add_argument('--output_folder', required=True, help='output file')
     # not used yet since dataset is very small
