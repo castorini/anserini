@@ -2,22 +2,24 @@ import json
 import xmltodict
 import os
 
-input_path = os.path.join(args.collection_path)
-output_path = os.path.join(args.output_folder)
+def convert_collection(args):
+    print("Converting collection...")
+    input_path = os.path.join(args.collection_path)
+    output_path = os.path.join(args.output_folder)
 
-with open(output_path + "output.json", 'w') as out_file:
-    out_file.write('[\n')
-    for xml_file in os.listdir(input_path + 'datasets_xml'):
-        print(xml_file)
-        with open(os.path.join('datasets_xml', xml_file), 'r', encoding='utf8') as f:
-            xml_string = f.read()
+    with open(output_path + "output.json", 'w') as out_file:
+        out_file.write('[\n')
+        for xml_file in os.listdir(input_path + 'datasets_xml'):
+            print(xml_file)
+            with open(os.path.join('datasets_xml', xml_file), 'r', encoding='utf8') as f:
+                xml_string = f.read()
 
-        json_string = json.dumps(xmltodict.parse(xml_string), indent=4)
+            json_string = json.dumps(xmltodict.parse(xml_string), indent=4)
 
-        out_file.write(json_string)
-        out_file.write(',')
+            out_file.write(json_string)
+            out_file.write(',')
 
-    out_file.write('\n]')
+        out_file.write('\n]')
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Converts iso19115 xml files to json files.')
