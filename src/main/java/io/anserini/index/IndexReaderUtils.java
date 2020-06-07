@@ -717,7 +717,7 @@ public class IndexReaderUtils {
     boolean stats;
   }
 
-  public static void main(String[] argv) throws Exception{
+  public static void main(String[] argv) throws Exception {
     Args args = new Args();
     CmdLineParser parser = new CmdLineParser(args, ParserProperties.defaults().withUsageWidth(90));
     try {
@@ -728,21 +728,20 @@ public class IndexReaderUtils {
       return;
     }
 
-    Directory directory = FSDirectory.open(new File(args.index).toPath());
-    IndexReader reader = DirectoryReader.open(directory);
+    IndexReader reader = IndexReaderUtils.getReader(args.index);
+    Map<String, Object> results = IndexReaderUtils.getIndexStats(reader);
 
     if (args.stats) {
       Terms terms = MultiTerms.getTerms(reader, IndexArgs.CONTENTS);
 
       System.out.println("Index statistics");
       System.out.println("----------------");
-      System.out.println("documents:             " + reader.numDocs());
-      System.out.println("documents (non-empty): " + reader.getDocCount(IndexArgs.CONTENTS));
-      System.out.println("unique terms:          " + terms.size());
-      System.out.println("total terms:           " + reader.getSumTotalTermFreq(IndexArgs.CONTENTS));
+      System.out.println("documents:             " + results.get("documents"));
+      System.out.println("documents (non-empty): " + results.get("non_empty_documents"));
+      System.out.println("unique terms:          " + results.get("unique_terms"));
+      System.out.println("total terms:           " + results.get("total_terms"));
     }
 
     reader.close();
-    directory.close();
   }
 }
