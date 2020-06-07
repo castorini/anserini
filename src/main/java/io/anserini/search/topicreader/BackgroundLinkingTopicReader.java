@@ -22,18 +22,12 @@ import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import io.anserini.analysis.AnalyzerUtils;
 import io.anserini.collection.WashingtonPostCollection;
 import io.anserini.index.IndexArgs;
-import io.anserini.index.generator.WashingtonPostGenerator;
-import io.anserini.search.SearchCollection;
+import io.anserini.index.IndexReaderUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexableField;
 import org.apache.lucene.index.Term;
-import org.apache.lucene.search.IndexSearcher;
-import org.apache.lucene.search.Query;
-import org.apache.lucene.search.ScoreDoc;
-import org.apache.lucene.search.TermQuery;
-import org.apache.lucene.search.TopDocs;
 import org.jsoup.Jsoup;
 
 import java.io.BufferedReader;
@@ -51,7 +45,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Topic reader for TREC2018 news track background linking task
+ * Topic reader for the TREC News Track background linking task.
  */
 public class BackgroundLinkingTopicReader extends TopicReader<Integer> {
   public BackgroundLinkingTopicReader(Path topicFile) {
@@ -68,10 +62,6 @@ public class BackgroundLinkingTopicReader extends TopicReader<Integer> {
       Pattern.compile("<url>\\s*(.*?)\\s*</?url>", Pattern.DOTALL);
   // Note that some TREC 2018 topics don't properly close the </url> tags.
 
-  /**
-   * @return SortedMap where keys are query/topic IDs and values are title portions of the topics
-   * @throws IOException any io exception
-   */
   @Override
   public SortedMap<Integer, Map<String, String>> read(BufferedReader bRdr) throws IOException {
     SortedMap<Integer, Map<String, String>> map = new TreeMap<>();
@@ -114,120 +104,73 @@ public class BackgroundLinkingTopicReader extends TopicReader<Integer> {
   }
   
   /**
-   * For TREC2018 News Track Background linking task, the query string is actually a document id.
-   * In order to make sense of the query we extract the top terms with higher tf-idf scores from the
-   * raw document of that docId from the index.
-   * @param reader index reader
-   * @param docid the query docid
-   * @param paragraph paragraph
-   * @param k how many terms will be picked from the query document
-   * @param isWeighted whether to include terms' tf-idf score as their weights
-   * @param sdm whether or not we're using sdm
-   * @param analyzer Analyzer
-   * @return Strings constructed query strings
-   * @throws IOException any IO exception
+   * Extracts the top <i>k</i> terms from document in terms of tf-idf.
    */
-  public static List<String> generateQueryString(IndexReader reader, String docid, boolean paragraph, int k,
-     boolean isWeighted, boolean sdm, Analyzer analyzer) throws IOException {
-    List<String> queryStrings = new ArrayList<>();
-    IndexableField rawDocStr = reader.document(convertDocidToLuceneDocid(reader, docid)).getField(IndexArgs.RAW);
-    if (rawDocStr == null) {
-      throw new RuntimeException("Raw documents not stored and Unfortunately SDM query for News Background Linking " +
-          "task needs to read the raw document to full construct the query string");
+  public static List<String> extractTerms(IndexReader reader, String docid, int k, Analyzer analyzer)
+      throws IOException {
+    // Fetch the raw JSON representation of the document.
+    IndexableField rawField = reader.document(
+        IndexReaderUtils.convertDocidToLuceneDocid(reader, docid)).getField(IndexArgs.RAW);
+    if (rawField == null) {
+      throw new RuntimeException("Raw documents not stored!");
     }
-    if (paragraph) {
-      queryStrings = getParagraphs(rawDocStr.stringValue());
-      queryStrings = queryStrings.subList(0, Math.min(5, queryStrings.size()));
-    } else {
-      queryStrings.add(getRawContents(rawDocStr.stringValue()));
-    }
-    for (int i = 0; i < queryStrings.size(); i++) {
-      List<String> queryTokens = AnalyzerUtils.analyze(analyzer, queryStrings.get(i));
-      if (sdm) {
-        String queryString = String.join(" ", queryTokens.subList(0, Math.min(queryTokens.size(), k)));
-        queryStrings.set(i, queryString);
-      } else {
-        class ScoreComparator implements Comparator<Pair<String, Double>> {
-          public int compare(Pair<String, Double> a, Pair<String, Double> b) {
-            int cmp = Double.compare(b.getRight(), a.getRight());
-            if (cmp == 0) {
-              return a.getLeft().compareToIgnoreCase(b.getLeft());
-            } else {
-              return cmp;
-            }
-          }
+
+    // Extract plain-text representation and analyze into terms.
+    List<String> documentTerms = AnalyzerUtils.analyze(analyzer, extractArticlePlainText(rawField.stringValue()));
+
+    // Priority queue for holding terms based on tf-idf scores.
+    class ScoreComparator implements Comparator<Pair<String, Double>> {
+      public int compare(Pair<String, Double> a, Pair<String, Double> b) {
+        int cmp = Double.compare(b.getRight(), a.getRight());
+        if (cmp == 0) {
+          return a.getLeft().compareToIgnoreCase(b.getLeft());
+        } else {
+          return cmp;
         }
-    
-        PriorityQueue<Pair<String, Double>> termsTfIdfPQ = new PriorityQueue<>(new ScoreComparator());
-        long docCount = reader.numDocs();
-        Map<String, Integer> termsMap = new HashMap<>();
-        queryTokens.forEach(token -> {
-          if ((token.length() >= 2) && (token.matches("[a-z]+")))
-            termsMap.merge(token, 1, Math::addExact);
-          }
-        );
-        termsMap.forEach((term, count) -> {
-          try {
-            double tfIdf = count * Math.log((1.0f + docCount) / reader.docFreq(new Term(IndexArgs.CONTENTS, term)));
-            termsTfIdfPQ.add(Pair.of(term, tfIdf));
-          } catch (IOException e) {
-            e.printStackTrace();
-          }
-        });
-        String constructedQueryStr = "";
-        for (int j = 0; j < Math.min(termsTfIdfPQ.size(), k); j++) {
-          Pair<String, Double> termScores = termsTfIdfPQ.poll();
-          constructedQueryStr += termScores.getKey() + (isWeighted ? String.format("^%f ", termScores.getValue()) : " ");
-        }
-        queryStrings.set(i, constructedQueryStr);
       }
-      System.out.println(String.format("Query %d: %s", i, queryStrings.get(i)));
     }
-    
-    return queryStrings;
-  }
-  
-  
-  public static int convertDocidToLuceneDocid(IndexReader reader, String docid) throws IOException {
-    IndexSearcher searcher = new IndexSearcher(reader);
-    
-    Query q = new TermQuery(new Term(IndexArgs.ID, docid));
-    TopDocs rs = searcher.search(q, 1);
-    ScoreDoc[] hits = rs.scoreDocs;
-    
-    if (hits == null) {
-      throw new RuntimeException("Docid not found!");
+    PriorityQueue<Pair<String, Double>> termsQueue = new PriorityQueue<>(new ScoreComparator());
+
+    // Build histogram of tf.
+    Map<String, Integer> tfMap = new HashMap<>();
+    documentTerms.forEach(token -> {
+      if ((token.length() >= 2) && (token.matches("[a-z]+")))
+        tfMap.merge(token, 1, Math::addExact);
+      }
+    );
+
+    // Compute the tf-idf.
+    final long docCount = reader.numDocs();
+    tfMap.forEach((term, tf) -> termsQueue.add(Pair.of(term,
+        tf * Math.log((1.0f + docCount) / IndexReaderUtils.getDF(reader, term)))));
+
+    // Extract the top k terms.
+    List<String> extractedTerms = new ArrayList<>();
+    for (int j = 0; j < Math.min(termsQueue.size(), k); j++) {
+      extractedTerms.add(termsQueue.poll().getKey());
     }
-    
-    return hits[0].doc;
+
+    return extractedTerms;
   }
-  
-  private static WashingtonPostCollection.Document.WashingtonPostObject getWapoObj(String record) {
+
+  // Note that there's code duplication here with the WashingtonPostCollection. We can't just call a method there
+  // because the version of the code inside WashingtonPostCollection.Document modifies internal state (e.g., "kicker"
+  // and "caption"). Haven't thought of a good solution for this yet.
+  private static String extractArticlePlainText(String record) {
+    WashingtonPostCollection.Document.WashingtonPostObject wapoObj;
     ObjectMapper mapper = new ObjectMapper();
-    WashingtonPostCollection.Document.WashingtonPostObject wapoObj = null;
     try {
       wapoObj = mapper
           .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES) // Ignore unrecognized properties
           .registerModule(new Jdk8Module()) // Deserialize Java 8 Optional: http://www.baeldung.com/jackson-optional
           .readValue(record, WashingtonPostCollection.Document.WashingtonPostObject.class);
     } catch (IOException e) {
-      // For current dataset, we can make sure all record has unique id and
-      // published date. So we just simply throw an RuntimeException
-      // here in case future data may bring up this issue
+      // Something is wrong... abort!
       throw new RuntimeException(e);
     }
-    return wapoObj;
-  }
 
-  private static String removeTags(String content) {
-    return Jsoup.parse(content).text();
-  }
-
-  private static String getRawContents(String record) {
-    WashingtonPostCollection.Document.WashingtonPostObject wapoObj = getWapoObj(record);
-    
     StringBuilder contentBuilder = new StringBuilder();
-    contentBuilder.append(wapoObj.getTitle()).append("\n\n");
+    contentBuilder.append(wapoObj.getTitle()).append("\n");
     
     wapoObj.getContents().ifPresent(contents -> {
       for (WashingtonPostCollection.Document.WashingtonPostObject.Content contentObj : contents) {
@@ -236,47 +179,18 @@ public class BackgroundLinkingTopicReader extends TopicReader<Integer> {
           contentObj.getType().ifPresent(type -> {
             contentObj.getContent().ifPresent(content -> {
               if (WashingtonPostCollection.Document.CONTENT_TYPE_TAG.contains(type)) {
-                contentBuilder.append(removeTags(content)).append("\n");
+                contentBuilder.append(Jsoup.parse(content).text()).append("\n");
               }
             });
           });
         }
         contentObj.getFullCaption().ifPresent(caption -> {
           String fullCaption = contentObj.getFullCaption().get();
-          contentBuilder.append(removeTags(fullCaption)).append("\n");
+          contentBuilder.append(Jsoup.parse(fullCaption).text()).append("\n");
         });
       }
     });
     
     return contentBuilder.toString();
-  }
-  
-  private static List<String> getParagraphs(String record) {
-    List<String> paragraphs = new ArrayList<>();
-    WashingtonPostCollection.Document.WashingtonPostObject wapoObj = getWapoObj(record);
-    wapoObj.getContents().ifPresent(contents -> {
-      for (WashingtonPostCollection.Document.WashingtonPostObject.Content contentObj : contents) {
-        if (contentObj == null) continue;
-        if (contentObj.getType().isPresent() && contentObj.getContent().isPresent()) {
-          contentObj.getType().ifPresent(type -> {
-            contentObj.getContent().ifPresent(content -> {
-              if (WashingtonPostCollection.Document.CONTENT_TYPE_TAG.contains(type)) {
-                String sanityContent = removeTags(content);
-                if (sanityContent.trim().length() > 0) {
-                  paragraphs.add(sanityContent);
-                }
-              }
-            });
-          });
-        }
-      }
-    });
-    paragraphs.sort(new Comparator<String>() {
-      @Override
-      public int compare(String o1, String o2) {
-        return o2.length() - o1.length();
-      }
-    });
-    return paragraphs;
   }
 }
