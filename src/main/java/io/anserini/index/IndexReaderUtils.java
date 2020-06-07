@@ -243,6 +243,22 @@ public class IndexReaderUtils {
   }
 
   /**
+   * Returns the document frequency of a term. Simply dispatches to <code>docFreq</code> but wraps the exception so
+   * that the caller doesn't need to deal with it; this is potentially dangerous but makes code less verbose.
+   *
+   * @param reader index reader
+   * @param term term
+   * @return tthe document frequency of a term
+   */
+  public static long getDF(IndexReader reader, String term) {
+    try {
+      return reader.docFreq(new Term(IndexArgs.CONTENTS, term));
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  /**
    * Returns iterator over all terms in the collection.
    * @param reader index reader
    * @return iterator over IndexTerm

@@ -591,9 +591,9 @@ public final class SearchCollection implements Closeable {
 
   public <K> ScoredDocuments searchBackgroundLinking(IndexSearcher searcher, K qid, String docid,
                                                      RerankerCascade cascade) throws IOException {
-    // We extract a list of analyzed terms from the document, so we just join them together and use the
-    // StandardQueryParser.
+    // Extract a list of analyzed terms from the document to compose a query.
     List<String> terms = BackgroundLinkingTopicReader.extractTerms(reader, docid, args.backgroundlinking_k, analyzer);
+    // Since the terms are already analyzed, we just join them together and use the StandardQueryParser.
     Query docQuery;
     try {
       docQuery = new StandardQueryParser().parse(StringUtils.join(terms, " "), IndexArgs.CONTENTS);
@@ -601,7 +601,7 @@ public final class SearchCollection implements Closeable {
       throw new RuntimeException("Unable to create a Lucene query comprised of terms extracted from query document!");
     }
 
-    // Per track guidelines: no opinion or editorials. Filter out articles of these types.
+    // Per track guidelines, no opinion or editorials. Filter out articles of these types.
     Query filter = new TermInSetQuery(
         WashingtonPostGenerator.WashingtonPostField.KICKER.name, new BytesRef("Opinions"),
         new BytesRef("Letters to the Editor"), new BytesRef("The Post's View"));
@@ -611,6 +611,7 @@ public final class SearchCollection implements Closeable {
     builder.add(docQuery, BooleanClause.Occur.MUST);
     Query query = builder.build();
 
+    // Search using constructed query.
     TopDocs rs;
     if (args.arbitraryScoreTieBreak) {
       rs = searcher.search(query, (isRerank && args.rf_qrels == null) ? args.rerankcutoff : args.hits);
@@ -622,11 +623,11 @@ public final class SearchCollection implements Closeable {
     RerankerContext context = new RerankerContext<>(searcher, qid, query, docid,
         StringUtils.join(", ", terms), terms, null, args);
 
+    // Run the existing cascade.
     ScoredDocuments docs = cascade.run(ScoredDocuments.fromTopDocs(rs, searcher), context);
 
-    NewsBackgroundLinkingReranker postProcessor = new NewsBackgroundLinkingReranker();
-
-    return postProcessor.rerank(docs, context);
+    // Perform post-processing (e.g., date filter, dedupping, etc.) as a final step.
+    return new NewsBackgroundLinkingReranker().rerank(docs, context);
   }
 
   public <K> ScoredDocuments searchTweets(IndexSearcher searcher, K qid, String queryString, long t, RerankerCascade cascade, 

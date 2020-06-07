@@ -23,18 +23,11 @@ import io.anserini.analysis.AnalyzerUtils;
 import io.anserini.collection.WashingtonPostCollection;
 import io.anserini.index.IndexArgs;
 import io.anserini.index.IndexReaderUtils;
-import io.anserini.index.generator.WashingtonPostGenerator;
-import io.anserini.search.SearchCollection;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexableField;
 import org.apache.lucene.index.Term;
-import org.apache.lucene.search.IndexSearcher;
-import org.apache.lucene.search.Query;
-import org.apache.lucene.search.ScoreDoc;
-import org.apache.lucene.search.TermQuery;
-import org.apache.lucene.search.TopDocs;
 import org.jsoup.Jsoup;
 
 import java.io.BufferedReader;
@@ -52,7 +45,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Topic reader for TREC2018 news track background linking task
+ * Topic reader for the TREC News Track background linking task.
  */
 public class BackgroundLinkingTopicReader extends TopicReader<Integer> {
   public BackgroundLinkingTopicReader(Path topicFile) {
@@ -69,10 +62,6 @@ public class BackgroundLinkingTopicReader extends TopicReader<Integer> {
       Pattern.compile("<url>\\s*(.*?)\\s*</?url>", Pattern.DOTALL);
   // Note that some TREC 2018 topics don't properly close the </url> tags.
 
-  /**
-   * @return SortedMap where keys are query/topic IDs and values are title portions of the topics
-   * @throws IOException any io exception
-   */
   @Override
   public SortedMap<Integer, Map<String, String>> read(BufferedReader bRdr) throws IOException {
     SortedMap<Integer, Map<String, String>> map = new TreeMap<>();
@@ -119,15 +108,17 @@ public class BackgroundLinkingTopicReader extends TopicReader<Integer> {
    */
   public static List<String> extractTerms(IndexReader reader, String docid, int k, Analyzer analyzer)
       throws IOException {
+    // Fetch the raw JSON representation of the document.
     IndexableField rawField = reader.document(
         IndexReaderUtils.convertDocidToLuceneDocid(reader, docid)).getField(IndexArgs.RAW);
     if (rawField == null) {
       throw new RuntimeException("Raw documents not stored!");
     }
 
-    String queryString = getRawContents(rawField.stringValue());
-    List<String> queryTokens = AnalyzerUtils.analyze(analyzer, queryString);
+    // Extract plain-text representation and analyze into terms.
+    List<String> documentTerms = AnalyzerUtils.analyze(analyzer, extractArticlePlainText(rawField.stringValue()));
 
+    // Priority queue for holding terms based on tf-idf scores.
     class ScoreComparator implements Comparator<Pair<String, Double>> {
       public int compare(Pair<String, Double> a, Pair<String, Double> b) {
         int cmp = Double.compare(b.getRight(), a.getRight());
@@ -138,35 +129,34 @@ public class BackgroundLinkingTopicReader extends TopicReader<Integer> {
         }
       }
     }
-    
-    PriorityQueue<Pair<String, Double>> termsTfIdfPQ = new PriorityQueue<>(new ScoreComparator());
-    long docCount = reader.numDocs();
-    Map<String, Integer> termsMap = new HashMap<>();
-    queryTokens.forEach(token -> {
+    PriorityQueue<Pair<String, Double>> termsQueue = new PriorityQueue<>(new ScoreComparator());
+
+    // Build histogram of tf.
+    Map<String, Integer> tfMap = new HashMap<>();
+    documentTerms.forEach(token -> {
       if ((token.length() >= 2) && (token.matches("[a-z]+")))
-        termsMap.merge(token, 1, Math::addExact);
+        tfMap.merge(token, 1, Math::addExact);
       }
     );
 
-    termsMap.forEach((term, count) -> {
-      try {
-        double tfIdf = count * Math.log((1.0f + docCount) / reader.docFreq(new Term(IndexArgs.CONTENTS, term)));
-        termsTfIdfPQ.add(Pair.of(term, tfIdf));
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
-    });
+    // Compute the tf-idf.
+    final long docCount = reader.numDocs();
+    tfMap.forEach((term, tf) -> termsQueue.add(Pair.of(term,
+        tf * Math.log((1.0f + docCount) / IndexReaderUtils.getDF(reader, term)))));
 
+    // Extract the top k terms.
     List<String> extractedTerms = new ArrayList<>();
-    for (int j = 0; j < Math.min(termsTfIdfPQ.size(), k); j++) {
-      Pair<String, Double> termScores = termsTfIdfPQ.poll();
-      extractedTerms.add(termScores.getKey());
+    for (int j = 0; j < Math.min(termsQueue.size(), k); j++) {
+      extractedTerms.add(termsQueue.poll().getKey());
     }
 
     return extractedTerms;
   }
 
-  private static String getRawContents(String record) {
+  // Note that there's code duplication here with the WashingtonPostCollection. We can't just call a method there
+  // because the version of the code inside WashingtonPostCollection.Document modifies internal state (e.g., "kicker"
+  // and "caption"). Haven't thought of a good solution for this yet.
+  private static String extractArticlePlainText(String record) {
     WashingtonPostCollection.Document.WashingtonPostObject wapoObj;
     ObjectMapper mapper = new ObjectMapper();
     try {
