@@ -16,7 +16,7 @@
 
 package io.anserini.index.generator;
 
-import io.anserini.collection.CommonCrawlWetCollection;
+import io.anserini.collection.CommonCrawlBaseDocument;
 import io.anserini.collection.InvalidContentsException;
 import io.anserini.collection.MultifieldSourceDocument;
 import io.anserini.collection.SourceDocument;
@@ -35,7 +35,7 @@ import org.apache.lucene.util.BytesRef;
  *
  * @param <T> type of the source document
  */
-public class CommonCrawlGenerator<T extends CommonCrawlWetCollection.CommonCrawlDocument> implements LuceneDocumentGenerator<T> {
+public class CommonCrawlGenerator<T extends CommonCrawlBaseDocument> implements LuceneDocumentGenerator<T> {
   protected IndexArgs args;
 
   public enum CommonCrawField {
