@@ -166,7 +166,7 @@ public class SearchArgs {
   public String[] inl2_c = new String[]{"0.1"};
 
   @Option(name = "-spl",
-      forbids = {"bm25", "-qld", "-qljm", "-inl2", "-spl", "-f2exp", "-f2log"},
+      forbids = {"bm25", "-qld", "-qljm", "-inl2", "-f2exp", "-f2log"},
       usage = "use SPL scoring model")
   public boolean spl = false;
 
