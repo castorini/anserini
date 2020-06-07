@@ -16,6 +16,7 @@
 
 package io.anserini.rerank.lib;
 
+import io.anserini.index.IndexReaderUtils;
 import io.anserini.rerank.Reranker;
 import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.ScoredDocuments;
@@ -71,7 +72,7 @@ public class NewsBackgroundLinkingReranker implements Reranker {
 
     if (context.getSearchArgs().backgroundlinking_datefilter) {
       try {
-        int luceneId = BackgroundLinkingTopicReader.convertDocidToLuceneDocid(reader, queryDocId);
+        int luceneId = IndexReaderUtils.convertDocidToLuceneDocid(reader, queryDocId);
         Document queryDoc = reader.document(luceneId);
         long queryDocDate = Long.parseLong(queryDoc.getField(PUBLISHED_DATE.name).stringValue());
         for (int i = 0; i < docs.documents.length; i++) {
@@ -107,7 +108,7 @@ public class NewsBackgroundLinkingReranker implements Reranker {
     Map<String, Long> m = new HashMap<>();
     try {
       Terms terms = reader.getTermVector(
-          BackgroundLinkingTopicReader.convertDocidToLuceneDocid(reader, docid), CONTENTS);
+          IndexReaderUtils.convertDocidToLuceneDocid(reader, docid), CONTENTS);
       TermsEnum it = terms.iterator();
       while (it.next() != null) {
         String term = it.term().utf8ToString();
