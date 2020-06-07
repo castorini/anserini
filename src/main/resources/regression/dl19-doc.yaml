@@ -1,7 +1,7 @@
 ---
 name: msmacro-doc # Note, this is the name of the collection; this way we can share index with the msmarco regressions
 index_command: target/appassembler/bin/IndexCollection
-index_utils_command: target/appassembler/bin/IndexUtils
+index_utils_command: target/appassembler/bin/IndexReaderUtils
 search_command: target/appassembler/bin/SearchCollection
 topic_root: src/main/resources/topics-and-qrels/
 qrels_root: src/main/resources/topics-and-qrels/

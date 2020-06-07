@@ -1,7 +1,7 @@
 ---
 name: cacm
 index_command: target/appassembler/bin/IndexCollection
-index_utils_command: target/appassembler/bin/IndexUtils
+index_utils_command: target/appassembler/bin/IndexReaderUtils
 search_command: target/appassembler/bin/SearchCollection
 ranking_root:
 topic_root: src/main/resources/topics-and-qrels/
