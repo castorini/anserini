@@ -93,7 +93,7 @@ public class ClueWeb12Collection extends DocumentCollection<ClueWeb12Collection.
 
     @Override
     public void readNext() throws IOException, NoSuchElementException {
-      bufferedRecord = Document.readNextWarcRecord(stream, Document.WARC_VERSION);
+      bufferedRecord = Document.readNextWarcRecord(stream);
     }
 
     @Override
@@ -133,39 +133,14 @@ public class ClueWeb12Collection extends DocumentCollection<ClueWeb12Collection.
      * @throws IOException if error encountered reading from stream
      */
 
-    public static Document readNextWarcRecord(DataInputStream in, String version)
+    public static Document readNextWarcRecord(DataInputStream in)
         throws IOException {
       StringBuilder recordHeader = new StringBuilder();
-      byte[] recordContent = readNextRecord(in, recordHeader, version);
-
-      // extract out our header information
-      String thisHeaderString = recordHeader.toString();
-      String[] headerLines = thisHeaderString.split(Document.NEWLINE);
+      byte[] recordContent = readNextRecord(in, recordHeader);
 
       Document retRecord = new Document();
-      for (int i = 0; i < headerLines.length; i++) {
-        String[] pieces = headerLines[i].split(":", 2);
-        if (pieces.length != 2) {
-          retRecord.addHeaderMetadata(pieces[0], "");
-          continue;
-        }
-        String thisKey = pieces[0].trim();
-        String thisValue = pieces[1].trim();
-
-        // check for known keys
-        if (thisKey.equals("WARC-Type")) {
-          retRecord.setWarcRecordType(thisValue);
-        } else if (thisKey.equals("WARC-Date")) {
-          retRecord.setWarcDate(thisValue);
-        } else if (thisKey.equals("WARC-Record-ID")) {
-          retRecord.setWarcUUID(thisValue);
-        } else if (thisKey.equals("Content-Type")) {
-          retRecord.setWarcContentType(thisValue);
-        } else {
-          retRecord.addHeaderMetadata(thisKey, thisValue);
-        }
-      }
-
+      //set the header
+      retRecord.setHeader(recordHeader.toString());
       // set the content
       retRecord.setContent(recordContent);
 

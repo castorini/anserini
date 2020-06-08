@@ -45,9 +45,10 @@ public class WarcBaseDocument implements SourceDocument {
   private static final byte MASK_BOTTOM_SIX_BITS = (byte) (0x1F);
   private static final byte MASK_BOTTOM_FIVE_BITS = (byte) (0x3F);
   private static final byte MASK_BOTTOM_FOUR_BITS = (byte) (0x0F);
+  
+  protected static final String NEWLINE = "\n";
 
   public static String WARC_VERSION = "WARC/0.18";
-  protected static String NEWLINE = "\n";
   protected static Logger LOG = LogManager.getLogger(WarcBaseDocument.class);
 
   protected WarcBaseDocument.WarcHeader warcHeader = new WarcBaseDocument.WarcHeader();
@@ -184,12 +185,10 @@ public class WarcBaseDocument implements SourceDocument {
    *
    * @param in the data input stream
    * @param headerBuffer a blank string buffer to contain the WARC header
-   * @param version WARC version
    * @return the content bytes (with the headerBuffer populated)
    * @throws IOException if error encountered reading from stream
    */
-  protected static byte[] readNextRecord(DataInputStream in, StringBuilder headerBuffer,
-                                          String version) throws IOException {
+  protected static byte[] readNextRecord(DataInputStream in, StringBuilder headerBuffer) throws IOException {
     if (in == null || headerBuffer == null) {
       throw new NoSuchElementException();
     }
@@ -203,7 +202,7 @@ public class WarcBaseDocument implements SourceDocument {
     // just read the header
     // first - find our WARC header
     while ((!foundMark) && ((line = readLineFromInputStream(in)) != null)) {
-      if (line.startsWith(version)) {
+      if (line.startsWith(WARC_VERSION)) {
         foundMark = true;
       }
     }
@@ -271,14 +270,13 @@ public class WarcBaseDocument implements SourceDocument {
    * Reads in a WARC record from a data input stream.
    *
    * @param in the input stream
-   * @param version WARC version
    * @return a WARC record (or null if EOF)
    * @throws IOException if error encountered reading from stream
    */
-  public static WarcBaseDocument readNextWarcRecord(DataInputStream in, String version)
+  public static WarcBaseDocument readNextWarcRecord(DataInputStream in)
       throws IOException {
     StringBuilder recordHeader = new StringBuilder();
-    byte[] recordContent = readNextRecord(in, recordHeader, version);
+    byte[] recordContent = readNextRecord(in, recordHeader);
 
     // extract out our header information
     String thisHeaderString = recordHeader.toString();
@@ -439,6 +437,37 @@ public class WarcBaseDocument implements SourceDocument {
    */
   public String getHeaderMetadataItem(String key) {
     return warcHeader.metadata.get(key);
+  }
+
+  /**
+   * Sets the header string for this record.
+   *
+   * @param header header
+   */
+  public void setHeader(String header) {
+    String[] headerLines = header.split(NEWLINE);
+    for (int i = 0; i < headerLines.length; i++) {
+      String[] pieces = headerLines[i].split(":", 2);
+      if (pieces.length != 2) {
+        addHeaderMetadata(pieces[0], "");
+        continue;
+      }
+      String thisKey = pieces[0].trim();
+      String thisValue = pieces[1].trim();
+
+      // check for known keys
+      if (thisKey.equals("WARC-Type")) {
+        setWarcRecordType(thisValue);
+      } else if (thisKey.equals("WARC-Date")) {
+        setWarcDate(thisValue);
+      } else if (thisKey.equals("WARC-Record-ID")) {
+        setWarcUUID(thisValue);
+      } else if (thisKey.equals("Content-Type")) {
+        setWarcContentType(thisValue);
+      } else {
+        addHeaderMetadata(thisKey, thisValue);
+      }
+    }
   }
 
   /**
