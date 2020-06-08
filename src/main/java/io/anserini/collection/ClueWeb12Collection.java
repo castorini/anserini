@@ -128,7 +128,6 @@ public class ClueWeb12Collection extends DocumentCollection<ClueWeb12Collection.
      * Reads in a WARC record from a data input stream.
      *
      * @param in      the input stream
-     * @param version WARC version
      * @return a WARC record (or null if EOF)
      * @throws IOException if error encountered reading from stream
      */
