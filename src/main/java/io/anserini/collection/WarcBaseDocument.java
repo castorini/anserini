@@ -38,9 +38,7 @@ import org.apache.logging.log4j.Logger;
  * {@link org.apache.lucene.document.Document}, which is the Lucene
  * representation that can be directly inserted into an index.
  */
-public class WarcBaseDocument implements SourceDocument {
-  private static final Logger LOG = LogManager.getLogger(WarcBaseDocument.class);
-  
+public class WarcBaseDocument implements SourceDocument { 
   private static final byte MASK_THREE_BYTE_CHAR = (byte) (0xE0);
   private static final byte MASK_TWO_BYTE_CHAR = (byte) (0xC0);
   private static final byte MASK_TOPMOST_BIT = (byte) (0x80);
@@ -48,10 +46,11 @@ public class WarcBaseDocument implements SourceDocument {
   private static final byte MASK_BOTTOM_FIVE_BITS = (byte) (0x3F);
   private static final byte MASK_BOTTOM_FOUR_BITS = (byte) (0x0F);
 
-  public static final String WARC_VERSION = "WARC/1.0";
-  protected final static String NEWLINE = "\n";
+  public static String WARC_VERSION = "WARC/0.18";
+  protected static String NEWLINE = "\n";
+  protected static Logger LOG = LogManager.getLogger(WarcBaseDocument.class);
 
-  private WarcBaseDocument.WarcHeader warcHeader = new WarcBaseDocument.WarcHeader();
+  protected WarcBaseDocument.WarcHeader warcHeader = new WarcBaseDocument.WarcHeader();
   private byte[] warcContent = null;
   private String warcFilePath = "";
 
