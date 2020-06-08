@@ -22,6 +22,7 @@ import io.anserini.analysis.DefaultEnglishAnalyzer;
 import io.anserini.search.SearchArgs;
 import io.anserini.search.SimpleSearcher;
 import org.apache.lucene.index.DirectoryReader;
+import org.apache.lucene.index.FieldInfo;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.MultiTerms;
 import org.apache.lucene.index.Term;
@@ -37,9 +38,12 @@ import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.BytesRef;
 import org.junit.Test;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class IndexReaderUtilsTest extends IndexerTestBase {
@@ -510,4 +514,58 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
     reader.close();
     dir.close();
   }
+
+  @Test
+  public void testGetFieldInfo() throws Exception {
+    Directory dir = FSDirectory.open(tempDir1);
+    IndexReader reader = DirectoryReader.open(dir);
+
+    Map<String, FieldInfo> fields = IndexReaderUtils.getFieldInfo(reader);
+    assertTrue(fields.containsKey("id"));
+    assertTrue(fields.containsKey("contents"));
+    assertTrue(fields.containsKey("raw"));
+    assertEquals(3, fields.size());
+
+    reader.close();
+    dir.close();
+  }
+
+  @Test
+  public void testGetFieldInfoDescription() throws Exception {
+    Directory dir = FSDirectory.open(tempDir1);
+    IndexReader reader = DirectoryReader.open(dir);
+
+    Map<String, String> fields = IndexReaderUtils.getFieldInfoDescription(reader);
+    assertEquals("(indexOption: DOCS, hasVectors: false)", fields.get("id"));
+    assertEquals("(indexOption: DOCS_AND_FREQS_AND_POSITIONS, hasVectors: true)", fields.get("contents"));
+    assertEquals("(indexOption: NONE, hasVectors: false)", fields.get("raw"));
+    assertEquals(3, fields.size());
+
+    reader.close();
+    dir.close();
+  }
+
+  @Test
+  public void testMain() throws Exception {
+    // See: https://github.com/castorini/anserini/issues/903
+    Locale.setDefault(Locale.US);
+
+    final ByteArrayOutputStream redirectedStdout = new ByteArrayOutputStream();
+    PrintStream savedStdout = System.out;
+    redirectedStdout.reset();
+    System.setOut(new PrintStream(redirectedStdout));
+
+    IndexReaderUtils.main(new String[] {"-index", tempDir1.toString(), "-stats"});
+    System.setOut(savedStdout);
+
+    String groundTruthOutput = "Index statistics\n" +
+        "----------------\n" +
+        "documents:             3\n" +
+        "documents (non-empty): 3\n" +
+        "unique terms:          6\n" +
+        "total terms:           12\n";
+
+    assertEquals(groundTruthOutput, redirectedStdout.toString());
+  }
+
 }
