@@ -65,20 +65,13 @@ public class SearchArgs {
       "index created by IndexCollection -collection TweetCollection")
   public Boolean searchtweets = false;
 
-  @Option(name = "-backgroundlinking", usage = "performs the background linking task as part of the TREC News Track")
+  @Option(name = "-backgroundlinking", forbids = {"-sdm", "-rf.qrels"},
+      usage = "performs the background linking task as part of the TREC News Track")
   public Boolean backgroundlinking = false;
-
-  @Option(name = "-backgroundlinking.paragraph", usage = "construct one query string from each paragraph of the query document. " +
-      "The results will be a round-robin combination of the results from running these paragraph queries")
-  public boolean backgroundlinking_paragraph = false;
 
   @Option(name = "-backgroundlinking.k", usage = "extract top k terms from the query document for TREC News Track Background " +
       "Linking task. The terms are ranked by their tf-idf score from the query document")
   public int backgroundlinking_k = 10;
-
-  @Option(name = "-backgroundlinking.weighted", usage = "Boolean switch to construct boosted query for TREC News Track Background " +
-      "Linking task. The terms scores are their tf-idf score from the query document")
-  public boolean backgroundlinking_weighted = false;
 
   @Option(name = "-backgroundlinking.datefilter", usage = "Boolean switch to filter out articles published after topic article " +
       "for the TREC News Track Background Linking task.")
