@@ -74,7 +74,8 @@ public class WarcBaseDocument implements SourceDocument {
 
   @Override
   public String id() {
-    return getDocid();
+    String docid = getDocid();
+    return "".equals(docid) ? null : docid;
   }
 
   @Override
