@@ -67,6 +67,7 @@ public class Iso19115Generator implements LuceneDocumentGenerator<Iso19115Collec
     } else {
       fieldType.setIndexOptions(IndexOptions.DOCS_AND_FREQS);
     }
+    document.add(new Field(IndexArgs.CONTENTS, doc.contents(), fieldType));
     return document;
   }
 }
