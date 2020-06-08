@@ -57,7 +57,7 @@ public class CommonCrawlWetCollectionTest extends DocumentCollectionTest<CommonC
   @Override
   void checkDocument(SourceDocument doc, Map<String, String> expected) {
 
-    if (doc.id().isEmpty()) {
+    if (doc.id()==null) {
       assertFalse(doc.indexable());
       assertEquals(expected.get("raw"), doc.raw());
     } else {

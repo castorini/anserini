@@ -48,20 +48,19 @@ public class CommonCrawlWarcCollectionTest extends DocumentCollectionTest<Common
                     "http-header-from: info@commoncrawl.org\n" +
                     "robots: checked by crawler-commons 1.0 (https://github.com/crawler-commons/crawler-commons)\n" +
                     "format: WARC File Format 1.1\n" +
-                    "conformsTo: https://iipc.github.io/warc-specifications/specifications/warc-format/warc-1.1/\n" +
-                    "\n")
+                    "conformsTo: https://iipc.github.io/warc-specifications/specifications/warc-format/warc-1.1/\n")
     );
 
     expected.put("<urn:uuid:b92fd779-f40f-4edc-8332-ffddbdbce74b>",
             Map.of("id", "<urn:uuid:b92fd779-f40f-4edc-8332-ffddbdbce74b>",
-                    "raw", "<html>\nwhatever here will be included\n</html>\n"));
+                    "raw", "<html>\nwhatever here will be included\n</html>"));
 
   }
 
   @Override
   void checkDocument(SourceDocument doc, Map<String, String> expected) {
 
-    if (doc.id().isEmpty()) {
+    if (doc.id()==null) {
       assertFalse(doc.indexable());
       assertEquals(expected.get("raw"), doc.raw());
     } else {
