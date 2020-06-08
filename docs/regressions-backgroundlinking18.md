@@ -10,8 +10,8 @@ Typical indexing command:
 
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection WashingtonPostCollection -input /path/to/backgroundlinking18 \
- -index lucene-index.backgroundlinking18.pos+docvectors+rawdocs -generator WashingtonPostGenerator -threads 1 \
- -storePositions -storeDocvectors -storeRaw >& log.backgroundlinking18.pos+docvectors+rawdocs &
+ -index indexes/lucene-index.core18.pos+docvectors+raw -generator WashingtonPostGenerator -threads 1 \
+ -storePositions -storeDocvectors -storeRaw >& logs/log.backgroundlinking18.pos+docvectors+rawdocs &
 ```
 
 The directory `/path/to/core18/` should be the root directory of the [TREC Washington Post Corpus](https://trec.nist.gov/data/wapost/), i.e., `ls /path/to/core18/`
@@ -29,15 +29,15 @@ Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/m
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-nohup target/appassembler/bin/SearchCollection -index lucene-index.backgroundlinking18.pos+docvectors+rawdocs \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.core18.pos+docvectors+raw \
  -topicreader BackgroundLinking -topics src/main/resources/topics-and-qrels/topics.backgroundlinking18.txt \
  -backgroundlinking -backgroundlinking.k 100 -bm25 -hits 100 -output run.backgroundlinking18.bm25.topics.backgroundlinking18.txt &
 
-nohup target/appassembler/bin/SearchCollection -index lucene-index.backgroundlinking18.pos+docvectors+rawdocs \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.core18.pos+docvectors+raw \
  -topicreader BackgroundLinking -topics src/main/resources/topics-and-qrels/topics.backgroundlinking18.txt \
  -backgroundlinking -backgroundlinking.k 100 -bm25 -rm3 -hits 100 -output run.backgroundlinking18.bm25+rm3.topics.backgroundlinking18.txt &
 
-nohup target/appassembler/bin/SearchCollection -index lucene-index.backgroundlinking18.pos+docvectors+rawdocs \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.core18.pos+docvectors+raw \
  -topicreader BackgroundLinking -topics src/main/resources/topics-and-qrels/topics.backgroundlinking18.txt \
  -backgroundlinking -backgroundlinking.datefilter -backgroundlinking.k 100 -bm25 -rm3 -hits 100 -output run.backgroundlinking18.bm25+rm3+df.topics.backgroundlinking18.txt &
 ```

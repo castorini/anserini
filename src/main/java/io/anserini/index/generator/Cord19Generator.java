@@ -53,11 +53,12 @@ public class Cord19Generator implements LuceneDocumentGenerator<Cord19BaseDocume
     JOURNAL("journal"),
     PUBLISH_TIME("publish_time"),
     YEAR("year"),
+    LICENSE("license"),
     PMC_ID("pmcid"),
     PUBMED_ID("pubmed_id"),
-    LICENSE("license"),
-    MICROSOFT_ID("Microsoft Academic Paper ID"),
-    WHO("WHO #Covidence"),
+    MICROSOFT_ID("mag_id"),
+    S2_ID("s2_id"),
+    WHO("who_covidence_id"),
     URL("url");
 
     public final String name;
@@ -91,9 +92,17 @@ public class Cord19Generator implements LuceneDocumentGenerator<Cord19BaseDocume
 
     // See https://github.com/castorini/anserini/issues/1127
     // Corner cases are hard-coded now; if this gets out of hand we should consider implementing a "blacklist" feature
-    // and store these ids externally. Note we use startsWidth here to handle the paragraph indexes as well.
-    if (id.startsWith("ij3ncdb6") || id.startsWith("hwjkbpqp") ||
-        id.startsWith("1vimqhdp") || id.startsWith("gvh0wdxn")) {
+    // and store these ids externally. Note we use startsWith here to handle the paragraph indexes as well.
+    //
+    // Update (2020/05/27): Note that we have dedicated script to handle exactly this issue in pyserini:
+    //   pyserini/scripts/cord19/find_cord19_length_outlier.py
+    // The list below represents the union of the top 5 output of the script and whatever docs were identified before.
+    if (id.startsWith("ij3ncdb6") ||
+        id.startsWith("c4pt07zk") ||
+        id.startsWith("1vimqhdp") ||
+        id.startsWith("pd1g119c") ||
+        id.startsWith("hwjkbpqp") ||
+        id.startsWith("gvh0wdxn")) {
       throw new SkippedDocumentException();
     }
 
@@ -137,7 +146,6 @@ public class Cord19Generator implements LuceneDocumentGenerator<Cord19BaseDocume
     // string fields
     doc.add(new StringField(CovidField.SHA.name, covidDoc.record().get(CovidField.SHA.name), Field.Store.YES));
     doc.add(new StringField(CovidField.DOI.name, covidDoc.record().get(CovidField.DOI.name), Field.Store.YES));
-    doc.add(new StringField(CovidField.SOURCE.name, covidDoc.record().get(CovidField.SOURCE.name), Field.Store.YES));
     doc.add(new StringField(CovidField.JOURNAL.name, covidDoc.record().get(CovidField.JOURNAL.name), Field.Store.YES));
     doc.add(new StringField(CovidField.WHO.name, covidDoc.record().get(CovidField.WHO.name), Field.Store.YES));
     doc.add(new StringField(CovidField.PMC_ID.name, covidDoc.record().get(CovidField.PMC_ID.name), Field.Store.YES));
@@ -145,12 +153,16 @@ public class Cord19Generator implements LuceneDocumentGenerator<Cord19BaseDocume
       covidDoc.record().get(CovidField.PUBMED_ID.name), Field.Store.YES));
     doc.add(new StringField(CovidField.MICROSOFT_ID.name,
       covidDoc.record().get(CovidField.MICROSOFT_ID.name), Field.Store.YES));
+    doc.add(new StringField(CovidField.S2_ID.name,
+      covidDoc.record().get(CovidField.S2_ID.name), Field.Store.YES));
     doc.add(new StringField(CovidField.PUBLISH_TIME.name,
       covidDoc.record().get(CovidField.PUBLISH_TIME.name), Field.Store.YES));
     doc.add(new StringField(CovidField.LICENSE.name,
       covidDoc.record().get(CovidField.LICENSE.name), Field.Store.YES));
+
+    // default to first URL in metadata
     doc.add(new StringField(CovidField.URL.name,
-      covidDoc.record().get(CovidField.URL.name), Field.Store.YES));
+      covidDoc.record().get(CovidField.URL.name).split("; ")[0], Field.Store.YES));
 
     if (covidDoc instanceof TrialstreamerCollection.Document) {
       TrialstreamerCollection.Document tsDoc = (TrialstreamerCollection.Document) covidDoc;
@@ -162,6 +174,10 @@ public class Cord19Generator implements LuceneDocumentGenerator<Cord19BaseDocume
   
     // non-stemmed fields
     addAuthors(doc, covidDoc.record().get(CovidField.AUTHORS.name), fieldType);
+
+    for (String source : covidDoc.record().get(CovidField.SOURCE.name).split(";")) {
+      addNonStemmedField(doc, CovidField.SOURCE.name, source.strip(), fieldType);
+    }
 
     // parse year published
     try {

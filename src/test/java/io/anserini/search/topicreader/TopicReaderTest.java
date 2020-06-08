@@ -29,18 +29,31 @@ public class TopicReaderTest {
   @Test
   public void testTopicReaderClassLookup() {
     assertEquals(TrecTopicReader.class,
-        TopicReader.getTopicReaderByFile("src/main/resources/topics-and-qrels/topics.robust04.txt"));
+        TopicReader.getTopicReaderClassByFile("src/main/resources/topics-and-qrels/topics.robust04.txt"));
     assertEquals(TrecTopicReader.class,
-        TopicReader.getTopicReaderByFile("topics.robust04.txt"));
+        TopicReader.getTopicReaderClassByFile("topics.robust04.txt"));
 
     assertEquals(CovidTopicReader.class,
-        TopicReader.getTopicReaderByFile("src/main/resources/topics-and-qrels/topics.covid-round1.xml"));
+        TopicReader.getTopicReaderClassByFile("src/main/resources/topics-and-qrels/topics.covid-round1.xml"));
     assertEquals(CovidTopicReader.class,
-        TopicReader.getTopicReaderByFile("topics.covid-round1.xml"));
+        TopicReader.getTopicReaderClassByFile("topics.covid-round1.xml"));
 
     // Unknown TopicReader class.
     assertEquals(null,
-        TopicReader.getTopicReaderByFile("topics.unknown.txt"));
+        TopicReader.getTopicReaderClassByFile("topics.unknown.txt"));
+  }
+
+  @Test
+  public void testGetTopicsByFile() {
+    SortedMap<Object, Map<String, String>> topics =
+        TopicReader.getTopicsByFile("src/main/resources/topics-and-qrels/topics.robust04.txt");
+
+    assertNotNull(topics);
+    assertEquals(250, topics.size());
+    assertEquals(301, (int) topics.firstKey());
+    assertEquals("International Organized Crime", topics.get(topics.firstKey()).get("title"));
+    assertEquals(700, (int) topics.lastKey());
+    assertEquals("gasoline tax U.S.", topics.get(topics.lastKey()).get("title"));
   }
 
   @Test
@@ -583,7 +596,6 @@ public class TopicReaderTest {
     Map<String, Map<String, String>> topics;
 
     topics = TopicReader.getTopics(Topics.COVID_ROUND1);
-
     assertEquals(30, topics.keySet().size());
 
     assertEquals("coronavirus origin", topics.get(1).get("query"));
@@ -597,6 +609,36 @@ public class TopicReaderTest {
     assertEquals(
         "seeking specific information on clinical outcomes in COVID-19 patients treated with remdesivir",
         topics.get(30).get("narrative"));
+
+    topics = TopicReader.getTopics(Topics.COVID_ROUND2);
+    assertEquals(35, topics.keySet().size());
+
+    assertEquals("coronavirus public datasets", topics.get(35).get("query"));
+
+    topics = TopicReader.getTopics(Topics.COVID_ROUND3);
+    assertEquals(40, topics.keySet().size());
+
+    assertEquals("coronavirus mutations", topics.get(40).get("query"));
+  }
+
+  @Test
+  public void testCovidTopicsUDel() {
+    Map<String, Map<String, String>> topics;
+
+    topics = TopicReader.getTopics(Topics.COVID_ROUND1_UDEL);
+    assertEquals(30, topics.keySet().size());
+
+    assertEquals("coronavirus remdesivir remdesivir effective treatment COVID-19", topics.get(30).get("query"));
+
+    topics = TopicReader.getTopics(Topics.COVID_ROUND2_UDEL);
+    assertEquals(35, topics.keySet().size());
+
+    assertEquals("coronavirus public datasets public datasets COVID-19", topics.get(35).get("query"));
+
+    topics = TopicReader.getTopics(Topics.COVID_ROUND3_UDEL);
+    assertEquals(40, topics.keySet().size());
+
+    assertEquals("coronavirus mutations observed mutations SARS-CoV-2 genome mutations", topics.get(40).get("query"));
   }
 
   @Test
@@ -618,6 +660,70 @@ public class TopicReaderTest {
     assertEquals(
         "seeking specific information on clinical outcomes in COVID-19 patients treated with remdesivir",
         topics.get("30").get("narrative"));
+
+    topics = TopicReader.getTopicsWithStringIds(Topics.COVID_ROUND2);
+    assertEquals(35, topics.keySet().size());
+
+    assertEquals("coronavirus public datasets", topics.get("35").get("query"));
+
+    topics = TopicReader.getTopicsWithStringIds(Topics.COVID_ROUND3);
+    assertEquals(40, topics.keySet().size());
+
+    assertEquals("coronavirus mutations", topics.get("40").get("query"));
   }
 
+  @Test
+  public void testCovidTopicsUDel_TopicIdsAsStrings() {
+    Map<String, Map<String, String>> topics;
+
+    topics = TopicReader.getTopicsWithStringIds(Topics.COVID_ROUND1_UDEL);
+    assertEquals(30, topics.keySet().size());
+
+    assertEquals("coronavirus remdesivir remdesivir effective treatment COVID-19", topics.get("30").get("query"));
+
+    topics = TopicReader.getTopicsWithStringIds(Topics.COVID_ROUND2_UDEL);
+    assertEquals(35, topics.keySet().size());
+
+    assertEquals("coronavirus public datasets public datasets COVID-19", topics.get("35").get("query"));
+
+    topics = TopicReader.getTopicsWithStringIds(Topics.COVID_ROUND3_UDEL);
+    assertEquals(40, topics.keySet().size());
+
+    assertEquals("coronavirus mutations observed mutations SARS-CoV-2 genome mutations", topics.get("40").get("query"));
+  }
+
+  @Test
+  public void testBackgroundLinkingTopics() {
+    SortedMap<Integer, Map<String, String>> topics;
+
+    topics = TopicReader.getTopics(Topics.TREC2018_BL);
+
+    assertEquals(50, topics.keySet().size());
+    assertEquals(321, (int) topics.firstKey());
+    assertEquals("9171debc316e5e2782e0d2404ca7d09d", topics.get(topics.firstKey()).get("title"));
+    assertEquals("https://www.washingtonpost.com/news/worldviews/wp/2016/09/01/" +
+        "women-are-half-of-the-world-but-only-22-percent-of-its-parliaments/",
+        topics.get(topics.firstKey()).get("url"));
+
+    assertEquals(825, (int) topics.lastKey());
+    assertEquals("a1c41a70-35c7-11e3-8a0e-4e2cf80831fc", topics.get(topics.lastKey()).get("title"));
+    assertEquals("https://www.washingtonpost.com/business/economy/" +
+        "cellulosic-ethanol-once-the-way-of-the-future-is-off-to-a-delayed-boisterous-start/" +
+        "2013/11/08/a1c41a70-35c7-11e3-8a0e-4e2cf80831fc_story.html", topics.get(topics.lastKey()).get("url"));
+
+    topics = TopicReader.getTopics(Topics.TREC2019_BL);
+    
+    assertEquals(60, topics.keySet().size());
+    assertEquals(826, (int) topics.firstKey());
+    assertEquals("96ab542e-6a07-11e6-ba32-5a4bf5aad4fa", topics.get(topics.firstKey()).get("title"));
+    assertEquals("https://www.washingtonpost.com/sports/nationals/" +
+        "the-minor-leagues-life-in-pro-baseballs-shadowy-corner/" +
+        "2016/08/26/96ab542e-6a07-11e6-ba32-5a4bf5aad4fa_story.html", topics.get(topics.firstKey()).get("url"));
+
+    assertEquals(885, (int) topics.lastKey());
+    assertEquals("5ae44bfd66a49bcad7b55b29b55d63b6", topics.get(topics.lastKey()).get("title"));
+    assertEquals("https://www.washingtonpost.com/news/capital-weather-gang/wp/2017/07/14/" +
+        "sun-erupts-to-mark-another-bastille-day-aurora-possible-in-new-england-sunday-night/",
+        topics.get(topics.lastKey()).get("url"));
+  }
 }

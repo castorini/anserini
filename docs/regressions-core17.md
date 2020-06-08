@@ -10,8 +10,8 @@ Typical indexing command:
 
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection NewYorkTimesCollection -input /path/to/core17 \
- -index lucene-index.core17.pos+docvectors+rawdocs -generator DefaultLuceneDocumentGenerator -threads 16 \
- -storePositions -storeDocvectors -storeRaw >& log.core17.pos+docvectors+rawdocs &
+ -index indexes/lucene-index.core17.pos+docvectors+raw -generator DefaultLuceneDocumentGenerator -threads 16 \
+ -storePositions -storeDocvectors -storeRaw >& logs/log.core17.pos+docvectors+rawdocs &
 ```
 
 The directory `/path/to/nyt_corpus/` should be the root directory of the [New York Times Annotated Corpus](https://catalog.ldc.upenn.edu/LDC2008T19), i.e., `ls /path/to/nyt_corpus/`
@@ -29,27 +29,27 @@ Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/m
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-nohup target/appassembler/bin/SearchCollection -index lucene-index.core17.pos+docvectors+rawdocs \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.core17.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.core17.txt \
  -bm25 -output run.core17.bm25.topics.core17.txt &
 
-nohup target/appassembler/bin/SearchCollection -index lucene-index.core17.pos+docvectors+rawdocs \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.core17.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.core17.txt \
  -bm25 -rm3 -output run.core17.bm25+rm3.topics.core17.txt &
 
-nohup target/appassembler/bin/SearchCollection -index lucene-index.core17.pos+docvectors+rawdocs \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.core17.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.core17.txt \
  -bm25 -axiom -axiom.deterministic -rerankCutoff 20 -output run.core17.bm25+ax.topics.core17.txt &
 
-nohup target/appassembler/bin/SearchCollection -index lucene-index.core17.pos+docvectors+rawdocs \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.core17.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.core17.txt \
  -qld -output run.core17.ql.topics.core17.txt &
 
-nohup target/appassembler/bin/SearchCollection -index lucene-index.core17.pos+docvectors+rawdocs \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.core17.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.core17.txt \
  -qld -rm3 -output run.core17.ql+rm3.topics.core17.txt &
 
-nohup target/appassembler/bin/SearchCollection -index lucene-index.core17.pos+docvectors+rawdocs \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.core17.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.core17.txt \
  -qld -axiom -axiom.deterministic -rerankCutoff 20 -output run.core17.ql+ax.topics.core17.txt &
 ```
@@ -85,5 +85,7 @@ P30                                     | BM25      | +RM3      | +Ax       | QL
 
 ## Replication Log
 
-* Results replicated by [@tteofili](https://github.com/tteofili) on 2019-01-27 (commit [`951090`](https://github.com/castorini/Anserini/commit/951090b66230040f037dde46534d896416467337))
-* Results replicated by [@chriskamphuis](https://github.com/chriskamphuis) on 2019-09-07 (commit [`61f6f20`](https://github.com/castorini/anserini/commit/61f6f20ff6872484966ea1badcdcdcebf1eea852))
++ Results replicated by [@tteofili](https://github.com/tteofili) on 2019-01-27 (commit [`951090`](https://github.com/castorini/Anserini/commit/951090b66230040f037dde46534d896416467337))
++ Results replicated by [@chriskamphuis](https://github.com/chriskamphuis) on 2019-09-07 (commit [`61f6f20`](https://github.com/castorini/anserini/commit/61f6f20ff6872484966ea1badcdcdcebf1eea852))
++ Results replicated by [@yuki617](https://github.com/yuki617) on 2020-05-17 (commit [`cee4463`](https://github.com/castorini/anserini/commit/cee446338137415899436f0b2f2d738769745cde))
++ Results replicated by [@x65han](https://github.com/x65han) on 2020-05-19 (commit [`33b0684`](https://github.com/castorini/anserini/commit/33b068437c4582067486e5fe79dfbecb8d4a145c))

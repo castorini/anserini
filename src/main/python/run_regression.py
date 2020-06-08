@@ -53,15 +53,12 @@ def check_output(command):
 
 def get_index_path(yaml_data):
     """Find the index path."""
-    index_path = os.path.join('lucene-index.{0}.pos+docvectors{1}'.format(yaml_data['name'], \
-        '+rawdocs' if '-storeRawDocs' in yaml_data['index_options'] else ''))
-    if not os.path.exists(index_path):
-        index_path = yaml_data['index_path']
-        if not index_path or not os.path.exists(index_path):
-            for input_root in yaml_data['input_roots']:
-                if os.path.exists(os.path.join(input_root, yaml_data['index_path'])):
-                    index_path = os.path.join(input_root, yaml_data['index_path'])
-                    break
+    index_path = yaml_data['index_path']
+    if not index_path or not os.path.exists(index_path):
+        for input_root in yaml_data['input_roots']:
+            index_path = os.path.join(input_root, yaml_data['index_path'])
+            if os.path.exists(index_path):
+                break
     return index_path
 
 
@@ -108,8 +105,7 @@ def construct_indexing_command(yaml_data, args):
         '-generator', yaml_data['generator'],
         '-threads', str(threads),
         '-input', collection_path,
-        '-index', 'indexes/lucene-index.{0}.pos+docvectors{1}'
-            .format(yaml_data['name'], '+raw' if '-storeRaw' in yaml_data['index_options'] else '')
+        '-index', yaml_data['index_path']
     ]
     index_command.extend(yaml_data['index_options'])
     return index_command

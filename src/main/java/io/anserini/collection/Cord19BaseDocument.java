@@ -26,6 +26,7 @@ import org.apache.logging.log4j.Logger;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Map;
 
 public abstract class Cord19BaseDocument implements SourceDocument {
   private static final Logger LOG = LogManager.getLogger(Cord19BaseDocument.class);
@@ -36,13 +37,10 @@ public abstract class Cord19BaseDocument implements SourceDocument {
 
   protected final String getFullTextJson(String basePath) {
     String fullTextPath = null;
-    if (record.get("has_pmc_xml_parse").contains("True")) {
-      fullTextPath = "/" + record.get("full_text_file") + "/pmc_json/" +
-      record.get("pmcid") + ".xml.json";
-    } else if (record.get("has_pdf_parse").contains("True")) {
-      String[] hashes = record.get("sha").split(";");
-      fullTextPath = "/" + record.get("full_text_file") + "/pdf_json/" +
-        hashes[hashes.length - 1].strip() + ".json";
+    if (!record.get("pmc_json_files").isEmpty()) {
+      fullTextPath = "/" + record.get("pmc_json_files").split(";")[0];
+    } else if (!record.get("pdf_json_files").isEmpty()) {
+      fullTextPath = "/" + record.get("pdf_json_files").split(";")[0];
     } else {
       return null;
     }
@@ -69,7 +67,6 @@ public abstract class Cord19BaseDocument implements SourceDocument {
   }
 
   protected final String buildRawJson(String fullTextJson) {
-    String recordJson = getRecordJson();
     ObjectMapper mapper = new ObjectMapper();
     ObjectNode rawJsonNode = mapper.createObjectNode();
 
@@ -83,7 +80,13 @@ public abstract class Cord19BaseDocument implements SourceDocument {
 
     rawJsonNode.put("cord_uid", record.get("cord_uid"));
     rawJsonNode.put("has_full_text", fullTextJson != null);
-    rawJsonNode.put("csv_metadata", recordJson);
+
+    ObjectNode csvMetadaNode = mapper.createObjectNode();
+    for (Map.Entry<String, String> entry : record.toMap().entrySet()) {
+      csvMetadaNode.put(entry.getKey(), entry.getValue());
+    }
+
+    rawJsonNode.set("csv_metadata", csvMetadaNode);
     return rawJsonNode.toString();
   }
 

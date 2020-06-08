@@ -66,7 +66,7 @@ public class DumpAnalyzedQueries {
     TopicReader<?> tr;
     try {
       // Can we infer the TopicReader?
-      Class<? extends TopicReader> clazz = TopicReader.getTopicReaderByFile(args.topicsFile.toString());
+      Class<? extends TopicReader> clazz = TopicReader.getTopicReaderClassByFile(args.topicsFile.toString());
       if (clazz != null) {
         System.out.println(String.format("Inferring %s has TopicReader class %s.", args.topicsFile, clazz));
       } else {

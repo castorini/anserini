@@ -12,8 +12,8 @@ Typical indexing command:
 
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection CleanTrecCollection -input /path/to/ntcir8-zh \
- -index lucene-index.ntcir8-zh.pos+docvectors+rawdocs -generator DefaultLuceneDocumentGenerator -threads 16 \
- -storePositions -storeDocvectors -storeRaw -language zh -uniqueDocid -optimize >& log.ntcir8-zh.pos+docvectors+rawdocs &
+ -index indexes/lucene-index.ntcir8-zh.pos+docvectors+raw -generator DefaultLuceneDocumentGenerator -threads 16 \
+ -storePositions -storeDocvectors -storeRaw -language zh -uniqueDocid -optimize >& logs/log.ntcir8-zh.pos+docvectors+rawdocs &
 ```
 
 The collection comprises Xinhua articles from 2002-2005, totaling 308,845 documents, from [LDC2007T38: Chinese Gigaword Third Edition](https://catalog.ldc.upenn.edu/LDC2007T38).
@@ -33,7 +33,7 @@ Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/m
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-nohup target/appassembler/bin/SearchCollection -index lucene-index.ntcir8-zh.pos+docvectors+rawdocs \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.ntcir8-zh.pos+docvectors+raw \
  -topicreader TsvString -topics src/main/resources/topics-and-qrels/topics.ntcir8zh.eval.txt \
  -language zh -bm25 -output run.ntcir8-zh.bm25.topics.ntcir8zh.eval.txt &
 ```

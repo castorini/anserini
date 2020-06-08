@@ -27,27 +27,21 @@ Based on [preliminary experiments](docs/lucene7-vs-lucene8.md), query evaluation
 As a result of this upgrade, results of all regressions have changed slightly.
 To replicate old results from Lucene 7.6, use [v0.5.1](https://github.com/castorini/anserini/releases).
 
-After cloning our repo, build using Maven:
+After cloning our repo (use `--recurse-submodules` option to make sure the `eval/` submodule also gets cloned), build using Maven:
 
 ```
 mvn clean package appassembler:assemble
 ```
 
-The `eval/` directory contains evaluation tools and scripts, including
-[trec_eval](https://trec.nist.gov/trec_eval/trec_eval_latest.tar.gz),
-[gdeval.pl](https://github.com/trec-web/trec-web-2014/tree/master/src/eval),
-[ndeval](https://github.com/trec-web/trec-web-2014/tree/master/src/eval).
-Before using `trec_eval`, unpack and compile it, as follows:
+The `eval/` directory, which contains evaluation tools and scripts, is actually [this repo](https://github.com/castorini/anserini-eval), integrated as a [Git submodule](https://git-scm.com/book/en/v2/Git-Tools-Submodules) (so that it can be shared across related projects).
+Build as follows (you might get warnings, but okay to ignore):
 
-```
-tar xvfz trec_eval.9.0.4.tar.gz && cd trec_eval.9.0.4 && make
+```bash
+cd eval && tar xvfz trec_eval.9.0.4.tar.gz && cd trec_eval.9.0.4 && make && cd ../..
+cd eval/ndeval && make && cd ../..
 ```
 
-Before using `ndeval`, compile it as follows:
-
-```
-cd ndeval && make
-```
+With that, you should be ready to go!
 
 ## Anserini Regression Experiments
 
@@ -90,7 +84,10 @@ For the most part, these runs are based on [_default_ parameter settings](https:
 The experiments described below are not associated with rigorous end-to-end regression testing and thus provide a lower standard of replicability.
 For the most part, manual copying and pasting of commands into a shell is required to replicate our results:
 
-+ [Working with AI2's COVID-19 Open Research Dataset](docs/experiments-covid.md)
++ [Working with AI2's COVID-19 Open Research Dataset](docs/experiments-cord19.md)
++ [Ingesting AI2's COVID-19 Open Research Dataset into Solr and Elasticsearch](docs/experiments-cord19-extras.md)
++ [Baselines for the TREC-COVID Challenge](docs/experiments-covid.md)
++ [Working with the 20 Newsgroups Dataset](docs/experiments-20newsgroups.md)
 + [Replicating "Neural Hype" Experiments](docs/experiments-forum2018.md)
 + [Guide to running BM25 baselines on the MS MARCO Passage Retrieval Task](docs/experiments-msmarco-passage.md)
 + [Guide to running BM25 baselines on the MS MARCO Document Retrieval Task](docs/experiments-msmarco-doc.md)
@@ -123,6 +120,9 @@ Beyond that, there are always [open issues](https://github.com/castorini/anserin
 
 ## Release History
 
++ v0.9.3: May 26, 2020 [[Release Notes](docs/release-notes/release-notes-v0.9.3.md)]
++ v0.9.2: May 14, 2020 [[Release Notes](docs/release-notes/release-notes-v0.9.2.md)]
++ v0.9.1: May 6, 2020 [[Release Notes](docs/release-notes/release-notes-v0.9.1.md)]
 + v0.9.0: April 18, 2020 [[Release Notes](docs/release-notes/release-notes-v0.9.0.md)]
 + v0.8.1: March 22, 2020 [[Release Notes](docs/release-notes/release-notes-v0.8.1.md)]
 + v0.8.0: March 11, 2020 [[Release Notes](docs/release-notes/release-notes-v0.8.0.md)]
@@ -142,15 +142,6 @@ Beyond that, there are always [open issues](https://github.com/castorini/anserin
 + Jimmy Lin, Matt Crane, Andrew Trotman, Jamie Callan, Ishan Chattopadhyaya, John Foley, Grant Ingersoll, Craig Macdonald, Sebastiano Vigna. [Toward Reproducible Baselines: The Open-Source IR Reproducibility Challenge.](https://cs.uwaterloo.ca/~jimmylin/publications/Lin_etal_ECIR2016.pdf) _ECIR 2016_.
 + Peilin Yang, Hui Fang, and Jimmy Lin. [Anserini: Enabling the Use of Lucene for Information Retrieval Research.](https://dl.acm.org/authorize?N47337) _SIGIR 2017_.
 + Peilin Yang, Hui Fang, and Jimmy Lin. [Anserini: Reproducible Ranking Baselines Using Lucene.](https://dl.acm.org/citation.cfm?doid=3289400.3239571) _Journal of Data and Information Quality_, 10(4), Article 16, 2018.
-+ Wei Yang, Haotian Zhang, and Jimmy Lin. [Simple Applications of BERT for Ad Hoc Document Retrieval.](https://arxiv.org/abs/1903.10972) _arXiv:1903.10972_, March 2019.
-+ Rodrigo Nogueira, Wei Yang, Jimmy Lin, and Kyunghyun Cho. [Document Expansion by Query Prediction.](https://arxiv.org/abs/1904.08375) _arXiv:1904.08375_, April 2019.
-+ Peilin Yang and Jimmy Lin. [Reproducing and Generalizing Semantic Term Matching in Axiomatic Information Retrieval.](https://cs.uwaterloo.ca/~jimmylin/publications/Yang_Lin_ECIR2019.pdf) _ECIR 2019_.
-+ Ruifan Yu, Yuhao Xie and Jimmy Lin. [Simple Techniques for Cross-Collection Relevance Transfer.](https://cs.uwaterloo.ca/~jimmylin/publications/Yu_etal_ECIR2019.pdf) _ECIR 2019_.
-+ Wei Yang, Yuqing Xie, Aileen Lin, Xingyu Li, Luchen Tan, Kun Xiong, Ming Li, and Jimmy Lin. [End-to-End Open-Domain Question Answering with BERTserini.](https://aclweb.org/anthology/papers/N/N19/N19-4013/) _NAACL-HLT 2019 Demos_.
-+ Ryan Clancy, Toke Eskildsen, Nick Ruest, and Jimmy Lin. [Solr Integration in the Anserini Information Retrieval Toolkit.](https://cs.uwaterloo.ca/~jimmylin/publications/Clancy_etal_SIGIR2019a.pdf) _SIGIR 2019_.
-+ Ryan Clancy, Jaejun Lee, Zeynep Akkalyoncu Yilmaz, and Jimmy Lin. [Information Retrieval Meets Scalable Text Analytics: Solr Integration with Spark.](https://cs.uwaterloo.ca/~jimmylin/publications/Clancy_etal_SIGIR2019b.pdf) _SIGIR 2019_.
-+ Jimmy Lin and Peilin Yang. [The Impact of Score Ties on Repeatability in Document Ranking.](https://cs.uwaterloo.ca/~jimmylin/publications/Lin_Yang_SIGIR2019.pdf) _SIGIR 2019_.
-+ Wei Yang, Kuang Lu, Peilin Yang, and Jimmy Lin. [Critically Examining the "Neural Hype": Weak Baselines and the Additivity of Effectiveness Gains from Neural Ranking Models.](https://cs.uwaterloo.ca/~jimmylin/publications/Lin_Yang_SIGIR2019.pdf) _SIGIR 2019_.
 
 ## Acknowledgments
 

@@ -280,13 +280,13 @@ public class DataModel {
     builder.append(getIndex_command());
     builder.append(" -collection ").append(getCollection());
     builder.append(" -input ").append("/path/to/"+collection).append(" \\\n");
-    builder.append(" -index ").append("lucene-index."+getName()+".pos+docvectors"+(containRawDocs ? "+rawdocs" : ""));
+    builder.append(" -index ").append(getIndex_path());
     builder.append(" -generator ").append(getGenerator());
     builder.append(" -threads ").append(getThreads()).append(" \\\n");
     for (String option : getIndex_options()) {
       builder.append(" ").append(option);
     }
-    builder.append(String.format(" >& log.%s.pos+docvectors%s &", collection, containRawDocs ? "+rawdocs" : ""));
+    builder.append(String.format(" >& logs/log.%s.pos+docvectors%s &", collection, containRawDocs ? "+rawdocs" : ""));
     return builder.toString();
   }
 
@@ -302,7 +302,7 @@ public class DataModel {
       for (Topic topic : getTopics()) {
         builder.append("nohup ");
         builder.append(getSearch_command());
-        builder.append(" ").append("-index").append(" ").append("lucene-index."+collection+".pos+docvectors"+(containRawDocs ? "+rawdocs" : "")).append(" \\\n");
+        builder.append(" ").append("-index").append(" ").append(getIndex_path()).append(" \\\n");
         builder.append(" ").append("-topicreader").append(" ").append(getTopic_reader());
         builder.append(" ").append("-topics").append(" ").append(Paths.get(getTopic_root(), topic.getPath()).toString()).append(" \\\n");
         if (getSearch_options() != null) {
