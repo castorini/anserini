@@ -86,10 +86,13 @@ public class Iso19115Collection extends DocumentCollection<Iso19115Collection.Do
     protected String id;
     protected String title;
     protected String abstractContent;
+    protected String raw;
 
     public Document(JsonNode json) {
       // extracting the fields from the ISO19115 file
+      this.raw = json.toString();
       String identifier = json.get("gmd:MD_Metadata").get("gmd:fileIdentifier").get("gco:CharacterString").asText();
+      // extracting the id in the beginning of the text
       this.id = identifier.substring(0,identifier.length() - 8);
       this.title = json.get("gmd:MD_Metadata").get("gmd:identificationInfo").get("gmd:MD_DataIdentification").get("gmd:citation")
                    .get("gmd:CI_Citation").get("gmd:title").get("gco:CharacterString").asText();
@@ -104,12 +107,12 @@ public class Iso19115Collection extends DocumentCollection<Iso19115Collection.Do
 
     @Override
     public String contents() {
-      return abstractContent;
+      return title + "\n" + abstractContent;
     }
 
     @Override
     public String raw() {
-      return title + "\n" + abstractContent;
+      return raw;
     }
 
     public String getTitle() {

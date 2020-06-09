@@ -10,17 +10,18 @@ public class Iso19115CollectionTest extends DocumentCollectionTest<Iso19115Colle
   @Before
   public void setUp() throws Exception {
     super.setUp();
-    collectionPath = Paths.get("src/test/resources/sample_docs/Iso19115");
+    collectionPath = Paths.get("src/test/resources/sample_docs/iso19115");
     collection = new Iso19115Collection(collectionPath);
-    Path segment = Paths.get("src/test/resources/sample_docs/Iso19115/output.json");
+    Path segment = Paths.get("src/test/resources/sample_docs/iso19115/output.json");
 
     segmentPaths.add(segment);
-    segmentDocCounts.put(segment, 1);
+    segmentDocCounts.put(segment, 2);
 
     totalSegments = 1;
-    totalDocs = 1;
+    totalDocs = 2;
 
     expected.put("12957", Map.of("id", "12957", "title", "Test title", "abstract", "Test abstract"));
+    expected.put("13007", Map.of("id", "13007", "title","Test title 2", "abstract", "Test abstract 2"));
   }
 
   @Override
