@@ -39,6 +39,10 @@ public class FeverParagraphCollection extends DocumentCollection<FeverParagraphC
     return new Segment(p);
   }
 
+  /**
+   * A file in a FEVER collection, containing a document in JSON format on
+   * each line.
+   */
   public class Segment extends FileSegment<FeverParagraphCollection.Document> {
     private JsonNode node = null;
     private Iterator<JsonNode> iterator = null;
@@ -58,12 +62,15 @@ public class FeverParagraphCollection extends DocumentCollection<FeverParagraphC
       bufferedRecord = new FeverParagraphCollection.Document(node);
       if (iterator.hasNext()) { // if JSONL contains more lines, we parse the next record
         node = iterator.next();
-      } else {
-        atEOF = true; // if there is no more JSON object in the bufferedReader
+      } else { // if there is no more JSON object in the bufferedReader
+        atEOF = true;
       }
     }
   }
 
+  /**
+   * A document in a FEVER collection.
+   */
   public class Document extends FeverBaseDocument {
     public Document(JsonNode json) {
       id = json.get("id").asText();
