@@ -39,10 +39,10 @@ def convert_collection(args):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Converts iso19115 xml files to json files.')
-    parser.add_argument('-collectionPath', required=True, help='iso19115 collection file')
-    parser.add_argument('-outputFolder', required=True, help='output folder')
+    parser.add_argument('--collection', required=True, help='iso19115 collection file')
+    parser.add_argument('--output', required=True, help='output folder')
     # not used yet since dataset is very small
-    parser.add_argument('-maxDocsPerFile', default=1000000, type=int, help='maximum number of documents in each jsonl file.')
+    parser.add_argument('--max-doc-per-file', default=1000000, type=int, help='maximum number of documents in each jsonl file.')
 
     args = parser.parse_args()
 
