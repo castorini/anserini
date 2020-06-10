@@ -10,8 +10,8 @@ Typical indexing command:
 
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection TrecCollection -input /path/to/robust05 \
- -index lucene-index.robust05.pos+docvectors+rawdocs -generator DefaultLuceneDocumentGenerator -threads 16 \
- -storePositions -storeDocvectors -storeRaw >& log.robust05.pos+docvectors+rawdocs &
+ -index indexes/lucene-index.robust05.pos+docvectors+raw -generator DefaultLuceneDocumentGenerator -threads 16 \
+ -storePositions -storeDocvectors -storeRaw >& logs/log.robust05.pos+docvectors+rawdocs &
 ```
 
 The directory `/path/to/aquaint/` should be the root directory of the [AQUAINT collection](https://tac.nist.gov//data/data_desc.html#AQUAINT); under subdirectory `disk1/` there should be `NYT/` and under subdirectory `disk2/` there should be `APW/` and `XIE/`.
@@ -28,27 +28,27 @@ Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/m
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-nohup target/appassembler/bin/SearchCollection -index lucene-index.robust05.pos+docvectors+rawdocs \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.robust05.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.robust05.txt \
  -bm25 -output run.robust05.bm25.topics.robust05.txt &
 
-nohup target/appassembler/bin/SearchCollection -index lucene-index.robust05.pos+docvectors+rawdocs \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.robust05.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.robust05.txt \
  -bm25 -rm3 -output run.robust05.bm25+rm3.topics.robust05.txt &
 
-nohup target/appassembler/bin/SearchCollection -index lucene-index.robust05.pos+docvectors+rawdocs \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.robust05.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.robust05.txt \
  -bm25 -axiom -axiom.deterministic -rerankCutoff 20 -output run.robust05.bm25+ax.topics.robust05.txt &
 
-nohup target/appassembler/bin/SearchCollection -index lucene-index.robust05.pos+docvectors+rawdocs \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.robust05.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.robust05.txt \
  -qld -output run.robust05.ql.topics.robust05.txt &
 
-nohup target/appassembler/bin/SearchCollection -index lucene-index.robust05.pos+docvectors+rawdocs \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.robust05.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.robust05.txt \
  -qld -rm3 -output run.robust05.ql+rm3.topics.robust05.txt &
 
-nohup target/appassembler/bin/SearchCollection -index lucene-index.robust05.pos+docvectors+rawdocs \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.robust05.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.robust05.txt \
  -qld -axiom -axiom.deterministic -rerankCutoff 20 -output run.robust05.ql+ax.topics.robust05.txt &
 ```

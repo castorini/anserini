@@ -28,10 +28,9 @@ public class SimpleNearestNeighborSearcherTest {
     String idxPath = "target/ast" + System.currentTimeMillis();
     IndexVectorsTest.createIndex(idxPath, "fw", true);
     SimpleNearestNeighborSearcher simpleNearestNeighborSearcher = new SimpleNearestNeighborSearcher(idxPath);
-    SimpleNearestNeighborSearcher.Result[][] results = simpleNearestNeighborSearcher.search("text", 2);
+    SimpleNearestNeighborSearcher.Result[] results = simpleNearestNeighborSearcher.search("text", 2);
     assertNotNull(results);
-    assertEquals(1, results.length);
-    assertEquals(2, results[0].length);
+    assertEquals(2, results.length);
   }
 
   @Test
@@ -39,9 +38,30 @@ public class SimpleNearestNeighborSearcherTest {
     String idxPath = "target/ast" + System.currentTimeMillis();
     IndexVectorsTest.createIndex(idxPath, "lexlsh", true);
     SimpleNearestNeighborSearcher simpleNearestNeighborSearcher = new SimpleNearestNeighborSearcher(idxPath, "lexlsh");
-    SimpleNearestNeighborSearcher.Result[][] results = simpleNearestNeighborSearcher.search("text", 2);
+    SimpleNearestNeighborSearcher.Result[] results = simpleNearestNeighborSearcher.search("text", 2);
+    assertNotNull(results);
+    assertEquals(2, results.length);
+  }
+
+  @Test
+  public void testMultiSearchingFW() throws Exception {
+    String idxPath = "target/ast" + System.currentTimeMillis();
+    IndexVectorsTest.createIndex(idxPath, "fw", true);
+    SimpleNearestNeighborSearcher simpleNearestNeighborSearcher = new SimpleNearestNeighborSearcher(idxPath);
+    SimpleNearestNeighborSearcher.Result[][] results = simpleNearestNeighborSearcher.multisearch("text", 2, 2);
     assertNotNull(results);
     assertEquals(1, results.length);
-    assertEquals(1, results[0].length);
+    assertEquals(2, results[0].length);
+  }
+
+  @Test
+  public void testMultiSearchingLL() throws Exception {
+    String idxPath = "target/ast" + System.currentTimeMillis();
+    IndexVectorsTest.createIndex(idxPath, "lexlsh", true);
+    SimpleNearestNeighborSearcher simpleNearestNeighborSearcher = new SimpleNearestNeighborSearcher(idxPath, "lexlsh");
+    SimpleNearestNeighborSearcher.Result[][] results = simpleNearestNeighborSearcher.multisearch("text", 2, 2);
+    assertNotNull(results);
+    assertEquals(1, results.length);
+    assertEquals(2, results[0].length);
   }
 }

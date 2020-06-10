@@ -12,8 +12,8 @@ Typical indexing command:
 
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection CleanTrecCollection -input /path/to/trec02-ar \
- -index lucene-index.trec02-ar.pos+docvectors+rawdocs -generator DefaultLuceneDocumentGenerator -threads 16 \
- -storePositions -storeDocvectors -storeRaw -language ar >& log.trec02-ar.pos+docvectors+rawdocs &
+ -index indexes/lucene-index.trec02-ar.pos+docvectors+raw -generator DefaultLuceneDocumentGenerator -threads 16 \
+ -storePositions -storeDocvectors -storeRaw -language ar >& logs/log.trec02-ar.pos+docvectors+rawdocs &
 ```
 
 The collection comprises Agence France Presse (AFP) Arabic newswire, from [LDC2001T55 (Arabic Newswire Part 1)](https://catalog.ldc.upenn.edu/LDC2001T55).
@@ -33,7 +33,7 @@ Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/m
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-nohup target/appassembler/bin/SearchCollection -index lucene-index.trec02-ar.pos+docvectors+rawdocs \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.trec02-ar.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.trec02ar-ar.txt \
  -language ar -bm25 -output run.trec02-ar.bm25.topics.trec02ar-ar.txt &
 ```

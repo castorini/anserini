@@ -12,8 +12,8 @@ Typical indexing command:
 
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection CleanTrecCollection -input /path/to/fire12-en \
- -index lucene-index.fire12-en.pos+docvectors+rawdocs -generator DefaultLuceneDocumentGenerator -threads 16 \
- -storePositions -storeDocvectors -storeRaw -language en >& log.fire12-en.pos+docvectors+rawdocs &
+ -index indexes/lucene-index.fire12-en.pos+docvectors+raw -generator DefaultLuceneDocumentGenerator -threads 16 \
+ -storePositions -storeDocvectors -storeRaw -language en >& logs/log.fire12-en.pos+docvectors+rawdocs &
 ```
 
 The directory `/path/to/fire12-en/` should be a directory containing the collection, containing `en_BDNews24` and `en_TheTelegraph_2001-2010` directories.
@@ -31,7 +31,7 @@ Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/m
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-nohup target/appassembler/bin/SearchCollection -index lucene-index.fire12-en.pos+docvectors+rawdocs \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.fire12-en.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.fire12en.176-225.txt \
  -language en -bm25 -output run.fire12-en.bm25.topics.fire12en.176-225.txt &
 ```

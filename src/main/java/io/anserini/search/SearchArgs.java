@@ -30,10 +30,13 @@ public class SearchArgs {
   @Option(name = "-output", metaVar = "[file]", required = true, usage = "output file")
   public String output;
 
-  @Option(name = "-topicreader", required = true, usage = "define how to read the topic(query) file: one of [Trec|Webxml]")
+  @Option(name = "-topicreader", required = true, usage = "TopicReader to use.")
   public String topicReader;
 
   // optional arguments
+  @Option(name = "-querygenerator", usage = "QueryGenerator to use.")
+  public String queryGenerator = "BagOfWordsQueryGenerator";
+
   @Option(name = "-threads", metaVar = "[Number]", usage = "Number of Threads")
   public int threads = 1;
 
@@ -47,6 +50,14 @@ public class SearchArgs {
       " For TREC ad hoc topics, description or narrative can be used.")
   public String topicfield = "title";
 
+  // Note that this option is set to false by default because duplicate documents usually indicate some underlying
+  // indexing issues, and we don't want to just eat errors silently.
+  @Option(name = "-removedups", usage = "Remove duplicate docids when writing final run output.")
+  public Boolean removedups = false;
+
+  @Option(name = "-strip_segment_id", usage = "Remove the .XXXXX suffix used to denote different segments from an document")
+  public Boolean strip_segment_id = false;
+
   @Option(name = "-skipexists", usage = "When enabled, will skip if the run file exists")
   public Boolean skipexists = false;
 
@@ -54,20 +65,13 @@ public class SearchArgs {
       "index created by IndexCollection -collection TweetCollection")
   public Boolean searchtweets = false;
 
-  @Option(name = "-backgroundlinking", usage = "performs the background linking task as part of the TREC News Track")
+  @Option(name = "-backgroundlinking", forbids = {"-sdm", "-rf.qrels"},
+      usage = "performs the background linking task as part of the TREC News Track")
   public Boolean backgroundlinking = false;
-
-  @Option(name = "-backgroundlinking.paragraph", usage = "construct one query string from each paragraph of the query document. " +
-      "The results will be a round-robin combination of the results from running these paragraph queries")
-  public boolean backgroundlinking_paragraph = false;
 
   @Option(name = "-backgroundlinking.k", usage = "extract top k terms from the query document for TREC News Track Background " +
       "Linking task. The terms are ranked by their tf-idf score from the query document")
   public int backgroundlinking_k = 10;
-
-  @Option(name = "-backgroundlinking.weighted", usage = "Boolean switch to construct boosted query for TREC News Track Background " +
-      "Linking task. The terms scores are their tf-idf score from the query document")
-  public boolean backgroundlinking_weighted = false;
 
   @Option(name = "-backgroundlinking.datefilter", usage = "Boolean switch to filter out articles published after topic article " +
       "for the TREC News Track Background Linking task.")
@@ -89,6 +93,9 @@ public class SearchArgs {
       "for the initial round ranking. this is efficient since lots of reranking model only looks at " +
       "the top documents from the initial round ranking.")
   public int rerankcutoff = 50;
+
+  @Option(name = "-rf.qrels", metaVar = "[file]", usage = "qrels file used for relevance feedback")
+  public String rf_qrels = null;
 
   @Option(name = "-runtag", metaVar = "[tag]", usage = "runtag")
   public String runtag = null;
@@ -159,7 +166,7 @@ public class SearchArgs {
   public String[] inl2_c = new String[]{"0.1"};
 
   @Option(name = "-spl",
-      forbids = {"bm25", "-qld", "-qljm", "-inl2", "-spl", "-f2exp", "-f2log"},
+      forbids = {"bm25", "-qld", "-qljm", "-inl2", "-f2exp", "-f2log"},
       usage = "use SPL scoring model")
   public boolean spl = false;
 
@@ -214,7 +221,7 @@ public class SearchArgs {
   public String[] rm3_fbTerms = new String[]{"10"};
 
   @Option(name = "-rm3.fbDocs", handler = StringArrayOptionHandler.class,
-      usage = "RM3 parameter: number of documents")
+      usage = "RM3 parameter: number of expansion documents")
   public String[] rm3_fbDocs = new String[]{"10"};
 
   @Option(name = "-rm3.originalQueryWeight", handler = StringArrayOptionHandler.class,
@@ -222,7 +229,7 @@ public class SearchArgs {
   public String[] rm3_originalQueryWeight = new String[]{"0.5"};
 
   @Option(name = "-rm3.outputQuery",
-      usage = "RM3 parameter: print original and expanded queries")
+      usage = "RM3 parameter: flag to print original and expanded queries")
   public boolean rm3_outputQuery = false;
 
   // ------------------------------

@@ -53,15 +53,12 @@ def check_output(command):
 
 def get_index_path(yaml_data):
     """Find the index path."""
-    index_path = os.path.join('lucene-index.{0}.pos+docvectors{1}'.format(yaml_data['name'], \
-        '+rawdocs' if '-storeRawDocs' in yaml_data['index_options'] else ''))
-    if not os.path.exists(index_path):
-        index_path = yaml_data['index_path']
-        if not index_path or not os.path.exists(index_path):
-            for input_root in yaml_data['input_roots']:
-                if os.path.exists(os.path.join(input_root, yaml_data['index_path'])):
-                    index_path = os.path.join(input_root, yaml_data['index_path'])
-                    break
+    index_path = yaml_data['index_path']
+    if not index_path or not os.path.exists(index_path):
+        for input_root in yaml_data['input_roots']:
+            index_path = os.path.join(input_root, yaml_data['index_path'])
+            if os.path.exists(index_path):
+                break
     return index_path
 
 
@@ -108,8 +105,7 @@ def construct_indexing_command(yaml_data, args):
         '-generator', yaml_data['generator'],
         '-threads', str(threads),
         '-input', collection_path,
-        '-index', 'indexes/lucene-index.{0}.pos+docvectors{1}'
-            .format(yaml_data['name'], '+raw' if '-storeRaw' in yaml_data['index_options'] else '')
+        '-index', yaml_data['index_path']
     ]
     index_command.extend(yaml_data['index_options'])
     return index_command
@@ -235,7 +231,7 @@ if __name__ == '__main__':
     parser.add_argument('--n', dest='parallelism', type=int, default=4, help='number of parallel threads for ranking')
     parser.add_argument('--fail_eval', dest='fail_eval', action='store_true',
                         help='fail when any run does not match expected effectiveness')
-    parser.add_argument('--output_root', default='runs.regression', help='output directory of all results')
+    parser.add_argument('--output_root', default='runs', help='output directory of all results')
 
     parser.add_argument('--indexing_threads', type=int, default=-1, help='override number of indexing threads from YAML')
     parser.add_argument('--collection_path', default='', help='override collection input path from YAML')

@@ -12,8 +12,8 @@ Typical indexing command:
 
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection CleanTrecCollection -input /path/to/msmarco-doc \
- -index lucene-index.msmarco-doc.pos+docvectors+rawdocs -generator DefaultLuceneDocumentGenerator -threads 1 \
- -storePositions -storeDocvectors -storeRaw >& log.msmarco-doc.pos+docvectors+rawdocs &
+ -index indexes/lucene-index.msmarco-doc.pos+docvectors+raw -generator DefaultLuceneDocumentGenerator -threads 1 \
+ -storePositions -storeDocvectors -storeRaw >& logs/log.msmarco-doc.pos+docvectors+rawdocs &
 ```
 
 The directory `/path/to/msmarco-doc/` should be a directory containing the official document collection (a single file), in TREC format.
@@ -28,35 +28,35 @@ The regression experiments here evaluate on the 5193 dev set questions; see [thi
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-nohup target/appassembler/bin/SearchCollection -index lucene-index.msmarco-doc.pos+docvectors+rawdocs \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-doc.pos+docvectors+raw \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
  -bm25 -output run.msmarco-doc.bm25-default.topics.msmarco-doc.dev.txt &
 
-nohup target/appassembler/bin/SearchCollection -index lucene-index.msmarco-doc.pos+docvectors+rawdocs \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-doc.pos+docvectors+raw \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
  -bm25 -rm3 -output run.msmarco-doc.bm25-default+rm3.topics.msmarco-doc.dev.txt &
 
-nohup target/appassembler/bin/SearchCollection -index lucene-index.msmarco-doc.pos+docvectors+rawdocs \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-doc.pos+docvectors+raw \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
  -bm25 -axiom -axiom.deterministic -rerankCutoff 20 -output run.msmarco-doc.bm25-default+ax.topics.msmarco-doc.dev.txt &
 
-nohup target/appassembler/bin/SearchCollection -index lucene-index.msmarco-doc.pos+docvectors+rawdocs \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-doc.pos+docvectors+raw \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
  -bm25 -bm25prf -output run.msmarco-doc.bm25-default+prf.topics.msmarco-doc.dev.txt &
 
-nohup target/appassembler/bin/SearchCollection -index lucene-index.msmarco-doc.pos+docvectors+rawdocs \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-doc.pos+docvectors+raw \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
  -bm25 -bm25.k1 3.44 -bm25.b 0.87 -output run.msmarco-doc.bm25-tuned.topics.msmarco-doc.dev.txt &
 
-nohup target/appassembler/bin/SearchCollection -index lucene-index.msmarco-doc.pos+docvectors+rawdocs \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-doc.pos+docvectors+raw \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
  -bm25 -bm25.k1 3.44 -bm25.b 0.87 -rm3 -output run.msmarco-doc.bm25-tuned+rm3.topics.msmarco-doc.dev.txt &
 
-nohup target/appassembler/bin/SearchCollection -index lucene-index.msmarco-doc.pos+docvectors+rawdocs \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-doc.pos+docvectors+raw \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
  -bm25 -bm25.k1 3.44 -bm25.b 0.87 -axiom -axiom.deterministic -rerankCutoff 20 -output run.msmarco-doc.bm25-tuned+ax.topics.msmarco-doc.dev.txt &
 
-nohup target/appassembler/bin/SearchCollection -index lucene-index.msmarco-doc.pos+docvectors+rawdocs \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-doc.pos+docvectors+raw \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
  -bm25 -bm25.k1 3.44 -bm25.b 0.87 -bm25prf -output run.msmarco-doc.bm25-tuned+prf.topics.msmarco-doc.dev.txt &
 ```

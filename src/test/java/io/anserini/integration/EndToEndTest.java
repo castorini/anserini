@@ -121,6 +121,15 @@ public abstract class EndToEndTest extends LuceneTestCase {
       args.add("-storeRaw");
     }
 
+    if (indexArgs.keepStopwords) {
+      args.add("-keepStopwords");
+    }
+
+    if (indexArgs.stopwords != null) {
+      args.add("-stopwords");
+      args.add(indexArgs.stopwords);
+    }
+
     if (indexArgs.optimize) {
       args.add("-optimize");
     }

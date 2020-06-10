@@ -37,3 +37,24 @@ src/main/resources/topics-and-qrels/qrels.mb13.all.txt
 # elastirini and solrini installation
 solrini/
 elastirini/
+
+# default directory where runs go
+runs/
+
+# default directory where logs go
+logs/
+
+# default directory where collections go
+collections/
+
+# default directory where indexes go
+indexes/
+
+# default output location of "Neural Hype" experiments: https://github.com/castorini/anserini/blob/master/docs/experiments-forum2018.md
+fine_tuning_results/
+
+# directory where we keep throw-away Java classes that we don't want checked into the repo.
+src/main/java/io/anserini/scratch/
+
+# cat of qrels, don't need to check in
+src/main/resources/topics-and-qrels/qrels.covid-round12.txt

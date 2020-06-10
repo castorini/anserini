@@ -10,8 +10,8 @@ Typical indexing command:
 
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection WashingtonPostCollection -input /path/to/core18 \
- -index lucene-index.core18.pos+docvectors+rawdocs -generator WashingtonPostGenerator -threads 1 \
- -storePositions -storeDocvectors -storeRaw >& log.core18.pos+docvectors+rawdocs &
+ -index indexes/lucene-index.core18.pos+docvectors+raw -generator WashingtonPostGenerator -threads 1 \
+ -storePositions -storeDocvectors -storeRaw >& logs/log.core18.pos+docvectors+rawdocs &
 ```
 
 The directory `/path/to/core18/` should be the root directory of the [TREC Washington Post Corpus](https://trec.nist.gov/data/wapost/), i.e., `ls /path/to/core18/`
@@ -29,27 +29,27 @@ Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/m
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-nohup target/appassembler/bin/SearchCollection -index lucene-index.core18.pos+docvectors+rawdocs \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.core18.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.core18.txt \
  -bm25 -output run.core18.bm25.topics.core18.txt &
 
-nohup target/appassembler/bin/SearchCollection -index lucene-index.core18.pos+docvectors+rawdocs \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.core18.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.core18.txt \
  -bm25 -rm3 -output run.core18.bm25+rm3.topics.core18.txt &
 
-nohup target/appassembler/bin/SearchCollection -index lucene-index.core18.pos+docvectors+rawdocs \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.core18.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.core18.txt \
  -bm25 -axiom -axiom.deterministic -rerankCutoff 20 -output run.core18.bm25+ax.topics.core18.txt &
 
-nohup target/appassembler/bin/SearchCollection -index lucene-index.core18.pos+docvectors+rawdocs \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.core18.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.core18.txt \
  -qld -output run.core18.ql.topics.core18.txt &
 
-nohup target/appassembler/bin/SearchCollection -index lucene-index.core18.pos+docvectors+rawdocs \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.core18.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.core18.txt \
  -qld -rm3 -output run.core18.ql+rm3.topics.core18.txt &
 
-nohup target/appassembler/bin/SearchCollection -index lucene-index.core18.pos+docvectors+rawdocs \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.core18.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.core18.txt \
  -qld -axiom -axiom.deterministic -rerankCutoff 20 -output run.core18.ql+ax.topics.core18.txt &
 ```
@@ -89,3 +89,5 @@ P30                                     | BM25      | +RM3      | +Ax       | QL
 + Results replicated by [@chriskamphuis](https://github.com/chriskamphuis) on 2019-09-07 (commit [`61f6f20`](https://github.com/castorini/anserini/commit/61f6f20ff6872484966ea1badcdcdcebf1eea852))
 + Results replicated by [@nikhilro](https://github.com/nikhilro) on 2020-01-26 (commit [`d5ee069`](https://github.com/castorini/anserini/commit/d5ee069399e6a306d7685bda756c1f19db721156))
 + Results replicated by [@edwinzhng](https://github.com/edwinzhng) on 2020-01-26 (commit [`7b76dfb`](https://github.com/castorini/anserini/commit/7b76dfbea7e0c01a3a5dc13e74f54852c780ec9b))
++ Results replicated by [@yuki617](https://github.com/yuki617) on 2020-05-17 (commit [`cee4463`](https://github.com/castorini/anserini/commit/cee446338137415899436f0b2f2d738769745cde))
++ Results replicated by [@x65han](https://github.com/x65han) on 2020-05-19 (commit [`33b0684`](https://github.com/castorini/anserini/commit/33b068437c4582067486e5fe79dfbecb8d4a145c))

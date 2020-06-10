@@ -106,6 +106,10 @@ class ElasticsearchClient:
             command = 'sh target/appassembler/bin/IndexCollection -collection WashingtonPostCollection ' + \
                       '-generator WashingtonPostGenerator -es -es.index core18 -threads 8 -input ' + \
                       path + ' -storePositions -storeDocvectors -storeContents'
+        elif collection == 'msmarco-doc':
+             command = 'sh target/appassembler/bin/IndexCollection -collection CleanTrecCollection ' + \
+                       '-generator DefaultLuceneDocumentGenerator -es -es.index msmarco-doc -threads 1 -input ' + \
+                       path + ' -storePositions -storeDocvectors -storeRaw'
         else:
             raise Exception('Unknown collection: {}'.format(collection))
         logger.info('Running indexing command: ' + command)
@@ -119,15 +123,19 @@ class ElasticsearchClient:
         if collection == 'robust04':
             command = 'sh target/appassembler/bin/SearchElastic -topicreader Trec -es.index robust04 ' + \
                       '-topics src/main/resources/topics-and-qrels/topics.robust04.txt ' + \
-                      '-output run.es.robust04.bm25.topics.robust04.txt'
+                      '-output runs/run.es.robust04.bm25.topics.robust04.txt'
         elif collection == 'msmarco-passage':
             command = 'sh target/appassembler/bin/SearchElastic -topicreader TsvString -es.index msmarco-passage ' + \
                       '-topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt ' + \
-                      '-output run.es.msmarco-passage.txt'
+                      '-output runs/run.es.msmarco-passage.txt'
         elif collection == 'core18':
             command = 'sh target/appassembler/bin/SearchElastic -topicreader Trec -es.index core18 ' + \
                       '-topics src/main/resources/topics-and-qrels/topics.core18.txt ' + \
-                      '-output run.es.core18.bm25.topics.core18.txt'
+                      '-output runs/run.es.core18.bm25.topics.core18.txt'
+        elif collection == 'msmarco-doc':
+             command = 'sh target/appassembler/bin/SearchElastic -topicreader TsvInt -es.index msmarco-doc ' + \
+                       '-topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt ' + \
+                       '-output runs/run.es.msmarco-doc.txt'
         else:
             raise Exception('Unknown collection: {}'.format(collection))
 
@@ -137,13 +145,16 @@ class ElasticsearchClient:
 
         if collection == 'robust04':
             command = 'eval/trec_eval.9.0.4/trec_eval -m map -m P.30 ' + \
-                      'src/main/resources/topics-and-qrels/qrels.robust04.txt run.es.robust04.bm25.topics.robust04.txt'
+                      'src/main/resources/topics-and-qrels/qrels.robust04.txt runs/run.es.robust04.bm25.topics.robust04.txt'
         elif collection == 'msmarco-passage':
             command = 'eval/trec_eval.9.0.4/trec_eval -c -mrecall.1000 -mmap ' + \
-                      'src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt run.es.msmarco-passage.txt'
+                      'src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.es.msmarco-passage.txt'
         elif collection == 'core18':
             command = 'eval/trec_eval.9.0.4/trec_eval -m map -m P.30 ' + \
-                      'src/main/resources/topics-and-qrels/qrels.core18.txt run.es.core18.bm25.topics.core18.txt'
+                      'src/main/resources/topics-and-qrels/qrels.core18.txt runs/run.es.core18.bm25.topics.core18.txt'
+        elif collection == 'msmarco-doc':
+             command = 'eval/trec_eval.9.0.4/trec_eval -c -mrecall.1000 -mmap ' + \
+                       'src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.es.msmarco-doc.txt'
         else:
             raise Exception('Unknown collection: {}'.format(collection))
 
@@ -155,6 +166,7 @@ class ElasticsearchClient:
         if collection == 'robust04': expected = 0.2531
         elif collection == 'msmarco-passage': expected = 0.1956
         elif collection == 'core18': expected = 0.2495
+        elif collection == 'msmarco-doc': expected = 0.2308
         else: raise Exception('Unknown collection: {}'.format(collection))
 
         if math.isclose(ap, expected): logger.info('[SUCESS] {} MAP verified as expected!'.format(ap))
