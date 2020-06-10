@@ -86,7 +86,9 @@ public class FeverSentenceCollection extends DocumentCollection<FeverSentenceCol
     }
 
     /**
-     * Extracts the sentences out of the "lines" field in the FEVER JSONL files.
+     * Extracts the sentences out of the "lines" field in the FEVER JSONL
+     * files. Takes a JsonNode object for a single document as input and
+     * returns a Stream of JsonNodes, one for each sentence.
      */
     protected Stream<JsonNode> flattenToSentences(JsonNode json) {
       ObjectMapper mapper = new ObjectMapper();
@@ -96,17 +98,20 @@ public class FeverSentenceCollection extends DocumentCollection<FeverSentenceCol
       String lines = json.get("lines").asText();
 
       for (String line: lines.split("\n")) {
-        // line is of the format: (sentence id)\t(sentence)[\t(tag)\t...\t(tag)]
+        // each line is of the format: (sentence id)\t(sentence)[\t(tag)\t...\t(tag)]
         String[] tokens = line.split("\t");
-        String sentence = tokens[1];
-        if (!sentence.isEmpty()) {
-          String jsonNodeStr = String.format("{\"id\": \"%s_%s\", \"text\": \"%s\", \"lines\": \"%s\"}", id, tokens[0],
-                  sentence, sentence);
+        if (tokens.length > 1) { // skip empty sentences
+          Map<String, String> jsonNodeData = Map.of(
+                  "id", String.format("%s_%s", id, tokens[0]),
+                  "text", tokens[1],
+                  "lines", tokens[1]
+          );
           JsonNode jsonNode;
           try {
+            String jsonNodeStr = mapper.writeValueAsString(jsonNodeData);
             jsonNode = mapper.readTree(jsonNodeStr);
           } catch (JsonProcessingException e) {
-            // should never reach this point
+            // should never reach this point since we manually created the json above
             LOG.error("Error processing JSON");
             continue;
           }
