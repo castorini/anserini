@@ -97,7 +97,7 @@ public class CommonCrawlWarcCollection extends DocumentCollection<CommonCrawlWar
     public static Document readNextWarcRecord(DataInputStream in)
         throws IOException {
       StringBuilder recordHeader = new StringBuilder();
-      byte[] recordContent = readNextRecord(in, recordHeader);
+      byte[] recordContent = readNextRecord(in, recordHeader, "WARC-Block-Digest");
 
       Document retRecord = new Document();
       //set the header

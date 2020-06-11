@@ -74,7 +74,7 @@ import org.apache.logging.log4j.Logger;
  * {@link org.apache.lucene.document.Document}, which is the Lucene
  * representation that can be directly inserted into an index.
  */
-public class WarcBaseDocument implements SourceDocument { 
+public abstract class WarcBaseDocument implements SourceDocument { 
   private static final byte MASK_THREE_BYTE_CHAR = (byte) (0xE0);
   private static final byte MASK_TWO_BYTE_CHAR = (byte) (0xC0);
   private static final byte MASK_TOPMOST_BIT = (byte) (0x80);
@@ -143,7 +143,7 @@ public class WarcBaseDocument implements SourceDocument {
    * @return the read line (or null if eof)
    * @throws IOException if error encountered reading from stream
    */
-  private static String readLineFromInputStream(DataInputStream in) throws IOException {
+  protected static String readLineFromInputStream(DataInputStream in) throws IOException {
     StringBuilder retString = new StringBuilder();
 
     boolean keepReading = true;
@@ -225,7 +225,7 @@ public class WarcBaseDocument implements SourceDocument {
    * @return the content bytes (with the headerBuffer populated)
    * @throws IOException if error encountered reading from stream
    */
-  protected static byte[] readNextRecord(DataInputStream in, StringBuilder headerBuffer) throws IOException {
+  protected static byte[] readNextRecord(DataInputStream in, StringBuilder headerBuffer, String headerEndKey) throws IOException {
     if (in == null || headerBuffer == null) {
       throw new NoSuchElementException();
     }
@@ -252,14 +252,18 @@ public class WarcBaseDocument implements SourceDocument {
     // then read to the first newline
     // make sure we get the content length here
     int contentLength = -1;
-    while (inHeader && ((line = readLineFromInputStream(in)) != null)) {
-      if (line.trim().length() == 0) {
+    boolean reachHeaderEnd = false;
+    while (!reachHeaderEnd && inHeader && ((line = readLineFromInputStream(in)) != null)) {
+      if ((line.trim().length() == 0 && reachHeaderEnd)) {
         inHeader = false;
       } else {
         headerBuffer.append(line);
         headerBuffer.append(WarcBaseDocument.NEWLINE);
         String[] thisHeaderPieceParts = line.split(":", 2);
         if (thisHeaderPieceParts.length == 2) {
+          if (thisHeaderPieceParts[0].toLowerCase(Locale.US).startsWith(headerEndKey.toLowerCase(Locale.US))){
+            reachHeaderEnd = true;
+          }
           if (thisHeaderPieceParts[0].toLowerCase(Locale.US).startsWith("content-length")) {
             try {
               contentLength = Integer.parseInt(thisHeaderPieceParts[1].trim());
@@ -301,52 +305,6 @@ public class WarcBaseDocument implements SourceDocument {
     } // end while (totalRead < contentLength)
 
     return retContent;
-  }
-
-  /**
-   * Reads in a WARC record from a data input stream.
-   *
-   * @param in the input stream
-   * @return a WARC record (or null if EOF)
-   * @throws IOException if error encountered reading from stream
-   */
-  public static WarcBaseDocument readNextWarcRecord(DataInputStream in)
-      throws IOException {
-    StringBuilder recordHeader = new StringBuilder();
-    byte[] recordContent = readNextRecord(in, recordHeader);
-
-    // extract out our header information
-    String thisHeaderString = recordHeader.toString();
-    String[] headerLines = thisHeaderString.split(WarcBaseDocument.NEWLINE);
-
-    WarcBaseDocument retRecord = new WarcBaseDocument();
-    for (int i = 0; i < headerLines.length; i++) {
-      String[] pieces = headerLines[i].split(":", 2);
-      if (pieces.length != 2) {
-        retRecord.addHeaderMetadata(pieces[0], "");
-        continue;
-      }
-      String thisKey = pieces[0].trim();
-      String thisValue = pieces[1].trim();
-
-      // check for known keys
-      if (thisKey.equals("WARC-Type")) {
-        retRecord.setWarcRecordType(thisValue);
-      } else if (thisKey.equals("WARC-Date")) {
-        retRecord.setWarcDate(thisValue);
-      } else if (thisKey.equals("WARC-Record-ID")) {
-        retRecord.setWarcUUID(thisValue);
-      } else if (thisKey.equals("Content-Type")) {
-        retRecord.setWarcContentType(thisValue);
-      } else {
-        retRecord.addHeaderMetadata(thisKey, thisValue);
-      }
-    }
-
-    // set the content
-    retRecord.setContent(recordContent);
-
-    return retRecord;
   }
 
   /**
@@ -595,10 +553,10 @@ public class WarcBaseDocument implements SourceDocument {
   }
 
   public String getContent() {
-    String str = getContentUTF8();
+    String str = getContentUTF8().trim();
     // Get rid of HTTP headers. Look for the first '<'.
     int k = str.indexOf("\n<");
-    return k != -1 ? str.substring(k+1, str.length()-1) : str.substring(0, str.length()-1);
+    return k != -1 ? str.substring(k+1, str.length()) : str;
   }
 
   /**

@@ -95,7 +95,7 @@ public class CommonCrawlWetCollection extends DocumentCollection<CommonCrawlWetC
     public static Document readNextWarcRecord(DataInputStream in)
         throws IOException {
       StringBuilder recordHeader = new StringBuilder();
-      byte[] recordContent = readNextRecord(in, recordHeader);
+      byte[] recordContent = readNextRecord(in, recordHeader, "Content-Length");
 
       Document retRecord = new Document();
       //set the header
@@ -118,7 +118,7 @@ public class CommonCrawlWetCollection extends DocumentCollection<CommonCrawlWetC
 
     @Override
     public String getContent() {
-      return getContentUTF8();
+      return getContentUTF8().trim();
     }
 
     @Override

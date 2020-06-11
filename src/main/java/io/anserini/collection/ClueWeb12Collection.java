@@ -99,7 +99,7 @@ public class ClueWeb12Collection extends DocumentCollection<ClueWeb12Collection.
     public static Document readNextWarcRecord(DataInputStream in)
         throws IOException {
       StringBuilder recordHeader = new StringBuilder();
-      byte[] recordContent = readNextRecord(in, recordHeader);
+      byte[] recordContent = readNextRecord(in, recordHeader, "Content-Length");
 
       Document retRecord = new Document();
       //set the header
@@ -108,6 +108,18 @@ public class ClueWeb12Collection extends DocumentCollection<ClueWeb12Collection.
       retRecord.setContent(recordContent);
 
       return retRecord;
+    }
+
+    @Override
+    public String getContent() {
+      String str = getContentUTF8();
+      int i = str.indexOf("Content-Length:");
+      int j = str.indexOf("\n", i);
+
+      // Get rid of HTTP headers. Look for the first '<'.
+      int k = str.indexOf("<", j);
+
+      return k != -1 ? str.substring(k) : str.substring(j + 1);
     }
 
     @Override

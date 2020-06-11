@@ -90,11 +90,10 @@ public class ClueWeb09Collection extends DocumentCollection<ClueWeb09Collection.
      * @return a WARC record (or null if EOF)
      * @throws IOException if error encountered reading from stream
      */
-
     public static Document readNextWarcRecord(DataInputStream in)
         throws IOException {
       StringBuilder recordHeader = new StringBuilder();
-      byte[] recordContent = readNextRecord(in, recordHeader);
+      byte[] recordContent = readNextRecord(in, recordHeader, "Content-Length");
 
       Document retRecord = new Document();
       retRecord.setHeader(recordHeader.toString());
@@ -104,15 +103,17 @@ public class ClueWeb09Collection extends DocumentCollection<ClueWeb09Collection.
     }
 
     @Override
-    public String getDocid() {
-      return getHeaderMetadataItem("WARC-TREC-ID");
-    }
-
     public String getContent() {
       String str = getContentUTF8();
-      // Get rid of HTTP headers. Look for the first '<'.
-      int k = str.indexOf("\n<");
-      return k != -1 ? str.substring(k, str.length()-1) : str.substring(0, str.length()-1);
+      int i = str.indexOf("Content-Length:");
+      int j = str.indexOf("\n", i);
+
+      return str.substring(j + 1);
+    }
+
+    @Override
+    public String getDocid() {
+      return getHeaderMetadataItem("WARC-TREC-ID");
     }
   }
 }
