@@ -68,11 +68,8 @@ public abstract class DocumentCollectionTest<T extends SourceDocument> extends L
 
       int docCount = 0;
       for (T doc : segment) {
-        // This is a special case for ClueWeb collections, where the id can be null.
+        // This is a special case for Warc collections, where the id can be null.
         if (doc.id() == null) {
-          checkDocument(doc, expected.get("null"));
-        // This is a special case for CommonCrawl collections, where the id can be empty.
-        } else if (doc.id().isEmpty()) {
           checkDocument(doc, expected.get("null"));
         } else {
           assertTrue(expected.containsKey(doc.id()));
@@ -100,11 +97,8 @@ public abstract class DocumentCollectionTest<T extends SourceDocument> extends L
 
       int docCount = 0;
       for (T doc : segment) {
-        // This is a special case for ClueWeb collections, where the id can be null.
+        // This is a special case for Warc collections, where the id can be null.
         if (doc.id() == null) {
-          checkDocument(doc, expected.get("null"));
-        // This is a special case for CommonCrawl collections, where the id can be empty.
-        } else if (doc.id().isEmpty()) {
           checkDocument(doc, expected.get("null"));
         } else {
           assertTrue(expected.containsKey(doc.id()));
@@ -130,11 +124,8 @@ public abstract class DocumentCollectionTest<T extends SourceDocument> extends L
     collection.iterator().forEachRemaining(d -> {
       d.iterator().forEachRemaining(doc -> {
 
-        // This is a special case for ClueWeb collections, where the id can be null.
+        // This is a special case for Warc collections, where the id can be null.
         if (doc.id() == null) {
-          checkDocument(doc, expected.get("null"));
-        // This is a special case for CommonCrawl collections, where the id can be empty.
-        } else if (doc.id().isEmpty()) {
           checkDocument(doc, expected.get("null"));
         } else {
           assertTrue(expected.containsKey(doc.id()));
