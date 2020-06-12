@@ -111,8 +111,10 @@ public class FeverSentenceCollectionTest extends DocumentCollectionTest<FeverSen
     FeverSentenceCollection.Document feverDoc = (FeverSentenceCollection.Document) doc;
 
     assertTrue(feverDoc.indexable());
-    assertEquals(expected.get("id"), feverDoc.id());
-    assertEquals(expected.get("content"), feverDoc.contents());
-    assertEquals(expected.get("raw"), feverDoc.raw());
+    if (expected != null) {
+      assertEquals(expected.get("id"), feverDoc.id());
+      assertEquals(expected.get("content"), feverDoc.contents());
+      assertEquals(expected.get("raw"), feverDoc.raw());
+    }
   }
 }

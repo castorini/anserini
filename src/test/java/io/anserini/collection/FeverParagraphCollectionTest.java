@@ -76,18 +76,20 @@ public class FeverParagraphCollectionTest extends DocumentCollectionTest<FeverPa
     FeverParagraphCollection.Document feverDoc = (FeverParagraphCollection.Document) doc;
 
     assertTrue(feverDoc.indexable());
-    assertEquals(expected.get("id"), feverDoc.id());
-    if (expected.containsKey("contents_starts_with")) {
-      assertTrue(feverDoc.contents().startsWith(expected.get("contents_starts_with")));
-    }
-    if (expected.containsKey("contents_ends_with")) {
-      assertTrue(feverDoc.contents().endsWith(expected.get("contents_ends_with")));
-    }
-    if (expected.containsKey("raw_starts_with")) {
-      assertTrue(feverDoc.raw().startsWith(expected.get("raw_starts_with")));
-    }
-    if (expected.containsKey("raw_ends_with")) {
-      assertTrue(feverDoc.raw().endsWith(expected.get("raw_ends_with")));
+    if (expected != null) {
+      assertEquals(expected.get("id"), feverDoc.id());
+      if (expected.containsKey("contents_starts_with")) {
+        assertTrue(feverDoc.contents().startsWith(expected.get("contents_starts_with")));
+      }
+      if (expected.containsKey("contents_ends_with")) {
+        assertTrue(feverDoc.contents().endsWith(expected.get("contents_ends_with")));
+      }
+      if (expected.containsKey("raw_starts_with")) {
+        assertTrue(feverDoc.raw().startsWith(expected.get("raw_starts_with")));
+      }
+      if (expected.containsKey("raw_ends_with")) {
+        assertTrue(feverDoc.raw().endsWith(expected.get("raw_ends_with")));
+      }
     }
   }
 }
