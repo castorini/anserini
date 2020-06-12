@@ -108,9 +108,11 @@ public class FeverSentenceCollectionTest extends DocumentCollectionTest<FeverSen
 
   @Override
   void checkDocument(SourceDocument doc, Map<String, String> expected) {
-    assertTrue(doc.indexable());
-    assertEquals(expected.get("id"), doc.id());
-    assertEquals(expected.get("content"), doc.contents());
-    assertEquals(expected.get("raw"), doc.raw());
+    FeverSentenceCollection.Document feverDoc = (FeverSentenceCollection.Document) doc;
+
+    assertTrue(feverDoc.indexable());
+    assertEquals(expected.get("id"), feverDoc.id());
+    assertEquals(expected.get("content"), feverDoc.contents());
+    assertEquals(expected.get("raw"), feverDoc.raw());
   }
 }

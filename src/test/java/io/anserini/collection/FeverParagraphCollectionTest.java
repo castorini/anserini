@@ -73,19 +73,21 @@ public class FeverParagraphCollectionTest extends DocumentCollectionTest<FeverPa
 
   @Override
   void checkDocument(SourceDocument doc, Map<String, String> expected) {
-    assertTrue(doc.indexable());
-    assertEquals(expected.get("id"), doc.id());
+    FeverParagraphCollection.Document feverDoc = (FeverParagraphCollection.Document) doc;
+
+    assertTrue(feverDoc.indexable());
+    assertEquals(expected.get("id"), feverDoc.id());
     if (expected.containsKey("contents_starts_with")) {
-      assertTrue(doc.contents().startsWith(expected.get("contents_starts_with")));
+      assertTrue(feverDoc.contents().startsWith(expected.get("contents_starts_with")));
     }
     if (expected.containsKey("contents_ends_with")) {
-      assertTrue(doc.contents().endsWith(expected.get("contents_ends_with")));
+      assertTrue(feverDoc.contents().endsWith(expected.get("contents_ends_with")));
     }
     if (expected.containsKey("raw_starts_with")) {
-      assertTrue(doc.raw().startsWith(expected.get("raw_starts_with")));
+      assertTrue(feverDoc.raw().startsWith(expected.get("raw_starts_with")));
     }
     if (expected.containsKey("raw_ends_with")) {
-      assertTrue(doc.raw().endsWith(expected.get("raw_ends_with")));
+      assertTrue(feverDoc.raw().endsWith(expected.get("raw_ends_with")));
     }
   }
 }
