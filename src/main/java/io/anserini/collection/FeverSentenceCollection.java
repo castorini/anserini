@@ -97,26 +97,26 @@ public class FeverSentenceCollection extends DocumentCollection<FeverSentenceCol
       String id = json.get("id").asText();
       String lines = json.get("lines").asText();
 
+      // each line is of the format: (sentence id)\t(sentence)[\t(tag)\t...\t(tag)]
       for (String line: lines.split("\n")) {
-        // each line is of the format: (sentence id)\t(sentence)[\t(tag)\t...\t(tag)]
-        String[] tokens = line.split("\t");
-        if (tokens.length > 1) { // skip empty sentences
-          Map<String, String> jsonNodeData = Map.of(
-                  "id", String.format("%s_%s", id, tokens[0]),
-                  "text", tokens[1],
-                  "lines", tokens[1]
-          );
-          JsonNode jsonNode;
-          try {
-            String jsonNodeStr = mapper.writeValueAsString(jsonNodeData);
-            jsonNode = mapper.readTree(jsonNodeStr);
-          } catch (JsonProcessingException e) {
-            // should never reach this point since we manually created the json above
-            LOG.error("Error processing JSON");
-            continue;
-          }
-          sentenceNodes.add(jsonNode);
+        String[] tokens = line.split("\t", -1); // split with -1 to keep trailing ""
+        Map<String, String> jsonNodeData;
+        if (tokens.length < 2) { // if "lines" field is an empty string
+          jsonNodeData = Map.of("id", id, "text", lines, "lines", lines);
+        } else {
+          jsonNodeData = Map.of("id", String.format("%s_%s", id, tokens[0]), "text", tokens[1], "lines", tokens[1]);
         }
+
+        JsonNode jsonNode;
+        try {
+          String jsonNodeStr = mapper.writeValueAsString(jsonNodeData);
+          jsonNode = mapper.readTree(jsonNodeStr);
+        } catch (JsonProcessingException e) {
+          // should never reach this point since we manually created the json above
+          LOG.error("Error processing JSON");
+          continue;
+        }
+        sentenceNodes.add(jsonNode);
       }
 
       return sentenceNodes.stream();

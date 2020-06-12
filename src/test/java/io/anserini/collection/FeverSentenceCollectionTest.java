@@ -32,12 +32,20 @@ public class FeverSentenceCollectionTest extends DocumentCollectionTest<FeverSen
     Path segment = Paths.get("src/test/resources/sample_docs/fever/collection1/segment1.jsonl");
 
     segmentPaths.add(segment);
-    segmentDocCounts.put(segment, 7);
+    segmentDocCounts.put(segment, 14);
 
     totalSegments = 1;
-    totalDocs = 7;
+    totalDocs = 14;
 
-    // documents with empty content should not be ingested or indexed
+    // empty document, should be ingested but not indexed
+    expected.put("", Map.of("id", "", "content", "", "raw", ""));
+
+    // document with empty content, should be ingested but not indexed
+    expected.put("Domain_Range_Ratio_-LRB-DRR-RRB-", Map.of(
+            "id", "Domain_Range_Ratio_-LRB-DRR-RRB-",
+            "content", "",
+            "raw", ""
+    ));
 
     // regular document 1, should be ingested and indexed
     expected.put("Shohei_Otani_0", Map.of(
@@ -59,6 +67,7 @@ public class FeverSentenceCollectionTest extends DocumentCollectionTest<FeverSen
             "raw", "He officially recorded the fastest pitch by a Japanese pitcher and in NPB history at 165 " +
                     "km/h ."
     ));
+    expected.put("Shohei_Otani_3", Map.of("id", "Shohei_Otani_3", "content", "", "raw", ""));
 
     // regular document 2, should be ingested and indexed
     expected.put("Kelvin,_North_Dakota_0", Map.of(
@@ -68,6 +77,7 @@ public class FeverSentenceCollectionTest extends DocumentCollectionTest<FeverSen
             "raw", "Kelvin is an unincorporated community in Rolette County , in the U.S. state of North " +
                     "Dakota ."
     ));
+    expected.put("Kelvin,_North_Dakota_1", Map.of("id", "Kelvin,_North_Dakota_1", "content", "", "raw", ""));
 
     // regular document 3 with unicode characters and empty lines, should be ingested and indexed
     expected.put("Styrkepr\u00f8ven_0", Map.of(
@@ -86,11 +96,14 @@ public class FeverSentenceCollectionTest extends DocumentCollectionTest<FeverSen
             "raw", "It was first held in 1967 , initiaded by Erik Gjems-Onstad and has taken place since " +
                     "then in late June every year ."
     ));
+    expected.put("Styrkepr\u00f8ven_2", Map.of("id", "Styrkepr\u00f8ven_2", "content", "", "raw", ""));
+    expected.put("Styrkepr\u00f8ven_3", Map.of("id", "Styrkepr\u00f8ven_3", "content", "", "raw", ""));
     expected.put("Styrkepr\u00f8ven_4", Map.of(
             "id", "Styrkepr\u00f8ven_4",
             "content", "In 2012 the record time was 12.51,02 .",
             "raw", "In 2012 the record time was 12.51,02 ."
     ));
+    expected.put("Styrkepr\u00f8ven_5", Map.of("id", "Styrkepr\u00f8ven_5", "content", "", "raw", ""));
   }
 
   @Override
