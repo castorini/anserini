@@ -5,7 +5,7 @@ Note that there is a separate [MS MARCO *passage* ranking task](experiments-msma
 
 ## Data Prep
 
-We're going to use `msmarco-doc/` as the working directory.
+We're going to use the repository's root directory as the working directory.
 First, we need to download and extract the MS MARCO document dataset:
 
 ```
