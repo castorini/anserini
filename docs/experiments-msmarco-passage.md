@@ -6,7 +6,7 @@ We also have a [separate page](experiments-doc2query.md) describing document exp
 
 ## Data Prep
 
-We're going to use `msmarco-passage/` as the working directory.
+We're going to use the repository's root directory as the working directory.
 First, we need to download and extract the MS MARCO passage dataset:
 
 ```bash
@@ -50,7 +50,7 @@ python src/main/python/msmarco/filter_queries.py --qrels collections/msmarco-pas
 
 The output queries file should contain 6980 lines.
 
-We can now retrieve this smaller set of queries:
+We can now retrieve this smaller set of queries.  Note that the following command requires that the [Pyserini](https://github.com/castorini/pyserini/) Python package is installed .
 
 ```bash
 python src/main/python/msmarco/retrieve.py --hits 1000 --threads 1 \
