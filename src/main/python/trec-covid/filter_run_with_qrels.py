@@ -14,35 +14,44 @@
 # limitations under the License.
 #
 
-"""Filter a TREC run file to retain only docids that appear on a list of valid docids (commonly known as a whitelist).
-The whitelist is a file with a docid on each line."""
+"""Filter a TREC run file to either retain only docids that are judged (--retain) or throw away documents that are
+judged (--discard)."""
 
 import argparse
+import sys
 from collections import defaultdict
 
 
-def read_file(file):
-    docids = set()
-    with open(file) as f:
+def load_qrels(qrels):
+    judged_docids = defaultdict(set)
+    with open(qrels) as f:
         for line in f:
             cols = line.split()
-            if len(cols) > 0:
-                docids.add(cols[0])
-    return docids
+            qid = cols[0]
+            docid = cols[2]
+            judged_docids[qid].add(docid)
+    return judged_docids
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__,
                                      formatter_class=lambda prog: argparse.HelpFormatter(prog, width=100))
-    parser.add_argument('--whitelist', type=str, metavar='file', help='Whitelist (one docid per line).', required=True)
+    parser.add_argument('--qrels', type=str, metavar='qrels', help='Qrels.', required=True)
     parser.add_argument('--input', type=str, metavar='run', help='Input run.', required=True)
     parser.add_argument('--output', type=str, metavar='run', help='Output run.', required=True)
     parser.add_argument('--runtag', type=str, default=None, metavar='runtag', help='Runtag.')
     parser.add_argument('--k', type=int, metavar='hits', default=1000, help='Number of hits to retain per topic.')
+    parser.add_argument('--retain',  action='store_true',
+                        help="Retain judged docids, i.e., throw away all unjudged documents.")
+    parser.add_argument('--discard',  action='store_true',
+                        help="Discard judged docids, i.e., keep only documents that are unjudged.")
     args = parser.parse_args()
 
-    docids = read_file(args.whitelist)
-    print(f'Read {len(docids)} docids from {args.whitelist}')
+    if (args.retain and args.discard) or (not args.retain and not args.discard):
+        print('Must specific either one of --retain or --discard.')
+        sys.exit()
+
+    judged_docids = load_qrels(args.qrels)
     counts = defaultdict(int)
 
     prev_score = None
@@ -62,17 +71,24 @@ def main():
                 if counts[qid] >= args.k:
                     if check_score:
                         if score == prev_score:
-                            print(f'Warning: scores of {qid} do not strictly decrease at {docid}')
+                            print (f'Warning: scores of {qid} do not strictly decrease at {docid}')
                         check_score = False
                         continue
-                    else:
+                    else: 
                         continue
 
-                if docid in docids:
-                    counts[qid] += 1
-                    prev_score = float(cols[4])
-                    check_score = True
-                    output_f.write(f'{qid} Q0 {docid} {counts[qid]} {score} {tag}\n')
+                if args.discard:
+                    if qid not in judged_docids or docid not in judged_docids[qid]:
+                        counts[qid] += 1
+                        prev_score = float(cols[4])
+                        check_score = True
+                        output_f.write(f'{qid} Q0 {docid} {counts[qid]} {score} {tag}\n')
+                elif args.retain:
+                    if qid in judged_docids and docid in judged_docids[qid]:
+                        counts[qid] += 1
+                        prev_score = float(cols[4])
+                        check_score = True
+                        output_f.write(f'{qid} Q0 {docid} {counts[qid]} {score} {tag}\n')
 
 
 if __name__ == '__main__':
