@@ -49,7 +49,7 @@ def main():
 
     if (args.retain and args.discard) or (not args.retain and not args.discard):
         print('Must specific either one of --retain or --discard.')
-        sys.exit()
+        return
 
     judged_docids = load_qrels(args.qrels)
     counts = defaultdict(int)
@@ -70,8 +70,8 @@ def main():
 
                 if counts[qid] >= args.k:
                     if check_score:
-                        if score == prev_score:
-                            print (f'Warning: scores of {qid} do not strictly decrease at {docid}')
+                        if score <= prev_score:
+                            print(f'Warning: scores of {qid} do not strictly decrease at {docid}')
                         check_score = False
                         continue
                     else: 
