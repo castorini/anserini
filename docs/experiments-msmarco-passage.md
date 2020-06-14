@@ -6,7 +6,7 @@ We also have a [separate page](experiments-doc2query.md) describing document exp
 
 ## Data Prep
 
-We're going to use `msmarco-passage/` as the working directory.
+We're going to use the repository's root directory as the working directory.
 First, we need to download and extract the MS MARCO passage dataset:
 
 ```bash
@@ -50,7 +50,7 @@ python src/main/python/msmarco/filter_queries.py --qrels collections/msmarco-pas
 
 The output queries file should contain 6980 lines.
 
-We can now retrieve this smaller set of queries:
+We can now retrieve this smaller set of queries.  Note that the following command requires that the [Pyserini](https://github.com/castorini/pyserini/) Python package is installed .
 
 ```bash
 python src/main/python/msmarco/retrieve.py --hits 1000 --threads 1 \
@@ -171,3 +171,4 @@ Tuned (`k1=0.82`, `b=0.72`) | 0.1875 | 0.1956 | 0.8578
 + Results replicated by [@kelvin-jiang](https://github.com/kelvin-jiang) on 2020-05-28 (commit [`d55531a`](https://github.com/castorini/anserini/commit/d55531a738d2cf9e14c376d798d2de4bd3020b6b))
 + Results replicated by [@TianchengY](https://github.com/TianchengY) on 2020-05-28 (commit [`2947a16`](https://github.com/castorini/anserini/commit/2947a1622efae35637b83e321aba8e6fccd43489))
 + Results replicated by [@stariqmi](https://github.com/stariqmi) on 2020-05-28 (commit [`4914305`](https://github.com/castorini/anserini/commit/455169ea6a09f637817a6c4b4f6837dcc845f5f7))
++ Results replicated by [@justinborromeo](https://github.com/justinborromeo) on 2020-06-10 (commit [`7954eab`](https://github.com/castorini/anserini/commit/7954eab43f17bb8d254987d5873933c0b9596bb4))
