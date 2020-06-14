@@ -19,7 +19,9 @@ package io.anserini.index.generator;
 import io.anserini.collection.Iso19115Collection;
 import io.anserini.index.IndexArgs;
 import org.apache.lucene.document.Document;
+import org.apache.lucene.document.Field;
 import org.apache.lucene.document.StoredField;
+import org.apache.lucene.document.StringField;
 
 
 public class Iso19115Generator extends DefaultLuceneDocumentGenerator<Iso19115Collection.Document>{
@@ -29,7 +31,10 @@ public class Iso19115Generator extends DefaultLuceneDocumentGenerator<Iso19115Co
   public enum Iso19115Field {
     ID("id"),
     TITLE("title"),
-    ABSTRACT("abstract");
+    ABSTRACT("abstract"),
+    SOURCE("source"),
+    AUTHORS("authors"),
+    JOURNAL("journal");
 
     public final String name;
 
@@ -48,6 +53,15 @@ public class Iso19115Generator extends DefaultLuceneDocumentGenerator<Iso19115Co
 
     document.add(new StoredField(Iso19115Field.TITLE.name, doc.getTitle()));
     document.add(new StoredField(Iso19115Field.ABSTRACT.name, doc.getAbstract()));
+    document.add(new StringField(Iso19115Field.SOURCE.name, doc.getSource(), Field.Store.YES));
+    document.add(new StringField(Iso19115Field.JOURNAL.name, doc.getJournal(), Field.Store.YES));
+
+    // indexing the authors
+    String[] authors = doc.getAuthors();
+    for(String author: authors) {
+      document.add(new StringField(Iso19115Field.AUTHORS.name, author, Field.Store.YES));
+    }
+
     return document;
   }
 }

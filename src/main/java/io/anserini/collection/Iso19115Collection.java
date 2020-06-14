@@ -87,6 +87,9 @@ public class Iso19115Collection extends DocumentCollection<Iso19115Collection.Do
     protected String title;
     protected String abstractContent;
     protected String raw;
+    protected String source;
+    protected String[] authors;
+    protected String journal;
 
     public Document(JsonNode json) {
       // extracting the fields from the ISO19115 file
@@ -98,6 +101,40 @@ public class Iso19115Collection extends DocumentCollection<Iso19115Collection.Do
                    .get("gmd:CI_Citation").get("gmd:title").get("gco:CharacterString").asText();
       this.abstractContent = json.get("gmd:MD_Metadata").get("gmd:identificationInfo").get("gmd:MD_DataIdentification")
                              .get("gmd:abstract").get("gco:CharacterString").asText();
+      this.source = json.get("gmd:MD_Metadata").get("gmd:contact").get("gmd:CI_ResponsibleParty").get("gmd:organisationName")
+                    .get("gco:CharacterString").asText();
+      this.journal = json.get("gmd:MD_Metadata").get("gmd:contact").get("gmd:CI_ResponsibleParty").get("gmd:individualName")
+              .get("gco:CharacterString").asText();
+
+      // extracting all the authors of the paper
+      JsonNode author_node = json.get("gmd:MD_Metadata").get("gmd:identificationInfo").get("gmd:MD_DataIdentification").get("gmd:citation")
+                             .get("gmd:CI_Citation").get("gmd:citedResponsibleParty");
+      // extracting individual authors from the ResponsibleParty field
+      int number_of_author = author_node.size();
+      authors = new String[number_of_author];
+      for(int i=0; i < number_of_author; i++){
+        authors[i] = author_node.get(i).get("gmd:CI_ResponsibleParty").get("gmd:individualName").get("gco:CharacterString").asText();
+      }
+    }
+
+    public String getTitle() {
+      return title;
+    }
+
+    public String getAbstract() {
+      return abstractContent;
+    }
+
+    public String getSource() {
+      return source;
+    }
+
+    public String[] getAuthors() {
+      return authors;
+    }
+
+    public String getJournal() {
+      return journal;
     }
 
     @Override
@@ -113,14 +150,6 @@ public class Iso19115Collection extends DocumentCollection<Iso19115Collection.Do
     @Override
     public String raw() {
       return raw;
-    }
-
-    public String getTitle() {
-      return title;
-    }
-
-    public String getAbstract() {
-      return abstractContent;
     }
 
     @Override
