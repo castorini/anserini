@@ -5,7 +5,7 @@ Note that there is a separate [MS MARCO *passage* ranking task](experiments-msma
 
 ## Data Prep
 
-We're going to use `msmarco-doc/` as the working directory.
+We're going to use the repository's root directory as the working directory.
 First, we need to download and extract the MS MARCO document dataset:
 
 ```
@@ -142,3 +142,4 @@ As expected, BM25 tuning makes a big difference!
 + Results replicated by [@adamyy](https://github.com/adamyy) on 2020-05-28 (commit [`a1ecfa4`](https://github.com/castorini/anserini/commit/a1ecfa4aa38fb8a0cf41575d47629ba1c69228fb))
 + Results replicated by [@TianchengY](https://github.com/TianchengY) on 2020-05-28 (commit [`2947a16`](https://github.com/castorini/anserini/commit/2947a1622efae35637b83e321aba8e6fccd43489))
 + Results replicated by [@stariqmi](https://github.com/stariqmi) on 2020-05-28 (commit [`4914305`](https://github.com/castorini/anserini/commit/455169ea6a09f637817a6c4b4f6837dcc845f5f7))
++ Results replicated by [@justinborromeo](https://github.com/justinborromeo) on 2020-06-11 (commit[`7954eab`](https://github.com/castorini/anserini/commit/7954eab43f17bb8d254987d5873933c0b9596bb4))
