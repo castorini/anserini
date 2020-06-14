@@ -42,7 +42,7 @@ import java.util.Set;
 public class Cord19ParagraphCollection extends DocumentCollection<Cord19ParagraphCollection.Document> {
   private static final Logger LOG = LogManager.getLogger(Cord19ParagraphCollection.class);
 
-  private static final boolean DUPLICATE_PARAGRAPH = true;
+  private static final boolean DUPLICATE_ABSTRACT = true;
   // With paragraph indexing, early on in TREC-COVID, we had a question about exactly how to decompose full text into
   // paragraphs. The initial implementation was:
   //
@@ -60,8 +60,8 @@ public class Cord19ParagraphCollection extends DocumentCollection<Cord19Paragrap
   //   + docid.00003: title + 3rd paragraph
   //   + ...
   //
-  // With TREC-COVID round 2 data, we can empirically confirm that the first method is more effective, which is
-  // implemented by DUPLICATE_PARAGRAPH = true above. However, since this remains an interesting question that should
+  // With TREC-COVID rounds 1+2 data, we can empirically confirm that the first method is more effective, which is
+  // implemented by DUPLICATE_ABSTRACT = true above. However, since this remains an interesting question that should
   // be revisited from time to time, we're leaving a flag to switch between the different indexing modes easily.
   //
   // [1] Lin. Is Searching Full Text More Effective Than Searching Abstracts? BMC Bioinformatics, 10:46, 2009.
@@ -167,7 +167,7 @@ public class Cord19ParagraphCollection extends DocumentCollection<Cord19Paragrap
         id = record.get("cord_uid") + "." + String.format("%05d", paragraphNumber);
       }
 
-      if (DUPLICATE_PARAGRAPH) {
+      if (DUPLICATE_ABSTRACT) {
         content = record.get("title").replace("\n", " ");
         content += record.get("abstract").isEmpty() ? "" : "\n" + record.get("abstract");
         content += paragraph.isEmpty() ? "" : "\n" + paragraph;
