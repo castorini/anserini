@@ -42,6 +42,30 @@ import java.util.Set;
 public class Cord19ParagraphCollection extends DocumentCollection<Cord19ParagraphCollection.Document> {
   private static final Logger LOG = LogManager.getLogger(Cord19ParagraphCollection.class);
 
+  private static final boolean DUPLICATE_ABSTRACT = true;
+  // With paragraph indexing, early on in TREC-COVID, we had a question about exactly how to decompose full text into
+  // paragraphs. The initial implementation was:
+  //
+  //   + docid: title + abstract
+  //   + docid.00001: title + abstract + 1st paragraph
+  //   + docid.00002: title + abstract + 2nd paragraph
+  //   + docid.00003: title + abstract + 3rd paragraph
+  //   + ...
+  //
+  // But an equally reasonable alternative would be *not* to repeat the abstract, which is actually the setup in [1]:
+  //
+  //   + docid: title + abstract
+  //   + docid.00001: title + 1st paragraph
+  //   + docid.00002: title + 2nd paragraph
+  //   + docid.00003: title + 3rd paragraph
+  //   + ...
+  //
+  // With TREC-COVID rounds 1+2 data, we can empirically confirm that the first method is more effective, which is
+  // implemented by DUPLICATE_ABSTRACT = true above. However, since this remains an interesting question that should
+  // be revisited from time to time, we're leaving a flag to switch between the different indexing modes easily.
+  //
+  // [1] Lin. Is Searching Full Text More Effective Than Searching Abstracts? BMC Bioinformatics, 10:46, 2009.
+
   public Cord19ParagraphCollection(Path path){
     this.path = path;
     this.allowedFileSuffix = Set.of(".csv");
@@ -143,9 +167,19 @@ public class Cord19ParagraphCollection extends DocumentCollection<Cord19Paragrap
         id = record.get("cord_uid") + "." + String.format("%05d", paragraphNumber);
       }
 
-      content = record.get("title").replace("\n", " ");
-      content += record.get("abstract").isEmpty() ? "" : "\n" + record.get("abstract");
-      content += paragraph.isEmpty() ? "" : "\n" + paragraph;
+      if (DUPLICATE_ABSTRACT) {
+        content = record.get("title").replace("\n", " ");
+        content += record.get("abstract").isEmpty() ? "" : "\n" + record.get("abstract");
+        content += paragraph.isEmpty() ? "" : "\n" + paragraph;
+      } else {
+        if (paragraphNumber == 0) {
+          content = record.get("title").replace("\n", " ");
+          content += record.get("abstract").isEmpty() ? "" : "\n" + record.get("abstract");
+        } else {
+          content = record.get("title").replace("\n", " ");
+          content += paragraph.isEmpty() ? "" : "\n" + paragraph;
+        }
+      }
 
       raw = buildRawJson(recordFullText);
     }
