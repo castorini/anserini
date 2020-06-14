@@ -52,7 +52,7 @@ public class Cord19ParagraphCollection extends DocumentCollection<Cord19Paragrap
   //   + docid.00003: title + abstract + 3rd paragraph
   //   + ...
   //
-  // But an equally reasonable alternative would be to *not* repeat the paragraph, which is actually the setup in [1]:
+  // But an equally reasonable alternative would be to *not* repeat the abstract, which is actually the setup in [1]:
   //
   //   + docid: title + abstract
   //   + docid.00001: title + 1st paragraph
