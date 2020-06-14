@@ -44,21 +44,21 @@ public class FeverParagraphCollectionTest extends DocumentCollectionTest<FeverPa
     expected.put("Domain_Range_Ratio_-LRB-DRR-RRB-", Map.of("id", "Domain_Range_Ratio_-LRB-DRR-RRB-"));
 
     // regular document 1, should be ingested and indexed
-    expected.put("Shohei_Otani", Map.of(
-            "id", "Shohei_Otani",
-            "content_starts_with", "is a Japanese baseball pitcher , outfielder , and designated hitter",
-            "content_ends_with", "fastest pitch by a Japanese pitcher and in NPB history at 165 km/h . ",
-            "raw_starts_with", "0\tis a Japanese baseball pitcher , outfielder , and designated hitter",
-            "raw_ends_with", "Japanese pitcher and in NPB history at 165 km/h .\tpitcher\tpitcher\n3\t"
-    ));
-
-    // regular document 2, should be ingested and indexed
     expected.put("Kelvin,_North_Dakota", Map.of(
             "id", "Kelvin,_North_Dakota",
             "content_starts_with", "Kelvin is an unincorporated community in Rolette County , ",
             "content_ends_with", " , in the U.S. state of North Dakota . ",
             "raw_starts_with", "0\tKelvin is an unincorporated community in Rolette County , ",
             "raw_ends_with", "\tU.S. state\tU.S. state\tNorth Dakota\tNorth Dakota\n1\t"
+    ));
+
+    // regular document 2 with misplaced newline, should be ingested and indexed
+    expected.put("Cumberland_Bandits", Map.of(
+            "id", "Cumberland_Bandits",
+            "content_starts_with", "The Cumberland Bandits are a Canadian Junior ice hockey team",
+            "content_ends_with", "They play in the National Capital Junior Hockey League . ",
+            "raw_starts_with", "0\tThe Cumberland Bandits are a Canadian Junior ice hockey team",
+            "raw_ends_with", "\tNational Capital Junior Hockey League\tJunior\tjunior ice hockey\n2\t"
     ));
 
     // regular document 3 with unicode characters and empty lines, should be ingested and indexed

@@ -32,10 +32,10 @@ public class FeverSentenceCollectionTest extends DocumentCollectionTest<FeverSen
     Path segment = Paths.get("src/test/resources/sample_docs/fever/collection1/segment1.jsonl");
 
     segmentPaths.add(segment);
-    segmentDocCounts.put(segment, 14);
+    segmentDocCounts.put(segment, 13);
 
     totalSegments = 1;
-    totalDocs = 14;
+    totalDocs = 13;
 
     // empty document, should be ingested but not indexed
     expected.put("", Map.of("id", "", "content", "", "raw", ""));
@@ -48,28 +48,6 @@ public class FeverSentenceCollectionTest extends DocumentCollectionTest<FeverSen
     ));
 
     // regular document 1, should be ingested and indexed
-    expected.put("Shohei_Otani_0", Map.of(
-            "id", "Shohei_Otani_0",
-            "content", "is a Japanese baseball pitcher , outfielder , and designated hitter who plays for the " +
-                    "Hokkaido Nippon-Ham Fighters of Nippon Professional Baseball 's -LRB- NPB -RRB- Pacific League .",
-            "raw", "is a Japanese baseball pitcher , outfielder , and designated hitter who plays for the " +
-                    "Hokkaido Nippon-Ham Fighters of Nippon Professional Baseball 's -LRB- NPB -RRB- Pacific League ."
-    ));
-    expected.put("Shohei_Otani_1", Map.of(
-            "id", "Shohei_Otani_1",
-            "content", "He was the first pick of the Fighters in the 2012 draft .",
-            "raw", "He was the first pick of the Fighters in the 2012 draft ."
-    ));
-    expected.put("Shohei_Otani_2", Map.of(
-            "id", "Shohei_Otani_2",
-            "content", "He officially recorded the fastest pitch by a Japanese pitcher and in NPB history at " +
-                    "165 km/h .",
-            "raw", "He officially recorded the fastest pitch by a Japanese pitcher and in NPB history at 165 " +
-                    "km/h ."
-    ));
-    expected.put("Shohei_Otani_3", Map.of("id", "Shohei_Otani_3", "content", "", "raw", ""));
-
-    // regular document 2, should be ingested and indexed
     expected.put("Kelvin,_North_Dakota_0", Map.of(
             "id", "Kelvin,_North_Dakota_0",
             "content", "Kelvin is an unincorporated community in Rolette County , in the U.S. state of North " +
@@ -78,6 +56,21 @@ public class FeverSentenceCollectionTest extends DocumentCollectionTest<FeverSen
                     "Dakota ."
     ));
     expected.put("Kelvin,_North_Dakota_1", Map.of("id", "Kelvin,_North_Dakota_1", "content", "", "raw", ""));
+
+    // regular document 2 with misplaced newline, should be ingested and indexed
+    expected.put("Cumberland_Bandits_0", Map.of(
+            "id", "Cumberland_Bandits_0",
+            "content", "The Cumberland Bandits are a Canadian Junior ice hockey team based in Cumberland , " +
+                    "Ontario , Canada .",
+            "raw", "The Cumberland Bandits are a Canadian Junior ice hockey team based in Cumberland , " +
+                    "Ontario , Canada ."
+    ));
+    expected.put("Cumberland_Bandits_1", Map.of(
+            "id", "Cumberland_Bandits_1",
+            "content", "They play in the National Capital Junior Hockey League .",
+            "raw", "They play in the National Capital Junior Hockey League ."
+    ));
+    expected.put("Cumberland_Bandits_2", Map.of("id", "Cumberland_Bandits_2", "content", "", "raw", ""));
 
     // regular document 3 with unicode characters and empty lines, should be ingested and indexed
     expected.put("Styrkepr\u00f8ven_0", Map.of(

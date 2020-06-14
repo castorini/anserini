@@ -19,6 +19,7 @@ package io.anserini.collection;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -97,12 +98,18 @@ public class FeverSentenceCollection extends DocumentCollection<FeverSentenceCol
       String id = json.get("id").asText();
       String lines = json.get("lines").asText();
 
+      int sentenceIndex = 0;
       // each line is of the format: (sentence id)\t(sentence)[\t(tag)\t...\t(tag)]
       for (String line: lines.split("\n")) {
         String[] tokens = line.split("\t", -1); // split with -1 to keep trailing ""
         Map<String, String> jsonNodeData;
-        if (tokens.length < 2) { // if "lines" field is an empty string
+
+        if (lines.isEmpty()) {
+          // create empty JsonNode if "lines" field is an empty string
           jsonNodeData = Map.of("id", id, "text", lines, "lines", lines);
+        } else if (!StringUtils.isNumeric(tokens[0]) || Integer.parseInt(tokens[0]) != sentenceIndex) {
+          // skip non-sentences, caused by unexpected \n's in the "lines" field
+          continue;
         } else {
           jsonNodeData = Map.of("id", String.format("%s_%s", id, tokens[0]), "text", tokens[1], "lines", tokens[1]);
         }
@@ -117,6 +124,7 @@ public class FeverSentenceCollection extends DocumentCollection<FeverSentenceCol
           continue;
         }
         sentenceNodes.add(jsonNode);
+        sentenceIndex++;
       }
 
       return sentenceNodes.stream();
