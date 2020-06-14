@@ -90,6 +90,8 @@ public class Iso19115Collection extends DocumentCollection<Iso19115Collection.Do
     protected String source;
     protected String[] authors;
     protected String journal;
+    protected String publish_time;
+    protected String url;
 
     public Document(JsonNode json) {
       // extracting the fields from the ISO19115 file
@@ -105,6 +107,8 @@ public class Iso19115Collection extends DocumentCollection<Iso19115Collection.Do
                     .get("gco:CharacterString").asText();
       this.journal = json.get("gmd:MD_Metadata").get("gmd:contact").get("gmd:CI_ResponsibleParty").get("gmd:individualName")
               .get("gco:CharacterString").asText();
+      this.publish_time = json.get("gmd:MD_Metadata").get("gmd:dateStamp").get("gco:Date").asText();
+      this.url = json.get("gmd:MD_Metadata").get("gmd:dataSetURI").get("gco:CharacterString").asText();
 
       // extracting all the authors of the paper
       JsonNode author_node = json.get("gmd:MD_Metadata").get("gmd:identificationInfo").get("gmd:MD_DataIdentification").get("gmd:citation")
@@ -135,6 +139,14 @@ public class Iso19115Collection extends DocumentCollection<Iso19115Collection.Do
 
     public String getJournal() {
       return journal;
+    }
+
+    public String getPublish_time() {
+      return publish_time;
+    }
+
+    public String getUrl() {
+      return url;
     }
 
     @Override

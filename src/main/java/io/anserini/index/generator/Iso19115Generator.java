@@ -34,7 +34,9 @@ public class Iso19115Generator extends DefaultLuceneDocumentGenerator<Iso19115Co
     ABSTRACT("abstract"),
     SOURCE("source"),
     AUTHORS("authors"),
-    JOURNAL("journal");
+    JOURNAL("journal"),
+    PUBLISH_TIME("publish_time"),
+    URL("url");
 
     public final String name;
 
@@ -55,6 +57,8 @@ public class Iso19115Generator extends DefaultLuceneDocumentGenerator<Iso19115Co
     document.add(new StoredField(Iso19115Field.ABSTRACT.name, doc.getAbstract()));
     document.add(new StringField(Iso19115Field.SOURCE.name, doc.getSource(), Field.Store.YES));
     document.add(new StringField(Iso19115Field.JOURNAL.name, doc.getJournal(), Field.Store.YES));
+    document.add(new StringField(Iso19115Field.PUBLISH_TIME.name, doc.getPublish_time(), Field.Store.YES));
+    document.add(new StringField(Iso19115Field.URL.name, doc.getUrl(), Field.Store.YES));
 
     // indexing the authors
     String[] authors = doc.getAuthors();
