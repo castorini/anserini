@@ -177,37 +177,39 @@ def verify_indexes(date):
     print(f'Paragraph index      {paragraph_metrics["ndcg_cut_10"]}    {paragraph_metrics["judged_cut_10"]:.4f}')
 
 
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--date', type=str, metavar='YYYY-MM-DD', required=True, help='Date of the CORD-19 release.')
-    parser.add_argument('--all',  action='store_true', help='Download, index, and verify a CORD-19 release.')
-    parser.add_argument('--download',  action='store_true', help='Download a CORD-19 release.')
-    parser.add_argument('--index',  action='store_true', help='Build abstract, full-text, and paragraph indexes.')
-    parser.add_argument('--verify',  action='store_true', help='Verify indexes with TREC-COVID data.')
-    parser.add_argument('--force',  action='store_true', help='Overwrite existing data.')
-
-    args = parser.parse_args()
-
+def main(args):
     if not args.all and not (args.download or args.index or args.verify):
         print('Must specify --all or one of {--download, --index, --verify}.')
     else:
-        collection = f'collections/cord19-{args.date}'
         if args.all or args.download:
-            if not args.force and os.path.exists(collection):
+            collection_dir = f'collections/cord19-{args.date}'
+            if not args.force and os.path.exists(collection_dir):
                 print('Collection exists; not redownloading collection. ' +
                       'Use --force to remove existing collection and redownload.')
             else:
-                if os.path.exists(collection):
+                if os.path.exists(collection_dir):
                     print('Removing existing collection...')
-                    shutil.rmtree(collection)
+                    shutil.rmtree(collection_dir)
                 download_collection(args.date)
         if args.all or args.index:
-            if not args.force and (os.path.isdir(f'indexes/lucene-index-cord19-abstract-{args.date}') or
-                                   os.path.isdir(f'indexes/lucene-index-cord19-full-text-{args.date}') or
-                                   os.path.isdir(f'indexes/lucene-index-cord19-paragraph-{args.date}')):
+            abstract_index = f'indexes/lucene-index-cord19-abstract-{args.date}'
+            full_index = f'indexes/lucene-index-cord19-full-text-{args.date}'
+            paragraph_index = f'indexes/lucene-index-cord19-paragraph-{args.date}'
+            if not args.force and (os.path.isdir(abstract_index) or
+                                   os.path.isdir(full_index) or
+                                   os.path.isdir(paragraph_index)):
                 print('Indexes exist; not reindexing. ' +
                       'Use --force to index and overwrite existing indexes.')
             else:
+                if os.path.exists(abstract_index):
+                    print(f'Removing index at {abstract_index}...')
+                    shutil.rmtree(abstract_index)
+                if os.path.exists(full_index):
+                    print(f'Removing index at {full_index}...')
+                    shutil.rmtree(full_index)
+                if os.path.exists(paragraph_index):
+                    print(f'Removing index at {paragraph_index}...')
+                    shutil.rmtree(paragraph_index)
                 build_indexes(args.date)
         if args.all or args.verify:
             if not args.force and (os.path.exists(f'runs/verify.{args.date}.abstract.filtered.txt') or
@@ -217,3 +219,15 @@ if __name__ == '__main__':
                       'Use --force to run retrieval and overwrite existing run files.')
             else:
                 verify_indexes(args.date)
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--date', type=str, metavar='YYYY-MM-DD', required=True, help='Date of the CORD-19 release.')
+    parser.add_argument('--all',  action='store_true', help='Download, index, and verify a CORD-19 release.')
+    parser.add_argument('--download',  action='store_true', help='Download a CORD-19 release.')
+    parser.add_argument('--index',  action='store_true', help='Build abstract, full-text, and paragraph indexes.')
+    parser.add_argument('--verify',  action='store_true', help='Verify indexes with TREC-COVID data.')
+    parser.add_argument('--force',  action='store_true', help='Overwrite existing data.')
+
+    main(parser.parse_args())
