@@ -119,7 +119,7 @@ def build_indexes(date):
         print('Paragraph index appears to have been built, skipping.')
 
 
-def eval(run):
+def evaluate_run(run):
     metrics = {}
     output = subprocess.check_output(
         f'eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 ' +
@@ -139,32 +139,34 @@ def eval(run):
 
 
 def verify_indexes(date):
+    whitelist = f'src/main/resources/topics-and-qrels/docids.covid.round2.txt'
+
     print('Verifying abstract index...')
     abstract_index = f'indexes/lucene-index-cord19-abstract-{date} '
     os.system(f'sh target/appassembler/bin/SearchCollection -index {abstract_index} -topicreader Covid ' +
               f'-topics src/main/resources/topics-and-qrels/topics.covid-round2.xml -topicfield query+question ' +
               f'-removedups -bm25 -hits 1000 -output runs/verify.{date}.abstract.txt')
-    os.system(f'python src/main/python/trec-covid/filter_run.py --whitelist cord_uids-2020-05-01.txt --k 1000 ' +
+    os.system(f'python src/main/python/trec-covid/filter_run.py --whitelist {whitelist} --k 1000 ' +
               f'--input runs/verify.{date}.abstract.txt --output runs/verify.{date}.abstract.filtered.txt')
-    abstract_metrics = eval(f'verify.{date}.abstract.filtered.txt')
+    abstract_metrics = evaluate_run(f'verify.{date}.abstract.filtered.txt')
 
     print('Verifying full-text index...')
     full_index = f'indexes/lucene-index-cord19-full-text-{date} '
     os.system(f'sh target/appassembler/bin/SearchCollection -index {full_index} -topicreader Covid ' +
               f'-topics src/main/resources/topics-and-qrels/topics.covid-round2.xml -topicfield query+question ' +
               f'-removedups -bm25 -hits 1000 -output runs/verify.{date}.full-text.txt')
-    os.system(f'python src/main/python/trec-covid/filter_run.py --whitelist cord_uids-2020-05-01.txt --k 1000 ' +
+    os.system(f'python src/main/python/trec-covid/filter_run.py --whitelist {whitelist} --k 1000 ' +
               f'--input runs/verify.{date}.full-text.txt --output runs/verify.{date}.full-text.filtered.txt')
-    full_metrics = eval(f'verify.{date}.full-text.filtered.txt')
+    full_metrics = evaluate_run(f'verify.{date}.full-text.filtered.txt')
 
     print('Verifying paragraph index...')
     paragraph_index = f'indexes/lucene-index-cord19-paragraph-{date} '
     os.system(f'sh target/appassembler/bin/SearchCollection -index {paragraph_index} -topicreader Covid ' +
               f'-topics src/main/resources/topics-and-qrels/topics.covid-round2.xml -topicfield query+question ' +
               f'-removedups -strip_segment_id -bm25 -hits 1000 -output runs/verify.{date}.paragraph.txt')
-    os.system(f'python src/main/python/trec-covid/filter_run.py --whitelist cord_uids-2020-05-01.txt --k 1000 ' +
+    os.system(f'python src/main/python/trec-covid/filter_run.py --whitelist {whitelist} --k 1000 ' +
               f'--input runs/verify.{date}.paragraph.txt --output runs/verify.{date}.paragraph.filtered.txt')
-    paragraph_metrics = eval(f'verify.{date}.paragraph.filtered.txt')
+    paragraph_metrics = evaluate_run(f'verify.{date}.paragraph.filtered.txt')
 
     print()
     print('---------------------')
