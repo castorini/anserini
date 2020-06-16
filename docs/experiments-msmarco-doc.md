@@ -39,7 +39,7 @@ The final log lines should look something like this:
 2020-01-14 16:36:30,961 INFO  [main] index.IndexCollection (IndexCollection.java:859) - Total 3,213,835 documents indexed in 00:45:32
 ```
 
-## Retrieving and Evaluating the Dev set
+## Performing Retrieval on the Dev Queries
 
 Let's download the queries and qrels:
 
@@ -77,10 +77,13 @@ target/appassembler/bin/SearchCollection -topicreader TsvInt -index indexes/msma
 ```
 
 On a modern desktop with an SSD, the run takes around 12 minutes.
+
+## Evaluating the Results
+
 After the run completes, we can evaluate with `trec_eval`:
 
 ```
-$ eval/trec_eval.9.0.4/trec_eval -c -mmap -mrecall.1000 collections/msmarco-doc/queries-and-qrels/msmarco-docdev-qrels.tsv runs/run.msmarco-doc.dev.bm25.txt
+$ tools/eval/trec_eval.9.0.4/trec_eval -c -mmap -mrecall.1000 collections/msmarco-doc/queries-and-qrels/msmarco-docdev-qrels.tsv runs/run.msmarco-doc.dev.bm25.txt
 map                   	all	0.2310
 recall_1000           	all	0.8856
 ```
@@ -88,10 +91,10 @@ recall_1000           	all	0.8856
 Let's compare to the baselines provided by Microsoft (note that to be fair, we restrict evaluation to top 100 hits per topic):
 
 ```
-$ eval/trec_eval.9.0.4/trec_eval -c -mmap -M 100 collections/msmarco-doc/queries-and-qrels/msmarco-docdev-qrels.tsv collections/msmarco-doc/queries-and-qrels/msmarco-docdev-top100
+$ tools/eval/trec_eval.9.0.4/trec_eval -c -mmap -M 100 collections/msmarco-doc/queries-and-qrels/msmarco-docdev-qrels.tsv collections/msmarco-doc/queries-and-qrels/msmarco-docdev-top100
 map                   	all	0.2219
 
-$ eval/trec_eval.9.0.4/trec_eval -c -mmap -M 100 collections/msmarco-doc/queries-and-qrels/msmarco-docdev-qrels.tsv runs/run.msmarco-doc.dev.bm25.txt
+$ tools/eval/trec_eval.9.0.4/trec_eval -c -mmap -M 100 collections/msmarco-doc/queries-and-qrels/msmarco-docdev-qrels.tsv runs/run.msmarco-doc.dev.bm25.txt
 map                   	all	0.2303
 ```
 

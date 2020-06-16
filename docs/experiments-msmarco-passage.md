@@ -13,7 +13,7 @@ First, we need to download and extract the MS MARCO passage dataset:
 mkdir collections/msmarco-passage
 
 wget https://msmarco.blob.core.windows.net/msmarcoranking/collectionandqueries.tar.gz -P collections/msmarco-passage
-tar -xzvf collections/msmarco-passage/collectionandqueries.tar.gz -C collections/msmarco-passage
+tar xvfz collections/msmarco-passage/collectionandqueries.tar.gz -C collections/msmarco-passage
 ```
 
 To confirm, `collectionandqueries.tar.gz` should have MD5 checksum of `31644046b18952c1386cd4564ba2ae69`.
@@ -39,7 +39,7 @@ sh target/appassembler/bin/IndexCollection -collection JsonCollection \
 Upon completion, we should have an index with 8,841,823 documents.
 The indexing speed may vary; on a modern desktop with an SSD, indexing takes a couple of minutes.
 
-## Retrieving and Evaluating the Dev set
+## Performing Retrieval on the Dev Queries
 
 Since queries of the set are too many (+100k), it would take a long time to retrieve all of them. To speed this up, we use only the queries that are in the qrels file: 
 
@@ -64,6 +64,8 @@ Thus, the output file should have approximately 6980 × 1000 = 6.9M lines.
 Retrieval speed will vary by machine:
 On a modern desktop with an SSD, we can get ~0.07 s/query, so the run should finish in under ten minutes.
 We can perform multi-threaded retrieval by changing the `-threads` argument.
+
+## Evaluating the Results
 
 Finally, we can evaluate the retrieved documents using this the official MS MARCO evaluation script: 
 
