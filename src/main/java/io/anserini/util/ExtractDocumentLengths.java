@@ -17,6 +17,7 @@
 package io.anserini.util;
 
 import io.anserini.index.IndexArgs;
+import io.anserini.index.IndexReaderUtils;
 import io.anserini.index.NotStoredException;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
@@ -47,6 +48,9 @@ public class ExtractDocumentLengths {
 
     @Option(name = "-output", metaVar = "[file]", required = true, usage = "output file")
     String output;
+
+    @Option(name = "-outputdid", usage = "output collection id")
+    boolean lookupLuceneDocid = false;
   }
 
   public static void main(String[] args) throws Exception {
@@ -90,7 +94,10 @@ public class ExtractDocumentLengths {
       // See https://github.com/apache/lucene-solr/blob/master/lucene/core/src/java/org/apache/lucene/search/similarities/BM25Similarity.java
       int lossyDoclength = SmallFloat.byte4ToInt(SmallFloat.intToByte4((int) exactDoclength));
       int lossyTermCount = SmallFloat.byte4ToInt(SmallFloat.intToByte4((int) exactTermCount));
-      out.println(String.format("%d\t%d\t%d\t%d\t%d", i, exactDoclength, exactTermCount, lossyDoclength, lossyTermCount));
+      if (!myArgs.lookupLuceneDocid)
+        out.println(String.format("%d\t%d\t%d\t%d\t%d", i, exactDoclength, exactTermCount, lossyDoclength, lossyTermCount));
+      else out.println(String.format("%s\t%d\t%d\t%d\t%d", IndexReaderUtils.convertLuceneDocidToDocid(reader, i),
+              exactDoclength, exactTermCount, lossyDoclength, lossyTermCount));
       lossyTotalTerms += lossyDoclength;
       exactTotalTerms += exactDoclength;
     }
