@@ -180,7 +180,7 @@ def evaluate_and_verify(output_root, yaml_data, fail_eval, dry_run):
         for i, topic in enumerate(yaml_data['topics']):
             for eval in yaml_data['evals']:
                 eval_cmd = [
-                  os.path.join(yaml_data['root'], eval['command']),
+                  os.path.join(yaml_data['root'], 'tools/' + eval['command']),
                   ' '.join(eval['params']) if eval['params'] else '',
                   os.path.join(yaml_data['root'], yaml_data['qrels_root'], topic['qrel']),
                   os.path.join(output_root, 'run.{0}.{1}.{2}'.format(yaml_data['name'], model['name'], topic['path']))
