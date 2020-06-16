@@ -72,8 +72,10 @@ In this guide, to save time, we are only going to perform retrieval on the dev q
 This can be accomplished as follows:
 
 ```
-target/appassembler/bin/SearchCollection -topicreader TsvInt -index indexes/msmarco-doc/lucene-index.msmarco-doc.pos+docvectors+rawdocs \
- -topics collections/msmarco-doc/queries-and-qrels/msmarco-docdev-queries.tsv -output runs/run.msmarco-doc.dev.bm25.txt -bm25
+target/appassembler/bin/SearchCollection -topicreader TsvInt \
+ -index indexes/msmarco-doc/lucene-index.msmarco-doc.pos+docvectors+rawdocs \
+ -topics collections/msmarco-doc/queries-and-qrels/msmarco-docdev-queries.tsv \
+ -output runs/run.msmarco-doc.dev.bm25.txt -bm25
 ```
 
 On a modern desktop with an SSD, the run takes around 12 minutes.
@@ -114,8 +116,10 @@ The tuned parameters using this approach are `k1=3.44`, `b=0.87`.
 To perform a run with these parameters, issue the following command:
 
 ```
-target/appassembler/bin/SearchCollection -topicreader TsvString -index indexes/msmarco-doc/lucene-index.msmarco-doc.pos+docvectors+rawdocs \
- -topics collections/msmarco-doc/queries-and-qrels/msmarco-docdev-queries.tsv -output runs/run.msmarco-doc.dev.bm25.tuned.txt -bm25 -bm25.k1 3.44 -bm25.b 0.87
+target/appassembler/bin/SearchCollection -topicreader TsvString \
+ -index indexes/msmarco-doc/lucene-index.msmarco-doc.pos+docvectors+rawdocs \
+ -topics collections/msmarco-doc/queries-and-qrels/msmarco-docdev-queries.tsv \
+ -output runs/run.msmarco-doc.dev.bm25.tuned.txt -bm25 -bm25.k1 3.44 -bm25.b 0.87
 ```
 
 Here's the comparison between the Anserini default and tuned parameters:

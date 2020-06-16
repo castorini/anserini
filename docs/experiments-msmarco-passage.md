@@ -31,8 +31,8 @@ The above script should generate 9 jsonl files in `collections/msmarco-passage/c
 We can now index these docs as a `JsonCollection` using Anserini:
 
 ```bash
-sh target/appassembler/bin/IndexCollection -collection JsonCollection \
- -generator DefaultLuceneDocumentGenerator -threads 9 -input collections/msmarco-passage/collection_jsonl \
+sh target/appassembler/bin/IndexCollection -threads 9 -collection JsonCollection \
+ -generator DefaultLuceneDocumentGenerator -input collections/msmarco-passage/collection_jsonl \
  -index indexes/msmarco-passage/lucene-index-msmarco -storePositions -storeDocvectors -storeRaw 
 ```
 
