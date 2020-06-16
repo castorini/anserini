@@ -33,12 +33,12 @@ After cloning our repo (use `--recurse-submodules` option to make sure the `eval
 mvn clean package appassembler:assemble
 ```
 
-The `eval/` directory, which contains evaluation tools and scripts, is actually [this repo](https://github.com/castorini/anserini-eval), integrated as a [Git submodule](https://git-scm.com/book/en/v2/Git-Tools-Submodules) (so that it can be shared across related projects).
+The `tools/` directory, which contains evaluation tools and other scripts, is actually [this repo](https://github.com/castorini/anserini-tools), integrated as a [Git submodule](https://git-scm.com/book/en/v2/Git-Tools-Submodules) (so that it can be shared across related projects).
 Build as follows (you might get warnings, but okay to ignore):
 
 ```bash
-cd eval && tar xvfz trec_eval.9.0.4.tar.gz && cd trec_eval.9.0.4 && make && cd ../..
-cd eval/ndeval && make && cd ../..
+cd tools/eval && tar xvfz trec_eval.9.0.4.tar.gz && cd trec_eval.9.0.4 && make && cd ../../..
+cd tools/eval/ndeval && make && cd ../../..
 ```
 
 With that, you should be ready to go!
