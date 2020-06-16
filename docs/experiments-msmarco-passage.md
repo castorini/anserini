@@ -44,8 +44,10 @@ The indexing speed may vary; on a modern desktop with an SSD, indexing takes a c
 Since queries of the set are too many (+100k), it would take a long time to retrieve all of them. To speed this up, we use only the queries that are in the qrels file: 
 
 ```bash
-python tools/scripts/msmarco/filter_queries.py --qrels collections/msmarco-passage/qrels.dev.small.tsv \
- --queries collections/msmarco-passage/queries.dev.tsv --output collections/msmarco-passage/queries.dev.small.tsv
+python tools/scripts/msmarco/filter_queries.py \
+ --qrels collections/msmarco-passage/qrels.dev.small.tsv \
+ --queries collections/msmarco-passage/queries.dev.tsv \
+ --output collections/msmarco-passage/queries.dev.small.tsv
 ```
 
 The output queries file should contain 6980 lines.
@@ -53,7 +55,8 @@ We can now perform a retrieval run using this smaller set of queries:
 
 ```bash
 sh target/appassembler/bin/SearchMsmarco -hits 1000 -threads 1 \
- -index indexes/msmarco-passage/lucene-index-msmarco -queries collections/msmarco-passage/queries.dev.small.tsv \
+ -index indexes/msmarco-passage/lucene-index-msmarco \
+ -queries collections/msmarco-passage/queries.dev.small.tsv \
  -output runs/run.msmarco-passage.dev.small.tsv
 ```
 
