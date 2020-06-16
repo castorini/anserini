@@ -35,13 +35,12 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * Class that performs retrieval for the MS MARCO passage ranking task. This is the Java version of the Python script
- * <code>src/main/python/msmarco/retrieve.py</code>.
+ * Class that performs retrieval for the MS MARCO passage ranking task.
  */
 public class SearchMsmarco {
   public static class Args {
     // required arguments
-    @Option(name = "-qid_queries", metaVar = "[file]", required = true, usage="query id - query mapping file")
+    @Option(name = "-queries", metaVar = "[file]", required = true, usage="Queries file.")
     public String qid_queries = "";
 
     @Option(name = "-output", metaVar = "[file]", required = true, usage = "output file")

@@ -1,6 +1,6 @@
-# Anserini: BM25 Baselines on [MS MARCO Doc Retrieval Task](https://github.com/microsoft/TREC-2019-Deep-Learning)
+# Anserini: BM25 Baselines for MS MARCO Doc Retrieval
 
-This page contains instructions for running BM25 baselines on the MS MARCO *document* ranking task.
+This page contains instructions for running BM25 baselines on the [MS MARCO *document* ranking task](https://microsoft.github.io/msmarco/).
 Note that there is a separate [MS MARCO *passage* ranking task](experiments-msmarco-passage.md).
 
 ## Data Prep
@@ -10,7 +10,6 @@ First, we need to download and extract the MS MARCO document dataset:
 
 ```
 mkdir collections/msmarco-doc
-mkdir indexes/msmarco-doc
 
 wget https://msmarco.blob.core.windows.net/msmarcoranking/msmarco-docs.trec.gz -P collections/msmarco-doc
 ```
@@ -23,8 +22,8 @@ Build the index with the following command:
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection CleanTrecCollection \
  -generator DefaultLuceneDocumentGenerator -threads 1 -input collections/msmarco-doc \
- -index indexes/msmarco-doc/lucene-index.msmarco-doc.pos+docvectors+rawdocs -storePositions -storeDocvectors -storeRaw \
- >& logs/log.msmarco-doc.pos+docvectors+rawdocs &
+ -index indexes/msmarco-doc/lucene-index.msmarco-doc.pos+docvectors+rawdocs \
+ -storePositions -storeDocvectors -storeRaw >& logs/log.msmarco-doc.pos+docvectors+rawdocs &
 ```
 
 On a modern desktop with an SSD, indexing takes around 40 minutes.
