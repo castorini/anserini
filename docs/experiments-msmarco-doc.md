@@ -56,6 +56,14 @@ wget https://msmarco.blob.core.windows.net/msmarcoranking/msmarco-docdev-queries
 wget https://msmarco.blob.core.windows.net/msmarcoranking/msmarco-docdev-top100.gz -P collections/msmarco-doc/queries-and-qrels
 wget https://msmarco.blob.core.windows.net/msmarcoranking/msmarco-docdev-qrels.tsv.gz -P collections/msmarco-doc/queries-and-qrels
 
+# Alternative mirrors:
+# wget https://www.dropbox.com/s/p6k7ph7v0r400ab/msmarco-doctrain-queries.tsv.gz -P collections/msmarco-doc/queries-and-qrels
+# wget https://www.dropbox.com/s/zyt1n2gpylt0dhj/msmarco-doctrain-top100.gz -P collections/msmarco-doc/queries-and-qrels
+# wget https://www.dropbox.com/s/7xw812wpf4t3fpu/msmarco-doctrain-qrels.tsv.gz -P collections/msmarco-doc/queries-and-qrels
+# wget https://www.dropbox.com/s/d5wcox23s17wpf1/msmarco-docdev-queries.tsv.gz -P collections/msmarco-doc/queries-and-qrels
+# wget https://www.dropbox.com/s/vamkn5dppjhygm5/msmarco-docdev-top100.gz -P collections/msmarco-doc/queries-and-qrels
+# wget https://www.dropbox.com/s/9ad6f8midcmlrrx/msmarco-docdev-qrels.tsv.gz -P collections/msmarco-doc/queries-and-qrels
+
 gunzip collections/msmarco-doc/queries-and-qrels/*.gz
 ```
 
