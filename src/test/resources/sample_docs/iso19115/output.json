@@ -1,0 +1,1243 @@
+[{
+    "gmd:MD_Metadata": {
+        "@xmlns:gss": "http://www.isotc211.org/2005/gss",
+        "@xmlns:gts": "http://www.isotc211.org/2005/gts",
+        "@xmlns:gml": "http://www.opengis.net/gml",
+        "@xmlns:xlink": "http://www.w3.org/1999/xlink",
+        "@xmlns:gco": "http://www.isotc211.org/2005/gco",
+        "@xmlns:gmd": "http://www.isotc211.org/2005/gmd",
+        "@xmlns:functx": "http://www.functx.com",
+        "@xmlns:gmi": "http://www.isotc211.org/2005/gmi",
+        "@xmlns:gmx": "http://www.isotc211.org/2005/gmx",
+        "@xmlns:gsr": "http://www.isotc211.org/2005/gsr",
+        "@xmlns:srv": "http://www.isotc211.org/2005/srv",
+        "@xmlns": "http://www.isotc211.org/2005/gmi",
+        "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+        "@xsi:schemaLocation": "http://www.isotc211.org/2005/gmd http://www.isotc211.org/2005/gmd/gmd.xsd",
+        "gmd:fileIdentifier": {
+            "gco:CharacterString": "12957_iso.xml"
+        },
+        "gmd:language": {
+            "gco:CharacterString": "eng; CAN"
+        },
+        "gmd:characterSet": {
+            "gmd:MD_CharacterSetCode": {
+                "@codeList": "http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_CharacterSetCode",
+                "@codeListValue": "utf8",
+                "@codeSpace": "ISOTC211/19115",
+                "#text": "utf8"
+            }
+        },
+        "gmd:hierarchyLevel": {
+            "gmd:MD_ScopeCode": {
+                "@codeList": "http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_ScopeCode",
+                "@codeListValue": "dataset",
+                "@codeSpace": "ISOTC211/19115",
+                "#text": "dataset"
+            }
+        },
+        "gmd:contact": {
+            "gmd:CI_ResponsibleParty": {
+                "gmd:individualName": {
+                    "gco:CharacterString": "Polar Data Catalogue"
+                },
+                "gmd:organisationName": {
+                    "gco:CharacterString": "Canadian Cryospheric Information Network"
+                },
+                "gmd:contactInfo": {
+                    "gmd:CI_Contact": {
+                        "gmd:phone": {
+                            "gmd:CI_Telephone": {
+                                "gmd:voice": {
+                                    "gco:CharacterString": "(519) 888-4567 x32689"
+                                }
+                            }
+                        },
+                        "gmd:address": {
+                            "gmd:CI_Address": {
+                                "gmd:deliveryPoint": {
+                                    "gco:CharacterString": "200 University Avenue West, University of Waterloo"
+                                },
+                                "gmd:city": {
+                                    "gco:CharacterString": "Waterloo"
+                                },
+                                "gmd:administrativeArea": {
+                                    "gco:CharacterString": "Ontario"
+                                },
+                                "gmd:postalCode": {
+                                    "gco:CharacterString": "N2L 3G1"
+                                },
+                                "gmd:country": {
+                                    "gco:CharacterString": "Canada"
+                                },
+                                "gmd:electronicMailAddress": {
+                                    "gco:CharacterString": "pdc@uwaterloo.ca"
+                                }
+                            }
+                        }
+                    }
+                },
+                "gmd:role": {
+                    "gmd:CI_RoleCode": {
+                        "@codeList": "http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_RoleCode",
+                        "@codeListValue": "pointOfContact",
+                        "@codeSpace": "ISOTC211/19115",
+                        "#text": "pointOfContact"
+                    }
+                }
+            }
+        },
+        "gmd:dateStamp": {
+            "gco:Date": "2019-05-02"
+        },
+        "gmd:metadataStandardName": {
+            "gco:CharacterString": "North American Profile of ISO 19115:2003"
+        },
+        "gmd:metadataStandardVersion": {
+            "gco:CharacterString": "2009-01-01"
+        },
+        "gmd:dataSetURI": {
+            "gco:CharacterString": "https://www.polardata.ca/pdcsearch/PDCSearchDOI.jsp?doi_id=12957"
+        },
+        "gmd:identificationInfo": {
+            "gmd:MD_DataIdentification": {
+                "gmd:citation": {
+                    "gmd:CI_Citation": {
+                        "gmd:title": {
+                            "gco:CharacterString": "Test title"
+                        },
+                        "gmd:date": {
+                            "gmd:CI_Date": {
+                                "gmd:date": {
+                                    "gco:Date": "2019-05-02"
+                                },
+                                "gmd:dateType": {
+                                    "gmd:CI_DateTypeCode": {
+                                        "@codeList": "http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_DateTypeCode",
+                                        "@codeListValue": "publication",
+                                        "@codeSpace": "ISOTC211/19115",
+                                        "#text": "publication"
+                                    }
+                                }
+                            }
+                        },
+                        "gmd:citedResponsibleParty": [
+                            {
+                                "gmd:CI_ResponsibleParty": {
+                                    "gmd:individualName": {
+                                        "gco:CharacterString": "Nandita , Basu"
+                                    },
+                                    "gmd:role": {
+                                        "gmd:CI_RoleCode": {
+                                            "@codeList": "http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_RoleCode",
+                                            "@codeListValue": "principalInvestigator",
+                                            "@codeSpace": "ISOTC211/19115",
+                                            "#text": "principalInvestigator"
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                "gmd:CI_ResponsibleParty": {
+                                    "gmd:individualName": {
+                                        "gco:CharacterString": "Tenkouano, Guy-Thierry"
+                                    },
+                                    "gmd:role": {
+                                        "gmd:CI_RoleCode": {
+                                            "@codeList": "http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_RoleCode",
+                                            "@codeListValue": "Originator",
+                                            "@codeSpace": "ISOTC211/19115",
+                                            "#text": "Originator"
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                "gmd:CI_ResponsibleParty": {
+                                    "gmd:individualName": {
+                                        "gco:CharacterString": "Van Cappellen, Philippe"
+                                    },
+                                    "gmd:role": {
+                                        "gmd:CI_RoleCode": {
+                                            "@codeList": "http://nap.geogratis.gc.ca/metadata/register/napMetadataRegister.xml#IC_90",
+                                            "@codeListValue": "ri_419",
+                                            "@codeSpace": "ISOTC211/19115",
+                                            "#text": "Collaborator"
+                                        }
+                                    }
+                                }
+                            }
+                        ],
+                        "gmd:otherCitationDetails": {
+                            "gco:CharacterString": "Basu, N., Tenkouano, G.-T. and Van Cappellen, P. (2018) Surface water and sediment quality data in the Grand River Watershed, focused on Belwood and Conestogo reservoirs. Waterloo, Canada: Canadian Cryospheric Information Network (CCIN). Unpublished Data."
+                        }
+                    }
+                },
+                "gmd:abstract": {
+                    "gco:CharacterString": "Test abstract"
+                },
+                "gmd:purpose": {
+                    "gco:CharacterString": "This dataset  was developed in order to improve the understanding of long-term nutrient retention within reservoirs and to quantify the potential contributions of reservoir nutrient legacies to current and future water quality in watersheds around the Great Lakes. Specifically, this dataset will  provide information on the accumulation of nutrients within the reservoirs at Lake Belwood and Conestogo Lake located within the Grand River Watershed.  Note, that this data set is collected for the project titled \"Lake Futures: Enhancing Adaptive Capacity and Resilience of Lakes and Their Watersheds\". Lake Futures is a Pillar 3 project under the Global Water Futures Program funded by Canada First Research Excellence Fund."
+                },
+                "gmd:status": {
+                    "gmd:MD_ProgressCode": {
+                        "@codeList": "http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_ProgressCode",
+                        "@codeListValue": "underDevelopment",
+                        "@codeSpace": "ISOTC211/19115",
+                        "#text": "underDevelopment"
+                    }
+                },
+                "gmd:pointOfContact": {
+                    "gmd:CI_ResponsibleParty": {
+                        "gmd:individualName": {
+                            "gco:CharacterString": "Polar Data Catalogue"
+                        },
+                        "gmd:organisationName": {
+                            "gco:CharacterString": "Canadian Cryospheric Information Network"
+                        },
+                        "gmd:contactInfo": {
+                            "gmd:CI_Contact": {
+                                "gmd:phone": {
+                                    "gmd:CI_Telephone": {
+                                        "gmd:voice": {
+                                            "gco:CharacterString": "(519) 888-4567 x32689"
+                                        }
+                                    }
+                                },
+                                "gmd:address": {
+                                    "gmd:CI_Address": {
+                                        "gmd:deliveryPoint": {
+                                            "gco:CharacterString": "200 University Avenue West, University of Waterloo"
+                                        },
+                                        "gmd:city": {
+                                            "gco:CharacterString": "Waterloo"
+                                        },
+                                        "gmd:administrativeArea": {
+                                            "gco:CharacterString": "Ontario"
+                                        },
+                                        "gmd:postalCode": {
+                                            "gco:CharacterString": "N2L 3G1"
+                                        },
+                                        "gmd:country": {
+                                            "gco:CharacterString": "Canada"
+                                        },
+                                        "gmd:electronicMailAddress": {
+                                            "gco:CharacterString": "pdc@uwaterloo.ca"
+                                        }
+                                    }
+                                },
+                                "gmd:onlineResource": {
+                                    "gmd:CI_OnlineResource": {
+                                        "gmd:linkage": {
+                                            "gmd:URL": "polardata.ca"
+                                        },
+                                        "gmd:protocol": {
+                                            "gco:CharacterString": "http"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "gmd:role": {
+                            "gmd:CI_RoleCode": {
+                                "@codeList": "http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_RoleCode",
+                                "@codeListValue": "pointOfContact",
+                                "@codeSpace": "ISOTC211/19115",
+                                "#text": "pointOfContact"
+                            }
+                        }
+                    }
+                },
+                "gmd:descriptiveKeywords": [
+                    {
+                        "gmd:MD_Keywords": {
+                            "gmd:keyword": [
+                                {
+                                    "gco:CharacterString": "Carbon"
+                                },
+                                {
+                                    "gco:CharacterString": "Lakes"
+                                },
+                                {
+                                    "gco:CharacterString": "Limnology"
+                                },
+                                {
+                                    "gco:CharacterString": "Nitrogen"
+                                },
+                                {
+                                    "gco:CharacterString": "Nutrients"
+                                },
+                                {
+                                    "gco:CharacterString": "Ontario"
+                                },
+                                {
+                                    "gco:CharacterString": "Phosphorus"
+                                },
+                                {
+                                    "gco:CharacterString": "Sediments"
+                                }
+                            ],
+                            "gmd:type": {
+                                "gmd:MD_KeywordTypeCode": {
+                                    "@codeList": "http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode",
+                                    "@codeListValue": "theme",
+                                    "@codeSpace": "ISOTC211/19115",
+                                    "#text": "theme"
+                                }
+                            },
+                            "gmd:thesaurusName": {
+                                "gmd:CI_Citation": {
+                                    "gmd:title": {
+                                        "gco:CharacterString": "Polar Data Catalogue Thesaurus (Canada)"
+                                    },
+                                    "gmd:date": {
+                                        "gmd:CI_Date": {
+                                            "gmd:date": {
+                                                "gco:Date": "2020-02-26"
+                                            },
+                                            "gmd:dateType": {
+                                                "gmd:CI_DateTypeCode": {
+                                                    "@codeList": "http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_DateTypeCode",
+                                                    "@codeListValue": "publication",
+                                                    "@codeSpace": "ISOTC211/19115",
+                                                    "#text": "publication"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "gmd:citedResponsibleParty": {
+                                        "gmd:CI_ResponsibleParty": {
+                                            "gmd:organisationName": {
+                                                "gco:CharacterString": "Canadian Cryospheric Information Network"
+                                            },
+                                            "gmd:contactInfo": {
+                                                "gmd:CI_Contact": {
+                                                    "gmd:phone": {
+                                                        "gmd:CI_Telephone": {
+                                                            "gmd:voice": {
+                                                                "gco:CharacterString": "(519) 888-4567 x32689"
+                                                            }
+                                                        }
+                                                    },
+                                                    "gmd:address": {
+                                                        "gmd:CI_Address": {
+                                                            "gmd:deliveryPoint": {
+                                                                "gco:CharacterString": "200 University Avenue West, University of Waterloo"
+                                                            },
+                                                            "gmd:city": {
+                                                                "gco:CharacterString": "Waterloo"
+                                                            },
+                                                            "gmd:administrativeArea": {
+                                                                "gco:CharacterString": "Ontario"
+                                                            },
+                                                            "gmd:postalCode": {
+                                                                "gco:CharacterString": "N2L 3G1"
+                                                            },
+                                                            "gmd:country": {
+                                                                "gco:CharacterString": "Canada"
+                                                            },
+                                                            "gmd:electronicMailAddress": {
+                                                                "gco:CharacterString": "pdc@uwaterloo.ca"
+                                                            }
+                                                        }
+                                                    },
+                                                    "gmd:onlineResource": {
+                                                        "gmd:CI_OnlineResource": {
+                                                            "gmd:linkage": {
+                                                                "gmd:URL": "polardata.ca"
+                                                            },
+                                                            "gmd:protocol": {
+                                                                "gco:CharacterString": "http"
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            },
+                                            "gmd:role": {
+                                                "gmd:CI_RoleCode": {
+                                                    "@codeList": "http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_RoleCode",
+                                                    "@codeListValue": "originator",
+                                                    "@codeSpace": "ISOTC211/19115",
+                                                    "#text": "originator"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "gmd:otherCitationDetails": {
+                                        "gco:CharacterString": "https://www.polardata.ca/pdcinput/public/keywordlibrary"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "gmd:MD_Keywords": {
+                            "gmd:keyword": {
+                                "gco:CharacterString": "Lake Belwood and Conestogo Lake, Grand River Watershed, Ontario, Canada"
+                            },
+                            "gmd:type": {
+                                "gmd:MD_KeywordTypeCode": {
+                                    "@codeList": "http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode",
+                                    "@codeListValue": "place",
+                                    "@codeSpace": "ISOTC211/19115",
+                                    "#text": "place"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "gmd:resourceConstraints": {
+                    "gmd:MD_LegalConstraints": {
+                        "gmd:accessConstraints": {
+                            "gmd:MD_RestrictionCode": {
+                                "@codeList": "http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_RestrictionCode",
+                                "@codeListValue": "otherRestrictions",
+                                "@codeSpace": "ISOTC211/19115",
+                                "#text": "otherRestrictions"
+                            }
+                        },
+                        "gmd:useConstraints": {
+                            "gmd:MD_RestrictionCode": {
+                                "@codeList": "http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_RestrictionCode",
+                                "@codeListValue": "otherRestrictions",
+                                "@codeSpace": "ISOTC211/19115",
+                                "#text": "otherRestrictions"
+                            }
+                        },
+                        "gmd:otherConstraints": {
+                            "gco:CharacterString": "Terms of Use of the Polar Data Catalogue: https://www.polardata.ca/pdcinput/public/termsofuse"
+                        }
+                    }
+                },
+                "gmd:language": {
+                    "gco:CharacterString": "eng; CAN"
+                },
+                "gmd:topicCategory": {
+                    "gmd:MD_TopicCategoryCode": "environment"
+                },
+                "gmd:extent": {
+                    "gmd:EX_Extent": {
+                        "@id": "boundingExtent",
+                        "gmd:geographicElement": {
+                            "gmd:EX_GeographicBoundingBox": {
+                                "@id": "boundingGeographicBoundingBox",
+                                "gmd:westBoundLongitude": {
+                                    "gco:Decimal": "-80.7178777"
+                                },
+                                "gmd:eastBoundLongitude": {
+                                    "gco:Decimal": "-80.272744"
+                                },
+                                "gmd:southBoundLatitude": {
+                                    "gco:Decimal": "43.6764444"
+                                },
+                                "gmd:northBoundLatitude": {
+                                    "gco:Decimal": "43.862008"
+                                }
+                            }
+                        },
+                        "gmd:temporalElement": {
+                            "gmd:EX_TemporalExtent": {
+                                "gmd:extent": {
+                                    "gml:TimePeriod": {
+                                        "@gml:id": "boundingTemporalExtent",
+                                        "gml:description": "Time period can be either covered by the content of the dataset or the date when the data has been collected.",
+                                        "gml:beginPosition": "2018-02-14",
+                                        "gml:endPosition": "2018-07-26"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "gmd:supplementalInformation": {
+                    "gco:CharacterString": "Summary: Not Applicable Research Program(s): GWF. For further information: Basu, Nandita (nandita.basu@uwaterloo.ca)"
+                }
+            }
+        },
+        "gmd:contentInfo": {
+            "gmd:MD_FeatureCatalogueDescription": {
+                "gmd:includedWithDataset": {
+                    "gco:Boolean": "false"
+                },
+                "gmd:featureCatalogueCitation": {
+                    "@gco:nilReason": "unknown"
+                }
+            }
+        },
+        "gmd:distributionInfo": {
+            "gmd:MD_Distribution": {
+                "gmd:distributionFormat": {
+                    "gmd:MD_Format": {
+                        "gmd:name": {
+                            "gco:CharacterString": "Digital file"
+                        },
+                        "gmd:version": {
+                            "gco:CharacterString": "1.0"
+                        }
+                    }
+                },
+                "gmd:distributor": {
+                    "gmd:MD_Distributor": {
+                        "gmd:distributorContact": {
+                            "gmd:CI_ResponsibleParty": {
+                                "gmd:individualName": {
+                                    "gco:CharacterString": "Polar Data Catalogue"
+                                },
+                                "gmd:organisationName": {
+                                    "gco:CharacterString": "Canadian Cryospheric Information Network"
+                                },
+                                "gmd:contactInfo": {
+                                    "gmd:CI_Contact": {
+                                        "gmd:phone": {
+                                            "gmd:CI_Telephone": {
+                                                "gmd:voice": {
+                                                    "gco:CharacterString": "(519) 888-4567 x32689"
+                                                }
+                                            }
+                                        },
+                                        "gmd:address": {
+                                            "gmd:CI_Address": {
+                                                "gmd:deliveryPoint": {
+                                                    "gco:CharacterString": "200 University Avenue West, University of Waterloo"
+                                                },
+                                                "gmd:city": {
+                                                    "gco:CharacterString": "Waterloo"
+                                                },
+                                                "gmd:administrativeArea": {
+                                                    "gco:CharacterString": "Ontario"
+                                                },
+                                                "gmd:postalCode": {
+                                                    "gco:CharacterString": "N2L 3G1"
+                                                },
+                                                "gmd:country": {
+                                                    "gco:CharacterString": "Canada"
+                                                },
+                                                "gmd:electronicMailAddress": {
+                                                    "gco:CharacterString": "pdc@uwaterloo.ca"
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
+                                "gmd:role": {
+                                    "gmd:CI_RoleCode": {
+                                        "@codeList": "http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_RoleCode",
+                                        "@codeListValue": "distributor",
+                                        "@codeSpace": "ISOTC211/19115",
+                                        "#text": "distributor"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "gmd:metadataMaintenance": {
+            "gmd:MD_MaintenanceInformation": {
+                "gmd:maintenanceAndUpdateFrequency": {
+                    "@gco:nilReason": "unknown"
+                },
+                "gmd:maintenanceNote": {
+                    "gco:CharacterString": "This metadata was generated from the PDC metadata database at 2020-02-26"
+                },
+                "gmd:contact": {
+                    "gmd:CI_ResponsibleParty": {
+                        "gmd:individualName": {
+                            "gco:CharacterString": "Polar Data Catalogue"
+                        },
+                        "gmd:organisationName": {
+                            "gco:CharacterString": "Canadian Cryospheric Information Network"
+                        },
+                        "gmd:contactInfo": {
+                            "gmd:CI_Contact": {
+                                "gmd:phone": {
+                                    "gmd:CI_Telephone": {
+                                        "gmd:voice": {
+                                            "gco:CharacterString": "(519) 888-4567 x32689"
+                                        }
+                                    }
+                                },
+                                "gmd:address": {
+                                    "gmd:CI_Address": {
+                                        "gmd:deliveryPoint": {
+                                            "gco:CharacterString": "200 University Avenue West, University of Waterloo"
+                                        },
+                                        "gmd:city": {
+                                            "gco:CharacterString": "Waterloo"
+                                        },
+                                        "gmd:administrativeArea": {
+                                            "gco:CharacterString": "Ontario"
+                                        },
+                                        "gmd:postalCode": {
+                                            "gco:CharacterString": "N2L 3G1"
+                                        },
+                                        "gmd:country": {
+                                            "gco:CharacterString": "Canada"
+                                        },
+                                        "gmd:electronicMailAddress": {
+                                            "gco:CharacterString": "pdc@uwaterloo.ca"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "gmd:role": {
+                            "gmd:CI_RoleCode": {
+                                "@codeList": "http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_RoleCode",
+                                "@codeListValue": "originator",
+                                "@codeSpace": "ISOTC211/19115",
+                                "#text": "originator"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+},{
+    "gmd:MD_Metadata": {
+        "@xmlns:gss": "http://www.isotc211.org/2005/gss",
+        "@xmlns:gts": "http://www.isotc211.org/2005/gts",
+        "@xmlns:gml": "http://www.opengis.net/gml",
+        "@xmlns:xlink": "http://www.w3.org/1999/xlink",
+        "@xmlns:gco": "http://www.isotc211.org/2005/gco",
+        "@xmlns:gmd": "http://www.isotc211.org/2005/gmd",
+        "@xmlns:functx": "http://www.functx.com",
+        "@xmlns:gmi": "http://www.isotc211.org/2005/gmi",
+        "@xmlns:gmx": "http://www.isotc211.org/2005/gmx",
+        "@xmlns:gsr": "http://www.isotc211.org/2005/gsr",
+        "@xmlns:srv": "http://www.isotc211.org/2005/srv",
+        "@xmlns": "http://www.isotc211.org/2005/gmi",
+        "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+        "@xsi:schemaLocation": "http://www.isotc211.org/2005/gmd http://www.isotc211.org/2005/gmd/gmd.xsd",
+        "gmd:fileIdentifier": {
+            "gco:CharacterString": "13007_iso.xml"
+        },
+        "gmd:language": {
+            "gco:CharacterString": "eng; CAN"
+        },
+        "gmd:characterSet": {
+            "gmd:MD_CharacterSetCode": {
+                "@codeList": "http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_CharacterSetCode",
+                "@codeListValue": "utf8",
+                "@codeSpace": "ISOTC211/19115",
+                "#text": "utf8"
+            }
+        },
+        "gmd:hierarchyLevel": {
+            "gmd:MD_ScopeCode": {
+                "@codeList": "http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_ScopeCode",
+                "@codeListValue": "dataset",
+                "@codeSpace": "ISOTC211/19115",
+                "#text": "dataset"
+            }
+        },
+        "gmd:contact": {
+            "gmd:CI_ResponsibleParty": {
+                "gmd:individualName": {
+                    "gco:CharacterString": "Polar Data Catalogue"
+                },
+                "gmd:organisationName": {
+                    "gco:CharacterString": "Canadian Cryospheric Information Network"
+                },
+                "gmd:contactInfo": {
+                    "gmd:CI_Contact": {
+                        "gmd:phone": {
+                            "gmd:CI_Telephone": {
+                                "gmd:voice": {
+                                    "gco:CharacterString": "(519) 888-4567 x32689"
+                                }
+                            }
+                        },
+                        "gmd:address": {
+                            "gmd:CI_Address": {
+                                "gmd:deliveryPoint": {
+                                    "gco:CharacterString": "200 University Avenue West, University of Waterloo"
+                                },
+                                "gmd:city": {
+                                    "gco:CharacterString": "Waterloo"
+                                },
+                                "gmd:administrativeArea": {
+                                    "gco:CharacterString": "Ontario"
+                                },
+                                "gmd:postalCode": {
+                                    "gco:CharacterString": "N2L 3G1"
+                                },
+                                "gmd:country": {
+                                    "gco:CharacterString": "Canada"
+                                },
+                                "gmd:electronicMailAddress": {
+                                    "gco:CharacterString": "pdc@uwaterloo.ca"
+                                }
+                            }
+                        }
+                    }
+                },
+                "gmd:role": {
+                    "gmd:CI_RoleCode": {
+                        "@codeList": "http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_RoleCode",
+                        "@codeListValue": "pointOfContact",
+                        "@codeSpace": "ISOTC211/19115",
+                        "#text": "pointOfContact"
+                    }
+                }
+            }
+        },
+        "gmd:dateStamp": {
+            "gco:Date": "2019-09-23"
+        },
+        "gmd:metadataStandardName": {
+            "gco:CharacterString": "North American Profile of ISO 19115:2003"
+        },
+        "gmd:metadataStandardVersion": {
+            "gco:CharacterString": "2009-01-01"
+        },
+        "gmd:dataSetURI": {
+            "gco:CharacterString": "https://www.polardata.ca/pdcsearch/PDCSearchDOI.jsp?doi_id=13007"
+        },
+        "gmd:identificationInfo": {
+            "gmd:MD_DataIdentification": {
+                "gmd:citation": {
+                    "gmd:CI_Citation": {
+                        "gmd:title": {
+                            "gco:CharacterString": "Test title 2"
+                        },
+                        "gmd:date": {
+                            "gmd:CI_Date": {
+                                "gmd:date": {
+                                    "gco:Date": "2019-09-23"
+                                },
+                                "gmd:dateType": {
+                                    "gmd:CI_DateTypeCode": {
+                                        "@codeList": "http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_DateTypeCode",
+                                        "@codeListValue": "publication",
+                                        "@codeSpace": "ISOTC211/19115",
+                                        "#text": "publication"
+                                    }
+                                }
+                            }
+                        },
+                        "gmd:citedResponsibleParty": [
+                            {
+                                "gmd:CI_ResponsibleParty": {
+                                    "gmd:individualName": {
+                                        "gco:CharacterString": "Rudolph, David"
+                                    },
+                                    "gmd:role": {
+                                        "gmd:CI_RoleCode": {
+                                            "@codeList": "http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_RoleCode",
+                                            "@codeListValue": "principalInvestigator",
+                                            "@codeSpace": "ISOTC211/19115",
+                                            "#text": "principalInvestigator"
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                "gmd:CI_ResponsibleParty": {
+                                    "gmd:individualName": {
+                                        "gco:CharacterString": "Wiebe, Andrew"
+                                    },
+                                    "gmd:role": {
+                                        "gmd:CI_RoleCode": {
+                                            "@codeList": "http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_RoleCode",
+                                            "@codeListValue": "Originator",
+                                            "@codeSpace": "ISOTC211/19115",
+                                            "#text": "Originator"
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                "gmd:CI_ResponsibleParty": {
+                                    "gmd:individualName": {
+                                        "gco:CharacterString": "Hillier, Cailin E"
+                                    },
+                                    "gmd:role": {
+                                        "gmd:CI_RoleCode": {
+                                            "@codeList": "http://nap.geogratis.gc.ca/metadata/register/napMetadataRegister.xml#IC_90",
+                                            "@codeListValue": "ri_419",
+                                            "@codeSpace": "ISOTC211/19115",
+                                            "#text": "Collaborator"
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                "gmd:CI_ResponsibleParty": {
+                                    "gmd:individualName": {
+                                        "gco:CharacterString": "Menkveld, Paul G"
+                                    },
+                                    "gmd:role": {
+                                        "gmd:CI_RoleCode": {
+                                            "@codeList": "http://nap.geogratis.gc.ca/metadata/register/napMetadataRegister.xml#IC_90",
+                                            "@codeListValue": "ri_419",
+                                            "@codeSpace": "ISOTC211/19115",
+                                            "#text": "Collaborator"
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                "gmd:CI_ResponsibleParty": {
+                                    "gmd:individualName": {
+                                        "gco:CharacterString": "Mesec, Emilie"
+                                    },
+                                    "gmd:role": {
+                                        "gmd:CI_RoleCode": {
+                                            "@codeList": "http://nap.geogratis.gc.ca/metadata/register/napMetadataRegister.xml#IC_90",
+                                            "@codeListValue": "ri_419",
+                                            "@codeSpace": "ISOTC211/19115",
+                                            "#text": "Collaborator"
+                                        }
+                                    }
+                                }
+                            }
+                        ],
+                        "gmd:otherCitationDetails": {
+                            "gco:CharacterString": "Wiebe, A. J., Menkveld, P. G., Hillier, C. E., Mesec, E., & Rudolph, D. L. (2019). Meteorological and hydrological data from the Alder Creek Watershed, Grand River Basin, Ontario. Waterloo, Canada: Canadian Cryospheric Information Network (CCIN). (https://dx.doi.org/10.20383/101.0178)"
+                        }
+                    }
+                },
+                "gmd:abstract": {
+                    "gco:CharacterString": "Test abstract 2"
+                },
+                "gmd:purpose": {
+                    "gco:CharacterString": "The main objective of this project was to instrument the Alder Creek watershed with sensors and telemetry in order to collect near real-time hydrological data for monitoring the impacts of urbanization and land use change within a critical area for municipal water supply. The goal of the Southern Ontario Water Consortium (SOWC) was to set up a platform for research, development, testing, and demonstration of new sensors, data processing technology, and services. Alder Creek was instrumented as one of several field observatories, and it represented the middle member of three subwatersheds along a continuum from rural/agricultural (Hopewell Creek) to fully urbanized (Mimico Creek, Toronto). Foci within the project included hydrological data collection and data management. Field data such as meteorological, stream, and groundwater observations were recorded. Near real-time transmission of these data, via cellular network telemetry to an Online data platform (IBM's Intelligent Operations for Water), for display and data analytics, was a complementary aim. Concerns regarding the vulnerability of municipal supply wells to microbial and non-point source contamination, especially under the conditions of extreme hydrological events, were drivers of this work. \n\nNote that this project was started within the Watershed Node of the Southern Ontario Water Consortium (SOWC; www.sowc.ca) and funded by the Federal Economic Development Agency of Canada (FedDev) and the Ontario Ministry of Economic Development and Innovation (MEDI). This data set  will also support the project titled \"Transformative sensor Technologies and Smart Watersheds (TTWS): Work Package 1\". TTWS is a Pillar 3 project under the Global Water Futures Program funded by Canada First Research Excellence Fund."
+                },
+                "gmd:status": {
+                    "gmd:MD_ProgressCode": {
+                        "@codeList": "http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_ProgressCode",
+                        "@codeListValue": "completed",
+                        "@codeSpace": "ISOTC211/19115",
+                        "#text": "completed"
+                    }
+                },
+                "gmd:pointOfContact": {
+                    "gmd:CI_ResponsibleParty": {
+                        "gmd:individualName": {
+                            "gco:CharacterString": "Polar Data Catalogue"
+                        },
+                        "gmd:organisationName": {
+                            "gco:CharacterString": "Canadian Cryospheric Information Network"
+                        },
+                        "gmd:contactInfo": {
+                            "gmd:CI_Contact": {
+                                "gmd:phone": {
+                                    "gmd:CI_Telephone": {
+                                        "gmd:voice": {
+                                            "gco:CharacterString": "(519) 888-4567 x32689"
+                                        }
+                                    }
+                                },
+                                "gmd:address": {
+                                    "gmd:CI_Address": {
+                                        "gmd:deliveryPoint": {
+                                            "gco:CharacterString": "200 University Avenue West, University of Waterloo"
+                                        },
+                                        "gmd:city": {
+                                            "gco:CharacterString": "Waterloo"
+                                        },
+                                        "gmd:administrativeArea": {
+                                            "gco:CharacterString": "Ontario"
+                                        },
+                                        "gmd:postalCode": {
+                                            "gco:CharacterString": "N2L 3G1"
+                                        },
+                                        "gmd:country": {
+                                            "gco:CharacterString": "Canada"
+                                        },
+                                        "gmd:electronicMailAddress": {
+                                            "gco:CharacterString": "pdc@uwaterloo.ca"
+                                        }
+                                    }
+                                },
+                                "gmd:onlineResource": {
+                                    "gmd:CI_OnlineResource": {
+                                        "gmd:linkage": {
+                                            "gmd:URL": "polardata.ca"
+                                        },
+                                        "gmd:protocol": {
+                                            "gco:CharacterString": "http"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "gmd:role": {
+                            "gmd:CI_RoleCode": {
+                                "@codeList": "http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_RoleCode",
+                                "@codeListValue": "pointOfContact",
+                                "@codeSpace": "ISOTC211/19115",
+                                "#text": "pointOfContact"
+                            }
+                        }
+                    }
+                },
+                "gmd:descriptiveKeywords": [
+                    {
+                        "gmd:MD_Keywords": {
+                            "gmd:keyword": [
+                                {
+                                    "gco:CharacterString": "Air temperature"
+                                },
+                                {
+                                    "gco:CharacterString": "Groundwater"
+                                },
+                                {
+                                    "gco:CharacterString": "Humidity"
+                                },
+                                {
+                                    "gco:CharacterString": "Hydrology"
+                                },
+                                {
+                                    "gco:CharacterString": "Meteorological"
+                                },
+                                {
+                                    "gco:CharacterString": "Ontario"
+                                },
+                                {
+                                    "gco:CharacterString": "Precipitation"
+                                },
+                                {
+                                    "gco:CharacterString": "Snow"
+                                },
+                                {
+                                    "gco:CharacterString": "Soil moisture"
+                                },
+                                {
+                                    "gco:CharacterString": "Solar radiation"
+                                },
+                                {
+                                    "gco:CharacterString": "Stream"
+                                },
+                                {
+                                    "gco:CharacterString": "Watershed"
+                                },
+                                {
+                                    "gco:CharacterString": "Water supply"
+                                },
+                                {
+                                    "gco:CharacterString": "Wind speed"
+                                }
+                            ],
+                            "gmd:type": {
+                                "gmd:MD_KeywordTypeCode": {
+                                    "@codeList": "http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode",
+                                    "@codeListValue": "theme",
+                                    "@codeSpace": "ISOTC211/19115",
+                                    "#text": "theme"
+                                }
+                            },
+                            "gmd:thesaurusName": {
+                                "gmd:CI_Citation": {
+                                    "gmd:title": {
+                                        "gco:CharacterString": "Polar Data Catalogue Thesaurus (Canada)"
+                                    },
+                                    "gmd:date": {
+                                        "gmd:CI_Date": {
+                                            "gmd:date": {
+                                                "gco:Date": "2020-02-26"
+                                            },
+                                            "gmd:dateType": {
+                                                "gmd:CI_DateTypeCode": {
+                                                    "@codeList": "http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_DateTypeCode",
+                                                    "@codeListValue": "publication",
+                                                    "@codeSpace": "ISOTC211/19115",
+                                                    "#text": "publication"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "gmd:citedResponsibleParty": {
+                                        "gmd:CI_ResponsibleParty": {
+                                            "gmd:organisationName": {
+                                                "gco:CharacterString": "Canadian Cryospheric Information Network"
+                                            },
+                                            "gmd:contactInfo": {
+                                                "gmd:CI_Contact": {
+                                                    "gmd:phone": {
+                                                        "gmd:CI_Telephone": {
+                                                            "gmd:voice": {
+                                                                "gco:CharacterString": "(519) 888-4567 x32689"
+                                                            }
+                                                        }
+                                                    },
+                                                    "gmd:address": {
+                                                        "gmd:CI_Address": {
+                                                            "gmd:deliveryPoint": {
+                                                                "gco:CharacterString": "200 University Avenue West, University of Waterloo"
+                                                            },
+                                                            "gmd:city": {
+                                                                "gco:CharacterString": "Waterloo"
+                                                            },
+                                                            "gmd:administrativeArea": {
+                                                                "gco:CharacterString": "Ontario"
+                                                            },
+                                                            "gmd:postalCode": {
+                                                                "gco:CharacterString": "N2L 3G1"
+                                                            },
+                                                            "gmd:country": {
+                                                                "gco:CharacterString": "Canada"
+                                                            },
+                                                            "gmd:electronicMailAddress": {
+                                                                "gco:CharacterString": "pdc@uwaterloo.ca"
+                                                            }
+                                                        }
+                                                    },
+                                                    "gmd:onlineResource": {
+                                                        "gmd:CI_OnlineResource": {
+                                                            "gmd:linkage": {
+                                                                "gmd:URL": "polardata.ca"
+                                                            },
+                                                            "gmd:protocol": {
+                                                                "gco:CharacterString": "http"
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            },
+                                            "gmd:role": {
+                                                "gmd:CI_RoleCode": {
+                                                    "@codeList": "http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_RoleCode",
+                                                    "@codeListValue": "originator",
+                                                    "@codeSpace": "ISOTC211/19115",
+                                                    "#text": "originator"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "gmd:otherCitationDetails": {
+                                        "gco:CharacterString": "https://www.polardata.ca/pdcinput/public/keywordlibrary"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "gmd:MD_Keywords": {
+                            "gmd:keyword": {
+                                "gco:CharacterString": "Alder Creek Watershed, Grand River Basin, Ontario, Canada - FACEV"
+                            },
+                            "gmd:type": {
+                                "gmd:MD_KeywordTypeCode": {
+                                    "@codeList": "http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode",
+                                    "@codeListValue": "place",
+                                    "@codeSpace": "ISOTC211/19115",
+                                    "#text": "place"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "gmd:resourceConstraints": {
+                    "gmd:MD_LegalConstraints": {
+                        "gmd:accessConstraints": {
+                            "gmd:MD_RestrictionCode": {
+                                "@codeList": "http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_RestrictionCode",
+                                "@codeListValue": "otherRestrictions",
+                                "@codeSpace": "ISOTC211/19115",
+                                "#text": "otherRestrictions"
+                            }
+                        },
+                        "gmd:useConstraints": {
+                            "gmd:MD_RestrictionCode": {
+                                "@codeList": "http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_RestrictionCode",
+                                "@codeListValue": "otherRestrictions",
+                                "@codeSpace": "ISOTC211/19115",
+                                "#text": "otherRestrictions"
+                            }
+                        },
+                        "gmd:otherConstraints": {
+                            "gco:CharacterString": "Terms of Use of the Polar Data Catalogue: https://www.polardata.ca/pdcinput/public/termsofuse"
+                        }
+                    }
+                },
+                "gmd:language": {
+                    "gco:CharacterString": "eng; CAN"
+                },
+                "gmd:topicCategory": {
+                    "gmd:MD_TopicCategoryCode": "environment"
+                },
+                "gmd:extent": {
+                    "gmd:EX_Extent": {
+                        "@id": "boundingExtent",
+                        "gmd:geographicElement": {
+                            "gmd:EX_GeographicBoundingBox": {
+                                "@id": "boundingGeographicBoundingBox",
+                                "gmd:westBoundLongitude": {
+                                    "gco:Decimal": "-80.634"
+                                },
+                                "gmd:eastBoundLongitude": {
+                                    "gco:Decimal": "-80.49"
+                                },
+                                "gmd:southBoundLatitude": {
+                                    "gco:Decimal": "43.313"
+                                },
+                                "gmd:northBoundLatitude": {
+                                    "gco:Decimal": "43.452"
+                                }
+                            }
+                        },
+                        "gmd:temporalElement": {
+                            "gmd:EX_TemporalExtent": {
+                                "gmd:extent": {
+                                    "gml:TimePeriod": {
+                                        "@gml:id": "boundingTemporalExtent",
+                                        "gml:description": "Time period can be either covered by the content of the dataset or the date when the data has been collected.",
+                                        "gml:beginPosition": "2012-12-19",
+                                        "gml:endPosition": "2019-07-04"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "gmd:supplementalInformation": {
+                    "gco:CharacterString": "Summary: Not Applicable Research Program(s): GWF,Other. For further information: https://dx.doi.org/10.20383/101.0178"
+                }
+            }
+        },
+        "gmd:contentInfo": {
+            "gmd:MD_FeatureCatalogueDescription": {
+                "gmd:includedWithDataset": {
+                    "gco:Boolean": "false"
+                },
+                "gmd:featureCatalogueCitation": {
+                    "@gco:nilReason": "unknown"
+                }
+            }
+        },
+        "gmd:distributionInfo": {
+            "gmd:MD_Distribution": {
+                "gmd:distributionFormat": {
+                    "gmd:MD_Format": {
+                        "gmd:name": {
+                            "gco:CharacterString": "Digital file"
+                        },
+                        "gmd:version": {
+                            "gco:CharacterString": "1.0"
+                        }
+                    }
+                },
+                "gmd:distributor": {
+                    "gmd:MD_Distributor": {
+                        "gmd:distributorContact": {
+                            "gmd:CI_ResponsibleParty": {
+                                "gmd:individualName": {
+                                    "gco:CharacterString": "Polar Data Catalogue"
+                                },
+                                "gmd:organisationName": {
+                                    "gco:CharacterString": "Canadian Cryospheric Information Network"
+                                },
+                                "gmd:contactInfo": {
+                                    "gmd:CI_Contact": {
+                                        "gmd:phone": {
+                                            "gmd:CI_Telephone": {
+                                                "gmd:voice": {
+                                                    "gco:CharacterString": "(519) 888-4567 x32689"
+                                                }
+                                            }
+                                        },
+                                        "gmd:address": {
+                                            "gmd:CI_Address": {
+                                                "gmd:deliveryPoint": {
+                                                    "gco:CharacterString": "200 University Avenue West, University of Waterloo"
+                                                },
+                                                "gmd:city": {
+                                                    "gco:CharacterString": "Waterloo"
+                                                },
+                                                "gmd:administrativeArea": {
+                                                    "gco:CharacterString": "Ontario"
+                                                },
+                                                "gmd:postalCode": {
+                                                    "gco:CharacterString": "N2L 3G1"
+                                                },
+                                                "gmd:country": {
+                                                    "gco:CharacterString": "Canada"
+                                                },
+                                                "gmd:electronicMailAddress": {
+                                                    "gco:CharacterString": "pdc@uwaterloo.ca"
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
+                                "gmd:role": {
+                                    "gmd:CI_RoleCode": {
+                                        "@codeList": "http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_RoleCode",
+                                        "@codeListValue": "distributor",
+                                        "@codeSpace": "ISOTC211/19115",
+                                        "#text": "distributor"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "gmd:metadataMaintenance": {
+            "gmd:MD_MaintenanceInformation": {
+                "gmd:maintenanceAndUpdateFrequency": {
+                    "@gco:nilReason": "unknown"
+                },
+                "gmd:maintenanceNote": {
+                    "gco:CharacterString": "This metadata was generated from the PDC metadata database at 2020-02-26"
+                },
+                "gmd:contact": {
+                    "gmd:CI_ResponsibleParty": {
+                        "gmd:individualName": {
+                            "gco:CharacterString": "Polar Data Catalogue"
+                        },
+                        "gmd:organisationName": {
+                            "gco:CharacterString": "Canadian Cryospheric Information Network"
+                        },
+                        "gmd:contactInfo": {
+                            "gmd:CI_Contact": {
+                                "gmd:phone": {
+                                    "gmd:CI_Telephone": {
+                                        "gmd:voice": {
+                                            "gco:CharacterString": "(519) 888-4567 x32689"
+                                        }
+                                    }
+                                },
+                                "gmd:address": {
+                                    "gmd:CI_Address": {
+                                        "gmd:deliveryPoint": {
+                                            "gco:CharacterString": "200 University Avenue West, University of Waterloo"
+                                        },
+                                        "gmd:city": {
+                                            "gco:CharacterString": "Waterloo"
+                                        },
+                                        "gmd:administrativeArea": {
+                                            "gco:CharacterString": "Ontario"
+                                        },
+                                        "gmd:postalCode": {
+                                            "gco:CharacterString": "N2L 3G1"
+                                        },
+                                        "gmd:country": {
+                                            "gco:CharacterString": "Canada"
+                                        },
+                                        "gmd:electronicMailAddress": {
+                                            "gco:CharacterString": "pdc@uwaterloo.ca"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "gmd:role": {
+                            "gmd:CI_RoleCode": {
+                                "@codeList": "http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_RoleCode",
+                                "@codeListValue": "originator",
+                                "@codeSpace": "ISOTC211/19115",
+                                "#text": "originator"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}]

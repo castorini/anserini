@@ -68,7 +68,7 @@ public abstract class DocumentCollectionTest<T extends SourceDocument> extends L
 
       int docCount = 0;
       for (T doc : segment) {
-        // This is a special case for ClueWeb collections, where the id can be null.
+        // This is a special case for Warc collections, where the id can be null.
         if (doc.id() == null) {
           checkDocument(doc, expected.get("null"));
         } else {
@@ -97,7 +97,7 @@ public abstract class DocumentCollectionTest<T extends SourceDocument> extends L
 
       int docCount = 0;
       for (T doc : segment) {
-        // This is a special case for ClueWeb collections, where the id can be null.
+        // This is a special case for Warc collections, where the id can be null.
         if (doc.id() == null) {
           checkDocument(doc, expected.get("null"));
         } else {
@@ -123,7 +123,8 @@ public abstract class DocumentCollectionTest<T extends SourceDocument> extends L
 
     collection.iterator().forEachRemaining(d -> {
       d.iterator().forEachRemaining(doc -> {
-        // This is a special case for ClueWeb collections, where the id can be null.
+
+        // This is a special case for Warc collections, where the id can be null.
         if (doc.id() == null) {
           checkDocument(doc, expected.get("null"));
         } else {

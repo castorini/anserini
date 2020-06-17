@@ -130,6 +130,10 @@
               <id>SimpleTweetSearcher</id>
             </program>
             <program>
+              <mainClass>io.anserini.index.IndexReaderUtils</mainClass>
+              <id>IndexReaderUtils</id>
+            </program>
+            <program>
                <mainClass>io.anserini.util.DumpAnalyzedQueries</mainClass>
                <id>DumpAnalyzedQueries</id>
             </program>
@@ -148,10 +152,6 @@
             <program>
                <mainClass>io.anserini.util.ExtractTopDfTerms</mainClass>
                <id>ExtractTopDfTerms</id>
-            </program>
-            <program>
-              <mainClass>io.anserini.index.IndexUtils</mainClass>
-              <id>IndexUtils</id>
             </program>
             <program>
               <mainClass>io.anserini.ann.IndexVectors</mainClass>
