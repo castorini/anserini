@@ -726,4 +726,24 @@ public class TopicReaderTest {
         "sun-erupts-to-mark-another-bastille-day-aurora-possible-in-new-england-sunday-night/",
         topics.get(topics.lastKey()).get("url"));
   }
+
+  @Test
+  public void testGetTopicsWithStringIdsFromFileWithTopicReader() {
+    Map<String, Map<String, String>> topics;
+
+    topics = TopicReader.getTopicsWithStringIdsFromFileWithTopicReaderClass(TrecTopicReader.class.getName(),
+        "src/main/resources/topics-and-qrels/topics.robust04.txt");
+
+    assertNotNull(topics);
+    assertEquals(250, topics.size());
+    assertEquals("International Organized Crime", topics.get("301").get("title"));
+    assertEquals("gasoline tax U.S.", topics.get("700").get("title"));
+
+    topics = TopicReader.getTopicsWithStringIdsFromFileWithTopicReaderClass(TsvIntTopicReader.class.getName(),
+        "src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt");
+    assertNotNull(topics);
+    assertEquals(5193, topics.size());
+    assertEquals("androgen receptor define", topics.get("2").get("title"));
+    assertEquals("why do bears hibernate", topics.get("1102400").get("title"));
+  }
 }

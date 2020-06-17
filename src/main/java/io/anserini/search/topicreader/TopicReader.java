@@ -110,7 +110,7 @@ public abstract class TopicReader<K> {
    * topic fields "title", "description", and "narrative". For topic formats that do not provide this three-way
    * elaboration, the "title" key is used to hold the "query".
    *
-   * @return a sorted map of ids to topics
+   * @return sorted map of ids to topics
    * @throws IOException if error encountered reading topics
    */
   public SortedMap<K, Map<String, String>> read() throws IOException {
@@ -131,7 +131,7 @@ public abstract class TopicReader<K> {
    *
    * @param topics topics
    * @param <K> type of topic id
-   * @return a set of evaluation topics
+   * @return evaluation topics
    */
   @SuppressWarnings("unchecked")
   public static <K> SortedMap<K, Map<String, String>> getTopics(Topics topics) {
@@ -151,11 +151,11 @@ public abstract class TopicReader<K> {
   }
 
   /**
-   * Returns evaluation topics, automatically trying to infer its type and format.
+   * Returns a set of evaluation topics, automatically trying to infer its type and format.
    *
    * @param file topics file
    * @param <K> type of topic id
-   * @return a set of evaluation topics
+   * @return evaluation topics
    */
   @SuppressWarnings("unchecked")
   public static <K> SortedMap<K, Map<String, String>> getTopicsByFile(String file) {
@@ -171,12 +171,11 @@ public abstract class TopicReader<K> {
   }
 
   /**
-   * Returns a standard set of evaluation topics, with strings as topic ids. This method is
-   * primarily meant for calling from Python via Pyjnius. The conversion to string topic ids
-   * is necessary because Pyjnius has trouble with generics.
+   * Returns a standard set of evaluation topics, with strings as topic ids. This method is primarily meant for calling
+   * from Python via Pyjnius. The conversion to string topic ids is necessary because Pyjnius has trouble with generics.
    *
    * @param topics topics
-   * @return a set of evaluation topics, with strings as topic ids
+   * @return evaluation topics, with strings as topic ids
    */
   public static Map<String, Map<String, String>> getTopicsWithStringIds(Topics topics) {
     SortedMap<?, Map<String, String>> originalTopics = getTopics(topics);
@@ -189,5 +188,35 @@ public abstract class TopicReader<K> {
     }
 
     return t;
+  }
+
+  /**
+   * Returns a set of evaluation topics, reading from a file using a particular {@code TopicReader} class (as String).
+   * This ridiculous method name is necessary for proper Python bindings via Pyjnius.
+   *
+   * @param className {@code TopicReader} class
+   * @param file topics file
+   * @return evaluation topics, with strings as topic ids
+   */
+  public static Map<String, Map<String, String>> getTopicsWithStringIdsFromFileWithTopicReaderClass(String className,
+                                                                                                    String file) {
+    try {
+      Class clazz = Class.forName(className);
+      Constructor[] ctors = clazz.getDeclaredConstructors();
+      TopicReader<?> reader = (TopicReader<?>) ctors[0].newInstance(Paths.get(file));
+
+      SortedMap<?, Map<String, String>> originalTopics = reader.read();
+      if (originalTopics == null)
+        return null;
+
+      Map<String, Map<String, String>> t = new HashMap<>();
+      for (Object key : originalTopics.keySet()) {
+        t.put(key.toString(), originalTopics.get(key));
+      }
+
+      return t;
+    } catch (Exception e) {
+      return null;
+    }
   }
 }
