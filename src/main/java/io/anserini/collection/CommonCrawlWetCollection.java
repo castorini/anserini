@@ -20,10 +20,12 @@ package io.anserini.collection;
 import org.apache.logging.log4j.LogManager;
 
 import java.io.DataInputStream;
+import java.io.EOFException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
+import java.util.Locale;
 import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.zip.GZIPInputStream;
@@ -104,6 +106,95 @@ public class CommonCrawlWetCollection extends DocumentCollection<CommonCrawlWetC
       retRecord.setContent(recordContent);
 
       return retRecord;
+    }
+
+    /**
+     * Performs the actual heavy lifting of reading in the next WARC record.
+     *
+     * @param in the data input stream
+     * @param headerBuffer a blank string buffer to contain the WARC header
+     * @return the content bytes (with the headerBuffer populated)
+     * @throws IOException if error encountered reading from stream
+     */
+    protected static byte[] readNextRecord(DataInputStream in, StringBuilder headerBuffer, String headerEndKey) throws IOException {
+      if (in == null || headerBuffer == null) {
+        throw new NoSuchElementException();
+      }
+
+      String line = null;
+      boolean foundMark = false;
+      boolean inHeader = true;
+      byte[] retContent = null;
+
+      // read WARC header
+      // first - find the beginning of WARC header
+      while ((!foundMark) && ((line = readLineFromInputStream(in)) != null)) {
+        if (line.startsWith(WARC_VERSION)) {
+          foundMark = true;
+        }
+      }
+
+      // no WARC mark?
+      if (!foundMark) {
+        throw new NoSuchElementException();
+      }
+
+      // then read to the first newline
+      // make sure we get the content length here
+      int contentLength = -1;
+      boolean reachHeaderEnd = false;
+      while (!reachHeaderEnd && inHeader && ((line = readLineFromInputStream(in)) != null)) {
+        if ((line.trim().length() == 0 && reachHeaderEnd)) {
+          inHeader = false;
+        } else {
+          headerBuffer.append(line);
+          headerBuffer.append(WarcBaseDocument.NEWLINE);
+          String[] thisHeaderPieceParts = line.split(":", 2);
+          if (thisHeaderPieceParts.length == 2) {
+            if (thisHeaderPieceParts[0].toLowerCase(Locale.US).startsWith(headerEndKey.toLowerCase(Locale.US))){
+              reachHeaderEnd = true;
+            }
+            if (thisHeaderPieceParts[0].toLowerCase(Locale.US).startsWith("content-length")) {
+              try {
+                contentLength = Integer.parseInt(thisHeaderPieceParts[1].trim()) + 1;
+              } catch (NumberFormatException nfEx) {
+                contentLength = -1;
+              }
+            }
+          }
+        }
+      }
+
+      if (contentLength < 0) {
+        throw new NoSuchElementException();
+      }
+
+      // now read the bytes of the content
+      retContent = new byte[contentLength];
+      int totalWant = contentLength;
+      int totalRead = 0;
+      while (totalRead < contentLength) {
+        try {
+          int numRead = in.read(retContent, totalRead, totalWant);
+          if (numRead < 0) {
+            throw new NoSuchElementException();
+          } else {
+            totalRead += numRead;
+            totalWant = contentLength - totalRead;
+          } // end if (numRead < 0) / else
+        } catch (EOFException eofEx) {
+          // resize to what we have
+          if (totalRead > 0) {
+            byte[] newReturn = new byte[totalRead];
+            System.arraycopy(retContent, 0, newReturn, 0, totalRead);
+            return newReturn;
+          } else {
+            throw new NoSuchElementException();
+          }
+        } // end try/catch (EOFException)
+      } // end while (totalRead < contentLength)
+
+      return retContent;
     }
 
     @Override

@@ -30,62 +30,18 @@ nohup sh target/appassembler/bin/IndexCollection -collection CleanTrecCollection
 ```
 
 On a modern desktop with an SSD, indexing takes around 40 minutes.
-The final log lines should look something like this:
+There should be a total of 3,213,835 documents indexed.
 
-```
-2020-01-14 16:36:30,954 INFO  [main] index.IndexCollection (IndexCollection.java:851) - ============ Final Counter Values ============
-2020-01-14 16:36:30,955 INFO  [main] index.IndexCollection (IndexCollection.java:852) - indexed:        3,213,835
-2020-01-14 16:36:30,955 INFO  [main] index.IndexCollection (IndexCollection.java:853) - unindexable:            0
-2020-01-14 16:36:30,955 INFO  [main] index.IndexCollection (IndexCollection.java:854) - empty:                  0
-2020-01-14 16:36:30,955 INFO  [main] index.IndexCollection (IndexCollection.java:855) - skipped:                0
-2020-01-14 16:36:30,955 INFO  [main] index.IndexCollection (IndexCollection.java:856) - errors:                 0
-2020-01-14 16:36:30,961 INFO  [main] index.IndexCollection (IndexCollection.java:859) - Total 3,213,835 documents indexed in 00:45:32
-```
 
 ## Performing Retrieval on the Dev Queries
 
-Let's download the queries and qrels:
-
-```
-mkdir collections/msmarco-doc/queries-and-qrels
-wget https://msmarco.blob.core.windows.net/msmarcoranking/msmarco-doctrain-queries.tsv.gz -P collections/msmarco-doc/queries-and-qrels
-wget https://msmarco.blob.core.windows.net/msmarcoranking/msmarco-doctrain-top100.gz -P collections/msmarco-doc/queries-and-qrels
-wget https://msmarco.blob.core.windows.net/msmarcoranking/msmarco-doctrain-qrels.tsv.gz -P collections/msmarco-doc/queries-and-qrels
-
-wget https://msmarco.blob.core.windows.net/msmarcoranking/msmarco-docdev-queries.tsv.gz -P collections/msmarco-doc/queries-and-qrels
-wget https://msmarco.blob.core.windows.net/msmarcoranking/msmarco-docdev-top100.gz -P collections/msmarco-doc/queries-and-qrels
-wget https://msmarco.blob.core.windows.net/msmarcoranking/msmarco-docdev-qrels.tsv.gz -P collections/msmarco-doc/queries-and-qrels
-
-# Alternative mirrors:
-# wget https://www.dropbox.com/s/p6k7ph7v0r400ab/msmarco-doctrain-queries.tsv.gz -P collections/msmarco-doc/queries-and-qrels
-# wget https://www.dropbox.com/s/zyt1n2gpylt0dhj/msmarco-doctrain-top100.gz -P collections/msmarco-doc/queries-and-qrels
-# wget https://www.dropbox.com/s/7xw812wpf4t3fpu/msmarco-doctrain-qrels.tsv.gz -P collections/msmarco-doc/queries-and-qrels
-# wget https://www.dropbox.com/s/d5wcox23s17wpf1/msmarco-docdev-queries.tsv.gz -P collections/msmarco-doc/queries-and-qrels
-# wget https://www.dropbox.com/s/vamkn5dppjhygm5/msmarco-docdev-top100.gz -P collections/msmarco-doc/queries-and-qrels
-# wget https://www.dropbox.com/s/9ad6f8midcmlrrx/msmarco-docdev-qrels.tsv.gz -P collections/msmarco-doc/queries-and-qrels
-
-gunzip collections/msmarco-doc/queries-and-qrels/*.gz
-```
-
-Here are the sizes:
-
-```
-$ wc collections/msmarco-doc/queries-and-qrels/*.tsv
-    5193   20772  108276 collections/msmarco-doc/queries-and-qrels/msmarco-docdev-qrels.tsv
-    5193   35787  220304 collections/msmarco-doc/queries-and-qrels/msmarco-docdev-queries.tsv
-  367013 1468052 7539008 collections/msmarco-doc/queries-and-qrels/msmarco-doctrain-qrels.tsv
-  367013 2551279 15480364 collections/msmarco-doc/queries-and-qrels/msmarco-doctrain-queries.tsv
-  744412 4075890 23347952 total
-```
-
-There are indeed lots of training queries!
-In this guide, to save time, we are only going to perform retrieval on the dev queries.
-This can be accomplished as follows:
+After indexing finishes, we can do a retrieval run.
+The dev queries are already stored in our repo:
 
 ```
 target/appassembler/bin/SearchCollection -topicreader TsvInt \
  -index indexes/msmarco-doc/lucene-index.msmarco-doc.pos+docvectors+rawdocs \
- -topics collections/msmarco-doc/queries-and-qrels/msmarco-docdev-queries.tsv \
+ -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
  -output runs/run.msmarco-doc.dev.bm25.txt -bm25
 ```
 
@@ -96,18 +52,27 @@ On a modern desktop with an SSD, the run takes around 12 minutes.
 After the run completes, we can evaluate with `trec_eval`:
 
 ```
-$ tools/eval/trec_eval.9.0.4/trec_eval -c -mmap -mrecall.1000 collections/msmarco-doc/queries-and-qrels/msmarco-docdev-qrels.tsv runs/run.msmarco-doc.dev.bm25.txt
+$ tools/eval/trec_eval.9.0.4/trec_eval -c -mmap -mrecall.1000 src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc.dev.bm25.txt
 map                   	all	0.2310
 recall_1000           	all	0.8856
 ```
 
-Let's compare to the baselines provided by Microsoft (note that to be fair, we restrict evaluation to top 100 hits per topic):
+Let's compare to the baselines provided by Microsoft.
+First, download:
 
 ```
-$ tools/eval/trec_eval.9.0.4/trec_eval -c -mmap -M 100 collections/msmarco-doc/queries-and-qrels/msmarco-docdev-qrels.tsv collections/msmarco-doc/queries-and-qrels/msmarco-docdev-top100
+wget https://msmarco.blob.core.windows.net/msmarcoranking/msmarco-docdev-top100.gz -P runs
+gunzip runs/msmarco-docdev-top100.gz
+```
+
+Then, run `trec_eval` to compare.
+Note that to be fair, we restrict evaluation to top 100 hits per topic (which is what Microsoft provides):
+
+```
+$ tools/eval/trec_eval.9.0.4/trec_eval -c -mmap -M 100 src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/msmarco-docdev-top100
 map                   	all	0.2219
 
-$ tools/eval/trec_eval.9.0.4/trec_eval -c -mmap -M 100 collections/msmarco-doc/queries-and-qrels/msmarco-docdev-qrels.tsv runs/run.msmarco-doc.dev.bm25.txt
+$ tools/eval/trec_eval.9.0.4/trec_eval -c -mmap -M 100 src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.msmarco-doc.dev.bm25.txt
 map                   	all	0.2303
 ```
 
@@ -129,7 +94,7 @@ To perform a run with these parameters, issue the following command:
 ```
 target/appassembler/bin/SearchCollection -topicreader TsvString \
  -index indexes/msmarco-doc/lucene-index.msmarco-doc.pos+docvectors+rawdocs \
- -topics collections/msmarco-doc/queries-and-qrels/msmarco-docdev-queries.tsv \
+ -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
  -output runs/run.msmarco-doc.dev.bm25.tuned.txt -bm25 -bm25.k1 3.44 -bm25.b 0.87
 ```
 
