@@ -5,7 +5,8 @@ Here, we focus on running retrieval experiments; for basic instructions on build
 
 ## Round 3
 
-tl;dr - here are the runs that can be easily replicated with Anserini, from pre-built indexes available [here](experiments-cord19.md#pre-built-indexes-all-versions):
+These are runs that can be easily replicated with Anserini, from pre-built indexes available [here](experiments-cord19.md#pre-built-indexes-all-versions) (version from 2020/05/19, which is the official corpus used in the evaluation).
+They were prepared _for_ round 3 (for participants who wish to have a baseline run to rerank), and so effectiveness is computed with the union of round 1 and round 2 qrels.
 
 |    | index     | field(s)                 | nDCG@10 | Judged@10 | Recall@1000 | run file | checksum |
 |---:|:----------|:-------------------------|--------:|----------:|------------:|:---------|----------|
@@ -44,7 +45,8 @@ Exact commands for replicating these runs are found [further down on this page](
 
 ## Round 2
 
-tl;dr - here are the runs that can be easily replicated with Anserini, from pre-built indexes available [here](experiments-cord19.md#pre-built-indexes-all-versions):
+These are runs that can be easily replicated with Anserini, from pre-built indexes available [here](experiments-cord19.md#pre-built-indexes-all-versions) (version from 2020/05/01, which is the official corpus used in the evaluation).
+They were prepared _for_ round 2 (for participants who wish to have a baseline run to rerank), and so effectiveness is computed with round 1 qrels.
 
 |    | index     | field(s)       | nDCG@10 | Judged@10 | Recall@1000 | run file | checksum |
 |---:|:----------|:---------------|--------:|----------:|------------:|:---------|----------|
@@ -87,7 +89,8 @@ Exact commands for replicating these runs are found [further down on this page](
 
 ## Round 1
 
-tl;dr - here are the runs that can be easily replicated with Anserini, from pre-built indexes available [here](experiments-cord19.md#pre-built-indexes-all-versions):
+These are runs that can be easily replicated with Anserini, from pre-built indexes available [here](experiments-cord19.md#pre-built-indexes-all-versions) (version from 2020/04/10, which is the official corpus used in the evaluation).
+They were prepared _after_ round 1, and so we can report effectiveness results.
 
 |    | index     | field(s)                          | nDCG@10 | Judged@10 | Recall@1000 |
 |---:|:----------|:----------------------------------|--------:|----------:|------------:|
