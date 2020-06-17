@@ -12,6 +12,9 @@ First, we need to download and extract the MS MARCO document dataset:
 mkdir collections/msmarco-doc
 
 wget https://msmarco.blob.core.windows.net/msmarcoranking/msmarco-docs.trec.gz -P collections/msmarco-doc
+
+# Alternative mirror:
+# wget https://www.dropbox.com/s/w6caao3sfx9nluo/msmarco-docs.trec.gz -P collections/msmarco-doc
 ```
 
 To confirm, `msmarco-docs.trec.gz` should have MD5 checksum of `d4863e4f342982b51b9a8fc668b2d0c0`.

@@ -13,6 +13,10 @@ First, we need to download and extract the MS MARCO passage dataset:
 mkdir collections/msmarco-passage
 
 wget https://msmarco.blob.core.windows.net/msmarcoranking/collectionandqueries.tar.gz -P collections/msmarco-passage
+
+# Alternative mirror:
+# wget https://www.dropbox.com/s/9f54jg2f71ray3b/collectionandqueries.tar.gz -P collections/msmarco-passage
+
 tar xvfz collections/msmarco-passage/collectionandqueries.tar.gz -C collections/msmarco-passage
 ```
 
