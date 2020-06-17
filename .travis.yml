@@ -16,7 +16,7 @@ install: true
 script:
   - mvn clean package appassembler:assemble
   - find target/appassembler/bin/ -type f -exec sed -i 's/-Xmx.*G/-Xmx2G/g' {} \;
-  - cd eval && tar xvfz trec_eval.9.0.4.tar.gz && cd trec_eval.9.0.4 && make && cd .. && cd ..
+  - cd tools/eval && tar xvfz trec_eval.9.0.4.tar.gz && cd trec_eval.9.0.4 && make && cd ../../..
   - python src/main/python/run_regression.py --collection cacm --index --fail_eval
 after_success:
   - bash <(curl -s https://codecov.io/bash)
