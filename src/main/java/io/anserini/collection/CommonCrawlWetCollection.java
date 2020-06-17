@@ -126,9 +126,8 @@ public class CommonCrawlWetCollection extends DocumentCollection<CommonCrawlWetC
       boolean inHeader = true;
       byte[] retContent = null;
 
-      // cannot be using a buffered reader here!!!!
-      // just read the header
-      // first - find our WARC header
+      // read WARC header
+      // first - find the beginning of WARC header
       while ((!foundMark) && ((line = readLineFromInputStream(in)) != null)) {
         if (line.startsWith(WARC_VERSION)) {
           foundMark = true;
