@@ -94,7 +94,7 @@ To perform a run with these parameters, issue the following command:
 ```
 target/appassembler/bin/SearchCollection -topicreader TsvString \
  -index indexes/msmarco-doc/lucene-index.msmarco-doc.pos+docvectors+rawdocs \
- -topics collections/msmarco-doc/queries-and-qrels/msmarco-docdev-queries.tsv \
+ -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
  -output runs/run.msmarco-doc.dev.bm25.tuned.txt -bm25 -bm25.k1 3.44 -bm25.b 0.87
 ```
 
