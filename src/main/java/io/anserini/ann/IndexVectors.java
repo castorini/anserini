@@ -44,26 +44,31 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class IndexVectors {
-  static final String FIELD_WORD = "word";
-  static final String FIELD_VECTOR = "vector";
+  public static final String FIELD_ID = "id";
+  public static final String FIELD_VECTOR = "vector";
 
-  private static final String FW = "fw";
-  private static final String LEXLSH = "lexlsh";
+  public static final String FW = "fw";
+  public static final String LEXLSH = "lexlsh";
 
   public static final class Args {
-    @Option(name = "-input", metaVar = "[file]", required = true, usage = "word vectors model")
+    @Option(name = "-input", metaVar = "[file]", required = true, usage = "vectors model")
     public File input;
 
     @Option(name = "-path", metaVar = "[path]", required = true, usage = "index path")
     public Path path;
 
     @Option(name = "-encoding", metaVar = "[word]", required = true, usage = "encoding must be one of {fw, lexlsh}")
-    public String encoding;
+    public String encoding = FW;
+
+    @Option(name="-stored", metaVar = "[boolean]", usage = "store vectors")
+    public boolean stored;
 
     @Option(name = "-lexlsh.n", metaVar = "[int]", usage = "ngrams")
     public int ngrams = 2;
@@ -81,7 +86,7 @@ public class IndexVectors {
     public int bucketCount = 300;
 
     @Option(name = "-fw.q", metaVar = "[int]", usage = "quantization factor")
-    public int q = 60;
+    public int q = FakeWordsEncoderAnalyzer.DEFAULT_Q;
   }
 
   public static void main(String[] args) throws Exception {
@@ -113,7 +118,7 @@ public class IndexVectors {
     final long start = System.nanoTime();
     System.out.println(String.format("Loading model %s", indexArgs.input));
 
-    Map<String, float[]> wordVectors = readGloVe(indexArgs.input);
+    Map<String, List<float[]>> vectors = readGloVe(indexArgs.input);
 
     Path indexDir = indexArgs.path;
     if (!Files.exists(indexDir)) {
@@ -131,32 +136,32 @@ public class IndexVectors {
     IndexWriter indexWriter = new IndexWriter(d, conf);
     final AtomicInteger cnt = new AtomicInteger();
 
-    for (Map.Entry<String, float[]> entry : wordVectors.entrySet()) {
-      Document doc = new Document();
-
-      doc.add(new StringField(FIELD_WORD, entry.getKey(), Field.Store.YES));
-      float[] vector = entry.getValue();
-      StringBuilder sb = new StringBuilder();
-      for (double fv : vector) {
-        if (sb.length() > 0) {
-          sb.append(' ');
+    for (Map.Entry<String, List<float[]>> entry : vectors.entrySet()) {
+      for (float[] vector: entry.getValue()) {
+        Document doc = new Document();
+        doc.add(new StringField(FIELD_ID, entry.getKey(), Field.Store.YES));
+        StringBuilder sb = new StringBuilder();
+        for (double fv : vector) {
+          if (sb.length() > 0) {
+            sb.append(' ');
+          }
+          sb.append(fv);
         }
-        sb.append(fv);
-      }
-      doc.add(new TextField(FIELD_VECTOR, sb.toString(), Field.Store.NO));
-      try {
-        indexWriter.addDocument(doc);
-        int cur = cnt.incrementAndGet();
-        if (cur % 100000 == 0) {
-          System.out.println(String.format("%s words added", cnt));
+        doc.add(new TextField(FIELD_VECTOR, sb.toString(), indexArgs.stored ? Field.Store.YES : Field.Store.NO));
+        try {
+          indexWriter.addDocument(doc);
+          int cur = cnt.incrementAndGet();
+          if (cur % 100000 == 0) {
+            System.out.println(String.format("%s docs added", cnt));
+          }
+        } catch (IOException e) {
+          System.err.println("Error while indexing: " + e.getLocalizedMessage());
         }
-      } catch (IOException e) {
-        System.err.println("Error while indexing: " + e.getLocalizedMessage());
       }
     }
 
     indexWriter.commit();
-    System.out.println(String.format("%s words indexed", cnt.get()));
+    System.out.println(String.format("%s docs indexed", cnt.get()));
     long space = FileUtils.sizeOfDirectory(indexDir.toFile()) / (1024L * 1024L);
     System.out.println(String.format("Index size: %dMB", space));
     indexWriter.close();
@@ -168,10 +173,10 @@ public class IndexVectors {
         DurationFormatUtils.formatDuration(durationMillis, "HH:mm:ss")));
   }
 
-  static Map<String, float[]> readGloVe(File input) throws IOException {
-    Map<String, float[]> vectors = new HashMap<>();
+  static Map<String, List<float[]>> readGloVe(File input) throws IOException {
+    Map<String, List<float[]>> vectors = new HashMap<>();
     for (String line : IOUtils.readLines(new FileReader(input))) {
-      String[] s = line.split(" ");
+      String[] s = line.split("\\s+");
       if (s.length > 2) {
         String key = s[0];
         float[] vector = new float[s.length - 1];
@@ -185,7 +190,13 @@ public class IndexVectors {
         for (int i = 0; i < vector.length; i++) {
           vector[i] = vector[i] / norm;
         }
-        vectors.put(key, vector);
+        if (vectors.containsKey(key)) {
+          List<float[]> floats = new LinkedList<>(vectors.get(key));
+          floats.add(vector);
+          vectors.put(key, floats);
+        } else {
+          vectors.put(key, List.of(vector));
+        }
       }
     }
     return vectors;

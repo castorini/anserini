@@ -17,8 +17,6 @@
 package io.anserini.collection;
 
 import org.apache.commons.compress.compressors.z.ZCompressorInputStream;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -62,11 +60,12 @@ import java.util.zip.GZIPInputStream;
  * </pre>
  *
  * <p>In both cases, compressed files are transparently handled.</p>
+ *
+ * <p>This collection calls the {@link JsoupStringTransform} to remove tags in the document content.</p>
  */
 public class TrecCollection extends DocumentCollection<TrecCollection.Document> {
-  private static final Logger LOG = LogManager.getLogger(TrecCollection.class);
-
-  public TrecCollection(){
+  public TrecCollection(Path path) {
+    this.path = path;
     this.skippedFilePrefix = new HashSet<>(Arrays.asList("readme"));
     this.skippedDir = new HashSet<>(Arrays.asList("cr", "dtd", "dtds"));
   }
@@ -84,7 +83,7 @@ public class TrecCollection extends DocumentCollection<TrecCollection.Document> 
   public static class Segment<T extends Document> extends FileSegment<T>{
     private static final Pattern ID_PATTERN = Pattern.compile(".*id=\\\"([^\\\"]+)\\\".*");
 
-    protected Segment(Path path) throws IOException {
+    public Segment(Path path) throws IOException {
       super(path);
       this.bufferedReader = null;
       String fileName = path.toString();
@@ -180,9 +179,13 @@ public class TrecCollection extends DocumentCollection<TrecCollection.Document> 
       int j = builder.indexOf(Document.TERMINATING_DOCNO);
       if (j == -1) throw new RuntimeException("cannot find end tag " + Document.TERMINATING_DOCNO);
 
-      bufferedRecord = (T) new Document();
+      bufferedRecord = (T) createNewDocument();
       bufferedRecord.id = builder.substring(i + Document.DOCNO.length(), j).trim();
-      bufferedRecord.content = builder.substring(j + Document.TERMINATING_DOCNO.length()).trim();
+      bufferedRecord.raw = builder.substring(j + Document.TERMINATING_DOCNO.length()).trim();
+    }
+
+    protected Document createNewDocument() {
+      return new Document();
     }
   }
 
@@ -190,14 +193,11 @@ public class TrecCollection extends DocumentCollection<TrecCollection.Document> 
    * A document in a classic TREC <i>ad hoc</i> document collection.
    */
   public static class Document implements SourceDocument {
-
     protected static final String DOCNO = "<DOCNO>";
     protected static final String TERMINATING_DOCNO = "</DOCNO>";
 
     protected static final String DOC = "<DOC>";
     protected static final String TERMINATING_DOC = "</DOC>";
-
-    protected final int BUFFER_SIZE = 1 << 16; // 64K
 
     private static final String[] startTags = {"<TEXT>", "<HEADLINE>", "<TITLE>", "<HL>", "<HEAD>",
         "<TTL>", "<DD>", "<DATE>", "<LP>", "<LEADPARA>"
@@ -207,7 +207,7 @@ public class TrecCollection extends DocumentCollection<TrecCollection.Document> 
     };
 
     protected String id;
-    protected String content;
+    protected String raw;
 
     @Override
     public String id() {
@@ -215,8 +215,18 @@ public class TrecCollection extends DocumentCollection<TrecCollection.Document> 
     }
 
     @Override
-    public String content() {
-      return content;
+    public String contents() {
+      try {
+        return JsoupStringTransform.SINGLETON.apply(raw).trim();
+      } catch (Exception e) {
+        // If there's an exception, just eat it and return empty contents.
+        return "";
+      }
+    }
+
+    @Override
+    public String raw() {
+      return raw;
     }
 
     @Override

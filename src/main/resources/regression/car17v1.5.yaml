@@ -1,24 +1,24 @@
 ---
 name: car17v1.5
 index_command: target/appassembler/bin/IndexCollection
-index_utils_command: target/appassembler/bin/IndexUtils
+index_utils_command: target/appassembler/bin/IndexReaderUtils
 search_command: target/appassembler/bin/SearchCollection
 topic_root: src/main/resources/topics-and-qrels/
 qrels_root: src/main/resources/topics-and-qrels/
 ranking_root:
-generator: LuceneDocumentGenerator
+generator: DefaultLuceneDocumentGenerator
 threads: 1
 index_options:
   - -storePositions
   - -storeDocvectors
-  - -storeRawDocs
+  - -storeRaw
 topic_reader: Car
 input_roots:
   - /tuna1/      # on tuna
   - /store/      # on orca
   - /scratch2/   # on damiano
 input: collections/car/paragraphCorpus.v1.5/
-index_path: indexes/lucene-index.car17v1.5.pos+docvectors+rawdocs # path to the existing index, used in regression test if `--index` option is absent
+index_path: indexes/lucene-index.car17v1.5.pos+docvectors+raw
 collection: CarCollection
 index_stats:
   documents: 29678360
@@ -70,8 +70,8 @@ models:
     params:
       - -bm25
       - -axiom
-      - -rerankCutoff 20
       - -axiom.deterministic
+      - -rerankCutoff 20
     results:
       map:
         - 0.1358 
@@ -80,7 +80,7 @@ models:
   - name: ql
     display: QL
     params:
-      - -ql
+      - -qld
     results:
       map:
         - 0.1386
@@ -89,7 +89,7 @@ models:
   - name: ql+rm3
     display: +RM3
     params:
-      - -ql
+      - -qld
       - -rm3
     results:
       map:
@@ -99,10 +99,10 @@ models:
   - name: ql+ax
     display: +Ax
     params:
-      - -ql
+      - -qld
       - -axiom
-      - -rerankCutoff 20
       - -axiom.deterministic
+      - -rerankCutoff 20
     results:
       map:
         - 0.1048

@@ -30,9 +30,16 @@ import org.apache.lucene.analysis.Tokenizer;
 public class FakeWordsEncoderAnalyzer extends Analyzer {
 
   static final String REMOVE_IT = "_";
+
+  public static final int DEFAULT_Q = 80;
+
   private final int q;
 
   private final CharArraySet set = new CharArraySet(1, false);
+
+  public FakeWordsEncoderAnalyzer() {
+    this(DEFAULT_Q);
+  }
 
   public FakeWordsEncoderAnalyzer(int q) {
     this.q = q;

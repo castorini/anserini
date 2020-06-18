@@ -17,6 +17,7 @@
 package io.anserini.search;
 
 import com.google.common.base.Splitter;
+import io.anserini.index.IndexArgs;
 import io.anserini.index.generator.TweetGenerator;
 import io.anserini.rerank.ScoredDocuments;
 import io.anserini.rerank.lib.ScoreTiesAdjusterReranker;
@@ -52,8 +53,6 @@ import java.util.Optional;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.concurrent.TimeUnit;
-
-import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_ID;
 
 /*
 * Entry point of the Retrieval.
@@ -145,7 +144,7 @@ public final class SearchSolr implements Closeable {
            */
           for (int i = 0; i < docs.documents.length; i++) {
             out.println(String.format(Locale.US, "%s Q0 %s %d %f %s", qid,
-                    docs.documents[i].getField(FIELD_ID).stringValue(), (i + 1), docs.scores[i], runTag));
+                    docs.documents[i].getField(IndexArgs.ID).stringValue(), (i + 1), docs.scores[i], runTag));
           }
         }
         out.flush();
@@ -201,11 +200,11 @@ public final class SearchSolr implements Closeable {
     SolrQuery solrq = new SolrQuery();
     solrq.set("df", "contents");
     solrq.set("fl", "* score");
-    // Remove double quotes in query since they are special syntax in Solr query parser
-    solrq.setQuery(queryString.replace("\"", ""));
+    // Remove some characters in query which are special syntax in Solr query parser
+    solrq.setQuery(queryString.replaceAll("[+=&|<>!(){}~*?:/\"\\^\\-\\[\\]\\\\]", " "));
     solrq.setRows(args.hits);
     solrq.setSort(SortClause.desc("score"));
-    solrq.addSort(SortClause.asc(FIELD_ID));
+    solrq.addSort(SortClause.asc(IndexArgs.ID));
 
     try {
       QueryResponse response = client.query(args.solrIndex, solrq);
@@ -229,12 +228,12 @@ public final class SearchSolr implements Closeable {
     solrq.setQuery(queryString.replace("\"", ""));
     solrq.setRows(args.hits);
     solrq.setSort(SortClause.desc("score"));
-    solrq.addSort(SortClause.desc(TweetGenerator.StatusField.ID_LONG.name));
+    solrq.addSort(SortClause.desc(TweetGenerator.TweetField.ID_LONG.name));
 
     // Do not consider the tweets with tweet ids that are beyond the queryTweetTime
     // <querytweettime> tag contains the timestamp of the query in terms of the
     // chronologically nearest tweet id within the corpus
-    Query filter = LongPoint.newRangeQuery(TweetGenerator.StatusField.ID_LONG.name, 0L, t);
+    Query filter = LongPoint.newRangeQuery(TweetGenerator.TweetField.ID_LONG.name, 0L, t);
     solrq.set("fq", filter.toString());
 
     try {

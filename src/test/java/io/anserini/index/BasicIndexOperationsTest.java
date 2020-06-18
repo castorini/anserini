@@ -91,7 +91,7 @@ public class BasicIndexOperationsTest extends IndexerTestBase {
     }
 
     assertEquals(3, norms.size());
-    assertEquals(7, (int) norms.get(0));
+    assertEquals(8, (int) norms.get(0));
     assertEquals(2, (int) norms.get(1));
     assertEquals(2, (int) norms.get(2));
   }

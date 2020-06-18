@@ -1,7 +1,7 @@
 ---
 name: gov2
 index_command: target/appassembler/bin/IndexCollection
-index_utils_command: target/appassembler/bin/IndexUtils
+index_utils_command: target/appassembler/bin/IndexReaderUtils
 search_command: target/appassembler/bin/SearchCollection
 topic_root: src/main/resources/topics-and-qrels/
 qrels_root: src/main/resources/topics-and-qrels/
@@ -11,14 +11,14 @@ input_roots:
   - /store/      # on orca
   - /scratch2/   # on damiano
 input: collections/web/gov2/gov2-corpus/
-index_path: indexes/lucene-index.gov2.pos+docvectors+rawdocs # path to the existing index, used in regression test if `--index` option is absent
+index_path: indexes/lucene-index.gov2.pos+docvectors+raw
 collection: TrecwebCollection
 threads: 44
-generator: JsoupGenerator
+generator: DefaultLuceneDocumentGenerator
 index_options:
   - -storePositions
   - -storeDocvectors
-  - -storeRawDocs
+  - -storeRaw
 topic_reader: Trec
 evals:
   - command: eval/trec_eval.9.0.4/trec_eval
@@ -85,8 +85,8 @@ models:
       - -bm25
       - -axiom
       - -axiom.beta 0.1
-      - -rerankCutoff 20
       - -axiom.deterministic
+      - -rerankCutoff 20
     results:
       map:
         - 0.2669
@@ -99,7 +99,7 @@ models:
   - name: ql
     display: QL
     params:
-      - -ql
+      - -qld
     results:
       map:
         - 0.2681
@@ -112,7 +112,7 @@ models:
   - name: ql+rm3
     display: +RM3
     params:
-      - -ql
+      - -qld
       - -rm3
     results:
       map:
@@ -126,11 +126,11 @@ models:
   - name: ql+ax
     display: +Ax
     params:
-      - -ql
+      - -qld
       - -axiom
-      - -rerankCutoff 20
       - -axiom.beta 0.1
       - -axiom.deterministic
+      - -rerankCutoff 20
     results:
       map:
         - 0.2666

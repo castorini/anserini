@@ -38,8 +38,11 @@ import java.util.NoSuchElementException;
  * this makes the class a more generic class for indexing other types of the files, e.g. plain text files.
  */
 public class HtmlCollection extends DocumentCollection<HtmlCollection.Document> {
-
   private static final Logger LOG = LogManager.getLogger(HtmlCollection.class);
+
+  public HtmlCollection(Path path) {
+    this.path = path;
+  }
 
   @Override
   public FileSegment<HtmlCollection.Document> createFileSegment(Path p) throws IOException {
@@ -53,7 +56,7 @@ public class HtmlCollection extends DocumentCollection<HtmlCollection.Document> 
     private TarArchiveInputStream inputStream = null;
     private ArchiveEntry nextEntry = null;
 
-    protected Segment(Path path) throws IOException {
+    public Segment(Path path) throws IOException {
       super(path);
       this.bufferedReader = null;
       if (path.toString().endsWith(".tgz") || path.toString().endsWith(".tar.gz")) {
@@ -99,7 +102,7 @@ public class HtmlCollection extends DocumentCollection<HtmlCollection.Document> 
    */
   public static class Document implements SourceDocument {
     private String id;
-    private String contents;
+    private String raw;
 
     public Document(BufferedReader bRdr, String fileName) {
       StringBuilder sb = new StringBuilder();
@@ -108,7 +111,7 @@ public class HtmlCollection extends DocumentCollection<HtmlCollection.Document> 
         while ((line = bRdr.readLine()) != null) {
           sb.append(line).append("\n");
         }
-        this.contents = sb.toString();
+        this.raw = sb.toString();
         this.id = fileName;
       } catch (IOException e) {
         LOG.error("Error process file " + fileName);
@@ -122,8 +125,18 @@ public class HtmlCollection extends DocumentCollection<HtmlCollection.Document> 
     }
 
     @Override
-    public String content() {
-      return contents;
+    public String contents() {
+      try {
+        return JsoupStringTransform.SINGLETON.apply(raw).trim();
+      } catch (Exception e) {
+        // If there's an exception, just eat it and return empty contents.
+        return "";
+      }
+    }
+
+    @Override
+    public String raw() {
+      return raw;
     }
 
     @Override

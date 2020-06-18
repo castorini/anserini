@@ -18,7 +18,7 @@ package io.anserini.ltr;
 
 import io.anserini.analysis.AnalyzerUtils;
 import io.anserini.analysis.TweetAnalyzer;
-import io.anserini.index.generator.TweetGenerator;
+import io.anserini.index.IndexArgs;
 import io.anserini.ltr.feature.FeatureExtractors;
 import io.anserini.rerank.RerankerCascade;
 import io.anserini.rerank.RerankerContext;
@@ -121,8 +121,8 @@ public class DumpTweetsLtrData {
       Integer qID = entry.getKey();
       String queryString = entry.getValue().get("title");
       Long queryTime = Long.parseLong(entry.getValue().get("time"));
-      Query filter = LongPoint.newRangeQuery(TweetGenerator.FIELD_ID, 0L, queryTime);
-      Query query = new BagOfWordsQueryGenerator().buildQuery(TweetGenerator.FIELD_ID,
+      Query filter = LongPoint.newRangeQuery(IndexArgs.ID, 0L, queryTime);
+      Query query = new BagOfWordsQueryGenerator().buildQuery(IndexArgs.ID,
           new TweetAnalyzer(), queryString);
       BooleanQuery.Builder builder = new BooleanQuery.Builder();
       builder.add(filter, BooleanClause.Occur.FILTER);
@@ -130,7 +130,7 @@ public class DumpTweetsLtrData {
       Query q = builder.build();
 
       TopDocs rs = searcher.search(q, args.hits);
-      List<String> queryTokens = AnalyzerUtils.tokenize(new TweetAnalyzer(), queryString);
+      List<String> queryTokens = AnalyzerUtils.analyze(new TweetAnalyzer(), queryString);
 
       RerankerContext<Integer> context = new RerankerContext<>(searcher, Integer.parseInt(queryString), query, null,
           queryString, queryTokens, filter, null);

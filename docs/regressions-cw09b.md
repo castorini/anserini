@@ -10,8 +10,8 @@ Typical indexing command:
 
 ```
 nohup sh target/appassembler/bin/IndexCollection -collection ClueWeb09Collection -input /path/to/cw09b \
- -index lucene-index.cw09b.pos+docvectors+rawdocs -generator JsoupGenerator -threads 44 \
- -storePositions -storeDocvectors -storeRawDocs >& log.cw09b.pos+docvectors+rawdocs &
+ -index indexes/lucene-index.cw09b.pos+docvectors+raw -generator DefaultLuceneDocumentGenerator -threads 44 \
+ -storePositions -storeDocvectors -storeRaw >& logs/log.cw09b.pos+docvectors+rawdocs &
 ```
 
 The directory `/path/to/ClueWeb09b` should be the root directory of the [ClueWeb09 (Category B) collection](http://lemurproject.org/clueweb09.php/), i.e., `ls /path/to/ClueWeb09b` should bring up a bunch of subdirectories, `en0000` to `enwp03`.
@@ -34,65 +34,65 @@ Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/m
 After indexing has completed, you should be able to perform retrieval as follows:
 
 ```
-nohup target/appassembler/bin/SearchCollection -index lucene-index.cw09b.pos+docvectors+rawdocs \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.cw09b.pos+docvectors+raw \
  -topicreader Webxml -topics src/main/resources/topics-and-qrels/topics.web.51-100.txt \
  -bm25 -output run.cw09b.bm25.topics.web.51-100.txt &
-nohup target/appassembler/bin/SearchCollection -index lucene-index.cw09b.pos+docvectors+rawdocs \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.cw09b.pos+docvectors+raw \
  -topicreader Webxml -topics src/main/resources/topics-and-qrels/topics.web.101-150.txt \
  -bm25 -output run.cw09b.bm25.topics.web.101-150.txt &
-nohup target/appassembler/bin/SearchCollection -index lucene-index.cw09b.pos+docvectors+rawdocs \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.cw09b.pos+docvectors+raw \
  -topicreader Webxml -topics src/main/resources/topics-and-qrels/topics.web.151-200.txt \
  -bm25 -output run.cw09b.bm25.topics.web.151-200.txt &
 
-nohup target/appassembler/bin/SearchCollection -index lucene-index.cw09b.pos+docvectors+rawdocs \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.cw09b.pos+docvectors+raw \
  -topicreader Webxml -topics src/main/resources/topics-and-qrels/topics.web.51-100.txt \
  -bm25 -rm3 -output run.cw09b.bm25+rm3.topics.web.51-100.txt &
-nohup target/appassembler/bin/SearchCollection -index lucene-index.cw09b.pos+docvectors+rawdocs \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.cw09b.pos+docvectors+raw \
  -topicreader Webxml -topics src/main/resources/topics-and-qrels/topics.web.101-150.txt \
  -bm25 -rm3 -output run.cw09b.bm25+rm3.topics.web.101-150.txt &
-nohup target/appassembler/bin/SearchCollection -index lucene-index.cw09b.pos+docvectors+rawdocs \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.cw09b.pos+docvectors+raw \
  -topicreader Webxml -topics src/main/resources/topics-and-qrels/topics.web.151-200.txt \
  -bm25 -rm3 -output run.cw09b.bm25+rm3.topics.web.151-200.txt &
 
-nohup target/appassembler/bin/SearchCollection -index lucene-index.cw09b.pos+docvectors+rawdocs \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.cw09b.pos+docvectors+raw \
  -topicreader Webxml -topics src/main/resources/topics-and-qrels/topics.web.51-100.txt \
- -bm25 -axiom -rerankCutoff 20 -axiom.deterministic -axiom.beta 0.1 -output run.cw09b.bm25+ax.topics.web.51-100.txt &
-nohup target/appassembler/bin/SearchCollection -index lucene-index.cw09b.pos+docvectors+rawdocs \
+ -bm25 -axiom -axiom.deterministic -axiom.beta 0.1 -rerankCutoff 20 -output run.cw09b.bm25+ax.topics.web.51-100.txt &
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.cw09b.pos+docvectors+raw \
  -topicreader Webxml -topics src/main/resources/topics-and-qrels/topics.web.101-150.txt \
- -bm25 -axiom -rerankCutoff 20 -axiom.deterministic -axiom.beta 0.1 -output run.cw09b.bm25+ax.topics.web.101-150.txt &
-nohup target/appassembler/bin/SearchCollection -index lucene-index.cw09b.pos+docvectors+rawdocs \
+ -bm25 -axiom -axiom.deterministic -axiom.beta 0.1 -rerankCutoff 20 -output run.cw09b.bm25+ax.topics.web.101-150.txt &
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.cw09b.pos+docvectors+raw \
  -topicreader Webxml -topics src/main/resources/topics-and-qrels/topics.web.151-200.txt \
- -bm25 -axiom -rerankCutoff 20 -axiom.deterministic -axiom.beta 0.1 -output run.cw09b.bm25+ax.topics.web.151-200.txt &
+ -bm25 -axiom -axiom.deterministic -axiom.beta 0.1 -rerankCutoff 20 -output run.cw09b.bm25+ax.topics.web.151-200.txt &
 
-nohup target/appassembler/bin/SearchCollection -index lucene-index.cw09b.pos+docvectors+rawdocs \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.cw09b.pos+docvectors+raw \
  -topicreader Webxml -topics src/main/resources/topics-and-qrels/topics.web.51-100.txt \
- -ql -output run.cw09b.ql.topics.web.51-100.txt &
-nohup target/appassembler/bin/SearchCollection -index lucene-index.cw09b.pos+docvectors+rawdocs \
+ -qld -output run.cw09b.ql.topics.web.51-100.txt &
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.cw09b.pos+docvectors+raw \
  -topicreader Webxml -topics src/main/resources/topics-and-qrels/topics.web.101-150.txt \
- -ql -output run.cw09b.ql.topics.web.101-150.txt &
-nohup target/appassembler/bin/SearchCollection -index lucene-index.cw09b.pos+docvectors+rawdocs \
+ -qld -output run.cw09b.ql.topics.web.101-150.txt &
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.cw09b.pos+docvectors+raw \
  -topicreader Webxml -topics src/main/resources/topics-and-qrels/topics.web.151-200.txt \
- -ql -output run.cw09b.ql.topics.web.151-200.txt &
+ -qld -output run.cw09b.ql.topics.web.151-200.txt &
 
-nohup target/appassembler/bin/SearchCollection -index lucene-index.cw09b.pos+docvectors+rawdocs \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.cw09b.pos+docvectors+raw \
  -topicreader Webxml -topics src/main/resources/topics-and-qrels/topics.web.51-100.txt \
- -ql -rm3 -output run.cw09b.ql+rm3.topics.web.51-100.txt &
-nohup target/appassembler/bin/SearchCollection -index lucene-index.cw09b.pos+docvectors+rawdocs \
+ -qld -rm3 -output run.cw09b.ql+rm3.topics.web.51-100.txt &
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.cw09b.pos+docvectors+raw \
  -topicreader Webxml -topics src/main/resources/topics-and-qrels/topics.web.101-150.txt \
- -ql -rm3 -output run.cw09b.ql+rm3.topics.web.101-150.txt &
-nohup target/appassembler/bin/SearchCollection -index lucene-index.cw09b.pos+docvectors+rawdocs \
+ -qld -rm3 -output run.cw09b.ql+rm3.topics.web.101-150.txt &
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.cw09b.pos+docvectors+raw \
  -topicreader Webxml -topics src/main/resources/topics-and-qrels/topics.web.151-200.txt \
- -ql -rm3 -output run.cw09b.ql+rm3.topics.web.151-200.txt &
+ -qld -rm3 -output run.cw09b.ql+rm3.topics.web.151-200.txt &
 
-nohup target/appassembler/bin/SearchCollection -index lucene-index.cw09b.pos+docvectors+rawdocs \
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.cw09b.pos+docvectors+raw \
  -topicreader Webxml -topics src/main/resources/topics-and-qrels/topics.web.51-100.txt \
- -ql -axiom -rerankCutoff 20 -axiom.deterministic -axiom.beta 0.1 -output run.cw09b.ql+ax.topics.web.51-100.txt &
-nohup target/appassembler/bin/SearchCollection -index lucene-index.cw09b.pos+docvectors+rawdocs \
+ -qld -axiom -axiom.deterministic -axiom.beta 0.1 -rerankCutoff 20 -output run.cw09b.ql+ax.topics.web.51-100.txt &
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.cw09b.pos+docvectors+raw \
  -topicreader Webxml -topics src/main/resources/topics-and-qrels/topics.web.101-150.txt \
- -ql -axiom -rerankCutoff 20 -axiom.deterministic -axiom.beta 0.1 -output run.cw09b.ql+ax.topics.web.101-150.txt &
-nohup target/appassembler/bin/SearchCollection -index lucene-index.cw09b.pos+docvectors+rawdocs \
+ -qld -axiom -axiom.deterministic -axiom.beta 0.1 -rerankCutoff 20 -output run.cw09b.ql+ax.topics.web.101-150.txt &
+nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.cw09b.pos+docvectors+raw \
  -topicreader Webxml -topics src/main/resources/topics-and-qrels/topics.web.151-200.txt \
- -ql -axiom -rerankCutoff 20 -axiom.deterministic -axiom.beta 0.1 -output run.cw09b.ql+ax.topics.web.151-200.txt &
+ -qld -axiom -axiom.deterministic -axiom.beta 0.1 -rerankCutoff 20 -output run.cw09b.ql+ax.topics.web.151-200.txt &
 ```
 
 Evaluation can be performed using `trec_eval` and `gdeval.pl`:

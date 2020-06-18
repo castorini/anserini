@@ -62,7 +62,8 @@ import java.util.stream.Stream;
 public class NewYorkTimesCollection extends DocumentCollection<NewYorkTimesCollection.Document> {
   private static final Logger LOG = LogManager.getLogger(NewYorkTimesCollection.class);
 
-  public NewYorkTimesCollection(){
+  public NewYorkTimesCollection(Path path) {
+    this.path = path;
     this.allowedFileSuffix = new HashSet<>(Arrays.asList(".xml", ".tgz"));
   }
 
@@ -82,7 +83,7 @@ public class NewYorkTimesCollection extends DocumentCollection<NewYorkTimesColle
     private TarArchiveInputStream tarInput = null;
     private ArchiveEntry nextEntry = null;
 
-    protected Segment(Path path) throws IOException {
+    public Segment(Path path) throws IOException {
       super(path);
       if (this.path.toString().endsWith(".tgz")) {
         tarInput = new TarArchiveInputStream(new GzipCompressorInputStream(new FileInputStream(path.toFile())));
@@ -143,7 +144,12 @@ public class NewYorkTimesCollection extends DocumentCollection<NewYorkTimesColle
     }
 
     @Override
-    public String content() {
+    public String contents() {
+      return contents;
+    }
+
+    @Override
+    public String raw() {
       return contents;
     }
 

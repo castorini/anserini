@@ -20,6 +20,15 @@ import org.kohsuke.args4j.Option;
 
 public class IndexArgs {
 
+  // This is the name of the field in the Lucene document where the docid is stored.
+  public static final String ID = "id";
+
+  // This is the name of the field in the Lucene document that should be searched by default.
+  public static final String CONTENTS = "contents";
+
+  // This is the name of the field in the Lucene document where the raw document is stored.
+  public static final String RAW = "raw";
+
   private static final int TIMEOUT = 600 * 1000;
 
   // required arguments
@@ -36,9 +45,9 @@ public class IndexArgs {
       usage = "Collection class in package 'io.anserini.collection'.")
   public String collectionClass;
 
-  @Option(name = "-generator", metaVar = "[class]", required = true,
+  @Option(name = "-generator", metaVar = "[class]",
       usage = "Document generator class in package 'io.anserini.index.generator'.")
-  public String generatorClass;
+  public String generatorClass = "DefaultLuceneDocumentGenerator";
 
   // optional general arguments
 
@@ -64,13 +73,13 @@ public class IndexArgs {
       usage = "Boolean switch to store document vectors; needed for (pseudo) relevance feedback.")
   public boolean storeDocvectors = false;
 
-  @Option(name = "-storeTransformedDocs",
-      usage = "Boolean switch to store transformed document text.")
-  public boolean storeTransformedDocs = false;
+  @Option(name = "-storeContents",
+      usage = "Boolean switch to store document contents.")
+  public boolean storeContents = false;
 
-  @Option(name = "-storeRawDocs",
-      usage = "Boolean switch to store raw document text.")
-  public boolean storeRawDocs = false;
+  @Option(name = "-storeRaw",
+      usage = "Boolean switch to store raw source documents.")
+  public boolean storeRaw = false;
 
   @Option(name = "-optimize",
       usage = "Boolean switch to optimize index (i.e., force merge) into a single segment; costly for large collections.")
@@ -79,6 +88,10 @@ public class IndexArgs {
   @Option(name = "-keepStopwords",
       usage = "Boolean switch to keep stopwords.")
   public boolean keepStopwords = false;
+
+  @Option(name = "-stopwords", metaVar = "[file]", forbids = "-keepStopwords",
+      usage = "Path to file with stopwords.")
+  public String stopwords = null;
 
   @Option(name = "-stemmer", metaVar = "[stemmer]",
       usage = "Stemmer: one of the following {porter, krovetz, none}; defaults to 'porter'.")

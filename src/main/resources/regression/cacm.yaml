@@ -1,7 +1,7 @@
 ---
 name: cacm
 index_command: target/appassembler/bin/IndexCollection
-index_utils_command: target/appassembler/bin/IndexUtils
+index_utils_command: target/appassembler/bin/IndexReaderUtils
 search_command: target/appassembler/bin/SearchCollection
 ranking_root:
 topic_root: src/main/resources/topics-and-qrels/
@@ -9,7 +9,7 @@ qrels_root: src/main/resources/topics-and-qrels/
 input_roots:
   - ""
 input: src/main/resources/cacm/
-index_path: "" # path to the existing index, used in regression test if `--index` option is absent
+index_path: indexes/lucene-index.cacm.pos+docvectors
 index_stats:
   documents: 3204
   documents (non-empty): 3204
@@ -17,7 +17,7 @@ index_stats:
   total terms: 320968
 
 collection: HtmlCollection
-generator: JsoupGenerator
+generator: DefaultLuceneDocumentGenerator
 threads: 8
 index_options:
   - -storePositions
@@ -68,8 +68,8 @@ models:
     params:
       - -bm25
       - -axiom
-      - -rerankCutoff 20
       - -axiom.deterministic
+      - -rerankCutoff 20
     results:
       map:
         - 0.3077
@@ -77,7 +77,7 @@ models:
         - 0.1955
   - name: ql
     params:
-      - -ql
+      - -qld
     results:
       map:
         - 0.3265
@@ -85,7 +85,7 @@ models:
         - 0.1942
   - name: ql+rm3
     params:
-      - -ql
+      - -qld
       - -rm3
     results:
       map:
@@ -94,10 +94,10 @@ models:
         - 0.2218
   - name: ql+ax
     params:
-      - -ql
+      - -qld
       - -axiom
-      - -rerankCutoff 20
       - -axiom.deterministic
+      - -rerankCutoff 20
     results:
       map:
         - 0.2907

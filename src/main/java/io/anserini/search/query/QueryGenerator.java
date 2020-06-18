@@ -16,16 +16,9 @@
 
 package io.anserini.search.query;
 
-import io.anserini.analysis.AnalyzerUtils;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.search.Query;
 
-import java.util.List;
-
 public abstract class QueryGenerator {
-  static public List<String> tokenize(Analyzer analyzer, String s) {
-    return AnalyzerUtils.tokenize(analyzer, s);
-  }
-  
   public abstract Query buildQuery(String field, Analyzer analyzer, String queryText);
 }

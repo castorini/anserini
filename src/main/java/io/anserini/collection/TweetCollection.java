@@ -24,8 +24,6 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -51,7 +49,10 @@ import java.util.zip.GZIPInputStream;
  * A collection of tweets.
  */
 public class TweetCollection extends DocumentCollection<TweetCollection.Document> {
-  private static final Logger LOG = LogManager.getLogger(TweetCollection.class);
+
+  public TweetCollection(Path path) {
+    this.path = path;
+  }
 
   @Override
   public FileSegment<TweetCollection.Document> createFileSegment(Path p) throws IOException {
@@ -64,7 +65,7 @@ public class TweetCollection extends DocumentCollection<TweetCollection.Document
   public static class Segment extends FileSegment<TweetCollection.Document> {
     private static final String DATE_FORMAT = "E MMM dd HH:mm:ss ZZZZZ yyyy"; // "Fri Mar 29 11:03:41 +0000 2013"
 
-    protected Segment(Path path) throws IOException {
+    public Segment(Path path) throws IOException {
       super(path);
       this.bufferedReader = null;
       String fileName = path.toString();
@@ -234,35 +235,18 @@ public class TweetCollection extends DocumentCollection<TweetCollection.Document
       super();
     }
 
-    public Document fromTSV(String tsv) {
-      String[] columns = tsv.split("\t");
-
-      if (columns.length < 4) {
-        System.err.println("error parsing: " + tsv);
-        return null;
-      }
-
-      id = columns[0];
-      idLong = Long.parseLong(columns[0]);
-      screenName = columns[1];
-      createdAt = columns[2];
-
-      StringBuilder b = new StringBuilder();
-      for (int i = 3; i < columns.length; i++) {
-        b.append(columns[i] + " ");
-      }
-      text = b.toString().trim();
-
-      return this;
-    }
-
     @Override
     public String id() {
       return id;
     }
 
     @Override
-    public String content() {
+    public String contents() {
+      return text;
+    }
+
+    @Override
+    public String raw() {
       return text;
     }
 

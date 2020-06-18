@@ -1,7 +1,7 @@
 ---
 name: cw09b
 index_command: target/appassembler/bin/IndexCollection
-index_utils_command: target/appassembler/bin/IndexUtils
+index_utils_command: target/appassembler/bin/IndexReaderUtils
 search_command: target/appassembler/bin/SearchCollection
 topic_root: src/main/resources/topics-and-qrels/
 qrels_root: src/main/resources/topics-and-qrels/
@@ -11,14 +11,14 @@ input_roots:
   - /store/      # on orca
   - /scratch2/   # on damiano
 input: collections/web/ClueWeb09b/
-index_path: indexes/lucene-index.cw09b.pos+docvectors+rawdocs # path to the existing index, used in regression test if `--index` option is absent
+index_path: indexes/lucene-index.cw09b.pos+docvectors+raw
 collection: ClueWeb09Collection
-generator: JsoupGenerator
+generator: DefaultLuceneDocumentGenerator
 threads: 44
 index_options:
   - -storePositions
   - -storeDocvectors
-  - -storeRawDocs
+  - -storeRaw
 topic_reader: Webxml
 index_stats:
   documents: 50220189
@@ -112,9 +112,9 @@ models:
     params:
       - -bm25
       - -axiom
-      - -rerankCutoff 20
       - -axiom.deterministic
       - -axiom.beta 0.1
+      - -rerankCutoff 20
     results:
       map:
         - 0.0929
@@ -135,7 +135,7 @@ models:
   - name: ql
     display: QL
     params:
-      - -ql
+      - -qld
     results:
       map:
         - 0.1060
@@ -156,7 +156,7 @@ models:
   - name: ql+rm3
     display: +RM3
     params:
-      - -ql
+      - -qld
       - -rm3
     results:
       map:
@@ -178,11 +178,11 @@ models:
   - name: ql+ax
     display: +Ax
     params:
-      - -ql
+      - -qld
       - -axiom
-      - -rerankCutoff 20
       - -axiom.deterministic
       - -axiom.beta 0.1
+      - -rerankCutoff 20
     results:
       map:
         - 0.1086

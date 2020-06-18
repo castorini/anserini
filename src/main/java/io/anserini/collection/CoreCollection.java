@@ -28,12 +28,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.file.Path;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.Set;
 
 /**
  * A document collection in the
@@ -43,15 +40,16 @@ import java.util.NoSuchElementException;
  * Inside each file should be a bunch of JSON objects, each per line:
  *
  * <pre>
- * {"id": "doc1", "contents": "this is the contents 1."}
- * {"id": "doc2", "contents": "this is the contents 2."}
+ * {"id": "doc1", "contents": "this is the contents 1.", "year": 2019, "topics": ["topic 1"]}
+ * {"id": "doc2", "contents": "this is the contents 2.", "year": 2020, "topics": ["topic 2"]}
  * </pre>
  */
 public class CoreCollection extends DocumentCollection<CoreCollection.Document> {
   private static final Logger LOG = LogManager.getLogger(CoreCollection.class);
 
-  public CoreCollection(){
-    this.allowedFileSuffix = new HashSet<>(Arrays.asList(".json.xz"));
+  public CoreCollection(Path path){
+    this.path = path;
+    this.allowedFileSuffix = Set.of(".json.xz", "json");
   }
 
   @Override
@@ -60,17 +58,24 @@ public class CoreCollection extends DocumentCollection<CoreCollection.Document> 
   }
 
   /**
-   * A file in a JSON collection, typically containing multiple documents.
+   * A file in a Core collection, typically containing multiple documents.
    */
   public static class Segment extends FileSegment<CoreCollection.Document> {
     private JsonNode node = null;
     private Iterator<JsonNode> iter = null; // iterator for JSON document array
     private MappingIterator<JsonNode> iterator; // iterator for JSON line objects
 
-    protected Segment(Path path) throws IOException {
+    public Segment(Path path) throws IOException {
       super(path);
-      bufferedReader = new BufferedReader(new InputStreamReader(
-              new XZInputStream(new FileInputStream(path.toString()))));
+
+      if (path.endsWith(".xz")) {
+        bufferedReader = new BufferedReader(new InputStreamReader(
+          new XZInputStream(new FileInputStream(path.toString()))));
+      } else {
+        bufferedReader = new BufferedReader(new InputStreamReader(
+          new FileInputStream(path.toString())));
+      }
+
       ObjectMapper mapper = new ObjectMapper();
       iterator = mapper.readerFor(JsonNode.class).readValues(bufferedReader);
       if (iterator.hasNext()) {
@@ -94,7 +99,6 @@ public class CoreCollection extends DocumentCollection<CoreCollection.Document> 
         }
       } else if (node.isArray()) {
         if (iter != null && iter.hasNext()) {
-          JsonNode json = iter.next();
           bufferedRecord = new CoreCollection.Document(node);
         } else {
           throw new NoSuchElementException("Reached end of JsonNode iterator");
@@ -107,26 +111,18 @@ public class CoreCollection extends DocumentCollection<CoreCollection.Document> 
   }
 
   /**
-   * A document in a JSON collection.
+   * A document in a Core collection.
    */
-  public static class Document implements MultifieldSourceDocument {
+  public static class Document implements SourceDocument {
     private String id;
     private String contents;
-    private Map<String, String> fields;
+    private JsonNode jsonNode;
 
     public Document(JsonNode json) {
-      this.fields = new HashMap<>();
-
-      json.fields().forEachRemaining( e -> {
-        if ("coreId".equals(e.getKey())) {
-          this.id = (json.get("doi").asText().equals("null")) ? json.get("coreId").asText() :
-                  "doi:" + json.get("doi").asText();
-        } else if ("abstract".equals(e.getKey())) {
-          this.contents = json.get("title").asText() + "\n" + json.get("abstract").asText();
-        } else {
-          this.fields.put(e.getKey(), e.getValue().asText());
-        }
-      });
+      id = (getJsonValue(json, "doi").equals("")) ?
+        getJsonValue(json, "coreId") : getJsonValue(json, "doi");
+      contents = getJsonValue(json, "title") + " " + getJsonValue(json, "abstract");
+      jsonNode = json;
     }
 
     @Override
@@ -135,7 +131,12 @@ public class CoreCollection extends DocumentCollection<CoreCollection.Document> 
     }
 
     @Override
-    public String content() {
+    public String contents() {
+      return contents;
+    }
+
+    @Override
+    public String raw() {
       return contents;
     }
 
@@ -144,9 +145,15 @@ public class CoreCollection extends DocumentCollection<CoreCollection.Document> 
       return true;
     }
 
-    @Override
-    public Map<String, String> fields() {
-      return fields;
+    public JsonNode jsonNode() {
+      return jsonNode;
+    }
+
+    public String getJsonValue(JsonNode json, String key) {
+      if (!json.has(key) || json.get(key).asText() == "null") {
+        return "";
+      }
+      return json.get(key).asText();
     }
   }
 }

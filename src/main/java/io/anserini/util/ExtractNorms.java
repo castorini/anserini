@@ -29,6 +29,7 @@ import org.apache.lucene.util.SmallFloat;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
+import org.kohsuke.args4j.OptionHandlerFilter;
 import org.kohsuke.args4j.ParserProperties;
 
 import java.io.File;
@@ -37,8 +38,8 @@ import java.io.PrintStream;
 import java.nio.file.Paths;
 
 /**
- * Utility for extracting the norm of every document in the index. With Lucene's BM25 implementation, the norm
- * is the document length under Lucene's lossy compression scheme that encodes an integer into a byte.
+ * Utility for extracting the norm of every document in the index. With Lucene's BM25 implementation, the norm is the
+ * document length under Lucene's lossy compression scheme that encodes an integer into a byte.
  */
 public class ExtractNorms {
 
@@ -59,6 +60,8 @@ public class ExtractNorms {
     } catch (CmdLineException e) {
       System.err.println(e.getMessage());
       parser.printUsage(System.err);
+      System.err.println(String.format("Example: %s %s",
+          ExtractNorms.class.getSimpleName(), parser.printExample(OptionHandlerFilter.REQUIRED)));
       return;
     }
 

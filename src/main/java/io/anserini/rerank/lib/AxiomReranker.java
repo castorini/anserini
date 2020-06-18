@@ -16,7 +16,7 @@
 
 package io.anserini.rerank.lib;
 
-import io.anserini.index.generator.LuceneDocumentGenerator;
+import io.anserini.index.IndexArgs;
 import io.anserini.index.generator.TweetGenerator;
 import io.anserini.rerank.Reranker;
 import io.anserini.rerank.RerankerContext;
@@ -253,10 +253,10 @@ public class AxiomReranker<T> implements Reranker<T> {
     IndexReader reader = DirectoryReader.open(FSDirectory.open(index));
     IndexSearcher searcher = new IndexSearcher(reader);
     if (searchTweets) {
-      return searcher.search(new DocValuesFieldExistsQuery(TweetGenerator.StatusField.ID_LONG.name), reader.maxDoc(),
+      return searcher.search(new DocValuesFieldExistsQuery(TweetGenerator.TweetField.ID_LONG.name), reader.maxDoc(),
           BREAK_SCORE_TIES_BY_TWEETID).scoreDocs;
     }
-    return searcher.search(new DocValuesFieldExistsQuery(LuceneDocumentGenerator.FIELD_ID), reader.maxDoc(),
+    return searcher.search(new DocValuesFieldExistsQuery(IndexArgs.ID), reader.maxDoc(),
         BREAK_SCORE_TIES_BY_DOCID).scoreDocs;
   }
 
@@ -305,10 +305,22 @@ public class AxiomReranker<T> implements Reranker<T> {
    */
   private Set<Integer> selectDocs(ScoredDocuments docs, RerankerContext<T> context)
     throws IOException {
-    Set<Integer> docidSet = new HashSet<>(Arrays.asList(ArrayUtils.toObject(
-      Arrays.copyOfRange(docs.ids, 0, Math.min(this.R, docs.ids.length)))));
-    long targetSize = this.R * this.N;
-
+    boolean useRf = (context.getSearchArgs().rf_qrels != null);
+    Set<Integer> docidSet;
+    long targetSize;
+    if (useRf) {
+      docidSet = new HashSet<>();
+      for (int i = 0; i < docs.ids.length; i++){
+        if (docs.scores[i] > 0){
+          docidSet.add(docs.ids[i]);
+        }
+      }
+      targetSize = docidSet.size() * this.N;
+    } else{
+      docidSet = new HashSet<>(Arrays.asList(ArrayUtils.toObject(
+        Arrays.copyOfRange(docs.ids, 0, Math.min(this.R, docs.ids.length)))));
+      targetSize = this.R * this.N;
+    }
     if (docidSet.size() < targetSize) {
       IndexReader reader;
       IndexSearcher searcher;
@@ -330,7 +342,7 @@ public class AxiomReranker<T> implements Reranker<T> {
         while (docidSet.size() < targetSize) {
           if (AxiomReranker.externalDocidsCache != null) {
             String docid = AxiomReranker.externalDocidsCache.get(random.nextInt(AxiomReranker.externalDocidsCache.size()));
-            Query q = new TermQuery(new Term(LuceneDocumentGenerator.FIELD_ID, docid));
+            Query q = new TermQuery(new Term(IndexArgs.ID, docid));
             TopDocs rs = searcher.search(q, 1);
             docidSet.add(rs.scoreDocs[0].doc);
           } else {
@@ -373,7 +385,7 @@ public class AxiomReranker<T> implements Reranker<T> {
     }
     Map<String, Set<Integer>> termDocidSets = new HashMap<>();
     for (int docid : docIds) {
-      Terms terms = reader.getTermVector(docid, LuceneDocumentGenerator.FIELD_BODY);
+      Terms terms = reader.getTermVector(docid, IndexArgs.CONTENTS);
       if (terms == null) {
         LOG.warn("Document vector not stored for docid: " + docid);
         continue;
@@ -463,7 +475,7 @@ public class AxiomReranker<T> implements Reranker<T> {
     List<PriorityQueue<Pair<String, Double>>> allTermScoresPQ = new ArrayList<>();
     for (Map.Entry<String, Integer> q : queryTermsCounts.entrySet()) {
       String queryTerm = q.getKey();
-      long df = reader.docFreq(new Term(LuceneDocumentGenerator.FIELD_BODY, queryTerm));
+      long df = reader.docFreq(new Term(IndexArgs.CONTENTS, queryTerm));
       if (df == 0L) {
         continue;
       }

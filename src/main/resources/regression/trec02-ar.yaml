@@ -1,19 +1,19 @@
 ---
 name: trec02-ar
 index_command: target/appassembler/bin/IndexCollection
-index_utils_command: target/appassembler/bin/IndexUtils
+index_utils_command: target/appassembler/bin/IndexReaderUtils
 search_command: target/appassembler/bin/SearchCollection
 topic_root: src/main/resources/topics-and-qrels/
 qrels_root: src/main/resources/topics-and-qrels/
 index_root:
 ranking_root:
-collection: TrecCollection
-generator: LuceneDocumentGenerator
+collection: CleanTrecCollection
+generator: DefaultLuceneDocumentGenerator
 threads: 16
 index_options:
   - -storePositions
   - -storeDocvectors
-  - -storeRawDocs
+  - -storeRaw
   - -language ar
 search_options:
   - -language ar
@@ -48,7 +48,7 @@ input_roots:
   - /store/      # on orca
   - /scratch2/   # on damiano
 input: collections/newswire/clir/trec.ar/arabic_newswire_a_ldc2001t55/transcripts
-index_path: indexes/lucene-index.trec02-ar.pos+docvectors+rawdocs
+index_path: indexes/lucene-index.trec02-ar.pos+docvectors+raw
 index_stats:
   documents: 383872
   documents (non-empty): 383872

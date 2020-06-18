@@ -53,15 +53,12 @@ def check_output(command):
 
 def get_index_path(yaml_data):
     """Find the index path."""
-    index_path = os.path.join('lucene-index.{0}.pos+docvectors{1}'.format(yaml_data['name'], \
-        '+rawdocs' if '-storeRawDocs' in yaml_data['index_options'] else ''))
-    if not os.path.exists(index_path):
-        index_path = yaml_data['index_path']
-        if not index_path or not os.path.exists(index_path):
-            for input_root in yaml_data['input_roots']:
-                if os.path.exists(os.path.join(input_root, yaml_data['index_path'])):
-                    index_path = os.path.join(input_root, yaml_data['index_path'])
-                    break
+    index_path = yaml_data['index_path']
+    if not index_path or not os.path.exists(index_path):
+        for input_root in yaml_data['input_roots']:
+            index_path = os.path.join(input_root, yaml_data['index_path'])
+            if os.path.exists(index_path):
+                break
     return index_path
 
 
@@ -99,14 +96,16 @@ def construct_indexing_command(yaml_data, args):
     else:
         threads = yaml_data['threads']
 
+    if not os.path.exists('indexes'):
+        os.makedirs('indexes')
+
     index_command = [
         os.path.join(yaml_data['root'], yaml_data['index_command']),
         '-collection', yaml_data['collection'],
         '-generator', yaml_data['generator'],
         '-threads', str(threads),
         '-input', collection_path,
-        '-index', 'lucene-index.{0}.pos+docvectors{1}'
-            .format(yaml_data['name'], '+rawdocs' if '-storeRawDocs' in yaml_data['index_options'] else '')
+        '-index', yaml_data['index_path']
     ]
     index_command.extend(yaml_data['index_options'])
     return index_command
@@ -181,7 +180,7 @@ def evaluate_and_verify(output_root, yaml_data, fail_eval, dry_run):
         for i, topic in enumerate(yaml_data['topics']):
             for eval in yaml_data['evals']:
                 eval_cmd = [
-                  os.path.join(yaml_data['root'], eval['command']),
+                  os.path.join(yaml_data['root'], 'tools/' + eval['command']),
                   ' '.join(eval['params']) if eval['params'] else '',
                   os.path.join(yaml_data['root'], yaml_data['qrels_root'], topic['qrel']),
                   os.path.join(output_root, 'run.{0}.{1}.{2}'.format(yaml_data['name'], model['name'], topic['path']))
@@ -232,7 +231,7 @@ if __name__ == '__main__':
     parser.add_argument('--n', dest='parallelism', type=int, default=4, help='number of parallel threads for ranking')
     parser.add_argument('--fail_eval', dest='fail_eval', action='store_true',
                         help='fail when any run does not match expected effectiveness')
-    parser.add_argument('--output_root', default='runs.regression', help='output directory of all results')
+    parser.add_argument('--output_root', default='runs', help='output directory of all results')
 
     parser.add_argument('--indexing_threads', type=int, default=-1, help='override number of indexing threads from YAML')
     parser.add_argument('--collection_path', default='', help='override collection input path from YAML')

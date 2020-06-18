@@ -17,6 +17,7 @@
 package io.anserini.analysis;
 
 import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.analysis.CharArraySet;
 import org.junit.Test;
 
 import java.util.List;
@@ -24,28 +25,61 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 
 public class EnglishStemmingAnalyzerTest {
+  private static final String INPUT = "City buses are running on schedule.";
+
+  private static final List<String> PORTER_STOP_DEFAULT = List.of("citi", "buse", "run", "schedul");
+  private static final List<String> PORTER_STOP_CUSTOM = List.of("citi", "buse", "run", "on", "schedul");
+  private static final List<String> PORTER_NOSTOP = List.of("citi", "buse", "ar", "run", "on", "schedul");
+
+  private static final List<String> KROVETZ_STOP_DEFAULT = List.of("city", "bus", "running", "schedule");
+  private static final List<String> KROVETZ_STOP_CUSTOM = List.of("city", "bus", "running", "on", "schedule");
+  private static final List<String> KROVETZ_NOSTOP = List.of("city", "bus", "are", "running", "on", "schedule");
+
+  private static final List<String> NOSTEM_STOP_DEFAULT = List.of("city", "buses", "running", "schedule");
+  private static final List<String> NOSTEM_STOP_CUSTOM = List.of("city", "buses", "running", "on", "schedule");
+  private static final List<String> NOSTEM_NOSTOP = List.of("city", "buses", "are", "running", "on", "schedule");
+
+  private Analyzer analyzer;
+
   @Test
   public void test1() {
-    Analyzer analyzer = new EnglishStemmingAnalyzer("porter");
-    List<String> tokens = AnalyzerUtils.tokenize(analyzer, "city buses are running on schedule");
+    // Default is Porter stemming.
+    analyzer = DefaultEnglishAnalyzer.newDefaultInstance();
+    assertEquals(PORTER_STOP_DEFAULT, AnalyzerUtils.analyze(analyzer, INPUT));
 
-    assertEquals(4, tokens.size());
-    assertEquals("citi", tokens.get(0));
-    assertEquals("buse", tokens.get(1));
-    assertEquals("run", tokens.get(2));
-    assertEquals("schedul", tokens.get(3));
-  }
+    analyzer = DefaultEnglishAnalyzer.newStemmingInstance("porter");
+    assertEquals(PORTER_STOP_DEFAULT, AnalyzerUtils.analyze(analyzer, INPUT));
+
+    analyzer = DefaultEnglishAnalyzer.newStemmingInstance("porter",
+        new CharArraySet(List.of("are"), true));
+    assertEquals(PORTER_STOP_CUSTOM, AnalyzerUtils.analyze(analyzer, INPUT));
+
+    analyzer = DefaultEnglishAnalyzer.newStemmingInstance("porter", CharArraySet.EMPTY_SET);
+    assertEquals(PORTER_NOSTOP, AnalyzerUtils.analyze(analyzer, INPUT));
+}
 
   @Test
   public void test2() {
-    Analyzer analyzer = new EnglishStemmingAnalyzer("krovetz");
-    List<String> tokens = AnalyzerUtils.tokenize(analyzer, "city buses are running on schedule");
+    analyzer = DefaultEnglishAnalyzer.newStemmingInstance("krovetz");
+    assertEquals(KROVETZ_STOP_DEFAULT, AnalyzerUtils.analyze(analyzer, INPUT));
 
-    assertEquals(4, tokens.size());
-    assertEquals("city", tokens.get(0));
-    assertEquals("bus", tokens.get(1));
-    assertEquals("running", tokens.get(2));
-    assertEquals("schedule", tokens.get(3));
+    analyzer = DefaultEnglishAnalyzer.newStemmingInstance("krovetz",
+        new CharArraySet(List.of("are"), true));
+    assertEquals(KROVETZ_STOP_CUSTOM, AnalyzerUtils.analyze(analyzer, INPUT));
+
+    analyzer = DefaultEnglishAnalyzer.newStemmingInstance("krovetz", CharArraySet.EMPTY_SET);
+    assertEquals(KROVETZ_NOSTOP, AnalyzerUtils.analyze(analyzer, INPUT));
   }
 
+  @Test
+  public void test3() {
+    analyzer = DefaultEnglishAnalyzer.newNonStemmingInstance();
+    assertEquals(NOSTEM_STOP_DEFAULT, AnalyzerUtils.analyze(analyzer, INPUT));
+
+    analyzer = DefaultEnglishAnalyzer.newNonStemmingInstance(new CharArraySet(List.of("are"), true));
+    assertEquals(NOSTEM_STOP_CUSTOM, AnalyzerUtils.analyze(analyzer, INPUT));
+
+    analyzer = DefaultEnglishAnalyzer.newNonStemmingInstance(CharArraySet.EMPTY_SET);
+    assertEquals(NOSTEM_NOSTOP, AnalyzerUtils.analyze(analyzer, INPUT));
+  }
 }

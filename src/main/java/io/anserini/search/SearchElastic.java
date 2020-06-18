@@ -16,6 +16,7 @@
 
 package io.anserini.search;
 
+import io.anserini.index.IndexArgs;
 import io.anserini.index.generator.TweetGenerator;
 import io.anserini.rerank.ScoredDocuments;
 import io.anserini.rerank.lib.ScoreTiesAdjusterReranker;
@@ -30,6 +31,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.client.HttpAsyncResponseConsumerFactory;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestHighLevelClient;
@@ -62,8 +64,6 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.concurrent.TimeUnit;
 
-import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_ID;
-
 /*
 * Entry point of the Retrieval.
  */
@@ -73,6 +73,14 @@ public final class SearchElastic implements Closeable {
   private static final int TIMEOUT = 600 * 1000;
   private final Args args;
   private RestHighLevelClient client;
+
+  private static final RequestOptions COMMON_OPTIONS;
+  static {
+    RequestOptions.Builder builder = RequestOptions.DEFAULT.toBuilder();
+    builder.setHttpAsyncResponseConsumerFactory(
+      new HttpAsyncResponseConsumerFactory.HeapBufferedResponseConsumerFactory(1024 * 1024 * 1024));
+    COMMON_OPTIONS = builder.build();
+  }
 
   public static final class Args {
 
@@ -163,7 +171,7 @@ public final class SearchElastic implements Closeable {
            */
           for (int i = 0; i < docs.documents.length; i++) {
             out.println(String.format(Locale.US, "%s Q0 %s %d %f %s", qid,
-                    docs.documents[i].getField(FIELD_ID).stringValue(), (i + 1), docs.scores[i], runTag));
+                    docs.documents[i].getField(IndexArgs.ID).stringValue(), (i + 1), docs.scores[i], runTag));
           }
         }
         out.flush();
@@ -237,11 +245,11 @@ public final class SearchElastic implements Closeable {
     sourceBuilder.query(query);
     sourceBuilder.size(args.hits);
     sourceBuilder.sort(new ScoreSortBuilder().order(SortOrder.DESC));
-    sourceBuilder.sort(new FieldSortBuilder(FIELD_ID).order(SortOrder.ASC));
+    sourceBuilder.sort(new FieldSortBuilder(IndexArgs.ID).order(SortOrder.ASC));
     searchRequest.source(sourceBuilder);
 
     try {
-      SearchResponse searchResponse = client.search(searchRequest, RequestOptions.DEFAULT);
+      SearchResponse searchResponse = client.search(searchRequest, COMMON_OPTIONS);
       results = searchResponse.getHits();
     } catch (Exception e) {
       LOG.error("Exception during ES query: ", e);
@@ -266,7 +274,7 @@ public final class SearchElastic implements Closeable {
     // <querytweettime> tag contains the timestamp of the query in terms of the
     // chronologically nearest tweet id within the corpus
     RangeQueryBuilder queryTweetTime = QueryBuilders
-            .rangeQuery(TweetGenerator.StatusField.ID_LONG.name)
+            .rangeQuery(TweetGenerator.TweetField.ID_LONG.name)
             .from(0L)
             .to(t);
 
@@ -284,11 +292,11 @@ public final class SearchElastic implements Closeable {
     sourceBuilder.query(query);
     sourceBuilder.size(args.hits);
     sourceBuilder.sort(new ScoreSortBuilder().order(SortOrder.DESC));
-    sourceBuilder.sort(new FieldSortBuilder(TweetGenerator.StatusField.ID_LONG.name).order(SortOrder.DESC));
+    sourceBuilder.sort(new FieldSortBuilder(TweetGenerator.TweetField.ID_LONG.name).order(SortOrder.DESC));
     searchRequest.source(sourceBuilder);
 
     try {
-      SearchResponse searchResponse = client.search(searchRequest, RequestOptions.DEFAULT);
+      SearchResponse searchResponse = client.search(searchRequest, COMMON_OPTIONS);
       results = searchResponse.getHits();
     } catch (Exception e) {
       LOG.error("Exception during ES query: ", e);

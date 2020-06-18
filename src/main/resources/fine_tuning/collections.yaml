@@ -3,22 +3,20 @@ search_command: target/appassembler/bin/SearchCollection
 topic_root: src/main/resources/topics-and-qrels/
 qrels_root: src/main/resources/topics-and-qrels/
 index_roots:
-  - /tuna1/
-  - /scratch2/indexes/lucene6/
-  - /scratch2/
+  - ./
 collections:
     robust04:
       name: robust04
-      index_path: indexes/lucene-index.robust04.pos+docvectors+rawdocs
+      index_path: indexes/lucene-index.robust04.pos+docvectors+raw
       index_options:
         - -storePositions
         - -storeDocvectors
-        - -storeRawDocs
+        - -storeRaw
       collection: TrecCollection
       generator: JsoupGenerator
       topic_reader: Trec
       topic: topics.robust04.txt
-      qrel: qrels.robust2004.txt
+      qrel: qrels.robust04.txt
       evals:
         - command: eval/trec_eval.9.0.4/trec_eval
           params: -m map -q
@@ -46,7 +44,7 @@ collections:
       index_options:
         - -storePositions
         - -storeDocvectors
-        - -storeRawDocs
+        - -storeRaw
       collection: ClueWeb09Collection
       generator: JsoupGenerator
       topic_reader: Webxml

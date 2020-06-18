@@ -36,7 +36,8 @@ import java.util.Iterator;
  */
 public class CarCollection extends DocumentCollection<CarCollection.Document> {
 
-  public CarCollection(){
+  public CarCollection(Path path) {
+    this.path = path;
     this.allowedFileSuffix = new HashSet<>(Arrays.asList(".cbor"));
   }
 
@@ -52,7 +53,7 @@ public class CarCollection extends DocumentCollection<CarCollection.Document> {
     private final FileInputStream stream;
     private final Iterator<Data.Paragraph> iter;
 
-    protected Segment(Path path) throws IOException {
+    public Segment(Path path) throws IOException {
       super(path);
       stream = new FileInputStream(new File(path.toString()));
       iter = DeserializeData.iterableParagraphs(stream).iterator();
@@ -90,7 +91,12 @@ public class CarCollection extends DocumentCollection<CarCollection.Document> {
     }
 
     @Override
-    public String content() {
+    public String contents() {
+      return paragraph;
+    }
+
+    @Override
+    public String raw() {
       return paragraph;
     }
 

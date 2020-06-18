@@ -20,13 +20,16 @@ import com.google.common.base.Charsets;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import com.google.common.hash.Hashing;
-import io.anserini.analysis.EnglishStemmingAnalyzer;
+import io.anserini.analysis.DefaultEnglishAnalyzer;
 import io.anserini.analysis.TweetAnalyzer;
 import io.anserini.collection.DocumentCollection;
 import io.anserini.collection.FileSegment;
 import io.anserini.collection.SourceDocument;
+import io.anserini.index.generator.EmptyDocumentException;
+import io.anserini.index.generator.InvalidDocumentException;
 import io.anserini.index.generator.LuceneDocumentGenerator;
-import io.anserini.index.generator.WapoGenerator;
+import io.anserini.index.generator.SkippedDocumentException;
+import io.anserini.index.generator.WashingtonPostGenerator;
 import io.anserini.search.similarity.AccurateBM25Similarity;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.time.DurationFormatUtils;
@@ -84,11 +87,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -101,11 +100,12 @@ public final class IndexCollection {
 
   private static final int TIMEOUT = 600 * 1000;
   // This is the default analyzer used, unless another stemming algorithm or language is specified.
-  public static final Analyzer DEFAULT_ANALYZER = new EnglishStemmingAnalyzer("porter");
+  public static final Analyzer DEFAULT_ANALYZER = DefaultEnglishAnalyzer.newDefaultInstance();
 
   // When duplicates of these fields are attempted to be indexed in Solr, they are ignored. This allows some fields to be multi-valued, but not others.
   // Stored vs. indexed vs. doc values vs. multi-valued vs. ... are controlled via config, rather than code, in Solr.
-  private static final List<String> IGNORED_DUPLICATE_FIELDS = Lists.newArrayList(WapoGenerator.WapoField.PUBLISHED_DATE.name);
+  private static final List<String> IGNORED_DUPLICATE_FIELDS =
+      Lists.newArrayList(WashingtonPostGenerator.WashingtonPostField.PUBLISHED_DATE.name);
 
   public final class Counters {
     /**
@@ -151,13 +151,11 @@ public final class IndexCollection {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public void run() {
       try {
-        @SuppressWarnings("unchecked")
-        LuceneDocumentGenerator generator =
-            (LuceneDocumentGenerator) generatorClass
-                .getDeclaredConstructor(IndexArgs.class, Counters.class)
-                .newInstance(args, counters);
+        LuceneDocumentGenerator generator = (LuceneDocumentGenerator)
+            generatorClass.getDeclaredConstructor(IndexArgs.class).newInstance(args);
 
         // We keep track of two separate counts: the total count of documents in this file segment (cnt),
         // and the number of documents in this current "batch" (batch). We update the global counter every
@@ -166,15 +164,11 @@ public final class IndexCollection {
         int cnt = 0;
         int batch = 0;
 
-        @SuppressWarnings("unchecked")
-        FileSegment<SourceDocument> segment =
-            (FileSegment) collection.createFileSegment(inputFile);
+        FileSegment<SourceDocument> segment = collection.createFileSegment(inputFile);
         // in order to call close() and clean up resources in case of exception
         this.fileSegment = segment;
 
-        for (Object document : segment) {
-          SourceDocument d = (SourceDocument) document;
-
+        for (SourceDocument d : segment) {
           if (!d.indexable()) {
             counters.unindexable.incrementAndGet();
             continue;
@@ -189,10 +183,17 @@ public final class IndexCollection {
             }
           }
 
-          // Yes, we know what we're doing here.
-          @SuppressWarnings("unchecked")
-          Document doc = generator.createDocument(d);
-          if (doc == null) {
+          Document doc;
+          try {
+            doc = generator.createDocument(d);
+          } catch (EmptyDocumentException e1) {
+            counters.empty.incrementAndGet();
+            continue;
+          } catch (SkippedDocumentException e2) {
+            counters.skipped.incrementAndGet();
+            continue;
+          } catch (InvalidDocumentException e3) {
+            counters.errors.incrementAndGet();
             continue;
           }
 
@@ -239,13 +240,8 @@ public final class IndexCollection {
       } catch (Exception e) {
         LOG.error(Thread.currentThread().getName() + ": Unexpected Exception:", e);
       } finally {
-        // clean up resources
-        try {
-          if (fileSegment != null){
+        if (fileSegment != null) {
             fileSegment.close();
-          }
-        } catch (IOException io) {
-          LOG.error("IOException closing segment: " + io.getMessage());
         }
       }
     }
@@ -263,25 +259,25 @@ public final class IndexCollection {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public void run() {
       try {
-        @SuppressWarnings("unchecked")
-        LuceneDocumentGenerator generator =
-            (LuceneDocumentGenerator) generatorClass
-                .getDeclaredConstructor(IndexArgs.class, Counters.class)
-                .newInstance(args, counters);
+        LuceneDocumentGenerator generator = (LuceneDocumentGenerator)
+            generatorClass.getDeclaredConstructor(IndexArgs.class).newInstance(args);
 
+        // We keep track of two separate counts: the total count of documents in this file segment (cnt),
+        // and the number of documents in this current "batch" (batch). We update the global counter every
+        // 10k documents: this is so that we get intermediate updates, which is informative if a collection
+        // has only one file segment; see https://github.com/castorini/anserini/issues/683
         int cnt = 0;
+        int batch = 0;
 
         @SuppressWarnings("unchecked")
-        FileSegment<SourceDocument> segment =
-            (FileSegment) collection.createFileSegment(input);
+        FileSegment<SourceDocument> segment = (FileSegment) collection.createFileSegment(input);
         // in order to call close() and clean up resources in case of exception
         this.fileSegment = segment;
 
-        for (Object d : segment) {
-          SourceDocument sourceDocument = (SourceDocument) d;
-
+        for (SourceDocument sourceDocument : segment) {
           if (!sourceDocument.indexable()) {
             counters.unindexable.incrementAndGet();
             continue;
@@ -296,10 +292,17 @@ public final class IndexCollection {
             }
           }
 
-          // Yes, we know what we're doing here.
-          @SuppressWarnings("unchecked")
-          Document document = generator.createDocument(sourceDocument);
-          if (document == null) {
+          Document document;
+          try {
+            document = generator.createDocument(sourceDocument);
+          } catch (EmptyDocumentException e1) {
+            counters.empty.incrementAndGet();
+            continue;
+          } catch (SkippedDocumentException e2) {
+            counters.skipped.incrementAndGet();
+            continue;
+          } catch (InvalidDocumentException e3) {
+            counters.errors.incrementAndGet();
             continue;
           }
 
@@ -334,12 +337,22 @@ public final class IndexCollection {
           }
 
           cnt++;
+          batch++;
+
+          // And the counts from this batch, reset batch counter.
+          if (batch % 10000 == 0) {
+            counters.indexed.addAndGet(batch);
+            batch = 0;
+          }
         }
 
         // If we have docs in the buffer, flush them.
         if (!buffer.isEmpty()) {
           flush();
         }
+
+        // Add the remaining documents.
+        counters.indexed.addAndGet(batch);
 
         int skipped = segment.getSkippedCount();
         if (skipped > 0) {
@@ -358,20 +371,13 @@ public final class IndexCollection {
         // Log at the debug level because this can be quite noisy if there are lots of file segments.
         LOG.debug(input.getParent().getFileName().toString() + File.separator +
             input.getFileName().toString() + ": " + cnt + " docs added.");
-        counters.indexed.addAndGet(cnt);
       } catch (Exception e) {
         LOG.error(Thread.currentThread().getName() + ": Unexpected Exception:", e);
       } finally {
-        // clean up resources
-        try {
-          if (fileSegment != null){
-            fileSegment.close();
-          }
-        } catch (IOException io) {
-          LOG.error("IOException closing segment: " + io.getMessage());
+        if (fileSegment != null) {
+          fileSegment.close();
         }
       }
-
     }
 
     private void flush() {
@@ -429,26 +435,24 @@ public final class IndexCollection {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public void run() {
       try {
+        LuceneDocumentGenerator generator = (LuceneDocumentGenerator)
+            generatorClass.getDeclaredConstructor(IndexArgs.class).newInstance(args);
 
-        @SuppressWarnings("unchecked")
-        LuceneDocumentGenerator generator =
-            (LuceneDocumentGenerator) generatorClass
-                .getDeclaredConstructor(IndexArgs.class, Counters.class)
-                .newInstance(args, counters);
+        // We keep track of two separate counts: the total count of documents in this file segment (cnt),
+        // and the number of documents in this current "batch" (batch). We update the global counter every
+        // 10k documents: this is so that we get intermediate updates, which is informative if a collection
+        // has only one file segment; see https://github.com/castorini/anserini/issues/683
+        int cnt = 0;
+        int batch = 0;
 
-        @SuppressWarnings("unchecked")
-        FileSegment<SourceDocument> segment =
-            (FileSegment) collection.createFileSegment(input);
+        FileSegment<SourceDocument> segment = collection.createFileSegment(input);
         // in order to call close() and clean up resources in case of exception
         this.fileSegment = segment;
 
-        int cnt = 0;
-
-        for (Object d : segment) {
-          SourceDocument sourceDocument = (SourceDocument) d;
-
+        for (SourceDocument sourceDocument : segment) {
           if (!sourceDocument.indexable()) {
             counters.unindexable.incrementAndGet();
             continue;
@@ -463,10 +467,17 @@ public final class IndexCollection {
             }
           }
 
-          // Yes, we know what we're doing here.
-          @SuppressWarnings("unchecked")
-          Document document = generator.createDocument(sourceDocument);
-          if (document == null) {
+          Document document;
+          try {
+            document = generator.createDocument(sourceDocument);
+          } catch (EmptyDocumentException e1) {
+            counters.empty.incrementAndGet();
+            continue;
+          } catch (SkippedDocumentException e2) {
+            counters.skipped.incrementAndGet();
+            continue;
+          } catch (InvalidDocumentException e3) {
+            counters.errors.incrementAndGet();
             continue;
           }
 
@@ -508,11 +519,21 @@ public final class IndexCollection {
           }
 
           cnt++;
+          batch++;
+
+          // And the counts from this batch, reset batch counter.
+          if (batch % 10000 == 0) {
+            counters.indexed.addAndGet(batch);
+            batch = 0;
+          }
         }
 
         if (bulkRequest.numberOfActions() != 0) {
           sendBulkRequest();
         }
+
+        // Add the remaining documents.
+        counters.indexed.addAndGet(batch);
 
         int skipped = segment.getSkippedCount();
         if (skipped > 0) {
@@ -531,17 +552,11 @@ public final class IndexCollection {
         // Log at the debug level because this can be quite noisy if there are lots of file segments.
         LOG.debug(input.getParent().getFileName().toString() + File.separator +
             input.getFileName().toString() + ": " + cnt + " docs added.");
-        counters.indexed.addAndGet(cnt);
       } catch (Exception e) {
         LOG.error(Thread.currentThread().getName() + ": Unexpected Exception:", e);
       } finally {
-        // clean up resources
-        try {
-          if (fileSegment != null){
-            fileSegment.close();
-          }
-        } catch (IOException io) {
-          LOG.error("IOException closing segment: " + io.getMessage());
+        if (fileSegment != null){
+          fileSegment.close();
         }
       }
     }
@@ -604,6 +619,7 @@ public final class IndexCollection {
   private ObjectPool<SolrClient> solrPool;
   private ObjectPool<RestHighLevelClient> esPool;
 
+  @SuppressWarnings("unchecked")
   public IndexCollection(IndexArgs args) throws Exception {
     this.args = args;
 
@@ -628,10 +644,11 @@ public final class IndexCollection {
     LOG.info("Threads: " + args.threads);
     LOG.info("Stemmer: " + args.stemmer);
     LOG.info("Keep stopwords? " + args.keepStopwords);
+    LOG.info("Stopwords:  " + args.stopwords);
     LOG.info("Store positions? " + args.storePositions);
     LOG.info("Store docvectors? " + args.storeDocvectors);
-    LOG.info("Store transformed docs? " + args.storeTransformedDocs);
-    LOG.info("Store raw docs? " + args.storeRawDocs);
+    LOG.info("Store document \"contents\" field? " + args.storeContents);
+    LOG.info("Store document \"raw\" field? " + args.storeRaw);
     LOG.info("Optimize (merge segments)? " + args.optimize);
     LOG.info("Whitelist: " + args.whitelist);
 
@@ -676,9 +693,8 @@ public final class IndexCollection {
     this.generatorClass = Class.forName("io.anserini.index.generator." + args.generatorClass);
     this.collectionClass = Class.forName("io.anserini.collection." + args.collectionClass);
 
-    // There's only one constructor, so this is safe-ish... skipping any sort of error checking.
-    collection = (DocumentCollection) this.collectionClass.getDeclaredConstructors()[0].newInstance();
-    collection.setCollectionPath(collectionPath);
+    // Initialize the collection.
+    collection = (DocumentCollection) this.collectionClass.getConstructor(Path.class).newInstance(collectionPath);
 
     if (args.whitelist != null) {
       List<String> lines = FileUtils.readLines(new File(args.whitelist), "utf-8");
@@ -719,8 +735,16 @@ public final class IndexCollection {
       final BengaliAnalyzer bengaliAnalyzer = new BengaliAnalyzer();
       final GermanAnalyzer germanAnalyzer = new GermanAnalyzer();
       final SpanishAnalyzer spanishAnalyzer = new SpanishAnalyzer();
-      final EnglishStemmingAnalyzer analyzer = args.keepStopwords ?
-          new EnglishStemmingAnalyzer(args.stemmer, CharArraySet.EMPTY_SET) : new EnglishStemmingAnalyzer(args.stemmer);
+      final DefaultEnglishAnalyzer analyzer;
+      if (args.keepStopwords) {
+        analyzer = DefaultEnglishAnalyzer.newStemmingInstance(args.stemmer, CharArraySet.EMPTY_SET);
+      } else if (args.stopwords != null) {
+        final List<String> stopWords = FileUtils.readLines(new File(args.stopwords), "utf-8");
+        final CharArraySet stopWordsSet = new CharArraySet(stopWords, false);
+        analyzer = DefaultEnglishAnalyzer.newStemmingInstance(args.stemmer, CharArraySet.unmodifiableSet(stopWordsSet));
+      } else {
+        analyzer = DefaultEnglishAnalyzer.newStemmingInstance(args.stemmer);
+      }
       final TweetAnalyzer tweetAnalyzer = new TweetAnalyzer(args.tweetStemming);
 
       final IndexWriterConfig config;
@@ -760,7 +784,7 @@ public final class IndexCollection {
     LOG.info("Thread pool with " + numThreads + " threads initialized.");
 
     LOG.info("Initializing collection in " + collectionPath.toString());
-    final List segmentPaths = collection.discover(collection.getCollectionPath());
+    final List segmentPaths = collection.getSegmentPaths();
     final int segmentCnt = segmentPaths.size();
     LOG.info(String.format("%,d %s found", segmentCnt, (segmentCnt == 1 ? "file" : "files" )));
     LOG.info("Starting to index...");

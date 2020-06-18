@@ -81,8 +81,20 @@ class SolrClient:
         command = ''
         if collection == 'core18':
             command = 'sh target/appassembler/bin/IndexCollection -collection WashingtonPostCollection ' + \
-                      '-generator WapoGenerator -solr -solr.index core18 -solr.zkUrl localhost:9983 ' + \
-                      '-threads 8 -input ' + path + ' -storePositions -storeDocvectors -storeTransformedDocs'
+                      '-generator WashingtonPostGenerator -solr -solr.index core18 -solr.zkUrl localhost:9983 ' + \
+                      '-threads 8 -input ' + path + ' -storePositions -storeDocvectors -storeContents'
+        elif collection == 'robust04':
+            command = 'sh target/appassembler/bin/IndexCollection -collection TrecCollection ' + \
+                      '-generator DefaultLuceneDocumentGenerator -solr -solr.index robust04 -solr.zkUrl localhost:9983 ' + \
+                      '-threads 8 -input ' + path + ' -storePositions -storeDocvectors -storeRaw'
+        elif collection == 'msmarco-passage':
+            command = 'sh target/appassembler/bin/IndexCollection -collection JsonCollection ' + \
+                      '-generator DefaultLuceneDocumentGenerator -solr -solr.index msmarco-passage -solr.zkUrl localhost:9983 ' + \
+                      '-threads 8 -input ' + path + ' -storePositions -storeDocvectors -storeRaw'
+        elif collection == 'msmarco-doc':
+            command = 'sh target/appassembler/bin/IndexCollection -collection CleanTrecCollection ' + \
+                      '-generator DefaultLuceneDocumentGenerator -solr -solr.index msmarco-doc -solr.zkUrl localhost:9983 ' + \
+                      '-threads 8 -input ' + path + ' -storePositions -storeDocvectors -storeRaw'
         else:
             raise Exception('Unknown collection: {}'.format(collection))
         logger.info('Running indexing command: ' + command)
@@ -106,7 +118,19 @@ class SolrClient:
         if collection == 'core18':
             command = 'sh target/appassembler/bin/SearchSolr -topicreader Trec -solr.index core18 ' + \
                       '-solr.zkUrl localhost:9983 -topics src/main/resources/topics-and-qrels/topics.core18.txt ' + \
-                      '-output run.solr.core18.bm25.topics.core18.txt'
+                      '-output runs/run.solr.core18.bm25.topics.core18.txt'
+        elif collection == 'robust04':
+            command = 'sh target/appassembler/bin/SearchSolr -topicreader Trec -solr.index robust04 ' + \
+                      '-solr.zkUrl localhost:9983 -topics src/main/resources/topics-and-qrels/topics.robust04.txt ' + \
+                      '-output runs/run.solr.robust04.bm25.topics.robust04.txt'
+        elif collection == 'msmarco-passage':
+            command = 'sh target/appassembler/bin/SearchSolr -topicreader TsvString -solr.index msmarco-passage ' + \
+                      '-solr.zkUrl localhost:9983 -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt ' + \
+                      '-output runs/run.solr.msmarco-passage.txt'
+        elif collection == 'msmarco-doc':
+            command = 'sh target/appassembler/bin/SearchSolr -topicreader TsvInt -solr.index msmarco-doc ' + \
+                      '-solr.zkUrl localhost:9983 -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt ' + \
+                      '-output runs/run.solr.msmarco-doc.txt '
         else:
             raise Exception('Unknown collection: {}'.format(collection))
 
@@ -116,7 +140,16 @@ class SolrClient:
 
         if collection == 'core18':
             command = 'eval/trec_eval.9.0.4/trec_eval -m map -m P.30 ' + \
-                      'src/main/resources/topics-and-qrels/qrels.core18.txt run.solr.core18.bm25.topics.core18.txt'
+                      'src/main/resources/topics-and-qrels/qrels.core18.txt runs/run.solr.core18.bm25.topics.core18.txt'
+        elif collection == 'robust04':
+            command = 'eval/trec_eval.9.0.4/trec_eval -m map -m P.30 ' + \
+                      'src/main/resources/topics-and-qrels/qrels.robust04.txt runs/run.solr.robust04.bm25.topics.robust04.txt'
+        elif collection == 'msmarco-passage':
+            command = 'eval/trec_eval.9.0.4/trec_eval  -c -mrecall.1000 -mmap ' + \
+                      'src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.solr.msmarco-passage.txt'
+        elif collection == 'msmarco-doc':
+            command = 'eval/trec_eval.9.0.4/trec_eval  -c -mrecall.1000 -mmap ' + \
+                      'src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.solr.msmarco-doc.txt'
         else:
             raise Exception('Unknown collection: {}'.format(collection))
 
@@ -126,6 +159,9 @@ class SolrClient:
 
         expected = 0
         if collection == 'core18': expected = 0.2495
+        elif collection == 'robust04': expected = 0.2531
+        elif collection == 'msmarco-passage': expected = 0.1926
+        elif collection == 'msmarco-doc': expected = 0.2310
         else: raise Exception('Unknown collection: {}'.format(collection))
 
         if math.isclose(ap, expected): logger.info('[SUCESS] {} MAP verified as expected!'.format(ap))

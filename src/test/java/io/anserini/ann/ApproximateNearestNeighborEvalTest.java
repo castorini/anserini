@@ -27,7 +27,7 @@ public class ApproximateNearestNeighborEvalTest {
   public void evalFWTest() throws Exception {
     String path = "target/idx-sample-fw";
     String encoding = "fw";
-    IndexVectorsTest.createIndex(path, encoding);
+    IndexVectorsTest.createIndex(path, encoding, false);
     String[] args = new String[]{"-encoding", encoding, "-input", "src/test/resources/mini-word-vectors.txt", "-path",
         path, "-topics", "src/test/resources/sample_topics/Trec"};
     ApproximateNearestNeighborEval.main(args);
@@ -37,7 +37,7 @@ public class ApproximateNearestNeighborEvalTest {
   public void evalLLTest() throws Exception {
     String path = "target/idx-sample-ll";
     String encoding = "lexlsh";
-    IndexVectorsTest.createIndex(path, encoding);
+    IndexVectorsTest.createIndex(path, encoding, false);
     String[] args = new String[]{"-encoding", encoding, "-input", "src/test/resources/mini-word-vectors.txt", "-path",
         path, "-topics", "src/test/resources/sample_topics/Trec"};
     ApproximateNearestNeighborEval.main(args);

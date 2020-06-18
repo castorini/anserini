@@ -30,11 +30,18 @@ public interface SourceDocument {
   String id();
 
   /**
+   * Returns the contents of the document to be searched.
+   *
+   * @return the contents of the document to be searched
+   */
+  String contents();
+
+  /**
    * Returns the raw content of the document.
    *
    * @return the raw content of the document
    */
-  String content();
+  String raw();
 
   /**
    * Returns whether this document is meant to be indexed. Certain collections (e.g., ClueWeb)

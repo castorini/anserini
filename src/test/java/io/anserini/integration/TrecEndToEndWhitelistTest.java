@@ -16,22 +16,37 @@
 
 package io.anserini.integration;
 
+import io.anserini.collection.TrecCollection;
+import io.anserini.index.IndexArgs;
+
+import java.util.Map;
+
 public class TrecEndToEndWhitelistTest extends EndToEndTest {
+  @Override
+  protected IndexArgs getIndexArgs() {
+    IndexArgs indexArgs = createDefaultIndexArgs();
+
+    indexArgs.input = "src/test/resources/sample_docs/trec/collection2";
+    indexArgs.collectionClass = TrecCollection.class.getSimpleName();
+    indexArgs.whitelist = "src/test/resources/sample_docs/trec/collection2/whitelist.txt";
+    // With a whitelist, we're only indexing DOC222
+
+    return indexArgs;
+  }
 
   @Override
-  protected void init() throws Exception {
-    dataDirPath = "trec";
-    collectionClass = "Trec";
-    generator = "Jsoup";
-    topicReader = "Trec";
-
+  protected void setCheckIndexGroundTruth() {
     docCount = 1;
-
-    counterIndexed = 1;
-    counterEmpty = 0;
-    counterUnindexable = 0;
-    counterSkipped = 2;
-    counterErrors = 0;
+    documents.put("DOC222", Map.of(
+        "contents", "HEAD simple enough text text text",
+        "raw", "<HEAD>HEAD</HEAD>\n" +
+            "<TEXT>\n" +
+            "simple\n" +
+            "enough\n" +
+            "text\n" +
+            "text\n" +
+            "text\n" +
+            "</TEXT>"));
 
     fieldNormStatusTotalFields = 1;  // text
     termIndexStatusTermCount = 5;   // Note that standard analyzer ignores stopwords; includes docids.
@@ -39,16 +54,16 @@ public class TrecEndToEndWhitelistTest extends EndToEndTest {
     storedFieldStatusTotalDocCounts = 1;
     termIndexStatusTotPos = 7;
     storedFieldStatusTotFields = 3;
-
-    referenceRunOutput = new String[] {
-        "1 Q0 DOC222 1 0.372700 Anserini"
-    };
   }
 
   @Override
-  protected void setIndexingArgs() {
-    super.setIndexingArgs();
-    indexCollectionArgs.whitelist = "src/test/resources/sample_docs/trec/whitelist.txt";
-    // With a whitelist, we're only indexing DOC222
+  protected void setSearchGroundTruth() {
+    topicReader = "Trec";
+    topicFile = "src/test/resources/sample_topics/Trec";
+
+    testQueries.put("bm25", createDefaultSearchArgs().bm25());
+    referenceRunOutput.put("bm25", new String[]{
+        "1 Q0 DOC222 1 0.372700 Anserini"
+    });
   }
 }

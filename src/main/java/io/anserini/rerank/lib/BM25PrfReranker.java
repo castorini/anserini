@@ -16,6 +16,7 @@
 
 package io.anserini.rerank.lib;
 
+import io.anserini.index.IndexArgs;
 import io.anserini.rerank.Reranker;
 import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.ScoredDocuments;
@@ -47,7 +48,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static io.anserini.index.generator.LuceneDocumentGenerator.FIELD_BODY;
 import static io.anserini.search.SearchCollection.BREAK_SCORE_TIES_BY_DOCID;
 import static io.anserini.search.SearchCollection.BREAK_SCORE_TIES_BY_TWEETID;
 
@@ -95,9 +95,10 @@ public class BM25PrfReranker implements Reranker {
     BM25Similarity originalSimilarity = (BM25Similarity) searcher.getSimilarity();
     searcher.setSimilarity(new BM25PrfSimilarity(k1, b));
     IndexReader reader = searcher.getIndexReader();
-    List<String> originalQueryTerms = AnalyzerUtils.tokenize(analyzer, context.getQueryText());
+    List<String> originalQueryTerms = AnalyzerUtils.analyze(analyzer, context.getQueryText());
 
-    PrfFeatures fv = expandQuery(originalQueryTerms, docs, reader);
+    boolean useRf = (context.getSearchArgs().rf_qrels != null);
+    PrfFeatures fv = expandQuery(originalQueryTerms, docs, reader, useRf);
     Query newQuery = fv.toQuery();
 
     if (this.outputQuery) {
@@ -127,17 +128,25 @@ public class BM25PrfReranker implements Reranker {
     return ScoredDocuments.fromTopDocs(rs, searcher);
   }
 
-  private PrfFeatures expandQuery(List<String> originalTerms, ScoredDocuments docs, IndexReader reader) {
+  private PrfFeatures expandQuery(List<String> originalTerms, ScoredDocuments docs, IndexReader reader, boolean useRf) {
     PrfFeatures newFeatures = new PrfFeatures();
 
     Set<String> vocab = new HashSet<>();
 
     Map<Integer, Set<String>> docToTermsMap = new HashMap<>();
-    int numRelDocs = docs.documents.length < fbDocs ? docs.documents.length : fbDocs;
+    int numFbDocs;
+    if (useRf){
+      numFbDocs = docs.documents.length;
+    } else {
+      numFbDocs = docs.documents.length < fbDocs ? docs.documents.length : fbDocs;
+    }
     int numDocs = reader.numDocs();
 
-    for (int i = 0; i < numRelDocs; i++) {
+    for (int i = 0; i < numFbDocs; i++) {
       try {
+        if (useRf && docs.scores[i] <= 0){
+          continue;
+        }
         Terms terms = reader.getTermVector(docs.ids[i], field);
         Set<String> termsStr = getTermsStr(terms);
         docToTermsMap.put(docs.ids[i], termsStr);
@@ -146,6 +155,8 @@ public class BM25PrfReranker implements Reranker {
         e.printStackTrace();
       }
     }
+
+    int numRelDocs = docToTermsMap.size();
 
     Set<String> originalTermsSet = new HashSet<>(originalTerms);
 
@@ -157,11 +168,11 @@ public class BM25PrfReranker implements Reranker {
       if (term.matches("[0-9]+")) continue;
 
       try {
-        int df = reader.docFreq(new Term(FIELD_BODY, term));
+        int df = reader.docFreq(new Term(IndexArgs.CONTENTS, term));
         int dfRel = 0;
 
-        for (int i = 0; i < numRelDocs; i++) {
-          Set<String> terms = docToTermsMap.get(docs.ids[i]);
+        for (Map.Entry<Integer, Set<String>> entry : docToTermsMap.entrySet()) {
+          Set<String> terms = entry.getValue();
           if (terms.contains(term)) {
             dfRel++;
           }
@@ -180,11 +191,11 @@ public class BM25PrfReranker implements Reranker {
 
     for (String term : originalTerms) {
       try {
-        int df = reader.docFreq(new Term(FIELD_BODY, term));
+        int df = reader.docFreq(new Term(IndexArgs.CONTENTS, term));
         int dfRel = 0;
 
-        for (int i = 0; i < numRelDocs; i++) {
-          Set<String> terms = docToTermsMap.get(docs.ids[i]);
+        for (Map.Entry<Integer, Set<String>> entry : docToTermsMap.entrySet()) {
+          Set<String> terms = entry.getValue();
           if (terms.contains(term)) {
             dfRel++;
           }

@@ -18,6 +18,7 @@ package io.anserini.integration;
 
 import io.anserini.index.IndexArgs;
 import io.anserini.index.IndexCollection;
+import io.anserini.index.IndexReaderUtils;
 import io.anserini.search.SearchArgs;
 import io.anserini.search.SearchCollection;
 import org.apache.commons.io.FileUtils;
@@ -41,27 +42,26 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 // This automatically tests indexing, retrieval, and evaluation from end to end.
 // Subclasses inherit and special to different collections.
-@TestRuleLimitSysouts.Limit(bytes=20000)
+@TestRuleLimitSysouts.Limit(bytes = 20000)
 public abstract class EndToEndTest extends LuceneTestCase {
-  protected IndexArgs indexCollectionArgs = new IndexArgs();
-  protected SearchArgs searchArgs = new SearchArgs();
-  //protected EvalArgs evalArgs = new EvalArgs();
+  private static final Random RANDOM = new Random();
 
-  protected String dataDirPath;
-  protected String dataDirPrefix = "src/test/resources/sample_docs/";
-  protected String indexOutputPrefix = "e2eTestIndex";
-  protected String collectionClass;
-  protected String generator;
-  protected String topicDirPrefix = "src/test/resources/sample_topics/";
+  protected Map<String, SearchArgs> testQueries = new HashMap<>();
+
+  protected String indexPath;
+
   protected String topicReader;
+  protected String topicFile;
   protected String searchOutputPrefix = "e2eTestSearch";
-  protected String qrelsDirPrefix = "src/test/resources/sample_qrels/";
-  protected String[] evalMetrics = new String[]{"map"};
-  protected String[] referenceRunOutput;
+  protected Map<String, String[]> referenceRunOutput = new HashMap<>();
+  protected Map<String, Map<String, String>> documents = new HashMap<>();
 
   // These are the sources of truth
   protected int fieldNormStatusTotalFields;
@@ -72,44 +72,122 @@ public abstract class EndToEndTest extends LuceneTestCase {
   protected int storedFieldStatusTotFields;
   protected int docCount;
 
-  protected int counterIndexed;
-  protected int counterEmpty;
-  protected int counterUnindexable;
-  protected int counterSkipped;
-  protected int counterErrors;
-
-  // init the class variables here
-  protected abstract void init() throws Exception;
+  // List of files for cleanup in @After.
+  protected List<File> cleanup = new ArrayList<>();
 
   @Override
   @Before
   public void setUp() throws Exception {
+    // We're going to build an index for every test.
     super.setUp();
-    init();
+    indexPath = "test-index" + RANDOM.nextInt(100000);
+
+    cleanup.clear();
+
+    // Subclasses will override this method and change their own settings.
+    IndexArgs indexArgs = getIndexArgs();
+
+    // Note, since we want to test end-to-end, we're going to generate command-line parameters to feed back into main.
+    List<String> args = new ArrayList<>(List.of(
+        "-index", indexPath,
+        "-input", indexArgs.input,
+        "-threads", "2",
+        "-collection", indexArgs.collectionClass,
+        "-generator", indexArgs.generatorClass));
+
+    if (indexArgs.tweetMaxId != Long.MAX_VALUE) {
+      args.add("-tweet.maxId");
+      args.add(indexArgs.tweetMaxId + "");
+    }
+
+    if (indexArgs.whitelist != null) {
+      args.add("-whitelist");
+      args.add(indexArgs.whitelist);
+    }
+
+    if (indexArgs.storePositions) {
+      args.add("-storePositions");
+    }
+
+    if (indexArgs.storeDocvectors) {
+      args.add("-storeDocvectors");
+    }
+
+    if (indexArgs.storeContents) {
+      args.add("-storeContents");
+    }
+
+    if (indexArgs.storeRaw) {
+      args.add("-storeRaw");
+    }
+
+    if (indexArgs.keepStopwords) {
+      args.add("-keepStopwords");
+    }
+
+    if (indexArgs.stopwords != null) {
+      args.add("-stopwords");
+      args.add(indexArgs.stopwords);
+    }
+
+    if (indexArgs.optimize) {
+      args.add("-optimize");
+    }
+
+    if (indexArgs.quiet) {
+      args.add("-quiet");
+    }
+
+    IndexCollection.main(args.toArray(new String[args.size()]));
   }
 
-  @After
+  // Set the indexing args. Subclasses will override this method and change their own settings.
+  abstract IndexArgs getIndexArgs();
+
+  protected IndexArgs createDefaultIndexArgs() {
+    IndexArgs args = new IndexArgs();
+
+    args.storePositions = true;
+    args.storeDocvectors = true;
+    args.storeContents = true;
+    args.storeRaw = true;
+    args.optimize = true;
+    args.quiet = true;
+
+    return args;
+  }
+
   @Override
+  @After
   public void tearDown() throws Exception {
-    FileUtils.deleteDirectory(new File(this.indexOutputPrefix+this.collectionClass));
-    new File(this.searchOutputPrefix+this.topicReader).delete();
+    // Clean up the index.
+    FileUtils.deleteDirectory(new File(indexPath));
+
+    // Clean up other files we've created along the way.
+    for (File file : cleanup) {
+      file.delete();
+    }
     super.tearDown();
   }
 
-  protected void checkCounters(IndexCollection.Counters counters) {
-    assertEquals(counterIndexed, counters.indexed.get());
-    assertEquals(counterEmpty, counters.empty.get());
-    assertEquals(counterUnindexable, counters.unindexable.get());
-    assertEquals(counterSkipped, counters.skipped.get());
-    assertEquals(counterErrors, counters.errors.get());
-  }
+  @Test
+  public void checkIndex() throws IOException {
+    // Subclasses will override this method and provide the ground truth.
+    setCheckIndexGroundTruth();
 
-  protected void checkIndex() throws IOException {
     ByteArrayOutputStream bos = new ByteArrayOutputStream(1024);
-    Directory dir = FSDirectory.open(Paths.get(this.indexOutputPrefix+this.collectionClass));
+    Directory dir = FSDirectory.open(Paths.get(this.indexPath));
 
     IndexReader reader = DirectoryReader.open(dir);
     assertEquals(docCount, reader.maxDoc());
+
+    for (int i=0; i<reader.maxDoc(); i++) {
+      String collectionDocid = IndexReaderUtils.convertLuceneDocidToDocid(reader, i);
+      assertEquals(documents.get(collectionDocid).get("raw"),
+          IndexReaderUtils.documentRaw(reader, collectionDocid));
+      assertEquals(documents.get(collectionDocid).get("contents"),
+          IndexReaderUtils.documentContents(reader, collectionDocid));
+    }
     reader.close();
 
     CheckIndex checker = new CheckIndex(dir);
@@ -150,57 +228,41 @@ public abstract class EndToEndTest extends LuceneTestCase {
     checker.close();
   }
 
-  protected void setIndexingArgs() {
+  // Subclasses will override this method and provide the ground truth.
+  protected abstract void setCheckIndexGroundTruth();
+
+  protected SearchArgs createDefaultSearchArgs() {
+    SearchArgs searchArgs = new SearchArgs();
     // required
-    indexCollectionArgs.collectionClass = this.collectionClass+"Collection";
-    indexCollectionArgs.generatorClass = this.generator+"Generator";
-    indexCollectionArgs.threads = 2;
-    indexCollectionArgs.input = this.dataDirPrefix+this.dataDirPath;
-    indexCollectionArgs.index = this.indexOutputPrefix+this.collectionClass;
-
-    //optional
-    indexCollectionArgs.storePositions = true;
-    indexCollectionArgs.storeDocvectors = true;
-    indexCollectionArgs.storeTransformedDocs = true;
-    indexCollectionArgs.storeRawDocs = true;
-    indexCollectionArgs.optimize = true;
-    indexCollectionArgs.quiet = true;
-  }
-
-  protected void testIndexing() throws Exception {
-    setIndexingArgs();
-    try {
-      IndexCollection.Counters counters = new IndexCollection(indexCollectionArgs).run();
-      checkCounters(counters);
-      checkIndex();
-    } catch (Exception e) {
-      System.out.println("Test Indexing failed");
-      fail();
-    }
-  }
-
-  protected void setSearchArgs() {
-    // required
-    searchArgs.index = this.indexOutputPrefix+this.collectionClass;
-    searchArgs.topics = new String[]{this.topicDirPrefix+this.topicReader};
-    searchArgs.output = this.searchOutputPrefix+this.topicReader;
+    searchArgs.index = this.indexPath;
+    searchArgs.output = this.searchOutputPrefix + this.topicReader;
     searchArgs.topicReader = this.topicReader;
+    searchArgs.topics = new String[]{this.topicFile};
     searchArgs.bm25 = true;
 
-    //optional
+    // optional
     searchArgs.topicfield = "title";
     searchArgs.searchtweets = false;
     searchArgs.hits = 1000;
     searchArgs.keepstop = false;
+
+    return searchArgs;
   }
 
-  protected<K> void testSearching() {
-    setSearchArgs();
+  @Test
+  public void testSearching() {
+    // Subclasses will override this method and provide the ground truth.
+    setSearchGroundTruth();
+
     try {
-      SearchCollection searcher = new SearchCollection(searchArgs);
-      searcher.runTopics();
-      searcher.close();
-      checkRankingResults(searchArgs.output);
+      for (Map.Entry<String, SearchArgs> entry : testQueries.entrySet()) {
+        SearchCollection searcher = new SearchCollection(entry.getValue());
+        searcher.runTopics();
+        searcher.close();
+        checkRankingResults(entry.getKey(), entry.getValue().output);
+        // Remember to cleanup run files.
+        cleanup.add(new File(entry.getValue().output));
+      }
     } catch (Exception e) {
       System.out.println("Test Searching failed: ");
       e.printStackTrace();
@@ -208,22 +270,20 @@ public abstract class EndToEndTest extends LuceneTestCase {
     }
   }
 
-  protected void checkRankingResults(String output) throws IOException {
+  protected void checkRankingResults(String key, String output) throws IOException {
     BufferedReader br = new BufferedReader(new FileReader(output));
+    String[] ref = referenceRunOutput.get(key);
 
     int cnt = 0;
     String s;
     while ((s = br.readLine()) != null) {
-      assertEquals(referenceRunOutput[cnt], s);
+      assertEquals(ref[cnt], s);
       cnt++;
     }
 
-    assertEquals(cnt, referenceRunOutput.length);
+    assertEquals(cnt, ref.length);
   }
 
-  @Test
-  public void testAll() throws Exception {
-    testIndexing();
-    testSearching();
-  }
+  // Subclasses will override this method and provide the ground truth.
+  protected abstract void setSearchGroundTruth();
 }

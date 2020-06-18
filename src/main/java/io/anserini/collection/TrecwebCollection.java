@@ -16,9 +16,6 @@
 
 package io.anserini.collection;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -29,7 +26,9 @@ import java.text.ParseException;
  */
 public class TrecwebCollection extends DocumentCollection<TrecwebCollection.Document> {
 
-  private static final Logger LOG = LogManager.getLogger(TrecwebCollection.class);
+  public TrecwebCollection(Path path) {
+    this.path = path;
+  }
 
   @Override
   public FileSegment<Document> createFileSegment(Path p) throws IOException {
@@ -43,13 +42,13 @@ public class TrecwebCollection extends DocumentCollection<TrecwebCollection.Docu
    */
   public static class Segment<T extends Document> extends TrecCollection.Segment<T> {
 
-    protected Segment(Path path) throws IOException {
+    public Segment(Path path) throws IOException {
       super(path);
     }
 
     @Override
     public void readNext() throws IOException, ParseException {
-        readNextRecord(bufferedReader);
+      readNextRecord(bufferedReader);
     }
 
     private void readNextRecord(BufferedReader reader) throws IOException, ParseException {
@@ -96,7 +95,7 @@ public class TrecwebCollection extends DocumentCollection<TrecwebCollection.Docu
 
       if (j < i) throw new ParseException(Document.TERMINATING_DOCHDR + " comes before " + Document.DOCHDR, 0);
 
-      bufferedRecord.content = builder.substring(j + Document.TERMINATING_DOCHDR.length()).trim();
+      bufferedRecord.raw = builder.substring(j + Document.TERMINATING_DOCHDR.length()).trim();
     }
   }
 
@@ -104,9 +103,7 @@ public class TrecwebCollection extends DocumentCollection<TrecwebCollection.Docu
    * A document from a classic TREC web collection (e.g., Gov2).
    */
   public static class Document extends TrecCollection.Document {
-
     private static final String DOCHDR = "<DOCHDR>";
     private static final String TERMINATING_DOCHDR = "</DOCHDR>";
-
   }
 }
