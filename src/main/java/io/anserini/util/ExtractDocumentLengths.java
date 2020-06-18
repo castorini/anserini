@@ -48,9 +48,6 @@ public class ExtractDocumentLengths {
 
     @Option(name = "-output", metaVar = "[file]", required = true, usage = "output file")
     String output;
-
-    @Option(name = "-outputdid", usage = "output collection id")
-    boolean lookupLuceneDocid = false;
   }
 
   public static void main(String[] args) throws Exception {
@@ -82,8 +79,9 @@ public class ExtractDocumentLengths {
       if (terms == null) {
         // It could be the case that TermVectors weren't stored when constructing the index, or we're just missing a
         // TermVector for a zero-length document. Warn, but don't throw exception.
-        System.err.println(String.format("Warning: TermVector not available for docid %d.", i));
-        out.println(String.format("%d\t0\t0\t0\t0", i));
+        String external_did = IndexReaderUtils.convertLuceneDocidToDocid(reader, i);
+        System.err.println(String.format("Warning: TermVector not available for docid %s.", external_did));
+        out.println(String.format("%s\t0\t0\t0\t0", external_did));
         continue;
       }
 
@@ -94,9 +92,7 @@ public class ExtractDocumentLengths {
       // See https://github.com/apache/lucene-solr/blob/master/lucene/core/src/java/org/apache/lucene/search/similarities/BM25Similarity.java
       int lossyDoclength = SmallFloat.byte4ToInt(SmallFloat.intToByte4((int) exactDoclength));
       int lossyTermCount = SmallFloat.byte4ToInt(SmallFloat.intToByte4((int) exactTermCount));
-      if (!myArgs.lookupLuceneDocid)
-        out.println(String.format("%d\t%d\t%d\t%d\t%d", i, exactDoclength, exactTermCount, lossyDoclength, lossyTermCount));
-      else out.println(String.format("%s\t%d\t%d\t%d\t%d", IndexReaderUtils.convertLuceneDocidToDocid(reader, i),
+      out.println(String.format("%s\t%d\t%d\t%d\t%d", IndexReaderUtils.convertLuceneDocidToDocid(reader, i),
               exactDoclength, exactTermCount, lossyDoclength, lossyTermCount));
       lossyTotalTerms += lossyDoclength;
       exactTotalTerms += exactDoclength;
