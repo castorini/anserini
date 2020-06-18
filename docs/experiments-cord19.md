@@ -33,7 +33,7 @@ $ python src/main/python/trec-covid/index_cord19.py --date 2020-06-12 --all
 
 The script will:
 
-+ Download a version of the CORD-19 release (`--download`).
++ Download a specific release of CORD-19 (`--download`).
 + Build abstract, full-text, and paragraph indexes (`--index`).
 + Verify the indexes with topics and qrels from TREC-COVID (`--verify`).
 
