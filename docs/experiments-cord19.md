@@ -1,4 +1,4 @@
-# Working with the [COVID-19 Open Research Dataset](https://pages.semanticscholar.org/coronavirus-research)
+# Working with the COVID-19 Open Research Dataset
 
 This document describes various tools for working with the [COVID-19 Open Research Dataset (CORD-19)](https://pages.semanticscholar.org/coronavirus-research) from the [Allen Institute for AI](https://allenai.org/).
 For an easy way to get started, check out our Colab demos, also available [here](https://github.com/castorini/anserini-notebooks):
@@ -22,9 +22,43 @@ For our answer to the question, "which one should I use?" see below.
 
 We've kept around older versions of the index for archival purposes &mdash; scroll all the way down to the bottom of the page to see those.
 
+Note that starting 2020/05/27, AI2 has switched to daily releases of CORD-19, and as a result, it has become impractical to share pre-built indexes.
+Thus, we will only be providing pre-built indexes "occasionally".
+
+However, we have written a simple script that will largely automate all the instructions on this page:
+
+```
+$ python src/main/python/trec-covid/index_cord19.py --date 2020-06-12 --all
+```
+
+The script will:
+
++ Download a specific release of CORD-19 (`--download`).
++ Build abstract, full-text, and paragraph indexes (`--index`).
++ Verify the indexes with topics and qrels from TREC-COVID (`--verify`).
+
+The `--date` argument takes the format of `YYYY-MM-DD`, corresponding to a release [here](https://ai2-semanticscholar-cord-19.s3-us-west-2.amazonaws.com/historical_releases.html).
+The `--all` argument runs all three steps above (or use each argument individually to run just a specific step).
+By default, the script does not overwrite existing data, unless `--force` is specified.
+
+After the above script completes successfully, the output will be something like:
+
+```
+---------------------
+Effectiveness Summary
+---------------------
+
+                    NDCG@10  Judged@10
+Abstract index       0.5178    0.9800
+Full-text index      0.3607    0.8114
+Paragraph index      0.4729    0.9371
+```
+
+The instructions below walk through, essentially, what the script does, step by step.
+
 ## Data Prep
 
-The latest distribution available is from 2020/06/12.
+These instructions work with the dataset release from 2020/06/12.
 First, download the data:
 
 ```bash
@@ -149,6 +183,9 @@ All versions of pre-built indexes:
 
 | Version    | Type      | Size  | Link | Checksum |
 |:-----------|:----------|:------|:-----|:---------|
+| 2020-06-12 | Abstract  |  1.9G | [[Dropbox]](https://www.dropbox.com/s/7uy406atbcu7f2l/lucene-index-cord19-abstract-2020-06-12.tar.gz)  | `e0d9d312a83d67c21069717957a56f47`
+| 2020-06-12 | Full-Text |  3.7G | [[Dropbox]](https://www.dropbox.com/s/glh8n0c3odd6prm/lucene-index-cord19-full-text-2020-06-12.tar.gz) | `72018ee46556cc72d01885203ea386dc`
+| 2020-06-12 | Paragraph |  5.3G | [[Dropbox]](https://www.dropbox.com/s/cbjxc89ti4fd218/lucene-index-cord19-paragraph-2020-06-12.tar.gz) | `72732d298885c2c317236af33b08197c`
 | 2020-05-26 | Abstract  |  1.7G | [[Dropbox]](https://www.dropbox.com/s/w1q4dqe6fz3derg/lucene-index-cord19-abstract-2020-05-26.tar.gz)  | `2dc054f4ca7db281e9f5e0d4836df14c`
 | 2020-05-26 | Full-Text |  3.3G | [[Dropbox]](https://www.dropbox.com/s/ro8qb6al692po1r/lucene-index-cord19-full-text-2020-05-26.tar.gz) | `9b9fd4b97f75fa295e3345d0cf7914e3`
 | 2020-05-26 | Paragraph |  4.7G | [[Dropbox]](https://www.dropbox.com/s/ng4hwlr9414o4ju/lucene-index-cord19-paragraph-2020-05-26.tar.gz) | `72eb265c1c9983f02f1e79a2ba19befb`
