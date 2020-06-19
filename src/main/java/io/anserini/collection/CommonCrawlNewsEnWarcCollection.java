@@ -30,24 +30,24 @@ import java.util.zip.GZIPInputStream;
 
 /**
  * A collection of WARC files from CCNewsEn corpus (TODO: Add URL).
- * This can be used to read the CCNewsEn WARC files
+ * This can be used to read the CommonCrawlNewsEn WARC files
  */
-public class CCNewsEnWarcCollection extends DocumentCollection<CCNewsEnWarcCollection.Document> {
+public class CommonCrawlNewsEnWarcCollection extends DocumentCollection<CommonCrawlNewsEnWarcCollection.Document> {
 
-  public CCNewsEnWarcCollection(Path path) {
+  public CommonCrawlNewsEnWarcCollection(Path path) {
     this.path = path;
     this.allowedFileSuffix = Set.of(".warc.gz");
   }
 
   @Override
-  public FileSegment<CCNewsEnWarcCollection.Document> createFileSegment(Path p) throws IOException {
+  public FileSegment<CommonCrawlNewsEnWarcCollection.Document> createFileSegment(Path p) throws IOException {
     return new Segment(p);
   }
 
   /**
-   * An individual WARC in CCNewsEn.
+   * An individual WARC in CommonCrawlNewsEn.
    */
-  public static class Segment extends FileSegment<CCNewsEnWarcCollection.Document> {
+  public static class Segment extends FileSegment<CommonCrawlNewsEnWarcCollection.Document> {
 
     protected DataInputStream stream;
 
@@ -77,7 +77,7 @@ public class CCNewsEnWarcCollection extends DocumentCollection<CCNewsEnWarcColle
   /**
    *
    * A document from the
-   * CCNewsEn WARC collection.
+   * CommonCrawlNewsEn WARC collection.
    * TODO: Add URL
    * 
    */
