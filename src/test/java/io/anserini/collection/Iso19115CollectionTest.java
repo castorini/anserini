@@ -35,7 +35,6 @@ public class Iso19115CollectionTest extends DocumentCollectionTest<Iso19115Colle
 
     totalSegments = 1;
     totalDocs = 2;
-
     expected.put("12957", Map.of("id", "12957", "title", "Test title", "abstract", "Test abstract"));
     expected.put("13007", Map.of("id", "13007", "title","Test title 2", "abstract", "Test abstract 2"));
   }
