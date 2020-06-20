@@ -18,11 +18,10 @@ package io.anserini.index.generator;
 
 import io.anserini.collection.Iso19115Collection;
 import io.anserini.index.IndexArgs;
-import org.apache.lucene.document.Document;
-import org.apache.lucene.document.Field;
-import org.apache.lucene.document.StoredField;
-import org.apache.lucene.document.StringField;
-
+import org.apache.lucene.document.*;
+import org.apache.lucene.document.LatLonShape;
+import org.apache.lucene.geo.Polygon;
+import org.apache.lucene.index.Fields;
 
 public class Iso19115Generator extends DefaultLuceneDocumentGenerator<Iso19115Collection.Document>{
   protected IndexArgs args;
@@ -32,11 +31,12 @@ public class Iso19115Generator extends DefaultLuceneDocumentGenerator<Iso19115Co
     ID("id"),
     TITLE("title"),
     ABSTRACT("abstract"),
-    SOURCE("source"),
-    AUTHORS("authors"),
-    JOURNAL("journal"),
+    ORGANISATION("organisation"),
+    RESPONSIBLE_PARTY("responsible_party"),
+    CATALOGUE("catalogue"),
     PUBLISH_TIME("publish_time"),
-    URL("url");
+    URL("url"),
+    COORDINATES("coordinates");
 
     public final String name;
 
@@ -55,17 +55,29 @@ public class Iso19115Generator extends DefaultLuceneDocumentGenerator<Iso19115Co
 
     document.add(new StoredField(Iso19115Field.TITLE.name, doc.getTitle()));
     document.add(new StoredField(Iso19115Field.ABSTRACT.name, doc.getAbstract()));
-    document.add(new StringField(Iso19115Field.SOURCE.name, doc.getSource(), Field.Store.YES));
-    document.add(new StringField(Iso19115Field.JOURNAL.name, doc.getJournal(), Field.Store.YES));
+    document.add(new StringField(Iso19115Field.ORGANISATION.name, doc.getOrganisation(), Field.Store.YES));
+    document.add(new StringField(Iso19115Field.CATALOGUE.name, doc.getCatalogue(), Field.Store.YES));
     document.add(new StringField(Iso19115Field.PUBLISH_TIME.name, doc.getPublish_time(), Field.Store.YES));
     document.add(new StringField(Iso19115Field.URL.name, doc.getUrl(), Field.Store.YES));
 
     // indexing the authors
-    String[] authors = doc.getAuthors();
-    for(String author: authors) {
-      document.add(new StringField(Iso19115Field.AUTHORS.name, author, Field.Store.YES));
+    String[] responsibleParty = doc.getResponsibleParty();
+    for(String author: responsibleParty) {
+      document.add(new StringField(Iso19115Field.RESPONSIBLE_PARTY.name, author, Field.Store.YES));
     }
 
+    // indexing the coordinates
+    document.add(new StringField(Iso19115Field.COORDINATES.name, doc.getCoordinates(), Field.Store.YES));
+    /* Polygon indexing unused for now, but may be used later
+    // indexing the longitude and latitudes, each field is an indexable ShapeField.Triangle object
+    Field[] polygonField = LatLonShape.createIndexableFields(Iso19115Field.COORDINATES.name, new Polygon(
+            doc.getLatitude(),
+            doc.getLongitude()
+    ));
+    for(Field field: polygonField) {
+      document.add(field);
+    }
+    */
     return document;
   }
 }
