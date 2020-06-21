@@ -48,8 +48,14 @@ import java.util.Optional;
 
 /**
  * An instance of the <a href="https://trec.nist.gov/data/wapost/">TREC Washington Post Corpus</a>.
- * The collection contains 671,947 news articles and blog posts from January 2012 through December 2019,
- * stored in JSON format. The collection is 1.8GB compressed, 6.8GB uncompressed.
+ * This class works for both v2 and v3 of the Washington Post corpus.
+ * 
+ * Collection v2 contains 608,180 news articles and blog posts from January 2012 through August 2017,
+ * stored in JSON format. The collection is 1.5GB compressed, 5.9GB uncompressed.
+ * 
+ * Collection v3 contains an additional 154,418 new documents from 2018 and 2019 and removes (near)
+ * duplicates, resulting in a total of 671,947 news articles and blog posts from January 2012 
+ * through December 2019, The collection is 1.8GB compressed, 6.8GB uncompressed.
  */
 public class WashingtonPostCollection extends DocumentCollection<WashingtonPostCollection.Document> {
 
