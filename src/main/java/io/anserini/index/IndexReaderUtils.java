@@ -384,6 +384,49 @@ public class IndexReaderUtils {
   }
 
   /**
+   * Returns the document posting list for a particular document as a map of terms to term posting list. Note that this
+   * method explicitly returns {@code null} if the document does not exist (as opposed to an empty map), so that the
+   * caller is explicitly forced to handle this case.
+   *
+   * @param reader index reader
+   * @param docid collection docid
+   * @return the document posting list for a particular document as a map of terms to term posting list or {@code null} if
+   * document does not exist.
+   * @throws IOException if error encountered during query
+   * @throws NotStoredException if the term vector is not stored
+   */
+  public static Map<String, List<Long>> getDocumentPostings(IndexReader reader, String docid) throws IOException, NotStoredException {
+    int ldocid = convertDocidToLuceneDocid(reader, docid);
+    if (ldocid == -1) {
+      return null;
+    }
+    Terms terms = reader.getTermVector(ldocid, IndexArgs.CONTENTS);
+    if (terms == null) {
+      throw new NotStoredException("Document vector not stored!");
+    }
+    TermsEnum te = terms.iterator();
+    if (te == null) {
+      throw new NotStoredException("Document vector not stored!");
+    }
+
+    Map<String, List<Long>> docPostings = new HashMap<>();
+    PostingsEnum positions = null;
+
+    while ((te.next()) != null) {
+      List<Long> postings = new ArrayList<>();
+      Long freq = te.totalTermFreq();
+      positions = te.postings(positions, PostingsEnum.POSITIONS);
+      positions.nextDoc();
+      for ( int i = 0; i < freq; i++ ) {
+        postings.add(Long.valueOf(positions.nextPosition()));
+      }
+      docPostings.put(te.term().utf8ToString(), postings);
+    }
+
+    return docPostings;
+  }
+
+  /**
    * Returns the Lucene {@link Document} based on a collection docid. The method is named to be consistent with Lucene's
    * {@link IndexReader#document(int)}, contra Java's standard method naming conventions.
    *
