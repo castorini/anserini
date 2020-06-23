@@ -25,9 +25,9 @@ To confirm, `wiki-pages.zip` should have MD5 checksum of `ed8bfd894a2c47045dca61
 
 Next, we want to index the Wikipedia dump (`wiki-pages.zip`) using Anserini. Note that this Wikipedia dump consists of Wikipedia articles' introductions only, which we will refer to as "paragraphs" from this point onward.
 
-We currently have implemented two variants: (1) indexing paragraphs and (2) indexing sentences within each paragraph separately.
+We will consider two variants: (1) Paragraph Indexing and (2) Sentence Indexing.
 
-### Paragraph
+### Paragraph Indexing
 
 We can index paragraphs with `FeverParagraphCollection`, as follows:
 
@@ -40,7 +40,7 @@ sh target/appassembler/bin/IndexCollection \
 
 Upon completion, we should have an index with 5,396,106 documents (paragraphs).
 
-### Sentence
+### Sentence Indexing
 
 We can index sentences with `FeverSentenceCollection`, as follows:
 
@@ -55,7 +55,7 @@ Upon completion, we should have an index with 25,247,887 documents (sentences).
 
 ## Performing Retrieval on the Dev Queries
 
-(We will use the paragraph index for this section, though the steps could be easily modified for the sentence index.)
+Note that while we use paragraph indexing for this section, these steps can easily be modified for sentence indexing.
 
 Before we can retrieve with our index, we need to generate the queries and qrels files for the dev split of the FEVER dataset:
 
@@ -124,12 +124,12 @@ This run produces the following results:
 
 | k   | Fully Supported | Oracle Accuracy |
 |:----|----------------:|----------------:|
-| 1	  | 0.3271827183    | 0.5514551455    |
-| 5	  | 0.5655565557    | 0.7103710371    |
-| 10  |	0.6542154215    | 0.7694769477    |
-| 25  |	0.7458745875    | 0.8305830583    |
-| 50  |	0.8097809781    | 0.8731873187    |
-| 100 |	0.8561356136    | 0.9040904090    |
+| 1   | 0.3272          | 0.5515          |
+| 5   | 0.5656          | 0.7104          |
+| 10  |	0.6542          | 0.7695          |
+| 25  |	0.7459          | 0.8306          |
+| 50  |	0.8098          | 0.8732          |
+| 100 |	0.8561          | 0.9041          |
 
 ### BM25 Tuning
 
@@ -186,11 +186,11 @@ then we can achieve the following results:
 
 | k   | Fully Supported | Oracle Accuracy |
 |:----|----------------:|----------------:|
-| 1	  | 0.3856885689    | 0.5904590459    |
-| 5	  | 0.6366636664    | 0.7577757776    |
-| 10  | 0.7193219322    | 0.8128812881    |
-| 25  | 0.8003300330    | 0.8668866887    |
-| 50  | 0.8472847285    | 0.8981898190    |
-| 100 | 0.8804380438    | 0.9202920292    |
+| 1   | 0.3857          | 0.5905          |
+| 5   | 0.6367          | 0.7578          |
+| 10  | 0.7193          | 0.8129          |
+| 25  | 0.8003          | 0.8669          |
+| 50  | 0.8473          | 0.8982          |
+| 100 | 0.8804          | 0.9203          |
 
-which outperforms the TF-IDF baseline in the FEVER paper at almost every value of k.
+which outperforms the TF-IDF baseline in the FEVER paper at every tested value of k.

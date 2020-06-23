@@ -78,7 +78,7 @@ def evaluate_retrieval(args):
     # print evaluation metrics
     print(f'k\tFully Supported\tOracle Accuracy')
     for k in top_ks:
-        print(f'{k}\t{fully_supported[k] / num_supported_queries:.10f}\t{oracle_accuracy[k] / num_queries:.10f}')
+        print(f'{k}\t{fully_supported[k] / num_supported_queries:.4f}\t{oracle_accuracy[k] / num_queries:.4f}')
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Evaluates an anserini run file in the context of the FEVER task.')
