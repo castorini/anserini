@@ -15,7 +15,6 @@
 #
 
 import json
-import os
 import argparse
 
 def generate_queries_and_qrels(args):
@@ -84,7 +83,7 @@ def generate_queries_and_qrels(args):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Generates queries and qrels files from a FEVER dataset file.')
-    parser.add_argument('--dataset_file', required=True, help='Path to FEVER dataset file.')
+    parser.add_argument('--dataset_file', required=True, help='FEVER dataset file.')
     parser.add_argument('--output_queries_file', help='Output queries file.')
     parser.add_argument('--output_qrels_file', help='Output qrels file.')
     parser.add_argument('--output_labels_file', help='Output labels file.')
@@ -97,11 +96,6 @@ if __name__ == '__main__':
     if not args.output_queries_file and not args.output_qrels_file:
         print('Please provide at least one of --output_queries_file or --output_qrels_file.')
         exit()
-
-    if args.output_queries_file and not os.path.exists(os.path.dirname(args.output_queries_file)):
-        os.makedirs(os.path.dirname(args.output_queries_file))
-    if args.output_qrels_file and not os.path.exists(os.path.dirname(args.output_qrels_file)):
-        os.makedirs(os.path.dirname(args.output_qrels_file))
 
     generate_queries_and_qrels(args)
 
