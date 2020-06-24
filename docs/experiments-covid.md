@@ -42,6 +42,27 @@ Merge of the PR into master is pending confirmation that all previous regression
 
 Exact commands for replicating these runs are found [further down on this page](experiments-covid.md#round-3-replication-commands).
 
+**(Updates 2020/06/23)** We report the effectiveness of the Anserini baselines according to official round 3 judgments from NIST below.
+NIST provides the following caveat [here](https://ir.nist.gov/covidSubmit/archive.html):
+
+> Since there were previously judged documents whose doc-ids changed between the Round 1 and Round 2 judgment sets and the Round 3 data sets, these documents were removed from submissions by NIST. Almost all runs had some documents removed.
+
+Thus, the runs submitted above were _not_ the actual runs evaluated by NIST.
+They are, instead:
+
+| group | runtag | run file | checksum |
+|:------|:-------|:---------|:---------|
+| `anserini` | `r3.fusion1` (NIST post-processed) | [[download](https://www.dropbox.com/s/ilqgky1tti0zvez/anserini.final-r3.fusion1.post-processed.txt)] | `f7c69c9bff381a847af86e5a8daf7526` |
+| `anserini` | `r3.fusion2` (NIST post-processed) | [[download](https://www.dropbox.com/s/ue3z6xxxca9krkb/anserini.final-r3.fusion2.post-processed.txt)] | `84c5fd2c7de0a0282266033ac4f27c22` |
+| `anserini` | `r3.rf` (NIST post-processed)      | [[download](https://www.dropbox.com/s/95vk831wp1ldnpm/anserini.final-r3.rf.post-processed.txt)]      | `3e79099639a9426cb53afe7066239011` |
+
+And the effectiveness of the above runs:
+
+| group | runtag | nDCG@10 | Judged@10 | Recall@1000
+|:------|:-------|:---------|:---------|:---------|
+| `anserini` | `r3.fusion1` | 0.5359 | 0.8475 | 0.2293
+| `anserini` | `r3.fusion2` | 0.6100 | 0.9100 | 0.2641
+| `anserini` | `r3.rf`      | 0.6883 | 0.9750 | 0.2817
 
 ## Round 2
 
