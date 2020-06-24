@@ -19,7 +19,6 @@
 import argparse
 import os
 import shutil
-import subprocess
 import tarfile
 
 
@@ -37,8 +36,8 @@ def download_indexes(indexes, force: bool):
                 print(f'Removing {index_dir}')
                 shutil.rmtree(index_dir)
             if os.path.exists(local_tarball):
-                os.remove(local_tarball)
                 print(f'Removing {local_tarball}')
+                os.remove(local_tarball)
         elif os.path.isdir(index_dir) or os.path.exists(local_tarball):
             print(f'{index_dir} or {local_tarball} already exists, skipping!')
             continue
