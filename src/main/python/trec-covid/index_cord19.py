@@ -120,17 +120,16 @@ def build_indexes(date):
 
 
 def evaluate_run(run):
+    qrels = 'src/main/resources/topics-and-qrels/qrels.covid-round3-cumulative.txt'
     metrics = {}
     output = subprocess.check_output(
-        f'tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 ' +
-        f'src/main/resources/topics-and-qrels/qrels.covid-round12.txt runs/{run}', shell=True)
+        f'tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 {qrels} runs/{run}', shell=True)
 
     arr = output.split()
     metrics[arr[0].decode('utf-8')] = float(arr[2])
 
-    output = subprocess.check_output(
-        f'python tools/eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round12.txt ' +
-        f'--cutoffs 10 100 1000 --run runs/{run}', shell=True)
+    output = subprocess.check_output(f'python tools/eval/measure_judged.py --qrels {qrels} ' +
+                                     f'--cutoffs 10 100 1000 --run runs/{run}', shell=True)
 
     arr = output.split()
     metrics[arr[0].decode('utf-8')] = float(arr[2])
@@ -139,12 +138,13 @@ def evaluate_run(run):
 
 
 def verify_indexes(date):
-    whitelist = f'src/main/resources/topics-and-qrels/docids.covid.round2.txt'
+    topics = 'src/main/resources/topics-and-qrels/topics.covid-round3.xml'
+    whitelist = 'src/main/resources/topics-and-qrels/docids.covid.round3.txt'
 
     print('Verifying abstract index...')
     abstract_index = f'indexes/lucene-index-cord19-abstract-{date} '
     os.system(f'sh target/appassembler/bin/SearchCollection -index {abstract_index} -topicreader Covid ' +
-              f'-topics src/main/resources/topics-and-qrels/topics.covid-round2.xml -topicfield query+question ' +
+              f'-topics {topics} -topicfield query+question ' +
               f'-removedups -bm25 -hits 1000 -output runs/verify.{date}.abstract.txt')
     os.system(f'python tools/scripts/filter_run.py --whitelist {whitelist} --k 1000 ' +
               f'--input runs/verify.{date}.abstract.txt --output runs/verify.{date}.abstract.filtered.txt')
@@ -153,7 +153,7 @@ def verify_indexes(date):
     print('Verifying full-text index...')
     full_index = f'indexes/lucene-index-cord19-full-text-{date} '
     os.system(f'sh target/appassembler/bin/SearchCollection -index {full_index} -topicreader Covid ' +
-              f'-topics src/main/resources/topics-and-qrels/topics.covid-round2.xml -topicfield query+question ' +
+              f'-topics {topics} -topicfield query+question ' +
               f'-removedups -bm25 -hits 1000 -output runs/verify.{date}.full-text.txt')
     os.system(f'python tools/scripts/filter_run.py --whitelist {whitelist} --k 1000 ' +
               f'--input runs/verify.{date}.full-text.txt --output runs/verify.{date}.full-text.filtered.txt')
@@ -162,21 +162,23 @@ def verify_indexes(date):
     print('Verifying paragraph index...')
     paragraph_index = f'indexes/lucene-index-cord19-paragraph-{date} '
     os.system(f'sh target/appassembler/bin/SearchCollection -index {paragraph_index} -topicreader Covid ' +
-              f'-topics src/main/resources/topics-and-qrels/topics.covid-round2.xml -topicfield query+question ' +
+              f'-topics {topics} -topicfield query+question ' +
               f'-removedups -strip_segment_id -bm25 -hits 1000 -output runs/verify.{date}.paragraph.txt')
     os.system(f'python tools/scripts/filter_run.py --whitelist {whitelist} --k 1000 ' +
               f'--input runs/verify.{date}.paragraph.txt --output runs/verify.{date}.paragraph.filtered.txt')
     paragraph_metrics = evaluate_run(f'verify.{date}.paragraph.filtered.txt')
 
     print()
-    print('---------------------')
-    print('Effectiveness Summary')
-    print('---------------------')
+    print('## Effectiveness Summary')
+    print()
+    print(f'CORD-19 release: {date}')
+    print(f'Topics/Qrels: TREC-COVID Round 3')
+    print(f'Whitelist: TREC-COVID Round 3 valid docids')
     print()
     print('                    NDCG@10  Judged@10')
-    print(f'Abstract index       {abstract_metrics["ndcg_cut_10"]}    {abstract_metrics["judged_cut_10"]:.4f}')
-    print(f'Full-text index      {full_metrics["ndcg_cut_10"]}    {full_metrics["judged_cut_10"]:.4f}')
-    print(f'Paragraph index      {paragraph_metrics["ndcg_cut_10"]}    {paragraph_metrics["judged_cut_10"]:.4f}')
+    print(f'Abstract index       {abstract_metrics["ndcg_cut_10"]:.4f}    {abstract_metrics["judged_cut_10"]:.4f}')
+    print(f'Full-text index      {full_metrics["ndcg_cut_10"]:.4f}    {full_metrics["judged_cut_10"]:.4f}')
+    print(f'Paragraph index      {paragraph_metrics["ndcg_cut_10"]:.4f}    {paragraph_metrics["judged_cut_10"]:.4f}')
 
 
 def main(args):
