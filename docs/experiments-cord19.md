@@ -44,14 +44,16 @@ By default, the script does not overwrite existing data, unless `--force` is spe
 After the above script completes successfully, the output will be something like:
 
 ```
----------------------
-Effectiveness Summary
----------------------
+## Effectiveness Summary
+
+CORD-19 release: 2020-06-19
+Topics/Qrels: TREC-COVID Round 3
+Whitelist: TREC-COVID Round 3 valid docids
 
                     NDCG@10  Judged@10
-Abstract index       0.501    0.9800
-Full-text index      0.3483    0.8200
-Paragraph index      0.4812    0.9429
+Abstract index       0.5520    0.8675
+Full-text index      0.3462    0.6725
+Paragraph index      0.5086    0.8650
 ```
 
 The instructions below walk through, essentially, what the script does, step by step.
