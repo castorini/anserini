@@ -64,6 +64,20 @@ And the effectiveness of the above runs:
 | `anserini` | `r3.fusion2` | 0.6100 | 0.9100 | 0.2641
 | `anserini` | `r3.rf`      | 0.6883 | 0.9750 | 0.2817
 
+**(Updates 2020/06/23)** We report the effectiveness of all the runs that were prepared _for_ round 3 using the cumulative qrels file (containing qrels from round 1, 2 and 3) mapped to the Round 3 (May 19) release of CORD-19. 
+This qrels file, called `qrels_covid_d3_j0.5-3.txt`, provided by NIST [here](https://ir.nist.gov/covidSubmit/data/qrels-covid_d3_j0.5-3.txt), is stored in our repo as [`qrels.covid-round3-cumulative.txt`](https://github.com/castorini/anserini/blob/master/src/main/resources/topics-and-qrels/qrels.covid-round3-cumulative.txt).
+
+|    | index     | field(s)                 | nDCG@10 | Judged@10 | Recall@1000 |
+|---:|:----------|:-------------------------|--------:|----------:|------------:|
+|  1 | abstract  | query+question           | 0.5781 | 0.8875 | 0.5040 |
+|  2 | abstract  | UDel query generator     | 0.6291 | 0.9300 | 0.5215 |
+|  3 | full-text | query+question           | 0.3977 | 0.7500 | 0.4708 |
+|  4 | full-text | UDel query generator     | 0.5790 | 0.9050 | 0.5313 |
+|  5 | paragraph | query+question           | 0.5396 | 0.9425 | 0.5766 |
+|  6 | paragraph | UDel query generator     | 0.6327 | 0.9600 | 0.5923 |
+|  7 | -         | reciprocal rank fusion(1, 3, 5) | 0.5924 | 0.9625 | 0.5956 |
+|  8 | -         | reciprocal rank fusion(2, 4, 6) | 0.6515 | 0.9875 | 0.6194 |
+
 ## Round 2
 
 These are runs that can be easily replicated with Anserini, from pre-built indexes available [here](experiments-cord19.md#pre-built-indexes-all-versions) (version from 2020/05/01, which is the official corpus used in the evaluation).
