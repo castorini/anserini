@@ -90,7 +90,7 @@ And the effectiveness of the above runs:
 | `anserini` | `r3.rf`      | 0.6883 | 0.9750 | 0.2817
 
 **(Updates 2020/06/23)** We report the effectiveness of all the runs that were prepared _for_ round 3 using the cumulative qrels file (containing qrels from round 1, 2 and 3) mapped to the Round 3 (May 19) release of CORD-19. 
-This qrels file, called `qrels_covid_d3_j0.5-3.txt`, provided by NIST [here](https://ir.nist.gov/covidSubmit/data/qrels-covid_d3_j0.5-3.txt), is stored in our repo as [`qrels.covid-round3-cumulative.txt`](../src/main/resources/topics-and-qrels/qrels.covid-round3-cumulative.txt).
+This qrels file, provided by NIST as [`qrels_covid_d3_j0.5-3.txt`](https://ir.nist.gov/covidSubmit/data/qrels-covid_d3_j0.5-3.txt), is stored in our repo as [`qrels.covid-round3-cumulative.txt`](../src/main/resources/topics-and-qrels/qrels.covid-round3-cumulative.txt).
 
 |    | index     | field(s)                 | nDCG@10 | Judged@10 | Recall@1000 |
 |---:|:----------|:-------------------------|--------:|----------:|------------:|
