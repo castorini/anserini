@@ -3,6 +3,31 @@
 This document describes various baselines for the [TREC-COVID Challenge](https://ir.nist.gov/covidSubmit/), which uses the [COVID-19 Open Research Dataset (CORD-19)](https://pages.semanticscholar.org/coronavirus-research) from the [Allen Institute for AI](https://allenai.org/).
 Here, we focus on running retrieval experiments; for basic instructions on building Anserini indexes, see [this page](experiments-cord19.md).
 
+## Round 4
+
+These are runs that can be easily replicated with Anserini, from pre-built indexes available [here](experiments-cord19.md#pre-built-indexes-all-versions) (version from 2020/06/19, which is the official corpus used in the evaluation).
+They were prepared _for_ round 4 (for participants who wish to have a baseline run to rerank), and so effectiveness is computed with the NIST-prepared cumulative qrels from rounds 1, 2, and 3.
+
+|    | index     | field(s)                        | nDCG@10 | Judged@10 | Recall@1000 | run file | checksum |
+|---:|:----------|:--------------------------------|--------:|----------:|------------:|:---------|----------|
+|  1 | abstract  | query+question                  | 0.3143 | 0.4467 | 0.4257 | [[download](https://www.dropbox.com/s/mf79huhxfy96g6i/anserini.covid-r4.abstract.qq.bm25.txt)]    | `56ac5a0410e235243ca6e9f0f00eefa1` |
+|  2 | abstract  | UDel qgen                       | 0.3260 | 0.4378 | 0.4432 | [[download](https://www.dropbox.com/s/4zau6ejrkvgn9m7/anserini.covid-r4.abstract.qdel.bm25.txt)]  | `115d6d2e308b47ffacbc642175095c74` |
+|  3 | full-text | query+question                  | 0.2108 | 0.4044 | 0.3891 | [[download](https://www.dropbox.com/s/bpdopie6gqffv0w/anserini.covid-r4.full-text.qq.bm25.txt)]   | `af0d10a5344f4007e6781e8d2959eb54` |
+|  4 | full-text | UDel qgen                       | 0.3499 | 0.5067 | 0.4537 | [[download](https://www.dropbox.com/s/rh0uy71ogbpas0v/anserini.covid-r4.full-text.qdel.bm25.txt)] | `594d469b8f45cf808092a3d8e870eaf5` |
+|  5 | paragraph | query+question                  | 0.3229 | 0.5267 | 0.4863 | [[download](https://www.dropbox.com/s/ifkjm8ff8g2aoh1/anserini.covid-r4.paragraph.qq.bm25.txt)]   | `6f468b7b60aaa05fc215d237b5475aec` |
+|  6 | paragraph | UDel qgen                       | 0.4016 | 0.5333 | 0.5050 | [[download](https://www.dropbox.com/s/keuogpx1dzinsgy/anserini.covid-r4.paragraph.qdel.bm25.txt)] | `b7b39629c12573ee0bfed8687dacc743` |
+|  7 | -         | reciprocal rank fusion(1, 3, 5) | 0.3424 | 0.5289 | 0.5033 | [[download](https://www.dropbox.com/s/zjc0069do0a4gu3/anserini.covid-r4.fusion1.txt)]             | `8ae9d1fca05bd1d9bfe7b24d1bdbe270` |
+|  8 | -         | reciprocal rank fusion(2, 4, 6) | 0.4004 | 0.5400 | 0.5291 | [[download](https://www.dropbox.com/s/qekc9vr3oom777n/anserini.covid-r4.fusion2.txt)]             | `e1894209c815c96c6ddd4cacb578261a` |
+
+**IMPORTANT NOTES!!!**
+
++ These runs are performed at [``](https://github.com/castorini/anserini/commit/), at the release of Anserini 0.9.4.
++ The evaluation numbers are produced with the NIST-prepared cumulative qrels from rounds 1, 2, and 3 on the round 4 collection (release of 6/19).
++ For the abstract and full-text indexes, we request up to 10k hits for each topic; the number of actual hits retrieved is fairly close to this (a bit less because of deduping). For the paragraph index, we request up to 50k hits for each topic; because multiple paragraphs are retrieved from the same document, the number of unique documents in each list of hits is much smaller. A cautionary note: our experience is that choosing the top _k_ documents to rerank has a large impact on end-to-end effectiveness. Reranking the top 100 seems to provide higher precision than top 1000, but the likely tradeoff is lower recall. It is very likely the case that you _don't_ want to rerank all available hits.
+
+Exact commands for replicating these runs are found [further down on this page](experiments-covid.md#round-4-replication-commands).
+
+
 ## Round 3
 
 These are runs that can be easily replicated with Anserini, from pre-built indexes available [here](experiments-cord19.md#pre-built-indexes-all-versions) (version from 2020/05/19, which is the official corpus used in the evaluation).
@@ -11,11 +36,11 @@ They were prepared _for_ round 3 (for participants who wish to have a baseline r
 |    | index     | field(s)                 | nDCG@10 | Judged@10 | Recall@1000 | run file | checksum |
 |---:|:----------|:-------------------------|--------:|----------:|------------:|:---------|----------|
 |  1 | abstract  | query+question           | 0.2118 | 0.3300 | 0.4398 | [[download](https://www.dropbox.com/s/g80cqdxud1l06wq/anserini.covid-r3.abstract.qq.bm25.txt)]    | `d08d85c87e30d6c4abf54799806d282f` |
-|  2 | abstract  | UDel query generator     | 0.2470 | 0.3375 | 0.4537 | [[download](https://www.dropbox.com/s/sjcnxq7h0a3j3xz/anserini.covid-r3.abstract.qdel.bm25.txt)]  | `d552dff90995cd860a5727637f0be4d1` |
+|  2 | abstract  | UDel qgen                | 0.2470 | 0.3375 | 0.4537 | [[download](https://www.dropbox.com/s/sjcnxq7h0a3j3xz/anserini.covid-r3.abstract.qdel.bm25.txt)]  | `d552dff90995cd860a5727637f0be4d1` |
 |  3 | full-text | query+question           | 0.2337 | 0.4650 | 0.4817 | [[download](https://www.dropbox.com/s/4bjx35sgosu0jz0/anserini.covid-r3.full-text.qq.bm25.txt)]   | `6c9f4c09d842b887262ca84d61c61a1f` |
-|  4 | full-text | UDel query generator     | 0.3430 | 0.5025 | 0.5267 | [[download](https://www.dropbox.com/s/mjt7y1ywae784d0/anserini.covid-r3.full-text.qdel.bm25.txt)] | `c5f9db7733c72eea78ece2ade44d3d35` |
+|  4 | full-text | UDel qgen                | 0.3430 | 0.5025 | 0.5267 | [[download](https://www.dropbox.com/s/mjt7y1ywae784d0/anserini.covid-r3.full-text.qdel.bm25.txt)] | `c5f9db7733c72eea78ece2ade44d3d35` |
 |  5 | paragraph | query+question           | 0.2848 | 0.5175 | 0.5527 | [[download](https://www.dropbox.com/s/qwn7jd8vg2chjik/anserini.covid-r3.paragraph.qq.bm25.txt)]   | `872673b3e12c661748d8899f24d3ba48` |
-|  6 | paragraph | UDel query generator     | 0.3604 | 0.5050 | 0.5676 | [[download](https://www.dropbox.com/s/2928i60fj2i09bt/anserini.covid-r3.paragraph.qdel.bm25.txt)] | `c1b966e4c3f387b6810211f339b35852` |
+|  6 | paragraph | UDel qgen                | 0.3604 | 0.5050 | 0.5676 | [[download](https://www.dropbox.com/s/2928i60fj2i09bt/anserini.covid-r3.paragraph.qdel.bm25.txt)] | `c1b966e4c3f387b6810211f339b35852` |
 |  7 | -         | reciprocal rank fusion(1, 3, 5) | 0.3093 | 0.4975 | 0.5566 | [[download](https://www.dropbox.com/s/6vk5iohqf81iy8b/anserini.covid-r3.fusion1.txt)]      | `61cbd73c6e60ba44f18ce967b5b0e5b3` |
 |  8 | -         | reciprocal rank fusion(2, 4, 6) | 0.3568 | 0.5250 | 0.5769 | [[download](https://www.dropbox.com/s/n09595t1eqymkks/anserini.covid-r3.fusion2.txt)]      | `d7eabf3dab840104c88de925e918fdab` |
 
@@ -159,12 +184,17 @@ Caveats:
 + These runs represent, essentially, testing on training data. Beware of generalization or lack thereof.
 + Beware of unjudged documents.
 
-TODO:
-
-+ Run query expansion.
-+ Run different fusion techniques.
-
 Exact commands for replicating these runs are found [further down on this page](experiments-covid.md#round-1-replication-commands).
+
+
+## Round 4: Replication Commands
+
+We have written scripts that should make replicating the round 4 baselines very easy:
+
+```
+$ python src/main/python/trec-covid/download_indexes.py --date 2020-06-19
+$ python src/main/python/trec-covid/generate_round4_baselines.py
+```
 
 ## Round 3: Replication Commands
 
