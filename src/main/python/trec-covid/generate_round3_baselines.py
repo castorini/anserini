@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-"""Perform Anserini baseline runs for TREC-COVID Round 4."""
+"""Perform Anserini baseline runs for TREC-COVID Round 3."""
 
 import hashlib
 import os
@@ -25,7 +25,7 @@ sys.path.insert(0, './')
 
 
 def evaluate_run(run):
-    qrels = 'src/main/resources/topics-and-qrels/qrels.covid-round3-cumulative.txt'
+    qrels = 'src/main/resources/topics-and-qrels/qrels.covid-round12.txt'
     metrics = {}
     output = subprocess.check_output(
         f'tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 -m recall.1000 {qrels} runs/{run}', shell=True)
@@ -53,15 +53,15 @@ def evaluate_run(run):
 
 
 def perform_runs():
-    base_topics = 'src/main/resources/topics-and-qrels/topics.covid-round4.xml'
-    udel_topics = 'src/main/resources/topics-and-qrels/topics.covid-round4-udel.xml'
+    base_topics = 'src/main/resources/topics-and-qrels/topics.covid-round3.xml'
+    udel_topics = 'src/main/resources/topics-and-qrels/topics.covid-round3-udel.xml'
 
     print('')
     print('## Running on abstract index...')
     print('')
 
     abstract_index = indexes[0]
-    abstract_prefix = 'anserini.covid-r4.abstract'
+    abstract_prefix = 'anserini.covid-r3.abstract'
     os.system(f'target/appassembler/bin/SearchCollection -index {abstract_index} ' +
               f'-topicreader Covid -topics {base_topics} -topicfield query+question ' +
               f'-removedups -bm25 -hits 10000 ' +
@@ -77,7 +77,7 @@ def perform_runs():
     print('')
 
     full_text_index = indexes[1]
-    full_text_prefix = 'anserini.covid-r4.full-text'
+    full_text_prefix = 'anserini.covid-r3.full-text'
     os.system(f'target/appassembler/bin/SearchCollection -index {full_text_index} ' +
               f'-topicreader Covid -topics {base_topics} -topicfield query+question ' +
               f'-removedups -bm25 -hits 10000 ' +
@@ -93,7 +93,7 @@ def perform_runs():
     print('')
 
     paragraph_index = indexes[2]
-    paragraph_prefix = 'anserini.covid-r4.paragraph'
+    paragraph_prefix = 'anserini.covid-r3.paragraph'
     os.system(f'target/appassembler/bin/SearchCollection -index {paragraph_index} ' +
               f'-topicreader Covid -topics {base_topics} -topicfield query+question ' +
               f'-removedups -strip_segment_id -bm25 -hits 50000 ' +
@@ -110,80 +110,80 @@ def perform_fusion():
     print('## Performing fusion...')
     print('')
 
-    set1 = ['anserini.covid-r4.abstract.qq.bm25.txt',
-            'anserini.covid-r4.full-text.qq.bm25.txt',
-            'anserini.covid-r4.paragraph.qq.bm25.txt']
+    set1 = ['anserini.covid-r3.abstract.qq.bm25.txt',
+            'anserini.covid-r3.full-text.qq.bm25.txt',
+            'anserini.covid-r3.paragraph.qq.bm25.txt']
 
     os.system('python src/main/python/fusion.py --method RRF --max_docs 10000 ' +
-              '--out runs/anserini.covid-r4.fusion1.txt ' +
+              '--out runs/anserini.covid-r3.fusion1.txt ' +
               f'--runs runs/{set1[0]} runs/{set1[1]} runs/{set1[2]}')
 
-    set2 = ['anserini.covid-r4.abstract.qdel.bm25.txt',
-            'anserini.covid-r4.full-text.qdel.bm25.txt',
-            'anserini.covid-r4.paragraph.qdel.bm25.txt']
+    set2 = ['anserini.covid-r3.abstract.qdel.bm25.txt',
+            'anserini.covid-r3.full-text.qdel.bm25.txt',
+            'anserini.covid-r3.paragraph.qdel.bm25.txt']
 
     os.system('python src/main/python/fusion.py --method RRF --max_docs 10000 ' +
-              '--out runs/anserini.covid-r4.fusion2.txt ' +
+              '--out runs/anserini.covid-r3.fusion2.txt ' +
               f'--runs runs/{set2[0]} runs/{set2[1]} runs/{set2[2]}')
 
 
 def evaluate_runs():
-    qq_a_metrics = evaluate_run('anserini.covid-r4.abstract.qq.bm25.txt')
-    qd_a_metrics = evaluate_run('anserini.covid-r4.abstract.qdel.bm25.txt')
+    qq_a_metrics = evaluate_run('anserini.covid-r3.abstract.qq.bm25.txt')
+    qd_a_metrics = evaluate_run('anserini.covid-r3.abstract.qdel.bm25.txt')
 
-    qq_f_metrics = evaluate_run('anserini.covid-r4.full-text.qq.bm25.txt')
-    qd_f_metrics = evaluate_run('anserini.covid-r4.full-text.qdel.bm25.txt')
+    qq_f_metrics = evaluate_run('anserini.covid-r3.full-text.qq.bm25.txt')
+    qd_f_metrics = evaluate_run('anserini.covid-r3.full-text.qdel.bm25.txt')
 
-    qq_p_metrics = evaluate_run('anserini.covid-r4.paragraph.qq.bm25.txt')
-    qd_p_metrics = evaluate_run('anserini.covid-r4.paragraph.qdel.bm25.txt')
+    qq_p_metrics = evaluate_run('anserini.covid-r3.paragraph.qq.bm25.txt')
+    qd_p_metrics = evaluate_run('anserini.covid-r3.paragraph.qdel.bm25.txt')
 
-    qq_u_metrics = evaluate_run('anserini.covid-r4.fusion1.txt')
-    qd_u_metrics = evaluate_run('anserini.covid-r4.fusion2.txt')
+    qq_u_metrics = evaluate_run('anserini.covid-r3.fusion1.txt')
+    qd_u_metrics = evaluate_run('anserini.covid-r3.fusion2.txt')
 
     print('')
     print('## Evaluation results')
     print('')
-    print(f'                                          topics   nDCG@10   Judged@10   Recall@1000')
-    print(f'anserini.covid-r4.abstract.qq.bm25.txt' +
+    print(f'                                          topics   nDCG@10   Judged@10   Recall@1000    MD5')
+    print(f'anserini.covid-r3.abstract.qq.bm25.txt' +
           f'      {qq_a_metrics["topics"]}      {qq_a_metrics["ndcg_cut_10"]:.4f}' +
           f'    {qq_a_metrics["judged_cut_10"]:.4f}      {qq_a_metrics["recall_1000"]:.4f}' +
           f'    {qq_a_metrics["md5"]}')
-    print(f'anserini.covid-r4.abstract.qdel.bm25.txt' +
+    print(f'anserini.covid-r3.abstract.qdel.bm25.txt' +
           f'    {qd_a_metrics["topics"]}      {qd_a_metrics["ndcg_cut_10"]:.4f}' +
           f'    {qd_a_metrics["judged_cut_10"]:.4f}      {qd_a_metrics["recall_1000"]:.4f}' +
           f'    {qd_a_metrics["md5"]}')
 
-    print(f'anserini.covid-r4.full-text.qq.bm25.txt' +
+    print(f'anserini.covid-r3.full-text.qq.bm25.txt' +
           f'     {qq_f_metrics["topics"]}      {qq_f_metrics["ndcg_cut_10"]:.4f}' +
           f'    {qq_f_metrics["judged_cut_10"]:.4f}      {qq_f_metrics["recall_1000"]:.4f}' +
           f'    {qq_f_metrics["md5"]}')
-    print(f'anserini.covid-r4.full-text.qdel.bm25.txt' +
+    print(f'anserini.covid-r3.full-text.qdel.bm25.txt' +
           f'   {qd_f_metrics["topics"]}      {qd_f_metrics["ndcg_cut_10"]:.4f}' +
           f'    {qd_f_metrics["judged_cut_10"]:.4f}      {qd_f_metrics["recall_1000"]:.4f}' +
           f'    {qd_f_metrics["md5"]}')
 
-    print(f'anserini.covid-r4.paragraph.qq.bm25.txt' +
+    print(f'anserini.covid-r3.paragraph.qq.bm25.txt' +
           f'     {qq_p_metrics["topics"]}      {qq_p_metrics["ndcg_cut_10"]:.4f}' +
           f'    {qq_p_metrics["judged_cut_10"]:.4f}      {qq_p_metrics["recall_1000"]:.4f}' +
           f'    {qq_p_metrics["md5"]}')
-    print(f'anserini.covid-r4.paragraph.qdel.bm25.txt' +
+    print(f'anserini.covid-r3.paragraph.qdel.bm25.txt' +
           f'   {qd_p_metrics["topics"]}      {qd_p_metrics["ndcg_cut_10"]:.4f}' +
           f'    {qd_p_metrics["judged_cut_10"]:.4f}      {qd_p_metrics["recall_1000"]:.4f}' +
           f'    {qd_p_metrics["md5"]}')
 
-    print(f'anserini.covid-r4.fusion1.txt' +
+    print(f'anserini.covid-r3.fusion1.txt' +
           f'               {qq_u_metrics["topics"]}      {qq_u_metrics["ndcg_cut_10"]:.4f}' +
           f'    {qq_u_metrics["judged_cut_10"]:.4f}      {qq_u_metrics["recall_1000"]:.4f}' +
           f'    {qq_u_metrics["md5"]}')
-    print(f'anserini.covid-r4.fusion2.txt' +
+    print(f'anserini.covid-r3.fusion2.txt' +
           f'               {qd_u_metrics["topics"]}      {qd_u_metrics["ndcg_cut_10"]:.4f}' +
           f'    {qd_u_metrics["judged_cut_10"]:.4f}      {qd_u_metrics["recall_1000"]:.4f}' +
           f'    {qd_u_metrics["md5"]}')
 
 
-indexes = ['indexes/lucene-index-cord19-abstract-2020-06-19',
-           'indexes/lucene-index-cord19-full-text-2020-06-19',
-           'indexes/lucene-index-cord19-paragraph-2020-06-19']
+indexes = ['indexes/lucene-index-cord19-abstract-2020-05-19',
+           'indexes/lucene-index-cord19-full-text-2020-05-19',
+           'indexes/lucene-index-cord19-paragraph-2020-05-19']
 
 
 def main():
@@ -192,6 +192,11 @@ def main():
 
     perform_runs()
     perform_fusion()
+
+    os.system('cat src/main/resources/topics-and-qrels/qrels.covid-round1.txt ' +
+              'src/main/resources/topics-and-qrels/qrels.covid-round2.txt ' +
+              '> src/main/resources/topics-and-qrels/qrels.covid-round12.txt')
+
     evaluate_runs()
 
 
