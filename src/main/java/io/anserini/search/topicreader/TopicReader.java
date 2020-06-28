@@ -80,7 +80,8 @@ public abstract class TopicReader<K> {
       Map.entry("topics.covid-round4.xml", CovidTopicReader.class),
       Map.entry("topics.covid-round4-udel.xml", CovidTopicReader.class),
       Map.entry("topics.backgroundlinking18.txt", BackgroundLinkingTopicReader.class),
-      Map.entry("topics.backgroundlinking19.txt", BackgroundLinkingTopicReader.class)
+      Map.entry("topics.backgroundlinking19.txt", BackgroundLinkingTopicReader.class),
+      Map.entry("topics.backgroundlinking20.txt", BackgroundLinkingTopicReader.class)
   );
 
   /**
