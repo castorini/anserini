@@ -15,7 +15,15 @@
 #
 
 import hashlib
+import re
+import os
+import shutil
 import subprocess
+import sys
+
+sys.path.insert(0, '../pyserini/')
+
+import pyserini.util
 
 
 def evaluate_run(run, qrels):
@@ -62,7 +70,7 @@ def evaluate_runs(qrels, runs):
     print('')
     print(f'## Evaluation results w/ {qrels}')
     print('')
-    print(' ' * (max_length -2) + 'topics nDCG@10   J@10     AP   R@1k   J@1k MD5')
+    print(' ' * (max_length - 2) + 'topics nDCG@10   J@10     AP   R@1k   J@1k MD5')
 
     for run in runs:
         metrics = evaluate_run(run, qrels)
@@ -72,3 +80,24 @@ def evaluate_runs(qrels, runs):
               f'{metrics["judged_cut_10"]:7.4f}{metrics["map"]:7.4f}' +
               f'{metrics["recall_1000"]:7.4f}{metrics["judged_cut_1000"]:7.4f} ' +
               f'{metrics["md5"]}')
+
+
+def verify_stored_runs(runs):
+    print('')
+    print(f'## Verifying Stored Runs')
+    print('')
+
+    if os.path.exists('tmp'):
+        shutil.rmtree('tmp')
+
+    os.mkdir('tmp')
+    for url in runs:
+        filename = url.split('/')[-1]
+        filename = re.sub('\\?dl=1$', '', filename)  # Remove the Dropbox 'force download' parameter
+
+        pyserini.util.download_url(url, 'tmp', force=True)
+
+        md5 = hashlib.md5(open(f'tmp/{filename}', 'rb').read()).hexdigest()
+        assert(runs[url] == md5)
+        print('')
+    shutil.rmtree('tmp')
