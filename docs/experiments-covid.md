@@ -50,7 +50,7 @@ They were prepared _for_ round 3 (for participants who wish to have a baseline r
 |  6 | paragraph | UDel qgen                | 0.3604 | 0.5050 | 0.5676 | [[download](https://www.dropbox.com/s/2928i60fj2i09bt/anserini.covid-r3.paragraph.qdel.bm25.txt)] | `c1b966e4c3f387b6810211f339b35852` |
 |  7 | -         | reciprocal rank fusion(1, 3, 5) | 0.3093 | 0.4975 | 0.5566 | [[download](https://www.dropbox.com/s/6vk5iohqf81iy8b/anserini.covid-r3.fusion1.txt)]      | `61cbd73c6e60ba44f18ce967b5b0e5b3` |
 |  8 | -         | reciprocal rank fusion(2, 4, 6) | 0.3568 | 0.5250 | 0.5769 | [[download](https://www.dropbox.com/s/n09595t1eqymkks/anserini.covid-r3.fusion2.txt)]      | `d7eabf3dab840104c88de925e918fdab` |
-|  9 | abstract  | UDel qgen                |
+|  9 | abstract  | UDel qgen + RF           | 0.3633 | 0.3800 | 0.5722 | [[download](https://www.dropbox.com/s/p8fzefgwzkvvbxx/anserini.covid-r3.abstract.qdel.bm25%2Brm3Rf.txt)] | `e6a44f1f7183de10f892c6d922110934` |
 
 **IMPORTANT NOTES!!!**
 
@@ -65,11 +65,10 @@ The final runs submitted to NIST, after removing judgments from round 1 and roun
 
 | group | runtag | run file | checksum |
 |:------|:-------|:---------|:---------|
-| `anserini` | `r3.fusion1` | [[download](https://www.dropbox.com/s/ypoe9tgwef17rak/anserini.final-r3.fusion1.txt)] | `c1caf63a9c3b02f0b12e233112fc79a6` |
-| `anserini` | `r3.fusion2` | [[download](https://www.dropbox.com/s/uvfrssp6nw2v2jl/anserini.final-r3.fusion2.txt)] | `12679197846ed77306ecb2ca7895b011` |
-| `anserini` | `r3.rf`      | [[download](https://www.dropbox.com/s/2wrg7ceaca3n7ac/anserini.final-r3.rf.txt)]      | `7192a08c5275b59d5ef18395917ff694` |
+| `anserini` | `r3.fusion1` = Row 7 | [[download](https://www.dropbox.com/s/ypoe9tgwef17rak/anserini.final-r3.fusion1.txt)] | `c1caf63a9c3b02f0b12e233112fc79a6` |
+| `anserini` | `r3.fusion2` = Row 8 | [[download](https://www.dropbox.com/s/uvfrssp6nw2v2jl/anserini.final-r3.fusion2.txt)] | `12679197846ed77306ecb2ca7895b011` |
+| `anserini` | `r3.rf` = Row 9      | [[download](https://www.dropbox.com/s/2wrg7ceaca3n7ac/anserini.final-r3.rf.txt)]      | `7192a08c5275b59d5ef18395917ff694` |
 
-The run `r3.rf` corresponds to run 9 in above table.
 We resolved the issue from round 2 where the final submitted runs have less than 1000 hits per topic.
 
 We have written scripts that make replicating the round 3 baselines easy:
@@ -149,6 +148,7 @@ This qrels file, provided by NIST as [`qrels_covid_d3_j0.5-3.txt`](https://ir.ni
 |  6 | paragraph | UDel qgen                | 0.6327 | 0.9600 | 0.5923 |
 |  7 | -         | reciprocal rank fusion(1, 3, 5) | 0.5924 | 0.9625 | 0.5956 |
 |  8 | -         | reciprocal rank fusion(2, 4, 6) | 0.6515 | 0.9875 | 0.6194 |
+|  9 | abstract  | UDel qgen + RF           | 0.7459 | 0.9875 | 0.6125 |
 
 
 ## Round 2

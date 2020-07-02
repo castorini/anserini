@@ -71,6 +71,13 @@ def perform_runs():
               f'-removedups -bm25 -hits 10000 ' +
               f'-output runs/{abstract_prefix}.qdel.bm25.txt -runtag {abstract_prefix}.qdel.bm25.txt')
 
+    os.system(f'target/appassembler/bin/SearchCollection -index {abstract_index} ' +
+              f'-topicreader Covid -topics {udel_topics} -topicfield query -removedups ' +
+              f'-bm25 -rm3 -rm3.fbTerms 100 -hits 10000 ' +
+              f'-rf.qrels src/main/resources/topics-and-qrels/qrels.covid-round12.txt ' +
+              f'-output runs/{abstract_prefix}.qdel.bm25+rm3Rf.txt ' +
+              f'-runtag anserini.covid-r3.abstract.qdel.bm25+rm3Rf.txt')
+
     print('')
     print('## Running on full-text index...')
     print('')
@@ -139,45 +146,52 @@ def evaluate_runs(qrels):
     qq_u_metrics = evaluate_run('anserini.covid-r3.fusion1.txt', qrels)
     qd_u_metrics = evaluate_run('anserini.covid-r3.fusion2.txt', qrels)
 
+    rf_u_metrics = evaluate_run('anserini.covid-r3.abstract.qdel.bm25+rm3Rf.txt', qrels)
+
     print('')
     print(f'## Evaluation results w/ {qrels}')
     print('')
-    print(f'                                          topics   nDCG@10      J@10      R@1k    MD5')
-    print(f'anserini.covid-r3.abstract.qq.bm25.txt' +
-          f'      {qq_a_metrics["topics"]}      {qq_a_metrics["ndcg_cut_10"]:.4f}' +
-          f'    {qq_a_metrics["judged_cut_10"]:.4f}    {qq_a_metrics["recall_1000"]:.4f}' +
-          f'    {qq_a_metrics["md5"]}')
-    print(f'anserini.covid-r3.abstract.qdel.bm25.txt' +
-          f'    {qd_a_metrics["topics"]}      {qd_a_metrics["ndcg_cut_10"]:.4f}' +
-          f'    {qd_a_metrics["judged_cut_10"]:.4f}    {qd_a_metrics["recall_1000"]:.4f}' +
-          f'    {qd_a_metrics["md5"]}')
+    print(f'                                                topics   nDCG@10      J@10      R@1k    MD5')
+    print(f'anserini.covid-r3.abstract.qq.bm25.txt            ' +
+          f'{qq_a_metrics["topics"]}{qq_a_metrics["ndcg_cut_10"]:12.4f}' +
+          f'{qq_a_metrics["judged_cut_10"]:10.4f}{qq_a_metrics["recall_1000"]:10.4f}    ' +
+          f'{qq_a_metrics["md5"]}')
+    print(f'anserini.covid-r3.abstract.qdel.bm25.txt          ' +
+          f'{qd_a_metrics["topics"]}{qd_a_metrics["ndcg_cut_10"]:12.4f}' +
+          f'{qd_a_metrics["judged_cut_10"]:10.4f}{qd_a_metrics["recall_1000"]:10.4f}    ' +
+          f'{qd_a_metrics["md5"]}')
 
-    print(f'anserini.covid-r3.full-text.qq.bm25.txt' +
-          f'     {qq_f_metrics["topics"]}      {qq_f_metrics["ndcg_cut_10"]:.4f}' +
-          f'    {qq_f_metrics["judged_cut_10"]:.4f}    {qq_f_metrics["recall_1000"]:.4f}' +
-          f'    {qq_f_metrics["md5"]}')
-    print(f'anserini.covid-r3.full-text.qdel.bm25.txt' +
-          f'   {qd_f_metrics["topics"]}      {qd_f_metrics["ndcg_cut_10"]:.4f}' +
-          f'    {qd_f_metrics["judged_cut_10"]:.4f}    {qd_f_metrics["recall_1000"]:.4f}' +
-          f'    {qd_f_metrics["md5"]}')
+    print(f'anserini.covid-r3.full-text.qq.bm25.txt           ' +
+          f'{qq_f_metrics["topics"]}{qq_f_metrics["ndcg_cut_10"]:12.4f}' +
+          f'{qq_f_metrics["judged_cut_10"]:10.4f}{qq_f_metrics["recall_1000"]:10.4f}    ' +
+          f'{qq_f_metrics["md5"]}')
+    print(f'anserini.covid-r3.full-text.qdel.bm25.txt         ' +
+          f'{qd_f_metrics["topics"]}{qd_f_metrics["ndcg_cut_10"]:12.4f}' +
+          f'{qd_f_metrics["judged_cut_10"]:10.4f}{qd_f_metrics["recall_1000"]:10.4f}    ' +
+          f'{qd_f_metrics["md5"]}')
 
-    print(f'anserini.covid-r3.paragraph.qq.bm25.txt' +
-          f'     {qq_p_metrics["topics"]}      {qq_p_metrics["ndcg_cut_10"]:.4f}' +
-          f'    {qq_p_metrics["judged_cut_10"]:.4f}    {qq_p_metrics["recall_1000"]:.4f}' +
-          f'    {qq_p_metrics["md5"]}')
-    print(f'anserini.covid-r3.paragraph.qdel.bm25.txt' +
-          f'   {qd_p_metrics["topics"]}      {qd_p_metrics["ndcg_cut_10"]:.4f}' +
-          f'    {qd_p_metrics["judged_cut_10"]:.4f}    {qd_p_metrics["recall_1000"]:.4f}' +
-          f'    {qd_p_metrics["md5"]}')
+    print(f'anserini.covid-r3.paragraph.qq.bm25.txt           ' +
+          f'{qq_p_metrics["topics"]}{qq_p_metrics["ndcg_cut_10"]:12.4f}' +
+          f'{qq_p_metrics["judged_cut_10"]:10.4f}{qq_p_metrics["recall_1000"]:10.4f}    ' +
+          f'{qq_p_metrics["md5"]}')
+    print(f'anserini.covid-r3.paragraph.qdel.bm25.txt         ' +
+          f'{qd_p_metrics["topics"]}{qd_p_metrics["ndcg_cut_10"]:12.4f}' +
+          f'{qd_p_metrics["judged_cut_10"]:10.4f}{qd_p_metrics["recall_1000"]:10.4f}    ' +
+          f'{qd_p_metrics["md5"]}')
 
-    print(f'anserini.covid-r3.fusion1.txt' +
-          f'               {qq_u_metrics["topics"]}      {qq_u_metrics["ndcg_cut_10"]:.4f}' +
-          f'    {qq_u_metrics["judged_cut_10"]:.4f}    {qq_u_metrics["recall_1000"]:.4f}' +
-          f'    {qq_u_metrics["md5"]}')
-    print(f'anserini.covid-r3.fusion2.txt' +
-          f'               {qd_u_metrics["topics"]}      {qd_u_metrics["ndcg_cut_10"]:.4f}' +
-          f'    {qd_u_metrics["judged_cut_10"]:.4f}    {qd_u_metrics["recall_1000"]:.4f}' +
-          f'    {qd_u_metrics["md5"]}')
+    print(f'anserini.covid-r3.fusion1.txt                     ' +
+          f'{qq_u_metrics["topics"]}{qq_u_metrics["ndcg_cut_10"]:12.4f}' +
+          f'{qq_u_metrics["judged_cut_10"]:10.4f}{qq_u_metrics["recall_1000"]:10.4f}    ' +
+          f'{qq_u_metrics["md5"]}')
+    print(f'anserini.covid-r3.fusion2.txt                     ' +
+          f'{qd_u_metrics["topics"]}{qd_u_metrics["ndcg_cut_10"]:12.4f}' +
+          f'{qd_u_metrics["judged_cut_10"]:10.4f}{qd_u_metrics["recall_1000"]:10.4f}    ' +
+          f'{qd_u_metrics["md5"]}')
+
+    print(f'anserini.covid-r3.abstract.qdel.bm25+rm3Rf.txt    ' +
+          f'{rf_u_metrics["topics"]}{rf_u_metrics["ndcg_cut_10"]:12.4f}' +
+          f'{rf_u_metrics["judged_cut_10"]:10.4f}{rf_u_metrics["recall_1000"]:10.4f}    ' +
+          f'{rf_u_metrics["md5"]}')
 
 
 def prepare_final_submissions(qrels):
@@ -195,9 +209,15 @@ def prepare_final_submissions(qrels):
     os.system(f'python tools/scripts/filter_run_with_qrels.py --discard --qrels {qrels} ' +
               f'--input runs/anserini.covid-r3.fusion2.txt --output runs/{run2} --runtag r3.fusion2')
 
+    run3 = 'anserini.final-r3.rf.txt'
+    print(f'Generating {run3}')
+    os.system(f'python tools/scripts/filter_run_with_qrels.py --discard --qrels {qrels} ' +
+              f'--input runs/anserini.covid-r3.abstract.qdel.bm25+rm3Rf.txt --output runs/{run3} --runtag r3.rf')
+
     print('')
     print(f'{run1} checksum=' + hashlib.md5(open(f'runs/{run1}', 'rb').read()).hexdigest())
     print(f'{run2} checksum=' + hashlib.md5(open(f'runs/{run2}', 'rb').read()).hexdigest())
+    print(f'{run3} checksum=' + hashlib.md5(open(f'runs/{run3}', 'rb').read()).hexdigest())
 
 
 indexes = ['indexes/lucene-index-cord19-abstract-2020-05-19',
