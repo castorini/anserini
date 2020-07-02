@@ -97,6 +97,7 @@ def verify_stored_runs(runs):
 
     os.mkdir(tmp)
     for url in runs:
+        print(f'Verifying stored run at {url}...')
         filename = url.split('/')[-1]
         filename = re.sub('\\?dl=1$', '', filename)  # Remove the Dropbox 'force download' parameter
 
