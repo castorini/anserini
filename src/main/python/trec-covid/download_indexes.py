@@ -17,47 +17,20 @@
 """Download pre-built CORD-19 indexes."""
 
 import argparse
-import os
-import shutil
-import tarfile
+import sys
 
+sys.path.insert(0, '../pyserini/')
 
-def download_indexes(indexes, force: bool):
-    for url in indexes:
-        file = url.split('/')[-1]
-        index_name = file.split('.')[0]
-        index_dir = f'collections/{index_name}'
-        local_tarball = f'indexes/{file}'
-
-        print(f'Index: {index_name}')
-
-        if force:
-            if os.path.isdir(index_dir):
-                print(f'Removing {index_dir}')
-                shutil.rmtree(index_dir)
-            if os.path.exists(local_tarball):
-                print(f'Removing {local_tarball}')
-                os.remove(local_tarball)
-        elif os.path.isdir(index_dir) or os.path.exists(local_tarball):
-            print(f'{index_dir} or {local_tarball} already exists, skipping!')
-            continue
-
-        print(f'Downloading index at {url}...')
-        os.system(f'wget {url} -P indexes/')
-
-        print(f'Extracting index...')
-        tarball = tarfile.open(f'indexes/{file}')
-        tarball.extractall('indexes/')
-        tarball.close()
+import pyserini.util
 
 
 all_indexes = {
-    '2020-05-19': ['https://www.dropbox.com/s/3ld34ms35zfb4m9/lucene-index-cord19-abstract-2020-05-19.tar.gz',
-                   'https://www.dropbox.com/s/qih3tjsir3xulrn/lucene-index-cord19-full-text-2020-05-19.tar.gz',
-                   'https://www.dropbox.com/s/7z8szogu5neuhqe/lucene-index-cord19-paragraph-2020-05-19.tar.gz'],
-    '2020-06-19': ['https://www.dropbox.com/s/bj6lx80wwiy5hxf/lucene-index-cord19-abstract-2020-06-19.tar.gz',
-                   'https://www.dropbox.com/s/vkhhxj8u36rgdu9/lucene-index-cord19-full-text-2020-06-19.tar.gz',
-                   'https://www.dropbox.com/s/yk6egw6op4jccpi/lucene-index-cord19-paragraph-2020-06-19.tar.gz']
+    '2020-05-19': ['https://www.dropbox.com/s/3ld34ms35zfb4m9/lucene-index-cord19-abstract-2020-05-19.tar.gz?dl=1',
+                   'https://www.dropbox.com/s/qih3tjsir3xulrn/lucene-index-cord19-full-text-2020-05-19.tar.gz?dl=1',
+                   'https://www.dropbox.com/s/7z8szogu5neuhqe/lucene-index-cord19-paragraph-2020-05-19.tar.gz?dl=1'],
+    '2020-06-19': ['https://www.dropbox.com/s/bj6lx80wwiy5hxf/lucene-index-cord19-abstract-2020-06-19.tar.gz?dl=1',
+                   'https://www.dropbox.com/s/vkhhxj8u36rgdu9/lucene-index-cord19-full-text-2020-06-19.tar.gz?dl=1',
+                   'https://www.dropbox.com/s/yk6egw6op4jccpi/lucene-index-cord19-paragraph-2020-06-19.tar.gz?dl=1']
 }
 
 
@@ -65,7 +38,8 @@ def main(args):
     if args.date not in all_indexes:
         print(f'Unknown index {args.date}')
     else:
-        download_indexes(all_indexes[args.date], args.force)
+        for index in all_indexes[args.date]:
+            pyserini.util.download_and_unpack_index(index, force=args.force)
         print('Done!')
 
 
