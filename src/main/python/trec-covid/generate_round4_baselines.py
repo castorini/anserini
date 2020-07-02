@@ -55,7 +55,7 @@ def perform_runs():
               f'-output runs/{abstract_prefix}.qdel.bm25+rm3Rf.txt -runtag {abstract_prefix}.qdel.bm25+rm3Rf.txt')
 
     print('')
-    print('## Running on paragraph index...')
+    print('## Running on full-text index...')
     print('')
 
     full_text_index = indexes[1]
@@ -71,7 +71,7 @@ def perform_runs():
               f'-output runs/{full_text_prefix}.qdel.bm25.txt -runtag {full_text_prefix}.qdel.bm25.txt')
 
     print('')
-    print('## Running on full-text index...')
+    print('## Running on paragraph index...')
     print('')
 
     paragraph_index = indexes[2]

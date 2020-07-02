@@ -37,7 +37,7 @@ The final runs submitted to NIST, after removing judgments from 1, 2, and 3 (cum
 | `anserini` | `r4.fusion2` = Row 8 | [[download](https://www.dropbox.com/s/z4wbqj9gfos8wln/anserini.final-r4.fusion2.txt)] | `1500104c928f463f38e76b58b91d4c07` |
 | `anserini` | `r4.rf` = Row 9      | [[download](https://www.dropbox.com/s/28w83b07yzndlbg/anserini.final-r4.rf.txt)]      | `41d746eb86a99d2f33068ebc195072cd` |
 
-We have written scripts that make replicating the round 4 baselines easy:
+We have written scripts that automate the replication of these baselines:
 
 ```
 $ python src/main/python/trec-covid/download_indexes.py --date 2020-06-19
@@ -81,7 +81,7 @@ The final runs submitted to NIST, after removing judgments from round 1 and roun
 
 We resolved the issue from round 2 where the final submitted runs have less than 1000 hits per topic.
 
-We have written scripts that make replicating the round 3 baselines easy:
+We have written scripts that automate the replication of these baselines:
 
 ```bash
 $ python src/main/python/trec-covid/download_indexes.py --date 2020-05-19
