@@ -52,8 +52,7 @@ def perform_runs():
               f'-topicreader Covid -topics {udel_topics} -topicfield query -removedups ' +
               f'-bm25 -rm3 -rm3.fbTerms 100 -hits 10000 ' +
               f'-rf.qrels src/main/resources/topics-and-qrels/qrels.covid-round12.txt ' +
-              f'-output runs/{abstract_prefix}.qdel.bm25+rm3Rf.txt ' +
-              f'-runtag anserini.covid-r3.abstract.qdel.bm25+rm3Rf.txt')
+              f'-output runs/{abstract_prefix}.qdel.bm25+rm3Rf.txt -runtag {abstract_prefix}.qdel.bm25+rm3Rf.txt')
 
     print('')
     print('## Running on full-text index...')
@@ -145,9 +144,9 @@ def main():
     if not (os.path.isdir(indexes[0]) and os.path.isdir(indexes[1]) and os.path.isdir(indexes[2])):
         print('Required indexes do not exist. Please download first.')
 
-    #perform_runs()
-    #perform_fusion()
-    #prepare_final_submissions('src/main/resources/topics-and-qrels/qrels.covid-round12.txt')
+    perform_runs()
+    perform_fusion()
+    prepare_final_submissions('src/main/resources/topics-and-qrels/qrels.covid-round12.txt')
 
     os.system('cat src/main/resources/topics-and-qrels/qrels.covid-round1.txt ' +
               'src/main/resources/topics-and-qrels/qrels.covid-round2.txt ' +

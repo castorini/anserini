@@ -18,38 +18,14 @@
 
 import hashlib
 import os
-import subprocess
 import sys
 
+from covid_baseline_tools import evaluate_runs
+
 sys.path.insert(0, './')
+sys.path.insert(0, '../pyserini/')
 
-
-def evaluate_run(run):
-    qrels = 'src/main/resources/topics-and-qrels/qrels.covid-round3-cumulative.txt'
-    metrics = {}
-    output = subprocess.check_output(
-        f'tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.10 -m recall.1000 {qrels} runs/{run}', shell=True)
-
-    lines = output.decode('utf-8').split('\n')
-
-    arr = lines[0].split()
-    metrics[arr[0]] = float(arr[2])
-    arr = lines[1].split()
-    metrics[arr[0]] = float(arr[2])
-
-    output = subprocess.check_output(f'python tools/eval/measure_judged.py --qrels {qrels} ' +
-                                     f'--cutoffs 10 100 1000 --run runs/{run}', shell=True)
-
-    arr = output.decode('utf-8').split()
-    metrics[arr[0]] = float(arr[2])
-
-    output = subprocess.check_output(f"cut -d ' ' -f 1 runs/{run} | sort | uniq | wc", shell=True)
-    arr = output.decode('utf-8').split()
-    metrics['topics'] = int(arr[0])
-
-    metrics['md5'] = hashlib.md5(open(f'runs/{run}', 'rb').read()).hexdigest()
-
-    return metrics
+import pyserini.util
 
 
 def perform_runs():
@@ -72,8 +48,14 @@ def perform_runs():
               f'-removedups -bm25 -hits 10000 ' +
               f'-output runs/{abstract_prefix}.qdel.bm25.txt -runtag {abstract_prefix}.qdel.bm25.txt')
 
+    os.system(f'target/appassembler/bin/SearchCollection -index {abstract_index} ' +
+              f'-topicreader Covid -topics {udel_topics} -topicfield query -removedups ' +
+              f'-bm25 -rm3 -rm3.fbTerms 100 -hits 10000 ' +
+              f'-rf.qrels src/main/resources/topics-and-qrels/qrels.covid-round3-cumulative.txt ' +
+              f'-output runs/{abstract_prefix}.qdel.bm25+rm3Rf.txt -runtag {abstract_prefix}.qdel.bm25+rm3Rf.txt')
+
     print('')
-    print('## Running on full-text index...')
+    print('## Running on paragraph index...')
     print('')
 
     full_text_index = indexes[1]
@@ -127,60 +109,6 @@ def perform_fusion():
               f'--runs runs/{set2[0]} runs/{set2[1]} runs/{set2[2]}')
 
 
-def evaluate_runs():
-    qq_a_metrics = evaluate_run('anserini.covid-r4.abstract.qq.bm25.txt')
-    qd_a_metrics = evaluate_run('anserini.covid-r4.abstract.qdel.bm25.txt')
-
-    qq_f_metrics = evaluate_run('anserini.covid-r4.full-text.qq.bm25.txt')
-    qd_f_metrics = evaluate_run('anserini.covid-r4.full-text.qdel.bm25.txt')
-
-    qq_p_metrics = evaluate_run('anserini.covid-r4.paragraph.qq.bm25.txt')
-    qd_p_metrics = evaluate_run('anserini.covid-r4.paragraph.qdel.bm25.txt')
-
-    qq_u_metrics = evaluate_run('anserini.covid-r4.fusion1.txt')
-    qd_u_metrics = evaluate_run('anserini.covid-r4.fusion2.txt')
-
-    print('')
-    print('## Evaluation results')
-    print('')
-    print(f'                                          topics   nDCG@10   Judged@10   Recall@1000')
-    print(f'anserini.covid-r4.abstract.qq.bm25.txt' +
-          f'      {qq_a_metrics["topics"]}      {qq_a_metrics["ndcg_cut_10"]:.4f}' +
-          f'    {qq_a_metrics["judged_cut_10"]:.4f}      {qq_a_metrics["recall_1000"]:.4f}' +
-          f'    {qq_a_metrics["md5"]}')
-    print(f'anserini.covid-r4.abstract.qdel.bm25.txt' +
-          f'    {qd_a_metrics["topics"]}      {qd_a_metrics["ndcg_cut_10"]:.4f}' +
-          f'    {qd_a_metrics["judged_cut_10"]:.4f}      {qd_a_metrics["recall_1000"]:.4f}' +
-          f'    {qd_a_metrics["md5"]}')
-
-    print(f'anserini.covid-r4.full-text.qq.bm25.txt' +
-          f'     {qq_f_metrics["topics"]}      {qq_f_metrics["ndcg_cut_10"]:.4f}' +
-          f'    {qq_f_metrics["judged_cut_10"]:.4f}      {qq_f_metrics["recall_1000"]:.4f}' +
-          f'    {qq_f_metrics["md5"]}')
-    print(f'anserini.covid-r4.full-text.qdel.bm25.txt' +
-          f'   {qd_f_metrics["topics"]}      {qd_f_metrics["ndcg_cut_10"]:.4f}' +
-          f'    {qd_f_metrics["judged_cut_10"]:.4f}      {qd_f_metrics["recall_1000"]:.4f}' +
-          f'    {qd_f_metrics["md5"]}')
-
-    print(f'anserini.covid-r4.paragraph.qq.bm25.txt' +
-          f'     {qq_p_metrics["topics"]}      {qq_p_metrics["ndcg_cut_10"]:.4f}' +
-          f'    {qq_p_metrics["judged_cut_10"]:.4f}      {qq_p_metrics["recall_1000"]:.4f}' +
-          f'    {qq_p_metrics["md5"]}')
-    print(f'anserini.covid-r4.paragraph.qdel.bm25.txt' +
-          f'   {qd_p_metrics["topics"]}      {qd_p_metrics["ndcg_cut_10"]:.4f}' +
-          f'    {qd_p_metrics["judged_cut_10"]:.4f}      {qd_p_metrics["recall_1000"]:.4f}' +
-          f'    {qd_p_metrics["md5"]}')
-
-    print(f'anserini.covid-r4.fusion1.txt' +
-          f'               {qq_u_metrics["topics"]}      {qq_u_metrics["ndcg_cut_10"]:.4f}' +
-          f'    {qq_u_metrics["judged_cut_10"]:.4f}      {qq_u_metrics["recall_1000"]:.4f}' +
-          f'    {qq_u_metrics["md5"]}')
-    print(f'anserini.covid-r4.fusion2.txt' +
-          f'               {qd_u_metrics["topics"]}      {qd_u_metrics["ndcg_cut_10"]:.4f}' +
-          f'    {qd_u_metrics["judged_cut_10"]:.4f}      {qd_u_metrics["recall_1000"]:.4f}' +
-          f'    {qd_u_metrics["md5"]}')
-
-
 indexes = ['indexes/lucene-index-cord19-abstract-2020-06-19',
            'indexes/lucene-index-cord19-full-text-2020-06-19',
            'indexes/lucene-index-cord19-paragraph-2020-06-19']
@@ -192,7 +120,18 @@ def main():
 
     perform_runs()
     perform_fusion()
-    evaluate_runs()
+
+    runs = ['anserini.covid-r4.abstract.qq.bm25.txt',
+            'anserini.covid-r4.abstract.qdel.bm25.txt',
+            'anserini.covid-r4.full-text.qq.bm25.txt',
+            'anserini.covid-r4.full-text.qdel.bm25.txt',
+            'anserini.covid-r4.paragraph.qq.bm25.txt',
+            'anserini.covid-r4.paragraph.qdel.bm25.txt',
+            'anserini.covid-r4.fusion1.txt',
+            'anserini.covid-r4.fusion2.txt',
+            'anserini.covid-r4.abstract.qdel.bm25+rm3Rf.txt']
+
+    evaluate_runs('src/main/resources/topics-and-qrels/qrels.covid-round3-cumulative.txt', runs)
 
 
 if __name__ == '__main__':
