@@ -21,6 +21,8 @@ import shutil
 import subprocess
 import sys
 
+from random import randint
+
 sys.path.insert(0, '../pyserini/')
 
 import pyserini.util
@@ -87,17 +89,20 @@ def verify_stored_runs(runs):
     print(f'## Verifying Stored Runs')
     print('')
 
-    if os.path.exists('tmp'):
-        shutil.rmtree('tmp')
+    tmp = f'tmp{randint(0, 10000)}'
 
-    os.mkdir('tmp')
+    # In the rare event there's a collision
+    if os.path.exists(tmp):
+        shutil.rmtree(tmp)
+
+    os.mkdir(tmp)
     for url in runs:
         filename = url.split('/')[-1]
         filename = re.sub('\\?dl=1$', '', filename)  # Remove the Dropbox 'force download' parameter
 
-        pyserini.util.download_url(url, 'tmp', force=True)
+        pyserini.util.download_url(url, tmp, force=True)
 
-        md5 = hashlib.md5(open(f'tmp/{filename}', 'rb').read()).hexdigest()
+        md5 = hashlib.md5(open(f'{tmp}/{filename}', 'rb').read()).hexdigest()
         assert(runs[url] == md5)
         print('')
-    shutil.rmtree('tmp')
+    shutil.rmtree(tmp)

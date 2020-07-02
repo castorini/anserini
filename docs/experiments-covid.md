@@ -19,6 +19,7 @@ They were prepared _for_ round 4 (for participants who wish to have a baseline r
 |  6 | paragraph | UDel qgen                       | 0.4016 | 0.5333 | 0.5050 | [[download](https://www.dropbox.com/s/keuogpx1dzinsgy/anserini.covid-r4.paragraph.qdel.bm25.txt)] | `b7b39629c12573ee0bfed8687dacc743` |
 |  7 | -         | reciprocal rank fusion(1, 3, 5) | 0.3424 | 0.5289 | 0.5033 | [[download](https://www.dropbox.com/s/zjc0069do0a4gu3/anserini.covid-r4.fusion1.txt)]             | `8ae9d1fca05bd1d9bfe7b24d1bdbe270` |
 |  8 | -         | reciprocal rank fusion(2, 4, 6) | 0.4004 | 0.5400 | 0.5291 | [[download](https://www.dropbox.com/s/qekc9vr3oom777n/anserini.covid-r4.fusion2.txt)]             | `e1894209c815c96c6ddd4cacb578261a` |
+|  9 | abstract  | UDel qgen + RF                  | 0.4598 | 0.5044 | 0.5330 | [[download](https://www.dropbox.com/s/2jx27rh3lknps9q/anserini.covid-r4.abstract.qdel.bm25%2Brm3Rf.txt)] | `9d954f31e2f07e11ff559bcb14ef16af` |
 
 **IMPORTANT NOTES!!!**
 
@@ -26,6 +27,15 @@ They were prepared _for_ round 4 (for participants who wish to have a baseline r
 + J@10 refers to Judged@10 and R@1k refers to Recall@1000.
 + The evaluation numbers are produced with the NIST-prepared cumulative qrels from rounds 1, 2, and 3 ([`qrels_covid_d3_j0.5-3.txt`](https://ir.nist.gov/covidSubmit/data/qrels-covid_d3_j0.5-3.txt) provided by NIST, stored in our repo as [`qrels.covid-round3-cumulative.txt`](../src/main/resources/topics-and-qrels/qrels.covid-round3-cumulative.txt)) on the round 4 collection (release of 6/19).
 + For the abstract and full-text indexes, we request up to 10k hits for each topic; the number of actual hits retrieved is fairly close to this (a bit less because of deduping). For the paragraph index, we request up to 50k hits for each topic; because multiple paragraphs are retrieved from the same document, the number of unique documents in each list of hits is much smaller. A cautionary note: our experience is that choosing the top _k_ documents to rerank has a large impact on end-to-end effectiveness. Reranking the top 100 seems to provide higher precision than top 1000, but the likely tradeoff is lower recall. It is very likely the case that you _don't_ want to rerank all available hits.
++ Row 9 represents the feedback baseline condition introduced in round 3: abstract index, UDel query generator, BM25+RM3 relevance feedback (100 feedback terms).
+
+The final runs submitted to NIST, after removing judgments from 1, 2, and 3 (cumulatively), are as follows:
+
+| group | runtag | run file | checksum |
+|:------|:-------|:---------|:---------|
+| `anserini` | `r4.fusion1` = Row 7 | [[download](https://www.dropbox.com/s/g3giixyusk4tzro/anserini.final-r4.fusion1.txt)] | `a8ab52e12c151012adbfc8e37d666760` |
+| `anserini` | `r4.fusion2` = Row 8 | [[download](https://www.dropbox.com/s/z4wbqj9gfos8wln/anserini.final-r4.fusion2.txt)] | `1500104c928f463f38e76b58b91d4c07` |
+| `anserini` | `r4.rf` = Row 9      | [[download](https://www.dropbox.com/s/28w83b07yzndlbg/anserini.final-r4.rf.txt)]      | `41d746eb86a99d2f33068ebc195072cd` |
 
 We have written scripts that make replicating the round 4 baselines easy:
 
