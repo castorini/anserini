@@ -3,13 +3,14 @@
 This document describes various baselines for the [TREC-COVID Challenge](https://ir.nist.gov/covidSubmit/), which uses the [COVID-19 Open Research Dataset (CORD-19)](https://pages.semanticscholar.org/coronavirus-research) from the [Allen Institute for AI](https://allenai.org/).
 Here, we focus on running retrieval experiments; for basic instructions on building Anserini indexes, see [this page](experiments-cord19.md).
 
+
 ## Round 4
 
 These are runs that can be easily replicated with Anserini, from pre-built indexes available [here](experiments-cord19.md#pre-built-indexes-all-versions) (version from 2020/06/19, which is the official corpus used in the evaluation).
 They were prepared _for_ round 4 (for participants who wish to have a baseline run to rerank), and so effectiveness is computed with the NIST-prepared cumulative qrels from rounds 1, 2, and 3 ([`qrels_covid_d3_j0.5-3.txt`](https://ir.nist.gov/covidSubmit/data/qrels-covid_d3_j0.5-3.txt) provided by NIST, stored in our repo as [`qrels.covid-round3-cumulative.txt`](../src/main/resources/topics-and-qrels/qrels.covid-round3-cumulative.txt)).
 
-|    | index     | field(s)                        | nDCG@10 | Judged@10 | Recall@1000 | run file | checksum |
-|---:|:----------|:--------------------------------|--------:|----------:|------------:|:---------|----------|
+|    | index     | field(s)                        | nDCG@10 | J@10 | R@1k | run file | checksum |
+|---:|:----------|:--------------------------------|--------:|-----:|-----:|:---------|----------|
 |  1 | abstract  | query+question                  | 0.3143 | 0.4467 | 0.4257 | [[download](https://www.dropbox.com/s/mf79huhxfy96g6i/anserini.covid-r4.abstract.qq.bm25.txt)]    | `56ac5a0410e235243ca6e9f0f00eefa1` |
 |  2 | abstract  | UDel qgen                       | 0.3260 | 0.4378 | 0.4432 | [[download](https://www.dropbox.com/s/4zau6ejrkvgn9m7/anserini.covid-r4.abstract.qdel.bm25.txt)]  | `115d6d2e308b47ffacbc642175095c74` |
 |  3 | full-text | query+question                  | 0.2108 | 0.4044 | 0.3891 | [[download](https://www.dropbox.com/s/bpdopie6gqffv0w/anserini.covid-r4.full-text.qq.bm25.txt)]   | `af0d10a5344f4007e6781e8d2959eb54` |
@@ -22,10 +23,16 @@ They were prepared _for_ round 4 (for participants who wish to have a baseline r
 **IMPORTANT NOTES!!!**
 
 + These runs are performed at [`b8609a`](https://github.com/castorini/anserini/commit/b8609aa8b640a0322641d823fcb3c169acb2f79a), at the release of Anserini 0.9.4.
++ J@10 refers to Judged@10 and R@1k refers to Recall@1000.
 + The evaluation numbers are produced with the NIST-prepared cumulative qrels from rounds 1, 2, and 3 ([`qrels_covid_d3_j0.5-3.txt`](https://ir.nist.gov/covidSubmit/data/qrels-covid_d3_j0.5-3.txt) provided by NIST, stored in our repo as [`qrels.covid-round3-cumulative.txt`](../src/main/resources/topics-and-qrels/qrels.covid-round3-cumulative.txt)) on the round 4 collection (release of 6/19).
 + For the abstract and full-text indexes, we request up to 10k hits for each topic; the number of actual hits retrieved is fairly close to this (a bit less because of deduping). For the paragraph index, we request up to 50k hits for each topic; because multiple paragraphs are retrieved from the same document, the number of unique documents in each list of hits is much smaller. A cautionary note: our experience is that choosing the top _k_ documents to rerank has a large impact on end-to-end effectiveness. Reranking the top 100 seems to provide higher precision than top 1000, but the likely tradeoff is lower recall. It is very likely the case that you _don't_ want to rerank all available hits.
 
-Exact commands for replicating these runs are found [further down on this page](experiments-covid.md#round-4-replication-commands).
+We have written scripts that make replicating the round 4 baselines easy:
+
+```
+$ python src/main/python/trec-covid/download_indexes.py --date 2020-06-19
+$ python src/main/python/trec-covid/generate_round4_baselines.py
+```
 
 
 ## Round 3
@@ -33,8 +40,8 @@ Exact commands for replicating these runs are found [further down on this page](
 These are runs that can be easily replicated with Anserini, from pre-built indexes available [here](experiments-cord19.md#pre-built-indexes-all-versions) (version from 2020/05/19, which is the official corpus used in the evaluation).
 They were prepared _for_ round 3 (for participants who wish to have a baseline run to rerank), and so effectiveness is computed with the union of round 1 and round 2 qrels.
 
-|    | index     | field(s)                 | nDCG@10 | Judged@10 | Recall@1000 | run file | checksum |
-|---:|:----------|:-------------------------|--------:|----------:|------------:|:---------|----------|
+|    | index     | field(s)                 | nDCG@10 | J@10 | R@1k | run file | checksum |
+|---:|:----------|:-------------------------|--------:|-----:|-----:|:---------|----------|
 |  1 | abstract  | query+question           | 0.2118 | 0.3300 | 0.4398 | [[download](https://www.dropbox.com/s/g80cqdxud1l06wq/anserini.covid-r3.abstract.qq.bm25.txt)]    | `d08d85c87e30d6c4abf54799806d282f` |
 |  2 | abstract  | UDel qgen                | 0.2470 | 0.3375 | 0.4537 | [[download](https://www.dropbox.com/s/sjcnxq7h0a3j3xz/anserini.covid-r3.abstract.qdel.bm25.txt)]  | `d552dff90995cd860a5727637f0be4d1` |
 |  3 | full-text | query+question           | 0.2337 | 0.4650 | 0.4817 | [[download](https://www.dropbox.com/s/4bjx35sgosu0jz0/anserini.covid-r3.full-text.qq.bm25.txt)]   | `6c9f4c09d842b887262ca84d61c61a1f` |
@@ -47,6 +54,7 @@ They were prepared _for_ round 3 (for participants who wish to have a baseline r
 **IMPORTANT NOTES!!!**
 
 + These runs are performed at [`2b4dcc2`](https://github.com/castorini/anserini/commit/2b4dcc2662f91ff50d3dbcd6fb4e2959a9de58c6), at the release of Anserini 0.9.3.
++ J@10 refers to Judged@10 and R@1k refers to Recall@1000.
 + The evaluation numbers are produced with the union of _both_ round 1 qrels and round 2 qrels on the round 3 collection (release of 5/19).
 + For the abstract and full-text indexes, we request up to 10k hits for each topic; the number of actual hits retrieved is fairly close to this (a bit less because of deduping). For the paragraph index, we request up to 50k hits for each topic; because multiple paragraphs are retrieved from the same document, the number of unique documents in each list of hits is much smaller. A cautionary note: our experience is that choosing the top _k_ documents to rerank has a large impact on end-to-end effectiveness. Reranking the top 100 seems to provide higher precision than top 1000, but the likely tradeoff is lower recall. It is very likely the case that you _don't_ want to rerank all available hits.
 + For reciprocal rank fusion, the underlying fusion library returns only up to 1000 hits per topic. This was a known issue for round 2, since the Anserini fusion script did not specify a larger value. However, this does appear to be a limitation in the underlying library, see [this issue](https://github.com/joaopalotti/trectools/issues/22).
@@ -65,9 +73,22 @@ We resolved the issue from round 2 where the final submitted runs have less than
 The final run `r3.rf` represents code in [PR #1236](https://github.com/castorini/anserini/pull/1236): abstract index, UDel query generator, BM25+RM3 relevance feedback (100 feedback terms).
 Merge of the PR into master is pending confirmation that all previous regression tests pass.
 
-Exact commands for replicating these runs are found [further down on this page](experiments-covid.md#round-3-replication-commands).
+We have written scripts that make replicating the round 3 baselines easy:
 
-**(Updates 2020/06/23)** We report the effectiveness of the Anserini baselines according to official round 3 judgments from NIST below.
+```
+$ python src/main/python/trec-covid/download_indexes.py --date 2020-05-19
+$ python src/main/python/trec-covid/generate_round3_baselines.py
+```
+
+Note that these scripts were written _after_ the release of the round 3 qrels (previously, the runs were generated by a series of shells commands).
+However, we have confirmed that they produce _exactly_ the same output (i.e., identical checksums) as the runs generated previously.
+
+
+### Evaluation with Round 3 Qrels
+
+Since the above runs were prepared _for_ round 3, we do not know how well they actually performed until the round 3 judgments from NIST were released.
+Here, we provide these evaluation results.
+
 NIST provides the following caveat [here](https://ir.nist.gov/covidSubmit/archive.html):
 
 > Since there were previously judged documents whose doc-ids changed between the Round 1 and Round 2 judgment sets and the Round 3 data sets, these documents were removed from submissions by NIST. Almost all runs had some documents removed.
@@ -83,17 +104,17 @@ They are, instead:
 
 And the effectiveness of the above runs:
 
-| group | runtag | nDCG@10 | Judged@10 | Recall@1000
-|:------|:-------|:---------|:---------|:---------|
+| group | runtag | nDCG@10 | J@10 | R@1k |
+|:------|:-------|:--------|-----:|-----:|
 | `anserini` | `r3.fusion1` | 0.5359 | 0.8475 | 0.2293
 | `anserini` | `r3.fusion2` | 0.6100 | 0.9100 | 0.2641
 | `anserini` | `r3.rf`      | 0.6883 | 0.9750 | 0.2817
 
-**(Updates 2020/06/23)** We report the effectiveness of all the runs that were prepared _for_ round 3 using the cumulative qrels file (containing qrels from round 1, 2 and 3) mapped to the Round 3 (May 19) release of CORD-19. 
+Below, we report the effectiveness of all the runs that were prepared _for_ round 3 using the cumulative qrels file (containing qrels from round 1, 2 and 3) mapped to the Round 3 (May 19) release of CORD-19. 
 This qrels file, provided by NIST as [`qrels_covid_d3_j0.5-3.txt`](https://ir.nist.gov/covidSubmit/data/qrels-covid_d3_j0.5-3.txt), is stored in our repo as [`qrels.covid-round3-cumulative.txt`](../src/main/resources/topics-and-qrels/qrels.covid-round3-cumulative.txt).
 
-|    | index     | field(s)                 | nDCG@10 | Judged@10 | Recall@1000 |
-|---:|:----------|:-------------------------|--------:|----------:|------------:|
+|    | index     | field(s)                 | nDCG@10 | J@10 | R@1k |
+|---:|:----------|:-------------------------|--------:|-----:|-----:|
 |  1 | abstract  | query+question           | 0.5781 | 0.8875 | 0.5040 |
 |  2 | abstract  | UDel qgen                | 0.6291 | 0.9300 | 0.5215 |
 |  3 | full-text | query+question           | 0.3977 | 0.7500 | 0.4708 |
@@ -103,13 +124,14 @@ This qrels file, provided by NIST as [`qrels_covid_d3_j0.5-3.txt`](https://ir.ni
 |  7 | -         | reciprocal rank fusion(1, 3, 5) | 0.5924 | 0.9625 | 0.5956 |
 |  8 | -         | reciprocal rank fusion(2, 4, 6) | 0.6515 | 0.9875 | 0.6194 |
 
+
 ## Round 2
 
 These are runs that can be easily replicated with Anserini, from pre-built indexes available [here](experiments-cord19.md#pre-built-indexes-all-versions) (version from 2020/05/01, which is the official corpus used in the evaluation).
 They were prepared _for_ round 2 (for participants who wish to have a baseline run to rerank), and so effectiveness is computed with round 1 qrels.
 
-|    | index     | field(s)       | nDCG@10 | Judged@10 | Recall@1000 | run file | checksum |
-|---:|:----------|:---------------|--------:|----------:|------------:|:---------|----------|
+|    | index     | field(s)       | nDCG@10 | J@10 | R@1k | run file | checksum |
+|---:|:----------|:---------------|--------:|-----:|-----:|:---------|----------|
 |  1 | abstract  | query+question |  0.3522 | 0.5371 | 0.6601 | [[download](https://www.dropbox.com/s/duimcackueph2co/anserini.covid-r2.abstract.qq.bm25.txt.gz)]    | `9cdea30a3881f9e60d3c61a890b094bd` |
 |  2 | abstract  | UDel qgen      |  0.3781 | 0.5371 | 0.6485 | [[download](https://www.dropbox.com/s/n9yfssge5asez74/anserini.covid-r2.abstract.qdel.bm25.txt.gz)]  | `1e1bcdf623f69799a2b1b2982f53c23d` |
 |  3 | full-text | query+question |  0.2070 | 0.4286 | 0.5953 | [[download](https://www.dropbox.com/s/iswpuj9tf5pj5ei/anserini.covid-r2.full-text.qq.bm25.txt.gz)]   | `6d704c60cc2cf134430c36ec2a0a3faa` |
@@ -200,15 +222,6 @@ Caveats:
 
 Exact commands for replicating these runs are found [further down on this page](experiments-covid.md#round-1-replication-commands).
 
-
-## Round 4: Replication Commands
-
-We have written scripts that make replicating the round 4 baselines easy:
-
-```
-$ python src/main/python/trec-covid/download_indexes.py --date 2020-06-19
-$ python src/main/python/trec-covid/generate_round4_baselines.py
-```
 
 ## Round 3: Replication Commands
 
