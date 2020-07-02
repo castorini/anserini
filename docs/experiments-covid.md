@@ -38,7 +38,7 @@ $ python src/main/python/trec-covid/generate_round4_baselines.py
 ## Round 3
 
 These are runs that can be easily replicated with Anserini, from pre-built indexes available [here](experiments-cord19.md#pre-built-indexes-all-versions) (version from 2020/05/19, which is the official corpus used in round 3).
-They were prepared _for_ round 3 (for participants who wish to have a baseline run to rerank); to provide a sense of effectiveness, we evaluate with the union of round 1 and round 2 qrels.
+They were prepared _for_ round 3 (for participants who wish to have a baseline run to rerank); to provide a sense of effectiveness, we present evaluation results with the union of round 1 and round 2 qrels.
 
 |    | index     | field(s)                 | nDCG@10 | J@10 | R@1k | run file | checksum |
 |---:|:----------|:-------------------------|--------:|-----:|-----:|:---------|----------|
@@ -135,7 +135,7 @@ python tools/eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/
 The scores of the post-processed runs match those reported by NIST.
 We see that that NIST post-processing improves scores slightly.
 
-Below, we report the effectiveness of all the runs that were prepared _for_ round 3 using the cumulative qrels file (containing qrels from round 1, 2 and 3) mapped to the Round 3 (May 19) release of CORD-19. 
+Below, we report the effectiveness of the runs using the cumulative qrels file from round 3.
 This qrels file, provided by NIST as [`qrels_covid_d3_j0.5-3.txt`](https://ir.nist.gov/covidSubmit/data/qrels-covid_d3_j0.5-3.txt), is stored in our repo as [`qrels.covid-round3-cumulative.txt`](../src/main/resources/topics-and-qrels/qrels.covid-round3-cumulative.txt).
 
 |    | index     | field(s)                 | nDCG@10 | J@10 | R@1k |
