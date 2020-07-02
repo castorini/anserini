@@ -50,6 +50,7 @@ They were prepared _for_ round 3 (for participants who wish to have a baseline r
 |  6 | paragraph | UDel qgen                | 0.3604 | 0.5050 | 0.5676 | [[download](https://www.dropbox.com/s/2928i60fj2i09bt/anserini.covid-r3.paragraph.qdel.bm25.txt)] | `c1b966e4c3f387b6810211f339b35852` |
 |  7 | -         | reciprocal rank fusion(1, 3, 5) | 0.3093 | 0.4975 | 0.5566 | [[download](https://www.dropbox.com/s/6vk5iohqf81iy8b/anserini.covid-r3.fusion1.txt)]      | `61cbd73c6e60ba44f18ce967b5b0e5b3` |
 |  8 | -         | reciprocal rank fusion(2, 4, 6) | 0.3568 | 0.5250 | 0.5769 | [[download](https://www.dropbox.com/s/n09595t1eqymkks/anserini.covid-r3.fusion2.txt)]      | `d7eabf3dab840104c88de925e918fdab` |
+|  9 | abstract  | UDel qgen                |
 
 **IMPORTANT NOTES!!!**
 
@@ -58,6 +59,7 @@ They were prepared _for_ round 3 (for participants who wish to have a baseline r
 + The evaluation numbers are produced with the union of _both_ round 1 qrels and round 2 qrels on the round 3 collection (release of 5/19).
 + For the abstract and full-text indexes, we request up to 10k hits for each topic; the number of actual hits retrieved is fairly close to this (a bit less because of deduping). For the paragraph index, we request up to 50k hits for each topic; because multiple paragraphs are retrieved from the same document, the number of unique documents in each list of hits is much smaller. A cautionary note: our experience is that choosing the top _k_ documents to rerank has a large impact on end-to-end effectiveness. Reranking the top 100 seems to provide higher precision than top 1000, but the likely tradeoff is lower recall. It is very likely the case that you _don't_ want to rerank all available hits.
 + For reciprocal rank fusion, the underlying fusion library returns only up to 1000 hits per topic. This was a known issue for round 2, since the Anserini fusion script did not specify a larger value. However, this does appear to be a limitation in the underlying library, see [this issue](https://github.com/joaopalotti/trectools/issues/22).
++ Row 9 represents a new relevance feedback baseline condition introduced in round 3: abstract index, UDel query generator, BM25+RM3 relevance feedback (100 feedback terms). The code was in [PR #1236](https://github.com/castorini/anserini/pull/1236) and had not been merged at the time of submission because we had not completed regression testing. The PR has since been merged.
 
 The final runs submitted to NIST, after removing judgments from round 1 and round 2, are as follows:
 
@@ -67,9 +69,8 @@ The final runs submitted to NIST, after removing judgments from round 1 and roun
 | `anserini` | `r3.fusion2` | [[download](https://www.dropbox.com/s/uvfrssp6nw2v2jl/anserini.final-r3.fusion2.txt)] | `12679197846ed77306ecb2ca7895b011` |
 | `anserini` | `r3.rf`      | [[download](https://www.dropbox.com/s/2wrg7ceaca3n7ac/anserini.final-r3.rf.txt)]      | `7192a08c5275b59d5ef18395917ff694` |
 
+The run `r3.rf` corresponds to run 9 in above table.
 We resolved the issue from round 2 where the final submitted runs have less than 1000 hits per topic.
-The final run `r3.rf` represents code in [PR #1236](https://github.com/castorini/anserini/pull/1236): abstract index, UDel query generator, BM25+RM3 relevance feedback (100 feedback terms).
-Merge of the PR into master is pending confirmation that all previous regression tests pass.
 
 We have written scripts that make replicating the round 3 baselines easy:
 
@@ -132,6 +133,7 @@ python tools/eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/
 python tools/eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round3.txt --cutoffs 10 --run runs/anserini.final-r3.rf.post-processed.txt
 ```
 
+The scores of the post-processed runs match those reported by NIST.
 We see that that NIST post-processing improves scores slightly.
 
 Below, we report the effectiveness of all the runs that were prepared _for_ round 3 using the cumulative qrels file (containing qrels from round 1, 2 and 3) mapped to the Round 3 (May 19) release of CORD-19. 
