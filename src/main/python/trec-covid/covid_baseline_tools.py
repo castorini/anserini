@@ -105,5 +105,7 @@ def verify_stored_runs(runs):
 
         md5 = hashlib.md5(open(f'{tmp}/{filename}', 'rb').read()).hexdigest()
         assert(runs[url] == md5)
+        print('Checksums match!')
         print('')
+
     shutil.rmtree(tmp)
