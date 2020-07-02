@@ -73,7 +73,7 @@ We resolved the issue from round 2 where the final submitted runs have less than
 
 We have written scripts that make replicating the round 3 baselines easy:
 
-```
+```bash
 $ python src/main/python/trec-covid/download_indexes.py --date 2020-05-19
 $ python src/main/python/trec-covid/generate_round3_baselines.py
 ```
@@ -112,26 +112,6 @@ Effectiveness results:
 | `anserini` | `r3.rf`                            | 0.6812 | 0.9600 | 0.2787 | 0.6399
 | `anserini` | `r3.rf` (NIST post-processed)      | 0.6883 | 0.9750 | 0.2817 | 0.6399
 
-Commands for replicating above results:
-
-```
-tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m recall.1000 -m ndcg_cut.10 -m map src/main/resources/topics-and-qrels/qrels.covid-round3.txt runs/anserini.final-r3.fusion1.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m recall.1000 -m ndcg_cut.10 -m map src/main/resources/topics-and-qrels/qrels.covid-round3.txt runs/anserini.final-r3.fusion2.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m recall.1000 -m ndcg_cut.10 -m map src/main/resources/topics-and-qrels/qrels.covid-round3.txt runs/anserini.final-r3.rf.txt
-
-tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m recall.1000 -m ndcg_cut.10 -m map src/main/resources/topics-and-qrels/qrels.covid-round3.txt runs/anserini.final-r3.fusion1.post-processed.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m recall.1000 -m ndcg_cut.10 -m map src/main/resources/topics-and-qrels/qrels.covid-round3.txt runs/anserini.final-r3.fusion2.post-processed.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m recall.1000 -m ndcg_cut.10 -m map src/main/resources/topics-and-qrels/qrels.covid-round3.txt runs/anserini.final-r3.rf.post-processed.txt
-
-python tools/eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round3.txt --cutoffs 10 --run runs/anserini.final-r3.fusion1.txt
-python tools/eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round3.txt --cutoffs 10 --run runs/anserini.final-r3.fusion2.txt
-python tools/eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round3.txt --cutoffs 10 --run runs/anserini.final-r3.rf.txt
-
-python tools/eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round3.txt --cutoffs 10 --run runs/anserini.final-r3.fusion1.post-processed.txt
-python tools/eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round3.txt --cutoffs 10 --run runs/anserini.final-r3.fusion2.post-processed.txt
-python tools/eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round3.txt --cutoffs 10 --run runs/anserini.final-r3.rf.post-processed.txt
-```
-
 The scores of the post-processed runs match those reported by NIST.
 We see that that NIST post-processing improves scores slightly.
 
@@ -149,6 +129,12 @@ This qrels file, provided by NIST as [`qrels_covid_d3_j0.5-3.txt`](https://ir.ni
 |  7 | -         | reciprocal rank fusion(1, 3, 5) | 0.5924 | 0.9625 | 0.5956 |
 |  8 | -         | reciprocal rank fusion(2, 4, 6) | 0.6515 | 0.9875 | 0.6194 |
 |  9 | abstract  | UDel qgen + RF           | 0.7459 | 0.9875 | 0.6125 |
+
+Note that all of the results above can be replicated with the following script:
+
+```bash
+$ python src/main/python/trec-covid/generate_round3_baselines.py
+```
 
 
 ## Round 2
