@@ -19,6 +19,7 @@ They were prepared _for_ round 4 (for participants who wish to have a baseline r
 |  6 | paragraph | UDel qgen                       | 0.4016 | 0.5333 | 0.5050 | [[download](https://www.dropbox.com/s/keuogpx1dzinsgy/anserini.covid-r4.paragraph.qdel.bm25.txt)] | `b7b39629c12573ee0bfed8687dacc743` |
 |  7 | -         | reciprocal rank fusion(1, 3, 5) | 0.3424 | 0.5289 | 0.5033 | [[download](https://www.dropbox.com/s/zjc0069do0a4gu3/anserini.covid-r4.fusion1.txt)]             | `8ae9d1fca05bd1d9bfe7b24d1bdbe270` |
 |  8 | -         | reciprocal rank fusion(2, 4, 6) | 0.4004 | 0.5400 | 0.5291 | [[download](https://www.dropbox.com/s/qekc9vr3oom777n/anserini.covid-r4.fusion2.txt)]             | `e1894209c815c96c6ddd4cacb578261a` |
+|  9 | abstract  | UDel qgen + RF                  | 0.4598 | 0.5044 | 0.5330 | [[download](https://www.dropbox.com/s/2jx27rh3lknps9q/anserini.covid-r4.abstract.qdel.bm25%2Brm3Rf.txt)] | `9d954f31e2f07e11ff559bcb14ef16af` |
 
 **IMPORTANT NOTES!!!**
 
@@ -26,8 +27,17 @@ They were prepared _for_ round 4 (for participants who wish to have a baseline r
 + J@10 refers to Judged@10 and R@1k refers to Recall@1000.
 + The evaluation numbers are produced with the NIST-prepared cumulative qrels from rounds 1, 2, and 3 ([`qrels_covid_d3_j0.5-3.txt`](https://ir.nist.gov/covidSubmit/data/qrels-covid_d3_j0.5-3.txt) provided by NIST, stored in our repo as [`qrels.covid-round3-cumulative.txt`](../src/main/resources/topics-and-qrels/qrels.covid-round3-cumulative.txt)) on the round 4 collection (release of 6/19).
 + For the abstract and full-text indexes, we request up to 10k hits for each topic; the number of actual hits retrieved is fairly close to this (a bit less because of deduping). For the paragraph index, we request up to 50k hits for each topic; because multiple paragraphs are retrieved from the same document, the number of unique documents in each list of hits is much smaller. A cautionary note: our experience is that choosing the top _k_ documents to rerank has a large impact on end-to-end effectiveness. Reranking the top 100 seems to provide higher precision than top 1000, but the likely tradeoff is lower recall. It is very likely the case that you _don't_ want to rerank all available hits.
++ Row 9 represents the feedback baseline condition introduced in round 3: abstract index, UDel query generator, BM25+RM3 relevance feedback (100 feedback terms).
 
-We have written scripts that make replicating the round 4 baselines easy:
+The final runs submitted to NIST, after removing judgments from 1, 2, and 3 (cumulatively), are as follows:
+
+| group | runtag | run file | checksum |
+|:------|:-------|:---------|:---------|
+| `anserini` | `r4.fusion1` = Row 7 | [[download](https://www.dropbox.com/s/g3giixyusk4tzro/anserini.final-r4.fusion1.txt)] | `a8ab52e12c151012adbfc8e37d666760` |
+| `anserini` | `r4.fusion2` = Row 8 | [[download](https://www.dropbox.com/s/z4wbqj9gfos8wln/anserini.final-r4.fusion2.txt)] | `1500104c928f463f38e76b58b91d4c07` |
+| `anserini` | `r4.rf` = Row 9      | [[download](https://www.dropbox.com/s/28w83b07yzndlbg/anserini.final-r4.rf.txt)]      | `41d746eb86a99d2f33068ebc195072cd` |
+
+We have written scripts that automate the replication of these baselines:
 
 ```
 $ python src/main/python/trec-covid/download_indexes.py --date 2020-06-19
@@ -71,9 +81,9 @@ The final runs submitted to NIST, after removing judgments from round 1 and roun
 
 We resolved the issue from round 2 where the final submitted runs have less than 1000 hits per topic.
 
-We have written scripts that make replicating the round 3 baselines easy:
+We have written scripts that automate the replication of these baselines:
 
-```
+```bash
 $ python src/main/python/trec-covid/download_indexes.py --date 2020-05-19
 $ python src/main/python/trec-covid/generate_round3_baselines.py
 ```
@@ -112,26 +122,6 @@ Effectiveness results:
 | `anserini` | `r3.rf`                            | 0.6812 | 0.9600 | 0.2787 | 0.6399
 | `anserini` | `r3.rf` (NIST post-processed)      | 0.6883 | 0.9750 | 0.2817 | 0.6399
 
-Commands for replicating above results:
-
-```
-tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m recall.1000 -m ndcg_cut.10 -m map src/main/resources/topics-and-qrels/qrels.covid-round3.txt runs/anserini.final-r3.fusion1.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m recall.1000 -m ndcg_cut.10 -m map src/main/resources/topics-and-qrels/qrels.covid-round3.txt runs/anserini.final-r3.fusion2.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m recall.1000 -m ndcg_cut.10 -m map src/main/resources/topics-and-qrels/qrels.covid-round3.txt runs/anserini.final-r3.rf.txt
-
-tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m recall.1000 -m ndcg_cut.10 -m map src/main/resources/topics-and-qrels/qrels.covid-round3.txt runs/anserini.final-r3.fusion1.post-processed.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m recall.1000 -m ndcg_cut.10 -m map src/main/resources/topics-and-qrels/qrels.covid-round3.txt runs/anserini.final-r3.fusion2.post-processed.txt
-tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m recall.1000 -m ndcg_cut.10 -m map src/main/resources/topics-and-qrels/qrels.covid-round3.txt runs/anserini.final-r3.rf.post-processed.txt
-
-python tools/eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round3.txt --cutoffs 10 --run runs/anserini.final-r3.fusion1.txt
-python tools/eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round3.txt --cutoffs 10 --run runs/anserini.final-r3.fusion2.txt
-python tools/eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round3.txt --cutoffs 10 --run runs/anserini.final-r3.rf.txt
-
-python tools/eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round3.txt --cutoffs 10 --run runs/anserini.final-r3.fusion1.post-processed.txt
-python tools/eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round3.txt --cutoffs 10 --run runs/anserini.final-r3.fusion2.post-processed.txt
-python tools/eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round3.txt --cutoffs 10 --run runs/anserini.final-r3.rf.post-processed.txt
-```
-
 The scores of the post-processed runs match those reported by NIST.
 We see that that NIST post-processing improves scores slightly.
 
@@ -149,6 +139,12 @@ This qrels file, provided by NIST as [`qrels_covid_d3_j0.5-3.txt`](https://ir.ni
 |  7 | -         | reciprocal rank fusion(1, 3, 5) | 0.5924 | 0.9625 | 0.5956 |
 |  8 | -         | reciprocal rank fusion(2, 4, 6) | 0.6515 | 0.9875 | 0.6194 |
 |  9 | abstract  | UDel qgen + RF           | 0.7459 | 0.9875 | 0.6125 |
+
+Note that all of the results above can be replicated with the following script:
+
+```bash
+$ python src/main/python/trec-covid/generate_round3_baselines.py
+```
 
 
 ## Round 2
