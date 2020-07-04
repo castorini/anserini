@@ -65,7 +65,7 @@ sh target/appassembler/bin/SearchMsmarco -hits 1000 -threads 1 \
 ```
 
 Note that by default, the above script uses BM25 with tuned parameters `k1=0.82`, `b=0.68`.
-The option `-hits` specifies the of documents per query to be retrieved.
+The option `-hits` specifies the number of documents per query to be retrieved.
 Thus, the output file should have approximately 6980 × 1000 = 6.9M lines.
 
 Retrieval speed will vary by machine:
