@@ -25,7 +25,61 @@ from covid_baseline_tools import evaluate_runs, verify_stored_runs
 sys.path.insert(0, './')
 sys.path.insert(0, '../pyserini/')
 
-import pyserini.util
+from pyserini.util import compute_md5
+
+
+# This makes errors more readable,
+# see https://stackoverflow.com/questions/27674602/hide-traceback-unless-a-debug-flag-is-set
+sys.tracebacklimit = 0
+
+indexes = ['indexes/lucene-index-cord19-abstract-2020-06-19',
+           'indexes/lucene-index-cord19-full-text-2020-06-19',
+           'indexes/lucene-index-cord19-paragraph-2020-06-19']
+
+cumulative_runs = {
+    'anserini.covid-r4.abstract.qq.bm25.txt': '56ac5a0410e235243ca6e9f0f00eefa1',
+    'anserini.covid-r4.abstract.qdel.bm25.txt': '115d6d2e308b47ffacbc642175095c74',
+    'anserini.covid-r4.full-text.qq.bm25.txt': 'af0d10a5344f4007e6781e8d2959eb54',
+    'anserini.covid-r4.full-text.qdel.bm25.txt': '594d469b8f45cf808092a3d8e870eaf5',
+    'anserini.covid-r4.paragraph.qq.bm25.txt': '6f468b7b60aaa05fc215d237b5475aec',
+    'anserini.covid-r4.paragraph.qdel.bm25.txt':  'b7b39629c12573ee0bfed8687dacc743',
+    'anserini.covid-r4.fusion1.txt': '8ae9d1fca05bd1d9bfe7b24d1bdbe270',
+    'anserini.covid-r4.fusion2.txt': 'e1894209c815c96c6ddd4cacb578261a',
+    'anserini.covid-r4.abstract.qdel.bm25+rm3Rf.txt': '9d954f31e2f07e11ff559bcb14ef16af'
+}
+
+final_runs = {
+    'anserini.final-r4.fusion1.txt': 'a8ab52e12c151012adbfc8e37d666760',
+    'anserini.final-r4.fusion2.txt': '1500104c928f463f38e76b58b91d4c07',
+    'anserini.final-r4.rf.txt': '41d746eb86a99d2f33068ebc195072cd'
+}
+
+stored_runs = {
+    'https://www.dropbox.com/s/mf79huhxfy96g6i/anserini.covid-r4.abstract.qq.bm25.txt?dl=1':
+        cumulative_runs['anserini.covid-r4.abstract.qq.bm25.txt'],
+    'https://www.dropbox.com/s/4zau6ejrkvgn9m7/anserini.covid-r4.abstract.qdel.bm25.txt?dl=1':
+        cumulative_runs['anserini.covid-r4.abstract.qdel.bm25.txt'],
+    'https://www.dropbox.com/s/bpdopie6gqffv0w/anserini.covid-r4.full-text.qq.bm25.txt?dl=1':
+        cumulative_runs['anserini.covid-r4.full-text.qq.bm25.txt'],
+    'https://www.dropbox.com/s/rh0uy71ogbpas0v/anserini.covid-r4.full-text.qdel.bm25.txt?dl=1':
+        cumulative_runs['anserini.covid-r4.full-text.qdel.bm25.txt'],
+    'https://www.dropbox.com/s/ifkjm8ff8g2aoh1/anserini.covid-r4.paragraph.qq.bm25.txt?dl=1':
+        cumulative_runs['anserini.covid-r4.paragraph.qq.bm25.txt'],
+    'https://www.dropbox.com/s/keuogpx1dzinsgy/anserini.covid-r4.paragraph.qdel.bm25.txt?dl=1':
+        cumulative_runs['anserini.covid-r4.paragraph.qdel.bm25.txt'],
+    'https://www.dropbox.com/s/zjc0069do0a4gu3/anserini.covid-r4.fusion1.txt?dl=1':
+        cumulative_runs['anserini.covid-r4.fusion1.txt'],
+    'https://www.dropbox.com/s/qekc9vr3oom777n/anserini.covid-r4.fusion2.txt?dl=1':
+        cumulative_runs['anserini.covid-r4.fusion2.txt'],
+    'https://www.dropbox.com/s/2jx27rh3lknps9q/anserini.covid-r4.abstract.qdel.bm25%2Brm3Rf.txt?dl=1':
+        cumulative_runs['anserini.covid-r4.abstract.qdel.bm25+rm3Rf.txt'],
+    'https://www.dropbox.com/s/g3giixyusk4tzro/anserini.final-r4.fusion1.txt?dl=1':
+        final_runs['anserini.final-r4.fusion1.txt'],
+    'https://www.dropbox.com/s/z4wbqj9gfos8wln/anserini.final-r4.fusion2.txt?dl=1':
+        final_runs['anserini.final-r4.fusion2.txt'],
+    'https://www.dropbox.com/s/28w83b07yzndlbg/anserini.final-r4.rf.txt?dl=1':
+        final_runs['anserini.final-r4.rf.txt']
+}
 
 
 def perform_runs():
@@ -92,21 +146,29 @@ def perform_fusion():
     print('## Performing fusion...')
     print('')
 
+    fusion_run1 = 'anserini.covid-r4.fusion1.txt'
     set1 = ['anserini.covid-r4.abstract.qq.bm25.txt',
             'anserini.covid-r4.full-text.qq.bm25.txt',
             'anserini.covid-r4.paragraph.qq.bm25.txt']
 
-    os.system('python src/main/python/fusion.py --method RRF --max_docs 10000 ' +
-              '--out runs/anserini.covid-r4.fusion1.txt ' +
-              f'--runs runs/{set1[0]} runs/{set1[1]} runs/{set1[2]}')
+    print(f'Performing fusion to create {fusion_run1}')
+    os.system('PYTHONPATH=../pyserini ' +
+              'python -m pyserini.fusion --method rrf --runtag reciprocal_rank_fusion_k=60 --k 10000 '
+              f'--out runs/{fusion_run1} --runs runs/{set1[0]} runs/{set1[1]} runs/{set1[2]}')
 
+    assert compute_md5(f'runs/{fusion_run1}') == cumulative_runs[fusion_run1], f'Error in producing {fusion_run1}!'
+
+    fusion_run2 = 'anserini.covid-r4.fusion2.txt'
     set2 = ['anserini.covid-r4.abstract.qdel.bm25.txt',
             'anserini.covid-r4.full-text.qdel.bm25.txt',
             'anserini.covid-r4.paragraph.qdel.bm25.txt']
 
-    os.system('python src/main/python/fusion.py --method RRF --max_docs 10000 ' +
-              '--out runs/anserini.covid-r4.fusion2.txt ' +
-              f'--runs runs/{set2[0]} runs/{set2[1]} runs/{set2[2]}')
+    print(f'Performing fusion to create {fusion_run2}')
+    os.system('PYTHONPATH=../pyserini ' +
+              'python -m pyserini.fusion --method rrf --runtag reciprocal_rank_fusion_k=60 --k 10000 ' +
+              f'--out runs/{fusion_run2} --runs runs/{set2[0]} runs/{set2[1]} runs/{set2[2]}')
+
+    assert compute_md5(f'runs/{fusion_run2}') == cumulative_runs[fusion_run2], f'Error in producing {fusion_run2}!'
 
 
 def prepare_final_submissions(qrels):
@@ -118,76 +180,40 @@ def prepare_final_submissions(qrels):
     print(f'Generating {run1}')
     os.system(f'python tools/scripts/filter_run_with_qrels.py --discard --qrels {qrels} ' +
               f'--input runs/anserini.covid-r4.fusion1.txt --output runs/{run1} --runtag r4.fusion1')
+    run1_md5 = compute_md5(f'runs/{run1}')
+    assert run1_md5 == final_runs[run1], f'Error in producing {run1}!'
 
     run2 = 'anserini.final-r4.fusion2.txt'
     print(f'Generating {run2}')
     os.system(f'python tools/scripts/filter_run_with_qrels.py --discard --qrels {qrels} ' +
               f'--input runs/anserini.covid-r4.fusion2.txt --output runs/{run2} --runtag r4.fusion2')
+    run2_md5 = compute_md5(f'runs/{run2}')
+    assert run2_md5 == final_runs[run2], f'Error in producing {run2}!'
 
     run3 = 'anserini.final-r4.rf.txt'
     print(f'Generating {run3}')
     os.system(f'python tools/scripts/filter_run_with_qrels.py --discard --qrels {qrels} ' +
               f'--input runs/anserini.covid-r4.abstract.qdel.bm25+rm3Rf.txt --output runs/{run3} --runtag r4.rf')
+    run3_md5 = compute_md5(f'runs/{run3}')
+    assert run3_md5 == final_runs[run3], f'Error in producing {run3}!'
 
     print('')
-    print(f'{run1} checksum=' + hashlib.md5(open(f'runs/{run1}', 'rb').read()).hexdigest())
-    print(f'{run2} checksum=' + hashlib.md5(open(f'runs/{run2}', 'rb').read()).hexdigest())
-    print(f'{run3} checksum=' + hashlib.md5(open(f'runs/{run3}', 'rb').read()).hexdigest())
-
-
-indexes = ['indexes/lucene-index-cord19-abstract-2020-06-19',
-           'indexes/lucene-index-cord19-full-text-2020-06-19',
-           'indexes/lucene-index-cord19-paragraph-2020-06-19']
-
-stored_runs = {
-    'https://www.dropbox.com/s/mf79huhxfy96g6i/anserini.covid-r4.abstract.qq.bm25.txt?dl=1':
-        '56ac5a0410e235243ca6e9f0f00eefa1',
-    'https://www.dropbox.com/s/4zau6ejrkvgn9m7/anserini.covid-r4.abstract.qdel.bm25.txt?dl=1':
-        '115d6d2e308b47ffacbc642175095c74',
-    'https://www.dropbox.com/s/bpdopie6gqffv0w/anserini.covid-r4.full-text.qq.bm25.txt?dl=1':
-        'af0d10a5344f4007e6781e8d2959eb54',
-    'https://www.dropbox.com/s/rh0uy71ogbpas0v/anserini.covid-r4.full-text.qdel.bm25.txt?dl=1':
-        '594d469b8f45cf808092a3d8e870eaf5',
-    'https://www.dropbox.com/s/ifkjm8ff8g2aoh1/anserini.covid-r4.paragraph.qq.bm25.txt?dl=1':
-        '6f468b7b60aaa05fc215d237b5475aec',
-    'https://www.dropbox.com/s/keuogpx1dzinsgy/anserini.covid-r4.paragraph.qdel.bm25.txt?dl=1':
-        'b7b39629c12573ee0bfed8687dacc743',
-    'https://www.dropbox.com/s/zjc0069do0a4gu3/anserini.covid-r4.fusion1.txt?dl=1':
-        '8ae9d1fca05bd1d9bfe7b24d1bdbe270',
-    'https://www.dropbox.com/s/qekc9vr3oom777n/anserini.covid-r4.fusion2.txt?dl=1':
-        'e1894209c815c96c6ddd4cacb578261a',
-    'https://www.dropbox.com/s/2jx27rh3lknps9q/anserini.covid-r4.abstract.qdel.bm25%2Brm3Rf.txt?dl=1':
-        '9d954f31e2f07e11ff559bcb14ef16af',
-    'https://www.dropbox.com/s/g3giixyusk4tzro/anserini.final-r4.fusion1.txt?dl=1':
-        'a8ab52e12c151012adbfc8e37d666760',
-    'https://www.dropbox.com/s/z4wbqj9gfos8wln/anserini.final-r4.fusion2.txt?dl=1':
-        '1500104c928f463f38e76b58b91d4c07',
-    'https://www.dropbox.com/s/28w83b07yzndlbg/anserini.final-r4.rf.txt?dl=1':
-        '41d746eb86a99d2f33068ebc195072cd'
-}
+    print(run1 + ' ' * (35 - len(run1)) + run1_md5)
+    print(run2 + ' ' * (35 - len(run2)) + run2_md5)
+    print(run3 + ' ' * (35 - len(run3)) + run3_md5)
 
 
 def main():
     if not (os.path.isdir(indexes[0]) and os.path.isdir(indexes[1]) and os.path.isdir(indexes[2])):
         print('Required indexes do not exist. Please download first.')
 
-    verify_stored_runs(stored_runs)
+    cumulative_qrels = 'src/main/resources/topics-and-qrels/qrels.covid-round3-cumulative.txt'
 
+    verify_stored_runs(stored_runs)
     perform_runs()
     perform_fusion()
-    prepare_final_submissions('src/main/resources/topics-and-qrels/qrels.covid-round3-cumulative.txt')
-
-    runs = ['anserini.covid-r4.abstract.qq.bm25.txt',
-            'anserini.covid-r4.abstract.qdel.bm25.txt',
-            'anserini.covid-r4.full-text.qq.bm25.txt',
-            'anserini.covid-r4.full-text.qdel.bm25.txt',
-            'anserini.covid-r4.paragraph.qq.bm25.txt',
-            'anserini.covid-r4.paragraph.qdel.bm25.txt',
-            'anserini.covid-r4.fusion1.txt',
-            'anserini.covid-r4.fusion2.txt',
-            'anserini.covid-r4.abstract.qdel.bm25+rm3Rf.txt']
-
-    evaluate_runs('src/main/resources/topics-and-qrels/qrels.covid-round3-cumulative.txt', runs)
+    prepare_final_submissions(cumulative_qrels)
+    evaluate_runs(cumulative_qrels, cumulative_runs)
 
 
 if __name__ == '__main__':

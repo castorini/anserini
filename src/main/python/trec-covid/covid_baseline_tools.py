@@ -15,7 +15,6 @@
 #
 
 import hashlib
-import re
 import os
 import shutil
 import subprocess
@@ -56,7 +55,7 @@ def evaluate_run(run, qrels):
     arr = output.decode('utf-8').split()
     metrics['topics'] = int(arr[0])
 
-    metrics['md5'] = hashlib.md5(open(f'runs/{run}', 'rb').read()).hexdigest()
+    metrics['md5'] = pyserini.util.compute_md5(f'runs/{run}')
 
     return metrics
 
@@ -83,6 +82,8 @@ def evaluate_runs(qrels, runs):
               f'{metrics["recall_1000"]:7.4f}{metrics["judged_cut_1000"]:7.4f} ' +
               f'{metrics["md5"]}')
 
+        assert metrics['md5'] == runs[run], f'Error in producing {run}!'
+
 
 def verify_stored_runs(runs):
     print('')
@@ -98,14 +99,7 @@ def verify_stored_runs(runs):
     os.mkdir(tmp)
     for url in runs:
         print(f'Verifying stored run at {url}...')
-        filename = url.split('/')[-1]
-        filename = re.sub('\\?dl=1$', '', filename)  # Remove the Dropbox 'force download' parameter
-
-        pyserini.util.download_url(url, tmp, force=True)
-
-        md5 = hashlib.md5(open(f'{tmp}/{filename}', 'rb').read()).hexdigest()
-        assert(runs[url] == md5)
-        print('Checksums match!')
-        print('')
+        # Use pyserini tools to download and check the API at the same time.
+        pyserini.util.download_url(url, tmp, force=True, md5=runs[url])
 
     shutil.rmtree(tmp)
