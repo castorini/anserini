@@ -76,7 +76,11 @@ def evaluate_runs(qrels, runs):
     for run in runs:
         metrics = evaluate_run(run, qrels)
 
-        print(run + ' ' * ((max_length-len(run)) + padding) +
+        # It is possible to pass a format string into an f-string:
+        # https://stackoverflow.com/questions/54780428/how-to-pass-string-format-as-a-variable-to-an-f-string
+        # We use this trick to get the right amount of space padding for the first column.
+        format_string = '<' + str(max_length + padding)
+        print(f'{run:{format_string}}' +
               f'{metrics["topics"]}{metrics["ndcg_cut_10"]:8.4f}' +
               f'{metrics["judged_cut_10"]:7.4f}{metrics["map"]:7.4f}' +
               f'{metrics["recall_1000"]:7.4f}{metrics["judged_cut_1000"]:7.4f} ' +

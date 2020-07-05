@@ -207,9 +207,9 @@ def prepare_final_submissions(qrels):
     assert run3_md5 == final_runs[run3], f'Error in producing {run3}!'
 
     print('')
-    print(run1 + ' ' * (35 - len(run1)) + run1_md5)
-    print(run2 + ' ' * (35 - len(run2)) + run2_md5)
-    print(run3 + ' ' * (35 - len(run3)) + run3_md5)
+    print(f'{run1:<35}{run1_md5}')
+    print(f'{run2:<35}{run2_md5}')
+    print(f'{run3:<35}{run3_md5}')
 
 
 def main():
