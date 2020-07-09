@@ -48,8 +48,14 @@ import java.util.Optional;
 
 /**
  * An instance of the <a href="https://trec.nist.gov/data/wapost/">TREC Washington Post Corpus</a>.
- * The collection contains 608,180 news articles and blog posts from January 2012 through August 2017,
+ * This class works for both v2 and v3 of the Washington Post corpus.
+ * 
+ * Collection v2 contains 608,180 news articles and blog posts from January 2012 through August 2017,
  * stored in JSON format. The collection is 1.5GB compressed, 5.9GB uncompressed.
+ * 
+ * Collection v3 contains an additional 154,418 new documents from 2018 and 2019 and removes (near)
+ * duplicates, resulting in a total of 671,947 news articles and blog posts from January 2012 
+ * through December 2019, The collection is 1.8GB compressed, 6.8GB uncompressed.
  */
 public class WashingtonPostCollection extends DocumentCollection<WashingtonPostCollection.Document> {
 
@@ -154,6 +160,8 @@ public class WashingtonPostCollection extends DocumentCollection<WashingtonPostC
                 } else if (type.compareToIgnoreCase("kicker") == 0) {
                   kicker = content;
                   contentBuilder.append(content).append("\n");
+                } else if (type.compareToIgnoreCase("date") == 0 && this.publishDate == 0) {
+                  this.publishDate = Long.parseLong(content);
                 }
               });
             });
@@ -214,10 +222,10 @@ public class WashingtonPostCollection extends DocumentCollection<WashingtonPostC
       protected String id;
       protected Optional<String> articleUrl;
       protected Optional<String> author;
-      protected long publishedDate;
       protected Optional<String> title;
 
       // Optional fields
+      protected long publishedDate;
       protected Optional<List<Content>> contents;
 
       /**
@@ -255,6 +263,8 @@ public class WashingtonPostCollection extends DocumentCollection<WashingtonPostC
           StringBuilder contentStringBuilder = new StringBuilder();
           if (contentObj instanceof String) {
             contentStringBuilder.append(contentObj);
+          } else if (contentObj instanceof Long) {
+            contentStringBuilder.append(String.valueOf(contentObj));
           } else if (contentObj instanceof List) {
             for (Object content: (List<Object>) contentObj) {
               contentStringBuilder.append(content).append(" ");
@@ -354,7 +364,7 @@ public class WashingtonPostCollection extends DocumentCollection<WashingtonPostC
               @JsonProperty(value = "id", required = true) String id,
               @JsonProperty(value = "article_url", required = false) Optional<String> articleUrl,
               @JsonProperty(value = "author", required = false) Optional<String> author,
-              @JsonProperty(value = "published_date", required = true) long publishedDate,
+              @JsonProperty(value = "published_date", required = false) long publishedDate,
               @JsonProperty(value = "title", required = true) Optional<String> title) {
         this.id = id;
         this.articleUrl = articleUrl;

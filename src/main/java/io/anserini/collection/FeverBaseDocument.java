@@ -16,18 +16,28 @@
 
 package io.anserini.collection;
 
-/**
- * A raw document from a collection. A {@code CommonCrawlBaseDocument} is explicitly distinguish a from a
- * Lucene {@link org.apache.lucene.document.Document}, which is the Lucene representation that
- * can be directly inserted into an index.
- */
-public interface CommonCrawlBaseDocument extends SourceDocument {
+public abstract class FeverBaseDocument implements SourceDocument {
+  protected String id;
+  protected String content;
+  protected String raw;
 
-  /**
-   * Returns the url of the document.
-   *
-   * @return the url of the document
-   */
-  String url();
+  @Override
+  public String id() {
+    return id;
+  }
 
+  @Override
+  public String contents() {
+    return content;
+  }
+
+  @Override
+  public String raw() {
+    return raw;
+  }
+
+  @Override
+  public boolean indexable() {
+    return true;
+  }
 }

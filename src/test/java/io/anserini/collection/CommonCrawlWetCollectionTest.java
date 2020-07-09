@@ -45,7 +45,7 @@ public class CommonCrawlWetCollectionTest extends DocumentCollectionTest<CommonC
                     "Software-Info: ia-web-commons.1.1.10-SNAPSHOT-20200126100433\n" +
                             "Extracted-Date: Tue, 18 Feb 2020 17:21:42 GMT\n" +
                             "robots: checked by crawler-commons 1.0 (https://github.com/crawler-commons/crawler-commons)\n" +
-                            "description: News crawl for Common Crawl\n")
+                            "description: News crawl for Common Crawl")
     );
 
     expected.put("<urn:uuid:81401709-eb1f-46bc-af26-c3535b35a644>",
@@ -57,7 +57,7 @@ public class CommonCrawlWetCollectionTest extends DocumentCollectionTest<CommonC
   @Override
   void checkDocument(SourceDocument doc, Map<String, String> expected) {
 
-    if (doc.id().isEmpty()) {
+    if (doc.id()==null) {
       assertFalse(doc.indexable());
       assertEquals(expected.get("raw"), doc.raw());
     } else {

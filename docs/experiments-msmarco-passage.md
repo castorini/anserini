@@ -1,20 +1,23 @@
-# Anserini: BM25 Baselines on [MS MARCO Passage Retrieval](https://github.com/microsoft/MSMARCO-Passage-Ranking)
+# Anserini: BM25 Baselines for MS MARCO Passage Retrieval
 
-This page contains instructions for running BM25 baselines on the MS MARCO *passage* ranking task.
+This page contains instructions for running BM25 baselines on the [MS MARCO *passage* ranking task](https://microsoft.github.io/msmarco/).
 Note that there is a separate [MS MARCO *document* ranking task](experiments-msmarco-doc.md).
 We also have a [separate page](experiments-doc2query.md) describing document expansion experiments (Doc2query) for this task.
 
 ## Data Prep
 
-We're going to use `msmarco-passage/` as the working directory.
+We're going to use the repository's root directory as the working directory.
 First, we need to download and extract the MS MARCO passage dataset:
 
 ```bash
 mkdir collections/msmarco-passage
-mkdir indexes/msmarco-passage
 
 wget https://msmarco.blob.core.windows.net/msmarcoranking/collectionandqueries.tar.gz -P collections/msmarco-passage
-tar -xzvf collections/msmarco-passage/collectionandqueries.tar.gz -C collections/msmarco-passage
+
+# Alternative mirror:
+# wget https://www.dropbox.com/s/9f54jg2f71ray3b/collectionandqueries.tar.gz -P collections/msmarco-passage
+
+tar xvfz collections/msmarco-passage/collectionandqueries.tar.gz -C collections/msmarco-passage
 ```
 
 To confirm, `collectionandqueries.tar.gz` should have MD5 checksum of `31644046b18952c1386cd4564ba2ae69`.
@@ -22,8 +25,9 @@ To confirm, `collectionandqueries.tar.gz` should have MD5 checksum of `31644046b
 Next, we need to convert the MS MARCO tsv collection into Anserini's jsonl files (which have one json object per line):
 
 ```bash
-python src/main/python/msmarco/convert_collection_to_jsonl.py \
- --collection_path collections/msmarco-passage/collection.tsv --output_folder collections/msmarco-passage/collection_jsonl
+python tools/scripts/msmarco/convert_collection_to_jsonl.py \
+ --collection-path collections/msmarco-passage/collection.tsv \
+ --output-folder collections/msmarco-passage/collection_jsonl
 ```
 
 The above script should generate 9 jsonl files in `collections/msmarco-passage/collection_jsonl`, each with 1M lines (except for the last one, which should have 841,823 lines).
@@ -31,54 +35,49 @@ The above script should generate 9 jsonl files in `collections/msmarco-passage/c
 We can now index these docs as a `JsonCollection` using Anserini:
 
 ```bash
-sh target/appassembler/bin/IndexCollection -collection JsonCollection \
- -generator DefaultLuceneDocumentGenerator -threads 9 -input collections/msmarco-passage/collection_jsonl \
+sh target/appassembler/bin/IndexCollection -threads 9 -collection JsonCollection \
+ -generator DefaultLuceneDocumentGenerator -input collections/msmarco-passage/collection_jsonl \
  -index indexes/msmarco-passage/lucene-index-msmarco -storePositions -storeDocvectors -storeRaw 
 ```
 
 Upon completion, we should have an index with 8,841,823 documents.
-The indexing speed may vary... on a modern desktop with an SSD, indexing takes less than two minutes.
+The indexing speed may vary; on a modern desktop with an SSD, indexing takes a couple of minutes.
 
-## Retrieving and Evaluating the Dev set
+## Performing Retrieval on the Dev Queries
 
 Since queries of the set are too many (+100k), it would take a long time to retrieve all of them. To speed this up, we use only the queries that are in the qrels file: 
 
 ```bash
-python src/main/python/msmarco/filter_queries.py --qrels collections/msmarco-passage/qrels.dev.small.tsv \
- --queries collections/msmarco-passage/queries.dev.tsv --output_queries collections/msmarco-passage/queries.dev.small.tsv
+python tools/scripts/msmarco/filter_queries.py \
+ --qrels collections/msmarco-passage/qrels.dev.small.tsv \
+ --queries collections/msmarco-passage/queries.dev.tsv \
+ --output collections/msmarco-passage/queries.dev.small.tsv
 ```
 
 The output queries file should contain 6980 lines.
-
-We can now retrieve this smaller set of queries:
-
-```bash
-python src/main/python/msmarco/retrieve.py --hits 1000 --threads 1 \
- --index indexes/msmarco-passage/lucene-index-msmarco --qid_queries collections/msmarco-passage/queries.dev.small.tsv \
- --output runs/run.msmarco-passage.dev.small.tsv
-```
-
-Note that by default, the above script uses BM25 with tuned parameters `k1=0.82`, `b=0.68` (more details below).
-The option `-hits` specifies the of documents per query to be retrieved.
-Thus, the output file should have approximately 6980 * 1000 = 6.9M lines. 
-
-Retrieval speed will vary by machine:
-On a modern desktop with an SSD, we can get ~0.06 s/query (taking about seven minutes). We can also perform multithreaded retrieval by changing the `--threads` argument.
-
-Alternatively, we can run the same script implemented in Java, which is a bit faster:
+We can now perform a retrieval run using this smaller set of queries:
 
 ```bash
-sh target/appassembler/bin/SearchMsmarco  -hits 1000 -threads 1 \
- -index indexes/msmarco-passage/lucene-index-msmarco -qid_queries collections/msmarco-passage/queries.dev.small.tsv \
+sh target/appassembler/bin/SearchMsmarco -hits 1000 -threads 1 \
+ -index indexes/msmarco-passage/lucene-index-msmarco \
+ -queries collections/msmarco-passage/queries.dev.small.tsv \
  -output runs/run.msmarco-passage.dev.small.tsv
 ```
 
-Similarly, we can perform multithreaded retrieval by changing the `-threads` argument.
+Note that by default, the above script uses BM25 with tuned parameters `k1=0.82`, `b=0.68`.
+The option `-hits` specifies the number of documents per query to be retrieved.
+Thus, the output file should have approximately 6980 × 1000 = 6.9M lines.
+
+Retrieval speed will vary by machine:
+On a modern desktop with an SSD, we can get ~0.07 s/query, so the run should finish in under ten minutes.
+We can perform multi-threaded retrieval by changing the `-threads` argument.
+
+## Evaluating the Results
 
 Finally, we can evaluate the retrieved documents using this the official MS MARCO evaluation script: 
 
 ```bash
-python src/main/python/msmarco/msmarco_eval.py \
+python tools/scripts/msmarco/msmarco_eval.py \
  collections/msmarco-passage/qrels.dev.small.tsv runs/run.msmarco-passage.dev.small.tsv
 ```
 
@@ -95,17 +94,19 @@ We can also use the official TREC evaluation tool, `trec_eval`, to compute other
 For that we first need to convert runs and qrels files to the TREC format:
 
 ```bash
-python src/main/python/msmarco/convert_msmarco_to_trec_run.py \
- --input_run runs/run.msmarco-passage.dev.small.tsv --output_run runs/run.msmarco-passage.dev.small.trec
+python tools/scripts/msmarco/convert_msmarco_to_trec_run.py \
+ --input runs/run.msmarco-passage.dev.small.tsv \
+ --output runs/run.msmarco-passage.dev.small.trec
 
-python src/main/python/msmarco/convert_msmarco_to_trec_qrels.py \
- --input_qrels collections/msmarco-passage/qrels.dev.small.tsv --output_qrels collections/msmarco-passage/qrels.dev.small.trec
+python tools/scripts/msmarco/convert_msmarco_to_trec_qrels.py \
+ --input collections/msmarco-passage/qrels.dev.small.tsv \
+ --output collections/msmarco-passage/qrels.dev.small.trec
 ```
 
 And run the `trec_eval` tool:
 
 ```bash
-eval/trec_eval.9.0.4/trec_eval -c -mrecall.1000 -mmap \
+tools/eval/trec_eval.9.0.4/trec_eval -c -mrecall.1000 -mmap \
  collections/msmarco-passage/qrels.dev.small.trec runs/run.msmarco-passage.dev.small.trec
 ```
 
@@ -170,4 +171,7 @@ Tuned (`k1=0.82`, `b=0.72`) | 0.1875 | 0.1956 | 0.8578
 + Results replicated by [@adamyy](https://github.com/adamyy) on 2020-05-28 (commit [`94893f1`](https://github.com/castorini/anserini/commit/94893f170e047d77c3ef5b8b995d7fbdd13f4298))
 + Results replicated by [@kelvin-jiang](https://github.com/kelvin-jiang) on 2020-05-28 (commit [`d55531a`](https://github.com/castorini/anserini/commit/d55531a738d2cf9e14c376d798d2de4bd3020b6b))
 + Results replicated by [@TianchengY](https://github.com/TianchengY) on 2020-05-28 (commit [`2947a16`](https://github.com/castorini/anserini/commit/2947a1622efae35637b83e321aba8e6fccd43489))
++ Results replicated by [@stariqmi](https://github.com/stariqmi) on 2020-05-28 (commit [`4914305`](https://github.com/castorini/anserini/commit/455169ea6a09f637817a6c4b4f6837dcc845f5f7))
++ Results replicated by [@justinborromeo](https://github.com/justinborromeo) on 2020-06-10 (commit [`7954eab`](https://github.com/castorini/anserini/commit/7954eab43f17bb8d254987d5873933c0b9596bb4))
++ Results replicated by [@yxzhu16](https://github.com/yxzhu16) on 2020-07-03 (commit [`68ace26`](https://github.com/castorini/anserini/commit/68ace26d0418a769df3d2b21e946495e54d462f6))
 
