@@ -91,6 +91,7 @@ For the most part, manual copying and pasting of commands into a shell is requir
 + [Replicating "Neural Hype" Experiments](docs/experiments-forum2018.md)
 + [Guide to BM25 baselines for the MS MARCO Passage Retrieval Task](docs/experiments-msmarco-passage.md)
 + [Guide to BM25 baselines for the MS MARCO Document Retrieval Task](docs/experiments-msmarco-doc.md)
++ [Guide to BM25 baselines for the FEVER Fact Verification Task](docs/experiments-fever.md)
 + [Guide to replicating doc2query results](docs/experiments-doc2query.md)
 + [Guide to replicating docTTTTTquery results](docs/experiments-docTTTTTquery.md)
 + [Guide to running experiments on the AI2 Open Research Corpus](docs/experiments-openresearch.md)
@@ -120,6 +121,7 @@ Beyond that, there are always [open issues](https://github.com/castorini/anserin
 
 ## Release History
 
++ v0.9.4: June 25, 2020 [[Release Notes](docs/release-notes/release-notes-v0.9.4.md)]
 + v0.9.3: May 26, 2020 [[Release Notes](docs/release-notes/release-notes-v0.9.3.md)]
 + v0.9.2: May 14, 2020 [[Release Notes](docs/release-notes/release-notes-v0.9.2.md)]
 + v0.9.1: May 6, 2020 [[Release Notes](docs/release-notes/release-notes-v0.9.1.md)]
