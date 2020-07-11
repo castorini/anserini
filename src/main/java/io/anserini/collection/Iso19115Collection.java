@@ -96,6 +96,13 @@ public class Iso19115Collection extends DocumentCollection<Iso19115Collection.Do
     protected double[] latitude;
     protected double[] longitude;
     protected String coordinates;
+    // new entried added
+    protected String purpose;
+    protected String supplInfo;
+    protected String topicCategory;
+    protected String[] keywords;
+    protected String recommendedCitation;
+    protected String thesaurusName;
 
     public Document(JsonNode json) {
       // extracting the fields from the ISO19115 file
@@ -113,6 +120,20 @@ public class Iso19115Collection extends DocumentCollection<Iso19115Collection.Do
               .get("gco:CharacterString").asText();
       this.publish_time = json.get("gmd:MD_Metadata").get("gmd:dateStamp").get("gco:Date").asText();
       this.url = json.get("gmd:MD_Metadata").get("gmd:dataSetURI").get("gco:CharacterString").asText();
+      this.purpose = json.get("gmd:MD_Metadata").get("gmd:identificationInfo").get("gmd:MD_DataIdentification").get("gmd:purpose")
+                     .get("gco:CharacterString").asText();
+      this.supplInfo = json.get("gmd:MD_Metadata").get("gmd:identificationInfo").get("gmd:MD_DataIdentification").get("gmd:supplementalInformation")
+                       .get("gco:CharacterString").asText();
+      this.topicCategory = json.get("gmd:MD_Metadata").get("gmd:identificationInfo").get("gmd:MD_DataIdentification").get("gmd:topicCategory")
+                           .get("gmd:MD_TopicCategoryCode").asText();
+      this.recommendedCitation = json.get("gmd:MD_Metadata").get("gmd:identificationInfo").get("gmd:MD_DataIdentification").get("gmd:citation")
+                                 .get("gmd:CI_Citation").get("gmd:otherCitationDetails").get("gco:CharacterString").asText();
+      this.thesaurusName = json.get("gmd:MD_Metadata").get("gmd:identificationInfo").get("gmd:MD_DataIdentification").get("gmd:descriptiveKeywords")
+                           .get(0).get("gmd:MD_Keywords").get("gmd:thesaurusName").get("gmd:CI_Citation").get("gmd:title").get("gco:CharacterString").asText()
+                           + " : " +
+                           json.get("gmd:MD_Metadata").get("gmd:identificationInfo").get("gmd:MD_DataIdentification").get("gmd:descriptiveKeywords")
+                           .get(0).get("gmd:MD_Keywords").get("gmd:thesaurusName").get("gmd:CI_Citation").get("gmd:otherCitationDetails").get("gco:CharacterString")
+                           .asText();
 
       // extracting all the authors of the paper
       JsonNode parties_node = json.get("gmd:MD_Metadata").get("gmd:identificationInfo").get("gmd:MD_DataIdentification").get("gmd:citation")
@@ -124,6 +145,17 @@ public class Iso19115Collection extends DocumentCollection<Iso19115Collection.Do
         responsibleParty[i] = parties_node.get(i).get("gmd:CI_ResponsibleParty").get("gmd:individualName").get("gco:CharacterString").asText();
       }
 
+      // extracting all the keywords of the paper
+      JsonNode keyword_node = json.get("gmd:MD_Metadata").get("gmd:identificationInfo").get("gmd:MD_DataIdentification").get("gmd:descriptiveKeywords")
+                              .get(0).get("gmd:MD_Keywords").get("gmd:keyword");
+      // extracting individual keyword from the keyword field
+      int number_of_keywords = keyword_node.size();
+      keywords = new String[number_of_keywords];
+      for(int i=0; i < number_of_keywords; i++){
+        keywords[i] = keyword_node.get(i).get("gco:CharacterString").asText();
+      }
+
+
       // extracting the latitudes from the paper, 5 points as the polygon needs to be enclosed
       latitude = new double[4];
       latitude[0] = json.get("gmd:MD_Metadata").get("gmd:identificationInfo").get("gmd:MD_DataIdentification").get("gmd:extent").get("gmd:EX_Extent")
@@ -132,8 +164,8 @@ public class Iso19115Collection extends DocumentCollection<Iso19115Collection.Do
               .get("gmd:geographicElement").get("gmd:EX_GeographicBoundingBox").get("gmd:southBoundLatitude").get("gco:Decimal").asDouble();
       // ensuring that a single coordinate location will be drawn as a small rectangle
       if (latitude[0] == latitude[2]) {
-        latitude[0] -= 0.00001;
-        latitude[2] += 0.00001;
+        latitude[0] -= 0.01;
+        latitude[2] += 0.01;
       }
       latitude[1] = latitude[0];
       latitude[3] = latitude[2];
@@ -146,8 +178,8 @@ public class Iso19115Collection extends DocumentCollection<Iso19115Collection.Do
               .get("gmd:geographicElement").get("gmd:EX_GeographicBoundingBox").get("gmd:eastBoundLongitude").get("gco:Decimal").asDouble();
       // ensuring that a single coordinate location will be drawn as a small rectangle
       if (longitude[0] == longitude[1]) {
-        longitude[0] -= 0.00001;
-        longitude[1] += 0.00001;
+        longitude[0] -= 0.01;
+        longitude[1] += 0.01;
       }
       longitude[2] = longitude[1];
       longitude[3] = longitude[0];
@@ -187,6 +219,28 @@ public class Iso19115Collection extends DocumentCollection<Iso19115Collection.Do
       return coordinates;
     }
 
+    public String getSupplInfo() {
+      return supplInfo;
+    }
+
+    public String getTopicCategory() {
+      return topicCategory;
+    }
+
+    public String[] getKeywords() {
+      return keywords;
+    }
+
+    public String getRecommendedCitation() {
+      return recommendedCitation;
+    }
+
+    public String getThesaurusName() {
+      return thesaurusName;
+    }
+
+    public String getPurpose() {return purpose;}
+
     private String getCoordinateString() {
       StringBuilder coordinates = new StringBuilder("[");
       // generating it in this form for literal evaluation in javascript
@@ -204,9 +258,9 @@ public class Iso19115Collection extends DocumentCollection<Iso19115Collection.Do
       return coordinates.toString();
     }
 
-    public double[] getLatitude() { return latitude; }
+    // public double[] getLatitude() { return latitude; }
 
-    public double[] getLongitude() { return longitude; }
+    // public double[] getLongitude() { return longitude; }
 
     @Override
     public String id() {
