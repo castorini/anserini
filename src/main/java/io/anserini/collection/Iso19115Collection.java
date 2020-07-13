@@ -127,6 +127,7 @@ public class Iso19115Collection extends DocumentCollection<Iso19115Collection.Do
       String identifier = json.get("gmd:MD_Metadata").get("gmd:fileIdentifier").get("gco:CharacterString").asText();
       // extracting the id in the beginning of the text
       this.id = identifier.substring(0,identifier.length() - 8);
+  
       this.title = extractNode(titlePath, json).asText();
       this.abstractContent = extractNode(abstractContentPath, json).asText();
       this.organisation = extractNode(organisationPath, json).asText();
