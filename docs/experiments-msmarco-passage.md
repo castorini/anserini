@@ -60,7 +60,7 @@ We can now perform a retrieval run using this smaller set of queries:
 ```bash
 sh target/appassembler/bin/SearchMsmarco -hits 1000 -threads 1 \
  -index indexes/msmarco-passage/lucene-index-msmarco \
- -queries collections/msmarco-passage/queries.dev.small.tsv \
+ -qid_queries collections/msmarco-passage/queries.dev.small.tsv \
  -output runs/run.msmarco-passage.dev.small.tsv
 ```
 
