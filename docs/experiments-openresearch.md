@@ -36,7 +36,7 @@ We can now index these docs as a `JsonCollection` using Anserini:
 
 ```
 sh ./target/appassembler/bin/IndexCollection -collection JsonCollection \
- -generator LuceneDocumentGenerator -threads 8 -input ${DATA_DIR}/anserini_format/corpus \
+ -generator DefaultLuceneDocumentGenerator -threads 8 -input ${DATA_DIR}/anserini_format/corpus \
  -index ${DATA_DIR}/lucene-index-openresearch -optimize -storePositions -storeDocvectors -storeRawDocs 
 ```
 
