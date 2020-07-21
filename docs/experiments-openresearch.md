@@ -11,7 +11,7 @@ First, we need to download and extract the OpenResearch dataset (2017-02-21):
 DATA_DIR=./openresearch_data
 mkdir ${DATA_DIR}
 
-wget https://s3-us-west-2.amazonaws.com/ai2-s2-research-public/open-corpus-archive/2017-02-21/papers-2017-02-21.zip -P ${DATA_DIR}
+wget https://s3-us-west-2.amazonaws.com/ai2-s2-research-public/open-corpus/2017-02-21/papers-2017-02-21.zip -P ${DATA_DIR}
 unzip ${DATA_DIR}/papers-2017-02-21.zip -d ${DATA_DIR}
 ```
 
