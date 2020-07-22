@@ -47,6 +47,7 @@ if __name__ == '__main__':
         data_type = 'pd'
         valid_docs = set(open(args.valid_docs).read().strip().split('\n'))
 
+
     searcher = pysearch.SimpleSearcher(args.index)
     searcher.set_bm25(args.k1, args.b)
     print('Initializing BM25, setting k1={} and b={}'.format(args.k1, args.b))
