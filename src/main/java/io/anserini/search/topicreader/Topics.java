@@ -61,6 +61,8 @@ public enum Topics {
   COVID_ROUND3_UDEL(CovidTopicReader.class, "topics-and-qrels/topics.covid-round3-udel.xml"),
   COVID_ROUND4(CovidTopicReader.class, "topics-and-qrels/topics.covid-round4.xml"),
   COVID_ROUND4_UDEL(CovidTopicReader.class, "topics-and-qrels/topics.covid-round4-udel.xml"),
+  COVID_ROUND5(CovidTopicReader.class, "topics-and-qrels/topics.covid-round5.xml"),
+  COVID_ROUND5_UDEL(CovidTopicReader.class, "topics-and-qrels/topics.covid-round5-udel.xml"),
   TREC2018_BL(BackgroundLinkingTopicReader.class, "topics-and-qrels/topics.backgroundlinking18.txt"),
   TREC2019_BL(BackgroundLinkingTopicReader.class, "topics-and-qrels/topics.backgroundlinking19.txt");
 
