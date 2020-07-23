@@ -3,6 +3,46 @@
 This document describes various baselines for the [TREC-COVID Challenge](https://ir.nist.gov/covidSubmit/), which uses the [COVID-19 Open Research Dataset (CORD-19)](https://pages.semanticscholar.org/coronavirus-research) from the [Allen Institute for AI](https://allenai.org/).
 Here, we focus on running retrieval experiments; for basic instructions on building Anserini indexes, see [this page](experiments-cord19.md).
 
+## Round 5
+
+These are runs that can be easily replicated with Anserini, from pre-built indexes available [here](experiments-cord19.md#pre-built-indexes-all-versions) (version from 2020/07/16, which is the official corpus used in round 5).
+They were prepared _for_ round 5 (for participants who wish to have a baseline run to rerank); to provide a sense of effectiveness, we present evaluation results with the cumulative qrels from rounds 1, 2, 3, and 4 ([`qrels_covid_d4_j0.5-4.txt`](https://ir.nist.gov/covidSubmit/data/qrels-covid_d4_j0.5-4.txt) provided by NIST, stored in our repo as [`qrels.covid-round4-cumulative.txt`](../src/main/resources/topics-and-qrels/qrels.covid-round4-cumulative.txt)).
+
+|    | index     | field(s)                        | nDCG@10 | J@10 | R@1k | run file | checksum |
+|---:|:----------|:--------------------------------|--------:|-----:|-----:|:---------|----------|
+|  1 | abstract  | query+question                  | 0.4580 | 0.5880 | 0.4525 | [[download](https://www.dropbox.com/s/lbgevu4wiztd9e4/anserini.covid-r5.abstract.qq.bm25.txt)]    | `b1ccc364cc9dab03b383b71a51d3c6cb` |
+|  2 | abstract  | UDel qgen                       | 0.4912 | 0.6240 | 0.4714 | [[download](https://www.dropbox.com/s/pdy5o4xyalcnm2n/anserini.covid-r5.abstract.qdel.bm25.txt)]  | `ee4e3e6cf87dba2fd021fbb89bd07a89` |
+|  3 | full-text | query+question                  | 0.3240 | 0.5660 | 0.3758 | [[download](https://www.dropbox.com/s/zhrkqvgbh6mwjdc/anserini.covid-r5.full-text.qq.bm25.txt)]   | `d7457dd746533326f2bf8e85834ecf5c` |
+|  4 | full-text | UDel qgen                       | 0.4634 | 0.6460 | 0.4368 | [[download](https://www.dropbox.com/s/4c3ifc8gt96qiio/anserini.covid-r5.full-text.qdel.bm25.txt)] | `8387e4ad480ec4be7961c17d2ea326a1` |
+|  5 | paragraph | query+question                  | 0.4077 | 0.6160 | 0.4877 | [[download](https://www.dropbox.com/s/xfx3g54map005sy/anserini.covid-r5.paragraph.qq.bm25.txt)]   | `62d713a1ed6a8bf25c1454c66182b573` |
+|  6 | paragraph | UDel qgen                       | 0.4918 | 0.6440 | 0.5101 | [[download](https://www.dropbox.com/s/nmb11wtx4yde939/anserini.covid-r5.paragraph.qdel.bm25.txt)] | `16b295fda9d1eccd4e1fa4c147657872` |
+|  7 | -         | reciprocal rank fusion(1, 3, 5) | 0.4696 | 0.6520 | 0.5027 | [[download](https://www.dropbox.com/s/mq94s9t7snqlizw/anserini.covid-r5.fusion1.txt)]             | `16875b6d32a9b5ef96d7b59315b101a7` |
+|  8 | -         | reciprocal rank fusion(2, 4, 6) | 0.5077 | 0.6800 | 0.5378 | [[download](https://www.dropbox.com/s/4za9i29gxv090ut/anserini.covid-r5.fusion2.txt)]             | `8f7d663d551f831c65dceb8e4e9219c2` |
+|  9 | abstract  | UDel qgen + RF                  | 0.6066 | 0.6700 | 0.5411 | [[download](https://www.dropbox.com/s/9cw0qhr5meskg9y/anserini.covid-r5.abstract.qdel.bm25%2Brm3Rf.txt)] | `f4e9128320182308b09c0eb5f0ac016d` |
+
+**IMPORTANT NOTES!!!**
+
++ These runs are performed at [`a3764c`](https://github.com/castorini/anserini/commit/a3764caae05f6bbfd2a034cc71a2e9197c937ae5), 2020/07/23.
++ J@10 refers to Judged@10 and R@1k refers to Recall@1000.
++ The evaluation numbers are produced with the NIST-prepared cumulative qrels from rounds 1, 2, 3, and 4 ([`qrels_covid_d4_j0.5-4.txt`](https://ir.nist.gov/covidSubmit/data/qrels-covid_d4_j0.5-4.txt) provided by NIST, stored in our repo as [`qrels.covid-round4-cumulative.txt`](../src/main/resources/topics-and-qrels/qrels.covid-round4-cumulative.txt)) on the round 5 collection (release of 7/16).
++ For the abstract and full-text indexes, we request up to 10k hits for each topic; the number of actual hits retrieved is fairly close to this (a bit less because of deduping). For the paragraph index, we request up to 50k hits for each topic; because multiple paragraphs are retrieved from the same document, the number of unique documents in each list of hits is much smaller. A cautionary note: our experience is that choosing the top _k_ documents to rerank has a large impact on end-to-end effectiveness. Reranking the top 100 seems to provide higher precision than top 1000, but the likely tradeoff is lower recall. It is very likely the case that you _don't_ want to rerank all available hits.
++ Row 9 represents the feedback baseline condition introduced in round 3: abstract index, UDel query generator, BM25+RM3 relevance feedback (100 feedback terms).
+
+The final runs submitted to NIST, after removing judgments from 1, 2, 3, and 4 (cumulatively), are as follows:
+
+| group | runtag | run file | checksum |
+|:------|:-------|:---------|:---------|
+| `anserini` | `r4.fusion1` = Row 7 | [[download](https://www.dropbox.com/s/2uyws7fnbpxo8s6/anserini.final-r5.fusion1.txt)] | `12122c12089c2b07a8f6c7247aebe2f6` |
+| `anserini` | `r4.fusion2` = Row 8 | [[download](https://www.dropbox.com/s/vyolaecpxu28vjw/anserini.final-r5.fusion2.txt)] | `ff1a0bac315de6703b937c552b351e2a` |
+| `anserini` | `r4.rf` = Row 9      | [[download](https://www.dropbox.com/s/27wy54cibmyg7lp/anserini.final-r5.rf.txt)]      | `9b9f77840f2cb529c54dde8cbf477c87` |
+
+We have written scripts that automate the replication of these baselines:
+
+```
+$ python src/main/python/trec-covid/download_indexes.py --date 2020-07-16
+$ python src/main/python/trec-covid/generate_round5_baselines.py
+```
+
 
 ## Round 4
 

@@ -60,7 +60,7 @@ def evaluate_run(run, qrels):
     return metrics
 
 
-def evaluate_runs(qrels, runs):
+def evaluate_runs(qrels, runs, check_md5=True):
     max_length = 0
     for run in runs:
         if len(run) > max_length:
@@ -86,7 +86,8 @@ def evaluate_runs(qrels, runs):
               f'{metrics["recall_1000"]:7.4f}{metrics["judged_cut_1000"]:7.4f} ' +
               f'{metrics["md5"]}')
 
-        assert metrics['md5'] == runs[run], f'Error in producing {run}!'
+        if check_md5:
+            assert metrics['md5'] == runs[run], f'Error in producing {run}!'
 
 
 def verify_stored_runs(runs):
