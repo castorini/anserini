@@ -184,6 +184,10 @@ public class IndexArgs {
       usage = "Elasticsearch batch index requests size.")
   public int esBatch = 1000;
 
+  @Option(name = "-es.bulk", metaVar = "[n]",
+      usage = "Elasticsearch max bulk requests size in bytes.")
+  public int esBulk = 80000000;
+
   @Option(name = "-es.hostname", metaVar = "[host]",
       usage = "Elasticsearch host.")
   public String esHostname = "localhost";
