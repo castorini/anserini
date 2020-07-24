@@ -70,6 +70,7 @@ import org.apache.lucene.store.FSDirectory;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.impl.CloudSolrClient;
 import org.apache.solr.common.SolrInputDocument;
+import org.elasticsearch.action.DocWriteRequest;
 import org.elasticsearch.action.bulk.BulkRequest;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.client.RequestOptions;
@@ -514,7 +515,10 @@ public final class IndexCollection {
 
           String indexName = (args.esIndex != null) ? args.esIndex : input.getFileName().toString();
           bulkRequest.add(new IndexRequest(indexName).id(sourceDocument.id()).source(builder));
-          if (bulkRequest.numberOfActions() == args.esBatch) {
+
+          // sendBulkRequest when the batch size is reached OR the bulk size is reached
+          if (bulkRequest.numberOfActions() == args.esBatch || 
+              bulkRequest.estimatedSizeInBytes() >= args.esBulk) {
             sendBulkRequest();
           }
 
@@ -573,6 +577,16 @@ public final class IndexCollection {
         bulkRequest = new BulkRequest();
       } catch (Exception e) {
         LOG.error("Error sending bulk requests to Elasticsearch", e);
+
+        // Log the 10 docs that have the largest sizes in this request
+        List<DocWriteRequest<?>> docs = bulkRequest.requests();
+        Collections.sort(docs, (d1, d2) -> ((IndexRequest) d2).source().length() - ((IndexRequest) d1).source().length());
+
+        LOG.info("Error sending bulkRequest. The 10 largest docs in this request are the following cord_uid: ");
+        for (int i = 0; i < 10; i++) {
+          IndexRequest doc = (IndexRequest) docs.get(i);
+          LOG.info(doc.id()); 
+        }
       } finally {
         if (esClient != null) {
           try {
