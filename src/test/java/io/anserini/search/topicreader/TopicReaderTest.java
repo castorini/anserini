@@ -628,6 +628,12 @@ public class TopicReaderTest {
     assertEquals(45, topics.keySet().size());
 
     assertEquals("coronavirus mental health impact", topics.get(45).get("query"));
+
+    // Round 5
+    topics = TopicReader.getTopics(Topics.COVID_ROUND5);
+    assertEquals(50, topics.keySet().size());
+
+    assertEquals("mRNA vaccine coronavirus", topics.get(50).get("query"));
   }
 
   @Test
@@ -661,6 +667,13 @@ public class TopicReaderTest {
 
     assertEquals("coronavirus mental health impact COVID-19 pandemic impacted mental health",
         topics.get(45).get("query"));
+
+    // Round 5
+    topics = TopicReader.getTopics(Topics.COVID_ROUND5_UDEL);
+    assertEquals(50, topics.keySet().size());
+
+    assertEquals("mRNA vaccine coronavirus mRNA vaccine SARS-CoV-2 virus",
+            topics.get(50).get("query"));
   }
 
   @Test
@@ -701,6 +714,12 @@ public class TopicReaderTest {
     assertEquals(45, topics.keySet().size());
 
     assertEquals("coronavirus mental health impact", topics.get("45").get("query"));
+
+    // Round 5
+    topics = TopicReader.getTopicsWithStringIds(Topics.COVID_ROUND5);
+    assertEquals(50, topics.keySet().size());
+
+    assertEquals("mRNA vaccine coronavirus", topics.get("50").get("query"));
   }
 
   @Test
@@ -734,6 +753,13 @@ public class TopicReaderTest {
 
     assertEquals("coronavirus mental health impact COVID-19 pandemic impacted mental health",
         topics.get("45").get("query"));
+
+    // Round 5
+    topics = TopicReader.getTopicsWithStringIds(Topics.COVID_ROUND5_UDEL);
+    assertEquals(50, topics.keySet().size());
+
+    assertEquals("mRNA vaccine coronavirus mRNA vaccine SARS-CoV-2 virus",
+            topics.get("50").get("query"));
   }
 
   @Test
