@@ -28,7 +28,7 @@ if __name__ == '__main__':
     # general settings
     parser.add_argument('--anserini_root', default='', help='Anserini path')
     parser.add_argument(
-        '--round', default='1', choices=['1', '2', '3'],
+        '--round', default='1', choices=['1', '2', '3', '4', '5'],
         help='which round the query file should be generated for'
     )
     args = parser.parse_args()

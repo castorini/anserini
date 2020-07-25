@@ -22,6 +22,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.lang.StringBuilder;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Arrays;
@@ -85,13 +86,40 @@ public class Iso19115Collection extends DocumentCollection<Iso19115Collection.Do
   public static class Document implements SourceDocument{
     protected String id;
     protected String title;
+    static final String[] titlePath = {"gmd:MD_Metadata", "gmd:identificationInfo", "gmd:MD_DataIdentification", "gmd:citation", "gmd:CI_Citation", "gmd:title",
+                                      "gco:CharacterString"};
     protected String abstractContent;
+    static final String[] abstractContentPath = {"gmd:MD_Metadata", "gmd:identificationInfo", "gmd:MD_DataIdentification", "gmd:abstract", "gco:CharacterString"};
     protected String raw;
-    protected String source;
-    protected String[] authors;
-    protected String journal;
+    protected String organisation;
+    static final String[] organisationPath = {"gmd:MD_Metadata", "gmd:identificationInfo", "gmd:MD_DataIdentification", "gmd:abstract", "gco:CharacterString"};
+    protected String[] responsibleParty;
+    static final String[] responsiblePartyPath = {"gmd:MD_Metadata", "gmd:identificationInfo", "gmd:MD_DataIdentification", "gmd:citation", "gmd:CI_Citation", "gmd:citedResponsibleParty"};
+    protected String catalogue;
+    static final String[] cataloguePath = {"gmd:MD_Metadata", "gmd:contact", "gmd:CI_ResponsibleParty", "gmd:individualName", "gco:CharacterString"};
     protected String publish_time;
+    static final String[] publish_timePath = {"gmd:MD_Metadata", "gmd:dateStamp", "gco:Date"};
     protected String url;
+    static final String[] urlPath = {"gmd:MD_Metadata", "gmd:dataSetURI", "gco:CharacterString"};
+    protected double[] latitude;
+    protected double[] longitude;
+    protected String coordinates;
+    static final String[] coordinatePath = {"gmd:MD_Metadata", "gmd:identificationInfo", "gmd:MD_DataIdentification", "gmd:extent", "gmd:EX_Extent", "gmd:geographicElement",
+                                            "gmd:EX_GeographicBoundingBox"};
+    protected String purpose;
+    static final String[] purposePath = {"gmd:MD_Metadata", "gmd:identificationInfo", "gmd:MD_DataIdentification", "gmd:purpose", "gco:CharacterString"};
+    protected String supplInfo;
+    static final String[] supplInfoPath = {"gmd:MD_Metadata", "gmd:identificationInfo", "gmd:MD_DataIdentification", "gmd:supplementalInformation", "gco:CharacterString"};
+    protected String topicCategory;
+    static final String[] topicCategoryPath = {"gmd:MD_Metadata", "gmd:identificationInfo", "gmd:MD_DataIdentification", "gmd:topicCategory", "gmd:MD_TopicCategoryCode"};
+    protected String[] keywords;
+    static final String[] keywordPath = {"gmd:MD_Metadata", "gmd:identificationInfo", "gmd:MD_DataIdentification", "gmd:descriptiveKeywords"};
+    protected String recommendedCitation;
+    static final String[] recommendedCitationPath = {"gmd:MD_Metadata", "gmd:identificationInfo", "gmd:MD_DataIdentification", "gmd:citation", "gmd:CI_Citation",
+                                                    "gmd:otherCitationDetails", "gco:CharacterString"};
+    protected String thesaurusName;
+    static final String[] theasurusNameMainPath = {"gmd:MD_Metadata", "gmd:identificationInfo", "gmd:MD_DataIdentification", "gmd:descriptiveKeywords"};
+    static final String[] theasurusNameSubPath = {"gmd:MD_Keywords", "gmd:thesaurusName", "gmd:CI_Citation"};
 
     public Document(JsonNode json) {
       // extracting the fields from the ISO19115 file
@@ -99,26 +127,75 @@ public class Iso19115Collection extends DocumentCollection<Iso19115Collection.Do
       String identifier = json.get("gmd:MD_Metadata").get("gmd:fileIdentifier").get("gco:CharacterString").asText();
       // extracting the id in the beginning of the text
       this.id = identifier.substring(0,identifier.length() - 8);
-      this.title = json.get("gmd:MD_Metadata").get("gmd:identificationInfo").get("gmd:MD_DataIdentification").get("gmd:citation")
-                   .get("gmd:CI_Citation").get("gmd:title").get("gco:CharacterString").asText();
-      this.abstractContent = json.get("gmd:MD_Metadata").get("gmd:identificationInfo").get("gmd:MD_DataIdentification")
-                             .get("gmd:abstract").get("gco:CharacterString").asText();
-      this.source = json.get("gmd:MD_Metadata").get("gmd:contact").get("gmd:CI_ResponsibleParty").get("gmd:organisationName")
-                    .get("gco:CharacterString").asText();
-      this.journal = json.get("gmd:MD_Metadata").get("gmd:contact").get("gmd:CI_ResponsibleParty").get("gmd:individualName")
-              .get("gco:CharacterString").asText();
-      this.publish_time = json.get("gmd:MD_Metadata").get("gmd:dateStamp").get("gco:Date").asText();
-      this.url = json.get("gmd:MD_Metadata").get("gmd:dataSetURI").get("gco:CharacterString").asText();
+  
+      this.title = extractNode(titlePath, json).asText();
+      this.abstractContent = extractNode(abstractContentPath, json).asText();
+      this.organisation = extractNode(organisationPath, json).asText();
+      this.catalogue = extractNode(cataloguePath, json).asText();
+      this.publish_time = extractNode(publish_timePath, json).asText();
+      this.url = extractNode(urlPath, json).asText();
+      this.purpose = extractNode(purposePath, json).asText();
+      this.supplInfo = extractNode(supplInfoPath, json).asText();
+      this.topicCategory = extractNode(topicCategoryPath, json).asText();
+      this.recommendedCitation = extractNode(recommendedCitationPath, json).asText();
 
-      // extracting all the authors of the paper
-      JsonNode author_node = json.get("gmd:MD_Metadata").get("gmd:identificationInfo").get("gmd:MD_DataIdentification").get("gmd:citation")
-                             .get("gmd:CI_Citation").get("gmd:citedResponsibleParty");
-      // extracting individual authors from the ResponsibleParty field
-      int number_of_author = author_node.size();
-      authors = new String[number_of_author];
-      for(int i=0; i < number_of_author; i++){
-        authors[i] = author_node.get(i).get("gmd:CI_ResponsibleParty").get("gmd:individualName").get("gco:CharacterString").asText();
+      JsonNode mainThesaurusNode = extractNode(theasurusNameMainPath, json).get(0);
+      this.thesaurusName = extractNode(theasurusNameSubPath, mainThesaurusNode).get("gmd:title").get("gco:CharacterString").asText()
+                           + " : " +
+                           extractNode(theasurusNameSubPath, mainThesaurusNode).get("gmd:otherCitationDetails").get("gco:CharacterString").asText();
+
+      // extracting all the responsible parties of the paper
+      JsonNode parties_node = extractNode(responsiblePartyPath, json);
+      // extracting individual parties from the ResponsibleParty field
+      int number_of_parties = parties_node.size();
+      responsibleParty = new String[number_of_parties];
+      for(int i=0; i < number_of_parties; i++){
+        responsibleParty[i] = parties_node.get(i).get("gmd:CI_ResponsibleParty").get("gmd:individualName").get("gco:CharacterString").asText();
       }
+
+      // extracting all the keywords of the paper
+      JsonNode keyword_node = extractNode(keywordPath, json).get(0).get("gmd:MD_Keywords").get("gmd:keyword");
+      // extracting individual keyword from the keyword field
+      int number_of_keywords = keyword_node.size();
+      keywords = new String[number_of_keywords];
+      for(int i=0; i < number_of_keywords; i++){
+        keywords[i] = keyword_node.get(i).get("gco:CharacterString").asText();
+      }
+
+
+      // extracting the latitudes from the paper, 5 points as the polygon needs to be enclosed
+      latitude = new double[4];
+      JsonNode coordinateNode = extractNode(coordinatePath, json);
+      latitude[0] = coordinateNode.get("gmd:northBoundLatitude").get("gco:Decimal").asDouble();
+      latitude[2] = coordinateNode.get("gmd:southBoundLatitude").get("gco:Decimal").asDouble();
+      // ensuring that a single coordinate location will be drawn as a small rectangle
+      if (latitude[0] == latitude[2]) {
+        latitude[0] -= 0.01;
+        latitude[2] += 0.01;
+      }
+      latitude[1] = latitude[0];
+      latitude[3] = latitude[2];
+
+      // extracting the longitudes from the paper, again 5 points are needed to enclose the polygon
+      longitude = new double[4];
+      longitude[0] = coordinateNode.get("gmd:westBoundLongitude").get("gco:Decimal").asDouble();
+      longitude[1] = coordinateNode.get("gmd:eastBoundLongitude").get("gco:Decimal").asDouble();
+      // ensuring that a single coordinate location will be drawn as a small rectangle
+      if (longitude[0] == longitude[1]) {
+        longitude[0] -= 0.01;
+        longitude[1] += 0.01;
+      }
+      longitude[2] = longitude[1];
+      longitude[3] = longitude[0];
+
+      this.coordinates = getCoordinateString();
+    }
+
+    private JsonNode extractNode(String[] nodeNames, JsonNode json) {
+      for (String node: nodeNames) {
+        json = json.get(node);
+      }
+      return json;
     }
 
     public String getTitle() {
@@ -129,16 +206,16 @@ public class Iso19115Collection extends DocumentCollection<Iso19115Collection.Do
       return abstractContent;
     }
 
-    public String getSource() {
-      return source;
+    public String getOrganisation() {
+      return organisation;
     }
 
-    public String[] getAuthors() {
-      return authors;
+    public String[] getResponsibleParty() {
+      return responsibleParty;
     }
 
-    public String getJournal() {
-      return journal;
+    public String getCatalogue() {
+      return catalogue;
     }
 
     public String getPublish_time() {
@@ -147,6 +224,49 @@ public class Iso19115Collection extends DocumentCollection<Iso19115Collection.Do
 
     public String getUrl() {
       return url;
+    }
+
+    public String getCoordinates() {
+      return coordinates;
+    }
+
+    public String getSupplInfo() {
+      return supplInfo;
+    }
+
+    public String getTopicCategory() {
+      return topicCategory;
+    }
+
+    public String[] getKeywords() {
+      return keywords;
+    }
+
+    public String getRecommendedCitation() {
+      return recommendedCitation;
+    }
+
+    public String getThesaurusName() {
+      return thesaurusName;
+    }
+
+    public String getPurpose() {return purpose;}
+
+    private String getCoordinateString() {
+      StringBuilder coordinates = new StringBuilder("[");
+      // generating it in this form for literal evaluation in javascript
+      for(int i=0; i < 4; i++) {
+        coordinates.append("[");
+        coordinates.append(latitude[i]);
+        coordinates.append(",");
+        coordinates.append(longitude[i]);
+        coordinates.append("]");
+        if (i != 3) {
+          coordinates.append(",");
+        }
+      }
+      coordinates.append("]");
+      return coordinates.toString();
     }
 
     @Override

@@ -60,12 +60,12 @@ We can now perform a retrieval run using this smaller set of queries:
 ```bash
 sh target/appassembler/bin/SearchMsmarco -hits 1000 -threads 1 \
  -index indexes/msmarco-passage/lucene-index-msmarco \
- -queries collections/msmarco-passage/queries.dev.small.tsv \
+ -qid_queries collections/msmarco-passage/queries.dev.small.tsv \
  -output runs/run.msmarco-passage.dev.small.tsv
 ```
 
 Note that by default, the above script uses BM25 with tuned parameters `k1=0.82`, `b=0.68`.
-The option `-hits` specifies the of documents per query to be retrieved.
+The option `-hits` specifies the number of documents per query to be retrieved.
 Thus, the output file should have approximately 6980 × 1000 = 6.9M lines.
 
 Retrieval speed will vary by machine:
@@ -173,3 +173,6 @@ Tuned (`k1=0.82`, `b=0.72`) | 0.1875 | 0.1956 | 0.8578
 + Results replicated by [@TianchengY](https://github.com/TianchengY) on 2020-05-28 (commit [`2947a16`](https://github.com/castorini/anserini/commit/2947a1622efae35637b83e321aba8e6fccd43489))
 + Results replicated by [@stariqmi](https://github.com/stariqmi) on 2020-05-28 (commit [`4914305`](https://github.com/castorini/anserini/commit/455169ea6a09f637817a6c4b4f6837dcc845f5f7))
 + Results replicated by [@justinborromeo](https://github.com/justinborromeo) on 2020-06-10 (commit [`7954eab`](https://github.com/castorini/anserini/commit/7954eab43f17bb8d254987d5873933c0b9596bb4))
++ Results replicated by [@yxzhu16](https://github.com/yxzhu16) on 2020-07-03 (commit [`68ace26`](https://github.com/castorini/anserini/commit/68ace26d0418a769df3d2b21e946495e54d462f6))
++ Results replicated by [@LizzyZhang-tutu](https://github.com/LizzyZhang-tutu) on 2020-07-13 (commit [`8c98d5b`](https://github.com/castorini/anserini/commit/8c98d5ba0795bbea01bcef1e21abb153fe4c3da1))
+

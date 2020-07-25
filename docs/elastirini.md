@@ -88,7 +88,7 @@ sh target/appassembler/bin/SearchElastic -topicreader TsvString -es.index msmarc
 Evaluation:
 
 ```bash
-$ ./eval/trec_eval.9.0.4/trec_eval -c -mrecall.1000 -mmap src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.es.msmacro-passage.txt
+$ ./eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 -m map src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.es.msmacro-passage.txt
 map                   	all	0.1956
 recall_1000           	all	0.8573
 ```
@@ -125,7 +125,7 @@ Evaluation:
 ```bash
 $ eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.core18.txt runs/run.es.core18.bm25.topics.core18.txt
 map                   	all	0.2495
-recall_1000           	all	0.3567
+P_30                  	all	0.3567
 ```
 
 ## Indexing and Retrieval: MS MARCO Document
@@ -159,7 +159,7 @@ This can take potentially longer than `SearchCollection` with Lucene indexes.
 Evaluation:
 
 ```bash
-$ ./eval/trec_eval.9.0.4/trec_eval -c -mrecall.1000 -mmap src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.es.msmacro-doc.txt
+$ ./eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 -m map src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.es.msmacro-doc.txt
 map                   	all	0.2308
 recall_1000           	all	0.8856
 ```
@@ -194,4 +194,4 @@ python src/main/python/run_es_regression.py --regression [collection] --input [d
 + Results replicated by [@shaneding](https://github.com/shaneding) on 2020-05-25 (commit [`1de3274`](https://github.com/castorini/anserini/commit/1de3274b057a63382534c5277ffcd772c3fc0d43)) for [MS Marco Passage](regressions-msmarco-passage.md)
 + Results replicated by [@adamyy](https://github.com/adamyy) on 2020-05-29 (commit [`94893f1`](https://github.com/castorini/anserini/commit/94893f170e047d77c3ef5b8b995d7fbdd13f4298)) for [MS MARCO Passage](regressions-msmarco-passage.md), [MS MARCO Document](experiments-msmarco-doc.md)
 + Results replicated by [@YimingDou](https://github.com/YimingDou) on 2020-05-29 (commit [`2947a16`](https://github.com/castorini/anserini/commit/2947a1622efae35637b83e321aba8e6fccd43489)) for [MS MARCO Passage](regressions-msmarco-passage.md)
-
++ Results replicated by [@yxzhu16](https://github.com/yxzhu16) on 2020-07-17 (commit [`fad12be`](https://github.com/castorini/anserini/commit/fad12be2e37a075100707c3a674eb67bc0aa57ef)) for [Robust04](regressions-robust04.md), [core18](regressions-core18.md), and [MS MARCO Passage](regressions-msmarco-passage.md)
