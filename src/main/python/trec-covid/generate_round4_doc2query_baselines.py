@@ -32,28 +32,28 @@ from pyserini.util import compute_md5
 # see https://stackoverflow.com/questions/27674602/hide-traceback-unless-a-debug-flag-is-set
 sys.tracebacklimit = 0
 
-generate_md5 = True
+generate_md5 = False
 
 indexes = ['indexes/lucene-index-cord19-abstract-docT5query-2020-06-19',
            'indexes/lucene-index-cord19-full-text-docT5query-2020-06-19',
            'indexes/lucene-index-cord19-paragraph-docT5query-2020-06-19']
 
 cumulative_runs = {
-    'expanded.anserini.covid-r4.abstract.qq.bm25.txt': '56ac5a0410e235243ca6e9f0f00eefa1',
-    'expanded.anserini.covid-r4.abstract.qdel.bm25.txt': '115d6d2e308b47ffacbc642175095c74',
-    'expanded.anserini.covid-r4.full-text.qq.bm25.txt': 'af0d10a5344f4007e6781e8d2959eb54',
-    'expanded.anserini.covid-r4.full-text.qdel.bm25.txt': '594d469b8f45cf808092a3d8e870eaf5',
-    'expanded.anserini.covid-r4.paragraph.qq.bm25.txt': '6f468b7b60aaa05fc215d237b5475aec',
-    'expanded.anserini.covid-r4.paragraph.qdel.bm25.txt':  'b7b39629c12573ee0bfed8687dacc743',
-    'expanded.anserini.covid-r4.fusion1.txt': '8ae9d1fca05bd1d9bfe7b24d1bdbe270',
-    'expanded.anserini.covid-r4.fusion2.txt': 'e1894209c815c96c6ddd4cacb578261a',
-    'expanded.anserini.covid-r4.abstract.qdel.bm25+rm3Rf.txt': '9d954f31e2f07e11ff559bcb14ef16af'
+    'expanded.anserini.covid-r4.abstract.qq.bm25.txt': 'd1d32cd6962c4e355a47e7f1fdfb0c74',
+    'expanded.anserini.covid-r4.abstract.qdel.bm25.txt': '55ae93b92bae20ed64fc9f191c6ea667',
+    'expanded.anserini.covid-r4.full-text.qq.bm25.txt': '512e14c6d15eb36f7fc9c537281badd3',
+    'expanded.anserini.covid-r4.full-text.qdel.bm25.txt': '0901d7b083aa28afd431cf330fe7293c',
+    'expanded.anserini.covid-r4.paragraph.qq.bm25.txt': 'f8512ba33d5cc79176d71424d05f81cb',
+    'expanded.anserini.covid-r4.paragraph.qdel.bm25.txt': '123896c0af4cdbae471c21d2da7de1f7',
+    'expanded.anserini.covid-r4.fusion1.txt': '77b619a2e6e87852b85d31637ceb6219',
+    'expanded.anserini.covid-r4.fusion2.txt': '1e7bb2a6e483d3629378c3107457b216',
+    'expanded.anserini.covid-r4.abstract.qdel.bm25+rm3Rf.txt': 'b6b1d949fff00e54b13e533e27455731'
 }
 
 final_runs = {
-    'expanded.anserini.final-r4.fusion1.txt': 'a8ab52e12c151012adbfc8e37d666760',
-    'expanded.anserini.final-r4.fusion2.txt': '1500104c928f463f38e76b58b91d4c07',
-    'expanded.anserini.final-r4.rf.txt': '41d746eb86a99d2f33068ebc195072cd'
+    'expanded.anserini.final-r4.fusion1.txt': 'ae7513f68e2ca82d8b0efdd244082046',
+    'expanded.anserini.final-r4.fusion2.txt': '590400c12b72ce8ed3b5af2f4c45f039',
+    'expanded.anserini.final-r4.rf.txt': 'b9e7bb80fd8dc97f93908d895fb07f7f'
 }
 
 # stored_runs = {
