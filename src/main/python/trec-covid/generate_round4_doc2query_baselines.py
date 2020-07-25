@@ -173,8 +173,8 @@ def perform_fusion():
     assert generate_md5 or compute_md5(f'runs/{fusion_run2}') == cumulative_runs[fusion_run2], f'Error in producing {fusion_run2}!'
 
     if generate_md5:
-        cumulative_runs = {run: compute_md5(f'runs/{run}') for run in cumulative_runs}
-        print(f'Checksums for cumulative runs: {cumulative_runs}')
+        cumulative_md5 = {run: compute_md5(f'runs/{run}') for run in cumulative_runs}
+        print(f'Checksums for cumulative runs: {cumulative_md5}')
 
 
 def prepare_final_submissions(qrels):
@@ -204,8 +204,8 @@ def prepare_final_submissions(qrels):
     assert generate_md5 or run3_md5 == final_runs[run3], f'Error in producing {run3}!'
 
     if generate_md5:
-        final_runs = {run: compute_md5(f'runs/{run}') for run in final_runs}
-        print(f'Checksums for final runs: {final_runs}')
+        final_md5 = {run: compute_md5(f'runs/{run}') for run in final_runs}
+        print(f'Checksums for final runs: {final_md5}')
 
 
 def main():
