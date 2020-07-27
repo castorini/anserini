@@ -384,18 +384,17 @@ public class IndexReaderUtils {
   }
 
   /**
-   * Returns the document posting list for a particular document as a map of terms to term posting list. Note that this
-   * method explicitly returns {@code null} if the document does not exist (as opposed to an empty map), so that the
-   * caller is explicitly forced to handle this case.
+   * Returns the term position mapping for a particular document. Note that this method explicitly returns
+   * {@code null} if the document does not exist (as opposed to an empty map), so that the caller is explicitly forced
+   * to handle this case.
    *
    * @param reader index reader
    * @param docid collection docid
-   * @return the document posting list for a particular document as a map of terms to term posting list or {@code null} if
-   * document does not exist.
+   * @return term position mapping for a particular document or {@code null} if document does not exist.
    * @throws IOException if error encountered during query
    * @throws NotStoredException if the term vector is not stored
    */
-  public static Map<String, List<Long>> getDocumentPostings(IndexReader reader, String docid) throws IOException, NotStoredException {
+  public static Map<String, List<Long>> getPositionList(IndexReader reader, String docid) throws IOException, NotStoredException {
     int ldocid = convertDocidToLuceneDocid(reader, docid);
     if (ldocid == -1) {
       return null;
@@ -409,21 +408,21 @@ public class IndexReaderUtils {
       throw new NotStoredException("Document vector not stored!");
     }
 
-    Map<String, List<Long>> docPostings = new HashMap<>();
-    PostingsEnum positions = null;
+    Map<String, List<Long>> term_position = new HashMap<>();
+    PostingsEnum position_iter = null;
 
     while ((te.next()) != null) {
-      List<Long> postings = new ArrayList<>();
+      List<Long> positions = new ArrayList<>();
       Long freq = te.totalTermFreq();
-      positions = te.postings(positions, PostingsEnum.POSITIONS);
-      positions.nextDoc();
+      position_iter = te.postings(position_iter, PostingsEnum.POSITIONS);
+      position_iter.nextDoc();
       for ( int i = 0; i < freq; i++ ) {
-        postings.add(Long.valueOf(positions.nextPosition()));
+        positions.add(Long.valueOf(position_iter.nextPosition()));
       }
-      docPostings.put(te.term().utf8ToString(), postings);
+      term_position.put(te.term().utf8ToString(), positions);
     }
 
-    return docPostings;
+    return term_position;
   }
 
   /**
