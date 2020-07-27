@@ -18,7 +18,7 @@ They were prepared _for_ round 5 (for participants who wish to have a baseline r
 |  6 | paragraph | UDel qgen                       | 0.4940 | 0.5700 | 0.5070 | [[download](https://www.dropbox.com/s/nmb11wtx4yde939/anserini.covid-r5.paragraph.qdel.bm25.txt)] | `2040b9a4759af722d50610f26989c328` |
 |  7 | -         | reciprocal rank fusion(1, 3, 5) | 0.4908 | 0.5880 | 0.5119 | [[download](https://www.dropbox.com/s/mq94s9t7snqlizw/anserini.covid-r5.fusion1.txt)]             | `c0ffc7b1719f64d2f37ce99a9ef0413c` |
 |  8 | -         | reciprocal rank fusion(2, 4, 6) | 0.4846 | 0.5740 | 0.5218 | [[download](https://www.dropbox.com/s/4za9i29gxv090ut/anserini.covid-r5.fusion2.txt)]             | `329f13267abf3f3d429a1593c1bd862f` |
-|  9 | abstract  | UDel qgen + RF                  | 0.5730 | 0.6060 | 0.5193 | [[download](https://www.dropbox.com/s/9cw0qhr5meskg9y/anserini.covid-r5.abstract.qdel.bm25%2Brm3Rf.txt)] | `ec8cb9dadbd80a49ae0fc9969a58c045` |
+|  9 | abstract  | UDel qgen + RF                  | 0.6095 | 0.6320 | 0.5280 | [[download](https://www.dropbox.com/s/9cw0qhr5meskg9y/anserini.covid-r5.abstract.qdel.bm25%2Brm3Rf.txt)] | `a5e016c84d5547519ffbcf74c9a24fc8` |
 
 **IMPORTANT NOTES!!!**
 
@@ -34,7 +34,7 @@ The final runs submitted to NIST, after removing judgments from 1, 2, 3, and 4 (
 |:-------|:---------|:---------|
 | `r5.fusion1` = Row 7 | [[download](https://www.dropbox.com/s/g3giixyusk4tzro/anserini.final-r4.fusion1.txt)] | `2295216ed623d2621f00c294f7c389e1` |
 | `r5.fusion2` = Row 8 | [[download](https://www.dropbox.com/s/z4wbqj9gfos8wln/anserini.final-r4.fusion2.txt)] | `a65fabe7b5b7bc4216be632296269ce6` |
-| `r5.rf` = Row 9      | [[download](https://www.dropbox.com/s/28w83b07yzndlbg/anserini.final-r4.rf.txt)]      | `3571766f4a73e735e989c6186c40656f` |
+| `r5.rf` = Row 9      | [[download](https://www.dropbox.com/s/28w83b07yzndlbg/anserini.final-r4.rf.txt)]      | `24f0b75a25273b7b00d3e65065e98147` |
 
 We have written scripts that automate the replication of these baselines:
 

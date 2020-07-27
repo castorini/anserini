@@ -47,13 +47,13 @@ cumulative_runs = {
     'expanded.anserini.covid-r5.paragraph.qdel.bm25.txt': '2040b9a4759af722d50610f26989c328',
     'expanded.anserini.covid-r5.fusion1.txt': 'c0ffc7b1719f64d2f37ce99a9ef0413c',
     'expanded.anserini.covid-r5.fusion2.txt': '329f13267abf3f3d429a1593c1bd862f',
-    'expanded.anserini.covid-r5.abstract.qdel.bm25+rm3Rf.txt': 'ec8cb9dadbd80a49ae0fc9969a58c045'
+    'expanded.anserini.covid-r5.abstract.qdel.bm25+rm3Rf.txt': 'a5e016c84d5547519ffbcf74c9a24fc8'
 }
 
 final_runs = {
     'expanded.anserini.final-r5.fusion1.txt': '2295216ed623d2621f00c294f7c389e1',
     'expanded.anserini.final-r5.fusion2.txt': 'a65fabe7b5b7bc4216be632296269ce6',
-    'expanded.anserini.final-r5.rf.txt': '3571766f4a73e735e989c6186c40656f'
+    'expanded.anserini.final-r5.rf.txt': '24f0b75a25273b7b00d3e65065e98147'
 }
 
 # stored_runs = {
@@ -107,7 +107,7 @@ def perform_runs():
     os.system(f'target/appassembler/bin/SearchCollection -index {abstract_index} ' +
               f'-topicreader Covid -topics {udel_topics} -topicfield query -removedups ' +
               f'-bm25 -rm3 -rm3.fbTerms 100 -hits 10000 ' +
-              f'-rf.qrels src/main/resources/topics-and-qrels/qrels.covid-round3-cumulative.txt ' +
+              f'-rf.qrels src/main/resources/topics-and-qrels/qrels.covid-round4-cumulative.txt ' +
               f'-output runs/{abstract_prefix}.qdel.bm25+rm3Rf.txt -runtag {abstract_prefix}.qdel.bm25+rm3Rf.txt')
 
     print('')
