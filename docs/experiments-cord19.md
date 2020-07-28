@@ -225,6 +225,8 @@ All versions of pre-built indexes:
 | 2020-03-20 | Full-Text |  2.6G | [[Dropbox]](https://www.dropbox.com/s/w74nmpmvdgw7o00/lucene-index-covid-full-text-2020-03-20.tar.gz)  | `30cae90b85fa8f1b53acaa62413756e3`
 | 2020-03-20 | Paragraph |  2.9G | [[Dropbox]](https://www.dropbox.com/s/evnhj2ylo02m03f/lucene-index-covid-paragraph-2020-03-20.tar.gz)  | `4c78e9ede690dbfac13e25e634c70ae4`
 
+These indexes are also mirrored [here](https://git.uwaterloo.ca/jimmylin/cord19-indexes/).
+
 ## Known Issues
 
 + Release of 2020/05/19: Missing URLs for several articles due to a known issue with the CORD-19 dataset release.

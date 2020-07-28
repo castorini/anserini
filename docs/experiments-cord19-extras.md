@@ -138,3 +138,4 @@ Then you can navigate to the Discover tab to run text-based search, or navigate 
 
 + Confirmed by [@adamyy](https://github.com/adamyy) on 2020-05-29 (commit [`2947a16`](https://github.com/castorini/anserini/commit/2947a1622efae35637b83e321aba8e6fccd43489)) that these instructions work for CORD-19 release of 2020/05/26
 + Confirmed by [@yxzhu16](https://github.com/yxzhu16) on 2020-07-17 (commit [`fad12be`](https://github.com/castorini/anserini/commit/fad12be2e37a075100707c3a674eb67bc0aa57ef)) that these instructions work for CORD-19 release of 2020/06/19
++ Confirmed by [@LizzyZhang-tutu](https://github.com/LizzyZhang-tutu) on 2020-07-26 (commit [`fad12be`](https://github.com/castorini/anserini/commit/539f7d43a0183454a633f34aa20b46d2eeec1a19)) that these instructions work for CORD-19 release of 2020/07/25
