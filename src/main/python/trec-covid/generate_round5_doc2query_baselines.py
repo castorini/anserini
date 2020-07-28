@@ -32,7 +32,7 @@ from pyserini.util import compute_md5
 # see https://stackoverflow.com/questions/27674602/hide-traceback-unless-a-debug-flag-is-set
 sys.tracebacklimit = 0
 
-generate_md5 = True
+generate_md5 = False
 
 indexes = ['indexes/lucene-index-cord19-abstract-docT5query-2020-07-16',
            'indexes/lucene-index-cord19-full-text-docT5query-2020-07-16',
