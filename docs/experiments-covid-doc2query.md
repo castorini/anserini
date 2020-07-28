@@ -58,7 +58,7 @@ To provide a sense of effectiveness, we present evaluation results with the cumu
 |  5 | paragraph | query+question                  | 0.3638 | 0.4533 | 0.5062 | [[download](https://www.dropbox.com/s/z90xag7eh5pi53e/expanded.anserini.covid-r4.paragraph.qq.bm25.txt)]   | `f8512ba33d5cc79176d71424d05f81cb` |
 |  6 | paragraph | UDel qgen                       | 0.3665 | 0.4311 | 0.5062 | [[download](https://www.dropbox.com/s/eno3z8pi7bnfy2p/expanded.anserini.covid-r4.paragraph.qdel.bm25.txt)] | `123896c0af4cdbae471c21d2da7de1f7` |
 |  7 | -         | reciprocal rank fusion(1, 3, 5) | 0.3781 | 0.4600 | 0.5112 | [[download](https://www.dropbox.com/s/zfbt15ivm37tolt/expanded.anserini.covid-r4.fusion1.txt)]             | `77b619a2e6e87852b85d31637ceb6219` |
-|  8 | -         | reciprocal rank fusion(2, 4, 6) | 0.3692 | 0.4378 | 0.5182 | [[download](https://www.dropbox.com/s/5epunmkexqtupe6/expanded.anserini.final-r4.fusion2.txt)]             | `1e7bb2a6e483d3629378c3107457b216` |
+|  8 | -         | reciprocal rank fusion(2, 4, 6) | 0.3692 | 0.4378 | 0.5182 | [[download](https://www.dropbox.com/s/e7ki5e8jqi718bp/expanded.anserini.covid-r4.fusion2.txt)]             | `1e7bb2a6e483d3629378c3107457b216` |
 |  9 | abstract  | UDel qgen + RF                  | 0.4469 | 0.4444 | 0.5172 | [[download](https://www.dropbox.com/s/1uzy5ni33kvxq2o/expanded.anserini.covid-r4.abstract.qdel.bm25%2Brm3Rf.txt)] | `b6b1d949fff00e54b13e533e27455731` |
 
 **IMPORTANT NOTES!!!**

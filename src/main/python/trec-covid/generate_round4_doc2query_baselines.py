@@ -56,32 +56,32 @@ final_runs = {
     'expanded.anserini.final-r4.rf.txt': 'b9e7bb80fd8dc97f93908d895fb07f7f'
 }
 
-# stored_runs = {
-#     'https://www.dropbox.com/s/mf79huhxfy96g6i/anserini.covid-r4.abstract.qq.bm25.txt?dl=1':
-#         cumulative_runs['anserini.covid-r4.abstract.qq.bm25.txt'],
-#     'https://www.dropbox.com/s/4zau6ejrkvgn9m7/anserini.covid-r4.abstract.qdel.bm25.txt?dl=1':
-#         cumulative_runs['anserini.covid-r4.abstract.qdel.bm25.txt'],
-#     'https://www.dropbox.com/s/bpdopie6gqffv0w/anserini.covid-r4.full-text.qq.bm25.txt?dl=1':
-#         cumulative_runs['anserini.covid-r4.full-text.qq.bm25.txt'],
-#     'https://www.dropbox.com/s/rh0uy71ogbpas0v/anserini.covid-r4.full-text.qdel.bm25.txt?dl=1':
-#         cumulative_runs['anserini.covid-r4.full-text.qdel.bm25.txt'],
-#     'https://www.dropbox.com/s/ifkjm8ff8g2aoh1/anserini.covid-r4.paragraph.qq.bm25.txt?dl=1':
-#         cumulative_runs['anserini.covid-r4.paragraph.qq.bm25.txt'],
-#     'https://www.dropbox.com/s/keuogpx1dzinsgy/anserini.covid-r4.paragraph.qdel.bm25.txt?dl=1':
-#         cumulative_runs['anserini.covid-r4.paragraph.qdel.bm25.txt'],
-#     'https://www.dropbox.com/s/zjc0069do0a4gu3/anserini.covid-r4.fusion1.txt?dl=1':
-#         cumulative_runs['anserini.covid-r4.fusion1.txt'],
-#     'https://www.dropbox.com/s/qekc9vr3oom777n/anserini.covid-r4.fusion2.txt?dl=1':
-#         cumulative_runs['anserini.covid-r4.fusion2.txt'],
-#     'https://www.dropbox.com/s/2jx27rh3lknps9q/anserini.covid-r4.abstract.qdel.bm25%2Brm3Rf.txt?dl=1':
-#         cumulative_runs['anserini.covid-r4.abstract.qdel.bm25+rm3Rf.txt'],
-#     'https://www.dropbox.com/s/g3giixyusk4tzro/anserini.final-r4.fusion1.txt?dl=1':
-#         final_runs['anserini.final-r4.fusion1.txt'],
-#     'https://www.dropbox.com/s/z4wbqj9gfos8wln/anserini.final-r4.fusion2.txt?dl=1':
-#         final_runs['anserini.final-r4.fusion2.txt'],
-#     'https://www.dropbox.com/s/28w83b07yzndlbg/anserini.final-r4.rf.txt?dl=1':
-#         final_runs['anserini.final-r4.rf.txt']
-# }
+stored_runs = {
+    'https://www.dropbox.com/s/yxapvqec9o2ucon/expanded.anserini.covid-r4.abstract.qq.bm25.txt?dl=1':
+        cumulative_runs['expanded.anserini.covid-r4.abstract.qq.bm25.txt'],
+    'https://www.dropbox.com/s/vnk3swwwfcncolk/expanded.anserini.covid-r4.abstract.qdel.bm25.txt?dl=1':
+        cumulative_runs['expanded.anserini.covid-r4.abstract.qdel.bm25.txt'],
+    'https://www.dropbox.com/s/pkk3m90bv0rpxru/expanded.anserini.covid-r4.full-text.qq.bm25.txt?dl=1':
+        cumulative_runs['expanded.anserini.covid-r4.full-text.qq.bm25.txt'],
+    'https://www.dropbox.com/s/44hoa9xkf6tv0hq/expanded.anserini.covid-r4.full-text.qdel.bm25.txt?dl=1':
+        cumulative_runs['expanded.anserini.covid-r4.full-text.qdel.bm25.txt'],
+    'https://www.dropbox.com/s/z90xag7eh5pi53e/expanded.anserini.covid-r4.paragraph.qq.bm25.txt?dl=1':
+        cumulative_runs['expanded.anserini.covid-r4.paragraph.qq.bm25.txt'],
+    'https://www.dropbox.com/s/eno3z8pi7bnfy2p/expanded.anserini.covid-r4.paragraph.qdel.bm25.txt?dl=1':
+        cumulative_runs['expanded.anserini.covid-r4.paragraph.qdel.bm25.txt'],
+    'https://www.dropbox.com/s/zfbt15ivm37tolt/expanded.anserini.covid-r4.fusion1.txt?dl=1':
+        cumulative_runs['expanded.anserini.covid-r4.fusion1.txt'],
+    'https://www.dropbox.com/s/e7ki5e8jqi718bp/expanded.anserini.covid-r4.fusion2.txt?dl=1':
+        cumulative_runs['expanded.anserini.covid-r4.fusion2.txt'],
+    'https://www.dropbox.com/s/1uzy5ni33kvxq2o/expanded.anserini.covid-r4.abstract.qdel.bm25%2Brm3Rf.txt?dl=1':
+        cumulative_runs['expanded.anserini.covid-r4.abstract.qdel.bm25+rm3Rf.txt'],
+    'https://www.dropbox.com/s/mjgb5lz9ftty1w2/expanded.anserini.final-r4.fusion1.txt?dl=1':
+        final_runs['expanded.anserini.final-r4.fusion1.txt'],
+    'https://www.dropbox.com/s/5epunmkexqtupe6/expanded.anserini.final-r4.fusion2.txt?dl=1':
+        final_runs['expanded.anserini.final-r4.fusion2.txt'],
+    'https://www.dropbox.com/s/kqbu3cui214ijyh/expanded.anserini.final-r4.rf.txt?dl=1':
+        final_runs['expanded.anserini.final-r4.rf.txt']
+}
 
 
 def perform_runs():
@@ -214,7 +214,7 @@ def main():
 
     cumulative_qrels = 'src/main/resources/topics-and-qrels/qrels.covid-round3-cumulative.txt'
 
-    # verify_stored_runs(stored_runs)
+    verify_stored_runs(stored_runs)
     perform_runs()
     perform_fusion()
     prepare_final_submissions(cumulative_qrels)
