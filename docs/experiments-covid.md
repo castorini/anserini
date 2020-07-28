@@ -18,7 +18,7 @@ They were prepared _for_ round 5 (for participants who wish to have a baseline r
 |  6 | paragraph | UDel qgen                       | 0.4918 | 0.6440 | 0.5101 | [[download](https://www.dropbox.com/s/nmb11wtx4yde939/anserini.covid-r5.paragraph.qdel.bm25.txt)] | `16b295fda9d1eccd4e1fa4c147657872` |
 |  7 | -         | reciprocal rank fusion(1, 3, 5) | 0.4696 | 0.6520 | 0.5027 | [[download](https://www.dropbox.com/s/mq94s9t7snqlizw/anserini.covid-r5.fusion1.txt)]             | `16875b6d32a9b5ef96d7b59315b101a7` |
 |  8 | -         | reciprocal rank fusion(2, 4, 6) | 0.5077 | 0.6800 | 0.5378 | [[download](https://www.dropbox.com/s/4za9i29gxv090ut/anserini.covid-r5.fusion2.txt)]             | `8f7d663d551f831c65dceb8e4e9219c2` |
-|  9 | abstract  | UDel qgen + RF                  | 0.6066 | 0.6700 | 0.5411 | [[download](https://www.dropbox.com/s/9cw0qhr5meskg9y/anserini.covid-r5.abstract.qdel.bm25%2Brm3Rf.txt)] | `909ccbbd55736eff60c7dbeff1404c94` |
+|  9 | abstract  | UDel qgen + RF                  | 0.6177 | 0.6620 | 0.5505 | [[download](https://www.dropbox.com/s/9cw0qhr5meskg9y/anserini.covid-r5.abstract.qdel.bm25%2Brm3Rf.txt)] | `909ccbbd55736eff60c7dbeff1404c94` |
 
 **IMPORTANT NOTES!!!**
 
