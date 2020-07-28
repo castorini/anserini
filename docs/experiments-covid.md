@@ -119,15 +119,15 @@ This qrels file, provided by NIST as [`qrels_covid_d4_j0.5-4.txt`](https://ir.ni
 
 |    | index     | field(s)                 | nDCG@10 | J@10 | nDCG@20 | J@20 | AP | R@1k | J@1k |
 |---:|:----------|:-------------------------|--------:|-----:|--------:|-----:|---:|-----:|-----:|
-|  1 | abstract  | query+question                  | 0.6600 | 0.9356 | 0.6120 | 0.9111 | 0.2780 | 0.5019 | 0.2876
-|  2 | abstract  | UDel qgen                       | 0.7081 | 0.9844 | 0.6650 | 0.9622 | 0.2994 | 0.5233 | 0.2987
-|  3 | full-text | query+question                  | 0.4192 | 0.8067 | 0.3984 | 0.7544 | 0.1712 | 0.4139 | 0.2740
-|  4 | full-text | UDel qgen                       | 0.6110 | 0.9400 | 0.5668 | 0.8933 | 0.2344 | 0.4856 | 0.3079
-|  5 | paragraph | query+question                  | 0.5610 | 0.9133 | 0.5324 | 0.8756 | 0.2713 | 0.5385 | 0.3386
-|  6 | paragraph | UDel qgen                       | 0.6477 | 0.9644 | 0.6084 | 0.9322 | 0.2975 | 0.5625 | 0.3443
-|  7 | -         | reciprocal rank fusion(1, 3, 5) | 0.6271 | 0.9689 | 0.5968 | 0.9422 | 0.2904 | 0.5623 | 0.3519
-|  8 | -         | reciprocal rank fusion(2, 4, 6) | 0.6802 | 1.0000 | 0.6573 | 0.9956 | 0.3286 | 0.5946 | 0.3625
-|  9 | abstract  | UDel qgen + RF                  | 0.8056 | 1.0000 | 0.7649 | 0.9967 | 0.3663 | 0.5955 | 0.3229
+|  1 | abstract  | query+question                  | 0.6600 | 0.9356 | 0.6120 | 0.9111 | 0.2780 | 0.5019 | 0.2876 |
+|  2 | abstract  | UDel qgen                       | 0.7081 | 0.9844 | 0.6650 | 0.9622 | 0.2994 | 0.5233 | 0.2987 |
+|  3 | full-text | query+question                  | 0.4192 | 0.8067 | 0.3984 | 0.7544 | 0.1712 | 0.4139 | 0.2740 |
+|  4 | full-text | UDel qgen                       | 0.6110 | 0.9400 | 0.5668 | 0.8933 | 0.2344 | 0.4856 | 0.3079 |
+|  5 | paragraph | query+question                  | 0.5610 | 0.9133 | 0.5324 | 0.8756 | 0.2713 | 0.5385 | 0.3386 |
+|  6 | paragraph | UDel qgen                       | 0.6477 | 0.9644 | 0.6084 | 0.9322 | 0.2975 | 0.5625 | 0.3443 |
+|  7 | -         | reciprocal rank fusion(1, 3, 5) | 0.6271 | 0.9689 | 0.5968 | 0.9422 | 0.2904 | 0.5623 | 0.3519 |
+|  8 | -         | reciprocal rank fusion(2, 4, 6) | 0.6802 | 1.0000 | 0.6573 | 0.9956 | 0.3286 | 0.5946 | 0.3625 |
+|  9 | abstract  | UDel qgen + RF                  | 0.8056 | 1.0000 | 0.7649 | 0.9967 | 0.3663 | 0.5955 | 0.3229 |
 
 Note that all of the results above can be replicated with the following script:
 
@@ -219,17 +219,17 @@ We see that that NIST post-processing improves scores slightly.
 Below, we report the effectiveness of the runs using the cumulative qrels file from round 3.
 This qrels file, provided by NIST as [`qrels_covid_d3_j0.5-3.txt`](https://ir.nist.gov/covidSubmit/data/qrels-covid_d3_j0.5-3.txt), is stored in our repo as [`qrels.covid-round3-cumulative.txt`](../src/main/resources/topics-and-qrels/qrels.covid-round3-cumulative.txt).
 
-|    | index     | field(s)                 | nDCG@10 | J@10 | R@1k |
-|---:|:----------|:-------------------------|--------:|-----:|-----:|
-|  1 | abstract  | query+question           | 0.5781 | 0.8875 | 0.5040 |
-|  2 | abstract  | UDel qgen                | 0.6291 | 0.9300 | 0.5215 |
-|  3 | full-text | query+question           | 0.3977 | 0.7500 | 0.4708 |
-|  4 | full-text | UDel qgen                | 0.5790 | 0.9050 | 0.5313 |
-|  5 | paragraph | query+question           | 0.5396 | 0.9425 | 0.5766 |
-|  6 | paragraph | UDel qgen                | 0.6327 | 0.9600 | 0.5923 |
-|  7 | -         | reciprocal rank fusion(1, 3, 5) | 0.5924 | 0.9625 | 0.5956 |
-|  8 | -         | reciprocal rank fusion(2, 4, 6) | 0.6515 | 0.9875 | 0.6194 |
-|  9 | abstract  | UDel qgen + RF           | 0.7459 | 0.9875 | 0.6125 |
+|    | index     | field(s)                 | nDCG@10 | J@10 | nDCG@20 | J@20 | AP | R@1k | J@1k |
+|---:|:----------|:-------------------------|--------:|-----:|--------:|-----:|---:|-----:|-----:|
+|  1 | abstract  | query+question                  | 0.5781 | 0.8875 | 0.5359 | 0.8325 | 0.2348 | 0.5040 | 0.2351 |
+|  2 | abstract  | UDel qgen                       | 0.6291 | 0.9300 | 0.5972 | 0.8925 | 0.2525 | 0.5215 | 0.2370 |
+|  3 | full-text | query+question                  | 0.3977 | 0.7500 | 0.3681 | 0.7213 | 0.1646 | 0.4708 | 0.2471 |
+|  4 | full-text | UDel qgen                       | 0.5790 | 0.9050 | 0.5234 | 0.8525 | 0.2236 | 0.5313 | 0.2693 |
+|  5 | paragraph | query+question                  | 0.5396 | 0.9425 | 0.5079 | 0.9050 | 0.2498 | 0.5766 | 0.2978 |
+|  6 | paragraph | UDel qgen                       | 0.6327 | 0.9600 | 0.5793 | 0.9162 | 0.2753 | 0.5923 | 0.2956 |
+|  7 | -         | reciprocal rank fusion(1, 3, 5) | 0.5924 | 0.9625 | 0.5563 | 0.9362 | 0.2700 | 0.5956 | 0.3045 |
+|  8 | -         | reciprocal rank fusion(2, 4, 6) | 0.6515 | 0.9875 | 0.6200 | 0.9675 | 0.3027 | 0.6194 | 0.3076 |
+|  9 | abstract  | UDel qgen + RF                  | 0.7459 | 0.9875 | 0.7023 | 0.9637 | 0.3190 | 0.6125 | 0.2600 |
 
 Note that all of the results above can be replicated with the following script:
 
