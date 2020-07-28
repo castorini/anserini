@@ -85,6 +85,56 @@ $ python src/main/python/trec-covid/download_indexes.py --date 2020-06-19
 $ python src/main/python/trec-covid/generate_round4_baselines.py
 ```
 
+### Evaluation with Round 4 Qrels
+
+Since the above runs were prepared _for_ round 4, we do not know how well they actually performed until the round 4 judgments from NIST were released.
+Here, we provide these evaluation results.
+
+Note that the runs posted on the [TREC-COVID archive](https://ir.nist.gov/covidSubmit/archive.html) are _not_ exactly the same the runs we submitted.
+According to NIST (from email to participants), they removed "documents that were previously judged but had id changes from the Round 4 submissions for scoring, even though the change in `cord_uid` was unknown at submission time."
+The actual evaluated runs are (mirrored from URL above):
+
+| group | runtag | run file | checksum |
+|:------|:-------|:---------|:---------|
+| `anserini` | `r4.fusion1` (NIST post-processed) | [[download](https://www.dropbox.com/s/wccmsmj2cz4h1t4/anserini.final-r4.fusion1.post-processed.txt)] | `b0ebafe36d8fc721ea6923da5837aa8c` |
+| `anserini` | `r4.fusion2` (NIST post-processed) | [[download](https://www.dropbox.com/s/kwgnbgofaql3k4l/anserini.final-r4.fusion2.post-processed.txt)] | `e7e0b870c6822e7127df71608923e76b` |
+| `anserini` | `r4.rf` (NIST post-processed)      | [[download](https://www.dropbox.com/s/gvha3nj004osrme/anserini.final-r4.rf.post-processed.txt)]      | `2fcd53854461e0cbe3c9170c0da234d9` |
+
+Effectiveness results (note that NIST changed from nDCG@10 to nDCG@20 for this round):
+
+| group | runtag | nDCG@20 | J@20 | AP   | R@1k |
+|:------|:-------|--------:|-----:|-----:|-----:|
+| `anserini` | `r4.fusion1`                       | 0.5204 | 0.7922 | 0.2656 | 0.6571
+| `anserini` | `r4.fusion1` (NIST post-processed) | 0.5244 | 0.7978 | 0.2666 | 0.6571
+| `anserini` | `r4.fusion2`                       | 0.6047 | 0.8978 | 0.3078 | 0.6928
+| `anserini` | `r4.fusion2` (NIST post-processed) | 0.6089 | 0.9022 | 0.3088 | 0.6928
+| `anserini` | `r4.rf`                            | 0.6940 | 0.9233 | 0.3506 | 0.6962
+| `anserini` | `r4.rf` (NIST post-processed)      | 0.6976 | 0.9278 | 0.3519 | 0.6962
+
+The scores of the post-processed runs match those reported by NIST.
+We see that that NIST post-processing improves scores slightly.
+
+Below, we report the effectiveness of the runs using the cumulative qrels file from round 4.
+This qrels file, provided by NIST as [`qrels_covid_d4_j0.5-4.txt`](https://ir.nist.gov/covidSubmit/data/qrels-covid_d4_j0.5-4.txt), is stored in our repo as [`qrels.covid-round4-cumulative.txt`](../src/main/resources/topics-and-qrels/qrels.covid-round4-cumulative.txt)).
+
+|    | index     | field(s)                 | nDCG@10 | J@10 | nDCG@20 | J@20 | AP | R@1k | J@1k |
+|---:|:----------|:-------------------------|--------:|-----:|--------:|-----:|---:|-----:|-----:|
+|  1 | abstract  | query+question                  | 0.6600 | 0.9356 | 0.6120 | 0.9111 | 0.2780 | 0.5019 | 0.2876
+|  2 | abstract  | UDel qgen                       | 0.7081 | 0.9844 | 0.6650 | 0.9622 | 0.2994 | 0.5233 | 0.2987
+|  3 | full-text | query+question                  | 0.4192 | 0.8067 | 0.3984 | 0.7544 | 0.1712 | 0.4139 | 0.2740
+|  4 | full-text | UDel qgen                       | 0.6110 | 0.9400 | 0.5668 | 0.8933 | 0.2344 | 0.4856 | 0.3079
+|  5 | paragraph | query+question                  | 0.5610 | 0.9133 | 0.5324 | 0.8756 | 0.2713 | 0.5385 | 0.3386
+|  6 | paragraph | UDel qgen                       | 0.6477 | 0.9644 | 0.6084 | 0.9322 | 0.2975 | 0.5625 | 0.3443
+|  7 | -         | reciprocal rank fusion(1, 3, 5) | 0.6271 | 0.9689 | 0.5968 | 0.9422 | 0.2904 | 0.5623 | 0.3519
+|  8 | -         | reciprocal rank fusion(2, 4, 6) | 0.6802 | 1.0000 | 0.6573 | 0.9956 | 0.3286 | 0.5946 | 0.3625
+|  9 | abstract  | UDel qgen + RF                  | 0.8056 | 1.0000 | 0.7649 | 0.9967 | 0.3663 | 0.5955 | 0.3229
+
+Note that all of the results above can be replicated with the following script:
+
+```bash
+$ python src/main/python/trec-covid/generate_round4_baselines.py
+```
+
 
 ## Round 3
 
