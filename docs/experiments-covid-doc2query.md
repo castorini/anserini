@@ -32,7 +32,7 @@ The final runs after removing judgments from 1, 2, 3, and 4 (cumulatively), are 
 
 | runtag | run file | checksum |
 |:-------|:---------|:---------|
-| `r5.fusion1` = Row 7 | [[download](hhttps://www.dropbox.com/s/5ke2c4x2z8de31h/expanded.anserini.final-r5.fusion1.txt)] | `2295216ed623d2621f00c294f7c389e1` |
+| `r5.fusion1` = Row 7 | [[download](https://www.dropbox.com/s/5ke2c4x2z8de31h/expanded.anserini.final-r5.fusion1.txt)] | `2295216ed623d2621f00c294f7c389e1` |
 | `r5.fusion2` = Row 8 | [[download](https://www.dropbox.com/s/j1qdqr88cbsybae/expanded.anserini.final-r5.fusion2.txt)] | `a65fabe7b5b7bc4216be632296269ce6` |
 | `r5.rf` = Row 9      | [[download](https://www.dropbox.com/s/5bm4pdngh5bx3px/expanded.anserini.final-r5.rf.txt)]      | `24f0b75a25273b7b00d3e65065e98147` |
 
