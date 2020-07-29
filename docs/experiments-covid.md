@@ -5,7 +5,7 @@ Here, we focus on running retrieval experiments; for basic instructions on build
 
 ## Round 5
 
-These are runs that can be easily replicated with Anserini, from pre-built indexes available [here](experiments-cord19.md#pre-built-indexes-all-versions) (version from 2020/07/16, which is the official corpus used in round 5).
+These are runs that can be easily replicated with Anserini, from pre-built indexes available [here](experiments-cord19.md#pre-built-indexes-all-versions) (version from 2020/07/16, the official corpus used in round 5).
 They were prepared _for_ round 5 (for participants who wish to have a baseline run to rerank); to provide a sense of effectiveness, we present evaluation results with the cumulative qrels from rounds 1, 2, 3, and 4 ([`qrels_covid_d4_j0.5-4.txt`](https://ir.nist.gov/covidSubmit/data/qrels-covid_d4_j0.5-4.txt) provided by NIST, stored in our repo as [`qrels.covid-round4-cumulative.txt`](../src/main/resources/topics-and-qrels/qrels.covid-round4-cumulative.txt)).
 
 |    | index     | field(s)                        | nDCG@10 | J@10 | R@1k | run file | checksum |
@@ -47,7 +47,7 @@ $ python src/main/python/trec-covid/generate_round5_baselines.py
 
 ## Round 4
 
-These are runs that can be easily replicated with Anserini, from pre-built indexes available [here](experiments-cord19.md#pre-built-indexes-all-versions) (version from 2020/06/19, which is the official corpus used in round 4).
+These are runs that can be easily replicated with Anserini, from pre-built indexes available [here](experiments-cord19.md#pre-built-indexes-all-versions) (version from 2020/06/19, the official corpus used in round 4).
 They were prepared _for_ round 4 (for participants who wish to have a baseline run to rerank); to provide a sense of effectiveness, we present evaluation results with the cumulative qrels from rounds 1, 2, and 3 ([`qrels_covid_d3_j0.5-3.txt`](https://ir.nist.gov/covidSubmit/data/qrels-covid_d3_j0.5-3.txt) provided by NIST, stored in our repo as [`qrels.covid-round3-cumulative.txt`](../src/main/resources/topics-and-qrels/qrels.covid-round3-cumulative.txt)).
 
 |    | index     | field(s)                        | nDCG@10 | J@10 | R@1k | run file | checksum |
@@ -138,7 +138,7 @@ $ python src/main/python/trec-covid/generate_round4_baselines.py
 
 ## Round 3
 
-These are runs that can be easily replicated with Anserini, from pre-built indexes available [here](experiments-cord19.md#pre-built-indexes-all-versions) (version from 2020/05/19, which is the official corpus used in round 3).
+These are runs that can be easily replicated with Anserini, from pre-built indexes available [here](experiments-cord19.md#pre-built-indexes-all-versions) (version from 2020/05/19, the official corpus used in round 3).
 They were prepared _for_ round 3 (for participants who wish to have a baseline run to rerank); to provide a sense of effectiveness, we present evaluation results with the union of round 1 and round 2 qrels.
 
 |    | index     | field(s)                 | nDCG@10 | J@10 | R@1k | run file | checksum |
@@ -240,7 +240,7 @@ $ python src/main/python/trec-covid/generate_round3_baselines.py
 
 ## Round 2
 
-These are runs that can be easily replicated with Anserini, from pre-built indexes available [here](experiments-cord19.md#pre-built-indexes-all-versions) (version from 2020/05/01, which is the official corpus used in the evaluation).
+These are runs that can be easily replicated with Anserini, from pre-built indexes available [here](experiments-cord19.md#pre-built-indexes-all-versions) (version from 2020/05/01, the official corpus used in round 2).
 They were prepared _for_ round 2 (for participants who wish to have a baseline run to rerank), and so effectiveness is computed with round 1 qrels.
 
 |    | index     | field(s)       | nDCG@10 | J@10 | R@1k | run file | checksum |
@@ -284,7 +284,7 @@ Exact commands for replicating these runs are found [further down on this page](
 
 ## Round 1
 
-These are runs that can be easily replicated with Anserini, from pre-built indexes available [here](experiments-cord19.md#pre-built-indexes-all-versions) (version from 2020/04/10, which is the official corpus used in the evaluation).
+These are runs that can be easily replicated with Anserini, from pre-built indexes available [here](experiments-cord19.md#pre-built-indexes-all-versions) (version from 2020/04/10, the official corpus used in round 1).
 They were prepared _after_ round 1, and so we can report effectiveness results.
 
 |    | index     | field(s)                          | nDCG@10 | Judged@10 | Recall@1000 |
