@@ -84,7 +84,7 @@ stored_runs = {
 }
 
 
-def perform_runs():
+def perform_runs(cumulative_qrels):
     base_topics = 'src/main/resources/topics-and-qrels/topics.covid-round4.xml'
     udel_topics = 'src/main/resources/topics-and-qrels/topics.covid-round4-udel.xml'
 
@@ -107,7 +107,7 @@ def perform_runs():
     os.system(f'target/appassembler/bin/SearchCollection -index {abstract_index} ' +
               f'-topicreader Covid -topics {udel_topics} -topicfield query -removedups ' +
               f'-bm25 -rm3 -rm3.fbTerms 100 -hits 10000 ' +
-              f'-rf.qrels src/main/resources/topics-and-qrels/qrels.covid-round3-cumulative.txt ' +
+              f'-rf.qrels {cumulative_qrels} ' +
               f'-output runs/{abstract_prefix}.qdel.bm25+rm3Rf.txt -runtag {abstract_prefix}.qdel.bm25+rm3Rf.txt')
 
     print('')
@@ -212,13 +212,17 @@ def main():
     if not (os.path.isdir(indexes[0]) and os.path.isdir(indexes[1]) and os.path.isdir(indexes[2])):
         print('Required indexes do not exist. Please download first.')
 
-    cumulative_qrels = 'src/main/resources/topics-and-qrels/qrels.covid-round3-cumulative.txt'
+    round3_cumulative_qrels = 'src/main/resources/topics-and-qrels/qrels.covid-round3-cumulative.txt'
+    round4_qrels = 'src/main/resources/topics-and-qrels/qrels.covid-round4.txt'
+    round4_cumulative_qrels = 'src/main/resources/topics-and-qrels/qrels.covid-round4-cumulative.txt'
 
     verify_stored_runs(stored_runs)
-    perform_runs()
+    perform_runs(round3_cumulative_qrels)
     perform_fusion()
-    prepare_final_submissions(cumulative_qrels)
-    evaluate_runs(cumulative_qrels, cumulative_runs)
+    prepare_final_submissions(round3_cumulative_qrels)
+
+    evaluate_runs(round4_cumulative_qrels, cumulative_runs, check_md5=True)
+    evaluate_runs(round4_qrels, final_runs)
 
 
 if __name__ == '__main__':
