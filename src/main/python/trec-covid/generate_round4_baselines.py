@@ -50,8 +50,11 @@ cumulative_runs = {
 
 final_runs = {
     'anserini.final-r4.fusion1.txt': 'a8ab52e12c151012adbfc8e37d666760',
+    'anserini.final-r4.fusion1.post-processed.txt': 'b0ebafe36d8fc721ea6923da5837aa8c',
     'anserini.final-r4.fusion2.txt': '1500104c928f463f38e76b58b91d4c07',
-    'anserini.final-r4.rf.txt': '41d746eb86a99d2f33068ebc195072cd'
+    'anserini.final-r4.fusion2.post-processed.txt': 'e7e0b870c6822e7127df71608923e76b',
+    'anserini.final-r4.rf.txt': '41d746eb86a99d2f33068ebc195072cd',
+    'anserini.final-r4.rf.post-processed.txt': '2fcd53854461e0cbe3c9170c0da234d9'
 }
 
 stored_runs = {
@@ -75,10 +78,16 @@ stored_runs = {
         cumulative_runs['anserini.covid-r4.abstract.qdel.bm25+rm3Rf.txt'],
     'https://www.dropbox.com/s/g3giixyusk4tzro/anserini.final-r4.fusion1.txt?dl=1':
         final_runs['anserini.final-r4.fusion1.txt'],
+    'https://www.dropbox.com/s/wccmsmj2cz4h1t4/anserini.final-r4.fusion1.post-processed.txt?dl=1':
+        final_runs['anserini.final-r4.fusion1.post-processed.txt'],
     'https://www.dropbox.com/s/z4wbqj9gfos8wln/anserini.final-r4.fusion2.txt?dl=1':
         final_runs['anserini.final-r4.fusion2.txt'],
+    'https://www.dropbox.com/s/kwgnbgofaql3k4l/anserini.final-r4.fusion2.post-processed.txt?dl=1':
+        final_runs['anserini.final-r4.fusion2.post-processed.txt'],
     'https://www.dropbox.com/s/28w83b07yzndlbg/anserini.final-r4.rf.txt?dl=1':
-        final_runs['anserini.final-r4.rf.txt']
+        final_runs['anserini.final-r4.rf.txt'],
+    'https://www.dropbox.com/s/gvha3nj004osrme/anserini.final-r4.rf.post-processed.txt?dl=1':
+        final_runs['anserini.final-r4.rf.post-processed.txt'],
 }
 
 
@@ -212,13 +221,18 @@ def main():
     if not (os.path.isdir(indexes[0]) and os.path.isdir(indexes[1]) and os.path.isdir(indexes[2])):
         print('Required indexes do not exist. Please download first.')
 
-    cumulative_qrels = 'src/main/resources/topics-and-qrels/qrels.covid-round3-cumulative.txt'
+    round3_cumulative_qrels = 'src/main/resources/topics-and-qrels/qrels.covid-round3-cumulative.txt'
+    round4_qrels = 'src/main/resources/topics-and-qrels/qrels.covid-round4.txt'
+    round4_cumulative_qrels = 'src/main/resources/topics-and-qrels/qrels.covid-round4-cumulative.txt'
 
     verify_stored_runs(stored_runs)
-    perform_runs(cumulative_qrels)
+    perform_runs(round3_cumulative_qrels)
     perform_fusion(check_md5=True)
-    prepare_final_submissions(cumulative_qrels)
-    evaluate_runs(cumulative_qrels, cumulative_runs, check_md5=True)
+    prepare_final_submissions(round3_cumulative_qrels)
+
+    evaluate_runs(round3_cumulative_qrels, cumulative_runs, check_md5=True)
+    evaluate_runs(round4_cumulative_qrels, cumulative_runs, check_md5=True)
+    evaluate_runs(round4_qrels, final_runs)
 
 
 if __name__ == '__main__':

@@ -220,26 +220,17 @@ def main():
               'src/main/resources/topics-and-qrels/qrels.covid-round2.txt ' +
               '> src/main/resources/topics-and-qrels/qrels.covid-round12.txt')
 
-    round3_qrels = 'src/main/resources/topics-and-qrels/qrels.covid-round3.txt'
     round2_cumulative_qrels = 'src/main/resources/topics-and-qrels/qrels.covid-round12.txt'
+    round3_qrels = 'src/main/resources/topics-and-qrels/qrels.covid-round3.txt'
     round3_cumulative_qrels = 'src/main/resources/topics-and-qrels/qrels.covid-round3-cumulative.txt'
 
     verify_stored_runs(stored_runs)
     perform_runs()
     perform_fusion()
     prepare_final_submissions(round2_cumulative_qrels)
+
     evaluate_runs(round2_cumulative_qrels, cumulative_runs)
     evaluate_runs(round3_cumulative_qrels, cumulative_runs)
-
-    # Download the NIST post-processed runs.
-    print('')
-    download_url('https://www.dropbox.com/s/ilqgky1tti0zvez/anserini.final-r3.fusion1.post-processed.txt?dl=1',
-                 'runs', force=True)
-    download_url('https://www.dropbox.com/s/ue3z6xxxca9krkb/anserini.final-r3.fusion2.post-processed.txt?dl=1',
-                 'runs', force=True)
-    download_url('https://www.dropbox.com/s/95vk831wp1ldnpm/anserini.final-r3.rf.post-processed.txt?dl=1',
-                 'runs', force=True)
-
     evaluate_runs(round3_qrels, final_runs)
 
 
