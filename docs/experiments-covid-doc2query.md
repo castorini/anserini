@@ -3,6 +3,17 @@
 This document describes various doc2query baselines for the [TREC-COVID Challenge](https://ir.nist.gov/covidSubmit/), which uses the [COVID-19 Open Research Dataset (CORD-19)](https://pages.semanticscholar.org/coronavirus-research) from the [Allen Institute for AI](https://allenai.org/).
 Here, we focus on running retrieval experiments; for basic instructions on building Anserini indexes, see [this page](experiments-cord19.md) and for instructions specific to building doc2query expanded Anserini indexes, see [this page](https://github.com/castorini/docTTTTTquery/).
 
+doc2query describes a family of document expansion techniques:
+
++ Rodrigo Nogueira, Wei Yang, Jimmy Lin, Kyunghyun Cho. [Document Expansion by Query Prediction](https://arxiv.org/abs/1904.08375). _arXiv:1904.08375_.
++ Rodrigo Nogueira and Jimmy Lin. [From doc2query to docTTTTTquery](https://cs.uwaterloo.ca/~jimmylin/publications/Nogueira_Lin_2019_docTTTTTquery-v2.pdf). December 2019.
+
+The idea is conceptually simple: prior to indexing, for each document, we use a model to predict queries for which that document will be relevant.
+These predicted queries are then appended to the original document and indexed as usual.
+
+For CORD-19, these predictions were made using only article title and abstracts with T5 trained on MS MARCO passage date.
+These expansions were then appended to the abstract, full-text, and paragraph index conditions, as described on [this page](experiments-cord19.md).
+
 ## Round 5
 
 These are runs that can be easily replicated with Anserini, from pre-built doc2query expanded CORD-19 indexes we have provided (version from 2020/07/16, which is the official corpus used in round 5).
@@ -47,7 +58,7 @@ $ python src/main/python/trec-covid/generate_round5_doc2query_baselines.py
 ## Round 4
 
 Document expansion with doc2query was introduced in our round 4 submissions.
-The runs below represent correspond to our [TREC-COVID baselines](experiments-covid.md), except on pre-built CORD-19 indexes (version from 2020/06/19, which is the official corpus used in round 4) that have been expanded using doc2query.
+The runs below represent correspond to our [TREC-COVID baselines](experiments-covid.md), except on pre-built CORD-19 indexes that have been expanded using doc2query (version from 2020/06/19, the official corpus used in round 4).
 
 |    | index     | field(s)                        | run file | checksum |
 |---:|:----------|:--------------------------------|:---------|----------|
@@ -61,7 +72,7 @@ The runs below represent correspond to our [TREC-COVID baselines](experiments-co
 |  8 | -         | reciprocal rank fusion(2, 4, 6) | [[download](https://www.dropbox.com/s/e7ki5e8jqi718bp/expanded.anserini.covid-r4.fusion2.txt)]                    | `1e7bb2a6e483d3629378c3107457b216` |
 |  9 | abstract  | UDel qgen + RF                  | [[download](https://www.dropbox.com/s/1uzy5ni33kvxq2o/expanded.anserini.covid-r4.abstract.qdel.bm25%2Brm3Rf.txt)] | `b6b1d949fff00e54b13e533e27455731` |
 
-+ These runs are performed at [`539f7d`](https://github.com/castorini/anserini/commit/539f7d43a0183454a633f34aa20b46d2eeec1a19), 2020/07/24. Note that these runs were created _after_ the round 4 qrels became available, so this is a post-hoc simulation of "what would have happened".
+These runs are performed at [`539f7d`](https://github.com/castorini/anserini/commit/539f7d43a0183454a633f34aa20b46d2eeec1a19), 2020/07/24. Note that these runs were created _after_ the round 4 qrels became available, so this is a post-hoc simulation of "what would have happened".
 
 The final runs, after removing judgments from 1, 2, and 3 (cumulatively), are as follows:
 
