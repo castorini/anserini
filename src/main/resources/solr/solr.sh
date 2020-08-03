@@ -19,7 +19,6 @@ ZOOKEEPER_URL=$2
 mkdir ${SOLR_DIR}/lib && cp ../../../../target/anserini-*-fatjar.jar ${SOLR_DIR}/lib
 
 # Extract lang.zip in each configset
-unzip anserini/conf/lang.zip -d anserini/conf
 unzip anserini-twitter/conf/lang.zip -d anserini-twitter/conf
 
 # Upload configset to Solr
