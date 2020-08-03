@@ -33,9 +33,9 @@ The final runs submitted to NIST, after removing judgments from 1, 2, 3, and 4 (
 
 | group | runtag | run file | checksum |
 |:------|:-------|:---------|:---------|
-| `anserini` | `r4.fusion1` = Row 7 | [[download](https://www.dropbox.com/s/2uyws7fnbpxo8s6/anserini.final-r5.fusion1.txt)] | `12122c12089c2b07a8f6c7247aebe2f6` |
-| `anserini` | `r4.fusion2` = Row 8 | [[download](https://www.dropbox.com/s/vyolaecpxu28vjw/anserini.final-r5.fusion2.txt)] | `ff1a0bac315de6703b937c552b351e2a` |
-| `anserini` | `r4.rf` = Row 9      | [[download](https://www.dropbox.com/s/27wy54cibmyg7lp/anserini.final-r5.rf.txt)]      | `74e2a73b5ffd2908dc23b14c765171a1` |
+| `anserini` | `r5.fusion1` = Row 7 | [[download](https://www.dropbox.com/s/2uyws7fnbpxo8s6/anserini.final-r5.fusion1.txt)] | `12122c12089c2b07a8f6c7247aebe2f6` |
+| `anserini` | `r5.fusion2` = Row 8 | [[download](https://www.dropbox.com/s/vyolaecpxu28vjw/anserini.final-r5.fusion2.txt)] | `ff1a0bac315de6703b937c552b351e2a` |
+| `anserini` | `r5.rf` = Row 9      | [[download](https://www.dropbox.com/s/27wy54cibmyg7lp/anserini.final-r5.rf.txt)]      | `74e2a73b5ffd2908dc23b14c765171a1` |
 
 We have written scripts that automate the replication of these baselines:
 
