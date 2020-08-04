@@ -384,6 +384,48 @@ public class IndexReaderUtils {
   }
 
   /**
+   * Returns the term position mapping for a particular document. Note that this method explicitly returns
+   * {@code null} if the document does not exist (as opposed to an empty map), so that the caller is explicitly forced
+   * to handle this case.
+   *
+   * @param reader index reader
+   * @param docid collection docid
+   * @return term position mapping for a particular document or {@code null} if document does not exist.
+   * @throws IOException if error encountered during query
+   * @throws NotStoredException if the term vector is not stored
+   */
+  public static Map<String, List<Integer>> getTermPositions(IndexReader reader, String docid) throws IOException, NotStoredException {
+    int ldocid = convertDocidToLuceneDocid(reader, docid);
+    if (ldocid == -1) {
+      return null;
+    }
+    Terms terms = reader.getTermVector(ldocid, IndexArgs.CONTENTS);
+    if (terms == null) {
+      throw new NotStoredException("Document vector not stored!");
+    }
+    TermsEnum termIter = terms.iterator();
+    if (termIter == null) {
+      throw new NotStoredException("Document vector not stored!");
+    }
+
+    Map<String, List<Integer>> termPosition = new HashMap<>();
+    PostingsEnum positionIter = null;
+
+    while ((termIter.next()) != null) {
+      List<Integer> positions = new ArrayList<>();
+      long termFreq = termIter.totalTermFreq();
+      positionIter = termIter.postings(positionIter, PostingsEnum.POSITIONS);
+      positionIter.nextDoc();
+      for ( int i = 0; i < termFreq; i++ ) {
+        positions.add(positionIter.nextPosition());
+      }
+      termPosition.put(termIter.term().utf8ToString(), positions);
+    }
+
+    return termPosition;
+  }
+
+  /**
    * Returns the Lucene {@link Document} based on a collection docid. The method is named to be consistent with Lucene's
    * {@link IndexReader#document(int)}, contra Java's standard method naming conventions.
    *
