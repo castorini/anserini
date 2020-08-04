@@ -413,7 +413,7 @@ public class IndexReaderUtils {
 
     while ((termIter.next()) != null) {
       List<Integer> positions = new ArrayList<>();
-      Long termFreq = termIter.totalTermFreq();
+      long termFreq = termIter.totalTermFreq();
       positionIter = termIter.postings(positionIter, PostingsEnum.POSITIONS);
       positionIter.nextDoc();
       for ( int i = 0; i < termFreq; i++ ) {
