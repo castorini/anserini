@@ -394,7 +394,7 @@ public class IndexReaderUtils {
    * @throws IOException if error encountered during query
    * @throws NotStoredException if the term vector is not stored
    */
-  public static Map<String, List<Long>> getPositionList(IndexReader reader, String docid) throws IOException, NotStoredException {
+  public static Map<String, List<Long>> getTermPositions(IndexReader reader, String docid) throws IOException, NotStoredException {
     int ldocid = convertDocidToLuceneDocid(reader, docid);
     if (ldocid == -1) {
       return null;
@@ -403,26 +403,26 @@ public class IndexReaderUtils {
     if (terms == null) {
       throw new NotStoredException("Document vector not stored!");
     }
-    TermsEnum te = terms.iterator();
-    if (te == null) {
+    TermsEnum termIter = terms.iterator();
+    if (termIter == null) {
       throw new NotStoredException("Document vector not stored!");
     }
 
-    Map<String, List<Long>> term_position = new HashMap<>();
-    PostingsEnum position_iter = null;
+    Map<String, List<Long>> termPosition = new HashMap<>();
+    PostingsEnum positionIter = null;
 
-    while ((te.next()) != null) {
+    while ((termIter.next()) != null) {
       List<Long> positions = new ArrayList<>();
-      Long freq = te.totalTermFreq();
-      position_iter = te.postings(position_iter, PostingsEnum.POSITIONS);
-      position_iter.nextDoc();
-      for ( int i = 0; i < freq; i++ ) {
-        positions.add(Long.valueOf(position_iter.nextPosition()));
+      Long termFreq = termIter.totalTermFreq();
+      positionIter = termIter.postings(positionIter, PostingsEnum.POSITIONS);
+      positionIter.nextDoc();
+      for ( int i = 0; i < termFreq; i++ ) {
+        positions.add(Long.valueOf(positionIter.nextPosition()));
       }
-      term_position.put(te.term().utf8ToString(), positions);
+      termPosition.put(termIter.term().utf8ToString(), positions);
     }
 
-    return term_position;
+    return termPosition;
   }
 
   /**
