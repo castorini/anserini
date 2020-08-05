@@ -24,6 +24,146 @@ sys.path.insert(0, '../pyserini/')
 import pyserini.util
 
 
+def perform_runs(round_number, indexes):
+    base_topics = f'src/main/resources/topics-and-qrels/topics.covid-round{round_number}.xml'
+    udel_topics = f'src/main/resources/topics-and-qrels/topics.covid-round{round_number}-udel.xml'
+
+    # Use cumulative qrels from previous round for relevance feedback runs
+    cumulative_qrels = f'src/main/resources/topics-and-qrels/qrels.covid-round{round_number - 1}-cumulative.txt'
+
+    print('')
+    print('## Running on abstract index...')
+    print('')
+
+    abstract_index = indexes[0]
+    abstract_prefix = f'anserini.covid-r{round_number}.abstract'
+    os.system(f'target/appassembler/bin/SearchCollection -index {abstract_index} ' +
+              f'-topicreader Covid -topics {base_topics} -topicfield query+question ' +
+              f'-removedups -bm25 -hits 10000 ' +
+              f'-output runs/{abstract_prefix}.qq.bm25.txt -runtag {abstract_prefix}.qq.bm25.txt')
+
+    os.system(f'target/appassembler/bin/SearchCollection -index {abstract_index} ' +
+              f'-topicreader Covid -topics {udel_topics} -topicfield query ' +
+              f'-removedups -bm25 -hits 10000 ' +
+              f'-output runs/{abstract_prefix}.qdel.bm25.txt -runtag {abstract_prefix}.qdel.bm25.txt')
+
+    os.system(f'target/appassembler/bin/SearchCollection -index {abstract_index} ' +
+              f'-topicreader Covid -topics {udel_topics} -topicfield query -removedups ' +
+              f'-bm25 -rm3 -rm3.fbTerms 100 -hits 10000 ' +
+              f'-rf.qrels {cumulative_qrels} ' +
+              f'-output runs/{abstract_prefix}.qdel.bm25+rm3Rf.txt -runtag {abstract_prefix}.qdel.bm25+rm3Rf.txt')
+
+    print('')
+    print('## Running on full-text index...')
+    print('')
+
+    full_text_index = indexes[1]
+    full_text_prefix = f'anserini.covid-r{round_number}.full-text'
+    os.system(f'target/appassembler/bin/SearchCollection -index {full_text_index} ' +
+              f'-topicreader Covid -topics {base_topics} -topicfield query+question ' +
+              f'-removedups -bm25 -hits 10000 ' +
+              f'-output runs/{full_text_prefix}.qq.bm25.txt -runtag {full_text_prefix}.qq.bm25.txt')
+
+    os.system(f'target/appassembler/bin/SearchCollection -index {full_text_index} ' +
+              f'-topicreader Covid -topics {udel_topics} -topicfield query ' +
+              f'-removedups -bm25 -hits 10000 ' +
+              f'-output runs/{full_text_prefix}.qdel.bm25.txt -runtag {full_text_prefix}.qdel.bm25.txt')
+
+    print('')
+    print('## Running on paragraph index...')
+    print('')
+
+    paragraph_index = indexes[2]
+    paragraph_prefix = f'anserini.covid-r{round_number}.paragraph'
+    os.system(f'target/appassembler/bin/SearchCollection -index {paragraph_index} ' +
+              f'-topicreader Covid -topics {base_topics} -topicfield query+question ' +
+              f'-removedups -strip_segment_id -bm25 -hits 50000 ' +
+              f'-output runs/{paragraph_prefix}.qq.bm25.txt -runtag {paragraph_prefix}.qq.bm25.txt')
+
+    os.system(f'target/appassembler/bin/SearchCollection -index {paragraph_index} ' +
+              f'-topicreader Covid -topics {udel_topics} -topicfield query ' +
+              f'-removedups -strip_segment_id -bm25 -hits 50000 ' +
+              f'-output runs/{paragraph_prefix}.qdel.bm25.txt -runtag {paragraph_prefix}.qdel.bm25.txt')
+
+
+def perform_fusion(round_number, run_checksums, check_md5=True):
+    print('')
+    print('## Performing fusion...')
+    print('')
+
+    fusion_run1 = f'anserini.covid-r{round_number}.fusion1.txt'
+    set1 = [f'anserini.covid-r{round_number}.abstract.qq.bm25.txt',
+            f'anserini.covid-r{round_number}.full-text.qq.bm25.txt',
+            f'anserini.covid-r{round_number}.paragraph.qq.bm25.txt']
+
+    print(f'Performing fusion to create {fusion_run1}')
+    os.system('PYTHONPATH=../pyserini ' +
+              'python -m pyserini.fusion --method rrf --runtag reciprocal_rank_fusion_k=60 --k 10000 '
+              f'--out runs/{fusion_run1} --runs runs/{set1[0]} runs/{set1[1]} runs/{set1[2]}')
+
+    if check_md5:
+        assert pyserini.util.compute_md5(f'runs/{fusion_run1}') == run_checksums[fusion_run1],\
+            f'Error in producing {fusion_run1}!'
+
+    fusion_run2 = f'anserini.covid-r{round_number}.fusion2.txt'
+    set2 = [f'anserini.covid-r{round_number}.abstract.qdel.bm25.txt',
+            f'anserini.covid-r{round_number}.full-text.qdel.bm25.txt',
+            f'anserini.covid-r{round_number}.paragraph.qdel.bm25.txt']
+
+    print(f'Performing fusion to create {fusion_run2}')
+    os.system('PYTHONPATH=../pyserini ' +
+              'python -m pyserini.fusion --method rrf --runtag reciprocal_rank_fusion_k=60 --k 10000 ' +
+              f'--out runs/{fusion_run2} --runs runs/{set2[0]} runs/{set2[1]} runs/{set2[2]}')
+
+    if check_md5:
+        assert pyserini.util.compute_md5(f'runs/{fusion_run2}') == run_checksums[fusion_run2],\
+            f'Error in producing {fusion_run2}!'
+
+
+def prepare_final_submissions(round_number, run_checksums, check_md5=True):
+    # Remove teh cumulative qrels from the previous round.
+    qrels = f'src/main/resources/topics-and-qrels/qrels.covid-round{round_number - 1}-cumulative.txt'
+
+    print('')
+    print('## Preparing final submission files by removing qrels...')
+    print('')
+
+    run1 = f'anserini.final-r{round_number}.fusion1.txt'
+    print(f'Generating {run1}')
+    os.system(f'python tools/scripts/filter_run_with_qrels.py --discard --qrels {qrels} ' +
+              f'--input runs/anserini.covid-r{round_number}.fusion1.txt --output runs/{run1} ' +
+              f'--runtag r{round_number}.fusion1')
+    run1_md5 = pyserini.util.compute_md5(f'runs/{run1}')
+
+    if check_md5:
+        assert run1_md5 == run_checksums[run1], f'Error in producing {run1}!'
+
+    run2 = f'anserini.final-r{round_number}.fusion2.txt'
+    print(f'Generating {run2}')
+    os.system(f'python tools/scripts/filter_run_with_qrels.py --discard --qrels {qrels} ' +
+              f'--input runs/anserini.covid-r{round_number}.fusion2.txt --output runs/{run2} ' +
+              f'--runtag r{round_number}.fusion2')
+    run2_md5 = pyserini.util.compute_md5(f'runs/{run2}')
+
+    if check_md5:
+        assert run2_md5 == run_checksums[run2], f'Error in producing {run2}!'
+
+    run3 = f'anserini.final-r{round_number}.rf.txt'
+    print(f'Generating {run3}')
+    os.system(f'python tools/scripts/filter_run_with_qrels.py --discard --qrels {qrels} ' +
+              f'--input runs/anserini.covid-r{round_number}.abstract.qdel.bm25+rm3Rf.txt ' +
+              f'--output runs/{run3} --runtag r{round_number}.rf')
+    run3_md5 = pyserini.util.compute_md5(f'runs/{run3}')
+
+    if check_md5:
+        assert run3_md5 == run_checksums[run3], f'Error in producing {run3}!'
+
+    print('')
+    print(f'{run1:<35}{run1_md5}')
+    print(f'{run2:<35}{run2_md5}')
+    print(f'{run3:<35}{run3_md5}')
+
+
 def evaluate_run(run, qrels):
     metrics = {}
     output = subprocess.check_output(
