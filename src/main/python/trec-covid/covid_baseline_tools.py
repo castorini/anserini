@@ -120,6 +120,50 @@ def perform_fusion(round_number, run_checksums, check_md5=True):
             f'Error in producing {fusion_run2}!'
 
 
+def prepare_final_submissions(round_number, run_checksums, check_md5=True):
+    # Remove teh cumulative qrels from the previous round.
+    qrels = f'src/main/resources/topics-and-qrels/qrels.covid-round{round_number - 1}-cumulative.txt'
+
+    print('')
+    print('## Preparing final submission files by removing qrels...')
+    print('')
+
+    run1 = f'anserini.final-r{round_number}.fusion1.txt'
+    print(f'Generating {run1}')
+    os.system(f'python tools/scripts/filter_run_with_qrels.py --discard --qrels {qrels} ' +
+              f'--input runs/anserini.covid-r{round_number}.fusion1.txt --output runs/{run1} ' +
+              f'--runtag r{round_number}.fusion1')
+    run1_md5 = pyserini.util.compute_md5(f'runs/{run1}')
+
+    if check_md5:
+        assert run1_md5 == run_checksums[run1], f'Error in producing {run1}!'
+
+    run2 = f'anserini.final-r{round_number}.fusion2.txt'
+    print(f'Generating {run2}')
+    os.system(f'python tools/scripts/filter_run_with_qrels.py --discard --qrels {qrels} ' +
+              f'--input runs/anserini.covid-r{round_number}.fusion2.txt --output runs/{run2} ' +
+              f'--runtag r{round_number}.fusion2')
+    run2_md5 = pyserini.util.compute_md5(f'runs/{run2}')
+
+    if check_md5:
+        assert run2_md5 == run_checksums[run2], f'Error in producing {run2}!'
+
+    run3 = f'anserini.final-r{round_number}.rf.txt'
+    print(f'Generating {run3}')
+    os.system(f'python tools/scripts/filter_run_with_qrels.py --discard --qrels {qrels} ' +
+              f'--input runs/anserini.covid-r{round_number}.abstract.qdel.bm25+rm3Rf.txt ' +
+              f'--output runs/{run3} --runtag r{round_number}.rf')
+    run3_md5 = pyserini.util.compute_md5(f'runs/{run3}')
+
+    if check_md5:
+        assert run3_md5 == run_checksums[run3], f'Error in producing {run3}!'
+
+    print('')
+    print(f'{run1:<35}{run1_md5}')
+    print(f'{run2:<35}{run2_md5}')
+    print(f'{run3:<35}{run3_md5}')
+
+
 def evaluate_run(run, qrels):
     metrics = {}
     output = subprocess.check_output(
