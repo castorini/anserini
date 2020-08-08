@@ -38,7 +38,7 @@ import java.util.*;
  * Feature extractor class that forms the base for other feature extractors
  */
 public class FeatureExtractorUtils<K> {
-    private static final Logger LOG = LogManager.getLogger(BaseFeatureExtractor.class);
+    private static final Logger LOG = LogManager.getLogger(FeatureExtractorUtils.class);
     private IndexReader reader;
     private IndexSearcher searcher;
     public List<FeatureExtractor> extractors = new ArrayList<>();
