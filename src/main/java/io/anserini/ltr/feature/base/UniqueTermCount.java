@@ -16,6 +16,7 @@
 
 package io.anserini.ltr.feature.base;
 
+import io.anserini.index.IndexArgs;
 import io.anserini.ltr.feature.FeatureExtractor;
 import io.anserini.rerank.RerankerContext;
 import org.apache.lucene.document.Document;
@@ -29,7 +30,7 @@ import java.util.Set;
  */
 public class UniqueTermCount<T> implements FeatureExtractor<T> {
   @Override
-  public float extract(Document doc, Terms terms, RerankerContext<T> context) {
+  public Integer extract(Document doc, Terms terms, RerankerContext<T> context) {
     Set<String> queryTokens = new HashSet<>(context.getQueryTokens());
     return queryTokens.size();
   }
@@ -37,5 +38,10 @@ public class UniqueTermCount<T> implements FeatureExtractor<T> {
   @Override
   public String getName() {
     return "UniqueQueryTerms";
+  }
+
+  @Override
+  public String getField() {
+    return IndexArgs.CONTENTS;
   }
 }

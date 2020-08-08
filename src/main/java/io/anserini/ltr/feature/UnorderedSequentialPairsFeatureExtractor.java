@@ -20,6 +20,7 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
+import io.anserini.index.IndexArgs;
 import io.anserini.rerank.RerankerContext;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.Terms;
@@ -139,7 +140,7 @@ public class UnorderedSequentialPairsFeatureExtractor<T> implements FeatureExtra
   }
 
   @Override
-  public float extract(Document doc, Terms terms, RerankerContext<T> context) {
+  public Float extract(Document doc, Terms terms, RerankerContext<T> context) {
     try {
       return computeUnorderedFrequencyScore(doc, terms, context);
     } catch (IOException e) {
@@ -151,5 +152,10 @@ public class UnorderedSequentialPairsFeatureExtractor<T> implements FeatureExtra
   @Override
   public String getName() {
     return "UnorderedSequentialPairs" + this.gapSize;
+  }
+
+  @Override
+  public String getField() {
+    return IndexArgs.CONTENTS;
   }
 }

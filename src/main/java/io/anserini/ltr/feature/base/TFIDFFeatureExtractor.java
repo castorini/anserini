@@ -41,7 +41,7 @@ public class TFIDFFeatureExtractor<T> implements FeatureExtractor<T> {
   private static final Logger LOG = LogManager.getLogger(TFIDFFeatureExtractor.class);
 
   @Override
-  public float extract(Document doc, Terms terms, RerankerContext<T> context) {
+  public Float extract(Document doc, Terms terms, RerankerContext<T> context) {
     float score = 0.0f;
     Map<String, Long> countMap = new HashMap<>();
     Map<String, Integer> docFreqs = new HashMap<>();
@@ -91,5 +91,10 @@ public class TFIDFFeatureExtractor<T> implements FeatureExtractor<T> {
   @Override
   public String getName() {
     return "TFIDF";
+  }
+
+  @Override
+  public String getField() {
+    return IndexArgs.CONTENTS;
   }
 }

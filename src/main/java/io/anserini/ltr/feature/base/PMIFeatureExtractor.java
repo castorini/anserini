@@ -74,7 +74,7 @@ public class PMIFeatureExtractor<T> implements FeatureExtractor<T> {
   }
 
   @Override
-  public float extract(Document doc, Terms terms, RerankerContext<T> context) {
+  public Float extract(Document doc, Terms terms, RerankerContext<T> context) {
     // We need docfreqs of each token
     // and also doc freqs of each pair
     if (!this.lastQueryProcessed.equals(context.getQueryText())) {
@@ -136,5 +136,10 @@ public class PMIFeatureExtractor<T> implements FeatureExtractor<T> {
   @Override
   public String getName() {
     return "PMIFeature";
+  }
+
+  @Override
+  public String getField() {
+    return IndexArgs.CONTENTS;
   }
 }

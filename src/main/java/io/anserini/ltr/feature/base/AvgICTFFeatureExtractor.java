@@ -16,6 +16,7 @@
 
 package io.anserini.ltr.feature.base;
 
+import io.anserini.index.IndexArgs;
 import io.anserini.ltr.feature.FeatureExtractor;
 import io.anserini.rerank.RerankerContext;
 import org.apache.logging.log4j.LogManager;
@@ -61,7 +62,7 @@ public class AvgICTFFeatureExtractor<T> implements FeatureExtractor<T> {
     return sumICTF;
   }
   @Override
-  public float extract(Document doc, Terms terms, RerankerContext<T> context) {
+  public Float extract(Document doc, Terms terms, RerankerContext<T> context) {
     // We need docSize, and tf for each term
     float sumIctf = getSumICTF(terms, context.getQueryTokens());
     // Compute the average by dividing
@@ -71,5 +72,10 @@ public class AvgICTFFeatureExtractor<T> implements FeatureExtractor<T> {
   @Override
   public String getName() {
     return "AvgICTF";
+  }
+
+  @Override
+  public String getField() {
+    return IndexArgs.CONTENTS;
   }
 }

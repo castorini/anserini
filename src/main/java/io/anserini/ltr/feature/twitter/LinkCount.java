@@ -24,7 +24,7 @@ import org.apache.lucene.index.Terms;
 
 public class LinkCount implements FeatureExtractor {
   @Override
-  public float extract(Document doc, Terms terms, RerankerContext context) {
+  public Float extract(Document doc, Terms terms, RerankerContext context) {
     final String str = doc.getField(IndexArgs.CONTENTS).stringValue();
     final String matchStr = "http://";
 
@@ -45,5 +45,10 @@ public class LinkCount implements FeatureExtractor {
   @Override
   public String getName() {
     return "TwitterLinkCount";
+  }
+
+  @Override
+  public String getField() {
+    return IndexArgs.CONTENTS;
   }
 }

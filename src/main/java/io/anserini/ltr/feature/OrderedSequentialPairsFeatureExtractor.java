@@ -20,6 +20,7 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
+import io.anserini.index.IndexArgs;
 import io.anserini.rerank.RerankerContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -91,7 +92,7 @@ public class OrderedSequentialPairsFeatureExtractor<T> implements FeatureExtract
   }
 
   @Override
-  public float extract(Document doc, Terms terms, RerankerContext<T> context) {
+  public Float extract(Document doc, Terms terms, RerankerContext<T> context) {
     try {
       return computeOrderedFrequencyScore(doc, terms, context);
     } catch (IOException e) {
@@ -144,5 +145,10 @@ public class OrderedSequentialPairsFeatureExtractor<T> implements FeatureExtract
   @Override
   public String getName() {
     return "OrderedSequentialPairs" + this.gapSize;
+  }
+
+  @Override
+  public String getField() {
+    return IndexArgs.CONTENTS;
   }
 }

@@ -16,6 +16,7 @@
 
 package io.anserini.ltr.feature.base;
 
+import io.anserini.index.IndexArgs;
 import io.anserini.ltr.feature.FeatureExtractor;
 import io.anserini.rerank.RerankerContext;
 import org.apache.logging.log4j.LogManager;
@@ -33,7 +34,7 @@ public class DocSizeFeatureExtractor<T> implements FeatureExtractor<T> {
   private static final Logger LOG = LogManager.getLogger(DocSizeFeatureExtractor.class);
 
   @Override
-  public float extract(Document doc, Terms terms, RerankerContext<T> context) {
+  public Float extract(Document doc, Terms terms, RerankerContext<T> context) {
     float score;
     try {
       score = (float)terms.getSumTotalTermFreq();
@@ -54,5 +55,10 @@ public class DocSizeFeatureExtractor<T> implements FeatureExtractor<T> {
   @Override
   public String getName() {
     return "DocSize";
+  }
+
+  @Override
+  public String getField() {
+    return IndexArgs.CONTENTS;
   }
 }

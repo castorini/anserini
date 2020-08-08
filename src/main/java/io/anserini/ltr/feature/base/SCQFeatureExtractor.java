@@ -63,7 +63,7 @@ public class SCQFeatureExtractor<T> implements FeatureExtractor<T> {
   }
 
   @Override
-  public float extract(Document doc, Terms terms, RerankerContext<T> context) {
+  public Float extract(Document doc, Terms terms, RerankerContext<T> context) {
     IndexReader reader = context.getIndexSearcher().getIndexReader();
 
     if (!lastQueryProcessed.equals(context.getQueryText())) {
@@ -84,5 +84,10 @@ public class SCQFeatureExtractor<T> implements FeatureExtractor<T> {
   @Override
   public String getName() {
     return "AvgSCQ";
+  }
+
+  @Override
+  public String getField() {
+    return IndexArgs.CONTENTS;
   }
 }

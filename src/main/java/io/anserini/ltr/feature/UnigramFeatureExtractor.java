@@ -16,6 +16,7 @@
 
 package io.anserini.ltr.feature;
 
+import io.anserini.index.IndexArgs;
 import io.anserini.rerank.RerankerContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -38,7 +39,7 @@ public class UnigramFeatureExtractor<T> implements FeatureExtractor<T> {
   private static final Logger LOG = LogManager.getLogger(UnigramFeatureExtractor.class);
 
   @Override
-  public float extract(Document doc, Terms terms, RerankerContext<T> context) {
+  public Float extract(Document doc, Terms terms, RerankerContext<T> context) {
     try {
       return computeFullIndependenceScore(doc, terms, context);
     } catch (IOException e) {
@@ -93,5 +94,10 @@ public class UnigramFeatureExtractor<T> implements FeatureExtractor<T> {
   @Override
   public String getName() {
     return "UnigramsFeatureExtractor";
+  }
+
+  @Override
+  public String getField() {
+    return IndexArgs.CONTENTS;
   }
 }

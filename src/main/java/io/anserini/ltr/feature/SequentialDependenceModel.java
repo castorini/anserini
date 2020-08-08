@@ -16,6 +16,7 @@
 
 package io.anserini.ltr.feature;
 
+import io.anserini.index.IndexArgs;
 import io.anserini.rerank.RerankerContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -208,7 +209,7 @@ public class SequentialDependenceModel<T> implements FeatureExtractor<T> {
   }
 
   @Override
-  public float extract(Document doc, Terms terms, RerankerContext<T> context) {
+  public Float extract(Document doc, Terms terms, RerankerContext<T> context) {
     float orderedWindowScore = 0.0f;
     float unorderedDependenceScore = 0.0f;
     float independentScore = 0.0f;
@@ -227,5 +228,10 @@ public class SequentialDependenceModel<T> implements FeatureExtractor<T> {
   @Override
   public String getName() {
     return NAME;
+  }
+
+  @Override
+  public String getField() {
+    return IndexArgs.CONTENTS;
   }
 }
