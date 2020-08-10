@@ -37,7 +37,7 @@ import java.util.*;
 /**
  * Feature extractor class that forms the base for other feature extractors
  */
-public class FeatureExtractorUtils<K> {
+public class FeatureExtractorUtils {
     private static final Logger LOG = LogManager.getLogger(FeatureExtractorUtils.class);
     private IndexReader reader;
     private IndexSearcher searcher;
@@ -51,9 +51,9 @@ public class FeatureExtractorUtils<K> {
         return this;
     }
 
-    public Map<String, List> extract(K queryID, String queryText, List<String> queryTokens, Query query, List<String> doc_ids) throws Exception {
+    public Map<String, List> extract(List<String> queryTokens, List<String> docIds) throws Exception {
         Map<String, List> result = new HashMap<>();
-        for(String docId: doc_ids) {
+        for(String docId: docIds) {
             Query q = new TermQuery(new Term(IndexArgs.ID, docId));
             TopDocs topDocs = searcher.search(q, 1);
             if (topDocs.totalHits.value == 0) {
@@ -64,25 +64,25 @@ public class FeatureExtractorUtils<K> {
             ScoreDoc hit = topDocs.scoreDocs[0];
             Document doc = reader.document(hit.doc, fieldsToLoad);
 
-            //TODO factor for test
             Terms terms = reader.getTermVector(hit.doc, IndexArgs.CONTENTS);
             // Construct the reranker context
-            RerankerContext<K> context = new RerankerContext<>(searcher, queryID,
-                    query, null, queryText,
+            RerankerContext<String> context = new RerankerContext<>(searcher, "-1",
+                    null, null, String.join(" ", queryTokens),
                     queryTokens,
                     null, null);
             List<Object> features = new ArrayList<>();
             for (int i = 0; i < extractors.size(); i++) {
                 features.add(extractors.get(i).extract(doc, terms, context));
             }
+            result.put(docId,features);
         }
         return result;
     }
 
     public FeatureExtractorUtils(String indexDir) throws IOException {
         Directory indexDirectory = FSDirectory.open(Paths.get(indexDir));
-        this.reader = DirectoryReader.open(indexDirectory);
-        this.searcher = new IndexSearcher(this.reader);
+        reader = DirectoryReader.open(indexDirectory);
+        searcher = new IndexSearcher(reader);
     }
 
 
