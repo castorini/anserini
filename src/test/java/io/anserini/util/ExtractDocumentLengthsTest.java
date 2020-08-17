@@ -72,9 +72,9 @@ public class ExtractDocumentLengthsTest extends IndexerWithEmptyDocumentTestBase
 
     List<String> lines = Files.readAllLines(Paths.get(randomFileName));
     assertEquals(5, lines.size());
-    assertEquals("doc1\t8\t5\t8\t5", lines.get(1));
-    assertEquals("doc2\t2\t2\t2\t2", lines.get(2));
-    assertEquals("doc3\t2\t2\t2\t2", lines.get(3));
-    assertEquals("doc4\t0\t0\t0\t0", lines.get(4));
+    assertEquals("0\tdoc1\t8\t5\t8\t5", lines.get(1));
+    assertEquals("1\tdoc2\t2\t2\t2\t2", lines.get(2));
+    assertEquals("2\tdoc3\t2\t2\t2\t2", lines.get(3));
+    assertEquals("3\tdoc4\t0\t0\t0\t0", lines.get(4));
   }
 }
