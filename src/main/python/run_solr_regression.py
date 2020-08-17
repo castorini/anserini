@@ -139,16 +139,16 @@ class SolrClient:
         logger.info('Retrieval complete!')
 
         if collection == 'core18':
-            command = 'eval/trec_eval.9.0.4/trec_eval -m map -m P.30 ' + \
+            command = 'tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 ' + \
                       'src/main/resources/topics-and-qrels/qrels.core18.txt runs/run.solr.core18.bm25.topics.core18.txt'
         elif collection == 'robust04':
-            command = 'eval/trec_eval.9.0.4/trec_eval -m map -m P.30 ' + \
+            command = 'tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 ' + \
                       'src/main/resources/topics-and-qrels/qrels.robust04.txt runs/run.solr.robust04.bm25.topics.robust04.txt'
         elif collection == 'msmarco-passage':
-            command = 'eval/trec_eval.9.0.4/trec_eval  -c -mrecall.1000 -mmap ' + \
+            command = 'tools/eval/trec_eval.9.0.4/trec_eval  -c -mrecall.1000 -mmap ' + \
                       'src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.solr.msmarco-passage.txt'
         elif collection == 'msmarco-doc':
-            command = 'eval/trec_eval.9.0.4/trec_eval  -c -mrecall.1000 -mmap ' + \
+            command = 'tools/eval/trec_eval.9.0.4/trec_eval  -c -mrecall.1000 -mmap ' + \
                       'src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.solr.msmarco-doc.txt'
         else:
             raise Exception('Unknown collection: {}'.format(collection))

@@ -5,7 +5,7 @@ Here, we focus on running retrieval experiments; for basic instructions on build
 
 ## Round 5
 
-These are runs that can be easily replicated with Anserini, from pre-built indexes available [here](experiments-cord19.md#pre-built-indexes-all-versions) (version from 2020/07/16, which is the official corpus used in round 5).
+These are runs that can be easily replicated with Anserini, from pre-built indexes available [here](experiments-cord19.md#pre-built-indexes-all-versions) (version from 2020/07/16, the official corpus used in round 5).
 They were prepared _for_ round 5 (for participants who wish to have a baseline run to rerank); to provide a sense of effectiveness, we present evaluation results with the cumulative qrels from rounds 1, 2, 3, and 4 ([`qrels_covid_d4_j0.5-4.txt`](https://ir.nist.gov/covidSubmit/data/qrels-covid_d4_j0.5-4.txt) provided by NIST, stored in our repo as [`qrels.covid-round4-cumulative.txt`](../src/main/resources/topics-and-qrels/qrels.covid-round4-cumulative.txt)).
 
 |    | index     | field(s)                        | nDCG@10 | J@10 | R@1k | run file | checksum |
@@ -18,7 +18,7 @@ They were prepared _for_ round 5 (for participants who wish to have a baseline r
 |  6 | paragraph | UDel qgen                       | 0.4918 | 0.6440 | 0.5101 | [[download](https://www.dropbox.com/s/nmb11wtx4yde939/anserini.covid-r5.paragraph.qdel.bm25.txt)] | `16b295fda9d1eccd4e1fa4c147657872` |
 |  7 | -         | reciprocal rank fusion(1, 3, 5) | 0.4696 | 0.6520 | 0.5027 | [[download](https://www.dropbox.com/s/mq94s9t7snqlizw/anserini.covid-r5.fusion1.txt)]             | `16875b6d32a9b5ef96d7b59315b101a7` |
 |  8 | -         | reciprocal rank fusion(2, 4, 6) | 0.5077 | 0.6800 | 0.5378 | [[download](https://www.dropbox.com/s/4za9i29gxv090ut/anserini.covid-r5.fusion2.txt)]             | `8f7d663d551f831c65dceb8e4e9219c2` |
-|  9 | abstract  | UDel qgen + RF                  | 0.6066 | 0.6700 | 0.5411 | [[download](https://www.dropbox.com/s/9cw0qhr5meskg9y/anserini.covid-r5.abstract.qdel.bm25%2Brm3Rf.txt)] | `f4e9128320182308b09c0eb5f0ac016d` |
+|  9 | abstract  | UDel qgen + RF                  | 0.6177 | 0.6620 | 0.5505 | [[download](https://www.dropbox.com/s/9cw0qhr5meskg9y/anserini.covid-r5.abstract.qdel.bm25%2Brm3Rf.txt)] | `909ccbbd55736eff60c7dbeff1404c94` |
 
 **IMPORTANT NOTES!!!**
 
@@ -27,14 +27,15 @@ They were prepared _for_ round 5 (for participants who wish to have a baseline r
 + The evaluation numbers are produced with the NIST-prepared cumulative qrels from rounds 1, 2, 3, and 4 ([`qrels_covid_d4_j0.5-4.txt`](https://ir.nist.gov/covidSubmit/data/qrels-covid_d4_j0.5-4.txt) provided by NIST, stored in our repo as [`qrels.covid-round4-cumulative.txt`](../src/main/resources/topics-and-qrels/qrels.covid-round4-cumulative.txt)) on the round 5 collection (release of 7/16).
 + For the abstract and full-text indexes, we request up to 10k hits for each topic; the number of actual hits retrieved is fairly close to this (a bit less because of deduping). For the paragraph index, we request up to 50k hits for each topic; because multiple paragraphs are retrieved from the same document, the number of unique documents in each list of hits is much smaller. A cautionary note: our experience is that choosing the top _k_ documents to rerank has a large impact on end-to-end effectiveness. Reranking the top 100 seems to provide higher precision than top 1000, but the likely tradeoff is lower recall. It is very likely the case that you _don't_ want to rerank all available hits.
 + Row 9 represents the feedback baseline condition introduced in round 3: abstract index, UDel query generator, BM25+RM3 relevance feedback (100 feedback terms).
++ **(Updates 2020/07/27)** Fixed a bug in the relevance feedback runs where we were using the round 3 cumulative qrels (instead of the round 4 ones).
 
 The final runs submitted to NIST, after removing judgments from 1, 2, 3, and 4 (cumulatively), are as follows:
 
 | group | runtag | run file | checksum |
 |:------|:-------|:---------|:---------|
-| `anserini` | `r4.fusion1` = Row 7 | [[download](https://www.dropbox.com/s/2uyws7fnbpxo8s6/anserini.final-r5.fusion1.txt)] | `12122c12089c2b07a8f6c7247aebe2f6` |
-| `anserini` | `r4.fusion2` = Row 8 | [[download](https://www.dropbox.com/s/vyolaecpxu28vjw/anserini.final-r5.fusion2.txt)] | `ff1a0bac315de6703b937c552b351e2a` |
-| `anserini` | `r4.rf` = Row 9      | [[download](https://www.dropbox.com/s/27wy54cibmyg7lp/anserini.final-r5.rf.txt)]      | `9b9f77840f2cb529c54dde8cbf477c87` |
+| `anserini` | `r5.fusion1` = Row 7 | [[download](https://www.dropbox.com/s/2uyws7fnbpxo8s6/anserini.final-r5.fusion1.txt)] | `12122c12089c2b07a8f6c7247aebe2f6` |
+| `anserini` | `r5.fusion2` = Row 8 | [[download](https://www.dropbox.com/s/vyolaecpxu28vjw/anserini.final-r5.fusion2.txt)] | `ff1a0bac315de6703b937c552b351e2a` |
+| `anserini` | `r5.rf` = Row 9      | [[download](https://www.dropbox.com/s/27wy54cibmyg7lp/anserini.final-r5.rf.txt)]      | `74e2a73b5ffd2908dc23b14c765171a1` |
 
 We have written scripts that automate the replication of these baselines:
 
@@ -46,7 +47,7 @@ $ python src/main/python/trec-covid/generate_round5_baselines.py
 
 ## Round 4
 
-These are runs that can be easily replicated with Anserini, from pre-built indexes available [here](experiments-cord19.md#pre-built-indexes-all-versions) (version from 2020/06/19, which is the official corpus used in round 4).
+These are runs that can be easily replicated with Anserini, from pre-built indexes available [here](experiments-cord19.md#pre-built-indexes-all-versions) (version from 2020/06/19, the official corpus used in round 4).
 They were prepared _for_ round 4 (for participants who wish to have a baseline run to rerank); to provide a sense of effectiveness, we present evaluation results with the cumulative qrels from rounds 1, 2, and 3 ([`qrels_covid_d3_j0.5-3.txt`](https://ir.nist.gov/covidSubmit/data/qrels-covid_d3_j0.5-3.txt) provided by NIST, stored in our repo as [`qrels.covid-round3-cumulative.txt`](../src/main/resources/topics-and-qrels/qrels.covid-round3-cumulative.txt)).
 
 |    | index     | field(s)                        | nDCG@10 | J@10 | R@1k | run file | checksum |
@@ -84,10 +85,60 @@ $ python src/main/python/trec-covid/download_indexes.py --date 2020-06-19
 $ python src/main/python/trec-covid/generate_round4_baselines.py
 ```
 
+### Evaluation with Round 4 Qrels
+
+Since the above runs were prepared _for_ round 4, we do not know how well they actually performed until the round 4 judgments from NIST were released.
+Here, we provide these evaluation results.
+
+Note that the runs posted on the [TREC-COVID archive](https://ir.nist.gov/covidSubmit/archive.html) are _not_ exactly the same the runs we submitted.
+According to NIST (from email to participants), they removed "documents that were previously judged but had id changes from the Round 4 submissions for scoring, even though the change in `cord_uid` was unknown at submission time."
+The actual evaluated runs are (mirrored from URL above):
+
+| group | runtag | run file | checksum |
+|:------|:-------|:---------|:---------|
+| `anserini` | `r4.fusion1` (NIST post-processed) | [[download](https://www.dropbox.com/s/wccmsmj2cz4h1t4/anserini.final-r4.fusion1.post-processed.txt)] | `b0ebafe36d8fc721ea6923da5837aa8c` |
+| `anserini` | `r4.fusion2` (NIST post-processed) | [[download](https://www.dropbox.com/s/kwgnbgofaql3k4l/anserini.final-r4.fusion2.post-processed.txt)] | `e7e0b870c6822e7127df71608923e76b` |
+| `anserini` | `r4.rf` (NIST post-processed)      | [[download](https://www.dropbox.com/s/gvha3nj004osrme/anserini.final-r4.rf.post-processed.txt)]      | `2fcd53854461e0cbe3c9170c0da234d9` |
+
+Effectiveness results (note that NIST changed from nDCG@10 to nDCG@20 for this round):
+
+| group | runtag | nDCG@20 | J@20 | AP   | R@1k |
+|:------|:-------|--------:|-----:|-----:|-----:|
+| `anserini` | `r4.fusion1`                       | 0.5204 | 0.7922 | 0.2656 | 0.6571
+| `anserini` | `r4.fusion1` (NIST post-processed) | 0.5244 | 0.7978 | 0.2666 | 0.6571
+| `anserini` | `r4.fusion2`                       | 0.6047 | 0.8978 | 0.3078 | 0.6928
+| `anserini` | `r4.fusion2` (NIST post-processed) | 0.6089 | 0.9022 | 0.3088 | 0.6928
+| `anserini` | `r4.rf`                            | 0.6940 | 0.9233 | 0.3506 | 0.6962
+| `anserini` | `r4.rf` (NIST post-processed)      | 0.6976 | 0.9278 | 0.3519 | 0.6962
+
+The scores of the post-processed runs match those reported by NIST.
+We see that that NIST post-processing improves scores slightly.
+
+Below, we report the effectiveness of the runs using the cumulative qrels file from round 4.
+This qrels file, provided by NIST as [`qrels_covid_d4_j0.5-4.txt`](https://ir.nist.gov/covidSubmit/data/qrels-covid_d4_j0.5-4.txt), is stored in our repo as [`qrels.covid-round4-cumulative.txt`](../src/main/resources/topics-and-qrels/qrels.covid-round4-cumulative.txt)).
+
+|    | index     | field(s)                 | nDCG@10 | J@10 | nDCG@20 | J@20 | AP | R@1k | J@1k |
+|---:|:----------|:-------------------------|--------:|-----:|--------:|-----:|---:|-----:|-----:|
+|  1 | abstract  | query+question                  | 0.6600 | 0.9356 | 0.6120 | 0.9111 | 0.2780 | 0.5019 | 0.2876 |
+|  2 | abstract  | UDel qgen                       | 0.7081 | 0.9844 | 0.6650 | 0.9622 | 0.2994 | 0.5233 | 0.2987 |
+|  3 | full-text | query+question                  | 0.4192 | 0.8067 | 0.3984 | 0.7544 | 0.1712 | 0.4139 | 0.2740 |
+|  4 | full-text | UDel qgen                       | 0.6110 | 0.9400 | 0.5668 | 0.8933 | 0.2344 | 0.4856 | 0.3079 |
+|  5 | paragraph | query+question                  | 0.5610 | 0.9133 | 0.5324 | 0.8756 | 0.2713 | 0.5385 | 0.3386 |
+|  6 | paragraph | UDel qgen                       | 0.6477 | 0.9644 | 0.6084 | 0.9322 | 0.2975 | 0.5625 | 0.3443 |
+|  7 | -         | reciprocal rank fusion(1, 3, 5) | 0.6271 | 0.9689 | 0.5968 | 0.9422 | 0.2904 | 0.5623 | 0.3519 |
+|  8 | -         | reciprocal rank fusion(2, 4, 6) | 0.6802 | 1.0000 | 0.6573 | 0.9956 | 0.3286 | 0.5946 | 0.3625 |
+|  9 | abstract  | UDel qgen + RF                  | 0.8056 | 1.0000 | 0.7649 | 0.9967 | 0.3663 | 0.5955 | 0.3229 |
+
+Note that all of the results above can be replicated with the following script:
+
+```bash
+$ python src/main/python/trec-covid/generate_round4_baselines.py
+```
+
 
 ## Round 3
 
-These are runs that can be easily replicated with Anserini, from pre-built indexes available [here](experiments-cord19.md#pre-built-indexes-all-versions) (version from 2020/05/19, which is the official corpus used in round 3).
+These are runs that can be easily replicated with Anserini, from pre-built indexes available [here](experiments-cord19.md#pre-built-indexes-all-versions) (version from 2020/05/19, the official corpus used in round 3).
 They were prepared _for_ round 3 (for participants who wish to have a baseline run to rerank); to provide a sense of effectiveness, we present evaluation results with the union of round 1 and round 2 qrels.
 
 |    | index     | field(s)                 | nDCG@10 | J@10 | R@1k | run file | checksum |
@@ -168,17 +219,17 @@ We see that that NIST post-processing improves scores slightly.
 Below, we report the effectiveness of the runs using the cumulative qrels file from round 3.
 This qrels file, provided by NIST as [`qrels_covid_d3_j0.5-3.txt`](https://ir.nist.gov/covidSubmit/data/qrels-covid_d3_j0.5-3.txt), is stored in our repo as [`qrels.covid-round3-cumulative.txt`](../src/main/resources/topics-and-qrels/qrels.covid-round3-cumulative.txt).
 
-|    | index     | field(s)                 | nDCG@10 | J@10 | R@1k |
-|---:|:----------|:-------------------------|--------:|-----:|-----:|
-|  1 | abstract  | query+question           | 0.5781 | 0.8875 | 0.5040 |
-|  2 | abstract  | UDel qgen                | 0.6291 | 0.9300 | 0.5215 |
-|  3 | full-text | query+question           | 0.3977 | 0.7500 | 0.4708 |
-|  4 | full-text | UDel qgen                | 0.5790 | 0.9050 | 0.5313 |
-|  5 | paragraph | query+question           | 0.5396 | 0.9425 | 0.5766 |
-|  6 | paragraph | UDel qgen                | 0.6327 | 0.9600 | 0.5923 |
-|  7 | -         | reciprocal rank fusion(1, 3, 5) | 0.5924 | 0.9625 | 0.5956 |
-|  8 | -         | reciprocal rank fusion(2, 4, 6) | 0.6515 | 0.9875 | 0.6194 |
-|  9 | abstract  | UDel qgen + RF           | 0.7459 | 0.9875 | 0.6125 |
+|    | index     | field(s)                 | nDCG@10 | J@10 | nDCG@20 | J@20 | AP | R@1k | J@1k |
+|---:|:----------|:-------------------------|--------:|-----:|--------:|-----:|---:|-----:|-----:|
+|  1 | abstract  | query+question                  | 0.5781 | 0.8875 | 0.5359 | 0.8325 | 0.2348 | 0.5040 | 0.2351 |
+|  2 | abstract  | UDel qgen                       | 0.6291 | 0.9300 | 0.5972 | 0.8925 | 0.2525 | 0.5215 | 0.2370 |
+|  3 | full-text | query+question                  | 0.3977 | 0.7500 | 0.3681 | 0.7213 | 0.1646 | 0.4708 | 0.2471 |
+|  4 | full-text | UDel qgen                       | 0.5790 | 0.9050 | 0.5234 | 0.8525 | 0.2236 | 0.5313 | 0.2693 |
+|  5 | paragraph | query+question                  | 0.5396 | 0.9425 | 0.5079 | 0.9050 | 0.2498 | 0.5766 | 0.2978 |
+|  6 | paragraph | UDel qgen                       | 0.6327 | 0.9600 | 0.5793 | 0.9162 | 0.2753 | 0.5923 | 0.2956 |
+|  7 | -         | reciprocal rank fusion(1, 3, 5) | 0.5924 | 0.9625 | 0.5563 | 0.9362 | 0.2700 | 0.5956 | 0.3045 |
+|  8 | -         | reciprocal rank fusion(2, 4, 6) | 0.6515 | 0.9875 | 0.6200 | 0.9675 | 0.3027 | 0.6194 | 0.3076 |
+|  9 | abstract  | UDel qgen + RF                  | 0.7459 | 0.9875 | 0.7023 | 0.9637 | 0.3190 | 0.6125 | 0.2600 |
 
 Note that all of the results above can be replicated with the following script:
 
@@ -189,7 +240,7 @@ $ python src/main/python/trec-covid/generate_round3_baselines.py
 
 ## Round 2
 
-These are runs that can be easily replicated with Anserini, from pre-built indexes available [here](experiments-cord19.md#pre-built-indexes-all-versions) (version from 2020/05/01, which is the official corpus used in the evaluation).
+These are runs that can be easily replicated with Anserini, from pre-built indexes available [here](experiments-cord19.md#pre-built-indexes-all-versions) (version from 2020/05/01, the official corpus used in round 2).
 They were prepared _for_ round 2 (for participants who wish to have a baseline run to rerank), and so effectiveness is computed with round 1 qrels.
 
 |    | index     | field(s)       | nDCG@10 | J@10 | R@1k | run file | checksum |
@@ -233,7 +284,7 @@ Exact commands for replicating these runs are found [further down on this page](
 
 ## Round 1
 
-These are runs that can be easily replicated with Anserini, from pre-built indexes available [here](experiments-cord19.md#pre-built-indexes-all-versions) (version from 2020/04/10, which is the official corpus used in the evaluation).
+These are runs that can be easily replicated with Anserini, from pre-built indexes available [here](experiments-cord19.md#pre-built-indexes-all-versions) (version from 2020/04/10, the official corpus used in round 1).
 They were prepared _after_ round 1, and so we can report effectiveness results.
 
 |    | index     | field(s)                          | nDCG@10 | Judged@10 | Recall@1000 |

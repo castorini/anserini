@@ -14,17 +14,154 @@
 # limitations under the License.
 #
 
-import hashlib
+import re
 import os
-import shutil
 import subprocess
 import sys
-
-from random import randint
 
 sys.path.insert(0, '../pyserini/')
 
 import pyserini.util
+
+
+def perform_runs(round_number, indexes):
+    base_topics = f'src/main/resources/topics-and-qrels/topics.covid-round{round_number}.xml'
+    udel_topics = f'src/main/resources/topics-and-qrels/topics.covid-round{round_number}-udel.xml'
+
+    # Use cumulative qrels from previous round for relevance feedback runs
+    cumulative_qrels = f'src/main/resources/topics-and-qrels/qrels.covid-round{round_number - 1}-cumulative.txt'
+
+    print('')
+    print('## Running on abstract index...')
+    print('')
+
+    abstract_index = indexes[0]
+    abstract_prefix = f'anserini.covid-r{round_number}.abstract'
+    os.system(f'target/appassembler/bin/SearchCollection -index {abstract_index} ' +
+              f'-topicreader Covid -topics {base_topics} -topicfield query+question ' +
+              f'-removedups -bm25 -hits 10000 ' +
+              f'-output runs/{abstract_prefix}.qq.bm25.txt -runtag {abstract_prefix}.qq.bm25.txt')
+
+    os.system(f'target/appassembler/bin/SearchCollection -index {abstract_index} ' +
+              f'-topicreader Covid -topics {udel_topics} -topicfield query ' +
+              f'-removedups -bm25 -hits 10000 ' +
+              f'-output runs/{abstract_prefix}.qdel.bm25.txt -runtag {abstract_prefix}.qdel.bm25.txt')
+
+    os.system(f'target/appassembler/bin/SearchCollection -index {abstract_index} ' +
+              f'-topicreader Covid -topics {udel_topics} -topicfield query -removedups ' +
+              f'-bm25 -rm3 -rm3.fbTerms 100 -hits 10000 ' +
+              f'-rf.qrels {cumulative_qrels} ' +
+              f'-output runs/{abstract_prefix}.qdel.bm25+rm3Rf.txt -runtag {abstract_prefix}.qdel.bm25+rm3Rf.txt')
+
+    print('')
+    print('## Running on full-text index...')
+    print('')
+
+    full_text_index = indexes[1]
+    full_text_prefix = f'anserini.covid-r{round_number}.full-text'
+    os.system(f'target/appassembler/bin/SearchCollection -index {full_text_index} ' +
+              f'-topicreader Covid -topics {base_topics} -topicfield query+question ' +
+              f'-removedups -bm25 -hits 10000 ' +
+              f'-output runs/{full_text_prefix}.qq.bm25.txt -runtag {full_text_prefix}.qq.bm25.txt')
+
+    os.system(f'target/appassembler/bin/SearchCollection -index {full_text_index} ' +
+              f'-topicreader Covid -topics {udel_topics} -topicfield query ' +
+              f'-removedups -bm25 -hits 10000 ' +
+              f'-output runs/{full_text_prefix}.qdel.bm25.txt -runtag {full_text_prefix}.qdel.bm25.txt')
+
+    print('')
+    print('## Running on paragraph index...')
+    print('')
+
+    paragraph_index = indexes[2]
+    paragraph_prefix = f'anserini.covid-r{round_number}.paragraph'
+    os.system(f'target/appassembler/bin/SearchCollection -index {paragraph_index} ' +
+              f'-topicreader Covid -topics {base_topics} -topicfield query+question ' +
+              f'-removedups -strip_segment_id -bm25 -hits 50000 ' +
+              f'-output runs/{paragraph_prefix}.qq.bm25.txt -runtag {paragraph_prefix}.qq.bm25.txt')
+
+    os.system(f'target/appassembler/bin/SearchCollection -index {paragraph_index} ' +
+              f'-topicreader Covid -topics {udel_topics} -topicfield query ' +
+              f'-removedups -strip_segment_id -bm25 -hits 50000 ' +
+              f'-output runs/{paragraph_prefix}.qdel.bm25.txt -runtag {paragraph_prefix}.qdel.bm25.txt')
+
+
+def perform_fusion(round_number, run_checksums, check_md5=True):
+    print('')
+    print('## Performing fusion...')
+    print('')
+
+    fusion_run1 = f'anserini.covid-r{round_number}.fusion1.txt'
+    set1 = [f'anserini.covid-r{round_number}.abstract.qq.bm25.txt',
+            f'anserini.covid-r{round_number}.full-text.qq.bm25.txt',
+            f'anserini.covid-r{round_number}.paragraph.qq.bm25.txt']
+
+    print(f'Performing fusion to create {fusion_run1}')
+    os.system('PYTHONPATH=../pyserini ' +
+              'python -m pyserini.fusion --method rrf --runtag reciprocal_rank_fusion_k=60 --k 10000 '
+              f'--out runs/{fusion_run1} --runs runs/{set1[0]} runs/{set1[1]} runs/{set1[2]}')
+
+    if check_md5:
+        assert pyserini.util.compute_md5(f'runs/{fusion_run1}') == run_checksums[fusion_run1],\
+            f'Error in producing {fusion_run1}!'
+
+    fusion_run2 = f'anserini.covid-r{round_number}.fusion2.txt'
+    set2 = [f'anserini.covid-r{round_number}.abstract.qdel.bm25.txt',
+            f'anserini.covid-r{round_number}.full-text.qdel.bm25.txt',
+            f'anserini.covid-r{round_number}.paragraph.qdel.bm25.txt']
+
+    print(f'Performing fusion to create {fusion_run2}')
+    os.system('PYTHONPATH=../pyserini ' +
+              'python -m pyserini.fusion --method rrf --runtag reciprocal_rank_fusion_k=60 --k 10000 ' +
+              f'--out runs/{fusion_run2} --runs runs/{set2[0]} runs/{set2[1]} runs/{set2[2]}')
+
+    if check_md5:
+        assert pyserini.util.compute_md5(f'runs/{fusion_run2}') == run_checksums[fusion_run2],\
+            f'Error in producing {fusion_run2}!'
+
+
+def prepare_final_submissions(round_number, run_checksums, check_md5=True):
+    # Remove teh cumulative qrels from the previous round.
+    qrels = f'src/main/resources/topics-and-qrels/qrels.covid-round{round_number - 1}-cumulative.txt'
+
+    print('')
+    print('## Preparing final submission files by removing qrels...')
+    print('')
+
+    run1 = f'anserini.final-r{round_number}.fusion1.txt'
+    print(f'Generating {run1}')
+    os.system(f'python tools/scripts/filter_run_with_qrels.py --discard --qrels {qrels} ' +
+              f'--input runs/anserini.covid-r{round_number}.fusion1.txt --output runs/{run1} ' +
+              f'--runtag r{round_number}.fusion1')
+    run1_md5 = pyserini.util.compute_md5(f'runs/{run1}')
+
+    if check_md5:
+        assert run1_md5 == run_checksums[run1], f'Error in producing {run1}!'
+
+    run2 = f'anserini.final-r{round_number}.fusion2.txt'
+    print(f'Generating {run2}')
+    os.system(f'python tools/scripts/filter_run_with_qrels.py --discard --qrels {qrels} ' +
+              f'--input runs/anserini.covid-r{round_number}.fusion2.txt --output runs/{run2} ' +
+              f'--runtag r{round_number}.fusion2')
+    run2_md5 = pyserini.util.compute_md5(f'runs/{run2}')
+
+    if check_md5:
+        assert run2_md5 == run_checksums[run2], f'Error in producing {run2}!'
+
+    run3 = f'anserini.final-r{round_number}.rf.txt'
+    print(f'Generating {run3}')
+    os.system(f'python tools/scripts/filter_run_with_qrels.py --discard --qrels {qrels} ' +
+              f'--input runs/anserini.covid-r{round_number}.abstract.qdel.bm25+rm3Rf.txt ' +
+              f'--output runs/{run3} --runtag r{round_number}.rf')
+    run3_md5 = pyserini.util.compute_md5(f'runs/{run3}')
+
+    if check_md5:
+        assert run3_md5 == run_checksums[run3], f'Error in producing {run3}!'
+
+    print('')
+    print(f'{run1:<35}{run1_md5}')
+    print(f'{run2:<35}{run2_md5}')
+    print(f'{run3:<35}{run3_md5}')
 
 
 def evaluate_run(run, qrels):
@@ -39,8 +176,19 @@ def evaluate_run(run, qrels):
         if len(arr) == 3:
             metrics[arr[0]] = float(arr[2])
 
+    # trec_eval doesn't seem to be able to evaluate the same metric at different cutoffs, so we have to run again
+    output = subprocess.check_output(
+        f'tools/eval/trec_eval.9.0.4/trec_eval -c -m ndcg_cut.20 {qrels} runs/{run}', shell=True)
+
+    lines = output.decode('utf-8').split('\n')
+
+    for line in lines:
+        arr = line.split()
+        if len(arr) == 3:
+            metrics[arr[0]] = float(arr[2])
+
     output = subprocess.check_output(f'python tools/eval/measure_judged.py --qrels {qrels} ' +
-                                     f'--cutoffs 10 100 1000 --run runs/{run}', shell=True)
+                                     f'--cutoffs 10 20 100 1000 --run runs/{run}', shell=True)
 
     lines = output.decode('utf-8').split('\n')
 
@@ -71,7 +219,7 @@ def evaluate_runs(qrels, runs, check_md5=True):
     print('')
     print(f'## Evaluation results w/ {qrels}')
     print('')
-    print(' ' * (max_length - 2) + 'topics nDCG@10   J@10     AP   R@1k   J@1k MD5')
+    print(' ' * (max_length - 2) + 'topics nDCG@10   J@10 nDCG@20   J@20     AP   R@1k   J@1k MD5')
 
     for run in runs:
         metrics = evaluate_run(run, qrels)
@@ -81,9 +229,9 @@ def evaluate_runs(qrels, runs, check_md5=True):
         # We use this trick to get the right amount of space padding for the first column.
         format_string = '<' + str(max_length + padding)
         print(f'{run:{format_string}}' +
-              f'{metrics["topics"]}{metrics["ndcg_cut_10"]:8.4f}' +
-              f'{metrics["judged_cut_10"]:7.4f}{metrics["map"]:7.4f}' +
-              f'{metrics["recall_1000"]:7.4f}{metrics["judged_cut_1000"]:7.4f} ' +
+              f'{metrics["topics"]}{metrics["ndcg_cut_10"]:8.4f}{metrics["judged_cut_10"]:7.4f}'
+              f'{metrics["ndcg_cut_20"]:8.4f}{metrics["judged_cut_20"]:7.4f}'
+              f'{metrics["map"]:7.4f}{metrics["recall_1000"]:7.4f}{metrics["judged_cut_1000"]:7.4f} ' +
               f'{metrics["md5"]}')
 
         if check_md5:
@@ -91,20 +239,16 @@ def evaluate_runs(qrels, runs, check_md5=True):
 
 
 def verify_stored_runs(runs):
-    print('')
-    print(f'## Verifying Stored Runs')
-    print('')
-
-    tmp = f'tmp{randint(0, 10000)}'
-
-    # In the rare event there's a collision
-    if os.path.exists(tmp):
-        shutil.rmtree(tmp)
-
-    os.mkdir(tmp)
+    # It's okay to store in runs/ since we're going to regenerate runs anyway.
     for url in runs:
         print(f'Verifying stored run at {url}...')
         # Use pyserini tools to download and check the API at the same time.
-        pyserini.util.download_url(url, tmp, force=True, md5=runs[url])
+        pyserini.util.download_url(url, 'runs/', force=True, md5=runs[url])
 
-    shutil.rmtree(tmp)
+        # Ugly hack the rename filename with '+' in it, which is URL encoded.
+        if '5%2B' in url:
+            filename = url.split('/')[-1]
+            filename = re.sub('\\?dl=1$', '', filename)  # Remove the Dropbox 'force download' parameter
+            destination_path = os.path.join('runs/', filename)
+
+            os.rename(destination_path, destination_path.replace('5%2B', '+'))
