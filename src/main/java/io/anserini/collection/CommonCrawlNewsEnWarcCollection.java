@@ -29,7 +29,7 @@ import java.util.Set;
 import java.util.zip.GZIPInputStream;
 
 /**
- * A collection of WARC files from CCNewsEn corpus (TODO: Add URL).
+ * A collection of WARC files from CCNewsEn corpus (https://doi.org/10.1145/3340531.3412762).
  * This can be used to read the CommonCrawlNewsEn WARC files
  */
 public class CommonCrawlNewsEnWarcCollection extends DocumentCollection<CommonCrawlNewsEnWarcCollection.Document> {
@@ -78,7 +78,7 @@ public class CommonCrawlNewsEnWarcCollection extends DocumentCollection<CommonCr
    *
    * A document from the
    * CommonCrawlNewsEn WARC collection.
-   * TODO: Add URL
+   * See: https://doi.org/10.1145/3340531.3412762
    * 
    */
   public static class Document extends WarcBaseDocument {
