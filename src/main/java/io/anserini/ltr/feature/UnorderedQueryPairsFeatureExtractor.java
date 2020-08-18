@@ -132,7 +132,7 @@ public class UnorderedQueryPairsFeatureExtractor<T> implements FeatureExtractor<
     return score;
   }
   @Override
-  public Float extract(Document doc, Terms terms, RerankerContext<T> context) {
+  public float extract(Document doc, Terms terms, RerankerContext<T> context) {
     try {
       return computeUnorderedFrequencyScore(doc, terms, context);
     } catch (IOException e) {

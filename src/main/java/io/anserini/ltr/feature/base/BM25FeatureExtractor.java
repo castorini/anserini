@@ -104,7 +104,7 @@ public class BM25FeatureExtractor<T> implements FeatureExtractor<T> {
    * @return BM25 score
    */
   @Override
-  public Float extract(Document doc, Terms terms, RerankerContext<T> context) {
+  public float extract(Document doc, Terms terms, RerankerContext<T> context) {
     Set<String> queryTokens = new HashSet<>(context.getQueryTokens());
 
     TermsEnum termsEnum = null;

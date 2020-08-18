@@ -30,7 +30,7 @@ import java.util.Set;
  */
 public class UniqueTermCount<T> implements FeatureExtractor<T> {
   @Override
-  public Integer extract(Document doc, Terms terms, RerankerContext<T> context) {
+  public float extract(Document doc, Terms terms, RerankerContext<T> context) {
     Set<String> queryTokens = new HashSet<>(context.getQueryTokens());
     return queryTokens.size();
   }

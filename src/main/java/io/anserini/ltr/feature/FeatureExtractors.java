@@ -116,7 +116,7 @@ public class FeatureExtractors {
     float[] features = new float[extractors.size()];
 
     for (int i=0; i<extractors.size(); i++) {
-      features[i] = (float) extractors.get(i).extract(doc, terms, context);
+      features[i] = extractors.get(i).extract(doc, terms, context);
     }
 
     return features;

@@ -71,7 +71,7 @@ public interface FeatureExtractor<T> {
     put("TwitterFriendCount", TwitterFriendCount.class);
   }};
 
-  Object extract(Document doc, Terms terms, RerankerContext<T> context);
+  float extract(Document doc, Terms terms, RerankerContext<T> context);
 
   String getName();
 

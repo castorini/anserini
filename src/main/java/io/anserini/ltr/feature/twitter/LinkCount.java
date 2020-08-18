@@ -24,7 +24,7 @@ import org.apache.lucene.index.Terms;
 
 public class LinkCount implements FeatureExtractor {
   @Override
-  public Float extract(Document doc, Terms terms, RerankerContext context) {
+  public float extract(Document doc, Terms terms, RerankerContext context) {
     final String str = doc.getField(IndexArgs.CONTENTS).stringValue();
     final String matchStr = "http://";
 

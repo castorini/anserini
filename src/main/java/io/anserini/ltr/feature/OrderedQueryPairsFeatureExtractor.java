@@ -125,7 +125,7 @@ public class OrderedQueryPairsFeatureExtractor<T> implements FeatureExtractor<T>
   }
 
   @Override
-  public Float extract(Document doc, Terms terms, RerankerContext<T> context) {
+  public float extract(Document doc, Terms terms, RerankerContext<T> context) {
     try {
       return computeOrderedFrequencyScore(doc, terms, context);
     } catch (IOException e) {

@@ -209,7 +209,7 @@ public class SequentialDependenceModel<T> implements FeatureExtractor<T> {
   }
 
   @Override
-  public Float extract(Document doc, Terms terms, RerankerContext<T> context) {
+  public float extract(Document doc, Terms terms, RerankerContext<T> context) {
     float orderedWindowScore = 0.0f;
     float unorderedDependenceScore = 0.0f;
     float independentScore = 0.0f;

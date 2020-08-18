@@ -67,7 +67,7 @@ public class SimplifiedClarityFeatureExtractor<T> implements FeatureExtractor<T>
   }
 
   @Override
-  public Float extract(Document doc, Terms terms, RerankerContext<T> context) {
+  public float extract(Document doc, Terms terms, RerankerContext<T> context) {
 
     if (!this.lastQueryProcessed.equals(context.getQueryText())) {
       this.lastQueryProcessed = context.getQueryText();

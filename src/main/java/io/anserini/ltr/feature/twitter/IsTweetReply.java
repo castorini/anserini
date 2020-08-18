@@ -25,7 +25,7 @@ import org.apache.lucene.index.Terms;
 
 public class IsTweetReply implements FeatureExtractor {
   @Override
-  public Float extract(Document doc, Terms terms, RerankerContext context) {
+  public float extract(Document doc, Terms terms, RerankerContext context) {
     return doc.getField(TweetField.IN_REPLY_TO_STATUS_ID.name) == null ? 0.0f : 1.0f;
   }
 

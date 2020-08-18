@@ -39,7 +39,7 @@ public class UnigramFeatureExtractor<T> implements FeatureExtractor<T> {
   private static final Logger LOG = LogManager.getLogger(UnigramFeatureExtractor.class);
 
   @Override
-  public Float extract(Document doc, Terms terms, RerankerContext<T> context) {
+  public float extract(Document doc, Terms terms, RerankerContext<T> context) {
     try {
       return computeFullIndependenceScore(doc, terms, context);
     } catch (IOException e) {

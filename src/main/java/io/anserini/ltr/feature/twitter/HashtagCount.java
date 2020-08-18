@@ -25,7 +25,7 @@ import org.apache.lucene.index.Terms;
 public class HashtagCount implements FeatureExtractor {
 
   @Override
-  public Float extract(Document doc, Terms terms, RerankerContext context) {
+  public float extract(Document doc, Terms terms, RerankerContext context) {
     String str = doc.getField(IndexArgs.CONTENTS).stringValue();
     final String matchStr = "#";
 

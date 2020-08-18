@@ -47,7 +47,7 @@ public class AvgIDFFeatureExtractor<T> implements FeatureExtractor<T> {
   }
 
   @Override
-  public Float extract(Document doc, Terms terms, RerankerContext<T> context) {
+  public float extract(Document doc, Terms terms, RerankerContext<T> context) {
     IndexReader reader = context.getIndexSearcher().getIndexReader();
 
     long numDocs = reader.numDocs() - reader.numDeletedDocs();

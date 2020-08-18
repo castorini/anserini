@@ -34,7 +34,7 @@ import java.util.List;
 public class MatchingTermCount<T> implements FeatureExtractor<T> {
 
   @Override
-  public Integer extract(Document doc, Terms terms, RerankerContext<T> context) {
+  public float extract(Document doc, Terms terms, RerankerContext<T> context) {
     try {
       List<String> queryTokens = context.getQueryTokens();
       TermsEnum termsEnum = terms.iterator();

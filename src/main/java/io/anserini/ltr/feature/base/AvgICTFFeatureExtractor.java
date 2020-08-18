@@ -62,7 +62,7 @@ public class AvgICTFFeatureExtractor<T> implements FeatureExtractor<T> {
     return sumICTF;
   }
   @Override
-  public Float extract(Document doc, Terms terms, RerankerContext<T> context) {
+  public float extract(Document doc, Terms terms, RerankerContext<T> context) {
     // We need docSize, and tf for each term
     float sumIctf = getSumICTF(terms, context.getQueryTokens());
     // Compute the average by dividing

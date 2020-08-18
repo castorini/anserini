@@ -41,18 +41,18 @@ public class FeatureExtractorUtils {
     private static final Logger LOG = LogManager.getLogger(FeatureExtractorUtils.class);
     private IndexReader reader;
     private IndexSearcher searcher;
-    public List<FeatureExtractor> extractors = new ArrayList<>();
+    public List<FeatureExtractor<String>> extractors = new ArrayList<>();
     private Set<String> fieldsToLoad = new HashSet<>();
 
-    public FeatureExtractorUtils add(FeatureExtractor extractor) {
+    public FeatureExtractorUtils add(FeatureExtractor<String> extractor) {
         extractors.add(extractor);
         if(!fieldsToLoad.contains(extractor.getField()))
             fieldsToLoad.add(extractor.getField());
         return this;
     }
 
-    public Map<String, List> extract(List<String> queryTokens, List<String> docIds) throws Exception {
-        Map<String, List> result = new HashMap<>();
+    public Map<String, List<Float>> extract(List<String> queryTokens, List<String> docIds) throws Exception {
+        Map<String, List<Float>> result = new HashMap<>();
         for(String docId: docIds) {
             Query q = new TermQuery(new Term(IndexArgs.ID, docId));
             TopDocs topDocs = searcher.search(q, 1);
@@ -70,7 +70,7 @@ public class FeatureExtractorUtils {
                     null, null, String.join(" ", queryTokens),
                     queryTokens,
                     null, null);
-            List<Object> features = new ArrayList<>();
+            List<Float> features = new ArrayList<>();
             for (int i = 0; i < extractors.size(); i++) {
                 features.add(extractors.get(i).extract(doc, terms, context));
             }

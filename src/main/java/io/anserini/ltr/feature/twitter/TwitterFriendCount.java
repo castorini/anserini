@@ -25,7 +25,7 @@ import org.apache.lucene.index.Terms;
 
 public class TwitterFriendCount implements FeatureExtractor {
   @Override
-  public Float extract(Document doc, Terms terms, RerankerContext context) {
+  public float extract(Document doc, Terms terms, RerankerContext context) {
     return (float) (int) doc.getField(TweetField.FRIENDS_COUNT.name).numericValue();
   }
 

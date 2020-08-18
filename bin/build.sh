@@ -1,3 +1,3 @@
 #!/bin/sh
 
-mvn -Dmaven.test.skip=true clean package appassembler:assemble
+mvn clean package appassembler:assemble

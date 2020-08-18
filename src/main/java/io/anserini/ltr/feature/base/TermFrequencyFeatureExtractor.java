@@ -38,7 +38,7 @@ public class TermFrequencyFeatureExtractor<T> implements FeatureExtractor<T> {
   private static final Logger LOG = LogManager.getLogger(TermFrequencyFeatureExtractor.class);
 
   @Override
-  public Float extract(Document doc, Terms terms, RerankerContext<T> context) {
+  public float extract(Document doc, Terms terms, RerankerContext<T> context) {
 
     TermsEnum termsEnum = null;
     try {
