@@ -59,7 +59,7 @@ solrini/bin/solr create -n anserini -c robust04
 Run the Solr indexing command for `robust04`:
 
 ```
-sh target/appassembler/bin/IndexCollection -collection TrecCollection -generator JsoupGenerator \
+sh target/appassembler/bin/IndexCollection -collection TrecCollection -generator DefaultLuceneDocumentGenerator \
   -threads 8 -input /path/to/robust04 \
   -solr -solr.index robust04 -solr.zkUrl localhost:9983 \
   -storePositions -storeDocvectors -storeRaw
