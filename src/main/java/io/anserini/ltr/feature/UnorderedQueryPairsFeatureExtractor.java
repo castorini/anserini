@@ -148,6 +148,6 @@ public class UnorderedQueryPairsFeatureExtractor<T> implements FeatureExtractor<
 
   @Override
   public String getField() {
-    return IndexArgs.CONTENTS;
+    return null;
   }
 }

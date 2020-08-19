@@ -149,6 +149,6 @@ public class OrderedSequentialPairsFeatureExtractor<T> implements FeatureExtract
 
   @Override
   public String getField() {
-    return IndexArgs.CONTENTS;
+    return null;
   }
 }

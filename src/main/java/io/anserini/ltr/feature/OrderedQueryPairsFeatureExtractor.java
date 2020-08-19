@@ -141,6 +141,6 @@ public class OrderedQueryPairsFeatureExtractor<T> implements FeatureExtractor<T>
 
   @Override
   public String getField() {
-    return IndexArgs.CONTENTS;
+    return null;
   }
 }

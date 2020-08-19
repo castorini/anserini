@@ -156,6 +156,6 @@ public class UnorderedSequentialPairsFeatureExtractor<T> implements FeatureExtra
 
   @Override
   public String getField() {
-    return IndexArgs.CONTENTS;
+    return null;
   }
 }

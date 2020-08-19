@@ -24,6 +24,7 @@ import org.apache.logging.log4j.Logger;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.Terms;
 import org.apache.lucene.index.TermsEnum;
+import org.mockito.internal.matchers.Null;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -76,6 +77,6 @@ public class AvgICTFFeatureExtractor<T> implements FeatureExtractor<T> {
 
   @Override
   public String getField() {
-    return IndexArgs.CONTENTS;
+    return null;
   }
 }
