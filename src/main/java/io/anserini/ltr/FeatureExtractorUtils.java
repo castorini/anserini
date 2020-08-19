@@ -33,6 +33,7 @@ import org.apache.lucene.store.FSDirectory;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.concurrent.*;
 
 /**
  * Feature extractor class that forms the base for other feature extractors
@@ -41,8 +42,10 @@ public class FeatureExtractorUtils {
     private static final Logger LOG = LogManager.getLogger(FeatureExtractorUtils.class);
     private IndexReader reader;
     private IndexSearcher searcher;
-    public List<FeatureExtractor<String>> extractors = new ArrayList<>();
+    private List<FeatureExtractor<String>> extractors = new ArrayList<>();
     private Set<String> fieldsToLoad = new HashSet<>();
+    private ExecutorService pool;
+    private Map<String, Future<Map<String, List<Float>>>> tasks = new HashMap<>();
 
     public FeatureExtractorUtils add(FeatureExtractor<String> extractor) {
         extractors.add(extractor);
@@ -52,38 +55,59 @@ public class FeatureExtractorUtils {
     }
 
     public Map<String, List<Float>> extract(List<String> queryTokens, List<String> docIds) throws Exception {
-        Map<String, List<Float>> result = new HashMap<>();
-        for(String docId: docIds) {
-            Query q = new TermQuery(new Term(IndexArgs.ID, docId));
-            TopDocs topDocs = searcher.search(q, 1);
-            if (topDocs.totalHits.value == 0) {
-                LOG.warn(String.format("Document Id %s expected but not found in index, skipping...", docId));
-                continue;
-            }
+        String qid = "-1";
+        this.lazyExtract(qid,queryTokens, docIds);
+        return this.getResult(qid);
+    }
 
-            ScoreDoc hit = topDocs.scoreDocs[0];
-            Document doc = reader.document(hit.doc, fieldsToLoad);
+    public void lazyExtract(String qid, List<String> queryTokens, List<String> docIds) {
+        tasks.put(qid, pool.submit(() -> {
+            Map<String, List<Float>> result = new HashMap<>();
+            for(String docId: docIds) {
+                Query q = new TermQuery(new Term(IndexArgs.ID, docId));
+                TopDocs topDocs = searcher.search(q, 1);
+                if (topDocs.totalHits.value == 0) {
+                    LOG.warn(String.format("Document Id %s expected but not found in index, skipping...", docId));
+                    continue;
+                }
 
-            Terms terms = reader.getTermVector(hit.doc, IndexArgs.CONTENTS);
-            // Construct the reranker context
-            RerankerContext<String> context = new RerankerContext<>(searcher, "-1",
-                    null, null, String.join(" ", queryTokens),
-                    queryTokens,
-                    null, null);
-            List<Float> features = new ArrayList<>();
-            for (int i = 0; i < extractors.size(); i++) {
-                features.add(extractors.get(i).extract(doc, terms, context));
+                ScoreDoc hit = topDocs.scoreDocs[0];
+                Document doc = reader.document(hit.doc, fieldsToLoad);
+
+                Terms terms = reader.getTermVector(hit.doc, IndexArgs.CONTENTS);
+                // Construct the reranker context
+                RerankerContext<String> context = new RerankerContext<>(searcher, "-1",
+                        null, null, String.join(" ", queryTokens),
+                        queryTokens,
+                        null, null);
+                List<Float> features = new ArrayList<>();
+                for (int i = 0; i < extractors.size(); i++) {
+                    features.add(extractors.get(i).extract(doc, terms, context));
+                }
+                result.put(docId,features);
             }
-            result.put(docId,features);
-        }
-        return result;
+            return result;
+        }));
+    }
+
+    public Map<String, List<Float>> getResult(String qid) throws ExecutionException, InterruptedException {
+        return tasks.remove(qid).get();
     }
 
     public FeatureExtractorUtils(String indexDir) throws IOException {
         Directory indexDirectory = FSDirectory.open(Paths.get(indexDir));
         reader = DirectoryReader.open(indexDirectory);
         searcher = new IndexSearcher(reader);
+        fieldsToLoad.add(IndexArgs.ID);
+        pool = Executors.newFixedThreadPool(1);
     }
 
+    public FeatureExtractorUtils(String indexDir, int workNum) throws IOException {
+        Directory indexDirectory = FSDirectory.open(Paths.get(indexDir));
+        reader = DirectoryReader.open(indexDirectory);
+        searcher = new IndexSearcher(reader);
+        fieldsToLoad.add(IndexArgs.ID);
+        pool = Executors.newFixedThreadPool(workNum);
+    }
 
 }
