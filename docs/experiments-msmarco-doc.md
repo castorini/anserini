@@ -127,5 +127,5 @@ As expected, BM25 tuning makes a big difference!
 + Results replicated by [@justinborromeo](https://github.com/justinborromeo) on 2020-06-11 (commit[`7954eab`](https://github.com/castorini/anserini/commit/7954eab43f17bb8d254987d5873933c0b9596bb4))
 + Results replicated by [@yxzhu16](https://github.com/yxzhu16) on 2020-07-03 (commit [`68ace26`](https://github.com/castorini/anserini/commit/68ace26d0418a769df3d2b21e946495e54d462f6))
 + Results replicated by [@LizzyZhang-tutu](https://github.com/LizzyZhang-tutu) on 2020-07-13 (commit [`8c98d5b`](https://github.com/castorini/anserini/commit/8c98d5ba0795bbea01bcef1e21abb153fe4c3da1))
-+ Results replicated by [@estella98](hhttps://github.com/estella98) on 2020-08-05 
-(commit [`e940f6f`](https://github.com/castorini/anserini/commit/e940f6facc0d79d1e11679e46017af9076014b1a)
++ Results replicated by [@estella98](https://github.com/estella98) on 2020-08-05 (commit [`e940f6f`](https://github.com/castorini/anserini/commit/e940f6facc0d79d1e11679e46017af9076014b1a)
++ Results replicated by [@tangsaidi](https://github.com/tangsaidi) on 2020-08-19 (commit [`aba846`](https://github.com/castorini/anserini/commit/aba846aa07d6f319fb3dc9cb591c20b4ae69f9ef))
