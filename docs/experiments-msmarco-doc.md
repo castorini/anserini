@@ -129,3 +129,4 @@ As expected, BM25 tuning makes a big difference!
 + Results replicated by [@LizzyZhang-tutu](https://github.com/LizzyZhang-tutu) on 2020-07-13 (commit [`8c98d5b`](https://github.com/castorini/anserini/commit/8c98d5ba0795bbea01bcef1e21abb153fe4c3da1))
 + Results replicated by [@estella98](hhttps://github.com/estella98) on 2020-08-05 
 (commit [`e940f6f`](https://github.com/castorini/anserini/commit/e940f6facc0d79d1e11679e46017af9076014b1a)
++ Results replicated by [@tangsaidi](https://github.com/tangsaidi) on 2020-08-19 (commit [`10c0988`](https://github.com/castorini/anserini/commit/10c0988bccdc577aec65a3f897b8085c6769ff07))
