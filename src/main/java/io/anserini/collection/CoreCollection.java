@@ -68,7 +68,7 @@ public class CoreCollection extends DocumentCollection<CoreCollection.Document> 
     public Segment(Path path) throws IOException {
       super(path);
 
-      if (path.endsWith(".xz")) {
+      if (path.toString().endsWith(".xz")) {
         bufferedReader = new BufferedReader(new InputStreamReader(
           new XZInputStream(new FileInputStream(path.toString()))));
       } else {
