@@ -16,7 +16,6 @@
 package io.anserini.ltr;
 
 import io.anserini.ltr.feature.FeatureExtractor;
-import io.anserini.ltr.feature.FeatureExtractors;
 import io.anserini.ltr.feature.base.SCQFeatureExtractor;
 import org.junit.Test;
 
