@@ -22,6 +22,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Tests that BM25 score is computed according to our formula
@@ -33,7 +34,7 @@ public class BM25FeatureExtractorTest extends BaseFeatureExtractorTest<Integer> 
   private static final FeatureExtractor EXTRACTOR2 = new BM25FeatureExtractor();
 
   @Test
-  public void testSingleDocSingleQuery() throws IOException {
+  public void testSingleDocSingleQuery() throws IOException, ExecutionException, InterruptedException {
     String docText = "single document test case";
     String queryText = "test";
     //df, tf =1, avgFL = 4, numDocs = 1
@@ -48,7 +49,7 @@ public class BM25FeatureExtractorTest extends BaseFeatureExtractorTest<Integer> 
   }
 
   @Test
-  public void testSingleDocMultiQuery() throws IOException {
+  public void testSingleDocMultiQuery() throws IOException, ExecutionException, InterruptedException {
     String docText = "single document test case";
     String queryText = "test document";
     //df, tf =1, avgFL = 4, numDocs = 1
@@ -63,7 +64,7 @@ public class BM25FeatureExtractorTest extends BaseFeatureExtractorTest<Integer> 
   }
 
   @Test
-  public void testMultiDocSingleQuery() throws IOException {
+  public void testMultiDocSingleQuery() throws IOException, ExecutionException, InterruptedException {
     String queryText = "test";
     //df , tf =1, avgFL = 3, numDocs = 3
     //idf = log(1 + (3- 1 + 0.5 / 1 + 0.5)) = 0.98082
@@ -78,7 +79,7 @@ public class BM25FeatureExtractorTest extends BaseFeatureExtractorTest<Integer> 
   }
 
   @Test
-  public void testMultiDocMultiQuery() throws IOException {
+  public void testMultiDocMultiQuery() throws IOException, ExecutionException, InterruptedException {
     String queryText = "test document";
     //df , tf =1, avgFL = 3, numDocs = 3
     //idf = log(1 + (3- 1 + 0.5 / 1 + 0.5)) = 0.98082
@@ -96,7 +97,7 @@ public class BM25FeatureExtractorTest extends BaseFeatureExtractorTest<Integer> 
 
   }
   @Test
-  public void testMultiDocMultiQuery2() throws IOException {
+  public void testMultiDocMultiQuery2() throws IOException, ExecutionException, InterruptedException {
     String queryText = "test document";
     //df , tf =1, avgFL = 3, numDocs = 3
     //idf = log(1 + (3- 1 + 0.5 / 1 + 0.5)) = 0.98082

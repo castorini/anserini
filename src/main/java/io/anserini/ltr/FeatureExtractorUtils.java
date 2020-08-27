@@ -54,7 +54,7 @@ public class FeatureExtractorUtils {
         return this;
     }
 
-    public Map<String, List<Float>> extract(List<String> queryTokens, List<String> docIds) throws Exception {
+    public Map<String, List<Float>> extract(List<String> queryTokens, List<String> docIds) throws ExecutionException, InterruptedException {
         String qid = "-1";
         this.lazyExtract(qid,queryTokens, docIds);
         return this.getResult(qid);

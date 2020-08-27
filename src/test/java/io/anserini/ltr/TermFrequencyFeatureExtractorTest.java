@@ -16,33 +16,36 @@
 
 package io.anserini.ltr;
 
+import io.anserini.ltr.feature.FeatureExtractor;
 import io.anserini.ltr.feature.FeatureExtractors;
 import io.anserini.ltr.feature.base.TermFrequencyFeatureExtractor;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Test the term frequency feature extractor is correct
  */
 public class TermFrequencyFeatureExtractorTest extends BaseFeatureExtractorTest<Integer> {
 
-  private FeatureExtractors getChain() {
-    FeatureExtractors chain = new FeatureExtractors();
+  private List<FeatureExtractor> getChain() {
+    List<FeatureExtractor> chain = new ArrayList<>();
     chain.add(new TermFrequencyFeatureExtractor());
     return chain;
   }
 
   @Test
-  public void testAllMissing() throws IOException {
+  public void testAllMissing() throws IOException, ExecutionException, InterruptedException {
     float[] expected = {0};
     assertFeatureValues(expected, "nothing", "document test missing all", getChain());
   }
 
   @Test
-  public void testSingleTermDoc() throws IOException {
+  public void testSingleTermDoc() throws IOException, ExecutionException, InterruptedException {
     String testText = "document document document another";
     String testQuery = "document";
     float[] expected = {3};
@@ -51,7 +54,7 @@ public class TermFrequencyFeatureExtractorTest extends BaseFeatureExtractorTest<
   }
 
   @Test
-  public void testMissingTermDoc() throws IOException {
+  public void testMissingTermDoc() throws IOException, ExecutionException, InterruptedException {
     String testText = "document test simple tokens";
     String testQuery = "simple missing";
     float[] expected = {1};
@@ -60,7 +63,7 @@ public class TermFrequencyFeatureExtractorTest extends BaseFeatureExtractorTest<
   }
 
   @Test
-  public void testMultipleTermsDoc() throws IOException {
+  public void testMultipleTermsDoc() throws IOException, ExecutionException, InterruptedException {
     String testText = "document with multiple document term document multiple some missing";
     String testQuery = "document multiple missing";
     float[] expected = {6};
@@ -69,7 +72,7 @@ public class TermFrequencyFeatureExtractorTest extends BaseFeatureExtractorTest<
   }
 
   @Test
-  public void testTermFrequencyWithMultipleDocs() throws IOException {
+  public void testTermFrequencyWithMultipleDocs() throws IOException, ExecutionException, InterruptedException {
     List<String> docs = Arrays.asList("document document", "document with multiple terms",
             "document to test", "test terms tokens", "another test document");
     // We want to test that the expected value of count 1 is found for document

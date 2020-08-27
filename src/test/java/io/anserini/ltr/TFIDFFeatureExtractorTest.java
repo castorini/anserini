@@ -21,6 +21,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Make sure that TFIDF feature extractor gives the scores as caculated by the formula
@@ -29,21 +30,21 @@ import java.util.Arrays;
 public class TFIDFFeatureExtractorTest extends BaseFeatureExtractorTest<Integer> {
 
   @Test
-  public void testTFIDFOnSingleDocSingleQuery() throws IOException {
+  public void testTFIDFOnSingleDocSingleQuery() throws IOException, ExecutionException, InterruptedException {
     float[] expected = {1f};
     assertFeatureValues(expected, "document", "single document test case",
             new TFIDFFeatureExtractor() );
   }
 
   @Test
-  public void testTFIDFOnSingleDocMultiQuery() throws IOException {
+  public void testTFIDFOnSingleDocMultiQuery() throws IOException, ExecutionException, InterruptedException {
     float[] expected = {2f};
     assertFeatureValues(expected, "document test", "single document test case",
             new TFIDFFeatureExtractor() );
   }
 
   @Test
-  public void testTFIDFOnMultiDocSingleQuery() throws IOException {
+  public void testTFIDFOnMultiDocSingleQuery() throws IOException, ExecutionException, InterruptedException {
     String queryText = "document";
 
     float[] expected = {1f};
@@ -52,7 +53,7 @@ public class TFIDFFeatureExtractorTest extends BaseFeatureExtractorTest<Integer>
   }
 
   @Test
-  public void testTFIDFOnMultiDocMultiQuery() throws IOException {
+  public void testTFIDFOnMultiDocMultiQuery() throws IOException, ExecutionException, InterruptedException {
     String queryText = "document test";
 
     float[] expected = {2f};
@@ -61,7 +62,7 @@ public class TFIDFFeatureExtractorTest extends BaseFeatureExtractorTest<Integer>
   }
 
   @Test
-  public void testTFIDFOnMultiDocMultiQuery2() throws IOException {
+  public void testTFIDFOnMultiDocMultiQuery2() throws IOException, ExecutionException, InterruptedException {
     String queryText = "document test";
 
     float[] expected = {2.9753323f};
@@ -71,7 +72,7 @@ public class TFIDFFeatureExtractorTest extends BaseFeatureExtractorTest<Integer>
   }
 
   @Test
-  public void testTFIDFOnMultiDocMultiQuery3() throws IOException {
+  public void testTFIDFOnMultiDocMultiQuery3() throws IOException, ExecutionException, InterruptedException {
     String queryText = "document test";
 
     float[] expected = {3.8667474f};

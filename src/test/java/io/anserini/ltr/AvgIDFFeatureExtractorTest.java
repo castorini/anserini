@@ -16,31 +16,34 @@
 
 package io.anserini.ltr;
 
+import io.anserini.ltr.feature.FeatureExtractor;
 import io.anserini.ltr.feature.FeatureExtractors;
 import io.anserini.ltr.feature.base.AvgIDFFeatureExtractor;
 import org.junit.Test;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class AvgIDFFeatureExtractorTest extends BaseFeatureExtractorTest<Integer> {
 
-  private static FeatureExtractors EXTRACTOR = getChain(new AvgIDFFeatureExtractor());
+  private static List<FeatureExtractor> EXTRACTOR = getChain(new AvgIDFFeatureExtractor());
 
   @Test
-  public void testSingleDoc() throws IOException {
+  public void testSingleDoc() throws IOException, ExecutionException, InterruptedException {
     float[] expected = {0.2876f};
     assertFeatureValues(expected, "document", "test document", EXTRACTOR);
   }
 
   @Test
-  public void testSingleDocMissingToken() throws IOException {
+  public void testSingleDocMissingToken() throws IOException, ExecutionException, InterruptedException {
     float[] expected = {0.836985f};
     assertFeatureValues(expected, "document test", "document missing token", EXTRACTOR);
   }
 
   @Test
-  public void testMultipleDocMultipleTokens() throws IOException {
+  public void testMultipleDocMultipleTokens() throws IOException, ExecutionException, InterruptedException {
     // N = 7
     // N_document = 4   0.57536
     // N_token = 0      2.77258

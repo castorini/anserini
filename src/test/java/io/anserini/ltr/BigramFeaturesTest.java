@@ -16,14 +16,13 @@
 
 package io.anserini.ltr;
 
-import io.anserini.ltr.feature.FeatureExtractors;
-import io.anserini.ltr.feature.OrderedQueryPairsFeatureExtractor;
-import io.anserini.ltr.feature.OrderedSequentialPairsFeatureExtractor;
-import io.anserini.ltr.feature.UnorderedQueryPairsFeatureExtractor;
-import io.anserini.ltr.feature.UnorderedSequentialPairsFeatureExtractor;
+import io.anserini.ltr.feature.*;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Create some temporary documents and test the correctness of ordered and unordered
@@ -31,24 +30,24 @@ import java.io.IOException;
  */
 public class BigramFeaturesTest extends BaseFeatureExtractorTest {
 
-  private FeatureExtractors getUnorderedChain() {
-    FeatureExtractors chain = new FeatureExtractors();
+  private List<FeatureExtractor> getUnorderedChain() {
+    List<FeatureExtractor> chain = new ArrayList<>();
     chain.add(new UnorderedSequentialPairsFeatureExtractor(2));
     chain.add(new UnorderedSequentialPairsFeatureExtractor(4));
     chain.add(new UnorderedSequentialPairsFeatureExtractor(6));
     return chain;
   }
 
-  private FeatureExtractors getOrderedChain() {
-    FeatureExtractors chain = new FeatureExtractors();
+  private List<FeatureExtractor> getOrderedChain() {
+    List<FeatureExtractor> chain = new ArrayList<>();
     chain.add(new OrderedSequentialPairsFeatureExtractor(2));
     chain.add(new OrderedSequentialPairsFeatureExtractor(4));
     chain.add(new OrderedSequentialPairsFeatureExtractor(6));
     return chain;
   }
 
-  private FeatureExtractors getMixedChain() {
-    FeatureExtractors chain = new FeatureExtractors();
+  private List<FeatureExtractor> getMixedChain() {
+    List<FeatureExtractor> chain = new ArrayList<>();
     chain.add(new OrderedSequentialPairsFeatureExtractor(2));
     chain.add(new OrderedSequentialPairsFeatureExtractor(4));
     chain.add(new OrderedSequentialPairsFeatureExtractor(6));
@@ -58,16 +57,16 @@ public class BigramFeaturesTest extends BaseFeatureExtractorTest {
     return chain;
   }
 
-  private FeatureExtractors getAllPairsOrdered() {
-    FeatureExtractors chain = new FeatureExtractors();
+  private List<FeatureExtractor> getAllPairsOrdered() {
+    List<FeatureExtractor> chain = new ArrayList<>();
     chain.add(new OrderedQueryPairsFeatureExtractor(2));
     chain.add(new OrderedQueryPairsFeatureExtractor(4));
     chain.add(new OrderedQueryPairsFeatureExtractor(6));
     return chain;
   }
 
-  private FeatureExtractors getAllPairsUnOrdered() {
-    FeatureExtractors chain = new FeatureExtractors();
+  private List<FeatureExtractor> getAllPairsUnOrdered() {
+    List<FeatureExtractor> chain = new ArrayList<>();
     chain.add(new UnorderedQueryPairsFeatureExtractor(2));
     chain.add(new UnorderedQueryPairsFeatureExtractor(4));
     chain.add(new UnorderedQueryPairsFeatureExtractor(6));
@@ -75,7 +74,7 @@ public class BigramFeaturesTest extends BaseFeatureExtractorTest {
   }
 
   @Test
-  public void testSimpleQuery () throws IOException {
+  public void testSimpleQuery () throws IOException, ExecutionException, InterruptedException {
     String testText = "a simple document";
     String testQuery = "simple document";
     float[] expected = {1,1,1};
@@ -84,7 +83,7 @@ public class BigramFeaturesTest extends BaseFeatureExtractorTest {
   }
 
   @Test
-  public void testMultipleUnorderedQuery() throws IOException {
+  public void testMultipleUnorderedQuery() throws IOException, ExecutionException, InterruptedException {
     String testText = "document more token simple test case";
     String testQuery = "simple document test case";
 
@@ -99,7 +98,7 @@ public class BigramFeaturesTest extends BaseFeatureExtractorTest {
   }
 
   @Test
-  public void testMixedMultipleQuery() throws IOException {
+  public void testMixedMultipleQuery() throws IOException, ExecutionException, InterruptedException {
     String testText = "bunch words document test simple case document test case simple, test document";
     String testQuery = "document test";
 
@@ -114,7 +113,7 @@ public class BigramFeaturesTest extends BaseFeatureExtractorTest {
   }
 
   @Test
-  public void testSimpleCountOrderedAllPairs() throws IOException {
+  public void testSimpleCountOrderedAllPairs() throws IOException, ExecutionException, InterruptedException {
     String testText = "bunch words document test simple case large text length size";
     String testQuery = "bunch words test";
 
@@ -124,7 +123,7 @@ public class BigramFeaturesTest extends BaseFeatureExtractorTest {
   }
 
   @Test
-  public void testSimpleCountUnorderedAllPairs() throws IOException {
+  public void testSimpleCountUnorderedAllPairs() throws IOException, ExecutionException, InterruptedException {
     String testText =  "bunch words document test simple case large text length size";
     String testQuery = "test document text";
 
@@ -134,7 +133,7 @@ public class BigramFeaturesTest extends BaseFeatureExtractorTest {
   }
 
   @Test
-  public void testDuplicateStartingTokens() throws IOException {
+  public void testDuplicateStartingTokens() throws IOException, ExecutionException, InterruptedException {
     String testText = "document test document bunch";
     String testQuery = "document test document bunch";
 
@@ -148,7 +147,7 @@ public class BigramFeaturesTest extends BaseFeatureExtractorTest {
   }
 
   @Test
-  public void testDuplicateAllPairs() throws IOException {
+  public void testDuplicateAllPairs() throws IOException, ExecutionException, InterruptedException {
     String testText = "document case document test bunch";
     String testQuery = "document case test";
 
@@ -163,7 +162,7 @@ public class BigramFeaturesTest extends BaseFeatureExtractorTest {
   }
 
   @Test
-  public void testMixedSequentialAllPairs() throws IOException {
+  public void testMixedSequentialAllPairs() throws IOException, ExecutionException, InterruptedException {
     String testText = "document test word word word test case word document";
     String testQuery = "document test case";
 
@@ -177,7 +176,7 @@ public class BigramFeaturesTest extends BaseFeatureExtractorTest {
   }
 
   @Test
-  public void testSimpleBigramCount() throws IOException {
+  public void testSimpleBigramCount() throws IOException, ExecutionException, InterruptedException {
     String testText = "document test document test";
     String testQuery = "missing phrase";
     float[] expected = {0.0f};
@@ -186,7 +185,7 @@ public class BigramFeaturesTest extends BaseFeatureExtractorTest {
   }
 
   @Test
-  public void testSimpleBigramCount2() throws IOException {
+  public void testSimpleBigramCount2() throws IOException, ExecutionException, InterruptedException {
     String testText = "document test document test";
     String testQuery = "document tests";
     float[] expected = {2f};
@@ -195,7 +194,7 @@ public class BigramFeaturesTest extends BaseFeatureExtractorTest {
   }
 
   @Test
-  public void testBigramCountMultiple() throws IOException {
+  public void testBigramCountMultiple() throws IOException, ExecutionException, InterruptedException {
     String testText = "test document test document multiple tokens multiple phrase";
     String testQuery = "test document multiple";
     //test document x 2 + document multiple

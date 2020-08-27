@@ -16,11 +16,14 @@
 
 package io.anserini.ltr;
 
+import io.anserini.ltr.feature.FeatureExtractor;
 import io.anserini.ltr.feature.FeatureExtractors;
 import io.anserini.ltr.feature.base.AvgICTFFeatureExtractor;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Test ICTF feature extractor is implemented according to
@@ -28,34 +31,34 @@ import java.io.IOException;
  */
 public class ICTFFeatureExtractorTest extends BaseFeatureExtractorTest {
 
-  private static FeatureExtractors EXTRACTOR = getChain(new AvgICTFFeatureExtractor());
+  private static List<FeatureExtractor> EXTRACTOR = getChain(new AvgICTFFeatureExtractor());
   @Test
-  public void testSingleQueryPhrase() throws IOException {
+  public void testSingleQueryPhrase() throws IOException, ExecutionException, InterruptedException {
     float[] expected = {0};
     assertFeatureValues(expected, "document", "document", EXTRACTOR);
   }
 
   @Test
-  public void testSingleQuery2() throws IOException {
+  public void testSingleQuery2() throws IOException, ExecutionException, InterruptedException {
     float[] expected = {1.38629f};
     assertFeatureValues(expected, "document", "document multiple tokens more", EXTRACTOR);
   }
 
   @Test
-  public void testSingleQuery3() throws IOException {
+  public void testSingleQuery3() throws IOException, ExecutionException, InterruptedException {
     float[] expected = {0.693147f};
     assertFeatureValues(expected, "document", "document document test more tokens document", EXTRACTOR);
   }
 
   @Test
-  public void testMultiQuery() throws IOException {
+  public void testMultiQuery() throws IOException, ExecutionException, InterruptedException {
     float[] expected = {0.20273f};
 
     assertFeatureValues(expected, "document test", "document document missing", EXTRACTOR);
   }
 
   @Test
-  public void testMultiQuery2() throws IOException {
+  public void testMultiQuery2() throws IOException, ExecutionException, InterruptedException {
     // log(8/3)*0.5 + log(8/2) * 0.5
     float[] expected = {1.18356f};
     assertFeatureValues(expected, "document test", "document document test test more tokens document tokens", EXTRACTOR);

@@ -20,6 +20,7 @@ import io.anserini.ltr.feature.UnigramFeatureExtractor;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Tests the unigram count feature
@@ -27,7 +28,7 @@ import java.io.IOException;
 public class UnigramFeaturesTest extends BaseFeatureExtractorTest {
 
   @Test
-  public void testSingleQueryTermCounts() throws IOException {
+  public void testSingleQueryTermCounts() throws IOException, ExecutionException, InterruptedException {
     String testText = "document document simple test case";
     String testQuery = "document";
     float [] expected = {2};
@@ -35,7 +36,7 @@ public class UnigramFeaturesTest extends BaseFeatureExtractorTest {
   }
 
   @Test
-  public void testNonMatchQuery() throws IOException {
+  public void testNonMatchQuery() throws IOException, ExecutionException, InterruptedException {
     String testText = "document document simple";
     String testQuery = "case";
     float[] expected = {0};
@@ -44,7 +45,7 @@ public class UnigramFeaturesTest extends BaseFeatureExtractorTest {
   }
 
   @Test
-  public void testPartialMatches() throws IOException {
+  public void testPartialMatches() throws IOException, ExecutionException, InterruptedException {
     String testText = "simple test case document";
     String testQuery = "simple document unigram";
     float[] expected = {2};
@@ -53,7 +54,7 @@ public class UnigramFeaturesTest extends BaseFeatureExtractorTest {
   }
 
   @Test
-  public void testMultipleMatches() throws IOException {
+  public void testMultipleMatches() throws IOException, ExecutionException, InterruptedException {
     String testText = "simple simple document test case document";
     String testQuery = "document simple case nonexistent query";
     float[] expected = {5};

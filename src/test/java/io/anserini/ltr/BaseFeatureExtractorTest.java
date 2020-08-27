@@ -26,6 +26,7 @@ import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.FieldType;
+import org.apache.lucene.document.StringField;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexOptions;
 import org.apache.lucene.index.IndexReader;
@@ -43,10 +44,8 @@ import org.junit.After;
 import org.junit.Before;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
+import java.util.concurrent.ExecutionException;
 
 /**
  * This class will contain setup and teardown code for testing feature extractors
@@ -54,8 +53,6 @@ import java.util.Random;
 abstract public class BaseFeatureExtractorTest<T> extends LuceneTestCase {
   protected static final String TEST_FIELD_NAME = IndexArgs.CONTENTS;
   protected static final Analyzer TEST_ANALYZER = new EnglishAnalyzer();
-  protected static final QueryParser TEST_PARSER = new QueryParser(TEST_FIELD_NAME, TEST_ANALYZER);
-  protected static final String DEFAULT_QID = "1";
 
   // Acceptable delta for float assert
   protected static final float DELTA = 0.01f;
@@ -63,56 +60,22 @@ abstract public class BaseFeatureExtractorTest<T> extends LuceneTestCase {
 
   protected IndexWriter testWriter;
 
-  /**
-   * A lot of feature extractors are tested individually, easy way to wrap the chain
-   * @param extractors  The extractors
-   * @return
-   */
-  protected static FeatureExtractors getChain(FeatureExtractor... extractors ) {
-    FeatureExtractors chain = new FeatureExtractors();
-    for (FeatureExtractor extractor : extractors) {
-      chain.add(extractor);
-    }
-    return chain;
+  protected static List<FeatureExtractor> getChain(FeatureExtractor... extractors ) {
+    return Arrays.asList(extractors);
   }
 
-  protected Document addTestDocument(String testText) throws IOException {
+  protected void addTestDocument(String testText, String docId) throws IOException {
     FieldType fieldType = new FieldType();
     fieldType.setStored(true);
     fieldType.setStoreTermVectors(true);
-    fieldType.setStoreTermVectorOffsets(true);
     fieldType.setStoreTermVectorPositions(true);
-    fieldType.setIndexOptions(IndexOptions.DOCS_AND_FREQS_AND_POSITIONS_AND_OFFSETS);
+    fieldType.setIndexOptions(IndexOptions.DOCS_AND_FREQS_AND_POSITIONS);
     Field field = new Field(TEST_FIELD_NAME, testText, fieldType);
     Document doc = new Document();
     doc.add(field);
+    doc.add(new StringField(IndexArgs.ID, docId, Field.Store.YES));
     testWriter.addDocument(doc);
     testWriter.commit();
-    return doc;
-  }
-
-  /**
-   * The reranker context constructed will return with a searcher
-   * and the query we want with dummy query ids and null filter
-   * @return
-   */
-  @SuppressWarnings("unchecked")
-  protected RerankerContext<T> makeTestContext(String queryText) {
-    try {
-	  RerankerContext<T> context = new RerankerContext<T>(
-	    new IndexSearcher(DirectoryReader.open(DIRECTORY)),
-        (T) DEFAULT_QID,
-        TEST_PARSER.parse(queryText),
-        null,
-        queryText,
-        AnalyzerUtils.analyze(TEST_ANALYZER, queryText),
-        null, null);
-      return context;
-    } catch (ParseException e) {
-      return null;
-    } catch (IOException e) {
-      return null;
-    }
   }
 
   /**
@@ -147,14 +110,20 @@ abstract public class BaseFeatureExtractorTest<T> extends LuceneTestCase {
    * @param queryText
    */
   protected void assertFeatureValues(float[] expected, String queryText, String docText,
-                                     FeatureExtractors extractors) throws IOException {
+                                     List<FeatureExtractor> extractors) throws IOException, ExecutionException, InterruptedException {
     assertFeatureValues(expected, queryText, Arrays.asList(docText), extractors,0);
   }
 
   // just add a signature for single extractor
   protected void assertFeatureValues(float[] expected, String queryText, String docText,
-                                     FeatureExtractor extractor) throws IOException {
-    assertFeatureValues(expected, queryText, Arrays.asList(docText), getChain(extractor),0);
+                                     FeatureExtractor extractor) throws IOException, ExecutionException, InterruptedException {
+    assertFeatureValues(expected, queryText, Arrays.asList(docText), Arrays.asList(extractor),0);
+  }
+
+  // just add a signature for single extractor
+  protected void assertFeatureValues(float[] expected, String queryText, List<String> docTexts,
+                                     FeatureExtractor extractor, int docToExtract) throws IOException, ExecutionException, InterruptedException {
+    assertFeatureValues(expected, queryText, docTexts, Arrays.asList(extractor),docToExtract);
   }
 
   /**
@@ -166,21 +135,27 @@ abstract public class BaseFeatureExtractorTest<T> extends LuceneTestCase {
    * @param docToExtract        Index of the document we want to compute features for
    */
   protected void assertFeatureValues(float[] expected, String queryText, List<String> docTexts,
-                                     FeatureExtractors extractors, int docToExtract) throws IOException {
-    List<Document> addedDocs = new ArrayList<>();
+                                     List<FeatureExtractor> extractors, int docToExtract) throws IOException, ExecutionException, InterruptedException {
+    int id = 1;
     for (String docText : docTexts) {
-      Document testDoc = addTestDocument(docText);
-      addedDocs.add(testDoc);
+      addTestDocument(docText, String.format("doc%s", id));
     }
     testWriter.forceMerge(1);
 
-    Document testDoc = addedDocs.get(docToExtract);
-    RerankerContext<T> context = makeTestContext(queryText);
-    IndexReader reader = context.getIndexSearcher().getIndexReader();
-    Terms terms = reader.getTermVector(docToExtract, TEST_FIELD_NAME);
-    float[] extractedFeatureValues = extractors.extractAll(testDoc, terms, context);
+    FeatureExtractorUtils utils = new FeatureExtractorUtils(DIRECTORY.toString(), 1);
+    for(FeatureExtractor extractor: extractors){
+      utils.add(extractor);
+    }
+    String docIdToExtract = String.format("doc%s", docToExtract);
+    Map<String, List<Float>> extractedFeatureValues = utils.extract(AnalyzerUtils.analyze(TEST_ANALYZER,queryText), Arrays.asList(docIdToExtract));
 
-    assertArrayEquals(expected, extractedFeatureValues, DELTA);
+    List<Float> extractFeatures = extractedFeatureValues.get(docIdToExtract);
+    float[] extractFeaturesArray = new float[extractFeatures.size()];
+    for (int i=0; i < extractFeaturesArray.length; i++)
+    {
+      extractFeaturesArray[i] = extractFeatures.get(i).floatValue();
+    }
+    assertArrayEquals(expected, extractFeaturesArray, DELTA);
   }
 
 }
