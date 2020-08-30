@@ -25,11 +25,10 @@ import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.FieldType;
 import org.apache.lucene.document.StringField;
-import org.apache.lucene.index.IndexOptions;
-import org.apache.lucene.index.IndexWriter;
-import org.apache.lucene.index.IndexWriterConfig;
+import org.apache.lucene.index.*;
 import org.apache.lucene.store.ByteBuffersDirectory;
 import org.apache.lucene.store.Directory;
+import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.store.MockDirectoryWrapper;
 import org.apache.lucene.util.LuceneTestCase;
 import org.junit.After;
@@ -79,8 +78,7 @@ abstract public class BaseFeatureExtractorTest<T> extends LuceneTestCase {
   @Before
   public void setUp() throws Exception {
     super.setUp();
-    // Use a RAMDirectory instead of MemoryIndex because we might test with multiple documents
-    DIRECTORY = new MockDirectoryWrapper(new Random(), new ByteBuffersDirectory());
+    DIRECTORY = FSDirectory.open(createTempDir());
     testWriter = new IndexWriter(DIRECTORY, new IndexWriterConfig(TEST_ANALYZER));
   }
 
@@ -128,13 +126,14 @@ abstract public class BaseFeatureExtractorTest<T> extends LuceneTestCase {
    */
   protected void assertFeatureValues(float[] expected, String queryText, List<String> docTexts,
                                      List<FeatureExtractor> extractors, int docToExtract) throws IOException, ExecutionException, InterruptedException {
-    int id = 1;
+    int id = 0;
     for (String docText : docTexts) {
       addTestDocument(docText, String.format("doc%s", id));
+      id += 1;
     }
     testWriter.forceMerge(1);
 
-    FeatureExtractorUtils utils = new FeatureExtractorUtils(DIRECTORY.toString(), 1);
+    FeatureExtractorUtils utils = new FeatureExtractorUtils(DirectoryReader.open(DIRECTORY));
     for(FeatureExtractor extractor: extractors){
       utils.add(extractor);
     }

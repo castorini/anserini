@@ -49,7 +49,7 @@ public class FeatureExtractorUtils {
 
     public FeatureExtractorUtils add(FeatureExtractor<String> extractor) {
         extractors.add(extractor);
-        if(!fieldsToLoad.contains(extractor.getField()))
+        if((extractor.getField()!=null)&&(!fieldsToLoad.contains(extractor.getField())))
             fieldsToLoad.add(extractor.getField());
         return this;
     }
@@ -109,5 +109,20 @@ public class FeatureExtractorUtils {
         fieldsToLoad.add(IndexArgs.ID);
         pool = Executors.newFixedThreadPool(workNum);
     }
+
+    public FeatureExtractorUtils(IndexReader reader) throws IOException {
+        this.reader = reader;
+        searcher = new IndexSearcher(reader);
+        fieldsToLoad.add(IndexArgs.ID);
+        pool = Executors.newFixedThreadPool(1);
+    }
+
+    public FeatureExtractorUtils(IndexReader reader, int workNum) throws IOException {
+        this.reader = reader;
+        searcher = new IndexSearcher(reader);
+        fieldsToLoad.add(IndexArgs.ID);
+        pool = Executors.newFixedThreadPool(workNum);
+    }
+
 
 }
