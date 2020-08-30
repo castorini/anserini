@@ -33,7 +33,7 @@ import java.util.Map;
  * SCS = sum (P[t|q]) * log(P[t|q] / P[t|D])
  * page 20 of Carmel, Yom-Tov 2010
  */
-public class SimplifiedClarityFeatureExtractor<T> implements FeatureExtractor<T> {
+public class SCSFeatureExtractor<T> implements FeatureExtractor<T> {
 
   private String lastQueryProcessed = "";
   private float lastComputedScore = 0.0f;

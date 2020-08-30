@@ -17,7 +17,6 @@
 package io.anserini.ltr;
 
 import io.anserini.ltr.feature.FeatureExtractor;
-import io.anserini.ltr.feature.base.SimplifiedClarityFeatureExtractor;
 import io.anserini.ltr.feature.base.TermFrequencyFeatureExtractor;
 import org.junit.Test;
 

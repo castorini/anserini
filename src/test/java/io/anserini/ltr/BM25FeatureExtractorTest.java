@@ -17,7 +17,6 @@
 package io.anserini.ltr;
 
 import io.anserini.ltr.feature.FeatureExtractor;
-import io.anserini.ltr.feature.base.AvgIDFFeatureExtractor;
 import io.anserini.ltr.feature.base.BM25FeatureExtractor;
 import org.junit.Test;
 

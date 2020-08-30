@@ -17,12 +17,11 @@
 package io.anserini.ltr;
 
 import io.anserini.ltr.feature.FeatureExtractor;
-import io.anserini.ltr.feature.base.SimplifiedClarityFeatureExtractor;
+import io.anserini.ltr.feature.base.SCSFeatureExtractor;
 import org.junit.Test;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -30,7 +29,7 @@ import java.util.concurrent.ExecutionException;
  */
 public class SCSFeatureExtractorTest extends BaseFeatureExtractorTest<Integer> {
 
-  private FeatureExtractor EXTRACTOR = new SimplifiedClarityFeatureExtractor();
+  private FeatureExtractor EXTRACTOR = new SCSFeatureExtractor();
 
   @Test
   public void testBadQuery() throws IOException, ExecutionException, InterruptedException {

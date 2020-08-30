@@ -17,7 +17,6 @@
 package io.anserini.ltr;
 
 import io.anserini.ltr.feature.FeatureExtractor;
-import io.anserini.ltr.feature.base.AvgICTFFeatureExtractor;
 import io.anserini.ltr.feature.base.DocSizeFeatureExtractor;
 import org.junit.Test;
 

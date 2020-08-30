@@ -21,14 +21,13 @@ import io.anserini.ltr.feature.base.AvgICTFFeatureExtractor;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 /**
  * Test ICTF feature extractor is implemented according to
  * the  Carmel, Yom-Tov synthesis series book
  */
-public class ICTFFeatureExtractorTest extends BaseFeatureExtractorTest {
+public class AvgICTFFeatureExtractorTest extends BaseFeatureExtractorTest {
 
   private static FeatureExtractor EXTRACTOR = new AvgICTFFeatureExtractor();
 
