@@ -17,6 +17,7 @@
 package io.anserini.ltr;
 
 import io.anserini.ltr.feature.*;
+import io.anserini.ltr.feature.base.AvgIDFFeatureExtractor;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -31,47 +32,58 @@ import java.util.concurrent.ExecutionException;
 public class BigramFeaturesTest extends BaseFeatureExtractorTest {
 
   private List<FeatureExtractor> getUnorderedChain() {
-    List<FeatureExtractor> chain = new ArrayList<>();
-    chain.add(new UnorderedSequentialPairsFeatureExtractor(2));
-    chain.add(new UnorderedSequentialPairsFeatureExtractor(4));
-    chain.add(new UnorderedSequentialPairsFeatureExtractor(6));
-    return chain;
+    return getChain(
+            new UnorderedSequentialPairsFeatureExtractor(2),
+            new UnorderedSequentialPairsFeatureExtractor(4),
+            new UnorderedSequentialPairsFeatureExtractor(6)
+    );
   }
 
   private List<FeatureExtractor> getOrderedChain() {
-    List<FeatureExtractor> chain = new ArrayList<>();
-    chain.add(new OrderedSequentialPairsFeatureExtractor(2));
-    chain.add(new OrderedSequentialPairsFeatureExtractor(4));
-    chain.add(new OrderedSequentialPairsFeatureExtractor(6));
-    return chain;
+    return getChain(
+            new OrderedSequentialPairsFeatureExtractor(2),
+            new OrderedSequentialPairsFeatureExtractor(4),
+            new OrderedSequentialPairsFeatureExtractor(6)
+    );
   }
 
   private List<FeatureExtractor> getMixedChain() {
-    List<FeatureExtractor> chain = new ArrayList<>();
-    chain.add(new OrderedSequentialPairsFeatureExtractor(2));
-    chain.add(new OrderedSequentialPairsFeatureExtractor(4));
-    chain.add(new OrderedSequentialPairsFeatureExtractor(6));
-    chain.add(new UnorderedSequentialPairsFeatureExtractor(2));
-    chain.add(new UnorderedSequentialPairsFeatureExtractor(4));
-    chain.add(new UnorderedSequentialPairsFeatureExtractor(6));
-    return chain;
+    return getChain(
+            new OrderedSequentialPairsFeatureExtractor(2),
+            new OrderedSequentialPairsFeatureExtractor(4),
+            new OrderedSequentialPairsFeatureExtractor(6),
+            new UnorderedSequentialPairsFeatureExtractor(2),
+            new UnorderedSequentialPairsFeatureExtractor(4),
+            new UnorderedSequentialPairsFeatureExtractor(6)
+    );
   }
 
   private List<FeatureExtractor> getAllPairsOrdered() {
-    List<FeatureExtractor> chain = new ArrayList<>();
-    chain.add(new OrderedQueryPairsFeatureExtractor(2));
-    chain.add(new OrderedQueryPairsFeatureExtractor(4));
-    chain.add(new OrderedQueryPairsFeatureExtractor(6));
-    return chain;
+    return getChain(
+            new OrderedQueryPairsFeatureExtractor(2),
+            new OrderedQueryPairsFeatureExtractor(4),
+            new OrderedQueryPairsFeatureExtractor(6)
+    );
   }
 
   private List<FeatureExtractor> getAllPairsUnOrdered() {
-    List<FeatureExtractor> chain = new ArrayList<>();
-    chain.add(new UnorderedQueryPairsFeatureExtractor(2));
-    chain.add(new UnorderedQueryPairsFeatureExtractor(4));
-    chain.add(new UnorderedQueryPairsFeatureExtractor(6));
-    return chain;
+    return getChain(
+            new UnorderedQueryPairsFeatureExtractor(2),
+            new UnorderedQueryPairsFeatureExtractor(4),
+            new UnorderedQueryPairsFeatureExtractor(6)
+    );
   }
+
+  private List<FeatureExtractor> getMixedSequentialAllPairs() {
+    return getChain(
+            new OrderedSequentialPairsFeatureExtractor(2),
+            new UnorderedSequentialPairsFeatureExtractor(2),
+            new OrderedQueryPairsFeatureExtractor(2),
+            new UnorderedQueryPairsFeatureExtractor(2)
+    );
+  }
+
+  private static FeatureExtractor bigram = new OrderedSequentialPairsFeatureExtractor(1);
 
   @Test
   public void testSimpleQuery () throws IOException, ExecutionException, InterruptedException {
@@ -168,11 +180,7 @@ public class BigramFeaturesTest extends BaseFeatureExtractorTest {
 
     // document test, test bunch, bunch document
     float[] expected = {2,2,2,3};
-    assertFeatureValues(expected, testQuery, testText,
-            getChain(new OrderedSequentialPairsFeatureExtractor(2),
-                    new UnorderedSequentialPairsFeatureExtractor(2),
-                    new OrderedQueryPairsFeatureExtractor(2),
-                    new UnorderedQueryPairsFeatureExtractor(2)));
+    assertFeatureValues(expected, testQuery, testText, getMixedSequentialAllPairs());
   }
 
   @Test
@@ -180,8 +188,7 @@ public class BigramFeaturesTest extends BaseFeatureExtractorTest {
     String testText = "document test document test";
     String testQuery = "missing phrase";
     float[] expected = {0.0f};
-    assertFeatureValues(expected, testQuery, testText,
-            getChain(new OrderedSequentialPairsFeatureExtractor(1)));
+    assertFeatureValues(expected, testQuery, testText, bigram);
   }
 
   @Test
@@ -189,8 +196,7 @@ public class BigramFeaturesTest extends BaseFeatureExtractorTest {
     String testText = "document test document test";
     String testQuery = "document tests";
     float[] expected = {2f};
-    assertFeatureValues(expected, testQuery, testText,
-            getChain(new OrderedSequentialPairsFeatureExtractor(1)));
+    assertFeatureValues(expected, testQuery, testText, bigram);
   }
 
   @Test
@@ -199,8 +205,7 @@ public class BigramFeaturesTest extends BaseFeatureExtractorTest {
     String testQuery = "test document multiple";
     //test document x 2 + document multiple
     float[] expected = {3f};
-    assertFeatureValues(expected, testQuery, testText,
-            getChain(new OrderedSequentialPairsFeatureExtractor(1)));
+    assertFeatureValues(expected, testQuery, testText, bigram);
   }
 
 }

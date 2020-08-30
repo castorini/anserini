@@ -124,5 +124,9 @@ public class FeatureExtractorUtils {
         pool = Executors.newFixedThreadPool(workNum);
     }
 
+    public void close() throws IOException {
+        pool.shutdown();
+        reader.close();
+    }
 
 }

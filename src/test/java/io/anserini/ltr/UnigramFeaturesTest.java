@@ -16,7 +16,9 @@
 
 package io.anserini.ltr;
 
+import io.anserini.ltr.feature.FeatureExtractor;
 import io.anserini.ltr.feature.UnigramFeatureExtractor;
+import io.anserini.ltr.feature.base.TFIDFFeatureExtractor;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -27,12 +29,14 @@ import java.util.concurrent.ExecutionException;
  */
 public class UnigramFeaturesTest extends BaseFeatureExtractorTest {
 
+  private FeatureExtractor EXTRACTOR = new UnigramFeatureExtractor();
+
   @Test
   public void testSingleQueryTermCounts() throws IOException, ExecutionException, InterruptedException {
     String testText = "document document simple test case";
     String testQuery = "document";
     float [] expected = {2};
-    assertFeatureValues(expected, testQuery, testText, new UnigramFeatureExtractor());
+    assertFeatureValues(expected, testQuery, testText, EXTRACTOR);
   }
 
   @Test
@@ -41,7 +45,7 @@ public class UnigramFeaturesTest extends BaseFeatureExtractorTest {
     String testQuery = "case";
     float[] expected = {0};
 
-    assertFeatureValues(expected, testQuery, testText, new UnigramFeatureExtractor());
+    assertFeatureValues(expected, testQuery, testText, EXTRACTOR);
   }
 
   @Test
@@ -50,7 +54,7 @@ public class UnigramFeaturesTest extends BaseFeatureExtractorTest {
     String testQuery = "simple document unigram";
     float[] expected = {2};
 
-    assertFeatureValues(expected, testQuery, testText, new UnigramFeatureExtractor());
+    assertFeatureValues(expected, testQuery, testText, EXTRACTOR);
   }
 
   @Test
@@ -59,7 +63,7 @@ public class UnigramFeaturesTest extends BaseFeatureExtractorTest {
     String testQuery = "document simple case nonexistent query";
     float[] expected = {5};
 
-    assertFeatureValues(expected, testQuery, testText, new UnigramFeatureExtractor());
+    assertFeatureValues(expected, testQuery, testText, EXTRACTOR);
   }
 
 

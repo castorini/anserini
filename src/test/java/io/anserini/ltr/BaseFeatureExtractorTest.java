@@ -47,8 +47,8 @@ abstract public class BaseFeatureExtractorTest<T> extends LuceneTestCase {
 
   // Acceptable delta for float assert
   protected static final float DELTA = 0.01f;
-  protected Directory DIRECTORY;
 
+  protected Directory DIRECTORY;
   protected IndexWriter testWriter;
 
   protected static List<FeatureExtractor> getChain(FeatureExtractor... extractors ) {
@@ -147,6 +147,7 @@ abstract public class BaseFeatureExtractorTest<T> extends LuceneTestCase {
       extractFeaturesArray[i] = extractFeatures.get(i).floatValue();
     }
     assertArrayEquals(expected, extractFeaturesArray, DELTA);
+    utils.close();
   }
 
 }

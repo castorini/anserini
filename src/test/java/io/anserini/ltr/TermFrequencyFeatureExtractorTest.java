@@ -17,6 +17,7 @@
 package io.anserini.ltr;
 
 import io.anserini.ltr.feature.FeatureExtractor;
+import io.anserini.ltr.feature.base.SimplifiedClarityFeatureExtractor;
 import io.anserini.ltr.feature.base.TermFrequencyFeatureExtractor;
 import org.junit.Test;
 
@@ -31,16 +32,12 @@ import java.util.concurrent.ExecutionException;
  */
 public class TermFrequencyFeatureExtractorTest extends BaseFeatureExtractorTest<Integer> {
 
-  private List<FeatureExtractor> getChain() {
-    List<FeatureExtractor> chain = new ArrayList<>();
-    chain.add(new TermFrequencyFeatureExtractor());
-    return chain;
-  }
+  private FeatureExtractor EXTRACTOR = new TermFrequencyFeatureExtractor();
 
   @Test
   public void testAllMissing() throws IOException, ExecutionException, InterruptedException {
     float[] expected = {0};
-    assertFeatureValues(expected, "nothing", "document test missing all", getChain());
+    assertFeatureValues(expected, "nothing", "document test missing all", EXTRACTOR);
   }
 
   @Test
@@ -49,7 +46,7 @@ public class TermFrequencyFeatureExtractorTest extends BaseFeatureExtractorTest<
     String testQuery = "document";
     float[] expected = {3};
 
-    assertFeatureValues(expected, testQuery, testText, getChain());
+    assertFeatureValues(expected, testQuery, testText, EXTRACTOR);
   }
 
   @Test
@@ -58,7 +55,7 @@ public class TermFrequencyFeatureExtractorTest extends BaseFeatureExtractorTest<
     String testQuery = "simple missing";
     float[] expected = {1};
 
-    assertFeatureValues(expected, testQuery, testText, getChain());
+    assertFeatureValues(expected, testQuery, testText, EXTRACTOR);
   }
 
   @Test
@@ -67,7 +64,7 @@ public class TermFrequencyFeatureExtractorTest extends BaseFeatureExtractorTest<
     String testQuery = "document multiple missing";
     float[] expected = {6};
 
-    assertFeatureValues(expected, testQuery, testText, getChain());
+    assertFeatureValues(expected, testQuery, testText, EXTRACTOR);
   }
 
   @Test
@@ -79,6 +76,6 @@ public class TermFrequencyFeatureExtractorTest extends BaseFeatureExtractorTest<
     String queryText = "document";
     float[] expected = {1};
 
-    assertFeatureValues(expected, queryText, docs, getChain(), 2);
+    assertFeatureValues(expected, queryText, docs, EXTRACTOR, 2);
   }
 }

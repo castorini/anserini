@@ -29,7 +29,8 @@ import java.util.concurrent.ExecutionException;
  * Tests the simplified clarity feature
  */
 public class SCSFeatureExtractorTest extends BaseFeatureExtractorTest<Integer> {
-  private List<FeatureExtractor> EXTRACTOR = getChain(new SimplifiedClarityFeatureExtractor());
+
+  private FeatureExtractor EXTRACTOR = new SimplifiedClarityFeatureExtractor();
 
   @Test
   public void testBadQuery() throws IOException, ExecutionException, InterruptedException {

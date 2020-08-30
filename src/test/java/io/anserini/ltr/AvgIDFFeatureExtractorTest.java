@@ -27,7 +27,7 @@ import java.util.concurrent.ExecutionException;
 
 public class AvgIDFFeatureExtractorTest extends BaseFeatureExtractorTest<Integer> {
 
-  private static List<FeatureExtractor> EXTRACTOR = getChain(new AvgIDFFeatureExtractor());
+  private static FeatureExtractor EXTRACTOR = new AvgIDFFeatureExtractor();
 
   @Test
   public void testSingleDoc() throws IOException, ExecutionException, InterruptedException {

@@ -30,7 +30,8 @@ import java.util.concurrent.ExecutionException;
  */
 public class ICTFFeatureExtractorTest extends BaseFeatureExtractorTest {
 
-  private static List<FeatureExtractor> EXTRACTOR = getChain(new AvgICTFFeatureExtractor());
+  private static FeatureExtractor EXTRACTOR = new AvgICTFFeatureExtractor();
+
   @Test
   public void testSingleQueryPhrase() throws IOException, ExecutionException, InterruptedException {
     float[] expected = {0};

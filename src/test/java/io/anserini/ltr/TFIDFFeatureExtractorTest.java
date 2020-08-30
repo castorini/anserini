@@ -16,7 +16,9 @@
 
 package io.anserini.ltr;
 
+import io.anserini.ltr.feature.FeatureExtractor;
 import io.anserini.ltr.feature.base.TFIDFFeatureExtractor;
+import io.anserini.ltr.feature.base.TermFrequencyFeatureExtractor;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -29,18 +31,18 @@ import java.util.concurrent.ExecutionException;
  */
 public class TFIDFFeatureExtractorTest extends BaseFeatureExtractorTest<Integer> {
 
+  private FeatureExtractor EXTRACTOR = new TFIDFFeatureExtractor();
+
   @Test
   public void testTFIDFOnSingleDocSingleQuery() throws IOException, ExecutionException, InterruptedException {
     float[] expected = {1f};
-    assertFeatureValues(expected, "document", "single document test case",
-            new TFIDFFeatureExtractor() );
+    assertFeatureValues(expected, "document", "single document test case",  EXTRACTOR);
   }
 
   @Test
   public void testTFIDFOnSingleDocMultiQuery() throws IOException, ExecutionException, InterruptedException {
     float[] expected = {2f};
-    assertFeatureValues(expected, "document test", "single document test case",
-            new TFIDFFeatureExtractor() );
+    assertFeatureValues(expected, "document test", "single document test case", EXTRACTOR);
   }
 
   @Test
@@ -49,7 +51,7 @@ public class TFIDFFeatureExtractorTest extends BaseFeatureExtractorTest<Integer>
 
     float[] expected = {1f};
     assertFeatureValues(expected, queryText, Arrays.asList("single document test case",
-            "another document test"),getChain(new TFIDFFeatureExtractor()), 0 );
+            "another document test"), EXTRACTOR, 0 );
   }
 
   @Test
@@ -58,7 +60,7 @@ public class TFIDFFeatureExtractorTest extends BaseFeatureExtractorTest<Integer>
 
     float[] expected = {2f};
     assertFeatureValues(expected, queryText, Arrays.asList("single document test case",
-            "another document test"),getChain(new TFIDFFeatureExtractor()), 0 );
+            "another document test"), EXTRACTOR, 0 );
   }
 
   @Test
@@ -67,7 +69,7 @@ public class TFIDFFeatureExtractorTest extends BaseFeatureExtractorTest<Integer>
 
     float[] expected = {2.9753323f};
     assertFeatureValues(expected, queryText, Arrays.asList("single document test case",
-            "another document"),getChain(new TFIDFFeatureExtractor()), 0 );
+            "another document"), EXTRACTOR, 0 );
 
   }
 
@@ -77,6 +79,6 @@ public class TFIDFFeatureExtractorTest extends BaseFeatureExtractorTest<Integer>
 
     float[] expected = {3.8667474f};
     assertFeatureValues(expected, queryText, Arrays.asList("single document test case",
-            "new document", "another document"),getChain(new TFIDFFeatureExtractor()), 0 );
+            "new document", "another document"), EXTRACTOR, 0 );
   }
 }

@@ -30,7 +30,7 @@ import java.util.concurrent.ExecutionException;
  */
 public class PMIFeatureExtractorTest extends BaseFeatureExtractorTest<Integer> {
 
-  private static List<FeatureExtractor> EXTRACTOR = getChain(new PMIFeatureExtractor());
+  private static FeatureExtractor EXTRACTOR = new PMIFeatureExtractor();
 
   @Test
   public void testSingleDocSimpleQuery() throws IOException, ExecutionException, InterruptedException {

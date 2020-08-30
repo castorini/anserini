@@ -26,7 +26,7 @@ import java.util.concurrent.ExecutionException;
 
 public class SCQFeatureExtractorTest extends BaseFeatureExtractorTest<Integer> {
 
-  private static List<FeatureExtractor> EXTRACTOR = getChain(new SCQFeatureExtractor());
+  private static FeatureExtractor EXTRACTOR = new SCQFeatureExtractor();
 
   @Test
   public void testSimpleSingleDocument() throws IOException, ExecutionException, InterruptedException {
