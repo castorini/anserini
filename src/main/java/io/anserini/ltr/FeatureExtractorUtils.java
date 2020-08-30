@@ -42,12 +42,12 @@ public class FeatureExtractorUtils {
     private static final Logger LOG = LogManager.getLogger(FeatureExtractorUtils.class);
     private IndexReader reader;
     private IndexSearcher searcher;
-    private List<FeatureExtractor<String>> extractors = new ArrayList<>();
+    private List<FeatureExtractor> extractors = new ArrayList<>();
     private Set<String> fieldsToLoad = new HashSet<>();
     private ExecutorService pool;
     private Map<String, Future<Map<String, List<Float>>>> tasks = new HashMap<>();
 
-    public FeatureExtractorUtils add(FeatureExtractor<String> extractor) {
+    public FeatureExtractorUtils add(FeatureExtractor extractor) {
         extractors.add(extractor);
         if((extractor.getField()!=null)&&(!fieldsToLoad.contains(extractor.getField())))
             fieldsToLoad.add(extractor.getField());
@@ -75,14 +75,9 @@ public class FeatureExtractorUtils {
                 Document doc = reader.document(hit.doc, fieldsToLoad);
 
                 Terms terms = reader.getTermVector(hit.doc, IndexArgs.CONTENTS);
-                // Construct the reranker context
-                RerankerContext<String> context = new RerankerContext<>(searcher, "-1",
-                        null, null, String.join(" ", queryTokens),
-                        queryTokens,
-                        null, null);
                 List<Float> features = new ArrayList<>();
                 for (int i = 0; i < extractors.size(); i++) {
-                    features.add(extractors.get(i).extract(doc, terms, context));
+                    features.add(extractors.get(i).extract(doc, terms, String.join(",", queryTokens), queryTokens, reader));
                 }
                 result.put(docId,features);
             }

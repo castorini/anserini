@@ -2,7 +2,6 @@ package io.anserini.ltr;
 
 import io.anserini.ltr.feature.FeatureExtractor;
 import io.anserini.ltr.feature.base.MatchingTermCount;
-import io.anserini.ltr.feature.base.TermFrequencyFeatureExtractor;
 import org.junit.Test;
 
 import java.io.IOException;

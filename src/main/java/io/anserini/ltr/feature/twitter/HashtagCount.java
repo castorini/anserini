@@ -20,12 +20,15 @@ import io.anserini.index.IndexArgs;
 import io.anserini.ltr.feature.FeatureExtractor;
 import io.anserini.rerank.RerankerContext;
 import org.apache.lucene.document.Document;
+import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.Terms;
+
+import java.util.List;
 
 public class HashtagCount implements FeatureExtractor {
 
   @Override
-  public float extract(Document doc, Terms terms, RerankerContext context) {
+  public float extract(Document doc, Terms terms, String queryText, List<String> queryTokens, IndexReader reader) {
     String str = doc.getField(IndexArgs.CONTENTS).stringValue();
     final String matchStr = "#";
 

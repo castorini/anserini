@@ -33,7 +33,7 @@ import java.util.Map;
  * SCS = sum (P[t|q]) * log(P[t|q] / P[t|D])
  * page 20 of Carmel, Yom-Tov 2010
  */
-public class SCSFeatureExtractor<T> implements FeatureExtractor<T> {
+public class SCSFeatureExtractor implements FeatureExtractor {
 
   private String lastQueryProcessed = "";
   private float lastComputedScore = 0.0f;
@@ -67,17 +67,15 @@ public class SCSFeatureExtractor<T> implements FeatureExtractor<T> {
   }
 
   @Override
-  public float extract(Document doc, Terms terms, RerankerContext<T> context) {
+  public float extract(Document doc, Terms terms, String queryText, List<String> queryTokens, IndexReader reader) {
 
-    if (!this.lastQueryProcessed.equals(context.getQueryText())) {
-      this.lastQueryProcessed = context.getQueryText();
+    if (!this.lastQueryProcessed.equals(queryText)) {
+      this.lastQueryProcessed = queryText;
       this.lastComputedScore = 0.0f;
 
-      Map<String, Integer> queryCountMap = queryTermMap(context.getQueryTokens());
+      Map<String, Integer> queryCountMap = queryTermMap(queryTokens);
       try {
-        this.lastComputedScore = sumSC(context.getIndexSearcher().getIndexReader(),
-                queryCountMap, context.getQueryTokens().size(),
-                IndexArgs.CONTENTS);
+        this.lastComputedScore = sumSC(reader, queryCountMap, queryTokens.size(), IndexArgs.CONTENTS);
       } catch (IOException e) {
         this.lastComputedScore = 0.0f;
       }

@@ -25,6 +25,7 @@ import io.anserini.rerank.RerankerContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.document.Document;
+import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.Terms;
 
 import java.io.IOException;
@@ -38,7 +39,7 @@ import java.util.Set;
 /**
  * Counts occurrences of all pairs of query tokens
  */
-public class OrderedQueryPairsFeatureExtractor<T> implements FeatureExtractor<T> {
+public class OrderedQueryPairsFeatureExtractor implements FeatureExtractor {
   private static final Logger LOG = LogManager.getLogger(OrderedQueryPairsFeatureExtractor.class);
 
   protected static ArrayList<Integer> gapSizes = new ArrayList<>();
@@ -46,28 +47,7 @@ public class OrderedQueryPairsFeatureExtractor<T> implements FeatureExtractor<T>
 
   protected static Map<String, Integer> singleCountMap = new HashMap<>();
   protected static Map<String, Set<String>> queryPairMap = new HashMap<>();
-  protected static String lastProcessedId = "";
   protected static Document lastProcessedDoc = null;
-
-  public static class Deserializer extends StdDeserializer<OrderedQueryPairsFeatureExtractor>
-  {
-    public Deserializer() {
-      this(null);
-    }
-
-    public Deserializer(Class<?> vc) {
-      super(vc);
-    }
-
-    @Override
-    public OrderedQueryPairsFeatureExtractor
-    deserialize(JsonParser jsonParser, DeserializationContext context) throws IOException
-    {
-      JsonNode node = jsonParser.getCodec().readTree(jsonParser);
-      int gapSize = node.get("gapSize").asInt();
-      return new OrderedQueryPairsFeatureExtractor(gapSize);
-    }
-  }
 
   public OrderedQueryPairsFeatureExtractor(int gapSize) {
     this.gapSize = gapSize;
@@ -76,13 +56,12 @@ public class OrderedQueryPairsFeatureExtractor<T> implements FeatureExtractor<T>
     gapSizes.add(gapSize);
   }
 
-  private static void resetCounters(String newestQuery, Document newestDoc) {
+  private static void resetCounters(Document newestDoc) {
     singleCountMap.clear();
     queryPairMap.clear();
     for (int i : counters.keySet()) {
       counters.get(i).phraseCountMap.clear();
     }
-    lastProcessedId = newestQuery;
     lastProcessedDoc = newestDoc;
   }
 
@@ -100,13 +79,12 @@ public class OrderedQueryPairsFeatureExtractor<T> implements FeatureExtractor<T>
     }
   }
 
-  protected float computeOrderedFrequencyScore(Document doc, Terms terms, RerankerContext<T> context) throws IOException {
+  protected float computeOrderedFrequencyScore(Document doc, Terms terms, List<String> queryTokens) throws IOException {
 
     // Only compute the score once for all window sizes on the same document
-    if (!context.getQueryId().equals(lastProcessedId) || lastProcessedDoc != doc) {
-      resetCounters((String)context.getQueryId(), doc);
+    if (lastProcessedDoc != doc) {
+      resetCounters(doc);
 
-      List<String> queryTokens = context.getQueryTokens();
       populateQueryPairMap(queryTokens);
 
       // Now make the call to the static method
@@ -125,9 +103,9 @@ public class OrderedQueryPairsFeatureExtractor<T> implements FeatureExtractor<T>
   }
 
   @Override
-  public float extract(Document doc, Terms terms, RerankerContext<T> context) {
+  public float extract(Document doc, Terms terms, String queryText, List<String> queryTokens, IndexReader reader) {
     try {
-      return computeOrderedFrequencyScore(doc, terms, context);
+      return computeOrderedFrequencyScore(doc, terms, queryTokens);
     } catch (IOException e) {
       LOG.error("IOException, returning 0.0f");
       return 0.0f;

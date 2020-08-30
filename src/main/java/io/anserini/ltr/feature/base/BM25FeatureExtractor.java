@@ -41,7 +41,7 @@ import java.util.Set;
  * Lucene uses the norm value encoded in the index, we are calculating it as is
  * also we do not have any boosting, the field norm is also not available
  */
-public class BM25FeatureExtractor<T> implements FeatureExtractor<T> {
+public class BM25FeatureExtractor implements FeatureExtractor {
   private static final Logger LOG = LogManager.getLogger(BM25FeatureExtractor.class);
 
   public static Map<String, Integer> getDocFreqs(IndexReader reader, List<String> queryTokens, String field) throws IOException {
@@ -98,14 +98,10 @@ public class BM25FeatureExtractor<T> implements FeatureExtractor<T> {
    * the formula used:
    * sum ( IDF(qi) * (df(qi,D) * (k+1)) / (df(qi,D) + k * (1-b + b*|D| / avgFL))
    * IDF and avgFL computation are described above.
-   * @param doc document
-   * @param terms terms
-   * @param context reranker context
-   * @return BM25 score
    */
   @Override
-  public float extract(Document doc, Terms terms, RerankerContext<T> context) {
-    Set<String> queryTokens = new HashSet<>(context.getQueryTokens());
+  public float extract(Document doc, Terms terms, String queryText, List<String> queryTokens, IndexReader reader) {
+    Set<String> queryTokenSet = new HashSet<>(queryTokens);
 
     TermsEnum termsEnum = null;
     try {
@@ -115,7 +111,6 @@ public class BM25FeatureExtractor<T> implements FeatureExtractor<T> {
       return 0.0f;
     }
 
-    IndexReader reader = context.getIndexSearcher().getIndexReader();
     long maxDocs = reader.numDocs();
     long sumTotalTermFreq = getSumTermFrequency(reader, IndexArgs.CONTENTS);
     // Compute by iterating
@@ -125,7 +120,7 @@ public class BM25FeatureExtractor<T> implements FeatureExtractor<T> {
     // the term vector here is only a partial term vector that treats this as if we only have 1 document in the index
     Map<String, Integer> docFreqMap = null;
     try {
-      docFreqMap = getDocFreqs(reader, context.getQueryTokens(), IndexArgs.CONTENTS);
+      docFreqMap = getDocFreqs(reader, queryTokens, IndexArgs.CONTENTS);
     } catch (IOException e) {
       LOG.warn("Unable to retrieve document frequencies.");
       docFreqMap = new HashMap<>();
@@ -136,7 +131,7 @@ public class BM25FeatureExtractor<T> implements FeatureExtractor<T> {
       while (termsEnum.next() != null) {
         String termString = termsEnum.term().utf8ToString();
         docSize += termsEnum.totalTermFreq();
-        if (queryTokens.contains(termString)) {
+        if (queryTokenSet.contains(termString)) {
           termFreqMap.put(termString, termsEnum.totalTermFreq());
         }
       }
@@ -147,7 +142,7 @@ public class BM25FeatureExtractor<T> implements FeatureExtractor<T> {
     float score = 0.0f;
     // Iterate over the query tokens
     double avgFL = computeAvgFL(sumTotalTermFreq, maxDocs);
-    for (String token : queryTokens) {
+    for (String token : queryTokenSet) {
       long docFreq = docFreqMap.getOrDefault(token, 0);
       double termFreq = termFreqMap.containsKey(token) ? termFreqMap.get(token) : 0;
       double numerator = (this.k1 + 1) * termFreq;

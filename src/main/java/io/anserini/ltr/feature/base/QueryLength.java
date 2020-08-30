@@ -20,6 +20,7 @@ import io.anserini.index.IndexArgs;
 import io.anserini.ltr.feature.FeatureExtractor;
 import io.anserini.rerank.RerankerContext;
 import org.apache.lucene.document.Document;
+import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.Terms;
 
 import java.util.List;
@@ -28,11 +29,10 @@ import java.util.List;
  * QueryCount
  * Compute the query length (number of terms in the query).
  */
-public class QueryLength<T> implements FeatureExtractor<T> {
+public class QueryLength implements FeatureExtractor {
 
   @Override
-  public float extract(Document doc, Terms terms, RerankerContext<T> context) {
-    List<String> queryTokens = context.getQueryTokens();
+  public float extract(Document doc, Terms terms, String queryText, List<String> queryTokens, IndexReader reader) {
     return queryTokens.size();
   }
 

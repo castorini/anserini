@@ -21,11 +21,14 @@ import io.anserini.index.generator.TweetGenerator.TweetField;
 import io.anserini.ltr.feature.FeatureExtractor;
 import io.anserini.rerank.RerankerContext;
 import org.apache.lucene.document.Document;
+import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.Terms;
+
+import java.util.List;
 
 public class IsTweetReply implements FeatureExtractor {
   @Override
-  public float extract(Document doc, Terms terms, RerankerContext context) {
+  public float extract(Document doc, Terms terms, String queryText, List<String> queryTokens, IndexReader reader) {
     return doc.getField(TweetField.IN_REPLY_TO_STATUS_ID.name) == null ? 0.0f : 1.0f;
   }
 

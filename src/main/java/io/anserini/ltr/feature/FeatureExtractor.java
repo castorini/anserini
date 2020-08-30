@@ -18,17 +18,19 @@ package io.anserini.ltr.feature;
 
 import io.anserini.rerank.RerankerContext;
 import org.apache.lucene.document.Document;
+import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.Terms;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
  * A feature extractor.
  */
-public interface FeatureExtractor<T> {
+public interface FeatureExtractor {
 
-  float extract(Document doc, Terms terms, RerankerContext<T> context);
+  float extract(Document doc, Terms terms, String queryText, List<String> queryTokens, IndexReader reader);
 
   String getName();
 

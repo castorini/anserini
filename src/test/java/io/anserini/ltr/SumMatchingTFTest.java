@@ -17,7 +17,7 @@
 package io.anserini.ltr;
 
 import io.anserini.ltr.feature.FeatureExtractor;
-import io.anserini.ltr.feature.base.TermFrequencyFeatureExtractor;
+import io.anserini.ltr.feature.base.SumMatchingTF;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -29,9 +29,9 @@ import java.util.concurrent.ExecutionException;
 /**
  * Test the term frequency feature extractor is correct
  */
-public class TermFrequencyFeatureExtractorTest extends BaseFeatureExtractorTest<Integer> {
+public class SumMatchingTFTest extends BaseFeatureExtractorTest<Integer> {
 
-  private FeatureExtractor EXTRACTOR = new TermFrequencyFeatureExtractor();
+  private FeatureExtractor EXTRACTOR = new SumMatchingTF();
 
   @Test
   public void testAllMissing() throws IOException, ExecutionException, InterruptedException {

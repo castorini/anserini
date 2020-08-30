@@ -41,7 +41,7 @@ import java.util.Set;
  * where pr are the MLE
  * described on page 22 of Carmel, Yom-Tov 2010
  */
-public class PMIFeatureExtractor<T> implements FeatureExtractor<T> {
+public class PMIFeatureExtractor implements FeatureExtractor {
 
   private String lastQueryProcessed = "";
   private float lastComputedValue = 0f;
@@ -74,17 +74,15 @@ public class PMIFeatureExtractor<T> implements FeatureExtractor<T> {
   }
 
   @Override
-  public float extract(Document doc, Terms terms, RerankerContext<T> context) {
+  public float extract(Document doc, Terms terms, String queryText, List<String> queryTokens, IndexReader reader) {
     // We need docfreqs of each token
     // and also doc freqs of each pair
-    if (!this.lastQueryProcessed.equals(context.getQueryText())) {
-      this.lastQueryProcessed = context.getQueryText();
+    if (!this.lastQueryProcessed.equals(queryText)) {
+      this.lastQueryProcessed = queryText;
       this.lastComputedValue = 0.0f;
 
-      Set<String> querySet = new HashSet<>(context.getQueryTokens());
-      IndexReader reader = context.getIndexSearcher().getIndexReader();
+      Set<String> querySet = new HashSet<>(queryTokens);
       Map<String, Integer> docFreqs = new HashMap<>();
-      List<String> queryTokens = new ArrayList<>(querySet);
 
       try {
 
