@@ -22,6 +22,11 @@ import io.anserini.search.SearchSolr;
 
 public class TrecEndToEndTest extends SolrEndToEndTest {
   @Override
+  protected String getCollectionName() {
+    return "Trec";
+  }
+
+  @Override
   protected String getSchemaAdjustmentFile() {
     return null; // no need to adjust schema
   }
