@@ -23,6 +23,11 @@ import io.anserini.search.SearchSolr;
 
 public class CoreEndToEndTest extends SolrEndToEndTest {
   @Override
+  protected String getCollectionName() {
+    return "Core";
+  }
+
+  @Override
   protected String getSchemaAdjustmentFile() {
     return "solr/schemas/core.json";
   }

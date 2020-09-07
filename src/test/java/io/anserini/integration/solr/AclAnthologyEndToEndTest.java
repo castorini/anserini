@@ -23,6 +23,11 @@ import io.anserini.search.SearchSolr;
 
 public class AclAnthologyEndToEndTest extends SolrEndToEndTest {
   @Override
+  protected String getCollectionName() {
+    return "AclAnthology";
+  }
+
+  @Override
   protected String getSchemaAdjustmentFile() {
     return "solr/schemas/acl-anthology.json";
   }
