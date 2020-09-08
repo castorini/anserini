@@ -57,7 +57,7 @@ python src/main/python/passage_retrieval/document_scorer.py \
 ```
 ### Evaluation
 ```
-eval/trec_eval.9.0.4/trec_eval -m P.30 -m ndcg_cut.30 src/main/resources/topics-and-qrels/qrels.robust2004.txt \
+tools/eval/trec_eval.9.0.4/trec_eval -m P.30 -m ndcg_cut.30 src/main/resources/topics-and-qrels/qrels.robust2004.txt \
 run.robust04_passages.bm25.topics.robust04.301-450.601-700.maxscore.txt
 ```
 

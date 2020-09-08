@@ -84,23 +84,23 @@ nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.mb11.
 Evaluation can be performed using `trec_eval`:
 
 ```
-eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.microblog2011.txt run.mb11.bm25.topics.microblog2011.txt
-eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.microblog2012.txt run.mb11.bm25.topics.microblog2012.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.microblog2011.txt run.mb11.bm25.topics.microblog2011.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.microblog2012.txt run.mb11.bm25.topics.microblog2012.txt
 
-eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.microblog2011.txt run.mb11.bm25+rm3.topics.microblog2011.txt
-eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.microblog2012.txt run.mb11.bm25+rm3.topics.microblog2012.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.microblog2011.txt run.mb11.bm25+rm3.topics.microblog2011.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.microblog2012.txt run.mb11.bm25+rm3.topics.microblog2012.txt
 
-eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.microblog2011.txt run.mb11.bm25+ax.topics.microblog2011.txt
-eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.microblog2012.txt run.mb11.bm25+ax.topics.microblog2012.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.microblog2011.txt run.mb11.bm25+ax.topics.microblog2011.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.microblog2012.txt run.mb11.bm25+ax.topics.microblog2012.txt
 
-eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.microblog2011.txt run.mb11.ql.topics.microblog2011.txt
-eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.microblog2012.txt run.mb11.ql.topics.microblog2012.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.microblog2011.txt run.mb11.ql.topics.microblog2011.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.microblog2012.txt run.mb11.ql.topics.microblog2012.txt
 
-eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.microblog2011.txt run.mb11.ql+rm3.topics.microblog2011.txt
-eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.microblog2012.txt run.mb11.ql+rm3.topics.microblog2012.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.microblog2011.txt run.mb11.ql+rm3.topics.microblog2011.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.microblog2012.txt run.mb11.ql+rm3.topics.microblog2012.txt
 
-eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.microblog2011.txt run.mb11.ql+ax.topics.microblog2011.txt
-eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.microblog2012.txt run.mb11.ql+ax.topics.microblog2012.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.microblog2011.txt run.mb11.ql+ax.topics.microblog2011.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.microblog2012.txt run.mb11.ql+ax.topics.microblog2012.txt
 ```
 
 ## Effectiveness

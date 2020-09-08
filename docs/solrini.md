@@ -82,7 +82,7 @@ sh target/appassembler/bin/SearchSolr -topicreader Trec \
 Evaluation can be performed using `trec_eval`:
 
 ```
-eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust04.txt run.solr.robust04.bm25.topics.robust04.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust04.txt run.solr.robust04.bm25.topics.robust04.txt
 ```
 
 These instructions can be straightforwardly adapted to work with the [TREC Washington Post Corpus](regressions-core18.md):

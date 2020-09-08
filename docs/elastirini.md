@@ -54,7 +54,7 @@ sh target/appassembler/bin/SearchElastic -topicreader Trec -es.index robust04 \
 To evaluate effectiveness:
 
 ```bash
-$ eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust04.txt runs/run.es.robust04.bm25.topics.robust04.txt
+$ tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust04.txt runs/run.es.robust04.bm25.topics.robust04.txt
 map                   	all	0.2531
 P_30                  	all	0.3102
 ```
@@ -88,7 +88,7 @@ sh target/appassembler/bin/SearchElastic -topicreader TsvString -es.index msmarc
 Evaluation:
 
 ```bash
-$ ./eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 -m map src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.es.msmacro-passage.txt
+$ ./tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 -m map src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.es.msmacro-passage.txt
 map                   	all	0.1956
 recall_1000           	all	0.8573
 ```
@@ -123,7 +123,7 @@ sh target/appassembler/bin/SearchElastic -topicreader Trec -es.index core18 \
 Evaluation:
 
 ```bash
-$ eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.core18.txt runs/run.es.core18.bm25.topics.core18.txt
+$ tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.core18.txt runs/run.es.core18.bm25.topics.core18.txt
 map                   	all	0.2495
 P_30                  	all	0.3567
 ```
@@ -159,7 +159,7 @@ This can take potentially longer than `SearchCollection` with Lucene indexes.
 Evaluation:
 
 ```bash
-$ ./eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 -m map src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.es.msmacro-doc.txt
+$ ./tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 -m map src/main/resources/topics-and-qrels/qrels.msmarco-doc.dev.txt runs/run.es.msmacro-doc.txt
 map                   	all	0.2308
 recall_1000           	all	0.8856
 ```

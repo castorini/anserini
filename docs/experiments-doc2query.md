@@ -150,7 +150,7 @@ sh target/appassembler/bin/SearchCollection -topicreader Car \
 
 Evaluation is performed with `trec_eval`:
 ```
-eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recip_rank \
+tools/eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recip_rank \
  src/main/resources/topics-and-qrels/qrels.car17v2.0.benchmarkY1test.txt \
  runs/run.car17v2.0.bm25.topics.car17v2.0.benchmarkY1test.txt
 ```

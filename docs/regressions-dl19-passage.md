@@ -67,21 +67,21 @@ nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmar
 Evaluation can be performed using `trec_eval`:
 
 ```
-eval/trec_eval.9.0.4/trec_eval -m map -c -m ndcg_cut.10 -c -m recip_rank -c -m recall.100 -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.dl19-passage.txt run.dl19-passage.bm25-default.topics.dl19-passage.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m ndcg_cut.10 -c -m recip_rank -c -m recall.100 -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.dl19-passage.txt run.dl19-passage.bm25-default.topics.dl19-passage.txt
 
-eval/trec_eval.9.0.4/trec_eval -m map -c -m ndcg_cut.10 -c -m recip_rank -c -m recall.100 -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.dl19-passage.txt run.dl19-passage.bm25-default+rm3.topics.dl19-passage.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m ndcg_cut.10 -c -m recip_rank -c -m recall.100 -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.dl19-passage.txt run.dl19-passage.bm25-default+rm3.topics.dl19-passage.txt
 
-eval/trec_eval.9.0.4/trec_eval -m map -c -m ndcg_cut.10 -c -m recip_rank -c -m recall.100 -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.dl19-passage.txt run.dl19-passage.bm25-default+ax.topics.dl19-passage.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m ndcg_cut.10 -c -m recip_rank -c -m recall.100 -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.dl19-passage.txt run.dl19-passage.bm25-default+ax.topics.dl19-passage.txt
 
-eval/trec_eval.9.0.4/trec_eval -m map -c -m ndcg_cut.10 -c -m recip_rank -c -m recall.100 -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.dl19-passage.txt run.dl19-passage.bm25-default+prf.topics.dl19-passage.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m ndcg_cut.10 -c -m recip_rank -c -m recall.100 -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.dl19-passage.txt run.dl19-passage.bm25-default+prf.topics.dl19-passage.txt
 
-eval/trec_eval.9.0.4/trec_eval -m map -c -m ndcg_cut.10 -c -m recip_rank -c -m recall.100 -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.dl19-passage.txt run.dl19-passage.bm25-tuned.topics.dl19-passage.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m ndcg_cut.10 -c -m recip_rank -c -m recall.100 -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.dl19-passage.txt run.dl19-passage.bm25-tuned.topics.dl19-passage.txt
 
-eval/trec_eval.9.0.4/trec_eval -m map -c -m ndcg_cut.10 -c -m recip_rank -c -m recall.100 -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.dl19-passage.txt run.dl19-passage.bm25-tuned+rm3.topics.dl19-passage.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m ndcg_cut.10 -c -m recip_rank -c -m recall.100 -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.dl19-passage.txt run.dl19-passage.bm25-tuned+rm3.topics.dl19-passage.txt
 
-eval/trec_eval.9.0.4/trec_eval -m map -c -m ndcg_cut.10 -c -m recip_rank -c -m recall.100 -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.dl19-passage.txt run.dl19-passage.bm25-tuned+ax.topics.dl19-passage.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m ndcg_cut.10 -c -m recip_rank -c -m recall.100 -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.dl19-passage.txt run.dl19-passage.bm25-tuned+ax.topics.dl19-passage.txt
 
-eval/trec_eval.9.0.4/trec_eval -m map -c -m ndcg_cut.10 -c -m recip_rank -c -m recall.100 -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.dl19-passage.txt run.dl19-passage.bm25-tuned+prf.topics.dl19-passage.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m ndcg_cut.10 -c -m recip_rank -c -m recall.100 -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.dl19-passage.txt run.dl19-passage.bm25-tuned+prf.topics.dl19-passage.txt
 ```
 
 ## Effectiveness

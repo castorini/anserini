@@ -97,7 +97,7 @@ Thus, the output file should have approximately 20,000 * 1,000 = 20M lines.
 Finally, we can evaluate the retrieved documents using the official TREC evaluation script: 
 
 ```
-./eval/trec_eval.9.0.4/trec_eval -mrecip_rank -mmap -mrecall.20,1000 -mP.20  \
+./tools/eval/trec_eval.9.0.4/trec_eval -mrecip_rank -mmap -mrecall.20,1000 -mP.20  \
  ${DATA_DIR}/anserini_format/qrels.test ${DATA_DIR}/anserini_format/run.small.test
 ```
 
