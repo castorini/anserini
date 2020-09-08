@@ -7,7 +7,7 @@ Example 1: sentences
 python src/main/python/passage_retrieval/segment.py \
 --input {path/to/input/collection} \
 --collection TrecCollection \
---generator JsoupGenerator \
+--generator DefaultLuceneDocumentGenerator \
 --output {path/to/create/output/folder} \
 --tokenize split_sentence_minword
 ```
@@ -17,7 +17,7 @@ Example 2: passages of at least 100 words
 python src/main/python/passage_retrieval/segment.py \
 --input {path/to/input/collection} \
 --collection TrecCollection \
---generator JsoupGenerator \
+--generator DefaultLuceneDocumentGenerator \
 --output {path/to/create/output/folder} \
 --tokenize split_fixed_minword \
 --min 100
@@ -28,7 +28,7 @@ Example 3: passages of at least 500 words ending on full sentences
 python src/main/python/passage_retrieval/segment.py \
 --input {path/to/input/collection} \
 --collection TrecCollection \
---generator JsoupGenerator \
+--generator DefaultLuceneDocumentGenerator \
 --output {path/to/create/output/folder} \
 --tokenize split_sentence_minword \
 --min 500
@@ -36,7 +36,7 @@ python src/main/python/passage_retrieval/segment.py \
 
 ### Indexing passage collection
 ```
-nohup sh target/appassembler/bin/IndexCollection -collection JsonCollection -generator JsoupGenerator 
+nohup sh target/appassembler/bin/IndexCollection -collection JsonCollection -generator DefaultLuceneDocumentGenerator 
 -threads 16 -input {path/to/json/generated} -index lucene-index.robust04_passages 
 -storePositions -storeDocvectors -storeRawDocs >& log.robust04_passages
 ```	

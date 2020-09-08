@@ -13,7 +13,7 @@ collections:
         - -storeDocvectors
         - -storeRaw
       collection: TrecCollection
-      generator: JsoupGenerator
+      generator: DefaultLuceneDocumentGenerator
       topic_reader: Trec
       topic: topics.robust04.txt
       qrel: qrels.robust04.txt
@@ -46,7 +46,7 @@ collections:
         - -storeDocvectors
         - -storeRaw
       collection: ClueWeb09Collection
-      generator: JsoupGenerator
+      generator: DefaultLuceneDocumentGenerator
       topic_reader: Webxml
       topic: topics.web.51-200.txt
       qrel: qrels.web.51-200.txt
