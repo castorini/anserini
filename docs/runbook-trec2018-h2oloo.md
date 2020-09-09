@@ -17,7 +17,7 @@ Topics and qrels are stored in `src/main/resources/topics-and-qrels/`.
 
 ```
 target/appassembler/bin/IndexCollection -collection TrecCollection \
- -generator DefaultLuceneDocumentGenerator -threads 16 -input /path/to/robust04 \
+ -generator JsoupGenerator -threads 16 -input /path/to/robust04 \
  -index lucene-index.robust04.pos+docvectors+rawdocs \
  -storePositions -storeDocvectors -storeRawDocs >& log.robust04.pos+docvectors+rawdocs
 ```
@@ -26,7 +26,7 @@ target/appassembler/bin/IndexCollection -collection TrecCollection \
 
 ```
 target/appassembler/bin/IndexCollection -collection TrecCollection \
- -generator DefaultLuceneDocumentGenerator -threads 16 -input /path/to/robust05 \
+ -generator JsoupGenerator -threads 16 -input /path/to/robust05 \
  -index lucene-index.robust05.pos+docvectors+rawdocs \
  -storePositions -storeDocvectors -storeRawDocs >& log.robust05.pos+docvectors+rawdocs
 ```
@@ -35,7 +35,7 @@ target/appassembler/bin/IndexCollection -collection TrecCollection \
 
 ```
 target/appassembler/bin/IndexCollection -collection NewYorkTimesCollection \
- -generator DefaultLuceneDocumentGenerator -threads 16 -input /path/to/core17 \
+ -generator JsoupGenerator -threads 16 -input /path/to/core17 \
  -index lucene-index.core17.pos+docvectors+rawdocs \
  -storePositions -storeDocvectors -storeRawDocs >& log.core17.pos+docvectors+rawdocs
 ```

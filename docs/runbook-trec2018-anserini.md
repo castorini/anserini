@@ -114,7 +114,7 @@ First, build the various indexes, as follows.
 
 ```
 nohup sh Anserini/target/appassembler/bin/IndexCollection -collection ClueWeb12Collection \
- -generator DefaultLuceneDocumentGenerator -threads 44 -input /path/to/cw12 -index lucene-index.cw12.pos+docvectors+rawdocs \
+ -generator JsoupGenerator -threads 44 -input /path/to/cw12 -index lucene-index.cw12.pos+docvectors+rawdocs \
  -storePositions -storeDocvectors -storeRawDocs >& log.cw12.pos+docvectors+rawdocs &
 ```
 
@@ -132,7 +132,7 @@ This will generate a file about 19GB in raw size.
 ```
 nohup Anserini/target/appassembler/bin/IndexCollection -collection HtmlCollection \
  -input cw12lite2013_docids_rawdocs.dump -index lucene-index.cw12lite2013.pos+docvectors+rawdocs \
- -generator DefaultLuceneDocumentGenerator -threads 44 -storePositions -storeDocvectors -storeRawDocs -optimize \
+ -generator JsoupGenerator -threads 44 -storePositions -storeDocvectors -storeRawDocs -optimize \
  >& log.cw12lite2013.pos+docvectors+rawdocs &
 ```
 
@@ -142,7 +142,7 @@ This will generate an index about 8.3GB in size.
 
 ```
 nohup sh Anserini/target/appassembler/bin/IndexCollection -collection ClueWeb12Collection \
- -generator DefaultLuceneDocumentGenerator -threads 44 -input /path/to/cw12 -index \
+ -generator JsoupGenerator -threads 44 -input /path/to/cw12 -index \
  lucene-index.cw12lite2013.pos+docvectors+rawdocs -storePositions -storeDocvectors -storeRawDocs \
  -whitelist Anserini-data/TREC2018/CENTRE/task2/cw12lite2013_docids >& log.cw12lite2013.pos+docvectors+rawdocs &
 ```
@@ -161,7 +161,7 @@ This will gnereate a file about 28GB in raw size.
 ```
 nohup Anserini/target/appassembler/bin/IndexCollection -collection HtmlCollection \
  -input cw12lite2018_docids_rawdocs.dump -index lucene-index.cw12lite2018.pos+docvectors+rawdocs \
- -generator DefaultLuceneDocumentGenerator -threads 44 -storePositions -storeDocvectors -storeRawDocs \
+ -generator JsoupGenerator -threads 44 -storePositions -storeDocvectors -storeRawDocs \
  -optimize >& log.cw12lite2018.pos+docvectors+rawdocs &
 ```
 
@@ -171,7 +171,7 @@ This will generate an index about 12GB in size.
 
 ```
 nohup sh Anserini/target/appassembler/bin/IndexCollection -collection ClueWeb12Collection \
- -generator DefaultLuceneDocumentGenerator -threads 44 -input /path/to/cw12 -index \
+ -generator JsoupGenerator -threads 44 -input /path/to/cw12 -index \
  lucene-index.cw12lite2018.pos+docvectors+rawdocs -storePositions -storeDocvectors -storeRawDocs \
  -whitelist Anserini-data/TREC2018/CENTRE/task2/cw12lite2013_docids >& log.cw12lite2018.pos+docvectors+rawdocs &
 ```
@@ -182,7 +182,7 @@ nohup sh Anserini/target/appassembler/bin/IndexCollection -collection ClueWeb12C
 nohup sh Anserini/target/appassembler/bin/IndexCollection -input \
  Anserini-data/TREC2018/CENTRE/task2/searchengine_snippets/snippets2013_anserini/ \
  -collection JsonCollection -index lucene-index.snippets2013.pos+docvectors+rawdocs \
- -generator DefaultLuceneDocumentGenerator -threads 8 -uniqueDocid -storePositions -storeDocvectors \
+ -generator JsoupGenerator -threads 8 -uniqueDocid -storePositions -storeDocvectors \
  -storeRawDocs -optimize >& log.snippets2013.pos+docvectors+rawdocs &
 ```
 
@@ -192,7 +192,7 @@ nohup sh Anserini/target/appassembler/bin/IndexCollection -input \
 nohup sh Anserini/target/appassembler/bin/IndexCollection -input \
     Anserini-data/TREC2018/CENTRE/task2/searchengine_snippets/snippets2018_anserini/ \
     -collection JsonCollection -index lucene-index.snippets2018.pos+docvectors+rawdocs \
-    -generator DefaultLuceneDocumentGenerator -threads 8 -uniqueDocid -storePositions -storeDocvectors \
+    -generator JsoupGenerator -threads 8 -uniqueDocid -storePositions -storeDocvectors \
     -storeRawDocs -optimize >& log.snippets2018.pos+docvectors+rawdocs &
 ```
 
@@ -206,7 +206,7 @@ For verification, md5 `bca0ceb72e000105cc97fb54fef70cc3`
 
 ```
 nohup sh Anserini/target/appassembler/bin/IndexCollection -collection WikipediaCollection \
--generator DefaultLuceneDocumentGenerator -threads 16 -input enwiki-20180620-pages-articles.xml.bz2 -index \
+-generator JsoupGenerator -threads 16 -input enwiki-20180620-pages-articles.xml.bz2 -index \
 lucene-index.wiki.pos+docvectors -storePositions -storeDocvectors >& log.wiki.pos+docvectors &
 ```
 

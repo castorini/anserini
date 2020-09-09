@@ -10,7 +10,7 @@ This is the document for the intergration between Anserini and MatchZoo. Current
 
 ```
 target/appassembler/bin/IndexCollection -collection TrecCollection \
- -generator DefaultLuceneDocumentGenerator -threads 16 -input /path/to/robust04 \
+ -generator JsoupGenerator -threads 16 -input /path/to/robust04 \
  -index lucene-index.robust04.pos+docvectors+rawdocs \
  -storePositions -storeDocvectors -storeRawDocs >& log.robust04.pos+docvectors+rawdocs
 ```

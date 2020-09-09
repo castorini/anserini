@@ -45,7 +45,7 @@ Suppose you're under Anserini directory. First indexing
 
 ```bash
 nohup sh target/appassembler/bin/IndexCollection -collection TrecCollection \
- -input /path/to/disk45/ -generator DefaultLuceneDocumentGenerator \
+ -input /path/to/disk45/ -generator JsoupGenerator \
  -index lucene-index.robust04.pos+docvectors+rawdocs -threads 16 \
  -storePositions -storeDocvectors -storeRawDocs -optimize \
  >& log.robust04.pos+docvectors+rawdocs &
