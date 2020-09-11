@@ -115,7 +115,7 @@ Which might look something like `<collection_name>_shard<id>_replica_<id>` (e.g.
 
 Second, make proper Solr schema adjustments if required.
 Here `robust04` is a Trec collection whose schema is already taken care of by [managed-schema](https://github.com/castorini/anserini/blob/master/src/main/resources/solr/anserini/conf/managed-schema) in the Solr configset.
-However, if you are dealing with a collection such as `cord19`, remember to make proper adjustments to the Solr schema, as [previously described](##setting-up-a-single-node-solrcloud-instance).
+However, if you are dealing with a collection such as `cord19`, remember to make proper adjustments to the Solr schema, as [previously described](#setting-up-a-single-node-solrcloud-instance).
 
 ```
 curl -X POST -H 'Content-type:application/json' --data-binary @src/main/resources/solr/schemas/SCHEMA_NAME.json http://localhost:8983/solr/COLLECTION_NAME/schema
