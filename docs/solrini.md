@@ -102,45 +102,38 @@ There should be no major issues with other collections that are supported by Ans
 ## Solr with Prebuilt Lucene Index
 
 Solr can be considered a front-end for Lucene, and it is entirely possible for Solr to read prebuilt Lucene indexes. 
-To achieve this, some housekeeping are required. The following uses [robust04](regressions-robust04.md) as an example.
+To achieve this, some housekeeping are required.
+The following uses [Robust04](regressions-robust04.md) as an example. 
+Assuming your index files are stored under `indexes/robust04/lucene-index.robust04.pos+docvectors+rawdocs/`.
 
-First, a Solr collection must be created to house the index. Here we create a collection `robust04` with configset `anserini`.
+First, a Solr collection must be created to house the index.
+Here we create a collection `robust04` with configset `anserini`.
 
 ```
 solrini/bin/solr create -n anserini -c robust04
 ```
 
 Along with the collection, Solr will create a core instance, whose name can be found in the Solr UI under collection overview.
-Which might look something like `<collection_name>_shard<id>_replica_<id>` (e.g., `robust04_shard1_replica_n1`). Solr stores configurations and data for the core instances under Solr home, which for us is `solrini/server/solr/` by default.
+It might look something like `<collection_name>_shard<id>_replica_<id>` (e.g., `robust04_shard1_replica_n1`).
+Solr stores configurations and data for the core instances under Solr home, which for us is `solrini/server/solr/` by default.
 
 Second, make proper Solr schema adjustments if required.
-Here `robust04` is a Trec collection whose schema is already taken care of by [managed-schema](https://github.com/castorini/anserini/blob/master/src/main/resources/solr/anserini/conf/managed-schema) in the Solr configset.
+Here `robust04` is a TREC collection whose schema is already taken care of by [managed-schema](https://github.com/castorini/anserini/blob/master/src/main/resources/solr/anserini/conf/managed-schema) in the Solr configset.
 However, if you are dealing with a collection such as `cord19`, remember to make proper adjustments to the Solr schema, as [previously described](#setting-up-a-single-node-solrcloud-instance).
 
 ```
 curl -X POST -H 'Content-type:application/json' --data-binary @src/main/resources/solr/schemas/SCHEMA_NAME.json http://localhost:8983/solr/COLLECTION_NAME/schema
 ```
 
-Then, either *copy the index files to where Solr expected*, or *tell Solr where to look for*.
-
+Then, copy/move the index files to where Solr expected.
 As previously established, Solr stores its index data in a directory called `/data` under the core’s instance directory (`solrini/server/solr/<core-instance-directory>/data`).
 You can simply copy your Lucene index files to `/data/index` and Solr will be able to pick them up from there.
 
-Alternatively, you can tell Solr where your index is stored, by adding `dataDir` to `core.properties` under the core instance directory.
-For instance, if your index files are stored under `indexes/robust04/lucene-index.robust04.pos+docvectors+rawdocs/`:
-
-```properties
-# can be relative to the instance directory or absolute
-dataDir=../../../../indexes/robust04/lucene-index.robust04.pos+docvectors+rawdocs/
+```
+cp indexes/robust04/lucene-index.robust04.pos+docvectors+rawdocs/* solrini/server/solr/robust04_shard1_replica_n1/data/index
 ```
 
-Note that because of the way Solr maintains `dataDir`, you also need to create a nested `index` directory and move index files there.
-
-```
-pushd indexes/robust04/lucene-index.robust04.pos+docvectors+rawdocs/ && mkdir index && (mv * index || true) && popd
-```
-
-Lastly, restart Solr to ensure the configurations are applied.
+Lastly, restart Solr to make sure changes are effective.
 
 ```
 solrini/bin/solr stop
