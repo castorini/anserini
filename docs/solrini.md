@@ -48,7 +48,7 @@ curl -X POST -H 'Content-type:application/json' --data-binary @src/main/resource
 We can use Anserini as a common "frontend" for indexing into SolrCloud, thus supporting the same range of test collections that's already included in Anserini (when directly building local Lucene indexes).
 Indexing into Solr is similar indexing to disk with Lucene, with a few added parameters.
 Most notably, we replace the `-index` parameter (which specifies the Lucene index path on disk) with Solr parameters.
-Alternatively, Solr can also be configured to [read prebuilt Lucene index](#markdown-header-solr-with-prebuilt-lucene-index), since Solr uses Lucene index under the hood.
+Alternatively, Solr can also be configured to [read prebuilt Lucene index](#solr-with-prebuilt-lucene-index), since Solr uses Lucene indexes under the hood.
 
 We'll index [robust04](regressions-robust04.md) as an example.
 First, create the `robust04` collection in Solr:
@@ -114,8 +114,8 @@ Along with the collection, Solr will create a core instance, whose name can be f
 Which might look something like `<collection_name>_shard<id>_replica_<id>` (e.g., `robust04_shard1_replica_n1`). Solr stores configurations and data for the core instances under Solr home, which for us is `solrini/server/solr/` by default.
 
 Second, make proper Solr schema adjustments if required.
-Here `robust04` is a Trec collection whose schema is already taken care of by the managed-schema in the Solr configset.
-However, if you are dealing with a collection such as `cord19`, remember to make proper adjustments to the Solr schema, as [previously described](#markdown-header-setting-up-a-single-node-solrcloud-instance).
+Here `robust04` is a Trec collection whose schema is already taken care of by [managed-schema](https://github.com/castorini/anserini/blob/master/src/main/resources/solr/anserini/conf/managed-schema) in the Solr configset.
+However, if you are dealing with a collection such as `cord19`, remember to make proper adjustments to the Solr schema, as [previously described](##setting-up-a-single-node-solrcloud-instance).
 
 ```
 curl -X POST -H 'Content-type:application/json' --data-binary @src/main/resources/solr/schemas/SCHEMA_NAME.json http://localhost:8983/solr/COLLECTION_NAME/schema
