@@ -16,9 +16,11 @@
 
 package io.anserini.ltr;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.anserini.index.IndexArgs;
 import io.anserini.ltr.feature.FeatureExtractor;
-import io.anserini.rerank.RerankerContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.document.Document;
@@ -45,7 +47,7 @@ public class FeatureExtractorUtils {
     private List<FeatureExtractor> extractors = new ArrayList<>();
     private Set<String> fieldsToLoad = new HashSet<>();
     private ExecutorService pool;
-    private Map<String, Future<Map<String, List<Float>>>> tasks = new HashMap<>();
+    private Map<String, Future<String>> tasks = new HashMap<>();
 
     public FeatureExtractorUtils add(FeatureExtractor extractor) {
         extractors.add(extractor);
@@ -54,15 +56,24 @@ public class FeatureExtractorUtils {
         return this;
     }
 
-    public Map<String, List<Float>> extract(List<String> queryTokens, List<String> docIds) throws ExecutionException, InterruptedException {
-        String qid = "-1";
-        this.lazyExtract(qid,queryTokens, docIds);
-        return this.getResult(qid);
+    public ArrayList<output> extract(List<String> queryTokens, List<String> docIds) throws ExecutionException, InterruptedException, JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        input root = new input();
+        root.qid = "-1";
+        root.queryTokens = queryTokens;
+        root.docIds = docIds;
+        this.lazyExtract(mapper.writeValueAsString(root));
+        String res = this.getResult(root.qid);
+        TypeReference<ArrayList<output>> typeref = new TypeReference<ArrayList<output>>() {};
+        return mapper.readValue(res, typeref);
     }
 
-    public void lazyExtract(String qid, List<String> queryTokens, List<String> docIds) {
+    public void addTask(String qid, List<String> queryTokens, List<String> docIds) {
+        if(tasks.containsKey(qid))
+            throw new IllegalArgumentException("existed qid");
         tasks.put(qid, pool.submit(() -> {
-            Map<String, List<Float>> result = new HashMap<>();
+            ObjectMapper mapper = new ObjectMapper();
+            List<output> result = new ArrayList<>();
             for(String docId: docIds) {
                 Query q = new TermQuery(new Term(IndexArgs.ID, docId));
                 TopDocs topDocs = searcher.search(q, 1);
@@ -79,13 +90,19 @@ public class FeatureExtractorUtils {
                 for (int i = 0; i < extractors.size(); i++) {
                     features.add(extractors.get(i).extract(doc, terms, String.join(",", queryTokens), queryTokens, reader));
                 }
-                result.put(docId,features);
+                result.add(new output(docId,features));
             }
-            return result;
+            return mapper.writeValueAsString(result);
         }));
     }
 
-    public Map<String, List<Float>> getResult(String qid) throws ExecutionException, InterruptedException {
+    public void lazyExtract(String jsonString) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        input root = mapper.readValue(jsonString, input.class);
+        this.addTask(root.qid, root.queryTokens, root.docIds);
+    }
+
+    public String getResult(String qid) throws ExecutionException, InterruptedException {
         return tasks.remove(qid).get();
     }
 
@@ -124,4 +141,64 @@ public class FeatureExtractorUtils {
         reader.close();
     }
 
+}
+
+class input{
+    String qid;
+    List<String> queryTokens;
+    List<String> docIds;
+
+    input(){}
+
+    public String getQid() {
+        return qid;
+    }
+
+    public List<String> getDocIds() {
+        return docIds;
+    }
+
+    public List<String> getQueryTokens() {
+        return queryTokens;
+    }
+
+    public void setQid(String qid) {
+        this.qid = qid;
+    }
+
+    public void setDocIds(List<String> docIds) {
+        this.docIds = docIds;
+    }
+
+    public void setQueryTokens(List<String> queryTokens) {
+        this.queryTokens = queryTokens;
+    }
+}
+
+class output{
+    String pid;
+    List<Float> features;
+
+    output(){}
+
+    output(String pid, List<Float> features){
+        this.pid = pid;
+        this.features = features;
+    }
+
+    public String getPid() {
+        return pid;
+    }
+
+    public List<Float> getFeatures() {
+        return features;
+    }
+
+    public void setPid(String pid) {
+        this.pid = pid;
+    }
+
+    public void setFeatures(List<Float> features) {
+        this.features = features;
+    }
 }
