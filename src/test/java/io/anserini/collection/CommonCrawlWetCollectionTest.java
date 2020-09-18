@@ -31,7 +31,7 @@ public class CommonCrawlWetCollectionTest extends DocumentCollectionTest<CommonC
     collectionPath = Paths.get("src/test/resources/sample_docs/commoncrawl/wet/collection1");
     collection = new CommonCrawlWetCollection(collectionPath);
 
-    Path segment1 = Paths.get("src/test/resources/sample_docs/commoncrawl/wet/collection1/segmant1.warc.wet.gz");
+    Path segment1 = Paths.get("src/test/resources/sample_docs/commoncrawl/wet/collection1/segment1.warc.wet.gz");
 
     segmentPaths.add(segment1);
     segmentDocCounts.put(segment1, 2);
@@ -41,7 +41,9 @@ public class CommonCrawlWetCollectionTest extends DocumentCollectionTest<CommonC
 
     // Note special key "null" to handle special case.
     expected.put("null",
-            Map.of("id", "null", "raw",
+            Map.of("id", "null", 
+                    "date", "2020-02-18T17:21:42Z",
+                    "raw",
                     "Software-Info: ia-web-commons.1.1.10-SNAPSHOT-20200126100433\n" +
                             "Extracted-Date: Tue, 18 Feb 2020 17:21:42 GMT\n" +
                             "robots: checked by crawler-commons 1.0 (https://github.com/crawler-commons/crawler-commons)\n" +
@@ -50,6 +52,8 @@ public class CommonCrawlWetCollectionTest extends DocumentCollectionTest<CommonC
 
     expected.put("<urn:uuid:81401709-eb1f-46bc-af26-c3535b35a644>",
             Map.of("id", "<urn:uuid:81401709-eb1f-46bc-af26-c3535b35a644>",
+                    "date", "2019-12-26T23:38:34Z",
+                    "url", "https://www.commoncrawl.test.com",
                     "raw", "hello"));
 
   }
@@ -59,12 +63,13 @@ public class CommonCrawlWetCollectionTest extends DocumentCollectionTest<CommonC
 
     if (doc.id()==null) {
       assertFalse(doc.indexable());
-      assertEquals(expected.get("raw"), doc.raw());
     } else {
       assertTrue(doc.indexable());
       assertEquals(expected.get("id"), doc.id());
       assertEquals(JsoupStringTransform.SINGLETON.apply(expected.get("raw")), doc.contents());
-      assertEquals(expected.get("raw"), doc.raw());
     }
+    assertEquals(expected.get("raw"), doc.raw());
+    assertEquals(expected.get("date"), ((CommonCrawlWetCollection.Document) doc).getDate());
+    assertEquals(expected.get("url"), ((CommonCrawlWetCollection.Document) doc).getURL());
   }
 }
