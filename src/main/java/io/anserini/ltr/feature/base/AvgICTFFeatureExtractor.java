@@ -80,4 +80,9 @@ public class AvgICTFFeatureExtractor implements FeatureExtractor {
   public String getField() {
     return null;
   }
+
+  @Override
+  public FeatureExtractor clone() {
+    return new AvgICTFFeatureExtractor();
+  }
 }

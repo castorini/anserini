@@ -54,4 +54,9 @@ public class LinkCount implements FeatureExtractor {
   public String getField() {
     return IndexArgs.CONTENTS;
   }
+
+  @Override
+  public FeatureExtractor clone() {
+    return new LinkCount();
+  }
 }

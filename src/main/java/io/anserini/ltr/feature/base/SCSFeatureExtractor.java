@@ -86,11 +86,16 @@ public class SCSFeatureExtractor implements FeatureExtractor {
 
   @Override
   public String getName() {
-    return "SimplifiedClarityScore";
+    return "SCS";
   }
 
   @Override
   public String getField() {
     return null;
+  }
+
+  @Override
+  public FeatureExtractor clone() {
+    return new SCSFeatureExtractor();
   }
 }

@@ -55,4 +55,9 @@ public class HashtagCount implements FeatureExtractor {
   public String getField() {
     return IndexArgs.CONTENTS;
   }
+
+  @Override
+  public FeatureExtractor clone() {
+    return new HashtagCount();
+  }
 }

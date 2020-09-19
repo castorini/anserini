@@ -41,4 +41,9 @@ public class TwitterFollowerCount implements FeatureExtractor {
   public String getField() {
     return TweetField.FOLLOWERS_COUNT.name;
   }
+
+  @Override
+  public FeatureExtractor clone() {
+    return new TwitterFollowerCount();
+  }
 }

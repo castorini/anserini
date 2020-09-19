@@ -121,4 +121,9 @@ public class OrderedQueryPairsFeatureExtractor implements FeatureExtractor {
   public String getField() {
     return null;
   }
+
+  @Override
+  public FeatureExtractor clone() {
+    return new OrderedQueryPairsFeatureExtractor(this.gapSize);
+  }
 }

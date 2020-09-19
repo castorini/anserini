@@ -136,4 +136,9 @@ public class UnorderedSequentialPairsFeatureExtractor implements FeatureExtracto
   public String getField() {
     return null;
   }
+
+  @Override
+  public FeatureExtractor clone() {
+    return new UnorderedSequentialPairsFeatureExtractor(this.gapSize);
+  }
 }

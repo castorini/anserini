@@ -97,4 +97,9 @@ public class TFIDFFeatureExtractor implements FeatureExtractor {
   public String getField() {
     return null;
   }
+
+  @Override
+  public FeatureExtractor clone() {
+    return new TFIDFFeatureExtractor();
+  }
 }

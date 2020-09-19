@@ -46,4 +46,9 @@ public class UniqueTermCount implements FeatureExtractor {
   public String getField() {
     return null;
   }
+
+  @Override
+  public FeatureExtractor clone() {
+    return new UniqueTermCount();
+  }
 }

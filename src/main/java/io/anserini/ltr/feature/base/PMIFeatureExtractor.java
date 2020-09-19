@@ -133,11 +133,16 @@ public class PMIFeatureExtractor implements FeatureExtractor {
 
   @Override
   public String getName() {
-    return "PMIFeature";
+    return "PMI";
   }
 
   @Override
   public String getField() {
     return null;
+  }
+
+  @Override
+  public FeatureExtractor clone() {
+    return new PMIFeatureExtractor();
   }
 }

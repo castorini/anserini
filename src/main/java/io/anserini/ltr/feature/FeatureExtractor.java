@@ -32,6 +32,8 @@ public interface FeatureExtractor {
 
   float extract(Document doc, Terms terms, String queryText, List<String> queryTokens, IndexReader reader);
 
+  FeatureExtractor clone();
+
   String getName();
 
   String getField();

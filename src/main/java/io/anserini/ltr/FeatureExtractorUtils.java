@@ -72,6 +72,10 @@ public class FeatureExtractorUtils {
         if(tasks.containsKey(qid))
             throw new IllegalArgumentException("existed qid");
         tasks.put(qid, pool.submit(() -> {
+            List<FeatureExtractor> localExtractors = new ArrayList<>();
+            for(FeatureExtractor e: extractors){
+                localExtractors.add(e.clone());
+            }
             ObjectMapper mapper = new ObjectMapper();
             List<output> result = new ArrayList<>();
             for(String docId: docIds) {
@@ -87,8 +91,8 @@ public class FeatureExtractorUtils {
 
                 Terms terms = reader.getTermVector(hit.doc, IndexArgs.CONTENTS);
                 List<Float> features = new ArrayList<>();
-                for (int i = 0; i < extractors.size(); i++) {
-                    features.add(extractors.get(i).extract(doc, terms, String.join(",", queryTokens), queryTokens, reader));
+                for (int i = 0; i < localExtractors.size(); i++) {
+                    features.add(localExtractors.get(i).extract(doc, terms, String.join(",", queryTokens), queryTokens, reader));
                 }
                 result.add(new output(docId,features));
             }

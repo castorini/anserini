@@ -156,7 +156,7 @@ public class BM25FeatureExtractor implements FeatureExtractor {
 
   @Override
   public String getName() {
-    return "BM25Feature";
+    return "BM25";
   }
 
   @Override
@@ -170,5 +170,10 @@ public class BM25FeatureExtractor implements FeatureExtractor {
 
   public double getB() {
     return b;
+  }
+
+  @Override
+  public FeatureExtractor clone() {
+    return new BM25FeatureExtractor(this.k1, this.b);
   }
 }

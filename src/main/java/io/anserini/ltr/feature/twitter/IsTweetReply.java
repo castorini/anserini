@@ -41,4 +41,9 @@ public class IsTweetReply implements FeatureExtractor {
   public String getField() {
     return TweetField.IN_REPLY_TO_STATUS_ID.name;
   }
+
+  @Override
+  public FeatureExtractor clone() {
+    return new IsTweetReply();
+  }
 }

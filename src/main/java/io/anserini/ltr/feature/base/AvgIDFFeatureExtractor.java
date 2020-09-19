@@ -67,4 +67,9 @@ public class AvgIDFFeatureExtractor implements FeatureExtractor {
   public String getField() {
     return null;
   }
+
+  @Override
+  public FeatureExtractor clone() {
+    return new AvgIDFFeatureExtractor();
+  }
 }
