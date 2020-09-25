@@ -38,7 +38,7 @@ import java.util.*;
 import java.util.concurrent.*;
 
 /**
- * Feature extractor class that forms the base for other feature extractors
+ * Feature extractor class that exposed in Pyserini
  */
 public class FeatureExtractorUtils {
     private static final Logger LOG = LogManager.getLogger(FeatureExtractorUtils.class);
@@ -49,6 +49,11 @@ public class FeatureExtractorUtils {
     private ExecutorService pool;
     private Map<String, Future<String>> tasks = new HashMap<>();
 
+    /**
+     * set up the feature we wish to extract
+     * @param extractor initialized FeatureExtractor instance
+     * @return
+     */
     public FeatureExtractorUtils add(FeatureExtractor extractor) {
         extractors.add(extractor);
         if((extractor.getField()!=null)&&(!fieldsToLoad.contains(extractor.getField())))
@@ -56,6 +61,15 @@ public class FeatureExtractorUtils {
         return this;
     }
 
+    /**
+     * mainly used for testing
+     * @param queryTokens tokenized query text
+     * @param docIds external document ids that you wish to collect; users need to make sure it is present
+     * @return
+     * @throws ExecutionException
+     * @throws InterruptedException
+     * @throws JsonProcessingException
+     */
     public ArrayList<output> extract(List<String> queryTokens, List<String> docIds) throws ExecutionException, InterruptedException, JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         input root = new input();
@@ -68,6 +82,12 @@ public class FeatureExtractorUtils {
         return mapper.readValue(res, typeref);
     }
 
+    /**
+     * submit tasks to workers
+     * @param qid unique query id; users need to make sure it is not duplicated
+     * @param queryTokens tokenized query text
+     * @param docIds external document ids that you wish to collect; users need to make sure it is present
+     */
     public void addTask(String qid, List<String> queryTokens, List<String> docIds) {
         if(tasks.containsKey(qid))
             throw new IllegalArgumentException("existed qid");
@@ -100,16 +120,32 @@ public class FeatureExtractorUtils {
         }));
     }
 
+    /**
+     * submit tasks to workers, exposed in Pyserini
+     * @param jsonString
+     * @throws JsonProcessingException
+     */
     public void lazyExtract(String jsonString) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         input root = mapper.readValue(jsonString, input.class);
         this.addTask(root.qid, root.queryTokens, root.docIds);
     }
 
+    /**
+     * blocked until the result is ready
+     * @param qid the query id you wise to fetch the result
+     * @return
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
     public String getResult(String qid) throws ExecutionException, InterruptedException {
         return tasks.remove(qid).get();
     }
 
+    /**
+     * @param indexDir index path to work on
+     * @throws IOException
+     */
     public FeatureExtractorUtils(String indexDir) throws IOException {
         Directory indexDirectory = FSDirectory.open(Paths.get(indexDir));
         reader = DirectoryReader.open(indexDirectory);
@@ -118,6 +154,11 @@ public class FeatureExtractorUtils {
         pool = Executors.newFixedThreadPool(1);
     }
 
+    /**
+     * @param indexDir index path to work on
+     * @param workNum worker threads number
+     * @throws IOException
+     */
     public FeatureExtractorUtils(String indexDir, int workNum) throws IOException {
         Directory indexDirectory = FSDirectory.open(Paths.get(indexDir));
         reader = DirectoryReader.open(indexDirectory);
@@ -126,6 +167,11 @@ public class FeatureExtractorUtils {
         pool = Executors.newFixedThreadPool(workNum);
     }
 
+    /**
+     * for testing purpose
+     * @param reader initialized indexreader
+     * @throws IOException
+     */
     public FeatureExtractorUtils(IndexReader reader) throws IOException {
         this.reader = reader;
         searcher = new IndexSearcher(reader);
@@ -133,6 +179,11 @@ public class FeatureExtractorUtils {
         pool = Executors.newFixedThreadPool(1);
     }
 
+    /**
+     * @param reader
+     * @param workNum
+     * @throws IOException
+     */
     public FeatureExtractorUtils(IndexReader reader, int workNum) throws IOException {
         this.reader = reader;
         searcher = new IndexSearcher(reader);
@@ -140,6 +191,10 @@ public class FeatureExtractorUtils {
         pool = Executors.newFixedThreadPool(workNum);
     }
 
+    /**
+     * close to avoid theadleaking warning during test
+     * @throws IOException
+     */
     public void close() throws IOException {
         pool.shutdown();
         reader.close();

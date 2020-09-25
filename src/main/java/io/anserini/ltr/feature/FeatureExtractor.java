@@ -30,12 +30,32 @@ import java.util.Map;
  */
 public interface FeatureExtractor {
 
+  /**
+   * @param doc the document we work on
+   * @param terms a iterator to the term vector of the content field
+   * @param queryText original query text
+   * @param queryTokens tokenized query text
+   * @param reader in case the extractor need some global information
+   * @return feature value
+   */
   float extract(Document doc, Terms terms, String queryText, List<String> queryTokens, IndexReader reader);
 
+  /**
+   * we need to make sure each thread has a thread-local copy of extractors
+   * otherwise we will have concurrency problems
+   * @return a copy with the same set up
+   */
   FeatureExtractor clone();
 
+  /**
+   * used for tell the corresponding feature name for each column in the feature vector
+   * @return feature name
+   */
   String getName();
 
+  /**
+   * @return the field this feature extractor needs to load
+   */
   String getField();
 
 }
