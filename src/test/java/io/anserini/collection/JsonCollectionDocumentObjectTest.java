@@ -47,7 +47,17 @@ public class JsonCollectionDocumentObjectTest extends JsonCollectionTest {
     totalSegments = 2;
     totalDocs = 2;
 
-    expected.put("doc1", Map.of("id", "doc1","content", "contents of document 1."));
-    expected.put("doc2", Map.of("id", "doc2","content", "Some more \"blah\" text in document2!"));
+    expected.put("doc1", Map.of("id", "doc1",
+            "content", "contents of document 1.",
+            "raw", "{\n" +
+                    "  \"id\" : \"doc1\",\n" +
+                    "  \"contents\" : \"contents of document 1.\"\n" +
+                    "}"));
+    expected.put("doc2", Map.of("id", "doc2",
+            "content", "Some more \"blah\" text in document2!",
+            "raw", "{\n" +
+                    "  \"id\" : \"doc2\",\n" +
+                    "  \"contents\" : \"Some more \\\"blah\\\" text in document2!\"\n" +
+                    "}"));
   }
 }
