@@ -130,9 +130,11 @@ public class JsonCollection extends DocumentCollection<JsonCollection.Document> 
   public static class Document extends MultifieldSourceDocument {
     private String id;
     private String contents;
+    private String raw;
     private Map<String, String> fields;
 
     public Document(JsonNode json) {
+      this.raw = json.toPrettyString();
       this.fields = new HashMap<>();
 
       json.fields().forEachRemaining( e -> {
@@ -164,10 +166,7 @@ public class JsonCollection extends DocumentCollection<JsonCollection.Document> 
 
     @Override
     public String raw() {
-      if (contents == null) {
-        throw new RuntimeException("JSON document has no \"contents\" field");
-      }
-      return contents;
+      return raw;
     }
 
     @Override

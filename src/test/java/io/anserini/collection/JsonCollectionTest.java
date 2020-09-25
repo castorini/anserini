@@ -24,6 +24,6 @@ public abstract class JsonCollectionTest extends DocumentCollectionTest<JsonColl
     assertTrue(doc.indexable());
     assertEquals(expected.get("id"), doc.id());
     assertEquals(expected.get("content"), doc.contents());
-    assertEquals(expected.get("content"), doc.raw());
+    assertEquals(expected.get("raw"), doc.raw());
   }
 }
