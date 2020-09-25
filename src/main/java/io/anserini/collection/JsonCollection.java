@@ -166,9 +166,6 @@ public class JsonCollection extends DocumentCollection<JsonCollection.Document> 
 
     @Override
     public String raw() {
-      if (raw == null) {
-        throw new RuntimeException("JSON document has no \"raw\" field");
-      }
       return raw;
     }
 
