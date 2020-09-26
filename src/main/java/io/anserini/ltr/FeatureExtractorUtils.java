@@ -21,6 +21,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.anserini.index.IndexArgs;
 import io.anserini.ltr.feature.FeatureExtractor;
+import io.anserini.ltr.feature.OrderedSequentialPairsFeatureExtractor;
+import io.anserini.ltr.feature.UnorderedSequentialPairsFeatureExtractor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.document.Document;
@@ -31,8 +33,11 @@ import org.apache.lucene.index.Terms;
 import org.apache.lucene.search.*;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
+import org.kohsuke.args4j.CmdLineException;
+import org.kohsuke.args4j.Option;
+import org.kohsuke.args4j.CmdLineParser;
 
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.concurrent.*;
@@ -200,6 +205,41 @@ public class FeatureExtractorUtils {
         reader.close();
     }
 
+    static class DebugArgs {
+        @Option(name = "-index", metaVar = "[path]", required = true, usage = "Lucene index directory")
+        public String indexDir;
+
+        @Option(name = "-json", metaVar = "[path]", required = true, usage = "Inp File")
+        public String jsonFile;
+
+    }
+    public static void main(String[] args) throws IOException, ExecutionException, InterruptedException {
+        DebugArgs cmdArgs = new DebugArgs();
+        CmdLineParser parser = new CmdLineParser(cmdArgs);
+
+        try {
+            parser.parseArgument(args);
+        } catch (CmdLineException e) {
+            System.err.println(e.getMessage());
+            parser.printUsage(System.err);
+            return;
+        }
+
+        FeatureExtractorUtils utils = new FeatureExtractorUtils(cmdArgs.indexDir);
+
+        utils.add(new OrderedSequentialPairsFeatureExtractor(3));
+        utils.add(new UnorderedSequentialPairsFeatureExtractor(3));
+
+        File file = new File(cmdArgs.jsonFile);
+        BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
+        String line;
+        while((line=reader.readLine())!=null){
+            ObjectMapper mapper = new ObjectMapper();
+            input root = mapper.readValue(line, input.class);
+            utils.extract(root.queryTokens,root.docIds);
+        }
+    }
+
 }
 
 class input{
@@ -261,3 +301,4 @@ class output{
         this.features = features;
     }
 }
+
