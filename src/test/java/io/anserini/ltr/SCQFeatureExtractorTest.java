@@ -15,19 +15,21 @@
  */
 package io.anserini.ltr;
 
-import io.anserini.ltr.feature.FeatureExtractors;
+import io.anserini.ltr.feature.FeatureExtractor;
 import io.anserini.ltr.feature.base.SCQFeatureExtractor;
 import org.junit.Test;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class SCQFeatureExtractorTest extends BaseFeatureExtractorTest<Integer> {
 
-  private static FeatureExtractors EXTRACTOR = getChain(new SCQFeatureExtractor());
+  private static FeatureExtractor EXTRACTOR = new SCQFeatureExtractor();
 
   @Test
-  public void testSimpleSingleDocument() throws IOException {
+  public void testSimpleSingleDocument() throws IOException, ExecutionException, InterruptedException {
     String testText = "test document";
     String testQuery = "document";
     //idf = 0.28768
@@ -37,7 +39,7 @@ public class SCQFeatureExtractorTest extends BaseFeatureExtractorTest<Integer> {
   }
 
   @Test
-  public void testSingleDocumentMultipleQueryToken() throws IOException {
+  public void testSingleDocumentMultipleQueryToken() throws IOException, ExecutionException, InterruptedException {
     String testText = "test document more tokens than just two document ";
     String testQuery = "document missing";
 
@@ -46,7 +48,7 @@ public class SCQFeatureExtractorTest extends BaseFeatureExtractorTest<Integer> {
   }
 
   @Test
-  public void testSimpleMultiDocument() throws IOException {
+  public void testSimpleMultiDocument() throws IOException, ExecutionException, InterruptedException {
     String testQuery = "test document";
     // idf = 0.47
     // tf = 3
