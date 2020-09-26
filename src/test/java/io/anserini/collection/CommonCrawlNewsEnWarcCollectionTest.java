@@ -41,6 +41,8 @@ public class CommonCrawlNewsEnWarcCollectionTest extends DocumentCollectionTest<
 
     expected.put("CC-NEWS-12345678901234-56789-0",
             Map.of("id", "CC-NEWS-12345678901234-56789-0",
+                    "date", "2017-01-01T11:26:44Z",
+                    "url", "http://www.testcaseurl.com/ccnewsen",
                     "raw", "<html>\nwhatever here will be included\n</html>"));
   }
 
@@ -48,12 +50,13 @@ public class CommonCrawlNewsEnWarcCollectionTest extends DocumentCollectionTest<
   void checkDocument(SourceDocument doc, Map<String, String> expected) {
     if (doc.id()==null) {
       assertFalse(doc.indexable());
-      assertEquals(expected.get("raw"), doc.raw());
     } else {
       assertTrue(doc.indexable());
       assertEquals(expected.get("id"), doc.id());
       assertEquals(JsoupStringTransform.SINGLETON.apply(expected.get("raw")), doc.contents());
-      assertEquals(expected.get("raw"), doc.raw());
     }
+    assertEquals(expected.get("raw"), doc.raw());
+    assertEquals(expected.get("date"), ((CommonCrawlNewsEnWarcCollection.Document) doc).getDate());
+    assertEquals(expected.get("url"), ((CommonCrawlNewsEnWarcCollection.Document) doc).getURL());
   }
 }
