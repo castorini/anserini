@@ -16,28 +16,27 @@
 
 package io.anserini.ltr.feature.base;
 
+import io.anserini.index.IndexArgs;
 import io.anserini.ltr.feature.FeatureExtractor;
 import io.anserini.rerank.RerankerContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.document.Document;
+import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.Terms;
 import org.apache.lucene.index.TermsEnum;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Computes the sum of term frequencies for each query token.
  */
-public class TermFrequencyFeatureExtractor<T> implements FeatureExtractor<T> {
-  private static final Logger LOG = LogManager.getLogger(TermFrequencyFeatureExtractor.class);
+public class SumMatchingTF implements FeatureExtractor {
+  private static final Logger LOG = LogManager.getLogger(SumMatchingTF.class);
 
   @Override
-  public float extract(Document doc, Terms terms, RerankerContext<T> context) {
+  public float extract(Document doc, Terms terms, String queryText, List<String> queryTokenList, IndexReader reader) {
 
     TermsEnum termsEnum = null;
     try {
@@ -48,7 +47,7 @@ public class TermFrequencyFeatureExtractor<T> implements FeatureExtractor<T> {
     }
 
     Map<String, Long> termFreqMap = new HashMap<>();
-    Set<String> queryTokens = new HashSet<>(context.getQueryTokens());
+    Set<String> queryTokens = new HashSet<>(queryTokenList);
     try {
       while (termsEnum.next() != null) {
         String termString = termsEnum.term().utf8ToString();
@@ -73,6 +72,16 @@ public class TermFrequencyFeatureExtractor<T> implements FeatureExtractor<T> {
 
   @Override
   public String getName() {
-    return "SumTermFrequency";
+    return "SumMatchingTF";
+  }
+
+  @Override
+  public String getField() {
+    return null;
+  }
+
+  @Override
+  public FeatureExtractor clone() {
+    return new SumMatchingTF();
   }
 }

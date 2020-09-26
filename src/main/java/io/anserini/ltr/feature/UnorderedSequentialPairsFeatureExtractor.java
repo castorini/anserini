@@ -20,8 +20,10 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
+import io.anserini.index.IndexArgs;
 import io.anserini.rerank.RerankerContext;
 import org.apache.lucene.document.Document;
+import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.Terms;
 
 import java.io.IOException;
@@ -37,7 +39,7 @@ import java.util.Set;
  * This is a feature extractor that will calculate the
  * unordered count of phrases in the window specified
  */
-public class UnorderedSequentialPairsFeatureExtractor<T> implements FeatureExtractor<T> {
+public class UnorderedSequentialPairsFeatureExtractor implements FeatureExtractor {
 
   protected static ArrayList<Integer> gapSizes = new ArrayList<>();
   protected static Map<Integer, CountBigramPairs.PhraseCounter> counters = new HashMap<>();
@@ -45,30 +47,9 @@ public class UnorderedSequentialPairsFeatureExtractor<T> implements FeatureExtra
   protected static Map<String, Integer> singleCountMap = new HashMap<>();
   protected static Map<String, Set<String>> queryPairMap = new HashMap<>();
   protected static Map<String, Set<String>> backQueryPairMap = new HashMap<>();
-  protected static String lastProcessedId = "";
   protected static Document lastProcessedDoc = null;
 
-  public static class Deserializer extends StdDeserializer<UnorderedSequentialPairsFeatureExtractor>
-  {
-    public Deserializer() {
-      this(null);
-    }
-
-    public Deserializer(Class<?> vc) {
-      super(vc);
-    }
-
-    @Override
-    public UnorderedSequentialPairsFeatureExtractor
-    deserialize(JsonParser jsonParser, DeserializationContext context) throws IOException
-    {
-      JsonNode node = jsonParser.getCodec().readTree(jsonParser);
-      int gapSize = node.get("gapSize").asInt();
-      return new UnorderedSequentialPairsFeatureExtractor(gapSize);
-    }
-  }
-
-  private static void resetCounters(String newestQuery, Document newestDoc) {
+  private static void resetCounters(Document newestDoc) {
 
     singleCountMap.clear();
     backQueryPairMap.clear();
@@ -76,7 +57,6 @@ public class UnorderedSequentialPairsFeatureExtractor<T> implements FeatureExtra
     for (int i : counters.keySet()) {
       counters.get(i).phraseCountMap.clear();
     }
-    lastProcessedId = newestQuery;
     lastProcessedDoc = newestDoc;
   }
 
@@ -116,11 +96,10 @@ public class UnorderedSequentialPairsFeatureExtractor<T> implements FeatureExtra
     singleCountMap.put(queryTokens.get(queryTokens.size() -1), 0);
   }
 
-  protected float computeUnorderedFrequencyScore(Document doc, Terms terms, RerankerContext<T> context) throws IOException {
+  protected float computeUnorderedFrequencyScore(Document doc, Terms terms, List<String> queryTokens) throws IOException {
 
-    if (!context.getQueryId().equals(lastProcessedId) || doc != lastProcessedDoc) {
-      resetCounters(context.getQueryId().toString(), doc);
-      List<String> queryTokens = context.getQueryTokens();
+    if (doc != lastProcessedDoc) {
+      resetCounters(doc);
 
       populateQueryMaps(queryTokens);
 
@@ -139,9 +118,9 @@ public class UnorderedSequentialPairsFeatureExtractor<T> implements FeatureExtra
   }
 
   @Override
-  public float extract(Document doc, Terms terms, RerankerContext<T> context) {
+  public float extract(Document doc, Terms terms, String queryText, List<String> queryTokens, IndexReader reader) {
     try {
-      return computeUnorderedFrequencyScore(doc, terms, context);
+      return computeUnorderedFrequencyScore(doc, terms, queryTokens);
     } catch (IOException e) {
       e.printStackTrace();
       return 0.0f;
@@ -151,5 +130,15 @@ public class UnorderedSequentialPairsFeatureExtractor<T> implements FeatureExtra
   @Override
   public String getName() {
     return "UnorderedSequentialPairs" + this.gapSize;
+  }
+
+  @Override
+  public String getField() {
+    return null;
+  }
+
+  @Override
+  public FeatureExtractor clone() {
+    return new UnorderedSequentialPairsFeatureExtractor(this.gapSize);
   }
 }

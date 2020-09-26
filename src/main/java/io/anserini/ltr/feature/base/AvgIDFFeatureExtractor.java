@@ -33,7 +33,7 @@ import java.util.List;
  * Average IDF, idf calculated using log( 1+ (N - N_t + 0.5)/(N_t + 0.5))
  * where N is the total number of docs, calculated like in BM25
  */
-public class AvgIDFFeatureExtractor<T> implements FeatureExtractor<T> {
+public class AvgIDFFeatureExtractor implements FeatureExtractor {
   private static final Logger LOG = LogManager.getLogger(AvgIDFFeatureExtractor.class);
 
   private float sumIdf(IndexReader reader, List<String> queryTokens,
@@ -47,13 +47,11 @@ public class AvgIDFFeatureExtractor<T> implements FeatureExtractor<T> {
   }
 
   @Override
-  public float extract(Document doc, Terms terms, RerankerContext<T> context) {
-    IndexReader reader = context.getIndexSearcher().getIndexReader();
-
+  public float extract(Document doc, Terms terms, String queryText, List<String> queryTokens, IndexReader reader) {
     long numDocs = reader.numDocs() - reader.numDeletedDocs();
     try {
-      float sumIdf = sumIdf(reader, context.getQueryTokens(), numDocs, IndexArgs.CONTENTS);
-      return sumIdf / (float) context.getQueryTokens().size();
+      float sumIdf = sumIdf(reader, queryTokens, numDocs, IndexArgs.CONTENTS);
+      return sumIdf / (float) queryTokens.size();
     } catch (IOException e) {
       LOG.warn("Error computing AvgIdf, returning 0");
       return 0.0f;
@@ -63,5 +61,15 @@ public class AvgIDFFeatureExtractor<T> implements FeatureExtractor<T> {
   @Override
   public String getName() {
     return "AvgIDF";
+  }
+
+  @Override
+  public String getField() {
+    return null;
+  }
+
+  @Override
+  public FeatureExtractor clone() {
+    return new AvgIDFFeatureExtractor();
   }
 }

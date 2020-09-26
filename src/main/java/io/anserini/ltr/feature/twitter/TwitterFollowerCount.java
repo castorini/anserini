@@ -16,20 +16,34 @@
 
 package io.anserini.ltr.feature.twitter;
 
+import io.anserini.index.IndexArgs;
 import io.anserini.index.generator.TweetGenerator.TweetField;
 import io.anserini.ltr.feature.FeatureExtractor;
 import io.anserini.rerank.RerankerContext;
 import org.apache.lucene.document.Document;
+import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.Terms;
+
+import java.util.List;
 
 public class TwitterFollowerCount implements FeatureExtractor {
   @Override
-  public float extract(Document doc, Terms terms, RerankerContext context) {
+  public float extract(Document doc, Terms terms, String queryText, List<String> queryTokens, IndexReader reader) {
     return (float) (int) doc.getField(TweetField.FOLLOWERS_COUNT.name).numericValue();
   }
 
   @Override
   public String getName() {
     return "TwitterFollowerCount";
+  }
+
+  @Override
+  public String getField() {
+    return TweetField.FOLLOWERS_COUNT.name;
+  }
+
+  @Override
+  public FeatureExtractor clone() {
+    return new TwitterFollowerCount();
   }
 }
