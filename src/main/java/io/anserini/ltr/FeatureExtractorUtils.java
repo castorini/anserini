@@ -130,10 +130,11 @@ public class FeatureExtractorUtils {
      * @param jsonString
      * @throws JsonProcessingException
      */
-    public void lazyExtract(String jsonString) throws JsonProcessingException {
+    public String lazyExtract(String jsonString) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         input root = mapper.readValue(jsonString, input.class);
         this.addTask(root.qid, root.queryTokens, root.docIds);
+        return root.qid;
     }
 
     /**
@@ -209,8 +210,11 @@ public class FeatureExtractorUtils {
         @Option(name = "-index", metaVar = "[path]", required = true, usage = "Lucene index directory")
         public String indexDir;
 
-        @Option(name = "-json", metaVar = "[path]", required = true, usage = "Inp File")
+        @Option(name = "-json", metaVar = "[path]", required = true, usage = "Input File")
         public String jsonFile;
+
+        @Option(name = "-threads", metaVar = "[num]", usage = "Number of workers")
+        public int threads = 1; 
 
     }
     public static void main(String[] args) throws IOException, ExecutionException, InterruptedException {
@@ -225,7 +229,7 @@ public class FeatureExtractorUtils {
             return;
         }
 
-        FeatureExtractorUtils utils = new FeatureExtractorUtils(cmdArgs.indexDir);
+        FeatureExtractorUtils utils = new FeatureExtractorUtils(cmdArgs.indexDir, cmdArgs.threads);
 
         utils.add(new OrderedSequentialPairsFeatureExtractor(3));
         utils.add(new UnorderedSequentialPairsFeatureExtractor(3));
@@ -233,10 +237,23 @@ public class FeatureExtractorUtils {
         File file = new File(cmdArgs.jsonFile);
         BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
         String line;
+        ArrayList<String> qids = new ArrayList<>();
+        int offset = 0;
+        String lastQid = null;
         while((line=reader.readLine())!=null){
-            ObjectMapper mapper = new ObjectMapper();
-            input root = mapper.readValue(line, input.class);
-            utils.extract(root.queryTokens,root.docIds);
+            qids.add(utils.lazyExtract(line));
+            if(qids.size()>=1000){
+                try{
+                    while(qids.size()>0) {
+                        lastQid = qids.remove(0);
+                        utils.getResult(lastQid);
+                        offset++;
+                    }
+                } catch (Exception e) {
+                    System.out.println("the offset is:"+offset+"at qid:"+lastQid);
+                    throw e;
+                }
+            }
         }
     }
 

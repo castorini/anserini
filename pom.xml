@@ -98,8 +98,8 @@
           <useWildcardClassPath>true</useWildcardClassPath>
           <programs>
             <program>
-              <mainClass>io.anserini.ltr.FeatureExtractorCli</mainClass>
-              <id>FeatureExtractorCli</id>
+              <mainClass>io.anserini.ltr.FeatureExtractorUtils</mainClass>
+              <id>FeatureExtractorUtils</id>
             </program>
             <program>
               <mainClass>io.anserini.index.IndexCollection</mainClass>
