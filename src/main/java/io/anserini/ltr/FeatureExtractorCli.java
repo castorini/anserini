@@ -37,7 +37,6 @@ public class FeatureExtractorCli {
         FeatureExtractorUtils utils = new FeatureExtractorUtils(cmdArgs.indexDir, cmdArgs.threads);
 
         utils.add(new OrderedSequentialPairsFeatureExtractor(3));
-        utils.add(new UnorderedSequentialPairsFeatureExtractor(3));
 
         File file = new File(cmdArgs.jsonFile);
         BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
@@ -53,6 +52,7 @@ public class FeatureExtractorCli {
                         lastQid = qids.remove(0);
                         utils.getResult(lastQid);
                         offset++;
+                        System.out.println("finish qid:"+lastQid);
                     }
                 } catch (Exception e) {
                     System.out.println("the offset is:"+offset+"at qid:"+lastQid);
