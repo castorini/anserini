@@ -39,7 +39,7 @@ import java.util.Set;
  * Counts all unordered pairs of query tokens
  */
 public class UnorderedQueryPairsFeatureExtractor implements FeatureExtractor {
-  protected static ArrayList<Integer> gapSizes = new ArrayList<>();
+  protected ArrayList<Integer> gapSizes = new ArrayList<>();
   protected Map<Integer, Map<String, Integer>> counters = new HashMap<>();
 
   protected Map<String, Integer> singleCountMap = new HashMap<>();
