@@ -44,12 +44,20 @@ public class FeatureExtractorCli {
         utils.add(new BM25FeatureExtractor());
         utils.add(new DocSizeFeatureExtractor());
         utils.add(new MatchingTermCount());
+        utils.add(new PMIFeatureExtractor());
         utils.add(new QueryLength());
         utils.add(new SCQFeatureExtractor());
         utils.add(new SCSFeatureExtractor());
         utils.add(new SumMatchingTF());
         utils.add(new TFIDFFeatureExtractor());
         utils.add(new UniqueTermCount());
+        utils.add(new UnorderedSequentialPairsFeatureExtractor(3));
+        utils.add(new UnorderedSequentialPairsFeatureExtractor(5));
+        utils.add(new UnorderedSequentialPairsFeatureExtractor(8));
+        utils.add(new OrderedSequentialPairsFeatureExtractor(3));
+        utils.add(new OrderedSequentialPairsFeatureExtractor(5));
+        utils.add(new OrderedSequentialPairsFeatureExtractor(8));
+
 
 
         File file = new File(cmdArgs.jsonFile);
@@ -66,7 +74,7 @@ public class FeatureExtractorCli {
         }
         while((line=reader.readLine())!=null){
             qids.add(utils.lazyExtract(line));
-            if(qids.size()>=1000){
+            if(qids.size()>=100){
                 try{
                     while(qids.size()>0) {
                         lastQid = qids.remove(0);
@@ -91,7 +99,9 @@ public class FeatureExtractorCli {
             sumtime += time[i];
         }
         for(int i = 0; i < names.size(); i++){
-            System.out.println(names.get(i)+" takes "+time[i]/1000000000.0 + "account for "+ time[i]/sumtime);
+            System.out.println(names.get(i)+" takes "+time[i]/1000000000.0 + " account for "+ time[i]*100.0/sumtime + " percent");
         }
+        utils.close();
+        reader.close();
     }
 }
