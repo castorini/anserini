@@ -66,6 +66,13 @@ public class FeatureExtractorUtils {
         return this;
     }
 
+    public ArrayList<String> list() {
+        ArrayList<String> names = new ArrayList<>();
+        for(FeatureExtractor extractor:extractors)
+            names.add(extractor.getName());
+        return names;
+    }
+
     /**
      * mainly used for testing
      * @param queryTokens tokenized query text
@@ -116,10 +123,18 @@ public class FeatureExtractorUtils {
 
                 Terms terms = reader.getTermVector(hit.doc, IndexArgs.CONTENTS);
                 List<Float> features = new ArrayList<>();
-                for (int i = 0; i < localExtractors.size(); i++) {
-                    features.add(localExtractors.get(i).extract(doc, terms, String.join(",", queryTokens), queryTokens, reader));
+                long[] time = new long[localExtractors.size()];
+                for(int i = 0; i < localExtractors.size(); i++){
+                    time[i] = 0;
                 }
-                result.add(new output(docId,features));
+                for (int i = 0; i < localExtractors.size(); i++) {
+                    long start = System.nanoTime();
+                    features.add(localExtractors.get(i).extract(doc, terms, String.join(",", queryTokens), queryTokens, reader));
+                    long end = System.nanoTime();
+                    time[i] += end - start;
+                }
+
+                result.add(new output(docId,features, time));
             }
             return mapper.writeValueAsString(result);
         }));
@@ -243,12 +258,16 @@ class input{
 class output{
     String pid;
     List<Float> features;
+    List<Long> time;
 
     output(){}
 
-    output(String pid, List<Float> features){
+    output(String pid, List<Float> features, long[] time){
         this.pid = pid;
         this.features = features;
+        this.time = new ArrayList<>();
+        for(int i=0;i<time.length;i++)
+            this.time.add(time[i]);
     }
 
     public String getPid() {
@@ -259,6 +278,8 @@ class output{
         return features;
     }
 
+    public List<Long> getTime() { return time; }
+
     public void setPid(String pid) {
         this.pid = pid;
     }
@@ -266,5 +287,7 @@ class output{
     public void setFeatures(List<Float> features) {
         this.features = features;
     }
+
+    public void setTime(List<Long> time) { this.time = time; }
 }
 
