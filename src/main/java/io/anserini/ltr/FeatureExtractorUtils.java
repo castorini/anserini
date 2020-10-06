@@ -21,6 +21,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.anserini.index.IndexArgs;
 import io.anserini.ltr.feature.FeatureExtractor;
+import io.anserini.ltr.feature.OrderedSequentialPairsFeatureExtractor;
+import io.anserini.ltr.feature.UnorderedSequentialPairsFeatureExtractor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.document.Document;
@@ -31,8 +33,11 @@ import org.apache.lucene.index.Terms;
 import org.apache.lucene.search.*;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
+import org.kohsuke.args4j.CmdLineException;
+import org.kohsuke.args4j.Option;
+import org.kohsuke.args4j.CmdLineParser;
 
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.concurrent.*;
@@ -59,6 +64,13 @@ public class FeatureExtractorUtils {
         if((extractor.getField()!=null)&&(!fieldsToLoad.contains(extractor.getField())))
             fieldsToLoad.add(extractor.getField());
         return this;
+    }
+
+    public ArrayList<String> list() {
+        ArrayList<String> names = new ArrayList<>();
+        for(FeatureExtractor extractor:extractors)
+            names.add(extractor.getName());
+        return names;
     }
 
     /**
@@ -111,10 +123,18 @@ public class FeatureExtractorUtils {
 
                 Terms terms = reader.getTermVector(hit.doc, IndexArgs.CONTENTS);
                 List<Float> features = new ArrayList<>();
-                for (int i = 0; i < localExtractors.size(); i++) {
-                    features.add(localExtractors.get(i).extract(doc, terms, String.join(",", queryTokens), queryTokens, reader));
+                long[] time = new long[localExtractors.size()];
+                for(int i = 0; i < localExtractors.size(); i++){
+                    time[i] = 0;
                 }
-                result.add(new output(docId,features));
+                for (int i = 0; i < localExtractors.size(); i++) {
+                    long start = System.nanoTime();
+                    features.add(localExtractors.get(i).extract(doc, terms, String.join(",", queryTokens), queryTokens, reader));
+                    long end = System.nanoTime();
+                    time[i] += end - start;
+                }
+
+                result.add(new output(docId,features, time));
             }
             return mapper.writeValueAsString(result);
         }));
@@ -125,10 +145,11 @@ public class FeatureExtractorUtils {
      * @param jsonString
      * @throws JsonProcessingException
      */
-    public void lazyExtract(String jsonString) throws JsonProcessingException {
+    public String lazyExtract(String jsonString) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         input root = mapper.readValue(jsonString, input.class);
         this.addTask(root.qid, root.queryTokens, root.docIds);
+        return root.qid;
     }
 
     /**
@@ -237,12 +258,16 @@ class input{
 class output{
     String pid;
     List<Float> features;
+    List<Long> time;
 
     output(){}
 
-    output(String pid, List<Float> features){
+    output(String pid, List<Float> features, long[] time){
         this.pid = pid;
         this.features = features;
+        this.time = new ArrayList<>();
+        for(int i=0;i<time.length;i++)
+            this.time.add(time[i]);
     }
 
     public String getPid() {
@@ -253,6 +278,8 @@ class output{
         return features;
     }
 
+    public List<Long> getTime() { return time; }
+
     public void setPid(String pid) {
         this.pid = pid;
     }
@@ -260,4 +287,7 @@ class output{
     public void setFeatures(List<Float> features) {
         this.features = features;
     }
+
+    public void setTime(List<Long> time) { this.time = time; }
 }
+

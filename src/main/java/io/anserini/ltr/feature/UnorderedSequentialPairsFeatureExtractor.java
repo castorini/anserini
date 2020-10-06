@@ -41,21 +41,21 @@ import java.util.Set;
  */
 public class UnorderedSequentialPairsFeatureExtractor implements FeatureExtractor {
 
-  protected static ArrayList<Integer> gapSizes = new ArrayList<>();
-  protected static Map<Integer, CountBigramPairs.PhraseCounter> counters = new HashMap<>();
+  protected ArrayList<Integer> gapSizes = new ArrayList<>();
+  protected Map<Integer, Map<String, Integer>> counters = new HashMap<>();
 
-  protected static Map<String, Integer> singleCountMap = new HashMap<>();
-  protected static Map<String, Set<String>> queryPairMap = new HashMap<>();
-  protected static Map<String, Set<String>> backQueryPairMap = new HashMap<>();
-  protected static Document lastProcessedDoc = null;
+  protected Map<String, Integer> singleCountMap = new HashMap<>();
+  protected Map<String, Set<String>> queryPairMap = new HashMap<>();
+  protected Map<String, Set<String>> backQueryPairMap = new HashMap<>();
+  protected Document lastProcessedDoc = null;
 
-  private static void resetCounters(Document newestDoc) {
+  private void resetCounters(Document newestDoc) {
 
     singleCountMap.clear();
     backQueryPairMap.clear();
     queryPairMap.clear();
     for (int i : counters.keySet()) {
-      counters.get(i).phraseCountMap.clear();
+      counters.get(i).clear();
     }
     lastProcessedDoc = newestDoc;
   }
@@ -66,7 +66,7 @@ public class UnorderedSequentialPairsFeatureExtractor implements FeatureExtracto
   public UnorderedSequentialPairsFeatureExtractor(int gapSize) {
     this.gapSize= gapSize;
 
-    counters.put(gapSize, new CountBigramPairs.PhraseCounter());
+    counters.put(gapSize, new HashMap<>());
     gapSizes.add(gapSize);
   }
 
@@ -107,7 +107,7 @@ public class UnorderedSequentialPairsFeatureExtractor implements FeatureExtracto
     }
 
     float score = 0.0f;
-    Map<String, Integer> phraseCountMap = counters.get(gapSize).phraseCountMap;
+    Map<String, Integer> phraseCountMap = counters.get(gapSize);
     // Smoothing count of 1
     for (String queryToken : queryPairMap.keySet()) {
       float countToUse = phraseCountMap.getOrDefault(queryToken, 0);

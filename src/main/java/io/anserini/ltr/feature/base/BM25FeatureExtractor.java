@@ -43,6 +43,8 @@ import java.util.Set;
  */
 public class BM25FeatureExtractor implements FeatureExtractor {
   private static final Logger LOG = LogManager.getLogger(BM25FeatureExtractor.class);
+  private String lastQueryProcessed = "";
+  private Map<String,Integer> lastComputedValue = new HashMap<>();
 
   public static Map<String, Integer> getDocFreqs(IndexReader reader, List<String> queryTokens, String field) throws IOException {
     Map<String,Integer> docFreqs = new HashMap<>();
@@ -119,11 +121,17 @@ public class BM25FeatureExtractor implements FeatureExtractor {
     // NOTE df cannot be retrieved just from the term vector,
     // the term vector here is only a partial term vector that treats this as if we only have 1 document in the index
     Map<String, Integer> docFreqMap = null;
-    try {
-      docFreqMap = getDocFreqs(reader, queryTokens, IndexArgs.CONTENTS);
-    } catch (IOException e) {
-      LOG.warn("Unable to retrieve document frequencies.");
-      docFreqMap = new HashMap<>();
+    if (!lastQueryProcessed.equals(queryText)) {
+      lastQueryProcessed = queryText;
+      try {
+        docFreqMap = getDocFreqs(reader, queryTokens, IndexArgs.CONTENTS);
+      } catch (IOException e) {
+        LOG.warn("Unable to retrieve document frequencies.");
+        docFreqMap = new HashMap<>();
+      }
+      lastComputedValue = docFreqMap;
+    } else {
+      docFreqMap = lastComputedValue;
     }
 
     Map<String, Long> termFreqMap = new HashMap<>();
