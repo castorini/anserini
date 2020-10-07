@@ -20,8 +20,10 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
+import io.anserini.index.IndexArgs;
 import io.anserini.rerank.RerankerContext;
 import org.apache.lucene.document.Document;
+import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.Terms;
 
 import java.io.IOException;
@@ -36,37 +38,16 @@ import java.util.Set;
 /**
  * Counts all unordered pairs of query tokens
  */
-public class UnorderedQueryPairsFeatureExtractor<T> implements FeatureExtractor<T> {
+public class UnorderedQueryPairsFeatureExtractor implements FeatureExtractor {
   protected static ArrayList<Integer> gapSizes = new ArrayList<>();
   protected static Map<Integer, CountBigramPairs.PhraseCounter> counters = new HashMap<>();
 
   protected static Map<String, Integer> singleCountMap = new HashMap<>();
   protected static Map<String, Set<String>> queryPairMap = new HashMap<>();
   protected static Map<String, Set<String>> backQueryPairMap = new HashMap<>();
-  protected static String lastProcessedId = "";
   protected static Document lastProcessedDoc = null;
 
-  public static class Deserializer extends StdDeserializer<UnorderedQueryPairsFeatureExtractor>
-  {
-    public Deserializer() {
-      this(null);
-    }
-
-    public Deserializer(Class<?> vc) {
-      super(vc);
-    }
-
-    @Override
-    public UnorderedQueryPairsFeatureExtractor
-    deserialize(JsonParser jsonParser, DeserializationContext context) throws IOException
-    {
-      JsonNode node = jsonParser.getCodec().readTree(jsonParser);
-      int gapSize = node.get("gapSize").asInt();
-      return new UnorderedQueryPairsFeatureExtractor(gapSize);
-    }
-  }
-
-  private static void resetCounters(String newestQuery, Document newestDoc) {
+  private static void resetCounters(Document newestDoc) {
 
     singleCountMap.clear();
     backQueryPairMap.clear();
@@ -74,7 +55,6 @@ public class UnorderedQueryPairsFeatureExtractor<T> implements FeatureExtractor<
     for (int i : counters.keySet()) {
       counters.get(i).phraseCountMap.clear();
     }
-    lastProcessedId = newestQuery;
     lastProcessedDoc = newestDoc;
   }
 
@@ -109,11 +89,10 @@ public class UnorderedQueryPairsFeatureExtractor<T> implements FeatureExtractor<
     singleCountMap.put(queryTokens.get(queryTokens.size() - 1), 0);
 
   }
-  protected float computeUnorderedFrequencyScore(Document doc, Terms terms, RerankerContext<T> context) throws IOException {
+  protected float computeUnorderedFrequencyScore(Document doc, Terms terms, List<String> queryTokens) throws IOException {
 
-    if (!context.getQueryId().equals(lastProcessedId) || doc != lastProcessedDoc) {
-      resetCounters(context.getQueryId().toString(), doc);
-      List<String> queryTokens = context.getQueryTokens();
+    if (doc != lastProcessedDoc) {
+      resetCounters(doc);
 
       populateQueryMaps(queryTokens);
 
@@ -131,9 +110,9 @@ public class UnorderedQueryPairsFeatureExtractor<T> implements FeatureExtractor<
     return score;
   }
   @Override
-  public float extract(Document doc, Terms terms, RerankerContext<T> context) {
+  public float extract(Document doc, Terms terms, String queryText, List<String> queryTokens, IndexReader reader) {
     try {
-      return computeUnorderedFrequencyScore(doc, terms, context);
+      return computeUnorderedFrequencyScore(doc, terms, queryTokens);
     } catch (IOException e) {
       e.printStackTrace();
       return 0.0f;
@@ -143,5 +122,15 @@ public class UnorderedQueryPairsFeatureExtractor<T> implements FeatureExtractor<
   @Override
   public String getName() {
     return "UnorderedQueryTokenPairs" + this.gapSize;
+  }
+
+  @Override
+  public String getField() {
+    return null;
+  }
+
+  @Override
+  public FeatureExtractor clone() {
+    return new UnorderedQueryPairsFeatureExtractor(this.gapSize);
   }
 }

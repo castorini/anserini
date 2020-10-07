@@ -22,6 +22,8 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Tests that BM25 score is computed according to our formula
@@ -31,9 +33,12 @@ public class BM25FeatureExtractorTest extends BaseFeatureExtractorTest<Integer> 
   private static final FeatureExtractor EXTRACTOR = new BM25FeatureExtractor(0.9,0.4);
   // 1.25,0.75
   private static final FeatureExtractor EXTRACTOR2 = new BM25FeatureExtractor();
+  private static List<FeatureExtractor> EXTRACTORS = getChain(EXTRACTOR, EXTRACTOR2);
+
+
 
   @Test
-  public void testSingleDocSingleQuery() throws IOException {
+  public void testSingleDocSingleQuery() throws IOException, ExecutionException, InterruptedException {
     String docText = "single document test case";
     String queryText = "test";
     //df, tf =1, avgFL = 4, numDocs = 1
@@ -43,12 +48,12 @@ public class BM25FeatureExtractorTest extends BaseFeatureExtractorTest<Integer> 
     // 0.287682 * 2.25 / (1 + 1.25 *(0.25 + 0.75)) = 0.287682
     float[] expected = {0.287682f,0.287682f};
 
-    assertFeatureValues(expected, queryText, docText, getChain(EXTRACTOR, EXTRACTOR2));
+    assertFeatureValues(expected, queryText, docText, EXTRACTORS);
 
   }
 
   @Test
-  public void testSingleDocMultiQuery() throws IOException {
+  public void testSingleDocMultiQuery() throws IOException, ExecutionException, InterruptedException {
     String docText = "single document test case";
     String queryText = "test document";
     //df, tf =1, avgFL = 4, numDocs = 1
@@ -58,12 +63,12 @@ public class BM25FeatureExtractorTest extends BaseFeatureExtractorTest<Integer> 
     // 0.287682 * 2.25 / (1 + 1.25 *(0.25 + 0.75)) = 0.287682
     float[] expected = {0.575364f,0.575364f};
 
-    assertFeatureValues(expected, queryText, docText, getChain(EXTRACTOR, EXTRACTOR2));
+    assertFeatureValues(expected, queryText, docText, EXTRACTORS);
 
   }
 
   @Test
-  public void testMultiDocSingleQuery() throws IOException {
+  public void testMultiDocSingleQuery() throws IOException, ExecutionException, InterruptedException {
     String queryText = "test";
     //df , tf =1, avgFL = 3, numDocs = 3
     //idf = log(1 + (3- 1 + 0.5 / 1 + 0.5)) = 0.98082
@@ -73,12 +78,12 @@ public class BM25FeatureExtractorTest extends BaseFeatureExtractorTest<Integer> 
     float[] expected = {0.92255f,0.8612f};
 
     assertFeatureValues(expected, queryText, Arrays.asList("single document test case",
-            "another document", "yet another document"), getChain(EXTRACTOR, EXTRACTOR2),0);
+            "another document", "yet another document"), EXTRACTORS,0);
 
   }
 
   @Test
-  public void testMultiDocMultiQuery() throws IOException {
+  public void testMultiDocMultiQuery() throws IOException, ExecutionException, InterruptedException {
     String queryText = "test document";
     //df , tf =1, avgFL = 3, numDocs = 3
     //idf = log(1 + (3- 1 + 0.5 / 1 + 0.5)) = 0.98082
@@ -92,11 +97,11 @@ public class BM25FeatureExtractorTest extends BaseFeatureExtractorTest<Integer> 
     float[] expected = {1.04814f,0.97844f};
 
     assertFeatureValues(expected, queryText, Arrays.asList("single document test case",
-            "another document", "yet another document"), getChain(EXTRACTOR, EXTRACTOR2),0);
+            "another document", "yet another document"), EXTRACTORS,0);
 
   }
   @Test
-  public void testMultiDocMultiQuery2() throws IOException {
+  public void testMultiDocMultiQuery2() throws IOException, ExecutionException, InterruptedException {
     String queryText = "test document";
     //df , tf =1, avgFL = 3, numDocs = 3
     //idf = log(1 + (3- 1 + 0.5 / 1 + 0.5)) = 0.98082
@@ -110,7 +115,7 @@ public class BM25FeatureExtractorTest extends BaseFeatureExtractorTest<Integer> 
     float[] expected = {1.30555f,1.2435f};
 
     assertFeatureValues(expected, queryText, Arrays.asList("single document test case test",
-            "another document", "more document"), getChain(EXTRACTOR, EXTRACTOR2),0);
+            "another document", "more document"), EXTRACTORS,0);
 
   }
 

@@ -41,7 +41,7 @@ solrini/bin/solr create -n anserini -c cord19
 Adjust the schema (if there are errors, follow the instructions below and come back):
 
 ```bash
-curl -X POST -H 'Content-type:application/json' --data-binary @src/main/resources/solr/schemas/cord19.json \   
+curl -X POST -H 'Content-type:application/json' --data-binary @src/main/resources/solr/schemas/cord19.json \
  http://localhost:8983/solr/cord19/schema
 ```
 
@@ -78,7 +78,7 @@ cd ..
 git clone https://github.com/castorini/gooselight2.git
 ```
 
-Then navigate into the `gooselight2/covid` directory, and run the following commands, if a `yarn` error occurs with `rails db:migrate` run `yarn install --check-files` to update yarn:
+Then navigate into the `gooselight2/covid` directory, and run the following commands. You may need to change to your corresponding Ruby version in the `Gemfile`. If a `yarn` error occurs with `rails db:migrate` run `yarn install --check-files` to update yarn:
 
 ```bash
 bundle install
@@ -90,7 +90,7 @@ The rails should now be avaliable on [`http://localhost:3000`](http://localhost:
 
 ## Elasticsearch + Kibana
 
-From the [Elasticsearch](http://elastic.co/start), download the correct distribution for you platform to the `anserini/` directory.
+From the [Elasticsearch](http://elastic.co/start), download the correct distribution for your platform to the `anserini/` directory.
 First, unpack and deploy Elasticsearch:
 
 ```bash
@@ -137,3 +137,5 @@ Then you can navigate to the Discover tab to run text-based search, or navigate 
 ## Replication Log
 
 + Confirmed by [@adamyy](https://github.com/adamyy) on 2020-05-29 (commit [`2947a16`](https://github.com/castorini/anserini/commit/2947a1622efae35637b83e321aba8e6fccd43489)) that these instructions work for CORD-19 release of 2020/05/26
++ Confirmed by [@yxzhu16](https://github.com/yxzhu16) on 2020-07-17 (commit [`fad12be`](https://github.com/castorini/anserini/commit/fad12be2e37a075100707c3a674eb67bc0aa57ef)) that these instructions work for CORD-19 release of 2020/06/19
++ Confirmed by [@LizzyZhang-tutu](https://github.com/LizzyZhang-tutu) on 2020-07-26 (commit [`fad12be`](https://github.com/castorini/anserini/commit/539f7d43a0183454a633f34aa20b46d2eeec1a19)) that these instructions work for CORD-19 release of 2020/07/25

@@ -48,10 +48,10 @@ if __name__ == '__main__':
         valid_docs = set(open(args.valid_docs).read().strip().split('\n'))
 
     searcher = pysearch.SimpleSearcher(args.index)
-    searcher.set_bm25_similarity(args.k1, args.b)
+    searcher.set_bm25(args.k1, args.b)
     print('Initializing BM25, setting k1={} and b={}'.format(args.k1, args.b))
     if args.rm3:
-        searcher.setRM3Reranker(args.fbTerms, args.fbDocs, args.originalQueryWeight)
+        searcher.set_rm3(args.fbTerms, args.fbDocs, args.originalQueryWeight)
         print('Initializing RM3, setting fbTerms={}, fbDocs={} and originalQueryWeight={}'.format(
             args.fbTerms, args.fbDocs, args.originalQueryWeight))
 

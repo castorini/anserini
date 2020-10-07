@@ -16,24 +16,27 @@
 
 package io.anserini.ltr.feature.base;
 
+import io.anserini.index.IndexArgs;
 import io.anserini.ltr.feature.FeatureExtractor;
 import io.anserini.rerank.RerankerContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.document.Document;
+import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.Terms;
 import org.apache.lucene.index.TermsEnum;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Returns the size of the document
  */
-public class DocSizeFeatureExtractor<T> implements FeatureExtractor<T> {
+public class DocSizeFeatureExtractor implements FeatureExtractor {
   private static final Logger LOG = LogManager.getLogger(DocSizeFeatureExtractor.class);
 
   @Override
-  public float extract(Document doc, Terms terms, RerankerContext<T> context) {
+  public float extract(Document doc, Terms terms, String queryText, List<String> queryTokens, IndexReader reader) {
     float score;
     try {
       score = (float)terms.getSumTotalTermFreq();
@@ -54,5 +57,15 @@ public class DocSizeFeatureExtractor<T> implements FeatureExtractor<T> {
   @Override
   public String getName() {
     return "DocSize";
+  }
+
+  @Override
+  public String getField() {
+    return null;
+  }
+
+  @Override
+  public FeatureExtractor clone() {
+    return new DocSizeFeatureExtractor();
   }
 }
