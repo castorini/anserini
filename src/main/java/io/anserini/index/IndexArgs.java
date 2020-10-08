@@ -225,4 +225,11 @@ public class IndexArgs {
   @Option(name = "-shard.current", metaVar = "[n]",
       usage = "The current shard number to generate (indexed from 0).")
   public int shardCurrent = -1;
+
+  // Compress options
+
+  @Option(name = "-compress.path", metaVar = "[path]",
+      usage = "compress content path.")
+  public String compressPath = null;
+
 }
