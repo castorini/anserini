@@ -38,6 +38,8 @@ import org.apache.commons.pool2.PooledObject;
 import org.apache.commons.pool2.impl.DefaultPooledObject;
 import org.apache.commons.pool2.impl.GenericObjectPool;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
+import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
+import org.apache.commons.compress.archivers.tar.TarArchiveOutputStream;
 import org.apache.http.HttpHost;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
@@ -96,7 +98,9 @@ import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.OptionHandlerFilter;
 import org.kohsuke.args4j.ParserProperties;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -113,6 +117,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import java.util.zip.GZIPOutputStream;
 
 public final class IndexCollection {
   private static final Logger LOG = LogManager.getLogger(IndexCollection.class);
@@ -161,6 +166,7 @@ public final class IndexCollection {
     final private IndexWriter writer;
     final private DocumentCollection collection;
     private FileSegment fileSegment;
+    private TarArchiveOutputStream tarOs;
 
     private LocalIndexerThread(IndexWriter writer, DocumentCollection collection, Path inputFile) {
       this.writer = writer;
@@ -186,6 +192,15 @@ public final class IndexCollection {
         FileSegment<SourceDocument> segment = collection.createFileSegment(inputFile);
         // in order to call close() and clean up resources in case of exception
         this.fileSegment = segment;
+
+        if (args.compressPath != null) {
+          String compress_file_path = args.compressPath.concat(inputFile.getFileName().toString()).concat(".tar.gz");
+          new File(compress_file_path).getParentFile().mkdirs();
+          FileOutputStream fos = new FileOutputStream(compress_file_path);
+          GZIPOutputStream gos = new GZIPOutputStream(new BufferedOutputStream(fos));
+          this.tarOs = new TarArchiveOutputStream(gos);
+        }
+
 
         for (SourceDocument d : segment) {
           if (!d.indexable()) {
@@ -217,6 +232,17 @@ public final class IndexCollection {
           } else {
             writer.addDocument(doc);
           }
+
+          if (args.compressPath != null) {
+            byte content[] = d.contents().getBytes();
+            TarArchiveEntry archive_entry = new TarArchiveEntry(d.id());
+            archive_entry.setSize(content.length);
+            tarOs.putArchiveEntry(archive_entry);
+
+            tarOs.write(content);
+            tarOs.closeArchiveEntry();
+          }
+
           cnt++;
           batch++;
 
@@ -252,6 +278,13 @@ public final class IndexCollection {
       } finally {
         if (fileSegment != null) {
             fileSegment.close();
+        }
+        if (tarOs != null) {
+          try {
+            tarOs.close();
+          } catch (IOException e) {
+            e.printStackTrace();
+          }
         }
       }
     }
