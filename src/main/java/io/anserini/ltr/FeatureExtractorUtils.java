@@ -23,6 +23,7 @@ import io.anserini.index.IndexArgs;
 import io.anserini.ltr.feature.FeatureExtractor;
 import io.anserini.ltr.feature.OrderedSequentialPairsFeatureExtractor;
 import io.anserini.ltr.feature.UnorderedSequentialPairsFeatureExtractor;
+import io.anserini.ltr.feature.base.ContentContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.document.Document;
@@ -122,6 +123,8 @@ public class FeatureExtractorUtils {
       }
       ObjectMapper mapper = new ObjectMapper();
       List<output> result = new ArrayList<>();
+      ContentContext context = new ContentContext(reader,IndexArgs.CONTENTS);
+
       for(String docId: docIds) {
         Query q = new TermQuery(new Term(IndexArgs.ID, docId));
         TopDocs topDocs = searcher.search(q, 1);
@@ -131,9 +134,8 @@ public class FeatureExtractorUtils {
         }
 
         ScoreDoc hit = topDocs.scoreDocs[0];
-        Document doc = reader.document(hit.doc, fieldsToLoad);
+        context.updateDoc(hit.doc, fieldsToLoad);
 
-        Terms terms = reader.getTermVector(hit.doc, IndexArgs.CONTENTS);
         List<Float> features = new ArrayList<>();
         long[] time = new long[localExtractors.size()];
         for(int i = 0; i < localExtractors.size(); i++){
@@ -141,7 +143,7 @@ public class FeatureExtractorUtils {
         }
         for (int i = 0; i < localExtractors.size(); i++) {
           long start = System.nanoTime();
-          features.add(localExtractors.get(i).extract(doc, terms, String.join(",", queryTokens), queryTokens, reader));
+          features.add(localExtractors.get(i).extract(context, String.join(",", queryTokens), queryTokens));
           long end = System.nanoTime();
           time[i] += end - start;
         }

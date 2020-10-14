@@ -16,16 +16,11 @@
 
 package io.anserini.ltr.feature.base;
 
-import io.anserini.index.IndexArgs;
 import io.anserini.ltr.feature.FeatureExtractor;
-import io.anserini.rerank.RerankerContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.lucene.document.Document;
-import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.Terms;
 import org.apache.lucene.index.TermsEnum;
-import org.mockito.internal.matchers.Null;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -64,9 +59,15 @@ public class AvgICTFFeatureExtractor implements FeatureExtractor {
     return sumICTF;
   }
   @Override
-  public float extract(Document doc, Terms terms, String queryText, List<String> queryTokens, IndexReader reader) {
+  public float extract(ContentContext context, String queryText, List<String> queryTokens) {
     // We need docSize, and tf for each term
-    float sumIctf = getSumICTF(terms, queryTokens);
+    long docSize = context.docSize;
+    float sumIctf = 0;
+    for(String queryToken: queryTokens) {
+      long tf = context.getTermFreq(queryToken);
+      if(tf!=0)
+        sumIctf += Math.log(docSize/tf);
+    }
     // Compute the average by dividing
     return sumIctf / queryTokens.size();
   }

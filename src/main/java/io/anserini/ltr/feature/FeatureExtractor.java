@@ -16,6 +16,7 @@
 
 package io.anserini.ltr.feature;
 
+import io.anserini.ltr.feature.base.ContentContext;
 import io.anserini.rerank.RerankerContext;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.IndexReader;
@@ -35,10 +36,9 @@ public interface FeatureExtractor {
    * @param terms a iterator to the term vector of the content field
    * @param queryText original query text
    * @param queryTokens tokenized query text
-   * @param reader in case the extractor need some global information
    * @return feature value
    */
-  float extract(Document doc, Terms terms, String queryText, List<String> queryTokens, IndexReader reader);
+  float extract(ContentContext context, String queryText, List<String> queryTokens);
 
   /**
    * we need to make sure each thread has a thread-local copy of extractors

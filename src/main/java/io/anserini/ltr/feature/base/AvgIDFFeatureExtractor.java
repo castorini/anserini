@@ -16,15 +16,11 @@
 
 package io.anserini.ltr.feature.base;
 
-import io.anserini.index.IndexArgs;
 import io.anserini.ltr.feature.FeatureExtractor;
-import io.anserini.rerank.RerankerContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.lucene.document.Document;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.Term;
-import org.apache.lucene.index.Terms;
 
 import java.io.IOException;
 import java.util.List;
@@ -35,8 +31,6 @@ import java.util.List;
  */
 public class AvgIDFFeatureExtractor implements FeatureExtractor {
   private static final Logger LOG = LogManager.getLogger(AvgIDFFeatureExtractor.class);
-  private String lastQueryProcessed = "";
-  private float lastComputedValue = 0f;
 
   private float sumIdf(IndexReader reader, List<String> queryTokens,
                        long numDocs, String field) throws IOException {
@@ -49,19 +43,14 @@ public class AvgIDFFeatureExtractor implements FeatureExtractor {
   }
 
   @Override
-  public float extract(Document doc, Terms terms, String queryText, List<String> queryTokens, IndexReader reader) {
-    if (!this.lastQueryProcessed.equals(queryText)) {
-      this.lastQueryProcessed = queryText;
-      long numDocs = reader.numDocs() - reader.numDeletedDocs();
-      try {
-        float sumIdf = sumIdf(reader, queryTokens, numDocs, IndexArgs.CONTENTS);
-        this.lastComputedValue = sumIdf / (float) queryTokens.size();
-      } catch (IOException e) {
-        LOG.warn("Error computing AvgIdf, returning 0");
-        this.lastComputedValue = 0.0f;
-      }
+  public float extract(ContentContext context, String queryText, List<String> queryTokens) {
+    float sumIdf = 0.0f;
+    long numDocs = context.docSize;
+    for(String queryToken : queryTokens) {
+      long docFreq = context.getCollectionFreq(queryToken);
+      sumIdf += Math.log(1 + (numDocs - docFreq + 0.5d) / (docFreq + 0.5d));
     }
-    return this.lastComputedValue;
+    return sumIdf / (float) queryTokens.size();
   }
 
   @Override
