@@ -16,13 +16,12 @@
 
 package io.anserini.ltr.feature.base;
 
+import io.anserini.ltr.feature.ContentContext;
 import io.anserini.ltr.feature.FeatureExtractor;
+import io.anserini.ltr.feature.QueryContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.index.Term;
 
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -32,25 +31,15 @@ import java.util.List;
 public class AvgIDFFeatureExtractor implements FeatureExtractor {
   private static final Logger LOG = LogManager.getLogger(AvgIDFFeatureExtractor.class);
 
-  private float sumIdf(IndexReader reader, List<String> queryTokens,
-                       long numDocs, String field) throws IOException {
-    float sumIdf = 0.0f;
-    for(String token : queryTokens) {
-      int docFreq = reader.docFreq(new Term(field, token));
-      sumIdf += Math.log(1 + (numDocs - docFreq + 0.5d) / (docFreq + 0.5d));
-    }
-    return sumIdf;
-  }
-
   @Override
-  public float extract(ContentContext context, String queryText, List<String> queryTokens) {
+  public float extract(ContentContext context, QueryContext queryContext) {
     float sumIdf = 0.0f;
     long numDocs = context.docSize;
-    for(String queryToken : queryTokens) {
+    for(String queryToken : queryContext.queryTokens) {
       long docFreq = context.getCollectionFreq(queryToken);
       sumIdf += Math.log(1 + (numDocs - docFreq + 0.5d) / (docFreq + 0.5d));
     }
-    return sumIdf / (float) queryTokens.size();
+    return sumIdf / (float) queryContext.queryTokens.size();
   }
 
   @Override

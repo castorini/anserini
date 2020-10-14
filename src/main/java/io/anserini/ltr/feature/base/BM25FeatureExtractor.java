@@ -17,7 +17,9 @@
 package io.anserini.ltr.feature.base;
 
 import io.anserini.index.IndexArgs;
+import io.anserini.ltr.feature.ContentContext;
 import io.anserini.ltr.feature.FeatureExtractor;
+import io.anserini.ltr.feature.QueryContext;
 import io.anserini.rerank.RerankerContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -102,63 +104,22 @@ public class BM25FeatureExtractor implements FeatureExtractor {
    * IDF and avgFL computation are described above.
    */
   @Override
-  public float extract(Document doc, Terms terms, String queryText, List<String> queryTokens, IndexReader reader) {
-    Set<String> queryTokenSet = new HashSet<>(queryTokens);
+  public float extract(ContentContext context, QueryContext queryContext) {
+    long numDocs = context.numDocs;
+    long docSize = context.docSize;
+    long totalTermFreq = context.totalTermFreq;
+    double avgFL = (double)totalTermFreq/numDocs;
+    float score = 0;
 
-    TermsEnum termsEnum = null;
-    try {
-      termsEnum = terms.iterator();
-    } catch (IOException e) {
-      LOG.warn("Error computing BM25, unable to retrieve terms enum");
-      return 0.0f;
+    for (String queryToken : queryContext.queryTokens) {
+        long docFreq = context.getDocFreq(queryToken);
+        double termFreq = context.getTermFreq(queryToken);
+        double numerator = (this.k1 + 1) * termFreq;
+        double docLengthFactor = this.b * (docSize / avgFL);
+        double denominator = termFreq + (this.k1) * (1 - this.b + docLengthFactor);
+        double idf = Math.log(1 + (numDocs - docFreq + 0.5d) / (docFreq + 0.5d));
+        score += idf * numerator / denominator;
     }
-
-    long maxDocs = reader.numDocs();
-    long sumTotalTermFreq = getSumTermFrequency(reader, IndexArgs.CONTENTS);
-    // Compute by iterating
-    long docSize  = 0L;
-
-    // NOTE df cannot be retrieved just from the term vector,
-    // the term vector here is only a partial term vector that treats this as if we only have 1 document in the index
-    Map<String, Integer> docFreqMap = null;
-    if (!lastQueryProcessed.equals(queryText)) {
-      lastQueryProcessed = queryText;
-      try {
-        docFreqMap = getDocFreqs(reader, queryTokens, IndexArgs.CONTENTS);
-      } catch (IOException e) {
-        LOG.warn("Unable to retrieve document frequencies.");
-        docFreqMap = new HashMap<>();
-      }
-      lastComputedValue = docFreqMap;
-    } else {
-      docFreqMap = lastComputedValue;
-    }
-
-    Map<String, Long> termFreqMap = new HashMap<>();
-    try {
-      while (termsEnum.next() != null) {
-        String termString = termsEnum.term().utf8ToString();
-        docSize += termsEnum.totalTermFreq();
-        if (queryTokenSet.contains(termString)) {
-          termFreqMap.put(termString, termsEnum.totalTermFreq());
-        }
-      }
-    } catch (IOException e) {
-      LOG.warn("Unable to retrieve termsEnum, treating as 0");
-    }
-
-    float score = 0.0f;
-    // Iterate over the query tokens
-    double avgFL = computeAvgFL(sumTotalTermFreq, maxDocs);
-    for (String token : queryTokenSet) {
-      long docFreq = docFreqMap.getOrDefault(token, 0);
-      double termFreq = termFreqMap.containsKey(token) ? termFreqMap.get(token) : 0;
-      double numerator = (this.k1 + 1) * termFreq;
-      double docLengthFactor = this.b * (docSize / avgFL);
-      double denominator = termFreq + (this.k1) * (1 - this.b + docLengthFactor);
-      score += computeIDF(docFreq, maxDocs) * numerator / denominator;
-    }
-
     return score;
   }
 

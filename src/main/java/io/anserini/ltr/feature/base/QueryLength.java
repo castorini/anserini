@@ -17,7 +17,9 @@
 package io.anserini.ltr.feature.base;
 
 import io.anserini.index.IndexArgs;
+import io.anserini.ltr.feature.ContentContext;
 import io.anserini.ltr.feature.FeatureExtractor;
+import io.anserini.ltr.feature.QueryContext;
 import io.anserini.rerank.RerankerContext;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.IndexReader;
@@ -32,8 +34,8 @@ import java.util.List;
 public class QueryLength implements FeatureExtractor {
 
   @Override
-  public float extract(Document doc, Terms terms, String queryText, List<String> queryTokens, IndexReader reader) {
-    return queryTokens.size();
+  public float extract(ContentContext context, QueryContext queryContext) {
+    return queryContext.queryTokens.size();
   }
 
   @Override

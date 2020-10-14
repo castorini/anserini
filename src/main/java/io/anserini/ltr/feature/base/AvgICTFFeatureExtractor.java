@@ -16,7 +16,9 @@
 
 package io.anserini.ltr.feature.base;
 
+import io.anserini.ltr.feature.ContentContext;
 import io.anserini.ltr.feature.FeatureExtractor;
+import io.anserini.ltr.feature.QueryContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.index.Terms;
@@ -34,42 +36,18 @@ import java.util.List;
 public class AvgICTFFeatureExtractor implements FeatureExtractor {
   private static final Logger LOG = LogManager.getLogger(AvgICTFFeatureExtractor.class);
 
-  // Calculate term frequencies, if error returns an empty map, couting all tf = 0
-  private float getSumICTF(Terms terms, List<String> queryTokens) {
-    float sumICTF = 0.0f;
-    float docSize = 0.0f;
-    List<Long> termFreqs = new ArrayList<>();
-    try {
-      TermsEnum termsEnum = terms.iterator();
-      while (termsEnum.next() != null) {
-        String termString = termsEnum.term().utf8ToString();
-        docSize += termsEnum.totalTermFreq();
-        if (queryTokens.contains(termString) && termsEnum.totalTermFreq() > 0) {
-          termFreqs.add(termsEnum.totalTermFreq());
-        }
-      }
-    } catch (IOException e) {
-      LOG.warn("Error retrieving term frequencies");
-      return 0.0f;
-    }
-
-    for (Long termFreq : termFreqs) {
-      sumICTF += Math.log(docSize/termFreq);
-    }
-    return sumICTF;
-  }
   @Override
-  public float extract(ContentContext context, String queryText, List<String> queryTokens) {
+  public float extract(ContentContext context, QueryContext queryContext) {
     // We need docSize, and tf for each term
     long docSize = context.docSize;
     float sumIctf = 0;
-    for(String queryToken: queryTokens) {
+    for(String queryToken: queryContext.queryTokens) {
       long tf = context.getTermFreq(queryToken);
       if(tf!=0)
         sumIctf += Math.log(docSize/tf);
     }
     // Compute the average by dividing
-    return sumIctf / queryTokens.size();
+    return sumIctf / queryContext.queryTokens.size();
   }
 
   @Override

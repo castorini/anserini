@@ -17,7 +17,9 @@
 package io.anserini.ltr.feature.base;
 
 import io.anserini.index.IndexArgs;
+import io.anserini.ltr.feature.ContentContext;
 import io.anserini.ltr.feature.FeatureExtractor;
+import io.anserini.ltr.feature.QueryContext;
 import io.anserini.rerank.RerankerContext;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.IndexReader;
@@ -35,23 +37,14 @@ import java.util.List;
 public class MatchingTermCount implements FeatureExtractor {
 
   @Override
-  public float extract(Document doc, Terms terms, String queryText, List<String> queryTokens, IndexReader reader) {
-    try {
-      TermsEnum termsEnum = terms.iterator();
-      int matching = 0;
-
-      BytesRef text = null;
-      while ((text = termsEnum.next()) != null) {
-        String term = text.utf8ToString();
-        if (queryTokens.contains(term)) {
-          matching++;
-        }
-      }
-      return matching;
-
-    } catch (IOException e) {
-      return 0;
+  public float extract(ContentContext context, QueryContext queryContext) {
+    int matching = 0;
+    for(String queryToken : queryContext.queryTokens) {
+      long tf = context.getTermFreq(queryToken);
+      if(tf!=0)
+        matching++;
     }
+    return matching;
   }
 
   @Override

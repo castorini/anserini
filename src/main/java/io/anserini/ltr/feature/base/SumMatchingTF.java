@@ -17,7 +17,9 @@
 package io.anserini.ltr.feature.base;
 
 import io.anserini.index.IndexArgs;
+import io.anserini.ltr.feature.ContentContext;
 import io.anserini.ltr.feature.FeatureExtractor;
+import io.anserini.ltr.feature.QueryContext;
 import io.anserini.rerank.RerankerContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -36,36 +38,10 @@ public class SumMatchingTF implements FeatureExtractor {
   private static final Logger LOG = LogManager.getLogger(SumMatchingTF.class);
 
   @Override
-  public float extract(Document doc, Terms terms, String queryText, List<String> queryTokenList, IndexReader reader) {
-
-    TermsEnum termsEnum = null;
-    try {
-      termsEnum = terms.iterator();
-    } catch (IOException e) {
-      LOG.warn("No terms enum found");
-      return 0.0f;
-    }
-
-    Map<String, Long> termFreqMap = new HashMap<>();
-    Set<String> queryTokens = new HashSet<>(queryTokenList);
-    try {
-      while (termsEnum.next() != null) {
-        String termString = termsEnum.term().utf8ToString();
-        if (queryTokens.contains(termString)) {
-          termFreqMap.put(termString, termsEnum.totalTermFreq());
-        }
-      }
-    } catch (IOException e) {
-      LOG.warn("Error retrieving total term freq");
-    }
-
+  public float extract(ContentContext context, QueryContext queryContext) {
     float score = 0.0f;
-    for (String queryToken : queryTokens) {
-      if (termFreqMap.containsKey(queryToken)) {
-        score += termFreqMap.get(queryToken);
-      } else {
-        score += 0.0f;
-      }
+    for (String queryToken : queryContext.queryTokens) {
+      score += context.getTermFreq(queryToken);
     }
     return score;
   }

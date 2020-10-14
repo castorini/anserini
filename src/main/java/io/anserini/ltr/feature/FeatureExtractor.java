@@ -16,15 +16,7 @@
 
 package io.anserini.ltr.feature;
 
-import io.anserini.ltr.feature.base.ContentContext;
-import io.anserini.rerank.RerankerContext;
-import org.apache.lucene.document.Document;
-import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.index.Terms;
-
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * A feature extractor.
@@ -38,7 +30,7 @@ public interface FeatureExtractor {
    * @param queryTokens tokenized query text
    * @return feature value
    */
-  float extract(ContentContext context, String queryText, List<String> queryTokens);
+  float extract(ContentContext context, QueryContext queryContext);
 
   /**
    * we need to make sure each thread has a thread-local copy of extractors

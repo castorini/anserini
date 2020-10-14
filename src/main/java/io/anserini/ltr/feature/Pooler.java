@@ -1,4 +1,4 @@
-package io.anserini.ltr.feature.base;
+package io.anserini.ltr.feature;
 
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.IndexReader;

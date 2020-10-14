@@ -21,28 +21,18 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.anserini.index.IndexArgs;
 import io.anserini.ltr.feature.FeatureExtractor;
-import io.anserini.ltr.feature.OrderedSequentialPairsFeatureExtractor;
-import io.anserini.ltr.feature.UnorderedSequentialPairsFeatureExtractor;
-import io.anserini.ltr.feature.base.ContentContext;
+import io.anserini.ltr.feature.ContentContext;
+import io.anserini.ltr.feature.QueryContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.Term;
-import org.apache.lucene.index.Terms;
 import org.apache.lucene.search.*;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
-import org.kohsuke.args4j.CmdLineException;
-import org.kohsuke.args4j.Option;
-import org.kohsuke.args4j.CmdLineParser;
 
 import java.io.IOException;
-import java.io.File;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.FileInputStream;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.ArrayList;
@@ -123,7 +113,8 @@ public class FeatureExtractorUtils {
       }
       ObjectMapper mapper = new ObjectMapper();
       List<output> result = new ArrayList<>();
-      ContentContext context = new ContentContext(reader,IndexArgs.CONTENTS);
+      ContentContext contentContext = new ContentContext(reader,IndexArgs.CONTENTS);
+      QueryContext queryContext = new QueryContext(queryTokens);
 
       for(String docId: docIds) {
         Query q = new TermQuery(new Term(IndexArgs.ID, docId));
@@ -143,7 +134,7 @@ public class FeatureExtractorUtils {
         }
         for (int i = 0; i < localExtractors.size(); i++) {
           long start = System.nanoTime();
-          features.add(localExtractors.get(i).extract(context, String.join(",", queryTokens), queryTokens));
+          features.add(localExtractors.get(i).extract(contentContext, queryContext));
           long end = System.nanoTime();
           time[i] += end - start;
         }

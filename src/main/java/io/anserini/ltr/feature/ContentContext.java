@@ -1,4 +1,4 @@
-package io.anserini.ltr.feature.base;
+package io.anserini.ltr.feature;
 
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.IndexReader;
@@ -15,8 +15,7 @@ public class ContentContext {
     private IndexReader reader;
     private String fieldName;
     public long totalTermFreq;
-    public long nonEmptyDocs;
-    public double avgFL;
+    public long numDocs;
 
     public Document doc;
     public long docSize;
@@ -31,9 +30,8 @@ public class ContentContext {
     public ContentContext(IndexReader reader, String fieldName) throws IOException {
         this.reader = reader;
         this.fieldName = fieldName;
-        nonEmptyDocs = reader.getDocCount(fieldName);
+        numDocs = reader.getDocCount(fieldName);
         totalTermFreq = reader.getSumTotalTermFreq(fieldName);
-        avgFL = (double)totalTermFreq/nonEmptyDocs;
     }
 
     public Integer getDocFreq(String queryToken) {
