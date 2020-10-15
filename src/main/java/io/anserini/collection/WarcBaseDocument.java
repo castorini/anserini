@@ -117,7 +117,7 @@ public abstract class WarcBaseDocument implements SourceDocument {
   @Override
   public String contents() {
     try {
-      return JsoupStringTransform.SINGLETON.apply(getContent());
+      return JsoupStringTransform.SINGLETON.clean(getContent());
     } catch (Exception e) {
       LOG.error("Error extracting contents from raw document: " + id());
       throw new InvalidContentsException();
