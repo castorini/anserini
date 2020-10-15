@@ -36,8 +36,14 @@ public class UniqueTermCount implements FeatureExtractor {
 
   @Override
   public float extract(ContentContext context, QueryContext queryContext) {
-    Set<String> queryTokenSet = new HashSet<>(queryContext.queryTokens);
-    return queryTokenSet.size();
+    if(queryContext.cache.containsKey(getName())){
+      return queryContext.cache.get(getName());
+    } else {
+      Set<String> queryTokenSet = new HashSet<>(queryContext.queryTokens);
+      float uniqueQueryTerms = queryTokenSet.size();
+      queryContext.cache.put(getName(), uniqueQueryTerms);
+      return uniqueQueryTerms;
+    }
   }
 
   @Override

@@ -33,13 +33,19 @@ public class AvgIDFFeatureExtractor implements FeatureExtractor {
 
   @Override
   public float extract(ContentContext context, QueryContext queryContext) {
-    float sumIdf = 0.0f;
-    long numDocs = context.docSize;
-    for(String queryToken : queryContext.queryTokens) {
-      long docFreq = context.getCollectionFreq(queryToken);
-      sumIdf += Math.log(1 + (numDocs - docFreq + 0.5d) / (docFreq + 0.5d));
+    if(queryContext.cache.containsKey(getName())){
+      return queryContext.cache.get(getName());
+    } else {
+      float sumIdf = 0.0f;
+      long numDocs = context.docSize;
+      for(String queryToken : queryContext.queryTokens) {
+        long docFreq = context.getCollectionFreq(queryToken);
+        sumIdf += Math.log(1 + (numDocs - docFreq + 0.5d) / (docFreq + 0.5d));
+      }
+      float avgIdf = sumIdf / (float) queryContext.queryTokens.size();
+      queryContext.cache.put(getName(), avgIdf);
+      return avgIdf;
     }
-    return sumIdf / (float) queryContext.queryTokens.size();
   }
 
   @Override

@@ -125,7 +125,7 @@ public class FeatureExtractorUtils {
         }
 
         ScoreDoc hit = topDocs.scoreDocs[0];
-        context.updateDoc(hit.doc, fieldsToLoad);
+        contentContext.updateDoc(hit.doc, fieldsToLoad);
 
         List<Float> features = new ArrayList<>();
         long[] time = new long[localExtractors.size()];
