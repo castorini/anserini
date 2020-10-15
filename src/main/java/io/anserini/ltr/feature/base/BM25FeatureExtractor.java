@@ -45,21 +45,10 @@ import java.util.Set;
  */
 public class BM25FeatureExtractor implements FeatureExtractor {
   private static final Logger LOG = LogManager.getLogger(BM25FeatureExtractor.class);
-  private String lastQueryProcessed = "";
-  private Map<String,Integer> lastComputedValue = new HashMap<>();
-
-  public static Map<String, Integer> getDocFreqs(IndexReader reader, List<String> queryTokens, String field) throws IOException {
-    Map<String,Integer> docFreqs = new HashMap<>();
-    // Must retrieve from multifields
-    for (String queryToken : queryTokens) {
-      docFreqs.put(queryToken, reader.docFreq(new Term(field, queryToken)));
-    }
-    return docFreqs;
-  }
 
   // Default values, could be changed
-  private double k1 = 1.2;
-  private double b = 0.75;
+  private double k1 = 0.9;
+  private double b = 0.4;
 
   public BM25FeatureExtractor() { }
 
@@ -67,35 +56,6 @@ public class BM25FeatureExtractor implements FeatureExtractor {
     this.k1 = k;
     this.b = b;
   }
-
-  // Computed as log(1 + (numDocs - docFreq + 0.5)/(docFreq + 0.5)).
-  private double computeIDF(long docFreq, long numDocs) {
-    double denominator = docFreq + 0.5d;
-    double numerator = numDocs - docFreq + 0.5d;
-    return Math.log(1 + (numerator / denominator) );
-  }
-
-  // sumTotalTermFreq / maxDoc, 1 if sumTotalTermFreq not stored, or missing
-  private double computeAvgFL(long sumTermFreqs, long maxDocs) {
-    if (sumTermFreqs == 0) {
-      return 1.0d;
-    } else {
-      return (sumTermFreqs/ (double) maxDocs);
-    }
-  }
-
-  private long getSumTermFrequency(IndexReader reader, String fieldName) {
-    Terms collectionTermVector = null;
-    try {
-      collectionTermVector = MultiTerms.getTerms(reader, fieldName);
-      long totalTermFreq = collectionTermVector.getSumTotalTermFreq();
-      return totalTermFreq;
-    } catch (IOException e) {
-      LOG.warn("Unable to get total term frequency, it might not be indexed");
-    }
-    return 0;
-  }
-
 
   /**
    * We will implement this according to the Lucene specification
@@ -125,7 +85,7 @@ public class BM25FeatureExtractor implements FeatureExtractor {
 
   @Override
   public String getName() {
-    return "BM25";
+    return String.format("BM25(k1=%.2f,b1=%.2f)",k1,b);
   }
 
   @Override
