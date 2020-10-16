@@ -22,6 +22,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import io.anserini.index.IndexArgs;
 import io.anserini.rerank.RerankerContext;
+import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.document.Document;
@@ -44,80 +45,19 @@ import java.util.Set;
 public class OrderedSequentialPairsFeatureExtractor implements FeatureExtractor {
   private static final Logger LOG = LogManager.getLogger(OrderedSequentialPairsFeatureExtractor.class);
 
-  protected ArrayList<Integer> gapSizes = new ArrayList<>();
-  protected Map<Integer, Map<String, Integer>> counters = new HashMap<>();
-
-  protected Map<String, Integer> singleCountMap = new HashMap<>();
-  protected Map<String, Set<String>> queryPairMap = new HashMap<>();
-  protected Document lastProcessedDoc = null;
-
-  private void resetCounters(Document newestDoc) {
-    singleCountMap.clear();
-    queryPairMap.clear();
-    for (int i : counters.keySet()) {
-      counters.get(i).clear();
-    }
-    lastProcessedDoc = newestDoc;
-  }
-
-  protected int gapSize;
-
-  // Called when we add these to the chain
+  private int gapSize;
   public OrderedSequentialPairsFeatureExtractor(int gapSize) {
     this.gapSize = gapSize;
-    // Add a window to the counters
-    counters.put(gapSize, new HashMap<>());
-    gapSizes.add(gapSize);
   }
 
   @Override
-  public float extract(Document doc, Terms terms, String queryText, List<String> queryTokens, IndexReader reader) {
-    try {
-      return computeOrderedFrequencyScore(doc, terms, queryTokens);
-    } catch (IOException e) {
-      LOG.error("IOException, returning 0.0f");
-      return 0.0f;
+  public float extract(ContentContext context, QueryContext queryContext) {
+    float count = 0;
+    List<Pair<String, String>> queryPairs= queryContext.genQueryBigram();
+    for(Pair<String, String> pair: queryPairs){
+      count += context.CountBigram(pair.getLeft(),pair.getRight(),gapSize);
     }
-  }
-
-  /**
-   * Method is used to determine which pairs we will count for,
-   * implementation can be overridden for other features that are computed similarly
-   * @param queryTokens query tokens
-   */
-  protected void populateQueryPairMap(List<String> queryTokens) {
-    // Construct a count map and a map of phrase pair x y, x->y
-    for (int i = 0; i < queryTokens.size() - 1; i++) {
-      if (queryPairMap.containsKey(queryTokens.get(i))) {
-        queryPairMap.get(queryTokens.get(i)).add(queryTokens.get(i+1));
-      } else {
-        queryPairMap.put(queryTokens.get(i), new HashSet<>(Arrays.asList(queryTokens.get(i + 1))));
-      }
-      singleCountMap.put(queryTokens.get(i), 0);
-    }
-  }
-
-  protected float computeOrderedFrequencyScore(Document doc, Terms terms,List<String> queryTokens) throws IOException {
-
-    // Only compute the score once for all window sizes on the same document
-    if (lastProcessedDoc != doc) {
-      resetCounters(doc);
-
-      populateQueryPairMap(queryTokens);
-
-      // Now make the call to the static method
-      CountBigramPairs.countPairs(singleCountMap, queryPairMap, gapSizes, counters, terms);
-    }
-
-    float score = 0.0f;
-    // Smoothing count of 1
-    Map<String, Integer> phraseCountMap = counters.get(this.gapSize);
-    for (String queryToken : queryPairMap.keySet()) {
-      float countToUse = phraseCountMap.getOrDefault(queryToken, 0);
-      score += countToUse;
-    }
-
-    return score;
+    return count;
   }
 
   @Override

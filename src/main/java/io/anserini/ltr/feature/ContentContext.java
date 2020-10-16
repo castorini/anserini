@@ -83,4 +83,18 @@ public class ContentContext {
         return termFreqs.getOrDefault(queryToken, 0L);
     }
 
+    public int CountBigram(String first, String second, int gap) {
+        List<Integer> firstPositions = termPositions.get(first);
+        List<Integer> secondPositions = termPositions.get(second);
+        int count = 0;
+        for(int i: firstPositions){
+            for(int j: secondPositions){
+                if (i < j && j <= i+gap){
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+
 }
