@@ -97,4 +97,13 @@ public class ContentContext {
         return count;
     }
 
+    public Long getTotalTermFreq(String Token) {
+        try {
+            return reader.totalTermFreq(new Term(this.fieldName ,Token));
+        } catch (IOException e) {
+            System.out.println(e);
+            return 0L;
+        }
+    }
+
 }
