@@ -26,7 +26,9 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Set;
@@ -53,60 +55,80 @@ public class EpidemicQACollection extends DocumentCollection<EpidemicQACollectio
   public class Segment extends FileSegment<EpidemicQACollection.Document> {
     public Segment(Path path) throws IOException {
       super(path);
-      bufferedReader = new BufferedReader(new InputStreamReader(
+      this.bufferedReader = new BufferedReader(new InputStreamReader(
           new FileInputStream(path.toString())));
-
-      csvParser = new CSVParser(bufferedReader, CSVFormat.DEFAULT
-          .withFirstRecordAsHeader()
-          .withIgnoreHeaderCase()
-          .withTrim());
-
-      iterator = csvParser.iterator();
-      if (iterator.hasNext()) {
-        record = iterator.next();
-      }
     }
 
     @Override
     public void readNext() throws NoSuchElementException {
-      if (record == null) {
-        throw new NoSuchElementException("Record is empty");
-      } else {
-        bufferedRecord = new Cord19AbstractCollection.Document(record);
-        if (iterator.hasNext()) { // if CSV contains more lines, we parse the next record
-          record = iterator.next();
-        } else {
-          atEOF = true; // there is no more JSON object in the bufferedReader
-        }
+      String nextDocumentId;
+
+      try {
+        nextDocumentId = bufferedReader.readLine();
+      } catch (IOException e) {
+        LOG.error(e);
+        throw new NoSuchElementException();
       }
+      if (nextDocumentId == null) {
+        throw new NoSuchElementException();
+      }
+
+      bufferedRecord = new EpidemicQACollection.Document(nextDocumentId);
     }
 
     @Override
     public void close() {
       super.close();
-      if (csvParser != null) {
-        try {
-          csvParser.close();
-        } catch (IOException e) {
-          // do nothing
-        }
-      }
     }
   }
 
   /**
-   * A document in a CORD-19 collection.
+   * TODO(justinborromeo) Do documentation
    */
-  public class Document extends Cord19BaseDocument {
-    public Document(CSVRecord record) {
-      this.record = record;
+  public class Document implements SourceDocument {
+    // The name of the document from info.txt.
+    private final String documentID;
+    private final String document;
 
-      id = record.get("cord_uid");
-      content = record.get("title").replace("\n", " ");
-      content += record.get("abstract").isEmpty() ? "" : "\n" + record.get("abstract");
+    public Document(String documentId) {
+      this.documentID = documentId;
+      this.document = getEpidemicQAJson(EpidemicQACollection.this.path.toString());
+    }
 
-      String fullTextJson = getFullTextJson(Cord19AbstractCollection.this.path.toString());
-      raw = buildRawJson(fullTextJson);
+    @Override
+    public String id() {
+      return documentID;
+    }
+
+    @Override
+    public String contents() {
+      return document;
+    }
+
+    @Override
+    public String raw() {
+      return document;
+    }
+
+    @Override
+    public boolean indexable() {
+      return true;
+    }
+
+    private final String getEpidemicQAJson(String basePath) {
+      if (this.documentID.isEmpty()) {
+        return null;
+      }
+
+      String documentPath = "/" + this.documentID;
+      String documentJson = null;
+      try {
+        documentJson = new String(Files.readAllBytes(
+            Paths.get(basePath + documentPath)));
+      } catch (IOException e) {
+        LOG.error("Error parsing file at " + documentPath);
+      }
+      return documentJson;
     }
   }
 }
