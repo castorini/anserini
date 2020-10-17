@@ -73,4 +73,14 @@ public class ContentContext {
         return termFreqs.getOrDefault(queryToken, 0L);
     }
 
+    public Long getTotalTermFreq(String queryToken) {
+        try {
+             return reader.totalTermFreq(new Term(this.fieldName, queryToken));
+        } catch (IOException e) {
+            System.out.println(e);
+            return 0L;
+        }
+    }
+
+
 }

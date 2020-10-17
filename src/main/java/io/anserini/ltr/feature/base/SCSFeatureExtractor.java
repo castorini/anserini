@@ -17,7 +17,9 @@
 package io.anserini.ltr.feature.base;
 
 import io.anserini.index.IndexArgs;
+import io.anserini.ltr.feature.ContentContext;
 import io.anserini.ltr.feature.FeatureExtractor;
+import io.anserini.ltr.feature.QueryContext;
 import io.anserini.rerank.RerankerContext;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.IndexReader;
@@ -50,15 +52,15 @@ public class SCSFeatureExtractor implements FeatureExtractor {
     return map;
   }
 
-  private float sumSC(IndexReader reader, Map<String, Integer> queryTokenMap,
-                      int queryLength, String field) throws IOException {
+  private float sumSC(ContentContext context, Map<String, Integer> queryTokenMap,
+                      int queryLength) throws IOException {
 
-    long termCount = reader.getSumTotalTermFreq(field);
+    long termCount = context.totalTermFreq;
     // We now have a doc size, compute the actual value
     float score = 0.0f;
     for (String token : queryTokenMap.keySet()) {
       float prtq = queryTokenMap.get(token) / (float) queryLength;
-      long tf = reader.totalTermFreq(new Term(field, token));
+      long tf = context.getTotalTermFreq(token);
       float prtd = (float)tf /termCount;
       if (prtd == 0 || prtq == 0) continue;
       score += prtq * Math.log(prtq / prtd);
@@ -67,15 +69,15 @@ public class SCSFeatureExtractor implements FeatureExtractor {
   }
 
   @Override
-  public float extract(Document doc, Terms terms, String queryText, List<String> queryTokens, IndexReader reader) {
+  public float extract(ContentContext context, QueryContext queryContext) {
 
-    if (!this.lastQueryProcessed.equals(queryText)) {
-      this.lastQueryProcessed = queryText;
+    if (!this.lastQueryProcessed.equals(queryContext.queryText)) {
+      this.lastQueryProcessed = queryContext.queryText;
       this.lastComputedScore = 0.0f;
 
-      Map<String, Integer> queryCountMap = queryTermMap(queryTokens);
+      Map<String, Integer> queryCountMap = queryTermMap(queryContext.queryTokens);
       try {
-        this.lastComputedScore = sumSC(reader, queryCountMap, queryTokens.size(), IndexArgs.CONTENTS);
+        this.lastComputedScore = sumSC(context, queryCountMap, queryContext.queryTokens.size());
       } catch (IOException e) {
         this.lastComputedScore = 0.0f;
       }

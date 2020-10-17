@@ -17,7 +17,9 @@
 package io.anserini.ltr.feature.base;
 
 import io.anserini.index.IndexArgs;
+import io.anserini.ltr.feature.ContentContext;
 import io.anserini.ltr.feature.FeatureExtractor;
+import io.anserini.ltr.feature.QueryContext;
 import io.anserini.rerank.RerankerContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -44,31 +46,26 @@ public class TFIDFFeatureExtractor implements FeatureExtractor {
   private Map<String,Integer> lastComputedValue = new HashMap<>();
 
   @Override
-  public float extract(Document doc, Terms terms, String queryText, List<String> queryTokens, IndexReader reader) {
+  public float extract(ContentContext context, QueryContext queryContext) {
     float score = 0.0f;
     Map<String, Long> countMap = new HashMap<>();
     Map<String, Integer> docFreqs = null;
-    long numDocs =  reader.numDocs();
-    if (!lastQueryProcessed.equals(queryText)) {
-      lastQueryProcessed = queryText;
+    long numDocs =  context.numDocs;
+    if (!lastQueryProcessed.equals(queryContext.queryText)) {
+      lastQueryProcessed = queryContext.queryText;
       docFreqs = new HashMap<>();
-      for (String queryToken : queryTokens) {
-        try {
-          docFreqs.put(queryToken, reader.docFreq(new Term(IndexArgs.CONTENTS, queryToken)));
-        } catch (IOException e) {
-          LOG.error("Error trying to read document frequency");
-          docFreqs.put(queryToken, 0);
-        }
+      for (String queryToken : queryContext.queryTokens) {
+        docFreqs.put(queryToken, context.getDocFreq(queryToken));
       }
       lastComputedValue = docFreqs;
     } else {
       docFreqs = lastComputedValue;
     }
     try {
-      TermsEnum termsEnum = terms.iterator();
+      TermsEnum termsEnum = context.termVector.iterator();
       while (termsEnum.next() != null) {
         String termString = termsEnum.term().utf8ToString();
-        if (queryTokens.contains(termString)) {
+        if (queryContext.queryTokens.contains(termString)) {
           countMap.put(termString, termsEnum.totalTermFreq());
         }
       }
@@ -83,7 +80,7 @@ public class TFIDFFeatureExtractor implements FeatureExtractor {
     //float coord = similarity.coord(countMap.size(), context.getQueryTokens().size());
     // coord removed in Lucene 7
 
-    for (String token : queryTokens) {
+    for (String token : queryContext.queryTokens) {
       long termFreq = countMap.getOrDefault(token, 0L);
       long docFreq = docFreqs.getOrDefault(token, 0);
       float tf = similarity.tf(termFreq);

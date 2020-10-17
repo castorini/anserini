@@ -17,7 +17,9 @@
 package io.anserini.ltr.feature.base;
 
 import io.anserini.index.IndexArgs;
+import io.anserini.ltr.feature.ContentContext;
 import io.anserini.ltr.feature.FeatureExtractor;
+import io.anserini.ltr.feature.QueryContext;
 import io.anserini.rerank.RerankerContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -45,16 +47,15 @@ public class SCQFeatureExtractor implements FeatureExtractor {
     return (float) Math.log(1 + (numDocs - docFreq + 0.5d) / (docFreq + 0.5d));
   }
 
-  private float sumSCQ(IndexReader reader, List<String> queryTokens,
-                       String field) throws IOException {
+  private float sumSCQ(ContentContext context, QueryContext queryContext) throws IOException {
 
-    long numDocs = reader.numDocs() - reader.numDeletedDocs();
+    long numDocs = context.numDocs;
     float scq = 0.0f;
 
-    for (String token : queryTokens) {
-      long docFreq = reader.docFreq(new Term(field, token));
+    for (String token : queryContext.queryTokens) {
+      long docFreq = context.getDocFreq(token);
       //TODO what about tf = 0
-      long termFreq = reader.totalTermFreq(new Term(field, token));
+      long termFreq = context.getTotalTermFreq(token);
       if (termFreq == 0) continue;
       scq += 1 + Math.log(termFreq* computeIDF(docFreq, numDocs));
     }
@@ -63,14 +64,14 @@ public class SCQFeatureExtractor implements FeatureExtractor {
   }
 
   @Override
-  public float extract(Document doc, Terms terms, String queryText, List<String> queryTokens, IndexReader reader) {
-    if (!lastQueryProcessed.equals(queryText)) {
-      this.lastQueryProcessed = queryText;
+  public float extract(ContentContext context, QueryContext queryContext) {
+    if (!lastQueryProcessed.equals(queryContext.queryText)) {
+      this.lastQueryProcessed = queryContext.queryText;
       this.lastComputedScore = 0.0f;
 
       try {
-        float sumScq = sumSCQ(reader, queryTokens, IndexArgs.CONTENTS);
-        this.lastComputedScore = sumScq / queryTokens.size();
+        float sumScq = sumSCQ(context, queryContext);
+        this.lastComputedScore = sumScq / queryContext.queryTokens.size();
       } catch (IOException e) {
         this.lastComputedScore = 0.0f;
       }
