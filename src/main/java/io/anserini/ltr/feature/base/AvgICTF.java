@@ -33,8 +33,8 @@ import java.util.List;
  * Carmel, Yom-Tov Estimating query difficulty for Information Retrieval
  * log(|D| / tf)
  */
-public class AvgICTFFeatureExtractor implements FeatureExtractor {
-  private static final Logger LOG = LogManager.getLogger(AvgICTFFeatureExtractor.class);
+public class AvgICTF implements FeatureExtractor {
+  private static final Logger LOG = LogManager.getLogger(AvgICTF.class);
 
   @Override
   public float extract(ContentContext context, QueryContext queryContext) {
@@ -44,7 +44,7 @@ public class AvgICTFFeatureExtractor implements FeatureExtractor {
     for(String queryToken: queryContext.queryTokens) {
       long tf = context.getTermFreq(queryToken);
       if(tf!=0)
-        sumIctf += Math.log(docSize/tf);
+        sumIctf += Math.log((double)docSize/tf);
     }
     // Compute the average by dividing
     return sumIctf / queryContext.queryTokens.size();
@@ -62,6 +62,6 @@ public class AvgICTFFeatureExtractor implements FeatureExtractor {
 
   @Override
   public FeatureExtractor clone() {
-    return new AvgICTFFeatureExtractor();
+    return new AvgICTF();
   }
 }

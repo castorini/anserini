@@ -6,34 +6,32 @@ import io.anserini.ltr.feature.QueryContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class LMDir implements FeatureExtractor {
-  private static final Logger LOG = LogManager.getLogger(LMDir.class);
+public class DFR_PL2 implements FeatureExtractor {
+  private static final Logger LOG = LogManager.getLogger(DFR_PL2.class);
 
-  private double mu = 1000;
+  public DFR_PL2() { }
 
-  public LMDir() { }
-
-  public LMDir(double mu) {
-    this.mu = mu;
+  double log2(double x){
+    return Math.log(x)/Math.log(2);
   }
 
   @Override
   public float extract(ContentContext context, QueryContext queryContext) {
+    long numDocs = context.numDocs;
     long docSize = context.docSize;
     long totalTermFreq = context.totalTermFreq;
+    double avgFL = (double)totalTermFreq/numDocs;
     float score = 0;
 
     for (String queryToken : queryContext.queryTokens) {
-      double termFreq = context.getTermFreq(queryToken);
-      double collectProb = (double)context.getCollectionFreq(queryToken)/totalTermFreq;
-      score += (termFreq+mu*collectProb)/(mu+docSize);
+
     }
     return score;
   }
 
   @Override
   public String getName() {
-    return String.format("LMD(mu=%.0f)",mu);
+    return "DFR_PL2";
   }
 
   @Override
@@ -41,10 +39,8 @@ public class LMDir implements FeatureExtractor {
     return null;
   }
 
-  public double getMu() { return mu; }
-
   @Override
   public FeatureExtractor clone() {
-    return new LMDir(this.mu);
+    return new DFR_PL2();
   }
 }

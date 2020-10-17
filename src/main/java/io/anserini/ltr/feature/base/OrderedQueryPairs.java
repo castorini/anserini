@@ -19,38 +19,35 @@ package io.anserini.ltr.feature.base;
 import io.anserini.ltr.feature.ContentContext;
 import io.anserini.ltr.feature.FeatureExtractor;
 import io.anserini.ltr.feature.QueryContext;
+import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
 /**
- * Average IDF, idf calculated using log( 1+ (N - N_t + 0.5)/(N_t + 0.5))
- * where N is the total number of docs, calculated like in BM25
+ * Counts occurrences of all pairs of query tokens
  */
-public class AvgIDFFeatureExtractor implements FeatureExtractor {
-  private static final Logger LOG = LogManager.getLogger(AvgIDFFeatureExtractor.class);
+public class OrderedQueryPairs implements FeatureExtractor {
+  private static final Logger LOG = LogManager.getLogger(OrderedQueryPairs.class);
+  private int gapSize;
 
-  @Override
+  public OrderedQueryPairs(int gapSize) {
+    this.gapSize = gapSize;
+  }
+
   public float extract(ContentContext context, QueryContext queryContext) {
-    if(queryContext.cache.containsKey(getName())){
-      return queryContext.cache.get(getName());
-    } else {
-      float sumIdf = 0.0f;
-      long numDocs = context.docSize;
-      for(String queryToken : queryContext.queryTokens) {
-        long docFreq = context.getCollectionFreq(queryToken);
-        sumIdf += Math.log(1 + (numDocs - docFreq + 0.5d) / (docFreq + 0.5d));
-      }
-      float avgIdf = sumIdf / (float) queryContext.queryTokens.size();
-      queryContext.cache.put(getName(), avgIdf);
-      return avgIdf;
+    float count = 0;
+    List<Pair<String, String>> queryPairs= queryContext.genQueryPair();
+    for(Pair<String, String> pair: queryPairs){
+      count += context.CountBigram(pair.getLeft(),pair.getRight(),gapSize);
     }
+    return count;
   }
 
   @Override
   public String getName() {
-    return "AvgIDF";
+    return "OrderedAllPairs" + this.gapSize;
   }
 
   @Override
@@ -60,6 +57,6 @@ public class AvgIDFFeatureExtractor implements FeatureExtractor {
 
   @Override
   public FeatureExtractor clone() {
-    return new AvgIDFFeatureExtractor();
+    return new OrderedQueryPairs(this.gapSize);
   }
 }

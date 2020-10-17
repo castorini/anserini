@@ -14,10 +14,9 @@
  * limitations under the License.
  */
 
-package io.anserini.ltr.feature;
+package io.anserini.ltr.feature.base;
 
-import io.anserini.index.IndexArgs;
-import io.anserini.rerank.RerankerContext;
+import io.anserini.ltr.feature.FeatureExtractor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.TokenStream;
