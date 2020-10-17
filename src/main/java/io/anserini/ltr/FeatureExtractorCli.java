@@ -2,8 +2,8 @@ package io.anserini.ltr;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.anserini.ltr.feature.OrderedSequentialPairsFeatureExtractor;
-import io.anserini.ltr.feature.UnorderedSequentialPairsFeatureExtractor;
+import io.anserini.ltr.feature.base.OrderedSequentialPairs;
+import io.anserini.ltr.feature.base.UnorderedSequentialPairs;
 import io.anserini.ltr.feature.base.*;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
@@ -45,10 +45,10 @@ public class FeatureExtractorCli {
 
     FeatureExtractorUtils utils = new FeatureExtractorUtils(cmdArgs.indexDir, cmdArgs.threads);
 
-    utils.add(new AvgICTFFeatureExtractor());
-    utils.add(new AvgIDFFeatureExtractor());
-    utils.add(new BM25FeatureExtractor());
-    utils.add(new DocSizeFeatureExtractor());
+    utils.add(new AvgICTF());
+    utils.add(new AvgIDF());
+    utils.add(new BM25());
+    utils.add(new DocSize());
     utils.add(new MatchingTermCount());
     utils.add(new PMIFeatureExtractor());
     utils.add(new QueryLength());
@@ -57,12 +57,12 @@ public class FeatureExtractorCli {
     utils.add(new SumMatchingTF());
     utils.add(new TFIDFFeatureExtractor());
     utils.add(new UniqueTermCount());
-    utils.add(new UnorderedSequentialPairsFeatureExtractor(3));
-    utils.add(new UnorderedSequentialPairsFeatureExtractor(5));
-    utils.add(new UnorderedSequentialPairsFeatureExtractor(8));
-    utils.add(new OrderedSequentialPairsFeatureExtractor(3));
-    utils.add(new OrderedSequentialPairsFeatureExtractor(5));
-    utils.add(new OrderedSequentialPairsFeatureExtractor(8));
+    utils.add(new UnorderedSequentialPairs(3));
+    utils.add(new UnorderedSequentialPairs(5));
+    utils.add(new UnorderedSequentialPairs(8));
+    utils.add(new OrderedSequentialPairs(3));
+    utils.add(new OrderedSequentialPairs(5));
+    utils.add(new OrderedSequentialPairs(8));
 
     File file = new File(cmdArgs.jsonFile);
     BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file)));

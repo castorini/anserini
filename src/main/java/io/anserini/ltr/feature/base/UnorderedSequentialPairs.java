@@ -14,37 +14,24 @@
  * limitations under the License.
  */
 
-package io.anserini.ltr.feature;
+package io.anserini.ltr.feature.base;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
-import io.anserini.index.IndexArgs;
-import io.anserini.rerank.RerankerContext;
+import io.anserini.ltr.feature.ContentContext;
+import io.anserini.ltr.feature.FeatureExtractor;
+import io.anserini.ltr.feature.QueryContext;
 import org.apache.commons.lang3.tuple.Pair;
-import org.apache.lucene.document.Document;
-import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.index.Terms;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * This is a feature extractor that will calculate the
  * unordered count of phrases in the window specified
  */
-public class UnorderedSequentialPairsFeatureExtractor implements FeatureExtractor {
+public class UnorderedSequentialPairs implements FeatureExtractor {
   protected int gapSize;
 
   // If this windowSize is 2, then we will look at a window [i-2, i+2] for the second term if the first occurs at i
-  public UnorderedSequentialPairsFeatureExtractor(int gapSize) {
+  public UnorderedSequentialPairs(int gapSize) {
     this.gapSize= gapSize;
   }
 
@@ -70,6 +57,6 @@ public class UnorderedSequentialPairsFeatureExtractor implements FeatureExtracto
 
   @Override
   public FeatureExtractor clone() {
-    return new UnorderedSequentialPairsFeatureExtractor(this.gapSize);
+    return new UnorderedSequentialPairs(this.gapSize);
   }
 }

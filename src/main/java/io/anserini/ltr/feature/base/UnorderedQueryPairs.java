@@ -14,36 +14,23 @@
  * limitations under the License.
  */
 
-package io.anserini.ltr.feature;
+package io.anserini.ltr.feature.base;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
-import io.anserini.index.IndexArgs;
-import io.anserini.rerank.RerankerContext;
+import io.anserini.ltr.feature.ContentContext;
+import io.anserini.ltr.feature.FeatureExtractor;
+import io.anserini.ltr.feature.QueryContext;
 import org.apache.commons.lang3.tuple.Pair;
-import org.apache.lucene.document.Document;
-import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.index.Terms;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * Counts all unordered pairs of query tokens
  */
-public class UnorderedQueryPairsFeatureExtractor implements FeatureExtractor {
+public class UnorderedQueryPairs implements FeatureExtractor {
   private int gapSize;
 
   // If this windowSize is 2, then we will look at a window [i-2, i+2] for the second term if the first occurs at i
-  public UnorderedQueryPairsFeatureExtractor(int gapSize) {
+  public UnorderedQueryPairs(int gapSize) {
     this.gapSize= gapSize;
   }
   public float extract(ContentContext context, QueryContext queryContext) {
@@ -68,6 +55,6 @@ public class UnorderedQueryPairsFeatureExtractor implements FeatureExtractor {
 
   @Override
   public FeatureExtractor clone() {
-    return new UnorderedQueryPairsFeatureExtractor(this.gapSize);
+    return new UnorderedQueryPairs(this.gapSize);
   }
 }

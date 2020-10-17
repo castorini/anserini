@@ -43,16 +43,16 @@ import java.util.Set;
  * Lucene uses the norm value encoded in the index, we are calculating it as is
  * also we do not have any boosting, the field norm is also not available
  */
-public class BM25FeatureExtractor implements FeatureExtractor {
-  private static final Logger LOG = LogManager.getLogger(BM25FeatureExtractor.class);
+public class BM25 implements FeatureExtractor {
+  private static final Logger LOG = LogManager.getLogger(BM25.class);
 
   // Default values, could be changed
   private double k1 = 0.9;
   private double b = 0.4;
 
-  public BM25FeatureExtractor() { }
+  public BM25() { }
 
-  public BM25FeatureExtractor(double k, double b) {
+  public BM25(double k, double b) {
     this.k1 = k;
     this.b = b;
   }
@@ -103,6 +103,6 @@ public class BM25FeatureExtractor implements FeatureExtractor {
 
   @Override
   public FeatureExtractor clone() {
-    return new BM25FeatureExtractor(this.k1, this.b);
+    return new BM25(this.k1, this.b);
   }
 }

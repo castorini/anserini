@@ -29,7 +29,6 @@ public class QueryContext {
 
     public List<Pair<String, String>> genQueryBigram() {
         List<Pair<String, String>> queryBigram = new ArrayList<>();
-        // Construct a count map and a map of phrase pair x y, x->y
         for (int i = 0; i < queryTokens.size() - 1; i++) {
             queryBigram.add(Pair.of(queryTokens.get(i),queryTokens.get(i+1)));
         }

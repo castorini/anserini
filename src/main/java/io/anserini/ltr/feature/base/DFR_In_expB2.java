@@ -6,34 +6,36 @@ import io.anserini.ltr.feature.QueryContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class LMDir implements FeatureExtractor {
-  private static final Logger LOG = LogManager.getLogger(LMDir.class);
+public class DFR_In_expB2 implements FeatureExtractor {
+  private static final Logger LOG = LogManager.getLogger(DFR_In_expB2.class);
 
-  private double mu = 1000;
+  public DFR_In_expB2() {}
 
-  public LMDir() { }
-
-  public LMDir(double mu) {
-    this.mu = mu;
+  double log2(double x){
+    return Math.log(x)/Math.log(2);
   }
 
   @Override
   public float extract(ContentContext context, QueryContext queryContext) {
+    long numDocs = context.numDocs;
     long docSize = context.docSize;
     long totalTermFreq = context.totalTermFreq;
+    double avgFL = (double)totalTermFreq/numDocs;
     float score = 0;
 
     for (String queryToken : queryContext.queryTokens) {
-      double termFreq = context.getTermFreq(queryToken);
-      double collectProb = (double)context.getCollectionFreq(queryToken)/totalTermFreq;
-      score += (termFreq+mu*collectProb)/(mu+docSize);
+      double tfn = context.getTermFreq(queryToken)*log2(1+avgFL/docSize);
+      double cf = context.getCollectionFreq(queryToken);
+      double ne = numDocs*(1-Math.pow((double)(numDocs-1)/numDocs, cf));
+      double ine = log2(((double)numDocs+1)/(ne+0.5));
+      score += tfn*ine*((cf+1)/((double)context.getDocFreq(queryToken)*(tfn+1)));
     }
     return score;
   }
 
   @Override
   public String getName() {
-    return String.format("LMD(mu=%.0f)",mu);
+    return "DFR_In_expB2";
   }
 
   @Override
@@ -41,10 +43,8 @@ public class LMDir implements FeatureExtractor {
     return null;
   }
 
-  public double getMu() { return mu; }
-
   @Override
   public FeatureExtractor clone() {
-    return new LMDir(this.mu);
+    return new DFR_In_expB2();
   }
 }

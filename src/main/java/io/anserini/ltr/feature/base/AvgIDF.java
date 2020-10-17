@@ -16,35 +16,41 @@
 
 package io.anserini.ltr.feature.base;
 
-import io.anserini.index.IndexArgs;
 import io.anserini.ltr.feature.ContentContext;
 import io.anserini.ltr.feature.FeatureExtractor;
 import io.anserini.ltr.feature.QueryContext;
-import io.anserini.rerank.RerankerContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.lucene.document.Document;
-import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.index.Terms;
-import org.apache.lucene.index.TermsEnum;
 
-import java.io.IOException;
 import java.util.List;
 
 /**
- * Returns the size of the document
+ * Average IDF, idf calculated using log( 1+ (N - N_t + 0.5)/(N_t + 0.5))
+ * where N is the total number of docs, calculated like in BM25
  */
-public class DocSizeFeatureExtractor implements FeatureExtractor {
-  private static final Logger LOG = LogManager.getLogger(DocSizeFeatureExtractor.class);
+public class AvgIDF implements FeatureExtractor {
+  private static final Logger LOG = LogManager.getLogger(AvgIDF.class);
 
   @Override
   public float extract(ContentContext context, QueryContext queryContext) {
-    return context.docSize;
+    if(queryContext.cache.containsKey(getName())){
+      return queryContext.cache.get(getName());
+    } else {
+      float sumIdf = 0.0f;
+      long numDocs = context.docSize;
+      for(String queryToken : queryContext.queryTokens) {
+        long docFreq = context.getCollectionFreq(queryToken);
+        sumIdf += Math.log(1 + (numDocs - docFreq + 0.5d) / (docFreq + 0.5d));
+      }
+      float avgIdf = sumIdf / (float) queryContext.queryTokens.size();
+      queryContext.cache.put(getName(), avgIdf);
+      return avgIdf;
+    }
   }
 
   @Override
   public String getName() {
-    return "DocSize";
+    return "AvgIDF";
   }
 
   @Override
@@ -54,6 +60,6 @@ public class DocSizeFeatureExtractor implements FeatureExtractor {
 
   @Override
   public FeatureExtractor clone() {
-    return new DocSizeFeatureExtractor();
+    return new AvgIDF();
   }
 }
