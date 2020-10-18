@@ -16,6 +16,8 @@
 
 package io.anserini.collection;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
@@ -29,7 +31,9 @@ import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
@@ -86,13 +90,53 @@ public class EpidemicQACollection extends DocumentCollection<EpidemicQACollectio
    * TODO(justinborromeo) Do documentation
    */
   public class Document implements SourceDocument {
-    // The name of the document from info.txt.
+    // The 8-char truncated sha id of the document from info.txt.
     private final String documentID;
-    private final String document;
+    private final String rawDocument;
+
+    // Details from the parsed document JSON.
+    private String content;
+    // The 40-char full SHA id of the document.
+    private String sha;
+    private String title;
+    private String url;
+    private List<String> authors;
 
     public Document(String documentId) {
-      this.documentID = documentId;
-      this.document = getEpidemicQAJson(EpidemicQACollection.this.path.toString());
+      documentID = documentId;
+      // Document JSON
+      rawDocument = getEpidemicQAJson(EpidemicQACollection.this.path.toString());
+      content = "";
+      if (rawDocument != null) {
+        // For the contents(), we're going to gather up all the text in body_text
+        try {
+          ObjectMapper mapper = new ObjectMapper();
+          JsonNode recordJsonNode = mapper.readerFor(JsonNode.class).readTree(rawDocument);
+          JsonNode metadataJsonNode = recordJsonNode.get("metadata");
+
+          sha = recordJsonNode.get("document_id").asText();
+          title = metadataJsonNode.get("title").asText();
+          url = metadataJsonNode.get("url").asText();
+
+          Iterator<JsonNode> authorsIterator = metadataJsonNode.get("authors").elements();
+          authors = new ArrayList<>();
+          while (authorsIterator.hasNext()) {
+            authors.add(authorsIterator.next().asText());
+          }
+
+          // Contexts in this correspond to paragraphs or sections as indicated by the HTML
+          // markup of the document.
+          Iterator<JsonNode> contextIterator = recordJsonNode.get("contexts").elements();
+
+          while (contextIterator.hasNext()) {
+            JsonNode node = contextIterator.next();
+            content += "\n" + node.get("text").asText();
+          }
+        } catch (IOException e) {
+          LOG.error("Error parsing file at " + EpidemicQACollection.this.path.toString() + "/" + this.documentID
+                    + "\n" + e.getMessage());
+        }
+      }
     }
 
     @Override
@@ -102,12 +146,28 @@ public class EpidemicQACollection extends DocumentCollection<EpidemicQACollectio
 
     @Override
     public String contents() {
-      return document;
+      return content;
     }
 
     @Override
     public String raw() {
-      return document;
+      return rawDocument;
+    }
+
+    public String sha() {
+      return sha;
+    }
+
+    public String title() {
+      return title;
+    }
+
+    public String url() {
+      return url;
+    }
+
+    public List<String> authors() {
+      return authors;
     }
 
     @Override
@@ -128,6 +188,11 @@ public class EpidemicQACollection extends DocumentCollection<EpidemicQACollectio
       } catch (IOException e) {
         LOG.error("Error parsing file at " + documentPath);
       }
+
+      if (documentJson == null || documentJson.isEmpty()) {
+        return null;
+      }
+
       return documentJson;
     }
   }
