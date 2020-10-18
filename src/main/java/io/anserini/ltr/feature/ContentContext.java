@@ -1,7 +1,9 @@
 package io.anserini.ltr.feature;
 
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.*;
+import org.mockito.internal.matchers.Null;
 
 import java.io.IOException;
 import java.util.*;
@@ -87,23 +89,15 @@ public class ContentContext {
         List<Integer> firstPositions = termPositions.get(first);
         List<Integer> secondPositions = termPositions.get(second);
         int count = 0;
-        for(int i: firstPositions){
-            for(int j: secondPositions){
-                if (i < j && j <= i+gap){
-                    count++;
+        if(firstPositions!=null&&secondPositions!=null) {
+            for(int i: firstPositions){
+                for(int j: secondPositions){
+                    if (i < j && j <= i+gap){
+                        count++;
+                    }
                 }
             }
         }
         return count;
     }
-
-    public Long getTotalTermFreq(String Token) {
-        try {
-            return reader.totalTermFreq(new Term(this.fieldName ,Token));
-        } catch (IOException e) {
-            System.out.println(e);
-            return 0L;
-        }
-    }
-
 }

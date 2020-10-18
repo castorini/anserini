@@ -17,7 +17,7 @@
 package io.anserini.ltr;
 
 import io.anserini.ltr.feature.FeatureExtractor;
-import io.anserini.ltr.feature.base.AvgICTFFeatureExtractor;
+import io.anserini.ltr.feature.base.AvgICTF;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -29,7 +29,7 @@ import java.util.concurrent.ExecutionException;
  */
 public class AvgICTFFeatureExtractorTest extends BaseFeatureExtractorTest {
 
-  private static FeatureExtractor EXTRACTOR = new AvgICTFFeatureExtractor();
+  private static FeatureExtractor EXTRACTOR = new AvgICTF();
 
   @Test
   public void testSingleQueryPhrase() throws IOException, ExecutionException, InterruptedException {

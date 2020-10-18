@@ -36,48 +36,23 @@ import java.util.List;
  * Avg( (1 + log(tf(t,D))) * idf(t)) found on page 33 of Carmel, Yom-Tov 2010
  * D is the collection term frequency
  */
-public class SCQFeatureExtractor implements FeatureExtractor {
-  private static final Logger LOG = LogManager.getLogger(SCQFeatureExtractor.class);
-
-  private String lastQueryProcessed = "";
-  private float lastComputedScore = 0.0f;
-
-  // Computed as log( 1+ (N - N_t + 0.5)/(N_t + 0.5))
-  private float computeIDF(long docFreq, long numDocs) {
-    return (float) Math.log(1 + (numDocs - docFreq + 0.5d) / (docFreq + 0.5d));
-  }
-
-  private float sumSCQ(ContentContext context, QueryContext queryContext) throws IOException {
-
-    long numDocs = context.numDocs;
-    float scq = 0.0f;
-
-    for (String token : queryContext.queryTokens) {
-      long docFreq = context.getDocFreq(token);
-      //TODO what about tf = 0
-      long termFreq = context.getTotalTermFreq(token);
-      if (termFreq == 0) continue;
-      scq += 1 + Math.log(termFreq* computeIDF(docFreq, numDocs));
-    }
-
-    return scq;
-  }
+public class AvgSCQ implements FeatureExtractor {
+  private static final Logger LOG = LogManager.getLogger(AvgSCQ.class);
 
   @Override
   public float extract(ContentContext context, QueryContext queryContext) {
-    if (!lastQueryProcessed.equals(queryContext.queryText)) {
-      this.lastQueryProcessed = queryContext.queryText;
-      this.lastComputedScore = 0.0f;
+        long numDocs = context.numDocs;
+        float scq = 0.0f;
 
-      try {
-        float sumScq = sumSCQ(context, queryContext);
-        this.lastComputedScore = sumScq / queryContext.queryTokens.size();
-      } catch (IOException e) {
-        this.lastComputedScore = 0.0f;
-      }
-    }
+        for (String token : queryContext.queryTokens) {
+          long docFreq = context.getDocFreq(token);
+          long termFreq = context.getCollectionFreq(token);
+          if (termFreq == 0) continue;
+          scq += 1+Math.log(termFreq*Math.log(1+(numDocs-docFreq+0.5d)/(docFreq + 0.5d)));
+        }
+        return scq/queryContext.queryTokens.size();
 
-    return this.lastComputedScore;
+
   }
 
   @Override
@@ -92,6 +67,6 @@ public class SCQFeatureExtractor implements FeatureExtractor {
 
   @Override
   public FeatureExtractor clone() {
-    return new SCQFeatureExtractor();
+    return new AvgSCQ();
   }
 }

@@ -16,7 +16,7 @@
 package io.anserini.ltr;
 
 import io.anserini.ltr.feature.FeatureExtractor;
-import io.anserini.ltr.feature.base.SCQFeatureExtractor;
+import io.anserini.ltr.feature.base.AvgSCQ;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -26,7 +26,7 @@ import java.util.concurrent.ExecutionException;
 
 public class SCQFeatureExtractorTest extends BaseFeatureExtractorTest<Integer> {
 
-  private static FeatureExtractor EXTRACTOR = new SCQFeatureExtractor();
+  private static FeatureExtractor EXTRACTOR = new AvgSCQ();
 
   @Test
   public void testSimpleSingleDocument() throws IOException, ExecutionException, InterruptedException {

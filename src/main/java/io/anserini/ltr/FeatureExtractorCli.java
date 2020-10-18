@@ -51,10 +51,9 @@ public class FeatureExtractorCli {
     utils.add(new DocSize());
     utils.add(new MatchingTermCount());
     utils.add(new QueryLength());
-    utils.add(new SCQFeatureExtractor());
-    utils.add(new SCSFeatureExtractor());
+    utils.add(new AvgSCQ());
+    utils.add(new SCS());
     utils.add(new SumMatchingTF());
-    utils.add(new TFIDFFeatureExtractor());
     utils.add(new UniqueTermCount());
     utils.add(new UnorderedSequentialPairs(3));
     utils.add(new UnorderedSequentialPairs(5));

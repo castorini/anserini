@@ -1,12 +1,15 @@
 package io.anserini.ltr.feature;
 
 import org.apache.commons.lang3.tuple.Pair;
+import org.apache.lucene.index.Term;
 
+import java.io.IOException;
 import java.util.*;
 
 public class QueryContext {
     public String queryText;
     public List<String> queryTokens;
+    public Map<String,Integer> queryFreqs;
     public int querySize;
 
     //maybe put pre-retrieval feature here
@@ -15,6 +18,14 @@ public class QueryContext {
         this.queryTokens = queryTokens;
         this.queryText = String.join(",", queryTokens);
         this.querySize = queryTokens.size();
+        this.queryFreqs = new HashMap<>();
+        for (String token : queryTokens)
+            queryFreqs.put(token, queryFreqs.getOrDefault(token,0)+1);
+        this.cache = new HashMap<>();
+    }
+
+    public Integer getQueryFreq(String queryToken) {
+        return queryFreqs.getOrDefault(queryToken,0);
     }
 
     public List<Pair<String, String>> genQueryPair() {

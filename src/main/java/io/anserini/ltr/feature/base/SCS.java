@@ -16,41 +16,44 @@
 
 package io.anserini.ltr.feature.base;
 
+import io.anserini.index.IndexArgs;
 import io.anserini.ltr.feature.ContentContext;
 import io.anserini.ltr.feature.FeatureExtractor;
 import io.anserini.ltr.feature.QueryContext;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import io.anserini.rerank.RerankerContext;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.index.Term;
+import org.apache.lucene.index.Terms;
 
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
- * Average IDF, idf calculated using log( 1+ (N - N_t + 0.5)/(N_t + 0.5))
- * where N is the total number of docs, calculated like in BM25
+ * SCS = sum (P[t|q]) * log(P[t|q] / P[t|D])
+ * page 20 of Carmel, Yom-Tov 2010
  */
-public class AvgIDF implements FeatureExtractor {
-  private static final Logger LOG = LogManager.getLogger(AvgIDF.class);
+public class SCS implements FeatureExtractor {
 
   @Override
   public float extract(ContentContext context, QueryContext queryContext) {
-    if(queryContext.cache.containsKey(getName())){
-      return queryContext.cache.get(getName());
-    } else {
-      float sumIdf = 0.0f;
-      long numDocs = context.numDocs;
-      for(String queryToken : queryContext.queryTokens) {
-        long docFreq = context.getDocFreq(queryToken);
-        sumIdf += Math.log(1 + (numDocs - docFreq + 0.5d) / (docFreq + 0.5d));
-      }
-      float avgIdf = sumIdf / (float) queryContext.queryTokens.size();
-      queryContext.cache.put(getName(), avgIdf);
-      return avgIdf;
+    long termCount = context.totalTermFreq;
+    float score = 0.0f;
+    for (String token : queryContext.queryFreqs.keySet()) {
+      float prtq = queryContext.queryFreqs.get(token) / (float) queryContext.querySize;
+      long tf = context.getCollectionFreq(token);
+      float prtd = (float)tf/termCount;
+      if (prtd == 0) continue;
+      score += prtq*Math.log(prtq/prtd);
     }
+    return score;
   }
 
   @Override
   public String getName() {
-    return "AvgIDF";
+    return "SCS";
   }
 
   @Override
@@ -60,6 +63,6 @@ public class AvgIDF implements FeatureExtractor {
 
   @Override
   public FeatureExtractor clone() {
-    return new AvgIDF();
+    return new SCS();
   }
 }

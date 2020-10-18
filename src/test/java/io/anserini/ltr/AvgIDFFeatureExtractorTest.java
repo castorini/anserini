@@ -17,7 +17,7 @@
 package io.anserini.ltr;
 
 import io.anserini.ltr.feature.FeatureExtractor;
-import io.anserini.ltr.feature.base.AvgIDFFeatureExtractor;
+import io.anserini.ltr.feature.base.AvgIDF;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -27,7 +27,7 @@ import java.util.concurrent.ExecutionException;
 
 public class AvgIDFFeatureExtractorTest extends BaseFeatureExtractorTest<Integer> {
 
-  private static FeatureExtractor EXTRACTOR = new AvgIDFFeatureExtractor();
+  private static FeatureExtractor EXTRACTOR = new AvgIDF();
 
   @Test
   public void testSingleDoc() throws IOException, ExecutionException, InterruptedException {
