@@ -45,7 +45,7 @@ public class UnorderedQueryPairs implements FeatureExtractor {
 
   @Override
   public String getName() {
-    return "UnorderedQueryTokenPairs" + this.gapSize;
+    return "UnorderedQueryPairs" + this.gapSize;
   }
 
   @Override

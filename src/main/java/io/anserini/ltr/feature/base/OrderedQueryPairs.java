@@ -47,7 +47,7 @@ public class OrderedQueryPairs implements FeatureExtractor {
 
   @Override
   public String getName() {
-    return "OrderedAllPairs" + this.gapSize;
+    return "OrderedQueryPairs" + this.gapSize;
   }
 
   @Override
