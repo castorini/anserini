@@ -45,6 +45,8 @@ public class EpidemicQACollection extends DocumentCollection<EpidemicQACollectio
 
   public EpidemicQACollection(Path path){
     this.path = path;
+    // TODO ignore MD5.txt
+    this.allowedFilePrefix = Set.of("info");
     this.allowedFileSuffix = Set.of(".txt");
   }
 
@@ -61,6 +63,7 @@ public class EpidemicQACollection extends DocumentCollection<EpidemicQACollectio
       super(path);
       this.bufferedReader = new BufferedReader(new InputStreamReader(
           new FileInputStream(path.toString())));
+      LOG.info("Path: " + path.toString());
     }
 
     @Override
@@ -76,7 +79,6 @@ public class EpidemicQACollection extends DocumentCollection<EpidemicQACollectio
       if (nextDocumentId == null) {
         throw new NoSuchElementException();
       }
-
       bufferedRecord = new EpidemicQACollection.Document(nextDocumentId);
     }
 
@@ -113,10 +115,14 @@ public class EpidemicQACollection extends DocumentCollection<EpidemicQACollectio
           ObjectMapper mapper = new ObjectMapper();
           JsonNode recordJsonNode = mapper.readerFor(JsonNode.class).readTree(rawDocument);
           JsonNode metadataJsonNode = recordJsonNode.get("metadata");
+          if (metadataJsonNode == null) {
+            LOG.warn("Null metadata");
+          }
 
           sha = recordJsonNode.get("document_id").asText();
           title = metadataJsonNode.get("title").asText();
-          url = metadataJsonNode.get("url").asText();
+          Iterator<JsonNode> urlIterator = metadataJsonNode.get("urls").elements();
+          url = urlIterator.hasNext() ? urlIterator.next().asText() : "";
 
           Iterator<JsonNode> authorsIterator = metadataJsonNode.get("authors").elements();
           authors = new ArrayList<>();
@@ -180,13 +186,14 @@ public class EpidemicQACollection extends DocumentCollection<EpidemicQACollectio
         return null;
       }
 
-      String documentPath = "/" + this.documentID;
+      String documentPath = "/" + this.documentID + ".json";
       String documentJson = null;
       try {
         documentJson = new String(Files.readAllBytes(
             Paths.get(basePath + documentPath)));
       } catch (IOException e) {
-        LOG.error("Error parsing file at " + documentPath);
+        LOG.error(e.getMessage());
+        LOG.error("Error parsing file at " + (basePath+documentPath));
       }
 
       if (documentJson == null || documentJson.isEmpty()) {

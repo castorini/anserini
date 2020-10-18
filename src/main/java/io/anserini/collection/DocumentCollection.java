@@ -152,6 +152,7 @@ public abstract class DocumentCollection<T extends SourceDocument> implements It
 
   // Private method for walking a path.
   private List<Path> discover(Path p) {
+    LOG.info("Discovering");
     final List<Path> paths = new ArrayList<>();
 
     FileVisitor<Path> fv = new SimpleFileVisitor<>() {
@@ -228,7 +229,6 @@ public abstract class DocumentCollection<T extends SourceDocument> implements It
     } catch (IOException e) {
       LOG.error("IOException during file visiting", e);
     }
-
     return paths;
   }
 }
