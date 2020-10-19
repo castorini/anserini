@@ -36,6 +36,7 @@ import org.apache.lucene.index.IndexOptions;
 import org.apache.lucene.util.BytesRef;
 
 import java.io.StringReader;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -69,10 +70,9 @@ public class EpidemicQAGenerator implements LuceneDocumentGenerator<EpidemicQACo
     String id = covidDoc.id();
     String content = covidDoc.contents();
     String raw = covidDoc.raw();
-    String sha = covidDoc.sha();
     String title = covidDoc.title();
     String url = covidDoc.url();
-    List<String> authors = covidDoc.authors();
+    String authorsString = covidDoc.authorsString();
 
     if (content == null || content.trim().isEmpty()) {
       throw new EmptyDocumentException();
@@ -82,10 +82,7 @@ public class EpidemicQAGenerator implements LuceneDocumentGenerator<EpidemicQACo
 
     // Store the collection docid.
     doc.add(new StringField(IndexArgs.ID, id, Field.Store.YES));
-    // This is needed to break score ties by docid.    private String sha;
-    //    private String title;
-    //    private String url;
-    //    private List<String> authors;
+    // This is needed to break score ties by docid.
     doc.add(new SortedDocValuesField(IndexArgs.ID, new BytesRef(id)));
 
     if (args.storeRaw) {
@@ -111,11 +108,10 @@ public class EpidemicQAGenerator implements LuceneDocumentGenerator<EpidemicQACo
     doc.add(new Field(IndexArgs.CONTENTS, content, fieldType));
 
     doc.add(new StringField(EpidemicQAField.TITLE.name, title, Field.Store.YES));
-    doc.add(new StringField(EpidemicQAField.SHA.name, sha, Field.Store.YES));
     doc.add(new StringField(EpidemicQAField.URL.name, url, Field.Store.YES));
 
     // non-stemmed fields
-    addAuthors(doc, authors, fieldType);
+    addAuthors(doc, Arrays.asList(authorsString.split(";")), fieldType);
 
     return doc;
   }

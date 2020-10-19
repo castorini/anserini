@@ -32,6 +32,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -102,7 +103,7 @@ public class EpidemicQACollection extends DocumentCollection<EpidemicQACollectio
     private String sha;
     private String title;
     private String url;
-    private List<String> authors;
+    private String authorsString;
 
     public Document(String documentId) {
       documentID = documentId;
@@ -119,21 +120,16 @@ public class EpidemicQACollection extends DocumentCollection<EpidemicQACollectio
             LOG.warn("Null metadata");
           }
 
-          sha = recordJsonNode.get("document_id").asText();
           title = metadataJsonNode.get("title").asText();
           Iterator<JsonNode> urlIterator = metadataJsonNode.get("urls").elements();
           url = urlIterator.hasNext() ? urlIterator.next().asText() : "";
 
-          Iterator<JsonNode> authorsIterator = metadataJsonNode.get("authors").elements();
-          authors = new ArrayList<>();
-          while (authorsIterator.hasNext()) {
-            authors.add(authorsIterator.next().asText());
-          }
+          authorsString = metadataJsonNode.get("authors").asText();
 
           // Contexts in this correspond to paragraphs or sections as indicated by the HTML
           // markup of the document.
           Iterator<JsonNode> contextIterator = recordJsonNode.get("contexts").elements();
-
+          content += title + "\n";
           while (contextIterator.hasNext()) {
             JsonNode node = contextIterator.next();
             content += "\n" + node.get("text").asText();
@@ -160,10 +156,6 @@ public class EpidemicQACollection extends DocumentCollection<EpidemicQACollectio
       return rawDocument;
     }
 
-    public String sha() {
-      return sha;
-    }
-
     public String title() {
       return title;
     }
@@ -172,8 +164,8 @@ public class EpidemicQACollection extends DocumentCollection<EpidemicQACollectio
       return url;
     }
 
-    public List<String> authors() {
-      return authors;
+    public String authorsString() {
+      return authorsString;
     }
 
     @Override

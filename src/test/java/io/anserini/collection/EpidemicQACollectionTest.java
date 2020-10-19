@@ -15,72 +15,52 @@ public class EpidemicQACollectionTest  extends DocumentCollectionTest<EpidemicQA
   public void setUp() throws Exception {
     super.setUp();
 
-    // TODO(justinborromeo) change this
-    collectionPath = Paths.get("src/test/resources/sample_docs/cord19/sample1");
+    collectionPath = Paths.get("src/test/resources/sample_docs/epidemic_qa");
     collection = new EpidemicQACollection(collectionPath);
 
-    Path segment = Paths.get("src/test/resources/sample_docs/cord19/sample1/metadata.csv");
+    Path segment = Paths.get("src/test/resources/sample_docs/epidemic_qa/info.txt");
 
     segmentPaths.add(segment);
-    segmentDocCounts.put(segment, 3);
+    segmentDocCounts.put(segment, 1);
 
     totalSegments = 1;
-    totalDocs = 3;
+    totalDocs = 1;
 
-    // Should use pmc_json_files (preferred).
-    HashMap<String, String> doc1 = new HashMap<>();
-    doc1.put("id", "xqhn0vbp");
-    doc1.put("contents_starts_with", "Airborne rhinovirus detection and effect of ultraviolet irradiation");
-    doc1.put("contents_ends_with", "The pre-publication history for this paper can be accessed here:\n");
-    doc1.put("contents_length", "22834");
-    doc1.put("has_full_text", "true");
-    doc1.put("metadata_length", "2416");
-    doc1.put("raw_length", "48080");
-    expected.put("xqhn0vbp", doc1);
-
-    // No full text.
-    HashMap<String, String> doc2 = new HashMap<>();
-    doc2.put("id", "ipllfog3");
-    doc2.put("contents_starts_with", "SARS, Mars and chocolate bars");
-    doc2.put("contents_ends_with", "SARS, Mars and chocolate bars");
-    doc2.put("contents_length", "29");
-    doc2.put("has_full_text", "false");
-    doc2.put("metadata_length", "428");
-    doc2.put("raw_length", "489");
-    expected.put("ipllfog3", doc2);
-
-    // Should back off to pdf_json_files since there are no pmc_json_files.
-    HashMap<String, String> doc3 = new HashMap<>();
-    doc3.put("id", "a8cps3ko");
-    // This particular entry doesn't have an abstract in the CSV
-    doc3.put("contents_starts_with", "Beyond Picomolar Affinities:");
-    doc3.put("contents_ends_with", "Copyright 2005 Americal Chemical Society. ");
-    doc3.put("contents_length", "33583");
-    doc3.put("has_full_text", "true");
-    doc3.put("metadata_length", "694");
-    doc3.put("raw_length", "94682");
-    expected.put("a8cps3ko", doc3);
+    Map<String, String> doc1 = new HashMap<>();
+    doc1.put("id", "b5329o75");
+    doc1.put("contents_starts_with", "Perspectives on monoclonal antibody therapy as potential therapeutic");
+    doc1.put("contents_ends_with", "therapeutic targets for aMPV/C infection in the future.");
+    doc1.put("contents_length", "32749");
+    doc1.put("raw_length", "66689");
+    doc1.put("title", "Perspectives on monoclonal antibody therapy as potential therapeutic intervention for Coronavirus disease-19 (COVID-19)");
+    // Only the first URL is stored.
+    doc1.put("url", "https://www.ncbi.nlm.nih.gov/pubmed/32134278/");
+    doc1.put("authorsString", "Shanmugaraj, B.; Siriwattananon, K.; Wangkanont, K.; Phoolcharoen, W.");
+    expected.put("b5329o75", doc1);
   }
 
   @Override
   void checkDocument(SourceDocument doc, Map<String, String> expected) {
-    Cord19FullTextCollection.Document covidDoc = (Cord19FullTextCollection.Document) doc;
+    EpidemicQACollection.Document covidDoc = (EpidemicQACollection.Document) doc;
 
     assertEquals(expected.get("id"), covidDoc.id());
     assertTrue(covidDoc.contents().startsWith(expected.get("contents_starts_with")));
     assertTrue(covidDoc.contents().endsWith(expected.get("contents_ends_with")));
     assertEquals(Integer.parseInt(expected.get("contents_length")), covidDoc.contents().length());
+    assertEquals(expected.get("title"), covidDoc.title());
+    assertEquals(expected.get("url"), covidDoc.url());
+    assertEquals(expected.get("authorsString"), covidDoc.authorsString());
 
     // Make sure raw() is a JSON containing proper fields, and check length.
     ObjectMapper mapper = new ObjectMapper();
+
     try {
       JsonNode jsonNode = mapper.readTree(covidDoc.raw());
-      assertEquals(expected.get("id"), jsonNode.get("cord_uid").asText());
-      assertEquals(expected.get("has_full_text"), jsonNode.get("has_full_text").asText());
-      assertEquals(Integer.parseInt(expected.get("metadata_length")),
-                   jsonNode.get("csv_metadata").toString().length());
+      assertEquals(expected.get("id"), jsonNode.get("document_id").asText());
+      JsonNode metadataNode = jsonNode.get("metadata");
+      assertEquals(expected.get("title"), metadataNode.get("title").asText());
     } catch (Exception e) {
-      assertTrue("Failed to parse raw JSON", false);
+      fail("Failed to parse raw JSON");
     }
     assertEquals(Integer.parseInt(expected.get("raw_length")), covidDoc.raw().length());
   }
