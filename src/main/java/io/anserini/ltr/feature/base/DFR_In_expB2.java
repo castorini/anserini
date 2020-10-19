@@ -25,6 +25,7 @@ public class DFR_In_expB2 implements FeatureExtractor {
 
     for (String queryToken : queryContext.queryTokens) {
       double tfn = context.getTermFreq(queryToken)*log2(1+avgFL/docSize);
+      if(tfn==0) continue;
       double cf = context.getCollectionFreq(queryToken);
       double ne = numDocs*(1-Math.pow((double)(numDocs-1)/numDocs, cf));
       double ine = log2(((double)numDocs+1)/(ne+0.5));

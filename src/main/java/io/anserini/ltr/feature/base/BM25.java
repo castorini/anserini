@@ -85,7 +85,7 @@ public class BM25 implements FeatureExtractor {
 
   @Override
   public String getName() {
-    return String.format("BM25(k1=%.2f,b1=%.2f)",k1,b);
+    return String.format("BM25_k1_%.2f_b_%.2f",k1,b);
   }
 
   @Override

@@ -33,7 +33,7 @@ public class LMDir implements FeatureExtractor {
 
   @Override
   public String getName() {
-    return String.format("LMD(mu=%.0f)",mu);
+    return String.format("LMD_mu_%.0f",mu);
   }
 
   @Override
