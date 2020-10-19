@@ -25,8 +25,9 @@ public class LMDir implements FeatureExtractor {
 
     for (String queryToken : queryContext.queryTokens) {
       double termFreq = context.getTermFreq(queryToken);
+      if(termFreq==0) continue;
       double collectProb = (double)context.getCollectionFreq(queryToken)/totalTermFreq;
-      score += (termFreq+mu*collectProb)/(mu+docSize);
+      score += Math.log(termFreq+mu*collectProb/(mu+docSize));
     }
     return score;
   }

@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class Pooler {
+
     static float avg(List<Float> array){
         float sum = 0;
         for(float v:array){
