@@ -18,9 +18,6 @@ package io.anserini.collection;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVParser;
-import org.apache.commons.csv.CSVRecord;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -31,22 +28,19 @@ import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
-import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
 /**
- * A document collection for the CORD-19 dataset provided by Semantic Scholar.
+ * A document collection for the Epidemic QA dataset (https://bionlp.nlm.nih.gov/epic_qa/).
  */
 public class EpidemicQACollection extends DocumentCollection<EpidemicQACollection.Document> {
   private static final Logger LOG = LogManager.getLogger(EpidemicQACollection.class);
 
   public EpidemicQACollection(Path path){
     this.path = path;
-    // TODO ignore MD5.txt
+    // The prefix constraint is required otherwise the md5.txt file will be read as a segment.
     this.allowedFilePrefix = Set.of("info");
     this.allowedFileSuffix = Set.of(".txt");
   }
@@ -57,7 +51,7 @@ public class EpidemicQACollection extends DocumentCollection<EpidemicQACollectio
   }
 
   /**
-   * A file containing a single txt document.
+   * A single txt document listing documents. In the case of Epidemic QA, this is the info.txt file.
    */
   public class Segment extends FileSegment<EpidemicQACollection.Document> {
     public Segment(Path path) throws IOException {
@@ -90,20 +84,24 @@ public class EpidemicQACollection extends DocumentCollection<EpidemicQACollectio
   }
 
   /**
-   * TODO(justinborromeo) Do documentation
+   * A class that maps to one of the Epidemic QA JSON documents.
    */
   public class Document implements SourceDocument {
     // The 8-char truncated sha id of the document from info.txt.
     private final String documentID;
+    // The document's raw JSON.
     private final String rawDocument;
 
     // Details from the parsed document JSON.
+
+    // A concatenation of the title and all the sentences in the document.
     private String content;
-    // The 40-char full SHA id of the document.
-    private String sha;
+    // The title of the document (from the metadata).
     private String title;
+    // The first URL in the document's semi-colon separated list of URLs.
     private String url;
-    private String authorsString;
+    // A semi-colon separated string of authors.
+    private String authors;
 
     public Document(String documentId) {
       documentID = documentId;
@@ -118,14 +116,13 @@ public class EpidemicQACollection extends DocumentCollection<EpidemicQACollectio
           JsonNode metadataJsonNode = recordJsonNode.get("metadata");
           if (metadataJsonNode == null) {
             LOG.warn("Null metadata");
+          } else {
+            title = metadataJsonNode.get("title").asText();
+            Iterator<JsonNode> urlIterator = metadataJsonNode.get("urls").elements();
+            url = urlIterator.hasNext() ? urlIterator.next().asText() : "";
+
+            authors = metadataJsonNode.get("authors").asText();
           }
-
-          title = metadataJsonNode.get("title").asText();
-          Iterator<JsonNode> urlIterator = metadataJsonNode.get("urls").elements();
-          url = urlIterator.hasNext() ? urlIterator.next().asText() : "";
-
-          authorsString = metadataJsonNode.get("authors").asText();
-
           // Contexts in this correspond to paragraphs or sections as indicated by the HTML
           // markup of the document.
           Iterator<JsonNode> contextIterator = recordJsonNode.get("contexts").elements();
@@ -164,8 +161,8 @@ public class EpidemicQACollection extends DocumentCollection<EpidemicQACollectio
       return url;
     }
 
-    public String authorsString() {
-      return authorsString;
+    public String authors() {
+      return authors;
     }
 
     @Override
@@ -173,6 +170,9 @@ public class EpidemicQACollection extends DocumentCollection<EpidemicQACollectio
       return true;
     }
 
+    /**
+     * Read the corresponding JSON document file for the Document's documentId.
+     */
     private final String getEpidemicQAJson(String basePath) {
       if (this.documentID.isEmpty()) {
         return null;

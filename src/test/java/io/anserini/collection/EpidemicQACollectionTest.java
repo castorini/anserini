@@ -35,7 +35,7 @@ public class EpidemicQACollectionTest  extends DocumentCollectionTest<EpidemicQA
     doc1.put("title", "Perspectives on monoclonal antibody therapy as potential therapeutic intervention for Coronavirus disease-19 (COVID-19)");
     // Only the first URL is stored.
     doc1.put("url", "https://www.ncbi.nlm.nih.gov/pubmed/32134278/");
-    doc1.put("authorsString", "Shanmugaraj, B.; Siriwattananon, K.; Wangkanont, K.; Phoolcharoen, W.");
+    doc1.put("authors", "Shanmugaraj, B.; Siriwattananon, K.; Wangkanont, K.; Phoolcharoen, W.");
     expected.put("b5329o75", doc1);
   }
 
@@ -49,7 +49,7 @@ public class EpidemicQACollectionTest  extends DocumentCollectionTest<EpidemicQA
     assertEquals(Integer.parseInt(expected.get("contents_length")), covidDoc.contents().length());
     assertEquals(expected.get("title"), covidDoc.title());
     assertEquals(expected.get("url"), covidDoc.url());
-    assertEquals(expected.get("authorsString"), covidDoc.authorsString());
+    assertEquals(expected.get("authors"), covidDoc.authors());
 
     // Make sure raw() is a JSON containing proper fields, and check length.
     ObjectMapper mapper = new ObjectMapper();

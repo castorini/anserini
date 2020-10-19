@@ -16,11 +16,9 @@
 
 package io.anserini.index.generator;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import io.anserini.analysis.DefaultEnglishAnalyzer;
 import io.anserini.collection.Cord19BaseDocument;
 import io.anserini.collection.EpidemicQACollection;
-import io.anserini.collection.TrialstreamerCollection;
 import io.anserini.index.IndexArgs;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.CharArraySet;
@@ -28,7 +26,6 @@ import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.FieldType;
-import org.apache.lucene.document.IntPoint;
 import org.apache.lucene.document.SortedDocValuesField;
 import org.apache.lucene.document.StoredField;
 import org.apache.lucene.document.StringField;
@@ -36,8 +33,6 @@ import org.apache.lucene.index.IndexOptions;
 import org.apache.lucene.util.BytesRef;
 
 import java.io.StringReader;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * Converts a {@link Cord19BaseDocument} into a Lucene {@link Document}, ready to be indexed.
@@ -72,7 +67,7 @@ public class EpidemicQAGenerator implements LuceneDocumentGenerator<EpidemicQACo
     String raw = covidDoc.raw();
     String title = covidDoc.title();
     String url = covidDoc.url();
-    String authorsString = covidDoc.authorsString();
+    String authors = covidDoc.authors();
 
     if (content == null || content.trim().isEmpty()) {
       throw new EmptyDocumentException();
@@ -111,27 +106,28 @@ public class EpidemicQAGenerator implements LuceneDocumentGenerator<EpidemicQACo
     doc.add(new StringField(EpidemicQAField.URL.name, url, Field.Store.YES));
 
     // non-stemmed fields
-    addAuthors(doc, Arrays.asList(authorsString.split(";")), fieldType);
+    addAuthors(doc, authors, fieldType);
 
     return doc;
   }
 
-  private void addAuthors(Document doc, List<String> authors, FieldType fieldType) {
-    if (authors.size() == 0) {
+  private void addAuthors(Document doc, String authors, FieldType fieldType) {
+    if (authors.length() == 0) {
       return;
     }
-    // index raw author string
-    String authorString = String.join(";", authors);
-    addNonStemmedField(doc, EpidemicQAField.AUTHOR_STRING.name, authorString, fieldType);
+    addNonStemmedField(doc, EpidemicQAField.AUTHOR_STRING.name, authors, fieldType);
 
     // process all individual author names
-    for (String author : authors) {
+    for (String author : authors.split(";")) {
       addNonStemmedField(doc, EpidemicQAField.AUTHORS.name, processAuthor(author), fieldType);
     }
   }
 
-  // process author name into a standard order if it is reversed and comma separated
-  // eg) Jones, Bob -> Bob Jones
+  /**
+   * Process author name into a standard order if it is reversed and comma separated.
+   * e.g. Jones, Bob -> Bob Jones
+   */
+
   private String processAuthor(String author) {
     String processedName = "";
     String[] splitNames = author.split(",");
@@ -141,7 +137,10 @@ public class EpidemicQAGenerator implements LuceneDocumentGenerator<EpidemicQACo
     return processedName.strip();
   }
 
-  // index field without stemming but store original string value
+  /**
+   * Index field without stemming and store original string value.
+   */
+
   private void addNonStemmedField(Document doc, String key, String value, FieldType fieldType) {
     FieldType nonStemmedType = new FieldType(fieldType);
     nonStemmedType.setStored(true);
