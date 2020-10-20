@@ -120,9 +120,13 @@ public class EpidemicQACollection extends DocumentCollection<EpidemicQACollectio
             LOG.warn("Null metadata");
           } else {
             title = metadataJsonNode.get("title").asText();
+            // Some of the data has multiple urls with the JSON property "urls".  For some reason, this isn't documented
+            // in the schema.  If there are multiple, we pick the first url.
             if (metadataJsonNode.get("urls") != null) {
               Iterator<JsonNode> urlIterator = metadataJsonNode.get("urls").elements();
               url = urlIterator.hasNext() ? urlIterator.next().asText() : "";
+            } else if (metadataJsonNode.get("url") != null) {
+              url = metadataJsonNode.get("url").asText();
             }
 
             // The authors node won't be present for the consumer dataset.

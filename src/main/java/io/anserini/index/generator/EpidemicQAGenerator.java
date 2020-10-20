@@ -60,8 +60,7 @@ public class EpidemicQAGenerator implements LuceneDocumentGenerator<EpidemicQACo
   }
 
   @Override
-  public Document createDocument(EpidemicQACollection.Document covidDoc) throws GeneratorException
-  {
+  public Document createDocument(EpidemicQACollection.Document covidDoc) throws GeneratorException {
     String id = covidDoc.id();
     String content = covidDoc.contents();
     String raw = covidDoc.raw();
