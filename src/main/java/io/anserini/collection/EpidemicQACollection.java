@@ -108,6 +108,8 @@ public class EpidemicQACollection extends DocumentCollection<EpidemicQACollectio
       // Document JSON
       rawDocument = getEpidemicQAJson(EpidemicQACollection.this.path.toString());
       content = "";
+      authors = "";
+      url = "";
       if (rawDocument != null) {
         // For the contents(), we're going to gather up all the text in body_text
         try {
@@ -118,10 +120,15 @@ public class EpidemicQACollection extends DocumentCollection<EpidemicQACollectio
             LOG.warn("Null metadata");
           } else {
             title = metadataJsonNode.get("title").asText();
-            Iterator<JsonNode> urlIterator = metadataJsonNode.get("urls").elements();
-            url = urlIterator.hasNext() ? urlIterator.next().asText() : "";
+            if (metadataJsonNode.get("urls") != null) {
+              Iterator<JsonNode> urlIterator = metadataJsonNode.get("urls").elements();
+              url = urlIterator.hasNext() ? urlIterator.next().asText() : "";
+            }
 
-            authors = metadataJsonNode.get("authors").asText();
+            // The authors node won't be present for the consumer dataset.
+            if (metadataJsonNode.get("authors") != null) {
+              authors = metadataJsonNode.get("authors").asText();
+            }
           }
           // Contexts in this correspond to paragraphs or sections as indicated by the HTML
           // markup of the document.
