@@ -422,5 +422,10 @@
       <artifactId>commons-csv</artifactId>
       <version>1.8</version>
     </dependency>
+    <dependency>
+      <groupId>org.apache.tika</groupId>
+      <artifactId>tika-core</artifactId>
+      <version>1.24.1</version>
+    </dependency>
   </dependencies>
 </project>
