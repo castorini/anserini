@@ -118,6 +118,11 @@ public class IndexArgs {
       usage = "Analyzer language (ISO 3166 two-letter code).")
   public String language= "en";
 
+  @Option(name = "-skipNonEnglish",
+          usage = "Boolean to skip non-English documents.")
+  public boolean skipNonEnglish = false;
+
+
   // Tweet options
 
   @Option(name = "-tweet.keepRetweets",

@@ -15,6 +15,8 @@
  */
 
 package io.anserini.collection;
+import org.apache.tika.exception.TikaException;
+import org.apache.tika.language.LanguageIdentifier;
 
 /**
  * A raw document from a collection. A {@code SourceDocument} is explicitly distinguish a from a
@@ -50,4 +52,9 @@ public interface SourceDocument {
    * @return <code>true</code> if this document is meant to be indexed
    */
   boolean indexable();
+
+  default boolean isEnglish(String content) throws TikaException{
+    LanguageIdentifier identifier = new LanguageIdentifier(content);
+    return identifier.getLanguage().equals("en");
+  }
 }
