@@ -129,6 +129,10 @@ public class IndexArgs {
   @Option(name = "-pretokenized",
           usage = "index pre-tokenized collections without any additional stemming, stopword processing")
   public boolean pretokenized = false;
+  
+  @Option(name = "-skipNonEnglish",
+          usage = "Boolean to skip non-English documents.")
+  public boolean skipNonEnglish = false;
 
   // Tweet options
 

@@ -97,6 +97,7 @@ import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.OptionHandlerFilter;
 import org.kohsuke.args4j.ParserProperties;
+import org.apache.tika.exception.TikaException;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -156,6 +157,13 @@ public final class IndexCollection {
     public AtomicLong skipped = new AtomicLong();
 
     /**
+     * Counter for skipped non-English documents. These are cases documents are skipped when skipNonEnglish
+     * flag is enabled.
+     */
+    public AtomicLong nonEnglish = new AtomicLong();
+
+
+    /**
      * Counter for unexpected errors.
      */
     public AtomicLong errors = new AtomicLong();
@@ -206,6 +214,27 @@ public final class IndexCollection {
           if (!d.indexable()) {
             counters.unindexable.incrementAndGet();
             continue;
+          }
+
+          if (args.skipNonEnglish){
+            try {
+              if (!d.isEnglish(d.contents())) {
+                counters.nonEnglish.incrementAndGet();
+                continue;
+              }
+            } catch (TikaException e){
+              counters.errors.incrementAndGet();
+              continue;
+            }
+          }
+
+          // Used for indexing distinct shardCount of a collection
+          if (args.shardCount > 1) {
+            int hash = Hashing.sha1().hashString(d.id(), Charsets.UTF_8).asInt() % args.shardCount;
+            if (hash != args.shardCurrent) {
+              counters.skipped.incrementAndGet();
+              continue;
+            }
           }
 
           Document doc;
@@ -324,6 +353,28 @@ public final class IndexCollection {
           if (!sourceDocument.indexable()) {
             counters.unindexable.incrementAndGet();
             continue;
+          }
+
+          if (args.skipNonEnglish){
+            try {
+              if (!sourceDocument.isEnglish(sourceDocument.contents())) {
+                counters.nonEnglish.incrementAndGet();
+                continue;
+              }
+            } catch (TikaException e){
+              counters.errors.incrementAndGet();
+              continue;
+            }
+          }
+
+
+          // Used for indexing distinct shardCount of a collection
+          if (args.shardCount > 1) {
+            int hash = Hashing.sha1().hashString(sourceDocument.id(), Charsets.UTF_8).asInt() % args.shardCount;
+            if (hash != args.shardCurrent) {
+              counters.skipped.incrementAndGet();
+              continue;
+            }
           }
 
           Document document;
@@ -490,6 +541,27 @@ public final class IndexCollection {
           if (!sourceDocument.indexable()) {
             counters.unindexable.incrementAndGet();
             continue;
+          }
+
+          if (args.skipNonEnglish){
+            try {
+              if (!sourceDocument.isEnglish(sourceDocument.contents())) {
+                counters.nonEnglish.incrementAndGet();
+                continue;
+              }
+            } catch (TikaException e){
+              counters.errors.incrementAndGet();
+              continue;
+            }
+          }
+
+          // Used for indexing distinct shardCount of a collection
+          if (args.shardCount > 1) {
+            int hash = Hashing.sha1().hashString(sourceDocument.id(), Charsets.UTF_8).asInt() % args.shardCount;
+            if (hash != args.shardCurrent) {
+              counters.skipped.incrementAndGet();
+              continue;
+            }
           }
 
           Document document;
@@ -957,11 +1029,14 @@ public final class IndexCollection {
 
     LOG.info(String.format("Indexing Complete! %,d documents indexed", numIndexed));
     LOG.info("============ Final Counter Values ============");
-    LOG.info(String.format("indexed:     %,12d", counters.indexed.get()));
-    LOG.info(String.format("unindexable: %,12d", counters.unindexable.get()));
-    LOG.info(String.format("empty:       %,12d", counters.empty.get()));
-    LOG.info(String.format("skipped:     %,12d", counters.skipped.get()));
-    LOG.info(String.format("errors:      %,12d", counters.errors.get()));
+    LOG.info(String.format("indexed:                 %,12d", counters.indexed.get()));
+    LOG.info(String.format("unindexable:             %,12d", counters.unindexable.get()));
+    LOG.info(String.format("empty:                   %,12d", counters.empty.get()));
+    LOG.info(String.format("skipped:                 %,12d", counters.skipped.get()));
+    if (args.skipNonEnglish){
+      LOG.info(String.format("skipped non-English:     %,12d", counters.nonEnglish.get()));
+    }
+    LOG.info(String.format("errors:                  %,12d", counters.errors.get()));
 
     final long durationMillis = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
     LOG.info(String.format("Total %,d documents indexed in %s", numIndexed,
