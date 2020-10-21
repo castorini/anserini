@@ -72,8 +72,8 @@ public class BM25 implements FeatureExtractor {
     float score = 0;
 
     for (String queryToken : queryContext.queryTokens) {
-        long docFreq = context.getDocFreq(queryToken);
-        double termFreq = context.getTermFreq(queryToken);
+        int docFreq = context.getDocFreq(queryToken);
+        long termFreq = context.getTermFreq(queryToken);
         double numerator = (this.k1 + 1) * termFreq;
         double docLengthFactor = this.b * (docSize / avgFL);
         double denominator = termFreq + (this.k1) * (1 - this.b + docLengthFactor);

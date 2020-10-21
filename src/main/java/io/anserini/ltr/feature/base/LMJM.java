@@ -6,15 +6,15 @@ import io.anserini.ltr.feature.QueryContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class LMDir implements FeatureExtractor {
-  private static final Logger LOG = LogManager.getLogger(LMDir.class);
+public class LMJM implements FeatureExtractor {
+  private static final Logger LOG = LogManager.getLogger(LMJM.class);
 
-  private double mu = 1000;
+  private double lambda = 0.1;
 
-  public LMDir() { }
+  public LMJM() {}
 
-  public LMDir(double mu) {
-    this.mu = mu;
+  public LMJM(double lambda) {
+    this.lambda = lambda;
   }
 
   @Override
@@ -27,14 +27,15 @@ public class LMDir implements FeatureExtractor {
       long termFreq = context.getTermFreq(queryToken);
       if(termFreq==0) continue;
       double collectProb = (double)context.getCollectionFreq(queryToken)/totalTermFreq;
-      score += Math.log((termFreq+mu*collectProb)/(mu+docSize));
+      double documentProb = (double)termFreq/docSize;
+      score += Math.log((1-lambda)*documentProb+lambda*collectProb);
     }
     return score;
   }
 
   @Override
   public String getName() {
-    return String.format("LMD_mu_%.0f",mu);
+    return String.format("LMJM_lambda_%.2f",lambda);
   }
 
   @Override
@@ -42,10 +43,10 @@ public class LMDir implements FeatureExtractor {
     return null;
   }
 
-  public double getMu() { return mu; }
+  public double getLambda() { return lambda; }
 
   @Override
   public FeatureExtractor clone() {
-    return new LMDir(this.mu);
+    return new LMJM(this.lambda);
   }
 }

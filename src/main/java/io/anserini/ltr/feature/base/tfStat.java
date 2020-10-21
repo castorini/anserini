@@ -2,39 +2,39 @@ package io.anserini.ltr.feature.base;
 
 import io.anserini.ltr.feature.ContentContext;
 import io.anserini.ltr.feature.FeatureExtractor;
+import io.anserini.ltr.feature.Pooler;
 import io.anserini.ltr.feature.QueryContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class LMDir implements FeatureExtractor {
-  private static final Logger LOG = LogManager.getLogger(LMDir.class);
+import java.util.ArrayList;
+import java.util.List;
 
-  private double mu = 1000;
-
-  public LMDir() { }
-
-  public LMDir(double mu) {
-    this.mu = mu;
+public class tfStat implements FeatureExtractor {
+  private static final Logger LOG = LogManager.getLogger(BM25.class);
+  Pooler collectFun;
+  public tfStat(Pooler collectFun) {
+    this.collectFun = collectFun;
   }
 
   @Override
   public float extract(ContentContext context, QueryContext queryContext) {
-    long docSize = context.docSize;
-    long totalTermFreq = context.totalTermFreq;
-    float score = 0;
+    List<Float> score = new ArrayList<>();
 
     for (String queryToken : queryContext.queryTokens) {
       long termFreq = context.getTermFreq(queryToken);
-      if(termFreq==0) continue;
-      double collectProb = (double)context.getCollectionFreq(queryToken)/totalTermFreq;
-      score += Math.log((termFreq+mu*collectProb)/(mu+docSize));
+      if(termFreq==0) {
+        score.add(0f);
+        continue;
+      }
+      score.add((float)termFreq);
     }
-    return score;
+    return collectFun.pool(score);
   }
 
   @Override
   public String getName() {
-    return String.format("LMD_mu_%.0f",mu);
+    return "TF"+collectFun.getName();
   }
 
   @Override
@@ -42,10 +42,9 @@ public class LMDir implements FeatureExtractor {
     return null;
   }
 
-  public double getMu() { return mu; }
-
   @Override
   public FeatureExtractor clone() {
-    return new LMDir(this.mu);
+    Pooler newFun = collectFun.clone();
+    return new tfStat(newFun);
   }
 }
