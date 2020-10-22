@@ -221,6 +221,9 @@ public class IndexArgs {
       usage = "Elasticsearch (low level) REST client socket timeout (in ms).")
   public int esSocketTimeout = TIMEOUT;
 
+  @Option(name = "-es.ssl", usage = "Boolean to use SSL for Elasticsearch.")
+  public boolean esSSL = false;
+
   // Sharding options
 
   @Option(name = "-shard.count", metaVar = "[n]",
