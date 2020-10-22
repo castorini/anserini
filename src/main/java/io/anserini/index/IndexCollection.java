@@ -612,7 +612,7 @@ public final class IndexCollection {
           bulkRequest.add(new IndexRequest(indexName).id(sourceDocument.id()).source(builder));
 
           // sendBulkRequest when the batch size is reached OR the bulk size is reached
-          if (bulkRequest.numberOfActions() == args.esBatch || 
+          if (bulkRequest.numberOfActions() == args.esBatch ||
               bulkRequest.estimatedSizeInBytes() >= args.esBulk) {
             sendBulkRequest();
           }
@@ -680,7 +680,7 @@ public final class IndexCollection {
         LOG.info("Error sending bulkRequest. The 10 largest docs in this request are the following cord_uid: ");
         for (int i = 0; i < 10; i++) {
           IndexRequest doc = (IndexRequest) docs.get(i);
-          LOG.info(doc.id()); 
+          LOG.info(doc.id());
         }
       } finally {
         if (esClient != null) {
@@ -704,11 +704,13 @@ public final class IndexCollection {
               .loadTrustMaterial(TrustSelfSignedStrategy.INSTANCE)
               .build();
       return new RestHighLevelClient(
-          RestClient.builder(new HttpHost(args.esHostname, args.esPort, args.esHostname.contains("https") ? "https":"http"))
-              .setHttpClientConfigCallback(builder ->
+          RestClient.builder(new HttpHost(args.esHostname, args.esPort, args.esSSL ? "https" : "http"))
+              .setHttpClientConfigCallback(builder -> args.esSSL ?
                       builder.setDefaultCredentialsProvider(credentialsProvider)
-                              .setSSLContext(sslContext)
-                              .setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE))
+                          .setSSLContext(sslContext)
+                          .setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE)
+                      : builder.setDefaultCredentialsProvider(credentialsProvider)
+              )
               .setRequestConfigCallback(builder -> builder.setConnectTimeout(args.esConnectTimeout).setSocketTimeout(args.esSocketTimeout))
       );
     }
