@@ -25,12 +25,10 @@ import io.anserini.analysis.TweetAnalyzer;
 import io.anserini.collection.DocumentCollection;
 import io.anserini.collection.FileSegment;
 import io.anserini.collection.SourceDocument;
-import io.anserini.index.generator.EmptyDocumentException;
-import io.anserini.index.generator.InvalidDocumentException;
-import io.anserini.index.generator.LuceneDocumentGenerator;
-import io.anserini.index.generator.SkippedDocumentException;
-import io.anserini.index.generator.WashingtonPostGenerator;
+import io.anserini.index.generator.*;
 import io.anserini.search.similarity.AccurateBM25Similarity;
+import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
+import org.apache.commons.compress.archivers.tar.TarArchiveOutputStream;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.apache.commons.pool2.BasePooledObjectFactory;
@@ -39,13 +37,14 @@ import org.apache.commons.pool2.PooledObject;
 import org.apache.commons.pool2.impl.DefaultPooledObject;
 import org.apache.commons.pool2.impl.GenericObjectPool;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
-import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
-import org.apache.commons.compress.archivers.tar.TarArchiveOutputStream;
 import org.apache.http.HttpHost;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.CredentialsProvider;
+import org.apache.http.conn.ssl.NoopHostnameVerifier;
+import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
 import org.apache.http.impl.client.BasicCredentialsProvider;
+import org.apache.http.ssl.SSLContexts;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -60,18 +59,14 @@ import org.apache.lucene.analysis.es.SpanishAnalyzer;
 import org.apache.lucene.analysis.fr.FrenchAnalyzer;
 import org.apache.lucene.analysis.hi.HindiAnalyzer;
 import org.apache.lucene.document.Document;
-import org.apache.lucene.index.ConcurrentMergeScheduler;
-import org.apache.lucene.index.DocValuesType;
-import org.apache.lucene.index.IndexWriter;
-import org.apache.lucene.index.IndexWriterConfig;
-import org.apache.lucene.index.IndexableField;
-import org.apache.lucene.index.Term;
+import org.apache.lucene.index.*;
 import org.apache.lucene.search.similarities.BM25Similarity;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.impl.CloudSolrClient;
 import org.apache.solr.common.SolrInputDocument;
+import org.apache.tika.exception.TikaException;
 import org.elasticsearch.action.DocWriteRequest;
 import org.elasticsearch.action.bulk.BulkRequest;
 import org.elasticsearch.action.index.IndexRequest;
@@ -84,8 +79,8 @@ import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.OptionHandlerFilter;
 import org.kohsuke.args4j.ParserProperties;
-import org.apache.tika.exception.TikaException;
 
+import javax.net.ssl.SSLContext;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -93,6 +88,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.KeyManagementException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
 import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -679,12 +677,19 @@ public final class IndexCollection {
 
   private class ESClientFactory extends BasePooledObjectFactory<RestHighLevelClient> {
     @Override
-    public RestHighLevelClient create() {
+    public RestHighLevelClient create() throws KeyStoreException, NoSuchAlgorithmException, KeyManagementException {
       final CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
       credentialsProvider.setCredentials(AuthScope.ANY, new UsernamePasswordCredentials(args.esUser, args.esPassword));
+      SSLContext sslContext = SSLContexts
+              .custom()
+              .loadTrustMaterial(TrustSelfSignedStrategy.INSTANCE)
+              .build();
       return new RestHighLevelClient(
-          RestClient.builder(new HttpHost(args.esHostname, args.esPort, "http"))
-              .setHttpClientConfigCallback(builder -> builder.setDefaultCredentialsProvider(credentialsProvider))
+          RestClient.builder(new HttpHost(args.esHostname, args.esPort, args.esHostname.contains("https") ? "https":"http"))
+              .setHttpClientConfigCallback(builder ->
+                      builder.setDefaultCredentialsProvider(credentialsProvider)
+                              .setSSLContext(sslContext)
+                              .setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE))
               .setRequestConfigCallback(builder -> builder.setConnectTimeout(args.esConnectTimeout).setSocketTimeout(args.esSocketTimeout))
       );
     }
