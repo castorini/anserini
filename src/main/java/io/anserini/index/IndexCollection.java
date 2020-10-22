@@ -764,6 +764,7 @@ public final class IndexCollection {
       LOG.info("Elasticsearch index: " + args.esIndex);
       LOG.info("Elasticsearch hostname: " + args.esHostname);
       LOG.info("Elasticsearch host port: " + args.esPort);
+      LOG.info("Elasticsearch use HTTPS(SSL): " + args.esSSL);
       LOG.info("Elasticsearch client connect timeout (in ms): " + args.esConnectTimeout);
       LOG.info("Elasticsearch client socket timeout (in ms): " + args.esSocketTimeout);
       LOG.info("Elasticsearch pool size: " + args.esPoolSize);
