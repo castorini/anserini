@@ -39,12 +39,11 @@ public class AvgICTF implements FeatureExtractor {
   @Override
   public float extract(ContentContext context, QueryContext queryContext) {
     // We need docSize, and tf for each term
-    long docSize = context.docSize;
+    long cf = context.totalTermFreq;
     float sumIctf = 0;
     for(String queryToken: queryContext.queryTokens) {
       long tf = context.getTermFreq(queryToken);
-      if(tf!=0)
-        sumIctf += Math.log((double)docSize/tf);
+        sumIctf += Math.log((double)(cf+1)/(tf+0.5));
     }
     // Compute the average by dividing
     return sumIctf / queryContext.queryTokens.size();
