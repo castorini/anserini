@@ -48,7 +48,7 @@ public class AvgSCQ implements FeatureExtractor {
           long docFreq = context.getDocFreq(token);
           long termFreq = context.getCollectionFreq(token);
           if (termFreq == 0) continue;
-          scq += 1+Math.log(termFreq*Math.log(1+(numDocs-docFreq+0.5d)/(docFreq + 0.5d)));
+          scq += (1+Math.log(termFreq))*Math.log(1+(numDocs-docFreq+0.5d)/(docFreq + 0.5d));
         }
         return scq/queryContext.queryTokens.size();
 

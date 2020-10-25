@@ -10,7 +10,8 @@ public class VarPooler implements Pooler {
       sum += v;
       squareSum += v * v;
     }
-    return (squareSum - sum * sum) / array.size();
+    float avg = sum / array.size();
+    return (squareSum / array.size() - avg * avg);
   }
 
   public Pooler clone() {

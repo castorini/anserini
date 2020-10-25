@@ -10,33 +10,29 @@ import org.apache.logging.log4j.Logger;
 import java.util.ArrayList;
 import java.util.List;
 
-public class normalizedDocSizeStat implements FeatureExtractor {
+public class ictfStat implements FeatureExtractor {
   private static final Logger LOG = LogManager.getLogger(BM25.class);
   Pooler collectFun;
-  public normalizedDocSizeStat(Pooler collectFun) {
+  public ictfStat(Pooler collectFun) {
     this.collectFun = collectFun;
   }
 
   @Override
   public float extract(ContentContext context, QueryContext queryContext) {
+    long cf = context.totalTermFreq;
     List<Float> score = new ArrayList<>();
-    long docSize = context.docSize;
 
     for (String queryToken : queryContext.queryTokens) {
-      long termFreq = context.getTermFreq(queryToken);
-      if(termFreq==0) {
-        score.add(0f);
-        continue;
-      }
-      double sizen = (double)docSize/termFreq;
-      score.add((float)sizen);
+      long tf = context.getTermFreq(queryToken);
+      double ictf = Math.log((double)(cf+1)/(tf+0.5));
+      score.add((float)ictf);
     }
     return collectFun.pool(score);
   }
 
   @Override
   public String getName() {
-    return "NormalizedTF"+collectFun.getName();
+    return "ICTF"+collectFun.getName();
   }
 
   @Override
@@ -47,6 +43,6 @@ public class normalizedDocSizeStat implements FeatureExtractor {
   @Override
   public FeatureExtractor clone() {
     Pooler newFun = collectFun.clone();
-    return new normalizedDocSizeStat(newFun);
+    return new ictfStat(newFun);
   }
 }
