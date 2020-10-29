@@ -16,6 +16,7 @@
 
 package io.anserini.ltr.feature;
 
+import io.anserini.index.IndexArgs;
 import io.anserini.rerank.RerankerContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -35,10 +36,9 @@ import java.util.Map;
 /**
  * Implementation of the Sequential Dependence term dependence model
  */
-public class SequentialDependenceModel<T> implements FeatureExtractor<T> {
+public class SequentialDependenceModel implements FeatureExtractor {
   private static final Logger LOG = LogManager.getLogger(SequentialDependenceModel.class);
 
-  private static final String NAME = "SDM";
   private static final int WINDOW_SIZE = 8;
 
   private float lambdaT = 0.5f;
@@ -51,9 +51,7 @@ public class SequentialDependenceModel<T> implements FeatureExtractor<T> {
     this.lambdaU = lambdaU;
   }
 
-  private float computeUnorderedFrequencyScore(Document doc, Terms terms, RerankerContext<T> context) throws IOException {
-    List<String> queryTokens = context.getQueryTokens();
-
+  private float computeUnorderedFrequencyScore(Document doc, Terms terms, List<String> queryTokens) throws IOException {
     // Construct token stream with offset 0
     TokenStream stream = new TokenStreamFromTermVector(terms, 0);
     CharTermAttribute termAttribute = stream.addAttribute(CharTermAttribute.class);
@@ -120,8 +118,7 @@ public class SequentialDependenceModel<T> implements FeatureExtractor<T> {
     return score;
   }
 
-  private float computeOrderedFrequencyScore(Document doc, Terms terms, RerankerContext<T> context) throws IOException {
-    List<String> queryTokens = context.getQueryTokens();
+  private float computeOrderedFrequencyScore(Document doc, Terms terms, List<String> queryTokens) throws IOException {
     Map<String, String> queryPairMap = new HashMap<>();
     Map<String, Integer> phraseCountMap = new HashMap<>();
     Map<String, Integer> singleCountMap = new HashMap<>();
@@ -171,16 +168,12 @@ public class SequentialDependenceModel<T> implements FeatureExtractor<T> {
 
   /**
    * The single term scoring function: lambda* log( (1-alpha) tf/ |D|)
-   * @param doc
    * @param terms
-   * @param context
    * @return
    */
-  private float computeFullIndependenceScore(Document doc, Terms terms, RerankerContext<T> context) throws IOException {
+  private float computeFullIndependenceScore(Terms terms) throws IOException {
     // tf can be calculated by iterating over terms, number of times a term occurs in doc
     // |D| total number of terms can be calculated by iterating over stream
-    IndexReader reader = context.getIndexSearcher().getIndexReader();
-    List<String> queryTokenList = context.getQueryTokens();
     Map<String, Integer> termCount = new HashMap<>();
 
     TokenStream stream = new TokenStreamFromTermVector(terms, 0);
@@ -208,15 +201,15 @@ public class SequentialDependenceModel<T> implements FeatureExtractor<T> {
   }
 
   @Override
-  public float extract(Document doc, Terms terms, RerankerContext<T> context) {
+  public float extract(Document doc, Terms terms, String queryText, List<String> queryTokens, IndexReader reader) {
     float orderedWindowScore = 0.0f;
     float unorderedDependenceScore = 0.0f;
     float independentScore = 0.0f;
 
     try {
-      independentScore = computeFullIndependenceScore(doc, terms, context);
-      orderedWindowScore = computeOrderedFrequencyScore(doc, terms, context);
-      unorderedDependenceScore = computeUnorderedFrequencyScore(doc, terms, context);
+      independentScore = computeFullIndependenceScore(terms);
+      orderedWindowScore = computeOrderedFrequencyScore(doc, terms, queryTokens);
+      unorderedDependenceScore = computeUnorderedFrequencyScore(doc, terms, queryTokens);
       LOG.debug(String.format("independent: %f, ordered: %f, unordered: %f", independentScore, orderedWindowScore, unorderedDependenceScore));
     } catch (IOException e) {
       e.printStackTrace();
@@ -226,6 +219,16 @@ public class SequentialDependenceModel<T> implements FeatureExtractor<T> {
 
   @Override
   public String getName() {
-    return NAME;
+    return "SDM";
+  }
+
+  @Override
+  public String getField() {
+    return null;
+  }
+
+  @Override
+  public FeatureExtractor clone() {
+    return new SequentialDependenceModel(this.lambdaT, this.lambdaO, this.lambdaU);
   }
 }

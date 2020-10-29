@@ -16,9 +16,11 @@
 
 package io.anserini.ltr.feature.base;
 
+import io.anserini.index.IndexArgs;
 import io.anserini.ltr.feature.FeatureExtractor;
 import io.anserini.rerank.RerankerContext;
 import org.apache.lucene.document.Document;
+import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.Terms;
 import org.apache.lucene.index.TermsEnum;
 import org.apache.lucene.util.BytesRef;
@@ -30,12 +32,11 @@ import java.util.List;
  * Computes the number of query terms that are found in the document. If there are three terms in
  * the query and all three terms are found in the document, the feature value is three.
  */
-public class MatchingTermCount<T> implements FeatureExtractor<T> {
+public class MatchingTermCount implements FeatureExtractor {
 
   @Override
-  public float extract(Document doc, Terms terms, RerankerContext<T> context) {
+  public float extract(Document doc, Terms terms, String queryText, List<String> queryTokens, IndexReader reader) {
     try {
-      List<String> queryTokens = context.getQueryTokens();
       TermsEnum termsEnum = terms.iterator();
       int matching = 0;
 
@@ -56,5 +57,15 @@ public class MatchingTermCount<T> implements FeatureExtractor<T> {
   @Override
   public String getName() {
     return "MatchingTermCount";
+  }
+
+  @Override
+  public String getField() {
+    return null;
+  }
+
+  @Override
+  public FeatureExtractor clone() {
+    return new MatchingTermCount();
   }
 }
