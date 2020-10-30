@@ -49,9 +49,9 @@ public class BibtexEndToEndTest extends EndToEndTest {
 
     fieldNormStatusTotalFields = 12;
     termIndexStatusTermCount = 45;
-    termIndexStatusTotFreq = 54;
+    termIndexStatusTotFreq = 57;
     storedFieldStatusTotalDocCounts = 3;
-    termIndexStatusTotPos = 54;
+    termIndexStatusTotPos = 57;
     storedFieldStatusTotFields = 37;
   }
 
