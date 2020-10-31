@@ -47,8 +47,6 @@ import java.util.Set;
  */
  
 public class DPH implements FeatureExtractor {
-    private static final Logger LOG = LogManager.getLogger(DPH.class);
-
 
     @Override
     public float extract(ContentContext context, QueryContext queryContext) {
@@ -58,15 +56,13 @@ public class DPH implements FeatureExtractor {
         float score = 0;
 
         for (String queryToken : queryContext.queryTokens) {
-            int docFreq = context.getDocFreq(queryToken);
             long termFreq = context.getTermFreq(queryToken);
             double collectionFreqs = context.getCollectionFreq(queryToken);
             double relativeFreq = termFreq/docSize;
             double norm = (1d-relativeFreq) * (1d -relativeFreq)/(termFreq+1d);
-            double Pt = collectionFreqs/totalTermFreq
+            double Pt = collectionFreqs/totalTermFreq;
             score += norm * (termFreq* Math.log((relativeFreq/Pt)) +
                     0.5d * Math.log(2.0 * Math.PI * termFreq * (1d - relativeFreq)));
-            termFreq/docSize / (collectionFreqs/totalTermFreq)
         }
         return score;
     }

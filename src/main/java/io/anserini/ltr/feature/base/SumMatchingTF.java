@@ -35,7 +35,6 @@ import java.util.*;
  * Computes the sum of term frequencies for each query token.
  */
 public class SumMatchingTF implements FeatureExtractor {
-  private static final Logger LOG = LogManager.getLogger(SumMatchingTF.class);
 
   @Override
   public float extract(ContentContext context, QueryContext queryContext) {

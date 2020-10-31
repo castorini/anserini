@@ -35,7 +35,6 @@ import java.util.List;
  * Returns the size of the document
  */
 public class DocSize implements FeatureExtractor {
-  private static final Logger LOG = LogManager.getLogger(DocSize.class);
 
   @Override
   public float extract(ContentContext context, QueryContext queryContext) {

@@ -9,9 +9,12 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * IDF
+ * todo discuss laplace law of succesion
+ */
 public class idfStat implements FeatureExtractor {
-  private static final Logger LOG = LogManager.getLogger(BM25.class);
+
   Pooler collectFun;
   public idfStat(Pooler collectFun) {
     this.collectFun = collectFun;
@@ -24,7 +27,7 @@ public class idfStat implements FeatureExtractor {
 
     for (String queryToken : queryContext.queryTokens) {
       int docFreq = context.getDocFreq(queryToken);
-      double idf = Math.log(1 + (numDocs - docFreq + 0.5d) / (docFreq + 0.5d));
+      double idf = Math.log((double) numDocs/(docFreq+1));
       score.add((float)idf);
     }
     return collectFun.pool(score);

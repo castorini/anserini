@@ -7,7 +7,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class DFR_GL2 implements FeatureExtractor {
-  private static final Logger LOG = LogManager.getLogger(DFR_GL2.class);
 
   public DFR_GL2() { }
 
@@ -25,6 +24,7 @@ public class DFR_GL2 implements FeatureExtractor {
 
     for (String queryToken : queryContext.queryTokens) {
       double tfn = context.getTermFreq(queryToken)*log2(1+avgFL/docSize);
+      //todo need discuss this
       if(tfn==0) continue;
       double logSuccess = Math.log(1+(double)context.getCollectionFreq(queryToken)/numDocs);
       double logFail = Math.log(1+(double)numDocs/context.getCollectionFreq(queryToken));

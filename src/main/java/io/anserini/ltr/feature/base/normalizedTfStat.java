@@ -9,9 +9,11 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/*
+*  todo discuss logarithm
+*/
 public class normalizedTfStat implements FeatureExtractor {
-  private static final Logger LOG = LogManager.getLogger(BM25.class);
+
   Pooler collectFun;
   public normalizedTfStat(Pooler collectFun) {
     this.collectFun = collectFun;
@@ -19,17 +21,22 @@ public class normalizedTfStat implements FeatureExtractor {
 
   @Override
   public float extract(ContentContext context, QueryContext queryContext) {
-    List<Float> score = new ArrayList<>();
-    long docSize = context.docSize;
+    List<Float> score;
+    if(context.statsCache.containsKey("NormalizedTF")){
+      score = context.statsCache.get("NormalizedTF");
+    } else {
+      score = new ArrayList<>();
+      long docSize = context.docSize;
 
-    for (String queryToken : queryContext.queryTokens) {
-      long termFreq = context.getTermFreq(queryToken);
-      if(termFreq==0) {
-        score.add(0f);
-        continue;
+      for (String queryToken : queryContext.queryTokens) {
+        long termFreq = context.getTermFreq(queryToken);
+        if(termFreq==0) {
+          score.add(0f);
+          continue;
+        }
+        double tfn = (double)termFreq/docSize;
+        score.add((float)Math.log(tfn));
       }
-      double tfn = (double)termFreq/docSize;
-      score.add((float)Math.log(tfn));
     }
     return collectFun.pool(score);
   }

@@ -30,7 +30,6 @@ import java.util.List;
  * in a specified gap size
  */
 public class OrderedSequentialPairs implements FeatureExtractor {
-  private static final Logger LOG = LogManager.getLogger(OrderedSequentialPairs.class);
 
   private int gapSize;
   public OrderedSequentialPairs(int gapSize) {

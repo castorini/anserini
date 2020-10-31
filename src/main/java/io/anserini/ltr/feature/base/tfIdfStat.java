@@ -9,9 +9,11 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/* try to avoid duplicatiton with scq
+todo discuss tfidf
+*/
 public class tfIdfStat implements FeatureExtractor {
-  private static final Logger LOG = LogManager.getLogger(BM25.class);
+
   Pooler collectFun;
   public tfIdfStat(Pooler collectFun) {
     this.collectFun = collectFun;
@@ -19,19 +21,23 @@ public class tfIdfStat implements FeatureExtractor {
 
   @Override
   public float extract(ContentContext context, QueryContext queryContext) {
-    long numDocs = context.numDocs;
-    List<Float> score = new ArrayList<>();
+    List<Float> score;
+    if(context.statsCache.containsKey("TFIDF")){
+      score = context.statsCache.get("TFIDF");
+    } else {
+      long numDocs = context.numDocs;
+      score = new ArrayList<>();
 
-    for (String queryToken : queryContext.queryTokens) {
-      int docFreq = context.getDocFreq(queryToken);
-      long termFreq = context.getTermFreq(queryToken);
-      if(termFreq==0) {
-        score.add(0f);
-        continue;
+      for (String queryToken : queryContext.queryTokens) {
+        int docFreq = context.getDocFreq(queryToken);
+        long termFreq = context.getTermFreq(queryToken);
+        if(termFreq==0) {
+          score.add(0f);
+          continue;
+        }
+        double idf = Math.log(numDocs/docFreq);
+        score.add((float)(idf*termFreq));
       }
-      double tfn = 1+Math.log(termFreq);
-      double idf = Math.log(1+(numDocs/docFreq));
-      score.add((float)(idf*tfn));
     }
     return collectFun.pool(score);
   }

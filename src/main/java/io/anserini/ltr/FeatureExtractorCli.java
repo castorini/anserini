@@ -45,13 +45,11 @@ public class FeatureExtractorCli {
 
     FeatureExtractorUtils utils = new FeatureExtractorUtils(cmdArgs.indexDir, cmdArgs.threads);
 
-    utils.add(new AvgICTF());
-    utils.add(new AvgIDF());
+
     utils.add(new BM25());
     utils.add(new DocSize());
     utils.add(new MatchingTermCount());
     utils.add(new QueryLength());
-    utils.add(new AvgSCQ());
     utils.add(new SCS());
     utils.add(new SumMatchingTF());
     utils.add(new UniqueTermCount());

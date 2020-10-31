@@ -7,7 +7,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class DFR_In_expB2 implements FeatureExtractor {
-  private static final Logger LOG = LogManager.getLogger(DFR_In_expB2.class);
 
   public DFR_In_expB2() {}
 

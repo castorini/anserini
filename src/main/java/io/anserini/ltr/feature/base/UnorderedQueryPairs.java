@@ -27,6 +27,7 @@ import java.util.List;
  * Counts all unordered pairs of query tokens
  */
 public class UnorderedQueryPairs implements FeatureExtractor {
+
   private int gapSize;
 
   // If this windowSize is 2, then we will look at a window [i-2, i+2] for the second term if the first occurs at i

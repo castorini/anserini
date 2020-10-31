@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class tfStat implements FeatureExtractor {
-  private static final Logger LOG = LogManager.getLogger(BM25.class);
+
   Pooler collectFun;
   public tfStat(Pooler collectFun) {
     this.collectFun = collectFun;
@@ -19,15 +19,20 @@ public class tfStat implements FeatureExtractor {
 
   @Override
   public float extract(ContentContext context, QueryContext queryContext) {
-    List<Float> score = new ArrayList<>();
+    List<Float> score;
+    if(context.statsCache.containsKey("TF")){
+      score = context.statsCache.get("TF");
+    } else {
+      score = new ArrayList<>();
 
-    for (String queryToken : queryContext.queryTokens) {
-      long termFreq = context.getTermFreq(queryToken);
-      if(termFreq==0) {
-        score.add(0f);
-        continue;
+      for (String queryToken : queryContext.queryTokens) {
+        long termFreq = context.getTermFreq(queryToken);
+        if(termFreq==0) {
+          score.add(0f);
+          continue;
+        }
+        score.add((float)termFreq);
       }
-      score.add((float)termFreq);
     }
     return collectFun.pool(score);
   }

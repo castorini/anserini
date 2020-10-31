@@ -13,7 +13,6 @@ import java.util.Comparator;
 import java.util.List;
 
 public class Proximity implements FeatureExtractor {
-    private static final Logger LOG = LogManager.getLogger(Proximity.class);
 
     @Override
     public float extract(ContentContext context, QueryContext queryContext) {

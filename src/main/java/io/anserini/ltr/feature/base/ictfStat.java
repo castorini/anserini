@@ -9,9 +9,14 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * Inverse DocumentCollection Term Frequency as defined in
+ * Carmel, Yom-Tov Estimating query difficulty for Information Retrieval
+ * log(|D| / tf)
+ * todo discuss laplace law of succesion
+ */
 public class ictfStat implements FeatureExtractor {
-  private static final Logger LOG = LogManager.getLogger(BM25.class);
+
   Pooler collectFun;
   public ictfStat(Pooler collectFun) {
     this.collectFun = collectFun;
@@ -19,12 +24,12 @@ public class ictfStat implements FeatureExtractor {
 
   @Override
   public float extract(ContentContext context, QueryContext queryContext) {
-    long cf = context.totalTermFreq;
+    long collectionSize = context.totalTermFreq;
     List<Float> score = new ArrayList<>();
 
     for (String queryToken : queryContext.queryTokens) {
-      long tf = context.getTermFreq(queryToken);
-      double ictf = Math.log((double)(cf+1)/(tf+0.5));
+      long collectionFreq = context.getCollectionFreq(queryToken);
+      double ictf = Math.log((double)collectionSize/(collectionFreq+1));
       score.add((float)ictf);
     }
     return collectFun.pool(score);

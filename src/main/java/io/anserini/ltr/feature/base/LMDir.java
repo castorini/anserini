@@ -7,8 +7,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class LMDir implements FeatureExtractor {
-  private static final Logger LOG = LogManager.getLogger(LMDir.class);
-
   private double mu = 1000;
 
   public LMDir() { }
@@ -25,9 +23,10 @@ public class LMDir implements FeatureExtractor {
 
     for (String queryToken : queryContext.queryTokens) {
       long termFreq = context.getTermFreq(queryToken);
+      //todo need discuss this
       if(termFreq==0) continue;
       double collectProb = (double)context.getCollectionFreq(queryToken)/totalTermFreq;
-      score += Math.log((termFreq+mu*collectProb)/(mu+docSize));
+      score += -Math.log((termFreq+mu*collectProb)/(mu+docSize));
     }
     return score;
   }

@@ -7,7 +7,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class LMJM implements FeatureExtractor {
-  private static final Logger LOG = LogManager.getLogger(LMJM.class);
 
   private double lambda = 0.1;
 
@@ -25,10 +24,11 @@ public class LMJM implements FeatureExtractor {
 
     for (String queryToken : queryContext.queryTokens) {
       long termFreq = context.getTermFreq(queryToken);
+      //todo need discuss this
       if(termFreq==0) continue;
       double collectProb = (double)context.getCollectionFreq(queryToken)/totalTermFreq;
       double documentProb = (double)termFreq/docSize;
-      score += Math.log((1-lambda)*documentProb+lambda*collectProb);
+      score += -Math.log((1-lambda)*documentProb+lambda*collectProb);
     }
     return score;
   }

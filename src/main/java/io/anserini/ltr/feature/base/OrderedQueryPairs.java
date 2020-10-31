@@ -29,7 +29,7 @@ import java.util.List;
  * Counts occurrences of all pairs of query tokens
  */
 public class OrderedQueryPairs implements FeatureExtractor {
-  private static final Logger LOG = LogManager.getLogger(OrderedQueryPairs.class);
+
   private int gapSize;
 
   public OrderedQueryPairs(int gapSize) {

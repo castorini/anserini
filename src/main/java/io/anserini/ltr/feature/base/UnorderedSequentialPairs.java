@@ -28,6 +28,7 @@ import java.util.List;
  * unordered count of phrases in the window specified
  */
 public class UnorderedSequentialPairs implements FeatureExtractor {
+
   protected int gapSize;
 
   // If this windowSize is 2, then we will look at a window [i-2, i+2] for the second term if the first occurs at i

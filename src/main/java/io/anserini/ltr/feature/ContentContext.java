@@ -22,7 +22,10 @@ public class ContentContext {
     public Map<String, List<Integer>> termPositions;
     private Map<String,Integer> docFreqs;
     private Map<String,Long> collectionFreqs;
-    
+
+    //todo implement local normalization here
+    public Map<String, List<Float>> statsCache;
+
     public ContentContext(IndexReader reader, String fieldName) throws IOException {
         this.reader = reader;
         this.fieldName = fieldName;
@@ -62,6 +65,7 @@ public class ContentContext {
         termPositions = new HashMap<>();
         docFreqs = new HashMap<>();
         collectionFreqs = new HashMap<>();
+        statsCache = new HashMap<>();
 
         TermsEnum termIter = termVector.iterator();
         PostingsEnum positionIter = null;

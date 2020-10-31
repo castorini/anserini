@@ -12,8 +12,9 @@ public class QueryContext {
     public Map<String,Integer> queryFreqs;
     public int querySize;
 
-    //maybe put pre-retrieval feature here
+    //todo pre-retrieval feature here
     public Map<String, Float> cache;
+
     public QueryContext(List<String> queryTokens){
         this.queryTokens = queryTokens;
         this.queryText = String.join(",", queryTokens);
