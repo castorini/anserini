@@ -27,7 +27,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Set;
@@ -40,9 +39,8 @@ public class EpidemicQACollection extends DocumentCollection<EpidemicQACollectio
 
   public EpidemicQACollection(Path path){
     this.path = path;
-    // The prefix constraint is required otherwise the md5.txt file will be read as a segment.
-    this.allowedFilePrefix = Set.of("info");
-    this.allowedFileSuffix = Set.of(".txt");
+    // Documents are stored in JSON files (1 document/JSON file).
+    this.allowedFileSuffix = Set.of(".json");
   }
 
   @Override
@@ -51,7 +49,7 @@ public class EpidemicQACollection extends DocumentCollection<EpidemicQACollectio
   }
 
   /**
-   * A single txt document listing documents. In the case of Epidemic QA, this is the info.txt file.
+   * A single JSON file containing a document.
    */
   public class Segment extends FileSegment<EpidemicQACollection.Document> {
     public Segment(Path path) throws IOException {
@@ -63,18 +61,21 @@ public class EpidemicQACollection extends DocumentCollection<EpidemicQACollectio
 
     @Override
     public void readNext() throws NoSuchElementException {
-      String nextDocumentId;
-
+      String documentJSON;
       try {
-        nextDocumentId = bufferedReader.readLine();
+        documentJSON = new String(Files.readAllBytes(path));
       } catch (IOException e) {
-        LOG.error(e);
+        LOG.error(e.getMessage());
+        LOG.error("Error parsing file at " + path.toString());
         throw new NoSuchElementException();
       }
-      if (nextDocumentId == null) {
+
+      if (documentJSON == null || documentJSON.isEmpty()) {
         throw new NoSuchElementException();
       }
-      bufferedRecord = new EpidemicQACollection.Document(nextDocumentId);
+
+      bufferedRecord = new EpidemicQACollection.Document(documentJSON);
+      atEOF = true;
     }
 
     @Override
@@ -87,13 +88,13 @@ public class EpidemicQACollection extends DocumentCollection<EpidemicQACollectio
    * A class that maps to one of the Epidemic QA JSON documents.
    */
   public class Document implements SourceDocument {
-    // The 8-char truncated sha id of the document from info.txt.
-    private final String documentID;
     // The document's raw JSON.
     private final String rawDocument;
 
-    // Details from the parsed document JSON.
+    /* Details from the parsed document JSON */
 
+    // The 8-char truncated sha id of the document from info.txt.
+    private String documentID;
     // A concatenation of the title and all the sentences in the document.
     private String content;
     // The title of the document (from the metadata).
@@ -103,10 +104,9 @@ public class EpidemicQACollection extends DocumentCollection<EpidemicQACollectio
     // A semi-colon separated string of authors.
     private String authors;
 
-    public Document(String documentId) {
-      documentID = documentId;
-      // Document JSON
-      rawDocument = getEpidemicQAJson(EpidemicQACollection.this.path.toString());
+    public Document(String documentJSON) {
+      rawDocument = documentJSON;
+      documentID = "";
       content = "";
       authors = "";
       url = "";
@@ -115,9 +115,15 @@ public class EpidemicQACollection extends DocumentCollection<EpidemicQACollectio
         try {
           ObjectMapper mapper = new ObjectMapper();
           JsonNode recordJsonNode = mapper.readerFor(JsonNode.class).readTree(rawDocument);
+          JsonNode documentIdNode = recordJsonNode.get("document_id");
           JsonNode metadataJsonNode = recordJsonNode.get("metadata");
+          if (documentIdNode == null) {
+            LOG.warn("Null document ID.");
+          } else {
+            documentID = documentIdNode.asText();
+          }
           if (metadataJsonNode == null) {
-            LOG.warn("Null metadata");
+            LOG.warn("Null metadata.");
           } else {
             title = metadataJsonNode.get("title").asText();
             // Some of the data has multiple urls with the JSON property "urls".  For some reason, this isn't documented
@@ -181,29 +187,5 @@ public class EpidemicQACollection extends DocumentCollection<EpidemicQACollectio
       return true;
     }
 
-    /**
-     * Read the corresponding JSON document file for the Document's documentId.
-     */
-    private final String getEpidemicQAJson(String basePath) {
-      if (this.documentID.isEmpty()) {
-        return null;
-      }
-
-      String documentPath = "/" + this.documentID + ".json";
-      String documentJson = null;
-      try {
-        documentJson = new String(Files.readAllBytes(
-            Paths.get(basePath + documentPath)));
-      } catch (IOException e) {
-        LOG.error(e.getMessage());
-        LOG.error("Error parsing file at " + (basePath+documentPath));
-      }
-
-      if (documentJson == null || documentJson.isEmpty()) {
-        return null;
-      }
-
-      return documentJson;
-    }
   }
 }

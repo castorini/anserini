@@ -17,12 +17,14 @@ public class EpidemicQACollectionTest  extends DocumentCollectionTest<EpidemicQA
     collectionPath = Paths.get("src/test/resources/sample_docs/epidemic_qa");
     collection = new EpidemicQACollection(collectionPath);
 
-    Path segment = Paths.get("src/test/resources/sample_docs/epidemic_qa/info.txt");
+    Path segment_1 = Paths.get("src/test/resources/sample_docs/epidemic_qa/b5329o75.json");
+    Path segment_2 = Paths.get("src/test/resources/sample_docs/epidemic_qa/f2e3910c8f67647e4ac24eb38e9cb86e9c3cbf27.json");
+    segmentPaths.add(segment_1);
+    segmentPaths.add(segment_2);
+    segmentDocCounts.put(segment_1, 1);
+    segmentDocCounts.put(segment_2, 1);
 
-    segmentPaths.add(segment);
-    segmentDocCounts.put(segment, 2);
-
-    totalSegments = 1;
+    totalSegments = 2;
     totalDocs = 2;
 
     Map<String, String> doc1 = new HashMap<>();

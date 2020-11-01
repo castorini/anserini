@@ -35,7 +35,7 @@ import org.apache.lucene.util.BytesRef;
 import java.io.StringReader;
 
 /**
- * Converts a {@link Cord19BaseDocument} into a Lucene {@link Document}, ready to be indexed.
+ * Converts a {@link EpidemicQACollection.Document} into a Lucene {@link Document}, ready to be indexed.
  */
 public class EpidemicQAGenerator implements LuceneDocumentGenerator<EpidemicQACollection.Document> {
   private IndexArgs args;
