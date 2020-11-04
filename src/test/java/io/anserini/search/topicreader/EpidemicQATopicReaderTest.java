@@ -25,8 +25,8 @@ public class EpidemicQATopicReaderTest {
                  consumerTopics.get(consumerTopics.firstKey()).get("question"));
     assertEquals("CQ001", consumerTopics.get(consumerTopics.firstKey()).get("question_id"));
     assertEquals("coronavirus origin", consumerTopics.get(consumerTopics.firstKey()).get("query"));
-    assertEquals("seeking information about whether the virus was designed in a lab or occured "
-                 + "naturally in animals and how it got to humans",
+    assertEquals("seeking information about whether the virus was designed in a lab or occured " +
+                 "naturally in animals and how it got to humans",
                  consumerTopics.get(consumerTopics.firstKey()).get("background"));
 
     assertEquals(45, (int) consumerTopics.lastKey());
@@ -35,8 +35,8 @@ public class EpidemicQATopicReaderTest {
     assertEquals("CQ045", consumerTopics.get(consumerTopics.lastKey()).get("question_id"));
     assertEquals("coronavirus mental health impact",
                  consumerTopics.get(consumerTopics.lastKey()).get("query"));
-    assertEquals("seeking information about psychological effects of COVID-19 and "
-                 + "COVID-19 effect on mental health and pre-existing conditions",
+    assertEquals("seeking information about psychological effects of COVID-19 and "+
+                 "COVID-19 effect on mental health and pre-existing conditions",
                  consumerTopics.get(consumerTopics.lastKey()).get("background"));
 
     TopicReader<Integer> expertReader =
@@ -52,8 +52,8 @@ public class EpidemicQATopicReaderTest {
                  expertTopics.get(expertTopics.firstKey()).get("question"));
     assertEquals("EQ001", expertTopics.get(expertTopics.firstKey()).get("question_id"));
     assertEquals("coronavirus origin", expertTopics.get(expertTopics.firstKey()).get("query"));
-    assertEquals("seeking range of information about the SARS-CoV-2 virus's origin,"
-                 + " including its evolution, animal source, and first transmission into humans",
+    assertEquals("seeking range of information about the SARS-CoV-2 virus's origin, " +
+                 "including its evolution, animal source, and first transmission into humans",
                  expertTopics.get(expertTopics.firstKey()).get("background"));
 
     assertEquals(45, (int) expertTopics.lastKey());
@@ -62,8 +62,8 @@ public class EpidemicQATopicReaderTest {
     assertEquals("EQ045", expertTopics.get(expertTopics.lastKey()).get("question_id"));
     assertEquals("coronavirus mental health impact",
                  expertTopics.get(expertTopics.lastKey()).get("query"));
-    assertEquals("Includes increasing/decreasing rates of depression, anxiety, panic disorder,"
-                 + " and other psychiatric and mental health conditions.",
+    assertEquals("Includes increasing/decreasing rates of depression, anxiety, panic disorder, " +
+                 "and other psychiatric and mental health conditions.",
                  expertTopics.get(expertTopics.lastKey()).get("background"));
   }
 }
