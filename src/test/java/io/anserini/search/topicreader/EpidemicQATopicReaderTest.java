@@ -9,11 +9,9 @@ import java.util.SortedMap;
 
 import static org.junit.Assert.assertEquals;
 
-public class EpidemicQATopicReaderTest
-{
+public class EpidemicQATopicReaderTest {
   @Test
-  public void test() throws IOException
-  {
+  public void test() throws IOException {
     TopicReader<Integer> consumer_reader =
         new EpidemicQATopicReader(
             Paths.get("src/main/resources/topics-and-qrels/topics.epidemic-qa.consumer.prelim.json"));
@@ -67,6 +65,5 @@ public class EpidemicQATopicReaderTest
     assertEquals("Includes increasing/decreasing rates of depression, anxiety, panic disorder,"
                  + " and other psychiatric and mental health conditions.",
                  expert_topics.get(expert_topics.lastKey()).get("background"));
-
   }
 }

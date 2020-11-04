@@ -32,8 +32,7 @@ public class EpidemicQATopicReader extends TopicReader<Integer> {
   }
 
   @Override
-  public SortedMap<Integer, Map<String, String>> read(BufferedReader reader) throws IOException
-  {
+  public SortedMap<Integer, Map<String, String>> read(BufferedReader reader) throws IOException {
     SortedMap<Integer, Map<String, String>> map = new TreeMap<>();
     ObjectMapper mapper = new ObjectMapper();
     String topicsJson;
