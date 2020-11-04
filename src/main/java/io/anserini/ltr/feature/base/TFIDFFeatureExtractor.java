@@ -31,28 +31,28 @@ import org.apache.lucene.search.similarities.TFIDFSimilarity;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
  * Computes the TFIDF feature according to Lucene's formula,
  * Not the same because we don't compute length norm or query norm, with boost 1
  */
-public class TFIDFFeatureExtractor<T> implements FeatureExtractor<T> {
+public class TFIDFFeatureExtractor implements FeatureExtractor {
   private static final Logger LOG = LogManager.getLogger(TFIDFFeatureExtractor.class);
 
   @Override
-  public float extract(Document doc, Terms terms, RerankerContext<T> context) {
+  public float extract(Document doc, Terms terms, String queryText, List<String> queryTokens, IndexReader reader) {
     float score = 0.0f;
     Map<String, Long> countMap = new HashMap<>();
     Map<String, Integer> docFreqs = new HashMap<>();
-    IndexReader reader = context.getIndexSearcher().getIndexReader();
     long numDocs =  reader.numDocs();
-    for (Object queryToken : context.getQueryTokens()) {
+    for (String queryToken : queryTokens) {
       try {
-        docFreqs.put((String)queryToken, reader.docFreq(new Term(IndexArgs.CONTENTS, (String)queryToken)));
+        docFreqs.put(queryToken, reader.docFreq(new Term(IndexArgs.CONTENTS, queryToken)));
       } catch (IOException e) {
         LOG.error("Error trying to read document frequency");
-        docFreqs.put((String)queryToken, 0);
+        docFreqs.put(queryToken, 0);
       }
     }
 
@@ -60,7 +60,7 @@ public class TFIDFFeatureExtractor<T> implements FeatureExtractor<T> {
       TermsEnum termsEnum = terms.iterator();
       while (termsEnum.next() != null) {
         String termString = termsEnum.term().utf8ToString();
-        if (context.getQueryTokens().contains(termString)) {
+        if (queryTokens.contains(termString)) {
           countMap.put(termString, termsEnum.totalTermFreq());
         }
       }
@@ -75,9 +75,9 @@ public class TFIDFFeatureExtractor<T> implements FeatureExtractor<T> {
     //float coord = similarity.coord(countMap.size(), context.getQueryTokens().size());
     // coord removed in Lucene 7
 
-    for (Object token : context.getQueryTokens()) {
-      long termFreq = countMap.getOrDefault(token.toString(), 0L);
-      long docFreq = docFreqs.getOrDefault(token.toString(), 0);
+    for (String token : queryTokens) {
+      long termFreq = countMap.getOrDefault(token, 0L);
+      long docFreq = docFreqs.getOrDefault(token, 0);
       float tf = similarity.tf(termFreq);
       float idf = similarity.idf(docFreq, numDocs);
       score += tf * idf*idf;
@@ -91,5 +91,15 @@ public class TFIDFFeatureExtractor<T> implements FeatureExtractor<T> {
   @Override
   public String getName() {
     return "TFIDF";
+  }
+
+  @Override
+  public String getField() {
+    return null;
+  }
+
+  @Override
+  public FeatureExtractor clone() {
+    return new TFIDFFeatureExtractor();
   }
 }

@@ -49,10 +49,22 @@ public class JsonCollectionLineObjectTest extends JsonCollectionTest {
 
     expected.put("doc1", Map.of("id", "doc1",
         "content", "this is the contents 1.",
+        "raw", "{\n" +
+                    "  \"id\" : \"doc1\",\n" +
+                    "  \"contents\" : \"this is the contents 1.\",\n" +
+                    "  \"field1\" : \"doc1 field1 content\",\n" +
+                    "  \"field2\" : \"doc1 field2 content\"\n" +
+                    "}",
         "field1", "doc1 field1 content",
         "field2", "doc1 field2 content"));
     expected.put("doc2", Map.of("id", "doc2",
         "content", "this is the contents 2.",
+        "raw", "{\n" +
+                    "  \"id\" : \"doc2\",\n" +
+                    "  \"contents\" : \"this is the contents 2.\",\n" +
+                    "  \"field1\" : \"doc2 field1 content\",\n" +
+                    "  \"field2\" : \"doc2 field2 content\"\n" +
+                    "}",
         "field1", "doc2 field1 content",
         "field2", "doc2 field2 content"));
   }
@@ -62,7 +74,7 @@ public class JsonCollectionLineObjectTest extends JsonCollectionTest {
     assertTrue(doc.indexable());
     assertEquals(expected.get("id"), doc.id());
     assertEquals(expected.get("content"), doc.contents());
-    assertEquals(expected.get("content"), doc.raw());
+    assertEquals(expected.get("raw"), doc.raw());
     assertEquals(expected.get("field1"), ((JsonCollection.Document) doc).fields().get("field1"));
     assertEquals(expected.get("field2"), ((JsonCollection.Document) doc).fields().get("field2"));
   }

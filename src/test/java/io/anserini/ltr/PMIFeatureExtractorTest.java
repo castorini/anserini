@@ -16,22 +16,24 @@
 
 package io.anserini.ltr;
 
-import io.anserini.ltr.feature.FeatureExtractors;
+import io.anserini.ltr.feature.FeatureExtractor;
 import io.anserini.ltr.feature.base.PMIFeatureExtractor;
 import org.junit.Test;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Test implementation of PMI
  */
 public class PMIFeatureExtractorTest extends BaseFeatureExtractorTest<Integer> {
 
-  private static FeatureExtractors EXTRACTOR = getChain(new PMIFeatureExtractor());
+  private static FeatureExtractor EXTRACTOR = new PMIFeatureExtractor();
 
   @Test
-  public void testSingleDocSimpleQuery() throws IOException {
+  public void testSingleDocSimpleQuery() throws IOException, ExecutionException, InterruptedException {
     String testText = "test document multiple tokens";
     String testQuery = "test document";
     float[] expected = {0f};
@@ -40,7 +42,7 @@ public class PMIFeatureExtractorTest extends BaseFeatureExtractorTest<Integer> {
   }
 
   @Test
-  public void testMultipleDocSimpleQuery() throws IOException {
+  public void testMultipleDocSimpleQuery() throws IOException, ExecutionException, InterruptedException {
     float[] expected = {-1.43916f};
     String testQuery = "test document token";
     // 3 query pairs: test document, document token, test token
@@ -62,7 +64,7 @@ public class PMIFeatureExtractorTest extends BaseFeatureExtractorTest<Integer> {
   }
 
   @Test
-  public void testBadQueries() throws IOException {
+  public void testBadQueries() throws IOException, ExecutionException, InterruptedException {
     float[] expected = {0.0f};
     String testQuery  = "missing tokens";
     assertFeatureValues(expected, testQuery,
@@ -74,7 +76,7 @@ public class PMIFeatureExtractorTest extends BaseFeatureExtractorTest<Integer> {
   }
 
   @Test
-  public void testNoIntersect() throws IOException {
+  public void testNoIntersect() throws IOException, ExecutionException, InterruptedException {
     float[] expected = {0.0f};
     String testQuery = "test document";
     assertFeatureValues(expected, testQuery,

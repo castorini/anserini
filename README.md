@@ -33,12 +33,12 @@ After cloning our repo (use `--recurse-submodules` option to make sure the `eval
 mvn clean package appassembler:assemble
 ```
 
-The `eval/` directory, which contains evaluation tools and scripts, is actually [this repo](https://github.com/castorini/anserini-eval), integrated as a [Git submodule](https://git-scm.com/book/en/v2/Git-Tools-Submodules) (so that it can be shared across related projects).
+The `tools/` directory, which contains evaluation tools and other scripts, is actually [this repo](https://github.com/castorini/anserini-tools), integrated as a [Git submodule](https://git-scm.com/book/en/v2/Git-Tools-Submodules) (so that it can be shared across related projects).
 Build as follows (you might get warnings, but okay to ignore):
 
 ```bash
-cd eval && tar xvfz trec_eval.9.0.4.tar.gz && cd trec_eval.9.0.4 && make && cd ../..
-cd eval/ndeval && make && cd ../..
+cd tools/eval && tar xvfz trec_eval.9.0.4.tar.gz && cd trec_eval.9.0.4 && make && cd ../../..
+cd tools/eval/ndeval && make && cd ../../..
 ```
 
 With that, you should be ready to go!
@@ -87,10 +87,12 @@ For the most part, manual copying and pasting of commands into a shell is requir
 + [Working with AI2's COVID-19 Open Research Dataset](docs/experiments-cord19.md)
 + [Ingesting AI2's COVID-19 Open Research Dataset into Solr and Elasticsearch](docs/experiments-cord19-extras.md)
 + [Baselines for the TREC-COVID Challenge](docs/experiments-covid.md)
++ [Baselines for the TREC-COVID Challenge using doc2query](docs/experiments-covid-doc2query.md)
 + [Working with the 20 Newsgroups Dataset](docs/experiments-20newsgroups.md)
 + [Replicating "Neural Hype" Experiments](docs/experiments-forum2018.md)
-+ [Guide to running BM25 baselines on the MS MARCO Passage Retrieval Task](docs/experiments-msmarco-passage.md)
-+ [Guide to running BM25 baselines on the MS MARCO Document Retrieval Task](docs/experiments-msmarco-doc.md)
++ [Guide to BM25 baselines for the MS MARCO Passage Retrieval Task](docs/experiments-msmarco-passage.md)
++ [Guide to BM25 baselines for the MS MARCO Document Retrieval Task](docs/experiments-msmarco-doc.md)
++ [Guide to BM25 baselines for the FEVER Fact Verification Task](docs/experiments-fever.md)
 + [Guide to replicating doc2query results](docs/experiments-doc2query.md)
 + [Guide to replicating docTTTTTquery results](docs/experiments-docTTTTTquery.md)
 + [Guide to running experiments on the AI2 Open Research Corpus](docs/experiments-openresearch.md)
@@ -120,6 +122,7 @@ Beyond that, there are always [open issues](https://github.com/castorini/anserin
 
 ## Release History
 
++ v0.9.4: June 25, 2020 [[Release Notes](docs/release-notes/release-notes-v0.9.4.md)]
 + v0.9.3: May 26, 2020 [[Release Notes](docs/release-notes/release-notes-v0.9.3.md)]
 + v0.9.2: May 14, 2020 [[Release Notes](docs/release-notes/release-notes-v0.9.2.md)]
 + v0.9.1: May 6, 2020 [[Release Notes](docs/release-notes/release-notes-v0.9.1.md)]

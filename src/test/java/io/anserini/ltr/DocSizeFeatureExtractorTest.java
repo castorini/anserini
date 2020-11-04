@@ -16,30 +16,34 @@
 
 package io.anserini.ltr;
 
+import io.anserini.ltr.feature.FeatureExtractor;
 import io.anserini.ltr.feature.base.DocSizeFeatureExtractor;
 import org.junit.Test;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Test we get the doc size correctly
  */
 public class DocSizeFeatureExtractorTest extends BaseFeatureExtractorTest<Integer> {
 
+  private static FeatureExtractor EXTRACTOR = new DocSizeFeatureExtractor();
+
   @Test
-  public void testSingleDoc() throws IOException {
+  public void testSingleDoc() throws IOException, ExecutionException, InterruptedException {
     float[] expected = {5};
     assertFeatureValues(expected, "query text can't be empty", "document size independent of query document",
-            new DocSizeFeatureExtractor());
+            EXTRACTOR);
   }
 
   @Test
-  public void testMultipleDocs() throws IOException {
+  public void testMultipleDocs() throws IOException, ExecutionException, InterruptedException {
     float[] expected = {5};
     assertFeatureValues(expected, "query text", Arrays.asList("first document",
                                       "second document", "test document document document test"),
-            getChain(new DocSizeFeatureExtractor()), 2);
+            EXTRACTOR, 2);
   }
 
 }
