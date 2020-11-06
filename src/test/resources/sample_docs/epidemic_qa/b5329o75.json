@@ -1,0 +1,1522 @@
+{
+  "document_id": "b5329o75",
+  "metadata": {
+    "title": "Perspectives on monoclonal antibody therapy as potential therapeutic intervention for Coronavirus disease-19 (COVID-19)",
+    "authors": "Shanmugaraj, B.; Siriwattananon, K.; Wangkanont, K.; Phoolcharoen, W.",
+    "urls": [
+      "https://www.ncbi.nlm.nih.gov/pubmed/32134278/",
+      "https://doi.org/10.12932/ap-200220-0773"
+    ],
+    "full_text_path": "document_parses/pdf_json/7d8500b39960b3fa9874fc3b5e0edd29358b01d6.json"
+  },
+  "contexts": [
+    {
+      "section": "Abstract",
+      "context_id": "b5329o75-C000",
+      "text": "Last decade witnessed the outbreak of many life-threatening human pathogens including Nipah, Ebola, Chikungunya, Zika, Middle East respiratory syndrome coronavirus (MERS-CoV), Severe Acute respiratory syndrome coronavirus (SARS-CoV) and more recently novel coronavirus (2019-nCoV or SARS-CoV-2). The disease condition associated with novel coronavirus, referred to as Coronavirus disease (COVID-19). The emergence of novel coronavirus in 2019 in Wuhan, China marked the third highly pathogenic coronavirus infecting humans in the 21st century. The continuing emergence of coronaviruses at regular intervals poses a significant threat to human health and economy. Ironically, even after a decade of research on coronavirus, still there are no licensed vaccines or therapeutic agents to treat coronavirus infection which highlights an urgent need to develop effective vaccines or post-exposure prophylaxis to prevent future epidemics. Several clinical, genetic and epidemiological features of COVID-19 resemble SARS-CoV infection. Hence, the research advancements on SARS-CoV treatment might help scientific community in quick understanding of this virus pathogenesis and develop effective therapeutic/prophylactic agents to treat and prevent this infection. Monoclonal antibodies represent the major class of biotherapeutics for passive immunotherapy to fight against viral infection. The therapeutic potential of monoclonal antibodies has been well recognized in the treatment of many diseases. Here, we summarize the potential monoclonal antibody based therapeutic intervention for COVID-19 by considering the existing knowledge on the neutralizing monoclonal antibodies against similar coronaviruses SARS-CoV and MERS-CoV. Further research on COVID-19 pathogenesis could identify appropriate therapeutic targets to develop specific anti-virals against this newly emerging pathogen.",
+      "sentences": [
+        {
+          "sentence_id": "b5329o75-C000-S000",
+          "start": 0,
+          "end": 295
+        },
+        {
+          "sentence_id": "b5329o75-C000-S001",
+          "start": 296,
+          "end": 399
+        },
+        {
+          "sentence_id": "b5329o75-C000-S002",
+          "start": 400,
+          "end": 543
+        },
+        {
+          "sentence_id": "b5329o75-C000-S003",
+          "start": 544,
+          "end": 662
+        },
+        {
+          "sentence_id": "b5329o75-C000-S004",
+          "start": 663,
+          "end": 932
+        },
+        {
+          "sentence_id": "b5329o75-C000-S005",
+          "start": 933,
+          "end": 1028
+        },
+        {
+          "sentence_id": "b5329o75-C000-S006",
+          "start": 1029,
+          "end": 1256
+        },
+        {
+          "sentence_id": "b5329o75-C000-S007",
+          "start": 1257,
+          "end": 1383
+        },
+        {
+          "sentence_id": "b5329o75-C000-S008",
+          "start": 1384,
+          "end": 1494
+        },
+        {
+          "sentence_id": "b5329o75-C000-S009",
+          "start": 1495,
+          "end": 1883
+        }
+      ]
+    },
+    {
+      "section": "Introduction",
+      "context_id": "b5329o75-C001",
+      "text": "Avian metapneumovirus (aMPV) is the causative agent of respiratory tract infections and reduced egg production in poultry and has caused global economic losses [1, 2] . aMPV was first reported in South Africa in 1978 [3] and was subsequently reported in many countries worldwide. Both aMPV and human metapneumovirus (hMPV) belong to the new Pneumoviridae family, genus Metapneumovirus. There are four subtypes of aMPV, termed A, B, C and D, which are based on genetic and antigenic differences [4] . There is a high similarity between subtype C aMPV and hMPV [5] [6] [7] . The infection of subtype C aMPV (aMPV/C) in Muscovy ducks has been reported in France and China [8, 9] as well as in turkeys and wild birds in the USA [10] , forming two distinct genetic lineages, one North American and the other Eurasian. In July 2010, an outbreak with severe respiratory symptoms occurred in meat chickens in southern China. Subsequently, we isolated a subtype C aMPV (aMPV/C), designed strain JC, from the infected chickens and showed that it was the causative agent. This was the first report of chickens infected with aMPV/C [11] . Subsequently, aMPV/C was reported to experimentally infect mice and induce strong inflammation in the lungs [12] . Another research study showed that aMPV/C could induce a complete autophagic response, which was partially regulated by ER stress [13] . However, analysis of proteomic profiles in aMPV/C-infected cells has not yet been described.",
+      "sentences": [
+        {
+          "sentence_id": "b5329o75-C001-S000",
+          "start": 0,
+          "end": 168
+        },
+        {
+          "sentence_id": "b5329o75-C001-S001",
+          "start": 169,
+          "end": 279
+        },
+        {
+          "sentence_id": "b5329o75-C001-S002",
+          "start": 280,
+          "end": 385
+        },
+        {
+          "sentence_id": "b5329o75-C001-S003",
+          "start": 386,
+          "end": 499
+        },
+        {
+          "sentence_id": "b5329o75-C001-S004",
+          "start": 500,
+          "end": 572
+        },
+        {
+          "sentence_id": "b5329o75-C001-S005",
+          "start": 573,
+          "end": 812
+        },
+        {
+          "sentence_id": "b5329o75-C001-S006",
+          "start": 813,
+          "end": 916
+        },
+        {
+          "sentence_id": "b5329o75-C001-S007",
+          "start": 917,
+          "end": 1060
+        },
+        {
+          "sentence_id": "b5329o75-C001-S008",
+          "start": 1061,
+          "end": 1126
+        },
+        {
+          "sentence_id": "b5329o75-C001-S009",
+          "start": 1127,
+          "end": 1241
+        },
+        {
+          "sentence_id": "b5329o75-C001-S010",
+          "start": 1242,
+          "end": 1378
+        },
+        {
+          "sentence_id": "b5329o75-C001-S011",
+          "start": 1379,
+          "end": 1471
+        }
+      ]
+    },
+    {
+      "section": "Introduction",
+      "context_id": "b5329o75-C002",
+      "text": "Currently, high-throughput proteomic approaches are effectively used for the comprehensive analysis of virus infection. Isobaric tags for relative and absolute quantification (iTRAQ) combined with liquid chromatography/tandem mass spectrometry (LC-MS/MS) analysis is a sensitive and accurate proteomic approach that has been widely employed to investigate proteomic profiles of host cells during viral infections, including highly pathogenic avian influenza (HPAI) virus [14] , hepatitis B virus (HBV) [15] , transmissible gastroenteritis virus (TEGV) [16] , porcine circovirus type 2 (PCV2) [17] , classical swine fever virus (CSFV) [18] , porcine reproductive and respiratory syndrome virus (PRRSV) [19] and porcine epidemic diarrhea virus (PEDV) [20, 21] . These studies have quantified cellular proteins and identified potential biomarkers in the infected cells, which also help improve our understanding of viral pathogenesis.",
+      "sentences": [
+        {
+          "sentence_id": "b5329o75-C002-S000",
+          "start": 0,
+          "end": 119
+        },
+        {
+          "sentence_id": "b5329o75-C002-S001",
+          "start": 120,
+          "end": 759
+        },
+        {
+          "sentence_id": "b5329o75-C002-S002",
+          "start": 760,
+          "end": 931
+        }
+      ]
+    },
+    {
+      "section": "Introduction",
+      "context_id": "b5329o75-C003",
+      "text": "PLK2 (also called Snk), which belongs to a highly conserved mammalian serine/threonine protein kinase family, has an N-terminal serine/threonine kinase domain and a C-terminal polo-box domain (PBD). PLKs play multiple roles throughout the cell cycle and have emerged as anticancer therapeutic drug targets [22] . PLK2 was originally regarded as an immediate-early response gene and cell cycle regulator [23, 24] and has been reported to display a complex functional response by acting as a cell survival factor [25] [26] [27] but occasionally as an apoptotic effector [28] [29] [30] [31] [32] [33] [34] in tumorigenesis and certain diseases. PLK2 signaling via p53 is involved in checkpoint signaling and tumor growth [31, [35] [36] [37] . Studies have also revealed that the PLK2 response to oxidative stress is associated with p53 signaling [38, 39] .",
+      "sentences": [
+        {
+          "sentence_id": "b5329o75-C003-S000",
+          "start": 0,
+          "end": 198
+        },
+        {
+          "sentence_id": "b5329o75-C003-S001",
+          "start": 199,
+          "end": 312
+        },
+        {
+          "sentence_id": "b5329o75-C003-S002",
+          "start": 313,
+          "end": 641
+        },
+        {
+          "sentence_id": "b5329o75-C003-S003",
+          "start": 642,
+          "end": 739
+        },
+        {
+          "sentence_id": "b5329o75-C003-S004",
+          "start": 740,
+          "end": 853
+        }
+      ]
+    },
+    {
+      "section": "Introduction",
+      "context_id": "b5329o75-C004",
+      "text": "To date, no study has been carried out to assess the protein profiles of aMPV/C-infected cells. In the present study, iTRAQ combined with LC-MS/MS was used to reveal the global proteomic changes occurring in Vero cells in response to aMPV/C infection for the first time and will help understand the molecular mechanisms underlying viral infection. We found that PLK2 expression was upregulated and further examined its biological function in aMPV/C infection. Suppression of PLK2 by small interfering (si)RNA attenuated aMPV/C-induced p53-dependent apoptosis and reactive oxygen species (ROS) generation. We also determined the effects of the PLK2 signaling pathway on aMPV/C replication, and found that inhibiting PLK2 decreased virus release at 72 h pi. Our results demonstrate that high PLK2 expression is correlated with induction of apoptosis in aMPV/C-infected Vero cells and facilitates viral release.",
+      "sentences": [
+        {
+          "sentence_id": "b5329o75-C004-S000",
+          "start": 0,
+          "end": 95
+        },
+        {
+          "sentence_id": "b5329o75-C004-S001",
+          "start": 96,
+          "end": 347
+        },
+        {
+          "sentence_id": "b5329o75-C004-S002",
+          "start": 348,
+          "end": 459
+        },
+        {
+          "sentence_id": "b5329o75-C004-S003",
+          "start": 460,
+          "end": 604
+        },
+        {
+          "sentence_id": "b5329o75-C004-S004",
+          "start": 605,
+          "end": 755
+        },
+        {
+          "sentence_id": "b5329o75-C004-S005",
+          "start": 756,
+          "end": 908
+        }
+      ]
+    },
+    {
+      "section": "Cells and Virus Infection and Determination",
+      "context_id": "b5329o75-C005",
+      "text": "Vero cells were grown at 37 \u2022 C with 5% CO2 using Dulbecco's modified Eagle's minimal essential medium (DMEM; Gibco, NY, USA) supplemented with 5% heat-inactivated fetal bovine serum and 1% penicillin-streptomycin solution. The avian metapneumovirus subgroup C JC strain was isolated from meat-type commercial chickens in southern China, as previously reported [11] , and propagated in Vero cells. CPEs was observed under a light microscope. All the cells infected with aMPV/C followed this process. Cells were incubated with the JC strain at a multiplicity of infection (MOI) of 1 for 2 h of adsorption. After the virus was removed, the infected cells were washed in PBS and then maintained in DMEM supplemented with 2% FBS. Cells at the indicated time points were harvested and stored at \u221280 \u2022 C prior to analysis. Then, the viral titer was determined using a TCID 50 assay on a monolayer of Vero cells in 96-well plates. A total of 100 \u00b5L of 10-fold serial dilutions of the supernatant samples were cultured with Vero cells in 96-well plates. At 4-5 days postinfection, CPEs were quantified and virus titer was determined as the 50% tissue culture infective dose (TCID 50 ) per 0.1 mL.",
+      "sentences": [
+        {
+          "sentence_id": "b5329o75-C005-S000",
+          "start": 0,
+          "end": 223
+        },
+        {
+          "sentence_id": "b5329o75-C005-S001",
+          "start": 224,
+          "end": 397
+        },
+        {
+          "sentence_id": "b5329o75-C005-S002",
+          "start": 398,
+          "end": 441
+        },
+        {
+          "sentence_id": "b5329o75-C005-S003",
+          "start": 442,
+          "end": 499
+        },
+        {
+          "sentence_id": "b5329o75-C005-S004",
+          "start": 500,
+          "end": 604
+        },
+        {
+          "sentence_id": "b5329o75-C005-S005",
+          "start": 605,
+          "end": 725
+        },
+        {
+          "sentence_id": "b5329o75-C005-S006",
+          "start": 726,
+          "end": 816
+        },
+        {
+          "sentence_id": "b5329o75-C005-S007",
+          "start": 817,
+          "end": 923
+        },
+        {
+          "sentence_id": "b5329o75-C005-S008",
+          "start": 924,
+          "end": 1045
+        },
+        {
+          "sentence_id": "b5329o75-C005-S009",
+          "start": 1046,
+          "end": 1188
+        }
+      ]
+    },
+    {
+      "section": "Protein Extraction, Digestion and Labeling with iTRAQ Reagents",
+      "context_id": "b5329o75-C006",
+      "text": "Vero cells at 80% confluence in 75 cm 2 flasks were inoculated with the JC strain at an MOI of 1 for 48 and 72 h. Uninfected cells were used as controls. Cells from three independent experiments were collected with a cell scraper, washed in cold PBS and centrifuged at 500\u00d7 g for 10 min. The proteins were extracted, and the pellets were resuspended in lysis buffer with 1 mM PMSF, 2 mM EDTA and 10 mM DTT. We then obtained solubilized protein and removed the cellular debris by sonicating and centrifuging at 4 \u2022 C and 30,000\u00d7 g. A Bradford protein assay was used to quantify the protein concentration in the supernatants. One hundred grams of each sample was digested at 37 \u2022 C overnight with sequencing grade modified trypsin (Promega, Madison, WI, USA). Each sample was processed according to the manufacturer's protocol for 8-plex iTRAQ reagent labeling. The labeled digested proteins were then pooled and vacuum dried.",
+      "sentences": [
+        {
+          "sentence_id": "b5329o75-C006-S000",
+          "start": 0,
+          "end": 153
+        },
+        {
+          "sentence_id": "b5329o75-C006-S001",
+          "start": 154,
+          "end": 287
+        },
+        {
+          "sentence_id": "b5329o75-C006-S002",
+          "start": 288,
+          "end": 406
+        },
+        {
+          "sentence_id": "b5329o75-C006-S003",
+          "start": 407,
+          "end": 623
+        },
+        {
+          "sentence_id": "b5329o75-C006-S004",
+          "start": 624,
+          "end": 757
+        },
+        {
+          "sentence_id": "b5329o75-C006-S005",
+          "start": 758,
+          "end": 859
+        },
+        {
+          "sentence_id": "b5329o75-C006-S006",
+          "start": 860,
+          "end": 924
+        }
+      ]
+    },
+    {
+      "section": "SCX Chromatography and LC-MS Analysis",
+      "context_id": "b5329o75-C007",
+      "text": "Strong-cation exchange (SCX) chromatography was performed with a Thermo EASY-nLC High-Performance Liquid Chromatography (HPLC) System. iTRAQ-labeled peptide mixtures were loaded onto Thermo scientific EASY columns in buffer A (10 mM KH 2 PO 4 pH 3.0, 25% CAN). Peptides were eluted with a gradient of 0%-40% buffer B (10 mM KH 2 PO 4 pH 3.0, 500 mM KCl, 25% ACN) for 85 min, 40%-100% buffer B for 3 min and then 100% buffer B for 2 min using a flow rate of 250 nl/min. The reconstituted samples were analyzed using a Thermo Finnigan Q Exactive Mass Spectrometer. The MS scanning conditions included 90 min in positive ion mode; 300-1800 m/z; 70,000 resolution at m/z 200; AGC target: 3e6; maximum IT: 10 ms; number of scan ranges: 1; dynamic exclusion: 40.0 s; MS2 activation type: HCD; isolation window: 2 m/z; 17,500 at m/z 200; microscans: 1; maximum IT: 60 ms; normalized collision energy: 30 eV; and underfill ratio: 0.1%.",
+      "sentences": [
+        {
+          "sentence_id": "b5329o75-C007-S000",
+          "start": 0,
+          "end": 134
+        },
+        {
+          "sentence_id": "b5329o75-C007-S001",
+          "start": 135,
+          "end": 260
+        },
+        {
+          "sentence_id": "b5329o75-C007-S002",
+          "start": 261,
+          "end": 468
+        },
+        {
+          "sentence_id": "b5329o75-C007-S003",
+          "start": 469,
+          "end": 562
+        },
+        {
+          "sentence_id": "b5329o75-C007-S004",
+          "start": 563,
+          "end": 927
+        }
+      ]
+    },
+    {
+      "section": "Data Analysis",
+      "context_id": "b5329o75-C008",
+      "text": "Relative quantification and protein identification were both performed with Proteome Discoverer 1.4 (Thermo). Trypsin was chosen due to its enzyme cleavage specificity, and there was a maximum allowed number of two missed cleavages. Carbamidomethylation and oxidation were set as fixed modifications for the iTRAQ labeling approach. The analysis was performed using a peptide tolerance of 20 ppm and a fragment tolerance of 0.6 Da using the iTRAQ method. The mass spectrometry proteomics data were deposited into the ProteomeXchange Consortium via the PRIDE [40] partner repository with the dataset identifier PXD017827.",
+      "sentences": [
+        {
+          "sentence_id": "b5329o75-C008-S000",
+          "start": 0,
+          "end": 109
+        },
+        {
+          "sentence_id": "b5329o75-C008-S001",
+          "start": 110,
+          "end": 232
+        },
+        {
+          "sentence_id": "b5329o75-C008-S002",
+          "start": 233,
+          "end": 332
+        },
+        {
+          "sentence_id": "b5329o75-C008-S003",
+          "start": 333,
+          "end": 454
+        },
+        {
+          "sentence_id": "b5329o75-C008-S004",
+          "start": 455,
+          "end": 620
+        }
+      ]
+    },
+    {
+      "section": "Data Analysis",
+      "context_id": "b5329o75-C009",
+      "text": "Each MS/MS Ion search was based on the UniProt Macaca mulatta proteome database (UP000006718). The score threshold for peptide identification was set at a 1% false discovery rate (FDR). To designate significant changes in protein expression, fold changes >1.33 or <0.76 were set as cutoff values.",
+      "sentences": [
+        {
+          "sentence_id": "b5329o75-C009-S000",
+          "start": 0,
+          "end": 94
+        },
+        {
+          "sentence_id": "b5329o75-C009-S001",
+          "start": 95,
+          "end": 185
+        },
+        {
+          "sentence_id": "b5329o75-C009-S002",
+          "start": 186,
+          "end": 296
+        }
+      ]
+    },
+    {
+      "section": "Data Analysis",
+      "context_id": "b5329o75-C010",
+      "text": "We performed a GO (http://www.geneontology.org) bioinformatics analysis of DE proteins with a 1.3-fold change to catalog biological processes, cellular components and molecular functions. Significant pathway enrichment was defined using the KEGG pathway database (http://www.genome.jp/kegg/ pathway.html). siRNA-NC (NC) (sense, 5 -UUCUCCGAACGUGUCACGUTT-3 ; antisense, 5 -ACGUGACACGUUCGGAGAATT-3 ). These siRNAs were designed by the GenePharma Company (Suzhou, China) and used to silence the expression of PLK2 protein in Vero cells. The monolayer cell cultures were transfected with siRNA using Lipofectamine RNAiMAX reagent according to the manufacturer's protocol.",
+      "sentences": [
+        {
+          "sentence_id": "b5329o75-C010-S000",
+          "start": 0,
+          "end": 187
+        },
+        {
+          "sentence_id": "b5329o75-C010-S001",
+          "start": 188,
+          "end": 305
+        },
+        {
+          "sentence_id": "b5329o75-C010-S002",
+          "start": 306,
+          "end": 397
+        },
+        {
+          "sentence_id": "b5329o75-C010-S003",
+          "start": 398,
+          "end": 532
+        },
+        {
+          "sentence_id": "b5329o75-C010-S004",
+          "start": 533,
+          "end": 666
+        }
+      ]
+    },
+    {
+      "section": "Western Blot Analysis",
+      "context_id": "b5329o75-C011",
+      "text": "Western blotting was employed to analyze changes in the expression levels of proteins from the cell lysates. All protein concentrations were determined. Samples were loaded with 1 \u00d7 sample loading buffer, boiled for 10 min at 100 \u2022 C, separated by SDS-PAGE and then transferred to a PE membrane. The membrane was washed and blocked for 2 h in TBST with 5% nonfat dried milk, incubated with the indicated primary antibody overnight at 4 \u2022 C and diluted in TBST according to the manufacturer's protocol. The membrane was washed three times in TBST for 10 min and incubated for 45 min in secondary antibody diluted in PBS at room temperature. The membrane was washed three times; the target proteins were detected using a SuperSignal West Femto Substrate Trial Kit (Thermo Scientific, 34096) according to the manufacturer's instructions and then exposed to a chemiluminescence apparatus (Proteinsample, Santa Clara, CA, USA). The following primary antibodies as following: mouse anti-F monoclonal antibodies was prepared in our laboratory; rabbit anti-PLK2 antibody (ab137539) was obtained from Abcam; mouse anti-Bcl-2 antibody (sc-7382), mouse anti-\u03b2-actin (c-4) antibody (sc-47778), mouse anti-Bax (B-9) antibody (sc-7480), mouse anti-p53 (A-1) antibody (sc-393031), mouse anti-caspase-3 (E-8) antibody (sc-7272), mouse anti-caspase-3 p11 (C-6) antibody (sc-271759), mouse anti-BIN3 (C-10) antibody (sc-514396), mouse anti-Annexin II (3D5) antibody (sc-47696) and mouse anti-Rab 8A antibody (63-BJ) (sc-81909) were purchased from Santa Cruz Biotechnology. The following secondary antibodies were obtained from Sigma-Aldrich, including horseradish peroxidase (HRP)-conjugated goat anti-mouse (A9044), anti-rabbit (A0545).",
+      "sentences": [
+        {
+          "sentence_id": "b5329o75-C011-S000",
+          "start": 0,
+          "end": 108
+        },
+        {
+          "sentence_id": "b5329o75-C011-S001",
+          "start": 109,
+          "end": 152
+        },
+        {
+          "sentence_id": "b5329o75-C011-S002",
+          "start": 153,
+          "end": 295
+        },
+        {
+          "sentence_id": "b5329o75-C011-S003",
+          "start": 296,
+          "end": 501
+        },
+        {
+          "sentence_id": "b5329o75-C011-S004",
+          "start": 502,
+          "end": 639
+        },
+        {
+          "sentence_id": "b5329o75-C011-S005",
+          "start": 640,
+          "end": 922
+        },
+        {
+          "sentence_id": "b5329o75-C011-S006",
+          "start": 923,
+          "end": 1554
+        },
+        {
+          "sentence_id": "b5329o75-C011-S007",
+          "start": 1555,
+          "end": 1719
+        }
+      ]
+    },
+    {
+      "section": "Apoptosis Analysis",
+      "context_id": "b5329o75-C012",
+      "text": "Vero cells were transfected with PLK2-siRNA-739 and siRNA-NC or treated with NAC (100 \u00b5M) before virus infection. After 12 h of transfection, the cells were infected with aMPV/C for 48 h. After this, the treated cells, mock-infected cells and cells infected with aMPV/C alone were collected and incubated with annexin V-fluorescein isothiocyanate (FITC) and propidium iodide (PI) for flow cytometry analysis.",
+      "sentences": [
+        {
+          "sentence_id": "b5329o75-C012-S000",
+          "start": 0,
+          "end": 113
+        },
+        {
+          "sentence_id": "b5329o75-C012-S001",
+          "start": 114,
+          "end": 408
+        }
+      ]
+    },
+    {
+      "section": "Reactive Oxygen Species Measurement",
+      "context_id": "b5329o75-C013",
+      "text": "Vero cells were plated in 96-well plates. The cells were transfected with PLK2 siRNA-739 or siRNA-NC and 12 h later infected with aMPV/C for 48 h. After this, the treated cells, mock-infected cells and cells infected with aMPV/C alone were incubated with DCFH-DA in accordance with the manufacturer's procedures (Beyotime Biotechnology, Shanghai, China) and analyzed by a Multiscan Spectrum. For the ROS assay, the cells were incubated with 10 \u00b5M DCFH-DA fluorescent probe for 20 min in the dark at 37 \u2022 C.",
+      "sentences": [
+        {
+          "sentence_id": "b5329o75-C013-S000",
+          "start": 0,
+          "end": 41
+        },
+        {
+          "sentence_id": "b5329o75-C013-S001",
+          "start": 42,
+          "end": 391
+        },
+        {
+          "sentence_id": "b5329o75-C013-S002",
+          "start": 392,
+          "end": 506
+        }
+      ]
+    },
+    {
+      "section": "Measurement of Virus Release in Vero Cells",
+      "context_id": "b5329o75-C014",
+      "text": "Vero cells treated with NAC or siRNA were infected with aMPV/C at MOI of 5, and cells supernatant cultures were collected at 72 hpi. The virus titer was determined as the 50% tissue culture infective dose (TCID 50 ) per 0.1 mL.",
+      "sentences": [
+        {
+          "sentence_id": "b5329o75-C014-S000",
+          "start": 0,
+          "end": 132
+        },
+        {
+          "sentence_id": "b5329o75-C014-S001",
+          "start": 133,
+          "end": 227
+        }
+      ]
+    },
+    {
+      "section": "Confirmation of aMPV/C JC Propagation in Vero Cells",
+      "context_id": "b5329o75-C015",
+      "text": "Typical cytopathic effects (CPEs) were observed in Vero cells infected with aMPV/C JC. The kinetics of aMPV/C JC propagation were determined by viral F protein expression and viral titers (50% tissue culture infective dose (TCID 50 )) at different time points post infection. As shown in Figure 1A , CPEs caused by aMPV/C JC were visible at 48 h post infection (hpi). Almost all cells became detached at 140 hpi. Western blot analysis of the aMPV/C JC infection showed that F protein was already detectable at 12 hpi ( Figure 1B ). The growth curve of aMPV/C JC in Vero cells showed that the viral titer increased rapidly at 48 and 72 hpi, peaked at 120 hpi and then declined ( Figure 1C) . A high proportion of infected cells with CPEs was regarded as optimal for proteomics. Therefore, cells at 48 and 72 hpi were chosen for further proteomic analysis. ",
+      "sentences": [
+        {
+          "sentence_id": "b5329o75-C015-S000",
+          "start": 0,
+          "end": 86
+        },
+        {
+          "sentence_id": "b5329o75-C015-S001",
+          "start": 87,
+          "end": 275
+        },
+        {
+          "sentence_id": "b5329o75-C015-S002",
+          "start": 276,
+          "end": 367
+        },
+        {
+          "sentence_id": "b5329o75-C015-S003",
+          "start": 368,
+          "end": 412
+        },
+        {
+          "sentence_id": "b5329o75-C015-S004",
+          "start": 413,
+          "end": 531
+        },
+        {
+          "sentence_id": "b5329o75-C015-S005",
+          "start": 532,
+          "end": 690
+        },
+        {
+          "sentence_id": "b5329o75-C015-S006",
+          "start": 691,
+          "end": 776
+        },
+        {
+          "sentence_id": "b5329o75-C015-S007",
+          "start": 777,
+          "end": 854
+        }
+      ]
+    },
+    {
+      "section": "Analysis of Differentially Regulated Proteins by iTRAQ-Coupled LC-MS",
+      "context_id": "b5329o75-C016",
+      "text": "The host cell response to aMPV/C JC infection was analyzed at 48 and 72 hpi. We identified differences in protein expression between aMPV/C-and mock-infected Vero cells. All experiments were performed in triplicate. Overall, 921 of 7034 proteins were found to be significantly differentially expressed (DE; fold change (FC) >1.3 or <0.769, p < 0.05) using iTRAQ-coupled LC-MS/MS analysis. As shown in Figure 2 , 741 and 329 proteins displayed significantly altered expression at 48 and 72 h after aMPV/C JC infection, respectively. The majority of the proteins had decreased expression in response to aMPV/C infection. Compared to that in mock-infected cells, the expression of 17 and 724 proteins was significantly up-and downregulated in infected cells at 48 hpi, respectively, while the expression of 20 and 309 proteins was significantly up-and downregulated at 72 hpi, respectively. Furthermore, the expression of 87 proteins was significantly dysregulated between the two time points. ",
+      "sentences": [
+        {
+          "sentence_id": "b5329o75-C016-S000",
+          "start": 0,
+          "end": 76
+        },
+        {
+          "sentence_id": "b5329o75-C016-S001",
+          "start": 77,
+          "end": 169
+        },
+        {
+          "sentence_id": "b5329o75-C016-S002",
+          "start": 170,
+          "end": 215
+        },
+        {
+          "sentence_id": "b5329o75-C016-S003",
+          "start": 216,
+          "end": 388
+        },
+        {
+          "sentence_id": "b5329o75-C016-S004",
+          "start": 389,
+          "end": 531
+        },
+        {
+          "sentence_id": "b5329o75-C016-S005",
+          "start": 532,
+          "end": 618
+        },
+        {
+          "sentence_id": "b5329o75-C016-S006",
+          "start": 619,
+          "end": 887
+        },
+        {
+          "sentence_id": "b5329o75-C016-S007",
+          "start": 888,
+          "end": 990
+        }
+      ]
+    },
+    {
+      "section": "Gene Ontology and KEGG Pathway Analysis",
+      "context_id": "b5329o75-C017",
+      "text": "All DE proteins were analyzed at 48 and 72 hpi using the gene ontology (GO) database. Biological processes, cell components and molecular functions were the three main annotation types obtained from the GO analysis. The analysis of the DE proteins within the biological processes category showed that aMPV/C infection affected metabolic biosynthesis, signal transduction, host response to stress, transport, immune system process, cell death and the cell cycle ( Figure 3A ). These processes may be involved in infection and replication. The cellular component category revealed that the DE proteins were differentially distributed in cells ( Figure 3B ). The molecular function category indicated that ion binding, enzyme binding, RNA binding and DNA binding were important during aMPV/C infection ( Figure 3C ). frequently represented categories were cellular nitrogen compound metabolic process, biosynthetic process and signal transduction. In (B), the most frequently represented categories were cytoplasm, followed by organelles and cells. In (C), the most frequently represented categories were ion binding, enzyme binding and RNA binding.",
+      "sentences": [
+        {
+          "sentence_id": "b5329o75-C017-S000",
+          "start": 0,
+          "end": 85
+        },
+        {
+          "sentence_id": "b5329o75-C017-S001",
+          "start": 86,
+          "end": 215
+        },
+        {
+          "sentence_id": "b5329o75-C017-S002",
+          "start": 216,
+          "end": 475
+        },
+        {
+          "sentence_id": "b5329o75-C017-S003",
+          "start": 476,
+          "end": 537
+        },
+        {
+          "sentence_id": "b5329o75-C017-S004",
+          "start": 538,
+          "end": 655
+        },
+        {
+          "sentence_id": "b5329o75-C017-S005",
+          "start": 656,
+          "end": 813
+        },
+        {
+          "sentence_id": "b5329o75-C017-S006",
+          "start": 814,
+          "end": 944
+        },
+        {
+          "sentence_id": "b5329o75-C017-S007",
+          "start": 945,
+          "end": 1045
+        },
+        {
+          "sentence_id": "b5329o75-C017-S008",
+          "start": 1046,
+          "end": 1146
+        }
+      ]
+    },
+    {
+      "section": "Gene Ontology and KEGG Pathway Analysis",
+      "context_id": "b5329o75-C018",
+      "text": "The KEGG pathway database was employed to analyze the functional classifications and signaling pathways of the identified DE proteins based on the underlying biological evidence. The significantly DE proteins induced by aMPV/C infection were clustered into several pathways, including metabolic pathways, the PI3K-Akt signaling pathway, the AMPK pathway and the cell cycle at both 48 and 72 hpi. However, for some DE proteins that are involved in endocytosis, the p53 signaling pathway and apoptosis were observed only at 48 hpi or 72 hpi (Figure 4) . aMPV/C preferentially induced endocytosis and viral entry during early infection and then induced apoptosis-associated functional categories after 72 hpi. Together, the GO and KEGG pathway analyses enabled the molecular characterization and identification of the interacting pathways associated with the DE proteins upon aMPV/C infection, which may be associated with viral infection and replication.",
+      "sentences": [
+        {
+          "sentence_id": "b5329o75-C018-S000",
+          "start": 0,
+          "end": 178
+        },
+        {
+          "sentence_id": "b5329o75-C018-S001",
+          "start": 179,
+          "end": 395
+        },
+        {
+          "sentence_id": "b5329o75-C018-S002",
+          "start": 396,
+          "end": 551
+        },
+        {
+          "sentence_id": "b5329o75-C018-S003",
+          "start": 552,
+          "end": 706
+        },
+        {
+          "sentence_id": "b5329o75-C018-S004",
+          "start": 707,
+          "end": 952
+        }
+      ]
+    },
+    {
+      "section": "Validation of DE Proteins by Western Blotting",
+      "context_id": "b5329o75-C019",
+      "text": "We examined the expression levels of BIN3 (upregulated), ANXA2 (downregulated) and RAB8A (downregulated) in Vero cells infected with aMPV/C by Western blotting. These proteins were chosen on the basis of their molecular function characteristics and their ratios. Equal amounts of cell lysates from aMPV/C-infected and control cells were tested. In Figure 5 , the ratios between uninfected and infected cells at 48 and 72 hpi are shown on the right of the Western blot results. The expression changes of the three proteins were consistent with those in the proteomic analysis results using iTRAQ. Viruses 2020, 12, x FOR PEER REVIEW 10 of 19 250 Figure 5 . Confirmation of three DE proteins in aMPV/C-infected Vero cells by Western blot analysis.",
+      "sentences": [
+        {
+          "sentence_id": "b5329o75-C019-S000",
+          "start": 0,
+          "end": 160
+        },
+        {
+          "sentence_id": "b5329o75-C019-S001",
+          "start": 161,
+          "end": 262
+        },
+        {
+          "sentence_id": "b5329o75-C019-S002",
+          "start": 263,
+          "end": 344
+        },
+        {
+          "sentence_id": "b5329o75-C019-S003",
+          "start": 345,
+          "end": 476
+        },
+        {
+          "sentence_id": "b5329o75-C019-S004",
+          "start": 477,
+          "end": 595
+        },
+        {
+          "sentence_id": "b5329o75-C019-S005",
+          "start": 596,
+          "end": 655
+        },
+        {
+          "sentence_id": "b5329o75-C019-S006",
+          "start": 656,
+          "end": 745
+        }
+      ]
+    },
+    {
+      "section": "251",
+      "context_id": "b5329o75-C020",
+      "text": "The ratios of DE proteins in iTraq and Western blots are shown in the table on the right. The relative 252 levels of the proteins were quantified with immunoblot scanning and normalized to the amount of \u03b2-",
+      "sentences": [
+        {
+          "sentence_id": "b5329o75-C020-S000",
+          "start": 0,
+          "end": 89
+        },
+        {
+          "sentence_id": "b5329o75-C020-S001",
+          "start": 90,
+          "end": 205
+        }
+      ]
+    },
+    {
+      "section": "255",
+      "context_id": "b5329o75-C021",
+      "text": "In the proteomics database, PLK2 expression was increased by aMPV/C infection at 48 hpi. The",
+      "sentences": [
+        {
+          "sentence_id": "b5329o75-C021-S000",
+          "start": 0,
+          "end": 88
+        },
+        {
+          "sentence_id": "b5329o75-C021-S001",
+          "start": 89,
+          "end": 92
+        }
+      ]
+    },
+    {
+      "section": "256",
+      "context_id": "b5329o75-C022",
+      "text": "Western blot results confirmed this result ( Figure 6A ). PLK2 has been reported to be essential for cell ",
+      "sentences": [
+        {
+          "sentence_id": "b5329o75-C022-S000",
+          "start": 0,
+          "end": 57
+        },
+        {
+          "sentence_id": "b5329o75-C022-S001",
+          "start": 58,
+          "end": 105
+        }
+      ]
+    },
+    {
+      "section": "260",
+      "context_id": "b5329o75-C023",
+      "text": "The results illustrated the efficiency and specificity of the PLK2 siRNAs ( Figure 6B ) ",
+      "sentences": [
+        {
+          "sentence_id": "b5329o75-C023-S000",
+          "start": 0,
+          "end": 87
+        }
+      ]
+    },
+    {
+      "section": "264",
+      "context_id": "b5329o75-C024",
+      "text": "Interestingly, suppressing PLK2 partially rescued apoptosis ( Figure 6C ), indicating that the PLK2 265 protein may play an essential role in aMPV/C-induced apoptosis. ",
+      "sentences": [
+        {
+          "sentence_id": "b5329o75-C024-S000",
+          "start": 0,
+          "end": 167
+        }
+      ]
+    },
+    {
+      "section": "PLK2 Expression Is Upregulated and Involved in Apoptosis Induction in aMPV/C-Infected Cells",
+      "context_id": "b5329o75-C025",
+      "text": "In the proteomics database, PLK2 expression was increased by aMPV/C infection at 48 hpi. The Western blot results confirmed this result ( Figure 6A ). PLK2 has been reported to be essential for cell survival regulation. We first examined whether aMPV/C infection affects apoptosis in Vero cells. The results showed significant apoptosis induction 48 h after aMPV/C infection. To investigate the function of PLK2 in aMPV/C infection, we suppressed PLK2 expression using PLK2-specific siRNAs. The results illustrated the efficiency and specificity of the PLK2 siRNAs ( Figure 6B ). PLK-siRNA-739 was used for further studies. N-acetylcysteine (NAC) is an antioxidant that can mitigate mitochondrial oxidative stress and apoptosis. We transfected cells with PLK-siRNA-739 or treated cells with NAC prior to infecting them with aMPV/C and detected the subsequent apoptosis. Interestingly, suppressing PLK2 partially rescued apoptosis ( Figure 6C ), indicating that the PLK2 protein may play an essential role in aMPV/C-induced apoptosis. was detected by annexin V-fluorescein isothiocyanate and PI staining by flow cytometry. aMPV/C infection induced apoptosis, which was reversed by PLK2 knockdown. The cells were treated as described above. Quantification displayed with graphs representing the target protein/\u03b2-actin band ratios. ",
+      "sentences": [
+        {
+          "sentence_id": "b5329o75-C025-S000",
+          "start": 0,
+          "end": 88
+        },
+        {
+          "sentence_id": "b5329o75-C025-S001",
+          "start": 89,
+          "end": 150
+        },
+        {
+          "sentence_id": "b5329o75-C025-S002",
+          "start": 151,
+          "end": 219
+        },
+        {
+          "sentence_id": "b5329o75-C025-S003",
+          "start": 220,
+          "end": 295
+        },
+        {
+          "sentence_id": "b5329o75-C025-S004",
+          "start": 296,
+          "end": 375
+        },
+        {
+          "sentence_id": "b5329o75-C025-S005",
+          "start": 376,
+          "end": 490
+        },
+        {
+          "sentence_id": "b5329o75-C025-S006",
+          "start": 491,
+          "end": 579
+        },
+        {
+          "sentence_id": "b5329o75-C025-S007",
+          "start": 580,
+          "end": 623
+        },
+        {
+          "sentence_id": "b5329o75-C025-S008",
+          "start": 624,
+          "end": 728
+        },
+        {
+          "sentence_id": "b5329o75-C025-S009",
+          "start": 729,
+          "end": 869
+        },
+        {
+          "sentence_id": "b5329o75-C025-S010",
+          "start": 870,
+          "end": 1033
+        },
+        {
+          "sentence_id": "b5329o75-C025-S011",
+          "start": 1034,
+          "end": 1121
+        },
+        {
+          "sentence_id": "b5329o75-C025-S012",
+          "start": 1122,
+          "end": 1195
+        },
+        {
+          "sentence_id": "b5329o75-C025-S013",
+          "start": 1196,
+          "end": 1238
+        },
+        {
+          "sentence_id": "b5329o75-C025-S014",
+          "start": 1239,
+          "end": 1328
+        }
+      ]
+    },
+    {
+      "section": "PLK2 Expression Is Upregulated and Involved in Apoptosis Induction in aMPV/C-Infected Cells",
+      "context_id": "b5329o75-C026",
+      "text": "Error bars: means \u00b1 SDs of three independent tests. Two-way ANOVA; * indicates a significant difference, comparing to the aMPV/C-infected group.",
+      "sentences": [
+        {
+          "sentence_id": "b5329o75-C026-S000",
+          "start": 0,
+          "end": 51
+        },
+        {
+          "sentence_id": "b5329o75-C026-S001",
+          "start": 52,
+          "end": 144
+        }
+      ]
+    },
+    {
+      "section": "Silencing PLK2 Decreases aMPV/C-Induced ROS, Induction of Apoptosis, and Virus Release",
+      "context_id": "b5329o75-C027",
+      "text": "Apoptosis is an important component in the response to virus infection and requires specific triggering signals for activation. In addition, p53 has been intensively studied and found to mediate apoptosis. ROS can regulate p53-dependent apoptosis mediated by mitochondria. PLK2 has been reported to exert an antioxidant function and prevent p53-and ROS-coordinated cell death [39] . However, the opposite effect of PLK2 on p53 and ROS generation has also been observed in high D-glucose-induced apoptosis [41] . To investigate whether PLK2-regulated apoptosis is associated with mitochondrial dysfunction, we next measured ROS in cells after aMPV infection. Treatment with PLK2 siRNA was found to decrease ROS production in aMPV/C-infected cells ( Figure 7A ). However, siRNA-NC treatment did not affect ROS accumulation. We used NAC treatment as a positive control. NAC treatment blocked aMPV/C-induced apoptosis and ROS accumulation ( Figure 7A ). These results suggest that PLK2 contributes to aMPV/C-induced ROS production. We further studied the effect of PLK2 knockdown on apoptosis markers and found that PLK2 knockdown partially inhibited the Bcl-2/Bax ratio decrease, p53 increase and cleaved caspase-3 activation in aMPV/C-infected cells ( Figure 7B ). These data suggested that PLK2 induced by aMPV/C infection may contribute to apoptosis through ROS signaling. triggering signals for activation. In addition, p53 has been intensively studied and found to mediate 279 apoptosis. ",
+      "sentences": [
+        {
+          "sentence_id": "b5329o75-C027-S000",
+          "start": 0,
+          "end": 127
+        },
+        {
+          "sentence_id": "b5329o75-C027-S001",
+          "start": 128,
+          "end": 205
+        },
+        {
+          "sentence_id": "b5329o75-C027-S002",
+          "start": 206,
+          "end": 272
+        },
+        {
+          "sentence_id": "b5329o75-C027-S003",
+          "start": 273,
+          "end": 382
+        },
+        {
+          "sentence_id": "b5329o75-C027-S004",
+          "start": 383,
+          "end": 511
+        },
+        {
+          "sentence_id": "b5329o75-C027-S005",
+          "start": 512,
+          "end": 657
+        },
+        {
+          "sentence_id": "b5329o75-C027-S006",
+          "start": 658,
+          "end": 760
+        },
+        {
+          "sentence_id": "b5329o75-C027-S007",
+          "start": 761,
+          "end": 821
+        },
+        {
+          "sentence_id": "b5329o75-C027-S008",
+          "start": 822,
+          "end": 866
+        },
+        {
+          "sentence_id": "b5329o75-C027-S009",
+          "start": 867,
+          "end": 949
+        },
+        {
+          "sentence_id": "b5329o75-C027-S010",
+          "start": 950,
+          "end": 1027
+        },
+        {
+          "sentence_id": "b5329o75-C027-S011",
+          "start": 1028,
+          "end": 1262
+        },
+        {
+          "sentence_id": "b5329o75-C027-S012",
+          "start": 1263,
+          "end": 1372
+        },
+        {
+          "sentence_id": "b5329o75-C027-S013",
+          "start": 1373,
+          "end": 1407
+        },
+        {
+          "sentence_id": "b5329o75-C027-S014",
+          "start": 1408,
+          "end": 1489
+        }
+      ]
+    },
+    {
+      "section": "Silencing PLK2 Decreases aMPV/C-Induced ROS, Induction of Apoptosis, and Virus Release",
+      "context_id": "b5329o75-C028",
+      "text": "ROS can regulate p53-dependent apoptosis mediated by mitochondria. PLK2 has been 280 reported to exert an antioxidant function and prevent p53-and ROS-coordinated cell death [39] .",
+      "sentences": [
+        {
+          "sentence_id": "b5329o75-C028-S000",
+          "start": 0,
+          "end": 66
+        },
+        {
+          "sentence_id": "b5329o75-C028-S001",
+          "start": 67,
+          "end": 180
+        }
+      ]
+    },
+    {
+      "section": "281",
+      "context_id": "b5329o75-C029",
+      "text": "However, the opposite effect of PLK2 on p53 and ROS generation has also been observed in high D-282 glucose-induced apoptosis [41] . To investigate whether PLK2-regulated apoptosis is associated with 283 mitochondrial dysfunction, we next measured ROS in cells after aMPV infection. Treatment with 284 PLK2 siRNA was found to decrease ROS production in aMPV/C-infected cells ( Figure 7A ). However,",
+      "sentences": [
+        {
+          "sentence_id": "b5329o75-C029-S000",
+          "start": 0,
+          "end": 132
+        },
+        {
+          "sentence_id": "b5329o75-C029-S001",
+          "start": 133,
+          "end": 282
+        },
+        {
+          "sentence_id": "b5329o75-C029-S002",
+          "start": 283,
+          "end": 389
+        },
+        {
+          "sentence_id": "b5329o75-C029-S003",
+          "start": 390,
+          "end": 398
+        }
+      ]
+    },
+    {
+      "section": "285",
+      "context_id": "b5329o75-C030",
+      "text": "siRNA-NC treatment did not affect ROS accumulation. We used NAC treatment as a positive control.",
+      "sentences": [
+        {
+          "sentence_id": "b5329o75-C030-S000",
+          "start": 0,
+          "end": 51
+        },
+        {
+          "sentence_id": "b5329o75-C030-S001",
+          "start": 52,
+          "end": 96
+        }
+      ]
+    },
+    {
+      "section": "286",
+      "context_id": "b5329o75-C031",
+      "text": "NAC treatment blocked aMPV/C-induced apoptosis and ROS accumulation ( Figure 7A ). These 287 results suggest that PLK2 contributes to aMPV/C-induced ROS production. We further studied the To determine the impact of PLK2 on viral replication, we examined the virus release in cells treated with PLK2 siRNA and then infected with aMPV/C. The supernatant of infected cells in each group was collected to determine viral titers using the TCID 50 assay. As shown in Figure 7C , compared to that in the siRNA-NC control-treated cell supernatant, aMPV/C replication in the supernatant of cells with the specific siRNA-induced knockdown of PLK2 was reduced. Taken together, these results suggest that PLK2 expression is essential for promoting aMPV/C-mediated apoptosis and increasing virus release at 72 h pi.",
+      "sentences": [
+        {
+          "sentence_id": "b5329o75-C031-S000",
+          "start": 0,
+          "end": 82
+        },
+        {
+          "sentence_id": "b5329o75-C031-S001",
+          "start": 83,
+          "end": 164
+        },
+        {
+          "sentence_id": "b5329o75-C031-S002",
+          "start": 165,
+          "end": 448
+        },
+        {
+          "sentence_id": "b5329o75-C031-S003",
+          "start": 449,
+          "end": 649
+        },
+        {
+          "sentence_id": "b5329o75-C031-S004",
+          "start": 650,
+          "end": 802
+        }
+      ]
+    },
+    {
+      "section": "Discussion",
+      "context_id": "b5329o75-C032",
+      "text": "Viral infections often induce host cell environment modifications, which prevent or favor viral replication. To reveal the mechanism of aMPV/C infection, we need more detailed information. Proteomics, especially iTRAQ combined with LC and tandem MS analysis, is a powerful technology used to quantitatively analyze and identify proteins and can be used to find disease-specific targets in a high-throughput manner. To date, there is no report on the cellular proteome changes after aMPV/C infection. Cultured Vero cells are the best available substrate for aMPV and have been used to study fuctions of aMPV proteins, entry to cells, mediation to membrane fusion, replication, induction of autophagy and vaccine preparation in previous reports [42] [43] [44] [45] [46] [47] . aMPV/C is more closely related to hMPV and may have larger cellular host ranges potentially including mammalian than other subtypes [12, 48] . In this study, iTRAQ was used for the first time to analyze Vero cells infected with aMPV/C. We identified 921 DE proteins at two time points post infection. Three selected DE proteins were confirmed using Western blotting as an independent analytical method. The proteomic results provided valuable data for the further analysis of aMPV/C infection. Bioinformatics indicated that the DE proteins are involved in a variety of processes, including metabolism, biosynthesis, signal transduction, the host response to stress, metabolic pathways, the PI3K-Akt signaling pathway, the AMPK pathway, cell death and the cell cycle (Figures 3 and 4 , Table 1 ). Our data identified several previously uncharacterized key proteins possibly involved in aMPV/C infection of Vero cells. The cell cycle consists of DNA replication, mitosis and cytokinesis (S, M, G1 and G2 phases). Many viruses that interact with the cell cycle can subvert host-cell functions and increase viral replication. Quiescent cells are referred to as being in the G0 phase. Many host molecules participate in the regulation of the cell cycle. ",
+      "sentences": [
+        {
+          "sentence_id": "b5329o75-C032-S000",
+          "start": 0,
+          "end": 108
+        },
+        {
+          "sentence_id": "b5329o75-C032-S001",
+          "start": 109,
+          "end": 188
+        },
+        {
+          "sentence_id": "b5329o75-C032-S002",
+          "start": 189,
+          "end": 414
+        },
+        {
+          "sentence_id": "b5329o75-C032-S003",
+          "start": 415,
+          "end": 499
+        },
+        {
+          "sentence_id": "b5329o75-C032-S004",
+          "start": 500,
+          "end": 774
+        },
+        {
+          "sentence_id": "b5329o75-C032-S005",
+          "start": 775,
+          "end": 917
+        },
+        {
+          "sentence_id": "b5329o75-C032-S006",
+          "start": 918,
+          "end": 1075
+        },
+        {
+          "sentence_id": "b5329o75-C032-S007",
+          "start": 1076,
+          "end": 1177
+        },
+        {
+          "sentence_id": "b5329o75-C032-S008",
+          "start": 1178,
+          "end": 1268
+        },
+        {
+          "sentence_id": "b5329o75-C032-S009",
+          "start": 1269,
+          "end": 1570
+        },
+        {
+          "sentence_id": "b5329o75-C032-S010",
+          "start": 1571,
+          "end": 1691
+        },
+        {
+          "sentence_id": "b5329o75-C032-S011",
+          "start": 1692,
+          "end": 1785
+        },
+        {
+          "sentence_id": "b5329o75-C032-S012",
+          "start": 1786,
+          "end": 1896
+        },
+        {
+          "sentence_id": "b5329o75-C032-S013",
+          "start": 1897,
+          "end": 1954
+        },
+        {
+          "sentence_id": "b5329o75-C032-S014",
+          "start": 1955,
+          "end": 2023
+        }
+      ]
+    },
+    {
+      "section": "Discussion",
+      "context_id": "b5329o75-C033",
+      "text": "Cyclin-dependent kinase (CDK) 4/6 complexes and phosphorylation of the downstream retinoblastoma (Rb) protein initiate and regulate G1-phase progression. Cyclin E-Cdk2 activity is important in the G1/S transition and S phase. CDK1 is required for entry into mitosis and plays an essential role in S phase. The cell cycle is negatively regulated by cyclin-dependent kinase inhibitors (CKIs). Many viruses, including herpesviruses [49] , murine hepatitis virus (MHV) [50] , severe acute respiratory syndrome coronavirus (SARS-CoV) [51] , influenza A virus [52] , human respiratory syncytial virus [53] , murine norovirus (MNV) [54] and porcine circovirus type 2 [55] , have been reported to induce cell cycle arrest for efficient replication. In our study, the expression of cyclin-dependent kinase inhibitor 1B (CDN1B), cyclin-dependent kinase 6 (CDK6) and cyclin-dependent kinase 1 isoform 1 (CDK1) was found to be downregulated during aMPV/C infection in Vero cells (Table 1 ). These DE proteins might be responsible for cell cycle arrest during aMPV/C infection. The specific mechanism requires further investigation.",
+      "sentences": [
+        {
+          "sentence_id": "b5329o75-C033-S000",
+          "start": 0,
+          "end": 153
+        },
+        {
+          "sentence_id": "b5329o75-C033-S001",
+          "start": 154,
+          "end": 225
+        },
+        {
+          "sentence_id": "b5329o75-C033-S002",
+          "start": 226,
+          "end": 305
+        },
+        {
+          "sentence_id": "b5329o75-C033-S003",
+          "start": 306,
+          "end": 390
+        },
+        {
+          "sentence_id": "b5329o75-C033-S004",
+          "start": 391,
+          "end": 740
+        },
+        {
+          "sentence_id": "b5329o75-C033-S005",
+          "start": 741,
+          "end": 978
+        },
+        {
+          "sentence_id": "b5329o75-C033-S006",
+          "start": 979,
+          "end": 1064
+        },
+        {
+          "sentence_id": "b5329o75-C033-S007",
+          "start": 1065,
+          "end": 1119
+        }
+      ]
+    },
+    {
+      "section": "Discussion",
+      "context_id": "b5329o75-C034",
+      "text": "Various cell signal transduction pathways have been shown to facilitate virus survival or the antiviral response in previous studies. The PI3K/Akt and mTOR pathways have been well documented to stimulate cell proliferation and inhibit apoptosis. Many viruses can activate the PI3K/Akt pathway to increase the viral titer. Respiratory syncytial virus (RSV), belonging to the same family as aMPV, has been shown to increase the survival of epithelial cells by activating PI3K/Akt, which increases replication before Fas-mediated apoptosis [56] . The proteins in the VTNC, 14-3-3 and RHEB pathways were found to be differentially regulated during aMPV/C infection ( Table 1 ). The MAPK cascade pathways are part of the protein kinase cascade, which involves transcription factors and modulates cell growth, differentiation and inflammation. Some human respiratory viruses, such as RSV and H1N1 influenza virus, have been shown to utilize protein kinases, such as MAPK, for replication [57] . The expression of the STAT1, PAK2 and HSPB1 proteins was downregulated in aMPV/C-infected Vero cells (Table 1 ). Both up-and downregulated proteins are shown. One protein processing pathway, the heat shock response, is a multifunctional mechanism for cell survival following pathogen infection [58] . In this study, Hsp90 and Hsp70 were identified as DE proteins in Vero cells 48 h after aMPV/C infection. By regulating these pathways, the virus utilizes specific mechanisms for its infection and replication.",
+      "sentences": [
+        {
+          "sentence_id": "b5329o75-C034-S000",
+          "start": 0,
+          "end": 133
+        },
+        {
+          "sentence_id": "b5329o75-C034-S001",
+          "start": 134,
+          "end": 245
+        },
+        {
+          "sentence_id": "b5329o75-C034-S002",
+          "start": 246,
+          "end": 321
+        },
+        {
+          "sentence_id": "b5329o75-C034-S003",
+          "start": 322,
+          "end": 543
+        },
+        {
+          "sentence_id": "b5329o75-C034-S004",
+          "start": 544,
+          "end": 673
+        },
+        {
+          "sentence_id": "b5329o75-C034-S005",
+          "start": 674,
+          "end": 837
+        },
+        {
+          "sentence_id": "b5329o75-C034-S006",
+          "start": 838,
+          "end": 988
+        },
+        {
+          "sentence_id": "b5329o75-C034-S007",
+          "start": 989,
+          "end": 1101
+        },
+        {
+          "sentence_id": "b5329o75-C034-S008",
+          "start": 1102,
+          "end": 1147
+        },
+        {
+          "sentence_id": "b5329o75-C034-S009",
+          "start": 1148,
+          "end": 1289
+        },
+        {
+          "sentence_id": "b5329o75-C034-S010",
+          "start": 1290,
+          "end": 1394
+        },
+        {
+          "sentence_id": "b5329o75-C034-S011",
+          "start": 1395,
+          "end": 1498
+        }
+      ]
+    },
+    {
+      "section": "Discussion",
+      "context_id": "b5329o75-C035",
+      "text": "Apoptosis regulates the pathogenesis of many infectious diseases [59] . Apoptosis induced by virus infection can inhibit or favor viral replication. Blocking apoptosis may lead to an increased viral titer because of the increased survival of infected cells. In this study, apoptosis-related genes were identified among the DE proteins following aMPV/C infection in Vero cells. The 14-3-3 proteins represent a family of adaptor and scaffold proteins in eukaryotic organisms. They can interact with multiple cellular proteins and might be involved in modulating the cell cycle, apoptosis and cell death at multiple steps [60] . The 14-3-3 proteins have been reported to be involved in the hepatitis C virus-mediated activation of Raf-1 [61] and HIV-1-induced cell cycle regulation [62] . As shown in Table 1 , the decreased expression of three 14-3-3 proteins (eta, beta/alpha, gamma) was found at 48 hpi. We speculate that the inhibition of apoptosis during early infection might contribute to the rapid replication of progeny virions before cell death. More studies are required to examine the function of the 14-3-3 proteins in aMPV/C-infected Vero cells.",
+      "sentences": [
+        {
+          "sentence_id": "b5329o75-C035-S000",
+          "start": 0,
+          "end": 71
+        },
+        {
+          "sentence_id": "b5329o75-C035-S001",
+          "start": 72,
+          "end": 148
+        },
+        {
+          "sentence_id": "b5329o75-C035-S002",
+          "start": 149,
+          "end": 257
+        },
+        {
+          "sentence_id": "b5329o75-C035-S003",
+          "start": 258,
+          "end": 376
+        },
+        {
+          "sentence_id": "b5329o75-C035-S004",
+          "start": 377,
+          "end": 473
+        },
+        {
+          "sentence_id": "b5329o75-C035-S005",
+          "start": 474,
+          "end": 625
+        },
+        {
+          "sentence_id": "b5329o75-C035-S006",
+          "start": 626,
+          "end": 785
+        },
+        {
+          "sentence_id": "b5329o75-C035-S007",
+          "start": 786,
+          "end": 903
+        },
+        {
+          "sentence_id": "b5329o75-C035-S008",
+          "start": 904,
+          "end": 1052
+        },
+        {
+          "sentence_id": "b5329o75-C035-S009",
+          "start": 1053,
+          "end": 1156
+        }
+      ]
+    },
+    {
+      "section": "Discussion",
+      "context_id": "b5329o75-C036",
+      "text": "In the aMPV/C proteomic data, the proteins with decreased expression were the majority. However, we discovered significant upregulation of PLK2 expression in aMPV/C-infected cells, which was further confirmed by Western blotting. Polo-like kinases are related to serine/threonine protein kinases, which are well-defined cell cycle regulators. PLK2 has been reported to act as a tumor suppressor gene but sometimes plays an oncogenic role in tumors. PLK2 can affect cell cycle regulation and cell survival, which is closely associated with the p53 family and ROS signaling pathway. We found that aMPV/C infection triggers apoptosis and ROS generation in Vero cells, which is inhibited by PLK2 siRNA. Considering that the p53 signaling pathway is involved in aMPV/C infection, the measurement of Bcl-2, Bax, p53 and caspase-3 was performed in aMPV/C-infected Vero cells. The BCL-2 family is a key regulator of mitochondrial apoptosis that comprises proapoptotic and antiapoptotic members. BCL-2 belongs to antiapoptotic proteins. Bax is a proapoptotic effector protein. Specific cellular signaling can modulate the expression of these two kinds of proteins to promote cell survival or death. A family of cysteine proteases called the caspase cascade can mediate the process of apoptosis. Caspase-3 is the final common molecule involved in apoptosis. A decreased Bcl-2/Bax ratio can damage the integrity of mitochondria and lead to caspase-3 activation during apoptosis. In our report, suppressing PLK2 inhibited ROS production and reversed the apoptosis marker expression changes, including an increased Bcl-2/Bax ratio and decreased cleaved caspase-3 and p53 expression. ",
+      "sentences": [
+        {
+          "sentence_id": "b5329o75-C036-S000",
+          "start": 0,
+          "end": 87
+        },
+        {
+          "sentence_id": "b5329o75-C036-S001",
+          "start": 88,
+          "end": 229
+        },
+        {
+          "sentence_id": "b5329o75-C036-S002",
+          "start": 230,
+          "end": 342
+        },
+        {
+          "sentence_id": "b5329o75-C036-S003",
+          "start": 343,
+          "end": 448
+        },
+        {
+          "sentence_id": "b5329o75-C036-S004",
+          "start": 449,
+          "end": 580
+        },
+        {
+          "sentence_id": "b5329o75-C036-S005",
+          "start": 581,
+          "end": 698
+        },
+        {
+          "sentence_id": "b5329o75-C036-S006",
+          "start": 699,
+          "end": 868
+        },
+        {
+          "sentence_id": "b5329o75-C036-S007",
+          "start": 869,
+          "end": 986
+        },
+        {
+          "sentence_id": "b5329o75-C036-S008",
+          "start": 987,
+          "end": 1027
+        },
+        {
+          "sentence_id": "b5329o75-C036-S009",
+          "start": 1028,
+          "end": 1067
+        },
+        {
+          "sentence_id": "b5329o75-C036-S010",
+          "start": 1068,
+          "end": 1189
+        },
+        {
+          "sentence_id": "b5329o75-C036-S011",
+          "start": 1190,
+          "end": 1285
+        },
+        {
+          "sentence_id": "b5329o75-C036-S012",
+          "start": 1286,
+          "end": 1347
+        },
+        {
+          "sentence_id": "b5329o75-C036-S013",
+          "start": 1348,
+          "end": 1467
+        },
+        {
+          "sentence_id": "b5329o75-C036-S014",
+          "start": 1468,
+          "end": 1669
+        }
+      ]
+    },
+    {
+      "section": "Discussion",
+      "context_id": "b5329o75-C037",
+      "text": "In the current study, our data collectively suggest for the first time that PLK2 expression contributes to p53-mediated apoptosis and ROS generation in aMPV/C-infected Vero cells. This result demonstrates that PLK2 plays an important role in aMPV/C-induced apoptosis through ROS production and activation of the p53 signaling pathway. To a certain extent, this result is consistent with those of previous reports showing the proapoptotic function of PLK2 but not its antioxidant function [39] . Through further investigation, we demonstrated that the inhibition of PLK2 expression decreases virus production in the supernatant at 72 h pi. We speculate that PLK2 might promote apoptosis for viral release. The findings of this study suggest that PLK2 can regulate p53 and ROS and plays an essential role in apoptosis and viral replication in Vero cells after aMPV/C infection.",
+      "sentences": [
+        {
+          "sentence_id": "b5329o75-C037-S000",
+          "start": 0,
+          "end": 179
+        },
+        {
+          "sentence_id": "b5329o75-C037-S001",
+          "start": 180,
+          "end": 334
+        },
+        {
+          "sentence_id": "b5329o75-C037-S002",
+          "start": 335,
+          "end": 494
+        },
+        {
+          "sentence_id": "b5329o75-C037-S003",
+          "start": 495,
+          "end": 638
+        },
+        {
+          "sentence_id": "b5329o75-C037-S004",
+          "start": 639,
+          "end": 704
+        },
+        {
+          "sentence_id": "b5329o75-C037-S005",
+          "start": 705,
+          "end": 875
+        }
+      ]
+    },
+    {
+      "section": "Discussion",
+      "context_id": "b5329o75-C038",
+      "text": "aMPV/C infection has recently emerged in China and has been gaining increasing attention due to its high morbidity rates and pathogenicity. In general, this is the first report of the proteomic profiles of Vero cells following aMPV/C infection using iTRAQ combined with LC-MS. These data provide us comprehensive information about several DE proteins in cellular responses regarding cell cycle, endocytosis, and PI3K-Akt, mTOR, MAPK and p53 signaling pathway in the cultured aMPV/C-infected Vero cells. Furthermore, a high expression of PLK2 by aMPV/C infection promoted apoptosis through ROS accumulation and p53 signaling activation, and release of the virus. However, in-depth analysis of host cellular responses to aMPV/C infection in natural host-chickens will be needed to better understand the pathogenic mechanisms for the development of vaccine strategies and antiviral therapeutic targets for aMPV/C infection in the future.",
+      "sentences": [
+        {
+          "sentence_id": "b5329o75-C038-S000",
+          "start": 0,
+          "end": 139
+        },
+        {
+          "sentence_id": "b5329o75-C038-S001",
+          "start": 140,
+          "end": 276
+        },
+        {
+          "sentence_id": "b5329o75-C038-S002",
+          "start": 277,
+          "end": 502
+        },
+        {
+          "sentence_id": "b5329o75-C038-S003",
+          "start": 503,
+          "end": 661
+        },
+        {
+          "sentence_id": "b5329o75-C038-S004",
+          "start": 662,
+          "end": 934
+        }
+      ]
+    }
+  ]
+}
