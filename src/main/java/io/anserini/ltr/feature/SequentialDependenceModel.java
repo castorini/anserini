@@ -39,7 +39,7 @@ import java.util.Map;
 public class SequentialDependenceModel implements FeatureExtractor {
   private static final Logger LOG = LogManager.getLogger(SequentialDependenceModel.class);
 
-  private static final int WINDOW_SIZE = 8;
+  private final int WINDOW_SIZE = 8;
 
   private float lambdaT = 0.5f;
   private float lambdaO = 0.2f;

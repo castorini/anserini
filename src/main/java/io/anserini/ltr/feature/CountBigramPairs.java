@@ -33,18 +33,6 @@ import java.util.Set;
  * by a couple of features
  */
 public class CountBigramPairs {
-  public static class PhraseCounter {
-    public Map<String, Integer> phraseCountMap = new HashMap<>();
-
-    public void incrementCount(String firstToken) {
-      if (phraseCountMap.containsKey(firstToken)) {
-        phraseCountMap.put(firstToken, phraseCountMap.get(firstToken) + 1);
-      } else {
-        phraseCountMap.put(firstToken, 1);
-      }
-    }
-  }
-
   /**
    * Method will count coocurrence of pairs specified in queryPairMap
    * and store counts for each window size in counters.
@@ -58,7 +46,7 @@ public class CountBigramPairs {
    */
   public static void countPairs(Map<String, Integer> singleCountMap, Map<String, Set<String>> queryPairMap,
                                 ArrayList<Integer> gapSizes,
-                                Map<Integer, PhraseCounter> counters,
+                                Map<Integer, Map<String, Integer>> counters,
                                 Terms terms) throws IOException {
     countPairs(singleCountMap, queryPairMap, Collections.<String, Set<String>>emptyMap(), gapSizes, counters, terms);
   }
@@ -78,7 +66,7 @@ public class CountBigramPairs {
   public static void countPairs(Map<String, Integer> singleCountMap, Map<String, Set<String>> queryPairMap,
                                 Map<String, Set<String>> backQueryPairMap,
                                 ArrayList<Integer> gapSizes,
-                                Map<Integer, PhraseCounter> counters,
+                                Map<Integer, Map<String, Integer>> counters,
                                 Terms terms) throws IOException {
 
     // Construct token stream with offset 0
@@ -115,7 +103,10 @@ public class CountBigramPairs {
         for (int j = i + 1; j < Math.min(i + maxGapSize + 1, docSize); j++) {
           if (queryPairMap.get(firstToken).contains(window.get(j))) {
             for (int windowSize : counters.keySet()) {
-              if (j - i <= windowSize) counters.get(windowSize).incrementCount(firstToken);
+              if (j - i <= windowSize) {
+                Map<String, Integer> map = counters.get(windowSize);
+                map.put(firstToken, map.getOrDefault(firstToken,0) + 1);
+              }
             }
           }
         }
@@ -126,7 +117,10 @@ public class CountBigramPairs {
         for (int j = i+1; j < Math.min(i + maxGapSize + 1, docSize); j++) {
           if (backQueryPairMap.get(firstToken).contains(window.get(j))) {
             for (int windowSize : counters.keySet()) {
-              if (j - i <= windowSize) counters.get(windowSize).incrementCount(window.get(j));
+              if (j - i <= windowSize){
+                Map<String, Integer> map = counters.get(windowSize);
+                map.put(window.get(j), map.getOrDefault(window.get(j),0)+1);
+              }
             }
           }
         }
@@ -150,7 +144,10 @@ public class CountBigramPairs {
         for (int j = maxGapSize +1; j < maxGapSize*2 + 2; j++) {
           if (queryPairMap.get(firstToken).contains(window.get(j))) {
             for (int windowSize : counters.keySet()) {
-              if (j - maxGapSize<= windowSize) counters.get(windowSize).incrementCount(firstToken);
+              if (j - maxGapSize<= windowSize) {
+                Map<String, Integer> map = counters.get(windowSize);
+                map.put(firstToken, map.getOrDefault(firstToken,0) + 1);
+              }
             }
           }
         }
@@ -162,7 +159,10 @@ public class CountBigramPairs {
 
           if (backQueryPairMap.get(firstToken).contains(window.get(j))) {
             for (int windowSize : counters.keySet()) {
-              if (j - maxGapSize<= windowSize) counters.get(windowSize).incrementCount(window.get(j));
+              if (j - maxGapSize<= windowSize) {
+                Map<String, Integer> map = counters.get(windowSize);
+                map.put(window.get(j), map.getOrDefault(window.get(j),0)+1);
+              }
             }
           }
         }
@@ -180,7 +180,10 @@ public class CountBigramPairs {
         for (int j = i +1; j < Math.min(maxGapSize*2 + 2,docSize) ; j++) {
           if (queryPairMap.get(firstToken).contains(window.get(j))) {
             for (int windowSize : counters.keySet()) {
-              if (j -i <= windowSize) counters.get(windowSize).incrementCount(firstToken);
+              if (j -i <= windowSize) {
+                Map<String, Integer> map = counters.get(windowSize);
+                map.put(firstToken, map.getOrDefault(firstToken,0) + 1);
+              }
             }
           }
         }
@@ -192,7 +195,10 @@ public class CountBigramPairs {
 
           if (backQueryPairMap.get(firstToken).contains(window.get(j))) {
             for (int windowSize : counters.keySet()) {
-              if (j - i<= windowSize) counters.get(windowSize).incrementCount(window.get(j));
+              if (j - i<= windowSize) {
+                Map<String, Integer> map = counters.get(windowSize);
+                map.put(window.get(j), map.getOrDefault(window.get(j),0)+1);
+              }
             }
           }
         }
