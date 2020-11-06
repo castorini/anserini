@@ -552,6 +552,10 @@ public abstract class WarcBaseDocument implements SourceDocument {
     return getHeaderMetadataItem("WARC-Target-URI");
   }
 
+  public String getDate() {
+    return warcHeader.dateString;
+  }
+
   public String getContent() {
     String str = getContentUTF8().trim();
     // Get rid of HTTP headers. Look for the first '<'.

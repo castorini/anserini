@@ -33,8 +33,10 @@ import java.util.List;
  * Average IDF, idf calculated using log( 1+ (N - N_t + 0.5)/(N_t + 0.5))
  * where N is the total number of docs, calculated like in BM25
  */
-public class AvgIDFFeatureExtractor<T> implements FeatureExtractor<T> {
+public class AvgIDFFeatureExtractor implements FeatureExtractor {
   private static final Logger LOG = LogManager.getLogger(AvgIDFFeatureExtractor.class);
+  private String lastQueryProcessed = "";
+  private float lastComputedValue = 0f;
 
   private float sumIdf(IndexReader reader, List<String> queryTokens,
                        long numDocs, String field) throws IOException {
@@ -47,21 +49,33 @@ public class AvgIDFFeatureExtractor<T> implements FeatureExtractor<T> {
   }
 
   @Override
-  public float extract(Document doc, Terms terms, RerankerContext<T> context) {
-    IndexReader reader = context.getIndexSearcher().getIndexReader();
-
-    long numDocs = reader.numDocs() - reader.numDeletedDocs();
-    try {
-      float sumIdf = sumIdf(reader, context.getQueryTokens(), numDocs, IndexArgs.CONTENTS);
-      return sumIdf / (float) context.getQueryTokens().size();
-    } catch (IOException e) {
-      LOG.warn("Error computing AvgIdf, returning 0");
-      return 0.0f;
+  public float extract(Document doc, Terms terms, String queryText, List<String> queryTokens, IndexReader reader) {
+    if (!this.lastQueryProcessed.equals(queryText)) {
+      this.lastQueryProcessed = queryText;
+      long numDocs = reader.numDocs() - reader.numDeletedDocs();
+      try {
+        float sumIdf = sumIdf(reader, queryTokens, numDocs, IndexArgs.CONTENTS);
+        this.lastComputedValue = sumIdf / (float) queryTokens.size();
+      } catch (IOException e) {
+        LOG.warn("Error computing AvgIdf, returning 0");
+        this.lastComputedValue = 0.0f;
+      }
     }
+    return this.lastComputedValue;
   }
 
   @Override
   public String getName() {
     return "AvgIDF";
+  }
+
+  @Override
+  public String getField() {
+    return null;
+  }
+
+  @Override
+  public FeatureExtractor clone() {
+    return new AvgIDFFeatureExtractor();
   }
 }

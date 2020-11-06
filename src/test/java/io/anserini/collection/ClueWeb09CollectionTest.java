@@ -41,8 +41,10 @@ public class ClueWeb09CollectionTest extends DocumentCollectionTest<ClueWeb09Col
 
     // Note special key "null" to handle special case.
     expected.put("null",
-        Map.of("id", "null", "raw",
-            "software: Nutch 1.0-dev (modified for clueweb09)\n" +
+        Map.of("id", "null", 
+                "date", "2009-03-65T08:43:19-0800",
+                "raw",
+                "software: Nutch 1.0-dev (modified for clueweb09)\n" +
                 "isPartOf: clueweb09-en\n" +
                 "description: clueweb09 crawl with WARC output\n" +
                 "format: WARC file version 0.18\n" +
@@ -50,19 +52,22 @@ public class ClueWeb09CollectionTest extends DocumentCollectionTest<ClueWeb09Col
 
     expected.put("clueweb09-az0000-00-00000",
         Map.of("id", "clueweb09-az0000-00-00000",
-            "raw", "\n<html>\nwhatever here will be included\n</html>"));
+                "date", "2009-03-65T08:43:19-0800",
+                "url", "http://clueweb09.test.com/",
+                "raw", "\n<html>\nwhatever here will be included\n</html>"));
   }
 
   @Override
   void checkDocument(SourceDocument doc, Map<String, String> expected) {
     if (doc.id() == null) {
       assertFalse(doc.indexable());
-      assertEquals(expected.get("raw"), doc.raw());
     } else {
       assertTrue(doc.indexable());
       assertEquals(expected.get("id"), doc.id());
       assertEquals(JsoupStringTransform.SINGLETON.apply(expected.get("raw")), doc.contents());
-      assertEquals(expected.get("raw"), doc.raw());
     }
+    assertEquals(expected.get("raw"), doc.raw());
+    assertEquals(expected.get("date"), ((ClueWeb09Collection.Document) doc).getDate());
+    assertEquals(expected.get("url"), ((ClueWeb09Collection.Document) doc).getURL());
   }
 }
