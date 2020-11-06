@@ -40,22 +40,30 @@ import java.util.Map;
  */
 public class TFIDFFeatureExtractor implements FeatureExtractor {
   private static final Logger LOG = LogManager.getLogger(TFIDFFeatureExtractor.class);
+  private String lastQueryProcessed = "";
+  private Map<String,Integer> lastComputedValue = new HashMap<>();
 
   @Override
   public float extract(Document doc, Terms terms, String queryText, List<String> queryTokens, IndexReader reader) {
     float score = 0.0f;
     Map<String, Long> countMap = new HashMap<>();
-    Map<String, Integer> docFreqs = new HashMap<>();
+    Map<String, Integer> docFreqs = null;
     long numDocs =  reader.numDocs();
-    for (String queryToken : queryTokens) {
-      try {
-        docFreqs.put(queryToken, reader.docFreq(new Term(IndexArgs.CONTENTS, queryToken)));
-      } catch (IOException e) {
-        LOG.error("Error trying to read document frequency");
-        docFreqs.put(queryToken, 0);
+    if (!lastQueryProcessed.equals(queryText)) {
+      lastQueryProcessed = queryText;
+      docFreqs = new HashMap<>();
+      for (String queryToken : queryTokens) {
+        try {
+          docFreqs.put(queryToken, reader.docFreq(new Term(IndexArgs.CONTENTS, queryToken)));
+        } catch (IOException e) {
+          LOG.error("Error trying to read document frequency");
+          docFreqs.put(queryToken, 0);
+        }
       }
+      lastComputedValue = docFreqs;
+    } else {
+      docFreqs = lastComputedValue;
     }
-
     try {
       TermsEnum termsEnum = terms.iterator();
       while (termsEnum.next() != null) {
