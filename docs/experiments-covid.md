@@ -91,6 +91,7 @@ This qrels file, provided by NIST as [`qrels-covid_d5_j0.5-5.txt`](https://ir.ni
 Note that all of the results above can be replicated with the following script:
 
 ```bash
+$ python src/main/python/trec-covid/download_indexes.py --date 2020-07-16
 $ python src/main/python/trec-covid/generate_round5_baselines.py
 ```
 
@@ -182,6 +183,7 @@ This qrels file, provided by NIST as [`qrels_covid_d4_j0.5-4.txt`](https://ir.ni
 Note that all of the results above can be replicated with the following script:
 
 ```bash
+$ python src/main/python/trec-covid/download_indexes.py --date 2020-06-19
 $ python src/main/python/trec-covid/generate_round4_baselines.py
 ```
 
@@ -284,6 +286,7 @@ This qrels file, provided by NIST as [`qrels_covid_d3_j0.5-3.txt`](https://ir.ni
 Note that all of the results above can be replicated with the following script:
 
 ```bash
+$ python src/main/python/trec-covid/download_indexes.py --date 2020-05-19
 $ python src/main/python/trec-covid/generate_round3_baselines.py
 ```
 
