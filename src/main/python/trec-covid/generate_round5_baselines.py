@@ -44,8 +44,11 @@ cumulative_runs = {
 
 final_runs = {
     'anserini.final-r5.fusion1.txt': '12122c12089c2b07a8f6c7247aebe2f6',
+    'anserini.final-r5.fusion1.post-processed.txt': 'f1ebdd7f7b8403b53e89a5993fb55dd2',
     'anserini.final-r5.fusion2.txt': 'ff1a0bac315de6703b937c552b351e2a',
-    'anserini.final-r5.rf.txt': '74e2a73b5ffd2908dc23b14c765171a1'
+    'anserini.final-r5.fusion2.post-processed.txt': '77ce612916becbb5ccfd6d891f797d1d',
+    'anserini.final-r5.rf.txt': '74e2a73b5ffd2908dc23b14c765171a1',
+    'anserini.final-r5.rf.post-processed.txt': 'dd765fa9491c585476735115eb966ea2'
 }
 
 stored_runs = {
@@ -72,7 +75,13 @@ stored_runs = {
     'https://www.dropbox.com/s/vyolaecpxu28vjw/anserini.final-r5.fusion2.txt?dl=1':
         final_runs['anserini.final-r5.fusion2.txt'],
     'https://www.dropbox.com/s/27wy54cibmyg7lp/anserini.final-r5.rf.txt?dl=1':
-        final_runs['anserini.final-r5.rf.txt']
+        final_runs['anserini.final-r5.rf.txt'],
+    'https://www.dropbox.com/s/lycp9x404bp6u1l/anserini.final-r5.fusion1.post-processed.txt?dl=1':
+        final_runs['anserini.final-r5.fusion1.post-processed.txt'],
+    'https://www.dropbox.com/s/qtwny6bd6k3ijzq/anserini.final-r5.fusion2.post-processed.txt?dl=1':
+        final_runs['anserini.final-r5.fusion2.post-processed.txt'],
+    'https://www.dropbox.com/s/1ak8w2280dzrflu/anserini.final-r5.rf.post-processed.txt?dl=1':
+        final_runs['anserini.final-r5.rf.post-processed.txt'],
 }
 
 
@@ -80,14 +89,18 @@ def main():
     if not (os.path.isdir(indexes[0]) and os.path.isdir(indexes[1]) and os.path.isdir(indexes[2])):
         print('Required indexes do not exist. Please download first.')
 
-    cumulative_qrels = 'src/main/resources/topics-and-qrels/qrels.covid-round4-cumulative.txt'
+    round4_cumulative_qrels = 'src/main/resources/topics-and-qrels/qrels.covid-round4-cumulative.txt'
+    complete_qrels = 'src/main/resources/topics-and-qrels/qrels.covid-complete.txt'
+    round5_qrels = 'src/main/resources/topics-and-qrels/qrels.covid-round5.txt'
 
     verify_stored_runs(stored_runs)
     perform_runs(5, indexes)
     perform_fusion(5, cumulative_runs, check_md5=True)
     prepare_final_submissions(5, final_runs, check_md5=True)
 
-    evaluate_runs(cumulative_qrels, cumulative_runs, check_md5=True)
+    evaluate_runs(round4_cumulative_qrels, cumulative_runs, check_md5=True)
+    evaluate_runs(complete_qrels, cumulative_runs, check_md5=True)
+    evaluate_runs(round5_qrels, final_runs)
 
 
 if __name__ == '__main__':
