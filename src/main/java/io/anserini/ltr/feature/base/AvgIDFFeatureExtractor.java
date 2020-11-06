@@ -35,6 +35,8 @@ import java.util.List;
  */
 public class AvgIDFFeatureExtractor implements FeatureExtractor {
   private static final Logger LOG = LogManager.getLogger(AvgIDFFeatureExtractor.class);
+  private String lastQueryProcessed = "";
+  private float lastComputedValue = 0f;
 
   private float sumIdf(IndexReader reader, List<String> queryTokens,
                        long numDocs, String field) throws IOException {
@@ -48,14 +50,18 @@ public class AvgIDFFeatureExtractor implements FeatureExtractor {
 
   @Override
   public float extract(Document doc, Terms terms, String queryText, List<String> queryTokens, IndexReader reader) {
-    long numDocs = reader.numDocs() - reader.numDeletedDocs();
-    try {
-      float sumIdf = sumIdf(reader, queryTokens, numDocs, IndexArgs.CONTENTS);
-      return sumIdf / (float) queryTokens.size();
-    } catch (IOException e) {
-      LOG.warn("Error computing AvgIdf, returning 0");
-      return 0.0f;
+    if (!this.lastQueryProcessed.equals(queryText)) {
+      this.lastQueryProcessed = queryText;
+      long numDocs = reader.numDocs() - reader.numDeletedDocs();
+      try {
+        float sumIdf = sumIdf(reader, queryTokens, numDocs, IndexArgs.CONTENTS);
+        this.lastComputedValue = sumIdf / (float) queryTokens.size();
+      } catch (IOException e) {
+        LOG.warn("Error computing AvgIdf, returning 0");
+        this.lastComputedValue = 0.0f;
+      }
     }
+    return this.lastComputedValue;
   }
 
   @Override
