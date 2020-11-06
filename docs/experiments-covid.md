@@ -44,6 +44,57 @@ $ python src/main/python/trec-covid/download_indexes.py --date 2020-07-16
 $ python src/main/python/trec-covid/generate_round5_baselines.py
 ```
 
+### Evaluation with Round 5 Qrels
+
+Since the above runs were prepared _for_ round 5, we do not know how well they actually performed until the round 5 judgments from NIST were released.
+Here, we provide these evaluation results.
+
+Note that the runs posted on the [TREC-COVID archive](https://ir.nist.gov/covidSubmit/archive.html) are _not_ exactly the same the runs we submitted.
+According to NIST (from email to participants), they removed "documents that were previously judged but had id changes from the Round 5 submissions for scoring, even though the change in `cord_uid` was unknown at submission time."
+The actual evaluated runs are (mirrored from URL above):
+
+| group | runtag | run file | checksum |
+|:------|:-------|:---------|:---------|
+| `anserini` | `r5.fusion1` (NIST post-processed) | [[download](https://www.dropbox.com/s/lycp9x404bp6u1l/anserini.final-r5.fusion1.post-processed.txt)] | `f1ebdd7f7b8403b53e89a5993fb55dd2` |
+| `anserini` | `r5.fusion2` (NIST post-processed) | [[download](https://www.dropbox.com/s/qtwny6bd6k3ijzq/anserini.final-r5.fusion2.post-processed.txt)] | `77ce612916becbb5ccfd6d891f797d1d` |
+| `anserini` | `r5.rf` (NIST post-processed)      | [[download](https://www.dropbox.com/s/1ak8w2280dzrflu/anserini.final-r5.rf.post-processed.txt)]      | `dd765fa9491c585476735115eb966ea2` |
+
+Effectiveness results (note that starting in Round 4, NIST changed from nDCG@10 to nDCG@20):
+
+| group | runtag | nDCG@20 | J@20 | AP   | R@1k |
+|:------|:-------|--------:|-----:|-----:|-----:|
+| `anserini` | `r5.fusion1`                       | 0.5244 | 0.8490 | 0.2302 | 0.5615
+| `anserini` | `r5.fusion1` (NIST post-processed) | 0.5313 | 0.8570 | 0.2314 | 0.5615
+| `anserini` | `r5.fusion2`                       | 0.5941 | 0.9080 | 0.2716 | 0.6012
+| `anserini` | `r5.fusion2` (NIST post-processed) | 0.6007 | 0.9150 | 0.2734 | 0.6012
+| `anserini` | `r5.rf`                            | 0.7193 | 0.9270 | 0.3235 | 0.6378
+| `anserini` | `r5.rf` (NIST post-processed)      | 0.7346 | 0.9470 | 0.3280 | 0.6378
+
+The scores of the post-processed runs match those reported by NIST.
+We see that that NIST post-processing improves scores slightly.
+
+Below, we report the effectiveness of the runs using the "complete" cumulative qrels file (covering rounds 1 through 5).
+This qrels file, provided by NIST as [`qrels-covid_d5_j0.5-5.txt`](https://ir.nist.gov/covidSubmit/data/qrels-covid_d5_j0.5-5.txt), is stored in our repo as [`qrels.covid-complete.txt`](../src/main/resources/topics-and-qrels/qrels.covid-complete.txt)).
+
+|    | index     | field(s)                 | nDCG@10 | J@10 | nDCG@20 | J@20 | AP | R@1k | J@1k |
+|---:|:----------|:-------------------------|--------:|-----:|--------:|-----:|---:|-----:|-----:|
+|  1 | abstract  | query+question                  | 0.6925 | 0.9740 | 0.6586 | 0.9700 | 0.3010 | 0.4636 | 0.4159
+|  2 | abstract  | UDel qgen                       | 0.7301 | 0.9980 | 0.6979 | 0.9900 | 0.3230 | 0.4839 | 0.4286
+|  3 | full-text | query+question                  | 0.4709 | 0.8920 | 0.4382 | 0.8370 | 0.1777 | 0.3427 | 0.3397
+|  4 | full-text | UDel qgen                       | 0.6286 | 0.9840 | 0.5973 | 0.9630 | 0.2391 | 0.4087 | 0.3875
+|  5 | paragraph | query+question                  | 0.5832 | 0.9600 | 0.5659 | 0.9390 | 0.2808 | 0.4695 | 0.4412
+|  6 | paragraph | UDel qgen                       | 0.6764 | 0.9840 | 0.6368 | 0.9740 | 0.3089 | 0.4949 | 0.4542
+|  7 | -         | reciprocal rank fusion(1, 3, 5) | 0.6469 | 0.9860 | 0.6184 | 0.9800 | 0.2952 | 0.4967 | 0.4675
+|  8 | -         | reciprocal rank fusion(2, 4, 6) | 0.6972 | 1.0000 | 0.6785 | 1.0000 | 0.3329 | 0.5313 | 0.4869
+|  9 | abstract  | UDel qgen + RF                  | 0.8395 | 1.0000 | 0.7955 | 0.9990 | 0.3911 | 0.5536 | 0.4607
+
+Note that all of the results above can be replicated with the following script:
+
+```bash
+$ python src/main/python/trec-covid/download_indexes.py --date 2020-07-16
+$ python src/main/python/trec-covid/generate_round5_baselines.py
+```
+
 
 ## Round 4
 
@@ -132,6 +183,7 @@ This qrels file, provided by NIST as [`qrels_covid_d4_j0.5-4.txt`](https://ir.ni
 Note that all of the results above can be replicated with the following script:
 
 ```bash
+$ python src/main/python/trec-covid/download_indexes.py --date 2020-06-19
 $ python src/main/python/trec-covid/generate_round4_baselines.py
 ```
 
@@ -234,6 +286,7 @@ This qrels file, provided by NIST as [`qrels_covid_d3_j0.5-3.txt`](https://ir.ni
 Note that all of the results above can be replicated with the following script:
 
 ```bash
+$ python src/main/python/trec-covid/download_indexes.py --date 2020-05-19
 $ python src/main/python/trec-covid/generate_round3_baselines.py
 ```
 
