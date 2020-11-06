@@ -58,7 +58,8 @@ public class BibtexGenerator implements LuceneDocumentGenerator<BibtexCollection
     URL("url"),
     BOOKTITLE("booktitle"),
     ADDRESS("address"),
-    EDITOR("editor");
+    EDITOR("editor"),
+    ABSTRACT("abstract");
 
     public final String name;
 
@@ -77,7 +78,8 @@ public class BibtexGenerator implements LuceneDocumentGenerator<BibtexCollection
     BibtexField.PUBLISHER.name,
     BibtexField.JOURNAL.name,
     BibtexField.ADDRESS.name,
-    BibtexField.EDITOR.name);
+    BibtexField.EDITOR.name,
+    BibtexField.ABSTRACT.name);
 
   public BibtexGenerator(IndexArgs args) {
     this.args = args;

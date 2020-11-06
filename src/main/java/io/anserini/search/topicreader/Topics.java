@@ -64,7 +64,10 @@ public enum Topics {
   COVID_ROUND5(CovidTopicReader.class, "topics-and-qrels/topics.covid-round5.xml"),
   COVID_ROUND5_UDEL(CovidTopicReader.class, "topics-and-qrels/topics.covid-round5-udel.xml"),
   TREC2018_BL(BackgroundLinkingTopicReader.class, "topics-and-qrels/topics.backgroundlinking18.txt"),
-  TREC2019_BL(BackgroundLinkingTopicReader.class, "topics-and-qrels/topics.backgroundlinking19.txt");
+  TREC2019_BL(BackgroundLinkingTopicReader.class, "topics-and-qrels/topics.backgroundlinking19.txt"),
+  EPIDEMIC_QA_EXPERT_PRELIM(EpidemicQATopicReader.class, "topics-and-qrels/topics.epidemic-qa.expert.prelim.json"),
+  EPIDEMIC_QA_CONSUMER_PRELIM(EpidemicQATopicReader.class,
+                              "topics-and-qrels/topics.epidemic-qa.consumer.prelim.json");
 
   public final String path;
   public final Class readerClass;
