@@ -20,8 +20,6 @@ import io.anserini.ltr.feature.ContentContext;
 import io.anserini.ltr.feature.FeatureExtractor;
 import io.anserini.ltr.feature.QueryContext;
 import org.apache.commons.lang3.tuple.Pair;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
@@ -40,7 +38,7 @@ public class OrderedQueryPairs implements FeatureExtractor {
     float count = 0;
     List<Pair<String, String>> queryPairs= queryContext.genQueryPair();
     for(Pair<String, String> pair: queryPairs){
-      count += context.CountBigram(pair.getLeft(),pair.getRight(),gapSize);
+      count += context.countBigram(pair.getLeft(),pair.getRight(),gapSize);
     }
     return count;
   }

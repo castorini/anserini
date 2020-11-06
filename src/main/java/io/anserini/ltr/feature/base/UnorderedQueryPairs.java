@@ -38,8 +38,8 @@ public class UnorderedQueryPairs implements FeatureExtractor {
     float count = 0;
     List<Pair<String, String>> queryPairs= queryContext.genQueryPair();
     for(Pair<String, String> pair: queryPairs){
-      count += context.CountBigram(pair.getLeft(),pair.getRight(),gapSize);
-      count += context.CountBigram(pair.getRight(),pair.getLeft(),gapSize);
+      count += context.countBigram(pair.getLeft(),pair.getRight(),gapSize);
+      count += context.countBigram(pair.getRight(),pair.getLeft(),gapSize);
     }
     return count;
   }
