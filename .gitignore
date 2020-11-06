@@ -56,5 +56,6 @@ fine_tuning_results/
 # directory where we keep throw-away Java classes that we don't want checked into the repo.
 src/main/java/io/anserini/scratch/
 
-# cat of qrels, don't need to check in
+# these are just concatenation of TREC-COVID round 1 and round2 qrels, so no need to check in.
 src/main/resources/topics-and-qrels/qrels.covid-round12.txt
+src/main/resources/topics-and-qrels/qrels.covid-round2-cumulative.txt
