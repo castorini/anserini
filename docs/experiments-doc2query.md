@@ -8,9 +8,10 @@ The basic idea is to train a model, that when given an input document, generates
 These predicted questions (or queries) are then appended to the original documents, which are then indexed as before.
 
 For a complete "from scratch" replication (in particularly, training the seq2seq model), see [this code repo](https://github.com/nyu-dl/dl4ir-doc2query).
-Here, we run through how to replicate the BM25+Doc2query condition with our copy of the predicted queries.
+Here, we run through how to replicate the BM25+doc2query condition with our copy of the predicted queries.
 
-Note that [docTTTTTquery](experiments-docTTTTTquery.md) is an improved version of the doc2query model.
+Note that [docTTTTTquery](experiments-docTTTTTquery.md) is an improved version of the doc2query model and has largely superseded this model.
+However, these results remain useful as a baseline.
 
 Here's a summary of the datasets referenced in this guide:
 
@@ -20,10 +21,11 @@ File | Size | MD5 | Download
 `paragraphCorpus.v2.0.tar.xz` | 4.7 GB | `a404e9256d763ddcacc3da1e34de466a` | [[Dropbox](https://www.dropbox.com/s/1xq559k5i86gk17/paragraphCorpus.v2.0.tar.xz?dl=1)] [[GitLab](https://git.uwaterloo.ca/jimmylin/doc2query-data/raw/master/base/paragraphCorpus.v2.0.tar.xz)]
 `trec-car-pred-test_topk10.tar.gz` | 2.7 GB | `b9f98b55e6260c64e830b34d80a7afd7` | [[Dropbox](https://www.dropbox.com/s/rl4r0md0xgxg7d9/trec-car-pred-test_topk10.tar.gz?dl=1)] [[GitLab](https://git.uwaterloo.ca/jimmylin/doc2query-data/raw/master/base/trec-car-pred-test_topk10.tar.gz)]
 
+The GitLab repo is [here](https://git.uwaterloo.ca/jimmylin/doc2query-data/) if you want direct access.
 
 ## MS MARCO Passage Ranking
 
-To replicate our Doc2query results on the [MS MARCO Passage Ranking Task](https://github.com/microsoft/MSMARCO-Passage-Ranking), follow these instructions.
+To replicate our doc2query results on the [MS MARCO Passage Ranking Task](https://github.com/microsoft/MSMARCO-Passage-Ranking), follow these instructions.
 Before going through this guide, it is recommended that you [replicate our BM25 baselines](experiments-msmarco-passage.md) first.
 
 To start, grab the predicted queries:
@@ -114,7 +116,7 @@ QueriesRanked: 6980
 #####################
 ```
 
-So, this simple trick improves MRR by a bit over baseline Doc2query.
+So, this simple trick improves MRR by a bit over baseline doc2query.
 
 ## TREC CAR
 
@@ -163,24 +165,24 @@ After the script completes, we can index the expanded documents:
 sh target/appassembler/bin/IndexCollection -collection JsonCollection \
  -generator DefaultLuceneDocumentGenerator -threads 30 \
  -input collections/trec_car/collection_jsonl_expanded_topk10 \
- -index indexes/trec_car/lucene-index.car17v2.0
+ -index indexes/trec_car/lucene-index.car17v2.0-expanded-topk10
 ```
 
 And perform retrieval on the test queries:
 
 ```
 sh target/appassembler/bin/SearchCollection -topicreader Car \
- -index indexes/trec_car/lucene-index.car17v2.0 \
+ -index indexes/trec_car/lucene-index.car17v2.0-expanded-topk10 \
  -topics src/main/resources/topics-and-qrels/topics.car17v2.0.benchmarkY1test.txt \
- -output runs/run.car17v2.0.bm25.topics.car17v2.0.benchmarkY1test.txt -bm25
+ -output runs/run.car17v2.0.bm25.expanded-topk10.txt -bm25
 ```
 
 Evaluation is performed with `trec_eval`:
 
 ```
-eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recip_rank \
+tools/eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recip_rank \
  src/main/resources/topics-and-qrels/qrels.car17v2.0.benchmarkY1test.txt \
- runs/run.car17v2.0.bm25.topics.car17v2.0.benchmarkY1test.txt
+ runs/run.car17v2.0.bm25.expanded-topk10.txt
 ```
 
 With the above commands, you should be able to replicate the following results:
