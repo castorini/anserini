@@ -246,9 +246,9 @@ def verify_stored_runs(runs):
         pyserini.util.download_url(url, 'runs/', force=True, md5=runs[url])
 
         # Ugly hack the rename filename with '+' in it, which is URL encoded.
-        if '5%2B' in url:
+        if '%2B' in url:
             filename = url.split('/')[-1]
             filename = re.sub('\\?dl=1$', '', filename)  # Remove the Dropbox 'force download' parameter
             destination_path = os.path.join('runs/', filename)
 
-            os.rename(destination_path, destination_path.replace('5%2B', '+'))
+            os.rename(destination_path, destination_path.replace('%2B', '+'))
