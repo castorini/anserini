@@ -10,7 +10,7 @@ import json
 from typing import Dict
 
 
-def load_queries(path: str) -> collections.OrderedDict[str, (str, str)]:
+def load_queries(path: str):
     """
     Loads queries into a dictionary of query_id -> (query, question)
     """
@@ -18,32 +18,35 @@ def load_queries(path: str) -> collections.OrderedDict[str, (str, str)]:
     with open(path) as f:
         raw_json = f.read()
         parsed_json = json.loads(raw_json)
-        for topic in raw_json:
-            query_id = topic
-
-            queries[query_id] = (query, question)
+        for topic in parsed_json:
+            question_id = topic["question_id"]
+            question = topic["question"]
+            query = topic["query"]
+            queries[question_id] = (query, question)
 
     return queries
 
 
-def load_run(path) -> Dict[str, [str]]:
-    """Loads run into a dict of key: query_id, value: list of candidate doc
-    ids."""
+def load_run(path):
+    """
+    Loads run into a dict of key: query_id, value: list of (candidate doc
+    ids, rank).
+    """
     print('Loading run...')
     run = collections.OrderedDict()
     with open(path) as f:
         for line in tqdm(f):
-            query_id, _, doc_title, rank, _, _ = line.split()
+            query_id, _, doc_id, rank, _, _ = line.split()
             if query_id not in run:
                 run[query_id] = []
-            run[query_id].append((doc_title, int(rank)))
+            run[query_id].append((doc_id, int(rank)))
 
     # Sort candidate docs by rank.
     sorted_run = collections.OrderedDict()
-    for query_id, doc_titles_ranks in run.items():
-        sorted(doc_titles_ranks, key=lambda x: x[1])
-        doc_titles = [doc_titles for doc_titles, _ in doc_titles_ranks]
-        sorted_run[query_id] = doc_titles
+    for query_id, doc_ids_ranks in run.items():
+        sorted(doc_ids_ranks, key=lambda x: x[1])
+        doc_ids = [doc_id for doc_id, _ in doc_ids_ranks]
+        sorted_run[query_id] = doc_ids
 
     return sorted_run
 
@@ -51,7 +54,7 @@ parser = argparse.ArgumentParser(
     description='Print Epidemic QA runs into a human readable format.')
 parser.add_argument('--queries', required=True, help='Queries file')
 parser.add_argument('--run', required=True, help='Run file')
-parser.add_argument('--k', type=int, default=10, help='number of documents per query to print.')
+parser.add_argument('--k', type=int, default=5, help='number of documents per query to print.')
 parser.add_argument('--abstract', action='store_true', default=False, help='Print abstract.')
 
 args = parser.parse_args()
