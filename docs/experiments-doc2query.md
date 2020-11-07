@@ -122,17 +122,20 @@ We will now describe how to reproduce the TREC CAR results of our model BM25+doc
 To start, download the TREC CAR dataset and the predicted queries:
 ```
 mkdir collections/trec_car
-mkdir indexes/trec_car
 
 wget http://trec-car.cs.unh.edu/datareleases/v2.0/paragraphCorpus.v2.0.tar.xz -P collections/trec_car
 wget https://storage.googleapis.com/neuralresearcher_data/doc2query/data/aligned5/pred-test_topk10.tar.gz -P collections/trec_car
 
 tar -xf collections/trec_car/paragraphCorpus.v2.0.tar.xz -C collections/trec_car
-tar -xf collections/trec_car/pred-test_topk10.tar.gz -C collections/trec_car
+tar -xf collections/trec_car/trec-car-pred-test_topk10.tar.gz -C collections/trec_car
 ```
 
-To confirm, `paragraphCorpus.v2.0.tar.xz` should have an MD5 checksum of `a404e9256d763ddcacc3da1e34de466a` and
- `pred-test_topk10.tar.gz` should have an MD5 checksum of `b9f98b55e6260c64e830b34d80a7afd7`.
+Check out the file:
+
+```
+$ wc collections/trec_car/pred-test_topk10.txt
+ 29794697 1767258740 11103530216 collections/trec_car/pred-test_topk10.txt
+```
 
 These are the predicted queries based on our seq2seq model, based on top _k_ sampling with 10 samples for each document in the corpus.
 There are as many lines in the above file as there are documents; all 10 predicted queries are concatenated on a single line.
@@ -141,8 +144,8 @@ Now let's create a new document collection by concatenating the predicted querie
 
 ```
 python src/main/python/trec_car/augment_collection_with_predictions.py \
- --collection_path collections/trec_car/paragraphCorpus/dedup.articles-paragraphs.cbor \
- --output_folder collections/trec_car/collection_jsonl_expanded_topk10 \
+ --collection-path collections/trec_car/paragraphCorpus/dedup.articles-paragraphs.cbor \
+ --output-folder collections/trec_car/collection_jsonl_expanded_topk10 \
  --predictions collections/trec_car/pred-test_topk10.txt --stride 1
 ```
 
@@ -157,7 +160,7 @@ sh target/appassembler/bin/IndexCollection -collection JsonCollection \
  -index indexes/trec_car/lucene-index.car17v2.0
 ```
 
-And retrieve the test queries:
+And perform retrieval on the test queries:
 
 ```
 sh target/appassembler/bin/SearchCollection -topicreader Car \
