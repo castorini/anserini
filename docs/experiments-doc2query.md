@@ -33,7 +33,7 @@ To start, grab the predicted queries:
 wget https://www.dropbox.com/s/57g2s9vhthoewty/msmarco-passage-pred-test_topk10.tar.gz -P collections/msmarco-passage
 
 # Unpack tarball
-tar -xzvf collections/msmarco-passage/pred-test_topk10.tar.gz -C collections/msmarco-passage
+tar -xzvf collections/msmarco-passage/msmarco-passage-pred-test_topk10.tar.gz -C collections/msmarco-passage
 ```
 
 Check out the file:
