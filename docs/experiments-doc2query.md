@@ -16,7 +16,7 @@ Here's a summary of the datasets referenced in this guide:
 
 File | Size | MD5 | Download
 :----|-----:|:----|:-----
-`msmarco-passage-pred-test_topk10.tar.gz` | 764 MB | `241608d4d12a0bc595bed2aff0f56ea3` | [[Dropbox](https://git.uwaterloo.ca/jimmylin/doc2query-data/raw/master/)] [[GitLab](https://git.uwaterloo.ca/jimmylin/doc2query-data/raw/master/)]
+`msmarco-passage-pred-test_topk10.tar.gz` | 764 MB | `241608d4d12a0bc595bed2aff0f56ea3` | [[Dropbox](https://www.dropbox.com/s/57g2s9vhthoewty/msmarco-passage-pred-test_topk10.tar.gz?dl=1)] [[GitLab](https://git.uwaterloo.ca/jimmylin/doc2query-data/raw/master/)]
 `paragraphCorpus.v2.0.tar.xz` | 4.7 GB | `a404e9256d763ddcacc3da1e34de466a` | [[Dropbox](https://git.uwaterloo.ca/jimmylin/doc2query-data/raw/master/)] [[GitLab](https://git.uwaterloo.ca/jimmylin/doc2query-data/raw/master/)]
 `trec-car-pred-test_topk10.tar.gz` | 2.7 GB | `b9f98b55e6260c64e830b34d80a7afd7` | [[Dropbox](https://git.uwaterloo.ca/jimmylin/doc2query-data/raw/master/)] [[GitLab](https://git.uwaterloo.ca/jimmylin/doc2query-data/raw/master/)]
 
@@ -30,7 +30,7 @@ To start, grab the predicted queries:
 
 ```bash
 # Grab tarball from either one of two sources
-wget https://www.dropbox.com/s/709q495d9hohcmh/pred-test_topk10.tar.gz -P collections/msmarco-passage
+wget https://www.dropbox.com/s/57g2s9vhthoewty/msmarco-passage-pred-test_topk10.tar.gz -P collections/msmarco-passage
 
 # Unpack tarball
 tar -xzvf collections/msmarco-passage/pred-test_topk10.tar.gz -C collections/msmarco-passage
