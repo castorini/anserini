@@ -12,6 +12,15 @@ Here, we run through how to replicate the BM25+Doc2query condition with our copy
 
 Note that [docTTTTTquery](experiments-docTTTTTquery.md) is an improved version of the doc2query model.
 
+Here's a summary of the datasets referenced in this guide:
+
+File | Size | MD5 | Download
+:----|-----:|:----|:-----
+`msmarco-passage-pred-test_topk10.tar.gz` | 764 MB | `241608d4d12a0bc595bed2aff0f56ea3` | [[Dropbox](https://git.uwaterloo.ca/jimmylin/doc2query-data/raw/master/)] [[GitLab](https://git.uwaterloo.ca/jimmylin/doc2query-data/raw/master/)]
+`paragraphCorpus.v2.0.tar.xz` | 4.7 GB | `a404e9256d763ddcacc3da1e34de466a` | [[Dropbox](https://git.uwaterloo.ca/jimmylin/doc2query-data/raw/master/)] [[GitLab](https://git.uwaterloo.ca/jimmylin/doc2query-data/raw/master/)]
+`trec-car-pred-test_topk10.tar.gz` | 2.7 GB | `b9f98b55e6260c64e830b34d80a7afd7` | [[Dropbox](https://git.uwaterloo.ca/jimmylin/doc2query-data/raw/master/)] [[GitLab](https://git.uwaterloo.ca/jimmylin/doc2query-data/raw/master/)]
+
+
 ## MS MARCO Passage Ranking
 
 To replicate our Doc2query results on the [MS MARCO Passage Ranking Task](https://github.com/microsoft/MSMARCO-Passage-Ranking), follow these instructions.
@@ -19,12 +28,13 @@ Before going through this guide, it is recommended that you [replicate our BM25 
 
 To start, grab the predicted queries:
 
-```
+```bash
+# Grab tarball from either one of two sources
 wget https://www.dropbox.com/s/709q495d9hohcmh/pred-test_topk10.tar.gz -P collections/msmarco-passage
+
+# Unpack tarball
 tar -xzvf collections/msmarco-passage/pred-test_topk10.tar.gz -C collections/msmarco-passage
 ```
-
-To confirm, `pred-test_topk10.tar.gz` should have an MD5 checksum of `241608d4d12a0bc595bed2aff0f56ea3`.
 
 Check out the file:
 
@@ -40,7 +50,8 @@ Now let's create a new document collection by concatenating the predicted querie
 
 ```
 python src/main/python/msmarco/augment_collection_with_predictions.py \
- --collection_path collections/msmarco-passage/collection.tsv --output_folder collections/msmarco-passage/collection_jsonl_expanded_topk10 \
+ --collection_path collections/msmarco-passage/collection.tsv \
+ --output_folder collections/msmarco-passage/collection_jsonl_expanded_topk10 \
  --predictions collections/msmarco-passage/pred-test_topk10.txt --stride 1
 ```
 
@@ -48,22 +59,27 @@ We can then reindex the collection:
 
 ```
 sh ./target/appassembler/bin/IndexCollection -collection JsonCollection \
- -generator DefaultLuceneDocumentGenerator -threads 9 -input collections/msmarco-passage/collection_jsonl_expanded_topk10 \
- -index indexes/msmarco-passage/lucene-index-msmarco-expanded-topk10 -storePositions -storeDocvectors -storeRaw
+ -generator DefaultLuceneDocumentGenerator -threads 9 \
+ -input collections/msmarco-passage/collection_jsonl_expanded_topk10 \
+ -index indexes/msmarco-passage/lucene-index-msmarco-expanded-topk10 \
+ -storePositions -storeDocvectors -storeRaw
 ```
 
 And run retrieval (same as above):
 
 ```
-python ./src/main/python/msmarco/retrieve.py --hits 1000 --index indexes/msmarco-passage/lucene-index-msmarco-expanded-topk10 \
- --qid_queries collections/msmarco-passage/queries.dev.small.tsv --output runs/run.msmarco-passage.dev.small.expanded-topk10.tsv
+python ./src/main/python/msmarco/retrieve.py --hits 1000 \
+ --index indexes/msmarco-passage/lucene-index-msmarco-expanded-topk10 \
+ --qid_queries collections/msmarco-passage/queries.dev.small.tsv \
+ --output runs/run.msmarco-passage.dev.small.expanded-topk10.tsv
 ```
 
 Alternatively, we can run the same script implemented in Java, which is a bit faster:
 
 ```
 ./target/appassembler/bin/SearchMsmarco  -hits 1000 -threads 1 \
- -index indexes/msmarco-passage/lucene-index-msmarco-expanded-topk10 -qid_queries collections/msmarco-passage/queries.dev.small.tsv \
+ -index indexes/msmarco-passage/lucene-index-msmarco-expanded-topk10 \
+ -qid_queries collections/msmarco-passage/queries.dev.small.tsv \
  -output runs/run.msmarco-passage.dev.small.expanded-topk10.tsv
 ```
 
@@ -135,7 +151,8 @@ We can then index the expanded documents:
 
 ```
 sh target/appassembler/bin/IndexCollection -collection JsonCollection \
- -generator DefaultLuceneDocumentGenerator -threads 30 -input collections/trec_car/collection_jsonl_expanded_topk10 \
+ -generator DefaultLuceneDocumentGenerator -threads 30 \
+ -input collections/trec_car/collection_jsonl_expanded_topk10 \
  -index indexes/trec_car/lucene-index.car17v2.0
 ```
 
