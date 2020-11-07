@@ -75,10 +75,10 @@ python tools/scripts/msmarco/retrieve.py --hits 1000 \
  --output runs/run.msmarco-passage.dev.small.expanded-topk10.tsv
 ```
 
-Alternatively, we can use the Java version of the above script, which is a bit faster:
+Alternatively, we can use the Java version of the above script, which is faster (taking advantage of multi-threaded retrieval with the `-threads` option):
 
 ```
-sh target/appassembler/bin/SearchMsmarco  -hits 1000 -threads 1 \
+sh target/appassembler/bin/SearchMsmarco  -hits 1000 -threads 8 \
  -index indexes/msmarco-passage/lucene-index-msmarco-expanded-topk10 \
  -queries collections/msmarco-passage/queries.dev.small.tsv \
  -output runs/run.msmarco-passage.dev.small.expanded-topk10.tsv
