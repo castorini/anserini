@@ -16,7 +16,7 @@ Here's a summary of the datasets referenced in this guide:
 
 File | Size | MD5 | Download
 :----|-----:|:----|:-----
-`msmarco-passage-pred-test_topk10.tar.gz` | 764 MB | `241608d4d12a0bc595bed2aff0f56ea3` | [[Dropbox](https://www.dropbox.com/s/57g2s9vhthoewty/msmarco-passage-pred-test_topk10.tar.gz?dl=1)] [[GitLab](https://git.uwaterloo.ca/jimmylin/doc2query-data/raw/master/)]
+`msmarco-passage-pred-test_topk10.tar.gz` | 764 MB | `241608d4d12a0bc595bed2aff0f56ea3` | [[Dropbox](https://www.dropbox.com/s/57g2s9vhthoewty/msmarco-passage-pred-test_topk10.tar.gz?dl=1)] [[GitLab](https://git.uwaterloo.ca/jimmylin/doc2query-data/raw/master/base/msmarco-passage-pred-test_topk10.tar.gz)]
 `paragraphCorpus.v2.0.tar.xz` | 4.7 GB | `a404e9256d763ddcacc3da1e34de466a` | [[Dropbox](https://git.uwaterloo.ca/jimmylin/doc2query-data/raw/master/)] [[GitLab](https://git.uwaterloo.ca/jimmylin/doc2query-data/raw/master/)]
 `trec-car-pred-test_topk10.tar.gz` | 2.7 GB | `b9f98b55e6260c64e830b34d80a7afd7` | [[Dropbox](https://git.uwaterloo.ca/jimmylin/doc2query-data/raw/master/)] [[GitLab](https://git.uwaterloo.ca/jimmylin/doc2query-data/raw/master/)]
 
@@ -31,6 +31,7 @@ To start, grab the predicted queries:
 ```bash
 # Grab tarball from either one of two sources
 wget https://www.dropbox.com/s/57g2s9vhthoewty/msmarco-passage-pred-test_topk10.tar.gz -P collections/msmarco-passage
+wget https://git.uwaterloo.ca/jimmylin/doc2query-data/raw/master/base/msmarco-passage-pred-test_topk10.tar.gz -P collections/msmarco-passage
 
 # Unpack tarball
 tar -xzvf collections/msmarco-passage/msmarco-passage-pred-test_topk10.tar.gz -C collections/msmarco-passage
@@ -50,8 +51,8 @@ Now let's create a new document collection by concatenating the predicted querie
 
 ```
 python tools/scripts/msmarco/augment_collection_with_predictions.py \
- --collection_path collections/msmarco-passage/collection.tsv \
- --output_folder collections/msmarco-passage/collection_jsonl_expanded_topk10 \
+ --collection-path collections/msmarco-passage/collection.tsv \
+ --output-folder collections/msmarco-passage/collection_jsonl_expanded_topk10 \
  --predictions collections/msmarco-passage/pred-test_topk10.txt --stride 1
 ```
 
@@ -68,9 +69,9 @@ sh target/appassembler/bin/IndexCollection -collection JsonCollection \
 And perform retrieval:
 
 ```
-python src/main/python/msmarco/retrieve.py --hits 1000 \
+python tools/scripts/msmarco/retrieve.py --hits 1000 \
  --index indexes/msmarco-passage/lucene-index-msmarco-expanded-topk10 \
- --qid_queries collections/msmarco-passage/queries.dev.small.tsv \
+ --queries collections/msmarco-passage/queries.dev.small.tsv \
  --output runs/run.msmarco-passage.dev.small.expanded-topk10.tsv
 ```
 
@@ -79,14 +80,14 @@ Alternatively, we can use the Java version of the above script, which is a bit f
 ```
 sh target/appassembler/bin/SearchMsmarco  -hits 1000 -threads 1 \
  -index indexes/msmarco-passage/lucene-index-msmarco-expanded-topk10 \
- -qid_queries collections/msmarco-passage/queries.dev.small.tsv \
+ -queries collections/msmarco-passage/queries.dev.small.tsv \
  -output runs/run.msmarco-passage.dev.small.expanded-topk10.tsv
 ```
 
 Finally, to evaluate:
 
 ```
-python src/main/python/msmarco/msmarco_eval.py \
+python tools/eval/msmarco_eval.py \
  collections/msmarco-passage/qrels.dev.small.tsv runs/run.msmarco-passage.dev.small.expanded-topk10.tsv
 ```
 
@@ -102,8 +103,8 @@ QueriesRanked: 6980
 Note that these figures are slightly higher than the values reported in our arXiv paper (0.218) due to BM25 parameter tuning (see above) and an upgrade from Lucene 7.6 to Lucene 8.0 (experiments in the paper were run with Lucene 7.6).
 
 One additional trick not explored in our arXiv paper is to weight the original document and predicted queries differently.
-The `augment_collection_with_predictions.py` script provides an option `--original_copies` that duplicates the original text _n_ times, which is an easy way to weight the original document by _n_.
-For example `--original_copies 2` would yield the following results:
+The `augment_collection_with_predictions.py` script provides an option `--original-copies` that duplicates the original text _n_ times, which is an easy way to weight the original document by _n_.
+For example `--original-copies 2` would yield the following results:
 
 ```
 #####################
