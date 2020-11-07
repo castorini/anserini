@@ -17,8 +17,8 @@ Here's a summary of the datasets referenced in this guide:
 File | Size | MD5 | Download
 :----|-----:|:----|:-----
 `msmarco-passage-pred-test_topk10.tar.gz` | 764 MB | `241608d4d12a0bc595bed2aff0f56ea3` | [[Dropbox](https://www.dropbox.com/s/57g2s9vhthoewty/msmarco-passage-pred-test_topk10.tar.gz?dl=1)] [[GitLab](https://git.uwaterloo.ca/jimmylin/doc2query-data/raw/master/base/msmarco-passage-pred-test_topk10.tar.gz)]
-`paragraphCorpus.v2.0.tar.xz` | 4.7 GB | `a404e9256d763ddcacc3da1e34de466a` | [[Dropbox](https://git.uwaterloo.ca/jimmylin/doc2query-data/raw/master/)] [[GitLab](https://git.uwaterloo.ca/jimmylin/doc2query-data/raw/master/)]
-`trec-car-pred-test_topk10.tar.gz` | 2.7 GB | `b9f98b55e6260c64e830b34d80a7afd7` | [[Dropbox](https://git.uwaterloo.ca/jimmylin/doc2query-data/raw/master/)] [[GitLab](https://git.uwaterloo.ca/jimmylin/doc2query-data/raw/master/)]
+`paragraphCorpus.v2.0.tar.xz` | 4.7 GB | `a404e9256d763ddcacc3da1e34de466a` | [[Dropbox](https://www.dropbox.com/s/1xq559k5i86gk17/paragraphCorpus.v2.0.tar.xz?dl=1)] [[GitLab](https://git.uwaterloo.ca/jimmylin/doc2query-data/raw/master/base/paragraphCorpus.v2.0.tar.xz)]
+`trec-car-pred-test_topk10.tar.gz` | 2.7 GB | `b9f98b55e6260c64e830b34d80a7afd7` | [[Dropbox](https://www.dropbox.com/s/rl4r0md0xgxg7d9/trec-car-pred-test_topk10.tar.gz?dl=1)] [[GitLab](https://git.uwaterloo.ca/jimmylin/doc2query-data/raw/master/base/trec-car-pred-test_topk10.tar.gz)]
 
 
 ## MS MARCO Passage Ranking
@@ -29,17 +29,17 @@ Before going through this guide, it is recommended that you [replicate our BM25 
 To start, grab the predicted queries:
 
 ```bash
-# Grab tarball from either one of two sources
+# Grab tarball from either one of two sources:
 wget https://www.dropbox.com/s/57g2s9vhthoewty/msmarco-passage-pred-test_topk10.tar.gz -P collections/msmarco-passage
 wget https://git.uwaterloo.ca/jimmylin/doc2query-data/raw/master/base/msmarco-passage-pred-test_topk10.tar.gz -P collections/msmarco-passage
 
-# Unpack tarball
+# Unpack tarball:
 tar -xzvf collections/msmarco-passage/msmarco-passage-pred-test_topk10.tar.gz -C collections/msmarco-passage
 ```
 
 Check out the file:
 
-```
+```bash
 $ wc collections/msmarco-passage/pred-test_topk10.txt
   8841823 536425855 2962345659 collections/msmarco-passage/pred-test_topk10.txt
 ```
@@ -56,7 +56,8 @@ python tools/scripts/msmarco/augment_collection_with_predictions.py \
  --predictions collections/msmarco-passage/pred-test_topk10.txt --stride 1
 ```
 
-We can then index the expanded collection:
+To verify (and to track progress), the above script will generate a total of 9 JSON files, `docs00.json` to `docs08.json`.
+After the script completes, we can index the expanded documents:
 
 ```
 sh target/appassembler/bin/IndexCollection -collection JsonCollection \
@@ -120,19 +121,25 @@ So, this simple trick improves MRR by a bit over baseline Doc2query.
 We will now describe how to reproduce the TREC CAR results of our model BM25+doc2query presented in the paper.
 
 To start, download the TREC CAR dataset and the predicted queries:
-```
+
+```bash
 mkdir collections/trec_car
 
-wget http://trec-car.cs.unh.edu/datareleases/v2.0/paragraphCorpus.v2.0.tar.xz -P collections/trec_car
-wget https://storage.googleapis.com/neuralresearcher_data/doc2query/data/aligned5/pred-test_topk10.tar.gz -P collections/trec_car
+# Grab tarballs from either one of two sources:
+wget https://www.dropbox.com/s/1xq559k5i86gk17/paragraphCorpus.v2.0.tar.xz -P collections/msmarco-passage
+wget https://git.uwaterloo.ca/jimmylin/doc2query-data/raw/master/base/paragraphCorpus.v2.0.tar.xz -P collections/msmarco-passage
 
+wget https://www.dropbox.com/s/rl4r0md0xgxg7d9/trec-car-pred-test_topk10.tar.gz -P collections/msmarco-passage
+wget https://git.uwaterloo.ca/jimmylin/doc2query-data/raw/master/base/trec-car-pred-test_topk10.tar.gz -P collections/msmarco-passage
+
+# Unpack tarballs:
 tar -xf collections/trec_car/paragraphCorpus.v2.0.tar.xz -C collections/trec_car
 tar -xf collections/trec_car/trec-car-pred-test_topk10.tar.gz -C collections/trec_car
 ```
 
 Check out the file:
 
-```
+```bash
 $ wc collections/trec_car/pred-test_topk10.txt
  29794697 1767258740 11103530216 collections/trec_car/pred-test_topk10.txt
 ```
@@ -149,9 +156,8 @@ python src/main/python/trec_car/augment_collection_with_predictions.py \
  --predictions collections/trec_car/pred-test_topk10.txt --stride 1
 ```
 
-This augmentation process might take 2-3 hours.
-
-We can then index the expanded documents:
+To verify (and to track progress), the above script will generate a total of 30 JSON files, `docs00.json` to `docs29.json`.
+After the script completes, we can index the expanded documents:
 
 ```
 sh target/appassembler/bin/IndexCollection -collection JsonCollection \
@@ -170,6 +176,7 @@ sh target/appassembler/bin/SearchCollection -topicreader Car \
 ```
 
 Evaluation is performed with `trec_eval`:
+
 ```
 eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recip_rank \
  src/main/resources/topics-and-qrels/qrels.car17v2.0.benchmarkY1test.txt \
@@ -177,6 +184,7 @@ eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recip_rank \
 ```
 
 With the above commands, you should be able to replicate the following results:
+
 ```
 map                   	all	0.1807
 recip_rank            	all	0.2750
