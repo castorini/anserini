@@ -49,35 +49,35 @@ There are as many lines in the above file as there are documents; all 10 predict
 Now let's create a new document collection by concatenating the predicted queries to the original documents:
 
 ```
-python src/main/python/msmarco/augment_collection_with_predictions.py \
+python tools/scripts/msmarco/augment_collection_with_predictions.py \
  --collection_path collections/msmarco-passage/collection.tsv \
  --output_folder collections/msmarco-passage/collection_jsonl_expanded_topk10 \
  --predictions collections/msmarco-passage/pred-test_topk10.txt --stride 1
 ```
 
-We can then reindex the collection:
+We can then index the expanded collection:
 
 ```
-sh ./target/appassembler/bin/IndexCollection -collection JsonCollection \
+sh target/appassembler/bin/IndexCollection -collection JsonCollection \
  -generator DefaultLuceneDocumentGenerator -threads 9 \
  -input collections/msmarco-passage/collection_jsonl_expanded_topk10 \
  -index indexes/msmarco-passage/lucene-index-msmarco-expanded-topk10 \
  -storePositions -storeDocvectors -storeRaw
 ```
 
-And run retrieval (same as above):
+And perform retrieval:
 
 ```
-python ./src/main/python/msmarco/retrieve.py --hits 1000 \
+python src/main/python/msmarco/retrieve.py --hits 1000 \
  --index indexes/msmarco-passage/lucene-index-msmarco-expanded-topk10 \
  --qid_queries collections/msmarco-passage/queries.dev.small.tsv \
  --output runs/run.msmarco-passage.dev.small.expanded-topk10.tsv
 ```
 
-Alternatively, we can run the same script implemented in Java, which is a bit faster:
+Alternatively, we can use the Java version of the above script, which is a bit faster:
 
 ```
-./target/appassembler/bin/SearchMsmarco  -hits 1000 -threads 1 \
+sh target/appassembler/bin/SearchMsmarco  -hits 1000 -threads 1 \
  -index indexes/msmarco-passage/lucene-index-msmarco-expanded-topk10 \
  -qid_queries collections/msmarco-passage/queries.dev.small.tsv \
  -output runs/run.msmarco-passage.dev.small.expanded-topk10.tsv
@@ -86,7 +86,7 @@ Alternatively, we can run the same script implemented in Java, which is a bit fa
 Finally, to evaluate:
 
 ```
-python ./src/main/python/msmarco/msmarco_eval.py \
+python src/main/python/msmarco/msmarco_eval.py \
  collections/msmarco-passage/qrels.dev.small.tsv runs/run.msmarco-passage.dev.small.expanded-topk10.tsv
 ```
 
