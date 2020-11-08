@@ -75,7 +75,7 @@ parser = argparse.ArgumentParser(
 parser.add_argument('--queries', required=True, help='The path to the queries file.')
 parser.add_argument('--run', required=True, help='The path to the run file.')
 parser.add_argument('--docs-path', required=True, help='The path to the directory containing the document JSON files')
-parser.add_argument('--docs-per-query', type=int, default=5, help='Number of documents per query to print.')
+parser.add_argument('--docs-per-query', type=int, default=10, help='Number of documents per query to print.')
 
 args = parser.parse_args()
 print(args)
