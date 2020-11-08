@@ -20,8 +20,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.anserini.index.IndexArgs;
+import io.anserini.ltr.feature.DocumentContext;
 import io.anserini.ltr.feature.FeatureExtractor;
-import io.anserini.ltr.feature.ContentContext;
+import io.anserini.ltr.feature.FieldContext;
 import io.anserini.ltr.feature.QueryContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -64,8 +65,9 @@ public class FeatureExtractorUtils {
    */
   public FeatureExtractorUtils add(FeatureExtractor extractor) {
     extractors.add(extractor);
-    if((extractor.getField()!=null)&&(!fieldsToLoad.contains(extractor.getField())))
-      fieldsToLoad.add(extractor.getField());
+    String field = extractor.getField();
+    if(field!=null)
+      fieldsToLoad.add(field);
     return this;
   }
 
@@ -113,7 +115,7 @@ public class FeatureExtractorUtils {
       }
       ObjectMapper mapper = new ObjectMapper();
       List<output> result = new ArrayList<>();
-      ContentContext contentContext = new ContentContext(reader,IndexArgs.CONTENTS);
+      DocumentContext documentContext = new DocumentContext(reader,fieldsToLoad);
       QueryContext queryContext = new QueryContext(queryTokens);
 
       for(String docId: docIds) {
@@ -125,7 +127,7 @@ public class FeatureExtractorUtils {
         }
 
         ScoreDoc hit = topDocs.scoreDocs[0];
-        contentContext.updateDoc(hit.doc, fieldsToLoad);
+        documentContext.updateDoc(hit.doc);
 
         List<Float> features = new ArrayList<>();
         long[] time = new long[localExtractors.size()];
@@ -134,7 +136,7 @@ public class FeatureExtractorUtils {
         }
         for (int i = 0; i < localExtractors.size(); i++) {
           long start = System.nanoTime();
-          features.add(localExtractors.get(i).extract(contentContext, queryContext));
+          features.add(localExtractors.get(i).extract(documentContext, queryContext));
           long end = System.nanoTime();
           time[i] += end - start;
         }
@@ -176,7 +178,6 @@ public class FeatureExtractorUtils {
     Directory indexDirectory = FSDirectory.open(Paths.get(indexDir));
     reader = DirectoryReader.open(indexDirectory);
     searcher = new IndexSearcher(reader);
-    fieldsToLoad.add(IndexArgs.ID);
     pool = Executors.newFixedThreadPool(1);
   }
 
@@ -189,7 +190,6 @@ public class FeatureExtractorUtils {
     Directory indexDirectory = FSDirectory.open(Paths.get(indexDir));
     reader = DirectoryReader.open(indexDirectory);
     searcher = new IndexSearcher(reader);
-    fieldsToLoad.add(IndexArgs.ID);
     pool = Executors.newFixedThreadPool(workNum);
   }
 
@@ -201,7 +201,6 @@ public class FeatureExtractorUtils {
   public FeatureExtractorUtils(IndexReader reader) throws IOException {
     this.reader = reader;
     searcher = new IndexSearcher(reader);
-    fieldsToLoad.add(IndexArgs.ID);
     pool = Executors.newFixedThreadPool(1);
   }
 
@@ -213,7 +212,6 @@ public class FeatureExtractorUtils {
   public FeatureExtractorUtils(IndexReader reader, int workNum) throws IOException {
     this.reader = reader;
     searcher = new IndexSearcher(reader);
-    fieldsToLoad.add(IndexArgs.ID);
     pool = Executors.newFixedThreadPool(workNum);
   }
 

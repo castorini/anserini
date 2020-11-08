@@ -17,25 +17,10 @@
 package io.anserini.ltr.feature.base;
 
 import io.anserini.index.IndexArgs;
-import io.anserini.ltr.feature.ContentContext;
+import io.anserini.ltr.feature.DocumentContext;
+import io.anserini.ltr.feature.FieldContext;
 import io.anserini.ltr.feature.FeatureExtractor;
 import io.anserini.ltr.feature.QueryContext;
-import io.anserini.rerank.RerankerContext;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.apache.lucene.document.Document;
-import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.index.MultiTerms;
-import org.apache.lucene.index.Term;
-import org.apache.lucene.index.Terms;
-import org.apache.lucene.index.TermsEnum;
-
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * This feature computes collection query similarity, DPH defined as
@@ -47,10 +32,15 @@ import java.util.Set;
  */
  
 public class DPH implements FeatureExtractor {
+    private String field;
+
+    public DPH() { this.field = IndexArgs.CONTENTS; }
+
+    public DPH(String field) { this.field = field; }
 
     @Override
-    public float extract(ContentContext context, QueryContext queryContext) {
-        long numDocs = context.numDocs;
+    public float extract(DocumentContext documentContext, QueryContext queryContext) {
+        FieldContext context = documentContext.fieldContexts.get(field);
         long docSize = context.docSize;
         long totalTermFreq = context.totalTermFreq;
         float score = 0;
@@ -69,16 +59,16 @@ public class DPH implements FeatureExtractor {
 
     @Override
     public String getName() {
-        return String.format("DPH");
+        return String.format("%s_DPH", field);
     }
 
     @Override
     public String getField() {
-        return null;
+        return field;
     }
 
     @Override
     public FeatureExtractor clone() {
-        return new DPH();
+        return new DPH(field);
     }
 }

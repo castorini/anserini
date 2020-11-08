@@ -17,27 +17,25 @@
 package io.anserini.ltr.feature.base;
 
 import io.anserini.index.IndexArgs;
-import io.anserini.ltr.feature.ContentContext;
+import io.anserini.ltr.feature.DocumentContext;
+import io.anserini.ltr.feature.FieldContext;
 import io.anserini.ltr.feature.FeatureExtractor;
 import io.anserini.ltr.feature.QueryContext;
-import io.anserini.rerank.RerankerContext;
-import org.apache.lucene.document.Document;
-import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.index.Terms;
-import org.apache.lucene.index.TermsEnum;
-import org.apache.lucene.util.BytesRef;
-
-import java.io.IOException;
-import java.util.List;
 
 /**
  * Computes the number of query terms that are found in the document. If there are three terms in
  * the query and all three terms are found in the document, the feature value is three.
  */
 public class MatchingTermCount implements FeatureExtractor {
+  private String field;
+
+  public MatchingTermCount() { this.field = IndexArgs.CONTENTS; }
+
+  public MatchingTermCount(String field) { this.field = field; }
 
   @Override
-  public float extract(ContentContext context, QueryContext queryContext) {
+  public float extract(DocumentContext documentContext, QueryContext queryContext) {
+    FieldContext context = documentContext.fieldContexts.get(field);
     int matching = 0;
     for(String queryToken : queryContext.queryTokens) {
       long tf = context.getTermFreq(queryToken);
@@ -49,16 +47,16 @@ public class MatchingTermCount implements FeatureExtractor {
 
   @Override
   public String getName() {
-    return "MatchingTermCount";
+    return String.format("%s_MatchingTermCount", field);
   }
 
   @Override
   public String getField() {
-    return null;
+    return field;
   }
 
   @Override
   public FeatureExtractor clone() {
-    return new MatchingTermCount();
+    return new MatchingTermCount(field);
   }
 }

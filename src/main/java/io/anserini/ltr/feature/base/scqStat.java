@@ -1,9 +1,7 @@
 package io.anserini.ltr.feature.base;
 
-import io.anserini.ltr.feature.ContentContext;
-import io.anserini.ltr.feature.FeatureExtractor;
-import io.anserini.ltr.feature.Pooler;
-import io.anserini.ltr.feature.QueryContext;
+import io.anserini.index.IndexArgs;
+import io.anserini.ltr.feature.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -15,15 +13,22 @@ import java.util.List;
  * D is the collection term frequency
  */
 public class scqStat implements FeatureExtractor {
-  private static final Logger LOG = LogManager.getLogger(BM25.class);
+  private String field;
+
   Pooler collectFun;
   public scqStat(Pooler collectFun) {
     this.collectFun = collectFun;
+    this.field = IndexArgs.CONTENTS;
+  }
+
+  public scqStat(Pooler collectFun, String field) {
+    this.collectFun = collectFun;
+    this.field = field;
   }
 
   @Override
-  public float extract(ContentContext context, QueryContext queryContext) {
-
+  public float extract(DocumentContext documentContext, QueryContext queryContext) {
+    FieldContext context = documentContext.fieldContexts.get(field);
     List<Float> score;
     if(context.statsCache.containsKey("SCQ")){
       score = context.statsCache.get("SCQ");
@@ -47,17 +52,17 @@ public class scqStat implements FeatureExtractor {
 
   @Override
   public String getName() {
-    return "SCQ"+collectFun.getName();
+    return String.format("%s_SCQ_%s", field, collectFun.getName());
   }
 
   @Override
   public String getField() {
-    return null;
+    return field;
   }
 
   @Override
   public FeatureExtractor clone() {
     Pooler newFun = collectFun.clone();
-    return new scqStat(newFun);
+    return new scqStat(newFun, field);
   }
 }

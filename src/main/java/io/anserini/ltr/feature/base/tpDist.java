@@ -1,16 +1,22 @@
 package io.anserini.ltr.feature.base;
 
-import io.anserini.ltr.feature.ContentContext;
+import io.anserini.index.IndexArgs;
+import io.anserini.ltr.feature.DocumentContext;
+import io.anserini.ltr.feature.FieldContext;
 import io.anserini.ltr.feature.FeatureExtractor;
 import io.anserini.ltr.feature.QueryContext;
-import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.*;
 
 public class tpDist implements FeatureExtractor {
-    private static final Logger LOG = LogManager.getLogger(tpDist.class);
+    private String field;
+
+    public tpDist() { this.field = IndexArgs.CONTENTS; }
+
+    public tpDist(String field) { this.field = field; }
+
     class TermPos {
         public Integer mOrder;
         public Integer mPos;
@@ -90,7 +96,8 @@ public class tpDist implements FeatureExtractor {
      */
 
     @Override
-    public float extract(ContentContext context, QueryContext queryContext) {
+    public float extract(DocumentContext documentContext, QueryContext queryContext) {
+        FieldContext context = documentContext.fieldContexts.get(field);
         float score = 0.0f;
         int window = 100;
         long Wd = context.docSize;
@@ -153,16 +160,16 @@ public class tpDist implements FeatureExtractor {
 
     @Override
     public String getName() {
-        return "tpDistWindow100";
+        return String.format("%s_tpDistWindow100",field);
     }
 
     @Override
     public String getField() {
-        return null;
+        return field;
     }
 
     @Override
     public FeatureExtractor clone() {
-        return new Proximity();
+        return new tpDist(field);
     }
 }

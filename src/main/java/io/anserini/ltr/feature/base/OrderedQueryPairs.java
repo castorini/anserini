@@ -16,7 +16,9 @@
 
 package io.anserini.ltr.feature.base;
 
-import io.anserini.ltr.feature.ContentContext;
+import io.anserini.index.IndexArgs;
+import io.anserini.ltr.feature.DocumentContext;
+import io.anserini.ltr.feature.FieldContext;
 import io.anserini.ltr.feature.FeatureExtractor;
 import io.anserini.ltr.feature.QueryContext;
 import org.apache.commons.lang3.tuple.Pair;
@@ -27,14 +29,26 @@ import java.util.List;
  * Counts occurrences of all pairs of query tokens
  */
 public class OrderedQueryPairs implements FeatureExtractor {
+  private String field;
 
-  private int gapSize;
+  private int gapSize = 8;
+
+  public OrderedQueryPairs() {
+    this.field = IndexArgs.CONTENTS;
+  }
 
   public OrderedQueryPairs(int gapSize) {
     this.gapSize = gapSize;
+    this.field = IndexArgs.CONTENTS;
   }
 
-  public float extract(ContentContext context, QueryContext queryContext) {
+  public OrderedQueryPairs(int gapSize, String field) {
+    this.gapSize = gapSize;
+    this.field = field;
+  }
+
+  public float extract(DocumentContext documentContext, QueryContext queryContext) {
+    FieldContext context = documentContext.fieldContexts.get(field);
     float count = 0;
     List<Pair<String, String>> queryPairs= queryContext.genQueryPair();
     for(Pair<String, String> pair: queryPairs){
@@ -45,16 +59,16 @@ public class OrderedQueryPairs implements FeatureExtractor {
 
   @Override
   public String getName() {
-    return "OrderedQueryPairs" + this.gapSize;
+    return String.format("%s_OrderedQueryPairs_%d", field, this.gapSize);
   }
 
   @Override
   public String getField() {
-    return null;
+    return field;
   }
 
   @Override
   public FeatureExtractor clone() {
-    return new OrderedQueryPairs(this.gapSize);
+    return new OrderedQueryPairs(gapSize, field);
   }
 }

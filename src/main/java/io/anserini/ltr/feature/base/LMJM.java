@@ -1,25 +1,35 @@
 package io.anserini.ltr.feature.base;
 
-import io.anserini.ltr.feature.ContentContext;
+import io.anserini.index.IndexArgs;
+import io.anserini.ltr.feature.DocumentContext;
+import io.anserini.ltr.feature.FieldContext;
 import io.anserini.ltr.feature.FeatureExtractor;
 import io.anserini.ltr.feature.QueryContext;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class LMJM implements FeatureExtractor {
+  private String field;
 
   private double lambda = 0.1;
 
-  public LMJM() {}
+  public LMJM() {
+    this.field = IndexArgs.CONTENTS;
+  }
 
   public LMJM(double lambda) {
-    if(lambda<=0)
-      throw new IllegalArgumentException("lambda must be greater than 0");
+    if(lambda<=0) throw new IllegalArgumentException("lambda must be greater than 0");
     this.lambda = lambda;
+    this.field = IndexArgs.CONTENTS;
+  }
+
+  public LMJM(double lambda, String field) {
+    if(lambda<=0) throw new IllegalArgumentException("lambda must be greater than 0");
+    this.lambda = lambda;
+    this.field = field;
   }
 
   @Override
-  public float extract(ContentContext context, QueryContext queryContext) {
+  public float extract(DocumentContext documentContext, QueryContext queryContext) {
+    FieldContext context = documentContext.fieldContexts.get(field);
     long docSize = context.docSize;
     long totalTermFreq = context.totalTermFreq;
     float score = 0;
@@ -37,18 +47,18 @@ public class LMJM implements FeatureExtractor {
 
   @Override
   public String getName() {
-    return String.format("LMJM_lambda_%.2f",lambda);
+    return String.format("%s_LMJM_lambda_%.2f", field, lambda);
   }
 
   @Override
   public String getField() {
-    return null;
+    return field;
   }
 
   public double getLambda() { return lambda; }
 
   @Override
   public FeatureExtractor clone() {
-    return new LMJM(this.lambda);
+    return new LMJM(lambda, field);
   }
 }

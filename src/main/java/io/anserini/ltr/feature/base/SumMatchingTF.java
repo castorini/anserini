@@ -17,27 +17,24 @@
 package io.anserini.ltr.feature.base;
 
 import io.anserini.index.IndexArgs;
-import io.anserini.ltr.feature.ContentContext;
+import io.anserini.ltr.feature.DocumentContext;
+import io.anserini.ltr.feature.FieldContext;
 import io.anserini.ltr.feature.FeatureExtractor;
 import io.anserini.ltr.feature.QueryContext;
-import io.anserini.rerank.RerankerContext;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.apache.lucene.document.Document;
-import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.index.Terms;
-import org.apache.lucene.index.TermsEnum;
-
-import java.io.IOException;
-import java.util.*;
 
 /**
  * Computes the sum of term frequencies for each query token.
  */
 public class SumMatchingTF implements FeatureExtractor {
+  private String field;
+
+  public SumMatchingTF() { this.field = IndexArgs.CONTENTS; }
+
+  public SumMatchingTF(String field) { this.field = field; }
 
   @Override
-  public float extract(ContentContext context, QueryContext queryContext) {
+  public float extract(DocumentContext documentContext, QueryContext queryContext) {
+    FieldContext context = documentContext.fieldContexts.get(field);
     float score = 0.0f;
     for (String queryToken : queryContext.queryTokens) {
       score += context.getTermFreq(queryToken);
@@ -47,16 +44,16 @@ public class SumMatchingTF implements FeatureExtractor {
 
   @Override
   public String getName() {
-    return "SumMatchingTF";
+    return String.format("%s_SumMatchingTF", field);
   }
 
   @Override
   public String getField() {
-    return null;
+    return field;
   }
 
   @Override
   public FeatureExtractor clone() {
-    return new SumMatchingTF();
+    return new SumMatchingTF(field);
   }
 }

@@ -17,25 +17,12 @@
 package io.anserini.ltr.feature.base;
 
 import io.anserini.index.IndexArgs;
-import io.anserini.ltr.feature.ContentContext;
+import io.anserini.ltr.feature.DocumentContext;
+import io.anserini.ltr.feature.FieldContext;
 import io.anserini.ltr.feature.FeatureExtractor;
 import io.anserini.ltr.feature.QueryContext;
-import io.anserini.rerank.RerankerContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.lucene.document.Document;
-import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.index.MultiTerms;
-import org.apache.lucene.index.Term;
-import org.apache.lucene.index.Terms;
-import org.apache.lucene.index.TermsEnum;
-
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * This feature extractor will compute BM25 score as according to Lucene 5.3 documentation
@@ -49,12 +36,20 @@ public class BM25 implements FeatureExtractor {
   // Default values, could be changed
   private double k1 = 0.9;
   private double b = 0.4;
+  private String field;
 
-  public BM25() { }
+  public BM25() { this.field = IndexArgs.CONTENTS; }
 
   public BM25(double k, double b) {
     this.k1 = k;
     this.b = b;
+    this.field = IndexArgs.CONTENTS;
+  }
+
+  public BM25(double k, double b, String field) {
+    this.k1 = k;
+    this.b = b;
+    this.field = field;
   }
 
   /**
@@ -64,7 +59,8 @@ public class BM25 implements FeatureExtractor {
    * IDF and avgFL computation are described above.
    */
   @Override
-  public float extract(ContentContext context, QueryContext queryContext) {
+  public float extract(DocumentContext documentContext, QueryContext queryContext) {
+    FieldContext context = documentContext.fieldContexts.get(field);
     long numDocs = context.numDocs;
     long docSize = context.docSize;
     long totalTermFreq = context.totalTermFreq;
@@ -85,12 +81,12 @@ public class BM25 implements FeatureExtractor {
 
   @Override
   public String getName() {
-    return String.format("BM25_k1_%.2f_b_%.2f",k1,b);
+    return String.format("%s_BM25_k1_%.2f_b_%.2f",field, k1, b);
   }
 
   @Override
   public String getField() {
-    return null;
+    return field;
   }
 
   public double getK1() {
@@ -103,6 +99,6 @@ public class BM25 implements FeatureExtractor {
 
   @Override
   public FeatureExtractor clone() {
-    return new BM25(this.k1, this.b);
+    return new BM25(k1, b, field);
   }
 }

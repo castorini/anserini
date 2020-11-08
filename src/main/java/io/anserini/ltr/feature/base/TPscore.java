@@ -1,6 +1,8 @@
 package io.anserini.ltr.feature.base;
 
-import io.anserini.ltr.feature.ContentContext;
+import io.anserini.index.IndexArgs;
+import io.anserini.ltr.feature.DocumentContext;
+import io.anserini.ltr.feature.FieldContext;
 import io.anserini.ltr.feature.FeatureExtractor;
 import io.anserini.ltr.feature.QueryContext;
 import org.apache.commons.lang3.tuple.Pair;
@@ -18,6 +20,11 @@ import java.util.List;
  * To compute acc(d, t), we consider every query term occurrence.
  */
 public class TPscore implements FeatureExtractor {
+    private String field;
+
+    public TPscore() { this.field = IndexArgs.CONTENTS; }
+
+    public TPscore(String field) { this.field = field; }
 
     public static class BCTP {
         String id;
@@ -26,9 +33,9 @@ public class TPscore implements FeatureExtractor {
         double doc_count = 0;
      }
 
-
     @Override
-    public float extract(ContentContext context, QueryContext queryContext) {
+    public float extract(DocumentContext documentContext, QueryContext queryContext) {
+        FieldContext context = documentContext.fieldContexts.get(field);
         //parameters for BM25
         double k1 = 0.9;
         double b = 0.4;
@@ -37,8 +44,8 @@ public class TPscore implements FeatureExtractor {
         long totalTermFreq = context.totalTermFreq;
         double avgFL = (double)totalTermFreq/numDocs;
         //firstly get the score from BM25
-        BM25 bm25_score = new BM25(k1, b);
-        float score = bm25_score.extract(context,queryContext);
+        BM25 bm25_score = new BM25(k1, b, field);
+        float score = bm25_score.extract(documentContext, queryContext);
 
         List<Pair<Integer, BCTP>> bctp_query = new ArrayList<>();
         //generte bctp_query which contains the position of specific term and some details of it
@@ -76,7 +83,7 @@ public class TPscore implements FeatureExtractor {
         return score;
     }
 
-    public void score_terms(List<Pair<Integer, BCTP>> bctp_query, ContentContext context) {
+    public void score_terms(List<Pair<Integer, BCTP>> bctp_query, FieldContext context) {
         long numDocs = context.numDocs;
 //        long docSize = context.docSize;
         BCTP  curr_term;
@@ -111,16 +118,16 @@ public class TPscore implements FeatureExtractor {
 
     @Override
     public String getName() {
-        return "TPscore";
+        return String.format("%s_TPscore", field);
     }
 
     @Override
     public String getField() {
-        return null;
+        return field;
     }
 
     @Override
     public FeatureExtractor clone() {
-        return new TPscore();
+        return new TPscore(field);
     }
 }

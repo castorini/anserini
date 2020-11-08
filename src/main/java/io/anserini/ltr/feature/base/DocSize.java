@@ -17,42 +17,39 @@
 package io.anserini.ltr.feature.base;
 
 import io.anserini.index.IndexArgs;
-import io.anserini.ltr.feature.ContentContext;
+import io.anserini.ltr.feature.DocumentContext;
+import io.anserini.ltr.feature.FieldContext;
 import io.anserini.ltr.feature.FeatureExtractor;
 import io.anserini.ltr.feature.QueryContext;
-import io.anserini.rerank.RerankerContext;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.apache.lucene.document.Document;
-import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.index.Terms;
-import org.apache.lucene.index.TermsEnum;
-
-import java.io.IOException;
-import java.util.List;
 
 /**
  * Returns the size of the document
  */
 public class DocSize implements FeatureExtractor {
+  private String field;
+
+  public DocSize() { this.field = IndexArgs.CONTENTS; }
+
+  public DocSize(String field) { this.field = field; }
 
   @Override
-  public float extract(ContentContext context, QueryContext queryContext) {
+  public float extract(DocumentContext documentContext, QueryContext queryContext) {
+    FieldContext context = documentContext.fieldContexts.get(field);
     return context.docSize;
   }
 
   @Override
   public String getName() {
-    return "DocSize";
+    return String.format("%s_DocSize", field);
   }
 
   @Override
   public String getField() {
-    return null;
+    return field;
   }
 
   @Override
   public FeatureExtractor clone() {
-    return new DocSize();
+    return new DocSize(field);
   }
 }

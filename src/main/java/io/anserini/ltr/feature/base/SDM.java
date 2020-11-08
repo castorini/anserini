@@ -1,6 +1,8 @@
 package io.anserini.ltr.feature.base;
 
-import io.anserini.ltr.feature.ContentContext;
+import io.anserini.index.IndexArgs;
+import io.anserini.ltr.feature.DocumentContext;
+import io.anserini.ltr.feature.FieldContext;
 import io.anserini.ltr.feature.FeatureExtractor;
 import io.anserini.ltr.feature.QueryContext;
 import org.apache.commons.lang3.tuple.Pair;
@@ -8,9 +10,11 @@ import org.apache.commons.lang3.tuple.Pair;
 import java.util.List;
 
 public class SDM implements FeatureExtractor {
+  private String field;
   /*
   * fxt,indri use window = 8 -> window = 7 because fxt,indri's both word while we only include second
   * fxt,indri do not allow overlapped window, we choose to allow it
+  * todo need discussion about overlap
   * */
   int window;
   double mu;
@@ -19,17 +23,29 @@ public class SDM implements FeatureExtractor {
   double ordered_weight;
   double unordered_weight;
 
-  SDM() {
+  public SDM() {
     this.window = 7;
     this.mu = 2500;
     this.mu_phrase = 2500;
     this.term_weight = 0.8;
     this.ordered_weight = 0.15;
     this.unordered_weight = 0.05;
+    this.field = IndexArgs.CONTENTS;
+  }
+
+  public SDM(String field) {
+    this.window = 7;
+    this.mu = 2500;
+    this.mu_phrase = 2500;
+    this.term_weight = 0.8;
+    this.ordered_weight = 0.15;
+    this.unordered_weight = 0.05;
+    this.field = field;
   }
 
   @Override
-  public float extract(ContentContext context, QueryContext queryContext) {
+  public float extract(DocumentContext documentContext, QueryContext queryContext) {
+    FieldContext context = documentContext.fieldContexts.get(field);
     double per_term = term_weight / queryContext.querySize;
     List<Pair<String, String>> bigrams = queryContext.genQueryBigram();
     double per_bigram_ordered = ordered_weight / bigrams.size();
@@ -68,16 +84,16 @@ public class SDM implements FeatureExtractor {
 
   @Override
   public String getName() {
-    return "SDM";
+    return String.format("%s_SDM", field);
   }
 
   @Override
   public String getField() {
-    return null;
+    return field;
   }
 
   @Override
   public FeatureExtractor clone() {
-    return new SDM();
+    return new SDM(field);
   }
 }

@@ -17,28 +17,25 @@
 package io.anserini.ltr.feature.base;
 
 import io.anserini.index.IndexArgs;
-import io.anserini.ltr.feature.ContentContext;
+import io.anserini.ltr.feature.DocumentContext;
+import io.anserini.ltr.feature.FieldContext;
 import io.anserini.ltr.feature.FeatureExtractor;
 import io.anserini.ltr.feature.QueryContext;
-import io.anserini.rerank.RerankerContext;
-import org.apache.lucene.document.Document;
-import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.index.Term;
-import org.apache.lucene.index.Terms;
-
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * SCS = sum (P[t|q]) * log(P[t|q] / P[t|D])
  * page 20 of Carmel, Yom-Tov 2010
  */
 public class SCS implements FeatureExtractor {
+  private String field;
+
+  public SCS() { this.field = IndexArgs.CONTENTS; }
+
+  public SCS(String field) { this.field = field; }
 
   @Override
-  public float extract(ContentContext context, QueryContext queryContext) {
+  public float extract(DocumentContext documentContext, QueryContext queryContext) {
+    FieldContext context = documentContext.fieldContexts.get(field);
     long termCount = context.totalTermFreq;
     float score = 0.0f;
     for (String token : queryContext.queryFreqs.keySet()) {
@@ -53,16 +50,16 @@ public class SCS implements FeatureExtractor {
 
   @Override
   public String getName() {
-    return "SCS";
+    return String.format("%s_SCS",field);
   }
 
   @Override
   public String getField() {
-    return null;
+    return field;
   }
 
   @Override
   public FeatureExtractor clone() {
-    return new SCS();
+    return new SCS(field);
   }
 }

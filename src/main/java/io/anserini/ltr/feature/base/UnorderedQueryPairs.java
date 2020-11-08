@@ -16,7 +16,9 @@
 
 package io.anserini.ltr.feature.base;
 
-import io.anserini.ltr.feature.ContentContext;
+import io.anserini.index.IndexArgs;
+import io.anserini.ltr.feature.DocumentContext;
+import io.anserini.ltr.feature.FieldContext;
 import io.anserini.ltr.feature.FeatureExtractor;
 import io.anserini.ltr.feature.QueryContext;
 import org.apache.commons.lang3.tuple.Pair;
@@ -27,14 +29,26 @@ import java.util.List;
  * Counts all unordered pairs of query tokens
  */
 public class UnorderedQueryPairs implements FeatureExtractor {
+  private String field;
 
-  private int gapSize;
+  private int gapSize = 8;
 
-  // If this windowSize is 2, then we will look at a window [i-2, i+2] for the second term if the first occurs at i
-  public UnorderedQueryPairs(int gapSize) {
-    this.gapSize= gapSize;
+  public UnorderedQueryPairs() {
+    this.field = IndexArgs.CONTENTS;
   }
-  public float extract(ContentContext context, QueryContext queryContext) {
+
+  public UnorderedQueryPairs(int gapSize) {
+    this.gapSize = gapSize;
+    this.field = IndexArgs.CONTENTS;
+  }
+
+  public UnorderedQueryPairs(int gapSize, String field) {
+    this.gapSize = gapSize;
+    this.field = field;
+  }
+
+  public float extract(DocumentContext documentContext, QueryContext queryContext) {
+    FieldContext context = documentContext.fieldContexts.get(field);
     float count = 0;
     List<Pair<String, String>> queryPairs= queryContext.genQueryPair();
     for(Pair<String, String> pair: queryPairs){
@@ -46,16 +60,16 @@ public class UnorderedQueryPairs implements FeatureExtractor {
 
   @Override
   public String getName() {
-    return "UnorderedQueryPairs" + this.gapSize;
+    return String.format("%s_UnorderedQueryPairs_%d", field, this.gapSize);
   }
 
   @Override
   public String getField() {
-    return null;
+    return field;
   }
 
   @Override
   public FeatureExtractor clone() {
-    return new UnorderedQueryPairs(this.gapSize);
+    return new UnorderedQueryPairs(gapSize, field);
   }
 }

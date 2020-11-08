@@ -16,21 +16,12 @@
 
 package io.anserini.ltr.feature;
 
-import java.util.List;
-
 /**
  * A feature extractor.
  */
 public interface FeatureExtractor {
 
-  /**
-   * @param doc the document we work on
-   * @param terms a iterator to the term vector of the content field
-   * @param queryText original query text
-   * @param queryTokens tokenized query text
-   * @return feature value
-   */
-  float extract(ContentContext context, QueryContext queryContext);
+  float extract(DocumentContext context, QueryContext queryContext);
 
   /**
    * we need to make sure each thread has a thread-local copy of extractors

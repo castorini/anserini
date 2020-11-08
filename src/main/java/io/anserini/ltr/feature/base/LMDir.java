@@ -1,23 +1,34 @@
 package io.anserini.ltr.feature.base;
 
-import io.anserini.ltr.feature.ContentContext;
+import io.anserini.index.IndexArgs;
+import io.anserini.ltr.feature.DocumentContext;
+import io.anserini.ltr.feature.FieldContext;
 import io.anserini.ltr.feature.FeatureExtractor;
 import io.anserini.ltr.feature.QueryContext;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class LMDir implements FeatureExtractor {
+  private String field;
   private double mu = 1000;
 
-  public LMDir() { }
+  public LMDir() {
+    this.field = IndexArgs.CONTENTS;
+  }
 
   public LMDir(double mu) {
     if(mu<=0) throw new IllegalArgumentException("mu must be greater than 0");
     this.mu = mu;
+    this.field = IndexArgs.CONTENTS;
+  }
+
+  public LMDir(double mu, String field) {
+    if(mu<=0) throw new IllegalArgumentException("mu must be greater than 0");
+    this.mu = mu;
+    this.field = field;
   }
 
   @Override
-  public float extract(ContentContext context, QueryContext queryContext) {
+  public float extract(DocumentContext documentContext, QueryContext queryContext) {
+    FieldContext context = documentContext.fieldContexts.get(field);
     long docSize = context.docSize;
     long totalTermFreq = context.totalTermFreq;
     float score = 0;
@@ -34,18 +45,20 @@ public class LMDir implements FeatureExtractor {
 
   @Override
   public String getName() {
-    return String.format("LMD_mu_%.0f",mu);
+    return String.format("%s_LMD_mu_%.0f", field, mu);
   }
 
   @Override
   public String getField() {
-    return null;
+    return field;
   }
 
-  public double getMu() { return mu; }
+  public double getMu() {
+    return mu;
+  }
 
   @Override
   public FeatureExtractor clone() {
-    return new LMDir(this.mu);
+    return new LMDir(mu, field);
   }
 }

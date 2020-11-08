@@ -16,7 +16,9 @@
 
 package io.anserini.ltr.feature.base;
 
-import io.anserini.ltr.feature.ContentContext;
+import io.anserini.index.IndexArgs;
+import io.anserini.ltr.feature.DocumentContext;
+import io.anserini.ltr.feature.FieldContext;
 import io.anserini.ltr.feature.FeatureExtractor;
 import io.anserini.ltr.feature.QueryContext;
 import org.apache.commons.lang3.tuple.Pair;
@@ -29,13 +31,27 @@ import java.util.List;
  */
 public class OrderedSequentialPairs implements FeatureExtractor {
 
-  private int gapSize;
+  private String field;
+
+  private int gapSize = 8;
+
+  public OrderedSequentialPairs() {
+    this.field = IndexArgs.CONTENTS;
+  }
+
   public OrderedSequentialPairs(int gapSize) {
     this.gapSize = gapSize;
+    this.field = IndexArgs.CONTENTS;
+  }
+
+  public OrderedSequentialPairs(int gapSize, String field) {
+    this.gapSize = gapSize;
+    this.field = field;
   }
 
   @Override
-  public float extract(ContentContext context, QueryContext queryContext) {
+  public float extract(DocumentContext documentContext, QueryContext queryContext) {
+    FieldContext context = documentContext.fieldContexts.get(field);
     float count = 0;
     List<Pair<String, String>> queryPairs= queryContext.genQueryBigram();
     for(Pair<String, String> pair: queryPairs){
@@ -46,16 +62,16 @@ public class OrderedSequentialPairs implements FeatureExtractor {
 
   @Override
   public String getName() {
-    return "OrderedSequentialPairs" + this.gapSize;
+    return String.format("%s_OrderedSequentialPairs_%d", field, this.gapSize);
   }
 
   @Override
   public String getField() {
-    return null;
+    return field;
   }
 
   @Override
   public FeatureExtractor clone() {
-    return new OrderedSequentialPairs(this.gapSize);
+    return new OrderedSequentialPairs(gapSize, field);
   }
 }

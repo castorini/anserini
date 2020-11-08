@@ -1,24 +1,28 @@
 package io.anserini.ltr.feature.base;
 
-import io.anserini.ltr.feature.ContentContext;
-import io.anserini.ltr.feature.FeatureExtractor;
-import io.anserini.ltr.feature.Pooler;
-import io.anserini.ltr.feature.QueryContext;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import io.anserini.index.IndexArgs;
+import io.anserini.ltr.feature.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class tfStat implements FeatureExtractor {
+  private String field;
 
   Pooler collectFun;
   public tfStat(Pooler collectFun) {
     this.collectFun = collectFun;
+    this.field = IndexArgs.CONTENTS;
+  }
+
+  public tfStat(Pooler collectFun, String field) {
+    this.collectFun = collectFun;
+    this.field = field;
   }
 
   @Override
-  public float extract(ContentContext context, QueryContext queryContext) {
+  public float extract(DocumentContext documentContext, QueryContext queryContext) {
+    FieldContext context = documentContext.fieldContexts.get(field);
     List<Float> score;
     if(context.statsCache.containsKey("TF")){
       score = context.statsCache.get("TF");
@@ -39,17 +43,17 @@ public class tfStat implements FeatureExtractor {
 
   @Override
   public String getName() {
-    return "TF"+collectFun.getName();
+    return String.format("%s_TF_%s", field, collectFun.getName());
   }
 
   @Override
   public String getField() {
-    return null;
+    return field;
   }
 
   @Override
   public FeatureExtractor clone() {
     Pooler newFun = collectFun.clone();
-    return new tfStat(newFun);
+    return new tfStat(newFun, field);
   }
 }
