@@ -65,7 +65,10 @@ def get_document_title(path):
         raw_json = f.read()
         parsed_json = json.loads(raw_json)
     metadata = parsed_json["metadata"]
-    return metadata["title"]
+    # Some consumer documents don't have titles.
+    if metadata["title"]:
+        return metadata["title"]
+    return ""
 
 parser = argparse.ArgumentParser(
     description='Print Epidemic QA runs into a human readable format.')
