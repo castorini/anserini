@@ -19,7 +19,13 @@ def load_queries(path: str):
         raw_json = f.read()
         parsed_json = json.loads(raw_json)
         for topic in parsed_json:
-            question_id = topic["question_id"]
+            # Question ID is the integer question ID prefixed with "CQ"
+            # or "EQ" depending on whether it's a consumer or expert question.
+            # This has to be parsed out so it can be joined against the run
+            # file.
+            question_id_string = topic["question_id"]
+            # The prefix is of length 2.
+            question_id = int(question_id_string[2:])
             question = topic["question"]
             query = topic["query"]
             queries[question_id] = (query, question)
@@ -37,6 +43,7 @@ def load_run(path):
     with open(path) as f:
         for line in tqdm(f):
             query_id, _, doc_id, rank, _, _ = line.split()
+            query_id = int(query_id)
             if query_id not in run:
                 run[query_id] = []
             run[query_id].append((doc_id, int(rank)))
@@ -50,18 +57,28 @@ def load_run(path):
 
     return sorted_run
 
+def get_document_title(path):
+    """
+    Returns the Python object corresponding to the document's parsed JSON.
+    """
+    with open(path) as f:
+        raw_json = f.read()
+        parsed_json = json.loads(raw_json)
+    metadata = parsed_json["metadata"]
+    return metadata["title"]
+
 parser = argparse.ArgumentParser(
     description='Print Epidemic QA runs into a human readable format.')
-parser.add_argument('--queries', required=True, help='Queries file')
-parser.add_argument('--run', required=True, help='Run file')
-parser.add_argument('--k', type=int, default=5, help='number of documents per query to print.')
-parser.add_argument('--abstract', action='store_true', default=False, help='Print abstract.')
+parser.add_argument('--queries', required=True, help='The path to the queries file.')
+parser.add_argument('--run', required=True, help='The path to the run file.')
+parser.add_argument('--docs-path', required=True, help='The path to the directory containing the document JSON files')
+parser.add_argument('--docs-per-query', type=int, default=5, help='Number of documents per query to print.')
 
 args = parser.parse_args()
+print(args)
 
 queries = load_queries(args.queries)
 run = load_run(args.run)
-
 for query_id, (query, question) in queries.items():
     if query_id not in run:
         print(f'>> Missing query_id: {query_id}')
@@ -69,13 +86,9 @@ for query_id, (query, question) in queries.items():
 
     print(f'query id: {query_id} | query: {query} | question: {question}')
     output = 'rank | doc_id | title'
-    if args.abstract:
-        output += ' | abstract'
     print(output)
-    for rank, doc_id in enumerate(run[query_id][:args.k]):
-        title, abstract = metadata[doc_id]
+    for rank, doc_id in enumerate(run[query_id][:args.docs_per_query]):
+        title = get_document_title(args.docs_path+"/"+doc_id+".json")
         output = [str(rank + 1), doc_id, title]
-        if args.abstract:
-            output.append(abstract)
         print(' | '.join(output))
     print('-' * 50)
