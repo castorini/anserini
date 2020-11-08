@@ -48,7 +48,7 @@ public class ContentContext {
                 docFreqs.put(queryToken, reader.docFreq(new Term(this.fieldName, queryToken)));
             return docFreqs.get(queryToken);
         } catch (IOException e){
-            System.out.println(e);
+//            e.printStackTrace();
             return 0;
         }
     }
@@ -59,7 +59,7 @@ public class ContentContext {
                 collectionFreqs.put(queryToken, reader.totalTermFreq(new Term(this.fieldName, queryToken)));
             return collectionFreqs.get(queryToken);
         } catch (IOException e){
-            System.out.println(e);
+//            e.printStackTrace();
             return 0L;
         }
     }
@@ -121,29 +121,33 @@ public class ContentContext {
         return count;
     }
 
-    public int getBigramCollectionFreqs(String first, String second, int gap) throws IOException {
+    public int getBigramCollectionFreqs(String first, String second, int gap){
         Pair<String, String> key = Pair.of(first, second);
         if (bigramCollectionFreqs.containsKey(key)) {
             return bigramCollectionFreqs.get(key);
         } else {
             int cf = 0;
             Map<Integer, List<Integer>> firstPostings, secondPostings;
-            firstPostings = getPostings(first);
-            secondPostings = getPostings(second);
+            try {
+                firstPostings = getPostings(first);
+                secondPostings = getPostings(second);
 
-            Set<Integer> needCheck = firstPostings.keySet();
-            needCheck.retainAll(secondPostings.keySet());
+                Set<Integer> needCheck = firstPostings.keySet();
+                needCheck.retainAll(secondPostings.keySet());
 
-            for(int docId:needCheck){
-                List<Integer> firstPositions = firstPostings.get(docId);
-                List<Integer> secondPositions = secondPostings.get(docId);
-                for(int i: firstPositions){
-                    for(int j: secondPositions){
-                        if (i < j && j <= i+gap){
-                            cf++;
+                for(int docId:needCheck){
+                    List<Integer> firstPositions = firstPostings.get(docId);
+                    List<Integer> secondPositions = secondPostings.get(docId);
+                    for(int i: firstPositions){
+                        for(int j: secondPositions){
+                            if (i < j && j <= i+gap){
+                                cf++;
+                            }
                         }
                     }
                 }
+            } catch (IOException e) {
+//                e.printStackTrace();
             }
             bigramCollectionFreqs.put(key, cf);
             return cf;

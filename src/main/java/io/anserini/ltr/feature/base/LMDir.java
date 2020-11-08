@@ -12,6 +12,7 @@ public class LMDir implements FeatureExtractor {
   public LMDir() { }
 
   public LMDir(double mu) {
+    if(mu<=0) throw new IllegalArgumentException("mu must be greater than 0");
     this.mu = mu;
   }
 
@@ -23,10 +24,10 @@ public class LMDir implements FeatureExtractor {
 
     for (String queryToken : queryContext.queryTokens) {
       long termFreq = context.getTermFreq(queryToken);
-      //todo need discuss this
-      if(termFreq==0) continue;
       double collectProb = (double)context.getCollectionFreq(queryToken)/totalTermFreq;
-      score += -Math.log((termFreq+mu*collectProb)/(mu+docSize));
+      //todo need discuss this
+      if(collectProb==0) continue;
+      score += Math.log((termFreq+mu*collectProb)/(mu+docSize));
     }
     return score;
   }

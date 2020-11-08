@@ -13,6 +13,8 @@ public class LMJM implements FeatureExtractor {
   public LMJM() {}
 
   public LMJM(double lambda) {
+    if(lambda<=0)
+      throw new IllegalArgumentException("lambda must be greater than 0");
     this.lambda = lambda;
   }
 
@@ -24,11 +26,11 @@ public class LMJM implements FeatureExtractor {
 
     for (String queryToken : queryContext.queryTokens) {
       long termFreq = context.getTermFreq(queryToken);
-      //todo need discuss this
-      if(termFreq==0) continue;
       double collectProb = (double)context.getCollectionFreq(queryToken)/totalTermFreq;
       double documentProb = (double)termFreq/docSize;
-      score += -Math.log((1-lambda)*documentProb+lambda*collectProb);
+      //todo need discuss this
+      if(collectProb==0) continue;
+      score += Math.log((1-lambda)*documentProb+lambda*collectProb);
     }
     return score;
   }
