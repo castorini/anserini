@@ -128,11 +128,11 @@ To start, download the TREC CAR dataset and the predicted queries:
 mkdir collections/trec_car
 
 # Grab tarballs from either one of two sources:
-wget https://www.dropbox.com/s/1xq559k5i86gk17/paragraphCorpus.v2.0.tar.xz -P collections/msmarco-passage
-wget https://git.uwaterloo.ca/jimmylin/doc2query-data/raw/master/base/paragraphCorpus.v2.0.tar.xz -P collections/msmarco-passage
+wget https://www.dropbox.com/s/1xq559k5i86gk17/paragraphCorpus.v2.0.tar.xz -P collections/trec_car
+wget https://git.uwaterloo.ca/jimmylin/doc2query-data/raw/master/base/paragraphCorpus.v2.0.tar.xz -P collections/trec_car
 
-wget https://www.dropbox.com/s/rl4r0md0xgxg7d9/trec-car-pred-test_topk10.tar.gz -P collections/msmarco-passage
-wget https://git.uwaterloo.ca/jimmylin/doc2query-data/raw/master/base/trec-car-pred-test_topk10.tar.gz -P collections/msmarco-passage
+wget https://www.dropbox.com/s/rl4r0md0xgxg7d9/trec-car-pred-test_topk10.tar.gz -P collections/trec_car
+wget https://git.uwaterloo.ca/jimmylin/doc2query-data/raw/master/base/trec-car-pred-test_topk10.tar.gz -P collections/trec_car
 
 # Unpack tarballs:
 tar -xf collections/trec_car/paragraphCorpus.v2.0.tar.xz -C collections/trec_car
