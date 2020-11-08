@@ -9,9 +9,12 @@ Note that this page is automatically generated from [this template](../src/main/
 Typical indexing command:
 
 ```
-nohup sh target/appassembler/bin/IndexCollection -collection TrecCollection -input /path/to/robust04 \
- -index indexes/lucene-index.robust04.pos+docvectors+raw -generator DefaultLuceneDocumentGenerator -threads 16 \
- -storePositions -storeDocvectors -storeRaw >& logs/log.robust04.pos+docvectors+rawdocs &
+nohup sh target/appassembler/bin/IndexCollection -collection TrecCollection \
+ -input /path/to/robust04 \
+ -index indexes/lucene-index.robust04.pos+docvectors+raw \
+ -generator DefaultLuceneDocumentGenerator \
+ -threads 16 -storePositions -storeDocvectors -storeRaw \
+  >& logs/log.robust04.pos+docvectors+rawdocs &
 ```
 
 The directory `/path/to/disk45/` should be the root directory of [TREC Disks 4 &amp; 5](https://trec.nist.gov/data_disks.html); inside each there should be subdirectories like `ft`, `fr94`.
@@ -31,43 +34,49 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.robust04.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.robust04.txt \
- -bm25 -output run.robust04.bm25.topics.robust04.txt &
+ -output runs/run.robust04.bm25.topics.robust04.txt \
+ -bm25 &
 
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.robust04.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.robust04.txt \
- -bm25 -rm3 -output run.robust04.bm25+rm3.topics.robust04.txt &
+ -output runs/run.robust04.bm25+rm3.topics.robust04.txt \
+ -bm25 -rm3 &
 
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.robust04.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.robust04.txt \
- -bm25 -axiom -axiom.deterministic -rerankCutoff 20 -output run.robust04.bm25+ax.topics.robust04.txt &
+ -output runs/run.robust04.bm25+ax.topics.robust04.txt \
+ -bm25 -axiom -axiom.deterministic -rerankCutoff 20 &
 
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.robust04.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.robust04.txt \
- -qld -output run.robust04.ql.topics.robust04.txt &
+ -output runs/run.robust04.ql.topics.robust04.txt \
+ -qld &
 
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.robust04.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.robust04.txt \
- -qld -rm3 -output run.robust04.ql+rm3.topics.robust04.txt &
+ -output runs/run.robust04.ql+rm3.topics.robust04.txt \
+ -qld -rm3 &
 
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.robust04.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.robust04.txt \
- -qld -axiom -axiom.deterministic -rerankCutoff 20 -output run.robust04.ql+ax.topics.robust04.txt &
+ -output runs/run.robust04.ql+ax.topics.robust04.txt \
+ -qld -axiom -axiom.deterministic -rerankCutoff 20 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```
-eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust04.txt run.robust04.bm25.topics.robust04.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust04.txt run.robust04.bm25.topics.robust04.txt
 
-eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust04.txt run.robust04.bm25+rm3.topics.robust04.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust04.txt run.robust04.bm25+rm3.topics.robust04.txt
 
-eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust04.txt run.robust04.bm25+ax.topics.robust04.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust04.txt run.robust04.bm25+ax.topics.robust04.txt
 
-eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust04.txt run.robust04.ql.topics.robust04.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust04.txt run.robust04.ql.topics.robust04.txt
 
-eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust04.txt run.robust04.ql+rm3.topics.robust04.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust04.txt run.robust04.ql+rm3.topics.robust04.txt
 
-eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust04.txt run.robust04.ql+ax.topics.robust04.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust04.txt run.robust04.ql+ax.topics.robust04.txt
 ```
 
 ## Effectiveness
