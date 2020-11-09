@@ -71,7 +71,7 @@ Effectiveness results (note that starting in Round 4, NIST changed from nDCG@10 
 | `anserini` | `r5.rf` (NIST post-processed)      | 0.7346 | 0.9470 | 0.3280 | 0.6378
 
 The scores of the post-processed runs match those reported by NIST.
-We see that that NIST post-processing improves scores slightly.
+We see that NIST post-processing improves scores slightly.
 
 Below, we report the effectiveness of the runs using the "complete" cumulative qrels file (covering rounds 1 through 5).
 This qrels file, provided by NIST as [`qrels-covid_d5_j0.5-5.txt`](https://ir.nist.gov/covidSubmit/data/qrels-covid_d5_j0.5-5.txt), is stored in our repo as [`qrels.covid-complete.txt`](../src/main/resources/topics-and-qrels/qrels.covid-complete.txt)).
@@ -163,7 +163,7 @@ Effectiveness results (note that NIST changed from nDCG@10 to nDCG@20 for this r
 | `anserini` | `r4.rf` (NIST post-processed)      | 0.6976 | 0.9278 | 0.3519 | 0.6962
 
 The scores of the post-processed runs match those reported by NIST.
-We see that that NIST post-processing improves scores slightly.
+We see that NIST post-processing improves scores slightly.
 
 Below, we report the effectiveness of the runs using the cumulative qrels file from round 4.
 This qrels file, provided by NIST as [`qrels_covid_d4_j0.5-4.txt`](https://ir.nist.gov/covidSubmit/data/qrels-covid_d4_j0.5-4.txt), is stored in our repo as [`qrels.covid-round4-cumulative.txt`](../src/main/resources/topics-and-qrels/qrels.covid-round4-cumulative.txt)).
@@ -266,7 +266,7 @@ Effectiveness results:
 | `anserini` | `r3.rf` (NIST post-processed)      | 0.6883 | 0.9750 | 0.2817 | 0.6399
 
 The scores of the post-processed runs match those reported by NIST.
-We see that that NIST post-processing improves scores slightly.
+We see that NIST post-processing improves scores slightly.
 
 Below, we report the effectiveness of the runs using the cumulative qrels file from round 3.
 This qrels file, provided by NIST as [`qrels_covid_d3_j0.5-3.txt`](https://ir.nist.gov/covidSubmit/data/qrels-covid_d3_j0.5-3.txt), is stored in our repo as [`qrels.covid-round3-cumulative.txt`](../src/main/resources/topics-and-qrels/qrels.covid-round3-cumulative.txt).
