@@ -45,7 +45,7 @@ nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.ntcir
 Evaluation can be performed using `trec_eval`:
 
 ```
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.20 -m ndcg_cut.20 src/main/resources/topics-and-qrels/qrels.ntcir8.eval.txt run.ntcir8-zh.bm25.topics.ntcir8zh.eval.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.20 -m ndcg_cut.20 src/main/resources/topics-and-qrels/qrels.ntcir8.eval.txt runs/run.ntcir8-zh.bm25.topics.ntcir8zh.eval.txt
 ```
 
 ## Effectiveness

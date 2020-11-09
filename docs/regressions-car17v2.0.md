@@ -67,17 +67,17 @@ nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.car17
 Evaluation can be performed using `trec_eval`:
 
 ```
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recip_rank src/main/resources/topics-and-qrels/qrels.car17v2.0.benchmarkY1test.txt run.car17v2.0.bm25.topics.car17v2.0.benchmarkY1test.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recip_rank src/main/resources/topics-and-qrels/qrels.car17v2.0.benchmarkY1test.txt runs/run.car17v2.0.bm25.topics.car17v2.0.benchmarkY1test.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recip_rank src/main/resources/topics-and-qrels/qrels.car17v2.0.benchmarkY1test.txt run.car17v2.0.bm25+rm3.topics.car17v2.0.benchmarkY1test.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recip_rank src/main/resources/topics-and-qrels/qrels.car17v2.0.benchmarkY1test.txt runs/run.car17v2.0.bm25+rm3.topics.car17v2.0.benchmarkY1test.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recip_rank src/main/resources/topics-and-qrels/qrels.car17v2.0.benchmarkY1test.txt run.car17v2.0.bm25+ax.topics.car17v2.0.benchmarkY1test.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recip_rank src/main/resources/topics-and-qrels/qrels.car17v2.0.benchmarkY1test.txt runs/run.car17v2.0.bm25+ax.topics.car17v2.0.benchmarkY1test.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recip_rank src/main/resources/topics-and-qrels/qrels.car17v2.0.benchmarkY1test.txt run.car17v2.0.ql.topics.car17v2.0.benchmarkY1test.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recip_rank src/main/resources/topics-and-qrels/qrels.car17v2.0.benchmarkY1test.txt runs/run.car17v2.0.ql.topics.car17v2.0.benchmarkY1test.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recip_rank src/main/resources/topics-and-qrels/qrels.car17v2.0.benchmarkY1test.txt run.car17v2.0.ql+rm3.topics.car17v2.0.benchmarkY1test.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recip_rank src/main/resources/topics-and-qrels/qrels.car17v2.0.benchmarkY1test.txt runs/run.car17v2.0.ql+rm3.topics.car17v2.0.benchmarkY1test.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recip_rank src/main/resources/topics-and-qrels/qrels.car17v2.0.benchmarkY1test.txt run.car17v2.0.ql+ax.topics.car17v2.0.benchmarkY1test.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -m map -c -m recip_rank src/main/resources/topics-and-qrels/qrels.car17v2.0.benchmarkY1test.txt runs/run.car17v2.0.ql+ax.topics.car17v2.0.benchmarkY1test.txt
 ```
 
 ## Effectiveness

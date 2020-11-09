@@ -65,17 +65,17 @@ nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.robus
 Evaluation can be performed using `trec_eval`:
 
 ```
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust05.txt run.robust05.bm25.topics.robust05.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust05.txt runs/run.robust05.bm25.topics.robust05.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust05.txt run.robust05.bm25+rm3.topics.robust05.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust05.txt runs/run.robust05.bm25+rm3.topics.robust05.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust05.txt run.robust05.bm25+ax.topics.robust05.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust05.txt runs/run.robust05.bm25+ax.topics.robust05.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust05.txt run.robust05.ql.topics.robust05.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust05.txt runs/run.robust05.ql.topics.robust05.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust05.txt run.robust05.ql+rm3.topics.robust05.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust05.txt runs/run.robust05.ql+rm3.topics.robust05.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust05.txt run.robust05.ql+ax.topics.robust05.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust05.txt runs/run.robust05.ql+ax.topics.robust05.txt
 ```
 
 ## Effectiveness

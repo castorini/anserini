@@ -51,11 +51,11 @@ nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.core1
 Evaluation can be performed using `trec_eval`:
 
 ```
-tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m ndcg_cut.5 -c -M1000 -m map src/main/resources/topics-and-qrels/qrels.backgroundlinking18.txt run.backgroundlinking18.bm25.topics.backgroundlinking18.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m ndcg_cut.5 -c -M1000 -m map src/main/resources/topics-and-qrels/qrels.backgroundlinking18.txt runs/run.backgroundlinking18.bm25.topics.backgroundlinking18.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m ndcg_cut.5 -c -M1000 -m map src/main/resources/topics-and-qrels/qrels.backgroundlinking18.txt run.backgroundlinking18.bm25+rm3.topics.backgroundlinking18.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m ndcg_cut.5 -c -M1000 -m map src/main/resources/topics-and-qrels/qrels.backgroundlinking18.txt runs/run.backgroundlinking18.bm25+rm3.topics.backgroundlinking18.txt
 
-tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m ndcg_cut.5 -c -M1000 -m map src/main/resources/topics-and-qrels/qrels.backgroundlinking18.txt run.backgroundlinking18.bm25+rm3+df.topics.backgroundlinking18.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m ndcg_cut.5 -c -M1000 -m map src/main/resources/topics-and-qrels/qrels.backgroundlinking18.txt runs/run.backgroundlinking18.bm25+rm3+df.topics.backgroundlinking18.txt
 ```
 
 ## Effectiveness

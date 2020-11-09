@@ -341,7 +341,7 @@ public class DataModel {
           }
           String evalCmdResidual = "";
           evalCmdResidual += " "+Paths.get(getQrels_root(), topic.getQrel());
-          evalCmdResidual += " run."+collection+"."+model.getName()+"."+topic.getPath();
+          evalCmdResidual += " runs/run."+collection+"."+model.getName()+"."+topic.getPath();
           evalCmdResidual += "\n";
           if (eval.isCan_combine() || evalCmdOption.isEmpty()) {
             combinedEvalCmd.putIfAbsent(evalCmd, new HashMap<>());

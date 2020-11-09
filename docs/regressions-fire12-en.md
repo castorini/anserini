@@ -43,7 +43,7 @@ nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.fire1
 Evaluation can be performed using `trec_eval`:
 
 ```
-tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.20 -m ndcg_cut.20 src/main/resources/topics-and-qrels/qrels.fire12en.176-225.txt run.fire12-en.bm25.topics.fire12en.176-225.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.20 -m ndcg_cut.20 src/main/resources/topics-and-qrels/qrels.fire12en.176-225.txt runs/run.fire12-en.bm25.topics.fire12en.176-225.txt
 ```
 
 ## Effectiveness
