@@ -9,9 +9,12 @@ Note that this page is automatically generated from [this template](../src/main/
 Typical indexing command:
 
 ```
-nohup sh target/appassembler/bin/IndexCollection -collection WashingtonPostCollection -input /path/to/backgroundlinking19 \
- -index indexes/lucene-index.core18.pos+docvectors+raw -generator WashingtonPostGenerator -threads 1 \
- -storePositions -storeDocvectors -storeRaw >& logs/log.backgroundlinking19.pos+docvectors+rawdocs &
+nohup sh target/appassembler/bin/IndexCollection -collection WashingtonPostCollection \
+ -input /path/to/backgroundlinking19 \
+ -index indexes/lucene-index.core18.pos+docvectors+raw \
+ -generator WashingtonPostGenerator \
+ -threads 1 -storePositions -storeDocvectors -storeRaw \
+  >& logs/log.backgroundlinking19 &
 ```
 
 The directory `/path/to/core18/` should be the root directory of the [TREC Washington Post Corpus](https://trec.nist.gov/data/wapost/), i.e., `ls /path/to/core18/`
@@ -31,25 +34,28 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.core18.pos+docvectors+raw \
  -topicreader BackgroundLinking -topics src/main/resources/topics-and-qrels/topics.backgroundlinking19.txt \
- -backgroundlinking -backgroundlinking.k 100 -bm25 -hits 100 -output run.backgroundlinking19.bm25.topics.backgroundlinking19.txt &
+ -output runs/run.backgroundlinking19.bm25.topics.backgroundlinking19.txt \
+ -backgroundlinking -backgroundlinking.k 100 -bm25 -hits 100 &
 
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.core18.pos+docvectors+raw \
  -topicreader BackgroundLinking -topics src/main/resources/topics-and-qrels/topics.backgroundlinking19.txt \
- -backgroundlinking -backgroundlinking.k 100 -bm25 -rm3 -hits 100 -output run.backgroundlinking19.bm25+rm3.topics.backgroundlinking19.txt &
+ -output runs/run.backgroundlinking19.bm25+rm3.topics.backgroundlinking19.txt \
+ -backgroundlinking -backgroundlinking.k 100 -bm25 -rm3 -hits 100 &
 
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.core18.pos+docvectors+raw \
  -topicreader BackgroundLinking -topics src/main/resources/topics-and-qrels/topics.backgroundlinking19.txt \
- -backgroundlinking -backgroundlinking.datefilter -backgroundlinking.k 100 -bm25 -rm3 -hits 100 -output run.backgroundlinking19.bm25+rm3+df.topics.backgroundlinking19.txt &
+ -output runs/run.backgroundlinking19.bm25+rm3+df.topics.backgroundlinking19.txt \
+ -backgroundlinking -backgroundlinking.datefilter -backgroundlinking.k 100 -bm25 -rm3 -hits 100 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```
-eval/trec_eval.9.0.4/trec_eval -c -M1000 -m ndcg_cut.5 -c -M1000 -m map src/main/resources/topics-and-qrels/qrels.backgroundlinking19.txt run.backgroundlinking19.bm25.topics.backgroundlinking19.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m ndcg_cut.5 -c -M1000 -m map src/main/resources/topics-and-qrels/qrels.backgroundlinking19.txt runs/run.backgroundlinking19.bm25.topics.backgroundlinking19.txt
 
-eval/trec_eval.9.0.4/trec_eval -c -M1000 -m ndcg_cut.5 -c -M1000 -m map src/main/resources/topics-and-qrels/qrels.backgroundlinking19.txt run.backgroundlinking19.bm25+rm3.topics.backgroundlinking19.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m ndcg_cut.5 -c -M1000 -m map src/main/resources/topics-and-qrels/qrels.backgroundlinking19.txt runs/run.backgroundlinking19.bm25+rm3.topics.backgroundlinking19.txt
 
-eval/trec_eval.9.0.4/trec_eval -c -M1000 -m ndcg_cut.5 -c -M1000 -m map src/main/resources/topics-and-qrels/qrels.backgroundlinking19.txt run.backgroundlinking19.bm25+rm3+df.topics.backgroundlinking19.txt
+tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m ndcg_cut.5 -c -M1000 -m map src/main/resources/topics-and-qrels/qrels.backgroundlinking19.txt runs/run.backgroundlinking19.bm25+rm3+df.topics.backgroundlinking19.txt
 ```
 
 ## Effectiveness

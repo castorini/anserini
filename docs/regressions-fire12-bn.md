@@ -11,9 +11,12 @@ Note that this page is automatically generated from [this template](../src/main/
 Typical indexing command:
 
 ```
-nohup sh target/appassembler/bin/IndexCollection -collection CleanTrecCollection -input /path/to/fire12-bn \
- -index indexes/lucene-index.fire12-bn.pos+docvectors+raw -generator DefaultLuceneDocumentGenerator -threads 16 \
- -storePositions -storeDocvectors -storeRaw -language bn >& logs/log.fire12-bn.pos+docvectors+rawdocs &
+nohup sh target/appassembler/bin/IndexCollection -collection CleanTrecCollection \
+ -input /path/to/fire12-bn \
+ -index indexes/lucene-index.fire12-bn.pos+docvectors+raw \
+ -generator DefaultLuceneDocumentGenerator \
+ -threads 16 -storePositions -storeDocvectors -storeRaw -language bn \
+  >& logs/log.fire12-bn &
 ```
 
 The directory `/path/to/fire12-bn/` should be a directory containing the collection, containing `bn_ABP` and `bn_BDNews24` directories.
@@ -33,13 +36,14 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.fire12-bn.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.fire12bn.176-225.txt \
- -language bn -bm25 -output run.fire12-bn.bm25.topics.fire12bn.176-225.txt &
+ -output runs/run.fire12-bn.bm25.topics.fire12bn.176-225.txt \
+ -language bn -bm25 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```
-eval/trec_eval.9.0.4/trec_eval -m map -m P.20 -m ndcg_cut.20 src/main/resources/topics-and-qrels/qrels.fire12bn.176-225.txt run.fire12-bn.bm25.topics.fire12bn.176-225.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.20 -m ndcg_cut.20 src/main/resources/topics-and-qrels/qrels.fire12bn.176-225.txt runs/run.fire12-bn.bm25.topics.fire12bn.176-225.txt
 ```
 
 ## Effectiveness

@@ -9,9 +9,12 @@ Note that this page is automatically generated from [this template](../src/main/
 Typical indexing command:
 
 ```
-nohup sh target/appassembler/bin/IndexCollection -collection TrecCollection -input /path/to/robust05 \
- -index indexes/lucene-index.robust05.pos+docvectors+raw -generator DefaultLuceneDocumentGenerator -threads 16 \
- -storePositions -storeDocvectors -storeRaw >& logs/log.robust05.pos+docvectors+rawdocs &
+nohup sh target/appassembler/bin/IndexCollection -collection TrecCollection \
+ -input /path/to/robust05 \
+ -index indexes/lucene-index.robust05.pos+docvectors+raw \
+ -generator DefaultLuceneDocumentGenerator \
+ -threads 16 -storePositions -storeDocvectors -storeRaw \
+  >& logs/log.robust05 &
 ```
 
 The directory `/path/to/aquaint/` should be the root directory of the [AQUAINT collection](https://tac.nist.gov//data/data_desc.html#AQUAINT); under subdirectory `disk1/` there should be `NYT/` and under subdirectory `disk2/` there should be `APW/` and `XIE/`.
@@ -30,43 +33,49 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.robust05.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.robust05.txt \
- -bm25 -output run.robust05.bm25.topics.robust05.txt &
+ -output runs/run.robust05.bm25.topics.robust05.txt \
+ -bm25 &
 
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.robust05.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.robust05.txt \
- -bm25 -rm3 -output run.robust05.bm25+rm3.topics.robust05.txt &
+ -output runs/run.robust05.bm25+rm3.topics.robust05.txt \
+ -bm25 -rm3 &
 
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.robust05.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.robust05.txt \
- -bm25 -axiom -axiom.deterministic -rerankCutoff 20 -output run.robust05.bm25+ax.topics.robust05.txt &
+ -output runs/run.robust05.bm25+ax.topics.robust05.txt \
+ -bm25 -axiom -axiom.deterministic -rerankCutoff 20 &
 
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.robust05.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.robust05.txt \
- -qld -output run.robust05.ql.topics.robust05.txt &
+ -output runs/run.robust05.ql.topics.robust05.txt \
+ -qld &
 
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.robust05.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.robust05.txt \
- -qld -rm3 -output run.robust05.ql+rm3.topics.robust05.txt &
+ -output runs/run.robust05.ql+rm3.topics.robust05.txt \
+ -qld -rm3 &
 
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.robust05.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.robust05.txt \
- -qld -axiom -axiom.deterministic -rerankCutoff 20 -output run.robust05.ql+ax.topics.robust05.txt &
+ -output runs/run.robust05.ql+ax.topics.robust05.txt \
+ -qld -axiom -axiom.deterministic -rerankCutoff 20 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```
-eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust05.txt run.robust05.bm25.topics.robust05.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust05.txt runs/run.robust05.bm25.topics.robust05.txt
 
-eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust05.txt run.robust05.bm25+rm3.topics.robust05.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust05.txt runs/run.robust05.bm25+rm3.topics.robust05.txt
 
-eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust05.txt run.robust05.bm25+ax.topics.robust05.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust05.txt runs/run.robust05.bm25+ax.topics.robust05.txt
 
-eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust05.txt run.robust05.ql.topics.robust05.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust05.txt runs/run.robust05.ql.topics.robust05.txt
 
-eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust05.txt run.robust05.ql+rm3.topics.robust05.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust05.txt runs/run.robust05.ql+rm3.topics.robust05.txt
 
-eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust05.txt run.robust05.ql+ax.topics.robust05.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.robust05.txt runs/run.robust05.ql+ax.topics.robust05.txt
 ```
 
 ## Effectiveness
