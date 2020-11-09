@@ -9,9 +9,12 @@ Note that this page is automatically generated from [this template](../src/main/
 Typical indexing command:
 
 ```
-nohup sh target/appassembler/bin/IndexCollection -collection CarCollection -input /path/to/car17v1.5 \
- -index indexes/lucene-index.car17v1.5.pos+docvectors+raw -generator DefaultLuceneDocumentGenerator -threads 1 \
- -storePositions -storeDocvectors -storeRaw >& logs/log.car17v1.5.pos+docvectors+rawdocs &
+nohup sh target/appassembler/bin/IndexCollection -collection CarCollection \
+ -input /path/to/car17v1.5 \
+ -index indexes/lucene-index.car17v1.5.pos+docvectors+raw \
+ -generator DefaultLuceneDocumentGenerator \
+ -threads 1 -storePositions -storeDocvectors -storeRaw \
+  >& logs/log.car17v1.5 &
 ```
 
 The directory `/path/to/car17v1.5` should be the root directory of Complex Answer Retrieval (CAR) paragraph corpus (v1.5), which can be downloaded [here](http://trec-car.cs.unh.edu/datareleases/).
@@ -32,43 +35,49 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.car17v1.5.pos+docvectors+raw \
  -topicreader Car -topics src/main/resources/topics-and-qrels/topics.car17v1.5.benchmarkY1test.txt \
- -bm25 -output run.car17v1.5.bm25.topics.car17v1.5.benchmarkY1test.txt &
+ -output runs/run.car17v1.5.bm25.topics.car17v1.5.benchmarkY1test.txt \
+ -bm25 &
 
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.car17v1.5.pos+docvectors+raw \
  -topicreader Car -topics src/main/resources/topics-and-qrels/topics.car17v1.5.benchmarkY1test.txt \
- -bm25 -rm3 -output run.car17v1.5.bm25+rm3.topics.car17v1.5.benchmarkY1test.txt &
+ -output runs/run.car17v1.5.bm25+rm3.topics.car17v1.5.benchmarkY1test.txt \
+ -bm25 -rm3 &
 
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.car17v1.5.pos+docvectors+raw \
  -topicreader Car -topics src/main/resources/topics-and-qrels/topics.car17v1.5.benchmarkY1test.txt \
- -bm25 -axiom -axiom.deterministic -rerankCutoff 20 -output run.car17v1.5.bm25+ax.topics.car17v1.5.benchmarkY1test.txt &
+ -output runs/run.car17v1.5.bm25+ax.topics.car17v1.5.benchmarkY1test.txt \
+ -bm25 -axiom -axiom.deterministic -rerankCutoff 20 &
 
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.car17v1.5.pos+docvectors+raw \
  -topicreader Car -topics src/main/resources/topics-and-qrels/topics.car17v1.5.benchmarkY1test.txt \
- -qld -output run.car17v1.5.ql.topics.car17v1.5.benchmarkY1test.txt &
+ -output runs/run.car17v1.5.ql.topics.car17v1.5.benchmarkY1test.txt \
+ -qld &
 
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.car17v1.5.pos+docvectors+raw \
  -topicreader Car -topics src/main/resources/topics-and-qrels/topics.car17v1.5.benchmarkY1test.txt \
- -qld -rm3 -output run.car17v1.5.ql+rm3.topics.car17v1.5.benchmarkY1test.txt &
+ -output runs/run.car17v1.5.ql+rm3.topics.car17v1.5.benchmarkY1test.txt \
+ -qld -rm3 &
 
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.car17v1.5.pos+docvectors+raw \
  -topicreader Car -topics src/main/resources/topics-and-qrels/topics.car17v1.5.benchmarkY1test.txt \
- -qld -axiom -axiom.deterministic -rerankCutoff 20 -output run.car17v1.5.ql+ax.topics.car17v1.5.benchmarkY1test.txt &
+ -output runs/run.car17v1.5.ql+ax.topics.car17v1.5.benchmarkY1test.txt \
+ -qld -axiom -axiom.deterministic -rerankCutoff 20 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```
-eval/trec_eval.9.0.4/trec_eval -m map -m recip_rank src/main/resources/topics-and-qrels/qrels.car17v1.5.benchmarkY1test.txt run.car17v1.5.bm25.topics.car17v1.5.benchmarkY1test.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m recip_rank src/main/resources/topics-and-qrels/qrels.car17v1.5.benchmarkY1test.txt runs/run.car17v1.5.bm25.topics.car17v1.5.benchmarkY1test.txt
 
-eval/trec_eval.9.0.4/trec_eval -m map -m recip_rank src/main/resources/topics-and-qrels/qrels.car17v1.5.benchmarkY1test.txt run.car17v1.5.bm25+rm3.topics.car17v1.5.benchmarkY1test.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m recip_rank src/main/resources/topics-and-qrels/qrels.car17v1.5.benchmarkY1test.txt runs/run.car17v1.5.bm25+rm3.topics.car17v1.5.benchmarkY1test.txt
 
-eval/trec_eval.9.0.4/trec_eval -m map -m recip_rank src/main/resources/topics-and-qrels/qrels.car17v1.5.benchmarkY1test.txt run.car17v1.5.bm25+ax.topics.car17v1.5.benchmarkY1test.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m recip_rank src/main/resources/topics-and-qrels/qrels.car17v1.5.benchmarkY1test.txt runs/run.car17v1.5.bm25+ax.topics.car17v1.5.benchmarkY1test.txt
 
-eval/trec_eval.9.0.4/trec_eval -m map -m recip_rank src/main/resources/topics-and-qrels/qrels.car17v1.5.benchmarkY1test.txt run.car17v1.5.ql.topics.car17v1.5.benchmarkY1test.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m recip_rank src/main/resources/topics-and-qrels/qrels.car17v1.5.benchmarkY1test.txt runs/run.car17v1.5.ql.topics.car17v1.5.benchmarkY1test.txt
 
-eval/trec_eval.9.0.4/trec_eval -m map -m recip_rank src/main/resources/topics-and-qrels/qrels.car17v1.5.benchmarkY1test.txt run.car17v1.5.ql+rm3.topics.car17v1.5.benchmarkY1test.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m recip_rank src/main/resources/topics-and-qrels/qrels.car17v1.5.benchmarkY1test.txt runs/run.car17v1.5.ql+rm3.topics.car17v1.5.benchmarkY1test.txt
 
-eval/trec_eval.9.0.4/trec_eval -m map -m recip_rank src/main/resources/topics-and-qrels/qrels.car17v1.5.benchmarkY1test.txt run.car17v1.5.ql+ax.topics.car17v1.5.benchmarkY1test.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m recip_rank src/main/resources/topics-and-qrels/qrels.car17v1.5.benchmarkY1test.txt runs/run.car17v1.5.ql+ax.topics.car17v1.5.benchmarkY1test.txt
 ```
 
 ## Effectiveness

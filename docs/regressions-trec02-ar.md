@@ -11,9 +11,12 @@ Note that this page is automatically generated from [this template](../src/main/
 Typical indexing command:
 
 ```
-nohup sh target/appassembler/bin/IndexCollection -collection CleanTrecCollection -input /path/to/trec02-ar \
- -index indexes/lucene-index.trec02-ar.pos+docvectors+raw -generator DefaultLuceneDocumentGenerator -threads 16 \
- -storePositions -storeDocvectors -storeRaw -language ar >& logs/log.trec02-ar.pos+docvectors+rawdocs &
+nohup sh target/appassembler/bin/IndexCollection -collection CleanTrecCollection \
+ -input /path/to/trec02-ar \
+ -index indexes/lucene-index.trec02-ar.pos+docvectors+raw \
+ -generator DefaultLuceneDocumentGenerator \
+ -threads 16 -storePositions -storeDocvectors -storeRaw -language ar \
+  >& logs/log.trec02-ar &
 ```
 
 The collection comprises Agence France Presse (AFP) Arabic newswire, from [LDC2001T55 (Arabic Newswire Part 1)](https://catalog.ldc.upenn.edu/LDC2001T55).
@@ -35,13 +38,14 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.trec02-ar.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.trec02ar-ar.txt \
- -language ar -bm25 -output run.trec02-ar.bm25.topics.trec02ar-ar.txt &
+ -output runs/run.trec02-ar.bm25.topics.trec02ar-ar.txt \
+ -language ar -bm25 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```
-eval/trec_eval.9.0.4/trec_eval -m map -m P.20 -m ndcg_cut.20 src/main/resources/topics-and-qrels/qrels.trec02ar.txt run.trec02-ar.bm25.topics.trec02ar-ar.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.20 -m ndcg_cut.20 src/main/resources/topics-and-qrels/qrels.trec02ar.txt runs/run.trec02-ar.bm25.topics.trec02ar-ar.txt
 ```
 
 ## Effectiveness
