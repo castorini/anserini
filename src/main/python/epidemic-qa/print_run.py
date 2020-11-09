@@ -2,13 +2,14 @@
 
 import argparse
 import csv
-from tqdm import tqdm
 
 import collections
 import json
+from pathlib import Path
+from os import path
 
 from typing import Dict
-
+from tqdm import tqdm
 
 def load_queries(path: str):
     """
@@ -31,7 +32,6 @@ def load_queries(path: str):
             queries[question_id] = (query, question)
 
     return queries
-
 
 def load_run(path):
     """
@@ -57,11 +57,28 @@ def load_run(path):
 
     return sorted_run
 
-def get_document_title(path):
+def get_document_title(path_to_toplevel_docs_directory, filename):
     """
     Returns the Python object corresponding to the document's parsed JSON.
     """
-    with open(path) as f:
+
+    if path.exists(path_to_toplevel_docs_directory + "/" + filename +".json"):
+        filepath = path_to_toplevel_docs_directory + "/" + filename +".json"
+    else:
+    # The final-round consumer primary corpus has nested subdirectories
+    # breaking up documents by search.  Also, some of the consumer documents 
+    # are suffixed with an additional GUID.  Therefore, we need to do a global
+    # search for the file if the initial search doesn't work.
+        filepaths = list(Path(path_to_toplevel_docs_directory).rglob(filename+"*"))
+        if len(filepaths) == 0:
+            print("Unable to find document named " + filename)
+            return ""
+        elif len(filepaths) > 1:
+            print("Multiple paths found for document named " + filename)
+
+        filepath = filepaths[0]
+    
+    with open(filepath) as f:
         raw_json = f.read()
         parsed_json = json.loads(raw_json)
     metadata = parsed_json["metadata"]
@@ -69,6 +86,7 @@ def get_document_title(path):
     if metadata["title"]:
         return metadata["title"]
     return ""
+
 
 parser = argparse.ArgumentParser(
     description='Print Epidemic QA runs into a human readable format.')
@@ -91,7 +109,7 @@ for query_id, (query, question) in queries.items():
     output = 'rank | doc_id | title'
     print(output)
     for rank, doc_id in enumerate(run[query_id][:args.docs_per_query]):
-        title = get_document_title(args.docs_path+"/"+doc_id+".json")
+        title = get_document_title(args.docs_path, doc_id)
         output = [str(rank + 1), doc_id, title]
         print(' | '.join(output))
     print('-' * 50)
