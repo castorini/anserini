@@ -550,14 +550,15 @@ public final class SearchCollection implements Closeable {
     if (args.sdm) {
       query = new SdmQueryGenerator(args.sdm_tw, args.sdm_ow, args.sdm_uw).buildQuery(IndexArgs.CONTENTS, analyzer, queryString);
     } else {
+      QueryGenerator generator;
       try {
-        QueryGenerator generator = (QueryGenerator) Class.forName("io.anserini.search.query." + args.queryGenerator)
+        generator = (QueryGenerator) Class.forName("io.anserini.search.query." + args.queryGenerator)
             .getConstructor().newInstance();
-        query = generator.buildQuery(IndexArgs.CONTENTS, analyzer, queryString);
       } catch (Exception e) {
         e.printStackTrace();
         throw new IllegalArgumentException("Unable to load QueryGenerator: " + args.topicReader);
       }
+      query = generator.buildQuery(IndexArgs.CONTENTS, analyzer, queryString);
     }
 
     TopDocs rs = new TopDocs(new TotalHits(0, TotalHits.Relation.EQUAL_TO), new ScoreDoc[]{});
