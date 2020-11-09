@@ -54,6 +54,57 @@ $ python src/main/python/trec-covid/download_doc2query_indexes.py --date 2020-07
 $ python src/main/python/trec-covid/generate_round5_doc2query_baselines.py
 ```
 
+### Evaluation with Round 5 Qrels
+
+Since the above runs were prepared _for_ round 5, we do not know how well they actually performed until the round 5 judgments from NIST were released.
+Here, we provide these evaluation results.
+
+Note that the runs posted on the [TREC-COVID archive](https://ir.nist.gov/covidSubmit/archive.html) are _not_ exactly the same the runs we submitted.
+According to NIST (from email to participants), they removed "documents that were previously judged but had id changes from the Round 5 submissions for scoring, even though the change in `cord_uid` was unknown at submission time."
+The actual evaluated runs are (mirrored from URL above):
+
+| group | runtag | run file | checksum |
+|:------|:-------|:---------|:---------|
+| `anserini` | `r5.d2q.fusion1` (NIST post-processed) | [[download](https://www.dropbox.com/s/ojphpgilqs8xexc/expanded.anserini.final-r5.fusion1.post-processed.txt)] | `03ad001d94c772649e17f4d164d4b2e2` |
+| `anserini` | `r5.d2q.fusion2` (NIST post-processed) | [[download](https://www.dropbox.com/s/q7vx0l8n2u81s7z/expanded.anserini.final-r5.fusion2.post-processed.txt)] | `4137c93e76970616e0eff2803501cd08` |
+| `anserini` | `r5.d2q.rf` (NIST post-processed)      | [[download](https://www.dropbox.com/s/l4l1bbbi8msmrfh/expanded.anserini.final-r5.rf.post-processed.txt)]      | `3dfba85c0630865a7b581c4358cf4587` |
+
+Effectiveness results (note that starting in Round 4, NIST changed from nDCG@10 to nDCG@20):
+
+| group | runtag | nDCG@20 | J@20 | AP   | R@1k |
+|:------|:-------|--------:|-----:|-----:|-----:|
+| `anserini` | `r5.d2q.fusion1`                       | 0.5374 | 0.8530 | 0.2236 | 0.5798
+| `anserini` | `r5.d2q.fusion1` (NIST post-processed) | 0.5414 | 0.8610 | 0.2246 | 0.5798
+| `anserini` | `r5.d2q.fusion2`                       | 0.5393 | 0.8650 | 0.2310 | 0.5861
+| `anserini` | `r5.d2q.fusion2` (NIST post-processed) | 0.5436 | 0.8700 | 0.2319 | 0.5861
+| `anserini` | `r5.d2q.rf`                            | 0.6040 | 0.8370 | 0.2410 | 0.6039
+| `anserini` | `r5.d2q.rf` (NIST post-processed)      | 0.6124 | 0.8470 | 0.2433 | 0.6039
+
+The scores of the post-processed runs match those reported by NIST.
+We see that that NIST post-processing improves scores slightly.
+
+Below, we report the effectiveness of the runs using the "complete" cumulative qrels file (covering rounds 1 through 5).
+This qrels file, provided by NIST as [`qrels-covid_d5_j0.5-5.txt`](https://ir.nist.gov/covidSubmit/data/qrels-covid_d5_j0.5-5.txt), is stored in our repo as [`qrels.covid-complete.txt`](../src/main/resources/topics-and-qrels/qrels.covid-complete.txt)).
+
+|    | index     | field(s)                 | nDCG@10 | J@10 | nDCG@20 | J@20 | AP | R@1k | J@1k |
+|---:|:----------|:-------------------------|--------:|-----:|--------:|-----:|---:|-----:|-----:|
+|  1 | abstract  | query+question                  | 0.6808 | 0.9980 | 0.6375 | 0.9600 | 0.2718 | 0.4550 | 0.3845
+|  2 | abstract  | UDel qgen                       | 0.6939 | 0.9920 | 0.6524 | 0.9610 | 0.2752 | 0.4595 | 0.3825
+|  3 | full-text | query+question                  | 0.6300 | 0.9680 | 0.5843 | 0.9260 | 0.2475 | 0.4201 | 0.3921
+|  4 | full-text | UDel qgen                       | 0.6611 | 0.9800 | 0.6360 | 0.9610 | 0.2746 | 0.4496 | 0.4073
+|  5 | paragraph | query+question                  | 0.6827 | 0.9800 | 0.6477 | 0.9670 | 0.3080 | 0.4936 | 0.4360
+|  6 | paragraph | UDel qgen                       | 0.7067 | 0.9960 | 0.6614 | 0.9760 | 0.3127 | 0.4985 | 0.4328
+|  7 | -         | reciprocal rank fusion(1, 3, 5) | 0.7072 | 1.0000 | 0.6731 | 0.9920 | 0.2964 | 0.5063 | 0.4528
+|  8 | -         | reciprocal rank fusion(2, 4, 6) | 0.7131 | 1.0000 | 0.6755 | 0.9910 | 0.3036 | 0.5166 | 0.4518
+|  9 | abstract  | UDel qgen + RF                  | 0.8160 | 1.0000 | 0.7787 | 0.9960 | 0.3421 | 0.5249 | 0.4107
+
+Note that all of the results above can be replicated with the following script:
+
+```bash
+$ python src/main/python/trec-covid/download_doc2query_indexes.py --date 2020-07-16
+$ python src/main/python/trec-covid/generate_round5_doc2query_baselines.py
+```
+
 
 ## Round 4
 

@@ -93,8 +93,8 @@ For the most part, manual copying and pasting of commands into a shell is requir
 + [Guide to BM25 baselines for the MS MARCO Passage Retrieval Task](docs/experiments-msmarco-passage.md)
 + [Guide to BM25 baselines for the MS MARCO Document Retrieval Task](docs/experiments-msmarco-doc.md)
 + [Guide to BM25 baselines for the FEVER Fact Verification Task](docs/experiments-fever.md)
-+ [Guide to replicating doc2query results](docs/experiments-doc2query.md)
-+ [Guide to replicating docTTTTTquery results](docs/experiments-docTTTTTquery.md)
++ [Guide to replicating doc2query results](docs/experiments-doc2query.md) (MS MARCO passage ranking and TREC-CAR)
++ [Guide to replicating docTTTTTquery results](docs/experiments-docTTTTTquery.md) (MS MARCO passage and document ranking)
 + [Guide to running experiments on the AI2 Open Research Corpus](docs/experiments-openresearch.md)
 + [Experiments from Yang et al. (JDIQ 2018)](docs/experiments-jdiq2018.md)
 + Runbooks for TREC 2018: [[Anserini group](docs/runbook-trec2018-anserini.md)] [[h2oloo group](docs/runbook-trec2018-h2oloo.md)]

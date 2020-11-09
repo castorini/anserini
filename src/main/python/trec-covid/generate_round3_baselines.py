@@ -100,11 +100,11 @@ def main():
     verify_stored_runs(stored_runs)
     perform_runs(3, indexes)
     perform_fusion(3, cumulative_runs, check_md5=True)
-    prepare_final_submissions(3, final_runs)
+    prepare_final_submissions(3, final_runs, check_md5=True)
 
-    evaluate_runs(round2_cumulative_qrels, cumulative_runs)
-    evaluate_runs(round3_cumulative_qrels, cumulative_runs)
-    evaluate_runs(round3_qrels, final_runs)
+    evaluate_runs(round2_cumulative_qrels, cumulative_runs, check_md5=True)
+    evaluate_runs(round3_cumulative_qrels, cumulative_runs, check_md5=True)
+    evaluate_runs(round3_qrels, final_runs, check_md5=True)
 
 
 if __name__ == '__main__':
