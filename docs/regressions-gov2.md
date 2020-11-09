@@ -14,7 +14,7 @@ nohup sh target/appassembler/bin/IndexCollection -collection TrecwebCollection \
  -index indexes/lucene-index.gov2.pos+docvectors+raw \
  -generator DefaultLuceneDocumentGenerator \
  -threads 44 -storePositions -storeDocvectors -storeRaw \
-  >& logs/log.gov2.pos+docvectors+rawdocs &
+  >& logs/log.gov2 &
 ```
 
 The directory `/path/to/gov2/` should be the root directory of the [Gov2 collection](http://ir.dcs.gla.ac.uk/test_collections/gov2-summary.htm), i.e., `ls /path/to/gov2/` should bring up a bunch of subdirectories, `GX000` to `GX272`.

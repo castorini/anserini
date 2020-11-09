@@ -14,7 +14,7 @@ nohup sh target/appassembler/bin/IndexCollection -collection ClueWeb12Collection
  -index indexes/lucene-index.cw12.pos+docvectors+raw \
  -generator DefaultLuceneDocumentGenerator \
  -threads 44 -storePositions -storeDocvectors -storeRaw \
-  >& logs/log.cw12.pos+docvectors+rawdocs &
+  >& logs/log.cw12 &
 ```
 
 The directory `/path/to/cw12/` should be the root directory of the (full) [ClueWeb12 collection](http://lemurproject.org/clueweb12.php/), i.e., `/path/to/cw12/` should contain `Disk1`, `Disk2`, `Disk3`, `Disk4`.

@@ -286,8 +286,7 @@ public class DataModel {
     for (String option : getIndex_options()) {
       builder.append(" ").append(option);
     }
-    builder.append(" \\\n")
-        .append(String.format("  >& logs/log.%s.pos+docvectors%s &", collection, containRawDocs ? "+rawdocs" : ""));
+    builder.append(" \\\n").append(String.format("  >& logs/log.%s &", collection));
     return builder.toString();
   }
 

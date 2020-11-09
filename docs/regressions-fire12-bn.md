@@ -16,7 +16,7 @@ nohup sh target/appassembler/bin/IndexCollection -collection CleanTrecCollection
  -index indexes/lucene-index.fire12-bn.pos+docvectors+raw \
  -generator DefaultLuceneDocumentGenerator \
  -threads 16 -storePositions -storeDocvectors -storeRaw -language bn \
-  >& logs/log.fire12-bn.pos+docvectors+rawdocs &
+  >& logs/log.fire12-bn &
 ```
 
 The directory `/path/to/fire12-bn/` should be a directory containing the collection, containing `bn_ABP` and `bn_BDNews24` directories.

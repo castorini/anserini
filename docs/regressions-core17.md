@@ -14,7 +14,7 @@ nohup sh target/appassembler/bin/IndexCollection -collection NewYorkTimesCollect
  -index indexes/lucene-index.core17.pos+docvectors+raw \
  -generator DefaultLuceneDocumentGenerator \
  -threads 16 -storePositions -storeDocvectors -storeRaw \
-  >& logs/log.core17.pos+docvectors+rawdocs &
+  >& logs/log.core17 &
 ```
 
 The directory `/path/to/nyt_corpus/` should be the root directory of the [New York Times Annotated Corpus](https://catalog.ldc.upenn.edu/LDC2008T19), i.e., `ls /path/to/nyt_corpus/`

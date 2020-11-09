@@ -20,7 +20,7 @@ nohup sh target/appassembler/bin/IndexCollection -collection JsonCollection \
  -index indexes/lucene-index.car17v2.0-doc2query.pos+docvectors+raw \
  -generator DefaultLuceneDocumentGenerator \
  -threads 30 -storePositions -storeDocvectors -storeRaw \
-  >& logs/log.car17v2.0-doc2query.pos+docvectors+rawdocs &
+  >& logs/log.car17v2.0-doc2query &
 ```
 
 The directory `/path/to/car17v2.0-doc2query` should be the root directory of Complex Answer Retrieval (CAR) paragraph corpus (v2.0) that has been augmented with the doc2query expansions, i.e., `collection_jsonl_expanded_topk10/` as described in [this page](experiments-doc2query.md).

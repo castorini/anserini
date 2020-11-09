@@ -16,7 +16,7 @@ nohup sh target/appassembler/bin/IndexCollection -collection JsonCollection \
  -index indexes/lucene-index.clef06-fr.pos+docvectors+raw \
  -generator DefaultLuceneDocumentGenerator \
  -threads 16 -storePositions -storeDocvectors -storeRaw -language fr \
-  >& logs/log.clef06-fr.pos+docvectors+rawdocs &
+  >& logs/log.clef06-fr &
 ```
 
 The collection comprises news articles from ATS (SDA) and Le Monde totaling 177,452 documents.

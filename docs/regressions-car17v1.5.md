@@ -14,7 +14,7 @@ nohup sh target/appassembler/bin/IndexCollection -collection CarCollection \
  -index indexes/lucene-index.car17v1.5.pos+docvectors+raw \
  -generator DefaultLuceneDocumentGenerator \
  -threads 1 -storePositions -storeDocvectors -storeRaw \
-  >& logs/log.car17v1.5.pos+docvectors+rawdocs &
+  >& logs/log.car17v1.5 &
 ```
 
 The directory `/path/to/car17v1.5` should be the root directory of Complex Answer Retrieval (CAR) paragraph corpus (v1.5), which can be downloaded [here](http://trec-car.cs.unh.edu/datareleases/).

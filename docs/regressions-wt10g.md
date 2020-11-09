@@ -14,7 +14,7 @@ nohup sh target/appassembler/bin/IndexCollection -collection TrecwebCollection \
  -index indexes/lucene-index.wt10g.pos+docvectors+raw \
  -generator DefaultLuceneDocumentGenerator \
  -threads 16 -storePositions -storeDocvectors -storeRaw \
-  >& logs/log.wt10g.pos+docvectors+rawdocs &
+  >& logs/log.wt10g &
 ```
 
 The directory `/path/to/wt10g/` should be the root directory of the [Wt10g collection](http://ir.dcs.gla.ac.uk/test_collections/wt10g.html), containing a bunch of subdirectories, `WTX001` to `WTX104`.

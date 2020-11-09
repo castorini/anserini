@@ -16,7 +16,7 @@ nohup sh target/appassembler/bin/IndexCollection -collection CleanTrecCollection
  -index indexes/lucene-index.fire12-en.pos+docvectors+raw \
  -generator DefaultLuceneDocumentGenerator \
  -threads 16 -storePositions -storeDocvectors -storeRaw -language en \
-  >& logs/log.fire12-en.pos+docvectors+rawdocs &
+  >& logs/log.fire12-en &
 ```
 
 The directory `/path/to/fire12-en/` should be a directory containing the collection, containing `en_BDNews24` and `en_TheTelegraph_2001-2010` directories.

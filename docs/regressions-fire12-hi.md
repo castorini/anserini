@@ -16,7 +16,7 @@ nohup sh target/appassembler/bin/IndexCollection -collection CleanTrecCollection
  -index indexes/lucene-index.fire12-hi.pos+docvectors+raw \
  -generator DefaultLuceneDocumentGenerator \
  -threads 16 -storePositions -storeDocvectors -storeRaw -language hi \
-  >& logs/log.fire12-hi.pos+docvectors+rawdocs &
+  >& logs/log.fire12-hi &
 ```
 
 The directory `/path/to/fire12-hi/` should be a directory containing the collection, containing `hi_AmarUjala` and `hi_NavbharatTimes` directories.

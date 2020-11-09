@@ -16,7 +16,7 @@ nohup sh target/appassembler/bin/IndexCollection -collection CleanTrecCollection
  -index indexes/lucene-index.ntcir8-zh.pos+docvectors+raw \
  -generator DefaultLuceneDocumentGenerator \
  -threads 16 -storePositions -storeDocvectors -storeRaw -language zh -uniqueDocid -optimize \
-  >& logs/log.ntcir8-zh.pos+docvectors+rawdocs &
+  >& logs/log.ntcir8-zh &
 ```
 
 The collection comprises Xinhua articles from 2002-2005, totaling 308,845 documents, from [LDC2007T38: Chinese Gigaword Third Edition](https://catalog.ldc.upenn.edu/LDC2007T38).

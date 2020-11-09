@@ -14,7 +14,7 @@ nohup sh target/appassembler/bin/IndexCollection -collection TrecCollection \
  -index indexes/lucene-index.robust05.pos+docvectors+raw \
  -generator DefaultLuceneDocumentGenerator \
  -threads 16 -storePositions -storeDocvectors -storeRaw \
-  >& logs/log.robust05.pos+docvectors+rawdocs &
+  >& logs/log.robust05 &
 ```
 
 The directory `/path/to/aquaint/` should be the root directory of the [AQUAINT collection](https://tac.nist.gov//data/data_desc.html#AQUAINT); under subdirectory `disk1/` there should be `NYT/` and under subdirectory `disk2/` there should be `APW/` and `XIE/`.

@@ -14,7 +14,7 @@ nohup sh target/appassembler/bin/IndexCollection -collection WashingtonPostColle
  -index indexes/lucene-index.core18.pos+docvectors+raw \
  -generator WashingtonPostGenerator \
  -threads 1 -storePositions -storeDocvectors -storeRaw \
-  >& logs/log.backgroundlinking18.pos+docvectors+rawdocs &
+  >& logs/log.backgroundlinking18 &
 ```
 
 The directory `/path/to/core18/` should be the root directory of the [TREC Washington Post Corpus](https://trec.nist.gov/data/wapost/), i.e., `ls /path/to/core18/`

@@ -14,7 +14,7 @@ nohup sh target/appassembler/bin/IndexCollection -collection ClueWeb12Collection
  -index indexes/lucene-index.cw12b13.pos+docvectors+raw \
  -generator DefaultLuceneDocumentGenerator \
  -threads 44 -storePositions -storeDocvectors -storeRaw \
-  >& logs/log.cw12b13.pos+docvectors+rawdocs &
+  >& logs/log.cw12b13 &
 ```
 
 The directory `/path/to/cw12-b13/` should be the root directory of the [ClueWeb12-B13 collection](http://lemurproject.org/clueweb12/ClueWeb12-CreateB13.php), i.e., `/path/to/cw12-b13/` should bring up a bunch of subdirectories, `ClueWeb12_00` to `ClueWeb12_18`.

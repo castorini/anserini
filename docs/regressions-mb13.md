@@ -17,7 +17,7 @@ nohup sh target/appassembler/bin/IndexCollection -collection TweetCollection \
  -index indexes/lucene-index.mb13.pos+docvectors+raw \
  -generator TweetGenerator \
  -threads 44 -storePositions -storeDocvectors -storeRaw -uniqueDocid -optimize -tweet.keepUrls -tweet.stemming \
-  >& logs/log.mb13.pos+docvectors+rawdocs &
+  >& logs/log.mb13 &
 ```
 
 More available indexing options:

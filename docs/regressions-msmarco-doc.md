@@ -16,7 +16,7 @@ nohup sh target/appassembler/bin/IndexCollection -collection CleanTrecCollection
  -index indexes/lucene-index.msmarco-doc.pos+docvectors+raw \
  -generator DefaultLuceneDocumentGenerator \
  -threads 1 -storePositions -storeDocvectors -storeRaw \
-  >& logs/log.msmarco-doc.pos+docvectors+rawdocs &
+  >& logs/log.msmarco-doc &
 ```
 
 The directory `/path/to/msmarco-doc/` should be a directory containing the official document collection (a single file), in TREC format.

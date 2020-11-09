@@ -14,7 +14,7 @@ nohup sh target/appassembler/bin/IndexCollection -collection TrecCollection \
  -index indexes/lucene-index.robust04.pos+docvectors+raw \
  -generator DefaultLuceneDocumentGenerator \
  -threads 16 -storePositions -storeDocvectors -storeRaw \
-  >& logs/log.robust04.pos+docvectors+rawdocs &
+  >& logs/log.robust04 &
 ```
 
 The directory `/path/to/disk45/` should be the root directory of [TREC Disks 4 &amp; 5](https://trec.nist.gov/data_disks.html); inside each there should be subdirectories like `ft`, `fr94`.

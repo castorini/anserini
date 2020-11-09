@@ -14,7 +14,7 @@ nohup sh target/appassembler/bin/IndexCollection -collection ClueWeb09Collection
  -index indexes/lucene-index.cw09b.pos+docvectors+raw \
  -generator DefaultLuceneDocumentGenerator \
  -threads 44 -storePositions -storeDocvectors -storeRaw \
-  >& logs/log.cw09b.pos+docvectors+rawdocs &
+  >& logs/log.cw09b &
 ```
 
 The directory `/path/to/ClueWeb09b` should be the root directory of the [ClueWeb09 (Category B) collection](http://lemurproject.org/clueweb09.php/), i.e., `ls /path/to/ClueWeb09b` should bring up a bunch of subdirectories, `en0000` to `enwp03`.

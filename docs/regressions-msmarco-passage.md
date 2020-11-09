@@ -16,7 +16,7 @@ nohup sh target/appassembler/bin/IndexCollection -collection JsonCollection \
  -index indexes/lucene-index.msmarco-passage.pos+docvectors+raw \
  -generator DefaultLuceneDocumentGenerator \
  -threads 9 -storePositions -storeDocvectors -storeRaw \
-  >& logs/log.msmarco-passage.pos+docvectors+rawdocs &
+  >& logs/log.msmarco-passage &
 ```
 
 The directory `/path/to/msmarco-passage/` should be a directory containing `jsonl` files converted from the official passage collection, which is in `tsv` format.
