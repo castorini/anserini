@@ -71,7 +71,7 @@ Effectiveness results (note that starting in Round 4, NIST changed from nDCG@10 
 | `anserini` | `r5.rf` (NIST post-processed)      | 0.7346 | 0.9470 | 0.3280 | 0.6378
 
 The scores of the post-processed runs match those reported by NIST.
-We see that that NIST post-processing improves scores slightly.
+We see that NIST post-processing improves scores slightly.
 
 Below, we report the effectiveness of the runs using the "complete" cumulative qrels file (covering rounds 1 through 5).
 This qrels file, provided by NIST as [`qrels-covid_d5_j0.5-5.txt`](https://ir.nist.gov/covidSubmit/data/qrels-covid_d5_j0.5-5.txt), is stored in our repo as [`qrels.covid-complete.txt`](../src/main/resources/topics-and-qrels/qrels.covid-complete.txt)).
@@ -88,7 +88,7 @@ This qrels file, provided by NIST as [`qrels-covid_d5_j0.5-5.txt`](https://ir.ni
 |  8 | -         | reciprocal rank fusion(2, 4, 6) | 0.6972 | 1.0000 | 0.6785 | 1.0000 | 0.3329 | 0.5313 | 0.4869
 |  9 | abstract  | UDel qgen + RF                  | 0.8395 | 1.0000 | 0.7955 | 0.9990 | 0.3911 | 0.5536 | 0.4607
 
-Note that all of the results above can be replicated with the following script:
+Note that all of the results above can be replicated with the following scripts:
 
 ```bash
 $ python src/main/python/trec-covid/download_indexes.py --date 2020-07-16
@@ -163,7 +163,7 @@ Effectiveness results (note that NIST changed from nDCG@10 to nDCG@20 for this r
 | `anserini` | `r4.rf` (NIST post-processed)      | 0.6976 | 0.9278 | 0.3519 | 0.6962
 
 The scores of the post-processed runs match those reported by NIST.
-We see that that NIST post-processing improves scores slightly.
+We see that NIST post-processing improves scores slightly.
 
 Below, we report the effectiveness of the runs using the cumulative qrels file from round 4.
 This qrels file, provided by NIST as [`qrels_covid_d4_j0.5-4.txt`](https://ir.nist.gov/covidSubmit/data/qrels-covid_d4_j0.5-4.txt), is stored in our repo as [`qrels.covid-round4-cumulative.txt`](../src/main/resources/topics-and-qrels/qrels.covid-round4-cumulative.txt)).
@@ -180,7 +180,7 @@ This qrels file, provided by NIST as [`qrels_covid_d4_j0.5-4.txt`](https://ir.ni
 |  8 | -         | reciprocal rank fusion(2, 4, 6) | 0.6802 | 1.0000 | 0.6573 | 0.9956 | 0.3286 | 0.5946 | 0.3625 |
 |  9 | abstract  | UDel qgen + RF                  | 0.8056 | 1.0000 | 0.7649 | 0.9967 | 0.3663 | 0.5955 | 0.3229 |
 
-Note that all of the results above can be replicated with the following script:
+Note that all of the results above can be replicated with the following scripts:
 
 ```bash
 $ python src/main/python/trec-covid/download_indexes.py --date 2020-06-19
@@ -266,7 +266,7 @@ Effectiveness results:
 | `anserini` | `r3.rf` (NIST post-processed)      | 0.6883 | 0.9750 | 0.2817 | 0.6399
 
 The scores of the post-processed runs match those reported by NIST.
-We see that that NIST post-processing improves scores slightly.
+We see that NIST post-processing improves scores slightly.
 
 Below, we report the effectiveness of the runs using the cumulative qrels file from round 3.
 This qrels file, provided by NIST as [`qrels_covid_d3_j0.5-3.txt`](https://ir.nist.gov/covidSubmit/data/qrels-covid_d3_j0.5-3.txt), is stored in our repo as [`qrels.covid-round3-cumulative.txt`](../src/main/resources/topics-and-qrels/qrels.covid-round3-cumulative.txt).
@@ -283,7 +283,7 @@ This qrels file, provided by NIST as [`qrels_covid_d3_j0.5-3.txt`](https://ir.ni
 |  8 | -         | reciprocal rank fusion(2, 4, 6) | 0.6515 | 0.9875 | 0.6200 | 0.9675 | 0.3027 | 0.6194 | 0.3076 |
 |  9 | abstract  | UDel qgen + RF                  | 0.7459 | 0.9875 | 0.7023 | 0.9637 | 0.3190 | 0.6125 | 0.2600 |
 
-Note that all of the results above can be replicated with the following script:
+Note that all of the results above can be replicated with the following scripts:
 
 ```bash
 $ python src/main/python/trec-covid/download_indexes.py --date 2020-05-19
