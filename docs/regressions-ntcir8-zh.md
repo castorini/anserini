@@ -11,9 +11,12 @@ Note that this page is automatically generated from [this template](../src/main/
 Typical indexing command:
 
 ```
-nohup sh target/appassembler/bin/IndexCollection -collection CleanTrecCollection -input /path/to/ntcir8-zh \
- -index indexes/lucene-index.ntcir8-zh.pos+docvectors+raw -generator DefaultLuceneDocumentGenerator -threads 16 \
- -storePositions -storeDocvectors -storeRaw -language zh -uniqueDocid -optimize >& logs/log.ntcir8-zh.pos+docvectors+rawdocs &
+nohup sh target/appassembler/bin/IndexCollection -collection CleanTrecCollection \
+ -input /path/to/ntcir8-zh \
+ -index indexes/lucene-index.ntcir8-zh.pos+docvectors+raw \
+ -generator DefaultLuceneDocumentGenerator \
+ -threads 16 -storePositions -storeDocvectors -storeRaw -language zh -uniqueDocid -optimize \
+  >& logs/log.ntcir8-zh &
 ```
 
 The collection comprises Xinhua articles from 2002-2005, totaling 308,845 documents, from [LDC2007T38: Chinese Gigaword Third Edition](https://catalog.ldc.upenn.edu/LDC2007T38).
@@ -35,13 +38,14 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.ntcir8-zh.pos+docvectors+raw \
  -topicreader TsvString -topics src/main/resources/topics-and-qrels/topics.ntcir8zh.eval.txt \
- -language zh -bm25 -output run.ntcir8-zh.bm25.topics.ntcir8zh.eval.txt &
+ -output runs/run.ntcir8-zh.bm25.topics.ntcir8zh.eval.txt \
+ -language zh -bm25 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```
-eval/trec_eval.9.0.4/trec_eval -m map -m P.20 -m ndcg_cut.20 src/main/resources/topics-and-qrels/qrels.ntcir8.eval.txt run.ntcir8-zh.bm25.topics.ntcir8zh.eval.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.20 -m ndcg_cut.20 src/main/resources/topics-and-qrels/qrels.ntcir8.eval.txt runs/run.ntcir8-zh.bm25.topics.ntcir8zh.eval.txt
 ```
 
 ## Effectiveness
