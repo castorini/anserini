@@ -222,7 +222,7 @@ def main():
     prepare_final_submissions(round3_cumulative_qrels)
 
     evaluate_runs(round4_cumulative_qrels, cumulative_runs, check_md5=True)
-    evaluate_runs(round4_qrels, final_runs)
+    evaluate_runs(round4_qrels, final_runs, check_md5=True)
 
 
 if __name__ == '__main__':
