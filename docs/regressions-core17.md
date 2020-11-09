@@ -9,9 +9,12 @@ Note that this page is automatically generated from [this template](../src/main/
 Typical indexing command:
 
 ```
-nohup sh target/appassembler/bin/IndexCollection -collection NewYorkTimesCollection -input /path/to/core17 \
- -index indexes/lucene-index.core17.pos+docvectors+raw -generator DefaultLuceneDocumentGenerator -threads 16 \
- -storePositions -storeDocvectors -storeRaw >& logs/log.core17.pos+docvectors+rawdocs &
+nohup sh target/appassembler/bin/IndexCollection -collection NewYorkTimesCollection \
+ -input /path/to/core17 \
+ -index indexes/lucene-index.core17.pos+docvectors+raw \
+ -generator DefaultLuceneDocumentGenerator \
+ -threads 16 -storePositions -storeDocvectors -storeRaw \
+  >& logs/log.core17 &
 ```
 
 The directory `/path/to/nyt_corpus/` should be the root directory of the [New York Times Annotated Corpus](https://catalog.ldc.upenn.edu/LDC2008T19), i.e., `ls /path/to/nyt_corpus/`
@@ -31,43 +34,49 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.core17.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.core17.txt \
- -bm25 -output run.core17.bm25.topics.core17.txt &
+ -output runs/run.core17.bm25.topics.core17.txt \
+ -bm25 &
 
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.core17.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.core17.txt \
- -bm25 -rm3 -output run.core17.bm25+rm3.topics.core17.txt &
+ -output runs/run.core17.bm25+rm3.topics.core17.txt \
+ -bm25 -rm3 &
 
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.core17.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.core17.txt \
- -bm25 -axiom -axiom.deterministic -rerankCutoff 20 -output run.core17.bm25+ax.topics.core17.txt &
+ -output runs/run.core17.bm25+ax.topics.core17.txt \
+ -bm25 -axiom -axiom.deterministic -rerankCutoff 20 &
 
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.core17.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.core17.txt \
- -qld -output run.core17.ql.topics.core17.txt &
+ -output runs/run.core17.ql.topics.core17.txt \
+ -qld &
 
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.core17.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.core17.txt \
- -qld -rm3 -output run.core17.ql+rm3.topics.core17.txt &
+ -output runs/run.core17.ql+rm3.topics.core17.txt \
+ -qld -rm3 &
 
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.core17.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.core17.txt \
- -qld -axiom -axiom.deterministic -rerankCutoff 20 -output run.core17.ql+ax.topics.core17.txt &
+ -output runs/run.core17.ql+ax.topics.core17.txt \
+ -qld -axiom -axiom.deterministic -rerankCutoff 20 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```
-eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.core17.txt run.core17.bm25.topics.core17.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.core17.txt runs/run.core17.bm25.topics.core17.txt
 
-eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.core17.txt run.core17.bm25+rm3.topics.core17.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.core17.txt runs/run.core17.bm25+rm3.topics.core17.txt
 
-eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.core17.txt run.core17.bm25+ax.topics.core17.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.core17.txt runs/run.core17.bm25+ax.topics.core17.txt
 
-eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.core17.txt run.core17.ql.topics.core17.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.core17.txt runs/run.core17.ql.topics.core17.txt
 
-eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.core17.txt run.core17.ql+rm3.topics.core17.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.core17.txt runs/run.core17.ql+rm3.topics.core17.txt
 
-eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.core17.txt run.core17.ql+ax.topics.core17.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.core17.txt runs/run.core17.ql+ax.topics.core17.txt
 ```
 
 ## Effectiveness

@@ -15,9 +15,12 @@ Note that this page is automatically generated from [this template](../src/main/
 Typical indexing command:
 
 ```
-nohup sh target/appassembler/bin/IndexCollection -collection JsonCollection -input /path/to/msmarco-passage-doc2query \
- -index indexes/lucene-index.msmarco-passage-doc2query.pos+docvectors+raw -generator DefaultLuceneDocumentGenerator -threads 9 \
- -storePositions -storeDocvectors -storeRaw >& logs/log.msmarco-passage-doc2query.pos+docvectors+rawdocs &
+nohup sh target/appassembler/bin/IndexCollection -collection JsonCollection \
+ -input /path/to/msmarco-passage-doc2query \
+ -index indexes/lucene-index.msmarco-passage-doc2query.pos+docvectors+raw \
+ -generator DefaultLuceneDocumentGenerator \
+ -threads 9 -storePositions -storeDocvectors -storeRaw \
+  >& logs/log.msmarco-passage-doc2query &
 ```
 
 The directory `/path/to/msmarco-passage/` should be a directory containing `jsonl` files converted from the official passage collection, appended with the doc2query expansions.
@@ -34,31 +37,35 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-passage-doc2query.pos+docvectors+raw \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
- -bm25 -output run.msmarco-passage-doc2query.bm25-default.topics.msmarco-passage.dev-subset.txt &
+ -output runs/run.msmarco-passage-doc2query.bm25-default.topics.msmarco-passage.dev-subset.txt \
+ -bm25 &
 
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-passage-doc2query.pos+docvectors+raw \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
- -bm25 -rm3 -output run.msmarco-passage-doc2query.bm25-default+rm3.topics.msmarco-passage.dev-subset.txt &
+ -output runs/run.msmarco-passage-doc2query.bm25-default+rm3.topics.msmarco-passage.dev-subset.txt \
+ -bm25 -rm3 &
 
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-passage-doc2query.pos+docvectors+raw \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
- -bm25 -bm25.k1 0.82 -bm25.b 0.68 -output run.msmarco-passage-doc2query.bm25-tuned.topics.msmarco-passage.dev-subset.txt &
+ -output runs/run.msmarco-passage-doc2query.bm25-tuned.topics.msmarco-passage.dev-subset.txt \
+ -bm25 -bm25.k1 0.82 -bm25.b 0.68 &
 
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-passage-doc2query.pos+docvectors+raw \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
- -bm25 -bm25.k1 0.82 -bm25.b 0.68 -rm3 -output run.msmarco-passage-doc2query.bm25-tuned+rm3.topics.msmarco-passage.dev-subset.txt &
+ -output runs/run.msmarco-passage-doc2query.bm25-tuned+rm3.topics.msmarco-passage.dev-subset.txt \
+ -bm25 -bm25.k1 0.82 -bm25.b 0.68 -rm3 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```
-eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt run.msmarco-passage-doc2query.bm25-default.topics.msmarco-passage.dev-subset.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-doc2query.bm25-default.topics.msmarco-passage.dev-subset.txt
 
-eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt run.msmarco-passage-doc2query.bm25-default+rm3.topics.msmarco-passage.dev-subset.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-doc2query.bm25-default+rm3.topics.msmarco-passage.dev-subset.txt
 
-eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt run.msmarco-passage-doc2query.bm25-tuned.topics.msmarco-passage.dev-subset.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-doc2query.bm25-tuned.topics.msmarco-passage.dev-subset.txt
 
-eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt run.msmarco-passage-doc2query.bm25-tuned+rm3.topics.msmarco-passage.dev-subset.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-doc2query.bm25-tuned+rm3.topics.msmarco-passage.dev-subset.txt
 ```
 
 ## Effectiveness

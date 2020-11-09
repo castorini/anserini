@@ -278,15 +278,15 @@ public class DataModel {
     StringBuilder builder = new StringBuilder();
     builder.append("nohup sh ");
     builder.append(getIndex_command());
-    builder.append(" -collection ").append(getCollection());
+    builder.append(" -collection ").append(getCollection()).append(" \\\n");
     builder.append(" -input ").append("/path/to/"+collection).append(" \\\n");
-    builder.append(" -index ").append(getIndex_path());
-    builder.append(" -generator ").append(getGenerator());
-    builder.append(" -threads ").append(getThreads()).append(" \\\n");
+    builder.append(" -index ").append(getIndex_path()).append(" \\\n");
+    builder.append(" -generator ").append(getGenerator()).append(" \\\n");
+    builder.append(" -threads ").append(getThreads());
     for (String option : getIndex_options()) {
       builder.append(" ").append(option);
     }
-    builder.append(String.format(" >& logs/log.%s.pos+docvectors%s &", collection, containRawDocs ? "+rawdocs" : ""));
+    builder.append(" \\\n").append(String.format("  >& logs/log.%s &", collection));
     return builder.toString();
   }
 
@@ -305,6 +305,7 @@ public class DataModel {
         builder.append(" ").append("-index").append(" ").append(getIndex_path()).append(" \\\n");
         builder.append(" ").append("-topicreader").append(" ").append(getTopic_reader());
         builder.append(" ").append("-topics").append(" ").append(Paths.get(getTopic_root(), topic.getPath()).toString()).append(" \\\n");
+        builder.append(" ").append("-output").append(" ").append("runs/run."+collection+"."+model.getName()+"."+topic.getPath()).append(" \\\n");
         if (getSearch_options() != null) {
           for (String option : getSearch_options()) {
             builder.append(" ").append(option);
@@ -315,7 +316,6 @@ public class DataModel {
             builder.append(" ").append(option);
           }
         }
-        builder.append(" ").append("-output").append(" ").append("run."+collection+"."+model.getName()+"."+topic.getPath());
         builder.append(" &"); // nohup
         builder.append("\n");
       }
@@ -340,7 +340,7 @@ public class DataModel {
           }
           String evalCmdResidual = "";
           evalCmdResidual += " "+Paths.get(getQrels_root(), topic.getQrel());
-          evalCmdResidual += " run."+collection+"."+model.getName()+"."+topic.getPath();
+          evalCmdResidual += " runs/run."+collection+"."+model.getName()+"."+topic.getPath();
           evalCmdResidual += "\n";
           if (eval.isCan_combine() || evalCmdOption.isEmpty()) {
             combinedEvalCmd.putIfAbsent(evalCmd, new HashMap<>());
