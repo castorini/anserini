@@ -88,7 +88,7 @@ This qrels file, provided by NIST as [`qrels-covid_d5_j0.5-5.txt`](https://ir.ni
 |  8 | -         | reciprocal rank fusion(2, 4, 6) | 0.6972 | 1.0000 | 0.6785 | 1.0000 | 0.3329 | 0.5313 | 0.4869
 |  9 | abstract  | UDel qgen + RF                  | 0.8395 | 1.0000 | 0.7955 | 0.9990 | 0.3911 | 0.5536 | 0.4607
 
-Note that all of the results above can be replicated with the following script:
+Note that all of the results above can be replicated with the following scripts:
 
 ```bash
 $ python src/main/python/trec-covid/download_indexes.py --date 2020-07-16
@@ -180,7 +180,7 @@ This qrels file, provided by NIST as [`qrels_covid_d4_j0.5-4.txt`](https://ir.ni
 |  8 | -         | reciprocal rank fusion(2, 4, 6) | 0.6802 | 1.0000 | 0.6573 | 0.9956 | 0.3286 | 0.5946 | 0.3625 |
 |  9 | abstract  | UDel qgen + RF                  | 0.8056 | 1.0000 | 0.7649 | 0.9967 | 0.3663 | 0.5955 | 0.3229 |
 
-Note that all of the results above can be replicated with the following script:
+Note that all of the results above can be replicated with the following scripts:
 
 ```bash
 $ python src/main/python/trec-covid/download_indexes.py --date 2020-06-19
@@ -283,7 +283,7 @@ This qrels file, provided by NIST as [`qrels_covid_d3_j0.5-3.txt`](https://ir.ni
 |  8 | -         | reciprocal rank fusion(2, 4, 6) | 0.6515 | 0.9875 | 0.6200 | 0.9675 | 0.3027 | 0.6194 | 0.3076 |
 |  9 | abstract  | UDel qgen + RF                  | 0.7459 | 0.9875 | 0.7023 | 0.9637 | 0.3190 | 0.6125 | 0.2600 |
 
-Note that all of the results above can be replicated with the following script:
+Note that all of the results above can be replicated with the following scripts:
 
 ```bash
 $ python src/main/python/trec-covid/download_indexes.py --date 2020-05-19
