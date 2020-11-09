@@ -78,7 +78,7 @@ python tools/scripts/msmarco/retrieve.py --hits 1000 \
  --output runs/run.msmarco-passage.dev.small.expanded-topk10.tsv
 ```
 
-Alternatively, we can use the Java version of the above script, which is faster (taking advantage of multi-threaded retrieval with the `-threads` option):
+Alternatively, we can use the Java implementation of the above script, which is faster (taking advantage of multi-threaded retrieval with the `-threads` option):
 
 ```
 sh target/appassembler/bin/SearchMsmarco  -hits 1000 -threads 8 \
@@ -202,3 +202,4 @@ TREC CAR corpus v2.0 in this experiment instead of corpus v1.5 used in the paper
 + Results replicated by [@edwinzhng](https://github.com/edwinzhng) on 2020-01-08 (commit [`5cc923d`](https://github.com/castorini/anserini/commit/5cc923d5c02777d8b25df32ff2e2a59be5badfdd))
 + Results replicated by [@HangCui0510](https://github.com/HangCui0510) on 2020-04-23 (commit [`0ae567d`](https://github.com/castorini/anserini/commit/0ae567df5c8a70ac211efd958c9ca1ff609ff782))
 + Results replicated by [@kelvin-jiang](https://github.com/kelvin-jiang) on 2020-05-25 (commit [`b6e0367`](https://github.com/castorini/anserini/commit/b6e0367ef4e2b4fce9d81c8397ef1188e35971e7))
++ Results replicated by [@lintool](https://github.com/lintool) on 2020-11-09 (commit [`94eae4`](https://github.com/castorini/anserini/commit/94eae4e06678446954446f2d47dae1666efe134f))
