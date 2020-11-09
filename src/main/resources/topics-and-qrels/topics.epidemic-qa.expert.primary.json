@@ -1,0 +1,182 @@
+[
+    {
+        "question_id": "EQ101",
+        "question": "What features of SARS-CoV2 are targeted in vaccine development? ",
+        "query": "coronavirus vaccine landscape",
+        "background": "Seeking information on guiding principles for the design of COVID-19 vaccine strategies and analyses of the current COVID-19 vaccine landscape and the challenges. "
+    },
+    {
+        "question_id": "EQ102",
+        "question": "How do cytokine pathways link sleep and immunity to infection and COVID-19?",
+        "query": "Sleep prevent covid",
+        "background": "Looking for information on bidirectional interactions between sleep, health and immunity in animal and human studies, both for COVID-19 and in general."
+    },
+    {
+        "question_id": "EQ103",
+        "question": "When is it safe to discharge a COVID-19 patient with pneumonia? ",
+        "query": "COVID-19 hospital discharge",
+        "background": "Looking for guidelines on discharging COVID-19 patients. The following aspects are of interest: duration of SARS-CoV-2 virus shedding in bodily fluids  after remission and in asymptomatic patients; tests to document the lack of infectivity after infection, and the longest documented transmission."
+    },
+    {
+        "question_id": "EQ104",
+        "question": "What endocrine complications are  linked to COVID-19?",
+        "query": "endocrine complications covid-19",
+        "background": "Looking for studies investigating whether SARS-CoV-2 may directly attack the endocrine glands, which glands could be affected and what are the short- and long-term manifestations "
+    },
+    {
+        "question_id": "EQ105",
+        "question": "What is the duration of protection and immunity to SARS-CoV-2? ",
+        "query": "COVID-19 immunity duration",
+        "background": "Looking for longitudinal serological studies that follow patients\u2019 immunity to study the duration of immunity. Models of protective immunity are also of interest."
+    },
+    {
+        "question_id": "EQ106",
+        "question": "What are the safety, tolerability, and immunogenicity properties of COVID-19 vaccines?",
+        "query": "adverse reactions to COVID-19 vaccines",
+        "background": "Looking for studies that evaluate tolerability and immunogenicity of COVID-19 vaccine in humans. The adverse events post-vaccination are of interest. "
+    },
+    {
+        "question_id": "EQ107",
+        "question": "What are the results of remdesivir trials for the treatment of COVID-19?",
+        "query": "results of remdesivir trials",
+        "background": "Looking for studies that evaluate improvement in clinical course, duration and severity of COVID-19 in people treated with remdesivir. The adverse reactions to the drug are of interest."
+    },
+    {
+        "question_id": "EQ108",
+        "question": "What is the diagnostic accuracy of the available COVID-19 tests?",
+        "query": "covid tests accuracy",
+        "background": "Looking for studies reporting the sensitivity and specificity of the available COVID-19 diagnostic tests."
+    },
+    {
+        "question_id": "EQ109",
+        "question": "Is the association between COVID-19 and diabetes driven by the dpp4 receptor?",
+        "query": "covid-19  diabetes dpp4",
+        "background": "Looking for studies on the role DPP4 plays in glucose and insulin metabolism and inflammation, as well as potential effect of DPP4 inhibitors on COVID-19"
+    },
+    {
+        "question_id": "EQ110",
+        "question": "What are the pros and cons for various types of masks in children aged 6 to 12 for COVID-19 prevention? ",
+        "query": "masks for children at school ",
+        "background": "Looking for studies on efficiency of different mask type for COVID-19 prevention in children, including compliance and psychological and physiologic effects."
+    },
+    {
+        "question_id": "EQ111",
+        "question": "What factors influence the duration of protection and immunity to SARS-CoV-2?  ",
+        "query": "Factors that influence duration of immunity to COVID-19",
+        "background": "Looking for studies of lasting immunity to SARS-CoV-2, such as severity of disease. Studies of reinfection with the same seasonal coronavirus are also of interest."
+    },
+    {
+        "question_id": "EQ112",
+        "question": "What are the implications of the known COVID-19 reinfection cases for vaccination?",
+        "query": "COVID-19 reinfection",
+        "background": "Looking for studies confirming that people have been infected by the same virus a second time, the severity of infection, the frequency of reinfection and the protectiveness of the vaccines. "
+    },
+    {
+        "question_id": "EQ113",
+        "question": "May delaying the onset of adaptive immune responses during the early phase of infections be a potential treatment for COVID\u201019?",
+        "query": "Delayed COVID-19 immune response",
+        "background": "Looking for studies of the interactions between the SARS-CoV-2 virus and the host immune response, specifically, whether delayed response could be protective or drive mortality. "
+    },
+    {
+        "question_id": "EQ114",
+        "question": "Which COVID-19 vaccine trials were paused and what were the health safety concerns?",
+        "query": "pauses for COVID-19 vaccine trials",
+        "background": "Looking for information about safety considerations that lead to recommendations to pause enrollment in the COVID-19 clinical trials, the differences between the paused trials and other similar studies, and the next steps after a trial was paused. Specific details about the vaccines and drugs for which the trials were paused are of interest, and so are the characteristics of the participants whose health conditions caused the suspension. Considerations of balancing the safety concerns and the study design, such as blinding, are of interest."
+    },
+    {
+        "question_id": "EQ115",
+        "question": "What are the genetic and immunologic underpinnings of severe COVID-19?",
+        "query": "covid gene links",
+        "background": "Looking for studies of genetic and immunologic characteristics that determine the patients\u2019 response to COVID-19, such as studies of genes that impact immunity. "
+    },
+    {
+        "question_id": "EQ116",
+        "question": "What are the interactions between innate and adaptive immune responses in COVID\u201019?",
+        "query": "pathways triggered by SARS-CoV-2",
+        "background": "Looking for studies of the innate and adaptive immune responses and their role in severity of COVID-19. Modeling and predictions of the disease course if the interactions are altered are of interest.  "
+    },
+    {
+        "question_id": "EQ117",
+        "question": "What measures  could mitigate resurgence of COVID-19?",
+        "query": "covid-19 resurgence",
+        "background": "Looking for studies relating the duration and effectiveness of social distancing and COVID-19 resurgence, as well as clinical trials of public health policies. "
+    },
+    {
+        "question_id": "EQ118",
+        "question": "How efficient are herd immunity approaches to COVID-19 containment?  ",
+        "query": "herd immunity vs. COVID-19 containment strategies",
+        "background": "Looking for studies that compare uncontrolled and controlled COVID-19 spread and other approaches  to achieving population immunity."
+    },
+    {
+        "question_id": "EQ119",
+        "question": "When should an employee suspected or confirmed to have COVID-19 return to work?",
+        "query": "Return to work after COVID-19",
+        "background": "Looking for guidelines concerning test results and other indicators for deeming the patients\u2019 return to workplace safe. "
+    },
+    {
+        "question_id": "EQ120",
+        "question": "Which interleukins and IL-inhibitors are involved in COVID-19 pathways?",
+        "query": "Interleukins and interleukin inhibitors in COVID-19",
+        "background": "Looking for studies of  cellular and molecular pathways of COVID-19 and potential therapeutic Interventions, such as interleukin inhibitors."
+    },
+    {
+        "question_id": "EQ121",
+        "question": "What are the characteristics and technological platforms of the COVID-19 vaccines that reached human clinical trials?",
+        "query": "COVID-19 vaccine candidates",
+        "background": "Looking for studies of the current COVID-19 vaccine candidates and their chances of success."
+    },
+    {
+        "question_id": "EQ122",
+        "question": "What is the role of corticosteroids in COVID-19?",
+        "query": "COVID-19 and steroids",
+        "background": "Looking for studies evaluating the dangers of treating COVID-19 patients with corticosteroids and potential benefits of steroid treatments. Interactions of steroids, SARS-CoV-2 and the immune system are of interest. "
+    },
+    {
+        "question_id": "EQ123",
+        "question": "Is there any scientific evidence that any of the alternative remedies can prevent or cure COVID-19?",
+        "query": "Covid-19 and alternative medicine",
+        "background": "Looking for clinical trials or observational studies showing effects of any natural and alternative treatments for COVID-19."
+    },
+    {
+        "question_id": "EQ124",
+        "question": "How do  mutations in SARS-CoV-2 impact its infectivity and antigenicity?",
+        "query": "SARS-CoV-2 mutations",
+        "background": "Looking for analyses of SARS-CoV-2 mutations, their frequency, infectivity and antigenicity. "
+    },
+    {
+        "question_id": "EQ125",
+        "question": "What computational predictions of SARS-CoV-2 mutations have been confirmed?",
+        "query": "SARS-CoV-2 mutation predictions",
+        "background": "Looking for studies that correlate computational predictions of SARS-CoV-2 mutations with population studies or observations. "
+    },
+    {
+        "question_id": "EQ126",
+        "question": "How clean Is the air in passenger aircrafts and what are the COVID-19 risk reduction steps for airports and airlines?",
+        "query": "covid-19 air travel safety",
+        "background": "Looking  for studies of the air quality in airplanes and airports, and guidelines for reducing risk of COVID-19 infection at the airports and aircrafts. "
+    },
+    {
+        "question_id": "EQ127",
+        "question": "How are telehealth services used during the Covid-19 pandemic and what is their impact on the population health?",
+        "query": "covid-19 telehealth",
+        "background": "Looking for studies of the role and benefits of telehealth services during the Covid-19 pandemic. "
+    },
+    {
+        "question_id": "EQ128",
+        "question": "What COVID-19 vaccine distribution plans are fair and  will have the most impact?",
+        "query": "covid-19 vaccine distribution plans",
+        "background": "Looking for availability of  COVID-19 vaccines and guidelines  for their distribution."
+    },
+    {
+        "question_id": "EQ129",
+        "question": "What approaches are recommended for developing  children\u2019s social and emotional coping skills during the COVID-19 pandemic?",
+        "query": "covid-19 child social skills and psychology",
+        "background": "Looking for guidelines and resources for ensuring children\u2019s well-being during the COVID-19 pandemic."
+    },
+    {
+        "question_id": "EQ130",
+        "question": "What studies are measuring risk factors  of daily life activities during COVID-19?",
+        "query": "risks of everyday activities during COVID-19",
+        "background": "Looking for studies measuring rates of COVID-19 infection and risk factors among people adhering to protective measures during daily life activities"
+    }
+]
