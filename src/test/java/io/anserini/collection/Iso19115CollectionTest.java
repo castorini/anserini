@@ -35,15 +35,20 @@ public class Iso19115CollectionTest extends DocumentCollectionTest<Iso19115Colle
 
     totalSegments = 1;
     totalDocs = 2;
-    expected.put("12957", Map.of("id", "12957", "title", "Test title", "abstract", "Test abstract"));
-    expected.put("13007", Map.of("id", "13007", "title","Test title 2", "abstract", "Test abstract 2"));
+    expected.put("12957", Map.of("id", "12957", "title", "Test title", "abstract", "Test abstract", "coordinates", "[[43.862008,-80.7178777],[43.862008,-80.272744],[43.6764444,-80.272744],[43.6764444,-80.7178777]]",
+                                    "thesaurusName", "Polar Data Catalogue Thesaurus (Canada) : https://www.polardata.ca/pdcinput/public/keywordlibrary"));
+    expected.put("13007", Map.of("id", "13007", "title","Test title 2", "abstract", "Test abstract 2", "coordinates", "[[43.452,-80.634],[43.452,-80.49],[43.313,-80.49],[43.313,-80.634]]",
+                                "thesaurusName", "Polar Data Catalogue Thesaurus (Canada) : https://www.polardata.ca/pdcinput/public/keywordlibrary"));
   }
 
   @Override
   void checkDocument(SourceDocument doc, Map<String, String> expected) {
+    // System.out.println(((Iso19115Collection.Document) doc).getThesaurusName());
     assertTrue(doc.indexable());
     assertEquals(expected.get("id"), doc.id());
     assertEquals(expected.get("title"), ((Iso19115Collection.Document) doc).getTitle());
     assertEquals(expected.get("abstract"), ((Iso19115Collection.Document) doc).getAbstract());
+    assertEquals(expected.get("coordinates"), ((Iso19115Collection.Document) doc).getCoordinates());
+    assertEquals(expected.get("thesaurusName"), ((Iso19115Collection.Document) doc).getThesaurusName());
   }
 }

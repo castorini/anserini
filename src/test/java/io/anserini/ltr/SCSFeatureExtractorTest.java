@@ -16,21 +16,23 @@
 
 package io.anserini.ltr;
 
-import io.anserini.ltr.feature.FeatureExtractors;
-import io.anserini.ltr.feature.base.SimplifiedClarityFeatureExtractor;
+import io.anserini.ltr.feature.FeatureExtractor;
+import io.anserini.ltr.feature.base.SCSFeatureExtractor;
 import org.junit.Test;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Tests the simplified clarity feature
  */
 public class SCSFeatureExtractorTest extends BaseFeatureExtractorTest<Integer> {
-  private FeatureExtractors EXTRACTOR = getChain(new SimplifiedClarityFeatureExtractor());
+
+  private FeatureExtractor EXTRACTOR = new SCSFeatureExtractor();
 
   @Test
-  public void testBadQuery() throws IOException {
+  public void testBadQuery() throws IOException, ExecutionException, InterruptedException {
     String testQuery = "test";
     // P[t|q] = 1
     // P[t|D] = 0
@@ -41,7 +43,7 @@ public class SCSFeatureExtractorTest extends BaseFeatureExtractorTest<Integer> {
   }
 
   @Test
-  public void testSimpleQuery() throws IOException {
+  public void testSimpleQuery() throws IOException, ExecutionException, InterruptedException {
     String testQuery = "test";
 
     // P[t|q] = 1
@@ -59,7 +61,7 @@ public class SCSFeatureExtractorTest extends BaseFeatureExtractorTest<Integer> {
   }
 
   @Test
-  public void testMultipleTokensQuery() throws IOException {
+  public void testMultipleTokensQuery() throws IOException, ExecutionException, InterruptedException {
     String testQuery = "test document";
 
     // P[t|q] = 1/2

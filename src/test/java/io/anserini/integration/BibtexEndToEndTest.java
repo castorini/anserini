@@ -48,10 +48,10 @@ public class BibtexEndToEndTest extends EndToEndTest {
         "raw", "this is the title. "));
 
     fieldNormStatusTotalFields = 12;
-    termIndexStatusTermCount = 42;
-    termIndexStatusTotFreq = 54;
+    termIndexStatusTermCount = 45;
+    termIndexStatusTotFreq = 57;
     storedFieldStatusTotalDocCounts = 3;
-    termIndexStatusTotPos = 54;
+    termIndexStatusTotPos = 57;
     storedFieldStatusTotFields = 37;
   }
 

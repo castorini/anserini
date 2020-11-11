@@ -36,7 +36,13 @@ public class Iso19115Generator extends DefaultLuceneDocumentGenerator<Iso19115Co
     CATALOGUE("catalogue"),
     PUBLISH_TIME("publish_time"),
     URL("url"),
-    COORDINATES("coordinates");
+    COORDINATES("coordinates"),
+    PURPOSE("purpose"),
+    SUPPLINFO("supplinfo"),
+    TOPIC_CATEGORY("topic_category"),
+    KEYWORDS("keywords"),
+    RECOMMENDED_CITATION("recommended_citation"),
+    THEASURUS_NAME("theasurus_name");
 
     public final String name;
 
@@ -59,11 +65,23 @@ public class Iso19115Generator extends DefaultLuceneDocumentGenerator<Iso19115Co
     document.add(new StringField(Iso19115Field.CATALOGUE.name, doc.getCatalogue(), Field.Store.YES));
     document.add(new StringField(Iso19115Field.PUBLISH_TIME.name, doc.getPublish_time(), Field.Store.YES));
     document.add(new StringField(Iso19115Field.URL.name, doc.getUrl(), Field.Store.YES));
+    document.add(new StringField(Iso19115Field.PURPOSE.name, doc.getPurpose(), Field.Store.YES));
+    document.add(new StringField(Iso19115Field.SUPPLINFO.name, doc.getSupplInfo(), Field.Store.YES));
+    document.add(new StringField(Iso19115Field.TOPIC_CATEGORY.name, doc.getTopicCategory(), Field.Store.YES));
+    document.add(new StringField(Iso19115Field.RECOMMENDED_CITATION.name, doc.getRecommendedCitation(), Field.Store.YES));
+    document.add(new StringField(Iso19115Field.THEASURUS_NAME.name, doc.getThesaurusName(), Field.Store.YES));
+
 
     // indexing the authors
     String[] responsibleParty = doc.getResponsibleParty();
     for(String author: responsibleParty) {
       document.add(new StringField(Iso19115Field.RESPONSIBLE_PARTY.name, author, Field.Store.YES));
+    }
+
+    // indexing the keywords
+    String[] keywords = doc.getKeywords();
+    for(String keyword: keywords) {
+      document.add(new StringField(Iso19115Field.KEYWORDS.name, keyword, Field.Store.YES));
     }
 
     // indexing the coordinates

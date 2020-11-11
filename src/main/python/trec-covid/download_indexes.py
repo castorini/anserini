@@ -30,7 +30,10 @@ all_indexes = {
                    'https://www.dropbox.com/s/7z8szogu5neuhqe/lucene-index-cord19-paragraph-2020-05-19.tar.gz?dl=1'],
     '2020-06-19': ['https://www.dropbox.com/s/bj6lx80wwiy5hxf/lucene-index-cord19-abstract-2020-06-19.tar.gz?dl=1',
                    'https://www.dropbox.com/s/vkhhxj8u36rgdu9/lucene-index-cord19-full-text-2020-06-19.tar.gz?dl=1',
-                   'https://www.dropbox.com/s/yk6egw6op4jccpi/lucene-index-cord19-paragraph-2020-06-19.tar.gz?dl=1']
+                   'https://www.dropbox.com/s/yk6egw6op4jccpi/lucene-index-cord19-paragraph-2020-06-19.tar.gz?dl=1'],
+    '2020-07-16': ['https://www.dropbox.com/s/jza7sdesjn7iqye/lucene-index-cord19-abstract-2020-07-16.tar.gz?dl=1',
+                   'https://www.dropbox.com/s/6jc1r2ler87q4ws/lucene-index-cord19-full-text-2020-07-16.tar.gz?dl=1',
+                   'https://www.dropbox.com/s/egupksu09qdef06/lucene-index-cord19-paragraph-2020-07-16.tar.gz?dl=1']
 }
 
 

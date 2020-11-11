@@ -382,6 +382,38 @@ public class IndexReaderUtilsTest extends IndexerTestBase {
   }
 
   @Test
+  public void testTermPositions() throws Exception {
+    Directory dir = FSDirectory.open(tempDir1);
+    IndexReader reader = DirectoryReader.open(dir);
+
+    Map<String, List<Integer>> termPositions;
+
+    termPositions = IndexReaderUtils.getTermPositions(reader, "doc1");
+    assertEquals(Integer.valueOf(0), termPositions.get("here").get(0));
+    assertEquals(Integer.valueOf(4), termPositions.get("here").get(1));
+    assertEquals(Integer.valueOf(2), termPositions.get("some").get(0));
+    assertEquals(Integer.valueOf(6), termPositions.get("some").get(1));
+    assertEquals(Integer.valueOf(3), termPositions.get("text").get(0));
+    assertEquals(Integer.valueOf(8), termPositions.get("text").get(1));
+    assertEquals(Integer.valueOf(7), termPositions.get("more").get(0));
+    assertEquals(Integer.valueOf(9), termPositions.get("citi").get(0));
+
+    termPositions = IndexReaderUtils.getTermPositions(reader, "doc2");
+    assertEquals(Integer.valueOf(0), termPositions.get("more").get(0));
+    assertEquals(Integer.valueOf(1), termPositions.get("text").get(0));
+
+    termPositions = IndexReaderUtils.getTermPositions(reader, "doc3");
+    assertEquals(Integer.valueOf(0), termPositions.get("here").get(0));
+    assertEquals(Integer.valueOf(3), termPositions.get("test").get(0));
+
+    // Invalid docid.
+    assertTrue(IndexReaderUtils.getDocumentVector(reader, "foo") == null);
+
+    reader.close();
+    dir.close();
+  }
+
+  @Test
   public void testGetDocumentRaw() throws Exception {
     Directory dir = FSDirectory.open(tempDir1);
     IndexReader reader = DirectoryReader.open(dir);

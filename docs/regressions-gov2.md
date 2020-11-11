@@ -9,9 +9,12 @@ Note that this page is automatically generated from [this template](../src/main/
 Typical indexing command:
 
 ```
-nohup sh target/appassembler/bin/IndexCollection -collection TrecwebCollection -input /path/to/gov2 \
- -index indexes/lucene-index.gov2.pos+docvectors+raw -generator DefaultLuceneDocumentGenerator -threads 44 \
- -storePositions -storeDocvectors -storeRaw >& logs/log.gov2.pos+docvectors+rawdocs &
+nohup sh target/appassembler/bin/IndexCollection -collection TrecwebCollection \
+ -input /path/to/gov2 \
+ -index indexes/lucene-index.gov2.pos+docvectors+raw \
+ -generator DefaultLuceneDocumentGenerator \
+ -threads 44 -storePositions -storeDocvectors -storeRaw \
+  >& logs/log.gov2 &
 ```
 
 The directory `/path/to/gov2/` should be the root directory of the [Gov2 collection](http://ir.dcs.gla.ac.uk/test_collections/gov2-summary.htm), i.e., `ls /path/to/gov2/` should bring up a bunch of subdirectories, `GX000` to `GX272`.
@@ -34,91 +37,109 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.gov2.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.terabyte04.701-750.txt \
- -bm25 -output run.gov2.bm25.topics.terabyte04.701-750.txt &
+ -output runs/run.gov2.bm25.topics.terabyte04.701-750.txt \
+ -bm25 &
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.gov2.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.terabyte05.751-800.txt \
- -bm25 -output run.gov2.bm25.topics.terabyte05.751-800.txt &
+ -output runs/run.gov2.bm25.topics.terabyte05.751-800.txt \
+ -bm25 &
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.gov2.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.terabyte06.801-850.txt \
- -bm25 -output run.gov2.bm25.topics.terabyte06.801-850.txt &
+ -output runs/run.gov2.bm25.topics.terabyte06.801-850.txt \
+ -bm25 &
 
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.gov2.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.terabyte04.701-750.txt \
- -bm25 -rm3 -output run.gov2.bm25+rm3.topics.terabyte04.701-750.txt &
+ -output runs/run.gov2.bm25+rm3.topics.terabyte04.701-750.txt \
+ -bm25 -rm3 &
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.gov2.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.terabyte05.751-800.txt \
- -bm25 -rm3 -output run.gov2.bm25+rm3.topics.terabyte05.751-800.txt &
+ -output runs/run.gov2.bm25+rm3.topics.terabyte05.751-800.txt \
+ -bm25 -rm3 &
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.gov2.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.terabyte06.801-850.txt \
- -bm25 -rm3 -output run.gov2.bm25+rm3.topics.terabyte06.801-850.txt &
+ -output runs/run.gov2.bm25+rm3.topics.terabyte06.801-850.txt \
+ -bm25 -rm3 &
 
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.gov2.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.terabyte04.701-750.txt \
- -bm25 -axiom -axiom.beta 0.1 -axiom.deterministic -rerankCutoff 20 -output run.gov2.bm25+ax.topics.terabyte04.701-750.txt &
+ -output runs/run.gov2.bm25+ax.topics.terabyte04.701-750.txt \
+ -bm25 -axiom -axiom.beta 0.1 -axiom.deterministic -rerankCutoff 20 &
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.gov2.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.terabyte05.751-800.txt \
- -bm25 -axiom -axiom.beta 0.1 -axiom.deterministic -rerankCutoff 20 -output run.gov2.bm25+ax.topics.terabyte05.751-800.txt &
+ -output runs/run.gov2.bm25+ax.topics.terabyte05.751-800.txt \
+ -bm25 -axiom -axiom.beta 0.1 -axiom.deterministic -rerankCutoff 20 &
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.gov2.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.terabyte06.801-850.txt \
- -bm25 -axiom -axiom.beta 0.1 -axiom.deterministic -rerankCutoff 20 -output run.gov2.bm25+ax.topics.terabyte06.801-850.txt &
+ -output runs/run.gov2.bm25+ax.topics.terabyte06.801-850.txt \
+ -bm25 -axiom -axiom.beta 0.1 -axiom.deterministic -rerankCutoff 20 &
 
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.gov2.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.terabyte04.701-750.txt \
- -qld -output run.gov2.ql.topics.terabyte04.701-750.txt &
+ -output runs/run.gov2.ql.topics.terabyte04.701-750.txt \
+ -qld &
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.gov2.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.terabyte05.751-800.txt \
- -qld -output run.gov2.ql.topics.terabyte05.751-800.txt &
+ -output runs/run.gov2.ql.topics.terabyte05.751-800.txt \
+ -qld &
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.gov2.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.terabyte06.801-850.txt \
- -qld -output run.gov2.ql.topics.terabyte06.801-850.txt &
+ -output runs/run.gov2.ql.topics.terabyte06.801-850.txt \
+ -qld &
 
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.gov2.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.terabyte04.701-750.txt \
- -qld -rm3 -output run.gov2.ql+rm3.topics.terabyte04.701-750.txt &
+ -output runs/run.gov2.ql+rm3.topics.terabyte04.701-750.txt \
+ -qld -rm3 &
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.gov2.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.terabyte05.751-800.txt \
- -qld -rm3 -output run.gov2.ql+rm3.topics.terabyte05.751-800.txt &
+ -output runs/run.gov2.ql+rm3.topics.terabyte05.751-800.txt \
+ -qld -rm3 &
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.gov2.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.terabyte06.801-850.txt \
- -qld -rm3 -output run.gov2.ql+rm3.topics.terabyte06.801-850.txt &
+ -output runs/run.gov2.ql+rm3.topics.terabyte06.801-850.txt \
+ -qld -rm3 &
 
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.gov2.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.terabyte04.701-750.txt \
- -qld -axiom -axiom.beta 0.1 -axiom.deterministic -rerankCutoff 20 -output run.gov2.ql+ax.topics.terabyte04.701-750.txt &
+ -output runs/run.gov2.ql+ax.topics.terabyte04.701-750.txt \
+ -qld -axiom -axiom.beta 0.1 -axiom.deterministic -rerankCutoff 20 &
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.gov2.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.terabyte05.751-800.txt \
- -qld -axiom -axiom.beta 0.1 -axiom.deterministic -rerankCutoff 20 -output run.gov2.ql+ax.topics.terabyte05.751-800.txt &
+ -output runs/run.gov2.ql+ax.topics.terabyte05.751-800.txt \
+ -qld -axiom -axiom.beta 0.1 -axiom.deterministic -rerankCutoff 20 &
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.gov2.pos+docvectors+raw \
  -topicreader Trec -topics src/main/resources/topics-and-qrels/topics.terabyte06.801-850.txt \
- -qld -axiom -axiom.beta 0.1 -axiom.deterministic -rerankCutoff 20 -output run.gov2.ql+ax.topics.terabyte06.801-850.txt &
+ -output runs/run.gov2.ql+ax.topics.terabyte06.801-850.txt \
+ -qld -axiom -axiom.beta 0.1 -axiom.deterministic -rerankCutoff 20 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```
-eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.terabyte04.701-750.txt run.gov2.bm25.topics.terabyte04.701-750.txt
-eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.terabyte05.751-800.txt run.gov2.bm25.topics.terabyte05.751-800.txt
-eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.terabyte06.801-850.txt run.gov2.bm25.topics.terabyte06.801-850.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.terabyte04.701-750.txt runs/run.gov2.bm25.topics.terabyte04.701-750.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.terabyte05.751-800.txt runs/run.gov2.bm25.topics.terabyte05.751-800.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.terabyte06.801-850.txt runs/run.gov2.bm25.topics.terabyte06.801-850.txt
 
-eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.terabyte04.701-750.txt run.gov2.bm25+rm3.topics.terabyte04.701-750.txt
-eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.terabyte05.751-800.txt run.gov2.bm25+rm3.topics.terabyte05.751-800.txt
-eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.terabyte06.801-850.txt run.gov2.bm25+rm3.topics.terabyte06.801-850.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.terabyte04.701-750.txt runs/run.gov2.bm25+rm3.topics.terabyte04.701-750.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.terabyte05.751-800.txt runs/run.gov2.bm25+rm3.topics.terabyte05.751-800.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.terabyte06.801-850.txt runs/run.gov2.bm25+rm3.topics.terabyte06.801-850.txt
 
-eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.terabyte04.701-750.txt run.gov2.bm25+ax.topics.terabyte04.701-750.txt
-eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.terabyte05.751-800.txt run.gov2.bm25+ax.topics.terabyte05.751-800.txt
-eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.terabyte06.801-850.txt run.gov2.bm25+ax.topics.terabyte06.801-850.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.terabyte04.701-750.txt runs/run.gov2.bm25+ax.topics.terabyte04.701-750.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.terabyte05.751-800.txt runs/run.gov2.bm25+ax.topics.terabyte05.751-800.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.terabyte06.801-850.txt runs/run.gov2.bm25+ax.topics.terabyte06.801-850.txt
 
-eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.terabyte04.701-750.txt run.gov2.ql.topics.terabyte04.701-750.txt
-eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.terabyte05.751-800.txt run.gov2.ql.topics.terabyte05.751-800.txt
-eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.terabyte06.801-850.txt run.gov2.ql.topics.terabyte06.801-850.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.terabyte04.701-750.txt runs/run.gov2.ql.topics.terabyte04.701-750.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.terabyte05.751-800.txt runs/run.gov2.ql.topics.terabyte05.751-800.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.terabyte06.801-850.txt runs/run.gov2.ql.topics.terabyte06.801-850.txt
 
-eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.terabyte04.701-750.txt run.gov2.ql+rm3.topics.terabyte04.701-750.txt
-eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.terabyte05.751-800.txt run.gov2.ql+rm3.topics.terabyte05.751-800.txt
-eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.terabyte06.801-850.txt run.gov2.ql+rm3.topics.terabyte06.801-850.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.terabyte04.701-750.txt runs/run.gov2.ql+rm3.topics.terabyte04.701-750.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.terabyte05.751-800.txt runs/run.gov2.ql+rm3.topics.terabyte05.751-800.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.terabyte06.801-850.txt runs/run.gov2.ql+rm3.topics.terabyte06.801-850.txt
 
-eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.terabyte04.701-750.txt run.gov2.ql+ax.topics.terabyte04.701-750.txt
-eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.terabyte05.751-800.txt run.gov2.ql+ax.topics.terabyte05.751-800.txt
-eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.terabyte06.801-850.txt run.gov2.ql+ax.topics.terabyte06.801-850.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.terabyte04.701-750.txt runs/run.gov2.ql+ax.topics.terabyte04.701-750.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.terabyte05.751-800.txt runs/run.gov2.ql+ax.topics.terabyte05.751-800.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.terabyte06.801-850.txt runs/run.gov2.ql+ax.topics.terabyte06.801-850.txt
 ```
 
 ## Effectiveness

@@ -290,13 +290,19 @@
     <dependency> <!-- only needed for testing -->
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.12</version>
+      <version>4.13.1</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.apache.solr</groupId>
       <artifactId>solr-solrj</artifactId>
       <version>${lucene.version}</version>
+    </dependency>
+    <dependency> <!-- only needed for testing -->
+      <groupId>org.apache.solr</groupId>
+      <artifactId>solr-test-framework</artifactId>
+      <version>${lucene.version}</version>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.elasticsearch.client</groupId>
@@ -310,18 +316,23 @@
     </dependency>
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-core</artifactId>
+      <version>2.10.1</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-databind</artifactId>
-      <version>2.10.0.pr1</version>
+      <version>2.10.1</version>
     </dependency>
     <dependency>
       <groupId>com.fasterxml.jackson.datatype</groupId>
       <artifactId>jackson-datatype-jdk8</artifactId>
-      <version>2.10.0.pr1</version>
+      <version>2.10.1</version>
     </dependency>
     <dependency>
       <groupId>com.fasterxml.jackson.dataformat</groupId>
       <artifactId>jackson-dataformat-yaml</artifactId>
-      <version>2.10.0.pr1</version>
+      <version>2.10.1</version>
     </dependency>
     <dependency>
       <groupId>org.jsoup</groupId>
@@ -338,12 +349,12 @@
     <dependency>
       <groupId>org.apache.logging.log4j</groupId>
       <artifactId>log4j-api</artifactId>
-      <version>2.12.1</version>
+      <version>2.13.3</version>
     </dependency>
     <dependency>
       <groupId>org.apache.logging.log4j</groupId>
       <artifactId>log4j-core</artifactId>
-      <version>2.12.1</version>
+      <version>2.13.3</version>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
@@ -369,7 +380,7 @@
     <dependency> <!-- needed for CBZip2InputStream -->
       <groupId>org.apache.ant</groupId>
       <artifactId>ant</artifactId>
-      <version>1.9.1</version>
+      <version>1.9.15</version>
     </dependency>
     <dependency>
       <groupId>org.openrdf.sesame</groupId>
