@@ -1,4 +1,4 @@
-# Anserini: BM25 Baselines for MS MARCO Doc Retrieval
+# Anserini: BM25 Baselines for MS MARCO Document Ranking
 
 This page contains instructions for running BM25 baselines on the [MS MARCO *document* ranking task](https://microsoft.github.io/msmarco/).
 Note that there is a separate [MS MARCO *passage* ranking task](experiments-msmarco-passage.md).
