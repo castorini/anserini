@@ -1,4 +1,4 @@
-# Anserini: Regressions for MS MARCO Document Ranking with per-doc docTTTTTquery
+# Anserini: Regressions for MS MARCO Document Ranking
 
 This page documents regression experiments for the [MS MARCO document ranking task](https://github.com/microsoft/MSMARCO-Document-Ranking) with per-document docTTTTTquery document expansion, which is integrated into Anserini's regression testing framework.
 For more complete instructions on how to run end-to-end experiments, refer to [this page](https://github.com/castorini/docTTTTTquery#Replicating-MS-MARCO-Document-Ranking-Results-with-Anserini).
@@ -49,12 +49,12 @@ With the above commands, you should be able to replicate the following results:
 
 MAP                                     | BM25 (Default)|
 :---------------------------------------|-----------|
-[MS MARCO Document Ranking: Dev Queries](https://github.com/microsoft/TREC-2019-Deep-Learning)| 0.2886    |
+[MS MARCO Document Ranking: Dev Queries](https://github.com/microsoft/MSMARCO-Document-Ranking)| 0.2886    |
 
 
 R@1000                                  | BM25 (Default)|
 :---------------------------------------|-----------|
-[MS MARCO Document Ranking: Dev Queries](https://github.com/microsoft/TREC-2019-Deep-Learning)| 0.9259    |
+[MS MARCO Document Ranking: Dev Queries](https://github.com/microsoft/MSMARCO-Document-Ranking)| 0.9259    |
 
 See [this page](https://github.com/castorini/docTTTTTquery#Replicating-MS-MARCO-Document-Ranking-Results-with-Anserini) for more details.
 Note that here we are using `trec_eval` to evaluate the top 1000 hits for each query; beware, the runs provided by MS MARCO organizers for reranking have only 100 hits per query.

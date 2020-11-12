@@ -1,4 +1,4 @@
-# Anserini: Regressions for MS MARCO Document Ranking with per-doc docTTTTTquery
+# Anserini: Regressions for MS MARCO Document Ranking
 
 This page documents regression experiments for the [MS MARCO document ranking task](https://github.com/microsoft/MSMARCO-Document-Ranking), which is integrated into Anserini's regression testing framework.
 For more complete instructions on how to run end-to-end experiments, refer to [this page](experiments-msmarco-doc.md).
