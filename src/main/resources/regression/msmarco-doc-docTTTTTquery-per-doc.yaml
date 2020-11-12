@@ -1,0 +1,60 @@
+---
+name: msmarco-doc-docTTTTTquery-per-doc
+index_command: target/appassembler/bin/IndexCollection
+index_utils_command: target/appassembler/bin/IndexReaderUtils
+search_command: target/appassembler/bin/SearchCollection
+topic_root: src/main/resources/topics-and-qrels/
+qrels_root: src/main/resources/topics-and-qrels/
+index_root:
+ranking_root:
+collection: JsonCollection
+generator: DefaultLuceneDocumentGenerator
+threads: 1
+index_options:
+  - -storePositions
+  - -storeDocvectors
+  - -storeRaw
+topic_reader: TsvInt
+evals:
+  - command: tools/eval/trec_eval.9.0.4/trec_eval
+    params:
+      - -m map
+      - -c
+    separator: "\t"
+    parse_index: 2
+    metric: map
+    metric_precision: 4
+    can_combine: true
+  - command: tools/eval/trec_eval.9.0.4/trec_eval
+    params:
+      - -m recall.1000
+      - -c
+    separator: "\t"
+    parse_index: 2
+    metric: R@1000
+    metric_precision: 4
+    can_combine: true
+input_roots:
+  - /tuna1/      # on tuna
+  - /store/      # on orca
+  - /scratch2/   # on damiano
+input: collections/msmarco/doc-docTTTTTquery-per-doc
+index_path: indexes/lucene-index.msmarco-doc-docTTTTTquery-per-doc.pos+docvectors+raw
+index_stats:
+  documents: 3213834
+  documents (non-empty): 3213834
+  total terms: 3748332076
+topics:
+  - name: "[MS MARCO Document Ranking: Dev Queries](https://github.com/microsoft/MSMARCO-Document-Ranking)"
+    path: topics.msmarco-doc.dev.txt
+    qrel: qrels.msmarco-doc.dev.txt
+models:
+  - name: bm25-default
+    display: BM25 (Default)
+    params:
+      - -bm25
+    results:
+      map:
+        - 0.2886
+      R@1000:
+        - 0.9259
