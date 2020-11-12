@@ -45,7 +45,7 @@ index_stats:
   documents (non-empty): 3213835
   total terms: 2748636047
 topics:
-  - name: "[MS MARCO Document Ranking: Dev Queries](https://github.com/microsoft/TREC-2019-Deep-Learning)"
+  - name: "[MS MARCO Document Ranking: Dev Queries](https://github.com/microsoft/MSMARCO-Document-Ranking)"
     path: topics.msmarco-doc.dev.txt
     qrel: qrels.msmarco-doc.dev.txt
 models:
