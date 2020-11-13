@@ -55,9 +55,6 @@ public class SearchArgs {
   @Option(name = "-removedups", usage = "Remove duplicate docids when writing final run output.")
   public Boolean removedups = false;
 
-  @Option(name = "-strip_segment_id", usage = "Remove the .XXXXX suffix used to denote different segments from an document")
-  public Boolean strip_segment_id = false;
-
   @Option(name = "-skipexists", usage = "When enabled, will skip if the run file exists")
   public Boolean skipexists = false;
 
@@ -99,6 +96,27 @@ public class SearchArgs {
 
   @Option(name = "-runtag", metaVar = "[tag]", usage = "runtag")
   public String runtag = null;
+
+  // ---------------------------------------------
+  // Simple built-in support for passage retrieval
+  // ---------------------------------------------
+
+  // One simple approach to passage retrieval is to pre-segment documents in the corpus. One common convention is to
+  // break "docid" into "docid.00000", "docid.00001", "docid.00002" ... (alternatively, '#' can be used for the
+  // delimiter as well. At retrieval time, we retain only the max scoring segment from each document. The options below
+  // control this behavior.
+
+  @Option(name = "-selectMaxSegment", usage = "Select and retain only the max scoring segment from each document.")
+  public Boolean selectMaxSegment = false;
+
+  @Option(name = "-selectMaxSegment.delimiter", metaVar = "[regexp]",
+      usage = "The delimiter (as a regular regression) for splitting the segment id from the doc id.")
+  public String selectMaxSegment_delimiter = "\\.";
+
+  @Option(name = "-selectMaxSegment.hits", metaVar = "[int]",
+      usage = "Maximum number of hits to return per topic after segment id removal. " +
+              "Note that this is different from '-hits', which specifies the number of hits including the segment id. ")
+  public int selectMaxSegment_hits = 1000;
 
   // -------------------
   // ranking model: bm25
