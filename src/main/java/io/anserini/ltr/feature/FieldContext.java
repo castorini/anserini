@@ -1,15 +1,15 @@
 package io.anserini.ltr.feature;
 
 import org.apache.commons.lang3.tuple.Pair;
-import org.apache.lucene.document.Document;
 import org.apache.lucene.index.*;
-import org.apache.lucene.search.DocIdSetIterator;
+import org.apache.lucene.search.*;
 
 import java.io.IOException;
 import java.util.*;
 
 public class FieldContext {
     private IndexReader reader;
+    private IndexSearcher searcher;
     private String fieldName;
     public long totalTermFreq;
     public long numDocs;
@@ -27,8 +27,9 @@ public class FieldContext {
     //todo implement local normalization here
     public Map<String, List<Float>> statsCache;
 
-    public FieldContext(IndexReader reader, String fieldName){
+    public FieldContext(IndexReader reader, IndexSearcher searcher, String fieldName){
         this.reader = reader;
+        this.searcher = searcher;
         this.fieldName = fieldName;
         try {
             numDocs = reader.getDocCount(fieldName);
@@ -187,5 +188,20 @@ public class FieldContext {
             return posting;
         }
     }
+
+    public List<Integer> getAllDocID() {
+        Query q = new DocValuesFieldExistsQuery(fieldName);
+        List<Integer> DocIDs = new ArrayList<>();
+        try {
+            ScoreDoc[] scoreDocs = searcher.search(q, reader.maxDoc()).scoreDocs;
+            for (int i = 0; i < scoreDocs.length; i++) {
+                DocIDs.add(scoreDocs[i].doc);
+            }
+        } catch (IOException e) {
+//            e.printStackTrace();
+        }
+        return DocIDs;
+    }
+
 
 }

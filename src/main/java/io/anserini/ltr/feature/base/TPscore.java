@@ -28,7 +28,7 @@ public class TPscore implements FeatureExtractor {
 
     public static class BCTP {
         String id;
-        double weight =0.0;
+        double weight = 0.0;
         double accumulator = 0.0;
         double doc_count = 0;
      }
@@ -51,7 +51,7 @@ public class TPscore implements FeatureExtractor {
         //generte bctp_query which contains the position of specific term and some details of it
         for (String queryToken : queryContext.queryTokens) {
             double collectionFreqs = context.getCollectionFreq(queryToken);
-            BCTP t = null;
+            BCTP t = new BCTP();
             t.id = queryToken;
             t.doc_count = collectionFreqs;
             if (context.termFreqs.containsKey(queryToken)) {

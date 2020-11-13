@@ -74,6 +74,8 @@ public class SDM implements FeatureExtractor {
     for (Pair<String, String> bigram : bigrams) {
       long termFreq = context.countBigram(bigram.getLeft(), bigram.getRight(),this.window);
       double collectProb = (double)context.getBigramCollectionFreqs(bigram.getLeft(), bigram.getRight(), this.window)/totalTermFreq;
+      collectProb += (double)context.getBigramCollectionFreqs(bigram.getRight(), bigram.getLeft(), this.window)/totalTermFreq;
+
       //todo need discuss this
       if(collectProb==0) continue;
       score += per_bigram_unordered*Math.log((termFreq+mu*collectProb)/(mu+docSize));
