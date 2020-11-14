@@ -101,10 +101,17 @@ public class SearchArgs {
   // Simple built-in support for passage retrieval
   // ---------------------------------------------
 
-  // One simple approach to passage retrieval is to pre-segment documents in the corpus. One common convention is to
-  // break "docid" into "docid.00000", "docid.00001", "docid.00002" ... (alternatively, '#' can be used for the
-  // delimiter as well. At retrieval time, we retain only the max scoring segment from each document. The options below
-  // control this behavior.
+  // A simple approach to passage retrieval is to pre-segment documents in the corpus.
+  // At retrieval time, we retain only the max scoring segment from each document; this is often called MaxP, from
+  // Dai and Callan (SIGIR 2019).
+  //
+  // (Note segment = passage in this context.)
+  //
+  // One common convention is to break "docid" into "docid.00000", "docid.00001", "docid.00002", ...
+  // We use this convention in CORD-19. Alternatively, '#' can be used as the delimiter, which is the case with
+  // per-segment document expansion on MS MARCO docs.
+  //
+  // The options below control various aspects of this behavior.
 
   @Option(name = "-selectMaxSegment", usage = "Select and retain only the max scoring segment from each document.")
   public Boolean selectMaxSegment = false;
