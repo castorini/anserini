@@ -116,7 +116,8 @@ public class SearchArgs {
   @Option(name = "-selectMaxSegment.hits", metaVar = "[int]",
       usage = "Maximum number of hits to return per topic after segment id removal. " +
               "Note that this is different from '-hits', which specifies the number of hits including the segment id. ")
-  public int selectMaxSegment_hits = 1000;
+  public int selectMaxSegment_hits = Integer.MAX_VALUE;
+  // Note that by default here we explicitly *don't* restrict the final number of hits returned per topic.
 
   // -------------------
   // ranking model: bm25

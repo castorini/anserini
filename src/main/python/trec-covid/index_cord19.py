@@ -163,7 +163,7 @@ def verify_indexes(date):
     paragraph_index = f'indexes/lucene-index-cord19-paragraph-{date} '
     os.system(f'sh target/appassembler/bin/SearchCollection -index {paragraph_index} -topicreader Covid ' +
               f'-topics {topics} -topicfield query+question ' +
-              f'-removedups -strip_segment_id -bm25 -hits 1000 -output runs/verify.{date}.paragraph.txt')
+              f'-selectMaxSegment -bm25 -hits 1000 -output runs/verify.{date}.paragraph.txt')
     os.system(f'python tools/scripts/filter_run.py --whitelist {whitelist} --k 1000 ' +
               f'--input runs/verify.{date}.paragraph.txt --output runs/verify.{date}.paragraph.filtered.txt')
     paragraph_metrics = evaluate_run(f'verify.{date}.paragraph.filtered.txt')
