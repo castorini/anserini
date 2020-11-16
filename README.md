@@ -69,6 +69,7 @@ For the most part, these runs are based on [_default_ parameter settings](https:
 + [Regressions for MS MARCO Passage Ranking with docTTTTTquery expansion](docs/regressions-msmarco-passage-docTTTTTquery.md)
 + [Regressions for MS MARCO Document Ranking ](docs/regressions-msmarco-doc.md)
 + [Regressions for MS MARCO Document Ranking with per-doc docTTTTTquery expansion](docs/regressions-msmarco-doc-docTTTTTquery-per-doc.md)
++ [Regressions for MS MARCO Document Ranking with per-passage docTTTTTquery expansion](docs/regressions-msmarco-doc-docTTTTTquery-per-passage.md)
 + [Regressions for the TREC 2019 Deep Learning Track (Passage Ranking Task)](docs/regressions-dl19-passage.md)
 + [Regressions for the TREC 2019 Deep Learning Track (Document Ranking Task)](docs/regressions-dl19-doc.md)
 + [Regressions for the TREC 2018 News Track (Background Linking Task)](docs/regressions-backgroundlinking18.md)
