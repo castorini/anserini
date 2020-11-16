@@ -77,12 +77,12 @@ def perform_runs(round_number, indexes):
     paragraph_prefix = f'anserini.covid-r{round_number}.paragraph'
     os.system(f'target/appassembler/bin/SearchCollection -index {paragraph_index} ' +
               f'-topicreader Covid -topics {base_topics} -topicfield query+question ' +
-              f'-selectMaxSegment -bm25 -hits 50000 ' +
+              f'-selectMaxPassage -bm25 -hits 50000 ' +
               f'-output runs/{paragraph_prefix}.qq.bm25.txt -runtag {paragraph_prefix}.qq.bm25.txt')
 
     os.system(f'target/appassembler/bin/SearchCollection -index {paragraph_index} ' +
               f'-topicreader Covid -topics {udel_topics} -topicfield query ' +
-              f'-selectMaxSegment -bm25 -hits 50000 ' +
+              f'-selectMaxPassage -bm25 -hits 50000 ' +
               f'-output runs/{paragraph_prefix}.qdel.bm25.txt -runtag {paragraph_prefix}.qdel.bm25.txt')
 
 

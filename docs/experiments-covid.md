@@ -438,12 +438,12 @@ tar xvfz lucene-index-cord19-paragraph-2020-05-01.tar.gz
 target/appassembler/bin/SearchCollection -index indexes/lucene-index-cord19-paragraph-2020-05-01 \
  -topicreader Covid -topics src/main/resources/topics-and-qrels/topics.covid-round2.xml -topicfield query+question \
  -output runs/anserini.covid-r2.paragraph.qq.bm25.txt -runtag anserini.covid-r2.paragraph.qq.bm25.txt \
- -selectMaxSegment -bm25 -hits 10000
+ -selectMaxPassage -bm25 -hits 10000
 
 target/appassembler/bin/SearchCollection -index indexes/lucene-index-cord19-paragraph-2020-05-01 \
  -topicreader Covid -topics src/main/resources/topics-and-qrels/topics.covid-round2-udel.xml -topicfield query \
  -output runs/anserini.covid-r2.paragraph.qdel.bm25.txt -runtag anserini.covid-r2.paragraph.qdel.bm25.txt \
- -selectMaxSegment -bm25 -hits 10000
+ -selectMaxPassage -bm25 -hits 10000
 
 tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec src/main/resources/topics-and-qrels/qrels.covid-round1.txt runs/anserini.covid-r2.paragraph.qq.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
 tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec src/main/resources/topics-and-qrels/qrels.covid-round1.txt runs/anserini.covid-r2.paragraph.qdel.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
@@ -603,27 +603,27 @@ tar xvfz lucene-index-covid-paragraph-2020-04-10.tar.gz
 
 target/appassembler/bin/SearchCollection -index indexes/lucene-index-covid-paragraph-2020-04-10 \
  -topicreader Covid -topics src/main/resources/topics-and-qrels/topics.covid-round1.xml -topicfield query \
- -selectMaxSegment -bm25 -output runs/run.covid-r1.paragraph.query.bm25.txt
+ -selectMaxPassage -bm25 -output runs/run.covid-r1.paragraph.query.bm25.txt
 
 target/appassembler/bin/SearchCollection -index indexes/lucene-index-covid-paragraph-2020-04-10 \
  -topicreader Covid -topics src/main/resources/topics-and-qrels/topics.covid-round1.xml -topicfield question \
- -selectMaxSegment -bm25 -output runs/run.covid-r1.paragraph.question.bm25.txt
+ -selectMaxPassage -bm25 -output runs/run.covid-r1.paragraph.question.bm25.txt
 
 target/appassembler/bin/SearchCollection -index indexes/lucene-index-covid-paragraph-2020-04-10 \
  -topicreader Covid -topics src/main/resources/topics-and-qrels/topics.covid-round1.xml -topicfield query+question \
- -selectMaxSegment -bm25 -output runs/run.covid-r1.paragraph.query+question.bm25.txt
+ -selectMaxPassage -bm25 -output runs/run.covid-r1.paragraph.query+question.bm25.txt
 
 target/appassembler/bin/SearchCollection -index indexes/lucene-index-covid-paragraph-2020-04-10 \
  -topicreader Covid -topics src/main/resources/topics-and-qrels/topics.covid-round1.xml -topicfield query+question+narrative \
- -selectMaxSegment -bm25 -output runs/run.covid-r1.paragraph.query+question+narrative.bm25.txt
+ -selectMaxPassage -bm25 -output runs/run.covid-r1.paragraph.query+question+narrative.bm25.txt
 
 target/appassembler/bin/SearchCollection -index indexes/lucene-index-covid-paragraph-2020-04-10 \
  -topicreader Covid -topics src/main/resources/topics-and-qrels/topics.covid-round1-udel.xml -topicfield query \
- -selectMaxSegment -bm25 -output runs/run.covid-r1.paragraph.query-udel.bm25.txt
+ -selectMaxPassage -bm25 -output runs/run.covid-r1.paragraph.query-udel.bm25.txt
 
 target/appassembler/bin/SearchCollection -index indexes/lucene-index-covid-paragraph-2020-04-10 \
  -topicreader Covid -topics src/main/resources/topics-and-qrels/topics.covid-round1.xml -topicfield query -querygenerator Covid19QueryGenerator \
- -selectMaxSegment -bm25 -output runs/run.covid-r1.paragraph.query-covid19.bm25.txt
+ -selectMaxPassage -bm25 -output runs/run.covid-r1.paragraph.query-covid19.bm25.txt
 ```
 
 Here are the commands to evaluate results on the paragraph index:

@@ -134,12 +134,12 @@ def perform_runs(cumulative_qrels):
     paragraph_prefix = 'expanded.anserini.covid-r4.paragraph'
     os.system(f'target/appassembler/bin/SearchCollection -index {paragraph_index} ' +
               f'-topicreader Covid -topics {base_topics} -topicfield query+question ' +
-              f'-selectMaxSegment -bm25 -hits 50000 ' +
+              f'-selectMaxPassage -bm25 -hits 50000 ' +
               f'-output runs/{paragraph_prefix}.qq.bm25.txt -runtag {paragraph_prefix}.qq.bm25.txt')
 
     os.system(f'target/appassembler/bin/SearchCollection -index {paragraph_index} ' +
               f'-topicreader Covid -topics {udel_topics} -topicfield query ' +
-              f'-selectMaxSegment -bm25 -hits 50000 ' +
+              f'-selectMaxPassage -bm25 -hits 50000 ' +
               f'-output runs/{paragraph_prefix}.qdel.bm25.txt -runtag {paragraph_prefix}.qdel.bm25.txt')
 
 
