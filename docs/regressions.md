@@ -57,6 +57,7 @@ nohup python src/main/python/run_regression.py --collection msmarco-passage-doc2
 nohup python src/main/python/run_regression.py --collection msmarco-passage-docTTTTTquery >& logs/log.msmarco-passage-docTTTTTquery &
 nohup python src/main/python/run_regression.py --collection msmarco-doc >& logs/log.msmarco-doc &
 nohup python src/main/python/run_regression.py --collection msmarco-doc-docTTTTTquery-per-doc >& logs/log.msmarco-doc-docTTTTTquery-per-doc &
+nohup python src/main/python/run_regression.py --collection msmarco-doc-docTTTTTquery-per-passage >& logs/log.msmarco-doc-docTTTTTquery-per-passage &
 
 nohup python src/main/python/run_regression.py --collection dl19-passage >& logs/log.dl19-passage &
 nohup python src/main/python/run_regression.py --collection dl19-doc >& logs/log.dl19-doc &
@@ -99,6 +100,7 @@ nohup python src/main/python/run_regression.py --index --collection msmarco-pass
 nohup python src/main/python/run_regression.py --index --collection msmarco-passage-docTTTTTquery >& logs/log.msmarco-passage-docTTTTTquery &
 nohup python src/main/python/run_regression.py --index --collection msmarco-doc >& logs/log.msmarco-doc &
 nohup python src/main/python/run_regression.py --index --collection msmarco-doc-docTTTTTquery-per-doc >& logs/logs/log.msmarco-doc-docTTTTTquery-per-doc &
+nohup python src/main/python/run_regression.py --index --collection msmarco-doc-docTTTTTquery-per-passage >& logs/logs/log.msmarco-doc-docTTTTTquery-per-passage &
 
 nohup python src/main/python/run_regression.py --index --collection dl19-passage >& logs/log.dl19-passage &
 nohup python src/main/python/run_regression.py --index --collection dl19-doc >& logs/log.dl19-doc &
