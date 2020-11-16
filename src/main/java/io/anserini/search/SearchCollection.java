@@ -212,8 +212,8 @@ public final class SearchCollection implements Closeable {
           for (int i = 0; i < docs.documents.length; i++) {
             String docid = docs.documents[i].get(IndexArgs.ID);
 
-            if (args.selectMaxSegment) {
-              docid = docid.split(args.selectMaxSegment_delimiter)[0];
+            if (args.selectMaxPassage) {
+              docid = docid.split(args.selectMaxPassage_delimiter)[0];
             }
 
             if (docids.contains(docid))
@@ -227,13 +227,13 @@ public final class SearchCollection implements Closeable {
             //
             // However, we we're performing passage retrieval, i.e., with "selectMaxSegment", we *do* want to remove
             // duplicates.
-            if (args.removedups || args.selectMaxSegment) {
+            if (args.removedups || args.selectMaxPassage) {
               docids.add(docid);
             }
 
             rank++;
 
-            if (args.selectMaxSegment && rank > args.selectMaxSegment_hits) {
+            if (args.selectMaxPassage && rank > args.selectMaxPassage_hits) {
               break;
             }
           }
