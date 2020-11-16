@@ -43,6 +43,11 @@ public class SumMatchingTF implements FeatureExtractor {
   }
 
   @Override
+  public float postEdit(DocumentContext context, QueryContext queryContext) {
+    return queryContext.getSelfLog(context.docId, getName());
+  }
+
+  @Override
   public String getName() {
     return String.format("%s_SumMatchingTF", field);
   }

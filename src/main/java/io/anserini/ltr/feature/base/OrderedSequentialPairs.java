@@ -61,6 +61,11 @@ public class OrderedSequentialPairs implements FeatureExtractor {
   }
 
   @Override
+  public float postEdit(DocumentContext context, QueryContext queryContext) {
+    return queryContext.getSelfLog(context.docId, getName());
+  }
+
+  @Override
   public String getName() {
     return String.format("%s_OrderedSequentialPairs_%d", field, this.gapSize);
   }

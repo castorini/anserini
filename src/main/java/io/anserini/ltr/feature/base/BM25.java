@@ -80,6 +80,11 @@ public class BM25 implements FeatureExtractor {
   }
 
   @Override
+  public float postEdit(DocumentContext context, QueryContext queryContext) {
+    return queryContext.getSelfLog(context.docId, getName());
+  }
+
+  @Override
   public String getName() {
     return String.format("%s_BM25_k1_%.2f_b_%.2f",field, k1, b);
   }

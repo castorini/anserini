@@ -1,9 +1,7 @@
 package io.anserini.ltr.feature;
 
 import org.apache.commons.lang3.tuple.Pair;
-import org.apache.lucene.index.Term;
 
-import java.io.IOException;
 import java.util.*;
 
 public class QueryContext {
@@ -15,6 +13,8 @@ public class QueryContext {
     //todo pre-retrieval feature here
     public Map<String, Float> cache;
 
+    private Map<String, Map<String, Float>> featureLog;
+
     public QueryContext(List<String> queryTokens){
         this.queryTokens = queryTokens;
         this.queryText = String.join(",", queryTokens);
@@ -23,6 +23,7 @@ public class QueryContext {
         for (String token : queryTokens)
             queryFreqs.put(token, queryFreqs.getOrDefault(token,0)+1);
         this.cache = new HashMap<>();
+        this.featureLog = new HashMap<>();
     }
 
     public Integer getQueryFreq(String queryToken) {
@@ -47,6 +48,25 @@ public class QueryContext {
         return queryBigram;
     }
 
+    public void logExtract(String docId, List<Float> features, List<String> featureName){
+        assert featureName.size() == features.size();
+        Map<String, Float> docFeature = new HashMap<>();
+        for(int i=0; i<featureName.size(); i++){
+            docFeature.put(featureName.get(i),features.get(i));
+        }
+        featureLog.put(docId, docFeature);
+    }
 
+    public float getSelfLog(String docId, String featureName) {
+        return featureLog.get(docId).get(featureName);
+    }
+
+    public List<Float> getOthersLog(String docId, String featureName) {
+        List<Float> others = new ArrayList<>();
+        for(String otherDid: featureLog.keySet()){
+            others.add(featureLog.get(otherDid).get(featureName));
+        }
+        return others;
+    }
 
 }

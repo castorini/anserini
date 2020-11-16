@@ -74,6 +74,11 @@ public class Proximity implements FeatureExtractor {
     }
 
     @Override
+    public float postEdit(DocumentContext context, QueryContext queryContext) {
+        return queryContext.getSelfLog(context.docId, getName());
+    }
+
+    @Override
     public String getName() {
         return String.format("%s_Proximity", field);
     }

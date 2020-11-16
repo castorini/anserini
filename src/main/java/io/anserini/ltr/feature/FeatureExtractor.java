@@ -23,6 +23,8 @@ public interface FeatureExtractor {
 
   float extract(DocumentContext context, QueryContext queryContext);
 
+  float postEdit(DocumentContext context, QueryContext queryContext);
+
   /**
    * we need to make sure each thread has a thread-local copy of extractors
    * otherwise we will have concurrency problems

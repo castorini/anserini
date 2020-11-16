@@ -1,8 +1,11 @@
 package io.anserini.ltr.feature;
 
+import io.anserini.index.IndexArgs;
+import io.anserini.index.IndexReaderUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.lucene.index.*;
 import org.apache.lucene.search.*;
+import org.apache.lucene.util.SmallFloat;
 
 import java.io.IOException;
 import java.util.*;
@@ -203,5 +206,31 @@ public class FieldContext {
         return DocIDs;
     }
 
+    private void buildFieldStat(List<Integer> docids){
+        List<Long> fieldDocLength = new ArrayList<>();
+        List<Long> fieldTermCount = new ArrayList<>();
+        Terms terms = null;
+        for (int i: docids) {
+            try {
+                terms = reader.getTermVector(i, fieldName);
+                fieldDocLength.add(terms.getSumTotalTermFreq());
+                fieldTermCount.add(terms.size());
+            } catch (IOException e) {
+//                e.printStackTrace();
+            }
+        }
+        long sum = 0;
+        long squareSum = 0;
+        long min = 0;
+        long max = 0;
+        for (long v : fieldDocLength) {
+            sum += v;
+            squareSum += v * v;
+            if(v > max) max = v;
+            if(v < min) min = v;
+        }
+        double avg = sum / fieldDocLength.size();
+        double var = (squareSum / fieldDocLength.size() - avg * avg);
+    }
 
 }

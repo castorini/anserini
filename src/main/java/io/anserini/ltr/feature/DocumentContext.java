@@ -11,6 +11,7 @@ public class DocumentContext {
   private IndexReader reader;
   private IndexSearcher searcher;
   public Document doc;
+  public String docId;
   public Map<String, FieldContext> fieldContexts;
   private Set<String> fieldsToLoad;
 
@@ -25,8 +26,9 @@ public class DocumentContext {
   }
 
 
-  public void updateDoc(int internalId) throws IOException {
+  public void updateDoc(String docId, int internalId) throws IOException {
     doc = reader.document(internalId, fieldsToLoad);
+    this.docId = docId;
     for(String fieldName: fieldsToLoad)
       fieldContexts.get(fieldName).updateDoc(internalId);
   }

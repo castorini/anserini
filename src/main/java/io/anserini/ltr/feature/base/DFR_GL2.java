@@ -39,6 +39,11 @@ public class DFR_GL2 implements FeatureExtractor {
   }
 
   @Override
+  public float postEdit(DocumentContext context, QueryContext queryContext) {
+    return queryContext.getSelfLog(context.docId, getName());
+  }
+
+  @Override
   public String getName() {
     return String.format("%s_DFR_GL2", field);
   }

@@ -74,15 +74,15 @@ public class FeatureExtractorCli {
     }
     long executionStart = System.nanoTime();
     while((line=reader.readLine())!=null){
-      qids.add(utils.lazyExtract(line));
+      qids.add(utils.debugExtract(line));
       if(qids.size()>=100){
         try{
           while(qids.size()>0) {
             lastQid = qids.remove(0);
             String allResult = utils.getResult(lastQid);
-            TypeReference<ArrayList<output>> typeref = new TypeReference<>() {};
-            List<output> outputArray = mapper.readValue(allResult, typeref);
-            for(output res:outputArray){
+            TypeReference<ArrayList<debugOutput>> typeref = new TypeReference<>() {};
+            List<debugOutput> outputArray = mapper.readValue(allResult, typeref);
+            for(debugOutput res:outputArray){
               for(int i = 0; i < names.size(); i++){
                 time[i] += res.time.get(i);
               }
