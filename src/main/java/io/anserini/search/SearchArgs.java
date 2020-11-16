@@ -101,29 +101,28 @@ public class SearchArgs {
   // Simple built-in support for passage retrieval
   // ---------------------------------------------
 
-  // A simple approach to passage retrieval is to pre-segment documents in the corpus.
-  // At retrieval time, we retain only the max scoring segment from each document; this is often called MaxP, from
-  // Dai and Callan (SIGIR 2019).
+  // A simple approach to passage retrieval is to pre-segment documents in the corpus into passages and index those
+  // passages. At retrieval time, we retain only the max scoring passage from each document; this is often called MaxP,
+  // from Dai and Callan (SIGIR 2019) in the context of BERT, although the general approach dates back to Callan
+  // (SIGIR 1994), Hearst and Plaunt (SIGIR 1993), and lots of other papers from the 1990s and even earlier.
   //
-  // (Note segment = passage in this context.)
-  //
-  // One common convention is to break "docid" into "docid.00000", "docid.00001", "docid.00002", ...
-  // We use this convention in CORD-19. Alternatively, '#' can be used as the delimiter, which is the case with
-  // per-segment document expansion on MS MARCO docs.
+  // One common convention is to label the passages of a docid as "docid.00000", "docid.00001", "docid.00002", ...
+  // We use this convention in CORD-19. Alternatively, in document expansion for the MS MARCO document corpus, we use
+  // '#' as the delimiter.
   //
   // The options below control various aspects of this behavior.
 
-  @Option(name = "-selectMaxSegment", usage = "Select and retain only the max scoring segment from each document.")
-  public Boolean selectMaxSegment = false;
+  @Option(name = "-selectMaxPassage", usage = "Select and retain only the max scoring segment from each document.")
+  public Boolean selectMaxPassage = false;
 
-  @Option(name = "-selectMaxSegment.delimiter", metaVar = "[regexp]",
+  @Option(name = "-selectMaxPassage.delimiter", metaVar = "[regexp]",
       usage = "The delimiter (as a regular regression) for splitting the segment id from the doc id.")
-  public String selectMaxSegment_delimiter = "\\.";
+  public String selectMaxPassage_delimiter = "\\.";
 
-  @Option(name = "-selectMaxSegment.hits", metaVar = "[int]",
+  @Option(name = "-selectMaxPassage.hits", metaVar = "[int]",
       usage = "Maximum number of hits to return per topic after segment id removal. " +
               "Note that this is different from '-hits', which specifies the number of hits including the segment id. ")
-  public int selectMaxSegment_hits = Integer.MAX_VALUE;
+  public int selectMaxPassage_hits = Integer.MAX_VALUE;
   // Note that by default here we explicitly *don't* restrict the final number of hits returned per topic.
 
   // -------------------
