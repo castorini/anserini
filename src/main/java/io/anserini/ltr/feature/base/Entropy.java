@@ -39,7 +39,6 @@ public class Entropy implements FeatureExtractor {
         FieldContext context = documentContext.fieldContexts.get(field);
         float score = 0.0f;
         for (Map.Entry<String, Long> entry : context.termFreqs.entrySet()) {
-            String term = entry.getKey();
             Long freq = entry.getValue();
             float p = freq / context.docSize;
             score += p * Math.log(p);
@@ -48,6 +47,11 @@ public class Entropy implements FeatureExtractor {
             score = -score;
         }
         return score;
+    }
+
+    @Override
+    public float postEdit(DocumentContext context, QueryContext queryContext) {
+        return queryContext.getSelfLog(context.docId, getName());
     }
 
     @Override
