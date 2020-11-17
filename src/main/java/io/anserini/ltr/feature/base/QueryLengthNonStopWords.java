@@ -16,39 +16,36 @@
 
 package io.anserini.ltr.feature.base;
 
+import io.anserini.index.IndexArgs;
 import io.anserini.ltr.feature.DocumentContext;
+import io.anserini.ltr.feature.FieldContext;
 import io.anserini.ltr.feature.FeatureExtractor;
 import io.anserini.ltr.feature.QueryContext;
 
 /**
  * QueryCount
- * Compute the query length (number of terms in the query).
+ * Compute the query length (number of non-stopword terms in the query).
  */
-public class QueryLength implements FeatureExtractor {
-  public QueryLength() { }
+public class QueryLengthNonStopWords implements FeatureExtractor {
+    public QueryLengthNonStopWords() { }
 
-  @Override
-  public float extract(DocumentContext documentContext, QueryContext queryContext) {
-    return queryContext.queryText.size();
-  }
+    @Override
+    public float extract(DocumentContext documentContext, QueryContext queryContext) {
+        return queryContext.queryTokens.size();
+    }
 
-  @Override
-  public float postEdit(DocumentContext context, QueryContext queryContext) {
-    return queryContext.getSelfLog(context.docId, getName());
-  }
+    @Override
+    public String getName() {
+        return "QueryLengthNonStopWords";
+    }
 
-  @Override
-  public String getName() {
-    return "QueryLength";
-  }
+    @Override
+    public String getField() {
+        return null;
+    }
 
-  @Override
-  public String getField() {
-    return null;
-  }
-
-  @Override
-  public FeatureExtractor clone() {
-    return new QueryLength();
-  }
+    @Override
+    public FeatureExtractor clone() {
+        return new QueryLengthNonStopWords();
+    }
 }
