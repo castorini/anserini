@@ -55,7 +55,7 @@ def download_collection(date):
     print(f'Downloading CORD-19 release of {date}...')
     collection_dir = f'collections/'
     tarball_url = f'https://ai2-semanticscholar-cord-19.s3-us-west-2.amazonaws.com/historical_releases/cord-19_{date}.tar.gz'
-    tarball_local = f'{collection_dir}/document_parses.tar.gz'
+    tarball_local = os.path.join(collection_dir, f'cord-19_{date}.tar.gz')
 
     if not os.path.exists(tarball_local):
         print(f'Fetching {tarball_url}...')
@@ -63,14 +63,22 @@ def download_collection(date):
     else:
         print(f'{tarball_local} already exists, skipping download.')
 
-    #if not os.path.isdir(documents_dir_local):
-    print(f'Extracting documents into {collection_dir}')
+    print(f'Extracting {tarball_local} into {collection_dir}')
     tarball = tarfile.open(tarball_local)
     tarball.extractall(collection_dir)
     tarball.close()
-    #else:
-    #    print(f'{documents_dir_local} already exists, skipping unpacking.')
+    
+    docparses = os.path.join(collection_dir, date, 'document_parses.tar.gz')
+    collection_base = os.path.join(collection_dir, date)
 
+    print(f'Extracting {docparses} into {collection_base}...')
+    tarball = tarfile.open(docparses)
+    tarball.extractall(collection_base)
+    tarball.close()
+
+    print(f'Renaming {collection_base}')
+    os.rename(collection_base, os.path.join(collection_dir, f'cord19-{date}'))
+    
 
 def build_indexes(date):
     if not os.path.isdir(f'indexes/lucene-index-cord19-abstract-{date}'):
