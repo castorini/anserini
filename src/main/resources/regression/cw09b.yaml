@@ -51,13 +51,13 @@ evals:
     metric: p30
     metric_precision: 4
     can_combine: true
-  - command: eval/gdeval.pl
+  - command: tools/eval/gdeval.pl
     params:
     separator: ","
     parse_index: -2
     metric: ndcg20
     metric_precision: 5
-  - command: eval/gdeval.pl
+  - command: tools/eval/gdeval.pl
     params:
     separator: ","
     parse_index: -1
