@@ -3,7 +3,7 @@
 This document describes how to use Anserini to index the [COVID-19 Open Research Dataset (CORD-19)](https://pages.semanticscholar.org/coronavirus-research) from the [Allen Institute for AI](https://allenai.org/).
 
 **Note**: With the conclusion of the [TREC-COVID challenge](https://ir.nist.gov/covidSubmit/), we no longer have the resources to keep this page up to date with the latest distribution of CORD-19.
-The state of this page has mostly remained unchanged since mid-July 2020, when we built the indexes for Round 5 of the TREC-COVID challenge.
+The state of this page has mostly remained unchanged since mid-July 2020, when we built the indexes for Round 5 of the TREC-COVID challenge, with some updates in mid-November 2020.
 
 For an easy way to get started, check out our (unfortunately, out of date) Colab demos, also available [here](https://github.com/castorini/anserini-notebooks):
 
@@ -69,15 +69,13 @@ First, download the data:
 
 ```bash
 DATE=2020-07-16
-DATA_DIR=./collections/cord19-"${DATE}"
 mkdir "${DATA_DIR}"
 
-wget https://ai2-semanticscholar-cord-19.s3-us-west-2.amazonaws.com/"${DATE}"/document_parses.tar.gz -P "${DATA_DIR}"
-wget https://ai2-semanticscholar-cord-19.s3-us-west-2.amazonaws.com/"${DATE}"/changelog -P "${DATA_DIR}"
-wget https://ai2-semanticscholar-cord-19.s3-us-west-2.amazonaws.com/"${DATE}"/metadata.csv -P "${DATA_DIR}"
+wget https://ai2-semanticscholar-cord-19.s3-us-west-2.amazonaws.com/historical_releases/cord-19_"${DATE}".tar.gz
 
-ls "${DATA_DIR}"/document_parses.tar.gz | xargs -I {} tar -zxvf {} -C "${DATA_DIR}"
-rm "${DATA_DIR}"/document_parses.tar.gz
+tar xvfz cord-19_"${DATE}".tar.gz -C collections
+tar xvfz collections/"${DATE}"/document_parses.tar.gz -C collections/"${DATE}"
+mv collections/"${DATE}" collections/cord19-"${DATE}"
 ```
 
 ## Building Local Lucene Indexes
@@ -100,7 +98,7 @@ We can index abstracts (and titles, of course) with `Cord19AbstractCollection`, 
 ```bash
 sh target/appassembler/bin/IndexCollection \
   -collection Cord19AbstractCollection -generator Cord19Generator \
-  -threads 8 -input "${DATA_DIR}" \
+  -threads 8 -input collections/cord19-"${DATE}" \
   -index indexes/lucene-index-cord19-abstract-"${DATE}" \
   -storePositions -storeDocvectors -storeContents -storeRaw -optimize > logs/log.cord19-abstract.${DATE}.txt
 ```
@@ -127,7 +125,7 @@ We can index the full text, with `Cord19FullTextCollection`, as follows:
 ```bash
 sh target/appassembler/bin/IndexCollection \
   -collection Cord19FullTextCollection -generator Cord19Generator \
-  -threads 8 -input "${DATA_DIR}" \
+  -threads 8 -input collections/cord19-"${DATE}" \
   -index indexes/lucene-index-cord19-full-text-"${DATE}" \
   -storePositions -storeDocvectors -storeContents -storeRaw -optimize > logs/log.cord19-full-text.${DATE}.txt
 ```
@@ -154,7 +152,7 @@ We can build a paragraph index with `Cord19ParagraphCollection`, as follows:
 ```bash
 sh target/appassembler/bin/IndexCollection \
   -collection Cord19ParagraphCollection -generator Cord19Generator \
-  -threads 8 -input "${DATA_DIR}" \
+  -threads 8 -input collections/cord19-"${DATE}" \
   -index indexes/lucene-index-cord19-paragraph-"${DATE}" \
   -storePositions -storeDocvectors -storeContents -storeRaw -optimize > logs/log.cord19-paragraph.${DATE}.txt
 ```
