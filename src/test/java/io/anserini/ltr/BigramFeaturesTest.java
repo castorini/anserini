@@ -28,7 +28,7 @@ import java.util.concurrent.ExecutionException;
  * Create some temporary documents and test the correctness of ordered and unordered
  * window phrase extractors
  */
-public class BigramFeaturesTest extends BaseFeatureExtractorTest {
+public class BigramFeaturesTest extends BaseFeatureExtractorTest<Integer> {
 
   private List<FeatureExtractor> getUnorderedChain() {
     return getChain(
