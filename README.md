@@ -86,10 +86,10 @@ For the most part, these runs are based on [_default_ parameter settings](https:
 The experiments described below are not associated with rigorous end-to-end regression testing and thus provide a lower standard of replicability.
 For the most part, manual copying and pasting of commands into a shell is required to replicate our results:
 
-+ [Working with AI2's COVID-19 Open Research Dataset](docs/experiments-cord19.md)
-+ [Ingesting AI2's COVID-19 Open Research Dataset into Solr and Elasticsearch](docs/experiments-cord19-extras.md)
++ [Indexing AI2's COVID-19 Open Research Dataset](docs/experiments-cord19.md)
 + [Baselines for the TREC-COVID Challenge](docs/experiments-covid.md)
 + [Baselines for the TREC-COVID Challenge using doc2query](docs/experiments-covid-doc2query.md)
++ [Ingesting AI2's COVID-19 Open Research Dataset into Solr and Elasticsearch](docs/experiments-cord19-extras.md)
 + [Working with the 20 Newsgroups Dataset](docs/experiments-20newsgroups.md)
 + [Replicating "Neural Hype" Experiments](docs/experiments-forum2018.md)
 + [Guide to BM25 baselines for the MS MARCO Passage Ranking Task](docs/experiments-msmarco-passage.md)
