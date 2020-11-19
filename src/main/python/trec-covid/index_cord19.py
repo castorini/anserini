@@ -67,7 +67,7 @@ def download_collection(date):
     tarball = tarfile.open(tarball_local)
     tarball.extractall(collection_dir)
     tarball.close()
-    
+
     docparses = os.path.join(collection_dir, date, 'document_parses.tar.gz')
     collection_base = os.path.join(collection_dir, date)
 
@@ -78,7 +78,7 @@ def download_collection(date):
 
     print(f'Renaming {collection_base}')
     os.rename(collection_base, os.path.join(collection_dir, f'cord19-{date}'))
-    
+
 
 def build_indexes(date):
     if not os.path.isdir(f'indexes/lucene-index-cord19-abstract-{date}'):
