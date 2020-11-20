@@ -3,6 +3,14 @@
 This document describes various baselines for the [TREC-COVID Challenge](https://ir.nist.gov/covidSubmit/), which uses the [COVID-19 Open Research Dataset (CORD-19)](https://pages.semanticscholar.org/coronavirus-research) from the [Allen Institute for AI](https://allenai.org/).
 Here, we focus on running retrieval experiments; for basic instructions on building Anserini indexes, see [this page](experiments-cord19.md).
 
+## Quick Links
+
++ [Round 5](#round-5)
++ [Round 4](#round-4)
++ [Round 3](#round-3)
++ [Round 2](#round-2) ([Replication Commands](#round-2-replication-commands))
++ [Round 1](#round-1) ([Replication Commands](#round-1-replication-commands))
+
 ## Round 5
 
 These are runs that can be easily replicated with Anserini, from pre-built indexes available [here](experiments-cord19.md#pre-built-indexes-all-versions) (version from 2020/07/16, the official corpus used in round 5).
