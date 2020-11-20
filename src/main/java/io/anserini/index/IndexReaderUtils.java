@@ -228,7 +228,7 @@ public class IndexReaderUtils {
    *
    * @param reader index reader
    * @param term term
-   * @return tthe document frequency of a term
+   * @return the document frequency of a term
    */
   public static long getDF(IndexReader reader, String term) {
     try {
