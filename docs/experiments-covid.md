@@ -391,12 +391,17 @@ Exact commands for replicating these runs are found [further down on this page](
 
 ## Round 2: Replication Commands
 
-Here are the replication commands for the individual runs:
+Here are the replication commands for the individual runs.
 
-```bash
-wget https://www.dropbox.com/s/wxjoe4g71zt5za2/lucene-index-cord19-abstract-2020-05-01.tar.gz
-tar xvfz lucene-index-cord19-abstract-2020-05-01.tar.gz
+First, download the pre-built indexes using our script:
 
+```
+python src/main/python/trec-covid/download_indexes.py --date 2020-05-01
+```
+
+Abstract runs:
+
+```
 target/appassembler/bin/SearchCollection -index indexes/lucene-index-cord19-abstract-2020-05-01 \
  -topicreader Covid -topics src/main/resources/topics-and-qrels/topics.covid-round2.xml -topicfield query+question \
  -output runs/anserini.covid-r2.abstract.qq.bm25.txt -runtag anserini.covid-r2.abstract.qq.bm25.txt \
@@ -412,10 +417,11 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec src/main/resources/to
 
 python tools/eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/anserini.covid-r2.abstract.qq.bm25.txt
 python tools/eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/anserini.covid-r2.abstract.qdel.bm25.txt
+```
 
-wget https://www.dropbox.com/s/di27r5o2g5kat5k/lucene-index-cord19-full-text-2020-05-01.tar.gz
-tar xvfz lucene-index-cord19-full-text-2020-05-01.tar.gz
+Full-text runs:
 
+```
 target/appassembler/bin/SearchCollection -index indexes/lucene-index-cord19-full-text-2020-05-01 \
  -topicreader Covid -topics src/main/resources/topics-and-qrels/topics.covid-round2.xml -topicfield query+question \
  -output runs/anserini.covid-r2.full-text.qq.bm25.txt -runtag anserini.covid-r2.full-text.qq.bm25.txt \
@@ -431,10 +437,11 @@ tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec src/main/resources/to
 
 python tools/eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/anserini.covid-r2.full-text.qq.bm25.txt
 python tools/eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/anserini.covid-r2.full-text.qdel.bm25.txt
+```
 
-wget https://www.dropbox.com/s/6ib71scm925mclk/lucene-index-cord19-paragraph-2020-05-01.tar.gz
-tar xvfz lucene-index-cord19-paragraph-2020-05-01.tar.gz
+Paragraph runs:
 
+```
 target/appassembler/bin/SearchCollection -index indexes/lucene-index-cord19-paragraph-2020-05-01 \
  -topicreader Covid -topics src/main/resources/topics-and-qrels/topics.covid-round2.xml -topicfield query+question \
  -output runs/anserini.covid-r2.paragraph.qq.bm25.txt -runtag anserini.covid-r2.paragraph.qq.bm25.txt \
@@ -494,13 +501,15 @@ python tools/eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/
 
 ## Round 1: Replication Commands
 
+First, download the pre-built indexes using our script:
+
+```
+python src/main/python/trec-covid/download_indexes.py --date 2020-04-10
+```
+
 Here are the commands to generate the runs on the abstract index:
 
 ```bash
-wget https://www.dropbox.com/s/j55t617yhvmegy8/lucene-index-covid-2020-04-10.tar.gz
-
-tar xvfz lucene-index-covid-2020-04-10.tar.gz
-
 target/appassembler/bin/SearchCollection -index indexes/lucene-index-covid-2020-04-10 \
  -topicreader Covid -topics src/main/resources/topics-and-qrels/topics.covid-round1.xml -topicfield query -removedups \
  -bm25 -output runs/run.covid-r1.abstract.query.bm25.txt
@@ -547,10 +556,6 @@ python tools/eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/
 Here are the commands to generate the runs on the full-text index:
 
 ```bash
-wget https://www.dropbox.com/s/gtq2c3xq81mjowk/lucene-index-covid-full-text-2020-04-10.tar.gz
-
-tar xvfz lucene-index-covid-full-text-2020-04-10.tar.gz
-
 target/appassembler/bin/SearchCollection -index indexes/lucene-index-covid-full-text-2020-04-10 \
  -topicreader Covid -topics src/main/resources/topics-and-qrels/topics.covid-round1.xml -topicfield query -removedups \
  -bm25 -output runs/run.covid-r1.full-text.query.bm25.txt
@@ -597,10 +602,6 @@ python tools/eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/
 Here are the commands to generate the runs on the paragraph index:
 
 ```bash
-wget https://www.dropbox.com/s/ivk87journyajw3/lucene-index-covid-paragraph-2020-04-10.tar.gz
-
-tar xvfz lucene-index-covid-paragraph-2020-04-10.tar.gz
-
 target/appassembler/bin/SearchCollection -index indexes/lucene-index-covid-paragraph-2020-04-10 \
  -topicreader Covid -topics src/main/resources/topics-and-qrels/topics.covid-round1.xml -topicfield query \
  -selectMaxPassage -bm25 -output runs/run.covid-r1.paragraph.query.bm25.txt
