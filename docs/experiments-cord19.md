@@ -13,8 +13,6 @@ For an easy way to get started, check out our (unfortunately, out of date) Colab
 
 We provide instructions on how to build Lucene indexes for the collection using Anserini below, but if you don't want to bother building the indexes yourself, we have pre-built indexes that you can directly download:
 
-If you don't want to build the index yourself, you can download the latest pre-built copies here:
-
 | Version    | Type      | Size  | Link | Checksum |
 |:-----------|:----------|:------|:-----|:---------|
 | 2020-07-16 | Abstract  |  2.1G | [[Dropbox]](https://www.dropbox.com/s/9hfowxi7zenuaay/lucene-index-cord19-abstract-2020-07-16.tar.gz?dl=1)  | `c883571ccc78b4c2ce05b41eb07f5405`
@@ -24,9 +22,9 @@ If you don't want to build the index yourself, you can download the latest pre-b
 "Size" refers to the output of `ls -lh`, "Version" refers to the dataset release date from AI2.
 For our answer to the question, "which one should I use?" see below.
 
-We've kept around older versions of the index for archival purposes &mdash; scroll all the way down to the bottom of the page to see those.
+We've kept around older versions of indexes for archival purposes &mdash; scroll all the way down to the bottom of the page to see those.
 
-Note that starting 2020/05/27, AI2 has switched to daily releases of CORD-19, and as a result, it has become impractical to share pre-built indexes.
+Note that starting 2020/05/27, AI2 switched to daily releases of CORD-19 (from weekly), and as a result, it has become impractical to share pre-built indexes for every single update.
 Thus, we will only be providing pre-built indexes "occasionally".
 
 However, we have written a simple script that will largely automate all the instructions on this page:
@@ -34,6 +32,8 @@ However, we have written a simple script that will largely automate all the inst
 ```
 $ python src/main/python/trec-covid/index_cord19.py --date 2020-07-16 --all
 ```
+
+This script was updated in mid-November 2020 (on the July distribution above and the latest version available) and has been verified to work at the time.
 
 The script will:
 
@@ -64,12 +64,11 @@ The instructions below walk through, essentially, what the script does, step by 
 
 ## Data Prep
 
-These instructions work with the dataset release from 2020/06/12.
+These instructions work with the dataset release from 2020/07/16.
 First, download the data:
 
 ```bash
 DATE=2020-07-16
-mkdir "${DATA_DIR}"
 
 wget https://ai2-semanticscholar-cord-19.s3-us-west-2.amazonaws.com/historical_releases/cord-19_"${DATE}".tar.gz
 
@@ -90,6 +89,7 @@ The tl;dr &mdash; we'd recommend getting started with abstract index since it's 
 The full-text index overly biases long documents and isn't really effective; this condition is included here only for completeness.
 
 Note that as of TREC-COVID Round 1, there is some evidence that the abstract index is more effective for search, see results of experiments [here](experiments-covid.md).
+(Update, mid-November 2020: this statement was made back after Round 1; there is now considerably more evidence regarding the effectiveness of each approach; see link for details.)
 
 ### Abstract
 
