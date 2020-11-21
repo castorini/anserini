@@ -5,6 +5,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import java.util.*;
 
 public class QueryContext {
+    public String qid;
     public List<String> queryText;
     public List<String> queryTokens;
     public Map<String,Integer> queryFreqs;
@@ -15,7 +16,8 @@ public class QueryContext {
 
     private Map<String, Map<String, Float>> featureLog;
 
-    public QueryContext(List<String> queryText, List<String> queryTokens){
+    public QueryContext(String qid, List<String> queryText, List<String> queryTokens){
+        this.qid = qid;
         this.queryTokens = queryTokens;
         this.queryText = queryText;
         this.querySize = queryTokens.size();

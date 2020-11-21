@@ -87,10 +87,10 @@ public class FeatureExtractorUtils {
    * @throws InterruptedException
    * @throws JsonProcessingException
    */
-  public ArrayList<output> extract(List<String> queryText, List<String> queryTokens, List<String> docIds) throws ExecutionException, InterruptedException, JsonProcessingException {
+  public ArrayList<output> extract(String qid, List<String> queryText, List<String> queryTokens, List<String> docIds) throws ExecutionException, InterruptedException, JsonProcessingException {
     ObjectMapper mapper = new ObjectMapper();
     input root = new input();
-    root.qid = "-1";
+    root.qid = qid;
     root.queryText = queryText;
     root.queryTokens = queryTokens;
     root.docIds = docIds;
@@ -117,7 +117,7 @@ public class FeatureExtractorUtils {
       ObjectMapper mapper = new ObjectMapper();
       List<debugOutput> result = new ArrayList<>();
       DocumentContext documentContext = new DocumentContext(reader, searcher, fieldsToLoad);
-      QueryContext queryContext = new QueryContext(queryText, queryTokens);
+      QueryContext queryContext = new QueryContext(qid, queryText, queryTokens);
 
       for(String docId: docIds) {
         Query q = new TermQuery(new Term(IndexArgs.ID, docId));
@@ -160,7 +160,7 @@ public class FeatureExtractorUtils {
       ObjectMapper mapper = new ObjectMapper();
       List<output> result = new ArrayList<>();
       DocumentContext documentContext = new DocumentContext(reader, searcher, fieldsToLoad);
-      QueryContext queryContext = new QueryContext(queryText, queryTokens);
+      QueryContext queryContext = new QueryContext(qid, queryText, queryTokens);
 
       for(String docId: docIds) {
         Query q = new TermQuery(new Term(IndexArgs.ID, docId));
