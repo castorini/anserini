@@ -73,25 +73,25 @@ nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.cw12.
 Evaluation can be performed using `trec_eval` and `gdeval.pl`:
 
 ```
+tools/eval/gdeval.pl src/main/resources/topics-and-qrels/qrels.web.201-250.txt runs/run.cw12.bm25.topics.web.201-250.txt
 tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.web.201-250.txt runs/run.cw12.bm25.topics.web.201-250.txt
-eval/gdeval.pl src/main/resources/topics-and-qrels/qrels.web.201-250.txt runs/run.cw12.bm25.topics.web.201-250.txt
+tools/eval/gdeval.pl src/main/resources/topics-and-qrels/qrels.web.251-300.txt runs/run.cw12.bm25.topics.web.251-300.txt
 tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.web.251-300.txt runs/run.cw12.bm25.topics.web.251-300.txt
-eval/gdeval.pl src/main/resources/topics-and-qrels/qrels.web.251-300.txt runs/run.cw12.bm25.topics.web.251-300.txt
 
+tools/eval/gdeval.pl src/main/resources/topics-and-qrels/qrels.web.201-250.txt runs/run.cw12.bm25+rm3.topics.web.201-250.txt
 tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.web.201-250.txt runs/run.cw12.bm25+rm3.topics.web.201-250.txt
-eval/gdeval.pl src/main/resources/topics-and-qrels/qrels.web.201-250.txt runs/run.cw12.bm25+rm3.topics.web.201-250.txt
+tools/eval/gdeval.pl src/main/resources/topics-and-qrels/qrels.web.251-300.txt runs/run.cw12.bm25+rm3.topics.web.251-300.txt
 tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.web.251-300.txt runs/run.cw12.bm25+rm3.topics.web.251-300.txt
-eval/gdeval.pl src/main/resources/topics-and-qrels/qrels.web.251-300.txt runs/run.cw12.bm25+rm3.topics.web.251-300.txt
 
+tools/eval/gdeval.pl src/main/resources/topics-and-qrels/qrels.web.201-250.txt runs/run.cw12.ql.topics.web.201-250.txt
 tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.web.201-250.txt runs/run.cw12.ql.topics.web.201-250.txt
-eval/gdeval.pl src/main/resources/topics-and-qrels/qrels.web.201-250.txt runs/run.cw12.ql.topics.web.201-250.txt
+tools/eval/gdeval.pl src/main/resources/topics-and-qrels/qrels.web.251-300.txt runs/run.cw12.ql.topics.web.251-300.txt
 tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.web.251-300.txt runs/run.cw12.ql.topics.web.251-300.txt
-eval/gdeval.pl src/main/resources/topics-and-qrels/qrels.web.251-300.txt runs/run.cw12.ql.topics.web.251-300.txt
 
+tools/eval/gdeval.pl src/main/resources/topics-and-qrels/qrels.web.201-250.txt runs/run.cw12.ql+rm3.topics.web.201-250.txt
 tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.web.201-250.txt runs/run.cw12.ql+rm3.topics.web.201-250.txt
-eval/gdeval.pl src/main/resources/topics-and-qrels/qrels.web.201-250.txt runs/run.cw12.ql+rm3.topics.web.201-250.txt
+tools/eval/gdeval.pl src/main/resources/topics-and-qrels/qrels.web.251-300.txt runs/run.cw12.ql+rm3.topics.web.251-300.txt
 tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 src/main/resources/topics-and-qrels/qrels.web.251-300.txt runs/run.cw12.ql+rm3.topics.web.251-300.txt
-eval/gdeval.pl src/main/resources/topics-and-qrels/qrels.web.251-300.txt runs/run.cw12.ql+rm3.topics.web.251-300.txt
 ```
 
 ## Effectiveness
