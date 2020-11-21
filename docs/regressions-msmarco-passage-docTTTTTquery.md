@@ -84,18 +84,20 @@ Note that these results are slightly different from the above referenced page be
 To replicate the _exact_ conditions for a leaderboard submission, retrieve using the following command:
 
 ```bash
-wget https://storage.googleapis.com/doctttttquery_git/queries.dev.small.tsv
-sh target/appassembler/bin/SearchMsmarco \
-  -index lucene-index.msmarco-passage-docTTTTTquery.pos+docvectors+rawdocs \
-  -qid_queries queries.dev.small.tsv \
-  -output run.msmarco-passage-docTTTTTquery -hits 1000
+wget https://www.dropbox.com/s/q8jj832j6aaa1ug/queries.dev.small.tsv
+
+sh target/appassembler/bin/SearchMsmarco -threads 8 \
+ -index indexes/lucene-index.msmarco-passage-docTTTTTquery.pos+docvectors+raw \
+ -queries queries.dev.small.tsv \
+ -output runs/run.msmarco-passage-docTTTTTquery -hits 1000
 ```
 
 Evaluate using the MS MARCO eval script:
 
 ```bash
-wget https://storage.googleapis.com/doctttttquery_git/qrels.dev.small.tsv
-python src/main/python/msmarco/msmarco_eval.py qrels.dev.small.tsv run.msmarco-passage-docTTTTTquery
+wget https://www.dropbox.com/s/2v5qjeakskvx2ns/qrels.dev.small.tsv
+
+python tools/scripts/msmarco/msmarco_eval.py qrels.dev.small.tsv runs/run.msmarco-passage-docTTTTTquery
 ```
 
 The results should be:
