@@ -9,6 +9,10 @@ import java.util.List;
 public class NTFIDF implements FeatureExtractor {
   private String field;
 
+  public NTFIDF() {
+    this.field = IndexArgs.CONTENTS;
+  }
+
   public NTFIDF(String field) {
     this.field = field;
   }
