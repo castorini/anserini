@@ -50,7 +50,6 @@ import java.util.concurrent.Future;
  * Feature extractor class that exposed in Pyserini
  */
 public class FeatureExtractorUtils {
-  private static final Logger LOG = LogManager.getLogger(FeatureExtractorUtils.class);
   private IndexReader reader;
   private IndexSearcher searcher;
   private List<FeatureExtractor> extractors = new ArrayList<>();
@@ -123,8 +122,7 @@ public class FeatureExtractorUtils {
         Query q = new TermQuery(new Term(IndexArgs.ID, docId));
         TopDocs topDocs = searcher.search(q, 1);
         if (topDocs.totalHits.value == 0) {
-          LOG.warn(String.format("Document Id %s expected but not found in index, skipping...", docId));
-          continue;
+          throw new IOException(String.format("Document Id %s expected but not found in index", docId));
         }
 
         ScoreDoc hit = topDocs.scoreDocs[0];
@@ -166,8 +164,7 @@ public class FeatureExtractorUtils {
         Query q = new TermQuery(new Term(IndexArgs.ID, docId));
         TopDocs topDocs = searcher.search(q, 1);
         if (topDocs.totalHits.value == 0) {
-          LOG.warn(String.format("Document Id %s expected but not found in index, skipping...", docId));
-          continue;
+          throw new IOException(String.format("Document Id %s expected but not found in index", docId));
         }
 
         ScoreDoc hit = topDocs.scoreDocs[0];

@@ -17,13 +17,14 @@
 package io.anserini.ltr.feature;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 /**
  * A feature extractor.
  */
 public interface FeatureExtractor {
 
-  float extract(DocumentContext context, QueryContext queryContext) throws FileNotFoundException;
+  float extract(DocumentContext context, QueryContext queryContext) throws FileNotFoundException, IOException;
 
   float postEdit(DocumentContext context, QueryContext queryContext);
 

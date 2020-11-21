@@ -24,7 +24,7 @@ public class ContextDPH implements FeatureExtractor {
 
   @Override
   public float postEdit(DocumentContext context, QueryContext queryContext) {
-    return collectFun.pool(queryContext.getOthersLog(context.docId, getName()));
+    return collectFun.pool(queryContext.getOthersLog(context.docId, String.format("%s_DPH", field)));
   }
 
   @Override

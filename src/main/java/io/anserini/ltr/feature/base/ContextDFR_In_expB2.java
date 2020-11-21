@@ -27,7 +27,7 @@ public class ContextDFR_In_expB2  implements FeatureExtractor {
 
   @Override
   public float postEdit(DocumentContext context, QueryContext queryContext) {
-    return collectFun.pool(queryContext.getOthersLog(context.docId, getName()));
+    return collectFun.pool(queryContext.getOthersLog(context.docId, String.format("%s_DFR_In_expB2", field)));
   }
 
   @Override
