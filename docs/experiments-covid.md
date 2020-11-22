@@ -3,6 +3,9 @@
 This document describes various baselines for the [TREC-COVID Challenge](https://ir.nist.gov/covidSubmit/), which uses the [COVID-19 Open Research Dataset (CORD-19)](https://pages.semanticscholar.org/coronavirus-research) from the [Allen Institute for AI](https://allenai.org/).
 Here, we focus on running retrieval experiments; for basic instructions on building Anserini indexes, see [this page](experiments-cord19.md).
 
+All the runs referenced on this page are stored in [this repo](https://git.uwaterloo.ca/jimmylin/covidex-trec-covid-runs).
+As an alternative to downloading each run separately, clone the repo and you'll have everything.
+
 ## Quick Links
 
 + [Round 5](#round-5)

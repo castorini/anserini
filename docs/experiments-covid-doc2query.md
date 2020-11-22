@@ -14,6 +14,9 @@ These predicted queries are then appended to the original document and indexed a
 For CORD-19, these predictions were made using only article title and abstracts with T5 trained on MS MARCO passage date.
 These expansions were then appended to the abstract, full-text, and paragraph index conditions, as described on [this page](experiments-cord19.md).
 
+All the runs referenced on this page are stored in [this repo](https://git.uwaterloo.ca/jimmylin/covidex-trec-covid-runs).
+As an alternative to downloading each run separately, clone the repo and you'll have everything.
+
 ## Round 5
 
 These are runs that can be easily replicated with Anserini, from pre-built doc2query expanded CORD-19 indexes we have provided (version from 2020/07/16, the official corpus used in round 5).
