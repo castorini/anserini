@@ -79,7 +79,6 @@ R@1000                                  | BM25 (Default)| +RM3      | BM25 (Tune
 
 The setting "default" refers the default BM25 settings of `k1=0.9`, `b=0.4`, while "tuned" refers to the tuned setting of `k1=0.82`, `b=0.72` _on the original passages_.
 See [this page](experiments-msmarco-passage.md) for more details.
-Note that these results are slightly different from the above referenced page because those experiments make up "fake" scores when converting runs from MS MARCO format into TREC format for evaluation by `trec_eval`.
 
 To replicate the _exact_ conditions for a leaderboard submission, retrieve using the following command:
 
