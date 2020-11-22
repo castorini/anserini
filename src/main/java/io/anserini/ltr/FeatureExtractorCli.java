@@ -73,7 +73,7 @@ public class FeatureExtractorCli {
     utils.add(new Proximity());
     utils.add(new TPscore());
     utils.add(new tpDist());
-    utils.add(new SDM());
+//    utils.add(new SDM());
 
     utils.add(new DocSize());
     utils.add(new Entropy());
@@ -154,7 +154,7 @@ public class FeatureExtractorCli {
       time[i] = 0;
     }
     long executionStart = System.nanoTime();
-    while((line=reader.readLine())!=null){
+    while((line=reader.readLine())!=null&&offset<1000){
       qids.add(utils.debugExtract(line));
       if(qids.size()>=100){
         try{
@@ -169,12 +169,15 @@ public class FeatureExtractorCli {
               }
             }
             offset++;
+            System.out.println(offset);
+
           }
         } catch (Exception e) {
           System.out.println("the offset is:"+offset+"at qid:"+lastQid);
           throw e;
         }
       }
+
     }
     long executionEnd = System.nanoTime();
     long sumtime = 0;

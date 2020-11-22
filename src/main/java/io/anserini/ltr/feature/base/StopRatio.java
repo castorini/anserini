@@ -16,6 +16,7 @@
 
 package io.anserini.ltr.feature.base;
 
+import io.anserini.index.IndexArgs;
 import io.anserini.ltr.StopWords;
 import io.anserini.ltr.feature.DocumentContext;
 import io.anserini.ltr.feature.FieldContext;
@@ -31,7 +32,13 @@ import java.util.List;
 public class StopRatio implements FeatureExtractor {
     private String field;
 
-    public StopRatio() { }
+    public StopRatio(String field) {
+        this.field = field;
+    }
+
+    public StopRatio() {
+        this.field = IndexArgs.CONTENTS;
+    }
 
     @Override
     public float extract(DocumentContext documentContext, QueryContext queryContext) {
@@ -63,7 +70,7 @@ public class StopRatio implements FeatureExtractor {
 
     @Override
     public String getField() {
-        return null;
+        return field;
     }
 
     @Override

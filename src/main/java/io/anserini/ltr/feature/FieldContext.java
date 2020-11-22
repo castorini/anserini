@@ -174,15 +174,17 @@ public class FieldContext {
             Map<Integer, List<Integer>> posting = new HashMap<>();
             try {
                 Term t = new Term(fieldName, term);
-                PostingsEnum postingsEnum = null;
-                postingsEnum = MultiTerms.getTermPostingsEnum(reader, fieldName, t.bytes(), PostingsEnum.POSITIONS);            int docId;
-                while ((docId = postingsEnum.nextDoc()) != DocIdSetIterator.NO_MORE_DOCS) {
-                    List<Integer> postions = new ArrayList<>();
-                    int freq = postingsEnum.freq();
-                    for (int i = 0; i < freq; i++) {
-                        postions.add(postingsEnum.nextPosition());
+                PostingsEnum postingsEnum = MultiTerms.getTermPostingsEnum(reader, fieldName, t.bytes(), PostingsEnum.POSITIONS);
+                if(postingsEnum!=null) {
+                    int docId;
+                    while ((docId = postingsEnum.nextDoc()) != DocIdSetIterator.NO_MORE_DOCS) {
+                        List<Integer> postions = new ArrayList<>();
+                        int freq = postingsEnum.freq();
+                        for (int i = 0; i < freq; i++) {
+                            postions.add(postingsEnum.nextPosition());
+                        }
+                        posting.put(docId, postions);
                     }
-                    posting.put(docId, postions);
                 }
             } catch (IOException e) {
                 e.printStackTrace();

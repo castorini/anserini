@@ -16,6 +16,7 @@
 
 package io.anserini.ltr.feature.base;
 
+import io.anserini.index.IndexArgs;
 import io.anserini.ltr.StopWords;
 import io.anserini.ltr.feature.DocumentContext;
 import io.anserini.ltr.feature.FieldContext;
@@ -32,7 +33,13 @@ import java.util.Map;
 public class Entropy implements FeatureExtractor {
     private String field;
 
-    public Entropy() { }
+    public Entropy(String field) {
+        this.field = field;
+    }
+
+    public Entropy() {
+        this.field = IndexArgs.CONTENTS;
+    }
 
     @Override
     public float extract(DocumentContext documentContext, QueryContext queryContext) {
@@ -61,7 +68,7 @@ public class Entropy implements FeatureExtractor {
 
     @Override
     public String getField() {
-        return null;
+        return field;
     }
 
     @Override
