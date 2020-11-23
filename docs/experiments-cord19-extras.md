@@ -70,7 +70,7 @@ sh target/appassembler/bin/IndexCollection -collection Cord19AbstractCollection 
 
 Once indexing is complete, you can query in Solr at [`http://localhost:8983/solr/#/cord19/query`](http://localhost:8983/solr/#/cord19/query).
 
-You'll need to make sure you are search the `contents` field, so your query should look something like `contents:"incubation period"`.
+You'll need to make sure your query is searching the `contents` field, so the query should look something like `contents:"incubation period"`.
 
 ## Elasticsearch + Kibana
 
