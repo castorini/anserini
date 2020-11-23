@@ -23,15 +23,17 @@ public class NTFIDF implements FeatureExtractor {
     float score = 0;
     long numDocs = context.numDocs;
     long docSize = context.docSize;
-
+//    double doc_norm = 1.0 / dlen;
+//    double w_dq = 1.0 + std::log(d_f);
+//    double w_Qq = std::log(1.0 + ((double)num_docs / t_idf));
     for (String queryToken : queryContext.queryTokens) {
       int docFreq = context.getDocFreq(queryToken);
       long termFreq = context.getTermFreq(queryToken);
       if(termFreq==0) continue;
-      double idf = Math.log(numDocs/docFreq);
-      score+=(float)(idf*termFreq);
+      double idf = Math.log(1+numDocs/docFreq);
+      score+=(float)(idf*(1+Math.log(termFreq))/docSize);
     }
-    return score/docSize;
+    return score;
   }
 
   @Override

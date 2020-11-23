@@ -154,7 +154,7 @@ public class FeatureExtractorCli {
       time[i] = 0;
     }
     long executionStart = System.nanoTime();
-    while((line=reader.readLine())!=null&&offset<1000){
+    while((line=reader.readLine())!=null&&offset<10000){
       qids.add(utils.debugExtract(line));
       if(qids.size()>=100){
         try{
