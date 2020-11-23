@@ -92,7 +92,8 @@ elastirini/bin/kibana
 ```
 
 Elasticsearch has a built-in safeguard to disable indexing if you're running low on disk space.
-To ignore this error, something like "flood stage disk watermark [95%] exceeded on ...", do the following:
+The error is something like "flood stage disk watermark [95%] exceeded on ..." with indexes placed into readonly mode.
+Obviously, be careful, but if you're sure things are going to be okay and you won't run out of disk space, disable the safeguard as follows:
 
 ```
 curl -XPUT -H "Content-Type: application/json" http://localhost:9200/_cluster/settings -d '{ "transient": { "cluster.routing.allocation.disk.threshold_enabled": false } }'
