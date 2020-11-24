@@ -72,4 +72,4 @@ QueriesRanked: 6980
 #####################
 ```
 
-Which matches the score described in [the docTTTTTquery repo](https://github.com/castorini/docTTTTTquery) and also on the official [MS MARCO leaderboard](http://www.msmarco.org/leaders.aspx).
+Which matches the score described in [the docTTTTTquery repo](https://github.com/castorini/docTTTTTquery) and also on the official [MS MARCO leaderboard](http://www.msmarco.org/).
