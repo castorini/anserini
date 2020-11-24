@@ -100,7 +100,7 @@ def main():
 
     evaluate_runs(round4_cumulative_qrels, cumulative_runs, check_md5=True)
     evaluate_runs(complete_qrels, cumulative_runs, check_md5=True)
-    evaluate_runs(round5_qrels, final_runs)
+    evaluate_runs(round5_qrels, final_runs, check_md5=True)
 
 
 if __name__ == '__main__':

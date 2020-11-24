@@ -77,12 +77,12 @@ def perform_runs(round_number, indexes):
     paragraph_prefix = f'anserini.covid-r{round_number}.paragraph'
     os.system(f'target/appassembler/bin/SearchCollection -index {paragraph_index} ' +
               f'-topicreader Covid -topics {base_topics} -topicfield query+question ' +
-              f'-removedups -strip_segment_id -bm25 -hits 50000 ' +
+              f'-selectMaxPassage -bm25 -hits 50000 ' +
               f'-output runs/{paragraph_prefix}.qq.bm25.txt -runtag {paragraph_prefix}.qq.bm25.txt')
 
     os.system(f'target/appassembler/bin/SearchCollection -index {paragraph_index} ' +
               f'-topicreader Covid -topics {udel_topics} -topicfield query ' +
-              f'-removedups -strip_segment_id -bm25 -hits 50000 ' +
+              f'-selectMaxPassage -bm25 -hits 50000 ' +
               f'-output runs/{paragraph_prefix}.qdel.bm25.txt -runtag {paragraph_prefix}.qdel.bm25.txt')
 
 
@@ -246,9 +246,9 @@ def verify_stored_runs(runs):
         pyserini.util.download_url(url, 'runs/', force=True, md5=runs[url])
 
         # Ugly hack the rename filename with '+' in it, which is URL encoded.
-        if '5%2B' in url:
+        if '%2B' in url:
             filename = url.split('/')[-1]
             filename = re.sub('\\?dl=1$', '', filename)  # Remove the Dropbox 'force download' parameter
             destination_path = os.path.join('runs/', filename)
 
-            os.rename(destination_path, destination_path.replace('5%2B', '+'))
+            os.rename(destination_path, destination_path.replace('%2B', '+'))

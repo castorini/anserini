@@ -1,6 +1,6 @@
-# Anserini: Regressions for [MS MARCO (Document)](https://github.com/microsoft/TREC-2019-Deep-Learning)
+# Anserini: Regressions for MS MARCO Document Ranking
 
-This page documents regression experiments for the MS MARCO Document Ranking Task, which is integrated into Anserini's regression testing framework.
+This page documents regression experiments for the [MS MARCO document ranking task](https://github.com/microsoft/MSMARCO-Document-Ranking), which is integrated into Anserini's regression testing framework.
 For more complete instructions on how to run end-to-end experiments, refer to [this page](experiments-msmarco-doc.md).
 
 The exact configurations for these regressions are stored in [this YAML file](../src/main/resources/regression/msmarco-doc.yaml).
@@ -21,7 +21,7 @@ For additional details, see explanation of [common indexing options](common-inde
 ## Retrieval
 
 Topics and qrels are stored in [`src/main/resources/topics-and-qrels/`](../src/main/resources/topics-and-qrels/).
-The regression experiments here evaluate on the 5193 dev set questions; see [this page](experiments-msmarco-doc.md) for more details.
+The regression experiments here evaluate on the 5193 dev set questions.
 
 After indexing has completed, you should be able to perform retrieval as follows:
 

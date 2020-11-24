@@ -3,6 +3,17 @@
 This document describes various baselines for the [TREC-COVID Challenge](https://ir.nist.gov/covidSubmit/), which uses the [COVID-19 Open Research Dataset (CORD-19)](https://pages.semanticscholar.org/coronavirus-research) from the [Allen Institute for AI](https://allenai.org/).
 Here, we focus on running retrieval experiments; for basic instructions on building Anserini indexes, see [this page](experiments-cord19.md).
 
+All the runs referenced on this page are stored in [this repo](https://git.uwaterloo.ca/jimmylin/covidex-trec-covid-runs).
+As an alternative to downloading each run separately, clone the repo and you'll have everything.
+
+## Quick Links
+
++ [Round 5](#round-5)
++ [Round 4](#round-4)
++ [Round 3](#round-3)
++ [Round 2](#round-2) ([Replication Commands](#round-2-replication-commands))
++ [Round 1](#round-1) ([Replication Commands](#round-1-replication-commands))
+
 ## Round 5
 
 These are runs that can be easily replicated with Anserini, from pre-built indexes available [here](experiments-cord19.md#pre-built-indexes-all-versions) (version from 2020/07/16, the official corpus used in round 5).
@@ -10,15 +21,15 @@ They were prepared _for_ round 5 (for participants who wish to have a baseline r
 
 |    | index     | field(s)                        | nDCG@10 | J@10 | R@1k | run file | checksum |
 |---:|:----------|:--------------------------------|--------:|-----:|-----:|:---------|----------|
-|  1 | abstract  | query+question                  | 0.4580 | 0.5880 | 0.4525 | [[download](https://www.dropbox.com/s/lbgevu4wiztd9e4/anserini.covid-r5.abstract.qq.bm25.txt)]    | `b1ccc364cc9dab03b383b71a51d3c6cb` |
-|  2 | abstract  | UDel qgen                       | 0.4912 | 0.6240 | 0.4714 | [[download](https://www.dropbox.com/s/pdy5o4xyalcnm2n/anserini.covid-r5.abstract.qdel.bm25.txt)]  | `ee4e3e6cf87dba2fd021fbb89bd07a89` |
-|  3 | full-text | query+question                  | 0.3240 | 0.5660 | 0.3758 | [[download](https://www.dropbox.com/s/zhrkqvgbh6mwjdc/anserini.covid-r5.full-text.qq.bm25.txt)]   | `d7457dd746533326f2bf8e85834ecf5c` |
-|  4 | full-text | UDel qgen                       | 0.4634 | 0.6460 | 0.4368 | [[download](https://www.dropbox.com/s/4c3ifc8gt96qiio/anserini.covid-r5.full-text.qdel.bm25.txt)] | `8387e4ad480ec4be7961c17d2ea326a1` |
-|  5 | paragraph | query+question                  | 0.4077 | 0.6160 | 0.4877 | [[download](https://www.dropbox.com/s/xfx3g54map005sy/anserini.covid-r5.paragraph.qq.bm25.txt)]   | `62d713a1ed6a8bf25c1454c66182b573` |
-|  6 | paragraph | UDel qgen                       | 0.4918 | 0.6440 | 0.5101 | [[download](https://www.dropbox.com/s/nmb11wtx4yde939/anserini.covid-r5.paragraph.qdel.bm25.txt)] | `16b295fda9d1eccd4e1fa4c147657872` |
-|  7 | -         | reciprocal rank fusion(1, 3, 5) | 0.4696 | 0.6520 | 0.5027 | [[download](https://www.dropbox.com/s/mq94s9t7snqlizw/anserini.covid-r5.fusion1.txt)]             | `16875b6d32a9b5ef96d7b59315b101a7` |
-|  8 | -         | reciprocal rank fusion(2, 4, 6) | 0.5077 | 0.6800 | 0.5378 | [[download](https://www.dropbox.com/s/4za9i29gxv090ut/anserini.covid-r5.fusion2.txt)]             | `8f7d663d551f831c65dceb8e4e9219c2` |
-|  9 | abstract  | UDel qgen + RF                  | 0.6177 | 0.6620 | 0.5505 | [[download](https://www.dropbox.com/s/9cw0qhr5meskg9y/anserini.covid-r5.abstract.qdel.bm25%2Brm3Rf.txt)] | `909ccbbd55736eff60c7dbeff1404c94` |
+|  1 | abstract  | query+question                  | 0.4580 | 0.5880 | 0.4525 | [[download](https://www.dropbox.com/s/lbgevu4wiztd9e4/anserini.covid-r5.abstract.qq.bm25.txt?dl=1)]    | `b1ccc364cc9dab03b383b71a51d3c6cb` |
+|  2 | abstract  | UDel qgen                       | 0.4912 | 0.6240 | 0.4714 | [[download](https://www.dropbox.com/s/pdy5o4xyalcnm2n/anserini.covid-r5.abstract.qdel.bm25.txt?dl=1)]  | `ee4e3e6cf87dba2fd021fbb89bd07a89` |
+|  3 | full-text | query+question                  | 0.3240 | 0.5660 | 0.3758 | [[download](https://www.dropbox.com/s/zhrkqvgbh6mwjdc/anserini.covid-r5.full-text.qq.bm25.txt?dl=1)]   | `d7457dd746533326f2bf8e85834ecf5c` |
+|  4 | full-text | UDel qgen                       | 0.4634 | 0.6460 | 0.4368 | [[download](https://www.dropbox.com/s/4c3ifc8gt96qiio/anserini.covid-r5.full-text.qdel.bm25.txt?dl=1)] | `8387e4ad480ec4be7961c17d2ea326a1` |
+|  5 | paragraph | query+question                  | 0.4077 | 0.6160 | 0.4877 | [[download](https://www.dropbox.com/s/xfx3g54map005sy/anserini.covid-r5.paragraph.qq.bm25.txt?dl=1)]   | `62d713a1ed6a8bf25c1454c66182b573` |
+|  6 | paragraph | UDel qgen                       | 0.4918 | 0.6440 | 0.5101 | [[download](https://www.dropbox.com/s/nmb11wtx4yde939/anserini.covid-r5.paragraph.qdel.bm25.txt?dl=1)] | `16b295fda9d1eccd4e1fa4c147657872` |
+|  7 | -         | reciprocal rank fusion(1, 3, 5) | 0.4696 | 0.6520 | 0.5027 | [[download](https://www.dropbox.com/s/mq94s9t7snqlizw/anserini.covid-r5.fusion1.txt?dl=1)]             | `16875b6d32a9b5ef96d7b59315b101a7` |
+|  8 | -         | reciprocal rank fusion(2, 4, 6) | 0.5077 | 0.6800 | 0.5378 | [[download](https://www.dropbox.com/s/4za9i29gxv090ut/anserini.covid-r5.fusion2.txt?dl=1)]             | `8f7d663d551f831c65dceb8e4e9219c2` |
+|  9 | abstract  | UDel qgen + RF                  | 0.6177 | 0.6620 | 0.5505 | [[download](https://www.dropbox.com/s/9cw0qhr5meskg9y/anserini.covid-r5.abstract.qdel.bm25%2Brm3Rf.txt?dl=1)] | `909ccbbd55736eff60c7dbeff1404c94` |
 
 **IMPORTANT NOTES!!!**
 
@@ -33,9 +44,9 @@ The final runs submitted to NIST, after removing judgments from 1, 2, 3, and 4 (
 
 | group | runtag | run file | checksum |
 |:------|:-------|:---------|:---------|
-| `anserini` | `r5.fusion1` = Row 7 | [[download](https://www.dropbox.com/s/2uyws7fnbpxo8s6/anserini.final-r5.fusion1.txt)] | `12122c12089c2b07a8f6c7247aebe2f6` |
-| `anserini` | `r5.fusion2` = Row 8 | [[download](https://www.dropbox.com/s/vyolaecpxu28vjw/anserini.final-r5.fusion2.txt)] | `ff1a0bac315de6703b937c552b351e2a` |
-| `anserini` | `r5.rf` = Row 9      | [[download](https://www.dropbox.com/s/27wy54cibmyg7lp/anserini.final-r5.rf.txt)]      | `74e2a73b5ffd2908dc23b14c765171a1` |
+| `anserini` | `r5.fusion1` = Row 7 | [[download](https://www.dropbox.com/s/2uyws7fnbpxo8s6/anserini.final-r5.fusion1.txt?dl=1)] | `12122c12089c2b07a8f6c7247aebe2f6` |
+| `anserini` | `r5.fusion2` = Row 8 | [[download](https://www.dropbox.com/s/vyolaecpxu28vjw/anserini.final-r5.fusion2.txt?dl=1)] | `ff1a0bac315de6703b937c552b351e2a` |
+| `anserini` | `r5.rf` = Row 9      | [[download](https://www.dropbox.com/s/27wy54cibmyg7lp/anserini.final-r5.rf.txt?dl=1)]      | `74e2a73b5ffd2908dc23b14c765171a1` |
 
 We have written scripts that automate the replication of these baselines:
 
@@ -55,9 +66,9 @@ The actual evaluated runs are (mirrored from URL above):
 
 | group | runtag | run file | checksum |
 |:------|:-------|:---------|:---------|
-| `anserini` | `r5.fusion1` (NIST post-processed) | [[download](https://www.dropbox.com/s/lycp9x404bp6u1l/anserini.final-r5.fusion1.post-processed.txt)] | `f1ebdd7f7b8403b53e89a5993fb55dd2` |
-| `anserini` | `r5.fusion2` (NIST post-processed) | [[download](https://www.dropbox.com/s/qtwny6bd6k3ijzq/anserini.final-r5.fusion2.post-processed.txt)] | `77ce612916becbb5ccfd6d891f797d1d` |
-| `anserini` | `r5.rf` (NIST post-processed)      | [[download](https://www.dropbox.com/s/1ak8w2280dzrflu/anserini.final-r5.rf.post-processed.txt)]      | `dd765fa9491c585476735115eb966ea2` |
+| `anserini` | `r5.fusion1` (NIST post-processed) | [[download](https://www.dropbox.com/s/lycp9x404bp6u1l/anserini.final-r5.fusion1.post-processed.txt?dl=1)] | `f1ebdd7f7b8403b53e89a5993fb55dd2` |
+| `anserini` | `r5.fusion2` (NIST post-processed) | [[download](https://www.dropbox.com/s/qtwny6bd6k3ijzq/anserini.final-r5.fusion2.post-processed.txt?dl=1)] | `77ce612916becbb5ccfd6d891f797d1d` |
+| `anserini` | `r5.rf` (NIST post-processed)      | [[download](https://www.dropbox.com/s/1ak8w2280dzrflu/anserini.final-r5.rf.post-processed.txt?dl=1)]      | `dd765fa9491c585476735115eb966ea2` |
 
 Effectiveness results (note that starting in Round 4, NIST changed from nDCG@10 to nDCG@20):
 
@@ -71,7 +82,7 @@ Effectiveness results (note that starting in Round 4, NIST changed from nDCG@10 
 | `anserini` | `r5.rf` (NIST post-processed)      | 0.7346 | 0.9470 | 0.3280 | 0.6378
 
 The scores of the post-processed runs match those reported by NIST.
-We see that that NIST post-processing improves scores slightly.
+We see that NIST post-processing improves scores slightly.
 
 Below, we report the effectiveness of the runs using the "complete" cumulative qrels file (covering rounds 1 through 5).
 This qrels file, provided by NIST as [`qrels-covid_d5_j0.5-5.txt`](https://ir.nist.gov/covidSubmit/data/qrels-covid_d5_j0.5-5.txt), is stored in our repo as [`qrels.covid-complete.txt`](../src/main/resources/topics-and-qrels/qrels.covid-complete.txt)).
@@ -88,7 +99,7 @@ This qrels file, provided by NIST as [`qrels-covid_d5_j0.5-5.txt`](https://ir.ni
 |  8 | -         | reciprocal rank fusion(2, 4, 6) | 0.6972 | 1.0000 | 0.6785 | 1.0000 | 0.3329 | 0.5313 | 0.4869
 |  9 | abstract  | UDel qgen + RF                  | 0.8395 | 1.0000 | 0.7955 | 0.9990 | 0.3911 | 0.5536 | 0.4607
 
-Note that all of the results above can be replicated with the following script:
+Note that all of the results above can be replicated with the following scripts:
 
 ```bash
 $ python src/main/python/trec-covid/download_indexes.py --date 2020-07-16
@@ -103,15 +114,15 @@ They were prepared _for_ round 4 (for participants who wish to have a baseline r
 
 |    | index     | field(s)                        | nDCG@10 | J@10 | R@1k | run file | checksum |
 |---:|:----------|:--------------------------------|--------:|-----:|-----:|:---------|----------|
-|  1 | abstract  | query+question                  | 0.3143 | 0.4467 | 0.4257 | [[download](https://www.dropbox.com/s/mf79huhxfy96g6i/anserini.covid-r4.abstract.qq.bm25.txt)]    | `56ac5a0410e235243ca6e9f0f00eefa1` |
-|  2 | abstract  | UDel qgen                       | 0.3260 | 0.4378 | 0.4432 | [[download](https://www.dropbox.com/s/4zau6ejrkvgn9m7/anserini.covid-r4.abstract.qdel.bm25.txt)]  | `115d6d2e308b47ffacbc642175095c74` |
-|  3 | full-text | query+question                  | 0.2108 | 0.4044 | 0.3891 | [[download](https://www.dropbox.com/s/bpdopie6gqffv0w/anserini.covid-r4.full-text.qq.bm25.txt)]   | `af0d10a5344f4007e6781e8d2959eb54` |
-|  4 | full-text | UDel qgen                       | 0.3499 | 0.5067 | 0.4537 | [[download](https://www.dropbox.com/s/rh0uy71ogbpas0v/anserini.covid-r4.full-text.qdel.bm25.txt)] | `594d469b8f45cf808092a3d8e870eaf5` |
-|  5 | paragraph | query+question                  | 0.3229 | 0.5267 | 0.4863 | [[download](https://www.dropbox.com/s/ifkjm8ff8g2aoh1/anserini.covid-r4.paragraph.qq.bm25.txt)]   | `6f468b7b60aaa05fc215d237b5475aec` |
-|  6 | paragraph | UDel qgen                       | 0.4016 | 0.5333 | 0.5050 | [[download](https://www.dropbox.com/s/keuogpx1dzinsgy/anserini.covid-r4.paragraph.qdel.bm25.txt)] | `b7b39629c12573ee0bfed8687dacc743` |
-|  7 | -         | reciprocal rank fusion(1, 3, 5) | 0.3424 | 0.5289 | 0.5033 | [[download](https://www.dropbox.com/s/zjc0069do0a4gu3/anserini.covid-r4.fusion1.txt)]             | `8ae9d1fca05bd1d9bfe7b24d1bdbe270` |
-|  8 | -         | reciprocal rank fusion(2, 4, 6) | 0.4004 | 0.5400 | 0.5291 | [[download](https://www.dropbox.com/s/qekc9vr3oom777n/anserini.covid-r4.fusion2.txt)]             | `e1894209c815c96c6ddd4cacb578261a` |
-|  9 | abstract  | UDel qgen + RF                  | 0.4598 | 0.5044 | 0.5330 | [[download](https://www.dropbox.com/s/2jx27rh3lknps9q/anserini.covid-r4.abstract.qdel.bm25%2Brm3Rf.txt)] | `9d954f31e2f07e11ff559bcb14ef16af` |
+|  1 | abstract  | query+question                  | 0.3143 | 0.4467 | 0.4257 | [[download](https://www.dropbox.com/s/mf79huhxfy96g6i/anserini.covid-r4.abstract.qq.bm25.txt?dl=1)]    | `56ac5a0410e235243ca6e9f0f00eefa1` |
+|  2 | abstract  | UDel qgen                       | 0.3260 | 0.4378 | 0.4432 | [[download](https://www.dropbox.com/s/4zau6ejrkvgn9m7/anserini.covid-r4.abstract.qdel.bm25.txt?dl=1)]  | `115d6d2e308b47ffacbc642175095c74` |
+|  3 | full-text | query+question                  | 0.2108 | 0.4044 | 0.3891 | [[download](https://www.dropbox.com/s/bpdopie6gqffv0w/anserini.covid-r4.full-text.qq.bm25.txt?dl=1)]   | `af0d10a5344f4007e6781e8d2959eb54` |
+|  4 | full-text | UDel qgen                       | 0.3499 | 0.5067 | 0.4537 | [[download](https://www.dropbox.com/s/rh0uy71ogbpas0v/anserini.covid-r4.full-text.qdel.bm25.txt?dl=1)] | `594d469b8f45cf808092a3d8e870eaf5` |
+|  5 | paragraph | query+question                  | 0.3229 | 0.5267 | 0.4863 | [[download](https://www.dropbox.com/s/ifkjm8ff8g2aoh1/anserini.covid-r4.paragraph.qq.bm25.txt?dl=1)]   | `6f468b7b60aaa05fc215d237b5475aec` |
+|  6 | paragraph | UDel qgen                       | 0.4016 | 0.5333 | 0.5050 | [[download](https://www.dropbox.com/s/keuogpx1dzinsgy/anserini.covid-r4.paragraph.qdel.bm25.txt?dl=1)] | `b7b39629c12573ee0bfed8687dacc743` |
+|  7 | -         | reciprocal rank fusion(1, 3, 5) | 0.3424 | 0.5289 | 0.5033 | [[download](https://www.dropbox.com/s/zjc0069do0a4gu3/anserini.covid-r4.fusion1.txt?dl=1)]             | `8ae9d1fca05bd1d9bfe7b24d1bdbe270` |
+|  8 | -         | reciprocal rank fusion(2, 4, 6) | 0.4004 | 0.5400 | 0.5291 | [[download](https://www.dropbox.com/s/qekc9vr3oom777n/anserini.covid-r4.fusion2.txt?dl=1)]             | `e1894209c815c96c6ddd4cacb578261a` |
+|  9 | abstract  | UDel qgen + RF                  | 0.4598 | 0.5044 | 0.5330 | [[download](https://www.dropbox.com/s/2jx27rh3lknps9q/anserini.covid-r4.abstract.qdel.bm25%2Brm3Rf.txt?dl=1)] | `9d954f31e2f07e11ff559bcb14ef16af` |
 
 **IMPORTANT NOTES!!!**
 
@@ -125,9 +136,9 @@ The final runs submitted to NIST, after removing judgments from 1, 2, and 3 (cum
 
 | group | runtag | run file | checksum |
 |:------|:-------|:---------|:---------|
-| `anserini` | `r4.fusion1` = Row 7 | [[download](https://www.dropbox.com/s/g3giixyusk4tzro/anserini.final-r4.fusion1.txt)] | `a8ab52e12c151012adbfc8e37d666760` |
-| `anserini` | `r4.fusion2` = Row 8 | [[download](https://www.dropbox.com/s/z4wbqj9gfos8wln/anserini.final-r4.fusion2.txt)] | `1500104c928f463f38e76b58b91d4c07` |
-| `anserini` | `r4.rf` = Row 9      | [[download](https://www.dropbox.com/s/28w83b07yzndlbg/anserini.final-r4.rf.txt)]      | `41d746eb86a99d2f33068ebc195072cd` |
+| `anserini` | `r4.fusion1` = Row 7 | [[download](https://www.dropbox.com/s/g3giixyusk4tzro/anserini.final-r4.fusion1.txt?dl=1)] | `a8ab52e12c151012adbfc8e37d666760` |
+| `anserini` | `r4.fusion2` = Row 8 | [[download](https://www.dropbox.com/s/z4wbqj9gfos8wln/anserini.final-r4.fusion2.txt?dl=1)] | `1500104c928f463f38e76b58b91d4c07` |
+| `anserini` | `r4.rf` = Row 9      | [[download](https://www.dropbox.com/s/28w83b07yzndlbg/anserini.final-r4.rf.txt?dl=1)]      | `41d746eb86a99d2f33068ebc195072cd` |
 
 We have written scripts that automate the replication of these baselines:
 
@@ -147,9 +158,9 @@ The actual evaluated runs are (mirrored from URL above):
 
 | group | runtag | run file | checksum |
 |:------|:-------|:---------|:---------|
-| `anserini` | `r4.fusion1` (NIST post-processed) | [[download](https://www.dropbox.com/s/wccmsmj2cz4h1t4/anserini.final-r4.fusion1.post-processed.txt)] | `b0ebafe36d8fc721ea6923da5837aa8c` |
-| `anserini` | `r4.fusion2` (NIST post-processed) | [[download](https://www.dropbox.com/s/kwgnbgofaql3k4l/anserini.final-r4.fusion2.post-processed.txt)] | `e7e0b870c6822e7127df71608923e76b` |
-| `anserini` | `r4.rf` (NIST post-processed)      | [[download](https://www.dropbox.com/s/gvha3nj004osrme/anserini.final-r4.rf.post-processed.txt)]      | `2fcd53854461e0cbe3c9170c0da234d9` |
+| `anserini` | `r4.fusion1` (NIST post-processed) | [[download](https://www.dropbox.com/s/wccmsmj2cz4h1t4/anserini.final-r4.fusion1.post-processed.txt?dl=1)] | `b0ebafe36d8fc721ea6923da5837aa8c` |
+| `anserini` | `r4.fusion2` (NIST post-processed) | [[download](https://www.dropbox.com/s/kwgnbgofaql3k4l/anserini.final-r4.fusion2.post-processed.txt?dl=1)] | `e7e0b870c6822e7127df71608923e76b` |
+| `anserini` | `r4.rf` (NIST post-processed)      | [[download](https://www.dropbox.com/s/gvha3nj004osrme/anserini.final-r4.rf.post-processed.txt?dl=1)]      | `2fcd53854461e0cbe3c9170c0da234d9` |
 
 Effectiveness results (note that NIST changed from nDCG@10 to nDCG@20 for this round):
 
@@ -163,7 +174,7 @@ Effectiveness results (note that NIST changed from nDCG@10 to nDCG@20 for this r
 | `anserini` | `r4.rf` (NIST post-processed)      | 0.6976 | 0.9278 | 0.3519 | 0.6962
 
 The scores of the post-processed runs match those reported by NIST.
-We see that that NIST post-processing improves scores slightly.
+We see that NIST post-processing improves scores slightly.
 
 Below, we report the effectiveness of the runs using the cumulative qrels file from round 4.
 This qrels file, provided by NIST as [`qrels_covid_d4_j0.5-4.txt`](https://ir.nist.gov/covidSubmit/data/qrels-covid_d4_j0.5-4.txt), is stored in our repo as [`qrels.covid-round4-cumulative.txt`](../src/main/resources/topics-and-qrels/qrels.covid-round4-cumulative.txt)).
@@ -180,7 +191,7 @@ This qrels file, provided by NIST as [`qrels_covid_d4_j0.5-4.txt`](https://ir.ni
 |  8 | -         | reciprocal rank fusion(2, 4, 6) | 0.6802 | 1.0000 | 0.6573 | 0.9956 | 0.3286 | 0.5946 | 0.3625 |
 |  9 | abstract  | UDel qgen + RF                  | 0.8056 | 1.0000 | 0.7649 | 0.9967 | 0.3663 | 0.5955 | 0.3229 |
 
-Note that all of the results above can be replicated with the following script:
+Note that all of the results above can be replicated with the following scripts:
 
 ```bash
 $ python src/main/python/trec-covid/download_indexes.py --date 2020-06-19
@@ -195,15 +206,15 @@ They were prepared _for_ round 3 (for participants who wish to have a baseline r
 
 |    | index     | field(s)                 | nDCG@10 | J@10 | R@1k | run file | checksum |
 |---:|:----------|:-------------------------|--------:|-----:|-----:|:---------|----------|
-|  1 | abstract  | query+question           | 0.2118 | 0.3300 | 0.4398 | [[download](https://www.dropbox.com/s/g80cqdxud1l06wq/anserini.covid-r3.abstract.qq.bm25.txt)]    | `d08d85c87e30d6c4abf54799806d282f` |
-|  2 | abstract  | UDel qgen                | 0.2470 | 0.3375 | 0.4537 | [[download](https://www.dropbox.com/s/sjcnxq7h0a3j3xz/anserini.covid-r3.abstract.qdel.bm25.txt)]  | `d552dff90995cd860a5727637f0be4d1` |
-|  3 | full-text | query+question           | 0.2337 | 0.4650 | 0.4817 | [[download](https://www.dropbox.com/s/4bjx35sgosu0jz0/anserini.covid-r3.full-text.qq.bm25.txt)]   | `6c9f4c09d842b887262ca84d61c61a1f` |
-|  4 | full-text | UDel qgen                | 0.3430 | 0.5025 | 0.5267 | [[download](https://www.dropbox.com/s/mjt7y1ywae784d0/anserini.covid-r3.full-text.qdel.bm25.txt)] | `c5f9db7733c72eea78ece2ade44d3d35` |
-|  5 | paragraph | query+question           | 0.2848 | 0.5175 | 0.5527 | [[download](https://www.dropbox.com/s/qwn7jd8vg2chjik/anserini.covid-r3.paragraph.qq.bm25.txt)]   | `872673b3e12c661748d8899f24d3ba48` |
-|  6 | paragraph | UDel qgen                | 0.3604 | 0.5050 | 0.5676 | [[download](https://www.dropbox.com/s/2928i60fj2i09bt/anserini.covid-r3.paragraph.qdel.bm25.txt)] | `c1b966e4c3f387b6810211f339b35852` |
-|  7 | -         | reciprocal rank fusion(1, 3, 5) | 0.3093 | 0.4975 | 0.5566 | [[download](https://www.dropbox.com/s/6vk5iohqf81iy8b/anserini.covid-r3.fusion1.txt)]      | `61cbd73c6e60ba44f18ce967b5b0e5b3` |
-|  8 | -         | reciprocal rank fusion(2, 4, 6) | 0.3568 | 0.5250 | 0.5769 | [[download](https://www.dropbox.com/s/n09595t1eqymkks/anserini.covid-r3.fusion2.txt)]      | `d7eabf3dab840104c88de925e918fdab` |
-|  9 | abstract  | UDel qgen + RF           | 0.3633 | 0.3800 | 0.5722 | [[download](https://www.dropbox.com/s/p8fzefgwzkvvbxx/anserini.covid-r3.abstract.qdel.bm25%2Brm3Rf.txt)] | `e6a44f1f7183de10f892c6d922110934` |
+|  1 | abstract  | query+question           | 0.2118 | 0.3300 | 0.4398 | [[download](https://www.dropbox.com/s/g80cqdxud1l06wq/anserini.covid-r3.abstract.qq.bm25.txt?dl=1)]    | `d08d85c87e30d6c4abf54799806d282f` |
+|  2 | abstract  | UDel qgen                | 0.2470 | 0.3375 | 0.4537 | [[download](https://www.dropbox.com/s/sjcnxq7h0a3j3xz/anserini.covid-r3.abstract.qdel.bm25.txt?dl=1)]  | `d552dff90995cd860a5727637f0be4d1` |
+|  3 | full-text | query+question           | 0.2337 | 0.4650 | 0.4817 | [[download](https://www.dropbox.com/s/4bjx35sgosu0jz0/anserini.covid-r3.full-text.qq.bm25.txt?dl=1)]   | `6c9f4c09d842b887262ca84d61c61a1f` |
+|  4 | full-text | UDel qgen                | 0.3430 | 0.5025 | 0.5267 | [[download](https://www.dropbox.com/s/mjt7y1ywae784d0/anserini.covid-r3.full-text.qdel.bm25.txt?dl=1)] | `c5f9db7733c72eea78ece2ade44d3d35` |
+|  5 | paragraph | query+question           | 0.2848 | 0.5175 | 0.5527 | [[download](https://www.dropbox.com/s/qwn7jd8vg2chjik/anserini.covid-r3.paragraph.qq.bm25.txt?dl=1)]   | `872673b3e12c661748d8899f24d3ba48` |
+|  6 | paragraph | UDel qgen                | 0.3604 | 0.5050 | 0.5676 | [[download](https://www.dropbox.com/s/2928i60fj2i09bt/anserini.covid-r3.paragraph.qdel.bm25.txt?dl=1)] | `c1b966e4c3f387b6810211f339b35852` |
+|  7 | -         | reciprocal rank fusion(1, 3, 5) | 0.3093 | 0.4975 | 0.5566 | [[download](https://www.dropbox.com/s/6vk5iohqf81iy8b/anserini.covid-r3.fusion1.txt?dl=1)]      | `61cbd73c6e60ba44f18ce967b5b0e5b3` |
+|  8 | -         | reciprocal rank fusion(2, 4, 6) | 0.3568 | 0.5250 | 0.5769 | [[download](https://www.dropbox.com/s/n09595t1eqymkks/anserini.covid-r3.fusion2.txt?dl=1)]      | `d7eabf3dab840104c88de925e918fdab` |
+|  9 | abstract  | UDel qgen + RF           | 0.3633 | 0.3800 | 0.5722 | [[download](https://www.dropbox.com/s/p8fzefgwzkvvbxx/anserini.covid-r3.abstract.qdel.bm25%2Brm3Rf.txt?dl=1)] | `e6a44f1f7183de10f892c6d922110934` |
 
 **IMPORTANT NOTES!!!**
 
@@ -218,9 +229,9 @@ The final runs submitted to NIST, after removing judgments from round 1 and roun
 
 | group | runtag | run file | checksum |
 |:------|:-------|:---------|:---------|
-| `anserini` | `r3.fusion1` = Row 7 | [[download](https://www.dropbox.com/s/ypoe9tgwef17rak/anserini.final-r3.fusion1.txt)] | `c1caf63a9c3b02f0b12e233112fc79a6` |
-| `anserini` | `r3.fusion2` = Row 8 | [[download](https://www.dropbox.com/s/uvfrssp6nw2v2jl/anserini.final-r3.fusion2.txt)] | `12679197846ed77306ecb2ca7895b011` |
-| `anserini` | `r3.rf` = Row 9      | [[download](https://www.dropbox.com/s/2wrg7ceaca3n7ac/anserini.final-r3.rf.txt)]      | `7192a08c5275b59d5ef18395917ff694` |
+| `anserini` | `r3.fusion1` = Row 7 | [[download](https://www.dropbox.com/s/ypoe9tgwef17rak/anserini.final-r3.fusion1.txt?dl=1)] | `c1caf63a9c3b02f0b12e233112fc79a6` |
+| `anserini` | `r3.fusion2` = Row 8 | [[download](https://www.dropbox.com/s/uvfrssp6nw2v2jl/anserini.final-r3.fusion2.txt?dl=1)] | `12679197846ed77306ecb2ca7895b011` |
+| `anserini` | `r3.rf` = Row 9      | [[download](https://www.dropbox.com/s/2wrg7ceaca3n7ac/anserini.final-r3.rf.txt?dl=1)]      | `7192a08c5275b59d5ef18395917ff694` |
 
 We resolved the issue from round 2 where the final submitted runs have less than 1000 hits per topic.
 
@@ -250,9 +261,9 @@ They are, instead:
 
 | group | runtag | run file | checksum |
 |:------|:-------|:---------|:---------|
-| `anserini` | `r3.fusion1` (NIST post-processed) | [[download](https://www.dropbox.com/s/ilqgky1tti0zvez/anserini.final-r3.fusion1.post-processed.txt)] | `f7c69c9bff381a847af86e5a8daf7526` |
-| `anserini` | `r3.fusion2` (NIST post-processed) | [[download](https://www.dropbox.com/s/ue3z6xxxca9krkb/anserini.final-r3.fusion2.post-processed.txt)] | `84c5fd2c7de0a0282266033ac4f27c22` |
-| `anserini` | `r3.rf` (NIST post-processed)      | [[download](https://www.dropbox.com/s/95vk831wp1ldnpm/anserini.final-r3.rf.post-processed.txt)]      | `3e79099639a9426cb53afe7066239011` |
+| `anserini` | `r3.fusion1` (NIST post-processed) | [[download](https://www.dropbox.com/s/ilqgky1tti0zvez/anserini.final-r3.fusion1.post-processed.txt?dl=1)] | `f7c69c9bff381a847af86e5a8daf7526` |
+| `anserini` | `r3.fusion2` (NIST post-processed) | [[download](https://www.dropbox.com/s/ue3z6xxxca9krkb/anserini.final-r3.fusion2.post-processed.txt?dl=1)] | `84c5fd2c7de0a0282266033ac4f27c22` |
+| `anserini` | `r3.rf` (NIST post-processed)      | [[download](https://www.dropbox.com/s/95vk831wp1ldnpm/anserini.final-r3.rf.post-processed.txt?dl=1)]      | `3e79099639a9426cb53afe7066239011` |
 
 Effectiveness results:
 
@@ -266,7 +277,7 @@ Effectiveness results:
 | `anserini` | `r3.rf` (NIST post-processed)      | 0.6883 | 0.9750 | 0.2817 | 0.6399
 
 The scores of the post-processed runs match those reported by NIST.
-We see that that NIST post-processing improves scores slightly.
+We see that NIST post-processing improves scores slightly.
 
 Below, we report the effectiveness of the runs using the cumulative qrels file from round 3.
 This qrels file, provided by NIST as [`qrels_covid_d3_j0.5-3.txt`](https://ir.nist.gov/covidSubmit/data/qrels-covid_d3_j0.5-3.txt), is stored in our repo as [`qrels.covid-round3-cumulative.txt`](../src/main/resources/topics-and-qrels/qrels.covid-round3-cumulative.txt).
@@ -283,7 +294,7 @@ This qrels file, provided by NIST as [`qrels_covid_d3_j0.5-3.txt`](https://ir.ni
 |  8 | -         | reciprocal rank fusion(2, 4, 6) | 0.6515 | 0.9875 | 0.6200 | 0.9675 | 0.3027 | 0.6194 | 0.3076 |
 |  9 | abstract  | UDel qgen + RF                  | 0.7459 | 0.9875 | 0.7023 | 0.9637 | 0.3190 | 0.6125 | 0.2600 |
 
-Note that all of the results above can be replicated with the following script:
+Note that all of the results above can be replicated with the following scripts:
 
 ```bash
 $ python src/main/python/trec-covid/download_indexes.py --date 2020-05-19
@@ -298,14 +309,14 @@ They were prepared _for_ round 2 (for participants who wish to have a baseline r
 
 |    | index     | field(s)       | nDCG@10 | J@10 | R@1k | run file | checksum |
 |---:|:----------|:---------------|--------:|-----:|-----:|:---------|----------|
-|  1 | abstract  | query+question |  0.3522 | 0.5371 | 0.6601 | [[download](https://www.dropbox.com/s/duimcackueph2co/anserini.covid-r2.abstract.qq.bm25.txt.gz)]    | `9cdea30a3881f9e60d3c61a890b094bd` |
-|  2 | abstract  | UDel qgen      |  0.3781 | 0.5371 | 0.6485 | [[download](https://www.dropbox.com/s/n9yfssge5asez74/anserini.covid-r2.abstract.qdel.bm25.txt.gz)]  | `1e1bcdf623f69799a2b1b2982f53c23d` |
-|  3 | full-text | query+question |  0.2070 | 0.4286 | 0.5953 | [[download](https://www.dropbox.com/s/iswpuj9tf5pj5ei/anserini.covid-r2.full-text.qq.bm25.txt.gz)]   | `6d704c60cc2cf134430c36ec2a0a3faa` |
-|  4 | full-text | UDel qgen      |  0.3123 | 0.4229 | 0.6517 | [[download](https://www.dropbox.com/s/bj93a4iddpfvp09/anserini.covid-r2.full-text.qdel.bm25.txt.gz)] | `352a8b35a0626da21cab284bddb2e4e5` |
-|  5 | paragraph | query+question |  0.2772 | 0.4400 | 0.7248 | [[download](https://www.dropbox.com/s/da7jg1ho5ubl8jt/anserini.covid-r2.paragraph.qq.bm25.txt.gz)]   | `b48c9ffb3cf9b35269ca9321ac39e758` |
-|  6 | paragraph | UDel qgen      |  0.3353 | 0.4343 | 0.7196 | [[download](https://www.dropbox.com/s/7hplgsdq7ndn2ql/anserini.covid-r2.paragraph.qdel.bm25.txt.gz)] | `580fd34fbbda855dd09e1cb94467cb19` |
-|  7 | -         | reciprocal rank fusion(1, 3, 5) | 0.3297 | 0.4657 | 0.7561 | [[download](https://www.dropbox.com/s/wqb0vhxp98g7dxh/anserini.covid-r2.fusion1.txt.gz)]       | `2a131517308d088c3f55afa0b8d5bb04` |
-|  8 | -         | reciprocal rank fusion(2, 4, 6) | 0.3679 | 0.4829 | 0.7511 | [[download](https://www.dropbox.com/s/cd1ps4au79wvb8j/anserini.covid-r2.fusion2.txt.gz)]       | `9760124d8cfa03a0e3aae3a4c6e32550` |
+|  1 | abstract  | query+question |  0.3522 | 0.5371 | 0.6601 | [[download](https://www.dropbox.com/s/duimcackueph2co/anserini.covid-r2.abstract.qq.bm25.txt.gz?dl=1)]    | `9cdea30a3881f9e60d3c61a890b094bd` |
+|  2 | abstract  | UDel qgen      |  0.3781 | 0.5371 | 0.6485 | [[download](https://www.dropbox.com/s/n9yfssge5asez74/anserini.covid-r2.abstract.qdel.bm25.txt.gz?dl=1)]  | `1e1bcdf623f69799a2b1b2982f53c23d` |
+|  3 | full-text | query+question |  0.2070 | 0.4286 | 0.5953 | [[download](https://www.dropbox.com/s/iswpuj9tf5pj5ei/anserini.covid-r2.full-text.qq.bm25.txt.gz?dl=1)]   | `6d704c60cc2cf134430c36ec2a0a3faa` |
+|  4 | full-text | UDel qgen      |  0.3123 | 0.4229 | 0.6517 | [[download](https://www.dropbox.com/s/bj93a4iddpfvp09/anserini.covid-r2.full-text.qdel.bm25.txt.gz?dl=1)] | `352a8b35a0626da21cab284bddb2e4e5` |
+|  5 | paragraph | query+question |  0.2772 | 0.4400 | 0.7248 | [[download](https://www.dropbox.com/s/da7jg1ho5ubl8jt/anserini.covid-r2.paragraph.qq.bm25.txt.gz?dl=1)]   | `b48c9ffb3cf9b35269ca9321ac39e758` |
+|  6 | paragraph | UDel qgen      |  0.3353 | 0.4343 | 0.7196 | [[download](https://www.dropbox.com/s/7hplgsdq7ndn2ql/anserini.covid-r2.paragraph.qdel.bm25.txt.gz?dl=1)] | `580fd34fbbda855dd09e1cb94467cb19` |
+|  7 | -         | reciprocal rank fusion(1, 3, 5) | 0.3297 | 0.4657 | 0.7561 | [[download](https://www.dropbox.com/s/wqb0vhxp98g7dxh/anserini.covid-r2.fusion1.txt.gz?dl=1)]       | `2a131517308d088c3f55afa0b8d5bb04` |
+|  8 | -         | reciprocal rank fusion(2, 4, 6) | 0.3679 | 0.4829 | 0.7511 | [[download](https://www.dropbox.com/s/cd1ps4au79wvb8j/anserini.covid-r2.fusion2.txt.gz?dl=1)]       | `9760124d8cfa03a0e3aae3a4c6e32550` |
 
 **IMPORTANT NOTES!!!**
 
@@ -319,8 +330,8 @@ The final runs submitted to NIST, after removing round 1 judgments, are as follo
 
 | group | runtag | run file | checksum |
 |:------|:-------|:---------|:---------|
-| `anserini` | `r2.fusion1` | [[download](https://www.dropbox.com/s/s5r6ufa95xeait4/anserini.r2.fusion1.txt)] | `89544da0409435c74dd4f3dd5fc9dc62` |
-| `anserini` | `r2.fusion2` | [[download](https://www.dropbox.com/s/6kb14aggemtz6hq/anserini.r2.fusion2.txt)] | `774359c157c65bb7142d4f43b614e38f` |
+| `anserini` | `r2.fusion1` | [[download](https://www.dropbox.com/s/s5r6ufa95xeait4/anserini.r2.fusion1.txt?dl=1)] | `89544da0409435c74dd4f3dd5fc9dc62` |
+| `anserini` | `r2.fusion2` | [[download](https://www.dropbox.com/s/6kb14aggemtz6hq/anserini.r2.fusion2.txt?dl=1)] | `774359c157c65bb7142d4f43b614e38f` |
 
 We discovered at the last minute that the package we used to perform reciprocal rank fusion trimmed runs to 1000 hits per topic.
 Thus the final submitted runs have less than 1000 hits per topic after removal of round 1 judgments.
@@ -391,59 +402,72 @@ Exact commands for replicating these runs are found [further down on this page](
 
 ## Round 2: Replication Commands
 
-Here are the replication commands for the individual runs:
+Here are the replication commands for the individual runs.
 
-```bash
-wget https://www.dropbox.com/s/wxjoe4g71zt5za2/lucene-index-cord19-abstract-2020-05-01.tar.gz
-tar xvfz lucene-index-cord19-abstract-2020-05-01.tar.gz
+First, download the pre-built indexes using our script:
 
-target/appassembler/bin/SearchCollection -index lucene-index-cord19-abstract-2020-05-01 \
- -topicreader Covid -topics src/main/resources/topics-and-qrels/topics.covid-round2.xml -topicfield query+question -removedups \
- -bm25 -hits 10000 -output runs/anserini.covid-r2.abstract.qq.bm25.txt -runtag anserini.covid-r2.abstract.qq.bm25.txt
+```
+python src/main/python/trec-covid/download_indexes.py --date 2020-05-01
+```
 
-target/appassembler/bin/SearchCollection -index lucene-index-cord19-abstract-2020-05-01 \
- -topicreader Covid -topics src/main/resources/topics-and-qrels/topics.covid-round2-udel.xml -topicfield query -removedups \
- -bm25 -hits 10000 -output runs/anserini.covid-r2.abstract.qdel.bm25.txt -runtag anserini.covid-r2.abstract.qdel.bm25.txt
+Abstract runs:
 
-eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec src/main/resources/topics-and-qrels/qrels.covid-round1.txt runs/anserini.covid-r2.abstract.qq.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
-eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec src/main/resources/topics-and-qrels/qrels.covid-round1.txt runs/anserini.covid-r2.abstract.qdel.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
+```
+target/appassembler/bin/SearchCollection -index indexes/lucene-index-cord19-abstract-2020-05-01 \
+ -topicreader Covid -topics src/main/resources/topics-and-qrels/topics.covid-round2.xml -topicfield query+question \
+ -output runs/anserini.covid-r2.abstract.qq.bm25.txt -runtag anserini.covid-r2.abstract.qq.bm25.txt \
+ -removedups -bm25 -hits 10000
 
-python eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/anserini.covid-r2.abstract.qq.bm25.txt
-python eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/anserini.covid-r2.abstract.qdel.bm25.txt
+target/appassembler/bin/SearchCollection -index indexes/lucene-index-cord19-abstract-2020-05-01 \
+ -topicreader Covid -topics src/main/resources/topics-and-qrels/topics.covid-round2-udel.xml -topicfield query \
+ -output runs/anserini.covid-r2.abstract.qdel.bm25.txt -runtag anserini.covid-r2.abstract.qdel.bm25.txt \
+ -removedups -bm25 -hits 10000
 
-wget https://www.dropbox.com/s/di27r5o2g5kat5k/lucene-index-cord19-full-text-2020-05-01.tar.gz
-tar xvfz lucene-index-cord19-full-text-2020-05-01.tar.gz
+tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec src/main/resources/topics-and-qrels/qrels.covid-round1.txt runs/anserini.covid-r2.abstract.qq.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
+tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec src/main/resources/topics-and-qrels/qrels.covid-round1.txt runs/anserini.covid-r2.abstract.qdel.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
 
-target/appassembler/bin/SearchCollection -index lucene-index-cord19-full-text-2020-05-01 \
- -topicreader Covid -topics src/main/resources/topics-and-qrels/topics.covid-round2.xml -topicfield query+question -removedups \
- -bm25 -hits 10000 -output runs/anserini.covid-r2.full-text.qq.bm25.txt -runtag anserini.covid-r2.full-text.qq.bm25.txt
+python tools/eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/anserini.covid-r2.abstract.qq.bm25.txt
+python tools/eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/anserini.covid-r2.abstract.qdel.bm25.txt
+```
 
-target/appassembler/bin/SearchCollection -index lucene-index-cord19-full-text-2020-05-01 \
- -topicreader Covid -topics src/main/resources/topics-and-qrels/topics.covid-round2-udel.xml -topicfield query -removedups \
- -bm25 -hits 10000 -output runs/anserini.covid-r2.full-text.qdel.bm25.txt -runtag anserini.covid-r2.full-text.qdel.bm25.txt
+Full-text runs:
 
-eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec src/main/resources/topics-and-qrels/qrels.covid-round1.txt runs/anserini.covid-r2.full-text.qq.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
-eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec src/main/resources/topics-and-qrels/qrels.covid-round1.txt runs/anserini.covid-r2.full-text.qdel.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
+```
+target/appassembler/bin/SearchCollection -index indexes/lucene-index-cord19-full-text-2020-05-01 \
+ -topicreader Covid -topics src/main/resources/topics-and-qrels/topics.covid-round2.xml -topicfield query+question \
+ -output runs/anserini.covid-r2.full-text.qq.bm25.txt -runtag anserini.covid-r2.full-text.qq.bm25.txt \
+ -removedups -bm25 -hits 10000
 
-python eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/anserini.covid-r2.full-text.qq.bm25.txt
-python eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/anserini.covid-r2.full-text.qdel.bm25.txt
+target/appassembler/bin/SearchCollection -index indexes/lucene-index-cord19-full-text-2020-05-01 \
+ -topicreader Covid -topics src/main/resources/topics-and-qrels/topics.covid-round2-udel.xml -topicfield query \
+ -output runs/anserini.covid-r2.full-text.qdel.bm25.txt -runtag anserini.covid-r2.full-text.qdel.bm25.txt \
+ -removedups -bm25 -hits 10000
 
-wget https://www.dropbox.com/s/6ib71scm925mclk/lucene-index-cord19-paragraph-2020-05-01.tar.gz
-tar xvfz lucene-index-cord19-paragraph-2020-05-01.tar.gz
+tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec src/main/resources/topics-and-qrels/qrels.covid-round1.txt runs/anserini.covid-r2.full-text.qq.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
+tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec src/main/resources/topics-and-qrels/qrels.covid-round1.txt runs/anserini.covid-r2.full-text.qdel.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
 
-target/appassembler/bin/SearchCollection -index lucene-index-cord19-paragraph-2020-05-01 \
- -topicreader Covid -topics src/main/resources/topics-and-qrels/topics.covid-round2.xml -topicfield query+question -removedups -strip_segment_id \
- -bm25 -hits 10000 -output runs/anserini.covid-r2.paragraph.qq.bm25.txt -runtag anserini.covid-r2.paragraph.qq.bm25.txt
+python tools/eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/anserini.covid-r2.full-text.qq.bm25.txt
+python tools/eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/anserini.covid-r2.full-text.qdel.bm25.txt
+```
 
-target/appassembler/bin/SearchCollection -index lucene-index-cord19-paragraph-2020-05-01 \
- -topicreader Covid -topics src/main/resources/topics-and-qrels/topics.covid-round2-udel.xml -topicfield query -removedups -strip_segment_id \
- -bm25 -hits 10000 -output runs/anserini.covid-r2.paragraph.qdel.bm25.txt -runtag anserini.covid-r2.paragraph.qdel.bm25.txt
+Paragraph runs:
 
-eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec src/main/resources/topics-and-qrels/qrels.covid-round1.txt runs/anserini.covid-r2.paragraph.qq.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
-eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec src/main/resources/topics-and-qrels/qrels.covid-round1.txt runs/anserini.covid-r2.paragraph.qdel.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
+```
+target/appassembler/bin/SearchCollection -index indexes/lucene-index-cord19-paragraph-2020-05-01 \
+ -topicreader Covid -topics src/main/resources/topics-and-qrels/topics.covid-round2.xml -topicfield query+question \
+ -output runs/anserini.covid-r2.paragraph.qq.bm25.txt -runtag anserini.covid-r2.paragraph.qq.bm25.txt \
+ -selectMaxPassage -bm25 -hits 10000
 
-python eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/anserini.covid-r2.paragraph.qq.bm25.txt
-python eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/anserini.covid-r2.paragraph.qdel.bm25.txt
+target/appassembler/bin/SearchCollection -index indexes/lucene-index-cord19-paragraph-2020-05-01 \
+ -topicreader Covid -topics src/main/resources/topics-and-qrels/topics.covid-round2-udel.xml -topicfield query \
+ -output runs/anserini.covid-r2.paragraph.qdel.bm25.txt -runtag anserini.covid-r2.paragraph.qdel.bm25.txt \
+ -selectMaxPassage -bm25 -hits 10000
+
+tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec src/main/resources/topics-and-qrels/qrels.covid-round1.txt runs/anserini.covid-r2.paragraph.qq.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
+tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec src/main/resources/topics-and-qrels/qrels.covid-round1.txt runs/anserini.covid-r2.paragraph.qdel.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
+
+python tools/eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/anserini.covid-r2.paragraph.qq.bm25.txt
+python tools/eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/anserini.covid-r2.paragraph.qdel.bm25.txt
 ```
 
 We've written a convenience script to generate fusion runs that wraps [`trectools`](https://github.com/joaopalotti/trectools) (v0.0.43):
@@ -456,66 +480,68 @@ python src/main/python/fusion.py --method RRF --out runs/anserini.covid-r2.fusio
  --runs runs/anserini.covid-r2.abstract.qdel.bm25.txt runs/anserini.covid-r2.full-text.qdel.bm25.txt runs/anserini.covid-r2.paragraph.qdel.bm25.txt
 ```
 
-And to evalute the fusion runs:
+And to evaluate the fusion runs:
 
 ```bash
-eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec src/main/resources/topics-and-qrels/qrels.covid-round1.txt runs/anserini.covid-r2.fusion1.txt | egrep '(ndcg_cut_10 |recall_1000 )'
-eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec src/main/resources/topics-and-qrels/qrels.covid-round1.txt runs/anserini.covid-r2.fusion2.txt | egrep '(ndcg_cut_10 |recall_1000 )'
+tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec src/main/resources/topics-and-qrels/qrels.covid-round1.txt runs/anserini.covid-r2.fusion1.txt | egrep '(ndcg_cut_10 |recall_1000 )'
+tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec src/main/resources/topics-and-qrels/qrels.covid-round1.txt runs/anserini.covid-r2.fusion2.txt | egrep '(ndcg_cut_10 |recall_1000 )'
 
-python eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/anserini.covid-r2.fusion1.txt
-python eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/anserini.covid-r2.fusion2.txt
+python tools/eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/anserini.covid-r2.fusion1.txt
+python tools/eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/anserini.covid-r2.fusion2.txt
 ```
 
 To prepare the final runs for submission (removing round 1 judgments):
 
 ```bash
-python src/main/python/trec-covid/remove_judged_docids.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round1.txt \
- --input runs/anserini.covid-r2.fusion1.txt --output anserini.r2.fusion1.txt --runtag r2.fusion1
+python tools/scripts/filter_run_with_qrels.py --discard --qrels src/main/resources/topics-and-qrels/qrels.covid-round1.txt \
+ --input runs/anserini.covid-r2.fusion1.txt --output runs/anserini.r2.fusion1.txt --runtag r2.fusion1
 
-python src/main/python/trec-covid/remove_judged_docids.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round1.txt \
- --input runs/anserini.covid-r2.fusion2.txt --output anserini.r2.fusion2.txt --runtag r2.fusion2
+python tools/scripts/filter_run_with_qrels.py --discard --qrels src/main/resources/topics-and-qrels/qrels.covid-round1.txt \
+ --input runs/anserini.covid-r2.fusion2.txt --output runs/anserini.r2.fusion2.txt --runtag r2.fusion2
 ```
 
 Evaluating runs with round 2 judgments:
 
 ```bash
-eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec src/main/resources/topics-and-qrels/qrels.covid-round2.txt runs/anserini.r2.fusion1.txt | egrep '(ndcg_cut_10 |recall_1000 )'
-eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec src/main/resources/topics-and-qrels/qrels.covid-round2.txt runs/anserini.r2.fusion2.txt | egrep '(ndcg_cut_10 |recall_1000 )'
+tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec src/main/resources/topics-and-qrels/qrels.covid-round2.txt runs/anserini.r2.fusion1.txt | egrep '(ndcg_cut_10 |recall_1000 )'
+tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec src/main/resources/topics-and-qrels/qrels.covid-round2.txt runs/anserini.r2.fusion2.txt | egrep '(ndcg_cut_10 |recall_1000 )'
 
-python eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round2.txt --cutoffs 10 --run runs/anserini.r2.fusion1.txt
-python eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round2.txt --cutoffs 10 --run runs/anserini.r2.fusion2.txt
+python tools/eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round2.txt --cutoffs 10 --run runs/anserini.r2.fusion1.txt
+python tools/eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round2.txt --cutoffs 10 --run runs/anserini.r2.fusion2.txt
 ```
 
 ## Round 1: Replication Commands
 
+First, download the pre-built indexes using our script:
+
+```
+python src/main/python/trec-covid/download_indexes.py --date 2020-04-10
+```
+
 Here are the commands to generate the runs on the abstract index:
 
 ```bash
-wget https://www.dropbox.com/s/j55t617yhvmegy8/lucene-index-covid-2020-04-10.tar.gz
-
-tar xvfz lucene-index-covid-2020-04-10.tar.gz
-
-target/appassembler/bin/SearchCollection -index lucene-index-covid-2020-04-10 \
+target/appassembler/bin/SearchCollection -index indexes/lucene-index-covid-2020-04-10 \
  -topicreader Covid -topics src/main/resources/topics-and-qrels/topics.covid-round1.xml -topicfield query -removedups \
  -bm25 -output runs/run.covid-r1.abstract.query.bm25.txt
 
-target/appassembler/bin/SearchCollection -index lucene-index-covid-2020-04-10 \
+target/appassembler/bin/SearchCollection -index indexes/lucene-index-covid-2020-04-10 \
  -topicreader Covid -topics src/main/resources/topics-and-qrels/topics.covid-round1.xml -topicfield question -removedups \
  -bm25 -output runs/run.covid-r1.abstract.question.bm25.txt
 
-target/appassembler/bin/SearchCollection -index lucene-index-covid-2020-04-10 \
+target/appassembler/bin/SearchCollection -index indexes/lucene-index-covid-2020-04-10 \
  -topicreader Covid -topics src/main/resources/topics-and-qrels/topics.covid-round1.xml -topicfield query+question -removedups \
  -bm25 -output runs/run.covid-r1.abstract.query+question.bm25.txt
 
-target/appassembler/bin/SearchCollection -index lucene-index-covid-2020-04-10 \
+target/appassembler/bin/SearchCollection -index indexes/lucene-index-covid-2020-04-10 \
  -topicreader Covid -topics src/main/resources/topics-and-qrels/topics.covid-round1.xml -topicfield query+question+narrative -removedups \
  -bm25 -output runs/run.covid-r1.abstract.query+question+narrative.bm25.txt
 
-target/appassembler/bin/SearchCollection -index lucene-index-covid-2020-04-10 \
+target/appassembler/bin/SearchCollection -index indexes/lucene-index-covid-2020-04-10 \
  -topicreader Covid -topics src/main/resources/topics-and-qrels/topics.covid-round1-udel.xml -topicfield query -removedups \
  -bm25 -output runs/run.covid-r1.abstract.query-udel.bm25.txt
 
-target/appassembler/bin/SearchCollection -index lucene-index-covid-2020-04-10 \
+target/appassembler/bin/SearchCollection -index indexes/lucene-index-covid-2020-04-10 \
  -topicreader Covid -topics src/main/resources/topics-and-qrels/topics.covid-round1.xml -topicfield query -querygenerator Covid19QueryGenerator -removedups \
  -bm25 -output runs/run.covid-r1.abstract.query-covid19.bm25.txt
 ```
@@ -523,49 +549,45 @@ target/appassembler/bin/SearchCollection -index lucene-index-covid-2020-04-10 \
 Here are the commands to evaluate results on the abstract index:
 
 ```bash
-eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec src/main/resources/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.abstract.query.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
-eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec src/main/resources/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.abstract.question.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
-eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec src/main/resources/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.abstract.query+question.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
-eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec src/main/resources/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.abstract.query+question+narrative.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
-eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec src/main/resources/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.abstract.query-udel.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
-eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec src/main/resources/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.abstract.query-covid19.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
+tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec src/main/resources/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.abstract.query.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
+tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec src/main/resources/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.abstract.question.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
+tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec src/main/resources/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.abstract.query+question.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
+tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec src/main/resources/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.abstract.query+question+narrative.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
+tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec src/main/resources/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.abstract.query-udel.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
+tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec src/main/resources/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.abstract.query-covid19.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
 
-python eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/run.covid-r1.abstract.query.bm25.txt
-python eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/run.covid-r1.abstract.question.bm25.txt
-python eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/run.covid-r1.abstract.query+question.bm25.txt
-python eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/run.covid-r1.abstract.query+question+narrative.bm25.txt
-python eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/run.covid-r1.abstract.query-udel.bm25.txt
-python eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/run.covid-r1.abstract.query-covid19.bm25.txt
+python tools/eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/run.covid-r1.abstract.query.bm25.txt
+python tools/eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/run.covid-r1.abstract.question.bm25.txt
+python tools/eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/run.covid-r1.abstract.query+question.bm25.txt
+python tools/eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/run.covid-r1.abstract.query+question+narrative.bm25.txt
+python tools/eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/run.covid-r1.abstract.query-udel.bm25.txt
+python tools/eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/run.covid-r1.abstract.query-covid19.bm25.txt
 ```
 
 Here are the commands to generate the runs on the full-text index:
 
 ```bash
-wget https://www.dropbox.com/s/gtq2c3xq81mjowk/lucene-index-covid-full-text-2020-04-10.tar.gz
-
-tar xvfz lucene-index-covid-full-text-2020-04-10.tar.gz
-
-target/appassembler/bin/SearchCollection -index lucene-index-covid-full-text-2020-04-10 \
+target/appassembler/bin/SearchCollection -index indexes/lucene-index-covid-full-text-2020-04-10 \
  -topicreader Covid -topics src/main/resources/topics-and-qrels/topics.covid-round1.xml -topicfield query -removedups \
  -bm25 -output runs/run.covid-r1.full-text.query.bm25.txt
 
-target/appassembler/bin/SearchCollection -index lucene-index-covid-full-text-2020-04-10 \
+target/appassembler/bin/SearchCollection -index indexes/lucene-index-covid-full-text-2020-04-10 \
  -topicreader Covid -topics src/main/resources/topics-and-qrels/topics.covid-round1.xml -topicfield question -removedups \
  -bm25 -output runs/run.covid-r1.full-text.question.bm25.txt
 
-target/appassembler/bin/SearchCollection -index lucene-index-covid-full-text-2020-04-10 \
+target/appassembler/bin/SearchCollection -index indexes/lucene-index-covid-full-text-2020-04-10 \
  -topicreader Covid -topics src/main/resources/topics-and-qrels/topics.covid-round1.xml -topicfield query+question -removedups \
  -bm25 -output runs/run.covid-r1.full-text.query+question.bm25.txt
 
-target/appassembler/bin/SearchCollection -index lucene-index-covid-full-text-2020-04-10 \
+target/appassembler/bin/SearchCollection -index indexes/lucene-index-covid-full-text-2020-04-10 \
  -topicreader Covid -topics src/main/resources/topics-and-qrels/topics.covid-round1.xml -topicfield query+question+narrative -removedups \
  -bm25 -output runs/run.covid-r1.full-text.query+question+narrative.bm25.txt
 
-target/appassembler/bin/SearchCollection -index lucene-index-covid-full-text-2020-04-10 \
+target/appassembler/bin/SearchCollection -index indexes/lucene-index-covid-full-text-2020-04-10 \
  -topicreader Covid -topics src/main/resources/topics-and-qrels/topics.covid-round1-udel.xml -topicfield query -removedups \
  -bm25 -output runs/run.covid-r1.full-text.query-udel.bm25.txt
 
-target/appassembler/bin/SearchCollection -index lucene-index-covid-full-text-2020-04-10 \
+target/appassembler/bin/SearchCollection -index indexes/lucene-index-covid-full-text-2020-04-10 \
  -topicreader Covid -topics src/main/resources/topics-and-qrels/topics.covid-round1.xml -topicfield query -querygenerator Covid19QueryGenerator -removedups \
  -bm25 -output runs/run.covid-r1.full-text.query-covid19.bm25.txt
 ```
@@ -573,69 +595,65 @@ target/appassembler/bin/SearchCollection -index lucene-index-covid-full-text-202
 Here are the commands to evaluate results on the full-text index:
 
 ```bash
-eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec src/main/resources/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.full-text.query.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
-eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec src/main/resources/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.full-text.question.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
-eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec src/main/resources/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.full-text.query+question.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
-eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec src/main/resources/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.full-text.query+question+narrative.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
-eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec src/main/resources/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.full-text.query-udel.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
-eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec src/main/resources/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.full-text.query-covid19.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
+tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec src/main/resources/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.full-text.query.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
+tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec src/main/resources/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.full-text.question.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
+tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec src/main/resources/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.full-text.query+question.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
+tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec src/main/resources/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.full-text.query+question+narrative.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
+tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec src/main/resources/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.full-text.query-udel.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
+tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec src/main/resources/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.full-text.query-covid19.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
 
-python eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/run.covid-r1.full-text.query.bm25.txt
-python eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/run.covid-r1.full-text.question.bm25.txt
-python eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/run.covid-r1.full-text.query+question.bm25.txt
-python eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/run.covid-r1.full-text.query+question+narrative.bm25.txt
-python eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/run.covid-r1.full-text.query-udel.bm25.txt
-python eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/run.covid-r1.full-text.query-covid19.bm25.txt
+python tools/eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/run.covid-r1.full-text.query.bm25.txt
+python tools/eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/run.covid-r1.full-text.question.bm25.txt
+python tools/eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/run.covid-r1.full-text.query+question.bm25.txt
+python tools/eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/run.covid-r1.full-text.query+question+narrative.bm25.txt
+python tools/eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/run.covid-r1.full-text.query-udel.bm25.txt
+python tools/eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/run.covid-r1.full-text.query-covid19.bm25.txt
 ```
 
 Here are the commands to generate the runs on the paragraph index:
 
 ```bash
-wget https://www.dropbox.com/s/ivk87journyajw3/lucene-index-covid-paragraph-2020-04-10.tar.gz
+target/appassembler/bin/SearchCollection -index indexes/lucene-index-covid-paragraph-2020-04-10 \
+ -topicreader Covid -topics src/main/resources/topics-and-qrels/topics.covid-round1.xml -topicfield query \
+ -selectMaxPassage -bm25 -output runs/run.covid-r1.paragraph.query.bm25.txt
 
-tar xvfz lucene-index-covid-paragraph-2020-04-10.tar.gz
+target/appassembler/bin/SearchCollection -index indexes/lucene-index-covid-paragraph-2020-04-10 \
+ -topicreader Covid -topics src/main/resources/topics-and-qrels/topics.covid-round1.xml -topicfield question \
+ -selectMaxPassage -bm25 -output runs/run.covid-r1.paragraph.question.bm25.txt
 
-target/appassembler/bin/SearchCollection -index lucene-index-covid-paragraph-2020-04-10 \
- -topicreader Covid -topics src/main/resources/topics-and-qrels/topics.covid-round1.xml -topicfield query -removedups -strip_segment_id \
- -bm25 -output runs/run.covid-r1.paragraph.query.bm25.txt
+target/appassembler/bin/SearchCollection -index indexes/lucene-index-covid-paragraph-2020-04-10 \
+ -topicreader Covid -topics src/main/resources/topics-and-qrels/topics.covid-round1.xml -topicfield query+question \
+ -selectMaxPassage -bm25 -output runs/run.covid-r1.paragraph.query+question.bm25.txt
 
-target/appassembler/bin/SearchCollection -index lucene-index-covid-paragraph-2020-04-10 \
- -topicreader Covid -topics src/main/resources/topics-and-qrels/topics.covid-round1.xml -topicfield question -removedups -strip_segment_id \
- -bm25 -output runs/run.covid-r1.paragraph.question.bm25.txt
+target/appassembler/bin/SearchCollection -index indexes/lucene-index-covid-paragraph-2020-04-10 \
+ -topicreader Covid -topics src/main/resources/topics-and-qrels/topics.covid-round1.xml -topicfield query+question+narrative \
+ -selectMaxPassage -bm25 -output runs/run.covid-r1.paragraph.query+question+narrative.bm25.txt
 
-target/appassembler/bin/SearchCollection -index lucene-index-covid-paragraph-2020-04-10 \
- -topicreader Covid -topics src/main/resources/topics-and-qrels/topics.covid-round1.xml -topicfield query+question -removedups -strip_segment_id \
- -bm25 -output runs/run.covid-r1.paragraph.query+question.bm25.txt
+target/appassembler/bin/SearchCollection -index indexes/lucene-index-covid-paragraph-2020-04-10 \
+ -topicreader Covid -topics src/main/resources/topics-and-qrels/topics.covid-round1-udel.xml -topicfield query \
+ -selectMaxPassage -bm25 -output runs/run.covid-r1.paragraph.query-udel.bm25.txt
 
-target/appassembler/bin/SearchCollection -index lucene-index-covid-paragraph-2020-04-10 \
- -topicreader Covid -topics src/main/resources/topics-and-qrels/topics.covid-round1.xml -topicfield query+question+narrative -removedups -strip_segment_id \
- -bm25 -output runs/run.covid-r1.paragraph.query+question+narrative.bm25.txt
-
-target/appassembler/bin/SearchCollection -index lucene-index-covid-paragraph-2020-04-10 \
- -topicreader Covid -topics src/main/resources/topics-and-qrels/topics.covid-round1-udel.xml -topicfield query -removedups -strip_segment_id \
- -bm25 -output runs/run.covid-r1.paragraph.query-udel.bm25.txt
-
-target/appassembler/bin/SearchCollection -index lucene-index-covid-paragraph-2020-04-10 \
- -topicreader Covid -topics src/main/resources/topics-and-qrels/topics.covid-round1.xml -topicfield query -querygenerator Covid19QueryGenerator -removedups -strip_segment_id \
- -bm25 -output runs/run.covid-r1.paragraph.query-covid19.bm25.txt
+target/appassembler/bin/SearchCollection -index indexes/lucene-index-covid-paragraph-2020-04-10 \
+ -topicreader Covid -topics src/main/resources/topics-and-qrels/topics.covid-round1.xml -topicfield query -querygenerator Covid19QueryGenerator \
+ -selectMaxPassage -bm25 -output runs/run.covid-r1.paragraph.query-covid19.bm25.txt
 ```
 
 Here are the commands to evaluate results on the paragraph index:
 
 ```bash
-eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec src/main/resources/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.paragraph.query.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
-eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec src/main/resources/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.paragraph.question.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
-eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec src/main/resources/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.paragraph.query+question.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
-eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec src/main/resources/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.paragraph.query+question+narrative.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
-eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec src/main/resources/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.paragraph.query-udel.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
-eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec src/main/resources/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.paragraph.query-covid19.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
+tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec src/main/resources/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.paragraph.query.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
+tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec src/main/resources/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.paragraph.question.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
+tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec src/main/resources/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.paragraph.query+question.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
+tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec src/main/resources/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.paragraph.query+question+narrative.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
+tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec src/main/resources/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.paragraph.query-udel.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
+tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec src/main/resources/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.paragraph.query-covid19.bm25.txt | egrep '(ndcg_cut_10 |recall_1000 )'
 
-python eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/run.covid-r1.paragraph.query.bm25.txt
-python eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/run.covid-r1.paragraph.question.bm25.txt
-python eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/run.covid-r1.paragraph.query+question.bm25.txt
-python eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/run.covid-r1.paragraph.query+question+narrative.bm25.txt
-python eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/run.covid-r1.paragraph.query-udel.bm25.txt
-python eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/run.covid-r1.paragraph.query-covid19.bm25.txt
+python tools/eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/run.covid-r1.paragraph.query.bm25.txt
+python tools/eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/run.covid-r1.paragraph.question.bm25.txt
+python tools/eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/run.covid-r1.paragraph.query+question.bm25.txt
+python tools/eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/run.covid-r1.paragraph.query+question+narrative.bm25.txt
+python tools/eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/run.covid-r1.paragraph.query-udel.bm25.txt
+python tools/eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/run.covid-r1.paragraph.query-covid19.bm25.txt
 ```
 
 We've written a convenience script to generate fusion runs that wraps [`trectools`](https://github.com/joaopalotti/trectools) (v0.0.43):
@@ -651,9 +669,9 @@ python src/main/python/fusion.py --method RRF --out runs/run.covid-r1.fusion2.tx
 And to evalute the fusion runs:
 
 ```bash
-eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec src/main/resources/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.fusion1.txt | egrep '(ndcg_cut_10 |recall_1000 )'
-eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec src/main/resources/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.fusion2.txt | egrep '(ndcg_cut_10 |recall_1000 )'
+tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec src/main/resources/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.fusion1.txt | egrep '(ndcg_cut_10 |recall_1000 )'
+tools/eval/trec_eval.9.0.4/trec_eval -c -M1000 -m all_trec src/main/resources/topics-and-qrels/qrels.covid-round1.txt runs/run.covid-r1.fusion2.txt | egrep '(ndcg_cut_10 |recall_1000 )'
 
-python eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/run.covid-r1.fusion1.txt
-python eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/run.covid-r1.fusion2.txt
+python tools/eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/run.covid-r1.fusion1.txt
+python tools/eval/measure_judged.py --qrels src/main/resources/topics-and-qrels/qrels.covid-round1.txt --cutoffs 10 --run runs/run.covid-r1.fusion2.txt
 ```
