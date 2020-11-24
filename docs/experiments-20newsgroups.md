@@ -80,5 +80,5 @@ For reference, the number of docs indexed should be exactly as follows:
 For convenience, we also provide pre-built indexes above.
 
 ## Replication Log
-+ Results replicated by [@stephaniewhoo](http://github.com/stephaniewhoo) on 2020-11-24 (commit [`8f48f8e`](https://github.com/castorini/anserini/commit/8f48f8e40a37e5f6b5910a3a3b5c050a0f9be914))
++ Results replicated by [@stephaniewhoo](http://github.com/stephaniewhoo) on 2020-11-24 (commit [`b7f1f08`](https://github.com/castorini/anserini/commit/b7f1f08689014159c1d5b2c9b9905b363af1cbbf))
 
