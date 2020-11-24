@@ -47,7 +47,7 @@ See [this page](experiments-msmarco-passage.md) for more details.
 To replicate the _exact_ conditions for a leaderboard submission, retrieve using the following command:
 
 ```bash
-wget https://www.dropbox.com/s/q8jj832j6aaa1ug/queries.dev.small.tsv
+wget https://www.dropbox.com/s/hq6xjhswiz60siu/queries.dev.small.tsv
 
 sh target/appassembler/bin/SearchMsmarco -threads 8 \
  -index indexes/lucene-index.msmarco-passage-docTTTTTquery.pos+docvectors+raw \
@@ -58,7 +58,7 @@ sh target/appassembler/bin/SearchMsmarco -threads 8 \
 Evaluate using the MS MARCO eval script:
 
 ```bash
-wget https://www.dropbox.com/s/2v5qjeakskvx2ns/qrels.dev.small.tsv
+wget https://www.dropbox.com/s/khsplt2fhqwjs0v/qrels.dev.small.tsv
 
 python tools/scripts/msmarco/msmarco_eval.py qrels.dev.small.tsv runs/run.msmarco-passage-docTTTTTquery
 ```
@@ -67,7 +67,7 @@ The results should be:
 
 ```
 #####################
-MRR @10: 0.2767497271114737
+MRR @10: 0.27680089370991834
 QueriesRanked: 6980
 #####################
 ```
