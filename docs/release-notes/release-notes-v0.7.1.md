@@ -31,7 +31,7 @@ Sorted by number of commits, [according to GitHub](https://github.com/castorini/
 + Yuhao Xie ([Kytabyte](https://github.com/Kytabyte))
 + Chris Kamphuis ([Chriskamphuis](https://github.com/Chriskamphuis))
 + Rodrigo Nogueira ([rodrigonogueira4](https://github.com/rodrigonogueira4))
-+ Salman Mohammed ([Salman Mohammed](https://github.com/salman1993))
++ Salman Mohammed ([salman1993](https://github.com/salman1993))
 + Luchen Tan ([LuchenTan](https://github.com/LuchenTan))
 + Zhiying Jiang ([bazingagin](https://github.com/bazingagin))
 + Michael Tu ([tuzhucheng](https://github.com/tuzhucheng))
