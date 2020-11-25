@@ -67,7 +67,7 @@ Sorted by number of commits, [according to GitHub](https://github.com/castorini/
 + Kuang Lu ([lukuang](https://github.com/lukuang))
 + Adam Yang ([adamyy](https://github.com/adamyy))
 + Xinyu Mavis Liu ([x389liu](https://github.com/x389liu))
-+ Salman Mohammed ([Salman Mohammed](https://github.com/salman1993))
++ Salman Mohammed ([salman1993](https://github.com/salman1993))
 + Luchen Tan ([LuchenTan](https://github.com/LuchenTan))
 + Johnson Han ([x65han](https://github.com/x65han))
 + Zhiying Jiang ([bazingagin](https://github.com/bazingagin))
