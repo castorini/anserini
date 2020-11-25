@@ -48,7 +48,7 @@ Sorted by number of commits, [according to GitHub](https://github.com/castorini/
 + Rodrigo Nogueira ([rodrigonogueira4](https://github.com/rodrigonogueira4))
 + Nikhil Gupta ([nikhilro](https://github.com/nikhilro))
 + Yuhao Xie ([Kytabyte](https://github.com/Kytabyte))
-+ Salman Mohammed ([Salman Mohammed](https://github.com/salman1993))
++ Salman Mohammed ([salman1993](https://github.com/salman1993))
 + Luchen Tan ([LuchenTan](https://github.com/LuchenTan))
 + Xinyu Mavis Liu ([x389liu](https://github.com/x389liu))
 + Zhiying Jiang ([bazingagin](https://github.com/bazingagin))
