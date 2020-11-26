@@ -12,9 +12,12 @@ Note that this page is automatically generated from [this template](../src/main/
 Typical indexing command:
 
 ```
-nohup sh target/appassembler/bin/IndexCollection -collection JsonCollection -input /path/to/dl19-passage \
- -index indexes/lucene-index.msmarco-passage.pos+docvectors+raw -generator DefaultLuceneDocumentGenerator -threads 9 \
- -storePositions -storeDocvectors -storeRaw >& logs/log.dl19-passage.pos+docvectors+rawdocs &
+nohup sh target/appassembler/bin/IndexCollection -collection JsonCollection \
+ -input /path/to/dl19-passage \
+ -index indexes/lucene-index.msmarco-passage.pos+docvectors+raw \
+ -generator DefaultLuceneDocumentGenerator \
+ -threads 9 -storePositions -storeDocvectors -storeRaw \
+  >& logs/log.dl19-passage &
 ```
 
 The directory `/path/to/msmarco-passage/` should be a directory containing `jsonl` files converted from the official passage collection, which is in `tsv` format.
@@ -33,55 +36,63 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-passage.pos+docvectors+raw \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl19-passage.txt \
- -bm25 -output run.dl19-passage.bm25-default.topics.dl19-passage.txt &
+ -output runs/run.dl19-passage.bm25-default.topics.dl19-passage.txt \
+ -bm25 &
 
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-passage.pos+docvectors+raw \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl19-passage.txt \
- -bm25 -rm3 -output run.dl19-passage.bm25-default+rm3.topics.dl19-passage.txt &
+ -output runs/run.dl19-passage.bm25-default+rm3.topics.dl19-passage.txt \
+ -bm25 -rm3 &
 
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-passage.pos+docvectors+raw \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl19-passage.txt \
- -bm25 -axiom -axiom.deterministic -rerankCutoff 20 -output run.dl19-passage.bm25-default+ax.topics.dl19-passage.txt &
+ -output runs/run.dl19-passage.bm25-default+ax.topics.dl19-passage.txt \
+ -bm25 -axiom -axiom.deterministic -rerankCutoff 20 &
 
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-passage.pos+docvectors+raw \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl19-passage.txt \
- -bm25 -bm25prf -output run.dl19-passage.bm25-default+prf.topics.dl19-passage.txt &
+ -output runs/run.dl19-passage.bm25-default+prf.topics.dl19-passage.txt \
+ -bm25 -bm25prf &
 
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-passage.pos+docvectors+raw \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl19-passage.txt \
- -bm25 -bm25.k1 0.82 -bm25.b 0.68 -output run.dl19-passage.bm25-tuned.topics.dl19-passage.txt &
+ -output runs/run.dl19-passage.bm25-tuned.topics.dl19-passage.txt \
+ -bm25 -bm25.k1 0.82 -bm25.b 0.68 &
 
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-passage.pos+docvectors+raw \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl19-passage.txt \
- -bm25 -bm25.k1 0.82 -bm25.b 0.68 -rm3 -output run.dl19-passage.bm25-tuned+rm3.topics.dl19-passage.txt &
+ -output runs/run.dl19-passage.bm25-tuned+rm3.topics.dl19-passage.txt \
+ -bm25 -bm25.k1 0.82 -bm25.b 0.68 -rm3 &
 
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-passage.pos+docvectors+raw \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl19-passage.txt \
- -bm25 -bm25.k1 0.82 -bm25.b 0.68 -axiom -axiom.deterministic -rerankCutoff 20 -output run.dl19-passage.bm25-tuned+ax.topics.dl19-passage.txt &
+ -output runs/run.dl19-passage.bm25-tuned+ax.topics.dl19-passage.txt \
+ -bm25 -bm25.k1 0.82 -bm25.b 0.68 -axiom -axiom.deterministic -rerankCutoff 20 &
 
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-passage.pos+docvectors+raw \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.dl19-passage.txt \
- -bm25 -bm25.k1 0.82 -bm25.b 0.68 -bm25prf -output run.dl19-passage.bm25-tuned+prf.topics.dl19-passage.txt &
+ -output runs/run.dl19-passage.bm25-tuned+prf.topics.dl19-passage.txt \
+ -bm25 -bm25.k1 0.82 -bm25.b 0.68 -bm25prf &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```
-eval/trec_eval.9.0.4/trec_eval -m map -c -m ndcg_cut.10 -c -m recip_rank -c -m recall.100 -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.dl19-passage.txt run.dl19-passage.bm25-default.topics.dl19-passage.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m ndcg_cut.10 -c -m recip_rank -c -m recall.100 -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.dl19-passage.txt runs/run.dl19-passage.bm25-default.topics.dl19-passage.txt
 
-eval/trec_eval.9.0.4/trec_eval -m map -c -m ndcg_cut.10 -c -m recip_rank -c -m recall.100 -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.dl19-passage.txt run.dl19-passage.bm25-default+rm3.topics.dl19-passage.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m ndcg_cut.10 -c -m recip_rank -c -m recall.100 -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.dl19-passage.txt runs/run.dl19-passage.bm25-default+rm3.topics.dl19-passage.txt
 
-eval/trec_eval.9.0.4/trec_eval -m map -c -m ndcg_cut.10 -c -m recip_rank -c -m recall.100 -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.dl19-passage.txt run.dl19-passage.bm25-default+ax.topics.dl19-passage.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m ndcg_cut.10 -c -m recip_rank -c -m recall.100 -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.dl19-passage.txt runs/run.dl19-passage.bm25-default+ax.topics.dl19-passage.txt
 
-eval/trec_eval.9.0.4/trec_eval -m map -c -m ndcg_cut.10 -c -m recip_rank -c -m recall.100 -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.dl19-passage.txt run.dl19-passage.bm25-default+prf.topics.dl19-passage.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m ndcg_cut.10 -c -m recip_rank -c -m recall.100 -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.dl19-passage.txt runs/run.dl19-passage.bm25-default+prf.topics.dl19-passage.txt
 
-eval/trec_eval.9.0.4/trec_eval -m map -c -m ndcg_cut.10 -c -m recip_rank -c -m recall.100 -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.dl19-passage.txt run.dl19-passage.bm25-tuned.topics.dl19-passage.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m ndcg_cut.10 -c -m recip_rank -c -m recall.100 -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.dl19-passage.txt runs/run.dl19-passage.bm25-tuned.topics.dl19-passage.txt
 
-eval/trec_eval.9.0.4/trec_eval -m map -c -m ndcg_cut.10 -c -m recip_rank -c -m recall.100 -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.dl19-passage.txt run.dl19-passage.bm25-tuned+rm3.topics.dl19-passage.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m ndcg_cut.10 -c -m recip_rank -c -m recall.100 -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.dl19-passage.txt runs/run.dl19-passage.bm25-tuned+rm3.topics.dl19-passage.txt
 
-eval/trec_eval.9.0.4/trec_eval -m map -c -m ndcg_cut.10 -c -m recip_rank -c -m recall.100 -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.dl19-passage.txt run.dl19-passage.bm25-tuned+ax.topics.dl19-passage.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m ndcg_cut.10 -c -m recip_rank -c -m recall.100 -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.dl19-passage.txt runs/run.dl19-passage.bm25-tuned+ax.topics.dl19-passage.txt
 
-eval/trec_eval.9.0.4/trec_eval -m map -c -m ndcg_cut.10 -c -m recip_rank -c -m recall.100 -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.dl19-passage.txt run.dl19-passage.bm25-tuned+prf.topics.dl19-passage.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m ndcg_cut.10 -c -m recip_rank -c -m recall.100 -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.dl19-passage.txt runs/run.dl19-passage.bm25-tuned+prf.topics.dl19-passage.txt
 ```
 
 ## Effectiveness

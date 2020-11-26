@@ -228,7 +228,6 @@ public abstract class DocumentCollection<T extends SourceDocument> implements It
     } catch (IOException e) {
       LOG.error("IOException during file visiting", e);
     }
-
     return paths;
   }
 }

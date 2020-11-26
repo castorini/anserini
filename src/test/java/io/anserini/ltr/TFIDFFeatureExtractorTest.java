@@ -16,11 +16,13 @@
 
 package io.anserini.ltr;
 
+import io.anserini.ltr.feature.FeatureExtractor;
 import io.anserini.ltr.feature.base.TFIDFFeatureExtractor;
 import org.junit.Test;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Make sure that TFIDF feature extractor gives the scores as caculated by the formula
@@ -28,54 +30,54 @@ import java.util.Arrays;
  */
 public class TFIDFFeatureExtractorTest extends BaseFeatureExtractorTest<Integer> {
 
+  private FeatureExtractor EXTRACTOR = new TFIDFFeatureExtractor();
+
   @Test
-  public void testTFIDFOnSingleDocSingleQuery() throws IOException {
+  public void testTFIDFOnSingleDocSingleQuery() throws IOException, ExecutionException, InterruptedException {
     float[] expected = {1f};
-    assertFeatureValues(expected, "document", "single document test case",
-            new TFIDFFeatureExtractor() );
+    assertFeatureValues(expected, "document", "single document test case",  EXTRACTOR);
   }
 
   @Test
-  public void testTFIDFOnSingleDocMultiQuery() throws IOException {
+  public void testTFIDFOnSingleDocMultiQuery() throws IOException, ExecutionException, InterruptedException {
     float[] expected = {2f};
-    assertFeatureValues(expected, "document test", "single document test case",
-            new TFIDFFeatureExtractor() );
+    assertFeatureValues(expected, "document test", "single document test case", EXTRACTOR);
   }
 
   @Test
-  public void testTFIDFOnMultiDocSingleQuery() throws IOException {
+  public void testTFIDFOnMultiDocSingleQuery() throws IOException, ExecutionException, InterruptedException {
     String queryText = "document";
 
     float[] expected = {1f};
     assertFeatureValues(expected, queryText, Arrays.asList("single document test case",
-            "another document test"),getChain(new TFIDFFeatureExtractor()), 0 );
+            "another document test"), EXTRACTOR, 0 );
   }
 
   @Test
-  public void testTFIDFOnMultiDocMultiQuery() throws IOException {
+  public void testTFIDFOnMultiDocMultiQuery() throws IOException, ExecutionException, InterruptedException {
     String queryText = "document test";
 
     float[] expected = {2f};
     assertFeatureValues(expected, queryText, Arrays.asList("single document test case",
-            "another document test"),getChain(new TFIDFFeatureExtractor()), 0 );
+            "another document test"), EXTRACTOR, 0 );
   }
 
   @Test
-  public void testTFIDFOnMultiDocMultiQuery2() throws IOException {
+  public void testTFIDFOnMultiDocMultiQuery2() throws IOException, ExecutionException, InterruptedException {
     String queryText = "document test";
 
     float[] expected = {2.9753323f};
     assertFeatureValues(expected, queryText, Arrays.asList("single document test case",
-            "another document"),getChain(new TFIDFFeatureExtractor()), 0 );
+            "another document"), EXTRACTOR, 0 );
 
   }
 
   @Test
-  public void testTFIDFOnMultiDocMultiQuery3() throws IOException {
+  public void testTFIDFOnMultiDocMultiQuery3() throws IOException, ExecutionException, InterruptedException {
     String queryText = "document test";
 
     float[] expected = {3.8667474f};
     assertFeatureValues(expected, queryText, Arrays.asList("single document test case",
-            "new document", "another document"),getChain(new TFIDFFeatureExtractor()), 0 );
+            "new document", "another document"), EXTRACTOR, 0 );
   }
 }

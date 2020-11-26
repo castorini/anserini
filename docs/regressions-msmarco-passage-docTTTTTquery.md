@@ -11,9 +11,12 @@ Note that this page is automatically generated from [this template](../src/main/
 Typical indexing command:
 
 ```
-nohup sh target/appassembler/bin/IndexCollection -collection JsonCollection -input /path/to/msmarco-passage-docTTTTTquery \
- -index indexes/lucene-index.msmarco-passage-docTTTTTquery.pos+docvectors+raw -generator DefaultLuceneDocumentGenerator -threads 9 \
- -storePositions -storeDocvectors -storeRaw >& logs/log.msmarco-passage-docTTTTTquery.pos+docvectors+rawdocs &
+nohup sh target/appassembler/bin/IndexCollection -collection JsonCollection \
+ -input /path/to/msmarco-passage-docTTTTTquery \
+ -index indexes/lucene-index.msmarco-passage-docTTTTTquery.pos+docvectors+raw \
+ -generator DefaultLuceneDocumentGenerator \
+ -threads 9 -storePositions -storeDocvectors -storeRaw \
+  >& logs/log.msmarco-passage-docTTTTTquery &
 ```
 
 The directory `/path/to/msmarco-passage/` should be a directory containing `jsonl` files converted from the official passage collection, appended with the docTTTTTquery expansions.
@@ -30,31 +33,35 @@ After indexing has completed, you should be able to perform retrieval as follows
 ```
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-passage-docTTTTTquery.pos+docvectors+raw \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
- -bm25 -output run.msmarco-passage-docTTTTTquery.bm25-default.topics.msmarco-passage.dev-subset.txt &
+ -output runs/run.msmarco-passage-docTTTTTquery.bm25-default.topics.msmarco-passage.dev-subset.txt \
+ -bm25 &
 
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-passage-docTTTTTquery.pos+docvectors+raw \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
- -bm25 -rm3 -output run.msmarco-passage-docTTTTTquery.bm25-default+rm3.topics.msmarco-passage.dev-subset.txt &
+ -output runs/run.msmarco-passage-docTTTTTquery.bm25-default+rm3.topics.msmarco-passage.dev-subset.txt \
+ -bm25 -rm3 &
 
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-passage-docTTTTTquery.pos+docvectors+raw \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
- -bm25 -bm25.k1 0.82 -bm25.b 0.68 -output run.msmarco-passage-docTTTTTquery.bm25-tuned.topics.msmarco-passage.dev-subset.txt &
+ -output runs/run.msmarco-passage-docTTTTTquery.bm25-tuned.topics.msmarco-passage.dev-subset.txt \
+ -bm25 -bm25.k1 0.82 -bm25.b 0.68 &
 
 nohup target/appassembler/bin/SearchCollection -index indexes/lucene-index.msmarco-passage-docTTTTTquery.pos+docvectors+raw \
  -topicreader TsvInt -topics src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt \
- -bm25 -bm25.k1 0.82 -bm25.b 0.68 -rm3 -output run.msmarco-passage-docTTTTTquery.bm25-tuned+rm3.topics.msmarco-passage.dev-subset.txt &
+ -output runs/run.msmarco-passage-docTTTTTquery.bm25-tuned+rm3.topics.msmarco-passage.dev-subset.txt \
+ -bm25 -bm25.k1 0.82 -bm25.b 0.68 -rm3 &
 ```
 
 Evaluation can be performed using `trec_eval`:
 
 ```
-eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt run.msmarco-passage-docTTTTTquery.bm25-default.topics.msmarco-passage.dev-subset.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-docTTTTTquery.bm25-default.topics.msmarco-passage.dev-subset.txt
 
-eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt run.msmarco-passage-docTTTTTquery.bm25-default+rm3.topics.msmarco-passage.dev-subset.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-docTTTTTquery.bm25-default+rm3.topics.msmarco-passage.dev-subset.txt
 
-eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt run.msmarco-passage-docTTTTTquery.bm25-tuned.topics.msmarco-passage.dev-subset.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned.topics.msmarco-passage.dev-subset.txt
 
-eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt run.msmarco-passage-docTTTTTquery.bm25-tuned+rm3.topics.msmarco-passage.dev-subset.txt
+tools/eval/trec_eval.9.0.4/trec_eval -m map -c -m recall.1000 -c src/main/resources/topics-and-qrels/qrels.msmarco-passage.dev-subset.txt runs/run.msmarco-passage-docTTTTTquery.bm25-tuned+rm3.topics.msmarco-passage.dev-subset.txt
 ```
 
 ## Effectiveness
@@ -72,32 +79,33 @@ R@1000                                  | BM25 (Default)| +RM3      | BM25 (Tune
 
 The setting "default" refers the default BM25 settings of `k1=0.9`, `b=0.4`, while "tuned" refers to the tuned setting of `k1=0.82`, `b=0.72` _on the original passages_.
 See [this page](experiments-msmarco-passage.md) for more details.
-Note that these results are slightly different from the above referenced page because those experiments make up "fake" scores when converting runs from MS MARCO format into TREC format for evaluation by `trec_eval`.
 
 To replicate the _exact_ conditions for a leaderboard submission, retrieve using the following command:
 
 ```bash
-wget https://storage.googleapis.com/doctttttquery_git/queries.dev.small.tsv
-sh target/appassembler/bin/SearchMsmarco \
-  -index lucene-index.msmarco-passage-docTTTTTquery.pos+docvectors+rawdocs \
-  -qid_queries queries.dev.small.tsv \
-  -output run.msmarco-passage-docTTTTTquery -hits 1000
+wget https://www.dropbox.com/s/hq6xjhswiz60siu/queries.dev.small.tsv
+
+sh target/appassembler/bin/SearchMsmarco -threads 8 \
+ -index indexes/lucene-index.msmarco-passage-docTTTTTquery.pos+docvectors+raw \
+ -queries queries.dev.small.tsv \
+ -output runs/run.msmarco-passage-docTTTTTquery -hits 1000
 ```
 
 Evaluate using the MS MARCO eval script:
 
 ```bash
-wget https://storage.googleapis.com/doctttttquery_git/qrels.dev.small.tsv
-python src/main/python/msmarco/msmarco_eval.py qrels.dev.small.tsv run.msmarco-passage-docTTTTTquery
+wget https://www.dropbox.com/s/khsplt2fhqwjs0v/qrels.dev.small.tsv
+
+python tools/scripts/msmarco/msmarco_eval.py qrels.dev.small.tsv runs/run.msmarco-passage-docTTTTTquery
 ```
 
 The results should be:
 
 ```
 #####################
-MRR @10: 0.2767497271114737
+MRR @10: 0.27680089370991834
 QueriesRanked: 6980
 #####################
 ```
 
-Which matches the score described in [the docTTTTTquery repo](https://github.com/castorini/docTTTTTquery) and also on the official [MS MARCO leaderboard](http://www.msmarco.org/leaders.aspx).
+Which matches the score described in [the docTTTTTquery repo](https://github.com/castorini/docTTTTTquery) and also on the official [MS MARCO leaderboard](http://www.msmarco.org/).

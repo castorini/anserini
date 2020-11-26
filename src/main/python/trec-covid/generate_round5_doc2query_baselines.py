@@ -52,8 +52,11 @@ cumulative_runs = {
 
 final_runs = {
     'expanded.anserini.final-r5.fusion1.txt': '2295216ed623d2621f00c294f7c389e1',
+    'expanded.anserini.final-r5.fusion1.post-processed.txt': '03ad001d94c772649e17f4d164d4b2e2',
     'expanded.anserini.final-r5.fusion2.txt': 'a65fabe7b5b7bc4216be632296269ce6',
-    'expanded.anserini.final-r5.rf.txt': '24f0b75a25273b7b00d3e65065e98147'
+    'expanded.anserini.final-r5.fusion2.post-processed.txt': '4137c93e76970616e0eff2803501cd08',
+    'expanded.anserini.final-r5.rf.txt': '24f0b75a25273b7b00d3e65065e98147',
+    'expanded.anserini.final-r5.rf.post-processed.txt': '3dfba85c0630865a7b581c4358cf4587'
 }
 
 stored_runs = {
@@ -80,7 +83,13 @@ stored_runs = {
     'https://www.dropbox.com/s/j1qdqr88cbsybae/expanded.anserini.final-r5.fusion2.txt?dl=1':
         final_runs['expanded.anserini.final-r5.fusion2.txt'],
     'https://www.dropbox.com/s/5bm4pdngh5bx3px/expanded.anserini.final-r5.rf.txt?dl=1':
-        final_runs['expanded.anserini.final-r5.rf.txt']
+        final_runs['expanded.anserini.final-r5.rf.txt'],
+    'https://www.dropbox.com/s/ojphpgilqs8xexc/expanded.anserini.final-r5.fusion1.post-processed.txt?dl=1':
+        final_runs['expanded.anserini.final-r5.fusion1.post-processed.txt'],
+    'https://www.dropbox.com/s/q7vx0l8n2u81s7z/expanded.anserini.final-r5.fusion2.post-processed.txt?dl=1':
+        final_runs['expanded.anserini.final-r5.fusion2.post-processed.txt'],
+    'https://www.dropbox.com/s/l4l1bbbi8msmrfh/expanded.anserini.final-r5.rf.post-processed.txt?dl=1':
+        final_runs['expanded.anserini.final-r5.rf.post-processed.txt'],
 }
 
 
@@ -134,12 +143,12 @@ def perform_runs():
     paragraph_prefix = 'expanded.anserini.covid-r5.paragraph'
     os.system(f'target/appassembler/bin/SearchCollection -index {paragraph_index} ' +
               f'-topicreader Covid -topics {base_topics} -topicfield query+question ' +
-              f'-removedups -strip_segment_id -bm25 -hits 50000 ' +
+              f'-selectMaxPassage -bm25 -hits 50000 ' +
               f'-output runs/{paragraph_prefix}.qq.bm25.txt -runtag {paragraph_prefix}.qq.bm25.txt')
 
     os.system(f'target/appassembler/bin/SearchCollection -index {paragraph_index} ' +
               f'-topicreader Covid -topics {udel_topics} -topicfield query ' +
-              f'-removedups -strip_segment_id -bm25 -hits 50000 ' +
+              f'-selectMaxPassage -bm25 -hits 50000 ' +
               f'-output runs/{paragraph_prefix}.qdel.bm25.txt -runtag {paragraph_prefix}.qdel.bm25.txt')
 
 
@@ -212,13 +221,18 @@ def main():
     if not (os.path.isdir(indexes[0]) and os.path.isdir(indexes[1]) and os.path.isdir(indexes[2])):
         print('Required indexes do not exist. Please download first.')
 
-    cumulative_qrels = 'src/main/resources/topics-and-qrels/qrels.covid-round4-cumulative.txt'
+    round4_cumulative_qrels = 'src/main/resources/topics-and-qrels/qrels.covid-round4-cumulative.txt'
+    complete_qrels = 'src/main/resources/topics-and-qrels/qrels.covid-complete.txt'
+    round5_qrels = 'src/main/resources/topics-and-qrels/qrels.covid-round5.txt'
 
     verify_stored_runs(stored_runs)
     perform_runs()
     perform_fusion()
-    prepare_final_submissions(cumulative_qrels)
-    evaluate_runs(cumulative_qrels, cumulative_runs)
+    prepare_final_submissions(round4_cumulative_qrels)
+
+    evaluate_runs(round4_cumulative_qrels, cumulative_runs, check_md5=True)
+    evaluate_runs(complete_qrels, cumulative_runs, check_md5=True)
+    evaluate_runs(round5_qrels, final_runs, check_md5=True)
 
 
 if __name__ == '__main__':

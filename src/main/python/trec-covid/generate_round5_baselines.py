@@ -14,19 +14,13 @@
 # limitations under the License.
 #
 
-"""Perform Anserini baseline runs for TREC-COVID Round 4."""
+"""Perform Anserini baseline runs for TREC-COVID Round 5."""
 
-import hashlib
 import os
 import sys
 
-from covid_baseline_tools import evaluate_runs, verify_stored_runs
-
-sys.path.insert(0, './')
-sys.path.insert(0, '../pyserini/')
-
-from pyserini.util import compute_md5
-
+from covid_baseline_tools import perform_runs, perform_fusion, prepare_final_submissions, \
+    evaluate_runs, verify_stored_runs
 
 # This makes errors more readable,
 # see https://stackoverflow.com/questions/27674602/hide-traceback-unless-a-debug-flag-is-set
@@ -50,8 +44,11 @@ cumulative_runs = {
 
 final_runs = {
     'anserini.final-r5.fusion1.txt': '12122c12089c2b07a8f6c7247aebe2f6',
+    'anserini.final-r5.fusion1.post-processed.txt': 'f1ebdd7f7b8403b53e89a5993fb55dd2',
     'anserini.final-r5.fusion2.txt': 'ff1a0bac315de6703b937c552b351e2a',
-    'anserini.final-r5.rf.txt': '74e2a73b5ffd2908dc23b14c765171a1'
+    'anserini.final-r5.fusion2.post-processed.txt': '77ce612916becbb5ccfd6d891f797d1d',
+    'anserini.final-r5.rf.txt': '74e2a73b5ffd2908dc23b14c765171a1',
+    'anserini.final-r5.rf.post-processed.txt': 'dd765fa9491c585476735115eb966ea2'
 }
 
 stored_runs = {
@@ -78,147 +75,32 @@ stored_runs = {
     'https://www.dropbox.com/s/vyolaecpxu28vjw/anserini.final-r5.fusion2.txt?dl=1':
         final_runs['anserini.final-r5.fusion2.txt'],
     'https://www.dropbox.com/s/27wy54cibmyg7lp/anserini.final-r5.rf.txt?dl=1':
-        final_runs['anserini.final-r5.rf.txt']
+        final_runs['anserini.final-r5.rf.txt'],
+    'https://www.dropbox.com/s/lycp9x404bp6u1l/anserini.final-r5.fusion1.post-processed.txt?dl=1':
+        final_runs['anserini.final-r5.fusion1.post-processed.txt'],
+    'https://www.dropbox.com/s/qtwny6bd6k3ijzq/anserini.final-r5.fusion2.post-processed.txt?dl=1':
+        final_runs['anserini.final-r5.fusion2.post-processed.txt'],
+    'https://www.dropbox.com/s/1ak8w2280dzrflu/anserini.final-r5.rf.post-processed.txt?dl=1':
+        final_runs['anserini.final-r5.rf.post-processed.txt'],
 }
-
-
-def perform_runs(cumulative_qrels):
-    base_topics = 'src/main/resources/topics-and-qrels/topics.covid-round5.xml'
-    udel_topics = 'src/main/resources/topics-and-qrels/topics.covid-round5-udel.xml'
-
-    print('')
-    print('## Running on abstract index...')
-    print('')
-
-    abstract_index = indexes[0]
-    abstract_prefix = 'anserini.covid-r5.abstract'
-    os.system(f'target/appassembler/bin/SearchCollection -index {abstract_index} ' +
-              f'-topicreader Covid -topics {base_topics} -topicfield query+question ' +
-              f'-removedups -bm25 -hits 10000 ' +
-              f'-output runs/{abstract_prefix}.qq.bm25.txt -runtag {abstract_prefix}.qq.bm25.txt')
-
-    os.system(f'target/appassembler/bin/SearchCollection -index {abstract_index} ' +
-              f'-topicreader Covid -topics {udel_topics} -topicfield query ' +
-              f'-removedups -bm25 -hits 10000 ' +
-              f'-output runs/{abstract_prefix}.qdel.bm25.txt -runtag {abstract_prefix}.qdel.bm25.txt')
-
-    os.system(f'target/appassembler/bin/SearchCollection -index {abstract_index} ' +
-              f'-topicreader Covid -topics {udel_topics} -topicfield query -removedups ' +
-              f'-bm25 -rm3 -rm3.fbTerms 100 -hits 10000 ' +
-              f'-rf.qrels {cumulative_qrels} ' +
-              f'-output runs/{abstract_prefix}.qdel.bm25+rm3Rf.txt -runtag {abstract_prefix}.qdel.bm25+rm3Rf.txt')
-
-    print('')
-    print('## Running on full-text index...')
-    print('')
-
-    full_text_index = indexes[1]
-    full_text_prefix = 'anserini.covid-r5.full-text'
-    os.system(f'target/appassembler/bin/SearchCollection -index {full_text_index} ' +
-              f'-topicreader Covid -topics {base_topics} -topicfield query+question ' +
-              f'-removedups -bm25 -hits 10000 ' +
-              f'-output runs/{full_text_prefix}.qq.bm25.txt -runtag {full_text_prefix}.qq.bm25.txt')
-
-    os.system(f'target/appassembler/bin/SearchCollection -index {full_text_index} ' +
-              f'-topicreader Covid -topics {udel_topics} -topicfield query ' +
-              f'-removedups -bm25 -hits 10000 ' +
-              f'-output runs/{full_text_prefix}.qdel.bm25.txt -runtag {full_text_prefix}.qdel.bm25.txt')
-
-    print('')
-    print('## Running on paragraph index...')
-    print('')
-
-    paragraph_index = indexes[2]
-    paragraph_prefix = 'anserini.covid-r5.paragraph'
-    os.system(f'target/appassembler/bin/SearchCollection -index {paragraph_index} ' +
-              f'-topicreader Covid -topics {base_topics} -topicfield query+question ' +
-              f'-removedups -strip_segment_id -bm25 -hits 50000 ' +
-              f'-output runs/{paragraph_prefix}.qq.bm25.txt -runtag {paragraph_prefix}.qq.bm25.txt')
-
-    os.system(f'target/appassembler/bin/SearchCollection -index {paragraph_index} ' +
-              f'-topicreader Covid -topics {udel_topics} -topicfield query ' +
-              f'-removedups -strip_segment_id -bm25 -hits 50000 ' +
-              f'-output runs/{paragraph_prefix}.qdel.bm25.txt -runtag {paragraph_prefix}.qdel.bm25.txt')
-
-
-def perform_fusion(check_md5=True):
-    print('')
-    print('## Performing fusion...')
-    print('')
-
-    fusion_run1 = 'anserini.covid-r5.fusion1.txt'
-    set1 = ['anserini.covid-r5.abstract.qq.bm25.txt',
-            'anserini.covid-r5.full-text.qq.bm25.txt',
-            'anserini.covid-r5.paragraph.qq.bm25.txt']
-
-    print(f'Performing fusion to create {fusion_run1}')
-    os.system('PYTHONPATH=../pyserini ' +
-              'python -m pyserini.fusion --method rrf --runtag reciprocal_rank_fusion_k=60 --k 10000 '
-              f'--out runs/{fusion_run1} --runs runs/{set1[0]} runs/{set1[1]} runs/{set1[2]}')
-
-    if check_md5:
-        assert compute_md5(f'runs/{fusion_run1}') == cumulative_runs[fusion_run1], f'Error in producing {fusion_run1}!'
-
-    fusion_run2 = 'anserini.covid-r5.fusion2.txt'
-    set2 = ['anserini.covid-r5.abstract.qdel.bm25.txt',
-            'anserini.covid-r5.full-text.qdel.bm25.txt',
-            'anserini.covid-r5.paragraph.qdel.bm25.txt']
-
-    print(f'Performing fusion to create {fusion_run2}')
-    os.system('PYTHONPATH=../pyserini ' +
-              'python -m pyserini.fusion --method rrf --runtag reciprocal_rank_fusion_k=60 --k 10000 ' +
-              f'--out runs/{fusion_run2} --runs runs/{set2[0]} runs/{set2[1]} runs/{set2[2]}')
-
-    if check_md5:
-        assert compute_md5(f'runs/{fusion_run2}') == cumulative_runs[fusion_run2], f'Error in producing {fusion_run2}!'
-
-
-def prepare_final_submissions(cumulative_qrels, check_md5=False):
-    print('')
-    print('## Preparing final submission files by removing qrels...')
-    print('')
-
-    run1 = 'anserini.final-r5.fusion1.txt'
-    print(f'Generating {run1}')
-    os.system(f'python tools/scripts/filter_run_with_qrels.py --discard --qrels {cumulative_qrels} ' +
-              f'--input runs/anserini.covid-r5.fusion1.txt --output runs/{run1} --runtag r5.fusion1')
-    run1_md5 = compute_md5(f'runs/{run1}')
-    if check_md5:
-        assert run1_md5 == final_runs[run1], f'Error in producing {run1}!'
-
-    run2 = 'anserini.final-r5.fusion2.txt'
-    print(f'Generating {run2}')
-    os.system(f'python tools/scripts/filter_run_with_qrels.py --discard --qrels {cumulative_qrels} ' +
-              f'--input runs/anserini.covid-r5.fusion2.txt --output runs/{run2} --runtag r5.fusion2')
-    run2_md5 = compute_md5(f'runs/{run2}')
-    if check_md5:
-        assert run2_md5 == final_runs[run2], f'Error in producing {run2}!'
-
-    run3 = 'anserini.final-r5.rf.txt'
-    print(f'Generating {run3}')
-    os.system(f'python tools/scripts/filter_run_with_qrels.py --discard --qrels {cumulative_qrels} ' +
-              f'--input runs/anserini.covid-r5.abstract.qdel.bm25+rm3Rf.txt --output runs/{run3} --runtag r5.rf')
-    run3_md5 = compute_md5(f'runs/{run3}')
-    if check_md5:
-        assert run3_md5 == final_runs[run3], f'Error in producing {run3}!'
-
-    print('')
-    print(run1 + ' ' * (35 - len(run1)) + run1_md5)
-    print(run2 + ' ' * (35 - len(run2)) + run2_md5)
-    print(run3 + ' ' * (35 - len(run3)) + run3_md5)
 
 
 def main():
     if not (os.path.isdir(indexes[0]) and os.path.isdir(indexes[1]) and os.path.isdir(indexes[2])):
         print('Required indexes do not exist. Please download first.')
 
-    cumulative_qrels = 'src/main/resources/topics-and-qrels/qrels.covid-round4-cumulative.txt'
+    round4_cumulative_qrels = 'src/main/resources/topics-and-qrels/qrels.covid-round4-cumulative.txt'
+    complete_qrels = 'src/main/resources/topics-and-qrels/qrels.covid-complete.txt'
+    round5_qrels = 'src/main/resources/topics-and-qrels/qrels.covid-round5.txt'
 
     verify_stored_runs(stored_runs)
-    perform_runs(cumulative_qrels)
-    perform_fusion(check_md5=True)
-    prepare_final_submissions(cumulative_qrels, check_md5=True)
-    evaluate_runs(cumulative_qrels, cumulative_runs, check_md5=True)
+    perform_runs(5, indexes)
+    perform_fusion(5, cumulative_runs, check_md5=True)
+    prepare_final_submissions(5, final_runs, check_md5=True)
+
+    evaluate_runs(round4_cumulative_qrels, cumulative_runs, check_md5=True)
+    evaluate_runs(complete_qrels, cumulative_runs, check_md5=True)
+    evaluate_runs(round5_qrels, final_runs, check_md5=True)
 
 
 if __name__ == '__main__':

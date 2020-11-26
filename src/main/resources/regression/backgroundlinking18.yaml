@@ -29,7 +29,7 @@ topics:
     path: topics.backgroundlinking18.txt
     qrel: qrels.backgroundlinking18.txt
 evals:
-  - command: eval/trec_eval.9.0.4/trec_eval
+  - command: tools/eval/trec_eval.9.0.4/trec_eval
     params:
       - -c -M1000 -m ndcg_cut.5
     separator: "\t"
@@ -37,7 +37,7 @@ evals:
     metric: NCDG@5
     metric_precision: 4
     can_combine: true
-  - command: eval/trec_eval.9.0.4/trec_eval
+  - command: tools/eval/trec_eval.9.0.4/trec_eval
     params:
       - -c -M1000 -m map
     separator: "\t"
