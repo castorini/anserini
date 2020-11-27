@@ -21,6 +21,7 @@ import org.junit.Test;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Map;
+import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 
@@ -91,12 +92,12 @@ public class CovidTopicReaderTest {
     Integer firstKey = keys.toArray()[0];
     Integer lastKey = keys.toArray()[keys.size() - 1];
 
-    assertEquals(1, (int) topics.firstKey());
+    assertEquals(1, (int) firstKey);
     assertEquals("coronavirus origin origin COVID-19", topics.get(firstKey).get("query"));
     assertEquals(null, topics.get(firstKey).get("question"));
     assertEquals(null, topics.get(firstKey).get("narrative"));
 
-    assertEquals(30, (int) topics.lastKey());
+    assertEquals(30, (int) lastKey);
     assertEquals("coronavirus remdesivir remdesivir effective treatment COVID-19", topics.get(lastKey).get("query"));
     assertEquals(null, topics.get(lastKey).get("question"));
     assertEquals(null, topics.get(lastKey).get("narrative"));
