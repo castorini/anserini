@@ -88,9 +88,7 @@ public class CovidTopicReaderTest {
 
     assertEquals(30, topics.keySet().size());
 
-    Set<Integer> keys = topics.keySet();
-    System.out.println((keys.toArray()).getClass().getName());
-    System.out.println((keys.toArray()[0]).getClass().getName());
+    Integer keys = (Integer[]) topics.keySet();
     Integer firstKey = keys.toArray()[0];
     Integer lastKey = keys.toArray()[keys.size() - 1];
 
