@@ -49,11 +49,16 @@ public class TopicReaderTest {
         TopicReader.getTopicsByFile("src/main/resources/topics-and-qrels/topics.robust04.txt");
 
     assertNotNull(topics);
+
+    Object[] keys = topics.keySet().toArray();
+    Object firstKey = keys[0];
+    Object lastKey = keys[keys.length - 1];
+
     assertEquals(250, topics.size());
-    assertEquals(301, (int) topics.firstKey());
-    assertEquals("International Organized Crime", topics.get(topics.firstKey()).get("title"));
-    assertEquals(700, (int) topics.lastKey());
-    assertEquals("gasoline tax U.S.", topics.get(topics.lastKey()).get("title"));
+    assertEquals(301, (int) firstKey);
+    assertEquals("International Organized Crime", topics.get(firstKey).get("title"));
+    assertEquals(700, (int) lastKey);
+    assertEquals("gasoline tax U.S.", topics.get(lastKey).get("title"));
   }
 
   @Test
@@ -61,60 +66,85 @@ public class TopicReaderTest {
     Map<Integer, Map<String, String>> topics;
 
     topics = TopicReader.getTopics(Topics.TREC1_ADHOC);
+
     assertNotNull(topics);
+
+    Integer[] keys = (Integer[]) topics.keySet().toArray();
+    Integer firstKey = keys[0];
+    Integer lastKey = keys[keys.length - 1];
+
     assertEquals(50, topics.size());
-    assertEquals(51, (int) topics.firstKey());
-    assertEquals("Airbus Subsidies", topics.get(topics.firstKey()).get("title"));
-    assertEquals(100, (int) topics.lastKey());
-    assertEquals("Controlling the Transfer of High Technology", topics.get(topics.lastKey()).get("title"));
+    assertEquals(51, (int) firstKey);
+    assertEquals("Airbus Subsidies", topics.get(firstKey).get("title"));
+    assertEquals(100, (int) lastKey);
+    assertEquals("Controlling the Transfer of High Technology", topics.get(lastKey).get("title"));
 
     topics = TopicReader.getTopics(Topics.TREC2_ADHOC);
     assertNotNull(topics);
+    keys = (Integer[]) topics.keySet().toArray();
+    firstKey = keys[0];
+    lastKey = keys[keys.length - 1];
+
     assertEquals(50, topics.size());
-    assertEquals(101, (int) topics.firstKey());
-    assertEquals("Design of the \"Star Wars\" Anti-missile Defense System", topics.get(topics.firstKey()).get("title"));
-    assertEquals(150, (int) topics.lastKey());
-    assertEquals("U.S. Political Campaign Financing", topics.get(topics.lastKey()).get("title"));
+    assertEquals(101, (int) firstKey);
+    assertEquals("Design of the \"Star Wars\" Anti-missile Defense System", topics.get(firstKey).get("title"));
+    assertEquals(150, (int) lastKey);
+    assertEquals("U.S. Political Campaign Financing", topics.get(lastKey).get("title"));
 
     topics = TopicReader.getTopics(Topics.TREC3_ADHOC);
     assertNotNull(topics);
+    keys = (Integer[]) topics.keySet().toArray();
+    firstKey = keys[0];
+    lastKey = keys[keys.length - 1];
     assertEquals(50, topics.size());
-    assertEquals(151, (int) topics.firstKey());
-    assertEquals("Coping with overcrowded prisons", topics.get(topics.firstKey()).get("title"));
-    assertEquals(200, (int) topics.lastKey());
-    assertEquals("Impact of foreign textile imports on U.S.", topics.get(topics.lastKey()).get("title"));
+    assertEquals(151, (int) firstKey);
+    assertEquals("Coping with overcrowded prisons", topics.get(firstKey).get("title"));
+    assertEquals(200, (int) lastKey);
+    assertEquals("Impact of foreign textile imports on U.S.", topics.get(lastKey).get("title"));
 
     topics = TopicReader.getTopics(Topics.ROBUST04);
     assertNotNull(topics);
+    keys = (Integer[]) topics.keySet().toArray();
+    firstKey = keys[0];
+    lastKey = keys[keys.length - 1];
     assertEquals(250, topics.size());
-    assertEquals(301, (int) topics.firstKey());
-    assertEquals("International Organized Crime", topics.get(topics.firstKey()).get("title"));
-    assertEquals(700, (int) topics.lastKey());
-    assertEquals("gasoline tax U.S.", topics.get(topics.lastKey()).get("title"));
+    assertEquals(301, (int) firstKey);
+    assertEquals("International Organized Crime", topics.get(firstKey).get("title"));
+    assertEquals(700, (int) lastKey);
+    assertEquals("gasoline tax U.S.", topics.get(lastKey).get("title"));
 
     topics = TopicReader.getTopics(Topics.ROBUST05);
     assertNotNull(topics);
+    keys = (Integer[]) topics.keySet().toArray();
+    firstKey = keys[0];
+    lastKey = keys[keys.length - 1];
     assertEquals(50, topics.size());
-    assertEquals(303, (int) topics.firstKey());
-    assertEquals("Hubble Telescope Achievements", topics.get(topics.firstKey()).get("title"));
-    assertEquals(689, (int) topics.lastKey());
-    assertEquals("family-planning aid", topics.get(topics.lastKey()).get("title"));
+    assertEquals(303, (int) firstKey);
+    assertEquals("Hubble Telescope Achievements", topics.get(firstKey).get("title"));
+    assertEquals(689, (int) lastKey);
+    assertEquals("family-planning aid", topics.get(lastKey).get("title"));
 
     topics = TopicReader.getTopics(Topics.CORE17);
     assertNotNull(topics);
+    keys = (Integer[]) topics.keySet().toArray();
+    firstKey = keys[0];
+    lastKey = keys[keys.length - 1];
     assertEquals(50, topics.size());
-    assertEquals(307, (int) topics.firstKey());
-    assertEquals("New Hydroelectric Projects", topics.get(topics.firstKey()).get("title"));
-    assertEquals(690, (int) topics.lastKey());
-    assertEquals("college education advantage", topics.get(topics.lastKey()).get("title"));
+    assertEquals(307, (int) firstKey);
+    assertEquals("New Hydroelectric Projects", topics.get(firstKey).get("title"));
+    assertEquals(690, (int) lastKey);
+    assertEquals("college education advantage", topics.get(lastKey).get("title"));
 
     topics = TopicReader.getTopics(Topics.CORE18);
     assertNotNull(topics);
+    keys = (Integer[]) topics.keySet().toArray();
+    firstKey = keys[0];
+    lastKey = keys[keys.length - 1];
     assertEquals(50, topics.size());
-    assertEquals(321, (int) topics.firstKey());
-    assertEquals("Women in Parliaments", topics.get(topics.firstKey()).get("title"));
-    assertEquals(825, (int) topics.lastKey());
-    assertEquals("ethanol and food prices", topics.get(topics.lastKey()).get("title"));
+    assertEquals(321, (int) firstKey);
+    assertEquals("Women in Parliaments", topics.get(firstKey).get("title"));
+    assertEquals(825, (int) lastKey);
+    assertEquals("ethanol and food prices", topics.get(lastKey).get("title"));
   }
 
   @Test
@@ -170,101 +200,139 @@ public class TopicReaderTest {
 
     topics = TopicReader.getTopics(Topics.WT10G);
     assertNotNull(topics);
+
+    Integer[] keys = (Integer[]) topics.keySet().toArray();
+    Integer firstKey = keys[0];
+    Integer lastKey = keys[keys.length - 1];
+
     assertEquals(100, topics.size());
-    assertEquals(451, (int) topics.firstKey());
-    assertEquals("What is a Bengals cat?", topics.get(topics.firstKey()).get("title"));
-    assertEquals(550, (int) topics.lastKey());
-    assertEquals("how are the volcanoes made?", topics.get(topics.lastKey()).get("title"));
+    assertEquals(451, (int) firstKey);
+    assertEquals("What is a Bengals cat?", topics.get(firstKey).get("title"));
+    assertEquals(550, (int) lastKey);
+    assertEquals("how are the volcanoes made?", topics.get(lastKey).get("title"));
 
     topics = TopicReader.getTopics(Topics.TREC2004_TERABYTE);
     assertNotNull(topics);
+    keys = (Integer[]) topics.keySet().toArray();
+    firstKey = keys[0];
+    lastKey = keys[keys.length - 1];
     assertEquals(50, topics.size());
-    assertEquals(701, (int) topics.firstKey());
-    assertEquals("U.S. oil industry history", topics.get(topics.firstKey()).get("title"));
-    assertEquals(750, (int) topics.lastKey());
-    assertEquals("John Edwards womens issues", topics.get(topics.lastKey()).get("title"));
+    assertEquals(701, (int) firstKey);
+    assertEquals("U.S. oil industry history", topics.get(firstKey).get("title"));
+    assertEquals(750, (int) lastKey);
+    assertEquals("John Edwards womens issues", topics.get(lastKey).get("title"));
 
     topics = TopicReader.getTopics(Topics.TREC2005_TERABYTE);
     assertNotNull(topics);
+    keys = (Integer[]) topics.keySet().toArray();
+    firstKey = keys[0];
+    lastKey = keys[keys.length - 1];
     assertEquals(50, topics.size());
-    assertEquals(751, (int) topics.firstKey());
-    assertEquals("Scrabble Players", topics.get(topics.firstKey()).get("title"));
-    assertEquals(800, (int) topics.lastKey());
-    assertEquals("Ovarian Cancer Treatment", topics.get(topics.lastKey()).get("title"));
+    assertEquals(751, (int) firstKey);
+    assertEquals("Scrabble Players", topics.get(firstKey).get("title"));
+    assertEquals(800, (int) lastKey);
+    assertEquals("Ovarian Cancer Treatment", topics.get(lastKey).get("title"));
 
     topics = TopicReader.getTopics(Topics.TREC2006_TERABYTE);
     assertNotNull(topics);
+    keys = (Integer[]) topics.keySet().toArray();
+    firstKey = keys[0];
+    lastKey = keys[keys.length - 1];
     assertEquals(50, topics.size());
-    assertEquals(801, (int) topics.firstKey());
-    assertEquals("Kudzu Pueraria lobata", topics.get(topics.firstKey()).get("title"));
-    assertEquals(850, (int) topics.lastKey());
-    assertEquals("Mississippi River flood", topics.get(topics.lastKey()).get("title"));
+    assertEquals(801, (int) firstKey);
+    assertEquals("Kudzu Pueraria lobata", topics.get(firstKey).get("title"));
+    assertEquals(850, (int) lastKey);
+    assertEquals("Mississippi River flood", topics.get(lastKey).get("title"));
 
     topics = TopicReader.getTopics(Topics.TREC2007_MILLION_QUERY);
     assertNotNull(topics);
+    keys = (Integer[]) topics.keySet().toArray();
+    firstKey = keys[0];
+    lastKey = keys[keys.length - 1];
     assertEquals(10000, topics.keySet().size());
-    assertEquals(1, (int) topics.firstKey());
-    assertEquals("after school program evaluation", topics.get(topics.firstKey()).get("title").trim());
-    assertEquals(10000, (int) topics.lastKey());
-    assertEquals("californa mission", topics.get(topics.lastKey()).get("title").trim());
+    assertEquals(1, (int) firstKey);
+    assertEquals("after school program evaluation", topics.get(firstKey).get("title").trim());
+    assertEquals(10000, (int) lastKey);
+    assertEquals("californa mission", topics.get(lastKey).get("title").trim());
 
     topics = TopicReader.getTopics(Topics.TREC2008_MILLION_QUERY);
     assertNotNull(topics);
+    keys = (Integer[]) topics.keySet().toArray();
+    firstKey = keys[0];
+    lastKey = keys[keys.length - 1];
     assertEquals(10000, topics.keySet().size());
-    assertEquals(10001, (int) topics.firstKey());
-    assertEquals("comparability of pay analyses", topics.get(topics.firstKey()).get("title").trim());
-    assertEquals(20000, (int) topics.lastKey());
-    assertEquals("manchester city hall", topics.get(topics.lastKey()).get("title").trim());
+    assertEquals(10001, (int) firstKey);
+    assertEquals("comparability of pay analyses", topics.get(firstKey).get("title").trim());
+    assertEquals(20000, (int) lastKey);
+    assertEquals("manchester city hall", topics.get(lastKey).get("title").trim());
 
     topics = TopicReader.getTopics(Topics.TREC2009_MILLION_QUERY);
     assertNotNull(topics);
+    keys = (Integer[]) topics.keySet().toArray();
+    firstKey = keys[0];
+    lastKey = keys[keys.length - 1];
     assertEquals(40000, topics.keySet().size());
-    assertEquals(20001, (int) topics.firstKey());
-    assertEquals("obama family tree", topics.get(topics.firstKey()).get("title").trim());
-    assertEquals("1", topics.get(topics.firstKey()).get("priority").trim());
-    assertEquals(60000, (int) topics.lastKey());
-    assertEquals("bird shingles", topics.get(topics.lastKey()).get("title").trim());
-    assertEquals("4", topics.get(topics.lastKey()).get("priority").trim());
+    assertEquals(20001, (int) firstKey);
+    assertEquals("obama family tree", topics.get(firstKey).get("title").trim());
+    assertEquals("1", topics.get(firstKey).get("priority").trim());
+    assertEquals(60000, (int) lastKey);
+    assertEquals("bird shingles", topics.get(lastKey).get("title").trim());
+    assertEquals("4", topics.get(lastKey).get("priority").trim());
 
     topics = TopicReader.getTopics(Topics.TREC2010_WEB);
     assertNotNull(topics);
+    keys = (Integer[]) topics.keySet().toArray();
+    firstKey = keys[0];
+    lastKey = keys[keys.length - 1];
     assertEquals(50, topics.size());
-    assertEquals(51, (int) topics.firstKey());
-    assertEquals("horse hooves", topics.get(topics.firstKey()).get("title"));
-    assertEquals(100, (int) topics.lastKey());
-    assertEquals("rincon puerto rico", topics.get(topics.lastKey()).get("title"));
+    assertEquals(51, (int) firstKey);
+    assertEquals("horse hooves", topics.get(firstKey).get("title"));
+    assertEquals(100, (int) lastKey);
+    assertEquals("rincon puerto rico", topics.get(lastKey).get("title"));
 
     topics = TopicReader.getTopics(Topics.TREC2011_WEB);
     assertNotNull(topics);
+    keys = (Integer[]) topics.keySet().toArray();
+    firstKey = keys[0];
+    lastKey = keys[keys.length - 1];
     assertEquals(50, topics.size());
-    assertEquals(101, (int) topics.firstKey());
-    assertEquals("ritz carlton lake las vegas", topics.get(topics.firstKey()).get("title"));
-    assertEquals(150, (int) topics.lastKey());
-    assertEquals("tn highway patrol", topics.get(topics.lastKey()).get("title"));
+    assertEquals(101, (int) firstKey);
+    assertEquals("ritz carlton lake las vegas", topics.get(firstKey).get("title"));
+    assertEquals(150, (int) lastKey);
+    assertEquals("tn highway patrol", topics.get(lastKey).get("title"));
 
     topics = TopicReader.getTopics(Topics.TREC2012_WEB);
     assertNotNull(topics);
+    keys = (Integer[]) topics.keySet().toArray();
+    firstKey = keys[0];
+    lastKey = keys[keys.length - 1];
     assertEquals(50, topics.size());
-    assertEquals(151, (int) topics.firstKey());
-    assertEquals("403b", topics.get(topics.firstKey()).get("title"));
-    assertEquals(200, (int) topics.lastKey());
-    assertEquals("ontario california airport", topics.get(topics.lastKey()).get("title"));
+    assertEquals(151, (int) firstKey);
+    assertEquals("403b", topics.get(firstKey).get("title"));
+    assertEquals(200, (int) lastKey);
+    assertEquals("ontario california airport", topics.get(lastKey).get("title"));
 
     topics = TopicReader.getTopics(Topics.TREC2013_WEB);
     assertNotNull(topics);
+    keys = (Integer[]) topics.keySet().toArray();
+    firstKey = keys[0];
+    lastKey = keys[keys.length - 1];
     assertEquals(50, topics.size());
-    assertEquals(201, (int) topics.firstKey());
-    assertEquals("raspberry pi", topics.get(topics.firstKey()).get("title"));
-    assertEquals(250, (int) topics.lastKey());
-    assertEquals("ford edge problems", topics.get(topics.lastKey()).get("title"));
+    assertEquals(201, (int) firstKey);
+    assertEquals("raspberry pi", topics.get(firstKey).get("title"));
+    assertEquals(250, (int) lastKey);
+    assertEquals("ford edge problems", topics.get(lastKey).get("title"));
 
     topics = TopicReader.getTopics(Topics.TREC2014_WEB);
     assertNotNull(topics);
+    keys = (Integer[]) topics.keySet().toArray();
+    firstKey = keys[0];
+    lastKey = keys[keys.length - 1];
     assertEquals(50, topics.size());
-    assertEquals(251, (int) topics.firstKey());
-    assertEquals("identifying spider bites", topics.get(topics.firstKey()).get("title"));
-    assertEquals(300, (int) topics.lastKey());
-    assertEquals("how to find the mean", topics.get(topics.lastKey()).get("title"));
+    assertEquals(251, (int) firstKey);
+    assertEquals("identifying spider bites", topics.get(firstKey).get("title"));
+    assertEquals(300, (int) lastKey);
+    assertEquals("how to find the mean", topics.get(lastKey).get("title"));
   }
 
   @Test
@@ -352,35 +420,49 @@ public class TopicReaderTest {
 
     topics = TopicReader.getTopics(Topics.MB11);
     assertNotNull(topics);
+
+    Integer[] keys = (Integer[]) topics.keySet().toArray();
+    Integer firstKey = keys[0];
+    Integer lastKey = keys[keys.length - 1];
+
     assertEquals(50, topics.size());
-    assertEquals(1, (int) topics.firstKey());
-    assertEquals("BBC World Service staff cuts", topics.get(topics.firstKey()).get("title"));
-    assertEquals(50, (int) topics.lastKey());
-    assertEquals("war prisoners, Hatch Act", topics.get(topics.lastKey()).get("title"));
+    assertEquals(1, (int) firstKey);
+    assertEquals("BBC World Service staff cuts", topics.get(firstKey).get("title"));
+    assertEquals(50, (int) lastKey);
+    assertEquals("war prisoners, Hatch Act", topics.get(lastKey).get("title"));
 
     topics = TopicReader.getTopics(Topics.MB12);
     assertNotNull(topics);
+    keys = (Integer[]) topics.keySet().toArray();
+    firstKey = keys[0];
+    lastKey = keys[keys.length - 1];
     assertEquals(60, topics.size());
-    assertEquals(51, (int) topics.firstKey());
-    assertEquals("British Government cuts", topics.get(topics.firstKey()).get("title"));
-    assertEquals(110, (int) topics.lastKey());
-    assertEquals("economic trade sanctions", topics.get(topics.lastKey()).get("title"));
+    assertEquals(51, (int) firstKey);
+    assertEquals("British Government cuts", topics.get(firstKey).get("title"));
+    assertEquals(110, (int) lastKey);
+    assertEquals("economic trade sanctions", topics.get(lastKey).get("title"));
 
     topics = TopicReader.getTopics(Topics.MB13);
     assertNotNull(topics);
+    keys = (Integer[]) topics.keySet().toArray();
+    firstKey = keys[0];
+    lastKey = keys[keys.length - 1];
     assertEquals(60, topics.size());
-    assertEquals(111, (int) topics.firstKey());
-    assertEquals("water shortages", topics.get(topics.firstKey()).get("title"));
-    assertEquals(170, (int) topics.lastKey());
-    assertEquals("Tony Mendez", topics.get(topics.lastKey()).get("title"));
+    assertEquals(111, (int) firstKey);
+    assertEquals("water shortages", topics.get(firstKey).get("title"));
+    assertEquals(170, (int) lastKey);
+    assertEquals("Tony Mendez", topics.get(lastKey).get("title"));
 
     topics = TopicReader.getTopics(Topics.MB14);
     assertNotNull(topics);
+    keys = (Integer[]) topics.keySet().toArray();
+    firstKey = keys[0];
+    lastKey = keys[keys.length - 1];
     assertEquals(55, topics.size());
-    assertEquals(171, (int) topics.firstKey());
-    assertEquals("Ron Weasley birthday", topics.get(topics.firstKey()).get("title"));
-    assertEquals(225, (int) topics.lastKey());
-    assertEquals("Barbara Walters, chicken pox", topics.get(topics.lastKey()).get("title"));
+    assertEquals(171, (int) firstKey);
+    assertEquals("Ron Weasley birthday", topics.get(firstKey).get("title"));
+    assertEquals(225, (int) lastKey);
+    assertEquals("Barbara Walters, chicken pox", topics.get(lastKey).get("title"));
   }
 
   @Test
@@ -418,19 +500,28 @@ public class TopicReaderTest {
 
     topics = TopicReader.getTopics(Topics.CAR17V15_BENCHMARK_Y1_TEST);
     assertNotNull(topics);
+    Integer[] keys = (Integer[]) topics.keySet().toArray();
+    Integer firstKey = keys[0];
+    Integer lastKey = keys[keys.length - 1];
+
     assertEquals(2125, topics.size());
-    assertEquals("Aftertaste/Aftertaste%20processing%20in%20the%20cerebral%20cortex", topics.firstKey());
-    assertEquals("Aftertaste/Aftertaste processing in the cerebral cortex", topics.get(topics.firstKey()).get("title"));
-    assertEquals("Yellowstone%20National%20Park/Recreation", topics.lastKey());
-    assertEquals("Yellowstone National Park/Recreation", topics.get(topics.lastKey()).get("title"));
+    assertEquals("Aftertaste/Aftertaste%20processing%20in%20the%20cerebral%20cortex", firstKey);
+    assertEquals("Aftertaste/Aftertaste processing in the cerebral cortex", topics.get(firstKey).get("title"));
+    assertEquals("Yellowstone%20National%20Park/Recreation", lastKey);
+    assertEquals("Yellowstone National Park/Recreation", topics.get(lastKey).get("title"));
 
     topics = TopicReader.getTopics(Topics.CAR17V20_BENCHMARK_Y1_TEST);
     assertNotNull(topics);
+
+    keys = (Integer[]) topics.keySet().toArray();
+    firstKey = keys[0];
+    lastKey = keys[keys.length - 1];
+
     assertEquals(2254, topics.size());
-    assertEquals("enwiki:Aftertaste", topics.firstKey());
-    assertEquals("Aftertaste", topics.get(topics.firstKey()).get("title"));
-    assertEquals("enwiki:Yellowstone%20National%20Park/Recreation", topics.lastKey());
-    assertEquals("Yellowstone National Park/Recreation", topics.get(topics.lastKey()).get("title"));
+    assertEquals("enwiki:Aftertaste", firstKey);
+    assertEquals("Aftertaste", topics.get(firstKey).get("title"));
+    assertEquals("enwiki:Yellowstone%20National%20Park/Recreation", lastKey);
+    assertEquals("Yellowstone National Park/Recreation", topics.get(lastKey).get("title"));
   }
 
   @Test
@@ -459,19 +550,29 @@ public class TopicReaderTest {
 
     topics = TopicReader.getTopics(Topics.MSMARCO_DOC_DEV);
     assertNotNull(topics);
+
+    Integer[] keys = (Integer[]) topics.keySet().toArray();
+    Integer firstKey = keys[0];
+    Integer lastKey = keys[keys.length - 1];
+
     assertEquals(5193, topics.size());
-    assertEquals(2, (int) topics.firstKey());
-    assertEquals("androgen receptor define", topics.get(topics.firstKey()).get("title"));
-    assertEquals(1102400, (int) topics.lastKey());
-    assertEquals("why do bears hibernate", topics.get(topics.lastKey()).get("title"));
+    assertEquals(2, (int) firstKey);
+    assertEquals("androgen receptor define", topics.get(firstKey).get("title"));
+    assertEquals(1102400, (int) lastKey);
+    assertEquals("why do bears hibernate", topics.get(lastKey).get("title"));
 
     topics = TopicReader.getTopics(Topics.MSMARCO_PASSAGE_DEV_SUBSET);
     assertNotNull(topics);
+
+    keys = (Integer[]) topics.keySet().toArray();
+    firstKey = keys[0];
+    lastKey = keys[keys.length - 1];
+
     assertEquals(6980, topics.size());
-    assertEquals(2, (int) topics.firstKey());
-    assertEquals("Androgen receptor define", topics.get(topics.firstKey()).get("title"));
-    assertEquals(1102400, (int) topics.lastKey());
-    assertEquals("why do bears hibernate", topics.get(topics.lastKey()).get("title"));
+    assertEquals(2, (int) firstKey);
+    assertEquals("Androgen receptor define", topics.get(firstKey).get("title"));
+    assertEquals(1102400, (int) lastKey);
+    assertEquals("why do bears hibernate", topics.get(lastKey).get("title"));
   }
 
   @Test
@@ -497,51 +598,81 @@ public class TopicReaderTest {
 
     topics = TopicReader.getTopics(Topics.NTCIR8_ZH);
     assertNotNull(topics);
+
+    Integer[] keys = (Integer[]) topics.keySet().toArray();
+    Integer firstKey = keys[0];
+    Integer lastKey = keys[keys.length - 1];
+
     assertEquals(73, topics.size());
-    assertEquals("ACLIA2-CS-0002", topics.firstKey());
-    assertEquals("《千里走单骑》和张艺谋是什么关系？", topics.get(topics.firstKey()).get("title"));
-    assertEquals("ACLIA2-CS-0100", topics.lastKey());
-    assertEquals("为什么美军占领了巴格达？", topics.get(topics.lastKey()).get("title"));
+    assertEquals("ACLIA2-CS-0002", firstKey);
+    assertEquals("《千里走单骑》和张艺谋是什么关系？", topics.get(firstKey).get("title"));
+    assertEquals("ACLIA2-CS-0100", lastKey);
+    assertEquals("为什么美军占领了巴格达？", topics.get(lastKey).get("title"));
 
     topics = TopicReader.getTopics(Topics.CLEF2006_FR);
     assertNotNull(topics);
+
+    keys = (Integer[]) topics.keySet().toArray();
+    firstKey = keys[0];
+    lastKey = keys[keys.length - 1];
+
     assertEquals(49, topics.size());
-    assertEquals("301-AH", topics.firstKey());
-    assertEquals("Les Produits Nestlé", topics.get(topics.firstKey()).get("title"));
-    assertEquals("350-AH", topics.lastKey());
-    assertEquals("Le Décès d'Ayrton Senna", topics.get(topics.lastKey()).get("title"));
+    assertEquals("301-AH", firstKey);
+    assertEquals("Les Produits Nestlé", topics.get(firstKey).get("title"));
+    assertEquals("350-AH", lastKey);
+    assertEquals("Le Décès d'Ayrton Senna", topics.get(lastKey).get("title"));
 
     topics = TopicReader.getTopics(Topics.TREC2002_AR);
     assertNotNull(topics);
+
+    keys = (Integer[]) topics.keySet().toArray();
+    firstKey = keys[0];
+    lastKey = keys[keys.length - 1];
+
     assertEquals(50, topics.size());
-    assertEquals(26, (int) topics.firstKey());
-    assertEquals("مجلس المقاومة الوطني الكردستاني", topics.get(topics.firstKey()).get("title"));
-    assertEquals(75, (int) topics.lastKey());
-    assertEquals("فيروسات الكمبيوتر في الوطن العربي", topics.get(topics.lastKey()).get("title"));
+    assertEquals(26, (int) firstKey);
+    assertEquals("مجلس المقاومة الوطني الكردستاني", topics.get(firstKey).get("title"));
+    assertEquals(75, (int) lastKey);
+    assertEquals("فيروسات الكمبيوتر في الوطن العربي", topics.get(lastKey).get("title"));
 
     topics = TopicReader.getTopics(Topics.FIRE2012_BN);
     assertNotNull(topics);
+
+    keys = (Integer[]) topics.keySet().toArray();
+    firstKey = keys[0];
+    lastKey = keys[keys.length - 1];
+
     assertEquals(50, topics.size());
-    assertEquals(176, (int) topics.firstKey());
-    assertEquals("ওয়াই এস আর রেড্ডির মৃত্যু", topics.get(topics.firstKey()).get("title"));
-    assertEquals(225, (int) topics.lastKey());
-    assertEquals("স্যাটানিক ভার্সেস বিতর্ক", topics.get(topics.lastKey()).get("title"));
+    assertEquals(176, (int) firstKey);
+    assertEquals("ওয়াই এস আর রেড্ডির মৃত্যু", topics.get(firstKey).get("title"));
+    assertEquals(225, (int) lastKey);
+    assertEquals("স্যাটানিক ভার্সেস বিতর্ক", topics.get(lastKey).get("title"));
 
     topics = TopicReader.getTopics(Topics.FIRE2012_HI);
     assertNotNull(topics);
+
+    keys = (Integer[]) topics.keySet().toArray();
+    firstKey = keys[0];
+    lastKey = keys[keys.length - 1];
+
     assertEquals(50, topics.size());
-    assertEquals(176, (int) topics.firstKey());
-    assertEquals("वाई एस आर रेड्डी की मौत", topics.get(topics.firstKey()).get("title"));
-    assertEquals(225, (int) topics.lastKey());
-    assertEquals("सेटेनिक वर्सेज विवाद", topics.get(topics.lastKey()).get("title"));
+    assertEquals(176, (int) firstKey);
+    assertEquals("वाई एस आर रेड्डी की मौत", topics.get(firstKey).get("title"));
+    assertEquals(225, (int) lastKey);
+    assertEquals("सेटेनिक वर्सेज विवाद", topics.get(lastKey).get("title"));
 
     topics = TopicReader.getTopics(Topics.FIRE2012_EN);
     assertNotNull(topics);
+
+    keys = (Integer[]) topics.keySet().toArray();
+    firstKey = keys[0];
+    lastKey = keys[keys.length - 1];
+
     assertEquals(50, topics.size());
-    assertEquals(176, (int) topics.firstKey());
-    assertEquals("YSR Reddy death", topics.get(topics.firstKey()).get("title"));
-    assertEquals(225, (int) topics.lastKey());
-    assertEquals("Satanic Verses controversy", topics.get(topics.lastKey()).get("title"));
+    assertEquals(176, (int) firstKey);
+    assertEquals("YSR Reddy death", topics.get(firstKey).get("title"));
+    assertEquals(225, (int) lastKey);
+    assertEquals("Satanic Verses controversy", topics.get(lastKey).get("title"));
   }
 
   @Test
@@ -768,33 +899,41 @@ public class TopicReaderTest {
 
     topics = TopicReader.getTopics(Topics.TREC2018_BL);
 
+    Integer[] keys = (Integer[]) topics.keySet().toArray();
+    Integer firstKey = keys[0];
+    Integer lastKey = keys[keys.length - 1];
+
     assertEquals(50, topics.keySet().size());
-    assertEquals(321, (int) topics.firstKey());
-    assertEquals("9171debc316e5e2782e0d2404ca7d09d", topics.get(topics.firstKey()).get("title"));
+    assertEquals(321, (int) firstKey);
+    assertEquals("9171debc316e5e2782e0d2404ca7d09d", topics.get(firstKey).get("title"));
     assertEquals("https://www.washingtonpost.com/news/worldviews/wp/2016/09/01/" +
         "women-are-half-of-the-world-but-only-22-percent-of-its-parliaments/",
-        topics.get(topics.firstKey()).get("url"));
+        topics.get(firstKey).get("url"));
 
-    assertEquals(825, (int) topics.lastKey());
-    assertEquals("a1c41a70-35c7-11e3-8a0e-4e2cf80831fc", topics.get(topics.lastKey()).get("title"));
+    assertEquals(825, (int) lastKey);
+    assertEquals("a1c41a70-35c7-11e3-8a0e-4e2cf80831fc", topics.get(lastKey).get("title"));
     assertEquals("https://www.washingtonpost.com/business/economy/" +
         "cellulosic-ethanol-once-the-way-of-the-future-is-off-to-a-delayed-boisterous-start/" +
-        "2013/11/08/a1c41a70-35c7-11e3-8a0e-4e2cf80831fc_story.html", topics.get(topics.lastKey()).get("url"));
+        "2013/11/08/a1c41a70-35c7-11e3-8a0e-4e2cf80831fc_story.html", topics.get(lastKey).get("url"));
 
     topics = TopicReader.getTopics(Topics.TREC2019_BL);
 
+    keys = (Integer[]) topics.keySet().toArray();
+    firstKey = keys[0];
+    lastKey = keys[keys.length - 1];
+
     assertEquals(60, topics.keySet().size());
-    assertEquals(826, (int) topics.firstKey());
-    assertEquals("96ab542e-6a07-11e6-ba32-5a4bf5aad4fa", topics.get(topics.firstKey()).get("title"));
+    assertEquals(826, (int) firstKey);
+    assertEquals("96ab542e-6a07-11e6-ba32-5a4bf5aad4fa", topics.get(firstKey).get("title"));
     assertEquals("https://www.washingtonpost.com/sports/nationals/" +
         "the-minor-leagues-life-in-pro-baseballs-shadowy-corner/" +
-        "2016/08/26/96ab542e-6a07-11e6-ba32-5a4bf5aad4fa_story.html", topics.get(topics.firstKey()).get("url"));
+        "2016/08/26/96ab542e-6a07-11e6-ba32-5a4bf5aad4fa_story.html", topics.get(firstKey).get("url"));
 
-    assertEquals(885, (int) topics.lastKey());
-    assertEquals("5ae44bfd66a49bcad7b55b29b55d63b6", topics.get(topics.lastKey()).get("title"));
+    assertEquals(885, (int) lastKey);
+    assertEquals("5ae44bfd66a49bcad7b55b29b55d63b6", topics.get(lastKey).get("title"));
     assertEquals("https://www.washingtonpost.com/news/capital-weather-gang/wp/2017/07/14/" +
         "sun-erupts-to-mark-another-bastille-day-aurora-possible-in-new-england-sunday-night/",
-        topics.get(topics.lastKey()).get("url"));
+        topics.get(lastKey).get("url"));
   }
 
   @Test
@@ -802,52 +941,60 @@ public class TopicReaderTest {
     Map<Integer, Map<String, String>> consumerTopics;
     consumerTopics = TopicReader.getTopics(Topics.EPIDEMIC_QA_CONSUMER_PRELIM);
 
+    Integer[] consumerKeys = (Integer[]) consumerTopics.keySet().toArray();
+    Integer consumerFirstKey = consumerKeys[0];
+    Integer consumerLastKey = consumerKeys[consumerKeys.length - 1];
+
     // No consumer questions from CQ035 to CQ037
     assertEquals(42, consumerTopics.keySet().size());
-    assertEquals(1, (int) consumerTopics.firstKey());
+    assertEquals(1, (int) consumerLastKey);
     assertEquals("what is the origin of COVID-19",
-                 consumerTopics.get(consumerTopics.firstKey()).get("question"));
-    assertEquals("CQ001", consumerTopics.get(consumerTopics.firstKey()).get("question_id"));
-    assertEquals("coronavirus origin", consumerTopics.get(consumerTopics.firstKey()).get("query"));
+                 consumerTopics.get(consumerLastKey).get("question"));
+    assertEquals("CQ001", consumerTopics.get(consumerLastKey).get("question_id"));
+    assertEquals("coronavirus origin", consumerTopics.get(consumerLastKey).get("query"));
     // There's a typo in this but the same typo is present in the topics
     // document.
     assertEquals("seeking information about whether the virus was designed in a lab or occured "+
                  "naturally in animals and how it got to humans",
-                 consumerTopics.get(consumerTopics.firstKey()).get("background"));
+                 consumerTopics.get(consumerLastKey).get("background"));
 
-    assertEquals(45, (int) consumerTopics.lastKey());
+    assertEquals(45, (int) consumerLastKey);
     assertEquals("how has the COVID-19 pandemic impacted mental health?",
-                 consumerTopics.get(consumerTopics.lastKey()).get("question"));
-    assertEquals("CQ045", consumerTopics.get(consumerTopics.lastKey()).get("question_id"));
+                 consumerTopics.get(consumerLastKey).get("question"));
+    assertEquals("CQ045", consumerTopics.get(consumerLastKey).get("question_id"));
     assertEquals("coronavirus mental health impact",
-                 consumerTopics.get(consumerTopics.lastKey()).get("query"));
+                 consumerTopics.get(consumerLastKey).get("query"));
     assertEquals("seeking information about psychological effects of COVID-19 and "+
                  "COVID-19 effect on mental health and pre-existing conditions",
-                 consumerTopics.get(consumerTopics.lastKey()).get("background"));
+                 consumerTopics.get(consumerLastKey).get("background"));
 
     Map<Integer, Map<String, String>> expertTopics;
     expertTopics = TopicReader.getTopics(Topics.EPIDEMIC_QA_EXPERT_PRELIM);
 
+    Integer[] expertKeys = (Integer[]) expertTopics.keySet().toArray();
+    Integer expertFirstKey = expertKeys[0];
+    Integer expertLastKey = expertKeys[expertKeys.length - 1];
+
     assertEquals(45, expertTopics.keySet().size());
 
-    assertEquals(1, (int) expertTopics.firstKey());
+    assertEquals(1, (int) expertFirstKey);
     assertEquals("what is the origin of COVID-19",
-                 expertTopics.get(expertTopics.firstKey()).get("question"));
-    assertEquals("EQ001", expertTopics.get(expertTopics.firstKey()).get("question_id"));
-    assertEquals("coronavirus origin", expertTopics.get(expertTopics.firstKey()).get("query"));
+                 expertTopics.get(expertFirstKey).get("question"));
+    assertEquals("EQ001", expertTopics.get(expertFirstKey).get("question_id"));
+    assertEquals("coronavirus origin", expertTopics.get(expertFirstKey).get("query"));
     assertEquals("seeking range of information about the SARS-CoV-2 virus's origin, " +
                  "including its evolution, animal source, and first transmission into humans",
-                 expertTopics.get(expertTopics.firstKey()).get("background"));
+                 expertTopics.get(expertFirstKey).get("background"));
 
-    assertEquals(45, (int) expertTopics.lastKey());
+    assertEquals(45, (int) expertLastKey);
     assertEquals("How has the COVID-19 pandemic impacted mental health?",
-                 expertTopics.get(expertTopics.lastKey()).get("question"));
-    assertEquals("EQ045", expertTopics.get(expertTopics.lastKey()).get("question_id"));
+                 expertTopics.get(expertLastKey).get("question"));
+    assertEquals("EQ045", expertTopics.get(expertLastKey).get("question_id"));
     assertEquals("coronavirus mental health impact",
-                 expertTopics.get(expertTopics.lastKey()).get("query"));
+                 expertTopics.get(expertLastKey).get("query"));
     assertEquals("Includes increasing/decreasing rates of depression, anxiety, panic disorder, "+
                  "and other psychiatric and mental health conditions.",
-                 expertTopics.get(expertTopics.lastKey()).get("background"));
+                 expertTopics.get(expertLastKey).get("background"));
   }
 
   public void testGetTopicsWithStringIdsFromFileWithTopicReader() {
