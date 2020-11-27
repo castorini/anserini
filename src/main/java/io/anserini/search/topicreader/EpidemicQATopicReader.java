@@ -14,7 +14,6 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.SortedMap;
 import java.util.TreeMap;
 
 /**
@@ -32,8 +31,8 @@ public class EpidemicQATopicReader extends TopicReader<Integer> {
   }
 
   @Override
-  public SortedMap<Integer, Map<String, String>> read(BufferedReader reader) throws IOException {
-    SortedMap<Integer, Map<String, String>> map = new TreeMap<>();
+  public Map<Integer, Map<String, String>> read(BufferedReader reader) throws IOException {
+    Map<Integer, Map<String, String>> map = new TreeMap<>();
     ObjectMapper mapper = new ObjectMapper();
     String topicsJson;
     JsonNode arrayNode;

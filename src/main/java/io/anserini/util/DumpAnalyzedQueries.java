@@ -30,7 +30,6 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
-import java.util.SortedMap;
 
 /**
  * Utility to dump out query terms that have analyzed with Anserini's default Lucene Analyzer, DefaultEnglishAnalyzer
@@ -88,7 +87,7 @@ public class DumpAnalyzedQueries {
       throw new IllegalArgumentException("Unable to load TopicReader: " + args.topicReader);
     }
 
-    SortedMap<?, Map<String, String>> topics = tr.read();
+    Map<?, Map<String, String>> topics = tr.read();
 
     FileOutputStream out = new FileOutputStream(args.output);
     for (Map.Entry<?, Map<String, String>> entry : topics.entrySet()) {

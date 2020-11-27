@@ -5,7 +5,6 @@ import org.junit.Test;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Map;
-import java.util.SortedMap;
 
 import static org.junit.Assert.assertEquals;
 
@@ -16,7 +15,7 @@ public class EpidemicQATopicReaderTest {
         new EpidemicQATopicReader(
             Paths.get("src/main/resources/topics-and-qrels/topics.epidemic-qa.consumer.prelim.json"));
 
-    SortedMap<Integer, Map<String, String>> consumerTopics = consumerReader.read();
+    Map<Integer, Map<String, String>> consumerTopics = consumerReader.read();
 
     // No consumer questions from CQ035 to CQ037
     assertEquals(42, consumerTopics.keySet().size());
@@ -43,7 +42,7 @@ public class EpidemicQATopicReaderTest {
         new EpidemicQATopicReader(
             Paths.get("src/main/resources/topics-and-qrels/topics.epidemic-qa.expert.prelim.json"));
 
-    SortedMap<Integer, Map<String, String>> expertTopics = expertReader.read();
+    Map<Integer, Map<String, String>> expertTopics = expertReader.read();
 
     assertEquals(45, expertTopics.keySet().size());
 

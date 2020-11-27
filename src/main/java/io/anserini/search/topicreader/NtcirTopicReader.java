@@ -21,7 +21,6 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.SortedMap;
 import java.util.TreeMap;
 
 /**
@@ -38,13 +37,13 @@ public class NtcirTopicReader extends TopicReader<Integer> {
   }
 
   @Override
-  public SortedMap<Integer, Map<String, String>> read(BufferedReader bRdr) throws IOException {
+  public Map<Integer, Map<String, String>> read(BufferedReader bRdr) throws IOException {
     /**
      * There are no narratives in NTCIR WWW topics, so this method returns
      * a map whose keys are description and title only.
      */
 
-    SortedMap<Integer, Map<String, String>> map = new TreeMap<>();
+    Map<Integer, Map<String, String>> map = new TreeMap<>();
     Map<String, String> fields = new HashMap<>();
 
     String number = "";

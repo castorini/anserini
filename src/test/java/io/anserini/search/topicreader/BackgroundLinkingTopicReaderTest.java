@@ -21,7 +21,6 @@ import org.junit.Test;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Map;
-import java.util.SortedMap;
 
 import static org.junit.Assert.assertEquals;
 
@@ -32,7 +31,7 @@ public class BackgroundLinkingTopicReaderTest {
     TopicReader<Integer> reader = new BackgroundLinkingTopicReader(
         Paths.get("src/main/resources/topics-and-qrels/topics.backgroundlinking18.txt"));
 
-    SortedMap<Integer, Map<String, String>> topics = reader.read();
+    Map<Integer, Map<String, String>> topics = reader.read();
 
     assertEquals(50, topics.keySet().size());
     assertEquals(321, (int) topics.firstKey());
@@ -53,7 +52,7 @@ public class BackgroundLinkingTopicReaderTest {
     TopicReader<Integer> reader = new BackgroundLinkingTopicReader(
         Paths.get("src/main/resources/topics-and-qrels/topics.backgroundlinking19.txt"));
 
-    SortedMap<Integer, Map<String, String>> topics = reader.read();
+    Map<Integer, Map<String, String>> topics = reader.read();
 
     assertEquals(60, topics.keySet().size());
     assertEquals(826, (int) topics.firstKey());

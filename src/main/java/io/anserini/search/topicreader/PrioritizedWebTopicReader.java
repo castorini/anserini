@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.SortedMap;
 import java.util.TreeMap;
 
 import org.apache.commons.lang3.StringUtils;
@@ -15,10 +14,10 @@ public class PrioritizedWebTopicReader extends TopicReader<Integer> {
   public PrioritizedWebTopicReader(Path topicFile) {
     super(topicFile);
   }
-  
+
   @Override
-  public SortedMap<Integer, Map<String, String>> read(BufferedReader bRdr) throws IOException {
-    SortedMap<Integer, Map<String, String>> ret =  new TreeMap<>();
+  public Map<Integer, Map<String, String>> read(BufferedReader bRdr) throws IOException {
+    Map<Integer, Map<String, String>> ret =  new TreeMap<>();
 
     String line;
     while ((line = bRdr.readLine()) != null) {

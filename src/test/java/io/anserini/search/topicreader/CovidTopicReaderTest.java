@@ -21,7 +21,6 @@ import org.junit.Test;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Map;
-import java.util.SortedMap;
 
 import static org.junit.Assert.assertEquals;
 
@@ -32,7 +31,7 @@ public class CovidTopicReaderTest {
     TopicReader<Integer> reader = new CovidTopicReader(
         Paths.get("src/main/resources/topics-and-qrels/topics.covid-round1.xml"));
 
-    SortedMap<Integer, Map<String, String>> topics = reader.read();
+    Map<Integer, Map<String, String>> topics = reader.read();
 
     assertEquals(30, topics.keySet().size());
 
@@ -57,7 +56,7 @@ public class CovidTopicReaderTest {
     TopicReader<Integer> reader = new CovidTopicReader(
         Paths.get("src/main/resources/topics-and-qrels/topics.covid-round2.xml"));
 
-    SortedMap<Integer, Map<String, String>> topics = reader.read();
+    Map<Integer, Map<String, String>> topics = reader.read();
 
     assertEquals(35, topics.keySet().size());
 
@@ -84,7 +83,7 @@ public class CovidTopicReaderTest {
     TopicReader<Integer> reader = new CovidTopicReader(
         Paths.get("src/main/resources/topics-and-qrels/topics.covid-round1-udel.xml"));
 
-    SortedMap<Integer, Map<String, String>> topics = reader.read();
+    Map<Integer, Map<String, String>> topics = reader.read();
 
     assertEquals(30, topics.keySet().size());
 
@@ -105,7 +104,7 @@ public class CovidTopicReaderTest {
     TopicReader<Integer> reader = new CovidTopicReader(
         Paths.get("src/main/resources/topics-and-qrels/topics.covid-round2-udel.xml"));
 
-    SortedMap<Integer, Map<String, String>> topics = reader.read();
+    Map<Integer, Map<String, String>> topics = reader.read();
 
     assertEquals(35, topics.keySet().size());
 

@@ -20,7 +20,6 @@ import org.junit.Test;
 
 import java.nio.file.Paths;
 import java.util.Map;
-import java.util.SortedMap;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -46,7 +45,7 @@ public class TopicReaderTest {
 
   @Test
   public void testGetTopicsByFile() {
-    SortedMap<Object, Map<String, String>> topics =
+    Map<Object, Map<String, String>> topics =
         TopicReader.getTopicsByFile("src/main/resources/topics-and-qrels/topics.robust04.txt");
 
     assertNotNull(topics);
@@ -59,7 +58,7 @@ public class TopicReaderTest {
 
   @Test
   public void testNewswireTopics() {
-    SortedMap<Integer, Map<String, String>> topics;
+    Map<Integer, Map<String, String>> topics;
 
     topics = TopicReader.getTopics(Topics.TREC1_ADHOC);
     assertNotNull(topics);
@@ -167,7 +166,7 @@ public class TopicReaderTest {
 
   @Test
   public void testWebTopics() {
-    SortedMap<Integer, Map<String, String>> topics;
+    Map<Integer, Map<String, String>> topics;
 
     topics = TopicReader.getTopics(Topics.WT10G);
     assertNotNull(topics);
@@ -349,7 +348,7 @@ public class TopicReaderTest {
 
   @Test
   public void testMicoblogTopics() {
-    SortedMap<Integer, Map<String, String>> topics;
+    Map<Integer, Map<String, String>> topics;
 
     topics = TopicReader.getTopics(Topics.MB11);
     assertNotNull(topics);
@@ -415,7 +414,7 @@ public class TopicReaderTest {
 
   @Test
   public void testCAR() {
-    SortedMap<Integer, Map<String, String>> topics;
+    Map<Integer, Map<String, String>> topics;
 
     topics = TopicReader.getTopics(Topics.CAR17V15_BENCHMARK_Y1_TEST);
     assertNotNull(topics);
@@ -456,7 +455,7 @@ public class TopicReaderTest {
 
   @Test
   public void testMSMARO() {
-    SortedMap<Integer, Map<String, String>> topics;
+    Map<Integer, Map<String, String>> topics;
 
     topics = TopicReader.getTopics(Topics.MSMARCO_DOC_DEV);
     assertNotNull(topics);
@@ -494,7 +493,7 @@ public class TopicReaderTest {
 
   @Test
   public void testNonEnglishTopics() {
-    SortedMap<Integer, Map<String, String>> topics;
+    Map<Integer, Map<String, String>> topics;
 
     topics = TopicReader.getTopics(Topics.NTCIR8_ZH);
     assertNotNull(topics);
@@ -765,7 +764,7 @@ public class TopicReaderTest {
 
   @Test
   public void testBackgroundLinkingTopics() {
-    SortedMap<Integer, Map<String, String>> topics;
+    Map<Integer, Map<String, String>> topics;
 
     topics = TopicReader.getTopics(Topics.TREC2018_BL);
 
@@ -783,7 +782,7 @@ public class TopicReaderTest {
         "2013/11/08/a1c41a70-35c7-11e3-8a0e-4e2cf80831fc_story.html", topics.get(topics.lastKey()).get("url"));
 
     topics = TopicReader.getTopics(Topics.TREC2019_BL);
-    
+
     assertEquals(60, topics.keySet().size());
     assertEquals(826, (int) topics.firstKey());
     assertEquals("96ab542e-6a07-11e6-ba32-5a4bf5aad4fa", topics.get(topics.firstKey()).get("title"));
@@ -800,7 +799,7 @@ public class TopicReaderTest {
 
   @Test
   public void testEpidemicQATopics() {
-    SortedMap<Integer, Map<String, String>> consumerTopics;
+    Map<Integer, Map<String, String>> consumerTopics;
     consumerTopics = TopicReader.getTopics(Topics.EPIDEMIC_QA_CONSUMER_PRELIM);
 
     // No consumer questions from CQ035 to CQ037
@@ -810,7 +809,7 @@ public class TopicReaderTest {
                  consumerTopics.get(consumerTopics.firstKey()).get("question"));
     assertEquals("CQ001", consumerTopics.get(consumerTopics.firstKey()).get("question_id"));
     assertEquals("coronavirus origin", consumerTopics.get(consumerTopics.firstKey()).get("query"));
-    // There's a typo in this but the same typo is present in the topics 
+    // There's a typo in this but the same typo is present in the topics
     // document.
     assertEquals("seeking information about whether the virus was designed in a lab or occured "+
                  "naturally in animals and how it got to humans",
@@ -826,7 +825,7 @@ public class TopicReaderTest {
                  "COVID-19 effect on mental health and pre-existing conditions",
                  consumerTopics.get(consumerTopics.lastKey()).get("background"));
 
-    SortedMap<Integer, Map<String, String>> expertTopics;
+    Map<Integer, Map<String, String>> expertTopics;
     expertTopics = TopicReader.getTopics(Topics.EPIDEMIC_QA_EXPERT_PRELIM);
 
     assertEquals(45, expertTopics.keySet().size());
@@ -836,7 +835,7 @@ public class TopicReaderTest {
                  expertTopics.get(expertTopics.firstKey()).get("question"));
     assertEquals("EQ001", expertTopics.get(expertTopics.firstKey()).get("question_id"));
     assertEquals("coronavirus origin", expertTopics.get(expertTopics.firstKey()).get("query"));
-    assertEquals("seeking range of information about the SARS-CoV-2 virus's origin, " + 
+    assertEquals("seeking range of information about the SARS-CoV-2 virus's origin, " +
                  "including its evolution, animal source, and first transmission into humans",
                  expertTopics.get(expertTopics.firstKey()).get("background"));
 

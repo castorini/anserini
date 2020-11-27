@@ -21,7 +21,6 @@ import org.junit.Test;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Map;
-import java.util.SortedMap;
 
 import static org.junit.Assert.assertEquals;
 
@@ -32,7 +31,7 @@ public class MicroblogTopicReaderTest {
     TopicReader<Integer> reader =
         new MicroblogTopicReader(Paths.get("src/main/resources/topics-and-qrels/topics.microblog2011.txt"));
 
-    SortedMap<Integer, Map<String, String>> topics = reader.read();
+    Map<Integer, Map<String, String>> topics = reader.read();
 
     assertEquals(50, topics.keySet().size());
     assertEquals(1, (int) topics.firstKey());
@@ -44,4 +43,3 @@ public class MicroblogTopicReaderTest {
     assertEquals("29723425576587264", topics.get(topics.lastKey()).get("time"));
   }
 }
-

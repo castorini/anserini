@@ -21,7 +21,6 @@ import org.junit.Test;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Map;
-import java.util.SortedMap;
 
 import static org.junit.Assert.assertEquals;
 
@@ -32,7 +31,7 @@ public class WebxmlTopicReaderTest {
     TopicReader<Integer> reader = new WebxmlTopicReader(
         Paths.get("src/main/resources/topics-and-qrels/topics.web.1-50.txt"));
 
-    SortedMap<Integer, Map<String, String>> topics = reader.read();
+    Map<Integer, Map<String, String>> topics = reader.read();
 
     assertEquals(50, topics.keySet().size());
 

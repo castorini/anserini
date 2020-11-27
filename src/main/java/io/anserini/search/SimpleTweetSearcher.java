@@ -52,7 +52,6 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.SortedMap;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -172,7 +171,7 @@ public class SimpleTweetSearcher extends SimpleSearcher implements Closeable {
 
     final long start = System.nanoTime();
     SimpleTweetSearcher searcher = new SimpleTweetSearcher(searchArgs.index);
-    SortedMap<Object, Map<String, String>> topics = TopicReader.getTopicsByFile(searchArgs.topics);
+    Map<Object, Map<String, String>> topics = TopicReader.getTopicsByFile(searchArgs.topics);
 
     PrintWriter out = new PrintWriter(Files.newBufferedWriter(Paths.get(searchArgs.output), StandardCharsets.US_ASCII));
 

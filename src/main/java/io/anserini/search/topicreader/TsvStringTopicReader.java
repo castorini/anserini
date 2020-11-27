@@ -21,7 +21,6 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.SortedMap;
 import java.util.TreeMap;
 
 /**
@@ -43,8 +42,8 @@ public class TsvStringTopicReader extends TopicReader<String> {
   }
 
   @Override
-  public SortedMap<String, Map<String, String>> read(BufferedReader reader) throws IOException {
-    SortedMap<String, Map<String, String>> map = new TreeMap<>();
+  public Map<String, Map<String, String>> read(BufferedReader reader) throws IOException {
+    Map<String, Map<String, String>> map = new TreeMap<>();
 
     String line;
     while ((line = reader.readLine()) != null) {

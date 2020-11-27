@@ -29,7 +29,6 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.SortedMap;
 
 /**
  * A reader of topics, i.e., information needs or queries, in a variety of standard formats.
@@ -117,18 +116,18 @@ public abstract class TopicReader<K> {
    * @return sorted map of ids to topics
    * @throws IOException if error encountered reading topics
    */
-  public SortedMap<K, Map<String, String>> read() throws IOException {
+  public Map<K, Map<String, String>> read() throws IOException {
     InputStream topics = Files.newInputStream(topicFile, StandardOpenOption.READ);
     BufferedReader bRdr = new BufferedReader(new InputStreamReader(topics, StandardCharsets.UTF_8));
     return read(bRdr);
   }
 
-  public SortedMap<K, Map<String, String>> read(String str) throws IOException {
+  public Map<K, Map<String, String>> read(String str) throws IOException {
     BufferedReader bRdr = new BufferedReader(new StringReader(str));
     return read(bRdr);
   }
 
-  abstract public SortedMap<K, Map<String, String>> read(BufferedReader bRdr) throws IOException;
+  abstract public Map<K, Map<String, String>> read(BufferedReader bRdr) throws IOException;
 
   /**
    * Returns a standard set of evaluation topics.
@@ -138,7 +137,7 @@ public abstract class TopicReader<K> {
    * @return evaluation topics
    */
   @SuppressWarnings("unchecked")
-  public static <K> SortedMap<K, Map<String, String>> getTopics(Topics topics) {
+  public static <K> Map<K, Map<String, String>> getTopics(Topics topics) {
     try {
       InputStream inputStream = TopicReader.class.getClassLoader().getResourceAsStream(topics.path);
       String raw = new String(inputStream.readAllBytes());
@@ -162,7 +161,7 @@ public abstract class TopicReader<K> {
    * @return evaluation topics
    */
   @SuppressWarnings("unchecked")
-  public static <K> SortedMap<K, Map<String, String>> getTopicsByFile(String file) {
+  public static <K> Map<K, Map<String, String>> getTopicsByFile(String file) {
     try {
       // Get the constructor
       Constructor[] ctors = getTopicReaderClassByFile(file).getDeclaredConstructors();
@@ -182,7 +181,7 @@ public abstract class TopicReader<K> {
    * @return evaluation topics, with strings as topic ids
    */
   public static Map<String, Map<String, String>> getTopicsWithStringIds(Topics topics) {
-    SortedMap<?, Map<String, String>> originalTopics = getTopics(topics);
+    Map<?, Map<String, String>> originalTopics = getTopics(topics);
     if (originalTopics == null)
       return null;
 
@@ -209,7 +208,7 @@ public abstract class TopicReader<K> {
       Constructor[] ctors = clazz.getDeclaredConstructors();
       TopicReader<?> reader = (TopicReader<?>) ctors[0].newInstance(Paths.get(file));
 
-      SortedMap<?, Map<String, String>> originalTopics = reader.read();
+      Map<?, Map<String, String>> originalTopics = reader.read();
       if (originalTopics == null)
         return null;
 

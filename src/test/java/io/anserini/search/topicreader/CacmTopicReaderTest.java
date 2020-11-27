@@ -21,7 +21,6 @@ import org.junit.Test;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Map;
-import java.util.SortedMap;
 
 import static org.junit.Assert.assertEquals;
 
@@ -32,7 +31,7 @@ public class CacmTopicReaderTest {
     TopicReader<Integer> reader = new CacmTopicReader(
         Paths.get("src/main/resources/topics-and-qrels/topics.cacm.txt"));
 
-    SortedMap<Integer, Map<String, String>> topics = reader.read();
+    Map<Integer, Map<String, String>> topics = reader.read();
 
     assertEquals(64, topics.keySet().size());
 

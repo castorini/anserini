@@ -21,7 +21,6 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.SortedMap;
 import java.util.TreeMap;
 
 public class CarTopicReader extends TopicReader<String> {
@@ -32,12 +31,12 @@ public class CarTopicReader extends TopicReader<String> {
 
   /**
    * Read topics in the topic file of TREC CAR Track 2018
-   * @return SortedMap where keys are query/topic IDs and values are title portions of the topics
+   * @return Map where keys are query/topic IDs and values are title portions of the topics
    * @throws IOException any io exception
    */
   @Override
-  public SortedMap<String, Map<String, String>> read(BufferedReader bRdr) throws IOException {
-    SortedMap<String, Map<String, String>> map = new TreeMap<>();
+  public Map<String, Map<String, String>> read(BufferedReader bRdr) throws IOException {
+    Map<String, Map<String, String>> map = new TreeMap<>();
 
     String line;
     while ((line = bRdr.readLine()) != null) {

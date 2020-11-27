@@ -22,7 +22,6 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
-import java.util.SortedMap;
 
 import static org.junit.Assert.assertEquals;
 
@@ -34,7 +33,7 @@ public class NtcirTopicReaderTest {
     Path path1 = Paths.get("src/main/resources/topics-and-qrels/topics.www1.english.txt");
     TopicReader<Integer> reader1 = new NtcirTopicReader(path1);
 
-    SortedMap<Integer, Map<String, String>> topics1 = reader1.read();
+    Map<Integer, Map<String, String>> topics1 = reader1.read();
 
     assertEquals(100, topics1.keySet().size());
     assertEquals(1, (int) topics1.firstKey());
@@ -50,7 +49,7 @@ public class NtcirTopicReaderTest {
     Path path = Paths.get("src/main/resources/topics-and-qrels/topics.www2.english.txt");
     TopicReader<Integer> reader = new NtcirTopicReader(path);
 
-    SortedMap<Integer, Map<String, String>> topics = reader.read();
+    Map<Integer, Map<String, String>> topics = reader.read();
 
     assertEquals(80, topics.keySet().size());
     assertEquals(1, (int) topics.firstKey());
@@ -67,4 +66,3 @@ public class NtcirTopicReaderTest {
 
   }
 }
-

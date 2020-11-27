@@ -24,7 +24,6 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
-import java.util.SortedMap;
 
 import static org.junit.Assert.assertEquals;
 
@@ -35,7 +34,7 @@ public class CarTopicReaderTest {
     TopicReader<String> reader = new CarTopicReader(
         Paths.get("src/main/resources/topics-and-qrels/topics.car17v2.0.benchmarkY1test.txt"));
 
-    SortedMap<String, Map<String, String>> topics = reader.read();
+    Map<String, Map<String, String>> topics = reader.read();
 
     assertEquals(2254, topics.keySet().size());
     assertEquals("enwiki:Aftertaste", topics.firstKey());

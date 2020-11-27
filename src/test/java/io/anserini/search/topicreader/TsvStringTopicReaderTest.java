@@ -21,7 +21,6 @@ import org.junit.Test;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Map;
-import java.util.SortedMap;
 
 import static org.junit.Assert.assertEquals;
 
@@ -32,7 +31,7 @@ public class TsvStringTopicReaderTest {
     TopicReader<String> reader = new TsvStringTopicReader(
         Paths.get("src/main/resources/topics-and-qrels/topics.ntcir8en.eval.txt"));
 
-    SortedMap<String, Map<String, String>> topics = reader.read();
+    Map<String, Map<String, String>> topics = reader.read();
 
     assertEquals(73, topics.keySet().size());
     assertEquals("ACLIA2-CS-0002", topics.firstKey());

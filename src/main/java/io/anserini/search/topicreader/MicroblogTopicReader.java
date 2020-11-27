@@ -21,7 +21,6 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -54,8 +53,8 @@ public class MicroblogTopicReader extends TopicReader<Integer> {
    * @throws IOException any io exception
    */
   @Override
-  public SortedMap<Integer, Map<String, String>> read(BufferedReader bRdr) throws IOException {
-    SortedMap<Integer, Map<String, String>> map = new TreeMap<>();
+  public Map<Integer, Map<String, String>> read(BufferedReader bRdr) throws IOException {
+    Map<Integer, Map<String, String>> map = new TreeMap<>();
     Map<String,String> fields = new HashMap<>();
 
     String number = "";

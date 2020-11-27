@@ -39,7 +39,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
-import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -63,8 +62,8 @@ public class BackgroundLinkingTopicReader extends TopicReader<Integer> {
   // Note that some TREC 2018 topics don't properly close the </url> tags.
 
   @Override
-  public SortedMap<Integer, Map<String, String>> read(BufferedReader bRdr) throws IOException {
-    SortedMap<Integer, Map<String, String>> map = new TreeMap<>();
+  public Map<Integer, Map<String, String>> read(BufferedReader bRdr) throws IOException {
+    Map<Integer, Map<String, String>> map = new TreeMap<>();
     Map<String,String> fields = new HashMap<>();
 
     String number = "";
@@ -102,7 +101,7 @@ public class BackgroundLinkingTopicReader extends TopicReader<Integer> {
 
     return map;
   }
-  
+
   /**
    * Extracts the top <i>k</i> terms from document in terms of tf-idf.
    */
@@ -171,7 +170,7 @@ public class BackgroundLinkingTopicReader extends TopicReader<Integer> {
 
     StringBuilder contentBuilder = new StringBuilder();
     contentBuilder.append(wapoObj.getTitle()).append("\n");
-    
+
     wapoObj.getContents().ifPresent(contents -> {
       for (WashingtonPostCollection.Document.WashingtonPostObject.Content contentObj : contents) {
         if (contentObj == null) continue;
@@ -190,7 +189,7 @@ public class BackgroundLinkingTopicReader extends TopicReader<Integer> {
         });
       }
     });
-    
+
     return contentBuilder.toString();
   }
 }

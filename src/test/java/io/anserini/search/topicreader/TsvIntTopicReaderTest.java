@@ -21,7 +21,6 @@ import org.junit.Test;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Map;
-import java.util.SortedMap;
 
 import static org.junit.Assert.assertEquals;
 
@@ -32,7 +31,7 @@ public class TsvIntTopicReaderTest {
     TopicReader<Integer> reader = new TsvIntTopicReader(
         Paths.get("src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt"));
 
-    SortedMap<Integer, Map<String, String>> topics = reader.read();
+    Map<Integer, Map<String, String>> topics = reader.read();
 
     assertEquals(6980, topics.keySet().size());
     assertEquals(2, (int) topics.firstKey());

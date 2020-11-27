@@ -21,7 +21,6 @@ import org.junit.Test;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Map;
-import java.util.SortedMap;
 
 import static org.junit.Assert.assertEquals;
 
@@ -32,7 +31,7 @@ public class TrecTopicReaderTest {
     TopicReader<Integer> reader = new TrecTopicReader(
         Paths.get("src/main/resources/topics-and-qrels/topics.robust04.txt"));
 
-    SortedMap<Integer, Map<String, String>> topics = reader.read();
+    Map<Integer, Map<String, String>> topics = reader.read();
 
     assertEquals(250, topics.keySet().size());
     assertEquals(301, (int) topics.firstKey());
@@ -47,7 +46,7 @@ public class TrecTopicReaderTest {
     TopicReader<Integer> reader = new TrecTopicReader(
         Paths.get("src/main/resources/topics-and-qrels/topics.core18.txt"));
 
-    SortedMap<Integer, Map<String, String>> topics = reader.read();
+    Map<Integer, Map<String, String>> topics = reader.read();
 
     assertEquals(50, topics.keySet().size());
     assertEquals(321, (int) topics.firstKey());
@@ -62,7 +61,7 @@ public class TrecTopicReaderTest {
     TopicReader<Integer> reader = new TrecTopicReader(
         Paths.get("src/main/resources/topics-and-qrels/topics.fire12bn.176-225.txt"));
 
-    SortedMap<Integer, Map<String, String>> topics = reader.read();
+    Map<Integer, Map<String, String>> topics = reader.read();
 
     assertEquals(50, topics.keySet().size());
     assertEquals(176, (int) topics.firstKey());
@@ -78,7 +77,7 @@ public class TrecTopicReaderTest {
     TopicReader<Integer> reader = new TrecTopicReader(
         Paths.get("src/main/resources/topics-and-qrels/topics.fire12hi.176-225.txt"));
 
-    SortedMap<Integer, Map<String, String>> topics = reader.read();
+    Map<Integer, Map<String, String>> topics = reader.read();
 
     assertEquals(50, topics.keySet().size());
     assertEquals(176, (int) topics.firstKey());
@@ -96,7 +95,7 @@ public class TrecTopicReaderTest {
     TopicReader<Integer> reader = new TrecTopicReader(
         Paths.get("src/main/resources/topics-and-qrels/topics.trec02ar-ar.txt"));
 
-    SortedMap<Integer, Map<String, String>> topics = reader.read();
+    Map<Integer, Map<String, String>> topics = reader.read();
 
     assertEquals(50, topics.keySet().size());
     assertEquals(26, (int) topics.firstKey());
