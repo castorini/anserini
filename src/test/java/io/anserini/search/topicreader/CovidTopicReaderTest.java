@@ -87,8 +87,8 @@ public class CovidTopicReaderTest {
 
     assertEquals(30, topics.keySet().size());
 
-    Integer firstKey = topics.keySet().toArray()[0]
-    Integer lastKey = topics.keySet().toArray()[topics.keySet().size() - 1]
+    Integer firstKey = topics.keySet().toArray()[0];
+    Integer lastKey = topics.keySet().toArray()[topics.keySet().size() - 1];
 
     assertEquals(1, (int) topics.firstKey());
     assertEquals("coronavirus origin origin COVID-19", topics.get(firstKey).get("query"));
