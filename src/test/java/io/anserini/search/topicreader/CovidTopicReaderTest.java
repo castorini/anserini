@@ -87,15 +87,18 @@ public class CovidTopicReaderTest {
 
     assertEquals(30, topics.keySet().size());
 
+    Integer firstKey = topics.keySet().toArray()[0]
+    Integer lastKey = topics.keySet().toArray()[topics.keySet().size() - 1]
+
     assertEquals(1, (int) topics.firstKey());
-    assertEquals("coronavirus origin origin COVID-19", topics.get(topics.firstKey()).get("query"));
-    assertEquals(null, topics.get(topics.firstKey()).get("question"));
-    assertEquals(null, topics.get(topics.firstKey()).get("narrative"));
+    assertEquals("coronavirus origin origin COVID-19", topics.get(firstKey).get("query"));
+    assertEquals(null, topics.get(firstKey).get("question"));
+    assertEquals(null, topics.get(firstKey).get("narrative"));
 
     assertEquals(30, (int) topics.lastKey());
-    assertEquals("coronavirus remdesivir remdesivir effective treatment COVID-19", topics.get(topics.lastKey()).get("query"));
-    assertEquals(null, topics.get(topics.lastKey()).get("question"));
-    assertEquals(null, topics.get(topics.lastKey()).get("narrative"));
+    assertEquals("coronavirus remdesivir remdesivir effective treatment COVID-19", topics.get(lastKey).get("query"));
+    assertEquals(null, topics.get(lastKey).get("question"));
+    assertEquals(null, topics.get(lastKey).get("narrative"));
   }
 
   @Test
