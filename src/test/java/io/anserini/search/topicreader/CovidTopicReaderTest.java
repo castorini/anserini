@@ -21,7 +21,6 @@ import org.junit.Test;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Map;
-import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 
@@ -88,7 +87,7 @@ public class CovidTopicReaderTest {
 
     assertEquals(30, topics.keySet().size());
 
-    Integer keys = (Integer[]) topics.keySet().toArray();
+    Integer[] keys = (Integer[]) topics.keySet().toArray();
     Integer firstKey = keys[0];
     Integer lastKey = keys[keys.size() - 1];
 
