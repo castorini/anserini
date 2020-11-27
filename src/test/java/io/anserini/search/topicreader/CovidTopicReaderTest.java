@@ -35,20 +35,24 @@ public class CovidTopicReaderTest {
 
     assertEquals(30, topics.keySet().size());
 
-    assertEquals(1, (int) topics.firstKey());
-    assertEquals("coronavirus origin", topics.get(topics.firstKey()).get("query"));
-    assertEquals("what is the origin of COVID-19", topics.get(topics.firstKey()).get("question"));
+    Integer[] keys = (Integer[]) topics.keySet().toArray();
+    Integer firstKey = keys[0];
+    Integer lastKey = keys[keys.length - 1];
+    
+    assertEquals(1, (int) firstKey);
+    assertEquals("coronavirus origin", topics.get(firstKey).get("query"));
+    assertEquals("what is the origin of COVID-19", topics.get(firstKey).get("question"));
     assertEquals("seeking range of information about the SARS-CoV-2 virus's origin, " +
             "including its evolution, animal source, and first transmission into humans",
-        topics.get(topics.firstKey()).get("narrative"));
+        topics.get(firstKey).get("narrative"));
 
-    assertEquals(30, (int) topics.lastKey());
-    assertEquals("coronavirus remdesivir", topics.get(topics.lastKey()).get("query"));
+    assertEquals(30, (int) lastKey);
+    assertEquals("coronavirus remdesivir", topics.get(lastKey).get("query"));
     assertEquals("is remdesivir an effective treatment for COVID-19",
-        topics.get(topics.lastKey()).get("question"));
+        topics.get(lastKey).get("question"));
     assertEquals(
         "seeking specific information on clinical outcomes in COVID-19 patients treated with remdesivir",
-        topics.get(topics.lastKey()).get("narrative"));
+        topics.get(lastKey).get("narrative"));
   }
 
   @Test
@@ -60,21 +64,25 @@ public class CovidTopicReaderTest {
 
     assertEquals(35, topics.keySet().size());
 
-    assertEquals(1, (int) topics.firstKey());
-    assertEquals("coronavirus origin", topics.get(topics.firstKey()).get("query"));
-    assertEquals("what is the origin of COVID-19", topics.get(topics.firstKey()).get("question"));
+    Integer[] keys = (Integer[]) topics.keySet().toArray();
+    Integer firstKey = keys[0];
+    Integer lastKey = keys[keys.length - 1];
+
+    assertEquals(1, (int) firstKey);
+    assertEquals("coronavirus origin", topics.get(firstKey).get("query"));
+    assertEquals("what is the origin of COVID-19", topics.get(firstKey).get("question"));
     assertEquals("seeking range of information about the SARS-CoV-2 virus's origin, " +
             "including its evolution, animal source, and first transmission into humans",
-        topics.get(topics.firstKey()).get("narrative"));
+        topics.get(firstKey).get("narrative"));
 
-    assertEquals(35, (int) topics.lastKey());
-    assertEquals("coronavirus public datasets", topics.get(topics.lastKey()).get("query"));
+    assertEquals(35, (int) lastKey);
+    assertEquals("coronavirus public datasets", topics.get(lastKey).get("query"));
     assertEquals("What new public datasets are available related to COVID-19?",
-        topics.get(topics.lastKey()).get("question"));
+        topics.get(lastKey).get("question"));
     assertEquals("Seeking articles that specifically release new data related to SARS-CoV-2 or COVID-19, " +
             "including genomic data, patient data, public health data, etc. Articles that reference previously " +
             "existing datasets are not relevant.",
-        topics.get(topics.lastKey()).get("narrative"));
+        topics.get(lastKey).get("narrative"));
   }
 
   @Test
@@ -112,14 +120,18 @@ public class CovidTopicReaderTest {
 
     assertEquals(35, topics.keySet().size());
 
-    assertEquals(1, (int) topics.firstKey());
-    assertEquals("coronavirus origin origin COVID-19", topics.get(topics.firstKey()).get("query"));
-    assertEquals(null, topics.get(topics.firstKey()).get("question"));
-    assertEquals(null, topics.get(topics.firstKey()).get("narrative"));
+    Integer[] keys = (Integer[]) topics.keySet().toArray();
+    Integer firstKey = keys[0];
+    Integer lastKey = keys[keys.length - 1];
 
-    assertEquals(35, (int) topics.lastKey());
-    assertEquals("coronavirus public datasets public datasets COVID-19", topics.get(topics.lastKey()).get("query"));
-    assertEquals(null, topics.get(topics.lastKey()).get("question"));
-    assertEquals(null, topics.get(topics.lastKey()).get("narrative"));
+    assertEquals(1, (int) firstKey);
+    assertEquals("coronavirus origin origin COVID-19", topics.get(firstKey).get("query"));
+    assertEquals(null, topics.get(firstKey).get("question"));
+    assertEquals(null, topics.get(firstKey).get("narrative"));
+
+    assertEquals(35, (int) lastKey);
+    assertEquals("coronavirus public datasets public datasets COVID-19", topics.get(lastKey).get("query"));
+    assertEquals(null, topics.get(lastKey).get("question"));
+    assertEquals(null, topics.get(lastKey).get("narrative"));
   }
 }
