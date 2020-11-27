@@ -34,13 +34,17 @@ public class NtcirTopicReaderTest {
     TopicReader<Integer> reader1 = new NtcirTopicReader(path1);
 
     Map<Integer, Map<String, String>> topics1 = reader1.read();
-
+    Integer[] keys = (Integer[]) topics1.keySet().toArray();
+    Integer firstKey = keys[0];
+    Integer lastKey = keys[keys.length - 1];
+    
     assertEquals(100, topics1.keySet().size());
-    assertEquals(1, (int) topics1.firstKey());
-    assertEquals("ascii code", topics1.get(topics1.firstKey()).get("title"));
 
-    assertEquals(100, (int) topics1.lastKey());
-    assertEquals("weight loss", topics1.get(topics1.lastKey()).get("title"));
+    assertEquals(1, (int) firstKey);
+    assertEquals("ascii code", topics1.get(firstKey).get("title"));
+
+    assertEquals(100, (int) lastKey);
+    assertEquals("weight loss", topics1.get(lastKey).get("title"));
 
   }
 
@@ -50,19 +54,23 @@ public class NtcirTopicReaderTest {
     TopicReader<Integer> reader = new NtcirTopicReader(path);
 
     Map<Integer, Map<String, String>> topics = reader.read();
+    Integer[] keys = (Integer[]) topics.keySet().toArray();
+    Integer firstKey = keys[0];
+    Integer lastKey = keys[keys.length - 1];
 
     assertEquals(80, topics.keySet().size());
-    assertEquals(1, (int) topics.firstKey());
-    assertEquals("Halloween picture", topics.get(topics.firstKey()).get("title"));
+
+    assertEquals(1, (int) firstKey);
+    assertEquals("Halloween picture", topics.get(firstKey).get("title"));
     assertEquals("Halloween is coming. You want to find some pictures about" +
             " Halloween to introduce it to your children.",
-        topics.get(topics.firstKey()).get("description"));
+        topics.get(firstKey).get("description"));
 
 
-    assertEquals(80, (int) topics.lastKey());
-    assertEquals("www.gardenburger.com", topics.get(topics.lastKey()).get("title"));
+    assertEquals(80, (int) lastKey);
+    assertEquals("www.gardenburger.com", topics.get(lastKey).get("title"));
     assertEquals("You want to find the website &quot;www.gardenburger.com&quot;",
-        topics.get(topics.lastKey()).get("description"));
+        topics.get(lastKey).get("description"));
 
   }
 }

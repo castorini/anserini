@@ -37,11 +37,16 @@ public class CarTopicReaderTest {
     Map<String, Map<String, String>> topics = reader.read();
 
     assertEquals(2254, topics.keySet().size());
-    assertEquals("enwiki:Aftertaste", topics.firstKey());
-    assertEquals("Aftertaste", topics.get(topics.firstKey()).get("title"));
 
-    assertEquals("enwiki:Yellowstone%20National%20Park/Recreation", topics.lastKey());
-    String query = topics.get(topics.lastKey()).get("title");
+    Integer[] keys = (Integer[]) topics.keySet().toArray();
+    Integer firstKey = keys[0];
+    Integer lastKey = keys[keys.length - 1];
+    
+    assertEquals("enwiki:Aftertaste", firstKey);
+    assertEquals("Aftertaste", topics.get(firstKey).get("title"));
+
+    assertEquals("enwiki:Yellowstone%20National%20Park/Recreation", lastKey);
+    String query = topics.get(lastKey).get("title");
     assertEquals("Yellowstone National Park/Recreation", query);
 
     // Make sure that the slash is properly tokenized.

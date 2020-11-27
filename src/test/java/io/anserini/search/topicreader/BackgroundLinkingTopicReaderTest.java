@@ -32,19 +32,22 @@ public class BackgroundLinkingTopicReaderTest {
         Paths.get("src/main/resources/topics-and-qrels/topics.backgroundlinking18.txt"));
 
     Map<Integer, Map<String, String>> topics = reader.read();
+    Integer[] keys = (Integer[]) topics.keySet().toArray();
+    Integer firstKey = keys[0];
+    Integer lastKey = keys[keys.length - 1];
 
     assertEquals(50, topics.keySet().size());
-    assertEquals(321, (int) topics.firstKey());
-    assertEquals("9171debc316e5e2782e0d2404ca7d09d", topics.get(topics.firstKey()).get("title"));
+    assertEquals(321, (int) firstKey);
+    assertEquals("9171debc316e5e2782e0d2404ca7d09d", topics.get(firstKey).get("title"));
     assertEquals("https://www.washingtonpost.com/news/worldviews/wp/2016/09/01/" +
         "women-are-half-of-the-world-but-only-22-percent-of-its-parliaments/",
-        topics.get(topics.firstKey()).get("url"));
+        topics.get(firstKey).get("url"));
 
-    assertEquals(825, (int) topics.lastKey());
-    assertEquals("a1c41a70-35c7-11e3-8a0e-4e2cf80831fc", topics.get(topics.lastKey()).get("title"));
+    assertEquals(825, (int) lastKey);
+    assertEquals("a1c41a70-35c7-11e3-8a0e-4e2cf80831fc", topics.get(lastKey).get("title"));
     assertEquals("https://www.washingtonpost.com/business/economy/" +
         "cellulosic-ethanol-once-the-way-of-the-future-is-off-to-a-delayed-boisterous-start/" +
-        "2013/11/08/a1c41a70-35c7-11e3-8a0e-4e2cf80831fc_story.html", topics.get(topics.lastKey()).get("url"));
+        "2013/11/08/a1c41a70-35c7-11e3-8a0e-4e2cf80831fc_story.html", topics.get(lastKey).get("url"));
   }
 
   @Test
@@ -53,18 +56,21 @@ public class BackgroundLinkingTopicReaderTest {
         Paths.get("src/main/resources/topics-and-qrels/topics.backgroundlinking19.txt"));
 
     Map<Integer, Map<String, String>> topics = reader.read();
+    Integer[] keys = (Integer[]) topics.keySet().toArray();
+    Integer firstKey = keys[0];
+    Integer lastKey = keys[keys.length - 1];
 
     assertEquals(60, topics.keySet().size());
-    assertEquals(826, (int) topics.firstKey());
-    assertEquals("96ab542e-6a07-11e6-ba32-5a4bf5aad4fa", topics.get(topics.firstKey()).get("title"));
+    assertEquals(826, (int) firstKey);
+    assertEquals("96ab542e-6a07-11e6-ba32-5a4bf5aad4fa", topics.get(firstKey).get("title"));
     assertEquals("https://www.washingtonpost.com/sports/nationals/" +
         "the-minor-leagues-life-in-pro-baseballs-shadowy-corner/" +
-        "2016/08/26/96ab542e-6a07-11e6-ba32-5a4bf5aad4fa_story.html", topics.get(topics.firstKey()).get("url"));
+        "2016/08/26/96ab542e-6a07-11e6-ba32-5a4bf5aad4fa_story.html", topics.get(firstKey).get("url"));
 
-    assertEquals(885, (int) topics.lastKey());
-    assertEquals("5ae44bfd66a49bcad7b55b29b55d63b6", topics.get(topics.lastKey()).get("title"));
+    assertEquals(885, (int) lastKey);
+    assertEquals("5ae44bfd66a49bcad7b55b29b55d63b6", topics.get(lastKey).get("title"));
     assertEquals("https://www.washingtonpost.com/news/capital-weather-gang/wp/2017/07/14/" +
         "sun-erupts-to-mark-another-bastille-day-aurora-possible-in-new-england-sunday-night/",
-        topics.get(topics.lastKey()).get("url"));
+        topics.get(lastKey).get("url"));
   }
 }

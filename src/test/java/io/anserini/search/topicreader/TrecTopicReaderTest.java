@@ -32,13 +32,17 @@ public class TrecTopicReaderTest {
         Paths.get("src/main/resources/topics-and-qrels/topics.robust04.txt"));
 
     Map<Integer, Map<String, String>> topics = reader.read();
-
+    Integer[] keys = (Integer[]) topics.keySet().toArray();
+    Integer firstKey = keys[0];
+    Integer lastKey = keys[keys.length - 1];
+    
     assertEquals(250, topics.keySet().size());
-    assertEquals(301, (int) topics.firstKey());
-    assertEquals("International Organized Crime", topics.get(topics.firstKey()).get("title"));
 
-    assertEquals(700, (int) topics.lastKey());
-    assertEquals("gasoline tax U.S.", topics.get(topics.lastKey()).get("title"));
+    assertEquals(301, (int) firstKey);
+    assertEquals("International Organized Crime", topics.get(firstKey).get("title"));
+
+    assertEquals(700, (int) lastKey);
+    assertEquals("gasoline tax U.S.", topics.get(lastKey).get("title"));
   }
 
   @Test
@@ -47,13 +51,17 @@ public class TrecTopicReaderTest {
         Paths.get("src/main/resources/topics-and-qrels/topics.core18.txt"));
 
     Map<Integer, Map<String, String>> topics = reader.read();
+    Integer[] keys = (Integer[]) topics.keySet().toArray();
+    Integer firstKey = keys[0];
+    Integer lastKey = keys[keys.length - 1];
 
     assertEquals(50, topics.keySet().size());
-    assertEquals(321, (int) topics.firstKey());
-    assertEquals("Women in Parliaments", topics.get(topics.firstKey()).get("title"));
 
-    assertEquals(825, (int) topics.lastKey());
-    assertEquals("ethanol and food prices", topics.get(topics.lastKey()).get("title"));
+    assertEquals(321, (int) firstKey);
+    assertEquals("Women in Parliaments", topics.get(firstKey).get("title"));
+
+    assertEquals(825, (int) lastKey);
+    assertEquals("ethanol and food prices", topics.get(lastKey).get("title"));
   }
 
   @Test
@@ -62,13 +70,17 @@ public class TrecTopicReaderTest {
         Paths.get("src/main/resources/topics-and-qrels/topics.fire12bn.176-225.txt"));
 
     Map<Integer, Map<String, String>> topics = reader.read();
+    Integer[] keys = (Integer[]) topics.keySet().toArray();
+    Integer firstKey = keys[0];
+    Integer lastKey = keys[keys.length - 1];
 
     assertEquals(50, topics.keySet().size());
-    assertEquals(176, (int) topics.firstKey());
-    assertEquals("ওয়াই এস আর রেড্ডির মৃত্যু", topics.get(topics.firstKey()).get("title"));
 
-    assertEquals(225, (int) topics.lastKey());
-    assertEquals("স্যাটানিক ভার্সেস বিতর্ক", topics.get(topics.lastKey()).get("title"));
+    assertEquals(176, (int) firstKey);
+    assertEquals("ওয়াই এস আর রেড্ডির মৃত্যু", topics.get(firstKey).get("title"));
+
+    assertEquals(225, (int) lastKey);
+    assertEquals("স্যাটানিক ভার্সেস বিতর্ক", topics.get(lastKey).get("title"));
   }
 
   @Test
@@ -78,16 +90,19 @@ public class TrecTopicReaderTest {
         Paths.get("src/main/resources/topics-and-qrels/topics.fire12hi.176-225.txt"));
 
     Map<Integer, Map<String, String>> topics = reader.read();
+    Integer[] keys = (Integer[]) topics.keySet().toArray();
+    Integer firstKey = keys[0];
+    Integer lastKey = keys[keys.length - 1];
 
     assertEquals(50, topics.keySet().size());
-    assertEquals(176, (int) topics.firstKey());
-    assertEquals("वाई एस आर रेड्डी की मौत", topics.get(topics.firstKey()).get("title"));
+    assertEquals(176, (int) firstKey);
+    assertEquals("वाई एस आर रेड्डी की मौत", topics.get(firstKey).get("title"));
 
     assertEquals("2002 नेटवेस्ट शृंखला का परिणाम", topics.get(200).get("title"));
     assertEquals("इराक का प्रथम चुनाव", topics.get(201).get("title"));
 
-    assertEquals(225, (int) topics.lastKey());
-    assertEquals("सेटेनिक वर्सेज विवाद", topics.get(topics.lastKey()).get("title"));
+    assertEquals(225, (int) lastKey);
+    assertEquals("सेटेनिक वर्सेज विवाद", topics.get(lastKey).get("title"));
   }
 
   @Test
@@ -96,13 +111,16 @@ public class TrecTopicReaderTest {
         Paths.get("src/main/resources/topics-and-qrels/topics.trec02ar-ar.txt"));
 
     Map<Integer, Map<String, String>> topics = reader.read();
+    Integer[] keys = (Integer[]) topics.keySet().toArray();
+    Integer firstKey = keys[0];
+    Integer lastKey = keys[keys.length - 1];
 
     assertEquals(50, topics.keySet().size());
-    assertEquals(26, (int) topics.firstKey());
-    assertEquals("مجلس المقاومة الوطني الكردستاني", topics.get(topics.firstKey()).get("title"));
+    assertEquals(26, (int) firstKey);
+    assertEquals("مجلس المقاومة الوطني الكردستاني", topics.get(firstKey).get("title"));
 
-    assertEquals(75, (int) topics.lastKey());
-    assertEquals("فيروسات الكمبيوتر في الوطن العربي", topics.get(topics.lastKey()).get("title"));
+    assertEquals(75, (int) lastKey);
+    assertEquals("فيروسات الكمبيوتر في الوطن العربي", topics.get(lastKey).get("title"));
   }
 
 }

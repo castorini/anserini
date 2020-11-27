@@ -32,13 +32,16 @@ public class TsvStringTopicReaderTest {
         Paths.get("src/main/resources/topics-and-qrels/topics.ntcir8en.eval.txt"));
 
     Map<String, Map<String, String>> topics = reader.read();
+    Integer[] keys = (Integer[]) topics.keySet().toArray();
+    Integer firstKey = keys[0];
+    Integer lastKey = keys[keys.length - 1];
 
     assertEquals(73, topics.keySet().size());
-    assertEquals("ACLIA2-CS-0002", topics.firstKey());
+    assertEquals("ACLIA2-CS-0002", firstKey);
     assertEquals("What is the relationship between the movie \"Riding Alone for Thousands of Miles\" and ZHANG Yimou?",
-        topics.get(topics.firstKey()).get("title"));
+        topics.get(firstKey).get("title"));
 
-    assertEquals("ACLIA2-CS-0100", topics.lastKey());
-    assertEquals("Why did U.S. troops occupy Baghdad?", topics.get(topics.lastKey()).get("title"));
+    assertEquals("ACLIA2-CS-0100", lastKey);
+    assertEquals("Why did U.S. troops occupy Baghdad?", topics.get(lastKey).get("title"));
   }
 }

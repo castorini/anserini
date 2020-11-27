@@ -32,13 +32,16 @@ public class WebxmlTopicReaderTest {
         Paths.get("src/main/resources/topics-and-qrels/topics.web.1-50.txt"));
 
     Map<Integer, Map<String, String>> topics = reader.read();
-
+    Integer[] keys = (Integer[]) topics.keySet().toArray();
+    Integer firstKey = keys[0];
+    Integer lastKey = keys[keys.length - 1];
+    
     assertEquals(50, topics.keySet().size());
 
-    assertEquals(1, (int) topics.firstKey());
-    assertEquals("obama family tree", topics.get(topics.firstKey()).get("title").trim());
+    assertEquals(1, (int) firstKey);
+    assertEquals("obama family tree", topics.get(firstKey).get("title").trim());
 
-    assertEquals(50, (int) topics.lastKey());
-    assertEquals("dog heat", topics.get(topics.lastKey()).get("title").trim());
+    assertEquals(50, (int) lastKey);
+    assertEquals("dog heat", topics.get(lastKey).get("title").trim());
   }
 }

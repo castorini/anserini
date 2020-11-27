@@ -32,14 +32,18 @@ public class MicroblogTopicReaderTest {
         new MicroblogTopicReader(Paths.get("src/main/resources/topics-and-qrels/topics.microblog2011.txt"));
 
     Map<Integer, Map<String, String>> topics = reader.read();
-
+    Integer[] keys = (Integer[]) topics.keySet().toArray();
+    Integer firstKey = keys[0];
+    Integer lastKey = keys[keys.length - 1];
+    
     assertEquals(50, topics.keySet().size());
-    assertEquals(1, (int) topics.firstKey());
-    assertEquals("BBC World Service staff cuts", topics.get(topics.firstKey()).get("title"));
-    assertEquals("34952194402811904", topics.get(topics.firstKey()).get("time"));
 
-    assertEquals(50, (int) topics.lastKey());
-    assertEquals("war prisoners, Hatch Act", topics.get(topics.lastKey()).get("title"));
-    assertEquals("29723425576587264", topics.get(topics.lastKey()).get("time"));
+    assertEquals(1, (int) firstKey);
+    assertEquals("BBC World Service staff cuts", topics.get(firstKey).get("title"));
+    assertEquals("34952194402811904", topics.get(firstKey).get("time"));
+
+    assertEquals(50, (int) lastKey);
+    assertEquals("war prisoners, Hatch Act", topics.get(lastKey).get("title"));
+    assertEquals("29723425576587264", topics.get(lastKey).get("time"));
   }
 }

@@ -32,15 +32,18 @@ public class CacmTopicReaderTest {
         Paths.get("src/main/resources/topics-and-qrels/topics.cacm.txt"));
 
     Map<Integer, Map<String, String>> topics = reader.read();
-
+    Integer[] keys = (Integer[]) topics.keySet().toArray();
+    Integer firstKey = keys[0];
+    Integer lastKey = keys[keys.length - 1];
+    
     assertEquals(64, topics.keySet().size());
 
-    assertEquals(1, (int) topics.firstKey());
+    assertEquals(1, (int) firstKey);
     assertEquals("What articles exist which deal with TSS (Time Sharing System), an\n" +
-        "operating system for IBM computers?", topics.get(topics.firstKey()).get("title").trim());
+        "operating system for IBM computers?", topics.get(firstKey).get("title").trim());
 
-    assertEquals(64, (int) topics.lastKey());
+    assertEquals(64, (int) lastKey);
     assertEquals("List all articles on EL1 and ECL (EL1 may be given as EL/1; I don't\n" +
-        "remember how they did it.", topics.get(topics.lastKey()).get("title").trim());
+        "remember how they did it.", topics.get(lastKey).get("title").trim());
   }
 }

@@ -32,12 +32,15 @@ public class TsvIntTopicReaderTest {
         Paths.get("src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt"));
 
     Map<Integer, Map<String, String>> topics = reader.read();
+    Integer[] keys = (Integer[]) topics.keySet().toArray();
+    Integer firstKey = keys[0];
+    Integer lastKey = keys[keys.length - 1];
 
     assertEquals(6980, topics.keySet().size());
-    assertEquals(2, (int) topics.firstKey());
-    assertEquals("Androgen receptor define", topics.get(topics.firstKey()).get("title"));
+    assertEquals(2, (int) firstKey);
+    assertEquals("Androgen receptor define", topics.get(firstKey).get("title"));
 
-    assertEquals(1102400, (int) topics.lastKey());
-    assertEquals("why do bears hibernate", topics.get(topics.lastKey()).get("title"));
+    assertEquals(1102400, (int) lastKey);
+    assertEquals("why do bears hibernate", topics.get(lastKey).get("title"));
   }
 }

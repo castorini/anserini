@@ -33,13 +33,17 @@ public class WebTopicReaderTest {
         Paths.get("src/main/resources/topics-and-qrels/topics.terabyte05.efficiency.txt"));
 
     Map<Integer, Map<String, String>> topics = reader.read();
-
+    Integer[] keys = (Integer[]) topics.keySet().toArray();
+    Integer firstKey = keys[0];
+    Integer lastKey = keys[keys.length - 1];
+    
     assertEquals(50000, topics.keySet().size());
-    assertEquals(1, (int) topics.firstKey());
-    assertEquals("pierson s twin lakes marina", topics.get(topics.firstKey()).get("title"));
 
-    assertEquals(50000, (int) topics.lastKey());
-    assertEquals("senator durbin", topics.get(topics.lastKey()).get("title"));
+    assertEquals(1, (int) firstKey);
+    assertEquals("pierson s twin lakes marina", topics.get(firstKey).get("title"));
+
+    assertEquals(50000, (int) lastKey);
+    assertEquals("senator durbin", topics.get(lastKey).get("title"));
   }
 
   @Test
@@ -49,11 +53,15 @@ public class WebTopicReaderTest {
 
     Map<Integer, Map<String, String>> topics = reader.read();
 
-    assertEquals(1, (int) topics.firstKey());
-    assertEquals("after school program evaluation", topics.get(topics.firstKey()).get("title").trim());
+    Integer[] keys = (Integer[]) topics.keySet().toArray();
+    Integer firstKey = keys[0];
+    Integer lastKey = keys[keys.length - 1];
 
-    assertEquals(10000, (int) topics.lastKey());
-    assertEquals("californa mission", topics.get(topics.lastKey()).get("title").trim());
+    assertEquals(1, (int) firstKey);
+    assertEquals("after school program evaluation", topics.get(firstKey).get("title").trim());
+
+    assertEquals(10000, (int) lastKey);
+    assertEquals("californa mission", topics.get(lastKey).get("title").trim());
     assertEquals(10000, topics.keySet().size());
   }
 
@@ -64,11 +72,15 @@ public class WebTopicReaderTest {
 
     Map<Integer, Map<String, String>> topics = reader.read();
 
-    assertEquals(10001, (int) topics.firstKey());
-    assertEquals("comparability of pay analyses", topics.get(topics.firstKey()).get("title").trim());
+    Integer[] keys = (Integer[]) topics.keySet().toArray();
+    Integer firstKey = keys[0];
+    Integer lastKey = keys[keys.length - 1];
 
-    assertEquals(20000, (int) topics.lastKey());
-    assertEquals("manchester city hall", topics.get(topics.lastKey()).get("title").trim());
+    assertEquals(10001, (int) firstKey);
+    assertEquals("comparability of pay analyses", topics.get(firstKey).get("title").trim());
+
+    assertEquals(20000, (int) lastKey);
+    assertEquals("manchester city hall", topics.get(lastKey).get("title").trim());
     assertEquals(10000, topics.keySet().size());
   }
 }

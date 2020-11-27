@@ -16,14 +16,17 @@ public class PrioritizedWebTopicReaderTest {
     TopicReader<Integer> reader = new PrioritizedWebTopicReader(resource);
 
     Map<Integer, Map<String, String>> topics = reader.read();
+    Integer[] keys = (Integer[]) topics.keySet().toArray();
+    Integer firstKey = keys[0];
+    Integer lastKey = keys[keys.length - 1];
+    
+    assertEquals(20001, (int) firstKey);
+    assertEquals("obama family tree", topics.get(firstKey).get("title").trim());
+    assertEquals("1", topics.get(firstKey).get("priority").trim());
 
-    assertEquals(20001, (int) topics.firstKey());
-    assertEquals("obama family tree", topics.get(topics.firstKey()).get("title").trim());
-    assertEquals("1", topics.get(topics.firstKey()).get("priority").trim());
-
-    assertEquals(60000, (int) topics.lastKey());
-    assertEquals("bird shingles", topics.get(topics.lastKey()).get("title").trim());
-    assertEquals("4", topics.get(topics.lastKey()).get("priority").trim());
+    assertEquals(60000, (int) lastKey);
+    assertEquals("bird shingles", topics.get(lastKey).get("title").trim());
+    assertEquals("4", topics.get(lastKey).get("priority").trim());
 
     assertEquals(40000, topics.keySet().size());
   }
