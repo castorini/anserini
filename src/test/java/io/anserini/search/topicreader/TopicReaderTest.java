@@ -941,7 +941,7 @@ public class TopicReaderTest {
     Map<Integer, Map<String, String>> consumerTopics;
     consumerTopics = TopicReader.getTopics(Topics.EPIDEMIC_QA_CONSUMER_PRELIM);
 
-    Integer[] consumerKeys = (Integer[]) consumerTopics.keySet().toArray();
+    Integer[] consumerKeys = consumerTopics.keySet().toArray(new Integer[0]);
     Integer consumerFirstKey = consumerKeys[0];
     Integer consumerLastKey = consumerKeys[consumerKeys.length - 1];
 
@@ -971,7 +971,7 @@ public class TopicReaderTest {
     Map<Integer, Map<String, String>> expertTopics;
     expertTopics = TopicReader.getTopics(Topics.EPIDEMIC_QA_EXPERT_PRELIM);
 
-    Integer[] expertKeys = (Integer[]) expertTopics.keySet().toArray();
+    Integer[] expertKeys = expertTopics.keySet().toArray(new Integer[0]);
     Integer expertFirstKey = expertKeys[0];
     Integer expertLastKey = expertKeys[expertKeys.length - 1];
 
