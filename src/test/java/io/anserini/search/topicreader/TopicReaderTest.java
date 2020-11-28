@@ -625,54 +625,54 @@ public class TopicReaderTest {
     topics = TopicReader.getTopics(Topics.TREC2002_AR);
     assertNotNull(topics);
 
-    keys = topics.keySet().toArray(new String[0]);
-    firstKey = keys[0];
-    lastKey = keys[keys.length - 1];
+    Integer[] trecKeys = topics.keySet().toArray(new Integer[0]);
+    Integer trecFirstKey = trecKeys[0];
+    Integer trecLastKey = trecKeys[trecKeys.length - 1];
 
     assertEquals(50, topics.size());
-    assertEquals(26, (int) firstKey);
-    assertEquals("مجلس المقاومة الوطني الكردستاني", topics.get(firstKey).get("title"));
-    assertEquals(75, (int) lastKey);
-    assertEquals("فيروسات الكمبيوتر في الوطن العربي", topics.get(lastKey).get("title"));
+    assertEquals(26, (int) trecFirstKey);
+    assertEquals("مجلس المقاومة الوطني الكردستاني", topics.get(trecFirstKey).get("title"));
+    assertEquals(75, (int) trecLastKey);
+    assertEquals("فيروسات الكمبيوتر في الوطن العربي", topics.get(trecLastKey).get("title"));
 
     topics = TopicReader.getTopics(Topics.FIRE2012_BN);
     assertNotNull(topics);
 
-    keys = topics.keySet().toArray(new String[0]);
-    firstKey = keys[0];
-    lastKey = keys[keys.length - 1];
+    trecKeys = topics.keySet().toArray(new Integer[0]);
+    trecFirstKey = trecKeys[0];
+    trecLastKey = trecKeys[trecKeys.length - 1];
 
     assertEquals(50, topics.size());
-    assertEquals(176, (int) firstKey);
-    assertEquals("ওয়াই এস আর রেড্ডির মৃত্যু", topics.get(firstKey).get("title"));
-    assertEquals(225, (int) lastKey);
-    assertEquals("স্যাটানিক ভার্সেস বিতর্ক", topics.get(lastKey).get("title"));
+    assertEquals(176, (int) trecFirstKey);
+    assertEquals("ওয়াই এস আর রেড্ডির মৃত্যু", topics.get(trecFirstKey).get("title"));
+    assertEquals(225, (int) trecLastKey);
+    assertEquals("স্যাটানিক ভার্সেস বিতর্ক", topics.get(trecLastKey).get("title"));
 
     topics = TopicReader.getTopics(Topics.FIRE2012_HI);
     assertNotNull(topics);
 
-    keys = topics.keySet().toArray(new String[0]);
-    firstKey = keys[0];
-    lastKey = keys[keys.length - 1];
+    trecKeys = topics.keySet().toArray(new Integer[0]);
+    trecFirstKey = trecKeys[0];
+    trecLastKey = trecKeys[trecKeys.length - 1];
 
     assertEquals(50, topics.size());
-    assertEquals(176, (int) firstKey);
-    assertEquals("वाई एस आर रेड्डी की मौत", topics.get(firstKey).get("title"));
-    assertEquals(225, (int) lastKey);
-    assertEquals("सेटेनिक वर्सेज विवाद", topics.get(lastKey).get("title"));
+    assertEquals(176, (int) trecFirstKey);
+    assertEquals("वाई एस आर रेड्डी की मौत", topics.get(trecFirstKey).get("title"));
+    assertEquals(225, (int) trecLastKey);
+    assertEquals("सेटेनिक वर्सेज विवाद", topics.get(trecLastKey).get("title"));
 
     topics = TopicReader.getTopics(Topics.FIRE2012_EN);
     assertNotNull(topics);
 
-    keys = topics.keySet().toArray(new String[0]);
-    firstKey = keys[0];
-    lastKey = keys[keys.length - 1];
+    trecKeys = topics.keySet().toArray(new Integer[0]);
+    trecFirstKey = trecKeys[0];
+    trecLastKey = trecKeys[trecKeys.length - 1];
 
     assertEquals(50, topics.size());
-    assertEquals(176, (int) firstKey);
-    assertEquals("YSR Reddy death", topics.get(firstKey).get("title"));
-    assertEquals(225, (int) lastKey);
-    assertEquals("Satanic Verses controversy", topics.get(lastKey).get("title"));
+    assertEquals(176, (int) trecFirstKey);
+    assertEquals("YSR Reddy death", topics.get(trecFirstKey).get("title"));
+    assertEquals(225, (int) trecLastKey);
+    assertEquals("Satanic Verses controversy", topics.get(trecLastKey).get("title"));
   }
 
   @Test
