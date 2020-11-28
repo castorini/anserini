@@ -32,7 +32,7 @@ public class CovidTopicReaderTest {
         Paths.get("src/main/resources/topics-and-qrels/topics.covid-round1.xml"));
 
     Map<Integer, Map<String, String>> topics = reader.read();
-    Integer[] keys = (Integer[]) topics.keySet().toArray();
+    Integer[] keys = topics.keySet().toArray(new Integer[0]);
     Integer firstKey = keys[0];
     Integer lastKey = keys[keys.length - 1];
 
@@ -60,7 +60,7 @@ public class CovidTopicReaderTest {
         Paths.get("src/main/resources/topics-and-qrels/topics.covid-round2.xml"));
 
     Map<Integer, Map<String, String>> topics = reader.read();
-    Integer[] keys = (Integer[]) topics.keySet().toArray();
+    Integer[] keys = topics.keySet().toArray(new Integer[0]);
     Integer firstKey = keys[0];
     Integer lastKey = keys[keys.length - 1];
 
@@ -90,7 +90,7 @@ public class CovidTopicReaderTest {
         Paths.get("src/main/resources/topics-and-qrels/topics.covid-round1-udel.xml"));
 
     Map<Integer, Map<String, String>> topics = reader.read();
-    Integer[] keys = (Integer[]) topics.keySet().toArray();
+    Integer[] keys = topics.keySet().toArray(new Integer[0]);
     Integer firstKey = keys[0];
     Integer lastKey = keys[keys.length - 1];
 
@@ -114,10 +114,10 @@ public class CovidTopicReaderTest {
         Paths.get("src/main/resources/topics-and-qrels/topics.covid-round2-udel.xml"));
 
     Map<Integer, Map<String, String>> topics = reader.read();
-    Integer[] keys = (Integer[]) topics.keySet().toArray();
+    Integer[] keys = topics.keySet().toArray(new Integer[0]);
     Integer firstKey = keys[0];
     Integer lastKey = keys[keys.length - 1];
-    
+
     assertEquals(35, topics.keySet().size());
 
     assertEquals(1, (int) firstKey);
