@@ -16,7 +16,7 @@ public class EpidemicQATopicReaderTest {
             Paths.get("src/main/resources/topics-and-qrels/topics.epidemic-qa.consumer.prelim.json"));
 
     Map<Integer, Map<String, String>> consumerTopics = consumerReader.read();
-    Integer[] consumerKeys = (Integer[]) consumerTopics.keySet().toArray();
+    Integer[] consumerKeys = consumerTopics.keySet().toArray(new Integer[0]);
     Integer consumerFirstKey = consumerKeys[0];
     Integer consumerLastKey = consumerKeys[consumerKeys.length - 1];
 
@@ -46,7 +46,7 @@ public class EpidemicQATopicReaderTest {
             Paths.get("src/main/resources/topics-and-qrels/topics.epidemic-qa.expert.prelim.json"));
 
     Map<Integer, Map<String, String>> expertTopics = expertReader.read();
-    Integer[] expertKeys = (Integer[]) expertTopics.keySet().toArray();
+    Integer[] expertKeys = expertTopics.keySet().toArray(new Integer[0]);
     Integer expertFirstKey = expertKeys[0];
     Integer expertLastKey = expertKeys[expertKeys.length - 1];
 

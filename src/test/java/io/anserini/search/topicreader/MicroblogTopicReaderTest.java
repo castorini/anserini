@@ -32,10 +32,10 @@ public class MicroblogTopicReaderTest {
         new MicroblogTopicReader(Paths.get("src/main/resources/topics-and-qrels/topics.microblog2011.txt"));
 
     Map<Integer, Map<String, String>> topics = reader.read();
-    Integer[] keys = (Integer[]) topics.keySet().toArray();
+    Integer[] keys = topics.keySet().toArray(new Integer[0]);
     Integer firstKey = keys[0];
     Integer lastKey = keys[keys.length - 1];
-    
+
     assertEquals(50, topics.keySet().size());
 
     assertEquals(1, (int) firstKey);

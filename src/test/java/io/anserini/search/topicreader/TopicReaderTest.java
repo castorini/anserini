@@ -69,7 +69,7 @@ public class TopicReaderTest {
 
     assertNotNull(topics);
 
-    Integer[] keys = (Integer[]) topics.keySet().toArray();
+    Integer[] keys = topics.keySet().toArray(new Integer[0]);
     Integer firstKey = keys[0];
     Integer lastKey = keys[keys.length - 1];
 
@@ -81,7 +81,7 @@ public class TopicReaderTest {
 
     topics = TopicReader.getTopics(Topics.TREC2_ADHOC);
     assertNotNull(topics);
-    keys = (Integer[]) topics.keySet().toArray();
+    keys = topics.keySet().toArray(new Integer[0]);
     firstKey = keys[0];
     lastKey = keys[keys.length - 1];
 
@@ -93,7 +93,7 @@ public class TopicReaderTest {
 
     topics = TopicReader.getTopics(Topics.TREC3_ADHOC);
     assertNotNull(topics);
-    keys = (Integer[]) topics.keySet().toArray();
+    keys = topics.keySet().toArray(new Integer[0]);
     firstKey = keys[0];
     lastKey = keys[keys.length - 1];
     assertEquals(50, topics.size());
@@ -104,7 +104,7 @@ public class TopicReaderTest {
 
     topics = TopicReader.getTopics(Topics.ROBUST04);
     assertNotNull(topics);
-    keys = (Integer[]) topics.keySet().toArray();
+    keys = topics.keySet().toArray(new Integer[0]);
     firstKey = keys[0];
     lastKey = keys[keys.length - 1];
     assertEquals(250, topics.size());
@@ -115,7 +115,7 @@ public class TopicReaderTest {
 
     topics = TopicReader.getTopics(Topics.ROBUST05);
     assertNotNull(topics);
-    keys = (Integer[]) topics.keySet().toArray();
+    keys = topics.keySet().toArray(new Integer[0]);
     firstKey = keys[0];
     lastKey = keys[keys.length - 1];
     assertEquals(50, topics.size());
@@ -126,7 +126,7 @@ public class TopicReaderTest {
 
     topics = TopicReader.getTopics(Topics.CORE17);
     assertNotNull(topics);
-    keys = (Integer[]) topics.keySet().toArray();
+    keys = topics.keySet().toArray(new Integer[0]);
     firstKey = keys[0];
     lastKey = keys[keys.length - 1];
     assertEquals(50, topics.size());
@@ -137,7 +137,7 @@ public class TopicReaderTest {
 
     topics = TopicReader.getTopics(Topics.CORE18);
     assertNotNull(topics);
-    keys = (Integer[]) topics.keySet().toArray();
+    keys = topics.keySet().toArray(new Integer[0]);
     firstKey = keys[0];
     lastKey = keys[keys.length - 1];
     assertEquals(50, topics.size());
@@ -201,7 +201,7 @@ public class TopicReaderTest {
     topics = TopicReader.getTopics(Topics.WT10G);
     assertNotNull(topics);
 
-    Integer[] keys = (Integer[]) topics.keySet().toArray();
+    Integer[] keys = topics.keySet().toArray(new Integer[0]);
     Integer firstKey = keys[0];
     Integer lastKey = keys[keys.length - 1];
 
@@ -213,7 +213,7 @@ public class TopicReaderTest {
 
     topics = TopicReader.getTopics(Topics.TREC2004_TERABYTE);
     assertNotNull(topics);
-    keys = (Integer[]) topics.keySet().toArray();
+    keys = topics.keySet().toArray(new Integer[0]);
     firstKey = keys[0];
     lastKey = keys[keys.length - 1];
     assertEquals(50, topics.size());
@@ -224,7 +224,7 @@ public class TopicReaderTest {
 
     topics = TopicReader.getTopics(Topics.TREC2005_TERABYTE);
     assertNotNull(topics);
-    keys = (Integer[]) topics.keySet().toArray();
+    keys = topics.keySet().toArray(new Integer[0]);
     firstKey = keys[0];
     lastKey = keys[keys.length - 1];
     assertEquals(50, topics.size());
@@ -235,7 +235,7 @@ public class TopicReaderTest {
 
     topics = TopicReader.getTopics(Topics.TREC2006_TERABYTE);
     assertNotNull(topics);
-    keys = (Integer[]) topics.keySet().toArray();
+    keys = topics.keySet().toArray(new Integer[0]);
     firstKey = keys[0];
     lastKey = keys[keys.length - 1];
     assertEquals(50, topics.size());
@@ -246,7 +246,7 @@ public class TopicReaderTest {
 
     topics = TopicReader.getTopics(Topics.TREC2007_MILLION_QUERY);
     assertNotNull(topics);
-    keys = (Integer[]) topics.keySet().toArray();
+    keys = topics.keySet().toArray(new Integer[0]);
     firstKey = keys[0];
     lastKey = keys[keys.length - 1];
     assertEquals(10000, topics.keySet().size());
@@ -257,7 +257,7 @@ public class TopicReaderTest {
 
     topics = TopicReader.getTopics(Topics.TREC2008_MILLION_QUERY);
     assertNotNull(topics);
-    keys = (Integer[]) topics.keySet().toArray();
+    keys = topics.keySet().toArray(new Integer[0]);
     firstKey = keys[0];
     lastKey = keys[keys.length - 1];
     assertEquals(10000, topics.keySet().size());
@@ -268,7 +268,7 @@ public class TopicReaderTest {
 
     topics = TopicReader.getTopics(Topics.TREC2009_MILLION_QUERY);
     assertNotNull(topics);
-    keys = (Integer[]) topics.keySet().toArray();
+    keys = topics.keySet().toArray(new Integer[0]);
     firstKey = keys[0];
     lastKey = keys[keys.length - 1];
     assertEquals(40000, topics.keySet().size());
@@ -281,7 +281,7 @@ public class TopicReaderTest {
 
     topics = TopicReader.getTopics(Topics.TREC2010_WEB);
     assertNotNull(topics);
-    keys = (Integer[]) topics.keySet().toArray();
+    keys = topics.keySet().toArray(new Integer[0]);
     firstKey = keys[0];
     lastKey = keys[keys.length - 1];
     assertEquals(50, topics.size());
@@ -292,7 +292,7 @@ public class TopicReaderTest {
 
     topics = TopicReader.getTopics(Topics.TREC2011_WEB);
     assertNotNull(topics);
-    keys = (Integer[]) topics.keySet().toArray();
+    keys = topics.keySet().toArray(new Integer[0]);
     firstKey = keys[0];
     lastKey = keys[keys.length - 1];
     assertEquals(50, topics.size());
@@ -303,7 +303,7 @@ public class TopicReaderTest {
 
     topics = TopicReader.getTopics(Topics.TREC2012_WEB);
     assertNotNull(topics);
-    keys = (Integer[]) topics.keySet().toArray();
+    keys = topics.keySet().toArray(new Integer[0]);
     firstKey = keys[0];
     lastKey = keys[keys.length - 1];
     assertEquals(50, topics.size());
@@ -314,7 +314,7 @@ public class TopicReaderTest {
 
     topics = TopicReader.getTopics(Topics.TREC2013_WEB);
     assertNotNull(topics);
-    keys = (Integer[]) topics.keySet().toArray();
+    keys = topics.keySet().toArray(new Integer[0]);
     firstKey = keys[0];
     lastKey = keys[keys.length - 1];
     assertEquals(50, topics.size());
@@ -325,7 +325,7 @@ public class TopicReaderTest {
 
     topics = TopicReader.getTopics(Topics.TREC2014_WEB);
     assertNotNull(topics);
-    keys = (Integer[]) topics.keySet().toArray();
+    keys = topics.keySet().toArray(new Integer[0]);
     firstKey = keys[0];
     lastKey = keys[keys.length - 1];
     assertEquals(50, topics.size());
@@ -421,7 +421,7 @@ public class TopicReaderTest {
     topics = TopicReader.getTopics(Topics.MB11);
     assertNotNull(topics);
 
-    Integer[] keys = (Integer[]) topics.keySet().toArray();
+    Integer[] keys = topics.keySet().toArray(new Integer[0]);
     Integer firstKey = keys[0];
     Integer lastKey = keys[keys.length - 1];
 
@@ -433,7 +433,7 @@ public class TopicReaderTest {
 
     topics = TopicReader.getTopics(Topics.MB12);
     assertNotNull(topics);
-    keys = (Integer[]) topics.keySet().toArray();
+    keys = topics.keySet().toArray(new Integer[0]);
     firstKey = keys[0];
     lastKey = keys[keys.length - 1];
     assertEquals(60, topics.size());
@@ -444,7 +444,7 @@ public class TopicReaderTest {
 
     topics = TopicReader.getTopics(Topics.MB13);
     assertNotNull(topics);
-    keys = (Integer[]) topics.keySet().toArray();
+    keys = topics.keySet().toArray(new Integer[0]);
     firstKey = keys[0];
     lastKey = keys[keys.length - 1];
     assertEquals(60, topics.size());
@@ -455,7 +455,7 @@ public class TopicReaderTest {
 
     topics = TopicReader.getTopics(Topics.MB14);
     assertNotNull(topics);
-    keys = (Integer[]) topics.keySet().toArray();
+    keys = topics.keySet().toArray(new Integer[0]);
     firstKey = keys[0];
     lastKey = keys[keys.length - 1];
     assertEquals(55, topics.size());
@@ -500,7 +500,7 @@ public class TopicReaderTest {
 
     topics = TopicReader.getTopics(Topics.CAR17V15_BENCHMARK_Y1_TEST);
     assertNotNull(topics);
-    Integer[] keys = (Integer[]) topics.keySet().toArray();
+    Integer[] keys = topics.keySet().toArray(new Integer[0]);
     Integer firstKey = keys[0];
     Integer lastKey = keys[keys.length - 1];
 
@@ -513,7 +513,7 @@ public class TopicReaderTest {
     topics = TopicReader.getTopics(Topics.CAR17V20_BENCHMARK_Y1_TEST);
     assertNotNull(topics);
 
-    keys = (Integer[]) topics.keySet().toArray();
+    keys = topics.keySet().toArray(new Integer[0]);
     firstKey = keys[0];
     lastKey = keys[keys.length - 1];
 
@@ -551,7 +551,7 @@ public class TopicReaderTest {
     topics = TopicReader.getTopics(Topics.MSMARCO_DOC_DEV);
     assertNotNull(topics);
 
-    Integer[] keys = (Integer[]) topics.keySet().toArray();
+    Integer[] keys = topics.keySet().toArray(new Integer[0]);
     Integer firstKey = keys[0];
     Integer lastKey = keys[keys.length - 1];
 
@@ -564,7 +564,7 @@ public class TopicReaderTest {
     topics = TopicReader.getTopics(Topics.MSMARCO_PASSAGE_DEV_SUBSET);
     assertNotNull(topics);
 
-    keys = (Integer[]) topics.keySet().toArray();
+    keys = topics.keySet().toArray(new Integer[0]);
     firstKey = keys[0];
     lastKey = keys[keys.length - 1];
 
@@ -599,7 +599,7 @@ public class TopicReaderTest {
     topics = TopicReader.getTopics(Topics.NTCIR8_ZH);
     assertNotNull(topics);
 
-    Integer[] keys = (Integer[]) topics.keySet().toArray();
+    Integer[] keys = topics.keySet().toArray(new Integer[0]);
     Integer firstKey = keys[0];
     Integer lastKey = keys[keys.length - 1];
 
@@ -612,7 +612,7 @@ public class TopicReaderTest {
     topics = TopicReader.getTopics(Topics.CLEF2006_FR);
     assertNotNull(topics);
 
-    keys = (Integer[]) topics.keySet().toArray();
+    keys = topics.keySet().toArray(new Integer[0]);
     firstKey = keys[0];
     lastKey = keys[keys.length - 1];
 
@@ -625,7 +625,7 @@ public class TopicReaderTest {
     topics = TopicReader.getTopics(Topics.TREC2002_AR);
     assertNotNull(topics);
 
-    keys = (Integer[]) topics.keySet().toArray();
+    keys = topics.keySet().toArray(new Integer[0]);
     firstKey = keys[0];
     lastKey = keys[keys.length - 1];
 
@@ -638,7 +638,7 @@ public class TopicReaderTest {
     topics = TopicReader.getTopics(Topics.FIRE2012_BN);
     assertNotNull(topics);
 
-    keys = (Integer[]) topics.keySet().toArray();
+    keys = topics.keySet().toArray(new Integer[0]);
     firstKey = keys[0];
     lastKey = keys[keys.length - 1];
 
@@ -651,7 +651,7 @@ public class TopicReaderTest {
     topics = TopicReader.getTopics(Topics.FIRE2012_HI);
     assertNotNull(topics);
 
-    keys = (Integer[]) topics.keySet().toArray();
+    keys = topics.keySet().toArray(new Integer[0]);
     firstKey = keys[0];
     lastKey = keys[keys.length - 1];
 
@@ -664,7 +664,7 @@ public class TopicReaderTest {
     topics = TopicReader.getTopics(Topics.FIRE2012_EN);
     assertNotNull(topics);
 
-    keys = (Integer[]) topics.keySet().toArray();
+    keys = topics.keySet().toArray(new Integer[0]);
     firstKey = keys[0];
     lastKey = keys[keys.length - 1];
 
@@ -899,7 +899,7 @@ public class TopicReaderTest {
 
     topics = TopicReader.getTopics(Topics.TREC2018_BL);
 
-    Integer[] keys = (Integer[]) topics.keySet().toArray();
+    Integer[] keys = topics.keySet().toArray(new Integer[0]);
     Integer firstKey = keys[0];
     Integer lastKey = keys[keys.length - 1];
 
@@ -918,7 +918,7 @@ public class TopicReaderTest {
 
     topics = TopicReader.getTopics(Topics.TREC2019_BL);
 
-    keys = (Integer[]) topics.keySet().toArray();
+    keys = topics.keySet().toArray(new Integer[0]);
     firstKey = keys[0];
     lastKey = keys[keys.length - 1];
 

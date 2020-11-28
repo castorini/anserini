@@ -32,7 +32,7 @@ public class TsvIntTopicReaderTest {
         Paths.get("src/main/resources/topics-and-qrels/topics.msmarco-passage.dev-subset.txt"));
 
     Map<Integer, Map<String, String>> topics = reader.read();
-    Integer[] keys = (Integer[]) topics.keySet().toArray();
+    Integer[] keys = topics.keySet().toArray(new Integer[0]);
     Integer firstKey = keys[0];
     Integer lastKey = keys[keys.length - 1];
 

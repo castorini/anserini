@@ -33,10 +33,10 @@ public class WebTopicReaderTest {
         Paths.get("src/main/resources/topics-and-qrels/topics.terabyte05.efficiency.txt"));
 
     Map<Integer, Map<String, String>> topics = reader.read();
-    Integer[] keys = (Integer[]) topics.keySet().toArray();
+    Integer[] keys = topics.keySet().toArray(new Integer[0]);
     Integer firstKey = keys[0];
     Integer lastKey = keys[keys.length - 1];
-    
+
     assertEquals(50000, topics.keySet().size());
 
     assertEquals(1, (int) firstKey);
@@ -53,7 +53,7 @@ public class WebTopicReaderTest {
 
     Map<Integer, Map<String, String>> topics = reader.read();
 
-    Integer[] keys = (Integer[]) topics.keySet().toArray();
+    Integer[] keys = topics.keySet().toArray(new Integer[0]);
     Integer firstKey = keys[0];
     Integer lastKey = keys[keys.length - 1];
 
@@ -72,7 +72,7 @@ public class WebTopicReaderTest {
 
     Map<Integer, Map<String, String>> topics = reader.read();
 
-    Integer[] keys = (Integer[]) topics.keySet().toArray();
+    Integer[] keys = topics.keySet().toArray(new Integer[0]);
     Integer firstKey = keys[0];
     Integer lastKey = keys[keys.length - 1];
 

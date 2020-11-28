@@ -32,10 +32,10 @@ public class TrecTopicReaderTest {
         Paths.get("src/main/resources/topics-and-qrels/topics.robust04.txt"));
 
     Map<Integer, Map<String, String>> topics = reader.read();
-    Integer[] keys = (Integer[]) topics.keySet().toArray();
+    Integer[] keys = topics.keySet().toArray(new Integer[0]);
     Integer firstKey = keys[0];
     Integer lastKey = keys[keys.length - 1];
-    
+
     assertEquals(250, topics.keySet().size());
 
     assertEquals(301, (int) firstKey);
@@ -51,7 +51,7 @@ public class TrecTopicReaderTest {
         Paths.get("src/main/resources/topics-and-qrels/topics.core18.txt"));
 
     Map<Integer, Map<String, String>> topics = reader.read();
-    Integer[] keys = (Integer[]) topics.keySet().toArray();
+    Integer[] keys = topics.keySet().toArray(new Integer[0]);
     Integer firstKey = keys[0];
     Integer lastKey = keys[keys.length - 1];
 
@@ -70,7 +70,7 @@ public class TrecTopicReaderTest {
         Paths.get("src/main/resources/topics-and-qrels/topics.fire12bn.176-225.txt"));
 
     Map<Integer, Map<String, String>> topics = reader.read();
-    Integer[] keys = (Integer[]) topics.keySet().toArray();
+    Integer[] keys = topics.keySet().toArray(new Integer[0]);
     Integer firstKey = keys[0];
     Integer lastKey = keys[keys.length - 1];
 
@@ -90,7 +90,7 @@ public class TrecTopicReaderTest {
         Paths.get("src/main/resources/topics-and-qrels/topics.fire12hi.176-225.txt"));
 
     Map<Integer, Map<String, String>> topics = reader.read();
-    Integer[] keys = (Integer[]) topics.keySet().toArray();
+    Integer[] keys = topics.keySet().toArray(new Integer[0]);
     Integer firstKey = keys[0];
     Integer lastKey = keys[keys.length - 1];
 
@@ -111,7 +111,7 @@ public class TrecTopicReaderTest {
         Paths.get("src/main/resources/topics-and-qrels/topics.trec02ar-ar.txt"));
 
     Map<Integer, Map<String, String>> topics = reader.read();
-    Integer[] keys = (Integer[]) topics.keySet().toArray();
+    Integer[] keys = topics.keySet().toArray(new Integer[0]);
     Integer firstKey = keys[0];
     Integer lastKey = keys[keys.length - 1];
 

@@ -32,7 +32,7 @@ public class BackgroundLinkingTopicReaderTest {
         Paths.get("src/main/resources/topics-and-qrels/topics.backgroundlinking18.txt"));
 
     Map<Integer, Map<String, String>> topics = reader.read();
-    Integer[] keys = (Integer[]) topics.keySet().toArray();
+    Integer[] keys = topics.keySet().toArray(new Integer[0]);
     Integer firstKey = keys[0];
     Integer lastKey = keys[keys.length - 1];
 
@@ -56,7 +56,7 @@ public class BackgroundLinkingTopicReaderTest {
         Paths.get("src/main/resources/topics-and-qrels/topics.backgroundlinking19.txt"));
 
     Map<Integer, Map<String, String>> topics = reader.read();
-    Integer[] keys = (Integer[]) topics.keySet().toArray();
+    Integer[] keys = topics.keySet().toArray(new Integer[0]);
     Integer firstKey = keys[0];
     Integer lastKey = keys[keys.length - 1];
 

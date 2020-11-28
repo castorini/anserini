@@ -37,7 +37,7 @@ public class NtcirTopicReaderTest {
     Integer[] keys = (Integer[]) topics1.keySet().toArray();
     Integer firstKey = keys[0];
     Integer lastKey = keys[keys.length - 1];
-    
+
     assertEquals(100, topics1.keySet().size());
 
     assertEquals(1, (int) firstKey);
@@ -54,7 +54,7 @@ public class NtcirTopicReaderTest {
     TopicReader<Integer> reader = new NtcirTopicReader(path);
 
     Map<Integer, Map<String, String>> topics = reader.read();
-    Integer[] keys = (Integer[]) topics.keySet().toArray();
+    Integer[] keys = topics.keySet().toArray(new Integer[0]);
     Integer firstKey = keys[0];
     Integer lastKey = keys[keys.length - 1];
 

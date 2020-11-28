@@ -32,9 +32,9 @@ public class TsvStringTopicReaderTest {
         Paths.get("src/main/resources/topics-and-qrels/topics.ntcir8en.eval.txt"));
 
     Map<String, Map<String, String>> topics = reader.read();
-    Integer[] keys = (Integer[]) topics.keySet().toArray();
-    Integer firstKey = keys[0];
-    Integer lastKey = keys[keys.length - 1];
+    String[] keys = topics.keySet().toArray(new String[0]);
+    String firstKey = keys[0];
+    String lastKey = keys[keys.length - 1];
 
     assertEquals(73, topics.keySet().size());
     assertEquals("ACLIA2-CS-0002", firstKey);
