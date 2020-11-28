@@ -500,9 +500,9 @@ public class TopicReaderTest {
 
     topics = TopicReader.getTopics(Topics.CAR17V15_BENCHMARK_Y1_TEST);
     assertNotNull(topics);
-    Integer[] keys = topics.keySet().toArray(new Integer[0]);
-    Integer firstKey = keys[0];
-    Integer lastKey = keys[keys.length - 1];
+    String[] keys = topics.keySet().toArray(new String[0]);
+    String firstKey = keys[0];
+    String lastKey = keys[keys.length - 1];
 
     assertEquals(2125, topics.size());
     assertEquals("Aftertaste/Aftertaste%20processing%20in%20the%20cerebral%20cortex", firstKey);
@@ -947,16 +947,16 @@ public class TopicReaderTest {
 
     // No consumer questions from CQ035 to CQ037
     assertEquals(42, consumerTopics.keySet().size());
-    assertEquals(1, (int) consumerLastKey);
+    assertEquals(1, (int) consumerFirstKey);
     assertEquals("what is the origin of COVID-19",
-                 consumerTopics.get(consumerLastKey).get("question"));
-    assertEquals("CQ001", consumerTopics.get(consumerLastKey).get("question_id"));
-    assertEquals("coronavirus origin", consumerTopics.get(consumerLastKey).get("query"));
+                 consumerTopics.get(consumerFirstKey).get("question"));
+    assertEquals("CQ001", consumerTopics.get(consumerFirstKey).get("question_id"));
+    assertEquals("coronavirus origin", consumerTopics.get(consumerFirstKey).get("query"));
     // There's a typo in this but the same typo is present in the topics
     // document.
     assertEquals("seeking information about whether the virus was designed in a lab or occured "+
                  "naturally in animals and how it got to humans",
-                 consumerTopics.get(consumerLastKey).get("background"));
+                 consumerTopics.get(consumerFirstKey).get("background"));
 
     assertEquals(45, (int) consumerLastKey);
     assertEquals("how has the COVID-19 pandemic impacted mental health?",

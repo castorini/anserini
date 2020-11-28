@@ -34,7 +34,7 @@ public class NtcirTopicReaderTest {
     TopicReader<Integer> reader1 = new NtcirTopicReader(path1);
 
     Map<Integer, Map<String, String>> topics1 = reader1.read();
-    Integer[] keys = (Integer[]) topics1.keySet().toArray();
+    Integer[] keys = topics1.keySet().toArray(new Integer[0]);
     Integer firstKey = keys[0];
     Integer lastKey = keys[keys.length - 1];
 
