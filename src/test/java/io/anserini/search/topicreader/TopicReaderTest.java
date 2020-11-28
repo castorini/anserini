@@ -599,9 +599,9 @@ public class TopicReaderTest {
     topics = TopicReader.getTopics(Topics.NTCIR8_ZH);
     assertNotNull(topics);
 
-    Integer[] keys = topics.keySet().toArray(new Integer[0]);
-    Integer firstKey = keys[0];
-    Integer lastKey = keys[keys.length - 1];
+    String[] keys = topics.keySet().toArray(new String[0]);
+    String firstKey = keys[0];
+    String lastKey = keys[keys.length - 1];
 
     assertEquals(73, topics.size());
     assertEquals("ACLIA2-CS-0002", firstKey);

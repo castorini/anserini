@@ -38,9 +38,9 @@ public class CarTopicReaderTest {
 
     assertEquals(2254, topics.keySet().size());
 
-    Integer[] keys = topics.keySet().toArray(new Integer[0]);
-    Integer firstKey = keys[0];
-    Integer lastKey = keys[keys.length - 1];
+    String[] keys = topics.keySet().toArray(new String[0]);
+    String firstKey = keys[0];
+    String lastKey = keys[keys.length - 1];
 
     assertEquals("enwiki:Aftertaste", firstKey);
     assertEquals("Aftertaste", topics.get(firstKey).get("title"));
