@@ -513,7 +513,7 @@ public class TopicReaderTest {
     topics = TopicReader.getTopics(Topics.CAR17V20_BENCHMARK_Y1_TEST);
     assertNotNull(topics);
 
-    keys = topics.keySet().toArray(new Integer[0]);
+    keys = topics.keySet().toArray(new String[0]);
     firstKey = keys[0];
     lastKey = keys[keys.length - 1];
 
