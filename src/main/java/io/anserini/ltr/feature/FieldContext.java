@@ -235,4 +235,33 @@ public class FieldContext {
         double var = (squareSum / fieldDocLength.size() - avg * avg);
     }
 
+    /**
+     * We will implement this according to the Lucene specification
+     * the formula used:
+     * sum ( IDF(qi) * (df(qi,D) * (k+1)) / (df(qi,D) + k * (1-b + b*|D| / avgFL))
+     * IDF and avgFL computation are described above.
+     */
+    public List<Float> generateBM25Mean(List<String> terms, Double k1, Double b){
+        List<Float> score = new ArrayList<Float>();
+        double avgFL = (double)totalTermFreq/numDocs;
+        for (String queryToken : terms) {
+            //mean of ( BM25 score for a single term )
+            Map<Integer, List<Integer>> post = this.getPostings(queryToken);
+            float totalSingleTerm = 0.0f;
+            int docFreq = this.getDocFreq(queryToken);
+            //iterate across all documents has this word
+            for (Map.Entry<Integer, List<Integer>> entry : post.entrySet()) {
+                List<Integer> positions = entry.getValue();
+                long termFreq = positions.size();
+                double numerator = (k1 + 1) * termFreq;
+                double docLengthFactor = b * (docSize / avgFL);
+                double denominator = termFreq + (k1) * (1 - b + docLengthFactor);
+                double idf = Math.log(1 + (numDocs - docFreq + 0.5d) / (docFreq + 0.5d)); // ok
+                totalSingleTerm += idf * numerator / denominator;
+            }
+            score.add(totalSingleTerm);
+        }
+        return score;
+    }
+
 }

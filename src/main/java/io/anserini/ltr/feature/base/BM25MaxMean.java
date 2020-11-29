@@ -18,51 +18,46 @@ package io.anserini.ltr.feature.base;
 
 import io.anserini.index.IndexArgs;
 import io.anserini.ltr.feature.DocumentContext;
-import io.anserini.ltr.feature.FieldContext;
 import io.anserini.ltr.feature.FeatureExtractor;
+import io.anserini.ltr.feature.FieldContext;
 import io.anserini.ltr.feature.QueryContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.List;
-import java.util.Map;
 
-public class BM25MeanMean implements FeatureExtractor {
-    private static final Logger LOG = LogManager.getLogger(BM25MeanMean.class);
+public class BM25MaxMean implements FeatureExtractor {
+    private static final Logger LOG = LogManager.getLogger(BM25MaxMean.class);
     // Default values, could be changed
     private double k1 = 0.9;
     private double b = 0.4;
     private String field;
 
-    public BM25MeanMean() { this.field = IndexArgs.CONTENTS; }
+    public BM25MaxMean() { this.field = IndexArgs.CONTENTS; }
 
-    public BM25MeanMean(double k, double b) {
+    public BM25MaxMean(double k, double b) {
         this.k1 = k;
         this.b = b;
         this.field = IndexArgs.CONTENTS;
     }
 
-    public BM25MeanMean(double k, double b, String field) {
+    public BM25MaxMean(double k, double b, String field) {
         this.k1 = k;
         this.b = b;
         this.field = field;
     }
 
-    /**
-     * We will implement this according to the Lucene specification
-     * the formula used:
-     * sum ( IDF(qi) * (df(qi,D) * (k+1)) / (df(qi,D) + k * (1-b + b*|D| / avgFL))
-     * IDF and avgFL computation are described above.
-     */
+
     @Override
     public float extract(DocumentContext documentContext, QueryContext queryContext) {
-        float score = 0.0f;
         FieldContext context = documentContext.fieldContexts.get(field);
         List<Float> scores = context.generateBM25Mean(queryContext.queryTokens,k1,b);
+        float score = scores.get(0); // do we need to check if scores len > 0
         for (int i = 0; i <scores.size(); ++i) {
-            score += scores.get(i);
+            if (scores.get(i) > score){
+                score = scores.get(i);
+            }
         }
-        score = score / queryContext.querySize;
         return score;
     }
 
@@ -91,7 +86,7 @@ public class BM25MeanMean implements FeatureExtractor {
 
     @Override
     public FeatureExtractor clone() {
-        return new BM25MeanMean(k1, b, field);
+        return new BM25MaxMean(k1, b, field);
     }
 
 }

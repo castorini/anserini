@@ -26,7 +26,7 @@ import org.apache.logging.log4j.Logger;
 
 /**
  * This feature extractor will compute BM25 score as according to Lucene 5.3 documentation
- * The formula is the same, but the computation of docSize is slghtly different,
+ * The formula is the same, but the computation of docSize is slightly different,
  * Lucene uses the norm value encoded in the index, we are calculating it as is
  * also we do not have any boosting, the field norm is also not available
  */
