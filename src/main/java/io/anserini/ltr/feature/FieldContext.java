@@ -259,6 +259,7 @@ public class FieldContext {
                 double idf = Math.log(1 + (numDocs - docFreq + 0.5d) / (docFreq + 0.5d)); // ok
                 totalSingleTerm += idf * numerator / denominator;
             }
+            totalSingleTerm = totalSingleTerm / post.size();
             score.add(totalSingleTerm);
         }
         return score;
