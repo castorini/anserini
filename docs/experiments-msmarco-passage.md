@@ -123,28 +123,23 @@ Average precision and recall@1000 are the two metrics we care about the most.
 
 Note that this figure differs slightly from the value reported in [Document Expansion by Query Prediction](https://arxiv.org/abs/1904.08375), which uses the Anserini (system-wide) default of `k1=0.9`, `b=0.4`.
 
-Tuning was accomplished with the [`tune_bm25.py`](../src/main/python/msmarco/tune_bm25.py) script, using the queries found [here](https://github.com/castorini/Anserini-data/tree/master/MSMARCO); the basic approach is grid search of parameter values in tenth increments.
+Tuning was accomplished with `tools/scripts/msmarco/tune_bm25.py`, using the queries found [here](https://github.com/castorini/Anserini-data/tree/master/MSMARCO); the basic approach is grid search of parameter values in tenth increments.
 There are five different sets of 10k samples (using the `shuf` command).
 We tuned on each individual set and then averaged parameter values across all five sets (this has the effect of regularization).
-Note that we optimized recall@1000 since Anserini output serves as input to later stage rerankers (e.g., based on BERT), and we want to maximize the number of relevant documents the rerankers have to work with.
-The tuned parameters using this method are `k1=0.82`, `b=0.68`.
+In separate trials, we optimized for:
+
++ recall@1000 since Anserini output serves as input to later stage rerankers (e.g., based on BERT), and we want to maximize the number of relevant documents the rerankers have to work with;
++ MRR@10, for the case where the output of BM25 is directly presented to users (i.e., no downstream reranking).
+
+It turns out that optimizing for MRR@10 and MAP yields the same settings.
 
 Here's the comparison between the Anserini default and tuned parameters:
 
 Setting                     | MRR@10 | MAP    | Recall@1000 |
 :---------------------------|-------:|-------:|------------:|
 Default (`k1=0.9`, `b=0.4`) | 0.1840 | 0.1926 | 0.8526
-Tuned (`k1=0.82`, `b=0.68`) | 0.1874 | 0.1957 | 0.8573
-
-Anserini was upgraded to Lucene 8.0 as of commit [`75e36f9`](https://github.com/castorini/anserini/commit/75e36f97f7037d1ceb20fa9c91582eac5e974131) (6/12/2019); prior to that, the toolkit uses Lucene 7.6.
-The above results are based on Lucene 8.0, but Lucene 7.6 results can be replicated with [v0.5.1](https://github.com/castorini/anserini/releases);
-the effectiveness differences are very small.
-For convenience, here are the effectiveness numbers with Lucene 7.6 (v0.5.1):
-
-Setting                     | MRR@10 | MAP    | Recall@1000 |
-:---------------------------|-------:|-------:|------------:|
-Default (`k1=0.9`, `b=0.4`) | 0.1839 | 0.1925 | 0.8526
-Tuned (`k1=0.82`, `b=0.72`) | 0.1875 | 0.1956 | 0.8578
+Optimized for recall@1000 (`k1=0.82`, `b=0.68`) | 0.1874 | 0.1957 | 0.8573
+Optimized for MRR@10/MAP (`k1=0.60`, `b=0.62`)  | 0.1892 | 0.1972 | 0.8555
 
 ## Replication Log
 
