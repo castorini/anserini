@@ -141,6 +141,8 @@ Default (`k1=0.9`, `b=0.4`) | 0.1840 | 0.1926 | 0.8526
 Optimized for recall@1000 (`k1=0.82`, `b=0.68`) | 0.1874 | 0.1957 | 0.8573
 Optimized for MRR@10/MAP (`k1=0.60`, `b=0.62`)  | 0.1892 | 0.1972 | 0.8555
 
+To replicate these results, the `SearchMsmarco` class above takes `k1` and `b` parameters as command-line arguments, e.g., `-k1 0.82 -b 0.68`.
+
 ## Replication Log
 
 + Results replicated by [@ronakice](https://github.com/ronakice) on 2019-08-12 (commit [`5b29d16`](https://github.com/castorini/anserini/commit/5b29d1654abc5e8a014c2230da990ab2f91fb340))
