@@ -128,12 +128,12 @@ There are five different sets of 10k samples (using the `shuf` command).
 We tuned on each individual set and then averaged parameter values across all five sets (this has the effect of regularization).
 In separate trials, we optimized for:
 
-+ recall@1000 since Anserini output serves as input to later stage rerankers (e.g., based on BERT), and we want to maximize the number of relevant documents the rerankers have to work with;
-+ MRR@10, for the case where the output of BM25 is directly presented to users (i.e., no downstream reranking).
++ recall@1000, since Anserini output serves as input to downstream rerankers (e.g., based on BERT), and we want to maximize the number of relevant documents the rerankers have to work with;
++ MRR@10, for the case where Anserini output is directly presented to users (i.e., no downstream reranking).
 
 It turns out that optimizing for MRR@10 and MAP yields the same settings.
 
-Here's the comparison between the Anserini default and tuned parameters:
+Here's the comparison between the Anserini default and optimized parameters:
 
 Setting                     | MRR@10 | MAP    | Recall@1000 |
 :---------------------------|-------:|-------:|------------:|
