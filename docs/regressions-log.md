@@ -3,6 +3,13 @@
 The following change log details commits to regression tests that alter effectiveness and the addition of new regression tests.
 This documentation is useful for figuring why results may have changed over time.
 
+### November 16, 2020
+
++ commit [`f87c94`](https://github.com/castorini/anserini/commit/f87c945fd1c1e4174468194c72e3c05688dc45dd) (11/16/2020)
++ commit [`9a8e8b`](https://github.com/castorini/anserini/commit/9a8e8b4a569036de3d68daabebf42ae302069eca) (11/12/2020)
+
+Added regressions for MS MARCO document ranking with per-passage and per-document docTTTTTquery expansions.
+
 ### April 12, 2020
 
 + commit [`35f9f8`](https://github.com/castorini/anserini/commit/35f9f82f13fa4ab9b6fba494044cc7d5a3915b02) (04/12/2020)
