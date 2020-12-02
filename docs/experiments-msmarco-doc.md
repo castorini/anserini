@@ -23,10 +23,9 @@ There's no need to uncompress the file, as Anserini can directly index gzipped f
 Build the index with the following command:
 
 ```
-sh target/appassembler/bin/IndexCollection -collection CleanTrecCollection \
- -generator DefaultLuceneDocumentGenerator -threads 1 -input collections/msmarco-doc \
- -index indexes/msmarco-doc/lucene-index-msmarco \
- -storePositions -storeDocvectors -storeRaw
+sh target/appassembler/bin/IndexCollection -threads 1 -collection CleanTrecCollection \
+ -generator DefaultLuceneDocumentGenerator -input collections/msmarco-doc \
+ -index indexes/msmarco-doc/lucene-index-msmarco -storePositions -storeDocvectors -storeRaw
 ```
 
 On a modern desktop with an SSD, indexing takes around 40 minutes.
