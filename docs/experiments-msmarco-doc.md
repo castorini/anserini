@@ -23,10 +23,10 @@ There's no need to uncompress the file, as Anserini can directly index gzipped f
 Build the index with the following command:
 
 ```
-nohup sh target/appassembler/bin/IndexCollection -collection CleanTrecCollection \
+sh target/appassembler/bin/IndexCollection -collection CleanTrecCollection \
  -generator DefaultLuceneDocumentGenerator -threads 1 -input collections/msmarco-doc \
- -index indexes/msmarco-doc/lucene-index.msmarco-doc.pos+docvectors+rawdocs \
- -storePositions -storeDocvectors -storeRaw >& logs/log.msmarco-doc.pos+docvectors+rawdocs &
+ -index indexes/msmarco-doc/lucene-index-msmarco \
+ -storePositions -storeDocvectors -storeRaw
 ```
 
 On a modern desktop with an SSD, indexing takes around 40 minutes.
@@ -40,7 +40,7 @@ The dev queries are already stored in our repo:
 
 ```
 target/appassembler/bin/SearchCollection -topicreader TsvInt \
- -index indexes/msmarco-doc/lucene-index.msmarco-doc.pos+docvectors+rawdocs \
+ -index indexes/msmarco-doc/lucene-index-msmarco \
  -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
  -output runs/run.msmarco-doc.dev.bm25.txt -bm25
 ```
@@ -93,7 +93,7 @@ To perform a run with these parameters, issue the following command:
 
 ```
 target/appassembler/bin/SearchCollection -topicreader TsvString \
- -index indexes/msmarco-doc/lucene-index.msmarco-doc.pos+docvectors+rawdocs \
+ -index indexes/msmarco-doc/lucene-index-msmarco \
  -topics src/main/resources/topics-and-qrels/topics.msmarco-doc.dev.txt \
  -output runs/run.msmarco-doc.dev.bm25.tuned.txt -bm25 -bm25.k1 3.44 -bm25.b 0.87
 ```
