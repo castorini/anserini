@@ -17,48 +17,50 @@
 package io.anserini.ltr.feature.base;
 
 import io.anserini.index.IndexArgs;
-import io.anserini.ltr.feature.DocumentContext;
-import io.anserini.ltr.feature.FeatureExtractor;
-import io.anserini.ltr.feature.FieldContext;
-import io.anserini.ltr.feature.QueryContext;
+import io.anserini.ltr.feature.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.List;
+import java.util.Map;
 
-public class BM25MaxMean implements FeatureExtractor {
-    private static final Logger LOG = LogManager.getLogger(BM25MaxMean.class);
+public class BM25Mean implements FeatureExtractor {
+    private static final Logger LOG = LogManager.getLogger(BM25Mean.class);
     // Default values, could be changed
     private double k1 = 0.9;
     private double b = 0.4;
     private String field;
+    Pooler collectFun;
+    public BM25Mean(Pooler collectFun) {
+        this.field = IndexArgs.CONTENTS;
+        this.collectFun = collectFun;
+    }
 
-    public BM25MaxMean() { this.field = IndexArgs.CONTENTS; }
-
-    public BM25MaxMean(double k, double b) {
+    public BM25Mean(double k, double b, Pooler collectFun) {
         this.k1 = k;
         this.b = b;
         this.field = IndexArgs.CONTENTS;
+        this.collectFun = collectFun;
     }
 
-    public BM25MaxMean(double k, double b, String field) {
+    public BM25Mean(double k, double b, String field, Pooler collectFun) {
         this.k1 = k;
         this.b = b;
         this.field = field;
+        this.collectFun = collectFun;
     }
 
-
+    /**
+     * We will implement this according to the Lucene specification
+     * the formula used:
+     * sum ( IDF(qi) * (df(qi,D) * (k+1)) / (df(qi,D) + k * (1-b + b*|D| / avgFL))
+     * IDF and avgFL computation are described above.
+     */
     @Override
     public float extract(DocumentContext documentContext, QueryContext queryContext) {
         FieldContext context = documentContext.fieldContexts.get(field);
         List<Float> scores = context.generateBM25Mean(queryContext.queryTokens,k1,b);
-        float score = scores.get(0); // do we need to check if scores len > 0
-        for (int i = 0; i <scores.size(); ++i) {
-            if (scores.get(i) > score){
-                score = scores.get(i);
-            }
-        }
-        return score;
+        return collectFun.pool(scores);
     }
 
     @Override
@@ -68,7 +70,7 @@ public class BM25MaxMean implements FeatureExtractor {
 
     @Override
     public String getName() {
-        return String.format("%s_BM25_Mean_Mean_k1_%.2f_b_%.2f",field, k1, b);
+        return String.format("%s_BM25_Mean_k1_%.2f_b_%.2f_%s",field, k1, b, collectFun.getName());
     }
 
     @Override
@@ -86,7 +88,8 @@ public class BM25MaxMean implements FeatureExtractor {
 
     @Override
     public FeatureExtractor clone() {
-        return new BM25MaxMean(k1, b, field);
+        Pooler newFun = collectFun.clone();
+        return new BM25Mean(k1, b, field, newFun);
     }
 
 }
