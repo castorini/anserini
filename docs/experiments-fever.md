@@ -194,3 +194,6 @@ then we can achieve the following results:
 | 100 | 0.8804          | 0.9203          |
 
 which outperforms the TF-IDF baseline in the FEVER paper at every tested value of k.
+
+## Replication Log
++ Results replicated by [@LizzyZhang-tutu](https://github.com/LizzyZhang-tutu) on 2020-11-26 (commit [`1b4d0a2`](https://github.com/castorini/anserini/commit/1b4d0a29879a867ca5d1f003f924acc3279455ba))
