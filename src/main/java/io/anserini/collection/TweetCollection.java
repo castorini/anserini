@@ -74,7 +74,7 @@ public class TweetCollection extends DocumentCollection<TweetCollection.Document
                 Files.newInputStream(path, StandardOpenOption.READ), BUFFER_SIZE);
         bufferedReader = new BufferedReader(new InputStreamReader(stream, StandardCharsets.UTF_8));
       } else { // plain text file
-        bufferedReader = new BufferedReader(new FileReader(fileName));
+        bufferedReader = new BufferedReader(new FileReader(fileName, StandardCharsets.UTF_8));
       }
     }
 
