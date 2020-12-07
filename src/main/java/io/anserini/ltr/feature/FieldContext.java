@@ -394,4 +394,36 @@ public class FieldContext {
         }
         return score;
     }
+
+    public List<Float> generateBM25Quartile(List<String> terms, Double k1, Double b, int quantile){
+        List<Float> score = new ArrayList<Float>();
+        double avgFL = (double)totalTermFreq/numDocs;
+        for (String queryToken : terms) {
+            //mean of ( BM25 score for a single term )
+            Map<Integer, List<Integer>> post = this.getPostings(queryToken);
+            List<Double> totalSingleTermList = new ArrayList<Double>();
+            int docFreq = this.getDocFreq(queryToken);
+            //iterate across all documents has this word
+            for (Map.Entry<Integer, List<Integer>> entry : post.entrySet()) {
+                List<Integer> positions = entry.getValue();
+                long termFreq = positions.size();
+                double numerator = (k1 + 1) * termFreq;
+                double docLengthFactor = b * (docSize / avgFL);
+                double denominator = termFreq + (k1) * (1 - b + docLengthFactor);
+                double idf = Math.log(1 + (numDocs - docFreq + 0.5d) / (docFreq + 0.5d)); // ok
+                totalSingleTermList.add((idf * numerator / denominator));
+            }
+            int len = totalSingleTermList.size();
+            double q1 = (len + 1) / 4;
+            double q = q1 * quantile;
+            double num = 0.0d;
+            if (q % 1 == 0){
+                num = totalSingleTermList.get((int)q);
+            } else {
+                num = (totalSingleTermList.get((int) Math.ceil(q)) + totalSingleTermList.get((int) Math.floor(q)))/2;
+            }
+            score.add((float) num);
+        }
+        return score;
+    }
 }
