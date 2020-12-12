@@ -25,6 +25,7 @@ import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.ScoredDocuments;
 import io.anserini.rerank.lib.Rm3Reranker;
 import io.anserini.rerank.lib.ScoreTiesAdjusterReranker;
+import static io.anserini.search.SearchCollection.BREAK_SCORE_TIES_BY_TWEETID;
 import io.anserini.search.query.BagOfWordsQueryGenerator;
 import io.anserini.search.query.QueryGenerator;
 import io.anserini.search.topicreader.TopicReader;
@@ -133,13 +134,17 @@ public class SimpleSearcher implements Closeable {
 
     @Option(name = "-threads", metaVar = "[number]", usage = "Number of threads to use.")
     public int threads = 1;
-  }
 
+    @Option(name = "-searchtweets", usage = "Flag to use for searching Tweets")
+    public Boolean searchtweets = false;
+  }
+ 
   protected IndexReader reader;
   protected Similarity similarity;
   protected Analyzer analyzer;
   protected RerankerCascade cascade;
   protected boolean useRM3;
+  protected boolean searchtweets;
 
   protected IndexSearcher searcher = null;
 
@@ -199,6 +204,7 @@ public class SimpleSearcher implements Closeable {
     this.similarity = new BM25Similarity(Float.parseFloat(defaults.bm25_k1[0]), Float.parseFloat(defaults.bm25_b[0]));
     this.analyzer = analyzer;
     this.useRM3 = false;
+    this.searchtweets = false;
     cascade = new RerankerCascade();
     cascade.add(new ScoreTiesAdjusterReranker());
   }
@@ -348,6 +354,24 @@ public class SimpleSearcher implements Closeable {
 
      return searcher.getIndexReader().maxDoc();
    }
+   
+  /**
+   * Returns wether search is done in tweets.
+   *
+   * @return true if we search in tweets 
+   */
+    public boolean getSearchtweets() {
+        return searchtweets;
+    }
+
+  /**
+   * Sets wether search is done in tweets.
+   *
+   * @param searchtweets searchtweets parameter
+   */
+    public void setSearchtweets(boolean searchtweets) {
+        this.searchtweets = searchtweets;
+    }
 
   /**
    * Closes this searcher.
@@ -510,10 +534,14 @@ public class SimpleSearcher implements Closeable {
     SearchArgs searchArgs = new SearchArgs();
     searchArgs.arbitraryScoreTieBreak = false;
     searchArgs.hits = k;
+    searchArgs.searchtweets = searchtweets;
 
     TopDocs rs;
     RerankerContext context;
-    rs = searcher.search(query, useRM3 ? searchArgs.rerankcutoff : k, BREAK_SCORE_TIES_BY_DOCID, true);
+
+    rs = searcher.search(query, useRM3 ? searchArgs.rerankcutoff : k, 
+            searchArgs.searchtweets ? BREAK_SCORE_TIES_BY_TWEETID :BREAK_SCORE_TIES_BY_DOCID, true);
+
     context = new RerankerContext<>(searcher, null, query, null,
           queryString, queryTokens, null, searchArgs);
 
@@ -713,6 +741,7 @@ public class SimpleSearcher implements Closeable {
         searcher.setRM3();
       }
     }
+    searcher.setSearchtweets(searchArgs.searchtweets);
 
     if (searchArgs.threads == 1) {
       for (Object id : topics.keySet()) {
