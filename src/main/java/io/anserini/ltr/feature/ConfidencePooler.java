@@ -11,6 +11,8 @@ public class ConfidencePooler implements Pooler  {
       squareSum += v * v;
     }
     double qlen = array.size();
+    //todo need discuss this
+    if(qlen == 0) return 0;
     double avg = sum / qlen;
     double std = Math.sqrt(squareSum / array.size() - avg * avg);
     //q.tfidf_confidence = ZETA * (q.tfidf_std_dev / (sqrt(q.len_stopped)));

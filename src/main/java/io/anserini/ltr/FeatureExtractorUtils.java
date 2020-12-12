@@ -26,6 +26,7 @@ import io.anserini.ltr.feature.FieldContext;
 import io.anserini.ltr.feature.QueryContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.tools.picocli.CommandLine;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.Term;
@@ -35,12 +36,7 @@ import org.apache.lucene.store.FSDirectory;
 
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Set;
-import java.util.Map;
-import java.util.HashSet;
-import java.util.HashMap;
+import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -52,6 +48,7 @@ import java.util.concurrent.Future;
 public class FeatureExtractorUtils {
   private IndexReader reader;
   private IndexSearcher searcher;
+  private Set<String> featureNames = new HashSet<>();
   private List<FeatureExtractor> extractors = new ArrayList<>();
   private Set<String> fieldsToLoad = new HashSet<>();
   private ExecutorService pool;
@@ -62,7 +59,11 @@ public class FeatureExtractorUtils {
    * @param extractor initialized FeatureExtractor instance
    * @return
    */
-  public FeatureExtractorUtils add(FeatureExtractor extractor) {
+  public FeatureExtractorUtils add(FeatureExtractor extractor) throws Exception {
+    if(featureNames.contains(extractor.getName())){
+      throw new Exception("feature extractor already exist");
+    }
+    featureNames.add(extractor.getName());
     extractors.add(extractor);
     String field = extractor.getField();
     if(field!=null)
@@ -71,10 +72,9 @@ public class FeatureExtractorUtils {
   }
 
   public List<String> list() {
-    ArrayList<String> names = new ArrayList<>();
-    for(FeatureExtractor extractor:extractors)
-      names.add(extractor.getName());
-    return names;
+    List<String> nameList = new ArrayList<>();
+    nameList.addAll(featureNames);
+    return nameList;
   }
 
   /**

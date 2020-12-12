@@ -47,8 +47,10 @@ public class DPH implements FeatureExtractor {
 
         for (String queryToken : queryContext.queryTokens) {
             long termFreq = context.getTermFreq(queryToken);
+            //todo need discuss this
+            if(termFreq==0) continue;
             double collectionFreqs = context.getCollectionFreq(queryToken);
-            double relativeFreq = termFreq/docSize;
+            double relativeFreq = (double)termFreq/docSize;
             double norm = (1d-relativeFreq) * (1d -relativeFreq)/(termFreq+1d);
             double Pt = collectionFreqs/totalTermFreq;
             score += norm * (termFreq* Math.log((relativeFreq/Pt)) +

@@ -47,6 +47,8 @@ public class Entropy implements FeatureExtractor {
         float score = 0.0f;
         for (Map.Entry<String, Long> entry : context.termFreqs.entrySet()) {
             Long freq = entry.getValue();
+            //todo need discuss this
+            if(freq == 0) continue;
             float p = freq / context.docSize;
             score += p * Math.log(p);
         }
