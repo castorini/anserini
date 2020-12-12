@@ -29,7 +29,7 @@ public class FeatureExtractorCli {
     public int threads = 1;
 
   }
-  public static void main(String[] args) throws IOException, ExecutionException, InterruptedException {
+  public static void main(String[] args) throws Exception {
     long start = System.nanoTime();
     DebugArgs cmdArgs = new DebugArgs();
     CmdLineParser parser = new CmdLineParser(cmdArgs);
