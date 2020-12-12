@@ -59,9 +59,9 @@ public class FeatureExtractorUtils {
    * @param extractor initialized FeatureExtractor instance
    * @return
    */
-  public FeatureExtractorUtils add(FeatureExtractor extractor) throws Exception {
+  public FeatureExtractorUtils add(FeatureExtractor extractor) throws IOException {
     if(featureNames.contains(extractor.getName())){
-      throw new Exception("feature extractor already exist");
+      throw new IOException("feature extractor already exist");
     }
     featureNames.add(extractor.getName());
     extractors.add(extractor);
