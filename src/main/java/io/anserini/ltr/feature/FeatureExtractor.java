@@ -16,29 +16,17 @@
 
 package io.anserini.ltr.feature;
 
-import io.anserini.rerank.RerankerContext;
-import org.apache.lucene.document.Document;
-import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.index.Terms;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 /**
  * A feature extractor.
  */
 public interface FeatureExtractor {
 
-  /**
-   * @param doc the document we work on
-   * @param terms a iterator to the term vector of the content field
-   * @param queryText original query text
-   * @param queryTokens tokenized query text
-   * @param reader in case the extractor need some global information
-   * @return feature value
-   */
-  float extract(Document doc, Terms terms, String queryText, List<String> queryTokens, IndexReader reader);
+  float extract(DocumentContext context, QueryContext queryContext) throws FileNotFoundException, IOException;
+
+  float postEdit(DocumentContext context, QueryContext queryContext);
 
   /**
    * we need to make sure each thread has a thread-local copy of extractors

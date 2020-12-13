@@ -16,24 +16,25 @@
 
 package io.anserini.ltr.feature.base;
 
-import io.anserini.index.IndexArgs;
+import io.anserini.ltr.feature.DocumentContext;
 import io.anserini.ltr.feature.FeatureExtractor;
-import io.anserini.rerank.RerankerContext;
-import org.apache.lucene.document.Document;
-import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.index.Terms;
-
-import java.util.List;
+import io.anserini.ltr.feature.QueryContext;
 
 /**
  * QueryCount
  * Compute the query length (number of terms in the query).
  */
 public class QueryLength implements FeatureExtractor {
+  public QueryLength() { }
 
   @Override
-  public float extract(Document doc, Terms terms, String queryText, List<String> queryTokens, IndexReader reader) {
-    return queryTokens.size();
+  public float extract(DocumentContext documentContext, QueryContext queryContext) {
+    return queryContext.queryText.size();
+  }
+
+  @Override
+  public float postEdit(DocumentContext context, QueryContext queryContext) {
+    return queryContext.getSelfLog(context.docId, getName());
   }
 
   @Override

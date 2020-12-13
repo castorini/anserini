@@ -20,35 +20,23 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.anserini.index.IndexArgs;
+import io.anserini.ltr.feature.DocumentContext;
 import io.anserini.ltr.feature.FeatureExtractor;
-import io.anserini.ltr.feature.OrderedSequentialPairsFeatureExtractor;
-import io.anserini.ltr.feature.UnorderedSequentialPairsFeatureExtractor;
+import io.anserini.ltr.feature.FieldContext;
+import io.anserini.ltr.feature.QueryContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.lucene.document.Document;
+import org.apache.logging.log4j.core.tools.picocli.CommandLine;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.Term;
-import org.apache.lucene.index.Terms;
 import org.apache.lucene.search.*;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
-import org.kohsuke.args4j.CmdLineException;
-import org.kohsuke.args4j.Option;
-import org.kohsuke.args4j.CmdLineParser;
 
 import java.io.IOException;
-import java.io.File;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.FileInputStream;
 import java.nio.file.Paths;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Set;
-import java.util.Map;
-import java.util.HashSet;
-import java.util.HashMap;
+import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -58,9 +46,9 @@ import java.util.concurrent.Future;
  * Feature extractor class that exposed in Pyserini
  */
 public class FeatureExtractorUtils {
-  private static final Logger LOG = LogManager.getLogger(FeatureExtractorUtils.class);
   private IndexReader reader;
   private IndexSearcher searcher;
+  private Set<String> featureNames = new HashSet<>();
   private List<FeatureExtractor> extractors = new ArrayList<>();
   private Set<String> fieldsToLoad = new HashSet<>();
   private ExecutorService pool;
@@ -71,18 +59,22 @@ public class FeatureExtractorUtils {
    * @param extractor initialized FeatureExtractor instance
    * @return
    */
-  public FeatureExtractorUtils add(FeatureExtractor extractor) {
+  public FeatureExtractorUtils add(FeatureExtractor extractor) throws IOException {
+    if(featureNames.contains(extractor.getName())){
+      throw new IOException("feature extractor already exist");
+    }
+    featureNames.add(extractor.getName());
     extractors.add(extractor);
-    if((extractor.getField()!=null)&&(!fieldsToLoad.contains(extractor.getField())))
-      fieldsToLoad.add(extractor.getField());
+    String field = extractor.getField();
+    if(field!=null)
+      fieldsToLoad.add(field);
     return this;
   }
 
-  public ArrayList<String> list() {
-    ArrayList<String> names = new ArrayList<>();
-    for(FeatureExtractor extractor:extractors)
-      names.add(extractor.getName());
-    return names;
+  public List<String> list() {
+    List<String> nameList = new ArrayList<>();
+    nameList.addAll(featureNames);
+    return nameList;
   }
 
   /**
@@ -94,10 +86,11 @@ public class FeatureExtractorUtils {
    * @throws InterruptedException
    * @throws JsonProcessingException
    */
-  public ArrayList<output> extract(List<String> queryTokens, List<String> docIds) throws ExecutionException, InterruptedException, JsonProcessingException {
+  public ArrayList<output> extract(String qid, List<String> queryText, List<String> queryTokens, List<String> docIds) throws ExecutionException, InterruptedException, JsonProcessingException {
     ObjectMapper mapper = new ObjectMapper();
     input root = new input();
-    root.qid = "-1";
+    root.qid = qid;
+    root.queryText = queryText;
     root.queryTokens = queryTokens;
     root.docIds = docIds;
     this.lazyExtract(mapper.writeValueAsString(root));
@@ -112,7 +105,49 @@ public class FeatureExtractorUtils {
    * @param queryTokens tokenized query text
    * @param docIds external document ids that you wish to collect; users need to make sure it is present
    */
-  public void addTask(String qid, List<String> queryTokens, List<String> docIds) {
+  public void addDebugTask(String qid, List<String> queryText, List<String> queryTokens, List<String> docIds) {
+    if(tasks.containsKey(qid))
+      throw new IllegalArgumentException("existed qid");
+    tasks.put(qid, pool.submit(() -> {
+      List<FeatureExtractor> localExtractors = new ArrayList<>();
+      for(FeatureExtractor e: extractors){
+        localExtractors.add(e.clone());
+      }
+      ObjectMapper mapper = new ObjectMapper();
+      List<debugOutput> result = new ArrayList<>();
+      DocumentContext documentContext = new DocumentContext(reader, searcher, fieldsToLoad);
+      QueryContext queryContext = new QueryContext(qid, queryText, queryTokens);
+
+      for(String docId: docIds) {
+        Query q = new TermQuery(new Term(IndexArgs.ID, docId));
+        TopDocs topDocs = searcher.search(q, 1);
+        if (topDocs.totalHits.value == 0) {
+          throw new IOException(String.format("Document Id %s expected but not found in index", docId));
+        }
+
+        ScoreDoc hit = topDocs.scoreDocs[0];
+        documentContext.updateDoc(docId, hit.doc);
+
+        List<Float> features = new ArrayList<>();
+        long[] time = new long[localExtractors.size()];
+        for(int i = 0; i < localExtractors.size(); i++){
+          time[i] = 0;
+        }
+        for (int i = 0; i < localExtractors.size(); i++) {
+          long start = System.nanoTime();
+          features.add(localExtractors.get(i).extract(documentContext, queryContext));
+          long end = System.nanoTime();
+          time[i] += end - start;
+        }
+
+        result.add(new debugOutput(docId,features, time));
+        queryContext.logExtract(docId, features, list());
+      }
+      return mapper.writeValueAsString(result);
+    }));
+  }
+
+  public void addTask(String qid, List<String> queryText, List<String> queryTokens, List<String> docIds) {
     if(tasks.containsKey(qid))
       throw new IllegalArgumentException("existed qid");
     tasks.put(qid, pool.submit(() -> {
@@ -122,35 +157,33 @@ public class FeatureExtractorUtils {
       }
       ObjectMapper mapper = new ObjectMapper();
       List<output> result = new ArrayList<>();
+      DocumentContext documentContext = new DocumentContext(reader, searcher, fieldsToLoad);
+      QueryContext queryContext = new QueryContext(qid, queryText, queryTokens);
+
       for(String docId: docIds) {
         Query q = new TermQuery(new Term(IndexArgs.ID, docId));
         TopDocs topDocs = searcher.search(q, 1);
         if (topDocs.totalHits.value == 0) {
-          LOG.warn(String.format("Document Id %s expected but not found in index, skipping...", docId));
-          continue;
+          throw new IOException(String.format("Document Id %s expected but not found in index", docId));
         }
 
         ScoreDoc hit = topDocs.scoreDocs[0];
-        Document doc = reader.document(hit.doc, fieldsToLoad);
+        documentContext.updateDoc(docId, hit.doc);
 
-        Terms terms = reader.getTermVector(hit.doc, IndexArgs.CONTENTS);
         List<Float> features = new ArrayList<>();
-        long[] time = new long[localExtractors.size()];
-        for(int i = 0; i < localExtractors.size(); i++){
-          time[i] = 0;
-        }
+
         for (int i = 0; i < localExtractors.size(); i++) {
-          long start = System.nanoTime();
-          features.add(localExtractors.get(i).extract(doc, terms, String.join(",", queryTokens), queryTokens, reader));
-          long end = System.nanoTime();
-          time[i] += end - start;
+          features.add(localExtractors.get(i).extract(documentContext, queryContext));
         }
 
-        result.add(new output(docId,features, time));
+        result.add(new output(docId,features));
+        queryContext.logExtract(docId, features, list());
       }
       return mapper.writeValueAsString(result);
     }));
   }
+
+
 
   /**
    * submit tasks to workers, exposed in Pyserini
@@ -160,7 +193,19 @@ public class FeatureExtractorUtils {
   public String lazyExtract(String jsonString) throws JsonProcessingException {
     ObjectMapper mapper = new ObjectMapper();
     input root = mapper.readValue(jsonString, input.class);
-    this.addTask(root.qid, root.queryTokens, root.docIds);
+    this.addTask(root.qid, root.queryText, root.queryTokens, root.docIds);
+    return root.qid;
+  }
+
+  /**
+   * submit tasks to workers, exposed in Pyserini
+   * @param jsonString
+   * @throws JsonProcessingException
+   */
+  public String debugExtract(String jsonString) throws JsonProcessingException {
+    ObjectMapper mapper = new ObjectMapper();
+    input root = mapper.readValue(jsonString, input.class);
+    this.addDebugTask(root.qid, root.queryText,root.queryTokens, root.docIds);
     return root.qid;
   }
 
@@ -183,7 +228,6 @@ public class FeatureExtractorUtils {
     Directory indexDirectory = FSDirectory.open(Paths.get(indexDir));
     reader = DirectoryReader.open(indexDirectory);
     searcher = new IndexSearcher(reader);
-    fieldsToLoad.add(IndexArgs.ID);
     pool = Executors.newFixedThreadPool(1);
   }
 
@@ -196,7 +240,6 @@ public class FeatureExtractorUtils {
     Directory indexDirectory = FSDirectory.open(Paths.get(indexDir));
     reader = DirectoryReader.open(indexDirectory);
     searcher = new IndexSearcher(reader);
-    fieldsToLoad.add(IndexArgs.ID);
     pool = Executors.newFixedThreadPool(workNum);
   }
 
@@ -208,7 +251,6 @@ public class FeatureExtractorUtils {
   public FeatureExtractorUtils(IndexReader reader) throws IOException {
     this.reader = reader;
     searcher = new IndexSearcher(reader);
-    fieldsToLoad.add(IndexArgs.ID);
     pool = Executors.newFixedThreadPool(1);
   }
 
@@ -220,7 +262,6 @@ public class FeatureExtractorUtils {
   public FeatureExtractorUtils(IndexReader reader, int workNum) throws IOException {
     this.reader = reader;
     searcher = new IndexSearcher(reader);
-    fieldsToLoad.add(IndexArgs.ID);
     pool = Executors.newFixedThreadPool(workNum);
   }
 
@@ -237,6 +278,7 @@ public class FeatureExtractorUtils {
 
 class input{
   String qid;
+  List<String> queryText;
   List<String> queryTokens;
   List<String> docIds;
 
@@ -248,6 +290,10 @@ class input{
 
   public List<String> getDocIds() {
     return docIds;
+  }
+
+  public List<String> getQueryText(){
+    return queryText;
   }
 
   public List<String> getQueryTokens() {
@@ -262,6 +308,10 @@ class input{
     this.docIds = docIds;
   }
 
+  public void setQueryText(List<String> queryText) {
+    this.queryText = queryText;
+  }
+
   public void setQueryTokens(List<String> queryTokens) {
     this.queryTokens = queryTokens;
   }
@@ -270,11 +320,40 @@ class input{
 class output{
   String pid;
   List<Float> features;
-  List<Long> time;
 
   output(){}
 
-  output(String pid, List<Float> features, long[] time){
+  output(String pid, List<Float> features){
+    this.pid = pid;
+    this.features = features;
+  }
+
+  public String getPid() {
+    return pid;
+  }
+
+  public List<Float> getFeatures() {
+    return features;
+  }
+
+  public void setPid(String pid) {
+    this.pid = pid;
+  }
+
+  public void setFeatures(List<Float> features) {
+    this.features = features;
+  }
+
+}
+
+class debugOutput{
+  String pid;
+  List<Float> features;
+  List<Long> time;
+
+  debugOutput(){}
+
+  debugOutput(String pid, List<Float> features, long[] time){
     this.pid = pid;
     this.features = features;
     this.time = new ArrayList<>();
@@ -302,4 +381,3 @@ class output{
 
   public void setTime(List<Long> time) { this.time = time; }
 }
-

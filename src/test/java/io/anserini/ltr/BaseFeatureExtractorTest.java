@@ -20,6 +20,7 @@ import io.anserini.analysis.AnalyzerUtils;
 import io.anserini.index.IndexArgs;
 import io.anserini.ltr.feature.FeatureExtractor;
 import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
@@ -42,6 +43,7 @@ import java.util.concurrent.ExecutionException;
 abstract public class BaseFeatureExtractorTest<T> extends LuceneTestCase {
   protected static final String TEST_FIELD_NAME = IndexArgs.CONTENTS;
   protected static final Analyzer TEST_ANALYZER = new EnglishAnalyzer();
+  protected static final Analyzer NON_STOP_TEST_ANALYZER = new WhitespaceAnalyzer();
 
   // Acceptable delta for float assert
   protected static final float DELTA = 0.01f;
@@ -99,19 +101,31 @@ abstract public class BaseFeatureExtractorTest<T> extends LuceneTestCase {
    */
   protected void assertFeatureValues(float[] expected, String queryText, String docText,
                                      List<FeatureExtractor> extractors) throws IOException, ExecutionException, InterruptedException {
-    assertFeatureValues(expected, queryText, Arrays.asList(docText), extractors,0);
+    assertFeatureValues(expected, "-1", queryText, Arrays.asList(docText), extractors,0);
   }
 
   // just add a signature for single extractor
   protected void assertFeatureValues(float[] expected, String queryText, String docText,
                                      FeatureExtractor extractor) throws IOException, ExecutionException, InterruptedException {
-    assertFeatureValues(expected, queryText, Arrays.asList(docText), Arrays.asList(extractor),0);
+    assertFeatureValues(expected, "-1", queryText, Arrays.asList(docText), Arrays.asList(extractor),0);
   }
 
   // just add a signature for single extractor
   protected void assertFeatureValues(float[] expected, String queryText, List<String> docTexts,
                                      FeatureExtractor extractor, int docToExtract) throws IOException, ExecutionException, InterruptedException {
-    assertFeatureValues(expected, queryText, docTexts, Arrays.asList(extractor),docToExtract);
+    assertFeatureValues(expected, "-1" , queryText, docTexts, Arrays.asList(extractor),docToExtract);
+  }
+
+  // just add a signature for single extractor
+  protected void assertFeatureValues(float[] expected, String qid, String queryText, String docTexts,
+                                     FeatureExtractor extractor) throws IOException, ExecutionException, InterruptedException {
+    assertFeatureValues(expected, qid , queryText, Arrays.asList(docTexts), Arrays.asList(extractor),0);
+  }
+
+  // just add a signature for single extractor
+  protected void assertFeatureValues(float[] expected, String queryText, List<String> docTexts,
+                                     List<FeatureExtractor> extractors, int docToExtract) throws IOException, ExecutionException, InterruptedException {
+    assertFeatureValues(expected, "-1" , queryText, docTexts, extractors, docToExtract);
   }
 
   /**
@@ -122,7 +136,7 @@ abstract public class BaseFeatureExtractorTest<T> extends LuceneTestCase {
    * @param extractors          The chain of feature extractors to use
    * @param docToExtract        Index of the document we want to compute features for
    */
-  protected void assertFeatureValues(float[] expected, String queryText, List<String> docTexts,
+  protected void assertFeatureValues(float[] expected, String qid, String queryText, List<String> docTexts,
                                      List<FeatureExtractor> extractors, int docToExtract) throws IOException, ExecutionException, InterruptedException {
     int id = 0;
     for (String docText : docTexts) {
@@ -136,7 +150,7 @@ abstract public class BaseFeatureExtractorTest<T> extends LuceneTestCase {
       utils.add(extractor);
     }
     String docIdToExtract = String.format("doc%s", docToExtract);
-    ArrayList<output> extractedFeatureValues = utils.extract(AnalyzerUtils.analyze(TEST_ANALYZER,queryText), Arrays.asList(docIdToExtract));
+    ArrayList<output> extractedFeatureValues = utils.extract(qid,AnalyzerUtils.analyze(NON_STOP_TEST_ANALYZER, queryText), AnalyzerUtils.analyze(TEST_ANALYZER, queryText), Arrays.asList(docIdToExtract));
     List<Float> extractFeatures = null;
     for(output doc: extractedFeatureValues) {
       if(doc.pid.equals(docIdToExtract))

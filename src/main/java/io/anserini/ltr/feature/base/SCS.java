@@ -23,21 +23,27 @@ import io.anserini.ltr.feature.FeatureExtractor;
 import io.anserini.ltr.feature.QueryContext;
 
 /**
- * Computes the sum of term frequencies for each query token.
+ * SCS = sum (P[t|q]) * log(P[t|q] / P[t|D])
+ * page 20 of Carmel, Yom-Tov 2010
  */
-public class SumMatchingTF implements FeatureExtractor {
+public class SCS implements FeatureExtractor {
   private String field;
 
-  public SumMatchingTF() { this.field = IndexArgs.CONTENTS; }
+  public SCS() { this.field = IndexArgs.CONTENTS; }
 
-  public SumMatchingTF(String field) { this.field = field; }
+  public SCS(String field) { this.field = field; }
 
   @Override
   public float extract(DocumentContext documentContext, QueryContext queryContext) {
     FieldContext context = documentContext.fieldContexts.get(field);
+    long termCount = context.totalTermFreq;
     float score = 0.0f;
-    for (String queryToken : queryContext.queryTokens) {
-      score += context.getTermFreq(queryToken);
+    for (String token : queryContext.queryFreqs.keySet()) {
+      float prtq = queryContext.queryFreqs.get(token) / (float) queryContext.querySize;
+      long tf = context.getCollectionFreq(token);
+      float prtd = (float)tf/termCount;
+      if (prtd == 0) continue;
+      score += prtq*Math.log(prtq/prtd);
     }
     return score;
   }
@@ -49,7 +55,7 @@ public class SumMatchingTF implements FeatureExtractor {
 
   @Override
   public String getName() {
-    return String.format("%s_SumMatchingTF", field);
+    return String.format("%s_SCS",field);
   }
 
   @Override
@@ -59,6 +65,6 @@ public class SumMatchingTF implements FeatureExtractor {
 
   @Override
   public FeatureExtractor clone() {
-    return new SumMatchingTF(field);
+    return new SCS(field);
   }
 }

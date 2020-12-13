@@ -17,55 +17,51 @@
 package io.anserini.ltr.feature.base;
 
 import io.anserini.index.IndexArgs;
+import io.anserini.ltr.feature.DocumentContext;
+import io.anserini.ltr.feature.FieldContext;
 import io.anserini.ltr.feature.FeatureExtractor;
-import io.anserini.rerank.RerankerContext;
-import org.apache.lucene.document.Document;
-import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.index.Terms;
-import org.apache.lucene.index.TermsEnum;
-import org.apache.lucene.util.BytesRef;
-
-import java.io.IOException;
-import java.util.List;
+import io.anserini.ltr.feature.QueryContext;
 
 /**
  * Computes the number of query terms that are found in the document. If there are three terms in
  * the query and all three terms are found in the document, the feature value is three.
  */
 public class MatchingTermCount implements FeatureExtractor {
+  private String field;
+
+  public MatchingTermCount() { this.field = IndexArgs.CONTENTS; }
+
+  public MatchingTermCount(String field) { this.field = field; }
 
   @Override
-  public float extract(Document doc, Terms terms, String queryText, List<String> queryTokens, IndexReader reader) {
-    try {
-      TermsEnum termsEnum = terms.iterator();
-      int matching = 0;
-
-      BytesRef text = null;
-      while ((text = termsEnum.next()) != null) {
-        String term = text.utf8ToString();
-        if (queryTokens.contains(term)) {
-          matching++;
-        }
-      }
-      return matching;
-
-    } catch (IOException e) {
-      return 0;
+  public float extract(DocumentContext documentContext, QueryContext queryContext) {
+    FieldContext context = documentContext.fieldContexts.get(field);
+    int matching = 0;
+    for(String queryToken : queryContext.queryTokens) {
+      long tf = context.getTermFreq(queryToken);
+      if(tf!=0)
+        matching++;
     }
+    return matching;
+  }
+
+  @Override
+  public float postEdit(DocumentContext context, QueryContext queryContext) {
+    return queryContext.getSelfLog(context.docId, getName());
   }
 
   @Override
   public String getName() {
-    return "MatchingTermCount";
+    return String.format("%s_MatchingTermCount", field);
   }
 
   @Override
   public String getField() {
-    return null;
+    return field;
   }
 
   @Override
   public FeatureExtractor clone() {
-    return new MatchingTermCount();
+    return new MatchingTermCount(field);
   }
 }

@@ -23,23 +23,19 @@ import io.anserini.ltr.feature.FeatureExtractor;
 import io.anserini.ltr.feature.QueryContext;
 
 /**
- * Computes the sum of term frequencies for each query token.
+ * Returns the size of the document
  */
-public class SumMatchingTF implements FeatureExtractor {
+public class DocSize implements FeatureExtractor {
   private String field;
 
-  public SumMatchingTF() { this.field = IndexArgs.CONTENTS; }
+  public DocSize() { this.field = IndexArgs.CONTENTS; }
 
-  public SumMatchingTF(String field) { this.field = field; }
+  public DocSize(String field) { this.field = field; }
 
   @Override
   public float extract(DocumentContext documentContext, QueryContext queryContext) {
     FieldContext context = documentContext.fieldContexts.get(field);
-    float score = 0.0f;
-    for (String queryToken : queryContext.queryTokens) {
-      score += context.getTermFreq(queryToken);
-    }
-    return score;
+    return context.docSize;
   }
 
   @Override
@@ -49,7 +45,7 @@ public class SumMatchingTF implements FeatureExtractor {
 
   @Override
   public String getName() {
-    return String.format("%s_SumMatchingTF", field);
+    return String.format("%s_DocSize", field);
   }
 
   @Override
@@ -59,6 +55,6 @@ public class SumMatchingTF implements FeatureExtractor {
 
   @Override
   public FeatureExtractor clone() {
-    return new SumMatchingTF(field);
+    return new DocSize(field);
   }
 }

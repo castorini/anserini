@@ -21,25 +21,43 @@ import io.anserini.ltr.feature.DocumentContext;
 import io.anserini.ltr.feature.FieldContext;
 import io.anserini.ltr.feature.FeatureExtractor;
 import io.anserini.ltr.feature.QueryContext;
+import org.apache.commons.lang3.tuple.Pair;
+
+import java.util.List;
 
 /**
- * Computes the sum of term frequencies for each query token.
+ * This feature extractor will return the number of phrases
+ * in a specified gap size
  */
-public class SumMatchingTF implements FeatureExtractor {
+public class OrderedSequentialPairs implements FeatureExtractor {
+
   private String field;
 
-  public SumMatchingTF() { this.field = IndexArgs.CONTENTS; }
+  private int gapSize = 8;
 
-  public SumMatchingTF(String field) { this.field = field; }
+  public OrderedSequentialPairs() {
+    this.field = IndexArgs.CONTENTS;
+  }
+
+  public OrderedSequentialPairs(int gapSize) {
+    this.gapSize = gapSize;
+    this.field = IndexArgs.CONTENTS;
+  }
+
+  public OrderedSequentialPairs(int gapSize, String field) {
+    this.gapSize = gapSize;
+    this.field = field;
+  }
 
   @Override
   public float extract(DocumentContext documentContext, QueryContext queryContext) {
     FieldContext context = documentContext.fieldContexts.get(field);
-    float score = 0.0f;
-    for (String queryToken : queryContext.queryTokens) {
-      score += context.getTermFreq(queryToken);
+    float count = 0;
+    List<Pair<String, String>> queryPairs= queryContext.genQueryBigram();
+    for(Pair<String, String> pair: queryPairs){
+      count += context.countBigram(pair.getLeft(),pair.getRight(),gapSize);
     }
-    return score;
+    return count;
   }
 
   @Override
@@ -49,7 +67,7 @@ public class SumMatchingTF implements FeatureExtractor {
 
   @Override
   public String getName() {
-    return String.format("%s_SumMatchingTF", field);
+    return String.format("%s_OrderedSequentialPairs_%d", field, this.gapSize);
   }
 
   @Override
@@ -59,6 +77,6 @@ public class SumMatchingTF implements FeatureExtractor {
 
   @Override
   public FeatureExtractor clone() {
-    return new SumMatchingTF(field);
+    return new OrderedSequentialPairs(gapSize, field);
   }
 }
