@@ -127,6 +127,7 @@ public class FeatureExtractorUtils {
 
         ScoreDoc hit = topDocs.scoreDocs[0];
         documentContext.updateDoc(docId, hit.doc);
+        documentContext.generateBM25Stat(queryContext.queryTokens);
 
         List<Float> features = new ArrayList<>();
         long[] time = new long[localExtractors.size()];
@@ -169,6 +170,7 @@ public class FeatureExtractorUtils {
 
         ScoreDoc hit = topDocs.scoreDocs[0];
         documentContext.updateDoc(docId, hit.doc);
+        documentContext.generateBM25Stat(queryContext.queryTokens);
 
         List<Float> features = new ArrayList<>();
 
